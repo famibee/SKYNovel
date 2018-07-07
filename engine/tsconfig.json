@@ -1,0 +1,25 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"target": "es2017",
+		"module": "commonjs",
+		"sourceMap": true,
+		"outDir": "tmp/",
+		"removeComments": true,
+		"noImplicitThis": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"newLine": "LF",
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitAny": false,
+		"strictNullChecks": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+        "./**/*.test.*"
+    ]
+}

@@ -1,0 +1,154 @@
+;********************************************************
+;@EXT_DESC	レイヤのクロスフェードと画像変更と動きの拡張機能
+;@VER		2018.6.22.000
+;********************************************************
+
+;********************************************************
+[macro name="fg"]
+	[img * layer=%layer|0]
+	[let name=t text=%time|500]
+	[let name=t text=0 cond=sn.skip.enabled]	; skip時は瞬時処理
+	[trans * layer=%layer|0 time=&t]
+	[wt]
+[endmacro]
+
+;********************************************************
+[macro name="img"]
+	[lay * page=back visible=true rotation=%rotation|0 scale_x=%scale_x|1 cond='mp:fn != null']
+	[clear_lay layer=%layer page=back cond='mp:fn == null']
+	[lay * page=back visible=false cond='mp:fn == null']
+[endmacro]
+
+;********************************************************
+; フェードイン
+[macro name="fg_fi"]
+	[stop_tsy layer=%layer|0]
+	[lay * visible=true alpha=%alpha|0]
+		; left,topなど[lay]属性は主に初期位置。
+	[tsy * layer=%layer|0 time=%time|500 alpha=%to_alpha|1 scaleX=%to_scale_x|1 scaleY=%to_scale_y|1]
+		; x,yなどは移動先指定。つまり終端。
+		; x,yは x='=-50'だと相対、x='-50'だと絶対位置移動
+	[wait_tsy layer=%layer|0 cond='! mp:no_wait']
+[endmacro]
+
+;********************************************************
+; フェードアウト
+[macro name="fg_fo"]
+	[stop_tsy layer=%layer|0]
+	[tsy * layer=%layer|0 time=%time|500 alpha=%alpha|0]
+		; x,yなどは移動先指定。つまり終端。
+		; x,yは x='=-50'だと相対、x='-50'だと絶対位置移動
+	[wait_tsy layer=%layer|0 cond='! mp:no_wait']
+[endmacro]
+
+;********************************************************
+; 立ち絵を屈伸させる
+[macro name="fg_squat"]
+	[break_macro cond=sn.skip.enabled]	; skip時は処理なし
+	[let name=t text=%time|250]
+	[break_macro cond=t==0]		; 処理なし
+
+	[let name=lay text=%layer|0]
+	[let name=y text=%y|50]
+	[let name=ease text=%ease|Circular.Out]
+
+	[tsy layer=&lay time=&t y='&"="+ y' ease=&ease]
+	[tsy chain=&lay layer=&lay time=&t y='=0' ease=&ease]
+	[wait_tsy layer=&lay cond='! mp:no_wait']
+[endmacro]
+
+;********************************************************
+; 立ち絵を震わせる
+[macro name="fg_shake"]
+	[break_macro cond=sn.skip.enabled]	; skip時は処理なし
+	[let name=t text=%time|20]
+	[break_macro cond=t==0]		; 処理なし
+
+	[let name=lay text=%layer|0]
+	[let name=x text=%x|5]
+	[let name=x2x text="&'=-'+ x +','+ x"]
+
+	[tsy layer=&lay time=&t x=&x2x]
+	
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	[tsy chain=&lay layer=&lay time=&t x=&x2x]
+	
+	[tsy chain=&lay layer=&lay time=&t x='=0']
+	[wait_tsy layer=&lay canskip=false cond='! mp:no_wait']
+[endmacro]
+
+;********************************************************
+; 立ち絵を反復横跳びさせる（楽しそう）
+[macro name="fg_sidestep"]
+	[break_macro cond=sn.skip.enabled]	; skip時は処理なし
+	[let name=t text=%time|250]
+	[break_macro cond=t==0]		; 処理なし
+
+	[let name=lay text=%layer|0]
+	[let name=x text=%x|25]
+	[let name=y text=%y|25]
+	
+	[tsy layer=&lay time=&t x='&"=-"+ x' y='&"="+ y' ease=Quintic.Out]
+	[tsy chain=&lay layer=&lay time=&t x='=0' y='=0']
+		; ちなみにこの時点で一つ目の[tsy]は動き出してないので、
+		; 相対位置指定は初期位置基準。[s][l][p]などで動き出す。
+	[tsy chain=&lay layer=&lay time=&t x='&"="+ x' y='&"="+ y']
+	[tsy chain=&lay layer=&lay time=&t x='=0' y='=0' ease=Quintic.In]
+	[wait_tsy layer=&lay canskip=false cond='! mp:no_wait']
+[endmacro]
+
+;********************************************************
+[macro name="zoom_tsy"]
+	[let name=v text=%visible|false]
+	[if exp=v]
+		&valFrom = 0.5
+		&valTo = 1
+	[else]
+		&valFrom = 1
+		&valTo = 0.5
+	[endif]
+	
+	[let name=layer text=%layer|0]
+	[let name=w
+		text=%width|'&const.sn.lay[layer].fore.width']
+	[let name=h
+		text=%height|'&const.sn.lay[layer].fore.height']
+	
+	[lay * layer=&layer
+		scale_x=&valFrom scale_y=&valFrom
+		left='&const.sn.config.window.width/2'
+		top='&const.sn.config.window.height/2'
+		pivot_x='&w/2' pivot_y='&h/2'
+		visible=true]
+	
+	[tsy * layer=&layer scale_x=&valTo scale_y=&valTo]
+	[wait_tsy * layer=&layer]
+	
+	[lay layer=&layer pos=stay visible=&v]
+[endmacro]
+
+;********************************************************
+
+[return]

@@ -1,0 +1,29 @@
+[title text='変数名に全角文字'][call label=*init]
+
+[add_lay layer=mes class=txt]
+
+	&へんすうめい = 1
+	&変数名 = 2
+	&변수이름 = 4
+	&变量名 = 8
+	&變量名 = 16
+	&㐂㐃 = 32
+	&䷀䷂䷑ = 64
+	&丛乀 = 128
+	&磊落 = 256
+	&ＡＩＲＮｏｖｅｌ = 512
+	&答え = へんすうめい + 変数名 + 변수이름 + 变量名 + 變量名 + 㐂㐃 + ䷀䷂䷑ + 丛乀 + 磊落 + ＡＩＲＮｏｖｅｌ
+	
+	答えは1023のはず。[r]
+	&答え&
+[s]
+
+
+*init
+	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
+	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]
+	[toggle_full_screen key=w]	; for browser
+[return]
+
+*snapshot
+[snapshot fn=pic][return]

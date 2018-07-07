@@ -1,0 +1,10 @@
+{
+	"save_ns": "com.fc2.blog38.famibee.skynovel.gallery",
+	"search": ["mat","face"],
+	"window": {
+		"width": 750,
+		"height": 500
+	},
+	"init": {"bg_color": 0},
+	"debug": {"devtool": "true"}
+}

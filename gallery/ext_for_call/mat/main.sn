@@ -1,0 +1,23 @@
+[title text='for文マクロ'][call label=*init]
+
+[add_lay layer=mes class=txt]
+
+	[call fn=ext_*]
+
+	[for_call name=変数名 from=0 to=10 label=*ループ処理]
+[s]
+
+*ループ処理
+	[for_call_break cond="for_call_idx.変数名 == 5"]
+	&for_call_idx.変数名&
+[return]
+
+
+*init
+	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
+	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]
+	[toggle_full_screen key=w]	; for browser
+[return]
+
+*snapshot
+[snapshot fn=pic][return]

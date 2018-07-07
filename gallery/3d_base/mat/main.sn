@@ -1,0 +1,24 @@
+[title text='３Ｄレイヤ・基本'][call label=*init]
+
+[add_lay layer=bg class=grp]
+[add_lay layer=3d class=3d]
+[add_lay layer=mes class=txt]
+
+	[lay layer=bg fn=013ELLY18412_TP_V4]
+	[lay layer=3d]
+;	[lay layer=mes filter="DropShadowFilter"]
+
+	画像・文字レイヤに続き第三のレイヤ「３Ｄレイヤ」を[r]
+	使えます。[r]
+	※奥から画像レイヤ、３Ｄレイヤ、文字レイヤを表示しています。
+[s]
+
+
+*init
+	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
+	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]
+	[toggle_full_screen key=w]	; for browser
+[return]
+
+*snapshot
+[snapshot fn=pic][return]

@@ -1,0 +1,356 @@
+[title text='スライドなプロジェクト'][call label=*init]
+
+[add_lay layer=bg class=grp]
+[add_lay layer=0 class=grp]
+[add_lay layer=mes class=txt]
+
+	[call fn=face_*]
+	[call fn=ext_*]
+
+&pg=0
+[macro name="pg"]
+	[clear_lay layer=bg page=back]
+	[clear_lay layer=0 page=back]
+	[clear_lay layer=mes page=back]
+	[lay layer=bg page=back fn=%bg]
+	[lay layer=mes page=back filter=%filter|null]
+	[trans layer='bg,0,mes' time=500][wt]
+
+	&pg=pg+1
+	[let name=pg text=&sn.eventArg cond="sn.eventArg!=''"]
+	;[trace text=&sn.eventArg]
+	;[trace text=&pg]
+	&sn.eventArg=''
+	[button text="&'page:'+ pg +' '" left=300 top=450 page=fore enabled=false style='fill: gray; dropShadowColor: black;']
+
+	;const.sn.me_call_scriptFn
+	[button text='go back' left=100 top=450 page=fore label='&"*pg"+ (pg-1)' style='fill: burlywood;' fill_hover=tomato arg=&pg-1 cond=pg>1]
+	[button text=forward left=510 top=450 page=fore label='&"*pg"+ (pg+1)' style='fill: burlywood;' fill_hover=tomato arg=&pg+1]
+[endmacro]
+
+
+[macro name="lr"][l][r][endmacro]
+[char2macro char=@ name=lr]
+
+
+;[jump label=*pg12];=== 4debug
+; ==================================
+*pg1
+[pg]
+
+【発表者紹介】[r]
+・ふぁみべぇ（プログラマ・ノベルゲームエンジン開発者）[r]
+[r]
+・夕街昇雪（別名・ノベルゲーム作家）[r]
+　　同人サークル活動漫画屋@
+[r]
+
+[fg layer=bg fn=ienokagi]
+　　最新作「いえのかぎ」は前ノベルゲームエンジン「AIRNovel」で開発、Windows / Mac で動作。[r]
+[span style='font-size: 12px;']
+　　　　Steamでも配布！……しようとしたら謎の審査落ち……（ねとらぼ参照）
+[span]
+
+[p]
+
+
+; ==================================
+*pg2
+[pg]
+
+[fg fn=sn_logo left=500 top=120]
+【発表内容】[r]
+　新ノベルゲームエンジン「SKYNovel」発表！[l][r]
+[r]
+　１．[link label=*pg3]なんやこれ、概要[endlink][r]
+　２．[link label=*pg5]できること、乗り換えるメリット[endlink][r]
+　３．[link label=*pg12]はじめかた、開発環境[endlink]
+
+[p]
+
+
+; ==================================
+*pg3
+[pg]
+
+【１a．なんやこれ、概要】[r]
+・ビジュアルノベルゲームを制作するツール。@
+[fg fn=pixijs-banner]
+・WebGL(PixiJS v4)を基幹技術とし、GPUで高速表示。[r]
+	; 「WebGL分からない人」と聞いたり
+　スマホでもサクサク動きます。[r]
+[span style='font-size: 12px;']
+　　　　→FlashソックリのAPI、AIRNovelからスムースに移植。[r]
+　　　　→RPGツクールMVでも使用された実績あるライブラリ。@
+[span]
+・文法は吉里吉里KAG3・AIRNovel系。[r]
+　使い慣れた人ならすんなり始められます。
+
+[p]
+
+
+; ==================================
+*pg4
+[pg]
+
+【１b．なんやこれ、概要】[r]
+・ゲームをWin/Mac/Linux/iOS/Androidアプリ化できます。@
+・Chrome/Safariブラウザ（PC・モバイル）でも動作確認。[r]
+[span style='font-size: 12px;']
+　　　　→その他ブラウザも程々にサポート。@
+[span]
+[fg fn=logos left=500 top=260]
+・オープンソース、MITライセンス。Githubで公開予定。
+
+[p]
+
+
+; ==================================
+*pg5
+[pg]
+
+【２．できること、乗り換えるメリット】[r]
+[r]
+【２a．アニメpngを簡単に作れる】[r]
+・例えば、横５個ｘ縦１個の連続パラパラアニメ画像を用意します。[r]
+[fg fn=tor_突撃_5x1 left=0 top=260]
+[span style='font-size: 12px;']
+　　　　→こういう画像を作る方法やツールは色々あります。割愛。[r]
+　　　　→ここではサークルTORaIKI さん公開のフリーエフェクト素材をお借りしました。
+[span]
+
+[p]
+
+
+; ==================================
+*pg6
+[pg]
+
+[fg fn=tor_突撃_5x1 left=0 top=260 time=0]
+【２a．アニメpngを簡単に作れる】[r]
+・ファイル名を変更。[r]
+　　変更前「tor_突撃.png」[r]
+　　　　後「tor_突撃.5x1.png」@
+・エンジン起動すると自動でスプライトシートjson自動生成。@
+[lay layer=0 fn=tor_突撃]
+・[ch text='[']add_lay layer=0 class=grp][r]
+　[ch text='[']lay layer=0 fn=tor_突撃]でアニメ表示。@
+・目パチやクリック待ちマークもこれで簡単に作れます。
+
+[p]
+
+
+; ==================================
+*pg7
+[pg bg=kuma425008_TP_V4 filter="DropShadowFilter"]
+
+[fg layer=0 fn=face_柊24_制服 face=face_柊24_表情_口_笑顔,face_柊24_表情_目_瞬き通常,face_柊24_表情_マユゲ_通常,face_柊24_前髪]
+【２ｂ．その他AIRNovelには無かった機能】[r]
+・[span style='color: tomato;']静止画像[span]と[span style='color: tomato;']アニメpng[span]と[span style='color: tomato;']動画[span]を同じように扱えるので、全てひとつの立ち絵に重ねて表示することもできます。@
+[r]
+[r]
+[r]
+[r]
+・アニメや動画を動かしたまま[ch text='[']trans]できます……[l]
+	[fg fn=face_柊24_制服 face=face_柊24_表情_口_笑顔・中,face_柊24_表情_目_瞬きびっくり,face_柊24_表情_マユゲ_通常,face_柊24_前髪]
+。[l]
+[fg layer=0 fn=face_柊24_制服 face=face_柊24_表情_口_（遊び用）たくらみ,face_柊24_表情_目_瞬き通常,face_柊24_表情_マユゲ_困り,face_柊24_前髪]
+
+[p]
+
+
+; ==================================
+*pg8
+[pg bg=bg_dodomeki filter="DropShadowFilter"]
+
+【２ｂ．その他AIRNovelには無かった機能】[r]
+・テキスト表示＆消去時にアニメーション＆フィルタ適用。[r]
+[span style='font-size: 12px;']
+　　　　→さっきからやってますね。@
+[span]
+
+
+[button text=pause left=240 top=170 page=fore label=*dummy global=true call=true fill_hover=tomato]
+[button text=resume left=360 top=170 page=fore label=*dummy global=true call=true fill_hover=tomato]
+・素材画像無しで手軽なテキストボタン[ch text='[']button text=]@
+　[r]
+・画面を揺らす[ch text='[']quake]、
+	[quake time=2000 hmax=8 vmax=8][wq]
+	[quake time=500 hmax=0][wq]
+	[quake time=1000 vmax=0][wq]
+@
+・トゥイーンアニメ[ch text='[']tsy]はよく使うので内蔵にしました。
+	[lay layer=0 fn=sn_logo pivot_x=56 pivot_y=56]
+	[tsy layer=0 time=2000
+		x=56 y=56 ease=Bounce.Out]
+	[wait_tsy layer=0]
+
+	[tsy layer=0 time=2000
+		x=&const.sn.config.window.width-112+56
+		ease=Bounce.In]
+	[wait_tsy layer=0 arrive=true]
+
+	[tsy layer=0 time=2000
+		y=&const.sn.config.window.height-112+56
+		rotation='&"="+ -540 *(const.sn.Math.PI / 180)']
+		; -180度をラジアン変換で指定しつつ、相対変化（冒頭「=」）指定
+	[wait_tsy layer=0]
+[r]
+[r]
+・その他なにができるのか、動くサンプルを公開。ご自身のスマホで動きます。
+
+[p]
+
+
+; ==================================
+*pg9
+[pg]
+
+【２ｃ．使用可能なファイルフォーマット】[r]
+　基本的にブラウザなど実行環境に依存します。[r]
+　アプリならBlink(Electron)がサポートする形式、[r]
+　スマホならPhoneGap (Cordova)。@
+[r]
+・フォントは「woff2,otf,ttf」、Webフォントも使用可です。@
+・静止画像ファイルは「png,jpegなど」@
+・アニメpng（スプライトシート）@
+・動画ファイルは「mp4など」[r]
+[span style='font-size: 12px;']
+　　　　→AIRNovelでいうムービーレイヤは消滅、全て画像レイヤで表示。@
+[span]
+・音声ファイルは「mp3,m4a,oggなど」
+
+[p]
+
+
+; ==================================
+*pg10
+[pg]
+
+【２ｄ．エンジンを乗り換えるメリット】[r]
+
+　──他の「JavaScript系エンジン」との違いは？[r]
+[r]
+・WebGLを使用しないものは、SKYNovelのほうが圧倒的に速くて処理が軽いです。[r]
+[span style='font-size: 12px;']
+　　　　→広い画面解像度や、スマホで顕著に差が出ます。@
+[span]
+・GUIのドラッグ＆ドロップで開発、初心者は手軽ですが……。[r]
+[span style='font-size: 12px;']
+　　　　→本格的な開発ではだんだん面倒に。[r]
+　　　　→ただとっつきやすいので、順次、SKYNovelでも提供予定。@
+[span]
+・ラノゲツクールMVはダウンロード版 6,980円［税込］……。
+
+[p]
+
+
+; ==================================
+*pg11
+[pg]
+
+【２ｄ．エンジンを乗り換えるメリット】[r]
+
+　──SKYNovelは？[r]
+[r]
+・WebGLを使用、全てをGPU(ハードウェア)により描画。@
+・吉里吉里KAG3的なプロ向け作り込みもカバー。[r]
+[span style='font-size: 12px;']
+　　　　→スクリプトをテキストエディタでガシガシ書けます。@
+[span]
+・将来性ある技術（TypeScript・WebGL）と完成度が高い開発環境（VSCode・npm・GitHub）で開発しています。[r]
+[span style='font-size: 12px;']
+　　　　→Appleが「OpenGL非推奨」を発表したが、WebGPU策定と普及はまだまだ先。@
+[span]
+・開発者の経験値、実績[r]
+[span style='font-size: 12px;']
+　　　　→発表から９年（2009.7.7〜）改善や機能追加を続けた
+		AIRNovel の知見を活かしてます。[r]
+　　　　→開発者自身15年来のノベルゲーム作家（2003.12.31〜）
+		であり、ユーザー視点で開発しています。
+[span]
+
+[p]
+
+
+; ==================================
+*pg12
+[pg]
+
+[fg fn=vscode pos=r]
+【３a．はじめかた、開発環境】[r]
+・Visual Studio Code（以後VSCode）＋Node.jsで、[r]
+　環境設定と開発が完結。[r]
+[span style='font-size: 12px;']
+	; ここでも「知らない人」と挙手を求めたり
+　　　　→Microsoft社製の軽量/高速な高機能開発エディター。[r]
+　　　　→高機能だが本質はテキストエディタなので、Unityほど難しくない。[r]
+　　　　→Windows、Linux、macOS上で動作。[r]
+　　　　→月一レベルの頻繁な更新と機能追加。窓の杜でも更新が紹介。[r]
+　　　　→フリーウェア。@
+[span]
+・ブラウザで実行確認。（最終成果物がアプリの場合でも）@
+・スクリプトはテキストファイル（*.sn）。お好みのエディタで編集可。
+
+[p]
+
+
+; ==================================
+*pg13
+[pg]
+
+[fg fn=vscode pos=r time=0]
+【３b．はじめかた、開発環境】[r]
+・ヴィジュアルな開発機能は、「VSCodeの拡張機能」として提供していく予定。[r]
+[span style='font-size: 12px;']
+　　　　まずはスクリプトのシンタックスカラー？@
+[span]
+・ツールはVSCode（とNode.js）だけなので、使い始めるのが簡単。
+
+[p]
+
+
+; ==================================
+*pg14
+[pg]
+
+[fg fn=anbooks left=600 top=80]
+【技術的余談・AIRNovel時代との比較】[r]
+・ANBooks/ANEdit という開発ツールを自作・配布してた。[r]
+[span style='font-size: 12px;']
+　　　　→ここにリソースを取られるのはつらかった……。[r]
+　　　　→SKYNovelでは凄まじく進化を遂げたツールにおんぶに抱っこ。バブー。@
+[span]
+
+・JDKやAntなど多種多様なライブラリに依存していた。[r]
+[span style='font-size: 12px;']
+　　　　→SKYNovelではパッケージ管理ツール npm（Node Package Manager）に一本化。[r]
+　　　　→SKYNovelではライブラリもほぼMITオープンソース。不具合がバージョンアップされなくても、最悪こちらで修正できる。
+[span]
+
+[p]
+
+
+; ==================================
+*pg15
+[pg]
+
+　以上です。
+
+
+
+[s]
+
+
+
+*dummy
+[return]
+
+*init
+	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
+	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]
+	[toggle_full_screen key=w]	; for browser
+[return]
+
+*snapshot
+[snapshot fn=pic][return]

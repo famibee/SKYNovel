@@ -1,0 +1,33 @@
+;*********************************************************
+;@EXT_DESC	for文を使える
+;@VER		2018.6.22.000
+;*********************************************************
+
+;*********************************************************
+; マクロ ループコール
+[macro name="for_call"]
+	[let name="&'for_call_idx.'+ mp:name" text=%from]
+	&for_call_break = false
+
+*for_call_continue
+	[jump label=*for_call_break cond="for_call_idx[mp:name] > mp:to"]
+		[call fn=%fn|&mp:const.sn.me_call_scriptFn label=%label|null]
+	[jump label=*for_call_break cond=for_call_break]
+	[let name="&'for_call_idx.'+ mp:name" text="&for_call_idx[mp:name] +1"]
+
+	[jump label=*for_call_continue]
+
+*for_call_break
+	&for_call_break = false
+	; 内側一つだけ脱出
+[endmacro]
+
+;*********************************************************
+; マクロ ループコール脱出
+[macro name="for_call_break"]
+	&for_call_break = true
+[endmacro]
+
+;*********************************************************
+
+[return]

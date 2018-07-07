@@ -1,0 +1,120 @@
+;*********************************************************
+;@EXT_DESC	クロスフェードしながらレイヤ画像を変更する
+;@VER		2017.8.17.001	新機能追加：[fg_fi]フェードイン、
+;		[fg_fo]フェードアウト、不具合修正
+;@VER		2017.7.19.000	exist_err=falseは削除、
+;		[fg_squat][fg_shake][fg_sidestep]追加
+;@VER		2015.6.15.000
+;*********************************************************
+
+;*********************************************************
+[macro name="fg"]
+	[img * layer=%layer|0]
+	[let name=t text=%time|500]
+	[let name=t text=0 cond=sn.skip.enabled]	; skip時は瞬時処理
+	[trans * layer=%layer|0 time=&t]
+	[wt]
+[endmacro]
+
+;*********************************************************
+[macro name="img"]
+	[lay * page=back visible=true rotation=%rotation|0 scale_x=%scale_x|1 cond='mp:fn != null']
+	[clear_lay layer=%layer page=back cond='mp:fn == null']
+	[lay * page=back visible=false cond='mp:fn == null']
+[endmacro]
+
+;*********************************************************
+; フェードイン
+[macro name="fg_fi"]
+	[stop_tsy layer=%layer|0]
+	[lay * visible=true alpha=%alpha|0]
+		; left,topなど[lay]属性は主に初期位置。
+	[let name=t text=%time|500]
+	[let name=t text=0 cond=sn.skip.enabled]	; skip時は瞬時処理
+	[tsy * layer=%layer|0 time=&t alpha=%to_alpha|1 scaleX=%to_scale_x|1 scaleY=%to_scale_y|1]
+		; x,yなどは移動先指定。つまり終端。
+		; x,yは x='=-50'だと相対位置移動、x='-50'だと絶対位置移動
+	[wait_tsy layer=%layer|0 cond='! mp:no_wait']
+[endmacro]
+
+;*********************************************************
+; フェードアウト
+[macro name="fg_fo"]
+	[stop_tsy layer=%layer|0]
+	[let name=t text=%time|500]
+	[let name=t text=0 cond=sn.skip.enabled]	; skip時は瞬時処理
+	[tsy * layer=%layer|0 time=&t alpha=%alpha|0]
+		; x,yなどは移動先指定。つまり終端。
+		; x,yは x='=-50'だと相対位置移動、x='-50'だと絶対位置移動
+	[wait_tsy layer=%layer|0 cond='! mp:no_wait']
+[endmacro]
+
+;*********************************************************
+; 立ち絵を屈伸させる
+[macro name="fg_squat"]
+	[break_macro cond=sn.skip.enabled]	; skip時は処理なし
+	[let name=t text=%time|250]
+	[break_macro cond=t==0]		; 処理なし
+
+	[let name=lay text=%layer|0]
+	[let name=y text=%y|50]
+	[let name=ease text=%ease|Circular.easeOut]
+	&seq='seq_'+ lay
+
+	[new_tsy_seq seq=&seq]
+	[push_tsy_seq seq=&seq layer=&lay time=&t y='&"="+ y' ease=&ease]
+	[push_tsy_seq seq=&seq layer=&lay time=&t y='=0' ease=&ease]
+	[start_tsy_seq seq=&seq repeats=%repeats|1]
+	[wait_tsy_seq seq=&seq canskip=false cond='! mp:no_wait']
+[endmacro]
+
+;*********************************************************
+; 立ち絵を震わせる
+[macro name="fg_shake"]
+	[break_macro cond=sn.skip.enabled]	; skip時は処理なし
+	[let name=t text=%time|20]
+	[break_macro cond=t==0]		; 処理なし
+
+	[let name=lay text=%layer|0]
+	[let name=x text=%x|5]
+	&seq='seq_'+ lay
+
+	[new_tsy_seq seq=&seq]
+	
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='&"=-"+ x +","+ x']
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='&"=-"+ x +","+ x']
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='&"=-"+ x +","+ x']
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='&"=-"+ x +","+ x']
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='&"=-"+ x +","+ x']
+	
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='=0']
+	[start_tsy_seq seq=&seq repeats=%repeats|5]
+	[wait_tsy_seq seq=&seq canskip=false cond='! mp:no_wait']
+[endmacro]
+
+;*********************************************************
+; 立ち絵を反復横跳びさせる（楽しそう）
+[macro name="fg_sidestep"]
+	[break_macro cond=sn.skip.enabled]	; skip時は処理なし
+	[let name=t text=%time|250]
+	[break_macro cond=t==0]		; 処理なし
+
+	[let name=lay text=%layer|0]
+	[let name=x text=%x|25]
+	[let name=y text=%y|25]
+	&seq='seq_'+ lay
+
+	[new_tsy_seq seq=&seq]
+	
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='&"=-"+ x' y='&"="+ y' ease=Quintic.easeOut]
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='=0' y='=0']
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='&"="+ x' y='&"="+ y']
+	[push_tsy_seq seq=&seq layer=&lay time=&t x='=0' y='=0' ease=Quintic.easeIn]
+	
+	[start_tsy_seq seq=&seq repeats=%repeats|1]
+	[wait_tsy_seq seq=&seq canskip=false cond='! mp:no_wait']
+[endmacro]
+
+;*********************************************************
+
+[return]

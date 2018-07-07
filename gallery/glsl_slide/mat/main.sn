@@ -1,0 +1,42 @@
+[title text='フラグメントシェーダでTrans'][call label=*init]
+
+[add_lay layer=bg class=grp]
+	[lay layer=bg fn=013ELLY18412_TP_V4]
+[add_lay layer=mes class=txt]
+
+	[char2macro char=, name=s]	; 不具合チェック
+
+
+[let_ml name=ml]
+precision mediump float;
+
+varying vec2 vTextureCoord;
+uniform sampler2D uSampler;
+
+uniform float tick;
+
+void main(void) {
+	vec2 pos = vTextureCoord;
+	pos.x = pos.x + tick;
+	gl_FragColor = texture2D(uSampler, pos);
+}
+[endlet_ml]
+
+
+push..[l]
+	[lay layer=bg page=back fn=kuma425008_TP_V4]
+;	[trans layer=bg rule=r_uzumaki time=2000]
+	[trans layer=bg glsl=&ml time=2000]
+	[wt]
+ok.
+,[err]
+
+
+*init
+	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
+	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]
+	[toggle_full_screen key=w]	; for browser
+[return]
+
+*snapshot
+[snapshot fn=pic][return]

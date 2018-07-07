@@ -1,0 +1,45 @@
+[title text='レイヤを意識せずに立ち絵を扱う'][call label=*init]
+
+[add_lay layer=mes class=txt]
+
+	[call fn=ext_*]
+
+	[macro name="lr"][l][r][endmacro]
+	[char2macro char=@ name=lr]
+
+&fg2_is_attention = false
+
+0	[fg2 fn=鑑定官_通常]@
+;	aa	[fg2 swap=鑑定官 fn=女子中_惚れる]@
+;	ax	[fg2 swap=鑑定官0 fn=女子中_惚れる]@
+1	[fg2 fn=鑑定官_眼鏡]@
+2	[fg2 fn=女子中_惚れる]@
+屈	[fg2_squat name=女子中]@
+震	[fg2_shake name=女子中]@
+;横跳	[fg2_sidestep name=女子中]@
+横跳	[fg2_sidestep name=女子中 no_wait=true]@
+;	[clear_lay layer=0]	; [fg2]があずかり知らぬところで
+;	[clear_lay layer=1]	; [fg2]があずかり知らぬところで
+3	[fg2 fn=医師_会話 add=l]@
+4	[fg2 fn=医師_笑み]@
+5	[fg2 fn=女子中_勝ち誇り]@
+6	[fg2 del=女子中]@
+7	[fg2 fn=記者_通常]@
+8	[fg2 del=記者]@
+9	[fg2 fn=工員_通常 add=r]@
+10	[fg2 fn=女子中_勝ち誇り add=cr]@
+11	[fg2 del=女子中]@
+12	[fg2 fn=記者_通常 add=cl]@
+13	[fg2 swap=医師 fn=女子中_惚れる]@
+err	[fg2 fn=女子中_惚れる]@
+[s]
+
+
+*init
+	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
+	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]
+	[toggle_full_screen key=w]	; for browser
+[return]
+
+*snapshot
+[snapshot fn=pic][return]

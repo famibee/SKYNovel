@@ -1,0 +1,58 @@
+[title text='画像も動画も重ねて表示'][call label=*init]
+	[add_lay layer=base class=grp]
+	[add_lay layer=0 class=grp]
+	[add_lay layer=mes class=txt]
+	[lay layer=base fn="2img_0101"]
+
+	[call fn=ext_*]	; ext_**.snというスクリプトを全部コール
+
+;********************************************************
+	[call fn=face*]	; *** 立ち絵顔差分を読み込む ***
+
+*loop
+	[r]
+	[fg fn="蓑浦_身体_和装" face="蓑浦_口_普通,蓑浦_眼_普通,蓑浦_眉_普通"]
+口＝普通、眼＝普通、眉＝普通。[l][r]
+
+	[fg fn="蓑浦_身体_和装" face="蓑浦_口_普通,蓑浦_眼_普通,蓑浦_眉_普通"]再度[l][r]
+	[fg fn="蓑浦_身体_和装" face="蓑浦_口_普通,蓑浦_眼_普通"]眉消し[l][r]
+	[fg]クリア[l][r]
+
+	[fg fn="蓑浦_身体_和装" face="蓑浦_口_微笑,蓑浦_眼_普通,蓑浦_眉_憂い"]
+口＝微笑、眼＝普通、眉＝憂い。[l][r]
+	[fg fn="蓑浦_身体_和装" face="蓑浦_口_開き,蓑浦_眼_半開き,蓑浦_眉_怒り"]
+口＝開き、眼＝半開き、眉＝怒り。[l][r]
+	[fg fn="蓑浦_身体_和装" face="蓑浦_口_微笑,蓑浦_眼_まばたき,蓑浦_眉_憂い" time=0]
+口＝微笑、眼＝まばたき、眉＝憂い。[l][er]
+[jump label=*loop]
+;********************************************************
+
+
+
+
+
+	[event global=true key=f5 label=*reload_script cond="const.flash.system.Capabilities.isDebugger"]
+	[macro name="lr"][l][r][endmacro][char2macro char=@ name=lr]
+
+	[call fn=ext_*]		; ext_**.snというスクリプトを全部コールする
+
+;*********************************************************
+	; *** 蓑浦くんの立ち絵顔差分を読み込む ***
+	[call fn="蓑浦"]
+	; まばたき用に手書きで[add_face]
+[add_face name="蓑浦_眼_まばたき" dx=170 dy=159]
+
+	&sn.chkFontMode=false
+;*********************************************************
+; ゲーム本編
+	[record_place]		; [reload_script]チェック用
+
+
+*init
+	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
+	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]
+	[toggle_full_screen key=w]	; for browser
+[return]
+
+*snapshot
+[snapshot fn=pic][return]

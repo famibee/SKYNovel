@@ -1,0 +1,19 @@
+; *******************************************************
+; 蓑浦
+; *******************************************************
+	[add_face name="蓑浦_眉_怒り" dx=169 dy=144 blendmode="multiply"]
+	[add_face name="蓑浦_眉_憂い" dx=167 dy=144 blendmode="multiply"]
+	[add_face name="蓑浦_眉_普通" dx=167 dy=146 blendmode="multiply"]
+	[add_face name="蓑浦_眼_半開き" dx=171 dy=162]
+	[add_face name="蓑浦_眼_閉じ" dx=170 dy=162]
+	[add_face name="蓑浦_眼_普通" dx=171 dy=159]
+	[add_face name="蓑浦_口_微笑" dx=198 dy=241 blendmode="multiply"]
+	[add_face name="蓑浦_口_開き" dx=201 dy=237 blendmode="multiply"]
+	[add_face name="蓑浦_口_普通" dx=200 dy=239 blendmode="multiply"]
+	[add_face name="蓑浦_ほほ染め" dx=159 dy=177 blendmode="multiply"]
+	[add_face name="蓑浦_汗" dx=277 dy=216 blendmode="multiply"]
+;	[add_face name="蓑浦_身体_洋装" dx=5 dy=16]
+;	[add_face name="蓑浦_身体_和装" dx=19 dy=16]
+; *******************************************************
+
+[return]
