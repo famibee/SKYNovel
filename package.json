@@ -5,24 +5,6 @@
 	"main": "app.js",
 	"appBundleId": "com.fc2.blog38.famibee.skynovel",
 	"appCopyright": "(c)famibee",
-	"scripts": {
-		"start": "tsc -p engine/ && npm run webpack:dev && npm run electron & npm run test",
-		"watch": "tsc -p engine/ -w & npm run webpack:dev-watch & npm run watch:wds",
-		"webpack:dev": "webpack --mode development --config ./engine/webpack.config.js",
-		"webpack:dev-watch": "webpack --mode development --watch --config ./engine/webpack.config.js",
-		"watch:wds": "webpack-dev-server --mode development --config ./engine/wds.config.js",
-		"npm_check_updates": "ncu",
-		"npm_check_updates -g": "ncu -g",
-		"npm_check_updates_do": "ncu -a && npm update && npm i -D",
-		"electron": "electron ./",
-		"build": "npm run webpack:pro && npm run build:package",
-		"webpack:pro": "webpack --mode production --config ./engine/webpack.config.js",
-		"build:package": "node build.js",
-		"test-simple": "mocha --opts engine/tst/mocha.opts",
-		"test": "istanbul cover _mocha -- --opts engine/tst/mocha.opts",
-		"test-cov": "istanbul cover --print both _mocha -- engine/tmp/*.js --require intelli-espower-loader",
-		"posttest": "cd coverage && remap-istanbul -i coverage.json -o html-report -t html"
-	},
 	"author": "famibee",
 	"license": "MIT",
 	"dependencies": {
@@ -41,7 +23,7 @@
 		"xregexp": "^4.2.0"
 	},
 	"devDependencies": {
-		"@types/fs-extra": "^5.0.3",
+		"@types/fs-extra": "^5.0.4",
 		"@types/howler": "^2.0.5",
 		"@types/mocha": "^5.2.4",
 		"@types/node": "^10.5.2",
@@ -68,8 +50,31 @@
 		"webpack-cli": "^3.0.8",
 		"webpack-dev-server": "^3.1.4"
 	},
+	"scripts": {
+		"start": "tsc -p engine/ && npm run webpack:dev && npm run electron & npm run test",
+		"watch": "tsc -p engine/ -w & npm run webpack:dev-watch & npm run watch:wds",
+		"webpack:dev": "webpack --mode development --config ./engine/webpack.config.js",
+		"webpack:dev-watch": "webpack --mode development --watch --config ./engine/webpack.config.js",
+		"watch:wds": "webpack-dev-server --mode development --config ./engine/wds.config.js",
+		"npm_check_updates": "ncu",
+		"npm_check_updates -g": "ncu -g",
+		"npm_check_updates_do": "ncu -a && npm update && npm i -D",
+		"electron": "electron ./",
+		"build": "npm run webpack:pro && npm run build:package",
+		"webpack:pro": "webpack --mode production --config ./engine/webpack.config.js",
+		"build:package": "node build.js",
+		"test-simple": "mocha --opts engine/tst/mocha.opts",
+		"test": "istanbul cover _mocha -- --opts engine/tst/mocha.opts",
+		"test-cov": "istanbul cover --print both _mocha -- engine/tmp/*.js --require intelli-espower-loader",
+		"posttest": "cd coverage && remap-istanbul -i coverage.json -o html-report -t html"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+ssh://git@github.com:famibee/SKYNovel.git"
-	}
+	},
+	"bugs": {
+		"url": "https://github.com/famibee/SKYNovel/issues",
+		"email": "famibee@gmail.com"
+	},
+	"homepage": "http://famibee.blog38.fc2.com/"
 }
