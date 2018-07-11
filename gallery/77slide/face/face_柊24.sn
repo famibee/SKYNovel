@@ -1,0 +1,52 @@
+;#ED FACE
+; *******************************************************
+&const.ae.立ち絵.face_柊24 = true
+;#ED {"width":547, "height":451}
+;#ED FACE_FOLDER /
+	[add_face name="face_柊24_前髪" dx=148 dy=20]
+;#ED FACE_FOLDER 表情
+;#ED FACE_FOLDER マユゲ
+	[add_face name="face_柊24_表情_マユゲ_遊び用" dx=206 dy=84]
+	[add_face name="face_柊24_表情_マユゲ_笑顔" dx=209 dy=93]
+	[add_face name="face_柊24_表情_マユゲ_びっくり" dx=212 dy=91]
+	[add_face name="face_柊24_表情_マユゲ_困り" dx=212 dy=92]
+	[add_face name="face_柊24_表情_マユゲ_悲しみ" dx=212 dy=88]
+	[add_face name="face_柊24_表情_マユゲ_怒り" dx=207 dy=95]
+	[add_face name="face_柊24_表情_マユゲ_通常" dx=209 dy=95]
+;#ED FACE_FOLDER 目
+	[add_face name="face_柊24_表情_目_遊び用3" dx=226 dy=114]
+	[add_face name="face_柊24_表情_目_遊び用2" dx=231 dy=118]
+	[add_face name="face_柊24_表情_目_遊び用1" dx=217 dy=114]
+	[add_face name="face_柊24_表情_目_目閉じ" dx=220 dy=120]
+	[add_face name="face_柊24_表情_目_笑顔" dx=220 dy=117]
+	[add_face name="face_柊24_表情_目_怒り" dx=219 dy=107]
+	[add_face name="face_柊24_表情_目_通常" dx=218 dy=104]
+	[add_face name="face_柊24_表情_目_瞬き通常" dx=218 dy=104]
+	[add_face name="face_柊24_表情_目_瞬きびっくり" dx=218 dy=104]
+;#ED FACE_FOLDER 口
+	[add_face name="face_柊24_表情_口_（遊び用）ラブ＋口" dx=248 dy=155]
+	[add_face name="face_柊24_表情_口_（遊び用）超びっくり" dx=258 dy=163]
+	[add_face name="face_柊24_表情_口_（遊び用）たくらみ" dx=248 dy=158]
+	[add_face name="face_柊24_表情_口_（遊び用）ニコニコ口" dx=271 dy=172]
+	[add_face name="face_柊24_表情_口_びっくり" dx=247 dy=161]
+	[add_face name="face_柊24_表情_口_おちょぼ口" dx=247 dy=157]
+	[add_face name="face_柊24_表情_口_鬼太郎口" dx=246 dy=155]
+	[add_face name="face_柊24_表情_口_悲しみ(泣いた時に…)" dx=248 dy=157]
+	[add_face name="face_柊24_表情_口_悲しみ" dx=247 dy=153]
+	[add_face name="face_柊24_表情_口_ガマン" dx=247 dy=154]
+	[add_face name="face_柊24_表情_口_あっかんべ～" dx=246 dy=153]
+	[add_face name="face_柊24_表情_口_怒り大" dx=248 dy=162]
+	[add_face name="face_柊24_表情_口_怒り小" dx=247 dy=161]
+	[add_face name="face_柊24_表情_口_笑顔・大" dx=247 dy=157]
+	[add_face name="face_柊24_表情_口_笑顔・中" dx=247 dy=160]
+	[add_face name="face_柊24_表情_口_更に笑顔" dx=248 dy=159]
+	[add_face name="face_柊24_表情_口_笑顔" dx=248 dy=159]
+	[add_face name="face_柊24_表情_口_無表情" dx=248 dy=158]
+;#ED FACE_FOLDER /
+;	[add_face name="face_柊24_制服" dx=69 dy=1]
+; *******************************************************
+; 使用例：１．[call fn=face_柊24]でプロジェクトに読み込み、２．以下のように記述
+;	[fg fn="face_柊24_制服" face="face_柊24_表情_口_（遊び用）ラブ＋口,face_柊24_表情_目_遊び用3,face_柊24_表情_マユゲ_遊び用,face_柊24_前髪"]
+; *******************************************************
+
+[return]
