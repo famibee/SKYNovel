@@ -1063,7 +1063,14 @@ export class TxtLayer extends Layer {
 	get enabled() {return this.cntBtn.interactiveChildren;}
 	set enabled(v) {this.cntBtn.interactiveChildren = v;}
 
-	addButton(hArg: HArg): void {this.cntBtn.addChild(new Button(hArg, TxtLayer.evtMng));}
+	addButton(hArg: HArg): void {
+		this.cntBtn.addChild(new Button(hArg, TxtLayer.evtMng));
+	}
+	makeRsv() {
+		for (const btn of this.cntBtn.children) {
+			if (btn instanceof Button) btn.makeRsv();
+		}
+	}
 
 
 	clearLay(hArg: HArg): void {

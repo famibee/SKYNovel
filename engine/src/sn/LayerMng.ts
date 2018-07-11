@@ -32,12 +32,13 @@ export class LayerMng {
 
 	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private soundMng: SoundMng, private sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val);
-		GrpLayer.init(main, cfg, val);
+		GrpLayer.init(main, cfg);
 		ThreeDLayer.init(cfg);
 
 		//	システム
 		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
 		hTag.loadplugin		= o=> this.loadplugin(o);	// プラグインの読み込み
+		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.add_lay(o);		// レイヤを追加する
@@ -222,7 +223,6 @@ export class LayerMng {
 		return false;
 	};
 
-
 	// プラグインの読み込み
 	private loadplugin(hArg) {
 		const fn = hArg.fn;
@@ -251,6 +251,55 @@ export class LayerMng {
 		return join;
 	}
 
+	protected set_focus(hArg) {	// フォーカス移動
+		const to = hArg.to;
+		if (! to) throw '[set_focus] toは必須です';
+return false;	//=====
+		if (to == 'null') {
+//			stage.focus = stage;
+			return false;
+		}
+/*
+		const vct:Vector.<InteractiveObject>
+			= new Vector.<InteractiveObject>;
+		trans.foreachLayers(hArg, function (name:String, pg:Pages):void {
+			const tf:TxtLayer = pg.getPage(hArg) as TxtLayer;
+			if (! tf) return;
+			if (! tf._visible) return;
+			if (! tf.enabled) return;
+
+			const vct_tl:Vector.<InteractiveObject> = tf.getButton();
+			const len_tl:uint = vct_tl.length;
+			for (var j:uint=0; j<len_tl; ++j) vct.push(vct_tl[j]);
+		});
+
+		const len = vct.length;
+		if (len == 0) return false;
+
+		if (stage.focus == stage) {
+			stage.focus = vct[0];
+			return false;
+		}
+
+		if (to == 'next' || to == 'prev') {
+			for (var i:uint=0; i<len; ++i) {
+				if (stage.focus != vct[i]) continue;
+				stage.focus = vct[(i +(to == 'next' ?1 :len-1))% len];
+				break;
+			}
+
+			return false;
+		}
+
+		var numTo:Number = parseInt(to);
+		if (isNaN(numTo)) return false;
+		numTo = uint(numTo);
+		if (numTo < 0 || numTo >= len) return false;
+
+		stage.focus = vct[numTo];
+*/
+		return false;
+	}
 
 
 //	//	レイヤ共通
@@ -279,8 +328,8 @@ export class LayerMng {
 		fore.cnt.visible =
 		back.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', true);
 			// SKYNovelでは基本 visible = true とする。
-		fore.cnt.name = `layer:${layer} cls:${cls} page:0`;
-		back.cnt.name = `layer:${layer} cls:${cls} page:1`;
+		fore.name = `layer:${layer} cls:${cls} page:A`;
+		back.name = `layer:${layer} cls:${cls} page:B`;
 		switch (cls) {
 		case 'txt':
 			if (! this.strTxtlay) {
@@ -312,12 +361,12 @@ export class LayerMng {
 		this.val.setVal_Nochk('tmp', valnm, true);
 		this.val.defTmp(valnm +'.fore.alpha', ()=> pg.fore.cnt.alpha);
 		this.val.defTmp(valnm +'.back.alpha', ()=> pg.back.cnt.alpha);
-		this.val.defTmp(valnm +'.fore.height', ()=> pg.fore.cnt.height);
-		this.val.defTmp(valnm +'.back.height', ()=> pg.back.cnt.height);
+		this.val.defTmp(valnm +'.fore.height', ()=> pg.fore.height);
+		this.val.defTmp(valnm +'.back.height', ()=> pg.back.height);
 		this.val.defTmp(valnm +'.fore.visible', ()=> pg.fore.cnt.visible);
 		this.val.defTmp(valnm +'.back.visible', ()=> pg.back.cnt.visible);
-		this.val.defTmp(valnm +'.fore.width', ()=> pg.fore.cnt.width);
-		this.val.defTmp(valnm +'.back.width', ()=> pg.back.cnt.width);
+		this.val.defTmp(valnm +'.fore.width', ()=> pg.fore.width);
+		this.val.defTmp(valnm +'.back.width', ()=> pg.back.width);
 
 		return false;
 	}
@@ -467,9 +516,11 @@ void main(void) {
 		const closeTrans = ()=> {
 			this.appPixi.ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
+			this.evtMng.popLocalEvts();	// [wt]したのにキャンセルされなかった場合向け
 			[this.fore, this.back] = [this.back, this.fore];
 			for (const lay_name in this.hPages) {
 				const pg = this.hPages[lay_name];
+				pg.back.makeRsv();
 				if (hTarget[lay_name]) {pg.transPage(); continue;}
 
 				// transしないために交換する
@@ -483,7 +534,6 @@ void main(void) {
 			this.back.visible = false;
 			this.spTransBack.visible = false;
 			this.spTransFore.visible = false;
-			this.evtMng.popLocalEvts();	// [wt]したのにキャンセルされなかった場合向け
 			if (this.twInfTrans.resume) this.main.resume();
 			this.twInfTrans = {tw: null, resume: false};
 		};

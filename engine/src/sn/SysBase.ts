@@ -26,15 +26,13 @@ export class SysBase {
 
 //		hTag.export				= this.export;		// プレイデータをエクスポート
 //		hTag.import				= this.import;		// プレイデータをインポート
-		//hTag.loadplugin				// プラグインの読み込み	// LayerMng.ts内で定義
+		//hTag.loadplugin	// LayerMng.ts内で定義	// プラグインの読み込み
 //		hTag.mouse				= this.mouse;		// マウスの設定
 
 		// ＵＲＬを開く
 		hTag.navigate_to		= this.navigate_to;
-/*
-		hTag.plugin				= this.plugin;		// プラグインの設定
-		hTag.set_focus			= this.set_focus;	// フォーカス移動
-*/
+//		hTag.plugin				= this.plugin;		// プラグインの設定
+//		hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
 		hTag.title				= this.title;		// タイトル指定
 		hTag.toggle_full_screen = this.toggle_full_screen;	// 全画面状態切替
 /*

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { Container } from "pixi.js";
+import { Container, Sprite, Text } from "pixi.js";
 import { HArg, uint, IEvtMng, CmnLib } from "./CmnLib";
 import {GrpLayer} from "./GrpLayer";
 
@@ -13,6 +13,7 @@ export class Button extends Container {
 	constructor(hArg: HArg, evtMng: IEvtMng) {
 		super();
 
+		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);
 		if (hArg.text) {
 			const fontSize = uint(hArg.height || 30);
 			const style = {
@@ -35,12 +36,11 @@ export class Button extends Container {
 					style[key] = cln.style[key];
 				}
 			}
-			const txt = new PIXI.Text(hArg.text, style);
+			const txt = new Text(hArg.text, style);
 			txt.x = uint(hArg.left || 0);
 			txt.y = uint(hArg.top || 0);
 			txt.width = uint(hArg.width || 100);
 			txt.height = fontSize;
-			txt.interactive = CmnLib.argChk_Boolean(hArg, 'enabled', true);
 			this.addChild(txt);
 
 			const fill_normal = style.fill;
@@ -54,25 +54,36 @@ export class Button extends Container {
 				txt.style.dropShadow = true;
 			};
 			const clicked = (e: Event)=> {
-				e.stopPropagation();
 				txt.style.dropShadow = false;
 			};
-			if (txt.interactive) {
+			if (enabled) {
 				txt.on('pointerover', hover);
 				txt.on('pointerout', normal);
 				txt.on('pointerdown', clicked);
 				txt.on('pointerup', hover);
-				evtMng.button(hArg, txt);
+				this.makeRsv = ()=> evtMng.button(hArg, this);
+				this.makeRsv();
+				txt.interactive = true;
 			}
+			return;
 		}
-		else if (hArg.pic) GrpLayer.csv2Sprites(
+
+		if (hArg.pic) GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
-			()=> {
-				;
+			sp=> {
+				sp.x = uint(hArg.left || 0);
+				sp.y = uint(hArg.top || 0);
+				if (enabled) {
+					this.makeRsv = ()=> evtMng.button(hArg, this);
+					this.makeRsv();
+					sp.interactive = true;
+				}
 			}
-		);
+		)
+		else throw 'textまたはpic属性は必須です';
 	}
+	makeRsv	= ()=> {};
 
 
 //	href	n	何もしない	URL	クリック時にブラウザで指定URLを開く

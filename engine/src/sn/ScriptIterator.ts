@@ -252,6 +252,7 @@ export class ScriptIterator {
 		if (this.vctIfStk[0] == -1) throw 'ifブロック内ではありません';
 
 		this.idxToken_ = this.vctIfStk[0];
+		this.lineNum_ =  this.script.aLNum[this.idxToken_ -1];
 		this.vctIfStk.shift();
 
 		return false;
@@ -267,15 +268,12 @@ export class ScriptIterator {
 		for (; this.idxToken_<this.script.len; ++this.idxToken_) {
 			if (! this.script.aLNum[this.idxToken_]) this.script.aLNum[this.idxToken_] = this.lineNum_;
 			const t = this.script.aToken[this.idxToken_];
-			//console.log(`[if]トークン idx:${this.idxToken_} lnum:${this.lineNum_} realLn:${this.script.aLNum[this.idxToken_]} idxGo:${idxGo} token<${t}>`);
+			//console.log(`[if]トークン fn:${this.scriptFn_} lnum:${this.lineNum_} idx:${this.idxToken_} realLn:${this.script.aLNum[this.idxToken_]} idxGo:${idxGo} cntDepth:${cntDepth} token<${t}>`);
 			if (! t) continue;
 
 			const uc = t.charCodeAt(0);	// TokenTopUnicode
-			// \n 改行
-		//	if (uc == 10) {this.hHook_cr(t.length); continue;}
-			if (uc == 10) {this.addLineNum(t.length); continue;}
-			// [ タグ開始以外
-			if (uc != 91) continue;
+			if (uc == 10) {this.addLineNum(t.length); continue;}	// \n 改行
+			if (uc != 91) continue;		// [ タグ開始以外
 
 			const a_tag: any = m_xregexp.exec(t, CmnLib.REG_TAG);
 			if (a_tag == null) throw 'タグ記述['+ t +']異常です';
@@ -304,12 +302,13 @@ export class ScriptIterator {
 				if (cntDepth > 0) {--cntDepth; break;}
 				if (idxGo == -1) {
 					++this.idxToken_;
+					this.script.aLNum[this.idxToken_] = this.lineNum_;
 				}
 				else {
 					this.vctIfStk.unshift(this.idxToken_ +1);
 					this.idxToken_ = idxGo;
+					this.lineNum_ =  this.script.aLNum[this.idxToken_];
 				}
-				this.lineNum_ =  this.script.aLNum[this.idxToken_];
 				return false;
 			}
 		}
@@ -864,7 +863,6 @@ export class ScriptIterator {
 		const ln = this.lineNum_;
 		this.hTag[name] = hArg=> {
 			const hPushArg: any = {...hArg};
-			//（AIRNovel時代からコメント）hPushArg['const.sn.hEvt1Time'] = hEvt1Time;
 			hPushArg['const.sn.hMpVal'] = this.val.cloneMp();
 
 			if (this.fncReserveToken != null) {

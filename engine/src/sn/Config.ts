@@ -27,10 +27,10 @@ export class Config {
 			publisher	: '',	//出版社。同人ならサークル名。
 			pub_url		: '',	//出版社URL。無ければ省略します。
 			detail		: '',	// 内容紹介。端的に記入
-			upd_an		: true,
+			upd_sn		: true,
 			version		: '1.0',
 			prjtype		: '',
-			nocode_reg	: 'system/.+.(mp3|swf|xml)|m4a|config/.+',
+			nocode_reg	: 'system/.+.mp3|m4a|config/.+',
 			nocode		: '',
 			pack_exc	: '\.swf\.cache',
 			rotate		: '',
@@ -136,7 +136,8 @@ export class Config {
 		fetch(sys.cur +'prj.json')
 		.then(response=> {
 			if (response.ok) return response.json();
-			throw new Error('Network response was not ok.');
+			throw new Error(`load prj.json err = ${response.statusText
+			}`);
 		})		// webpackでバンドルしたら、path.jsonが要らなくなる？
 		.then(load)
 		.catch(err=> DebugMng.myTrace(`load prj.json "${err_mes}" = ${err}`));

@@ -15,16 +15,14 @@ export class Layer {
 	// tsy用
 	get	alpha() {return this.cnt.alpha}
 	set alpha(v) {this.cnt.alpha = v}
-	get	height() {return this.cnt.height}
-	set height(v) {this.cnt.height = v}
+	get	height() {return this.cnt.getBounds().height}
 	get	rotation() {return this.cnt.rotation}
 	set rotation(v) {this.cnt.rotation = v}
 	get	scale_x() {return this.cnt.scale.x}
 	set scale_x(v) {this.cnt.scale.x = v}
 	get	scale_y() {return this.cnt.scale.y}
 	set scale_y(v) {this.cnt.scale.y = v}
-	get	width() {return this.cnt.width}
-	set width(v) {this.cnt.width = v}
+	get	width() {return this.cnt.getBounds().width}
 	get	x() {return this.cnt.x}
 	set x(v) {this.cnt.x = v}
 	get	y() {return this.cnt.y}
@@ -71,6 +69,7 @@ export class Layer {
 		this.cnt.transform.worldTransform = fromLayer.cnt.worldTransform;
 		this.cnt.visible = fromLayer.cnt.visible;
 	};
+	makeRsv() {}
 
 //	recordAMF(out: IDataOutput): void;
 //	playbackAMF(inp: IDataInput, ldMng: LoadMng): void;

@@ -44,6 +44,9 @@ export class Variable implements IVariable {
 		hTag.dump_val		= ()=> this.dump_val();		// 変数のダンプ
 
 		// tmp:
+		/// この辺でsys:ロード処理か
+		this.hTmp['const.sn.isFirstBoot'] = true;
+
 		this.hTmp['sn.tagL.enabled'] = true;	// 頁末まで一気に読み進むか(l無視)
 		this.hTmp['sn.skip.all']	= false;	// falseなら既読のみをスキップ
 		this.hTmp['sn.skip.enabled'] = false;	// 次の選択肢(/未読)まで進むが有効か
@@ -348,7 +351,7 @@ export class Variable implements IVariable {
 		if (! hScope) throw '[変数参照] scopeが異常【'+ o['scope'] +'】です';
 
 		const name = o['name'];
-		if (! (name in hScope)) hScope[name] = def;
+		if ((! (name in hScope)) && def != undefined) hScope[name] = def;
 		let val = hScope[name];
 		if (val instanceof Function) val = (val as Function)();
 		//console.log('\tget ['+ arg_name +'] -> s['+ o['scope'] +'] a['+ o['at'] +'] n['+ name +'] ret['+ val +']('+ typeof val +')');

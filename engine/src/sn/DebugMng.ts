@@ -18,11 +18,12 @@ export class DebugMng {
 
 	private	static	scrItr	: ScriptIterator | null	= null;
 	private	static	hTag	: IHTag | null			= null;
-
+	private static	title	: ITag | null			= ()=> false;
 	constructor(private sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
 		DebugMng.scrItr = scrItr;
 		DebugMng.hTag = hTag;
 		DebugMng.title = hTag.title;
+		DebugMng.myTrace = DebugMng.fncMyTrace;
 
 		//	デバッグ・その他
 		//hTag.clearsysvar	= o => this.clearsysvar(o);		// システム変数の全消去
@@ -60,7 +61,7 @@ export class DebugMng {
 			//			+' prj:'+ hTmp['const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename']
 						+'\n'+ hArg.text +'\n';
 		this.sys.appendFile(this.sys.path_desktop +'log.txt', dat, err=> {if (err) console.log(err);});
-	
+
 		return false;
 	}
 
@@ -97,8 +98,19 @@ export class DebugMng {
 		return false;
 	}
 
-	private static title: ITag = ()=> false;
-	static myTrace(txt: string, fnline = true, lvl: 'D'|'W'|'F'|'E'|'I' = 'E') {
+	static myTrace	= (txt: string, fnline = true, lvl: 'D'|'W'|'F'|'E'|'I' = 'E')=> {
+		let mes = '{'+ lvl +'} '+ txt;
+		let sty = '';
+		switch (lvl) {
+			case 'D':	sty = 'color:#0055AA;';	break;
+			case 'W':	sty = 'color:#FF8800;';	break;
+			case 'F':	sty = 'color:#BB0000;';	break;
+			case 'E':	sty = 'color:#FF3300;';	break;
+			default:	sty = 'color:black;';	mes = ' '+ mes;
+		}
+		console[(lvl == 'E' ?'error' :'info')]('%c'+ mes, sty);
+	}
+	private static fncMyTrace(txt: string, fnline = true, lvl: 'D'|'W'|'F'|'E'|'I' = 'E') {
 		let mes = '{'+ lvl +'} ';
 		mes += DebugMng.scrItr
 		? '(fn:'+ DebugMng.scrItr.scriptFn +' line:'+ DebugMng.scrItr.lineNum+') '
