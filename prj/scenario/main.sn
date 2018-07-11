@@ -1,0 +1,135 @@
+;#USE-FONT	ipam
+	[add_lay layer=base class=grp]
+	[add_lay layer=0 class=grp]
+	[add_lay layer=1 class=grp]
+	[add_lay layer=2 class=grp]
+	[add_lay layer=mes class=txt]
+		; レイヤを追加したい場合はここで追加しておく
+		; sub.snで dsp_lays_grp にレイヤ名追記しないと、
+		; レイヤ状態がセーブ・ロードされないので注意
+
+	[call fn=ext_*]		; ext_**.snというスクリプトを全部コール
+
+	;[event global=true call=true key=w label=*toggle_full_screen]
+	[toggle_full_screen key=w]
+	[event global=true call=true key=alt+enter label=*toggle_full_screen]
+		&w = const.flash.display.Stage.displayState=='normal'
+		&s = const.sn.config.window.height > const.flash.system.Capabilities.screenResolutionY || const.sn.config.window.width > const.flash.system.Capabilities.screenResolutionX
+		[toggle_full_screen cond="w && s"]
+		; プレイ環境より画面サイズが大きい場合は全画面モードに
+	[event global=true call=true key=left label=*set_focus arg=prev]
+	[event global=true call=true key=right label=*set_focus arg=next]
+;	[event global=true call=true key=v label=*repeat_voice]
+	[event global=true call=true key=p label=*snapshot]
+	[event global=true key=f5 label=*reload_script cond="const.flash.system.Capabilities.isDebugger"]
+	[event global=true call=true key=f7 label=*stats]
+	[event global=true call=true key=f8 label=*dump cond="const.flash.system.Capabilities.isDebugger"]
+;	[update_check url="http://ugainovel.ddo.jp/UnderCherry/ver.xml" cond="! const.flash.system.Capabilities.isDebugger"]
+
+	[call fn="sub"]
+	[call fn=_config]	; （HTMLレイヤ初期化遅いので）早めにロード
+	[call fn="_yesno"]
+
+[char2macro char=@ name=l]
+[char2macro char=\ name=plc]
+
+;	&an.chkFontMode = true
+		; 開発中は true にしておくとフォント組み込み忘れを防げる
+		; （このままリリースしても問題なし）
+
+	; *** レジューム処理 ***
+	[sys_resume_load cond=!const.sn.key.escape&&!const.sn.key.back]
+
+;********************************************************
+*title
+	; *** タイトル開始共通処理 ***
+	[sys_title_start]
+
+	; *** BGM OPテーマ ***
+;	[bgm fn="free0509" time=200]
+;[clearsysvar]
+;********************************************************
+*title_menu
+	[img fn="title" layer="base"]
+	[img layer="0"]
+	[img layer="1"]
+	[img layer="2"]
+
+	[clear_lay layer="mes" page=back]
+		[button text='最初から' left=250 top=360 width=90 label=*start hint="最初の話から始める" enterse=&sysse_choice clickse=&sysse_ok2_long]
+		[button text='ロ ー ド' left=350 top=360 width=90 call=true label=*load hint="セーブ箇所から続ける" enterse=&sysse_choice clickse=&sysse_ok1]
+		[button text='アルバム' left=550 top=360 width=90 call=true label=*album hint="アルバム鑑賞" enterse=&sysse_choice clickse=&sysse_ok1]
+		[button text='設 定' left=650 top=360 width=90 call=true label=*config hint="ゲーム設定" enterse=&sysse_choice clickse=&sysse_ok1 join=true]
+
+	[trans layer=&dsp_lays time=0]
+	[wt]
+[s]
+
+;********************************************************
+*start
+	[enable_event enabled=false]
+	[jump fn="ss_000"]
+
+*load
+	[enable_event enabled=false]
+	[call fn="_saveload"]
+	[jump fn="_saveload" label=*title_load]
+
+*album
+	[enable_event enabled=false]
+	[call fn="_album"]
+	[jump fn="_album" label=*title_album]
+
+*config
+	[enable_event enabled=false]
+	[call fn="_config"]
+	[jump fn="_config" label=*title_config]
+
+*close
+	[enable_event enabled=false]
+	[ask_ync mes="ゲームを終了しますか？"]
+		;#FONT	ゲームを終了しますか？
+	[enable_event enabled=true]
+*close_do
+	[return cond="_yesno != 'y'"]
+	[enable_event enabled=false]
+	[wait time=500]
+[close]
+
+;********************************************************
+*toggle_full_screen
+	[toggle_full_screen]
+	[let name="txt" text="全画面モード"]
+	[let name="txt" text="ウインドウモード" cond="const.flash.display.Stage.displayState == 'normal'"]
+	[notice text="&txt" left="&const.sn.config.window.width -10 -300" top=10]
+
+	; 設定画面変更
+	&is_scrmode_win = (const.flash.display.Stage.displayState == 'normal')
+	[return cond='!const._config.inited']
+	[set_html layer=htm_config var_name=val_chkScrMode text=&is_scrmode_win]
+	[let_html layer=htm_config var_name=refresh function=true]
+[return]
+
+*set_focus
+	[set_focus to=&const.sn.eventArg]
+	[return]
+
+*repeat_voice
+	[repeat_voice]
+	[return]
+
+*snapshot
+	[snapshot fn=pic]
+	[notice text="スクリーンショットをデスクトップに保存しました" left="&const.sn.config.window.width -10 -300" top=10]
+	[return]
+
+*reload_script
+	[reload_script]
+
+*stats
+	[event global=true del=true key=f7]
+	[stats]
+	[return]
+
+*dump
+	[dump_val][return]

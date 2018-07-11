@@ -1,9 +1,20 @@
 {
-	"save_ns": "com.fc2.blog38.famibee.skynovel.gallery",
-	"search": ["face","mat"],
+	"save_ns": "com.fc2.blog38.famibee.skynovel.uc",
+	"search": ["album","bgimage","bgm","config","fgimage","image","menu","rule","scenario","system"],
 	"window": {
-		"width": 750,
-		"height": 500
+		"width": 1024,
+		"height": 768
+	},
+	"anbook"	: {
+		"title"		: "桜の樹の下には",
+		"creator"	: "夕街昇雪",
+		"cre_url"	: "https://twitter.com/#!/ugainovel",
+		"publisher"	: "活動漫画屋",
+		"pub_url"	: "http://ugainovel.blog112.fc2.com/",
+		"detail"	: "梶井基次郎「桜の樹の下には」をノベルゲーム化したものです。",
+		"upd_an"	: true,
+		"version"	: "1.0",
+		"inc_path"	: {}
 	},
 	"debug"	: {
 		"devtool"		: true,

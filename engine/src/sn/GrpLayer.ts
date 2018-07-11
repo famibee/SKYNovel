@@ -110,7 +110,7 @@ export class GrpLayer extends Layer {
 				blendmode: BLEND_MODES.NORMAL
 			};
 			aComp.push({
-				fn: fn,
+				fn: f.fn,
 				fnc: (i == 0) ?fncFirstComp　:sp=> {
 					sp.x = f.dx;
 					sp.y = f.dy;
@@ -118,10 +118,11 @@ export class GrpLayer extends Layer {
 				}
 			});
 
-			if (fn in GrpLayer.hFn2ResAniSpr) return;
-			if (fn in utils.TextureCache) return;
+			if (f.fn in GrpLayer.hFn2ResAniSpr) return;
+			if (f.fn in utils.TextureCache) return;
 			GrpLayer.ldr = GrpLayer.ldr || new loaders.Loader();
-			GrpLayer.ldr.add(fn, GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE));
+			if (GrpLayer.ldr.resources[f.fn]) return;
+			GrpLayer.ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
 		});
 
 		const fncLoaded = (loader: any, res: any)=> {

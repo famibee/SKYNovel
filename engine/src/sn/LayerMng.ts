@@ -359,8 +359,8 @@ return false;	//=====
 		// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;
 		this.val.setVal_Nochk('tmp', valnm, true);
-		this.val.defTmp(valnm +'.fore.alpha', ()=> pg.fore.cnt.alpha);
-		this.val.defTmp(valnm +'.back.alpha', ()=> pg.back.cnt.alpha);
+		this.val.defTmp(valnm +'.fore.alpha', ()=> pg.fore.alpha);
+		this.val.defTmp(valnm +'.back.alpha', ()=> pg.back.alpha);
 		this.val.defTmp(valnm +'.fore.height', ()=> pg.fore.height);
 		this.val.defTmp(valnm +'.back.height', ()=> pg.back.height);
 		this.val.defTmp(valnm +'.fore.visible', ()=> pg.fore.cnt.visible);
@@ -381,14 +381,14 @@ return false;	//=====
 		const back = pg.back.cnt;
 		const fore = pg.fore.cnt;
 		if (CmnLib.argChk_Boolean(hArg, 'float', false)) {
-			this.stage.setChildIndex(back, this.stage.children.length -1);
-			this.stage.setChildIndex(fore, this.stage.children.length -1);
+			this.back.setChildIndex(back, this.back.children.length -1);
+			this.fore.setChildIndex(fore, this.fore.children.length -1);
 			this.rebuildLayerRankInfo();
 		}
 		else if (hArg.index) {
 			if (CmnLib.argChk_Num(hArg, 'index', 0)) {
-				this.stage.setChildIndex(fore, uint(hArg.index));
-				this.stage.setChildIndex(back, uint(hArg.index));
+				this.back.setChildIndex(back, uint(hArg.index));
+				this.fore.setChildIndex(fore, uint(hArg.index));
 				this.rebuildLayerRankInfo();
 			}
 		}
@@ -401,13 +401,13 @@ return false;	//=====
 			if (! pg_dive) throw('[lay] 属性 dive【'+ dive +'】が不正です。レイヤーがありません');
 			const back_dive = pg_dive.back;
 			const fore_dive = pg_dive.fore;
-			const idx_back_dive = this.stage.getChildIndex(back_dive.cnt);
-			const idx_fore_dive = this.stage.getChildIndex(fore_dive.cnt);
+			const idx_back_dive = this.back.getChildIndex(back_dive.cnt);
+			const idx_fore_dive = this.fore.getChildIndex(fore_dive.cnt);
 			idx_dive = (idx_back_dive < idx_fore_dive) ?idx_back_dive :idx_fore_dive;
-			if (idx_dive > this.stage.getChildIndex(back)) --idx_dive;	//自分が無くなって下がる分下げる
+			if (idx_dive > this.back.getChildIndex(back)) --idx_dive;	//自分が無くなって下がる分下げる
 
-			this.stage.setChildIndex(fore, idx_dive);
-			this.stage.setChildIndex(back, idx_dive);
+			this.fore.setChildIndex(fore, idx_dive);
+			this.back.setChildIndex(back, idx_dive);
 			this.rebuildLayerRankInfo();
 		}
 

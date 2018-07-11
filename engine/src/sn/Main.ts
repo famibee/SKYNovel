@@ -260,7 +260,10 @@ export class Main implements IMain {
 		if (this.alzTagArg.hPrm['cond']) {
 			const cond = this.alzTagArg.hPrm['cond'].val;
 			if (cond.charAt(0) == '&') throw '属性condは「&」が不要です';
-			if (! this.propParser.parse(cond)) return false;
+			const p = this.propParser.parse(cond);
+			const ps = String(p);
+			if (ps == 'null' || ps == 'undefined') return false;
+			if (! p) return false;
 		}
 
 		const hArg: any = {タグ名: tag_name};

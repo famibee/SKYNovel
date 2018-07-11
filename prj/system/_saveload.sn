@@ -1,0 +1,360 @@
+;#USE-FONT	ipam
+	[return cond="const._saveload.inited"]
+	[let name="const._saveload.inited" text=true]
+
+	[sys_syslay.init]
+
+	[event global=true call=true key=s label=*quick_save]
+	[event global=true call=true key=l label=*quick_load]
+
+; === 改造用定数（表示位置などはここを変えて下さい）
+;　横に四つ、縦に三つの十二個並ぶように表示しています。
+;　左上から右へ一つずつ置き、四の倍数個目を置くときに一段下へ移動し、左端に戻って並べ続けます。テンプレでは三段あります。
+[let name="const._sl.th_横に並べる数" text=4]	; 横に四つ
+[let name="const._sl.th_縦に並べる数" text=3]	; 縦に三つ。上説明の「段」
+[let name="const._sl.th_一つめの左上からの横座標" text=57]	; 0以上
+[let name="const._sl.th_一つめの左上からの縦座標" text=66]	; 0以上
+[let name="const._sl.th_一つ左への移動量" text=235]
+	; サムネイル画像幅と同じか大きくする
+[let name="const._sl.th_一つ下への移動量" text=200]
+	; サムネイル画像高さと同じか大きくする
+[let name="const._sl.サムネイル画像幅" text=220]
+[let name="const._sl.サムネイル画像高さ" text=165]
+
+[let name="const._sl.ページ数" text=4]	; クイックセーブページを含まない
+
+[let name="const._sl.Quick表示のサムネイルからの横座標" text=0]
+[let name="const._sl.Quick表示のサムネイルからの縦座標" text=150]
+
+[let name="const._sl.Quickセーブロードを使う" text=true]
+; === 改造用定数（ここまで）
+
+
+[let name="const._sl.th_一ページあたりの数" text="&const._sl.th_横に並べる数 *const._sl.th_縦に並べる数"]	; この行変更非推奨
+
+	[let name="sys:_saveload.quick_place" text="&const._sl.ページ数 *const._sl.th_一ページあたりの数" cond="sys:_saveload.quick_place == null"]
+
+; ページボタン表示。leftとtop内の式変更で表示位置変更
+[macro name="_sl.put_page_button"]
+	[button enabled=false cond="sys:_saveload.page == mp:page" layer="_syslay.mes" pic="&'MnuUp_Page'+ (mp:page+1)" left="&mp:page *100 +195" top=16]
+	[button cond="sys:_saveload.page != mp:page" layer="_syslay.mes" pic="&'MnuUp_btnPage'+ (mp:page+1)" left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
+[endmacro]
+
+[macro name="_sl.put_common"]
+	&x = mp:x *const._sl.th_一つ左への移動量 +const._sl.th_一つめの左上からの横座標
+	&y = mp:y *const._sl.th_一つ下への移動量 +const._sl.th_一つめの左上からの縦座標
+	&place = mark_p +mp:x +mp:y *const._sl.th_横に並べる数
+	&exsits = sys:const.an.bookmark[place] != null
+	&&'pos.'+ place +'.x' = x
+	&&'pos.'+ place +'.y' = y
+
+	[if exp=exsits]
+		[if exp="const.flash.system.Capabilities.playerType == 'Desktop'"]
+			[button enabled=false layer="_syslay.mes" pic="& 'app-storage:/bookmark/'+ place +'.jpg'" left=&x top=&y]
+		[else]
+			[button enabled=false layer="_syslay.mes" pic="& 'ss:/'+ place" left=&x top=&y]
+		[endif]
+	[endif]
+[endmacro]
+[macro name="_sl.set_pos"]
+	&pos.x =mp:place%const._sl.th_横に並べる数 *const._sl.th_一つ左への移動量 +const._sl.th_一つめの左上からの横座標
+	&pos.y =(mp:place%const._sl.th_一ページあたりの数)¥const._sl.th_横に並べる数 *const._sl.th_一つ下への移動量 +const._sl.th_一つめの左上からの縦座標
+[endmacro]
+
+[macro name="_sl.put_save_button"]
+	[_sl.put_common]
+
+	[button layer="_syslay.mes" pic="Mnu_btnThumb" left=&x top=&y global=true label=*save enterse=&sysse_choice arg=&place hint="&'保存日時：'+ sys:const.an.bookmark[place].UpdateTime" cond=exsits]
+
+	[button layer="_syslay.mes" pic="_saveloadBtn_nouse" left="&x -5" top="&y -6" global=true label=*save enterse=&sysse_choice arg=&place cond="! exsits"]	; ここの -5や-6はなんとなく、見た目から微調整した
+[endmacro]
+
+[macro name="_sl.put_load_button"]
+	[_sl.put_common]
+
+	[button layer="_syslay.mes" pic="Mnu_btnThumb" left=&x top=&y global=true label=*load enterse=&sysse_choice cond=exsits arg=&place hint="&'保存日時：'+ sys:const.an.bookmark[place].UpdateTime"]
+
+	[break_macro cond=!const._sl.Quickセーブロードを使う]
+	[button enabled=false layer="_syslay.mes" pic="Tips_QL" left="&x +const._sl.Quick表示のサムネイルからの横座標" top="&y +const._sl.Quick表示のサムネイルからの縦座標" cond="exsits && (sys:_saveload.page == const._sl.ページ数) && (place == (sys:_saveload.quick_place +const._sl.th_一ページあたりの数 -1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数))"]
+	[button enabled=false layer="_syslay.mes" pic="Tips_QS" left="&x +const._sl.Quick表示のサムネイルからの横座標" top="&y +const._sl.Quick表示のサムネイルからの縦座標" cond="(sys:_saveload.page == const._sl.ページ数) && (place == sys:_saveload.quick_place)"]
+[endmacro]
+
+;*********************************************************
+[add_face name="_saveloadTitleLoad" dx=25 dy=14]	; Loadタイトル座標
+[add_face name="_saveloadTitleSave" dx=25 dy=14]	; Saveタイトル座標
+
+[return]
+
+;*********************************************************
+;	TitleMenu -> Load
+*title_load
+	[let name="しおりモード" text="Load"]
+	[let name="Mnu_Title" text="_saveloadTitleLoad"]
+	[let name="呼び元" text="Title"]
+[jump label=*main]
+
+;*********************************************************
+;	右クリック -> Load
+*rclick_load
+	[return cond="! isGameState"]
+
+	[let name="しおりモード" text="Load"]
+	[let name="Mnu_Title" text="_saveloadTitleLoad"]
+	[let name="呼び元" text="Text"]
+[jump label=*main]
+
+;*********************************************************
+;	右クリック -> Save
+*rclick_save
+	[return cond="! isGameState"]
+
+	[let name="しおりモード" text="Save"]
+	[let name="Mnu_Title" text="_saveloadTitleSave"]
+	[let name="呼び元" text="Text"]
+[jump label=*main]
+
+;*********************************************************
+*main
+	[enable_event enabled=false]
+	[clear_event]
+
+	[let name=page_max text=&const._sl.ページ数-1]
+	[let name=page_max text=&const._sl.ページ数 cond="しおりモード == 'Load' && const._sl.Quickセーブロードを使う"]
+	[let name="sys:_saveload.page" text=0 cond="sys:_saveload.page == null"]
+	[let name="sys:_saveload.page" text="&page_max" cond="sys:_saveload.page > page_max"]
+	[lay layer="_syslay.bg" fn="_saveload" face=&Mnu_Title visible=false]
+		[zoom_tsy layer="_syslay.bg" time=400 visible=true]
+	[lay layer="_syslay.mes" page=back visible=true float=true]
+	[let name="同画面遷移か" text=false]
+
+*chg_page
+	[enable_event layer="_syslay.mes" enabled=false]
+	[clear_lay layer="_syslay.mes" page=back]
+
+	[for_call name=i from=0 to="&page_max" label=*put_page_button fn=_saveload]
+	[_sl.put_page_button page=&const._sl.ページ数 cond="しおりモード == 'Load' && const._sl.Quickセーブロードを使う"]
+
+	[let name="mark_p" text="&sys:_saveload.page * const._sl.th_一ページあたりの数"]
+	[call label=*btn_save cond="しおりモード == 'Save'"]
+	[call label=*btn_load cond="しおりモード == 'Load'"]
+
+	[button layer="_syslay.mes" pic="Mnu_btnReturn" left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
+
+		[wait_tsy layer="_syslay.bg" backlay=true canskip=false]
+
+	[trans layer="_syslay.mes" time=200 cond="同画面遷移か"]
+	[trans layer="_syslay.mes" time=0 cond="! 同画面遷移か"]
+	[wt]
+	[let name="同画面遷移か" text=true]
+
+	[let name="isGameState" text=false]
+*retry
+	[event key=rightclick label=*cancel]
+	[event key=command label=*cancel]
+	[event key=control label=*cancel]
+	[event key=end label=*cancel]
+	[event key=shift label=*cancel]
+	[gesture_event f2tap=*cancel f3tap=*cancel]
+	[event key=page_up label=*left]
+	[event key=page_down label=*right]
+	[event key=downwheel label=*left]
+	[event key=upwheel label=*right]
+	[enable_event layer="_syslay.mes" enabled=true]
+	[set_focus to=null]
+[s]
+
+;*********************************************************
+*put_page_button
+	[_sl.put_page_button page=&for_call_idx.i]
+[return]
+
+;*********************************************************
+*swipe
+	[jump label=*left cond="const.an.eventArg == 'l'"]
+	[jump label=*right cond="const.an.eventArg == 'r'"]
+	[jump label=*last cond="const.an.eventArg == 'u'"]
+	[jump label=*top cond="const.an.eventArg == 'd'"]
+[jump label=*chg_page]
+
+*last
+	[jump label=*retry cond="sys:_saveload.page == page_max"]
+	[let name="sys:_saveload.page" text="&page_max"]
+[jump label=*chg_page]
+
+*left
+	[jump label=*retry cond="sys:_saveload.page == page_max"]
+	[let name="sys:_saveload.page" text="&sys:_saveload.page +1" cast=int]
+[jump label=*chg_page]
+
+*top
+	[jump label=*retry cond="sys:_saveload.page == 0"]
+	[let name="sys:_saveload.page" text=0]
+[jump label=*chg_page]
+
+*right
+	[jump label=*retry cond="sys:_saveload.page == 0"]
+	[let name="sys:_saveload.page" text="&sys:_saveload.page -1" cast=int]
+[jump label=*chg_page]
+
+;*********************************************************
+*page
+	[let name="sys:_saveload.page" text=&const.an.eventArg]
+	[jump label=*chg_page]
+
+;*********************************************************
+*btn_save
+	[for_call name=y from=0 to="&const._sl.th_縦に並べる数-1" label=*btn_save_row fn=_saveload]
+[return]
+
+;-----------------------------------------------------------
+*btn_save_row
+	[for_call name=x from=0 to="&const._sl.th_横に並べる数-1" label=*btn_save_cell fn=_saveload]
+[return]
+
+;-----------------------------
+*btn_save_cell
+	[_sl.put_save_button x=&for_call_idx.x y=&for_call_idx.y]
+[return]
+
+;*********************************************************
+*btn_load
+	[for_call name=y from=0 to="&const._sl.th_縦に並べる数-1" label=*btn_load_row fn=_saveload]
+[return]
+
+;-----------------------------------------------------------
+*btn_load_row
+	[for_call name=x from=0 to="&const._sl.th_横に並べる数-1" label=*btn_load_cell fn=_saveload]
+[return]
+
+;-----------------------------
+*btn_load_cell
+	[_sl.put_load_button x=&for_call_idx.x y=&for_call_idx.y]
+[return]
+
+;*********************************************************
+*save
+	[let name="_sl.place" text="&const.an.eventArg"]
+	[let name="exsits" text="&sys:const.an.bookmark[_sl.place] != null"]
+	[se fn=&sysse_ok1 buf=SYS]
+	[jump label=*ask_end_save cond="! exsits"]
+
+	[enable_event layer="_syslay.mes" enabled=false]
+		[_sl.set_pos place=&_sl.place]
+		[plugin name="Mnu_InfoThumb" visible=true left=&pos.x top=&pos.y float=true]
+
+		[ask_ync mes="しおりを上書き保存しますか？"]
+			;#FONT	しおりを上書き保存しますか？
+
+		[plugin name="Mnu_InfoThumb" visible=false]
+	[enable_event layer="_syslay.mes" enabled=true]
+	[jump label=*retry cond="_yesno != 'y'"]
+
+*ask_end_save
+	[call label=*do_save]
+[jump label=*exit]
+
+*do_save
+	[if exp="const.flash.system.Capabilities.playerType == 'Desktop'"]
+		[snapshot fn="& 'app-storage:/bookmark/'+ _sl.place" layer=&dsp_lays width=&const._sl.サムネイル画像幅 height=&const._sl.サムネイル画像高さ quality=90 smoothing=true]
+	[else]
+		[snapshot fn="& 'ss:/'+ _sl.place" format="jpg" layer=&dsp_lays width=&const._sl.サムネイル画像幅 height=&const._sl.サムネイル画像高さ quality=90 smoothing=true]
+	[endif]
+*do_save_noss
+	[let name="enabled" text="&save:const.an.layer.mes.enabled|true"]
+	[enable_event enabled=true]	; この状態も保存されるので一時変更
+	[save place=&_sl.place path="app-storage:/bookmark/"]
+	[enable_event enabled="&enabled"]
+[return]
+
+*do_save_resume
+	; 変数placeを変更しないよう注意。呼び元で使用している。
+	[let name="enabled" text="&save:const.an.layer.mes.enabled|true"]
+	[enable_event enabled=true]	; この状態も保存されるので一時変更
+	[save place=99999]
+	[enable_event enabled="&enabled"]
+[return]
+
+;*****************************
+*quick_save
+	[return cond="! isGameState"]
+
+	[let name="_sl.place" text="&sys:_saveload.quick_place"]
+	[call label=*do_save]
+	[let name="sys:_saveload.quick_place" text="&(_sl.place +1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
+
+	[notice text="クイックセーブしました" left="&const.flash.display.Stage.stageWidth -10 -300" top=10]
+[return]
+
+;*********************************************************
+*load
+	[let name="_sl.place" text="&const.an.eventArg"]
+	[jump label=*ask_end_load cond="呼び元 == 'Title'"]
+	[se fn=&sysse_ok1 buf=SYS]
+
+	[enable_event layer="_syslay.mes" enabled=false]
+		[_sl.set_pos place=&_sl.place]
+		[plugin name="Mnu_InfoThumb" visible=true left=&pos.x top=&pos.y float=true]
+
+		[ask_ync mes="しおりを読み込みますか？"]
+			;#FONT	しおりを読み込みますか？
+
+		[plugin name="Mnu_InfoThumb" visible=false]
+	[enable_event layer="_syslay.mes" enabled=true]
+	[jump label=*retry cond="_yesno != 'y'"]
+	[jump label=*end_load]
+
+*ask_end_load
+	[se fn=&sysse_ok2_long buf=SYS]
+*end_load
+	; *** ブラックアウト ***
+	[clear_lay layer="_syslay.mes" page=back]
+	[lay layer="_syslay.bg" page=back visible=false]
+	[trans layer="_syslay.mes,_syslay.bg" time=200]
+
+*do_load
+	[sys_scenario_start no_resume_save=true]
+	[copybookmark from=&_sl.place to=99999]
+	[load place=&_sl.place]
+;	[load place=&_sl.place fn=_saveload label=*do_load_init]
+
+*do_load_resume
+	[se fn=&sysse_ok2_long buf=SYS]
+	[notice text="前回終了ポイントから再開します（キャンセル=ESC）" left="&const.flash.display.Stage.stageWidth -10 -300" top=10]
+	[sys_scenario_start no_resume_save=true]
+	[load place=99999]
+;	[load place=99999 fn=_saveload label=*do_load_init]
+
+; ロード後最初にしたい共通処理
+*do_load_init
+	
+[return]
+
+;*****************************
+*quick_load
+	[return cond="! isGameState"]
+	[return cond="sys:_saveload.quick_place == null"]
+	[let name="_sl.place" text="&(sys:_saveload.quick_place +const._sl.th_一ページあたりの数 -1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
+	[return cond="sys:const.an.bookmark[_sl.place] == null"]
+
+	[enable_event enabled=false]
+		[ask_ync_cleartext]
+		[button enabled=false layer="mes_yesno" page=fore pic="& 'app-storage:/bookmark/'+ _sl.place +'.jpg'" left=570 top=220]
+		[ask_ync mes="クイックロードしますか？" no_cleartext=true]
+			;#FONT	クイックロードしますか？
+	[enable_event enabled=true]
+	[return cond="_yesno != 'y'"]
+[jump label=*do_load]
+
+;*********************************************************
+*cancel
+	[se fn=&sysse_cancel buf=SYS]
+*exit
+	[lay layer="_syslay.mes" page=fore visible=false]
+	[lay layer="_syslay.mes" page=back visible=false]
+	[clear_lay layer="_syslay.mes" page=both]
+	[zoom_tsy layer="_syslay.bg" visible=false time=400]
+
+	[enable_event enabled=true]
+	[set_focus to=null]
+	[let name="isGameState" text=true cond="呼び元=='Text'"]
+[return]

@@ -654,6 +654,18 @@ PropParser.getValName: 0.016ms
 		it('VarLogic08_', ()=> {
 			assert.equal(parser.parse("false === 'false'"), false);
 		});
+		it('VarLogic10', ()=> {
+			assert.equal(parser.parse("undefined"), undefined);
+		});
+		it('VarLogic11', ()=> {
+			assert.equal(parser.parse("! undefined"), true);
+		});
+		it('VarLogic12', ()=> {
+			assert.equal(parser.parse("null"), null);
+		});
+		it('VarLogic13', ()=> {
+			assert.equal(parser.parse("! null"), true);
+		});
 
 
 		// 連想配列
@@ -825,7 +837,7 @@ PropParser.getValName: 0.016ms
 			assert.equal(o['name'], '_album.img.渡り廊下・桜昼');
 			assert.equal(o['at'], '');
 		});
-		
+
 		it('_getValName10', ()=> {
 			const o = PropParser.getValName("hA['args']");
 			assert.equal(o['scope'], 'tmp');

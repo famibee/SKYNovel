@@ -1,0 +1,42 @@
+	[event global=true call=true key=delete label=*main]
+	[event global=true call=true key=backspace label=*main]
+	[event global=true call=true key=space label=*main]
+[return]
+
+;*********************************************************
+*main
+	[return cond="! isGameState"]
+
+	[enable_event enabled=false]
+	[clear_event]
+		[lay layer="&save:const.an.mesLayer" page=fore visible=false]
+		[plugin name="&const.an.breakPluginName" visible=false cond="const.an.breakPluginName != null"]
+	[let name=sysmenu_v text=&const.an.lay.mes_sysmenu.fore.visible cond=useSysMenu]
+	[sys_menu visible=false]
+
+	[let name="isGameState" text=false]
+	[let name="save:an.doRecLog" text=false]
+
+	[event key=click label=*exit]
+	[event key=rightclick label=*exit]
+	[event key=command label=*exit]
+	[event key=control label=*exit]
+	[event key=end label=*exit]
+	[event key=shift label=*exit]
+	[event key=delete label=*exit]
+	[event key=backspace label=*exit]
+	[event key=space label=*exit]
+	[gesture_event swipe=*exit f2tap=*exit f3tap=*exit]
+[s]
+
+;*********************************************************
+*exit
+	[lay layer="&save:const.an.mesLayer" page=fore visible=true]
+	[plugin name="&const.an.breakPluginName" visible=true cond="const.an.breakPluginName != null"]
+	[sys_menu visible=&sysmenu_v]
+
+	[enable_event enabled=true]
+	[set_focus to=null]
+	[let name="isGameState" text=true]
+	[let name="save:an.doRecLog" text=true]
+[return]

@@ -1,0 +1,248 @@
+;#USE-FONT	ipam
+	[return cond="const._config.inited"]
+	&const._config.inited = true
+
+	[sys_syslay.init]
+	[let name="isUserUpdateCheck" text=false cond="isUserUpdateCheck == null"]
+	[return cond="const.flash.system.Capabilities.playerType != 'Desktop'"]
+
+	[add_lay layer=htm_config class=htm]
+*reload
+	[lay layer=htm_config url="_config" visible=false paints_default_background=false]
+
+	[event global=true call=true key=c label=*keycall_config]
+	[event global=true call=true key=t label=*text_back_alpha_sub]
+	[event global=true call=true key=y label=*text_back_alpha_add]
+	[event global=true call=true key=u label=*text_auto_msecwait_sub]
+	[event global=true call=true key=i label=*text_auto_msecwait_add]
+[return]
+
+;*********************************************************
+*text_back_alpha_sub
+	[return cond="! isGameState"]
+	&alpha = sys:TextLayer.Back.Alpha *100 -5 = int
+	[let name="alpha" text=0 cond="alpha < 0"]
+	&sys:TextLayer.Back.Alpha = alpha /100
+[jump label=*text_back_alpha]
+
+*text_back_alpha_add
+	[return cond="! isGameState"]
+	&alpha = sys:TextLayer.Back.Alpha *100 +5 = int
+	[let name="alpha" text=100 cond="alpha > 100"]
+	&sys:TextLayer.Back.Alpha = alpha /100
+
+*text_back_alpha
+	[notice text="&'バック不透明度 ' + alpha + '%'" left="&const.an.xmlConfig.window.width -10 -300" top=10]
+	[return]
+
+;*********************************************************
+*text_auto_msecwait_sub
+	[return cond="! isGameState"]
+	&wait = sys:an.auto.msecLineWait -100 = uint
+	[let name="wait" text=0 cond="wait < 0"]
+[jump label=*text_auto_msecwait]
+
+*text_auto_msecwait_add
+	[return cond="! isGameState"]
+	&wait = sys:an.auto.msecLineWait +100 = uint
+	[let name="wait" text=3500 cond="wait > 3500"]
+*text_auto_msecwait
+	&sys:an.auto.msecLineWait = wait
+	[notice text="&'自動読み進み速度 ' + wait + ' msec'" left="&const.an.xmlConfig.window.width -10 -300" top=10]
+[return]
+
+;*********************************************************
+*title_config
+	[enable_event enabled=false]
+	&呼び元 = "Title"
+[jump label=*main]
+
+;*********************************************************
+*keycall_config
+	[se fn=&sysse_ok1 buf=SYS]
+
+*rclick_config
+	[return cond="! isGameState"]
+	[call label=*reload cond="const.an.lay.htm_config.url==null"]
+
+	&呼び元 = "Text"
+
+;*********************************************************
+*main
+	[enable_event enabled=false]
+	[clear_event]
+	[jump label=*no_support_html_lay cond="const.flash.system.Capabilities.playerType != 'Desktop'"]
+
+	[lay layer=htm_config visible=false float=true]
+		[call label=*enter_frame]
+		
+		[zoom_tsy layer=htm_config time=400 visible=true]
+	[clear_lay layer="_syslay.mes" page=both]
+	[lay layer="_syslay.mes" visible=false b_alpha=0 r_size=6 max_col=20 bura_col=2 max_row=4 layout='lineHeight="18" paddingTop="6" paddingLeft="827" fontSize="12" color="0x000000" fontFamily="ipam" fontLookup="embeddedCFF"']
+		[ch layer="_syslay.mes" wait=0 record=false text="&'現在  ver '+ tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.versionNumber@str" cond="const.flash.system.Capabilities.playerType == 'Desktop'"]
+			;#FONT	現在ver0.123456789
+
+		[button layer="_syslay.mes" page=fore pic="Mnu_btnUpdate" left=816 top=16 global=true call=true label=*update_check hint="アプリの更新を確認します" enterse=&sysse_choice cond="const.flash.system.Capabilities.playerType == 'Desktop'"]
+		[button layer="_syslay.mes" page=fore pic="Mnu_btnReturn" left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel]
+
+		[button layer="_syslay.mes" page=fore pic="Mnu_btnExport" left=25 top=710 global=true call=true label=*export hint="ゲーム情報を書き出す" enterse=&sysse_choice cond="const.flash.system.Capabilities.playerType == 'Desktop'"]
+		[button layer="_syslay.mes" page=fore pic="Mnu_btnImport" left=125 top=710 global=true call=true label=*import hint="ゲーム情報を読み込む" enterse=&sysse_choice cond="const.flash.system.Capabilities.playerType == 'Desktop'"]
+		[lay layer="_syslay.mes" page=fore visible=true float=true]
+
+	&isGameState = false
+*retry
+	[event key=enter_frame label=*enter_frame call=true frame=15]
+	[event key=rightclick label=*cancel]
+	[event key=command label=*cancel]
+	[event key=control label=*cancel]
+	[event key=end label=*cancel]
+	[event key=shift label=*cancel]
+	[event key=c label=*cancel]
+	[gesture_event swipe=*nop f2tap=*cancel f3tap=*cancel]
+	[set_focus to=null]
+[s]
+
+*nop
+[jump label=*retry]
+
+
+;*********************************************************
+*no_support_html_lay
+	[notice text="ブラウザ版はconfig/を「Work/システム/plgConfig/差し替えconfig」に差し替えて下さい。config.anはsystem/にあります" left="&const.an.xmlConfig.window.width -10 -300" top=10]
+[jump label=*cancel]
+
+
+;*********************************************************
+*init_htm
+	[set_html layer=htm_config var_name=val_sldBackAlpha text=&sys:TextLayer.Back.Alpha]
+	[set_html layer=htm_config var_name=val_sldChWaitMsec text=&sys:an.tagCh.msecWait]
+	[set_html layer=htm_config var_name=val_chkChDoWait text=&sys:an.tagCh.doWait]
+	[set_html layer=htm_config var_name=val_sldAutoLWaitMsec text=&sys:an.auto.msecLineWait]
+	[set_html layer=htm_config var_name=val_sldAutoPWaitMsec text=&sys:an.auto.msecPageWait]
+	[set_html layer=htm_config var_name=val_sldChWaitMsec_Kidoku text=&sys:an.tagCh.msecWait_Kidoku]
+	[set_html layer=htm_config var_name=val_chkChDoWait_Kidoku text=&sys:an.tagCh.doWait_Kidoku]
+	[set_html layer=htm_config var_name=val_sldAutoLWaitMsec_Kidoku text=&sys:an.auto.msecLineWait_Kidoku]
+	[set_html layer=htm_config var_name=val_sldAutoPWaitMsec_Kidoku text=&sys:an.auto.msecPageWait_Kidoku]
+	[set_html layer=htm_config var_name=val_sldVolGlobal text=&sys:flash.media.SoundMixer.soundTransform.volume]
+	[set_html layer=htm_config var_name=val_sldVolBgm text=&sys:const.an.sound.BGM.volume]
+	[set_html layer=htm_config var_name=val_sldVolSe text=&sys:const.an.sound.SE.volume]
+	[set_html layer=htm_config var_name=val_sldVolSys text=&sys:const.an.sound.SYS.volume]
+	&is_scrmode_win = (const.flash.display.Stage.displayState == 'normal')
+	[set_html layer=htm_config var_name=val_chkScrMode text=&is_scrmode_win]
+	[let_html layer=htm_config var_name=refresh function=true]
+	&const._config.htm_inited = true
+[return]
+
+;*********************************************************
+*enter_frame
+	[exist_html layer=htm_config var_name=val_sldBackAlpha]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldChWaitMsec]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_chkChDoWait]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldAutoLWaitMsec]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldAutoPWaitMsec]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldChWaitMsec_Kidoku]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_chkChDoWait_Kidoku]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldAutoLWaitMsec_Kidoku]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldAutoPWaitMsec_Kidoku]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldVolGlobal]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldVolBgm]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldVolSe]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_sldVolSys]
+	[return cond=!const.an.exist_html]
+	[exist_html layer=htm_config var_name=val_chkScrMode]
+	[return cond=!const.an.exist_html]
+
+	[call label=*init_htm cond=!const._config.htm_inited]
+
+		[let_html layer=htm_config var_name=val_sldBackAlpha]
+		&sys:TextLayer.Back.Alpha = const.an.js.val_sldBackAlpha
+
+		[let_html layer=htm_config var_name=val_sldChWaitMsec]
+		&sys:an.tagCh.msecWait = const.an.js.val_sldChWaitMsec
+			[let_html layer=htm_config var_name=val_chkChDoWait]
+			&sys:an.tagCh.doWait = const.an.js.val_chkChDoWait
+		[let_html layer=htm_config var_name=val_sldAutoLWaitMsec]
+		&sys:an.auto.msecLineWait = const.an.js.val_sldAutoLWaitMsec
+		[let_html layer=htm_config var_name=val_sldAutoPWaitMsec]
+		&sys:an.auto.msecPageWait = const.an.js.val_sldAutoPWaitMsec
+
+		[let_html layer=htm_config var_name=val_sldChWaitMsec_Kidoku]
+		&sys:an.tagCh.msecWait_Kidoku = const.an.js.val_sldChWaitMsec_Kidoku
+			[let_html layer=htm_config var_name=val_chkChDoWait_Kidoku]
+			&sys:an.tagCh.doWait_Kidoku = const.an.js.val_chkChDoWait_Kidoku
+		[let_html layer=htm_config var_name=val_sldAutoLWaitMsec_Kidoku]
+		&sys:an.auto.msecLineWait_Kidoku = const.an.js.val_sldAutoLWaitMsec_Kidoku
+		[let_html layer=htm_config var_name=val_sldAutoPWaitMsec_Kidoku]
+		&sys:an.auto.msecPageWait_Kidoku = const.an.js.val_sldAutoPWaitMsec_Kidoku
+
+		[let_html layer=htm_config var_name=val_sldVolGlobal]
+		&sys:flash.media.SoundMixer.soundTransform.volume = const.an.js.val_sldVolGlobal
+		[let_html layer=htm_config var_name=val_sldVolBgm]
+		[volume buf=BGM volume=&const.an.js.val_sldVolBgm]
+		[let_html layer=htm_config var_name=val_sldVolSe]
+		[volume buf=SE volume=&const.an.js.val_sldVolSe]
+		[let_html layer=htm_config var_name=val_sldVolSys]
+		[volume buf=SYS volume=&const.an.js.val_sldVolSys]
+
+		[let_html layer=htm_config var_name=val_chkScrMode]
+		&is_scrmode_win = (const.flash.display.Stage.displayState == 'normal')
+		[call fn=main label=*toggle_full_screen cond=const.an.js.val_chkScrMode!=is_scrmode_win]
+[return]
+
+;*********************************************************
+*cancel
+	[se fn=&sysse_cancel buf=SYS]
+*exit
+	[lay layer="_syslay.mes" page=fore visible=false]
+	[lay layer="_syslay.mes" page=back visible=false]
+	[clear_lay layer="_syslay.mes" page=both]
+	[zoom_tsy layer=htm_config visible=false time=400 cond="const.an.lay.htm_config"]
+
+	[enable_event enabled=true]
+	[set_focus to=null]
+	[let name="isGameState" text=true cond="呼び元=='Text'"]
+[return]
+
+;*********************************************************
+*update_check
+	[return cond="isUserUpdateCheck"]
+	&isUserUpdateCheck = true
+	[se fn=&sysse_ok1 buf=SYS]
+
+	[update_check url="https://raw.githubusercontent.com/famibee/AIRNovel/master/UnderCherry/uc_ver.xml"]
+[return]
+
+;*********************************************************
+*export
+	[se fn=&sysse_ok1 buf=SYS]
+	[export path="app-storage:/bookmark/*"]
+[return]
+
+;*********************************************************
+*import
+	[se fn=&sysse_ok1 buf=SYS]
+	[import]
+	[return cond="! const.an.dlgUserOK"]
+
+	[enable_event enabled=false]
+		[clear_text layer="mes_yesno"]
+		[ask_ync mes="ゲームを再起動する必要があります。終了しますか？　（起動は手動で）"]
+			;#FONT	ゲームを再起動する必要があります。終了しますか？　（起動は手動で）
+	[enable_event enabled=true]
+	[return cond="_yesno != 'y'"]
+
+	[call label=*exit]
+	[wait_tsy layer=htm_config]
+[close]
