@@ -396,7 +396,7 @@ PropParser.getValName: 0.016ms
 		});
 		it('Num60_2 err', ()=> {
 			try {
-				assert.equal(parser.parse("true ? 10 = 2"), undefined);
+				assert.equal(parser.parse("true ? 10 = 2"), null);
 				assert.equal('fail', '起こるべき例外が起こっていない');
 			}
 			catch (e) {
@@ -406,7 +406,7 @@ PropParser.getValName: 0.016ms
 		});
 		it('Num60_3 err', ()=> {
 			try {
-				assert.equal(parser.parse("false ? 10 = 2"), undefined);
+				assert.equal(parser.parse("false ? 10 = 2"), null);
 				assert.equal('fail', '起こるべき例外が起こっていない');
 			}
 			catch (e) {
@@ -416,7 +416,7 @@ PropParser.getValName: 0.016ms
 		});
 		it('Num60_4 err', ()=> {
 			try {
-				assert.equal(parser.parse("4 ? 10 = 2"), undefined);
+				assert.equal(parser.parse("4 ? 10 = 2"), null);
 				assert.equal('fail', '起こるべき例外が起こっていない');
 			}
 			catch (e) {
@@ -534,8 +534,11 @@ PropParser.getValName: 0.016ms
 		});
 
 	// 変数
-		it('Var0', ()=> {
+		it('Var0', ()=> {	// からまーぞふ、は未定義リテラル
 			assert.equal(parser.parse("からまーぞふ"), undefined);
+		});
+		it('Var0_1', ()=> {	// JavaScriptでは undefined == null。==がポイント
+			assert.equal(parser.parse("からまーぞふ"), null);
 		});
 			it('Var0_2', ()=> {
 				assert.equal(parser.parse("tmp:null_n"), null);
@@ -618,7 +621,7 @@ PropParser.getValName: 0.016ms
 			assert.equal(parser.parse("ぎょへー != 'きゅ'"), true);
 		});
 
-		it('Var30', ()=> {
+		it('Var30', ()=> {	// うきょ、は未定義リテラル
 			assert.equal(parser.parse("うきょ == null"), true);
 		});
 		it('Var31', ()=> {
@@ -634,7 +637,7 @@ PropParser.getValName: 0.016ms
 		});
 
 
-		it('Var35', ()=> {
+		it('Var35', ()=> {	// うきょ、は未定義リテラル
 			assert.equal(parser.parse("うきょ == 'null'"), false);
 		});
 		it('Var36', ()=> {
@@ -706,6 +709,15 @@ PropParser.getValName: 0.016ms
 		});
 		it('VarLogic10', ()=> {
 			assert.equal(parser.parse("undefined"), undefined);
+		});
+		it('VarLogic10_2', ()=> {	// JavaScriptでは undefined == null。==がポイント
+			assert.equal(parser.parse("undefined"), null);
+		});
+		it('VarLogic10_3', ()=> {
+			assert.equal(parser.parse("undefined == null"), true);
+		});
+		it('VarLogic10_4', ()=> {	// むきょー、は未定義リテラル
+			assert.equal(parser.parse("むきょー == null"), true);
 		});
 		it('VarLogic11', ()=> {
 			assert.equal(parser.parse("! undefined"), true);

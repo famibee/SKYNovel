@@ -36,8 +36,8 @@
 
 ; ページボタン表示。leftとtop内の式変更で表示位置変更
 [macro name="_sl.put_page_button"]
-	[button enabled=false cond="sys:_saveload.page == mp:page" layer="_syslay.mes" pic="&'MnuUp_Page'+ (mp:page+1)" left="&mp:page *100 +195" top=16]
-	[button cond="sys:_saveload.page != mp:page" layer="_syslay.mes" pic="&'MnuUp_btnPage'+ (mp:page+1)" left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
+	[button enabled=false cond="sys:_saveload.page == mp:page" layer="_syslay.mes" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16]
+	[button cond="sys:_saveload.page != mp:page" layer="_syslay.mes" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
 [endmacro]
 
 [macro name="_sl.put_common"]
@@ -123,7 +123,7 @@
 	[let name="sys:_saveload.page" text=0 cond="sys:_saveload.page == null"]
 	[let name="sys:_saveload.page" text="&page_max" cond="sys:_saveload.page > page_max"]
 	[lay layer="_syslay.bg" fn="_saveload" face=&Mnu_Title visible=false]
-		[zoom_tsy layer="_syslay.bg" time=400 visible=true]
+	&is_init = true
 	[lay layer="_syslay.mes" page=back visible=true float=true]
 	[let name="同画面遷移か" text=false]
 
@@ -138,9 +138,10 @@
 	[call label=*btn_save cond="しおりモード == 'Save'"]
 	[call label=*btn_load cond="しおりモード == 'Load'"]
 
-	[button layer="_syslay.mes" pic="Mnu_btnReturn" left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
+	[button layer="_syslay.mes" text="Return" left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
 
-		[wait_tsy layer="_syslay.bg" backlay=true canskip=false]
+	[zoom_tsy layer="_syslay.bg" time=400 visible=true cond=is_init]
+	&is_init = false
 
 	[trans layer="_syslay.mes" time=200 cond="同画面遷移か"]
 	[trans layer="_syslay.mes" time=0 cond="! 同画面遷移か"]
@@ -154,7 +155,7 @@
 	[event key=control label=*cancel]
 	[event key=end label=*cancel]
 	[event key=shift label=*cancel]
-	[gesture_event f2tap=*cancel f3tap=*cancel]
+;	[gesture_event f2tap=*cancel f3tap=*cancel]
 	[event key=page_up label=*left]
 	[event key=page_down label=*right]
 	[event key=downwheel label=*left]

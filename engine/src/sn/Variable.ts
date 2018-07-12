@@ -366,6 +366,7 @@ export class Variable implements IVariable {
 		if (s_val == 'true') return true;
 		if (s_val == 'false') return false;
 		if (s_val == 'null') return null;
+		if (s_val == 'undefined') return undefined;
 		if (this.REG_NUMERICLITERAL.test(s_val)) return parseFloat(s_val);
 
 		return val;

@@ -295,7 +295,7 @@ export class Main implements IMain {
 
 	private getValAmpersand = (val: string)=> (val.charAt(0) == '&')
 		? String(this.propParser.parse(val.substr(1)))
-		: trim(val);
+		: val;
 
 	destroy() {
 		if (! this.appPixi || ! this.appPixi.view) return;

@@ -57,9 +57,9 @@
 
 	[clear_lay layer="mes" page=back]
 		[button text='最初から' left=250 top=360 width=90 label=*start hint="最初の話から始める" enterse=&sysse_choice clickse=&sysse_ok2_long]
-		[button text='ロ ー ド' left=350 top=360 width=90 call=true label=*load hint="セーブ箇所から続ける" enterse=&sysse_choice clickse=&sysse_ok1]
+		[button text=' ロード ' left=350 top=360 width=90 call=true label=*load hint="セーブ箇所から続ける" enterse=&sysse_choice clickse=&sysse_ok1]
 		[button text='アルバム' left=550 top=360 width=90 call=true label=*album hint="アルバム鑑賞" enterse=&sysse_choice clickse=&sysse_ok1]
-		[button text='設 定' left=650 top=360 width=90 call=true label=*config hint="ゲーム設定" enterse=&sysse_choice clickse=&sysse_ok1 join=true]
+		[button text=' 設 定 ' left=650 top=360 width=90 call=true label=*config hint="ゲーム設定" enterse=&sysse_choice clickse=&sysse_ok1 join=true]
 
 	[trans layer=&dsp_lays time=0]
 	[wt]

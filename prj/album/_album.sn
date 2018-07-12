@@ -25,8 +25,8 @@
 
 ; ページボタン表示。leftとtop内の式変更で表示位置変更
 [macro name="_album.put_page_button"]
-	[button enabled=false layer="_syslay.mes" cond="page == mp:page" text="&'Page'+ (mp:page+1)" left="&mp:page *100 +195" top=16]
-	[button layer="_syslay.mes" cond="page != mp:page" text="&'Page'+ (mp:page+1)" left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
+	[button enabled=false layer="_syslay.mes" cond="page == mp:page" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16]
+	[button layer="_syslay.mes" cond="page != mp:page" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
 [endmacro]
 
 [macro name="_album.put_grp"]
@@ -150,7 +150,7 @@
 	[wt]
 	[let name="同画面遷移か" text=true]
 
-	[zoom_tsy layer="_syslay.bg" time=400 visible=true no_wait=true cond=is_init]
+	[zoom_tsy layer="_syslay.bg" time=400 visible=true cond=is_init]
 	&is_init = false
 
 *no_chg_page
