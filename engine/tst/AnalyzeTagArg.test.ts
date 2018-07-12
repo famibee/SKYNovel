@@ -229,6 +229,13 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.hPrm['cond'].def, undefined);
 			assert.equal(alz.isKomeParam, true);
 		});
+		it('Arg50_bug0', ()=> {
+			assert.equal(alz.go('text=&-const.sn.config.window.width'), true);
+			assert.equal(isHashEmpty(alz.hPrm), false);
+			assert.equal(alz.hPrm['text'].val, "&-const.sn.config.window.width");
+			assert.equal(alz.hPrm['text'].def, undefined);
+			assert.equal(alz.isKomeParam, false);
+		});
 
 
 		it('Arg80', ()=> {

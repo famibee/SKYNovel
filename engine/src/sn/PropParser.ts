@@ -30,7 +30,7 @@ export class PropParser {
 		}
 
 		function PREFIX(operatorsParser: any, nextParser: any) {
-			const parser: any = P.lazy(() => {
+			const parser: any = P.lazy(()=> {
 				return P.seq(operatorsParser, parser).or(nextParser);
 			});
 			return parser;
@@ -55,8 +55,8 @@ export class PropParser {
 			return P.seqMap(
 				nextParser,
 				P.seq(operatorsParser, nextParser).many(),
-				(first, rest) => {
-					return rest.reduce((acc, ch) => {
+				(first, rest)=> {
+					return rest.reduce((acc, ch)=> {
 						return [ch[0], acc, ch[1]];
 					}, first);
 				}
@@ -70,31 +70,37 @@ export class PropParser {
 			).map(Number),
 			P.alt(
 				P.regex(/-?(0|[1-9][0-9]*)/)
-			).map(n => int(n))
+			).map(n=> int(n))
 		)
-		.map(str => ['!num!', str])
+		.map(str=> ['!num!', str])
 		.desc('number');
 
 		const NullLiteral = P.string('null')
 		.map(()=> ['!str!', null]);
 
 		const BooleanLiteral = P.regex(/(true|false)/)
-		.map(b => ['!bool!', b == 'true'])
+		.map(b=> ['!bool!', b == 'true'])
 		.desc('boolean');
 
 		const StringLiteral = P
 		.regex(/("|'|#).*?\1/)
-		.map(b => ['!str!', b.slice(1, -1)])
+		.map(b=> ['!str!', b.slice(1, -1)])
 		.desc('string');
 
 		const REG_BRACKETS = /\[[^\]]+\]/g;
 		const VarLiteral = P
-		.regex(/((tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(@str)?/)
-		.map(b => {
+		//.regex(/((tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(@str)?/)
+		.regex(/\-?((tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(@str)?/)
+		.map(b=> {
 			//console.log('   👺 VarLiteral:0 b:%O:', b);
-			const s = String(b).replace(REG_BRACKETS, ($0): string =>{
-				return '.'+ this.parse( $0.slice(1, -1) );
-			});
+			const s = String(b).replace(REG_BRACKETS, v=>
+				'.'+ this.parse(v.slice(1, -1))
+			);
+			if (s.charAt(0) == '-') {	// 変数頭に「-」
+				const val = this.val.getVal(s.slice(1));
+				if (val == null || String(val) == 'null') throw Error('(PropParser)数値以外に-符号がついています');
+				return ['!num!', -Number(val)];
+			}
 			const val = this.val.getVal(s);
 			//console.log('      👹 s:%O: val:%O:', s, val);
 			if (val == null) return ['!str!', val];		// undefined も
@@ -106,7 +112,7 @@ export class PropParser {
 		})
 		.desc('string');
 
-		const Basic = P.lazy(() => P
+		const Basic = P.lazy(()=> P
 			.string('(').then(this.parser).skip(P.string(')'))
 			.or(Num)
 			.or(NullLiteral)
@@ -140,13 +146,13 @@ export class PropParser {
 		];
 
 		const tableParser = table.reduce(
-			(acc, level) => level.type(level.ops, acc),
+			(acc, level)=> level.type(level.ops, acc),
 			Basic
 		);
 		this.parser = tableParser.trim(P.optWhitespace);
 	}
 
-	parse: IParse =s => {
+	parse: IParse =s=> {
 		//console.log("🌱 Parsimmon'%s'", s);
 		const p = this.parser.parse(s);
 		if (! p.status) throw Error('(PropParser)文法エラー【'+ s +'】');
@@ -165,33 +171,33 @@ export class PropParser {
 		return (fnc) ?fnc(a) :Object(null);
 	}
 	private hFnc: IHFncCalc = {
-		'!num!': a => a.shift(),
-		'!str!': a => this.procEmbedVar(a.shift()),
-		'!bool!':a => a.shift(),
+		'!num!': a=> a.shift(),
+		'!str!': a=> this.procEmbedVar(a.shift()),
+		'!bool!':a=> a.shift(),
 
 		// 論理 NOT
-		'!':	a => {
+		'!':	a=> {
 			const b = a.shift();
 			return (b[0] == '!bool!')
 				? ! Boolean( b[1] )
 				: ! (String(this.calc(b)) == 'true');
 		},
 		// チルダ演算子（ビット反転）
-		'~':	a => ~ Number(this.calc(a.shift())),
+		'~':	a=> ~ Number(this.calc(a.shift())),
 
 		// 乗算、除算、剰余
-		'**':	a => Number(this.calc(a.shift())) **
+		'**':	a=> Number(this.calc(a.shift())) **
 					Number(this.calc(a.shift())),
-		'*':	a => Number(this.calc(a.shift())) *
+		'*':	a=> Number(this.calc(a.shift())) *
 					Number(this.calc(a.shift())),
-		'/':	a => Number(this.calc(a.shift())) /
+		'/':	a=> Number(this.calc(a.shift())) /
 					Number(this.calc(a.shift())),
-		'¥':	a => Math.floor( this.hFnc['/'](a) ),
-		'%':	a => Number(this.calc(a.shift())) %
+		'¥':	a=> Math.floor( this.hFnc['/'](a) ),
+		'%':	a=> Number(this.calc(a.shift())) %
 					Number(this.calc(a.shift())),
 
 		// 加算、減算、文字列の連結
-		'+':	a => {
+		'+':	a=> {
 			const b = this.calc(a.shift());
 			const c = this.calc(a.shift());
 			if (Object.prototype.toString.call(b) == '[object String]'
@@ -200,42 +206,42 @@ export class PropParser {
 			}
 			return Number(b) + Number(c);
 		},
-		'-':	a => Number(this.calc(a.shift())) -
+		'-':	a=> Number(this.calc(a.shift())) -
 					Number(this.calc(a.shift())),
 
 		// 関数
-		'int':		a => int(this.fncSub_ChkNum(a.shift())),
-		'parseInt':	a => int(this.hFnc['Number'](a)),
-		'Number':	a => {
+		'int':		a=> int(this.fncSub_ChkNum(a.shift())),
+		'parseInt':	a=> int(this.hFnc['Number'](a)),
+		'Number':	a=> {
 			const b = this.calc(a.shift());
 			if (Object.prototype.toString.call(b) != '[object String]') return Number(b);
 
 			return this.fncSub_ChkNum(this.parser.parse(String(b)).value);
 		},
-		'ceil':		a => Math.ceil( this.fncSub_ChkNum(a.shift()) ),
-		'floor':	a => Math.floor( this.fncSub_ChkNum(a.shift()) ),
-		'round':	a => Math.round( this.fncSub_ChkNum(a.shift()) ),
+		'ceil':		a=> Math.ceil( this.fncSub_ChkNum(a.shift()) ),
+		'floor':	a=> Math.floor( this.fncSub_ChkNum(a.shift()) ),
+		'round':	a=> Math.round( this.fncSub_ChkNum(a.shift()) ),
 
 		// ビットシフト
-		'<<':	a => Number(this.calc(a.shift())) <<
+		'<<':	a=> Number(this.calc(a.shift())) <<
 					Number(this.calc(a.shift())),
-		'>>':	a => Number(this.calc(a.shift())) >>
+		'>>':	a=> Number(this.calc(a.shift())) >>
 					Number(this.calc(a.shift())),
-		'>>>':	a => Number(this.calc(a.shift())) >>>
+		'>>>':	a=> Number(this.calc(a.shift())) >>>
 					Number(this.calc(a.shift())),
 
 		// 等値、非等値、厳密等価、厳密非等価
-		'<':	a => Number(this.calc(a.shift())) <
+		'<':	a=> Number(this.calc(a.shift())) <
 					Number(this.calc(a.shift())),
-		'<=':	a => Number(this.calc(a.shift())) <=
+		'<=':	a=> Number(this.calc(a.shift())) <=
 					Number(this.calc(a.shift())),
-		'>':	a => Number(this.calc(a.shift())) >
+		'>':	a=> Number(this.calc(a.shift())) >
 					Number(this.calc(a.shift())),
-		'>=':	a => Number(this.calc(a.shift())) >=
+		'>=':	a=> Number(this.calc(a.shift())) >=
 					Number(this.calc(a.shift())),
 
 		// 小なり、以下、大なり、以上
-		'==':	a => {
+		'==':	a=> {
 			const b = this.calc(a.shift());
 			const c = this.calc(a.shift());
 			if ((b == null) && (c == null) && (!b || !c)) return (b == c);
@@ -244,8 +250,8 @@ export class PropParser {
 				// ここでは undefined == null でよい。（===では区別する）
 			return String(b) == String(c);
 		},
-		'!=':	a => ! this.hFnc['=='](a),
-		'===':	a => {
+		'!=':	a=> ! this.hFnc['=='](a),
+		'===':	a=> {
 			const b = this.calc(a.shift());
 			const c = this.calc(a.shift());
 			if (Object.prototype.toString.call(b) !=
@@ -253,24 +259,24 @@ export class PropParser {
 
 			return String(b) == String(c);
 		},
-		'!==':	a => ! this.hFnc['==='](a),
+		'!==':	a=> ! this.hFnc['==='](a),
 
 		// ビット演算子
-		'&':	a => Number(this.calc(a.shift())) &
+		'&':	a=> Number(this.calc(a.shift())) &
 					Number(this.calc(a.shift())),
-		'^':	a => Number(this.calc(a.shift())) ^
+		'^':	a=> Number(this.calc(a.shift())) ^
 					Number(this.calc(a.shift())),
-		'|':	a => Number(this.calc(a.shift())) |
+		'|':	a=> Number(this.calc(a.shift())) |
 					Number(this.calc(a.shift())),
 
 		// 論理 AND,OR
-		'&&':	a => (String(this.calc(a.shift())) == 'true') &&
+		'&&':	a=> (String(this.calc(a.shift())) == 'true') &&
 					(String(this.calc(a.shift())) == 'true'),
-		'||':	a => (String(this.calc(a.shift())) == 'true') ||
+		'||':	a=> (String(this.calc(a.shift())) == 'true') ||
 					(String(this.calc(a.shift())) == 'true'),
 
 		// 条件
-		'?':	a => {
+		'?':	a=> {
 			const b = a.shift();
 			let cond = false;
 			if (b[0] == '!bool!') {
@@ -301,7 +307,7 @@ export class PropParser {
 	private procEmbedVar(b: object): object {
 		if (b == null) return b;	// undefined も
 
-		return Object( String(b).replace(this.REG_EMBEDVAR, ($0): string =>{
+		return Object( String(b).replace(this.REG_EMBEDVAR, ($0): string=>{
 			return Object(($0.charAt(0) == '$')
 				? this.val.getVal($0.slice(1))
 				: this.parse($0.slice(2, -1)));

@@ -137,8 +137,8 @@
 *no_redraw_grp
 		[for_call name=y from=0 to="&const._al.th_縦に並べる数-1" label=*page_n_btn_row fn=_album]
 	[lay layer=&_buf_other left=&buf_slide_x top=0 visible=true]
-		[tsy layer="&'_syslay.'+ buf_num" time=400 x=&-buf_slide_x ease=Cubic.easeOut cond="同画面遷移か"]
-		[tsy layer=&_buf_other time=400 x=0 y=0 ease=Cubic.easeOut cond="同画面遷移か"]
+		[tsy layer="&'_syslay.'+ buf_num" time=400 x=&-buf_slide_x ease=Cubic.Out cond="同画面遷移か"]
+		[tsy layer=&_buf_other time=400 x=0 y=0 ease=Cubic.Out cond="同画面遷移か"]
 		[wait_tsy layer="_syslay.0" backlay=true canskip=false]
 		[wait_tsy layer="_syslay.1" backlay=true canskip=false]
 	[lay layer="&'_syslay.'+ buf_num" visible=false]

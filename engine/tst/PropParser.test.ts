@@ -180,6 +180,53 @@ PropParser.getValName: 0.016ms
 				// 00111111111111111111111111111101 -- -3
 		});
 
+		it('Num20', ()=> {	// 2018/07/12
+			assert.equal(parser.parse("-2"), "-2");
+		});
+		it('Num21', ()=> {
+			try {	// まぁ文法エラーかなと
+				assert.equal(parser.parse("--2"), "2");
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)文法エラー【--2】');
+			}
+		});
+		it('Num22', ()=> {
+			try {	// まぁ文法エラーかなと
+				assert.equal(parser.parse("+2"), "+2");
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)文法エラー【+2】');
+			}
+		});
+		it('Num25', ()=> {
+			assert.equal(parser.parse("-2.3"), "-2.3");
+		});
+		it('Num26', ()=> {
+			try {	// まぁ文法エラーかなと
+				assert.equal(parser.parse("--2.3"), "2.3");
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)文法エラー【--2.3】');
+			}
+		});
+		it('Num27', ()=> {
+			try {	// まぁ文法エラーかなと
+				assert.equal(parser.parse("+2.3"), "+2.3");
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)文法エラー【+2.3】');
+			}
+		});
+
 		// 未使用 -> SKYNovelからサポート
 		it('Num_int0', ()=> {
 			assert.equal(parser.parse("int(10)"), "10");
@@ -479,8 +526,11 @@ PropParser.getValName: 0.016ms
 			it('Str7_3', ()=> {
 				assert.equal(parser.parse("74 + 'にほへ'"), "74にほへ");
 			});
-		it('Str8', ()=> {
+		it('Str8', ()=> {	// 2018/07/12
 			assert.equal(parser.parse("'05'"), "05");
+		});
+		it('Str9', ()=> {	// 2018/07/12
+			assert.equal(parser.parse("' 05　'"), " 05　");
 		});
 
 	// 変数
@@ -745,6 +795,79 @@ PropParser.getValName: 0.016ms
 		});
 		it('EmbedPerl8', ()=> {
 			assert.equal(parser.parse("tmp:zero_n + tmp:one_n"), "1");
+		});
+
+		it('EmbedPerl10', ()=> {	// 2018/07/12 加減算ではなく＋−の正号・負号
+			assert.equal(parser.parse("-hD.数値"), -1.20);
+		});
+		it('EmbedPerl11', ()=> {
+			try {	// まぁ文法エラーかなと
+				assert.equal(parser.parse("+hD.数値"), 1.20);
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)文法エラー【+hD.数値】');
+			}
+		});
+		it('EmbedPerl12', ()=> {
+			assert.equal(parser.parse("0-hD.数値"), -1.20);
+		});
+		it('EmbedPerl13', ()=> {
+			assert.equal(parser.parse("0+hD.数値"), 1.20);
+		});
+		it('EmbedPerl14', ()=> {
+			try {	// むきょー、は未定義リテラル
+				assert.equal(parser.parse("-むきょー"), 0);
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)数値以外に-符号がついています');
+			}
+		});
+		it('EmbedPerl15', ()=> {
+			try {	// まぁ文法エラーかなと
+				assert.equal(parser.parse("-tmp:null_n"), null);
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)数値以外に-符号がついています');
+			}
+		});
+		it('EmbedPerl16', ()=> {
+			try {
+				assert.equal(parser.parse("-tmp:null_s"), NaN);
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)数値以外に-符号がついています');
+			}
+		});
+		it('EmbedPerl17', ()=> {
+			assert.equal(parser.parse("!tmp:null_n"), true);
+		});
+		it('EmbedPerl18', ()=> {
+			try {
+				assert.equal(parser.parse("-false"), -1.20);
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)数値以外に-符号がついています');
+			}
+		});
+		it('EmbedPerl19', ()=> {
+			try {
+				assert.equal(parser.parse("-true"), -1.20);
+				assert.equal('fail', '起こるべき例外が起こっていない');
+			}
+			catch (e) {
+				assert.equal(e.message,
+					'(PropParser)数値以外に-符号がついています');
+			}
 		});
 
 		it('EmbedPer20', ()=> {
