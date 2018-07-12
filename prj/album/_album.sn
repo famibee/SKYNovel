@@ -175,10 +175,10 @@
 
 ;*********************************************************
 *swipe
-	[jump label=*left cond="const.sn.eventArg == 'l'"]
-	[jump label=*right cond="const.sn.eventArg == 'r'"]
-	[jump label=*last cond="const.sn.eventArg == 'u'"]
-	[jump label=*top cond="const.sn.eventArg == 'd'"]
+	[jump label=*left cond="sn.eventArg == 'l'"]
+	[jump label=*right cond="sn.eventArg == 'r'"]
+	[jump label=*last cond="sn.eventArg == 'u'"]
+	[jump label=*top cond="sn.eventArg == 'd'"]
 [jump label=*chg_page]
 
 *last
@@ -208,7 +208,8 @@
 ;*********************************************************
 *page
 	[let name="old_page" text=&page]
-	[let name="page" text=&const.sn.eventArg]
+	[let name="page" text=&sn.eventArg]
+[trace text=&page]
 	[jump label=*left_sub cond="old_page < page"]
 	[jump label=*right_sub]
 
@@ -247,7 +248,7 @@
 *view
 	[enable_event layer="_syslay.mes" enabled=false]
 	[se fn=&sysse_ok1 buf=SYS]
-	[lay layer="_syslay.2" fn=&const.sn.eventArg visible=false]
+	[lay layer="_syslay.2" fn=&sn.eventArg visible=false]
 		[zoom_tsy layer="_syslay.2" visible=true float=true time=500]
 		[wait_tsy layer="_syslay.2" arrive=true canskip=false]
 
@@ -270,8 +271,8 @@
 *bgm
 	[se fn=&sysse_ok1 buf=SYS]
 
-	[bgm fn="&const.sn.eventArg" time=1000]
-	[let name="bgm_fn" text="&const.sn.eventArg"]
+	[bgm fn="&sn.eventArg" time=1000]
+	[let name="bgm_fn" text="&sn.eventArg"]
 
 	[set_focus to=null]
 	[jump label=*no_chg_page]
@@ -286,7 +287,7 @@
 	[lay layer="_syslay.2" fn=black visible=false]
 		[zoom_tsy layer="_syslay.2" visible=true float=true time=500]
 		[wait_tsy layer="_syslay.2" arrive=true canskip=false]
-	[lay layer=mov fn="&const.sn.eventArg" visible=true float=true]
+	[lay layer=mov fn="&sn.eventArg" visible=true float=true]
 
 	[event key=rightclick label=*mov_exit]
 	[event key=command label=*mov_exit]

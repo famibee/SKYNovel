@@ -54,15 +54,15 @@
 
 ;*********************************************************
 *scroll
-	[jump label=*cancel_2 cond="logpage.isEnd && (const.an.eventArg > 0) && (const.an.eventArg !=999)"]
-	[history_scroll move=&const.an.eventArg][return]
+	[jump label=*cancel_2 cond="logpage.isEnd && (sn.eventArg > 0) && (sn.eventArg !=999)"]
+	[history_scroll move=&sn.eventArg][return]
 
 *swipe
 	[se fn="PageD_16" buf=SYS]
-	[history_scroll move=1 cond="const.an.eventArg == 'u'"]
-	[history_scroll move=-1 cond="const.an.eventArg == 'd'"]
-	[history_scroll move=-1 cond="const.an.eventArg == 'l'"]
-	[history_scroll move=1 cond="const.an.eventArg == 'r'"]
+	[history_scroll move=1 cond="sn.eventArg == 'u'"]
+	[history_scroll move=-1 cond="sn.eventArg == 'd'"]
+	[history_scroll move=-1 cond="sn.eventArg == 'l'"]
+	[history_scroll move=1 cond="sn.eventArg == 'r'"]
 [jump label=*retry]
 
 ;*********************************************************

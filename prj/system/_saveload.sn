@@ -171,10 +171,10 @@
 
 ;*********************************************************
 *swipe
-	[jump label=*left cond="const.an.eventArg == 'l'"]
-	[jump label=*right cond="const.an.eventArg == 'r'"]
-	[jump label=*last cond="const.an.eventArg == 'u'"]
-	[jump label=*top cond="const.an.eventArg == 'd'"]
+	[jump label=*left cond="sn.eventArg == 'l'"]
+	[jump label=*right cond="sn.eventArg == 'r'"]
+	[jump label=*last cond="sn.eventArg == 'u'"]
+	[jump label=*top cond="sn.eventArg == 'd'"]
 [jump label=*chg_page]
 
 *last
@@ -199,7 +199,7 @@
 
 ;*********************************************************
 *page
-	[let name="sys:_saveload.page" text=&const.an.eventArg]
+	[let name="sys:_saveload.page" text=&sn.eventArg]
 	[jump label=*chg_page]
 
 ;*********************************************************
@@ -234,7 +234,7 @@
 
 ;*********************************************************
 *save
-	[let name="_sl.place" text="&const.an.eventArg"]
+	[let name="_sl.place" text="&sn.eventArg"]
 	[let name="exsits" text="&sys:const.an.bookmark[_sl.place] != null"]
 	[se fn=&sysse_ok1 buf=SYS]
 	[jump label=*ask_end_save cond="! exsits"]
@@ -288,7 +288,7 @@
 
 ;*********************************************************
 *load
-	[let name="_sl.place" text="&const.an.eventArg"]
+	[let name="_sl.place" text="&sn.eventArg"]
 	[jump label=*ask_end_load cond="呼び元 == 'Title'"]
 	[se fn=&sysse_ok1 buf=SYS]
 
