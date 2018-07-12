@@ -27,44 +27,37 @@ export class Button extends Container {
 				dropShadowBlur: 3,
 				dropShadowDistance: 0,
 			};
-			if (hArg.style) {
-				const cln = document.createElement('span');
-				cln.style.cssText = hArg.style;
-				const len = cln.style.length;
-				for (let i=0; i<len; ++i) {
-					const key = cln.style[i];
-					style[key] = cln.style[key];
-				}
-			}
+			if (hArg.style) Button.s2hStyle(style, hArg.style);
 			const txt = new Text(hArg.text, style);
 			txt.x = uint(hArg.left || 0);
 			txt.y = uint(hArg.top || 0);
 			txt.width = uint(hArg.width || 100);
 			txt.height = fontSize;
 			this.addChild(txt);
+			if (! enabled) return;
 
-			const fill_normal = style.fill;
-			const normal = ()=> {
-				txt.style.fill = fill_normal;
-				txt.style.dropShadow = true;
-			};
-			const fill_hover = hArg.fill_hover || 'white';
+			const normal = ()=> {for (const k in style) txt.style[k] = style[k]};
+
+			const style_hover = {...style};
+			if (hArg.style_hover) Button.s2hStyle(style_hover, hArg.style_hover);
+			else style_hover.fill = 'white';
 			const hover = ()=> {
-				txt.style.fill = fill_hover;
-				txt.style.dropShadow = true;
+				for (const k in style_hover) txt.style[k] = style_hover[k]
 			};
+
+			const style_clicked = {...style_hover};
+			if (hArg.style_clicked) Button.s2hStyle(style_clicked, hArg.style_clicked);
+			else style_clicked.dropShadow = false;
 			const clicked = (e: Event)=> {
-				txt.style.dropShadow = false;
+				for (const k in style_clicked) txt.style[k] = style_clicked[k]
 			};
-			if (enabled) {
-				txt.on('pointerover', hover);
-				txt.on('pointerout', normal);
-				txt.on('pointerdown', clicked);
-				txt.on('pointerup', hover);
-				this.makeRsv = ()=> evtMng.button(hArg, this);
-				this.makeRsv();
-				txt.interactive = true;
-			}
+			txt.on('pointerover', hover);
+			txt.on('pointerout', normal);
+			txt.on('pointerdown', clicked);
+			txt.on('pointerup', hover);
+			this.makeRsv = ()=> evtMng.button(hArg, this);
+			this.makeRsv();
+			txt.interactive = true;
 			return;
 		}
 
@@ -103,5 +96,14 @@ export class Button extends Container {
 
 //	arg	n		String	指定した場合、クリック時ジャンプ先で「&sn.eventArg」にて値を受け取れる
 
+	private	static	cln	= document.createElement('span');
+	private	static	s2hStyle(hStyle: {}, style: string) {
+		Button.cln.style.cssText = style;
+		const len = Button.cln.style.length;
+		for (let i=0; i<len; ++i) {
+			const key = Button.cln.style[i];
+			hStyle[key] = Button.cln.style[key];
+		}
+	}
 
 }

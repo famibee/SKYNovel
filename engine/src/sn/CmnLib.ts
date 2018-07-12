@@ -54,7 +54,9 @@ export interface HArg {
 	blendmode?	: string;
 	clear_local_event?	: string;
 
-	style?		: string;
+	style?			: string;
+	style_hover?	: string;
+	style_clicked?	: string;
 	fill_hover?	: string;
 	b_color?	: string;
 	b_alpha?	: string;

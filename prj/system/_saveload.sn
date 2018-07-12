@@ -37,7 +37,7 @@
 ; ページボタン表示。leftとtop内の式変更で表示位置変更
 [macro name="_sl.put_page_button"]
 	[button enabled=false cond="sys:_saveload.page == mp:page" layer="_syslay.mes" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16]
-	[button cond="sys:_saveload.page != mp:page" layer="_syslay.mes" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
+	[button cond="sys:_saveload.page != mp:page" layer="_syslay.mes" text="&' Page'+ (mp:page+1) +' '" style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
 [endmacro]
 
 [macro name="_sl.put_common"]
@@ -138,7 +138,7 @@
 	[call label=*btn_save cond="しおりモード == 'Save'"]
 	[call label=*btn_load cond="しおりモード == 'Load'"]
 
-	[button layer="_syslay.mes" text="Return" left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
+	[button layer="_syslay.mes" text=" Return " style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
 
 	[zoom_tsy layer="_syslay.bg" time=400 visible=true cond=is_init]
 	&is_init = false

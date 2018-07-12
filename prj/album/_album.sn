@@ -26,7 +26,7 @@
 ; ページボタン表示。leftとtop内の式変更で表示位置変更
 [macro name="_album.put_page_button"]
 	[button enabled=false layer="_syslay.mes" cond="page == mp:page" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16]
-	[button layer="_syslay.mes" cond="page != mp:page" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
+	[button layer="_syslay.mes" cond="page != mp:page" text="&' Page'+ (mp:page+1) +' '" style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
 [endmacro]
 
 [macro name="_album.put_grp"]
@@ -145,7 +145,7 @@
 	
 	[let name="buf_num" text="&1 -buf_num"]
 
-	[button layer="_syslay.mes" text="Return" left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
+	[button layer="_syslay.mes" text=" Return " style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
 	[trans layer="_syslay.mes" time=0]
 	[wt]
 	[let name="同画面遷移か" text=true]
