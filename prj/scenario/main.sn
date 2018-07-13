@@ -21,9 +21,10 @@
 	[event global=true call=true key=right label=*set_focus arg=next]
 ;	[event global=true call=true key=v label=*repeat_voice]
 	[event global=true call=true key=p label=*snapshot]
-	[event global=true key=f5 label=*reload_script cond="const.flash.system.Capabilities.isDebugger"]
-	[event global=true call=true key=f7 label=*stats]
-	[event global=true call=true key=f8 label=*dump cond="const.flash.system.Capabilities.isDebugger"]
+	[event global=true key=F5 label=*reload_script cond="const.flash.system.Capabilities.isDebugger"]
+	[event global=true call=true key=F7 label=*stats]
+	[event global=true call=true key=F8 label=*dump]
+	;[event global=true call=true key=f8 label=*dump cond="const.flash.system.Capabilities.isDebugger"]
 ;	[update_check url="http://ugainovel.ddo.jp/UnderCherry/ver.xml" cond="! const.flash.system.Capabilities.isDebugger"]
 
 	[call fn="sub"]

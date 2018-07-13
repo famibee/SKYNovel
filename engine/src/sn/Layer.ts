@@ -69,13 +69,14 @@ export class Layer {
 		this.cnt.transform.worldTransform = fromLayer.cnt.worldTransform;
 		this.cnt.visible = fromLayer.cnt.visible;
 	};
-	makeRsv() {}
 
 //	recordAMF(out: IDataOutput): void;
 //	playbackAMF(inp: IDataInput, ldMng: LoadMng): void;
 
 	dump(): string {
-		return ' idx:'+ this.cnt.parent.getChildIndex(this.cnt) +' v:'+ this.cnt.visible +' l:'+ this.cnt.x +' t:'+ this.cnt.y +' a:'+ this.cnt.alpha +' r:'+ this.cnt.rotation;
+		return ` idx:${this.cnt.parent.getChildIndex(this.cnt)} v:${this.cnt.visible
+		} l:${this.cnt.x} t:${this.cnt.y} a:${this.cnt.alpha} r:${this.cnt.rotation
+		} name:\``+ this.name +'\`';
 	};
 
 	static argChk_BlendmodeAndSet(hash: object, $do: DisplayObject):void {

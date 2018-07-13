@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { Container, Sprite, Text } from "pixi.js";
+import { Container, Text } from "pixi.js";
 import { HArg, uint, IEvtMng, CmnLib } from "./CmnLib";
 import {GrpLayer} from "./GrpLayer";
 
@@ -14,6 +14,10 @@ export class Button extends Container {
 		super();
 
 		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);
+		if (enabled) {
+			this.makeRsv = ()=> evtMng.button(hArg, this);
+			this.makeRsv();
+		}
 		if (hArg.text) {
 			const fontSize = uint(hArg.height || 30);
 			const style = {
@@ -48,16 +52,13 @@ export class Button extends Container {
 			const style_clicked = {...style_hover};
 			if (hArg.style_clicked) Button.s2hStyle(style_clicked, hArg.style_clicked);
 			else style_clicked.dropShadow = false;
-			const clicked = (e: Event)=> {
+			const clicked = ()=> {
 				for (const k in style_clicked) txt.style[k] = style_clicked[k]
 			};
-			txt.on('pointerover', hover);
-			txt.on('pointerout', normal);
-			txt.on('pointerdown', clicked);
-			txt.on('pointerup', hover);
-			this.makeRsv = ()=> evtMng.button(hArg, this);
-			this.makeRsv();
-			txt.interactive = true;
+			this.on('pointerover', hover);
+			this.on('pointerout', normal);
+			this.on('pointerdown', clicked);
+			this.on('pointerup', hover);
 			return;
 		}
 
@@ -67,11 +68,6 @@ export class Button extends Container {
 			sp=> {
 				sp.x = uint(hArg.left || 0);
 				sp.y = uint(hArg.top || 0);
-				if (enabled) {
-					this.makeRsv = ()=> evtMng.button(hArg, this);
-					this.makeRsv();
-					sp.interactive = true;
-				}
 			}
 		)
 		else throw 'textまたはpic属性は必須です';
