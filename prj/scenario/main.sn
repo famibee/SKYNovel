@@ -64,11 +64,7 @@
 
 	[trans layer=&dsp_lays time=0]
 	[wt]
-;[event key=wheel.y<0 label=*tst global=true call=true]
-[l]
-
-*tst
-[return]
+[s]
 
 ;********************************************************
 *start
