@@ -5,22 +5,16 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { interaction, BaseTexture } from "pixi.js";
+import { BaseTexture, utils } from "pixi.js";
 
-type  IEmitter =
-interaction.InteractionManager
-	| BaseTexture
+type  IEmitter = BaseTexture
+	| utils.EventEmitter
 	| Window | Document | Element;
 
 export class EventListenerCtn {	// リソースリーク対策
 	private vctEvt	= [];
 
 	add(ed: IEmitter, type: string, fnc: (e: any)=> void, useCapture = false): void {
-		if (ed instanceof interaction.InteractionManager) {
-			ed.on(type, fnc, useCapture);
-			this.vctEvt.push(()=> ed.off(type, fnc, useCapture));
-			return;
-		}
 		if (ed instanceof BaseTexture) {
 			switch (type) {
 			case 'loaded':
@@ -31,6 +25,11 @@ export class EventListenerCtn {	// リソースリーク対策
 				this.vctEvt.push(()=> ed.off(type, fnc, useCapture));
 				break;
 			}
+			return;
+		}
+		if (ed instanceof utils.EventEmitter) {
+			ed.on(type, fnc, useCapture);
+			this.vctEvt.push(()=> ed.off(type, fnc, useCapture));
 			return;
 		}
 		ed.addEventListener(type, fnc, useCapture);

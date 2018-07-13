@@ -35,11 +35,9 @@ export class GrpLayer extends Layer {
 
 	static	main		: IMain | null		= null;
 	static	cfg			: Config | null		= null;
-	static	waitCustomEvent		= ()=> {};
 	static	init(main: IMain, cfg: Config): void {
 		GrpLayer.main = main;
 		GrpLayer.cfg = cfg;
-		//GrpLayer.waitCustomEvent = $waitCustomEvent;
 	}
 	static	destroy() {
 		GrpLayer.elc.clear();
@@ -47,7 +45,6 @@ export class GrpLayer extends Layer {
 		GrpLayer.hFace	= {};
 		GrpLayer.main	= null;
 		GrpLayer.cfg	= null;
-		GrpLayer.waitCustomEvent	= ()=> {};
 		GrpLayer.hFn2ResAniSpr	= {};
 		if (GrpLayer.ldr) GrpLayer.ldr.destroy();
 		GrpLayer.ldr = null;

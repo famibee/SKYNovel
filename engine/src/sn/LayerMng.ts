@@ -18,6 +18,7 @@ import {SysBase} from './SysBase';
 import TWEEN = require('@tweenjs/tween.js');
 import { Layer } from './Layer';
 import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject } from 'pixi.js';
+import { EventListenerCtn } from './EventListenerCtn';
 
 interface ITwInf {
 	tw			: TWEEN.Tween;
@@ -516,11 +517,10 @@ void main(void) {
 		const closeTrans = ()=> {
 			this.appPixi.ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
-			this.evtMng.popLocalEvts();	// [wt]したのにキャンセルされなかった場合向け
+			this.elcTrans.clear();
 			[this.fore, this.back] = [this.back, this.fore];
 			for (const lay_name in this.hPages) {
 				const pg = this.hPages[lay_name];
-				pg.back.makeRsv();
 				if (hTarget[lay_name]) {pg.transPage(); continue;}
 
 				// transしないために交換する
@@ -617,18 +617,15 @@ void main(void) {
 		if (! this.twInfTrans.tw) return false;
 
 		this.twInfTrans.resume = true;
-		this.evtMng.stdWait(
-			()=> this.finish_trans(),
-			CmnLib.argChk_Boolean(hArg, 'canskip', true)
-		);
+		this.evtMng.waitCustomEvent(hArg, this.elcTrans, this.finish_trans);
 		return true;
 	}
+	private	elcTrans	= new EventListenerCtn;
 
 	// レイヤのトランジションの停止
 	private finish_trans() {
 		if (this.twInfTrans.tw) this.twInfTrans.tw.stop().end();
 			// stop()とend()は別
-
 		return false;
 	}
 

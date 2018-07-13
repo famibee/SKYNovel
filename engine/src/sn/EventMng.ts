@@ -186,30 +186,24 @@ export class EventMng implements IEvtMng {
 			const ke = this.hGlobalEvt2Fnc[key]
 					|| this.hLocalEvt2Fnc[key];
 			if (! ke) return;
-			e.preventDefault();
+			if ('preventDefault' in e) e.preventDefault();
 
 			e.stopPropagation();	// onLocal()に合わせる
 			if (this.layMng.clickTxtLay()) return;
 
 			ke(e);
-
-			this.popLocalEvts();	// onLocal()に合わせる
 		}
 
 	private aLocalEvts	: ILocalEvts[] = [];
 	private	onLocal(prm: ILocalEvts) {
-		//console.log('onLocal');
 		if (prm.em instanceof DisplayObject) prm.em.interactive = true;
-		const fnc2 = (e2: interaction.InteractionEvent)=> {
-			//console.log('onLocal ev!');
-			e2.stopPropagation();
+		const fnc = (e: interaction.InteractionEvent)=> {
+			e.stopPropagation();
 			if (this.layMng.clickTxtLay()) return;
 
-			//console.log('onLocal do! '+ Boolean(prm.fnc));
-			if (prm.fnc) prm.fnc(e2);
-			this.popLocalEvts();
+			if (prm.fnc) prm.fnc(e);
 		};
-		prm.em.on(prm.type, fnc2);
+		prm.em.on(prm.type, fnc);
 		this.aLocalEvts.push(prm);
 	}
 	popLocalEvts(): ILocalEvts[] {
@@ -217,17 +211,12 @@ export class EventMng implements IEvtMng {
 			le.em.removeAllListeners();
 			if (le.em instanceof DisplayObject) le.em.interactive = false;
 		}
+		const ret = this.aLocalEvts;
 		this.aLocalEvts = [];
 		this.hLocalEvt2Fnc = {};
-		return this.aLocalEvts;
+		return ret;
 	}
 	pushLocalEvts(a: ILocalEvts[]) {for (const le of a) this.onLocal(le)}
-
-	private aGlobalEvt	: DisplayObject[] = [];
-	private	on(em: DisplayObject) {
-		em.interactive = true;
-		this.aGlobalEvt.push(em);
-	}
 
 	// stdWait()したらreturn true;
 	stdWait(fnc: (e: interaction.InteractionEvent)=> void, stdEvt = true) {
@@ -257,34 +246,80 @@ export class EventMng implements IEvtMng {
 		//this.hHook_waiting();
 	}
 
+	private aGlobalEvt	: DisplayObject[] = [];
 	button(hArg: HArg, em: DisplayObject) {
-		const tap = e=> {
-			e.stopPropagation();	// global用
-			if (hArg.fn || hArg.label) this.main.resumeByJumpOrCall(hArg);
-		};
-
-		if (CmnLib.argChk_Boolean(hArg, 'global', false)) {
+		em.interactive = em.buttonMode = true;
+		const key = hArg.key;
+		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
+		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
+			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
+		const tap = e=> this.evt2Fnc(e, key);
+		if (glb) {
 			em.on('pointerdown', tap);
-			this.on(em);
+			this.aGlobalEvt.push(em);
 		}
 		else this.onLocal({em: em, type: this.enMDownTap, fnc: tap});
 
-//	href	n	何もしない	URL	クリック時にブラウザで指定URLを開く
-//	target	n	何もしない	HTML <a>タグのtarget属性	hrefにてブラウザを開く際のtarget属性
-
 //	hint	n		String	設定した場合のみ、マウスカーソルを載せるとヒントをチップス表示する
 
-//	clickse	n	省略時は無音	効果音ファイル名	指定すると、クリック時に効果音を再生する
-//	enterse	n	省略時は無音	効果音ファイル名	指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する
-//	leavese	n	省略時は無音	効果音ファイル名	指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する
-//	clicksebuf	n	SYS	サウンドバッファ名	クリック時効果音を再生するサウンドバッファを指定する
-//	entersebuf	n	SYS	サウンドバッファ名	クリック時効果音を再生するサウンドバッファを指定する
-//	leavesebuf	n	SYS	サウンドバッファ名	クリック時効果音を再生するサウンドバッファを指定する
-
-//	onenter	n	何もしない	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
-//	onleave	n	何もしない	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
-
+		if (hArg.clickse) em.on('pointerdown', ()=> {
+			//	clickse	効果音ファイル名	クリック時に効果音を再生
+			const o = {fn: hArg.clickse, join: false};
+			if (hArg.clicksebuf) o['buf'] = hArg.clicksebuf;
+			this.hTag.playse(o);
+		});
+		if (hArg.enterse) em.on('pointerover', ()=> {
+			//	enterse	効果音ファイル名	ボタン上にマウスカーソルが載った時に効果音を再生
+			const o = {fn: hArg.enterse, join: false};
+			if (hArg.entersebuf) o['buf'] = hArg.entersebuf;
+			this.hTag.playse(o);
+		});
+		if (hArg.leavese) em.on('pointerout', ()=> {
+			//	leavese	効果音ファイル名	ボタン上からマウスカーソルが外れた時に効果音を再生
+			const o = {fn: hArg.leavese, join: false};
+			if (hArg.leavesebuf) o['buf'] = hArg.leavesebuf;
+			this.hTag.playse(o);
+		});
+		if ('onenter' in hArg) {
+			//	onenter	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
+//			em.on('pointerover', ()=> {});
+			//	this.main.resumeByJumpOrCall(hArg);		かな？
+		}
+		if ('onleave' in hArg) {
+			//	onleave	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
+//			em.on('pointerout', ()=> {});
+		}
 //	arg	n		String	指定した場合、クリック時ジャンプ先で「&sn.eventArg」にて値を受け取れる
+	}
+
+
+	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void) {
+		this.goTxt();
+		if (! CmnLib.argChk_Boolean(hArg, 'canskip', true)) return;
+
+		elc.add(window, 'pointerdown', (e: any) => {
+			e.stopPropagation();
+			fnc();
+		});
+		elc.add(window, 'keydown', (e: any) => {
+			//if (! e.isTrusted) return;
+			if (e['isComposing']) return; // サポートしてない環境でもいける書き方
+			/*	限定する？
+				this.hLocalEvt2Fnc['Enter'] = fncKey;
+				this.hLocalEvt2Fnc['ArrowDown'] = fncKey;
+			*/
+			e.stopPropagation();
+			fnc();
+		});
+		if (window['WheelEvent']) elc.add(this.appPixi.view, 'wheel', (e: any) => {
+			//if (! e.isTrusted) return;
+			if (e['isComposing'])
+				return; // サポートしてない環境でもいける書き方
+			if (e.deltaY <= 0)
+				return;
+			e.stopPropagation();
+			fnc();
+		});
 	}
 
 
@@ -293,16 +328,14 @@ export class EventMng implements IEvtMng {
 		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
 		const h = glb ?this.hGlobalEvt2Fnc :this.hLocalEvt2Fnc;
 		for (const nm in h) this.clear_eventer(nm, h[nm]);
-		if (glb) this.hGlobalEvt2Fnc = {}; else this.hLocalEvt2Fnc = {};
+		if (glb) this.hGlobalEvt2Fnc = {}; else this.popLocalEvts();
 
 		return false;
 	}
 		private clear_eventer(key: string, e2f: IEvt2Fnc) {
-			if (key.slice(0, 4) == 'dom=') {
-				for (const v of document.querySelectorAll(key.slice(4))) {
-					v.removeEventListener('click', e2f);
-				}
-				return;
+			if (key.slice(0, 4) != 'dom=') return;
+			for (const v of document.querySelectorAll(key.slice(4))) {
+				v.removeEventListener('click', e2f);
 			}
 		}
 
@@ -311,40 +344,33 @@ export class EventMng implements IEvtMng {
 	//	Key Values - Web APIs | MDN https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 	private event(hArg: HArg) {
 		const key = hArg.key;
-		if (! key) throw('[event] keyは必須です');
+		if (! key) throw('keyは必須です');
+
 		const call = CmnLib.argChk_Boolean(hArg, 'call', false);
-		const del = CmnLib.argChk_Boolean(hArg, 'del', false);
-		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
+		const h = CmnLib.argChk_Boolean(hArg, 'global', false)
+			? this.hGlobalEvt2Fnc
+			: this.hLocalEvt2Fnc;
+		if (CmnLib.argChk_Boolean(hArg, 'del', false)) {
+			if (hArg.fn || hArg.label || call) throw 'fn/label/callとdelは同時指定できません';
 
-		if (del) {
-			if (hArg.fn || hArg.label || call) throw '[event] fn/label/callとdelは同時指定できません';
+			this.clear_eventer(key, h[key]);
 
-			this.clear_eventer(
-				key, glb ?this.hGlobalEvt2Fnc[key] :this.hLocalEvt2Fnc[key]
-			);
-
-			// その他キーボードイベント
-			if (glb) delete this.hGlobalEvt2Fnc[key];
-				else delete this.hLocalEvt2Fnc[key];
+			// その他・キーボードイベント
+			delete h[key];
 			return false;
 		}
-
-		if (! (hArg.fn || hArg.label)) throw '[event] fnまたはlabelは必須です';
 
 		// domイベント
 		if (key.slice(0, 4) == 'dom=') {
 			const elmlist = document.querySelectorAll(key.slice(4));
 			if (elmlist.length == 0 && CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw 'セレクタに対応する要素が見つかりません';
 
-			for (const elm of elmlist) this.elc.add(elm, 'click', e=>
-				this.evt2Fnc(e, key)
-			);
+			for (const elm of elmlist) this.elc.add(elm, 'click', e=> this.evt2Fnc(e, key));
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
 		}
 
-		// その他キーボードイベント
-		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
+		// その他・キーボードイベント
+		h[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 
 		return false;
 	}
@@ -473,11 +499,6 @@ export class EventMng implements IEvtMng {
 		this.stdWait(()=> twSleep.stop().end(), CmnLib.argChk_Boolean(hArg, 'canskip', true));	// stdWait()したらreturn true;
 		return true;
 	};
-
-/*
-	private evtEnabled	= true;
-	setEnabled(enabled: boolean): void {this.evtEnabled = enabled;}
-*/
 
 	cr = (len: number)=> this.scrItr.addLineNum(len);
 

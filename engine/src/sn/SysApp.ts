@@ -29,14 +29,6 @@ export class SysApp extends SysNode {
 	}
 
 	protected close = ()=> {this.win.close(); return false;}
-	protected navigate_to = (hArg: HArg)=> {
-		const url = hArg.url;
-		if (! url) throw '[title] urlは必須です';
-
-		shell.openExternal(url);
-
-		return false;
-	}
 	protected title = (hArg: HArg)=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';

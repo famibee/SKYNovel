@@ -1064,12 +1064,8 @@ export class TxtLayer extends Layer {
 	set enabled(v) {this.cntBtn.interactiveChildren = v;}
 
 	addButton(hArg: HArg): void {
+		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name;
 		this.cntBtn.addChild(new Button(hArg, TxtLayer.evtMng));
-	}
-	makeRsv() {
-		for (const btn of this.cntBtn.children) {
-			if (btn instanceof Button) btn.makeRsv();
-		}
 	}
 
 
@@ -1113,10 +1109,9 @@ export class TxtLayer extends Layer {
 	}
 
 	dump(): string {
-		//return super.dump +' enabled:'+ this.enabled +' btn:'+ this.button +'\n\t    '+ this.text;
 		return super.dump() +` enabled:${this.enabled}
-		style:${this.htmTxt.style.cssText}
-		txt:${this.htmTxt.textContent}:`;
+		style:\`${this.htmTxt.style.cssText}\`
+		txt:\`${this.htmTxt.textContent}\``;
 	};
 
 	// 文字ごとのウェイト

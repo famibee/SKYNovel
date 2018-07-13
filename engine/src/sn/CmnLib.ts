@@ -165,6 +165,8 @@ export interface IPutCh {
 
 
 // =============== EventMng
+import { utils, interaction, DisplayObject } from 'pixi.js';
+import { EventListenerCtn } from './EventListenerCtn';
 export interface ILocalEvts {
 	em		: utils.EventEmitter;
 	type	: interaction.InteractionEventTypes | string;
@@ -176,12 +178,12 @@ export interface IEvtMng {
 	stdWait(fnc: (e: interaction.InteractionEvent)=> void, stdEvt?: boolean);
 	popLocalEvts(): ILocalEvts[];
 	pushLocalEvts(a: ILocalEvts[]);
+	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void);
 };
 
 
 import m_path = require('path');
 import m_xregexp = require('xregexp');
-import { utils, interaction, DisplayObject } from 'pixi.js';
 import TWEEN = require('@tweenjs/tween.js');
 
 export class CmnLib {

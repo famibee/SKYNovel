@@ -329,7 +329,6 @@ export class ScriptIterator {
 			csAnalyBf			: this.csAnalyBf,
 			'const.sn.hEvt1Time': this.evtMng.popLocalEvts()
 		};
-		//traceDbg('[call] csAnalyBf:'+ String(csAnalyBf));
 		if (this.fncReserveToken != null) {
 			hPushArg['const.sn.strReserveToken'] = this.fncReserveToken();
 			this.fncReserveToken = null;
@@ -373,27 +372,18 @@ export class ScriptIterator {
 	private return() {
 		if (this.vctCallStk.length == 0) throw'[return] スタックが空です';
 		const cs = this.vctCallStk.pop();
-		//traceDbg('[return] cs:'+ String(cs));
 		const osac = cs.hArg['csAnalyBf'];
 		if (osac) this.csAnalyBf = new CallStack(osac.fn, osac.idx);
-		//if (osac) traceDbg('   osac:'+ String(osac));
 		this.vctIfStk.shift();
 
 		const after_token = cs.hArg['const.sn.strReserveToken'];
-		if (after_token) {
-			this.fncReserveToken = ()=> {
-				this.fncReserveToken = null;
-				//	traceDbg('\tp9* after_token['+ after_token +']');
-				return after_token;
-			};
-		}
-		else {
+		if (after_token) this.fncReserveToken = ()=> {
 			this.fncReserveToken = null;
-		}
-		//hEvt1Time = cs.hArg['const.sn.hEvt1Time'];
+			return after_token;
+		};
+		else this.fncReserveToken = null;
 		if ('const.sn.hEvt1Time' in cs.hArg) this.evtMng.pushLocalEvts(cs.hArg['const.sn.hEvt1Time']);
 
-		//traceDbg('return:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ this.vctCallStk.length);
 		//	lineNum = hScrTokens[cs.fn].tokens.aLNum[cs.idx -1];
 		// 上のを下に分解。通常は不要なチェックだが、[load fn= label=]文法用に。
 		const oscr = this.hScript[cs.fn];
@@ -401,10 +391,8 @@ export class ScriptIterator {
 			this.jumpWork(cs.fn, '', cs.idx);
 			return true;	// 確実にスクリプトロードなので
 		}
-
 		this.lineNum_ = oscr.aLNum[cs.idx -1];
 
-		//traceDbg('\t formfn:'+ scriptFn +' tofn:'+ cs.fn +' idx:'+ cs.idx +' lineNum:'+ lineNum);
 		this.jump_light(cs.fn, cs.idx);
 
 		return false;
@@ -415,7 +403,6 @@ export class ScriptIterator {
 	private jumpWork(fn = '', label = '', idx = 0) {
 		if (! fn && ! label) this.main.errScript('[jump系] fnまたはlabelは必須です');
 		this.skipLabel = label || '';
-		//console.log('jump fn:%s label:%s idx:%d skipLabel:%s', fn, label, idx, this.skipLabel);
 		if (this.skipLabel && this.skipLabel.charAt(0) != '*') {
 			this.main.errScript('[jump系] labelは*で始まります');
 		}
@@ -424,7 +411,6 @@ export class ScriptIterator {
 		if (! fn) {this.analyzeInit(); return;}
 
 		const full_path = this.cfg.searchPath(fn, Config.EXT_SCRIPT);// chk only
-		//console.log('full_path:'+ full_path +' A:'+ this.getRealFn(fn));
 		if (fn == this.scriptFn_) {this.analyzeInit(); return;}
 		this.scriptFn_ = fn;
 		const st = this.hScript[this.scriptFn_];
@@ -450,7 +436,6 @@ export class ScriptIterator {
 	}
 	private onlyCodeScript	= false;
 	private analyzeInit(): void {
-		//console.log('analyzeInit aToken:%o tokens.aLNum:%o', aToken, aLNum);
 		const o = this.seekScript(this.script, Boolean(this.val.getVal('mp:const.sn.macro_name')), this.lineNum_, this.skipLabel, this.idxToken_);
 		this.idxToken_	= o.idx;
 		this.lineNum_	= o.lineNum;
@@ -599,7 +584,7 @@ export class ScriptIterator {
 		this.scriptFn_	= fn;
 		this.idxToken_	= idx;
 		const st = this.hScript[this.scriptFn_];
-		if (st != null) this.script = {...st};
+		if (st != null) this.script = st;
 	}
 
 
@@ -725,7 +710,6 @@ export class ScriptIterator {
 		if (areas) areas.erase(this.idxToken_);
 	}
 	saveKidoku(): void {
-		//traceDbg("saveKidoku fn:"+ this.scriptFn_ +" :"+ ((this.hAreaKidoku != null)));
 		if (this.hAreaKidoku == null) return
 
 		for (const fn in this.hAreaKidoku) {

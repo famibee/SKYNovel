@@ -114,23 +114,6 @@ export class SysWeb extends SysBase {
 		if (CmnLib.devtool) console.log('画像ファイルをダウンロードします');
 	};
 
-	/*protected navigate_to = hArg=> {
-		const url = hArg['url'];
-		if (! url) throw('[title] urlは必須です');
-
-		//window.open(url, 'newtab');
-
-		//let a = document.createElement('a');
-		//a.setAttribute('target', 'newtab');
-		//a.setAttribute('href', url);
-		//a.textContent = 'click me';
-		//document.body.appendChild(a).click();
-
-		//window.open("https://www.yahoo.co.jp/","byskynovel", "width=600, height=500, menubar=no, toolbar=no, scrollbars=yes");
-		//window.open("https://www.yahoo.co.jp/","byskynovel");
-
-		return false;
-	}*/
 	protected title = (hArg: HArg)=> {
 		const text = hArg.text;
 		if (! text) throw('[title] textは必須です');

@@ -75,7 +75,7 @@ export class Main implements IMain {
 			// 組み込み変数定義 //
 			this.propParser = new PropParser(this.val);
 
-			// システム（5/15）[snapshot]は LayerMng 担当
+			// システム（5/13）[snapshot]は LayerMng 担当
 			this.sys.init(this.hTag, this.val, this.appPixi);
 
 			// ＢＧＭ・効果音（1/16）
@@ -138,6 +138,9 @@ export class Main implements IMain {
 	};
 	resume = this.fncresume;
 	resumeByJumpOrCall(hArg: HArg) {
+		const url = hArg['url'];
+		if (url) {window.open(url); return;}
+
 		this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg || '');
 		this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label || '');
 		if (CmnLib.argChk_Boolean(hArg, 'call', false)) {

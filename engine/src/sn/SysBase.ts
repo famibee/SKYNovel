@@ -29,8 +29,6 @@ export class SysBase {
 		//hTag.loadplugin	// LayerMng.ts内で定義	// プラグインの読み込み
 //		hTag.mouse				= this.mouse;		// マウスの設定
 
-		// ＵＲＬを開く
-		hTag.navigate_to		= this.navigate_to;
 //		hTag.plugin				= this.plugin;		// プラグインの設定
 //		hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
 		hTag.title				= this.title;		// タイトル指定
@@ -44,7 +42,6 @@ export class SysBase {
 	}
 	// 基底定義なので「使ってないパラメーター警告」でも消さないように
 	protected close			: ITag = hArg=> false;
-	protected navigate_to	: ITag = hArg=> false;
 	protected title			: ITag = hArg=> false;
 	protected toggle_full_screen	: ITag = hArg=> false;
 
