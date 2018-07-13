@@ -182,7 +182,7 @@ export class EventMng implements IEvtMng {
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 		private evt2Fnc(e: Event, key: string) {
-			if (CmnLib.devtool) console.log(`👺 <(${key} ${e.type})`);
+			if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type})`);
 			const ke = this.hGlobalEvt2Fnc[key]
 					|| this.hLocalEvt2Fnc[key];
 			if (! ke) return;
