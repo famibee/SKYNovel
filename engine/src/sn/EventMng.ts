@@ -196,8 +196,13 @@ export class EventMng implements IEvtMng {
 
 	private aLocalEvts	: ILocalEvts[] = [];
 	private	onLocal(prm: ILocalEvts) {
+		for (const le of this.aLocalEvts) {	// 重複弾き
+			if (le.em === prm.em && le.type == prm.type) return;
+		}
 		if (prm.em instanceof DisplayObject) prm.em.interactive = true;
 		const fnc = (e: interaction.InteractionEvent)=> {
+			if (e.type != prm.type) return;	// なんとtypeが違うのに呼ばれる
+
 			e.stopPropagation();
 			if (this.layMng.clickTxtLay()) return;
 
@@ -220,14 +225,12 @@ export class EventMng implements IEvtMng {
 
 	// stdWait()したらreturn true;
 	stdWait(fnc: (e: interaction.InteractionEvent)=> void, stdEvt = true) {
-		//console.log('stdWait');
 		this.goTxt();
 		if (stdEvt) {
 			//hTag.event({key:'click', breakout: fnc});
 			//hTag.event({key:'middleclick', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
 			this.onLocal({em: this.appPixi.stage, type: this.enMDownTap, fnc: fnc});
-
 			//this.hTag.event({key:'enter', breakout: fnc});
 			//hTag.event({key:'down', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
