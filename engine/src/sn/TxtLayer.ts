@@ -1046,10 +1046,11 @@ export class TxtLayer extends Layer {
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.click();
 		if (this.ch_anime_time_仮 == 0) {
-			for (const c of this.cntTxt.removeChildren()) c.destroy();
+			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
 		}
-		else for (const sp of this.cntTxt.children) {
-			new TWEEN.Tween(sp)
+		else for (const c of this.cntTxt.children) {
+			c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
+			new TWEEN.Tween(c)
 			.to(this.fo, this.ch_anime_time_仮)
 			.easing(this.fo_easing)
 			//.delay(i * LayerMng.msecChWait)
@@ -1073,7 +1074,8 @@ export class TxtLayer extends Layer {
 		super.clearLay(hArg);
 
 		this.clearText();
-		for (const c of this.cntBtn.removeChildren()) c.destroy();
+		for (const c of this.cntBtn.removeChildren()) c.removeAllListeners().destroy();
+		// removeAllListeners()はマウスオーバーイベントなど。クリックは別
 	}
 
 	copy(fromLayer: Layer): void {

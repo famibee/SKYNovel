@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, HArg, IHTag, IVariable, IMain, IEvtMng, ILocalEvts, uint} from './CmnLib';
+import {CmnLib, HArg, IHTag, IVariable, IMain, IEvtMng, IEvt2Fnc, IHEvt2Fnc, uint} from './CmnLib';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
@@ -15,8 +15,6 @@ import TWEEN = require('@tweenjs/tween.js');
 import { interaction, DisplayObject, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 
-interface IEvt2Fnc {(e: Event): void};
-interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 const Hammer = require('hammerjs');
 
 export class EventMng implements IEvtMng {
@@ -96,6 +94,8 @@ export class EventMng implements IEvtMng {
 		});*/
 
 
+		appPixi.stage.interactive = true;
+		this.elc.add(appPixi.stage, this.enMDownTap, e=> this.evt2Fnc(e, 'Click'));
 		this.elc.add(window, 'keydown', (e: any)=> {
 			//if (! e.isTrusted) return;
 			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
@@ -181,47 +181,25 @@ export class EventMng implements IEvtMng {
 
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
-		private evt2Fnc(e: Event, key: string) {
-			if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type})`);
-			const ke = this.hGlobalEvt2Fnc[key]
-					|| this.hLocalEvt2Fnc[key];
-			if (! ke) return;
-			if ('preventDefault' in e) e.preventDefault();
+	private evt2Fnc(e: Event, key: string) {
+		if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type})`);
+		const ke = this.hGlobalEvt2Fnc[key]
+				|| this.hLocalEvt2Fnc[key];
+		if (! ke) return;
+		if ('preventDefault' in e) e.preventDefault();
 
-			e.stopPropagation();	// onLocal()に合わせる
-			if (this.layMng.clickTxtLay()) return;
+		e.stopPropagation();
+		if (this.layMng.clickTxtLay()) return;
 
-			ke(e);
-		}
-
-	private aLocalEvts	: ILocalEvts[] = [];
-	private	onLocal(prm: ILocalEvts) {
-		for (const le of this.aLocalEvts) {	// 重複弾き
-			if (le.em === prm.em && le.type == prm.type) return;
-		}
-		if (prm.em instanceof DisplayObject) prm.em.interactive = true;
-		const fnc = (e: interaction.InteractionEvent)=> {
-			if (e.type != prm.type) return;	// なんとtypeが違うのに呼ばれる
-
-			e.stopPropagation();
-			if (this.layMng.clickTxtLay()) return;
-
-			if (prm.fnc) prm.fnc(e);
-		};
-		prm.em.on(prm.type, fnc);
-		this.aLocalEvts.push(prm);
+		ke(e);
 	}
-	popLocalEvts(): ILocalEvts[] {
-		for (const le of this.aLocalEvts) {
-			le.em.removeAllListeners();
-			if (le.em instanceof DisplayObject) le.em.interactive = false;
-		}
-		const ret = this.aLocalEvts;
-		this.aLocalEvts = [];
+
+	popLocalEvts(): IHEvt2Fnc {
+		const ret = this.hLocalEvt2Fnc;
 		this.hLocalEvt2Fnc = {};
 		return ret;
 	}
-	pushLocalEvts(a: ILocalEvts[]) {for (const le of a) this.onLocal(le)}
+	pushLocalEvts(a: IHEvt2Fnc) {this.hLocalEvt2Fnc = a;}
 
 	// stdWait()したらreturn true;
 	stdWait(fnc: (e: interaction.InteractionEvent)=> void, stdEvt = true) {
@@ -230,11 +208,11 @@ export class EventMng implements IEvtMng {
 			//hTag.event({key:'click', breakout: fnc});
 			//hTag.event({key:'middleclick', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			this.onLocal({em: this.appPixi.stage, type: this.enMDownTap, fnc: fnc});
+			const fncKey = ()=> fnc(null);
+			this.hLocalEvt2Fnc['Click'] = fncKey;
 			//this.hTag.event({key:'enter', breakout: fnc});
 			//hTag.event({key:'down', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			const fncKey = (e: Event)=> this.appPixi.stage.emit(this.enMDownTap, e);
 			this.hLocalEvt2Fnc['Enter'] = fncKey;
 			this.hLocalEvt2Fnc['ArrowDown'] = fncKey;
 
@@ -257,11 +235,8 @@ export class EventMng implements IEvtMng {
 		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		const tap = e=> this.evt2Fnc(e, key);
-		if (glb) {
-			em.on('pointerdown', tap);
-			this.aGlobalEvt.push(em);
-		}
-		else this.onLocal({em: em, type: this.enMDownTap, fnc: tap});
+		em.on('pointerdown', tap);
+		if (glb) this.aGlobalEvt.push(em);
 
 //	hint	n		String	設定した場合のみ、マウスカーソルを載せるとヒントをチップス表示する
 
@@ -331,7 +306,7 @@ export class EventMng implements IEvtMng {
 		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
 		const h = glb ?this.hGlobalEvt2Fnc :this.hLocalEvt2Fnc;
 		for (const nm in h) this.clear_eventer(nm, h[nm]);
-		if (glb) this.hGlobalEvt2Fnc = {}; else this.popLocalEvts();
+		if (glb) this.hGlobalEvt2Fnc = {}; else this.hLocalEvt2Fnc = {};
 
 		return false;
 	}
@@ -464,22 +439,9 @@ export class EventMng implements IEvtMng {
 		const len = this.scrItr.lenCallStk;
 		for (let i=0; i<len; ++i) {
 			const hE1T = this.scrItr.getCallStk(i)['const.sn.hEvt1Time'];
-			if (hE1T == null) continue;
+			if (! hE1T) continue;
 
-		/*
-			delete hE1T['$Global.'+ this.enMDownTap];
-				// hKey2Event['click']に合わせた（2014/02/09）
-			//x	delete hE1T['$Global.'+ MouseEvent.MIDDLE_MOUSE_DOWN];
-			//x	delete hE1T['$Global.'+ MouseEvent.MOUSE_WHEEL];
-			delete hE1T['$Global.keydown'];
-		*/
-			this.aLocalEvts.some(v=> {
-				if (v.type != this.enMDownTap) return false;
-
-				v.em.removeListener(v.type, v.fnc);
-				this.aLocalEvts.slice(i, i);
-				return true;	// breakのこと
-			});
+			delete hE1T['Click'];
 			delete hE1T['Enter'];
 			delete hE1T['ArrowDown'];
 			delete hE1T['wheel.y>0'];
@@ -494,7 +456,7 @@ export class EventMng implements IEvtMng {
 		const twSleep = new TWEEN.Tween(this)
 		.to({}, uint(CmnLib.argChk_Num(hArg, 'time', NaN)))
 		.onComplete(()=> {
-			this.popLocalEvts();	// 特にキャンセルされなかった場合向け
+			this.hLocalEvt2Fnc = {};	// 特にキャンセルされなかった場合向け
 			this.main.resume();
 		})
 		.start();

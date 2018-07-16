@@ -165,19 +165,16 @@ export interface IPutCh {
 
 
 // =============== EventMng
-import { utils, interaction, DisplayObject } from 'pixi.js';
+import { interaction, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
-export interface ILocalEvts {
-	em		: utils.EventEmitter;
-	type	: interaction.InteractionEventTypes | string;
-	fnc?	: (e: interaction.InteractionEvent)=> void;
-};
+export interface IEvt2Fnc {(e: Event): void};
+export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 export interface IEvtMng {
 	button(hArg: HArg, em: DisplayObject);
 	isSkipKeyDown(): boolean;
 	stdWait(fnc: (e: interaction.InteractionEvent)=> void, stdEvt?: boolean);
-	popLocalEvts(): ILocalEvts[];
-	pushLocalEvts(a: ILocalEvts[]);
+	popLocalEvts(): IHEvt2Fnc;
+	pushLocalEvts(a: IHEvt2Fnc);
 	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void);
 };
 
