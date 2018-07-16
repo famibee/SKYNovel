@@ -1,7 +1,7 @@
 ;#USE-FONT	ipam
 [sys_scenario_start]
 	; *** テキストレイヤ縦書き中設定 ***
-	[txt_lay_v_center b_alpha=0 fcol=0x000000]
+	[txt_lay_v_center b_alpha=0 fcol='black']
 	; *** BG ***
 	[lay layer="mes" page=back layout='fontFamily="ipam"']
 	[grp bg="white" time=2000 sys_menu=false b_alpha=0]

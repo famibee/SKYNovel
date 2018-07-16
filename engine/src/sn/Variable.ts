@@ -114,7 +114,8 @@ export class Variable implements IVariable {
 
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScopeVal.mp}}
-	mp(mp: object) {this.hScopeVal.mp = mp;}
+	setMp(mp: object) {this.hScopeVal.mp = mp;}
+	cloneSave(): object {return {...this.hScopeVal.save}}
 
 		//	変数操作
 	// 変数代入・演算

@@ -135,18 +135,18 @@
 	[sys_menu visible=false]
 	[clear_lay layer="mes_sysmenu" page=both]
 	[lay layer="mes_sysmenu" page=back]
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnQSave" rotation=-90 left=&sysmenu_left2 top=600 global=true event_at_down=true fn="_saveload" label=*quick_save call=true hint="クイックセーブ" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnQLoad" rotation=-90 left=&sysmenu_left2 top=720 global=true event_at_down=true fn="_saveload" label=*quick_load call=true hint="クイックロード" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text="クイックセーブ" rotation=-90 left=&sysmenu_left2 top=600 global=true event_at_down=true fn="_saveload" label=*quick_save call=true hint="クイックセーブ" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text="クイックロード" rotation=-90 left=&sysmenu_left2 top=720 global=true event_at_down=true fn="_saveload" label=*quick_load call=true hint="クイックロード" enterse=&sysse_choice]
 
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnTitle" rotation=-90 left=&sysmenu_left top=220 global=true event_at_down=true fn="sub" label=*title_sys call=true hint="タイトルへ" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text="タイトルへ" rotation=-90 left=&sysmenu_left top=220 global=true event_at_down=true fn="sub" label=*title_sys call=true hint="タイトルへ" enterse=&sysse_choice]
 		; どの本文スクリプトから呼ばれるか不明なので、
 		; 同一スクリプトへのコールだがfn属性を省略してはいけない
 
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnSave" rotation=-90 left=&sysmenu_left top=320 global=true event_at_down=true fn="_saveload" label=*rclick_save call=true hint="セーブ" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnLoad" rotation=-90 left=&sysmenu_left top=420 global=true event_at_down=true fn="_saveload" label=*rclick_load call=true hint="ロード" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnHideText" rotation=-90 left=&sysmenu_left top=520 global=true event_at_down=true fn=_hidetext label=*main call=true hint="文字非表示" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnHistory" rotation=-90 left=&sysmenu_left top=620 global=true event_at_down=true fn=_history label=*show_history call=true hint="履歴を表示" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back pic="Mnu_btnConfig" rotation=-90 left=&sysmenu_left top=720 global=true event_at_down=true fn=_config label=*keycall_config call=true hint="ゲーム設定" enterse=&sysse_choice join=true]
+	[button layer="mes_sysmenu" page=back text=" セーブ " rotation=-90 left=&sysmenu_left top=320 global=true event_at_down=true fn="_saveload" label=*rclick_save call=true hint="セーブ" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text=" ロード " rotation=-90 left=&sysmenu_left top=420 global=true event_at_down=true fn="_saveload" label=*rclick_load call=true hint="ロード" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text="字を隠す" rotation=-90 left=&sysmenu_left top=520 global=true event_at_down=true fn=_hidetext label=*main call=true hint="文字非表示" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text=" 履 歴 " rotation=-90 left=&sysmenu_left top=620 global=true event_at_down=true fn=_history label=*show_history call=true hint="履歴を表示" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text=" 設 定 " rotation=-90 left=&sysmenu_left top=720 global=true event_at_down=true fn=_config label=*keycall_config call=true hint="ゲーム設定" enterse=&sysse_choice join=true]
 		; 最後の[button]にjoin=trueを入れるのがポイント
 	[trans layer="mes_sysmenu" time=0]
 	[wt]	; 裏から表へコピー（save対策）
@@ -183,10 +183,10 @@
 	&pt = 66
 	&pr = const.sn.xmlConfig.window.width -(l +w) +26
 	&pb = 66
-	[let name="fcol" text=%fcol|0xFFFFFF]
+	[let name="fcol" text=%fcol|'white']
 	; こちらの素材をお借りしました。
 	; びたちー素材館　メッセージボックス・メッセージウィンドウ・フレーム　フリー素材 http://www.vita-chi.net/message.htm
-	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_pic=%b_pic|wafuu1 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
+	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_pic=%b_pic|wafuu1 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" style="&'color: '+ fcol +'; writing-mode: vertical-rl;'" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 ; 以下はテキストレイヤに画像を使わない版
 ;	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_width=&w b_height=&const.sn.xmlConfig.window.height b_color=%b_color|0xffffff b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 

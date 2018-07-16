@@ -154,7 +154,8 @@ export interface IVariable {
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
 	defTmp(name: string, fnc: typeProcVal): void;
 	cloneMp(): object;
-	mp(mp: object): void;
+	setMp(mp: object): void;
+	cloneSave(): object;
 };
 
 

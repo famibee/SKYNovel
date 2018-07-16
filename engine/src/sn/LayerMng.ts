@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, HArg} from './CmnLib';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -152,6 +152,12 @@ export class LayerMng {
 		this.evtMng = null;
 		LayerMng.$msecChWait = 10;
 		for (const pg in this.hPages) this.hPages[pg].destroy();
+	}
+
+
+	recordAMF(hArg :HArg, o: any) {
+///
+		;
 	}
 
 

@@ -1,8 +1,6 @@
 ;#USE-FONT	ipamjm
-	[loadplugin fn=_submenu]
-
 	[add_lay layer=mes_submenu class=txt]
-	[lay layer=mes_submenu visible=false]
+	[lay layer=mes_submenu b_pic=_submenu visible=false]
 		[button layer=mes_submenu page=fore pic=_submenuBtn left=130 top=108 global=true label=*save hint="セーブ" enterse=&sysse_choice]
 		[button layer=mes_submenu page=fore pic=_submenuBtn left=130 top=178 global=true label=*load hint="ロード" enterse=&sysse_choice]
 		[button layer=mes_submenu page=fore pic=_submenuBtn left=130 top=248 global=true label=*log hint="文字履歴を表示" enterse=&sysse_choice]
@@ -15,7 +13,7 @@
 	[event global=true call=true key=rightclick label=*main]
 	[event global=true call=true key=shift label=*main]
 	[event global=true call=true key=escape label=*main]
-	[gesture_event global=true call=true f2tap=*main f3tap=*toggle_skip]
+;	[gesture_event global=true call=true f2tap=*main f3tap=*toggle_skip]
 [return]
 
 ;*********************************************************
@@ -23,7 +21,7 @@
 	[return cond="! isGameState"]
 
 		[se fn=&sysse_ok1 buf=SYS]
-		[plugin name=_submenu visible=true]
+;		[plugin name=_submenu visible=true]
 		[lay layer=mes_submenu page=fore visible=true]
 		[let name=sysmenu_v text=&const.an.lay.mes_sysmenu.fore.visible cond=useSysMenu]
 		[sys_menu visible=false]

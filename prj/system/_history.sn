@@ -3,10 +3,9 @@
 	&const._history.inited = true
 
 	[add_lay layer=履歴 class=txt]
-	[loadplugin fn="plgHistory" layer=履歴]
-
+; b_pic=plgHistory
 	[txt_lay_v_left layer=履歴 page=fore visible=false fcol=0xFFFFFF l=620 no_sysmenu_draw=true b_pic=null]
-	[lay layer=履歴 page=fore b_left=0 b_top=0 b_width=&const.an.xmlConfig.window.width b_height=&const.an.xmlConfig.window.height b_color=0x000044 b_alpha=0.8]
+	[lay layer=履歴 b_left=0 b_top=0 b_width=&const.sn.xmlConfig.window.width b_height=&const.sn.xmlConfig.window.height b_color=0x000044 b_alpha=0.8]
 
 	[event global=true call=true key=r label=*show_history]
 	[event global=true call=true key=up label=*show_history]
@@ -38,7 +37,7 @@
 	[event key=delete label=*cancel]
 	[event key=backspace label=*cancel]
 	[event key=shift label=*cancel]
-	[gesture_event swipe=*swipe f2tap=*cancel f3tap=*cancel]
+;	[gesture_event swipe=*swipe f2tap=*cancel f3tap=*cancel]
 
 	[event key=up label=*scroll call=true arg=-1]
 	[event key=down label=*scroll call=true arg=1]

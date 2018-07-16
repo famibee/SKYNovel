@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, HArg, IHTag, uint, IMain, IVariable} from './CmnLib';
+import {CmnLib, IHTag, uint, IMain, IVariable, getDateStr} from './CmnLib';
 import {Areas} from './Areas';
 import {Config} from './Config';
 import {CallStack} from './CallStack';
@@ -15,6 +15,7 @@ import {IParse} from './PropParser';
 import m_xregexp = require('xregexp');
 import {EventMng} from './EventMng';
 import { loaders } from 'pixi.js';
+import { LayerMng } from './LayerMng';
 
 interface Script {
 	aToken	: string[];		// トークン群
@@ -83,11 +84,18 @@ export class ScriptIterator {
 		hTag.return		= ()=> this.return();		// サブルーチンから戻る
 
 		// マクロ
-		hTag.bracket2macro	= o=> this.bracket2macro(o);	// 括弧マクロの定義
-		hTag.break_macro	= o=> this.break_macro(o);		// マクロから脱出
-		hTag.char2macro		= o=> this.char2macro(o);		// 一文字マクロの定義
-		hTag.endmacro		= o=> this.break_macro(o);		// マクロ定義の終了
-		hTag.macro			= o=> this.macro(o);			// マクロ定義の開始
+		hTag.bracket2macro	= o=> this.bracket2macro(o);// 括弧マクロの定義
+		hTag.break_macro	= o=> this.break_macro(o);	// マクロから脱出
+		hTag.char2macro		= o=> this.char2macro(o);	// 一文字マクロの定義
+		hTag.endmacro		= o=> this.break_macro(o);	// マクロ定義の終了
+		hTag.macro			= o=> this.macro(o);		// マクロ定義の開始
+
+		// しおり
+		hTag.copybookmark	= o=> this.copybookmark(o);	// しおりの複写
+		hTag.erasebookmark	= o=> this.erasebookmark(o);// しおりの消去
+		hTag.load			= o=> this.load(o);			// しおりの読込
+		hTag.record_place	= o=> this.record_place(o);	// セーブポイント指定
+		hTag.save			= o=> this.save(o);			// しおりの保存
 
 
 //		this.hByteKidoku = soSys.data.kidoku;
@@ -101,7 +109,11 @@ export class ScriptIterator {
 		this.val.defTmp('const.sn.vctCallStk.length', ()=> this.vctCallStk.length);
 	}
 	private	evtMng	: EventMng | null	= null;
-	setEvtMng(evtMng: EventMng): void {this.evtMng = evtMng;};
+	private	layMng	: LayerMng | null	= null;
+	setOtherObj(evtMng: EventMng, layMng: LayerMng): void {
+		this.evtMng = evtMng;
+		this.layMng = layMng;
+	};
 
 
 		//	変数操作
@@ -799,7 +811,7 @@ export class ScriptIterator {
 		if (len == 0) throw('[endmacro] マクロ外で呼ばれました');
 
 		const hPopArg = this.vctCallStk[len -1].hArg['const.sn.hMpVal']
-		if (hPopArg) this.val.mp(hPopArg);
+		if (hPopArg) this.val.setMp(hPopArg);
 
 		return this.hTag['return'](hArg);
 	};
@@ -858,7 +870,7 @@ export class ScriptIterator {
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
-			this.val.mp(hArg);
+			this.val.setMp(hArg);
 			this.val.setVal_Nochk('mp', 'const.sn.macro_name', name);
 			this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', this.scriptFn_);
 
@@ -885,5 +897,89 @@ export class ScriptIterator {
 		throw 'マクロ'+ name +'定義の終端・[endmacro]がありません';
 	};
 	private hTagInf	: any	= {};	// タグ/マクロ情報
+
+
+		// しおり
+	// しおりの複写
+	private copybookmark(hArg) {
+		return false;
+	}
+
+	// しおりの消去
+	private erasebookmark(hArg) {
+		const place = hArg.place;
+		if (! place) throw 'placeは必須です';
+
+		if (! this.val.getVal('sys:const.sn.bookmark.'+ place)) return false;
+
+//		if (hSysVal['const.sn.bookmark.'+ place +'.isfile']) {
+//			deleteFile(hSysVal['const.sn.bookmark.path'] + place +'.sd');
+//		}
+
+//		delete soSys.data.mark[place];
+//		delete hSysVal['const.sn.bookmark.'+ place];
+		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place, undefined);
+//		soSys.flush();
+
+		return false;
+	}
+
+	// しおりの読込
+	private load(hArg) {
+		return false;
+	}
+
+	// セーブポイント指定
+	private	hPagesRec	= {};
+	private	hSaveValRec	= {};
+	private	vctIfStkRec	: number[]	= [-1];
+	private record_place(hArg) {
+		if (! this.layMng) this.return;
+
+		if (this.vctCallStk.length == 0) {
+			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
+			this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.idxToken);
+		}
+		else {
+			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.vctCallStk[0].fn);
+			this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.vctCallStk[0].idx);
+		}
+
+		this.hSaveValRec = this.val.cloneSave();
+		this.hPagesRec = {};
+		this.layMng.recordAMF(hArg, this.hPagesRec);
+		this.vctIfStkRec = this.vctIfStk.slice(this.vctCallStk.length);
+
+		return false;
+	}
+
+	// しおりの保存
+	private save(hArg) {
+		const place = hArg.place;
+		if (! place) throw 'placeは必須です';
+
+		const is_file = (hArg.path);
+		const o = {
+			hSaveVal	: this.hSaveValRec,
+			hPages		: this.hPagesRec,
+			vctIfStk	: this.vctIfStkRec,
+		};
+		if (is_file) {
+//			hArg.path = CmnLib.cnv_path(hArg.path);
+//			saveObjToFile(o, hArg, place);
+		}
+		else {
+//			if (hSysVal['const.sn.bookmark.'+ place +'.isfile']) {
+//				deleteFile(hSysVal['const.sn.bookmark.path'] + place +'.sd');
+//			}
+//			soSys.data.mark[place] = o;
+		}
+		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place, true);
+		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place +'.UpdateTime', getDateStr());
+		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place +'.isfile', is_file);
+//		soSys.flush();
+
+		return false;
+	}
 
 };

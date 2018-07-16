@@ -84,14 +84,8 @@ export class Main implements IMain {
 			// 条件分岐（4/4）
 			// ラベル・ジャンプ（5/5）
 			// マクロ（5/5）
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.fncLoaded();}, this.propParser.parse);
-
 			// しおり（/5）
-	/*		* copybookmark	しおりの複写
-			* erasebookmark	しおりの消去
-			* load			しおりの読込	*/
-			this.hTag.record_place = ()=> false;		// セーブポイント指定
-	//		* save			しおりの保存
+			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.fncLoaded();}, this.propParser.parse);
 
 			// デバッグ・その他（8/9）[reload_script]のみ残る
 			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);

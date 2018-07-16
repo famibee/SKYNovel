@@ -108,7 +108,7 @@ export class GrpLayer extends Layer {
 			};
 			aComp.push({
 				fn: f.fn,
-				fnc: (i == 0) ?fncFirstComp　:sp=> {
+				fnc: (i == 0) ?fncFirstComp :sp=> {
 					sp.x = f.dx;
 					sp.y = f.dy;
 					sp.blendMode = f.blendmode;
