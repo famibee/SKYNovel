@@ -1061,12 +1061,7 @@ void main(void) {
 		hArg.clicksebuf = hArg.clicksebuf || 'SYS';
 		hArg.entersebuf = hArg.entersebuf || 'SYS';
 		hArg.leavesebuf = hArg.leavesebuf || 'SYS';
-		this.getTxtLayer(hArg).addButton(hArg);
-
-		// レスポンス向上のため音声ファイルを先読み。結果再生時にjoin不要
-//		this.soundMng.loadAheadSnd([hArg.clickse, hArg.enterse, hArg.leavese]);
-
-		return false;
+		return this.getTxtLayer(hArg).addButton(hArg);
 	}
 
 

@@ -6,18 +6,22 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { Container, Text } from "pixi.js";
-import { HArg, uint, IEvtMng, CmnLib } from "./CmnLib";
+import { HArg, uint, IEvtMng, CmnLib, IMain } from "./CmnLib";
 import {GrpLayer} from "./GrpLayer";
 
 export class Button extends Container {
-	constructor(hArg: HArg, evtMng: IEvtMng) {
-		super();
+	private	static	main	: IMain		= null;
+	private	static	evtMng	: IEvtMng	= null;
+	static	init(main: IMain, evtMng: IEvtMng): void {
+		Button.main = main;
+		Button.evtMng = evtMng;
+	}
+
+	init(hArg: HArg, parent: Container): boolean {
+		parent.addChild(this);
 
 		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);
-		if (enabled) {
-			this.makeRsv = ()=> evtMng.button(hArg, this);
-			this.makeRsv();
-		}
+		if (enabled) Button.evtMng.button(hArg, this);
 		if (hArg.text) {
 			const fontSize = uint(hArg.height || 30);
 			const style = {
@@ -38,7 +42,7 @@ export class Button extends Container {
 			txt.width = uint(hArg.width || 100);
 			txt.height = fontSize;
 			this.addChild(txt);
-			if (! enabled) return;
+			if (! enabled) return false;
 
 			const normal = ()=> {for (const k in style) txt.style[k] = style[k]};
 
@@ -59,38 +63,20 @@ export class Button extends Container {
 			this.on('pointerout', normal);
 			this.on('pointerdown', clicked);
 			this.on('pointerup', hover);
-			return;
+			return false;
 		}
 
-		if (hArg.pic) GrpLayer.csv2Sprites(
+		if (! ('pic' in hArg)) throw 'textまたはpic属性は必須です';
+		return GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
 			sp=> {
 				sp.x = uint(hArg.left || 0);
 				sp.y = uint(hArg.top || 0);
-			}
-		)
-		else throw 'textまたはpic属性は必須です';
+			},
+			isStop=> {if (isStop) Button.main.resume()}
+		);
 	}
-	makeRsv	= ()=> {};
-
-
-//	href	n	何もしない	URL	クリック時にブラウザで指定URLを開く
-//	target	n	何もしない	HTML <a>タグのtarget属性	hrefにてブラウザを開く際のtarget属性
-
-//	hint	n		String	設定した場合のみ、マウスカーソルを載せるとヒントをチップス表示する
-
-//	clickse	n	省略時は無音	効果音ファイル名	指定すると、クリック時に効果音を再生する
-//	enterse	n	省略時は無音	効果音ファイル名	指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する
-//	leavese	n	省略時は無音	効果音ファイル名	指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する
-//	clicksebuf	n	SYS	サウンドバッファ名	クリック時効果音を再生するサウンドバッファを指定する
-//	entersebuf	n	SYS	サウンドバッファ名	クリック時効果音を再生するサウンドバッファを指定する
-//	leavesebuf	n	SYS	サウンドバッファ名	クリック時効果音を再生するサウンドバッファを指定する
-
-//	onenter	n	何もしない	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
-//	onleave	n	何もしない	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
-
-//	arg	n		String	指定した場合、クリック時ジャンプ先で「&sn.eventArg」にて値を受け取れる
 
 	private	static	cln	= document.createElement('span');
 	private	static	s2hStyle(hStyle: {}, style: string) {

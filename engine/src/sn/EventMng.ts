@@ -14,6 +14,7 @@ import {EventListenerCtn} from './EventListenerCtn';
 import TWEEN = require('@tweenjs/tween.js');
 import { interaction, DisplayObject, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
+import { Config } from './Config';
 
 const Hammer = require('hammerjs');
 
@@ -32,10 +33,10 @@ export class EventMng implements IEvtMng {
 		swipedown	: null,
 	};
 
-	constructor(private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private val: IVariable, sndMng: SoundMng, private scrItr: ScriptIterator) {
+	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private val: IVariable, sndMng: SoundMng, private scrItr: ScriptIterator) {
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
-		TxtLayer.setEvtMng(this);
+		TxtLayer.setEvtMng(main, this);
 		layMng.setEvtMng(this);
 		layMng.setEvtMng(this);
 
@@ -175,7 +176,7 @@ export class EventMng implements IEvtMng {
 		this.ham.destroy();
 
 		this.scrItr.setOtherObj(null, null);
-		TxtLayer.setEvtMng(null);
+		TxtLayer.setEvtMng(null, null);
 		this.layMng.setEvtMng(null);
 	}
 
@@ -227,37 +228,43 @@ export class EventMng implements IEvtMng {
 		//this.hHook_waiting();
 	}
 
-	private aGlobalEvt	: DisplayObject[] = [];
 	button(hArg: HArg, em: DisplayObject) {
 		em.interactive = em.buttonMode = true;
 		const key = hArg.key;
 		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
 		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-		const tap = e=> this.defEvt2Fnc(e, key);
-		em.on('pointerdown', tap);
-		if (glb) this.aGlobalEvt.push(em);
+		em.on('pointerdown', (e: any)=> this.defEvt2Fnc(e, key));
 
 //	hint	n		String	設定した場合のみ、マウスカーソルを載せるとヒントをチップス表示する
 
-		if (hArg.clickse) em.on('pointerdown', ()=> {
-			//	clickse	効果音ファイル名	クリック時に効果音を再生
-			const o = {fn: hArg.clickse, join: false};
-			if (hArg.clicksebuf) o['buf'] = hArg.clicksebuf;
-			this.hTag.playse(o);
-		});
-		if (hArg.enterse) em.on('pointerover', ()=> {
-			//	enterse	効果音ファイル名	ボタン上にマウスカーソルが載った時に効果音を再生
-			const o = {fn: hArg.enterse, join: false};
-			if (hArg.entersebuf) o['buf'] = hArg.entersebuf;
-			this.hTag.playse(o);
-		});
-		if (hArg.leavese) em.on('pointerout', ()=> {
-			//	leavese	効果音ファイル名	ボタン上からマウスカーソルが外れた時に効果音を再生
-			const o = {fn: hArg.leavese, join: false};
-			if (hArg.leavesebuf) o['buf'] = hArg.leavesebuf;
-			this.hTag.playse(o);
-		});
+		if (hArg.clickse) {
+			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);	// 存在チェック
+			em.on('pointerdown', ()=> {
+				//	clickse	効果音ファイル名	クリック時に効果音
+				const o = {fn: hArg.clickse, join: false};
+				if (hArg.clicksebuf) o['buf'] = hArg.clicksebuf;
+				this.hTag.playse(o);
+			});
+		}
+		if (hArg.enterse) {
+			this.cfg.searchPath(hArg.enterse, Config.EXT_SOUND);	// 存在チェック
+			em.on('pointerover', ()=> {
+				//	enterse	効果音ファイル名	ボタン上にマウスカーソルが載った時に効果音
+				const o = {fn: hArg.enterse, join: false};
+				if (hArg.entersebuf) o['buf'] = hArg.entersebuf;
+				this.hTag.playse(o);
+			});
+		}
+		if (hArg.leavese) {
+			this.cfg.searchPath(hArg.leavese, Config.EXT_SOUND);	// 存在チェック
+			em.on('pointerout', ()=> {
+				//	leavese	効果音ファイル名	ボタン上からマウスカーソルが外れた時に効果音
+				const o = {fn: hArg.leavese, join: false};
+				if (hArg.leavesebuf) o['buf'] = hArg.leavesebuf;
+				this.hTag.playse(o);
+			});
+		}
 		if ('onenter' in hArg) {
 			//	onenter	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
 //			em.on('pointerover', ()=> {});
@@ -267,7 +274,9 @@ export class EventMng implements IEvtMng {
 			//	onleave	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
 //			em.on('pointerout', ()=> {});
 		}
-//	arg	n		String	指定した場合、クリック時ジャンプ先で「&sn.eventArg」にて値を受け取れる
+
+		// レスポンス向上のため音声ファイルを先読み。結果再生時にjoin不要
+//		this.soundMng.loadAheadSnd([hArg.clickse, hArg.enterse, hArg.leavese]);
 	}
 
 

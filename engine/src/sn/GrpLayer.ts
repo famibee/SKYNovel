@@ -77,7 +77,6 @@ export class GrpLayer extends Layer {
 		hArg.dx = 0;
 		hArg.dy = 0;
 
-		const resume = CmnLib.argChk_Boolean(hArg, 'resume', true);
 		return GrpLayer.csv2Sprites(
 			this.csvFn = fn + (face ? ','+ face : ''),
 			this.cnt,
@@ -86,16 +85,14 @@ export class GrpLayer extends Layer {
 				if (hArg.page == 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 			},
-			()=> {if (resume) GrpLayer.main.resume()}
+			isStop=> {if (isStop) GrpLayer.main.resume()}
 		);
 	}
-	private static ldr : loaders.Loader = null;
-	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: ()=> void = ()=> {}): boolean {
+	private static ldr = new loaders.Loader();
+	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
-		//if (GrpLayer.ldr) GrpLayer.ldr.destroy();
-		// あまりキビキビ殺すと、表示する前に消える
-		GrpLayer.ldr = null;
-
+		//GrpLayer.ldr.destroy();	// あまりキビキビ殺すと、表示する前に消える
+		let isLoad = false;
 		csv.split(',').forEach((fn, i)=> {
 			if (! fn) throw 'face属性に空要素が含まれます';
 
@@ -106,19 +103,19 @@ export class GrpLayer extends Layer {
 				dy: 0,
 				blendmode: BLEND_MODES.NORMAL
 			};
-			aComp.push({
-				fn: f.fn,
-				fnc: (i == 0) ?fncFirstComp :sp=> {
-					sp.x = f.dx;
-					sp.y = f.dy;
-					sp.blendMode = f.blendmode;
-				}
-			});
+			const fnc = (i == 0) ?fncFirstComp :sp=> {
+				sp.x = f.dx;
+				sp.y = f.dy;
+				sp.blendMode = f.blendmode;
+			};
+			aComp.push({fn: f.fn, fnc: fnc});
 
 			if (f.fn in GrpLayer.hFn2ResAniSpr) return;
 			if (f.fn in utils.TextureCache) return;
-			GrpLayer.ldr = GrpLayer.ldr || new loaders.Loader();
-			if (GrpLayer.ldr.resources[f.fn]) return;
+			if (f.fn in GrpLayer.ldr.resources) return;
+
+			isLoad = true;
+			if (GrpLayer.ldr.loading) GrpLayer.ldr = new loaders.Loader();
 			GrpLayer.ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
 		});
 
@@ -128,10 +125,10 @@ export class GrpLayer extends Layer {
 				parent.addChild(sp);
 				v.fnc(sp);
 			}
-			fncAllComp();
+			fncAllComp(isLoad);
 		};
-		if (GrpLayer.ldr) {GrpLayer.ldr.load(fncLoaded); return true;}
-		fncLoaded(null, {});
+		if (isLoad) {GrpLayer.ldr.load(fncLoaded); return true;}
+		fncLoaded(null, utils.TextureCache);
 		return false;
 	}
 	private static mkSprite(fn: string, res: loaders.Resource): Sprite {

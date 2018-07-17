@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, IVariable, IHTag, HArg, IPutCh, IEvtMng, uint} from './CmnLib';
+import {CmnLib, IVariable, IHTag, HArg, IPutCh, IEvtMng, uint, IMain} from './CmnLib';
 import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
@@ -130,7 +130,10 @@ export class TxtLayer extends Layer {
 	}
 
 	private	static	evtMng	: IEvtMng	= null;
-	static setEvtMng(evtMng: IEvtMng) {TxtLayer.evtMng = evtMng;}
+	static setEvtMng(main: IMain, evtMng: IEvtMng) {
+		TxtLayer.evtMng = evtMng;
+		Button.init(main, evtMng);
+	}
 
 	static addStyle(text) {TxtLayer.glbStyle.innerHTML += text +'\n';}
 
@@ -1064,9 +1067,9 @@ export class TxtLayer extends Layer {
 	get enabled() {return this.cntBtn.interactiveChildren;}
 	set enabled(v) {this.cntBtn.interactiveChildren = v;}
 
-	addButton(hArg: HArg): void {
+	addButton(hArg: HArg): boolean {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name;
-		this.cntBtn.addChild(new Button(hArg, TxtLayer.evtMng));
+		return new Button().init(hArg, this.cntBtn);
 	}
 
 
