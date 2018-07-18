@@ -623,7 +623,7 @@ void main(void) {
 		if (! this.twInfTrans.tw) return false;
 
 		this.twInfTrans.resume = true;
-		this.evtMng.waitCustomEvent(hArg, this.elcTrans, this.finish_trans);
+		this.evtMng.waitCustomEvent(hArg, this.elcTrans, ()=> this.finish_trans());
 		return true;
 	}
 	private	elcTrans	= new EventListenerCtn;
