@@ -128,6 +128,7 @@ export class EventMng implements IEvtMng {
 			+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
 			+	'rightclick'
 			this.defEvt2Fnc(e, key);
+			e.preventDefault();		// イベント未登録時、メニューが出てしまうので
 		});
 
 		// Gamepad APIの利用 - ウェブデベロッパーガイド | MDN https://developer.mozilla.org/ja/docs/Web/Guide/API/Gamepad
@@ -236,7 +237,7 @@ export class EventMng implements IEvtMng {
 			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		em.on('pointerdown', (e: any)=> this.defEvt2Fnc(e, key));
 
-//	hint	n		String	設定した場合のみ、マウスカーソルを載せるとヒントをチップス表示する
+//	hint	n		String	マウスカーソルを載せるとヒントをチップス表示する
 
 		if (hArg.clickse) {
 			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);	// 存在チェック
@@ -265,14 +266,21 @@ export class EventMng implements IEvtMng {
 				this.hTag.playse(o);
 			});
 		}
-		if ('onenter' in hArg) {
+		if (hArg.onenter) {
 			//	onenter	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
-//			em.on('pointerover', ()=> {});
-			//	this.main.resumeByJumpOrCall(hArg);		かな？
+			const key2 = key + hArg.onenter;
+			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: 'true', key: key2};
+			if (glb) this.hGlobalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
+			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
+			em.on('pointerover', (e: any)=> this.defEvt2Fnc(e, key2));
 		}
-		if ('onleave' in hArg) {
+		if (hArg.onleave) {
 			//	onleave	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
-//			em.on('pointerout', ()=> {});
+			const key2 = key + hArg.onleave;
+			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: 'true', key: key2};
+			if (glb) this.hGlobalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
+			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
+			em.on('pointerout', (e: any)=> this.defEvt2Fnc(e, key2));
 		}
 
 		// レスポンス向上のため音声ファイルを先読み。結果再生時にjoin不要

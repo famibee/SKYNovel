@@ -31,6 +31,8 @@ export interface HArg {
 	clicksebuf?	: string;
 	entersebuf?	: string;
 	leavesebuf?	: string;
+	onenter?	: string;
+	onleave?	: string;
 	t?	: string;
 	r?	: string;
 	exp?	: string;
