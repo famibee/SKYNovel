@@ -155,7 +155,7 @@ export class TxtLayer extends Layer {
 			for (let i=0; i<len; ++i) {
 				const key = cln.style[i];
 				if (key in this.hWarning) {
-					DebugMng.myTrace(`${key}は指定できません`, true, 'W');
+					DebugMng.myTrace(`${key}は指定できません`, 'W');
 					continue;
 				}
 				this.htmTxt.style[key] = cln.style[key];

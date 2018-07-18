@@ -93,24 +93,25 @@ export class DebugMng {
 	}
 
 	private trace(hArg: HArg) {
-		DebugMng.myTrace((hArg.text ?hArg.text :`(text is ${String(hArg.text)})`), true, 'I');
+		DebugMng.myTrace((hArg.text ?hArg.text :`(text is ${String(hArg.text)})`), 'I');
 
 		return false;
 	}
 
-	static myTrace	= (txt: string, fnline = true, lvl: 'D'|'W'|'F'|'E'|'I' = 'E')=> {
+	static myTrace	= (txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E')=> {
 		let mes = '{'+ lvl +'} '+ txt;
 		let sty = '';
 		switch (lvl) {
 			case 'D':	sty = 'color:#0055AA;';	break;
 			case 'W':	sty = 'color:#FF8800;';	break;
 			case 'F':	sty = 'color:#BB0000;';	break;
-			case 'E':	sty = 'color:#FF3300;';	break;
+			case 'ET':	throw mes;
+			case 'E':	console.error('%c'+ mes, 'color:#FF3300;');	return;
 			default:	sty = 'color:black;';	mes = ' '+ mes;
 		}
-		console[(lvl == 'E' ?'error' :'info')]('%c'+ mes, sty);
+		console.info('%c'+ mes, sty);
 	}
-	private static fncMyTrace(txt: string, fnline = true, lvl: 'D'|'W'|'F'|'E'|'I' = 'E') {
+	private static fncMyTrace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
 		let mes = '{'+ lvl +'} ';
 		mes += DebugMng.scrItr
 		? '(fn:'+ DebugMng.scrItr.scriptFn +' line:'+ DebugMng.scrItr.lineNum+') '
@@ -121,11 +122,8 @@ export class DebugMng {
 			case 'D':	sty = 'color:#0055AA;';	break;
 			case 'W':	sty = 'color:#FF8800;';	break;
 			case 'F':	sty = 'color:#BB0000;';	break;
-			case 'E':	sty = 'color:#FF3300;';
-				DebugMng.title({text: txt
-		//			.replace(/\*.+\*/s, '***')
-		//			.replace('\n', ' ')
-				});
+			case 'ET':
+			case 'E':	DebugMng.title({text: txt});
 				/*if (CmnLib.osName == "AND") {
 					const buf = "mailto:foo@hoge.co.jp"
 						+ "?subject=AIRNovel_ERR&body="
@@ -133,15 +131,15 @@ export class DebugMng {
 						+ "※一部記号は全角表示しています。";
 					flash.net.navigateToURL(new URLRequest(buf));
 				}*/
-				break;
+				this.hTag.dump_lay({});
+				this.hTag.dump_val({});
+				DebugMng.scrItr.dumpErrForeLine();
+				this.hTag.dump_stack({});
+
+				if (lvl == 'ET') throw mes;
+				console.error('%c'+ mes, 'color:#FF3300;');	return;
 			default:	sty = 'color:black;';	mes = ' '+ mes;
 		}
-		if (fnline && lvl == 'E') {
-			this.hTag.dump_lay({});
-			this.hTag.dump_val({});
-			DebugMng.scrItr.dumpErrForeLine();
-			this.hTag.dump_stack({});
-		}
-		console[(lvl == 'E' ?'error' :'info')]('%c'+ mes, sty);
+		console.info('%c'+ mes, sty);
 	}
 };

@@ -16,6 +16,7 @@ import m_xregexp = require('xregexp');
 import {EventMng} from './EventMng';
 import { loaders } from 'pixi.js';
 import { LayerMng } from './LayerMng';
+import { DebugMng } from './DebugMng';
 
 interface Script {
 	aToken	: string[];		// トークン群
@@ -139,6 +140,12 @@ export class ScriptIterator {
 	// デバッグ・その他
 	// スタックのダンプ
 	private dump_stack() {
+		if (this.idxToken_ == 0) {
+			console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.scriptFn_} line:${1} col:${0}`);
+			console.groupEnd();
+			return false;
+		}
+
 		const lc0 = this.getScr2lineCol(this.script, this.idxToken_);
 		const now = `スクリプト現在地 fn:${this.scriptFn_} line:${lc0.line} col:${lc0.col_s +1}`;
 		console.group(`🥟 [dump_stack] ${now}`);
@@ -220,6 +227,12 @@ export class ScriptIterator {
 
 	private dumpErrLine = 5;
 	dumpErrForeLine() {
+		if (this.idxToken_ == 0) {
+			console.group(`🥟 Error line (from ${0} rows before) fn:${this.scriptFn_}`);
+			console.groupEnd();
+			return;
+		}
+
 		const aLine = [];
 		let cnt = this.dumpErrLine;
 		let tmp = '';
@@ -463,7 +476,7 @@ export class ScriptIterator {
 		//console.log('seekScript (from)inMacro:'+ inMacro +' (from)lineNum:'+ lineNum +' (to)skipLabel:'+ skipLabel +': (to)idxToken:'+ idxToken);
 		const len = this.script.aToken.length;
 		if (! skipLabel) {
-			if (idxToken >= len) throw('[jump系] 内部エラー idxToken:'+ idxToken +' は、最大トークン数:'+ len +'を越えます');
+			if (idxToken >= len) DebugMng.myTrace('[jump系] 内部エラー idxToken:'+ idxToken +' は、最大トークン数:'+ len +'を越えます', 'ET');
 			if (! tokens.aLNum[idxToken]) {	// undefined
 				lineNum = 1;
 				for (let j=0; j<idxToken; ++j) {
@@ -500,10 +513,10 @@ export class ScriptIterator {
 			case 'before':
 				while (tokens.aLNum[i] != lineNum) ++i;	// 前から起点探し
 				while (this.script.aToken[i] != skipLabel) {
-					if (i == 0) throw('[jump系 無名ラベルbefore] '
+					if (i == 0) DebugMng.myTrace('[jump系 無名ラベルbefore] '
 						+ lineNum +'行目以前で'+ (inMacro ?'マクロ内に' :'')
-						+ 'ラベル【'+ skipLabel +'】がありません');
-					if (inMacro && this.script.aToken[i].search(this.REG_TOKEN_MACRO_BEGIN) > -1) throw('[jump系 無名ラベルbefore] マクロ内にラベル【'+ skipLabel +'】がありません');
+						+ 'ラベル【'+ skipLabel +'】がありません', 'ET');
+					if (inMacro && this.script.aToken[i].search(this.REG_TOKEN_MACRO_BEGIN) > -1) DebugMng.myTrace('[jump系 無名ラベルbefore] マクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
 					--i;
 				}
 				return {
@@ -517,10 +530,10 @@ export class ScriptIterator {
 				if (! inMacro) break;
 
 				while (this.script.aToken[i] != skipLabel) {
-					if (i == len) throw('[jump系 無名ラベルafter] '
-						+ lineNum +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません');
-					if (this.script.aToken[i].search(this.REG_TOKEN_MACRO_END) > -1) throw('[jump系 無名ラベルafter] '
-						+ lineNum +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません');
+					if (i == len) DebugMng.myTrace('[jump系 無名ラベルafter] '
+						+ lineNum +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
+					if (this.script.aToken[i].search(this.REG_TOKEN_MACRO_END) > -1) DebugMng.myTrace('[jump系 無名ラベルafter] '
+						+ lineNum +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
 					++i;
 				}
 				return {
@@ -529,14 +542,14 @@ export class ScriptIterator {
 				}	//	break;
 
 			default:
-				throw('[jump系] 無名ラベル指定【label='+ base_skipLabel +'】が間違っています');
+				DebugMng.myTrace('[jump系] 無名ラベル指定【label='+ base_skipLabel +'】が間違っています', 'ET');
 			}
 		}
 
 		const reLabel = new RegExp(
 			'^'+ skipLabel.replace(this.REG_LABEL_ESC, '\\*')
 			+'(?:\\s|;|\\[|$)');
-		for (; i<len; ++i) {
+		for (let i=0; i<len; ++i) {
 			// 走査ついでにトークンの行番号も更新
 			if (! tokens.aLNum[i]) tokens.aLNum[i] = lineNum;
 
@@ -553,8 +566,8 @@ export class ScriptIterator {
 			}	//	break;
 		}
 
-		throw('[jump系] ラベル【'+ skipLabel +'】がありません');
-	//	return null;
+		DebugMng.myTrace(`[jump系] ラベル【`+ skipLabel +`】がありません`, 'ET');
+		throw 'Dummy';
 	}
 
 	private hScript		: HScript	= {};	// シナリオキャッシュ
@@ -698,7 +711,7 @@ export class ScriptIterator {
 
 	private recordKidoku(): void {
 		const areas = this.hAreaKidoku[this.scriptFn_];
-		if (areas == null) throw 'recordKidoku fn='+ this.scriptFn_ +' (areas == null)';
+		if (areas == null) throw `recordKidoku fn:${this.scriptFn_} (areas == null)`;
 
 		if (this.vctCallStk.length > 0) {
 			// マクロ内やサブルーチンではisKidokuを変更させない

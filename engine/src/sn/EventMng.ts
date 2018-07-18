@@ -354,6 +354,7 @@ export class EventMng implements IEvtMng {
 			delete h[key];
 			return false;
 		}
+		hArg.fn = hArg.fn || this.scrItr.scriptFn;
 
 		// domイベント
 		if (key.slice(0, 4) == 'dom=') {
