@@ -279,7 +279,6 @@
 	[fadeoutse buf="SE" time=%time|500 cond="mp:no_se_stop === null && !an.skip.enabled"]
 	[stopse buf="SE" cond="an.skip.enabled"]
 	[stopse buf=%buf|音声 cond="mp:no_voice_stop === null || an.skip.enabled"]
-	&save:page = save:page+1 = int
 [endmacro]
 
 ;********************************************************

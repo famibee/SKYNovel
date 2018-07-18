@@ -9,7 +9,7 @@
 　桜の樹の下には屍体が埋まつてゐる！[plc visible=false]
 
 	; *** BGM ***
-	[bgm fn="free32"]
+;	[bgm fn="free32"]
 	[アルバム解放 name=free0509]
 	[アルバム解放 name=free32]
 

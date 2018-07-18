@@ -176,7 +176,8 @@ export class TxtLayer extends Layer {
 				this.b_alpha = 0;
 				this.b_alpha_isfixed = false;
 				if (this.b_do) {
-					this.cnt.removeChild(this.b_do).destroy();
+					this.cnt.removeChild(this.b_do);
+					this.b_do.destroy();
 					this.b_do = null;
 					this.b_pic = '';
 					delete hArg.b_pic;
@@ -248,7 +249,8 @@ export class TxtLayer extends Layer {
 
 			this.b_pic = $b_pic;
 			if (this.b_do) {
-				this.cnt.removeChild(this.b_do).destroy();
+				this.cnt.removeChild(this.b_do);
+				this.b_do.destroy();
 				this.b_do = null;
 			}
 			GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
@@ -263,7 +265,7 @@ export class TxtLayer extends Layer {
 		else if (alpha > 0) {
 			// 透明の時は塗らない。こうしないと透明テキストレイヤ下のボタンが
 			// 押せなくなる（透明だが塗りがあるという扱いなので）
-			if (this.b_do) this.cnt.removeChild(this.b_do).destroy();
+			if (this.b_do) {this.cnt.removeChild(this.b_do); this.b_do.destroy();}
 			const grp = new Graphics;
 			grp.beginFill(this.b_color, alpha);
 			grp.lineStyle(undefined);

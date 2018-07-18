@@ -1055,8 +1055,6 @@ void main(void) {
 
 	// ボタンを表示
 	private button(hArg) {
-		CmnLib.argChk_Boolean(hArg, 'join', false);
-
 		Pages.argChk_page(hArg, 'back');	// チェックしたいというよりデフォルトをbackに
 		hArg.clicksebuf = hArg.clicksebuf || 'SYS';
 		hArg.entersebuf = hArg.entersebuf || 'SYS';

@@ -42,7 +42,8 @@ class MyVal implements IVariable {
 	setVal_Nochk = (scope: string, nm: string, val: any, autocast?: boolean)=> {};
 	defTmp = (name: string, fnc: typeProcVal)=> {};
 	cloneMp = ()=> {return {}};
-	mp = (mp: object)=> {};
+	setMp = ()=> {};
+	cloneSave(): object {return {};};
 };
 
 context('class PropParser', ()=>{
