@@ -292,16 +292,15 @@ export class TxtLayer extends Layer {
 					add_htm = this.aSpan_bk[this.aSpan_bk.length -1];
 					this.autoCloseSpan();
 					this.aSpan.push('<br/>');
+					this.aSpan.push(add_htm);	// ここでaSpan末尾に追加しないと続かない
 					this.aSpan_bk = this.aSpan;
 					this.aSpan = [];
-					break;
+					return;	// breakではない
 				}
 				add_htm = '<br/>';
 				break;
 			}
-			add_htm = (ruby)
-				? `<ruby>${text}<rt>${ruby}</rt></ruby>`
-				: text;
+			add_htm = (ruby) ?`<ruby>${text}<rt>${ruby}</rt></ruby>` :text;
 			break;
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
@@ -443,7 +442,8 @@ export class TxtLayer extends Layer {
 			// これだとSafariでgetChRects()内 getBoundingClientRect()で異常な値になる。
 			// <br/>ではなく<p>〜</p>にする。
 		this.htmTxt.innerHTML = this.aSpan.join('')
-		.split('<br/>').map(v=> `<p style='margin: 0px;'>${v}</p>`).join('');
+		.split('<br/>').map(v=> `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
+		.join('');
 			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
 			// insertAdjacentHTML()は使わない
 		this.htmTxt.hidden = false;
