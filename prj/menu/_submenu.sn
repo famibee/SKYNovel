@@ -44,21 +44,21 @@
 ;*********************************************************
 *save
 	[se fn=&sysse_ok1 buf=SYS]
-	[call label=*exit_smooth]
+	[call label=*exit]
 	[let name="isGameState" text=true]
 	[jump fn="_saveload" label=*rclick_save]
 
 ;*********************************************************
 *load
 	[se fn=&sysse_ok1 buf=SYS]
-	[call label=*exit_smooth]
+	[call label=*exit]
 	[let name="isGameState" text=true]
 	[jump fn="_saveload" label=*rclick_load]
 
 ;*********************************************************
 *config
 	[se fn=&sysse_ok1 buf=SYS]
-	[call label=*exit_smooth]
+	[call label=*exit]
 	[let name="isGameState" text=true]
 	[jump fn="_config" label=*rclick_config]
 
@@ -72,7 +72,7 @@
 ;*********************************************************
 *log
 	[se fn=&sysse_ok1 buf=SYS]
-	[call label=*exit_smooth]
+	[call label=*exit]
 	[let name="isGameState" text=true]
 	[jump fn="_history" label=*show_history]
 
@@ -105,13 +105,6 @@
 ;*********************************************************
 *exit
 	[lay layer=mes_submenu page=fore visible=false]
-	[plugin name=_submenu visible=false]
-	[sys_menu visible=&sysmenu_v]
-[return]
-
-*exit_smooth
-	[lay layer=mes_submenu page=fore visible=false]
-	[plugin name=_submenu visible=false smooth=true time=200]
 	[sys_menu visible=&sysmenu_v]
 [return]
 
@@ -119,7 +112,6 @@
 *cancel
 	[se fn=&sysse_cancel buf=SYS]
 	[lay layer=mes_submenu page=fore visible=false]
-	[plugin name=_submenu visible=false smooth=true time=200]
 	[sys_menu visible=&sysmenu_v]
 	[wait time=200]		; パフォーマンス改善
 

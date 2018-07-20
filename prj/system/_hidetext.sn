@@ -10,7 +10,6 @@
 	[enable_event enabled=false]
 	[clear_event]
 		[lay layer="&save:const.an.mesLayer" page=fore visible=false]
-		[plugin name="&const.an.breakPluginName" visible=false cond="const.an.breakPluginName != null"]
 	[let name=sysmenu_v text=&const.an.lay.mes_sysmenu.fore.visible cond=useSysMenu]
 	[sys_menu visible=false]
 
@@ -32,7 +31,6 @@
 ;*********************************************************
 *exit
 	[lay layer="&save:const.an.mesLayer" page=fore visible=true]
-	[plugin name="&const.an.breakPluginName" visible=true cond="const.an.breakPluginName != null"]
 	[sys_menu visible=&sysmenu_v]
 
 	[enable_event enabled=true]

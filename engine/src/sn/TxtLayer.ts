@@ -267,7 +267,7 @@ export class TxtLayer extends Layer {
 				this.b_do = sp;
 				sp.visible = (alpha > 0);
 				sp.alpha = alpha;
-				Layer.setXY(sp, {}, this.cnt);
+				//Layer.setXY(sp, {}, this.cnt);
 				//CmnLib.adjustRetinaSize(this.b_pic, sp);
 				this.b_left = sp.x;
 				this.b_top = sp.y;

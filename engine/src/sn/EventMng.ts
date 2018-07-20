@@ -185,8 +185,8 @@ export class EventMng implements IEvtMng {
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 	private defEvt2Fnc(e: Event, key: string) {
 		//if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type})`);
-		const ke = this.hGlobalEvt2Fnc[key]
-				|| this.hLocalEvt2Fnc[key];
+		const ke = this.hLocalEvt2Fnc[key]
+				|| this.hGlobalEvt2Fnc[key];
 		if (! ke) return;
 		if ('preventDefault' in e) e.preventDefault();
 
@@ -270,7 +270,7 @@ export class EventMng implements IEvtMng {
 			//	onenter	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
 			const key2 = key + hArg.onenter;
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: 'true', key: key2};
-			if (glb) this.hGlobalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
+			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
 			em.on('pointerover', (e: any)=> this.defEvt2Fnc(e, key2));
 		}
@@ -278,7 +278,7 @@ export class EventMng implements IEvtMng {
 			//	onleave	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
 			const key2 = key + hArg.onleave;
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: 'true', key: key2};
-			if (glb) this.hGlobalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
+			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
 			em.on('pointerout', (e: any)=> this.defEvt2Fnc(e, key2));
 		}
