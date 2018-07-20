@@ -269,8 +269,8 @@ export class TxtLayer extends Layer {
 				sp.alpha = alpha;
 				//Layer.setXY(sp, {}, this.cnt);
 				//CmnLib.adjustRetinaSize(this.b_pic, sp);
-				this.b_left = sp.x;
-				this.b_top = sp.y;
+				sp.x = this.b_left;	// 表示位置を指定できるように
+				sp.y = this.b_top;
 				this.b_width = sp.width;
 				this.b_height = sp.height;
 				this.cnt.setChildIndex(sp, 0);

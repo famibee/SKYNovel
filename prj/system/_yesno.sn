@@ -4,20 +4,15 @@
 [macro name="ask_ync_cleartext"]
 	[clear_lay layer="mes_yesno"]
 
-	[lay layer="mes_yesno" page=fore visible=false b_alpha=0 r_size=12 max_col=19 bura_col=2 max_row=2 b_pic=_yesno layout='lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="260" paddingTop="310" paddingRight="954" paddingBottom="698" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontFamily="ipam" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="0xFFFFFF" whiteSpaceCollapse="preserve"']
-;	;	[button text='Start' left=250 top=360 label=*start hint="最初の話から始める" enterse=&sysse_choice clickse=&sysse_ok2_long]
-		[button layer="mes_yesno" page=fore text='OK' left=350 top=390 global=true fn="_yesno" label=*y enterse=&sysse_choice clickse=&sysse_ok2]
-;		[button layer="mes_yesno" page=fore pic="Mnu_btnOK" left=350 top=390 global=true fn="_yesno" label=*y enterse=&sysse_choice clickse=&sysse_ok2]
+	[lay layer="mes_yesno" visible=false b_pic=_yesno b_alpha=1 b_alpha_isfixed=true b_left=212 b_top=264 style="color: white; padding-top: 310px; padding-left: 260px; padding-right: 954px;" r_size=12 max_col=19 bura_col=2 max_row=2 layout='lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="260" paddingTop="310" paddingRight="954" paddingBottom="698" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontFamily="ipam" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="0xFFFFFF" whiteSpaceCollapse="preserve"']
+		[button layer="mes_yesno" page=fore text=' O K ' left=350 top=390 global=true fn="_yesno" label=*y enterse=&sysse_choice clickse=&sysse_ok2]
 		[button layer="mes_yesno" page=fore text='Cancel' left=570 top=390 global=true fn="_yesno" label=*n enterse=&sysse_choice clickse=&sysse_cancel]
-;		[button layer="mes_yesno" page=fore pic="Mnu_btnCancel" left=570 top=390 global=true fn="_yesno" label=*n enterse=&sysse_choice clickse=&sysse_cancel]
 [endmacro]
 	[ask_ync_cleartext]
 
 [macro name="ask_ync"]
 	[ask_ync_cleartext cond="! mp:no_cleartext"]
 	[ch layer="mes_yesno" text=%mes wait=0 record=false]
-
-		[plugin name="_yesno" visible=true float=true top=264]
 		[lay layer="mes_yesno" visible=true float=true]
 
 	[clear_event]
@@ -47,7 +42,6 @@
 	[let name="_yesno" text="cancel"]
 *exit
 		[lay layer="mes_yesno" visible=false]
-		[plugin name="_yesno" visible=false]
 [endmacro]
 
 [return]

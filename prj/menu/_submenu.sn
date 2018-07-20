@@ -1,6 +1,6 @@
 ;#USE-FONT	ipamjm
 	[add_lay layer=mes_submenu class=txt]
-	[lay layer=mes_submenu b_pic=_submenu b_alpha=1 visible=false]
+	[lay layer=mes_submenu b_pic=_submenu b_alpha=1 b_alpha_isfixed=true b_left=0 b_top=0 visible=false]
 		[button layer=mes_submenu page=fore pic=_submenuBtn left=130 top=108 global=true label=*save hint="セーブ" enterse=&sysse_choice]
 		[button layer=mes_submenu page=fore pic=_submenuBtn left=130 top=178 global=true label=*load hint="ロード" enterse=&sysse_choice]
 		[button layer=mes_submenu page=fore pic=_submenuBtn left=130 top=248 global=true label=*log hint="文字履歴を表示" enterse=&sysse_choice]
