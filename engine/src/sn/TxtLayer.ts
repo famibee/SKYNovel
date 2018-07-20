@@ -78,6 +78,10 @@ export class TxtLayer extends Layer {
 	private pad_bottom	= 0;	// paddingBottom
 
 	// バック
+	private	b_left			= 16 *CmnLib.retinaRate;
+	private	b_top			= 16 *CmnLib.retinaRate;
+	private	b_width			= 0;
+	private	b_height		= 0;
 	private b_color			= 0x000000;
 	private b_alpha			= 0;
 	private b_alpha_isfixed	= false;
@@ -144,9 +148,6 @@ export class TxtLayer extends Layer {
 
 		this.rbSpl.setting(hArg);
 
-		if ('b_color' in hArg) this.b_color = parseInt(hArg.b_color);
-		this.b_alpha = CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
-		this.b_alpha_isfixed = CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
 		if (hArg.style) {
 			//console.log('- hArg.style:%s', hArg.style);
 			const cln = document.createElement('span');
@@ -167,10 +168,12 @@ export class TxtLayer extends Layer {
 			this.fontsize = parseFloat(this.htmTxt.style.fontSize);
 			this.$width = parseFloat(this.htmTxt.style.width);
 			this.$height = parseFloat(this.htmTxt.style.height);
-			this.drawBack(hArg.b_pic);
 		}
 
-		if (hArg.b_color || hArg.b_alpha || hArg.b_alpha_isfixed || hArg.b_pic || hArg.back_clear) {
+		if (('b_left' in hArg) || ('b_top' in hArg) || ('b_width' in hArg)
+		|| ('b_height' in hArg) || ('b_color' in hArg) || ('b_alpha' in hArg)
+		|| ('b_alpha_isfixed' in hArg) || ('b_pic' in hArg)
+		|| ('back_clear' in hArg)) {
 			if (CmnLib.argChk_Boolean(hArg, 'back_clear', false)) {
 				this.b_color = 0x000000;
 				this.b_alpha = 0;
@@ -188,6 +191,14 @@ export class TxtLayer extends Layer {
 				this.b_alpha = CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
 				this.b_alpha_isfixed = CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
 			}
+			if ('b_left' in hArg) this.b_left
+				= CmnLib.argChk_Num(hArg, 'b_left', 0) * CmnLib.retinaRate;
+			if ('b_top' in hArg) this.b_top
+				= CmnLib.argChk_Num(hArg, 'b_top', 0) * CmnLib.retinaRate;
+			if ('b_width' in hArg) this.b_width
+				= CmnLib.argChk_Num(hArg, 'b_width', 0) * CmnLib.retinaRate;
+			if ('b_height' in hArg) this.b_height
+				= CmnLib.argChk_Num(hArg, 'b_height', 0) * CmnLib.retinaRate;
 			this.drawBack(hArg.b_pic);
 		}
 
@@ -242,7 +253,6 @@ export class TxtLayer extends Layer {
 			? 1
 			: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
 		) *this.b_alpha;
-
 		if ($b_pic) {
 			if ($b_pic == 'null') return;
 			if ($b_pic == this.b_pic) return;
@@ -257,8 +267,12 @@ export class TxtLayer extends Layer {
 				this.b_do = sp;
 				sp.visible = (alpha > 0);
 				sp.alpha = alpha;
-				//CmnLib.adjustRetinaSize(this.b_pic, doc);
-
+				Layer.setXY(sp, {}, this.cnt);
+				//CmnLib.adjustRetinaSize(this.b_pic, sp);
+				this.b_left = sp.x;
+				this.b_top = sp.y;
+				this.b_width = sp.width;
+				this.b_height = sp.height;
 				this.cnt.setChildIndex(sp, 0);
 			});
 		}
@@ -269,12 +283,11 @@ export class TxtLayer extends Layer {
 			const grp = new Graphics;
 			grp.beginFill(this.b_color, alpha);
 			grp.lineStyle(undefined);
-			grp.drawRect(0, 0, this.$width, this.$height);
+			grp.drawRect(this.b_left, this.b_top, this.b_width, this.b_height);
 			grp.endFill();
 			this.b_do = grp;
 			this.cnt.addChildAt(grp, 0);
-			//this.graphics.cacheAsBitmap = true;
-				// これを有効にするとスナップショットが撮れない？？
+			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
 	}
 
@@ -1118,6 +1131,8 @@ export class TxtLayer extends Layer {
 	dump(): string {
 		return super.dump() +` enabled:${this.enabled}
 		style:\`${this.htmTxt.style.cssText}\`
+		b_pic:${this.b_pic} b_color:${this.b_color} b_alpha:${this.b_alpha} b_alpha_isfixed:${this.b_alpha_isfixed}
+		b_left:${this.b_left} b_top:${this.b_top} b_width:${this.b_width} b_height:${this.b_height}
 		txt:\`${this.htmTxt.textContent}\``;
 	};
 

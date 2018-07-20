@@ -18,14 +18,14 @@
 ;	組み込みで「c」という指定が出来る。例：pos=c、pos="c"
 ;	これを指定すると画面中央。（pos、leftを省略するとpos=c扱い）
 [let name="pos.l" text="140"]
-[let name="pos.c" text="&const.sn.xmlConfig.window.width /2"]
-[let name="pos.r" text="&const.sn.xmlConfig.window.width -pos.l"]
+[let name="pos.c" text="&const.sn.config.window.width /2"]
+[let name="pos.r" text="&const.sn.config.window.width -pos.l"]
 [let name="pos.lc" text="&(pos.c + pos.l) /2"]
 [let name="pos.rc" text="&(pos.r + pos.c) /2"]
 
 ; 「桜の樹の下には」特有の立ち絵配置位置定数
 [let name="pos.vleft_disp_x" text="&40 + 280"]
-[let name="pos.vleft_disp_w" text="&const.sn.xmlConfig.window.width - pos.vleft_disp_x"]
+[let name="pos.vleft_disp_w" text="&const.sn.config.window.width - pos.vleft_disp_x"]
 
 [let name="pos.l1c" text="&pos.vleft_disp_x + pos.vleft_disp_w * (1/2)"]
 
@@ -52,7 +52,7 @@
 	[let name="lastVoice" text=""]
 	[let name="isGameState" text=false]
 	[let name="sys:doResume" text=false]
-	[let name="save:an.doRecLog" text=false]
+	[let name="save:sn.doRecLog" text=false]
 
 	[txt_lay_fullscreen b_alpha=0 onend=leave no_sysmenu_draw=true]
 	[er]	; ページ両面の文字消去＆改ページ
@@ -68,7 +68,7 @@
 [macro name=sys_scenario_start]
 	[let name="lastVoice" text=""]
 	[let name="isGameState" text=true]
-	[let name="save:an.doRecLog" text=true]
+	[let name="save:sn.doRecLog" text=true]
 
 	[fadeoutbgm time=300]
 	[fadeoutse buf="SE" time=500]
@@ -125,6 +125,8 @@
 ; マクロ システムメニュー描画処理
 [macro name=sysmenu_draw]
 	[return cond=!useSysMenu]
+	[sys_menu visible=false]
+	[clear_lay layer="mes_sysmenu" page=both]
 	[return cond="mp:no_sysmenu_draw != null"]
 
 	[let name=l text=%l|40]
@@ -132,8 +134,6 @@
 	[let name=sysmenu_left text=&l-30]
 	[let name=sysmenu_left2 text=&sysmenu_left+w+13]
 
-	[sys_menu visible=false]
-	[clear_lay layer="mes_sysmenu" page=both]
 	[lay layer="mes_sysmenu" page=back]
 	[button layer="mes_sysmenu" page=back text="クイックセーブ" rotation=-90 left=&sysmenu_left2 top=600 global=true event_at_down=true fn="_saveload" label=*quick_save call=true hint="クイックセーブ" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text="クイックロード" rotation=-90 left=&sysmenu_left2 top=720 global=true event_at_down=true fn="_saveload" label=*quick_load call=true hint="クイックロード" enterse=&sysse_choice]
@@ -181,14 +181,14 @@
 	[let name="w" text=%w|292]
 	&pl = l +26
 	&pt = 66
-	&pr = const.sn.xmlConfig.window.width -(l +w) +26
+	&pr = const.sn.config.window.width -(l +w) +26
 	&pb = 66
 	[let name="fcol" text=%fcol|'white']
 	; こちらの素材をお借りしました。
 	; びたちー素材館　メッセージボックス・メッセージウィンドウ・フレーム　フリー素材 http://www.vita-chi.net/message.htm
 	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_pic=%b_pic|wafuu1 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" style="&'color: '+ fcol +'; writing-mode: vertical-rl;'" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 ; 以下はテキストレイヤに画像を使わない版
-;	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_width=&w b_height=&const.sn.xmlConfig.window.height b_color=%b_color|0xffffff b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
+;	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_width=&w b_height=&const.sn.config.window.height b_color=%b_color|0xffffff b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 
 	[sysmenu_draw *]
 [endmacro]
@@ -211,7 +211,7 @@
 ; マクロ テキストレイヤ全画面設定
 [macro name="txt_lay_fullscreen"]
 	[let name="t" text=%t|40]
-	[let name="h" text=%h|"&const.sn.xmlConfig.window.height -40*2"]
+	[let name="h" text=%h|"&const.sn.config.window.height -40*2"]
 	&pl = 70
 	&pt = t +30
 	&pr = 70
@@ -219,7 +219,7 @@
 	[let name="fcol" text=%fcol|0x000000]
 ;	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=0 b_top=&t-20 b_pic=%b_pic|hakkou1 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=35 bura_col=2 max_row=%max_row|18 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 ; 以下はテキストレイヤに画像を使わない版
-	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=40 b_top=&t b_width="&const.sn.xmlConfig.window.width -40*2" b_height=&h b_color=%b_color|0x000000 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=35 bura_col=2 max_row=%max_row|18 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
+	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=40 b_top=&t b_width="&const.sn.config.window.width -40*2" b_height=&h b_color=%b_color|0x000000 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=35 bura_col=2 max_row=%max_row|18 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 
 	[sysmenu_draw *]
 [endmacro]
@@ -233,13 +233,13 @@
 ;********************************************************
 ; マクロ ＢＧＭ切り替え
 [macro name="bgm"]
-	[stopbgm cond="mp:time == null || an.skip.enabled"]
+	[stopbgm cond="mp:time == null || sn.skip.enabled"]
 	
 	[let name=t text=%time|500]	;省略した時の初期値
 	[stopse buf=BGM_FO]
 	[xchgbuf buf=BGM buf2=BGM_FO]
 
-	[if exp="mp:time == null || an.skip.enabled"]
+	[if exp="mp:time == null || sn.skip.enabled"]
 		[playbgm *]
 	[else]
 		[fadeoutse buf=BGM_FO time=&t]
@@ -270,15 +270,15 @@
 ;********************************************************
 ; マクロ 改ページ
 [macro name="plc"]
-	[ws buf="音声" canskip=true cond="an.auto.enabled && !an.skip.enabled"]
+	[ws buf="音声" canskip=true cond="sn.auto.enabled && !sn.skip.enabled"]
 	[p visible=%visible|true]
 	[er]
 	[record_place layer=&dsp_lays]
 		[sys_resume_save]
 	[let name="lastVoice" text=""]
-	[fadeoutse buf="SE" time=%time|500 cond="mp:no_se_stop === null && !an.skip.enabled"]
-	[stopse buf="SE" cond="an.skip.enabled"]
-	[stopse buf=%buf|音声 cond="mp:no_voice_stop === null || an.skip.enabled"]
+	[fadeoutse buf="SE" time=%time|500 cond="mp:no_se_stop === null && !sn.skip.enabled"]
+	[stopse buf="SE" cond="sn.skip.enabled"]
+	[stopse buf=%buf|音声 cond="mp:no_voice_stop === null || sn.skip.enabled"]
 [endmacro]
 
 ;********************************************************
@@ -320,9 +320,9 @@
 ;********************************************************
 [macro name="grp"]
 	[let name=t text=%t_time|300]	;省略した時の初期値
-	[let name=t text=0 cond="an.skip.enabled"]
+	[let name=t text=0 cond="sn.skip.enabled"]
 	[let name=tt text=%time|1000]	;省略した時の初期値
-	[let name=tt text=0 cond="an.skip.enabled"]
+	[let name=tt text=0 cond="sn.skip.enabled"]
 
 	; テキストOff
 	[if exp="mp:nofo_txt == null"]
@@ -356,7 +356,7 @@
 ;********************************************************
 ; マクロ 文字数分のウェイトを入れる
 [macro name="wc"]
-	[wait cond="mp:time != null && sys:an.tagCh.doWait && !an.skip.enabled" time="&mp:time * sys:an.tagCh.msecWait"]
+	[wait cond="mp:time != null && sys:sn.tagCh.doWait && !sn.skip.enabled" time="&mp:time * sys:sn.tagCh.msecWait"]
 [endmacro]
 
 
@@ -366,15 +366,15 @@
 
 ;********************************************************
 *toggle_auto_read
-	[let name="tmp:an.auto.enabled" text=true]
+	[let name="tmp:sn.auto.enabled" text=true]
 	[set_cancel_skip]
-	[notice text="自動読み進みOn" left="&const.sn.xmlConfig.window.width -10 -300" top=10]
+	[notice text="自動読み進みOn" left="&const.sn.config.window.width -10 -300" top=10]
 	[return]
 
 *toggle_skip
-	[let name="tmp:an.skip.enabled" text=true]
+	[let name="tmp:sn.skip.enabled" text=true]
 	[set_cancel_skip]
-	[notice text="強制スキップ On" left="&const.sn.xmlConfig.window.width -10 -300" top=10]
+	[notice text="強制スキップ On" left="&const.sn.config.window.width -10 -300" top=10]
 	[return]
 
 *h_voice
@@ -386,7 +386,7 @@
 
 	[history_let_page name=h_page]
 	[history_let_page_count name=h_page_count]
-	[notice text="容量制限により、これ以前で再開できません" left="&const.sn.xmlConfig.window.width -10 -300" top=10 cond="h_page_count -h_page > const.h_save.max_count"]
+	[notice text="容量制限により、これ以前で再開できません" left="&const.sn.config.window.width -10 -300" top=10 cond="h_page_count -h_page > const.h_save.max_count"]
 	[return cond="h_page_count -h_page > const.h_save.max_count"]
 
 		[ask_ync_cleartext]

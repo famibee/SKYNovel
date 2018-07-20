@@ -60,11 +60,17 @@ export interface HArg {
 	style_hover?	: string;
 	style_clicked?	: string;
 	fill_hover?	: string;
+
+	b_left?		: string;
+	b_top?		: string;
+	b_width?	: string;
+	b_height?	: string;
 	b_color?	: string;
 	b_alpha?	: string;
 	b_alpha_isfixed?	: string;
 	b_pic?		: string;
 	back_clear?	: string;
+
 	max_col?	: string;
 	max_row?	: string;
 	bura_col?	: string;

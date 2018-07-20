@@ -21,9 +21,8 @@
 	[return cond="! isGameState"]
 
 		[se fn=&sysse_ok1 buf=SYS]
-;		[plugin name=_submenu visible=true]
 		[lay layer=mes_submenu page=fore visible=true]
-		[let name=sysmenu_v text=&const.an.lay.mes_sysmenu.fore.visible cond=useSysMenu]
+		[let name=sysmenu_v text=&const.sn.lay.mes_sysmenu.fore.visible cond=useSysMenu]
 		[sys_menu visible=false]
 
 	[let name="isGameState" text=false]
