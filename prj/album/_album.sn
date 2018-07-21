@@ -209,7 +209,6 @@
 *page
 	[let name="old_page" text=&page]
 	[let name="page" text=&sn.eventArg]
-[trace text=&page]
 	[jump label=*left_sub cond="old_page < page"]
 	[jump label=*right_sub]
 

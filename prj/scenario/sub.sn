@@ -186,9 +186,12 @@
 	[let name="fcol" text=%fcol|'white']
 	; こちらの素材をお借りしました。
 	; びたちー素材館　メッセージボックス・メッセージウィンドウ・フレーム　フリー素材 http://www.vita-chi.net/message.htm
-	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_pic=%b_pic|wafuu1 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" style="&'color: '+ fcol +'; writing-mode: vertical-rl;'" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
-; 以下はテキストレイヤに画像を使わない版
-;	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_width=&w b_height=&const.sn.config.window.height b_color=%b_color|0xffffff b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
+	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0
+		b_pic=%b_pic|wafuu1
+			; 背後に画像を使う場合
+	;	b_width=&w b_height=&const.sn.config.window.height b_color=%b_color|0xffffff
+			; 背後に画像を使わない場合
+		b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" style="&'color: '+ fcol +'; writing-mode: vertical-rl;'" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 
 	[sysmenu_draw *]
 [endmacro]
@@ -202,9 +205,9 @@
 ;********************************************************
 ; マクロ テキストレイヤ縦書きWide中設定
 [macro name="txt_lay_v_center_wide"]
-	[txt_lay_v_center * l=%l|294 w=436 max_row=11 b_pic=wafuu1w]
-; 以下はテキストレイヤに画像を使わない版
-;	[txt_lay_v_center * l=%l|294 w=436 max_row=11]
+	[txt_lay_v_center * l=%l|294 w=436 max_row=11
+	b_pic=wafuu1w	; 背後に画像を使わない場合はコメントアウト
+]
 [endmacro]
 
 ;********************************************************
@@ -217,9 +220,12 @@
 	&pr = 70
 	&pb = 70
 	[let name="fcol" text=%fcol|0x000000]
-;	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=0 b_top=&t-20 b_pic=%b_pic|hakkou1 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=35 bura_col=2 max_row=%max_row|18 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
-; 以下はテキストレイヤに画像を使わない版
-	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=40 b_top=&t b_width="&const.sn.config.window.width -40*2" b_height=&h b_color=%b_color|0x000000 b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=35 bura_col=2 max_row=%max_row|18 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
+	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=0 b_top=&t-20
+	;	b_pic=%b_pic|hakkou1
+			; 背後に画像を使う場合
+		b_width="&const.sn.config.window.width -40*2" b_height=&h b_color=%b_color|0x000000
+			; 背後に画像を使わない場合
+		b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=35 bura_col=2 max_row=%max_row|18 onsplit="enter" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="tb" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
 
 	[sysmenu_draw *]
 [endmacro]

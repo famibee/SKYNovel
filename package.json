@@ -31,7 +31,7 @@
 		"@types/pixi.js": "^4.8.0",
 		"@types/power-assert": "^1.5.0",
 		"@types/stats.js": "^0.17.0",
-		"@types/three": "^0.92.12",
+		"@types/three": "^0.92.13",
 		"@types/tween.js": "^16.9.0",
 		"@types/xml2js": "^0.4.3",
 		"@types/xregexp": "^3.0.29",
