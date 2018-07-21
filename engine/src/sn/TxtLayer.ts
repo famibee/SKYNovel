@@ -910,9 +910,9 @@ export class TxtLayer extends Layer {
 		}
 		let delay = 0;
 		let fncDelay = (timAutoWc: number)=> {
-			if (timAutoWc) delay = timAutoWc;
+			if (timAutoWc != null) delay = timAutoWc;
 			fncDelay = (timAutoWc: number)=> {
-				delay += (timAutoWc) ? timAutoWc : LayerMng.msecChWait;
+				delay += (timAutoWc != null) ? timAutoWc : LayerMng.msecChWait;
 			};
 		};
 		const len = this.aRect.length;
@@ -927,7 +927,7 @@ export class TxtLayer extends Layer {
 			const rct = v.rect;
 			const v_rect4ch_tx = rct.clone();
 			if (TxtLayer.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
-				//console.log('🍌 masume ch:%s x:%d y:%d w:%d h:%d', v.ch, rct.x, rct.y, rct.width, rct.height);
+				//console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
 				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
 				this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
 				this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
@@ -962,7 +962,7 @@ export class TxtLayer extends Layer {
 						.delay(delay)
 						.onComplete(()=> {
 							st.tw = null;
-							if (rct.width  == 0 || rct.height == 0) return;
+							if (rct.width == 0 || rct.height == 0) return;
 							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
 							//　これを有効にすると[snapshot]で文字が出ない
 						})
