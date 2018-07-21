@@ -70,18 +70,14 @@ export class TxtLayer extends Layer {
 		TxtLayer.hNoReplaceDispObj = {};
 	}
 
-	private	$width		= 0;
+	private	$width		= 0;	// レイヤサイズであり、背景色（画像）サイズ
 	private	$height		= 0;
-	private pad_left	= 0;	// paddingLeft
+	private pad_left	= 0;	// paddingLeft（レイヤサイズの内側のスペーサー）
 	private pad_right	= 0;	// paddingRight
 	private pad_top		= 0;	// paddingTop
 	private pad_bottom	= 0;	// paddingBottom
 
 	// バック
-	private	b_left			= 16 *CmnLib.retinaRate;
-	private	b_top			= 16 *CmnLib.retinaRate;
-	private	b_width			= 0;
-	private	b_height		= 0;
 	private b_color			= 0x000000;
 	private b_alpha			= 0;
 	private b_alpha_isfixed	= false;
@@ -170,10 +166,8 @@ export class TxtLayer extends Layer {
 			this.$height = parseFloat(this.htmTxt.style.height);
 		}
 
-		if (('b_left' in hArg) || ('b_top' in hArg) || ('b_width' in hArg)
-		|| ('b_height' in hArg) || ('b_color' in hArg) || ('b_alpha' in hArg)
-		|| ('b_alpha_isfixed' in hArg) || ('b_pic' in hArg)
-		|| ('back_clear' in hArg)) {
+		if (('b_color' in hArg) || ('b_alpha' in hArg) ||('b_alpha_isfixed' in hArg)
+		|| ('b_pic' in hArg) || ('back_clear' in hArg)) {
 			if (CmnLib.argChk_Boolean(hArg, 'back_clear', false)) {
 				this.b_color = 0x000000;
 				this.b_alpha = 0;
@@ -191,14 +185,6 @@ export class TxtLayer extends Layer {
 				this.b_alpha = CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
 				this.b_alpha_isfixed = CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
 			}
-			if ('b_left' in hArg) this.b_left
-				= CmnLib.argChk_Num(hArg, 'b_left', 0) * CmnLib.retinaRate;
-			if ('b_top' in hArg) this.b_top
-				= CmnLib.argChk_Num(hArg, 'b_top', 0) * CmnLib.retinaRate;
-			if ('b_width' in hArg) this.b_width
-				= CmnLib.argChk_Num(hArg, 'b_width', 0) * CmnLib.retinaRate;
-			if ('b_height' in hArg) this.b_height
-				= CmnLib.argChk_Num(hArg, 'b_height', 0) * CmnLib.retinaRate;
 			this.drawBack(hArg.b_pic);
 		}
 
@@ -267,12 +253,9 @@ export class TxtLayer extends Layer {
 				this.b_do = sp;
 				sp.visible = (alpha > 0);
 				sp.alpha = alpha;
-				//Layer.setXY(sp, {}, this.cnt);
 				//CmnLib.adjustRetinaSize(this.b_pic, sp);
-				sp.x = this.b_left;	// 表示位置を指定できるように
-				sp.y = this.b_top;
-				this.b_width = sp.width;
-				this.b_height = sp.height;
+				this.$width = sp.width;		// ちなみに左上表示位置は本レイヤと同じ
+				this.$height = sp.height;
 				this.cnt.setChildIndex(sp, 0);
 			});
 		}
@@ -283,7 +266,7 @@ export class TxtLayer extends Layer {
 			const grp = new Graphics;
 			grp.beginFill(this.b_color, alpha);
 			grp.lineStyle(undefined);
-			grp.drawRect(this.b_left, this.b_top, this.b_width, this.b_height);
+			grp.drawRect(0, 0, this.$width, this.$height);
 			grp.endFill();
 			this.b_do = grp;
 			this.cnt.addChildAt(grp, 0);
@@ -294,7 +277,7 @@ export class TxtLayer extends Layer {
 
 	tagCh(text: string): void {this.rbSpl.putTxt(text);}
 	private	putCh : IPutCh = (text: string, ruby: string)=> {
-		if (TxtLayer.cfg.oCfg.debug.putCh) console.log('🖊 文字表示 text:'+ text +' ruby:'+ ruby +':');
+		if (TxtLayer.cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${text}\` ruby:\`${ruby}\` name:\`${this.name}\``);
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
@@ -1132,7 +1115,7 @@ export class TxtLayer extends Layer {
 		return super.dump() +` enabled:${this.enabled}
 		style:\`${this.htmTxt.style.cssText}\`
 		b_pic:${this.b_pic} b_color:${this.b_color} b_alpha:${this.b_alpha} b_alpha_isfixed:${this.b_alpha_isfixed}
-		b_left:${this.b_left} b_top:${this.b_top} b_width:${this.b_width} b_height:${this.b_height}
+		b_width:${this.$width} b_height:${this.$height}
 		txt:\`${this.htmTxt.textContent}\``;
 	};
 

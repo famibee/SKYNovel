@@ -449,7 +449,7 @@ export class ScriptIterator {
 
 		const ldr = new loaders.Loader;
 		ldr.add(this.scriptFn_, this.cfg.searchPath(this.scriptFn_, Config.EXT_SCRIPT));
-		ldr.load((loader: any, res: any) => {
+		ldr.load((loader: any, res: any)=> {
 			if (res.error) throw 'Main: config.anprj ロード失敗('+ res.error +')です'
 
 			this.resolveScript(res[this.scriptFn_].data);

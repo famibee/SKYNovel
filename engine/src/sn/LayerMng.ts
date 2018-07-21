@@ -161,12 +161,12 @@ export class LayerMng {
 	}
 
 
-	private cmdTxt(cmd: string, record = true): void {
-		this.hTag.ch({
-			text	: '｜　《'+ cmd +'》',
-			wait	: '-1',
-			record	: String(record),
-		});
+	private cmdTxt(cmd: string, $tl: TxtLayer = undefined, record = true): void {
+		const tl = $tl || this.getCurrentTxtlayForeNeedErr();
+		if (! tl) return;
+		tl.tagCh('｜　《'+ cmd +'》');
+
+		// TODO: record
 	}
 	goTxt = ()=> {};
 	breakLine = ()=> {};
@@ -321,8 +321,8 @@ return false;	//=====
 		const cls = hArg.class;
 		if (! cls) throw 'classは必須です';
 		//console.log(`[add_lay] layer:${layer}: cls:${cls}:`);
-		let fore : Layer | null = null;
-		let back : Layer | null = null;
+		let fore: Layer | null = null;
+		let back: Layer | null = null;
 		switch (cls) {
 		case 'grp':	fore = new GrpLayer;	back = new GrpLayer;	break;
 		case 'txt':	fore = new TxtLayer;	back = new TxtLayer;	break;
@@ -349,7 +349,12 @@ return false;	//=====
 					else {
 						this.setNormalWaitTxtLayer();
 					}
-					this.cmdTxt('gotxt｜', false);
+					this.cmdTxt('gotxt｜', undefined, false);
+					/*for (const name of this.getLayers()) {
+						const pg = this.hPages[name];
+						if (! (pg.fore instanceof TxtLayer)) continue;
+						this.cmdTxt('gotxt｜', pg.fore as TxtLayer, false);
+					}*/
 				}
 			}
 
@@ -823,15 +828,16 @@ void main(void) {
 	private ch(hArg) {
 		if (! hArg.text) throw('[ch] textは必須です');
 
+		const tl = this.getTxtLayer(hArg) as TxtLayer;
 		const wait = (this.val.getVal('tmp:sn.skip.enabled'))
 			? 0
 			: CmnLib.argChk_Num(hArg, 'wait', -1);
-		if (wait >= 0) this.cmdTxt(`add｜{'wait': ${wait}}`);
+		if (wait >= 0) this.cmdTxt(`add｜{'wait': ${wait}}`, tl);
 
-		const tl = this.getTxtLayer(hArg) as TxtLayer;
 		tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
 
-		if (wait >= 0) this.cmdTxt(`add_close｜`);
+		if (wait >= 0) this.cmdTxt(`add_close｜`, tl);
+		this.cmdTxt('gotxt｜', tl, false);
 
 		return false;
 	};
@@ -1023,12 +1029,8 @@ void main(void) {
 	// レイヤのダンプ
 	private dump_lay(hArg) {
 		console.group('🥟 [dump_lay]');
-		const aLay = this.getLayers(hArg.layer);
-		for (const name of aLay) {
-			if (! name) continue;
-
+		for (const name of this.getLayers(hArg.layer)) {
 			const pg = this.hPages[name];
-			if (! pg) continue;
 			console.groupCollapsed('{'+ pg.fore.name.slice(0, -7) +'}');
 			console.info('%c\tback'+ pg.back.dump(), 'color:#0055AA;');
 			console.info('%c\tfore'+ pg.fore.dump(), 'color:#0055AA;');
