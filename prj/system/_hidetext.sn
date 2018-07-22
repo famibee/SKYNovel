@@ -9,12 +9,12 @@
 
 	[enable_event enabled=false]
 	[clear_event]
-		[lay layer="&save:const.an.mesLayer" page=fore visible=false]
-	[let name=sysmenu_v text=&const.an.lay.mes_sysmenu.fore.visible cond=useSysMenu]
+		[lay layer="&save:const.sn.mesLayer" page=fore visible=false]
+	[let name=sysmenu_v text=&const.sn.lay.mes_sysmenu.fore.visible cond=useSysMenu]
 	[sys_menu visible=false]
 
 	[let name="isGameState" text=false]
-	[let name="save:an.doRecLog" text=false]
+	[let name="save:sn.doRecLog" text=false]
 
 	[event key=click label=*exit]
 	[event key=rightclick label=*exit]
@@ -25,16 +25,16 @@
 	[event key=delete label=*exit]
 	[event key=backspace label=*exit]
 	[event key=space label=*exit]
-	[gesture_event swipe=*exit f2tap=*exit f3tap=*exit]
+;	[gesture_event swipe=*exit f2tap=*exit f3tap=*exit]
 [s]
 
 ;*********************************************************
 *exit
-	[lay layer="&save:const.an.mesLayer" page=fore visible=true]
+	[lay layer="&save:const.sn.mesLayer" page=fore visible=true]
 	[sys_menu visible=&sysmenu_v]
 
 	[enable_event enabled=true]
 	[set_focus to=null]
 	[let name="isGameState" text=true]
-	[let name="save:an.doRecLog" text=true]
+	[let name="save:sn.doRecLog" text=true]
 [return]

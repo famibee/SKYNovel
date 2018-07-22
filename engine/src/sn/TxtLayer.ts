@@ -194,8 +194,6 @@ export class TxtLayer extends Layer {
 		this.htmTxt.style.position = 'absolute';
 		this.htmTxt.style.left = xSlide +'px';
 		this.htmTxt.style.top = `0px`;
-		this.htmTxt.style.width = this.$width +'px';
-		this.htmTxt.style.height = this.$height +'px';
 		this.htmTxt.style.zIndex = '-2';
 		if (hArg.filter) switch (hArg.filter) {	// PixiJS Filters Documentation https://pixijs.io/pixi-filters/docs/PIXI.filters.GlowFilter.html
 			case 'null':
@@ -256,6 +254,8 @@ export class TxtLayer extends Layer {
 				//CmnLib.adjustRetinaSize(this.b_pic, sp);
 				this.$width = sp.width;		// ちなみに左上表示位置は本レイヤと同じ
 				this.$height = sp.height;
+				this.htmTxt.style.width = this.$width +'px';
+				this.htmTxt.style.height = this.$height +'px';
 				this.cnt.setChildIndex(sp, 0);
 			});
 		}
