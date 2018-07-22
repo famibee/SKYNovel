@@ -28,16 +28,17 @@ interface IResAniSpr {
 }
 
 export class GrpLayer extends Layer {
-	static	elc			= new EventListenerCtn;
+	private static	elc			= new EventListenerCtn;
 
-	private csvFn		= '';
-	static	hFace		: Ihface	= {};
+	private static	hFace		: Ihface	= {};
 
-	static	main		: IMain | null		= null;
-	static	cfg			: Config | null		= null;
+	private static	main		: IMain | null		= null;
+	private static	cfg			: Config | null		= null;
+	private static	ldr			: loaders.Loader | null	= null;
 	static	init(main: IMain, cfg: Config): void {
 		GrpLayer.main = main;
 		GrpLayer.cfg = cfg;
+		GrpLayer.ldr = new loaders.Loader();
 	}
 	static	destroy() {
 		GrpLayer.elc.clear();
@@ -50,6 +51,7 @@ export class GrpLayer extends Layer {
 		GrpLayer.ldr = null;
 	}
 
+	private csvFn		= '';
 	private sBkFn		= '';
 	private sBkFace		= '';
 	static	hFn2ResAniSpr	: {[name: string]:	IResAniSpr} = {};
@@ -88,7 +90,6 @@ export class GrpLayer extends Layer {
 			isStop=> {if (isStop) GrpLayer.main.resume()}
 		);
 	}
-	private static ldr = new loaders.Loader();
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		//GrpLayer.ldr.destroy();	// あまりキビキビ殺すと、表示する前に消える
