@@ -437,6 +437,8 @@ export class TxtLayer extends Layer {
 		//this.htmTxt.innerHTML = this.aSpan.join('');
 			// これだとSafariでgetChRects()内 getBoundingClientRect()で異常な値になる。
 			// <br/>ではなく<p>〜</p>にする。
+		const len = this.aSpan.length;
+		if (this.aSpan[len -1] == '<br/>') this.aSpan[len -1] = `<p style='margin: 0px;'>　</p>`;	// 次行の処理で、終端に「　」を追加させない前処理
 		this.htmTxt.innerHTML = this.aSpan.join('')
 		.split('<br/>').map(v=> `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
 		.join('');
@@ -975,6 +977,7 @@ export class TxtLayer extends Layer {
 				spWork(sp);
 				if (v.cmd == 'link') {
 					const o: any = JSON.parse(v.arg);
+					o.key = this.name +' link:'+ i;	// 一文字ずつ別ボタン
 					TxtLayer.evtMng.button(o, sp);
 				}
 			}

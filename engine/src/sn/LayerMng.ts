@@ -349,12 +349,11 @@ return false;	//=====
 					else {
 						this.setNormalWaitTxtLayer();
 					}
-					this.cmdTxt('gotxt｜', undefined, false);
-					/*for (const name of this.getLayers()) {
+					for (const name of this.getLayers()) {
 						const pg = this.hPages[name];
 						if (! (pg.fore instanceof TxtLayer)) continue;
 						this.cmdTxt('gotxt｜', pg.fore as TxtLayer, false);
-					}*/
+					}
 				}
 			}
 
@@ -837,7 +836,6 @@ void main(void) {
 		tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
 
 		if (wait >= 0) this.cmdTxt(`add_close｜`, tl);
-		this.cmdTxt('gotxt｜', tl, false);
 
 		return false;
 	};
