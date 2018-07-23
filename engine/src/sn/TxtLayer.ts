@@ -439,9 +439,11 @@ export class TxtLayer extends Layer {
 			// <br/>ではなく<p>〜</p>にする。
 		const len = this.aSpan.length;
 		if (this.aSpan[len -1] == '<br/>') this.aSpan[len -1] = `<p style='margin: 0px;'>　</p>`;	// 次行の処理で、終端に「　」を追加させない前処理
-		this.htmTxt.innerHTML = this.aSpan.join('')
-		.split('<br/>').map(v=> `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
-		.join('');
+		this.htmTxt.innerHTML = this.aSpan.join('').split('<br/>').map(v=> (
+			v.indexOf('</p>') > 0
+			? v		// <p>入れ子予防
+			: `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`
+		)).join('');
 			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
 			// insertAdjacentHTML()は使わない
 		this.htmTxt.hidden = false;
