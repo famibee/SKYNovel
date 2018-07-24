@@ -12,6 +12,6 @@
 		"putCh"			: false,
 		"slideBaseSpan"	: false,
 		"baseTx"		: false,
-		"masume"		: false
+		"masume"		: true
 	}
 }

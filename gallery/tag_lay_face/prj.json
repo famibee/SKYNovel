@@ -5,6 +5,13 @@
 		"width": 750,
 		"height": 500
 	},
-	"init": {"bg_color": 0},
-	"debug": {"devtool": "true"}
+	"debug"	: {
+		"devtool"		: true,
+		"token"			: false,
+		"tag"			: false,
+		"putCh"			: false,
+		"slideBaseSpan"	: false,
+		"baseTx"		: false,
+		"masume"		: false
+	}
 }

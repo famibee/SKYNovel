@@ -48,7 +48,7 @@
 		"typescript": "^2.9.2",
 		"webpack": "^4.16.1",
 		"webpack-cli": "^3.1.0",
-		"webpack-dev-server": "^3.1.4"
+		"webpack-dev-server": "^3.1.5"
 	},
 	"scripts": {
 		"start": "tsc -p engine/ && npm run webpack:dev && npm run electron & npm run test",

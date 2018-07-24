@@ -436,14 +436,16 @@ export class TxtLayer extends Layer {
 		//console.log(`🍆 goTxt2_htm2tx[${this.cntGotxt}]`);
 		//this.htmTxt.innerHTML = this.aSpan.join('');
 			// これだとSafariでgetChRects()内 getBoundingClientRect()で異常な値になる。
-			// <br/>ではなく<p>〜</p>にする。
-		const len = this.aSpan.length;
-		if (this.aSpan[len -1] == '<br/>') this.aSpan[len -1] = `<p style='margin: 0px;'>　</p>`;	// 次行の処理で、終端に「　」を追加させない前処理
-		this.htmTxt.innerHTML = this.aSpan.join('').split('<br/>').map(v=> (
+			// <br/>ではなく<p>〜</p>にする。（ただし空では改行せず、全角空白一文字必要らしい）
+		let sJoinSpan = this.aSpan.join('');
+		if (sJoinSpan.slice(-5) == '<br/>') sJoinSpan = sJoinSpan.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行の処理で、終端に「　」を追加させない前処理
+		const tmp = sJoinSpan.split('<br/>').map(v=> (
 			v.indexOf('</p>') > 0
 			? v		// <p>入れ子予防
 			: `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`
 		)).join('');
+		//console.log(`OUT=${tmp}=`);
+		this.htmTxt.innerHTML = tmp;
 			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
 			// insertAdjacentHTML()は使わない
 		this.htmTxt.hidden = false;
@@ -885,16 +887,33 @@ export class TxtLayer extends Layer {
 				aRect.splice(j, 2, t2);	// 毎回置換
 			}
 		}
-		this.aRect = aRect;
-
-		for (const cr of this.aRect) cr.rect.y -= this.pad_top;
-			// テクスチャ元中間objはpaddingを使わないので
-
+		// テクスチャ元中間objはpaddingを使わないので
+		for (const cr of aRect) cr.rect.y -= this.pad_top;
 		// [l]後に文字続ける場合、後にくっつく文字によって場所が変わる対応
 		for (let i=0; i<lenPutedRect; ++i) {
-			const rect = this.aRect[i].rect;
+			const rect = aRect[i].rect;
 			this.cntTxt.children[i].position.set(rect.x, rect.y);
 		}
+
+		// 表示済み文字変更を検知
+		let begin = 0;
+		if (this.aRect.length == 0) begin = 0;	// 初回
+		else {
+			for (begin=lenPutedRect -1; begin>=0; --begin) {
+				if (aRect[begin].ch == this.aRect[begin].ch) continue;
+
+				// 表示済み文字変更発見、まずは旧文字を削除
+				//console.log(`!!! begin:${begin} '${aRect[begin].ch}' != '${this.aRect[begin].ch}'`);
+				this.click();	// tween停止
+				for (const v of this.cntTxt.removeChildren(begin)) {
+					v.removeAllListeners().destroy();
+				}
+				break;
+			}
+			if (begin < 0) begin = lenPutedRect;	// 変化無し
+		}
+		this.aRect = aRect;
+
 		let delay = 0;
 		let fncDelay = (timAutoWc: number)=> {
 			if (timAutoWc != null) delay = timAutoWc;
@@ -902,31 +921,34 @@ export class TxtLayer extends Layer {
 				delay += (timAutoWc != null) ? timAutoWc : LayerMng.msecChWait;
 			};
 		};
-		const len = this.aRect.length;
-		if (TxtLayer.cfg.oCfg.debug.masume && lenPutedRect == 0) {
+		if (TxtLayer.cfg.oCfg.debug.masume) {
+			this.grpDbgMasume.clear();
 			this.grpDbgMasume.beginFill(0x33FF00, 0.2);
 			this.grpDbgMasume.lineStyle(2, 0x33FF00, 1);
 			this.grpDbgMasume.drawRect(0, 0, this.$width, this.$height);
 			this.grpDbgMasume.endFill();
 		}
-		for (let i=lenPutedRect; i<len; ++i) {
+		const len = this.aRect.length;
+		for (let i=0; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
-			const v_rect4ch_tx = rct.clone();
 			if (TxtLayer.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
-				//console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
+				if (TxtLayer.cfg.oCfg.debug.devtool) console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
 				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
 				this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
 				this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
 				this.grpDbgMasume.endFill();
 			}
+			if (i < begin) continue;	// ガイドマス目を書くだけ
 
+			const v_rect4ch_tx = rct.clone();
 			if (v.add) {
 				const oJs: any = JSON.parse(v.add.replace(/'/g, '"'));
 				delay += uint(oJs.wait);
 			}
 			else fncDelay(TxtLayer.hAutoWc[v.ch]);
 			const o = v.arg ?JSON.parse(v.arg) :{};
+			const already_put = i < lenPutedRect;
 			const spWork = (sp: Container, replace_pos_by_sp = true)=> {
 				// 文字表示効果・初期状態変更
 				sp.alpha = 0;
@@ -941,15 +963,20 @@ export class TxtLayer extends Layer {
 				//Layer.argChk_BlendmodeAndSet(o, sp);
 				this.fncFi(sp);
 
+				//console.log(`spWork: i:${i} ch:${v.ch} x:${rct.x} y:${rct.y}`);
 				const st: ISpTw = {
 					sp: sp,
 					tw: new TWEEN.Tween(sp)
-						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 },
+							already_put
+							? 0	// 文字変更時は瞬時差し替え
+							: this.ch_anime_time_仮
+						)
 						.easing(this.fi_easing)
 						.delay(delay)
 						.onComplete(()=> {
 							st.tw = null;
-							if (rct.width == 0 || rct.height == 0) return;
+							//(略)	if (rct.width == 0 || rct.height == 0) return;
 							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
 							//　これを有効にすると[snapshot]で文字が出ない
 						})
