@@ -1077,6 +1077,14 @@ class=txt
 [s]`);
 		});
 
+		it('test_multiline_tag_180731', ()=> {	// 文字列リテラル内の「;」が効く不具合
+			const sScr =
+`[lay
+style="&'color: '+ fcol +'; writing-mode: vertical-rl;'"]`;
+			assert.equal(CmnLib.cnvMultilineTag(sScr),
+`[lay style="&'color: '+ fcol +'; writing-mode: vertical-rl;'"]
+`);
+		});
 
 
 		it('test_let_ml_0', ()=> {

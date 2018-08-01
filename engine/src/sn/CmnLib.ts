@@ -305,7 +305,7 @@ export class CmnLib {
 	`\\[
 		([^\\n\\]]+ \\n
 			(?:
-				([\\"\\'\\#]) .*? \\2
+				(["'#]) .*? \\2
 			|	[^\\[\\]]
 			)*
 		)
@@ -313,7 +313,7 @@ export class CmnLib {
 |	;[^\\n]+`
 		, 'gx');
 	private	static	REG_MULTILINE_TAG_SPLIT	= m_xregexp(
-		'(;[^\\n]*\\n|\\n|[^\\n;]+)', 'g');
+		`((["'#]).*?\\2|;.*\\n|\\n+|[^\\n"'#;]+)`, 'g');
 	static	cnvMultilineTag(txt: string): string {	// テスト用にpublic
 		return txt.replace(
 			CmnLib.REG_MULTILINE_TAG,
@@ -323,11 +323,12 @@ export class CmnLib {
 				let fore = '';
 				let back = '';
 				for (const v of arguments[1].match(CmnLib.REG_MULTILINE_TAG_SPLIT)) {
-					if (v.substr(-1) == '\n') {
-						back += v;
-					}
-					else {
-						fore += ' '+ trim(v);
+					switch (v.substr(-1)) {
+						case '\n':	back += v;	break;
+						case `"`:
+						case `'`:
+						case `#`:	fore += v;	break;
+						default:	fore += ' '+ trim(v);	break;
 					}
 				}
 
@@ -341,8 +342,8 @@ export class CmnLib {
 		const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
 			// != を弾けないので中途半端ではある
 		const cnt_equa = equa.length;
-		if (cnt_equa < 2 || cnt_equa > 3) throw('「&計算」書式では「=」指定が一つか二つ必要です');
-		if (equa[1].charAt(0) == '&') throw('「&計算」書式では「&」指定が不要です');
+		if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
+		if (equa[1].charAt(0) == '&') throw '「&計算」書式では「&」指定が不要です';
 		return {
 			name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
 			text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),

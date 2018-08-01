@@ -145,7 +145,7 @@ export class TxtLayer extends Layer {
 		this.rbSpl.setting(hArg);
 
 		if (hArg.style) {
-			//console.log('- hArg.style:%s', hArg.style);
+			//console.log('- hArg.style=%s', hArg.style);
 			const cln = document.createElement('span');
 			cln.style.cssText = hArg.style;
 			const len = cln.style.length;
@@ -572,7 +572,7 @@ export class TxtLayer extends Layer {
 
 						const encoder = new FileReader();
 						encoder.onloadend = function () {
-							const content = encoder.result.split(/,/)[1];
+							const content = encoder.result.toString().split(/,/)[1];
 							resolve(content);
 						};
 						encoder.readAsDataURL(request.response);
