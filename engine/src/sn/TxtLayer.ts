@@ -922,10 +922,18 @@ export class TxtLayer extends Layer {
 			};
 		};
 		if (TxtLayer.cfg.oCfg.debug.masume) {
+			if (TxtLayer.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${this.name} v:${this.cnt.visible
+			} l:${this.cnt.x} t:${this.cnt.y} a:${this.cnt.alpha} pl:${this.pad_left} pr:${this.pad_right} pt:${this.pad_top} pb:${this.pad_bottom} fs:${this.fontsize} w:${this.$width} h:${this.$height}`);
+
 			this.grpDbgMasume.clear();
-			this.grpDbgMasume.beginFill(0x33FF00, 0.2);
-			this.grpDbgMasume.lineStyle(2, 0x33FF00, 1);
-			this.grpDbgMasume.drawRect(0, 0, this.$width, this.$height);
+			this.grpDbgMasume.beginFill(0x33FF00, 0.1);	// 文字レイヤ
+			this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
+			this.grpDbgMasume.drawRect(-this.pad_left, -this.pad_top, this.$width, this.$height);
+			this.grpDbgMasume.endFill();
+
+			this.grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
+			this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
+			this.grpDbgMasume.drawRect(0, 0, this.$width -this.pad_left -this.pad_right, this.$height -this.pad_top -this.pad_bottom);
 			this.grpDbgMasume.endFill();
 		}
 		//console.log(`cnt(%d, %d) cntInsidePadding(%d, %d) cntTxt(%d, %d) grpDbgMasume(%d, %d)`, this.cnt.x, this.cnt.y, this.cntInsidePadding.x, this.cntInsidePadding.y, this.cntTxt.x, this.cntTxt.y, this.grpDbgMasume.x, this.grpDbgMasume.y);
