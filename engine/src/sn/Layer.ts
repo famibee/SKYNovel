@@ -66,7 +66,9 @@ export class Layer {
 			fromLayer.cnt.pivot.x,
 			fromLayer.cnt.pivot.y
 		);
-		this.cnt.transform.worldTransform = fromLayer.cnt.worldTransform;
+		this.cnt.rotation = fromLayer.cnt.rotation;
+		this.cnt.x = fromLayer.cnt.x;
+		this.cnt.y = fromLayer.cnt.y;
 		this.cnt.visible = fromLayer.cnt.visible;
 	};
 

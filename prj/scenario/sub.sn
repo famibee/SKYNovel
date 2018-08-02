@@ -177,22 +177,22 @@
 ;********************************************************
 ; マクロ テキストレイヤ縦書き左設定
 [macro name="txt_lay_v_left"]
-	[let name="l" text=%l|40]
-	[let name="w" text=%w|292]
-	&pl = l +26
+	[let name=l text=%l|40]
+	[let name=w text=%w|292]
+;	&pl = l +26
+	&pl = 26
 	&pt = 66
-	&pr = const.sn.config.window.width -(l +w) +26
+;	&pr = const.sn.config.window.width -(l +w) +26
+	&pr = 26
 	&pb = 66
-	[let name="fcol" text=%fcol|'white']
+	[let name=fcol text=%fcol|'white']
 	; こちらの素材をお借りしました。
 	; びたちー素材館　メッセージボックス・メッセージウィンドウ・フレーム　フリー素材 http://www.vita-chi.net/message.htm
-	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=&l b_top=0
-		b_pic=%b_pic|wafuu1
-			; 背後に画像を使う場合
-	;	b_width=&w b_height=&const.sn.config.window.height b_color=%b_color|0xffffff
-			; 背後に画像を使わない場合
-		b_alpha=%b_alpha|1 r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter" style="&'color: '+ fcol +'; writing-mode: vertical-rl;'" layout=#&'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"'#]
-
+	[lay * layer=%layer|'mes' page=%page|back visible=%visible|true left=&l top=0
+		b_pic=%b_pic|wafuu1	; 背後に画像を使う
+	;	b_color=%b_color|'#ff22ff'	; 背後に画像を使わない
+		b_alpha=%b_alpha|1 style="&'color: #{fcol}; width: #{w}px; height: #{const.sn.config.window.height -pt -pb}px; writing-mode: vertical-rl; padding-left: #{pl}px; padding-right: #{pr}px; padding-top: #{pt}px; padding-bottom: #{pb}px; font-size: 24px; line-height: 36px;'"]
+		; r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter"
 	[sysmenu_draw *]
 [endmacro]
 
@@ -213,13 +213,13 @@
 ;********************************************************
 ; マクロ テキストレイヤ全画面設定
 [macro name="txt_lay_fullscreen"]
-	[let name="t" text=%t|40]
-	[let name="h" text=%h|"&const.sn.config.window.height -40*2"]
+	[let name=t text=%t|40]
+	[let name=h text=%h|'&const.sn.config.window.height -40*2']
 	&pl = 70
 	&pt = t +30
 	&pr = 70
 	&pb = 70
-	[let name="fcol" text=%fcol|0x000000]
+	[let name=fcol text=%fcol|0x000000]
 	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=0 b_top=&t-20
 	;	b_pic=%b_pic|hakkou1
 			; 背後に画像を使う場合

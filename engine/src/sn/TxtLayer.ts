@@ -928,6 +928,7 @@ export class TxtLayer extends Layer {
 			this.grpDbgMasume.drawRect(0, 0, this.$width, this.$height);
 			this.grpDbgMasume.endFill();
 		}
+		//console.log(`cnt(%d, %d) cntInsidePadding(%d, %d) cntTxt(%d, %d) grpDbgMasume(%d, %d)`, this.cnt.x, this.cnt.y, this.cntInsidePadding.x, this.cntInsidePadding.y, this.cntTxt.x, this.cntTxt.y, this.grpDbgMasume.x, this.grpDbgMasume.y);
 		const len = this.aRect.length;
 		for (let i=0; i<len; ++i) {
 			const v = this.aRect[i];
@@ -989,10 +990,10 @@ export class TxtLayer extends Layer {
 			case 'grp':
 				if (o.pic in TxtLayer.hNoReplaceDispObj) break;// 無くて良い場合
 
-				const ctn = new Container;	// コンテナひとつかまし、即時spWork()を
-				this.cntTxt.addChild(ctn);
-				spWork(ctn, false);
-				GrpLayer.csv2Sprites(o.pic, ctn, ()=> {});
+				const cnt = new Container;	// コンテナひとつかまし、即時spWork()を
+				this.cntTxt.addChild(cnt);
+				spWork(cnt, false);
+				GrpLayer.csv2Sprites(o.pic, cnt, ()=> {});
 				break;
 
 			default:	// 文字
@@ -1126,11 +1127,29 @@ export class TxtLayer extends Layer {
 		this.pad_bottom	= fl.pad_bottom;
 
 		// バック
-		this.b_color	= fl.b_color;	// TODO:書き直ししないと
+		this.b_color	= fl.b_color;
 		this.b_alpha	= fl.b_alpha;
 		this.b_alpha_isfixed	= fl.b_alpha_isfixed;
-		this.b_do		= fl.b_do;
 		this.b_pic		= fl.b_pic;
+		if (this.b_do) {
+			this.cnt.removeChild(this.b_do);
+			this.b_do.destroy();
+			this.b_do = null;
+		}
+		if (fl.b_do) {
+			if (fl.b_do instanceof Graphics) this.b_do = fl.b_do.clone();
+			else
+			if (this.b_pic) {
+				const alpha = (this.b_alpha_isfixed
+					? 1
+					: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
+				) *this.b_alpha;
+				GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
+					sp.visible = (alpha > 0);
+					sp.alpha = alpha;
+				});
+			}
+		}
 		this.fontsize	= fl.fontsize;
 
 		this.ch_anime_time_仮	= fl.ch_anime_time_仮;
@@ -1146,8 +1165,7 @@ export class TxtLayer extends Layer {
 	dump(): string {
 		return super.dump() +` enabled:${this.enabled}
 		style:\`${this.htmTxt.style.cssText}\`
-		b_pic:${this.b_pic} b_color:${this.b_color} b_alpha:${this.b_alpha} b_alpha_isfixed:${this.b_alpha_isfixed}
-		b_width:${this.$width} b_height:${this.$height}
+		b_pic:${this.b_pic} b_color:${this.b_color} b_alpha:${this.b_alpha} b_alpha_isfixed:${this.b_alpha_isfixed} b_width:${this.$width} b_height:${this.$height}
 		txt:\`${this.htmTxt.textContent}\``;
 	};
 
