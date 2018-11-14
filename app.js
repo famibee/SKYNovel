@@ -14,22 +14,15 @@ crashReporter.start({
 	submitURL	: 'http://famibee.blog38.fc2.com/',
 	autoSubmit	: false,
 });
+if (! app.requestSingleInstanceLock()) app.quit();
 
 let guiWin = null;
-const shouldQuit = app.makeSingleInstance(cmdLine=> {
-	if (guiWin) {
-		if (guiWin.isMinimized()) guiWin.restore();
-		guiWin.focus();
+app.on('second-instance', ()=> {
+	if (! guiWin) return;
 
-		guiWin.webContents.send('invoke', cmdLine.slice(1));
-	}
-})
-if (shouldQuit) app.quit();
-
-process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-	// 2018/05/08
-	// disable security-warnings not working · Issue #11970 · electron/electron https://github.com/electron/electron/issues/11970
-
+	if (guiWin.isMinimized()) guiWin.restore();
+	guiWin.focus();
+});
 app.on('ready', ()=> {
 	guiWin = new BrowserWindow({
 		id			: 'SKYNovel',
@@ -45,5 +38,10 @@ app.on('ready', ()=> {
 	//guiWin.webContents.openDevTools();
 	guiWin.loadURL('file://'+ __dirname.replace(/\\/g, '/') +'/app/index.htm');
 	guiWin.on('closed', ()=> app.quit());
-})
+});
+
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+	// 2018/05/08
+	// disable security-warnings not working · Issue #11970 · electron/electron https://github.com/electron/electron/issues/11970
+
 app.on('window-all-closed', ()=> app.quit());
