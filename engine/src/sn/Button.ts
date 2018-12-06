@@ -37,10 +37,20 @@ export class Button extends Container {
 			};
 			if (hArg.style) Button.s2hStyle(style, hArg.style);
 			const txt = new Text(hArg.text, style);
-			txt.x = uint(hArg.left || 0);
-			txt.y = uint(hArg.top || 0);
+			txt.alpha = CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
+			txt.pivot.set(
+				CmnLib.argChk_Num(hArg, 'pivot_x', txt.pivot.x),
+				CmnLib.argChk_Num(hArg, 'pivot_y', txt.pivot.y)
+			);
+			txt.rotation = CmnLib.argChk_Num(hArg, 'rotation', txt.rotation);
+			txt.scale.set(
+				CmnLib.argChk_Num(hArg, 'scale_x', txt.scale.x),
+				CmnLib.argChk_Num(hArg, 'scale_y', txt.scale.y)
+			);
 			txt.width = uint(hArg.width || 100);
 			txt.height = fontSize;
+			txt.x = uint(hArg.left || 0);
+			txt.y = uint(hArg.top || 0);
 			this.addChild(txt);
 			if (! enabled) return false;
 
@@ -71,8 +81,19 @@ export class Button extends Container {
 			hArg.pic,
 			this,
 			sp=> {
+				sp.alpha = CmnLib.argChk_Num(hArg, 'alpha', sp.alpha);
+				sp.pivot.set(
+					CmnLib.argChk_Num(hArg, 'pivot_x', sp.pivot.x),
+					CmnLib.argChk_Num(hArg, 'pivot_y', sp.pivot.y)
+				);
+				sp.rotation = CmnLib.argChk_Num(hArg, 'rotation', sp.rotation);
+				sp.scale.set(
+					CmnLib.argChk_Num(hArg, 'scale_x', sp.scale.x),
+					CmnLib.argChk_Num(hArg, 'scale_y', sp.scale.y)
+				);
 				sp.x = uint(hArg.left || 0);
 				sp.y = uint(hArg.top || 0);
+
 				const w3 = sp.width /3;
 				const h = sp.height;
 				const tx = sp.texture.baseTexture;
