@@ -133,8 +133,8 @@
 	[let name=w text=%w|292]
 	[let name=sysmenu_left text=&l-18]
 	[let name=sysmenu_left2 text=&sysmenu_left+w+13]
-;	&r = 0
-	&r = -90 *const.sn.Math.PI /180
+;	&r = 0							; ボタンを横にしたいなら
+	&r = -90 *const.sn.Math.PI /180	; ボタンを縦にしたいなら
 
 	[lay layer="mes_sysmenu" page=back]
 	[button layer="mes_sysmenu" page=back text="クイックセーブ" rotation=&r left=&sysmenu_left2 top=600 global=true event_at_down=true fn="_saveload" label=*quick_save call=true hint="クイックセーブ" enterse=&sysse_choice]
@@ -196,8 +196,7 @@
 	;	b_alpha_isfixed=true	; コメント外すと透過度変更禁止
 		style="&'color: #{fcol}; width: #{w}px; height: #{const.sn.config.window.height}px; writing-mode: vertical-rl; padding-left: #{pl}px; padding-right: #{pr}px; padding-top: #{pt}px; padding-bottom: #{pb}px; font-size: 24px; line-height: 1.5;'"]
 		; r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter"
-		; vertical-rl
-		; horizontal-tb
+		; 縦書きにしたいなら writing-mode を vertical-rl に。横書きは horizontal-tb
 	[sysmenu_draw *]
 [endmacro]
 
