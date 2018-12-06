@@ -91,7 +91,7 @@ export class TxtLayer extends Layer {
 	private cntInsidePadding= new Container;
 	private	fontsize		= 24;
 
-	private	ch_anime_time_仮	= 500;
+	private	ch_anime_time_仮	= 500;	// TODO: 未作成
 	private	fncFi			= (sp: DisplayObject)=> {sp.x += this.fontsize /3};
 	private fi_easing		= TWEEN.Easing.Quadratic.Out;
 	private ch_filter		: any[] | null	= null;
@@ -116,7 +116,7 @@ export class TxtLayer extends Layer {
 
 		this.cnt.addChild(this.cntBtn);	// ボタンはpaddingの影響を受けない
 
-		this.lay({style: `width: ${CmnLib.stageW -padding*2}px; height: ${CmnLib.stageH -padding*2}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 36px; padding: ${padding}px;`});
+		this.lay({style: `width: ${CmnLib.stageW -padding*2}px; height: ${CmnLib.stageH -padding*2}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`});
 
 		this.htmTxt.hidden = true;
 		document.body.appendChild(this.htmTxt);
@@ -293,8 +293,19 @@ export class TxtLayer extends Layer {
 					this.aSpan = [];
 					return;	// breakではない
 				}
-				add_htm = '<br/>';
+				//add_htm = '<br/>';
+				if (this.firstCh) {	// １文字目にルビが無い場合は見えないルビを入れ、行揃え
+					this.firstCh = false;
+					add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
+				}
+				else {
+					add_htm = '<br/>';
+				}
 				break;
+			}
+			if (this.firstCh) {		// １文字目にルビが無い場合は見えないルビを入れ、行揃え
+				this.firstCh = false;
+				if (ruby == '') ruby = '　';
 			}
 			add_htm = (ruby) ?`<ruby>${text}<rt>${ruby}</rt></ruby>` :text;
 			break;
@@ -415,6 +426,7 @@ export class TxtLayer extends Layer {
 		}
 		this.aSpan.push(add_htm);
 	}
+	private firstCh	= true;
 	private aSpan: any[] = [];
 	private aSpan_bk: any[] | null = null;
 	private autoCloseSpan() {
@@ -452,7 +464,7 @@ export class TxtLayer extends Layer {
 
 		// tsayen/dom-to-image: Generates an image from a DOM node using HTML5 canvas https://github.com/tsayen/dom-to-image
 
-		// TODO:いつかのタイミングでコードをキレイにしたい
+		// TODO: いつかのタイミングでコードをキレイにしたい
 /*---*/
 		const util = {
 			escape: string=> string.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
@@ -926,9 +938,10 @@ export class TxtLayer extends Layer {
 			} l:${this.cnt.x} t:${this.cnt.y} a:${this.cnt.alpha} pl:${this.pad_left} pr:${this.pad_right} pt:${this.pad_top} pb:${this.pad_bottom} fs:${this.fontsize} w:${this.$width} h:${this.$height}`);
 
 			this.grpDbgMasume.clear();
-			this.grpDbgMasume.beginFill(0x33FF00, 0.1);	// 文字レイヤ
+			this.grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
 			this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
 			this.grpDbgMasume.drawRect(-this.pad_left, -this.pad_top, this.$width, this.$height);
+				// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
 			this.grpDbgMasume.endFill();
 
 			this.grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
@@ -941,6 +954,8 @@ export class TxtLayer extends Layer {
 		for (let i=0; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
+			const v_rect4ch_tx = rct.clone();
+			rct.x -= this.xz4htm2rect;
 			if (TxtLayer.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
 				if (TxtLayer.cfg.oCfg.debug.devtool) console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
 				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
@@ -950,7 +965,6 @@ export class TxtLayer extends Layer {
 			}
 			if (i < begin) continue;	// ガイドマス目を書くだけ
 
-			const v_rect4ch_tx = rct.clone();
 			if (v.add) {
 				const oJs: any = JSON.parse(v.add.replace(/'/g, '"'));
 				delay += uint(oJs.wait);
@@ -1084,6 +1098,7 @@ export class TxtLayer extends Layer {
 
 		this.aSpan = [];
 		this.aSpan_bk = null;
+		this.firstCh = true;
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.click();
@@ -1161,9 +1176,9 @@ export class TxtLayer extends Layer {
 		this.fontsize	= fl.fontsize;
 
 		this.ch_anime_time_仮	= fl.ch_anime_time_仮;
-//		this.fncFi	= fl.fncFi;			// TODO:未作成
+//		this.fncFi	= fl.fncFi;			// TODO: 未作成
 		this.fi_easing	= fl.fi_easing;
-//		this.ch_filter	= fl.ch_filter;	// TODO:未作成
+//		this.ch_filter	= fl.ch_filter;	// TODO: 未作成
 		this.fo	= fl.fo;
 		this.fo_easing	= fl.fo_easing;
 

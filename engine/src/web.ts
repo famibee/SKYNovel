@@ -5,6 +5,6 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-// electron レンダラープロセス
+// ブラウザ レンダラープロセス
 import {SysWeb} from './sn/SysWeb';
 new SysWeb;

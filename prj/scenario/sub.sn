@@ -190,9 +190,13 @@
 	; びたちー素材館　メッセージボックス・メッセージウィンドウ・フレーム　フリー素材 http://www.vita-chi.net/message.htm
 	[lay * layer=%layer|'mes' page=%page|back visible=%visible|true left=&l top=0
 		b_pic=%b_pic|wafuu1	; 背後に画像を使う
-	;	b_color=%b_color|'#ff22ff'	; 背後に画像を使わない
-		b_alpha=%b_alpha|1 style="&'color: #{fcol}; width: #{w}px; height: #{const.sn.config.window.height -pt -pb}px; writing-mode: vertical-rl; padding-left: #{pl}px; padding-right: #{pr}px; padding-top: #{pt}px; padding-bottom: #{pb}px; font-size: 24px; line-height: 36px;'"]
+	;	b_color=%b_color|'#ffffff'	; 背後に画像を使わない
+		b_alpha=%b_alpha|1
+	;	b_alpha_isfixed=true	; コメント外すと透過度変更禁止
+		style="&'color: #{fcol}; width: #{w}px; height: #{const.sn.config.window.height}px; writing-mode: vertical-rl; padding-left: #{pl}px; padding-right: #{pr}px; padding-top: #{pt}px; padding-bottom: #{pb}px; font-size: 24px; line-height: 1.5;'"]
 		; r_color=&fcol r_size=12 max_col=25 bura_col=2 max_row=%max_row|7 onsplit="enter"
+		; vertical-rl
+		; horizontal-tb
 	[sysmenu_draw *]
 [endmacro]
 
@@ -240,7 +244,7 @@
 ; マクロ ＢＧＭ切り替え
 [macro name="bgm"]
 	[stopbgm cond="mp:time == null || sn.skip.enabled"]
-	
+
 	[let name=t text=%time|500]	;省略した時の初期値
 	[stopse buf=BGM_FO]
 	[xchgbuf buf=BGM buf2=BGM_FO]
@@ -300,15 +304,15 @@
 [let name="const.h_save.max_count" text=50]
 [macro name="h_save"]
 	[let name="h_save_idx" text="0" cond="h_save_idx == null"]
-	
+
 	[let name="_sl.place" text="&'h_'+ h_save_idx"]
 	[call fn=_saveload label=*do_save_noss]
-	
+
 	[rec_ch text=#&'｜　《grp｜｜{"pic":"app-storage:/bookmark/'+ _sl.place +'.jpg","width":"198","height":"149"}》'# r=false]
 	[rec_ch text=#&'｜　《link｜{"fn":"sub","label":"*h_jmp","call":"true","global":"true","arg":"$_sl.place"}》'# r=false]
 	[rec_ch text="【このページから再開】"]
 	[rec_r][rec_r]
-	
+
 	[rec_ch text="｜　《endlink｜》" r=false]
 	[let name="h_ss_idx" text="&h_save_idx %const.h_save.max_count"]
 	[let name="h_save_idx" text="&(h_save_idx +1) %const.h_save.max_count"]
