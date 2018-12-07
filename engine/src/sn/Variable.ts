@@ -113,9 +113,11 @@ export class Variable implements IVariable {
 	}
 
 	setSys(sys: ISysBase) {
-		this.data = sys.initData(this.data, this.hTmp);
-		this.hSysVal = this.hScopeVal.sys = this.data.sys;
-		this.flush = ()=> sys.flush();
+		sys.initData(this.data, this.hTmp, data=> {
+			this.data = data;
+			this.hSysVal = this.hScopeVal.sys = this.data.sys;
+			this.flush = ()=> sys.flush();
+		});
 	}
 	flush	= ()=> {};
 

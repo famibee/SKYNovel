@@ -151,7 +151,7 @@ export interface IMain {
 
 // =============== SysBase
 export interface ISysBase {
-	initData(data: object, hTmp: object): object;
+	initData(data: object, hTmp: object, comp: (data: object)=> void): void;
 	flush(): void;
 };
 

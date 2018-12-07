@@ -9,6 +9,7 @@ import { SysNode } from "./SysNode";
 import {CmnLib, HArg, IHTag, IVariable} from './CmnLib';
 import {remote, BrowserWindow, webContents, screen} from 'electron';
 import {Main} from './Main';
+const storage = require('electron-json-storage');
 
 export class SysApp extends SysNode {
 	constructor() {
@@ -26,6 +27,34 @@ export class SysApp extends SysNode {
 
 		if (CmnLib.devtool) this.wc.openDevTools();
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
+	}
+
+	initData(data: object, hTmp: object, comp: (data: object)=> void) {
+		storage.get('data', (err, strDat)=> {
+			if (err) throw err;
+
+			if (Object.keys(strDat).length === 0) {
+				// データがないときの処理
+				hTmp['const.an.isFirstBoot'] = true;
+				this.data.sys = data['sys'];
+				this.data.mark = data['mark'];
+				this.data.kidoku = data['kidoku'];
+				this.flush();
+			}
+			else {
+				// データがあるときの処理
+				hTmp['const.an.isFirstBoot'] = false;
+				this.data.sys = strDat['sys'];
+				this.data.mark = strDat['mark'];
+				this.data.kidoku = strDat['kidoku'];
+			}
+			comp(this.data);
+		});
+	}
+	flush() {
+		storage.set('data', this.data, err=> {
+			if (err) throw err;
+		});
 	}
 
 	protected close = ()=> {this.win.close(); return false;}

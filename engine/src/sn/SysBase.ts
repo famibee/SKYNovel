@@ -48,8 +48,8 @@ export class SysBase implements ISysBase {
 	protected toggle_full_screen	: ITag = hArg=> false;
 
 	protected data		= {sys:{}, mark:{}, kidoku:{}};
-	initData	= (data: object, hTmp: object)=> this.data;
-	flush() {};
+	initData(data: object, hTmp: object, comp: (data: object)=> void) {};
+	flush() {}
 
 	protected $path_desktop	= '';
 	get path_desktop() {return this.$path_desktop};

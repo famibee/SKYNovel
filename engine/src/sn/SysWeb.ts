@@ -62,9 +62,11 @@ export class SysWeb extends SysBase {
 	private now_prj = ':';
 	private main: Main | null = null;
 
-	initData	= (data: object, hTmp: object)=> {
-		//**/store.clearAll();
-		const sys = strLocal.get(this.cfg.oCfg.save_ns +' - sys');
+	private ns	= '';
+	initData(data: object, hTmp: object, comp: (data: object)=> void) {
+		//strLocal.clearAll();
+		this.ns = this.cfg.oCfg.save_ns +' - ';
+		const sys = strLocal.get(this.ns +'sys');
 		if (sys == undefined) {
 			hTmp['const.an.isFirstBoot'] = true;
 			this.data.sys = data['sys'];
@@ -75,17 +77,15 @@ export class SysWeb extends SysBase {
 		else {
 			hTmp['const.an.isFirstBoot'] = false;
 			this.data.sys = sys;
-			this.data.mark = strLocal.get(this.cfg.oCfg.save_ns +' - mark');
-			this.data.kidoku = strLocal.get(this.cfg.oCfg.save_ns +' - kidoku');
+			this.data.mark = strLocal.get(this.ns +'mark');
+			this.data.kidoku = strLocal.get(this.ns +'kidoku');
 		}
-		//console.log(`fn:SysWeb.ts line:82 ${hTmp['const.an.isFirstBoot']}`);
-
-		return this.data;
+		comp(this.data);
 	}
 	flush() {
-		strLocal.set(this.cfg.oCfg.save_ns	+' - sys', this.data.sys);
-		strLocal.set(this.cfg.oCfg.save_ns	+' - mark', this.data.mark);
-		strLocal.set(this.cfg.oCfg.save_ns	+' - kidoku', this.data.kidoku);
+		strLocal.set(this.ns +'sys', this.data.sys);
+		strLocal.set(this.ns +'mark', this.data.mark);
+		strLocal.set(this.ns +'kidoku', this.data.kidoku);
 	}
 
 
