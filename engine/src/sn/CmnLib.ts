@@ -149,6 +149,13 @@ export interface IMain {
 };
 
 
+// =============== SysBase
+export interface ISysBase {
+	initData(data: object, hTmp: object): object;
+	flush(): void;
+};
+
+
 // =============== Config
 export interface IExts { [ext: string]: string; };
 export interface IPathFn2Exts { [fn: string]: IExts; };
@@ -158,6 +165,7 @@ export interface IPathFn2Exts { [fn: string]: IExts; };
 export interface typeProcVal { (): any };
 
 export interface IVariable {
+	setSys(sys: ISysBase): void;
 	getVal(arg_name: string, def?: number): object;
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
 	defTmp(name: string, fnc: typeProcVal): void;

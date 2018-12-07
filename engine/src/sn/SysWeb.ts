@@ -9,6 +9,7 @@ import { SysBase } from "./SysBase";
 import {CmnLib, HArg, IPathFn2Exts} from './CmnLib';
 import {Main} from './Main';
 import {Config} from './Config';
+const strLocal = require('store');
 
 export class SysWeb extends SysBase {
 	constructor() {
@@ -61,8 +62,36 @@ export class SysWeb extends SysBase {
 	private now_prj = ':';
 	private main: Main | null = null;
 
+	initData	= (data: object, hTmp: object)=> {
+		//**/store.clearAll();
+		const sys = strLocal.get(this.cfg.oCfg.save_ns +' - sys');
+		if (sys == undefined) {
+			hTmp['const.an.isFirstBoot'] = true;
+			this.data.sys = data['sys'];
+			this.data.mark = data['mark'];
+			this.data.kidoku = data['kidoku'];
+			this.flush();
+		}
+		else {
+			hTmp['const.an.isFirstBoot'] = false;
+			this.data.sys = sys;
+			this.data.mark = strLocal.get(this.cfg.oCfg.save_ns +' - mark');
+			this.data.kidoku = strLocal.get(this.cfg.oCfg.save_ns +' - kidoku');
+		}
+		//console.log(`fn:SysWeb.ts line:82 ${hTmp['const.an.isFirstBoot']}`);
 
-	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, oCfg: any, cfg: Config): void=> {
+		return this.data;
+	}
+	flush() {
+		strLocal.set(this.cfg.oCfg.save_ns	+' - sys', this.data.sys);
+		strLocal.set(this.cfg.oCfg.save_ns	+' - mark', this.data.mark);
+		strLocal.set(this.cfg.oCfg.save_ns	+' - kidoku', this.data.kidoku);
+	}
+
+
+	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {
+		this.cfg = cfg;
+
 		fetch(this.$cur +'path.json')
 		.then(res=> {
 			if (! res.ok) throw Error(res.statusText);

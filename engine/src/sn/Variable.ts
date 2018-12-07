@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IHTag, CmnLib, IVariable, typeProcVal, uint, int} from './CmnLib';
+import {HArg, IHTag, CmnLib, IVariable, typeProcVal, ISysBase, uint, int} from './CmnLib';
 import {Config} from './Config';
 import {PropParser} from './PropParser';
 const platform = require('platform');
@@ -13,7 +13,7 @@ const platform = require('platform');
 interface ISetVal { (arg_name: string, val: any, autocast?: boolean): void;}
 
 export class Variable implements IVariable {
-	private soSys		: any	= {data:{sys:{}, kidoku:{}}};
+	private data		: any	= {sys:{}, mark:{}, kidoku:{}};
 	private hScopeVal	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
 	private hSysVal		: any	= this.hScopeVal.sys;
 	private hSaveVal	: any	= this.hScopeVal.save;
@@ -111,6 +111,13 @@ export class Variable implements IVariable {
 
 		this.hTmp['const.sn.Math.PI'] = Math.PI;
 	}
+
+	setSys(sys: ISysBase) {
+		this.data = sys.initData(this.data, this.hTmp);
+		this.hSysVal = this.hScopeVal.sys = this.data.sys;
+		this.flush = ()=> sys.flush();
+	}
+	flush	= ()=> {};
 
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScopeVal.mp}}
@@ -243,17 +250,17 @@ export class Variable implements IVariable {
 // デバッグ・その他
 	// システム変数の全消去
 	private clearsysvar() {
-		const sys = this.hSysVal = this.hScopeVal['sys'] = this.soSys.data.sys
+		const sys = this.hSysVal = this.hScopeVal['sys'] = this.data.sys
 			= {};
 
 		const is_nw = (typeof process !== 'undefined');
 		if (is_nw) {
-		//	//	this.setVal_Sub('sys:const.flash.display.Stage.nativeWindow.x', stage.nativeWindow.x);
-		//	//	this.setVal_Sub('sys:const.flash.display.Stage.nativeWindow.y', stage.nativeWindow.y);
+		//	//	this.setVal_Sub('sys:const.sn.window.x', stage.nativeWindow.x);
+		//	//	this.setVal_Sub('sys:const.sn.window.y', stage.nativeWindow.y);
 		}
 		else {
-			this.setVal_Nochk('sys', 'const.flash.display.Stage.nativeWindow.x', 0);
-			this.setVal_Nochk('sys', 'const.flash.display.Stage.nativeWindow.y', 0);
+			this.setVal_Nochk('sys', 'const.sn.window.x', 0);
+			this.setVal_Nochk('sys', 'const.sn.window.y', 0);
 		}
 
 		// 文字表示Waitをかけるか
@@ -287,7 +294,7 @@ export class Variable implements IVariable {
 
 
 		this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 1);
-		//	//	this.soSys.flush();
+		this.flush();
 
 		return false;
 	}
@@ -334,7 +341,7 @@ export class Variable implements IVariable {
 		const trg = this.hValTrg[hScope +':'+ nm];
 		if (trg != null) trg(nm, val);
 
-		// if (scope == 'sys') soSys.flush();
+		// if (scope == 'sys') this.flush()
 			// 厳密にはここですべきだが、パフォーマンスに問題があるので
 			// クリック待ちを期待できるwait、waitclick、s、l、pタグで
 			// saveKidoku()をコール。（中で保存しているのでついでに）

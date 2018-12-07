@@ -122,7 +122,7 @@ export class Config {
 				this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
 
 				fncLoaded();
-			}, oCfg, this);
+			}, this);
 		};
 
 		if (oCfg4tst) {

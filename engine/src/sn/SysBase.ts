@@ -5,20 +5,22 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IHTag, ITag, IVariable, IPathFn2Exts} from './CmnLib';
+import {IHTag, ITag, IVariable, IPathFn2Exts, ISysBase} from './CmnLib';
 import {Config} from './Config';
 
-export class SysBase {
+export class SysBase implements ISysBase {
 	constructor(protected $cur = 'prj/') {}
 	get cur() {return this.$cur}
 
-	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, oCfg: any, cfg: Config): void=> {};	// 基底定義なので「使ってないパラメーター警告」でも消さないように
+	protected cfg		= null;
+	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {}	// 基底定義なので「使ってないパラメーター警告」でも消さないように
 
 	protected	val		: IVariable		= null;
 	protected	appPixi	: PIXI.Application	= null;
 	init(hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
 		this.val = val;
 		this.appPixi = appPixi;
+		this.val.setSys(this);
 
 //	システム
 		// アプリの終了
@@ -44,6 +46,10 @@ export class SysBase {
 	protected close			: ITag = hArg=> false;
 	protected title			: ITag = hArg=> false;
 	protected toggle_full_screen	: ITag = hArg=> false;
+
+	protected data		= {sys:{}, mark:{}, kidoku:{}};
+	initData	= (data: object, hTmp: object)=> this.data;
+	flush() {};
 
 	protected $path_desktop	= '';
 	get path_desktop() {return this.$path_desktop};

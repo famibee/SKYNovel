@@ -14,8 +14,10 @@ import m_path = require('path');
 import dataUriToBuffer = require('data-uri-to-buffer');
 
 export class SysNode extends SysBase {
-	protected	normalize = (src: string, form: string)=> src;	// for test
-	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, oCfg: any, cfg: Config): void=> {
+	protected	normalize	= (src: string, form: string)=> src;	// for test
+	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {
+		this.cfg = cfg;
+
 		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
 		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
 		//		検索が高速なハッシュ形式。
@@ -23,7 +25,7 @@ export class SysNode extends SysBase {
 		//		URLエンコードされていない物を想定。
 		//		パスのみURLエンコード済みの、File.urlと同様の物を。
 		//		あとで実際にロード関数に渡すので。
-		if ('search' in oCfg) for (const dir of oCfg.search) {
+		if ('search' in cfg.oCfg) for (const dir of cfg.oCfg.search) {
 			const wd = m_path.resolve(this.$cur, dir);
 			if (! this.existsSync(wd)) continue;
 
