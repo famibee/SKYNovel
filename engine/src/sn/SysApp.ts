@@ -7,7 +7,7 @@
 
 import { SysNode } from "./SysNode";
 import {CmnLib, HArg, IHTag, IVariable} from './CmnLib';
-import {remote, BrowserWindow, webContents, screen, shell} from 'electron';
+import {remote, BrowserWindow, webContents, screen} from 'electron';
 import {Main} from './Main';
 
 export class SysApp extends SysNode {
