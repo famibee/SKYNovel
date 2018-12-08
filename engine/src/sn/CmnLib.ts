@@ -93,6 +93,10 @@ export interface HArg {
 
 	ease?	: string;
 
+	centering?	:boolean;
+	x?	: number;
+	y?	: number;
+
 	left?	: string;
 	top?	: string;
 	width?	: string;

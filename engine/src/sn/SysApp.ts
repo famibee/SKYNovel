@@ -27,6 +27,10 @@ export class SysApp extends SysNode {
 
 		if (CmnLib.devtool) this.wc.openDevTools();
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
+
+		//	デバッグ・その他
+		// アプリウインドウ設定
+		hTag.window = this.window;
 	}
 
 	initData(data: object, hTmp: object, comp: (data: object)=> void) {
@@ -49,8 +53,60 @@ export class SysApp extends SysNode {
 				this.data.kidoku = strDat['kidoku'];
 			}
 			comp(this.data);
+
+			/*
+			// システム情報
+			hTmp['const.flash.system.Capabilities.isDebugger']
+				= Capabilities.isDebugger;
+				// システムがデバッグ用の特別なバージョンか
+			hTmp['const.flash.system.Capabilities.language']
+				= Capabilities.language;
+				// コンテンツが実行されているシステムの言語コード
+			hTmp['const.flash.system.Capabilities.os']
+				= Capabilities.os;
+				// 現在のオペレーティングシステム
+			hTmp['const.flash.system.Capabilities.pixelAspectRatio']
+				= Capabilities.pixelAspectRatio;
+				// 画面のピクセル縦横比を指定
+			hTmp['const.flash.system.Capabilities.playerType']
+				= Capabilities.playerType;
+				// ランタイム環境のタイプ
+			hTmp['const.flash.system.Capabilities.screenDPI']
+				= Capabilities.screenDPI;
+				// 画面の1インチあたりのドット数(dpi)解像度をピクセル単位で指定
+			*/
+			hTmp['const.sn.Capabilities.screenResolutionX'] = this.dsp.size.width;
+				// 画面の最大水平解像度
+			hTmp['const.sn.Capabilities.screenResolutionY'] = this.dsp.size.height;
+				// 画面の最大垂直解像度
+				// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
+				// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
+			/*
+			hTmp['const.flash.system.Capabilities.version']
+				= Capabilities.version;
+				// Flash Player又はAdobe® AIRのプラットフォームとバージョン
+
+			hTmp['const.flash.display.Stage.displayState']
+				= StageDisplayState.NORMAL;
+				//	stage.displayState;
+			*/
+
+			if (hTmp['const.an.isFirstBoot']) {
+				this.window({centering: true});
+			}
+			else {
+				this.win.setPosition(
+					Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)),
+					Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0))
+				);
+			}
+			this.win.on('moved', ()=> {
+				const p = this.win.getPosition();
+				this.window({x: p[0], y: p[1]});
+			})
 		});
 	}
+	private	dsp	= screen.getPrimaryDisplay();
 	flush() {
 		storage.set('data', this.data, err=> {
 			if (err) throw err;
@@ -106,6 +162,35 @@ export class SysApp extends SysNode {
 				//	hTag.window({x:win_x, y:win_y, width: CmnLib.stageW, height: CmnLib.stageH});
 			}
 		}
+
+		return false;
+	}
+
+	// アプリウインドウ設定
+	private window(hArg: HArg) {
+		const screenRX = this.dsp.size.width;
+		const screenRY = this.dsp.size.height;
+		if (CmnLib.argChk_Boolean(hArg, 'centering', false)) {
+			hArg.x = (screenRX - this.win.getPosition()[0]) *0.5;
+			hArg.y = (screenRY - this.win.getPosition()[1]) *0.5;
+		}
+		else {
+			CmnLib.argChk_Num(hArg, 'x', Infinity);
+			CmnLib.argChk_Num(hArg, 'y', Infinity);
+
+			if (isFinite(hArg.x)) {
+				if (hArg.x < 0) hArg.x = 0;
+				else if (hArg.x > screenRX) hArg.x = 0;
+			}
+			if (isFinite(hArg.y)) {
+				if (hArg.y < 0) hArg.y = 0;
+				else if (hArg.y > screenRY) hArg.y = 0;
+			}
+		}
+		this.win.setPosition(hArg.x, hArg.y);
+		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
+		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
+		this.flush();
 
 		return false;
 	}

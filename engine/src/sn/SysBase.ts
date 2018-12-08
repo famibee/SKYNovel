@@ -39,8 +39,11 @@ export class SysBase implements ISysBase {
 		hTag.unloadplugin		= this.unloadplugin;	// プラグインの破棄
 		hTag.unzip				= this.unzip;			// ネット素材取得
 		hTag.update_check		= this.update_check;	// 更新チェック
-		hTag.window				= this.window;			// アプリウインドウ設定
 */
+		hTag.window				= ()=> false;			// アプリウインドウ設定
+		val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
+		val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', 0);
+			// AIRNovel の sys:const.flash.display.Stage.nativeWindow.x、.y
 	}
 	// 基底定義なので「使ってないパラメーター警告」でも消さないように
 	protected close			: ITag = hArg=> false;

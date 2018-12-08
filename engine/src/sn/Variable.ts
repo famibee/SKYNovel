@@ -13,16 +13,16 @@ const platform = require('platform');
 interface ISetVal { (arg_name: string, val: any, autocast?: boolean): void;}
 
 export class Variable implements IVariable {
-	private data		: any	= {sys:{}, mark:{}, kidoku:{}};
-	private hScopeVal	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
-	private hSysVal		: any	= this.hScopeVal.sys;
-	private hSaveVal	: any	= this.hScopeVal.save;
-	private hTmp		: any	= this.hScopeVal.tmp;
+	private	data		: any	= {sys:{}, mark:{}, kidoku:{}};
+	private	hScopeVal	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
+	private	hSysVal		: any	= this.hScopeVal.sys;
+	private	hSaveVal	: any	= this.hScopeVal.save;
+	private	hTmp		: any	= this.hScopeVal.tmp;
 
 
-	private hAreaKidoku	: any	= {};
+	private	hAreaKidoku	: any	= {};
 
-	private	 REG_RECTEXT_LAST	:RegExp	= /[^\f]+$/;
+	private	REG_RECTEXT_LAST	:RegExp	= /[^\f]+$/;
 
 
 	constructor(private cfg: Config, private hTag: IHTag) {
@@ -106,8 +106,12 @@ export class Variable implements IVariable {
 		this.clearsysvar();
 		this.clearvar();
 
-		this.hTmp['const.sn.config.window.width'] = CmnLib.stageW;
-		this.hTmp['const.sn.config.window.height']= CmnLib.stageH;
+		// prj.json に設定した画面サイズ
+		this.hTmp['const.sn.config.window.width'] = cfg.oCfg.window.width;
+		this.hTmp['const.sn.config.window.height']= cfg.oCfg.window.height;
+			// AIRNovel の const.an.xmlConfig.window.width、.height
+			// NOTE: AIRNovel の const.flash.display.Stage.stageWidth は未定
+			// 使うならここで初期化だろうと
 
 		this.hTmp['const.sn.Math.PI'] = Math.PI;
 	}
