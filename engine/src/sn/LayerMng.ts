@@ -121,19 +121,20 @@ export class LayerMng {
 
 			return true;
 		}
-//		hTag.exist_html		= o=> this.exist_html(o);	// HTML要素を存在チェック
+		//hTag.exist_html		= o=> this.exist_html(o);	// HTML要素を存在チェック
 		hTag.let_html		= hArg=> {		// HTML要素を取得
 			const name = hArg.name;
 			if (! name) throw 'nameは必須です';
+			const htmnm = `const.sn.htm.${name}`;
+			if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
 			const var_name = hArg.var_name;
 			if (! var_name) throw 'var_nameは必須です';
 
 			const ifrm = document.getElementById(name) as HTMLIFrameElement;
 			const win = ifrm.contentWindow;
-			if (! (var_name in win)) throw 'HTMLのJavaScriptグローバル変数【'+ var_name +'】が未設定です。var付きの場合はローカル変数です';
+			if (! (var_name in win)) throw `HTML【${name}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
-			// 組み込み変数
-			const htmnm = `const.sn.htm.${name}`;
+			// var変数 / 関数実行の戻り値 -> 組み込み変数
 			val.setVal_Nochk(
 				'tmp',
 				htmnm +'.'+ var_name,
@@ -147,12 +148,17 @@ export class LayerMng {
 		hTag.set_html		= hArg=> {		// HTML要素に設定
 			const name = hArg.name;
 			if (! name) throw 'nameは必須です';
+			const htmnm = `const.sn.htm.${name}`;
+			if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
 			const var_name = hArg.var_name;
 			if (! var_name) throw 'var_nameは必須です';
 			const text = hArg.text;
 			if (! text) throw 'textは必須です';
 
-			// 組み込み変数
+			// -> 組み込み変数
+			val.setVal_Nochk('tmp', htmnm +'.'+ var_name, text);
+
+			// -> var変数に設定
 			const ifrm = document.getElementById(name) as HTMLIFrameElement;
 			const win = ifrm.contentWindow;
 			win[var_name] = text;
