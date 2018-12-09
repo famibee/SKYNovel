@@ -97,6 +97,9 @@ export interface HArg {
 	x?	: number;
 	y?	: number;
 
+	src?		: string;
+	var_name?	: string;
+
 	left?	: string;
 	top?	: string;
 	width?	: string;

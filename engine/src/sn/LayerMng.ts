@@ -94,10 +94,72 @@ export class LayerMng {
 //		hTag.wv				= o=> this.wv(o);			// ムービー再生終了待ち
 
 		//	HTMLレイヤ
-/*		hTag.exist_html		= o=> this.exist_html(o);	// HTML要素を存在チェック
-		hTag.let_html		= o=> this.let_html(o);	// HTML要素を取得
-		hTag.set_html		= o=> this.set_html(o);	// HTML要素に設定
-*/
+		hTag.add_html		= hArg=> {
+			const name = hArg.name;
+			if (! name) throw 'nameは必須です';
+			const src = hArg.src;
+			if (! src) throw 'srcは必須です';
+			const w = CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW);
+			const h = CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH);
+
+			const cvs = this.appPixi.view;
+			const rect = cvs.getBoundingClientRect();
+			const x = rect.top + window.pageYOffset;
+			const y = rect.left + window.pageXOffset;
+//console.log(`fn:LayerMng.ts line:109 sys.cur:${sys.cur}`);
+			cvs.insertAdjacentHTML('beforebegin', `<iframe id="${name}" sandbox="allow-scripts allow-same-origin" src="${sys.cur + src}" style="z-index: 1; position: absolute; left:${x}px; top: ${y}px; border: 0px; overflow: hidden;" width="${w}" height="${h}"></iframe>`);
+
+			const ifrm = document.getElementById(name) as HTMLIFrameElement;
+			const win = ifrm.contentWindow;
+			win.addEventListener('load', ()=> {
+				// 組み込み変数
+				const htmnm = `const.sn.htm.${name}`;
+				this.val.setVal_Nochk('tmp', htmnm, true);
+
+				this.main.resume();
+			});
+
+			return true;
+		}
+//		hTag.exist_html		= o=> this.exist_html(o);	// HTML要素を存在チェック
+		hTag.let_html		= hArg=> {		// HTML要素を取得
+			const name = hArg.name;
+			if (! name) throw 'nameは必須です';
+			const var_name = hArg.var_name;
+			if (! var_name) throw 'var_nameは必須です';
+
+			const ifrm = document.getElementById(name) as HTMLIFrameElement;
+			const win = ifrm.contentWindow;
+			if (! (var_name in win)) throw 'HTMLのJavaScriptグローバル変数【'+ var_name +'】が未設定です。var付きの場合はローカル変数です';
+
+			// 組み込み変数
+			const htmnm = `const.sn.htm.${name}`;
+			val.setVal_Nochk(
+				'tmp',
+				htmnm +'.'+ var_name,
+				CmnLib.argChk_Boolean(hArg, 'function', false)
+					? win[var_name]()
+					: win[var_name]
+			);
+
+			return false;
+		}
+		hTag.set_html		= hArg=> {		// HTML要素に設定
+			const name = hArg.name;
+			if (! name) throw 'nameは必須です';
+			const var_name = hArg.var_name;
+			if (! var_name) throw 'var_nameは必須です';
+			const text = hArg.text;
+			if (! text) throw 'textは必須です';
+
+			// 組み込み変数
+			const ifrm = document.getElementById(name) as HTMLIFrameElement;
+			const win = ifrm.contentWindow;
+			win[var_name] = text;
+
+			return false;
+		}
+
 		//	デバッグ・その他
 		hTag.dump_lay		= o=> this.dump_lay(o);		// レイヤのダンプ
 

@@ -2,95 +2,138 @@
 <head><meta charset="utf-8"/><title>&nbsp;</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/materialize.min.css">
+<script defer src="js/materialize.min.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', ()=> {
+		// スライダーの値を表示（個人的な好み）
+		const elms = document.getElementsByClassName('sld2dsp');
+		for (let i=0, max=elms.length; i<max; ++i) {
+			const bar = elms[i].getElementsByTagName('input')[0];
+			const target = elms[i].getElementsByClassName('sld2val')[0];
+			bar.addEventListener('input', ()=> target.innerHTML = bar.value);
+		}
+	}, false);
+
+	function val2ctrl() {
+		const ev = document.createEvent('MouseEvents'); // イベントオブジェクトを作成
+		ev.initEvent('input', false, true); // イベントの内容を設定
+
+		const sld2 = document.getElementsByClassName('sn_sld');
+		for (let i=0, max=sld2.length; i<max; ++i) {
+			const e = sld2[i];
+			e.value = window[`val_${e.id}`];
+			e.dispatchEvent(ev); // イベントを発火させる
+		}
+		const chks = document.getElementsByClassName('sn_chk');
+		for (let i=0, max=chks.length; i<max; ++i) {
+			const e = chks[i];
+			e.checked = (window[`val_${e.id}`] == 'true');
+			//不要	e.dispatchEvent(ev); // イベントを発火させる
+		}
+	}
+	function ctrl2val() {
+		const slds = document.getElementsByClassName('sn_sld');
+		for (let i=0, max=slds.length; i<max; ++i) {
+			const e = slds[i];
+			window[`val_${e.id}`] = e.value;
+		}
+		const chks = document.getElementsByClassName('sn_chk');
+		for (let i=0, max=chks.length; i<max; ++i) {
+			const e = chks[i];
+			window[`val_${e.id}`] = e.checked;
+		}
+	}
+
+</script>
 </head>
-<body>
-	<nav class="grey darken-1" role="navigation">
+<body class="blue-grey lighten-4">
+	<nav class="blue-grey darken-1" role="navigation">
 		<div class="nav-wrapper container"><span class="brand-logo">設定画面</span></div>
 	</nav>
 
 	<div class="container">
 		<div class="section card-panel">
-		<h3 class="center grey-text">テキスト</h3>
+		<h3 class="center blue-grey-text">テキスト</h3>
 		<div class="row">
-			<div class="col s12 m6 card-panel hoverable range2dsp grey lighten-2">
+			<div class="col s12 m6 card-panel hoverable sld2dsp grey lighten-2">
 				<h5>バック不透明度</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldBackAlpha" min="0" max="100" step="5" value="70"/></p>
-				<span class="badge"><span class="range2val">70</span>%</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldBackAlpha" min="0" max="100" step="5" value="70"/></p>
+				<span class="badge"><span class="sld2val">70</span>%</span>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s12 m6 card-panel hoverable range2dsp red lighten-3">
+			<div class="col s12 m6 card-panel hoverable sld2dsp red lighten-3">
 				<h5>通常文字表示待ち</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldChWaitMsec" min="0" max="500" step="10" value="100"></p>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldChWaitMsec" min="0" max="500" step="10" value="10"></p>
 				<div class="switch"><label class="black-text">
 					待たない
-					<input type="checkbox" checked="."/><span class="lever"></span>
+					<input class="sn_chk" type="checkbox" id="chkChDoWait" checked="."/><span class="lever"></span>
 					待つ
 				</label></div>
-				<span class="badge black-text"><span class="range2val">10</span> msec</span>
+				<span class="badge black-text"><span class="sld2val">10</span> msec</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp red lighten-2">
+			<div class="col s12 m6 card-panel hoverable sld2dsp red lighten-2">
 				<h5>自動読みクリック待ち</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldAutoLWaitMsec" min="0" max="3500" step="10" value="3500"></p>
-				<span class="badge black-text"><span class="range2val">3500</span> msec</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldAutoLWaitMsec" min="0" max="3500" step="10" value="3500"></p>
+				<span class="badge black-text"><span class="sld2val">3500</span> msec</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp red lighten-2">
+			<div class="col s12 m6 card-panel hoverable sld2dsp red lighten-2">
 				<h5>自動読み改ページ待ち</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldAutoPWaitMsec" min="0" max="3500" step="10" value="3500"></p>
-				<span class="badge black-text"><span class="range2val">3500</span> msec</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldAutoPWaitMsec" min="0" max="3500" step="10" value="3500"></p>
+				<span class="badge black-text"><span class="sld2val">3500</span> msec</span>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col s12 m6 card-panel hoverable range2dsp yellow lighten-3">
+			<div class="col s12 m6 card-panel hoverable sld2dsp yellow lighten-3">
 				<h5>既読文字表示待ち</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldChWaitMsec_Kidoku" min="0" max="500" step="10" value="100"></p>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldChWaitMsec_Kidoku" min="0" max="500" step="10" value="10"></p>
 				<div class="switch"><label class="black-text">
 					待つ
-					<input type="checkbox"/><span class="lever"></span>
+					<input class="sn_chk" type="checkbox" id="chkChDoWait_Kidoku"/><span class="lever"></span>
 					待たない
 				</label></div>
-				<span class="badge"><span class="range2val">10</span> msec</span>
+				<span class="badge"><span class="sld2val">10</span> msec</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp yellow lighten-2">
+			<div class="col s12 m6 card-panel hoverable sld2dsp yellow lighten-2">
 				<h5>既読読みクリック待ち</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldAutoLWaitMsec_Kidoku" min="0" max="3500" step="10" value="3500"></p>
-				<span class="badge"><span class="range2val">3500</span> msec</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldAutoLWaitMsec_Kidoku" min="0" max="3500" step="10" value="3500"></p>
+				<span class="badge"><span class="sld2val">3500</span> msec</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp yellow lighten-2">
+			<div class="col s12 m6 card-panel hoverable sld2dsp yellow lighten-2">
 				<h5>既読読み改ページ待ち</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldAutoPWaitMsec_Kidoku" min="0" max="3500" step="10" value="3500"></p>
-				<span class="badge"><span class="range2val">3500</span> msec</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldAutoPWaitMsec_Kidoku" min="0" max="3500" step="10" value="3500"></p>
+				<span class="badge"><span class="sld2val">3500</span> msec</span>
 			</div>
 		</div>
 		</div>
 
 		<div class="section card-panel">
-		<h3 class="center grey-text">音量</h3>
+		<h3 class="center blue-grey-text">音量</h3>
 		<div class="row">
-			<div class="col s12 m6 card-panel hoverable range2dsp indigo lighten-4">
+			<div class="col s12 m6 card-panel hoverable sld2dsp indigo lighten-4">
 				<h5>全体的</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldVolGlobal" min="0" max="100" step="5" value="80"></p>
-				<span class="badge"><span class="range2val">80</span> %</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldVolGlobal" min="0" max="100" step="5" value="80"></p>
+				<span class="badge"><span class="sld2val">80</span> %</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp indigo lighten-3">
+			<div class="col s12 m6 card-panel hoverable sld2dsp indigo lighten-3">
 				<h5>ＢＧＭのみ</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldVolBgm" min="0" max="100" step="5" value="100"></p>
-				<span class="badge black-text"><span class="range2val">100</span> %</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldVolBgm" min="0" max="100" step="5" value="100"></p>
+				<span class="badge black-text"><span class="sld2val">100</span> %</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp indigo lighten-3">
+			<div class="col s12 m6 card-panel hoverable sld2dsp indigo lighten-3">
 				<h5>ボイスのみ</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldVolVoice" min="0" max="100" step="5" value="100"></p>
-				<span class="badge black-text"><span class="range2val">100</span> %</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldVolVoice" min="0" max="100" step="5" value="100"></p>
+				<span class="badge black-text"><span class="sld2val">100</span> %</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp indigo lighten-3">
+			<div class="col s12 m6 card-panel hoverable sld2dsp indigo lighten-3">
 				<h5>効果音のみ</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldVolSe" min="0" max="100" step="5" value="100"></p>
-				<span class="badge black-text"><span class="range2val">100</span> %</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldVolSe" min="0" max="100" step="5" value="100"></p>
+				<span class="badge black-text"><span class="sld2val">100</span> %</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable range2dsp indigo lighten-3">
+			<div class="col s12 m6 card-panel hoverable sld2dsp indigo lighten-3">
 				<h5>システム音のみ</h5>
-				<p class="range-field"><input class="mdl-slider mdl-js-slider" type="range" id="sldVolSys" min="0" max="100" step="5" value="100"></p>
-				<span class="badge black-text"><span class="range2val">100</span> %</span>
+				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldVolSys" min="0" max="100" step="5" value="100"></p>
+				<span class="badge black-text"><span class="sld2val">100</span> %</span>
 			</div>
 		</div>
 		</div>
@@ -101,23 +144,11 @@
 				<h5>画面モード</h5>
 				<p><div class="switch"><label class="black-text">
 					全画面モード
-					<input type="checkbox" id="chkScrMode" checked="."/><span class="lever"></span>
+					<input class="sn_chk" type="checkbox" id="chkScrMode" checked="."/><span class="lever"></span>
 					ウインドウモード
 				</label></div></p>
 			</div>
 		</div>
 		</div>
 	</div>
-
-
-	<script src="js/materialize.min.js"></script>
-<script>
-	// スライダーの値を表示（個人的な好み）
-	const elm = document.getElementsByClassName('range2dsp');
-	for (let i=0, max=elm.length; i<max; ++i) {
-		const bar = elm[i].getElementsByTagName('input')[0];
-		const target = elm[i].getElementsByClassName('range2val')[0];
-		bar.addEventListener('input', ()=> target.innerHTML = bar.value);
-	}
-</script>
 </body></html>
