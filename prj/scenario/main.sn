@@ -102,13 +102,12 @@
 	[toggle_full_screen]
 	[let name="txt" text="全画面モード"]
 	[let name="txt" text="ウインドウモード" cond="const.flash.display.Stage.displayState == 'normal'"]
-	[notice text="&txt" left="&const.sn.config.window.width -10 -300" top=10]
+;	[notice text="&txt" left="&const.sn.config.window.width -10 -300" top=10]
 
 	; 設定画面変更
-	&is_scrmode_win = (const.flash.display.Stage.displayState == 'normal')
 	[return cond='!const._config.inited']
-	[set_html layer=htm_config var_name=val_chkScrMode text=&is_scrmode_win]
-	[let_html layer=htm_config var_name=refresh function=true]
+	[set_html name=config var_name=val_chkScrMode text=&const.sn.displayState]
+;	[let_html name=config var_name=val2ctrl function=true]
 [return]
 
 *set_focus

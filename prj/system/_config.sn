@@ -26,8 +26,7 @@
 	[set_html name=config var_name=val_sldVolSe text=&sys:const.sn.sound.SE.volume]
 	[set_html name=config var_name=val_sldVolSys text=&sys:const.sn.sound.SYS.volume]
 
-	&is_scrmode_win = (const.sn.displayState == true)
-	[set_html name=config var_name=val_chkScrMode text=&is_scrmode_win]
+	[set_html name=config var_name=val_chkScrMode text=&const.sn.displayState]
 
 	[let_html name=config var_name=val2ctrl function=true]
 
@@ -36,13 +35,13 @@
 	[event key='dom=config:#sldBackAlpha' label=*sldBackAlpha global=true call=true need_err=false]
 	; 通常文字表示待ち
 	[event key='dom=config:#sldChWaitMsec' label=*sldChWaitMsec global=true call=true need_err=false]
-;		[event key='dom=config:#chkChDoWait' label=*chkChDoWait global=true call=true need_err=false]	;;=== 有効にするとスイッチが動かない？
+		[event key='dom=config:#chkChDoWait' label=*chkChDoWait global=true call=true need_err=false]
 	[event key='dom=config:#sldAutoLWaitMsec' label=*sldAutoLWaitMsec global=true call=true need_err=false]
 	[event key='dom=config:#sldAutoPWaitMsec' label=*sldAutoPWaitMsec global=true call=true need_err=false]
 
 	; 既読文字表示待ち
 	[event key='dom=config:#sldChWaitMsec_Kidoku' label=*sldChWaitMsec_Kidoku global=true call=true need_err=false]
-;		[event key='dom=config:#chkChDoWait_Kidoku' label=*chkChDoWait_Kidoku global=true call=true need_err=false]	;;=== 有効にするとスイッチが動かない？
+		[event key='dom=config:#chkChDoWait_Kidoku' label=*chkChDoWait_Kidoku global=true call=true need_err=false]
 	[event key='dom=config:#sldAutoLWaitMsec_Kidoku' label=*sldAutoLWaitMsec_Kidoku global=true call=true need_err=false]
 	[event key='dom=config:#sldAutoPWaitMsec_Kidoku' label=*sldAutoPWaitMsec_Kidoku global=true call=true need_err=false]
 
@@ -54,14 +53,14 @@
 	[event key='dom=config:#sldVolSys' label=*sldVolSys global=true call=true need_err=false]
 
 	; 画面モード
-;	[event key='dom=config:#chkScrMode' label=*chkScrMode global=true call=true need_err=false]	;;=== 有効にするとスイッチが動かない
+	[event key='dom=config:#chkScrMode' label=*chkScrMode global=true call=true need_err=false]
 [return]
 
 
 ; バック不透明度
 *sldBackAlpha
 	[let_html name=config var_name=val_sldBackAlpha]
-		[trace text=&const.sn.htm.config.val_sldBackAlpha/100]	;==
+		[trace text=&const.sn.htm.config.val_sldBackAlpha/100]
 	&sys:TextLayer.Back.Alpha = const.sn.htm.config.val_sldBackAlpha/100
 [return]
 
@@ -69,22 +68,22 @@
 *sldChWaitMsec
 	[let_html name=config var_name=val_sldChWaitMsec]
 	&sys:an.tagCh.msecWait = const.sn.htm.config.val_sldChWaitMsec
-		[trace text=&const.sn.htm.config.val_sldChWaitMsec]	;==
+		[trace text=&const.sn.htm.config.val_sldChWaitMsec]
 [return]
 *chkChDoWait
 		[let_html name=config var_name=val_chkChDoWait]
 		&sys:an.tagCh.doWait = const.sn.htm.config.val_chkChDoWait
-		[trace text=&const.sn.htm.config.val_chkChDoWait]	;==
+		[trace text=&const.sn.htm.config.val_chkChDoWait]
 [return]
 *sldAutoLWaitMsec
 	[let_html name=config var_name=val_sldAutoLWaitMsec]
 	&sys:an.auto.msecLineWait = const.sn.htm.config.val_sldAutoLWaitMsec
-		[trace text=&const.sn.htm.config.val_sldAutoLWaitMsec]	;==
+		[trace text=&const.sn.htm.config.val_sldAutoLWaitMsec]
 [return]
 *sldAutoPWaitMsec
 	[let_html name=config var_name=val_sldAutoPWaitMsec]
 	&sys:an.auto.msecPageWait = const.sn.htm.config.val_sldAutoPWaitMsec
-		[trace text=&const.sn.htm.config.val_sldAutoPWaitMsec]	;==
+		[trace text=&const.sn.htm.config.val_sldAutoPWaitMsec]
 [return]
 
 
@@ -92,22 +91,22 @@
 *sldChWaitMsec_Kidoku
 	[let_html name=config var_name=val_sldChWaitMsec_Kidoku]
 	&sys:an.tagCh.msecWait_Kidoku = const.sn.htm.config.val_sldChWaitMsec_Kidoku
-		[trace text=&const.sn.htm.config.val_sldChWaitMsec_Kidoku]	;==
+		[trace text=&const.sn.htm.config.val_sldChWaitMsec_Kidoku]
 [return]
 *chkChDoWait_Kidoku
 		[let_html name=config var_name=val_chkChDoWait_Kidoku]
 		&sys:an.tagCh.doWait_Kidoku = const.sn.htm.config.val_chkChDoWait_Kidoku
-		[trace text=&const.sn.htm.config.val_chkChDoWait_Kidoku]	;==
+		[trace text=&const.sn.htm.config.val_chkChDoWait_Kidoku]
 [return]
 *sldAutoLWaitMsec_Kidoku
 	[let_html name=config var_name=val_sldAutoLWaitMsec_Kidoku]
 	&sys:an.auto.msecLineWait_Kidoku = const.sn.htm.config.val_sldAutoLWaitMsec_Kidoku
-		[trace text=&const.sn.htm.config.val_sldAutoLWaitMsec_Kidoku]	;==
+		[trace text=&const.sn.htm.config.val_sldAutoLWaitMsec_Kidoku]
 [return]
 *sldAutoPWaitMsec_Kidoku
 	[let_html name=config var_name=val_sldAutoPWaitMsec_Kidoku]
 	&sys:an.auto.msecPageWait_Kidoku = const.sn.htm.config.val_sldAutoPWaitMsec_Kidoku
-		[trace text=&const.sn.htm.config.val_sldAutoPWaitMsec_Kidoku]	;==
+		[trace text=&const.sn.htm.config.val_sldAutoPWaitMsec_Kidoku]
 [return]
 
 
@@ -115,27 +114,27 @@
 *sldVolGlobal
 	[let_html name=config var_name=val_sldVolGlobal]
 	&sys:flash.media.SoundMixer.soundTransform.volume = const.sn.htm.config.val_sldVolGlobal
-		[trace text=&const.sn.htm.config.val_sldVolGlobal]	;==
+		[trace text=&const.sn.htm.config.val_sldVolGlobal]
 [return]
 *sldVolBgm
 	[let_html name=config var_name=val_sldVolBgm]
 	[volume buf=BGM volume=&const.sn.htm.config.val_sldVolBgm]
-		[trace text=&const.sn.htm.config.val_sldVolBgm]	;==
+		[trace text=&const.sn.htm.config.val_sldVolBgm]
 [return]
 *sldVolVoice
 	[let_html name=config var_name=val_sldVolVoice]
 	[volume buf=BGM volume=&const.sn.htm.config.val_sldVolVoice]
-		[trace text=&const.sn.htm.config.val_sldVolVoice]	;==
+		[trace text=&const.sn.htm.config.val_sldVolVoice]
 [return]
 *sldVolSe
 	[let_html name=config var_name=val_sldVolSe]
 	[volume buf=SE volume=&const.sn.htm.config.val_sldVolSe]
-		[trace text=&const.sn.htm.config.val_sldVolSe]	;==
+		[trace text=&const.sn.htm.config.val_sldVolSe]
 [return]
 *sldVolSys
 	[let_html name=config var_name=val_sldVolSys]
 	[volume buf=SYS volume=&const.sn.htm.config.val_sldVolSys]
-		[trace text=&const.sn.htm.config.val_sldVolSys]	;==
+		[trace text=&const.sn.htm.config.val_sldVolSys]
 [return]
 
 
@@ -143,11 +142,9 @@
 *chkScrMode
 	[let_html name=config var_name=val_chkScrMode]
 [trace text=&const.sn.htm.config.val_chkScrMode]
-	&is_scrmode_win = (const.sn.displayState == true)
-[trace text=&is_scrmode_win]
-
-;	[call fn=main label=*toggle_full_screen cond=const.sn.htm.config.val_chkScrMode!=is_scrmode_win]
+;	[call fn=main label=*toggle_full_screen cond=const.sn.htm.config.val_chkScrMode!=const.sn.displayState]
 [return]
+
 
 
 

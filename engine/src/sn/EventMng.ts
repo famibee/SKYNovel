@@ -374,7 +374,8 @@ export class EventMng implements IEvtMng {
 			}
 			if (elmlist.length == 0 && CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw 'セレクタに対応する要素が見つかりません';
 
-			for (const elm of elmlist) this.elc.add(elm, 'click', e=> this.defEvt2Fnc(e, key));
+			const event = (elmlist[0] as HTMLInputElement) ?'input' :'click';
+			for (const elm of elmlist) this.elc.add(elm, event, e=> this.defEvt2Fnc(e, key));
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
 		}
 

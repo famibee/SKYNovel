@@ -10,8 +10,15 @@
 			const bar = elms[i].getElementsByTagName('input')[0];
 			const target = elms[i].getElementsByClassName('sld2val')[0];
 			bar.addEventListener('input', ()=> {
-				window['val_'+ bar.id] = bar.value;	// 変数更新
-				target.innerHTML = bar.value;		// スライダーの値を表示
+				window[`val_${bar.id}`] = bar.value;	// 変数更新
+				target.innerHTML = bar.value;			// スライダーの値を表示
+			});
+		}
+		const chks = document.getElementsByClassName('sn_chk');
+		for (let i=0, max=chks.length; i<max; ++i) {
+			const chk = chks[i];
+			chk.addEventListener('input', ()=> {
+				window[`val_${chk.id}`] = chk.checked;	// 変数更新
 			});
 		}
 	}, false);

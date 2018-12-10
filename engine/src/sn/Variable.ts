@@ -89,6 +89,8 @@ export class Variable implements IVariable {
 				'default';
 		}
 */
+		this.hTmp['const.sn.displayState'] = false;
+			// const.flash.display.Stage.displayState
 
 		this.hTmp['const.Date.getTime'] = ()=> (new Date).getTime();
 		this.hTmp['const.flash.utils.getTimer'] = ()=> (new Date).getTime();
