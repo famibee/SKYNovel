@@ -360,7 +360,7 @@ export class EventMng implements IEvtMng {
 		if (key.slice(0, 4) == 'dom=') {
 			let elmlist = null;
 			const idx = key.indexOf(':');
-			if (idx >= 0) {		// key='dom=config:
+			if (idx >= 0) {		// key='dom=config:#ctrl2val
 				const name = key.slice(4, idx);
 				const htmnm = `const.sn.htm.${name}`;
 				if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
