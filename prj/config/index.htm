@@ -5,12 +5,14 @@
 <script defer src="js/materialize.min.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', ()=> {
-		// スライダーの値を表示（個人的な好み）
 		const elms = document.getElementsByClassName('sld2dsp');
 		for (let i=0, max=elms.length; i<max; ++i) {
 			const bar = elms[i].getElementsByTagName('input')[0];
 			const target = elms[i].getElementsByClassName('sld2val')[0];
-			bar.addEventListener('input', ()=> target.innerHTML = bar.value);
+			bar.addEventListener('input', ()=> {
+				window['val_'+ bar.id] = bar.value;	// 変数更新
+				target.innerHTML = bar.value;		// スライダーの値を表示
+			});
 		}
 	}, false);
 
@@ -60,11 +62,6 @@
 				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldBackAlpha" min="0" max="100" step="5" value="70"/></p>
 				<span class="badge"><span class="sld2val">70</span>%</span>
 			</div>
-			<div class="col s12 m6 card-panel hoverable grey lighten-2">
-				<p>
-					<a id="ctrl2val" class="waves-effect waves-light btn">button</a>
-				</p>
-			</div>
 		</div>
 		<div class="row">
 			<div class="col s12 m6 card-panel hoverable sld2dsp red lighten-3">
@@ -93,9 +90,9 @@
 				<h5>既読文字表示待ち</h5>
 				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldChWaitMsec_Kidoku" min="0" max="500" step="10" value="10"></p>
 				<div class="switch"><label class="black-text">
-					待つ
-					<input class="sn_chk" type="checkbox" id="chkChDoWait_Kidoku"/><span class="lever"></span>
 					待たない
+					<input class="sn_chk" type="checkbox" id="chkChDoWait_Kidoku"/><span class="lever"></span>
+					待つ
 				</label></div>
 				<span class="badge"><span class="sld2val">10</span> msec</span>
 			</div>
