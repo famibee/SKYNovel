@@ -5,12 +5,11 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import mocha = require('mocha');
 import assert = require('power-assert');
 
 import {PropParser} from '../src/sn/PropParser';
 
-import {IVariable, typeProcVal} from '../src/sn/CmnLib';
+import {IVariable, ISysBase, typeProcVal} from '../src/sn/CmnLib';
 
 class MyVal implements IVariable {
 	private hGetVal = {
@@ -38,6 +37,7 @@ class MyVal implements IVariable {
 //			"true ? tmp:sys:zero_s"	: "",	// どうなる、どうすべき
 	};
 
+	setSys(sys: ISysBase): void {};
 	getVal(arg_name: string): object {return this.hGetVal[arg_name];}
 	setVal_Nochk = (scope: string, nm: string, val: any, autocast?: boolean)=> {};
 	defTmp = (name: string, fnc: typeProcVal)=> {};

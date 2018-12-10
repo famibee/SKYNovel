@@ -3,6 +3,13 @@
 	&const._config.inited = true
 
 	[add_html name=config src="config/index.htm"]
+;	[lay name=config visible=false]
+
+;	[event global=true call=true key=c label=*keycall_config]
+;	[event global=true call=true key=t label=*text_back_alpha_sub]
+;	[event global=true call=true key=y label=*text_back_alpha_add]
+;	[event global=true call=true key=u label=*text_auto_msecwait_sub]
+;	[event global=true call=true key=i label=*text_auto_msecwait_add]
 
 *val2ctrl
 	; バック不透明度
@@ -146,22 +153,6 @@
 [return]
 
 
-
-
-	[sys_syslay.init]
-	[let name="isUserUpdateCheck" text=false cond="isUserUpdateCheck == null"]
-	[return cond="const.flash.system.Capabilities.playerType != 'Desktop'"]
-
-	[add_lay name=config class=htm]
-*reload
-	[lay layer=htm_config url="_config" visible=false paints_default_background=false]
-
-	[event global=true call=true key=c label=*keycall_config]
-	[event global=true call=true key=t label=*text_back_alpha_sub]
-	[event global=true call=true key=y label=*text_back_alpha_add]
-	[event global=true call=true key=u label=*text_auto_msecwait_sub]
-	[event global=true call=true key=i label=*text_auto_msecwait_add]
-[return]
 
 ;*********************************************************
 *text_back_alpha_sub
