@@ -4,7 +4,7 @@
 
 	[add_html name=config src="config/index.htm"]
 
-*reload
+*val2ctrl
 	[set_html name=config var_name=val_sldBackAlpha text=&sys:TextLayer.Back.Alpha*100]
 
 	[set_html name=config var_name=val_sldChWaitMsec text=&sys:sn.tagCh.msecWait]
@@ -25,10 +25,13 @@
 	[set_html name=config var_name=val_sldVolSe text=&sys:const.sn.sound.SE.volume]
 	[set_html name=config var_name=val_sldVolSys text=&sys:const.sn.sound.SYS.volume]
 
-	&is_scrmode_win = (const.flash.display.Stage.displayState == 'normal')
+	&is_scrmode_win = (const.sn.displayState == true)
 	[set_html name=config var_name=val_chkScrMode text=&is_scrmode_win]
 
 	[let_html name=config var_name=val2ctrl function=true]
+
+	[event key='dom=config:#ctrl2val' label=*ctrl2val global=true call=true need_err=false]
+;	[event name=config key='dom=.sld2dsp' label=*ctrl2val global=true call=true need_err=false]
 
 
 	;	[let_html name=config var_name=val_sldBackAlpha]
@@ -36,6 +39,14 @@
 
 	;	[let_html name=config var_name=val_chkChDoWait]
 	;		[trace text=&const.sn.htm.config.val_chkChDoWait]
+[return]
+
+
+*ctrl2val
+[trace text=aaa]
+;	[let_html name=config var_name=val_sldBackAlpha]
+;		[trace text=&const.sn.htm.config.val_sldBackAlpha/100]
+;	&sys:TextLayer.Back.Alpha = const.sn.htm.config.val_sldBackAlpha/100
 [return]
 
 

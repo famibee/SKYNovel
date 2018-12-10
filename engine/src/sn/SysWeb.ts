@@ -68,14 +68,14 @@ export class SysWeb extends SysBase {
 		this.ns = this.cfg.oCfg.save_ns +' - ';
 		const sys = strLocal.get(this.ns +'sys');
 		if (sys == undefined) {
-			hTmp['const.an.isFirstBoot'] = true;
+			hTmp['const.sn.isFirstBoot'] = true;
 			this.data.sys = data['sys'];
 			this.data.mark = data['mark'];
 			this.data.kidoku = data['kidoku'];
 			this.flush();
 		}
 		else {
-			hTmp['const.an.isFirstBoot'] = false;
+			hTmp['const.sn.isFirstBoot'] = false;
 			this.data.sys = sys;
 			this.data.mark = strLocal.get(this.ns +'mark');
 			this.data.kidoku = strLocal.get(this.ns +'kidoku');

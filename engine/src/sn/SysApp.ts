@@ -39,7 +39,7 @@ export class SysApp extends SysNode {
 
 			if (Object.keys(strDat).length === 0) {
 				// データがないときの処理
-				hTmp['const.an.isFirstBoot'] = true;
+				hTmp['const.sn.isFirstBoot'] = true;
 				this.data.sys = data['sys'];
 				this.data.mark = data['mark'];
 				this.data.kidoku = data['kidoku'];
@@ -47,7 +47,7 @@ export class SysApp extends SysNode {
 			}
 			else {
 				// データがあるときの処理
-				hTmp['const.an.isFirstBoot'] = false;
+				hTmp['const.sn.isFirstBoot'] = false;
 				this.data.sys = strDat['sys'];
 				this.data.mark = strDat['mark'];
 				this.data.kidoku = strDat['kidoku'];
@@ -91,7 +91,7 @@ export class SysApp extends SysNode {
 				//	stage.displayState;
 			*/
 
-			if (hTmp['const.an.isFirstBoot']) {
+			if (hTmp['const.sn.isFirstBoot']) {
 				this.window({centering: true});
 			}
 			else {
@@ -140,7 +140,7 @@ export class SysApp extends SysNode {
 		//myTrace('x:'+ win_x +' y:'+ win_y);
 		}*/
 		const toFullScreen = ! this.win.isFullScreen();
-		this.val.setVal_Nochk('tmp', 'const.flash.display.Stage.displayState', toFullScreen);
+		this.val.setVal_Nochk('tmp', 'const.sn.displayState', toFullScreen);	// const.flash.display.Stage.displayState
 		if (toFullScreen) {
 			const size = screen.getPrimaryDisplay().size;
 			const ratioWidth = size.width / CmnLib.stageW;

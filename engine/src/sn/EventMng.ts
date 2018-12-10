@@ -358,7 +358,22 @@ export class EventMng implements IEvtMng {
 
 		// domイベント
 		if (key.slice(0, 4) == 'dom=') {
-			const elmlist = document.querySelectorAll(key.slice(4));
+			let elmlist = null;
+			const idx = key.indexOf(':');
+			if (idx >= 0) {		// key='dom=config:
+				const name = key.slice(4, idx);
+console.log(`fn:EventMng.ts line:365 name:${name}`);
+				const htmnm = `const.sn.htm.${name}`;
+				if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
+
+				const ifrm = document.getElementById(name) as HTMLIFrameElement;
+				const win = ifrm.contentWindow;
+console.log(`fn:EventMng.ts line:372 key:${key.slice(idx +1)}`);
+				elmlist = win.document.querySelectorAll(key.slice(idx +1));
+			}
+			else {
+				elmlist = document.querySelectorAll(key.slice(4));
+			}
 			if (elmlist.length == 0 && CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw 'セレクタに対応する要素が見つかりません';
 
 			for (const elm of elmlist) this.elc.add(elm, 'click', e=> this.defEvt2Fnc(e, key));
