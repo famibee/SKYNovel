@@ -93,78 +93,10 @@ export class LayerMng {
 		//	ムービーレイヤ
 //		hTag.wv				= o=> this.wv(o);			// ムービー再生終了待ち
 
-		//	HTMLレイヤ
-		hTag.add_html		= hArg=> {
-			const name = hArg.name;
-			if (! name) throw 'nameは必須です';
-			const src = hArg.src;
-			if (! src) throw 'srcは必須です';
-			const w = CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW);
-			const h = CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH);
-
-			const cvs = this.appPixi.view;
-			const rect = cvs.getBoundingClientRect();
-			const x = rect.top + window.pageYOffset;
-			const y = rect.left + window.pageXOffset;
-//console.log(`fn:LayerMng.ts line:109 sys.cur:${sys.cur}`);
-			cvs.insertAdjacentHTML('beforebegin', `<iframe id="${name}" sandbox="allow-scripts allow-same-origin" src="${sys.cur + src}" style="z-index: 1; position: absolute; left:${x}px; top: ${y}px; border: 0px; overflow: hidden;" width="${w}" height="${h}"></iframe>`);
-
-			const ifrm = document.getElementById(name) as HTMLIFrameElement;
-			const win = ifrm.contentWindow;
-			win.addEventListener('load', ()=> {
-				// 組み込み変数
-				const htmnm = `const.sn.htm.${name}`;
-				this.val.setVal_Nochk('tmp', htmnm, true);
-
-				this.main.resume();
-			});
-
-			return true;
-		}
-		//hTag.exist_html		= o=> this.exist_html(o);	// HTML要素を存在チェック
-		hTag.let_html		= hArg=> {		// HTML要素を取得
-			const name = hArg.name;
-			if (! name) throw 'nameは必須です';
-			const htmnm = `const.sn.htm.${name}`;
-			if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
-			const var_name = hArg.var_name;
-			if (! var_name) throw 'var_nameは必須です';
-
-			const ifrm = document.getElementById(name) as HTMLIFrameElement;
-			const win = ifrm.contentWindow;
-			if (! (var_name in win)) throw `HTML【${name}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
-
-			// var変数 / 関数実行の戻り値 -> 組み込み変数
-			val.setVal_Nochk(
-				'tmp',
-				htmnm +'.'+ var_name,
-				CmnLib.argChk_Boolean(hArg, 'function', false)
-					? win[var_name]()
-					: win[var_name]
-			);
-
-			return false;
-		}
-		hTag.set_html		= hArg=> {		// HTML要素に設定
-			const name = hArg.name;
-			if (! name) throw 'nameは必須です';
-			const htmnm = `const.sn.htm.${name}`;
-			if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
-			const var_name = hArg.var_name;
-			if (! var_name) throw 'var_nameは必須です';
-			const text = hArg.text;
-			if (! text) throw 'textは必須です';
-
-			// -> 組み込み変数
-			val.setVal_Nochk('tmp', htmnm +'.'+ var_name, text);
-
-			// -> var変数に設定
-			const ifrm = document.getElementById(name) as HTMLIFrameElement;
-			const win = ifrm.contentWindow;
-			win[var_name] = text;
-
-			return false;
-		}
+		//	HTMLフレーム
+		hTag.add_html		= o=> this.add_html(o);		// HTMLフレーム追加
+		hTag.let_html		= o=> this.let_html(o);		// HTML要素を取得
+		hTag.set_html		= o=> this.set_html(o);		// HTML要素に設定
 
 		//	デバッグ・その他
 		hTag.dump_lay		= o=> this.dump_lay(o);		// レイヤのダンプ
@@ -1090,6 +1022,82 @@ void main(void) {
 		this.hTag.ch(hArg);
 		return false;
 	};
+
+
+	//	HTMLフレーム
+	// HTMLフレーム追加
+	private add_html(hArg) {
+		const name = hArg.name;
+		if (! name) throw 'nameは必須です';
+		const src = hArg.src;
+		if (! src) throw 'srcは必須です';
+		const w = CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW);
+		const h = CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH);
+
+		const cvs = this.appPixi.view;
+		const rect = cvs.getBoundingClientRect();
+		const x = rect.top + window.pageYOffset;
+		const y = rect.left + window.pageXOffset;
+//console.log(`fn:LayerMng.ts line:109 sys.cur:${sys.cur}`);
+		cvs.insertAdjacentHTML('beforebegin', `<iframe id="${name}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; position: absolute; left:${x}px; top: ${y}px; border: 0px; overflow: hidden;" width="${w}" height="${h}"></iframe>`);
+
+		const ifrm = document.getElementById(name) as HTMLIFrameElement;
+		const win = ifrm.contentWindow;
+		win.addEventListener('load', ()=> {
+			// 組み込み変数
+			const htmnm = `const.sn.htm.${name}`;
+			this.val.setVal_Nochk('tmp', htmnm, true);
+
+			this.main.resume();
+		});
+
+		return true;
+	}
+	// HTML要素を取得
+	private let_html(hArg) {
+		const name = hArg.name;
+		if (! name) throw 'nameは必須です';
+		const htmnm = `const.sn.htm.${name}`;
+		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
+		const var_name = hArg.var_name;
+		if (! var_name) throw 'var_nameは必須です';
+
+		const ifrm = document.getElementById(name) as HTMLIFrameElement;
+		const win = ifrm.contentWindow;
+		if (! (var_name in win)) throw `HTML【${name}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
+
+		// var変数 / 関数実行の戻り値 -> 組み込み変数
+		this.val.setVal_Nochk(
+			'tmp',
+			htmnm +'.'+ var_name,
+			CmnLib.argChk_Boolean(hArg, 'function', false)
+				? win[var_name]()
+				: win[var_name]
+		);
+
+		return false;
+	}
+	// HTML要素に設定
+	private set_html(hArg) {
+		const name = hArg.name;
+		if (! name) throw 'nameは必須です';
+		const htmnm = `const.sn.htm.${name}`;
+		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
+		const var_name = hArg.var_name;
+		if (! var_name) throw 'var_nameは必須です';
+		const text = hArg.text;
+		if (! text) throw 'textは必須です';
+
+		// -> 組み込み変数
+		this.val.setVal_Nochk('tmp', htmnm +'.'+ var_name, text);
+
+		// -> var変数に設定
+		const ifrm = document.getElementById(name) as HTMLIFrameElement;
+		const win = ifrm.contentWindow;
+		win[var_name] = text;
+
+		return false;
+	}
 
 
 	// レイヤのダンプ
