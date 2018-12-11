@@ -1027,8 +1027,8 @@ void main(void) {
 	//	HTMLフレーム
 	// HTMLフレーム追加
 	private add_html(hArg) {
-		const name = hArg.name;
-		if (! name) throw 'nameは必須です';
+		const id = hArg.id;
+		if (! id) throw 'idは必須です';
 		const src = hArg.src;
 		if (! src) throw 'srcは必須です';
 		const w = CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW);
@@ -1039,13 +1039,13 @@ void main(void) {
 		const x = rect.top + window.pageYOffset;
 		const y = rect.left + window.pageXOffset;
 //console.log(`fn:LayerMng.ts line:109 sys.cur:${sys.cur}`);
-		cvs.insertAdjacentHTML('beforebegin', `<iframe id="${name}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; position: absolute; left:${x}px; top: ${y}px; border: 0px; overflow: hidden;" width="${w}" height="${h}"></iframe>`);
+		cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; position: absolute; left:${x}px; top: ${y}px; border: 0px; overflow: hidden;" width="${w}" height="${h}"></iframe>`);
 
-		const ifrm = document.getElementById(name) as HTMLIFrameElement;
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win = ifrm.contentWindow;
 		win.addEventListener('load', ()=> {
 			// 組み込み変数
-			const htmnm = `const.sn.htm.${name}`;
+			const htmnm = `const.sn.htm.${id}`;
 			this.val.setVal_Nochk('tmp', htmnm, true);
 
 			this.main.resume();
@@ -1055,16 +1055,16 @@ void main(void) {
 	}
 	// HTML要素を取得
 	private let_html(hArg) {
-		const name = hArg.name;
-		if (! name) throw 'nameは必須です';
-		const htmnm = `const.sn.htm.${name}`;
-		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
+		const id = hArg.id;
+		if (! id) throw 'idは必須です';
+		const htmnm = `const.sn.htm.${id}`;
+		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 
-		const ifrm = document.getElementById(name) as HTMLIFrameElement;
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win = ifrm.contentWindow;
-		if (! (var_name in win)) throw `HTML【${name}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
+		if (! (var_name in win)) throw `HTML【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
@@ -1079,10 +1079,10 @@ void main(void) {
 	}
 	// HTML要素に設定
 	private set_html(hArg) {
-		const name = hArg.name;
-		if (! name) throw 'nameは必須です';
-		const htmnm = `const.sn.htm.${name}`;
-		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
+		const id = hArg.id;
+		if (! id) throw 'idは必須です';
+		const htmnm = `const.sn.htm.${id}`;
+		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 		const text = hArg.text;
@@ -1092,7 +1092,7 @@ void main(void) {
 		this.val.setVal_Nochk('tmp', htmnm +'.'+ var_name, text);
 
 		// -> var変数に設定
-		const ifrm = document.getElementById(name) as HTMLIFrameElement;
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win = ifrm.contentWindow;
 		win[var_name] = text;
 

@@ -97,6 +97,7 @@ export interface HArg {
 	x?	: number;
 	y?	: number;
 
+	id?			: string;
 	src?		: string;
 	var_name?	: string;
 
