@@ -771,7 +771,8 @@ void main(void) {
 
 	// トゥイーン終了待ち
 	private wait_tsy(hArg) {
-		const twInf = this.hTwInf[hArg.name || hArg.layer];
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const twInf = this.hTwInf[tw_nm];
 		if (! twInf) return false;
 
 		twInf.resume = true;
@@ -784,7 +785,8 @@ void main(void) {
 
 	// トゥイーン中断
 	private stop_tsy(hArg) {
-		const twInf = this.hTwInf[hArg.name || hArg.layer];
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const twInf = this.hTwInf[tw_nm];
 		if (! twInf) return false;
 
 		twInf.tw.stop().end();	// stop()とend()は別
@@ -794,7 +796,8 @@ void main(void) {
 
 	// 一時停止
 	private pause_tsy(hArg) {
-		const twInf = this.hTwInf[hArg.name || hArg.layer];
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const twInf = this.hTwInf[tw_nm];
 		if (! twInf) return false;
 
 		twInf.tw.stop();
@@ -804,7 +807,8 @@ void main(void) {
 
 	// 一時停止再開
 	private resume_tsy(hArg) {
-		const twInf = this.hTwInf[hArg.name || hArg.layer];
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const twInf = this.hTwInf[tw_nm];
 		if (! twInf) return false;
 
 		twInf.tw.start();

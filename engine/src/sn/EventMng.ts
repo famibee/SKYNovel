@@ -361,8 +361,8 @@ export class EventMng implements IEvtMng {
 			const idx = key.indexOf(':');
 			if (idx >= 0) {		// key='dom=config:#ctrl2val
 				const name = key.slice(4, idx);
-				const htmnm = `const.sn.htm.${name}`;
-				if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
+				const frmnm = `const.sn.frm.${name}`;
+				if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
 
 				const ifrm = document.getElementById(name) as HTMLIFrameElement;
 				const win = ifrm.contentWindow;

@@ -54,8 +54,8 @@ export class FrameMng {
 		const win = ifrm.contentWindow;
 		win.addEventListener('load', ()=> {
 			// 組み込み変数
-			const htmnm = `const.sn.htm.${id}`;
-			this.val.setVal_Nochk('tmp', htmnm, true);
+			const frmnm = `const.sn.frm.${id}`;
+			this.val.setVal_Nochk('tmp', frmnm, true);
 			this.val.setVal_Nochk('tmp', 'alpha', a);
 			this.val.setVal_Nochk('tmp', 'x', x);
 			this.val.setVal_Nochk('tmp', 'y', y);
@@ -76,8 +76,8 @@ export class FrameMng {
 	private let_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
-		const htmnm = `const.sn.htm.${id}`;
-		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+		const frmnm = `const.sn.frm.${id}`;
+		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 
@@ -88,7 +88,7 @@ export class FrameMng {
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
 			'tmp',
-			htmnm +'.'+ var_name,
+			frmnm +'.'+ var_name,
 			CmnLib.argChk_Boolean(hArg, 'function', false)
 				? win[var_name]()
 				: win[var_name]
@@ -101,15 +101,15 @@ export class FrameMng {
 	private set_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
-		const htmnm = `const.sn.htm.${id}`;
-		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+		const frmnm = `const.sn.frm.${id}`;
+		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 		const text = hArg.text;
 		if (! text) throw 'textは必須です';
 
 		// -> 組み込み変数
-		this.val.setVal_Nochk('tmp', htmnm +'.'+ var_name, text);
+		this.val.setVal_Nochk('tmp', frmnm +'.'+ var_name, text);
 
 		// -> var変数に設定
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -123,8 +123,8 @@ export class FrameMng {
 	private frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
-		const htmnm = `const.sn.htm.${id}`;
-		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+		const frmnm = `const.sn.frm.${id}`;
+		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		if ('alpha' in hArg) {
@@ -170,8 +170,8 @@ export class FrameMng {
 	private tsy_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
-		const htmnm = `const.sn.htm.${id}`;
-		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+		const frmnm = `const.sn.frm.${id}`;
+		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 
@@ -232,7 +232,7 @@ console.log(`fn:FrameMng.ts line:195 ifrm.style.rotate:${ifrm.style.rotate}:`);
 			hNow['rotate_z'] = CmnLib.argChk_Num(hArg, 'rotate_z', 0);
 			fncRX = ()=> `rotate_z(${hNow['rotate_z']}deg); `;
 		}
-		const tw_nm = `htm.${id}-`;
+		const tw_nm = `frm\n${hArg.id}`;
 		const tw = new TWEEN.Tween(hNow)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
 				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
