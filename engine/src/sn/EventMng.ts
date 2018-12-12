@@ -34,7 +34,7 @@ export class EventMng implements IEvtMng {
 		swipedown	: null,
 	};
 
-	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private frmMng: LayerMng, private val: IVariable, sndMng: SoundMng, private scrItr: ScriptIterator) {
+	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private frmMng: FrameMng, private val: IVariable, sndMng: SoundMng, private scrItr: ScriptIterator) {
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(main, this);

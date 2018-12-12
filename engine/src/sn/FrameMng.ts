@@ -143,7 +143,7 @@ export class FrameMng {
 			const r = hArg.rotate;
 //			ifrm.style.rotate = r +'deg';
 console.log(`fn:FrameMng.ts line:145 r:${r}:`);
-			ifrm.style.transform = `rotate(${r}deg);`;
+			ifrm.style.transform = `rotate(${r}deg);`;	// x ???
 //			ifrm.style.transform = `rotate(45deg)`;		// o
 //			ifrm.style.setProperty('-webkit-transform', `rotate(${r}deg)`);
 //			ifrm.style.setProperty('-webkit-transform', `rotateZ(${r}deg)`);
