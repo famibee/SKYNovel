@@ -189,77 +189,50 @@ export class FrameMng {
 				this.val.setVal_Nochk('tmp', 'alpha', hNow['a']);
 			}
 		}
-		let fncR = ()=> {};
-		if ('rotate' in hArg) {
-			hNow['rotate'] = this.val.getVal(`tmp:${frmnm}.rotate`);
-			hTo['rotate'] = CmnLib.argChk_Num(hArg, 'rotate', 0);
-			fncR = ()=> {
-				ifrm.style.transform = `rotate(${hNow['rotate']}deg)`;
-				this.val.setVal_Nochk('tmp', frmnm +'.rotate', hNow['rotate']);
+		let fncXYSR = ()=> {};
+		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
+		|| 'rotate' in hArg) {
+			hNow['x'] = this.val.getVal(`tmp:${frmnm}.x`);
+			hNow['y'] = this.val.getVal(`tmp:${frmnm}.y`);
+			hNow['sx'] = this.val.getVal(`tmp:${frmnm}.scale_x`);
+			hNow['sy'] = this.val.getVal(`tmp:${frmnm}.scale_y`);
+			hNow['r'] = this.val.getVal(`tmp:${frmnm}.rotate`);
+			hTo['x'] = CmnLib.argChk_Num(hArg, 'x', 0);
+			hTo['y'] = CmnLib.argChk_Num(hArg, 'y', 0);
+			hTo['sx'] = CmnLib.argChk_Num(hArg, 'scale_x', 1);
+			hTo['sy'] = CmnLib.argChk_Num(hArg, 'scale_y', 1);
+			hTo['r'] = CmnLib.argChk_Num(hArg, 'rotate', 0);
+			fncXYSR = ()=> {
+				ifrm.style.transform = `matrix(${
+					hNow['sx']}, 0, 0, ${
+					hNow['sy']}, ${hNow['x']}, ${hNow['y']
+				}) rotate(${hNow['r']}deg)`;
+				this.val.setVal_Nochk('tmp', frmnm +'.x', hNow['x']);
+				this.val.setVal_Nochk('tmp', frmnm +'.y', hNow['y']);
+				this.val.setVal_Nochk('tmp', frmnm +'.scale_x', hNow['sx']);
+				this.val.setVal_Nochk('tmp', frmnm +'.scale_y', hNow['sy']);
+				this.val.setVal_Nochk('tmp', frmnm +'.rotate', hNow['r']);
+			};
+		}
+		let fncW = ()=> {};
+		if ('width' in hArg) {
+			hNow['w'] = this.val.getVal(`tmp:${frmnm}.width`);
+			hTo['w'] = CmnLib.argChk_Num(hArg, 'width', 0);
+			fncW = ()=> {
+				ifrm.style.width = `${hNow['w']}px`;
+				this.val.setVal_Nochk('tmp', frmnm +'.width', hNow['w']);
+			};
+		}
+		let fncH = ()=> {};
+		if ('height' in hArg) {
+			hNow['h'] = this.val.getVal(`tmp:${frmnm}.height`);
+			hTo['h'] = CmnLib.argChk_Num(hArg, 'height', 0);
+			fncH = ()=> {
+				ifrm.style.height = `${hNow['h']}px`;
+				this.val.setVal_Nochk('tmp', frmnm +'.height', hNow['h']);
 			};
 		}
 
-/*
-		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
-		|| 'rotate' in hArg) {
-			const x = CmnLib.argChk_Num(hArg, 'x', 0);
-			const y = CmnLib.argChk_Num(hArg, 'y', 0);
-			const sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
-			const sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
-			const r = CmnLib.argChk_Num(hArg, 'rotate', 0);
-			ifrm.style.transform = `matrix(${sx}, 0, 0, ${sy}, ${x}, ${y}) rotate(${
-				r}deg)`;
-			this.val.setVal_Nochk('tmp', 'x', x);
-			this.val.setVal_Nochk('tmp', 'y', y);
-			this.val.setVal_Nochk('tmp', 'scale_x', sx);
-			this.val.setVal_Nochk('tmp', 'scale_y', sy);
-			this.val.setVal_Nochk('tmp', 'rotate', r);
-		}
-		if ('width' in hArg) {
-			const w = hArg.width;
-			ifrm.style.width = w;
-			this.val.setVal_Nochk('tmp', 'width', w);
-		}
-		if ('height' in hArg) {
-			const h = hArg.height;
-			ifrm.style.height = h;
-			this.val.setVal_Nochk('tmp', 'height', h);
-		}
-		if ('visible' in hArg) {
-			const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
-			ifrm.style.visibility = v ?'visible' :'hidden';
-			this.val.setVal_Nochk('tmp', 'visible', v);
-		}
-*/
-
-
-
-/*
-const transform = getComputedStyle(ifrm, null).getPropertyValue('-webkit-transform');
-console.log(`fn:FrameMng.ts line:183 transform:${transform}:`);
-*/
-/*
-		hNow['sx'] = 1;	// ===
-		hNow['sy'] = 1;	// ===
-		hTo['sx'] = CmnLib.argChk_Num(hArg, 'scale_x', 1);
-		hTo['sy'] = CmnLib.argChk_Num(hArg, 'scale_y', 1);
-		let fncXY = ()=> {};
-		if ('x' in hArg || 'y' in hArg) {
-			const rect = ifrm.getBoundingClientRect();
-			hNow['x'] = rect.left;
-			hNow['y'] = rect.top;
-			hTo['x'] = CmnLib.argChk_Num(hArg, 'x', 0);
-			hTo['y'] = CmnLib.argChk_Num(hArg, 'y', 0);
-			fncXY = ()=> {
-				const x = uint(hNow['x']) +'px';
-				ifrm.style.left = x;
-				this.val.setVal_Nochk('tmp', 'x', x);
-				const y = uint(hNow['y']) +'px';
-				ifrm.style.top = y;
-				this.val.setVal_Nochk('tmp', 'y', y);
-			}
-		}
-*/
 		const tw_nm = `frm\n${hArg.id}`;
 		const tw = new TWEEN.Tween(hNow)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
@@ -268,11 +241,7 @@ console.log(`fn:FrameMng.ts line:183 transform:${transform}:`);
 			.easing(ease)
 			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-			.onUpdate(()=> {
-				fncA();
-//				fncXY();
-				fncR();
-			})
+			.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();})
 			.onComplete(()=> {
 				const twInf = this.hTwInf[tw_nm];
 				if (! twInf) return;

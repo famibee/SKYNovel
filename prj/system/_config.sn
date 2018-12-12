@@ -194,18 +194,18 @@
 
 ; ======
 ;	[frame id=config visible=true y="&const.sn.config.window.height +'px'"]
-;	[tsy_frame id=config time=500 y=0]
+	[frame id=config visible=true y=&const.sn.config.window.height]
+	[tsy_frame id=config time=500 y=0]
+	[wait_tsy id=config]
 
 ;	[frame id=config visible=true rotate=90]
 ;	[frame id=config visible=true rotate=45]
-	[frame id=config visible=true rotate=45 scale_x=0.5]
+;	[frame id=config visible=true rotate=45 scale_x=0.5]
 ;	[frame id=config visible=true scale_x=0.5]
 
 ;	[tsy_frame id=config time=2500 rotate=170]
 ;	[tsy_frame id=config time=2500 alpha=0.4]
 	[tsy_frame id=config time=2500 rotate=170 alpha=0.4]
-;	[tsy_frame id=config time=500 rotate=0]
-;	[tsy_frame id=config time=500]
 
 [s]
 ; ======
