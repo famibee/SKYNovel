@@ -31,6 +31,8 @@ export class FrameMng {
 		if (! id) throw 'idは必須です';
 		const src = hArg.src;
 		if (! src) throw 'srcは必須です';
+		const frmnm = `const.sn.frm.${id}`;
+		if (this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】はすでにあります`);
 
 		const cvs = this.appPixi.view;
 		const rect = cvs.getBoundingClientRect();
@@ -54,17 +56,16 @@ export class FrameMng {
 		const win = ifrm.contentWindow;
 		win.addEventListener('load', ()=> {
 			// 組み込み変数
-			const frmnm = `const.sn.frm.${id}`;
 			this.val.setVal_Nochk('tmp', frmnm, true);
-			this.val.setVal_Nochk('tmp', 'alpha', a);
-			this.val.setVal_Nochk('tmp', 'x', x);
-			this.val.setVal_Nochk('tmp', 'y', y);
-			this.val.setVal_Nochk('tmp', 'scale_x', sx);
-			this.val.setVal_Nochk('tmp', 'scale_y', sy);
-			this.val.setVal_Nochk('tmp', 'rotate', r);
-			this.val.setVal_Nochk('tmp', 'width', w);
-			this.val.setVal_Nochk('tmp', 'height', h);
-			this.val.setVal_Nochk('tmp', 'visible', v);
+			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
+			this.val.setVal_Nochk('tmp', frmnm +'.x', x);
+			this.val.setVal_Nochk('tmp', frmnm +'.y', y);
+			this.val.setVal_Nochk('tmp', frmnm +'.scale_x', sx);
+			this.val.setVal_Nochk('tmp', frmnm +'.scale_y', sy);
+			this.val.setVal_Nochk('tmp', frmnm +'.rotate', r);
+			this.val.setVal_Nochk('tmp', frmnm +'.width', w);
+			this.val.setVal_Nochk('tmp', frmnm +'.height', h);
+			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 
 			this.main.resume();
 		});
@@ -77,13 +78,13 @@ export class FrameMng {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+		if (! this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】が読み込まれていません`);
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win = ifrm.contentWindow;
-		if (! (var_name in win)) throw `HTML【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
+		if (! (var_name in win)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
@@ -102,7 +103,7 @@ export class FrameMng {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+		if (! this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】が読み込まれていません`);
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 		const text = hArg.text;
@@ -124,14 +125,81 @@ export class FrameMng {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+		if (! this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】が読み込まれていません`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		if ('alpha' in hArg) {
 			const a = hArg.alpha;
 			ifrm.style.opacity = a;
-			this.val.setVal_Nochk('tmp', 'alpha', a);
+			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
 		}
+		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
+		|| 'rotate' in hArg) {
+			const x = CmnLib.argChk_Num(hArg, 'x', 0);
+			const y = CmnLib.argChk_Num(hArg, 'y', 0);
+			const sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
+			const sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
+			const r = CmnLib.argChk_Num(hArg, 'rotate', 0);
+			ifrm.style.transform = `matrix(${sx}, 0, 0, ${sy}, ${x}, ${y}) rotate(${
+				r}deg)`;
+			this.val.setVal_Nochk('tmp', frmnm +'.x', x);
+			this.val.setVal_Nochk('tmp', frmnm +'.y', y);
+			this.val.setVal_Nochk('tmp', frmnm +'.scale_x', sx);
+			this.val.setVal_Nochk('tmp', frmnm +'.scale_y', sy);
+			this.val.setVal_Nochk('tmp', frmnm +'.rotate', r);
+		}
+		if ('width' in hArg) {
+			const w = hArg.width;
+			ifrm.style.width = w;
+			this.val.setVal_Nochk('tmp', frmnm +'.width', w);
+		}
+		if ('height' in hArg) {
+			const h = hArg.height;
+			ifrm.style.height = h;
+			this.val.setVal_Nochk('tmp', frmnm +'.height', h);
+		}
+		if ('visible' in hArg) {
+			const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
+			ifrm.style.visibility = v ?'visible' :'hidden';
+			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
+		}
+
+		return false;
+	}
+
+	// HTMLフレームをトゥイーン開始
+	private tsy_frame(hArg) {
+		const id = hArg.id;
+		if (! id) throw 'idは必須です';
+		const frmnm = `const.sn.frm.${id}`;
+		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`frame【${id}】が読み込まれていません`);
+		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
+		if (! ease) throw '異常なease指定です';
+
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		const hNow = {};
+		const hTo = {};
+		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
+		let fncA = ()=> {};
+		if ('alpha' in hArg) {
+			hNow['a'] = ifrm.style.opacity;
+console.log(`fn:FrameMng.ts line:191 hNow['a']:${hNow['a']}:`);
+			hTo['a'] = CmnLib.argChk_Num(hArg, 'alpha', 0);
+console.log(`fn:FrameMng.ts line:193 hTo['a']:${hTo['a']}`);
+			fncA = ()=> {
+				ifrm.style.opacity = hNow['a'] +'deg';
+				this.val.setVal_Nochk('tmp', 'alpha', hNow['a']);
+console.log(`fn:FrameMng.ts line:195 ifrm.style.alpha:${ifrm.style.rotate}:`);
+			}
+		}
+		let fncR = ()=> '';
+		if ('rotate' in hArg) {
+			hNow['rotate'] = this.val.getVal(`tmp:${frmnm}.rotate`);
+			hTo['rotate'] = CmnLib.argChk_Num(hArg, 'rotate', 0);
+			fncR = ()=> ifrm.style.transform = `rotate(${hNow['rotate']}deg)`;
+		}
+
+/*
 		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
 		|| 'rotate' in hArg) {
 			const x = CmnLib.argChk_Num(hArg, 'x', 0);
@@ -162,27 +230,15 @@ export class FrameMng {
 			ifrm.style.visibility = v ?'visible' :'hidden';
 			this.val.setVal_Nochk('tmp', 'visible', v);
 		}
+*/
 
-		return false;
-	}
 
-	// HTMLフレームをトゥイーン開始
-	private tsy_frame(hArg) {
-		const id = hArg.id;
-		if (! id) throw 'idは必須です';
-		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
-		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
-		if (! ease) throw '異常なease指定です';
 
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		const hNow = {};
-		const hTo = {};
-		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 /*
 const transform = getComputedStyle(ifrm, null).getPropertyValue('-webkit-transform');
 console.log(`fn:FrameMng.ts line:183 transform:${transform}:`);
 */
+/*
 		hNow['sx'] = 1;	// ===
 		hNow['sy'] = 1;	// ===
 		hTo['sx'] = CmnLib.argChk_Num(hArg, 'scale_x', 1);
@@ -203,35 +259,7 @@ console.log(`fn:FrameMng.ts line:183 transform:${transform}:`);
 				this.val.setVal_Nochk('tmp', 'y', y);
 			}
 		}
-		let fncR = ()=> {};
-		if ('rotate' in hArg) {
-			hNow['r'] = ifrm.style.rotate || 0;
-console.log(`fn:FrameMng.ts line:191 hNow['r']:${hNow['r']}:`);
-			hTo['r'] = CmnLib.argChk_Num(hArg, 'rotate', 0);
-console.log(`fn:FrameMng.ts line:193 hTo['r']:${hTo['r']}`);
-			fncR = ()=> {
-				ifrm.style.rotate = hNow['r'] +'deg';
-console.log(`fn:FrameMng.ts line:195 ifrm.style.rotate:${ifrm.style.rotate}:`);
-			}
-		}
-		let fncRX = ()=> '';
-		if ('rotate_x' in hArg) {
-			hTo['rotate_x'] = CmnLib.argChk_Num(hArg, 'rotate_x', 0);
-			hNow['rotate_x'] = CmnLib.argChk_Num(hArg, 'rotate_x', 0);
-			fncRX = ()=> `rotate_x(${hNow['rotate_x']}deg); `;
-		}
-		let fncRY = ()=> '';
-		if ('rotate_y' in hArg) {
-			hTo['rotate_y'] = CmnLib.argChk_Num(hArg, 'rotate_y', 0);
-			hNow['rotate_y'] = CmnLib.argChk_Num(hArg, 'rotate_y', 0);
-			fncRX = ()=> `rotate_y(${hNow['rotate_y']}deg); `;
-		}
-		let fncRZ = ()=> '';
-		if ('rotate_z' in hArg) {
-			hTo['rotate_z'] = CmnLib.argChk_Num(hArg, 'rotate_z', 0);
-			hNow['rotate_z'] = CmnLib.argChk_Num(hArg, 'rotate_z', 0);
-			fncRX = ()=> `rotate_z(${hNow['rotate_z']}deg); `;
-		}
+*/
 		const tw_nm = `frm\n${hArg.id}`;
 		const tw = new TWEEN.Tween(hNow)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
@@ -241,10 +269,9 @@ console.log(`fn:FrameMng.ts line:195 ifrm.style.rotate:${ifrm.style.rotate}:`);
 			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
 			.onUpdate(()=> {
-				fncXY();
+				fncA();
+//				fncXY();
 				fncR();
-				ifrm.style.transform
-				= fncRX() + fncRY() + fncRZ()
 			})
 			.onComplete(()=> {
 				const twInf = this.hTwInf[tw_nm];
@@ -255,6 +282,8 @@ console.log(`fn:FrameMng.ts line:195 ifrm.style.rotate:${ifrm.style.rotate}:`);
 				if ('onComplete' in twInf) twInf.onComplete();
 			})
 			.start();
+
+		this.hTwInf[tw_nm] = {tw: tw, resume: false, onComplete: ()=> {}}
 
 		return false;
 	}
