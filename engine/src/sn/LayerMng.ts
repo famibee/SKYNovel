@@ -14,6 +14,7 @@ import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
 import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
+import {FrameMng} from './FrameMng';
 
 import TWEEN = require('@tweenjs/tween.js');
 import { Layer } from './Layer';
@@ -25,10 +26,14 @@ export class LayerMng {
 	private fore	= new Container;
 	private back	= new Container;
 
+	private frmMng	: FrameMng	= null;
+
 	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private soundMng: SoundMng, private sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val);
 		GrpLayer.init(main, cfg);
 		ThreeDLayer.init(cfg);
+
+		this.frmMng = new FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 
 		//	システム
 		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
@@ -129,7 +134,7 @@ export class LayerMng {
 	private fncTicker = ()=> {TWEEN.update()};
 
 	private evtMng	: IEvtMng	= null;
-	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
+	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng; this.frmMng.setEvtMng(evtMng)}
 
 	destroy() {
 		GrpLayer.destroy();

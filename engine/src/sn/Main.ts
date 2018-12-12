@@ -13,7 +13,6 @@ import {DebugMng} from './DebugMng';
 import {Variable} from './Variable';
 import {SoundMng} from './SoundMng';
 import {LayerMng} from './LayerMng';
-import {FrameMng} from './FrameMng';
 import {EventMng} from './EventMng';
 import {ScriptIterator} from './ScriptIterator';
 
@@ -31,7 +30,6 @@ export class Main implements IMain {
 
 	private appPixi		: Application | null	= null;
 	private layMng		: LayerMng	= null;
-	private frmMng		: FrameMng	= null;
 
 	private hTag		: IHTag		= {};	// タグ処理辞書
 	private	alzTagArg	= new AnalyzeTagArg;
@@ -98,10 +96,9 @@ export class Main implements IMain {
 			// 画像・画像レイヤ（1/6）
 			// 立体・３Ｄレイヤ（0/0）
 			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sndMng, this.sys);
-			this.frmMng = new FrameMng(this.hTag, this.appPixi, this.val, this, this.sys);
 
 			// イベント（9/10）
-			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.frmMng, this.val, this.sndMng, this.scrItr);
+			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);
 
 			this.appPixi.ticker.add(this.fncTicker);
 			this.resumeByJumpOrCall({fn: this.cfg.oCfg.first_script});

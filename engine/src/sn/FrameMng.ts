@@ -12,17 +12,13 @@ import {SysBase} from './SysBase';
 import TWEEN = require('@tweenjs/tween.js');
 
 export class FrameMng {
-	constructor(hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private sys: SysBase) {
+	constructor(hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private sys: SysBase, private hTwInf: {[name: string]: ITwInf}) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.add_frame(o);	// HTMLフレーム追加
 		hTag.let_frame		= o=> this.let_frame(o);	// HTML要素を取得
 		hTag.set_frame		= o=> this.set_frame(o);	// HTML要素に設定
 		hTag.frame			= o=> this.frame(o);		// HTMLフレームに設定
 		hTag.tsy_frame		= o=> this.tsy_frame(o);	// HTMLフレームトゥイーン開始
-//		hTag.wait_tsy		= o=> this.wait_tsy(o);		// HTMLフレームトゥイーン終了待ち
-//		hTag.stop_tsy		= o=> this.stop_tsy(o);		// HTMLフレームトゥイーン中断
-//		hTag.pause_tsy		= o=> this.pause_tsy(o);	// HTMLフレーム一時停止
-//		hTag.resume_tsy		= o=> this.resume_tsy(o);	// HTMLフレーム一時停止再開
 	}
 
 	private evtMng	: IEvtMng	= null;
@@ -43,12 +39,16 @@ export class FrameMng {
 		const y = ('y' in hArg) ? hArg.y : rect.top + window.pageXOffset +'px';
 		const w = ('width' in hArg) ? hArg.width : CmnLib.stageW;
 		const h = ('height' in hArg) ? hArg.height : CmnLib.stageH;
+		const sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
+		const sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
+		const r = CmnLib.argChk_Num(hArg, 'rotate', 0);
 		const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
 		cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src
 		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${x}; top: ${y
 		}; border: 0px; overflow: hidden; visibility: ${v ?'visible' :'hidden'
-		};" width="${w}" height="${h}"></iframe>`);
+		};" width="${w}" height="${h}" transform: scale(${sx}, ${sy}) rotate(${r
+		}deg);></iframe>`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win = ifrm.contentWindow;
@@ -59,6 +59,9 @@ export class FrameMng {
 			this.val.setVal_Nochk('tmp', 'alpha', a);
 			this.val.setVal_Nochk('tmp', 'x', x);
 			this.val.setVal_Nochk('tmp', 'y', y);
+			this.val.setVal_Nochk('tmp', 'scale_x', sx);
+			this.val.setVal_Nochk('tmp', 'scale_y', sy);
+			this.val.setVal_Nochk('tmp', 'rotate', r);
 			this.val.setVal_Nochk('tmp', 'width', w);
 			this.val.setVal_Nochk('tmp', 'height', h);
 			this.val.setVal_Nochk('tmp', 'visible', v);
@@ -129,25 +132,19 @@ export class FrameMng {
 			ifrm.style.opacity = a;
 			this.val.setVal_Nochk('tmp', 'alpha', a);
 		}
-		if ('x' in hArg) {
-			const x = hArg.x;
-			ifrm.style.left = x;
+		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
+		|| 'rotate' in hArg) {
+			const x = CmnLib.argChk_Num(hArg, 'x', 0);
+			const y = CmnLib.argChk_Num(hArg, 'y', 0);
+			const sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
+			const sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
+			const r = CmnLib.argChk_Num(hArg, 'rotate', 0);
+			ifrm.style.transform = `matrix(${sx}, 0, 0, ${sy}, ${x}, ${y}) rotate(${
+				r}deg)`;
 			this.val.setVal_Nochk('tmp', 'x', x);
-		}
-		if ('y' in hArg) {
-			const y = hArg.y;
-			ifrm.style.top = y;
 			this.val.setVal_Nochk('tmp', 'y', y);
-		}
-		if ('rotate' in hArg) {
-			const r = hArg.rotate;
-//			ifrm.style.rotate = r +'deg';
-console.log(`fn:FrameMng.ts line:145 r:${r}:`);
-			ifrm.style.transform = `rotate(${r}deg);`;	// x ???
-//			ifrm.style.transform = `rotate(45deg)`;		// o
-//			ifrm.style.setProperty('-webkit-transform', `rotate(${r}deg)`);
-//			ifrm.style.setProperty('-webkit-transform', `rotateZ(${r}deg)`);
-//			ifrm.style.setProperty('transform', `rotate(45deg)`);
+			this.val.setVal_Nochk('tmp', 'scale_x', sx);
+			this.val.setVal_Nochk('tmp', 'scale_y', sy);
 			this.val.setVal_Nochk('tmp', 'rotate', r);
 		}
 		if ('width' in hArg) {
@@ -166,19 +163,10 @@ console.log(`fn:FrameMng.ts line:145 r:${r}:`);
 			this.val.setVal_Nochk('tmp', 'visible', v);
 		}
 
-//	x    -webkit-transform: rotateZ(45reg);
-//	o	-webkit-transform: scale(0.5);
-//	o	-webkit-transform: scaleX(0.5);
-//	o	-webkit-transform: scaleY(0.5);
-//	o	-webkit-transform: scale(1, 0.5);
-//	o	transform: scale(1, 0.7);
-//	o	transform: rotate(45deg);
-
 		return false;
 	}
 
 	// HTMLフレームをトゥイーン開始
-	private	hTwInf	: {[name: string]: ITwInf}	= {};
 	private tsy_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
@@ -244,7 +232,7 @@ console.log(`fn:FrameMng.ts line:195 ifrm.style.rotate:${ifrm.style.rotate}:`);
 			hNow['rotate_z'] = CmnLib.argChk_Num(hArg, 'rotate_z', 0);
 			fncRX = ()=> `rotate_z(${hNow['rotate_z']}deg); `;
 		}
-		const tw_nm = hArg.name || hArg.layer;
+		const tw_nm = `htm.${id}-`;
 		const tw = new TWEEN.Tween(hNow)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
 				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))

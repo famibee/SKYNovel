@@ -7,7 +7,6 @@
 
 import {CmnLib, HArg, IHTag, IVariable, IMain, IEvtMng, IEvt2Fnc, IHEvt2Fnc, uint} from './CmnLib';
 import {LayerMng} from './LayerMng';
-import {FrameMng} from './FrameMng';
 import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
@@ -34,12 +33,11 @@ export class EventMng implements IEvtMng {
 		swipedown	: null,
 	};
 
-	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private frmMng: FrameMng, private val: IVariable, sndMng: SoundMng, private scrItr: ScriptIterator) {
+	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private val: IVariable, sndMng: SoundMng, private scrItr: ScriptIterator) {
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(main, this);
 		layMng.setEvtMng(this);
-		frmMng.setEvtMng(this);
 
 		// イベント
 		hTag.clear_event	= o=> this.clear_event(o);	// イベントを全消去
