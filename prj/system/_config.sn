@@ -2,8 +2,7 @@
 	[return cond="const._config.inited"]
 	&const._config.inited = true
 
-	[add_frame id=config src="config/index.htm"]
-;	[lay id=config visible=false]
+	[add_frame id=config src="config/index.htm" visible=false]
 
 ;	[event global=true call=true key=c label=*keycall_config]
 ;	[event global=true call=true key=t label=*text_back_alpha_sub]
@@ -192,6 +191,19 @@
 *title_config
 	[enable_event enabled=false]
 	&呼び元 = "Title"
+
+; ======
+;	[frame id=config visible=true y="&const.sn.config.window.height +'px'"]
+;	[tsy_frame id=config time=500 y=0]
+
+;	[frame id=config visible=true rotate=90]
+	[frame id=config visible=true rotate=45]
+;	[tsy_frame id=config time=500 rotate=0]
+;	[tsy_frame id=config time=500]
+
+[s]
+; ======
+
 [jump label=*main]
 
 ;*********************************************************

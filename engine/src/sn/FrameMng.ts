@@ -5,19 +5,28 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, uint, ITwInf, IEvtMng} from './CmnLib';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
+
+import TWEEN = require('@tweenjs/tween.js');
 
 export class FrameMng {
 	constructor(hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private sys: SysBase) {
 		//	HTMLフレーム
-		hTag.add_frame		= o=> this.add_frame(o);		// HTMLフレーム追加
-		hTag.let_frame		= o=> this.let_frame(o);		// HTML要素を取得
-		hTag.set_frame		= o=> this.set_frame(o);		// HTML要素に設定
-		hTag.frame			= o=> this.frame(o);			// HTMLフレームに設定
-		hTag.tsy_frame		= o=> this.tsy_frame(o);		// HTMLフレームをアニメ
+		hTag.add_frame		= o=> this.add_frame(o);	// HTMLフレーム追加
+		hTag.let_frame		= o=> this.let_frame(o);	// HTML要素を取得
+		hTag.set_frame		= o=> this.set_frame(o);	// HTML要素に設定
+		hTag.frame			= o=> this.frame(o);		// HTMLフレームに設定
+		hTag.tsy_frame		= o=> this.tsy_frame(o);	// HTMLフレームトゥイーン開始
+//		hTag.wait_tsy		= o=> this.wait_tsy(o);		// HTMLフレームトゥイーン終了待ち
+//		hTag.stop_tsy		= o=> this.stop_tsy(o);		// HTMLフレームトゥイーン中断
+//		hTag.pause_tsy		= o=> this.pause_tsy(o);	// HTMLフレーム一時停止
+//		hTag.resume_tsy		= o=> this.resume_tsy(o);	// HTMLフレーム一時停止再開
 	}
+
+	private evtMng	: IEvtMng	= null;
+	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 
 	//	HTMLフレーム
 	// HTMLフレーム追加
@@ -29,16 +38,16 @@ export class FrameMng {
 
 		const cvs = this.appPixi.view;
 		const rect = cvs.getBoundingClientRect();
-		const x = CmnLib.argChk_Num(hArg, 'x', rect.top + window.pageYOffset);
-		const y = CmnLib.argChk_Num(hArg, 'y', rect.left + window.pageXOffset);
-		const w = CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW);
-		const h = CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH);
-//console.log(`fn:LayerMng.ts line:109 sys.cur:${sys.cur}`);
+		const a = CmnLib.argChk_Num(hArg, 'alpha', 1);
+		const x = ('x' in hArg) ? hArg.x : rect.left+ window.pageYOffset +'px';
+		const y = ('y' in hArg) ? hArg.y : rect.top + window.pageXOffset +'px';
+		const w = ('width' in hArg) ? hArg.width : CmnLib.stageW;
+		const h = ('height' in hArg) ? hArg.height : CmnLib.stageH;
 		const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
 		cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src
-		}" style="z-index: 1; position: absolute; left:${x}px; top: ${y
-		}px; border: 0px; overflow: hidden; visibility: ${v ?'visible' :'hidden'
+		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${x}; top: ${y
+		}; border: 0px; overflow: hidden; visibility: ${v ?'visible' :'hidden'
 		};" width="${w}" height="${h}"></iframe>`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -47,10 +56,12 @@ export class FrameMng {
 			// 組み込み変数
 			const htmnm = `const.sn.htm.${id}`;
 			this.val.setVal_Nochk('tmp', htmnm, true);
-			// alpha
-			this.val.defTmp(htmnm +'.height', ()=> h);
-			this.val.defTmp(htmnm +'.visible', ()=> v);
-			this.val.defTmp(htmnm +'.width', ()=> w);
+			this.val.setVal_Nochk('tmp', 'alpha', a);
+			this.val.setVal_Nochk('tmp', 'x', x);
+			this.val.setVal_Nochk('tmp', 'y', y);
+			this.val.setVal_Nochk('tmp', 'width', w);
+			this.val.setVal_Nochk('tmp', 'height', h);
+			this.val.setVal_Nochk('tmp', 'visible', v);
 
 			this.main.resume();
 		});
@@ -111,12 +122,130 @@ export class FrameMng {
 		if (! id) throw 'idは必須です';
 		const htmnm = `const.sn.htm.${id}`;
 		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
+
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		if ('alpha' in hArg) {
+			const a = hArg.alpha;
+			ifrm.style.opacity = a;
+			this.val.setVal_Nochk('tmp', 'alpha', a);
+		}
+		if ('x' in hArg) {
+			const x = hArg.x;
+			ifrm.style.left = x;
+			this.val.setVal_Nochk('tmp', 'x', x);
+		}
+		if ('y' in hArg) {
+			const y = hArg.y;
+			ifrm.style.top = y;
+			this.val.setVal_Nochk('tmp', 'y', y);
+		}
+		if ('rotate' in hArg) {
+			const r = hArg.rotate;
+//			ifrm.style.rotate = r +'deg';
+console.log(`fn:FrameMng.ts line:145 r:${r}:`);
+			ifrm.style.transform = `rotate(${r}deg);`;
+//			ifrm.style.transform = `rotate(45deg)`;		// o
+//			ifrm.style.setProperty('-webkit-transform', `rotate(${r}deg)`);
+//			ifrm.style.setProperty('-webkit-transform', `rotateZ(${r}deg)`);
+//			ifrm.style.setProperty('transform', `rotate(45deg)`);
+			this.val.setVal_Nochk('tmp', 'rotate', r);
+		}
+		if ('width' in hArg) {
+			const w = hArg.width;
+			ifrm.style.width = w;
+			this.val.setVal_Nochk('tmp', 'width', w);
+		}
+		if ('height' in hArg) {
+			const h = hArg.height;
+			ifrm.style.height = h;
+			this.val.setVal_Nochk('tmp', 'height', h);
+		}
+		if ('visible' in hArg) {
+			const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
+			ifrm.style.visibility = v ?'visible' :'hidden';
+			this.val.setVal_Nochk('tmp', 'visible', v);
+		}
+
+//	x    -webkit-transform: rotateZ(45reg);
+//	o	-webkit-transform: scale(0.5);
+//	o	-webkit-transform: scaleX(0.5);
+//	o	-webkit-transform: scaleY(0.5);
+//	o	-webkit-transform: scale(1, 0.5);
+//	o	transform: scale(1, 0.7);
+//	o	transform: rotate(45deg);
+
+		return false;
+	}
+
+	// HTMLフレームをトゥイーン開始
+	private	hTwInf	: {[name: string]: ITwInf}	= {};
+	private tsy_frame(hArg) {
+		const id = hArg.id;
+		if (! id) throw 'idは必須です';
+		const htmnm = `const.sn.htm.${id}`;
+		if (! this.val.getVal(`tmp:${htmnm}`, 0)) throw(`HTML【${id}】が読み込まれていません`);
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		const hNow = {};
 		const hTo = {};
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
-		const tw = new TWEEN.Tween(hTo)
+/*
+const transform = getComputedStyle(ifrm, null).getPropertyValue('-webkit-transform');
+console.log(`fn:FrameMng.ts line:183 transform:${transform}:`);
+*/
+		hNow['sx'] = 1;	// ===
+		hNow['sy'] = 1;	// ===
+		hTo['sx'] = CmnLib.argChk_Num(hArg, 'scale_x', 1);
+		hTo['sy'] = CmnLib.argChk_Num(hArg, 'scale_y', 1);
+		let fncXY = ()=> {};
+		if ('x' in hArg || 'y' in hArg) {
+			const rect = ifrm.getBoundingClientRect();
+			hNow['x'] = rect.left;
+			hNow['y'] = rect.top;
+			hTo['x'] = CmnLib.argChk_Num(hArg, 'x', 0);
+			hTo['y'] = CmnLib.argChk_Num(hArg, 'y', 0);
+			fncXY = ()=> {
+				const x = uint(hNow['x']) +'px';
+				ifrm.style.left = x;
+				this.val.setVal_Nochk('tmp', 'x', x);
+				const y = uint(hNow['y']) +'px';
+				ifrm.style.top = y;
+				this.val.setVal_Nochk('tmp', 'y', y);
+			}
+		}
+		let fncR = ()=> {};
+		if ('rotate' in hArg) {
+			hNow['r'] = ifrm.style.rotate || 0;
+console.log(`fn:FrameMng.ts line:191 hNow['r']:${hNow['r']}:`);
+			hTo['r'] = CmnLib.argChk_Num(hArg, 'rotate', 0);
+console.log(`fn:FrameMng.ts line:193 hTo['r']:${hTo['r']}`);
+			fncR = ()=> {
+				ifrm.style.rotate = hNow['r'] +'deg';
+console.log(`fn:FrameMng.ts line:195 ifrm.style.rotate:${ifrm.style.rotate}:`);
+			}
+		}
+		let fncRX = ()=> '';
+		if ('rotate_x' in hArg) {
+			hTo['rotate_x'] = CmnLib.argChk_Num(hArg, 'rotate_x', 0);
+			hNow['rotate_x'] = CmnLib.argChk_Num(hArg, 'rotate_x', 0);
+			fncRX = ()=> `rotate_x(${hNow['rotate_x']}deg); `;
+		}
+		let fncRY = ()=> '';
+		if ('rotate_y' in hArg) {
+			hTo['rotate_y'] = CmnLib.argChk_Num(hArg, 'rotate_y', 0);
+			hNow['rotate_y'] = CmnLib.argChk_Num(hArg, 'rotate_y', 0);
+			fncRX = ()=> `rotate_y(${hNow['rotate_y']}deg); `;
+		}
+		let fncRZ = ()=> '';
+		if ('rotate_z' in hArg) {
+			hTo['rotate_z'] = CmnLib.argChk_Num(hArg, 'rotate_z', 0);
+			hNow['rotate_z'] = CmnLib.argChk_Num(hArg, 'rotate_z', 0);
+			fncRX = ()=> `rotate_z(${hNow['rotate_z']}deg); `;
+		}
+		const tw_nm = hArg.name || hArg.layer;
+		const tw = new TWEEN.Tween(hNow)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
 				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
@@ -124,42 +253,20 @@ export class FrameMng {
 			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
 			.onUpdate(()=> {
-				;
-//				box.style.setProperty('transform', 'translate(' + coords.x + 'px, ' + coords.y + 'px)');
+				fncXY();
+				fncR();
+				ifrm.style.transform
+				= fncRX() + fncRY() + fncRZ()
+			})
+			.onComplete(()=> {
+				const twInf = this.hTwInf[tw_nm];
+				if (! twInf) return;
+				delete this.hTwInf[tw_nm];
+				this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
+				if (twInf.resume) this.main.resume();
+				if ('onComplete' in twInf) twInf.onComplete();
 			})
 			.start();
-
-/*
-	var coords = { x: 0, y: 0 };
-	var tween = new TWEEN.Tween(coords)
-		.to({ x: 300, y: 200 }, 1000)
-		.onUpdate(function() {
-		})
-*/
-
-
-//	[frame id=config x=0 y=0]
-
-		return false;
-	}
-
-	// HTMLフレームをアニメ
-	private tsy_frame(hArg) {
-		;
-/*
-	[tsy_frame id=config x=300 y=200 time=1000]
-	// tsy用
-	alpha
-	height
-	width
-	x
-	y
-	pivot_x
-	pivot_y
-	rotation
-	scale_x
-	scale_y
-*/
 
 		return false;
 	}

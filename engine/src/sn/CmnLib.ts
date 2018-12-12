@@ -147,6 +147,12 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 		+ (spl_ms == '' ?'' :spl_ms+ String(now.getMilliseconds()));
 }
 
+export interface ITwInf {
+	tw			: TWEEN.Tween;
+	resume		: boolean;
+	onComplete?	: ()=> void;
+};
+
 
 // =============== Main
 export interface IMain {

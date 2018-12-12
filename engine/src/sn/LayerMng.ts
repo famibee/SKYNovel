@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, HArg} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, HArg, ITwInf} from './CmnLib';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -19,12 +19,6 @@ import TWEEN = require('@tweenjs/tween.js');
 import { Layer } from './Layer';
 import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
-
-interface ITwInf {
-	tw			: TWEEN.Tween;
-	resume		: boolean;
-	onComplete?	: ()=> void;
-};
 
 export class LayerMng {
 	private	stage	: Container	= null;
