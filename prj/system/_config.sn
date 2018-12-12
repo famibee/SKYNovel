@@ -201,8 +201,9 @@
 	[frame id=config visible=true rotate=45 scale_x=0.5]
 ;	[frame id=config visible=true scale_x=0.5]
 
-;	[tsy_frame id=config time=2500 alpha=0.2]
-	[tsy_frame id=config time=2500 rotate=170]
+;	[tsy_frame id=config time=2500 rotate=170]
+;	[tsy_frame id=config time=2500 alpha=0.4]
+	[tsy_frame id=config time=2500 rotate=170 alpha=0.4]
 ;	[tsy_frame id=config time=500 rotate=0]
 ;	[tsy_frame id=config time=500]
 

@@ -183,20 +183,20 @@ export class FrameMng {
 		let fncA = ()=> {};
 		if ('alpha' in hArg) {
 			hNow['a'] = ifrm.style.opacity;
-console.log(`fn:FrameMng.ts line:191 hNow['a']:${hNow['a']}:`);
 			hTo['a'] = CmnLib.argChk_Num(hArg, 'alpha', 0);
-console.log(`fn:FrameMng.ts line:193 hTo['a']:${hTo['a']}`);
 			fncA = ()=> {
-				ifrm.style.opacity = hNow['a'] +'deg';
+				ifrm.style.opacity = hNow['a'];
 				this.val.setVal_Nochk('tmp', 'alpha', hNow['a']);
-console.log(`fn:FrameMng.ts line:195 ifrm.style.alpha:${ifrm.style.rotate}:`);
 			}
 		}
-		let fncR = ()=> '';
+		let fncR = ()=> {};
 		if ('rotate' in hArg) {
 			hNow['rotate'] = this.val.getVal(`tmp:${frmnm}.rotate`);
 			hTo['rotate'] = CmnLib.argChk_Num(hArg, 'rotate', 0);
-			fncR = ()=> ifrm.style.transform = `rotate(${hNow['rotate']}deg)`;
+			fncR = ()=> {
+				ifrm.style.transform = `rotate(${hNow['rotate']}deg)`;
+				this.val.setVal_Nochk('tmp', frmnm +'.rotate', hNow['rotate']);
+			};
 		}
 
 /*
