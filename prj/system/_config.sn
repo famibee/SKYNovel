@@ -11,6 +11,8 @@
 ;	[event global=true call=true key=i label=*text_auto_msecwait_add]
 
 *val2ctrl
+	[event key='dom=config:#close' label=*close global=true call=true need_err=false]
+
 	; バック不透明度
 	[set_frame id=config var_name=val_sldBackAlpha text=&sys:TextLayer.Back.Alpha*100]
 	; 通常文字表示待ち
@@ -205,12 +207,22 @@
 
 ;	[tsy_frame id=config time=2500 rotate=170]
 ;	[tsy_frame id=config time=2500 alpha=0.4]
-	[tsy_frame id=config time=2500 rotate=170 alpha=0.4]
+;;	[tsy_frame id=config time=2500 rotate=170 alpha=0.4]
 
 [s]
 ; ======
 
 [jump label=*main]
+
+
+; ======
+*close
+[trace text='*close']
+	[tsy_frame id=config time=500 y=&const.sn.config.window.height]
+	[wait_tsy id=config]
+	[frame id=config visible=false]
+[return]
+
 
 ;*********************************************************
 *keycall_config

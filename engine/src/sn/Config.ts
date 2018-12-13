@@ -20,7 +20,7 @@ export class Config {
 			width	: 300,
 			height	: 300,
 		},
-		anbook	: {		// 主に ANBooks 詳細画面に表示されている情報です。
+		book	: {		// プロジェクトの詳細情報です。
 			title		: '',	//作品タイトル。
 			creator		: '',	//著作者。同人ならペンネーム。
 			cre_url		: '',	//著作者URL。ツイッターやメール、サイトなど。無ければ省略
@@ -85,19 +85,19 @@ export class Config {
 			CmnLib.stageW =	this.oCfg.window.width;
 			CmnLib.stageH = this.oCfg.window.height;
 
-			err_mes = 'anbook';
-			if ('anbook' in oCfg) for (const nm in oIni) {
+			err_mes = 'book';
+			if ('book' in oCfg) for (const nm in oIni) {
 				if (nm != 'inc') {
-					CmnLib.argChk_Boolean(this.oCfg.anbook, nm, oIni.anbook[nm]);
+					CmnLib.argChk_Boolean(this.oCfg.book, nm, oIni.book[nm]);
 					continue;
 				}
 				for (const v of oIni[nm]) {
 					if (! sys.existsSync(sys.cur + v.path)) continue;
 
-					this.oCfg.anbook.inc_path[v.path] = true;
+					this.oCfg.book.inc_path[v.path] = true;
 				}
 			}
-			else this.oCfg.anbook = oIni.anbook;
+			else this.oCfg.book = oIni.book;
 
 			err_mes = 'log';
 			if (! ('log' in oCfg)) this.oCfg.log = {max_len: oIni.log.max_len};

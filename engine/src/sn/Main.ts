@@ -77,7 +77,7 @@ export class Main implements IMain {
 
 			// システム（5/13）[snapshot]は LayerMng 担当
 			this.sys.init(this.hTag, this.val, this.appPixi);
-			this.hTag['title']({text: this.cfg.oCfg.anbook.title});
+			this.hTag['title']({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音（1/16）
 			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this);
