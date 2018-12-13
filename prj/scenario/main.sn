@@ -82,6 +82,7 @@
 	[jump fn="_album" label=*title_album]
 
 *config
+[trace text='*config']
 	[enable_event enabled=false]
 	[call fn="_config"]
 	[jump fn="_config" label=*title_config]
