@@ -48,7 +48,7 @@ export class FrameMng {
 		cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src
 		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${x}; top: ${y
-		}; border: 0px; overflow: hidden; visibility: ${v ?'visible' :'hidden'
+		}; border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
 		};" width="${w}" height="${h}" transform: scale(${sx}, ${sy}) rotate(${r
 		}deg);></iframe>`);
 
@@ -160,7 +160,7 @@ export class FrameMng {
 		}
 		if ('visible' in hArg) {
 			const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
-			ifrm.style.visibility = v ?'visible' :'hidden';
+			ifrm.style.display = v ?'inline' :'none';
 			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 		}
 
