@@ -8,6 +8,7 @@
 		const elms = document.getElementsByClassName('sld2dsp');
 		for (let i=0, max=elms.length; i<max; ++i) {
 			const bar = elms[i].getElementsByTagName('input')[0];
+			if (! bar) continue;
 			const target = elms[i].getElementsByClassName('sld2val')[0];
 			bar.addEventListener('input', ()=> {
 				window[`val_${bar.id}`] = bar.value;	// 変数更新
@@ -21,10 +22,16 @@
 				window[`val_${chk.id}`] = chk.checked;	// 変数更新
 			});
 		}
+
+		document.getElementById('sldBackAlpha').addEventListener('input', e=> {
+			val_sldBackAlpha = e.target.value;
+			drawSampleView();
+		});
 	}, false);
 
 	function val2ctrl() {
 		document.getElementById('version').textContent = val_version;
+		drawSampleView();
 
 		const ev = document.createEvent('MouseEvents'); // イベントオブジェクトを作成
 		ev.initEvent('input', false, true); // イベントの内容を設定
@@ -54,6 +61,9 @@
 			window[`val_${e.id}`] = e.checked;
 		}
 	}
+	function drawSampleView() {
+		document.getElementById('sampleBackAlpha').style.background = 'rgba(255, 255, 255, '+ (val_sldBackAlpha /100) +')';
+	}
 
 </script>
 </head>
@@ -74,6 +84,14 @@
 				<h6>バック不透明度</h6>
 				<p class="range-field"><input class="sn_sld mdl-slider mdl-js-slider" type="range" id="sldBackAlpha" min="0" max="100" step="5" value="70"/></p>
 				<span class="badge"><span class="sld2val">70</span>%</span>
+			</div>
+			<div class="col s12 m6 card-panel hoverable sld2dsp grey lighten-2">
+				<div class="card">
+				<div class="card-image">
+					<img src="ThBackAlpha.jpg">
+					<span class="card-title black-text" style="width: 100%; background: rgba(255, 255, 255, 0.7);" id="sampleBackAlpha">文字表示サンプル</span>
+				</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
