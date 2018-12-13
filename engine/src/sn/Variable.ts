@@ -108,12 +108,14 @@ export class Variable implements IVariable {
 		this.clearsysvar();
 		this.clearvar();
 
-		// prj.json に設定した画面サイズ
+		// prj.json
 		this.hTmp['const.sn.config.window.width'] = cfg.oCfg.window.width;
 		this.hTmp['const.sn.config.window.height']= cfg.oCfg.window.height;
 			// AIRNovel の const.an.xmlConfig.window.width、.height
 			// NOTE: AIRNovel の const.flash.display.Stage.stageWidth は未定
 			// 使うならここで初期化だろうと
+		this.hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
+		this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
 
 		this.hTmp['const.sn.Math.PI'] = Math.PI;
 	}

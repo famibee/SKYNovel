@@ -24,6 +24,8 @@
 	}, false);
 
 	function val2ctrl() {
+		document.getElementById('version').textContent = val_version;
+
 		const ev = document.createEvent('MouseEvents'); // イベントオブジェクトを作成
 		ev.initEvent('input', false, true); // イベントの内容を設定
 
@@ -56,12 +58,13 @@
 </script>
 </head>
 <body class="blue-grey lighten-4">
-	<nav class="blue-grey darken-1" role="navigation">
+	<div class="navbar-fixed"><nav class="blue-grey darken-1" role="navigation">
 		<div class="nav-wrapper container">
 			<a class="waves-effect waves-light btn grey" id="close">x</a>
 			<span class="brand-logo center">設定画面</span>
+			<span class="nav-wrapper">　現在 ver <span id="version">1.00</span></span>
 		</div>
-	</nav>
+	</nav></div>
 
 	<div class="container">
 		<div class="section card-panel">
