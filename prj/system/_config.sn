@@ -3,16 +3,11 @@
 	&const._config.inited = true
 
 	[add_frame id=config src="config/index.htm" visible=false]
-
-;	[event global=true call=true key=c label=*keycall_config]
-;	[event global=true call=true key=t label=*text_back_alpha_sub]
-;	[event global=true call=true key=y label=*text_back_alpha_add]
-;	[event global=true call=true key=u label=*text_auto_msecwait_sub]
-;	[event global=true call=true key=i label=*text_auto_msecwait_add]
+	[call label=*val2ctrl]
+	[call label=*resv_event]
+[return]
 
 *val2ctrl
-	[event key='dom=config:#close' label=*close global=true call=true need_err=false]
-
 	; バック不透明度
 	[set_frame id=config var_name=val_sldBackAlpha text=&sys:TextLayer.Back.Alpha*100]
 	; 通常文字表示待ち
@@ -37,7 +32,17 @@
 	[set_frame id=config var_name=val_chkScrMode text=&const.sn.displayState]
 
 	[let_frame id=config var_name=val2ctrl function=true]
+[return]
 
+
+*resv_event
+	[event key='dom=config:#close' label=*close global=true need_err=false]
+
+;	[event global=true call=true key=c label=*keycall_config]
+;	[event global=true call=true key=t label=*text_back_alpha_sub]
+;	[event global=true call=true key=y label=*text_back_alpha_add]
+;	[event global=true call=true key=u label=*text_auto_msecwait_sub]
+;	[event global=true call=true key=i label=*text_auto_msecwait_add]
 
 	; バック不透明度
 	[event key='dom=config:#sldBackAlpha' label=*sldBackAlpha global=true call=true need_err=false]
@@ -154,7 +159,6 @@
 [return]
 
 
-
 ;*********************************************************
 *text_back_alpha_sub
 	[return cond="! isGameState"]
@@ -189,6 +193,7 @@
 	[notice text="&'自動読み進み速度 ' + wait + ' msec'" left="&const.sn.xmlConfig.window.width -10 -300" top=10]
 [return]
 
+
 ;*********************************************************
 *title_config
 [trace text='*title_config']
@@ -196,6 +201,8 @@
 	&呼び元 = "Title"
 
 ; ======
+	[call label=*val2ctrl]
+
 ;	[frame id=config visible=true y="&const.sn.config.window.height +'px'"]
 	[frame id=config visible=true y=&const.sn.config.window.height]
 	[tsy_frame id=config time=500 y=0]
