@@ -904,6 +904,7 @@ export class TxtLayer extends Layer {
 		// [l]後に文字続ける場合、後にくっつく文字によって場所が変わる対応
 		for (let i=0; i<lenPutedRect; ++i) {
 			const rect = aRect[i].rect;
+			rect.x -= this.xz4htm2rect;
 			this.cntTxt.children[i].position.set(rect.x, rect.y);
 		}
 
