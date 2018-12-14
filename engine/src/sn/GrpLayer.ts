@@ -244,6 +244,6 @@ export class GrpLayer extends Layer {
 
 //	playbackAMF(inp:IDataInput, lm:LoadMng):void {
 
-	dump(): string {return super.dump() +` pic:\`${this.csvFn}\``;};
+	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};
 
 };

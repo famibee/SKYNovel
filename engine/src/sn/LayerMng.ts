@@ -1027,10 +1027,8 @@ void main(void) {
 		console.group('🥟 [dump_lay]');
 		for (const name of this.getLayers(hArg.layer)) {
 			const pg = this.hPages[name];
-			console.groupCollapsed('{'+ pg.fore.name.slice(0, -7) +'}');
-			console.info('%c\tback'+ pg.back.dump(), 'color:#0055AA;');
-			console.info('%c\tfore'+ pg.fore.dump(), 'color:#0055AA;');
-			console.groupEnd();
+			console.info(`%c${pg.fore.name.slice(0, -7)} %o`, 'color:#0055AA;',
+			JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
 		}
 		console.groupEnd();
 

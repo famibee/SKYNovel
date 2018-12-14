@@ -1186,10 +1186,12 @@ export class TxtLayer extends Layer {
 	}
 
 	dump(): string {
-		return super.dump() +` enabled:${this.enabled}
-		style:\`${this.htmTxt.style.cssText}\`
-		b_pic:${this.b_pic} b_color:${this.b_color} b_alpha:${this.b_alpha} b_alpha_isfixed:${this.b_alpha_isfixed} b_width:${this.$width} b_height:${this.$height}
-		txt:\`${this.htmTxt.textContent}\``;
+		return super.dump() +`, "enabled":"${this.enabled
+		}", "style":"${this.htmTxt.style.cssText.replace(/(")/g, '\\$1')
+		}", "b_pic":"${this.b_pic}", "b_color":"${this.b_color
+		}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed
+		}", "b_width":${this.$width}, "b_height":${this.$height
+		}, "txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')}"`;
 	};
 
 	// 文字ごとのウェイト

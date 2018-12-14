@@ -76,9 +76,11 @@ export class Layer {
 //	playbackAMF(inp: IDataInput, ldMng: LoadMng): void;
 
 	dump(): string {
-		return ` idx:${this.cnt.parent.getChildIndex(this.cnt)} v:${this.cnt.visible
-		} l:${this.cnt.x} t:${this.cnt.y} a:${this.cnt.alpha} r:${this.cnt.rotation
-		} name:\``+ this.name +'\`';
+		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${
+			this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y
+			}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation
+			}, "name":"${this.name}", "scale_x":${this.cnt.scale.x
+			}, "scale_y":${this.cnt.scale.y}`;
 	};
 
 	static argChk_BlendmodeAndSet(hash: object, $do: DisplayObject):void {
