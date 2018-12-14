@@ -2,10 +2,8 @@ const packager = require('electron-packager');
 	// https://github.com/electron-userland/electron-packager
 const config = require('./package.json');
 const createDMG = require('electron-installer-dmg');
-//const electronInstaller = require('electron-winstaller');
-	// https://github.com/electron/windows-installer
-//const winInstaller = require('electron-windows-installer');	// windows環境専用？
-	// https://github.com/felixrieseberg/electron-wix-msi
+const MSICreator = require('electron-wix-msi');
+//import { MSICreator } from 'electron-wix-msi';
 
 const opts = {
 	dir: './',
@@ -39,7 +37,25 @@ const opts = {
 };
 packager(opts).then(appPaths => {
 	console.log('🍏 %s.app Done!!', opts.name);
-/*
+
+/*	未作成
+	// Step 1: Instantiate the MSICreator
+	const msiCreator = new MSICreator({
+		appDirectory: '/path/to/built/app',
+		description: 'My amazing Kitten simulator',
+		exe: 'kittens',
+		name: 'Kittens',
+		manufacturer: 'Kitten Technologies',
+		version: '1.1.2',
+		outputDirectory: '/path/to/output/folder'
+	});
+	// Step 2: Create a .wxs template file
+	await msiCreator.create();
+	// Step 3: Compile the template to a .msi file
+	await msiCreator.compile();
+*/
+
+	// Mac
 	//process.on('unhandledRejection', console.dir);	// 4 Debug
 	const fld = opts.name +'-'+ opts.platform +'-'+ opts.arch;
 	createDMG({
@@ -48,12 +64,11 @@ packager(opts).then(appPaths => {
 		icon: opts.icon,
 		overwrite: true,
 		out: opts.out,
-	}, function (err) {
+	}, err=> {
 		if (err) throw Error(err);
-
 		console.log('🍎 %s.dmg Done!!', fld);
 	});
-*/
+
 });
 
 //===============
