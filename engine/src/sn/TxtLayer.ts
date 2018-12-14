@@ -246,8 +246,7 @@ export class TxtLayer extends Layer {
 		}
 		if (this.b_do instanceof Sprite) {
 			if ('b_color' in hArg) {}
-			else if ('b_pic' in hArg && hArg.b_pic != this.b_pic) {}
-			else {
+			else if (!('b_pic' in hArg) || hArg.b_pic == this.b_pic) {
 				this.b_do.visible = (alpha > 0);
 				this.b_do.alpha = alpha;
 				return;
