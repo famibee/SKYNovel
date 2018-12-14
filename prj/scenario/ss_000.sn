@@ -6,7 +6,7 @@
 	[lay layer="mes" page=back layout='fontFamily="ipam"']
 	[grp bg="white" time=2000 sys_menu=false b_alpha=0]
 [r][r][r]
-　桜の樹の下には屍体が埋まつてゐる！[dump_lay][plc visible=false]
+　桜の樹の下には屍体が埋まつてゐる！[plc visible=false]
 
 	; *** BGM ***
 ;	[bgm fn="free32"]

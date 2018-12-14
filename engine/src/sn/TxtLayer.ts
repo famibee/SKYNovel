@@ -909,7 +909,27 @@ export class TxtLayer extends Layer {
 
 		// 表示済み文字変更を検知
 		let begin = 0;
-		if (this.aRect.length == 0) begin = 0;	// 初回
+		if (this.aRect.length == 0) {	// 初回
+			if (TxtLayer.cfg.oCfg.debug.masume) {
+				if (TxtLayer.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
+					this.name} v:${this.cnt.visible} l:${this.cnt.x} t:${this.cnt.y
+					} a:${this.cnt.alpha} pl:${this.pad_left} pr:${this.pad_right
+					} pt:${this.pad_top} pb:${this.pad_bottom} fs:${this.fontsize
+					} w:${this.$width} h:${this.$height}`);
+
+				this.grpDbgMasume.clear();
+				this.grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
+				this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
+				this.grpDbgMasume.drawRect(-this.pad_left, -this.pad_top, this.$width, this.$height);
+					// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
+				this.grpDbgMasume.endFill();
+
+				this.grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
+				this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
+				this.grpDbgMasume.drawRect(0, 0, this.$width -this.pad_left -this.pad_right, this.$height -this.pad_top -this.pad_bottom);
+				this.grpDbgMasume.endFill();
+			}
+		}
 		else {
 			for (begin=lenPutedRect -1; begin>=0; --begin) {
 				if (aRect[begin].ch == this.aRect[begin].ch) continue;
@@ -933,25 +953,9 @@ export class TxtLayer extends Layer {
 				delay += (timAutoWc != null) ? timAutoWc : LayerMng.msecChWait;
 			};
 		};
-		if (TxtLayer.cfg.oCfg.debug.masume) {
-			if (TxtLayer.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${this.name} v:${this.cnt.visible
-			} l:${this.cnt.x} t:${this.cnt.y} a:${this.cnt.alpha} pl:${this.pad_left} pr:${this.pad_right} pt:${this.pad_top} pb:${this.pad_bottom} fs:${this.fontsize} w:${this.$width} h:${this.$height}`);
-
-			this.grpDbgMasume.clear();
-			this.grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
-			this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
-			this.grpDbgMasume.drawRect(-this.pad_left, -this.pad_top, this.$width, this.$height);
-				// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
-			this.grpDbgMasume.endFill();
-
-			this.grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
-			this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
-			this.grpDbgMasume.drawRect(0, 0, this.$width -this.pad_left -this.pad_right, this.$height -this.pad_top -this.pad_bottom);
-			this.grpDbgMasume.endFill();
-		}
 		//console.log(`cnt(%d, %d) cntInsidePadding(%d, %d) cntTxt(%d, %d) grpDbgMasume(%d, %d)`, this.cnt.x, this.cnt.y, this.cntInsidePadding.x, this.cntInsidePadding.y, this.cntTxt.x, this.cntTxt.y, this.grpDbgMasume.x, this.grpDbgMasume.y);
 		const len = this.aRect.length;
-		for (let i=0; i<len; ++i) {
+		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
 			const v_rect4ch_tx = rct.clone();
@@ -963,7 +967,6 @@ export class TxtLayer extends Layer {
 				this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
 				this.grpDbgMasume.endFill();
 			}
-			if (i < begin) continue;	// ガイドマス目を書くだけ
 
 			if (v.add) {
 				const oJs: any = JSON.parse(v.add.replace(/'/g, '"'));
