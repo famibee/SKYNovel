@@ -107,14 +107,18 @@ export class TxtLayer extends Layer {
 
 		const padding = 16 *CmnLib.retinaRate;	// 初期padding
 		this.cnt.addChild(this.cntInsidePadding);
+		this.cntInsidePadding.name = 'cntInsidePadding';
 		this.cntInsidePadding.position.set(padding, padding);
 
 		this.cntInsidePadding.addChild(this.grpDbgMasume);
+		this.grpDbgMasume.name = 'grpDbgMasume';
 
 		this.rbSpl.init(this.putCh);
 		this.cntInsidePadding.addChild(this.cntTxt);
+		this.cntTxt.name = 'cntTxt';
 
 		this.cnt.addChild(this.cntBtn);	// ボタンはpaddingの影響を受けない
+		this.cntBtn.name = 'cntBtn';
 
 		this.lay({style: `width: ${CmnLib.stageW -padding*2}px; height: ${CmnLib.stageH -padding*2}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`});
 
@@ -139,6 +143,7 @@ export class TxtLayer extends Layer {
 
 
 	lay(hArg: HArg): boolean {
+//console.log(`fn:TxtLayer.ts line:146 lay:0 nm:${this.name} is:${this.b_do != null} len:${this.cnt.children.length} hArg:%o`, hArg);
 		super.lay(hArg);
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
@@ -172,20 +177,15 @@ export class TxtLayer extends Layer {
 				this.b_color = 0x000000;
 				this.b_alpha = 0;
 				this.b_alpha_isfixed = false;
-				if (this.b_do) {
-					this.cnt.removeChild(this.b_do);
-					this.b_do.destroy();
-					this.b_do = null;
-					this.b_pic = '';
-					delete hArg.b_pic;
-				}
+				this.b_pic = '';
+				delete hArg.b_pic;
 			}
 			else {
 				if ('b_color' in hArg) this.b_color = parseInt(hArg.b_color);
 				this.b_alpha = CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
 				this.b_alpha_isfixed = CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
 			}
-			this.drawBack(hArg.b_pic);
+			this.drawBack(hArg);
 		}
 
 		const xSlide = TxtLayer.cfg.oCfg.debug.slideBaseSpan
@@ -232,23 +232,38 @@ export class TxtLayer extends Layer {
 		marginTop		: 0,
 	};
 
-	private drawBack($b_pic: string): void {
+	private drawBack(hArg: HArg): void {
 		const alpha = (this.b_alpha_isfixed
 			? 1
 			: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
 		) *this.b_alpha;
-		if ($b_pic) {
-			if ($b_pic == 'null') return;
-			if ($b_pic == this.b_pic) return;
-
-			this.b_pic = $b_pic;
+		if (hArg.b_pic == 'null') {
 			if (this.b_do) {
-				this.cnt.removeChild(this.b_do);
-				this.b_do.destroy();
-				this.b_do = null;
+				this.b_do.visible = (alpha > 0);
+				this.b_do.alpha = alpha;
 			}
+			return;
+		}
+		if (this.b_do instanceof Sprite) {
+			if ('b_color' in hArg) {}
+			else if ('b_pic' in hArg && hArg.b_pic != this.b_pic) {}
+			else {
+				this.b_do.visible = (alpha > 0);
+				this.b_do.alpha = alpha;
+				return;
+			}
+		}
+		if (this.b_do) {
+			this.cnt.removeChild(this.b_do);
+			this.b_do.destroy();
+			this.b_do = null;
+		}
+
+		if ('b_pic' in hArg) {
+			this.b_pic = hArg.b_pic;
 			GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
 				this.b_do = sp;
+				sp.name = 'back(pic)';
 				sp.visible = (alpha > 0);
 				sp.alpha = alpha;
 				//CmnLib.adjustRetinaSize(this.b_pic, sp);
@@ -258,17 +273,18 @@ export class TxtLayer extends Layer {
 				this.htmTxt.style.height = this.$height +'px';
 				this.cnt.setChildIndex(sp, 0);
 			});
+			return;
 		}
-		else if (alpha > 0) {
+		if ('b_color' in hArg && alpha > 0) {
 			// 透明の時は塗らない。こうしないと透明テキストレイヤ下のボタンが
 			// 押せなくなる（透明だが塗りがあるという扱いなので）
-			if (this.b_do) {this.cnt.removeChild(this.b_do); this.b_do.destroy();}
 			const grp = new Graphics;
+			this.b_do = grp;
+			grp.name = 'back(color)';
 			grp.beginFill(this.b_color, alpha);
 			grp.lineStyle(undefined);
 			grp.drawRect(0, 0, this.$width, this.$height);
 			grp.endFill();
-			this.b_do = grp;
 			this.cnt.addChildAt(grp, 0);
 			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
@@ -1140,6 +1156,7 @@ export class TxtLayer extends Layer {
 	}
 
 	copy(fromLayer: Layer): void {
+//console.log(`fn:TxtLayer.ts line:1155 copy:0 nm:${this.name} is:${this.b_do != null} len:${this.cnt.children.length}`);
 		super.copy(fromLayer);
 		this.clearLay({filter: 'true'});
 
@@ -1157,24 +1174,44 @@ export class TxtLayer extends Layer {
 		this.b_color	= fl.b_color;
 		this.b_alpha	= fl.b_alpha;
 		this.b_alpha_isfixed	= fl.b_alpha_isfixed;
-		this.b_pic		= fl.b_pic;
-		if (this.b_do) {
-			this.cnt.removeChild(this.b_do);
-			this.b_do.destroy();
-			this.b_do = null;
+		const alpha = (this.b_alpha_isfixed
+			? 1
+			: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
+		) *this.b_alpha;
+		if (this.b_pic == fl.b_pic) {
+//console.log(`fn:TxtLayer.ts line:1155 copy:1 nm:${this.name} is:${this.b_do != null} this.b_pic:${this.b_pic}`);
+			if (this.b_do) {
+//console.log(`fn:TxtLayer.ts line:1180 copy:2`);
+				this.b_do.visible = (alpha > 0);
+				this.b_do.alpha = alpha;
+			}
 		}
-		if (fl.b_do) {
-			if (fl.b_do instanceof Graphics) this.b_do = fl.b_do.clone();
-			else
-			if (this.b_pic) {
-				const alpha = (this.b_alpha_isfixed
-					? 1
-					: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
-				) *this.b_alpha;
-				GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
-					sp.visible = (alpha > 0);
-					sp.alpha = alpha;
-				});
+		else {
+			this.b_pic = fl.b_pic;
+//console.log(`fn:TxtLayer.ts line:1184 copy:10 nm:${this.name} is:${this.b_do != null} b_pic:${this.b_pic}`);
+			if (this.b_do) {
+//console.log(`fn:TxtLayer.ts line:1186 copy:11 name:${this.b_do.name}`);
+				this.cnt.removeChild(this.b_do);
+				this.b_do.destroy();
+				this.b_do = null;
+			}
+			if (fl.b_do) {
+//console.log(`fn:TxtLayer.ts line:1192 copy:20 nm:${this.name}`);
+				if (this.b_pic) {
+//console.log(`fn:TxtLayer.ts line:1194 copy:21 nm:${this.name}`);
+					GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
+this.b_do = sp;
+//						sp.name = 'back(pic by copy)';
+						sp.name = `back(pic by copy) nm:${this.name}`;
+						sp.visible = (alpha > 0);
+						sp.alpha = alpha;
+						this.cnt.setChildIndex(sp, 0);
+					});
+				}
+				else if (alpha > 0 && (fl.b_do instanceof Graphics)) {
+					this.b_do = fl.b_do.clone();
+					this.cnt.addChildAt(this.b_do, 0);
+				}
 			}
 		}
 		this.fontsize	= fl.fontsize;
@@ -1190,13 +1227,26 @@ export class TxtLayer extends Layer {
 	}
 
 	dump(): string {
+		let aPixiObj = [];
+		const len = this.cnt.children.length;
+		for (let i=0; i<len; ++i) {
+			const e = this.cnt.children[i];
+			const cls = (e instanceof Sprite) ?"Sprite" :(
+				(e instanceof Graphics) ?"Graphics" :(
+					(e instanceof Container) ?"Container" :"?"
+				)
+			);
+			aPixiObj.push(`{"class":"${cls}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}}`);
+		}
 		return super.dump() +`, "enabled":"${this.enabled
 		}", "style":"${this.htmTxt.style.cssText.replace(/(")/g, '\\$1')
 		}", "b_pic":"${this.b_pic}", "b_color":"${this.b_color
 		}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed
-		}", "b_width":${this.$width}, "b_height":${this.$height
-		}, "txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')}"`;
-	};
+		}", "b_pic":"${this.b_pic}", "b_width":${this.$width
+		}, "b_height":${this.$height
+		}, "txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')
+		}", "pixi_obj":[${aPixiObj.join(',')}]`;
+	}
 
 	// 文字ごとのウェイト
 	private	static doAutoWc		= false;
