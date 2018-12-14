@@ -143,14 +143,12 @@ export class TxtLayer extends Layer {
 
 
 	lay(hArg: HArg): boolean {
-//console.log(`fn:TxtLayer.ts line:146 lay:0 nm:${this.name} is:${this.b_do != null} len:${this.cnt.children.length} hArg:%o`, hArg);
 		super.lay(hArg);
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
 		this.rbSpl.setting(hArg);
 
 		if (hArg.style) {
-			//console.log('- hArg.style=%s', hArg.style);
 			const cln = document.createElement('span');
 			cln.style.cssText = hArg.style;
 			const len = cln.style.length;
@@ -1155,7 +1153,6 @@ export class TxtLayer extends Layer {
 	}
 
 	copy(fromLayer: Layer): void {
-//console.log(`fn:TxtLayer.ts line:1155 copy:0 nm:${this.name} is:${this.b_do != null} len:${this.cnt.children.length}`);
 		super.copy(fromLayer);
 		this.clearLay({filter: 'true'});
 
@@ -1178,30 +1175,23 @@ export class TxtLayer extends Layer {
 			: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
 		) *this.b_alpha;
 		if (this.b_pic == fl.b_pic) {
-//console.log(`fn:TxtLayer.ts line:1155 copy:1 nm:${this.name} is:${this.b_do != null} this.b_pic:${this.b_pic}`);
 			if (this.b_do) {
-//console.log(`fn:TxtLayer.ts line:1180 copy:2`);
 				this.b_do.visible = (alpha > 0);
 				this.b_do.alpha = alpha;
 			}
 		}
 		else {
 			this.b_pic = fl.b_pic;
-//console.log(`fn:TxtLayer.ts line:1184 copy:10 nm:${this.name} is:${this.b_do != null} b_pic:${this.b_pic}`);
 			if (this.b_do) {
-//console.log(`fn:TxtLayer.ts line:1186 copy:11 name:${this.b_do.name}`);
 				this.cnt.removeChild(this.b_do);
 				this.b_do.destroy();
 				this.b_do = null;
 			}
 			if (fl.b_do) {
-//console.log(`fn:TxtLayer.ts line:1192 copy:20 nm:${this.name}`);
 				if (this.b_pic) {
-//console.log(`fn:TxtLayer.ts line:1194 copy:21 nm:${this.name}`);
 					GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
-this.b_do = sp;
-//						sp.name = 'back(pic by copy)';
-						sp.name = `back(pic by copy) nm:${this.name}`;
+						this.b_do = sp;
+						sp.name = 'back(pic by copy)';
 						sp.visible = (alpha > 0);
 						sp.alpha = alpha;
 						this.cnt.setChildIndex(sp, 0);
