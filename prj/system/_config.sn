@@ -209,7 +209,7 @@
 
 *rclick_config
 	[return cond="! isGameState"]
-	[call label=*reload cond="const.sn.lay.htm_config.url==null"]
+	[call label=*val2ctrl]
 
 	&呼び元 = "Text"
 
