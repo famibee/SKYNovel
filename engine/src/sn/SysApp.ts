@@ -139,9 +139,17 @@ export class SysApp extends SysNode {
 			win_y = stage.nativeWindow.y;
 		//myTrace('x:'+ win_x +' y:'+ win_y);
 		}*/
-		const toFullScreen = ! this.win.isFullScreen();
-		this.val.setVal_Nochk('tmp', 'const.sn.displayState', toFullScreen);	// const.flash.display.Stage.displayState
-		if (toFullScreen) {
+		this.val.setVal_Nochk('tmp', 'const.sn.displayState', this.win.isFullScreen());	// const.flash.display.Stage.displayState
+		if (this.win.isFullScreen()) {
+			this.win.setFullScreen(true);	// これはこの位置
+			this.win.setSize(CmnLib.stageW, CmnLib.stageH);
+			this.appPixi.view.style.width = CmnLib.stageW +'px';
+			this.appPixi.view.style.height = CmnLib.stageH +'px';
+			if (CmnLib.osName == 'WIN') {
+				//	hTag.window({x:win_x, y:win_y, width: CmnLib.stageW, height: CmnLib.stageH});
+			}
+		}
+		else {
 			const size = screen.getPrimaryDisplay().size;
 			const ratioWidth = size.width / CmnLib.stageW;
 			const ratioHeight = size.height / CmnLib.stageH;
@@ -151,16 +159,7 @@ export class SysApp extends SysNode {
 			this.win.setSize(CmnLib.stageW * ratio, CmnLib.stageH * ratio);
 			this.appPixi.view.style.width = (CmnLib.stageW * ratio) +'px';
 			this.appPixi.view.style.height = (CmnLib.stageH * ratio) +'px';
-			this.win.setFullScreen(toFullScreen);	// これはこの位置
-		}
-		else {
-			this.win.setFullScreen(toFullScreen);	// これはこの位置
-			this.win.setSize(CmnLib.stageW, CmnLib.stageH);
-			this.appPixi.view.style.width = CmnLib.stageW +'px';
-			this.appPixi.view.style.height = CmnLib.stageH +'px';
-			if (CmnLib.osName == 'WIN') {
-				//	hTag.window({x:win_x, y:win_y, width: CmnLib.stageW, height: CmnLib.stageH});
-			}
+			this.win.setFullScreen(false);	// これはこの位置
 		}
 
 		return false;

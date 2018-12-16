@@ -101,7 +101,7 @@
 *toggle_full_screen
 	[toggle_full_screen]
 	[let name="txt" text="全画面モード"]
-	[let name="txt" text="ウインドウモード" cond="const.flash.display.Stage.displayState == 'normal'"]
+	[let name="txt" text="ウインドウモード" cond=const.sn.displayState]
 ;	[notice text="&txt" left="&const.sn.config.window.width -10 -300" top=10]
 
 	; 設定画面変更
