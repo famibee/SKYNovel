@@ -200,6 +200,7 @@
 
 ;*********************************************************
 *title_config
+	[return cond=const.sn.frm.config.visible]
 	&呼び元 = "Title"
 [jump label=*main]
 
@@ -208,6 +209,7 @@
 	[return cond="! isGameState"]
 
 *keycall_config
+	[return cond=const.sn.frm.config.visible]
 	[se fn=&sysse_ok1 buf=SYS]
 	&呼び元 = "Text"
 

@@ -65,7 +65,11 @@ export class FrameMng {
 			this.val.setVal_Nochk('tmp', frmnm +'.rotate', r);
 			this.val.setVal_Nochk('tmp', frmnm +'.width', w);
 			this.val.setVal_Nochk('tmp', frmnm +'.height', h);
-			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
+//			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
+			this.val.defTmp(frmnm +'.visible', ()=> {
+console.log(`fn:FrameMng.ts line:70 disp:${ifrm.style.display}: ::${ifrm.style.display == 'inline'}`);
+return (ifrm.style.display == 'inline')
+			});
 
 			this.evtMng.resvFlameEvent(win);
 
