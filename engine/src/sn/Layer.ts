@@ -88,8 +88,8 @@ export class Layer {
 	static argChk_BlendmodeAndSet(hash: object, $do: DisplayObject):void {
 		const v = hash['blendmode'];
 		if (! v) return;
+		if (! ($do instanceof Sprite)) return;
 		const sp = $do as Sprite;
-		if (! sp) return;
 
 		if (!(v in Layer.hBlendmode)) throw 'blendmode='+ v +' は異常な値です';
 

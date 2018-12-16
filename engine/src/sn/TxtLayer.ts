@@ -272,7 +272,10 @@ export class TxtLayer extends Layer {
 			});
 			return;
 		}
-		if ('b_color' in hArg && alpha > 0) {
+		if ('b_color' in hArg) this.drawBackSub_b_color(alpha);
+	}
+	private drawBackSub_b_color(alpha: number) {
+		if (alpha > 0) {
 			// 透明の時は塗らない。こうしないと透明テキストレイヤ下のボタンが
 			// 押せなくなる（透明だが塗りがあるという扱いなので）
 			const grp = new Graphics;
@@ -285,6 +288,23 @@ export class TxtLayer extends Layer {
 			this.cnt.addChildAt(grp, 0);
 			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
+	}
+	reloadLayBack(g_alpha: number): void {
+		const alpha = this.b_alpha_isfixed
+			? this.b_alpha
+			: g_alpha * this.b_alpha;
+		if (this.b_do instanceof Sprite) {
+			this.b_do.visible = (alpha > 0);
+			this.b_do.alpha = alpha;
+			return;
+		}
+
+		if (this.b_do) {
+			this.cnt.removeChild(this.b_do);
+			this.b_do.destroy();
+			this.b_do = null;
+		}
+		this.drawBackSub_b_color(alpha);
 	}
 
 

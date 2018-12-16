@@ -45,8 +45,8 @@ export class SoundMng {
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
 
 		const fncGlobalVol = (name: string, val: any)=> Howler.volume(Number(val));
-		fncGlobalVol('', this.val.getVal('sys:sn.sound.global_volume', 1));
-		this.val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
+		fncGlobalVol('', val.getVal('sys:sn.sound.global_volume', 1));
+		val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
 
 		this.flush = val.flush;
 	}

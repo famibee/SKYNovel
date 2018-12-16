@@ -77,8 +77,8 @@
 ; バック不透明度
 *sldBackAlpha
 	[let_frame id=config var_name=val_sldBackAlpha]
-		[trace text=&const.sn.frm.config.val_sldBackAlpha/100]
 	&sys:TextLayer.Back.Alpha = const.sn.frm.config.val_sldBackAlpha/100
+		[trace text=&const.sn.frm.config.val_sldBackAlpha/100]
 [return]
 
 ; 通常文字表示待ち

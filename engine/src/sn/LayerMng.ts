@@ -130,6 +130,11 @@ export class LayerMng {
 		console.info('w:%O: h:%O:', CmnLib.stageW, CmnLib.stageH);
 		console.groupEnd();
 */
+		const fncTxt_b_alpha = (name: string, val: any)=> {
+			this.foreachRedrawTxtLayBack(Number(val))
+		};
+		fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
+		val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
 	}
 	private fncTicker = ()=> {TWEEN.update()};
 
@@ -146,6 +151,22 @@ export class LayerMng {
 		this.evtMng = null;
 		LayerMng.$msecChWait = 10;
 		for (const pg in this.hPages) this.hPages[pg].destroy();
+	}
+
+
+	// 既存の全文字レイヤの実際のバック不透明度、を再計算
+	private foreachRedrawTxtLayBack(g_alpha: number): void {
+		let sp = '';
+		const vct = this.getLayers(null);
+		const len = vct.length;
+		for (let i=0; i<len; ++i) {
+			const name = vct[i];
+			const pg = this.hPages[name];
+			if (! (pg.fore instanceof TxtLayer)) continue;
+			const pTxt = pg.fore as TxtLayer;
+			pTxt.reloadLayBack(g_alpha);
+			(pg.back as TxtLayer).reloadLayBack(g_alpha);
+		}
 	}
 
 
@@ -843,8 +864,8 @@ void main(void) {
 		const layer = this.argChk_layer(hArg, this.strTxtlay);
 		const pg = this.hPages[layer];
 		const lay = pg.getPage(hArg);
+		if (! (lay instanceof TxtLayer)) throw layer +'はTxtLayerではありません';
 		const tf = lay as TxtLayer;
-		if (! tf) throw layer +'はTxtLayerではありません';
 
 		return tf;
 	}
@@ -858,8 +879,7 @@ void main(void) {
 		if (! layer) throw('[current] layerは必須です');
 
 		this.pgTxtlay = this.hPages[layer];
-		const tf = this.pgTxtlay.getPage(hArg) as TxtLayer;
-		if (! tf) throw ''+ layer +'はTxtLayerではありません';
+		if (! (this.pgTxtlay.getPage(hArg) instanceof TxtLayer)) throw ''+ layer +'はTxtLayerではありません';
 
 		this.val.setVal_Nochk('save', 'const.sn.mesLayer', this.strTxtlay = layer);
 

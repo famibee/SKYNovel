@@ -431,9 +431,6 @@ export class Variable implements IVariable {
 		'sys:sn.auto.msecLineWait_Kidoku'	: name=>
 				this.runFirst_sys_an_auto_msecLineWait(name),
 
-		'sys:TextLayer.Back.Alpha'	: name=>
-			this.runFirst_sys_an_TextLayer_b_alpha(name),
-
 		// save
 		'save:sn.doRecLog'		: name=>
 			this.runFirst_Bool_hSaveVal_true(name),
@@ -491,10 +488,6 @@ export class Variable implements IVariable {
 	}
 	private runFirst_sys_an_auto_msecLineWait(name: string): void {
 		CmnLib.argChk_Num(this.hSysVal, name, 500);
-	}
-
-	private runFirst_sys_an_TextLayer_b_alpha(name: string): void {
-//		trans.foreachRedrawTxtLayBack(CmnLib.argChk_Num(this.hSysVal, name, 1));
 	}
 
 	private runFirst_Bool_hSaveVal_true(name: string): void {
