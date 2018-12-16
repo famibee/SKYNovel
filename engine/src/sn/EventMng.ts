@@ -96,64 +96,31 @@ export class EventMng implements IEvtMng {
 
 		appPixi.stage.interactive = true;
 		this.elc.add(appPixi.stage, this.enMDownTap, e=> this.defEvt2Fnc(e, 'Click'));
-		this.elc.add(window, 'keydown', (e: any)=> {
-			//if (! e.isTrusted) return;
-			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
-
-			const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
-			+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
-			+	e.key
-			this.defEvt2Fnc(e, key);
-		});
-		if (window['WheelEvent']) this.elc.add(appPixi.view, 'wheel', (e: any)=> {
-			//if (! e.isTrusted) return;
-			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
-
-			const key = (e.altKey ?'alt+' :'')
-			+	(e.ctrlKey ?'ctrl+' :'')
-			+	(e.shiftKey ?'shift+' :'')
-			+	`${e.type}.`
-			+	(e.deltaX != 0 ?(e.deltaX > 0 ?'x>0' :'x<0') :'')
-			+	(e.deltaY != 0 ?(e.deltaY > 0 ?'y>0' :'y<0') :'')
-			+	(e.deltaZ != 0 ?(e.deltaZ > 0 ?'z>0' :'z<0') :'')
-			this.defEvt2Fnc(e, key);
-		});
-		this.elc.add(appPixi.view, 'contextmenu', (e: any)=> {
-			//if (! e.isTrusted) return;
-
-			const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
-			+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
-			+	'rightclick'
-			this.defEvt2Fnc(e, key);
-			e.preventDefault();		// イベント未登録時、メニューが出てしまうので
-		});
+		this.elc.add(window, 'keydown', e=> this.ev_keydown(e));
+		this.elc.add(appPixi.view, 'contextmenu', e=> this.ev_contextmenu(e));
+		if (window['WheelEvent']) this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e));
 
 		// Gamepad APIの利用 - ウェブデベロッパーガイド | MDN https://developer.mozilla.org/ja/docs/Web/Guide/API/Gamepad
 		// Gamepad の接続
 		this.elc.add(window, 'gamepadconnected', (e: any)=> {
-			if (CmnLib.devtool) console.log('👺 Gamepad connected at index %d: %s. %d buttons, %d axes.',
-			e['gamepad'].index, e['gamepad'].id,
-			e['gamepad'].buttons.length, e['gamepad'].axes.length);
+			if (CmnLib.devtool) console.log(
+				'👺 Gamepad connected at index %d: %s. %d buttons, %d axes.',
+				e['gamepad'].index, e['gamepad'].id,
+				e['gamepad'].buttons.length, e['gamepad'].axes.length);
 
 			const key = e.type;
 			this.defEvt2Fnc(e, key);
 		});
 		// Gamepad の切断
 		this.elc.add(window, 'gamepaddisconnected', (e: any)=> {
-			if (CmnLib.devtool) console.log('👺 Gamepad disconnected from index %d: %s',
-				e['gamepad'].index, e['gamepad'].id);
+			if (CmnLib.devtool) console.log(
+				'👺 Gamepad disconnected from index %d: %s', e['gamepad'].index,
+				e['gamepad'].id);
 
 			const key = e.type;
 			this.defEvt2Fnc(e, key);
 		});
 
-		this.elc.add(window, 'keydown', (e: any)=> {
-			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
-
-			if (e.key in this.hDownKeys) this.hDownKeys[e.key] = e.repeating ?2 :1;
-		});
 		this.elc.add(window, 'keyup', (e: any)=> {
 			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 
@@ -166,6 +133,47 @@ export class EventMng implements IEvtMng {
 		val.defTmp('const.sn.key.escape', ()=> (this.hDownKeys['Escape'] > 0));
 		val.defTmp('const.sn.key.back', ()=> (this.hDownKeys['GoBack'] > 0));
 	}
+	resvFlameEvent(win: Window) {
+		win.addEventListener('keydown', e=> this.ev_keydown(e));
+		win.addEventListener('contextmenu', e=> this.ev_contextmenu(e));
+		if (win['WheelEvent']) win.addEventListener('wheel', e=> this.ev_wheel(e));
+	}
+	private ev_keydown(e: any) {
+		//if (! e.isTrusted) return;
+		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
+
+		if (e.key in this.hDownKeys) this.hDownKeys[e.key] = e.repeating ?2 :1;
+
+		const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
+		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
+		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
+		+	e.key
+		this.defEvt2Fnc(e, key);
+	}
+	private ev_contextmenu(e: any) {
+		//if (! e.isTrusted) return;
+
+		const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
+		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
+		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
+		+	'rightclick'
+		this.defEvt2Fnc(e, key);
+		e.preventDefault();		// イベント未登録時、メニューが出てしまうので
+	}
+	private ev_wheel(e: any) {
+		//if (! e.isTrusted) return;
+		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
+
+		const key = (e.altKey ?'alt+' :'')
+		+	(e.ctrlKey ?'ctrl+' :'')
+		+	(e.shiftKey ?'shift+' :'')
+		+	`${e.type}.`
+		+	(e.deltaX != 0 ?(e.deltaX > 0 ?'x>0' :'x<0') :'')
+		+	(e.deltaY != 0 ?(e.deltaY > 0 ?'y>0' :'y<0') :'')
+		+	(e.deltaZ != 0 ?(e.deltaZ > 0 ?'z>0' :'z<0') :'')
+		this.defEvt2Fnc(e, key);
+	}
+
 	destroy() {
 		this.elc.clear();
 

@@ -207,6 +207,8 @@ export interface IEvtMng {
 	popLocalEvts(): IHEvt2Fnc;
 	pushLocalEvts(a: IHEvt2Fnc);
 	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void);
+
+	resvFlameEvent(win: any);
 };
 
 

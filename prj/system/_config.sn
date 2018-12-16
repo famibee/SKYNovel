@@ -7,6 +7,7 @@
 	[call label=*resv_event]
 [return]
 
+
 *val2ctrl
 	; アプリバージョン
 	[set_frame id=config var_name=val_version text=&const.sn.config.book.version@str]
@@ -41,7 +42,7 @@
 *resv_event
 	[event key='dom=config:#close' label=*exit global=true need_err=false]
 
-;	[event global=true call=true key=c label=*keycall_config]
+	[event global=true call=true key=c label=*keycall_config]
 ;	[event global=true call=true key=t label=*text_back_alpha_sub]
 ;	[event global=true call=true key=y label=*text_back_alpha_add]
 ;	[event global=true call=true key=u label=*text_auto_msecwait_sub]
@@ -199,18 +200,15 @@
 
 ;*********************************************************
 *title_config
-	[enable_event enabled=false]
 	&呼び元 = "Title"
 [jump label=*main]
 
 ;*********************************************************
-*keycall_config
-	[se fn=&sysse_ok1 buf=SYS]
-
 *rclick_config
 	[return cond="! isGameState"]
-	[call label=*val2ctrl]
 
+*keycall_config
+	[se fn=&sysse_ok1 buf=SYS]
 	&呼び元 = "Text"
 
 ;*********************************************************
@@ -226,12 +224,12 @@
 	[wait_tsy id=config]
 
 	&isGameState = false
-;	[event key=rightclick label=*cancel]
-;	[event key=command label=*cancel]
-;	[event key=control label=*cancel]
-;	[event key=end label=*cancel]
-;	[event key=shift label=*cancel]
-;	[event key=c label=*cancel]
+	[event key=rightclick label=*cancel]
+	[event key=command label=*cancel]
+	[event key=control label=*cancel]
+	[event key=end label=*cancel]
+	[event key=shift label=*cancel]
+	[event key=c label=*cancel]
 ;	[gesture_event swipe=*nop f2tap=*cancel f3tap=*cancel]
 	[set_focus to=null]
 [s]

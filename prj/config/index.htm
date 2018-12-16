@@ -2,6 +2,7 @@
 <head><meta charset="utf-8"/><title>&nbsp;</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/materialize.min.css">
+<style type="text/css">html {user-select: none; -webkit-user-select: none;}</style>
 <script defer src="js/materialize.min.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', ()=> {
@@ -22,7 +23,6 @@
 				window[`val_${chk.id}`] = chk.checked;	// 変数更新
 			});
 		}
-
 		document.getElementById('sldBackAlpha').addEventListener('input', e=> {
 			val_sldBackAlpha = e.target.value;
 			drawSampleView();
@@ -67,7 +67,7 @@
 
 </script>
 </head>
-<body class="blue-grey lighten-4" oncontextmenu="return false;" style="user-select: none; -webkit-user-select: none;">
+<body class="blue-grey lighten-4" oncontextmenu="return false;">
 	<div class="navbar-fixed"><nav class="blue-grey darken-1" role="navigation">
 		<div class="nav-wrapper container">
 			<a class="waves-effect waves-light btn grey" id="close">x</a>
