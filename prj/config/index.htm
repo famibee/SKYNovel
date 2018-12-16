@@ -13,7 +13,7 @@
 			const target = elms[i].getElementsByClassName('sld2val')[0];
 			bar.addEventListener('input', ()=> {
 				window[`val_${bar.id}`] = bar.value;	// 変数更新
-				target.innerHTML = bar.value;			// スライダーの値を表示
+				target.innerHTML = bar.value;			// スライダー数値表示を更新
 			});
 		}
 		const chks = document.getElementsByClassName('sn_chk');
@@ -29,7 +29,7 @@
 		});
 	}, false);
 
-	function val2ctrl() {
+	function val2ctrl() {	// 変数→コンポーネント
 		document.getElementById('version').textContent = val_version;
 		drawSampleView();
 
@@ -41,13 +41,21 @@
 			const e = sld2[i];
 			e.value = window[`val_${e.id}`];
 		}
+		const elms = document.getElementsByClassName('sld2dsp');
+		for (let i=0, max=elms.length; i<max; ++i) {
+			const bar = elms[i].getElementsByTagName('input')[0];
+			if (! bar) continue;
+			const target = elms[i].getElementsByClassName('sld2val')[0];
+			target.innerHTML = bar.value;			// スライダー数値表示を更新
+		}
+
 		const chks = document.getElementsByClassName('sn_chk');
 		for (let i=0, max=chks.length; i<max; ++i) {
 			const e = chks[i];
 			e.checked = (window[`val_${e.id}`] == 'true');
 		}
 	}
-	function ctrl2val() {
+	function ctrl2val() {	// コンポーネント→変数
 		const slds = document.getElementsByClassName('sn_sld');
 		for (let i=0, max=slds.length; i<max; ++i) {
 			const e = slds[i];
@@ -59,7 +67,7 @@
 			window[`val_${e.id}`] = e.checked;
 		}
 	}
-	function drawSampleView() {
+	function drawSampleView() {	// バック不透明度のイメージ表示
 		document.getElementById('sampleBackAlpha').style.background = 'rgba(255, 255, 255, '+ (val_sldBackAlpha /100) +')';
 	}
 
