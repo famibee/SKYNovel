@@ -5,12 +5,10 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IHTag, CmnLib, IVariable, typeProcVal, ISysBase, uint, int} from './CmnLib';
+import {HArg, IHTag, CmnLib, IVariable, ISetVal, typeProcVal, ISysBase, uint, int} from './CmnLib';
 import {Config} from './Config';
 import {PropParser} from './PropParser';
 const platform = require('platform');
-
-interface ISetVal { (arg_name: string, val: any, autocast?: boolean): void;}
 
 export class Variable implements IVariable {
 	private	data		: any	= {sys:{}, mark:{}, kidoku:{}};
@@ -18,7 +16,6 @@ export class Variable implements IVariable {
 	private	hSysVal		: any	= this.hScopeVal.sys;
 	private	hSaveVal	: any	= this.hScopeVal.save;
 	private	hTmp		: any	= this.hScopeVal.tmp;
-
 
 	private	hAreaKidoku	: any	= {};
 
@@ -348,7 +345,7 @@ export class Variable implements IVariable {
 		if (autocast) val = this.castAuto(val);
 		hScope[nm] = val;
 
-		const trg = this.hValTrg[hScope +':'+ nm];
+		const trg = this.hValTrg[scope +':'+ nm];
 		if (trg != null) trg(nm, val);
 
 		// if (scope == 'sys') this.flush()
@@ -356,7 +353,7 @@ export class Variable implements IVariable {
 			// クリック待ちを期待できるwait、waitclick、s、l、pタグで
 			// saveKidoku()をコール。（中で保存しているのでついでに）
 
-		//console.log('\tlet s['+ scope +'] n['+ nm +']='+ val);
+		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg != null)}]`);
 	}
 
 	getVal = (arg_name: string, def: number = undefined)=> {
@@ -434,9 +431,6 @@ export class Variable implements IVariable {
 		'sys:sn.auto.msecLineWait_Kidoku'	: name=>
 				this.runFirst_sys_an_auto_msecLineWait(name),
 
-		'sys:flash.media.SoundMixer.soundTransform.volume'	: name=>
-				this.runFirst_sys__volume(name),
-
 		'sys:TextLayer.Back.Alpha'	: name=>
 			this.runFirst_sys_an_TextLayer_b_alpha(name),
 
@@ -468,6 +462,7 @@ export class Variable implements IVariable {
 			//	Hyphenation.chkFontMode = CmnLib.argChk_Boolean(this.hTmp, name, true)
 		}
 	};
+	defValTrg(name: string, fnc: ISetVal) {this.hValTrg[name] = fnc;}
 	private runFirst_Bool_hSysVal_true(name: string): void {
 			CmnLib.argChk_Boolean(this.hSysVal, name, true);
 		}
@@ -496,12 +491,6 @@ export class Variable implements IVariable {
 	}
 	private runFirst_sys_an_auto_msecLineWait(name: string): void {
 		CmnLib.argChk_Num(this.hSysVal, name, 500);
-	}
-
-	private runFirst_sys__volume(name: string): void {
-/*		SoundMixer.soundTransform = new SoundTransform(
-			CmnLib.argChk_Num(this.hSysVal, name, 1)
-		);*/
 	}
 
 	private runFirst_sys_an_TextLayer_b_alpha(name: string): void {

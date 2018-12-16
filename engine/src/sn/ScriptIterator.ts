@@ -107,8 +107,11 @@ export class ScriptIterator {
 			this.hAreaKidoku[fn] = areas;
 		}
 
-		this.val.defTmp('const.sn.vctCallStk.length', ()=> this.vctCallStk.length);
+		val.defTmp('const.sn.vctCallStk.length', ()=> this.vctCallStk.length);
+		this.flush = val.flush;
 	}
+	private flush	= () =>{};
+
 	private	evtMng	: EventMng | null	= null;
 	private	layMng	: LayerMng | null	= null;
 	setOtherObj(evtMng: EventMng, layMng: LayerMng): void {
@@ -741,7 +744,7 @@ export class ScriptIterator {
 			const areas = this.hAreaKidoku[fn];
 			if (areas) this.hByteKidoku[fn] = {...areas.hAreas};
 		}
-//		soSys.flush();
+		this.flush();
 	}
 	get isNextKidoku(): boolean {
 		let fn	= this.scriptFn;
@@ -932,7 +935,7 @@ export class ScriptIterator {
 //		delete soSys.data.mark[place];
 //		delete hSysVal['const.sn.bookmark.'+ place];
 		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place, undefined);
-//		soSys.flush();
+		this.flush();
 
 		return false;
 	}
@@ -990,7 +993,7 @@ export class ScriptIterator {
 		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place, true);
 		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place +'.UpdateTime', getDateStr());
 		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place +'.isfile', is_file);
-//		soSys.flush();
+		this.flush();
 
 		return false;
 	}

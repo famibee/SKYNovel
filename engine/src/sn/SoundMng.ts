@@ -43,15 +43,17 @@ export class SoundMng {
 		hTag.wl			= o=> this.wl(o);			// BGM 再生の終了待ち
 		hTag.ws			= o=> this.ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
+
+		const fncGlobalVol = (name: string, val: any)=> Howler.volume(Number(val));
+		fncGlobalVol('', this.val.getVal('sys:sn.sound.global_volume', 1));
+		this.val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
+
+		this.flush = val.flush;
 	}
+	private flush	= () =>{};
+
 	private evtMng	: IEvtMng	= null;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
-
-
-	private flush() {
-		// TODO:flush()が未作成
-
-	}
 
 	// 音量設定（独自拡張）
 	private volume(hArg) {

@@ -27,11 +27,11 @@
 	[set_frame id=config var_name=val_sldAutoPWaitMsec_Kidoku text=&sys:sn.auto.msecPageWait_Kidoku]
 
 	; 音量
-	[set_frame id=config var_name=val_sldVolGlobal text=&sys:flash.media.SoundMixer.soundTransform.volume]
-	[set_frame id=config var_name=val_sldVolBgm text=&sys:const.sn.sound.BGM.volume]
-	[set_frame id=config var_name=val_sldVolVoice text=&sys:const.sn.sound.VOICE.volume]
-	[set_frame id=config var_name=val_sldVolSe text=&sys:const.sn.sound.SE.volume]
-	[set_frame id=config var_name=val_sldVolSys text=&sys:const.sn.sound.SYS.volume]
+	[set_frame id=config var_name=val_sldVolGlobal text=&sys:sn.sound.global_volume*100]
+	[set_frame id=config var_name=val_sldVolBgm text=&sys:const.sn.sound.BGM.volume*100]
+	[set_frame id=config var_name=val_sldVolVoice text=&sys:const.sn.sound.VOICE.volume*100]
+	[set_frame id=config var_name=val_sldVolSe text=&sys:const.sn.sound.SE.volume*100]
+	[set_frame id=config var_name=val_sldVolSys text=&sys:const.sn.sound.SYS.volume*100]
 
 	[set_frame id=config var_name=val_chkScrMode text=&const.sn.displayState]
 
@@ -130,7 +130,7 @@
 ; 音量
 *sldVolGlobal
 	[let_frame id=config var_name=val_sldVolGlobal]
-	&sys:flash.media.SoundMixer.soundTransform.volume = const.sn.frm.config.val_sldVolGlobal
+	&sys:sn.sound.global_volume = const.sn.frm.config.val_sldVolGlobal /100
 		[trace text=&const.sn.frm.config.val_sldVolGlobal]
 [return]
 *sldVolBgm

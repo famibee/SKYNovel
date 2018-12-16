@@ -47,7 +47,7 @@
 	[sys_title_start]
 
 	; *** BGM OPテーマ ***
-;	[bgm fn="free0509" time=200]
+	[bgm fn="free0509" time=200]
 ;[clearsysvar]
 ;********************************************************
 *title_menu

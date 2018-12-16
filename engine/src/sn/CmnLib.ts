@@ -177,12 +177,15 @@ export interface IPathFn2Exts { [fn: string]: IExts; };
 
 // =============== Variable
 export interface typeProcVal { (): any };
+export interface ISetVal { (arg_name: string, val: any, autocast?: boolean): void;};
 
 export interface IVariable {
 	setSys(sys: ISysBase): void;
+	flush(): void;
 	getVal(arg_name: string, def?: number): object;
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
 	defTmp(name: string, fnc: typeProcVal): void;
+	defValTrg(name: string, fnc: ISetVal): void;
 	cloneMp(): object;
 	setMp(mp: object): void;
 	cloneSave(): object;
