@@ -135,22 +135,22 @@
 [return]
 *sldVolBgm
 	[let_frame id=config var_name=val_sldVolBgm]
-	[volume buf=BGM volume=&const.sn.frm.config.val_sldVolBgm]
+	[volume buf=BGM volume=&const.sn.frm.config.val_sldVolBgm/100]
 		[trace text=&const.sn.frm.config.val_sldVolBgm]
 [return]
 *sldVolVoice
 	[let_frame id=config var_name=val_sldVolVoice]
-	[volume buf=BGM volume=&const.sn.frm.config.val_sldVolVoice]
+	[volume buf=BGM volume=&const.sn.frm.config.val_sldVolVoice/100]
 		[trace text=&const.sn.frm.config.val_sldVolVoice]
 [return]
 *sldVolSe
 	[let_frame id=config var_name=val_sldVolSe]
-	[volume buf=SE volume=&const.sn.frm.config.val_sldVolSe]
+	[volume buf=SE volume=&const.sn.frm.config.val_sldVolSe/100]
 		[trace text=&const.sn.frm.config.val_sldVolSe]
 [return]
 *sldVolSys
 	[let_frame id=config var_name=val_sldVolSys]
-	[volume buf=SYS volume=&const.sn.frm.config.val_sldVolSys]
+	[volume buf=SYS volume=&const.sn.frm.config.val_sldVolSys/100]
 		[trace text=&const.sn.frm.config.val_sldVolSys]
 [return]
 
