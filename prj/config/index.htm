@@ -40,13 +40,11 @@
 		for (let i=0, max=sld2.length; i<max; ++i) {
 			const e = sld2[i];
 			e.value = window[`val_${e.id}`];
-			e.dispatchEvent(ev); // イベントを発火させる
 		}
 		const chks = document.getElementsByClassName('sn_chk');
 		for (let i=0, max=chks.length; i<max; ++i) {
 			const e = chks[i];
 			e.checked = (window[`val_${e.id}`] == 'true');
-			//不要	e.dispatchEvent(ev); // イベントを発火させる
 		}
 	}
 	function ctrl2val() {
