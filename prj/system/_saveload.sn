@@ -320,14 +320,14 @@
 
 *do_load_resume
 	[se fn=&sysse_ok2_long buf=SYS]
-	[notice text="前回終了ポイントから再開します（キャンセル=ESC）" left="&const.flash.display.Stage.stageWidth -10 -300" top=10]
+;	[notice text="前回終了ポイントから再開します（キャンセル=ESC）" left="&const.flash.display.Stage.stageWidth -10 -300" top=10]
 	[sys_scenario_start no_resume_save=true]
 	[load place=99999]
 ;	[load place=99999 fn=_saveload label=*do_load_init]
 
 ; ロード後最初にしたい共通処理
 *do_load_init
-	
+
 [return]
 
 ;*****************************

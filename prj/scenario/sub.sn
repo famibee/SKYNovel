@@ -224,7 +224,7 @@
 	&pr = 70
 	&pb = 70
 	[let name=fcol text=%fcol|0x000000]
-	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=0 b_top=&t-20
+	[lay * layer=%layer|"mes" page=%page|back visible=%visible|true b_left=0 b_top=&t-20 left=0 top=0
 	;	b_pic=%b_pic|hakkou1
 			; 背後に画像を使う場合
 		b_width="&const.sn.config.window.width -40*2" b_height=&h b_color=%b_color|0x000000
