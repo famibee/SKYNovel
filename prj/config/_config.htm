@@ -6,6 +6,7 @@
 <script defer src="../lib/materialize.min.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', ()=> {
+		// コンポーネントにイベント処理追加
 		const elms = document.getElementsByClassName('sld2dsp');
 		for (let i=0, max=elms.length; i<max; ++i) {
 			const bar = elms[i].getElementsByTagName('input')[0];

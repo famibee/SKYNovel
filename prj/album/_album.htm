@@ -3,69 +3,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../lib/materialize.min.css">
 <style type="text/css">
-	html {user-select: none; -webkit-user-select: none;}
-	@font-face {
-		font-family: 'Material Icons';
-		font-style: normal;
-		font-weight: 400;
-		src: url(../lib/Material_Icons.woff2) format('woff2');
-	}
-	.material-icons {
-		font-family: 'Material Icons';
-		font-weight: normal;
-		font-style: normal;
-		font-size: 24px;
-		line-height: 1;
-		letter-spacing: normal;
-		text-transform: none;
-		display: inline-block;
-		white-space: nowrap;
-		word-wrap: normal;
-		direction: ltr;
-		font-feature-settings: 'liga';
-		-webkit-font-smoothing: antialiased;
-	}
+	html {user-select: none; -webkit-user-select: none;}	/* 選択禁止 */
+	.card .card-title {margin-left: 0.5em;}		/* 微調整 */
 </style>
 <script defer src="../lib/materialize.min.js"></script>
 <script>
-	const a = [
-		{"img": "thyun_1184.jpg", "icon": "photo", "title": "川辺"},
-		{"img": "thyun_1317.jpg", "icon": "photo", "title": "水中"},
-		{"img": "thyun_2352.jpg", "icon": "photo", "title": "桜1"},
-		{"img": "thyun_2384.jpg", "icon": "photo", "title": "桜2"},
-		{"img": "nc10889.mp4", "icon": "play_arrow", "title": "桜（動画）"},
-		{"img": "thfree32.png", "icon": "audiotrack", "title": "free32（ＢＧＭ）"},
-		{"img": "thfree49.png", "icon": "audiotrack", "title": "free49（ＢＧＭ）"},
-		{"img": "thfree61.png", "icon": "audiotrack", "title": "free61（ＢＧＭ）"},
-		{"img": "thfree0509.png", "icon": "audiotrack", "title": "free0509（ＢＧＭ）"}
+	const a = [	// アルバムの内容
+		{"type": "pic", "img": "../bgimage/yun_1184.jpg", "title": "川辺"},
+		{"type": "pic", "img": "../bgimage/yun_1317.jpg", "title": "水中"},
+		{"type": "pic", "img": "../bgimage/yun_2352.jpg", "title": "桜1"},
+		{"type": "pic", "img": "../bgimage/yun_2384.jpg", "title": "桜2"},
+		{"type": "pic", "img": "../fgimage/F_口元.jpg", "title": "語り手"},
+		{"type": "mov", "img": "nc10889.mp4", "title": "桜"},
+		{"type": "bgm", "img": "thbgm.jpg", "title": "free32"},
+		{"type": "bgm", "img": "thbgm.jpg", "title": "free49"},
+		{"type": "bgm", "img": "thbgm.jpg", "title": "free61"},
+		{"type": "bgm", "img": "thbgm.jpg", "title": "free0509"},
 	];
 	document.addEventListener('DOMContentLoaded', ()=> {
 		const lst = document.getElementsByClassName('row')[0];
-		a.forEach((e, i)=> {
-			lst.insertAdjacentHTML('beforeend', `
-<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">${
-	(e.icon != 'play_arrow')
-		? `
+		a.forEach((v, i)=> {
+			// 表示処理
+			let elm = '';
+			switch (v.type) {
+				case 'pic':
+					elm = `
 	<div class="card">
 	<div class="card-image">
-		<img src="${e.img}">
-		<a id="th_${i}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">${e.icon}</i></a>
-	</div>`
-		: `
+		<img src="${v.img}" class="materialboxed">
+	</div>`;
+					break;
+
+				case 'mov':
+					elm = `
 	<div class="card" style="margin-bottom: 0px;">
 	<video class="responsive-video" controls>
-		<source src="${e.img}" type="video/mp4"/>
-	</video>`
-}
-	<span class="card-title">${e.title}</span>
+		<source src="${v.img}" type="video/mp4"/>
+	</video>`;
+					break;
+
+				default:
+					elm = `
+	<div class="card">
+	<div class="card-image">
+		<img src="${v.img}" id="th_${i}">
+	</div>`;
+					break;
+			}
+			lst.insertAdjacentHTML('beforeend', `
+<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">${elm}
+	<span class="card-title">${v.title}</span>
 	</div>
 </div>`);
-			if (e.icon == 'play_arrow') return;
-			document.getElementById(`th_${i}`).addEventListener('click', (t, e)=> {
-				;
+
+			// クリックイベント処理を追加
+			let fnc = (t, e)=> {};
+			switch (v.type) {
+				case 'bgm':
+					fnc = (t, e)=> {
+						;
 console.log(`click:${i} ${a[i].title}`);
-			});
+					};
+					break;
+
+				default:
+					return;
+			}
+			document.getElementById(`th_${i}`).addEventListener('click', fnc);
 		});
+		M.Materialbox.init(document.querySelectorAll('.materialboxed'));
 	}, false);
 
 </script>
