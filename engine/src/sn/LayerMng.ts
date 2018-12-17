@@ -486,11 +486,9 @@ void main(void) {
 	}
 }`;
 	private ufRuleTrans = {
-//		back : {type: 'sampler2D', value: Texture.EMPTY},
 		rule : {type: 'sampler2D', value: Texture.EMPTY},
 		vague : {type: '1f', value: 0.0},
 		tick : {type: '1f', value: 0.0},
-		resolution : {type: '2f', value: [0, 0]},
 	};
 	private fltRule = new Filter(undefined, this.srcRuleTransFragment, this.ufRuleTrans);
 
@@ -584,10 +582,8 @@ void main(void) {
 		const flt = is_glsl
 			? new Filter(undefined, hArg.glsl, this.ufRuleTrans)
 			: this.fltRule;
-//		flt.uniforms.back = this.rtAtTransBack;
 		flt.uniforms.vague = CmnLib.argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
-		flt.uniforms.resolution = [CmnLib.stageW, CmnLib.stageH];
 		this.twInfTrans.tw = new TWEEN.Tween(flt.uniforms)
 			.to({tick: 1}, time)
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
