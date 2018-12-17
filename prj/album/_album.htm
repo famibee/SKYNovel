@@ -28,8 +28,44 @@
 </style>
 <script defer src="../lib/materialize.min.js"></script>
 <script>
+	const a = [
+		{"img": "thyun_1184.jpg", "icon": "photo", "title": "川辺"},
+		{"img": "thyun_1317.jpg", "icon": "photo", "title": "水中"},
+		{"img": "thyun_2352.jpg", "icon": "photo", "title": "桜1"},
+		{"img": "thyun_2384.jpg", "icon": "photo", "title": "桜2"},
+		{"img": "nc10889.mp4", "icon": "play_arrow", "title": "桜（動画）"},
+		{"img": "thfree32.png", "icon": "audiotrack", "title": "free32（ＢＧＭ）"},
+		{"img": "thfree49.png", "icon": "audiotrack", "title": "free49（ＢＧＭ）"},
+		{"img": "thfree61.png", "icon": "audiotrack", "title": "free61（ＢＧＭ）"},
+		{"img": "thfree0509.png", "icon": "audiotrack", "title": "free0509（ＢＧＭ）"}
+	];
 	document.addEventListener('DOMContentLoaded', ()=> {
-		;
+		const lst = document.getElementsByClassName('row')[0];
+		a.forEach((e, i)=> {
+			lst.insertAdjacentHTML('beforeend', `
+<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">${
+	(e.icon != 'play_arrow')
+		? `
+	<div class="card">
+	<div class="card-image">
+		<img src="${e.img}">
+		<a id="th_${i}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">${e.icon}</i></a>
+	</div>`
+		: `
+	<div class="card" style="margin-bottom: 0px;">
+	<video class="responsive-video" controls>
+		<source src="${e.img}" type="video/mp4"/>
+	</video>`
+}
+	<span class="card-title">${e.title}</span>
+	</div>
+</div>`);
+			if (e.icon == 'play_arrow') return;
+			document.getElementById(`th_${i}`).addEventListener('click', (t, e)=> {
+				;
+console.log(`click:${i} ${a[i].title}`);
+			});
+		});
 	}, false);
 
 </script>
@@ -42,87 +78,5 @@
 		</div>
 	</nav></div>
 
-	<div class="row">
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thyun_1184.jpg">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">photo</i></a>
-			</div>
-			<div class="card-content"><p>川辺</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thyun_1317.jpg">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">photo</i></a>
-			</div>
-			<div class="card-content"><p>水中</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thyun_2352.jpg">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">photo</i></a>
-			</div>
-			<div class="card-content"><p>桜1</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thyun_2384.jpg">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">photo</i></a>
-			</div>
-			<div class="card-content"><p>桜2</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thnc10889.png">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>
-			</div>
-			<div class="card-content"><p>桜（動画）</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thfree32.png">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">audiotrack</i></a>
-			</div>
-			<div class="card-content"><p>free32（ＢＧＭ）</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thfree49.png">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">audiotrack</i></a>
-			</div>
-			<div class="card-content"><p>free49（ＢＧＭ）</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thfree61.png">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">audiotrack</i></a>
-			</div>
-			<div class="card-content"><p>free61（ＢＧＭ）</p></div>
-			</div>
-		</div>
-		<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
-			<div class="card">
-			<div class="card-image">
-				<img src="thfree0509.png">
-				<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">audiotrack</i></a>
-			</div>
-			<div class="card-content"><p>free0509（ＢＧＭ）</p></div>
-			</div>
-		</div>
-	</div>
+	<div class="row"></div>
 </body></html>
