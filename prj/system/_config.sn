@@ -78,7 +78,7 @@
 *sldBackAlpha
 	[let_frame id=config var_name=val_sldBackAlpha]
 	&sys:TextLayer.Back.Alpha = const.sn.frm.config.val_sldBackAlpha/100
-		[trace text=&const.sn.frm.config.val_sldBackAlpha/100]
+	;	[trace text=&const.sn.frm.config.val_sldBackAlpha]
 [return]
 
 ; 通常文字表示待ち
@@ -131,27 +131,27 @@
 *sldVolGlobal
 	[let_frame id=config var_name=val_sldVolGlobal]
 	&sys:sn.sound.global_volume = const.sn.frm.config.val_sldVolGlobal /100
-		[trace text=&const.sn.frm.config.val_sldVolGlobal]
+	;	[trace text=&const.sn.frm.config.val_sldVolGlobal]
 [return]
 *sldVolBgm
 	[let_frame id=config var_name=val_sldVolBgm]
 	[volume buf=BGM volume=&const.sn.frm.config.val_sldVolBgm/100]
-		[trace text=&const.sn.frm.config.val_sldVolBgm]
+	;	[trace text=&const.sn.frm.config.val_sldVolBgm]
 [return]
 *sldVolVoice
 	[let_frame id=config var_name=val_sldVolVoice]
 	[volume buf=BGM volume=&const.sn.frm.config.val_sldVolVoice/100]
-		[trace text=&const.sn.frm.config.val_sldVolVoice]
+	;	[trace text=&const.sn.frm.config.val_sldVolVoice]
 [return]
 *sldVolSe
 	[let_frame id=config var_name=val_sldVolSe]
 	[volume buf=SE volume=&const.sn.frm.config.val_sldVolSe/100]
-		[trace text=&const.sn.frm.config.val_sldVolSe]
+	;	[trace text=&const.sn.frm.config.val_sldVolSe]
 [return]
 *sldVolSys
 	[let_frame id=config var_name=val_sldVolSys]
 	[volume buf=SYS volume=&const.sn.frm.config.val_sldVolSys/100]
-		[trace text=&const.sn.frm.config.val_sldVolSys]
+	;	[trace text=&const.sn.frm.config.val_sldVolSys]
 [return]
 
 

@@ -83,15 +83,12 @@ export class SoundMng {
 		CmnLib.argChk_Boolean(hArg, 'stop', true);
 		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
 		//this.flush();	// すぐ下でflush()
-///		delPlayBuf('BGM');
-		// TODO:音系が未作成
 		return this.hTag.fadebgm(hArg);
 	}
 	// 効果音のフェードアウト（loadで使うのでマクロ化禁止）
 	private fadeoutse(hArg) {
 		hArg.volume = 0;
 		CmnLib.argChk_Boolean(hArg, 'stop', true);
-///			delPlayBuf(hArg.buf || 'SE');
 		return this.hTag.fadese(hArg);
 	}
 
@@ -243,7 +240,6 @@ export class SoundMng {
 	private stopse(hArg) {
 		const buf = hArg.buf || 'SE';
 		this.stopfadese(hArg);
-///		this.delPlayBuf(buf);
 
 		const oSb = this.hSndBuf[buf];
 		if (oSb) oSb.snd.stop();
