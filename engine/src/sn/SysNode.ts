@@ -46,7 +46,7 @@ export class SysNode extends SysBase {
 					h_exts = hPathFn2Exts[fo_fn] = {':cnt': '1'};
 				}
 				else if (fo_ext in h_exts) {
-					throw('[xmlCfg.search.path] サーチパスにおいてファイル名＋拡張子【'+ fo_fn +'】が重複しています。フォルダを縦断検索するため許されません');
+					throw Error(`[xmlCfg.search.path] サーチパスにおいてファイル名＋拡張子【${fo_fn}】が重複しています。フォルダを縦断検索するため許されません`);
 				}
 				else {
 					h_exts[':cnt'] = String(uint(h_exts[':cnt']) +1);

@@ -142,7 +142,7 @@
 		[wait_tsy layer="_syslay.0" backlay=true canskip=false]
 		[wait_tsy layer="_syslay.1" backlay=true canskip=false]
 	[lay layer="&'_syslay.'+ buf_num" visible=false]
-	
+
 	[let name="buf_num" text="&1 -buf_num"]
 
 	[button layer="_syslay.mes" text=" Return " style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン

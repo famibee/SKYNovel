@@ -54,8 +54,13 @@ app.on('ready', ()=> {
 		resizable	: false,
 		fullscreenable	: true,
 	});
-	//guiWin.webContents.openDevTools();
-	guiWin.loadURL('file://'+ __dirname.replace(/\\/g, '/') +'/app/index.htm');
+	try {
+		guiWin.loadURL('file://'+ __dirname.replace(/\\/g, '/') +'/app/index.htm');
+	}
+	catch (e) {
+		guiWin.webContents.openDevTools();
+		console.error(`ealy err:${e}`);
+	}
 	guiWin.on('closed', ()=> app.quit());
 });
 

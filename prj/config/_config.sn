@@ -1,8 +1,8 @@
 ;#USE-FONT	ipam
-	[return cond="const._config.inited"]
-	&const._config.inited = true
+	[return cond="const.config.inited"]
+	&const.config.inited = true
 
-	[add_frame id=config src="config/index.htm" visible=false]
+	[add_frame id=config src="config/_config.htm" visible=false]
 	[call label=*val2ctrl]
 	[call label=*resv_event]
 [return]
