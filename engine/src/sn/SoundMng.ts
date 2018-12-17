@@ -168,7 +168,6 @@ export class SoundMng {
 			&& this.evtMng.isSkipKeyDown()) return false;
 
 		const loop = CmnLib.argChk_Boolean(hArg, 'loop', false);
-//		this.addPlayBuf(buf, fn, loop);
 
 		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
 		const nm = 'const.sn.sound.'+ buf +'.';
@@ -182,11 +181,13 @@ export class SoundMng {
 		this.flush();
 
 		const o: IHowlProperties = {
-			src: [this.cfg.searchPath(fn, Config.EXT_SOUND)],
-//			src: ['sound.webm', 'sound.mp3', 'sound.wav'],
+			src: this.cfg.searchPath(fn, Config.EXT_SOUND),
+			//src: ['sound.webm', 'sound.mp3', 'sound.wav'],
 			autoplay: true,
 			loop: loop,
 			volume: vol,
+			//preload: true,
+			//sprite: {key: [offset, duration, (loop)]},
 		};
 		if (! loop) o.onend = ()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可

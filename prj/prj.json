@@ -1,6 +1,6 @@
 {
 	"save_ns": "com.fc2.blog38.famibee.skynovel.uc",
-	"search": ["album","bgimage","bgm","config","fgimage","image","menu","rule","scenario","system"],
+	"search": ["album","bgimage","bgm","config","fgimage","image","lib","menu","rule","scenario","system"],
 	"window": {
 		"width": 1024,
 		"height": 768
