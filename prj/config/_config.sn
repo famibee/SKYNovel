@@ -221,26 +221,26 @@
 	; 設定画面を最新値で更新
 	[call label=*val2ctrl]
 	; 下部からスライドイン
-	[frame id=config visible=true y=&const.sn.config.window.height]
+	[frame id=config visible=true y=&const.sn.frm.config.height]
 	[tsy_frame id=config time=500 y=0]
 	[wait_tsy id=config]
 
 	&isGameState = false
-	[event key=rightclick label=*cancel]
-	[event key=command label=*cancel]
-	[event key=control label=*cancel]
-	[event key=end label=*cancel]
-	[event key=shift label=*cancel]
-	[event key=c label=*cancel]
-;	[gesture_event swipe=*nop f2tap=*cancel f3tap=*cancel]
+	[event key=rightclick label=*exit]
+	[event key=command label=*exit]
+	[event key=control label=*exit]
+	[event key=end label=*exit]
+	[event key=shift label=*exit]
+	[event key=c label=*exit]
+;	[gesture_event swipe=*nop f2tap=*exit f3tap=*exit]
 	[set_focus to=null]
 [s]
 
 ;*********************************************************
-*cancel
-	[se fn=&sysse_cancel buf=SYS]
 *exit
-	[tsy_frame id=config time=500 y=&const.sn.config.window.height]
+	[se fn=&sysse_cancel buf=SYS]
+
+	[tsy_frame id=config time=500 y=&const.sn.frm.config.height]
 	[wait_tsy id=config]
 	[frame id=config visible=false]
 

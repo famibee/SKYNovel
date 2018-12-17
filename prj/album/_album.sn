@@ -1,327 +1,44 @@
 ;#USE-FONT	ipam
-	[return cond="const._album.inited"]
-	[let name="const._album.inited" text=true]
+	[return cond="const.album.inited"]
+	[let name="const.album.inited" text=true]
 
-	[sys_syslay.init]
+	[add_frame id=album src="album/_album.htm" visible=false]
 
-; === 改造用定数（表示位置などはここを変えて下さい）
-;　横に四つ、縦に三つの十二個並ぶように表示しています。
-;　左上から右へ一つずつ置き、四の倍数個目を置くときに一段下へ移動し、左端に戻って並べ続けます。テンプレでは三段あります。
-[let name="const._al.th_横に並べる数" text=4]	; 横に四つ
-[let name="const._al.th_縦に並べる数" text=3]	; 縦に三つ。上説明の「段」
-[let name="const._al.th_一つめの左上からの横座標" text=52]	; 0以上
-[let name="const._al.th_一つめの左上からの縦座標" text=62]	; 0以上
-[let name="const._al.th_一つ左への移動量" text=232]
-	; サムネイル画像幅と同じか大きくする
-[let name="const._al.th_一つ下への移動量" text=177]
-	; サムネイル画像高さと同じか大きくする
+	[event key='dom=album:#close' label=*exit global=true need_err=false]
 
-[let name="const._al.ページ数" text=2]
-; === 改造用定数（ここまで）
-; = アルバム表示内容改造箇所はもっと下にあります =
-
-
-[let name="const._al.th_一ページあたりの数" text="&const._al.th_横に並べる数 *const._al.th_縦に並べる数"]	; この行変更非推奨
-
-; ページボタン表示。leftとtop内の式変更で表示位置変更
-[macro name="_album.put_page_button"]
-	[button enabled=false layer="_syslay.mes" cond="page == mp:page" text="&' Page'+ (mp:page+1) +' '" left="&mp:page *100 +195" top=16]
-	[button layer="_syslay.mes" cond="page != mp:page" text="&' Page'+ (mp:page+1) +' '" style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left="&mp:page *100 +195" top=16 global=true label=*page enterse=&sysse_choice clickse=&sysse_ok1 arg=%page]
-[endmacro]
-
-[macro name="_album.put_grp"]
-	[let name="th" text="&th +'_album_p'+ (page *const._al.th_一ページあたりの数 +mp:x +mp:y *const._al.th_横に並べる数)" cond="mp:exsits"]
-	[let name="th" text="&th +'_album_n'+ (mp:x +mp:y *const._al.th_横に並べる数)" cond="! mp:exsits"]
-[endmacro]
-
-[macro name="_al.put_common"]
-	&x = mp:x *const._al.th_一つ左への移動量 +const._al.th_一つめの左上からの横座標
-	&y = mp:y *const._al.th_一つ下への移動量 +const._al.th_一つめの左上からの縦座標
-	&place = page *const._al.th_一ページあたりの数 +mp:x +mp:y *const._al.th_横に並べる数
-[endmacro]
-
-[macro name="_album.put_img"]
-	[_al.put_common]
-	[button layer="_syslay.mes" pic="Mnu_btnThumb" left=&x top=&y global=true label=*view enterse=&sysse_choice arg=%fn]
-[endmacro]
-
-[macro name="_album.put_bgm"]
-	[_al.put_common]
-	[button layer="_syslay.mes" pic="Mnu_btnThumb" left=&x top=&y global=true label=*bgm enterse=&sysse_choice arg=%fn]
-[endmacro]
-
-[macro name="_album.put_mov"]
-	[_al.put_common]
-	[button layer="_syslay.mes" pic="Mnu_btnThumb" left=&x top=&y global=true label=*mov enterse=&sysse_choice arg=%fn]
-[endmacro]
-
-[macro name="_al.絵の定義"]
-	[_al.put_common *]
-	[add_face name="&'_album_p'+ (mp:x +mp:y *const._al.th_横に並べる数 +mp:page *const._al.th_一ページあたりの数)" dx=&x dy=&y fn="&'th'+ mp:fn"]
-	[let name="&'const._al.def_pic.'+mp:page+'.'+mp:x+'.'+mp:y" text=%fn]
-	[let name="&'const._al.def_cls.'+mp:page+'.'+mp:x+'.'+mp:y" text=%cls|img]
-[endmacro]
 [macro name="アルバム解放"]
-	[let name="&'sys:_album.img.'+ mp:name" text=true]
+	[let name="&'sys:album.'+ mp:name" text=true]
 [endmacro]
-
-;*********************************************************
-[for_call name=y from=0 to="&const._al.th_縦に並べる数-1" label=*_al_miken_row fn=_album]
-
-; === アルバム表示内容改造箇所（ここから）
-; ページ（0〜）と場所（左上がx=0 y=0）、画像名を指定
-;別途サムネイル画像を「th + 画像名」で準備して下さい
-[_al.絵の定義 page=0 x=0 y=0 fn="F_口元"]	; clsなしは画像
-[_al.絵の定義 page=0 x=1 y=0 fn="yun_2352"]
-[_al.絵の定義 page=0 x=2 y=0 fn="yun_1317"]
-[_al.絵の定義 page=0 x=3 y=0 fn="yun_1184"]
-
-[_al.絵の定義 page=0 x=0 y=1 fn="yun_2384"]
-[_al.絵の定義 page=0 x=3 y=1 cls=mov fn="nc10889"]	; 動画
-
-[_al.絵の定義 page=1 x=0 y=0 cls=bgm fn="free32"]	; ＢＧＭ
-[_al.絵の定義 page=1 x=1 y=0 cls=bgm fn="free49"]
-[_al.絵の定義 page=1 x=2 y=0 cls=bgm fn="free61"]
-[_al.絵の定義 page=1 x=3 y=0 cls=bgm fn="free0509"]
-; === アルバム表示内容改造箇所（ここまで）
-
-
 [return]
-
-
-;-----------------------------------------------------------
-*_al_miken_row
-	[for_call name=x from=0 to="&const._al.th_横に並べる数-1" label=*_al_miken_cell fn=_album]
-[return]
-
-;-----------------------------
-*_al_miken_cell
-	[_al.put_common x=&for_call_idx.x y=&for_call_idx.y]
-	[add_face name="&'_album_n'+ (for_call_idx.x +for_call_idx.y *const._al.th_横に並べる数)" dx=&x dy=&y fn="_album_miken"]
-[return]
-;-----------------------------------------------------------
-
 
 
 ;*********************************************************
 *title_album
 	[enable_event enabled=false]
-	[current layer="_syslay.mes"]
 	[clear_event]
 
-	[let name="page" text=0]
-	[let name="buf_num" text=0]
-	[lay layer="_syslay.bg" fn="_album" visible=false]
-	&is_init = true
-	[lay layer="_syslay.0" visible=false float=true]
-	[lay layer="_syslay.1" visible=false float=true]
-	[let name="buf_page.0" text=-999]
-	[let name="buf_page.1" text=-999]
-	[let name="buf_slide_x" text=0]
-	[let name="同画面遷移か" text=false]
+	; 下部からスライドイン
+	[frame id=album visible=true y=&const.sn.frm.album.height]
+	[tsy_frame id=album time=500 y=0]
+	[wait_tsy id=album]
 
-*chg_page
-	[enable_event layer="_syslay.mes" enabled=false]
-	[clear_lay layer="_syslay.mes" page=back]
-	[lay layer="_syslay.mes" page=back visible=true float=true]
-
-	[for_call name=i from=0 to="&const._al.ページ数-1" label=*put_page_button fn=_album]
-
-	[let name="_buf_other" text="&'_syslay.'+ (1 -buf_num)"]
-	[jump label=*no_redraw_grp cond="buf_page[buf_num] == page"]
-	[let name="th" text=""]
-		[for_call name=y from=0 to="&const._al.th_縦に並べる数-1" label=*page_n_grp_row fn=_album]
-	[lay layer=&_buf_other fn="dummy" face=&th]
-	[let name="&'buf_page.'+ buf_num" text=&page]
-
-*no_redraw_grp
-		[for_call name=y from=0 to="&const._al.th_縦に並べる数-1" label=*page_n_btn_row fn=_album]
-	[lay layer=&_buf_other left=&buf_slide_x top=0 visible=true]
-		[tsy layer="&'_syslay.'+ buf_num" time=400 x=&-buf_slide_x ease=Cubic.Out cond="同画面遷移か"]
-		[tsy layer=&_buf_other time=400 x=0 y=0 ease=Cubic.Out cond="同画面遷移か"]
-		[wait_tsy layer="_syslay.0" backlay=true canskip=false]
-		[wait_tsy layer="_syslay.1" backlay=true canskip=false]
-	[lay layer="&'_syslay.'+ buf_num" visible=false]
-
-	[let name="buf_num" text="&1 -buf_num"]
-
-	[button layer="_syslay.mes" text=" Return " style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
-	[trans layer="_syslay.mes" time=0]
-	[wt]
-	[let name="同画面遷移か" text=true]
-
-	[zoom_tsy layer="_syslay.bg" time=400 visible=true cond=is_init]
-	&is_init = false
-
-*no_chg_page
-	[event key=rightclick label=*cancel]
-	[event key=command label=*cancel]
-	[event key=control label=*cancel]
-	[event key=end label=*cancel]
-	[event key=shift label=*cancel]
-;	[gesture_event f2tap=*cancel f3tap=*cancel]
-	[event key=page_up label=*left]
-	[event key=page_down label=*right]
-	[event key=downwheel label=*left]
-	[event key=upwheel label=*right]
-	[enable_event layer="_syslay.mes" enabled=true]
+	[event key=rightclick label=*exit]
+	[event key=command label=*exit]
+	[event key=control label=*exit]
+	[event key=end label=*exit]
+	[event key=shift label=*exit]
+;	[gesture_event f2tap=*exit f3tap=*exit]
 	[set_focus to=null]
 [s]
 
 ;*********************************************************
-*put_page_button
-	[_album.put_page_button page=&for_call_idx.i]
-[return]
-
-;*********************************************************
-*swipe
-	[jump label=*left cond="sn.eventArg == 'l'"]
-	[jump label=*right cond="sn.eventArg == 'r'"]
-	[jump label=*last cond="sn.eventArg == 'u'"]
-	[jump label=*top cond="sn.eventArg == 'd'"]
-[jump label=*chg_page]
-
-*last
-	[jump label=*no_chg_page cond="page == const._al.ページ数-1"]
-	[let name="page" text=&const._al.ページ数-1]
-	[jump label=*left_sub]
-
-*left
-	[jump label=*no_chg_page cond="page == const._al.ページ数-1"]
-	[let name="page" text="&page +1" cast=int]
-*left_sub
-	[let name="buf_slide_x" text=&const.sn.config.window.width]
-[jump label=*chg_page]
-
-*top
-	[jump label=*no_chg_page cond="page == 0"]
-	[let name="page" text=0]
-	[jump label=*right_sub]
-
-*right
-	[jump label=*no_chg_page cond="page == 0"]
-	[let name="page" text="&page -1" cast=int]
-*right_sub
-	[let name="buf_slide_x" text=&-const.sn.config.window.width]
-[jump label=*chg_page]
-
-;*********************************************************
-*page
-	[let name="old_page" text=&page]
-	[let name="page" text=&sn.eventArg]
-	[jump label=*left_sub cond="old_page < page"]
-	[jump label=*right_sub]
-
-;*********************************************************
-*page_n_grp_row
-	[for_call name=x from=0 to="&const._al.th_横に並べる数-1" label=*page_n_grp_cell fn=_album]
-[return]
-
-;-----------------------------
-*page_n_grp_cell
-	&def_pic = const._al.def_pic[page][for_call_idx.x][for_call_idx.y]
-	[return cond="def_pic == null"]
-
-	[let name="th" text="&th +','" cond="th != ''"]
-	[_album.put_grp x=&for_call_idx.x y=&for_call_idx.y exsits="&sys:_album.img[def_pic]"]
-[return]
-
-;-----------------------------------------------------------
-*page_n_btn_row
-	[for_call name=x from=0 to="&const._al.th_横に並べる数-1" label=*page_n_btn_cell fn=_album]
-[return]
-
-;-----------------------------
-*page_n_btn_cell
-	&def_pic = const._al.def_pic[page][for_call_idx.x][for_call_idx.y]
-	[return cond="def_pic == null"]
-	[return cond="sys:_album.img[def_pic] == null"]
-
-	&def_cls = const._al.def_cls[page][for_call_idx.x][for_call_idx.y]
-	[_album.put_img x=&for_call_idx.x y=&for_call_idx.y fn=&def_pic cond="def_cls=='img'"]
-	[_album.put_bgm x=&for_call_idx.x y=&for_call_idx.y fn=&def_pic cond="def_cls=='bgm'"]
-	[_album.put_mov x=&for_call_idx.x y=&for_call_idx.y fn=&def_pic cond="def_cls=='mov'"]
-[return]
-
-;*********************************************************
-*view
-	[enable_event layer="_syslay.mes" enabled=false]
-	[se fn=&sysse_ok1 buf=SYS]
-	[lay layer="_syslay.2" fn=&sn.eventArg visible=false]
-		[zoom_tsy layer="_syslay.2" visible=true float=true time=500]
-		[wait_tsy layer="_syslay.2" arrive=true canskip=false]
-
-	[event key=rightclick label=*view_exit]
-	[event key=command label=*view_exit]
-	[event key=control label=*view_exit]
-	[event key=end label=*view_exit]
-	[event key=shift label=*view_exit]
-	[waitclick]
-
-*view_exit
-	[se fn=&sysse_cancel buf=SYS]
-		[zoom_tsy layer="_syslay.2" visible=false time=400]
-		[wait_tsy layer="_syslay.2" arrive=true canskip=false]
-		[clear_lay layer="_syslay.2"]
-	[set_focus to=null]
-	[jump label=*no_chg_page]
-
-;*********************************************************
-*bgm
-	[se fn=&sysse_ok1 buf=SYS]
-
-	[bgm fn="&sn.eventArg" time=1000]
-	[let name="bgm_fn" text="&sn.eventArg"]
-
-	[set_focus to=null]
-	[jump label=*no_chg_page]
-
-;*********************************************************
-*mov
-	[enable_event layer="_syslay.mes" enabled=false]
-		[let name=bgm_fn text=&save:const.sn.fnBgm]
-		[fadeoutbgm time=500]
-	[se fn=&sysse_ok1 buf=SYS]
-	[add_lay layer=mov class=mov cond=const.sn.lay.mov.fore.visible==null]
-	[lay layer="_syslay.2" fn=black visible=false]
-		[zoom_tsy layer="_syslay.2" visible=true float=true time=500]
-		[wait_tsy layer="_syslay.2" arrive=true canskip=false]
-	[lay layer=mov fn="&sn.eventArg" visible=true float=true]
-
-	[event key=rightclick label=*mov_exit]
-	[event key=command label=*mov_exit]
-	[event key=control label=*mov_exit]
-	[event key=end label=*mov_exit]
-	[event key=shift label=*mov_exit]
-	[wv]
-
-*mov_exit
-	[se fn=&sysse_cancel buf=SYS]
-		[clear_lay layer="_syslay.2"]
-		[zoom_tsy layer=mov visible=false time=400]
-		[wait_tsy layer=mov arrive=true canskip=false]
-		[clear_lay layer=mov]
-	[set_focus to=null]
-		[bgm fn="&bgm_fn" time=200]
-	[jump label=*no_chg_page]
-
-;*********************************************************
-*cancel
-	[se fn=&sysse_cancel buf=SYS]
 *exit
-	[lay layer="_syslay.mes" page=fore visible=false]
-	[lay layer="_syslay.mes" page=back visible=false]
-	[clear_lay layer="_syslay.mes" page=both]
+	[se fn=&sysse_cancel buf=SYS]
 
-	[lay layer="_syslay.0" visible=false]
-	[lay layer="_syslay.1" visible=false]
-	[lay layer="_syslay.2" visible=false]
-	[clear_lay layer="_syslay.0"]
-	[clear_lay layer="_syslay.1"]
-	[clear_lay layer="_syslay.2"]
-	[zoom_tsy layer="_syslay.bg" visible=false time=400]
+	[tsy_frame id=album time=500 y=&const.sn.frm.album.height]
+	[wait_tsy id=album]
+	[frame id=album visible=false]
 
-	[current layer="mes"]
 	[enable_event enabled=true]
 	[set_focus to=null]
 [return]
