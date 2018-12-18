@@ -5,34 +5,75 @@
 <style type="text/css">
 	html {user-select: none; -webkit-user-select: none;}	/* 選択禁止 */
 	.card .card-title {margin-left: 0.5em;}		/* 微調整 */
+
+	/* 複数行で「text-overflow: ellipsis;」みたいなことをする方法色々。 | blue sky IT https://www.aozora-blog.com/2018/07/22/post-151/ */
+	.multiline-text {
+		background: white;
+		position: relative;
+		max-height: 6em;	/* 4行 * 1.5 */
+		overflow: hidden;
+		text-align: unset;
+	}
+	.multiline-text:before,
+	.multiline-text:after {
+		position: absolute;
+		background: white;
+	}
+	.multiline-text:before {
+		content: "...";
+		bottom: 0;
+		right: 0;
+	}
+	.multiline-text:after {
+		content: "";
+		height: 100%;
+		width: 100%;
+	}
 </style>
 <script defer src="../lib/materialize.min.js"></script>
 <script>
+	var base_dir = '../bgimage/';
 	const a = [	// セーブデータの内容
-		{"fn": "../bgimage/yun_1184.jpg", "title": "2018/12/18 11:40", "txt": "A bunch of text 0"},
-		{"fn": "../bgimage/yun_1317.jpg", "title": "2018/12/18 11:41", "txt": "A bunch of text 1"},
-		{"fn": "../bgimage/yun_2352.jpg", "title": "2018/12/18 11:42", "txt": "A bunch of text 2"},
-		{"fn": "../bgimage/yun_2384.jpg", "title": "2018/12/18 11:43", "txt": "A bunch of text 3"},
-		{"fn": "../fgimage/F_口元.jpg", "title": "2018/12/18 11:44", "txt": "A bunch of text 4"},
+		{"fn": "yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
+		{"fn": "yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
+		{"fn": "yun_2352.jpg", "dt": "2018/12/18 11:42", "txt": "  This is not justified test message. This is written many words and cut last sentence."},
+		{"fn": "yun_2384.jpg", "dt": "2018/12/18 11:43", "txt": "　この渓間ではなにも俺をよろこばすものはない。鶯《うぐひす》や四十雀《しじふから》も、白い日光をさ青に煙らせてゐる木の若芽も、ただそれだけでは、もうろうとした心象に過ぎない。俺には惨劇が必要なんだ。その平衡があつて、はじめて俺の心象は明確になつて来る。俺の心は悪鬼のやうに憂欝に渇いてゐる。俺の心に憂欝が完成するときにばかり、俺の心は和《なご》んで来る。"},
+		{"fn": "yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
 	];
 	document.addEventListener('DOMContentLoaded', ()=> {
+		const modal = document.getElementsByClassName('modal')[0];
+		M.Modal.init(modal);
+		const txt = document.getElementById('txt');
+
 		const lst = document.getElementsByClassName('row')[0];
 		a.forEach((v, i)=> {
 			lst.insertAdjacentHTML('beforeend', `
 <div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
 	<div class="card">
 	<div class="card-image waves-effect waves-block waves-light">
-		<img src="${v.fn}" onclick="this.modal()">
+		<img src="${base_dir + v.fn}" id="d${i}" class="modal-trigger" href="#modal_q">
 	</div>
-	<span class="card-title">${v.title}</span>
+	<span class="card-title">${v.dt}</span>
+	<p class="multiline-text">${v.txt}</p>
 	</div>
 </div>`);
+			const elm = document.getElementById(`d${i}`);
+			elm.addEventListener('click', e=> {
+
+				//e.target.classList.add('pulse');
+
+				return false;
+			});
 		});
-		M.Materialbox.init(document.querySelectorAll('.modal'));
 	}, false);
 
 	function val2ctrl() {	// 変数→コンポーネント
-		document.getElementById('title').textContent = val_title;
+		document.getElementsByClassName('title').textContent = val_title;
+	}
+
+	function do_loadsave() {
+		;
+		return false;
 	}
 
 </script>
@@ -40,24 +81,20 @@
 <body class="blue-grey lighten-4" oncontextmenu="return false;">
 	<div class="navbar-fixed"><nav class="blue-grey darken-1" role="navigation">
 		<div class="nav-wrapper container">
-			<span class="brand-logo center"><span id="title">ロード</span>画面</span>
+			<span class="brand-logo center"><span class="title">ロード</span>画面</span>
 			<a class="waves-effect waves-light btn grey" id="close">x</a>
-			</div>
+		</div>
 	</nav></div>
 
 	<div class="row"></div>
 
-
-	<a class="waves-effect waves-light btn modal-trigger" href="#modal2">Modal</a>
-
-	<div id="modal2" class="modal">
+	<div id="modal_q" class="modal">
 		<div class="modal-content">
-			<h4>ロードしますか？</h4>
-			<p>A bunch of text</p>
+			<h4><span class="title">ロード</span>しますか？</h4>
 		</div>
 		<div class="modal-footer">
-			<a href="#!" class="modal-close waves-effect waves-green btn-flat">ロードする</a>
-			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+			<a class="modal-close waves-effect waves-green btn-flat" onclick="do_loadsave()"><span class="title">ロード</span>する</a>
+			<a class="modal-close waves-effect waves-green btn-flat" onclick="return false">Cancel</a>
 		</div>
 	</div>
 
