@@ -79,7 +79,7 @@ export class EventMng implements IEvtMng {
 		this.hHamEv['tap2'] = null;
 		for (const key in this.hHamEv) {
 			const fnc = this.hHamEv[key] = e=> {
-				val.defTmp('sn.eventArg', e.type);
+				val.defTmp('sn.eventArg.type', e.type);
 				val.defTmp('sn.eventArg.pointers', e.pointers);
 				this.defEvt2Fnc(e, e.type);
 			}
@@ -370,7 +370,7 @@ export class EventMng implements IEvtMng {
 			if (idx >= 0) {		// key='dom=config:#ctrl2val
 				const name = key.slice(4, idx);
 				const frmnm = `const.sn.frm.${name}`;
-				if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`HTML【${name}】が読み込まれていません`);
+				if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `HTML【${name}】が読み込まれていません`;
 
 				const ifrm = document.getElementById(name) as HTMLIFrameElement;
 				const win = ifrm.contentWindow;
@@ -385,7 +385,13 @@ export class EventMng implements IEvtMng {
 				? ['input', 'change']
 				: ['click'])
 				.forEach(v=> {
-					for (const elm of elmlist) this.elc.add(elm, v, e=> this.defEvt2Fnc(e, key));
+					for (const elm of elmlist) this.elc.add(elm, v, e=> {
+						const e2 = (elm as HTMLElement).dataset;
+						for (const key in e2) {
+							if (e2.hasOwnProperty(key)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
+						}
+						this.defEvt2Fnc(e, key);
+					});
 				});
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
 		}

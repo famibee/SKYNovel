@@ -4,13 +4,18 @@
 
 	[add_frame id=album src="album/_album.htm" visible=false]
 
-	[event key='dom=album:#close' label=*exit global=true need_err=false]
+	[event key='dom=album:#close' label=*exit global=true]
+	[event key='dom=album:.bgm' label=*bgm global=true call=true]
 
 [macro name="アルバム解放"]
 	[let name="&'sys:album.'+ mp:name" text=true]
 [endmacro]
 [return]
 
+;*********************************************************
+*bgm
+	[playbgm fn=&sn.event.domdata.arg]
+[return]
 
 ;*********************************************************
 *title_album

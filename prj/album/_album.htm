@@ -8,8 +8,6 @@
 </style>
 <script defer src="../lib/materialize.min.js"></script>
 <script>
-	var playbgm = fn=> {console.log(`playbgm:${fn}`);};
-
 	const a = [	// アルバムの内容
 		{"type": "pic", "fn": "../bgimage/yun_1184.jpg", "title": "川辺"},
 		{"type": "pic", "fn": "../bgimage/yun_1317.jpg", "title": "水中"},
@@ -48,7 +46,7 @@
 					elm = `
 	<div class="card">
 	<div class="card-image">
-		<img src="thbgm.jpg" onclick="playbgm('${v.fn}')">
+		<img src="thbgm.jpg" class="bgm" data-arg="${v.fn}">
 	</div>`;
 					break;
 			}

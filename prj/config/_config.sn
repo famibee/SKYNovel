@@ -40,7 +40,7 @@
 
 
 *resv_event
-	[event key='dom=config:#close' label=*exit global=true need_err=false]
+	[event key='dom=config:#close' label=*exit global=true]
 
 	[event global=true call=true key=c label=*keycall_config]
 ;	[event global=true call=true key=t label=*text_back_alpha_sub]
@@ -49,28 +49,28 @@
 ;	[event global=true call=true key=i label=*text_auto_msecwait_add]
 
 	; バック不透明度
-	[event key='dom=config:#sldBackAlpha' label=*sldBackAlpha global=true call=true need_err=false]
+	[event key='dom=config:#sldBackAlpha' label=*sldBackAlpha global=true call=true]
 	; 通常文字表示待ち
-	[event key='dom=config:#sldChWaitMsec' label=*sldChWaitMsec global=true call=true need_err=false]
-		[event key='dom=config:#chkChDoWait' label=*chkChDoWait global=true call=true need_err=false]
-	[event key='dom=config:#sldAutoLWaitMsec' label=*sldAutoLWaitMsec global=true call=true need_err=false]
-	[event key='dom=config:#sldAutoPWaitMsec' label=*sldAutoPWaitMsec global=true call=true need_err=false]
+	[event key='dom=config:#sldChWaitMsec' label=*sldChWaitMsec global=true call=true]
+		[event key='dom=config:#chkChDoWait' label=*chkChDoWait global=true call=true]
+	[event key='dom=config:#sldAutoLWaitMsec' label=*sldAutoLWaitMsec global=true call=true]
+	[event key='dom=config:#sldAutoPWaitMsec' label=*sldAutoPWaitMsec global=true call=true]
 
 	; 既読文字表示待ち
-	[event key='dom=config:#sldChWaitMsec_Kidoku' label=*sldChWaitMsec_Kidoku global=true call=true need_err=false]
-		[event key='dom=config:#chkChDoWait_Kidoku' label=*chkChDoWait_Kidoku global=true call=true need_err=false]
-	[event key='dom=config:#sldAutoLWaitMsec_Kidoku' label=*sldAutoLWaitMsec_Kidoku global=true call=true need_err=false]
-	[event key='dom=config:#sldAutoPWaitMsec_Kidoku' label=*sldAutoPWaitMsec_Kidoku global=true call=true need_err=false]
+	[event key='dom=config:#sldChWaitMsec_Kidoku' label=*sldChWaitMsec_Kidoku global=true call=true]
+		[event key='dom=config:#chkChDoWait_Kidoku' label=*chkChDoWait_Kidoku global=true call=true]
+	[event key='dom=config:#sldAutoLWaitMsec_Kidoku' label=*sldAutoLWaitMsec_Kidoku global=true call=true]
+	[event key='dom=config:#sldAutoPWaitMsec_Kidoku' label=*sldAutoPWaitMsec_Kidoku global=true call=true]
 
 	; 音量
-	[event key='dom=config:#sldVolGlobal' label=*sldVolGlobal global=true call=true need_err=false]
-	[event key='dom=config:#sldVolBgm' label=*sldVolBgm global=true call=true need_err=false]
-	[event key='dom=config:#sldVolVoice' label=*sldVolVoice global=true call=true need_err=false]
-	[event key='dom=config:#sldVolSe' label=*sldVolSe global=true call=true need_err=false]
-	[event key='dom=config:#sldVolSys' label=*sldVolSys global=true call=true need_err=false]
+	[event key='dom=config:#sldVolGlobal' label=*sldVolGlobal global=true call=true]
+	[event key='dom=config:#sldVolBgm' label=*sldVolBgm global=true call=true]
+	[event key='dom=config:#sldVolVoice' label=*sldVolVoice global=true call=true]
+	[event key='dom=config:#sldVolSe' label=*sldVolSe global=true call=true]
+	[event key='dom=config:#sldVolSys' label=*sldVolSys global=true call=true]
 
 	; 画面モード
-	[event key='dom=config:#chkScrMode' label=*chkScrMode global=true call=true need_err=false]
+	[event key='dom=config:#chkScrMode' label=*chkScrMode global=true call=true]
 [return]
 
 
