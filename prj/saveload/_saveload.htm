@@ -91,7 +91,7 @@
 				val_place = e.target.dataset.id;
 				if (e.target.dataset.nomodal) {	// モーダル確認は不要
 					doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
-					return;
+					return false;
 				}
 				document.getElementById('modal_mes').textContent =
 				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
