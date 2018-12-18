@@ -4,8 +4,28 @@
 
 	[add_frame id=album src="album/_album.htm" visible=false]
 
-	[event key='dom=album:#close' label=*exit global=true]
+	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm]
+	; アルバム表示内容（ここをカスタマイズ。json形式で記述）
+[let_ml name=dic]
+	[
+		{"type": "pic", "fn": "../bgimage/yun_1184.jpg", "title": "川辺"},
+		{"type": "pic", "fn": "../bgimage/yun_1317.jpg", "title": "水中"},
+		{"type": "pic", "fn": "../bgimage/yun_2352.jpg", "title": "桜1"},
+		{"type": "pic", "fn": "../bgimage/yun_2384.jpg", "title": "桜2"},
+		{"type": "pic", "fn": "../fgimage/F_口元.jpg", "title": "語り手"},
+		{"type": "mov", "fn": "nc10889.mp4", "title": "桜"},
+		{"type": "bgm", "fn": "free32", "title": "free32(BGM)"},
+		{"type": "bgm", "fn": "free49", "title": "free49(BGM)"},
+		{"type": "bgm", "fn": "free61", "title": "free61(BGM)"},
+		{"type": "bgm", "fn": "free0509", "title": "free0509(BGM)"}
+	]
+[endlet_ml]
+	[set_frame id=album var_name=val_dic text=&dic]
+	[let_frame id=album var_name=init function=true]
+
 	[event key='dom=album:.bgm' label=*bgm global=true call=true]
+	[event key='dom=album:#close' label=*exit global=true]
+
 
 [macro name="アルバム解放"]
 	[let name="&'sys:album.'+ mp:name" text=true]

@@ -8,8 +8,8 @@
 </style>
 <script defer src="../lib/materialize.min.js"></script>
 <script>
-	const a = [	// アルバムの内容
-		{"type": "pic", "fn": "../bgimage/yun_1184.jpg", "title": "川辺"},
+	let a = [	// アルバムの内容
+		{"type": "pic", "fn": "../bgimage/yun_1184.jpg", "title": "川辺dummy"},
 		{"type": "pic", "fn": "../bgimage/yun_1317.jpg", "title": "水中"},
 		{"type": "pic", "fn": "../bgimage/yun_2352.jpg", "title": "桜1"},
 		{"type": "pic", "fn": "../bgimage/yun_2384.jpg", "title": "桜2"},
@@ -21,6 +21,13 @@
 		{"type": "bgm", "fn": "free0509", "title": "free0509(BGM)"},
 	];
 	document.addEventListener('DOMContentLoaded', ()=> {
+		if (location.protocol == 'file:') init();	// ローカルデバッグ用
+	}, false);
+
+	var val_dic = null;
+	function init() {
+		if (val_dic) a = JSON.parse(val_dic);
+
 		const lst = document.getElementsByClassName('row')[0];
 		a.forEach((v, i)=> {
 			// 表示処理
@@ -57,7 +64,7 @@
 </div>`);
 		});
 		M.Materialbox.init(document.querySelectorAll('.materialboxed'));
-	}, false);
+	}
 
 	function val2ctrl() {	// 変数→コンポーネント
 		document.getElementById('fnBgm').textContent = val_fnBgm;
