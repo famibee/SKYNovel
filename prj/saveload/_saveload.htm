@@ -46,15 +46,15 @@
 	}, false);
 
 	var val_dic = null;
-	//var val_mode = 'Load';
-	var val_mode = 'Save';
+	var val_mode = 'Load';
+	//var val_mode = 'Save';
 	var val_place = 0;
 	function val2ctrl() {	// 変数→コンポーネント
 		if (val_dic) a = JSON.parse(val_dic);
 
-		document.getElementsByClassName('title').textContent = (val_mode == 'Load')
-			? 'ロード'
-			: 'セーブ';
+		const title = (val_mode == 'Load') ?'ロード' :'セーブ';
+		Array.from(document.getElementsByClassName('title'))
+		.forEach(v=> v.textContent = title);
 
 		const lst = document.getElementsByClassName('row')[0];
 		lst.textContent = null;
