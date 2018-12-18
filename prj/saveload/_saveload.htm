@@ -1,0 +1,64 @@
+<!doctype html><html lang="ja">
+<head><meta charset="utf-8"/><title>&nbsp;</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../lib/materialize.min.css">
+<style type="text/css">
+	html {user-select: none; -webkit-user-select: none;}	/* 選択禁止 */
+	.card .card-title {margin-left: 0.5em;}		/* 微調整 */
+</style>
+<script defer src="../lib/materialize.min.js"></script>
+<script>
+	const a = [	// セーブデータの内容
+		{"fn": "../bgimage/yun_1184.jpg", "title": "2018/12/18 11:40", "txt": "A bunch of text 0"},
+		{"fn": "../bgimage/yun_1317.jpg", "title": "2018/12/18 11:41", "txt": "A bunch of text 1"},
+		{"fn": "../bgimage/yun_2352.jpg", "title": "2018/12/18 11:42", "txt": "A bunch of text 2"},
+		{"fn": "../bgimage/yun_2384.jpg", "title": "2018/12/18 11:43", "txt": "A bunch of text 3"},
+		{"fn": "../fgimage/F_口元.jpg", "title": "2018/12/18 11:44", "txt": "A bunch of text 4"},
+	];
+	document.addEventListener('DOMContentLoaded', ()=> {
+		const lst = document.getElementsByClassName('row')[0];
+		a.forEach((v, i)=> {
+			lst.insertAdjacentHTML('beforeend', `
+<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
+	<div class="card">
+	<div class="card-image waves-effect waves-block waves-light">
+		<img src="${v.fn}" onclick="this.modal()">
+	</div>
+	<span class="card-title">${v.title}</span>
+	</div>
+</div>`);
+		});
+		M.Materialbox.init(document.querySelectorAll('.modal'));
+	}, false);
+
+	function val2ctrl() {	// 変数→コンポーネント
+		document.getElementById('title').textContent = val_title;
+	}
+
+</script>
+</head>
+<body class="blue-grey lighten-4" oncontextmenu="return false;">
+	<div class="navbar-fixed"><nav class="blue-grey darken-1" role="navigation">
+		<div class="nav-wrapper container">
+			<span class="brand-logo center"><span id="title">ロード</span>画面</span>
+			<a class="waves-effect waves-light btn grey" id="close">x</a>
+			</div>
+	</nav></div>
+
+	<div class="row"></div>
+
+
+	<a class="waves-effect waves-light btn modal-trigger" href="#modal2">Modal</a>
+
+	<div id="modal2" class="modal">
+		<div class="modal-content">
+			<h4>ロードしますか？</h4>
+			<p>A bunch of text</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">ロードする</a>
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+		</div>
+	</div>
+
+</body></html>

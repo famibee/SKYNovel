@@ -14,18 +14,18 @@ import TWEEN = require('@tweenjs/tween.js');
 export class FrameMng {
 	constructor(hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private sys: SysBase, private hTwInf: {[name: string]: ITwInf}) {
 		//	HTMLフレーム
-		hTag.add_frame		= o=> this.add_frame(o);	// HTMLフレーム追加
-		hTag.let_frame		= o=> this.let_frame(o);	// HTML要素を取得
-		hTag.set_frame		= o=> this.set_frame(o);	// HTML要素に設定
-		hTag.frame			= o=> this.frame(o);		// HTMLフレームに設定
-		hTag.tsy_frame		= o=> this.tsy_frame(o);	// HTMLフレームトゥイーン開始
+		hTag.add_frame		= o=> this.add_frame(o);	// フレーム追加
+		hTag.let_frame		= o=> this.let_frame(o);	// フレーム変数を取得
+		hTag.set_frame		= o=> this.set_frame(o);	// フレーム変数に設定
+		hTag.frame			= o=> this.frame(o);		// フレームに設定
+		hTag.tsy_frame		= o=> this.tsy_frame(o);	// フレームをトゥイーン開始
 	}
 
 	private evtMng	: IEvtMng	= null;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 
 	//	HTMLフレーム
-	// HTMLフレーム追加
+	// フレーム追加
 	private add_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
@@ -75,7 +75,7 @@ export class FrameMng {
 		return true;
 	}
 
-	// HTML要素を取得
+	// フレーム変数を取得
 	private let_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
@@ -100,7 +100,7 @@ export class FrameMng {
 		return false;
 	}
 
-	// HTML要素に設定
+	// フレーム変数に設定
 	private set_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
@@ -122,7 +122,7 @@ export class FrameMng {
 		return false;
 	}
 
-	// HTMLフレームに設定
+	// フレームに設定
 	private frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
@@ -169,7 +169,7 @@ export class FrameMng {
 		return false;
 	}
 
-	// HTMLフレームをトゥイーン開始
+	// フレームをトゥイーン開始
 	private tsy_frame(hArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
