@@ -13,14 +13,16 @@
 [return]
 
 ;*********************************************************
-*bgm
-	[playbgm fn=&sn.event.domdata.arg]
-	[call label=*val2ctrl]
-[return]
-
+; 最新値で更新
 *val2ctrl
 	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm]
 	[let_frame id=album var_name=val2ctrl function=true]
+[return]
+
+; BGM切り替え
+*bgm
+	[playbgm fn=&sn.event.domdata.arg]
+	[call label=*val2ctrl]
 [return]
 
 ;*********************************************************
@@ -28,8 +30,8 @@
 	[enable_event enabled=false]
 	[clear_event]
 
+	; 最新値で更新
 	[call label=*val2ctrl]
-
 	; 下部からスライドイン
 	[frame id=album visible=true y=&const.sn.frm.album.height]
 	[tsy_frame id=album time=500 y=0]

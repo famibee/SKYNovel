@@ -58,12 +58,7 @@
 	</div>
 </div>`);
 			const elm = document.getElementById(`d${i}`);
-			elm.addEventListener('click', e=> {
-
-				//e.target.classList.add('pulse');
-
-				return false;
-			});
+			elm.addEventListener('click', e=> {place = e.target.id; return false;});
 		});
 	}, false);
 
@@ -71,14 +66,16 @@
 		document.getElementsByClassName('title').textContent = val_title;
 	}
 
+	var place = 0;
 	function do_loadsave() {
+console.log(`place:${place}`);
 		;
 		return false;
 	}
 
 </script>
 </head>
-<body class="blue-grey lighten-4" oncontextmenu="return false;">
+<body class="blue-grey lighten-4" oncontextmenu="return false">
 	<div class="navbar-fixed"><nav class="blue-grey darken-1" role="navigation">
 		<div class="nav-wrapper container">
 			<span class="brand-logo center"><span class="title">ロード</span>画面</span>

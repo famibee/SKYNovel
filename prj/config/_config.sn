@@ -3,11 +3,12 @@
 	&const.config.inited = true
 
 	[add_frame id=config src="config/_config.htm" visible=false]
-	[call label=*val2ctrl]
 	[call label=*resv_event]
 [return]
 
 
+;*********************************************************
+; 最新値で更新
 *val2ctrl
 	; アプリバージョン
 	[set_frame id=config var_name=val_version text=&const.sn.config.book.version@str]
@@ -74,6 +75,7 @@
 [return]
 
 
+;*********************************************************
 ; バック不透明度
 *sldBackAlpha
 	[let_frame id=config var_name=val_sldBackAlpha]
@@ -218,7 +220,7 @@
 	[enable_event enabled=false]
 	[clear_event]
 
-	; 設定画面を最新値で更新
+	; 最新値で更新
 	[call label=*val2ctrl]
 	; 下部からスライドイン
 	[frame id=config visible=true y=&const.sn.frm.config.height]

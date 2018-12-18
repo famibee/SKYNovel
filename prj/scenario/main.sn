@@ -28,7 +28,6 @@
 ;	[update_check url="http://ugainovel.ddo.jp/UnderCherry/ver.xml" cond="! const.flash.system.Capabilities.isDebugger"]
 
 	[call fn="sub"]
-	[call fn=_config]	; （HTMLレイヤ初期化遅いので）早めにロード
 	[call fn="_yesno"]
 
 [char2macro char=@ name=l]
