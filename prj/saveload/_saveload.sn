@@ -5,20 +5,21 @@
 	[add_frame id=saveload src="saveload/_saveload.htm" visible=false]
 
 	[event key='dom=saveload:#close' label=*exit global=true]
+;	[set_frame id=saveload var_name=val_base_dir text='app-storage://〜/']
 [return]
-
 
 ;*********************************************************
 ; 最新値で更新
 *val2ctrl
+	[let_frame id=saveload var_name=val2ctrl function=true]
 [return]
-
 
 ;*********************************************************
 ;	TitleMenu -> Load
 *title_load
 	[let name="しおりモード" text="Load"]
 	[let name="呼び元" text="Title"]
+	[set_frame id=saveload var_name=val_mode text=&しおりモード]
 [jump label=*main]
 
 ;*********************************************************
@@ -28,6 +29,7 @@
 
 	[let name="しおりモード" text="Load"]
 	[let name="呼び元" text="Text"]
+	[set_frame id=saveload var_name=val_mode text=&しおりモード]
 [jump label=*main]
 
 ;*********************************************************
@@ -37,6 +39,7 @@
 
 	[let name="しおりモード" text="Save"]
 	[let name="呼び元" text="Text"]
+	[set_frame id=saveload var_name=val_mode text=&しおりモード]
 [jump label=*main]
 
 ;*********************************************************

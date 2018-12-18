@@ -31,8 +31,9 @@
 	}
 </style>
 <script defer src="../lib/materialize.min.js"></script>
+<script defer src="../lib/store.legacy.min.js"></script>
 <script>
-	var base_dir = '../bgimage/';
+	var val_base_dir = '../bgimage/';
 	const a = [	// セーブデータの内容
 		{"fn": "yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
 		{"fn": "yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
@@ -51,7 +52,7 @@
 <div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
 	<div class="card">
 	<div class="card-image waves-effect waves-block waves-light">
-		<img src="${base_dir + v.fn}" id="d${i}" class="modal-trigger" href="#modal_q">
+		<img src="${val_base_dir + v.fn}" id="d${i}" class="modal-trigger" href="#modal_q">
 	</div>
 	<span class="card-title">${v.dt}</span>
 	<p class="multiline-text">${v.txt}</p>
@@ -60,10 +61,18 @@
 			const elm = document.getElementById(`d${i}`);
 			elm.addEventListener('click', e=> {place = e.target.id; return false;});
 		});
+
+		const sys = store.get('com.fc2.blog38.famibee.skynovel.uc - sys');
+console.log(`store:%o`, sys);
+
+
 	}, false);
 
+	var val_mode = 'load';
 	function val2ctrl() {	// 変数→コンポーネント
-		document.getElementsByClassName('title').textContent = val_title;
+		document.getElementsByClassName('title').textContent = (val_mode == 'Load')
+			? 'ロード'
+			: 'セーブ';
 	}
 
 	var place = 0;
