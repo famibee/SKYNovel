@@ -34,9 +34,6 @@
 		document.getElementById('version').textContent = val_version;
 		drawSampleView();
 
-		const ev = document.createEvent('MouseEvents'); // イベントオブジェクトを作成
-		ev.initEvent('input', false, true); // イベントの内容を設定
-
 		const sld2 = document.getElementsByClassName('sn_sld');
 		for (let i=0, max=sld2.length; i<max; ++i) {
 			const e = sld2[i];

@@ -40,7 +40,7 @@
 		"@types/tween.js": "^16.9.0",
 		"@types/xml2js": "^0.4.3",
 		"@types/xregexp": "^3.0.29",
-		"electron": "^3.0.12",
+		"electron": "^3.0.13",
 		"electron-installer-dmg": "^2.0.0",
 		"electron-packager": "^13.0.1",
 		"electron-wix-msi": "^2.1.1",
