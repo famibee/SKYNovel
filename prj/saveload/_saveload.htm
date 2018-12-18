@@ -52,10 +52,10 @@
 	}, false);
 
 	var val_dic = null;
-//	var val_caller = 'Title';
-	var val_caller = 'Text';
-	var val_mode = 'Load';
-//	var val_mode = 'Save';
+//	var val_caller = 'Title';	// タイトル画面から呼ばれた
+	var val_caller = 'Text';	// 本文から呼ばれた
+//	var val_mode = 'Load';		// ロード画面
+	var val_mode = 'Save';		// セーブ画面
 	var val_place = 0;
 	function val2ctrl() {	// 変数→コンポーネント
 		if (val_dic) a = JSON.parse(val_dic);
@@ -89,15 +89,12 @@
 </div>`);
 			document.getElementById(`d${i}`).addEventListener('click', e=> {
 				val_place = e.target.dataset.id;
-				document.getElementById('modal_mes').textContent = '';
 				if (e.target.dataset.nomodal) {	// モーダル確認は不要
 					doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
 					return;
 				}
-				if (val_mode == 'Save') {
-					document.getElementById('modal_mes').textContent = 'セーブデータを上書きします';
-					;
-				}
+				document.getElementById('modal_mes').textContent =
+				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
 				return false;
 			}, false);
 		});
