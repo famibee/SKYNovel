@@ -5,12 +5,21 @@
 	[add_frame id=saveload src="saveload/_saveload.htm" visible=false]
 
 	[event key='dom=saveload:#close' label=*exit global=true]
-;	[set_frame id=saveload var_name=val_base_dir text='app-storage://〜/']
 [return]
 
 ;*********************************************************
 ; 最新値で更新
 *val2ctrl
+[let_ml name=dic]
+	[
+		{"fn": "../bgimage/yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
+		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
+		{"fn": "../bgimage/yun_2352.jpg", "dt": "2018/12/18 11:42", "txt": "  This is not justified test message. This is written many words and cut last sentence."},
+		{"fn": "../bgimage/yun_2384.jpg", "dt": "2018/12/18 11:43", "txt": "　この渓間ではなにも俺をよろこばすものはない。鶯《うぐひす》や四十雀《しじふから》も、白い日光をさ青に煙らせてゐる木の若芽も、ただそれだけでは、もうろうとした心象に過ぎない。俺には惨劇が必要なんだ。その平衡があつて、はじめて俺の心象は明確になつて来る。俺の心は悪鬼のやうに憂欝に渇いてゐる。俺の心に憂欝が完成するときにばかり、俺の心は和《なご》んで来る。"},
+		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"}
+	]
+[endlet_ml]
+	[set_frame id=saveload var_name=val_dic text=&dic]
 	[let_frame id=saveload var_name=val2ctrl function=true]
 [return]
 
@@ -19,7 +28,6 @@
 *title_load
 	[let name="しおりモード" text="Load"]
 	[let name="呼び元" text="Title"]
-	[set_frame id=saveload var_name=val_mode text=&しおりモード]
 [jump label=*main]
 
 ;*********************************************************
@@ -29,7 +37,6 @@
 
 	[let name="しおりモード" text="Load"]
 	[let name="呼び元" text="Text"]
-	[set_frame id=saveload var_name=val_mode text=&しおりモード]
 [jump label=*main]
 
 ;*********************************************************
@@ -39,7 +46,6 @@
 
 	[let name="しおりモード" text="Save"]
 	[let name="呼び元" text="Text"]
-	[set_frame id=saveload var_name=val_mode text=&しおりモード]
 [jump label=*main]
 
 ;*********************************************************
@@ -48,11 +54,14 @@
 	[clear_event]
 
 	; 最新値で更新
+	[set_frame id=saveload var_name=val_mode text=&しおりモード]
 	[call label=*val2ctrl]
 	; 下部からスライドイン
 	[frame id=saveload visible=true y=&const.sn.frm.saveload.height]
 	[tsy_frame id=saveload time=500 y=0]
 	[wait_tsy id=saveload]
+
+	[event key='dom=saveload:#do_loadsave' label=*do_loadsave call=true]
 
 	&isGameState = false
 	[event key=rightclick label=*exit]
@@ -63,7 +72,13 @@
 	[event key=c label=*exit]
 ;	[gesture_event swipe=*nop f2tap=*exit f3tap=*exit]
 	[set_focus to=null]
-[s]	; =========
+[s]
+
+
+*do_loadsave
+	[let_frame id=saveload var_name=val_place]
+	[trace text=&const.sn.frm.saveload.val_place]
+[return]
 
 
 

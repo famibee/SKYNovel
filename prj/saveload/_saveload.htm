@@ -31,55 +31,53 @@
 	}
 </style>
 <script defer src="../lib/materialize.min.js"></script>
-<script defer src="../lib/store.legacy.min.js"></script>
 <script>
-	var val_base_dir = '../bgimage/';
-	const a = [	// セーブデータの内容
-		{"fn": "yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
-		{"fn": "yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
-		{"fn": "yun_2352.jpg", "dt": "2018/12/18 11:42", "txt": "  This is not justified test message. This is written many words and cut last sentence."},
-		{"fn": "yun_2384.jpg", "dt": "2018/12/18 11:43", "txt": "　この渓間ではなにも俺をよろこばすものはない。鶯《うぐひす》や四十雀《しじふから》も、白い日光をさ青に煙らせてゐる木の若芽も、ただそれだけでは、もうろうとした心象に過ぎない。俺には惨劇が必要なんだ。その平衡があつて、はじめて俺の心象は明確になつて来る。俺の心は悪鬼のやうに憂欝に渇いてゐる。俺の心に憂欝が完成するときにばかり、俺の心は和《なご》んで来る。"},
-		{"fn": "yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
+	let a = [	// セーブデータの内容
+		{"fn": "../bgimage/yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　dummy data 二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
+		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
+		{"fn": "../bgimage/yun_2352.jpg", "dt": "2018/12/18 11:42", "txt": "  This is not justified test message. This is written many words and cut last sentence."},
+		{"fn": "../bgimage/yun_2384.jpg", "dt": "2018/12/18 11:43", "txt": "　この渓間ではなにも俺をよろこばすものはない。鶯《うぐひす》や四十雀《しじふから》も、白い日光をさ青に煙らせてゐる木の若芽も、ただそれだけでは、もうろうとした心象に過ぎない。俺には惨劇が必要なんだ。その平衡があつて、はじめて俺の心象は明確になつて来る。俺の心は悪鬼のやうに憂欝に渇いてゐる。俺の心に憂欝が完成するときにばかり、俺の心は和《なご》んで来る。"},
+		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
 	];
 	document.addEventListener('DOMContentLoaded', ()=> {
-		const modal = document.getElementsByClassName('modal')[0];
-		M.Modal.init(modal);
-		const txt = document.getElementById('txt');
+		M.Modal.init(document.getElementById('modal_q'));
+
+		if (location.protocol == 'file:') val2ctrl();	// ローカルデバッグ用
+	}, false);
+
+	var val_dic = null;
+	//var val_mode = 'Load';
+	var val_mode = 'Save';
+	var val_place = 0;
+	function val2ctrl() {	// 変数→コンポーネント
+		if (val_dic) a = JSON.parse(val_dic);
+
+		document.getElementsByClassName('title').textContent = (val_mode == 'Load')
+			? 'ロード'
+			: 'セーブ';
 
 		const lst = document.getElementsByClassName('row')[0];
+		lst.textContent = null;
 		a.forEach((v, i)=> {
 			lst.insertAdjacentHTML('beforeend', `
 <div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
 	<div class="card">
 	<div class="card-image waves-effect waves-block waves-light">
-		<img src="${val_base_dir + v.fn}" id="d${i}" class="modal-trigger" href="#modal_q">
+		<img src="${v.fn}" id="d${i}" data-id="${i}" class="modal-trigger" href="#modal_q">
 	</div>
 	<span class="card-title">${v.dt}</span>
 	<p class="multiline-text">${v.txt}</p>
 	</div>
 </div>`);
-			const elm = document.getElementById(`d${i}`);
-			elm.addEventListener('click', e=> {place = e.target.id; return false;});
+			document.getElementById(`d${i}`).addEventListener('click', e=> {
+				val_place = e.target.dataset.id;
+				return false;
+			}, false);
 		});
-
-		const sys = store.get('com.fc2.blog38.famibee.skynovel.uc - sys');
-console.log(`store:%o`, sys);
-
-
-	}, false);
-
-	var val_mode = 'load';
-	function val2ctrl() {	// 変数→コンポーネント
-		document.getElementsByClassName('title').textContent = (val_mode == 'Load')
-			? 'ロード'
-			: 'セーブ';
-	}
-
-	var place = 0;
-	function do_loadsave() {
-console.log(`place:${place}`);
-		;
-		return false;
+		// 本番環境で閉じないので
+		document.getElementById(`do_loadsave`).addEventListener('click', ()=> {
+			M.Modal.getInstance(document.getElementById('modal_q')).close();
+		});
 	}
 
 </script>
@@ -99,7 +97,7 @@ console.log(`place:${place}`);
 			<h4><span class="title">ロード</span>しますか？</h4>
 		</div>
 		<div class="modal-footer">
-			<a class="modal-close waves-effect waves-green btn-flat" onclick="do_loadsave()"><span class="title">ロード</span>する</a>
+			<a class="modal-close waves-effect waves-green btn-flat" onclick="return false" id="do_loadsave"><span class="title">ロード</span>する</a>
 			<a class="modal-close waves-effect waves-green btn-flat" onclick="return false">Cancel</a>
 		</div>
 	</div>
