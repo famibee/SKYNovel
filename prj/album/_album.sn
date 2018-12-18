@@ -15,12 +15,20 @@
 ;*********************************************************
 *bgm
 	[playbgm fn=&sn.event.domdata.arg]
+	[call label=*val2ctrl]
+[return]
+
+*val2ctrl
+	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm]
+	[let_frame id=album var_name=val2ctrl function=true]
 [return]
 
 ;*********************************************************
 *title_album
 	[enable_event enabled=false]
 	[clear_event]
+
+	[call label=*val2ctrl]
 
 	; 下部からスライドイン
 	[frame id=album visible=true y=&const.sn.frm.album.height]

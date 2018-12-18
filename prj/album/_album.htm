@@ -59,14 +59,21 @@
 		M.Materialbox.init(document.querySelectorAll('.materialboxed'));
 	}, false);
 
+	function val2ctrl() {	// 変数→コンポーネント
+		document.getElementById('fnBgm').textContent = val_fnBgm;
+	}
+
 </script>
 </head>
 <body class="blue-grey lighten-4" oncontextmenu="return false;">
 	<div class="navbar-fixed"><nav class="blue-grey darken-1" role="navigation">
 		<div class="nav-wrapper container">
-			<a class="waves-effect waves-light btn grey" id="close">x</a>
 			<span class="brand-logo center">アルバム画面</span>
-		</div>
+			<a class="waves-effect waves-light btn grey" id="close">x</a>
+			<ul id="nav-mobile" class="right hide-on-med-and-down">
+				<li>now_playing : <span id="fnBgm"></span></li>
+			</ul>
+			</div>
 	</nav></div>
 
 	<div class="row"></div>
