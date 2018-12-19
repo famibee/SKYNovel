@@ -63,6 +63,7 @@
 	[wait_tsy id=saveload]
 
 	[event key='dom=saveload:#do_loadsave' label=*do_loadsave call=true]
+	[event key='dom=saveload:#do_del' label=*do_del call=true]
 
 	&isGameState = false
 	[event key=rightclick label=*exit]
@@ -81,6 +82,10 @@
 	[trace text=&const.sn.frm.saveload.val_place]
 [return]
 
+*do_del
+	[let_frame id=saveload var_name=val_place]
+	[trace text=&const.sn.frm.saveload.val_place]
+[return]
 
 
 *chg_page

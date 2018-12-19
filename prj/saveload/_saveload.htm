@@ -42,12 +42,14 @@
 		{"fn": "../bgimage/yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　dummy data 二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
 	];
 	document.addEventListener('DOMContentLoaded', ()=> {
-		M.Modal.init(document.getElementById('modal_q'));
+		M.Modal.init(document.querySelectorAll('.modal'));
 
 		if (location.protocol == 'file:') {	// ローカルデバッグ用
-			document.getElementById(`do_loadsave`).addEventListener('click', ()=> {
-				console.log(`do_loadsave(delete):${val_place}`);
-				// val_place : １以上の値。マイナスは削除
+			document.getElementById('do_loadsave').addEventListener('click', ()=> {
+				console.log(`do_loadsave:${val_place}`);
+			}, false);
+			document.getElementById('do_del').addEventListener('click', ()=> {
+				console.log(`do_delete:${val_place}`);
 			}, false);
 			val2ctrl();
 		}
@@ -63,51 +65,49 @@
 		if (val_dic) a = JSON.parse(val_dic);
 		if (val_mode == 'Save') a.push({"fn": "_saveloadBtn_nouse.png", "dt": "", "txt": "　新規にセーブします"});
 
-		const title = (val_mode == 'Load') ?'ロード' :'セーブ';
-		const aTitle = Array.from(document.getElementsByClassName('title'));
-
-		const doit = document.getElementById('do_loadsave');
-		const ev = document.createEvent('MouseEvents');
-		ev.initEvent('click', false, true);
-
 		const lst = document.getElementsByClassName('row')[0];
 		lst.textContent = null;
 		a.forEach((v, i)=> {
 			lst.insertAdjacentHTML('afterbegin', `
-<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
+<div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2 scale-transition">
 	<div class="card">
 	<div class="card-image waves-effect waves-block waves-light">
-		<img src="${v.fn}" data-id="${i+1}" class="${
+		<img src="${v.fn}" data-id="${i}" class="${
 			((val_mode == 'Load' && val_caller == 'Title')
 			|| (val_mode == 'Save' && v.dt == ''))
 			? 'no_modal"'	// モーダル確認は不要
-			: 'modal-trigger" href="#modal_q"'}>
+			: 'modal-trigger" href="#modal_sl"'}>
 		<span class="card-title">${v.dt}</span>${
 			(v.dt == '')
 			? ''
-			: `<a data-id="-${i+1}" class="btn-floating halfway-fab waves-effect waves-light red btn_delete scale-transition scale-out modal-trigger" href="#modal_q">　ｘ</a>`}
+			: `<a data-id="${i}" class="btn-floating halfway-fab waves-effect waves-light red btn_delete scale-transition scale-out modal-trigger" href="#modal_del">　ｘ</a>`}
 	</div>
 	<div class="card-content"><p class="multiline-text">${v.txt}</p></div>
 	</div>
 </div>`);
 		});
+		const aTitle = Array.from(document.getElementsByClassName('title'));
+		const title = (val_mode == 'Load') ?'ロード' :'セーブ';
+		const doit = document.getElementById('do_loadsave');
+		const ev = document.createEvent('MouseEvents');
+		ev.initEvent('click', false, true);
 		Array.from(document.getElementsByClassName('no_modal'))
 		.forEach(v=> v.addEventListener('click', e=> {
 			val_place = e.target.dataset.id;
 			aTitle.forEach(v=> v.textContent = title);
 			doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
-			return false;
 		}));
 		Array.from(document.getElementsByClassName('modal-trigger'))
 		.forEach(v=> v.addEventListener('click', e=> {
 			val_place = e.target.dataset.id;
 			document.getElementById('modal_mes').textContent =
 				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
-			return false;
 		}, false));
-		doit.addEventListener('click', ()=> {	// 本番環境で閉じないので
-			M.Modal.getInstance(document.getElementById('modal_q')).close();
-		}, false);
+		Array.from(document.getElementsByClassName('modal-close'))
+		.forEach(v=> v.addEventListener('click', e=> {	// 本番環境で閉じないので
+			M.Modal.getInstance(document.getElementById('modal_sl')).close();
+			M.Modal.getInstance(document.getElementById('modal_del')).close();
+		}, false));
 
 		const aBtnX = Array.from(document.getElementsByClassName('btn_delete'));
 		document.getElementById('tgl_del').addEventListener('click', ()=> {
@@ -115,9 +115,6 @@
 		}, false);
 		aBtnX.forEach(v=> v.addEventListener('click', e=> {
 			val_place = e.target.dataset.id;
-			aTitle.forEach(v=> v.textContent = '削除');
-			document.getElementById('modal_mes').textContent = '';
-			return false;
 		}, false));
 	}
 
@@ -134,14 +131,23 @@
 
 	<div class="row"></div>
 
-	<div id="modal_q" class="modal">
+	<div id="modal_sl" class="modal">
 		<div class="modal-content">
 			<h4><span class="title">ロード</span>しますか？</h4>
 			<p id="modal_mes"></p>
 		</div>
 		<div class="modal-footer">
-			<a class="modal-close waves-effect waves-green btn-flat" onclick="return false" id="do_loadsave"><span class="title">ロード</span>する</a>
-			<a class="modal-close waves-effect waves-green btn-flat" onclick="return false">やめる</a>
+			<a class="modal-close waves-effect waves-green btn-flat" id="do_loadsave"><span class="title">ロード</span>する</a>
+			<a class="modal-close waves-effect waves-green btn-flat">やめる</a>
+		</div>
+	</div>
+	<div id="modal_del" class="modal">
+		<div class="modal-content">
+			<h4>セーブデータを削除しますか？</h4>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-close waves-effect waves-green btn-flat" id="do_del">削除する</a>
+			<a class="modal-close waves-effect waves-green btn-flat">やめる</a>
 		</div>
 	</div>
 
