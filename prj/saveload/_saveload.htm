@@ -5,6 +5,7 @@
 <style type="text/css">
 	html {user-select: none; -webkit-user-select: none;}	/* 選択禁止 */
 	.card .card-title {margin-left: 0.5em;}		/* 微調整 */
+	.btn-floating-xbtn {top: 10px; right: 5px;}	/* 微調整 */
 
 	/* 複数行で「text-overflow: ellipsis;」みたいなことをする方法色々。 | blue sky IT https://www.aozora-blog.com/2018/07/22/post-151/ */
 	.multiline-text {
@@ -76,32 +77,50 @@
 <div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
 	<div class="card">
 	<div class="card-image waves-effect waves-block waves-light">
-		<img src="${v.fn}" id="d${i}" data-id="${i}" ${
+		<img src="${v.fn}" id="dat${i}" data-id="${i}" class="${
 			((val_mode == 'Load' && val_caller == 'Title')
 			|| (val_mode == 'Save' && v.dt == ''))
-			? 'data-nomodal="true"'	// モーダル確認は不要
-			: 'class="modal-trigger" href="#modal_q"'
+			? 'no_modal"'	// モーダル確認は不要
+			: 'modal-trigger" href="#modal_q"'
 		}>
+		<span class="card-title">${v.dt}</span>${
+			(v.dt == '')
+			? ''
+			: `<a id="del${i}" data-id="${i}" class="btn-floating halfway-fab waves-effect waves-light red btn-floating-xbtn scale-transition scale-out">　ｘ</a>`
+		}
 	</div>
-	<span class="card-title">${v.dt}</span>
-	<p class="multiline-text">${v.txt}</p>
+	<div class="card-content"><p class="multiline-text">${v.txt}</p></div>
 	</div>
 </div>`);
-			document.getElementById(`d${i}`).addEventListener('click', e=> {
-				val_place = e.target.dataset.id;
-				if (e.target.dataset.nomodal) {	// モーダル確認は不要
-					doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
-					return false;
-				}
-				document.getElementById('modal_mes').textContent =
-				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
-				return false;
-			}, false);
 		});
+		Array.from(document.getElementsByClassName('no_modal'))
+		.forEach(v=> v.addEventListener('click', e=> {
+			val_place = e.target.dataset.id;
+			doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
+			return false;
+		}));
+		Array.from(document.getElementsByClassName('modal-trigger'))
+		.forEach(v=> v.addEventListener('click', e=> {
+			val_place = e.target.dataset.id;
+			document.getElementById('modal_mes').textContent =
+				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
+			return false;
+		}));
 		// 本番環境で閉じないので
 		doit.addEventListener('click', ()=> {
 			M.Modal.getInstance(document.getElementById('modal_q')).close();
 		});
+
+		const aBtnX = Array.from(document.getElementsByClassName('btn-floating-xbtn'));
+		document.getElementById('tgl_del').addEventListener('click', ()=> {
+			aBtnX.forEach(v=> v.classList.toggle('scale-out'));
+		});
+		aBtnX.forEach(v=> v.addEventListener('click', e=> {
+			val_place = e.target.dataset.id;
+//			doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
+console.log(`delete:${val_place}`);
+			return false;
+		}));
 	}
 
 </script>
@@ -111,6 +130,7 @@
 		<div class="nav-wrapper container">
 			<span class="brand-logo center"><span class="title">ロード</span>画面</span>
 			<a class="waves-effect waves-light btn grey" id="close">x</a>
+			<a class="btn-floating btn-large halfway-fab waves-effect waves-light teal" id="tgl_del">編集</a>
 		</div>
 	</nav></div>
 
