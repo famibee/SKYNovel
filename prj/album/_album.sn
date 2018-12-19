@@ -13,6 +13,7 @@
 		{"type": "pic", "fn": "../bgimage/yun_2352.jpg", "title": "桜1"},
 		{"type": "pic", "fn": "../bgimage/yun_2384.jpg", "title": "桜2"},
 		{"type": "pic", "fn": "../fgimage/F_口元.jpg", "title": "語り手"},
+		{"type": "pic", "fn": "_album_miken.jpg", "title": "？？？", "enabled": "false"},
 		{"type": "mov", "fn": "nc10889.mp4", "title": "桜"},
 		{"type": "bgm", "fn": "free32", "title": "free32(BGM)"},
 		{"type": "bgm", "fn": "free49", "title": "free49(BGM)"},
