@@ -5,7 +5,7 @@
 <style type="text/css">
 	html {user-select: none; -webkit-user-select: none;}	/* 選択禁止 */
 	.card .card-title {margin-left: 0.5em;}		/* 微調整 */
-	.btn-floating-xbtn {top: 10px; right: 5px;}	/* 微調整 */
+	.btn_delete {top: 10px; right: 5px;}	/* 微調整 */
 
 	/* 複数行で「text-overflow: ellipsis;」みたいなことをする方法色々。 | blue sky IT https://www.aozora-blog.com/2018/07/22/post-151/ */
 	.multiline-text {
@@ -46,8 +46,9 @@
 
 		if (location.protocol == 'file:') {	// ローカルデバッグ用
 			document.getElementById(`do_loadsave`).addEventListener('click', ()=> {
-				console.log(`do_loadsave:${val_place}`);
-			});
+				console.log(`do_loadsave(delete):${val_place}`);
+				// val_place : １以上の値。マイナスは削除
+			}, false);
 			val2ctrl();
 		}
 	}, false);
@@ -63,8 +64,7 @@
 		if (val_mode == 'Save') a.push({"fn": "_saveloadBtn_nouse.png", "dt": "", "txt": "　新規にセーブします"});
 
 		const title = (val_mode == 'Load') ?'ロード' :'セーブ';
-		Array.from(document.getElementsByClassName('title'))
-		.forEach(v=> v.textContent = title);
+		const aTitle = Array.from(document.getElementsByClassName('title'));
 
 		const doit = document.getElementById('do_loadsave');
 		const ev = document.createEvent('MouseEvents');
@@ -77,17 +77,15 @@
 <div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2">
 	<div class="card">
 	<div class="card-image waves-effect waves-block waves-light">
-		<img src="${v.fn}" id="dat${i}" data-id="${i}" class="${
+		<img src="${v.fn}" data-id="${i+1}" class="${
 			((val_mode == 'Load' && val_caller == 'Title')
 			|| (val_mode == 'Save' && v.dt == ''))
 			? 'no_modal"'	// モーダル確認は不要
-			: 'modal-trigger" href="#modal_q"'
-		}>
+			: 'modal-trigger" href="#modal_q"'}>
 		<span class="card-title">${v.dt}</span>${
 			(v.dt == '')
 			? ''
-			: `<a id="del${i}" data-id="${i}" class="btn-floating halfway-fab waves-effect waves-light red btn-floating-xbtn scale-transition scale-out">　ｘ</a>`
-		}
+			: `<a data-id="-${i+1}" class="btn-floating halfway-fab waves-effect waves-light red btn_delete scale-transition scale-out modal-trigger" href="#modal_q">　ｘ</a>`}
 	</div>
 	<div class="card-content"><p class="multiline-text">${v.txt}</p></div>
 	</div>
@@ -96,6 +94,7 @@
 		Array.from(document.getElementsByClassName('no_modal'))
 		.forEach(v=> v.addEventListener('click', e=> {
 			val_place = e.target.dataset.id;
+			aTitle.forEach(v=> v.textContent = title);
 			doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
 			return false;
 		}));
@@ -105,22 +104,21 @@
 			document.getElementById('modal_mes').textContent =
 				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
 			return false;
-		}));
-		// 本番環境で閉じないので
-		doit.addEventListener('click', ()=> {
+		}, false));
+		doit.addEventListener('click', ()=> {	// 本番環境で閉じないので
 			M.Modal.getInstance(document.getElementById('modal_q')).close();
-		});
+		}, false);
 
-		const aBtnX = Array.from(document.getElementsByClassName('btn-floating-xbtn'));
+		const aBtnX = Array.from(document.getElementsByClassName('btn_delete'));
 		document.getElementById('tgl_del').addEventListener('click', ()=> {
 			aBtnX.forEach(v=> v.classList.toggle('scale-out'));
-		});
+		}, false);
 		aBtnX.forEach(v=> v.addEventListener('click', e=> {
 			val_place = e.target.dataset.id;
-//			doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
-console.log(`delete:${val_place}`);
+			aTitle.forEach(v=> v.textContent = '削除');
+			document.getElementById('modal_mes').textContent = '';
 			return false;
-		}));
+		}, false));
 	}
 
 </script>
