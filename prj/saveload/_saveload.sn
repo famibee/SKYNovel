@@ -87,18 +87,6 @@
 [return]
 
 
-*chg_page
-	[let name="mark_p" text="&sys:saveload.page * const._sl.th_一ページあたりの数"]
-	[call label=*btn_save cond="しおりモード == 'Save'"]
-	[call label=*btn_load cond="しおりモード == 'Load'"]
-
-	[button layer="_syslay.mes" text=" Return " style='fill: dodgerblue;' style_hover='fill: darkturquoise;' left=916 top=16 global=true label=*exit hint="戻る" enterse=&sysse_choice clickse=&sysse_cancel join=true]	; 戻るボタン
-
-	[zoom_tsy layer="_syslay.bg" time=400 visible=true cond=is_init]
-	&is_init = false
-
-[s]
-
 ;*********************************************************
 *save
 	[let name="_sl.place" text="&sn.eventArg"]

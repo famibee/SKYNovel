@@ -125,6 +125,7 @@ export class ScriptIterator {
 	private let_ml(hArg) {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
+		this.REG_TAG_ENDLET_ML.lastIndex = 0;
 		if (this.idxToken_ +1 >= this.script.len ||
 			! this.REG_TAG_ENDLET_ML.test(this.script.aToken[this.idxToken_ +1])
 		) throw '[let_ml]の終端・[endlet_ml]がありません';
@@ -622,6 +623,7 @@ export class ScriptIterator {
 	private replaceScript_Wildcard = ()=> {
 		for (let i=this.script.len -1; i>=0; --i) {
 			const token = this.script.aToken[i];
+			this.REG_WILDCARD.lastIndex = 0;
 			if (! this.REG_WILDCARD.test(token)) continue;
 
 			const a_tag: any = m_xregexp.exec(token, CmnLib.REG_TAG);
@@ -657,6 +659,7 @@ export class ScriptIterator {
 	private replaceScriptChar2macro_And_let_ml = (start_idx = 0): void => {
 		for (let i=this.script.len- 1; i >= start_idx; --i) {
 			const token = this.script.aToken[i];
+			this.REG_TAG_LET_ML.lastIndex = 0;
 			if (this.REG_TAG_LET_ML.test(token)) {
 				const idxSpl = token.indexOf(']') +1;
 				const ml = token.slice(idxSpl);
@@ -667,6 +670,7 @@ export class ScriptIterator {
 				for (let j=i +2; j<len; ++j) this.script.aLNum[j] += cnt;
 				continue;
 			}
+			CmnLib.REG_TOKEN_NOTXT.lastIndex = 0;
 			if (CmnLib.REG_TOKEN_NOTXT.test(token.charAt(0))) continue;
 
 			const lnum = this.script.aLNum[i];
@@ -802,7 +806,9 @@ export class ScriptIterator {
 		const cl = text.charAt(1);
 		if (op in this.hC2M) throw('[bracket2macro] text【'+ op +'】が登録済みの括弧マクロまたは一文字マクロです');
 		if (cl in this.hC2M) throw('[bracket2macro] text【'+ cl +'】が登録済みの括弧マクロまたは一文字マクロです');
+		this.REG_CANTC2M.lastIndex = 0;
 		if (this.REG_CANTC2M.test(op)) throw('[bracket2macro] text【'+ op +'】は括弧マクロに使用できない文字です');
+		this.REG_CANTC2M.lastIndex = 0;
 		if (this.REG_CANTC2M.test(cl)) throw('[bracket2macro] text【'+ cl +'】は括弧マクロに使用できない文字です');
 
 		this.hC2M[cl] = '0';	// チェック用ダミー
@@ -839,6 +845,7 @@ export class ScriptIterator {
 		const char = hArg.char;
 		if (! char) throw '[char2macro] charは必須です';
 		if (char in this.hC2M) throw '[char2macro] char【'+ char +'】が登録済みの括弧マクロまたは一文字マクロです';
+		this.REG_CANTC2M.lastIndex = 0;
 		if (this.REG_CANTC2M.test(char)) throw '[char2macro] char【'+ char +'】は一文字マクロに使用できない文字です';
 
 		const name = hArg.name;

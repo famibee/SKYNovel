@@ -908,6 +908,7 @@ export class TxtLayer extends Layer {
 		// サロゲートペア対策（分割されるので一つに結合）
 		for (let i=aRect.length -1; i>0; --i) {	// i==0はなし
 			const r2 = aRect[i];
+			TxtLayer.REG_SURROGATE.lastIndex = 0;
 			if (! TxtLayer.REG_SURROGATE.test(r2.ch)) continue;
 
 			const r1 = aRect[i -1];
