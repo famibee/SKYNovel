@@ -53,6 +53,16 @@
 			}, false);
 			val2ctrl();
 		}
+
+		Array.from(document.getElementsByClassName('modal-close'))
+		.forEach(v=> v.addEventListener('click', e=> {	// 本番環境で閉じないので
+			M.Modal.getInstance(document.getElementById('modal_sl')).close();
+			M.Modal.getInstance(document.getElementById('modal_del')).close();
+		}, false));
+		const aBtnX = Array.from(document.getElementsByClassName('btn_delete'));
+		document.getElementById('tgl_del').addEventListener('click', ()=> {
+			aBtnX.forEach(v=> v.classList.toggle('scale-out'));
+		}, false);
 	}, false);
 
 	var val_dic = null;
@@ -103,16 +113,6 @@
 			document.getElementById('modal_mes').textContent =
 				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
 		}, false));
-		Array.from(document.getElementsByClassName('modal-close'))
-		.forEach(v=> v.addEventListener('click', e=> {	// 本番環境で閉じないので
-			M.Modal.getInstance(document.getElementById('modal_sl')).close();
-			M.Modal.getInstance(document.getElementById('modal_del')).close();
-		}, false));
-
-		const aBtnX = Array.from(document.getElementsByClassName('btn_delete'));
-		document.getElementById('tgl_del').addEventListener('click', ()=> {
-			aBtnX.forEach(v=> v.classList.toggle('scale-out'));
-		}, false);
 	}
 
 </script>

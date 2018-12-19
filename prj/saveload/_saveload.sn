@@ -4,6 +4,8 @@
 
 	[add_frame id=saveload src="saveload/_saveload.htm" visible=false]
 
+	[event key='dom=saveload:#do_loadsave' label=*do_loadsave call=true global=true]
+	[event key='dom=saveload:#do_del' label=*do_del call=true global=true]
 	[event key='dom=saveload:#close' label=*exit global=true]
 [return]
 
@@ -61,9 +63,6 @@
 	[frame id=saveload visible=true y=&const.sn.frm.saveload.height]
 	[tsy_frame id=saveload time=500 y=0]
 	[wait_tsy id=saveload]
-
-	[event key='dom=saveload:#do_loadsave' label=*do_loadsave call=true]
-	[event key='dom=saveload:#do_del' label=*do_del call=true]
 
 	&isGameState = false
 	[event key=rightclick label=*exit]
