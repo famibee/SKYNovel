@@ -1130,6 +1130,31 @@ void main(void) {
 			ch = vctToken[1].charAt(0);
 			assert.equal(CmnLib.REG_TOKEN_NOTXT.test(ch), true);
 		});
+		it('test_let_ml_1', ()=> {
+			const sScr =
+`[let_ml name=ml]
+[
+	{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
+]
+[endlet_ml]`;
+			vctToken = sScr.match(CmnLib.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+			let ch = "";
+
+			assert.equal(vctTokenLen, 2);
+			assert.equal(vctToken[0],
+`[let_ml name=ml]
+[
+	{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
+]
+`);
+			ch = vctToken[0].charAt(0);
+			assert.equal(CmnLib.REG_TOKEN_NOTXT.test(ch), true);
+
+			assert.equal(vctToken[1], '[endlet_ml]');
+			ch = vctToken[1].charAt(0);
+			assert.equal(CmnLib.REG_TOKEN_NOTXT.test(ch), true);
+		});
 
 
 

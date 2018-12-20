@@ -472,7 +472,7 @@ export class ScriptIterator {
 	}
 
 
-	private	REG_LABEL				= /(\*{2,})(.*)/;
+	private	REG_NONAME_LABEL		= /(\*{2,})(.*)/;
 	private	REG_LABEL_ESC			= /\*/g;
 	private	REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
 	private	REG_TOKEN_MACRO_END		= /\[endmacro[\s\]]/;
@@ -506,11 +506,8 @@ export class ScriptIterator {
 
 		let i = 0;
 		tokens.aLNum[0] = 1;		// 先頭トークン＝一行目
-		const a_skipLabel = skipLabel.match(this.REG_LABEL);
-		if (! a_skipLabel) {
-			lineNum = 1;
-		}
-		else {
+		const a_skipLabel = skipLabel.match(this.REG_NONAME_LABEL);
+		if (a_skipLabel) {
 			const base_skipLabel = skipLabel;
 			skipLabel = a_skipLabel[1];
 			switch (a_skipLabel[2]) {
@@ -550,9 +547,11 @@ export class ScriptIterator {
 			}
 		}
 
+		lineNum = 1;
 		const reLabel = new RegExp(
 			'^'+ skipLabel.replace(this.REG_LABEL_ESC, '\\*')
 			+'(?:\\s|;|\\[|$)');
+		let in_let_ml = false;
 		for (let i=0; i<len; ++i) {
 			// 走査ついでにトークンの行番号も更新
 			if (! tokens.aLNum[i]) tokens.aLNum[i] = lineNum;
@@ -560,7 +559,22 @@ export class ScriptIterator {
 			const token = this.script.aToken[i];
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
 			if (uc != 42) {	// 42 = *
-				if (uc == 10) lineNum += token.length;	// \n 改行
+				if (in_let_ml) {
+					this.REG_TAG_ENDLET_ML.lastIndex = 0;
+					if (this.REG_TAG_ENDLET_ML.test(token)) {
+						in_let_ml = false;
+						continue;
+					}
+					lineNum += (token.match(/\n/g) || []).length;	// \n 改行
+				}
+				else {
+					this.REG_TAG_LET_ML.lastIndex = 0;
+					if (this.REG_TAG_LET_ML.test(token)) {
+						in_let_ml = true;
+						continue;
+					}
+					if (uc == 10) lineNum += token.length;	// \n 改行
+				}
 				continue;
 			}
 
@@ -569,6 +583,7 @@ export class ScriptIterator {
 				lineNum	: lineNum
 			}	//	break;
 		}
+		if (in_let_ml) throw '[let_ml]の終端・[endlet_ml]がありません';
 
 		DebugMng.myTrace(`[jump系] ラベル【`+ skipLabel +`】がありません`, 'ET');
 		throw 'Dummy';
@@ -709,7 +724,7 @@ export class ScriptIterator {
 		// トークンの行番号更新
 		if (! this.script.aLNum[this.idxToken_]) this.script.aLNum[this.idxToken_] = this.lineNum_;
 		const token = this.script.aToken[this.idxToken_];
-		//console.log('🌱 token【'+ token +'】 idxToken:'+ this.idxToken_ +' lineNum:'+ this.lineNum);
+		//console.log(`🌱 fn:${this.scriptFn_} idxToken:${this.idxToken_} lineNum:${this.lineNum} token【${token}】`);
 		this.main.stop();
 		++this.idxToken_;
 
