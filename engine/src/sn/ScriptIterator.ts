@@ -125,12 +125,8 @@ export class ScriptIterator {
 	private let_ml(hArg) {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
-		this.REG_TAG_ENDLET_ML.lastIndex = 0;
-		if (this.idxToken_ +1 >= this.script.len ||
-			! this.REG_TAG_ENDLET_ML.test(this.script.aToken[this.idxToken_ +1])
-		) throw '[let_ml]の終端・[endlet_ml]がありません';
 
-		const ml = this.script.aToken[this.idxToken_];
+		const ml = this.script.aToken[++this.idxToken_];
 		hArg.text = ml;
 		hArg.cast = 'str';
 		this.hTag['let'](hArg);

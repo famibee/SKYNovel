@@ -4,7 +4,6 @@
 
 	[add_frame id=album src="album/_album.htm" visible=false]
 
-	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm]
 	; アルバム表示内容（ここをカスタマイズ。json形式で記述）
 [let_ml name=dic]
 	[
@@ -36,7 +35,7 @@
 ;*********************************************************
 ; 最新値で更新
 *val2ctrl
-	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm]
+	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm|'(No BGM)']
 	[let_frame id=album var_name=val2ctrl function=true]
 [return]
 
