@@ -1100,13 +1100,14 @@ export class TxtLayer extends Layer {
 			range.setEnd(elm, ++pos);
 			const r = range.getBoundingClientRect();
 			const pe = range.startContainer.parentElement;
+			const ch = range.toString();
 			const cr :IChRect = {
-				ch	: range.toString(),
+				ch	: ch,
 				rect: new Rectangle(
 					r.left +window.pageXOffset,
 					r.top  +window.pageYOffset,
 					r.width,
-					r.height +this.lh_half),
+					r.height +(('gjqy'.indexOf(ch) == -1) ?0 :this.lh_half)),
 				cmd	: pe.getAttribute('data-cmd'),
 				arg	: pe.getAttribute('data-arg'),
 				add	: pe.getAttribute('data-add'),
