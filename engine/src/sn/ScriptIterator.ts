@@ -305,7 +305,7 @@ export class ScriptIterator {
 			if (uc != 91) continue;		// [ タグ開始以外
 
 			const a_tag: any = m_xregexp.exec(t, CmnLib.REG_TAG);
-			if (a_tag == null) throw 'タグ記述['+ t +']異常です';
+			if (a_tag == null) throw 'タグ記述['+ t +']異常です(if文)';
 			const tag_name = a_tag['name'];
 			if (! (tag_name in this.hTag)) throw '未定義のタグ['+ tag_name +']です';
 			if (! this.alzTagArg.go(a_tag['args'])) throw '属性「'+ this.alzTagArg.literal +'」は異常です';

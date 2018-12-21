@@ -246,7 +246,7 @@ export class Main implements IMain {
 	// result = true : waitする  resume()で再開
 	private タグ解析(tagToken: string): boolean {
 		const a_tag: any = m_xregexp.exec(tagToken, CmnLib.REG_TAG);
-		if (a_tag == null) throw 'タグ記述['+ tagToken +']異常です';
+		if (a_tag == null) throw 'タグ記述['+ tagToken +']異常です(タグ解析)';
 
 		const tag_name = a_tag['name'];
 		const tag_fnc = this.hTag[tag_name];
