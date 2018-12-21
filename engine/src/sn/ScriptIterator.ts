@@ -232,42 +232,31 @@ export class ScriptIterator {
 	private dumpErrLine = 5;
 	dumpErrForeLine() {
 		if (this.idxToken_ == 0) {
-			console.group(`🥟 Error line (from ${0} rows before) fn:${this.scriptFn_}`);
+			console.group(`🥟 Error line (from 0 rows before) fn:${this.scriptFn_}`);
 			console.groupEnd();
 			return;
 		}
 
-		const aLine = [];
-		let cnt = this.dumpErrLine;
-		let tmp = '';
+		let s = '';
 		for (let i=this.idxToken_ -1; i>=0; --i) {
-			const token = this.script.aToken[i];
-			if (token.charAt(0) != '\n') {tmp = token + tmp; continue;}
-
-			aLine.unshift(tmp);
-			tmp = '';
-			if (--cnt == 0) break;
+			s = this.script.aToken[i] + s;
+			if ((s.match(/\n/g) || []).length >= this.dumpErrLine) break;
 		}
-		if (tmp != '') aLine.unshift(tmp);
-
-		const err_ln = this.script.aLNum[this.idxToken_ -1];
-		const ln_txt_width = String(err_ln).length;
-		const len = aLine.length;
-		const dump_ln_begin = err_ln -(len -1);
+		const a = s.split('\n').slice(-this.dumpErrLine);
+		const len = a.length;
 		console.group(`🥟 Error line (from ${len} rows before) fn:${this.scriptFn_}`);
-
+		const ln_txt_width = String(this.lineNum_).length;
 		const lc = this.getScr2lineCol(this.script, this.idxToken_);
 		for (let i=0; i<len; ++i) {
-			const mes = `${
-				String(dump_ln_begin +i).padStart(ln_txt_width, ' ')
-			}: %c`;
+			const ln = this.lineNum_ -len +i +1;
+			const mes = `${String(ln).padStart(ln_txt_width, ' ')}: %c`;
+			const e = a[i];
+			const line = (e.length > 75) ?e.substr(0, 75) +'…' :e;	// 長い場合は後略
 			if (i == len -1) console.info(
-				mes + aLine[i].slice(0, lc.col_s)+
-				'%c'+ aLine[i].slice(lc.col_s),
-				'background-color: skyblue;',
-				'background-color: pink;'
+				mes + line.slice(0, lc.col_s) +'%c'+ line.slice(lc.col_s),
+				'background-color: skyblue;', 'background-color: pink;'
 			)
-			else console.info(mes + aLine[i], 'background-color: skyblue;');
+			else console.info(mes + line, 'background-color: skyblue;');
 		}
 		console.groupEnd();
 		//console.log('Linkの出力   : %o', 'file:///Volumes/MacHD2/_Famibee/SKYNovel/prj/mat/main.sn');
@@ -596,7 +585,18 @@ export class ScriptIterator {
 		//console.log('* resolveScript scriptFn:'+ scriptFn);
 		txt = txt.replace(/(\r\n|\r)/g, '\n');
 		const v = CmnLib.cnvMultilineTag(txt).match(CmnLib.REG_TOKEN);
-		if (! v) throw '[error] CmnLib.cnvMultilineTag fail';
+		if (! v) throw 'CmnLib.cnvMultilineTag fail';
+		for (let i=v.length -1; i>=0; --i) {
+			const e = v[i];
+			this.REG_TAG_LET_ML.lastIndex = 0;
+			if (this.REG_TAG_LET_ML.test(e)) {
+				const idx = e.indexOf(']') +1;
+				if (idx == 0) throw '[let_ml]で閉じる【]】がありません';
+				const a = e.slice(0, idx);
+				const b = e.slice(idx);
+				v.splice(i, 1, a, b);
+			}
+		}
 		this.script = {aToken :v, len :v.length, aLNum :[]};
 
 		let mes = '';
