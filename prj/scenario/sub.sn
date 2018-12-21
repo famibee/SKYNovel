@@ -97,13 +97,6 @@
 	[event global=true call=true key=f label=*toggle_skip]
 
 *game_inited
-	[lay layer="_syslay.mes" page=fore visible=false]
-	[lay layer="_syslay.mes" page=back visible=false]
-	[clear_lay layer="_syslay.mes" page=both]
-	[lay layer="_syslay.bg" page=fore visible=false]
-	[lay layer="_syslay.bg" page=back visible=false]
-	[clear_lay layer="_syslay.bg" page=both]
-
 	[enable_event enabled=true]
 	[set_focus to=null]
 [endmacro]
@@ -161,19 +154,6 @@
 
 [add_lay layer="mes_sysmenu" class=txt cond=useSysMenu]
 [let name=sysmenu_left text=NaN]
-
-;********************************************************
-; マクロ システム用レイヤ初期化
-[macro name=sys_syslay.init]
-	[jump label=*_syslay.inited cond="const._syslay.inited"]
-	[add_lay layer="_syslay.bg" class=grp]
-	[add_lay layer="_syslay.0" class=grp]
-	[add_lay layer="_syslay.1" class=grp]
-	[add_lay layer="_syslay.2" class=grp]
-	[add_lay layer="_syslay.mes" class=txt]
-	[let name="const._syslay.inited" text=true]
-*_syslay.inited
-[endmacro]
 
 ;********************************************************
 ; マクロ テキストレイヤ縦書き左設定

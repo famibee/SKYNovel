@@ -212,7 +212,11 @@ export class TxtLayer extends Layer {
 				: 0);
 		this.lh_half = (this.htmTxt.style.writingMode == 'vertical-rl')
 			? 0
-			: (	parseFloat(this.htmTxt.style.lineHeight)
+			: (	(this.htmTxt.style.lineHeight.slice(-2) == 'px')
+				? parseFloat(this.htmTxt.style.lineHeight)
+				: parseFloat(this.htmTxt.style.fontSize)
+					* parseFloat(this.htmTxt.style.lineHeight)
+					// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
 				-parseFloat(this.htmTxt.style.fontSize)	) /2;
 
 		return false;
