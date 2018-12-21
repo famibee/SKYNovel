@@ -930,7 +930,7 @@ export class ScriptIterator {
 				return false;
 			}
 
-			if (token.charCodeAt(0) == 10) this.lineNum_ += token.length;	// 改行
+			if (token.charCodeAt(0) == 10) this.lineNum_ += (token.match(/\n/g) || []).length;
 		}
 		throw 'マクロ'+ name +'定義の終端・[endmacro]がありません';
 	};
