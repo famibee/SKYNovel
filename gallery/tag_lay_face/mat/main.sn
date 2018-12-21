@@ -28,26 +28,6 @@
 ;********************************************************
 
 
-
-
-
-	[event global=true key=f5 label=*reload_script cond="const.flash.system.Capabilities.isDebugger"]
-	[macro name="lr"][l][r][endmacro][char2macro char=@ name=lr]
-
-	[call fn=ext_*]		; ext_**.snというスクリプトを全部コールする
-
-;*********************************************************
-	; *** 蓑浦くんの立ち絵顔差分を読み込む ***
-	[call fn="蓑浦"]
-	; まばたき用に手書きで[add_face]
-[add_face name="蓑浦_眼_まばたき" dx=170 dy=159]
-
-	&sn.chkFontMode=false
-;*********************************************************
-; ゲーム本編
-	[record_place]		; [reload_script]チェック用
-
-
 *init
 	[event key='dom=#snapshot' label=*snapshot global=true call=true need_err=false]
 	[dump_script set_fnc=set_ed break_fnc=break_ed need_err=false]

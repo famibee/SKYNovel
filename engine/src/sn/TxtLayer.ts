@@ -120,7 +120,7 @@ export class TxtLayer extends Layer {
 		this.cnt.addChild(this.cntBtn);	// ボタンはpaddingの影響を受けない
 		this.cntBtn.name = 'cntBtn';
 
-		this.lay({style: `width: ${CmnLib.stageW -padding*2}px; height: ${CmnLib.stageH -padding*2}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`});
+		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`});
 
 		this.htmTxt.hidden = true;
 		document.body.appendChild(this.htmTxt);
@@ -941,7 +941,7 @@ export class TxtLayer extends Layer {
 		for (const cr of aRect) cr.rect.y -= this.pad_top;
 		// [l]後に文字続ける場合、後にくっつく文字によって場所が変わる対応
 		for (let i=0; i<lenPutedRect; ++i) {
-			const rect = aRect[i].rect;
+			const rect = aRect[i].rect.clone();
 			rect.x -= this.xz4htm2rect;
 			this.cntTxt.children[i].position.set(rect.x, rect.y);
 		}
@@ -996,8 +996,7 @@ export class TxtLayer extends Layer {
 		const len = this.aRect.length;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
-			const rct = v.rect;
-			const v_rect4ch_tx = rct.clone();
+			const rct = v.rect.clone();
 			rct.x -= this.xz4htm2rect;
 			if (TxtLayer.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
 				if (TxtLayer.cfg.oCfg.debug.devtool) console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
@@ -1062,10 +1061,12 @@ export class TxtLayer extends Layer {
 
 			default:	// 文字
 				const tx_c = tx.clone();
-				v_rect4ch_tx.x += this.paddingmkTx4x -this.xz4htm2rect;
-				v_rect4ch_tx.y += this.paddingmkTx4y;
-				tx_c.frame = v_rect4ch_tx;
-				if (v_rect4ch_tx.x < 0 || v_rect4ch_tx.y < 0) console.log(`x=${v_rect4ch_tx.x} または y=${v_rect4ch_tx.y} が負の値です。文字「${v.ch}」が表示されない場合があります`);
+				tx_c.frame = new Rectangle(
+					rct.x +this.paddingmkTx4x,
+					rct.y +this.paddingmkTx4y,
+					rct.width, rct.height);
+				if (tx_c.frame.x < 0 || tx_c.frame.y < 0) console.log(`x=${tx_c.frame.x} または y=${tx_c.frame.y} が負の値です。文字「${v.ch}」が表示されない場合があります`);
+
 				const sp = new Sprite(tx_c);
 				this.cntTxt.addChild(sp);
 				spWork(sp);
