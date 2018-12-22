@@ -1,4 +1,6 @@
 # SKYNovel
+![logo.svg](build/icon/icon.svg)
+
 NovelGame framework by WebGL(PixiJS)
 
 - [コンセプトスライド](http://ugainovel.hiho.jp/skynovel/web.htm)
