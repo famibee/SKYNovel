@@ -24,7 +24,7 @@ app.on('second-instance', ()=> {
 	guiWin.focus();
 });
 app.on('ready', ()=> {
-	const openAboutWindow = require('electron-about-window').default;
+	const openAboutWindow = require('about-window').default;
 	const menu = Menu.buildFromTemplate([{
 		label: app.getName(),
 		submenu: [

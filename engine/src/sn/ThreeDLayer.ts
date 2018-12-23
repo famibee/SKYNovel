@@ -7,12 +7,9 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, HArg} from './CmnLib';
+import {CmnLib, HArg, IMain} from './CmnLib';
 import {Config} from './Config';
-
-import * as THREE from 'three';
-(window as any).THREE = THREE;
-require('three/examples/js/controls/OrbitControls');	// ok
+import {ScriptIterator} from './ScriptIterator';
 
 //const ColladaLoader = require('three-colladaLoader');
 //const ColladaLoader = require('three-collada-loader');
@@ -37,13 +34,32 @@ export class ThreeDLayer extends Layer {
 	static	cfg			: Config | null		= null;
 	static	init(cfg: Config): void {ThreeDLayer.cfg = cfg;}
 
-	private scene_3D	= new THREE.Scene();
-	private	canvas_3D	= new THREE.WebGLRenderer({antialias: true, alpha: true});
+	private	static	THREE		= null;
+	private scene_3D	= null;
+	private	canvas_3D	= null;
 	private sprite_3D	: PIXI.Sprite	= null;
 	private camera		: THREE.Camera	= null;
 
+	// 遅延ロード
+	static	import(main: IMain, scrItr: ScriptIterator): boolean {
+		if (ThreeDLayer.THREE) return false;
+
+		scrItr.subIdxToken();	// 呼び出し元をやり直し
+		import(/* webpackChunkName: "three" */ 'three')
+		.then(THREE => {
+			ThreeDLayer.THREE = THREE;
+			(window as any).THREE = THREE;	// 次のrequireで必須なので
+			require('three/examples/js/controls/OrbitControls');
+			main.resume();
+		});
+
+		return true;
+	}
 	constructor() {
 		super();
+
+		this.scene_3D = new ThreeDLayer.THREE.Scene();
+		this.canvas_3D	= new ThreeDLayer.THREE.WebGLRenderer({antialias: true, alpha: true});
 
 		// 3D Scene canvas
 		this.canvas_3D.setSize(CmnLib.stageW, CmnLib.stageW);
@@ -55,7 +71,6 @@ export class ThreeDLayer extends Layer {
 		this.cnt.addChild(this.sprite_3D);
 		this.sprite_3D.x = (CmnLib.stageW -this.sprite_3D.width) /2
 		this.sprite_3D.y = (CmnLib.stageH -this.sprite_3D.height) /2
-
 	}
 	private tick = ()=> {
 		this.canvas_3D.render(this.scene_3D, this.camera);
@@ -83,7 +98,7 @@ export class ThreeDLayer extends Layer {
 	console.log(`fn:ThreeDLayer.ts line:63 %o`, MMDAnimationHelper);
 
 
-		//	const loader = new THREE.MMDLoader();
+		//	const loader = new ThreeDLayer.THREE.MMDLoader();
 			const loader = new MMDLoader();
 //			const mesh = await loader.load(mmd, [vmd]);
 //			const mesh = loader.load(mmd, [vmd]);
@@ -94,7 +109,7 @@ export class ThreeDLayer extends Layer {
 			f1();
 
 
-//const helper = new THREE.MMDHelper();
+//const helper = new ThreeDLayer.THREE.MMDHelper();
 //const helper = new MMDAnimationHelper();
 
 			const helper = new MMDHelper();
@@ -110,7 +125,7 @@ export class ThreeDLayer extends Layer {
 				}
 			);
 
-			const clock = new THREE.Clock();
+			const clock = new ThreeDLayer.THREE.Clock();
 			const anime = ()=> {
 				helper.update(clock.getDelta());
 				requestAnimationFrame(anime);
@@ -128,7 +143,7 @@ export class ThreeDLayer extends Layer {
 		const celestial_sphere = hArg['celestial_sphere'];	// 天球
 		if ('fbx' in hArg) {	// FBX
 /*			/// テスト用 Object3D
-			this.camera = new THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);
+			this.camera = new ThreeDLayer.THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);
 			this.camera.position.set(0, 0, 700);	// カメラ位置
 //			this.camera.position.set(0, 0, 0.1);	// カメラ位置
 
@@ -145,14 +160,14 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 		}
 		else if (dae) {	// dae
 			/// テスト用 Object3D
-			this.camera = new THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);
+			this.camera = new ThreeDLayer.THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);
 			this.camera.position.set(0, 0, 700);	// カメラ位置
 /*
 			// 立方体
-			const geometry = new THREE.BoxGeometry(500, 500, 500);
-			// new THREE.BoxGeometry(幅, 高さ, 奥行き)
-			const material = new THREE.MeshNormalMaterial();
-			obj = new THREE.Mesh(geometry, material);
+			const geometry = new ThreeDLayer.THREE.BoxGeometry(500, 500, 500);
+			// new ThreeDLayer.THREE.BoxGeometry(幅, 高さ, 奥行き)
+			const material = new ThreeDLayer.THREE.MeshNormalMaterial();
+			obj = new ThreeDLayer.THREE.Mesh(geometry, material);
 			obj.position.z = -500;
 			obj.rotation.z = -45;
 			this.scene_3D.add(obj);
@@ -172,22 +187,22 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 		}
 		else if (celestial_sphere) {	// 天球
 			// カメラ
-			this.camera = new THREE.PerspectiveCamera(
+			this.camera = new ThreeDLayer.THREE.PerspectiveCamera(
 				45,
 				CmnLib.stageW / CmnLib.stageH,
 				1,
 				10000);
-			// new THREE.PerspectiveCamera(画角, アスペクト比, 描画開始距離, 描画終了距離)
+			// new ThreeDLayer.THREE.PerspectiveCamera(画角, アスペクト比, 描画開始距離, 描画終了距離)
 			this.camera.position.set(0, 0, 0.1);	// カメラ位置
 
 			// theta画像
-			const geometry = new THREE.SphereGeometry(5, 60, 40);
+			const geometry = new ThreeDLayer.THREE.SphereGeometry(5, 60, 40);
 			geometry.scale(-1, 1, 1);
-			const ldr = new THREE.TextureLoader();
+			const ldr = new ThreeDLayer.THREE.TextureLoader();
 			const tx = ldr.load(ThreeDLayer.cfg.searchPath(celestial_sphere, Config.EXT_STILL_IMG));
-			tx.minFilter = THREE.LinearFilter;
-			const material = new THREE.MeshBasicMaterial({map: tx});
-			obj = new THREE.Mesh(geometry, material);
+			tx.minFilter = ThreeDLayer.THREE.LinearFilter;
+			const material = new ThreeDLayer.THREE.MeshBasicMaterial({map: tx});
+			obj = new ThreeDLayer.THREE.Mesh(geometry, material);
 			this.scene_3D.add(obj);
 
 			this.camera.lookAt(obj.position);	// カメラ視野の中心座標
@@ -195,14 +210,14 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 		}
 		else {
 			/// テスト用 Object3D
-			this.camera = new THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);
+			this.camera = new ThreeDLayer.THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);
 			this.camera.position.set(0, 0, 700);	// カメラ位置
 
 			// 立方体
-			const geometry = new THREE.BoxGeometry(500, 500, 500);
-			// new THREE.BoxGeometry(幅, 高さ, 奥行き)
-			const material = new THREE.MeshNormalMaterial();
-			obj = new THREE.Mesh(geometry, material);
+			const geometry = new ThreeDLayer.THREE.BoxGeometry(500, 500, 500);
+			// new ThreeDLayer.THREE.BoxGeometry(幅, 高さ, 奥行き)
+			const material = new ThreeDLayer.THREE.MeshNormalMaterial();
+			obj = new ThreeDLayer.THREE.Mesh(geometry, material);
 			obj.position.z = -500;
 			obj.rotation.z = -45;
 			this.scene_3D.add(obj);
@@ -215,7 +230,7 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 		}
 
 		if ('controls' in hArg) {
-			const controls = new THREE.OrbitControls(this.camera);
+			const controls = new ThreeDLayer.THREE.OrbitControls(this.camera);
 			controls.target.set(
 				this.camera.position.x + 0.15,
 				this.camera.position.y,

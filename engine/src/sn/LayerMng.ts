@@ -331,7 +331,6 @@ return false;	//=====
 		if (! layer) throw 'layerは必須です';
 		if (layer.indexOf(',') != -1) throw 'layer名に「,」は使えません';
 		if (layer in this.hPages) throw 'layer【'+ layer+'】は定義済みです';
-		this.aLayName.push(layer);
 
 		const cls = hArg.class;
 		if (! cls) throw 'classは必須です';
@@ -341,9 +340,11 @@ return false;	//=====
 		switch (cls) {
 		case 'grp':	fore = new GrpLayer;	back = new GrpLayer;	break;
 		case 'txt':	fore = new TxtLayer;	back = new TxtLayer;	break;
-		case '3d':	fore = new ThreeDLayer;	back = new ThreeDLayer;	break;
+		case '3d':	if (ThreeDLayer.import(this.main, this.scrItr)) return true;
+					fore = new ThreeDLayer;	back = new ThreeDLayer;	break;
 		default:	throw '属性 class【'+ cls +'】が不正です';
 		}
+		this.aLayName.push(layer);
 		const pg = this.hPages[layer] = new Pages(layer, cls, {fore: fore, back: back});
 		this.fore.addChild(fore.cnt);
 		this.back.addChild(back.cnt);

@@ -1,18 +1,39 @@
-module.exports = [{
-	entry: `./engine/tmp/app.js`,	// メインとなるJavaScriptファイル（エントリーポイント）
-	target: 'electron-renderer',
+//const StatsPlugin = require('stats-webpack-plugin');
+	// npm i -D stats-webpack-plugin
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+	// npm i -D webpack-bundle-analyzer
 
-	output: {	// ファイルの出力設定
-		path: process.cwd() +'/app',//  出力ファイルのディレクトリ名
-		filename: 'index.js'		// 出力ファイル名
+module.exports = [
+	{
+		entry: `./engine/tmp/app.js`,
+		target: 'electron-renderer',
+		output: {
+			path: process.cwd() +'/app',
+			filename: 'index.js'
+		},
 	},
-},
-{
-	entry: `./engine/tmp/web.js`,	// メインとなるJavaScriptファイル（エントリーポイント）
-	target: 'web',
-
-	output: {	// ファイルの出力設定
-		path: process.cwd(),		//  出力ファイルのディレクトリ名
-		filename: 'web.js'			// 出力ファイル名
-	},
-}];
+	{
+		entry: `./engine/tmp/web.js`,
+		target: 'web',
+		output: {
+			path: process.cwd(),
+			filename: 'web.js',
+//			chunkFilename: '[name].chunk.js'
+		},
+/*
+		optimization: {
+			splitChunks: {
+				chunks: 'all',
+			}
+		},
+*/
+/*
+		plugins: [
+			new StatsPlugin('./engine/tmp/stats.json', {
+				chunkModules: true,
+			}),
+//			new BundleAnalyzerPlugin({statsFilename: './engine/tmp/'}),
+		],
+*/
+	}
+];
