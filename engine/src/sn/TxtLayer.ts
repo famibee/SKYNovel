@@ -489,7 +489,7 @@ export class TxtLayer extends Layer {
 		let sJoinSpan = this.aSpan.join('');
 		if (sJoinSpan.slice(-5) == '<br/>') sJoinSpan = sJoinSpan.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行の処理で、終端に「　」を追加させない前処理
 		const tmp = sJoinSpan.split('<br/>').map(v=> (
-			v.indexOf('</p>') > 0
+			v.includes('</p>')
 			? v		// <p>入れ子予防
 			: `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`
 		)).join('');
@@ -1108,7 +1108,7 @@ export class TxtLayer extends Layer {
 					r.left +window.pageXOffset,
 					r.top  +window.pageYOffset,
 					r.width,
-					r.height +(('gjqy'.indexOf(ch) == -1) ?0 :this.lh_half)),
+					r.height +('gjqy'.includes(ch) ?this.lh_half :0)),
 				cmd	: pe.getAttribute('data-cmd'),
 				arg	: pe.getAttribute('data-arg'),
 				add	: pe.getAttribute('data-add'),

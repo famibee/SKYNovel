@@ -29,7 +29,7 @@ export class RubySpliter {
 		4E00..9FFF CJK統合漢字
 		F900..FAFF CJK互換漢字
 		20000..2FFFF CJK統合漢字拡張B〜F＋CJK互換漢字追加＋念のためU+2FFFFまで
-		
+
 		[\x{2E80}-\x{2FDF}々〇〻\x{3400}-\x{4DBF}\x{4E00}-\x{9FFF}\x{F900}-\x{FAFF}\x{20000}-\x{2FFFF}]
 		[\u2E80-\u2FDF々〇〻\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u20000-\u2FFFF]
 		[⺀-⿟々〇〻㐀-䶿一-鿿豈-﫿\u20000-\u2FFFF]		// 含まれない文字がある
@@ -82,7 +82,7 @@ export class RubySpliter {
 
 		// 自動区切りを行わない
 		const len_text = text.length;
-		if (len_text == 1 || ruby.indexOf(' ') == -1) {
+		if (len_text == 1 || ! ruby.includes(' ')) {
 			this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
 			return;
 		}

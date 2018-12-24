@@ -329,7 +329,7 @@ return false;	//=====
 	private add_lay(hArg) {
 		const layer = hArg.layer;
 		if (! layer) throw 'layerは必須です';
-		if (layer.indexOf(',') != -1) throw 'layer名に「,」は使えません';
+		if (layer.includes(',')) throw 'layer名に「,」は使えません';
 		if (layer in this.hPages) throw 'layer【'+ layer+'】は定義済みです';
 
 		const cls = hArg.class;
@@ -897,7 +897,7 @@ void main(void) {
 	private argChk_layer(hash, def = ''): string {
 		//console.log('[argChk_layer] layer:'+ hash['layer']);
 		const v = hash.layer || def;
-		if (v.indexOf(',') != -1) throw('layer名に「,」は使えません');
+		if (v.includes(',')) throw 'layer名に「,」は使えません';
 		if (! (v in this.hPages)) throw '属性 layer【'+ v +'】が不正です。レイヤーがありません';
 
 		return hash.layer = v;

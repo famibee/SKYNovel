@@ -419,7 +419,7 @@ export class EventMng implements IEvtMng {
 			this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);// 次の選択肢(/未読)まで進むが有効か
 		}
 
-		if (this.val.getVal('tmp:sn.skip.enabled') && ('ps'.indexOf(String(this.val.getVal('sys:sn.skip.mode'))) != -1)) return false;
+		if (this.val.getVal('tmp:sn.skip.enabled') && ('ps'.includes(String(this.val.getVal('sys:sn.skip.mode'))))) return false;
 		if (this.val.getVal('tmp:sn.auto.enabled')) {
 			//traceDbg('l:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
 			return this.hTag.wait({

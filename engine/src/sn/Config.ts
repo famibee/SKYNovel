@@ -167,7 +167,9 @@ export class Config {
 				if (extptn == '') a.fn = utn;
 				else
 				for (let e3 in this.hPathFn2Exts[utn]) {
-					if (('|'+ extptn +'|').indexOf('|'+ e3 +'|') == -1) continue;
+					//if (('|'+ extptn +'|').indexOf('|'+ e3 +'|') == -1) continue;
+					if (! ('|'+ extptn +'|').includes('|'+ e3 +'|')) continue;
+						// NOTE: indexOfはNaNと空の要素を見つけられない
 
 					a.fn = utn;
 					break;
@@ -193,12 +195,12 @@ export class Config {
 			if (hcnt > 1) {
 				let cnt = 0;
 				for (const e2 in h_exts) {
-					if (search_exts.indexOf('|'+ e2 +'|') == -1) continue;
+					if (! search_exts.includes('|'+ e2 +'|')) continue;
 					if (++cnt > 1) throw '指定ファイル【'+ fn +'】が複数マッチします。サーチ対象拡張子群【'+ extptn +'】で絞り込むか、ファイル名を個別にして下さい。';
 				}
 			}
 			for (let e in h_exts) {
-				if (search_exts.indexOf('|'+ e +'|') == -1) continue;
+				if (! search_exts.includes('|'+ e +'|')) continue;
 
 				return h_exts[e];
 			}
@@ -209,7 +211,7 @@ export class Config {
 		//	ファイル名サーチ→拡張子群にxが含まれるか
 		if (extptn != '') {
 			const search_exts2 = '|'+ extptn +'|';
-			if (search_exts2.indexOf('|'+ a.ext +'|') == -1) {
+			if (! search_exts2.includes('|'+ a.ext +'|')) {
 				throw '指定ファイルの拡張子【'+ a.ext +'】は、サーチ対象拡張子群【'+ extptn +'】にマッチしません。探索ファイル名=【'+ fn +'】';
 			}
 		}
