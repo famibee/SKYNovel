@@ -7,6 +7,7 @@ const opts = {
 //	platform: 'win32',
 	platform: 'darwin',
 //	platform: 'darwin,win32',
+//	arch: 'ia32',
 	arch: 'x64',
 		// 2018/5/1時点で
 		// Allowed values: ia32, x64, armv7l, arm64 (Electron 1.8.0 and above), mips64el (Electron 1.8.2-beta.5 and above), all
