@@ -737,7 +737,7 @@ export class TxtLayer extends Layer {
 						try {
 							if (sheet.href) continue;
 						//console.log(sheet.cssRules);
-							util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
+							util.asArray(sheet.cssRules || []).map(cssRules.push.bind(cssRules));
 						}
 						catch (e) {
 							console.error('Error while reading CSS rules from ' + sheet.href, e.toString());

@@ -94,7 +94,8 @@ export class GrpLayer extends Layer {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		//GrpLayer.ldr.destroy();	// あまりキビキビ殺すと、表示する前に消える
 		let isLoad = false;
-		csv.split(',').forEach((fn, i)=> {
+		// .forEach((fn, i)=> {	// NOTE: mapの方が速い＆値を返すのでチェーンにできる
+		csv.split(',').map((fn, i)=> {
 			if (! fn) throw 'face属性に空要素が含まれます';
 
 			// 差分絵を重ねる

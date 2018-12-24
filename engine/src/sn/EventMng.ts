@@ -384,7 +384,8 @@ export class EventMng implements IEvtMng {
 			((elmlist[0].type == 'range' || elmlist[0].type == 'checkbox')
 				? ['input', 'change']
 				: ['click'])
-				.forEach(v=> {
+				//.forEach(v=> {	// NOTE: mapの方が速い＆値を返すのでチェーンにできる
+				.map(v=> {
 					for (const elm of elmlist) this.elc.add(elm, v, e=> {
 						const e2 = (elm as HTMLElement).dataset;
 						for (const key in e2) {

@@ -9,7 +9,7 @@ import assert = require('power-assert');
 
 import {PropParser} from '../src/sn/PropParser';
 
-import {IVariable, ISysBase, typeProcVal} from '../src/sn/CmnLib';
+import {IVariable, ISysBase, typeProcVal, ISetVal} from '../src/sn/CmnLib';
 
 class MyVal implements IVariable {
 	private hGetVal = {
@@ -38,9 +38,11 @@ class MyVal implements IVariable {
 	};
 
 	setSys(sys: ISysBase): void {};
+	flush(): void {};
 	getVal(arg_name: string): object {return this.hGetVal[arg_name];}
 	setVal_Nochk = (scope: string, nm: string, val: any, autocast?: boolean)=> {};
 	defTmp = (name: string, fnc: typeProcVal)=> {};
+	defValTrg(name: string, fnc: ISetVal): void {};
 	cloneMp = ()=> {return {}};
 	setMp = ()=> {};
 	cloneSave(): object {return {};};
