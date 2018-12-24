@@ -24,20 +24,20 @@ app.on('second-instance', ()=> {
 	guiWin.focus();
 });
 app.on('ready', ()=> {
-	const openAboutWindow = require('about-window').default;
+	//const openAboutWindow = require('about-window').default;
 	const menu = Menu.buildFromTemplate([{
 		label: app.getName(),
 		submenu: [
 			{
 				label: 'About This App',
-				click: ()=> openAboutWindow({
+				/*click: ()=> openAboutWindow({		// 'Cannot find module'になるので
 					icon_path: 'file://'+ __dirname.replace(/\\/g, '/') +'/app/icon.png',
 					package_json_dir: __dirname,
 					copyright: 'Copyright '+ process.env.npm_package_appCopyright +' 2018',
 					homepage: 'http://famibee.blog38.fc2.com/',
 					license: '',
 					use_version_info: false,
-				}),
+				}),*/
 			},
 		],
 	}]);

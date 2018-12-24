@@ -43,7 +43,7 @@
 		"electron": "^4.0.0",
 		"electron-installer-dmg": "^2.0.0",
 		"electron-packager": "^13.0.1",
-		"electron-wix-msi": "^2.1.1",
+		"electron-winstaller": "^2.7.0",
 		"espower-typescript": "^9.0.1",
 		"intelli-espower-loader": "^1.0.1",
 		"istanbul": "^0.4.5",
