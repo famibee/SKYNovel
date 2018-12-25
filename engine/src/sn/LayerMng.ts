@@ -342,6 +342,8 @@ return false;	//=====
 		case 'txt':	fore = new TxtLayer;	back = new TxtLayer;	break;
 		case '3d':	if (ThreeDLayer.import(this.main, this.scrItr)) return true;
 					fore = new ThreeDLayer;	back = new ThreeDLayer;	break;
+					// NOTE: ジェネレータにしたほうがいいかも
+					//	JavaScript の ジェネレータ を極める！ - Qiita https://qiita.com/kura07/items/d1a57ea64ef5c3de8528
 		default:	throw '属性 class【'+ cls +'】が不正です';
 		}
 		this.aLayName.push(layer);
