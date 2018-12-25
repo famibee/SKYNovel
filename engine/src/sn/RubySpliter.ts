@@ -82,7 +82,7 @@ export class RubySpliter {
 
 		// 自動区切りを行わない
 		const len_text = text.length;
-		if (len_text == 1 || ! ruby.includes(' ')) {
+		if (len_text == 1 || ruby.indexOf(' ') == -1) {
 			this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
 			return;
 		}
