@@ -67,9 +67,12 @@ app.on('ready', ()=> {
 	guiWin.on('closed', ()=> app.quit());
 });
 
-app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
-	// 2018/12/27
+//app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 	// Electron 3 audio not allowed before user interaction with the page (Chrome 66 autoplay policy) · Issue #13525 · electron/electron https://github.com/electron/electron/issues/13525
+app.commandLine.appendSwitch('disable-features', 'AutoplayIgnoreWebAudio');
+	// 前述だと警告が残るが、上記ならクリック無し再生＆警告も出ない
+	// Autoplay Policy Changes  |  Web  |  Google Developers https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio
+
 process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 	// 2018/05/08
 	// disable security-warnings not working · Issue #11970 · electron/electron https://github.com/electron/electron/issues/11970
