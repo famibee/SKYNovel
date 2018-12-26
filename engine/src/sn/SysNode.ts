@@ -140,6 +140,8 @@ export class SysNode extends SysBase {
 	private	retinaFnTail	= '';
 	private	hPathFn2Retina	: {[name: string]: boolean}	= {};
 
+	protected isApp = ()=> true;
+
 	existsSync = m_fs.existsSync;
 	//readFileSync = m_fs.readFileSync;
 	//readFile = m_fs.readFile;

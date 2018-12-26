@@ -44,6 +44,8 @@ export class SysBase implements ISysBase {
 		val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
 		val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', 0);
 			// AIRNovel の sys:const.flash.display.Stage.nativeWindow.x、.y
+
+		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
 	// 基底定義なので「使ってないパラメーター警告」でも消さないように
 	protected close			: ITag = hArg=> false;
@@ -54,6 +56,7 @@ export class SysBase implements ISysBase {
 	initData(data: object, hTmp: object, comp: (data: object)=> void) {};
 	flush() {}
 
+	protected isApp = ()=> false;
 	protected $path_desktop	= '';
 	get path_desktop() {return this.$path_desktop};
 
