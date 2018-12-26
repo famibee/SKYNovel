@@ -53,6 +53,9 @@ app.on('ready', ()=> {
 		textAreasAreResizable	: false,
 		resizable	: false,
 		fullscreenable	: true,
+		webPreferences	: {
+			nodeIntegration: true,
+		},
 	});
 	try {
 		guiWin.loadURL('file://'+ __dirname.replace(/\\/g, '/') +'/app/index.htm');
