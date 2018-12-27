@@ -229,6 +229,12 @@ export class EventMng implements IEvtMng {
 			//	hTag.event()は内部で使わず、こうする
 			this.hLocalEvt2Fnc['wheel.y>0'] = fncKey;
 		}
+		else {
+			delete this.hLocalEvt2Fnc['Click'];
+			delete this.hLocalEvt2Fnc['Enter'];
+			delete this.hLocalEvt2Fnc['ArrowDown'];
+			delete this.hLocalEvt2Fnc['wheel.y>0'];
+		}
 
 		// evtfncWait();
 		this.scrItr.saveKidoku(); // これはそのままか

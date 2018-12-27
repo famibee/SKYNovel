@@ -24,6 +24,6 @@
 		"slideBaseSpan"	: false,
 		"baseTx"		: false,
 		"masume"		: false,
-		"variable"		: true
+		"variable"		: false
 	}
 }

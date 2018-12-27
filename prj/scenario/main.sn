@@ -61,13 +61,12 @@
 	[wt]
 
 	; *** BGM（ブラウザのClick to play対応の一環で、タイトル画面表示後まで遅らせる） ***
-	[call label=*c2p cond=const.sn.needClick2Play]
+	[call label=*c2p cond=const.sn.needClick2Play&&!const.sn.lay.mes_c2p]
 	[bgm fn="free0509" time=200]
 [s]
 
 
 *c2p
-;	[trace text='👺 please click']
 	[add_lay layer=mes_c2p class=txt]
 	[lay layer=mes_c2p b_pic=_c2p b_alpha=1 b_alpha_isfixed=true b_left=0 b_top=0 visible=true]
 	[enable_event enabled=false]
@@ -76,7 +75,6 @@
 
 	[lay layer=mes_c2p page=fore visible=false]
 	[enable_event enabled=true]
-;	[trace text='👺 ok']
 [return]
 
 
