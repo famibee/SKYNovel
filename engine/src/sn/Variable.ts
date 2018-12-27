@@ -122,7 +122,23 @@ export class Variable implements IVariable {
 		sys.initData(this.data, this.hTmp, data=> {
 			this.data = data;
 			this.hSysVal = this.hScopeVal.sys = this.data.sys;
-			this.flush = ()=> sys.flush();
+			if (this.cfg.oCfg.debug.variable) {
+				sessionStorage.clear();
+				Object.keys(this.hSysVal).sort().map(k=> {
+					const v = this.hSysVal[k];
+					sessionStorage[`${this.cfg.oCfg.save_ns} - sys:${k}`] = (v instanceof Function) ?v(): v;
+				});
+				Object.keys(this.hSaveVal).sort().map(k=> {
+					const v = this.hSaveVal[k];
+					sessionStorage[`${this.cfg.oCfg.save_ns} - save:${k}`] = (v instanceof Function) ?v(): v;
+				});
+				Object.keys(this.hTmp).sort().map(k=> {
+					const v = this.hTmp[k];
+					sessionStorage[`${this.cfg.oCfg.save_ns} - tmp:${k}`] = (v instanceof Function) ?v(): v;
+				});
+				this.flush = ()=> sys.flush();
+			}
+			else this.flush = ()=> sys.flush();
 		});
 	}
 	flush	= ()=> {};

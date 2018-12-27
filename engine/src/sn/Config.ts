@@ -51,6 +51,7 @@ export class Config {
 			slideBaseSpan	: false,
 			baseTx		: false,
 			masume		: false,	// テキストレイヤ：ガイドマス目を表示するか
+			variable	: false,
 		},
 	};
 	userFnTail		= '';

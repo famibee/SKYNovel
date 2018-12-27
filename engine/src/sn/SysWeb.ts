@@ -86,6 +86,7 @@ export class SysWeb extends SysBase {
 		strLocal.set(this.ns +'sys', this.data.sys);
 		strLocal.set(this.ns +'mark', this.data.mark);
 		strLocal.set(this.ns +'kidoku', this.data.kidoku);
+		// TODO: 暗号化
 	}
 
 

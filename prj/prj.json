@@ -1,5 +1,5 @@
 {
-	"save_ns": "com.fc2.blog38.famibee.skynovel.uc",
+	"save_ns": "skynovel.uc",
 	"search": ["album","bgimage","bgm","config","fgimage","image","lib","menu","rule","saveload","scenario","system"],
 	"window": {
 		"width": 1024,
@@ -23,6 +23,7 @@
 		"putCh"			: false,
 		"slideBaseSpan"	: false,
 		"baseTx"		: false,
-		"masume"		: false
+		"masume"		: false,
+		"variable"		: true
 	}
 }
