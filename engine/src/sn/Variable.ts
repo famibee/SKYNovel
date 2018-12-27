@@ -40,6 +40,9 @@ export class Variable implements IVariable {
 		hTag.clearvar		= ()=> this.clearvar();		// ゲーム変数の全消去
 		hTag.dump_val		= ()=> this.dump_val();		// 変数のダンプ
 
+		// save:
+		this.hSaveVal['sn.userFnTail']	= '';
+
 		// tmp:
 		/// この辺でsys:ロード処理か
 		this.hTmp['const.sn.isFirstBoot'] = true;
@@ -122,36 +125,38 @@ export class Variable implements IVariable {
 		sys.initData(this.data, this.hTmp, data=> {
 			this.data = data;
 			this.hSysVal = this.hScopeVal.sys = this.data.sys;
-			if (this.cfg.oCfg.debug.variable) {
-				sessionStorage.clear();
+			this.flush_ = (this.cfg.oCfg.debug.variable)
+				? ()=> {
+					sessionStorage.clear();
 
-				const oSys = {};
-				Object.keys(this.hSysVal).map(k=> {
-					const v = this.hSysVal[k];
-					oSys[k] = (v instanceof Function) ?v(): v;
-				});
-				sessionStorage[`${this.cfg.oCfg.save_ns} - sys`] = JSON.stringify(oSys);
+					const oSys = {};
+					Object.keys(this.hSysVal).map(k=> {
+						const v = this.hSysVal[k];
+						oSys[k] = (v instanceof Function) ?v(): v;
+					});
+					sessionStorage[this.cfg.oCfg.save_ns +' - sys'] = JSON.stringify(oSys);
 
-				const oSave = {};
-				Object.keys(this.hSaveVal).map(k=> {
-					const v = this.hSaveVal[k];
-					oSave[k] = (v instanceof Function) ?v(): v;
-				});
-				sessionStorage[`${this.cfg.oCfg.save_ns} - save`] = JSON.stringify(oSave);
+					const oSave = {};
+					Object.keys(this.hSaveVal).map(k=> {
+						const v = this.hSaveVal[k];
+						oSave[k] = (v instanceof Function) ?v(): v;
+					});
+					sessionStorage[this.cfg.oCfg.save_ns +' - save'] = JSON.stringify(oSave);
 
-				const oTmp = {};
-				Object.keys(this.hTmp).map(k=> {
-					const v = this.hTmp[k];
-					oTmp[k] = (v instanceof Function) ?v(): v;
-				});
-				sessionStorage[`${this.cfg.oCfg.save_ns} - tmp`] = JSON.stringify(oTmp);
+					const oTmp = {};
+					Object.keys(this.hTmp).map(k=> {
+						const v = this.hTmp[k];
+						oTmp[k] = (v instanceof Function) ?v(): v;
+					});
+					sessionStorage[this.cfg.oCfg.save_ns +' - tmp'] = JSON.stringify(oTmp);
 
-				this.flush = ()=> sys.flush();
-			}
-			else this.flush = ()=> sys.flush();
+					sys.flush();
+				}
+				: ()=> sys.flush();
 		});
 	}
-	flush	= ()=> {};
+	private flush_	= ()=> {};
+	flush() {this.flush_();}
 
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScopeVal.mp}}

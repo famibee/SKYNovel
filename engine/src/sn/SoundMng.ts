@@ -48,7 +48,7 @@ export class SoundMng {
 		fncGlobalVol('', val.getVal('sys:sn.sound.global_volume', 1));
 		val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
 
-		this.flush = val.flush;
+		this.flush = ()=> val.flush();
 	}
 	private flush	= () =>{};
 

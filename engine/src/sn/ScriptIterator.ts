@@ -108,9 +108,9 @@ export class ScriptIterator {
 		}
 
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.vctCallStk.length);
-		this.flush = val.flush;
+		this.flush = ()=> val.flush();
 	}
-	private flush	= () =>{};
+	private flush	= ()=> {};
 
 	private	evtMng	: EventMng | null	= null;
 	private	layMng	: LayerMng | null	= null;
