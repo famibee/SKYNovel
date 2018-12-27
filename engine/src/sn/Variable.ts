@@ -125,10 +125,9 @@ export class Variable implements IVariable {
 		sys.initData(this.data, this.hTmp, data=> {
 			this.data = data;
 			this.hSysVal = this.hScopeVal.sys = this.data.sys;
+			sessionStorage.clear();
 			this.flush_ = (this.cfg.oCfg.debug.variable)
 				? ()=> {
-					sessionStorage.clear();
-
 					const oSys = {};
 					Object.keys(this.hSysVal).map(k=> {
 						const v = this.hSysVal[k];
