@@ -601,7 +601,7 @@ void main(void) {
 
 		GrpLayer.ldPic(hArg.rule, tx=> {
 			flt.uniforms.rule = tx;
-			this.twInfTrans.tw.start();
+			if (this.twInfTrans.tw) this.twInfTrans.tw.start();
 			this.appPixi.ticker.add(fncRender);
 		});
 		return false;
@@ -830,6 +830,7 @@ void main(void) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf) return false;
+		if (! twInf.tw) return false;
 
 		twInf.tw.start();
 

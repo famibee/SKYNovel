@@ -132,14 +132,14 @@ export class Variable implements IVariable {
 					const oSys = {};
 					Object.keys(this.hSysVal).map(k=> {
 						const v = this.hSysVal[k];
-						oSys[k] = (v instanceof Function) ?v(): v;
+						oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - sys'] = JSON.stringify(oSys);
 
 					const oSave = {};
 					Object.keys(this.hSaveVal).map(k=> {
 						const v = this.hSaveVal[k];
-						oSave[k] = (v instanceof Function) ?v(): v;
+						oSave['save:'+ k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - save'] = JSON.stringify(oSave);
 
