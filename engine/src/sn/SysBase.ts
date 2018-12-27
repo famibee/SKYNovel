@@ -59,6 +59,8 @@ export class SysBase implements ISysBase {
 	protected isApp = ()=> false;
 	protected $path_desktop	= '';
 	get path_desktop() {return this.$path_desktop};
+	protected $path_userdata	= '';
+	get path_userdata() {return this.$path_userdata};
 
 	// 基底定義なので「使ってないパラメーター警告」でも消さないように
 	existsSync = (path: string)=> true;

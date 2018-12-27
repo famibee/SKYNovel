@@ -71,7 +71,7 @@
 	[lay layer=mes_c2p b_pic=_c2p b_alpha=1 b_alpha_isfixed=true b_left=0 b_top=0 visible=true]
 	[enable_event enabled=false]
 
-	[waitclick cond=!const.sn.isApp]
+	[waitclick]
 
 	[lay layer=mes_c2p page=fore visible=false]
 	[enable_event enabled=true]
@@ -131,8 +131,8 @@
 	[return]
 
 *snapshot
-	[snapshot fn=pic]
-	[notice text="スクリーンショットをデスクトップに保存しました" left="&const.sn.config.window.width -10 -300" top=10]
+	[snapshot]
+;	[notice text="スクリーンショットをデスクトップに保存しました" left="&const.sn.config.window.width -10 -300" top=10]
 	[return]
 
 *reload_script

@@ -237,7 +237,9 @@ export class LayerMng {
 			undefined, false
 		);
 		this.sys.savePic(
-			this.sys.path_desktop + (hArg.fn || 'snapshot'+ getDateStr('-', '_', '', '_'))+ '.'+ ext,
+			this.cfg.searchPath(
+				(hArg.fn || 'desktop:/snapshot'+ getDateStr('-', '_', '', '_'))+ '.'+ ext
+			),
 			renderer.view.toDataURL('image/'+ (ext == 'png' ?'png' :'jpeg'))
 		);
 		renderer.destroy(true);

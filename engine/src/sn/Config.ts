@@ -65,7 +65,7 @@ export class Config {
 	static	EXT_FONT	= 'woff2|otf|ttf';
 	static	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|wav';
 
-	constructor(sys: SysBase, fncLoaded: ()=> void, oCfg4tst: object = null) {
+	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst: object = null) {
 		let err_mes = '';
 		const load = oCfg=> {
 			//console.log(oCfg);
@@ -152,9 +152,11 @@ export class Config {
 		//console.log('searchPath fn:'+ fn +' ext:'+ ext);
 		if (! fn) throw '[searchPath] fnが空です';
 		if (fn.substr(0, 7) == 'http://') return fn;
-		if (fn.substr(0, 12) == "app-storage:") {	// TODO:どう考えるか
-		//	return searchPath_appstorage(fn);
-			return fn;
+		if (fn.substr(0, 9) == 'desktop:/') {
+			return this.sys.path_desktop + fn.slice(9);
+		}
+		if (fn.substr(0, 10) == 'userdata:/') {
+			return this.sys.path_userdata + fn.slice(10);
 		}
 
 		const a = {

@@ -17,6 +17,7 @@ export class SysApp extends SysNode {
 		window.onload = ()=> new Main(this);
 	}
 	protected $path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
+	protected $path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
 
 	protected	normalize = (src: string, form: string)=> src.normalize(form);
 
@@ -67,9 +68,7 @@ export class SysApp extends SysNode {
 		hTmp['const.flash.system.Capabilities.pixelAspectRatio']
 			= Capabilities.pixelAspectRatio;
 			// 画面のピクセル縦横比を指定
-		hTmp['const.flash.system.Capabilities.playerType']
-			= Capabilities.playerType;
-			// ランタイム環境のタイプ
+		hTmp['const.flash.system.Capabilities.playerType']	→ const.sn.isApp
 		hTmp['const.flash.system.Capabilities.screenDPI']
 			= Capabilities.screenDPI;
 			// 画面の1インチあたりのドット数(dpi)解像度をピクセル単位で指定

@@ -11,7 +11,6 @@ import {Config} from './Config';
 
 import m_fs = require('fs-extra');
 import m_path = require('path');
-import dataUriToBuffer = require('data-uri-to-buffer');
 
 export class SysNode extends SysBase {
 	protected	normalize	= (src: string, form: string)=> src;	// for test
@@ -147,7 +146,8 @@ export class SysNode extends SysBase {
 	//readFile = m_fs.readFile;
 	writeFile = m_fs.writeFile;
 	savePic = (fn: string, data_url: string)=> {
-		this.writeFile(fn, dataUriToBuffer(data_url), err=> {
+		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
+		this.writeFile(fn, Buffer.alloc(bs64.length, bs64, 'base64'), err=> {
 			if (err) throw err;
 			if (CmnLib.devtool) console.log('画像ファイルを保存しました');
 		});

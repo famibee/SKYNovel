@@ -26,7 +26,7 @@
 		; フォントを遅延ロードしているので指定はここまで遅らせる
 	[h_ss_upd]	; 履歴画面用スナップショットを撮る
 	[history_redraw text=&save:const.an.sLog]
-		[button layer=履歴 page=fore pic="Icon_btnX" left=984 top=8 global=true label=*cancel hint="閉じる" enterse=&sysse_choice cond="const.flash.system.Capabilities.playerType != 'Desktop'"]
+		[button layer=履歴 page=fore pic="Icon_btnX" left=984 top=8 global=true label=*cancel hint="閉じる" enterse=&sysse_choice cond=!const.sn.isApp]
 	[let name=sysmenu_v text=&const.an.lay.mes_sysmenu.fore.visible cond=useSysMenu]
 	[sys_menu visible=false]
 

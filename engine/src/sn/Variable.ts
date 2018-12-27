@@ -94,7 +94,6 @@ export class Variable implements IVariable {
 
 		this.hTmp['const.sn.needClick2Play'] = ()=> new AudioContext().state == 'suspended';
 		this.hTmp['const.Date.getTime'] = ()=> (new Date).getTime();
-		this.hTmp['const.flash.utils.getTimer'] = ()=> (new Date).getTime();
 		this.hTmp['const.Stage.mouseX'] = ()=> {
 //			return stage.mouseX;
 			return 0;
