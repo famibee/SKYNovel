@@ -78,6 +78,7 @@
 	var val_place = 0;
 	function val2ctrl() {	// 変数→コンポーネント
 		if (val_dic) a = JSON.parse(val_dic);
+		Array.from(document.getElementsByClassName('title')).forEach(v=> v.textContent = (val_mode == 'Load') ?'ロード' :'セーブ');
 		if (val_mode == 'Save') a.push({"fn": "_saveloadBtn_nouse.png", "dt": "", "txt": "　新規にセーブします"});
 
 		const lst = document.getElementsByClassName('row')[0];
@@ -101,15 +102,12 @@
 	</div>
 </div>`);
 		});
-		const aTitle = Array.from(document.getElementsByClassName('title'));
-		const title = (val_mode == 'Load') ?'ロード' :'セーブ';
 		const doit = document.getElementById('do_loadsave');
 		const ev = document.createEvent('MouseEvents');
 		ev.initEvent('click', false, true);
 		Array.from(document.getElementsByClassName('no_modal'))
 		.forEach(v=> v.addEventListener('click', e=> {
 			val_place = e.target.parentNode.dataset.id;
-			aTitle.forEach(v=> v.textContent = title);
 			doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
 		}));
 		Array.from(document.getElementsByClassName('modal-trigger'))

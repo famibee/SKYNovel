@@ -147,7 +147,7 @@ export class SysNode extends SysBase {
 	writeFile = m_fs.writeFile;
 	savePic = (fn: string, data_url: string)=> {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
-		this.writeFile(fn, Buffer.alloc(bs64.length, bs64, 'base64'), err=> {
+		this.writeFile(fn, Buffer.from(bs64, 'base64'), err=> {
 			if (err) throw err;
 			if (CmnLib.devtool) console.log('画像ファイルを保存しました');
 		});
