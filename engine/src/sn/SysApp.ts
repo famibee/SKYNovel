@@ -9,7 +9,7 @@ import { SysNode } from "./SysNode";
 import {CmnLib, HArg, IHTag, IVariable} from './CmnLib';
 import {remote, BrowserWindow, webContents, screen} from 'electron';
 import {Main} from './Main';
-const storage = require('electron-json-storage');
+const Store = require('electron-store');
 
 export class SysApp extends SysNode {
 	constructor() {
@@ -33,85 +33,79 @@ export class SysApp extends SysNode {
 		hTag.window = this.window;
 	}
 
+	private	store = new Store({cwd: 'storage', name: 'data'});
 	initData(data: object, hTmp: object, comp: (data: object)=> void) {
-		storage.get('data', (err, strDat)=> {
-			if (err) throw err;
+		// TODO: this.store.encryptionKey
+		if (this.store.size == 0) {
+			// データがないときの処理
+			hTmp['const.sn.isFirstBoot'] = true;
+			this.data.sys = data['sys'];
+			this.data.mark = data['mark'];
+			this.data.kidoku = data['kidoku'];
+			this.flush();
+		}
+		else {
+			// データがあるときの処理
+			hTmp['const.sn.isFirstBoot'] = false;
+			this.data.sys = this.store.store['sys'];
+			this.data.mark = this.store.store['mark'];
+			this.data.kidoku = this.store.store['kidoku'];
+		}
+		comp(this.data);
 
-			if (Object.keys(strDat).length === 0) {
-				// データがないときの処理
-				hTmp['const.sn.isFirstBoot'] = true;
-				this.data.sys = data['sys'];
-				this.data.mark = data['mark'];
-				this.data.kidoku = data['kidoku'];
-				this.flush();
-			}
-			else {
-				// データがあるときの処理
-				hTmp['const.sn.isFirstBoot'] = false;
-				this.data.sys = strDat['sys'];
-				this.data.mark = strDat['mark'];
-				this.data.kidoku = strDat['kidoku'];
-			}
-			comp(this.data);
+		/*
+		// システム情報
+		hTmp['const.flash.system.Capabilities.isDebugger']
+			= Capabilities.isDebugger;
+			// システムがデバッグ用の特別なバージョンか
+		hTmp['const.flash.system.Capabilities.language']
+			= Capabilities.language;
+			// コンテンツが実行されているシステムの言語コード
+		hTmp['const.flash.system.Capabilities.os']
+			= Capabilities.os;
+			// 現在のオペレーティングシステム
+		hTmp['const.flash.system.Capabilities.pixelAspectRatio']
+			= Capabilities.pixelAspectRatio;
+			// 画面のピクセル縦横比を指定
+		hTmp['const.flash.system.Capabilities.playerType']
+			= Capabilities.playerType;
+			// ランタイム環境のタイプ
+		hTmp['const.flash.system.Capabilities.screenDPI']
+			= Capabilities.screenDPI;
+			// 画面の1インチあたりのドット数(dpi)解像度をピクセル単位で指定
+		*/
+		hTmp['const.sn.Capabilities.screenResolutionX'] = this.dsp.size.width;
+			// 画面の最大水平解像度
+		hTmp['const.sn.Capabilities.screenResolutionY'] = this.dsp.size.height;
+			// 画面の最大垂直解像度
+			// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
+			// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
+		/*
+		hTmp['const.flash.system.Capabilities.version']
+			= Capabilities.version;
+			// Flash Player又はAdobe® AIRのプラットフォームとバージョン
 
-			/*
-			// システム情報
-			hTmp['const.flash.system.Capabilities.isDebugger']
-				= Capabilities.isDebugger;
-				// システムがデバッグ用の特別なバージョンか
-			hTmp['const.flash.system.Capabilities.language']
-				= Capabilities.language;
-				// コンテンツが実行されているシステムの言語コード
-			hTmp['const.flash.system.Capabilities.os']
-				= Capabilities.os;
-				// 現在のオペレーティングシステム
-			hTmp['const.flash.system.Capabilities.pixelAspectRatio']
-				= Capabilities.pixelAspectRatio;
-				// 画面のピクセル縦横比を指定
-			hTmp['const.flash.system.Capabilities.playerType']
-				= Capabilities.playerType;
-				// ランタイム環境のタイプ
-			hTmp['const.flash.system.Capabilities.screenDPI']
-				= Capabilities.screenDPI;
-				// 画面の1インチあたりのドット数(dpi)解像度をピクセル単位で指定
-			*/
-			hTmp['const.sn.Capabilities.screenResolutionX'] = this.dsp.size.width;
-				// 画面の最大水平解像度
-			hTmp['const.sn.Capabilities.screenResolutionY'] = this.dsp.size.height;
-				// 画面の最大垂直解像度
-				// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
-				// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
-			/*
-			hTmp['const.flash.system.Capabilities.version']
-				= Capabilities.version;
-				// Flash Player又はAdobe® AIRのプラットフォームとバージョン
+		hTmp['const.flash.display.Stage.displayState']
+			= StageDisplayState.NORMAL;
+			//	stage.displayState;
+		*/
 
-			hTmp['const.flash.display.Stage.displayState']
-				= StageDisplayState.NORMAL;
-				//	stage.displayState;
-			*/
-
-			if (hTmp['const.sn.isFirstBoot']) {
-				this.window({centering: true});
-			}
-			else {
-				this.win.setPosition(
-					Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)),
-					Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0))
-				);
-			}
-			this.win.on('moved', ()=> {
-				const p = this.win.getPosition();
-				this.window({x: p[0], y: p[1]});
-			})
+		if (hTmp['const.sn.isFirstBoot']) {
+			this.window({centering: true});
+		}
+		else {
+			this.win.setPosition(
+				Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)),
+				Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0))
+			);
+		}
+		this.win.on('moved', ()=> {
+			const p = this.win.getPosition();
+			this.window({x: p[0], y: p[1]});
 		});
 	}
 	private	dsp	= screen.getPrimaryDisplay();
-	flush() {
-		storage.set('data', this.data, err=> {
-			if (err) throw err;
-		});
-	}
+	flush() {this.store.store = this.data;}
 
 	protected close = ()=> {this.win.close(); return false;}
 	protected title = (hArg: HArg)=> {
