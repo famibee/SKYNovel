@@ -70,7 +70,7 @@
 *do_loadsave
 	[let_frame id=saveload var_name=val_place]
 	[jump label=*save cond="しおりモード=='Save'"]
-[return]
+[jump label=*load]
 
 *do_del
 	[let_frame id=saveload var_name=val_place]
@@ -80,23 +80,9 @@
 
 ;*********************************************************
 *save
-	[let name="_sl.place" text="&const.sn.frm.saveload.val_place"]
-	[let name="exsits" text="&sys:const.an.bookmark[_sl.place] != null"]
+	&_sl.place = const.sn.frm.saveload.val_place
 	[se fn=&sysse_ok1 buf=SYS]
-	[jump label=*ask_end_save cond="! exsits"]
 
-	[enable_event layer="_syslay.mes" enabled=false]
-		[_sl.set_pos place=&_sl.place]
-		[plugin name="Mnu_InfoThumb" visible=true left=&pos.x top=&pos.y float=true]
-
-		[ask_ync mes="しおりを上書き保存しますか？"]
-			;#FONT	しおりを上書き保存しますか？
-
-		[plugin name="Mnu_InfoThumb" visible=false]
-	[enable_event layer="_syslay.mes" enabled=true]
-	[jump label=*retry cond="_yesno != 'y'"]
-
-*ask_end_save
 	[call label=*do_save]
 [jump label=*exit]
 
@@ -130,25 +116,9 @@
 
 ;*********************************************************
 *load
-	[let name="_sl.place" text="&const.sn.frm.saveload.val_place"]
-	[jump label=*ask_end_load cond="呼び元 == 'Title'"]
-	[se fn=&sysse_ok1 buf=SYS]
-
-	[enable_event layer="_syslay.mes" enabled=false]
-		[_sl.set_pos place=&_sl.place]
-		[plugin name="Mnu_InfoThumb" visible=true left=&pos.x top=&pos.y float=true]
-
-		[ask_ync mes="しおりを読み込みますか？"]
-			;#FONT	しおりを読み込みますか？
-
-		[plugin name="Mnu_InfoThumb" visible=false]
-	[enable_event layer="_syslay.mes" enabled=true]
-	[jump label=*retry cond="_yesno != 'y'"]
-	[jump label=*end_load]
-
-*ask_end_load
+	&_sl.place = const.sn.frm.saveload.val_place
 	[se fn=&sysse_ok2_long buf=SYS]
-*end_load
+
 	; *** ブラックアウト ***
 	[clear_lay layer="_syslay.mes" page=back]
 	[lay layer="_syslay.bg" page=back visible=false]

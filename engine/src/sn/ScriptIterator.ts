@@ -936,6 +936,7 @@ export class ScriptIterator {
 		// しおり
 	// しおりの複写
 	private copybookmark(hArg) {
+		// TODO: [copybookmark]未作成
 		return false;
 	}
 
@@ -955,6 +956,7 @@ export class ScriptIterator {
 		if (! place) throw 'placeは必須です';
 		if (! this.val.getVal('sys:const.sn.bookmark.'+ place)) throw '[load] place【'+ place +'】が異常です';
 		if (('fn' in hArg) != ('label' in hArg)) throw '[load] fnとlabelはセットで指定して下さい';
+		// TODO: [load]未作成
 
 //		return this.loadFromSaveObj(hArg, soSys.data.mark[place]);
 		return this.loadFromSaveObj(hArg, {});
