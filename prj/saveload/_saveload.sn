@@ -1,6 +1,6 @@
 ;#USE-FONT	ipam
 	[return cond="const.saveload.inited"]
-	[let name="const.saveload.inited" text=true]
+	&const.saveload.inited = true
 
 	[add_frame id=saveload src="saveload/_saveload.htm" visible=false]
 
@@ -19,8 +19,8 @@
 ;*********************************************************
 ;	TitleMenu -> Load
 *title_load
-	[let name="しおりモード" text="Load"]
-	[let name="呼び元" text="Title"]
+	&しおりモード = "Load"
+	&呼び元 = "Title"
 [jump label=*main]
 
 ;*********************************************************
@@ -28,8 +28,8 @@
 *rclick_load
 	[return cond="! isGameState"]
 
-	[let name="しおりモード" text="Load"]
-	[let name="呼び元" text="Text"]
+	&しおりモード = "Load"
+	&呼び元 = "Text"
 [jump label=*main]
 
 ;*********************************************************
@@ -37,8 +37,8 @@
 *rclick_save
 	[return cond="! isGameState"]
 
-	[let name="しおりモード" text="Save"]
-	[let name="呼び元" text="Text"]
+	&しおりモード = "Save"
+	&呼び元 = "Text"
 [jump label=*main]
 
 ;*********************************************************
@@ -107,7 +107,7 @@
 *quick_save
 	[return cond="! isGameState"]
 
-	[let name="_sl.place" text="&sys:saveload.quick_place"]
+	&_sl.place = sys:saveload.quick_place
 	[call label=*do_save]
 	[let name="sys:saveload.quick_place" text="&(_sl.place +1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
 

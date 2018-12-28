@@ -1,6 +1,6 @@
 ;#USE-FONT	ipam
 	[return cond="const.album.inited"]
-	[let name="const.album.inited" text=true]
+	&const.album.inited = true
 
 	[add_frame id=album src="album/_album.htm" visible=false]
 
