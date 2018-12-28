@@ -170,6 +170,27 @@ export class Variable implements IVariable {
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - tmp'] = JSON.stringify(oTmp);
 
+					const oMp = {};
+					Object.keys(this.hScopeVal.mp).map(k=> {
+						const v = this.hScopeVal.mp[k];
+						oMp[k] = (v instanceof Function) ?v(): v;
+					});
+					sessionStorage[this.cfg.oCfg.save_ns +' - mp'] = JSON.stringify(oMp);
+
+					const oMark = {};
+					Object.keys(this.data.mark).map(k=> {
+						const v = this.data.mark[k];
+						oMark[k] = (v instanceof Function) ?v(): v;
+					});
+					sessionStorage[this.cfg.oCfg.save_ns +' - mark'] = JSON.stringify(oMark);
+
+					const oKidoku = {};
+					Object.keys(this.data.kidoku).map(k=> {
+						const v = this.data.kidoku[k];
+						oKidoku[k] = (v instanceof Function) ?v(): v;
+					});
+					sessionStorage[this.cfg.oCfg.save_ns +' - kidoku'] = JSON.stringify(oKidoku);
+
 					sys.flush();
 				}
 				: ()=> sys.flush();
