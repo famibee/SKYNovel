@@ -69,8 +69,6 @@
 
 *do_loadsave
 	[let_frame id=saveload var_name=val_place]
-	[trace text=&しおりモード]
-	[trace text=&const.sn.frm.saveload.val_place]
 	[jump label=*save cond="しおりモード=='Save'"]
 [return]
 
@@ -104,12 +102,15 @@
 
 *do_save_resume
 	&_sl.place = -1
+	&pic = '_saveload_resume.jpg'
+	[jump label=*do_save_noss]
 
 *do_save
 	[let name=pic text="& 'userdata:/storage/'+ _sl.place +'.jpg'"]
 	[snapshot fn=&pic layer=&dsp_lays smoothing=true cond=const.sn.isApp]
-	[let name=pic text='../bgimage/yun_1317.jpg' cond=!const.sn.isApp]
+	[let name=pic text='_saveload_browser.jpg' cond=!const.sn.isApp]
 
+*do_save_noss
 	[let name="enabled" text="&save:const.an.layer.mes.enabled|true"]
 	[enable_event enabled=true]	; この状態も保存されるので一時変更
 	[save place=&_sl.place pic=&pic dt=&const.Date.getDateStr txt=&const.sn.last_page_text]
