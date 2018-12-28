@@ -118,6 +118,8 @@
 *load
 	&_sl.place = const.sn.frm.saveload.val_place
 	[se fn=&sysse_ok2_long buf=SYS]
+[trace text=&_sl.place]
+[load place=&_sl.place][s]	; ********
 
 	; *** ブラックアウト ***
 	[clear_lay layer="_syslay.mes" page=back]

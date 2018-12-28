@@ -317,4 +317,61 @@ export class SoundMng {
 		// TODO:loadAheadSnd()が未作成
 		;
 	}
+
+	// しおりの読込（BGM状態復元）
+	loadFromSaveObj(hArg: any): [] {
+		// TODO: loadFromSaveObj()未作成
+		return [];
+/*
+		const oSB = {};
+		if (! hArg.reload_sound) {
+			save = hScopeVal.save;
+			sys = hScopeVal.sys;
+		}
+		const bufs_lp_play
+			= (save['const.an.bufs_lp_play'] ||= '');
+		flush();
+//MainThread.myTrace('loadFromSaveObj:('+ bufs_lp_play +')', 'F');
+		if (bufs_lp_play == '') {
+			stop_allse();
+			return [];
+		}
+
+		const ab:Array = bufs_lp_play.split(':');
+		const len:uint = ab.length;
+		for (var i:uint=0; i<len; ++i) {
+			const buf:String = ab[i];
+			const nm:String = 'const.an.sound.'+ buf +'.';
+			oSB[buf] = {
+				fn		:save[nm +'fn']
+			,	buf		:buf
+			,	join	:true
+			,	loop	:true
+			,	volume	:save[nm +'volume']
+			,	ret_ms	:save[nm +'ret_ms']
+			,	end_ms	:save[nm +'end_ms']
+			}
+//MainThread.myTrace(' buf:'+ buf +': fn:'+ oSB[buf].fn +':', 'D');
+		}
+
+		this.stop_allse();
+
+		const aFnc = [];
+		for (i=0; i<len; ++i) {
+			const buf2:String = ab[i];
+//MainThread.myTrace(' buf:'+ buf2 +': fn:'+ oSB[buf2].fn +':', 'F');
+			if (! buf2 || ! oSB[buf2].fn) {
+				delPlayBuf(buf2);
+				continue;
+			};
+			aFnc.push({
+				fnc: (buf2 == 'BGM') ?playbgm :playse
+			,	arg: oSB[buf2] });
+		}
+		// アプリ全体の音量はsys:なので処理不要
+
+		return aFnc;
+*/
+	}
+
 }

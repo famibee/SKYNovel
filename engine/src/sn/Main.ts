@@ -86,7 +86,7 @@ export class Main implements IMain {
 			// ラベル・ジャンプ（5/5）
 			// マクロ（5/5）
 			// しおり（/5）
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.fncLoaded();}, this.propParser.parse);
+			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.fncLoaded();}, this.propParser.parse, this.sndMng);
 
 			// デバッグ・その他（8/9）[reload_script]のみ残る
 			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);

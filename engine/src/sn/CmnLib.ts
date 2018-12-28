@@ -189,7 +189,9 @@ export interface IVariable {
 	cloneMp(): object;
 	setMp(mp: object): void;
 	setMark(place: number, mp: object): void;
+	getMark(place: number): object;
 	cloneSave(): object;
+	loadWark(place: number);
 };
 
 

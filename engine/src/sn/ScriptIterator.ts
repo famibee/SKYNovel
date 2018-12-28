@@ -17,6 +17,7 @@ import {EventMng} from './EventMng';
 import { loaders } from 'pixi.js';
 import { LayerMng } from './LayerMng';
 import { DebugMng } from './DebugMng';
+import {SoundMng} from './SoundMng';
 
 interface Script {
 	aToken	: string[];		// トークン群
@@ -63,7 +64,7 @@ export class ScriptIterator {
 	get isKidoku(): boolean {return this.isKidoku_;};
 
 
-	constructor(private cfg: Config, private hTag: IHTag, private main: IMain, private val: IVariable, private alzTagArg: AnalyzeTagArg, private fncLoaded: ()=> void, private parse: IParse) {
+	constructor(private cfg: Config, private hTag: IHTag, private main: IMain, private val: IVariable, private alzTagArg: AnalyzeTagArg, private fncLoaded: ()=> void, private parse: IParse, private sndMng: SoundMng) {
 		//	変数操作
 		hTag.let_ml		= o=> this.let_ml(o);	// インラインテキスト代入
 
@@ -109,8 +110,11 @@ export class ScriptIterator {
 
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.vctCallStk.length);
 		this.flush = ()=> val.flush();
+
+		this.runAnalyze = fncLoaded;
 	}
 	private flush	= ()=> {};
+	private runAnalyze	= ()=> {};
 
 	private	evtMng	: EventMng | null	= null;
 	private	layMng	: LayerMng | null	= null;
@@ -578,7 +582,6 @@ export class ScriptIterator {
 	private REG_TAG_LET_ML		= m_xregexp(`^\\[let_ml\\s`, 'g');
 	private REG_TAG_ENDLET_ML	= m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
 	private resolveScript(txt: string) {
-		//console.log('* resolveScript scriptFn:'+ scriptFn);
 		txt = txt.replace(/(\r\n|\r)/g, '\n');
 		const v = CmnLib.cnvMultilineTag(txt).match(CmnLib.REG_TOKEN);
 		if (! v) throw 'CmnLib.cnvMultilineTag fail';
@@ -938,13 +941,10 @@ export class ScriptIterator {
 	private load(hArg) {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
-		if (('fn' in hArg) != ('label' in hArg)) throw '[load] fnとlabelはセットで指定して下さい';
-		// TODO: [load]未作成
+		if (('fn' in hArg) != ('label' in hArg)) throw 'fnとlabelはセットで指定して下さい';
 
-//		return this.loadFromSaveObj(hArg, soSys.data.mark[place]);
-		return this.loadFromSaveObj(hArg, {});
-	}
-	private loadFromSaveObj = (hArg: any, mark: any)=> false;
+		const mark = this.val.getMark(place);
+		if (! mark) throw `place【${place}】は存在しません`;
 /*
 		const hide:Shape = new Shape();
 		hide.graphics.beginFill(0x000000, 1);
@@ -952,43 +952,43 @@ export class ScriptIterator {
 		hide.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 		hide.graphics.endFill();
 		stage.addChild(hide);
+*/
+		this.hTag.clear_event({});
 
-		hTag.clear_event({});
-
-		hSaveVal = hScopeVal.save = CmnLib.clone(mark.hSaveVal);
-
-		scriptFn = '';	// わざと入れてLoad時にスクリプトを再読込。
-						// 吉里吉里に動作を合わせる
-		hSaveVal['const.an.sLog'] += '\f';
-			// 吉里吉里に動作を合わせる
-			// 改ページは履歴がページからあふれるため
+		this.val.loadWark(place);
+		this.scriptFn_ = '';	// わざと入れてLoad時にスクリプトを再読込。
+								// 吉里吉里に動作を合わせる
 
 		if (CmnLib.argChk_Boolean(hArg, 'reset_sound', true)) {
-			const aFncBgm:Array = soundMng.loadFromSaveObj(hArg);
-			fncLoaded = (aFncBgm.length == 0)
-				? runAnalyze
-				: function ():void {
+			const aFncBgm = this.sndMng.loadFromSaveObj(hArg);
+			this.fncLoaded = (aFncBgm.length == 0)
+				? this.runAnalyze
+				: ()=> {
 //traceDbg('aa:'+ aFncBgm.length);
-					const o:Object = aFncBgm.pop();
+					const o = aFncBgm.pop();
+/*
 					o.fnc(o.arg);
 //traceDbg('buf:'+ o.arg.buf +': fn:'+ o.arg.fn +':');
-					if (aFncBgm.length == 0) fncLoaded = runAnalyze;
-					next(fncLoaded);
+					if (aFncBgm.length == 0) this.fncLoaded = this.runAnalyze;
+					this.next(this.fncLoaded);
+*/
 				};
 		}
-		else fncLoaded = runAnalyze;
+		else this.fncLoaded = this.runAnalyze;
 
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) {
-			hSaveValRec = CmnLib.clone(hSaveVal);
-			hPagesRec = CmnLib.clone(mark.hPages);
-			vctIfStkRec = ('vctIfStk' in mark)
-				? CmnLib.clone(mark.vctIfStk)
-				: Vector.<int>([-1]);
+			this.hSaveValRec = this.val.cloneSave();
+			this.hPagesRec = {...mark['hPages']};
+			this.vctIfStkRec = ('vctIfStk' in mark) ?{...mark['vctIfStk']} :[-1];
 		}
 
-		const fn:String = hSaveVal['const.an.scriptFn'];
-		const idx:uint = hSaveVal['const.an.scriptIdx'];
-		const fncLd:Function = function ():void {
+		const fn = String(this.val.getVal('save:const.an.scriptFn'));
+		const idx = Number(this.val.getVal('save:const.an.scriptIdx'));
+console.log(`fn:ScriptIterator.ts line:1013 fn:${fn} idx:${idx}`);
+return true;	// NOTE: Test
+		const fncLd = ()=> {
+console.log(`fn:ScriptIterator.ts line:987 Layer回復`);
+/*
 			const ldMngPages:LoadMng = new LoadMng();
 			trans.playbackAMF(ldMngPages, mark.hPages);
 			next(function ():void {
@@ -1011,16 +1011,23 @@ export class ScriptIterator {
 			});
 			ldMngPages.join();
 			ldMngPages.start();
+*/
+console.log(`fn:ScriptIterator.ts line:1013 fn:${fn} idx:${idx}`);
+			this.fncLoaded = this.runAnalyze;
+			this.jumpWork(fn, '', idx);		// NOTE: Test
 		};
 
-		if (('label' in hArg) && (! getCacheScr(fn))) {
-			jumpsub_loadscript(fn);
-			next(fncLd);
+		if (('label' in hArg) && ! (fn in this.hScript)) {
+			const fncLoadedOld = this.fncLoaded;
+			this.fncLoaded = ()=> {
+				fncLoadedOld();
+				fncLd();
+			};
 		}
 		else fncLd();
 
 		return true;
-	}*/
+	}
 
 	// セーブポイント指定
 	private	hPagesRec	= {};

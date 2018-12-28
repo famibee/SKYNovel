@@ -182,7 +182,14 @@ export class Variable implements IVariable {
 	cloneMp(): object {return {...this.hScopeVal.mp}}
 	setMp(mp: object) {this.hScopeVal.mp = mp;}
 	setMark(place: number, mark: object) {this.data.mark[place] = mark; this.flush()}
+	getMark = (place: number)=> this.data.mark[place];
 	cloneSave(): object {return {...this.hScopeVal.save}}
+	loadWark(place: number) {
+		this.hSaveVal = this.hScopeVal.save = {...this.data.mark[place]['hSaveVal']};
+		this.hSaveVal['const.an.sLog'] += '\f';
+			// 吉里吉里に動作を合わせる
+			// 改ページは履歴がページからあふれるため
+	}
 
 
 		// しおり
