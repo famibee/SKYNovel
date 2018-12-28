@@ -945,16 +945,9 @@ export class ScriptIterator {
 
 		const mark = this.val.getMark(place);
 		if (! mark) throw `place【${place}】は存在しません`;
-/*
-		const hide:Shape = new Shape();
-		hide.graphics.beginFill(0x000000, 1);
-		hide.graphics.lineStyle(undefined);
-		hide.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-		hide.graphics.endFill();
-		stage.addChild(hide);
-*/
-		this.hTag.clear_event({});
 
+//		this.layMng.cover(true);
+		this.hTag.clear_event({});
 		this.val.loadWark(place);
 		this.scriptFn_ = '';	// わざと入れてLoad時にスクリプトを再読込。
 								// 吉里吉里に動作を合わせる

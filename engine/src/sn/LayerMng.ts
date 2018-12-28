@@ -138,6 +138,23 @@ export class LayerMng {
 	}
 	private fncTicker = ()=> {TWEEN.update()};
 
+	private grpCover : Graphics | null = null;
+	cover(visible: boolean, bg_color: number = 0x0) {
+		if (this.grpCover) {
+			this.stage.removeChild(this.grpCover);
+			this.grpCover.destroy();
+			this.grpCover = null;
+		}
+		if (visible) {
+			this.grpCover = new Graphics;
+			this.grpCover.beginFill(bg_color);
+			this.grpCover.lineStyle(0, bg_color);
+			this.grpCover.drawRect(0, 0, CmnLib.stageW, CmnLib.stageH);
+			this.grpCover.endFill();
+			this.stage.addChild(this.grpCover);
+		}
+	}
+
 	private evtMng	: IEvtMng	= null;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng; this.frmMng.setEvtMng(evtMng)}
 
