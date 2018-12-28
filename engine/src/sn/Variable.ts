@@ -174,7 +174,11 @@ export class Variable implements IVariable {
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScopeVal.mp}}
 	setMp(mp: object) {this.hScopeVal.mp = mp;}
-	setMark(place: number, mark: object) {this.data.mark[place] = mark;}
+	setMark(place: number, mark: object) {
+		if (mark) this.data.mark[place] = mark;
+		else delete this.data.mark[place];
+		this.flush();
+	}
 	cloneSave(): object {return {...this.hScopeVal.save}}
 
 		//	変数操作

@@ -944,16 +944,7 @@ export class ScriptIterator {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
 
-		if (! this.val.getVal('sys:const.sn.bookmark.'+ place)) return false;
-
-//		if (hSysVal['const.sn.bookmark.'+ place +'.isfile']) {
-//			deleteFile(hSysVal['const.sn.bookmark.path'] + place +'.sd');
-//		}
-
-//		delete soSys.data.mark[place];
-//		delete hSysVal['const.sn.bookmark.'+ place];
-		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place, undefined);
-		this.flush();
+		this.val.setMark(place, null);
 
 		return false;
 	}
@@ -1085,7 +1076,6 @@ export class ScriptIterator {
 			vctIfStk	: this.vctIfStkRec,
 			json		: hArg,
 		});
-		this.flush();
 
 		return false;
 	}

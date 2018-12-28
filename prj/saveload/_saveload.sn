@@ -74,7 +74,7 @@
 
 *do_del
 	[let_frame id=saveload var_name=val_place]
-	[trace text=&const.sn.frm.saveload.val_place]
+	[erasebookmark place=&const.sn.frm.saveload.val_place]
 [return]
 
 
@@ -101,7 +101,7 @@
 [jump label=*exit]
 
 *do_save_resume
-	&_sl.place = -1
+	&_sl.place = 0
 	&pic = '_saveload_resume.jpg'
 	[jump label=*do_save_noss]
 
@@ -156,7 +156,7 @@
 
 *do_load
 	[sys_scenario_start no_resume_save=true]
-	[copybookmark from=&_sl.place to=-1]
+	[copybookmark from=&_sl.place to=0]
 	[load place=&_sl.place]
 ;	[load place=&_sl.place fn=saveload label=*do_load_init]
 
@@ -164,8 +164,8 @@
 	[se fn=&sysse_ok2_long buf=SYS]
 ;	[notice text="前回終了ポイントから再開します（キャンセル=ESC）" left="&const.flash.display.Stage.stageWidth -10 -300" top=10]
 	[sys_scenario_start no_resume_save=true]
-	[load place=-1]
-;	[load place=-1 fn=saveload label=*do_load_init]
+	[load place=0]
+;	[load place=0 fn=saveload label=*do_load_init]
 
 ; ロード後最初にしたい共通処理
 *do_load_init
