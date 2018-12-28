@@ -204,9 +204,10 @@ export class LayerMng {
 
 //	//	システム
 	private snapshot(hArg) {
-		// qualityはない？
-		// pathdlg 保存場所をGUIで選べるダイアログを表示するか
-		const ext = hArg.format || 'jpg';
+		// NOTE: qualityはない？
+		// TODO: pathdlg 保存場所をGUIで選べるダイアログを表示するか
+		const fn = hArg.fn || 'desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg';
+		const ext = CmnLib.getExt(fn);
 		const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
 		const renderer = autoDetectRenderer(
 			CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW),
@@ -237,9 +238,7 @@ export class LayerMng {
 			undefined, false
 		);
 		this.sys.savePic(
-			this.cfg.searchPath(
-				(hArg.fn || 'desktop:/snapshot'+ getDateStr('-', '_', '', '_'))+ '.'+ ext
-			),
+			this.cfg.searchPath(fn),
 			renderer.view.toDataURL('image/'+ (ext == 'png' ?'png' :'jpeg'))
 		);
 		renderer.destroy(true);

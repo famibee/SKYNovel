@@ -45,6 +45,7 @@ class MyVal implements IVariable {
 	defValTrg(name: string, fnc: ISetVal): void {};
 	cloneMp = ()=> {return {}};
 	setMp = ()=> {};
+	setMark = (place: number, mark: object)=> {};
 	cloneSave(): object {return {};};
 };
 

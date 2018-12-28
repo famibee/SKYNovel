@@ -35,7 +35,7 @@
 		"@types/power-assert": "^1.5.0",
 		"@types/stats.js": "^0.17.0",
 		"@types/store": "^2.0.1",
-		"@types/three": "^0.93.13",
+		"@types/three": "^0.93.14",
 		"@types/tween.js": "^16.9.0",
 		"@types/xml2js": "^0.4.3",
 		"@types/xregexp": "^3.0.29",

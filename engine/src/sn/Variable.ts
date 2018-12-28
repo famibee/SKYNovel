@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IHTag, CmnLib, IVariable, ISetVal, typeProcVal, ISysBase, uint, int} from './CmnLib';
+import {HArg, IHTag, CmnLib, IVariable, ISetVal, typeProcVal, ISysBase, uint, int, getDateStr} from './CmnLib';
 import {Config} from './Config';
 import {PropParser} from './PropParser';
 const platform = require('platform');
@@ -42,6 +42,20 @@ export class Variable implements IVariable {
 
 		// save:
 		this.hSaveVal['sn.userFnTail']	= '';
+		this.defTmp('const.sn.bookmark.json', ()=> {
+			const a = [];
+			Object.keys(this.data.mark).sort().map(k=> {
+				const o = {...this.data.mark[k].json};
+				for (const key in o) {
+					const v = o[key];
+					if (typeof v != 'string') continue;
+					if (v.substr(0, 10) != 'userdata:/') continue;
+					o[key] = cfg.searchPath(v);
+				}
+				a.push(o);
+			});
+			return JSON.stringify(a);
+		});
 
 		// tmp:
 		/// この辺でsys:ロード処理か
@@ -94,6 +108,7 @@ export class Variable implements IVariable {
 
 		this.hTmp['const.sn.needClick2Play'] = ()=> new AudioContext().state == 'suspended';
 		this.hTmp['const.Date.getTime'] = ()=> (new Date).getTime();
+		this.hTmp['const.Date.getDateStr'] = ()=> getDateStr();
 		this.hTmp['const.Stage.mouseX'] = ()=> {
 //			return stage.mouseX;
 			return 0;
@@ -159,6 +174,7 @@ export class Variable implements IVariable {
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScopeVal.mp}}
 	setMp(mp: object) {this.hScopeVal.mp = mp;}
+	setMark(place: number, mark: object) {this.data.mark[place] = mark;}
 	cloneSave(): object {return {...this.hScopeVal.save}}
 
 		//	変数操作

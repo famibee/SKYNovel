@@ -283,6 +283,8 @@
 ; マクロ 履歴画面で選択位置から再開する
 [let name="const.h_save.max_count" text=50]
 [macro name="h_save"]
+	[未作成]
+
 	[let name="h_save_idx" text="0" cond="h_save_idx == null"]
 
 	[let name="_sl.place" text="&'h_'+ h_save_idx"]

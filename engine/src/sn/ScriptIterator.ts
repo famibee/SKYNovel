@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, uint, IMain, IVariable, getDateStr} from './CmnLib';
+import {CmnLib, IHTag, uint, IMain, IVariable} from './CmnLib';
 import {Areas} from './Areas';
 import {Config} from './Config';
 import {CallStack} from './CallStack';
@@ -960,8 +960,93 @@ export class ScriptIterator {
 
 	// しおりの読込
 	private load(hArg) {
-		return false;
+		const place = hArg.place;
+		if (! place) throw 'placeは必須です';
+		if (! this.val.getVal('sys:const.sn.bookmark.'+ place)) throw '[load] place【'+ place +'】が異常です';
+		if (('fn' in hArg) != ('label' in hArg)) throw '[load] fnとlabelはセットで指定して下さい';
+
+//		return this.loadFromSaveObj(hArg, soSys.data.mark[place]);
+		return this.loadFromSaveObj(hArg, {});
 	}
+	private loadFromSaveObj = (hArg: any, mark: any)=> false;
+/*	private loadFromSaveObj(hArg:Object, mark:Object):Boolean {
+		if (mark == null) return false;
+
+		const hide:Shape = new Shape();
+		hide.graphics.beginFill(0x000000, 1);
+		hide.graphics.lineStyle(undefined);
+		hide.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+		hide.graphics.endFill();
+		stage.addChild(hide);
+
+		hTag.clear_event({});
+
+		hSaveVal = hScopeVal.save = CmnLib.clone(mark.hSaveVal);
+
+		scriptFn = '';	// わざと入れてLoad時にスクリプトを再読込。
+						// 吉里吉里に動作を合わせる
+		hSaveVal['const.an.sLog'] += '\f';
+			// 吉里吉里に動作を合わせる
+			// 改ページは履歴がページからあふれるため
+
+		if (CmnLib.argChk_Boolean(hArg, 'reset_sound', true)) {
+			const aFncBgm:Array = soundMng.loadFromSaveObj(hArg);
+			fncLoaded = (aFncBgm.length == 0)
+				? runAnalyze
+				: function ():void {
+//traceDbg('aa:'+ aFncBgm.length);
+					const o:Object = aFncBgm.pop();
+					o.fnc(o.arg);
+//traceDbg('buf:'+ o.arg.buf +': fn:'+ o.arg.fn +':');
+					if (aFncBgm.length == 0) fncLoaded = runAnalyze;
+					next(fncLoaded);
+				};
+		}
+		else fncLoaded = runAnalyze;
+
+		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) {
+			hSaveValRec = CmnLib.clone(hSaveVal);
+			hPagesRec = CmnLib.clone(mark.hPages);
+			vctIfStkRec = ('vctIfStk' in mark)
+				? CmnLib.clone(mark.vctIfStk)
+				: Vector.<int>([-1]);
+		}
+
+		const fn:String = hSaveVal['const.an.scriptFn'];
+		const idx:uint = hSaveVal['const.an.scriptIdx'];
+		const fncLd:Function = function ():void {
+			const ldMngPages:LoadMng = new LoadMng();
+			trans.playbackAMF(ldMngPages, mark.hPages);
+			next(function ():void {
+				stage.removeChild(hide);
+
+				if ('vctIfStk' in mark) {
+				//	vctIfStk = Vector.<int>(vctIfStkRec);
+						// 参照になってしまう
+					vctIfStk = CmnLib.clone(vctIfStkRec);
+				}
+				vctCallStk = new Vector.<CallStack>(0, false);
+				if ('label' in hArg) {
+					scriptFn = fn;
+					idxToken = idx;
+					csAnalyBf = new CallStack('', 0);
+					hTag.call({fn:hArg.fn, label:hArg.label});
+					return;
+				}
+				jump(fn, '', idx);
+			});
+			ldMngPages.join();
+			ldMngPages.start();
+		};
+
+		if (('label' in hArg) && (! getCacheScr(fn))) {
+			jumpsub_loadscript(fn);
+			next(fncLd);
+		}
+		else fncLd();
+
+		return true;
+	}*/
 
 	// セーブポイント指定
 	private	hPagesRec	= {};
@@ -991,26 +1076,15 @@ export class ScriptIterator {
 	private save(hArg) {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
+		delete hArg.タグ名;
+		delete hArg.place;
 
-		const is_file = (hArg.path);
-		const o = {
+		this.val.setMark(place, {
 			hSaveVal	: this.hSaveValRec,
 			hPages		: this.hPagesRec,
 			vctIfStk	: this.vctIfStkRec,
-		};
-		if (is_file) {
-//			hArg.path = CmnLib.cnv_path(hArg.path);
-//			saveObjToFile(o, hArg, place);
-		}
-		else {
-//			if (hSysVal['const.sn.bookmark.'+ place +'.isfile']) {
-//				deleteFile(hSysVal['const.sn.bookmark.path'] + place +'.sd');
-//			}
-//			soSys.data.mark[place] = o;
-		}
-		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place, true);
-		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place +'.UpdateTime', getDateStr());
-		this.val.setVal_Nochk('sys', 'const.sn.bookmark.'+ place +'.isfile', is_file);
+			json		: hArg,
+		});
 		this.flush();
 
 		return false;

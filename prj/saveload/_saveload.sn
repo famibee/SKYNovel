@@ -12,16 +12,7 @@
 ;*********************************************************
 ; 最新値で更新
 *val2ctrl
-[let_ml name=dic]
-	[
-		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
-		{"fn": "../bgimage/yun_2384.jpg", "dt": "2018/12/18 11:43", "txt": "　この渓間ではなにも俺をよろこばすものはない。鶯《うぐひす》や四十雀《しじふから》も、白い日光をさ青に煙らせてゐる木の若芽も、ただそれだけでは、もうろうとした心象に過ぎない。俺には惨劇が必要なんだ。その平衡があつて、はじめて俺の心象は明確になつて来る。俺の心は悪鬼のやうに憂欝に渇いてゐる。俺の心に憂欝が完成するときにばかり、俺の心は和《なご》んで来る。"},
-		{"fn": "../bgimage/yun_2352.jpg", "dt": "2018/12/18 11:42", "txt": "  This is not justified test message. This is written many words and cut last sentence."},
-		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
-		{"fn": "../bgimage/yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"}
-	]
-[endlet_ml]
-	[set_frame id=saveload var_name=val_dic text=&dic]
+	[set_frame id=saveload var_name=val_dic text=&const.sn.bookmark.json]
 	[let_frame id=saveload var_name=val2ctrl function=true]
 [return]
 
@@ -111,24 +102,17 @@
 	[call label=*do_save]
 [jump label=*exit]
 
-*do_save
-	[if exp=const.sn.isApp]
-		[snapshot fn="& 'userdata:/storage/'+ _sl.place" layer=&dsp_lays smoothing=true]
-	[else]
-		[snapshot fn="& 'ss:/'+ _sl.place" format="jpg" layer=&dsp_lays smoothing=true]
-	[endif]
-*do_save_noss
-	[let name="enabled" text="&save:const.an.layer.mes.enabled|true"]
-	[enable_event enabled=true]	; この状態も保存されるので一時変更
-	[save place=&_sl.place path="userdata:/bookmark/"]
-	[enable_event enabled="&enabled"]
-[return]
-
 *do_save_resume
-	; 変数placeを変更しないよう注意。呼び元で使用している。
+	&_sl.place = -1
+
+*do_save
+	[let name=pic text="& 'userdata:/storage/'+ _sl.place +'.jpg'"]
+	[snapshot fn=&pic layer=&dsp_lays smoothing=true cond=const.sn.isApp]
+	[let name=pic text='../bgimage/yun_1317.jpg' cond=!const.sn.isApp]
+
 	[let name="enabled" text="&save:const.an.layer.mes.enabled|true"]
 	[enable_event enabled=true]	; この状態も保存されるので一時変更
-	[save place=99999]
+	[save place=&_sl.place pic=&pic dt=&const.Date.getDateStr txt=&const.sn.last_page_text]
 	[enable_event enabled="&enabled"]
 [return]
 
@@ -171,7 +155,7 @@
 
 *do_load
 	[sys_scenario_start no_resume_save=true]
-	[copybookmark from=&_sl.place to=99999]
+	[copybookmark from=&_sl.place to=-1]
 	[load place=&_sl.place]
 ;	[load place=&_sl.place fn=saveload label=*do_load_init]
 
@@ -179,8 +163,8 @@
 	[se fn=&sysse_ok2_long buf=SYS]
 ;	[notice text="前回終了ポイントから再開します（キャンセル=ESC）" left="&const.flash.display.Stage.stageWidth -10 -300" top=10]
 	[sys_scenario_start no_resume_save=true]
-	[load place=99999]
-;	[load place=99999 fn=saveload label=*do_load_init]
+	[load place=-1]
+;	[load place=-1 fn=saveload label=*do_load_init]
 
 ; ロード後最初にしたい共通処理
 *do_load_init
@@ -196,7 +180,7 @@
 
 	[enable_event enabled=false]
 		[ask_ync_cleartext]
-		[button enabled=false layer="mes_yesno" page=fore pic="& 'userdata:/bookmark/'+ _sl.place +'.jpg'" left=570 top=220]
+		[button enabled=false layer="mes_yesno" page=fore pic="& 'userdata:/storage/'+ _sl.place +'.jpg'" left=570 top=220]
 		[ask_ync mes="クイックロードしますか？" no_cleartext=true]
 			;#FONT	クイックロードしますか？
 	[enable_event enabled=true]

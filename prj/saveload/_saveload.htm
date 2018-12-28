@@ -35,11 +35,11 @@
 <script defer src="../lib/materialize.min.js"></script>
 <script>
 	let a = [	// セーブデータの内容
-		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
-		{"fn": "../bgimage/yun_2384.jpg", "dt": "2018/12/18 11:43", "txt": "　この渓間ではなにも俺をよろこばすものはない。鶯《うぐひす》や四十雀《しじふから》も、白い日光をさ青に煙らせてゐる木の若芽も、ただそれだけでは、もうろうとした心象に過ぎない。俺には惨劇が必要なんだ。その平衡があつて、はじめて俺の心象は明確になつて来る。俺の心は悪鬼のやうに憂欝に渇いてゐる。俺の心に憂欝が完成するときにばかり、俺の心は和《なご》んで来る。"},
-		{"fn": "../bgimage/yun_2352.jpg", "dt": "2018/12/18 11:42", "txt": "  This is not justified test message. This is written many words and cut last sentence."},
-		{"fn": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
-		{"fn": "../bgimage/yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　dummy data 二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
+		{"pic": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:44", "txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
+		{"pic": "../bgimage/yun_2384.jpg", "dt": "2018/12/18 11:43", "txt": "　この渓間ではなにも俺をよろこばすものはない。鶯《うぐひす》や四十雀《しじふから》も、白い日光をさ青に煙らせてゐる木の若芽も、ただそれだけでは、もうろうとした心象に過ぎない。俺には惨劇が必要なんだ。その平衡があつて、はじめて俺の心象は明確になつて来る。俺の心は悪鬼のやうに憂欝に渇いてゐる。俺の心に憂欝が完成するときにばかり、俺の心は和《なご》んで来る。"},
+		{"pic": "../bgimage/yun_2352.jpg", "dt": "2018/12/18 11:42", "txt": "  This is not justified test message. This is written many words and cut last sentence."},
+		{"pic": "../bgimage/yun_1317.jpg", "dt": "2018/12/18 11:41", "txt": "　それは渓の水が乾いた磧《かはら》へ、小さい水溜を残してゐる、その水のなかだつた。思ひがけない石油を流したやうな光彩が、一面に浮いてゐるのだ。お前はそれを何だつたと思ふ。それは何万匹とも数の知れない、薄羽かげらふの屍体だつたのだ。隙間なく水の面を被つてゐる、彼等のかさなりあつた翅《はね》が、光にちぢれて油のやうな光彩を流してゐるのだ。そこが、産卵を終つた彼等の墓場だつたのだ。"},
+		{"pic": "../bgimage/yun_1184.jpg", "dt": "2018/12/18 11:40", "txt": "　dummy data 二三日前、俺は、ここの渓へ下りて、石の上を伝ひ歩きしてゐた。水のしぶきのなかからは、あちらからもこちらからも、薄羽かげらふがアフロデイツトのやうに生れて来て、渓の空をめがけて舞ひ上つてゆくのが見えた。お前も知つてゐるとほり、彼等はそこで美しい結婚をするのだ。暫らく歩いてゐると、俺は変なものに出喰はした。"},
 	];
 	document.addEventListener('DOMContentLoaded', ()=> {
 		M.Modal.init(document.querySelectorAll('.modal'));
@@ -79,7 +79,7 @@
 	function val2ctrl() {	// 変数→コンポーネント
 		if (val_dic) a = JSON.parse(val_dic);
 		Array.from(document.getElementsByClassName('title')).forEach(v=> v.textContent = (val_mode == 'Load') ?'ロード' :'セーブ');
-		if (val_mode == 'Save') a.push({"fn": "_saveloadBtn_nouse.png", "dt": "", "txt": "　新規にセーブします"});
+		if (val_mode == 'Save') a.push({"pic": "_saveloadBtn_nouse.png", "dt": "", "txt": "　新規にセーブします"});
 
 		const lst = document.getElementsByClassName('row')[0];
 		lst.textContent = null;
@@ -88,7 +88,7 @@
 <div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2 scale-transition">
 	<div class="card">
 	<div class="card-image waves-effect waves-block waves-light" data-id="${i}">
-		<img src="${v.fn}" class="${
+		<img src="${v.pic}" class="${
 			((val_mode == 'Load' && val_caller == 'Title')
 			|| (val_mode == 'Save' && v.dt == ''))
 			? 'no_modal"'	// モーダル確認は不要
