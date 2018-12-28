@@ -20,8 +20,6 @@ context('class Config', ()=>{
 
 	describe('Tst', () => {
 		it('testsetSearchPath_0', ()=> {
-			assert.equal(cfg.searchPath("app-storage:/aaa.jpg"), "app-storage:/aaa.jpg");
-			assert.equal(cfg.searchPath("app-storage:/aaa.sn"), "app-storage:/aaa.sn");
 			assert.equal(cfg.searchPath("http://bbb"), "http://bbb");
 
 			try {
@@ -205,8 +203,6 @@ context('class Config', ()=>{
 		it('test_searchPath_speedtest_0', ()=> {
 			const old_time = (new Date()).getTime();
 			//for (let i=0; i<1000; ++i) {
-				assert.equal(cfg.searchPath("app-storage:/aaa.jpg"), "app-storage:/aaa.jpg");
-				assert.equal(cfg.searchPath("app-storage:/aaa.sn"), "app-storage:/aaa.sn");
 				assert.equal(cfg.searchPath("http://bbb"), "http://bbb");
 
 				try {
