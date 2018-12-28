@@ -40,6 +40,13 @@ export class Variable implements IVariable {
 		hTag.clearvar		= ()=> this.clearvar();		// ゲーム変数の全消去
 		hTag.dump_val		= ()=> this.dump_val();		// 変数のダンプ
 
+		// しおり
+		hTag.copybookmark	= o=> this.copybookmark(o);	// しおりの複写
+		hTag.erasebookmark	= o=> this.erasebookmark(o);// しおりの消去
+		//hTag.load			// ScriptIterator.ts内で定義	// しおりの読込
+		//hTag.record_place	// ScriptIterator.ts内で定義	// セーブポイント指定
+		//hTag.save			// ScriptIterator.ts内で定義	// しおりの保存
+
 		// save:
 		this.hSaveVal['sn.userFnTail']	= '';
 		this.defTmp('const.sn.bookmark.json', ()=> {
@@ -174,12 +181,34 @@ export class Variable implements IVariable {
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScopeVal.mp}}
 	setMp(mp: object) {this.hScopeVal.mp = mp;}
-	setMark(place: number, mark: object) {
-		if (mark) this.data.mark[place] = mark;
-		else delete this.data.mark[place];
-		this.flush();
-	}
+	setMark(place: number, mark: object) {this.data.mark[place] = mark; this.flush()}
 	cloneSave(): object {return {...this.hScopeVal.save}}
+
+
+		// しおり
+	// しおりの複写
+	private copybookmark(hArg) {
+		if (! ('from' in hArg)) throw 'fromは必須です';
+		if (! ('to' in hArg)) throw 'toは必須です';
+		const from = hArg.from;
+		const to = hArg.to;
+
+		this.setMark(to, {...this.data.mark[from]});
+
+		return false;
+	}
+
+	// しおりの消去
+	private erasebookmark(hArg) {
+		const place = hArg.place;
+		if (! place) throw 'placeは必須です';
+
+		delete this.data.mark[place];
+		this.flush();
+
+		return false;
+	}
+
 
 		//	変数操作
 	// 変数代入・演算

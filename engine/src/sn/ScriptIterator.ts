@@ -92,8 +92,8 @@ export class ScriptIterator {
 		hTag.macro			= o=> this.macro(o);		// マクロ定義の開始
 
 		// しおり
-		hTag.copybookmark	= o=> this.copybookmark(o);	// しおりの複写
-		hTag.erasebookmark	= o=> this.erasebookmark(o);// しおりの消去
+		//hTag.copybookmark		// Variable.ts内で定義	// しおりの複写
+		//hTag.erasebookmark	// Variable.ts内で定義	// しおりの消去
 		hTag.load			= o=> this.load(o);			// しおりの読込
 		hTag.record_place	= o=> this.record_place(o);	// セーブポイント指定
 		hTag.save			= o=> this.save(o);			// しおりの保存
@@ -934,27 +934,10 @@ export class ScriptIterator {
 
 
 		// しおり
-	// しおりの複写
-	private copybookmark(hArg) {
-		// TODO: [copybookmark]未作成
-		return false;
-	}
-
-	// しおりの消去
-	private erasebookmark(hArg) {
-		const place = hArg.place;
-		if (! place) throw 'placeは必須です';
-
-		this.val.setMark(place, null);
-
-		return false;
-	}
-
 	// しおりの読込
 	private load(hArg) {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
-		if (! this.val.getVal('sys:const.sn.bookmark.'+ place)) throw '[load] place【'+ place +'】が異常です';
 		if (('fn' in hArg) != ('label' in hArg)) throw '[load] fnとlabelはセットで指定して下さい';
 		// TODO: [load]未作成
 
@@ -962,9 +945,7 @@ export class ScriptIterator {
 		return this.loadFromSaveObj(hArg, {});
 	}
 	private loadFromSaveObj = (hArg: any, mark: any)=> false;
-/*	private loadFromSaveObj(hArg:Object, mark:Object):Boolean {
-		if (mark == null) return false;
-
+/*
 		const hide:Shape = new Shape();
 		hide.graphics.beginFill(0x000000, 1);
 		hide.graphics.lineStyle(undefined);
@@ -1046,7 +1027,7 @@ export class ScriptIterator {
 	private	hSaveValRec	= {};
 	private	vctIfStkRec	: number[]	= [-1];
 	private record_place(hArg) {
-		if (! this.layMng) this.return;
+		if (! this.layMng) return false;
 
 		if (this.vctCallStk.length == 0) {
 			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
