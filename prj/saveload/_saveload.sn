@@ -118,16 +118,16 @@
 *load
 	&_sl.place = const.sn.frm.saveload.val_place
 	[se fn=&sysse_ok2_long buf=SYS]
-[trace text=&_sl.place]
-[load place=&_sl.place][s]	; ********
 
 	; *** ブラックアウト ***
-	[clear_lay layer="_syslay.mes" page=back]
-	[lay layer="_syslay.bg" page=back visible=false]
-	[trans layer="_syslay.mes,_syslay.bg" time=200]
+;	[clear_lay layer="_syslay.mes" page=back]
+;	[lay layer="_syslay.bg" page=back visible=false]
+;	[trans layer="_syslay.mes,_syslay.bg" time=200]
+
+	[frame id=saveload visible=false]
 
 *do_load
-	[sys_scenario_start no_resume_save=true]
+;	[sys_scenario_start no_resume_save=true]	; 遅い
 	[copybookmark from=&_sl.place to=0]
 	[load place=&_sl.place]
 ;	[load place=&_sl.place fn=saveload label=*do_load_init]

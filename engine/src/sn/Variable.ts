@@ -218,10 +218,10 @@ export class Variable implements IVariable {
 	private copybookmark(hArg) {
 		if (! ('from' in hArg)) throw 'fromは必須です';
 		if (! ('to' in hArg)) throw 'toは必須です';
+
 		const from = hArg.from;
 		const to = hArg.to;
-
-		this.setMark(to, {...this.data.mark[from]});
+		if (from != to) this.setMark(to, {...this.data.mark[from]});
 
 		return false;
 	}

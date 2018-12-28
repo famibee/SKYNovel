@@ -982,8 +982,8 @@ export class ScriptIterator {
 			this.vctIfStkRec = ('vctIfStk' in mark) ?{...mark['vctIfStk']} :[-1];
 		}
 
-		const fn = String(this.val.getVal('save:const.an.scriptFn'));
-		const idx = Number(this.val.getVal('save:const.an.scriptIdx'));
+		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
+		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 console.log(`fn:ScriptIterator.ts line:1013 fn:${fn} idx:${idx}`);
 return true;	// NOTE: Test
 		const fncLd = ()=> {
