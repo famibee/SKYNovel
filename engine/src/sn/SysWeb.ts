@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {CmnLib, HArg, IPathFn2Exts} from './CmnLib';
+import {CmnLib, HArg, IPathFn2Exts, IData4Vari} from './CmnLib';
 import {Main} from './Main';
 import {Config} from './Config';
 const strLocal = require('store');
@@ -63,7 +63,7 @@ export class SysWeb extends SysBase {
 	private main: Main | null = null;
 
 	private ns	= '';
-	initData(data: object, hTmp: object, comp: (data: object)=> void) {
+	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void) {
 		//strLocal.clearAll();
 		this.ns = this.cfg.oCfg.save_ns +' - ';
 		const sys = strLocal.get(this.ns +'sys');

@@ -39,17 +39,11 @@ export class Pages {
 		this.page.back.copy(this.page.fore);
 	}
 
-	record(): any {
-		return {
-			cls: this.cls_,
-			fore: {
-				name: this.page.fore.name
-			},
-			back: {
-				name: this.page.back.name
-			}
-		};
-	}
+	record = ()=> {return {
+		cls: this.cls_,
+		fore: this.page.fore.record(),
+		back: this.page.back.record(),
+	};}
 
 /*
 	playbackAMF(i:IDataInput, ldMng:LoadMng):void {

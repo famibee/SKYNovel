@@ -5,13 +5,14 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IHTag, CmnLib, IVariable, ISetVal, typeProcVal, ISysBase, uint, int, getDateStr} from './CmnLib';
+import {HArg, IHTag, CmnLib, IVariable, ISetVal, typeProcVal, ISysBase, uint, int, getDateStr, IData4Vari, IMark} from './CmnLib';
 import {Config} from './Config';
 import {PropParser} from './PropParser';
 const platform = require('platform');
 
 export class Variable implements IVariable {
-	private	data		: any	= {sys:{}, mark:{}, kidoku:{}};
+	private	data		: IData4Vari	= {sys:{}, mark:{}, kidoku:{}};
+		// TODO: IMarkにkidokuは？　saveの実体はこちらでは？
 	private	hScopeVal	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
 	private	hSysVal		: any	= this.hScopeVal.sys;
 	private	hSaveVal	: any	= this.hScopeVal.save;
@@ -202,11 +203,11 @@ export class Variable implements IVariable {
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScopeVal.mp}}
 	setMp(mp: object) {this.hScopeVal.mp = mp;}
-	setMark(place: number, mark: object) {this.data.mark[place] = mark; this.flush()}
+	setMark(place: number, mark: IMark) {this.data.mark[place] = mark; this.flush()}
 	getMark = (place: number)=> this.data.mark[place];
 	cloneSave(): object {return {...this.hScopeVal.save}}
 	loadWark(place: number) {
-		this.hSaveVal = this.hScopeVal.save = {...this.data.mark[place]['hSaveVal']};
+		this.hSaveVal = this.hScopeVal.save = {...this.data.mark[place].hSave};
 		this.hSaveVal['const.an.sLog'] += '\f';
 			// 吉里吉里に動作を合わせる
 			// 改ページは履歴がページからあふれるため

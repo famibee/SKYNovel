@@ -47,7 +47,7 @@ export class Layer {
 		this.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', this.cnt.visible);
 
 		return false;
-	};
+	}
 	clearLay(hArg: HArg): void {
 		this.cnt.alpha = 1;
 		this.cnt.blendMode = BLEND_MODES.NORMAL;
@@ -57,7 +57,7 @@ export class Layer {
 		this.cnt.scale.set(1, 1);
 		if (CmnLib.argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = null;
 		//transform.colorTransform = nulColTrfm;
-	};
+	}
 	copy(fromLayer: Layer): void {
 		this.clearLay({filter: 'true'});
 		this.cnt.alpha = fromLayer.cnt.alpha;
@@ -72,10 +72,20 @@ export class Layer {
 		this.cnt.x = fromLayer.cnt.x;
 		this.cnt.y = fromLayer.cnt.y;
 		this.cnt.visible = fromLayer.cnt.visible;
-	};
+	}
 
-//	recordAMF(out: IDataOutput): void;
-//	playbackAMF(inp: IDataInput, ldMng: LoadMng): void;
+	record = ()=> {return {
+		name	: this.name,
+		idx		: this.cnt.parent.getChildIndex(this.cnt),
+		alpha	: this.cnt.alpha,
+		rotation: this.cnt.rotation,
+		scale_x	: this.cnt.scale.x,
+		scale_y	: this.cnt.scale.y,
+		x		: this.cnt.x,
+		y		: this.cnt.y,
+		visible	: this.cnt.visible,
+	};}
+	playback = (hLay: any)=> {};
 
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${
@@ -83,7 +93,7 @@ export class Layer {
 			}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation
 			}, "name":"${this.name}", "scale_x":${this.cnt.scale.x
 			}, "scale_y":${this.cnt.scale.y}`;
-	};
+	}
 
 	static argChk_BlendmodeAndSet(hash: object, $do: DisplayObject):void {
 		const v = hash['blendmode'];
@@ -121,7 +131,7 @@ export class Layer {
 		'saturation':	BLEND_MODES.SATURATION,
 		'color':		BLEND_MODES.COLOR,
 		'luminosity':	BLEND_MODES.LUMINOSITY,
-	};
+	}
 
 	static	setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp = false, isButton = false): void {
 		if (hArg.pos) {Layer.setXYByPos(base, hArg.pos, ret); return;}

@@ -1091,7 +1091,6 @@ void main(void) {
 
 
 	record(): any {
-console.log(`fn:LayerMng.ts record() this.aLayName:${this.aLayName}`);
 		const o = {};
 		this.aLayName.map(name=> o[name] = this.hPages[name].record());
 /*
@@ -1127,8 +1126,7 @@ console.log(`fn:LayerMng.ts record() this.aLayName:${this.aLayName}`);
 		// TODO: recordAMF
 		return o;
 	}
-	playbackAMF($hPages: any) {
-//	playbackAMF(ldMng:LoadMng, $hPages: any) {
+	playback($hPages: any) {
 		// TODO: playbackAMF、イテレータかasyncか
 /*
 		// hPagesでループするのとmark.hPagesでループは意味が違うので注意

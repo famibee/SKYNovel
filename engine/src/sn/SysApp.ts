@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysNode } from "./SysNode";
-import {CmnLib, HArg, IHTag, IVariable} from './CmnLib';
+import {CmnLib, HArg, IHTag, IVariable, IData4Vari} from './CmnLib';
 import {remote, BrowserWindow, webContents, screen} from 'electron';
 import {Main} from './Main';
 const Store = require('electron-store');
@@ -35,7 +35,7 @@ export class SysApp extends SysNode {
 	}
 
 	private	store = new Store({cwd: 'storage', name: 'data'});
-	initData(data: object, hTmp: object, comp: (data: object)=> void) {
+	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void) {
 		// TODO: this.store.encryptionKey
 		if (this.store.size == 0) {
 			// データがないときの処理

@@ -165,7 +165,7 @@ export interface IMain {
 
 // =============== SysBase
 export interface ISysBase {
-	initData(data: object, hTmp: object, comp: (data: object)=> void): void;
+	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): void;
 	flush(): void;
 };
 
@@ -192,6 +192,19 @@ export interface IVariable {
 	getMark(place: number): object;
 	cloneSave(): object;
 	loadWark(place: number);
+};
+
+export interface IData4Vari {
+	sys		: {[name: string]: any};
+	mark	: {[name: string]: IMark};
+	kidoku	: {[name: string]: any};
+};
+
+export interface IMark {
+	hSave	: {[name: string]: any};
+	hPages	: {[name: string]: any};
+	aIfStk	: number[];
+	json?	: any;
 };
 
 

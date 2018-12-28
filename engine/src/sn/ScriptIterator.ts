@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, uint, IMain, IVariable} from './CmnLib';
+import {CmnLib, IHTag, uint, IMain, IVariable, IMark} from './CmnLib';
 import {Areas} from './Areas';
 import {Config} from './Config';
 import {CallStack} from './CallStack';
@@ -34,13 +34,6 @@ interface ISeek {
 	lineNum	: number;
 };
 
-interface IMark {
-	hSaveValRec	: {[name: string]: any};
-	hPagesRec	: {[name: string]: any};
-	vctIfStkRec	: number[];
-	json?		: any;
-};
-
 export class ScriptIterator {
 	private script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
 
@@ -56,11 +49,11 @@ export class ScriptIterator {
 	get now_token(): string {return this.script.aToken[this.idxToken_ -1];};
 
 
-	private vctCallStk	: CallStack[]	= [];
-	get isEmptyCallStk(): boolean {return this.vctCallStk.length == 0;};
-	get lenCallStk(): number {return this.vctCallStk.length;};
-	get lastHArg(): any {return this.vctCallStk[this.lenCallStk -1].hArg;};
-	getCallStk = (idx: number)=> this.vctCallStk[idx].hArg;
+	private aCallStk	: CallStack[]	= [];
+	get isEmptyCallStk(): boolean {return this.aCallStk.length == 0;};
+	get lenCallStk(): number {return this.aCallStk.length;};
+	get lastHArg(): any {return this.aCallStk[this.lenCallStk -1].hArg;};
+	getCallStk = (idx: number)=> this.aCallStk[idx].hArg;
 
 	private csAnalyBf	: CallStack		= new CallStack('', 0);
 
@@ -116,7 +109,7 @@ export class ScriptIterator {
 			this.hAreaKidoku[fn] = areas;
 		}
 
-		val.defTmp('const.sn.vctCallStk.length', ()=> this.vctCallStk.length);
+		val.defTmp('const.sn.vctCallStk.length', ()=> this.aCallStk.length);
 		this.flush = ()=> val.flush();
 
 		this.runAnalyze = fncLoaded;
@@ -161,11 +154,11 @@ export class ScriptIterator {
 		const lc0 = this.getScr2lineCol(this.script, this.idxToken_);
 		const now = `スクリプト現在地 fn:${this.scriptFn_} line:${lc0.line} col:${lc0.col_s +1}`;
 		console.group(`🥟 [dump_stack] ${now}`);
-		const len = this.vctCallStk.length;
+		const len = this.aCallStk.length;
 		if (len > 0) {
 			console.info(now);
 			for (let i=len -1; i>=0; --i) {
-				const cs = this.vctCallStk[i];
+				const cs = this.aCallStk[i];
 				const lc = this.getScr2lineCol(this.hScript[cs.fn], cs.idx);
 				const csa = cs.hArg['const.sn.hMpVal'];
 				const from_macro_nm = csa ?csa['タグ名'] :null;
@@ -273,13 +266,13 @@ export class ScriptIterator {
 
 
 		// 条件分岐
-	private vctIfStk	: number[]	= [-1];
+	private aIfStk	: number[]	= [-1];
 	private endif() {
-		if (this.vctIfStk[0] == -1) throw 'ifブロック内ではありません';
+		if (this.aIfStk[0] == -1) throw 'ifブロック内ではありません';
 
-		this.idxToken_ = this.vctIfStk[0];
+		this.idxToken_ = this.aIfStk[0];
 		this.lineNum_ =  this.script.aLNum[this.idxToken_ -1];
-		this.vctIfStk.shift();
+		this.aIfStk.shift();
 
 		return false;
 	}
@@ -331,7 +324,7 @@ export class ScriptIterator {
 					this.script.aLNum[this.idxToken_] = this.lineNum_;
 				}
 				else {
-					this.vctIfStk.unshift(this.idxToken_ +1);
+					this.aIfStk.unshift(this.idxToken_ +1);
 					this.idxToken_ = idxGo;
 					this.lineNum_ =  this.script.aLNum[this.idxToken_];
 				}
@@ -361,7 +354,7 @@ export class ScriptIterator {
 		}
 		this.pushCallStack(hPushArg);
 		this.fncReserveToken = null;
-		this.vctIfStk.unshift(-1);
+		this.aIfStk.unshift(-1);
 
 		if (CmnLib.argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.jumpWork(fn, hArg.label);
@@ -373,7 +366,7 @@ export class ScriptIterator {
 	private jump(hArg) {
 		if (! CmnLib.argChk_Boolean(hArg, 'count', true)) this.eraseKidoku();
 
-		this.vctIfStk[0] = -1;
+		this.aIfStk[0] = -1;
 		this.jumpWork(hArg.fn, hArg.label);
 
 		return true;
@@ -382,25 +375,25 @@ export class ScriptIterator {
 	// コールスタック破棄
 	private pop_stack(hArg) {
 		if (CmnLib.argChk_Boolean(hArg, 'clear', false)) {
-			while (this.vctCallStk.length > 0) this.vctCallStk.pop();
+			while (this.aCallStk.length > 0) this.aCallStk.pop();
 		}
 		else {
-			if (this.vctCallStk.length == 0) throw'[pop_stack] スタックが空です';
-			this.vctCallStk.pop();
+			if (this.aCallStk.length == 0) throw'[pop_stack] スタックが空です';
+			this.aCallStk.pop();
 		}
 		this.fncReserveToken = null;
-		this.vctIfStk = [-1];
+		this.aIfStk = [-1];
 
 		return false;
 	};
 
 	// サブルーチンから戻る
 	private return() {
-		if (this.vctCallStk.length == 0) throw'[return] スタックが空です';
-		const cs = this.vctCallStk.pop();
+		if (this.aCallStk.length == 0) throw'[return] スタックが空です';
+		const cs = this.aCallStk.pop();
 		const osac = cs.hArg['csAnalyBf'];
 		if (osac) this.csAnalyBf = new CallStack(osac.fn, osac.idx);
-		this.vctIfStk.shift();
+		this.aIfStk.shift();
 
 		const after_token = cs.hArg['const.sn.strReserveToken'];
 		if (after_token) this.fncReserveToken = ()=> {
@@ -742,7 +735,7 @@ export class ScriptIterator {
 		const areas = this.hAreaKidoku[this.scriptFn_];
 		if (areas == null) throw `recordKidoku fn:${this.scriptFn_} (areas == null)`;
 
-		if (this.vctCallStk.length > 0) {
+		if (this.aCallStk.length > 0) {
 			// マクロ内やサブルーチンではisKidokuを変更させない
 			areas.record(this.idxToken_);
 			return;
@@ -776,8 +769,8 @@ export class ScriptIterator {
 		let fn	= this.scriptFn;
 		let idx	= this.idxToken;
 		let len	= this.script.len;
-		if (this.vctCallStk.length > 0) {
-			const cs = this.vctCallStk[0];
+		if (this.aCallStk.length > 0) {
+			const cs = this.aCallStk[0];
 			fn  = cs.fn;
 			idx = cs.idx;
 			const st = this.hScript[fn];
@@ -795,7 +788,7 @@ export class ScriptIterator {
 	}
 
 	private pushCallStack(hArg: object): void {
-		this.vctCallStk.push(new CallStack(this.scriptFn_, this.idxToken_, hArg));
+		this.aCallStk.push(new CallStack(this.scriptFn_, this.idxToken_, hArg));
 	}
 
 	get normalWait(): number {
@@ -851,10 +844,10 @@ export class ScriptIterator {
 
 	// マクロから脱出
 	private break_macro(hArg) {
-		const len = this.vctCallStk.length;
+		const len = this.aCallStk.length;
 		if (len == 0) throw('[endmacro] マクロ外で呼ばれました');
 
-		const hPopArg = this.vctCallStk[len -1].hArg['const.sn.hMpVal']
+		const hPopArg = this.aCallStk[len -1].hArg['const.sn.hMpVal']
 		if (hPopArg) this.val.setMp(hPopArg);
 
 		return this.hTag['return'](hArg);
@@ -911,7 +904,7 @@ export class ScriptIterator {
 				this.fncReserveToken = null;
 			}
 			this.pushCallStack(hPushArg);
-			this.vctIfStk.unshift(-1);
+			this.aIfStk.unshift(-1);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
@@ -977,20 +970,17 @@ export class ScriptIterator {
 		}
 		else this.fncLoaded = this.runAnalyze;
 
-		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) {
-			this.mark = {
-				hSaveValRec	: this.val.cloneSave(),
-				hPagesRec	: {...mark['hPages']},
-				vctIfStkRec	: ('vctIfStk' in mark) ?{...mark['vctIfStk']} :[-1],
-			};
+		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) this.mark = {
+			hSave	: this.val.cloneSave(),
+			hPages	: {...mark['hPages']},
+			aIfStk	: {...mark['aIfStk']},
 		}
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 console.log(`fn:ScriptIterator.ts line:980 Layer回復・開始 fn:${fn} idx:${idx}`);
 
-// TODO: trans.playbackAMF(ldMngPages, mark.hPages);
-		this.layMng.playbackAMF(mark['hPages']);
+		this.layMng.playback(this.mark['hPages']);
 //	//	this.main.resume(()=> ()=> {
 			// TODO: 多分ここでjumpWork()
 //	//	});
@@ -998,8 +988,8 @@ console.log(`fn:ScriptIterator.ts line:980 Layer回復・開始 fn:${fn} idx:${i
 		setTimeout(()=> {	// NOTE: Test
 console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
 			this.layMng.cover(false);
-			if ('vctIfStk' in mark) this.vctIfStk = {...this.mark.vctIfStkRec};
-			this.vctCallStk = [];
+			if ('aIfStk' in mark) this.aIfStk = {...this.mark.aIfStk};
+			this.aCallStk = [];
 			if ('label' in hArg) {
 				this.scriptFn_ = fn;
 				this.idxToken_ = idx;
@@ -1014,26 +1004,26 @@ console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
 	}
 
 	// セーブポイント指定
-	private	mark : IMark = {
-		hSaveValRec	: {},
-		hPagesRec	: {},
-		vctIfStkRec	: [-1],
+	private	mark: IMark = {
+		hSave	: {},
+		hPages	: {},
+		aIfStk	: [-1],
 	};
 	private record_place(hArg) {
 		if (! this.layMng) return false;
 
-		if (this.vctCallStk.length == 0) {
+		if (this.aCallStk.length == 0) {
 			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
 			this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.idxToken);
 		}
 		else {
-			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.vctCallStk[0].fn);
-			this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.vctCallStk[0].idx);
+			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.aCallStk[0].fn);
+			this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.aCallStk[0].idx);
 		}
 		this.mark = {
-			hSaveValRec	: this.val.cloneSave(),
-			hPagesRec	: this.layMng.record(),
-			vctIfStkRec	: this.vctIfStk.slice(this.vctCallStk.length),
+			hSave	: this.val.cloneSave(),
+			hPages	: this.layMng.record(),
+			aIfStk	: this.aIfStk.slice(this.aCallStk.length),
 		};
 
 		return false;
@@ -1048,7 +1038,7 @@ console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
 
 		this.mark.json = hArg;
 		this.val.setMark(place, this.mark);
-
+console.log(`fn:ScriptIterator.ts line:1041 this.mark:%o`, this.mark);
 		return false;
 	}
 

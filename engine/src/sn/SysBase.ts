@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IHTag, ITag, IVariable, IPathFn2Exts, ISysBase} from './CmnLib';
+import {IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari} from './CmnLib';
 import {Config} from './Config';
 
 export class SysBase implements ISysBase {
@@ -53,7 +53,7 @@ export class SysBase implements ISysBase {
 	protected toggle_full_screen	: ITag = hArg=> false;
 
 	protected data		= {sys:{}, mark:{}, kidoku:{}};
-	initData(data: object, hTmp: object, comp: (data: object)=> void) {};
+	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void) {};
 	flush() {}
 
 	protected isApp = ()=> false;
