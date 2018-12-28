@@ -1090,17 +1090,11 @@ void main(void) {
 	}
 
 
-	recordAMF(hArg: any, o: any) {
-		// TODO: recordAMF
+	record(): any {
+console.log(`fn:LayerMng.ts record() this.aLayName:${this.aLayName}`);
+		const o = {};
+		this.aLayName.map(name=> o[name] = this.hPages[name].record());
 /*
-		foreachLayers(hArg, function (name:String, pg:Pages):void {
-			const ba:ByteArray = new ByteArray();
-			pg.recordAMF(ba);
-			ba.compress();
-
-			o[name] = ba;
-		});
-
 		// ソート順
 		const aSort:Array = [];
 		foreachLayAndPlg(function (o:Object):void {
@@ -1130,6 +1124,8 @@ void main(void) {
 		ba2.compress();
 		o[',sort'] = ba2;	// 要素名はlayer名に「,」は使えないことから
 */
+		// TODO: recordAMF
+		return o;
 	}
 	playbackAMF($hPages: any) {
 //	playbackAMF(ldMng:LoadMng, $hPages: any) {

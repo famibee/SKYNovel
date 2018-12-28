@@ -18,6 +18,7 @@ import { loaders } from 'pixi.js';
 import { LayerMng } from './LayerMng';
 import { DebugMng } from './DebugMng';
 import {SoundMng} from './SoundMng';
+import { any } from 'parsimmon';
 
 interface Script {
 	aToken	: string[];		// トークン群
@@ -31,6 +32,13 @@ interface HScript {
 interface ISeek {
 	idx		: number;
 	lineNum	: number;
+};
+
+interface IMark {
+	hSaveValRec	: {[name: string]: any};
+	hPagesRec	: {[name: string]: any};
+	vctIfStkRec	: number[];
+	json?		: any;
 };
 
 export class ScriptIterator {
@@ -970,62 +978,47 @@ export class ScriptIterator {
 		else this.fncLoaded = this.runAnalyze;
 
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) {
-			this.hSaveValRec = this.val.cloneSave();
-			this.hPagesRec = {...mark['hPages']};
-			this.vctIfStkRec = ('vctIfStk' in mark) ?{...mark['vctIfStk']} :[-1];
+			this.mark = {
+				hSaveValRec	: this.val.cloneSave(),
+				hPagesRec	: {...mark['hPages']},
+				vctIfStkRec	: ('vctIfStk' in mark) ?{...mark['vctIfStk']} :[-1],
+			};
 		}
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
-console.log(`fn:ScriptIterator.ts line:1013 fn:${fn} idx:${idx}`);
-return true;	// NOTE: Test
-		const fncLd = ()=> {
-console.log(`fn:ScriptIterator.ts line:987 Layer回復`);
-/*
-			const ldMngPages:LoadMng = new LoadMng();
-			trans.playbackAMF(ldMngPages, mark.hPages);
-			next(function ():void {
-				stage.removeChild(hide);
+console.log(`fn:ScriptIterator.ts line:980 Layer回復・開始 fn:${fn} idx:${idx}`);
 
-				if ('vctIfStk' in mark) {
-				//	vctIfStk = Vector.<int>(vctIfStkRec);
-						// 参照になってしまう
-					vctIfStk = CmnLib.clone(vctIfStkRec);
-				}
-				vctCallStk = new Vector.<CallStack>(0, false);
-				if ('label' in hArg) {
-					scriptFn = fn;
-					idxToken = idx;
-					csAnalyBf = new CallStack('', 0);
-					hTag.call({fn:hArg.fn, label:hArg.label});
-					return;
-				}
-				jump(fn, '', idx);
-			});
-			ldMngPages.join();
-			ldMngPages.start();
-*/
-console.log(`fn:ScriptIterator.ts line:1013 fn:${fn} idx:${idx}`);
-			this.fncLoaded = this.runAnalyze;
-			this.jumpWork(fn, '', idx);		// NOTE: Test
-		};
+// TODO: trans.playbackAMF(ldMngPages, mark.hPages);
+		this.layMng.playbackAMF(mark['hPages']);
+//	//	this.main.resume(()=> ()=> {
+			// TODO: 多分ここでjumpWork()
+//	//	});
 
-		if (('label' in hArg) && ! (fn in this.hScript)) {
-			const fncLoadedOld = this.fncLoaded;
-			this.fncLoaded = ()=> {
-				fncLoadedOld();
-				fncLd();
-			};
-		}
-		else fncLd();
+		setTimeout(()=> {	// NOTE: Test
+console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
+			this.layMng.cover(false);
+			if ('vctIfStk' in mark) this.vctIfStk = {...this.mark.vctIfStkRec};
+			this.vctCallStk = [];
+			if ('label' in hArg) {
+				this.scriptFn_ = fn;
+				this.idxToken_ = idx;
+				this.csAnalyBf = new CallStack('', 0);
+				this.hTag.call({fn: hArg.fn, label: hArg.label});
+				return;
+			}
+			this.jumpWork(fn, '', idx);
+		}, 2000);
 
 		return true;
 	}
 
 	// セーブポイント指定
-	private	hPagesRec	= {};
-	private	hSaveValRec	= {};
-	private	vctIfStkRec	: number[]	= [-1];
+	private	mark : IMark = {
+		hSaveValRec	: {},
+		hPagesRec	: {},
+		vctIfStkRec	: [-1],
+	};
 	private record_place(hArg) {
 		if (! this.layMng) return false;
 
@@ -1037,11 +1030,11 @@ console.log(`fn:ScriptIterator.ts line:1013 fn:${fn} idx:${idx}`);
 			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.vctCallStk[0].fn);
 			this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.vctCallStk[0].idx);
 		}
-
-		this.hSaveValRec = this.val.cloneSave();
-		this.hPagesRec = {};
-		this.layMng.recordAMF(hArg, this.hPagesRec);
-		this.vctIfStkRec = this.vctIfStk.slice(this.vctCallStk.length);
+		this.mark = {
+			hSaveValRec	: this.val.cloneSave(),
+			hPagesRec	: this.layMng.record(),
+			vctIfStkRec	: this.vctIfStk.slice(this.vctCallStk.length),
+		};
 
 		return false;
 	}
@@ -1053,12 +1046,8 @@ console.log(`fn:ScriptIterator.ts line:1013 fn:${fn} idx:${idx}`);
 		delete hArg.タグ名;
 		delete hArg.place;
 
-		this.val.setMark(place, {
-			hSaveVal	: this.hSaveValRec,
-			hPages		: this.hPagesRec,
-			vctIfStk	: this.vctIfStkRec,
-			json		: hArg,
-		});
+		this.mark.json = hArg;
+		this.val.setMark(place, this.mark);
 
 		return false;
 	}
