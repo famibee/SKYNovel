@@ -187,12 +187,6 @@ export class LayerMng {
 	}
 
 
-	recordAMF(hArg :HArg, o: any) {
-///
-		;
-	}
-
-
 	private cmdTxt(cmd: string, $tl: TxtLayer = undefined, record = true): void {
 		const tl = $tl || this.getCurrentTxtlayForeNeedErr();
 		if (! tl) return;
@@ -221,7 +215,6 @@ export class LayerMng {
 
 //	//	システム
 	private snapshot(hArg) {
-		// NOTE: qualityはない？
 		// TODO: pathdlg 保存場所をGUIで選べるダイアログを表示するか
 		const fn = hArg.fn || 'desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg';
 		const ext = CmnLib.getExt(fn);
@@ -1094,6 +1087,95 @@ void main(void) {
 		hArg.entersebuf = hArg.entersebuf || 'SYS';
 		hArg.leavesebuf = hArg.leavesebuf || 'SYS';
 		return this.getTxtLayer(hArg).addButton(hArg);
+	}
+
+
+	recordAMF(hArg: any, o: any) {
+		// TODO: recordAMF
+/*
+		foreachLayers(hArg, function (name:String, pg:Pages):void {
+			const ba:ByteArray = new ByteArray();
+			pg.recordAMF(ba);
+			ba.compress();
+
+			o[name] = ba;
+		});
+
+		// ソート順
+		const aSort:Array = [];
+		foreachLayAndPlg(function (o:Object):void {
+			const o2:Object = {cls:o.cls, name:o.name};
+			if (o.cls == 'plg') {
+				const dsp:DisplayObject = o.o as DisplayObject;
+				o2.idx = stage.getChildIndex(dsp);
+				aSort.push(o2);
+//myTrace('plg name:'+ o2.name +' idx:'+ o2.idx);
+				return;
+			}
+
+			const pg:Pages = o.o as Pages;
+			const lf:DisplayObject = pg.fore as DisplayObject;
+			o2.page= 'fore';
+			o2.idx = stage.getChildIndex(lf);
+			aSort.push(CmnLib.clone(o2));
+//myTrace('lay name:'+ o2.name +' page=fore idx:'+ o2.idx);
+			const lb:DisplayObject = pg.back as DisplayObject;
+			o2.page= 'back';
+			o2.idx = stage.getChildIndex(lb);
+			aSort.push(o2);
+//myTrace('... name:'+ o2.name +' page=back idx:'+ o2.idx);
+		});
+		const ba2:ByteArray = new ByteArray();
+		ba2.writeObject(aSort);
+		ba2.compress();
+		o[',sort'] = ba2;	// 要素名はlayer名に「,」は使えないことから
+*/
+	}
+	playbackAMF($hPages: any) {
+//	playbackAMF(ldMng:LoadMng, $hPages: any) {
+		// TODO: playbackAMF、イテレータかasyncか
+/*
+		// hPagesでループするのとmark.hPagesでループは意味が違うので注意
+		// 1.hPagesに値をセットしていくというスタンスである
+		// 2.こちらの方がデータ欠損に強い
+		for (var name:String in hPages) {
+			var ba:ByteArray = $hPages[name];
+			if (! ba) continue;
+
+			ba = CmnLib.clone(ba);
+			ba.uncompress();
+			hPages[name].playbackAMF(ba, ldMng);
+			ba.clear();
+		}
+
+		// ソート順
+		const ba2:ByteArray = $hPages[',sort'];
+		if (! ba2) return;
+
+		const ba2_:ByteArray = CmnLib.clone(ba2);
+		ba2_.uncompress();
+		const aSort:Array = ba2_.readObject();
+
+		aSort.sortOn(['idx'], [Array.NUMERIC]);
+		const len:uint = aSort.length;
+//myTrace(':playbackAMF:');
+		for (var i:uint=0; i<len; ++i) {
+			const o:Object = aSort[i];
+			if (o.cls == 'plg') {
+//myTrace('plg name:'+ o.name +' idx:'+ o.idx);
+				const p:DisplayObject = hPlugin[o.name];
+				stage.setChildIndex(p, o.idx);
+				continue;
+			}
+//myTrace('lay name:'+ o.name +' page='+ o.page +' idx:'+ o.idx);
+			if (hPages[o.name] == null) throw('[load] レイヤ'+ o.name +' が無い状況で、そのレイヤを復元しようとしました');
+//hTag.log({text:'playbackAMF:17 :'+ (hPages[o.name][o.page] != null)});
+				// o.pageチェックまでは要らないと思う
+			const l:DisplayObject = hPages[o.name][o.page];
+			stage.setChildIndex(l, o.idx);
+		}
+		rebuildLayerRankInfo();
+*/
 	}
 
 
