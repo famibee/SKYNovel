@@ -4,37 +4,37 @@
 ;	定数
 ;********************************************************
 ; 各種効果音を指定
-[let name="sysse_ok1" text="BurstB_11"]
-[let name="sysse_ok2" text="BellA_16"]
-[let name="sysse_ok2_long" text="BellB_11"]
-[let name="sysse_cancel" text="bell05"]
-[let name="sysse_choice" text="wood04"]
+&sysse_ok1 = "BurstB_11"
+&sysse_ok2 = "BellA_16"
+&sysse_ok2_long = "BellB_11"
+&sysse_cancel = "bell05"
+&sysse_choice = "wood04"
 
 ; メッセージウインドウにボタンを配置するか（システムメニュー）
-[let name="useSysMenu" text=true]
+&useSysMenu = true
 
 ; 立ち絵配置位置定数
 ;	[lay pos=&pos.l	等として使用。
 ;	組み込みで「c」という指定が出来る。例：pos=c、pos="c"
 ;	これを指定すると画面中央。（pos、leftを省略するとpos=c扱い）
-[let name="pos.l" text="140"]
-[let name="pos.c" text="&const.sn.config.window.width /2"]
-[let name="pos.r" text="&const.sn.config.window.width -pos.l"]
-[let name="pos.lc" text="&(pos.c + pos.l) /2"]
-[let name="pos.rc" text="&(pos.r + pos.c) /2"]
+&pos = 140
+&pos.c = const.sn.config.window.width /2
+&pos.r = const.sn.config.window.width -pos.l
+&pos.lc = (pos.c + pos.l) /2
+&pos.rc = (pos.r + pos.c) /2
 
 ; 「桜の樹の下には」特有の立ち絵配置位置定数
-[let name="pos.vleft_disp_x" text="&40 + 280"]
-[let name="pos.vleft_disp_w" text="&const.sn.config.window.width - pos.vleft_disp_x"]
+&pos.vleft_disp_x = 40 + 280
+&pos.vleft_disp_w = const.sn.config.window.width - pos.vleft_disp_x
 
-[let name="pos.l1c" text="&pos.vleft_disp_x + pos.vleft_disp_w * (1/2)"]
+&pos.l1c = pos.vleft_disp_x + pos.vleft_disp_w * (1/2)
 
-[let name="pos.l2l" text="&pos.vleft_disp_x + pos.vleft_disp_w * (1/4)"]
-[let name="pos.l2r" text="&pos.vleft_disp_x + pos.vleft_disp_w * (3/4)"]
+&pos.l2l = pos.vleft_disp_x + pos.vleft_disp_w * (1/4)
+&pos.l2r = pos.vleft_disp_x + pos.vleft_disp_w * (3/4)
 
 ; 表示されるレイヤ（セーブ・スナップショットなどの対象）
-[let name="dsp_lays_grp" text="base,0,1,2"]	; 画像
-[let name="dsp_lays" text="&dsp_lays_grp +',mes'"]	; 文字
+&dsp_lays_grp = "base,0,1,2"	; 画像
+&dsp_lays = dsp_lays_grp +',mes'	; 文字
 [let name="dsp_lays" text="&dsp_lays_grp +',mes,mes_sysmenu'" cond=useSysMenu]
 
 ;********************************************************
@@ -49,10 +49,10 @@
 ; マクロ タイトル開始共通処理（main.snで呼ぶ）
 ;********************************************************
 [macro name=sys_title_start]
-	[let name="lastVoice" text=""]
-	[let name="isGameState" text=false]
-	[let name="sys:doResume" text=false]
-	[let name="save:sn.doRecLog" text=false]
+	&lastVoice = ""
+	&isGameState = false
+	&sys:doResume = false
+	&save:sn.doRecLog = false
 
 	[txt_lay_fullscreen b_alpha=0 onend=leave no_sysmenu_draw=true]
 	[er]	; ページ両面の文字消去＆改ページ
@@ -66,9 +66,9 @@
 ; マクロ シナリオ開始時共通処理（ロード時にもコール）
 ;********************************************************
 [macro name=sys_scenario_start]
-	[let name="lastVoice" text=""]
-	[let name="isGameState" text=true]
-	[let name="save:sn.doRecLog" text=true]
+	&lastVoice = ""
+	&isGameState = true
+	&save:sn.doRecLog = true
 
 	[fadeoutbgm time=300]
 	[fadeoutse buf="SE" time=500]
@@ -80,10 +80,10 @@
 
 	[record_place layer=&dsp_lays]
 		[sys_resume_save cond="! sys:doResume && ! no_resume_save"]
-		[let name="sys:doResume" text=true]
+		&sys:doResume = true
 
 [jump label=*game_inited cond="const.game.inited"]
-[let name="const.game.inited" text=true]
+&const.game.inited = true
 
 	[call fn=extG_*]	; extG_*.snというスクリプトを全部コールする
 	[call fn="_hidetext"]
@@ -265,7 +265,7 @@
 	[er]
 	[record_place layer=&dsp_lays]
 		[sys_resume_save]
-	[let name="lastVoice" text=""]
+	&lastVoice = ""
 	[fadeoutse buf="SE" time=%time|500 cond="mp:no_se_stop === null && !sn.skip.enabled"]
 	[stopse buf="SE" cond="sn.skip.enabled"]
 	[stopse buf=%buf|音声 cond="mp:no_voice_stop === null || sn.skip.enabled"]
@@ -281,7 +281,7 @@
 
 ;********************************************************
 ; マクロ 履歴画面で選択位置から再開する
-[let name="const.h_save.max_count" text=50]
+&const.h_save.max_count = 50
 [macro name="h_save"]
 	[未作成]
 
@@ -358,13 +358,13 @@
 
 ;********************************************************
 *toggle_auto_read
-	[let name="tmp:sn.auto.enabled" text=true]
+	&tmp:sn.auto.enabled = true
 	[set_cancel_skip]
 	[notice text="自動読み進みOn" left="&const.sn.config.window.width -10 -300" top=10]
 	[return]
 
 *toggle_skip
-	[let name="tmp:sn.skip.enabled" text=true]
+	&tmp:sn.skip.enabled = true
 	[set_cancel_skip]
 	[notice text="強制スキップ On" left="&const.sn.config.window.width -10 -300" top=10]
 	[return]
@@ -374,7 +374,7 @@
 	[return]
 
 *h_jmp
-	[let name="_sl.place" text=&const.sn.eventArg]
+	&_sl.place = const.sn.eventArg
 
 	[history_let_page name=h_page]
 	[history_let_page_count name=h_page_count]
