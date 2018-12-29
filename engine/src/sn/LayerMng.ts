@@ -1063,44 +1063,21 @@ void main(void) {
 	record(): any {
 		const o = {};
 		this.aLayName.map(name=> o[name] = this.hPages[name].record());
-/*
-		foreachLayAndPlg(function (o:Object):void {
-			const o2:Object = {cls:o.cls, name:o.name};
-
-			const pg:Pages = o.o as Pages;
-			const lf:DisplayObject = pg.fore as DisplayObject;
-			o2.page= 'fore';
-			o2.idx = stage.getChildIndex(lf);
-			aSort.push(CmnLib.clone(o2));
-//myTrace('lay name:'+ o2.name +' page=fore idx:'+ o2.idx);
-			const lb:DisplayObject = pg.back as DisplayObject;
-			o2.page= 'back';
-			o2.idx = stage.getChildIndex(lb);
-			aSort.push(o2);
-//myTrace('... name:'+ o2.name +' page=back idx:'+ o2.idx);
-		});
-*/
-
 		return o;
 	}
 	playback($hPages: HPage) {
-		// 引数で言及の無いレイヤはそのまま。特に削除しない
 		const aSort = [];
-		for (const layer in $hPages) {
+		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
 			const $pg = $hPages[layer];
-			if (layer in this.hPages) {
-				this.hPages[layer].fore.lay($pg.fore);
-				this.hPages[layer].back.lay($pg.back);
-		// TODO: playbackAMF、イテレータかasyncか
-			}
-			else {
-				this.hPages[layer] = new Pages(layer, $pg.cls, this.fore, $pg.fore, this.back, $pg.back, this.val);
-			}
 			aSort.push({layer: layer, page: 'fore', idx: $pg.fore.idx});
 			aSort.push({layer: layer, page: 'back', idx: $pg.back.idx});
+
+			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
+			pg.fore.playback($pg.fore);
+			pg.back.playback($pg.back);	// TODO: イテレータかasyncか
 		}
 
-		// ソート順
+		// ソートし若い順にsetChildIndex()
 		aSort.sort(function(a, b) {
 			if (a.idx < b.idx) return -1;
 			if (a.idx > b.idx) return 1;
