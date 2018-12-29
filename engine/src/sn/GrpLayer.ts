@@ -237,13 +237,16 @@ export class GrpLayer extends Layer {
 		this.lay({fn: fl.sBkFn, face: fl.sBkFace, resume: false});
 		this.cnt.position = fromLayer.cnt.position;
 			// this.lay()でやらない方がいいかなと
+			// NOTE: なぜだっけ？
 	}
+	record() {return Object.assign(super.record(), {
+		sBkFn	: this.sBkFn,
+		sBkFace	: this.sBkFace,
+	});}
 
-//	copyFaceComp($do:DisplayObject, do_from:DisplayObject):void {
-
-//	recordAMF(out:IDataOutput):void {
-
-//	playbackAMF(inp:IDataInput, lm:LoadMng):void {
+	playback(hLay: any) {
+		super.playback(hLay);
+	};
 
 	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};
 

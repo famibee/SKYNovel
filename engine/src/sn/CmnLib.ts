@@ -208,6 +208,17 @@ export interface IMark {
 };
 
 
+// =============== LayerMng
+export type typeLayerClass = 'grp'|'txt'|'3d';
+
+// =============== Pages
+export interface IPage {
+	cls		: typeLayerClass;
+	fore	: {[name: string]: any};
+	back	: {[name: string]: any};
+};
+
+
 // =============== RubySpliter
 export interface IPutCh {
 	(ch: string, ruby: string): void;

@@ -1242,6 +1242,39 @@ export class TxtLayer extends Layer {
 		this.xz4htm2rect = fl.xz4htm2rect;
 	}
 
+	record() {return Object.assign(super.record(), {
+		enabled	: this.enabled,
+
+		cssText	: this.htmTxt.style.cssText,
+
+		width		: this.$width,
+		height		: this.$height,
+		pad_left	: this.pad_left,
+		pad_right	: this.pad_right,
+		pad_top		: this.pad_top,
+		pad_bottom	: this.pad_bottom,
+
+		b_pic	: this.b_pic,
+		b_color	: this.b_color,
+		b_alpha	: this.b_alpha,
+		b_alpha_isfixed	: this.b_alpha_isfixed,
+
+		fontsize	: this.fontsize,
+
+		ch_anime_time_仮	: this.ch_anime_time_仮,
+		//fncFi		: this.fncFi,
+		fi_easing	: this.fi_easing,
+		//ch_filter	: this.ch_filter,
+		fo			: this.fo,
+		fo_easing	: this.fo_easing,
+		xz4htm2rect : this.xz4htm2rect,
+
+		txt		: this.htmTxt.textContent,
+	});}
+	playback(hLay: any) {
+		super.playback(hLay);
+	};
+
 	dump(): string {
 		let aPixiObj = [];
 		const len = this.cnt.children.length;
@@ -1258,8 +1291,7 @@ export class TxtLayer extends Layer {
 		}", "style":"${this.htmTxt.style.cssText.replace(/(")/g, '\\$1')
 		}", "b_pic":"${this.b_pic}", "b_color":"${this.b_color
 		}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed
-		}", "b_pic":"${this.b_pic}", "b_width":${this.$width
-		}, "b_height":${this.$height
+		}", "b_width":${this.$width}, "b_height":${this.$height
 		}, "txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')
 		}", "pixi_obj":[${aPixiObj.join(',')}]`;
 	}

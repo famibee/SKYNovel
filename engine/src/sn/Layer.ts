@@ -74,7 +74,7 @@ export class Layer {
 		this.cnt.visible = fromLayer.cnt.visible;
 	}
 
-	record = ()=> {return {
+	record() {return {
 		name	: this.name,
 		idx		: this.cnt.parent.getChildIndex(this.cnt),
 		alpha	: this.cnt.alpha,
@@ -85,7 +85,7 @@ export class Layer {
 		y		: this.cnt.y,
 		visible	: this.cnt.visible,
 	};}
-	playback = (hLay: any)=> {};
+	playback(hLay: any) {};
 
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${

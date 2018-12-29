@@ -1038,7 +1038,7 @@ console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
 
 		this.mark.json = hArg;
 		this.val.setMark(place, this.mark);
-console.log(`fn:ScriptIterator.ts line:1041 this.mark:%o`, this.mark);
+
 		return false;
 	}
 

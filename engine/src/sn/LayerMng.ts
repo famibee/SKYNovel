@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, HArg, ITwInf} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass} from './CmnLib';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -17,7 +17,6 @@ import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 
 import TWEEN = require('@tweenjs/tween.js');
-import { Layer } from './Layer';
 import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
 
@@ -341,38 +340,17 @@ return false;	//=====
 		const layer = hArg.layer;
 		if (! layer) throw 'layerは必須です';
 		if (layer.includes(',')) throw 'layer名に「,」は使えません';
-		if (layer in this.hPages) throw 'layer【'+ layer+'】は定義済みです';
+		if (layer in this.hPages) throw `layer【${layer}】は定義済みです`;
 
-		const cls = hArg.class;
-		if (! cls) throw 'classは必須です';
-		//console.log(`[add_lay] layer:${layer}: cls:${cls}:`);
-		let fore: Layer | null = null;
-		let back: Layer | null = null;
-		switch (cls) {
-		case 'grp':	fore = new GrpLayer;	back = new GrpLayer;	break;
-		case 'txt':	fore = new TxtLayer;	back = new TxtLayer;	break;
-		case '3d':	if (ThreeDLayer.import(this.main, this.scrItr)) return true;
-					fore = new ThreeDLayer;	back = new ThreeDLayer;	break;
-					// NOTE: ジェネレータにしたほうがいいかも
-					//	JavaScript の ジェネレータ を極める！ - Qiita https://qiita.com/kura07/items/d1a57ea64ef5c3de8528
-		default:	throw '属性 class【'+ cls +'】が不正です';
-		}
-		this.aLayName.push(layer);
-		const pg = this.hPages[layer] = new Pages(layer, cls, {fore: fore, back: back});
-		this.fore.addChild(fore.cnt);
-		this.back.addChild(back.cnt);
-		fore.cnt.visible =
-		back.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', true);
-			// SKYNovelでは基本 visible = true とする。
-		fore.name = `layer:${layer} cls:${cls} page:A`;
-		back.name = `layer:${layer} cls:${cls} page:B`;
+		const cls = hArg.class as typeLayerClass;
+		this.hPages[layer] = new Pages(layer, cls, this.fore, this.back, hArg, this.val);
 		switch (cls) {
 		case 'txt':
 			if (! this.strTxtlay) {
 				this.fncChkTxtLay = ()=> {};
 				this.hTag.current({layer: layer});	// hPages更新後でないと呼べない
 				this.goTxt = ()=> {
-					if (this.val.getVal('tmp:sn.skip.enabled')) {
+					if (this.val.getVal('sn.skip.enabled')) {
 						LayerMng.$msecChWait = 0;
 					}
 					else {
@@ -392,21 +370,11 @@ return false;	//=====
 				true);
 			break;
 		}
+		this.aLayName.push(layer);
 /*
 		fncLetAs(hArg);
 		fncReCover();
 */
-		// 組み込み変数
-		const valnm = `const.sn.lay.${layer}`;
-		this.val.setVal_Nochk('tmp', valnm, true);
-		this.val.defTmp(valnm +'.fore.alpha', ()=> pg.fore.alpha);
-		this.val.defTmp(valnm +'.back.alpha', ()=> pg.back.alpha);
-		this.val.defTmp(valnm +'.fore.height', ()=> pg.fore.height);
-		this.val.defTmp(valnm +'.back.height', ()=> pg.back.height);
-		this.val.defTmp(valnm +'.fore.visible', ()=> pg.fore.cnt.visible);
-		this.val.defTmp(valnm +'.back.visible', ()=> pg.back.cnt.visible);
-		this.val.defTmp(valnm +'.fore.width', ()=> pg.fore.width);
-		this.val.defTmp(valnm +'.back.width', ()=> pg.back.width);
 
 		return false;
 	}
@@ -1128,6 +1096,7 @@ void main(void) {
 	}
 	playback($hPages: any) {
 		// TODO: playbackAMF、イテレータかasyncか
+		// [add_lay]
 /*
 		// hPagesでループするのとmark.hPagesでループは意味が違うので注意
 		// 1.hPagesに値をセットしていくというスタンスである
