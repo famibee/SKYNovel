@@ -972,15 +972,15 @@ export class ScriptIterator {
 
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) this.mark = {
 			hSave	: this.val.cloneSave(),
-			hPages	: {...mark['hPages']},
-			aIfStk	: {...mark['aIfStk']},
+			hPages	: {...mark.hPages},
+			aIfStk	: {...mark.aIfStk},
 		}
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 console.log(`fn:ScriptIterator.ts line:980 Layer回復・開始 fn:${fn} idx:${idx}`);
 
-		this.layMng.playback(this.mark['hPages']);
+		this.layMng.playback(this.mark.hPages);
 //	//	this.main.resume(()=> ()=> {
 			// TODO: 多分ここでjumpWork()
 //	//	});
@@ -988,7 +988,7 @@ console.log(`fn:ScriptIterator.ts line:980 Layer回復・開始 fn:${fn} idx:${i
 		setTimeout(()=> {	// NOTE: Test
 console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
 			this.layMng.cover(false);
-			if ('aIfStk' in mark) this.aIfStk = {...this.mark.aIfStk};
+			this.aIfStk = {...this.mark.aIfStk};
 			this.aCallStk = [];
 			if ('label' in hArg) {
 				this.scriptFn_ = fn;

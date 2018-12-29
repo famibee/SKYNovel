@@ -63,7 +63,6 @@ export class Layer {
 		this.playback(fromLayer.record());
 		this.name = org_name;
 	}
-
 	record() {return {
 		name	: this.name,
 		idx		: this.cnt.parent.getChildIndex(this.cnt),
@@ -72,6 +71,8 @@ export class Layer {
 		rotation	: this.cnt.rotation,
 		scale_x	: this.cnt.scale.x,
 		scale_y	: this.cnt.scale.y,
+		pivot_x	: this.cnt.pivot.x,
+		pivot_y	: this.cnt.pivot.y,
 		x		: this.cnt.x,
 		y		: this.cnt.y,
 		visible	: this.cnt.visible,
@@ -83,15 +84,10 @@ export class Layer {
 		this.clearLay({filter: 'true'});
 		this.cnt.alpha = hLay.alpha;
 		this.cnt.blendMode = hLay.blendMode;
-		this.cnt.pivot.set(
-			hLay.x,
-			hLay.y
-		);
 		this.cnt.rotation = hLay.rotation;
-		this.cnt.scale.x = hLay.x;
-		this.cnt.scale.y = hLay.y;
-		this.cnt.x = hLay.x;
-		this.cnt.y = hLay.y;
+		this.cnt.scale.set(hLay.scale_x, hLay.scale_y);
+		this.cnt.pivot.set(hLay.pivot_x, hLay.pivot_y);
+		this.cnt.position.set(hLay.x, hLay.y);
 		this.cnt.visible = hLay.visible;
 	};
 

@@ -188,8 +188,8 @@ export interface IVariable {
 	defValTrg(name: string, fnc: ISetVal): void;
 	cloneMp(): object;
 	setMp(mp: object): void;
-	setMark(place: number, mp: object): void;
-	getMark(place: number): object;
+	setMark(place: number, mp: IMark): void;
+	getMark(place: number): IMark;
 	cloneSave(): object;
 	loadWark(place: number);
 };

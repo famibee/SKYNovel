@@ -226,26 +226,15 @@ export class GrpLayer extends Layer {
 		this.sBkFace= '';
 		this.csvFn	= '';
 	}
-
-	copy(fromLayer: Layer): void {
-		super.copy(fromLayer);
-		const fl = fromLayer as GrpLayer;
-		if (fl.sBkFn == '' && fl.sBkFace == '') {
-			this.clearLay({filter: 'true'});
-			return;
-		}
-		this.lay({fn: fl.sBkFn, face: fl.sBkFace, resume: false});
-		this.cnt.position = fromLayer.cnt.position;
-			// this.lay()でやらない方がいいかなと
-			// NOTE: なぜだっけ？
-	}
 	record() {return Object.assign(super.record(), {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
 	});}
-
 	playback(hLay: any) {
 		super.playback(hLay);
+		if (hLay.sBkFn == '' && hLay.sBkFace == '') return;
+
+		this.lay({fn: hLay.sBkFn, face: hLay.sBkFace, resume: false});
 	};
 
 	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};

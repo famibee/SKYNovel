@@ -1062,7 +1062,7 @@ void main(void) {
 
 	record(): any {
 		const o = {};
-		this.aLayName.map(name=> o[name] = this.hPages[name].record());
+		this.aLayName.map(layer=> o[layer] = this.hPages[layer].record());
 		return o;
 	}
 	playback($hPages: HPage) {
@@ -1073,8 +1073,7 @@ void main(void) {
 			aSort.push({layer: layer, page: 'back', idx: $pg.back.idx});
 
 			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
-			pg.fore.playback($pg.fore);
-			pg.back.playback($pg.back);	// TODO: イテレータかasyncか
+			pg.playback($pg);	// TODO: イテレータかasyncか
 		}
 
 		// ソートし若い順にsetChildIndex()
