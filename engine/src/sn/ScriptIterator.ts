@@ -979,7 +979,7 @@ export class ScriptIterator {
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 
-//		this.layMng.playback(this.mark.hPages);
+		this.layMng.playback(this.mark.hPages);
 		// The supplied DisplayObject must be a child of the caller(Error)
 //	//	this.main.resume(()=> ()=> {
 			// TODO: 多分ここでjumpWork()

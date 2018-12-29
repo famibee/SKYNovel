@@ -1069,24 +1069,24 @@ void main(void) {
 		const aSort = [];
 		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
 			const $pg = $hPages[layer];
-			aSort.push({layer: layer, page: 'fore', idx: $pg.fore.idx});
-			aSort.push({layer: layer, page: 'back', idx: $pg.back.idx});
+			aSort.push({layer: layer, idx: $pg.fore.idx});
 
 			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
 			pg.playback($pg);	// TODO: イテレータかasyncか
 		}
 
-		// ソートし若い順にsetChildIndex()
-		aSort.sort(function(a, b) {
+		aSort.sort(function(a, b) {	// ソートし若い順にsetChildIndex()
 			if (a.idx < b.idx) return -1;
 			if (a.idx > b.idx) return 1;
 			return 0;
 		});
-		const len = aSort.length;
-		for (let i=0; i<len; ++i) {
-			const o = aSort[i];
-			this.stage.setChildIndex(this.hPages[o.layer][o.page], o.idx);
-		}
+		aSort.map(o=> {
+			const pg = this.hPages[o.layer];
+			if (! pg) return;
+
+			this.fore.setChildIndex(pg.fore.cnt, o.idx);
+			this.back.setChildIndex(pg.back.cnt, o.idx);
+		});
 	}
 
 };
