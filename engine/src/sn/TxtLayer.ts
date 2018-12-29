@@ -1178,25 +1178,9 @@ export class TxtLayer extends Layer {
 		for (const c of this.cntBtn.removeChildren()) c.removeAllListeners().destroy();
 		// removeAllListeners()はマウスオーバーイベントなど。クリックは別
 	}
-	copy(fromLayer: Layer): void {
-		super.copy(fromLayer);
-
-		const fl = fromLayer as TxtLayer;
-		this.$width		= fl.$width;	// TODO: 2018/12/29 この辺をコメントアウトすると
-		this.$height	= fl.$height;	// 文字が表示されない
-	}
 	record() {return Object.assign(super.record(), {
 		enabled	: this.enabled,
-
 		cssText	: this.htmTxt.style.cssText,
-
-		width		: this.$width,
-		height		: this.$height,
-		pad_left	: this.pad_left,
-		pad_right	: this.pad_right,
-		pad_top		: this.pad_top,
-		pad_bottom	: this.pad_bottom,
-
 		b_do	: (this.b_do == null)
 					? null
 					: (this.b_do instanceof Sprite ?'Sprite' :'Graphics'),
@@ -1205,8 +1189,6 @@ export class TxtLayer extends Layer {
 		b_alpha	: this.b_alpha,
 		b_alpha_isfixed	: this.b_alpha_isfixed,
 
-		fontsize	: this.fontsize,
-
 		ch_anime_time_仮	: this.ch_anime_time_仮,
 		//fncFi		: this.fncFi,
 		fi_easing	: this.fi_easing,
@@ -1214,20 +1196,20 @@ export class TxtLayer extends Layer {
 		fo			: this.fo,
 		fo_easing	: this.fo_easing,
 		xz4htm2rect : this.xz4htm2rect,
-
-		txt		: this.htmTxt.textContent,
 	});}
 	playback(hLay: any) {
 		super.playback(hLay);
 
-		this.htmTxt.style.cssText = hLay.cssText;
+		this.enabled	= hLay.enabled;
 
-		this.$width		= hLay.$width;
-		this.$height	= hLay.$height;
-		this.pad_left	= hLay.pad_left;
-		this.pad_right	= hLay.pad_right;
-		this.pad_top	= hLay.pad_top;
-		this.pad_bottom	= hLay.pad_bottom;
+		this.htmTxt.style.cssText = hLay.cssText;
+		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft);
+		this.pad_right = parseFloat(this.htmTxt.style.paddingRight);
+		this.pad_top = parseFloat(this.htmTxt.style.paddingTop);
+		this.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom);
+		this.fontsize = parseFloat(this.htmTxt.style.fontSize);
+		this.$width = parseFloat(this.htmTxt.style.width);
+		this.$height = parseFloat(this.htmTxt.style.height);
 
 		// バック
 		if (hLay.b_do == null) {
@@ -1238,25 +1220,24 @@ export class TxtLayer extends Layer {
 			}
 		}
 		else this.drawBack(
-			hLay.b_do == 'Sprite'
-			? {b_pic: hLay.b_pic}
-			: {b_color: hLay.b_color}
+				hLay.b_do == 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color}
 			);
 		this.b_pic		= hLay.b_pic;
 		this.b_color	= hLay.b_color;
 		this.b_alpha	= hLay.b_alpha;
 		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
 
-		this.fontsize	= hLay.fontsize;
-
 		this.ch_anime_time_仮	= hLay.ch_anime_time_仮;
 //		this.fncFi	= hLay.fncFi;			// TODO: 未作成
+//		this.fncFi		= (sp: DisplayObject)=> {sp.x += this.fontsize /3};
 		this.fi_easing	= hLay.fi_easing;
 //		this.ch_filter	= hLay.ch_filter;	// TODO: 未作成
 		this.fo	= hLay.fo;
 		this.fo_easing	= hLay.fo_easing;
 
 		this.xz4htm2rect = hLay.xz4htm2rect;
+
+		//this.htmTxt.textContent,	// NOTE: この記述どこかで使うかも
 	};
 
 	dump(): string {
