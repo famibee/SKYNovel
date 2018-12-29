@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass, HPage} from './CmnLib';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -343,7 +343,9 @@ return false;	//=====
 		if (layer in this.hPages) throw `layer【${layer}】は定義済みです`;
 
 		const cls = hArg.class as typeLayerClass;
-		this.hPages[layer] = new Pages(layer, cls, this.fore, this.back, hArg, this.val);
+		CmnLib.argChk_Boolean(hArg, 'visible', true);
+			// SKYNovelではデフォルト visible = true とする
+		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.val);
 		switch (cls) {
 		case 'txt':
 			if (! this.strTxtlay) {
@@ -1094,7 +1096,19 @@ void main(void) {
 		// TODO: recordAMF
 		return o;
 	}
-	playback($hPages: any) {
+	playback($hPages: HPage) {
+		// 引数で言及の無いレイヤはそのまま。特に削除しない
+		for (const layer in $hPages) {
+			const $pg = $hPages[layer];
+			if (layer in this.hPages) {
+				this.hPages[layer].fore.lay($pg.fore);
+				this.hPages[layer].back.lay($pg.back);
+			}
+			else {
+				this.hPages[layer] = new Pages(layer, $pg.cls, this.fore, $pg.fore, this.back, $pg.back, this.val);
+			}
+		}
+
 		// TODO: playbackAMF、イテレータかasyncか
 		// [add_lay]
 /*

@@ -202,7 +202,7 @@ export interface IData4Vari {
 
 export interface IMark {
 	hSave	: {[name: string]: any};
-	hPages	: {[name: string]: any};
+	hPages	: HPage;
 	aIfStk	: number[];
 	json?	: any;
 };
@@ -212,6 +212,7 @@ export interface IMark {
 export type typeLayerClass = 'grp'|'txt'|'3d';
 
 // =============== Pages
+export interface HPage {[name: string]: IPage};
 export interface IPage {
 	cls		: typeLayerClass;
 	fore	: {[name: string]: any};

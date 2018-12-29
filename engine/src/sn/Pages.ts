@@ -16,7 +16,7 @@ import { Container } from 'pixi.js';
 export class Pages {
 	private pg: {fore: Layer, back: Layer};
 
-	constructor(layer: string, private cls_: typeLayerClass, fore: Container, back: Container, hArg: HArg, val: IVariable) {
+	constructor(layer: string, private cls_: typeLayerClass, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, val: IVariable) {
 		switch (cls_) {
 		case 'grp':	this.pg = {fore: new GrpLayer, back: new GrpLayer};	break;
 		case 'txt':	this.pg = {fore: new TxtLayer, back: new TxtLayer};	break;
@@ -31,9 +31,8 @@ export class Pages {
 		this.pg.back.name = `layer:${layer} cls:${cls_} page:B`;
 		fore.addChild(this.fore.cnt);
 		back.addChild(this.back.cnt);
-		this.fore.cnt.visible =
-		this.back.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', true);
-			// SKYNovelでは基本 visible = true とする。
+		this.fore.lay(hArgFore);
+		this.back.lay(hArgBack);
 
 			// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;
