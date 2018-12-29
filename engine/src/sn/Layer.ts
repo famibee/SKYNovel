@@ -59,33 +59,41 @@ export class Layer {
 		//transform.colorTransform = nulColTrfm;
 	}
 	copy(fromLayer: Layer): void {
-		this.clearLay({filter: 'true'});
-		this.cnt.alpha = fromLayer.cnt.alpha;
-		this.cnt.blendMode = fromLayer.cnt.blendMode;
-		this.cnt.pivot.set(
-			fromLayer.cnt.pivot.x,
-			fromLayer.cnt.pivot.y
-		);
-		this.cnt.rotation = fromLayer.cnt.rotation;
-		this.cnt.scale.x = fromLayer.cnt.scale.x;
-		this.cnt.scale.y = fromLayer.cnt.scale.y;
-		this.cnt.x = fromLayer.cnt.x;
-		this.cnt.y = fromLayer.cnt.y;
-		this.cnt.visible = fromLayer.cnt.visible;
+		const org_name = this.name;
+		this.playback(fromLayer.record());
+		this.name = org_name;
 	}
 
 	record() {return {
 		name	: this.name,
 		idx		: this.cnt.parent.getChildIndex(this.cnt),
 		alpha	: this.cnt.alpha,
-		rotation: this.cnt.rotation,
+		blendMode	: this.cnt.blendMode,
+		rotation	: this.cnt.rotation,
 		scale_x	: this.cnt.scale.x,
 		scale_y	: this.cnt.scale.y,
 		x		: this.cnt.x,
 		y		: this.cnt.y,
 		visible	: this.cnt.visible,
 	};}
-	playback(hLay: any) {};
+	playback(hLay: any) {
+		this.name = hLay.name;
+		//idx	// コール順に意味があるので親でやる
+
+		this.clearLay({filter: 'true'});
+		this.cnt.alpha = hLay.alpha;
+		this.cnt.blendMode = hLay.blendMode;
+		this.cnt.pivot.set(
+			hLay.x,
+			hLay.y
+		);
+		this.cnt.rotation = hLay.rotation;
+		this.cnt.scale.x = hLay.x;
+		this.cnt.scale.y = hLay.y;
+		this.cnt.x = hLay.x;
+		this.cnt.y = hLay.y;
+		this.cnt.visible = hLay.visible;
+	};
 
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${
