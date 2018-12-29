@@ -973,21 +973,17 @@ export class ScriptIterator {
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) this.mark = {
 			hSave	: this.val.cloneSave(),
 			hPages	: {...mark.hPages},
-			aIfStk	: mark.aIfStk.slice(),	// 配列clone
+			aIfStk	: [...mark.aIfStk],
 		}
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 
 		this.layMng.playback(this.mark.hPages);
-		// The supplied DisplayObject must be a child of the caller(Error)
-//	//	this.main.resume(()=> ()=> {
+		this.main.resume(()=> {
 			// TODO: 多分ここでjumpWork()
-//	//	});
-
-		setTimeout(()=> {	// NOTE: Test
 			this.layMng.cover(false);
-			this.aIfStk = this.mark.aIfStk.slice();	// 配列clone
+			this.aIfStk = [...this.mark.aIfStk];
 			this.aCallStk = [];
 			if ('label' in hArg) {
 				this.scriptFn_ = fn;
@@ -997,7 +993,7 @@ export class ScriptIterator {
 				return;
 			}
 			this.jumpWork(fn, '', idx);
-		}, 500);
+		});
 
 		return true;
 	}
