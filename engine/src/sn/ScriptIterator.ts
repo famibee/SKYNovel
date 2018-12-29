@@ -953,7 +953,7 @@ export class ScriptIterator {
 		this.scriptFn_ = '';	// わざと入れてLoad時にスクリプトを再読込。
 								// 吉里吉里に動作を合わせる
 
-		if (CmnLib.argChk_Boolean(hArg, 'reset_sound', true)) {
+		if (CmnLib.argChk_Boolean(hArg, 'reset_sound', true)) {	// TODO: reset_sound
 			const aFncBgm = this.sndMng.loadFromSaveObj(hArg);
 			this.fncLoaded = (aFncBgm.length == 0)
 				? this.runAnalyze
@@ -973,22 +973,21 @@ export class ScriptIterator {
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) this.mark = {
 			hSave	: this.val.cloneSave(),
 			hPages	: {...mark.hPages},
-			aIfStk	: {...mark.aIfStk},
+			aIfStk	: mark.aIfStk.slice(),	// 配列clone
 		}
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
-console.log(`fn:ScriptIterator.ts line:980 Layer回復・開始 fn:${fn} idx:${idx}`);
 
-		this.layMng.playback(this.mark.hPages);
+//		this.layMng.playback(this.mark.hPages);
+		// The supplied DisplayObject must be a child of the caller(Error)
 //	//	this.main.resume(()=> ()=> {
 			// TODO: 多分ここでjumpWork()
 //	//	});
 
 		setTimeout(()=> {	// NOTE: Test
-console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
 			this.layMng.cover(false);
-			this.aIfStk = {...this.mark.aIfStk};
+			this.aIfStk = this.mark.aIfStk.slice();	// 配列clone
 			this.aCallStk = [];
 			if ('label' in hArg) {
 				this.scriptFn_ = fn;
@@ -998,7 +997,7 @@ console.log(`fn:ScriptIterator.ts line:986 Layer回復・終了`);
 				return;
 			}
 			this.jumpWork(fn, '', idx);
-		}, 2000);
+		}, 500);
 
 		return true;
 	}
