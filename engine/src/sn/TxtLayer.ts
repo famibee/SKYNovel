@@ -1178,70 +1178,13 @@ export class TxtLayer extends Layer {
 		for (const c of this.cntBtn.removeChildren()) c.removeAllListeners().destroy();
 		// removeAllListeners()はマウスオーバーイベントなど。クリックは別
 	}
-
 	copy(fromLayer: Layer): void {
 		super.copy(fromLayer);
-		this.clearLay({filter: 'true'});
 
 		const fl = fromLayer as TxtLayer;
-		this.htmTxt.style.cssText = fl.htmTxt.style.cssText;
-
-		this.$width		= fl.$width;
-		this.$height	= fl.$height;
-		this.pad_left	= fl.pad_left;
-		this.pad_right	= fl.pad_right;
-		this.pad_top	= fl.pad_top;
-		this.pad_bottom	= fl.pad_bottom;
-
-		// バック
-		this.b_color	= fl.b_color;
-		this.b_alpha	= fl.b_alpha;
-		this.b_alpha_isfixed	= fl.b_alpha_isfixed;
-		const alpha = (this.b_alpha_isfixed
-			? 1
-			: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
-		) *this.b_alpha;
-		if (this.b_pic == fl.b_pic) {
-			if (this.b_do) {
-				this.b_do.visible = (alpha > 0);
-				this.b_do.alpha = alpha;
-			}
-		}
-		else {
-			this.b_pic = fl.b_pic;
-			if (this.b_do) {
-				this.cnt.removeChild(this.b_do);
-				this.b_do.destroy();
-				this.b_do = null;
-			}
-			if (fl.b_do) {
-				if (this.b_pic) {
-					GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
-						this.b_do = sp;
-						sp.name = 'back(pic by copy)';
-						sp.visible = (alpha > 0);
-						sp.alpha = alpha;
-						this.cnt.setChildIndex(sp, 0);
-					});
-				}
-				else if (alpha > 0 && (fl.b_do instanceof Graphics)) {
-					this.b_do = fl.b_do.clone();
-					this.cnt.addChildAt(this.b_do, 0);
-				}
-			}
-		}
-		this.fontsize	= fl.fontsize;
-
-		this.ch_anime_time_仮	= fl.ch_anime_time_仮;
-//		this.fncFi	= fl.fncFi;			// TODO: 未作成
-		this.fi_easing	= fl.fi_easing;
-//		this.ch_filter	= fl.ch_filter;	// TODO: 未作成
-		this.fo	= fl.fo;
-		this.fo_easing	= fl.fo_easing;
-
-		this.xz4htm2rect = fl.xz4htm2rect;
+		this.$width		= fl.$width;	// TODO: 2018/12/29 この辺をコメントアウトすると
+		this.$height	= fl.$height;	// 文字が表示されない
 	}
-
 	record() {return Object.assign(super.record(), {
 		enabled	: this.enabled,
 
@@ -1254,6 +1197,9 @@ export class TxtLayer extends Layer {
 		pad_top		: this.pad_top,
 		pad_bottom	: this.pad_bottom,
 
+		b_do	: (this.b_do == null)
+					? null
+					: (this.b_do instanceof Sprite ?'Sprite' :'Graphics'),
 		b_pic	: this.b_pic,
 		b_color	: this.b_color,
 		b_alpha	: this.b_alpha,
@@ -1273,6 +1219,44 @@ export class TxtLayer extends Layer {
 	});}
 	playback(hLay: any) {
 		super.playback(hLay);
+
+		this.htmTxt.style.cssText = hLay.cssText;
+
+		this.$width		= hLay.$width;
+		this.$height	= hLay.$height;
+		this.pad_left	= hLay.pad_left;
+		this.pad_right	= hLay.pad_right;
+		this.pad_top	= hLay.pad_top;
+		this.pad_bottom	= hLay.pad_bottom;
+
+		// バック
+		if (hLay.b_do == null) {
+			if (this.b_do) {
+				this.cnt.removeChild(this.b_do);
+				this.b_do.destroy();
+				this.b_do = null;
+			}
+		}
+		else this.drawBack(
+			hLay.b_do == 'Sprite'
+			? {b_pic: hLay.b_pic}
+			: {b_color: hLay.b_color}
+			);
+		this.b_pic		= hLay.b_pic;
+		this.b_color	= hLay.b_color;
+		this.b_alpha	= hLay.b_alpha;
+		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
+
+		this.fontsize	= hLay.fontsize;
+
+		this.ch_anime_time_仮	= hLay.ch_anime_time_仮;
+//		this.fncFi	= hLay.fncFi;			// TODO: 未作成
+		this.fi_easing	= hLay.fi_easing;
+//		this.ch_filter	= hLay.ch_filter;	// TODO: 未作成
+		this.fo	= hLay.fo;
+		this.fo_easing	= hLay.fo_easing;
+
+		this.xz4htm2rect = hLay.xz4htm2rect;
 	};
 
 	dump(): string {
