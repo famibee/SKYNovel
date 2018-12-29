@@ -1064,17 +1064,8 @@ void main(void) {
 		const o = {};
 		this.aLayName.map(name=> o[name] = this.hPages[name].record());
 /*
-		// ソート順
-		const aSort:Array = [];
 		foreachLayAndPlg(function (o:Object):void {
 			const o2:Object = {cls:o.cls, name:o.name};
-			if (o.cls == 'plg') {
-				const dsp:DisplayObject = o.o as DisplayObject;
-				o2.idx = stage.getChildIndex(dsp);
-				aSort.push(o2);
-//myTrace('plg name:'+ o2.name +' idx:'+ o2.idx);
-				return;
-			}
 
 			const pg:Pages = o.o as Pages;
 			const lf:DisplayObject = pg.fore as DisplayObject;
@@ -1088,72 +1079,38 @@ void main(void) {
 			aSort.push(o2);
 //myTrace('... name:'+ o2.name +' page=back idx:'+ o2.idx);
 		});
-		const ba2:ByteArray = new ByteArray();
-		ba2.writeObject(aSort);
-		ba2.compress();
-		o[',sort'] = ba2;	// 要素名はlayer名に「,」は使えないことから
 */
-		// TODO: recordAMF
+
 		return o;
 	}
 	playback($hPages: HPage) {
 		// 引数で言及の無いレイヤはそのまま。特に削除しない
+		const aSort = [];
 		for (const layer in $hPages) {
 			const $pg = $hPages[layer];
 			if (layer in this.hPages) {
 				this.hPages[layer].fore.lay($pg.fore);
 				this.hPages[layer].back.lay($pg.back);
+		// TODO: playbackAMF、イテレータかasyncか
 			}
 			else {
 				this.hPages[layer] = new Pages(layer, $pg.cls, this.fore, $pg.fore, this.back, $pg.back, this.val);
 			}
-		}
-
-		// TODO: playbackAMF、イテレータかasyncか
-		// [add_lay]
-/*
-		// hPagesでループするのとmark.hPagesでループは意味が違うので注意
-		// 1.hPagesに値をセットしていくというスタンスである
-		// 2.こちらの方がデータ欠損に強い
-		for (var name:String in hPages) {
-			var ba:ByteArray = $hPages[name];
-			if (! ba) continue;
-
-			ba = CmnLib.clone(ba);
-			ba.uncompress();
-			hPages[name].playbackAMF(ba, ldMng);
-			ba.clear();
+			aSort.push({layer: layer, page: 'fore', idx: $pg.fore.idx});
+			aSort.push({layer: layer, page: 'back', idx: $pg.back.idx});
 		}
 
 		// ソート順
-		const ba2:ByteArray = $hPages[',sort'];
-		if (! ba2) return;
-
-		const ba2_:ByteArray = CmnLib.clone(ba2);
-		ba2_.uncompress();
-		const aSort:Array = ba2_.readObject();
-
-		aSort.sortOn(['idx'], [Array.NUMERIC]);
-		const len:uint = aSort.length;
-//myTrace(':playbackAMF:');
-		for (var i:uint=0; i<len; ++i) {
-			const o:Object = aSort[i];
-			if (o.cls == 'plg') {
-//myTrace('plg name:'+ o.name +' idx:'+ o.idx);
-				const p:DisplayObject = hPlugin[o.name];
-				stage.setChildIndex(p, o.idx);
-				continue;
-			}
-//myTrace('lay name:'+ o.name +' page='+ o.page +' idx:'+ o.idx);
-			if (hPages[o.name] == null) throw('[load] レイヤ'+ o.name +' が無い状況で、そのレイヤを復元しようとしました');
-//hTag.log({text:'playbackAMF:17 :'+ (hPages[o.name][o.page] != null)});
-				// o.pageチェックまでは要らないと思う
-			const l:DisplayObject = hPages[o.name][o.page];
-			stage.setChildIndex(l, o.idx);
+		aSort.sort(function(a, b) {
+			if (a.idx < b.idx) return -1;
+			if (a.idx > b.idx) return 1;
+			return 0;
+		});
+		const len = aSort.length;
+		for (let i=0; i<len; ++i) {
+			const o = aSort[i];
+			this.stage.setChildIndex(this.hPages[o.layer][o.page], o.idx);
 		}
-		rebuildLayerRankInfo();
-*/
 	}
-
 
 };

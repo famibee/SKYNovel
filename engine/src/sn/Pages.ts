@@ -33,6 +33,7 @@ export class Pages {
 		back.addChild(this.back.cnt);
 		this.fore.lay(hArgFore);
 		this.back.lay(hArgBack);
+		// TODO: playbackAMF、イテレータかasyncか
 
 			// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;
