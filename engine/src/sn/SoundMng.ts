@@ -329,7 +329,7 @@ export class SoundMng {
 			sys = hScopeVal.sys;
 		}
 		const bufs_lp_play
-			= (save['const.an.bufs_lp_play'] ||= '');
+			= (save['const.sn.bufs_lp_play'] ||= '');
 		flush();
 //MainThread.myTrace('loadFromSaveObj:('+ bufs_lp_play +')', 'F');
 		if (bufs_lp_play == '') {
@@ -341,7 +341,7 @@ export class SoundMng {
 		const len:uint = ab.length;
 		for (var i:uint=0; i<len; ++i) {
 			const buf:String = ab[i];
-			const nm:String = 'const.an.sound.'+ buf +'.';
+			const nm:String = 'const.sn.sound.'+ buf +'.';
 			oSB[buf] = {
 				fn		:save[nm +'fn']
 			,	buf		:buf

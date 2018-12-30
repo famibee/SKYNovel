@@ -134,7 +134,7 @@ export class Variable implements IVariable {
 		// prj.json
 		this.hTmp['const.sn.config.window.width'] = cfg.oCfg.window.width;
 		this.hTmp['const.sn.config.window.height']= cfg.oCfg.window.height;
-			// AIRNovel の const.an.xmlConfig.window.width、.height
+			// AIRNovel の const.sn.xmlConfig.window.width、.height
 			// NOTE: AIRNovel の const.flash.display.Stage.stageWidth は未定
 			// 使うならここで初期化だろうと
 		this.hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
@@ -208,7 +208,7 @@ export class Variable implements IVariable {
 	cloneSave(): object {return {...this.hScopeVal.save}}
 	loadWark(place: number) {
 		this.hSaveVal = this.hScopeVal.save = {...this.data.mark[place].hSave};
-		this.hSaveVal['const.an.sLog'] += '\f';
+		this.hSaveVal['const.sn.sLog'] += '\f';
 			// 吉里吉里に動作を合わせる
 			// 改ページは履歴がページからあふれるため
 	}
