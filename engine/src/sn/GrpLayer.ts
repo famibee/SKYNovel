@@ -93,7 +93,7 @@ export class GrpLayer extends Layer {
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		//GrpLayer.ldr.destroy();	// あまりキビキビ殺すと、表示する前に消える
-		let isLoad = false;
+		let needLoad = false;
 		// .forEach((fn, i)=> {	// NOTE: mapの方が速い＆値を返すのでチェーンにできる
 		csv.split(',').map((fn, i)=> {
 			if (! fn) throw 'face属性に空要素が含まれます';
@@ -116,7 +116,7 @@ export class GrpLayer extends Layer {
 			if (f.fn in utils.TextureCache) return;
 			if (f.fn in GrpLayer.ldr.resources) return;
 
-			isLoad = true;
+			needLoad = true;
 			if (GrpLayer.ldr.loading) GrpLayer.ldr = new loaders.Loader();
 			GrpLayer.ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
 		});
@@ -127,9 +127,9 @@ export class GrpLayer extends Layer {
 				parent.addChild(sp);
 				v.fnc(sp);
 			}
-			fncAllComp(isLoad);
+			fncAllComp(needLoad);
 		};
-		if (isLoad) {GrpLayer.ldr.load(fncLoaded); return true;}
+		if (needLoad) {GrpLayer.ldr.load(fncLoaded); return true;}
 		fncLoaded(null, utils.TextureCache);
 		return false;
 	}

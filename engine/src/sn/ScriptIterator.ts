@@ -733,7 +733,7 @@ export class ScriptIterator {
 
 	private recordKidoku(): void {
 		const areas = this.hAreaKidoku[this.scriptFn_];
-		if (areas == null) throw `recordKidoku fn:${this.scriptFn_} (areas == null)`;
+		if (areas == null) throw `recordKidoku fn:'${this.scriptFn_}' (areas == null)`;
 
 		if (this.aCallStk.length > 0) {
 			// マクロ内やサブルーチンではisKidokuを変更させない
