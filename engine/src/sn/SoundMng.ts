@@ -195,8 +195,8 @@ export class SoundMng {
 			if (! oSb) return;
 			oSb.onend();
 		};
-		const is_join = CmnLib.argChk_Boolean(hArg, 'join', true);
-		if (is_join) o.onload = ()=> this.main.resume();
+		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
+		if (join) o.onload = ()=> this.main.resume();
 		this.hSndBuf[buf] = {
 			snd		: new Howl(o),
 			loop	: loop,
@@ -219,7 +219,7 @@ export class SoundMng {
 			},
 		};
 
-		return is_join;
+		return join;
 	}
 
 	// 全効果音再生の停止
