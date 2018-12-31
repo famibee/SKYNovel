@@ -79,8 +79,8 @@ export class Pages {
 		fore: this.pg.fore.record(),
 		back: this.pg.back.record(),
 	};}
-	playback(pg: IPage) {
-		this.pg.fore.playback(pg.fore);
-		this.pg.back.playback(pg.back);
+	playback(pg: IPage, resume: ()=> void) {
+		this.pg.fore.playback(pg.fore, resume);
+		this.pg.back.playback(pg.back, resume);
 	};
 };

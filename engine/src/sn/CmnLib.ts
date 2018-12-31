@@ -82,7 +82,6 @@ export interface HArg {
 	key?	: string;
 	em?		: DisplayObject;
 	type?	: string;
-	resume?	: boolean;
 
 	breakout?	: Function;
 	arg?	: HArg;

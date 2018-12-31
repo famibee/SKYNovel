@@ -1065,14 +1065,15 @@ void main(void) {
 		this.aLayName.map(layer=> o[layer] = this.hPages[layer].record());
 		return o;
 	}
-	playback($hPages: HPage) {
+	playback($hPages: HPage, resume: ()=> void) {
 		const aSort = [];
 		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
 			const $pg = $hPages[layer];
 			aSort.push({layer: layer, idx: $pg.fore.idx});
 
 			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
-			pg.playback($pg);	// TODO: イテレータかasyncか
+console.log(`fn:LayerMng.ts line:1075 layer:${layer}`);
+			pg.playback($pg, resume);
 		}
 
 		aSort.sort(function(a, b) {	// ソートし若い順にsetChildIndex()

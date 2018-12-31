@@ -978,9 +978,9 @@ export class ScriptIterator {
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
-
-		this.layMng.playback(this.mark.hPages);
-		this.main.resume(()=> {
+console.log(`fn:ScriptIterator.ts line:981 load!`);
+		this.layMng.playback(this.mark.hPages, ()=> {
+console.log(`fn:ScriptIterator.ts line:984 load resume()`);
 			// TODO: 多分ここでjumpWork()
 			this.layMng.cover(false);
 			this.aIfStk = [...this.mark.aIfStk];
@@ -994,6 +994,7 @@ export class ScriptIterator {
 			}
 			this.jumpWork(fn, '', idx);
 		});
+console.log(`fn:ScriptIterator.ts line:983 load...`);
 
 		return true;
 	}

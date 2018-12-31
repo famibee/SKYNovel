@@ -87,9 +87,12 @@ export class GrpLayer extends Layer {
 				if (hArg.page == 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 			},
-			isStop=> {if (isStop) GrpLayer.main.resume()}
+			GrpLayer.fncAllComp
 		);
 	}
+	private static	fncDefAllComp	= isStop=> {if (isStop) GrpLayer.main.resume()};
+	private static	fncAllComp	= GrpLayer.fncDefAllComp;
+
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		//GrpLayer.ldr.destroy();	// あまりキビキビ殺すと、表示する前に消える
@@ -230,12 +233,21 @@ export class GrpLayer extends Layer {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
 	});}
-	playback(hLay: any) {
+	playback(hLay: any, resume?: ()=> void) {
 		super.playback(hLay);
 		if (hLay.sBkFn == '' && hLay.sBkFace == '') return;
 
-		this.lay({fn: hLay.sBkFn, face: hLay.sBkFace, resume: false});
+		GrpLayer.fncAllComp = isStop=> {
+console.log(`fn:GrpLayer.ts line:97 isStop:${isStop} cnt:${GrpLayer.cntPararell}`);
+			if (--GrpLayer.cntPararell == 0 && isStop) GrpLayer.main.resume(resume);
+		};
+console.log(`fn:GrpLayer.ts line:247 A cnt:${GrpLayer.cntPararell}`);
+		++GrpLayer.cntPararell;
+		this.lay({fn: hLay.sBkFn, face: hLay.sBkFace});
+console.log(`fn:GrpLayer.ts line:249 B cnt:${GrpLayer.cntPararell}`);
+		GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
 	};
+	private static	cntPararell = 0
 
 	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};
 
