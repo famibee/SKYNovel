@@ -947,11 +947,9 @@ export class ScriptIterator {
 		const mark = this.val.getMark(place);
 		if (! mark) throw `place【${place}】は存在しません`;
 
-//		this.layMng.cover(true);
+		this.layMng.cover(true);
 		this.hTag.clear_event({});
 		this.val.loadWark(place);
-		this.scriptFn_ = '';	// わざと入れてLoad時にスクリプトを再読込。
-								// 吉里吉里に動作を合わせる
 
 		if (CmnLib.argChk_Boolean(hArg, 'reset_sound', true)) {	// TODO: reset_sound
 			const aFncBgm = this.sndMng.loadFromSaveObj(hArg);
@@ -978,21 +976,22 @@ export class ScriptIterator {
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
-		this.layMng.playback(this.mark.hPages, ()=> {
-console.log(`fn:ScriptIterator.ts line:984 load resume()`);
-			// TODO: 多分ここでjumpWork()
-			this.layMng.cover(false);
-			this.aIfStk = [...this.mark.aIfStk];
-			this.aCallStk = [];
-			if ('label' in hArg) {
+		delete this.hScript[fn];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
+		this.aIfStk = [...this.mark.aIfStk];
+		this.aCallStk = [];
+		this.layMng.playback(this.mark.hPages, 'label' in hArg
+			? ()=> {
+				this.layMng.cover(false);
 				this.scriptFn_ = fn;
 				this.idxToken_ = idx;
 				this.csAnalyBf = new CallStack('', 0);
 				this.hTag.call({fn: hArg.fn, label: hArg.label});
-				return;
 			}
-			this.jumpWork(fn, '', idx);
-		});
+			: ()=> {
+				this.layMng.cover(false);
+				this.jumpWork(fn, '', idx);
+			}
+		);
 
 		return true;
 	}

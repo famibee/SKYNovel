@@ -1,6 +1,5 @@
 ;#USE-FONT	ipam
-	[return cond="const.config.inited"]
-	&const.config.inited = true
+	[return cond="const.sn.frm.config"]
 
 	[add_frame id=config src="config/_config.htm" visible=false]
 	[call label=*resv_event]

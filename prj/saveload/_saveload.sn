@@ -1,6 +1,5 @@
 ;#USE-FONT	ipam
-	[return cond="const.saveload.inited"]
-	&const.saveload.inited = true
+	[return cond="const.sn.frm.saveload"]
 
 	[add_frame id=saveload src="saveload/_saveload.htm" visible=false]
 

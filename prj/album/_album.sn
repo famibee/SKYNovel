@@ -1,6 +1,5 @@
 ;#USE-FONT	ipam
-	[return cond="const.album.inited"]
-	&const.album.inited = true
+	[return cond="const.sn.frm.album"]
 
 	[add_frame id=album src="album/_album.htm" visible=false]
 

@@ -110,7 +110,7 @@ export class Button extends Container {
 				normal();
 			},
 			isStop=> {if (isStop) Button.main.resume()}
-		) && CmnLib.argChk_Boolean(hArg, 'join', false);
+		);
 	}
 
 	private	static	cln	= document.createElement('span');
