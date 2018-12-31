@@ -1072,7 +1072,6 @@ void main(void) {
 			aSort.push({layer: layer, idx: $pg.fore.idx});
 
 			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
-console.log(`fn:LayerMng.ts line:1075 layer:${layer}`);
 			pg.playback($pg, resume);
 		}
 

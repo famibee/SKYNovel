@@ -978,7 +978,6 @@ export class ScriptIterator {
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
-console.log(`fn:ScriptIterator.ts line:981 load!`);
 		this.layMng.playback(this.mark.hPages, ()=> {
 console.log(`fn:ScriptIterator.ts line:984 load resume()`);
 			// TODO: 多分ここでjumpWork()
@@ -994,7 +993,6 @@ console.log(`fn:ScriptIterator.ts line:984 load resume()`);
 			}
 			this.jumpWork(fn, '', idx);
 		});
-console.log(`fn:ScriptIterator.ts line:983 load...`);
 
 		return true;
 	}

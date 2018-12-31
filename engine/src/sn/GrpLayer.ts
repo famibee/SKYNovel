@@ -235,16 +235,15 @@ export class GrpLayer extends Layer {
 	});}
 	playback(hLay: any, resume?: ()=> void) {
 		super.playback(hLay);
-		if (hLay.sBkFn == '' && hLay.sBkFace == '') return;
+		this.sBkFn	= hLay.sBkFn;
+		this.sBkFace= hLay.sBkFace;
+		if (this.sBkFn == '' && this.sBkFace == '') return;
 
+		++GrpLayer.cntPararell;
 		GrpLayer.fncAllComp = isStop=> {
-console.log(`fn:GrpLayer.ts line:97 isStop:${isStop} cnt:${GrpLayer.cntPararell}`);
 			if (--GrpLayer.cntPararell == 0 && isStop) GrpLayer.main.resume(resume);
 		};
-console.log(`fn:GrpLayer.ts line:247 A cnt:${GrpLayer.cntPararell}`);
-		++GrpLayer.cntPararell;
 		this.lay({fn: hLay.sBkFn, face: hLay.sBkFace});
-console.log(`fn:GrpLayer.ts line:249 B cnt:${GrpLayer.cntPararell}`);
 		GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
 	};
 	private static	cntPararell = 0
