@@ -77,7 +77,6 @@ export class Button extends Container {
 		}
 
 		if (! ('pic' in hArg)) throw 'textまたはpic属性は必須です';
-		const join = CmnLib.argChk_Boolean(hArg, 'join', false);
 		return GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
@@ -110,8 +109,8 @@ export class Button extends Container {
 				this.on('pointerup', hover);
 				normal();
 			},
-			isStop=> {if (isStop && join) Button.main.resume()}
-		);
+			isStop=> {if (isStop) Button.main.resume()}
+		) && CmnLib.argChk_Boolean(hArg, 'join', false);
 	}
 
 	private	static	cln	= document.createElement('span');
