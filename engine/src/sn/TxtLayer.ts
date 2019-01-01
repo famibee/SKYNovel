@@ -1197,7 +1197,7 @@ export class TxtLayer extends Layer {
 		fo_easing	: this.fo_easing,
 		xz4htm2rect : this.xz4htm2rect,
 	});}
-	playback(hLay: any, resume?: ()=> void) {
+	playback(hLay: any, resume = undefined) {
 		super.playback(hLay);
 
 		this.enabled	= hLay.enabled;

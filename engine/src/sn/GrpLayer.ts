@@ -233,19 +233,21 @@ export class GrpLayer extends Layer {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
 	});}
-	playback(hLay: any, resume?: ()=> void) {
+	playback(hLay: any, resume = undefined) {
 		super.playback(hLay);
 		if (hLay.sBkFn == '' && hLay.sBkFace == '') {
 			this.sBkFn	= hLay.sBkFn;
 			this.sBkFace= hLay.sBkFace;
 			return;
 		}
-console.log(`fn:GrpLayer.ts line:243 name:${this.name} cnt:${GrpLayer.cntPararell}`);
-		++GrpLayer.cntPararell;
-		GrpLayer.fncAllComp = isStop=> {
+console.log(`fn:GrpLayer.ts line:243 name:${this.name} resume:${resume == undefined} cnt:${GrpLayer.cntPararell}`);
+		if (resume != undefined) {
+			++GrpLayer.cntPararell;
+			GrpLayer.fncAllComp = isStop=> {
 console.log(`fn:GrpLayer.ts line:246 name:${this.name} isStop:${isStop} cnt:${GrpLayer.cntPararell}`);
-			if (--GrpLayer.cntPararell == 0 && isStop) GrpLayer.main.resume(resume);
-		};
+				if (--GrpLayer.cntPararell == 0 && isStop) GrpLayer.main.resume(resume);
+			};
+		}
 		this.lay({fn: hLay.sBkFn, face: hLay.sBkFace});
 		GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
 console.log(`fn:GrpLayer.ts line:251 name:${this.name} cnt:${GrpLayer.cntPararell}`);
