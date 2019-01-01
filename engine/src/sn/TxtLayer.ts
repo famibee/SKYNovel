@@ -1193,6 +1193,8 @@ export class TxtLayer extends Layer {
 	record() {return Object.assign(super.record(), {
 		enabled	: this.enabled,
 		cssText	: this.htmTxt.style.cssText,
+
+		// バック
 		b_do	: (this.b_do == null)
 					? null
 					: (this.b_do instanceof Sprite ?'Sprite' :'Graphics'),
@@ -1213,7 +1215,6 @@ export class TxtLayer extends Layer {
 		super.playback(hLay);
 
 		this.enabled	= hLay.enabled;
-
 		this.htmTxt.style.cssText = hLay.cssText;
 		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft);
 		this.pad_right = parseFloat(this.htmTxt.style.paddingRight);
@@ -1224,20 +1225,19 @@ export class TxtLayer extends Layer {
 		this.$height = parseFloat(this.htmTxt.style.height);
 
 		// バック
-		if (hLay.b_do == null) {
-			if (this.b_do) {
-				this.cnt.removeChild(this.b_do);
-				this.b_do.destroy();
-				this.b_do = null;
-			}
-		}
-		else this.drawBack(
-				hLay.b_do == 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color}
-			);
 		this.b_pic		= hLay.b_pic;
 		this.b_color	= hLay.b_color;
 		this.b_alpha	= hLay.b_alpha;
 		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
+
+		if (hLay.b_do) this.drawBack(
+			hLay.b_do == 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color}
+		)
+		else if (this.b_do) {
+			this.cnt.removeChild(this.b_do);
+			this.b_do.destroy();
+			this.b_do = null;
+		}
 
 		this.ch_anime_time_仮	= hLay.ch_anime_time_仮;
 //		this.fncFi	= hLay.fncFi;			// TODO: 未作成
