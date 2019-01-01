@@ -76,7 +76,6 @@
 	; テキストレイヤ全画面設定
 	[txt_lay_fullscreen b_alpha=0 no_sysmenu_draw=true]
 	[lay layer="mes" page=back layout='fontFamily="ipam" fontLookup="embeddedCFF"']
-;	[grp bg="black" sys_menu=false b_alpha=0]	; 遅い
 	[grp bg="black" sys_menu=false b_alpha=0 time=0]
 
 	[record_place layer=&dsp_lays]

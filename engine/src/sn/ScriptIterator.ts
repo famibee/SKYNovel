@@ -979,25 +979,19 @@ export class ScriptIterator {
 		delete this.hScript[fn];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
 		this.aIfStk = [...this.mark.aIfStk];
 		this.aCallStk = [];
-console.log(`fn:ScriptIterator.ts line:982 Begin fn:${fn} idx:${idx}`);
 		this.layMng.playback(this.mark.hPages, 'label' in hArg
 			? ()=> {
-console.log(`fn:ScriptIterator.ts line:985 Comp A`);
 				this.layMng.cover(false);
 				this.scriptFn_ = fn;
 				this.idxToken_ = idx;
 				this.csAnalyBf = new CallStack('', 0);
 				this.hTag.call({fn: hArg.fn, label: hArg.label});
-console.log(`fn:ScriptIterator.ts line:991 Comp A End`);
 			}
 			: ()=> {
-console.log(`fn:ScriptIterator.ts line:994 Comp B fn:${fn} idx:${idx}`);
 				this.layMng.cover(false);
 				this.jumpWork(fn, '', idx);
-console.log(`fn:ScriptIterator.ts line:997 Comp B End`);
 			}
 		);
-console.log(`fn:ScriptIterator.ts line:996 End`);
 		return true;
 	}
 
