@@ -79,26 +79,26 @@
 
 ;*********************************************************
 *save
-	&_sl.place = const.sn.frm.saveload.val_place
+	&_save.place = const.sn.frm.saveload.val_place
 	[se fn=&sysse_ok1 buf=SYS]
 
 	[call label=*do_save]
 [jump label=*exit]
 
 *do_save_resume
-	&_sl.place = 0
+	&_save.place = 0
 	&pic = '_saveload_resume.jpg'
 	[jump label=*do_save_noss]
 
 *do_save
-	[let name=pic text="& 'userdata:/storage/'+ _sl.place +'.jpg'"]
+	[let name=pic text="& 'userdata:/storage/'+ _save.place +'.jpg'"]
 	[snapshot fn=&pic layer=&dsp_lays smoothing=true cond=const.sn.isApp]
 	[let name=pic text='_saveload_browser.jpg' cond=!const.sn.isApp]
 
 *do_save_noss
 	[let name="enabled" text="&save:const.an.layer.mes.enabled|true"]
 	[enable_event enabled=true]	; この状態も保存されるので一時変更
-	[save place=&_sl.place pic=&pic dt=&const.Date.getDateStr txt=&const.sn.last_page_text]
+	[save place=&_save.place pic=&pic dt=&const.Date.getDateStr txt=&const.sn.last_page_text]
 	[enable_event enabled="&enabled"]
 [return]
 
@@ -106,16 +106,16 @@
 *quick_save
 	[return cond="! isGameState"]
 
-	&_sl.place = sys:saveload.quick_place
+	&_save.place = sys:saveload.quick_place
 	[call label=*do_save]
-	[let name="sys:saveload.quick_place" text="&(_sl.place +1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
+	[let name="sys:saveload.quick_place" text="&(_save.place +1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
 
 ;	[notice text="クイックセーブしました" left="&const.flash.display.Stage.stageWidth -10 -300" top=10]
 [return]
 
 ;*********************************************************
 *load
-	&_sl.place = const.sn.frm.saveload.val_place
+	&_load.place = const.sn.frm.saveload.val_place
 	[se fn=&sysse_ok2_long buf=SYS]
 
 	; *** ブラックアウト ***
@@ -126,10 +126,10 @@
 	[frame id=saveload visible=false]
 
 *do_load
-;	[sys_scenario_start no_resume_save=true]	; 遅い
-	[copybookmark from=&_sl.place to=0]
-	[load place=&_sl.place]
-;	[load place=&_sl.place fn=saveload label=*do_load_init]
+	[sys_scenario_start no_resume_save=true]
+	[copybookmark from=&_load.place to=0]
+	[load place=&_load.place]
+;	[load place=&_load.place fn=saveload label=*do_load_init]
 
 *do_load_resume
 	[se fn=&sysse_ok2_long buf=SYS]
