@@ -1211,18 +1211,9 @@ export class TxtLayer extends Layer {
 		fo_easing	: this.fo_easing,
 		xz4htm2rect : this.xz4htm2rect,
 	});}
-	playback(hLay: any, resume = undefined) {
+	playback(hLay: any) {
 		super.playback(hLay);
-
 		this.enabled	= hLay.enabled;
-		this.htmTxt.style.cssText = hLay.cssText;
-		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft);
-		this.pad_right = parseFloat(this.htmTxt.style.paddingRight);
-		this.pad_top = parseFloat(this.htmTxt.style.paddingTop);
-		this.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom);
-		this.fontsize = parseFloat(this.htmTxt.style.fontSize);
-		this.$width = parseFloat(this.htmTxt.style.width);
-		this.$height = parseFloat(this.htmTxt.style.height);
 
 		// バック
 		this.b_pic		= hLay.b_pic;
@@ -1238,6 +1229,18 @@ export class TxtLayer extends Layer {
 			this.b_do.destroy();
 			this.b_do = null;
 		}
+
+//if (this.name.slice(0, 10) == 'layer:mes ') console.log(`fn:TxtLayer.ts playback name:${this.name} cssText:${hLay.cssText} x:${this.cnt.x} y:${this.cnt.y}`);
+		this.htmTxt.style.cssText = hLay.cssText;
+		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft);
+		this.pad_right = parseFloat(this.htmTxt.style.paddingRight);
+		this.pad_top = parseFloat(this.htmTxt.style.paddingTop);
+		this.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom);
+		this.fontsize = parseFloat(this.htmTxt.style.fontSize);
+		this.$width = parseFloat(this.htmTxt.style.width);
+		this.$height = parseFloat(this.htmTxt.style.height);
+
+		this.cntInsidePadding.position.set(this.pad_left, this.pad_top);
 
 		this.ch_anime_time_仮	= hLay.ch_anime_time_仮;
 //		this.fncFi	= hLay.fncFi;			// TODO: 未作成
