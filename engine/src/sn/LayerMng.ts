@@ -19,7 +19,6 @@ import {FrameMng} from './FrameMng';
 import TWEEN = require('@tweenjs/tween.js');
 import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
-import { strict } from 'assert';
 
 export class LayerMng {
 	private	stage	: Container	= null;

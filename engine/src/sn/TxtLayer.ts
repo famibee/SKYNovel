@@ -93,10 +93,10 @@ export class TxtLayer extends Layer {
 
 	private	ch_anime_time_仮	= 500;	// TODO: 未作成
 	private	fncFi			= (sp: DisplayObject)=> {sp.x += this.fontsize /3};
-	private fi_easing		= TWEEN.Easing.Quadratic.Out;
+	private fi_easing		= 'Quadratic.Out';
 	private ch_filter		: any[] | null	= null;
 	private fo				= {alpha: 0, x: `+${ this.fontsize /3 }`};
-	private fo_easing		= TWEEN.Easing.Quadratic.Out;
+	private fo_easing		= 'Quadratic.Out';
 
 	private	rbSpl			= new RubySpliter;
 
@@ -1013,6 +1013,11 @@ export class TxtLayer extends Layer {
 			else fncDelay(TxtLayer.hAutoWc[v.ch]);
 			const o = v.arg ?JSON.parse(v.arg) :{};
 			const already_put = i < lenPutedRect;
+			const ease = this.fi_easing
+				? CmnLib.hEase[this.fi_easing]
+				: TWEEN.Easing.Linear.None;
+			if (! ease) throw '異常なease指定です';
+
 			const spWork = (sp: Container, replace_pos_by_sp = true)=> {
 				// 文字表示効果・初期状態変更
 				sp.alpha = 0;
@@ -1036,7 +1041,7 @@ export class TxtLayer extends Layer {
 							? 0	// 文字変更時は瞬時差し替え
 							: this.ch_anime_time_仮
 						)
-						.easing(this.fi_easing)
+						.easing(ease)
 						.delay(delay)
 						.onComplete(()=> {
 							st.tw = null;
@@ -1149,14 +1154,21 @@ export class TxtLayer extends Layer {
 		if (this.ch_anime_time_仮 == 0) {
 			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
 		}
-		else for (const c of this.cntTxt.children) {
-			c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
-			new TWEEN.Tween(c)
-			.to(this.fo, this.ch_anime_time_仮)
-			.easing(this.fo_easing)
-			//.delay(i * LayerMng.msecChWait)
-			.onComplete(o=> this.cntTxt.removeChild(o))
-			.start();
+		else {
+			const ease = this.fo_easing
+				? CmnLib.hEase[this.fo_easing]
+				: TWEEN.Easing.Linear.None;
+			if (! ease) throw '異常なease指定です';
+
+			for (const c of this.cntTxt.children) {
+				c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
+				new TWEEN.Tween(c)
+				.to(this.fo, this.ch_anime_time_仮)
+				.easing(ease)
+				//.delay(i * LayerMng.msecChWait)
+				.onComplete(o=> this.cntTxt.removeChild(o))
+				.start();
+			}
 		}
 		this.aSpTw = [];
 	}
