@@ -240,7 +240,7 @@ export class GrpLayer extends Layer {
 			this.sBkFace= hLay.sBkFace;
 			return;
 		}
-console.log(`fn:GrpLayer.ts line:243 name:${this.name} resume:${resume == undefined} cnt:${GrpLayer.cntPararell}`);
+console.log(`fn:GrpLayer.ts line:243 name:${this.name} load:${resume != undefined} cnt:${GrpLayer.cntPararell}`);
 		if (resume != undefined) {
 			++GrpLayer.cntPararell;
 			GrpLayer.fncAllComp = isStop=> {

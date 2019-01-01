@@ -977,15 +977,13 @@ export class ScriptIterator {
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 		delete this.hScript[fn];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
-;		this.aIfStk = [...this.mark.aIfStk];
-;		this.aCallStk = [];
+		this.aIfStk = [...this.mark.aIfStk];
+		this.aCallStk = [];
 console.log(`fn:ScriptIterator.ts line:982 Begin fn:${fn} idx:${idx}`);
 		this.layMng.playback(this.mark.hPages, 'label' in hArg
 			? ()=> {
 console.log(`fn:ScriptIterator.ts line:985 Comp A`);
 				this.layMng.cover(false);
-		this.aIfStk = [...this.mark.aIfStk];
-		this.aCallStk = [];
 				this.scriptFn_ = fn;
 				this.idxToken_ = idx;
 				this.csAnalyBf = new CallStack('', 0);
@@ -995,8 +993,6 @@ console.log(`fn:ScriptIterator.ts line:991 Comp A End`);
 			: ()=> {
 console.log(`fn:ScriptIterator.ts line:994 Comp B fn:${fn} idx:${idx}`);
 				this.layMng.cover(false);
-		this.aIfStk = [...this.mark.aIfStk];
-		this.aCallStk = [];
 				this.jumpWork(fn, '', idx);
 console.log(`fn:ScriptIterator.ts line:997 Comp B End`);
 			}
