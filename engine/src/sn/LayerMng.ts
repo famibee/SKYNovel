@@ -19,6 +19,7 @@ import {FrameMng} from './FrameMng';
 import TWEEN = require('@tweenjs/tween.js');
 import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
+import { strict } from 'assert';
 
 export class LayerMng {
 	private	stage	: Container	= null;
@@ -1072,6 +1073,7 @@ void main(void) {
 			aSort.push({layer: layer, idx: $pg.fore.idx});
 
 			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
+			this.hPages[layer] = pg;
 			pg.playback($pg, resume);
 		}
 
