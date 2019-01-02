@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, HArg, IPage, typeLayerClass, IVariable} from './CmnLib';
+import {HArg, IPage, typeLayerClass, IVariable} from './CmnLib';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
