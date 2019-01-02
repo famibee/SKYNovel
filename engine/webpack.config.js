@@ -2,6 +2,7 @@
 	// npm i -D stats-webpack-plugin
 //const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 	// npm i -D webpack-bundle-analyzer
+	// 代替→ Webpack Visualizer https://chrisbateman.github.io/webpack-visualizer/
 
 module.exports = [
 	{
@@ -9,8 +10,23 @@ module.exports = [
 		target: 'electron-renderer',
 		output: {
 			path: process.cwd() +'/app',
-			filename: 'index.js'
+			filename: 'index.js',
+//			chunkFilename: '[name].js'
 		},
+/*		// なぜか起動しなくなる
+		optimization: {
+			splitChunks: {
+				cacheGroups: {
+					three: {
+						test: /node_modules\/three/,
+						name: 'three',
+						chunks: 'initial',
+						enforce: true
+					}
+				}
+			}
+		}
+*/
 	},
 	{
 		entry: `./engine/tmp/web.js`,
@@ -18,15 +34,20 @@ module.exports = [
 		output: {
 			path: process.cwd(),
 			filename: 'web.js',
-//			chunkFilename: '[name].chunk.js'
+			chunkFilename: 'web.[name].js'
 		},
-/*
-		optimization: {
+		optimization: {	// この辺の変更は、startタスクから再起動が必要
 			splitChunks: {
-				chunks: 'all',
+				cacheGroups: {
+					three: {
+						test: /node_modules\/three/,
+						name: 'three',
+						chunks: 'initial',
+						enforce: true
+					},
+				}
 			}
 		},
-*/
 /*
 		plugins: [
 			new StatsPlugin('./engine/tmp/stats.json', {

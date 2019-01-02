@@ -20,11 +20,7 @@ export class Pages {
 		switch (cls_) {
 		case 'grp':	this.pg = {fore: new GrpLayer, back: new GrpLayer};	break;
 		case 'txt':	this.pg = {fore: new TxtLayer, back: new TxtLayer};	break;
-		case '3d':
-					//if (ThreeDLayer.import(this.main, this.scrItr)) return true;
-					this.pg = {fore: new ThreeDLayer, back: new ThreeDLayer};	break;
-					// NOTE: ジェネレータにしたほうがいいかも
-					//	JavaScript の ジェネレータ を極める！ - Qiita https://qiita.com/kura07/items/d1a57ea64ef5c3de8528
+		case '3d':	this.pg = {fore: new ThreeDLayer, back: new ThreeDLayer}; break;
 		default:	throw `属性 class【${cls_}】が不正です`;
 		}
 		this.pg.fore.name = `layer:${layer} cls:${cls_} page:A`;
@@ -33,9 +29,8 @@ export class Pages {
 		back.addChild(this.back.cnt);
 		this.fore.lay(hArgFore);
 		this.back.lay(hArgBack);
-		// TODO: playbackAMF、イテレータかasyncか
 
-			// 組み込み変数
+		// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;
 		val.setVal_Nochk('tmp', valnm, true);
 		val.defTmp(valnm +'.fore.alpha', ()=> this.pg.fore.alpha);

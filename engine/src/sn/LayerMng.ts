@@ -286,7 +286,7 @@ export class LayerMng {
 	protected set_focus(hArg) {	// フォーカス移動
 		const to = hArg.to;
 		if (! to) throw '[set_focus] toは必須です';
-return false;	//=====
+return false;	// TODO: 未作成：フォーカス移動
 		if (to == 'null') {
 //			stage.focus = stage;
 			return false;
@@ -343,8 +343,9 @@ return false;	//=====
 		if (layer in this.hPages) throw `layer【${layer}】は定義済みです`;
 
 		const cls = hArg.class as typeLayerClass;
-		CmnLib.argChk_Boolean(hArg, 'visible', true);
-			// SKYNovelではデフォルト visible = true とする
+		if (cls == '3d') if (ThreeDLayer.import(this.main, this.scrItr)) return true;
+
+		CmnLib.argChk_Boolean(hArg, 'visible', true);// SKYNovelのデフォルトtrueとする
 		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.val);
 		switch (cls) {
 		case 'txt':

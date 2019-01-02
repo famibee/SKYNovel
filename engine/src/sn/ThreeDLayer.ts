@@ -11,25 +11,6 @@ import {CmnLib, HArg, IMain} from './CmnLib';
 import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
 
-//const ColladaLoader = require('three-colladaLoader');
-//const ColladaLoader = require('three-collada-loader');
-// <reference path='./three/three-colladaLoader'/>
-//import { ColladaLoader } from 'three/examples/js/loaders/ColladaLoader';
-//import * as ColladaLoader from 'three/three-colladaLoader';
-//import * as _ from 'three/three-colladaLoader';
-//import { ColladaLoader } from 'three/three-colladaLoader';
-
-//const FBXLoader = require('three-fbx-loader');
-
-//require('three/examples/js/loaders/MMDLoader');
-//import { MMDLoader } from 'three/examples/js/loaders/MMDLoader';
-//import { MMDLoader } from 'three/examples/js/loaders/MMDLoader.js';
-//import { MMDLoader } from 'three/build/three.module';
-//const MMDLoader = require('three/examples/js/loaders/MMDLoader');
-
-//require('three/examples/js/animation/MMDAnimationHelper');
-//const MMDAnimationHelper = require('three/examples/js/animation/MMDAnimationHelper');
-
 export class ThreeDLayer extends Layer {
 	static	cfg			: Config | null		= null;
 	static	init(cfg: Config): void {ThreeDLayer.cfg = cfg;}
@@ -44,8 +25,8 @@ export class ThreeDLayer extends Layer {
 	static	import(main: IMain, scrItr: ScriptIterator): boolean {
 		if (ThreeDLayer.THREE) return false;
 
-		scrItr.subIdxToken();	// 呼び出し元をやり直し
-		import(/* webpackChunkName: "three" */ 'three')
+		scrItr.subIdxToken();	// ロードしたら呼び出し元をやり直し
+		import('three')
 		.then(THREE => {
 			ThreeDLayer.THREE = THREE;
 			(window as any).THREE = THREE;	// 次のrequireで必須なので
