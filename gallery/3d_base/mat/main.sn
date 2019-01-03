@@ -5,7 +5,7 @@
 [add_lay layer=mes class=txt]
 
 	[lay layer=bg fn=013ELLY18412_TP_V4]
-	[lay layer=3d]
+	[lay layer=3d box=true]
 ;	[lay layer=mes filter="DropShadowFilter"]
 
 	画像・文字レイヤに続き第三のレイヤ「３Ｄレイヤ」を[r]

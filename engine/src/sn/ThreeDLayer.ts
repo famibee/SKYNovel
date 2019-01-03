@@ -15,7 +15,7 @@ export class ThreeDLayer extends Layer {
 	static	cfg			: Config | null		= null;
 	static	init(cfg: Config): void {ThreeDLayer.cfg = cfg;}
 
-	private	static	THREE		= null;
+	static	THREE		= null;
 	private scene_3D	= null;
 	private	canvas_3D	= null;
 	private sprite_3D	: PIXI.Sprite	= null;
@@ -26,6 +26,15 @@ export class ThreeDLayer extends Layer {
 		if (ThreeDLayer.THREE) return false;
 
 		scrItr.subIdxToken();	// ロードしたら呼び出し元をやり直し
+
+		async function init() {
+			ThreeDLayer.THREE = await import('three');
+			(window as any).THREE = ThreeDLayer.THREE;	// 次のrequireで必須なので
+			require('three/examples/js/controls/OrbitControls');
+			main.resume();
+		}
+		init();
+/*
 		import('three')
 		.then(THREE => {
 			ThreeDLayer.THREE = THREE;
@@ -33,7 +42,7 @@ export class ThreeDLayer extends Layer {
 			require('three/examples/js/controls/OrbitControls');
 			main.resume();
 		});
-
+*/
 		return true;
 	}
 	constructor() {
@@ -189,7 +198,7 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 			this.camera.lookAt(obj.position);	// カメラ視野の中心座標
 			fncCtrl = ()=> {obj.rotation.y += 0.004;};
 		}
-		else {
+		else if ('box' in hArg) {
 			/// テスト用 Object3D
 			this.camera = new ThreeDLayer.THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);
 			this.camera.position.set(0, 0, 700);	// カメラ位置
@@ -227,7 +236,7 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 
 			fncCtrl = ()=> controls.update();	// 毎回呼ぶと慣性がつく
 		}
-		if (! this.isStart) {
+		if (! this.isStart && this.camera) {
 			this.isStart = true;
 			this.tick();
 
