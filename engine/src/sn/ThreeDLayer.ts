@@ -25,13 +25,13 @@ export class ThreeDLayer extends Layer {
 	static	import(main: IMain, scrItr: ScriptIterator): boolean {
 		if (ThreeDLayer.THREE) return false;
 
-		scrItr.subIdxToken();	// ロードしたら呼び出し元をやり直し
-
 		async function init() {
 			ThreeDLayer.THREE = await import('three');
 			(window as any).THREE = ThreeDLayer.THREE;	// 次のrequireで必須なので
 			require('three/examples/js/controls/OrbitControls');
-			main.resume();
+
+			scrItr.subIdxToken();	// 呼び出し元をやり直し
+			main.resume();	// 停止から復帰
 		}
 		init();
 /*
@@ -40,10 +40,12 @@ export class ThreeDLayer extends Layer {
 			ThreeDLayer.THREE = THREE;
 			(window as any).THREE = THREE;	// 次のrequireで必須なので
 			require('three/examples/js/controls/OrbitControls');
+
+			scrItr.subIdxToken();	// 呼び出し元をやり直し
 			main.resume();
 		});
 */
-		return true;
+		return true;	// 一時停止
 	}
 	constructor() {
 		super();
