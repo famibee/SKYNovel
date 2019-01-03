@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2019 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -43,10 +43,12 @@ class MyVal implements IVariable {
 	setVal_Nochk = (scope: string, nm: string, val: any, autocast?: boolean)=> {};
 	defTmp = (name: string, fnc: typeProcVal)=> {};
 	defValTrg(name: string, fnc: ISetVal): void {};
-	cloneMp = ()=> {return {}};
+	cloneMp = ()=> {return null};
 	setMp = ()=> {};
 	setMark = (place: number, mark: object)=> {};
-	cloneSave(): object {return {};};
+	getMark(place: number) {return null};
+	cloneSave(): object {return null;};
+	loadWark(place: number) {};
 };
 
 context('class PropParser', ()=>{

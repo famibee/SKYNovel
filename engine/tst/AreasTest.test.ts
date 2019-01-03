@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2019 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -106,7 +106,7 @@ context('class AreasTest', ()=>{
 			ba.position = 0;
 			const o2:* = ba.readObject();
 			assert.equal(o2 is Areas, true);
-			
+
 			assert.equal(o2.search(8), false);
 			assert.equal(o2.search(9), true);
 			assert.equal(o2.search(10), true);
