@@ -51,7 +51,10 @@ export class ThreeDLayer extends Layer {
 		super();
 
 		this.scene_3D = new ThreeDLayer.THREE.Scene();
+		const log = console.log;	// 「THREE.WebGLRenderer 100」を消したい
+		console.log = ()=> {};
 		this.canvas_3D	= new ThreeDLayer.THREE.WebGLRenderer({antialias: true, alpha: true});
+		console.log = log;
 
 		// 3D Scene canvas
 		this.canvas_3D.setSize(CmnLib.stageW, CmnLib.stageW);
