@@ -22,24 +22,22 @@ export class SysBase implements ISysBase {
 		this.appPixi = appPixi;
 		this.val.setSys(this);
 
-//	システム
+		//	システム
 		// アプリの終了
 		hTag.close				= this.close;
 
 //		hTag.export				= this.export;		// プレイデータをエクスポート
 //		hTag.import				= this.import;		// プレイデータをインポート
-		//hTag.loadplugin	// LayerMng.ts内で定義	// プラグインの読み込み
+	//	hTag.loadplugin		// LayerMng.ts内で定義	// プラグインの読み込み
 //		hTag.mouse				= this.mouse;		// マウスの設定
 
-//		hTag.plugin				= this.plugin;		// プラグインの設定
-//		hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
+	//	hTag.plugin			// LayerMng.ts内で定義	// プラグインの設定
+	//	hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
 		hTag.title				= this.title;		// タイトル指定
 		hTag.toggle_full_screen = this.toggle_full_screen;	// 全画面状態切替
-/*
-		hTag.unloadplugin		= this.unloadplugin;	// プラグインの破棄
-		hTag.unzip				= this.unzip;			// ネット素材取得
-		hTag.update_check		= this.update_check;	// 更新チェック
-*/
+	//	hTag.unloadplugin	// LayerMng.ts内で定義	// プラグインの破棄
+//		hTag.unzip				= this.unzip;			// ネット素材取得
+//		hTag.update_check		= this.update_check;	// 更新チェック
 		hTag.window				= ()=> false;			// アプリウインドウ設定
 		val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
 		val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', 0);

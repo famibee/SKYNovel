@@ -37,7 +37,9 @@ export class LayerMng {
 		//	システム
 		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
 		hTag.loadplugin		= o=> this.loadplugin(o);	// プラグインの読み込み
+	//	hTag.plugin			= o=> this.plugin(o);		// プラグインの設定（不要？）
 		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
+	//	hTag.unloadplugin	= o=> this.unloadplugin(o);	// プラグインの破棄（不要？）
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.add_lay(o);		// レイヤを追加する
@@ -191,7 +193,7 @@ export class LayerMng {
 		if (! tl) return;
 		tl.tagCh('｜　《'+ cmd +'》');
 
-		// TODO: record
+		// TODO: record未作成
 	}
 	goTxt = ()=> {};
 	breakLine = ()=> {};
@@ -262,6 +264,16 @@ export class LayerMng {
 		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
 
 		switch (CmnLib.getExt(fn)) {
+			case '':
+				// NOTE: [loadplugin fn=a]	で読み込み・実行まで確認
+				// TODO: 後はプラグインの仕様を決めるだけ
+				import('../../plugin/'+ fn +'.js')
+					.then(mod=> {
+	console.log(`fn:LayerMng.ts line:271 mod:%o`, mod.default);
+						if (join) this.main.resume();
+					});
+				break;
+
 			case 'css':		// 読み込んで<style>に追加
 				fetch(fn)
 				.then(response=> {
