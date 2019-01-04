@@ -4,6 +4,7 @@
 	// npm i -D webpack-bundle-analyzer
 	// 代替→ Webpack Visualizer https://chrisbateman.github.io/webpack-visualizer/
 
+// 変更後は「npm run webpack:dev」
 module.exports = [
 	{
 		entry: `./engine/tmp/app.js`,
@@ -13,12 +14,12 @@ module.exports = [
 			filename: 'index.js',
 //			chunkFilename: '[name].js'
 		},
-/*		// なぜか起動しなくなる
+/*
 		optimization: {
 			splitChunks: {
 				cacheGroups: {
 					three: {
-						test: /node_modules\/three/,
+						test: /three/,
 						name: 'three',
 						chunks: 'initial',
 						enforce: true
@@ -36,14 +37,13 @@ module.exports = [
 			filename: 'web.js',
 			chunkFilename: 'web.[name].js'
 		},
-		optimization: {	// この辺の変更は、startタスクから再起動が必要
+		optimization: {
 			splitChunks: {
 				cacheGroups: {
 					three: {
-						test: /node_modules\/three/,
+						test: /three/,
 						name: 'three',
-						chunks: 'initial',
-						enforce: true
+						chunks: 'initial'
 					},
 				}
 			}
