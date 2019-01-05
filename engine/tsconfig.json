@@ -5,17 +5,23 @@
 		"module": "commonjs",
 		"sourceMap": true,
 		"outDir": "tmp/",
-		"removeComments": true,
-		"noImplicitThis": true,
-		"noImplicitReturns": true,
-		"noFallthroughCasesInSwitch": true,
 		"newLine": "LF",
+		"removeComments": true,
+		"noImplicitThis": true,		// this に型を明示しないとエラーに
+		"noImplicitReturns": true,	// 暗黙的に undefined を返している関数をエラーに
+		"noFallthroughCasesInSwitch": true,	// switch 文のフォールスルーに対してエラーに
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitAny": true,		// 暗黙的な any をエラーに
 		"strictNullChecks": true,	// 全ての型で Null を許容しないように
 		"noUnusedLocals": true,		// 使っていないローカル変数をエラーに
 		"noUnusedParameters": true,	// 使っていない仮引数をエラーに
 									// ただし引数名の先頭にアンダースコアを付けると回避できる
+		"allowUnreachableCode": false,	// 到達しえないコードを許容しない (false)
+		"allowUnusedLabels": false,	// 到達しえないラベルを許容しない (false)
+		// オブジェクトへの過剰なプロパティチェックを抑制しない
+		"suppressExcessPropertyErrors": false,
+		// インデックスシグネチャが欠損したオブジェクトの noImplicitAny エラーを抑制しない
+		"suppressImplicitAnyIndexErrors": false,
 	},
 	"include": [
 		"src/**/*"
