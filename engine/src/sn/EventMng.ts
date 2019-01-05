@@ -19,12 +19,13 @@ import { Config } from './Config';
 import Hammer = require('hammerjs');
 
 export class EventMng implements IEvtMng {
-	private	elc			= new EventListenerCtn;
+	private	elc		= new EventListenerCtn;
 
 	private	enMDownTap	= 'pointerdown';
-	private ham			: Hammer;
-	private hHamEv		= {
+	private ham		: any;
+	private hHamEv	= {
 	//	tap			: null,
+		tap2		: null,
 		press		: null,	// 長押し
 		//swipe		: null,
 		swipeleft	: null,
@@ -76,7 +77,7 @@ export class EventMng implements IEvtMng {
 			[Hammer.Tap, {pointers: 2}],
 		]});*/
 		// Add the recognizer to the manager.
-		this.hHamEv['tap2'] = null;
+		this.hHamEv.tap2 = null;
 		for (const key in this.hHamEv) {
 			const fnc = this.hHamEv[key] = e=> {
 				val.defTmp('sn.eventArg.type', e.type);
@@ -98,7 +99,7 @@ export class EventMng implements IEvtMng {
 		this.elc.add(appPixi.stage, this.enMDownTap, e=> this.defEvt2Fnc(e, 'Click'));
 		this.elc.add(window, 'keydown', e=> this.ev_keydown(e));
 		this.elc.add(appPixi.view, 'contextmenu', e=> this.ev_contextmenu(e));
-		if (window['WheelEvent']) this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e));
+		if ('WheelEvent' in window) this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e));
 
 		// Gamepad APIの利用 - ウェブデベロッパーガイド | MDN https://developer.mozilla.org/ja/docs/Web/Guide/API/Gamepad
 		// Gamepad の接続
@@ -252,8 +253,8 @@ export class EventMng implements IEvtMng {
 			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);	// 存在チェック
 			em.on('pointerdown', ()=> {
 				//	clickse	効果音ファイル名	クリック時に効果音
-				const o = {fn: hArg.clickse, join: false};
-				if (hArg.clicksebuf) o['buf'] = hArg.clicksebuf;
+				const o: HArg = {fn: hArg.clickse, join: false};
+				if (hArg.clicksebuf) o.buf = hArg.clicksebuf;
 				this.hTag.playse(o);
 			});
 		}
@@ -261,8 +262,8 @@ export class EventMng implements IEvtMng {
 			this.cfg.searchPath(hArg.enterse, Config.EXT_SOUND);	// 存在チェック
 			em.on('pointerover', ()=> {
 				//	enterse	効果音ファイル名	ボタン上にマウスカーソルが載った時に効果音
-				const o = {fn: hArg.enterse, join: false};
-				if (hArg.entersebuf) o['buf'] = hArg.entersebuf;
+				const o: HArg = {fn: hArg.enterse, join: false};
+				if (hArg.entersebuf) o.buf = hArg.entersebuf;
 				this.hTag.playse(o);
 			});
 		}
@@ -270,15 +271,15 @@ export class EventMng implements IEvtMng {
 			this.cfg.searchPath(hArg.leavese, Config.EXT_SOUND);	// 存在チェック
 			em.on('pointerout', ()=> {
 				//	leavese	効果音ファイル名	ボタン上からマウスカーソルが外れた時に効果音
-				const o = {fn: hArg.leavese, join: false};
-				if (hArg.leavesebuf) o['buf'] = hArg.leavesebuf;
+				const o: HArg = {fn: hArg.leavese, join: false};
+				if (hArg.leavesebuf) o.buf = hArg.leavesebuf;
 				this.hTag.playse(o);
 			});
 		}
 		if (hArg.onenter) {
 			//	onenter	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
 			const key2 = key + hArg.onenter;
-			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: 'true', key: key2};
+			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
 			em.on('pointerover', (e: any)=> this.defEvt2Fnc(e, key2));
@@ -286,7 +287,7 @@ export class EventMng implements IEvtMng {
 		if (hArg.onleave) {
 			//	onleave	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
 			const key2 = key + hArg.onleave;
-			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: 'true', key: key2};
+			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
 			em.on('pointerout', (e: any)=> this.defEvt2Fnc(e, key2));
@@ -315,7 +316,7 @@ export class EventMng implements IEvtMng {
 			e.stopPropagation();
 			fnc();
 		});
-		if (window['WheelEvent']) elc.add(this.appPixi.view, 'wheel', (e: any) => {
+		if ('WheelEvent' in window) elc.add(this.appPixi.view, 'wheel', (e: any) => {
 			//if (! e.isTrusted) return;
 			if (e['isComposing'])
 				return; // サポートしてない環境でもいける書き方
@@ -367,7 +368,7 @@ export class EventMng implements IEvtMng {
 
 		// domイベント
 		if (key.slice(0, 4) == 'dom=') {
-			let elmlist: NodeListOf<Element>;
+			let elmlist: NodeListOf<HTMLElement>;
 			const idx = key.indexOf(':');
 			if (idx >= 0) {		// key='dom=config:#ctrl2val
 				const name = key.slice(4, idx);
@@ -381,9 +382,13 @@ export class EventMng implements IEvtMng {
 			else {
 				elmlist = document.querySelectorAll(key.slice(4));
 			}
-			if (elmlist.length == 0 && CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw 'セレクタに対応する要素が見つかりません';
+			const need_err = CmnLib.argChk_Boolean(hArg, 'need_err', true);
+			if (elmlist.length == 0 && need_err) throw 'セレクタに対応する要素が見つかりません';
+			const type = (elmlist[0] instanceof HTMLInputElement)
+				 ? (elmlist[0] as HTMLInputElement).type
+				 : '';
 
-			((elmlist[0]['type'] == 'range' || elmlist[0]['type'] == 'checkbox')
+			((type == 'range' || type == 'checkbox')
 				? ['input', 'change']
 				: ['click'])
 				//.forEach(v=> {	// NOTE: mapの方が速い＆値を返すのでチェーンにできる
@@ -425,7 +430,7 @@ export class EventMng implements IEvtMng {
 		if (this.val.getVal('tmp:sn.auto.enabled')) {
 			//traceDbg('l:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
 			return this.hTag.wait({
-				time: String(this.scrItr.isKidoku
+				time: Number(this.scrItr.isKidoku
 					? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
 					: this.val.getVal('sys:sn.auto.msecLineWait'))
 			});
@@ -452,7 +457,7 @@ export class EventMng implements IEvtMng {
 		if (this.val.getVal('tmp:sn.auto.enabled')) {
 			//traceDbg('p:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
 			return this.hTag.wait({
-				time: String(this.scrItr.isKidoku
+				time: Number(this.scrItr.isKidoku
 					? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
 					: this.val.getVal('sys:sn.auto.msecPageWait'))
 			});

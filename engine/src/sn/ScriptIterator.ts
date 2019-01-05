@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, uint, IMain, IVariable, IMark} from './CmnLib';
+import {CmnLib, IHTag, uint, IMain, IVariable, IMark, HArg} from './CmnLib';
 import {Areas} from './Areas';
 import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
@@ -43,7 +43,7 @@ export class ScriptIterator {
 	subIdxToken(): void {--this.idxToken_;};
 	private lineNum_	= 0;
 	get lineNum(): number {return this.lineNum_;}
-	addLineNum	= len=> {this.lineNum_ += len;};
+	addLineNum	= (len: number)=> {this.lineNum_ += len;};
 
 	get now_token(): string {return this.script.aToken[this.idxToken_ -1];};
 
@@ -126,7 +126,7 @@ export class ScriptIterator {
 
 		//	変数操作
 	// インラインテキスト代入
-	private let_ml(hArg) {
+	private let_ml(hArg: HArg) {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
 
@@ -163,7 +163,7 @@ export class ScriptIterator {
 
 				const csa = cs.hArg.hMpVal;
 				const from_macro_nm = csa ?csa['タグ名'] :null;
-				const call_nm = cs.hArg['タグ名'];
+				const call_nm = cs.hArg.タグ名;
 				console.info(
 					`${len -i}つ前のコール元 fn:${cs.fn} line:${lc.line
 					} col:${lc.col_s +1
@@ -195,12 +195,12 @@ export class ScriptIterator {
 
 
 	// 外部へスクリプトを表示
-	private disp_script(hArg) {
-		const set_fnc = hArg['set_fnc'];
+	private disp_script(hArg: HArg) {
+		const set_fnc = hArg.set_fnc;
 		if (! set_fnc) throw('set_fncは必須です');
 
 		this.fncSet = window[set_fnc];
-		if (this.fncSet == null) {
+		if (! this.fncSet) {
 			if (CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${set_fnc}が見つかりません`;
 			this.fncSet = ()=> {};
 			return false;
@@ -208,10 +208,10 @@ export class ScriptIterator {
 		this.fncSet(this.script.aToken.join(''));
 		this.fnLastBreak = this.scriptFn_;
 
-		const break_fnc = hArg['break_fnc'];
+		const break_fnc = hArg.break_fnc;
 		if (break_fnc) {
 			this.fncBreak = window[break_fnc];
-			if (this.fncBreak == null) {
+			if (! this.fncBreak) {
 				if (CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${break_fnc}が見つかりません`;
 				this.fncBreak = ()=> {};
 			}
@@ -277,7 +277,7 @@ export class ScriptIterator {
 
 		return false;
 	}
-	private if(hArg) {
+	private if(hArg: HArg) {
 		//console.log('if idxToken:'+ this.idxToken_);
 		const exp = hArg.exp;
 		if (! exp) throw 'expは必須です';
@@ -339,7 +339,7 @@ export class ScriptIterator {
 
 		// ラベル・ジャンプ
 	// サブルーチンコール
-	private call(hArg) {
+	private call(hArg: HArg) {
 		if (! CmnLib.argChk_Boolean(hArg, 'count', false)) this.eraseKidoku();
 
 		const fn = hArg.fn;
@@ -364,7 +364,7 @@ export class ScriptIterator {
 	};
 
 	// シナリオジャンプ
-	private jump(hArg) {
+	private jump(hArg: HArg) {
 		if (! CmnLib.argChk_Boolean(hArg, 'count', true)) this.eraseKidoku();
 
 		this.aIfStk[0] = -1;
@@ -374,7 +374,7 @@ export class ScriptIterator {
 	};
 
 	// コールスタック破棄
-	private pop_stack(hArg) {
+	private pop_stack(hArg: HArg) {
 		if (CmnLib.argChk_Boolean(hArg, 'clear', false)) {
 			while (this.aCallStk.length > 0) this.aCallStk.pop();
 		}
@@ -809,7 +809,7 @@ export class ScriptIterator {
 
 		// マクロ
 	// 括弧マクロの定義
-	private bracket2macro(hArg) {
+	private bracket2macro(hArg: HArg) {
 		const name = hArg.name;
 		if (! name) throw('[bracket2macro] nameは必須です');
 		const text = hArg.text;
@@ -844,7 +844,7 @@ export class ScriptIterator {
 	private regStrC2M4not		= '';
 
 	// マクロから脱出
-	private break_macro(hArg) {
+	private break_macro(hArg: HArg) {
 		const len = this.aCallStk.length;
 		if (len == 0) throw('[endmacro] マクロ外で呼ばれました');
 
@@ -856,7 +856,7 @@ export class ScriptIterator {
 	};
 
 	// 一文字マクロの定義
-	private char2macro(hArg) {
+	private char2macro(hArg: HArg) {
 		this.hC2M = this.hC2M || {};
 
 		const char = hArg.char;
@@ -881,7 +881,7 @@ export class ScriptIterator {
 	};
 
 	// マクロ定義の開始
-	private macro(hArg) {
+	private macro(hArg: HArg) {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
 		//if (hScopeVal.mp['const.sn.macro_name']) throw '[macro] マクロ内で[macro]義禁止です');
@@ -941,7 +941,7 @@ export class ScriptIterator {
 
 		// しおり
 	// しおりの読込
-	private load(hArg) {
+	private load(hArg: HArg) {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
 		if (('fn' in hArg) != ('label' in hArg)) throw 'fnとlabelはセットで指定して下さい';
@@ -1003,7 +1003,7 @@ export class ScriptIterator {
 		hPages	: {},
 		aIfStk	: [-1],
 	};
-	private record_place(_hArg) {
+	private record_place(_hArg: HArg) {
 		if (! this.layMng) return false;
 
 		if (this.aCallStk.length == 0) {
@@ -1024,7 +1024,7 @@ export class ScriptIterator {
 	}
 
 	// しおりの保存
-	private save(hArg) {
+	private save(hArg: HArg) {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
 		delete hArg.タグ名;

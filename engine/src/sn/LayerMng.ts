@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass, HPage} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass, HPage, HArg} from './CmnLib';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -210,7 +210,7 @@ export class LayerMng {
 
 
 //	//	システム
-	private snapshot(hArg) {
+	private snapshot(hArg: HArg) {
 		// TODO: pathdlg 保存場所をGUIで選べるダイアログを表示するか
 		const fn = hArg.fn || 'desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg';
 		const ext = CmnLib.getExt(fn);
@@ -253,7 +253,7 @@ export class LayerMng {
 	};
 
 	// プラグインの読み込み
-	private loadplugin(hArg) {
+	private loadplugin(hArg: HArg) {
 		const fn = hArg.fn;
 		if (! fn) throw('fnは必須です');
 		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
@@ -290,15 +290,16 @@ export class LayerMng {
 		return join;
 	}
 
-	protected set_focus(hArg) {	// フォーカス移動
+	protected set_focus(hArg: HArg) {	// フォーカス移動
 		const to = hArg.to;
 		if (! to) throw '[set_focus] toは必須です';
 return false;	// TODO: 未作成：フォーカス移動
+/*
 		if (to == 'null') {
 //			stage.focus = stage;
 			return false;
 		}
-/*
+
 		const vct:Vector.<InteractiveObject>
 			= new Vector.<InteractiveObject>;
 		trans.foreachLayers(hArg, function (name:String, pg:Pages):void {
@@ -336,14 +337,15 @@ return false;	// TODO: 未作成：フォーカス移動
 		if (numTo < 0 || numTo >= len) return false;
 
 		stage.focus = vct[numTo];
-*/
+
 		return false;
+*/
 	}
 
 
 //	//	レイヤ共通
 	// レイヤを追加する
-	private add_lay(hArg) {
+	private add_lay(hArg: HArg) {
 		const layer = hArg.layer;
 		if (! layer) throw 'layerは必須です';
 		if (layer.includes(',')) throw 'layer名に「,」は使えません';
@@ -392,7 +394,7 @@ return false;	// TODO: 未作成：フォーカス移動
 	private aLayName	: string[]	= [];	// 最適化用
 	private strTxtlay = '';
 
-	private lay(hArg): boolean {
+	private lay(hArg: HArg): boolean {
 		// Trans
 		const layer = this.argChk_layer(hArg);
 		const pg = this.hPages[layer];
@@ -434,7 +436,7 @@ return false;	// TODO: 未作成：フォーカス移動
 	private rebuildLayerRankInfo() {this.aLayName = this.sortLayers();}
 
 	// レイヤ設定の消去
-	private clear_lay(hArg) {
+	private clear_lay(hArg: HArg) {
 		this.foreachLayers(hArg, name=> {
 			//if (name == this.strTxtlay && hArg.page != 'back') this.recText('\f');
 				// 改ページ
@@ -493,7 +495,7 @@ void main(void) {
 	private aBackTransAfter	: DisplayObject[] = [];
 
 	// ページ裏表を交換
-	private trans(hArg) {
+	private trans(hArg: HArg) {
 		this.finish_trans();
 
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
@@ -588,6 +590,7 @@ void main(void) {
 			return false;
 		}
 
+		if (! hArg.rule) throw 'ruleが指定されていません';
 		GrpLayer.ldPic(hArg.rule, tx=> {
 			flt.uniforms.rule = tx;
 			if (this.twInfTrans.tw) this.twInfTrans.tw.start();
@@ -600,7 +603,7 @@ void main(void) {
 	private getLayers(layer = ''): string[] {
 		return (layer)? layer.split(',') : this.aLayName;
 	}
-	private foreachLayers(hArg, fnc: (name: string, $pg: Pages)=> void): string[] {
+	private foreachLayers(hArg: HArg, fnc: (name: string, $pg: Pages)=> void): string[] {
 		const vct = this.getLayers(hArg['layer']);
 		for (const name of vct) {
 			if (! name) continue;
@@ -626,7 +629,7 @@ void main(void) {
 		return a;
 	}
 
-	private wt(hArg) {
+	private wt(hArg: HArg) {
 		if (! this.twInfTrans.tw) return false;
 
 		this.twInfTrans.resume = true;
@@ -644,7 +647,7 @@ void main(void) {
 
 
 	// 画面を揺らす
-	private quake(hArg) {
+	private quake(hArg: HArg) {
 		this.finish_trans();
 		if (this.val.getVal('tmp:sn.skip.enabled')) return false;
 		if (this.evtMng.isSkipKeyDown()) return false;
@@ -715,14 +718,14 @@ void main(void) {
 				// 三次元方向の拡大縮小ルーチンが働き画像がぼやけるので
 				// backlayで設定しない方針
 	private	hTwInf	: {[name: string]: ITwInf}	= {};
-	private tsy(hArg) {
+	private tsy(hArg: HArg) {
 		if (! hArg.layer) throw('layerは必須です');
 		const layer = this.argChk_layer(hArg);
 		const foreLay = this.hPages[layer].fore;
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 
-		const hTo = {};
+		const hTo: any = {};
 		for (const nm in this.hMemberCnt) {
 			if (! (nm in hArg)) continue;
 
@@ -758,7 +761,7 @@ void main(void) {
 			});
 
 		if ('chain' in hArg) {
-			const twFrom = this.hTwInf[hArg.chain];
+			const twFrom = this.hTwInf[hArg.chain || ''];
 			if (! twFrom || ! twFrom.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
 			twFrom.onComplete = ()=> {};
 			twFrom.tw.chain(tw);
@@ -768,7 +771,7 @@ void main(void) {
 		const arrive = CmnLib.argChk_Boolean(hArg, 'arrive', false);
 		const backlay = CmnLib.argChk_Boolean(hArg, 'backlay', false);
 		this.hTwInf[tw_nm] = {tw: tw, resume: false, onComplete: ()=> {
-			if (arrive) for (const nm in hTo) foreLay[nm] = hTo[nm];
+			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
 				const backCnt = this.hPages[layer].back.cnt;
 				for (const nm in this.hMemberCnt) backCnt[nm] = foreLay[nm];
@@ -779,8 +782,9 @@ void main(void) {
 	}
 
 	// トゥイーン終了待ち
-	private wait_tsy(hArg) {
+	private wait_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
 
@@ -793,8 +797,9 @@ void main(void) {
 	}
 
 	// トゥイーン中断
-	private stop_tsy(hArg) {
+	private stop_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
 
@@ -804,8 +809,9 @@ void main(void) {
 	}
 
 	// 一時停止
-	private pause_tsy(hArg) {
+	private pause_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
 
@@ -815,8 +821,9 @@ void main(void) {
 	}
 
 	// 一時停止再開
-	private resume_tsy(hArg) {
+	private resume_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
 
@@ -831,7 +838,7 @@ void main(void) {
 	static get msecChWait() {return LayerMng.$msecChWait;}
 	static set msecChWait(v) {LayerMng.$msecChWait = v;}
 	// 文字を追加する
-	private ch(hArg) {
+	private ch(hArg: HArg) {
 		if (! hArg.text) throw('[ch] textは必須です');
 
 		const tl = this.getTxtLayer(hArg) as TxtLayer;
@@ -847,7 +854,7 @@ void main(void) {
 		return false;
 	};
 
-	private getTxtLayer(hArg): TxtLayer {
+	private getTxtLayer(hArg: HArg): TxtLayer {
 		this.fncChkTxtLay();
 		const layer = this.argChk_layer(hArg, this.strTxtlay);
 		const pg = this.hPages[layer];
@@ -861,7 +868,7 @@ void main(void) {
 
 
 	// 操作対象のメッセージレイヤの指定
-	private current(hArg) {
+	private current(hArg: HArg) {
 		this.fncChkTxtLay();
 		const layer = hArg.layer;
 		if (! layer) throw('[current] layerは必須です');
@@ -885,7 +892,7 @@ void main(void) {
 	private	pgTxtlay: Pages;	// カレントテキストレイヤ
 	private fncChkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい';};
 
-	private argChk_layer(hash, def = ''): string {
+	private argChk_layer(hash: any, def = ''): string {
 		//console.log('[argChk_layer] layer:'+ hash['layer']);
 		const v = hash.layer || def;
 		if (v.includes(',')) throw 'layer名に「,」は使えません';
@@ -932,7 +939,7 @@ void main(void) {
 	public REG_RECTEXT_LAST		= /[^\f]+$/;
 
 
-	private clear_text(hArg) {
+	private clear_text(hArg: HArg) {
 		const tf = this.getTxtLayer(hArg);
 		if (hArg.layer == this.strTxtlay && hArg.page == 'fore') this.recText('\f');	// 改ページ、クリア前に
 		tf.clearText();
@@ -944,7 +951,7 @@ void main(void) {
 	private endlink() {this.cmdTxt('endlink｜'); return false;}
 
 	// ページ両面の文字消去
-	private er(hArg) {
+	private er(hArg: HArg) {
 		if (CmnLib.argChk_Boolean(hArg, 'rec_page_break', true)) this.recText('\f');	// 改ページ、クリア前に
 
 		if (this.pgTxtlay) {
@@ -956,7 +963,7 @@ void main(void) {
 	}
 
 	// インライン画像表示
-	private graph(hArg) {
+	private graph(hArg: HArg) {
 		if (! ('pic' in hArg)) throw('[graph] picは必須です');
 
 		hArg.text = '｜　《grp｜'+ JSON.stringify(hArg) +'》';
@@ -964,7 +971,7 @@ void main(void) {
 	};
 
 	// ハイパーリンク
-	private link(hArg) {
+	private link(hArg: HArg) {
 		// レスポンス向上のため音声ファイルを先読み。結果再生時にjoin不要
 		this.soundMng.loadAheadSnd([
 			hArg.clickse || '',
@@ -977,7 +984,7 @@ void main(void) {
 	}
 
 	// 改行
-	private r(hArg) {
+	private r(hArg: HArg) {
 		this.hTag.ch({text: '\n'});
 		if (hArg.layer == this.strTxtlay) this.recText('\n');
 		return false;
@@ -987,7 +994,7 @@ void main(void) {
 	private rec_r() {this.recText('\n'); return false;};
 
 	// 履歴書き込み
-	private rec_ch(hArg) {
+	private rec_ch(hArg: HArg) {
 		if (! hArg.text) throw('[rec_ch] textは必須です');
 
 		this.recText(hArg.text);
@@ -997,13 +1004,13 @@ void main(void) {
 	};
 
 	// 履歴リセット
-	private reset_rec(hArg) {
+	private reset_rec(hArg: HArg) {
 		this.val.setVal_Nochk('save', 'const.sn.sLog', hArg.text || '');
 		return false;
 	}
 
 	// 文字列と複数ルビの追加
-	private ruby2(hArg) {
+	private ruby2(hArg: HArg) {
 		const t = hArg.t;
 		if (! t) throw('[ruby2] tは必須です');
 		const r = hArg.r;
@@ -1016,13 +1023,13 @@ void main(void) {
 
 
 	// インラインスタイル設定
-	private span(hArg) {
+	private span(hArg: HArg) {
 		this.cmdTxt(`span｜${hArg.style || ''}`);
 		return false;
 	}
 
 	// tcy縦中横を表示する
-	private tcy(hArg) {
+	private tcy(hArg: HArg) {
 		if (! hArg.t) throw('[tcy] tは必須です');
 		hArg.text = '｜　｜《tcy｜'+ hArg.t +'｜'+ (hArg.r || '') +'》';
 		this.hTag.ch(hArg);
@@ -1031,7 +1038,7 @@ void main(void) {
 
 
 	// レイヤのダンプ
-	private dump_lay(hArg) {
+	private dump_lay(hArg: HArg) {
 		console.group('🥟 [dump_lay]');
 		for (const name of this.getLayers(hArg.layer)) {
 			const pg = this.hPages[name];
@@ -1045,7 +1052,7 @@ void main(void) {
 
 
 	// イベント有無の切替
-	private enable_event(hArg) {
+	private enable_event(hArg: HArg) {
 		this.fncChkTxtLay();
 		const layer = this.argChk_layer(hArg, this.strTxtlay);
 		const enb
@@ -1058,7 +1065,7 @@ void main(void) {
 
 
 	// ボタンを表示
-	private button(hArg) {
+	private button(hArg: HArg) {
 		Pages.argChk_page(hArg, 'back');	// チェックしたいというよりデフォルトをbackに
 		hArg.clicksebuf = hArg.clicksebuf || 'SYS';
 		hArg.entersebuf = hArg.entersebuf || 'SYS';
@@ -1068,7 +1075,7 @@ void main(void) {
 
 
 	record(): any {
-		const o = {};
+		const o: any = {};
 		this.aLayName.map(layer=> o[layer] = this.hPages[layer].record());
 		return o;
 	}

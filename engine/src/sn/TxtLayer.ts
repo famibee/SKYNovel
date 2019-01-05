@@ -138,7 +138,7 @@ export class TxtLayer extends Layer {
 		TxtLayer.evtMng = evtMng;
 	}
 
-	static addStyle(text) {TxtLayer.glbStyle.innerHTML += text +'\n';}
+	static addStyle(text: string) {TxtLayer.glbStyle.innerHTML += text +'\n';}
 
 
 	lay(hArg: HArg): boolean {
@@ -503,7 +503,7 @@ export class TxtLayer extends Layer {
 		// TODO: いつかのタイミングでコードをキレイにしたい
 /*---*/
 		const util = {
-			escape: string=> string.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
+			escape: str=> str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
 			mimeType: url=> {
 				const extension = parseExtension(url).toLowerCase();
 				return mimes()[extension] || '';
@@ -654,8 +654,8 @@ export class TxtLayer extends Layer {
 				shouldProcess: shouldProcess,
 			};
 
-			function shouldProcess(string) {
-				return string.search(URL_REGEX) !== -1;
+			function shouldProcess(str) {
+				return str.search(URL_REGEX) !== -1;
 			}
 
 			function readUrls(str) {
@@ -669,25 +669,25 @@ export class TxtLayer extends Layer {
 				});
 			}
 
-			function inline(string, url, baseUrl, get) {
+			function inline(str, url, baseUrl, get) {
 				return Promise.resolve(url)
 					.then(url=> baseUrl ? util.resolveUrl(url, baseUrl) : url)
 					.then(get || util.getAndEncode)
 					.then(data=> util.dataAsUrl(data, util.mimeType(url)))
-					.then(dataUrl=> string.replace(urlAsRegex(url), '$1' + dataUrl + '$3'));
+					.then(dataUrl=> str.replace(urlAsRegex(url), '$1' + dataUrl + '$3'));
 
 				function urlAsRegex(url) {
 					return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
 				}
 			}
 
-			function inlineAll(string, baseUrl, get?) {
-				if (nothingToInline()) return Promise.resolve(string);
+			function inlineAll(str, baseUrl, get?) {
+				if (nothingToInline()) return Promise.resolve(str);
 
-				return Promise.resolve(string)
+				return Promise.resolve(str)
 					.then(readUrls)
 					.then(urls=> {
-						let done = Promise.resolve(string);
+						let done = Promise.resolve(str);
 						for (const url of urls) {
 							done = done.then(string=> {
 								return inline(string, url, baseUrl, get);
@@ -697,7 +697,7 @@ export class TxtLayer extends Layer {
 					});
 
 				function nothingToInline() {
-					return !shouldProcess(string);
+					return !shouldProcess(str);
 				}
 			}
 		}
@@ -1280,23 +1280,23 @@ export class TxtLayer extends Layer {
 	// 文字ごとのウェイト
 	private	static doAutoWc		= false;
 	private	static hAutoWc	: {[ch: string]: number} = {};
-	private static autowc	= hArg=> {
-		TxtLayer.doAutoWc = CmnLib.argChk_Boolean(hArg, "enabled", TxtLayer.doAutoWc);
+	private static autowc	= (hArg: HArg)=> {
+		TxtLayer.doAutoWc = CmnLib.argChk_Boolean(hArg,'enabled',TxtLayer.doAutoWc);
 
 		const ch = hArg.text;
-		if (hArg.text == ! hArg.time) throw('[autowc] textとtimeは同時指定必須です');
+		if (('text' in hArg) != ('time' in hArg)) throw '[autowc] textとtimeは同時指定必須です';
 		if (! hArg.text) {
-			if (TxtLayer.doAutoWc && ch == '') throw('[autowc] enabled == false かつ text == "" は許されません');
+			if (TxtLayer.doAutoWc && ch == '') throw '[autowc] enabled == false かつ text == "" は許されません';
 			return false;
 		}
 
-		const len = ch.length;
-		if (TxtLayer.doAutoWc && len == 0) throw('[autowc] enabled == false かつ text == "" は許されません');
+		const len = ch!.length;
+		if (TxtLayer.doAutoWc && len == 0) throw '[autowc] enabled == false かつ text == "" は許されません';
 
-		const a = hArg.time.split(',');
-		if (a.length != len) throw('[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい');
+		const a = String(hArg.time!).split(',');
+		if (a.length != len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
 		TxtLayer.hAutoWc = {};
-		for (let i=0; i<len; ++i) TxtLayer.hAutoWc[ch[i]] = uint(a[i]);
+		for (let i=0; i<len; ++i) TxtLayer.hAutoWc[ch![i]] = uint(a[i]);
 
 		return false;
 	}

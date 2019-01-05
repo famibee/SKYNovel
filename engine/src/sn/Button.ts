@@ -19,7 +19,7 @@ export class Button extends Container {
 		if (enabled) this.evtMng.button(hArg, this);
 		if (hArg.text) {
 			const fontSize = uint(hArg.height || 30);
-			const style = {
+			const style = new PIXI.TextStyle({
 				fill: 'black',
 				align: 'center',
 				fontSize: fontSize,
@@ -29,7 +29,7 @@ export class Button extends Container {
 				dropShadowColor: 'white',
 				dropShadowBlur: 3,
 				dropShadowDistance: 0,
-			};
+			});
 			if (hArg.style) Button.s2hStyle(style, hArg.style);
 			const txt = new Text(hArg.text, style);
 			txt.alpha = CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
@@ -49,21 +49,18 @@ export class Button extends Container {
 			this.addChild(txt);
 			if (! enabled) return false;
 
-			const normal = ()=> {for (const k in style) txt.style[k] = style[k]};
+			const normal = ()=> Object.assign(txt.style, style);
 
 			const style_hover = {...style};
 			if (hArg.style_hover) Button.s2hStyle(style_hover, hArg.style_hover);
 			else style_hover.fill = 'white';
-			const hover = ()=> {
-				for (const k in style_hover) txt.style[k] = style_hover[k]
-			};
+			const hover = ()=> Object.assign(txt.style, style_hover);
 
 			const style_clicked = {...style_hover};
 			if (hArg.style_clicked) Button.s2hStyle(style_clicked, hArg.style_clicked);
 			else style_clicked.dropShadow = false;
-			const clicked = ()=> {
-				for (const k in style_clicked) txt.style[k] = style_clicked[k]
-			};
+			const clicked = ()=> Object.assign(txt.style, style_clicked);
+
 			this.on('pointerover', hover);
 			this.on('pointerout', normal);
 			this.on('pointerdown', clicked);
@@ -111,11 +108,7 @@ export class Button extends Container {
 	private	static	cln	= document.createElement('span');
 	private	static	s2hStyle(hStyle: {}, style: string) {
 		Button.cln.style.cssText = style;
-		const len = Button.cln.style.length;
-		for (let i=0; i<len; ++i) {
-			const key = Button.cln.style[i];
-			hStyle[key] = Button.cln.style[key];
-		}
+		Object.assign(hStyle, Button.cln.style);
 	}
 
 }

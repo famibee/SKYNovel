@@ -85,16 +85,15 @@ export class FrameMng {
 		if (! var_name) throw 'var_nameは必須です';
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		const win = ifrm.contentWindow!;
-		if (! (var_name in win)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
+		const win: Window = ifrm.contentWindow!;
+		const v = win[var_name];
+		if (! v) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
 			'tmp',
 			frmnm +'.'+ var_name,
-			CmnLib.argChk_Boolean(hArg, 'function', false)
-				? win[var_name]()
-				: win[var_name]
+			CmnLib.argChk_Boolean(hArg, 'function', false) ?v() :v
 		);
 
 		return false;
@@ -116,7 +115,7 @@ export class FrameMng {
 
 		// -> var変数に設定
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		const win = ifrm.contentWindow!;
+		const win: any = ifrm.contentWindow!;
 		win[var_name] = text;
 
 		return false;
@@ -175,63 +174,63 @@ export class FrameMng {
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
 		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`frame【${id}】が読み込まれていません`);
-		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
+		const ease = hArg.ease ?CmnLib.hEase[hArg.ease] :TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		const hNow = {};
-		const hTo = {};
+		const hNow: any = {};
+		const hTo: any = {};
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		let fncA = ()=> {};
 		if ('alpha' in hArg) {
-			hNow['a'] = ifrm.style.opacity;
-			hTo['a'] = CmnLib.argChk_Num(hArg, 'alpha', 0);
+			hNow.a = ifrm.style.opacity;
+			hTo.a = CmnLib.argChk_Num(hArg, 'alpha', 0);
 			fncA = ()=> {
-				ifrm.style.opacity = hNow['a'];
-				this.val.setVal_Nochk('tmp', 'alpha', hNow['a']);
+				ifrm.style.opacity = hNow.a;
+				this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
 			}
 		}
 		let fncXYSR = ()=> {};
 		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
 		|| 'rotate' in hArg) {
-			hNow['x'] = this.val.getVal(`tmp:${frmnm}.x`);
-			hNow['y'] = this.val.getVal(`tmp:${frmnm}.y`);
-			hNow['sx'] = this.val.getVal(`tmp:${frmnm}.scale_x`);
-			hNow['sy'] = this.val.getVal(`tmp:${frmnm}.scale_y`);
-			hNow['r'] = this.val.getVal(`tmp:${frmnm}.rotate`);
-			hTo['x'] = CmnLib.argChk_Num(hArg, 'x', 0);
-			hTo['y'] = CmnLib.argChk_Num(hArg, 'y', 0);
-			hTo['sx'] = CmnLib.argChk_Num(hArg, 'scale_x', 1);
-			hTo['sy'] = CmnLib.argChk_Num(hArg, 'scale_y', 1);
-			hTo['r'] = CmnLib.argChk_Num(hArg, 'rotate', 0);
+			hNow.x = this.val.getVal(`tmp:${frmnm}.x`);
+			hNow.y = this.val.getVal(`tmp:${frmnm}.y`);
+			hNow.sx = this.val.getVal(`tmp:${frmnm}.scale_x`);
+			hNow.sy = this.val.getVal(`tmp:${frmnm}.scale_y`);
+			hNow.r = this.val.getVal(`tmp:${frmnm}.rotate`);
+			hTo.x = CmnLib.argChk_Num(hArg, 'x', 0);
+			hTo.y = CmnLib.argChk_Num(hArg, 'y', 0);
+			hTo.sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
+			hTo.sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
+			hTo.r = CmnLib.argChk_Num(hArg, 'rotate', 0);
 			fncXYSR = ()=> {
 				ifrm.style.transform = `matrix(${
-					hNow['sx']}, 0, 0, ${
-					hNow['sy']}, ${hNow['x']}, ${hNow['y']
-				}) rotate(${hNow['r']}deg)`;
-				this.val.setVal_Nochk('tmp', frmnm +'.x', hNow['x']);
-				this.val.setVal_Nochk('tmp', frmnm +'.y', hNow['y']);
-				this.val.setVal_Nochk('tmp', frmnm +'.scale_x', hNow['sx']);
-				this.val.setVal_Nochk('tmp', frmnm +'.scale_y', hNow['sy']);
-				this.val.setVal_Nochk('tmp', frmnm +'.rotate', hNow['r']);
+					hNow.sx}, 0, 0, ${
+					hNow.sy}, ${hNow.x}, ${hNow.y
+				}) rotate(${hNow.r}deg)`;
+				this.val.setVal_Nochk('tmp', frmnm +'.x', hNow.x);
+				this.val.setVal_Nochk('tmp', frmnm +'.y', hNow.y);
+				this.val.setVal_Nochk('tmp', frmnm +'.scale_x', hNow.sx);
+				this.val.setVal_Nochk('tmp', frmnm +'.scale_y', hNow.sy);
+				this.val.setVal_Nochk('tmp', frmnm +'.rotate', hNow.r);
 			};
 		}
 		let fncW = ()=> {};
 		if ('width' in hArg) {
-			hNow['w'] = this.val.getVal(`tmp:${frmnm}.width`);
-			hTo['w'] = CmnLib.argChk_Num(hArg, 'width', 0);
+			hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
+			hTo.w = CmnLib.argChk_Num(hArg, 'width', 0);
 			fncW = ()=> {
-				ifrm.style.width = `${hNow['w']}px`;
-				this.val.setVal_Nochk('tmp', frmnm +'.width', hNow['w']);
+				ifrm.style.width = `${hNow.w}px`;
+				this.val.setVal_Nochk('tmp', frmnm +'.width', hNow.w);
 			};
 		}
 		let fncH = ()=> {};
 		if ('height' in hArg) {
-			hNow['h'] = this.val.getVal(`tmp:${frmnm}.height`);
-			hTo['h'] = CmnLib.argChk_Num(hArg, 'height', 0);
+			hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
+			hTo.h = CmnLib.argChk_Num(hArg, 'height', 0);
 			fncH = ()=> {
-				ifrm.style.height = `${hNow['h']}px`;
-				this.val.setVal_Nochk('tmp', frmnm +'.height', hNow['h']);
+				ifrm.style.height = `${hNow.h}px`;
+				this.val.setVal_Nochk('tmp', frmnm +'.height', hNow.h);
 			};
 		}
 

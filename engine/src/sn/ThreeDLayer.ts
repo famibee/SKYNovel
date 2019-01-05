@@ -133,8 +133,8 @@ export class ThreeDLayer extends Layer {
 		let fncCtrl = ()=> {};
 
 //		const fbx = hArg['fbx'];
-		const dae = hArg['dae'];
-		const celestial_sphere = hArg['celestial_sphere'];	// 天球
+		const dae = hArg.dae;
+		const celestial_sphere = hArg.celestial_sphere;	// 天球
 		if ('fbx' in hArg) {	// FBX
 /*			/// テスト用 Object3D
 			this.camera = new ThreeDLayer.THREE.PerspectiveCamera(75, CmnLib.stageW / CmnLib.stageH, 1, 10000);

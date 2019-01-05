@@ -56,7 +56,7 @@ export class SoundMng {
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 
 	// 音量設定（独自拡張）
-	private volume(hArg) {
+	private volume(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
 		const bvn = 'const.sn.sound.'+ buf +'.volume';
 		const arg_vol = this.getVol(hArg, 1);
@@ -67,10 +67,10 @@ export class SoundMng {
 
 		// 再生中音声の一時的音量も変更
 		hArg.time = 0;
-		hArg.volume = this.val.getVal('save:'+ bvn);	// 目標音量（save:）
+		hArg.volume = Number(this.val.getVal('save:'+ bvn));	// 目標音量（save:）
 		return this.hTag.fadese(hArg);
 	}
-	private getVol(hArg: HArg, def) {
+	private getVol(hArg: HArg, def: number) {
 		const vol = CmnLib.argChk_Num(hArg, 'volume', def);
 		if (vol < 0) return 0;
 		if (vol > 1) return 1;

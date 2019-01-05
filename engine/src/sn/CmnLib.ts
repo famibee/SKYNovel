@@ -15,15 +15,15 @@ export interface HArg {
 	dive?	: string;
 	page?	: string;
 	alpha?	: string;
-	visible?	: string;
+	visible?: boolean;
 
-	time?	: string;
+	time?	: number;
 	rule?	: string;
 	glsl?	: string;
 	pos?	: string;
 	text?	: string;
-	wait?	: string;
-	record?	: string;
+	wait?	: number;
+	record?	: boolean;
 	pic?	: string;
 	clickse?	: string;
 	enterse?	: string;
@@ -50,8 +50,8 @@ export interface HArg {
 	fn?		: string;
 	face?	: string;
 	label?	: string;
-	call?	: string;
-	global?	: string;
+	call?	: boolean;
+	global?	: boolean;
 	name?	: string;
 	blendmode?	: string;
 	clear_local_event?	: string;
@@ -100,6 +100,8 @@ export interface HArg {
 	id?			: string;
 	src?		: string;
 	var_name?	: string;
+	set_fnc?	: string;
+	break_fnc?	: string;
 
 	left?	: string;
 	top?	: string;
@@ -118,6 +120,11 @@ export interface HArg {
 	buf?	: string;
 	buf2?	: string;
 	volume?	: number;
+	join?	: boolean;
+
+
+	dae?	: string;
+	celestial_sphere?	: string;
 }
 export interface ITag { (hArg: HArg): boolean; }
 export interface IHTag { [name: string]: ITag; }
@@ -132,10 +139,10 @@ export function uint(o: any): number {
 	return v < 0 ? -v : v;
 }
 export function trim(s: string): string {return s.replace(/^\s+|\s+$/g,'')}
-if (! String.prototype['toInt']) {
+if (! ('toInt' in String.prototype)) {
 	String.prototype['toInt'] = function () { return int(this); };
 }
-if (! String.prototype['toUint']) {
+if (! ('toUint' in String.prototype)) {
 	String.prototype['toUint'] = function () {
 		const v = int(this);
 		return v < 0 ? -v : v;
@@ -199,7 +206,7 @@ export interface IVariable {
 	setMark(place: number, mp: IMark): void;
 	getMark(place: number): IMark;
 	cloneSave(): object;
-	loadWark(place: number);
+	loadWark(place: number): void;
 };
 
 export interface IData4Vari {
@@ -240,14 +247,14 @@ import { EventListenerCtn } from './EventListenerCtn';
 export interface IEvt2Fnc {(e: Event): void};
 export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 export interface IEvtMng {
-	button(hArg: HArg, em: DisplayObject);
+	button(hArg: HArg, em: DisplayObject): void;
 	isSkipKeyDown(): boolean;
-	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, stdEvt?: boolean);
+	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, stdEvt?: boolean): void;
 	popLocalEvts(): IHEvt2Fnc;
-	pushLocalEvts(a: IHEvt2Fnc);
-	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void);
+	pushLocalEvts(a: IHEvt2Fnc): void;
+	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void): void;
 
-	resvFlameEvent(win: any);
+	resvFlameEvent(win: Window): void;
 };
 
 

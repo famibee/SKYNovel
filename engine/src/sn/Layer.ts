@@ -99,7 +99,7 @@ export class Layer {
 			}, "scale_y":${this.cnt.scale.y}`;
 	}
 
-	static argChk_BlendmodeAndSet(hash: object, $do: DisplayObject):void {
+	static argChk_BlendmodeAndSet(hash: any, $do: DisplayObject):void {
 		const v = hash['blendmode'];
 		if (! v) return;
 		if (! ($do instanceof Sprite)) return;

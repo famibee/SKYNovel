@@ -150,42 +150,42 @@ export class Variable implements IVariable {
 			sessionStorage.clear();
 			this.flush_ = (this.cfg.oCfg.debug.variable)
 				? ()=> {
-					const oSys = {};
+					const oSys: any = {};
 					Object.keys(this.hSysVal).map(k=> {
 						const v = this.hSysVal[k];
 						oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - sys'] = JSON.stringify(oSys);
 
-					const oSave = {};
+					const oSave: any = {};
 					Object.keys(this.hSaveVal).map(k=> {
 						const v = this.hSaveVal[k];
 						oSave['save:'+ k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - save'] = JSON.stringify(oSave);
 
-					const oTmp = {};
+					const oTmp: any = {};
 					Object.keys(this.hTmp).map(k=> {
 						const v = this.hTmp[k];
 						oTmp[k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - tmp'] = JSON.stringify(oTmp);
 
-					const oMp = {};
+					const oMp: any = {};
 					Object.keys(this.hScopeVal.mp).map(k=> {
 						const v = this.hScopeVal.mp[k];
 						oMp[k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - mp'] = JSON.stringify(oMp);
 
-					const oMark = {};
+					const oMark: any = {};
 					Object.keys(this.data.mark).map(k=> {
 						const v = this.data.mark[k];
 						oMark[k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - mark'] = JSON.stringify(oMark);
 
-					const oKidoku = {};
+					const oKidoku: any = {};
 					Object.keys(this.data.kidoku).map(k=> {
 						const v = this.data.kidoku[k];
 						oKidoku[k] = (v instanceof Function) ?v(): v;

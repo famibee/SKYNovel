@@ -37,9 +37,9 @@ export class SysWeb extends SysBase {
 		else if (document['mozFullScreenEnabled']) {	//FF10+
 			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'mozRequestFullScreen');
 		}
-		else if (document['msFullscreenEnabled']) {	//IE11+
-			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'msRequestFullscreen');
-		}
+	//	else if (document['msFullscreenEnabled']) {	//IE11+
+	//		this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'msRequestFullscreen');
+	//	}
 		else if (document['fullscreenEnabled']) {	// HTML5 Fullscreen API仕様
 			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'requestFullscreen');
 		}
@@ -157,7 +157,7 @@ export class SysWeb extends SysBase {
 	protected toggle_full_screen = (_hArg: HArg)=> false;
 	private regEvt_FullScr(hArg: HArg, to_fnc_name: string): boolean {
 		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
-		const elm = cvs ?cvs :document.body;
+		const elm: any = cvs ?cvs :document.body;
 		const key = hArg.key;
 		if (key) {
 			elm.addEventListener('keydown', (e: KeyboardEvent)=> {

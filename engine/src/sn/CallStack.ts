@@ -8,10 +8,11 @@
 import {IHEvt2Fnc} from './CmnLib';
 
 export interface ICallStackArg {
-	csAnalyBf		: {[name: string]: any};
+	csAnalyBf	: {[name: string]: any};
 	strReserveToken?	: string;
 	hEvt1Time			: IHEvt2Fnc;
-	hMpVal?			: {[name: string]: any};
+	hMpVal?		: {[name: string]: any};
+	タグ名?		: string;
 };
 
 export class CallStack {

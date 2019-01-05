@@ -10,7 +10,7 @@ import {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 
 export class Config {
-	oCfg = {
+	oCfg: any = {
 		first_script: 'main',	// 最初に起動するスクリプトファイル
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
 		search		: [],		// ここに指定されたフォルダに対し、素材やスクリプトなどを探す
@@ -67,7 +67,7 @@ export class Config {
 
 	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: object) {
 		let err_mes = '';
-		const load = oCfg=> {
+		const load = (oCfg: any)=> {
 			//console.log(oCfg);
 			const oIni = {...this.oCfg};
 			this.oCfg = oCfg;
@@ -127,9 +127,7 @@ export class Config {
 		};
 
 		if (oCfg4tst) {
-			for (const key in this.oCfg) {
-				if (key in oCfg4tst) this.oCfg[key] = oCfg4tst[key];
-			}
+			Object.assign(this.oCfg, oCfg4tst);	// TODO: 未テスト
 			load(this.oCfg);
 			return;
 		}

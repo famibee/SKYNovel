@@ -24,7 +24,9 @@ interface Ihface { [name: string]: Iface; };
 
 interface IResAniSpr {
 	aTex	: Texture[]
-	meta	: {};
+	meta	: {
+		animationSpeed? :number;
+	};
 }
 
 export class GrpLayer extends Layer {
@@ -87,7 +89,7 @@ export class GrpLayer extends Layer {
 			GrpLayer.fncAllComp
 		);
 	}
-	private static	fncDefAllComp	= isStop=> {if (isStop) GrpLayer.main.resume()};
+	private static	fncDefAllComp	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume()};
 	private static	fncAllComp	= GrpLayer.fncDefAllComp;
 
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
@@ -105,7 +107,7 @@ export class GrpLayer extends Layer {
 				dy: 0,
 				blendmode: BLEND_MODES.NORMAL
 			};
-			const fnc = (i == 0) ?fncFirstComp :sp=> {
+			const fnc = (i == 0) ?fncFirstComp :(sp: Sprite)=> {
 				sp.x = f.dx;
 				sp.y = f.dy;
 				sp.blendMode = f.blendmode;
@@ -145,7 +147,7 @@ export class GrpLayer extends Layer {
 		}
 
 		const r: any = res[fn];
-		if (r == undefined) return new Sprite;	// ロード中にリソース削除
+		if (! r) return new Sprite;	// ロード中にリソース削除
 		switch (r.type) {
 			case loaders.Resource.TYPE.JSON:	// アニメスプライト
 				const aFK: string[] = r.spritesheet._frameKeys;

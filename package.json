@@ -27,6 +27,7 @@
 	"devDependencies": {
 		"@types/electron-json-storage": "^4.0.0",
 		"@types/fs-extra": "^5.0.4",
+		"@types/hammerjs": "^2.0.36",
 		"@types/howler": "^2.0.5",
 		"@types/mocha": "^5.2.5",
 		"@types/node": "^10.12.18",
@@ -39,7 +40,7 @@
 		"@types/tween.js": "^16.9.0",
 		"@types/xml2js": "^0.4.3",
 		"@types/xregexp": "^3.0.29",
-		"electron": "^4.0.0",
+		"electron": "^4.0.1",
 		"electron-installer-dmg": "^2.0.0",
 		"electron-packager": "^13.0.1",
 		"electron-winstaller": "^2.7.0",

@@ -91,7 +91,7 @@ export class SysNode extends SysBase {
 			//console.log('ext:'+ ext +' path:'+ path +' fn:'+ fn +' basename:'+ basename +' fnJs:'+ fnJs);
 					const w = w_pic /xLen;
 					const h = h_pic /yLen;
-					const oJs = {
+					const oJs :any = {
 						frames: {},
 						meta: {
 							app: 'skynovel',
