@@ -121,7 +121,7 @@ export class GrpLayer extends Layer {
 			GrpLayer.ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
 		});
 
-		const fncLoaded = (loader: any, res: any)=> {
+		const fncLoaded = (_loader: any, res: any)=> {
 			for (const v of aComp) {
 				const sp = GrpLayer.mkSprite(v.fn, res);
 				parent.addChild(sp);
@@ -192,7 +192,7 @@ export class GrpLayer extends Layer {
 			true
 		);
 	}
-	private rsvEvent($do: DisplayObject): void {
+	private rsvEvent(_$do: DisplayObject): void {
 		/*
 		const ldr:Loader = $do as Loader;
 		if (ldr == null) return;

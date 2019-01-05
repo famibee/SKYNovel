@@ -131,7 +131,7 @@ export class LayerMng {
 		console.info('w:%O: h:%O:', CmnLib.stageW, CmnLib.stageH);
 		console.groupEnd();
 */
-		const fncTxt_b_alpha = (name: string, val: any)=> {
+		const fncTxt_b_alpha = (_name: string, val: any)=> {
 			this.foreachRedrawTxtLayBack(Number(val))
 		};
 		fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
@@ -185,7 +185,7 @@ export class LayerMng {
 	}
 
 
-	private cmdTxt(cmd: string, tl = this.getCurrentTxtlayForeNeedErr(), record = true): void {
+	private cmdTxt(cmd: string, tl = this.getCurrentTxtlayForeNeedErr(), _record = true): void {
 		tl.tagCh('｜　《'+ cmd +'》');
 
 		// TODO: record未作成

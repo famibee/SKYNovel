@@ -543,7 +543,7 @@ export class Variable implements IVariable {
 		// save
 		'save:sn.doRecLog'		: name=>
 			this.runFirst_Bool_hSaveVal_true(name),
-		'save:sn.userFnTail'	: (name, val)=> this.cfg.userFnTail = val,
+		'save:sn.userFnTail'	: (_name, val)=> this.cfg.userFnTail = val,
 
 		// tmp
 		'tmp:sn.tagL.enabled'	: name=>

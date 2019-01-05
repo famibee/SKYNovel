@@ -44,7 +44,7 @@ export class SoundMng {
 		hTag.ws			= o=> this.ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
 
-		const fncGlobalVol = (name: string, val: any)=> Howler.volume(Number(val));
+		const fncGlobalVol = (_name: string, val: any)=> Howler.volume(Number(val));
 		fncGlobalVol('', val.getVal('sys:sn.sound.global_volume', 1));
 		val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
 
@@ -223,7 +223,7 @@ export class SoundMng {
 	}
 
 	// 全効果音再生の停止
-	private stop_allse(hArg?: HArg) {
+	private stop_allse(_hArg?: HArg) {
 		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
 		//this.flush();	// すぐ下でflush()
 		for (const buf in this.hSndBuf) this.stopse({buf: buf});
@@ -313,13 +313,13 @@ export class SoundMng {
 	}
 
 
-	loadAheadSnd(aFn: string[]): void {
+	loadAheadSnd(_aFn: string[]): void {
 		// TODO:loadAheadSnd()が未作成
 		;
 	}
 
 	// しおりの読込（BGM状態復元）
-	loadFromSaveObj(hArg: any): [] {
+	loadFromSaveObj(_hArg: any): [] {
 		// TODO: loadFromSaveObj()未作成
 		return [];
 /*

@@ -77,7 +77,7 @@ export class Layer {
 		y		: this.cnt.y,
 		visible	: this.cnt.visible,
 	};}
-	playback(hLay: any, resume?: ()=> void) {
+	playback(hLay: any, _resume?: ()=> void) {
 		this.name = hLay.name;
 		//idx	// コール順に意味があるので親でやる
 

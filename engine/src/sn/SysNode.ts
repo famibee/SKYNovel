@@ -13,7 +13,7 @@ import m_fs = require('fs-extra');
 import m_path = require('path');
 
 export class SysNode extends SysBase {
-	protected	normalize	= (src: string, form: string)=> src;	// for test
+	protected	normalize	= (src: string, _form: string)=> src;	// for test
 	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {
 		this.cfg = cfg;
 
@@ -79,7 +79,7 @@ export class SysNode extends SysBase {
 
 				const ldr = new PIXI.loaders.Loader();
 				ldr.add(fn, path);
-				ldr.load((loader: any, res: any)=> {
+				ldr.load((_loader: any, res: any)=> {
 					const orig = res[fn].texture.orig;
 					const w_pic = orig.width;
 					const h_pic = orig.height;

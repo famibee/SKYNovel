@@ -154,7 +154,7 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 
-	protected toggle_full_screen = (hArg: HArg)=> false;
+	protected toggle_full_screen = (_hArg: HArg)=> false;
 	private regEvt_FullScr(hArg: HArg, to_fnc_name: string): boolean {
 		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
 		const elm = cvs ?cvs :document.body;

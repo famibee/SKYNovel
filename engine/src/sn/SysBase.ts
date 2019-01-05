@@ -13,7 +13,7 @@ export class SysBase implements ISysBase {
 	get cur() {return this.$cur}
 
 	protected cfg;
-	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {}	// 基底定義なので「使ってないパラメーター警告」でも消さないように
+	getHPathFn2Exts = (_hPathFn2Exts: IPathFn2Exts, _fncLoaded: ()=> void, _cfg: Config): void=> {}	// 基底定義なので「使ってないパラメーター警告」でも消さないように
 
 	protected	val		: IVariable;
 	protected	appPixi	: PIXI.Application;
@@ -45,13 +45,12 @@ export class SysBase implements ISysBase {
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
-	// 基底定義なので「使ってないパラメーター警告」でも消さないように
-	protected close			: ITag = hArg=> false;
-	protected title			: ITag = hArg=> false;
-	protected toggle_full_screen	: ITag = hArg=> false;
+	protected close			: ITag = _hArg=> false;
+	protected title			: ITag = _hArg=> false;
+	protected toggle_full_screen	: ITag = _hArg=> false;
 
 	protected data		= {sys:{}, mark:{}, kidoku:{}};
-	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void) {};
+	initData(_data: IData4Vari, _hTmp: object, _comp: (data: IData4Vari)=> void) {};
 	flush() {}
 
 	protected isApp = ()=> false;
@@ -60,16 +59,15 @@ export class SysBase implements ISysBase {
 	protected $path_userdata	= '';
 	get path_userdata() {return this.$path_userdata};
 
-	// 基底定義なので「使ってないパラメーター警告」でも消さないように
-	existsSync = (path: string)=> true;
+	existsSync = (_path: string)=> true;
 	//readFileSync = (path: string, options: { encoding: string; flag?: string; } | string)=> '';
 	//readFile = (path: string, callback: (err: NodeJS.ErrnoException, data: Buffer) => void)=> {};
-	writeFile = (file: string | Buffer | number, data: any, callback: (err: NodeJS.ErrnoException) => void)=> {};
-	savePic = (fn: string, data_url: string)=> {};
+	writeFile = (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
+	savePic = (_fn: string, _data_url: string)=> {};
 
-	isDirectory = (path: string)=> false;
-	readdirSync = (path: string, options?: { encoding: BufferEncoding | null } | BufferEncoding | null): string[]=> [];
+	isDirectory = (_path: string)=> false;
+	readdirSync = (_path: string, _options?: { encoding: BufferEncoding | null } | BufferEncoding | null): string[]=> [];
 
-	appendFile = (path: string, data: any, callback: (err: NodeJS.ErrnoException) => void)=> {};
+	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
 
 }
