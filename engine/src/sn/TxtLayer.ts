@@ -30,7 +30,7 @@ interface IChRect {
 }
 interface ISpTw {
 	sp	: Container;
-	tw	: TWEEN.Tween;
+	tw	: TWEEN.Tween | null;
 };
 
 export class TxtLayer extends Layer {
@@ -152,7 +152,7 @@ export class TxtLayer extends Layer {
 			cln.style.cssText = hArg.style;
 			const len = cln.style.length;
 			for (let i=0; i<len; ++i) {
-				const key = cln.style[i];
+				const key: any = cln.style[i];
 				if (key in this.hWarning) {
 					DebugMng.myTrace(`${key}は指定できません`, 'W');
 					continue;
@@ -503,8 +503,8 @@ export class TxtLayer extends Layer {
 		// TODO: いつかのタイミングでコードをキレイにしたい
 /*---*/
 		const util = {
-			escape: str=> str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
-			mimeType: url=> {
+			escape: (str: string)=> str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
+			mimeType: (url: any)=> {
 				const extension = parseExtension(url).toLowerCase();
 				return mimes()[extension] || '';
 			},
@@ -546,7 +546,7 @@ export class TxtLayer extends Layer {
 		const fontFaces = newFontFaces();
 
 
-		function embedFonts(node) {
+		function embedFonts(node: any) {
 			return fontFaces.resolveAll()
 			.then(cssText=> {
 				const styleNode = document.createElement('style');
@@ -558,17 +558,17 @@ export class TxtLayer extends Layer {
 		}
 
 
-			function parseExtension(url) {
+			function parseExtension(url: any) {
 				const match = /\.([^\.\/]*?)$/g.exec(url);
 				if (match) return match[1];
 				else return '';
 			}
 
-			function isDataUrl(url) {
+			function isDataUrl(url: any) {
 				return url.search(/^(data:)/) !== -1;
 			}
 
-			function resolveUrl(url, baseUrl) {
+			function resolveUrl(url: any, baseUrl: any) {
 				const doc = document.implementation.createHTMLDocument();
 				const base = doc.createElement('base');
 				doc.head.appendChild(base);
@@ -579,7 +579,7 @@ export class TxtLayer extends Layer {
 				return a.href;
 			}
 
-			function getAndEncode(url) {
+			function getAndEncode(url: any) {
 				let TIMEOUT = 30000;
 				//if(domtoimage.impl.options.cacheBust) {
 					// Cache bypass so we dont have CORS issues with cached images
@@ -634,14 +634,14 @@ export class TxtLayer extends Layer {
 					//	}
 					}
 
-					function fail(message) {
+					function fail(message: any) {
 						console.error(message);
 						resolve('');
 					}
 				});
 			}
 
-			function dataAsUrl(content, type) {
+			function dataAsUrl(content: any, type: any) {
 				return 'data:' + type + ';base64,' + content;
 			}
 
@@ -654,11 +654,11 @@ export class TxtLayer extends Layer {
 				shouldProcess: shouldProcess,
 			};
 
-			function shouldProcess(str) {
+			function shouldProcess(str: any) {
 				return str.search(URL_REGEX) !== -1;
 			}
 
-			function readUrls(str) {
+			function readUrls(str: any) {
 				const result: string[] = [];
 				let match: RegExpExecArray | null;
 				while ((match = URL_REGEX.exec(str))) {
@@ -669,19 +669,19 @@ export class TxtLayer extends Layer {
 				});
 			}
 
-			function inline(str, url, baseUrl, get) {
+			function inline(str: any, url: any, baseUrl: any, get: any) {
 				return Promise.resolve(url)
 					.then(url=> baseUrl ? util.resolveUrl(url, baseUrl) : url)
 					.then(get || util.getAndEncode)
 					.then(data=> util.dataAsUrl(data, util.mimeType(url)))
 					.then(dataUrl=> str.replace(urlAsRegex(url), '$1' + dataUrl + '$3'));
 
-				function urlAsRegex(url) {
+				function urlAsRegex(url: any) {
 					return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
 				}
 			}
 
-			function inlineAll(str, baseUrl, get?) {
+			function inlineAll(str: any, baseUrl: any, get?: any) {
 				if (nothingToInline()) return Promise.resolve(str);
 
 				return Promise.resolve(str)
@@ -711,7 +711,7 @@ export class TxtLayer extends Layer {
 			function resolveAll() {
 				return readAll()
 				.then(webFonts=> Promise.all(
-					webFonts.map(webFont=> webFont.resolve())
+					webFonts.map((webFont: any)=> webFont.resolve())
 				))
 				.then(cssStrings=> cssStrings.join('\n'));
 			}
@@ -723,14 +723,14 @@ export class TxtLayer extends Layer {
 					.then(rules=> rules.map(newWebFont));
 						// console.log('map:%o:', rules) ||
 
-				function selectWebFontRules(cssRules) {
+				function selectWebFontRules(cssRules: any) {
 					return cssRules
-					.filter(rule=> rule.type === CSSRule.FONT_FACE_RULE)
-					.filter(rule=> inliner.shouldProcess(rule.style.getPropertyValue('src')));
+					.filter((rule: any)=> rule.type === CSSRule.FONT_FACE_RULE)
+					.filter((rule: any)=> inliner.shouldProcess(rule.style.getPropertyValue('src')));
 				}
 
-				function getCssRules(styleSheets) {
-					const cssRules = [];
+				function getCssRules(styleSheets: any) {
+					const cssRules: any = [];
 					for (const sheet of styleSheets) {
 					//console.log('1:%o', sheet);	//-------
 						try {
@@ -746,7 +746,7 @@ export class TxtLayer extends Layer {
 					return cssRules;
 				}
 
-				function newWebFont(webFontRule) {
+				function newWebFont(webFontRule: any) {
 					//console.log('newWebFont:%o:', webFontRule);	//-------
 					return {
 						resolve: function resolve() {
@@ -1043,7 +1043,7 @@ export class TxtLayer extends Layer {
 						.easing(ease)
 						.delay(delay)
 						.onComplete(()=> {
-							//st.tw = null;
+							st.tw = null;
 							//(略)	if (rct.width == 0 || rct.height == 0) return;
 							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
 							//　これを有効にすると[snapshot]で文字が出ない

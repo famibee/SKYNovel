@@ -50,7 +50,7 @@ export class SysBase implements ISysBase {
 	protected toggle_full_screen	: ITag = _hArg=> false;
 
 	protected data		= {sys:{}, mark:{}, kidoku:{}};
-	initData(_data: IData4Vari, _hTmp: object, _comp: (data: IData4Vari)=> void) {};
+	initData(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {};
 	flush() {}
 
 	protected isApp = ()=> false;

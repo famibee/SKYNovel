@@ -721,7 +721,7 @@ void main(void) {
 	private tsy(hArg: HArg) {
 		if (! hArg.layer) throw('layerは必須です');
 		const layer = this.argChk_layer(hArg);
-		const foreLay = this.hPages[layer].fore;
+		const foreLay: any = this.hPages[layer].fore;
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 
@@ -773,7 +773,7 @@ void main(void) {
 		this.hTwInf[tw_nm] = {tw: tw, resume: false, onComplete: ()=> {
 			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
-				const backCnt = this.hPages[layer].back.cnt;
+				const backCnt: any = this.hPages[layer].back.cnt;
 				for (const nm in this.hMemberCnt) backCnt[nm] = foreLay[nm];
 			}
 		}}

@@ -30,11 +30,11 @@ export class SysWeb extends SysBase {
 			this.run(this.getURLQ(location)['cur']);
 		}
 
-		if (document['webkitFullscreenEnabled']) {
+		if ('webkitFullscreenEnabled' in document) {
 			//Chrome15+, Safari5.1+, Opera15+
 			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'webkitRequestFullscreen');
 		}
-		else if (document['mozFullScreenEnabled']) {	//FF10+
+		else if ('mozFullScreenEnabled' in document) {	//FF10+
 			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'mozRequestFullScreen');
 		}
 	//	else if (document['msFullscreenEnabled']) {	//IE11+
@@ -63,7 +63,7 @@ export class SysWeb extends SysBase {
 	private main: Main;
 
 	private ns	= '';
-	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void) {
+	initData(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		//strLocal.clearAll();
 		this.ns = this.cfg.oCfg.save_ns +' - ';
 		const sys = strLocal.get(this.ns +'sys');

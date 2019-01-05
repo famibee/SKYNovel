@@ -79,7 +79,7 @@ export class EventMng implements IEvtMng {
 		// Add the recognizer to the manager.
 		this.hHamEv.tap2 = null;
 		for (const key in this.hHamEv) {
-			const fnc = this.hHamEv[key] = e=> {
+			const fnc = this.hHamEv[key] = (e: any)=> {
 				val.defTmp('sn.eventArg.type', e.type);
 				val.defTmp('sn.eventArg.pointers', e.pointers);
 				this.defEvt2Fnc(e, e.type);
