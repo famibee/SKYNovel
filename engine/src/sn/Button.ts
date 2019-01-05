@@ -19,7 +19,7 @@ export class Button extends Container {
 		if (enabled) this.evtMng.button(hArg, this);
 		if (hArg.text) {
 			const fontSize = uint(hArg.height || 30);
-			const style = new PIXI.TextStyle({
+			const style = {
 				fill: 'black',
 				align: 'center',
 				fontSize: fontSize,
@@ -29,7 +29,7 @@ export class Button extends Container {
 				dropShadowColor: 'white',
 				dropShadowBlur: 3,
 				dropShadowDistance: 0,
-			});
+			};
 			if (hArg.style) Button.s2hStyle(style, hArg.style);
 			const txt = new Text(hArg.text, style);
 			txt.alpha = CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
