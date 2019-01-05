@@ -199,7 +199,7 @@ export class ScriptIterator {
 		const set_fnc = hArg.set_fnc;
 		if (! set_fnc) throw('set_fncは必須です');
 
-		this.fncSet = window[set_fnc];
+		this.fncSet = (window as any)[set_fnc];
 		if (! this.fncSet) {
 			if (CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${set_fnc}が見つかりません`;
 			this.fncSet = ()=> {};
@@ -210,7 +210,7 @@ export class ScriptIterator {
 
 		const break_fnc = hArg.break_fnc;
 		if (break_fnc) {
-			this.fncBreak = window[break_fnc];
+			this.fncBreak = (window as any)[break_fnc];
 			if (! this.fncBreak) {
 				if (CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${break_fnc}が見つかりません`;
 				this.fncBreak = ()=> {};

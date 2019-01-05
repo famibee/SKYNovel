@@ -23,7 +23,7 @@ export class EventMng implements IEvtMng {
 
 	private	enMDownTap	= 'pointerdown';
 	private ham		: any;
-	private hHamEv	= {
+	private hHamEv :{[name: string]: null | {(e: any): void}}	= {
 	//	tap			: null,
 		tap2		: null,
 		press		: null,	// 長押し
@@ -137,7 +137,7 @@ export class EventMng implements IEvtMng {
 	resvFlameEvent(win: Window) {
 		win.addEventListener('keydown', e=> this.ev_keydown(e));
 		win.addEventListener('contextmenu', e=> this.ev_contextmenu(e));
-		if (win['WheelEvent']) win.addEventListener('wheel', e=> this.ev_wheel(e));
+		if ((win as any)['WheelEvent']) win.addEventListener('wheel', e=> this.ev_wheel(e));
 	}
 	private ev_keydown(e: any) {
 		//if (! e.isTrusted) return;

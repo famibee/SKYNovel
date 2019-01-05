@@ -146,7 +146,7 @@ export class GrpLayer extends Layer {
 			return asp;
 		}
 
-		const r: any = res[fn];
+		const r: any = (res as any)[fn];
 		if (! r) return new Sprite;	// ロード中にリソース削除
 		switch (r.type) {
 			case loaders.Resource.TYPE.JSON:	// アニメスプライト

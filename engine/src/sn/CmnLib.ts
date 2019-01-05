@@ -140,10 +140,10 @@ export function uint(o: any): number {
 }
 export function trim(s: string): string {return s.replace(/^\s+|\s+$/g,'')}
 if (! ('toInt' in String.prototype)) {
-	String.prototype['toInt'] = function () { return int(this); };
+	(String.prototype as any)['toInt'] = function () { return int(this); };
 }
 if (! ('toUint' in String.prototype)) {
-	String.prototype['toUint'] = function () {
+	(String.prototype as any)['toUint'] = function () {
 		const v = int(this);
 		return v < 0 ? -v : v;
 	};
@@ -317,7 +317,7 @@ export class CmnLib {
 	}
 
 
-	static	hEase	= {
+	static	hEase: {[name: string]: (k: number)=> number}	= {
 		'Back.In'			: TWEEN.Easing.Back.In,
 		'Back.InOut'		: TWEEN.Easing.Back.InOut,
 		'Back.Out'			: TWEEN.Easing.Back.Out,

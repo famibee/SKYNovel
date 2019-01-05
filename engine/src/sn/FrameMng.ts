@@ -86,7 +86,7 @@ export class FrameMng {
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win: Window = ifrm.contentWindow!;
-		const v = win[var_name];
+		const v = (win as any)[var_name];
 		if (! v) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
 		// var変数 / 関数実行の戻り値 -> 組み込み変数

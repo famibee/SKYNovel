@@ -734,7 +734,7 @@ void main(void) {
 			// {x:'=-500'}		現在のX位置に-500加算した位置
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			const v = String(hArg[nm]);
+			const v = String((hArg as any)[nm]);
 			const a = ((v.charAt(0) == '=') ?v.slice(1) :v).split(',');
 			const a0 = hTo[nm] = parseFloat(a[0]);
 			if (a.length > 1) hTo[nm] += Math.round(Math.random()

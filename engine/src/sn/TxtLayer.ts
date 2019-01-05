@@ -519,7 +519,7 @@ export class TxtLayer extends Layer {
 				return array;
 			},
 		};
-			function mimes() {
+			function mimes(): any {
 				// Only WOFF and EOT mime types for fonts are 'real'
 				// * see http://www.iana.org/assignments/media-types/media-types.xhtml
 				const WOFF = 'application/font-woff';
