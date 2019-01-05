@@ -13,12 +13,12 @@ const Stats = require('stats.js');
 	// mrdoob/stats.js: JavaScript Performance Monitor https://github.com/mrdoob/stats.js/
 
 export class DebugMng {
-	private _stats		: Stats | null		= null;
+	private _stats		: Stats;
 	private fncUpd		= ()=> {};
 
-	private	static	scrItr	: ScriptIterator | null	= null;
-	private	static	hTag	: IHTag | null			= null;
-	private static	title	: ITag | null			= ()=> false;
+	private	static	scrItr	: ScriptIterator;
+	private	static	hTag	: IHTag;
+	private static	title	: ITag		= ()=> false;
 	constructor(private sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
 		DebugMng.scrItr = scrItr;
 		DebugMng.hTag = hTag;
@@ -43,7 +43,6 @@ export class DebugMng {
 		hTag.trace			= o => this.trace(o);			// デバッグ表示へ出力
 	}
 	destroy() {
-		DebugMng.scrItr = null;
 		DebugMng.title = ()=> false
 	}
 

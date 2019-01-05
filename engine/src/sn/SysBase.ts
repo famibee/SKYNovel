@@ -12,11 +12,11 @@ export class SysBase implements ISysBase {
 	constructor(protected $cur = 'prj/') {}
 	get cur() {return this.$cur}
 
-	protected cfg		= null;
+	protected cfg;
 	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {}	// 基底定義なので「使ってないパラメーター警告」でも消さないように
 
-	protected	val		: IVariable		= null;
-	protected	appPixi	: PIXI.Application	= null;
+	protected	val		: IVariable;
+	protected	appPixi	: PIXI.Application;
 	init(hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
 		this.val = val;
 		this.appPixi = appPixi;

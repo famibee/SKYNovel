@@ -91,6 +91,7 @@ export interface HArg {
 	filter?	: string;
 
 	ease?	: string;
+	canskip?	:boolean;
 
 	centering?	:boolean;
 	x?	: number;
@@ -109,6 +110,14 @@ export interface HArg {
 	f2tap?	: string;
 	f2move?	: string;
 	f3tap?	: string;
+
+	from?	: number;
+	to?		: number;
+	place?	: number;
+
+	buf?	: string;
+	buf2?	: string;
+	volume?	: number;
 }
 export interface ITag { (hArg: HArg): boolean; }
 export interface IHTag { [name: string]: ITag; }
@@ -147,7 +156,7 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 }
 
 export interface ITwInf {
-	tw			: TWEEN.Tween;
+	tw			: TWEEN.Tween | null;
 	resume		: boolean;
 	onComplete?	: ()=> void;
 };
@@ -233,7 +242,7 @@ export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 export interface IEvtMng {
 	button(hArg: HArg, em: DisplayObject);
 	isSkipKeyDown(): boolean;
-	stdWait(fnc: (e: interaction.InteractionEvent)=> void, stdEvt?: boolean);
+	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, stdEvt?: boolean);
 	popLocalEvts(): IHEvt2Fnc;
 	pushLocalEvts(a: IHEvt2Fnc);
 	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void);

@@ -21,11 +21,11 @@ import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, 
 import { EventListenerCtn } from './EventListenerCtn';
 
 export class LayerMng {
-	private	stage	: Container	= null;
+	private	stage	: Container;
 	private fore	= new Container;
 	private back	= new Container;
 
-	private frmMng	: FrameMng	= null;
+	private frmMng	: FrameMng;
 
 	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private soundMng: SoundMng, private sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val);
@@ -156,7 +156,7 @@ export class LayerMng {
 		}
 	}
 
-	private evtMng	: IEvtMng	= null;
+	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng; this.frmMng.setEvtMng(evtMng)}
 
 	destroy() {
@@ -165,8 +165,6 @@ export class LayerMng {
 
 		TWEEN.removeAll();
 		this.appPixi.ticker.remove(this.fncTicker);
-		this.stage = null;
-		this.evtMng = null;
 		LayerMng.$msecChWait = 10;
 		for (const pg in this.hPages) this.hPages[pg].destroy();
 	}
@@ -174,8 +172,7 @@ export class LayerMng {
 
 	// 既存の全文字レイヤの実際のバック不透明度、を再計算
 	private foreachRedrawTxtLayBack(g_alpha: number): void {
-		let sp = '';
-		const vct = this.getLayers(null);
+		const vct = this.getLayers();
 		const len = vct.length;
 		for (let i=0; i<len; ++i) {
 			const name = vct[i];
@@ -188,9 +185,7 @@ export class LayerMng {
 	}
 
 
-	private cmdTxt(cmd: string, $tl: TxtLayer = undefined, record = true): void {
-		const tl = $tl || this.getCurrentTxtlayForeNeedErr();
-		if (! tl) return;
+	private cmdTxt(cmd: string, tl = this.getCurrentTxtlayForeNeedErr(), record = true): void {
 		tl.tagCh('｜　《'+ cmd +'》');
 
 		// TODO: record未作成
@@ -759,12 +754,12 @@ void main(void) {
 				delete this.hTwInf[tw_nm];
 				this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
 				if (twInf.resume) this.main.resume();
-				if ('onComplete' in twInf) twInf.onComplete();
+				if (twInf.onComplete) twInf.onComplete();
 			});
 
 		if ('chain' in hArg) {
 			const twFrom = this.hTwInf[hArg.chain];
-			if (! twFrom) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+			if (! twFrom || ! twFrom.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
 			twFrom.onComplete = ()=> {};
 			twFrom.tw.chain(tw);
 		}
@@ -787,11 +782,11 @@ void main(void) {
 	private wait_tsy(hArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
 		const twInf = this.hTwInf[tw_nm];
-		if (! twInf) return false;
+		if (! twInf || ! twInf.tw) return false;
 
 		twInf.resume = true;
 		this.evtMng.stdWait(
-			()=> twInf.tw.stop().end(),	// stop()とend()は別
+			()=> {if (twInf.tw) twInf.tw.stop().end()},	// stop()とend()は別
 			CmnLib.argChk_Boolean(hArg, 'canskip', true)
 		);
 		return true;
@@ -801,7 +796,7 @@ void main(void) {
 	private stop_tsy(hArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
 		const twInf = this.hTwInf[tw_nm];
-		if (! twInf) return false;
+		if (! twInf || ! twInf.tw) return false;
 
 		twInf.tw.stop().end();	// stop()とend()は別
 
@@ -812,7 +807,7 @@ void main(void) {
 	private pause_tsy(hArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
 		const twInf = this.hTwInf[tw_nm];
-		if (! twInf) return false;
+		if (! twInf || ! twInf.tw) return false;
 
 		twInf.tw.stop();
 
@@ -823,8 +818,7 @@ void main(void) {
 	private resume_tsy(hArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
 		const twInf = this.hTwInf[tw_nm];
-		if (! twInf) return false;
-		if (! twInf.tw) return false;
+		if (! twInf || ! twInf.tw) return false;
 
 		twInf.tw.start();
 
@@ -879,16 +873,16 @@ void main(void) {
 
 		return false;
 	}
-	getCurrentTxtlayForeNeedErr(): TxtLayer | undefined {
+	getCurrentTxtlayForeNeedErr(): TxtLayer {
 		this.fncChkTxtLay();
-		return this.getCurrentTxtlayFore();
+		return this.getCurrentTxtlayFore()!;
 	}
 	getCurrentTxtlayFore(): TxtLayer | undefined {
 		if (! this.pgTxtlay) return undefined;
 
 		return this.pgTxtlay.fore as TxtLayer;
 	}
-	private	pgTxtlay: Pages | null	= null;	// カレントテキストレイヤ
+	private	pgTxtlay: Pages;	// カレントテキストレイヤ
 	private fncChkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい';};
 
 	private argChk_layer(hash, def = ''): string {

@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, HArg, IMain, IVariable, int} from './CmnLib';
+import {CmnLib, HArg, IMain, int} from './CmnLib';
 import {Config} from './Config';
 import { Sprite, Container, extras, Texture, BLEND_MODES, utils, loaders, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
@@ -32,9 +32,9 @@ export class GrpLayer extends Layer {
 
 	private static	hFace		: Ihface	= {};
 
-	private static	main		: IMain | null		= null;
-	private static	cfg			: Config | null		= null;
-	private static	ldr			: loaders.Loader | null	= null;
+	private static	main		: IMain;
+	private static	cfg			: Config;
+	private static	ldr			: loaders.Loader;
 	static	init(main: IMain, cfg: Config): void {
 		GrpLayer.main = main;
 		GrpLayer.cfg = cfg;
@@ -44,11 +44,8 @@ export class GrpLayer extends Layer {
 		GrpLayer.elc.clear();
 
 		GrpLayer.hFace	= {};
-		GrpLayer.main	= null;
-		GrpLayer.cfg	= null;
 		GrpLayer.hFn2ResAniSpr	= {};
 		if (GrpLayer.ldr) GrpLayer.ldr.destroy();
-		GrpLayer.ldr = null;
 	}
 
 	private csvFn		= '';
@@ -233,7 +230,7 @@ export class GrpLayer extends Layer {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
 	});}
-	playback(hLay: any, resume = undefined) {
+	playback(hLay: any, resume?: ()=> void) {
 		super.playback(hLay);
 		if (hLay.sBkFn == '' && hLay.sBkFace == '') {
 			this.sBkFn	= hLay.sBkFn;

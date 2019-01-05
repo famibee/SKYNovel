@@ -34,11 +34,11 @@ interface ISpTw {
 };
 
 export class TxtLayer extends Layer {
-	private	static	val		: IVariable	= null;
+	private	static	val		: IVariable;
 	private	static	hNoReplaceDispObj	: {[name: string]: boolean} = {};
 
-	private	static	glbStyle: HTMLStyleElement	= null;
-	private	static	cfg		: Config	= null;
+	private	static	glbStyle: HTMLStyleElement;
+	private	static	cfg		: Config;
 	static	init(cfg: Config, hTag: IHTag, val: IVariable): void {
 		TxtLayer.cfg = cfg;
 		TxtLayer.val = val;
@@ -63,8 +63,6 @@ export class TxtLayer extends Layer {
 		TxtLayer.glbStyle.innerHTML = autoloadfont;
 	}
 	static destroy() {
-		TxtLayer.val = null;
-		TxtLayer.evtMng = null;
 		RubySpliter.destroy();
 
 		TxtLayer.hNoReplaceDispObj = {};
@@ -81,8 +79,8 @@ export class TxtLayer extends Layer {
 	private b_color			= 0x000000;
 	private b_alpha			= 0;
 	private b_alpha_isfixed	= false;
-	private b_do			: DisplayObject	= null;
-	private b_pic			= '';
+	private b_do			: DisplayObject | null;
+	private b_pic			: string = '';
 
 	// メッセージ
 	private htmTxt			= document.createElement('span');	// サンプリング元
@@ -94,7 +92,7 @@ export class TxtLayer extends Layer {
 	private	ch_anime_time_仮	= 500;	// TODO: 未作成
 	private	fncFi			= (sp: DisplayObject)=> {sp.x += this.fontsize /3};
 	private fi_easing		= 'Quadratic.Out';
-	private ch_filter		: any[] | null	= null;
+	private ch_filter		: any[] | null;
 	private fo				= {alpha: 0, x: `+${ this.fontsize /3 }`};
 	private fo_easing		= 'Quadratic.Out';
 
@@ -133,10 +131,11 @@ export class TxtLayer extends Layer {
 		this.clearText();
 	}
 
-	private	static	evtMng	: IEvtMng	= null;
+	private	static	main	: IMain;
+	private	static	evtMng	: IEvtMng;
 	static setEvtMng(main: IMain, evtMng: IEvtMng) {
+		TxtLayer.main = main;
 		TxtLayer.evtMng = evtMng;
-		Button.init(main, evtMng);
 	}
 
 	static addStyle(text) {TxtLayer.glbStyle.innerHTML += text +'\n';}
@@ -160,13 +159,13 @@ export class TxtLayer extends Layer {
 				}
 				this.htmTxt.style[key] = cln.style[key];
 			}
-			this.pad_left = parseFloat(this.htmTxt.style.paddingLeft);
-			this.pad_right = parseFloat(this.htmTxt.style.paddingRight);
-			this.pad_top = parseFloat(this.htmTxt.style.paddingTop);
-			this.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom);
-			this.fontsize = parseFloat(this.htmTxt.style.fontSize);
-			this.$width = parseFloat(this.htmTxt.style.width);
-			this.$height = parseFloat(this.htmTxt.style.height);
+			this.pad_left = parseFloat(this.htmTxt.style.paddingLeft || '0');
+			this.pad_right = parseFloat(this.htmTxt.style.paddingRight || '0');
+			this.pad_top = parseFloat(this.htmTxt.style.paddingTop || '0');
+			this.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom || '0');
+			this.fontsize = parseFloat(this.htmTxt.style.fontSize || '0');
+			this.$width = parseFloat(this.htmTxt.style.width || '0');
+			this.$height = parseFloat(this.htmTxt.style.height || '0');
 		}
 
 		if (('b_color' in hArg) || ('b_alpha' in hArg) ||('b_alpha_isfixed' in hArg)
@@ -179,7 +178,7 @@ export class TxtLayer extends Layer {
 				delete hArg.b_pic;
 			}
 			else {
-				if ('b_color' in hArg) this.b_color = parseInt(hArg.b_color);
+				if ('b_color' in hArg) this.b_color = parseInt(hArg.b_color || '0');
 				this.b_alpha = CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
 				this.b_alpha_isfixed = CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
 			}
@@ -212,12 +211,12 @@ export class TxtLayer extends Layer {
 				: 0);
 		this.lh_half = (this.htmTxt.style.writingMode == 'vertical-rl')
 			? 0
-			: (	(this.htmTxt.style.lineHeight.slice(-2) == 'px')
-				? parseFloat(this.htmTxt.style.lineHeight)
-				: parseFloat(this.htmTxt.style.fontSize)
-					* parseFloat(this.htmTxt.style.lineHeight)
+			: (	((this.htmTxt.style.lineHeight || '0').slice(-2) == 'px')
+				? parseFloat(this.htmTxt.style.lineHeight || '0')
+				: parseFloat(this.htmTxt.style.fontSize || '0')
+					* parseFloat(this.htmTxt.style.lineHeight || '0')
 					// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
-				-parseFloat(this.htmTxt.style.fontSize)	) /2;
+				-parseFloat(this.htmTxt.style.fontSize || '0')	) /2;
 
 		return false;
 	}
@@ -260,7 +259,7 @@ export class TxtLayer extends Layer {
 			this.b_do = null;
 		}
 
-		if ('b_pic' in hArg) {
+		if (hArg.b_pic) {
 			this.b_pic = hArg.b_pic;
 			GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
 				this.b_do = sp;
@@ -386,7 +385,7 @@ export class TxtLayer extends Layer {
 				const ndDel = this.htmTxt.querySelector(`span:last-child[data-cmd="grp"][data-id="${a_ruby[1]}"]`);
 				if (! ndDel) return;	// breakではない
 
-				ndDel.parentElement.removeChild(ndDel);
+				ndDel.parentElement!.removeChild(ndDel);
 				for (const st of this.aSpTw) if (st.tw) st.tw.stop();
 				this.aSpTw = [];
 
@@ -621,7 +620,7 @@ export class TxtLayer extends Layer {
 
 						const encoder = new FileReader();
 						encoder.onloadend = function () {
-							const content = encoder.result.toString().split(/,/)[1];
+							const content = encoder.result!.toString().split(/,/)[1];
 							resolve(content);
 						};
 						encoder.readAsDataURL(request.response);
@@ -799,12 +798,12 @@ export class TxtLayer extends Layer {
 			cln.style.padding = '0px';		// ややこしいのでシンプルに
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 			if (cln.style.writingMode == 'vertical-rl') {
-				this.paddingmkTx4x = parseFloat(cln.style.fontSize);
+				this.paddingmkTx4x = parseFloat(cln.style.fontSize || '0');
 				this.paddingmkTx4y = 0;
 			}
 			else {
 				this.paddingmkTx4x = 0;
-				this.paddingmkTx4y = parseFloat(cln.style.fontSize);
+				this.paddingmkTx4y = parseFloat(cln.style.fontSize || '0');
 			}
 			cln.style.paddingRight = this.paddingmkTx4x +'px';
 			cln.style.paddingTop = this.paddingmkTx4y +'px';
@@ -838,7 +837,7 @@ export class TxtLayer extends Layer {
 			const canvas = document.createElement('canvas');
 			canvas.width = this.$width;
 			canvas.height = this.$height;
-			canvas.getContext('2d').drawImage(img, 0, 0);
+			canvas.getContext('2d')!.drawImage(img, 0, 0);
 
 			/*canvas.toBlob(blob=> {	// ゴミが残る気がする
 				const url = URL.createObjectURL(blob);
@@ -1044,7 +1043,7 @@ export class TxtLayer extends Layer {
 						.easing(ease)
 						.delay(delay)
 						.onComplete(()=> {
-							st.tw = null;
+							//st.tw = null;
 							//(略)	if (rct.width == 0 || rct.height == 0) return;
 							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
 							//　これを有効にすると[snapshot]で文字が出ない
@@ -1076,6 +1075,7 @@ export class TxtLayer extends Layer {
 				this.cntTxt.addChild(sp);
 				spWork(sp);
 				if (v.cmd == 'link') {
+					if (! v.arg) throw `fn:TxtLayer.ts v.arg null`;
 					const o: any = JSON.parse(v.arg);
 					o.key = this.name +' link:'+ i;	// 一文字ずつ別ボタン
 					TxtLayer.evtMng.button(o, sp);
@@ -1094,7 +1094,7 @@ export class TxtLayer extends Layer {
 			return Array.prototype.concat.apply([], ret);	// 配列をフラットにする
 		}
 
-		const range = elm.ownerDocument.createRange();
+		const range = elm.ownerDocument!.createRange();
 		range.selectNodeContents(elm);
 		let pos = 0;
 		const end = range.endOffset;
@@ -1106,6 +1106,7 @@ export class TxtLayer extends Layer {
 			range.setEnd(elm, ++pos);
 			const r = range.getBoundingClientRect();
 			const pe = range.startContainer.parentElement;
+			if (! pe) throw `fn:TxtLayer.ts pe null`;
 			const ch = range.toString();
 			const cr :IChRect = {
 				ch	: ch,
@@ -1114,10 +1115,10 @@ export class TxtLayer extends Layer {
 					r.top  +window.pageYOffset,
 					r.width,
 					r.height +('gjqy'.includes(ch) ?this.lh_half :0)),
-				cmd	: pe.getAttribute('data-cmd'),
-				arg	: pe.getAttribute('data-arg'),
-				add	: pe.getAttribute('data-add'),
-				tcy	: pe.getAttribute('data-tcy'),
+				cmd	: pe.getAttribute('data-cmd') || undefined,
+				arg	: pe.getAttribute('data-arg') || undefined,
+				add	: pe.getAttribute('data-add') || undefined,
+				tcy	: pe.getAttribute('data-tcy') || undefined,
 			};
 			ret.push(cr);
 			//console.log('ch:%s rect:%o', cr.ch, cr.rect);
@@ -1179,7 +1180,7 @@ export class TxtLayer extends Layer {
 
 	addButton(hArg: HArg): boolean {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name;
-		return new Button().init(hArg, this.cntBtn);
+		return new Button(TxtLayer.main, TxtLayer.evtMng).init(hArg, this.cntBtn);
 	}
 
 
@@ -1232,13 +1233,13 @@ export class TxtLayer extends Layer {
 
 //if (this.name.slice(0, 10) == 'layer:mes ') console.log(`fn:TxtLayer.ts playback name:${this.name} cssText:${hLay.cssText} x:${this.cnt.x} y:${this.cnt.y}`);
 		this.htmTxt.style.cssText = hLay.cssText;
-		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft);
-		this.pad_right = parseFloat(this.htmTxt.style.paddingRight);
-		this.pad_top = parseFloat(this.htmTxt.style.paddingTop);
-		this.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom);
-		this.fontsize = parseFloat(this.htmTxt.style.fontSize);
-		this.$width = parseFloat(this.htmTxt.style.width);
-		this.$height = parseFloat(this.htmTxt.style.height);
+		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft || '0');
+		this.pad_right = parseFloat(this.htmTxt.style.paddingRight || '0');
+		this.pad_top = parseFloat(this.htmTxt.style.paddingTop || '0');
+		this.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom || '0');
+		this.fontsize = parseFloat(this.htmTxt.style.fontSize || '0');
+		this.$width = parseFloat(this.htmTxt.style.width || '0');
+		this.$height = parseFloat(this.htmTxt.style.height || '0');
 
 		this.cntInsidePadding.position.set(this.pad_left, this.pad_top);
 
@@ -1256,7 +1257,7 @@ export class TxtLayer extends Layer {
 	};
 
 	dump(): string {
-		let aPixiObj = [];
+		let aPixiObj: string[] = [];
 		const len = this.cnt.children.length;
 		for (let i=0; i<len; ++i) {
 			const e = this.cnt.children[i];
@@ -1272,7 +1273,7 @@ export class TxtLayer extends Layer {
 		}", "b_pic":"${this.b_pic}", "b_color":"${this.b_color
 		}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed
 		}", "b_width":${this.$width}, "b_height":${this.$height
-		}, "txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')
+		}, "txt":"${this.htmTxt.textContent!.replace(/(")/g, '\\$1')
 		}", "pixi_obj":[${aPixiObj.join(',')}]`;
 	}
 

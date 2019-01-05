@@ -167,17 +167,12 @@ export class SysApp extends SysNode {
 			hArg.y = (screenRY - this.win.getPosition()[1]) *0.5;
 		}
 		else {
-			CmnLib.argChk_Num(hArg, 'x', Infinity);
-			CmnLib.argChk_Num(hArg, 'y', Infinity);
-
-			if (isFinite(hArg.x)) {
-				if (hArg.x < 0) hArg.x = 0;
-				else if (hArg.x > screenRX) hArg.x = 0;
-			}
-			if (isFinite(hArg.y)) {
-				if (hArg.y < 0) hArg.y = 0;
-				else if (hArg.y > screenRY) hArg.y = 0;
-			}
+			hArg.x = CmnLib.argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
+			hArg.y = CmnLib.argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
+			if (hArg.x < 0) hArg.x = 0;
+			else if (hArg.x > screenRX) hArg.x = 0;
+			if (hArg.y < 0) hArg.y = 0;
+			else if (hArg.y > screenRY) hArg.y = 0;
 		}
 		this.win.setPosition(hArg.x, hArg.y);
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);

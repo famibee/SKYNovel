@@ -65,7 +65,7 @@ export class Config {
 	static	EXT_FONT	= 'woff2|otf|ttf';
 	static	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|wav';
 
-	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst: object = null) {
+	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: object) {
 		let err_mes = '';
 		const load = oCfg=> {
 			//console.log(oCfg);

@@ -216,19 +216,19 @@ export class Variable implements IVariable {
 
 		// しおり
 	// しおりの複写
-	private copybookmark(hArg) {
+	private copybookmark(hArg: HArg) {
 		if (! ('from' in hArg)) throw 'fromは必須です';
 		if (! ('to' in hArg)) throw 'toは必須です';
 
-		const from = hArg.from;
-		const to = hArg.to;
+		const from = Number(hArg.from);
+		const to = Number(hArg.to);
 		if (from != to) this.setMark(to, {...this.data.mark[from]});
 
 		return false;
 	}
 
 	// しおりの消去
-	private erasebookmark(hArg) {
+	private erasebookmark(hArg: HArg) {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
 
@@ -321,7 +321,7 @@ export class Variable implements IVariable {
 		const reg = (! flags)
 			? new RegExp(hArg.reg)
 			: new RegExp(hArg.reg, flags);
-		hArg.text = String(hArg.text || '').replace(reg, hArg.val);
+		hArg.text = String(hArg.text || '').replace(reg, String(hArg.val));
 		this.hTag.let(hArg);
 
 		return false;
@@ -464,7 +464,7 @@ export class Variable implements IVariable {
 		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg != null)}]`);
 	}
 
-	getVal = (arg_name: string, def: number = undefined)=> {
+	getVal = (arg_name: string, def?: number)=> {
 		if (! arg_name) throw '[変数参照] nameは必須です';
 
 		const o = PropParser.getValName(arg_name);

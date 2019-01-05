@@ -5,8 +5,17 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
+import {IHEvt2Fnc} from './CmnLib';
+
+export interface ICallStackArg {
+	csAnalyBf		: {[name: string]: any};
+	strReserveToken?	: string;
+	hEvt1Time			: IHEvt2Fnc;
+	hMpVal?			: {[name: string]: any};
+};
+
 export class CallStack {
-	constructor(private _fn = '', private _idx = 0, private _hArg: any = {}) {
+	constructor(private _fn = '', private _idx = 0, private _hArg: ICallStackArg | null = null) {
 	}
 
 	get fn() {return this._fn}

@@ -16,13 +16,13 @@ import { interaction, DisplayObject, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { Config } from './Config';
 
-const Hammer = require('hammerjs');
+import Hammer = require('hammerjs');
 
 export class EventMng implements IEvtMng {
 	private	elc			= new EventListenerCtn;
 
 	private	enMDownTap	= 'pointerdown';
-	private ham			= null;
+	private ham			: Hammer;
 	private hHamEv		= {
 	//	tap			: null,
 		press		: null,	// 長押し
@@ -182,10 +182,6 @@ export class EventMng implements IEvtMng {
 			//this.ham.off(key, this.hHamEv[key]);
 		}
 		this.ham.destroy();
-
-		this.scrItr.setOtherObj(null, null);
-		TxtLayer.setEvtMng(null, null);
-		this.layMng.setEvtMng(null);
 	}
 
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
@@ -211,13 +207,13 @@ export class EventMng implements IEvtMng {
 	pushLocalEvts(a: IHEvt2Fnc) {this.hLocalEvt2Fnc = a;}
 
 	// stdWait()したらreturn true;
-	stdWait(fnc: (e: interaction.InteractionEvent)=> void, stdEvt = true) {
+	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, stdEvt = true) {
 		this.goTxt();
 		if (stdEvt) {
 			//hTag.event({key:'click', breakout: fnc});
 			//hTag.event({key:'middleclick', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			const fncKey = ()=> fnc(null);
+			const fncKey = ()=> fnc();
 			this.hLocalEvt2Fnc['Click'] = fncKey;
 			//this.hTag.event({key:'enter', breakout: fnc});
 			//hTag.event({key:'down', breakout: fnc});
@@ -244,7 +240,7 @@ export class EventMng implements IEvtMng {
 
 	button(hArg: HArg, em: DisplayObject) {
 		em.interactive = em.buttonMode = true;
-		const key = hArg.key;
+		const key = hArg.key!;	// 非nullはaddButton()とgoTxt3_tx2sp()で保証
 		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
 		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
@@ -371,7 +367,7 @@ export class EventMng implements IEvtMng {
 
 		// domイベント
 		if (key.slice(0, 4) == 'dom=') {
-			let elmlist = null;
+			let elmlist: NodeListOf<Element>;
 			const idx = key.indexOf(':');
 			if (idx >= 0) {		// key='dom=config:#ctrl2val
 				const name = key.slice(4, idx);
@@ -379,7 +375,7 @@ export class EventMng implements IEvtMng {
 				if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `HTML【${name}】が読み込まれていません`;
 
 				const ifrm = document.getElementById(name) as HTMLIFrameElement;
-				const win = ifrm.contentWindow;
+				const win = ifrm.contentWindow!;
 				elmlist = win.document.querySelectorAll(key.slice(idx +1));
 			}
 			else {
@@ -387,7 +383,7 @@ export class EventMng implements IEvtMng {
 			}
 			if (elmlist.length == 0 && CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw 'セレクタに対応する要素が見つかりません';
 
-			((elmlist[0].type == 'range' || elmlist[0].type == 'checkbox')
+			((elmlist[0]['type'] == 'range' || elmlist[0]['type'] == 'checkbox')
 				? ['input', 'change']
 				: ['click'])
 				//.forEach(v=> {	// NOTE: mapの方が速い＆値を返すのでチェーンにできる
@@ -494,7 +490,9 @@ export class EventMng implements IEvtMng {
 	private unregisterClickEvts(): void {
 		const len = this.scrItr.lenCallStk;
 		for (let i=0; i<len; ++i) {
-			const hE1T = this.scrItr.getCallStk(i)['const.sn.hEvt1Time'];
+			const cs = this.scrItr.getCallStk(i);
+			if (! cs) continue;
+			const hE1T = cs.hEvt1Time;
 			if (! hE1T) continue;
 
 			delete hE1T['Click'];

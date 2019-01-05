@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, IEvtMng, HArg} from './CmnLib';
 import {Config} from './Config';
 import {Howl} from 'howler';
 import TWEEN = require('@tweenjs/tween.js');
@@ -16,7 +16,7 @@ interface ISndBuf {
 	ret_ms	: number;
 	end_ms	: number;
 	resume	: boolean;
-	onend?	: ()=> void;
+	onend	: ()=> void;
 
 	twFade?			: TWEEN.Tween;
 	resumeFade?		: boolean;
@@ -52,7 +52,7 @@ export class SoundMng {
 	}
 	private flush	= () =>{};
 
-	private evtMng	: IEvtMng	= null;
+	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 
 	// 音量設定（独自拡張）
@@ -70,7 +70,7 @@ export class SoundMng {
 		hArg.volume = this.val.getVal('save:'+ bvn);	// 目標音量（save:）
 		return this.hTag.fadese(hArg);
 	}
-	private getVol(hArg, def) {
+	private getVol(hArg: HArg, def) {
 		const vol = CmnLib.argChk_Num(hArg, 'volume', def);
 		if (vol < 0) return 0;
 		if (vol > 1) return 1;
@@ -78,7 +78,7 @@ export class SoundMng {
 	}
 
 	// BGMのフェードアウト（loadで使うのでマクロ化禁止）
-	private fadeoutbgm(hArg) {
+	private fadeoutbgm(hArg: HArg) {
 		hArg.volume = 0;
 		CmnLib.argChk_Boolean(hArg, 'stop', true);
 		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
@@ -86,16 +86,16 @@ export class SoundMng {
 		return this.hTag.fadebgm(hArg);
 	}
 	// 効果音のフェードアウト（loadで使うのでマクロ化禁止）
-	private fadeoutse(hArg) {
+	private fadeoutse(hArg: HArg) {
 		hArg.volume = 0;
 		CmnLib.argChk_Boolean(hArg, 'stop', true);
 		return this.hTag.fadese(hArg);
 	}
 
 	// BGMのフェード（loadで使うのでマクロ化禁止）
-	private fadebgm(hArg) {hArg.buf = 'BGM'; return this.hTag.fadese(hArg);}
+	private fadebgm(hArg: HArg) {hArg.buf = 'BGM'; return this.hTag.fadese(hArg);}
 	// 効果音のフェード
-	private fadese(hArg) {	//console.log('fadese:');
+	private fadese(hArg: HArg) {	//console.log('fadese:');
 		this.stopfadese(hArg);
 
 		const buf = hArg.buf || 'SE';
@@ -139,7 +139,7 @@ export class SoundMng {
 					this.evtMng.popLocalEvts();	// [wf]したのにキャンセルされなかった時用
 					this.main.resume();
 				}
-				if ('onCompleteFade' in oSb) oSb.onCompleteFade();
+				if (oSb.onCompleteFade) oSb.onCompleteFade();
 			});
 		oSb.twFade.start();
 
@@ -147,7 +147,7 @@ export class SoundMng {
 	}
 
 	// BGM の演奏
-	private playbgm(hArg) {
+	private playbgm(hArg: HArg) {
 		hArg.buf = 'BGM';
 		hArg.canskip = false;
 		this.val.setVal_Nochk('save', 'const.sn.fnBgm', hArg.fn);
@@ -157,7 +157,7 @@ export class SoundMng {
 	}
 
 	// 効果音の再生
-	private playse(hArg) {
+	private playse(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
 		this.stopse({buf: buf});
 		const fn = hArg.fn;
@@ -223,7 +223,7 @@ export class SoundMng {
 	}
 
 	// 全効果音再生の停止
-	private stop_allse(hArg = null) {
+	private stop_allse(hArg?: HArg) {
 		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
 		//this.flush();	// すぐ下でflush()
 		for (const buf in this.hSndBuf) this.stopse({buf: buf});
@@ -231,14 +231,14 @@ export class SoundMng {
 		return false;
 	}
 	// BGM 演奏の停止（マクロ化禁止）
-	private stopbgm(hArg) {
+	private stopbgm(hArg: HArg) {
 		hArg.buf = 'BGM';
 		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
 		//this.flush();	// すぐ下でflush()
 		return this.hTag.stopse(hArg);
 	}
 	// 効果音再生の停止
-	private stopse(hArg) {
+	private stopse(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
 		this.stopfadese(hArg);
 
@@ -249,10 +249,10 @@ export class SoundMng {
 	}
 
 	// BGM フェードの終了待ち
-	private wb(hArg) {hArg.buf = 'BGM'; return this.hTag.wf(hArg);}
+	private wb(hArg: HArg) {hArg.buf = 'BGM'; return this.hTag.wf(hArg);}
 
 	// 効果音フェードの終了待ち
-	private wf(hArg) {
+	private wf(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.twFade) return false;
@@ -267,7 +267,7 @@ export class SoundMng {
 	}
 
 	// 音声フェードの停止
-	private stopfadese(hArg) {
+	private stopfadese(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.twFade) return false;
@@ -278,9 +278,9 @@ export class SoundMng {
 	}
 
 	// BGM 再生の終了待ち
-	private wl(hArg) {hArg.buf = 'BGM'; return this.hTag.ws(hArg);}
+	private wl(hArg: HArg) {hArg.buf = 'BGM'; return this.hTag.ws(hArg);}
 	// 効果音再生の終了待ち
-	private ws(hArg) {
+	private ws(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.snd.playing() || oSb.loop) return false;
@@ -300,7 +300,7 @@ export class SoundMng {
 	}
 
 	// 再生トラックの交換
-	private xchgbuf(hArg) {
+	private xchgbuf(hArg: HArg) {
 		// TODO:xchgbuf()が未テスト
 		const buf = hArg.buf || 'SE';
 		const buf2 = hArg.buf2 || 'SE';

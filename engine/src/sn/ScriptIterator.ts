@@ -8,7 +8,7 @@
 import {CmnLib, IHTag, uint, IMain, IVariable, IMark} from './CmnLib';
 import {Areas} from './Areas';
 import {Config} from './Config';
-import {CallStack} from './CallStack';
+import {CallStack, ICallStackArg} from './CallStack';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {IParse} from './PropParser';
 
@@ -18,7 +18,6 @@ import { loaders } from 'pixi.js';
 import { LayerMng } from './LayerMng';
 import { DebugMng } from './DebugMng';
 import {SoundMng} from './SoundMng';
-import { any } from 'parsimmon';
 
 interface Script {
 	aToken	: string[];		// トークン群
@@ -117,8 +116,8 @@ export class ScriptIterator {
 	private flush	= ()=> {};
 	private runAnalyze	= ()=> {};
 
-	private	evtMng	: EventMng | null	= null;
-	private	layMng	: LayerMng | null	= null;
+	private	evtMng	: EventMng;
+	private	layMng	: LayerMng;
 	setOtherObj(evtMng: EventMng, layMng: LayerMng): void {
 		this.evtMng = evtMng;
 		this.layMng = layMng;
@@ -160,7 +159,9 @@ export class ScriptIterator {
 			for (let i=len -1; i>=0; --i) {
 				const cs = this.aCallStk[i];
 				const lc = this.getScr2lineCol(this.hScript[cs.fn], cs.idx);
-				const csa = cs.hArg['const.sn.hMpVal'];
+				if (! cs.hArg) continue;
+
+				const csa = cs.hArg.hMpVal;
 				const from_macro_nm = csa ?csa['タグ名'] :null;
 				const call_nm = cs.hArg['タグ名'];
 				console.info(
@@ -344,12 +345,12 @@ export class ScriptIterator {
 		const fn = hArg.fn;
 		//console.log('\t[call] fn:'+ fn);
 		if (fn) this.cfg.searchPath(fn, Config.EXT_SCRIPT);	// chk only
-		const hPushArg: any = {
-			csAnalyBf			: this.csAnalyBf,
-			'const.sn.hEvt1Time': this.evtMng.popLocalEvts()
+		const hPushArg: ICallStackArg = {
+			csAnalyBf	: this.csAnalyBf,
+			hEvt1Time	: this.evtMng.popLocalEvts()
 		};
 		if (this.fncReserveToken != null) {
-			hPushArg['const.sn.strReserveToken'] = this.fncReserveToken();
+			hPushArg.strReserveToken = this.fncReserveToken();
 			this.fncReserveToken = null;
 		}
 		this.pushCallStack(hPushArg);
@@ -390,29 +391,29 @@ export class ScriptIterator {
 	// サブルーチンから戻る
 	private return() {
 		if (this.aCallStk.length == 0) throw'[return] スタックが空です';
-		const cs = this.aCallStk.pop();
-		const osac = cs.hArg['csAnalyBf'];
+		const cs = this.aCallStk.pop();		// cs != nullはcall()で保証
+		const osac = cs!.hArg!.csAnalyBf;	// cs.hArg != nullはcall()で保証
 		if (osac) this.csAnalyBf = new CallStack(osac.fn, osac.idx);
 		this.aIfStk.shift();
 
-		const after_token = cs.hArg['const.sn.strReserveToken'];
+		const after_token = cs!.hArg!.strReserveToken;
 		if (after_token) this.fncReserveToken = ()=> {
 			this.fncReserveToken = null;
 			return after_token;
 		};
 		else this.fncReserveToken = null;
-		if ('const.sn.hEvt1Time' in cs.hArg) this.evtMng.pushLocalEvts(cs.hArg['const.sn.hEvt1Time']);
+		if (cs!.hArg!.hEvt1Time) this.evtMng.pushLocalEvts(cs!.hArg!.hEvt1Time);
 
 		//	lineNum = hScrTokens[cs.fn].tokens.aLNum[cs.idx -1];
 		// 上のを下に分解。通常は不要なチェックだが、[load fn= label=]文法用に。
-		const oscr = this.hScript[cs.fn];
+		const oscr = this.hScript[cs!.fn];
 		if (! oscr) {
-			this.jumpWork(cs.fn, '', cs.idx);
+			this.jumpWork(cs!.fn, '', cs!.idx);
 			return true;	// 確実にスクリプトロードなので
 		}
-		this.lineNum_ = oscr.aLNum[cs.idx -1];
+		this.lineNum_ = oscr.aLNum[cs!.idx -1];
 
-		this.jump_light(cs.fn, cs.idx);
+		this.jump_light(cs!.fn, cs!.idx);
 
 		return false;
 	};
@@ -670,7 +671,7 @@ export class ScriptIterator {
 		this.script.len = this.script.aToken.length;
 	}
 
-	private hC2M			: {[char: string]: string} | null		= null;
+	private hC2M	: {[char: string]: string};
 	private replaceScriptChar2macro_And_let_ml = (start_idx = 0): void => {
 		for (let i=this.script.len- 1; i >= start_idx; --i) {
 			const token = this.script.aToken[i];
@@ -713,7 +714,7 @@ export class ScriptIterator {
 	private regC2M	: RegExp	= new RegExp('');
 
 	// シナリオ解析処理ループ・冒頭処理
-	private fncReserveToken		: {(): string} | null	= null;
+	private fncReserveToken	: {(): string} | null	= null;
 	runAnalyzeSub() {
 		if (this.fncReserveToken != null) return this.fncReserveToken();
 
@@ -787,7 +788,7 @@ export class ScriptIterator {
 		return areas.search(idx);
 	}
 
-	private pushCallStack(hArg: object): void {
+	private pushCallStack(hArg: ICallStackArg): void {
 		this.aCallStk.push(new CallStack(this.scriptFn_, this.idxToken_, hArg));
 	}
 
@@ -847,7 +848,8 @@ export class ScriptIterator {
 		const len = this.aCallStk.length;
 		if (len == 0) throw('[endmacro] マクロ外で呼ばれました');
 
-		const hPopArg = this.aCallStk[len -1].hArg['const.sn.hMpVal']
+		// cs.hArg != nullはcall()で保証
+		const hPopArg = this.aCallStk[len -1].hArg!.hMpVal;
 		if (hPopArg) this.val.setMp(hPopArg);
 
 		return this.hTag['return'](hArg);
@@ -897,10 +899,10 @@ export class ScriptIterator {
 		const ln = this.lineNum_;
 		this.hTag[name] = hArg=> {
 			const hPushArg: any = {...hArg};
-			hPushArg['const.sn.hMpVal'] = this.val.cloneMp();
+			hPushArg.hMpVal = this.val.cloneMp();
 
 			if (this.fncReserveToken != null) {
-				hPushArg['const.sn.strReserveToken'] = this.fncReserveToken();
+				hPushArg.strReserveToken = this.fncReserveToken();
 				this.fncReserveToken = null;
 			}
 			this.pushCallStack(hPushArg);
@@ -957,7 +959,7 @@ export class ScriptIterator {
 				? this.runAnalyze
 				: ()=> {
 //traceDbg('aa:'+ aFncBgm.length);
-					const o = aFncBgm.pop();
+//					const o = aFncBgm.pop();
 /*
 					o.fnc(o.arg);
 //traceDbg('buf:'+ o.arg.buf +': fn:'+ o.arg.fn +':');

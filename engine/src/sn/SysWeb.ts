@@ -54,13 +54,13 @@ export class SysWeb extends SysBase {
 		return arg;
 	}
 	private run = (prj: string)=> {
-		if (this.main) {this.main.destroy(); this.main = null;}
+		if (this.main) this.main.destroy();
 		this.now_prj = prj || 'prj';
 		this.$cur = location.href.slice(0, location.href.lastIndexOf('/') +1) + this.now_prj +'/';
 		this.main = new Main(this);
 	}
 	private now_prj = ':';
-	private main: Main | null = null;
+	private main: Main;
 
 	private ns	= '';
 	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void) {

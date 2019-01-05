@@ -12,14 +12,14 @@ import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
 
 export class ThreeDLayer extends Layer {
-	static	cfg			: Config | null		= null;
+	static	cfg			: Config;
 	static	init(cfg: Config): void {ThreeDLayer.cfg = cfg;}
 
-	static	THREE		= null;
-	private scene_3D	= null;
-	private	canvas_3D	= null;
-	private sprite_3D	: PIXI.Sprite	= null;
-	private camera		: THREE.Camera	= null;
+	static	THREE		: any;
+	private scene_3D	: THREE.Scene;
+	private	canvas_3D	: THREE.CanvasRenderer;
+	private sprite_3D	: PIXI.Sprite;
+	private camera		: THREE.Camera;
 
 	// 遅延ロード
 	static	import(main: IMain, scrItr: ScriptIterator): boolean {
@@ -130,10 +130,9 @@ export class ThreeDLayer extends Layer {
 
 	lay(hArg: HArg): boolean {
 		// TODO: ３Ｄレイヤ（仕様未確定・曳光弾）
-		let obj: THREE.Object3D = null;
 		let fncCtrl = ()=> {};
 
-		const fbx = hArg['fbx'];
+//		const fbx = hArg['fbx'];
 		const dae = hArg['dae'];
 		const celestial_sphere = hArg['celestial_sphere'];	// 天球
 		if ('fbx' in hArg) {	// FBX
@@ -197,7 +196,7 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 			const tx = ldr.load(ThreeDLayer.cfg.searchPath(celestial_sphere, Config.EXT_STILL_IMG));
 			tx.minFilter = ThreeDLayer.THREE.LinearFilter;
 			const material = new ThreeDLayer.THREE.MeshBasicMaterial({map: tx});
-			obj = new ThreeDLayer.THREE.Mesh(geometry, material);
+			const obj = new ThreeDLayer.THREE.Mesh(geometry, material);
 			this.scene_3D.add(obj);
 
 			this.camera.lookAt(obj.position);	// カメラ視野の中心座標
@@ -212,7 +211,7 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 			const geometry = new ThreeDLayer.THREE.BoxGeometry(500, 500, 500);
 			// new ThreeDLayer.THREE.BoxGeometry(幅, 高さ, 奥行き)
 			const material = new ThreeDLayer.THREE.MeshNormalMaterial();
-			obj = new ThreeDLayer.THREE.Mesh(geometry, material);
+			const obj = new ThreeDLayer.THREE.Mesh(geometry, material);
 			obj.position.z = -500;
 			obj.rotation.z = -45;
 			this.scene_3D.add(obj);

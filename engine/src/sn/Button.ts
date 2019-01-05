@@ -10,18 +10,13 @@ import { HArg, uint, IEvtMng, CmnLib, IMain } from "./CmnLib";
 import {GrpLayer} from "./GrpLayer";
 
 export class Button extends Container {
-	private	static	main	: IMain		= null;
-	private	static	evtMng	: IEvtMng	= null;
-	static	init(main: IMain, evtMng: IEvtMng): void {
-		Button.main = main;
-		Button.evtMng = evtMng;
-	}
+	constructor(private main: IMain, private evtMng: IEvtMng) {super();}
 
 	init(hArg: HArg, parent: Container): boolean {
 		parent.addChild(this);
 
 		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);
-		if (enabled) Button.evtMng.button(hArg, this);
+		if (enabled) this.evtMng.button(hArg, this);
 		if (hArg.text) {
 			const fontSize = uint(hArg.height || 30);
 			const style = {
@@ -76,7 +71,7 @@ export class Button extends Container {
 			return false;
 		}
 
-		if (! ('pic' in hArg)) throw 'textまたはpic属性は必須です';
+		if (! hArg.pic) throw 'textまたはpic属性は必須です';
 		return GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
@@ -109,7 +104,7 @@ export class Button extends Container {
 				this.on('pointerup', hover);
 				normal();
 			},
-			isStop=> {if (isStop) Button.main.resume()}
+			isStop=> {if (isStop) this.main.resume()}
 		);
 	}
 

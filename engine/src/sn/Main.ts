@@ -21,15 +21,15 @@ import {SysBase} from './SysBase';
 import { Application, utils, ApplicationOptions } from 'pixi.js';
 
 export class Main implements IMain {
-	private cfg			= null;
+	private cfg			: Config;
 	private fncNext		= ()=> {};
 
-	private	scrItr		: ScriptIterator	= null;
+	private	scrItr		: ScriptIterator;
 
 	private fncLoaded	= this.runAnalyze;
 
-	private appPixi		: Application | null	= null;
-	private layMng		: LayerMng	= null;
+	private appPixi		: Application;
+	private layMng		: LayerMng;
 
 	private hTag		: IHTag		= {};	// タグ処理辞書
 	private	alzTagArg	= new AnalyzeTagArg;
@@ -42,12 +42,12 @@ export class Main implements IMain {
 	private enMDownTap	:String		= MouseEvent.MOUSE_DOWN;
 	private enClickTap	:String		= MouseEvent.MOUSE_DOWN;
 */
-	private evtMng		: EventMng		= null;
+	private evtMng		: EventMng;
 
-	private val			: Variable		= null;
-	private propParser	: PropParser	= null;
-	private sndMng		: SoundMng		= null;
-	private dbgMng		: DebugMng		= null;
+	private val			: Variable;
+	private propParser	: PropParser;
+	private sndMng		: SoundMng;
+	private dbgMng		: DebugMng;
 
 
 	constructor(private sys: SysBase) {
@@ -267,7 +267,7 @@ export class Main implements IMain {
 		const hArg: any = {タグ名: tag_name};
 		if (this.alzTagArg.isKomeParam) {
 			if (this.scrItr.isEmptyCallStk) throw '属性「*」はマクロのみ有効です';
-			const hArgDef: any = this.scrItr.lastHArg;
+			const hArgDef = this.scrItr.lastHArg;
 			if (! hArgDef) throw '属性「*」はマクロのみ有効です';
 			for (const k in hArgDef) hArg[k] = hArgDef[k];
 		}
@@ -302,20 +302,15 @@ export class Main implements IMain {
 		this.stop();
 		this.hTag = {};
 		this.evtMng.destroy();
-		this.evtMng = null;
 		this.layMng.destroy();
-		this.layMng = null;
 		this.dbgMng.destroy();
-		this.dbgMng = null;
 
 		if (this.clone_cvs && this.appPixi) {
-			this.appPixi.view.parentElement.insertBefore(this.clone_cvs, this.appPixi.view);
-			this.clone_cvs = null;
+			this.appPixi.view.parentElement!.insertBefore(this.clone_cvs, this.appPixi.view);
 		}
 		utils.destroyTextureCache();
 		this.appPixi.destroy(true);
-		this.appPixi = null;
 	}
-	private clone_cvs	: HTMLCanvasElement | null = null;
+	private clone_cvs	: HTMLCanvasElement;
 
 };

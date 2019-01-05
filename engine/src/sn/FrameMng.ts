@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, ITwInf, IEvtMng} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, ITwInf, IEvtMng, HArg} from './CmnLib';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 
@@ -21,12 +21,12 @@ export class FrameMng {
 		hTag.tsy_frame		= o=> this.tsy_frame(o);	// フレームをトゥイーン開始
 	}
 
-	private evtMng	: IEvtMng	= null;
+	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 
 	//	HTMLフレーム
 	// フレーム追加
-	private add_frame(hArg) {
+	private add_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const src = hArg.src;
@@ -53,7 +53,7 @@ export class FrameMng {
 		}deg);></iframe>`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		const win = ifrm.contentWindow;
+		const win = ifrm.contentWindow!;
 		win.addEventListener('load', ()=> {
 			// 組み込み変数
 			this.val.setVal_Nochk('tmp', frmnm, true);
@@ -76,7 +76,7 @@ export class FrameMng {
 	}
 
 	// フレーム変数を取得
-	private let_frame(hArg) {
+	private let_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
@@ -85,7 +85,7 @@ export class FrameMng {
 		if (! var_name) throw 'var_nameは必須です';
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		const win = ifrm.contentWindow;
+		const win = ifrm.contentWindow!;
 		if (! (var_name in win)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
@@ -101,7 +101,7 @@ export class FrameMng {
 	}
 
 	// フレーム変数に設定
-	private set_frame(hArg) {
+	private set_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
@@ -116,14 +116,14 @@ export class FrameMng {
 
 		// -> var変数に設定
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		const win = ifrm.contentWindow;
+		const win = ifrm.contentWindow!;
 		win[var_name] = text;
 
 		return false;
 	}
 
 	// フレームに設定
-	private frame(hArg) {
+	private frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
@@ -131,7 +131,7 @@ export class FrameMng {
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		if ('alpha' in hArg) {
-			const a = hArg.alpha;
+			const a = String(hArg.alpha);
 			ifrm.style.opacity = a;
 			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
 		}
@@ -152,12 +152,12 @@ export class FrameMng {
 		}
 		if ('width' in hArg) {
 			const w = hArg.width;
-			ifrm.style.width = w;
+			ifrm.style.width = String(w);
 			this.val.setVal_Nochk('tmp', frmnm +'.width', w);
 		}
 		if ('height' in hArg) {
 			const h = hArg.height;
-			ifrm.style.height = h;
+			ifrm.style.height = String(h);
 			this.val.setVal_Nochk('tmp', frmnm +'.height', h);
 		}
 		if ('visible' in hArg) {
@@ -170,7 +170,7 @@ export class FrameMng {
 	}
 
 	// フレームをトゥイーン開始
-	private tsy_frame(hArg) {
+	private tsy_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
@@ -250,7 +250,7 @@ export class FrameMng {
 				delete this.hTwInf[tw_nm];
 				this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
 				if (twInf.resume) this.main.resume();
-				if ('onComplete' in twInf) twInf.onComplete();
+				if (twInf.onComplete) twInf.onComplete();
 			})
 			.start();
 
