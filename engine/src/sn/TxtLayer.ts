@@ -512,8 +512,8 @@ export class TxtLayer extends Layer {
 			isDataUrl: isDataUrl,
 			resolveUrl: resolveUrl,
 			getAndEncode: getAndEncode,
-			asArray: arrayLike=> {
-				const array = [];
+			asArray: (arrayLike: StyleSheetList)=> {
+				const array: StyleSheet[] = [];
 				const length = arrayLike.length;
 				for (let i = 0; i < length; ++i) array.push(arrayLike[i]);
 				return array;
@@ -658,10 +658,10 @@ export class TxtLayer extends Layer {
 				return string.search(URL_REGEX) !== -1;
 			}
 
-			function readUrls(string) {
-				const result = [];
-				let match;
-				while ((match = URL_REGEX.exec(string)) !== null) {
+			function readUrls(str) {
+				const result: string[] = [];
+				let match: RegExpExecArray | null;
+				while ((match = URL_REGEX.exec(str))) {
 					result.push(match[1]);
 				}
 				return result.filter(function (url) {

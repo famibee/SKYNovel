@@ -24,11 +24,10 @@ export class SysNode extends SysBase {
 		//		URLエンコードされていない物を想定。
 		//		パスのみURLエンコード済みの、File.urlと同様の物を。
 		//		あとで実際にロード関数に渡すので。
-		if ('search' in cfg.oCfg) for (const dir of cfg.oCfg.search) {
+		if (cfg.oCfg.search) for (const dir of cfg.oCfg.search) {
 			const wd = m_path.resolve(this.$cur, dir);
 			if (! this.existsSync(wd)) continue;
 
-			cfg.oCfg.search[dir] = true;
 			for (const nm_base of this.readdirSync(wd)) {
 				const nm = this.normalize(nm_base, 'NFC');
 				if (nm.charAt(0) == '.' || nm == 'Thumbs.db'

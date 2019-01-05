@@ -11,10 +11,11 @@
 		"noFallthroughCasesInSwitch": true,
 		"newLine": "LF",
 		"forceConsistentCasingInFileNames": true,
-		"noImplicitAny": false,
-		"strictNullChecks": false,
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
+		"noImplicitAny": false,		// 暗黙的な any をエラーにしない
+		"strictNullChecks": true,	// 全ての型で Null を許容しないようにする
+		"noUnusedLocals": true,		// 使っていないローカル変数をエラーにする
+		"noUnusedParameters": true,	// 使っていない仮引数をエラーにする
+									// ただし引数名の先頭にアンダースコアを付けると回避できる
 	},
 	"include": [
 		"src/**/*"

@@ -1073,7 +1073,7 @@ void main(void) {
 		return o;
 	}
 	playback($hPages: HPage, resume: ()=> void) {
-		const aSort = [];
+		const aSort: {layer: string, idx: number}[] = [];
 		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
 			const $pg = $hPages[layer];
 			aSort.push({layer: layer, idx: $pg.fore.idx});

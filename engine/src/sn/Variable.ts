@@ -51,7 +51,7 @@ export class Variable implements IVariable {
 		// save:
 		this.hSaveVal['sn.userFnTail']	= '';
 		this.defTmp('const.sn.bookmark.json', ()=> {
-			const a = [];
+			const a: object[] = [];
 			Object.keys(this.data.mark).sort().map(k=> {
 				const o = {...this.data.mark[k].json};
 				for (const key in o) {

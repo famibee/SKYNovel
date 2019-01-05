@@ -12,7 +12,7 @@ type  IEmitter = BaseTexture
 	| Window | Document | Element;
 
 export class EventListenerCtn {	// リソースリーク対策
-	private vctEvt	= [];
+	private vctEvt	: {(): void}[]	= [];
 
 	add(ed: IEmitter, type: string, fnc: (e: any)=> void, useCapture = false): void {
 		if (ed instanceof BaseTexture) {
