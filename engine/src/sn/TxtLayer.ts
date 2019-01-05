@@ -1060,7 +1060,10 @@ export class TxtLayer extends Layer {
 				const cnt = new Container;	// コンテナひとつかまし、即時spWork()を
 				this.cntTxt.addChild(cnt);
 				spWork(cnt, false);
-				GrpLayer.csv2Sprites(o.pic, cnt, ()=> {});
+				GrpLayer.csv2Sprites(o.pic, cnt, ()=> {
+					// ロード完了時にクリアされていた場合はコンテナを空に
+					if (! cnt.parent) cnt.removeChildren();
+				});
 				break;
 
 			default:	// 文字
