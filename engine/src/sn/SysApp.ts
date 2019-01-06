@@ -35,8 +35,8 @@ export class SysApp extends SysNode {
 	}
 
 	private	store = new Store({cwd: 'storage', name: 'data'});
-	initData(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		// TODO: this.store.encryptionKey
+	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+		// TODO: 暗号化 this.store.encryptionKey
 		if (this.store.size == 0) {
 			// データがないときの処理
 			hTmp['const.sn.isFirstBoot'] = true;

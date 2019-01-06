@@ -169,6 +169,23 @@ export interface ITwInf {
 };
 
 
+// =============== SysBase
+export interface ISysBase {
+	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: IConfig): void;
+	initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): void;
+	flush(): void;
+};
+
+
+// =============== Config
+export interface IExts { [ext: string]: string; };
+export interface IPathFn2Exts { [fn: string]: IExts; };
+
+export interface IConfig {
+	getNs(): string;
+};
+
+
 // =============== Main
 export interface IMain {
 	errScript(mes: string, isThrow? :boolean): void;
@@ -178,16 +195,12 @@ export interface IMain {
 };
 
 
-// =============== SysBase
-export interface ISysBase {
-	initData(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): void;
-	flush(): void;
+// =============== Areas
+export interface IAreas {
+	search(idx: number): boolean;
+	record(idx: number): void;
+	erase(idx: number): void;
 };
-
-
-// =============== Config
-export interface IExts { [ext: string]: string; };
-export interface IPathFn2Exts { [fn: string]: IExts; };
 
 
 // =============== Variable
@@ -197,16 +210,23 @@ export interface ISetVal { (arg_name: string, val: any, autocast?: boolean): voi
 export interface IVariable {
 	setSys(sys: ISysBase): void;
 	flush(): void;
+
 	getVal(arg_name: string, def?: number): object;
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
+
 	defTmp(name: string, fnc: typeProcVal): void;
-	defValTrg(name: string, fnc: ISetVal): void;
 	cloneMp(): object;
 	setMp(mp: object): void;
 	setMark(place: number, mp: IMark): void;
 	getMark(place: number): IMark;
 	cloneSave(): object;
 	loadWark(place: number): void;
+
+	loadScrWork(fn: string): void;
+	getAreaKidoku(fn: string): IAreas;
+	saveKidoku(): void;
+
+	defValTrg(name: string, fnc: ISetVal): void;
 };
 
 export interface IData4Vari {

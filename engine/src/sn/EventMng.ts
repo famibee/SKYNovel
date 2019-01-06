@@ -234,7 +234,7 @@ export class EventMng implements IEvtMng {
 		}
 
 		// evtfncWait();
-		this.scrItr.saveKidoku(); // これはそのままか
+		this.val.saveKidoku(); // これはそのままか
 		this.fncCancelSkip();
 		//this.hHook_waiting();
 	}
@@ -510,7 +510,7 @@ export class EventMng implements IEvtMng {
 
 	// ウェイトを入れる
 	private wait(hArg: HArg) {
-		this.scrItr.saveKidoku();
+		this.val.saveKidoku();
 
 		const twSleep = new TWEEN.Tween(this)
 		.to({}, uint(CmnLib.argChk_Num(hArg, 'time', NaN)))

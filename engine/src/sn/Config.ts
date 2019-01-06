@@ -5,11 +5,11 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, int, IExts, IPathFn2Exts} from './CmnLib';
+import {IConfig, CmnLib, int, IExts, IPathFn2Exts} from './CmnLib';
 import {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 
-export class Config {
+export class Config implements IConfig {
 	oCfg: any = {
 		first_script: 'main',	// 最初に起動するスクリプトファイル
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
@@ -65,7 +65,7 @@ export class Config {
 	static	EXT_FONT	= 'woff2|otf|ttf';
 	static	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|wav';
 
-	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: object) {
+	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		let err_mes = '';
 		const load = (oCfg: any)=> {
 			//console.log(oCfg);
@@ -117,8 +117,8 @@ export class Config {
 			// これが同期（App）非同期（Web、path.json）混在してるので、
 			// （Mainのメンバ変数に入れる→他のクラスに渡す都合により）
 			// 当クラスのコンストラクタとload()は分ける
-			err_mes = 'sys.getHPathFn2Exts';
-			sys.getHPathFn2Exts(this.hPathFn2Exts, ()=> {
+			err_mes = 'sys.loadPathAndVal';
+			sys.loadPathAndVal(this.hPathFn2Exts, ()=> {
 				this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
 				this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
 
@@ -127,7 +127,11 @@ export class Config {
 		};
 
 		if (oCfg4tst) {
-			Object.assign(this.oCfg, oCfg4tst);	// TODO: 未テスト
+			for (const key in this.oCfg) {
+				if (key in oCfg4tst) this.oCfg[key] = oCfg4tst[key];
+			}
+			// Object.assign(this.oCfg, oCfg4tst);
+				// 本当はこうしたいが、テストがES6未満なので
 			load(this.oCfg);
 			return;
 		}
@@ -145,6 +149,8 @@ export class Config {
 	get existsBreakline(): boolean {return this.$existsBreakline}
 	private $existsBreakpage = false;
 	get existsBreakpage(): boolean {return this.$existsBreakpage}
+
+	getNs() {return this.oCfg.save_ns +' - ';}
 
 	searchPath(fn: string, extptn = ''): string {
 		//console.log('searchPath fn:'+ fn +' ext:'+ ext);

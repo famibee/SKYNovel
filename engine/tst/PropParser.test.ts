@@ -37,18 +37,25 @@ class MyVal implements IVariable {
 //			"true ? tmp:sys:zero_s"	: "",	// どうなる、どうすべき
 	};
 
-	setSys(sys: ISysBase): void {};
+	setSys(_sys: ISysBase): void {};
 	flush(): void {};
+
 	getVal(arg_name: string): object {return this.hGetVal[arg_name];}
-	setVal_Nochk = (scope: string, nm: string, val: any, autocast?: boolean)=> {};
-	defTmp = (name: string, fnc: typeProcVal)=> {};
-	defValTrg(name: string, fnc: ISetVal): void {};
-	cloneMp = ()=> {return null};
+	setVal_Nochk = (_sc: string, _nm: string, _v: any, _ac?: boolean)=> {};
+
+	defTmp = (_name: string, _fnc: typeProcVal)=> {};
+	cloneMp = ()=> null;
 	setMp = ()=> {};
-	setMark = (place: number, mark: object)=> {};
-	getMark(place: number) {return null};
-	cloneSave(): object {return null;};
-	loadWark(place: number) {};
+	setMark = (_place: number, _mark: object)=> {};
+	getMark = (_place: number)=> null;
+	cloneSave = ()=> null;
+	loadWark(_place: number) {};
+
+	newScrKidoku = (_fn: string)=> {};
+	getAreaKidoku = (_fn: string)=> null;
+	saveKidoku4scrItr(): void {};
+
+	defValTrg(_name: string, _fnc: ISetVal): void {};
 };
 
 context('class PropParser', ()=>{

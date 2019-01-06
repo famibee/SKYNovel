@@ -6,9 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {CmnLib, HArg, IPathFn2Exts, IData4Vari} from './CmnLib';
+import {IConfig, CmnLib, HArg, IPathFn2Exts, IData4Vari} from './CmnLib';
 import {Main} from './Main';
-import {Config} from './Config';
 const strLocal = require('store');
 
 export class SysWeb extends SysBase {
@@ -32,16 +31,20 @@ export class SysWeb extends SysBase {
 
 		if ('webkitFullscreenEnabled' in document) {
 			//Chrome15+, Safari5.1+, Opera15+
-			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'webkitRequestFullscreen');
+			this.toggle_full_screen =
+			o=> this.regEvt_FullScr(o, 'webkitRequestFullscreen');
 		}
 		else if ('mozFullScreenEnabled' in document) {	//FF10+
-			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'mozRequestFullScreen');
+			this.toggle_full_screen =
+			o=> this.regEvt_FullScr(o, 'mozRequestFullScreen');
 		}
-	//	else if (document['msFullscreenEnabled']) {	//IE11+
-	//		this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'msRequestFullscreen');
-	//	}
+		else if ('msFullscreenEnabled' in document) {	//IE11+
+			this.toggle_full_screen =
+			o=> this.regEvt_FullScr(o, 'msRequestFullscreen');
+		}
 		else if (document['fullscreenEnabled']) {	// HTML5 Fullscreen API仕様
-			this.toggle_full_screen = o=> this.regEvt_FullScr(o, 'requestFullscreen');
+			this.toggle_full_screen =
+			o=> this.regEvt_FullScr(o, 'requestFullscreen');
 		}
 	}
 	private getURLQ = (loc: Location): {[name: string]: string}=> {
@@ -62,37 +65,8 @@ export class SysWeb extends SysBase {
 	private now_prj = ':';
 	private main: Main;
 
-	private ns	= '';
-	initData(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		//strLocal.clearAll();
-		this.ns = this.cfg.oCfg.save_ns +' - ';
-		const sys = strLocal.get(this.ns +'sys');
-		if (sys == undefined) {
-			hTmp['const.sn.isFirstBoot'] = true;
-			this.data.sys = data['sys'];
-			this.data.mark = data['mark'];
-			this.data.kidoku = data['kidoku'];
-			this.flush();
-		}
-		else {
-			hTmp['const.sn.isFirstBoot'] = false;
-			this.data.sys = sys;
-			this.data.mark = strLocal.get(this.ns +'mark');
-			this.data.kidoku = strLocal.get(this.ns +'kidoku');
-		}
-		comp(this.data);
-	}
-	flush() {
-		strLocal.set(this.ns +'sys', this.data.sys);
-		strLocal.set(this.ns +'mark', this.data.mark);
-		strLocal.set(this.ns +'kidoku', this.data.kidoku);
-		// TODO: 暗号化
-	}
 
-
-	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {
-		this.cfg = cfg;
-
+	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: IConfig): void {
 		fetch(this.$cur +'path.json')
 		.then(res=> {
 			if (! res.ok) throw Error(res.statusText);
@@ -104,9 +78,39 @@ export class SysWeb extends SysBase {
 				const h = hPathFn2Exts[nm] = json[nm];
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.$cur + h[ext]
 			}
+
+			//strLocal.clearAll();
+			// NOTE: サーバ非同期データならここで解決
+			this.ns = cfg.getNs();
+			this.sys = strLocal.get(this.ns +'sys');
+
 			fncLoaded();
 		})
 		.catch(e => console.error('Error:', e));
+	}
+	private ns	= '';
+	private sys: any;
+	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+		if (this.sys == undefined) {
+			hTmp['const.sn.isFirstBoot'] = true;
+			this.data.sys = data['sys'];
+			this.data.mark = data['mark'];
+			this.data.kidoku = data['kidoku'];
+			this.flush();
+		}
+		else {
+			hTmp['const.sn.isFirstBoot'] = false;
+			this.data.sys = this.sys;
+			this.data.mark = strLocal.get(this.ns +'mark');
+			this.data.kidoku = strLocal.get(this.ns +'kidoku');
+		}
+		comp(this.data);
+	}
+	flush() {
+		strLocal.set(this.ns +'sys', this.data.sys);
+		strLocal.set(this.ns +'mark', this.data.mark);
+		strLocal.set(this.ns +'kidoku', this.data.kidoku);
+		// TODO: 暗号化
 	}
 
 

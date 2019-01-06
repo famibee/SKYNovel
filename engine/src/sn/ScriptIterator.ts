@@ -6,7 +6,6 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, IHTag, uint, IMain, IVariable, IMark, HArg} from './CmnLib';
-import {Areas} from './Areas';
 import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
@@ -57,13 +56,6 @@ export class ScriptIterator {
 	private csAnalyBf	: CallStack		= new CallStack('', 0);
 
 
-	private	hAreaKidoku	: {[name: string]: Areas}	= {};
-	private hByteKidoku	: any		= null;
-
-	private isKidoku_	= false;
-	get isKidoku(): boolean {return this.isKidoku_;};
-
-
 	constructor(private cfg: Config, private hTag: IHTag, private main: IMain, private val: IVariable, private alzTagArg: AnalyzeTagArg, private fncLoaded: ()=> void, private parse: IParse, private sndMng: SoundMng) {
 		//	変数操作
 		hTag.let_ml		= o=> this.let_ml(o);	// インラインテキスト代入
@@ -100,20 +92,10 @@ export class ScriptIterator {
 		hTag.save			= o=> this.save(o);			// しおりの保存
 
 
-//		this.hByteKidoku = soSys.data.kidoku;
-		this.hByteKidoku = {};
-		for (const fn in this.hByteKidoku) {
-			const areas = new Areas();
-			areas.hAreas = {...this.hByteKidoku[fn]};
-			this.hAreaKidoku[fn] = areas;
-		}
-
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.aCallStk.length);
-		this.flush = ()=> val.flush();
 
 		this.runAnalyze = fncLoaded;
 	}
-	private flush	= ()=> {};
 	private runAnalyze	= ()=> {};
 
 	private	evtMng	: EventMng;
@@ -619,7 +601,7 @@ export class ScriptIterator {
 		}
 		this.hScript[this.scriptFn_] = this.script;
 
-		if (! (this.scriptFn_ in this.hAreaKidoku)) this.hAreaKidoku[this.scriptFn_] = new Areas;
+		this.val.loadScrWork(this.scriptFn_);
 	}
 
 	private jump_light(fn: string, idx: number) {
@@ -732,39 +714,30 @@ export class ScriptIterator {
 		return token;
 	}
 
-	private recordKidoku(): void {
-		const areas = this.hAreaKidoku[this.scriptFn_];
-		if (areas == null) throw `recordKidoku fn:'${this.scriptFn_}' (areas == null)`;
 
-		if (this.aCallStk.length > 0) {
-			// マクロ内やサブルーチンではisKidokuを変更させない
-			areas.record(this.idxToken_);
-			return;
-		}
+	private recordKidoku(): void {
+		const areas = this.val.getAreaKidoku(this.scriptFn_);
+		if (! areas) throw `recordKidoku fn:'${this.scriptFn_}' (areas == null)`;
+
+		// マクロ内やサブルーチンではisKidokuを変更させない
+		if (this.aCallStk.length > 0) {areas.record(this.idxToken_); return;}
 
 		this.isKidoku_ = areas.search(this.idxToken_);
 		this.val.setVal_Nochk('tmp', 'const.sn.isKidoku', this.isKidoku_);
 		if (this.isKidoku_) return;
 
 		areas.record(this.idxToken_);
-		//hByteKidoku[this.scriptFn_] = CmnLib.clone(hAreaKidoku[this.scriptFn_].hAreas);
-		//soSys.flush();
+		// saveKidoku()
 			// 厳密にはここですべきだが、パフォーマンスに問題があるので
 			// クリック待ちを期待できるwait、waitclick、s、l、pタグで
 			// saveKidoku()をコール。
 	}
+	private isKidoku_	= false;
+	get isKidoku(): boolean {return this.isKidoku_;};
 	private eraseKidoku(): void {
-		const areas = this.hAreaKidoku[this.scriptFn_];
+		const areas = this.val.getAreaKidoku(this.scriptFn_);
 		if (areas) areas.erase(this.idxToken_);
-	}
-	saveKidoku(): void {
-		if (this.hAreaKidoku == null) return
-
-		for (const fn in this.hAreaKidoku) {
-			const areas = this.hAreaKidoku[fn];
-			if (areas) this.hByteKidoku[fn] = {...areas.hAreas};
-		}
-		this.flush();
+		this.isKidoku_ = false;
 	}
 	get isNextKidoku(): boolean {
 		let fn	= this.scriptFn;
@@ -778,8 +751,8 @@ export class ScriptIterator {
 			if (st != null) len = st.len;
 		}
 
-		const areas = this.hAreaKidoku[fn];
-		if (areas == null) return false;
+		const areas = this.val.getAreaKidoku(fn);
+		if (! areas) return false;
 		if (idx == len) return false;	// スクリプト終端
 
 		//traceDbg("isNextKidoku fn:"+ fn +" idx:"+ idx +" ret="+ (areas.search(idx)));
@@ -787,6 +760,7 @@ export class ScriptIterator {
 
 		return areas.search(idx);
 	}
+
 
 	private pushCallStack(hArg: ICallStackArg): void {
 		this.aCallStk.push(new CallStack(this.scriptFn_, this.idxToken_, hArg));

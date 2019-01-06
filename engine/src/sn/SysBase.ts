@@ -5,15 +5,13 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari} from './CmnLib';
-import {Config} from './Config';
+import {IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari} from './CmnLib';
 
 export class SysBase implements ISysBase {
 	constructor(protected $cur = 'prj/') {}
 	get cur() {return this.$cur}
 
-	protected	cfg		: any;
-	getHPathFn2Exts = (_hPathFn2Exts: IPathFn2Exts, _fncLoaded: ()=> void, _cfg: Config): void=> {}	// 基底定義なので「使ってないパラメーター警告」でも消さないように
+	loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: ()=> void, _cfg: IConfig): void {}
 
 	protected	val		: IVariable;
 	protected	appPixi	: PIXI.Application;
@@ -45,12 +43,12 @@ export class SysBase implements ISysBase {
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
-	protected close			: ITag = _hArg=> false;
-	protected title			: ITag = _hArg=> false;
+	protected close		: ITag = _hArg=> false;
+	protected title		: ITag = _hArg=> false;
 	protected toggle_full_screen	: ITag = _hArg=> false;
 
 	protected data		= {sys:{}, mark:{}, kidoku:{}};
-	initData(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {};
+	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {};
 	flush() {}
 
 	protected isApp = ()=> false;

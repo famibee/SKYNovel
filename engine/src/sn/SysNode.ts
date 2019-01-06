@@ -14,9 +14,7 @@ import m_path = require('path');
 
 export class SysNode extends SysBase {
 	protected	normalize	= (src: string, _form: string)=> src;	// for test
-	getHPathFn2Exts = (hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void=> {
-		this.cfg = cfg;
-
+	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void {
 		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
 		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
 		//		検索が高速なハッシュ形式。

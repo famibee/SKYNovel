@@ -76,7 +76,7 @@ export class Main implements IMain {
 			this.propParser = new PropParser(this.val);
 
 			// システム（5/13）[snapshot]は LayerMng 担当
-			this.sys.init(this.hTag, this.val, this.appPixi);
+			this.sys.init(this.hTag, this.val, this.appPixi);	// ここで変数準備完了
 			this.hTag['title']({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音（1/16）

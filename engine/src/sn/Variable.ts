@@ -7,18 +7,15 @@
 
 import {HArg, IHTag, CmnLib, IVariable, ISetVal, typeProcVal, ISysBase, uint, int, getDateStr, IData4Vari, IMark} from './CmnLib';
 import {Config} from './Config';
+import {Areas} from './Areas';
 import {PropParser} from './PropParser';
 const platform = require('platform');
 
 export class Variable implements IVariable {
-	private	data		: IData4Vari	= {sys:{}, mark:{}, kidoku:{}};
-		// TODO: IMarkにkidokuは？　saveの実体はこちらでは？
-	private	hScopeVal	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
-	private	hSysVal		: any	= this.hScopeVal.sys;
-	private	hSaveVal	: any	= this.hScopeVal.save;
-	private	hTmp		: any	= this.hScopeVal.tmp;
-
-	private	hAreaKidoku	: any	= {};
+	private	hScope	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
+								// TODO: save:って作ってない気が
+	private	hSave	: any	= this.hScope.save;
+	private	hTmp	: any	= this.hScope.tmp;
 
 	private	REG_RECTEXT_LAST	:RegExp	= /[^\f]+$/;
 
@@ -49,7 +46,7 @@ export class Variable implements IVariable {
 		//hTag.save			// ScriptIterator.ts内で定義	// しおりの保存
 
 		// save:
-		this.hSaveVal['sn.userFnTail']	= '';
+		this.hSave['sn.userFnTail']	= '';
 		this.defTmp('const.sn.bookmark.json', ()=> {
 			const a: object[] = [];
 			Object.keys(this.data.mark).sort().map(k=> {
@@ -82,7 +79,7 @@ export class Variable implements IVariable {
 		//this.hTmp['const.sn.key.back']		// ScriptIterator で定義
 
 		this.hTmp['const.sn.last_page_text'] =
-		()=> this.REG_RECTEXT_LAST.exec(this.hSaveVal['const.sn.sLog']);
+		()=> this.REG_RECTEXT_LAST.exec(this.hSave['const.sn.sLog']);
 
 		//this.hTmp['const.sn.mouse.middle']	// ScriptIterator で定義
 
@@ -143,23 +140,34 @@ export class Variable implements IVariable {
 		this.hTmp['const.sn.Math.PI'] = Math.PI;
 	}
 
+
+	private	data	: IData4Vari	= {sys:{}, mark:{}, kidoku:{}};
+	private	hSys	: any;
+	private	hAreaKidoku	: {[name: string]: Areas}	= {};
 	setSys(sys: ISysBase) {
-		sys.initData(this.data, this.hTmp, data=> {
+		sys.initVal(this.data, this.hTmp, data=> {
 			this.data = data;
-			this.hSysVal = this.hScopeVal.sys = this.data.sys;
+			this.hSys = this.hScope.sys = this.data.sys;
+
+			for (const fn in this.data.kidoku) {
+				const areas = new Areas();
+				areas.hAreas = {...this.data.kidoku[fn]};
+				this.hAreaKidoku[fn] = areas;
+			}
+
 			sessionStorage.clear();
 			this.flush_ = (this.cfg.oCfg.debug.variable)
 				? ()=> {
 					const oSys: any = {};
-					Object.keys(this.hSysVal).map(k=> {
-						const v = this.hSysVal[k];
+					Object.keys(this.hSys).map(k=> {
+						const v = this.hSys[k];
 						oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - sys'] = JSON.stringify(oSys);
 
 					const oSave: any = {};
-					Object.keys(this.hSaveVal).map(k=> {
-						const v = this.hSaveVal[k];
+					Object.keys(this.hSave).map(k=> {
+						const v = this.hSave[k];
 						oSave['save:'+ k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - save'] = JSON.stringify(oSave);
@@ -172,8 +180,8 @@ export class Variable implements IVariable {
 					sessionStorage[this.cfg.oCfg.save_ns +' - tmp'] = JSON.stringify(oTmp);
 
 					const oMp: any = {};
-					Object.keys(this.hScopeVal.mp).map(k=> {
-						const v = this.hScopeVal.mp[k];
+					Object.keys(this.hScope.mp).map(k=> {
+						const v = this.hScope.mp[k];
 						oMp[k] = (v instanceof Function) ?v(): v;
 					});
 					sessionStorage[this.cfg.oCfg.save_ns +' - mp'] = JSON.stringify(oMp);
@@ -198,19 +206,32 @@ export class Variable implements IVariable {
 		});
 	}
 	private flush_	= ()=> {};
-	flush() {this.flush_();}
+	flush() {this.flush_();}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える
 
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
-	cloneMp(): object {return {...this.hScopeVal.mp}}
-	setMp(mp: object) {this.hScopeVal.mp = mp;}
+	cloneMp(): object {return {...this.hScope.mp}}
+	setMp(mp: object) {this.hScope.mp = mp;}
 	setMark(place: number, mark: IMark) {this.data.mark[place] = mark; this.flush()}
 	getMark = (place: number)=> this.data.mark[place];
-	cloneSave(): object {return {...this.hScopeVal.save}}
+	cloneSave(): object {return {...this.hScope.save}}
 	loadWark(place: number) {
-		this.hSaveVal = this.hScopeVal.save = {...this.data.mark[place].hSave};
-		this.hSaveVal['const.sn.sLog'] += '\f';
+		this.hSave = this.hScope.save = {...this.data.mark[place].hSave};
+		this.hSave['const.sn.sLog'] += '\f';
 			// 吉里吉里に動作を合わせる
 			// 改ページは履歴がページからあふれるため
+	}
+
+
+	// 既読系
+	loadScrWork(fn: string): void {
+		if (! (fn in this.hAreaKidoku)) this.hAreaKidoku[fn] = new Areas;
+	}
+	getAreaKidoku = (fn: string): Areas=> this.hAreaKidoku[fn];
+	saveKidoku(): void {
+		for (const fn in this.hAreaKidoku) {
+			this.data.kidoku[fn] = {...this.hAreaKidoku[fn].hAreas};
+		}
+		this.flush();
 	}
 
 
@@ -365,7 +386,7 @@ export class Variable implements IVariable {
 // デバッグ・その他
 	// システム変数の全消去
 	private clearsysvar() {
-		const sys = this.hSysVal = this.hScopeVal['sys'] = this.data.sys
+		const sys = this.hSys = this.hScope['sys'] = this.data.sys
 			= {};
 
 		const is_nw = (typeof process !== 'undefined');
@@ -405,7 +426,7 @@ export class Variable implements IVariable {
 		this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SE.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);
-		for (const fn in this.hAreaKidoku) this.hAreaKidoku[fn].hAreas = {};
+		for (const fn in this.data.kidoku) this.data.kidoku[fn].hAreas = {};
 
 
 		this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 1);
@@ -416,12 +437,12 @@ export class Variable implements IVariable {
 
 	// ゲーム変数の全消去
 	private clearvar() {
-		const mesLayer	= this.hSaveVal['const.sn.mesLayer'] || '';
-		const fnBgm		= this.hSaveVal['const.sn.fnBgm'] || '';
-		const doRecLog	= this.hSaveVal['sn.doRecLog'] || false;
-		const sLog		= this.hSaveVal['const.sn.sLog'] || '';
+		const mesLayer	= this.hSave['const.sn.mesLayer'] || '';
+		const fnBgm		= this.hSave['const.sn.fnBgm'] || '';
+		const doRecLog	= this.hSave['sn.doRecLog'] || false;
+		const sLog		= this.hSave['const.sn.sLog'] || '';
 
-		this.hSaveVal = this.hScopeVal.save = {};
+		this.hSave = this.hScope.save = {};
 
 		this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
 		this.setVal_Nochk('save', 'const.sn.fnBgm', fnBgm);
@@ -438,7 +459,7 @@ export class Variable implements IVariable {
 		const o = PropParser.getValName(arg_name);
 		if (o == undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const hScope = this.hScopeVal[o.scope];
+		const hScope = this.hScope[o.scope];
 		if (! hScope) throw '[変数に値セット] scopeが異常【'+ o.scope +'】です';
 
 		const nm = o['name'];
@@ -449,7 +470,7 @@ export class Variable implements IVariable {
 		this.setVal_Nochk(o.scope, nm, val, autocast);
 	}
 	setVal_Nochk(scope: string, nm: string, val: any, autocast = false) {
-		const hScope = this.hScopeVal[scope];
+		const hScope = this.hScope[scope];
 		if (autocast) val = this.castAuto(val);
 		hScope[nm] = val;
 
@@ -470,7 +491,7 @@ export class Variable implements IVariable {
 		const o = PropParser.getValName(arg_name);
 		if (o == undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const hScope = this.hScopeVal[o['scope']];
+		const hScope = this.hScope[o['scope']];
 		if (! hScope) throw '[変数参照] scopeが異常【'+ o['scope'] +'】です';
 
 		const name = o['name'];
@@ -502,7 +523,7 @@ export class Variable implements IVariable {
 	private dump_val = ()=> {
 		const val: any = {tmp:{}, sys:{}, save:{}, mp:{}};
 		for (let scope in val) {
-			const hVal = this.hScopeVal[scope];
+			const hVal = this.hScope[scope];
 			const hRet = val[scope];
 			for (let key in hVal) {
 				const v = hVal[key];
@@ -570,37 +591,37 @@ export class Variable implements IVariable {
 	};
 	defValTrg(name: string, fnc: ISetVal) {this.hValTrg[name] = fnc;}
 	private runFirst_Bool_hSysVal_true(name: string): void {
-			CmnLib.argChk_Boolean(this.hSysVal, name, true);
+			CmnLib.argChk_Boolean(this.hSys, name, true);
 		}
 	private runFirst_sys_an_tagCh_msecWait(name: string): void {
-			CmnLib.argChk_Num(this.hSysVal, name, 10);
-			if (this.hSysVal['sn.tagCh.doWait']) {
+			CmnLib.argChk_Num(this.hSys, name, 10);
+			if (this.hSys['sn.tagCh.doWait']) {
 //				LayerMng.msecChWait = this.hSysVal[name];
 			}
 		}
 	private runFirst_sys_an_tagCh_msecWait_Kidoku(name: string): void {
-		CmnLib.argChk_Num(this.hSysVal, name,
+		CmnLib.argChk_Num(this.hSys, name,
 			(this.cfg.oCfg.init.tagch_msecwait == undefined)
 				? 10
 				: this.cfg.oCfg.init.tagch_msecwait
 		);
-		if (this.hSysVal['sn.tagCh.doWait_Kidoku']) {
+		if (this.hSys['sn.tagCh.doWait_Kidoku']) {
 //			LayerMng.msecChWait = this.hSysVal[name];
 		}
 	}
 	private runFirst_sys_an_auto_msecPageWait(name: string): void {
-		CmnLib.argChk_Num(this.hSysVal, name,
+		CmnLib.argChk_Num(this.hSys, name,
 			(this.cfg.oCfg.init.auto_msecpagewait == undefined)
 				? 3500
 				: this.cfg.oCfg.init.auto_msecpagewait
 		);
 	}
 	private runFirst_sys_an_auto_msecLineWait(name: string): void {
-		CmnLib.argChk_Num(this.hSysVal, name, 500);
+		CmnLib.argChk_Num(this.hSys, name, 500);
 	}
 
 	private runFirst_Bool_hSaveVal_true(name: string): void {
-		CmnLib.argChk_Boolean(this.hSaveVal, name, true);
+		CmnLib.argChk_Boolean(this.hSave, name, true);
 	}
 
 	private runFirst_Bool_hTmp_true(name: string): void {

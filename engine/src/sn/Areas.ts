@@ -5,7 +5,9 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-export class Areas {
+import {IAreas} from './CmnLib';
+
+export class Areas implements IAreas {
 	hAreas	: {[name: string]: number}	= {};
 
 	search(idx: number): boolean {
