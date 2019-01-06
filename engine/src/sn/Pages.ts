@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IPage, typeLayerClass, IVariable} from './CmnLib';
+import {HArg, typeLayerClass, IVariable} from './CmnLib';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -68,14 +68,4 @@ export class Pages {
 		[this.pg.back, this.pg.fore] = [this.pg.fore, this.pg.back];
 		this.pg.back.copy(this.pg.fore);
 	}
-
-	record = (): IPage => {return {
-		cls: this.cls_,
-		fore: this.pg.fore.record(),
-		back: this.pg.back.record(),
-	};}
-	playback(pg: IPage, resume: ()=> void) {
-		this.pg.fore.playback(pg.fore, resume);
-		this.pg.back.playback(pg.back, resume);
-	};
 };

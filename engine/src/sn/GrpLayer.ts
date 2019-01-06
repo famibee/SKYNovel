@@ -123,17 +123,18 @@ export class GrpLayer extends Layer {
 			GrpLayer.ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
 		});
 
-		const fncLoaded = (_loader: any, res: any)=> {
+		const fncLoaded = (res: any)=> {
 			for (const v of aComp) {
 				const sp = GrpLayer.mkSprite(v.fn, res);
 				parent.addChild(sp);
 				v.fnc(sp);
 			}
 			fncAllComp(needLoad);
-		};
-		if (needLoad) {GrpLayer.ldr.load(fncLoaded); return true;}
-		fncLoaded(null, utils.TextureCache);
-		return false;
+		}
+		if (needLoad) GrpLayer.ldr.load((_loader: any, res: any)=> fncLoaded(res));
+		else fncLoaded(utils.TextureCache);
+
+		return needLoad;
 	}
 	private static mkSprite(fn: string, res: loaders.Resource): Sprite {
 		//console.log('a:%O b:%O c:%O', res[fn], utils.TextureCache[fn], GrpLayer.hFn2ResAniSpr[fn]);
@@ -232,23 +233,22 @@ export class GrpLayer extends Layer {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
 	});}
-	playback(hLay: any, resume?: ()=> void) {
+	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
 		if (hLay.sBkFn == '' && hLay.sBkFace == '') {
 			this.sBkFn	= hLay.sBkFn;
 			this.sBkFace= hLay.sBkFace;
-			return;
+			if (fncComp != undefined) fncComp();
+			return false;
 		}
-		if (resume != undefined) {
-			++GrpLayer.cntPararell;
-			GrpLayer.fncAllComp = isStop=> {
-				if (--GrpLayer.cntPararell == 0 && isStop) GrpLayer.main.resume(resume);
-			};
-		}
-		this.lay({fn: hLay.sBkFn, face: hLay.sBkFace});
-		GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
+
+		if (fncComp != undefined) GrpLayer.fncAllComp = ()=> {
+			GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
+			fncComp();
+		};
+
+		return this.lay({fn: hLay.sBkFn, face: hLay.sBkFace});
 	};
-	private static	cntPararell = 0
 
 	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};
 

@@ -34,17 +34,7 @@ export class ThreeDLayer extends Layer {
 			main.resume();	// 停止から復帰
 		}
 		init();
-/*
-		import('three')
-		.then(THREE => {
-			ThreeDLayer.THREE = THREE;
-			(window as any).THREE = THREE;	// 次のrequireで必須なので
-			require('three/examples/js/controls/OrbitControls');
 
-			scrItr.subIdxToken();	// 呼び出し元をやり直し
-			main.resume();
-		});
-*/
 		return true;	// 一時停止
 	}
 	constructor() {
@@ -251,6 +241,12 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 			anime();
 		}
 
+		return false;
+	}
+
+	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
+		super.playback(hLay);
+		if (fncComp != undefined) fncComp();
 		return false;
 	}
 }

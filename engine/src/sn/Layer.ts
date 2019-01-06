@@ -77,7 +77,7 @@ export class Layer {
 		y		: this.cnt.y,
 		visible	: this.cnt.visible,
 	};}
-	playback(hLay: any, _resume?: ()=> void) {
+	playback(hLay: any, _fncComp: undefined | {(): void} = undefined): boolean {
 		this.name = hLay.name;
 		//idx	// コール順に意味があるので親でやる
 
@@ -89,6 +89,8 @@ export class Layer {
 		this.cnt.pivot.set(hLay.pivot_x, hLay.pivot_y);
 		this.cnt.position.set(hLay.x, hLay.y);
 		this.cnt.visible = hLay.visible;
+
+		return false;
 	};
 
 	dump(): string {

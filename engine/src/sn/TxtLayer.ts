@@ -1215,7 +1215,7 @@ export class TxtLayer extends Layer {
 		fo_easing	: this.fo_easing,
 		xz4htm2rect : this.xz4htm2rect,
 	});}
-	playback(hLay: any) {
+	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
 		this.enabled	= hLay.enabled;
 
@@ -1234,7 +1234,6 @@ export class TxtLayer extends Layer {
 			this.b_do = null;
 		}
 
-//if (this.name.slice(0, 10) == 'layer:mes ') console.log(`fn:TxtLayer.ts playback name:${this.name} cssText:${hLay.cssText} x:${this.cnt.x} y:${this.cnt.y}`);
 		this.htmTxt.style.cssText = hLay.cssText;
 		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft || '0');
 		this.pad_right = parseFloat(this.htmTxt.style.paddingRight || '0');
@@ -1256,7 +1255,9 @@ export class TxtLayer extends Layer {
 
 		this.xz4htm2rect = hLay.xz4htm2rect;
 
-		//this.htmTxt.textContent,	// NOTE: この記述どこかで使うかも
+		if (fncComp != undefined) fncComp();
+
+		return false;
 	};
 
 	dump(): string {

@@ -260,25 +260,23 @@ export class LayerMng {
 
 		switch (CmnLib.getExt(fn)) {
 			case '':
-				// NOTE: [loadplugin fn=a]	で読み込み・実行まで確認
+				// [loadplugin fn=a]	で読み込み・実行まで確認
 				// TODO: 後はプラグインの仕様を決めるだけ
-				import('../../plugin/'+ fn +'.js')
-					.then(mod=> {
+				(async ()=> {
+					const mod = await import('../../plugin/'+ fn +'.js');
 	console.log(`fn:LayerMng.ts line:271 mod:%o`, mod.default);
-						if (join) this.main.resume();
-					});
+					if (join) this.main.resume();
+				})();
 				break;
 
 			case 'css':		// 読み込んで<style>に追加
-				fetch(fn)
-				.then(response=> {
-					if (response.ok) return response.text();
-					throw new Error('Network response was not ok.');
-				})
-				.then(text=> {
-					TxtLayer.addStyle(text);
+				(async ()=> {
+					const res = await fetch(fn);
+					if (! res.ok) throw new Error('Network response was not ok.');
+
+					TxtLayer.addStyle(await res.text());
 					if (join) this.main.resume();
-				});
+				})();
 				break;
 
 			default:	throw 'サポートされない拡張子です'
@@ -1076,10 +1074,18 @@ void main(void) {
 
 	record(): any {
 		const o: any = {};
-		this.aLayName.map(layer=> o[layer] = this.hPages[layer].record());
+		this.aLayName.map(layer=> {
+			const pg = this.hPages[layer];
+			o[layer] = {
+				cls: pg.cls,
+				fore: pg.fore.record(),
+				back: pg.back.record(),
+			}
+		});
 		return o;
 	}
-	playback($hPages: HPage, resume: ()=> void) {
+	playback($hPages: HPage, fncComp: ()=> void): void {
+		const aPromise: any[] = [];
 		const aSort: {layer: string, idx: number}[] = [];
 		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
 			const $pg = $hPages[layer];
@@ -1087,21 +1093,26 @@ void main(void) {
 
 			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
 			this.hPages[layer] = pg;
-			pg.playback($pg, resume);
+			aPromise.push(new Promise(re=> pg.fore.playback($pg.fore, re)));
+			aPromise.push(new Promise(re=> pg.back.playback($pg.back, re)));
 		}
+		Promise.all(aPromise).then(()=> {
+			aSort.sort(function(a, b) {	// ソートし若い順にsetChildIndex()
+				if (a.idx < b.idx) return -1;
+				if (a.idx > b.idx) return 1;
+				return 0;
+			});
+			aSort.map(o=> {
+				const pg = this.hPages[o.layer];
+				if (! pg) return;
 
-		aSort.sort(function(a, b) {	// ソートし若い順にsetChildIndex()
-			if (a.idx < b.idx) return -1;
-			if (a.idx > b.idx) return 1;
-			return 0;
-		});
-		aSort.map(o=> {
-			const pg = this.hPages[o.layer];
-			if (! pg) return;
+				this.fore.setChildIndex(pg.fore.cnt, o.idx);
+				this.back.setChildIndex(pg.back.cnt, o.idx);
+			});
 
-			this.fore.setChildIndex(pg.fore.cnt, o.idx);
-			this.back.setChildIndex(pg.back.cnt, o.idx);
-		});
+			fncComp();
+		})
+		.catch(e=> console.error(`fn:LayerMng.ts playback e:%o`, e));
 	}
 
 };
