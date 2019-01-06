@@ -51,9 +51,9 @@ class MyVal implements IVariable {
 	cloneSave = ()=> null;
 	loadWark(_place: number) {};
 
-	newScrKidoku = (_fn: string)=> {};
+	loadScrWork = (_fn: string)=> {};
 	getAreaKidoku = (_fn: string)=> null;
-	saveKidoku4scrItr(): void {};
+	saveKidoku(): void {};
 
 	defValTrg(_name: string, _fnc: ISetVal): void {};
 };
