@@ -48,6 +48,8 @@ export class SoundMng {
 		fncGlobalVol('', val.getVal('sys:sn.sound.global_volume', 1));
 		val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
 
+		'mp3,m4a,ogg,aac,webm,flac,wav'.split(',').map(v=> val.setVal_Nochk('tmp', 'const.sn.sound.codecs.'+ v, Howler.codecs(v)));
+
 		this.flush = ()=> val.flush();
 	}
 	private flush	= () =>{};
@@ -186,7 +188,6 @@ export class SoundMng {
 			autoplay: true,
 			loop: loop,
 			volume: vol,
-			//preload: true,
 			//sprite: {key: [offset, duration, (loop)]},
 		};
 		if (! loop) o.onend = ()=> {
@@ -300,22 +301,23 @@ export class SoundMng {
 	}
 
 	// 再生トラックの交換
-	private xchgbuf(hArg: HArg) {
-		// TODO:xchgbuf()が未テスト
+	private xchgbuf(hArg: HArg) {	// TODO: xchgbuf()が未テスト
 		const buf = hArg.buf || 'SE';
 		const buf2 = hArg.buf2 || 'SE';
 		[this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
-//		const oSb = this.hSndBuf[buf];
-//		this.hSndBuf[buf] = this.hSndBuf[buf2];
-//		this.hSndBuf[buf2] = oSb;
+		// const oSb = this.hSndBuf[buf];
+		// this.hSndBuf[buf] = this.hSndBuf[buf2];
+		// this.hSndBuf[buf2] = oSb;
 
 		return false;
 	}
 
 
 	loadAheadSnd(_aFn: string[]): void {
-		// TODO:loadAheadSnd()が未作成
-		;
+		_aFn.map(fn=> new Howl({
+			src: this.cfg.searchPath(fn, Config.EXT_SOUND),
+			autoplay: false,
+		}));
 	}
 
 	// しおりの読込（BGM状態復元）

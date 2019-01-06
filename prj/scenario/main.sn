@@ -38,7 +38,7 @@
 		; （このままリリースしても問題なし）
 
 	; *** レジューム処理 ***
-;	[sys_resume_load cond=!const.sn.key.escape&&!const.sn.key.back]
+	[sys_resume_load cond=!const.sn.key.escape&&!const.sn.key.back]
 
 ;********************************************************
 *title
