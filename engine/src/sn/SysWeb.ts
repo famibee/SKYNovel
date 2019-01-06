@@ -67,13 +67,11 @@ export class SysWeb extends SysBase {
 
 
 	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: IConfig): void {
-		fetch(this.$cur +'path.json')
-		.then(res=> {
+		(async ()=> {
+			const res = await fetch(this.$cur +'path.json');
 			if (! res.ok) throw Error(res.statusText);
-			return res;
-		})
-		.then(res=> res.json())
-		.then(json=> {
+
+			const json = await res.json();
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.$cur + h[ext]
@@ -85,8 +83,7 @@ export class SysWeb extends SysBase {
 			this.sys = strLocal.get(this.ns +'sys');
 
 			fncLoaded();
-		})
-		.catch(e => console.error('Error:', e));
+		})();
 	}
 	private ns	= '';
 	private sys: any;
@@ -115,17 +112,16 @@ export class SysWeb extends SysBase {
 
 
 	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
+		try {
+			(async ()=> {
+				const res = await fetch(path);	//fetch(path, {mode: 'same-origin'})
+				if (! res.ok) throw Error(res.statusText);
 
-		fetch(path)
-		//fetch(path, {mode: 'same-origin'})
-		.then(res=> {
-			if (! res.ok) throw Error(res.statusText);
-			return res;
-		})
-		.then(res=> res.text())
-		//.then(res=> res.json())
-		.then(o=> callback(null, new Buffer(o)))
-		.catch(e=> console.error('Error:', e));
+				callback(null, new Buffer(await res.text()));
+			})();
+		} catch (e) {
+			console.error('Error:', e);
+		}
 /*
 		const FETCH_TIMEOUT = 5000;
 		let didTimeOut = false;
