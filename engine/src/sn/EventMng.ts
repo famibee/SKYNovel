@@ -429,7 +429,7 @@ export class EventMng implements IEvtMng {
 		if (this.val.getVal('tmp:sn.skip.enabled') && ('ps'.includes(String(this.val.getVal('sys:sn.skip.mode'))))) return false;
 		if (this.val.getVal('tmp:sn.auto.enabled')) {
 			//traceDbg('l:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
-			return this.hTag.wait({
+			return this.wait({
 				time: Number(this.scrItr.isKidoku
 					? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
 					: this.val.getVal('sys:sn.auto.msecLineWait'))
@@ -456,7 +456,7 @@ export class EventMng implements IEvtMng {
 		if (this.val.getVal('tmp:sn.skip.enabled') && ('s' == String(this.val.getVal('sys:sn.skip.mode')))) {this.goTxt(); return false;}
 		if (this.val.getVal('tmp:sn.auto.enabled')) {
 			//traceDbg('p:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
-			return this.hTag.wait({
+			return this.wait({
 				time: Number(this.scrItr.isKidoku
 					? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
 					: this.val.getVal('sys:sn.auto.msecPageWait'))

@@ -20,7 +20,7 @@ export class Variable implements IVariable {
 	private	REG_RECTEXT_LAST	:RegExp	= /[^\f]+$/;
 
 
-	constructor(private cfg: Config, private hTag: IHTag) {
+	constructor(private cfg: Config, hTag: IHTag) {
 		//	変数操作
 		hTag.let			= o=> this.let(o);			// 変数代入・演算
 		hTag.let_abs		= o=> this.let_abs(o);		// 絶対値
@@ -34,9 +34,9 @@ export class Variable implements IVariable {
 		hTag.let_substr		= o=> this.let_substr(o);	// 文字列から抜きだし
 
 		//	デバッグ・その他
-		hTag.clearsysvar	= ()=> this.clearsysvar();	// システム変数の全消去
-		hTag.clearvar		= ()=> this.clearvar();		// ゲーム変数の全消去
-		hTag.dump_val		= ()=> this.dump_val();		// 変数のダンプ
+		hTag.clearsysvar	= o=> this.clearsysvar(o);	// システム変数の全消去
+		hTag.clearvar		= o=> this.clearvar(o);		// ゲーム変数の全消去
+		hTag.dump_val		= o=> this.dump_val(o);		// 変数のダンプ
 
 		// しおり
 		hTag.copybookmark	= o=> this.copybookmark(o);	// しおりの複写
@@ -303,7 +303,7 @@ export class Variable implements IVariable {
 		hArg.text = String((n < 0) ?-n :n);
 			// JavaScriptのMath.abs()で絶対値を取得しないほうが良い理由 | iwb.jp https://iwb.jp/javascript-math-abs-deprecated/
 			// 数値以外だとほとんどがNaNを返し、booleanは0や1を返しているため使い方によってはバグの原因になることがある。
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -311,7 +311,7 @@ export class Variable implements IVariable {
 	// 文字列から一字取りだし
 	private let_char_at(hArg: HArg) {
 		hArg.text = (hArg.text || '').charAt(CmnLib.argChk_Num(hArg, 'pos', 0));
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -323,7 +323,7 @@ export class Variable implements IVariable {
 		const start = CmnLib.argChk_Num(hArg, 'start', 0);
 
 		hArg.text = String((hArg.text || '').indexOf(val, start));
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -331,7 +331,7 @@ export class Variable implements IVariable {
 	// 文字列の長さ
 	private let_length(hArg: HArg) {
 		hArg.text = String((hArg.text || '').length);
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -345,7 +345,7 @@ export class Variable implements IVariable {
 			? new RegExp(hArg.reg)
 			: new RegExp(hArg.reg, flags);
 		hArg.text = String(hArg.text || '').replace(reg, String(hArg.val));
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -354,7 +354,7 @@ export class Variable implements IVariable {
 	private let_round(hArg: HArg) {
 		const n = CmnLib.argChk_Num(hArg, 'text', 0);
 		hArg.text = String(Math.round(n));
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -368,7 +368,7 @@ export class Variable implements IVariable {
 			? new RegExp(hArg.reg)
 			: new RegExp(hArg.reg, flags);
 		hArg.text = String((hArg.text || '').search(reg));
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -379,7 +379,7 @@ export class Variable implements IVariable {
 		hArg.text = (hArg.len != 'all')
 			? (hArg.text || '').substr(i, int(CmnLib.argChk_Num(hArg, 'len', 1)))
 			: (hArg.text || '').substr(i);
-		this.hTag.let(hArg);
+		this.let(hArg);
 
 		return false;
 	};
@@ -387,7 +387,7 @@ export class Variable implements IVariable {
 
 // デバッグ・その他
 	// システム変数の全消去
-	private clearsysvar() {
+	private clearsysvar(_hArg?: HArg) {
 		const sys = this.hSys = this.hScope['sys'] = this.data.sys
 			= {};
 
@@ -438,16 +438,14 @@ export class Variable implements IVariable {
 	}
 
 	// ゲーム変数の全消去
-	private clearvar() {
+	private clearvar(_hArg?: HArg) {
 		const mesLayer	= this.hSave['const.sn.mesLayer'] || '';
-		const fnBgm		= this.hSave['const.sn.fnBgm'] || '';
 		const doRecLog	= this.hSave['sn.doRecLog'] || false;
 		const sLog		= this.hSave['const.sn.sLog'] || '';
 
 		this.hSave = this.hScope.save = {};
 
 		this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
-		this.setVal_Nochk('save', 'const.sn.fnBgm', fnBgm);
 		this.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 		this.setVal_Nochk('save', 'const.sn.sLog', sLog);
 
@@ -522,7 +520,7 @@ export class Variable implements IVariable {
 
 
 	// 変数のダンプ
-	private dump_val = ()=> {
+	private dump_val = (_hArg?: HArg)=> {
 		const val: any = {tmp:{}, sys:{}, save:{}, mp:{}};
 		for (let scope in val) {
 			const hVal = this.hScope[scope];
