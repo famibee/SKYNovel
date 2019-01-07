@@ -36,9 +36,7 @@ export class DebugMng {
 		hTag.stats			= o => this.stats(o);			// パフォーマンス表示
 		hTag.trace			= o => this.trace(o);			// デバッグ表示へ出力
 	}
-	destroy() {
-		DebugMng.title = ()=> false
-	}
+	destroy() {DebugMng.title = ()=> false}
 
 	update() {this.fncUpd()}		// 外部に呼んでもらう
 

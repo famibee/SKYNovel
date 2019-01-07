@@ -118,11 +118,6 @@
 	&_load.place = const.sn.frm.saveload.val_place
 	[se fn=&sysse_ok2_long buf=SYS]
 
-	; *** ブラックアウト ***
-;	[clear_lay layer="_syslay.mes" page=back]
-;	[lay layer="_syslay.bg" page=back visible=false]
-;	[trans layer="_syslay.mes,_syslay.bg" time=200]
-
 	[frame id=saveload visible=false]
 
 *do_load
