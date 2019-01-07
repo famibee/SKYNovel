@@ -93,10 +93,10 @@
 			lst.insertAdjacentHTML('afterbegin', `
 <div class="col s12 m4 l3 hoverable sld2dsp grey lighten-2 scale-transition">
 	<div class="card">
-	<div class="card-image waves-effect waves-block waves-light${
-		modal ?' no_modal' :''
+	<div class="card-image waves-effect waves-block waves-light ${
+		modal ?'no_modal' :'modal-trigger" href="#modal_sl'
 	}" data-id="${i}">
-		<img src="${v.pic}"${modal ?'' :' class="modal-trigger" href="#modal_sl"'}/>
+		<img src="${v.pic}"/>
 		<span class="card-title">${v.dt}</span>${
 			(v.dt == '')
 			? ''
@@ -110,13 +110,21 @@
 		const ev = document.createEvent('MouseEvents');
 		ev.initEvent('click', false, true);
 		Array.from(document.getElementsByClassName('no_modal'))
-		.forEach(v=> v.addEventListener('click', ()=> {
+		.forEach(v=> v.addEventListener('click', e=> {
+			// 削除ボタンイベントも来てしまうので
+			const href = e.target.href;
+			if (href && href.slice(-10) == '#modal_del') return;
+
 			val_place = v.dataset.id;
 			doit.dispatchEvent(ev);	// モーダル確認したかのようなイベント発生
 		}, false));
 		Array.from(document.getElementsByClassName('modal-trigger'))
-		.forEach(v=> v.addEventListener('click', ()=> {
-			val_place = v.parentNode.dataset.id;
+		.forEach(v=> v.addEventListener('click', e=> {
+			// 削除ボタンイベントも来てしまうので
+			const href = e.target.href;
+			if (href && href.slice(-10) == '#modal_del') return;
+
+			val_place = v.dataset.id;
 			document.getElementById('modal_mes').textContent =
 				(val_mode == 'Save') ?'セーブデータを上書きし、元のデータは失われます' :'';
 		}, false));
