@@ -47,11 +47,11 @@ export class LayerMng {
 		hTag.clear_lay		= o=> this.clear_lay(o);	// レイヤ設定の消去
 		hTag.trans			= o=> this.trans(o);		// ページ裏表を交換
 		hTag.wt				= o=> this.wt(o);			// トランス終了待ち
-		hTag.finish_trans	= ()=> this.finish_trans();	// トランス強制終了
+		hTag.finish_trans	= o=> this.finish_trans(o);	// トランス強制終了
 
 		hTag.quake			= o=> this.quake(o);		// 画面を揺らす
-		hTag.wq				= hTag.wt;					// 画面揺らし終了待ち
-		hTag.stop_quake		= hTag.finish_trans;		// 画面揺らし中断
+		hTag.wq				= o=> hTag.wt(o);			// 画面揺らし終了待ち
+		hTag.stop_quake		= o=> hTag.finish_trans(o);	// 画面揺らし中断
 
 		hTag.tsy			= o=> this.tsy(o);			// トゥイーン開始
 		hTag.wait_tsy		= o=> this.wait_tsy(o);		// トゥイーン終了待ち
@@ -60,8 +60,8 @@ export class LayerMng {
 		hTag.resume_tsy		= o=> this.resume_tsy(o);	// 一時停止再開
 
 		//	文字・文字レイヤ
-//		hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
-		//hTag.autowc		= o=> this.autowc(o);		// 文字ごとのウェイト
+	//	hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
+	//	hTag.autowc			= o=> this.autowc(o);		// 文字ごとのウェイト
 		hTag.ch				= o=> this.ch(o);			// 文字を追加する
 		hTag.clear_text		= o=> this.clear_text(o);	// 文字消去
 		hTag.current		= o=> this.current(o);		// デフォルト文字レイヤ設定
@@ -91,7 +91,7 @@ export class LayerMng {
 		hTag.wa				= o=> this.wa(o);			// SWFアニメの停止待ち
 */
 		//	ムービーレイヤ
-//		hTag.wv				= o=> this.wv(o);			// ムービー再生終了待ち
+	//	hTag.wv				= o=> this.wv(o);			// ムービー再生終了待ち
 
 		//	デバッグ・その他
 		hTag.dump_lay		= o=> this.dump_lay(o);		// レイヤのダンプ
@@ -637,7 +637,7 @@ void main(void) {
 	private	elcTrans	= new EventListenerCtn;
 
 	// レイヤのトランジションの停止
-	private finish_trans() {
+	private finish_trans(_hArg?: HArg) {
 		if (this.twInfTrans.tw) this.twInfTrans.tw.stop().end();
 			// stop()とend()は別
 		return false;
