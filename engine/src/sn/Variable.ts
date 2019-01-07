@@ -111,7 +111,9 @@ export class Variable implements IVariable {
 		this.hTmp['const.sn.displayState'] = false;
 			// const.flash.display.Stage.displayState
 
-		this.hTmp['const.sn.needClick2Play'] = ()=> new AudioContext().state == 'suspended';
+		const win: any = window;
+		const ac = win['AudioContext'] || win['webkitAudioContext'];
+		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state == 'suspended';
 		this.hTmp['const.Date.getTime'] = ()=> (new Date).getTime();
 		this.hTmp['const.Date.getDateStr'] = ()=> getDateStr();
 		this.hTmp['const.Stage.mouseX'] = ()=> {
@@ -214,8 +216,8 @@ export class Variable implements IVariable {
 	setMark(place: number, mark: IMark) {this.data.mark[place] = mark; this.flush()}
 	getMark = (place: number)=> this.data.mark[place];
 	cloneSave(): object {return {...this.hScope.save}}
-	loadWark(place: number) {
-		this.hSave = this.hScope.save = {...this.data.mark[place].hSave};
+	mark2save(mark: IMark) {
+		this.hSave = this.hScope.save = {...mark.hSave};
 		this.hSave['const.sn.sLog'] += '\f';
 			// 吉里吉里に動作を合わせる
 			// 改ページは履歴がページからあふれるため
@@ -485,7 +487,7 @@ export class Variable implements IVariable {
 		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg != null)}]`);
 	}
 
-	getVal = (arg_name: string, def?: number)=> {
+	getVal = (arg_name: string, def?: number | string)=> {
 		if (! arg_name) throw '[変数参照] nameは必須です';
 
 		const o = PropParser.getValName(arg_name);
