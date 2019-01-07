@@ -306,7 +306,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 	// 文字列から一字取りだし
 	private let_char_at(hArg: HArg) {
@@ -314,7 +314,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 	// 文字列で検索
 	private let_index_of(hArg: HArg) {
@@ -326,7 +326,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 	// 文字列の長さ
 	private let_length(hArg: HArg) {
@@ -334,7 +334,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 	// 正規表現で置換
 	private let_replace(hArg: HArg) {
@@ -348,7 +348,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 	// 四捨五入
 	private let_round(hArg: HArg) {
@@ -357,7 +357,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 	// 正規表現で検索
 	private let_search(hArg: HArg) {
@@ -371,7 +371,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 	// 文字列から抜きだし
 	private let_substr(hArg: HArg) {
@@ -382,7 +382,7 @@ export class Variable implements IVariable {
 		this.let(hArg);
 
 		return false;
-	};
+	}
 
 
 // デバッグ・その他
@@ -630,6 +630,5 @@ export class Variable implements IVariable {
 	private runFirst_Bool_hTmp_false(name: string): void {
 		CmnLib.argChk_Boolean(this.hTmp, name, false);
 	}
-
 
 };

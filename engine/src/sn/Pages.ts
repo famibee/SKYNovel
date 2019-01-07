@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2019 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2019 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -68,4 +68,5 @@ export class Pages {
 		[this.pg.back, this.pg.fore] = [this.pg.fore, this.pg.back];
 		this.pg.back.copy(this.pg.fore);
 	}
-};
+
+}

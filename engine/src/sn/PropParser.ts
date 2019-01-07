@@ -353,4 +353,4 @@ export class PropParser {
 		return str;
 	}
 
-}	// class
+}

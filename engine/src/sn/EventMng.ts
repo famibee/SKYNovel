@@ -445,7 +445,7 @@ export class EventMng implements IEvtMng {
 
 		this.stdWait(()=> this.main.resume());	// stdWait()したらreturn true;
 		return true;
-	};
+	}
 
 
 	// 改ページクリック待ち
@@ -477,7 +477,7 @@ export class EventMng implements IEvtMng {
 				: ()=> this.main.resume()
 		);	// stdWait()したらreturn true;
 		return true;
-	};
+	}
 
 
 	// スキップ中断予約
@@ -496,7 +496,7 @@ export class EventMng implements IEvtMng {
 		this.unregisterClickEvts();
 
 		return false;
-	};
+	}
 	private unregisterClickEvts(): void {
 		const len = this.scrItr.lenCallStk;
 		for (let i=0; i<len; ++i) {
@@ -524,14 +524,14 @@ export class EventMng implements IEvtMng {
 
 		this.stdWait(()=> twSleep.stop().end(), CmnLib.argChk_Boolean(hArg, 'canskip', true));	// stdWait()したらreturn true;
 		return true;
-	};
+	}
 
 	cr = (len: number)=> this.scrItr.addLineNum(len);
 
 	isSkipKeyDown(): boolean {
 		for (const v in this.hDownKeys) if (this.hDownKeys[v] == 2) return true;
 		return false;
-	};
+	}
 	// 0:no push  1:one push  2:push repeating
 	private hDownKeys	: {[name: string]: number}	= {
 		'Alt'		: 0,
@@ -543,6 +543,6 @@ export class EventMng implements IEvtMng {
 		'Escape'	: 0,
 		' '			: 0,
 		'GoBack'	: 0,	// AndroidのBackキーだと思う
-	};
+	}
 
-};
+}

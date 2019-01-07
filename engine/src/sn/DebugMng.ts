@@ -132,4 +132,5 @@ export class DebugMng {
 		}
 		console.info('%c'+ mes, sty);
 	}
-};
+
+}

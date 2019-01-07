@@ -91,7 +91,7 @@ export class Layer {
 		this.cnt.visible = hLay.visible;
 
 		return false;
-	};
+	}
 
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${
@@ -245,4 +245,5 @@ export class Layer {
 		dsp.x = (CmnLib.stageW - rct.width) *0.5;
 		dsp.y = (CmnLib.stageH - rct.height) *0.5;
 	}
+
 }

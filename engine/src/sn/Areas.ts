@@ -94,4 +94,5 @@ export class Areas implements IAreas {
 
 		return ret;
 	}
+
 }

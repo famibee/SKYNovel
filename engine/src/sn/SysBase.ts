@@ -53,9 +53,9 @@ export class SysBase implements ISysBase {
 
 	protected isApp = ()=> false;
 	protected $path_desktop	= '';
-	get path_desktop() {return this.$path_desktop};
+	get path_desktop() {return this.$path_desktop}
 	protected $path_userdata	= '';
-	get path_userdata() {return this.$path_userdata};
+	get path_userdata() {return this.$path_userdata}
 
 	existsSync = (_path: string)=> true;
 	//readFileSync = (path: string, options: { encoding: string; flag?: string; } | string)=> '';

@@ -248,8 +248,8 @@ export class GrpLayer extends Layer {
 		};
 
 		return this.lay({fn: hLay.sBkFn, face: hLay.sBkFace});
-	};
+	}
 
 	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};
 
-};
+}

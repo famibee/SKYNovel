@@ -1258,7 +1258,7 @@ export class TxtLayer extends Layer {
 		if (fncComp != undefined) fncComp();
 
 		return false;
-	};
+	}
 
 	dump(): string {
 		let aPixiObj: string[] = [];

@@ -170,7 +170,7 @@ export interface ITwInf {
 	tw			: TWEEN.Tween | null;
 	resume		: boolean;
 	onComplete?	: ()=> void;
-};
+}
 
 
 // =============== SysBase
@@ -178,7 +178,7 @@ export interface ISysBase {
 	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: IConfig): void;
 	initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): void;
 	flush(): void;
-};
+}
 
 
 // =============== Config
@@ -187,7 +187,7 @@ export interface IPathFn2Exts { [fn: string]: IExts; };
 
 export interface IConfig {
 	getNs(): string;
-};
+}
 
 
 // =============== Main
@@ -196,7 +196,7 @@ export interface IMain {
 	resume(fnc?: ()=> void): void;
 	resumeByJumpOrCall(hArg: HArg): void;
 	stop(): void;
-};
+}
 
 
 // =============== Areas
@@ -204,7 +204,7 @@ export interface IAreas {
 	search(idx: number): boolean;
 	record(idx: number): void;
 	erase(idx: number): void;
-};
+}
 
 
 // =============== Variable
@@ -231,20 +231,20 @@ export interface IVariable {
 	saveKidoku(): void;
 
 	defValTrg(name: string, fnc: ISetVal): void;
-};
+}
 
 export interface IData4Vari {
 	sys		: {[name: string]: any};
 	mark	: {[name: string]: IMark};
 	kidoku	: {[name: string]: any};
-};
+}
 
 export interface IMark {
 	hSave	: {[name: string]: any};
 	hPages	: HPage;
 	aIfStk	: number[];
 	json?	: any;
-};
+}
 
 
 // =============== LayerMng
@@ -256,13 +256,13 @@ export interface IPage {
 	cls		: typeLayerClass;
 	fore	: {[name: string]: any};
 	back	: {[name: string]: any};
-};
+}
 
 
 // =============== RubySpliter
 export interface IPutCh {
 	(ch: string, ruby: string): void;
-};
+}
 
 
 // =============== EventMng
@@ -279,7 +279,7 @@ export interface IEvtMng {
 	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void): void;
 
 	resvFlameEvent(win: Window): void;
-};
+}
 
 
 import m_path = require('path');

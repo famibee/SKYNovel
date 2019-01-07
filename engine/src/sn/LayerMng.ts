@@ -250,7 +250,7 @@ export class LayerMng {
 		renderer.destroy(true);
 
 		return false;
-	};
+	}
 
 	// プラグインの読み込み
 	private loadplugin(hArg: HArg) {
@@ -850,7 +850,7 @@ void main(void) {
 		if (wait >= 0) this.cmdTxt(`add_close｜`, tl);
 
 		return false;
-	};
+	}
 
 	private getTxtLayer(hArg: HArg): TxtLayer {
 		this.fncChkTxtLay();
@@ -1115,4 +1115,4 @@ void main(void) {
 		.catch(e=> console.error(`fn:LayerMng.ts playback e:%o`, e));
 	}
 
-};
+}

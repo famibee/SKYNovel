@@ -13,7 +13,7 @@ export interface ICallStackArg {
 	hEvt1Time			: IHEvt2Fnc;
 	hMpVal?		: {[name: string]: any};
 	タグ名?		: string;
-};
+}
 
 export class CallStack {
 	constructor(private _fn = '', private _idx = 0, private _hArg: ICallStackArg | null = null) {
@@ -23,4 +23,5 @@ export class CallStack {
 	get idx() {return this._idx}
 	get hArg() {return this._hArg}
 	toString() {return '[fn:'+ this._fn +', idx:'+ this._idx +', hArg:'+ this._hArg +']';}
-};
+
+}

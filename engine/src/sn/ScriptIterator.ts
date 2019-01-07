@@ -101,7 +101,7 @@ export class ScriptIterator {
 	setOtherObj(evtMng: EventMng, layMng: LayerMng): void {
 		this.evtMng = evtMng;
 		this.layMng = layMng;
-	};
+	}
 
 
 		//	変数操作
@@ -341,7 +341,7 @@ export class ScriptIterator {
 		this.jumpWork(fn, hArg.label);
 
 		return true;
-	};
+	}
 
 	// シナリオジャンプ
 	private jump(hArg: HArg) {
@@ -351,7 +351,7 @@ export class ScriptIterator {
 		this.jumpWork(hArg.fn, hArg.label);
 
 		return true;
-	};
+	}
 
 	// コールスタック破棄
 	private pop_stack(hArg: HArg) {
@@ -366,7 +366,7 @@ export class ScriptIterator {
 		this.aIfStk = [-1];
 
 		return false;
-	};
+	}
 
 	// サブルーチンから戻る
 	private return() {
@@ -396,7 +396,7 @@ export class ScriptIterator {
 		this.jump_light(cs!.fn, cs!.idx);
 
 		return false;
-	};
+	}
 
 
 	private skipLabel = '';
@@ -776,7 +776,7 @@ export class ScriptIterator {
 			?	uint(this.val.getVal('sys:sn.tagCh.msecWait'))
 			:	0
 		);
-	};
+	}
 
 
 		// マクロ
@@ -809,7 +809,7 @@ export class ScriptIterator {
 		this.replaceScriptChar2macro_And_let_ml(this.idxToken_);
 
 		return false;
-	};
+	}
 
 	private REG_CANTC2M			= /[\w\s;[\]*=&｜《》]/;
 	private regStrC2M			= '';
@@ -825,7 +825,7 @@ export class ScriptIterator {
 		if (hPopArg) this.val.setMp(hPopArg);
 
 		return this.hTag['return'](hArg);
-	};
+	}
 
 	// 一文字マクロの定義
 	private char2macro(hArg: HArg) {
@@ -850,7 +850,7 @@ export class ScriptIterator {
 		this.replaceScriptChar2macro_And_let_ml(this.idxToken_);
 
 		return false;
-	};
+	}
 
 	// マクロ定義の開始
 	private macro(hArg: HArg) {
@@ -907,7 +907,7 @@ export class ScriptIterator {
 			if (token.charCodeAt(0) == 10) this.lineNum_ += (token.match(/\n/g) || []).length;
 		}
 		throw 'マクロ'+ name +'定義の終端・[endmacro]がありません';
-	};
+	}
 	private hTagInf	: any	= {};	// タグ/マクロ情報
 
 
@@ -971,7 +971,7 @@ export class ScriptIterator {
 
 		hArg.do_rec = false;
 		return this.loadFromMark(hArg, mark, false);
-	};
+	}
 
 
 	// セーブポイント指定
@@ -1013,4 +1013,4 @@ export class ScriptIterator {
 		return false;
 	}
 
-};
+}

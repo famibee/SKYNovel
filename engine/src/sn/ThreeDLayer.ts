@@ -249,4 +249,5 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 		if (fncComp != undefined) fncComp();
 		return false;
 	}
+
 }
