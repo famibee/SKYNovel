@@ -391,7 +391,6 @@ export class EventMng implements IEvtMng {
 			((type == 'range' || type == 'checkbox')
 				? ['input', 'change']
 				: ['click'])
-				//.forEach(v=> {	// NOTE: mapの方が速い＆値を返すのでチェーンにできる
 				.map(v=> {
 					for (const elm of elmlist) this.elc.add(elm, v, e=> {
 						const e2 = (elm as HTMLElement).dataset;
@@ -401,6 +400,12 @@ export class EventMng implements IEvtMng {
 						this.defEvt2Fnc(e, key);
 					});
 				});
+			// 押したまま部品外へ出たときも確定イベント発生
+			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
+				if (e.which == 0) return;
+				this.defEvt2Fnc(e, key);
+			});
+
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
 		}
 
