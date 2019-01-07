@@ -1,6 +1,9 @@
 # Visual Studio Code cache/options directory
 .vscode/
 
+# アプリ版メインjs
+app/index.js
+
 # Build results
 build/skynovel*
 
@@ -17,6 +20,10 @@ gallery/glsl_/
 
 # Node.js Tools
 node_modules/
+
+# ブラウザ版メインjs
+web.js
+web.three.js
 
 # SKYNovel Dev famibee's Work Folder
 Work/

@@ -18,16 +18,16 @@
 *show_history
 	[return cond="! isGameState"]
 
-	&bk_chkFontMode = an.chkFontMode	; 履歴では一時無効
-	&an.chkFontMode = false
+	&bk_chkFontMode = sn.chkFontMode	; 履歴では一時無効
+	&sn.chkFontMode = false
 	[enable_event enabled=false]
 	[clear_event]
 	[lay layer=履歴 layout='fontFamily="ipam"']
 		; フォントを遅延ロードしているので指定はここまで遅らせる
 	[h_ss_upd]	; 履歴画面用スナップショットを撮る
-	[history_redraw text=&save:const.an.sLog]
+	[history_redraw text=&save:const.sn.sLog]
 		[button layer=履歴 page=fore pic="Icon_btnX" left=984 top=8 global=true label=*cancel hint="閉じる" enterse=&sysse_choice cond=!const.sn.isApp]
-	[let name=sysmenu_v text=&const.an.lay.mes_sysmenu.fore.visible cond=useSysMenu]
+	[let name=sysmenu_v text=&const.sn.lay.mes_sysmenu.fore.visible cond=useSysMenu]
 	[sys_menu visible=false]
 
 	&isGameState = false
@@ -75,5 +75,5 @@
 	[enable_event enabled=true]
 	[set_focus to=null]
 	&isGameState = true
-	&an.chkFontMode = bk_chkFontMode	; 復帰
+	&sn.chkFontMode = bk_chkFontMode	; 復帰
 [return]

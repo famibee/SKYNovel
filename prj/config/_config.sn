@@ -85,22 +85,22 @@
 ; 通常文字表示待ち
 *sldChWaitMsec
 	[let_frame id=config var_name=val_sldChWaitMsec]
-	&sys:an.tagCh.msecWait = const.sn.frm.config.val_sldChWaitMsec
+	&sys:sn.tagCh.msecWait = const.sn.frm.config.val_sldChWaitMsec
 		[trace text=&const.sn.frm.config.val_sldChWaitMsec]
 [return]
 *chkChDoWait
 		[let_frame id=config var_name=val_chkChDoWait]
-		&sys:an.tagCh.doWait = const.sn.frm.config.val_chkChDoWait
+		&sys:sn.tagCh.doWait = const.sn.frm.config.val_chkChDoWait
 		[trace text=&const.sn.frm.config.val_chkChDoWait]
 [return]
 *sldAutoLWaitMsec
 	[let_frame id=config var_name=val_sldAutoLWaitMsec]
-	&sys:an.auto.msecLineWait = const.sn.frm.config.val_sldAutoLWaitMsec
+	&sys:sn.auto.msecLineWait = const.sn.frm.config.val_sldAutoLWaitMsec
 		[trace text=&const.sn.frm.config.val_sldAutoLWaitMsec]
 [return]
 *sldAutoPWaitMsec
 	[let_frame id=config var_name=val_sldAutoPWaitMsec]
-	&sys:an.auto.msecPageWait = const.sn.frm.config.val_sldAutoPWaitMsec
+	&sys:sn.auto.msecPageWait = const.sn.frm.config.val_sldAutoPWaitMsec
 		[trace text=&const.sn.frm.config.val_sldAutoPWaitMsec]
 [return]
 
@@ -108,22 +108,22 @@
 ; 既読文字表示待ち
 *sldChWaitMsec_Kidoku
 	[let_frame id=config var_name=val_sldChWaitMsec_Kidoku]
-	&sys:an.tagCh.msecWait_Kidoku = const.sn.frm.config.val_sldChWaitMsec_Kidoku
+	&sys:sn.tagCh.msecWait_Kidoku = const.sn.frm.config.val_sldChWaitMsec_Kidoku
 		[trace text=&const.sn.frm.config.val_sldChWaitMsec_Kidoku]
 [return]
 *chkChDoWait_Kidoku
 		[let_frame id=config var_name=val_chkChDoWait_Kidoku]
-		&sys:an.tagCh.doWait_Kidoku = const.sn.frm.config.val_chkChDoWait_Kidoku
+		&sys:sn.tagCh.doWait_Kidoku = const.sn.frm.config.val_chkChDoWait_Kidoku
 		[trace text=&const.sn.frm.config.val_chkChDoWait_Kidoku]
 [return]
 *sldAutoLWaitMsec_Kidoku
 	[let_frame id=config var_name=val_sldAutoLWaitMsec_Kidoku]
-	&sys:an.auto.msecLineWait_Kidoku = const.sn.frm.config.val_sldAutoLWaitMsec_Kidoku
+	&sys:sn.auto.msecLineWait_Kidoku = const.sn.frm.config.val_sldAutoLWaitMsec_Kidoku
 		[trace text=&const.sn.frm.config.val_sldAutoLWaitMsec_Kidoku]
 [return]
 *sldAutoPWaitMsec_Kidoku
 	[let_frame id=config var_name=val_sldAutoPWaitMsec_Kidoku]
-	&sys:an.auto.msecPageWait_Kidoku = const.sn.frm.config.val_sldAutoPWaitMsec_Kidoku
+	&sys:sn.auto.msecPageWait_Kidoku = const.sn.frm.config.val_sldAutoPWaitMsec_Kidoku
 		[trace text=&const.sn.frm.config.val_sldAutoPWaitMsec_Kidoku]
 [return]
 
@@ -185,16 +185,16 @@
 ;*********************************************************
 *text_auto_msecwait_sub
 	[return cond="! isGameState"]
-	&wait = sys:an.auto.msecLineWait -100 = uint
+	&wait = sys:sn.auto.msecLineWait -100 = uint
 	[let name="wait" text=0 cond="wait < 0"]
 [jump label=*text_auto_msecwait]
 
 *text_auto_msecwait_add
 	[return cond="! isGameState"]
-	&wait = sys:an.auto.msecLineWait +100 = uint
+	&wait = sys:sn.auto.msecLineWait +100 = uint
 	[let name="wait" text=3500 cond="wait > 3500"]
 *text_auto_msecwait
-	&sys:an.auto.msecLineWait = wait
+	&sys:sn.auto.msecLineWait = wait
 	[notice text="&'自動読み進み速度 ' + wait + ' msec'" left="&const.sn.xmlConfig.window.width -10 -300" top=10]
 [return]
 

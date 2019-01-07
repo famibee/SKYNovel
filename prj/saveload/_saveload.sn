@@ -96,10 +96,8 @@
 	[let name=pic text='_saveload_browser.jpg' cond=!const.sn.isApp]
 
 *do_save_noss
-	[let name="enabled" text="&save:const.an.layer.mes.enabled|true"]
-	[enable_event enabled=true]	; この状態も保存されるので一時変更
+	[enable_event enabled=true]	; この状態も保存されるので本文に戻る前に変更
 	[save place=&_save.place pic=&pic dt=&const.Date.getDateStr txt=&const.sn.last_page_text]
-	[enable_event enabled="&enabled"]
 [return]
 
 ;*****************************
@@ -143,7 +141,7 @@
 	[return cond="! isGameState"]
 	[return cond="sys:saveload.quick_place == null"]
 	[let name="_sl.place" text="&(sys:saveload.quick_place +const._sl.th_一ページあたりの数 -1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
-	[return cond="sys:const.an.bookmark[_sl.place] == null"]
+	[return cond="sys:const.sn.bookmark[_sl.place] == null"]
 
 	[enable_event enabled=false]
 		[ask_ync_cleartext]

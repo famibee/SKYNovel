@@ -33,7 +33,7 @@
 [char2macro char=@ name=l]
 [char2macro char=\ name=plc]
 
-;	&an.chkFontMode = true
+;	&sn.chkFontMode = true
 		; 開発中は true にしておくとフォント組み込み忘れを防げる
 		; （このままリリースしても問題なし）
 
@@ -124,16 +124,16 @@
 
 *set_focus
 	[set_focus to=&const.sn.eventArg]
-	[return]
+[return]
 
 *repeat_voice
 	[repeat_voice]
-	[return]
+[return]
 
 *snapshot
 	[snapshot]
 ;	[notice text="スクリーンショットをデスクトップに保存しました" left="&const.sn.config.window.width -10 -300" top=10]
-	[return]
+[return]
 
 *reload_script
 	[reload_script]
@@ -141,7 +141,10 @@
 *stats
 	[event global=true del=true key=f7]
 	[stats]
-	[return]
+[return]
 
 *dump
-	[dump_lay][return]
+	[dump_lay]
+;	[dump_val]
+;	[dump_stack]
+[return]
