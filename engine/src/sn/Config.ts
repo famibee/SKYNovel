@@ -136,14 +136,15 @@ export class Config implements IConfig {
 			return;
 		}
 
-		try {
-			(async ()=> {
-				const res = await fetch(sys.cur +'prj.json');
-				load(await res.json());
-			})();
-		} catch (e) {
-			DebugMng.myTrace(`load prj.json "${err_mes}" = %o`, e);
-		}
+		// テストで引っかかるのでPromise・async/awaitにしない
+		fetch(sys.cur +'prj.json')
+		.then(response=> {
+			if (response.ok) return response.json();
+			throw new Error(`load prj.json err = ${response.statusText
+			}`);
+		})		// webpackでバンドルしたら、path.jsonが要らなくなる？
+		.then(load)
+		.catch(err=> DebugMng.myTrace(`load prj.json "${err_mes}" = ${err}`));
 	}
 	private $existsBreakline = false;
 	get existsBreakline(): boolean {return this.$existsBreakline}
