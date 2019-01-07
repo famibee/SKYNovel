@@ -121,6 +121,8 @@ export interface HArg {
 	buf2?	: string;
 	volume?	: number;
 	join?	: boolean;
+	do_rec?	: boolean;
+	reload_sound?	: boolean;
 
 
 	dae?	: string;
@@ -211,7 +213,7 @@ export interface IVariable {
 	setSys(sys: ISysBase): void;
 	flush(): void;
 
-	getVal(arg_name: string, def?: number): object;
+	getVal(arg_name: string, def?: number | string): object;
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
 
 	defTmp(name: string, fnc: typeProcVal): void;
@@ -220,7 +222,7 @@ export interface IVariable {
 	setMark(place: number, mp: IMark): void;
 	getMark(place: number): IMark;
 	cloneSave(): object;
-	loadWark(place: number): void;
+	mark2save(mark: IMark): void;
 
 	loadScrWork(fn: string): void;
 	getAreaKidoku(fn: string): IAreas;

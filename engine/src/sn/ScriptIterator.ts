@@ -65,10 +65,10 @@ export class ScriptIterator {
 		hTag.dump_script= o=> this.disp_script(o);	// スクリプトのダンプ
 
 		// 条件分岐
-		hTag['else']	=						// その他ifブロック開始
-		hTag.elsif		=						// 別条件のifブロック開始
-		hTag.endif		= ()=> this.endif();	// ifブロックの終端
-		hTag['if']		= o=> this.if(o);		// ifブロックの開始
+		hTag['else']	=							// その他ifブロック開始
+		hTag.elsif		=							// 別条件のifブロック開始
+		hTag.endif		= ()=> this.endif();		// ifブロックの終端
+		hTag['if']		= o=> this.if(o);			// ifブロックの開始
 
 		// ラベル・ジャンプ
 		//hTag.button	// LayerMng.ts内で定義		// ボタンを表示
@@ -88,6 +88,7 @@ export class ScriptIterator {
 		//hTag.copybookmark		// Variable.ts内で定義	// しおりの複写
 		//hTag.erasebookmark	// Variable.ts内で定義	// しおりの消去
 		hTag.load			= o=> this.load(o);			// しおりの読込
+		hTag.reload_script	= o => this.reload_script(o);	// スクリプト再読込
 		hTag.record_place	= o=> this.record_place(o);	// セーブポイント指定
 		hTag.save			= o=> this.save(o);			// しおりの保存
 
@@ -923,26 +924,17 @@ export class ScriptIterator {
 		const mark = this.val.getMark(place);
 		if (! mark) throw `place【${place}】は存在しません`;
 
+		return this.loadFromMark(hArg, mark);
+	}
+	private loadFromMark(hArg: HArg, mark: IMark) {
 		this.layMng.cover(true);
 		this.hTag.clear_event({});
-		this.val.loadWark(place);
+		this.val.mark2save(mark);
 
-		if (CmnLib.argChk_Boolean(hArg, 'reset_sound', true)) {	// TODO: reset_sound
-			const aFncBgm = this.sndMng.loadFromSaveObj(hArg);
-			this.fncLoaded = (aFncBgm.length == 0)
-				? this.runAnalyze
-				: ()=> {
-//traceDbg('aa:'+ aFncBgm.length);
-//					const o = aFncBgm.pop();
-/*
-					o.fnc(o.arg);
-//traceDbg('buf:'+ o.arg.buf +': fn:'+ o.arg.fn +':');
-					if (aFncBgm.length == 0) this.fncLoaded = this.runAnalyze;
-					this.next(this.fncLoaded);
-*/
-				};
+		if (CmnLib.argChk_Boolean(hArg, 'reload_sound', true)) {
+			this.sndMng.playLoopFromSaveObj(hArg);
 		}
-		else this.fncLoaded = this.runAnalyze;
+		this.fncLoaded = this.runAnalyze;
 
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) this.mark = {
 			hSave	: this.val.cloneSave(),
@@ -968,8 +960,27 @@ export class ScriptIterator {
 				this.jumpWork(fn, '', idx);
 			}
 		);
+
 		return true;
 	}
+
+	// スクリプト再読込
+	private reload_script(hArg: HArg) {	// 最後の[record_place]から再開
+		return this.reloadScript(hArg, this.val.getMark(0));
+	}
+	private reloadScript(hArg: HArg, mark: IMark): boolean {
+		// 起動から再読込までの間に追加・変更・削除されたファイルがあるかも、に対応
+	//	delete this.hScript[this.scriptFn_];	// これだと[reload_script]位置になる
+		delete this.hScript[CmnLib.getFn(mark.hSave['const.sn.scriptFn'])];
+
+	//	CmnLib.setSearchPath(MainThread.xmlConfig);	// TODO: 後々にはこれもリロード
+
+		hArg.do_rec = false;
+		hArg.reload_sound = true;
+		return this.loadFromMark(hArg, mark);
+	};
+	fncReloadScript = this.reloadScript;
+
 
 	// セーブポイント指定
 	private	mark: IMark = {
