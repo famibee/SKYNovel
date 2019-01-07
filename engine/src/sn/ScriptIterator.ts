@@ -926,14 +926,12 @@ export class ScriptIterator {
 
 		return this.loadFromMark(hArg, mark);
 	}
-	private loadFromMark(hArg: HArg, mark: IMark) {
+	private loadFromMark(hArg: HArg, mark: IMark, reload_sound = true) {
 		this.layMng.cover(true);
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
 
-		if (CmnLib.argChk_Boolean(hArg, 'reload_sound', true)) {
-			this.sndMng.playLoopFromSaveObj(hArg);
-		}
+		if (reload_sound) this.sndMng.playLoopFromSaveObj();
 		this.fncLoaded = this.runAnalyze;
 
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) this.mark = {
@@ -976,8 +974,7 @@ export class ScriptIterator {
 	//	CmnLib.setSearchPath(MainThread.xmlConfig);	// TODO: 後々にはこれもリロード
 
 		hArg.do_rec = false;
-		hArg.reload_sound = true;
-		return this.loadFromMark(hArg, mark);
+		return this.loadFromMark(hArg, mark, false);
 	};
 	fncReloadScript = this.reloadScript;
 

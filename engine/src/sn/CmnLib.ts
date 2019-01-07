@@ -9,7 +9,7 @@
 export interface HArg {
 	タグ名?	: string;
 
-	layer?	: string;
+	layer?	: string;	// レイヤ系
 	class?	: string;
 	index?	: string;
 	dive?	: string;
@@ -117,12 +117,14 @@ export interface HArg {
 	to?		: number;
 	place?	: number;
 
-	buf?	: string;
+	buf?	: string;	// 音系
 	buf2?	: string;
+	loop?	: boolean;
 	volume?	: number;
+	ret_ms?	: number;
+	end_ms?	: number;
 	join?	: boolean;
 	do_rec?	: boolean;
-	reload_sound?	: boolean;
 
 
 	dae?	: string;

@@ -26,7 +26,7 @@ interface ISndBuf {
 export class SoundMng {
 	private hSndBuf	: {[name: string]: ISndBuf} = {};
 
-	constructor(private cfg: Config, private hTag: IHTag, private val: IVariable, private main: IMain) {
+	constructor(private cfg: Config, hTag: IHTag, private val: IVariable, private main: IMain) {
 		hTag.volume		= o=> this.volume(o);		// 音量設定（独自拡張）
 		hTag.fadebgm	= o=> this.fadebgm(o);		// BGMのフェード
 		hTag.fadeoutbgm	= o=> this.fadeoutbgm(o);	// BGMのフェードアウト
@@ -48,7 +48,7 @@ export class SoundMng {
 		fncGlobalVol('', val.getVal('sys:sn.sound.global_volume', 1));
 		val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
 
-		this.val.setVal_Nochk('save', 'const.sn.jsLpPlay', '{}');
+		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
 		'mp3,m4a,ogg,aac,webm,flac,wav'.split(',').map(v=> val.setVal_Nochk('tmp', 'const.sn.sound.codecs.'+ v, Howler.codecs(v)));
 	}
@@ -69,7 +69,7 @@ export class SoundMng {
 		// 再生中音声の一時的音量も変更
 		hArg.time = 0;
 		hArg.volume = Number(this.val.getVal('save:'+ bvn));	// 目標音量（save:）
-		return this.hTag.fadese(hArg);
+		return this.fadese(hArg);
 	}
 	private getVol(hArg: HArg, def: number) {
 		const vol = CmnLib.argChk_Num(hArg, 'volume', def);
@@ -78,25 +78,12 @@ export class SoundMng {
 		return vol;
 	}
 
-	// BGMのフェードアウト（loadで使うのでマクロ化禁止）
-	private fadeoutbgm(hArg: HArg) {
-		hArg.volume = 0;
-		CmnLib.argChk_Boolean(hArg, 'stop', true);
-		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
-		//this.flush();	// すぐ下でflush()
-		this.delPlayBuf('BGM');
-		return this.hTag.fadebgm(hArg);
-	}
-	// 効果音のフェードアウト（loadで使うのでマクロ化禁止）
-	private fadeoutse(hArg: HArg) {
-		hArg.volume = 0;
-		CmnLib.argChk_Boolean(hArg, 'stop', true);
-		this.delPlayBuf(hArg.buf || 'SE');
-		return this.hTag.fadese(hArg);
-	}
-
-	// BGMのフェード（loadで使うのでマクロ化禁止）
-	private fadebgm(hArg: HArg) {hArg.buf = 'BGM'; return this.hTag.fadese(hArg);}
+	// BGM/効果音のフェードアウト（loadから使うのでマクロ化禁止）
+	private fadeoutbgm(hArg: HArg) {hArg.volume = 0; return this.fadebgm(hArg);}
+	// 効果音のフェードアウト（loadから使うのでマクロ化禁止）
+	private fadeoutse(hArg: HArg) {hArg.volume = 0; return this.fadese(hArg);}
+	// BGMのフェード（loadから使うのでマクロ化禁止）
+	private fadebgm(hArg: HArg) {hArg.buf = 'BGM'; return this.fadese(hArg);}
 	// 効果音のフェード
 	private fadese(hArg: HArg) {
 		this.stopfadese(hArg);
@@ -109,6 +96,12 @@ export class SoundMng {
 		const savevol = this.getVol(hArg, NaN);
 		this.val.setVal_Nochk('save', bvn, savevol);	// 目標音量（save:）
 		const vol = savevol * Number(this.val.getVal('sys:'+ bvn, 1))
+		const stop = CmnLib.argChk_Boolean(hArg, 'stop', (hArg.volume == 0));
+		if (stop) {
+			this.delLoopPlay(buf);
+			this.val.setVal_Nochk('save', 'const.sn.sound.'+ buf +'.fn', '');
+				// 先行して
+		}
 		this.val.flush();
 
 		if (CmnLib.argChk_Num(hArg, 'time', NaN) == 0) {
@@ -119,7 +112,6 @@ export class SoundMng {
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
-		const stop = CmnLib.argChk_Boolean(hArg, 'stop', false);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume(), vol);
 		oSb.twFade = new TWEEN.Tween({v: oSb.snd.volume()})
 			.to({v: vol}, CmnLib.argChk_Num(hArg, 'time', NaN))
@@ -151,10 +143,8 @@ export class SoundMng {
 	private playbgm(hArg: HArg) {
 		hArg.buf = 'BGM';
 		hArg.canskip = false;
-		this.val.setVal_Nochk('save', 'const.sn.fnBgm', hArg.fn);
-		this.val.flush();
 		CmnLib.argChk_Boolean(hArg, 'loop', true);
-		return this.hTag.playse(hArg);
+		return this.playse(hArg);
 	}
 
 	// 効果音の再生
@@ -169,17 +159,18 @@ export class SoundMng {
 			&& this.evtMng.isSkipKeyDown()) return false;
 
 		const loop = CmnLib.argChk_Boolean(hArg, 'loop', false);
-		this.addPlayBuf(buf, fn, loop);
+		this.addLoopPlay(buf, loop);
 
 		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
 		const nm = 'const.sn.sound.'+ buf +'.';
+		this.val.setVal_Nochk('save', nm +'fn', fn);
 		const savevol = this.getVol(hArg, 1);
 		this.val.setVal_Nochk('save', nm +'volume', savevol);	// 目標音量（save:）
 		const vol = savevol * Number(this.val.getVal('sys:'+ nm +'volume', 1));
 		const ret_ms = CmnLib.argChk_Num(hArg, 'ret_ms', 0);
-		this.val.setVal_Nochk('save', 'const.sn.sound.'+ buf +'.ret_ms', ret_ms);
+		this.val.setVal_Nochk('save', nm +'ret_ms', ret_ms);
 		const end_ms = CmnLib.argChk_Num(hArg, 'end_ms', 0);
-		this.val.setVal_Nochk('save', 'const.sn.sound.'+ buf +'.end_ms', end_ms);
+		this.val.setVal_Nochk('save', nm +'end_ms', end_ms);
 		this.val.flush();
 
 		const o: IHowlProperties = {
@@ -225,24 +216,17 @@ export class SoundMng {
 
 	// 全効果音再生の停止
 	private stop_allse(_hArg?: HArg) {
-		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
-		//this.flush();	// すぐ下でflush()
 		for (const buf in this.hSndBuf) this.stopse({buf: buf});
 		this.hSndBuf = {};
 		return false;
 	}
-	// BGM 演奏の停止（マクロ化禁止）
-	private stopbgm(hArg: HArg) {
-		hArg.buf = 'BGM';
-		this.val.setVal_Nochk('save', 'const.sn.fnBgm', '');
-		//this.flush();	// すぐ下でflush()
-		return this.hTag.stopse(hArg);
-	}
+	// BGM 演奏の停止（loadから使うのでマクロ化禁止）
+	private stopbgm(hArg: HArg) {hArg.buf = 'BGM'; return this.stopse(hArg);}
 	// 効果音再生の停止
 	private stopse(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
 		this.stopfadese(hArg);
-		this.delPlayBuf(buf);
+		this.delLoopPlay(buf);
 
 		const oSb = this.hSndBuf[buf];
 		if (oSb) oSb.snd.stop();
@@ -251,7 +235,7 @@ export class SoundMng {
 	}
 
 	// BGM フェードの終了待ち
-	private wb(hArg: HArg) {hArg.buf = 'BGM'; return this.hTag.wf(hArg);}
+	private wb(hArg: HArg) {hArg.buf = 'BGM'; return this.wf(hArg);}
 
 	// 効果音フェードの終了待ち
 	private wf(hArg: HArg) {
@@ -280,7 +264,7 @@ export class SoundMng {
 	}
 
 	// BGM 再生の終了待ち
-	private wl(hArg: HArg) {hArg.buf = 'BGM'; return this.hTag.ws(hArg);}
+	private wl(hArg: HArg) {hArg.buf = 'BGM'; return this.ws(hArg);}
 	// 効果音再生の終了待ち
 	private ws(hArg: HArg) {
 		const buf = hArg.buf || 'SE';
@@ -322,90 +306,44 @@ export class SoundMng {
 	}
 
 	// しおりの読込（BGM状態復元）
-	playLoopFromSaveObj(hArg: HArg): void {
-		const oSB: any = {};
-		if (! hArg.reload_sound) {
-//			save = hScopeVal.save;
-//			sys = hScopeVal.sys;
-		}
-		const jsLpPlay = String(this.val.getVal('save:const.sn.jsLpPlay', '{}'));
+	playLoopFromSaveObj(): void {
+		const loopPlaying = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
 		this.val.flush();
-		if (jsLpPlay == '{}') {this.stop_allse(); return;}
+		if (loopPlaying == '{}') {this.stop_allse(); return;}
 
-		const ab = jsLpPlay.split(':');
-		const len = ab.length;
-		for (let i=0; i<len; ++i) {
-			const buf = ab[i];
+		const aFnc: {(): void}[] = [];
+		const hBuf = JSON.parse(loopPlaying);
+		for (const buf in hBuf) {
 			const nm = 'save:const.sn.sound.'+ buf +'.';
-			oSB[buf] = {
-				fn		: this.val.getVal(nm +'fn'),
+			const hArg = {
+				fn		: String(this.val.getVal(nm +'fn')),
 				buf		: buf,
-				join	: true,
+				join	: false,
 				loop	: true,
-				volume	: this.val.getVal(nm +'volume'),
-				ret_ms	: this.val.getVal(nm +'ret_ms'),
-				end_ms	: this.val.getVal(nm +'end_ms'),
-			}
+				volume	: Number(this.val.getVal(nm +'volume')),
+				ret_ms	: Number(this.val.getVal(nm +'ret_ms')),
+				end_ms	: Number(this.val.getVal(nm +'end_ms')),
+			};
+			aFnc.push(()=> {
+				if (hArg.buf == 'BGM') this.playbgm(hArg);
+				else this.playse(hArg);
+			});
 		}
 		this.stop_allse();
-
-		const aFnc: any[] = [];
-		for (let i=0; i<len; ++i) {
-			const buf2 = ab[i];
-//MainThread.myTrace(' buf:'+ buf2 +': fn:'+ oSB[buf2].fn +':', 'F');
-			if (! buf2 || ! oSB[buf2].fn) {this.delPlayBuf(buf2); continue;}
-			aFnc.push({
-				fnc: (buf2 == 'BGM') ?this.playbgm :this.playse,
-				arg: oSB[buf2] });
-		}
-		// アプリ全体の音量はsys:なので処理不要
-
-
-//traceDbg('aa:'+ aFncBgm.length);
-//					const o = aFncBgm.pop();
-/*
-					o.fnc(o.arg);
-//traceDbg('buf:'+ o.arg.buf +': fn:'+ o.arg.fn +':');
-					if (aFncBgm.length == 0) this.fncLoaded = this.runAnalyze;
-					this.next(this.fncLoaded);
-*/
-
-
+		aFnc.map(f=> f());
 	}
-	private addPlayBuf(buf: string, fn: string, is_loop: Boolean): void {
-		if (! is_loop) {
-console.log(`fn:SoundMng.ts line:371 go addPlayBuf 2 delPlayBuf`);
-			this.delPlayBuf(buf); return;}
+	private addLoopPlay(buf: string, is_loop: Boolean): void {
+		if (! is_loop) {this.delLoopPlay(buf); return;}
 
-		const lpPlay = JSON.parse(String(this.val.getVal('save:const.sn.jsLpPlay', '{}')));
-console.log(`fn:SoundMng.ts line:375 addPlayBuf buf:${buf} lpPlay:%o`, lpPlay);
-		lpPlay[buf] = {fn: fn};
-console.log(`fn:SoundMng.ts line:377 addPlayBuf buf:${buf} -->:%o`, lpPlay);
-		this.val.setVal_Nochk('save', 'const.sn.jsLpPlay', JSON.stringify(lpPlay));
-/*
-		delPlayBuf(buf);
-		if (! is_loop) return;
-
-		save['const.an.sound.'+ buf +'.fn'] = fn;
-		save['const.an.bufs_lp_play']
-			+= ((save['const.an.bufs_lp_play']=='') ?'' :':')
-				+ buf;
-*/
+		const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
+		hBuf[buf] = 0;
+		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
 		this.val.flush();
 	}
-	private delPlayBuf(buf: string): void {
-		const lpPlay = JSON.parse(String(this.val.getVal('save:const.sn.jsLpPlay', '{}')));
-console.log(`fn:SoundMng.ts line:392 delPlayBuf buf:${buf} lpPlay:%o`, lpPlay);
-		delete lpPlay[buf];
-console.log(`fn:SoundMng.ts line:395 delPlayBuf buf:${buf} -->:%o`, lpPlay);
-		this.val.setVal_Nochk('save', 'const.sn.jsLpPlay', JSON.stringify(lpPlay));
-
-/*
-		save['const.sn.sound.'+ buf +'.fn'] = '';
-		save['const.sn.jsLpPlay']
-			= (':'+ save['const.sn.jsLpPlay'])
-			.replace(':'+ buf, '').slice(1);
-*/
+	private delLoopPlay(buf: string): void {
+		const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
+		delete hBuf[buf];
+		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
 		this.val.flush();
 	}
 
