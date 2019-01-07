@@ -36,7 +36,6 @@ export class Main implements IMain {
 	private evtMng		: EventMng;
 
 	private fncNext		= ()=> {};
-	private fncLoaded	= this.runAnalyze;
 	private	alzTagArg	= new AnalyzeTagArg;
 
 
@@ -76,7 +75,7 @@ export class Main implements IMain {
 			// ラベル・ジャンプ（5/5）[button]は LayerMng 担当
 			// マクロ（5/5）
 			// しおり（5/5）[copybookmark][erasebookmark]は Variable 担当
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.fncLoaded();}, this.prpPrs.parse, this.sndMng);
+			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.runAnalyze();}, this.prpPrs.parse, this.sndMng);
 
 			// デバッグ・その他（8/9）[reload_script]のみ残る
 			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);

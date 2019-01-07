@@ -56,7 +56,7 @@ export class ScriptIterator {
 	private csAnalyBf	: CallStack		= new CallStack('', 0);
 
 
-	constructor(private cfg: Config, private hTag: IHTag, private main: IMain, private val: IVariable, private alzTagArg: AnalyzeTagArg, private fncLoaded: ()=> void, private parse: IParse, private sndMng: SoundMng) {
+	constructor(private cfg: Config, private hTag: IHTag, private main: IMain, private val: IVariable, private alzTagArg: AnalyzeTagArg, private runAnalyze: ()=> void, private parse: IParse, private sndMng: SoundMng) {
 		//	変数操作
 		hTag.let_ml		= o=> this.let_ml(o);	// インラインテキスト代入
 
@@ -94,10 +94,7 @@ export class ScriptIterator {
 
 
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.aCallStk.length);
-
-		this.runAnalyze = fncLoaded;
 	}
-	private runAnalyze	= ()=> {};
 
 	private	evtMng	: EventMng;
 	private	layMng	: LayerMng;
@@ -442,7 +439,7 @@ export class ScriptIterator {
 		const o = this.seekScript(this.script, Boolean(this.val.getVal('mp:const.sn.macro_name')), this.lineNum_, this.skipLabel, this.idxToken_);
 		this.idxToken_	= o.idx;
 		this.lineNum_	= o.lineNum;
-		this.fncLoaded();
+		this.runAnalyze();
 	}
 
 
@@ -932,7 +929,6 @@ export class ScriptIterator {
 		this.val.mark2save(mark);
 
 		if (reload_sound) this.sndMng.playLoopFromSaveObj();
-		this.fncLoaded = this.runAnalyze;
 
 		if (CmnLib.argChk_Boolean(hArg, 'do_rec', true)) this.mark = {
 			hSave	: this.val.cloneSave(),
@@ -976,7 +972,6 @@ export class ScriptIterator {
 		hArg.do_rec = false;
 		return this.loadFromMark(hArg, mark, false);
 	};
-	fncReloadScript = this.reloadScript;
 
 
 	// セーブポイント指定
