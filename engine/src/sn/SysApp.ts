@@ -10,6 +10,7 @@ import {CmnLib, HArg, IHTag, IVariable, IData4Vari} from './CmnLib';
 import {remote, BrowserWindow, webContents, screen} from 'electron';
 import {Main} from './Main';
 const Store = require('electron-store');
+const shell = require('electron').shell;
 
 export class SysApp extends SysNode {
 	constructor() {
@@ -20,19 +21,6 @@ export class SysApp extends SysNode {
 	protected $path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
 
 	protected	normalize = (src: string, form: string)=> src.normalize(form);
-
-	private win		: BrowserWindow	= remote.getCurrentWindow();
-	private wc		: webContents	= this.win.webContents;
-	init(hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
-		super.init(hTag, val, appPixi);
-
-		if (CmnLib.devtool) this.wc.openDevTools();
-		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
-
-		//	デバッグ・その他
-		// アプリウインドウ設定
-		hTag.window = this.window;
-	}
 
 	private	store = new Store({cwd: 'storage', name: 'data'});
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
@@ -106,7 +94,26 @@ export class SysApp extends SysNode {
 	private	dsp	= screen.getPrimaryDisplay();
 	flush() {this.store.store = this.data;}
 
+	private win		: BrowserWindow	= remote.getCurrentWindow();
+	private wc		: webContents	= this.win.webContents;
+	init(hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
+		super.init(hTag, val, appPixi);
+
+		if (CmnLib.devtool) this.wc.openDevTools();
+		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
+	}
+
+	// アプリの終了
 	protected close = ()=> {this.win.close(); return false;}
+	// ＵＲＬを開く
+	protected navigate_to = (hArg: HArg)=> {
+		const url = hArg.url;
+		if (! url) throw '[navigate_to] urlは必須です';
+		shell.openExternal(url);
+
+		return false;
+	}
+	// タイトル指定
 	protected title = (hArg: HArg)=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
@@ -115,14 +122,15 @@ export class SysApp extends SysNode {
 
 		return false;
 	}
-	protected toggle_full_screen = (hArg: HArg)=> {
+	// 全画面状態切替
+	protected tgl_full_scr = (hArg: HArg)=> {
 		const key = hArg.key;
 		if (key) {
 			window.addEventListener('keydown', (e: KeyboardEvent)=> {
 				if (e.key != key) return;
 
 				e.stopPropagation();
-				this.toggle_full_screen({});
+				this.tgl_full_scr({});
 			});
 			return false;
 		}
@@ -157,9 +165,8 @@ export class SysApp extends SysNode {
 
 		return false;
 	}
-
 	// アプリウインドウ設定
-	private window(hArg: HArg) {
+	protected window = (hArg: HArg)=> {
 		const screenRX = this.dsp.size.width;
 		const screenRY = this.dsp.size.height;
 		if (CmnLib.argChk_Boolean(hArg, 'centering', false)) {

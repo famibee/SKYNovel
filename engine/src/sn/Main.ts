@@ -22,32 +22,22 @@ import { Application, utils, ApplicationOptions } from 'pixi.js';
 
 export class Main implements IMain {
 	private cfg			: Config;
-	private fncNext		= ()=> {};
-
-	private	scrItr		: ScriptIterator;
-
-	private fncLoaded	= this.runAnalyze;
 
 	private appPixi		: Application;
-	private layMng		: LayerMng;
 
 	private hTag		: IHTag		= {};	// タグ処理辞書
-	private	alzTagArg	= new AnalyzeTagArg;
-
-
-//	private thMouseHide	:MouseHideThread	= null;
-//	private shpEvtDummy	:Shape		= new Shape();
-
-/*	private tapStateMng	:TapStateMng= null;
-	private enMDownTap	:String		= MouseEvent.MOUSE_DOWN;
-	private enClickTap	:String		= MouseEvent.MOUSE_DOWN;
-*/
-	private evtMng		: EventMng;
 
 	private val			: Variable;
-	private propParser	: PropParser;
+	private prpPrs		: PropParser;
 	private sndMng		: SoundMng;
+	private	scrItr		: ScriptIterator;
 	private dbgMng		: DebugMng;
+	private layMng		: LayerMng;
+	private evtMng		: EventMng;
+
+	private fncNext		= ()=> {};
+	private fncLoaded	= this.runAnalyze;
+	private	alzTagArg	= new AnalyzeTagArg;
 
 
 	constructor(private sys: SysBase) {
@@ -73,7 +63,7 @@ export class Main implements IMain {
 			// 変数操作（9/9）
 			this.val = new Variable(this.cfg, this.hTag);
 			// 組み込み変数定義 //
-			this.propParser = new PropParser(this.val);
+			this.prpPrs = new PropParser(this.val);
 
 			// システム（5/13）[snapshot]は LayerMng 担当
 			this.sys.init(this.hTag, this.val, this.appPixi);	// ここで変数準備完了
@@ -83,10 +73,10 @@ export class Main implements IMain {
 			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this);
 
 			// 条件分岐（4/4）
-			// ラベル・ジャンプ（5/5）
+			// ラベル・ジャンプ（5/5）[button]は LayerMng 担当
 			// マクロ（5/5）
-			// しおり（/5）
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.fncLoaded();}, this.propParser.parse, this.sndMng);
+			// しおり（5/5）[copybookmark][erasebookmark]は Variable 担当
+			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> {this.fncLoaded();}, this.prpPrs.parse, this.sndMng);
 
 			// デバッグ・その他（8/9）[reload_script]のみ残る
 			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);
@@ -194,13 +184,13 @@ export class Main implements IMain {
 						//変数計算
 						const o: any = CmnLib.splitAmpersand(token.slice(1));
 						o.name = this.getValAmpersand(o.name);
-						o.text = String(this.propParser.parse(o.text));
+						o.text = String(this.prpPrs.parse(o.text));
 						this.hTag.let(o);
 						continue;
 					}
 
 					if (token.charAt(1) == '&') throw new Error('「&表示&」書式では「&」指定が不要です');
-					token = String(this.propParser.parse( token.slice(1, -1) ));
+					token = String(this.prpPrs.parse( token.slice(1, -1) ));
 				}
 				catch (err) {
 					let mes = '';
@@ -258,7 +248,7 @@ export class Main implements IMain {
 		if (this.alzTagArg.hPrm['cond']) {
 			const cond = this.alzTagArg.hPrm['cond'].val;
 			if (cond.charAt(0) == '&') throw '属性condは「&」が不要です';
-			const p = this.propParser.parse(cond);
+			const p = this.prpPrs.parse(cond);
 			const ps = String(p);
 			if (ps == 'null' || ps == 'undefined') return false;
 			if (! p) return false;
@@ -292,7 +282,7 @@ export class Main implements IMain {
 	}
 
 	private getValAmpersand = (val: string)=> (val.charAt(0) == '&')
-		? String(this.propParser.parse(val.substr(1)))
+		? String(this.prpPrs.parse(val.substr(1)))
 		: val;
 
 	destroy() {

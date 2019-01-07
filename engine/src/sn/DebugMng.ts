@@ -26,19 +26,13 @@ export class DebugMng {
 		DebugMng.myTrace = DebugMng.fncMyTrace;
 
 		//	デバッグ・その他
-		//hTag.clearsysvar	= o => this.clearsysvar(o);		// システム変数の全消去
-			// Variableで定義
-		//hTag.clearvar		= o => this.clearvar(o);		// ゲーム変数の全消去
-			// Variableで定義
-		//hTag.dump_lay		= o => this.dump_lay(o);		// レイヤのダンプ
-			// LayerMngで定義
-		//hTag.dump_val		= o => this.dump_val(o);		// 変数のダンプ
-			// Variableで定義
-		//hTag.dump_stack	= o => this.dump_stack(o);		// スタックのダンプ
-			// ScriptIteratorで定義
+		//hTag.clearsysvar	// Variableで定義				// システム変数の全消去
+		//hTag.clearvar		// Variableで定義				// ゲーム変数の全消去
+		//hTag.dump_lay		// LayerMngで定義				// レイヤのダンプ
+		//hTag.dump_val		// Variableで定義				// 変数のダンプ
+		//hTag.dump_stack	// ScriptIteratorで定義			// スタックのダンプ
 		hTag.log			= o => this.log(o);				// ログ出力
-//		hTag.reload_script	= o => this.reload_script(o);	// スクリプト再読込
-
+		//hTag.reload_script// ScriptIterator.ts内で定義	// スクリプト再読込
 		hTag.stats			= o => this.stats(o);			// パフォーマンス表示
 		hTag.trace			= o => this.trace(o);			// デバッグ表示へ出力
 	}
@@ -63,9 +57,6 @@ export class DebugMng {
 
 		return false;
 	}
-
-	// スクリプト再読込
-//	private reload_script(hArg: HArg) {return false;}
 
 	// パフォーマンス表示
 	private stats(hArg: HArg) {

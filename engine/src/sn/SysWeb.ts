@@ -31,20 +31,16 @@ export class SysWeb extends SysBase {
 
 		if ('webkitFullscreenEnabled' in document) {
 			//Chrome15+, Safari5.1+, Opera15+
-			this.toggle_full_screen =
-			o=> this.regEvt_FullScr(o, 'webkitRequestFullscreen');
+			this.tgl_full_scr = o=> this.regEvt_FullScr(o,'webkitRequestFullscreen');
 		}
 		else if ('mozFullScreenEnabled' in document) {	//FF10+
-			this.toggle_full_screen =
-			o=> this.regEvt_FullScr(o, 'mozRequestFullScreen');
+			this.tgl_full_scr = o=> this.regEvt_FullScr(o, 'mozRequestFullScreen');
 		}
 		else if ('msFullscreenEnabled' in document) {	//IE11+
-			this.toggle_full_screen =
-			o=> this.regEvt_FullScr(o, 'msRequestFullscreen');
+			this.tgl_full_scr = o=> this.regEvt_FullScr(o, 'msRequestFullscreen');
 		}
 		else if (document['fullscreenEnabled']) {	// HTML5 Fullscreen API仕様
-			this.toggle_full_screen =
-			o=> this.regEvt_FullScr(o, 'requestFullscreen');
+			this.tgl_full_scr = o=> this.regEvt_FullScr(o, 'requestFullscreen');
 		}
 	}
 	private getURLQ = (loc: Location): {[name: string]: string}=> {
@@ -110,6 +106,46 @@ export class SysWeb extends SysBase {
 		// TODO: 暗号化
 	}
 
+	// ＵＲＬを開く
+	protected navigate_to = (hArg: HArg)=> {
+		const url = hArg.url;
+		if (! url) throw '[navigate_to] urlは必須です';
+	//	window.open(url);		// 近年セキュリティ的に効かない
+		window.open(url, '_blank');		// 効くがポップアップブロック
+	//	location.href = url;	// これは効くがSKYNovelが終了してしまう
+
+		return false;
+	}
+	// タイトル指定
+	protected title = (hArg: HArg)=> {
+		const text = hArg.text;
+		if (! text) throw('[title] textは必須です');
+
+		document.title = text;
+		for (const v of document.querySelectorAll('[data-title]')) v.textContent = text;
+
+		return false;
+	}
+	// 全画面状態切替（タグではない手段で提供）
+	private regEvt_FullScr(hArg: HArg, to_fnc_name: string): boolean {
+		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
+		const elm: any = cvs ?cvs :document.body;
+		const key = hArg.key;
+		if (key) {
+			elm.addEventListener('keydown', (e: KeyboardEvent)=> {
+				if (e.key != key) return;	// ちなみに全画面ではESCしか効かないみたい？
+
+				e.stopPropagation();
+				elm[to_fnc_name]();
+				// 特定の要素を全画面(フルスクリーン)にするFullscreen API https://w3g.jp/blog/html5_fullscreen_api
+			});
+			return false;
+		}
+
+		// ユーザーのキーイベントでの全画面しか許さないので、処理なし
+		return false;
+	}
+
 
 	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
 		try {
@@ -143,35 +179,5 @@ export class SysWeb extends SysBase {
 		anchor.dispatchEvent(e);
 		if (CmnLib.devtool) console.log('画像ファイルをダウンロードします');
 	};
-
-	protected title = (hArg: HArg)=> {
-		const text = hArg.text;
-		if (! text) throw('[title] textは必須です');
-
-		document.title = text;
-		for (const v of document.querySelectorAll('[data-title]')) v.textContent = text;
-
-		return false;
-	}
-
-	protected toggle_full_screen = (_hArg: HArg)=> false;
-	private regEvt_FullScr(hArg: HArg, to_fnc_name: string): boolean {
-		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
-		const elm: any = cvs ?cvs :document.body;
-		const key = hArg.key;
-		if (key) {
-			elm.addEventListener('keydown', (e: KeyboardEvent)=> {
-				if (e.key != key) return;	// ちなみに全画面ではESCしか効かないみたい？
-
-				e.stopPropagation();
-				elm[to_fnc_name]();
-				// 特定の要素を全画面(フルスクリーン)にするFullscreen API https://w3g.jp/blog/html5_fullscreen_api
-			});
-			return false;
-		}
-
-		// ユーザーのキーイベントでの全画面しか許さないので、処理なし
-		return false;
-	}
 
 }

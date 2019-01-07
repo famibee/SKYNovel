@@ -145,6 +145,16 @@ export class Config implements IConfig {
 		})		// webpackでバンドルしたら、path.jsonが要らなくなる？
 		.then(load)
 		.catch(err=> DebugMng.myTrace(`load prj.json "${err_mes}" = ${err}`));
+/*
+		try {
+			(async ()=> {
+				const res = await fetch(this.sys.cur +'prj.json');
+				load(await res.json());
+			})();
+		} catch (e) {
+			DebugMng.myTrace(`load prj.json "${err_mes}" = %o`, e);
+		}
+*/
 	}
 	private $existsBreakline = false;
 	get existsBreakline(): boolean {return this.$existsBreakline}
