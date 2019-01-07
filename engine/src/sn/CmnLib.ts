@@ -221,7 +221,7 @@ export interface IVariable {
 	defTmp(name: string, fnc: typeProcVal): void;
 	cloneMp(): object;
 	setMp(mp: object): void;
-	setMark(place: number, mp: IMark): void;
+	setMark(place: number, mark: IMark): void;
 	getMark(place: number): IMark;
 	cloneSave(): object;
 	mark2save(mark: IMark): void;
