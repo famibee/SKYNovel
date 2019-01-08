@@ -109,7 +109,7 @@ export class Main implements IMain {
 	// メイン処理（シナリオ解析）
 	private fncresume = (fnc = this.runAnalyze)=> {
 		// スクリプトが動き出すとき、ブレイクマークは消去する
-		if (! this.layMng) return;	// destroy()連打対策
+		if (this.destroyed) return;	// destroy()連打対策
 		this.layMng.clearBreak();
 
 		//console.log('resume!');
@@ -285,7 +285,8 @@ export class Main implements IMain {
 		: val;
 
 	destroy() {
-		if (! this.appPixi || ! this.appPixi.view) return;
+		if (this.destroyed) return;
+		this.destroyed = true;
 
 		this.appPixi.ticker.remove(this.fncTicker);
 		this.stop();
@@ -300,6 +301,7 @@ export class Main implements IMain {
 		utils.destroyTextureCache();
 		this.appPixi.destroy(true);
 	}
+	private	destroyed = false;
 	private clone_cvs	: HTMLCanvasElement;
 
 }

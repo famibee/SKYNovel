@@ -16,13 +16,13 @@
 		"howler": "^2.1.1",
 		"parsimmon": "^1.12.0",
 		"pixi-filters": "^2.6.2",
-		"pixi.js": "^4.8.4",
+		"pixi.js": "^4.8.5",
 		"platform": "^1.3.5",
 		"stats.js": "^0.17.0",
 		"store": "^2.0.12",
 		"three": "^0.100.0",
 		"xml2js": "^0.4.19",
-		"xregexp": "^4.2.0"
+		"xregexp": "^4.2.4"
 	},
 	"devDependencies": {
 		"@types/electron-json-storage": "^4.0.0",
