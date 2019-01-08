@@ -195,7 +195,7 @@ export class TxtLayer extends Layer {
 		this.htmTxt.style.zIndex = '-2';
 		if (hArg.filter) switch (hArg.filter) {	// PixiJS Filters Documentation https://pixijs.io/pixi-filters/docs/PIXI.filters.GlowFilter.html
 			case 'null':
-			this.ch_filter = null;
+				this.ch_filter = null;
 				break;
 
 			default:
