@@ -143,6 +143,7 @@ export class TxtLayer extends Layer {
 
 	lay(hArg: HArg): boolean {
 		super.lay(hArg);
+		let ret = false;
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
 		this.rbSpl.setting(hArg);
@@ -182,7 +183,7 @@ export class TxtLayer extends Layer {
 				this.b_alpha = CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
 				this.b_alpha_isfixed = CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
 			}
-			this.drawBack(hArg);
+			ret = this.drawBack(hArg);
 		}
 
 		const xSlide = TxtLayer.cfg.oCfg.debug.slideBaseSpan
@@ -218,7 +219,7 @@ export class TxtLayer extends Layer {
 					// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
 				-parseFloat(this.htmTxt.style.fontSize || '0')	) /2;
 
-		return false;
+		return ret;
 	}
 	private xz4htm2rect = 0;
 	private	hWarning = {
@@ -233,7 +234,7 @@ export class TxtLayer extends Layer {
 		marginTop		: 0,
 	};
 
-	private drawBack(hArg: HArg): void {
+	private drawBack(hArg: HArg): boolean {
 		const alpha = (this.b_alpha_isfixed
 			? 1
 			: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
@@ -243,14 +244,14 @@ export class TxtLayer extends Layer {
 				this.b_do.visible = (alpha > 0);
 				this.b_do.alpha = alpha;
 			}
-			return;
+			return false;
 		}
 		if (this.b_do instanceof Sprite) {
 			if ('b_color' in hArg) {}
 			else if (!('b_pic' in hArg) || hArg.b_pic == this.b_pic) {
 				this.b_do.visible = (alpha > 0);
 				this.b_do.alpha = alpha;
-				return;
+				return false;
 			}
 		}
 		if (this.b_do) {
@@ -272,10 +273,12 @@ export class TxtLayer extends Layer {
 				this.htmTxt.style.width = this.$width +'px';
 				this.htmTxt.style.height = this.$height +'px';
 				this.cnt.setChildIndex(sp, 0);
+				TxtLayer.main.resume();
 			});
-			return;
+			return true;
 		}
 		if ('b_color' in hArg) this.drawBackSub_b_color(alpha);
+		return false;
 	}
 	private drawBackSub_b_color(alpha: number) {
 		if (alpha > 0) {
@@ -1183,7 +1186,10 @@ export class TxtLayer extends Layer {
 
 	addButton(hArg: HArg): boolean {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name;
-		return new Button(TxtLayer.main, TxtLayer.evtMng).init(hArg, this.cntBtn);
+		const btn = new Button(TxtLayer.main, TxtLayer.evtMng, hArg);
+		btn.name = JSON.stringify(hArg);
+		this.cntBtn.addChild(btn);
+		return btn.isStop;
 	}
 
 
@@ -1191,10 +1197,9 @@ export class TxtLayer extends Layer {
 		super.clearLay(hArg);
 
 		this.clearText();
-		for (const c of this.cntBtn.removeChildren()) c.removeAllListeners().destroy();
-		// removeAllListeners()はマウスオーバーイベントなど。クリックは別
+		for (const c of this.cntBtn.removeChildren()) c.removeAllListeners().destroy();	// removeAllListeners()はマウスオーバーイベントなど。クリックは別
 	}
-	record() {return Object.assign(super.record(), {
+	record = ()=> Object.assign(super.record(), {
 		enabled	: this.enabled,
 		cssText	: this.htmTxt.style.cssText,
 
@@ -1214,9 +1219,12 @@ export class TxtLayer extends Layer {
 		fo			: this.fo,
 		fo_easing	: this.fo_easing,
 		xz4htm2rect : this.xz4htm2rect,
-	});}
+
+		btns: this.cntBtn.children.map(btn=> btn.name),
+	});
 	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
+		let ret = false;
 		this.enabled	= hLay.enabled;
 
 		// バック
@@ -1225,7 +1233,7 @@ export class TxtLayer extends Layer {
 		this.b_alpha	= hLay.b_alpha;
 		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
 
-		if (hLay.b_do) this.drawBack(
+		if (hLay.b_do) ret = this.drawBack(
 			hLay.b_do == 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color}
 		)
 		else if (this.b_do) {
@@ -1255,9 +1263,13 @@ export class TxtLayer extends Layer {
 
 		this.xz4htm2rect = hLay.xz4htm2rect;
 
+		// addButton(hArg: HArg): boolean
+		const aBtn: string[] = hLay.btns;
+		aBtn.map(v=> ret = ret || this.addButton(JSON.parse(v)));
+
 		if (fncComp != undefined) fncComp();
 
-		return false;
+		return ret;
 	}
 
 	dump(): string {

@@ -229,10 +229,10 @@ export class GrpLayer extends Layer {
 		this.sBkFace= '';
 		this.csvFn	= '';
 	}
-	record() {return Object.assign(super.record(), {
+	record = ()=> Object.assign(super.record(), {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
-	});}
+	});
 	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
 		if (hLay.sBkFn == '' && hLay.sBkFace == '') {
