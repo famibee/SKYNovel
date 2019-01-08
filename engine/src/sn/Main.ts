@@ -302,6 +302,7 @@ export class Main implements IMain {
 		this.appPixi.destroy(true);
 	}
 	private	destroyed = false;
+	isDestroyed = () => this.destroyed;
 	private clone_cvs	: HTMLCanvasElement;
 
 }

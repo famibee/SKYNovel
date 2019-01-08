@@ -194,8 +194,7 @@ export class LayerMng {
 	breakLine = ()=> {};
 	breakPage = ()=> {};
 	clearBreak() {
-		const tl = this.getCurrentTxtlayFore();
-		if (! tl) return;
+		if (! this.getCurrentTxtlayFore()) return;
 
 		this.clearBreak = ()=> this.cmdTxt('del｜break');
 		this.clearBreak();

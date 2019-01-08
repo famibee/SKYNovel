@@ -196,6 +196,7 @@ export interface IMain {
 	resume(fnc?: ()=> void): void;
 	resumeByJumpOrCall(hArg: HArg): void;
 	stop(): void;
+	isDestroyed(): boolean;
 }
 
 

@@ -981,7 +981,7 @@ export class ScriptIterator {
 		aIfStk	: [-1],
 	};
 	private record_place(_hArg: HArg) {
-		if (! this.layMng) return false;
+		if (this.main.isDestroyed()) return false;
 
 		if (this.aCallStk.length == 0) {
 			this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
