@@ -186,7 +186,7 @@ export class ScriptIterator {
 			return false;
 		}
 
-		this.break = (set: boolean)=> {
+		this.noticeBreak = (set: boolean)=> {
 			if (this.fnLastBreak != this.scriptFn_) {
 				this.fnLastBreak = this.scriptFn_;
 				this.fncSet(
@@ -196,7 +196,7 @@ export class ScriptIterator {
 			}
 			this.fncBreak(this.lineNum_, set);
 		};
-		this.break(true);	// 一度目のthis.fncBreak()はスルー（まだ読んでないし）
+		this.noticeBreak(true);	// 一度目のthis.fncBreak()はスルー（まだ読んでないし）
 
 		const break_fnc = hArg.break_fnc;
 		if (! break_fnc) return false;
@@ -213,7 +213,7 @@ export class ScriptIterator {
 	private fncBreak: (line: number, set: boolean)=> void = ()=> {};
 	private fnLastBreak = '';
 	private hScrCache4Dump: {[name: string]: string;} = {};
-	break = (_set: boolean)=> {}
+	noticeBreak = (_set: boolean)=> {}
 
 
 	private dumpErrLine = 5;

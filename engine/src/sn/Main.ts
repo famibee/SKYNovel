@@ -118,7 +118,7 @@ export class Main implements IMain {
 			//console.log('resume!');
 			this.fncNext = fnc;
 		};
-		this.scrItr.break(false);
+		this.scrItr.noticeBreak(false);
 	};
 	resume = this.fncresume;
 	resumeByJumpOrCall(hArg: HArg) {
@@ -140,7 +140,7 @@ export class Main implements IMain {
 		//console.log('stop!');
 		this.fncNext = ()=> {};
 		this.resume = this.fncresume;
-		this.scrItr.break(true);
+		this.scrItr.noticeBreak(true);
 	};
 
 	private runAnalyze() {
