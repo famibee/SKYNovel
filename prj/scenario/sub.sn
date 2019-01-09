@@ -60,6 +60,7 @@
 	[set_focus to=null]
 	[fadeoutse buf="SE" time=500]
 	[sys_menu visible=false]
+	[clear_event]
 [endmacro]
 
 ;********************************************************

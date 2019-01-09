@@ -499,7 +499,7 @@ export class EventMng implements IEvtMng {
 
 		return false;
 	}
-	private unregisterClickEvts(): void {
+	private unregisterClickEvts() {
 		const len = this.scrItr.lenCallStk;
 		for (let i=0; i<len; ++i) {
 			const cs = this.scrItr.getCallStk(i);
