@@ -47,7 +47,7 @@ export class EventMng implements IEvtMng {
 		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
 		hTag.l				= o=> this.l(o);			// 行末クリック待ち
 		hTag.p				= o=> this.p(o);			// 改ページクリック待ち
-		hTag.s		= ()=> {this.stdWait(()=> {}); return true;};	// 停止する
+		hTag.s	= ()=> {this.stdWait(()=> {}, false); return true;};	// 停止する
 							// stdWait()したらreturn true;
 		hTag.set_cancel_skip= ()=> this.set_cancel_skip();	// スキップ中断予約
 		hTag.wait			= o=> this.wait(o);				// ウェイトを入れる
