@@ -185,16 +185,26 @@ export class ScriptIterator {
 			this.fncSet = ()=> {};
 			return false;
 		}
-		this.fncSet(this.script.aToken.join(''));
-		this.fnLastBreak = this.scriptFn_;
+
+		this.break = (set: boolean)=> {
+			if (this.fnLastBreak != this.scriptFn_) {
+				this.fnLastBreak = this.scriptFn_;
+				this.fncSet(
+					this.hScrCache4Dump[this.scriptFn_]
+					=  this.hScrCache4Dump[this.scriptFn_]
+					|| this.script.aToken.join(''));
+			}
+			this.fncBreak(this.lineNum_, set);
+		};
+		this.break(true);	// 一度目のthis.fncBreak()はスルー（まだ読んでないし）
 
 		const break_fnc = hArg.break_fnc;
-		if (break_fnc) {
-			this.fncBreak = (window as any)[break_fnc];
-			if (! this.fncBreak) {
-				if (CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${break_fnc}が見つかりません`;
-				this.fncBreak = ()=> {};
-			}
+		if (! break_fnc) return false;
+
+		this.fncBreak = (window as any)[break_fnc];
+		if (! this.fncBreak) {
+			if (CmnLib.argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${break_fnc}が見つかりません`;
+			this.fncBreak = ()=> {};
 		}
 
 		return false;
@@ -202,13 +212,8 @@ export class ScriptIterator {
 	private fncSet: (txt: string)=> void = ()=> {};
 	private fncBreak: (line: number, set: boolean)=> void = ()=> {};
 	private fnLastBreak = '';
-	break(set: boolean) {
-		if (this.fnLastBreak != this.scriptFn_) {
-			this.fnLastBreak = this.scriptFn_;
-			this.fncSet(this.script.aToken.join(''));
-		}
-		this.fncBreak(this.lineNum_, set);
-	}
+	private hScrCache4Dump: {[name: string]: string;} = {};
+	break = (_set: boolean)=> {}
 
 
 	private dumpErrLine = 5;
