@@ -61,13 +61,13 @@ export class ScriptIterator {
 		hTag.let_ml		= o=> this.let_ml(o);	// インラインテキスト代入
 
 		// デバッグ・その他
-		hTag.dump_stack	= ()=> this.dump_stack();	// スタックのダンプ
-		hTag.dump_script= o=> this.disp_script(o);	// スクリプトのダンプ
+		hTag.dump_stack	= o=> this.dump_stack(o);	// スタックのダンプ
+		hTag.dump_script= o=> this.dump_script(o);	// スクリプトのダンプ
 
 		// 条件分岐
 		hTag['else']	=							// その他ifブロック開始
 		hTag.elsif		=							// 別条件のifブロック開始
-		hTag.endif		= ()=> this.endif();		// ifブロックの終端
+		hTag.endif		= o=> this.endif(o);		// ifブロックの終端
 		hTag['if']		= o=> this.if(o);			// ifブロックの開始
 
 		// ラベル・ジャンプ
@@ -75,7 +75,7 @@ export class ScriptIterator {
 		hTag.call		= o=> this.call(o);			// サブルーチンコール
 		hTag.jump		= o=> this.jump(o);			// シナリオジャンプ
 		hTag.pop_stack	= o=> this.pop_stack(o);	// コールスタック破棄
-		hTag.return		= ()=> this.return();		// サブルーチンから戻る
+		hTag.return		= o=> this.return(o);		// サブルーチンから戻る
 
 		// マクロ
 		hTag.bracket2macro	= o=> this.bracket2macro(o);// 括弧マクロの定義
@@ -88,7 +88,7 @@ export class ScriptIterator {
 		//hTag.copybookmark		// Variable.ts内で定義	// しおりの複写
 		//hTag.erasebookmark	// Variable.ts内で定義	// しおりの消去
 		hTag.load			= o=> this.load(o);			// しおりの読込
-		hTag.reload_script	= o => this.reload_script(o);	// スクリプト再読込
+		hTag.reload_script	= o=> this.reload_script(o);	// スクリプト再読込
 		hTag.record_place	= o=> this.record_place(o);	// セーブポイント指定
 		hTag.save			= o=> this.save(o);			// しおりの保存
 
@@ -123,7 +123,7 @@ export class ScriptIterator {
 
 	// デバッグ・その他
 	// スタックのダンプ
-	private dump_stack() {
+	private dump_stack(_hArg: HArg) {
 		if (this.idxToken_ == 0) {
 			console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.scriptFn_} line:${1} col:${0}`);
 			console.groupEnd();
@@ -175,9 +175,9 @@ export class ScriptIterator {
 
 
 	// 外部へスクリプトを表示
-	private disp_script(hArg: HArg) {
+	private dump_script(hArg: HArg) {
 		const set_fnc = hArg.set_fnc;
-		if (! set_fnc) throw('set_fncは必須です');
+		if (! set_fnc) throw 'set_fncは必須です';
 
 		this.fncSet = (window as any)[set_fnc];
 		if (! this.fncSet) {
@@ -248,7 +248,7 @@ export class ScriptIterator {
 
 		// 条件分岐
 	private aIfStk	: number[]	= [-1];
-	private endif() {
+	private endif(_hArg: HArg) {
 		if (this.aIfStk[0] == -1) throw 'ifブロック内ではありません';
 
 		this.idxToken_ = this.aIfStk[0];
@@ -369,7 +369,7 @@ export class ScriptIterator {
 	}
 
 	// サブルーチンから戻る
-	private return() {
+	private return(_hArg: HArg) {
 		if (this.aCallStk.length == 0) throw'[return] スタックが空です';
 		const cs = this.aCallStk.pop();		// cs != nullはcall()で保証
 		const osac = cs!.hArg!.csAnalyBf;	// cs.hArg != nullはcall()で保証
