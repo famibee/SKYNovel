@@ -3,7 +3,7 @@
 
 	[add_frame id=saveload src="saveload/_saveload.htm" visible=false]
 
-	[event key='dom=saveload:#do_loadsave' label=*do_loadsave call=true global=true]
+	[event key='dom=saveload:#do_loadsave' label=*do_loadsave global=true]
 	[event key='dom=saveload:#do_del' label=*do_del call=true global=true]
 	[event key='dom=saveload:#close' label=*exit global=true]
 [return]
