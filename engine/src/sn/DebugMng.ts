@@ -42,7 +42,7 @@ export class DebugMng {
 
 	// ログ出力
 	private log(hArg: HArg) {
-		if (!('text' in hArg)) throw('[log] textは必須です');
+		if (!('text' in hArg)) throw '[log] textは必須です';
 
 		const dat = '--- '+ getDateStr('-', '_', '')
 				  +' [fn:'+ DebugMng.scrItr.scriptFn

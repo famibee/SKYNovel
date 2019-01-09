@@ -152,7 +152,7 @@ export class SoundMng {
 		const buf = hArg.buf || 'SE';
 		this.stopse({buf: buf});
 		const fn = hArg.fn;
-		if (! fn) throw('[playse] fnは必須です(buf='+ buf +')');
+		if (! fn) throw '[playse] fnは必須です(buf='+ buf +')';
 
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
 		if (CmnLib.argChk_Boolean(hArg, 'canskip', true)

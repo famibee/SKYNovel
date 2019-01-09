@@ -119,7 +119,7 @@ export class SysWeb extends SysBase {
 	// タイトル指定
 	protected title = (hArg: HArg)=> {
 		const text = hArg.text;
-		if (! text) throw('[title] textは必須です');
+		if (! text) throw '[title] textは必須です';
 
 		document.title = text;
 		for (const v of document.querySelectorAll('[data-title]')) v.textContent = text;

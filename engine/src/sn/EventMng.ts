@@ -351,7 +351,7 @@ export class EventMng implements IEvtMng {
 	//	Key Values - Web APIs | MDN https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 	private event(hArg: HArg) {
 		const key = hArg.key;
-		if (! key) throw('keyは必須です');
+		if (! key) throw 'keyは必須です';
 
 		const call = CmnLib.argChk_Boolean(hArg, 'call', false);
 		const h = CmnLib.argChk_Boolean(hArg, 'global', false)

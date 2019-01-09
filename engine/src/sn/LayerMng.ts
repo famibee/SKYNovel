@@ -253,7 +253,7 @@ export class LayerMng {
 	// プラグインの読み込み
 	private loadplugin(hArg: HArg) {
 		const fn = hArg.fn;
-		if (! fn) throw('fnは必須です');
+		if (! fn) throw 'fnは必須です';
 		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
 
 		switch (CmnLib.getExt(fn)) {
@@ -411,10 +411,10 @@ return false;	// TODO: 未作成：フォーカス移動
 		else if (hArg.dive) {
 			const dive = hArg.dive;
 			let idx_dive = 0;
-			if (layer == dive) throw('[lay] 属性 layerとdiveが同じ【'+ dive +'】です');
+			if (layer == dive) throw '[lay] 属性 layerとdiveが同じ【'+ dive +'】です';
 
 			const pg_dive = this.hPages[dive];
-			if (! pg_dive) throw('[lay] 属性 dive【'+ dive +'】が不正です。レイヤーがありません');
+			if (! pg_dive) throw '[lay] 属性 dive【'+ dive +'】が不正です。レイヤーがありません';
 			const back_dive = pg_dive.back;
 			const fore_dive = pg_dive.fore;
 			const idx_back_dive = this.back.getChildIndex(back_dive.cnt);
@@ -715,7 +715,7 @@ void main(void) {
 				// backlayで設定しない方針
 	private	hTwInf	: {[name: string]: ITwInf}	= {};
 	private tsy(hArg: HArg) {
-		if (! hArg.layer) throw('layerは必須です');
+		if (! hArg.layer) throw 'layerは必須です';
 		const layer = this.argChk_layer(hArg);
 		const foreLay: any = this.hPages[layer].fore;
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
@@ -835,7 +835,7 @@ void main(void) {
 	static set msecChWait(v) {LayerMng.$msecChWait = v;}
 	// 文字を追加する
 	private ch(hArg: HArg) {
-		if (! hArg.text) throw('[ch] textは必須です');
+		if (! hArg.text) throw '[ch] textは必須です';
 
 		const tl = this.getTxtLayer(hArg) as TxtLayer;
 		const wait = (this.val.getVal('tmp:sn.skip.enabled'))
@@ -867,7 +867,7 @@ void main(void) {
 	private current(hArg: HArg) {
 		this.fncChkTxtLay();
 		const layer = hArg.layer;
-		if (! layer) throw('[current] layerは必須です');
+		if (! layer) throw '[current] layerは必須です';
 
 		this.pgTxtlay = this.hPages[layer];
 		if (! (this.pgTxtlay.getPage(hArg) instanceof TxtLayer)) throw ''+ layer +'はTxtLayerではありません';
@@ -960,7 +960,7 @@ void main(void) {
 
 	// インライン画像表示
 	private graph(hArg: HArg) {
-		if (! ('pic' in hArg)) throw('[graph] picは必須です');
+		if (! ('pic' in hArg)) throw '[graph] picは必須です';
 
 		hArg.text = '｜　《grp｜'+ JSON.stringify(hArg) +'》';
 		return this.hTag.ch(hArg);
@@ -985,7 +985,7 @@ void main(void) {
 
 	// 履歴書き込み
 	private rec_ch(hArg: HArg) {
-		if (! hArg.text) throw('[rec_ch] textは必須です');
+		if (! hArg.text) throw '[rec_ch] textは必須です';
 
 		this.recText(hArg.text);
 		if (CmnLib.argChk_Boolean(hArg, 'r', true)) this.recText('\n');
@@ -1002,9 +1002,9 @@ void main(void) {
 	// 文字列と複数ルビの追加
 	private ruby2(hArg: HArg) {
 		const t = hArg.t;
-		if (! t) throw('[ruby2] tは必須です');
+		if (! t) throw '[ruby2] tは必須です';
 		const r = hArg.r;
-		if (! r) throw('[ruby2] rは必須です');
+		if (! r) throw '[ruby2] rは必須です';
 
 		hArg.text = '｜'+ t +'《'+ r +'》';
 		this.hTag.ch(hArg);
@@ -1020,7 +1020,7 @@ void main(void) {
 
 	// tcy縦中横を表示する
 	private tcy(hArg: HArg) {
-		if (! hArg.t) throw('[tcy] tは必須です');
+		if (! hArg.t) throw '[tcy] tは必須です';
 		hArg.text = '｜　｜《tcy｜'+ hArg.t +'｜'+ (hArg.r || '') +'》';
 		this.hTag.ch(hArg);
 		return false;

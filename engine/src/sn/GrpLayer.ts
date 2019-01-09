@@ -207,8 +207,8 @@ export class GrpLayer extends Layer {
 
 	static	add_face(hArg: HArg): boolean {
 		const name = hArg.name;
-		if (! name) throw('nameは必須です');
-		if (name in GrpLayer.hFace) throw('一つのname（'+ name +'）に対して同じ画像を複数割り当てられません');
+		if (! name) throw 'nameは必須です';
+		if (name in GrpLayer.hFace) throw '一つのname（'+ name +'）に対して同じ画像を複数割り当てられません';
 
 		const fn = hArg.fn || name;
 		GrpLayer.hFace[name] = {

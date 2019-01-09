@@ -294,7 +294,7 @@ export class ScriptIterator {
 				if (idxGo > -1) break;
 
 				const e = this.alzTagArg.hPrm['exp'].val;
-				if (e.charAt() == '&') throw('属性expは「&」が不要です');
+				if (e.charAt() == '&') throw '属性expは「&」が不要です';
 				if (this.parse(e)) idxGo = this.idxToken_ +1;
 				break;
 
@@ -788,21 +788,21 @@ export class ScriptIterator {
 	// 括弧マクロの定義
 	private bracket2macro(hArg: HArg) {
 		const name = hArg.name;
-		if (! name) throw('[bracket2macro] nameは必須です');
+		if (! name) throw '[bracket2macro] nameは必須です';
 		const text = hArg.text;
-		if (! text) throw('[bracket2macro] textは必須です');
-		if (text.length != 2) throw('[bracket2macro] textは括弧の前後を示す二文字を指定してください');
+		if (! text) throw '[bracket2macro] textは必須です';
+		if (text.length != 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
 
 		this.hC2M = this.hC2M || {};
 
 		const op = text.charAt(0);
 		const cl = text.charAt(1);
-		if (op in this.hC2M) throw('[bracket2macro] text【'+ op +'】が登録済みの括弧マクロまたは一文字マクロです');
-		if (cl in this.hC2M) throw('[bracket2macro] text【'+ cl +'】が登録済みの括弧マクロまたは一文字マクロです');
+		if (op in this.hC2M) throw '[bracket2macro] text【'+ op +'】が登録済みの括弧マクロまたは一文字マクロです';
+		if (cl in this.hC2M) throw '[bracket2macro] text【'+ cl +'】が登録済みの括弧マクロまたは一文字マクロです';
 		this.REG_CANTC2M.lastIndex = 0;
-		if (this.REG_CANTC2M.test(op)) throw('[bracket2macro] text【'+ op +'】は括弧マクロに使用できない文字です');
+		if (this.REG_CANTC2M.test(op)) throw '[bracket2macro] text【'+ op +'】は括弧マクロに使用できない文字です';
 		this.REG_CANTC2M.lastIndex = 0;
-		if (this.REG_CANTC2M.test(cl)) throw('[bracket2macro] text【'+ cl +'】は括弧マクロに使用できない文字です');
+		if (this.REG_CANTC2M.test(cl)) throw '[bracket2macro] text【'+ cl +'】は括弧マクロに使用できない文字です';
 
 		this.hC2M[cl] = '0';	// チェック用ダミー
 		this.hC2M[op] = '['+ name +' text=';
@@ -823,7 +823,7 @@ export class ScriptIterator {
 	// マクロから脱出
 	private break_macro(hArg: HArg) {
 		const len = this.aCallStk.length;
-		if (len == 0) throw('[endmacro] マクロ外で呼ばれました');
+		if (len == 0) throw '[endmacro] マクロ外で呼ばれました';
 
 		// cs.hArg != nullはcall()で保証
 		const hPopArg = this.aCallStk[len -1].hArg!.hMpVal;

@@ -32,7 +32,7 @@ export class FrameMng {
 		const src = hArg.src;
 		if (! src) throw 'srcは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】はすでにあります`);
+		if (this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】はすでにあります`;
 
 		const cvs = this.appPixi.view;
 		const rect = cvs.getBoundingClientRect();
@@ -80,7 +80,7 @@ export class FrameMng {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】が読み込まれていません`);
+		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 
@@ -104,7 +104,7 @@ export class FrameMng {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】が読み込まれていません`);
+		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 		const text = hArg.text;
@@ -126,7 +126,7 @@ export class FrameMng {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`)) throw(`frame【${id}】が読み込まれていません`);
+		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		if ('alpha' in hArg) {
@@ -173,7 +173,7 @@ export class FrameMng {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw(`frame【${id}】が読み込まれていません`);
+		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `frame【${id}】が読み込まれていません`;
 		const ease = hArg.ease ?CmnLib.hEase[hArg.ease] :TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 
