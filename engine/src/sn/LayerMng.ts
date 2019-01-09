@@ -27,7 +27,7 @@ export class LayerMng {
 
 	private frmMng	: FrameMng;
 
-	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private soundMng: SoundMng, private sys: SysBase) {
+	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private sndMng: SoundMng, private sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val);
 		GrpLayer.init(main, cfg);
 		ThreeDLayer.init(cfg);
@@ -969,12 +969,6 @@ void main(void) {
 
 	// ハイパーリンク
 	private link(hArg: HArg) {
-		// レスポンス向上のため音声ファイルを先読み。結果再生時にjoin不要
-		this.soundMng.loadAheadSnd([
-			hArg.clickse || '',
-			hArg.enterse || '',
-			hArg.leavese || '']);
-
 		if (! hArg.style) hArg.style = 'background-color: rgba(255,0,0,0.5);';
 		this.cmdTxt('link｜'+ JSON.stringify(hArg));
 		return false;

@@ -299,7 +299,7 @@ export class SoundMng {
 
 
 	loadAheadSnd(_aFn: string[]): void {
-		_aFn.map(fn=> new Howl({
+		_aFn.filter(v=> (v)).map(fn=> new Howl({
 			src: this.cfg.searchPath(fn, Config.EXT_SOUND),
 			autoplay: false,
 		}));
