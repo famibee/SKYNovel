@@ -84,7 +84,7 @@ export class Main implements IMain {
 			// 文字・文字レイヤ（15/17）
 			// 画像・画像レイヤ（1/6）
 			// 立体・３Ｄレイヤ（0/0）
-			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sndMng, this.sys);
+			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
 
 			// イベント（9/10）
 			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);

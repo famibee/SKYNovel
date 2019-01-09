@@ -12,7 +12,6 @@ import {TxtLayer} from './TxtLayer';
 import {ThreeDLayer} from './ThreeDLayer';
 import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
-import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 
@@ -27,7 +26,7 @@ export class LayerMng {
 
 	private frmMng	: FrameMng;
 
-	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private sndMng: SoundMng, private sys: SysBase) {
+	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val);
 		GrpLayer.init(main, cfg);
 		ThreeDLayer.init(cfg);
