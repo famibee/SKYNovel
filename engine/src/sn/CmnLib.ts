@@ -274,7 +274,7 @@ export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 export interface IEvtMng {
 	button(hArg: HArg, em: DisplayObject): void;
 	isSkipKeyDown(): boolean;
-	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, stdEvt?: boolean): void;
+	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, canskip?: boolean): void;
 	popLocalEvts(): IHEvt2Fnc;
 	pushLocalEvts(a: IHEvt2Fnc): void;
 	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void): void;

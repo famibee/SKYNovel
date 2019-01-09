@@ -34,9 +34,9 @@ export class Variable implements IVariable {
 		hTag.let_substr		= o=> this.let_substr(o);	// 文字列から抜きだし
 
 		//	デバッグ・その他
-		hTag.clearsysvar	= o=> this.clearsysvar(o);	// システム変数の全消去
-		hTag.clearvar		= o=> this.clearvar(o);		// ゲーム変数の全消去
-		hTag.dump_val		= o=> this.dump_val(o);		// 変数のダンプ
+		hTag.clearsysvar	= ()=> this.clearsysvar();	// システム変数の全消去
+		hTag.clearvar		= ()=> this.clearvar();		// ゲーム変数の全消去
+		hTag.dump_val		= ()=> this.dump_val();		// 変数のダンプ
 
 		// しおり
 		hTag.copybookmark	= o=> this.copybookmark(o);	// しおりの複写
@@ -387,7 +387,7 @@ export class Variable implements IVariable {
 
 // デバッグ・その他
 	// システム変数の全消去
-	private clearsysvar(_hArg?: HArg) {
+	private clearsysvar() {
 		const sys = this.hSys = this.hScope['sys'] = this.data.sys
 			= {};
 
@@ -438,7 +438,7 @@ export class Variable implements IVariable {
 	}
 
 	// ゲーム変数の全消去
-	private clearvar(_hArg?: HArg) {
+	private clearvar() {
 		const mesLayer	= this.hSave['const.sn.mesLayer'] || '';
 		const doRecLog	= this.hSave['sn.doRecLog'] || false;
 		const sLog		= this.hSave['const.sn.sLog'] || '';
@@ -520,7 +520,7 @@ export class Variable implements IVariable {
 
 
 	// 変数のダンプ
-	private dump_val = (_hArg?: HArg)=> {
+	private dump_val = ()=> {
 		const val: any = {tmp:{}, sys:{}, save:{}, mp:{}};
 		for (let scope in val) {
 			const hVal = this.hScope[scope];

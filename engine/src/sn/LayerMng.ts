@@ -46,7 +46,7 @@ export class LayerMng {
 		hTag.clear_lay		= o=> this.clear_lay(o);	// レイヤ設定の消去
 		hTag.trans			= o=> this.trans(o);		// ページ裏表を交換
 		hTag.wt				= o=> this.wt(o);			// トランス終了待ち
-		hTag.finish_trans	= o=> this.finish_trans(o);	// トランス強制終了
+		hTag.finish_trans	= ()=> this.finish_trans();	// トランス強制終了
 
 		hTag.quake			= o=> this.quake(o);		// 画面を揺らす
 		hTag.wq				= o=> hTag.wt(o);			// 画面揺らし終了待ち
@@ -635,7 +635,7 @@ void main(void) {
 	private	elcTrans	= new EventListenerCtn;
 
 	// レイヤのトランジションの停止
-	private finish_trans(_hArg?: HArg) {
+	private finish_trans() {
 		if (this.twInfTrans.tw) this.twInfTrans.tw.stop().end();
 			// stop()とend()は別
 		return false;

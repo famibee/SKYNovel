@@ -16,8 +16,7 @@ export interface ICallStackArg {
 }
 
 export class CallStack {
-	constructor(private _fn = '', private _idx = 0, private _hArg: ICallStackArg | null = null) {
-	}
+	constructor(private _fn = '', private _idx = 0, private _hArg: ICallStackArg | null = null) {}
 
 	get fn() {return this._fn}
 	get idx() {return this._idx}

@@ -47,9 +47,8 @@ export class EventMng implements IEvtMng {
 		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
 		hTag.l				= o=> this.l(o);			// 行末クリック待ち
 		hTag.p				= o=> this.p(o);			// 改ページクリック待ち
-		hTag.s				= ()=> {this.stdWait(()=> {}, false); return true;};
-			// 停止する
-			// stdWait()したらreturn true;
+		hTag.s		= ()=> {this.stdWait(()=> {}); return true;};	// 停止する
+							// stdWait()したらreturn true;
 		hTag.set_cancel_skip= ()=> this.set_cancel_skip();	// スキップ中断予約
 		hTag.wait			= o=> this.wait(o);				// ウェイトを入れる
 		hTag.waitclick		= ()=> {this.stdWait(()=> this.main.resume()); return true;}	// クリックを待つ
@@ -208,9 +207,9 @@ export class EventMng implements IEvtMng {
 	pushLocalEvts(a: IHEvt2Fnc) {this.hLocalEvt2Fnc = a;}
 
 	// stdWait()したらreturn true;
-	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, stdEvt = true) {
+	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, canskip = true) {
 		this.goTxt();
-		if (stdEvt) {
+		if (canskip) {
 			//hTag.event({key:'click', breakout: fnc});
 			//hTag.event({key:'middleclick', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする

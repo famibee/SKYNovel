@@ -34,7 +34,7 @@ export class SoundMng {
 		hTag.fadese		= o=> this.fadese(o);		// 効果音のフェード
 		hTag.playbgm	= o=> this.playbgm(o);		// BGM の演奏
 		hTag.playse		= o=> this.playse(o);		// 効果音の再生
-		hTag.stop_allse	= o=> this.stop_allse(o);	// 全効果音再生の停止
+		hTag.stop_allse	= ()=> this.stop_allse();	// 全効果音再生の停止
 		hTag.stopbgm	= o=> this.stopbgm(o);		// BGM 演奏の停止
 		hTag.stopse		= o=> this.stopse(o);		// 効果音再生の停止
 		hTag.wb			= o=> this.wb(o);			// BGM フェードの終了待ち
@@ -215,7 +215,7 @@ export class SoundMng {
 	}
 
 	// 全効果音再生の停止
-	private stop_allse(_hArg?: HArg) {
+	private stop_allse() {
 		for (const buf in this.hSndBuf) this.stopse({buf: buf});
 		this.hSndBuf = {};
 		return false;

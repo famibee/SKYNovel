@@ -45,11 +45,11 @@ export class SysBase implements ISysBase {
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
-	protected close			: ITag = _hArg=> false;
-	protected navigate_to	: ITag = _hArg=> false;
-	protected title			: ITag = _hArg=> false;
-	protected tgl_full_scr	: ITag = _hArg=> false;
-	protected window		: ITag = _hArg=> false;
+	protected close			: ITag = ()=> false;
+	protected navigate_to	: ITag = ()=> false;
+	protected title			: ITag = ()=> false;
+	protected tgl_full_scr	: ITag = ()=> false;
+	protected window		: ITag = ()=> false;
 
 	protected isApp = ()=> false;
 	protected $path_desktop	= '';
