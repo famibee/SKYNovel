@@ -144,9 +144,8 @@ export class Main implements IMain {
 	};
 
 	private runAnalyze() {
-		let token: string;
 		while (true) {
-			token = this.scrItr.runAnalyzeSub();
+			let token = this.scrItr.runAnalyzeSub();
 			if (! token) continue;
 
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
