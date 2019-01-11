@@ -361,13 +361,13 @@
 *toggle_auto_read
 	&tmp:sn.auto.enabled = true
 	[set_cancel_skip]
-	[notice text="自動読み進みOn" left="&const.sn.config.window.width -10 -300" top=10]
+	[notice text='自動読み進みOn']
 	[return]
 
 *toggle_skip
 	&tmp:sn.skip.enabled = true
 	[set_cancel_skip]
-	[notice text="強制スキップ On" left="&const.sn.config.window.width -10 -300" top=10]
+	[notice text='強制スキップ On']
 	[return]
 
 *h_voice
@@ -379,7 +379,7 @@
 
 	[history_let_page name=h_page]
 	[history_let_page_count name=h_page_count]
-	[notice text="容量制限により、これ以前で再開できません" left="&const.sn.config.window.width -10 -300" top=10 cond="h_page_count -h_page > const.h_save.max_count"]
+	[notice text='容量制限により、これ以前で再開できません' cond="h_page_count -h_page > const.h_save.max_count"]
 	[return cond="h_page_count -h_page > const.h_save.max_count"]
 
 		[ask_ync_cleartext]

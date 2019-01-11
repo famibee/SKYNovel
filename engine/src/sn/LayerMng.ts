@@ -251,6 +251,7 @@ export class LayerMng {
 	}
 
 	// プラグインの読み込み
+	private hPlg: {[name: string]: any} = {};
 	private loadplugin(hArg: HArg) {
 		const fn = hArg.fn;
 		if (! fn) throw 'fnは必須です';
@@ -260,9 +261,16 @@ export class LayerMng {
 			case '':
 				// [loadplugin fn=a]	で読み込み・実行まで確認
 				// TODO: 後はプラグインの仕様を決めるだけ
+				if (fn in this.hPlg) throw `${fn} はロード済みのプラグインです`;
 				(async ()=> {
-					const mod = await import('../../plugin/'+ fn +'.js');
-	console.log(`fn:LayerMng.ts line:271 mod:%o`, mod.default);
+					const mod = this.hPlg[fn]
+					= await import('../../plugin/'+ fn +'.js');
+					await mod.init({
+						path: '../../plugin/',
+						cfg	: this.cfg,
+						hTag: this.hTag,
+						val	: this.val
+					});
 					if (join) this.main.resume();
 				})();
 				break;
@@ -280,7 +288,7 @@ export class LayerMng {
 			default:	throw 'サポートされない拡張子です'
 		}
 
-	//	[loadplugin fn=plg*]のようにワイルドカードをサポート。
+	//	TODO: [loadplugin fn=plg*]のようにワイルドカードをサポート。
 	//	マッチするプラグインを順不同に読み込む。読み込み済みなら無視。
 
 		return join;

@@ -179,7 +179,7 @@
 	&sys:TextLayer.Back.Alpha = alpha /100
 
 *text_back_alpha
-	[notice text="&'バック不透明度 ' + alpha + '%'" left="&const.sn.xmlConfig.window.width -10 -300" top=10]
+	[notice text="&'バック不透明度 ' + alpha + '%'"]
 	[return]
 
 ;*********************************************************
@@ -195,7 +195,7 @@
 	[let name="wait" text=3500 cond="wait > 3500"]
 *text_auto_msecwait
 	&sys:sn.auto.msecLineWait = wait
-	[notice text="&'自動読み進み速度 ' + wait + ' msec'" left="&const.sn.xmlConfig.window.width -10 -300" top=10]
+	[notice text="&'自動読み進み速度 ' + wait + ' msec'"]
 [return]
 
 

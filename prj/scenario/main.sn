@@ -9,6 +9,7 @@
 		; レイヤ状態がセーブ・ロードされないので注意
 
 	[call fn=ext_*]		; ext_**.snというスクリプトを全部コール
+	[loadplugin fn=humane4sn]
 
 	;[event global=true call=true key=w label=*toggle_full_screen]
 	[toggle_full_screen key=w]
@@ -114,7 +115,7 @@
 	[toggle_full_screen]
 	[let name="txt" text="全画面モード"]
 	[let name="txt" text="ウインドウモード" cond=const.sn.displayState]
-;	[notice text="&txt" left="&const.sn.config.window.width -10 -300" top=10]
+	[notice text=&txt]
 
 	; 設定画面変更
 	[return cond='!const._config.inited']
@@ -132,7 +133,7 @@
 
 *snapshot
 	[snapshot]
-;	[notice text="スクリーンショットをデスクトップに保存しました" left="&const.sn.config.window.width -10 -300" top=10]
+	[notice text="スクリーンショットをダウンロードしました"]
 [return]
 
 *reload_script
