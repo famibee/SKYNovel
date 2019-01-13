@@ -268,7 +268,7 @@ export class LayerMng {
 					await mod.init({
 						path: '../../plugin/',
 						cfg	: this.cfg,
-						hTag: this.hTag,
+						hTag: this.hTag,	// TODO: addTag()とかにしないと改竄される
 						val	: this.val
 					});
 					if (join) this.main.resume();
