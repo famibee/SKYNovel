@@ -44,14 +44,15 @@ export class SoundMng {
 		hTag.ws			= o=> this.ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
 
-		const fncGlobalVol = (_name: string, val: any)=> Howler.volume(Number(val));
-		fncGlobalVol('', val.getVal('sys:sn.sound.global_volume', 1));
-		val.defValTrg('sys:sn.sound.global_volume', fncGlobalVol);
-
+		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> Howler.volume(Number(val)));
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
 		'mp3,m4a,ogg,aac,webm,flac,wav'.split(',').map(v=> val.setVal_Nochk('tmp', 'const.sn.sound.codecs.'+ v, Howler.codecs(v)));
 	}
+	private initVol = ()=> {
+		Howler.volume(Number(this.val.getVal('sys:sn.sound.global_volume', 1)));
+		this.initVol = ()=> {};
+	};
 
 	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
@@ -181,6 +182,7 @@ export class SoundMng {
 			volume: vol,
 			//sprite: {key: [offset, duration, (loop)]},
 		};
+		this.initVol();
 		if (! loop) o.onend = ()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 			const oSb = this.hSndBuf[buf];
