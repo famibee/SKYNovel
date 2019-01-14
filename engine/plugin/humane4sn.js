@@ -6,8 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import Humane from './humane4sn/humane.min.js';
-//	import './humane4sn/bigbox.css';	// https://ics.media/entry/17376
-	import '!style-loader!css-loader!./humane4sn/bigbox.css';	// https://ics.media/entry/17376
+import '!style-loader!css-loader!./humane4sn/bigbox.css';
 
 export var init = hSN=> {
 	Humane.baseCls = 'humane-bigbox';
