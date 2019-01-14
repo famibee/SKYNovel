@@ -46,14 +46,14 @@
 	[se fn=&sysse_ok1 buf=SYS]
 	[call label=*exit]
 	[let name="isGameState" text=true]
-	[jump fn="_saveload" label=*rclick_save]
+	[jump fn="_archive" label=*rclick_save]
 
 ;*********************************************************
 *load
 	[se fn=&sysse_ok1 buf=SYS]
 	[call label=*exit]
 	[let name="isGameState" text=true]
-	[jump fn="_saveload" label=*rclick_load]
+	[jump fn="_archive" label=*rclick_load]
 
 ;*********************************************************
 *config

@@ -86,8 +86,8 @@
 
 *load
 	[enable_event enabled=false]
-	[call fn="_saveload"]
-	[jump fn="_saveload" label=*title_load]
+	[call fn="_archive"]
+	[jump fn="_archive" label=*title_load]
 
 *album
 	[enable_event enabled=false]

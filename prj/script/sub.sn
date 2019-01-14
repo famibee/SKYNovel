@@ -89,7 +89,7 @@
 	[call fn=extG_*]	; extG_*.snというスクリプトを全部コールする
 	[call fn="_hidetext"]
 	[call fn="_submenu"]
-	[call fn="_saveload"]
+	[call fn="_archive"]
 	[call fn="_history"]
 	[call fn="_config"]
 	[call fn="_album"]
@@ -105,13 +105,13 @@
 ;********************************************************
 ; マクロ レジューム処理
 [macro name=sys_resume_load]
-	[jump fn=_saveload label=*do_load_resume cond=sys:doResume]
+	[jump fn=_archive label=*do_load_resume cond=sys:doResume]
 [endmacro]
 
 ;********************************************************
 ; マクロ レジューム退避処理
 [macro name=sys_resume_save]
-	[call fn=_saveload label=*do_save_resume]
+	[call fn=_archive label=*do_save_resume]
 [endmacro]
 
 
@@ -131,15 +131,15 @@
 	&r = -90 *const.sn.Math.PI /180	; ボタンを縦にしたいなら
 
 	[lay layer="mes_sysmenu" page=back]
-	[button layer="mes_sysmenu" page=back text="クイックセーブ" rotation=&r left=&sysmenu_left2 top=600 global=true event_at_down=true fn="_saveload" label=*quick_save call=true hint="クイックセーブ" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back text="クイックロード" rotation=&r left=&sysmenu_left2 top=720 global=true event_at_down=true fn="_saveload" label=*quick_load call=true hint="クイックロード" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text="クイックセーブ" rotation=&r left=&sysmenu_left2 top=600 global=true event_at_down=true fn="_archive" label=*quick_save call=true hint="クイックセーブ" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text="クイックロード" rotation=&r left=&sysmenu_left2 top=720 global=true event_at_down=true fn="_archive" label=*quick_load call=true hint="クイックロード" enterse=&sysse_choice]
 
 	[button layer="mes_sysmenu" page=back text="タイトルへ" rotation=&r left=&sysmenu_left top=220 global=true event_at_down=true fn="sub" label=*title_sys call=true hint="タイトルへ" enterse=&sysse_choice]
 		; どの本文スクリプトから呼ばれるか不明なので、
 		; 同一スクリプトへのコールだがfn属性を省略してはいけない
 
-	[button layer="mes_sysmenu" page=back text=" セーブ " rotation=&r left=&sysmenu_left top=320 global=true event_at_down=true fn="_saveload" label=*rclick_save call=true hint="セーブ" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back text=" ロード " rotation=&r left=&sysmenu_left top=420 global=true event_at_down=true fn="_saveload" label=*rclick_load call=true hint="ロード" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text=" セーブ " rotation=&r left=&sysmenu_left top=320 global=true event_at_down=true fn="_archive" label=*rclick_save call=true hint="セーブ" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text=" ロード " rotation=&r left=&sysmenu_left top=420 global=true event_at_down=true fn="_archive" label=*rclick_load call=true hint="ロード" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text="字を隠す" rotation=&r left=&sysmenu_left top=520 global=true event_at_down=true fn=_hidetext label=*main call=true hint="文字非表示" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text=" 履 歴 " rotation=&r left=&sysmenu_left top=620 global=true event_at_down=true fn=_history label=*show_history call=true hint="履歴を表示" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text=" 設 定 " rotation=&r left=&sysmenu_left top=720 global=true event_at_down=true fn=_config label=*keycall_config call=true hint="ゲーム設定" enterse=&sysse_choice]
@@ -289,7 +289,7 @@
 	[let name="h_save_idx" text="0" cond="h_save_idx == null"]
 
 	[let name="_sl.place" text="&'h_'+ h_save_idx"]
-	[call fn=_saveload label=*do_save_noss]
+	[call fn=_archive label=*do_save_noss]
 
 	[rec_ch text=#&'｜　《grp｜｜{"pic":"app-storage:/bookmark/'+ _sl.place +'.jpg","width":"198","height":"149"}》'# r=false]
 	[rec_ch text=#&'｜　《link｜{"fn":"sub","label":"*h_jmp","call":"true","global":"true","arg":"$_sl.place"}》'# r=false]
@@ -389,7 +389,7 @@
 	[return cond="_yesno != 'y'"]
 
 	[call fn=_history label=*cancel]
-	[jump fn=_saveload label=*end_load]
+	[jump fn=_archive label=*end_load]
 
 ;********************************************************
 *title_sys

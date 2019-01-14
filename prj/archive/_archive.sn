@@ -1,18 +1,18 @@
 ;#USE-FONT	ipam
-	[return cond="const.sn.frm.saveload"]
+	[return cond="const.sn.frm.archive"]
 
-	[add_frame id=saveload src="saveload/_saveload.htm" visible=false]
+	[add_frame id=archive src="archive/_archive.htm" visible=false]
 
-	[event key='dom=saveload:#do_loadsave' label=*do_loadsave global=true]
-	[event key='dom=saveload:#do_del' label=*do_del call=true global=true]
-	[event key='dom=saveload:#close' label=*exit global=true]
+	[event key='dom=archive:#do_loadsave' label=*do_loadsave global=true]
+	[event key='dom=archive:#do_del' label=*do_del call=true global=true]
+	[event key='dom=archive:#close' label=*exit global=true]
 [return]
 
 ;*********************************************************
 ; 最新値で更新
 *val2ctrl
-	[set_frame id=saveload var_name=val_dic text=&const.sn.bookmark.json]
-	[let_frame id=saveload var_name=val2ctrl function=true]
+	[set_frame id=archive var_name=val_dic text=&const.sn.bookmark.json]
+	[let_frame id=archive var_name=val2ctrl function=true]
 [return]
 
 ;*********************************************************
@@ -46,13 +46,13 @@
 	[clear_event]
 
 	; 最新値で更新
-	[set_frame id=saveload var_name=val_mode text=&しおりモード]
-	[set_frame id=saveload var_name=val_caller text=&呼び元]
+	[set_frame id=archive var_name=val_mode text=&しおりモード]
+	[set_frame id=archive var_name=val_caller text=&呼び元]
 	[call label=*val2ctrl]
 	; 下部からスライドイン
-	[frame id=saveload visible=true y=&const.sn.frm.saveload.height]
-	[tsy_frame id=saveload time=500 y=0]
-	[wait_tsy id=saveload]
+	[frame id=archive visible=true y=&const.sn.frm.archive.height]
+	[tsy_frame id=archive time=500 y=0]
+	[wait_tsy id=archive]
 
 	&isGameState = false
 	[event key=rightclick label=*exit]
@@ -67,19 +67,19 @@
 
 
 *do_loadsave
-	[let_frame id=saveload var_name=val_place]
+	[let_frame id=archive var_name=val_place]
 	[jump label=*save cond="しおりモード=='Save'"]
 [jump label=*load]
 
 *do_del
-	[let_frame id=saveload var_name=val_place]
-	[erasebookmark place=&const.sn.frm.saveload.val_place]
+	[let_frame id=archive var_name=val_place]
+	[erasebookmark place=&const.sn.frm.archive.val_place]
 [return]
 
 
 ;*********************************************************
 *save
-	&_save.place = const.sn.frm.saveload.val_place
+	&_save.place = const.sn.frm.archive.val_place
 	[se fn=&sysse_ok1 buf=SYS]
 
 	[call label=*do_save]
@@ -87,13 +87,13 @@
 
 *do_save_resume
 	&_save.place = 0
-	&pic = '_saveload_resume.jpg'
+	&pic = '_archive_resume.jpg'
 	[jump label=*do_save_noss]
 
 *do_save
 	[let name=pic text="& 'userdata:/storage/'+ _save.place +'.jpg'"]
 	[snapshot fn=&pic layer=&dsp_lays smoothing=true cond=const.sn.isApp]
-	[let name=pic text='_saveload_browser.jpg' cond=!const.sn.isApp]
+	[let name=pic text='_archive_browser.jpg' cond=!const.sn.isApp]
 
 *do_save_noss
 	[enable_event enabled=true]	; この状態も保存されるので本文に戻る前に変更
@@ -104,32 +104,32 @@
 *quick_save
 	[return cond="! isGameState"]
 
-	&_save.place = sys:saveload.quick_place
+	&_save.place = sys:archive.quick_place
 	[call label=*do_save]
-	[let name="sys:saveload.quick_place" text="&(_save.place +1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
+	[let name="sys:archive.quick_place" text="&(_save.place +1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
 
 	[notice text='クイックセーブしました']
 [return]
 
 ;*********************************************************
 *load
-	&_load.place = const.sn.frm.saveload.val_place
+	&_load.place = const.sn.frm.archive.val_place
 	[se fn=&sysse_ok2_long buf=SYS]
 
-	[frame id=saveload visible=false]
+	[frame id=archive visible=false]
 
 *do_load
 	[sys_scenario_start no_resume_save=true]
 	[copybookmark from=&_load.place to=0]
 	[load place=&_load.place]
-;	[load place=&_load.place fn=saveload label=*do_load_init]
+;	[load place=&_load.place fn=archive label=*do_load_init]
 
 *do_load_resume
 	[se fn=&sysse_ok2_long buf=SYS]
 	[notice text='前回終了ポイントから再開します（キャンセル=ESC）']
 	[sys_scenario_start no_resume_save=true]
 	[load place=0]
-;	[load place=0 fn=saveload label=*do_load_init]
+;	[load place=0 fn=archive label=*do_load_init]
 
 ; ロード後最初にしたい共通処理
 *do_load_init
@@ -139,8 +139,8 @@
 ;*****************************
 *quick_load
 	[return cond="! isGameState"]
-	[return cond="sys:saveload.quick_place == null"]
-	[let name="_sl.place" text="&(sys:saveload.quick_place +const._sl.th_一ページあたりの数 -1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
+	[return cond="sys:archive.quick_place == null"]
+	[let name="_sl.place" text="&(sys:archive.quick_place +const._sl.th_一ページあたりの数 -1) % const._sl.th_一ページあたりの数 +(const._sl.ページ数 *const._sl.th_一ページあたりの数)"]
 	[return cond="sys:const.sn.bookmark[_sl.place] == null"]
 
 	[enable_event enabled=false]
@@ -157,9 +157,9 @@
 *exit
 	[se fn=&sysse_cancel buf=SYS]
 
-	[tsy_frame id=saveload time=500 y=&const.sn.frm.saveload.height]
-	[wait_tsy id=saveload]
-	[frame id=saveload visible=false]
+	[tsy_frame id=archive time=500 y=&const.sn.frm.archive.height]
+	[wait_tsy id=archive]
+	[frame id=archive visible=false]
 
 	[enable_event enabled=true]
 	[set_focus to=null]

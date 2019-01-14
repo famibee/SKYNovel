@@ -6,11 +6,11 @@
 	; アルバム表示内容（ここをカスタマイズ。json形式で記述）
 [let_ml name=dic]
 	[
-		{"type": "pic", "fn": "../bgimage/yun_1184.jpg", "title": "川辺"},
-		{"type": "pic", "fn": "../bgimage/yun_1317.jpg", "title": "水中"},
-		{"type": "pic", "fn": "../bgimage/yun_2352.jpg", "title": "桜1"},
-		{"type": "pic", "fn": "../bgimage/yun_2384.jpg", "title": "桜2"},
-		{"type": "pic", "fn": "../fgimage/F_口元.jpg", "title": "語り手"},
+		{"type": "pic", "fn": "../bg/yun_1184.jpg", "title": "川辺"},
+		{"type": "pic", "fn": "../bg/yun_1317.jpg", "title": "水中"},
+		{"type": "pic", "fn": "../bg/yun_2352.jpg", "title": "桜1"},
+		{"type": "pic", "fn": "../bg/yun_2384.jpg", "title": "桜2"},
+		{"type": "pic", "fn": "../image/F_口元.jpg", "title": "語り手"},
 		{"type": "pic", "fn": "_album_miken.jpg", "title": "？？？", "enabled": "false"},
 		{"type": "mov", "fn": "nc10889.mp4", "title": "桜"},
 		{"type": "bgm", "fn": "free32", "title": "free32(BGM)"},
