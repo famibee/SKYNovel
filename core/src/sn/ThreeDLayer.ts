@@ -183,7 +183,7 @@ console.log(`fn:ThreeDLayer.ts line:76 load:%o:`, obj);
 			const geometry = new ThreeDLayer.THREE.SphereGeometry(5, 60, 40);
 			geometry.scale(-1, 1, 1);
 			const ldr = new ThreeDLayer.THREE.TextureLoader();
-			const tx = ldr.load(ThreeDLayer.cfg.searchPath(celestial_sphere, Config.EXT_STILL_IMG));
+			const tx = ldr.load(ThreeDLayer.cfg.searchPath(celestial_sphere, 'png_|jpg_|jpeg_|png|jpg|jpeg'));
 			tx.minFilter = ThreeDLayer.THREE.LinearFilter;
 			const material = new ThreeDLayer.THREE.MeshBasicMaterial({map: tx});
 			const obj = new ThreeDLayer.THREE.Mesh(geometry, material);

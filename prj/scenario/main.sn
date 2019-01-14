@@ -39,6 +39,7 @@
 		; （このままリリースしても問題なし）
 
 	; *** レジューム処理 ***
+[trace text=&const.sn.key.escape]
 	[sys_resume_load cond=!const.sn.key.escape&&!const.sn.key.back]
 
 ;********************************************************

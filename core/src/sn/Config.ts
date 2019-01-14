@@ -59,8 +59,7 @@ export class Config implements IConfig {
 	private	hPathFn2Exts	: IPathFn2Exts		= {};
 	getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
 
-	static	EXT_SPRITE	= 'png_|jpg_|jpeg_|json_|mp4_|png|jpg|jpeg|json|mp4';
-	static	EXT_STILL_IMG	= 'png_|jpg_|jpeg_|png|jpg|jpeg';
+	static	EXT_SPRITE	= 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';
 	static	EXT_SCRIPT	= 'sn_|sn';
 	static	EXT_FONT	= 'woff2|otf|ttf';
 	static	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
