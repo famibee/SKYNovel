@@ -266,7 +266,6 @@ export class LayerMng {
 					const mod = this.hPlg[fn]
 					= await import('../../plugin/'+ fn +'.js');
 					await mod.init({
-						path: '../../plugin/',
 						cfg	: this.cfg,
 						hTag: this.hTag,	// TODO: addTag()とかにしないと改竄される
 						val	: this.val

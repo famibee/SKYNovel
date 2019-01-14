@@ -34,10 +34,18 @@ module.exports = [
 		},
 		module: {
 			rules: [
+				{	// https://ics.media/entry/17376
+					test: /\.css/,
+					use: [
+						'style-loader',
+						{loader: 'css-loader', options: {url: false}},
+					],
+				},
 //				{test: /\.css$/, use: ['css-loader']},
 //x				{test: /\.css$/, loader: "style!css"},
 //x				{test: /\.css$/, use: ['style-loader', 'css-loader']},
-				{test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'],},
+//				{test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'],},
+
 			],
 		},
 		plugins: [
