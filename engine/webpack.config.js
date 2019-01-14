@@ -1,5 +1,5 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
+//const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+//const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 //const StatsPlugin = require('stats-webpack-plugin');
 	// npm i -D stats-webpack-plugin
@@ -34,6 +34,7 @@ module.exports = [
 		},
 		module: {
 			rules: [
+/*
 				{	// https://ics.media/entry/17376
 					test: /\.css/,
 					use: [
@@ -41,25 +42,29 @@ module.exports = [
 						{loader: 'css-loader', options: {url: false}},
 					],
 				},
+*/
 //				{test: /\.css$/, use: ['css-loader']},
 //x				{test: /\.css$/, loader: "style!css"},
+//x				{test: /\.css$/, loader: "style-loader!css-loader"},
 //x				{test: /\.css$/, use: ['style-loader', 'css-loader']},
 //				{test: /\.css$/, use: [MiniCssExtractPlugin.loader, 'css-loader'],},
 
 			],
 		},
 		plugins: [
-			new MiniCssExtractPlugin({filename: 'web.css'}),
+//			new MiniCssExtractPlugin({filename: 'web.css'}),
 /*
 			new StatsPlugin('./engine/tmp/stats.json', {
 				chunkModules: true,
 			}),
 //			new BundleAnalyzerPlugin({statsFilename: './engine/tmp/'}),
 */
+/*
 			new ImageminPlugin({
 				test: /\.(jpe?g|png|gif|svg)$/i,
 				pngquant: {quality: '95-100',},
 			}),
+*/
 		],
 	}
 ];
