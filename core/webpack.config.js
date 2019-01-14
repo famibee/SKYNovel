@@ -9,7 +9,7 @@ const ImageminPlugin = require('imagemin-webpack-plugin').default;
 // 変更後は「npm run webpack:dev」
 module.exports = [
 	{
-		entry: `./engine/tmp/app.js`,
+		entry: `./core/tmp/app.js`,
 		target: 'electron-renderer',
 		output: {
 			path: process.cwd() +'/app',
@@ -17,7 +17,7 @@ module.exports = [
 		},
 	},
 	{
-		entry: `./engine/tmp/web.js`,
+		entry: `./core/tmp/web.js`,
 		target: 'web',
 		output: {
 			path: process.cwd() +'/web',
@@ -33,10 +33,10 @@ module.exports = [
 		},
 		plugins: [
 /*
-			new StatsPlugin('./engine/tmp/stats.json', {
+			new StatsPlugin('./core/tmp/stats.json', {
 				chunkModules: true,
 			}),
-//			new BundleAnalyzerPlugin({statsFilename: './engine/tmp/'}),
+//			new BundleAnalyzerPlugin({statsFilename: './core/tmp/'}),
 */
 			new ImageminPlugin({
 				disable: process.env.NODE_ENV !== 'production',

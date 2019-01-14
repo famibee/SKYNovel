@@ -11,7 +11,7 @@ build/skynovel*
 coverage/
 
 # test Results
-engine/tmp/
+core/tmp/
 
 # gallery
 gallery/3d_f*

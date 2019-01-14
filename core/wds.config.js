@@ -1,5 +1,5 @@
 module.exports = {
-	entry: `./engine/tmp/web.js`,	// メインとなるJavaScriptファイル（エントリーポイント）
+	entry: `./core/tmp/web.js`,	// メインとなるJavaScriptファイル（エントリーポイント）
 	target: 'web',
 
 	mode: 'development',
