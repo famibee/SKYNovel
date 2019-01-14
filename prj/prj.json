@@ -1,6 +1,6 @@
 {
 	"save_ns": "skynovel.uc",
-	"search": ["album","archive","audio","bg","config","image","lib","menu","other","rule","script"],
+	"search": ["album","archive","audio","bg","config","image","lib","log","other","rule","script"],
 	"window": {
 		"width": 1024,
 		"height": 768

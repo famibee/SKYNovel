@@ -1,22 +1,25 @@
 ;#USE-FONT	ipam
-[return]
-	[return cond="const._history.inited"]
-	&const._history.inited = true
+	[return cond="const.sn.frm.log"]
 
-	[add_lay layer=履歴 class=txt]
-; b_pic=plgHistory
+	[add_frame id=log src="log/_log.htm" visible=false]
+
+	[event key='dom=log:#close' label=*exit global=true]
+
+
+
+; b_pic=plglog
 	[txt_lay_v_left layer=履歴 page=fore visible=false fcol=0xFFFFFF l=620 no_sysmenu_draw=true b_pic=null]
 	[lay layer=履歴 b_left=0 b_top=0 b_width=&const.sn.config.window.width b_height=&const.sn.config.window.height b_color=0x000044 b_alpha=0.8]
 
-	[event global=true call=true key=r label=*show_history]
-	[event global=true call=true key=up label=*show_history]
-	[event global=true call=true key=upwheel label=*show_history]
-	[event global=true call=true key=page_down label=*show_history]
-	[event global=true call=true key=page_up label=*show_history]
+	[event global=true call=true key=r label=*show_log]
+	[event global=true call=true key=up label=*show_log]
+	[event global=true call=true key=upwheel label=*show_log]
+	[event global=true call=true key=page_down label=*show_log]
+	[event global=true call=true key=page_up label=*show_log]
 [return]
 
 ;*********************************************************
-*show_history
+*show_log
 [return]
 	[return cond="! isGameState"]
 
@@ -27,7 +30,7 @@
 	[lay layer=履歴 layout='fontFamily="ipam"']
 		; フォントを遅延ロードしているので指定はここまで遅らせる
 	[h_ss_upd]	; 履歴画面用スナップショットを撮る
-	[history_redraw text=&save:const.sn.sLog]
+	[log_redraw text=&save:const.sn.sLog]
 		[button layer=履歴 page=fore pic="Icon_btnX" left=984 top=8 global=true label=*cancel hint="閉じる" enterse=&sysse_choice cond=!const.sn.isApp]
 	[let name=sysmenu_v text=&const.sn.lay.mes_sysmenu.fore.visible cond=useSysMenu]
 	[sys_menu visible=false]
@@ -56,14 +59,14 @@
 ;*********************************************************
 *scroll
 	[jump label=*cancel_2 cond="logpage.isEnd && (sn.eventArg > 0) && (sn.eventArg !=999)"]
-	[history_scroll move=&sn.eventArg][return]
+	[log_scroll move=&sn.eventArg][return]
 
 *swipe
 	[se fn="PageD_16" buf=SYS]
-	[history_scroll move=1 cond="sn.eventArg == 'u'"]
-	[history_scroll move=-1 cond="sn.eventArg == 'd'"]
-	[history_scroll move=-1 cond="sn.eventArg == 'l'"]
-	[history_scroll move=1 cond="sn.eventArg == 'r'"]
+	[log_scroll move=1 cond="sn.eventArg == 'u'"]
+	[log_scroll move=-1 cond="sn.eventArg == 'd'"]
+	[log_scroll move=-1 cond="sn.eventArg == 'l'"]
+	[log_scroll move=1 cond="sn.eventArg == 'r'"]
 [jump label=*retry]
 
 ;*********************************************************

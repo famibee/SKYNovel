@@ -90,7 +90,7 @@
 	[call fn="_hidetext"]
 	[call fn="_submenu"]
 	[call fn="_archive"]
-	[call fn="_history"]
+	[call fn="_log"]
 	[call fn="_config"]
 	[call fn="_album"]
 
@@ -141,7 +141,7 @@
 	[button layer="mes_sysmenu" page=back text=" セーブ " rotation=&r left=&sysmenu_left top=320 global=true event_at_down=true fn="_archive" label=*rclick_save call=true hint="セーブ" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text=" ロード " rotation=&r left=&sysmenu_left top=420 global=true event_at_down=true fn="_archive" label=*rclick_load call=true hint="ロード" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text="字を隠す" rotation=&r left=&sysmenu_left top=520 global=true event_at_down=true fn=_hidetext label=*main call=true hint="文字非表示" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back text=" 履 歴 " rotation=&r left=&sysmenu_left top=620 global=true event_at_down=true fn=_history label=*show_history call=true hint="履歴を表示" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text=" 履 歴 " rotation=&r left=&sysmenu_left top=620 global=true event_at_down=true fn=_log label=*show_log call=true hint="履歴を表示" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text=" 設 定 " rotation=&r left=&sysmenu_left top=720 global=true event_at_down=true fn=_config label=*keycall_config call=true hint="ゲーム設定" enterse=&sysse_choice]
 	[trans layer="mes_sysmenu" time=0]
 	[wt]	; 裏から表へコピー（save対策）
@@ -377,8 +377,8 @@
 *h_jmp
 	&_sl.place = const.sn.eventArg
 
-	[history_let_page name=h_page]
-	[history_let_page_count name=h_page_count]
+	[log_let_page name=h_page]
+	[log_let_page_count name=h_page_count]
 	[notice text='容量制限により、これ以前で再開できません' cond="h_page_count -h_page > const.h_save.max_count"]
 	[return cond="h_page_count -h_page > const.h_save.max_count"]
 
@@ -388,7 +388,7 @@
 			;#FONT	ここから再開しますか？
 	[return cond="_yesno != 'y'"]
 
-	[call fn=_history label=*cancel]
+	[call fn=_log label=*cancel]
 	[jump fn=_archive label=*end_load]
 
 ;********************************************************

@@ -74,7 +74,7 @@
 	[se fn=&sysse_ok1 buf=SYS]
 	[call label=*exit]
 	[let name="isGameState" text=true]
-	[jump fn="_history" label=*show_history]
+	[jump fn="_log" label=*show_log]
 
 ;*********************************************************
 *title
