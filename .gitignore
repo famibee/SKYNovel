@@ -22,8 +22,7 @@ gallery/glsl_/
 node_modules/
 
 # ブラウザ版メインjs
-web.js
-web.three.js
+web/
 
 # SKYNovel Dev famibee's Work Folder
 Work/
