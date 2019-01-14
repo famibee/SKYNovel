@@ -2,83 +2,50 @@
 	[return cond="const.sn.frm.log"]
 
 	[add_frame id=log src="log/_log.htm" visible=false]
-
 	[event key='dom=log:#close' label=*exit global=true]
 
-
-
-; b_pic=plglog
-	[txt_lay_v_left layer=履歴 page=fore visible=false fcol=0xFFFFFF l=620 no_sysmenu_draw=true b_pic=null]
-	[lay layer=履歴 b_left=0 b_top=0 b_width=&const.sn.config.window.width b_height=&const.sn.config.window.height b_color=0x000044 b_alpha=0.8]
-
-	[event global=true call=true key=r label=*show_log]
-	[event global=true call=true key=up label=*show_log]
-	[event global=true call=true key=upwheel label=*show_log]
-	[event global=true call=true key=page_down label=*show_log]
-	[event global=true call=true key=page_up label=*show_log]
+	[event global=true call=true key=r label=*main]
 [return]
+
 
 ;*********************************************************
-*show_log
-[return]
-	[return cond="! isGameState"]
-
-	&bk_chkFontMode = sn.chkFontMode	; 履歴では一時無効
-	&sn.chkFontMode = false
+*main
 	[enable_event enabled=false]
 	[clear_event]
-	[lay layer=履歴 layout='fontFamily="ipam"']
-		; フォントを遅延ロードしているので指定はここまで遅らせる
-	[h_ss_upd]	; 履歴画面用スナップショットを撮る
-	[log_redraw text=&save:const.sn.sLog]
-		[button layer=履歴 page=fore pic="Icon_btnX" left=984 top=8 global=true label=*cancel hint="閉じる" enterse=&sysse_choice cond=!const.sn.isApp]
-	[let name=sysmenu_v text=&const.sn.lay.mes_sysmenu.fore.visible cond=useSysMenu]
-	[sys_menu visible=false]
+
+	; 最新値で更新
+[let_ml name=dic]
+	[
+		{"txt": "　桜の樹の下には屍体が埋まつてゐる！"},
+		{"txt": "　これは信じていいことなんだよ。何故つて、桜の花があんなにも見事に咲くなんて信じられないことぢやないか。<br/>俺はあの美しさが信じられないので、この二三日不安だつた。しかしいま、やつとわかるときが来た。桜の樹の下には屍体が埋まつてゐる。これは信じていいことだ。"},
+		{"txt": "　どうして俺が毎晩家へ帰つて来る道で、俺の部屋の数ある道具のうちの、選《よ》りに選つてちつぽけな薄つぺらいもの、安全剃刀《かみそり》の刃なんぞが、千里眼のやうに思ひ浮んで来るのか──お前はそれがわからないと云つたが──そして俺にもやはりそれがわからないのだが──それもこれもやつぱり同じやうなことにちがひない。"}
+	]
+[endlet_ml]
+	[set_frame id=log var_name=val_dic text=&dic]
+	[let_frame id=log var_name=val2ctrl function=true]
+
+	; 下部からスライドイン
+	[frame id=log visible=true y=&const.sn.frm.log.height]
+	[tsy_frame id=log time=500 y=0]
+	[wait_tsy id=log]
 
 	&isGameState = false
-*retry
-	[event key=rightclick label=*cancel]
-	[event key=r label=*cancel]
-	[event key=delete label=*cancel]
-	[event key=backspace label=*cancel]
-	[event key=shift label=*cancel]
-;	[gesture_event swipe=*swipe f2tap=*cancel f3tap=*cancel]
-
-	[event key=up label=*scroll call=true arg=-1]
-	[event key=down label=*scroll call=true arg=1]
-	[event key=right label=*scroll call=true arg=-1]
-	[event key=left label=*scroll call=true arg=1]
-	[event key=page_down label=*scroll call=true arg=5]
-	[event key=page_up label=*scroll call=true arg=-5]
-	[event key=home label=*scroll call=true arg=-999]
-	[event key=end label=*scroll call=true arg=999]
-	[event key=upwheel label=*scroll call=true arg=-1]
-	[event key=downwheel label=*scroll call=true arg=1]
+	[event key=rightclick label=*exit]
+	[event key=r label=*exit]
+	[event key=delete label=*exit]
+	[event key=backspace label=*exit]
+	[event key=shift label=*exit]
 [s]
 
 ;*********************************************************
-*scroll
-	[jump label=*cancel_2 cond="logpage.isEnd && (sn.eventArg > 0) && (sn.eventArg !=999)"]
-	[log_scroll move=&sn.eventArg][return]
+*exit
+	[se fn=&sysse_cancel buf=SYS]
 
-*swipe
-	[se fn="PageD_16" buf=SYS]
-	[log_scroll move=1 cond="sn.eventArg == 'u'"]
-	[log_scroll move=-1 cond="sn.eventArg == 'd'"]
-	[log_scroll move=-1 cond="sn.eventArg == 'l'"]
-	[log_scroll move=1 cond="sn.eventArg == 'r'"]
-[jump label=*retry]
+	[tsy_frame id=log time=500 y=&const.sn.frm.log.height]
+	[wait_tsy id=log]
+	[frame id=log visible=false]
 
-;*********************************************************
-*cancel_2
-	[pop_stack]
-
-;*********************************************************
-*cancel
-	[lay layer=履歴 page=fore visible=false]
-	[sys_menu visible=&sysmenu_v]
 	[enable_event enabled=true]
 	[set_focus to=null]
 	&isGameState = true
-	&sn.chkFontMode = bk_chkFontMode	; 復帰
 [return]

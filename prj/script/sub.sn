@@ -141,7 +141,7 @@
 	[button layer="mes_sysmenu" page=back text=" セーブ " rotation=&r left=&sysmenu_left top=320 global=true event_at_down=true fn="_archive" label=*rclick_save call=true hint="セーブ" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text=" ロード " rotation=&r left=&sysmenu_left top=420 global=true event_at_down=true fn="_archive" label=*rclick_load call=true hint="ロード" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text="字を隠す" rotation=&r left=&sysmenu_left top=520 global=true event_at_down=true fn=_hidetext label=*main call=true hint="文字非表示" enterse=&sysse_choice]
-	[button layer="mes_sysmenu" page=back text=" 履 歴 " rotation=&r left=&sysmenu_left top=620 global=true event_at_down=true fn=_log label=*show_log call=true hint="履歴を表示" enterse=&sysse_choice]
+	[button layer="mes_sysmenu" page=back text=" 履 歴 " rotation=&r left=&sysmenu_left top=620 global=true event_at_down=true fn=_log label=*main call=true hint="履歴を表示" enterse=&sysse_choice]
 	[button layer="mes_sysmenu" page=back text=" 設 定 " rotation=&r left=&sysmenu_left top=720 global=true event_at_down=true fn=_config label=*keycall_config call=true hint="ゲーム設定" enterse=&sysse_choice]
 	[trans layer="mes_sysmenu" time=0]
 	[wt]	; 裏から表へコピー（save対策）
@@ -299,13 +299,6 @@
 	[rec_ch text="｜　《endlink｜》" r=false]
 	[let name="h_ss_idx" text="&h_save_idx %const.h_save.max_count"]
 	[let name="h_save_idx" text="&(h_save_idx +1) %const.h_save.max_count"]
-[endmacro]
-
-;********************************************************
-; マクロ 履歴画面用スナップショットを撮る
-[macro name="h_ss_upd"]
-	[snapshot fn="& 'app-storage:/bookmark/h_'+ h_ss_idx" layer=&dsp_lays width=198 height=149 quality=90 smoothing=true cond="(h_save_idx != null) && (h_ss_idx != h_save_idx)"]
-	[let name="h_ss_idx" text="&h_save_idx" cond="h_save_idx != null"]
 [endmacro]
 
 ;********************************************************

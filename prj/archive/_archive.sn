@@ -9,13 +9,6 @@
 [return]
 
 ;*********************************************************
-; 最新値で更新
-*val2ctrl
-	[set_frame id=archive var_name=val_dic text=&const.sn.bookmark.json]
-	[let_frame id=archive var_name=val2ctrl function=true]
-[return]
-
-;*********************************************************
 ;	TitleMenu -> Load
 *title_load
 	&しおりモード = "Load"
@@ -48,7 +41,9 @@
 	; 最新値で更新
 	[set_frame id=archive var_name=val_mode text=&しおりモード]
 	[set_frame id=archive var_name=val_caller text=&呼び元]
-	[call label=*val2ctrl]
+	[set_frame id=archive var_name=val_dic text=&const.sn.bookmark.json]
+	[let_frame id=archive var_name=val2ctrl function=true]
+
 	; 下部からスライドイン
 	[frame id=archive visible=true y=&const.sn.frm.archive.height]
 	[tsy_frame id=archive time=500 y=0]
@@ -61,7 +56,6 @@
 	[event key=end label=*exit]
 	[event key=shift label=*exit]
 	[event key=c label=*exit]
-;	[gesture_event swipe=*nop f2tap=*exit f3tap=*exit]
 	[set_focus to=null]
 [s]
 

@@ -47,7 +47,6 @@
 		const proc_mode = (location.protocol == 'http:')
 			? 'server'
 			: ('val2ctrl' in window.parent) ?'local' :'electron';
-		//console.log(`proc_mode:[${proc_mode}]`);
 		if (proc_mode == 'local') {	// ローカルデバッグ用
 			document.getElementById('do_loadsave').addEventListener('click', ()=> {
 				console.log(`do_loadsave:${val_place}`);

@@ -31,18 +31,6 @@
 [endmacro]
 [return]
 
-;*********************************************************
-; 最新値で更新
-*val2ctrl
-	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm|'(No BGM)']
-	[let_frame id=album var_name=val2ctrl function=true]
-[return]
-
-; BGM切り替え
-*bgm
-	[playbgm fn=&sn.event.domdata.arg]
-	[call label=*val2ctrl]
-[return]
 
 ;*********************************************************
 *title_album
@@ -64,6 +52,18 @@
 ;	[gesture_event f2tap=*exit f3tap=*exit]
 	[set_focus to=null]
 [s]
+
+; 最新値で更新
+*val2ctrl
+	[set_frame id=album var_name=val_fnBgm text=&save:const.sn.fnBgm|'(No BGM)']
+	[let_frame id=album var_name=val2ctrl function=true]
+[return]
+
+; BGM切り替え
+*bgm
+	[playbgm fn=&sn.event.domdata.arg]
+	[call label=*val2ctrl]
+[return]
 
 ;*********************************************************
 *exit

@@ -2,44 +2,6 @@
 	[return cond="const.sn.frm.config"]
 
 	[add_frame id=config src="config/_config.htm" visible=false]
-	[call label=*resv_event]
-[return]
-
-
-;*********************************************************
-; 最新値で更新
-*val2ctrl
-	; アプリバージョン
-	[set_frame id=config var_name=val_version text=&const.sn.config.book.version@str]
-
-	; バック不透明度
-	[set_frame id=config var_name=val_sldBackAlpha text=&sys:TextLayer.Back.Alpha*100]
-	; 通常文字表示待ち
-	[set_frame id=config var_name=val_sldChWaitMsec text=&sys:sn.tagCh.msecWait]
-	[set_frame id=config var_name=val_chkChDoWait text=&sys:sn.tagCh.doWait]
-	[set_frame id=config var_name=val_sldAutoLWaitMsec text=&sys:sn.auto.msecLineWait]
-	[set_frame id=config var_name=val_sldAutoPWaitMsec text=&sys:sn.auto.msecPageWait]
-
-	; 既読文字表示待ち
-	[set_frame id=config var_name=val_sldChWaitMsec_Kidoku text=&sys:sn.tagCh.msecWait_Kidoku]
-	[set_frame id=config var_name=val_chkChDoWait_Kidoku text=&sys:sn.tagCh.doWait_Kidoku]
-	[set_frame id=config var_name=val_sldAutoLWaitMsec_Kidoku text=&sys:sn.auto.msecLineWait_Kidoku]
-	[set_frame id=config var_name=val_sldAutoPWaitMsec_Kidoku text=&sys:sn.auto.msecPageWait_Kidoku]
-
-	; 音量
-	[set_frame id=config var_name=val_sldVolGlobal text=&sys:sn.sound.global_volume*100]
-	[set_frame id=config var_name=val_sldVolBgm text=&sys:const.sn.sound.BGM.volume*100]
-	[set_frame id=config var_name=val_sldVolVoice text=&sys:const.sn.sound.VOICE.volume*100]
-	[set_frame id=config var_name=val_sldVolSe text=&sys:const.sn.sound.SE.volume*100]
-	[set_frame id=config var_name=val_sldVolSys text=&sys:const.sn.sound.SYS.volume*100]
-
-	[set_frame id=config var_name=val_chkScrMode text=&const.sn.displayState]
-
-	[let_frame id=config var_name=val2ctrl function=true]
-[return]
-
-
-*resv_event
 	[event key='dom=config:#close' label=*exit global=true]
 
 	[event global=true call=true key=c label=*keycall_config]
@@ -221,6 +183,7 @@
 
 	; 最新値で更新
 	[call label=*val2ctrl]
+
 	; 下部からスライドイン
 	[frame id=config visible=true y=&const.sn.frm.config.height]
 	[tsy_frame id=config time=500 y=0]
@@ -237,6 +200,38 @@
 	[set_focus to=null]
 [s]
 
+; 最新値で更新
+*val2ctrl
+	; アプリバージョン
+	[set_frame id=config var_name=val_version text=&const.sn.config.book.version@str]
+
+	; バック不透明度
+	[set_frame id=config var_name=val_sldBackAlpha text=&sys:TextLayer.Back.Alpha*100]
+	; 通常文字表示待ち
+	[set_frame id=config var_name=val_sldChWaitMsec text=&sys:sn.tagCh.msecWait]
+	[set_frame id=config var_name=val_chkChDoWait text=&sys:sn.tagCh.doWait]
+	[set_frame id=config var_name=val_sldAutoLWaitMsec text=&sys:sn.auto.msecLineWait]
+	[set_frame id=config var_name=val_sldAutoPWaitMsec text=&sys:sn.auto.msecPageWait]
+
+	; 既読文字表示待ち
+	[set_frame id=config var_name=val_sldChWaitMsec_Kidoku text=&sys:sn.tagCh.msecWait_Kidoku]
+	[set_frame id=config var_name=val_chkChDoWait_Kidoku text=&sys:sn.tagCh.doWait_Kidoku]
+	[set_frame id=config var_name=val_sldAutoLWaitMsec_Kidoku text=&sys:sn.auto.msecLineWait_Kidoku]
+	[set_frame id=config var_name=val_sldAutoPWaitMsec_Kidoku text=&sys:sn.auto.msecPageWait_Kidoku]
+
+	; 音量
+	[set_frame id=config var_name=val_sldVolGlobal text=&sys:sn.sound.global_volume*100]
+	[set_frame id=config var_name=val_sldVolBgm text=&sys:const.sn.sound.BGM.volume*100]
+	[set_frame id=config var_name=val_sldVolVoice text=&sys:const.sn.sound.VOICE.volume*100]
+	[set_frame id=config var_name=val_sldVolSe text=&sys:const.sn.sound.SE.volume*100]
+	[set_frame id=config var_name=val_sldVolSys text=&sys:const.sn.sound.SYS.volume*100]
+
+	[set_frame id=config var_name=val_chkScrMode text=&const.sn.displayState]
+
+	[let_frame id=config var_name=val2ctrl function=true]
+[return]
+
+
 ;*********************************************************
 *exit
 	[se fn=&sysse_cancel buf=SYS]
@@ -252,7 +247,7 @@
 
 ;*********************************************************
 *update_check
-	[return cond="isUserUpdateCheck"]
+	[return cond=isUserUpdateCheck]
 	&isUserUpdateCheck = true
 	[se fn=&sysse_ok1 buf=SYS]
 

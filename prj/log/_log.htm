@@ -1,0 +1,72 @@
+<!doctype html><html lang="ja">
+<head><meta charset="utf-8"/><title>&nbsp;</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../lib/materialize.min.css">
+<style type="text/css">html {user-select: none; -webkit-user-select: none;}</style>
+<script defer src="../lib/materialize.min.js"></script>
+<script>
+	let a = [
+		{txt: '　桜の樹の下には屍体が埋まつてゐる！'},
+		{txt: '　これは信じていいことなんだよ。何故つて、桜の花があんなにも見事に咲くなんて信じられないことぢやないか。<br/>俺はあの美しさが信じられないので、この二三日不安だつた。しかしいま、やつとわかるときが来た。桜の樹の下には屍体が埋まつてゐる。これは信じていいことだ。'},
+		{txt: '　どうして俺が毎晩家へ帰つて来る道で、俺の部屋の数ある道具のうちの、選《よ》りに選つてちつぽけな薄つぺらいもの、安全剃刀《かみそり》の刃なんぞが、千里眼のやうに思ひ浮んで来るのか──お前はそれがわからないと云つたが──そして俺にもやはりそれがわからないのだが──それもこれもやつぱり同じやうなことにちがひない。'},
+		{txt: '　一体どんな樹の花でも、所謂《いはゆる》真つ盛りといふ状態に達すると、あたりの空気のなかへ一種神秘な雰囲気を撒《ま》き散らすものだ。それは、よく廻つた独楽《こ ま》が完全な静止に澄むやうに、また、音楽の上手な演奏がきまつてなにかの幻覚を伴ふやうに、灼熱《しやくねつ》した生殖の幻覚させる後光のやうなものだ。それは人の心を撲《う》たずにはおかない、不思議な、生き生きとした、美しさだ。'},
+		{txt: '　しかし、昨日、一昨日、俺の心をひどく陰気にしたものもそれなのだ。俺にはその美しさがなにか信じられないもののやうな気がした。俺は反対に不安になり、憂欝になり、空虚な気持になつた。しかし、俺はいまやつとわかつた。'},
+	];
+	document.addEventListener('DOMContentLoaded', ()=> {
+		const proc_mode = (location.protocol == 'http:')
+			? 'server'
+			: ('val2ctrl' in window.parent) ?'local' :'electron';
+		if (proc_mode == 'local') {	// ローカルデバッグ用
+			val2ctrl();
+		}
+	}, false);
+
+	var val_dic = null;
+	function val2ctrl() {	// 変数→コンポーネント
+		if (val_dic) a = JSON.parse(val_dic);
+
+		const lst = document.getElementsByClassName('collection')[0];
+		lst.textContent = null;
+		const lst2 = document.getElementsByClassName('table-of-contents')[0];
+		lst2.textContent = null;
+		const len = a.length;
+		a.forEach((v, i)=> {
+			lst.insertAdjacentHTML('beforeend', `
+<a class="collection-item section scrollspy black-text" id="${len -i}">
+	<span class="badge">${len -i}</span>
+	${v.txt}
+</a>`);
+			lst2.insertAdjacentHTML('beforeend', `
+<li style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="#${len -i}">${len -i}.${v.txt}</a></li>`);
+		});
+		const instances = M.ScrollSpy.init(document.querySelectorAll('.scrollspy'));
+	}
+
+</script>
+</head>
+<body class="blue-grey lighten-4" oncontextmenu="return false;">
+	<div class="navbar-fixed"><nav class="blue-grey darken-1" role="navigation">
+		<div class="nav-wrapper container">
+			<a class="waves-effect waves-light btn grey" id="close">x</a>
+			<span class="brand-logo center">履歴画面</span>
+		</div>
+	</nav></div>
+
+	<div class="section">
+	<div class="row">
+		<div class="col s12 m9 l10">
+		<div class="collection">
+			<a class="collection-item section scrollspy black-text" id="1">
+				<span class="badge">1</span>
+				　桜の樹の下には屍体が埋まつてゐる！
+			</a>
+		</div>
+		</div>
+		<div class="col hide-on-small-only m3 l2">
+			<ul class="section table-of-contents">
+				<li style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="#1">1.桜の樹の下には屍体が埋まつてゐる！</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+</body></html>
