@@ -74,8 +74,8 @@
 		"build": "npm run webpack:pro && npm run build:package",
 		"webpack:pro": "webpack --mode production --config ./core/webpack.config.js",
 		"build:package": "node build.js",
-		"test-simple": "mocha --opts core/tst/mocha.opts",
-		"test": "istanbul cover _mocha -- --opts core/tst/mocha.opts",
+		"test-simple": "mocha --opts core/test/mocha.opts",
+		"test": "istanbul cover _mocha -- --opts core/test/mocha.opts",
 		"test-cov": "istanbul cover --print both _mocha -- core/tmp/*.js --require intelli-espower-loader",
 		"posttest": "cd coverage && remap-istanbul -i coverage.json -o html-report -t html"
 	},

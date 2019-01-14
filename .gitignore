@@ -6,6 +6,7 @@ app/index.js
 
 # Build results
 build/skynovel*
+build/cordova
 
 # Visual Studio code coverage results
 coverage/

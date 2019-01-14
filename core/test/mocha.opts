@@ -1,3 +1,3 @@
 --require ts-node/register
 --watch --watch-extensions ts
-core/tst/*.test.ts
+core/test/*.test.ts
