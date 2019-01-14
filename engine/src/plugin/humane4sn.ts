@@ -5,16 +5,21 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import Humane from './humane4sn/humane.min.js';
-import '!style-loader!css-loader!./humane4sn/bigbox.css';
+import {HArg, IPluginInitArg} from '../sn/CmnLib';
 
-export var init = hSN=> {
+// 当プラグイン使用時は以下が必要
+//	npm i -S humane-js
+//	npm i -D @types/humane
+const Humane = require('humane-js');
+import '!style-loader!css-loader!../../../node_modules/humane-js/themes/bigbox.css';
+
+export var init = (hSN: IPluginInitArg)=> {
 	Humane.baseCls = 'humane-bigbox';
 /*
 	const humane = Humane.create();
 	humane.log('humane');
 */
-	hSN.addTag('notice', hArg=> {
+	hSN.addTag('notice', (hArg: HArg)=> {
 		Humane.log(hArg.text);
 
 		return false;

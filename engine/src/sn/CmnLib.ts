@@ -173,6 +173,15 @@ export interface ITwInf {
 }
 
 
+// =============== Plugin
+export interface IPluginInitArg {
+	addTag: (tag_name: string, tag_fnc: ITag)=> void;
+}
+export interface IPlugin {
+	init: (plgArg: IPluginInitArg)=> boolean;
+}
+
+
 // =============== SysBase
 export interface ISysBase {
 	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: IConfig): void;
