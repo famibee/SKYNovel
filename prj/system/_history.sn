@@ -1,4 +1,5 @@
 ;#USE-FONT	ipam
+[return]
 	[return cond="const._history.inited"]
 	&const._history.inited = true
 
@@ -16,6 +17,7 @@
 
 ;*********************************************************
 *show_history
+[return]
 	[return cond="! isGameState"]
 
 	&bk_chkFontMode = sn.chkFontMode	; 履歴では一時無効

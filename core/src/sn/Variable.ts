@@ -71,13 +71,6 @@ export class Variable implements IVariable {
 		this.hTmp['sn.skip.enabled'] = false;	// 次の選択肢(/未読)まで進むが有効か
 		this.hTmp['sn.auto.enabled'] = false;	// 自動読みすすみモードかどうか
 
-		//this.hTmp['const.sn.key.alternate']	// ScriptIterator で定義
-		//this.hTmp['const.sn.key.command']		// ScriptIterator で定義
-		//this.hTmp['const.sn.key.control']		// ScriptIterator で定義
-		//this.hTmp['const.sn.key.end']			// ScriptIterator で定義
-		//this.hTmp['const.sn.key.escape']		// ScriptIterator で定義
-		//this.hTmp['const.sn.key.back']		// ScriptIterator で定義
-
 		this.hTmp['const.sn.last_page_text'] =
 		()=> this.REG_RECTEXT_LAST.exec(this.hSave['const.sn.sLog']);
 

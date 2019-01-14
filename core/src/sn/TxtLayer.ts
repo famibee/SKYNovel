@@ -258,6 +258,7 @@ export class TxtLayer extends Layer {
 			this.cnt.removeChild(this.b_do);
 			this.b_do.destroy();
 			this.b_do = null;
+			this.b_pic = '';
 		}
 
 		if (hArg.b_pic) {
@@ -1224,23 +1225,15 @@ export class TxtLayer extends Layer {
 	});
 	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
-		let ret = false;
 		this.enabled	= hLay.enabled;
 
 		// バック
-		this.b_pic		= hLay.b_pic;
-		this.b_color	= hLay.b_color;
-		this.b_alpha	= hLay.b_alpha;
 		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
-
-		if (hLay.b_do) ret = this.drawBack(
-			hLay.b_do == 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color}
-		)
-		else if (this.b_do) {
-			this.cnt.removeChild(this.b_do);
-			this.b_do.destroy();
-			this.b_do = null;
-		}
+		let ret = this.drawBack(
+			(hLay.b_do)
+			? (hLay.b_do == 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color})
+			: {b_pic: ''}
+		);
 
 		this.htmTxt.style.cssText = hLay.cssText;
 		this.pad_left = parseFloat(this.htmTxt.style.paddingLeft || '0');
