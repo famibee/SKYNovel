@@ -14,9 +14,9 @@ export var init = hSN=> {
 	const humane = Humane.create();
 	humane.log('humane');
 */
-	hSN.hTag['notice'] = hArg=> {
+	hSN.addTag('notice', hArg=> {
 		Humane.log(hArg.text);
 
 		return false;
-	};
+	});
 };

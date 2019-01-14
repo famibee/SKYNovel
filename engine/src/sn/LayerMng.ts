@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass, HPage, HArg} from './CmnLib';
+import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass, HPage, HArg, ITag} from './CmnLib';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -266,9 +266,12 @@ export class LayerMng {
 					const mod = this.hPlg[fn]
 					= await import('../../plugin/'+ fn +'.js');
 					await mod.init({
-						cfg	: this.cfg,
-						hTag: this.hTag,	// TODO: addTag()とかにしないと改竄される
-						val	: this.val
+						addTag: (tag_name: string, tag_fnc: ITag)=> {
+							if (this.hTag[tag_name]) throw `すでに定義済みのタグ[${tag_name}]です`;
+							this.hTag[tag_name] = tag_fnc;
+						},
+					//	cfg	: this.cfg,
+					//	val	: this.val
 					});
 					if (join) this.main.resume();
 				})();
