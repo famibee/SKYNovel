@@ -42,11 +42,11 @@ export class SysApp extends SysNode {
 		}
 		comp(this.data);
 
-		/*
 		// システム情報
-		hTmp['const.flash.system.Capabilities.isDebugger']
-			= Capabilities.isDebugger;
+		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
+			// AIRNovel の const.flash.system.Capabilities.isDebugger
+		/*
 		hTmp['const.flash.system.Capabilities.language']
 			= Capabilities.language;
 			// コンテンツが実行されているシステムの言語コード
@@ -61,9 +61,9 @@ export class SysApp extends SysNode {
 			= Capabilities.screenDPI;
 			// 画面の1インチあたりのドット数(dpi)解像度をピクセル単位で指定
 		*/
-		hTmp['const.sn.Capabilities.screenResolutionX'] = this.dsp.size.width;
+		hTmp['const.sn.screenResolutionX'] = this.dsp.size.width;
 			// 画面の最大水平解像度
-		hTmp['const.sn.Capabilities.screenResolutionY'] = this.dsp.size.height;
+		hTmp['const.sn.screenResolutionY'] = this.dsp.size.height;
 			// 画面の最大垂直解像度
 			// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
 			// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize

@@ -98,6 +98,10 @@ export class SysWeb extends SysBase {
 			this.data.kidoku = strLocal.get(this.ns +'kidoku');
 		}
 		comp(this.data);
+
+		// システム情報
+		const hn = document.location.hostname;
+		hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
 	}
 	flush() {
 		strLocal.set(this.ns +'sys', this.data.sys);

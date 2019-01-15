@@ -574,7 +574,7 @@ export class Variable implements IVariable {
 		'tmp:sn.chkFontMode'
 		: ()=> {
 			if (this.hTmp['const.sn.onLauncher']) return;
-			if (! this.hTmp['const.flash.system.Capabilities.isDebugger']) return;
+			if (! this.hTmp['const.sn.isDebugger']) return;
 
 			//	Hyphenation.chkFontMode = CmnLib.argChk_Boolean(this.hTmp, name, true)
 		}

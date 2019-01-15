@@ -11,22 +11,20 @@
 	[call fn=ext_*]		; ext_**.snというスクリプトを全部コール
 	[loadplugin fn=humane4sn]
 
-	;[event global=true call=true key=w label=*toggle_full_screen]
 	[toggle_full_screen key=w]
 	[event global=true call=true key=alt+enter label=*toggle_full_screen]
 		&w = const.flash.display.Stage.displayState=='normal'
-		&s = const.sn.config.window.height > const.flash.system.Capabilities.screenResolutionY || const.sn.config.window.width > const.flash.system.Capabilities.screenResolutionX
+		&s = const.sn.config.window.height > const.sn.screenResolutionY || const.sn.config.window.width > const.sn.screenResolutionX
 		[toggle_full_screen cond="w && s"]
 		; プレイ環境より画面サイズが大きい場合は全画面モードに
 	[event global=true call=true key=left label=*set_focus arg=prev]
 	[event global=true call=true key=right label=*set_focus arg=next]
 ;	[event global=true call=true key=v label=*repeat_voice]
 	[event global=true call=true key=p label=*snapshot]
-	[event global=true key=F5 label=*reload_script cond="const.flash.system.Capabilities.isDebugger"]
-	[event global=true call=true key=F7 label=*stats]
-	[event global=true call=true key=F8 label=*dump]
-	;[event global=true call=true key=f8 label=*dump cond="const.flash.system.Capabilities.isDebugger"]
-;	[update_check url="http://ugainovel.ddo.jp/UnderCherry/ver.xml" cond="! const.flash.system.Capabilities.isDebugger"]
+	[event global=true call=true key=F5 label=*reload_script cond=const.sn.isDebugger]
+	[event global=true call=true key=F7 label=*stats cond=const.sn.isDebugger]
+	[event global=true call=true key=f8 label=*dump cond=const.sn.isDebugger]
+;	[update_check url="http://ugainovel.ddo.jp/UnderCherry/ver.xml" cond=const.sn.isApp&&!const.sn.isDebugger]
 
 	[call fn="sub"]
 	[call fn="_yesno"]
@@ -137,6 +135,7 @@
 [return]
 
 *reload_script
+	[return cond=!isGameState]
 	[reload_script]
 
 *stats
