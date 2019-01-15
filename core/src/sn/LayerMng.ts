@@ -27,7 +27,7 @@ export class LayerMng {
 	private frmMng	: FrameMng;
 
 	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private sys: SysBase) {
-		TxtLayer.init(cfg, hTag, val);
+		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
 		GrpLayer.init(main, cfg);
 		ThreeDLayer.init(cfg);
 
@@ -135,8 +135,17 @@ export class LayerMng {
 		};
 		fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
 		val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
+
+		val.defTmp('const.sn.sLog', ()=> {
+			return JSON.stringify(
+				(String(this.val.getVal('save:const.sn.sLog') +'\f'+
+				String(this.val.getVal('tmp:const.sn.last_page_text')))
+				.replace(/^\f/g, '')
+				.split('\f')
+				.map(v=> {return {txt: v}})));
+		});
 	}
-	private fncTicker = ()=> {TWEEN.update()};
+	private fncTicker = ()=> TWEEN.update();
 
 	private grpCover : Graphics | null = null;
 	cover(visible: boolean, bg_color: number = 0x0) {
@@ -184,11 +193,7 @@ export class LayerMng {
 	}
 
 
-	private cmdTxt(cmd: string, tl = this.getCurrentTxtlayForeNeedErr(), _record = true): void {
-		tl.tagCh('｜　《'+ cmd +'》');
-
-		// TODO: record未作成
-	}
+	private cmdTxt = (cmd: string, tl = this.getCurrentTxtlayForeNeedErr(), _record = true)=> tl.tagCh('｜　《'+ cmd +'》');
 	goTxt = ()=> {};
 	breakLine = ()=> {};
 	breakPage = ()=> {};
@@ -259,8 +264,6 @@ export class LayerMng {
 
 		switch (CmnLib.getExt(fn)) {
 			case '':
-				// [loadplugin fn=a]	で読み込み・実行まで確認
-				// TODO: 後はプラグインの仕様を決めるだけ
 				if (fn in this.hPlg) throw `${fn} はロード済みのプラグインです`;
 				(async ()=> {
 					const mod = this.hPlg[fn]
@@ -908,41 +911,22 @@ void main(void) {
 	}
 
 
-	private recText(txt: string): void {
+	private recText(txt: string) {
 		if (! this.val.getVal('save:sn.doRecLog')) return;
 
-		const sLog = this.recTextSub(
-			this.MaxLogLen,
-			String(this.val.getVal('save:const.sn.sLog')),
-			txt
-		);
-		this.val.setVal_Nochk('save', 'const.sn.sLog', sLog);
-	}
-	private	MaxLogLen	= 8192;
-	recTextSub(MaxLogLen: number, sLog: string, txt: string): string {
-		const ret = (sLog + txt)
-			.replace(this.REG_RECTEXTSUB3, '$2')
-			.slice(-MaxLogLen)
-			.replace(this.REG_RECTEXTSUB2, '');
-		const a = ret.match(this.REG_RECTEXTSUB0);
-		if (a && (a[0] != '《endlink｜》')) {
-			if (ret.search(this.REG_RECTEXTSUB0_B)== -1 ||
-				a[0].search(this.REG_RECTEXTSUB0_C)> -1) return ret;
-
-			return ret.replace(this.REG_RECTEXTSUB0_D, '');
+		if (txt != '\f') {
+			this.val.setVal_Nochk('tmp', 'const.sn.last_page_text', txt);
+			return;
 		}
 
-		return ret.replace(this.REG_RECTEXTSUB1, '')
+		this.val.setVal_Nochk('save', 'const.sn.sLog',
+			(String(this.val.getVal('save:const.sn.sLog')) +'\f'+
+			String(this.val.getVal('tmp:const.sn.last_page_text')))
+			.replace(/^\f|^<br\/>|\f(?=\f)|(?<=\f)<br\/>/g, '')
+			.split('\f').slice(-this.cfg.oCfg.log.max_len).join('\f')
+		);
+		this.val.setVal_Nochk('tmp', 'const.sn.last_page_text', '');
 	}
-	private REG_RECTEXTSUB0		= /《[^》]+?》/;
-	private REG_RECTEXTSUB0_B	= /^[《\*]/;
-	private REG_RECTEXTSUB0_C	= /^《(grp｜|span｜|del｜)/;
-	private REG_RECTEXTSUB0_D	= /^[^》]+?》(\s*\f+)?/;
-	private REG_RECTEXTSUB1		= /^(.*?《endlink｜|[^《]*?)》(\s*\f+)?/;
-	private REG_RECTEXTSUB2		= /^\s*\f+/;
-	private REG_RECTEXTSUB3		= /(｜　《span｜fontFamily="[^\"]*"》)+(｜　《span｜fontFamily="[^\"]*"》)/g;
-
-	public REG_RECTEXT_LAST		= /[^\f]+$/;
 
 
 	private clear_text(hArg: HArg) {

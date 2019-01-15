@@ -249,7 +249,7 @@ export class EventMng implements IEvtMng {
 			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		em.on('pointerdown', (e: any)=> this.defEvt2Fnc(e, key));
 
-//	hint	n		String	マウスカーソルを載せるとヒントをチップス表示する
+		// TODO: hint マウスカーソルを載せるとヒントをチップス表示する
 
 		if (hArg.clickse) {
 			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);	// 存在チェック

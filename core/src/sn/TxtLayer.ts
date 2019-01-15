@@ -39,9 +39,11 @@ export class TxtLayer extends Layer {
 
 	private	static	glbStyle: HTMLStyleElement;
 	private	static	cfg		: Config;
-	static	init(cfg: Config, hTag: IHTag, val: IVariable): void {
+	private	static	recText	: (txt: string)=> void;
+	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void): void {
 		TxtLayer.cfg = cfg;
 		TxtLayer.val = val;
+		TxtLayer.recText = recText;
 
 		if (! cfg.existsBreakline) TxtLayer.hNoReplaceDispObj['breakline'] = true;
 		if (! cfg.existsBreakpage) TxtLayer.hNoReplaceDispObj['breakpage'] = true;
@@ -490,6 +492,7 @@ export class TxtLayer extends Layer {
 			// これだとSafariでgetChRects()内 getBoundingClientRect()で異常な値になる。
 			// <br/>ではなく<p>〜</p>にする。（ただし空では改行せず、全角空白一文字必要らしい）
 		let sJoinSpan = this.aSpan.join('');
+		TxtLayer.recText(sJoinSpan);
 		if (sJoinSpan.slice(-5) == '<br/>') sJoinSpan = sJoinSpan.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行の処理で、終端に「　」を追加させない前処理
 		const tmp = sJoinSpan.split('<br/>').map(v=> (
 			v.includes('</p>')
@@ -501,6 +504,7 @@ export class TxtLayer extends Layer {
 			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
 			// insertAdjacentHTML()は使わない
 		this.htmTxt.hidden = false;
+
 
 		// tsayen/dom-to-image: Generates an image from a DOM node using HTML5 canvas https://github.com/tsayen/dom-to-image
 

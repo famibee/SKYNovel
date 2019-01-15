@@ -17,8 +17,6 @@ export class Variable implements IVariable {
 	private	hSave	: any	= this.hScope.save;
 	private	hTmp	: any	= this.hScope.tmp;
 
-	private	REG_RECTEXT_LAST	:RegExp	= /[^\f]+$/;
-
 
 	constructor(private cfg: Config, hTag: IHTag) {
 		//	変数操作
@@ -71,8 +69,7 @@ export class Variable implements IVariable {
 		this.hTmp['sn.skip.enabled'] = false;	// 次の選択肢(/未読)まで進むが有効か
 		this.hTmp['sn.auto.enabled'] = false;	// 自動読みすすみモードかどうか
 
-		this.hTmp['const.sn.last_page_text'] =
-		()=> this.REG_RECTEXT_LAST.exec(this.hSave['const.sn.sLog']);
+		this.hTmp['const.sn.last_page_text'] = '';
 
 		//this.hTmp['const.sn.mouse.middle']	// ScriptIterator で定義
 
