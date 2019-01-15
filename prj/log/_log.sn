@@ -3,8 +3,6 @@
 
 	[add_frame id=log src="log/_log.htm" visible=false]
 	[event key='dom=log:#close' label=*exit global=true]
-
-	[event global=true call=true key=r label=*main]
 [return]
 
 
@@ -26,7 +24,6 @@
 
 	&isGameState = false
 	[event key=rightclick label=*exit]
-	[event key=r label=*exit]
 	[event key=delete label=*exit]
 	[event key=backspace label=*exit]
 	[event key=shift label=*exit]
