@@ -196,7 +196,6 @@
 	[event key=end label=*exit]
 	[event key=shift label=*exit]
 	[event key=c label=*exit]
-;	[gesture_event swipe=*nop f2tap=*exit f3tap=*exit]
 	[set_focus to=null]
 [s]
 
