@@ -1,12 +1,10 @@
 module.exports = {
-	entry: `./core/tmp/web.js`,	// メインとなるJavaScriptファイル（エントリーポイント）
+	entry: `./core/tmp/web.js`,
 	target: 'web',
-
 	mode: 'development',
-
-	output: {	// ファイルの出力設定
-		path: process.cwd(),		//  出力ファイルのディレクトリ名
-		filename: 'web.js',			// 出力ファイル名
+	output: {
+		path: process.cwd() +'/web',
+		filename: 'web.js',
 	},
 
 	devServer: {
