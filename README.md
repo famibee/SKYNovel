@@ -19,7 +19,8 @@ WebGL NovelGame framework by PixiJS
 ## example
 
 - Package
-	https://github.com/famibee/SKYNovel_sample
+	- [simple sample project](https://github.com/famibee/SKYNovel_sample)
+	- [Novelgame(Tate-gaki) sample project](https://github.com/famibee/SKYNovel_uc)
 
 - Hello world（最小限のファイルによるプロジェクト）
 	- webpack ... require("skynovel/core/lib/web")	// (on browser)
