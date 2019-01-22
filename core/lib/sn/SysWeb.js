@@ -5,9 +5,11 @@ const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const strLocal = require('store');
 class SysWeb extends SysBase_1.SysBase {
-    constructor(hPlg = {}) {
-        super(hPlg);
+    constructor(hPlg = {}, $cur = 'prj/') {
+        super(hPlg, $cur);
         this.hPlg = hPlg;
+        this.$cur = $cur;
+        this.def_prj = 'prj';
         this.getURLQ = (loc) => {
             const arg = {};
             const urlq = loc.search.slice(1);
@@ -21,8 +23,11 @@ class SysWeb extends SysBase_1.SysBase {
         this.run = (prj) => {
             if (this.main)
                 this.main.destroy();
-            this.now_prj = prj || 'prj';
-            this.$cur = location.href.slice(0, location.href.lastIndexOf('/') + 1) + this.now_prj + '/';
+            this.now_prj = prj || this.def_prj;
+            const idxCur = this.$cur.lastIndexOf('/', this.$cur.length - 2);
+            this.$cur = location.href.slice(0, location.href.lastIndexOf('/') + 1)
+                + (idxCur == -1 ? '' : this.$cur.slice(0, idxCur + 1))
+                + this.now_prj + '/';
             this.main = new Main_1.Main(this);
         };
         this.now_prj = ':';
@@ -66,6 +71,8 @@ class SysWeb extends SysBase_1.SysBase {
             if (CmnLib_1.CmnLib.devtool)
                 console.log('画像ファイルをダウンロードします');
         };
+        const idxCur = this.$cur.lastIndexOf('/', this.$cur.length - 2);
+        this.def_prj = this.$cur.slice(idxCur + 1, -1);
         window.onload = () => {
             for (const v of document.querySelectorAll('[data-prj]')) {
                 v.addEventListener('click', () => {

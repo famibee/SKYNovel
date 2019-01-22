@@ -12,8 +12,14 @@ import {Main} from './Main';
 const strLocal = require('store');
 
 export class SysWeb extends SysBase {
-	constructor(protected hPlg: {[name: string]: IPlugin} = {}) {
-		super(hPlg);
+	constructor(protected hPlg: {[name: string]: IPlugin} = {}, protected $cur = 'prj/') {
+		super(hPlg, $cur);
+
+		const idxCur = this.$cur.lastIndexOf('/', this.$cur.length -2);
+		this.def_prj = this.$cur.slice(idxCur +1, -1);
+		//	(idxCur == -1)
+		//	? this.$cur.slice(0, -1)
+		//	: this.$cur.slice(idxCur +1, -1);
 
 		window.onload = ()=> {
 			for (const v of document.querySelectorAll('[data-prj]')) {
@@ -44,6 +50,7 @@ export class SysWeb extends SysBase {
 			this.tgl_full_scr = o=> this.regEvt_FullScr(o, 'requestFullscreen');
 		}
 	}
+	private def_prj = 'prj';
 	private getURLQ = (loc: Location): {[name: string]: string}=> {
 		const arg : {[name: string]: string} = {};
 		const urlq = loc.search.slice(1);
@@ -55,8 +62,13 @@ export class SysWeb extends SysBase {
 	}
 	private run = (prj: string)=> {
 		if (this.main) this.main.destroy();
-		this.now_prj = prj || 'prj';
-		this.$cur = location.href.slice(0, location.href.lastIndexOf('/') +1) + this.now_prj +'/';
+
+		this.now_prj = prj || this.def_prj;
+		const idxCur = this.$cur.lastIndexOf('/', this.$cur.length -2);
+		this.$cur = location.href.slice(0, location.href.lastIndexOf('/') +1)
+			+ (idxCur == -1 ?'' :this.$cur.slice(0, idxCur +1))
+			+ this.now_prj +'/';
+
 		this.main = new Main(this);
 	}
 	private now_prj = ':';
