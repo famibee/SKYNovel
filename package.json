@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"author": "miyazawa famibee",
