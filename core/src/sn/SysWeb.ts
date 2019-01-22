@@ -64,11 +64,11 @@ export class SysWeb extends SysBase {
 		if (this.main) this.main.destroy();
 
 		this.now_prj = prj || this.def_prj;
-		const idxCur = this.$cur.lastIndexOf('/', this.$cur.length -2);
+		const idxEnd = this.$cur.lastIndexOf('/', this.$cur.length -2) +1;
+		const idxStart = this.$cur.lastIndexOf('/', idxEnd -2) +1;
 		this.$cur = location.href.slice(0, location.href.lastIndexOf('/') +1)
-			+ (idxCur == -1 ?'' :this.$cur.slice(0, idxCur +1))
+			+ (idxEnd == 0 ?'' :this.$cur.slice(idxStart, idxEnd))
 			+ this.now_prj +'/';
-
 		this.main = new Main(this);
 	}
 	private now_prj = ':';
