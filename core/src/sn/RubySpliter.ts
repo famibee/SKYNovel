@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IPutCh} from './CmnLib';
+import {HArg, IPutCh} from './CmnInterface';
 import m_xregexp = require('xregexp');
 
 export interface IAutoPage { (idx: number, str: string): void; }

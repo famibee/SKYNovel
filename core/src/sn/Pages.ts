@@ -5,11 +5,10 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, typeLayerClass, IVariable} from './CmnLib';
+import {HArg, typeLayerClass, IVariable} from './CmnInterface';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
-import {ThreeDLayer} from './ThreeDLayer';
 
 import { Container } from 'pixi.js';
 
@@ -20,7 +19,6 @@ export class Pages {
 		switch (cls_) {
 		case 'grp':	this.pg = {fore: new GrpLayer, back: new GrpLayer};	break;
 		case 'txt':	this.pg = {fore: new TxtLayer, back: new TxtLayer};	break;
-		case '3d':	this.pg = {fore: new ThreeDLayer, back: new ThreeDLayer}; break;
 		default:	throw `属性 class【${cls_}】が不正です`;
 		}
 		this.pg.fore.name = `layer:${layer} cls:${cls_} page:A`;

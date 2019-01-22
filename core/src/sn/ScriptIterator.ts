@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, uint, IMain, IVariable, IMark, HArg} from './CmnLib';
+import {CmnLib, uint} from './CmnLib';
+import {IHTag, IMain, IVariable, IMark, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
 import {AnalyzeTagArg} from './AnalyzeTagArg';

@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, HArg, ITag, IHTag, int, getDateStr} from './CmnLib';
+import {CmnLib, int, getDateStr} from './CmnLib';
+import {HArg, ITag, IHTag} from './CmnInterface';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 

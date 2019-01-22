@@ -7,7 +7,8 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, HArg, IMain, int} from './CmnLib';
+import {CmnLib, int} from './CmnLib';
+import {HArg, IMain} from './CmnInterface';
 import {Config} from './Config';
 import { Sprite, Container, extras, Texture, BLEND_MODES, utils, loaders, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';

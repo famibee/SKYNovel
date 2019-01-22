@@ -6,15 +6,16 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysNode } from "./SysNode";
-import {CmnLib, HArg, IHTag, IVariable, IData4Vari} from './CmnLib';
+import {CmnLib} from './CmnLib';
+import {HArg, IHTag, IVariable, IData4Vari, IPlugin} from './CmnInterface';
 import {remote, BrowserWindow, webContents, screen} from 'electron';
 import {Main} from './Main';
 const Store = require('electron-store');
 const shell = require('electron').shell;
 
 export class SysApp extends SysNode {
-	constructor() {
-		super(remote.app.getAppPath().replace(/\\/g, '/') +'/prj/');
+	constructor(protected hPlg: {[name: string]: IPlugin} = {}) {
+		super(remote.app.getAppPath().replace(/\\/g, '/') +'/prj/', hPlg);
 		window.onload = ()=> new Main(this);
 	}
 	protected $path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';

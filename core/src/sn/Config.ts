@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, CmnLib, int, IExts, IPathFn2Exts} from './CmnLib';
+import {CmnLib, int} from './CmnLib';
+import {IConfig, IExts, IPathFn2Exts} from './CmnInterface';
 import {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 

@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IMain, HArg} from './CmnLib';
+import {CmnLib} from './CmnLib';
+import {IHTag, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {PropParser} from './PropParser';

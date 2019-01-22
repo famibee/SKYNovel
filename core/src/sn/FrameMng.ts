@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, ITwInf, IEvtMng, HArg} from './CmnLib';
+import {CmnLib, ITwInf, IEvtMng} from './CmnLib';
+import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 

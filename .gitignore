@@ -1,29 +1,5 @@
 # Visual Studio Code cache/options directory
 .vscode/
 
-# アプリ版メインjs
-app/index.js
-
-# Build results
-build/skynovel*
-build/cordova
-
-# Visual Studio code coverage results
-coverage/
-
-# test Results
-core/tmp/
-
-# gallery
-gallery/3d_f*
-gallery/3d_m*
-gallery/glsl_/
-
 # Node.js Tools
 node_modules/
-
-# ブラウザ版メインjs
-web/
-
-# SKYNovel Dev famibee's Work Folder
-Work/

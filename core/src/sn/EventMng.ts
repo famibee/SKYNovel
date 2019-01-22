@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, HArg, IHTag, IVariable, IMain, IEvtMng, IEvt2Fnc, IHEvt2Fnc, uint} from './CmnLib';
+import {CmnLib, uint, IEvtMng, IEvt2Fnc, IHEvt2Fnc} from './CmnLib';
+import {HArg, IHTag, IVariable, IMain} from './CmnInterface';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
@@ -71,7 +72,8 @@ export class EventMng implements IEvtMng {
 				//[Hammer.Rotate],
 				//[Hammer.Pinch, { enable: false }, ['rotate']],
 				// http://hammerjs.github.io/api/
-			]})
+			]});
+
 		/*const manager = new Hammer.Manager(document.body, {recognizers: [
 			[Hammer.Tap, {pointers: 2}],
 		]});*/
@@ -88,7 +90,7 @@ export class EventMng implements IEvtMng {
 		/*manager.add(new Hammer.Tap({event: 'tap2', pointers: 2}));
 		manager.on('tap2', e=> {
 			val.defTmp('sn.eventArg', e.type);
-		//console.log(e.type);	// これどうなってる？　最前面にデバッグ情報表示ほしい。
+		//console.log(e.type);	// TODO: これどうなってる？　最前面にデバッグ情報表示ほしい。
 		//hTag['title']({text: 'DBG:'+ e.type});
 			this.evt2Fnc(e, e.type);
 		});*/

@@ -6,7 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {CmnLib, IPathFn2Exts, uint} from './CmnLib';
+import {CmnLib, uint} from './CmnLib';
+import {IPathFn2Exts} from './CmnInterface';
 import {Config} from './Config';
 
 import m_fs = require('fs-extra');

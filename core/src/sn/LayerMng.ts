@@ -5,11 +5,11 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, getDateStr, uint, ITwInf, typeLayerClass, HPage, HArg, ITag, IPlugin} from './CmnLib';
+import {CmnLib, getDateStr, uint, ITwInf, IEvtMng} from './CmnLib';
+import {IHTag, IVariable, IMain, typeLayerClass, HPage, HArg} from './CmnInterface';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
-import {ThreeDLayer} from './ThreeDLayer';
 import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
 import {SysBase} from './SysBase';
@@ -29,7 +29,6 @@ export class LayerMng {
 	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
 		GrpLayer.init(main, cfg);
-		ThreeDLayer.init(cfg);
 
 		this.frmMng = new FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 
@@ -213,6 +212,7 @@ export class LayerMng {
 
 
 //	//	システム
+	// スナップショット
 	private snapshot(hArg: HArg) {
 		// TODO: pathdlg 保存場所をGUIで選べるダイアログを表示するか
 		const fn = hArg.fn || 'desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg';
@@ -256,30 +256,12 @@ export class LayerMng {
 	}
 
 	// プラグインの読み込み
-	private hPlg: {[name: string]: IPlugin} = {};
 	private loadplugin(hArg: HArg) {
 		const fn = hArg.fn;
 		if (! fn) throw 'fnは必須です';
 		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
 
 		switch (CmnLib.getExt(fn)) {
-			case '':
-				if (fn in this.hPlg) throw `${fn} はロード済みのプラグインです`;
-				(async ()=> {
-					const mod = this.hPlg[fn]
-					= await import('../plugin/'+ fn +'.js');
-					await mod.init({
-						addTag: (tag_name: string, tag_fnc: ITag)=> {
-							if (this.hTag[tag_name]) throw `すでに定義済みのタグ[${tag_name}]です`;
-							this.hTag[tag_name] = tag_fnc;
-						},
-					//	cfg	: this.cfg,
-					//	val	: this.val
-					});
-					if (join) this.main.resume();
-				})();
-				break;
-
 			case 'css':		// 読み込んで<style>に追加
 				(async ()=> {
 					const res = await fetch(fn);
@@ -292,9 +274,6 @@ export class LayerMng {
 
 			default:	throw 'サポートされない拡張子です'
 		}
-
-	//	TODO: [loadplugin fn=plg*]のようにワイルドカードをサポート。
-	//	マッチするプラグインを順不同に読み込む。読み込み済みなら無視。
 
 		return join;
 	}
@@ -361,8 +340,6 @@ return false;	// TODO: 未作成：フォーカス移動
 		if (layer in this.hPages) throw `layer【${layer}】は定義済みです`;
 
 		const cls = hArg.class as typeLayerClass;
-		if (cls == '3d') if (ThreeDLayer.import(this.main, this.scrItr)) return true;
-
 		CmnLib.argChk_Boolean(hArg, 'visible', true);// SKYNovelのデフォルトtrueとする
 		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.val);
 		switch (cls) {

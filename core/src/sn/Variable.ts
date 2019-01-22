@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IHTag, CmnLib, IVariable, ISetVal, typeProcVal, ISysBase, uint, int, getDateStr, IData4Vari, IMark} from './CmnLib';
+import {CmnLib, uint, int, getDateStr} from './CmnLib';
+import {HArg, IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark} from './CmnInterface';
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';

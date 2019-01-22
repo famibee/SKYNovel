@@ -7,7 +7,8 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, IVariable, IHTag, HArg, IPutCh, IEvtMng, uint, IMain} from './CmnLib';
+import {CmnLib, uint, IEvtMng} from './CmnLib';
+import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';

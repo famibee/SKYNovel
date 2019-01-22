@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IHTag, IVariable, IMain, IEvtMng, HArg} from './CmnLib';
+import {CmnLib, IEvtMng} from './CmnLib';
+import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {Howl} from 'howler';
 import TWEEN = require('@tweenjs/tween.js');

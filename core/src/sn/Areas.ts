@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IAreas} from './CmnLib';
+import {IAreas} from './CmnInterface';
 
 export class Areas implements IAreas {
 	hAreas	: {[name: string]: number}	= {};

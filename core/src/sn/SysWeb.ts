@@ -6,13 +6,14 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {IConfig, CmnLib, HArg, IPathFn2Exts, IData4Vari} from './CmnLib';
+import {CmnLib} from './CmnLib';
+import {IConfig, HArg, IPathFn2Exts, IData4Vari, IPlugin} from './CmnInterface';
 import {Main} from './Main';
 const strLocal = require('store');
 
 export class SysWeb extends SysBase {
-	constructor() {
-		super();
+	constructor(protected $cur = 'prj/', protected hPlg: {[name: string]: IPlugin} = {}) {
+		super($cur, hPlg);
 
 		window.onload = ()=> {
 			for (const v of document.querySelectorAll('[data-prj]')) {

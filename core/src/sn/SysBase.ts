@@ -5,10 +5,10 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari} from './CmnLib';
+import {IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari, IPlugin} from './CmnInterface';
 
 export class SysBase implements ISysBase {
-	constructor(protected $cur = 'prj/') {}
+	constructor(protected $cur = 'prj/', protected hPlg: {[name: string]: IPlugin} = {}) {}
 	get cur() {return this.$cur}
 
 	loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: ()=> void, _cfg: IConfig): void {}
@@ -23,6 +23,17 @@ export class SysBase implements ISysBase {
 		this.val = val;
 		this.appPixi = appPixi;
 		this.val.setSys(this);
+
+		for (const nm in this.hPlg) {	// プラグイン初期化
+			this.hPlg[nm].init({
+				addTag: (name: string, tag_fnc: ITag)=> {
+					if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
+					hTag[name] = tag_fnc;
+				},
+			//	cfg	: this.cfg,
+			//	val	: val
+			});
+		}
 
 		//	システム
 		hTag.close				= o=> this.close(o);	// アプリの終了

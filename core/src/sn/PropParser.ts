@@ -7,7 +7,8 @@
 
 import P = require('parsimmon');
 import m_xregexp = require('xregexp');
-import {trim, IVariable, int} from './CmnLib';
+import {trim, int} from './CmnLib';
+import {IVariable} from './CmnInterface';
 
 export interface IParse { (s: string): object; }
 

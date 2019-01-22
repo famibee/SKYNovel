@@ -6,7 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {BLEND_MODES, DisplayObject, Container, Sprite} from 'pixi.js';
-import {CmnLib, HArg, int} from './CmnLib';
+import {CmnLib, int} from './CmnLib';
+import {HArg} from './CmnInterface';
 
 export class Layer {
 	name	= '';

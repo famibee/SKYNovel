@@ -1,15 +1,31 @@
 # SKYNovel
-![logo.svg](build/icon/icon.svg)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/famibee/SKYNovel/blob/master/LICENSE)
+![](https://img.shields.io/badge/platform-windows%20%7C%20macos-lightgrey.svg)
 
-NovelGame framework by WebGL(PixiJS)
+WebGL NovelGame framework by PixiJS
+
+[CHANGELOG.md](https://github.com/famibee/SKYNovel/blob/master/CHANGELOG.md)
+
+---
+## description（説明）
 
 - [コンセプトスライド](http://ugainovel.hiho.jp/skynovel/web.htm)
 - [機能ギャラリー](http://ugainovel.hiho.jp/skynovel/gallery/)
+
+## install ... npm i skynovel
+
+## example
+
+- Package
+	https://github.com/famibee/SKYNovel_sample
+
 - Hello world（最小限のファイルによるプロジェクト）
+	- webpack ... require("skynovel/core/lib/web")	// (on browser)
+
 	- prj/prj.json
 	>```json
 	>{
-	>	"save_ns": "com.fc2.blog38.famibee.skynovel.test",
+	>	"save_ns": "skynovel.firstdaze",
 	>	"search": ["mat"],
 	>	"window": {
 	>		"width": 300,
@@ -21,26 +37,26 @@ NovelGame framework by WebGL(PixiJS)
 	>```
 	>[add_lay layer=mes class=txt]
 	>
+	>Hello world ![r]
 	>雷《いかづち》の指《ゆび》でヒゲ焦し
 	>[s]
 	>```
 
-- [機能紹介](#機能紹介)
-- [タグリファレンス](#タグリファレンス)
-- [組み込み変数](#組み込み変数)
-
-
 ---
-### 機能紹介
+## api (method)
 
 (making...)
 
+- [機能紹介]()
+- [タグリファレンス]()
+- [組み込み変数]()
+
 ---
-### タグリファレンス
-
-(making...)
+## License ... [MIT](LICENSE)
 
 ---
-### 組み込み変数
-
-(making...)
+## Famibee is ?
+- [WebSite : 電子演劇部](https://famibee.blog.fc2.com/)
+- [Github](https://github.com/famibee/SKYNovel)
+- [npm](https://www.npmjs.com/package/skynovel)
+- Twitter ([夕街昇雪](https://ugainovel.blog.fc2.com/))

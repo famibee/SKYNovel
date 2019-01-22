@@ -6,7 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { Container, Text, Rectangle } from "pixi.js";
-import { HArg, uint, IEvtMng, CmnLib, IMain } from "./CmnLib";
+import { uint, CmnLib, IEvtMng } from "./CmnLib";
+import { HArg, IMain } from "./CmnInterface";
 import {GrpLayer} from "./GrpLayer";
 
 export class Button extends Container {
