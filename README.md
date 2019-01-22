@@ -4,7 +4,7 @@
 
 WebGL NovelGame framework by PixiJS
 
-![logo.svg](build/icon/icon.svg)
+![logo.svg](test/icon.svg)
 
 [CHANGELOG.md](https://github.com/famibee/SKYNovel/blob/master/CHANGELOG.md)
 
