@@ -13,7 +13,7 @@ import {SysNode} from '../core/src/sn/SysNode';
 context('class Config', ()=>{
 	let	cfg	= null;
 	beforeEach(() => {
-		cfg = new Config(new SysNode('test/'), ()=> {}, {
+		cfg = new Config(new SysNode({}, 'test/'), ()=> {}, {
 			search	: ["mat"],
 		});
 	});

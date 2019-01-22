@@ -5,9 +5,8 @@ const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const strLocal = require('store');
 class SysWeb extends SysBase_1.SysBase {
-    constructor($cur = 'prj/', hPlg = {}) {
-        super($cur, hPlg);
-        this.$cur = $cur;
+    constructor(hPlg = {}) {
+        super(hPlg);
         this.hPlg = hPlg;
         this.getURLQ = (loc) => {
             const arg = {};

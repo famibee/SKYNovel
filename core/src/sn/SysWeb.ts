@@ -12,8 +12,8 @@ import {Main} from './Main';
 const strLocal = require('store');
 
 export class SysWeb extends SysBase {
-	constructor(protected $cur = 'prj/', protected hPlg: {[name: string]: IPlugin} = {}) {
-		super($cur, hPlg);
+	constructor(protected hPlg: {[name: string]: IPlugin} = {}) {
+		super(hPlg);
 
 		window.onload = ()=> {
 			for (const v of document.querySelectorAll('[data-prj]')) {

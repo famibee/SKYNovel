@@ -15,7 +15,7 @@ const shell = require('electron').shell;
 
 export class SysApp extends SysNode {
 	constructor(protected hPlg: {[name: string]: IPlugin} = {}) {
-		super(remote.app.getAppPath().replace(/\\/g, '/') +'/prj/', hPlg);
+		super(hPlg, remote.app.getAppPath().replace(/\\/g, '/') +'/prj/');
 		window.onload = ()=> new Main(this);
 	}
 	protected $path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class SysBase {
-    constructor($cur = 'prj/', hPlg = {}) {
-        this.$cur = $cur;
+    constructor(hPlg = {}, $cur = 'prj/') {
         this.hPlg = hPlg;
+        this.$cur = $cur;
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.close = () => false;
         this.navigate_to = () => false;
