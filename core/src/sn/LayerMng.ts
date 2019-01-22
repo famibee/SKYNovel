@@ -340,7 +340,7 @@ return false;	// TODO: 未作成：フォーカス移動
 		if (layer in this.hPages) throw `layer【${layer}】は定義済みです`;
 
 		const cls = hArg.class as typeLayerClass;
-		CmnLib.argChk_Boolean(hArg, 'visible', true);// SKYNovelのデフォルトtrueとする
+		CmnLib.argChk_Boolean(hArg, 'visible', true);	// デフォルトはtrueとする
 		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.val);
 		switch (cls) {
 		case 'txt':
