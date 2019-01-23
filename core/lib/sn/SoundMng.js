@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
+const CmnTween_1 = require("./CmnTween");
 const Config_1 = require("./Config");
 const howler_1 = require("howler");
 const TWEEN = require("@tweenjs/tween.js");
@@ -79,7 +80,7 @@ class SoundMng {
             oSb.snd.volume(vol);
             return false;
         }
-        const ease = hArg.ease ? CmnLib_1.CmnLib.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
+        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
         if (!ease)
             throw '異常なease指定です';
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);

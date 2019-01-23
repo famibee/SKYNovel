@@ -1,23 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const GrpLayer_1 = require("./GrpLayer");
-const TxtLayer_1 = require("./TxtLayer");
+const CmnLib_1 = require("./CmnLib");
 class Pages {
-    constructor(layer, cls_, fore, hArgFore, back, hArgBack, val) {
+    constructor(layer, cls_, fore, hArgFore, back, hArgBack, sys, val) {
         this.cls_ = cls_;
-        switch (cls_) {
-            case 'grp':
-                this.pg = { fore: new GrpLayer_1.GrpLayer, back: new GrpLayer_1.GrpLayer };
-                break;
-            case 'txt':
-                this.pg = { fore: new TxtLayer_1.TxtLayer, back: new TxtLayer_1.TxtLayer };
-                break;
-            default: throw `属性 class【${cls_}】が不正です`;
-        }
+        const fncF = sys.hFactoryCls[cls_];
+        if (!fncF)
+            throw `属性 class【${cls_}】が不正です`;
+        this.pg = { fore: fncF(), back: fncF() };
         this.pg.fore.name = `layer:${layer} cls:${cls_} page:A`;
         this.pg.back.name = `layer:${layer} cls:${cls_} page:B`;
         fore.addChild(this.fore.cnt);
         back.addChild(this.back.cnt);
+        CmnLib_1.CmnLib.argChk_Boolean(hArgFore, 'visible', true);
+        CmnLib_1.CmnLib.argChk_Boolean(hArgBack, 'visible', true);
         this.fore.lay(hArgFore);
         this.back.lay(hArgBack);
         const valnm = `const.sn.lay.${layer}`;

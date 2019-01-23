@@ -5,6 +5,7 @@
 		"module": "commonjs",
 		"sourceMap": true,
 		"outDir": "lib/",
+		"declaration": true,
 		"newLine": "LF",
 		"removeComments": true,
 		"noImplicitThis": true,		// this に型を明示しないとエラーに

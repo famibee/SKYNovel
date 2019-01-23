@@ -4,6 +4,7 @@ class SysBase {
     constructor(hPlg = {}, $cur = 'prj/') {
         this.hPlg = hPlg;
         this.$cur = $cur;
+        this.hFactoryCls = {};
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.close = () => false;
         this.navigate_to = () => false;
@@ -35,6 +36,11 @@ class SysBase {
                     if (hTag[name])
                         throw `すでに定義済みのタグ[${name}]です`;
                     hTag[name] = tag_fnc;
+                },
+                addLayCls: (cls, fnc) => {
+                    if (this.hFactoryCls[cls])
+                        throw `すでに定義済みのレイヤcls【${cls}】です`;
+                    this.hFactoryCls[cls] = fnc;
                 },
             });
         }

@@ -1,30 +1,32 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2019 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2019 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, typeLayerClass, IVariable} from './CmnInterface';
+import {HArg, IVariable} from './CmnInterface';
 import {Layer} from './Layer';
-import {GrpLayer} from './GrpLayer';
-import {TxtLayer} from './TxtLayer';
+import {SysBase} from './SysBase';
+import {CmnLib} from './CmnLib';
 
 import { Container } from 'pixi.js';
 
 export class Pages {
 	private pg: {fore: Layer, back: Layer};
 
-	constructor(layer: string, private cls_: typeLayerClass, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, val: IVariable) {
-		switch (cls_) {
-		case 'grp':	this.pg = {fore: new GrpLayer, back: new GrpLayer};	break;
-		case 'txt':	this.pg = {fore: new TxtLayer, back: new TxtLayer};	break;
-		default:	throw `属性 class【${cls_}】が不正です`;
-		}
+	constructor(layer: string, private cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable) {
+		const fncF = sys.hFactoryCls[cls_];
+		if (! fncF) throw `属性 class【${cls_}】が不正です`;
+
+		this.pg = {fore: fncF(), back: fncF()};
 		this.pg.fore.name = `layer:${layer} cls:${cls_} page:A`;
 		this.pg.back.name = `layer:${layer} cls:${cls_} page:B`;
 		fore.addChild(this.fore.cnt);
 		back.addChild(this.back.cnt);
+		CmnLib.argChk_Boolean(hArgFore, 'visible', true);
+		CmnLib.argChk_Boolean(hArgBack, 'visible', true);
+			// SKYNovelではデフォルトはtrueとする
 		this.fore.lay(hArgFore);
 		this.back.lay(hArgBack);
 

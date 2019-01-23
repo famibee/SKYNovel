@@ -141,9 +141,14 @@ export interface IMyTrace {
 // =============== Plugin
 export interface IPluginInitArg {
 	addTag: (tag_name: string, tag_fnc: ITag)=> void;
+	addLayCls: (cls: string, fnc: ILayerFactory)=> void;
 }
 export interface IPlugin {
 	init: (plgArg: IPluginInitArg)=> boolean;
+}
+import { Layer } from './Layer';
+export interface ILayerFactory {
+	(): Layer;
 }
 
 
@@ -222,13 +227,10 @@ export interface IMark {
 }
 
 
-// =============== LayerMng
-export type typeLayerClass = 'grp'|'txt'|'3d';
-
 // =============== Pages
 export interface HPage {[name: string]: IPage};
 export interface IPage {
-	cls		: typeLayerClass;
+	cls		: string;
 	fore	: {[name: string]: any};
 	back	: {[name: string]: any};
 }

@@ -8,6 +8,7 @@
 import {Layer} from './Layer';
 
 import {CmnLib, uint, IEvtMng} from './CmnLib';
+import {CmnTween} from './CmnTween';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
@@ -1022,7 +1023,7 @@ export class TxtLayer extends Layer {
 			const o = v.arg ?JSON.parse(v.arg) :{};
 			const already_put = i < lenPutedRect;
 			const ease = this.fi_easing
-				? CmnLib.hEase[this.fi_easing]
+				? CmnTween.hEase[this.fi_easing]
 				: TWEEN.Easing.Linear.None;
 			if (! ease) throw '異常なease指定です';
 
@@ -1169,7 +1170,7 @@ export class TxtLayer extends Layer {
 		}
 		else {
 			const ease = this.fo_easing
-				? CmnLib.hEase[this.fo_easing]
+				? CmnTween.hEase[this.fo_easing]
 				: TWEEN.Easing.Linear.None;
 			if (! ease) throw '異常なease指定です';
 

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Layer_1 = require("./Layer");
 const CmnLib_1 = require("./CmnLib");
+const CmnTween_1 = require("./CmnTween");
 const Config_1 = require("./Config");
 const RubySpliter_1 = require("./RubySpliter");
 const GrpLayer_1 = require("./GrpLayer");
@@ -799,7 +800,7 @@ class TxtLayer extends Layer_1.Layer {
             const o = v.arg ? JSON.parse(v.arg) : {};
             const already_put = i < lenPutedRect;
             const ease = this.fi_easing
-                ? CmnLib_1.CmnLib.hEase[this.fi_easing]
+                ? CmnTween_1.CmnTween.hEase[this.fi_easing]
                 : TWEEN.Easing.Linear.None;
             if (!ease)
                 throw '異常なease指定です';
@@ -920,7 +921,7 @@ class TxtLayer extends Layer_1.Layer {
         }
         else {
             const ease = this.fo_easing
-                ? CmnLib_1.CmnLib.hEase[this.fo_easing]
+                ? CmnTween_1.CmnTween.hEase[this.fo_easing]
                 : TWEEN.Easing.Linear.None;
             if (!ease)
                 throw '異常なease指定です';

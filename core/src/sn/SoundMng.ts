@@ -6,6 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, IEvtMng} from './CmnLib';
+import {CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {Howl} from 'howler';
@@ -111,7 +112,7 @@ export class SoundMng {
 			return false;
 		}
 
-		const ease = hArg.ease ?CmnLib.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
+		const ease = hArg.ease ?CmnTween.hEase[hArg.ease]: TWEEN.Easing.Linear.None;
 		if (! ease) throw '異常なease指定です';
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume(), vol);

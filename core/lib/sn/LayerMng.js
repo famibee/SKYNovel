@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
+const CmnTween_1 = require("./CmnTween");
 const Pages_1 = require("./Pages");
 const GrpLayer_1 = require("./GrpLayer");
 const TxtLayer_1 = require("./TxtLayer");
@@ -82,6 +83,8 @@ void main(void) {
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
         GrpLayer_1.GrpLayer.init(main, cfg);
         this.frmMng = new FrameMng_1.FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
+        sys.hFactoryCls['grp'] = () => new GrpLayer_1.GrpLayer;
+        sys.hFactoryCls['txt'] = () => new TxtLayer_1.TxtLayer;
         hTag.snapshot = o => this.snapshot(o);
         hTag.loadplugin = o => this.loadplugin(o);
         hTag.set_focus = o => this.set_focus(o);
@@ -261,10 +264,11 @@ void main(void) {
         if (layer.includes(','))
             throw 'layer名に「,」は使えません';
         if (layer in this.hPages)
-            throw `layer【${layer}】は定義済みです`;
+            throw `layer【${layer}】はすでにあります`;
         const cls = hArg.class;
-        CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
-        this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.val);
+        if (!cls)
+            throw 'clsは必須です';
+        this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val);
         switch (cls) {
             case 'txt':
                 if (!this.strTxtlay) {
@@ -345,7 +349,7 @@ void main(void) {
     }
     trans(hArg) {
         this.finish_trans();
-        const ease = hArg.ease ? CmnLib_1.CmnLib.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
+        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
         if (!ease)
             throw '異常なease指定です';
         this.aBackTransAfter = [];
@@ -507,7 +511,7 @@ void main(void) {
                 this.main.resume();
             this.twInfTrans = { tw: null, resume: false };
         };
-        const ease = hArg.ease ? CmnLib_1.CmnLib.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
+        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
         if (!ease)
             throw '異常なease指定です';
         const h = CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'hmax', 10));
@@ -538,7 +542,7 @@ void main(void) {
             throw 'layerは必須です';
         const layer = this.argChk_layer(hArg);
         const foreLay = this.hPages[layer].fore;
-        const ease = hArg.ease ? CmnLib_1.CmnLib.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
+        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
         if (!ease)
             throw '異常なease指定です';
         const hTo = {};
@@ -822,7 +826,7 @@ void main(void) {
         for (const layer in $hPages) {
             const $pg = $hPages[layer];
             aSort.push({ layer: layer, idx: $pg.fore.idx });
-            const pg = this.hPages[layer] || new Pages_1.Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.val);
+            const pg = this.hPages[layer] || new Pages_1.Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val);
             this.hPages[layer] = pg;
             aPromise.push(new Promise(re => pg.fore.playback($pg.fore, re)));
             aPromise.push(new Promise(re => pg.back.playback($pg.back, re)));

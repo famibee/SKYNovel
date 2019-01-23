@@ -5,9 +5,11 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari, IPlugin} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari, IPlugin, ILayerFactory} from './CmnInterface';
 
 export class SysBase implements ISysBase {
+	hFactoryCls: {[name: string]: ILayerFactory} = {};
+
 	constructor(protected hPlg: {[name: string]: IPlugin} = {}, protected $cur = 'prj/') {}
 	get cur() {return this.$cur}
 
@@ -30,26 +32,30 @@ export class SysBase implements ISysBase {
 					if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
 					hTag[name] = tag_fnc;
 				},
+				addLayCls: (cls: string, fnc: ILayerFactory)=> {
+					if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
+					this.hFactoryCls[cls] = fnc;
+				},
 			//	cfg	: this.cfg,
 			//	val	: val
 			});
 		}
 
 		//	システム
-		hTag.close				= o=> this.close(o);	// アプリの終了
-//		hTag.export				= o=> this.export(o);	// プレイデータをエクスポート
-//		hTag.import				= o=> this.import(o);	// プレイデータをインポート
+		hTag.close			= o=> this.close(o);	// アプリの終了
+//		hTag.export			= o=> this.export(o);	// プレイデータをエクスポート
+//		hTag.import			= o=> this.import(o);	// プレイデータをインポート
 	//	hTag.loadplugin		// LayerMng.ts内で定義		// プラグインの読み込み
-//		hTag.mouse				= o=> this.mouse(o);	// マウスの設定
-		hTag.navigate_to		= o=> this.navigate_to(o);	// ＵＲＬを開く
+//		hTag.mouse			= o=> this.mouse(o);	// マウスの設定
+		hTag.navigate_to	= o=> this.navigate_to(o);	// ＵＲＬを開く
 	//	hTag.plugin			// LayerMng.ts内で定義		// プラグインの設定
 	//	hTag.set_focus		// LayerMng.ts内で定義		// フォーカス移動
-		hTag.title				= o=> this.title(o);	// タイトル指定
+		hTag.title			= o=> this.title(o);	// タイトル指定
 		hTag.toggle_full_screen = o=> this.tgl_full_scr(o);	// 全画面状態切替
 	//	hTag.unloadplugin	// LayerMng.ts内で定義		// プラグインの破棄
-//		hTag.unzip				= o=> this.unzip(o);	// ネット素材取得
-//		hTag.update_check		= o=> this.update_check(o);	// 更新チェック
-		hTag.window				= o=> this.window(o);	// アプリウインドウ設定
+//		hTag.unzip			= o=> this.unzip(o);	// ネット素材取得
+//		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
+		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 		val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
 		val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', 0);
 			// AIRNovel の sys:const.flash.display.Stage.nativeWindow.x、.y
