@@ -85,10 +85,14 @@ class Button extends pixi_js_1.Container {
             this.main.resume(); });
     }
     static s2hStyle(hStyle, style) {
+        Button.cln = document.createElement('span');
         Button.cln.style.cssText = style;
-        Object.assign(hStyle, Button.cln.style);
+        const len = Button.cln.style.length;
+        for (let i = 0; i < len; ++i) {
+            const nm = Button.cln.style[i];
+            hStyle[nm] = Button.cln.style[nm];
+        }
     }
 }
-Button.cln = document.createElement('span');
 exports.Button = Button;
 //# sourceMappingURL=Button.js.map

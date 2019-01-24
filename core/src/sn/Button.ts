@@ -105,10 +105,19 @@ export class Button extends Container {
 	}
 	isStop = false;
 
-	private	static	cln	= document.createElement('span');
-	private	static	s2hStyle(hStyle: {}, style: string) {
+	private	static	cln: HTMLSpanElement;
+	private	static	s2hStyle(hStyle: any, style: string) {
+		Button.cln	= document.createElement('span');
 		Button.cln.style.cssText = style;
-		Object.assign(hStyle, Button.cln.style);
+
+		//Object.assign(hStyle, Button.cln.style);
+			// 不要要素もコピーしすぎて不具合になるので、以下のようにする
+		const len = Button.cln.style.length;
+		for (let i=0; i<len; ++i) {
+			const nm: any = Button.cln.style[i];
+			hStyle[nm] = Button.cln.style[nm];
+
+		}
 	}
 
 }
