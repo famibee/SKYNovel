@@ -38,9 +38,9 @@ export class LayerMng {
 		//	システム
 		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
 		hTag.loadplugin		= o=> this.loadplugin(o);	// プラグインの読み込み
-	//	hTag.plugin			= o=> this.plugin(o);		// プラグインの設定（不要？）
+	//	hTag.plugin			= o=> this.plugin(o);		// プラグインの設定（不要に
 		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
-	//	hTag.unloadplugin	= o=> this.unloadplugin(o);	// プラグインの破棄（不要？）
+	//	hTag.unloadplugin	= o=> this.unloadplugin(o);	// プラグインの破棄（廃止
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.add_lay(o);		// レイヤを追加する
@@ -74,9 +74,8 @@ export class LayerMng {
 		hTag.rec_r			= ()=> this.rec_r();		// 履歴改行
 		hTag.rec_ch			= o=> this.rec_ch(o);		// 履歴書き込み
 		hTag.reset_rec		= o=> this.reset_rec(o);	// 履歴リセット
-		//hTag.ruby			= o=> this.ruby(o);			// 直前一文字のルビ設定
+		//hTag.ruby			= o=> this.ruby(o);			// 直前一文字のルビ（廃止
 			// タグでは無く、「｜＠《》」というスクリプト書き換えで良い
-			// というか、廃止で良い。
 		hTag.ruby2			= o=> this.ruby2(o);		// 文字列と複数ルビの追加
 		hTag.span			= o=> this.span(o);			// インラインスタイル設定
 		hTag.tcy			= o=> this.tcy(o);			// 縦中横を表示する
