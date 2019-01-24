@@ -142,7 +142,7 @@ export class Config implements IConfig {
 			if (response.ok) return response.json();
 			throw new Error(`load prj.json err = ${response.statusText
 			}`);
-		})		// webpackでバンドルしたら、path.jsonが要らなくなる？
+		})
 		.then(load)
 		.catch(err=> DebugMng.myTrace(`load prj.json "${err_mes}" = ${err}`));
 /*

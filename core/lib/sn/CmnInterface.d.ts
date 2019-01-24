@@ -113,11 +113,12 @@ export interface IMyTrace {
     (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number): void;
 }
 export interface IPluginInitArg {
-    addTag: (tag_name: string, tag_fnc: ITag) => void;
-    addLayCls: (cls: string, fnc: ILayerFactory) => void;
+    addTag(tag_name: string, tag_fnc: ITag): void;
+    addLayCls(cls: string, fnc: ILayerFactory): void;
+    searchPath(fn: string, extptn?: string): string;
 }
 export interface IPlugin {
-    init: (plgArg: IPluginInitArg) => boolean;
+    init(plgArg: IPluginInitArg): boolean;
 }
 import { Layer } from './Layer';
 export interface ILayerFactory {
@@ -136,6 +137,7 @@ export interface IPathFn2Exts {
 }
 export interface IConfig {
     getNs(): string;
+    searchPath(fn: string, extptn?: string): string;
 }
 export interface IMain {
     errScript(mes: string, isThrow?: boolean): void;

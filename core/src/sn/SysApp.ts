@@ -7,7 +7,7 @@
 
 import { SysNode } from "./SysNode";
 import {CmnLib} from './CmnLib';
-import {HArg, IHTag, IVariable, IData4Vari, IPlugin} from './CmnInterface';
+import {HArg, IHTag, IVariable, IData4Vari, IPlugin, IConfig} from './CmnInterface';
 import {remote, BrowserWindow, webContents, screen} from 'electron';
 import {Main} from './Main';
 const Store = require('electron-store');
@@ -97,8 +97,8 @@ export class SysApp extends SysNode {
 
 	private win		: BrowserWindow	= remote.getCurrentWindow();
 	private wc		: webContents	= this.win.webContents;
-	init(hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
-		super.init(hTag, val, appPixi);
+	init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
+		super.init(cfg, hTag, val, appPixi);
 
 		if (CmnLib.devtool) this.wc.openDevTools();
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);

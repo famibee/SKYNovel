@@ -1,6 +1,6 @@
 /// <reference types="pixi.js" />
 import { SysNode } from "./SysNode";
-import { HArg, IHTag, IVariable, IData4Vari, IPlugin } from './CmnInterface';
+import { HArg, IHTag, IVariable, IData4Vari, IPlugin, IConfig } from './CmnInterface';
 export declare class SysApp extends SysNode {
     protected hPlg: {
         [name: string]: IPlugin;
@@ -17,7 +17,7 @@ export declare class SysApp extends SysNode {
     flush(): void;
     private win;
     private wc;
-    init(hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void;
+    init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void;
     protected close: () => boolean;
     protected navigate_to: (hArg: HArg) => boolean;
     protected title: (hArg: HArg) => boolean;

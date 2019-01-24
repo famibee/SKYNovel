@@ -123,8 +123,8 @@ class SysApp extends SysNode_1.SysNode {
         });
     }
     flush() { this.store.store = this.data; }
-    init(hTag, val, appPixi) {
-        super.init(hTag, val, appPixi);
+    init(cfg, hTag, val, appPixi) {
+        super.init(cfg, hTag, val, appPixi);
         if (CmnLib_1.CmnLib.devtool)
             this.wc.openDevTools();
         this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);

@@ -4,7 +4,6 @@ class SysBase {
     constructor(hPlg = {}, $cur = 'prj/') {
         this.hPlg = hPlg;
         this.$cur = $cur;
-        this.hFactoryCls = {};
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.close = () => false;
         this.navigate_to = () => false;
@@ -26,10 +25,11 @@ class SysBase {
     initVal(_data, _hTmp, _comp) { }
     ;
     flush() { }
-    init(hTag, val, appPixi) {
+    init(cfg, hTag, val, appPixi) {
         this.val = val;
         this.appPixi = appPixi;
         this.val.setSys(this);
+        this.hFactoryCls = {};
         for (const nm in this.hPlg) {
             this.hPlg[nm].init({
                 addTag: (name, tag_fnc) => {
@@ -42,6 +42,7 @@ class SysBase {
                         throw `すでに定義済みのレイヤcls【${cls}】です`;
                     this.hFactoryCls[cls] = fnc;
                 },
+                searchPath: (fn, extptn = '') => cfg.searchPath(fn, extptn),
             });
         }
         hTag.close = o => this.close(o);

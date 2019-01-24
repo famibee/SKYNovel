@@ -8,7 +8,7 @@
 import {IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari, IPlugin, ILayerFactory} from './CmnInterface';
 
 export class SysBase implements ISysBase {
-	hFactoryCls: {[name: string]: ILayerFactory} = {};
+	hFactoryCls: {[name: string]: ILayerFactory};
 
 	constructor(protected hPlg: {[name: string]: IPlugin} = {}, protected $cur = 'prj/') {}
 	get cur() {return this.$cur}
@@ -21,11 +21,12 @@ export class SysBase implements ISysBase {
 
 	protected	val		: IVariable;
 	protected	appPixi	: PIXI.Application;
-	init(hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
+	init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
 		this.val = val;
 		this.appPixi = appPixi;
 		this.val.setSys(this);
 
+		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
 		for (const nm in this.hPlg) {	// プラグイン初期化
 			this.hPlg[nm].init({
 				addTag: (name: string, tag_fnc: ITag)=> {
@@ -36,7 +37,7 @@ export class SysBase implements ISysBase {
 					if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
 					this.hFactoryCls[cls] = fnc;
 				},
-			//	cfg	: this.cfg,
+				searchPath: (fn: string, extptn = '')=>	cfg.searchPath(fn, extptn),
 			//	val	: val
 			});
 		}
