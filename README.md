@@ -24,7 +24,7 @@ WebGL NovelGame framework by PixiJS
 
 - Package
 	- [simple sample project](https://github.com/famibee/SKYNovel_sample)
-	- [What can SKYNovel do? sample project](https://github.com/famibee/SKYNovel_gallery)
+	- [What can SKYNovel do? 'sample gallery' project](https://github.com/famibee/SKYNovel_gallery)
 	- [Novelgame(Tate-gaki) sample project](https://github.com/famibee/SKYNovel_uc)
 
 - Hello world（最小限のファイルによるプロジェクト）
