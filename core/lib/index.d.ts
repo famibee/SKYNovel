@@ -1,7 +1,6 @@
 // Type definitions for skynovel 0.1
 // Project: https://github.com/famibee/skynovel
 // Definitions by: famibee <http://famibee.blog38.fc2.com/>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 export as namespace SKYNOVEL;
 
