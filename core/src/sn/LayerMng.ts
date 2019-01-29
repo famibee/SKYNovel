@@ -901,7 +901,11 @@ void main(void) {
 		this.val.setVal_Nochk('save', 'const.sn.sLog',
 			(String(this.val.getVal('save:const.sn.sLog')) +'\f'+
 			String(this.val.getVal('tmp:const.sn.last_page_text')))
-			.replace(/^\f|^<br\/>|\f(?=\f)|(?<=\f)<br\/>/g, '')
+			//.replace(/^\f|^<br\/>|\f(?=\f)|(?<=\f)<br\/>/g, '')
+			.replace(/^\f|^<br\/>|\f(?=\f)/g, '')
+			.replace(/\f<br\/>/g, '\f')
+			// iOS、過ぎ去った前を見る肯定後読み「(?<=」使えない。エラーになるので
+			// Electronも？
 			.split('\f').slice(-this.cfg.oCfg.log.max_len).join('\f')
 		);
 		this.val.setVal_Nochk('tmp', 'const.sn.last_page_text', '');
