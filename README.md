@@ -1,5 +1,5 @@
 # SKYNovel
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/famibee/SKYNovel/blob/master/LICENSE)
+[![MIT License](https://img.shields.io/github/license/famibee/SKYNovel.svg)](https://github.com/famibee/SKYNovel/blob/master/LICENSE)
 ![platform](https://img.shields.io/badge/platform-windows%20%7C%20macos-lightgrey.svg)
 
 [![npm version](https://badge.fury.io/js/skynovel.svg)](https://badge.fury.io/js/skynovel)
@@ -10,7 +10,7 @@
 
 WebGL NovelGame framework by PixiJS
 
-![logo.svg](test/icon.svg)
+![logo.svg](https://github.com/famibee/SKYNovel/blob/master/test/icon.svg)
 
 [CHANGELOG.md](https://github.com/famibee/SKYNovel/blob/master/CHANGELOG.md)
 
