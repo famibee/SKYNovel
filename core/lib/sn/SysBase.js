@@ -4,6 +4,7 @@ class SysBase {
     constructor(hPlg = {}, $cur = 'prj/') {
         this.hPlg = hPlg;
         this.$cur = $cur;
+        this.fetch = (url) => fetch(url);
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.close = () => false;
         this.navigate_to = () => false;

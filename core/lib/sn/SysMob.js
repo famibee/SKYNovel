@@ -7,10 +7,17 @@ class SysMob extends SysBase_1.SysBase {
         super(hPlg, $cur);
         this.hPlg = hPlg;
         this.$cur = $cur;
+        this.fetch = (url) => new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest;
+            xhr.onload = () => resolve(new Response(xhr.responseText, { status: xhr.status }));
+            xhr.onerror = () => reject(new TypeError('Local request failed'));
+            xhr.open('GET', url);
+            xhr.send(null);
+        });
         this.readFile = (path, callback) => {
             try {
                 (async () => {
-                    const res = await fetch(path);
+                    const res = await this.fetch(path);
                     if (!res.ok)
                         throw Error(res.statusText);
                     callback(null, new Buffer(await res.text()));
@@ -28,7 +35,7 @@ class SysMob extends SysBase_1.SysBase {
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, _cfg) {
         (async () => {
-            const res = await fetch(this.$cur + 'path.json');
+            const res = await this.fetch(this.$cur + 'path.json');
             if (!res.ok)
                 throw Error(res.statusText);
             const json = await res.json();

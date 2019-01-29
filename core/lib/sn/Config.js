@@ -121,7 +121,7 @@ class Config {
             load(this.oCfg);
             return;
         }
-        fetch(sys.cur + 'prj.json')
+        sys.fetch(sys.cur + 'prj.json')
             .then(response => {
             if (response.ok)
                 return response.json();

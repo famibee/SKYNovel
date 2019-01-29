@@ -10,6 +10,7 @@ export declare class SysMob extends SysBase {
         [name: string]: IPlugin;
     }, $cur?: string);
     loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: () => void, _cfg: IConfig): void;
+    fetch: (url: string) => Promise<Response>;
     private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     flush(): void;

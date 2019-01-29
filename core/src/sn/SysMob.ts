@@ -24,7 +24,7 @@ export class SysMob extends SysBase {
 
 	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, _cfg: IConfig): void {
 		(async ()=> {
-			const res = await fetch(this.$cur +'path.json');
+			const res = await this.fetch(this.$cur +'path.json');
 			if (! res.ok) throw Error(res.statusText);
 
 			const json = await res.json();
@@ -41,6 +41,13 @@ export class SysMob extends SysBase {
 			fncLoaded();
 		})();
 	}
+	fetch = (url: string): Promise<Response> => new Promise((resolve, reject)=> {
+		const xhr = new XMLHttpRequest
+		xhr.onload = ()=> resolve(new Response(xhr.responseText, {status: xhr.status}));
+		xhr.onerror = ()=> reject(new TypeError('Local request failed'));
+		xhr.open('GET', url)
+		xhr.send(null)
+	});
 // TODO: 	private ns	= '';
 	private sys: any;
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
@@ -85,7 +92,7 @@ export class SysMob extends SysBase {
 	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
 		try {
 			(async ()=> {
-				const res = await fetch(path);	//fetch(path, {mode: 'same-origin'})
+				const res = await this.fetch(path);
 				if (! res.ok) throw Error(res.statusText);
 
 				callback(null, new Buffer(await res.text()));

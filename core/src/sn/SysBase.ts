@@ -12,6 +12,7 @@ export class SysBase implements ISysBase {
 
 	constructor(protected hPlg: {[name: string]: IPlugin} = {}, protected $cur = 'prj/') {}
 	get cur() {return this.$cur}
+	fetch = (url: string)=> fetch(url);
 
 	loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: ()=> void, _cfg: IConfig): void {}
 

@@ -13,6 +13,7 @@ export declare class SysBase implements ISysBase {
         [name: string]: IPlugin;
     }, $cur?: string);
     readonly cur: string;
+    fetch: (url: string) => Promise<Response>;
     loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: () => void, _cfg: IConfig): void;
     protected data: {
         sys: {};

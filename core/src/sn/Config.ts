@@ -137,7 +137,7 @@ export class Config implements IConfig {
 		}
 
 		// テストで引っかかるのでPromise・async/awaitにしない
-		fetch(sys.cur +'prj.json')
+		sys.fetch(sys.cur +'prj.json')
 		.then(response=> {
 			if (response.ok) return response.json();
 			throw new Error(`load prj.json err = ${response.statusText
@@ -148,7 +148,7 @@ export class Config implements IConfig {
 /*
 		try {
 			(async ()=> {
-				const res = await fetch(this.sys.cur +'prj.json');
+				const res = await this.fetch(this.sys.cur +'prj.json');
 				load(await res.json());
 			})();
 		} catch (e) {
