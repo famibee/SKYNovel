@@ -42,10 +42,12 @@ export class SysMob extends SysBase {
 			// 全体が入るよう拡大・縮小
 			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
-				const wp = screen.width / _cfg.oCfg.window.width;
-				const hp = screen.height/ _cfg.oCfg.window.height;
-				const zoom = wp > hp ?wp :hp;
-				cvs.style.zoom = `${zoom *100}%`;
+				const wp = screen.width * devicePixelRatio / _cfg.oCfg.window.width;
+				const hp = screen.height* devicePixelRatio / _cfg.oCfg.window.height;
+				const zoom = (wp > 0 || hp > 0)
+					? (wp < hp ?wp :hp)
+					: (wp > hp ?wp :hp);
+				cvs.style.zoom = `${zoom /devicePixelRatio *100}%`;
 			}
 		})();
 	}

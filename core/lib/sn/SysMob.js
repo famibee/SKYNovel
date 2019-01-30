@@ -48,10 +48,12 @@ class SysMob extends SysBase_1.SysBase {
             fncLoaded();
             const cvs = document.getElementById('skynovel');
             if (cvs) {
-                const wp = screen.width / _cfg.oCfg.window.width;
-                const hp = screen.height / _cfg.oCfg.window.height;
-                const zoom = wp > hp ? wp : hp;
-                cvs.style.zoom = `${zoom * 100}%`;
+                const wp = screen.width * devicePixelRatio / _cfg.oCfg.window.width;
+                const hp = screen.height * devicePixelRatio / _cfg.oCfg.window.height;
+                const zoom = (wp > 0 || hp > 0)
+                    ? (wp < hp ? wp : hp)
+                    : (wp > hp ? wp : hp);
+                cvs.style.zoom = `${zoom / devicePixelRatio * 100}%`;
             }
         })();
     }
