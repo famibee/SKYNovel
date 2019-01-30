@@ -14,6 +14,8 @@ export class SysBase implements ISysBase {
 	get cur() {return this.$cur}
 	fetch = (url: string)=> fetch(url);
 
+	resolution	= 1;
+
 	loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: ()=> void, _cfg: IConfig): void {}
 
 	protected data		= {sys:{}, mark:{}, kidoku:{}};

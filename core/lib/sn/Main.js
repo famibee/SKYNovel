@@ -50,7 +50,8 @@ class Main {
             const hApp = {
                 backgroundColor: ('init' in this.cfg.oCfg)
                     ? this.cfg.oCfg.init.bg_color || 0
-                    : 0
+                    : 0,
+                resolution: sys.resolution
             };
             const cvs = document.getElementById('skynovel');
             if (cvs) {

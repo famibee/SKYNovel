@@ -37,8 +37,6 @@ export class SysMob extends SysBase {
 // TODO: 			this.ns = cfg.getNs();
 // TODO: 	this.sys = strLocal.get(this.ns +'sys');
 
-			fncLoaded();
-
 			// 全体が入るよう拡大・縮小
 			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
@@ -61,9 +59,11 @@ console.log(`fn:SysMob.ts line:49 wp:${wp} hp:${hp}`);
 //				const zoom = 0.71875;
 
 console.log(`fn:SysMob.ts line:53 zoom:${zoom}`);
-var hasIndexedDB = !!indexedDB;
-console.log(`fn:SysMob.ts line:53 hasIndexedDB:${hasIndexedDB}`);
-				cvs.style.zoom = `${zoom *100}%`;
+//console.log(`fn:SysMob.ts line:53 hasIndexedDB:${!!indexedDB}`);
+
+				this.resolution = zoom;
+
+				fncLoaded();
 			}
 		})();
 	}

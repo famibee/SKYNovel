@@ -5,6 +5,7 @@ class SysBase {
         this.hPlg = hPlg;
         this.$cur = $cur;
         this.fetch = (url) => fetch(url);
+        this.resolution = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.close = () => false;
         this.navigate_to = () => false;

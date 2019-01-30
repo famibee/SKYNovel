@@ -45,7 +45,6 @@ class SysMob extends SysBase_1.SysBase {
                     if (ext != ':cnt')
                         h[ext] = this.$cur + h[ext];
             }
-            fncLoaded();
             const cvs = document.getElementById('skynovel');
             if (cvs) {
                 const isWidthLongSide = screen.width > screen.height;
@@ -59,9 +58,8 @@ class SysMob extends SysBase_1.SysBase {
                     ? wp
                     : hp;
                 console.log(`fn:SysMob.ts line:53 zoom:${zoom}`);
-                var hasIndexedDB = !!indexedDB;
-                console.log(`fn:SysMob.ts line:53 hasIndexedDB:${hasIndexedDB}`);
-                cvs.style.zoom = `${zoom * 100}%`;
+                this.resolution = zoom;
+                fncLoaded();
             }
         })();
     }

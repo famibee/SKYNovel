@@ -14,6 +14,7 @@ export declare class SysBase implements ISysBase {
     }, $cur?: string);
     readonly cur: string;
     fetch: (url: string) => Promise<Response>;
+    resolution: number;
     loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: () => void, _cfg: IConfig): void;
     protected data: {
         sys: {};
