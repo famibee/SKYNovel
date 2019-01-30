@@ -56,8 +56,8 @@ class SysMob extends SysBase_1.SysBase {
                     / _cfg.oCfg.window.height;
                 console.log(`fn:SysMob.ts line:49 wp:${wp} hp:${hp}`);
                 const zoom = isWidthLongSide
-                    ? (wp > hp ? wp : hp)
-                    : (wp < hp ? wp : hp);
+                    ? wp
+                    : hp;
                 console.log(`fn:SysMob.ts line:53 zoom:${zoom}`);
                 var hasIndexedDB = !!indexedDB;
                 console.log(`fn:SysMob.ts line:53 hasIndexedDB:${hasIndexedDB}`);

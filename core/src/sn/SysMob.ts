@@ -49,9 +49,16 @@ console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${s
 				const hp = (!isWidthLongSide ?screen.width :screen.height)
 					/ _cfg.oCfg.window.height;
 console.log(`fn:SysMob.ts line:49 wp:${wp} hp:${hp}`);
+/*
 				const zoom = isWidthLongSide
 					? (wp > hp ?wp :hp)
 					: (wp < hp ?wp :hp);
+*/
+				const zoom = isWidthLongSide
+					? wp
+					: hp;
+
+//				const zoom = 0.71875;
 
 console.log(`fn:SysMob.ts line:53 zoom:${zoom}`);
 var hasIndexedDB = !!indexedDB;
