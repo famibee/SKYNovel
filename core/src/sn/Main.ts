@@ -52,6 +52,7 @@ export class Main implements IMain {
 			const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
 				this.clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
+				this.clone_cvs.id = 'skynovel';
 
 				hApp.view = cvs;
 			}
