@@ -42,12 +42,21 @@ export class SysMob extends SysBase {
 			// 全体が入るよう拡大・縮小
 			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
-				const wp = screen.width * devicePixelRatio / _cfg.oCfg.window.width;
-				const hp = screen.height* devicePixelRatio / _cfg.oCfg.window.height;
-				const zoom = (wp > 0 || hp > 0)
-					? (wp < hp ?wp :hp)
-					: (wp > hp ?wp :hp);
-				cvs.style.zoom = `${zoom /devicePixelRatio *100}%`;
+				const isWidthLongSide = screen.width > screen.height;
+console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} isWidthLongSide:${isWidthLongSide}`);
+				const wp = (isWidthLongSide ?screen.width :screen.height)
+					/ _cfg.oCfg.window.width;
+				const hp = (!isWidthLongSide ?screen.width :screen.height)
+					/ _cfg.oCfg.window.height;
+console.log(`fn:SysMob.ts line:49 wp:${wp} hp:${hp}`);
+				const zoom = isWidthLongSide
+					? (wp > hp ?wp :hp)
+					: (wp < hp ?wp :hp);
+
+console.log(`fn:SysMob.ts line:53 zoom:${zoom}`);
+var hasIndexedDB = !!indexedDB;
+console.log(`fn:SysMob.ts line:53 hasIndexedDB:${hasIndexedDB}`);
+				cvs.style.zoom = `${zoom *100}%`;
 			}
 		})();
 	}
