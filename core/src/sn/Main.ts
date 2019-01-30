@@ -280,10 +280,13 @@ export class Main implements IMain {
 
 		return tag_fnc(hArg);
 	}
-
 	private getValAmpersand = (val: string)=> (val.charAt(0) == '&')
 		? String(this.prpPrs.parse(val.substr(1)))
 		: val;
+
+	pauseDev = ()=> {};		// TODO: pauseDev
+	resumeDev = ()=> {};	// TODO: resumeDev
+
 
 	destroy() {
 		if (this.destroyed) return;

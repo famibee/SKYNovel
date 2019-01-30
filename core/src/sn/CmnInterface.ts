@@ -166,6 +166,7 @@ export interface IExts { [ext: string]: string; };
 export interface IPathFn2Exts { [fn: string]: IExts; };
 
 export interface IConfig {
+	oCfg: any;
 	getNs(): string;
 	searchPath(fn: string, extptn?: string): string;
 }

@@ -41,6 +41,8 @@ class Main {
         this.getValAmpersand = (val) => (val.charAt(0) == '&')
             ? String(this.prpPrs.parse(val.substr(1)))
             : val;
+        this.pauseDev = () => { };
+        this.resumeDev = () => { };
         this.destroyed = false;
         this.isDestroyed = () => this.destroyed;
         pixi_js_1.utils.skipHello();
@@ -53,6 +55,7 @@ class Main {
             const cvs = document.getElementById('skynovel');
             if (cvs) {
                 this.clone_cvs = cvs.cloneNode(true);
+                this.clone_cvs.id = 'skynovel';
                 hApp.view = cvs;
             }
             this.appPixi = new pixi_js_1.Application(this.cfg.oCfg.window.width, this.cfg.oCfg.window.height, hApp);

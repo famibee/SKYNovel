@@ -28,9 +28,9 @@ class SysMob extends SysBase_1.SysBase {
             }
         };
         document.addEventListener('deviceready', () => {
-            document.addEventListener('pause', () => console.log('onPause()'), false);
-            document.addEventListener('resume', () => console.log('onResume()'), false);
-            new Main_1.Main(this);
+            const main = new Main_1.Main(this);
+            document.addEventListener('pause', () => main.pauseDev(), false);
+            document.addEventListener('resume', () => main.resumeDev(), false);
         }, false);
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, _cfg) {
@@ -46,6 +46,13 @@ class SysMob extends SysBase_1.SysBase {
                         h[ext] = this.$cur + h[ext];
             }
             fncLoaded();
+            const cvs = document.getElementById('skynovel');
+            if (cvs) {
+                const wp = screen.width / _cfg.oCfg.window.width;
+                const hp = screen.height / _cfg.oCfg.window.height;
+                const zoom = wp > hp ? wp : hp;
+                cvs.style.zoom = `${zoom * 100}%`;
+            }
         })();
     }
     initVal(data, hTmp, comp) {

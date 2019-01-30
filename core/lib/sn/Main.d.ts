@@ -24,6 +24,8 @@ export declare class Main implements IMain {
     private runAnalyze;
     private タグ解析;
     private getValAmpersand;
+    pauseDev: () => void;
+    resumeDev: () => void;
     destroy(): void;
     private destroyed;
     isDestroyed: () => boolean;

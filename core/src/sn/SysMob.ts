@@ -15,10 +15,9 @@ export class SysMob extends SysBase {
 		super(hPlg, $cur);
 
 		document.addEventListener('deviceready', ()=> {
-			document.addEventListener('pause', ()=> console.log('onPause()'), false);
-			document.addEventListener('resume', ()=> console.log('onResume()'), false);
-
-			new Main(this);
+			const main = new Main(this);
+			document.addEventListener('pause', ()=> main.pauseDev(), false);
+			document.addEventListener('resume', ()=> main.resumeDev(), false);
 		}, false);
 	}
 
@@ -39,6 +38,15 @@ export class SysMob extends SysBase {
 // TODO: 	this.sys = strLocal.get(this.ns +'sys');
 
 			fncLoaded();
+
+			// 全体が入るよう拡大・縮小
+			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
+			if (cvs) {
+				const wp = screen.width / _cfg.oCfg.window.width;
+				const hp = screen.height/ _cfg.oCfg.window.height;
+				const zoom = wp > hp ?wp :hp;
+				cvs.style.zoom = `${zoom *100}%`;
+			}
 		})();
 	}
 	fetch = (url: string): Promise<Response> => new Promise((resolve, reject)=> {
