@@ -284,8 +284,8 @@ export class Main implements IMain {
 		? String(this.prpPrs.parse(val.substr(1)))
 		: val;
 
-	pauseDev = ()=> {};		// TODO: pauseDev
-	resumeDev = ()=> {};	// TODO: resumeDev
+	pauseDev = ()=> this.appPixi.stop();
+	resumeDev = ()=> this.appPixi.start();
 
 
 	destroy() {

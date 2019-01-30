@@ -41,8 +41,8 @@ class Main {
         this.getValAmpersand = (val) => (val.charAt(0) == '&')
             ? String(this.prpPrs.parse(val.substr(1)))
             : val;
-        this.pauseDev = () => { };
-        this.resumeDev = () => { };
+        this.pauseDev = () => this.appPixi.stop();
+        this.resumeDev = () => this.appPixi.start();
         this.destroyed = false;
         this.isDestroyed = () => this.destroyed;
         pixi_js_1.utils.skipHello();
