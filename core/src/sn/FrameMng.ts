@@ -36,23 +36,23 @@ export class FrameMng {
 		const frmnm = `const.sn.frm.${id}`;
 		if (this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】はすでにあります`;
 
-		const cvs = this.appPixi.view;
-		const rect = cvs.getBoundingClientRect();
 		const a = CmnLib.argChk_Num(hArg, 'alpha', 1);
-		const x = ('x' in hArg) ? hArg.x : rect.left+ window.pageYOffset +'px';
-		const y = ('y' in hArg) ? hArg.y : rect.top + window.pageXOffset +'px';
-		const w = ('width' in hArg) ? hArg.width : CmnLib.stageW;
-		const h = ('height' in hArg) ? hArg.height : CmnLib.stageH;
+		const rct = this.rect(hArg);
+		const x = rct.x +'px';
+		const y = rct.y +'px';
+		const w = rct.width;
+		const h = rct.height;
 		const sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
 		const sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
 		const r = CmnLib.argChk_Num(hArg, 'rotate', 0);
 		const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
-		cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id
+		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src
-		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${x}; top: ${y
-		}; border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
-		};" width="${w}" height="${h}" transform: scale(${sx}, ${sy}) rotate(${r
-		}deg);></iframe>`);
+		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${x
+		}; top: ${y}; border: 0px; overflow: hidden; display: ${
+			v ?'inline' :'none'
+		};" width="${w}" height="${h}" transform: scale(${sx}, ${sy
+		}) rotate(${r}deg);></iframe>`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win = ifrm.contentWindow!;
@@ -75,6 +75,17 @@ export class FrameMng {
 		});
 
 		return true;
+	}
+	private rect(hArg: HArg): DOMRect {
+		const a = {...hArg};
+		const re = this.sys.resolution;
+		const r = this.appPixi.view.getBoundingClientRect();
+		return new DOMRect(
+			CmnLib.argChk_Num(a, 'x', 0) *re +r.left /2 +window.pageXOffset,
+			CmnLib.argChk_Num(a, 'y', 0) *re +r.top  /2 +window.pageYOffset,
+			CmnLib.argChk_Num(a, 'width', CmnLib.stageW) *re,
+			CmnLib.argChk_Num(a, 'height', CmnLib.stageH) *re
+		);
 	}
 
 	// フレーム変数を取得
@@ -136,15 +147,15 @@ export class FrameMng {
 			ifrm.style.opacity = a;
 			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
 		}
+		const rct = this.rect(hArg);
 		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
 		|| 'rotate' in hArg) {
-			const x = CmnLib.argChk_Num(hArg, 'x', 0);
-			const y = CmnLib.argChk_Num(hArg, 'y', 0);
+			const x = rct.x;
+			const y = rct.y;
 			const sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
 			const sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
 			const r = CmnLib.argChk_Num(hArg, 'rotate', 0);
-			ifrm.style.transform = `matrix(${sx}, 0, 0, ${sy}, ${x}, ${y}) rotate(${
-				r}deg)`;
+			ifrm.style.transform = `matrix(${sx}, 0, 0, ${sy}, ${x}, ${y}) rotate(${r}deg)`;
 			this.val.setVal_Nochk('tmp', frmnm +'.x', x);
 			this.val.setVal_Nochk('tmp', frmnm +'.y', y);
 			this.val.setVal_Nochk('tmp', frmnm +'.scale_x', sx);
@@ -152,14 +163,12 @@ export class FrameMng {
 			this.val.setVal_Nochk('tmp', frmnm +'.rotate', r);
 		}
 		if ('width' in hArg) {
-			const w = hArg.width;
-			ifrm.style.width = String(w);
-			this.val.setVal_Nochk('tmp', frmnm +'.width', w);
+			ifrm.style.width = String(rct.width);
+			this.val.setVal_Nochk('tmp', frmnm +'.width', rct.width);
 		}
 		if ('height' in hArg) {
-			const h = hArg.height;
-			ifrm.style.height = String(h);
-			this.val.setVal_Nochk('tmp', frmnm +'.height', h);
+			ifrm.style.height = String(rct.height);
+			this.val.setVal_Nochk('tmp', frmnm +'.height', rct.height);
 		}
 		if ('visible' in hArg) {
 			const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
@@ -193,6 +202,7 @@ export class FrameMng {
 			}
 		}
 		let fncXYSR = ()=> {};
+		const rct = this.rect(hArg);
 		if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
 		|| 'rotate' in hArg) {
 			hNow.x = this.val.getVal(`tmp:${frmnm}.x`);
@@ -200,8 +210,8 @@ export class FrameMng {
 			hNow.sx = this.val.getVal(`tmp:${frmnm}.scale_x`);
 			hNow.sy = this.val.getVal(`tmp:${frmnm}.scale_y`);
 			hNow.r = this.val.getVal(`tmp:${frmnm}.rotate`);
-			hTo.x = CmnLib.argChk_Num(hArg, 'x', 0);
-			hTo.y = CmnLib.argChk_Num(hArg, 'y', 0);
+			hTo.x = rct.x;
+			hTo.y = rct.y;
 			hTo.sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
 			hTo.sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
 			hTo.r = CmnLib.argChk_Num(hArg, 'rotate', 0);
@@ -220,7 +230,7 @@ export class FrameMng {
 		let fncW = ()=> {};
 		if ('width' in hArg) {
 			hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
-			hTo.w = CmnLib.argChk_Num(hArg, 'width', 0);
+			hTo.w = rct.width;
 			fncW = ()=> {
 				ifrm.style.width = `${hNow.w}px`;
 				this.val.setVal_Nochk('tmp', frmnm +'.width', hNow.w);
@@ -229,7 +239,7 @@ export class FrameMng {
 		let fncH = ()=> {};
 		if ('height' in hArg) {
 			hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
-			hTo.h = CmnLib.argChk_Num(hArg, 'height', 0);
+			hTo.h = rct.height;
 			fncH = ()=> {
 				ifrm.style.height = `${hNow.h}px`;
 				this.val.setVal_Nochk('tmp', frmnm +'.height', hNow.h);

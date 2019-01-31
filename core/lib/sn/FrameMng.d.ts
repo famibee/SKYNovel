@@ -15,6 +15,7 @@ export declare class FrameMng {
     private evtMng;
     setEvtMng(evtMng: IEvtMng): void;
     private add_frame;
+    private rect;
     private let_frame;
     private set_frame;
     private frame;
