@@ -41,7 +41,7 @@ export class SysMob extends SysBase {
 			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
 				const zoom = (screen.width > screen.height ?screen.height :screen.width)/ _cfg.oCfg.window.height;
-				console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} zoom:${zoom}`);
+//console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} zoom:${zoom}`);
 				this.resolution = zoom;
 
 				fncLoaded();
