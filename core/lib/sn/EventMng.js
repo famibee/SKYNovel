@@ -53,7 +53,7 @@ class EventMng {
         hTag.s = () => { this.stdWait(() => { }, false); return true; };
         hTag.set_cancel_skip = () => this.set_cancel_skip();
         hTag.wait = o => this.wait(o);
-        hTag.waitclick = () => { this.stdWait(() => this.main.resume()); return true; };
+        hTag.waitclick = () => { this.stdWait(() => main.resume()); return true; };
         switch (String(val.getVal('tmp:const.sn.platform.os.family'))) {
             case 'Android':
             case 'iOS':

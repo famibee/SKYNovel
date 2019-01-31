@@ -48,7 +48,7 @@ export class Main implements IMain {
 				backgroundColor: ('init' in this.cfg.oCfg)
 					? this.cfg.oCfg.init.bg_color || 0
 					: 0,
-				resolution : sys.resolution
+				resolution : sys.resolution,
 			};
 			const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
