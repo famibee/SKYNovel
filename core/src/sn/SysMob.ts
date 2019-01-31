@@ -40,27 +40,8 @@ export class SysMob extends SysBase {
 			// 全体が入るよう拡大・縮小
 			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
-				const isWidthLongSide = screen.width > screen.height;
-console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} isWidthLongSide:${isWidthLongSide}`);
-				const wp = (isWidthLongSide ?screen.width :screen.height)
-					/ _cfg.oCfg.window.width;
-				const hp = (!isWidthLongSide ?screen.width :screen.height)
-					/ _cfg.oCfg.window.height;
-console.log(`fn:SysMob.ts line:49 wp:${wp} hp:${hp}`);
-/*
-				const zoom = isWidthLongSide
-					? (wp > hp ?wp :hp)
-					: (wp < hp ?wp :hp);
-*/
-				const zoom = isWidthLongSide
-					? wp
-					: hp;
-
-//				const zoom = 0.71875;
-
-console.log(`fn:SysMob.ts line:53 zoom:${zoom}`);
-//console.log(`fn:SysMob.ts line:53 hasIndexedDB:${!!indexedDB}`);
-
+				const zoom = (screen.width > screen.height ?screen.height :screen.width)/ _cfg.oCfg.window.height;
+				console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} zoom:${zoom}`);
 				this.resolution = zoom;
 
 				fncLoaded();
