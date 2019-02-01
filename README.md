@@ -61,6 +61,10 @@ WebGL NovelGame framework by PixiJS
 - [組み込み変数]()
 
 ---
+## Extension
+ - [SKYNovel - Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=famibee.skynovel)
+
+---
 ## License ... [MIT](LICENSE)
 
 ---
