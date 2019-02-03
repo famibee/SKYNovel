@@ -1,5 +1,5 @@
 import { SysBase } from "./SysBase";
-import { IConfig, IPathFn2Exts, IData4Vari, IPlugin } from './CmnInterface';
+import { IConfig, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysMob extends SysBase {
     protected hPlg: {
         [name: string]: IPlugin;
@@ -8,7 +8,7 @@ export declare class SysMob extends SysBase {
     constructor(hPlg?: {
         [name: string]: IPlugin;
     }, $cur?: string);
-    loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: () => void, _cfg: IConfig): void;
+    loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, _cfg: IConfig): void;
     fetch: (url: string) => Promise<Response>;
     private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;

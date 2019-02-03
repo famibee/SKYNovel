@@ -7,7 +7,7 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib, uint} from './CmnLib';
-import {IPathFn2Exts} from './CmnInterface';
+import {IFn2Path} from './CmnInterface';
 import {Config} from './Config';
 
 import m_fs = require('fs-extra');
@@ -15,63 +15,8 @@ import m_path = require('path');
 
 export class SysNode extends SysBase {
 	protected	normalize	= (src: string, _form: string)=> src;	// for test
-	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void {
-		this.get_hPathFn2Exts(hPathFn2Exts, cfg.oCfg);
-
-		// スプライトシート用json自動生成機能
-		// breakline.5x20.png
-		for (const o of cfg.matchPath('.+\\.\\d+x\\d+$', 'png|jpg|jpeg')) {
-			for (const ext in o) {
-				const path = o[ext];
-				const fn = CmnLib.getFn(path);
-				const fnJs = m_path.dirname(path) + m_path.sep + CmnLib.getFn(fn) +'.json';
-				if (this.existsSync(fnJs)) continue;
-
-				const ldr = new PIXI.loaders.Loader();
-				ldr.add(fn, path);
-				ldr.load((_loader: any, res: any)=> {
-					const orig = res[fn].texture.orig;
-					const w_pic = orig.width;
-					const h_pic = orig.height;
-
-					const idxX = fn.lastIndexOf('x');
-					const idxDot = fn.lastIndexOf('.');
-					const xLen = uint(fn.slice(idxDot +1, idxX));
-					const yLen = uint(fn.slice(idxX +1));
-					const basename = fn.slice(0, fn.lastIndexOf('.'));
-			//console.log('ext:'+ ext +' path:'+ path +' fn:'+ fn +' basename:'+ basename +' fnJs:'+ fnJs);
-					const w = w_pic /xLen;
-					const h = h_pic /yLen;
-					const oJs :any = {
-						frames: {},
-						meta: {
-							app: 'skynovel',
-							version: '1.0',
-							image: fn +'.'+ ext,
-							format: 'RGBA8888',
-							size: {w: w_pic, h :h_pic},
-							scale: 1,
-							animationSpeed: 1,	// 0.01~1.00
-						},
-					};
-					let cnt = 0;
-					for (let ix=0; ix<xLen; ++ix) {
-						for (let iy=0; iy<yLen; ++iy) {
-							++cnt;
-							oJs.frames[basename + ('000'+cnt).slice(-4) +'.'+ ext] = {
-								frame: {x: ix *w, y: iy*h, w: w, h :h},
-								rotated: false,
-								trimmed: false,
-								spriteSourceSize: {x: 0, y: 0, w: w_pic, h :h_pic},
-								sourceSize: {w: w, h :h},
-								pivot: {x: 0.5, y: 0.5},
-							};
-						}
-					}
-					this.writeFile(fnJs, JSON.stringify(oJs));
-				});
-			}
-		}
+	loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: ()=> void, cfg: Config): void {
+		this.getHFn2Path(hFn2Path, cfg.oCfg);
 
 		fncLoaded();
 
@@ -81,7 +26,7 @@ export class SysNode extends SysBase {
 			cfg.getJsonSearchPath().replace(new RegExp(this.cur, 'g'), '')
 		);
 	}
-	private get_hPathFn2Exts(hPathFn2Exts: IPathFn2Exts, oCfg: any) {
+	private getHFn2Path(hPathFn2Exts: IFn2Path, oCfg: any) {
 		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
 		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
 		//		検索が高速なハッシュ形式。

@@ -31,63 +31,13 @@ class SysNode extends SysBase_1.SysBase {
         this.readdirSync = m_fs.readdirSync;
         this.appendFile = m_fs.appendFile;
     }
-    loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
-        this.get_hPathFn2Exts(hPathFn2Exts, cfg.oCfg);
-        for (const o of cfg.matchPath('.+\\.\\d+x\\d+$', 'png|jpg|jpeg')) {
-            for (const ext in o) {
-                const path = o[ext];
-                const fn = CmnLib_1.CmnLib.getFn(path);
-                const fnJs = m_path.dirname(path) + m_path.sep + CmnLib_1.CmnLib.getFn(fn) + '.json';
-                if (this.existsSync(fnJs))
-                    continue;
-                const ldr = new PIXI.loaders.Loader();
-                ldr.add(fn, path);
-                ldr.load((_loader, res) => {
-                    const orig = res[fn].texture.orig;
-                    const w_pic = orig.width;
-                    const h_pic = orig.height;
-                    const idxX = fn.lastIndexOf('x');
-                    const idxDot = fn.lastIndexOf('.');
-                    const xLen = CmnLib_1.uint(fn.slice(idxDot + 1, idxX));
-                    const yLen = CmnLib_1.uint(fn.slice(idxX + 1));
-                    const basename = fn.slice(0, fn.lastIndexOf('.'));
-                    const w = w_pic / xLen;
-                    const h = h_pic / yLen;
-                    const oJs = {
-                        frames: {},
-                        meta: {
-                            app: 'skynovel',
-                            version: '1.0',
-                            image: fn + '.' + ext,
-                            format: 'RGBA8888',
-                            size: { w: w_pic, h: h_pic },
-                            scale: 1,
-                            animationSpeed: 1,
-                        },
-                    };
-                    let cnt = 0;
-                    for (let ix = 0; ix < xLen; ++ix) {
-                        for (let iy = 0; iy < yLen; ++iy) {
-                            ++cnt;
-                            oJs.frames[basename + ('000' + cnt).slice(-4) + '.' + ext] = {
-                                frame: { x: ix * w, y: iy * h, w: w, h: h },
-                                rotated: false,
-                                trimmed: false,
-                                spriteSourceSize: { x: 0, y: 0, w: w_pic, h: h_pic },
-                                sourceSize: { w: w, h: h },
-                                pivot: { x: 0.5, y: 0.5 },
-                            };
-                        }
-                    }
-                    this.writeFile(fnJs, JSON.stringify(oJs));
-                });
-            }
-        }
+    loadPathAndVal(hFn2Path, fncLoaded, cfg) {
+        this.getHFn2Path(hFn2Path, cfg.oCfg);
         fncLoaded();
         if (!this.existsSync(this.cur + 'path.json'))
             this.writeFile(this.cur + 'path.json', cfg.getJsonSearchPath().replace(new RegExp(this.cur, 'g'), ''));
     }
-    get_hPathFn2Exts(hPathFn2Exts, oCfg) {
+    getHFn2Path(hPathFn2Exts, oCfg) {
         const REG_FN_RATE_SPRIT = /(.+?)(?:%40(\d)x)?(\.\w+)/;
         if (oCfg.search)
             for (const dir of oCfg.search) {

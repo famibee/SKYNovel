@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {IConfig, IPathFn2Exts, IData4Vari, IPlugin} from './CmnInterface';
+import {IConfig, IFn2Path, IData4Vari, IPlugin} from './CmnInterface';
 import {Main} from './Main';
 // TODO: const strLocal = require('store');
 
@@ -21,7 +21,7 @@ export class SysMob extends SysBase {
 		}, false);
 	}
 
-	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, _cfg: IConfig): void {
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, _cfg: IConfig): void {
 		(async ()=> {
 			const res = await this.fetch(this.$cur +'path.json');
 			if (! res.ok) throw Error(res.statusText);

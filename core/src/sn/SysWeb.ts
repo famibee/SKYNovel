@@ -7,7 +7,7 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib} from './CmnLib';
-import {IConfig, HArg, IPathFn2Exts, IData4Vari, IPlugin} from './CmnInterface';
+import {IConfig, HArg, IFn2Path, IData4Vari, IPlugin} from './CmnInterface';
 import {Main} from './Main';
 const strLocal = require('store');
 
@@ -75,7 +75,7 @@ export class SysWeb extends SysBase {
 	private main: Main;
 
 
-	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: IConfig): void {
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
 		(async ()=> {
 			const res = await fetch(this.$cur +'path.json');
 			if (! res.ok) throw Error(res.statusText);

@@ -155,7 +155,7 @@ export interface ILayerFactory {
 
 // =============== SysBase
 export interface ISysBase {
-	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: IConfig): void;
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void;
 	initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): void;
 	flush(): void;
 }
@@ -163,7 +163,7 @@ export interface ISysBase {
 
 // =============== Config
 export interface IExts { [ext: string]: string; };
-export interface IPathFn2Exts { [fn: string]: IExts; };
+export interface IFn2Path { [fn: string]: IExts; };
 
 export interface IConfig {
 	oCfg: any;

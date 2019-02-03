@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari, IPlugin, ILayerFactory} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory} from './CmnInterface';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory};
@@ -16,7 +16,7 @@ export class SysBase implements ISysBase {
 
 	resolution	= 1;
 
-	loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: ()=> void, _cfg: IConfig): void {}
+	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, _cfg: IConfig): void {}
 
 	protected data		= {sys:{}, mark:{}, kidoku:{}};
 	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {};

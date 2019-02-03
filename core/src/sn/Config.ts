@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, int} from './CmnLib';
-import {IConfig, IExts, IPathFn2Exts} from './CmnInterface';
+import {IConfig, IExts, IFn2Path} from './CmnInterface';
 import {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 
@@ -57,7 +57,7 @@ export class Config implements IConfig {
 	};
 	userFnTail		= '';
 
-	private	hPathFn2Exts	: IPathFn2Exts		= {};
+	private	hPathFn2Exts	: IFn2Path		= {};
 	getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
 
 	static	EXT_SPRITE	= 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';

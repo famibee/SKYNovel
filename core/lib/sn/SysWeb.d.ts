@@ -1,5 +1,5 @@
 import { SysBase } from "./SysBase";
-import { IConfig, HArg, IPathFn2Exts, IData4Vari, IPlugin } from './CmnInterface';
+import { IConfig, HArg, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysWeb extends SysBase {
     protected hPlg: {
         [name: string]: IPlugin;
@@ -13,7 +13,7 @@ export declare class SysWeb extends SysBase {
     private run;
     private now_prj;
     private main;
-    loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: () => void, cfg: IConfig): void;
+    loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
     private ns;
     private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;

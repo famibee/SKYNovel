@@ -1,5 +1,5 @@
 /// <reference types="pixi.js" />
-import { IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari, IPlugin, ILayerFactory } from './CmnInterface';
+import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory } from './CmnInterface';
 export declare class SysBase implements ISysBase {
     protected hPlg: {
         [name: string]: IPlugin;
@@ -14,7 +14,7 @@ export declare class SysBase implements ISysBase {
     readonly cur: string;
     fetch: (url: string) => Promise<Response>;
     resolution: number;
-    loadPathAndVal(_hPathFn2Exts: IPathFn2Exts, _fncLoaded: () => void, _cfg: IConfig): void;
+    loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: () => void, _cfg: IConfig): void;
     protected data: {
         sys: {};
         mark: {};
