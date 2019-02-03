@@ -376,7 +376,8 @@ void main(void) {
         };
         this.spTransFore.alpha = 1;
         const closeTrans = () => {
-            this.appPixi.ticker.remove(fncRender);
+            if (this.appPixi.ticker)
+                this.appPixi.ticker.remove(fncRender);
             this.elcTrans.clear();
             [this.fore, this.back] = [this.back, this.fore];
             for (const lay_name in this.hPages) {
@@ -504,7 +505,8 @@ void main(void) {
         this.spTransFore.visible = true;
         this.spTransFore.alpha = 1;
         const closeTrans = () => {
-            this.appPixi.ticker.remove(fncRender);
+            if (this.appPixi.ticker)
+                this.appPixi.ticker.remove(fncRender);
             this.fore.visible = true;
             this.spTransFore.visible = false;
             if (this.twInfTrans.resume)

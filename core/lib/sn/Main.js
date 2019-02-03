@@ -242,12 +242,12 @@ class Main {
         if (this.destroyed)
             return;
         this.destroyed = true;
-        this.appPixi.ticker.remove(this.fncTicker);
         this.stop();
         this.hTag = {};
         this.evtMng.destroy();
         this.layMng.destroy();
         this.dbgMng.destroy();
+        this.appPixi.ticker.remove(this.fncTicker);
         if (this.clone_cvs && this.appPixi) {
             this.appPixi.view.parentElement.insertBefore(this.clone_cvs, this.appPixi.view);
         }

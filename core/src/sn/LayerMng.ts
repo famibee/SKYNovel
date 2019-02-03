@@ -520,7 +520,7 @@ void main(void) {
 		//this.sprRtAtTransFore.visible = true;	// trans中専用fore(Render Texture)
 		this.spTransFore.alpha = 1;
 		const closeTrans = ()=> {
-			this.appPixi.ticker.remove(fncRender);
+			if (this.appPixi.ticker) this.appPixi.ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			this.elcTrans.clear();
 			[this.fore, this.back] = [this.back, this.fore];
@@ -656,7 +656,7 @@ void main(void) {
 		this.spTransFore.visible = true;
 		this.spTransFore.alpha = 1;
 		const closeTrans = ()=> {
-			this.appPixi.ticker.remove(fncRender);
+			if (this.appPixi.ticker) this.appPixi.ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			this.fore.visible = true;
 			this.spTransFore.visible = false;
