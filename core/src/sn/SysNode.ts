@@ -16,55 +16,7 @@ import m_path = require('path');
 export class SysNode extends SysBase {
 	protected	normalize	= (src: string, _form: string)=> src;	// for test
 	loadPathAndVal(hPathFn2Exts: IPathFn2Exts, fncLoaded: ()=> void, cfg: Config): void {
-		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
-		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
-		//		検索が高速なハッシュ形式。
-		//		ここでの「ファイル名」と「拡張子」はスクリプト経由なので
-		//		URLエンコードされていない物を想定。
-		//		パスのみURLエンコード済みの、File.urlと同様の物を。
-		//		あとで実際にロード関数に渡すので。
-		if (cfg.oCfg.search) for (const dir of cfg.oCfg.search) {
-			const wd = m_path.resolve(this.$cur, dir);
-			if (! this.existsSync(wd)) continue;
-
-			for (const nm_base of this.readdirSync(wd)) {
-				const nm = this.normalize(nm_base, 'NFC');
-				if (nm.charAt(0) == '.' || nm == 'Thumbs.db'
-					|| nm == 'Desktop.ini' || nm == '_notes'
-					|| nm == 'Icon\r') continue;
-				const fo_url = m_path.resolve(wd, nm);
-				if (this.isDirectory(fo_url)) continue;
-				const fo_ext = CmnLib.getExt(nm);
-				if (fo_ext in this.hExtNG) continue;
-
-				const fo_fn = CmnLib.getFn(nm);
-				let h_exts = hPathFn2Exts[fo_fn];
-				if (! h_exts) {
-					h_exts = hPathFn2Exts[fo_fn] = {':cnt': '1'};
-				}
-				else if (fo_ext in h_exts) {
-					throw Error(`[xmlCfg.search.path] サーチパスにおいてファイル名＋拡張子【${fo_fn}】が重複しています。フォルダを縦断検索するため許されません`);
-				}
-				else {
-					h_exts[':cnt'] = String(uint(h_exts[':cnt']) +1);
-				}
-				h_exts[fo_ext] = fo_url;
-				if (! CmnLib.isRetina) continue;
-
-				const oRate = REG_FN_RATE_SPRIT.exec(fo_url);
-				if (! oRate) continue;
-				if (oRate[2]) continue;
-
-				// fo_fnが「@無し」のh_extsに「@あり」を代入
-				const fn_xga = oRate[1] + this.retinaFnTail + oRate[3];
-				if (this.existsSync(fn_xga)) {
-					this.hPathFn2Retina[fo_fn] = true;
-					h_exts[fo_ext] = fn_xga;
-					continue;
-				}
-				h_exts[fo_ext] = fo_url;
-			}
-		}
+		this.get_hPathFn2Exts(hPathFn2Exts, cfg.oCfg);
 
 		// スプライトシート用json自動生成機能
 		// breakline.5x20.png
@@ -129,6 +81,59 @@ export class SysNode extends SysBase {
 			cfg.getJsonSearchPath().replace(new RegExp(this.cur, 'g'), '')
 		);
 	}
+	private get_hPathFn2Exts(hPathFn2Exts: IPathFn2Exts, oCfg: any) {
+		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
+		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
+		//		検索が高速なハッシュ形式。
+		//		ここでの「ファイル名」と「拡張子」はスクリプト経由なので
+		//		URLエンコードされていない物を想定。
+		//		パスのみURLエンコード済みの、File.urlと同様の物を。
+		//		あとで実際にロード関数に渡すので。
+		if (oCfg.search) for (const dir of oCfg.search) {
+			const wd = m_path.resolve(this.$cur, dir);
+			if (! this.existsSync(wd)) continue;
+
+			for (const nm_base of this.readdirSync(wd)) {
+				const nm = this.normalize(nm_base, 'NFC');
+				if (nm.charAt(0) == '.' || nm == 'Thumbs.db'
+					|| nm == 'Desktop.ini' || nm == '_notes'
+					|| nm == 'Icon\r') continue;
+				const fo_url = m_path.resolve(wd, nm);
+				if (this.isDirectory(fo_url)) continue;
+				const fo_ext = CmnLib.getExt(nm);
+				if (fo_ext in this.hExtNG) continue;
+
+				const fo_fn = CmnLib.getFn(nm);
+				let h_exts = hPathFn2Exts[fo_fn];
+				if (! h_exts) {
+					h_exts = hPathFn2Exts[fo_fn] = {':cnt': '1'};
+				}
+				else if (fo_ext in h_exts) {
+					throw Error(`[xmlCfg.search.path] サーチパスにおいてファイル名＋拡張子【${fo_fn}】が重複しています。フォルダを縦断検索するため許されません`);
+				}
+				else {
+					h_exts[':cnt'] = String(uint(h_exts[':cnt']) +1);
+				}
+				h_exts[fo_ext] = fo_url;
+				if (! CmnLib.isRetina) continue;
+
+				const oRate = REG_FN_RATE_SPRIT.exec(fo_url);
+				if (! oRate) continue;
+				if (oRate[2]) continue;
+
+				// fo_fnが「@無し」のh_extsに「@あり」を代入
+				const fn_xga = oRate[1] + this.retinaFnTail + oRate[3];
+				if (this.existsSync(fn_xga)) {
+					this.hPathFn2Retina[fo_fn] = true;
+					h_exts[fo_ext] = fn_xga;
+					continue;
+				}
+				h_exts[fo_ext] = fo_url;
+			}
+		}
+	}
+
+
 	private	hExtNG	= {	// Steam対策
 		'db'		:0,
 		'ini'		:0,

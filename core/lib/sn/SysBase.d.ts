@@ -1,5 +1,4 @@
 /// <reference types="pixi.js" />
-/// <reference types="node" />
 import { IConfig, IHTag, ITag, IVariable, IPathFn2Exts, ISysBase, IData4Vari, IPlugin, ILayerFactory } from './CmnInterface';
 export declare class SysBase implements ISysBase {
     protected hPlg: {

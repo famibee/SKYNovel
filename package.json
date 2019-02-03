@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.2.4",
+	"version": "0.2.5",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"types": "./core/lib/index.d.ts",
@@ -28,7 +28,7 @@
 		"@types/hammerjs": "^2.0.36",
 		"@types/howler": "^2.0.5",
 		"@types/mocha": "^5.2.5",
-		"@types/node": "^10.12.20",
+		"@types/node": "^10.12.21",
 		"@types/parsimmon": "^1.10.0",
 		"@types/pixi.js": "^4.8.6",
 		"@types/power-assert": "^1.5.0",
@@ -37,11 +37,11 @@
 		"@types/tween.js": "^17.2.0",
 		"@types/xml2js": "^0.4.3",
 		"@types/xregexp": "^3.0.29",
-		"electron": "^4.0.3",
+		"electron": "^4.0.4",
 		"espower-typescript": "^9.0.1",
 		"mocha": "^5.2.0",
 		"power-assert": "^1.6.1",
-		"typescript": "^3.2.4"
+		"typescript": "^3.3.1"
 	},
 	"bundleDependencies": [],
 	"scripts": {
@@ -58,9 +58,11 @@
 		"test:w": "mocha --watch --opts test/mocha.opts"
 	},
 	"keywords": [
-		"webgl",
 		"novelgame",
-		"visualnovel"
+		"visualnovel",
+		"skynovel",
+		"webgl",
+		"typescript"
 	],
 	"repository": {
 		"type": "git",
