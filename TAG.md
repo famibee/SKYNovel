@@ -1,0 +1,42 @@
+# SKYNovel タグリファレンス Tag Reference
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+
+- [[navigate_to] ＵＲＬを開く](#navigate_to)
+
+---
+## [navigate_to] ＵＲＬを開く
+<a name="navigate_to"></a>
+属性 | 必須 | 省略時 | 値域・型 | コメント
+---- | ---- | ---- | ---- | ----
+url | <span style="color: #15a589;">**y**</span> |  | URL文字列 | 開くURL
+
+---
+## [plugin] プラグインの設定
+読み込んだプラグインの表示位置や表示・非表示を設定する
+
+属性 | 必須 | 省略時 | 値域・型 | コメント
+---- | ---- | ---- | ---- | ----
+name | <span style="color: #15a589;">**y**</span> |  | [loadplugin]で読み込んだプラグイン名 | [loadplugin]のfnと全く同一の文字列にしてください。
+left | n | 両方省略時に画面中央となる値を設定
+以外は現在値のまま | 画面左上を(0, 0)とする座標 | プラグインの表示横位置
+top | n | プラグインの表示縦位置
+visible | n | true | Boolean | trueでプラグインを表示、falseで非表示
+alpha | n | 1.0 | 0.0〜1.0（実数） | 透過度。0（完全透明）〜0.5（半透明）〜1（不透明）
+blendmode | n | 何もしない | ブレンドモード名（"screen"など） | このプラグインと下のレイヤとの重なりにおいて、
+ドット単位で色のブレンド演算を行なう。
+詳細はblendModeの解説を参照。
+rotation | n | 0 | -180〜180 | 回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る
+scale_x | n | 1.0 | 正負の実数値 | 横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転
+scale_y | n | 1.0 | 正負の実数値 | 縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転
+float | n | 何もしない | Boolean | true：レイヤを最前面に移動する。
+※最前面とは、Flashのstage.addChildにおける重なり順
+index | n | 何もしない | 0〜 | レイヤをindexで指定したインデックスに移動する。
+※インデックスは、FlashのStage.setChildIndex()を参照。
+dive | n | 何もしない | レイヤ名 | レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる。
+「plg:プラグイン名」と記述する事でプラグインも指定できる。
+touch | n | 何もしない | Boolean	trueのとき
+stage.removeChild()し、
+stage.addChild()する。
+addedToStageイベントをプラグインに起こすための機能。
+
+---
