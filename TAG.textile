@@ -9,7 +9,6 @@ h1. SKYNovel タグリファレンス Tag Reference
 
 h2(#navigate_to). [navigate_to] ＵＲＬを開く
 
-table{background:#888}.
 {background:#258cd1}. |_. 属性 |_. 必須 |_. 省略時 |_. 値域・型 |_. コメント |
 {background:#15a589}. |url | **y** |  | URL文字列 | 開くURL |
 
