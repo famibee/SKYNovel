@@ -4,8 +4,9 @@
 - [[navigate_to] ＵＲＬを開く](#navigate_to)
 
 ---
-## [navigate_to] ＵＲＬを開く
-<a name="navigate_to"></a>
+## [navigate_to]
+ＵＲＬを開く
+
 属性 | 必須 | 省略時 | 値域・型 | コメント
 ---- | ---- | ---- | ---- | ----
 url | <span style="color: #15a589;">**y**</span> |  | URL文字列 | 開くURL
@@ -13,6 +14,7 @@ url | <span style="color: #15a589;">**y**</span> |  | URL文字列 | 開くURL
 ---
 ## [plugin]
 プラグインの設定
+
 読み込んだプラグインの表示位置や表示・非表示を設定する
 
 属性 | 必須 | 省略時 | 値域・型 | コメント
