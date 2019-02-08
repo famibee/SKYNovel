@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory, IMain} from './CmnInterface';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory};
@@ -24,7 +24,7 @@ export class SysBase implements ISysBase {
 
 	protected	val		: IVariable;
 	protected	appPixi	: PIXI.Application;
-	init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application): void {
+	init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void {
 		this.val = val;
 		this.appPixi = appPixi;
 		this.val.setSys(this);
@@ -41,7 +41,9 @@ export class SysBase implements ISysBase {
 					this.hFactoryCls[cls] = fnc;
 				},
 				searchPath: (fn: string, extptn = '')=>	cfg.searchPath(fn, extptn),
-			//	val	: val
+				getVal: val.getVal,
+				resume: ()=> main.resume(),
+				render: (dsp: PIXI.DisplayObject, renTx: PIXI.RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
 			});
 		}
 

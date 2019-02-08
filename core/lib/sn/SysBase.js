@@ -27,7 +27,7 @@ class SysBase {
     initVal(_data, _hTmp, _comp) { }
     ;
     flush() { }
-    init(cfg, hTag, val, appPixi) {
+    init(cfg, hTag, val, appPixi, main) {
         this.val = val;
         this.appPixi = appPixi;
         this.val.setSys(this);
@@ -45,6 +45,9 @@ class SysBase {
                     this.hFactoryCls[cls] = fnc;
                 },
                 searchPath: (fn, extptn = '') => cfg.searchPath(fn, extptn),
+                getVal: val.getVal,
+                resume: () => main.resume(),
+                render: (dsp, renTx, clear = false) => this.appPixi.renderer.render(dsp, renTx, clear),
             });
         }
         hTag.close = o => this.close(o);

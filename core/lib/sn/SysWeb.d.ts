@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { SysBase } from "./SysBase";
 import { IConfig, HArg, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysWeb extends SysBase {

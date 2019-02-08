@@ -499,7 +499,6 @@ void main(void) {
 		this.appPixi.renderer.render(this.back, this.rtTransBack);	// clear
 		this.rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.fore, this.rtTransFore);	// clear
-			// ========= スマホ回転対応が要るかも？
 		const fncRender = ()=> {
 			this.back.visible = true;
 			for (const lay of this.aBackTransAfter) {

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { SysBase } from "./SysBase";
 import { IFn2Path } from './CmnInterface';
 import { Config } from './Config';

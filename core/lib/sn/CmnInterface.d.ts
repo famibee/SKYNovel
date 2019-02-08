@@ -1,3 +1,4 @@
+/// <reference types="pixi.js" />
 export interface HArg {
     タグ名?: string;
     layer?: string;
@@ -116,6 +117,9 @@ export interface IPluginInitArg {
     addTag(tag_name: string, tag_fnc: ITag): void;
     addLayCls(cls: string, fnc: ILayerFactory): void;
     searchPath(fn: string, extptn?: string): string;
+    getVal(arg_name: string, def?: number | string): object;
+    resume(fnc?: () => void): void;
+    render(dsp: PIXI.DisplayObject, renTx?: PIXI.RenderTexture, clear?: boolean): void;
 }
 export interface IPlugin {
     init(plgArg: IPluginInitArg): boolean;
