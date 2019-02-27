@@ -37,9 +37,9 @@
 		"@types/tween.js": "^17.2.0",
 		"@types/xml2js": "^0.4.3",
 		"@types/xregexp": "^3.0.29",
-		"electron": "^4.0.5",
+		"electron": "^4.0.6",
 		"espower-typescript": "^9.0.1",
-		"mocha": "^6.0.1",
+		"mocha": "^6.0.2",
 		"power-assert": "^1.6.1",
 		"typescript": "^3.3.3333"
 	},
