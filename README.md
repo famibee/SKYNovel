@@ -56,9 +56,10 @@ WebGL NovelGame framework by PixiJS
 
 (making...)
 
-- [機能紹介]()
 - [タグリファレンス](https://famibee.github.io/SKYNovel/tag.htm)
-- [組み込み変数]()
+- [マクロ・プラグイン](https://famibee.github.io/SKYNovel/macro_plg.htm)
+- [開発者向け情報](https://famibee.github.io/SKYNovel/dev.htm)
+	- [組み込み変数](https://famibee.github.io/SKYNovel/dev.htm#reserve_value_save)
 
 ---
 ## 拡張機能 / Extension
