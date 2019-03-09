@@ -17,8 +17,8 @@ WebGL NovelGame framework by PixiJS
 ---
 ## description（説明）
 
-- [コンセプトスライド](http://ugainovel.hiho.jp/skynovel/web.htm)
-- [機能ギャラリー](http://ugainovel.hiho.jp/skynovel/gallery/)
+- コンセプトスライド（機能ギャラリー内に含めました）
+- [機能ギャラリー](https://famibee.github.io/SKYNovel_gallery/)
 - [Novelgame(Tate-gaki) sample project](https://github.com/famibee/SKYNovel_uc)
 
 ## example
