@@ -45,6 +45,8 @@ export class Main implements IMain {
 
 		this.cfg = new Config(sys, ()=> {
 			const hApp: ApplicationOptions = {
+//				width: this.cfg.oCfg.window.width,
+//				height: this.cfg.oCfg.window.height,
 				backgroundColor: ('init' in this.cfg.oCfg)
 					? this.cfg.oCfg.init.bg_color || 0
 					: 0,
@@ -57,6 +59,7 @@ export class Main implements IMain {
 
 				hApp.view = cvs;
 			}
+//			this.appPixi = new Application(hApp);
 			this.appPixi = new Application(this.cfg.oCfg.window.width, this.cfg.oCfg.window.height, hApp);
 			if (! cvs) document.body.appendChild(this.appPixi.view);
 			//console.log('is WebGLRenderer:'+ (this.appPixi.renderer instanceof WebGLRenderer));
@@ -289,9 +292,12 @@ export class Main implements IMain {
 	resumeDev = ()=> this.appPixi.start();
 
 
-	destroy() {
+	async destroy(ms_late = 0) {
 		if (this.destroyed) return;
 		this.destroyed = true;
+
+		await this.layMng.before_destroy();
+		if (ms_late > 0) await new Promise(r=> setTimeout(r, ms_late));
 
 		this.stop();
 		this.hTag = {};
@@ -307,7 +313,7 @@ export class Main implements IMain {
 		this.appPixi.destroy(true);
 	}
 	private	destroyed = false;
-	isDestroyed = () => this.destroyed;
+	isDestroyed = ()=> this.destroyed;
 	private clone_cvs	: HTMLCanvasElement;
 
 }

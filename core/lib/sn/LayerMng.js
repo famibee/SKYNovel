@@ -167,14 +167,14 @@ void main(void) {
         }
     }
     setEvtMng(evtMng) { this.evtMng = evtMng; this.frmMng.setEvtMng(evtMng); }
+    before_destroy() { for (const pg in this.hPages)
+        this.hPages[pg].destroy(); }
     destroy() {
         GrpLayer_1.GrpLayer.destroy();
         TxtLayer_1.TxtLayer.destroy();
         TWEEN.removeAll();
         this.appPixi.ticker.remove(this.fncTicker);
         LayerMng.$msecChWait = 10;
-        for (const pg in this.hPages)
-            this.hPages[pg].destroy();
     }
     foreachRedrawTxtLayBack(g_alpha) {
         const vct = this.getLayers();

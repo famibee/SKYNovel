@@ -168,6 +168,7 @@ export class LayerMng {
 	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng; this.frmMng.setEvtMng(evtMng)}
 
+	before_destroy() {for (const pg in this.hPages) this.hPages[pg].destroy();}
 	destroy() {
 		GrpLayer.destroy();
 		TxtLayer.destroy();
@@ -175,7 +176,6 @@ export class LayerMng {
 		TWEEN.removeAll();
 		this.appPixi.ticker.remove(this.fncTicker);
 		LayerMng.$msecChWait = 10;
-		for (const pg in this.hPages) this.hPages[pg].destroy();
 	}
 
 

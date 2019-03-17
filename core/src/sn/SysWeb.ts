@@ -60,8 +60,12 @@ export class SysWeb extends SysBase {
 		}
 		return arg;
 	}
-	private run = (prj: string)=> {
-		if (this.main) this.main.destroy();
+	private run = async (prj: string)=> {
+		if (this.main) {
+			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
+			this.main.destroy(ms_late);
+			await new Promise(r=> setTimeout(r, ms_late));
+		}
 
 		this.now_prj = prj || this.def_prj;
 		const idxEnd = this.$cur.lastIndexOf('/', this.$cur.length -2) +1;

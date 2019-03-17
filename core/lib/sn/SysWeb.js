@@ -20,9 +20,12 @@ class SysWeb extends SysBase_1.SysBase {
                 }
             return arg;
         };
-        this.run = (prj) => {
-            if (this.main)
-                this.main.destroy();
+        this.run = async (prj) => {
+            if (this.main) {
+                const ms_late = 10;
+                this.main.destroy(ms_late);
+                await new Promise(r => setTimeout(r, ms_late));
+            }
             this.now_prj = prj || this.def_prj;
             const idxEnd = this.$cur.lastIndexOf('/', this.$cur.length - 2) + 1;
             const idxStart = this.$cur.lastIndexOf('/', idxEnd - 2) + 1;

@@ -238,10 +238,13 @@ class Main {
         }
         return tag_fnc(hArg);
     }
-    destroy() {
+    async destroy(ms_late = 0) {
         if (this.destroyed)
             return;
         this.destroyed = true;
+        await this.layMng.before_destroy();
+        if (ms_late > 0)
+            await new Promise(r => setTimeout(r, ms_late));
         this.stop();
         this.hTag = {};
         this.evtMng.destroy();

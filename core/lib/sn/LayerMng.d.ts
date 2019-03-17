@@ -23,6 +23,7 @@ export declare class LayerMng {
     cover(visible: boolean, bg_color?: number): void;
     private evtMng;
     setEvtMng(evtMng: IEvtMng): void;
+    before_destroy(): void;
     destroy(): void;
     private foreachRedrawTxtLayBack;
     private cmdTxt;

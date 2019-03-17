@@ -26,7 +26,7 @@ export declare class Main implements IMain {
     private getValAmpersand;
     pauseDev: () => void;
     resumeDev: () => void;
-    destroy(): void;
+    destroy(ms_late?: number): Promise<void>;
     private destroyed;
     isDestroyed: () => boolean;
     private clone_cvs;
