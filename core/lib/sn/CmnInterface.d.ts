@@ -101,8 +101,6 @@ export interface HArg {
     end_ms?: number;
     join?: boolean;
     do_rec?: boolean;
-    dae?: string;
-    celestial_sphere?: string;
 }
 export interface ITag {
     (hArg: HArg): boolean;
