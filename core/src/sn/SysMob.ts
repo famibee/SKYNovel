@@ -48,7 +48,7 @@ export class SysMob extends SysBase {
 			}
 		})();
 	}
-	fetch = (url: string): Promise<Response> => new Promise((resolve, reject)=> {
+	readonly	fetch = (url: string): Promise<Response> => new Promise((resolve, reject)=> {
 		const xhr = new XMLHttpRequest
 		xhr.onload = ()=> resolve(new Response(xhr.responseText, {status: xhr.status}));
 		xhr.onerror = ()=> reject(new TypeError('Local request failed'));
@@ -96,7 +96,7 @@ export class SysMob extends SysBase {
 	}*/
 
 
-	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
+	readonly	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
 		try {
 			(async ()=> {
 				const res = await this.fetch(path);

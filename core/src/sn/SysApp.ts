@@ -18,10 +18,10 @@ export class SysApp extends SysNode {
 		super(hPlg, remote.app.getAppPath().replace(/\\/g, '/') +'/prj/');
 		window.onload = ()=> new Main(this);
 	}
-	protected $path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
-	protected $path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
+	protected	readonly $path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
+	protected	readonly $path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
 
-	protected	normalize = (src: string, form: string)=> src.normalize(form);
+	protected	readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
 	private	store = new Store({cwd: 'storage', name: 'data'});
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
@@ -92,11 +92,11 @@ export class SysApp extends SysNode {
 			this.window({x: p[0], y: p[1]});
 		});
 	}
-	private	dsp	= screen.getPrimaryDisplay();
+	private	readonly	dsp	= screen.getPrimaryDisplay();
 	flush() {this.store.store = this.data;}
 
-	private win		: BrowserWindow	= remote.getCurrentWindow();
-	private wc		: webContents	= this.win.webContents;
+	private	readonly win		: BrowserWindow	= remote.getCurrentWindow();
+	private	readonly wc		: webContents	= this.win.webContents;
 	init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void {
 		super.init(cfg, hTag, val, appPixi, main);
 

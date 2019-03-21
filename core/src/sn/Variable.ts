@@ -205,7 +205,7 @@ export class Variable implements IVariable {
 	cloneMp(): object {return {...this.hScope.mp}}
 	setMp(mp: object) {this.hScope.mp = mp;}
 	setMark(place: number, mark: IMark) {this.data.mark[place] = mark; this.flush()}
-	getMark = (place: number)=> this.data.mark[place];
+	readonly	getMark = (place: number)=> this.data.mark[place];
 	cloneSave(): object {return {...this.hScope.save}}
 	mark2save(mark: IMark) {
 		this.hSave = this.hScope.save = {...mark.hSave};

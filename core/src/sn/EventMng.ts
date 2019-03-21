@@ -539,7 +539,7 @@ export class EventMng implements IEvtMng {
 		return false;
 	}
 	// 0:no push  1:one push  2:push repeating
-	private hDownKeys	: {[name: string]: number}	= {
+	private	readonly hDownKeys	: {[name: string]: number}	= {
 		'Alt'		: 0,
 		'Meta'		: 0,	// COMMANDキー
 		'Control'	: 0,

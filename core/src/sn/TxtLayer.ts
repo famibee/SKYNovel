@@ -906,7 +906,7 @@ export class TxtLayer extends Layer {
 		// Easing Function 早見表 http://easings.net/ja
 */
 
-	private static	REG_SURROGATE	= /[\uDC00-\uDFFF]/;
+	private static	readonly	REG_SURROGATE	= /[\uDC00-\uDFFF]/;
 	private goTxt3_tx2sp(tx: Texture) {
 		if (this.cntGotxt == 0) return;
 		//console.log(`🍋 goTxt3[${this.cntGotxt}]`);

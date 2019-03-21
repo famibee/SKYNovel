@@ -29,13 +29,13 @@ export declare class CmnLib {
     static retinaRate: number;
     static argChk_Num(hash: any, name: string, def: number): number;
     static argChk_Boolean(hash: any, name: string, def: boolean): boolean;
-    static REG_TOKEN: RegExp;
-    static REG_TOKEN_NOTXT: RegExp;
-    private static REG_MULTILINE_TAG;
-    private static REG_MULTILINE_TAG_SPLIT;
+    static readonly REG_TOKEN: RegExp;
+    static readonly REG_TOKEN_NOTXT: RegExp;
+    private static readonly REG_MULTILINE_TAG;
+    private static readonly REG_MULTILINE_TAG_SPLIT;
     static cnvMultilineTag(txt: string): string;
     static splitAmpersand(token: string): object;
-    static REG_TAG: RegExp;
+    static readonly REG_TAG: RegExp;
     static getFn: (path: string) => string;
     static getExt: (path: string) => string;
 }

@@ -60,10 +60,10 @@ export class Config implements IConfig {
 	private	hPathFn2Exts	: IFn2Path		= {};
 	getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
 
-	static	EXT_SPRITE	= 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';
-	static	EXT_SCRIPT	= 'sn_|sn';
-	static	EXT_FONT	= 'woff2|otf|ttf';
-	static	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
+	static	readonly	EXT_SPRITE	= 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';
+	static	readonly	EXT_SCRIPT	= 'sn_|sn';
+	static	readonly	EXT_FONT	= 'woff2|otf|ttf';
+	static	readonly	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
 
 	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		let err_mes = '';

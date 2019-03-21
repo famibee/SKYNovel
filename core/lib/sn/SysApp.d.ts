@@ -8,15 +8,15 @@ export declare class SysApp extends SysNode {
     constructor(hPlg?: {
         [name: string]: IPlugin;
     });
-    protected $path_desktop: string;
-    protected $path_userdata: string;
-    protected normalize: (src: string, form: string) => string;
+    protected readonly $path_desktop: string;
+    protected readonly $path_userdata: string;
+    protected readonly normalize: (src: string, form: string) => string;
     private store;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
-    private dsp;
+    private readonly dsp;
     flush(): void;
-    private win;
-    private wc;
+    private readonly win;
+    private readonly wc;
     init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void;
     protected close: () => boolean;
     protected navigate_to: (hArg: HArg) => boolean;

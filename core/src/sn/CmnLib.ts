@@ -114,7 +114,7 @@ export class CmnLib {
 
 
 	// =============== ScriptIterator
-	static	REG_TOKEN		= m_xregexp(	// テスト用にpublic
+	static	readonly	REG_TOKEN		= m_xregexp(	// テスト用にpublic
 		`(?: \\[let_ml \\s+ [^\\[\\]]+ \\])`+
 			`(?: . | \\s)+?`+	// [let_ml]〜[endlet_ml]間のテキスト
 		`(?=\\[endlet_ml \\s* \\])`+
@@ -130,10 +130,10 @@ export class CmnLib {
 		'| ^\\*\\w+'+		// ラベル
 		'| [^\\n\\t\\[;]+'	// 本文
 		, 'gx');
-	static	REG_TOKEN_NOTXT		= /[\n\t;\[*&]/;	// テスト用にpublic
+	static	readonly	REG_TOKEN_NOTXT	= /[\n\t;\[*&]/;	// テスト用にpublic
 
 
-	private	static	REG_MULTILINE_TAG	= m_xregexp(
+	private	static	readonly	REG_MULTILINE_TAG	= m_xregexp(
 	`\\[
 		([^\\n\\]]+ \\n
 			(?:
@@ -144,7 +144,7 @@ export class CmnLib {
 	\\]
 |	;[^\\n]+`
 		, 'gx');
-	private	static	REG_MULTILINE_TAG_SPLIT	= m_xregexp(
+	private	static	readonly	REG_MULTILINE_TAG_SPLIT	= m_xregexp(
 		`((["'#]).*?\\2|;.*\\n|\\n+|[^\\n"'#;]+)`, 'g');
 	static	cnvMultilineTag(txt: string): string {	// テスト用にpublic
 		return txt.replace(
@@ -185,7 +185,7 @@ export class CmnLib {
 
 
 	// Unit testの為publicにする
-	static	REG_TAG	= m_xregexp(`^\\[ (?<name>\\S*) (\\s+ (?<args>.+) )? ]$`, 'x');
+	static	readonly	REG_TAG	= m_xregexp(`^\\[ (?<name>\\S*) (\\s+ (?<args>.+) )? ]$`, 'x');
 
 
 	static	getFn = (path: string)=> m_path.basename(path, m_path.extname(path));

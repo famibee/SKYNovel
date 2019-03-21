@@ -31,7 +31,7 @@ interface IResAniSpr {
 }
 
 export class GrpLayer extends Layer {
-	private static	elc			= new EventListenerCtn;
+	private static	readonly	elc			= new EventListenerCtn;
 
 	private static	hFace		: Ihface	= {};
 

@@ -60,7 +60,7 @@ export class SysWeb extends SysBase {
 		}
 		return arg;
 	}
-	private run = async (prj: string)=> {
+	private	readonly run = async (prj: string)=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.main.destroy(ms_late);
@@ -128,7 +128,7 @@ export class SysWeb extends SysBase {
 	}
 
 	// ＵＲＬを開く
-	protected navigate_to = (hArg: HArg)=> {
+	protected	readonly navigate_to = (hArg: HArg)=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 	//	window.open(url);		// 近年セキュリティ的に効かない
@@ -138,7 +138,7 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 	// タイトル指定
-	protected title = (hArg: HArg)=> {
+	protected	readonly title = (hArg: HArg)=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 
@@ -168,7 +168,7 @@ export class SysWeb extends SysBase {
 	}
 
 
-	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
+	readonly	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
 		try {
 			(async ()=> {
 				const res = await fetch(path);	//fetch(path, {mode: 'same-origin'})
@@ -191,7 +191,7 @@ export class SysWeb extends SysBase {
 */
 	};
 
-	savePic = (fn: string, data_url: string)=> {
+	readonly	savePic = (fn: string, data_url: string)=> {
 		const anchor = document.createElement('a');
 		anchor.href = data_url;
 		anchor.download = fn;

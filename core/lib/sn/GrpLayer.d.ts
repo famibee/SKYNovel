@@ -12,7 +12,7 @@ interface IResAniSpr {
     };
 }
 export declare class GrpLayer extends Layer {
-    private static elc;
+    private static readonly elc;
     private static hFace;
     private static main;
     private static cfg;

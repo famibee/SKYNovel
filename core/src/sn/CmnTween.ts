@@ -15,7 +15,7 @@ export interface ITwInf {
 }
 
 export class CmnTween {
-	static	hEase: {[name: string]: (k: number)=> number}	= {
+	static	readonly	hEase: {[name: string]: (k: number)=> number}	= {
 		'Back.In'			: TWEEN.Easing.Back.In,
 		'Back.InOut'		: TWEEN.Easing.Back.InOut,
 		'Back.Out'			: TWEEN.Easing.Back.Out,

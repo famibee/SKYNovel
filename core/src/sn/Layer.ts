@@ -120,7 +120,7 @@ export class Layer {
 		if (bm) return bm;
 		throw '（'+ name +'）はサポートされない blendmode です';
 	}
-	static hBlendmode: any = {
+	static	readonly	hBlendmode: any = {
 		'normal':		BLEND_MODES.NORMAL,
 		'add':			BLEND_MODES.ADD,
 		'multiply':		BLEND_MODES.MULTIPLY,

@@ -449,10 +449,10 @@ export class ScriptIterator {
 	}
 
 
-	private	REG_NONAME_LABEL		= /(\*{2,})(.*)/;
-	private	REG_LABEL_ESC			= /\*/g;
-	private	REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
-	private	REG_TOKEN_MACRO_END		= /\[endmacro[\s\]]/;
+	private	readonly	REG_NONAME_LABEL		= /(\*{2,})(.*)/;
+	private	readonly	REG_LABEL_ESC			= /\*/g;
+	private	readonly	REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
+	private	readonly	REG_TOKEN_MACRO_END		= /\[endmacro[\s\]]/;
 	private	seekScript(tokens: Script, inMacro: boolean, lineNum: number, skipLabel: string, idxToken: number): ISeek {
 		//console.log('seekScript (from)inMacro:'+ inMacro +' (from)lineNum:'+ lineNum +' (to)skipLabel:'+ skipLabel +': (to)idxToken:'+ idxToken);
 		const len = this.script.aToken.length;
@@ -567,8 +567,8 @@ export class ScriptIterator {
 	}
 
 	private hScript		: HScript	= {};	// シナリオキャッシュ
-	private REG_TAG_LET_ML		= m_xregexp(`^\\[let_ml\\s`, 'g');
-	private REG_TAG_ENDLET_ML	= m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
+	private	readonly REG_TAG_LET_ML		= m_xregexp(`^\\[let_ml\\s`, 'g');
+	private	readonly REG_TAG_ENDLET_ML	= m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
 	private resolveScript(txt: string) {
 		txt = txt.replace(/(\r\n|\r)/g, '\n');
 		const v = CmnLib.cnvMultilineTag(txt).match(CmnLib.REG_TOKEN);
@@ -619,8 +619,8 @@ export class ScriptIterator {
 	}
 
 
-	private REG_WILDCARD	= /^\[(call|loadplugin)\s/;
-	private REG_WILDCARD2	= /\bfn\s*=\s*[^\s\]]+/;
+	private	readonly REG_WILDCARD	= /^\[(call|loadplugin)\s/;
+	private	readonly REG_WILDCARD2	= /\bfn\s*=\s*[^\s\]]+/;
 			// Unit testの為publicにする
 	private replaceScript_Wildcard = ()=> {
 		for (let i=this.script.len -1; i>=0; --i) {
@@ -817,7 +817,7 @@ export class ScriptIterator {
 		return false;
 	}
 
-	private REG_CANTC2M			= /[\w\s;[\]*=&｜《》]/;
+	private	readonly REG_CANTC2M	= /[\w\s;[\]*=&｜《》]/;
 	private regStrC2M			= '';
 	private regStrC2M4not		= '';
 

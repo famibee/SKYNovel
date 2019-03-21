@@ -441,7 +441,7 @@ return false;	// TODO: 未作成：フォーカス移動
 		return false;
 	}
 
-	private	srcRuleTransFragment = `
+	private	readonly	srcRuleTransFragment = `
 precision mediump float;
 
 varying vec2 vTextureCoord;
@@ -692,7 +692,7 @@ void main(void) {
 
 
 	// トゥイーン開始
-	private	hMemberCnt	= {
+	private	readonly	hMemberCnt	= {
 		alpha		:0,
 		height		:0,
 		rotation	:0,

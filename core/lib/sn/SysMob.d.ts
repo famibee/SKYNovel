@@ -10,9 +10,9 @@ export declare class SysMob extends SysBase {
         [name: string]: IPlugin;
     }, $cur?: string);
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, _cfg: IConfig): void;
-    fetch: (url: string) => Promise<Response>;
+    readonly fetch: (url: string) => Promise<Response>;
     private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     flush(): void;
-    readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
+    readonly readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
 }

@@ -14,7 +14,7 @@ import m_fs = require('fs-extra');
 import m_path = require('path');
 
 export class SysNode extends SysBase {
-	protected	normalize	= (src: string, _form: string)=> src;	// for test
+	protected	readonly	normalize	= (src: string, _form: string)=> src;	// for test
 	loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: ()=> void, cfg: Config): void {
 		this.getHFn2Path(hFn2Path, cfg.oCfg);
 
@@ -79,7 +79,7 @@ export class SysNode extends SysBase {
 	}
 
 
-	private	hExtNG	= {	// Steam対策
+	private	readonly	hExtNG	= {	// Steam対策
 		'db'		:0,
 		'ini'		:0,
 		'DS_Store'	:0
@@ -87,13 +87,13 @@ export class SysNode extends SysBase {
 	private	retinaFnTail	= '';
 	private	hPathFn2Retina	: {[name: string]: boolean}	= {};
 
-	protected isApp = ()=> true;
+	protected	readonly isApp = ()=> true;
 
-	existsSync = m_fs.existsSync;
+	readonly	existsSync = m_fs.existsSync;
 	//readFileSync = m_fs.readFileSync;
 	//readFile = m_fs.readFile;
-	writeFile = m_fs.writeFile;
-	savePic = (fn: string, data_url: string)=> {
+	readonly	writeFile = m_fs.writeFile;
+	readonly	savePic = (fn: string, data_url: string)=> {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
 		this.writeFile(fn, Buffer.from(bs64, 'base64'), err=> {
 			if (err) throw err;
@@ -101,9 +101,9 @@ export class SysNode extends SysBase {
 		});
 	};
 
-	isDirectory = (path: string)=> m_fs.lstatSync(path).isDirectory();
-	readdirSync = m_fs.readdirSync;
+	readonly	isDirectory = (path: string)=> m_fs.lstatSync(path).isDirectory();
+	readonly	readdirSync = m_fs.readdirSync;
 
-	appendFile = m_fs.appendFile;
+	readonly	appendFile = m_fs.appendFile;
 
 }

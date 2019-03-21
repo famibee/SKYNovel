@@ -17,7 +17,7 @@ export declare class Variable implements IVariable {
     cloneMp(): object;
     setMp(mp: object): void;
     setMark(place: number, mark: IMark): void;
-    getMark: (place: number) => IMark;
+    readonly getMark: (place: number) => IMark;
     cloneSave(): object;
     mark2save(mark: IMark): void;
     loadScrWork(fn: string): void;

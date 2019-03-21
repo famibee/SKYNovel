@@ -10,9 +10,9 @@ export declare class PropParser {
     private calc;
     private hFnc;
     private fncSub_ChkNum;
-    private REG_EMBEDVAR;
+    private readonly REG_EMBEDVAR;
     private procEmbedVar;
-    private static REG_VAL;
+    private static readonly REG_VAL;
     static getValName(arg_name: string): {
         [name: string]: string;
     } | undefined;

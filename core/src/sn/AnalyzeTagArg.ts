@@ -8,7 +8,7 @@
 import m_xregexp = require('xregexp');
 
 export class AnalyzeTagArg {
-	private	static	REG_TAGARG		= m_xregexp(
+	private	static	readonly	REG_TAGARG		= m_xregexp(
 	`(?: (?<key>[^\\s=]+) \\s* = \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\2 )`+
 	`| (?<val2> [^\\s\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\5 )`+
 	`| (?<def2> [^\\s\\"\\'\\#\\|]+) ) )? )`+
@@ -40,7 +40,7 @@ export class AnalyzeTagArg {
 	}
 
 	// 上とは微妙に違って空白を許す
-	private	static	REG_TAGARG_VAL		= m_xregexp(
+	private	static	readonly	REG_TAGARG_VAL		= m_xregexp(
 	`(?: \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\1 )`+
 	`| (?<val2> [^\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\4 )`+
 	`| (?<def2> [^\\"\\'\\#\\|]+) ) )? )`,

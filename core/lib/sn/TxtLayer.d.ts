@@ -57,7 +57,7 @@ export declare class TxtLayer extends Layer {
     private cntGotxt;
     private paddingmkTx4x;
     private paddingmkTx4y;
-    private static REG_SURROGATE;
+    private static readonly REG_SURROGATE;
     private goTxt3_tx2sp;
     private aRect;
     private aSpTw;

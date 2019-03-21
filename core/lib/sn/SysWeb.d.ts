@@ -11,7 +11,7 @@ export declare class SysWeb extends SysBase {
     }, $cur?: string);
     private def_prj;
     private getURLQ;
-    private run;
+    private readonly run;
     private now_prj;
     private main;
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
@@ -19,9 +19,9 @@ export declare class SysWeb extends SysBase {
     private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     flush(): void;
-    protected navigate_to: (hArg: HArg) => boolean;
-    protected title: (hArg: HArg) => boolean;
+    protected readonly navigate_to: (hArg: HArg) => boolean;
+    protected readonly title: (hArg: HArg) => boolean;
     private regEvt_FullScr;
-    readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
-    savePic: (fn: string, data_url: string) => void;
+    readonly readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
+    readonly savePic: (fn: string, data_url: string) => void;
 }

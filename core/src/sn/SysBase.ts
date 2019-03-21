@@ -68,27 +68,27 @@ export class SysBase implements ISysBase {
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
-	protected close			: ITag = ()=> false;
-	protected navigate_to	: ITag = ()=> false;
-	protected title			: ITag = ()=> false;
-	protected tgl_full_scr	: ITag = ()=> false;
-	protected window		: ITag = ()=> false;
+	protected	readonly close			: ITag = ()=> false;
+	protected	readonly navigate_to	: ITag = ()=> false;
+	protected	readonly title			: ITag = ()=> false;
+	protected	tgl_full_scr	: ITag = ()=> false;
+	protected	readonly window		: ITag = ()=> false;
 
-	protected isApp = ()=> false;
+	protected	readonly isApp = ()=> false;
 	protected $path_desktop	= '';
 	get path_desktop() {return this.$path_desktop}
 	protected $path_userdata	= '';
 	get path_userdata() {return this.$path_userdata}
 
-	existsSync = (_path: string)=> true;
+	readonly	existsSync = (_path: string)=> true;
 	//readFileSync = (path: string, options: { encoding: string; flag?: string; } | string)=> '';
 	//readFile = (path: string, callback: (err: NodeJS.ErrnoException, data: Buffer) => void)=> {};
-	writeFile = (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
-	savePic = (_fn: string, _data_url: string)=> {};
+	readonly	writeFile = (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
+	readonly	savePic = (_fn: string, _data_url: string)=> {};
 
-	isDirectory = (_path: string)=> false;
-	readdirSync = (_path: string, _options?: { encoding: BufferEncoding | null } | BufferEncoding | null): string[]=> [];
+	readonly	isDirectory = (_path: string)=> false;
+	readonly	readdirSync = (_path: string, _options?: { encoding: BufferEncoding | null } | BufferEncoding | null): string[]=> [];
 
-	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
+	readonly	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
 
 }

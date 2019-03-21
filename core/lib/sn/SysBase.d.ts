@@ -26,22 +26,22 @@ export declare class SysBase implements ISysBase {
     protected val: IVariable;
     protected appPixi: PIXI.Application;
     init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void;
-    protected close: ITag;
-    protected navigate_to: ITag;
-    protected title: ITag;
+    protected readonly close: ITag;
+    protected readonly navigate_to: ITag;
+    protected readonly title: ITag;
     protected tgl_full_scr: ITag;
-    protected window: ITag;
-    protected isApp: () => boolean;
+    protected readonly window: ITag;
+    protected readonly isApp: () => boolean;
     protected $path_desktop: string;
     readonly path_desktop: string;
     protected $path_userdata: string;
     readonly path_userdata: string;
-    existsSync: (_path: string) => boolean;
-    writeFile: (_file: string | number | Buffer, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
-    savePic: (_fn: string, _data_url: string) => void;
-    isDirectory: (_path: string) => boolean;
-    readdirSync: (_path: string, _options?: "ascii" | "utf8" | "utf16le" | "ucs2" | "base64" | "latin1" | "binary" | "hex" | {
+    readonly existsSync: (_path: string) => boolean;
+    readonly writeFile: (_file: string | number | Buffer, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
+    readonly savePic: (_fn: string, _data_url: string) => void;
+    readonly isDirectory: (_path: string) => boolean;
+    readonly readdirSync: (_path: string, _options?: "ascii" | "utf8" | "utf16le" | "ucs2" | "base64" | "latin1" | "binary" | "hex" | {
         encoding: "ascii" | "utf8" | "utf16le" | "ucs2" | "base64" | "latin1" | "binary" | "hex" | null;
     } | null | undefined) => string[];
-    appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
+    readonly appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
 }

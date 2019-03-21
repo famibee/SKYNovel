@@ -36,7 +36,7 @@ export class RubySpliter {
 		[⺀-⿟々〇〻㐀-鿿豈-﫿\u20000-\u2FFFF]			// ヽ--30FD が変に引っかかる。多分\u2000-\u2FFF解釈
 		\\u{20000}-\\u{2FFFF}	// 五桁だとエラー
 */
-	private static	REG_RUBY	= m_xregexp(
+	private static	readonly	REG_RUBY	= m_xregexp(
 		`(?:`+
 		`	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)`+
 		// AIRNovel時代
@@ -98,7 +98,7 @@ export class RubySpliter {
 			);
 		}
 	}
-	private	static	REG_TAB_G	= /\t/g;
+	private	static	readonly	REG_TAB_G	= /\t/g;
 
 	static	destroy() {RubySpliter.sesame = 'ヽ';}
 

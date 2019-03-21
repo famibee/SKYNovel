@@ -35,7 +35,7 @@ export declare class Layer {
     dump(): string;
     static argChk_BlendmodeAndSet(hash: any, $do: DisplayObject): void;
     static cnvBlendmode(name: string): number;
-    static hBlendmode: any;
+    static readonly hBlendmode: any;
     static setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp?: boolean, isButton?: boolean): void;
     static setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void;
     static setXYCenter(dsp: DisplayObject): void;

@@ -45,5 +45,5 @@ export declare class EventMng implements IEvtMng {
     private wait;
     cr: (len: number) => void;
     isSkipKeyDown(): boolean;
-    private hDownKeys;
+    private readonly hDownKeys;
 }

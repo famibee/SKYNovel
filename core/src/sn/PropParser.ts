@@ -303,7 +303,7 @@ export class PropParser {
 		return Number(b);
 	}
 
-	private REG_EMBEDVAR
+	private	readonly REG_EMBEDVAR
 		= /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
 	private procEmbedVar(b: object): object {
 		if (b == null) return b;	// undefined も
@@ -316,7 +316,7 @@ export class PropParser {
 	}
 
 
-	private	static	REG_VAL
+	private	static	readonly	REG_VAL
 		= m_xregexp('^((?<scope>\\w+?):)?(?<name>[^\\s :@]+)(?<at>\\@str)?$');
 	static	getValName(arg_name: string): {[name: string]: string} | undefined {
 		const a: any = m_xregexp.exec(trim(arg_name), this.REG_VAL);

@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.3.3",
+	"version": "0.3.4",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"types": "./core/lib/index.d.ts",
@@ -38,7 +38,7 @@
 		"@types/tween.js": "^17.2.0",
 		"@types/xml2js": "^0.4.3",
 		"@types/xregexp": "^3.0.29",
-		"electron": "^4.1.0",
+		"electron": "^4.1.1",
 		"espower-typescript": "^9.0.2",
 		"mocha": "^6.0.2",
 		"power-assert": "^1.6.1",

@@ -42,7 +42,7 @@ export declare class LayerMng {
     private lay;
     private rebuildLayerRankInfo;
     private clear_lay;
-    private srcRuleTransFragment;
+    private readonly srcRuleTransFragment;
     private ufRuleTrans;
     private fltRule;
     private rtTransBack;
@@ -59,7 +59,7 @@ export declare class LayerMng {
     private elcTrans;
     private finish_trans;
     private quake;
-    private hMemberCnt;
+    private readonly hMemberCnt;
     private hTwInf;
     private tsy;
     private wait_tsy;
