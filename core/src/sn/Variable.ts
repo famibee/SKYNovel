@@ -118,6 +118,8 @@ export class Variable implements IVariable {
 
 		this.hTmp['const.sn.platform.os.family'] = platform.os.family;
 
+// TODO: CmnLib.osName
+
 		this.clearsysvar();
 		this.clearvar();
 
