@@ -26,7 +26,7 @@ export class Main implements IMain {
 
 	private appPixi		: Application;
 
-	private hTag		: IHTag		= {};	// タグ処理辞書
+	private hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
 	private val			: Variable;
 	private prpPrs		: PropParser;
@@ -37,7 +37,7 @@ export class Main implements IMain {
 	private evtMng		: EventMng;
 
 	private fncNext		= ()=> {};
-	private	alzTagArg	= new AnalyzeTagArg;
+	private	readonly	alzTagArg	= new AnalyzeTagArg;
 
 
 	constructor(private sys: SysBase) {

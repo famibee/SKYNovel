@@ -11,7 +11,7 @@ import {HArg} from './CmnInterface';
 
 export class Layer {
 	name	= '';
-	cnt		= new Sprite;
+	readonly	cnt		= new Sprite;
 
 	// tsy用
 	get	alpha() {return this.cnt.alpha}

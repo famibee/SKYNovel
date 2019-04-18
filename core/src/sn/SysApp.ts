@@ -23,7 +23,7 @@ export class SysApp extends SysNode {
 
 	protected	readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
-	private	store = new Store({cwd: 'storage', name: 'data'});
+	private	readonly	store = new Store({cwd: 'storage', name: 'data'});
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// TODO: 暗号化 this.store.encryptionKey
 		if (this.store.size == 0) {

@@ -13,7 +13,7 @@ export declare class Main implements IMain {
     private layMng;
     private evtMng;
     private fncNext;
-    private alzTagArg;
+    private readonly alzTagArg;
     constructor(sys: SysBase);
     private fncTicker;
     errScript(mes: string, isThrow?: boolean): void;

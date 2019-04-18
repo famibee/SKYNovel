@@ -239,7 +239,7 @@ export class Config implements IConfig {
 	}
 
 	// 戻り値はフルパスなので注意
-	matchPath(fnptn: string, extptn = ''): IExts[] {
+	matchPath(fnptn: string, extptn = ''): ReadonlyArray<IExts> {
 		const aRet :IExts[] = [];
 		const regPtn = new RegExp(fnptn);
 		const regExt = new RegExp(extptn);

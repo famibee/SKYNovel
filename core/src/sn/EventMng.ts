@@ -20,11 +20,11 @@ import { Config } from './Config';
 import Hammer = require('hammerjs');
 
 export class EventMng implements IEvtMng {
-	private	elc		= new EventListenerCtn;
+	private	readonly	elc		= new EventListenerCtn;
 
-	private	enMDownTap	= 'pointerdown';
+	private	readonly	enMDownTap	= 'pointerdown';
 	private ham		: any;
-	private hHamEv :{[name: string]: null | {(e: any): void}}	= {
+	private	readonly hHamEv :{[name: string]: null | {(e: any): void}}	= {
 	//	tap			: null,
 		tap2		: null,
 		press		: null,	// 長押し

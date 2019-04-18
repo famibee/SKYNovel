@@ -17,5 +17,5 @@ export declare class Config implements IConfig {
     readonly existsBreakpage: boolean;
     getNs(): string;
     searchPath(fn: string, extptn?: string): string;
-    matchPath(fnptn: string, extptn?: string): IExts[];
+    matchPath(fnptn: string, extptn?: string): ReadonlyArray<IExts>;
 }

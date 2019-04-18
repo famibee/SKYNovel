@@ -15,7 +15,7 @@ const pixi_js_1 = require("pixi.js");
 class Main {
     constructor(sys) {
         this.sys = sys;
-        this.hTag = {};
+        this.hTag = Object.create(null);
         this.fncNext = () => { };
         this.alzTagArg = new AnalyzeTagArg_1.AnalyzeTagArg;
         this.fncTicker = () => {

@@ -15,10 +15,10 @@ export declare class EventMng implements IEvtMng {
     private val;
     private sndMng;
     private scrItr;
-    private elc;
-    private enMDownTap;
+    private readonly elc;
+    private readonly enMDownTap;
     private ham;
-    private hHamEv;
+    private readonly hHamEv;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator);
     resvFlameEvent(win: Window): void;
     private ev_keydown;

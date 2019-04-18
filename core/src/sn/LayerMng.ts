@@ -590,7 +590,7 @@ void main(void) {
 	private getLayers(layer = ''): string[] {
 		return (layer)? layer.split(',') : this.aLayName;
 	}
-	private foreachLayers(hArg: HArg, fnc: (name: string, $pg: Pages)=> void): string[] {
+	private foreachLayers(hArg: HArg, fnc: (name: string, $pg: Pages)=> void): ReadonlyArray<string> {
 		const vct = this.getLayers(hArg['layer']);
 		for (const name of vct) {
 			if (! name) continue;

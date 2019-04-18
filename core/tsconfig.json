@@ -23,6 +23,7 @@
 		"suppressExcessPropertyErrors": false,
 		// インデックスシグネチャが欠損したオブジェクトの noImplicitAny エラーを抑制しない
 		"suppressImplicitAnyIndexErrors": false,
+		"incremental": true,		// 差分ビルド
 	},
 	"include": [
 		"src/**/*"

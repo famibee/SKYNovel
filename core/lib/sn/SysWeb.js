@@ -10,16 +10,6 @@ class SysWeb extends SysBase_1.SysBase {
         this.hPlg = hPlg;
         this.$cur = $cur;
         this.def_prj = 'prj';
-        this.getURLQ = (loc) => {
-            const arg = {};
-            const urlq = loc.search.slice(1);
-            if (urlq)
-                for (const v of urlq.split('&')) {
-                    const elm = v.split('=');
-                    arg[elm[0]] = elm[1];
-                }
-            return arg;
-        };
         this.run = async (prj) => {
             if (this.main) {
                 const ms_late = 10;
@@ -91,7 +81,7 @@ class SysWeb extends SysBase_1.SysBase {
             for (const v of document.querySelectorAll('[data-reload]')) {
                 v.addEventListener('click', () => this.run(this.now_prj));
             }
-            this.run(this.getURLQ(location)['cur']);
+            this.run((new URLSearchParams(location.search)).get('cur') || '');
         };
         if ('webkitFullscreenEnabled' in document) {
             this.tgl_full_scr = o => this.regEvt_FullScr(o, 'webkitRequestFullscreen');

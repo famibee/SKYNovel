@@ -87,7 +87,7 @@ export class SysBase implements ISysBase {
 	readonly	savePic = (_fn: string, _data_url: string)=> {};
 
 	readonly	isDirectory = (_path: string)=> false;
-	readonly	readdirSync = (_path: string, _options?: { encoding: BufferEncoding | null } | BufferEncoding | null): string[]=> [];
+	readonly	readdirSync = (_path: string, _options?: { encoding: BufferEncoding | null } | BufferEncoding | null): ReadonlyArray<string>=> [];
 
 	readonly	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
 

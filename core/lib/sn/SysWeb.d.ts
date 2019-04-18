@@ -10,7 +10,6 @@ export declare class SysWeb extends SysBase {
         [name: string]: IPlugin;
     }, $cur?: string);
     private def_prj;
-    private getURLQ;
     private readonly run;
     private now_prj;
     private main;

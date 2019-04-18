@@ -33,7 +33,7 @@ export class SysWeb extends SysBase {
 			for (const v of document.querySelectorAll('[data-reload]')) {
 				v.addEventListener('click', ()=> this.run(this.now_prj));
 			}
-			this.run(this.getURLQ(location)['cur']);
+			this.run((new URLSearchParams(location.search)).get('cur') || '');
 		}
 
 		if ('webkitFullscreenEnabled' in document) {
@@ -51,15 +51,6 @@ export class SysWeb extends SysBase {
 		}
 	}
 	private def_prj = 'prj';
-	private getURLQ = (loc: Location): {[name: string]: string}=> {
-		const arg : {[name: string]: string} = {};
-		const urlq = loc.search.slice(1);
-		if (urlq) for (const v of urlq.split('&')) {
-			const elm = v.split('=');
-			arg[elm[0]] = elm[1];
-		}
-		return arg;
-	}
 	private	readonly run = async (prj: string)=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字

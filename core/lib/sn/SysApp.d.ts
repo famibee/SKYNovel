@@ -11,7 +11,7 @@ export declare class SysApp extends SysNode {
     protected readonly $path_desktop: string;
     protected readonly $path_userdata: string;
     protected readonly normalize: (src: string, form: string) => string;
-    private store;
+    private readonly store;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     private readonly dsp;
     flush(): void;

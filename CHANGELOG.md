@@ -1,5 +1,7 @@
 # Change Log
 
+## v0.3.5
+- readonly・ReadonlyArrayや、URLSearchParamsを使用するように
 ## v0.3.4
 - readonly修飾子を積極的に使うように
 ## v0.3.3
