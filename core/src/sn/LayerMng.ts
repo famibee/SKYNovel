@@ -1064,6 +1064,7 @@ void main(void) {
 			aPromise.push(new Promise(re=> pg.fore.playback($pg.fore, re)));
 			aPromise.push(new Promise(re=> pg.back.playback($pg.back, re)));
 		}
+		const len = this.fore.children.length;
 		Promise.all(aPromise).then(()=> {
 			aSort.sort(function(a, b) {	// ソートし若い順にsetChildIndex()
 				if (a.idx < b.idx) return -1;
@@ -1073,9 +1074,9 @@ void main(void) {
 			aSort.map(o=> {
 				const pg = this.hPages[o.layer];
 				if (! pg) return;
-
-				this.fore.setChildIndex(pg.fore.cnt, o.idx);
-				this.back.setChildIndex(pg.back.cnt, o.idx);
+				const idx = len > o.idx ?o.idx :len -1;
+				this.fore.setChildIndex(pg.fore.cnt, idx);
+				this.back.setChildIndex(pg.back.cnt, idx);
 			});
 
 			fncComp();

@@ -954,6 +954,7 @@ class TxtLayer extends Layer_1.Layer {
     playback(hLay, fncComp = undefined) {
         super.playback(hLay);
         this.enabled = hLay.enabled;
+        this.b_alpha = hLay.b_alpha;
         this.b_alpha_isfixed = hLay.b_alpha_isfixed;
         let ret = this.drawBack((hLay.b_do)
             ? (hLay.b_do == 'Sprite' ? { b_pic: hLay.b_pic } : { b_color: hLay.b_color })

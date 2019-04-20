@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.3.6
+- ロード時setChildIndex()で跳び番号indexでエラーになる場合の対応
+- ロード時文字レイヤ、背景が表示されない件修正
 ## v0.3.5
 - readonly・ReadonlyArrayや、URLSearchParamsを使用するように
 ## v0.3.4

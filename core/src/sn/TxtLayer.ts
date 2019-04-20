@@ -1234,6 +1234,7 @@ export class TxtLayer extends Layer {
 		this.enabled	= hLay.enabled;
 
 		// バック
+		this.b_alpha			= hLay.b_alpha;
 		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
 		let ret = this.drawBack(
 			(hLay.b_do)
