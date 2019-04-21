@@ -202,7 +202,7 @@ void main(void) {
         return tl.click();
     }
     snapshot(hArg) {
-        const fn = hArg.fn || 'desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg';
+        const fn = 'desktop:/' + (hArg.fn || ('snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg'));
         const ext = CmnLib_1.CmnLib.getExt(fn);
         const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
         const renderer = pixi_js_1.autoDetectRenderer(CmnLib_1.CmnLib.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW), CmnLib_1.CmnLib.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH), {

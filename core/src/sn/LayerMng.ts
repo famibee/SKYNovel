@@ -216,8 +216,7 @@ export class LayerMng {
 //	//	システム
 	// スナップショット
 	private snapshot(hArg: HArg) {
-		// TODO: pathdlg 保存場所をGUIで選べるダイアログを表示するか
-		const fn = hArg.fn || 'desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg';
+		const fn = 'desktop:/'+ (hArg.fn || ('snapshot'+ getDateStr('-', '_', '', '_') +'.jpg'));
 		const ext = CmnLib.getExt(fn);
 		const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
 		const renderer = autoDetectRenderer(
