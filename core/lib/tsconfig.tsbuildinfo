@@ -126,8 +126,8 @@
         "signature": "873c09f1c309389742d98b7b67419a8e0a5fa6f10ce59fd5149ecd31a2818594"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/pixi.js/index.d.ts": {
-        "version": "6036b8dbd070ad923ecf5e4cff357100cf959a572136feb2056e3f69cd1f1177",
-        "signature": "6036b8dbd070ad923ecf5e4cff357100cf959a572136feb2056e3f69cd1f1177"
+        "version": "4e85172344d1b70e0d9d5e4d37fbce25c79ef4f018a6d3e9fcd3a8e07a60b5c3",
+        "signature": "4e85172344d1b70e0d9d5e4d37fbce25c79ef4f018a6d3e9fcd3a8e07a60b5c3"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/eventlistenerctn.ts": {
         "version": "1cbbc6d408cf44fc53db3ad3d125f2d6e60726ae689b76e58d07e57bf91c6ac4",
@@ -290,8 +290,8 @@
         "signature": "10c5b29dccf29ea7f9aea324ab09b0e2237d6506bd8e28538963b28855819616"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/node/http.d.ts": {
-        "version": "e8d6f288602f2b48bf558264b38c75fb164ae0fa8c62d2fcac91f30b4e1b349a",
-        "signature": "e8d6f288602f2b48bf558264b38c75fb164ae0fa8c62d2fcac91f30b4e1b349a"
+        "version": "cc4cd9d8af7f5689b5df3c91d0fc287fafbd89e6e305183da28a6877a8aa08a8",
+        "signature": "cc4cd9d8af7f5689b5df3c91d0fc287fafbd89e6e305183da28a6877a8aa08a8"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/node/http2.d.ts": {
         "version": "28fdca6c7a3d5dd62c738461051ef345b50d167efab39dceb2fcc9a079db1b07",
@@ -1909,7 +1909,27 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/propparser.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/cmntween.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/pages.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/grplayer.ts",
+      [
+        "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/grplayer.ts",
+        [
+          {
+            "file": "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/grplayer.ts",
+            "start": 4353,
+            "length": 4,
+            "code": 2339,
+            "category": 1,
+            "messageText": "Property 'TYPE' does not exist on type 'typeof Resource'."
+          },
+          {
+            "file": "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/grplayer.ts",
+            "start": 4971,
+            "length": 4,
+            "code": 2339,
+            "category": 1,
+            "messageText": "Property 'TYPE' does not exist on type 'typeof Resource'."
+          }
+        ]
+      ],
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/rubyspliter.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/button.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/pixi-filters/types.d.ts",
@@ -1990,5 +2010,5 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/index.d.ts"
     ]
   },
-  "version": "3.4.3"
+  "version": "3.4.4"
 }
