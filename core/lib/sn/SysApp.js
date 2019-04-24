@@ -45,10 +45,12 @@ class SysApp extends SysNode_1.SysNode {
             }
             this.val.setVal_Nochk('tmp', 'const.sn.displayState', this.win.isFullScreen());
             if (this.win.isFullScreen()) {
-                this.win.setFullScreen(true);
+                this.win.setFullScreen(false);
                 this.win.setSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
                 this.appPixi.view.style.width = CmnLib_1.CmnLib.stageW + 'px';
                 this.appPixi.view.style.height = CmnLib_1.CmnLib.stageH + 'px';
+                this.appPixi.view.style.marginLeft = '0px';
+                this.appPixi.view.style.marginTop = '0px';
                 if (CmnLib_1.CmnLib.osName == 'WIN') {
                 }
             }
@@ -56,13 +58,19 @@ class SysApp extends SysNode_1.SysNode {
                 const size = electron_1.screen.getPrimaryDisplay().size;
                 const ratioWidth = size.width / CmnLib_1.CmnLib.stageW;
                 const ratioHeight = size.height / CmnLib_1.CmnLib.stageH;
-                const ratio = (ratioWidth < ratioHeight)
-                    ? ratioWidth
-                    : ratioHeight;
+                const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
                 this.win.setSize(CmnLib_1.CmnLib.stageW * ratio, CmnLib_1.CmnLib.stageH * ratio);
                 this.appPixi.view.style.width = (CmnLib_1.CmnLib.stageW * ratio) + 'px';
                 this.appPixi.view.style.height = (CmnLib_1.CmnLib.stageH * ratio) + 'px';
-                this.win.setFullScreen(false);
+                if (ratioWidth < ratioHeight) {
+                    this.appPixi.view.style.marginTop
+                        = (size.height - CmnLib_1.CmnLib.stageH * ratio) / 2 + 'px';
+                }
+                else {
+                    this.appPixi.view.style.marginLeft
+                        = (size.width - CmnLib_1.CmnLib.stageW * ratio) / 2 + 'px';
+                }
+                this.win.setFullScreen(true);
             }
             return false;
         };
