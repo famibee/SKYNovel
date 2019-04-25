@@ -187,7 +187,8 @@ export class EventMng implements IEvtMng {
 
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
-	private defEvt2Fnc(e: Event, key: string) {
+	private defEvt2Fnc(e: Event, KEY: string) {
+		const key = KEY.toLowerCase();
 		//if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type})`);
 		const ke = this.hLocalEvt2Fnc[key]
 				|| this.hGlobalEvt2Fnc[key];
@@ -205,7 +206,7 @@ export class EventMng implements IEvtMng {
 		this.hLocalEvt2Fnc = {};
 		return ret;
 	}
-	pushLocalEvts(a: IHEvt2Fnc) {this.hLocalEvt2Fnc = a;}
+	pushLocalEvts(h: IHEvt2Fnc) {this.hLocalEvt2Fnc = h;}
 
 	// stdWait()したらreturn true;
 	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, canskip = true) {
@@ -215,21 +216,21 @@ export class EventMng implements IEvtMng {
 			//hTag.event({key:'middleclick', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
 			const fncKey = ()=> fnc();
-			this.hLocalEvt2Fnc['Click'] = fncKey;
+			this.hLocalEvt2Fnc['click'] = fncKey;
 			//this.hTag.event({key:'enter', breakout: fnc});
 			//hTag.event({key:'down', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			this.hLocalEvt2Fnc['Enter'] = fncKey;
-			this.hLocalEvt2Fnc['ArrowDown'] = fncKey;
+			this.hLocalEvt2Fnc['enter'] = fncKey;
+			this.hLocalEvt2Fnc['arrowdown'] = fncKey;
 
 			// hTag.event({key:'downwheel', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
 			this.hLocalEvt2Fnc['wheel.y>0'] = fncKey;
 		}
 		else {
-			delete this.hLocalEvt2Fnc['Click'];
-			delete this.hLocalEvt2Fnc['Enter'];
-			delete this.hLocalEvt2Fnc['ArrowDown'];
+			delete this.hLocalEvt2Fnc['click'];
+			delete this.hLocalEvt2Fnc['enter'];
+			delete this.hLocalEvt2Fnc['arrowdown'];
 			delete this.hLocalEvt2Fnc['wheel.y>0'];
 		}
 
@@ -243,7 +244,7 @@ export class EventMng implements IEvtMng {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
 
 		em.interactive = em.buttonMode = true;
-		const key = hArg.key!;	// 非nullはaddButton()とgoTxt3_tx2sp()で保証
+		const key = (hArg.key || '').toLowerCase();
 		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
 		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
 		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
@@ -281,7 +282,7 @@ export class EventMng implements IEvtMng {
 		}
 		if (hArg.onenter) {
 			//	onenter	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
-			const key2 = key + hArg.onenter;
+			const key2 = key + hArg.onenter.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
@@ -289,7 +290,7 @@ export class EventMng implements IEvtMng {
 		}
 		if (hArg.onleave) {
 			//	onleave	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
-			const key2 = key + hArg.onleave;
+			const key2 = key + hArg.onleave.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
@@ -316,8 +317,8 @@ export class EventMng implements IEvtMng {
 			//if (! e.isTrusted) return;
 			if (e['isComposing']) return; // サポートしてない環境でもいける書き方
 			/*	限定する？
-				this.hLocalEvt2Fnc['Enter'] = fncKey;
-				this.hLocalEvt2Fnc['ArrowDown'] = fncKey;
+				this.hLocalEvt2Fnc['enter'] = fncKey;
+				this.hLocalEvt2Fnc['arrowdown'] = fncKey;
 			*/
 			e.stopPropagation();
 			fnc();

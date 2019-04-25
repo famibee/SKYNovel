@@ -8,7 +8,7 @@
 import { SysNode } from "./SysNode";
 import {CmnLib} from './CmnLib';
 import {HArg, IHTag, IVariable, IData4Vari, IPlugin, IConfig, IMain} from './CmnInterface';
-import {remote, BrowserWindow, webContents, screen} from 'electron';
+import {remote, BrowserWindow, webContents} from 'electron';
 import {Main} from './Main';
 const Store = require('electron-store');
 const shell = require('electron').shell;
@@ -92,7 +92,7 @@ export class SysApp extends SysNode {
 			this.window({x: p[0], y: p[1]});
 		});
 	}
-	private	readonly	dsp	= screen.getPrimaryDisplay();
+	private	readonly	dsp	= remote.screen.getPrimaryDisplay();
 	flush() {this.store.store = this.data;}
 
 	private	readonly win		: BrowserWindow	= remote.getCurrentWindow();
@@ -125,23 +125,11 @@ export class SysApp extends SysNode {
 	}
 	// 全画面状態切替
 	protected tgl_full_scr = (hArg: HArg)=> {
-		const key = hArg.key;
-		if (key) {
-			window.addEventListener('keydown', (e: KeyboardEvent)=> {
-				if (e.key != key) return;
+		if (hArg.key) return false;
+			// アプリ版は[toggle_full_screen key=w]でなにもしないように。
 
-				e.stopPropagation();
-				this.tgl_full_scr({});
-			});
-			return false;
-		}
-
-		/*if (stage.displayState == StageDisplayState.NORMAL) {
-			win_x = stage.nativeWindow.x;
-			win_y = stage.nativeWindow.y;
-		//myTrace('x:'+ win_x +' y:'+ win_y);
-		}*/
 		this.val.setVal_Nochk('tmp', 'const.sn.displayState', this.win.isFullScreen());	// const.flash.display.Stage.displayState
+		// ブラウザ版と違って「:full-screen」などが効かないようなのでプログラマブルに解決
 		if (this.win.isFullScreen()) {
 			this.win.setFullScreen(false);	// これはこの位置
 			this.win.setSize(CmnLib.stageW, CmnLib.stageH);
@@ -154,7 +142,7 @@ export class SysApp extends SysNode {
 			}
 		}
 		else {
-			const size = screen.getPrimaryDisplay().size;
+			const size = remote.screen.getPrimaryDisplay().size;
 			const ratioWidth = size.width / CmnLib.stageW;
 			const ratioHeight = size.height / CmnLib.stageH;
 			const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;

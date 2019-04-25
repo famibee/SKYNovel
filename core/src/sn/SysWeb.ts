@@ -36,19 +36,30 @@ export class SysWeb extends SysBase {
 			this.run((new URLSearchParams(location.search)).get('cur') || '');
 		}
 
-		if ('webkitFullscreenEnabled' in document) {
-			//Chrome15+, Safari5.1+, Opera15+
-			this.tgl_full_scr = o=> this.regEvt_FullScr(o,'webkitRequestFullscreen');
-		}
-		else if ('mozFullScreenEnabled' in document) {	//FF10+
-			this.tgl_full_scr = o=> this.regEvt_FullScr(o, 'mozRequestFullScreen');
-		}
-		else if ('msFullscreenEnabled' in document) {	//IE11+
-			this.tgl_full_scr = o=> this.regEvt_FullScr(o, 'msRequestFullscreen');
-		}
-		else if (document['fullscreenEnabled']) {	// HTML5 Fullscreen API仕様
-			this.tgl_full_scr = o=> this.regEvt_FullScr(o, 'requestFullscreen');
-		}
+		if ('webkitFullscreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(
+			o,	//Chrome15+, Safari5.1+, Opera15+
+			'webkitRequestFullscreen',
+			'webkitCancelFullScreen',
+			'webkitFullscreenElement'
+		);
+		else if ('mozFullScreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(
+			o,	//FF10+
+			'mozRequestFullScreen',
+			'mozCancelFullScreen',
+			'mozFullScreenElement'
+		);
+		else if ('msFullscreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(
+			o,	//IE11+
+			'msRequestFullscreen',
+			'msExitFullscreen',
+			'msFullscreenElement'
+		);
+		else if (document['fullscreenEnabled']) this.tgl_full_scr = o=> this.regEvt_FullScr(
+			o,	// HTML5 Fullscreen API仕様
+			'requestFullscreen',
+			'exitFullscreen',
+			'fullscreenElement'
+		);
 	}
 	private def_prj = 'prj';
 	private	readonly run = async (prj: string)=> {
@@ -139,22 +150,25 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 	// 全画面状態切替（タグではない手段で提供）
-	private regEvt_FullScr(hArg: HArg, to_fnc_name: string): boolean {
-		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
-		const elm: any = cvs ?cvs :document.body;
-		const key = hArg.key;
-		if (key) {
-			elm.addEventListener('keydown', (e: KeyboardEvent)=> {
-				if (e.key != key) return;	// ちなみに全画面ではESCしか効かないみたい？
-
-				e.stopPropagation();
-				elm[to_fnc_name]();
-				// 特定の要素を全画面(フルスクリーン)にするFullscreen API https://w3g.jp/blog/html5_fullscreen_api
-			});
-			return false;
-		}
-
+	private regEvt_FullScr(hArg: HArg, go_fnc_name: string, exit_fnc_name: string, get_fnc_name: string): boolean {
 		// ユーザーのキーイベントでの全画面しか許さないので、処理なし
+		if (! hArg.key) return false;
+
+		const elm: any = document.body;
+		const doc: any = document;
+		const key = hArg.key.toLowerCase();
+		elm.addEventListener('keydown', (e: KeyboardEvent)=> {
+			const key2 = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
+			+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
+			+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
+			+	e.key.toLowerCase();
+			if (key2 != key) return;
+
+			e.stopPropagation();
+			if (doc[get_fnc_name] != null) doc[exit_fnc_name]();
+			else elm[go_fnc_name]();
+			// 特定の要素を全画面(フルスクリーン)にするFullscreen API https://w3g.jp/blog/html5_fullscreen_api
+		});
 		return false;
 	}
 

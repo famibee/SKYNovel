@@ -14,7 +14,7 @@ class SysApp extends SysNode_1.SysNode {
         this.$path_userdata = electron_1.remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
         this.store = new Store({ cwd: 'storage', name: 'data' });
-        this.dsp = electron_1.screen.getPrimaryDisplay();
+        this.dsp = electron_1.remote.screen.getPrimaryDisplay();
         this.win = electron_1.remote.getCurrentWindow();
         this.wc = this.win.webContents;
         this.close = () => { this.win.close(); return false; };
@@ -33,16 +33,8 @@ class SysApp extends SysNode_1.SysNode {
             return false;
         };
         this.tgl_full_scr = (hArg) => {
-            const key = hArg.key;
-            if (key) {
-                window.addEventListener('keydown', (e) => {
-                    if (e.key != key)
-                        return;
-                    e.stopPropagation();
-                    this.tgl_full_scr({});
-                });
+            if (hArg.key)
                 return false;
-            }
             this.val.setVal_Nochk('tmp', 'const.sn.displayState', this.win.isFullScreen());
             if (this.win.isFullScreen()) {
                 this.win.setFullScreen(false);
@@ -55,7 +47,7 @@ class SysApp extends SysNode_1.SysNode {
                 }
             }
             else {
-                const size = electron_1.screen.getPrimaryDisplay().size;
+                const size = electron_1.remote.screen.getPrimaryDisplay().size;
                 const ratioWidth = size.width / CmnLib_1.CmnLib.stageW;
                 const ratioHeight = size.height / CmnLib_1.CmnLib.stageH;
                 const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;

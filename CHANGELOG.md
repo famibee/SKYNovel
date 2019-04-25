@@ -1,5 +1,11 @@
 # Change Log
 
+## v0.3.9
+- アプリ版[toggle_full_screen key=w]で処理しないように。ブラウザ用
+- [event ... key=alt+enter]で大文字小文字関係なく指定できるように
+- ブラウザ版[toggle_full_screen key=w]で全画面から戻れるように
+- [toggle_full_screen key=...]でも修飾キーを使えるように
+- ブラウザ版全画面で内容が左に寄る件、CSSで対応
 ## v0.3.8
 - アプリ版で全画面にならず画面左一杯サイズになり、内容が左に寄る不具合
 ## v0.3.7

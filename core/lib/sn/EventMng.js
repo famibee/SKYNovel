@@ -148,7 +148,8 @@ class EventMng {
         }
         this.ham.destroy();
     }
-    defEvt2Fnc(e, key) {
+    defEvt2Fnc(e, KEY) {
+        const key = KEY.toLowerCase();
         const ke = this.hLocalEvt2Fnc[key]
             || this.hGlobalEvt2Fnc[key];
         if (!ke)
@@ -165,20 +166,20 @@ class EventMng {
         this.hLocalEvt2Fnc = {};
         return ret;
     }
-    pushLocalEvts(a) { this.hLocalEvt2Fnc = a; }
+    pushLocalEvts(h) { this.hLocalEvt2Fnc = h; }
     stdWait(fnc, canskip = true) {
         this.goTxt();
         if (canskip) {
             const fncKey = () => fnc();
-            this.hLocalEvt2Fnc['Click'] = fncKey;
-            this.hLocalEvt2Fnc['Enter'] = fncKey;
-            this.hLocalEvt2Fnc['ArrowDown'] = fncKey;
+            this.hLocalEvt2Fnc['click'] = fncKey;
+            this.hLocalEvt2Fnc['enter'] = fncKey;
+            this.hLocalEvt2Fnc['arrowdown'] = fncKey;
             this.hLocalEvt2Fnc['wheel.y>0'] = fncKey;
         }
         else {
-            delete this.hLocalEvt2Fnc['Click'];
-            delete this.hLocalEvt2Fnc['Enter'];
-            delete this.hLocalEvt2Fnc['ArrowDown'];
+            delete this.hLocalEvt2Fnc['click'];
+            delete this.hLocalEvt2Fnc['enter'];
+            delete this.hLocalEvt2Fnc['arrowdown'];
             delete this.hLocalEvt2Fnc['wheel.y>0'];
         }
         this.val.saveKidoku();
@@ -188,7 +189,7 @@ class EventMng {
         if (!hArg.fn && !hArg.label)
             this.main.errScript('fnまたはlabelは必須です');
         em.interactive = em.buttonMode = true;
-        const key = hArg.key;
+        const key = (hArg.key || '').toLowerCase();
         if (!hArg.fn)
             hArg.fn = this.scrItr.scriptFn;
         const glb = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false);
@@ -225,7 +226,7 @@ class EventMng {
             });
         }
         if (hArg.onenter) {
-            const key2 = key + hArg.onenter;
+            const key2 = key + hArg.onenter.toLowerCase();
             const o = { fn: hArg.fn, label: hArg.onenter, call: true, key: key2 };
             if (glb)
                 this.hGlobalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);
@@ -234,7 +235,7 @@ class EventMng {
             em.on('pointerover', (e) => this.defEvt2Fnc(e, key2));
         }
         if (hArg.onleave) {
-            const key2 = key + hArg.onleave;
+            const key2 = key + hArg.onleave.toLowerCase();
             const o = { fn: hArg.fn, label: hArg.onleave, call: true, key: key2 };
             if (glb)
                 this.hGlobalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);

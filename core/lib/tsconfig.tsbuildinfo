@@ -218,8 +218,8 @@
         "signature": "e5c5e805c2e2696d62922f3e2c4742be28a0c729e88327e3222f89826d58b38c"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/eventmng.ts": {
-        "version": "848b225868c8575e37ef9eb62b21693ba94a71606cec38a359b55b19f7006241",
-        "signature": "ef06f15d14bd79b7b853d008446e866261efec2194032bacd7eb29d0889cb3d8"
+        "version": "a77bb36e45e14c42706effd97a056e355f3cf6b3100e276f8d77f9208e1398ef",
+        "signature": "d4cacecfb64f2ed384690f56c0e126cf66dba3ad8eaf5845cc1a7a93949851ce"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/scriptiterator.ts": {
         "version": "83a4c169573ab16a41efbbc8694893040d863a61e1879208b39e640c8bad9200",
@@ -434,7 +434,7 @@
         "signature": "f92335fbbad9a868b7c9e523c38f89a994c7020a2c1a41e77af19672e0206b67"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysapp.ts": {
-        "version": "7340d69083ea1ab7d7ba1d010ad3402c2593d7430b3cf702c7ebb57810f08441",
+        "version": "fcff29e996d55a08474697e4fd3d586c504825dd4ea1a510d70f5b0d5a4a20ae",
         "signature": "5fae2d2aef3a9c637b7df178bb7cf36fb5ed879e34233043e9e9814acf24a203"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/app.ts": {
@@ -442,7 +442,7 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysweb.ts": {
-        "version": "4a1fda489feed6a775ce0339538704ffdbfd37db2e1a517aca5792b609671f57",
+        "version": "9c50111db544b2633403d76526fe2e8177e3dbae5b2677b9b37fe600bc7405aa",
         "signature": "7baab05adc285b0263b8201c43221a3cffd83b69f69869d84924c4591130e4a5"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/web.ts": {
@@ -1975,7 +1975,6 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/main.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysapp.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/app.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysweb.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/web.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysmob.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/electron-json-storage/index.d.ts",
@@ -1987,7 +1986,8 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/store/index.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/tween.js/index.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/lib/processors.d.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/index.d.ts"
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/index.d.ts",
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysweb.ts"
     ]
   },
   "version": "3.4.4"

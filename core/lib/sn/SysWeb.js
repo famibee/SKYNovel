@@ -83,18 +83,14 @@ class SysWeb extends SysBase_1.SysBase {
             }
             this.run((new URLSearchParams(location.search)).get('cur') || '');
         };
-        if ('webkitFullscreenEnabled' in document) {
-            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'webkitRequestFullscreen');
-        }
-        else if ('mozFullScreenEnabled' in document) {
-            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'mozRequestFullScreen');
-        }
-        else if ('msFullscreenEnabled' in document) {
-            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'msRequestFullscreen');
-        }
-        else if (document['fullscreenEnabled']) {
-            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'requestFullscreen');
-        }
+        if ('webkitFullscreenEnabled' in document)
+            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'webkitRequestFullscreen', 'webkitCancelFullScreen', 'webkitFullscreenElement');
+        else if ('mozFullScreenEnabled' in document)
+            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'mozRequestFullScreen', 'mozCancelFullScreen', 'mozFullScreenElement');
+        else if ('msFullscreenEnabled' in document)
+            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'msRequestFullscreen', 'msExitFullscreen', 'msFullscreenElement');
+        else if (document['fullscreenEnabled'])
+            this.tgl_full_scr = o => this.regEvt_FullScr(o, 'requestFullscreen', 'exitFullscreen', 'fullscreenElement');
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
         (async () => {
@@ -136,19 +132,25 @@ class SysWeb extends SysBase_1.SysBase {
         strLocal.set(this.ns + 'mark', this.data.mark);
         strLocal.set(this.ns + 'kidoku', this.data.kidoku);
     }
-    regEvt_FullScr(hArg, to_fnc_name) {
-        const cvs = document.getElementById('skynovel');
-        const elm = cvs ? cvs : document.body;
-        const key = hArg.key;
-        if (key) {
-            elm.addEventListener('keydown', (e) => {
-                if (e.key != key)
-                    return;
-                e.stopPropagation();
-                elm[to_fnc_name]();
-            });
+    regEvt_FullScr(hArg, go_fnc_name, exit_fnc_name, get_fnc_name) {
+        if (!hArg.key)
             return false;
-        }
+        const elm = document.body;
+        const doc = document;
+        const key = hArg.key.toLowerCase();
+        elm.addEventListener('keydown', (e) => {
+            const key2 = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
+                + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
+                + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
+                + e.key.toLowerCase();
+            if (key2 != key)
+                return;
+            e.stopPropagation();
+            if (doc[get_fnc_name] != null)
+                doc[exit_fnc_name]();
+            else
+                elm[go_fnc_name]();
+        });
         return false;
     }
 }
