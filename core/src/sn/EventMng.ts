@@ -35,7 +35,7 @@ export class EventMng implements IEvtMng {
 		swipedown	: null,
 	};
 
-	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private val: IVariable, private sndMng: SoundMng, private scrItr: ScriptIterator) {
+	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private main: IMain, private layMng: LayerMng, private val: IVariable, sndMng: SoundMng, private scrItr: ScriptIterator) {
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(main, this);
@@ -298,10 +298,13 @@ export class EventMng implements IEvtMng {
 		}
 
 		// レスポンス向上のため音声ファイルを先読み。結果再生時にjoin不要
+		// （2019/04/28）音声再生しなくなるので使用凍結
+		/*
 		this.sndMng.loadAheadSnd([
 			hArg.clickse || '',
 			hArg.enterse || '',
 			hArg.leavese || '']);
+		*/
 	}
 
 
@@ -355,8 +358,9 @@ export class EventMng implements IEvtMng {
 	// イベントを予約
 	//	Key Values - Web APIs | MDN https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 	private event(hArg: HArg) {
-		const key = hArg.key;
-		if (! key) throw 'keyは必須です';
+		const KEY = hArg.key;
+		if (! KEY) throw 'keyは必須です';
+		const key = KEY.toLowerCase();
 
 		const call = CmnLib.argChk_Boolean(hArg, 'call', false);
 		const h = CmnLib.argChk_Boolean(hArg, 'global', false)
@@ -365,7 +369,7 @@ export class EventMng implements IEvtMng {
 		if (CmnLib.argChk_Boolean(hArg, 'del', false)) {
 			if (hArg.fn || hArg.label || call) throw 'fn/label/callとdelは同時指定できません';
 
-			this.clear_eventer(key, h[key]);
+			this.clear_eventer(KEY, h[key]);
 
 			// その他・キーボードイベント
 			delete h[key];
@@ -374,20 +378,20 @@ export class EventMng implements IEvtMng {
 		hArg.fn = hArg.fn || this.scrItr.scriptFn;
 
 		// domイベント
-		if (key.slice(0, 4) == 'dom=') {
+		if (KEY.slice(0, 4) == 'dom=') {
 			let elmlist: NodeListOf<HTMLElement>;
-			const idx = key.indexOf(':');
+			const idx = KEY.indexOf(':');
 			if (idx >= 0) {		// key='dom=config:#ctrl2val
-				const name = key.slice(4, idx);
+				const name = KEY.slice(4, idx);
 				const frmnm = `const.sn.frm.${name}`;
 				if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `HTML【${name}】が読み込まれていません`;
 
 				const ifrm = document.getElementById(name) as HTMLIFrameElement;
 				const win = ifrm.contentWindow!;
-				elmlist = win.document.querySelectorAll(key.slice(idx +1));
+				elmlist = win.document.querySelectorAll(KEY.slice(idx +1));
 			}
 			else {
-				elmlist = document.querySelectorAll(key.slice(4));
+				elmlist = document.querySelectorAll(KEY.slice(4));
 			}
 			const need_err = CmnLib.argChk_Boolean(hArg, 'need_err', true);
 			if (elmlist.length == 0 && need_err) throw 'セレクタに対応する要素が見つかりません';
@@ -404,13 +408,13 @@ export class EventMng implements IEvtMng {
 						for (const key in e2) {
 							if (e2.hasOwnProperty(key)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
 						}
-						this.defEvt2Fnc(e, key);
+						this.defEvt2Fnc(e, KEY);
 					});
 				});
 			// 押したまま部品外へ出たときも確定イベント発生
 			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
 				if (e.which == 0) return;
-				this.defEvt2Fnc(e, key);
+				this.defEvt2Fnc(e, KEY);
 			});
 
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする

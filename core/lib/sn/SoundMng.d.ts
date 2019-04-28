@@ -27,7 +27,6 @@ export declare class SoundMng {
     private wl;
     private ws;
     private xchgbuf;
-    loadAheadSnd(_aFn: string[]): void;
     playLoopFromSaveObj(): void;
     private addLoopPlay;
     private delLoopPlay;

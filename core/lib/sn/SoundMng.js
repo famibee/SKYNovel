@@ -146,7 +146,6 @@ class SoundMng {
             loop: loop,
             volume: vol,
         };
-        this.initVol();
         if (!loop)
             o.onend = () => {
                 const oSb = this.hSndBuf[buf];
@@ -174,6 +173,7 @@ class SoundMng {
                 }
             },
         };
+        this.initVol();
         return join;
     }
     stop_allse() {
@@ -233,12 +233,6 @@ class SoundMng {
         const buf2 = hArg.buf2 || 'SE';
         [this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
         return false;
-    }
-    loadAheadSnd(_aFn) {
-        _aFn.filter(v => (v)).map(fn => new howler_1.Howl({
-            src: this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND),
-            autoplay: false,
-        }));
     }
     playLoopFromSaveObj() {
         const loopPlaying = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));

@@ -184,7 +184,6 @@ export class SoundMng {
 			volume: vol,
 			//sprite: {key: [offset, duration, (loop)]},
 		};
-		this.initVol();
 		if (! loop) o.onend = ()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 			const oSb = this.hSndBuf[buf];
@@ -214,6 +213,7 @@ export class SoundMng {
 				}
 			},
 		};
+		this.initVol();
 
 		return join;
 	}
@@ -301,13 +301,16 @@ export class SoundMng {
 		return false;
 	}
 
-
+	// レスポンス向上のため音声ファイルを先読み
+	// （2019/04/28）音声再生しなくなるので使用凍結
+	/*
 	loadAheadSnd(_aFn: string[]): void {
 		_aFn.filter(v=> (v)).map(fn=> new Howl({
 			src: this.cfg.searchPath(fn, Config.EXT_SOUND),
 			autoplay: false,
 		}));
 	}
+	*/
 
 	// しおりの読込（BGM状態復元）
 	playLoopFromSaveObj(): void {

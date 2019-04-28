@@ -14,7 +14,6 @@ class EventMng {
         this.main = main;
         this.layMng = layMng;
         this.val = val;
-        this.sndMng = sndMng;
         this.scrItr = scrItr;
         this.elc = new EventListenerCtn_1.EventListenerCtn;
         this.enMDownTap = 'pointerdown';
@@ -243,11 +242,6 @@ class EventMng {
                 this.hLocalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);
             em.on('pointerout', (e) => this.defEvt2Fnc(e, key2));
         }
-        this.sndMng.loadAheadSnd([
-            hArg.clickse || '',
-            hArg.enterse || '',
-            hArg.leavese || ''
-        ]);
     }
     waitCustomEvent(hArg, elc, fnc) {
         this.goTxt();
@@ -292,9 +286,10 @@ class EventMng {
         }
     }
     event(hArg) {
-        const key = hArg.key;
-        if (!key)
+        const KEY = hArg.key;
+        if (!KEY)
             throw 'keyは必須です';
+        const key = KEY.toLowerCase();
         const call = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'call', false);
         const h = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false)
             ? this.hGlobalEvt2Fnc
@@ -302,25 +297,25 @@ class EventMng {
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'del', false)) {
             if (hArg.fn || hArg.label || call)
                 throw 'fn/label/callとdelは同時指定できません';
-            this.clear_eventer(key, h[key]);
+            this.clear_eventer(KEY, h[key]);
             delete h[key];
             return false;
         }
         hArg.fn = hArg.fn || this.scrItr.scriptFn;
-        if (key.slice(0, 4) == 'dom=') {
+        if (KEY.slice(0, 4) == 'dom=') {
             let elmlist;
-            const idx = key.indexOf(':');
+            const idx = KEY.indexOf(':');
             if (idx >= 0) {
-                const name = key.slice(4, idx);
+                const name = KEY.slice(4, idx);
                 const frmnm = `const.sn.frm.${name}`;
                 if (!this.val.getVal(`tmp:${frmnm}`, 0))
                     throw `HTML【${name}】が読み込まれていません`;
                 const ifrm = document.getElementById(name);
                 const win = ifrm.contentWindow;
-                elmlist = win.document.querySelectorAll(key.slice(idx + 1));
+                elmlist = win.document.querySelectorAll(KEY.slice(idx + 1));
             }
             else {
-                elmlist = document.querySelectorAll(key.slice(4));
+                elmlist = document.querySelectorAll(KEY.slice(4));
             }
             const need_err = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'need_err', true);
             if (elmlist.length == 0 && need_err)
@@ -339,14 +334,14 @@ class EventMng {
                             if (e2.hasOwnProperty(key))
                                 this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
                         }
-                        this.defEvt2Fnc(e, key);
+                        this.defEvt2Fnc(e, KEY);
                     });
             });
             for (const elm of elmlist)
                 this.elc.add(elm, 'mouseleave', e => {
                     if (e.which == 0)
                         return;
-                    this.defEvt2Fnc(e, key);
+                    this.defEvt2Fnc(e, KEY);
                 });
         }
         h[key] = () => this.main.resumeByJumpOrCall(hArg);
