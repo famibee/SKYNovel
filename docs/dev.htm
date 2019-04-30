@@ -259,6 +259,8 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.height</td><td>1</td><td>Integer</td><td>レイヤの縦幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.visible</td><td>true</td><td>Boolean</td><td>レイヤが表示されているか。visible属性の値を返す</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.width</td><td>1</td><td>Integer</td><td>レイヤの横幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">レイヤの座標。leftやtopでないことに注意</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.y</td><td>0</td></tr>
 <tr><td>const.sn.needClick2Play</td><td>環境による</td><td>Boolean</td><td>ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる</td></tr>
 <tr><td>const.sn.platform.os.family</td><td>"Windows", "OS X", "Ubuntu", "Android", "iOS"など</td><td>String</td><td>プラットフォーム名。詳細は<a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank">Platform.js の【platform.os.family】の項</a>を参照</td></tr>
 <tr><td>const.sn.sLog</td><td>"[{"txt":""}]"</td><td>左記json</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
