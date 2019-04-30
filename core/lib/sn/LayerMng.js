@@ -185,8 +185,8 @@ void main(void) {
             if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
                 continue;
             const pTxt = pg.fore;
-            pTxt.reloadLayBack(g_alpha);
-            pg.back.reloadLayBack(g_alpha);
+            pTxt.chgBackAlpha(g_alpha);
+            pg.back.chgBackAlpha(g_alpha);
         }
     }
     clearBreak() {
@@ -791,7 +791,14 @@ void main(void) {
         console.group('🥟 [dump_lay]');
         for (const name of this.getLayers(hArg.layer)) {
             const pg = this.hPages[name];
-            console.info(`%c${pg.fore.name.slice(0, -7)} %o`, 'color:#0055AA;', JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
+            try {
+                console.info(`%c${pg.fore.name.slice(0, -7)} %o`, 'color:#0055AA;', JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
+            }
+            catch (error) {
+                console.error(`dump_lay err:%o`, error);
+                console.error(`   back:${pg.back.dump()}`);
+                console.error(`   fore:${pg.fore.dump()}`);
+            }
         }
         console.groupEnd();
         return false;

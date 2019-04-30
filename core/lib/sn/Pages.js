@@ -26,6 +26,10 @@ class Pages {
         val.defTmp(valnm + '.back.visible', () => this.pg.back.cnt.visible);
         val.defTmp(valnm + '.fore.width', () => this.pg.fore.width);
         val.defTmp(valnm + '.back.width', () => this.pg.back.width);
+        val.defTmp(valnm + '.fore.x', () => this.pg.fore.x);
+        val.defTmp(valnm + '.back.x', () => this.pg.back.x);
+        val.defTmp(valnm + '.fore.y', () => this.pg.fore.y);
+        val.defTmp(valnm + '.back.y', () => this.pg.back.y);
     }
     destroy() {
         this.pg.fore.destroy();

@@ -44,8 +44,7 @@ export declare class TxtLayer extends Layer {
     private xz4htm2rect;
     private hWarning;
     private drawBack;
-    private drawBackSub_b_color;
-    reloadLayBack(g_alpha: number): void;
+    chgBackAlpha(g_alpha: number): void;
     tagCh(text: string): void;
     private putCh;
     private firstCh;

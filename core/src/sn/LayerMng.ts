@@ -188,8 +188,8 @@ export class LayerMng {
 			const pg = this.hPages[name];
 			if (! (pg.fore instanceof TxtLayer)) continue;
 			const pTxt = pg.fore as TxtLayer;
-			pTxt.reloadLayBack(g_alpha);
-			(pg.back as TxtLayer).reloadLayBack(g_alpha);
+			pTxt.chgBackAlpha(g_alpha);
+			(pg.back as TxtLayer).chgBackAlpha(g_alpha);
 		}
 	}
 
@@ -1007,8 +1007,14 @@ void main(void) {
 		console.group('🥟 [dump_lay]');
 		for (const name of this.getLayers(hArg.layer)) {
 			const pg = this.hPages[name];
-			console.info(`%c${pg.fore.name.slice(0, -7)} %o`, 'color:#0055AA;',
-			JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
+			try {
+				console.info(`%c${pg.fore.name.slice(0, -7)} %o`, 'color:#0055AA;',
+				JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
+			} catch (error) {
+				console.error(`dump_lay err:%o`, error);
+				console.error(`   back:${pg.back.dump()}`);
+				console.error(`   fore:${pg.fore.dump()}`);
+			}
 		}
 		console.groupEnd();
 

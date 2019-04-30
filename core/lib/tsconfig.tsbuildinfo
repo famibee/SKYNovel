@@ -174,7 +174,7 @@
         "signature": "b05666883767387252e2e8a65ea62bdc58ba2a276ce2fce7e3a4a76564f5611a"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/pages.ts": {
-        "version": "d992f00e071189f40875d982bc7566323d17751f27465d87d783cb8f60206b7b",
+        "version": "556d41a74d379f772c415964def1ab1a2e1a0b0eca6705ed4e615c7a661f05af",
         "signature": "ebed5c66453bb1b91a0776c7d7d475f92cb612fe84cbc2f05f0f336e3cec725e"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/grplayer.ts": {
@@ -194,15 +194,15 @@
         "signature": "ce65eb2506a3b520e03a419eedc68876436ac37a31dfbd31aa89e75ae0baf4e5"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/txtlayer.ts": {
-        "version": "ec97a7a3d574737d06be531762891d75f8415eefe5c4e800cebf1bb965ad52b6",
-        "signature": "37ef14809c774e3f92ca04e727f960ddd52cb7e60c2361cadf4f39e25b141e34"
+        "version": "73e92b6cde2027e28b496d0fc7ab04c4440a69bdd15dba45de1cd55e716ca454",
+        "signature": "cdb1a7df381a22915f805ebb8cbf51a64240f00c0b37818c2a1b723b4e1e0ccb"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/framemng.ts": {
         "version": "d534f6950ff39908b57f616fcf623d6af38ac2a9e2ae32efaa732ab9923dfc87",
         "signature": "d048a13e7a8353e7478eb23c416946a8fa8a4d007197eaa5706e7e08ce73edeb"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/layermng.ts": {
-        "version": "a764f5467f290cfaae20ca70e8d83a3296a61860f21bbdd07deedff188e3f475",
+        "version": "fe289239fc9ec06eef9442685d609a67ac52124dcfb436a0db7f4024f59da8be",
         "signature": "b5e8f2d05456a6283df9366f2976d900e02e6926e5df958e3ee91c46d2a5b71c"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/howler/index.d.ts": {
@@ -430,7 +430,7 @@
         "signature": "6c7403e7ceff04c37f92c327a0a8079ef344ce386a7b981c0c930ab242eea085"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/main.ts": {
-        "version": "9b44866d05da5b0b8c54a438852f01199885103052772486b099ae56e93dda11",
+        "version": "fe0272415b8e95f08636b9235c4e3e6de4a90756a9fa8715cfdc0c5141a34af6",
         "signature": "f92335fbbad9a868b7c9e523c38f89a994c7020a2c1a41e77af19672e0206b67"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysapp.ts": {
@@ -1913,10 +1913,10 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/rubyspliter.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/button.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/pixi-filters/types.d.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/txtlayer.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/framemng.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/layermng.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/howler/index.d.ts",
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/soundmng.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/hammerjs/index.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/eventmng.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/scriptiterator.ts",
@@ -1987,7 +1987,7 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/tween.js/index.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/lib/processors.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/index.d.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/soundmng.ts"
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/txtlayer.ts"
     ]
   },
   "version": "3.4.5"

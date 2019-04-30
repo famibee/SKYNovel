@@ -247,7 +247,7 @@ export class Main implements IMain {
 		if (tag_fnc == null) throw '未定義のタグ['+ tag_name +']です';
 
 		if (! this.alzTagArg.go(a_tag['args'])) throw '属性「'+ this.alzTagArg.literal +'」は異常です';
-		if (this.cfg.oCfg.debug.tag) console.log(`🌲 タグ解析 fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} [${tag_name} %O]`, this.alzTagArg.hPrm);
+		if (this.cfg.oCfg.debug.tag) console.log(`🌲 タグ解析 fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
 
 		if (this.alzTagArg.hPrm['cond']) {
 			const cond = this.alzTagArg.hPrm['cond'].val;
@@ -276,10 +276,12 @@ export class Main implements IMain {
 
 				val = this.alzTagArg.hPrm[k].def;
 				if (! val || val == 'null') continue;
-					// defのnull指定。%指定が無い場合、マクロに属性を渡さない
+					// defのnull指定。%指定が無い場合、タグやマクロに属性を渡さない
 			}
 
-			hArg[k] = this.getValAmpersand(val);
+		//	hArg[k] = this.getValAmpersand(val);// ActionScript3 ならこれで同じ挙動
+			const v = this.getValAmpersand(val);
+			if (v != 'undefined') hArg[k] = v;	// 存在しない値の場合、属性を渡さない
 		}
 
 		return tag_fnc(hArg);

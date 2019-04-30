@@ -198,7 +198,7 @@ class Main {
         if (!this.alzTagArg.go(a_tag['args']))
             throw '属性「' + this.alzTagArg.literal + '」は異常です';
         if (this.cfg.oCfg.debug.tag)
-            console.log(`🌲 タグ解析 fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} [${tag_name} %O]`, this.alzTagArg.hPrm);
+            console.log(`🌲 タグ解析 fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
         if (this.alzTagArg.hPrm['cond']) {
             const cond = this.alzTagArg.hPrm['cond'].val;
             if (cond.charAt(0) == '&')
@@ -234,7 +234,9 @@ class Main {
                 if (!val || val == 'null')
                     continue;
             }
-            hArg[k] = this.getValAmpersand(val);
+            const v = this.getValAmpersand(val);
+            if (v != 'undefined')
+                hArg[k] = v;
         }
         return tag_fnc(hArg);
     }

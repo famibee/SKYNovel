@@ -26,6 +26,7 @@ class TxtLayer extends Layer_1.Layer {
         this.b_color = 0x000000;
         this.b_alpha = 0;
         this.b_alpha_isfixed = false;
+        this.b_do = null;
         this.b_pic = '';
         this.htmTxt = document.createElement('span');
         this.cntTxt = new pixi_js_1.Container;
@@ -276,7 +277,6 @@ class TxtLayer extends Layer_1.Layer {
     static addStyle(text) { TxtLayer.glbStyle.innerHTML += text + '\n'; }
     lay(hArg) {
         super.lay(hArg);
-        let ret = false;
         Layer_1.Layer.setXY(this.cnt, hArg, this.cnt);
         this.rbSpl.setting(hArg);
         if (hArg.style) {
@@ -298,23 +298,6 @@ class TxtLayer extends Layer_1.Layer {
             this.fontsize = parseFloat(this.htmTxt.style.fontSize || '0');
             this.$width = parseFloat(this.htmTxt.style.width || '0');
             this.$height = parseFloat(this.htmTxt.style.height || '0');
-        }
-        if (('b_color' in hArg) || ('b_alpha' in hArg) || ('b_alpha_isfixed' in hArg)
-            || ('b_pic' in hArg) || ('back_clear' in hArg)) {
-            if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'back_clear', false)) {
-                this.b_color = 0x000000;
-                this.b_alpha = 0;
-                this.b_alpha_isfixed = false;
-                this.b_pic = '';
-                delete hArg.b_pic;
-            }
-            else {
-                if ('b_color' in hArg)
-                    this.b_color = parseInt(hArg.b_color || '0');
-                this.b_alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
-                this.b_alpha_isfixed = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
-            }
-            ret = this.drawBack(hArg);
         }
         const xSlide = TxtLayer.cfg.oCfg.debug.slideBaseSpan
             ? document.documentElement.clientWidth - CmnLib_1.CmnLib.stageW
@@ -346,80 +329,86 @@ class TxtLayer extends Layer_1.Layer {
                 : parseFloat(this.htmTxt.style.fontSize || '0')
                     * parseFloat(this.htmTxt.style.lineHeight || '0')
                     - parseFloat(this.htmTxt.style.fontSize || '0')) / 2;
-        return ret;
+        return this.drawBack(hArg);
     }
     drawBack(hArg) {
-        const alpha = (this.b_alpha_isfixed
-            ? 1
-            : Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))) * this.b_alpha;
-        if (hArg.b_pic == 'null') {
-            if (this.b_do) {
-                this.b_do.visible = (alpha > 0);
-                this.b_do.alpha = alpha;
+        if ('back_clear' in hArg) {
+            if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'back_clear', false)) {
+                this.b_color = 0x000000;
+                this.b_alpha = 0;
+                this.b_alpha_isfixed = false;
+                this.b_pic = '';
             }
             return false;
         }
-        if (this.b_do instanceof pixi_js_1.Sprite) {
-            if ('b_color' in hArg) { }
-            else if (!('b_pic' in hArg) || hArg.b_pic == this.b_pic) {
-                this.b_do.visible = (alpha > 0);
-                this.b_do.alpha = alpha;
-                return false;
+        this.b_alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
+        this.b_alpha_isfixed = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
+        const alpha = (this.b_alpha_isfixed
+            ? 1
+            : Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))) * this.b_alpha;
+        if (hArg.b_pic) {
+            if (this.b_pic != hArg.b_pic) {
+                this.b_pic = hArg.b_pic;
+                if (this.b_do) {
+                    this.cnt.removeChild(this.b_do);
+                    this.b_do.destroy();
+                }
+                GrpLayer_1.GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp => {
+                    this.b_do = sp;
+                    sp.name = 'back(pic)';
+                    sp.visible = (alpha > 0);
+                    sp.alpha = alpha;
+                    this.$width = sp.width;
+                    this.$height = sp.height;
+                    this.htmTxt.style.width = this.$width + 'px';
+                    this.htmTxt.style.height = this.$height + 'px';
+                    this.cnt.setChildIndex(sp, 0);
+                    TxtLayer.main.resume();
+                });
+                return true;
             }
         }
-        if (this.b_do) {
-            this.cnt.removeChild(this.b_do);
-            this.b_do.destroy();
-            this.b_do = null;
-            this.b_pic = '';
-        }
-        if (hArg.b_pic) {
-            this.b_pic = hArg.b_pic;
-            GrpLayer_1.GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp => {
-                this.b_do = sp;
-                sp.name = 'back(pic)';
-                sp.visible = (alpha > 0);
-                sp.alpha = alpha;
-                this.$width = sp.width;
-                this.$height = sp.height;
-                this.htmTxt.style.width = this.$width + 'px';
-                this.htmTxt.style.height = this.$height + 'px';
-                this.cnt.setChildIndex(sp, 0);
-                TxtLayer.main.resume();
-            });
-            return true;
-        }
-        if ('b_color' in hArg)
-            this.drawBackSub_b_color(alpha);
-        return false;
-    }
-    drawBackSub_b_color(alpha) {
-        if (alpha > 0) {
-            const grp = new pixi_js_1.Graphics;
-            this.b_do = grp;
+        else if ('b_color' in hArg) {
+            this.b_color = parseInt(hArg.b_color || '0');
+            if (this.b_do) {
+                this.cnt.removeChild(this.b_do);
+                this.b_do.destroy();
+            }
+            const grp = this.b_do = new pixi_js_1.Graphics;
             grp.name = 'back(color)';
-            grp.beginFill(this.b_color, alpha);
+            grp.beginFill(this.b_color);
             grp.lineStyle(undefined);
             grp.drawRect(0, 0, this.$width, this.$height);
             grp.endFill();
             this.cnt.addChildAt(grp, 0);
         }
+        if (this.b_do) {
+            this.b_do.visible = (alpha > 0);
+            this.b_do.alpha = alpha;
+        }
+        return false;
     }
-    reloadLayBack(g_alpha) {
+    chgBackAlpha(g_alpha) {
         const alpha = this.b_alpha_isfixed
             ? this.b_alpha
             : g_alpha * this.b_alpha;
-        if (this.b_do instanceof pixi_js_1.Sprite) {
-            this.b_do.visible = (alpha > 0);
-            this.b_do.alpha = alpha;
-            return;
+        if (this.b_do instanceof pixi_js_1.Graphics) {
+            if (this.b_do) {
+                this.cnt.removeChild(this.b_do);
+                this.b_do.destroy();
+            }
+            const grp = this.b_do = new pixi_js_1.Graphics;
+            grp.name = 'back(color)';
+            grp.beginFill(this.b_color);
+            grp.lineStyle(undefined);
+            grp.drawRect(0, 0, this.$width, this.$height);
+            grp.endFill();
+            this.cnt.addChildAt(grp, 0);
         }
         if (this.b_do) {
-            this.cnt.removeChild(this.b_do);
-            this.b_do.destroy();
-            this.b_do = null;
+            this.b_do.visible = (alpha > 0);
+            this.b_do.alpha = alpha;
         }
-        this.drawBackSub_b_color(alpha);
     }
     tagCh(text) { this.rbSpl.putTxt(text); }
     autoCloseSpan() {
@@ -985,9 +974,16 @@ class TxtLayer extends Layer_1.Layer {
         for (let i = 0; i < len; ++i) {
             const e = this.cnt.children[i];
             const cls = (e instanceof pixi_js_1.Sprite) ? "Sprite" : ((e instanceof pixi_js_1.Graphics) ? "Graphics" : ((e instanceof pixi_js_1.Container) ? "Container" : "?"));
-            aPixiObj.push(`{"class":"${cls}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}}`);
+            aPixiObj.push(`{"class":"${cls}", "name":"${e.name}", "alpha":${e.alpha || 1}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`);
         }
-        return super.dump() + `, "enabled":"${this.enabled}", "style":"${this.htmTxt.style.cssText.replace(/(")/g, '\\$1')}", "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.$width}, "b_height":${this.$height}, "txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')}", "pixi_obj":[${aPixiObj.join(',')}]`;
+        const aStyle = [];
+        const s = this.htmTxt.style;
+        const lenStyle = s.length;
+        for (let i = 0; i < lenStyle; ++i) {
+            const key = s[i];
+            aStyle.push(`"${key}":"${s[key].replace(/(")/g, '\\$1')}"`);
+        }
+        return super.dump() + `, "enabled":"${this.enabled}", "style":{${aStyle.join(',')}}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.$width}, "b_height":${this.$height}, "txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')}", "pixi_obj":[${aPixiObj.join(',')}]`;
     }
 }
 TxtLayer.hNoReplaceDispObj = {};
