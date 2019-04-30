@@ -10,7 +10,7 @@ import {Layer} from './Layer';
 import {CmnLib, int} from './CmnLib';
 import {HArg, IMain} from './CmnInterface';
 import {Config} from './Config';
-import { Sprite, Container, extras, Texture, BLEND_MODES, utils, loaders, DisplayObject } from 'pixi.js';
+import { Sprite, Container, extras, Texture, BLEND_MODES, utils, loaders } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
 
 export interface IFncCompSpr { (sp: Sprite): void; };
@@ -84,7 +84,7 @@ export class GrpLayer extends Layer {
 			this.cnt,
 			sp=> {
 				Layer.setXY(sp, hArg, this.cnt, true);
-				if (hArg.page == 'fore') this.rsvEvent(sp);	// ======
+//				if (hArg.page == 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 			},
 			GrpLayer.fncAllComp
@@ -196,15 +196,13 @@ export class GrpLayer extends Layer {
 			true
 		);
 	}
-	private rsvEvent(_$do: DisplayObject): void {
-		/*
+	/*private rsvEvent(_$do: DisplayObject): void {
 		const ldr:Loader = $do as Loader;
 		if (ldr == null) return;
 		const mc:MovieClip = ldr.content as MovieClip;
 		if (mc == null) return;
 		GrpLayer.elc.add(mc, Event.EXIT_FRAME, rsvEvent_ExitFrame);
-		*/
-	}
+	}*/
 
 	static	add_face(hArg: HArg): boolean {
 		const name = hArg.name;
@@ -248,7 +246,7 @@ export class GrpLayer extends Layer {
 			fncComp();
 		};
 
-		return this.lay({fn: hLay.sBkFn, face: hLay.sBkFace});
+		return this.lay({fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y});
 	}
 
 	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};

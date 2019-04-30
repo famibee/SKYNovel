@@ -54,8 +54,6 @@ class GrpLayer extends Layer_1.Layer {
         hArg.dy = 0;
         return GrpLayer.csv2Sprites(this.csvFn = fn + (face ? ',' + face : ''), this.cnt, sp => {
             Layer_1.Layer.setXY(sp, hArg, this.cnt, true);
-            if (hArg.page == 'fore')
-                this.rsvEvent(sp);
         }, GrpLayer.fncAllComp);
     }
     static csv2Sprites(csv, parent, fncFirstComp, fncAllComp = () => { }) {
@@ -150,8 +148,6 @@ class GrpLayer extends Layer_1.Layer {
     setPos(hArg) {
         Layer_1.Layer.setXY((this.cnt.children.length == 0) ? this.cnt : this.cnt.children[0], hArg, this.cnt, true);
     }
-    rsvEvent(_$do) {
-    }
     static add_face(hArg) {
         const name = hArg.name;
         if (!name)
@@ -190,7 +186,7 @@ class GrpLayer extends Layer_1.Layer {
                 GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
                 fncComp();
             };
-        return this.lay({ fn: hLay.sBkFn, face: hLay.sBkFace });
+        return this.lay({ fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y });
     }
     dump() { return super.dump() + `, "pic":"${this.csvFn}"`; }
     ;

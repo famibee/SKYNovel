@@ -32,7 +32,6 @@ export declare class GrpLayer extends Layer {
     private static mkSprite;
     static ldPic(fn: string, fnc: (tx: Texture) => void): void;
     setPos(hArg: HArg): void;
-    private rsvEvent;
     static add_face(hArg: HArg): boolean;
     static clearFace2Name(): void;
     clearLay(hArg: HArg): void;
