@@ -96,7 +96,9 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		this.elc.add(appPixi.stage, this.enMDownTap, e=> this.defEvt2Fnc(e, 'Click'));
+		this.elc.add(appPixi.stage, this.enMDownTap, e=> {
+			this.defEvt2Fnc(e, e.data.button == 0 ?'click' :'rightclick')
+		});
 		this.elc.add(window, 'keydown', e=> this.ev_keydown(e));
 		this.elc.add(appPixi.view, 'contextmenu', e=> this.ev_contextmenu(e));
 		if ('WheelEvent' in window) this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e));
@@ -193,13 +195,16 @@ export class EventMng implements IEvtMng {
 		const ke = this.hLocalEvt2Fnc[key]
 				|| this.hGlobalEvt2Fnc[key];
 		if (! ke) return;
-		if ('preventDefault' in e) e.preventDefault();
 
+		if ('preventDefault' in e) e.preventDefault();
 		e.stopPropagation();
 		if (this.layMng.clickTxtLay()) return;
 
+		if (! this.isStop) return;
+		this.isStop = false;
 		ke(e);
 	}
+	private isStop = false;
 
 	popLocalEvts(): IHEvt2Fnc {
 		const ret = this.hLocalEvt2Fnc;
@@ -238,6 +243,7 @@ export class EventMng implements IEvtMng {
 		this.val.saveKidoku(); // これはそのままか
 		this.fncCancelSkip();
 		//this.hHook_waiting();
+		this.isStop = true;
 	}
 
 	button(hArg: HArg, em: DisplayObject) {

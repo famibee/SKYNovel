@@ -27,6 +27,7 @@ export declare class EventMng implements IEvtMng {
     private hLocalEvt2Fnc;
     private hGlobalEvt2Fnc;
     private defEvt2Fnc;
+    private isStop;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;
     stdWait(fnc: (e?: interaction.InteractionEvent) => void, canskip?: boolean): void;

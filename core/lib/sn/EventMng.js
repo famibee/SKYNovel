@@ -27,6 +27,7 @@ class EventMng {
         };
         this.hLocalEvt2Fnc = {};
         this.hGlobalEvt2Fnc = {};
+        this.isStop = false;
         this.goTxt = () => this.layMng.goTxt();
         this.fncCancelSkip = () => { };
         this.cr = (len) => this.scrItr.addLineNum(len);
@@ -73,7 +74,9 @@ class EventMng {
             this.ham.on(key, fnc);
         }
         appPixi.stage.interactive = true;
-        this.elc.add(appPixi.stage, this.enMDownTap, e => this.defEvt2Fnc(e, 'Click'));
+        this.elc.add(appPixi.stage, this.enMDownTap, e => {
+            this.defEvt2Fnc(e, e.data.button == 0 ? 'click' : 'rightclick');
+        });
         this.elc.add(window, 'keydown', e => this.ev_keydown(e));
         this.elc.add(appPixi.view, 'contextmenu', e => this.ev_contextmenu(e));
         if ('WheelEvent' in window)
@@ -158,6 +161,9 @@ class EventMng {
         e.stopPropagation();
         if (this.layMng.clickTxtLay())
             return;
+        if (!this.isStop)
+            return;
+        this.isStop = false;
         ke(e);
     }
     popLocalEvts() {
@@ -183,6 +189,7 @@ class EventMng {
         }
         this.val.saveKidoku();
         this.fncCancelSkip();
+        this.isStop = true;
     }
     button(hArg, em) {
         if (!hArg.fn && !hArg.label)
