@@ -128,6 +128,7 @@
 		<li class="mb1"><a href="#reserve_value_save">組み込み変数・定数(save:)</a></li>
 		<li class="mb1"><a href="#reserve_value_sys">組み込み変数・定数(sys:)</a></li>
 		<li class="mb1"><a href="#reserve_value_tmp">組み込み変数・定数(tmp:)</a></li>
+		<li class="mb1"><a href="#font">フォントの導入</a></li>
 	</ul>
 </aside>
 
@@ -280,6 +281,52 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>sn.skip.enabled</td><td>false</td><td>Boolean</td><td>次の選択肢(/未読)まで進む　が有効か</td></tr>
 <tr><td>sn.tagL.enabled</td><td>true</td><td>Boolean</td><td>頁末まで一気に読み進むか(l無視)</td></tr>
 </table>
+
+</p>
+<h2 id="font" class="w-heading">フォントの導入</h2>
+<h4>フォントの導入・指定方法について解説していきます。</h4>
+<p class="mb2 px1">
+	<h4>1.フォントを準備</h4>
+	<p class="mb2 px1">
+		※以下をサンプルとして話を進めます。字形が多いのでだいたい入ってるだろうし。<br>
+		・<a href="https://forest.watch.impress.co.jp/library/software/ipamjfont/" target="_blank">「IPAmj明朝フォント」戸籍統一文字などに含まれる6万字の漢字を収録したフォント - 窓の杜</a><br>
+		・【参考資料】<a href="http://www.hirok-k.com/blog/751.html" target="_blank">日本語フリーフォントをwebフォント化する4ステップ / hirok-k.com</a><br>
+	</p>
+	<h4>2.使用する字形だけ入ったフォントファイルを作成</h4>
+	<p class="mb2 px1">
+		・<a href="https://opentype.jp/subsetfontmk.htm">サブセットフォントメーカー</a>（Win / Mac版あり）<br>
+			【フォントに格納する文字】へ本文をコピペして、ツールに貼って変換します。<br>
+			※【書体名を変更する】は使わない<br>
+			<br>
+			全ての文字が入ったフォントファイルは大きすぎる。ロード時間も掛かる。<br>
+			上記手順で、「初音館にて」ではサイズが1/100ほどになった。<br>
+			・ipamjm.woff2<br>
+			　　23.1MB（全部入り）<br>
+			　　344 KB（初音館で使用しているモノのみ）<br>
+			　　343540 /23065440 = 0.014894145<br>
+	</p>
+	<h4>3.（可能なら圧縮率の高い）woff2に変換</h4>
+	<p class="mb2 px1">
+		・<a href="https://memorva.jp/memo/html/css_webfont_woff_woff2_converter_henkan_soft.php">WebフォントWOFF、WOFF2形式に変換できるフリーソフト</a><br>
+		・<a href="https://opentype.jp/woffconv.htm">WOFFコンバータ</a>（Win / Mac版あり）<br>
+		　SKYNovelがサポートするフォント拡張子は「woff2, otf, ttf」です。※ブラウザによる<br>
+	</p>
+	<h4>4.生成ファイルをプロジェクトフォルダにコピー</h4>
+	<p class="mb2 px1">
+		※どこでもいいが、サンプルでは script フォルダに。
+	</p>
+	<h4>5.sub.sn の「def_fonts」でフォント名を指定すると、本文に反映される</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/font0.jpg" width="500" height="144" layout="responsive"></amp-img>
+		sn.Button.fontFamily で文字ボタンのフォントを指定できます。<br>
+	</p>
+	<h4>6.部分的・一時的に変更したい場合は、</h4>
+	<p class="mb2 px1">
+		[span style='font-family: QuiMi_mincho;']フォント[span] などと使う。<br>
+		戻すときも同様。<br>
+	</p>
+
+	<br>
 
 </p>
 
