@@ -19,7 +19,8 @@ WebGL NovelGame framework by PixiJS
 
 - コンセプトスライド（機能ギャラリー内に含めました）
 - [機能ギャラリー](https://famibee.github.io/SKYNovel_gallery/)
-- [Novelgame(Tate-gaki) sample project](https://github.com/famibee/SKYNovel_uc)
+- [Novelgame(Yoko-gaki) sample project「初音館にて」](https://github.com/famibee/SKYNovel_hatsune)
+- [Novelgame(Tate-gaki) sample project「桜の樹の下には」](https://github.com/famibee/SKYNovel_uc)
 
 ## example
 
