@@ -17,6 +17,7 @@ class Button extends pixi_js_1.Container {
             const style = {
                 fill: 'black',
                 align: 'center',
+                fontFamily: Button.fontFamily,
                 fontSize: fontSize,
                 padding: 5,
                 dropShadow: true,
@@ -86,13 +87,15 @@ class Button extends pixi_js_1.Container {
     }
     static s2hStyle(hStyle, style) {
         Button.cln = document.createElement('span');
-        Button.cln.style.cssText = style;
-        const len = Button.cln.style.length;
+        const s = Button.cln.style;
+        s.cssText = style;
+        const len = s.length;
         for (let i = 0; i < len; ++i) {
-            const nm = Button.cln.style[i];
-            hStyle[nm] = Button.cln.style[nm];
+            const nm = s[i];
+            hStyle[nm] = s[nm];
         }
     }
 }
+Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 exports.Button = Button;
 //# sourceMappingURL=Button.js.map

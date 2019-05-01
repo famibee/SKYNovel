@@ -11,16 +11,20 @@ import { HArg, IMain } from "./CmnInterface";
 import {GrpLayer} from "./GrpLayer";
 
 export class Button extends Container {
+	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
+
 	constructor(private main: IMain, private evtMng: IEvtMng, hArg: HArg) {
 		super();
 
 		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);
 		if (enabled) this.evtMng.button(hArg, this);
+		// 文字列から生成
 		if (hArg.text) {
 			const fontSize = uint(hArg.height || 30);
 			const style = {
 				fill: 'black',
 				align: 'center',
+				fontFamily: Button.fontFamily,
 				fontSize: fontSize,
 				padding: 5,
 				dropShadow: true,
@@ -68,6 +72,7 @@ export class Button extends Container {
 		}
 
 		if (! hArg.pic) throw 'textまたはpic属性は必須です';
+		// 画像から生成
 		this.isStop = GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
@@ -108,15 +113,15 @@ export class Button extends Container {
 	private	static	cln: HTMLSpanElement;
 	private	static	s2hStyle(hStyle: any, style: string) {
 		Button.cln	= document.createElement('span');
-		Button.cln.style.cssText = style;
+		const s = Button.cln.style;
+		s.cssText = style;
 
-		//Object.assign(hStyle, Button.cln.style);
+		//Object.assign(hStyle, s);
 			// 不要要素もコピーしすぎて不具合になるので、以下のようにする
-		const len = Button.cln.style.length;
+		const len = s.length;
 		for (let i=0; i<len; ++i) {
-			const nm: any = Button.cln.style[i];
-			hStyle[nm] = Button.cln.style[nm];
-
+			const nm: any = s[i];
+			hStyle[nm] = s[nm];
 		}
 	}
 

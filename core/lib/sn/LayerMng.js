@@ -6,6 +6,7 @@ const Pages_1 = require("./Pages");
 const GrpLayer_1 = require("./GrpLayer");
 const TxtLayer_1 = require("./TxtLayer");
 const FrameMng_1 = require("./FrameMng");
+const Button_1 = require("./Button");
 const TWEEN = require("@tweenjs/tween.js");
 const pixi_js_1 = require("pixi.js");
 const EventListenerCtn_1 = require("./EventListenerCtn");
@@ -143,6 +144,11 @@ void main(void) {
         };
         fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
         val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
+        const fncBtnFont = (_name, val) => {
+            Button_1.Button.fontFamily = val;
+        };
+        fncBtnFont('', val.getVal('tmp:Button.fontFamily', Button_1.Button.fontFamily));
+        val.defValTrg('tmp:Button.fontFamily', fncBtnFont);
         val.defTmp('const.sn.sLog', () => {
             return JSON.stringify((String(this.val.getVal('save:const.sn.sLog') + '\f' +
                 String(this.val.getVal('tmp:const.sn.last_page_text')))

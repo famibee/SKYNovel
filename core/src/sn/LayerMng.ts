@@ -15,6 +15,7 @@ import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
 import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
+import {Button} from './Button';
 
 import TWEEN = require('@tweenjs/tween.js');
 import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject } from 'pixi.js';
@@ -136,6 +137,12 @@ export class LayerMng {
 		};
 		fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
 		val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
+
+		const fncBtnFont = (_name: string, val: any)=> {
+			Button.fontFamily = val;
+		};
+		fncBtnFont('', val.getVal('tmp:Button.fontFamily', Button.fontFamily));
+		val.defValTrg('tmp:Button.fontFamily', fncBtnFont);
 
 		val.defTmp('const.sn.sLog', ()=> {
 			return JSON.stringify(

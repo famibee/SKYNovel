@@ -4,6 +4,7 @@ import { HArg, IMain } from "./CmnInterface";
 export declare class Button extends Container {
     private main;
     private evtMng;
+    static fontFamily: string;
     constructor(main: IMain, evtMng: IEvtMng, hArg: HArg);
     isStop: boolean;
     private static cln;
