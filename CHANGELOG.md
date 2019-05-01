@@ -1,7 +1,7 @@
 # Change Log
 
-## v0.4.3
-- add：文字ボタンフォントを指定するシステム変数 Button.fontFamily 追加
+## v0.4.4
+- add：文字ボタンフォントを指定するシステム変数 sn.Button.fontFamily 追加
 ## v0.4.2
 - bug：画像レイヤ表示位置が再開時に再現されない件
 ## v0.4.1
