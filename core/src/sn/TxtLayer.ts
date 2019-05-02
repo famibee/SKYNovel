@@ -244,7 +244,7 @@ export class TxtLayer extends Layer {
 					this.cnt.removeChild(this.b_do);
 					this.b_do.destroy();
 				}
-				GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
+				return GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
 					this.b_do = sp;
 					sp.name = 'back(pic)';
 					sp.visible = (alpha > 0);
@@ -257,7 +257,6 @@ export class TxtLayer extends Layer {
 					this.cnt.setChildIndex(sp, 0);
 					TxtLayer.main.resume();
 				});
-				return true;
 			}
 		}
 		else if ('b_color' in hArg) {
@@ -266,6 +265,7 @@ export class TxtLayer extends Layer {
 				this.cnt.removeChild(this.b_do);
 				this.b_do.destroy();
 			}
+			this.b_pic = '';	// 忘れずクリア
 			const grp = this.b_do = new Graphics;
 			grp.name = 'back(color)';
 			grp.beginFill(this.b_color);

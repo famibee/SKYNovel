@@ -353,7 +353,7 @@ class TxtLayer extends Layer_1.Layer {
                     this.cnt.removeChild(this.b_do);
                     this.b_do.destroy();
                 }
-                GrpLayer_1.GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp => {
+                return GrpLayer_1.GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp => {
                     this.b_do = sp;
                     sp.name = 'back(pic)';
                     sp.visible = (alpha > 0);
@@ -365,7 +365,6 @@ class TxtLayer extends Layer_1.Layer {
                     this.cnt.setChildIndex(sp, 0);
                     TxtLayer.main.resume();
                 });
-                return true;
             }
         }
         else if ('b_color' in hArg) {
@@ -374,6 +373,7 @@ class TxtLayer extends Layer_1.Layer {
                 this.cnt.removeChild(this.b_do);
                 this.b_do.destroy();
             }
+            this.b_pic = '';
             const grp = this.b_do = new pixi_js_1.Graphics;
             grp.name = 'back(color)';
             grp.beginFill(this.b_color);

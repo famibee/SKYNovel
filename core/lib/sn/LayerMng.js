@@ -147,8 +147,8 @@ void main(void) {
         const fncBtnFont = (_name, val) => {
             Button_1.Button.fontFamily = val;
         };
-        fncBtnFont('', val.getVal('tmp:sn.Button.fontFamily', Button_1.Button.fontFamily));
-        val.defValTrg('tmp:sn.Button.fontFamily', fncBtnFont);
+        fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button_1.Button.fontFamily));
+        val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
         val.defTmp('const.sn.sLog', () => {
             return JSON.stringify((String(this.val.getVal('save:const.sn.sLog') + '\f' +
                 String(this.val.getVal('tmp:const.sn.last_page_text')))

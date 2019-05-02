@@ -1,5 +1,9 @@
 # Change Log
 
+## v0.4.5
+- bug：文字背景画像がキャッシュに残ってる際に停止する件
+- bug：桜二周目、背景画像が出ない件
+- chg：sn.Button.fontFamily を sn.button.fontFamily に変更
 ## v0.4.4
 - add：文字ボタンフォントを指定するシステム変数 sn.Button.fontFamily 追加
 ## v0.4.2

@@ -141,8 +141,8 @@ export class LayerMng {
 		const fncBtnFont = (_name: string, val: any)=> {
 			Button.fontFamily = val;
 		};
-		fncBtnFont('', val.getVal('tmp:sn.Button.fontFamily', Button.fontFamily));
-		val.defValTrg('tmp:sn.Button.fontFamily', fncBtnFont);
+		fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button.fontFamily));
+		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
 		val.defTmp('const.sn.sLog', ()=> {
 			return JSON.stringify(
