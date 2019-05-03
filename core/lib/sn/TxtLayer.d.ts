@@ -8,6 +8,8 @@ export declare class TxtLayer extends Layer {
     private static glbStyle;
     private static cfg;
     private static recText;
+    private static cntBreak;
+    private static cntLayName;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void): void;
     static destroy(): void;
     private $width;

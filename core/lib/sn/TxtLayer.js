@@ -61,7 +61,7 @@ class TxtLayer extends Layer_1.Layer {
                 case 1:
                     if (text == '\n') {
                         if (this.aSpan_bk) {
-                            add_htm = this.aSpan_bk[this.aSpan_bk.length - 1];
+                            add_htm = this.aSpan_bk.slice(-1)[0];
                             this.autoCloseSpan();
                             this.aSpan.push('<br/>');
                             this.aSpan.push(add_htm);
@@ -92,7 +92,7 @@ class TxtLayer extends Layer_1.Layer {
                             return;
                         case 'add':
                             if (this.aSpan_bk) {
-                                const s = this.aSpan_bk[this.aSpan_bk.length - 1];
+                                const s = this.aSpan_bk.slice(-1)[0];
                                 this.autoCloseSpan();
                                 this.aSpan.push(s.replace(/<span( data-add=".+?")?/, `<span data-add="${a_ruby[1]}"`));
                             }
@@ -112,33 +112,36 @@ class TxtLayer extends Layer_1.Layer {
                             const ndGrp = this.htmTxt.querySelector(`span[data-cmd="grp"][data-id="${oJsonGrp.id}"]`);
                             if (ndGrp)
                                 return;
+                            if (oJsonGrp.id == 'break') {
+                                const cnt = TxtLayer.cntBreak;
+                                TxtLayer.cntLayName = this.name;
+                                if (cnt.parent)
+                                    cnt.parent.removeChild(cnt);
+                                cnt.removeChildren();
+                                cnt.alpha = 0;
+                                cnt.visible = false;
+                                this.cntTxt.addChild(cnt);
+                                GrpLayer_1.GrpLayer.csv2Sprites(oJsonGrp.pic, cnt, () => {
+                                    if (!cnt.parent)
+                                        cnt.removeChildren();
+                                });
+                                return;
+                            }
                             add_htm = `<span data-cmd='grp' data-id='${oJsonGrp.id}' data-arg='${a_ruby[1]}'>　</span>`;
-                            if (this.aSpan[this.aSpan.length - 1] == add_htm)
+                            if (this.aSpan.slice(-1)[0] == add_htm)
                                 return;
                             break;
                         case 'del':
-                            const len = this.cntTxt.children.length;
-                            if (len == 0)
-                                return;
-                            const ndDel = this.htmTxt.querySelector(`span:last-child[data-cmd="grp"][data-id="${a_ruby[1]}"]`);
-                            if (!ndDel)
-                                return;
-                            ndDel.parentElement.removeChild(ndDel);
-                            for (const st of this.aSpTw)
-                                if (st.tw)
-                                    st.tw.stop();
-                            this.aSpTw = [];
-                            if (this.aRect.length == 0)
-                                return;
-                            const last_rect = this.aRect[this.aRect.length - 1];
-                            if (last_rect.arg == undefined)
-                                return;
-                            const oJsonDel = JSON.parse(last_rect.arg);
-                            if (last_rect.cmd == 'grp' && oJsonDel.id == a_ruby[1]) {
-                                this.aSpan.pop();
-                                this.aRect.pop();
-                                this.cntTxt.removeChild(this.cntTxt.children[len - 1]);
+                            const id_del = a_ruby[1];
+                            if (id_del != 'break')
+                                throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
+                            if (TxtLayer.cntBreak.parent) {
+                                TxtLayer.cntBreak.parent.removeChild(TxtLayer.cntBreak);
+                                TxtLayer.cntLayName = '';
                             }
+                            this.aSpTw.map(st => { if (st.tw)
+                                st.tw.stop().end(); });
+                            this.aSpTw = [];
                             return;
                         case 'span':
                             this.autoCloseSpan();
@@ -818,7 +821,7 @@ class TxtLayer extends Layer_1.Layer {
                         .onComplete(() => {
                         st.tw = null;
                     })
-                        .start()
+                        .start(),
                 };
                 this.aSpTw.push(st);
             };
@@ -850,6 +853,29 @@ class TxtLayer extends Layer_1.Layer {
                         TxtLayer.evtMng.button(o, sp);
                     }
             }
+        }
+        const cnt = TxtLayer.cntBreak;
+        if (cnt.parent && !cnt.visible && TxtLayer.cntLayName == this.name) {
+            cnt.visible = true;
+            const st = {
+                sp: cnt,
+                tw: new TWEEN.Tween(cnt)
+                    .to({ alpha: 1 }, 0)
+                    .delay(delay)
+                    .onComplete(() => {
+                    st.tw = null;
+                    const rct = this.aRect.slice(-1)[0].rect;
+                    cnt.position.set(rct.x - this.xz4htm2rect, rct.y);
+                    if (this.htmTxt.style.writingMode == 'vertical-rl') {
+                        cnt.y += this.fontsize;
+                    }
+                    else {
+                        cnt.x += this.fontsize;
+                    }
+                })
+                    .start(),
+            };
+            this.aSpTw.push(st);
         }
     }
     getChRects(elm) {
@@ -886,12 +912,10 @@ class TxtLayer extends Layer_1.Layer {
     }
     click() {
         let isLiveTw = false;
-        for (const st of this.aSpTw) {
-            if (st.tw) {
-                st.tw.stop().end();
-                isLiveTw = true;
-            }
-        }
+        this.aSpTw.map(st => { if (st.tw) {
+            st.tw.stop().end();
+            isLiveTw = true;
+        } });
         this.aSpTw = [];
         return isLiveTw;
     }
@@ -923,7 +947,6 @@ class TxtLayer extends Layer_1.Layer {
                     .start();
             }
         }
-        this.aSpTw = [];
     }
     get enabled() { return this.cntBtn.interactiveChildren; }
     set enabled(v) { this.cntBtn.interactiveChildren = v; }
@@ -987,6 +1010,8 @@ class TxtLayer extends Layer_1.Layer {
     }
 }
 TxtLayer.hNoReplaceDispObj = {};
+TxtLayer.cntBreak = new pixi_js_1.Container;
+TxtLayer.cntLayName = '';
 TxtLayer.REG_SURROGATE = /[\uDC00-\uDFFF]/;
 TxtLayer.doAutoWc = false;
 TxtLayer.hAutoWc = {};

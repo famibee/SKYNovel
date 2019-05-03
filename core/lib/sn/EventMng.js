@@ -312,6 +312,7 @@ class EventMng {
         if (KEY.slice(0, 4) == 'dom=') {
             let elmlist;
             const idx = KEY.indexOf(':');
+            let sel = '';
             if (idx >= 0) {
                 const name = KEY.slice(4, idx);
                 const frmnm = `const.sn.frm.${name}`;
@@ -319,14 +320,16 @@ class EventMng {
                     throw `HTML【${name}】が読み込まれていません`;
                 const ifrm = document.getElementById(name);
                 const win = ifrm.contentWindow;
-                elmlist = win.document.querySelectorAll(KEY.slice(idx + 1));
+                sel = KEY.slice(idx + 1);
+                elmlist = win.document.querySelectorAll(sel);
             }
             else {
-                elmlist = document.querySelectorAll(KEY.slice(4));
+                sel = KEY.slice(4);
+                elmlist = document.querySelectorAll(sel);
             }
             const need_err = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'need_err', true);
             if (elmlist.length == 0 && need_err)
-                throw 'セレクタに対応する要素が見つかりません';
+                throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=true と指定してください`;
             const type = (elmlist[0] instanceof HTMLInputElement)
                 ? elmlist[0].type
                 : '';

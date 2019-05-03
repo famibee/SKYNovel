@@ -42,6 +42,10 @@ export class TxtLayer extends Layer {
 	private	static	glbStyle: HTMLStyleElement;
 	private	static	cfg		: Config;
 	private	static	recText	: (txt: string)=> void;
+
+	private	static	cntBreak	= new Container;
+	private	static	cntLayName	= '';
+
 	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void): void {
 		TxtLayer.cfg = cfg;
 		TxtLayer.val = val;
@@ -322,7 +326,7 @@ export class TxtLayer extends Layer {
 		case 1:		// 字or春《はる》
 			if (text == '\n') {
 				if (this.aSpan_bk) {
-					add_htm = this.aSpan_bk[this.aSpan_bk.length -1];
+					add_htm = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
 					this.aSpan.push('<br/>');
 					this.aSpan.push(add_htm);	// ここでaSpan末尾に追加しないと続かない
@@ -330,8 +334,7 @@ export class TxtLayer extends Layer {
 					this.aSpan = [];
 					return;	// breakではない
 				}
-				//add_htm = '<br/>';
-				if (this.firstCh) {	// １文字目にルビが無い場合は見えないルビを入れ、行揃え
+				if (this.firstCh) {	// １文字目にルビが無い場合は見えないルビで、行揃え
 					this.firstCh = false;
 					add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
 				}
@@ -340,7 +343,7 @@ export class TxtLayer extends Layer {
 				}
 				break;
 			}
-			if (this.firstCh) {		// １文字目にルビが無い場合は見えないルビを入れ、行揃え
+			if (this.firstCh) {		// １文字目にルビが無い場合は見えないルビで、行揃え
 				this.firstCh = false;
 				if (ruby == '') ruby = '　';
 			}
@@ -352,7 +355,7 @@ export class TxtLayer extends Layer {
 			case 'gotxt':	this.goTxt();	return;	// breakではない
 			case 'add':
 				if (this.aSpan_bk) {
-					const s = this.aSpan_bk[this.aSpan_bk.length -1];
+					const s = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
 
 					this.aSpan.push(s.replace(
@@ -375,30 +378,38 @@ export class TxtLayer extends Layer {
 				const ndGrp = this.htmTxt.querySelector(`span[data-cmd="grp"][data-id="${oJsonGrp.id}"]`);
 				if (ndGrp) return;	// breakではない
 
+				if (oJsonGrp.id == 'break') {
+					const cnt = TxtLayer.cntBreak;
+					TxtLayer.cntLayName = this.name;
+					if (cnt.parent) cnt.parent.removeChild(cnt);
+						// 他の文字Layerも想定
+					cnt.removeChildren();
+					cnt.alpha = 0;
+					cnt.visible = false;
+					this.cntTxt.addChild(cnt);
+					GrpLayer.csv2Sprites(oJsonGrp.pic, cnt, ()=> {
+						// ロード完了時にクリアされていた場合はコンテナを空に
+						if (! cnt.parent) cnt.removeChildren();
+					});
+					return;	// breakではない
+				}
+
 				add_htm = `<span data-cmd='grp' data-id='${oJsonGrp.id}' data-arg='${a_ruby[1]}'>　</span>`;
-				if (this.aSpan[this.aSpan.length -1] == add_htm) return;	// breakではない
+				if (this.aSpan.slice(-1)[0] == add_htm) return;	// breakではない
 				break;
 
 			case 'del':
-				// runAnalyze()冒頭のresume();により二回呼ばれる可能性
-				const len = this.cntTxt.children.length;
-				if (len == 0) return;	// breakではない
-				const ndDel = this.htmTxt.querySelector(`span:last-child[data-cmd="grp"][data-id="${a_ruby[1]}"]`);
-				if (! ndDel) return;	// breakではない
+				const id_del = a_ruby[1];
+				if (id_del != 'break') throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
 
-				ndDel.parentElement!.removeChild(ndDel);
-				for (const st of this.aSpTw) if (st.tw) st.tw.stop();
-				this.aSpTw = [];
-
-				if (this.aRect.length == 0) return;	// breakではない
-				const last_rect = this.aRect[this.aRect.length -1];
-				if (last_rect.arg == undefined) return;	// breakではない
-				const oJsonDel = JSON.parse(last_rect.arg);
-				if (last_rect.cmd == 'grp' && oJsonDel.id == a_ruby[1]) {
-					this.aSpan.pop();
-					this.aRect.pop();
-					this.cntTxt.removeChild(this.cntTxt.children[len -1]);
+				if (TxtLayer.cntBreak.parent) {
+					TxtLayer.cntBreak.parent.removeChild(TxtLayer.cntBreak);
+					TxtLayer.cntLayName = '';
 				}
+				// TxtLayer.cntBreak.removeChildren();
+					// タイミングによってはこの後 addChild() されるかもなのでなにもしない
+				this.aSpTw.map(st=> {if (st.tw) st.tw.stop().end()});
+				this.aSpTw = [];	// Text＆break Skip、stop() と end() は別！
 				return;	// breakではない
 
 			case 'span':
@@ -1034,7 +1045,7 @@ export class TxtLayer extends Layer {
 				//Layer.argChk_BlendmodeAndSet(o, sp);
 				this.fncFi(sp);
 
-				//console.log(`spWork: i:${i} ch:${v.ch} x:${rct.x} y:${rct.y}`);
+				//console.log(`spWork i:${i} ch:${v.ch} x:${rct.x} y:${rct.y}`);
 				const st: ISpTw = {
 					sp: sp,
 					tw: new TWEEN.Tween(sp)
@@ -1051,7 +1062,7 @@ export class TxtLayer extends Layer {
 							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
 							//　これを有効にすると[snapshot]で文字が出ない
 						})
-						.start()
+						.start(),
 				};
 				this.aSpTw.push(st);
 			};
@@ -1087,6 +1098,32 @@ export class TxtLayer extends Layer {
 					TxtLayer.evtMng.button(o, sp);
 				}
 			}
+		}
+
+		// breakマークを付け足す
+		const cnt = TxtLayer.cntBreak;	// Tween開始時の Obj を保存
+		if (cnt.parent && ! cnt.visible && TxtLayer.cntLayName == this.name) {
+			cnt.visible = true;
+			const st: ISpTw = {
+				sp: cnt,
+				tw: new TWEEN.Tween(cnt)
+					.to({alpha: 1}, 0)
+					.delay(delay)
+					.onComplete(()=> {
+						st.tw = null;
+
+						const rct = this.aRect.slice(-1)[0].rect;
+						cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
+						if (this.htmTxt.style.writingMode == 'vertical-rl') {
+							cnt.y += this.fontsize;
+						}
+						else {
+							cnt.x += this.fontsize;
+						}
+					})
+					.start(),
+			};
+			this.aSpTw.push(st);
 		}
 	}
 	private aRect : IChRect[] = [];
@@ -1136,10 +1173,8 @@ export class TxtLayer extends Layer {
 
 	click(): boolean {	// true is stay
 		let isLiveTw = false;
-		for (const st of this.aSpTw) {
-			if (st.tw) {st.tw.stop().end(); isLiveTw = true;}	// Text Skip
-				// stop() と end() は別！
-		}
+		this.aSpTw.map(st=> {if (st.tw) {st.tw.stop().end(); isLiveTw = true}});
+			// Text Skip。stop() と end() は別！
 		this.aSpTw = [];
 		return isLiveTw;
 	}
@@ -1177,7 +1212,6 @@ export class TxtLayer extends Layer {
 				.start();
 			}
 		}
-		this.aSpTw = [];
 	}
 //	recText(txt: string): void {this.sprTlf.recText(txt);}
 
