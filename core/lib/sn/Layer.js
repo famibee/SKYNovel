@@ -5,7 +5,7 @@ const CmnLib_1 = require("./CmnLib");
 class Layer {
     constructor() {
         this.name = '';
-        this.cnt = new pixi_js_1.Sprite;
+        this.cnt = new pixi_js_1.Sprite(PIXI.Texture.EMPTY);
     }
     get alpha() { return this.cnt.alpha; }
     set alpha(v) { this.cnt.alpha = v; }
@@ -37,7 +37,7 @@ class Layer {
         this.cnt.rotation = 0;
         this.cnt.scale.set(1, 1);
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'filter', false))
-            this.cnt.filters = null;
+            this.cnt.filters = [];
     }
     copy(fromLayer) {
         const org_name = this.name;

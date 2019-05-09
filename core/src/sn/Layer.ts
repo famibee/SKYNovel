@@ -11,7 +11,7 @@ import {HArg} from './CmnInterface';
 
 export class Layer {
 	name	= '';
-	readonly	cnt		= new Sprite;
+	readonly	cnt		= new Sprite(PIXI.Texture.EMPTY);
 
 	// tsy用
 	get	alpha() {return this.cnt.alpha}
@@ -56,7 +56,7 @@ export class Layer {
 		this.cnt.pivot.set(0, 0);
 		this.cnt.rotation = 0;
 		this.cnt.scale.set(1, 1);
-		if (CmnLib.argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = null;
+		if (CmnLib.argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = [];
 		//transform.colorTransform = nulColTrfm;
 	}
 	copy(fromLayer: Layer): void {

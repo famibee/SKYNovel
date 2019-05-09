@@ -842,9 +842,7 @@ class ScriptIterator {
         return true;
     }
     reload_script(hArg) {
-        return this.reload_script_FromMark(hArg, this.val.getMark(0));
-    }
-    reload_script_FromMark(hArg, mark) {
+        const mark = this.val.getMark(0);
         delete this.hScript[CmnLib_1.CmnLib.getFn(mark.hSave['const.sn.scriptFn'])];
         hArg.do_rec = false;
         return this.loadFromMark(hArg, mark, false);

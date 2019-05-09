@@ -114,7 +114,7 @@ export interface HArg {
 	f3tap?	: string;
 
 	from?	: number;
-	to?		: number;
+	to?		: number | string;
 	place?	: number;
 
 	buf?	: string;	// 音系

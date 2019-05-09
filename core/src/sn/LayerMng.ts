@@ -11,6 +11,7 @@ import {IHTag, IVariable, IMain, HPage, HArg} from './CmnInterface';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
+import {RubySpliter} from './RubySpliter';
 import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
 import {SysBase} from './SysBase';
@@ -178,7 +179,7 @@ export class LayerMng {
 	before_destroy() {for (const pg in this.hPages) this.hPages[pg].destroy();}
 	destroy() {
 		GrpLayer.destroy();
-		TxtLayer.destroy();
+		RubySpliter.destroy();
 
 		TWEEN.removeAll();
 		this.appPixi.ticker.remove(this.fncTicker);

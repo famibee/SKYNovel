@@ -966,11 +966,9 @@ export class ScriptIterator {
 
 	// スクリプト再読込
 	private reload_script(hArg: HArg) {	// 最後の[record_place]から再開
-		return this.reload_script_FromMark(hArg, this.val.getMark(0));
-	}
-	private reload_script_FromMark(hArg: HArg, mark: IMark): boolean {
+		const mark = this.val.getMark(0);
 		// 起動から再読込までの間に追加・変更・削除されたファイルがあるかも、に対応
-	//	delete this.hScript[this.scriptFn_];	// これだと[reload_script]位置になる
+		//	delete this.hScript[this.scriptFn_];	// これだと[reload_script]位置になる
 		delete this.hScript[CmnLib.getFn(mark.hSave['const.sn.scriptFn'])];
 
 	//	CmnLib.setSearchPath(MainThread.xmlConfig);	// TODO: 後々にはこれもリロード

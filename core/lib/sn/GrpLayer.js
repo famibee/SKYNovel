@@ -113,7 +113,7 @@ class GrpLayer extends Layer_1.Layer {
         if (!r)
             return new pixi_js_1.Sprite;
         switch (r.type) {
-            case pixi_js_1.loaders.Resource.TYPE.JSON:
+            case 1:
                 const aFK = r.spritesheet._frameKeys;
                 const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
                 if (a_base_name) {
@@ -129,7 +129,7 @@ class GrpLayer extends Layer_1.Layer {
                     aTex.push(pixi_js_1.Texture.fromFrame(v));
                 GrpLayer.hFn2ResAniSpr[r.name] = { aTex: aTex, meta: r.data.meta };
                 return GrpLayer.mkSprite(fn, res);
-            case pixi_js_1.loaders.Resource.TYPE.VIDEO:
+            case 5:
                 return new pixi_js_1.Sprite(pixi_js_1.Texture.fromVideo(r.data));
             default:
                 return new pixi_js_1.Sprite(r.texture);

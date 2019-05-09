@@ -151,7 +151,7 @@ export class GrpLayer extends Layer {
 		const r: any = (res as any)[fn];
 		if (! r) return new Sprite;	// ロード中にリソース削除
 		switch (r.type) {
-			case loaders.Resource.TYPE.JSON:	// アニメスプライト
+			case 1:		//loaders.Resource.TYPE.JSON:	// アニメスプライト
 				const aFK: string[] = r.spritesheet._frameKeys;
 				const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
 				if (a_base_name) {
@@ -168,7 +168,7 @@ export class GrpLayer extends Layer {
 				GrpLayer.hFn2ResAniSpr[r.name] = {aTex: aTex, meta: r.data.meta};
 				return GrpLayer.mkSprite(fn, res);
 
-			case loaders.Resource.TYPE.VIDEO:
+			case 5:		// loaders.Resource.TYPE.VIDEO:
 				return new Sprite(Texture.fromVideo(r.data));
 				//	const hve = vsp.texture.baseTexture.source as HTMLVideoElement;
 				//const hve = r.data as HTMLVideoElement;

@@ -145,7 +145,7 @@ export class EventMng implements IEvtMng {
 		//if (! e.isTrusted) return;
 		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 
-		if (e.key in this.hDownKeys) this.hDownKeys[e.key] = e.repeating ?2 :1;
+		if (e.key in this.hDownKeys) this.hDownKeys[e.key] = e.repeat ?2 :1;
 
 		const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
 		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
@@ -460,6 +460,9 @@ export class EventMng implements IEvtMng {
 					: this.val.getVal('sys:sn.auto.msecLineWait'))
 			});
 		}
+
+		if (this.isSkipKeyDown()) return false;
+			// TODO: ここ？　一つ上？　というか isSkipKeyDown をキー放すまでfalse化？
 
 		if (CmnLib.argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine();
 

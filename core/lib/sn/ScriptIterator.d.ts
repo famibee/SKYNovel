@@ -93,7 +93,6 @@ export declare class ScriptIterator {
     private load;
     private loadFromMark;
     private reload_script;
-    private reload_script_FromMark;
     private mark;
     private record_place;
     private save;

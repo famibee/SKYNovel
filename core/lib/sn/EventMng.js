@@ -116,7 +116,7 @@ class EventMng {
         if (e['isComposing'])
             return;
         if (e.key in this.hDownKeys)
-            this.hDownKeys[e.key] = e.repeating ? 2 : 1;
+            this.hDownKeys[e.key] = e.repeat ? 2 : 1;
         const key = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
             + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
             + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
@@ -376,6 +376,8 @@ class EventMng {
                     : this.val.getVal('sys:sn.auto.msecLineWait'))
             });
         }
+        if (this.isSkipKeyDown())
+            return false;
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true))
             this.layMng.breakLine();
         this.stdWait(() => this.main.resume());

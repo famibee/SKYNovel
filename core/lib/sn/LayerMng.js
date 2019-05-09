@@ -5,6 +5,7 @@ const CmnTween_1 = require("./CmnTween");
 const Pages_1 = require("./Pages");
 const GrpLayer_1 = require("./GrpLayer");
 const TxtLayer_1 = require("./TxtLayer");
+const RubySpliter_1 = require("./RubySpliter");
 const FrameMng_1 = require("./FrameMng");
 const Button_1 = require("./Button");
 const TWEEN = require("@tweenjs/tween.js");
@@ -177,7 +178,7 @@ void main(void) {
         this.hPages[pg].destroy(); }
     destroy() {
         GrpLayer_1.GrpLayer.destroy();
-        TxtLayer_1.TxtLayer.destroy();
+        RubySpliter_1.RubySpliter.destroy();
         TWEEN.removeAll();
         this.appPixi.ticker.remove(this.fncTicker);
         LayerMng.$msecChWait = 10;
