@@ -157,9 +157,10 @@ export class TxtStage extends Container {
 	};
 
 
-	goTxt(aSpan: string[]) {
+	goTxt(aSpan: string[], layname: string) {
 		if (aSpan.length == 0) return;
 		this.aSpan1to2 = [...aSpan];
+		this.name = layname;	// クリック待ち表示に使用
 
 		//console.log(`🍅 goTxt htmTxt:${this.htmTxt.textContent}`);
 		if (++this.cntGoTxtSerializer == 1) this.goTxt2();	// VAL++ == 0
@@ -545,7 +546,6 @@ export class TxtStage extends Container {
 
 	private goTxt3  = (tx: Texture, padTx4x: number, padTx4y: number)=> this.goTxt3_tx2sp(tx, padTx4x, padTx4y);
 	private	spSkip	: Sprite | null	= null;
-	private	wasSkip	= false;
 	private static	readonly	REG_SURROGATE	= /[\uDC00-\uDFFF]/;
 	private aRect   : IChRect[]	= [];
 	private ch_filter	: any[] | null;	// 文字にかけるフィルター
@@ -556,7 +556,6 @@ export class TxtStage extends Container {
 		if (this.spSkip) this.cntTxt.removeChild(this.spSkip);
 		if (TxtStage.fncChkSkip()) {
 			// 個別文字テクスチャ制作用の元テクスチャで、瞬時表示
-			this.wasSkip = true;
 			this.spSkip = new Sprite(tx);
 			this.spSkip.x -= padTx4x;
 			this.spSkip.y -= padTx4y;
@@ -564,14 +563,6 @@ export class TxtStage extends Container {
 		//	this.putBreakMark();	// 表示を省略
 			return;
 		}
-		if (this.wasSkip) {	// skip終了直後
-			this.wasSkip = false;
-//console.log(`🍊 lay:${this.name} skip終了直後 txt:${this.htmTxt.textContent}`);
-			// TODO: クリック待ち記号を正しい位置に表示
-
-			return;
-		}
-		this.wasSkip = false;
 		this.spSkip = null;
 
 
@@ -764,27 +755,15 @@ export class TxtStage extends Container {
 				}
 			}
 		}
-		this.putBreakMark(delay);
+		this.putBreakMark(delay + this.ch_anime_time_仮);
 	}
 
 	private putBreakMark(delay = 0) {
 		const cnt = TxtLayer.cntBreak;	// Tween開始時の Obj を保存
-/**/console.log(`fn:TxtStage.ts line:1193 putBreakMark htmTxt:${this.htmTxt.textContent} cnt.parent:${cnt.parent} !cnt.visible:${! cnt.visible} TxtStage.cntLayName:${TxtStage.cntLayName} this.name:${this.name}`);
+		if (delay == 0) {cnt.visible = true; return;}
+
 		if (cnt.parent && ! cnt.visible && TxtStage.cntLayName == this.name) {
 			cnt.visible = true;
-			const fncDisp = ()=> {
-				const rct = this.aRect.slice(-1)[0].rect;
-				cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
-console.log(`fn:TxtStage.ts line:778 cnt:%o`, cnt);
-				if (this.htmTxt.style.writingMode == 'vertical-rl') {
-					cnt.y += this.infTL.fontsize;
-				}
-				else {
-					cnt.x += this.infTL.fontsize;
-				}
-			};
-			if (delay == 0) return;
-
 			const st: ISpTw = {
 				sp: cnt,
 				tw: new TWEEN.Tween(cnt)
@@ -793,7 +772,14 @@ console.log(`fn:TxtStage.ts line:778 cnt:%o`, cnt);
 					.onComplete(()=> {
 						st.tw = null;
 
-						fncDisp();
+						const rct = this.aRect.slice(-1)[0].rect;
+						cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
+						if (this.htmTxt.style.writingMode == 'vertical-rl') {
+							cnt.y += this.infTL.fontsize;
+						}
+						else {
+							cnt.x += this.infTL.fontsize;
+						}
 					})
 					.start(),
 			};
@@ -924,7 +910,7 @@ console.log(`fn:TxtStage.ts line:778 cnt:%o`, cnt);
 //		to.htmTxt = this.htmTxt;
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
 
-		to.name = this.name;	// 4Debug。++カウンターし、dump表示させても良さげ
+	//	to.name = this.name;	// 4Debug。++カウンターし、dump表示させても良さげ
 
 		to.ch_filter = this.ch_filter;
 		to.lh_half = this.lh_half;

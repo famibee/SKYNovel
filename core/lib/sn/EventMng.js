@@ -376,8 +376,6 @@ class EventMng {
                     : this.val.getVal('sys:sn.auto.msecLineWait'))
             });
         }
-        if (this.isSkipKeyDown())
-            return false;
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true))
             this.layMng.breakLine();
         this.stdWait(() => this.main.resume());

@@ -27,7 +27,7 @@ export declare class TxtStage extends Container {
     lay(hArg: HArg): void;
     setSize(width: number, height: number): void;
     private static readonly hWarning;
-    goTxt(aSpan: string[]): void;
+    goTxt(aSpan: string[], layname: string): void;
     private aSpan1to2;
     private goTxt2;
     private cntGoTxtSerializer;
@@ -35,7 +35,6 @@ export declare class TxtStage extends Container {
     private goTxt2_htm2tx;
     private goTxt3;
     private spSkip;
-    private wasSkip;
     private static readonly REG_SURROGATE;
     private aRect;
     private ch_filter;

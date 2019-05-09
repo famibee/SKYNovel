@@ -67,7 +67,7 @@ class TxtLayer extends Layer_1.Layer {
                     switch (a_ruby[0]) {
                         case 'gotxt':
                             this.autoCloseSpan();
-                            this.txs.goTxt(this.aSpan);
+                            this.txs.goTxt(this.aSpan, this.name);
                             return;
                         case 'add':
                             if (this.aSpan_bk) {
@@ -361,7 +361,7 @@ class TxtLayer extends Layer_1.Layer {
             const cls = (e instanceof pixi_js_1.Sprite) ? "Sprite" : ((e instanceof pixi_js_1.Graphics) ? "Graphics" : ((e instanceof pixi_js_1.Container) ? "Container" : "?"));
             aPixiObj.push(`{"class":"${cls}", "name":"${e.name}", "alpha":${e.alpha || 1}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`);
         }
-        return super.dump() + `, "enabled":"${this.enabled}, ${this.txs.dump()}", "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${aPixiObj.join(',')}]`;
+        return super.dump() + `, "enabled":"${this.enabled}", ${this.txs.dump()}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${aPixiObj.join(',')}]`;
     }
 }
 TxtLayer.cntBreak = new pixi_js_1.Container;

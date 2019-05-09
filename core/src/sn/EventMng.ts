@@ -461,9 +461,6 @@ export class EventMng implements IEvtMng {
 			});
 		}
 
-		if (this.isSkipKeyDown()) return false;
-			// TODO: ここ？　一つ上？　というか isSkipKeyDown をキー放すまでfalse化？
-
 		if (CmnLib.argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine();
 
 		this.stdWait(()=> this.main.resume());	// stdWait()したらreturn true;

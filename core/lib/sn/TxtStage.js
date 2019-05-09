@@ -24,7 +24,6 @@ class TxtStage extends pixi_js_1.Container {
         this.aSpan = [];
         this.goTxt3 = (tx, padTx4x, padTx4y) => this.goTxt3_tx2sp(tx, padTx4x, padTx4y);
         this.spSkip = null;
-        this.wasSkip = false;
         this.aRect = [];
         this.xz4htm2rect = 0;
         this.aSpTw = [];
@@ -112,10 +111,11 @@ class TxtStage extends pixi_js_1.Container {
         this.htmTxt.style.width = this.infTL.$width + 'px';
         this.htmTxt.style.height = this.infTL.$height + 'px';
     }
-    goTxt(aSpan) {
+    goTxt(aSpan, layname) {
         if (aSpan.length == 0)
             return;
         this.aSpan1to2 = [...aSpan];
+        this.name = layname;
         if (++this.cntGoTxtSerializer == 1)
             this.goTxt2();
     }
@@ -381,18 +381,12 @@ class TxtStage extends pixi_js_1.Container {
         if (this.spSkip)
             this.cntTxt.removeChild(this.spSkip);
         if (TxtStage.fncChkSkip()) {
-            this.wasSkip = true;
             this.spSkip = new pixi_js_1.Sprite(tx);
             this.spSkip.x -= padTx4x;
             this.spSkip.y -= padTx4y;
             this.cntTxt.addChild(this.spSkip);
             return;
         }
-        if (this.wasSkip) {
-            this.wasSkip = false;
-            return;
-        }
-        this.wasSkip = false;
         this.spSkip = null;
         const lenPutedRect = this.aRect.length;
         this.htmTxt.hidden = false;
@@ -562,26 +556,16 @@ class TxtStage extends pixi_js_1.Container {
                     }
             }
         }
-        this.putBreakMark(delay);
+        this.putBreakMark(delay + this.ch_anime_time_仮);
     }
     putBreakMark(delay = 0) {
         const cnt = TxtLayer_1.TxtLayer.cntBreak;
-        console.log(`fn:TxtStage.ts line:1193 putBreakMark htmTxt:${this.htmTxt.textContent} cnt.parent:${cnt.parent} !cnt.visible:${!cnt.visible} TxtStage.cntLayName:${TxtStage.cntLayName} this.name:${this.name}`);
+        if (delay == 0) {
+            cnt.visible = true;
+            return;
+        }
         if (cnt.parent && !cnt.visible && TxtStage.cntLayName == this.name) {
             cnt.visible = true;
-            const fncDisp = () => {
-                const rct = this.aRect.slice(-1)[0].rect;
-                cnt.position.set(rct.x - this.xz4htm2rect, rct.y);
-                console.log(`fn:TxtStage.ts line:778 cnt:%o`, cnt);
-                if (this.htmTxt.style.writingMode == 'vertical-rl') {
-                    cnt.y += this.infTL.fontsize;
-                }
-                else {
-                    cnt.x += this.infTL.fontsize;
-                }
-            };
-            if (delay == 0)
-                return;
             const st = {
                 sp: cnt,
                 tw: new TWEEN.Tween(cnt)
@@ -589,7 +573,14 @@ class TxtStage extends pixi_js_1.Container {
                     .delay(delay)
                     .onComplete(() => {
                     st.tw = null;
-                    fncDisp();
+                    const rct = this.aRect.slice(-1)[0].rect;
+                    cnt.position.set(rct.x - this.xz4htm2rect, rct.y);
+                    if (this.htmTxt.style.writingMode == 'vertical-rl') {
+                        cnt.y += this.infTL.fontsize;
+                    }
+                    else {
+                        cnt.x += this.infTL.fontsize;
+                    }
                 })
                     .start(),
             };
@@ -670,7 +661,6 @@ class TxtStage extends pixi_js_1.Container {
         this.clearText();
         const to = new TxtStage(this.infTL, this.parent);
         to.htmTxt.style.cssText = this.htmTxt.style.cssText;
-        to.name = this.name;
         to.ch_filter = this.ch_filter;
         to.lh_half = this.lh_half;
         to.fi_easing = this.fi_easing;
