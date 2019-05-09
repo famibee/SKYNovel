@@ -58,7 +58,7 @@ export class Config implements IConfig {
 	userFnTail		= '';
 
 	private	hPathFn2Exts	: IFn2Path		= {};
-	getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
+	readonly getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
 
 	static	readonly	EXT_SPRITE	= 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';
 	static	readonly	EXT_SCRIPT	= 'sn_|sn';

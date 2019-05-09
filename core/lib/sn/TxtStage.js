@@ -566,11 +566,13 @@ class TxtStage extends pixi_js_1.Container {
     }
     putBreakMark(delay = 0) {
         const cnt = TxtLayer_1.TxtLayer.cntBreak;
+        console.log(`fn:TxtStage.ts line:1193 putBreakMark htmTxt:${this.htmTxt.textContent} cnt.parent:${cnt.parent} !cnt.visible:${!cnt.visible} TxtStage.cntLayName:${TxtStage.cntLayName} this.name:${this.name}`);
         if (cnt.parent && !cnt.visible && TxtStage.cntLayName == this.name) {
             cnt.visible = true;
             const fncDisp = () => {
                 const rct = this.aRect.slice(-1)[0].rect;
                 cnt.position.set(rct.x - this.xz4htm2rect, rct.y);
+                console.log(`fn:TxtStage.ts line:778 cnt:%o`, cnt);
                 if (this.htmTxt.style.writingMode == 'vertical-rl') {
                     cnt.y += this.infTL.fontsize;
                 }

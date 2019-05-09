@@ -36,12 +36,12 @@ export declare class Variable implements IVariable {
     private let_substr;
     private clearsysvar;
     private clearvar;
-    private setVal;
+    private readonly setVal;
     setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
-    getVal: (arg_name: string, def?: string | number | undefined) => any;
+    readonly getVal: (arg_name: string, def?: string | number | undefined) => any;
     private castAuto;
     private REG_NUMERICLITERAL;
-    private dump_val;
+    private readonly dump_val;
     private hValTrg;
     defValTrg(name: string, fnc: ISetVal): void;
     private runFirst_Bool_hSysVal_true;

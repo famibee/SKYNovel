@@ -18,9 +18,9 @@ export declare class SysApp extends SysNode {
     private readonly win;
     private readonly wc;
     init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void;
-    protected close: () => boolean;
-    protected navigate_to: (hArg: HArg) => boolean;
-    protected title: (hArg: HArg) => boolean;
-    protected tgl_full_scr: (hArg: HArg) => boolean;
-    protected window: (hArg: HArg) => boolean;
+    protected readonly close: () => boolean;
+    protected readonly navigate_to: (hArg: HArg) => boolean;
+    protected readonly title: (hArg: HArg) => boolean;
+    protected readonly tgl_full_scr: (hArg: HArg) => boolean;
+    protected readonly window: (hArg: HArg) => boolean;
 }

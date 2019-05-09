@@ -153,7 +153,7 @@ export class PropParser {
 		this.parser = tableParser.trim(P.optWhitespace);
 	}
 
-	parse: IParse =s=> {
+	readonly parse: IParse =s=> {
 		//console.log("🌱 Parsimmon'%s'", s);
 		const p = this.parser.parse(s);
 		if (! p.status) throw Error('(PropParser)文法エラー【'+ s +'】');

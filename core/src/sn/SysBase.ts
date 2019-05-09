@@ -71,8 +71,8 @@ export class SysBase implements ISysBase {
 	protected	readonly close			: ITag = ()=> false;
 	protected	readonly navigate_to	: ITag = ()=> false;
 	protected	readonly title			: ITag = ()=> false;
-	protected	tgl_full_scr	: ITag = ()=> false;
-	protected	readonly window		: ITag = ()=> false;
+	protected	tgl_full_scr			: ITag = ()=> false;
+	protected	readonly window			: ITag = ()=> false;
 
 	protected	readonly isApp = ()=> false;
 	protected $path_desktop	= '';

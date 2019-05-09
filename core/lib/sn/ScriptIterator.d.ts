@@ -23,13 +23,13 @@ export declare class ScriptIterator {
     subIdxToken(): void;
     private lineNum_;
     readonly lineNum: number;
-    addLineNum: (len: number) => void;
+    readonly addLineNum: (len: number) => void;
     readonly now_token: string;
     private aCallStk;
     readonly isEmptyCallStk: boolean;
     readonly lenCallStk: number;
     readonly lastHArg: any;
-    getCallStk: (idx: number) => ICallStackArg | null;
+    readonly getCallStk: (idx: number) => ICallStackArg | null;
     private csAnalyBf;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, parse: IParse, sndMng: SoundMng);
     private evtMng;

@@ -20,14 +20,14 @@ export declare class Main implements IMain {
     private fncresume;
     resume: (fnc?: () => void) => void;
     resumeByJumpOrCall(hArg: HArg): void;
-    stop: () => void;
+    readonly stop: () => void;
     private runAnalyze;
     private タグ解析;
-    private getValAmpersand;
-    pauseDev: () => void;
-    resumeDev: () => void;
+    private readonly getValAmpersand;
+    readonly pauseDev: () => void;
+    readonly resumeDev: () => void;
     destroy(ms_late?: number): Promise<void>;
     private destroyed;
-    isDestroyed: () => boolean;
+    readonly isDestroyed: () => boolean;
     private clone_cvs;
 }

@@ -4,6 +4,10 @@ const CmnLib_1 = require("./CmnLib");
 class Pages {
     constructor(layer, cls_, fore, hArgFore, back, hArgBack, sys, val) {
         this.cls_ = cls_;
+        this.lay = (hArg) => this.getPage(hArg).lay(hArg);
+        this.getPage = (hArg) => (Pages.argChk_page(hArg, 'fore') != 'back')
+            ? this.pg.fore
+            : this.pg.back;
         const fncF = sys.hFactoryCls[cls_];
         if (!fncF)
             throw `属性 class【${cls_}】が不正です`;
@@ -34,12 +38,6 @@ class Pages {
     destroy() {
         this.pg.fore.destroy();
         this.pg.back.destroy();
-    }
-    lay(hArg) { return this.getPage(hArg).lay(hArg); }
-    getPage(hArg) {
-        return (Pages.argChk_page(hArg, 'fore') != 'back')
-            ? this.pg.fore
-            : this.pg.back;
     }
     static argChk_page(hash, def) {
         const v = hash.page || def;

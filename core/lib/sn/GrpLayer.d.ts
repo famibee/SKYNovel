@@ -35,7 +35,7 @@ export declare class GrpLayer extends Layer {
     static add_face(hArg: HArg): boolean;
     static clearFace2Name(): void;
     clearLay(hArg: HArg): void;
-    record: () => {
+    readonly record: () => {
         name: string;
         idx: number;
         alpha: number;

@@ -549,7 +549,7 @@ export class EventMng implements IEvtMng {
 		return true;
 	}
 
-	cr = (len: number)=> this.scrItr.addLineNum(len);
+	readonly cr = (len: number)=> this.scrItr.addLineNum(len);
 
 	isSkipKeyDown(): boolean {
 		for (const v in this.hDownKeys) if (this.hDownKeys[v] == 2) return true;

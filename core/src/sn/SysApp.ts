@@ -105,9 +105,9 @@ export class SysApp extends SysNode {
 	}
 
 	// アプリの終了
-	protected close = ()=> {this.win.close(); return false;}
+	protected readonly close = ()=> {this.win.close(); return false;}
 	// ＵＲＬを開く
-	protected navigate_to = (hArg: HArg)=> {
+	protected readonly navigate_to = (hArg: HArg)=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 		shell.openExternal(url);
@@ -115,7 +115,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// タイトル指定
-	protected title = (hArg: HArg)=> {
+	protected readonly title = (hArg: HArg)=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 
@@ -124,7 +124,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// 全画面状態切替
-	protected tgl_full_scr = (hArg: HArg)=> {
+	protected readonly tgl_full_scr = (hArg: HArg)=> {
 		if (hArg.key) return false;
 			// アプリ版は[toggle_full_screen key=w]でなにもしないように。
 
@@ -163,7 +163,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// アプリウインドウ設定
-	protected window = (hArg: HArg)=> {
+	protected readonly window = (hArg: HArg)=> {
 		const screenRX = this.dsp.size.width;
 		const screenRY = this.dsp.size.height;
 		if (CmnLib.argChk_Boolean(hArg, 'centering', false)) {

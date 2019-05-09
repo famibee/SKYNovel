@@ -445,7 +445,7 @@ export class Variable implements IVariable {
 		return false;
 	}
 
-	private setVal = (arg_name: string, val: any, autocast = true)=> {
+	private readonly setVal = (arg_name: string, val: any, autocast = true)=> {
 		if (! arg_name) throw '[変数に値セット] nameは必須です';
 		if (val == null) throw '[変数に値セット] textは必須です（空文字はOK）';
 
@@ -478,7 +478,7 @@ export class Variable implements IVariable {
 		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg != null)}]`);
 	}
 
-	getVal = (arg_name: string, def?: number | string)=> {
+	readonly getVal = (arg_name: string, def?: number | string)=> {
 		if (! arg_name) throw '[変数参照] nameは必須です';
 
 		const o = PropParser.getValName(arg_name);
@@ -513,7 +513,7 @@ export class Variable implements IVariable {
 
 
 	// 変数のダンプ
-	private dump_val = ()=> {
+	private readonly dump_val = ()=> {
 		const val: any = {tmp:{}, sys:{}, save:{}, mp:{}};
 		for (let scope in val) {
 			const hVal = this.hScope[scope];

@@ -35,12 +35,12 @@ export declare class TxtLayer extends Layer {
     private aSpan;
     private aSpan_bk;
     private autoCloseSpan;
-    click: () => boolean;
+    readonly click: () => boolean;
     clearText(): void;
     enabled: boolean;
     addButton(hArg: HArg): boolean;
     clearLay(hArg: HArg): void;
-    record: () => {
+    readonly record: () => {
         name: string;
         idx: number;
         alpha: number;

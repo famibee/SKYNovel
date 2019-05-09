@@ -43,7 +43,7 @@ export class ScriptIterator {
 	subIdxToken(): void {--this.idxToken_;};
 	private lineNum_	= 0;
 	get lineNum(): number {return this.lineNum_;}
-	addLineNum	= (len: number)=> {this.lineNum_ += len;};
+	readonly addLineNum	= (len: number)=> {this.lineNum_ += len;};
 
 	get now_token(): string {return this.script.aToken[this.idxToken_ -1];};
 
@@ -52,7 +52,7 @@ export class ScriptIterator {
 	get isEmptyCallStk(): boolean {return this.aCallStk.length == 0;};
 	get lenCallStk(): number {return this.aCallStk.length;};
 	get lastHArg(): any {return this.aCallStk[this.lenCallStk -1].hArg;};
-	getCallStk = (idx: number)=> this.aCallStk[idx].hArg;
+	readonly getCallStk = (idx: number)=> this.aCallStk[idx].hArg;
 
 	private csAnalyBf	: CallStack		= new CallStack('', 0);
 

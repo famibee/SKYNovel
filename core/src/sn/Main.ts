@@ -142,7 +142,7 @@ export class Main implements IMain {
 			this.resume(()=> this.hTag.jump(hArg));
 		}
 	}
-	stop = ()=> {
+	readonly stop = ()=> {
 		//console.log('stop!');
 		this.fncNext = ()=> {};
 		this.resume = this.fncresume;
@@ -286,12 +286,12 @@ export class Main implements IMain {
 
 		return tag_fnc(hArg);
 	}
-	private getValAmpersand = (val: string)=> (val.charAt(0) == '&')
+	private readonly getValAmpersand = (val: string)=> (val.charAt(0) == '&')
 		? String(this.prpPrs.parse(val.substr(1)))
 		: val;
 
-	pauseDev = ()=> this.appPixi.stop();
-	resumeDev = ()=> this.appPixi.start();
+	readonly pauseDev = ()=> this.appPixi.stop();
+	readonly resumeDev = ()=> this.appPixi.start();
 
 
 	async destroy(ms_late = 0) {
@@ -315,7 +315,7 @@ export class Main implements IMain {
 		this.appPixi.destroy(true);
 	}
 	private	destroyed = false;
-	isDestroyed = ()=> this.destroyed;
+	readonly isDestroyed = ()=> this.destroyed;
 	private clone_cvs	: HTMLCanvasElement;
 
 }

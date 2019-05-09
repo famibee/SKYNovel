@@ -36,6 +36,6 @@ export declare class CmnLib {
     static cnvMultilineTag(txt: string): string;
     static splitAmpersand(token: string): object;
     static readonly REG_TAG: RegExp;
-    static getFn: (path: string) => string;
-    static getExt: (path: string) => string;
+    static readonly getFn: (path: string) => string;
+    static readonly getExt: (path: string) => string;
 }

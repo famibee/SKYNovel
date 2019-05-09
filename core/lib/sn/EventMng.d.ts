@@ -43,7 +43,7 @@ export declare class EventMng implements IEvtMng {
     private set_cancel_skip;
     private unregisterClickEvts;
     private wait;
-    cr: (len: number) => void;
+    readonly cr: (len: number) => void;
     isSkipKeyDown(): boolean;
     private readonly hDownKeys;
 }

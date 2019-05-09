@@ -768,13 +768,14 @@ export class TxtStage extends Container {
 	}
 
 	private putBreakMark(delay = 0) {
-//console.log(`fn:TxtStage.ts line:1193 putBreakMark htmTxt:${this.htmTxt.textContent}`);
 		const cnt = TxtLayer.cntBreak;	// Tween開始時の Obj を保存
+/**/console.log(`fn:TxtStage.ts line:1193 putBreakMark htmTxt:${this.htmTxt.textContent} cnt.parent:${cnt.parent} !cnt.visible:${! cnt.visible} TxtStage.cntLayName:${TxtStage.cntLayName} this.name:${this.name}`);
 		if (cnt.parent && ! cnt.visible && TxtStage.cntLayName == this.name) {
 			cnt.visible = true;
 			const fncDisp = ()=> {
 				const rct = this.aRect.slice(-1)[0].rect;
 				cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
+console.log(`fn:TxtStage.ts line:778 cnt:%o`, cnt);
 				if (this.htmTxt.style.writingMode == 'vertical-rl') {
 					cnt.y += this.infTL.fontsize;
 				}

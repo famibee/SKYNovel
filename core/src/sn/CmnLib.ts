@@ -188,7 +188,7 @@ export class CmnLib {
 	static	readonly	REG_TAG	= m_xregexp(`^\\[ (?<name>\\S*) (\\s+ (?<args>.+) )? ]$`, 'x');
 
 
-	static	getFn = (path: string)=> m_path.basename(path, m_path.extname(path));
-	static	getExt = (path: string)=> m_path.extname(path).slice(1);
+	static	readonly 	getFn = (path: string)=> m_path.basename(path, m_path.extname(path));
+	static	readonly 	getExt = (path: string)=> m_path.extname(path).slice(1);
 
 }

@@ -6,7 +6,7 @@ export declare class PropParser {
     private val;
     private parser;
     constructor(val: IVariable);
-    parse: IParse;
+    readonly parse: IParse;
     private calc;
     private hFnc;
     private fncSub_ChkNum;

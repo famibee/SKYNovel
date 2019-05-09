@@ -228,7 +228,7 @@ export class GrpLayer extends Layer {
 		this.sBkFace= '';
 		this.csvFn	= '';
 	}
-	record = ()=> Object.assign(super.record(), {
+	readonly record = ()=> Object.assign(super.record(), {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
 	});

@@ -373,7 +373,7 @@ export class TxtLayer extends Layer {
 		this.aSpan_bk = null;
 	}
 
-	click = ()=> this.txs.skipFI();	// true is stay
+	readonly click = ()=> this.txs.skipFI();	// true is stay
 
 	clearText(): void {
 		this.txs = this.txs.passBaton();
@@ -401,7 +401,7 @@ export class TxtLayer extends Layer {
 		this.clearText();
 		for (const c of this.cntBtn.removeChildren()) c.removeAllListeners().destroy();	// removeAllListeners()はマウスオーバーイベントなど。クリックは別
 	}
-	record = ()=> Object.assign(super.record(), {
+	readonly record = ()=> Object.assign(super.record(), {
 		enabled	: this.enabled,
 
 		// バック
