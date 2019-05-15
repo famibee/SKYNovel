@@ -8,7 +8,6 @@ const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
 const TWEEN = require("@tweenjs/tween.js");
 const pixi_filters_1 = require("pixi-filters");
-const TxtLayer_1 = require("./TxtLayer");
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
@@ -23,7 +22,6 @@ class TxtStage extends pixi_js_1.Container {
         this.cntGoTxtSerializer = 0;
         this.aSpan = [];
         this.goTxt3 = (tx, padTx4x, padTx4y) => this.goTxt3_tx2sp(tx, padTx4x, padTx4y);
-        this.spSkip = null;
         this.aRect = [];
         this.xz4htm2rect = 0;
         this.aSpTw = [];
@@ -42,10 +40,6 @@ class TxtStage extends pixi_js_1.Container {
     }
     static init(cfg, hTag, recText) {
         TxtStage.cfg = cfg;
-        if (!cfg.existsBreakline)
-            TxtStage.hNoReplaceDispObj['breakline'] = true;
-        if (!cfg.existsBreakpage)
-            TxtStage.hNoReplaceDispObj['breakpage'] = true;
         hTag['autowc'] = o => TxtStage.autowc(o);
         TxtStage.recText = recText;
         TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
@@ -378,16 +372,13 @@ class TxtStage extends pixi_js_1.Container {
             .catch(err => DebugMng_1.DebugMng.myTrace(`goTxt() = ${err}`));
     }
     goTxt3_tx2sp(tx, padTx4x, padTx4y) {
-        if (this.spSkip)
-            this.cntTxt.removeChild(this.spSkip);
         if (TxtStage.fncChkSkip()) {
-            this.spSkip = new pixi_js_1.Sprite(tx);
-            this.spSkip.x -= padTx4x;
-            this.spSkip.y -= padTx4y;
-            this.cntTxt.addChild(this.spSkip);
+            const sp = new pixi_js_1.Sprite(tx);
+            sp.x -= padTx4x;
+            sp.y -= padTx4y;
+            this.cntTxt.addChild(sp);
             return;
         }
-        this.spSkip = null;
         const lenPutedRect = this.aRect.length;
         this.htmTxt.hidden = false;
         const aRect = this.getChRects(this.htmTxt);
@@ -529,8 +520,6 @@ class TxtStage extends pixi_js_1.Container {
             };
             switch (v.cmd) {
                 case 'grp':
-                    if (o.pic in TxtStage.hNoReplaceDispObj)
-                        break;
                     const cnt = new pixi_js_1.Container;
                     this.cntTxt.addChild(cnt);
                     spWork(cnt, false);
@@ -556,36 +545,51 @@ class TxtStage extends pixi_js_1.Container {
                     }
             }
         }
-        this.putBreakMark(delay + this.ch_anime_time_仮);
+        this.putBreakMark(delay);
+    }
+    dispBreak(pic) {
+        const cnt = TxtStage.cntBreak;
+        cnt.visible = false;
+        this.addChild(cnt);
+        GrpLayer_1.GrpLayer.csv2Sprites(pic, cnt, sp => {
+            if (cnt.parent == null)
+                cnt.removeChild(sp);
+        });
+    }
+    static delBreak() {
+        const cnt = TxtStage.cntBreak;
+        if (cnt.parent) {
+            cnt.parent.removeChild(cnt);
+            cnt.removeChildren();
+        }
+        TxtStage.cntBreak = new pixi_js_1.Container;
     }
     putBreakMark(delay = 0) {
-        const cnt = TxtLayer_1.TxtLayer.cntBreak;
+        const cnt = TxtStage.cntBreak;
+        if (cnt.parent == null)
+            return;
+        const rct = this.aRect.slice(-1)[0].rect;
+        cnt.position.set(rct.x - this.xz4htm2rect, rct.y);
+        if (this.htmTxt.style.writingMode == 'vertical-rl') {
+            cnt.y += this.infTL.fontsize;
+        }
+        else {
+            cnt.x += this.infTL.fontsize;
+        }
         if (delay == 0) {
             cnt.visible = true;
             return;
         }
-        if (cnt.parent && !cnt.visible && TxtStage.cntLayName == this.name) {
-            cnt.visible = true;
-            const st = {
-                sp: cnt,
-                tw: new TWEEN.Tween(cnt)
-                    .to({ alpha: 1 }, 0)
-                    .delay(delay)
-                    .onComplete(() => {
-                    st.tw = null;
-                    const rct = this.aRect.slice(-1)[0].rect;
-                    cnt.position.set(rct.x - this.xz4htm2rect, rct.y);
-                    if (this.htmTxt.style.writingMode == 'vertical-rl') {
-                        cnt.y += this.infTL.fontsize;
-                    }
-                    else {
-                        cnt.x += this.infTL.fontsize;
-                    }
-                })
-                    .start(),
-            };
-            this.aSpTw.push(st);
-        }
+        cnt.visible = false;
+        const st = {
+            sp: cnt,
+            tw: new TWEEN.Tween(cnt)
+                .to({}, 0)
+                .delay(delay)
+                .onComplete(() => { st.tw = null; st.sp.visible = true; })
+                .start(),
+        };
+        this.aSpTw.push(st);
     }
     getChRects(elm) {
         const ret = [];
@@ -648,9 +652,7 @@ class TxtStage extends pixi_js_1.Container {
             for (const c of this.cntTxt.children) {
                 c.removeAllListeners();
                 new TWEEN.Tween(c)
-                    .to(this.fo, TxtStage.evtMng.isSkipKeyDown()
-                    ? 100
-                    : this.ch_anime_time_仮)
+                    .to(this.fo, this.ch_anime_time_仮)
                     .easing(ease)
                     .onComplete(o => this.cntTxt.removeChild(o))
                     .start();
@@ -713,11 +715,8 @@ class TxtStage extends pixi_js_1.Container {
         this.parent.removeChild(this.cntTxt);
         this.parent.removeChild(this.grpDbgMasume);
         super.destroy();
-        TxtStage.hNoReplaceDispObj = {};
     }
 }
-TxtStage.hNoReplaceDispObj = {};
-TxtStage.cntLayName = '';
 TxtStage.hWarning = {
     backgroundColor: 0,
     borderBottomWidth: 0,
@@ -731,6 +730,7 @@ TxtStage.hWarning = {
 };
 TxtStage.REG_SURROGATE = /[\uDC00-\uDFFF]/;
 TxtStage.fncChkSkip = () => false;
+TxtStage.cntBreak = new pixi_js_1.Container;
 TxtStage.doAutoWc = false;
 TxtStage.hAutoWc = {};
 TxtStage.autowc = (hArg) => {

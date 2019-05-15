@@ -16,7 +16,6 @@ import {GrpLayer} from './GrpLayer';
 import { DebugMng } from './DebugMng';
 import TWEEN = require('@tweenjs/tween.js');
 import {GlowFilter} from 'pixi-filters';
-import { TxtLayer } from './TxtLayer';
 
 export interface IInfTxLay {
 	fontsize	: number;
@@ -43,13 +42,9 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	private	static	cfg		: Config;
-	private	static	hNoReplaceDispObj	: {[name: string]: boolean} = {};
 	private	static	recText	: (txt: string)=> void;
 	static	init(cfg: Config, hTag: IHTag, recText: (txt: string)=> void): void {
 		TxtStage.cfg = cfg;
-
-		if (! cfg.existsBreakline) TxtStage.hNoReplaceDispObj['breakline'] = true;
-		if (! cfg.existsBreakpage) TxtStage.hNoReplaceDispObj['breakpage'] = true;
 
 		hTag['autowc'] = o=> TxtStage.autowc(o);
 		TxtStage.recText = recText;
@@ -60,8 +55,6 @@ export class TxtStage extends Container {
 	private	static	evtMng	: IEvtMng;
 	static setEvtMng(evtMng: IEvtMng) {TxtStage.evtMng = evtMng;}
 
-//	private
-	static	cntLayName	= '';
 	private htmTxt		= document.createElement('span');	// サンプリング元
 	private cntTxt		= new Container;			// サンプリング先
 	private grpDbgMasume= new Graphics;
@@ -160,7 +153,7 @@ export class TxtStage extends Container {
 	goTxt(aSpan: string[], layname: string) {
 		if (aSpan.length == 0) return;
 		this.aSpan1to2 = [...aSpan];
-		this.name = layname;	// クリック待ち表示に使用
+		this.name = layname;	// dump表示などに使用
 
 		//console.log(`🍅 goTxt htmTxt:${this.htmTxt.textContent}`);
 		if (++this.cntGoTxtSerializer == 1) this.goTxt2();	// VAL++ == 0
@@ -545,7 +538,6 @@ export class TxtStage extends Container {
 	}
 
 	private goTxt3  = (tx: Texture, padTx4x: number, padTx4y: number)=> this.goTxt3_tx2sp(tx, padTx4x, padTx4y);
-	private	spSkip	: Sprite | null	= null;
 	private static	readonly	REG_SURROGATE	= /[\uDC00-\uDFFF]/;
 	private aRect   : IChRect[]	= [];
 	private ch_filter	: any[] | null;	// 文字にかけるフィルター
@@ -553,19 +545,17 @@ export class TxtStage extends Container {
 	private aSpTw	: ISpTw[]	= [];
 	private	static	fncChkSkip = ()=> false;
 	private goTxt3_tx2sp(tx: Texture, padTx4x: number, padTx4y: number) {
-		if (this.spSkip) this.cntTxt.removeChild(this.spSkip);
-		if (TxtStage.fncChkSkip()) {
-			// 個別文字テクスチャ制作用の元テクスチャで、瞬時表示
-			this.spSkip = new Sprite(tx);
-			this.spSkip.x -= padTx4x;
-			this.spSkip.y -= padTx4y;
-			this.cntTxt.addChild(this.spSkip);
+		if (TxtStage.fncChkSkip()) {	// 瞬時表示
+			const sp = new Sprite(tx);
+			sp.x -= padTx4x;
+			sp.y -= padTx4y;
+			this.cntTxt.addChild(sp);
 		//	this.putBreakMark();	// 表示を省略
 			return;
 		}
-		this.spSkip = null;
 
 
+		// 以降、個別文字テクスチャを作成・表示
 		const lenPutedRect = this.aRect.length;
 
 		this.htmTxt.hidden = false;
@@ -728,8 +718,6 @@ export class TxtStage extends Container {
 
 			switch (v.cmd) {
 			case 'grp':
-				if (o.pic in TxtStage.hNoReplaceDispObj) break;// 無くて良い場合
-
 				const cnt = new Container;	// コンテナひとつかまし、即時spWork()を
 				this.cntTxt.addChild(cnt);
 				spWork(cnt, false);
@@ -755,36 +743,52 @@ export class TxtStage extends Container {
 				}
 			}
 		}
-		this.putBreakMark(delay + this.ch_anime_time_仮);
+	//	this.putBreakMark(delay + this.ch_anime_time_仮);	// 微妙に遅い気がする
+		this.putBreakMark(delay);
 	}
 
+	private static	cntBreak	= new Container;
+	dispBreak(pic: string) {
+		const cnt = TxtStage.cntBreak;
+		cnt.visible = false;
+		this.addChild(cnt);
+
+		GrpLayer.csv2Sprites(pic, cnt, sp=> {
+			if (cnt.parent == null) cnt.removeChild(sp);
+		});
+	}
+	static	delBreak() {
+		const cnt = TxtStage.cntBreak;
+		if (cnt.parent) {
+			cnt.parent.removeChild(cnt);	// 他の文字Layerも想定
+			cnt.removeChildren();
+		}
+		TxtStage.cntBreak = new Container;
+	}
 	private putBreakMark(delay = 0) {
-		const cnt = TxtLayer.cntBreak;	// Tween開始時の Obj を保存
+		const cnt = TxtStage.cntBreak;	// Tween開始時の Obj を保存
+		if (cnt.parent == null) return;
+
+		const rct = this.aRect.slice(-1)[0].rect;
+		cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
+		if (this.htmTxt.style.writingMode == 'vertical-rl') {
+			cnt.y += this.infTL.fontsize;
+		}
+		else {
+			cnt.x += this.infTL.fontsize;
+		}
 		if (delay == 0) {cnt.visible = true; return;}
 
-		if (cnt.parent && ! cnt.visible && TxtStage.cntLayName == this.name) {
-			cnt.visible = true;
-			const st: ISpTw = {
-				sp: cnt,
-				tw: new TWEEN.Tween(cnt)
-					.to({alpha: 1}, 0)
-					.delay(delay)
-					.onComplete(()=> {
-						st.tw = null;
-
-						const rct = this.aRect.slice(-1)[0].rect;
-						cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
-						if (this.htmTxt.style.writingMode == 'vertical-rl') {
-							cnt.y += this.infTL.fontsize;
-						}
-						else {
-							cnt.x += this.infTL.fontsize;
-						}
-					})
-					.start(),
-			};
-			this.aSpTw.push(st);
-		}
+		cnt.visible = false;	// trueの場合はdelay後まで消したいので
+		const st: ISpTw = {
+			sp: cnt,
+			tw: new TWEEN.Tween(cnt)
+				.to({}, 0)
+				.delay(delay)
+				.onComplete(()=> {st.tw = null; st.sp.visible = true;})
+				.start(),
+		};
+		this.aSpTw.push(st);
 	}
 
 	private lh_half		= 0;	// 「g」などで下が欠ける問題対策
@@ -892,25 +896,19 @@ export class TxtStage extends Container {
 			for (const c of this.cntTxt.children) {
 				c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
 				new TWEEN.Tween(c)
-				.to(this.fo, TxtStage.evtMng.isSkipKeyDown()
-					? 100
-					: this.ch_anime_time_仮)
+				.to(this.fo, this.ch_anime_time_仮)
 				.easing(ease)
 				//.delay(i * LayerMng.msecChWait)
 				.onComplete(o=> this.cntTxt.removeChild(o))
 				.start();
 			}
 		}
-
 	}
 	passBaton(): TxtStage {
 		this.clearText();
 
 		const to = new TxtStage(this.infTL, this.parent);
-//		to.htmTxt = this.htmTxt;
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
-
-	//	to.name = this.name;	// 4Debug。++カウンターし、dump表示させても良さげ
 
 		to.ch_filter = this.ch_filter;
 		to.lh_half = this.lh_half;
@@ -986,6 +984,7 @@ export class TxtStage extends Container {
 		}
 		return `"txt":"${this.htmTxt.textContent!.replace(/(")/g, '\\$1')
 		}", "style":{${aStyle.join(',')}}`;
+			// 4Debug。++カウンターし、dump表示させても良さげ
 	}
 
 	destroy() {
@@ -994,7 +993,5 @@ export class TxtStage extends Container {
 		this.parent.removeChild(this.cntTxt);
 		this.parent.removeChild(this.grpDbgMasume);
 		super.destroy();
-
-		TxtStage.hNoReplaceDispObj = {};
 	}
 }

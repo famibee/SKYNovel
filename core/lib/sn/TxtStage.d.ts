@@ -14,12 +14,10 @@ export interface IInfTxLay {
 export declare class TxtStage extends Container {
     private infTL;
     private static cfg;
-    private static hNoReplaceDispObj;
     private static recText;
     static init(cfg: Config, hTag: IHTag, recText: (txt: string) => void): void;
     private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
-    static cntLayName: string;
     private htmTxt;
     private cntTxt;
     private grpDbgMasume;
@@ -34,7 +32,6 @@ export declare class TxtStage extends Container {
     private aSpan;
     private goTxt2_htm2tx;
     private goTxt3;
-    private spSkip;
     private static readonly REG_SURROGATE;
     private aRect;
     private ch_filter;
@@ -42,6 +39,9 @@ export declare class TxtStage extends Container {
     private aSpTw;
     private static fncChkSkip;
     private goTxt3_tx2sp;
+    private static cntBreak;
+    dispBreak(pic: string): void;
+    static delBreak(): void;
     private putBreakMark;
     private lh_half;
     private getChRects;

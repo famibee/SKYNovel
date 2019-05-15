@@ -24,8 +24,6 @@ export class TxtLayer extends Layer {
 	private	static	glbStyle: HTMLStyleElement;
 	private	static	cfg		: Config;
 
-	static	cntBreak	= new Container;
-
 	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void): void {
 		TxtLayer.cfg = cfg;
 		TxtStage.init(cfg, hTag, recText);
@@ -267,18 +265,7 @@ export class TxtLayer extends Layer {
 				if (! ('id' in oJsonGrp)) oJsonGrp.id = this.aSpan.length;
 
 				if (oJsonGrp.id == 'break') {
-					const cnt = TxtLayer.cntBreak;
-					TxtStage.cntLayName = this.name;
-					if (cnt.parent) cnt.parent.removeChild(cnt);
-						// 他の文字Layerも想定
-					cnt.removeChildren();
-					cnt.alpha = 0;
-					cnt.visible = false;
-					this.txs.addChild(cnt);
-					GrpLayer.csv2Sprites(oJsonGrp.pic, cnt, ()=> {
-						// ロード完了時にクリアされていた場合はコンテナを空に
-						if (! cnt.parent) cnt.removeChildren();
-					});
+					this.txs.dispBreak(oJsonGrp.pic);
 					return;	// breakではない
 				}
 
@@ -290,13 +277,7 @@ export class TxtLayer extends Layer {
 				const id_del = a_ruby[1];
 				if (id_del != 'break') throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
 
-				if (TxtLayer.cntBreak.parent) {
-					TxtLayer.cntBreak.parent.removeChild(TxtLayer.cntBreak);
-					TxtStage.cntLayName = '';
-				}
-				// TxtLayer.cntBreak.removeChildren();
-					// タイミングによってはこの後 addChild() されるかもなのでなにもしない
-				this.txs.skipFI();
+				TxtStage.delBreak();
 				return;	// breakではない
 
 			case 'span':

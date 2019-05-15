@@ -3,12 +3,10 @@ import { IEvtMng } from './CmnLib';
 import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
 import { IInfTxLay } from './TxtStage';
 import { Config } from './Config';
-import { Container } from 'pixi.js';
 export declare class TxtLayer extends Layer {
     private static val;
     private static glbStyle;
     private static cfg;
-    static cntBreak: Container;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void): void;
     private static main;
     private static evtMng;

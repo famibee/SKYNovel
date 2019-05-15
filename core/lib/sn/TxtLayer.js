@@ -89,18 +89,7 @@ class TxtLayer extends Layer_1.Layer {
                             if (!('id' in oJsonGrp))
                                 oJsonGrp.id = this.aSpan.length;
                             if (oJsonGrp.id == 'break') {
-                                const cnt = TxtLayer.cntBreak;
-                                TxtStage_1.TxtStage.cntLayName = this.name;
-                                if (cnt.parent)
-                                    cnt.parent.removeChild(cnt);
-                                cnt.removeChildren();
-                                cnt.alpha = 0;
-                                cnt.visible = false;
-                                this.txs.addChild(cnt);
-                                GrpLayer_1.GrpLayer.csv2Sprites(oJsonGrp.pic, cnt, () => {
-                                    if (!cnt.parent)
-                                        cnt.removeChildren();
-                                });
+                                this.txs.dispBreak(oJsonGrp.pic);
                                 return;
                             }
                             add_htm = `<span data-cmd='grp' data-id='${oJsonGrp.id}' data-arg='${a_ruby[1]}'>　</span>`;
@@ -111,11 +100,7 @@ class TxtLayer extends Layer_1.Layer {
                             const id_del = a_ruby[1];
                             if (id_del != 'break')
                                 throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
-                            if (TxtLayer.cntBreak.parent) {
-                                TxtLayer.cntBreak.parent.removeChild(TxtLayer.cntBreak);
-                                TxtStage_1.TxtStage.cntLayName = '';
-                            }
-                            this.txs.skipFI();
+                            TxtStage_1.TxtStage.delBreak();
                             return;
                         case 'span':
                             this.autoCloseSpan();
@@ -364,7 +349,6 @@ class TxtLayer extends Layer_1.Layer {
         return super.dump() + `, "enabled":"${this.enabled}", ${this.txs.dump()}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${aPixiObj.join(',')}]`;
     }
 }
-TxtLayer.cntBreak = new pixi_js_1.Container;
 exports.TxtLayer = TxtLayer;
 ;
 //# sourceMappingURL=TxtLayer.js.map
