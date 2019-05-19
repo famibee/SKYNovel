@@ -18,39 +18,14 @@ WebGL NovelGame framework by PixiJS
 ## description（説明）
 
 - コンセプトスライド（機能ギャラリー内に含めました）
-- [機能ギャラリー](https://famibee.github.io/SKYNovel_gallery/)
-- [Novelgame(Yoko-gaki) sample project「初音館にて」](https://github.com/famibee/SKYNovel_hatsune)
-- [Novelgame(Tate-gaki) sample project「桜の樹の下には」](https://github.com/famibee/SKYNovel_uc)
+- [開発者向け情報 Information for developers](https://famibee.github.io/SKYNovel/dev.htm)
 
 ## example
 
-- Package
-	- [simple sample project](https://github.com/famibee/SKYNovel_sample)
-	- [What can SKYNovel do? 'sample gallery' project](https://github.com/famibee/SKYNovel_gallery)
-	- [Novelgame(Tate-gaki) sample project](https://github.com/famibee/SKYNovel_uc)
-
-- Hello world（最小限のファイルによるプロジェクト）
-	- webpack ... require("skynovel/core/lib/web")	// (on browser)
-
-	- prj/prj.json
-	>```json
-	>{
-	>	"save_ns": "skynovel.firstdaze",
-	>	"search": ["mat"],
-	>	"window": {
-	>		"width": 300,
-	>		"height": 300
-	>	},
-	>}
-	>```
-	- prj/mat/main.sn
-	>```
-	>[add_lay layer=mes class=txt]
-	>
-	>Hello world ![r]
-	>雷《いかづち》の指《ゆび》でヒゲ焦し
-	>[s]
-	>```
+- [機能ギャラリー 'sample gallery'](https://famibee.github.io/SKYNovel_gallery/)
+- [Novelgame(Yoko-gaki) sample project「初音館にて」](https://github.com/famibee/SKYNovel_hatsune)
+- [Novelgame(Tate-gaki) sample project「桜の樹の下には」](https://github.com/famibee/SKYNovel_uc)
+- [simple sample project](https://github.com/famibee/SKYNovel_sample)
 
 ---
 ## api (method)
