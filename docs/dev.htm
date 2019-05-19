@@ -35,7 +35,7 @@
 	.ampstart-headerbar-nav .ampstart-nav-item.w-current-page{color:#066573}
 	.ampstart-headerbar-nav .ampstart-nav-item.w-current-page:after,.anchor[selected]:after{content:"";display:block;height:4px;background:linear-gradient(90deg,#491e10 0,#ff004d)}
 
-	li>a{text-decoration:none}
+	aside li>a{text-decoration:none}
 
 	.w-header{
 		background-image:linear-gradient(90deg,#491e10 0,#ff004d);
@@ -120,6 +120,12 @@
 	<h3>項目一覧</h3>
 	<p>入門編</p>
 	<ul class="anchors list-reset m0 p0 px1">
+		<li class="mb1"><a href="#isit">SKYNovelとは</a></li>
+		<li class="mb1"><a href="#howto_start">SKYNovelのはじめかた</a></li>
+		<li class="mb1"><a href="#inst_vscode">VSCodeをインストール</a></li>
+		<li class="mb1"><a href="#inst_vscex">拡張機能をインストール</a></li>
+		<li class="mb1"><a href="#inst_other">あとは 拡張機能 SKYNovel の指示に従って……</a></li>
+		<li class="mb1"><a href="#start_tmp">テンプレートで始めよう</a></li>
 		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 	</ul>
 	<p>中級テクニック</p>
@@ -137,6 +143,143 @@
 
 <h1>入門編</h1>
 
+<h2 id="isit" class="w-heading">SKYNovelとは</h2>
+<h4>WebGL・JavaScriptを中心としたWeb技術によるノベルゲームシステムです。</h4>
+<p class="mb2 px1">
+
+	<ul type="disc">
+	<li>参考記事：<a href="https://famibee.blog.fc2.com/blog-entry-604.html">一般公開開始時の概要記事</a></li>
+	<li><a href="https://famibee.github.io/SKYNovel_gallery/" target="_blank">どんな事が出来るの？ What can SKYNovel do? sample</a></li>
+		ブラウザから直接動かせるサンプルギャラリーです（ソースファイル）
+	</ul>
+
+</p>
+
+
+<h2 id="howto_start" class="w-heading">SKYNovelのはじめかた</h2>
+<h4>ほとんどGUIによるインストールで、コマンドラインはあまり触りません。</h4>
+<p class="mb2 px1">
+
+	<ul type="disc">
+	<li><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a>（以後VSCode）をインストール</li>
+	<li><a href="https://marketplace.visualstudio.com/items?itemName=famibee.skynovel" target="_blank">VSCode用拡張機能 SKYNovel</a> をインストール</li>
+	<li>あとは 拡張機能 SKYNovel の指示に従って……</li>
+</ul>
+
+</p>
+
+
+<h2 id="inst_vscode" class="w-heading">VSCodeをインストール</h2>
+<p class="mb2 px1">
+	VSCodeは多機能なテキストエディタで、SKYNovel開発環境のベースとなります。フリーウェアです。<br/>
+	<a href="https://code.visualstudio.com/" target="_blank">ダウンロード</a>してインストールしていきます。<br/>
+	<amp-img src="pic/inst_vscode0.jpg" width="500" height="600"></amp-img><br/>
+	<amp-img src="pic/inst_vscode1.png" width="484" height="120"></amp-img><br/>
+
+	<br/>
+	Macの場合も同様です。<br/>
+	<amp-img src="pic/inst_vscode0m.png" width="292" height="79"></amp-img><br/>
+	<amp-img src="pic/inst_vscode1m.png" width="480" height="120"></amp-img><br/>
+	Macの場合はzipを解凍するとappファイルが入っていますので、それを「アプリケーション」フォルダに移動するだけです。<br/>
+	<amp-img src="pic/inst_vscode2m.jpg" width="451" height="100"></amp-img><br/>
+	あとはアプリケーションとして起動できます。<br/>
+
+	<br/>
+	<br/>
+	以後は Windowsの場合について解説していきます。<br/>
+	exeを開くとインストーラーが起動します。<br/>
+	<amp-img src="pic/inst_vscode1.png" width="484" height="120"></amp-img><br/>
+	あとはよくあるソフトのインストールですが、注意点だけ赤丸しておきます。<br/>
+	<amp-img src="pic/inst_vscode10.jpg" width="510" height="401"></amp-img><br/>
+	<amp-img src="pic/inst_vscode11.jpg" width="508" height="397"></amp-img><br/>
+	<amp-img src="pic/inst_vscode12.jpg" width="508" height="394"></amp-img><br/>
+	<amp-img src="pic/inst_vscode13.jpg" width="506" height="395"></amp-img><br/>
+	<amp-img src="pic/inst_vscode14.jpg" width="508" height="397"></amp-img><br/>
+	<amp-img src="pic/inst_vscode15.jpg" width="506" height="393"></amp-img><br/>
+	<amp-img src="pic/inst_vscode16.png" width="507" height="393"></amp-img><br/>
+	インストールを完了し、起動できました。<br/>
+	<amp-img src="pic/inst_vscode17.png" width="839" height="488" layout="responsive"></amp-img><br/>
+
+</p>
+
+
+<h2 id="inst_vscex" class="w-heading">VSCode用拡張機能 SKYNovel をインストール</h2>
+<h4>起動したVSCodeからインストールできます。</h4>
+<p class="mb2 px1">
+
+	　左端の「Activity Bar」上から５つ目をクリックし、<br/>
+	検索窓に「SKYNovel」（大文字小文字関係なく）入力すると、<br/>
+	（恐らく）famibeeと書いてあるのが 一つだけ検索に引っかかるので「インストール」を押して下さい。それだけです。<br/>
+	<amp-img src="pic/inst_vscex0.jpg" width="308" height="270"></amp-img><br/>
+
+</p>
+
+
+<h2 id="inst_other" class="w-heading">あとは 拡張機能 SKYNovel の指示に従って……</h2>
+<h4>Node.jsなどをインストールしていきます。</h4>
+<p class="mb2 px1">
+
+	左端の「Activity Bar」に拡張機能 SKYNovelの「丸に紙飛行機」マークが表示されているので、クリックして下さい。<br/>
+	<amp-img src="pic/inst_other0.jpg" width="135" height="396"></amp-img><br/>
+
+	エラーっぽい表示がされています。同時に「SKYNovel開発環境　準備の手引き」というページが開かれていますので、あとはその指示に従ってインストールを続けて下さい。<br/>
+	<amp-img src="pic/inst_other1.jpg" width="368" height="169"></amp-img><br/>
+	（注意）「windows-build-tools」は Windows でのみ表示されます。<br/>
+
+
+</p>
+
+
+<h2 id="start_tmp" class="w-heading">テンプレートで始めよう</h2>
+<h4>すでに動くゲームをオープンソースで提供しており、これを改造していきます。</h4>
+<p class="mb2 px1">
+
+	「Activity Bar」SKYNovelを選択します。<br/>
+	「テンプレート プロジェクト」の中、【横書き「初音館にて」】を開いて下さい。<br/>
+	　右端にボタンが出ますので、クリックするとブラウザでダウンロードされます。<br/>
+	<amp-img src="pic/start_tmp0.jpg" width="283" height="297"></amp-img><br/>
+	<amp-img src="pic/start_tmp1.png" width="238" height="59"></amp-img><br/>
+	　解凍すると、プロジェクトフォルダが現われます。<br/>
+	<amp-img src="pic/start_tmp2.jpg" width="423" height="230"></amp-img><br/>
+	　VSCodeの「フォルダーを開く...」で開きます。<br/>
+	<amp-img src="pic/start_tmp3.jpg" width="425" height="271"></amp-img><br/>
+	　先ほど解凍したフォルダを選択します。<br/>
+	<amp-img src="pic/start_tmp4.jpg" width="914" height="478" layout="responsive"></amp-img><br/>
+	　VSCodeでフォルダが開かれました。<br/>
+	　今後ゲーム開発は、このVSCodeの「フォルダーを開く...」で始めます。<br/>
+	<amp-img src="pic/start_tmp10.jpg" width="1024" height="768" layout="responsive"></amp-img><br/>
+	　ただ、ダウンロードした直後の一度だけ、準備が必要です。<br/>
+	　続けて手順を示します。<br/>
+
+	<br/>
+	（１）【ターミナル】-【新しいターミナル】をクリック。<br/>
+	<amp-img src="pic/start_tmp11.jpg" width="654" height="282" layout="responsive"></amp-img>
+	（２）VSCode下部にターミナル（Windows なら Powershell）が開かれます。<br/>
+	　ここに「npm i」と打ち込み、Enterキーを押します。<br/>
+	<amp-img src="pic/start_tmp12.png" width="500" height="210"></amp-img><br/>
+	（３）処理が終わるのを待ちます。<br/>
+	<amp-img src="pic/start_tmp13.jpg" width="755" height="209" layout="responsive"></amp-img>
+	（４）web フォルダが新たに出来たら、成功です。<br/>
+	<amp-img src="pic/start_tmp14.png" width="260" height="120"></amp-img><br/>
+
+	<br/>
+	　さて、普段の開発は「フォルダーを開く...」のあと、この手順から。<br/>
+	【ターミナル】-【タスクの実行...】をクリック。<br/>
+	<amp-img src="pic/start_tmp15.jpg" width="233" height="280"></amp-img><br/>
+	【npm: web】をクリックします。<br/>
+	<amp-img src="pic/start_tmp16.png" width="317" height="358"></amp-img><br/>
+	　以下の表示になる場合は、「今後このタスクの出力をスキャンしない」をクリック。<br/>
+	<amp-img src="pic/start_tmp17.png" width="438" height="128"></amp-img><br/>
+	　すると、ブラウザが開いてWeb版のゲームが起動します。<br/>
+	<amp-img src="pic/start_tmp18.jpg" width="1019" height="787" layout="responsive"></amp-img><br/>
+
+	　これを改造して、自分のゲームへ変更していきます。<br/>
+
+
+
+</p>
+
+
 <h2 id="an2sn" class="w-heading">AIRNovelからの変更点</h2>
 <h4>AIRNovelからの変更点をざっくり説明します。</h4>
 <p class="mb2 px1">
@@ -145,6 +288,8 @@
 	<li>組み込み変数名が変わりました。<br>旧）save:const.<span style="color: red; font-weight: bold;">an</span>.scriptFn<br>新）save:const.<span style="color: blue; font-weight: bold;">sn</span>.scriptFn</li>
 	<li>定数が変数になったモノも。<br>例）const.an.eventArg → sn.eventArg</li>
 	</ul>
+	詳細は当ページの「組み込み変数」関連の記事をご覧下さい。<br/>
+
 
 </p>
 
