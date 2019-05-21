@@ -126,11 +126,13 @@
 		<li class="mb1"><a href="#inst_vscex">拡張機能をインストール</a></li>
 		<li class="mb1"><a href="#inst_other">あとは 拡張機能 SKYNovel の指示に従って……</a></li>
 		<li class="mb1"><a href="#start_tmp">テンプレートで始めよう</a></li>
+		<li class="mb1"><a href="#remodel_title">改造してみよう</a></li>
+		<li class="mb1"><a href="#autosave">VSCodeで自動保存</a></li>
 		<li class="mb1"><a href="#upd_sn">SKYNovelを更新しよう</a></li>
-		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 	</ul>
 	<p>中級テクニック</p>
 	<ul class="anchors list-reset m0 p0 px1">
+		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 		<li class="mb1"><a href="#val_debug">変数・定数の可視化機能</a></li>
 		<li class="mb1"><a href="#reserve_value_save">組み込み変数・定数(save:)</a></li>
 		<li class="mb1"><a href="#reserve_value_sys">組み込み変数・定数(sys:)</a></li>
@@ -239,12 +241,30 @@
 <h4>すでに動くゲームをオープンソースで提供しており、これを改造していきます。</h4>
 <p class="mb2 px1">
 
-	「Activity Bar」SKYNovelを選択します。<br/>
-	「テンプレート プロジェクト」の中、【横書き「初音館にて」】を開いて下さい。<br/>
-	　右端にボタンが出ますので、クリックするとブラウザでダウンロードされます。<br/>
-	<amp-img src="pic/start_tmp0.jpg" width="283" height="297"></amp-img><br/>
+	　例えば自作の小説本を出版するとします。<br/>
+	　その際、パルプの生成方法、紙の刷り方、印刷技術、装丁デザインの勉強等までする必要があるでしょうか？<br/>
+	　本来小説を書くというのは、紙とペンを用意し、書き始めることだけのはずです。<br/>
+	　良い小説を書くために「小説の書き方本」を読みあさり、知らない事を勉強する方向へ労力を注ぎ、胃を壊すぐらいコーヒーを飲みたいのではないでしょうか？<br/>
+	　同じように、まずはあなたの作品を造り上げることに専念して下さい。<br/>
+	<br/>
+	<br/>
+	　●ではどうやって本にするのか？<br/>
+	　今ここに本があります。<br/>
+	　梶井基次郎 原作の短編ノベルゲーム「桜の樹の下には」または拙作「初音館にて」です。<br/>
+	　実はこれは鉛筆で書かれています。<br/>
+	　まずはこの本を消しゴム掛けして、元の文章をあなたの原作に書き換えてしまいましょう。<br/>
+	　本を作るところから、始める必要はありません。<br/>
+	　これはもちろんたとえ話ですが──同じようにして、あなたの本が完成するのです。<br/>
+	<br/>
+	　作品を書いているうちに装丁を考えたり、紙質や手触りに凝ったりしたくなるかも知れません。<br/>
+	　その時は初級・中級・上級へと読み進めていって下さい。<br/>
+	　今度は小説を書く楽しみではなく、本を作る楽しみが待っています。<br/>
+
+
+	<br/>
+	　まずは、<a href="https://github.com/famibee/SKYNovel_hatsune/archive/master.zip" target="_blank">横書きテンプレート プロジェクトの「初音館にて」</a>をダウンロードします。<br/>
 	<amp-img src="pic/start_tmp1.png" width="238" height="59"></amp-img><br/>
-	　解凍すると、プロジェクトフォルダが現われます。<br/>
+	　zipファイルを解凍すると、プロジェクトフォルダが現われます。<br/>
 	<amp-img src="pic/start_tmp2.jpg" width="423" height="230"></amp-img><br/>
 	　VSCodeの「フォルダーを開く...」で開きます。<br/>
 	<amp-img src="pic/start_tmp3.jpg" width="425" height="271"></amp-img><br/>
@@ -266,8 +286,82 @@
 	　素材を差し替えたり、スクリプトを書き換えたり。<br/>
 	　これを改造して、自分のゲームへ変更していきます。<br/>
 	<br/>
-	「Activity Bar」一番上を選択し、ファイルやフォルダを右クリックで「Finder で表示します」（Windowsならエクスプローラー）など、ファイルを操作しやすい機能もありますので、VSCodeも活用して下さい。<br/>
+	（余談）<br/>
+	「Activity Bar」一番上を選択し、ファイルやフォルダを右クリックで「Finder で表示します」（Windowsならエクスプローラー）など、ファイルを操作しやすい機能もありますので、活用して下さい。<br/>
 	<amp-img src="pic/vscode0.jpg" width="307" height="509"></amp-img><br/>
+
+
+</p>
+
+
+<h2 id="remodel_title" class="w-heading">改造してみよう</h2>
+<h4>テンプレートを改造してみましょう。まずはタイトル画面から。</h4>
+<p class="mb2 px1">
+
+	　自由な文字列からボタンを作れる「文字ボタン」という機能があります。<br/>
+	　テンプレートのタイトル画面でも使用されていますので、これを変更してみましょう。<br/>
+	<amp-img src="pic/remodel_title0.jpg" width="1024" height="768" layout="responsive"></amp-img><br/>
+
+	「Activity Bar」一番上の「エクスプローラー」を選択します。<br/>
+	　【prj/script フォルダ】下の【main.sn】をクリックすると、そのファイルが開かれます。<br/>
+	　この拡張子【.sn】のファイルはスクリプトというテキストファイルで、シナリオや様々な演出はこのファイルを変更・記述していきます。<br/>
+	<amp-img src="pic/remodel_title1.jpg" width="1024" height="768" layout="responsive"></amp-img>
+	（余談）（慣れればお好きなテキストエディタで変更して構いません）<br/>
+	※文字コードはUTF-8、改行コードは LF 固定です。文字コード・改行コードを間違うミスに注意。<br/>
+
+	<br/>
+	　ここで「ロード」という文字を「つづきから」に変えてみます。<br/>
+	　メニューの【ファイル】-【保存】、あるいは Ctrl+Sショートカットで保存します。<br/>
+	<amp-img src="pic/remodel_title2.jpg" width="1024" height="768" layout="responsive"></amp-img><br/>
+
+	　ブラウザの再読み込みボタンを押します。<br/>
+	<amp-img src="pic/remodel_title3.jpg" width="474" height="278" layout="responsive"></amp-img><br/>
+
+	　文字が変更されました！　ボタンもちゃんと押せます。<br/>
+	<amp-img src="pic/remodel_title4.jpg" width="1024" height="768" layout="responsive"></amp-img><br/>
+
+	　さて、いまわざと触れませんでしたが、いま変更したのは「[button]タグのtext属性」というものです。<br/>
+	　タグ？？？　属性？？？<br/>
+	　新しい言葉が出てきましたね。タグについて解説していきます。<br/>
+
+
+</p>
+
+
+<h2 id="autosave" class="w-heading">VSCodeで自動保存</h2>
+<h4>スクリプトを変更するたびに保存を選んだり、毎回ショートカットを押すのは面倒！</h4>
+<p class="mb2 px1">
+
+	　そこで、VSCode に保存を任せてしまいましょう。<br/>
+	　こちらの記事を参考に、VSCode を便利に設定してみて下さい。<br/>
+	　　→<a href="https://notti-blog.com/entry/vscode-auto-save/" target="_blank">[VS Code] 自動保存するように設定する | あいすのブログ</a>
+	　<a href="http://web.archive.org/web/20190521162502/https://notti-blog.com/entry/vscode-auto-save/" target="_blank">（web.archive.org）</a><br/>
+	<amp-img src="pic/vscode_autosave.jpg" width="725" height="373" layout="responsive"></amp-img>
+	（注意）設定画面の「ダーティーファイル」というのは、「変更したけど保存してないファイル」という意味合いです。<br/>
+
+	<br/>
+	　自分も「onFocusChange」にしてます。別のアプリをクリックしただけで保存してくれます。この辺はお好みで。<br/>
+	　スクリプトの変更を戻したい場合は、メニューの【編集】-【元に戻す】にて。<br/>
+
+	<br/>
+	　VSCode には他にも様々な便利設定があります。どんどん使いやすくしていきましょう！<br/>
+
+
+</p>
+
+
+<h2 id="tag" class="w-heading">スクリプト文法・入門編</h2>
+<h4>スクリプトってなんでしょう？</h4>
+<p class="mb2 px1">
+
+	　（書きかけ）<br/>
+
+
+
+
+	SKYNovel タグリファレンス Tag Reference <a href="https://famibee.github.io/SKYNovel/tag.htm#button">[button]</a>
+
+	属性
 
 
 
@@ -294,6 +388,8 @@
 </p>
 
 
+<h1>中級テクニック</h1>
+
 <h2 id="an2sn" class="w-heading">AIRNovelからの変更点</h2>
 <h4>AIRNovelからの変更点をざっくり説明します。</h4>
 <p class="mb2 px1">
@@ -307,8 +403,6 @@
 
 </p>
 
-
-<h1>中級テクニック</h1>
 
 <h2 id="val_debug" class="w-heading">変数・定数の可視化機能</h2>
 <h4>デベロッパーツールから変数や定数を確認できる機能です。</h4>
