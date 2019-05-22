@@ -458,8 +458,11 @@ class ScriptIterator {
         const ldr = new pixi_js_1.loaders.Loader;
         ldr.add(this.scriptFn_, this.cfg.searchPath(this.scriptFn_, Config_1.Config.EXT_SCRIPT));
         ldr.load((_loader, res) => {
-            if (res.error)
-                throw 'Main: config.anprj ロード失敗(' + res.error + ')です';
+            const err = res[this.scriptFn_].error;
+            if (err) {
+                this.main.errScript(`[jump系]スクリプトロード失敗です　${err}`, false);
+                return;
+            }
             this.resolveScript(res[this.scriptFn_].data);
             this.hTag.record_place({});
             this.main.resume(() => this.analyzeInit());

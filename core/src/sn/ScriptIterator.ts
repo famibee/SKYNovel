@@ -431,7 +431,11 @@ export class ScriptIterator {
 		const ldr = new loaders.Loader;
 		ldr.add(this.scriptFn_, this.cfg.searchPath(this.scriptFn_, Config.EXT_SCRIPT));
 		ldr.load((_loader: any, res: any)=> {
-			if (res.error) throw 'Main: config.anprj ロード失敗('+ res.error +')です'
+			const err = res[this.scriptFn_].error;
+			if (err) {
+				this.main.errScript(`[jump系]スクリプトロード失敗です　${err}`, false);
+				return;
+			}
 
 			this.resolveScript(res[this.scriptFn_].data);
 			this.hTag.record_place({});

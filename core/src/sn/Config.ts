@@ -14,9 +14,10 @@ export class Config implements IConfig {
 	oCfg: any = {
 		first_script: 'main',	// 最初に起動するスクリプトファイル
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
-		search		: [],		// ここに指定されたフォルダに対し、素材やスクリプトなどを探す
-		coder		: {len: 0x360},	// 画像や音声ファイルを前からなんバイト暗号化するのか指定
-								// 先頭からの復号化処理対象バイト長。省略時は0、全て復号化。
+		search		: [],		// 指定されたフォルダに対し、素材やスクリプトを探す
+		coder		: {len: 0x360},
+			// 画像や音声ファイルを前からなんバイト暗号化するか
+			// 先頭からの復号化処理対象バイト長。省略時は0、全て復号化。
 		window	: {		// アプリケーションウインドウサイズ
 			width	: 300,
 			height	: 300,
@@ -38,7 +39,7 @@ export class Config implements IConfig {
 			dl_url		: '',
 			inc_path	: {},
 		},
-		log		: {max_len: 1024},	// プレイヤーが読んだ文章を読み返せる機能、履歴について
+		log		: {max_len: 1024},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
 		init	: {
 			bg_color			: 0x000000,	// 背景色
 			tagch_msecwait		: 10,		// 通常文字表示待ち時間（未読／既読）
