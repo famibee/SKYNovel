@@ -1,5 +1,7 @@
 # Change Log
 
+## v0.4.8
+- bug：const.sn.bookmark.jsonの値にセーブデータキー値 place を追加
 ## v0.4.7
 - bug：keydownイベントのイベント引数で、e.repeat を e.repeating としていた件
 - bug：文字表示が乱れる件を修正・非同期処理改善

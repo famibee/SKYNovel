@@ -121,6 +121,7 @@ class Variable {
                         continue;
                     o[key] = cfg.searchPath(v);
                 }
+                o.place = k;
                 a.push(o);
             });
             return JSON.stringify(a);

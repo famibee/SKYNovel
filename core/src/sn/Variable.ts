@@ -56,6 +56,7 @@ export class Variable implements IVariable {
 					if (v.substr(0, 10) != 'userdata:/') continue;
 					o[key] = cfg.searchPath(v);
 				}
+				o.place = k;
 				a.push(o);
 			});
 			return JSON.stringify(a);
