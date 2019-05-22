@@ -3,11 +3,12 @@ import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 export declare class DebugMng {
     private sys;
-    private _stats;
-    private fncUpd;
     private static scrItr;
     private static hTag;
     private static title;
+    private static spnDbg;
+    private _stats;
+    private fncUpd;
     constructor(sys: SysBase, hTag: IHTag, scrItr: ScriptIterator);
     destroy(): void;
     update(): void;
@@ -16,4 +17,5 @@ export declare class DebugMng {
     private trace;
     static myTrace: (txt: string, lvl?: "D" | "W" | "F" | "E" | "I" | "ET") => void;
     private static fncMyTrace;
+    private static dspDbg;
 }

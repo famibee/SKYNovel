@@ -1,5 +1,7 @@
 # Change Log
 
+## v0.5.0
+- add：最前面にデバッグ情報表示（エラーや[trace]の内容）
 ## v0.4.8
 - bug：const.sn.bookmark.jsonの値にセーブデータキー値 place を追加
 ## v0.4.7

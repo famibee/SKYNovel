@@ -62,7 +62,7 @@ export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
 	static	devtool		= false;
-	static	osName		= '';	// ３文字でOS名
+	static	osName		= '';	// TODO: 誰もセットしてない。やるなら３文字でOS名
 
 	static	isRetina	= false;
 	static	retinaRate	= 1;

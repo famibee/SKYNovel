@@ -11,15 +11,16 @@ import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 
 const Stats = require('stats.js');
-	// mrdoob/stats.js: JavaScript Performance Monitor https://github.com/mrdoob/stats.js/
 
 export class DebugMng {
-	private _stats		: Stats;
-	private fncUpd		= ()=> {};
-
 	private	static	scrItr	: ScriptIterator;
 	private	static	hTag	: IHTag;
 	private static	title	: ITag		= ()=> false;
+	private static	spnDbg	: HTMLSpanElement;
+
+	private _stats		: Stats;
+	private fncUpd		= ()=> {};
+
 	constructor(private sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
 		DebugMng.scrItr = scrItr;
 		DebugMng.hTag = hTag;
@@ -32,12 +33,25 @@ export class DebugMng {
 		//hTag.dump_lay		// LayerMngで定義				// レイヤのダンプ
 		//hTag.dump_val		// Variableで定義				// 変数のダンプ
 		//hTag.dump_stack	// ScriptIteratorで定義			// スタックのダンプ
-		hTag.log			= o => this.log(o);				// ログ出力
+		hTag.log			= o=> this.log(o);				// ログ出力
 		//hTag.reload_script// ScriptIterator.ts内で定義	// スクリプト再読込
-		hTag.stats			= o => this.stats(o);			// パフォーマンス表示
-		hTag.trace			= o => this.trace(o);			// デバッグ表示へ出力
+		hTag.stats			= o=> this.stats(o);			// パフォーマンス表示
+		hTag.trace			= o=> this.trace(o);			// デバッグ表示へ出力
+
+		DebugMng.spnDbg = document.createElement('span');
+		DebugMng.spnDbg.hidden = true;
+		DebugMng.spnDbg.textContent = '';
+		DebugMng.spnDbg.style.cssText =
+		`	z-index: ${Number.MAX_SAFE_INTEGER};
+			position: absolute; left: 0; top: 0;
+			color: black;
+			background-color: rgba(255, 255, 255, 0.7);`
+		document.body.appendChild(DebugMng.spnDbg);
 	}
-	destroy() {DebugMng.title = ()=> false}
+	destroy() {
+		DebugMng.title = ()=> false;
+		document.body.removeChild(DebugMng.spnDbg);
+	}
 
 	update() {this.fncUpd()}		// 外部に呼んでもらう
 
@@ -46,12 +60,12 @@ export class DebugMng {
 		if (!('text' in hArg)) throw '[log] textは必須です';
 
 		const dat = '--- '+ getDateStr('-', '_', '')
-				  +' [fn:'+ DebugMng.scrItr.scriptFn
-				  +' line:'+ DebugMng.scrItr.lineNum +']'
-						+' os:'+ CmnLib.osName
-						+' prj:'+ this.sys.cur
-			//			+' prj:'+ hTmp['const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename']
-						+'\n'+ hArg.text +'\n';
+			+' [fn:'+ DebugMng.scrItr.scriptFn
+			+' line:'+ DebugMng.scrItr.lineNum +']'
+				+' os:'+ CmnLib.osName
+				+' prj:'+ this.sys.cur
+			//	+' prj:'+ hTmp['const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename']
+				+'\n'+ hArg.text +'\n';
 		this.sys.appendFile(this.sys.path_desktop +'log.txt', dat, err=> {if (err) console.log(err);});
 
 		return false;
@@ -102,10 +116,11 @@ export class DebugMng {
 	}
 	private static fncMyTrace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
 		let mes = '{'+ lvl +'} ';
-		mes += DebugMng.scrItr
-		? '(fn:'+ DebugMng.scrItr.scriptFn +' line:'+ DebugMng.scrItr.lineNum+') '
-		: '';
+		if (DebugMng.scrItr) mes += `(fn:${DebugMng.scrItr.scriptFn
+			} line:${DebugMng.scrItr.lineNum}) `;
 		mes += txt;
+		DebugMng.dspDbg(mes, lvl);
+
 		let sty = '';
 		switch (lvl) {
 			case 'D':	sty = 'color:#0055AA;';	break;
@@ -131,5 +146,19 @@ export class DebugMng {
 		}
 		console.info('%c'+ mes, sty);
 	}
+
+	private static	dspDbg(mes: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET') {
+		let sty = '';
+		switch (lvl) {
+			case 'D':	sty = '#0055AA';	break;
+			case 'W':	sty = '#FF8800';	break;
+			case 'F':	sty = '#BB0000';	break;
+			case 'ET':
+			case 'E':	sty = '#FF3300';	break;
+			default:	sty = 'black';
+		}
+		DebugMng.spnDbg.innerHTML += `<span style='color:${sty};'>${mes}</span><br/>`;
+		DebugMng.spnDbg.hidden = false;
+	};
 
 }

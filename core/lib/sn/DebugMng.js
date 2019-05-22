@@ -13,8 +13,20 @@ class DebugMng {
         hTag.log = o => this.log(o);
         hTag.stats = o => this.stats(o);
         hTag.trace = o => this.trace(o);
+        DebugMng.spnDbg = document.createElement('span');
+        DebugMng.spnDbg.hidden = true;
+        DebugMng.spnDbg.textContent = '';
+        DebugMng.spnDbg.style.cssText =
+            `	z-index: ${Number.MAX_SAFE_INTEGER};
+			position: absolute; left: 0; top: 0;
+			color: black;
+			background-color: rgba(255, 255, 255, 0.7);`;
+        document.body.appendChild(DebugMng.spnDbg);
     }
-    destroy() { DebugMng.title = () => false; }
+    destroy() {
+        DebugMng.title = () => false;
+        document.body.removeChild(DebugMng.spnDbg);
+    }
     update() { this.fncUpd(); }
     log(hArg) {
         if (!('text' in hArg))
@@ -52,10 +64,10 @@ class DebugMng {
     }
     static fncMyTrace(txt, lvl = 'E') {
         let mes = '{' + lvl + '} ';
-        mes += DebugMng.scrItr
-            ? '(fn:' + DebugMng.scrItr.scriptFn + ' line:' + DebugMng.scrItr.lineNum + ') '
-            : '';
+        if (DebugMng.scrItr)
+            mes += `(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;
         mes += txt;
+        DebugMng.dspDbg(mes, lvl);
         let sty = '';
         switch (lvl) {
             case 'D':
@@ -84,6 +96,28 @@ class DebugMng {
         }
         console.info('%c' + mes, sty);
     }
+    static dspDbg(mes, lvl) {
+        let sty = '';
+        switch (lvl) {
+            case 'D':
+                sty = '#0055AA';
+                break;
+            case 'W':
+                sty = '#FF8800';
+                break;
+            case 'F':
+                sty = '#BB0000';
+                break;
+            case 'ET':
+            case 'E':
+                sty = '#FF3300';
+                break;
+            default: sty = 'black';
+        }
+        DebugMng.spnDbg.innerHTML += `<span style='color:${sty};'>${mes}</span><br/>`;
+        DebugMng.spnDbg.hidden = false;
+    }
+    ;
 }
 DebugMng.title = () => false;
 DebugMng.myTrace = (txt, lvl = 'E') => {
