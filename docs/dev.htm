@@ -131,15 +131,15 @@
 		<li class="mb1"><a href="#script">スクリプトとは</a></li>
 		<li class="mb1"><a href="#bracket">（豆知識）引用符っているの？　いらないの？</a></li>
 		<li class="mb1"><a href="#replace_bgm">ＢＧＭ素材を差し替えよう</a></li>
-		<li class="mb1"><a href="#upd_sn">SKYNovelを更新しよう</a></li>
 	</ul>
 	<p>中級テクニック</p>
 	<ul class="anchors list-reset m0 p0 px1">
-		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
+		<li class="mb1"><a href="#upd_sn">SKYNovelを更新しよう</a></li>
 		<li class="mb1"><a href="#val_debug">変数・定数の可視化機能</a></li>
 		<li class="mb1"><a href="#reserve_value_save">組み込み変数・定数(save:)</a></li>
 		<li class="mb1"><a href="#reserve_value_sys">組み込み変数・定数(sys:)</a></li>
 		<li class="mb1"><a href="#reserve_value_tmp">組み込み変数・定数(tmp:)</a></li>
+		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
 	</ul>
 </aside>
@@ -465,6 +465,23 @@
 	　画像素材なども同じように変更・差し替えていくことができます。<br/>
 
 
+</p>
+
+
+<h2 id="aaaaaa" class="w-heading">変数とは</h2>
+<h4>素材を差し替えて、よりあなたの作品らしく</h4>
+<p class="mb2 px1">
+
+	レイヤとは
+	レイヤには裏表がある
+	使用できる素材ファイル
+	フォルダの追加削除
+	ジャンプしてみる
+	選択肢を作る
+	タグ リファレンスを読もう
+	スクリプト文法・詳細編
+
+	変数とは
 
 
 	<br/>
@@ -473,10 +490,22 @@
 	<br/>
 	<amp-img src="pic/script0.png" width="379" height="285"></amp-img><br/>
 
-
-
 </p>
 
+
+<h2 id="bbbbb" class="w-heading">レイヤとは</h2>
+<h4>素材を差し替えて、よりあなたの作品らしく</h4>
+<p class="mb2 px1">
+</p>
+
+
+<h2 id="ccccccccc" class="w-heading">ＢＧＭ素材を差し替えよう</h2>
+<h4>素材を差し替えて、よりあなたの作品らしく</h4>
+<p class="mb2 px1">
+</p>
+
+
+<h1>中級テクニック</h1>
 
 <h2 id="upd_sn" class="w-heading">SKYNovelを更新しよう</h2>
 <h4>SKYNovelは随時更新されています。更新の通知と手段を知りましょう</h4>
@@ -493,22 +522,6 @@
 	　とはいっても、右にあるボタンを押すだけです。<br/>
 	　しばらく待つと、最新バージョンに更新されます。簡単ですね。<br/>
 	<amp-img src="pic/upd_sn2.png" width="488" height="194"></amp-img><br/>
-
-
-</p>
-
-
-<h1>中級テクニック</h1>
-
-<h2 id="an2sn" class="w-heading">AIRNovelからの変更点</h2>
-<h4>AIRNovelからの変更点をざっくり説明します。</h4>
-<p class="mb2 px1">
-
-	<ul type="disc">
-	<li>組み込み変数名が変わりました。<br>旧）save:const.<span style="color: red; font-weight: bold;">an</span>.scriptFn<br>新）save:const.<span style="color: blue; font-weight: bold;">sn</span>.scriptFn</li>
-	<li>定数が変数になったモノも。<br>例）const.an.eventArg → sn.eventArg</li>
-	</ul>
-	詳細は当ページの「組み込み変数」関連の記事をご覧下さい。<br/>
 
 
 </p>
@@ -644,6 +657,19 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>sn.skip.enabled</td><td>false</td><td>Boolean</td><td>次の選択肢(/未読)まで進む　が有効か</td></tr>
 <tr><td>sn.tagL.enabled</td><td>true</td><td>Boolean</td><td>頁末まで一気に読み進むか(l無視)</td></tr>
 </table>
+
+
+</p>
+<h2 id="an2sn" class="w-heading">AIRNovelからの変更点</h2>
+<h4>AIRNovelからの変更点をざっくり説明します。</h4>
+<p class="mb2 px1">
+
+	<ul type="disc">
+	<li>組み込み変数名が変わりました。<br>旧）save:const.<span style="color: red; font-weight: bold;">an</span>.scriptFn<br>新）save:const.<span style="color: blue; font-weight: bold;">sn</span>.scriptFn</li>
+	<li>定数が変数になったモノも。<br>例）const.an.eventArg → sn.eventArg</li>
+	</ul>
+	詳細は当ページの「組み込み変数」関連の記事をご覧下さい。<br/>
+
 
 </p>
 <h2 id="font" class="w-heading">フォントの導入</h2>
