@@ -14,7 +14,7 @@ import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
-import { Sprite, DisplayObject, Graphics, Container } from 'pixi.js';
+import {Sprite, DisplayObject, Graphics, Container} from 'pixi.js';
 
 const platform = require('platform');
 

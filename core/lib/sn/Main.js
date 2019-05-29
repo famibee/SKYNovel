@@ -48,6 +48,8 @@ class Main {
         pixi_js_1.utils.skipHello();
         this.cfg = new Config_1.Config(sys, () => {
             const hApp = {
+                width: this.cfg.oCfg.window.width,
+                height: this.cfg.oCfg.window.height,
                 backgroundColor: ('init' in this.cfg.oCfg)
                     ? this.cfg.oCfg.init.bg_color || 0
                     : 0,
@@ -59,12 +61,12 @@ class Main {
                 this.clone_cvs.id = 'skynovel';
                 hApp.view = cvs;
             }
-            this.appPixi = new pixi_js_1.Application(this.cfg.oCfg.window.width, this.cfg.oCfg.window.height, hApp);
+            this.appPixi = new pixi_js_1.Application(hApp);
             if (!cvs)
                 document.body.appendChild(this.appPixi.view);
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
-            this.sys.init(this.cfg, this.hTag, this.val, this.appPixi, this);
+            this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);
             this.hTag['title']({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
             this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this);
             this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs.parse, this.sndMng);

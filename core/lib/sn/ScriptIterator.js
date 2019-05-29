@@ -455,7 +455,7 @@ class ScriptIterator {
         if (this.onlyCodeScript && (full_path.substr(-1) != '_')) {
             this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
         }
-        const ldr = new pixi_js_1.loaders.Loader;
+        const ldr = new pixi_js_1.Loader();
         ldr.add(this.scriptFn_, this.cfg.searchPath(this.scriptFn_, Config_1.Config.EXT_SCRIPT));
         ldr.load((_loader, res) => {
             const err = res[this.scriptFn_].error;

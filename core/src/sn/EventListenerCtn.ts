@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { BaseTexture, utils } from "pixi.js";
+import {BaseTexture, utils} from "pixi.js";
 
 type  IEmitter = BaseTexture
 	| utils.EventEmitter
@@ -14,26 +14,26 @@ type  IEmitter = BaseTexture
 export class EventListenerCtn {	// リソースリーク対策
 	private vctEvt	: {(): void}[]	= [];
 
-	add(ed: IEmitter, type: string, fnc: (e: any)=> void, useCapture = false): void {
+	add(ed: IEmitter, type: string, fnc: (e: any)=> void, ctx: any = {}): void {
 		if (ed instanceof BaseTexture) {
 			switch (type) {
 			case 'loaded':
 			case 'update':
 			case 'error':
 			case 'dispose':
-				ed.on(type, fnc, useCapture);
-				this.vctEvt.push(()=> ed.off(type, fnc, useCapture));
+				ed.on(type, fnc, ctx);
+				this.vctEvt.push(()=> ed.off(type, fnc, ctx));
 				break;
 			}
 			return;
 		}
 		if (ed instanceof utils.EventEmitter) {
-			ed.on(type, fnc, useCapture);
-			this.vctEvt.push(()=> ed.off(type, fnc, useCapture));
+			ed.on(type, fnc, ctx);
+			this.vctEvt.push(()=> ed.off(type, fnc, ctx));
 			return;
 		}
-		ed.addEventListener(type, fnc, useCapture);
-		this.vctEvt.push(()=> ed.removeEventListener(type, fnc, useCapture));
+		ed.addEventListener(type, fnc, ctx);
+		this.vctEvt.push(()=> ed.removeEventListener(type, fnc, {capture: ctx.capture || false}));
 	}
 
 	clear(): void {

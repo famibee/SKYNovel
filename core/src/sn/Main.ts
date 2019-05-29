@@ -19,7 +19,7 @@ import {ScriptIterator} from './ScriptIterator';
 
 import m_xregexp = require('xregexp');
 import {SysBase} from './SysBase';
-import { Application, utils, ApplicationOptions } from 'pixi.js';
+import {Application, utils} from 'pixi.js';
 
 export class Main implements IMain {
 	private cfg			: Config;
@@ -44,9 +44,9 @@ export class Main implements IMain {
 		utils.skipHello();
 
 		this.cfg = new Config(sys, ()=> {
-			const hApp: ApplicationOptions = {
-//				width: this.cfg.oCfg.window.width,
-//				height: this.cfg.oCfg.window.height,
+			const hApp: any = {
+				width: this.cfg.oCfg.window.width,
+				height: this.cfg.oCfg.window.height,
 				backgroundColor: ('init' in this.cfg.oCfg)
 					? this.cfg.oCfg.init.bg_color || 0
 					: 0,
@@ -59,10 +59,8 @@ export class Main implements IMain {
 
 				hApp.view = cvs;
 			}
-//			this.appPixi = new Application(hApp);
-			this.appPixi = new Application(this.cfg.oCfg.window.width, this.cfg.oCfg.window.height, hApp);
+			this.appPixi = new Application(hApp);
 			if (! cvs) document.body.appendChild(this.appPixi.view);
-			//console.log('is WebGLRenderer:'+ (this.appPixi.renderer instanceof WebGLRenderer));
 
 			// タグ定義 //
 			// 変数操作（9/9）
@@ -71,7 +69,7 @@ export class Main implements IMain {
 			this.prpPrs = new PropParser(this.val);
 
 			// システム（5/13）[snapshot]は LayerMng 担当
-			this.sys.init(this.cfg, this.hTag, this.val, this.appPixi, this);	// ここで変数準備完了
+			this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
 			this.hTag['title']({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音（1/16）

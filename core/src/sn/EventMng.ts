@@ -13,9 +13,9 @@ import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
 
 import TWEEN = require('@tweenjs/tween.js');
-import { interaction, DisplayObject, Application } from 'pixi.js';
-import { SoundMng } from './SoundMng';
-import { Config } from './Config';
+import {interaction, DisplayObject, Application} from 'pixi.js';
+import {SoundMng} from './SoundMng';
+import {Config} from './Config';
 
 import Hammer = require('hammerjs');
 

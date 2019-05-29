@@ -19,8 +19,8 @@ import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 
 import TWEEN = require('@tweenjs/tween.js');
-import { Container, Application, autoDetectRenderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject } from 'pixi.js';
-import { EventListenerCtn } from './EventListenerCtn';
+import {Container, Application, Renderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject} from 'pixi.js';
+import {EventListenerCtn} from './EventListenerCtn';
 
 export class LayerMng {
 	private	stage	: Container;
@@ -227,16 +227,14 @@ export class LayerMng {
 		const fn = 'desktop:/'+ (hArg.fn || ('snapshot'+ getDateStr('-', '_', '', '_') +'.jpg'));
 		const ext = CmnLib.getExt(fn);
 		const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
-		const renderer = autoDetectRenderer(
-			CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW),
-			CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH),
-			{
-				transparent: (b_color > 0x1000000) && (ext == 'png'),
-				antialias: CmnLib.argChk_Boolean(hArg, 'smoothing', false),
-				preserveDrawingBuffer: true,
-				backgroundColor: uint(b_color) & 0xFFFFFF,
-			}
-		);
+		const renderer = new Renderer({
+			width: CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW),
+			height: CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH),
+			transparent: (b_color > 0x1000000) && (ext == 'png'),
+			antialias: CmnLib.argChk_Boolean(hArg, 'smoothing', false),
+			preserveDrawingBuffer: true,
+			backgroundColor: uint(b_color) & 0xFFFFFF,
+		});
 		if (this.twInfTrans.tw != null) {	// [trans]中
 			this.back.visible = true;
 			for (const lay of this.aBackTransAfter) {
@@ -481,10 +479,16 @@ void main(void) {
 	};
 	private fltRule = new Filter(undefined, this.srcRuleTransFragment, this.ufRuleTrans);
 
-	private rtTransBack = RenderTexture.create(CmnLib.stageW, CmnLib.stageH);
+	private rtTransBack = RenderTexture.create({
+		width: CmnLib.stageW,
+		height: CmnLib.stageH,
+	});
 	private spTransBack = new Sprite(this.rtTransBack);
 
-	private rtTransFore = RenderTexture.create(CmnLib.stageW, CmnLib.stageH);
+	private rtTransFore = RenderTexture.create({
+		width: CmnLib.stageW,
+		height: CmnLib.stageH,
+	});
 	private spTransFore = new Sprite(this.rtTransFore);
 
 	private aBackTransAfter	: DisplayObject[] = [];

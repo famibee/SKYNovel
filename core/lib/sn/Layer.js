@@ -5,7 +5,7 @@ const CmnLib_1 = require("./CmnLib");
 class Layer {
     constructor() {
         this.name = '';
-        this.cnt = new pixi_js_1.Sprite(PIXI.Texture.EMPTY);
+        this.cnt = new pixi_js_1.Sprite(pixi_js_1.Texture.EMPTY);
     }
     get alpha() { return this.cnt.alpha; }
     set alpha(v) { this.cnt.alpha = v; }

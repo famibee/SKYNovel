@@ -5,9 +5,9 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { Container, Text, Rectangle } from "pixi.js";
-import { uint, CmnLib, IEvtMng } from "./CmnLib";
-import { HArg, IMain } from "./CmnInterface";
+import {Container, Text, Rectangle, Texture} from "pixi.js";
+import {uint, CmnLib, IEvtMng} from "./CmnLib";
+import {HArg, IMain} from "./CmnInterface";
 import {GrpLayer} from "./GrpLayer";
 
 export class Button extends Container {
@@ -93,9 +93,9 @@ export class Button extends Container {
 				const w3 = sp.width /3;
 				const h = sp.height;
 				const tx = sp.texture.baseTexture;
-				const txNormal = new PIXI.Texture(tx, new Rectangle(0, 0, w3, h));
-				const txClicked = new PIXI.Texture(tx, new Rectangle(w3, 0, w3, h));
-				const txHover = new PIXI.Texture(tx, new Rectangle(w3 *2, 0, w3, h));
+				const txNormal = new Texture(tx, new Rectangle(0, 0, w3, h));
+				const txClicked = new Texture(tx, new Rectangle(w3, 0, w3, h));
+				const txHover = new Texture(tx, new Rectangle(w3 *2, 0, w3, h));
 				const normal = ()=> sp.texture = txNormal;
 				const hover = ()=> sp.texture = txHover;
 				const clicked = ()=> sp.texture = txClicked;

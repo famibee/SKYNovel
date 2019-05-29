@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const SysNode_1 = require("./SysNode");
 const CmnLib_1 = require("./CmnLib");
-const electron_1 = require("electron");
 const Main_1 = require("./Main");
+const electron_1 = require("electron");
 const Store = require('electron-store');
 const shell = require('electron').shell;
 class SysApp extends SysNode_1.SysNode {
@@ -123,8 +123,8 @@ class SysApp extends SysNode_1.SysNode {
         });
     }
     flush() { this.store.store = this.data; }
-    init(cfg, hTag, val, appPixi, main) {
-        super.init(cfg, hTag, val, appPixi, main);
+    init(cfg, hTag, appPixi, val, main) {
+        super.init(cfg, hTag, appPixi, val, main);
         if (CmnLib_1.CmnLib.devtool)
             this.wc.openDevTools();
         this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);

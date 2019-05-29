@@ -10,7 +10,7 @@ import {Layer} from './Layer';
 import {SysBase} from './SysBase';
 import {CmnLib} from './CmnLib';
 
-import { Container } from 'pixi.js';
+import {Container} from 'pixi.js';
 
 export class Pages {
 	private pg: {fore: Layer, back: Layer};

@@ -63,9 +63,15 @@ void main(void) {
             tick: { type: '1f', value: 0.0 },
         };
         this.fltRule = new pixi_js_1.Filter(undefined, this.srcRuleTransFragment, this.ufRuleTrans);
-        this.rtTransBack = pixi_js_1.RenderTexture.create(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+        this.rtTransBack = pixi_js_1.RenderTexture.create({
+            width: CmnLib_1.CmnLib.stageW,
+            height: CmnLib_1.CmnLib.stageH,
+        });
         this.spTransBack = new pixi_js_1.Sprite(this.rtTransBack);
-        this.rtTransFore = pixi_js_1.RenderTexture.create(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+        this.rtTransFore = pixi_js_1.RenderTexture.create({
+            width: CmnLib_1.CmnLib.stageW,
+            height: CmnLib_1.CmnLib.stageH,
+        });
         this.spTransFore = new pixi_js_1.Sprite(this.rtTransFore);
         this.aBackTransAfter = [];
         this.twInfTrans = { tw: null, resume: false };
@@ -212,7 +218,9 @@ void main(void) {
         const fn = 'desktop:/' + (hArg.fn || ('snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg'));
         const ext = CmnLib_1.CmnLib.getExt(fn);
         const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
-        const renderer = pixi_js_1.autoDetectRenderer(CmnLib_1.CmnLib.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW), CmnLib_1.CmnLib.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH), {
+        const renderer = new pixi_js_1.Renderer({
+            width: CmnLib_1.CmnLib.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW),
+            height: CmnLib_1.CmnLib.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH),
             transparent: (b_color > 0x1000000) && (ext == 'png'),
             antialias: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'smoothing', false),
             preserveDrawingBuffer: true,

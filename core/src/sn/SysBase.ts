@@ -6,6 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory, IMain} from './CmnInterface';
+import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory};
@@ -23,8 +24,8 @@ export class SysBase implements ISysBase {
 	flush() {}
 
 	protected	val		: IVariable;
-	protected	appPixi	: PIXI.Application;
-	init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void {
+	protected	appPixi	: Application;
+	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		this.val = val;
 		this.appPixi = appPixi;
 		this.val.setSys(this);
@@ -43,7 +44,7 @@ export class SysBase implements ISysBase {
 				searchPath: (fn: string, extptn = '')=>	cfg.searchPath(fn, extptn),
 				getVal: val.getVal,
 				resume: ()=> main.resume(),
-				render: (dsp: PIXI.DisplayObject, renTx: PIXI.RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
+				render: (dsp: DisplayObject, renTx: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
 			});
 		}
 

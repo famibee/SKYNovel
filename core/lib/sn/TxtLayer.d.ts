@@ -72,7 +72,7 @@ export declare class TxtLayer extends Layer {
             ch_anime_time_仮: number;
             xz4htm2rect: number;
         };
-        btns: (string | null)[];
+        btns: string[];
     };
     playback(hLay: any, fncComp?: undefined | {
         (): void;

@@ -14,9 +14,9 @@ import {IParse} from './PropParser';
 
 import m_xregexp = require('xregexp');
 import {EventMng} from './EventMng';
-import { loaders } from 'pixi.js';
-import { LayerMng } from './LayerMng';
-import { DebugMng } from './DebugMng';
+import {Loader} from 'pixi.js';
+import {LayerMng} from './LayerMng';
+import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
 
 interface Script {
@@ -428,7 +428,7 @@ export class ScriptIterator {
 			this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
 		}
 
-		const ldr = new loaders.Loader;
+		const ldr = new Loader();
 		ldr.add(this.scriptFn_, this.cfg.searchPath(this.scriptFn_, Config.EXT_SCRIPT));
 		ldr.load((_loader: any, res: any)=> {
 			const err = res[this.scriptFn_].error;

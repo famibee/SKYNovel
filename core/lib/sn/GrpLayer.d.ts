@@ -16,7 +16,6 @@ export declare class GrpLayer extends Layer {
     private static hFace;
     private static main;
     private static cfg;
-    private static ldr;
     static init(main: IMain, cfg: Config): void;
     static destroy(): void;
     private csvFn;

@@ -1,6 +1,6 @@
-/// <reference types="pixi.js" />
 /// <reference types="node" />
 import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory, IMain } from './CmnInterface';
+import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
     protected hPlg: {
         [name: string]: IPlugin;
@@ -24,8 +24,8 @@ export declare class SysBase implements ISysBase {
     initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari) => void): void;
     flush(): void;
     protected val: IVariable;
-    protected appPixi: PIXI.Application;
-    init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void;
+    protected appPixi: Application;
+    init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
     protected readonly close: ITag;
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;

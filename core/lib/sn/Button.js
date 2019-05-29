@@ -71,9 +71,9 @@ class Button extends pixi_js_1.Container {
             const w3 = sp.width / 3;
             const h = sp.height;
             const tx = sp.texture.baseTexture;
-            const txNormal = new PIXI.Texture(tx, new pixi_js_1.Rectangle(0, 0, w3, h));
-            const txClicked = new PIXI.Texture(tx, new pixi_js_1.Rectangle(w3, 0, w3, h));
-            const txHover = new PIXI.Texture(tx, new pixi_js_1.Rectangle(w3 * 2, 0, w3, h));
+            const txNormal = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(0, 0, w3, h));
+            const txClicked = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3, 0, w3, h));
+            const txHover = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3 * 2, 0, w3, h));
             const normal = () => sp.texture = txNormal;
             const hover = () => sp.texture = txHover;
             const clicked = () => sp.texture = txClicked;

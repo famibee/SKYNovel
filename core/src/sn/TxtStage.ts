@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { Container, Texture, Sprite, Graphics, DisplayObject, Rectangle } from 'pixi.js';
+import {Container, Texture, Sprite, Graphics, DisplayObject, Rectangle} from 'pixi.js';
 
 import {CmnLib, uint, IEvtMng} from './CmnLib';
 import {HArg, IHTag} from './CmnInterface';

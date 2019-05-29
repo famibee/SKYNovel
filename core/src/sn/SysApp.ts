@@ -8,8 +8,10 @@
 import { SysNode } from "./SysNode";
 import {CmnLib} from './CmnLib';
 import {HArg, IHTag, IVariable, IData4Vari, IPlugin, IConfig, IMain} from './CmnInterface';
-import {remote, BrowserWindow, webContents} from 'electron';
 import {Main} from './Main';
+import {Application} from 'pixi.js';
+
+import {remote, BrowserWindow, webContents} from 'electron';
 const Store = require('electron-store');
 const shell = require('electron').shell;
 
@@ -97,8 +99,8 @@ export class SysApp extends SysNode {
 
 	private	readonly win		: BrowserWindow	= remote.getCurrentWindow();
 	private	readonly wc		: webContents	= this.win.webContents;
-	init(cfg: IConfig, hTag: IHTag, val: IVariable, appPixi: PIXI.Application, main: IMain): void {
-		super.init(cfg, hTag, val, appPixi, main);
+	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+		super.init(cfg, hTag, appPixi, val, main);
 
 		if (CmnLib.devtool) this.wc.openDevTools();
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);

@@ -39,8 +39,8 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 
 
 // =============== EventMng
-import { interaction, DisplayObject } from 'pixi.js';
-import { EventListenerCtn } from './EventListenerCtn';
+import {interaction, DisplayObject} from 'pixi.js';
+import {EventListenerCtn} from './EventListenerCtn';
 export interface IEvt2Fnc {(e: Event): void};
 export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 export interface IEvtMng {

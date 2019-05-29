@@ -5,13 +5,13 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {BLEND_MODES, DisplayObject, Container, Sprite} from 'pixi.js';
+import {BLEND_MODES, DisplayObject, Container, Sprite, Texture} from 'pixi.js';
 import {CmnLib, int} from './CmnLib';
 import {HArg} from './CmnInterface';
 
 export class Layer {
 	name	= '';
-	readonly	cnt		= new Sprite(PIXI.Texture.EMPTY);
+	readonly	cnt		= new Sprite(Texture.EMPTY);
 
 	// tsy用
 	get	alpha() {return this.cnt.alpha}

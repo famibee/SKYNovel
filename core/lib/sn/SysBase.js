@@ -27,7 +27,7 @@ class SysBase {
     initVal(_data, _hTmp, _comp) { }
     ;
     flush() { }
-    init(cfg, hTag, val, appPixi, main) {
+    init(cfg, hTag, appPixi, val, main) {
         this.val = val;
         this.appPixi = appPixi;
         this.val.setSys(this);

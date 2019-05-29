@@ -22,14 +22,11 @@ class GrpLayer extends Layer_1.Layer {
     static init(main, cfg) {
         GrpLayer.main = main;
         GrpLayer.cfg = cfg;
-        GrpLayer.ldr = new pixi_js_1.loaders.Loader();
     }
     static destroy() {
         GrpLayer.elc.clear();
         GrpLayer.hFace = {};
         GrpLayer.hFn2ResAniSpr = {};
-        if (GrpLayer.ldr)
-            GrpLayer.ldr.destroy();
     }
     lay(hArg) {
         const fn = hArg.fn;
@@ -59,6 +56,7 @@ class GrpLayer extends Layer_1.Layer {
     static csv2Sprites(csv, parent, fncFirstComp, fncAllComp = () => { }) {
         const aComp = [];
         let needLoad = false;
+        const ldr = new pixi_js_1.Loader();
         csv.split(',').map((fn, i) => {
             if (!fn)
                 throw 'face属性に空要素が含まれます';
@@ -78,12 +76,10 @@ class GrpLayer extends Layer_1.Layer {
                 return;
             if (f.fn in pixi_js_1.utils.TextureCache)
                 return;
-            if (f.fn in GrpLayer.ldr.resources)
+            if (f.fn in pixi_js_1.Loader.shared.resources)
                 return;
             needLoad = true;
-            if (GrpLayer.ldr.loading)
-                GrpLayer.ldr = new pixi_js_1.loaders.Loader();
-            GrpLayer.ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE));
+            ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE));
         });
         const fncLoaded = (res) => {
             for (const v of aComp) {
@@ -94,7 +90,7 @@ class GrpLayer extends Layer_1.Layer {
             fncAllComp(needLoad);
         };
         if (needLoad)
-            GrpLayer.ldr.load((_loader, res) => fncLoaded(res));
+            ldr.load((_loader, res) => fncLoaded(res));
         else
             fncLoaded(pixi_js_1.utils.TextureCache);
         return needLoad;
@@ -104,7 +100,7 @@ class GrpLayer extends Layer_1.Layer {
             return new pixi_js_1.Sprite(pixi_js_1.Texture.from(fn));
         if (fn in GrpLayer.hFn2ResAniSpr) {
             const ras = GrpLayer.hFn2ResAniSpr[fn];
-            const asp = new pixi_js_1.extras.AnimatedSprite(ras.aTex);
+            const asp = new pixi_js_1.AnimatedSprite(ras.aTex);
             asp.animationSpeed = ras.meta['animationSpeed'] || 1.0;
             asp.play();
             return asp;
@@ -126,11 +122,11 @@ class GrpLayer extends Layer_1.Layer {
                 }
                 const aTex = [];
                 for (const v of aFK)
-                    aTex.push(pixi_js_1.Texture.fromFrame(v));
+                    aTex.push(pixi_js_1.Texture.from(v));
                 GrpLayer.hFn2ResAniSpr[r.name] = { aTex: aTex, meta: r.data.meta };
                 return GrpLayer.mkSprite(fn, res);
             case 5:
-                return new pixi_js_1.Sprite(pixi_js_1.Texture.fromVideo(r.data));
+                return new pixi_js_1.Sprite(pixi_js_1.Texture.from(r.data));
             default:
                 return new pixi_js_1.Sprite(r.texture);
         }
@@ -142,7 +138,7 @@ class GrpLayer extends Layer_1.Layer {
             fnc(tx);
             return;
         }
-        const tx2 = pixi_js_1.Texture.fromImage(url);
+        const tx2 = pixi_js_1.Texture.from(url);
         GrpLayer.elc.add(tx2.baseTexture, 'loaded', () => fnc(tx2));
     }
     setPos(hArg) {

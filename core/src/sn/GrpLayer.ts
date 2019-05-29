@@ -10,8 +10,8 @@ import {Layer} from './Layer';
 import {CmnLib, int} from './CmnLib';
 import {HArg, IMain} from './CmnInterface';
 import {Config} from './Config';
-import { Sprite, Container, extras, Texture, BLEND_MODES, utils, loaders } from 'pixi.js';
-import { EventListenerCtn } from './EventListenerCtn';
+import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite} from 'pixi.js';
+import {EventListenerCtn} from './EventListenerCtn';
 
 export interface IFncCompSpr { (sp: Sprite): void; };
 
@@ -37,18 +37,15 @@ export class GrpLayer extends Layer {
 
 	private static	main		: IMain;
 	private static	cfg			: Config;
-	private static	ldr			: loaders.Loader;
 	static	init(main: IMain, cfg: Config): void {
 		GrpLayer.main = main;
 		GrpLayer.cfg = cfg;
-		GrpLayer.ldr = new loaders.Loader();
 	}
 	static	destroy() {
 		GrpLayer.elc.clear();
 
 		GrpLayer.hFace	= {};
 		GrpLayer.hFn2ResAniSpr	= {};
-		if (GrpLayer.ldr) GrpLayer.ldr.destroy();
 	}
 
 	private csvFn		= '';
@@ -95,9 +92,8 @@ export class GrpLayer extends Layer {
 
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
-		//GrpLayer.ldr.destroy();	// あまりキビキビ殺すと、表示する前に消える
 		let needLoad = false;
-		// .forEach((fn, i)=> {	// NOTE: mapの方が速い＆値を返すのでチェーンにできる
+		const ldr = new Loader();
 		csv.split(',').map((fn, i)=> {
 			if (! fn) throw 'face属性に空要素が含まれます';
 
@@ -117,11 +113,10 @@ export class GrpLayer extends Layer {
 
 			if (f.fn in GrpLayer.hFn2ResAniSpr) return;
 			if (f.fn in utils.TextureCache) return;
-			if (f.fn in GrpLayer.ldr.resources) return;
+			if (f.fn in Loader.shared.resources) return;
 
 			needLoad = true;
-			if (GrpLayer.ldr.loading) GrpLayer.ldr = new loaders.Loader();
-			GrpLayer.ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
+			ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
 		});
 
 		const fncLoaded = (res: any)=> {
@@ -132,17 +127,17 @@ export class GrpLayer extends Layer {
 			}
 			fncAllComp(needLoad);
 		}
-		if (needLoad) GrpLayer.ldr.load((_loader: any, res: any)=> fncLoaded(res));
+		if (needLoad) ldr.load((_loader: any, res: any)=> fncLoaded(res));
 		else fncLoaded(utils.TextureCache);
 
 		return needLoad;
 	}
-	private static mkSprite(fn: string, res: loaders.Resource): Sprite {
+	private static mkSprite(fn: string, res: LoaderResource): Sprite {
 		//console.log('a:%O b:%O c:%O', res[fn], utils.TextureCache[fn], GrpLayer.hFn2ResAniSpr[fn]);
 		if (fn in utils.TextureCache) return new Sprite(Texture.from(fn));
 		if (fn in GrpLayer.hFn2ResAniSpr) {
 			const ras = GrpLayer.hFn2ResAniSpr[fn];
-			const asp = new extras.AnimatedSprite(ras.aTex);
+			const asp = new AnimatedSprite(ras.aTex);
 			asp.animationSpeed = ras.meta['animationSpeed'] || 1.0;
 			asp.play();
 			return asp;
@@ -164,12 +159,12 @@ export class GrpLayer extends Layer {
 				}
 				//console.log('aKey:%O:', aKey);
 				const aTex: Texture[] = [];
-				for (const v of aFK) aTex.push(Texture.fromFrame(v));
+				for (const v of aFK) aTex.push(Texture.from(v));
 				GrpLayer.hFn2ResAniSpr[r.name] = {aTex: aTex, meta: r.data.meta};
 				return GrpLayer.mkSprite(fn, res);
 
 			case 5:		// loaders.Resource.TYPE.VIDEO:
-				return new Sprite(Texture.fromVideo(r.data));
+				return new Sprite(Texture.from(r.data));
 				//	const hve = vsp.texture.baseTexture.source as HTMLVideoElement;
 				//const hve = r.data as HTMLVideoElement;
 				//hve.loop = true;
@@ -184,7 +179,7 @@ export class GrpLayer extends Layer {
 		const tx = utils.TextureCache[url];
 		if (tx) {fnc(tx); return;}
 
-		const tx2 = Texture.fromImage(url);
+		const tx2 = Texture.from(url);
 		GrpLayer.elc.add(tx2.baseTexture, 'loaded', ()=> fnc(tx2));	// ノイズ対策
 	}
 
