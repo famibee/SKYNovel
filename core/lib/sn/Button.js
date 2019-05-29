@@ -22,8 +22,8 @@ class Button extends pixi_js_1.Container {
                 padding: 5,
                 dropShadow: true,
                 dropShadowAlpha: 0.7,
-                dropShadowColor: 'white',
-                dropShadowBlur: 3,
+                dropShadowColor: '#ffffff',
+                dropShadowBlur: 7,
                 dropShadowDistance: 0,
             };
             if (hArg.style)

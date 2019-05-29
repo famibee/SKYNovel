@@ -1,5 +1,7 @@
 # Change Log
 
+## v0.5.2
+- bug：pixi.js v5.0.3 でButtonのdropShadowColorに色名前が使えない不具合対応
 ## v0.5.1
 - upd：pixi.js を v5.0.3 に更新
 - bug：ルール画像による[trans]で中心がずれてる件

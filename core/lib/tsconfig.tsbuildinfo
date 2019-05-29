@@ -318,7 +318,7 @@
         "signature": "c12897b25bbeb9bffc8c7a75ac9445433a04c5387476a708e25e8a86d9726df8"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/button.ts": {
-        "version": "2868e7c0659f96135290fe13965a8baca0786f6568ef4e34a4687e4624f5a316",
+        "version": "b087dfe25dfdf3a86063af83176b5987d3a28f4b766c389f8e0c5e156a6d6bc4",
         "signature": "bcd0418755ce4f6a411908f3f1b056bc49ab5eeca2abe8c6c203dd6c2170eff2"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/txtlayer.ts": {
@@ -2518,6 +2518,7 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/propparser.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/cmntween.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/pages.ts",
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/grplayer.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@pixi/filter-adjustment/types.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@pixi/filter-advanced-bloom/types.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@pixi/filter-ascii/types.d.ts",
@@ -2552,7 +2553,6 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/pixi-filters/types.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/txtstage.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/rubyspliter.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/button.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/txtlayer.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/framemng.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/layermng.ts",
@@ -2631,7 +2631,7 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/tween.js/index.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/lib/processors.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/index.d.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/grplayer.ts"
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/button.ts"
     ]
   },
   "version": "3.4.5"

@@ -29,8 +29,9 @@ export class Button extends Container {
 				padding: 5,
 				dropShadow: true,
 				dropShadowAlpha: 0.7,
-				dropShadowColor: 'white',
-				dropShadowBlur: 3,
+			//	dropShadowColor: 'white',	// pixi.js v5.0.3 で色名前が使えない
+				dropShadowColor: '#ffffff',
+				dropShadowBlur: 7,
 				dropShadowDistance: 0,
 			};
 			if (hArg.style) Button.s2hStyle(style, hArg.style);
