@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class CallStack {
-    constructor(_fn = '', _idx = 0, _hArg = null) {
-        this._fn = _fn;
-        this._idx = _idx;
-        this._hArg = _hArg;
+    constructor($fn = '', $idx = 0, $hArg = null) {
+        this.$fn = $fn;
+        this.$idx = $idx;
+        this.$hArg = $hArg;
+        this.toString = () => `[fn:${this.$fn}, idx:${this.$idx}, hArg:${this.$hArg}]`;
     }
-    get fn() { return this._fn; }
-    get idx() { return this._idx; }
-    get hArg() { return this._hArg; }
-    toString() { return '[fn:' + this._fn + ', idx:' + this._idx + ', hArg:' + this._hArg + ']'; }
+    get fn() { return this.$fn; }
+    get idx() { return this.$idx; }
+    get hArg() { return this.$hArg; }
 }
 exports.CallStack = CallStack;
 //# sourceMappingURL=CallStack.js.map

@@ -40,6 +40,7 @@ export class Main implements IMain {
 	private	readonly	alzTagArg	= new AnalyzeTagArg;
 
 
+	private	inited = false;
 	constructor(private sys: SysBase) {
 		utils.skipHello();
 
@@ -85,7 +86,7 @@ export class Main implements IMain {
 			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);
 
 			// レイヤ共通（6/6）
-			// 文字・文字レイヤ（15/17）
+			// 文字・文字レイヤ（16/17）
 			// 画像・画像レイヤ（1/6）
 			// 立体・３Ｄレイヤ（0/0）
 			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
@@ -95,6 +96,8 @@ export class Main implements IMain {
 
 			this.appPixi.ticker.add(this.fncTicker);
 			this.resumeByJumpOrCall({fn: this.cfg.oCfg.first_script});
+
+			this.inited = true;
 		});
 	}
 	private fncTicker = ()=> {
@@ -149,8 +152,8 @@ export class Main implements IMain {
 
 	private runAnalyze() {
 		while (true) {
-			let token = this.scrItr.runAnalyzeSub();
-			if (! token) continue;
+			let token = this.scrItr.nextToken();
+			if (! token) break;	// 初期化前に終了した場合向け
 
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
 			if (this.cfg.oCfg.debug.token) console.log(`🌱 トークン fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} uc:${uc} token<${token}>`);
@@ -296,6 +299,7 @@ export class Main implements IMain {
 		if (this.destroyed) return;
 		this.destroyed = true;
 
+		if (! this.inited) return;
 		await this.layMng.before_destroy();
 		if (ms_late > 0) await new Promise(r=> setTimeout(r, ms_late));
 
@@ -309,7 +313,7 @@ export class Main implements IMain {
 		if (this.clone_cvs && this.appPixi) {
 			this.appPixi.view.parentElement!.insertBefore(this.clone_cvs, this.appPixi.view);
 		}
-		utils.destroyTextureCache();
+		utils.clearTextureCache();
 		this.appPixi.destroy(true);
 	}
 	private	destroyed = false;

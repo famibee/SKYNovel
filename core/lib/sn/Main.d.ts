@@ -14,6 +14,7 @@ export declare class Main implements IMain {
     private evtMng;
     private fncNext;
     private readonly alzTagArg;
+    private inited;
     constructor(sys: SysBase);
     private fncTicker;
     errScript(mes: string, isThrow?: boolean): void;

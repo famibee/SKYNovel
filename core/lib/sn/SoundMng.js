@@ -34,7 +34,7 @@ class SoundMng {
         hTag.xchgbuf = o => this.xchgbuf(o);
         val.defValTrg('sys:sn.sound.global_volume', (_name, val) => Howler.volume(Number(val)));
         this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
-        'mp3,m4a,ogg,aac,webm,flac,wav'.split(',').map(v => val.setVal_Nochk('tmp', 'const.sn.sound.codecs.' + v, Howler.codecs(v)));
+        ['mp3', 'm4a', 'ogg', 'aac', 'webm', 'flac', 'wav'].forEach(v => val.setVal_Nochk('tmp', 'const.sn.sound.codecs.' + v, Howler.codecs(v)));
     }
     setEvtMng(evtMng) { this.evtMng = evtMng; }
     volume(hArg) {
@@ -262,7 +262,7 @@ class SoundMng {
             });
         }
         this.stop_allse();
-        aFnc.map(f => f());
+        aFnc.forEach(f => f());
     }
     addLoopPlay(buf, is_loop) {
         if (!is_loop) {

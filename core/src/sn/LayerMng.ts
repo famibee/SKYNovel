@@ -64,7 +64,7 @@ export class LayerMng {
 
 		//	文字・文字レイヤ
 	//	hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
-	//	hTag.autowc			= o=> this.autowc(o);		// 文字ごとのウェイト
+		//hTag.autowc		// TxtLayer.ts で定義		// 文字ごとのウェイト
 		hTag.ch				= o=> this.ch(o);			// 文字を追加する
 		hTag.clear_text		= o=> this.clear_text(o);	// 文字消去
 		hTag.current		= o=> this.current(o);		// デフォルト文字レイヤ設定
@@ -831,7 +831,7 @@ void main(void) {
 	}
 
 
-	// 文字・文字レイヤ
+//	// 文字・文字レイヤ
 	private static	$msecChWait		= 10;
 	static get msecChWait() {return LayerMng.$msecChWait;}
 	static set msecChWait(v) {LayerMng.$msecChWait = v;}
@@ -1059,7 +1059,7 @@ void main(void) {
 
 	record(): any {
 		const o: any = {};
-		this.aLayName.map(layer=> {
+		this.aLayName.forEach(layer=> {
 			const pg = this.hPages[layer];
 			o[layer] = {
 				cls: pg.cls,
@@ -1088,7 +1088,7 @@ void main(void) {
 				if (a.idx > b.idx) return 1;
 				return 0;
 			});
-			aSort.map(o=> {
+			aSort.forEach(o=> {
 				const pg = this.hPages[o.layer];
 				if (! pg) return;
 				const idx = len > o.idx ?o.idx :len -1;

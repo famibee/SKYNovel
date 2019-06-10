@@ -1,6 +1,6 @@
 import { Container } from 'pixi.js';
 import { IEvtMng } from './CmnLib';
-import { HArg, IHTag } from './CmnInterface';
+import { HArg } from './CmnInterface';
 import { Config } from './Config';
 export interface IInfTxLay {
     fontsize: number;
@@ -15,7 +15,7 @@ export declare class TxtStage extends Container {
     private infTL;
     private static cfg;
     private static recText;
-    static init(cfg: Config, hTag: IHTag, recText: (txt: string) => void): void;
+    static init(cfg: Config, recText: (txt: string) => void): void;
     private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
     private htmTxt;
@@ -53,9 +53,6 @@ export declare class TxtStage extends Container {
     private fo_easing;
     private clearText;
     passBaton(): TxtStage;
-    private static doAutoWc;
-    private static hAutoWc;
-    private static autowc;
     record(): {
         infTL: IInfTxLay;
         cssText: string;

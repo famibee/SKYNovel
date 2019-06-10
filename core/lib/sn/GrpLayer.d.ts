@@ -54,6 +54,6 @@ export declare class GrpLayer extends Layer {
     playback(hLay: any, fncComp?: undefined | {
         (): void;
     }): boolean;
-    dump(): string;
+    readonly dump: () => string;
 }
 export {};

@@ -61,6 +61,11 @@ class TxtLayer extends Layer_1.Layer {
                         if (ruby == '')
                             ruby = '　';
                     }
+                    if (TxtLayer.doAutoWc) {
+                        const w = TxtLayer.hAutoWc[text];
+                        if (w)
+                            text = `<span data-add="{'wait':${w}}">${text}</span>`;
+                    }
                     add_htm = (ruby) ? `<ruby>${text}<rt>${ruby}</rt></ruby>` : text;
                     break;
                 case 2:
@@ -121,6 +126,11 @@ class TxtLayer extends Layer_1.Layer {
                             this.autoCloseSpan();
                             return;
                         default:
+                            if (TxtLayer.doAutoWc) {
+                                const w = TxtLayer.hAutoWc[text.charAt(0)];
+                                if (w)
+                                    text = `<span data-add="{'wait':${w}}">${text}</span>`;
+                            }
                             add_htm = `<ruby>${text}<rt>${ruby}</rt></ruby>`;
                     }
                     break;
@@ -181,8 +191,11 @@ class TxtLayer extends Layer_1.Layer {
     }
     static init(cfg, hTag, val, recText) {
         TxtLayer.cfg = cfg;
-        TxtStage_1.TxtStage.init(cfg, hTag, recText);
+        TxtStage_1.TxtStage.init(cfg, recText);
         TxtLayer.val = val;
+        hTag.autowc = o => TxtLayer.autowc(o);
+        const o = { enabled: 'false', text: '', time: '' };
+        hTag.autowc(o);
         TxtLayer.glbStyle = document.createElement('style');
         document.getElementsByTagName('head')[0].appendChild(TxtLayer.glbStyle);
         TxtLayer.glbStyle.type = 'text/css';
@@ -202,6 +215,28 @@ class TxtLayer extends Layer_1.Layer {
         TxtLayer.main = main;
         TxtLayer.evtMng = evtMng;
         TxtStage_1.TxtStage.setEvtMng(evtMng);
+    }
+    static autowc(hArg) {
+        TxtLayer.doAutoWc = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
+        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.doAutoWc);
+        const ch = hArg.text;
+        if (('text' in hArg) != ('time' in hArg))
+            throw '[autowc] textとtimeは同時指定必須です';
+        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.text', ch);
+        if (!ch) {
+            TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', '');
+            return false;
+        }
+        const len = ch.length;
+        if (TxtLayer.doAutoWc && len == 0)
+            throw '[autowc] enabled == false かつ text == "" は許されません';
+        const a = String(hArg.time).split(',');
+        if (a.length != len)
+            throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
+        TxtLayer.hAutoWc = Object.create(null);
+        a.forEach((v, i) => TxtLayer.hAutoWc[ch[i]] = CmnLib_1.uint(v));
+        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
+        return false;
     }
     destroy() {
         if (this.b_do) {
@@ -333,7 +368,7 @@ class TxtLayer extends Layer_1.Layer {
             : { b_pic: '' });
         this.txs.playback(hLay.txs);
         const aBtn = hLay.btns;
-        aBtn.map(v => ret = ret || this.addButton(JSON.parse(v)));
+        aBtn.forEach(v => ret = ret || this.addButton(JSON.parse(v)));
         if (fncComp != undefined)
             fncComp();
         return ret;
@@ -349,6 +384,8 @@ class TxtLayer extends Layer_1.Layer {
         return super.dump() + `, "enabled":"${this.enabled}", ${this.txs.dump()}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${aPixiObj.join(',')}]`;
     }
 }
+TxtLayer.doAutoWc = false;
+TxtLayer.hAutoWc = Object.create(null);
 exports.TxtLayer = TxtLayer;
 ;
 //# sourceMappingURL=TxtLayer.js.map

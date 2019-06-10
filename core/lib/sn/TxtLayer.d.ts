@@ -4,13 +4,16 @@ import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
 import { IInfTxLay } from './TxtStage';
 import { Config } from './Config';
 export declare class TxtLayer extends Layer {
+    private static cfg;
     private static val;
     private static glbStyle;
-    private static cfg;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void): void;
     private static main;
     private static evtMng;
     static setEvtMng(main: IMain, evtMng: IEvtMng): void;
+    private static doAutoWc;
+    private static hAutoWc;
+    private static autowc;
     private infTL;
     private b_color;
     private b_alpha;

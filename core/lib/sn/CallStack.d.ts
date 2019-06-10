@@ -3,7 +3,7 @@ export interface ICallStackArg {
     csAnalyBf: {
         [name: string]: any;
     };
-    strReserveToken?: string;
+    resvToken?: string;
     hEvt1Time: IHEvt2Fnc;
     hMpVal?: {
         [name: string]: any;
@@ -11,12 +11,12 @@ export interface ICallStackArg {
     タグ名?: string;
 }
 export declare class CallStack {
-    private _fn;
-    private _idx;
-    private _hArg;
-    constructor(_fn?: string, _idx?: number, _hArg?: ICallStackArg | null);
+    private $fn;
+    private $idx;
+    private $hArg;
+    constructor($fn?: string, $idx?: number, $hArg?: ICallStackArg | null);
     readonly fn: string;
     readonly idx: number;
     readonly hArg: ICallStackArg | null;
-    toString(): string;
+    readonly toString: () => string;
 }

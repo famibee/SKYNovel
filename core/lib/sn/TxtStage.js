@@ -38,9 +38,8 @@ class TxtStage extends pixi_js_1.Container {
         cnt.addChild(this.grpDbgMasume);
         this.grpDbgMasume.name = 'grpDbgMasume';
     }
-    static init(cfg, hTag, recText) {
+    static init(cfg, recText) {
         TxtStage.cfg = cfg;
-        hTag['autowc'] = o => TxtStage.autowc(o);
         TxtStage.recText = recText;
         TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
             ? () => true
@@ -299,7 +298,7 @@ class TxtStage extends pixi_js_1.Container {
                         try {
                             if (sheet.href)
                                 continue;
-                            util.asArray(sheet.cssRules || []).map(cssRules.push.bind(cssRules));
+                            util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
                         }
                         catch (e) {
                             console.error('Error while reading CSS rules from ' + sheet.href, e.toString());
@@ -447,14 +446,12 @@ class TxtStage extends pixi_js_1.Container {
                 begin = lenPutedRect;
         }
         this.aRect = aRect;
+        const ease = this.fi_easing
+            ? CmnTween_1.CmnTween.hEase[this.fi_easing]
+            : TWEEN.Easing.Linear.None;
+        if (!ease)
+            throw '異常なease指定です';
         let delay = 0;
-        let fncDelay = (timAutoWc) => {
-            if (timAutoWc != null)
-                delay = timAutoWc;
-            fncDelay = (timAutoWc) => {
-                delay += (timAutoWc != null) ? timAutoWc : LayerMng_1.LayerMng.msecChWait;
-            };
-        };
         const len = this.aRect.length;
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];
@@ -468,20 +465,12 @@ class TxtStage extends pixi_js_1.Container {
                 this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
                 this.grpDbgMasume.endFill();
             }
-            if (v.add) {
-                const oJs = JSON.parse(v.add.replace(/'/g, '"'));
-                delay += CmnLib_1.uint(oJs.wait);
-            }
-            else
-                fncDelay(TxtStage.hAutoWc[v.ch]);
-            const o = v.arg ? JSON.parse(v.arg) : {};
+            delay += (v.add)
+                ? CmnLib_1.uint(JSON.parse(v.add.replace(/'/g, '"')).wait)
+                : LayerMng_1.LayerMng.msecChWait;
             const delay_put = (i < lenPutedRect)
-                || delay == 0 || this.ch_anime_time_仮 == 0;
-            const ease = this.fi_easing
-                ? CmnTween_1.CmnTween.hEase[this.fi_easing]
-                : TWEEN.Easing.Linear.None;
-            if (!ease)
-                throw '異常なease指定です';
+                || this.ch_anime_time_仮 == 0 || delay == 0;
+            const o = v.arg ? JSON.parse(v.arg) : {};
             const spWork = (sp, replace_pos_by_sp = true) => {
                 sp.alpha = 0;
                 sp.position.set(rct.x, rct.y);
@@ -625,7 +614,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     skipFI() {
         let isLiveTw = false;
-        this.aSpTw.map(st => { if (st.tw) {
+        this.aSpTw.forEach(st => { if (st.tw) {
             st.tw.stop().end();
             isLiveTw = true;
         } });
@@ -731,28 +720,5 @@ TxtStage.hWarning = {
 TxtStage.REG_SURROGATE = /[\uDC00-\uDFFF]/;
 TxtStage.fncChkSkip = () => false;
 TxtStage.cntBreak = new pixi_js_1.Container;
-TxtStage.doAutoWc = false;
-TxtStage.hAutoWc = {};
-TxtStage.autowc = (hArg) => {
-    TxtStage.doAutoWc = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', TxtStage.doAutoWc);
-    const ch = hArg.text;
-    if (('text' in hArg) != ('time' in hArg))
-        throw '[autowc] textとtimeは同時指定必須です';
-    if (!hArg.text) {
-        if (TxtStage.doAutoWc && ch == '')
-            throw '[autowc] enabled == false かつ text == "" は許されません';
-        return false;
-    }
-    const len = ch.length;
-    if (TxtStage.doAutoWc && len == 0)
-        throw '[autowc] enabled == false かつ text == "" は許されません';
-    const a = String(hArg.time).split(',');
-    if (a.length != len)
-        throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
-    TxtStage.hAutoWc = {};
-    for (let i = 0; i < len; ++i)
-        TxtStage.hAutoWc[ch[i]] = CmnLib_1.uint(a[i]);
-    return false;
-};
 exports.TxtStage = TxtStage;
 //# sourceMappingURL=TxtStage.js.map

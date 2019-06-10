@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, IEvtMng} from './CmnLib';
+import {uint, CmnLib, IEvtMng} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {TxtStage, IInfTxLay} from './TxtStage';
 import {Config} from './Config';
@@ -19,15 +19,17 @@ import {Sprite, DisplayObject, Graphics, Container} from 'pixi.js';
 const platform = require('platform');
 
 export class TxtLayer extends Layer {
-	private	static	val		: IVariable;
-
-	private	static	glbStyle: HTMLStyleElement;
 	private	static	cfg		: Config;
-
+	private	static	val		: IVariable;
+	private	static	glbStyle: HTMLStyleElement;
 	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void): void {
 		TxtLayer.cfg = cfg;
-		TxtStage.init(cfg, hTag, recText);
+		TxtStage.init(cfg, recText);
 		TxtLayer.val = val;
+
+		hTag.autowc			= o=> TxtLayer.autowc(o);	// 文字を追加する
+		const o: any = {enabled: 'false', text: '', time: ''};
+		hTag.autowc(o);
 
 		TxtLayer.glbStyle = document.createElement('style');
 		document.getElementsByTagName('head')[0].appendChild(TxtLayer.glbStyle);
@@ -50,6 +52,34 @@ export class TxtLayer extends Layer {
 		TxtLayer.evtMng = evtMng;
 		TxtStage.setEvtMng(evtMng);
 	}
+
+	// 文字ごとのウェイト
+	private	static doAutoWc	= false;
+	private	static hAutoWc	: {[ch: string]: number} = Object.create(null);//{}
+	private static autowc(hArg: HArg) {
+		TxtLayer.doAutoWc = CmnLib.argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
+		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.doAutoWc);
+
+		const ch = hArg.text;
+		if (('text' in hArg) != ('time' in hArg)) throw '[autowc] textとtimeは同時指定必須です';
+		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.text', ch);
+		if (! ch) {
+			TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', '');
+			return false;
+		}
+
+		const len = ch.length;
+		if (TxtLayer.doAutoWc && len == 0) throw '[autowc] enabled == false かつ text == "" は許されません';
+
+		const a = String(hArg.time).split(',');
+		if (a.length != len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
+		TxtLayer.hAutoWc = Object.create(null);	//{}	// 毎回クリアを仕様とする
+		a.forEach((v, i)=> TxtLayer.hAutoWc[ch[i]] = uint(v));
+		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
+
+		return false;
+	}
+
 
 	private infTL :IInfTxLay = {
 		fontsize	: 24,
@@ -232,6 +262,10 @@ export class TxtLayer extends Layer {
 				this.firstCh = false;
 				if (ruby == '') ruby = '　';
 			}
+			if (TxtLayer.doAutoWc) {
+				const w = TxtLayer.hAutoWc[text];
+				if (w) text = `<span data-add="{'wait':${w}}">${text}</span>`;
+			}
 			add_htm = (ruby) ?`<ruby>${text}<rt>${ruby}</rt></ruby>` :text;
 			break;
 
@@ -241,7 +275,8 @@ export class TxtLayer extends Layer {
 				this.autoCloseSpan();
 				this.txs.goTxt(this.aSpan, this.name);
 				return;	// breakではない
-			case 'add':
+
+			case 'add':	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
 				if (this.aSpan_bk) {
 					const s = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
@@ -301,7 +336,11 @@ export class TxtLayer extends Layer {
 
 			case 'endlink':	this.autoCloseSpan();	return;	// breakではない
 
-			default:	// ルビあり文字
+			default:	// ルビあり文字列
+				if (TxtLayer.doAutoWc) {
+					const w = TxtLayer.hAutoWc[text.charAt(0)];
+					if (w) text = `<span data-add="{'wait':${w}}">${text}</span>`;
+				}
 				add_htm = `<ruby>${text}<rt>${ruby}</rt></ruby>`;
 			}
 			break;
@@ -414,7 +453,7 @@ export class TxtLayer extends Layer {
 
 		// addButton(hArg: HArg): boolean
 		const aBtn: string[] = hLay.btns;
-		aBtn.map(v=> ret = ret || this.addButton(JSON.parse(v)));
+		aBtn.forEach(v=> ret = ret || this.addButton(JSON.parse(v)));
 
 		if (fncComp != undefined) fncComp();
 

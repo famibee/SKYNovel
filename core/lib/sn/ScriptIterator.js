@@ -34,6 +34,7 @@ class ScriptIterator {
         this.noticeBreak = (_set) => { };
         this.dumpErrLine = 5;
         this.aIfStk = [-1];
+        this.resvToken = '';
         this.skipLabel = '';
         this.onlyCodeScript = false;
         this.REG_NONAME_LABEL = /(\*{2,})(.*)/;
@@ -113,7 +114,7 @@ class ScriptIterator {
             this.script.len = this.script.aToken.length;
         };
         this.regC2M = new RegExp('');
-        this.fncReserveToken = null;
+        this.nextToken = () => '';
         this.isKidoku_ = false;
         this.REG_CANTC2M = /[\w\s;[\]*=&｜《》]/;
         this.regStrC2M = '';
@@ -368,17 +369,19 @@ class ScriptIterator {
             csAnalyBf: this.csAnalyBf,
             hEvt1Time: this.evtMng.popLocalEvts()
         };
-        if (this.fncReserveToken != null) {
-            hPushArg.strReserveToken = this.fncReserveToken();
-            this.fncReserveToken = null;
-        }
-        this.pushCallStack(hPushArg);
-        this.fncReserveToken = null;
-        this.aIfStk.unshift(-1);
+        this.callSub(hPushArg);
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'clear_local_event', false))
             this.hTag.clear_event({});
         this.jumpWork(fn, hArg.label);
         return true;
+    }
+    callSub(hPushArg) {
+        if (!this.resvToken) {
+            hPushArg.resvToken = this.resvToken;
+            this.clearResvToken();
+        }
+        this.pushCallStack(hPushArg);
+        this.aIfStk.unshift(-1);
     }
     jump(hArg) {
         if (!CmnLib_1.CmnLib.argChk_Boolean(hArg, 'count', true))
@@ -397,7 +400,7 @@ class ScriptIterator {
                 throw '[pop_stack] スタックが空です';
             this.aCallStk.pop();
         }
-        this.fncReserveToken = null;
+        this.clearResvToken();
         this.aIfStk = [-1];
         return false;
     }
@@ -409,14 +412,14 @@ class ScriptIterator {
         if (osac)
             this.csAnalyBf = new CallStack_1.CallStack(osac.fn, osac.idx);
         this.aIfStk.shift();
-        const after_token = cs.hArg.strReserveToken;
+        const after_token = cs.hArg.resvToken;
         if (after_token)
-            this.fncReserveToken = () => {
-                this.fncReserveToken = null;
+            this.nextToken = () => {
+                this.clearResvToken();
                 return after_token;
             };
         else
-            this.fncReserveToken = null;
+            this.clearResvToken();
         if (cs.hArg.hEvt1Time)
             this.evtMng.pushLocalEvts(cs.hArg.hEvt1Time);
         const oscr = this.hScript[cs.fn];
@@ -427,6 +430,10 @@ class ScriptIterator {
         this.lineNum_ = oscr.aLNum[cs.idx - 1];
         this.jump_light(cs.fn, cs.idx);
         return false;
+    }
+    clearResvToken() {
+        this.resvToken = '';
+        this.nextToken = this.nextToken_Proc;
     }
     jumpWork(fn = '', label = '', idx = 0) {
         if (!fn && !label)
@@ -463,6 +470,7 @@ class ScriptIterator {
                 this.main.errScript(`[jump系]スクリプトロード失敗です　${err}`, false);
                 return;
             }
+            this.nextToken = this.nextToken_Proc;
             this.resolveScript(res[this.scriptFn_].data);
             this.hTag.record_place({});
             this.main.resume(() => this.analyzeInit());
@@ -632,9 +640,7 @@ class ScriptIterator {
         if (st != null)
             this.script = st;
     }
-    runAnalyzeSub() {
-        if (this.fncReserveToken != null)
-            return this.fncReserveToken();
+    nextToken_Proc() {
         if (this.idxToken_ == this.script.len)
             this.main.errScript('スクリプト終端です  idxToken:' + this.idxToken_ + ' this.tokens.aToken.length:' + this.script.aToken.length);
         this.recordKidoku();
@@ -774,12 +780,7 @@ class ScriptIterator {
         this.hTag[name] = hArg => {
             const hPushArg = Object.assign({}, hArg);
             hPushArg.hMpVal = this.val.cloneMp();
-            if (this.fncReserveToken != null) {
-                hPushArg.strReserveToken = this.fncReserveToken();
-                this.fncReserveToken = null;
-            }
-            this.pushCallStack(hPushArg);
-            this.aIfStk.unshift(-1);
+            this.callSub(hPushArg);
             this.val.setMp(hArg);
             this.val.setVal_Nochk('mp', 'const.sn.macro_name', name);
             this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', this.scriptFn_);
@@ -825,6 +826,12 @@ class ScriptIterator {
                 hPages: Object.assign({}, mark.hPages),
                 aIfStk: [...mark.aIfStk],
             };
+        const o = {
+            enabled: this.val.getVal('save:const.sn.autowc.enabled'),
+            text: String(this.val.getVal('save:const.sn.autowc.text')),
+            time: String(this.val.getVal('save:const.sn.autowc.time')),
+        };
+        this.hTag.autowc(o);
         const fn = String(this.val.getVal('save:const.sn.scriptFn'));
         const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
         delete this.hScript[fn];

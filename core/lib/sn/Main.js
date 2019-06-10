@@ -18,6 +18,7 @@ class Main {
         this.hTag = Object.create(null);
         this.fncNext = () => { };
         this.alzTagArg = new AnalyzeTagArg_1.AnalyzeTagArg;
+        this.inited = false;
         this.fncTicker = () => {
             this.fncNext();
             this.dbgMng.update();
@@ -75,6 +76,7 @@ class Main {
             this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);
             this.appPixi.ticker.add(this.fncTicker);
             this.resumeByJumpOrCall({ fn: this.cfg.oCfg.first_script });
+            this.inited = true;
         });
     }
     errScript(mes, isThrow = true) {
@@ -104,9 +106,9 @@ class Main {
     }
     runAnalyze() {
         while (true) {
-            let token = this.scrItr.runAnalyzeSub();
+            let token = this.scrItr.nextToken();
             if (!token)
-                continue;
+                break;
             const uc = token.charCodeAt(0);
             if (this.cfg.oCfg.debug.token)
                 console.log(`🌱 トークン fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} uc:${uc} token<${token}>`);
@@ -246,6 +248,8 @@ class Main {
         if (this.destroyed)
             return;
         this.destroyed = true;
+        if (!this.inited)
+            return;
         await this.layMng.before_destroy();
         if (ms_late > 0)
             await new Promise(r => setTimeout(r, ms_late));
@@ -258,7 +262,7 @@ class Main {
         if (this.clone_cvs && this.appPixi) {
             this.appPixi.view.parentElement.insertBefore(this.clone_cvs, this.appPixi.view);
         }
-        pixi_js_1.utils.destroyTextureCache();
+        pixi_js_1.utils.clearTextureCache();
         this.appPixi.destroy(true);
     }
 }

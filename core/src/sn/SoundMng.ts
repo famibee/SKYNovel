@@ -49,7 +49,7 @@ export class SoundMng {
 		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> Howler.volume(Number(val)));
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
-		'mp3,m4a,ogg,aac,webm,flac,wav'.split(',').map(v=> val.setVal_Nochk('tmp', 'const.sn.sound.codecs.'+ v, Howler.codecs(v)));
+		['mp3','m4a','ogg','aac','webm','flac','wav'].forEach(v=> val.setVal_Nochk('tmp', 'const.sn.sound.codecs.'+ v, Howler.codecs(v)));
 	}
 	private initVol = ()=> {
 		Howler.volume(Number(this.val.getVal('sys:sn.sound.global_volume', 1)));
@@ -305,7 +305,7 @@ export class SoundMng {
 	// （2019/04/28）音声再生しなくなるので使用凍結
 	/*
 	loadAheadSnd(_aFn: string[]): void {
-		_aFn.filter(v=> (v)).map(fn=> new Howl({
+		_aFn.filter(v=> (v)).forEach(fn=> new Howl({
 			src: this.cfg.searchPath(fn, Config.EXT_SOUND),
 			autoplay: false,
 		}));
@@ -337,7 +337,7 @@ export class SoundMng {
 			});
 		}
 		this.stop_allse();
-		aFnc.map(f=> f());
+		aFnc.forEach(f=> f());
 	}
 	private addLoopPlay(buf: string, is_loop: Boolean): void {
 		if (! is_loop) {this.delLoopPlay(buf); return;}

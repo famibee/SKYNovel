@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.5.3
+- add：[autowc]（文字ごとのウェイト）を追加、特定文字表示直後にウェイト
+- add：上記機能設定値を保存するシステム変数追加
+    save:const.sn.autowc.enabled、text、time
+- upd：map()にする必要が無い部分をforEach()に修正（パフォーマンス）
+- bug：pixi5で発生、ギャラリーでアニメSprite終了→別ゲーム起動時にエラー
+- chg：pixi5で発生、ギャラリーでリロードボタン連打時に発生するエラー対策
 ## v0.5.2
 - bug：pixi.js v5.0.3 でButtonのdropShadowColorに色名前が使えない不具合対応
 ## v0.5.1

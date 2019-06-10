@@ -50,9 +50,12 @@ export declare class ScriptIterator {
     private endif;
     private if;
     private call;
+    private callSub;
     private jump;
     private pop_stack;
     private return;
+    private resvToken;
+    private clearResvToken;
     private skipLabel;
     private jumpWork;
     private onlyCodeScript;
@@ -73,8 +76,8 @@ export declare class ScriptIterator {
     private hC2M;
     private replaceScriptChar2macro_And_let_ml;
     private regC2M;
-    private fncReserveToken;
-    runAnalyzeSub(): string;
+    nextToken: () => string;
+    private nextToken_Proc;
     private recordKidoku;
     private isKidoku_;
     readonly isKidoku: boolean;

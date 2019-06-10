@@ -336,7 +336,7 @@ class EventMng {
             ((type == 'range' || type == 'checkbox')
                 ? ['input', 'change']
                 : ['click'])
-                .map(v => {
+                .forEach(v => {
                 for (const elm of elmlist)
                     this.elc.add(elm, v, e => {
                         const e2 = elm.dataset;

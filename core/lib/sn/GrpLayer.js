@@ -18,6 +18,7 @@ class GrpLayer extends Layer_1.Layer {
             sBkFn: this.sBkFn,
             sBkFace: this.sBkFace,
         });
+        this.dump = () => super.dump() + `, "pic":"${this.csvFn}"`;
     }
     static init(main, cfg) {
         GrpLayer.main = main;
@@ -57,7 +58,7 @@ class GrpLayer extends Layer_1.Layer {
         const aComp = [];
         let needLoad = false;
         const ldr = new pixi_js_1.Loader();
-        csv.split(',').map((fn, i) => {
+        csv.split(',').forEach((fn, i) => {
             if (!fn)
                 throw 'face属性に空要素が含まれます';
             const f = GrpLayer.hFace[fn] || {
@@ -184,8 +185,6 @@ class GrpLayer extends Layer_1.Layer {
             };
         return this.lay({ fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y });
     }
-    dump() { return super.dump() + `, "pic":"${this.csvFn}"`; }
-    ;
 }
 GrpLayer.elc = new EventListenerCtn_1.EventListenerCtn;
 GrpLayer.hFace = {};

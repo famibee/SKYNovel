@@ -94,7 +94,7 @@ export class GrpLayer extends Layer {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		let needLoad = false;
 		const ldr = new Loader();
-		csv.split(',').map((fn, i)=> {
+		csv.split(',').forEach((fn, i)=> {
 			if (! fn) throw 'face属性に空要素が含まれます';
 
 			// 差分絵を重ねる
@@ -244,6 +244,6 @@ export class GrpLayer extends Layer {
 		return this.lay({fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y});
 	}
 
-	dump(): string {return super.dump() +`, "pic":"${this.csvFn}"`;};
+	readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;
 
 }

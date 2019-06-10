@@ -335,18 +335,20 @@ export class ScriptIterator {
 			csAnalyBf	: this.csAnalyBf,
 			hEvt1Time	: this.evtMng.popLocalEvts()
 		};
-		if (this.fncReserveToken != null) {
-			hPushArg.strReserveToken = this.fncReserveToken();
-			this.fncReserveToken = null;
-		}
-		this.pushCallStack(hPushArg);
-		this.fncReserveToken = null;
-		this.aIfStk.unshift(-1);
+		this.callSub(hPushArg);
 
 		if (CmnLib.argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.jumpWork(fn, hArg.label);
 
 		return true;
+	}
+	private callSub(hPushArg: any) {
+		if (! this.resvToken) {
+			hPushArg.resvToken = this.resvToken;
+			this.clearResvToken();
+		}
+		this.pushCallStack(hPushArg);
+		this.aIfStk.unshift(-1);
 	}
 
 	// シナリオジャンプ
@@ -368,7 +370,7 @@ export class ScriptIterator {
 			if (this.aCallStk.length == 0) throw'[pop_stack] スタックが空です';
 			this.aCallStk.pop();
 		}
-		this.fncReserveToken = null;
+		this.clearResvToken();
 		this.aIfStk = [-1];
 
 		return false;
@@ -382,12 +384,12 @@ export class ScriptIterator {
 		if (osac) this.csAnalyBf = new CallStack(osac.fn, osac.idx);
 		this.aIfStk.shift();
 
-		const after_token = cs!.hArg!.strReserveToken;
-		if (after_token) this.fncReserveToken = ()=> {
-			this.fncReserveToken = null;
+		const after_token = cs!.hArg!.resvToken;
+		if (after_token) this.nextToken = ()=> {
+			this.clearResvToken();
 			return after_token;
-		};
-		else this.fncReserveToken = null;
+		}
+		else this.clearResvToken();
 		if (cs!.hArg!.hEvt1Time) this.evtMng.pushLocalEvts(cs!.hArg!.hEvt1Time);
 
 		//	lineNum = hScrTokens[cs.fn].tokens.aLNum[cs.idx -1];
@@ -402,6 +404,12 @@ export class ScriptIterator {
 		this.jump_light(cs!.fn, cs!.idx);
 
 		return false;
+	}
+
+	private resvToken	= '';
+	private clearResvToken() {
+		this.resvToken = '';
+		this.nextToken = this.nextToken_Proc;
 	}
 
 
@@ -436,6 +444,8 @@ export class ScriptIterator {
 				this.main.errScript(`[jump系]スクリプトロード失敗です　${err}`, false);
 				return;
 			}
+
+			this.nextToken = this.nextToken_Proc;
 
 			this.resolveScript(res[this.scriptFn_].data);
 			this.hTag.record_place({});
@@ -704,10 +714,8 @@ export class ScriptIterator {
 	private regC2M	: RegExp	= new RegExp('');
 
 	// シナリオ解析処理ループ・冒頭処理
-	private fncReserveToken	: {(): string} | null	= null;
-	runAnalyzeSub() {
-		if (this.fncReserveToken != null) return this.fncReserveToken();
-
+	nextToken = ()=> '';	// 初期化前に終了した場合向け
+	private nextToken_Proc() {
 		if (this.idxToken_ == this.script.len) this.main.errScript('スクリプト終端です  idxToken:' + this.idxToken_ + ' this.tokens.aToken.length:' + this.script.aToken.length);
 
 		this.recordKidoku();
@@ -882,13 +890,7 @@ export class ScriptIterator {
 		this.hTag[name] = hArg=> {
 			const hPushArg: any = {...hArg};
 			hPushArg.hMpVal = this.val.cloneMp();
-
-			if (this.fncReserveToken != null) {
-				hPushArg.strReserveToken = this.fncReserveToken();
-				this.fncReserveToken = null;
-			}
-			this.pushCallStack(hPushArg);
-			this.aIfStk.unshift(-1);
+			this.callSub(hPushArg);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
@@ -945,6 +947,13 @@ export class ScriptIterator {
 			hPages	: {...mark.hPages},
 			aIfStk	: [...mark.aIfStk],
 		}
+
+		const o: any = {
+			enabled: this.val.getVal('save:const.sn.autowc.enabled'),
+			text: String(this.val.getVal('save:const.sn.autowc.text')),
+			time: String(this.val.getVal('save:const.sn.autowc.time')),
+		};
+		this.hTag.autowc(o);
 
 		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));

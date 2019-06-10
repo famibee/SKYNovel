@@ -835,7 +835,7 @@ void main(void) {
     }
     record() {
         const o = {};
-        this.aLayName.map(layer => {
+        this.aLayName.forEach(layer => {
             const pg = this.hPages[layer];
             o[layer] = {
                 cls: pg.cls,
@@ -865,7 +865,7 @@ void main(void) {
                     return 1;
                 return 0;
             });
-            aSort.map(o => {
+            aSort.forEach(o => {
                 const pg = this.hPages[o.layer];
                 if (!pg)
                     return;

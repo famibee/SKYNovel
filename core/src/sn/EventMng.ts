@@ -43,7 +43,7 @@ export class EventMng implements IEvtMng {
 
 		// イベント
 		hTag.clear_event	= o=> this.clear_event(o);	// イベントを全消去
-		// enable_event		//イベント有無の切替			// LayerMng.ts内で定義
+		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
 		hTag.event			= o=> this.event(o);		// イベントを予約
 		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
 		hTag.l				= o=> this.l(o);			// 行末クリック待ち
@@ -405,13 +405,13 @@ export class EventMng implements IEvtMng {
 			const need_err = CmnLib.argChk_Boolean(hArg, 'need_err', true);
 			if (elmlist.length == 0 && need_err) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=true と指定してください`;
 			const type = (elmlist[0] instanceof HTMLInputElement)
-				 ? (elmlist[0] as HTMLInputElement).type
-				 : '';
+				? (elmlist[0] as HTMLInputElement).type
+				: '';
 
 			((type == 'range' || type == 'checkbox')
 				? ['input', 'change']
 				: ['click'])
-				.map(v=> {
+				.forEach(v=> {
 					for (const elm of elmlist) this.elc.add(elm, v, e=> {
 						const e2 = (elm as HTMLElement).dataset;
 						for (const key in e2) {
