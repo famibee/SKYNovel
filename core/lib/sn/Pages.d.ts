@@ -3,7 +3,7 @@ import { Layer } from './Layer';
 import { SysBase } from './SysBase';
 import { Container } from 'pixi.js';
 export declare class Pages {
-    private cls_;
+    private readonly cls_;
     private pg;
     constructor(layer: string, cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable);
     destroy(): void;

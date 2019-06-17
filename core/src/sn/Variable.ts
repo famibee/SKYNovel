@@ -19,7 +19,7 @@ export class Variable implements IVariable {
 	private	hTmp	: any	= this.hScope.tmp;
 
 
-	constructor(private cfg: Config, hTag: IHTag) {
+	constructor(private readonly cfg: Config, hTag: IHTag) {
 		//	変数操作
 		hTag.let			= o=> this.let(o);			// 変数代入・演算
 		hTag.let_abs		= o=> this.let_abs(o);		// 絶対値

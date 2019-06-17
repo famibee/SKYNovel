@@ -2,9 +2,9 @@ import { IEvtMng } from './CmnLib';
 import { IHTag, IVariable, IMain } from './CmnInterface';
 import { Config } from './Config';
 export declare class SoundMng {
-    private cfg;
-    private val;
-    private main;
+    private readonly cfg;
+    private readonly val;
+    private readonly main;
     private hSndBuf;
     constructor(cfg: Config, hTag: IHTag, val: IVariable, main: IMain);
     private initVol;

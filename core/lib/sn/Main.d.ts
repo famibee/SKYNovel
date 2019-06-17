@@ -1,7 +1,7 @@
 import { IMain, HArg } from './CmnInterface';
 import { SysBase } from './SysBase';
 export declare class Main implements IMain {
-    private sys;
+    private readonly sys;
     private cfg;
     private appPixi;
     private hTag;

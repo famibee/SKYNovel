@@ -4,11 +4,11 @@ import { IHTag, IVariable, IMain } from './CmnInterface';
 import { Application } from 'pixi.js';
 import { SysBase } from './SysBase';
 export declare class FrameMng {
-    private appPixi;
-    private val;
-    private main;
-    private sys;
-    private hTwInf;
+    private readonly appPixi;
+    private readonly val;
+    private readonly main;
+    private readonly sys;
+    private readonly hTwInf;
     constructor(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, sys: SysBase, hTwInf: {
         [name: string]: ITwInf;
     });

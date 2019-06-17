@@ -2,7 +2,7 @@ import { IHTag } from './CmnInterface';
 import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 export declare class DebugMng {
-    private sys;
+    private readonly sys;
     private static scrItr;
     private static hTag;
     private static title;

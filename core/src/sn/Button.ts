@@ -13,7 +13,7 @@ import {GrpLayer} from "./GrpLayer";
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 
-	constructor(private main: IMain, private evtMng: IEvtMng, hArg: HArg) {
+	constructor(private readonly main: IMain, private readonly evtMng: IEvtMng, hArg: HArg) {
 		super();
 
 		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);

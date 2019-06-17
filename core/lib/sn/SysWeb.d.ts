@@ -2,13 +2,17 @@
 import { SysBase } from "./SysBase";
 import { IConfig, HArg, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysWeb extends SysBase {
-    protected hPlg: {
+    protected readonly hPlg: {
         [name: string]: IPlugin;
     };
-    protected $cur: string;
+    protected arg: {
+        cur: string;
+    };
     constructor(hPlg?: {
         [name: string]: IPlugin;
-    }, $cur?: string);
+    }, arg?: {
+        cur: string;
+    });
     private def_prj;
     private readonly run;
     private now_prj;

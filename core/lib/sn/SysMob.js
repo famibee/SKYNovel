@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SysBase_1 = require("./SysBase");
 const Main_1 = require("./Main");
 class SysMob extends SysBase_1.SysBase {
-    constructor(hPlg = {}, $cur = 'prj/') {
-        super(hPlg, $cur);
+    constructor(hPlg = {}, arg = { cur: 'prj/' }) {
+        super(hPlg, arg);
         this.hPlg = hPlg;
-        this.$cur = $cur;
+        this.arg = arg;
         this.fetch = (url) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest;
             xhr.onload = () => resolve(new Response(xhr.responseText, { status: xhr.status }));
@@ -35,7 +35,7 @@ class SysMob extends SysBase_1.SysBase {
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, _cfg) {
         (async () => {
-            const res = await this.fetch(this.$cur + 'path.json');
+            const res = await this.fetch(this.arg.cur + 'path.json');
             if (!res.ok)
                 throw Error(res.statusText);
             const json = await res.json();
@@ -43,7 +43,7 @@ class SysMob extends SysBase_1.SysBase {
                 const h = hPathFn2Exts[nm] = json[nm];
                 for (const ext in h)
                     if (ext != ':cnt')
-                        h[ext] = this.$cur + h[ext];
+                        h[ext] = this.arg.cur + h[ext];
             }
             const cvs = document.getElementById('skynovel');
             if (cvs) {

@@ -2,11 +2,16 @@ import { SysNode } from "./SysNode";
 import { HArg, IHTag, IVariable, IData4Vari, IPlugin, IConfig, IMain } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysApp extends SysNode {
-    protected hPlg: {
+    protected readonly hPlg: {
         [name: string]: IPlugin;
+    };
+    protected readonly arg: {
+        cur: string;
     };
     constructor(hPlg?: {
         [name: string]: IPlugin;
+    }, arg?: {
+        cur: string;
     });
     protected readonly $path_desktop: string;
     protected readonly $path_userdata: string;

@@ -6,6 +6,7 @@ import m_fs = require('fs-extra');
 export declare class SysNode extends SysBase {
     protected readonly normalize: (src: string, _form: string) => string;
     loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: () => void, cfg: Config): void;
+    private readonly regNoUseSysFile;
     private getHFn2Path;
     private readonly hExtNG;
     private retinaFnTail;

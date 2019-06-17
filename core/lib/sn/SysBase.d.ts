@@ -2,16 +2,20 @@
 import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory, IMain } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
-    protected hPlg: {
+    protected readonly hPlg: {
         [name: string]: IPlugin;
     };
-    protected $cur: string;
+    protected readonly arg: {
+        cur: string;
+    };
     hFactoryCls: {
         [name: string]: ILayerFactory;
     };
     constructor(hPlg?: {
         [name: string]: IPlugin;
-    }, $cur?: string);
+    }, arg?: {
+        cur: string;
+    });
     readonly cur: string;
     fetch: (url: string) => Promise<Response>;
     resolution: number;
@@ -31,6 +35,7 @@ export declare class SysBase implements ISysBase {
     protected readonly title: ITag;
     protected tgl_full_scr: ITag;
     protected readonly window: ITag;
+    pre: (_ext: string, data: string) => string;
     protected readonly isApp: () => boolean;
     protected $path_desktop: string;
     readonly path_desktop: string;

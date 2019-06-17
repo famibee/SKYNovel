@@ -3,7 +3,7 @@ export interface IParse {
     (s: string): object;
 }
 export declare class PropParser {
-    private val;
+    private readonly val;
     private parser;
     constructor(val: IVariable);
     readonly parse: IParse;

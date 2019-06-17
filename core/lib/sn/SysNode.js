@@ -8,6 +8,7 @@ class SysNode extends SysBase_1.SysBase {
     constructor() {
         super(...arguments);
         this.normalize = (src, _form) => src;
+        this.regNoUseSysFile = /^(\..+|.+.db|.+.ini|_notes|Icon\r)$/;
         this.hExtNG = {
             'db': 0,
             'ini': 0,
@@ -34,22 +35,20 @@ class SysNode extends SysBase_1.SysBase {
     loadPathAndVal(hFn2Path, fncLoaded, cfg) {
         this.getHFn2Path(hFn2Path, cfg.oCfg);
         fncLoaded();
-        if (!this.existsSync(this.cur + 'path.json'))
-            this.writeFile(this.cur + 'path.json', cfg.getJsonSearchPath().replace(new RegExp(this.cur, 'g'), ''));
+        if (!this.existsSync(this.arg.cur + 'path.json'))
+            this.writeFile(this.arg.cur + 'path.json', cfg.getJsonSearchPath().replace(new RegExp(this.arg.cur, 'g'), ''));
     }
     getHFn2Path(hPathFn2Exts, oCfg) {
         const REG_FN_RATE_SPRIT = /(.+?)(?:%40(\d)x)?(\.\w+)/;
         if (oCfg.search)
             for (const dir of oCfg.search) {
-                const wd = m_path.resolve(this.$cur, dir);
+                const wd = m_path.resolve(this.arg.cur, dir);
                 if (!this.existsSync(wd))
                     continue;
                 for (const nm_base of this.readdirSync(wd)) {
-                    const nm = this.normalize(nm_base, 'NFC');
-                    if (nm.charAt(0) == '.' || nm == 'Thumbs.db'
-                        || nm == 'Desktop.ini' || nm == '_notes'
-                        || nm == 'Icon\r')
+                    if (this.regNoUseSysFile.test(nm_base))
                         continue;
+                    const nm = this.normalize(nm_base, 'NFC');
                     const fo_url = m_path.resolve(wd, nm);
                     if (this.isDirectory(fo_url))
                         continue;

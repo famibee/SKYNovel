@@ -41,7 +41,7 @@ export class Main implements IMain {
 
 
 	private	inited = false;
-	constructor(private sys: SysBase) {
+	constructor(private readonly sys: SysBase) {
 		utils.skipHello();
 
 		this.cfg = new Config(sys, ()=> {
@@ -63,35 +63,27 @@ export class Main implements IMain {
 			this.appPixi = new Application(hApp);
 			if (! cvs) document.body.appendChild(this.appPixi.view);
 
-			// タグ定義 //
-			// 変数操作（9/9）
+			// 変数
 			this.val = new Variable(this.cfg, this.hTag);
-			// 組み込み変数定義 //
 			this.prpPrs = new PropParser(this.val);
 
-			// システム（5/13）[snapshot]は LayerMng 担当
+			// システム（5+3/13）
 			this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
 			this.hTag['title']({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
-			// ＢＧＭ・効果音（1/16）
+			// ＢＧＭ・効果音
 			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this);
 
-			// 条件分岐（4/4）
-			// ラベル・ジャンプ（5/5）[button]は LayerMng 担当
-			// マクロ（5/5）
-			// しおり（5/5）[copybookmark][erasebookmark]は Variable 担当
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs.parse, this.sndMng);
+			// 条件分岐、ラベル・ジャンプ、マクロ、しおり
+			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs.parse, this.sndMng, this.sys);
 
-			// デバッグ・その他（8/9）[reload_script]のみ残る
+			// デバッグ・その他
 			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);
 
-			// レイヤ共通（6/6）
-			// 文字・文字レイヤ（16/17）
-			// 画像・画像レイヤ（1/6）
-			// 立体・３Ｄレイヤ（0/0）
+			// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
 			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
 
-			// イベント（9/10）
+			// イベント
 			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);
 
 			this.appPixi.ticker.add(this.fncTicker);

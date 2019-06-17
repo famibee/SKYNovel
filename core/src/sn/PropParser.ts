@@ -18,7 +18,7 @@ interface IHFncCalc { [key: string]: IFncCalc; }
 export class PropParser {
 	private parser: any = null;
 
-	constructor(private val: IVariable) {
+	constructor(private readonly val: IVariable) {
 		function ope(a: (string | RegExp)[]) {
 			const ps: any = [];
 			for (const v of a) ps.push(

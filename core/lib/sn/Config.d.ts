@@ -1,7 +1,7 @@
 import { IConfig, IExts } from './CmnInterface';
 import { SysBase } from './SysBase';
 export declare class Config implements IConfig {
-    private sys;
+    private readonly sys;
     oCfg: any;
     userFnTail: string;
     private hPathFn2Exts;

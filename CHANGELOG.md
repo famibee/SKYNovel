@@ -1,9 +1,13 @@
 # Change Log
 
+## v0.5.4
+- add：スクリプトロードに復号機構追加
+- chg：その他クラスインタフェイス追加・変更
+- chg：constructor引数→変数宣言に readonly 追加
 ## v0.5.3
 - add：[autowc]（文字ごとのウェイト）を追加、特定文字表示直後にウェイト
 - add：上記機能設定値を保存するシステム変数追加
-    save:const.sn.autowc.enabled、text、time
+	save:const.sn.autowc.enabled、text、time
 - upd：map()にする必要が無い部分をforEach()に修正（パフォーマンス）
 - bug：pixi5で発生、ギャラリーでアニメSprite終了→別ゲーム起動時にエラー
 - chg：pixi5で発生、ギャラリーでリロードボタン連打時に発生するエラー対策
@@ -38,7 +42,7 @@
 - bug：[dump_lay]による文字レイヤstyle表示で、cssTextではなくオブジェクト形式で表示するように
 - add：組み込み変数 const.sn.lay.（レイヤ名）.（foreかback）.x と .y 追加
 - chg：文字レイヤで[lay b_pic=null]という指定を不許可に。
-　　→エラーになる場合はスクリプトの「b_pic=null」を削除
+	→エラーになる場合はスクリプトの「b_pic=null」を削除
 - chg：タグやマクロに渡す属性に未定義値・変数を渡した場合、「そもそも渡さない」という挙動になるよう修正（AIRNovel的挙動）
 ## v0.3.10
 - bug：先読み機構が悪さしてBGMが鳴らないので、凍結。

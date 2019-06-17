@@ -28,7 +28,7 @@ interface ISndBuf {
 export class SoundMng {
 	private hSndBuf	: {[name: string]: ISndBuf} = {};
 
-	constructor(private cfg: Config, hTag: IHTag, private val: IVariable, private main: IMain) {
+	constructor(private readonly cfg: Config, hTag: IHTag, private readonly val: IVariable, private readonly main: IMain) {
 		hTag.volume		= o=> this.volume(o);		// 音量設定（独自拡張）
 		hTag.fadebgm	= o=> this.fadebgm(o);		// BGMのフェード
 		hTag.fadeoutbgm	= o=> this.fadeoutbgm(o);	// BGMのフェードアウト

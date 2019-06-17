@@ -21,7 +21,7 @@ export class DebugMng {
 	private _stats		: Stats;
 	private fncUpd		= ()=> {};
 
-	constructor(private sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
+	constructor(private readonly sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
 		DebugMng.scrItr = scrItr;
 		DebugMng.hTag = hTag;
 		DebugMng.title = hTag.title;

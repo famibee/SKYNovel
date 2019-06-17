@@ -14,10 +14,11 @@ import {IParse} from './PropParser';
 
 import m_xregexp = require('xregexp');
 import {EventMng} from './EventMng';
-import {Loader} from 'pixi.js';
+import {Loader, LoaderResource} from 'pixi.js';
 import {LayerMng} from './LayerMng';
 import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
+import {SysBase} from './SysBase';
 
 interface Script {
 	aToken	: string[];		// トークン群
@@ -57,7 +58,7 @@ export class ScriptIterator {
 	private csAnalyBf	: CallStack		= new CallStack('', 0);
 
 
-	constructor(private cfg: Config, private hTag: IHTag, private main: IMain, private val: IVariable, private alzTagArg: AnalyzeTagArg, private runAnalyze: ()=> void, private parse: IParse, private sndMng: SoundMng) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly alzTagArg: AnalyzeTagArg, private readonly runAnalyze: ()=> void, private readonly parse: IParse, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
 		//	変数操作
 		hTag.let_ml		= o=> this.let_ml(o);	// インラインテキスト代入
 
@@ -424,24 +425,23 @@ export class ScriptIterator {
 
 		if (! fn) {this.analyzeInit(); return;}
 
-		const full_path = this.cfg.searchPath(fn, Config.EXT_SCRIPT);// chk only
+		const full_path = this.cfg.searchPath(fn, Config.EXT_SCRIPT);
 		if (fn == this.scriptFn_) {this.analyzeInit(); return;}
 		this.scriptFn_ = fn;
 		const st = this.hScript[this.scriptFn_];
 		if (st) {this.script = st; this.analyzeInit(); return;}
 
-		//include 'addition_script.as';
+		if (this.onlyCodeScript(full_path)) this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
 
-		if (this.onlyCodeScript && (full_path.substr(-1) != '_')) {
-			this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
-		}
-
-		const ldr = new Loader();
-		ldr.add(this.scriptFn_, this.cfg.searchPath(this.scriptFn_, Config.EXT_SCRIPT));
-		ldr.load((_loader: any, res: any)=> {
+		(new Loader()).add(this.scriptFn_, full_path)
+		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+			res.data = this.sys.pre(res.extension, res.data);
+			next();
+		}))
+		.load((_loader: any, res: any)=> {
 			const err = res[this.scriptFn_].error;
 			if (err) {
-				this.main.errScript(`[jump系]スクリプトロード失敗です　${err}`, false);
+				this.main.errScript(`[jump系]スクリプトロード失敗です ${err}`, false);
 				return;
 			}
 
@@ -454,7 +454,12 @@ export class ScriptIterator {
 		});
 		this.main.stop();
 	}
-	private onlyCodeScript	= false;
+	private onlyCodeScript	= (full_path: string): boolean => {
+		this.onlyCodeScript = (full_path.substr(-1) == '_')	// 初回チェック
+			? (fp: string)=> (fp.substr(-1) != '_')	// エラーにする
+			: (_: string)=> false;
+		return false;
+	};
 	private analyzeInit(): void {
 		const o = this.seekScript(this.script, Boolean(this.val.getVal('mp:const.sn.macro_name')), this.lineNum_, this.skipLabel, this.idxToken_);
 		this.idxToken_	= o.idx;
@@ -580,7 +585,7 @@ export class ScriptIterator {
 		throw 'Dummy';
 	}
 
-	private hScript		: HScript	= {};	// シナリオキャッシュ
+	private hScript	: HScript	= Object.create(null);	//{} シナリオキャッシュ
 	private	readonly REG_TAG_LET_ML		= m_xregexp(`^\\[let_ml\\s`, 'g');
 	private	readonly REG_TAG_ENDLET_ML	= m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
 	private resolveScript(txt: string) {

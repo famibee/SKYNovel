@@ -14,7 +14,7 @@ import {SysBase} from './SysBase';
 import TWEEN = require('@tweenjs/tween.js');
 
 export class FrameMng {
-	constructor(hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private sys: SysBase, private hTwInf: {[name: string]: ITwInf}) {
+	constructor(hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.add_frame(o);	// フレーム追加
 		hTag.let_frame		= o=> this.let_frame(o);	// フレーム変数を取得

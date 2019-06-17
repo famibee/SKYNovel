@@ -10,7 +10,7 @@ const DebugMng_1 = require("./DebugMng");
 ;
 ;
 class ScriptIterator {
-    constructor(cfg, hTag, main, val, alzTagArg, runAnalyze, parse, sndMng) {
+    constructor(cfg, hTag, main, val, alzTagArg, runAnalyze, parse, sndMng, sys) {
         this.cfg = cfg;
         this.hTag = hTag;
         this.main = main;
@@ -19,6 +19,7 @@ class ScriptIterator {
         this.runAnalyze = runAnalyze;
         this.parse = parse;
         this.sndMng = sndMng;
+        this.sys = sys;
         this.script = { aToken: [''], len: 1, aLNum: [1] };
         this.scriptFn_ = '';
         this.idxToken_ = 0;
@@ -36,12 +37,17 @@ class ScriptIterator {
         this.aIfStk = [-1];
         this.resvToken = '';
         this.skipLabel = '';
-        this.onlyCodeScript = false;
+        this.onlyCodeScript = (full_path) => {
+            this.onlyCodeScript = (full_path.substr(-1) == '_')
+                ? (fp) => (fp.substr(-1) != '_')
+                : (_) => false;
+            return false;
+        };
         this.REG_NONAME_LABEL = /(\*{2,})(.*)/;
         this.REG_LABEL_ESC = /\*/g;
         this.REG_TOKEN_MACRO_BEGIN = /\[macro\s/;
         this.REG_TOKEN_MACRO_END = /\[endmacro[\s\]]/;
-        this.hScript = {};
+        this.hScript = Object.create(null);
         this.REG_TAG_LET_ML = m_xregexp(`^\\[let_ml\\s`, 'g');
         this.REG_TAG_ENDLET_ML = m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
         this.REG_WILDCARD = /^\[(call|loadplugin)\s/;
@@ -459,15 +465,17 @@ class ScriptIterator {
             this.analyzeInit();
             return;
         }
-        if (this.onlyCodeScript && (full_path.substr(-1) != '_')) {
+        if (this.onlyCodeScript(full_path))
             this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
-        }
-        const ldr = new pixi_js_1.Loader();
-        ldr.add(this.scriptFn_, this.cfg.searchPath(this.scriptFn_, Config_1.Config.EXT_SCRIPT));
-        ldr.load((_loader, res) => {
+        (new pixi_js_1.Loader()).add(this.scriptFn_, full_path)
+            .pre((res, next) => res.load(() => {
+            res.data = this.sys.pre(res.extension, res.data);
+            next();
+        }))
+            .load((_loader, res) => {
             const err = res[this.scriptFn_].error;
             if (err) {
-                this.main.errScript(`[jump系]スクリプトロード失敗です　${err}`, false);
+                this.main.errScript(`[jump系]スクリプトロード失敗です ${err}`, false);
                 return;
             }
             this.nextToken = this.nextToken_Proc;

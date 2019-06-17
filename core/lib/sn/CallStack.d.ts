@@ -11,9 +11,9 @@ export interface ICallStackArg {
     タグ名?: string;
 }
 export declare class CallStack {
-    private $fn;
-    private $idx;
-    private $hArg;
+    private readonly $fn;
+    private readonly $idx;
+    private readonly $hArg;
     constructor($fn?: string, $idx?: number, $hArg?: ICallStackArg | null);
     readonly fn: string;
     readonly idx: number;

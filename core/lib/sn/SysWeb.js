@@ -5,10 +5,10 @@ const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const strLocal = require('store');
 class SysWeb extends SysBase_1.SysBase {
-    constructor(hPlg = {}, $cur = 'prj/') {
-        super(hPlg, $cur);
+    constructor(hPlg = {}, arg = { cur: 'prj/' }) {
+        super(hPlg, arg);
         this.hPlg = hPlg;
-        this.$cur = $cur;
+        this.arg = arg;
         this.def_prj = 'prj';
         this.run = async (prj) => {
             if (this.main) {
@@ -17,10 +17,10 @@ class SysWeb extends SysBase_1.SysBase {
                 await new Promise(r => setTimeout(r, ms_late));
             }
             this.now_prj = prj || this.def_prj;
-            const idxEnd = this.$cur.lastIndexOf('/', this.$cur.length - 2) + 1;
-            const idxStart = this.$cur.lastIndexOf('/', idxEnd - 2) + 1;
-            this.$cur = location.href.slice(0, location.href.lastIndexOf('/') + 1)
-                + (idxEnd == 0 ? '' : this.$cur.slice(idxStart, idxEnd))
+            const idxEnd = this.arg.cur.lastIndexOf('/', this.arg.cur.length - 2) + 1;
+            const idxStart = this.arg.cur.lastIndexOf('/', idxEnd - 2) + 1;
+            this.arg.cur = location.href.slice(0, location.href.lastIndexOf('/') + 1)
+                + (idxEnd == 0 ? '' : this.arg.cur.slice(idxStart, idxEnd))
                 + this.now_prj + '/';
             this.main = new Main_1.Main(this);
         };
@@ -65,8 +65,8 @@ class SysWeb extends SysBase_1.SysBase {
             if (CmnLib_1.CmnLib.devtool)
                 console.log('画像ファイルをダウンロードします');
         };
-        const idxCur = this.$cur.lastIndexOf('/', this.$cur.length - 2);
-        this.def_prj = this.$cur.slice(idxCur + 1, -1);
+        const idxCur = arg.cur.lastIndexOf('/', arg.cur.length - 2);
+        this.def_prj = arg.cur.slice(idxCur + 1, -1);
         window.onload = () => {
             for (const v of document.querySelectorAll('[data-prj]')) {
                 v.addEventListener('click', () => {
@@ -94,7 +94,7 @@ class SysWeb extends SysBase_1.SysBase {
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
         (async () => {
-            const res = await fetch(this.$cur + 'path.json');
+            const res = await fetch(this.arg.cur + 'path.json');
             if (!res.ok)
                 throw Error(res.statusText);
             const json = await res.json();
@@ -102,7 +102,7 @@ class SysWeb extends SysBase_1.SysBase {
                 const h = hPathFn2Exts[nm] = json[nm];
                 for (const ext in h)
                     if (ext != ':cnt')
-                        h[ext] = this.$cur + h[ext];
+                        h[ext] = this.arg.cur + h[ext];
             }
             this.ns = cfg.getNs();
             this.sys = strLocal.get(this.ns + 'sys');

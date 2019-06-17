@@ -2,13 +2,17 @@
 import { SysBase } from "./SysBase";
 import { IConfig, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysMob extends SysBase {
-    protected hPlg: {
+    protected readonly hPlg: {
         [name: string]: IPlugin;
     };
-    protected $cur: string;
+    protected readonly arg: {
+        cur: string;
+    };
     constructor(hPlg?: {
         [name: string]: IPlugin;
-    }, $cur?: string);
+    }, arg?: {
+        cur: string;
+    });
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, _cfg: IConfig): void;
     readonly fetch: (url: string) => Promise<Response>;
     private sys;

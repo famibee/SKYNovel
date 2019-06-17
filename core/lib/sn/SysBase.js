@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class SysBase {
-    constructor(hPlg = {}, $cur = 'prj/') {
+    constructor(hPlg = {}, arg = { cur: 'prj/' }) {
         this.hPlg = hPlg;
-        this.$cur = $cur;
+        this.arg = arg;
         this.fetch = (url) => fetch(url);
         this.resolution = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
@@ -12,6 +12,7 @@ class SysBase {
         this.title = () => false;
         this.tgl_full_scr = () => false;
         this.window = () => false;
+        this.pre = (_ext, data) => { return data; };
         this.isApp = () => false;
         this.$path_desktop = '';
         this.$path_userdata = '';
@@ -22,7 +23,7 @@ class SysBase {
         this.readdirSync = (_path, _options) => [];
         this.appendFile = (_path, _data, _callback) => { };
     }
-    get cur() { return this.$cur; }
+    get cur() { return this.arg.cur; }
     loadPathAndVal(_hPathFn2Exts, _fncLoaded, _cfg) { }
     initVal(_data, _hTmp, _comp) { }
     ;
@@ -48,6 +49,7 @@ class SysBase {
                 getVal: val.getVal,
                 resume: () => main.resume(),
                 render: (dsp, renTx, clear = false) => this.appPixi.renderer.render(dsp, renTx, clear),
+                setPre: fnc => this.pre = fnc,
             });
         }
         hTag.close = o => this.close(o);

@@ -66,7 +66,7 @@ export class Config implements IConfig {
 	static	readonly	EXT_FONT	= 'woff2|otf|ttf';
 	static	readonly	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
 
-	constructor(private	sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
+	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		let err_mes = '';
 		const load = (oCfg: any)=> {
 			//console.log(oCfg);

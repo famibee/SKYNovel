@@ -29,7 +29,7 @@ export class LayerMng {
 
 	private frmMng	: FrameMng;
 
-	constructor(private cfg: Config, private hTag: IHTag, private appPixi: Application, private val: IVariable, private main: IMain, private scrItr: ScriptIterator, private sys: SysBase) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
 		GrpLayer.init(main, cfg);
 
@@ -40,9 +40,7 @@ export class LayerMng {
 		//	システム
 		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
 		hTag.loadplugin		= o=> this.loadplugin(o);	// プラグインの読み込み
-	//	hTag.plugin			= o=> this.plugin(o);		// プラグインの設定（不要に
 		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
-	//	hTag.unloadplugin	= o=> this.unloadplugin(o);	// プラグインの破棄（廃止
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.add_lay(o);		// レイヤを追加する

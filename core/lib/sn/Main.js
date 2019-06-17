@@ -70,7 +70,7 @@ class Main {
             this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);
             this.hTag['title']({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
             this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this);
-            this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs.parse, this.sndMng);
+            this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs.parse, this.sndMng, this.sys);
             this.dbgMng = new DebugMng_1.DebugMng(this.sys, this.hTag, this.scrItr);
             this.layMng = new LayerMng_1.LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
             this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);

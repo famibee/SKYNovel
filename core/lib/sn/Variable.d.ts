@@ -2,7 +2,7 @@ import { IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IMark } from './CmnIn
 import { Config } from './Config';
 import { Areas } from './Areas';
 export declare class Variable implements IVariable {
-    private cfg;
+    private readonly cfg;
     private hScope;
     private hSave;
     private hTmp;

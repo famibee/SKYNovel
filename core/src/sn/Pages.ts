@@ -15,7 +15,7 @@ import {Container} from 'pixi.js';
 export class Pages {
 	private pg: {fore: Layer, back: Layer};
 
-	constructor(layer: string, private cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable) {
+	constructor(layer: string, private readonly cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable) {
 		const fncF = sys.hFactoryCls[cls_];
 		if (! fncF) throw `属性 class【${cls_}】が不正です`;
 

@@ -11,8 +11,8 @@ import {Main} from './Main';
 // TODO: const strLocal = require('store');
 
 export class SysMob extends SysBase {
-	constructor(protected hPlg: {[name: string]: IPlugin} = {}, protected $cur = 'prj/') {
-		super(hPlg, $cur);
+	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected readonly arg = {cur: 'prj/'}) {
+		super(hPlg, arg);
 
 		document.addEventListener('deviceready', ()=> {
 			const main = new Main(this);
@@ -23,13 +23,13 @@ export class SysMob extends SysBase {
 
 	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, _cfg: IConfig): void {
 		(async ()=> {
-			const res = await this.fetch(this.$cur +'path.json');
+			const res = await this.fetch(this.arg.cur +'path.json');
 			if (! res.ok) throw Error(res.statusText);
 
 			const json = await res.json();
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
-				for (const ext in h) if (ext != ':cnt') h[ext] = this.$cur + h[ext]
+				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext]
 			}
 
 			//strLocal.clearAll();

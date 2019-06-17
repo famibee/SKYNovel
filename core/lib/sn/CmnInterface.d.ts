@@ -118,6 +118,7 @@ export interface IPluginInitArg {
     getVal(arg_name: string, def?: number | string): object;
     resume(fnc?: () => void): void;
     render(dsp: PIXI.DisplayObject, renTx?: PIXI.RenderTexture, clear?: boolean): void;
+    setPre(fnc: (ext: string, data: string) => string): void;
 }
 export interface IPlugin {
     init(plgArg: IPluginInitArg): boolean;
@@ -130,6 +131,7 @@ export interface ISysBase {
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
     initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari) => void): void;
     flush(): void;
+    pre(ext: string, data: string): void;
 }
 export interface IExts {
     [ext: string]: string;

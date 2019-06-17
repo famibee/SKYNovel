@@ -21,11 +21,12 @@ export class SysNode extends SysBase {
 		fncLoaded();
 
 		// path.json自動生成
-		if (! this.existsSync(this.cur +'path.json')) this.writeFile(
-			this.cur +'path.json',
-			cfg.getJsonSearchPath().replace(new RegExp(this.cur, 'g'), '')
+		if (! this.existsSync(this.arg.cur +'path.json')) this.writeFile(
+			this.arg.cur +'path.json',
+			cfg.getJsonSearchPath().replace(new RegExp(this.arg.cur, 'g'), '')
 		);
 	}
+	private	readonly regNoUseSysFile = /^(\..+|.+.db|.+.ini|_notes|Icon\r)$/;
 	private getHFn2Path(hPathFn2Exts: IFn2Path, oCfg: any) {
 		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
 		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
@@ -35,14 +36,13 @@ export class SysNode extends SysBase {
 		//		パスのみURLエンコード済みの、File.urlと同様の物を。
 		//		あとで実際にロード関数に渡すので。
 		if (oCfg.search) for (const dir of oCfg.search) {
-			const wd = m_path.resolve(this.$cur, dir);
+			const wd = m_path.resolve(this.arg.cur, dir);
 			if (! this.existsSync(wd)) continue;
 
 			for (const nm_base of this.readdirSync(wd)) {
+				if (this.regNoUseSysFile.test(nm_base)) continue;
+
 				const nm = this.normalize(nm_base, 'NFC');
-				if (nm.charAt(0) == '.' || nm == 'Thumbs.db'
-					|| nm == 'Desktop.ini' || nm == '_notes'
-					|| nm == 'Icon\r') continue;
 				const fo_url = m_path.resolve(wd, nm);
 				if (this.isDirectory(fo_url)) continue;
 				const fo_ext = CmnLib.getExt(nm);
