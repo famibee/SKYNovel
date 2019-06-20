@@ -2,12 +2,6 @@
 import { SysBase } from "./SysBase";
 import { IConfig, HArg, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysWeb extends SysBase {
-    protected readonly hPlg: {
-        [name: string]: IPlugin;
-    };
-    protected arg: {
-        cur: string;
-    };
     constructor(hPlg?: {
         [name: string]: IPlugin;
     }, arg?: {

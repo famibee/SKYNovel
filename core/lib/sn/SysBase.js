@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class SysBase {
-    constructor(hPlg = {}, arg = { cur: 'prj/' }) {
+    constructor(hPlg = {}, arg) {
         this.hPlg = hPlg;
         this.arg = arg;
         this.fetch = (url) => fetch(url);

@@ -145,7 +145,7 @@ export class Config implements IConfig {
 			}`);
 		})
 		.then(load)
-		.catch(err=> DebugMng.myTrace(`load prj.json "${err_mes}" = ${err}`));
+		.catch(err=> DebugMng.myTrace(`load ${sys.cur}prj.json "${err_mes}" = ${err}`));
 /*
 		try {
 			(async ()=> {

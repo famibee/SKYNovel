@@ -5,8 +5,6 @@ const Main_1 = require("./Main");
 class SysMob extends SysBase_1.SysBase {
     constructor(hPlg = {}, arg = { cur: 'prj/' }) {
         super(hPlg, arg);
-        this.hPlg = hPlg;
-        this.arg = arg;
         this.fetch = (url) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest;
             xhr.onload = () => resolve(new Response(xhr.responseText, { status: xhr.status }));

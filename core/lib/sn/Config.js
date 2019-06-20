@@ -128,7 +128,7 @@ class Config {
             throw new Error(`load prj.json err = ${response.statusText}`);
         })
             .then(load)
-            .catch(err => DebugMng_1.DebugMng.myTrace(`load prj.json "${err_mes}" = ${err}`));
+            .catch(err => DebugMng_1.DebugMng.myTrace(`load ${sys.cur}prj.json "${err_mes}" = ${err}`));
     }
     get existsBreakline() { return this.$existsBreakline; }
     get existsBreakpage() { return this.$existsBreakpage; }

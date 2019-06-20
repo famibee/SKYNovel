@@ -1,5 +1,7 @@
 # Change Log
 
+## v0.5.5
+- bug：constructor引数のprotected変数宣言を修正
 ## v0.5.4
 - add：スクリプトロードに復号機構追加
 - chg：その他クラスインタフェイス追加・変更

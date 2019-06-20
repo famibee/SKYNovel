@@ -11,7 +11,9 @@ import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory};
 
-	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected readonly arg = {cur: 'prj/'}) {}
+	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected readonly arg: {
+		cur: string;
+	}) {}
 	get cur() {return this.arg.cur}
 	fetch = (url: string)=> fetch(url);
 
@@ -70,15 +72,15 @@ export class SysBase implements ISysBase {
 			// AIRNovel の sys:const.flash.display.Stage.nativeWindow.x、.y
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
-	protected	readonly close			: ITag = ()=> false;
-	protected	readonly navigate_to	: ITag = ()=> false;
-	protected	readonly title			: ITag = ()=> false;
-	protected	tgl_full_scr			: ITag = ()=> false;
-	protected	readonly window			: ITag = ()=> false;
+	protected readonly	close			: ITag = ()=> false;
+	protected readonly	navigate_to	: ITag = ()=> false;
+	protected readonly	title			: ITag = ()=> false;
+	protected			tgl_full_scr	: ITag = ()=> false;
+	protected readonly	window			: ITag = ()=> false;
 
 	pre = (_ext: string, data: string): string=> {return data};
 
-	protected	readonly isApp = ()=> false;
+	protected readonly	isApp = ()=> false;
 	protected $path_desktop	= '';
 	get path_desktop() {return this.$path_desktop}
 	protected $path_userdata	= '';

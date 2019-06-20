@@ -12,7 +12,7 @@ import {Main} from './Main';
 const strLocal = require('store');
 
 export class SysWeb extends SysBase {
-	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected arg = {cur: 'prj/'}) {
+	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/'}) {
 		super(hPlg, arg);
 
 		const idxCur = arg.cur.lastIndexOf('/', arg.cur.length -2);
@@ -62,7 +62,7 @@ export class SysWeb extends SysBase {
 		);
 	}
 	private def_prj = 'prj';
-	private	readonly run = async (prj: string)=> {
+	private readonly	run = async (prj: string)=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.main.destroy(ms_late);
@@ -130,7 +130,7 @@ export class SysWeb extends SysBase {
 	}
 
 	// ＵＲＬを開く
-	protected	readonly navigate_to = (hArg: HArg)=> {
+	protected readonly	navigate_to = (hArg: HArg)=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 	//	window.open(url);		// 近年セキュリティ的に効かない
@@ -140,7 +140,7 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 	// タイトル指定
-	protected	readonly title = (hArg: HArg)=> {
+	protected readonly	title = (hArg: HArg)=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 

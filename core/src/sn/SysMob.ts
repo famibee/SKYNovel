@@ -11,7 +11,7 @@ import {Main} from './Main';
 // TODO: const strLocal = require('store');
 
 export class SysMob extends SysBase {
-	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected readonly arg = {cur: 'prj/'}) {
+	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/'}) {
 		super(hPlg, arg);
 
 		document.addEventListener('deviceready', ()=> {

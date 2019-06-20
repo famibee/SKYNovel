@@ -7,8 +7,6 @@ const strLocal = require('store');
 class SysWeb extends SysBase_1.SysBase {
     constructor(hPlg = {}, arg = { cur: 'prj/' }) {
         super(hPlg, arg);
-        this.hPlg = hPlg;
-        this.arg = arg;
         this.def_prj = 'prj';
         this.run = async (prj) => {
             if (this.main) {

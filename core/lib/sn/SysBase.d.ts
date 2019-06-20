@@ -11,9 +11,9 @@ export declare class SysBase implements ISysBase {
     hFactoryCls: {
         [name: string]: ILayerFactory;
     };
-    constructor(hPlg?: {
+    constructor(hPlg: {
         [name: string]: IPlugin;
-    }, arg?: {
+    }, arg: {
         cur: string;
     });
     readonly cur: string;

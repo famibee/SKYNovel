@@ -14,7 +14,7 @@ import m_fs = require('fs-extra');
 import m_path = require('path');
 
 export class SysNode extends SysBase {
-	protected	readonly	normalize	= (src: string, _form: string)=> src;	// for test
+	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test
 	loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: ()=> void, cfg: Config): void {
 		this.getHFn2Path(hFn2Path, cfg.oCfg);
 
@@ -26,7 +26,7 @@ export class SysNode extends SysBase {
 			cfg.getJsonSearchPath().replace(new RegExp(this.arg.cur, 'g'), '')
 		);
 	}
-	private	readonly regNoUseSysFile = /^(\..+|.+.db|.+.ini|_notes|Icon\r)$/;
+	private readonly	regNoUseSysFile = /^(\..+|.+.db|.+.ini|_notes|Icon\r)$/;
 	private getHFn2Path(hPathFn2Exts: IFn2Path, oCfg: any) {
 		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
 		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
@@ -79,7 +79,7 @@ export class SysNode extends SysBase {
 	}
 
 
-	private	readonly	hExtNG	= {	// Steam対策
+	private readonly	hExtNG	= {	// Steam対策
 		'db'		:0,
 		'ini'		:0,
 		'DS_Store'	:0
@@ -87,7 +87,7 @@ export class SysNode extends SysBase {
 	private	retinaFnTail	= '';
 	private	hPathFn2Retina	: {[name: string]: boolean}	= {};
 
-	protected	readonly isApp = ()=> true;
+	protected readonly	isApp = ()=> true;
 
 	readonly	existsSync = m_fs.existsSync;
 	//readFileSync = m_fs.readFileSync;

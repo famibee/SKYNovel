@@ -16,18 +16,16 @@ const Store = require('electron-store');
 const shell = require('electron').shell;
 
 export class SysApp extends SysNode {
-	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected readonly arg = {cur: 'prj/'}) {
-		super(hPlg, {
-			cur: remote.app.getAppPath().replace(/\\/g, '/') +arg.cur,
-		});
+	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/'}) {
+		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur});
 		window.onload = ()=> new Main(this);
 	}
-	protected	readonly $path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
-	protected	readonly $path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
+	protected readonly	$path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
+	protected readonly	$path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
 
-	protected	readonly	normalize = (src: string, form: string)=> src.normalize(form);
+	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
-	private	readonly	store = new Store({cwd: 'storage', name: 'data'});
+	private readonly	store = new Store({cwd: 'storage', name: 'data'});
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// TODO: 暗号化 this.store.encryptionKey
 		if (this.store.size == 0) {
@@ -96,11 +94,11 @@ export class SysApp extends SysNode {
 			this.window({x: p[0], y: p[1]});
 		});
 	}
-	private	readonly	dsp	= remote.screen.getPrimaryDisplay();
+	private readonly	dsp	= remote.screen.getPrimaryDisplay();
 	flush() {this.store.store = this.data;}
 
-	private	readonly win		: BrowserWindow	= remote.getCurrentWindow();
-	private	readonly wc		: webContents	= this.win.webContents;
+	private readonly	win	: BrowserWindow	= remote.getCurrentWindow();
+	private readonly	wc	: webContents	= this.win.webContents;
 	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		super.init(cfg, hTag, appPixi, val, main);
 
@@ -109,9 +107,9 @@ export class SysApp extends SysNode {
 	}
 
 	// アプリの終了
-	protected readonly close = ()=> {this.win.close(); return false;}
+	protected readonly	close = ()=> {this.win.close(); return false;}
 	// ＵＲＬを開く
-	protected readonly navigate_to = (hArg: HArg)=> {
+	protected readonly	navigate_to = (hArg: HArg)=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 		shell.openExternal(url);
@@ -119,7 +117,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// タイトル指定
-	protected readonly title = (hArg: HArg)=> {
+	protected readonly	title = (hArg: HArg)=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 
@@ -128,7 +126,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// 全画面状態切替
-	protected readonly tgl_full_scr = (hArg: HArg)=> {
+	protected readonly	tgl_full_scr = (hArg: HArg)=> {
 		if (hArg.key) return false;
 			// アプリ版は[toggle_full_screen key=w]でなにもしないように。
 
@@ -167,7 +165,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// アプリウインドウ設定
-	protected readonly window = (hArg: HArg)=> {
+	protected readonly	window = (hArg: HArg)=> {
 		const screenRX = this.dsp.size.width;
 		const screenRY = this.dsp.size.height;
 		if (CmnLib.argChk_Boolean(hArg, 'centering', false)) {

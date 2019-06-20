@@ -150,8 +150,8 @@
         "signature": "f545ad756e795b68bb207f48372adc125efe75ad654c0f54f9705d9c870a989d"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysbase.ts": {
-        "version": "21002ec80a5a6d8e9a4e3d7d682a43c2c67883d13778094b33699a909f628903",
-        "signature": "6397a18b781f1c2e8357d5561c1bb5036f6136c01a1dcd75ab21673837f42c80"
+        "version": "df14cef4b15163f8dd0216dd5fc0eab75001bcb9eeaa3d2e353e2a40ab919f82",
+        "signature": "d5938b0d734c2e6ec9ca433a57aeeafc608b919208985dab6fc5f239b3fa73fc"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/callstack.ts": {
         "version": "aa4c9979e59a253734e323b0df6a7ebe354f931240a1fea540425bdd1ff42c78",
@@ -358,7 +358,7 @@
         "signature": "9d0c43d8bc0269410aa906c679496259c1512b402f9a3b3dd44ca146ae46b190"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/config.ts": {
-        "version": "a91ed8e97c7f4e27f8a4b3685700f774a81ddaea428a8b785fe3f6873b49b423",
+        "version": "fd045621cbaf874a1ac02d7b3734d326a2822f618e086daeacc53a7415537dba",
         "signature": "b6e335facc99825bbb6c0325028258e1d6a42d0c84383cb9457e1279f5d31d42"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/node/globals.d.ts": {
@@ -546,7 +546,7 @@
         "signature": "18609e55de22295d8a888d6409fe658d6baa89c5d4fe073651dbdc599519c915"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysnode.ts": {
-        "version": "07df07a22159e3854a6c609a1b635ddb807d01e0a31a2bb041b1fb43e9ac0f4a",
+        "version": "e8485f2e9f7f44492bc6d08741ffd83a627d0d128ad4fcdf81abaa4bc85c5a37",
         "signature": "6853b70ca38cb37ccdae3efb80122ba51dd22ad97e0b3cafe0b7b5a056558eaa"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/areas.ts": {
@@ -566,24 +566,24 @@
         "signature": "5503e32d8bf7954a7756c689e813a6604c8c0cc9a0f86f6e08ae89a57299e5eb"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysapp.ts": {
-        "version": "88e1eaa1259e01fe33a7ea6dafd8ee60ee27d94e1e4e795588e7705e49a77e1d",
-        "signature": "fd0e30c0cd5e42b2530674458e33ce26b071328e05c7d853aaf39c27915678c3"
+        "version": "55da96dfd4c15e8a458511d40fd1da82f046a0dd97acd093807219463e43badb",
+        "signature": "f7a6e90621b1c3ee6e06a212a03a224ea6b3b708fa5700150f73b5b5e8bb30a5"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/app.ts": {
         "version": "04fd0e1cdbba934eaae2fa1399b6c96141b8455aadd181402726a28040dbe937",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysweb.ts": {
-        "version": "8b6f6be70d085d1ce2c9e61fddddc9cf187970e9a2c15dcfb15b5be1d3d6e9c4",
-        "signature": "6445a5ae7efbf53321c778ab562bc43d7ae53b685f46799d9552f8275e1be4b8"
+        "version": "609032f00e939f503ef85720a6e320d09f0fd1ea77589d403e0693a209186f88",
+        "signature": "aac3dfabcdb10b99074a3bbeb85fc1d244477c63c2c3460ce70681b113ec5d3d"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/web.ts": {
         "version": "678f1d1ed4f68f4fa97dae49b39b7eb082c319f04169ee25420de60f4b54ebef",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysmob.ts": {
-        "version": "fd902f7aed97c3e96e5307ae346f8cad2b29e2a3cf22f458c297b905bcf5f674",
-        "signature": "8d4c88be4c620307139f66c5ebc05011a1c94854b2a74343c714b93d593ea80f"
+        "version": "e79ba6a41feb83835837415682455aa384049fb206046ca0e8f4c2f1ba596e33",
+        "signature": "0670f63a60eab8ca634b0b5235ec6561624c27c04bf74c1c6b65c2b5cff82146"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/electron-json-storage/index.d.ts": {
         "version": "5ac580784577e36c194186ef7449e1c6295ac14133fed8c3450eeacab7807a0e",
