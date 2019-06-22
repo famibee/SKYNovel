@@ -99,9 +99,9 @@ export class FrameMng {
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win: Window = ifrm.contentWindow!;
-		const v = (win as any)[var_name];
-		if (! v) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
+		if (! win.hasOwnProperty(var_name)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
+		const v = (win as any)[var_name];
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
 			'tmp',

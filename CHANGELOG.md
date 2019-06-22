@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.5.6
+- bug：チェックボタンに[event]登録すると、切り替えできなくなる不具合
+- bug：エラーになり[let_frame]で値が取れない不具合
 ## v0.5.5
 - bug：constructor引数のprotected変数宣言を修正
 ## v0.5.4

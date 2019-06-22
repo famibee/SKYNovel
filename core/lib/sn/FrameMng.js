@@ -74,9 +74,9 @@ class FrameMng {
             throw 'var_nameは必須です';
         const ifrm = document.getElementById(id);
         const win = ifrm.contentWindow;
-        const v = win[var_name];
-        if (!v)
+        if (!win.hasOwnProperty(var_name))
             throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
+        const v = win[var_name];
         this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'function', false) ? v() : v);
         return false;
     }
