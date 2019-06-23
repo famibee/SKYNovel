@@ -1,6 +1,7 @@
 # Change Log
 
-## v0.5.7
+## v0.5.8
+- chg：prj.json の項目 save_ns が簡略化されたことに伴い、セーブデータに前置詞「skynovel.」を追加
 - chg：prj.json の search セクションが不要になり、削除
 - add：prj.json の init.bg_color に "#000000" 形式をサポート
 ## v0.5.6

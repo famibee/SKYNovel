@@ -164,7 +164,7 @@ export class Config implements IConfig {
 	private $existsBreakpage = false;
 	get existsBreakpage(): boolean {return this.$existsBreakpage}
 
-	getNs() {return this.oCfg.save_ns +' - ';}
+	getNs() {return `skynovel.${this.oCfg.save_ns} - `;}
 
 	searchPath(fn: string, extptn = ''): string {
 		//console.log('searchPath fn:'+ fn +' ext:'+ ext);

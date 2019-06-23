@@ -132,7 +132,7 @@ class Config {
     }
     get existsBreakline() { return this.$existsBreakline; }
     get existsBreakpage() { return this.$existsBreakpage; }
-    getNs() { return this.oCfg.save_ns + ' - '; }
+    getNs() { return `skynovel.${this.oCfg.save_ns} - `; }
     searchPath(fn, extptn = '') {
         if (!fn)
             throw '[searchPath] fnが空です';

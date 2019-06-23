@@ -546,7 +546,7 @@
         "signature": "9d0c43d8bc0269410aa906c679496259c1512b402f9a3b3dd44ca146ae46b190"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/config.ts": {
-        "version": "a02cb9ddf1ab9a0d4144fbf56b3ac1c9c5b1088e003a05571743cd1688b2819d",
+        "version": "7e9045ed2baf206a60487b0dfa424ddf62b69677ede8bf50cec12671e465d2b7",
         "signature": "b6e335facc99825bbb6c0325028258e1d6a42d0c84383cb9457e1279f5d31d42"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/areas.ts": {
@@ -554,7 +554,7 @@
         "signature": "bde3b8c78ea6c7cc5bfc448df5e16a69c28d2b03b0d2737f8fd82ddf15b52bd7"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/variable.ts": {
-        "version": "6b9f092e435b3a27d739d0a7c3608f56e16f4ac43bc5509bf92bf18624512b16",
+        "version": "14315e14178b9d0ca23aadfd086a93b7a512de139cb0243bac4b0c7453db4935",
         "signature": "aa15a6a1dd38e5b0c8e8a0f87e8fd7aed318eae3a38c645bf1c9def7b29e6807"
       },
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/main.ts": {
@@ -2564,8 +2564,8 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/eventmng.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/scriptiterator.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/debugmng.ts",
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/config.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/areas.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/variable.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/main.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/electron/electron.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/sysapp.ts",
@@ -2585,7 +2585,7 @@
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/tween.js/index.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/lib/processors.d.ts",
       "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/node_modules/@types/xml2js/index.d.ts",
-      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/config.ts"
+      "/users/ugai/documents/machd2/_famibee/skynovel/npm_core/core/src/sn/variable.ts"
     ]
   },
   "version": "3.5.2"

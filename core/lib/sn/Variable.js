@@ -170,37 +170,37 @@ class Variable {
                         const v = this.hSys[k];
                         oSys['sys:' + k] = (v instanceof Function) ? v() : v;
                     });
-                    sessionStorage[this.cfg.oCfg.save_ns + ' - sys'] = JSON.stringify(oSys);
+                    sessionStorage[this.cfg.getNs() + 'sys'] = JSON.stringify(oSys);
                     const oSave = {};
                     Object.keys(this.hSave).forEach(k => {
                         const v = this.hSave[k];
                         oSave['save:' + k] = (v instanceof Function) ? v() : v;
                     });
-                    sessionStorage[this.cfg.oCfg.save_ns + ' - save'] = JSON.stringify(oSave);
+                    sessionStorage[this.cfg.getNs() + 'save'] = JSON.stringify(oSave);
                     const oTmp = {};
                     Object.keys(this.hTmp).forEach(k => {
                         const v = this.hTmp[k];
                         oTmp[k] = (v instanceof Function) ? v() : v;
                     });
-                    sessionStorage[this.cfg.oCfg.save_ns + ' - tmp'] = JSON.stringify(oTmp);
+                    sessionStorage[this.cfg.getNs() + 'tmp'] = JSON.stringify(oTmp);
                     const oMp = {};
                     Object.keys(this.hScope.mp).forEach(k => {
                         const v = this.hScope.mp[k];
                         oMp[k] = (v instanceof Function) ? v() : v;
                     });
-                    sessionStorage[this.cfg.oCfg.save_ns + ' - mp'] = JSON.stringify(oMp);
+                    sessionStorage[this.cfg.getNs() + 'mp'] = JSON.stringify(oMp);
                     const oMark = {};
                     Object.keys(this.data.mark).forEach(k => {
                         const v = this.data.mark[k];
                         oMark[k] = (v instanceof Function) ? v() : v;
                     });
-                    sessionStorage[this.cfg.oCfg.save_ns + ' - mark'] = JSON.stringify(oMark);
+                    sessionStorage[this.cfg.getNs() + 'mark'] = JSON.stringify(oMark);
                     const oKidoku = {};
                     Object.keys(this.data.kidoku).forEach(k => {
                         const v = this.data.kidoku[k];
                         oKidoku[k] = (v instanceof Function) ? v() : v;
                     });
-                    sessionStorage[this.cfg.oCfg.save_ns + ' - kidoku'] = JSON.stringify(oKidoku);
+                    sessionStorage[this.cfg.getNs() + 'kidoku'] = JSON.stringify(oKidoku);
                     sys.flush();
                 }
                 : () => sys.flush();
