@@ -8,26 +8,13 @@
 import { SysBase } from "./SysBase";
 import {CmnLib, uint} from './CmnLib';
 import {IFn2Path} from './CmnInterface';
-import {Config} from './Config';
 
 import m_fs = require('fs-extra');
 import m_path = require('path');
 
 export class SysNode extends SysBase {
 	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test
-	loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: ()=> void, cfg: Config): void {
-		this.getHFn2Path(hFn2Path, cfg.oCfg);
-
-		fncLoaded();
-
-		// path.json自動生成
-		if (! this.existsSync(this.arg.cur +'path.json')) this.writeFile(
-			this.arg.cur +'path.json',
-			cfg.getJsonSearchPath().replace(new RegExp(this.arg.cur, 'g'), '')
-		);
-	}
-	private readonly	regNoUseSysFile = /^(\..+|.+.db|.+.ini|_notes|Icon\r)$/;
-	private getHFn2Path(hPathFn2Exts: IFn2Path, oCfg: any) {
+	loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: ()=> void): void {
 		const REG_FN_RATE_SPRIT	= /(.+?)(?:%40(\d)x)?(\.\w+)/;
 		// ｛ファイル名：｛拡張子：パス｝｝形式で格納。
 		//		検索が高速なハッシュ形式。
@@ -35,23 +22,17 @@ export class SysNode extends SysBase {
 		//		URLエンコードされていない物を想定。
 		//		パスのみURLエンコード済みの、File.urlと同様の物を。
 		//		あとで実際にロード関数に渡すので。
-		if (oCfg.search) for (const dir of oCfg.search) {
+		this.foldProc(this.arg.cur, ()=> {}, (dir: string)=> {
 			const wd = m_path.resolve(this.arg.cur, dir);
-			if (! this.existsSync(wd)) continue;
+			this.foldProc(wd, (url, nm)=> {
 
-			for (const nm_base of this.readdirSync(wd)) {
-				if (this.regNoUseSysFile.test(nm_base)) continue;
-
-				const nm = this.normalize(nm_base, 'NFC');
-				const fo_url = m_path.resolve(wd, nm);
-				if (this.isDirectory(fo_url)) continue;
 				const fo_ext = CmnLib.getExt(nm);
-				if (fo_ext in this.hExtNG) continue;
+				if (fo_ext in this.hExtNG) return;
 
 				const fo_fn = CmnLib.getFn(nm);
-				let h_exts = hPathFn2Exts[fo_fn];
+				let h_exts = hFn2Path[fo_fn];
 				if (! h_exts) {
-					h_exts = hPathFn2Exts[fo_fn] = {':cnt': '1'};
+					h_exts = hFn2Path[fo_fn] = {':cnt': '1'};
 				}
 				else if (fo_ext in h_exts) {
 					throw Error(`[xmlCfg.search.path] サーチパスにおいてファイル名＋拡張子【${fo_fn}】が重複しています。フォルダを縦断検索するため許されません`);
@@ -59,22 +40,35 @@ export class SysNode extends SysBase {
 				else {
 					h_exts[':cnt'] = String(uint(h_exts[':cnt']) +1);
 				}
-				h_exts[fo_ext] = fo_url;
-				if (! CmnLib.isRetina) continue;
+				h_exts[fo_ext] = url;
+				if (! CmnLib.isRetina) return;
 
-				const oRate = REG_FN_RATE_SPRIT.exec(fo_url);
-				if (! oRate) continue;
-				if (oRate[2]) continue;
+				const oRate = REG_FN_RATE_SPRIT.exec(url);
+				if (! oRate) return;
+				if (oRate[2]) return;
 
 				// fo_fnが「@無し」のh_extsに「@あり」を代入
 				const fn_xga = oRate[1] + this.retinaFnTail + oRate[3];
 				if (this.existsSync(fn_xga)) {
 					this.hPathFn2Retina[fo_fn] = true;
 					h_exts[fo_ext] = fn_xga;
-					continue;
+					return;
 				}
-				h_exts[fo_ext] = fo_url;
-			}
+				h_exts[fo_ext] = url;
+			}, ()=> {});
+		});
+
+		fncLoaded();
+	}
+
+	private readonly	regNoUseSysFile = /^(\..+|.+.db|.+.ini|_notes|Icon\r)$/;
+	private foldProc(wd: string, fnc: (url: string, nm: string)=> void, fncFld: (nm: string)=> void) {
+		for (const nm of m_fs.readdirSync(wd)) {
+			if (this.regNoUseSysFile.test(nm)) continue;
+			const url = m_path.resolve(wd, this.normalize(nm, 'NFC'));
+			if (m_fs.lstatSync(url).isDirectory()) {fncFld(nm); continue;}
+
+			fnc(url, nm);
 		}
 	}
 

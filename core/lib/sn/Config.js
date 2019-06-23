@@ -8,7 +8,6 @@ class Config {
         this.oCfg = {
             first_script: 'main',
             save_ns: '',
-            search: [],
             coder: { len: 0x360 },
             window: {
                 width: 300,
@@ -21,15 +20,10 @@ class Config {
                 publisher: '',
                 pub_url: '',
                 detail: '',
-                upd_sn: true,
                 version: '1.0',
-                prjtype: '',
                 nocode_reg: 'system/.+.mp3|m4a|config/.+',
                 nocode: '',
                 pack_exc: '\.swf\.cache',
-                rotate: '',
-                dl_url: '',
-                inc_path: {},
             },
             log: { max_len: 1024 },
             init: {
@@ -94,7 +88,13 @@ class Config {
             err_mes = 'init';
             if ('init' in oCfg)
                 for (const nm in oIni) {
-                    CmnLib_1.CmnLib.argChk_Boolean(this.oCfg.init, nm, oIni.init[nm]);
+                    const v = oIni.init[nm];
+                    if (!v)
+                        continue;
+                    if (v.charAt(0) == '#')
+                        this.oCfg.init[nm] = parseInt(v.slice(1), 16);
+                    else
+                        CmnLib_1.CmnLib.argChk_Num(this.oCfg, nm, oIni.init[nm]);
                 }
             else
                 this.oCfg.init = oIni.init;

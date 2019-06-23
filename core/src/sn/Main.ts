@@ -48,9 +48,7 @@ export class Main implements IMain {
 			const hApp: any = {
 				width: this.cfg.oCfg.window.width,
 				height: this.cfg.oCfg.window.height,
-				backgroundColor: ('init' in this.cfg.oCfg)
-					? this.cfg.oCfg.init.bg_color || 0
-					: 0,
+				backgroundColor: this.cfg.oCfg.init.bg_color,
 				resolution : sys.resolution,
 			};
 			const cvs = document.getElementById('skynovel') as HTMLCanvasElement;

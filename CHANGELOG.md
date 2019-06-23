@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.5.7
+- chg：prj.json の search セクションが不要になり、削除
+- add：prj.json の init.bg_color に "#000000" 形式をサポート
 ## v0.5.6
 - bug：チェックボタンに[event]登録すると、切り替えできなくなる不具合
 - bug：エラーになり[let_frame]で値が取れない不具合

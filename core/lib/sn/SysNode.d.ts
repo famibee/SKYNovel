@@ -1,13 +1,12 @@
 /// <reference types="node" />
 import { SysBase } from "./SysBase";
 import { IFn2Path } from './CmnInterface';
-import { Config } from './Config';
 import m_fs = require('fs-extra');
 export declare class SysNode extends SysBase {
     protected readonly normalize: (src: string, _form: string) => string;
-    loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: () => void, cfg: Config): void;
+    loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: () => void): void;
     private readonly regNoUseSysFile;
-    private getHFn2Path;
+    private foldProc;
     private readonly hExtNG;
     private retinaFnTail;
     private hPathFn2Retina;

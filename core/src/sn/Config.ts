@@ -14,30 +14,24 @@ export class Config implements IConfig {
 	oCfg: any = {
 		first_script: 'main',	// 最初に起動するスクリプトファイル
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
-		search		: [],		// 指定されたフォルダに対し、素材やスクリプトを探す
 		coder		: {len: 0x360},
 			// 画像や音声ファイルを前からなんバイト暗号化するか
-			// 先頭からの復号化処理対象バイト長。省略時は0、全て復号化。
+			// 先頭からの復号化処理対象バイト長。省略時は0、全て復号化
 		window	: {		// アプリケーションウインドウサイズ
 			width	: 300,
 			height	: 300,
 		},
-		book	: {		// プロジェクトの詳細情報です。
-			title		: '',	//作品タイトル。
-			creator		: '',	//著作者。同人ならペンネーム。
-			cre_url		: '',	//著作者URL。ツイッターやメール、サイトなど。無ければ省略
-			publisher	: '',	//出版社。同人ならサークル名。
-			pub_url		: '',	//出版社URL。無ければ省略します。
+		book	: {		// プロジェクトの詳細情報です
+			title		: '',	//作品タイトル
+			creator		: '',	//著作者。同人ならペンネーム
+			cre_url		: '',	//著作者URL。ツイッターやメール、サイトなど
+			publisher	: '',	//出版社。同人ならサークル名
+			pub_url		: '',	//出版社URL。無ければ省略します
 			detail		: '',	// 内容紹介。端的に記入
-			upd_sn		: true,
 			version		: '1.0',
-			prjtype		: '',
 			nocode_reg	: 'system/.+.mp3|m4a|config/.+',
 			nocode		: '',
 			pack_exc	: '\.swf\.cache',
-			rotate		: '',
-			dl_url		: '',
-			inc_path	: {},
 		},
 		log		: {max_len: 1024},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
 		init	: {
@@ -74,6 +68,7 @@ export class Config implements IConfig {
 			this.oCfg = oCfg;
 			err_mes = 'first_script';
 			if (! ('first_script' in oCfg)) this.oCfg.first_script = oIni.first_script;
+
 			err_mes = 'coder';
 			if (! ('coder' in oCfg)) this.oCfg.coder = oIni.coder;
 			err_mes = 'window';
@@ -105,9 +100,16 @@ export class Config implements IConfig {
 			if (! ('log' in oCfg)) this.oCfg.log = {max_len: oIni.log.max_len};
 			err_mes = 'init';
 			if ('init' in oCfg) for (const nm in oIni) {
-				CmnLib.argChk_Boolean(this.oCfg.init, nm, oIni.init[nm]);
+				const v: string = oIni.init[nm];
+				if (! v) continue;
+
+				if (v.charAt(0) == '#')
+					this.oCfg.init[nm] = parseInt(v.slice(1), 16);
+				else
+					CmnLib.argChk_Num(this.oCfg, nm, oIni.init[nm]);
 			}
 			else this.oCfg.init = oIni.init;
+
 			err_mes = 'debug';
 			if ('debug' in oCfg) for (const nm in oIni) {
 				CmnLib.argChk_Boolean(this.oCfg.debug, nm, oIni.debug[nm]);
