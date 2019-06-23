@@ -55,7 +55,7 @@ export class SysBase implements ISysBase {
 		hTag.close			= o=> this.close(o);	// アプリの終了
 //		hTag.export			= o=> this.export(o);	// プレイデータをエクスポート
 //		hTag.import			= o=> this.import(o);	// プレイデータをインポート
-	//	hTag.loadplugin		// LayerMng.ts内で定義	// プラグインの読み込み（廃止
+	//	hTag.loadplugin		// LayerMng.ts内で定義	// cssの読み込み
 //		hTag.mouse			= o=> this.mouse(o);	// マウスの設定
 		hTag.navigate_to	= o=> this.navigate_to(o);	// ＵＲＬを開く
 	//	hTag.plugin			// LayerMng.ts内で定義		// プラグインの設定（廃止

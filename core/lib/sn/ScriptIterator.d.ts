@@ -75,6 +75,7 @@ export declare class ScriptIterator {
     private readonly REG_WILDCARD;
     private readonly REG_WILDCARD2;
     private replaceScript_Wildcard;
+    private replaceScript_Wildcard_Sub_ext;
     private hC2M;
     private replaceScriptChar2macro_And_let_ml;
     private regC2M;

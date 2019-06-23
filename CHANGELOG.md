@@ -1,5 +1,7 @@
 # Change Log
 
+## v0.5.9
+- bug：暗号化スクリプトで[call fn=ext_*]などワイルドカード指定で不具合
 ## v0.5.8
 - chg：prj.json の項目 save_ns が簡略化されたことに伴い、セーブデータに前置詞「skynovel.」を追加
 - chg：prj.json の search セクションが不要になり、削除

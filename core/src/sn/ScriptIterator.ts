@@ -455,9 +455,12 @@ export class ScriptIterator {
 		this.main.stop();
 	}
 	private onlyCodeScript	= (full_path: string): boolean => {
-		this.onlyCodeScript = (full_path.substr(-1) == '_')	// 初回チェック
+		const is_cry = full_path.substr(-1) == '_';
+		if (is_cry) this.replaceScript_Wildcard_Sub_ext = (nm: string): string => nm == 'loadplugin' ?'css' :'sn_';
+
+		this.onlyCodeScript = is_cry	// 初回チェック
 			? (fp: string)=> (fp.substr(-1) != '_')	// エラーにする
-			: (_: string)=> false;
+			: (_: string)=> false;		// 初回がsnなら、以後ノーチェック
 		return false;
 	};
 	private analyzeInit(): void {
@@ -653,12 +656,11 @@ export class ScriptIterator {
 			const p_fn = this.alzTagArg.hPrm['fn'];
 			if (! p_fn) continue;
 			const fn = p_fn.val;
-			if (! fn || fn.substr(-1) != '*') continue;
+			if (! fn || fn.slice(-1) != '*') continue;
 
-			//console.log('* fn:'+ fn);
-			const ext = a_tag['name'] == 'loadplugin' ?'swf' :'sn';
+			const ext = this.replaceScript_Wildcard_Sub_ext(a_tag['name']);
 			const a = this.cfg.matchPath('^'+ fn.slice(0, -1) +'.*', ext);
-			//console.log('* a:%o', a);
+
 			const lnum = this.script.aLNum[i];
 			this.script.aToken.splice(i, 1, '\t', '; '+ token);
 			this.script.aLNum.splice(i, 1, lnum, lnum);
@@ -675,6 +677,8 @@ export class ScriptIterator {
 		}
 		this.script.len = this.script.aToken.length;
 	}
+	private replaceScript_Wildcard_Sub_ext = (nm: string): string=>
+		nm == 'loadplugin' ?'css' :'sn';
 
 	private hC2M	: {[char: string]: string};
 	private replaceScriptChar2macro_And_let_ml = (start_idx = 0): void => {

@@ -38,7 +38,10 @@ class ScriptIterator {
         this.resvToken = '';
         this.skipLabel = '';
         this.onlyCodeScript = (full_path) => {
-            this.onlyCodeScript = (full_path.substr(-1) == '_')
+            const is_cry = full_path.substr(-1) == '_';
+            if (is_cry)
+                this.replaceScript_Wildcard_Sub_ext = (nm) => nm == 'loadplugin' ? 'css' : 'sn_';
+            this.onlyCodeScript = is_cry
                 ? (fp) => (fp.substr(-1) != '_')
                 : (_) => false;
             return false;
@@ -65,9 +68,9 @@ class ScriptIterator {
                 if (!p_fn)
                     continue;
                 const fn = p_fn.val;
-                if (!fn || fn.substr(-1) != '*')
+                if (!fn || fn.slice(-1) != '*')
                     continue;
-                const ext = a_tag['name'] == 'loadplugin' ? 'swf' : 'sn';
+                const ext = this.replaceScript_Wildcard_Sub_ext(a_tag['name']);
                 const a = this.cfg.matchPath('^' + fn.slice(0, -1) + '.*', ext);
                 const lnum = this.script.aLNum[i];
                 this.script.aToken.splice(i, 1, '\t', '; ' + token);
@@ -80,6 +83,7 @@ class ScriptIterator {
             }
             this.script.len = this.script.aToken.length;
         };
+        this.replaceScript_Wildcard_Sub_ext = (nm) => nm == 'loadplugin' ? 'css' : 'sn';
         this.replaceScriptChar2macro_And_let_ml = (start_idx = 0) => {
             for (let i = this.script.len - 1; i >= start_idx; --i) {
                 const token = this.script.aToken[i];
