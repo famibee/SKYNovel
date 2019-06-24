@@ -573,7 +573,7 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>save:const.sn.mesLayer</td><td>''</td><td>String</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.htm#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
 <tr><td>save:sn.doRecLog</td><td>false</td><td>Boolean</td><td>テキストを履歴に記録するか</td></tr>
 <tr><td>save:const.sn.sLog</td><td>''</td><td>String</td><td>履歴テキスト</td></tr>
-<tr><td>save:const.sn.loopPlaying</td><td>"{}"</td><td>json</td><td>ループ中のサウンドバッファ</td></tr>
+<tr><td>save:const.sn.loopPlaying</td><td>'{}'</td><td>json</td><td>ループ中のサウンドバッファ</td></tr>
 <tr><td>save:const.sn.scriptFn</td><td>''</td><td>スクリプト名</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプト名</td></tr>
 <tr><td>save:const.sn.scriptIdx</td><td>0</td><td>Integer</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプトインデックス（行番号ではなく内部トークン単位）</td></tr>
 <tr><td>save:const.sn.layer.（文字レイヤ名）.enabled</td><td>true</td><td>Boolean</td><td>文字レイヤのenabled値</td></tr>
@@ -602,11 +602,11 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>sys:sn.auto.msecLineWait_Kidoku</td><td>500</td><td>Integer</td><td>既読テキストの改行待ち時間（ミリ秒）<br>※ここでの改行とは[l]の事</td></tr>
 <tr><td>sys:sn.auto.msecPageWait</td><td>3500</td><td>Integer</td><td>未読テキストの改ページ待ち時間（ミリ秒）<br>※ここでの改ページとは[p]の事</td></tr>
 <tr><td>sys:sn.auto.msecPageWait_Kidoku</td><td>3500</td><td>Integer</td><td>既読テキストの改ページ待ち時間（ミリ秒）<br>※ここでの改ページとは[p]の事</td></tr>
-<tr><td>sys:sn.skip.mode</td><td>"s"</td><td>String</td><td>スキップモード。<br>
+<tr><td>sys:sn.skip.mode</td><td>'s'</td><td>String</td><td>スキップモード。<br>
 	sn.skip.enabled = trueの際、改行待ちや改ページ待ちをスキップするかどうかの動作を指定する。<br>
-	"l" …… 改行待ち=する、改ページ待ち=する<br>
-	"p" …… 改行待ち=しない、改ページ待ち=する<br>
-	"s" …… 改行待ち=しない、改ページ待ち=しない<br>
+	'l' …… 改行待ち=する、改ページ待ち=する<br>
+	'p' …… 改行待ち=しない、改ページ待ち=する<br>
+	's' …… 改行待ち=しない、改ページ待ち=しない<br>
 	（初期値="s"）</td></tr>
 <tr><td>sys:sn.tagCh.canskip</td><td>true</td><td>Boolean</td><td>テキストをクリックなどでスキップ可能か</td></tr>
 <tr><td>sys:sn.tagCh.doWait</td><td>true</td><td>Boolean</td><td>未読テキストにウェイトを掛けるか</td></tr>
@@ -632,7 +632,7 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>const.Stage.mouseX</td><td>0</td><td>Integer</td><td>マウス水平座標</td></tr>
 <tr><td>const.Stage.mouseY</td><td>0</td><td>Integer</td><td>マウス垂直座標</td></tr>
 <tr><td>const.sn.Math.PI</td><td>3.141592653589793</td><td>Number</td><td>円周率</td></tr>
-<tr><td>const.sn.bookmark.json</td><td>"[]"</td><td>Array</td><td>SKYNovel内部によるsave:の管理用</td></tr>
+<tr><td>const.sn.bookmark.json</td><td>'[]'</td><td>Array</td><td>SKYNovel内部によるsave:の管理用</td></tr>
 <tr><td>const.sn.config.（略）</td><td></td><td></td><td>テンプレートの_config.snの作業用</td></tr>
 <tr><td>const.sn.displayState</td><td>false</td><td>Boolean</td><td>ウインドウ・フルスクリーン状態。trueならフルスクリーン</td></tr>
 <tr><td>const.sn.isApp</td><td>false</td><td>Boolean</td><td>ランタイム環境のタイプ（仕様策定中）</td></tr>
@@ -654,8 +654,8 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">レイヤの座標。leftやtopでないことに注意</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.y</td><td>0</td></tr>
 <tr><td>const.sn.needClick2Play</td><td>環境による</td><td>Boolean</td><td>ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる</td></tr>
-<tr><td>const.sn.platform.os.family</td><td>"Windows", "OS X", "Ubuntu", "Android", "iOS"など</td><td>String</td><td>プラットフォーム名。詳細は<a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">Platform.js の【platform.os.family】の項</a>を参照</td></tr>
-<tr><td>const.sn.sLog</td><td>"[{"txt":""}]"</td><td>左記json</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
+<tr><td>const.sn.platform.os.family</td><td>'Windows', 'OS X', 'Ubuntu', 'Android', 'iOS'など</td><td>String</td><td>プラットフォーム名。詳細は<a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">Platform.js の【platform.os.family】の項</a>を参照</td></tr>
+<tr><td>const.sn.sLog</td><td>'[{'txt':'}]'</td><td>左記json</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
 <tr><td>const.sn.sound.codecs.aac</td><td rowspan="7">環境による</td><td rowspan="7">Boolean</td><td rowspan="7">ゲーム実行環境がこのコーデックをサポートしているか</td></tr>
 <tr><td>const.sn.sound.codecs.flac</td></tr>
 <tr><td>const.sn.sound.codecs.m4a</td></tr>
