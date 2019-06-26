@@ -72,6 +72,7 @@ class SysNode extends SysBase_1.SysBase {
     }
     foldProc(wd, fnc, fncFld) {
         for (const nm of m_fs.readdirSync(wd)) {
+            this.regNoUseSysFile.lastIndex = 0;
             if (this.regNoUseSysFile.test(nm))
                 continue;
             const url = m_path.resolve(wd, this.normalize(nm, 'NFC'));

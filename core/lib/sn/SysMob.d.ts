@@ -6,6 +6,7 @@ export declare class SysMob extends SysBase {
         [name: string]: IPlugin;
     }, arg?: {
         cur: string;
+        crypt: boolean;
     });
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, _cfg: IConfig): void;
     readonly fetch: (url: string) => Promise<Response>;

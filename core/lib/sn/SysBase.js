@@ -4,6 +4,7 @@ class SysBase {
     constructor(hPlg = {}, arg) {
         this.hPlg = hPlg;
         this.arg = arg;
+        this.hFactoryCls = {};
         this.fetch = (url) => fetch(url);
         this.resolution = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
@@ -22,8 +23,21 @@ class SysBase {
         this.isDirectory = (_path) => false;
         this.readdirSync = (_path, _options) => [];
         this.appendFile = (_path, _data, _callback) => { };
+        const fncPre = hPlg['snsys_pre'];
+        if (fncPre)
+            fncPre.init({
+                addTag: () => { },
+                addLayCls: () => { },
+                searchPath: () => '',
+                getVal: () => { return {}; },
+                resume: () => { },
+                render: () => { },
+                setPre: fnc => this.pre = fnc,
+            });
     }
     get cur() { return this.arg.cur; }
+    get crypt() { return this.arg.crypt; }
+    get crypt_() { return this.arg.crypt ? '_' : ''; }
     loadPathAndVal(_hPathFn2Exts, _fncLoaded, _cfg) { }
     initVal(_data, _hTmp, _comp) { }
     ;

@@ -7,6 +7,7 @@ export declare class SysBase implements ISysBase {
     };
     protected readonly arg: {
         cur: string;
+        crypt: boolean;
     };
     hFactoryCls: {
         [name: string]: ILayerFactory;
@@ -15,8 +16,11 @@ export declare class SysBase implements ISysBase {
         [name: string]: IPlugin;
     }, arg: {
         cur: string;
+        crypt: boolean;
     });
     readonly cur: string;
+    readonly crypt: boolean;
+    readonly crypt_: "" | "_";
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: () => void, _cfg: IConfig): void;

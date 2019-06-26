@@ -6,6 +6,7 @@ export declare class SysWeb extends SysBase {
         [name: string]: IPlugin;
     }, arg?: {
         cur: string;
+        crypt: boolean;
     });
     private def_prj;
     private readonly run;

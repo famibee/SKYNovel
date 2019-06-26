@@ -20,9 +20,10 @@ class GrpLayer extends Layer_1.Layer {
         });
         this.dump = () => super.dump() + `, "pic":"${this.csvFn}"`;
     }
-    static init(main, cfg) {
+    static init(main, cfg, sys) {
         GrpLayer.main = main;
         GrpLayer.cfg = cfg;
+        GrpLayer.sys = sys;
     }
     static destroy() {
         GrpLayer.elc.clear();
@@ -90,8 +91,19 @@ class GrpLayer extends Layer_1.Layer {
             }
             fncAllComp(needLoad);
         };
-        if (needLoad)
-            ldr.load((_loader, res) => fncLoaded(res));
+        if (needLoad) {
+            ldr.pre((res, next) => res.load(() => {
+                const d = GrpLayer.sys.pre(res.extension, res.data);
+                if (res.extension == 'json_') {
+                    res.type = 1;
+                    res.data = JSON.parse(d);
+                }
+                else
+                    res.data = d;
+                next();
+            }))
+                .load((_loader, res) => fncLoaded(res));
+        }
         else
             fncLoaded(pixi_js_1.utils.TextureCache);
         return needLoad;
@@ -116,10 +128,7 @@ class GrpLayer extends Layer_1.Layer {
                 if (a_base_name) {
                     const is = a_base_name[1].length;
                     const ie = -a_base_name[2].length - 1;
-                    aFK.sort((a, b) => {
-                        return (CmnLib_1.int(a.slice(is, ie)) > CmnLib_1.int(b.slice(is, ie)))
-                            ? 1 : -1;
-                    });
+                    aFK.sort((a, b) => (CmnLib_1.int(a.slice(is, ie)) > CmnLib_1.int(b.slice(is, ie))) ? 1 : -1);
                 }
                 const aTex = [];
                 for (const v of aFK)
@@ -128,8 +137,7 @@ class GrpLayer extends Layer_1.Layer {
                 return GrpLayer.mkSprite(fn, res);
             case 5:
                 return new pixi_js_1.Sprite(pixi_js_1.Texture.from(r.data));
-            default:
-                return new pixi_js_1.Sprite(r.texture);
+            default: return new pixi_js_1.Sprite(r.texture);
         }
     }
     static ldPic(fn, fnc) {

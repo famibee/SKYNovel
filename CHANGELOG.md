@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.5.10
+- chg：プラグインsnsys_preを prj・path.json_ の為に先読みするように
+- add：暗号化 prj・path.json_ 対応
+- add：暗号化アニメjson_ 対応
+- add：prj.json_も変更追従
 ## v0.5.9
 - bug：暗号化スクリプトで[call fn=ext_*]などワイルドカード指定で不具合
 ## v0.5.8

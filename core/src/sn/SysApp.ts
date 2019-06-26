@@ -16,8 +16,8 @@ const Store = require('electron-store');
 const shell = require('electron').shell;
 
 export class SysApp extends SysNode {
-	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/'}) {
-		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur});
+	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
+		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt});
 		window.onload = ()=> new Main(this);
 	}
 	protected readonly	$path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';

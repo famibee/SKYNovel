@@ -1,6 +1,7 @@
 import { Layer } from './Layer';
 import { HArg, IMain } from './CmnInterface';
 import { Config } from './Config';
+import { SysBase } from './SysBase';
 import { Sprite, Container, Texture } from 'pixi.js';
 export interface IFncCompSpr {
     (sp: Sprite): void;
@@ -16,7 +17,8 @@ export declare class GrpLayer extends Layer {
     private static hFace;
     private static main;
     private static cfg;
-    static init(main: IMain, cfg: Config): void;
+    private static sys;
+    static init(main: IMain, cfg: Config, sys: SysBase): void;
     static destroy(): void;
     private csvFn;
     private sBkFn;

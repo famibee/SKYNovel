@@ -61,7 +61,7 @@ export class Config implements IConfig {
 	static	readonly	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
 
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
-		let err_mes = '';
+		let err_mes = 'prj.json';
 		const load = (oCfg: any)=> {
 			//console.log(oCfg);
 			const oIni = {...this.oCfg};
@@ -140,22 +140,21 @@ export class Config implements IConfig {
 		}
 
 		// テストで引っかかるのでPromise・async/awaitにしない
-		sys.fetch(sys.cur +'prj.json')
-		.then(response=> {
-			if (response.ok) return response.json();
-			throw new Error(`load prj.json err = ${response.statusText
-			}`);
-		})
+		const fn = sys.cur +'prj.json'+ sys.crypt_;
+		sys.fetch(fn)
+		.then(res=> res.text())
+		.then(d=> JSON.parse(sys.pre(fn, d)))
 		.then(load)
-		.catch(err=> DebugMng.myTrace(`load ${sys.cur}prj.json "${err_mes}" = ${err}`));
+		.catch(err=> DebugMng.myTrace(`load ${fn} "${err_mes}" = ${err}`));
 /*
 		try {
 			(async ()=> {
-				const res = await this.fetch(this.sys.cur +'prj.json');
+				const fn = sys.cur +'prj.json'+ sys.crypt_;
+				const res = await this.fetch(fn);
 				load(await res.json());
 			})();
 		} catch (e) {
-			DebugMng.myTrace(`load prj.json "${err_mes}" = %o`, e);
+			DebugMng.myTrace(`load fn=${fn} = %o`, e);
 		}
 */
 	}

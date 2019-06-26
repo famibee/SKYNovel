@@ -5,7 +5,7 @@ const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const strLocal = require('store');
 class SysWeb extends SysBase_1.SysBase {
-    constructor(hPlg = {}, arg = { cur: 'prj/' }) {
+    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false }) {
         super(hPlg, arg);
         this.def_prj = 'prj';
         this.run = async (prj) => {
@@ -92,10 +92,12 @@ class SysWeb extends SysBase_1.SysBase {
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
         (async () => {
-            const res = await fetch(this.arg.cur + 'path.json');
+            const fn = this.arg.cur + 'path.json' + this.crypt_;
+            const res = await fetch(fn);
             if (!res.ok)
                 throw Error(res.statusText);
-            const json = await res.json();
+            const mes = await res.text();
+            const json = JSON.parse(this.pre(fn, mes));
             for (const nm in json) {
                 const h = hPathFn2Exts[nm] = json[nm];
                 for (const ext in h)

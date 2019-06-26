@@ -9,12 +9,26 @@ import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 
 export class SysBase implements ISysBase {
-	hFactoryCls: {[name: string]: ILayerFactory};
+	hFactoryCls: {[name: string]: ILayerFactory}	= {};
 
 	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected readonly arg: {
-		cur: string;
-	}) {}
+		cur		: string;
+		crypt	: boolean;
+	}) {
+		const fncPre = hPlg['snsys_pre'];	// prj・path.json_ の為に先読み
+		if (fncPre) fncPre.init({
+			addTag: ()=> {},
+			addLayCls: ()=> {},
+			searchPath: ()=> '',
+			getVal: ()=> {return {}},
+			resume: ()=> {},
+			render: ()=> {},
+			setPre: fnc=> this.pre = fnc,
+		});
+	}
 	get cur() {return this.arg.cur}
+	get crypt() {return this.arg.crypt}
+	get crypt_() {return this.arg.crypt ?'_' :''}
 	fetch = (url: string)=> fetch(url);
 
 	resolution	= 1;

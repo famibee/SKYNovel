@@ -10,36 +10,39 @@ import {Layer} from './Layer';
 import {CmnLib, int} from './CmnLib';
 import {HArg, IMain} from './CmnInterface';
 import {Config} from './Config';
+import {SysBase} from './SysBase';
 import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 
 export interface IFncCompSpr { (sp: Sprite): void; };
 
 interface Iface {
-	fn: string;
-	dx: number;
-	dy: number;
-	blendmode: number;
+	fn			: string;
+	dx			: number;
+	dy			: number;
+	blendmode	: number;
 };
 interface Ihface { [name: string]: Iface; };
 
 interface IResAniSpr {
-	aTex	: Texture[]
+	aTex	: Texture[];
 	meta	: {
 		animationSpeed? :number;
 	};
 }
 
 export class GrpLayer extends Layer {
-	private static	readonly	elc			= new EventListenerCtn;
+	private static	readonly	elc		= new EventListenerCtn;
 
-	private static	hFace		: Ihface	= {};
+	private static	hFace	: Ihface	= {};
 
-	private static	main		: IMain;
-	private static	cfg			: Config;
-	static	init(main: IMain, cfg: Config): void {
+	private static	main	: IMain;
+	private static	cfg		: Config;
+	private static	sys		: SysBase;
+	static	init(main: IMain, cfg: Config, sys: SysBase): void {
 		GrpLayer.main = main;
 		GrpLayer.cfg = cfg;
+		GrpLayer.sys = sys;
 	}
 	static	destroy() {
 		GrpLayer.elc.clear();
@@ -127,7 +130,18 @@ export class GrpLayer extends Layer {
 			}
 			fncAllComp(needLoad);
 		}
-		if (needLoad) ldr.load((_loader: any, res: any)=> fncLoaded(res));
+		if (needLoad) {
+			ldr.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+				const d = GrpLayer.sys.pre(res.extension, res.data);
+				if (res.extension == 'json_') {
+					res.type = 1;
+					res.data = JSON.parse(d);
+				}
+				else res.data = d;
+				next();
+			}))
+			.load((_loader: any, res: any)=> fncLoaded(res));
+		}
 		else fncLoaded(utils.TextureCache);
 
 		return needLoad;
@@ -145,19 +159,18 @@ export class GrpLayer extends Layer {
 
 		const r: any = (res as any)[fn];
 		if (! r) return new Sprite;	// ロード中にリソース削除
+
 		switch (r.type) {
-			case 1:		//loaders.Resource.TYPE.JSON:	// アニメスプライト
+			case 1:		// loaders.Resource.TYPE.JSON:	// アニメスプライト
 				const aFK: string[] = r.spritesheet._frameKeys;
 				const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
 				if (a_base_name) {
 					const is = a_base_name[1].length;
 					const ie = -a_base_name[2].length - 1;
-					aFK.sort((a, b) => {
-						return (int(a.slice(is, ie)) > int(b.slice(is, ie)))
-						? 1 : -1;
-					});
+					aFK.sort((a, b)=>
+						(int(a.slice(is, ie)) > int(b.slice(is, ie))) ?1 :-1
+					);
 				}
-				//console.log('aKey:%O:', aKey);
 				const aTex: Texture[] = [];
 				for (const v of aFK) aTex.push(Texture.from(v));
 				GrpLayer.hFn2ResAniSpr[r.name] = {aTex: aTex, meta: r.data.meta};
@@ -169,8 +182,7 @@ export class GrpLayer extends Layer {
 				//const hve = r.data as HTMLVideoElement;
 				//hve.loop = true;
 
-			default:
-				return new Sprite(r.texture);
+			default:	return new Sprite(r.texture);
 		}
 	}
 

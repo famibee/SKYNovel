@@ -7,8 +7,8 @@ const electron_1 = require("electron");
 const Store = require('electron-store');
 const shell = require('electron').shell;
 class SysApp extends SysNode_1.SysNode {
-    constructor(hPlg = {}, arg = { cur: 'prj/' }) {
-        super(hPlg, { cur: electron_1.remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur });
+    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false }) {
+        super(hPlg, { cur: electron_1.remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypt: arg.crypt });
         this.$path_desktop = electron_1.remote.app.getPath('desktop').replace(/\\/g, '/') + '/';
         this.$path_userdata = electron_1.remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);

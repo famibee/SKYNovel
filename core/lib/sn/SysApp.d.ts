@@ -6,6 +6,7 @@ export declare class SysApp extends SysNode {
         [name: string]: IPlugin;
     }, arg?: {
         cur: string;
+        crypt: boolean;
     });
     protected readonly $path_desktop: string;
     protected readonly $path_userdata: string;

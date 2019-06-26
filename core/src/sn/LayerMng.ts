@@ -31,7 +31,7 @@ export class LayerMng {
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
-		GrpLayer.init(main, cfg);
+		GrpLayer.init(main, cfg, sys);
 
 		this.frmMng = new FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 		sys.hFactoryCls['grp'] = ()=> new GrpLayer;

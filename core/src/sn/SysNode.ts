@@ -64,6 +64,7 @@ export class SysNode extends SysBase {
 	private readonly	regNoUseSysFile = /^(\..+|.+.db|.+.ini|_notes|Icon\r)$/;
 	private foldProc(wd: string, fnc: (url: string, nm: string)=> void, fncFld: (nm: string)=> void) {
 		for (const nm of m_fs.readdirSync(wd)) {
+			this.regNoUseSysFile.lastIndex = 0;
 			if (this.regNoUseSysFile.test(nm)) continue;
 			const url = m_path.resolve(wd, this.normalize(nm, 'NFC'));
 			if (m_fs.lstatSync(url).isDirectory()) {fncFld(nm); continue;}

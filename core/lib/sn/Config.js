@@ -47,7 +47,7 @@ class Config {
         this.getJsonSearchPath = () => JSON.stringify(this.hPathFn2Exts);
         this.$existsBreakline = false;
         this.$existsBreakpage = false;
-        let err_mes = '';
+        let err_mes = 'prj.json';
         const load = (oCfg) => {
             const oIni = Object.assign({}, this.oCfg);
             this.oCfg = oCfg;
@@ -121,14 +121,12 @@ class Config {
             load(this.oCfg);
             return;
         }
-        sys.fetch(sys.cur + 'prj.json')
-            .then(response => {
-            if (response.ok)
-                return response.json();
-            throw new Error(`load prj.json err = ${response.statusText}`);
-        })
+        const fn = sys.cur + 'prj.json' + sys.crypt_;
+        sys.fetch(fn)
+            .then(res => res.text())
+            .then(d => JSON.parse(sys.pre(fn, d)))
             .then(load)
-            .catch(err => DebugMng_1.DebugMng.myTrace(`load ${sys.cur}prj.json "${err_mes}" = ${err}`));
+            .catch(err => DebugMng_1.DebugMng.myTrace(`load ${fn} "${err_mes}" = ${err}`));
     }
     get existsBreakline() { return this.$existsBreakline; }
     get existsBreakpage() { return this.$existsBreakpage; }
