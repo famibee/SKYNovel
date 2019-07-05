@@ -1,5 +1,8 @@
 # Change Log
 
+## v0.5.11
+- chg：アプリ版も prj.json を参考にするように
+- bug：アプリ版が起動しない不具合修正
 ## v0.5.10
 - chg：プラグインsnsys_preを prj・path.json_ の為に先読みするように
 - add：暗号化 prj・path.json_ 対応

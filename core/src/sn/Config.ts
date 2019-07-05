@@ -50,7 +50,7 @@ export class Config implements IConfig {
 			variable	: false,
 		},
 	};
-	userFnTail		= '';
+	userFnTail	= '';
 
 	private	hPathFn2Exts	: IFn2Path		= {};
 	readonly getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
@@ -63,7 +63,6 @@ export class Config implements IConfig {
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		let err_mes = 'prj.json';
 		const load = (oCfg: any)=> {
-			//console.log(oCfg);
 			const oIni = {...this.oCfg};
 			this.oCfg = oCfg;
 			err_mes = 'first_script';
@@ -166,7 +165,6 @@ export class Config implements IConfig {
 	getNs() {return `skynovel.${this.oCfg.save_ns} - `;}
 
 	searchPath(fn: string, extptn = ''): string {
-		//console.log('searchPath fn:'+ fn +' ext:'+ ext);
 		if (! fn) throw '[searchPath] fnが空です';
 		if (fn.substr(0, 7) == 'http://') return fn;
 		if (fn.substr(0, 9) == 'desktop:/') {
@@ -187,7 +185,7 @@ export class Config implements IConfig {
 				if (extptn == '') a.fn = utn;
 				else
 				for (let e3 in this.hPathFn2Exts[utn]) {
-					if (('|'+ extptn +'|').indexOf('|'+ e3 +'|') == -1) continue;
+					if (`|${extptn}|`.indexOf(`|${e3}|`) == -1) continue;
 
 					a.fn = utn;
 					break;
@@ -195,7 +193,7 @@ export class Config implements IConfig {
 			}
 		}
 		const h_exts = this.hPathFn2Exts[a.fn];
-		if (! h_exts) throw 'サーチパスに存在しないファイル【'+ fn +'】です';
+		if (! h_exts) throw `サーチパスに存在しないファイル【${fn}】です`;
 
 		let ret = '';
 		if (! a.ext) {
@@ -204,38 +202,38 @@ export class Config implements IConfig {
 			//		（ファイル名サーチ→拡張子群にextが含まれるか）
 			const hcnt = int(h_exts[':cnt']);
 			if (extptn == '') {
-				if (hcnt > 1) throw '指定ファイル【'+ fn +'】が複数マッチします。サーチ対象拡張子群【'+ extptn +'】で絞り込むか、ファイル名を個別にして下さい。';
+				if (hcnt > 1) throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
 
 				return fn;
 			}
 
-			const search_exts = '|'+ extptn +'|';
+			const search_exts = `|${extptn}|`;
 			if (hcnt > 1) {
 				let cnt = 0;
 				for (const e2 in h_exts) {
-					if (search_exts.indexOf('|'+ e2 +'|') == -1) continue;
-					if (++cnt > 1) throw '指定ファイル【'+ fn +'】が複数マッチします。サーチ対象拡張子群【'+ extptn +'】で絞り込むか、ファイル名を個別にして下さい。';
+					if (search_exts.indexOf(`|${e2}|`) == -1) continue;
+					if (++cnt > 1) throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
 				}
 			}
 			for (let e in h_exts) {
-				if (search_exts.indexOf('|'+ e +'|') == -1) continue;
+				if (search_exts.indexOf(`|${e}|`) == -1) continue;
 
 				return h_exts[e];
 			}
-			throw 'サーチ対象拡張子群【'+ extptn +'】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【'+ fn +'】';
+			throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${fn}】`;
 		}
 
 		// fnに拡張子xが含まれている
 		//	ファイル名サーチ→拡張子群にxが含まれるか
 		if (extptn != '') {
-			const search_exts2 = '|'+ extptn +'|';
-			if (search_exts2.indexOf('|'+ a.ext +'|') == -1) {
-				throw '指定ファイルの拡張子【'+ a.ext +'】は、サーチ対象拡張子群【'+ extptn +'】にマッチしません。探索ファイル名=【'+ fn +'】';
+			const search_exts2 = `|${extptn}|`;
+			if (search_exts2.indexOf(`|${a.ext}|`) == -1) {
+				throw `指定ファイルの拡張子【${a.ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${fn}】`;
 			}
 		}
 
 		ret = h_exts[a.ext];
-		if (! ret) throw 'サーチパスに存在しない拡張子【'+ a.ext +'】です。探索ファイル名=【'+ fn +'】、サーチ対象拡張子群【'+ extptn +'】';
+		if (! ret) throw `サーチパスに存在しない拡張子【${a.ext}】です。探索ファイル名=【${fn}】、サーチ対象拡張子群【${extptn}】`;
 
 		return ret;
 	}

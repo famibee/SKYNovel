@@ -46,10 +46,10 @@ export class Main implements IMain {
 
 		this.cfg = new Config(sys, ()=> {
 			const hApp: any = {
-				width: this.cfg.oCfg.window.width,
-				height: this.cfg.oCfg.window.height,
-				backgroundColor: this.cfg.oCfg.init.bg_color,
-				resolution : sys.resolution,
+				width			: this.cfg.oCfg.window.width,
+				height			: this.cfg.oCfg.window.height,
+				backgroundColor	: this.cfg.oCfg.init.bg_color,
+				resolution		: sys.resolution,
 			};
 			const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {

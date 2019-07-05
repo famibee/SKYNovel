@@ -35,8 +35,8 @@ export class SysBase implements ISysBase {
 
 	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, _cfg: IConfig): void {}
 
-	protected data		= {sys:{}, mark:{}, kidoku:{}};
-	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {};
+	protected	data	= {sys:{}, mark:{}, kidoku:{}};
+	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
 	flush() {}
 
 	protected	val		: IVariable;
@@ -87,12 +87,12 @@ export class SysBase implements ISysBase {
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
 	protected readonly	close			: ITag = ()=> false;
-	protected readonly	navigate_to	: ITag = ()=> false;
+	protected readonly	navigate_to		: ITag = ()=> false;
 	protected readonly	title			: ITag = ()=> false;
 	protected			tgl_full_scr	: ITag = ()=> false;
 	protected readonly	window			: ITag = ()=> false;
 
-	pre = (_ext: string, data: string): string=> {return data};
+	pre = (_ext: string, data: string)=> data;
 
 	protected readonly	isApp = ()=> false;
 	protected $path_desktop	= '';
@@ -106,9 +106,6 @@ export class SysBase implements ISysBase {
 	readonly	writeFile = (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
 	readonly	savePic = (_fn: string, _data_url: string)=> {};
 
-	readonly	isDirectory = (_path: string)=> false;
-	readonly	readdirSync = (_path: string, _options?: { encoding: BufferEncoding | null } | BufferEncoding | null): ReadonlyArray<string>=> [];
-
-	readonly	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
+	readonly	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException)=> void)=> {};
 
 }

@@ -13,15 +13,13 @@ class SysBase {
         this.title = () => false;
         this.tgl_full_scr = () => false;
         this.window = () => false;
-        this.pre = (_ext, data) => { return data; };
+        this.pre = (_ext, data) => data;
         this.isApp = () => false;
         this.$path_desktop = '';
         this.$path_userdata = '';
         this.existsSync = (_path) => true;
         this.writeFile = (_file, _data, _callback) => { };
         this.savePic = (_fn, _data_url) => { };
-        this.isDirectory = (_path) => false;
-        this.readdirSync = (_path, _options) => [];
         this.appendFile = (_path, _data, _callback) => { };
         const fncPre = hPlg['snsys_pre'];
         if (fncPre)
@@ -40,7 +38,6 @@ class SysBase {
     get crypt_() { return this.arg.crypt ? '_' : ''; }
     loadPathAndVal(_hPathFn2Exts, _fncLoaded, _cfg) { }
     initVal(_data, _hTmp, _comp) { }
-    ;
     flush() { }
     init(cfg, hTag, appPixi, val, main) {
         this.val = val;

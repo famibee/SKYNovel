@@ -153,7 +153,7 @@ class Config {
                     a.fn = utn;
                 else
                     for (let e3 in this.hPathFn2Exts[utn]) {
-                        if (('|' + extptn + '|').indexOf('|' + e3 + '|') == -1)
+                        if (`|${extptn}|`.indexOf(`|${e3}|`) == -1)
                             continue;
                         a.fn = utn;
                         break;
@@ -162,41 +162,41 @@ class Config {
         }
         const h_exts = this.hPathFn2Exts[a.fn];
         if (!h_exts)
-            throw 'サーチパスに存在しないファイル【' + fn + '】です';
+            throw `サーチパスに存在しないファイル【${fn}】です`;
         let ret = '';
         if (!a.ext) {
             const hcnt = CmnLib_1.int(h_exts[':cnt']);
             if (extptn == '') {
                 if (hcnt > 1)
-                    throw '指定ファイル【' + fn + '】が複数マッチします。サーチ対象拡張子群【' + extptn + '】で絞り込むか、ファイル名を個別にして下さい。';
+                    throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
                 return fn;
             }
-            const search_exts = '|' + extptn + '|';
+            const search_exts = `|${extptn}|`;
             if (hcnt > 1) {
                 let cnt = 0;
                 for (const e2 in h_exts) {
-                    if (search_exts.indexOf('|' + e2 + '|') == -1)
+                    if (search_exts.indexOf(`|${e2}|`) == -1)
                         continue;
                     if (++cnt > 1)
-                        throw '指定ファイル【' + fn + '】が複数マッチします。サーチ対象拡張子群【' + extptn + '】で絞り込むか、ファイル名を個別にして下さい。';
+                        throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
                 }
             }
             for (let e in h_exts) {
-                if (search_exts.indexOf('|' + e + '|') == -1)
+                if (search_exts.indexOf(`|${e}|`) == -1)
                     continue;
                 return h_exts[e];
             }
-            throw 'サーチ対象拡張子群【' + extptn + '】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【' + fn + '】';
+            throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${fn}】`;
         }
         if (extptn != '') {
-            const search_exts2 = '|' + extptn + '|';
-            if (search_exts2.indexOf('|' + a.ext + '|') == -1) {
-                throw '指定ファイルの拡張子【' + a.ext + '】は、サーチ対象拡張子群【' + extptn + '】にマッチしません。探索ファイル名=【' + fn + '】';
+            const search_exts2 = `|${extptn}|`;
+            if (search_exts2.indexOf(`|${a.ext}|`) == -1) {
+                throw `指定ファイルの拡張子【${a.ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${fn}】`;
             }
         }
         ret = h_exts[a.ext];
         if (!ret)
-            throw 'サーチパスに存在しない拡張子【' + a.ext + '】です。探索ファイル名=【' + fn + '】、サーチ対象拡張子群【' + extptn + '】';
+            throw `サーチパスに存在しない拡張子【${a.ext}】です。探索ファイル名=【${fn}】、サーチ対象拡張子群【${extptn}】`;
         return ret;
     }
     matchPath(fnptn, extptn = '') {

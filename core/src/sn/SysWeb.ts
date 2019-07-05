@@ -87,11 +87,11 @@ export class SysWeb extends SysBase {
 			const res = await fetch(fn);
 			if (! res.ok) throw Error(res.statusText);
 
-			const mes = await res.text()
+			const mes = await res.text();
 			const json = JSON.parse(this.pre(fn, mes));
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
-				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext]
+				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext];
 			}
 
 			//strLocal.clearAll();

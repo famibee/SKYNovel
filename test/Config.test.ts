@@ -31,11 +31,9 @@ context('class Config', ()=>{
 			}
 
 			assert.equal(cfg.searchPath("update.png"),
-				//"test/mat/update.png");
-				__dirname +"/mat/update.png");
+				`test/:dummy dir:/mat/update.png`);
 			assert.equal(cfg.searchPath("update", "png|png_"),
-				//"test/mat/update.png");
-				__dirname +"/mat/update.png");
+				`test/:dummy dir:/mat/update.png`);
 
 			try {
 				assert.equal(cfg.searchPath("update", "hh"), "ii");
@@ -77,8 +75,7 @@ context('class Config', ()=>{
 			}
 
 			assert.equal(cfg.searchPath("update2.png"),
-				//"test/mat/update2.png");
-				__dirname +"/mat/update2.png");
+				`test/:dummy dir:/mat/update2.png`);
 			try {
 				cfg.searchPath("update3.png");
 				assert.fail("Error:kkk");
@@ -87,8 +84,7 @@ context('class Config', ()=>{
 				assert.equal(s, "サーチパスに存在しないファイル【update3.png】です");
 			}
 			assert.equal(cfg.searchPath("update2", "png|png_"),
-				//"test/mat/update2.png");
-				__dirname +"/mat/update2.png");
+				`test/:dummy dir:/mat/update2.png`);
 			try {
 				cfg.searchPath("update3", "png|png_");
 				assert.fail("Error:lll");
@@ -99,11 +95,9 @@ context('class Config', ()=>{
 
 
 			assert.equal(cfg.searchPath("update0", Config.EXT_SCRIPT),
-				//"test/mat/update0.sn");
-				__dirname +"/mat/update0.sn");
+				`test/:dummy dir:/mat/update0.sn`);
 			assert.equal(cfg.searchPath("update", Config.EXT_SCRIPT),
-				//"test/mat/update.sn");
-				__dirname +"/mat/update.sn");
+				`test/:dummy dir:/mat/update.sn`);
 		});
 		it('testsetSearchPath_1_userFnTail', ()=> {
 			cfg.userFnTail = 'ex';
@@ -128,11 +122,9 @@ context('class Config', ()=>{
 			}
 
 			assert.equal(cfg.searchPath("update.png"),
-				//"test/mat/update@@ex.png");
-				__dirname +"/mat/update@@ex.png");
+				`test/:dummy dir:/mat/update@@ex.png`);
 			assert.equal(cfg.searchPath("update", "png|png_"),
-				//"test/mat/update@@ex.png");
-				__dirname +"/mat/update@@ex.png");
+				`test/:dummy dir:/mat/update@@ex.png`);
 
 			try {
 				assert.equal(cfg.searchPath("update", "hh"), "ii");
@@ -174,26 +166,20 @@ context('class Config', ()=>{
 			}
 
 			assert.equal(cfg.searchPath("update2.png"),
-				//"test/mat/update2.png");
-				__dirname +"/mat/update2.png");
+				`test/:dummy dir:/mat/update2.png`);
 			assert.equal(cfg.searchPath("update3.png"),
-				//"test/mat/update3@@ex.png");
-				__dirname +"/mat/update3@@ex.png");
+				`test/:dummy dir:/mat/update3@@ex.png`);
 			assert.equal(cfg.searchPath("update2", "png|png_"),
-				//"test/mat/update2.png");
-				__dirname +"/mat/update2.png");
+				`test/:dummy dir:/mat/update2.png`);
 			assert.equal(cfg.searchPath("update3", "png|png_"),
-				//"test/mat/update3@@ex.png");
-				__dirname +"/mat/update3@@ex.png");
+				`test/:dummy dir:/mat/update3@@ex.png`);
 
 
 			assert.equal(cfg.searchPath("update0", Config.EXT_SCRIPT),
-				//"test/mat/update0.sn");
-				__dirname +"/mat/update0.sn");
+				`test/:dummy dir:/mat/update0.sn`);
 			try {
 				assert.equal(cfg.searchPath("update", Config.EXT_SCRIPT),
-					//"test/mat/update.sn");
-					__dirname +"/mat/update.sn");
+					`test/:dummy dir:/mat/update.sn`);
 			}
 			catch (s) {
 				assert.equal(s, "");
@@ -220,11 +206,9 @@ context('class Config', ()=>{
 			const old_time = (new Date()).getTime();
 			//for (let i=0; i<1000; ++i) {
 				assert.equal(cfg.searchPath("update.png"),
-					//test/mat/update.png");
-					__dirname +"/mat/update.png");
+					`test/:dummy dir:/mat/update.png`);
 				assert.equal(cfg.searchPath("update", "png|png_"),
-					//"test/mat/update.png");
-					__dirname +"/mat/update.png");
+					`test/:dummy dir:/mat/update.png`);
 
 				try {
 					assert.equal(cfg.searchPath("update", "hh"), "ii");
@@ -273,7 +257,6 @@ context('class Config', ()=>{
 			const time = (new Date()).getTime() - old_time;	// 実行後に測定
 			//assert.fail("経過時間:" + time);		// 差
 		});
-
 
 	});
 

@@ -48,9 +48,5 @@ export declare class SysBase implements ISysBase {
     readonly existsSync: (_path: string) => boolean;
     readonly writeFile: (_file: string | number | Buffer, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     readonly savePic: (_fn: string, _data_url: string) => void;
-    readonly isDirectory: (_path: string) => boolean;
-    readonly readdirSync: (_path: string, _options?: "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex" | {
-        encoding: "ascii" | "utf8" | "utf-8" | "utf16le" | "ucs2" | "ucs-2" | "base64" | "latin1" | "binary" | "hex" | null;
-    } | null | undefined) => readonly string[];
     readonly appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
 }

@@ -4,17 +4,10 @@ import { IFn2Path } from './CmnInterface';
 import m_fs = require('fs-extra');
 export declare class SysNode extends SysBase {
     protected readonly normalize: (src: string, _form: string) => string;
-    loadPathAndVal(hFn2Path: IFn2Path, fncLoaded: () => void): void;
-    private readonly regNoUseSysFile;
-    private foldProc;
-    private readonly hExtNG;
-    private retinaFnTail;
-    private hPathFn2Retina;
+    loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void): void;
     protected readonly isApp: () => boolean;
     readonly existsSync: typeof m_fs.existsSync;
     readonly writeFile: typeof m_fs.writeFile;
     readonly savePic: (fn: string, data_url: string) => void;
-    readonly isDirectory: (path: string) => boolean;
-    readonly readdirSync: typeof m_fs.readdirSync;
     readonly appendFile: typeof m_fs.appendFile;
 }
