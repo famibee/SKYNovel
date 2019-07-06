@@ -89,10 +89,24 @@ export class SysApp extends SysNode {
 				Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0))
 			);
 		}
-		this.win.on('moved', ()=> {
-			const p = this.win.getPosition();
-			this.window({x: p[0], y: p[1]});
+		this.win.on('move', ()=> {
+			if (this.isMovingWin) return;
+			this.isMovingWin = true;
+			this.posMovingWin = this.win.getPosition();
+			setTimeout(()=> this.delayWinPos(), 500);
 		});
+	}
+	private	isMovingWin	= false;
+	private posMovingWin= [0, 0];
+	private delayWinPos() {
+		const p = this.win.getPosition();
+		if (this.posMovingWin[0] != p[0] || this.posMovingWin[1] != p[1]) {
+			this.posMovingWin = p;
+			setTimeout(()=> this.delayWinPos(), 500);
+			return;
+		}
+		this.window({x: p[0], y: p[1]});
+		this.isMovingWin = false;
 	}
 	private readonly	dsp	= remote.screen.getPrimaryDisplay();
 	flush() {this.store.store = this.data;}
@@ -181,6 +195,8 @@ export class SysApp extends SysNode {
 			else if (hArg.y > screenRY) hArg.y = 0;
 		}
 		this.win.setPosition(hArg.x, hArg.y);
+		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
+			// NOTE: 2019/07/06 Windowsでこれがないとどんどん縦に短くなる
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
 		this.flush();

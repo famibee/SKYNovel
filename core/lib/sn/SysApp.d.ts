@@ -13,6 +13,9 @@ export declare class SysApp extends SysNode {
     protected readonly normalize: (src: string, form: string) => string;
     private readonly store;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
+    private isMovingWin;
+    private posMovingWin;
+    private delayWinPos;
     private readonly dsp;
     flush(): void;
     private readonly win;

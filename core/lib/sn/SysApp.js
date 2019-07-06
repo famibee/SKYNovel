@@ -13,6 +13,8 @@ class SysApp extends SysNode_1.SysNode {
         this.$path_userdata = electron_1.remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
         this.store = new Store({ cwd: 'storage', name: 'data' });
+        this.isMovingWin = false;
+        this.posMovingWin = [0, 0];
         this.dsp = electron_1.remote.screen.getPrimaryDisplay();
         this.win = electron_1.remote.getCurrentWindow();
         this.wc = this.win.webContents;
@@ -85,6 +87,7 @@ class SysApp extends SysNode_1.SysNode {
                     hArg.y = 0;
             }
             this.win.setPosition(hArg.x, hArg.y);
+            this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
             this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
             this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
             this.flush();
@@ -116,10 +119,23 @@ class SysApp extends SysNode_1.SysNode {
         else {
             this.win.setPosition(Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)), Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
         }
-        this.win.on('moved', () => {
-            const p = this.win.getPosition();
-            this.window({ x: p[0], y: p[1] });
+        this.win.on('move', () => {
+            if (this.isMovingWin)
+                return;
+            this.isMovingWin = true;
+            this.posMovingWin = this.win.getPosition();
+            setTimeout(() => this.delayWinPos(), 500);
         });
+    }
+    delayWinPos() {
+        const p = this.win.getPosition();
+        if (this.posMovingWin[0] != p[0] || this.posMovingWin[1] != p[1]) {
+            this.posMovingWin = p;
+            setTimeout(() => this.delayWinPos(), 500);
+            return;
+        }
+        this.window({ x: p[0], y: p[1] });
+        this.isMovingWin = false;
     }
     flush() { this.store.store = this.data; }
     init(cfg, hTag, appPixi, val, main) {

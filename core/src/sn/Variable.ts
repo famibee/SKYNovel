@@ -14,7 +14,6 @@ const platform = require('platform');
 
 export class Variable implements IVariable {
 	private	hScope	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
-								// TODO: save:って作ってない気が
 	private	hSave	: any	= this.hScope.save;
 	private	hTmp	: any	= this.hScope.tmp;
 
@@ -119,17 +118,12 @@ export class Variable implements IVariable {
 
 		this.hTmp['const.sn.platform.os.family'] = platform.os.family;
 
-// TODO: CmnLib.osName
-
 		this.clearsysvar();
 		this.clearvar();
 
 		// prj.json
 		this.hTmp['const.sn.config.window.width'] = cfg.oCfg.window.width;
 		this.hTmp['const.sn.config.window.height']= cfg.oCfg.window.height;
-			// AIRNovel の const.sn.xmlConfig.window.width、.height
-			// NOTE: AIRNovel の const.flash.display.Stage.stageWidth は未定
-			// 使うならここで初期化だろうと
 		this.hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
 		this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
 
