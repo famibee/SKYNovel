@@ -78,7 +78,7 @@ export class SysBase implements ISysBase {
 		hTag.toggle_full_screen = o=> this.tgl_full_scr(o);	// 全画面状態切替
 	//	hTag.unloadplugin	// LayerMng.ts内で定義		// プラグインの破棄（廃止
 //		hTag.unzip			= o=> this.unzip(o);	// ネット素材取得
-//		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
+		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
 		val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
@@ -90,6 +90,7 @@ export class SysBase implements ISysBase {
 	protected readonly	navigate_to		: ITag = ()=> false;
 	protected readonly	title			: ITag = ()=> false;
 	protected			tgl_full_scr	: ITag = ()=> false;
+	protected readonly	update_check	: ITag = ()=> false;
 	protected readonly	window			: ITag = ()=> false;
 
 	pre = (_ext: string, data: string)=> data;
@@ -97,7 +98,7 @@ export class SysBase implements ISysBase {
 	protected readonly	isApp = ()=> false;
 	protected $path_desktop	= '';
 	get path_desktop() {return this.$path_desktop}
-	protected $path_userdata	= '';
+	protected $path_userdata= '';
 	get path_userdata() {return this.$path_userdata}
 
 	readonly	existsSync = (_path: string)=> true;

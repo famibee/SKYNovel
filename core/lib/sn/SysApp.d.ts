@@ -25,5 +25,6 @@ export declare class SysApp extends SysNode {
     protected readonly navigate_to: (hArg: HArg) => boolean;
     protected readonly title: (hArg: HArg) => boolean;
     protected readonly tgl_full_scr: (hArg: HArg) => boolean;
+    protected readonly update_check: (hArg: HArg) => boolean;
     protected readonly window: (hArg: HArg) => boolean;
 }

@@ -12,6 +12,7 @@ class SysBase {
         this.navigate_to = () => false;
         this.title = () => false;
         this.tgl_full_scr = () => false;
+        this.update_check = () => false;
         this.window = () => false;
         this.pre = (_ext, data) => data;
         this.isApp = () => false;
@@ -67,6 +68,7 @@ class SysBase {
         hTag.navigate_to = o => this.navigate_to(o);
         hTag.title = o => this.title(o);
         hTag.toggle_full_screen = o => this.tgl_full_scr(o);
+        hTag.update_check = o => this.update_check(o);
         hTag.window = o => this.window(o);
         val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
         val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', 0);

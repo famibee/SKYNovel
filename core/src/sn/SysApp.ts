@@ -11,14 +11,17 @@ import {HArg, IHTag, IVariable, IData4Vari, IPlugin, IConfig, IMain} from './Cmn
 import {Main} from './Main';
 import {Application} from 'pixi.js';
 
-import {remote, BrowserWindow, webContents} from 'electron';
+const {remote, shell, ipcRenderer} = require('electron');
 const Store = require('electron-store');
-const shell = require('electron').shell;
 
 export class SysApp extends SysNode {
 	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
 		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt});
 		window.onload = ()=> new Main(this);
+
+		ipcRenderer.on('log', (e: any, arg: any)=> {
+console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
+		});
 	}
 	protected readonly	$path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
 	protected readonly	$path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
@@ -111,8 +114,8 @@ export class SysApp extends SysNode {
 	private readonly	dsp	= remote.screen.getPrimaryDisplay();
 	flush() {this.store.store = this.data;}
 
-	private readonly	win	: BrowserWindow	= remote.getCurrentWindow();
-	private readonly	wc	: webContents	= this.win.webContents;
+	private readonly	win	= remote.getCurrentWindow();
+	private readonly	wc	= this.win.webContents;
 	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		super.init(cfg, hTag, appPixi, val, main);
 
@@ -175,6 +178,15 @@ export class SysApp extends SysNode {
 			}
 			this.win.setFullScreen(true);	// これはこの位置
 		}
+
+		return false;
+	}
+	// 更新チェック
+	protected readonly	update_check = (hArg: HArg)=> {
+		const url = hArg.url;
+		if (! url) throw '[update_check] urlは必須です';
+
+		ipcRenderer.send('update_check', JSON.stringify(hArg));
 
 		return false;
 	}

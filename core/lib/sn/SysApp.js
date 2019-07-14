@@ -3,20 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SysNode_1 = require("./SysNode");
 const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
-const electron_1 = require("electron");
+const { remote, shell, ipcRenderer } = require('electron');
 const Store = require('electron-store');
-const shell = require('electron').shell;
 class SysApp extends SysNode_1.SysNode {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false }) {
-        super(hPlg, { cur: electron_1.remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypt: arg.crypt });
-        this.$path_desktop = electron_1.remote.app.getPath('desktop').replace(/\\/g, '/') + '/';
-        this.$path_userdata = electron_1.remote.app.getPath('userData').replace(/\\/g, '/') + '/';
+        super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypt: arg.crypt });
+        this.$path_desktop = remote.app.getPath('desktop').replace(/\\/g, '/') + '/';
+        this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
         this.store = new Store({ cwd: 'storage', name: 'data' });
         this.isMovingWin = false;
         this.posMovingWin = [0, 0];
-        this.dsp = electron_1.remote.screen.getPrimaryDisplay();
-        this.win = electron_1.remote.getCurrentWindow();
+        this.dsp = remote.screen.getPrimaryDisplay();
+        this.win = remote.getCurrentWindow();
         this.wc = this.win.webContents;
         this.close = () => { this.win.close(); return false; };
         this.navigate_to = (hArg) => {
@@ -48,7 +47,7 @@ class SysApp extends SysNode_1.SysNode {
                 }
             }
             else {
-                const size = electron_1.remote.screen.getPrimaryDisplay().size;
+                const size = remote.screen.getPrimaryDisplay().size;
                 const ratioWidth = size.width / CmnLib_1.CmnLib.stageW;
                 const ratioHeight = size.height / CmnLib_1.CmnLib.stageH;
                 const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
@@ -65,6 +64,13 @@ class SysApp extends SysNode_1.SysNode {
                 }
                 this.win.setFullScreen(true);
             }
+            return false;
+        };
+        this.update_check = (hArg) => {
+            const url = hArg.url;
+            if (!url)
+                throw '[update_check] urlは必須です';
+            ipcRenderer.send('update_check', JSON.stringify(hArg));
             return false;
         };
         this.window = (hArg) => {
@@ -94,6 +100,9 @@ class SysApp extends SysNode_1.SysNode {
             return false;
         };
         window.onload = () => new Main_1.Main(this);
+        ipcRenderer.on('log', (e, arg) => {
+            console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
+        });
     }
     initVal(data, hTmp, comp) {
         if (this.store.size == 0) {
