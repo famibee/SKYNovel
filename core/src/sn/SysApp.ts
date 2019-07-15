@@ -17,7 +17,7 @@ const Store = require('electron-store');
 export class SysApp extends SysNode {
 	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
 		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt});
-		window.onload = ()=> new Main(this);
+		window.addEventListener('DOMContentLoaded', ()=>new Main(this), false);
 
 		ipcRenderer.on('log', (e: any, arg: any)=> {
 console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
@@ -83,15 +83,13 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 			//	stage.displayState;
 		*/
 
-		if (hTmp['const.sn.isFirstBoot']) {
-			this.window({centering: true});
-		}
-		else {
-			this.win.setPosition(
-				Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)),
-				Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0))
-			);
-		}
+		const fncWin = ()=> {
+			// NOTE: 2019/07/14 Windowsでこのように遅らせないと正しい縦幅にならない
+			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true}: {});
+			window.removeEventListener('resize', fncWin, false);
+		};
+		window.addEventListener('resize', fncWin, false);
+
 		this.win.on('move', ()=> {
 			if (this.isMovingWin) return;
 			this.isMovingWin = true;
@@ -209,6 +207,9 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 		this.win.setPosition(hArg.x, hArg.y);
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
 			// NOTE: 2019/07/06 Windowsでこれがないとどんどん縦に短くなる
+		const hz = this.win.getContentSize()[1];
+		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH *2 -hz);
+			// NOTE: 2019/07/14 setContentSize()したのにメニュー高さぶん勝手に削られた値にされる不具合ぽい動作への対応
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
 		this.flush();

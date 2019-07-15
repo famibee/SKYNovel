@@ -94,12 +94,14 @@ class SysApp extends SysNode_1.SysNode {
             }
             this.win.setPosition(hArg.x, hArg.y);
             this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            const hz = this.win.getContentSize()[1];
+            this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH * 2 - hz);
             this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
             this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
             this.flush();
             return false;
         };
-        window.onload = () => new Main_1.Main(this);
+        window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), false);
         ipcRenderer.on('log', (e, arg) => {
             console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
         });
@@ -122,12 +124,11 @@ class SysApp extends SysNode_1.SysNode {
         hTmp['const.sn.isDebugger'] = false;
         hTmp['const.sn.screenResolutionX'] = this.dsp.size.width;
         hTmp['const.sn.screenResolutionY'] = this.dsp.size.height;
-        if (hTmp['const.sn.isFirstBoot']) {
-            this.window({ centering: true });
-        }
-        else {
-            this.win.setPosition(Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)), Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
-        }
+        const fncWin = () => {
+            this.window((hTmp['const.sn.isFirstBoot']) ? { centering: true } : {});
+            window.removeEventListener('resize', fncWin, false);
+        };
+        window.addEventListener('resize', fncWin, false);
         this.win.on('move', () => {
             if (this.isMovingWin)
                 return;

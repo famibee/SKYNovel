@@ -81,9 +81,6 @@ export class SysBase implements ISysBase {
 		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
-		val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
-		val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', 0);
-			// AIRNovel の sys:const.flash.display.Stage.nativeWindow.x、.y
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
 	protected readonly	close			: ITag = ()=> false;

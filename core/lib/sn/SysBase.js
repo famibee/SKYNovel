@@ -70,8 +70,6 @@ class SysBase {
         hTag.toggle_full_screen = o => this.tgl_full_scr(o);
         hTag.update_check = o => this.update_check(o);
         hTag.window = o => this.window(o);
-        val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', 0);
-        val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', 0);
         val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
     }
     get path_desktop() { return this.$path_desktop; }

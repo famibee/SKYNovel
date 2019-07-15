@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.5.13",
+	"version": "0.5.14",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"types": "./core/lib/index.d.ts",
@@ -42,7 +42,7 @@
 		"power-assert": "^1.6.1",
 		"typescript": "^3.5.3",
 		"webpack": "^4.35.3",
-		"webpack-cli": "^3.3.5",
+		"webpack-cli": "^3.3.6",
 		"webpack-dev-server": "^3.7.2"
 	},
 	"bundleDependencies": [],
