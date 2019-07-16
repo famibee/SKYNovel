@@ -21,7 +21,7 @@ class SysNode extends SysBase_1.SysBase {
         };
         this.appendFile = m_fs.appendFile;
     }
-    loadPathAndVal(hPathFn2Exts, fncLoaded) {
+    loadPathAndVal(hPathFn2Exts, fncLoaded, _cfg) {
         (async () => {
             const fn = this.arg.cur + 'path.json' + this.crypt_;
             const mes = m_fs.readFileSync(fn, { encoding: 'utf8' });

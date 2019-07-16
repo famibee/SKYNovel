@@ -28,28 +28,25 @@ class FrameMng {
         if (this.val.getVal(`tmp:${frmnm}`))
             throw `frame【${id}】はすでにあります`;
         const a = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 1);
-        const rct = this.rect(hArg);
-        const x = rct.x + 'px';
-        const y = rct.y + 'px';
-        const w = rct.width;
-        const h = rct.height;
         const sx = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1);
         const sy = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1);
         const r = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0);
         const v = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
-        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${x}; top: ${y}; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};" width="${w}" height="${h}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
+        const rct = this.rect(hArg);
+        const cr = this.appPixi.view.getBoundingClientRect();
+        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${cr.left + rct.x * this.sys.reso4frame}px; top: ${cr.top + rct.y * this.sys.reso4frame}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};" width="${rct.width * this.sys.reso4frame}" height="${rct.height * this.sys.reso4frame}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
         const ifrm = document.getElementById(id);
         const win = ifrm.contentWindow;
         win.addEventListener('load', () => {
             this.val.setVal_Nochk('tmp', frmnm, true);
             this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
-            this.val.setVal_Nochk('tmp', frmnm + '.x', x);
-            this.val.setVal_Nochk('tmp', frmnm + '.y', y);
+            this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
+            this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
             this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
             this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
             this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
-            this.val.setVal_Nochk('tmp', frmnm + '.width', w);
-            this.val.setVal_Nochk('tmp', frmnm + '.height', h);
+            this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
+            this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
             this.evtMng.resvFlameEvent(win);
             this.main.resume();
@@ -59,8 +56,7 @@ class FrameMng {
     rect(hArg) {
         const a = Object.assign({}, hArg);
         const re = this.sys.resolution;
-        const r = this.appPixi.view.getBoundingClientRect();
-        return new DOMRect(CmnLib_1.CmnLib.argChk_Num(a, 'x', 0) * re + r.left / 2 + window.pageXOffset, CmnLib_1.CmnLib.argChk_Num(a, 'y', 0) * re + r.top / 2 + window.pageYOffset, CmnLib_1.CmnLib.argChk_Num(a, 'width', CmnLib_1.CmnLib.stageW) * re, CmnLib_1.CmnLib.argChk_Num(a, 'height', CmnLib_1.CmnLib.stageH) * re);
+        return new DOMRect(CmnLib_1.CmnLib.argChk_Num(a, 'x', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'y', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'width', CmnLib_1.CmnLib.stageW) * re, CmnLib_1.CmnLib.argChk_Num(a, 'height', CmnLib_1.CmnLib.stageH) * re);
     }
     let_frame(hArg) {
         const id = hArg.id;
@@ -113,26 +109,28 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
         }
         const rct = this.rect(hArg);
-        if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
-            || 'rotate' in hArg) {
-            const x = rct.x;
-            const y = rct.y;
+        if ('x' in hArg || 'y' in hArg) {
+            const cr = this.appPixi.view.getBoundingClientRect();
+            ifrm.style.left = cr.left + rct.x * this.sys.reso4frame + 'px';
+            ifrm.style.top = cr.top + rct.y * this.sys.reso4frame + 'px';
+            this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
+            this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
+        }
+        if ('scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
             const sx = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1);
             const sy = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1);
             const r = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0);
-            ifrm.style.transform = `matrix(${sx}, 0, 0, ${sy}, ${x}, ${y}) rotate(${r}deg)`;
-            this.val.setVal_Nochk('tmp', frmnm + '.x', x);
-            this.val.setVal_Nochk('tmp', frmnm + '.y', y);
+            ifrm.style.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
             this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
             this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
             this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
         }
         if ('width' in hArg) {
-            ifrm.style.width = String(rct.width);
+            ifrm.style.width = String(rct.width * this.sys.reso4frame);
             this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
         }
         if ('height' in hArg) {
-            ifrm.style.height = String(rct.height);
+            ifrm.style.height = String(rct.height * this.sys.reso4frame);
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
         }
         if ('visible' in hArg) {
@@ -167,20 +165,23 @@ class FrameMng {
         }
         let fncXYSR = () => { };
         const rct = this.rect(hArg);
-        if ('x' in hArg || 'y' in hArg || 'scale_x' in hArg || 'scale_y' in hArg
-            || 'rotate' in hArg) {
-            hNow.x = this.val.getVal(`tmp:${frmnm}.x`);
-            hNow.y = this.val.getVal(`tmp:${frmnm}.y`);
-            hNow.sx = this.val.getVal(`tmp:${frmnm}.scale_x`);
-            hNow.sy = this.val.getVal(`tmp:${frmnm}.scale_y`);
-            hNow.r = this.val.getVal(`tmp:${frmnm}.rotate`);
+        if ('x' in hArg || 'y' in hArg
+            || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
+            hNow.x = Number(this.val.getVal(`tmp:${frmnm}.x`));
+            hNow.y = Number(this.val.getVal(`tmp:${frmnm}.y`));
+            hNow.sx = Number(this.val.getVal(`tmp:${frmnm}.scale_x`));
+            hNow.sy = Number(this.val.getVal(`tmp:${frmnm}.scale_y`));
+            hNow.r = Number(this.val.getVal(`tmp:${frmnm}.rotate`));
             hTo.x = rct.x;
             hTo.y = rct.y;
             hTo.sx = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1);
             hTo.sy = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1);
             hTo.r = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0);
+            const cr = this.appPixi.view.getBoundingClientRect();
             fncXYSR = () => {
-                ifrm.style.transform = `matrix(${hNow.sx}, 0, 0, ${hNow.sy}, ${hNow.x}, ${hNow.y}) rotate(${hNow.r}deg)`;
+                ifrm.style.left = cr.left + hNow.x * this.sys.reso4frame + 'px';
+                ifrm.style.top = cr.top + hNow.y * this.sys.reso4frame + 'px';
+                ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
                 this.val.setVal_Nochk('tmp', frmnm + '.x', hNow.x);
                 this.val.setVal_Nochk('tmp', frmnm + '.y', hNow.y);
                 this.val.setVal_Nochk('tmp', frmnm + '.scale_x', hNow.sx);
@@ -193,7 +194,7 @@ class FrameMng {
             hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
             hTo.w = rct.width;
             fncW = () => {
-                ifrm.style.width = `${hNow.w}px`;
+                ifrm.style.width = hNow.w * this.sys.reso4frame + 'px';
                 this.val.setVal_Nochk('tmp', frmnm + '.width', hNow.w);
             };
         }
@@ -202,7 +203,7 @@ class FrameMng {
             hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
             hTo.h = rct.height;
             fncH = () => {
-                ifrm.style.height = `${hNow.h}px`;
+                ifrm.style.height = hNow.h * this.sys.reso4frame + 'px';
                 this.val.setVal_Nochk('tmp', frmnm + '.height', hNow.h);
             };
         }

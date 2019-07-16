@@ -421,7 +421,7 @@ export class EventMng implements IEvtMng {
 				});
 			// 押したまま部品外へ出たときも確定イベント発生
 			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
-				if (e.which == 0) return;
+				if (e.which != 1) return;
 				this.defEvt2Fnc(e, KEY);
 			});
 

@@ -8,7 +8,7 @@ export declare class SysMob extends SysBase {
         cur: string;
         crypt: boolean;
     });
-    loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, _cfg: IConfig): void;
+    loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
     readonly fetch: (url: string) => Promise<Response>;
     private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;

@@ -348,7 +348,7 @@ class EventMng {
             });
             for (const elm of elmlist)
                 this.elc.add(elm, 'mouseleave', e => {
-                    if (e.which == 0)
+                    if (e.which != 1)
                         return;
                     this.defEvt2Fnc(e, KEY);
                 });

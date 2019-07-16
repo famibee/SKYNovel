@@ -31,7 +31,7 @@ class SysMob extends SysBase_1.SysBase {
             document.addEventListener('resume', () => main.resumeDev(), false);
         }, false);
     }
-    loadPathAndVal(hPathFn2Exts, fncLoaded, _cfg) {
+    loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
         (async () => {
             const fn = this.arg.cur + 'path.json' + this.crypt_;
             const res = await this.fetch(fn);
@@ -47,7 +47,7 @@ class SysMob extends SysBase_1.SysBase {
             }
             const cvs = document.getElementById('skynovel');
             if (cvs) {
-                const zoom = (screen.width > screen.height ? screen.height : screen.width) / _cfg.oCfg.window.height;
+                const zoom = (screen.width > screen.height ? screen.height : screen.width) / cfg.oCfg.window.height;
                 this.resolution = zoom;
                 fncLoaded();
             }

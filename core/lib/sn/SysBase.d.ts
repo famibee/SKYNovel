@@ -23,6 +23,7 @@ export declare class SysBase implements ISysBase {
     readonly crypt_: "" | "_";
     fetch: (url: string) => Promise<Response>;
     resolution: number;
+    reso4frame: number;
     loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: () => void, _cfg: IConfig): void;
     protected data: {
         sys: {};

@@ -83,6 +83,8 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 			//	stage.displayState;
 		*/
 
+		this.val.defTmp('const.sn.displayState', ()=> this.win.isSimpleFullScreen());
+
 		const fncWin = ()=> {
 			// NOTE: 2019/07/14 Windowsでこのように遅らせないと正しい縦幅にならない
 			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true}: {});
@@ -100,6 +102,8 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 	private	isMovingWin	= false;
 	private posMovingWin= [0, 0];
 	private delayWinPos() {
+		if (this.win.isSimpleFullScreen()) return;
+
 		const p = this.win.getPosition();
 		if (this.posMovingWin[0] != p[0] || this.posMovingWin[1] != p[1]) {
 			this.posMovingWin = p;
@@ -144,27 +148,26 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 	protected readonly	tgl_full_scr = (hArg: HArg)=> {
 		if (hArg.key) return false;
 			// アプリ版は[toggle_full_screen key=w]でなにもしないように。
-
-		this.val.setVal_Nochk('tmp', 'const.sn.displayState', this.win.isFullScreen());	// const.flash.display.Stage.displayState
-		// ブラウザ版と違って「:full-screen」などが効かないようなのでプログラマブルに解決
-		if (this.win.isFullScreen()) {
-			this.win.setFullScreen(false);	// これはこの位置
+		let cl = 0;
+		let ct = 0;
+		if (this.win.isSimpleFullScreen()) {
+			this.win.setSimpleFullScreen(false);	// これはこの位置
 			this.win.setSize(CmnLib.stageW, CmnLib.stageH);
-			this.appPixi.view.style.width = CmnLib.stageW +'px';
+			this.appPixi.view.style.width  = CmnLib.stageW +'px';
 			this.appPixi.view.style.height = CmnLib.stageH +'px';
 			this.appPixi.view.style.marginLeft = '0px';
-			this.appPixi.view.style.marginTop = '0px';
-			if (CmnLib.osName == 'WIN') {
-				//	hTag.window({x:win_x, y:win_y, width: CmnLib.stageW, height: CmnLib.stageH});
-			}
+			this.appPixi.view.style.marginTop  = '0px';
+			this.window({});
+
+			this.reso4frame = 1;
 		}
 		else {
 			const size = remote.screen.getPrimaryDisplay().size;
-			const ratioWidth = size.width / CmnLib.stageW;
+			const ratioWidth  = size.width  / CmnLib.stageW;
 			const ratioHeight = size.height / CmnLib.stageH;
 			const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
 			this.win.setSize(CmnLib.stageW * ratio, CmnLib.stageH * ratio);
-			this.appPixi.view.style.width = (CmnLib.stageW * ratio) +'px';
+			this.appPixi.view.style.width  = (CmnLib.stageW * ratio) +'px';
 			this.appPixi.view.style.height = (CmnLib.stageH * ratio) +'px';
 			if (ratioWidth < ratioHeight) {	// 左に寄る対策
 				this.appPixi.view.style.marginTop
@@ -172,9 +175,27 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 			}
 			else {
 				this.appPixi.view.style.marginLeft
-				= (size.width -CmnLib.stageW *ratio) /2 +'px';
+				= (size.width  -CmnLib.stageW *ratio) /2 +'px';
 			}
-			this.win.setFullScreen(true);	// これはこの位置
+			this.win.setSimpleFullScreen(true);	// これはこの位置
+
+			const cr = this.appPixi.view.getBoundingClientRect();
+			this.reso4frame = cr.width / CmnLib.stageW;
+			cl = cr.left;
+			ct = cr.top;
+		}
+
+		// 既存のiframeのサイズと表示位置を調整
+		for (const it of document.getElementsByTagName('iframe')) {
+			const frmnm = `const.sn.frm.${it.id}`;
+			it.style.left = cl + Number(this.val.getVal(`tmp:${frmnm}.x`))
+				*this.reso4frame +'px';
+			it.style.top  = ct + Number(this.val.getVal(`tmp:${frmnm}.y`))
+				*this.reso4frame +'px';
+			it.width  = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
+				*this.reso4frame);
+			it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
+				*this.reso4frame);
 		}
 
 		return false;
@@ -193,8 +214,9 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 		const screenRX = this.dsp.size.width;
 		const screenRY = this.dsp.size.height;
 		if (CmnLib.argChk_Boolean(hArg, 'centering', false)) {
-			hArg.x = (screenRX - this.win.getPosition()[0]) *0.5;
-			hArg.y = (screenRY - this.win.getPosition()[1]) *0.5;
+			const s = this.win.getPosition();
+			hArg.x = (screenRX - s[0]) *0.5;
+			hArg.y = (screenRY - s[1]) *0.5;
 		}
 		else {
 			hArg.x = CmnLib.argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));

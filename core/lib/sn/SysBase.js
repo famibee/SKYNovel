@@ -7,6 +7,7 @@ class SysBase {
         this.hFactoryCls = {};
         this.fetch = (url) => fetch(url);
         this.resolution = 1;
+        this.reso4frame = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.close = () => false;
         this.navigate_to = () => false;

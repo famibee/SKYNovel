@@ -21,7 +21,7 @@ export class SysMob extends SysBase {
 		}, false);
 	}
 
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, _cfg: IConfig): void {
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
 		(async ()=> {
 			const fn = this.arg.cur +'path.json'+ this.crypt_;
 			const res = await this.fetch(fn);
@@ -42,7 +42,7 @@ export class SysMob extends SysBase {
 			// 全体が入るよう拡大・縮小
 			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
-				const zoom = (screen.width > screen.height ?screen.height :screen.width)/ _cfg.oCfg.window.height;
+				const zoom = (screen.width > screen.height ?screen.height :screen.width)/ cfg.oCfg.window.height;
 //console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} zoom:${zoom}`);
 				this.resolution = zoom;
 

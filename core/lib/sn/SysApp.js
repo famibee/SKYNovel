@@ -35,16 +35,17 @@ class SysApp extends SysNode_1.SysNode {
         this.tgl_full_scr = (hArg) => {
             if (hArg.key)
                 return false;
-            this.val.setVal_Nochk('tmp', 'const.sn.displayState', this.win.isFullScreen());
-            if (this.win.isFullScreen()) {
-                this.win.setFullScreen(false);
+            let cl = 0;
+            let ct = 0;
+            if (this.win.isSimpleFullScreen()) {
+                this.win.setSimpleFullScreen(false);
                 this.win.setSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
                 this.appPixi.view.style.width = CmnLib_1.CmnLib.stageW + 'px';
                 this.appPixi.view.style.height = CmnLib_1.CmnLib.stageH + 'px';
                 this.appPixi.view.style.marginLeft = '0px';
                 this.appPixi.view.style.marginTop = '0px';
-                if (CmnLib_1.CmnLib.osName == 'WIN') {
-                }
+                this.window({});
+                this.reso4frame = 1;
             }
             else {
                 const size = remote.screen.getPrimaryDisplay().size;
@@ -62,7 +63,22 @@ class SysApp extends SysNode_1.SysNode {
                     this.appPixi.view.style.marginLeft
                         = (size.width - CmnLib_1.CmnLib.stageW * ratio) / 2 + 'px';
                 }
-                this.win.setFullScreen(true);
+                this.win.setSimpleFullScreen(true);
+                const cr = this.appPixi.view.getBoundingClientRect();
+                this.reso4frame = cr.width / CmnLib_1.CmnLib.stageW;
+                cl = cr.left;
+                ct = cr.top;
+            }
+            for (const it of document.getElementsByTagName('iframe')) {
+                const frmnm = `const.sn.frm.${it.id}`;
+                it.style.left = cl + Number(this.val.getVal(`tmp:${frmnm}.x`))
+                    * this.reso4frame + 'px';
+                it.style.top = ct + Number(this.val.getVal(`tmp:${frmnm}.y`))
+                    * this.reso4frame + 'px';
+                it.width = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
+                    * this.reso4frame);
+                it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
+                    * this.reso4frame);
             }
             return false;
         };
@@ -77,8 +93,9 @@ class SysApp extends SysNode_1.SysNode {
             const screenRX = this.dsp.size.width;
             const screenRY = this.dsp.size.height;
             if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'centering', false)) {
-                hArg.x = (screenRX - this.win.getPosition()[0]) * 0.5;
-                hArg.y = (screenRY - this.win.getPosition()[1]) * 0.5;
+                const s = this.win.getPosition();
+                hArg.x = (screenRX - s[0]) * 0.5;
+                hArg.y = (screenRY - s[1]) * 0.5;
             }
             else {
                 hArg.x = CmnLib_1.CmnLib.argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
@@ -124,6 +141,7 @@ class SysApp extends SysNode_1.SysNode {
         hTmp['const.sn.isDebugger'] = false;
         hTmp['const.sn.screenResolutionX'] = this.dsp.size.width;
         hTmp['const.sn.screenResolutionY'] = this.dsp.size.height;
+        this.val.defTmp('const.sn.displayState', () => this.win.isSimpleFullScreen());
         const fncWin = () => {
             this.window((hTmp['const.sn.isFirstBoot']) ? { centering: true } : {});
             window.removeEventListener('resize', fncWin, false);
@@ -138,6 +156,8 @@ class SysApp extends SysNode_1.SysNode {
         });
     }
     delayWinPos() {
+        if (this.win.isSimpleFullScreen())
+            return;
         const p = this.win.getPosition();
         if (this.posMovingWin[0] != p[0] || this.posMovingWin[1] != p[1]) {
             this.posMovingWin = p;

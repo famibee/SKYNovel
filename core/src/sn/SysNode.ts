@@ -7,14 +7,14 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib} from './CmnLib';
-import {IFn2Path} from './CmnInterface';
+import {IFn2Path, IConfig} from './CmnInterface';
 
 import m_fs = require('fs-extra');
 
 export class SysNode extends SysBase {
 	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test
 
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void): void {
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, _cfg: IConfig): void {
 		(async ()=> {
 			const fn = this.arg.cur +'path.json'+ this.crypt_;
 			const mes = m_fs.readFileSync(fn, {encoding: 'utf8'});

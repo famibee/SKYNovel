@@ -32,6 +32,7 @@ export class SysBase implements ISysBase {
 	fetch = (url: string)=> fetch(url);
 
 	resolution	= 1;
+	reso4frame	= 1;
 
 	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, _cfg: IConfig): void {}
 
