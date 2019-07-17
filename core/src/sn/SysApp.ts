@@ -174,23 +174,24 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 			this.reso4frame = 1;
 		}
 		else {
-			const size = remote.screen.getPrimaryDisplay().size;
-			const ratioWidth  = size.width  / CmnLib.stageW;
-			const ratioHeight = size.height / CmnLib.stageH;
+			const w = this.dsp.size.width;
+			const h = this.dsp.size.height;
+			const ratioWidth  = w / CmnLib.stageW;
+			const ratioHeight = h / CmnLib.stageH;
 			const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
 			this.win.setSize(CmnLib.stageW * ratio, CmnLib.stageH * ratio);
 			this.appPixi.view.style.width  = (CmnLib.stageW * ratio) +'px';
 			this.appPixi.view.style.height = (CmnLib.stageH * ratio) +'px';
 			if (ratioWidth < ratioHeight) {	// 左に寄る対策
-				this.appPixi.view.style.marginTop
-				= (size.height -CmnLib.stageH *ratio) /2 +'px';
+				this.appPixi.view.style.marginTop = (h -CmnLib.stageH *ratio) /2 +'px';
 			}
 			else {
-				this.appPixi.view.style.marginLeft
-				= (size.width  -CmnLib.stageW *ratio) /2 +'px';
+				this.appPixi.view.style.marginLeft= (w -CmnLib.stageW *ratio) /2 +'px';
 			}
 			this.win.setSimpleFullScreen(true);	// これはこの位置
 
+			this.win.setContentSize(screen.width, screen.height);
+				// これがないとWinアプリ版で下部が短くなり背後が見える
 			const cr = this.appPixi.view.getBoundingClientRect();
 			this.reso4frame = cr.width / CmnLib.stageW;
 		}

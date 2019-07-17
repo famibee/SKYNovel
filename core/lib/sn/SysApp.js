@@ -62,22 +62,22 @@ class SysApp extends SysNode_1.SysNode {
                 this.reso4frame = 1;
             }
             else {
-                const size = remote.screen.getPrimaryDisplay().size;
-                const ratioWidth = size.width / CmnLib_1.CmnLib.stageW;
-                const ratioHeight = size.height / CmnLib_1.CmnLib.stageH;
+                const w = this.dsp.size.width;
+                const h = this.dsp.size.height;
+                const ratioWidth = w / CmnLib_1.CmnLib.stageW;
+                const ratioHeight = h / CmnLib_1.CmnLib.stageH;
                 const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
                 this.win.setSize(CmnLib_1.CmnLib.stageW * ratio, CmnLib_1.CmnLib.stageH * ratio);
                 this.appPixi.view.style.width = (CmnLib_1.CmnLib.stageW * ratio) + 'px';
                 this.appPixi.view.style.height = (CmnLib_1.CmnLib.stageH * ratio) + 'px';
                 if (ratioWidth < ratioHeight) {
-                    this.appPixi.view.style.marginTop
-                        = (size.height - CmnLib_1.CmnLib.stageH * ratio) / 2 + 'px';
+                    this.appPixi.view.style.marginTop = (h - CmnLib_1.CmnLib.stageH * ratio) / 2 + 'px';
                 }
                 else {
-                    this.appPixi.view.style.marginLeft
-                        = (size.width - CmnLib_1.CmnLib.stageW * ratio) / 2 + 'px';
+                    this.appPixi.view.style.marginLeft = (w - CmnLib_1.CmnLib.stageW * ratio) / 2 + 'px';
                 }
                 this.win.setSimpleFullScreen(true);
+                this.win.setContentSize(screen.width, screen.height);
                 const cr = this.appPixi.view.getBoundingClientRect();
                 this.reso4frame = cr.width / CmnLib_1.CmnLib.stageW;
             }
