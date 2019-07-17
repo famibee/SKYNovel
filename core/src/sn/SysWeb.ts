@@ -123,6 +123,8 @@ export class SysWeb extends SysBase {
 		// システム情報
 		const hn = document.location.hostname;
 		hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
+
+		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
 	}
 	flush() {
 		strLocal.set(this.ns +'sys', this.data.sys);
@@ -152,14 +154,22 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 	// 全画面状態切替（タグではない手段で提供）
+	private readonly isFullScr = ()=> ('mozFullScreen' in document)
+		? document['mozFullScreen']
+		: document.fullscreen;
 	private regEvt_FullScr(hArg: HArg, go_fnc_name: string, exit_fnc_name: string, get_fnc_name: string): boolean {
-		// ユーザーのキーイベントでの全画面しか許さないので、処理なし
-		if (! hArg.key) return false;
-
 		const elm: any = document.body;
 		const doc: any = document;
+		if (! hArg.key) {
+			if (doc[get_fnc_name] != null) doc[exit_fnc_name]();
+			else elm[go_fnc_name]();
+			this.resizeFramesWork();
+
+			return false;
+		}
+
 		const key = hArg.key.toLowerCase();
-		elm.addEventListener('keydown', (e: KeyboardEvent)=> {
+		doc.addEventListener('keydown', (e: KeyboardEvent)=> {
 			const key2 = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
 			+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
 			+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
@@ -169,9 +179,24 @@ export class SysWeb extends SysBase {
 			e.stopPropagation();
 			if (doc[get_fnc_name] != null) doc[exit_fnc_name]();
 			else elm[go_fnc_name]();
-			// 特定の要素を全画面(フルスクリーン)にするFullscreen API https://w3g.jp/blog/html5_fullscreen_api
+			this.resizeFramesWork();
 		});
+
 		return false;
+	}
+	private resizeFramesWork() {
+		const is_fs = this.isFullScr();
+		//this.reso4frame = is_fs ?screen.width /CmnLib.stageW :1;
+			// 全画面を使う
+
+		const ratioWidth  = screen.width  / CmnLib.stageW;
+		const ratioHeight = screen.height / CmnLib.stageH;
+		const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
+		this.reso4frame = is_fs ?1 :ratio;
+			// document.body.clientWidth が時々正しい値を返さないのでscreen.widthで
+		this.ofsLeft4frm = is_fs ?0 :(screen.width -CmnLib.stageW *this.reso4frame) /2;
+		this.ofsTop4frm  = is_fs ?0 :(screen.height -CmnLib.stageH *this.reso4frame) /2;
+		this.resizeFrames();
 	}
 
 

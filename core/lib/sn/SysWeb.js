@@ -40,6 +40,9 @@ class SysWeb extends SysBase_1.SysBase {
                 v.textContent = text;
             return false;
         };
+        this.isFullScr = () => ('mozFullScreen' in document)
+            ? document['mozFullScreen']
+            : document.fullscreen;
         this.readFile = (path, callback) => {
             try {
                 (async () => {
@@ -126,6 +129,7 @@ class SysWeb extends SysBase_1.SysBase {
         comp(this.data);
         const hn = document.location.hostname;
         hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
+        this.val.defTmp('const.sn.displayState', () => this.isFullScr());
     }
     flush() {
         strLocal.set(this.ns + 'sys', this.data.sys);
@@ -133,12 +137,18 @@ class SysWeb extends SysBase_1.SysBase {
         strLocal.set(this.ns + 'kidoku', this.data.kidoku);
     }
     regEvt_FullScr(hArg, go_fnc_name, exit_fnc_name, get_fnc_name) {
-        if (!hArg.key)
-            return false;
         const elm = document.body;
         const doc = document;
+        if (!hArg.key) {
+            if (doc[get_fnc_name] != null)
+                doc[exit_fnc_name]();
+            else
+                elm[go_fnc_name]();
+            this.resizeFramesWork();
+            return false;
+        }
         const key = hArg.key.toLowerCase();
-        elm.addEventListener('keydown', (e) => {
+        doc.addEventListener('keydown', (e) => {
             const key2 = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
                 + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
                 + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
@@ -150,8 +160,19 @@ class SysWeb extends SysBase_1.SysBase {
                 doc[exit_fnc_name]();
             else
                 elm[go_fnc_name]();
+            this.resizeFramesWork();
         });
         return false;
+    }
+    resizeFramesWork() {
+        const is_fs = this.isFullScr();
+        const ratioWidth = screen.width / CmnLib_1.CmnLib.stageW;
+        const ratioHeight = screen.height / CmnLib_1.CmnLib.stageH;
+        const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
+        this.reso4frame = is_fs ? 1 : ratio;
+        this.ofsLeft4frm = is_fs ? 0 : (screen.width - CmnLib_1.CmnLib.stageW * this.reso4frame) / 2;
+        this.ofsTop4frm = is_fs ? 0 : (screen.height - CmnLib_1.CmnLib.stageH * this.reso4frame) / 2;
+        this.resizeFrames();
     }
 }
 exports.SysWeb = SysWeb;

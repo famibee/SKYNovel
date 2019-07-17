@@ -46,9 +46,9 @@ export class FrameMng {
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src
 		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${
-			cr.left +rct.x *this.sys.reso4frame
+			this.sys.ofsLeft4frm +cr.left +rct.x *this.sys.reso4frame
 		}px; top: ${
-			cr.top  +rct.y *this.sys.reso4frame
+			this.sys.ofsTop4frm  +cr.top  +rct.y *this.sys.reso4frame
 		}px; border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
 		};" width="${rct.width *this.sys.reso4frame
 		}" height="${rct.height *this.sys.reso4frame
@@ -149,8 +149,8 @@ export class FrameMng {
 		const rct = this.rect(hArg);
 		if ('x' in hArg || 'y' in hArg) {
 			const cr = this.appPixi.view.getBoundingClientRect();
-			ifrm.style.left = cr.left +rct.x *this.sys.reso4frame +'px';
-			ifrm.style.top  = cr.top  +rct.y *this.sys.reso4frame +'px';
+			ifrm.style.left = this.sys.ofsLeft4frm +cr.left +rct.x *this.sys.reso4frame +'px';
+			ifrm.style.top  = this.sys.ofsTop4frm  +cr.top  +rct.y *this.sys.reso4frame +'px';
 			this.val.setVal_Nochk('tmp', frmnm +'.x', rct.x);
 			this.val.setVal_Nochk('tmp', frmnm +'.y', rct.y);
 		}
@@ -218,8 +218,8 @@ export class FrameMng {
 			hTo.r = CmnLib.argChk_Num(hArg, 'rotate', 0);
 			const cr = this.appPixi.view.getBoundingClientRect();
 			fncXYSR = ()=> {
-				ifrm.style.left = cr.left +hNow.x *this.sys.reso4frame +'px';
-				ifrm.style.top  = cr.top  +hNow.y *this.sys.reso4frame +'px';
+				ifrm.style.left = this.sys.ofsLeft4frm +cr.left +hNow.x *this.sys.reso4frame +'px';
+				ifrm.style.top  = this.sys.ofsTop4frm  +cr.top  +hNow.y *this.sys.reso4frame +'px';
 				ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
 				this.val.setVal_Nochk('tmp', frmnm +'.x', hNow.x);
 				this.val.setVal_Nochk('tmp', frmnm +'.y', hNow.y);

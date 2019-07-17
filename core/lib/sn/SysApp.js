@@ -33,10 +33,24 @@ class SysApp extends SysNode_1.SysNode {
             return false;
         };
         this.tgl_full_scr = (hArg) => {
-            if (hArg.key)
+            if (!hArg.key) {
+                this.tgl_full_scr_sub();
                 return false;
-            let cl = 0;
-            let ct = 0;
+            }
+            const key = hArg.key.toLowerCase();
+            document.addEventListener('keydown', (e) => {
+                const key2 = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
+                    + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
+                    + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
+                    + e.key.toLowerCase();
+                if (key2 != key)
+                    return;
+                e.stopPropagation();
+                this.tgl_full_scr_sub();
+            });
+            return false;
+        };
+        this.tgl_full_scr_sub = () => {
             if (this.win.isSimpleFullScreen()) {
                 this.win.setSimpleFullScreen(false);
                 this.win.setSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
@@ -66,21 +80,8 @@ class SysApp extends SysNode_1.SysNode {
                 this.win.setSimpleFullScreen(true);
                 const cr = this.appPixi.view.getBoundingClientRect();
                 this.reso4frame = cr.width / CmnLib_1.CmnLib.stageW;
-                cl = cr.left;
-                ct = cr.top;
             }
-            for (const it of document.getElementsByTagName('iframe')) {
-                const frmnm = `const.sn.frm.${it.id}`;
-                it.style.left = cl + Number(this.val.getVal(`tmp:${frmnm}.x`))
-                    * this.reso4frame + 'px';
-                it.style.top = ct + Number(this.val.getVal(`tmp:${frmnm}.y`))
-                    * this.reso4frame + 'px';
-                it.width = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
-                    * this.reso4frame);
-                it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
-                    * this.reso4frame);
-            }
-            return false;
+            this.resizeFrames();
         };
         this.update_check = (hArg) => {
             const url = hArg.url;

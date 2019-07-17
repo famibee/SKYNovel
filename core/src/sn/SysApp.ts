@@ -146,10 +146,22 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 	}
 	// 全画面状態切替
 	protected readonly	tgl_full_scr = (hArg: HArg)=> {
-		if (hArg.key) return false;
-			// アプリ版は[toggle_full_screen key=w]でなにもしないように。
-		let cl = 0;
-		let ct = 0;
+		if (! hArg.key) {this.tgl_full_scr_sub(); return false;}
+
+		const key = hArg.key.toLowerCase();
+		document.addEventListener('keydown', (e: KeyboardEvent)=> {
+			const key2 = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
+			+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
+			+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
+			+	e.key.toLowerCase();
+			if (key2 != key) return;
+
+			e.stopPropagation();
+			this.tgl_full_scr_sub();
+		});
+		return false;
+	}
+	protected readonly	tgl_full_scr_sub = ()=> {
 		if (this.win.isSimpleFullScreen()) {
 			this.win.setSimpleFullScreen(false);	// これはこの位置
 			this.win.setSize(CmnLib.stageW, CmnLib.stageH);
@@ -181,24 +193,8 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 
 			const cr = this.appPixi.view.getBoundingClientRect();
 			this.reso4frame = cr.width / CmnLib.stageW;
-			cl = cr.left;
-			ct = cr.top;
 		}
-
-		// 既存のiframeのサイズと表示位置を調整
-		for (const it of document.getElementsByTagName('iframe')) {
-			const frmnm = `const.sn.frm.${it.id}`;
-			it.style.left = cl + Number(this.val.getVal(`tmp:${frmnm}.x`))
-				*this.reso4frame +'px';
-			it.style.top  = ct + Number(this.val.getVal(`tmp:${frmnm}.y`))
-				*this.reso4frame +'px';
-			it.width  = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
-				*this.reso4frame);
-			it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
-				*this.reso4frame);
-		}
-
-		return false;
+		this.resizeFrames();
 	}
 	// 更新チェック
 	protected readonly	update_check = (hArg: HArg)=> {

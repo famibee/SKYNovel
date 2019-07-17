@@ -19,7 +19,9 @@ export declare class SysWeb extends SysBase {
     flush(): void;
     protected readonly navigate_to: (hArg: HArg) => boolean;
     protected readonly title: (hArg: HArg) => boolean;
+    private readonly isFullScr;
     private regEvt_FullScr;
+    private resizeFramesWork;
     readonly readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
     readonly savePic: (fn: string, data_url: string) => void;
 }

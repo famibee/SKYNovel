@@ -107,4 +107,25 @@ export class SysBase implements ISysBase {
 
 	readonly	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException)=> void)=> {};
 
+	// 既存のiframeのサイズと表示位置を調整
+	ofsLeft4frm	= 0;
+	ofsTop4frm	= 0;
+	protected	resizeFrames() {
+		const cr = this.appPixi.view.getBoundingClientRect();
+		Array.prototype.slice.call(document.getElementsByTagName('iframe'))
+		.forEach((it: HTMLIFrameElement)=> {
+			const frmnm = `const.sn.frm.${it.id}`;
+			it.style.left = this.ofsLeft4frm +cr.left
+				+ Number(this.val.getVal(`tmp:${frmnm}.x`)) *this.reso4frame
+				+'px';
+			it.style.top  = this.ofsTop4frm +cr.top
+				+ Number(this.val.getVal(`tmp:${frmnm}.y`)) *this.reso4frame
+				+'px';
+			it.width  = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
+				*this.reso4frame);
+			it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
+				*this.reso4frame);
+		});
+	}
+
 }

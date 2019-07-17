@@ -51,4 +51,7 @@ export declare class SysBase implements ISysBase {
     readonly writeFile: (_file: string | number | Buffer, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     readonly savePic: (_fn: string, _data_url: string) => void;
     readonly appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
+    ofsLeft4frm: number;
+    ofsTop4frm: number;
+    protected resizeFrames(): void;
 }

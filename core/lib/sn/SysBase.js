@@ -23,6 +23,8 @@ class SysBase {
         this.writeFile = (_file, _data, _callback) => { };
         this.savePic = (_fn, _data_url) => { };
         this.appendFile = (_path, _data, _callback) => { };
+        this.ofsLeft4frm = 0;
+        this.ofsTop4frm = 0;
         const fncPre = hPlg['snsys_pre'];
         if (fncPre)
             fncPre.init({
@@ -75,6 +77,23 @@ class SysBase {
     }
     get path_desktop() { return this.$path_desktop; }
     get path_userdata() { return this.$path_userdata; }
+    resizeFrames() {
+        const cr = this.appPixi.view.getBoundingClientRect();
+        Array.prototype.slice.call(document.getElementsByTagName('iframe'))
+            .forEach((it) => {
+            const frmnm = `const.sn.frm.${it.id}`;
+            it.style.left = this.ofsLeft4frm + cr.left
+                + Number(this.val.getVal(`tmp:${frmnm}.x`)) * this.reso4frame
+                + 'px';
+            it.style.top = this.ofsTop4frm + cr.top
+                + Number(this.val.getVal(`tmp:${frmnm}.y`)) * this.reso4frame
+                + 'px';
+            it.width = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
+                * this.reso4frame);
+            it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
+                * this.reso4frame);
+        });
+    }
 }
 exports.SysBase = SysBase;
 //# sourceMappingURL=SysBase.js.map
