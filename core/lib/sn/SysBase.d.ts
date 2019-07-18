@@ -42,6 +42,8 @@ export declare class SysBase implements ISysBase {
     protected readonly update_check: ITag;
     protected readonly window: ITag;
     pre: (_ext: string, data: string) => string;
+    protected enc: (data: string) => string;
+    protected stk: () => string;
     protected readonly isApp: () => boolean;
     protected $path_desktop: string;
     readonly path_desktop: string;

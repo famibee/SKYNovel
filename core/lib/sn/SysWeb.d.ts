@@ -16,6 +16,7 @@ export declare class SysWeb extends SysBase {
     private ns;
     private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
+    private flushSub;
     flush(): void;
     protected readonly navigate_to: (hArg: HArg) => boolean;
     protected readonly title: (hArg: HArg) => boolean;

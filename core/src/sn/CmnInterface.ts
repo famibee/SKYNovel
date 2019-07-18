@@ -143,6 +143,8 @@ export interface IPluginInitArg {
 	resume(fnc?: ()=> void): void;
 	render(dsp: PIXI.DisplayObject, renTx?: PIXI.RenderTexture, clear?: boolean): void;
 	setPre(fnc: (ext: string, data: string)=> string): void;
+	setEnc(fnc: (data: string)=> string): void;
+	getStK(fnc: ()=> string): void;
 }
 export interface IPlugin {
 	init(plgArg: IPluginInitArg): boolean;

@@ -16,6 +16,8 @@ class SysBase {
         this.update_check = () => false;
         this.window = () => false;
         this.pre = (_ext, data) => data;
+        this.enc = (data) => data;
+        this.stk = () => '';
         this.isApp = () => false;
         this.$path_desktop = '';
         this.$path_userdata = '';
@@ -35,6 +37,8 @@ class SysBase {
                 resume: () => { },
                 render: () => { },
                 setPre: fnc => this.pre = fnc,
+                setEnc: fnc => this.enc = fnc,
+                getStK: fnc => this.stk = fnc,
             });
     }
     get cur() { return this.arg.cur; }
@@ -65,6 +69,8 @@ class SysBase {
                 resume: () => main.resume(),
                 render: (dsp, renTx, clear = false) => this.appPixi.renderer.render(dsp, renTx, clear),
                 setPre: fnc => this.pre = fnc,
+                setEnc: fnc => this.enc = fnc,
+                getStK: fnc => this.stk = fnc,
             });
         }
         hTag.close = o => this.close(o);

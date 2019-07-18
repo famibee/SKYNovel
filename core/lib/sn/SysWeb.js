@@ -24,6 +24,7 @@ class SysWeb extends SysBase_1.SysBase {
         };
         this.now_prj = ':';
         this.ns = '';
+        this.flushSub = () => { };
         this.navigate_to = (hArg) => {
             const url = hArg.url;
             if (!url)
@@ -108,7 +109,24 @@ class SysWeb extends SysBase_1.SysBase {
                         h[ext] = this.arg.cur + h[ext];
             }
             this.ns = cfg.getNs();
-            this.sys = strLocal.get(this.ns + 'sys');
+            if (this.crypt) {
+                if (this.sys)
+                    this.sys = JSON.parse(this.pre('_', strLocal.get(this.ns + 'sys_')));
+                this.flushSub = () => {
+                    strLocal.set(this.ns + 'sys_', String(this.enc(JSON.stringify(this.data.sys))));
+                    strLocal.set(this.ns + 'mark_', String(this.enc(JSON.stringify(this.data.mark))));
+                    strLocal.set(this.ns + 'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+                };
+            }
+            else {
+                if (this.sys)
+                    this.sys = strLocal.get(this.ns + 'sys');
+                this.flushSub = () => {
+                    strLocal.set(this.ns + 'sys', this.data.sys);
+                    strLocal.set(this.ns + 'mark', this.data.mark);
+                    strLocal.set(this.ns + 'kidoku', this.data.kidoku);
+                };
+            }
             fncLoaded();
         })();
     }
@@ -123,19 +141,21 @@ class SysWeb extends SysBase_1.SysBase {
         else {
             hTmp['const.sn.isFirstBoot'] = false;
             this.data.sys = this.sys;
-            this.data.mark = strLocal.get(this.ns + 'mark');
-            this.data.kidoku = strLocal.get(this.ns + 'kidoku');
+            if (this.crypt) {
+                this.data.mark = JSON.parse(this.pre('_', strLocal.get(this.ns + 'mark_')));
+                this.data.kidoku = JSON.parse(this.pre('_', strLocal.get(this.ns + 'kidoku_')));
+            }
+            else {
+                this.data.mark = strLocal.get(this.ns + 'mark');
+                this.data.kidoku = strLocal.get(this.ns + 'kidoku');
+            }
         }
         comp(this.data);
         const hn = document.location.hostname;
         hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
         this.val.defTmp('const.sn.displayState', () => this.isFullScr());
     }
-    flush() {
-        strLocal.set(this.ns + 'sys', this.data.sys);
-        strLocal.set(this.ns + 'mark', this.data.mark);
-        strLocal.set(this.ns + 'kidoku', this.data.kidoku);
-    }
+    flush() { this.flushSub(); }
     regEvt_FullScr(hArg, go_fnc_name, exit_fnc_name, get_fnc_name) {
         const elm = document.body;
         const doc = document;

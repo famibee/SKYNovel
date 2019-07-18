@@ -11,7 +11,7 @@ class SysApp extends SysNode_1.SysNode {
         this.$path_desktop = remote.app.getPath('desktop').replace(/\\/g, '/') + '/';
         this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
-        this.store = new Store({ cwd: 'storage', name: 'data' });
+        this.store = new Store({ cwd: 'storage', name: 'data' + this.crypt_ });
         this.isMovingWin = false;
         this.posMovingWin = [0, 0];
         this.dsp = remote.screen.getPrimaryDisplay();
@@ -125,6 +125,8 @@ class SysApp extends SysNode_1.SysNode {
         });
     }
     initVal(data, hTmp, comp) {
+        if (this.crypt)
+            this.store.encryptionKey = this.stk();
         if (this.store.size == 0) {
             hTmp['const.sn.isFirstBoot'] = true;
             this.data.sys = data['sys'];

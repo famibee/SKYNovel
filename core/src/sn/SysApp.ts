@@ -28,9 +28,9 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 
 	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
-	private readonly	store = new Store({cwd: 'storage', name: 'data'});
+	private readonly	store = new Store({cwd: 'storage', name: 'data'+ this.crypt_});
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		// TODO: 暗号化 this.store.encryptionKey
+		if (this.crypt) this.store.encryptionKey = this.stk();
 		if (this.store.size == 0) {
 			// データがないときの処理
 			hTmp['const.sn.isFirstBoot'] = true;

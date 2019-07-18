@@ -24,7 +24,9 @@ export class SysBase implements ISysBase {
 			resume: ()=> {},
 			render: ()=> {},
 			setPre: fnc=> this.pre = fnc,
-		});
+			setEnc: fnc=> this.enc = fnc,
+			getStK: fnc=> this.stk = fnc,
+	});
 	}
 	get cur() {return this.arg.cur}
 	get crypt() {return this.arg.crypt}
@@ -63,6 +65,8 @@ export class SysBase implements ISysBase {
 				resume: ()=> main.resume(),
 				render: (dsp: DisplayObject, renTx: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
 				setPre: fnc=> this.pre = fnc,
+				setEnc: fnc=> this.enc = fnc,
+				getStK: fnc=> this.stk = fnc,
 			});
 		}
 
@@ -92,6 +96,8 @@ export class SysBase implements ISysBase {
 	protected readonly	window			: ITag = ()=> false;
 
 	pre = (_ext: string, data: string)=> data;
+	protected enc = (data: string)=> data;
+	protected stk = ()=> '';
 
 	protected readonly	isApp = ()=> false;
 	protected $path_desktop	= '';

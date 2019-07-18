@@ -94,10 +94,24 @@ export class SysWeb extends SysBase {
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext];
 			}
 
-			//strLocal.clearAll();
 			// NOTE: サーバ非同期データならここで解決
 			this.ns = cfg.getNs();
-			this.sys = strLocal.get(this.ns +'sys');
+			if (this.crypt) {
+				if (this.sys) this.sys = JSON.parse(this.pre('_', strLocal.get(this.ns +'sys_')));
+				this.flushSub = ()=> {
+					strLocal.set(this.ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
+					strLocal.set(this.ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
+					strLocal.set(this.ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+				};
+			}
+			else {
+				if (this.sys) this.sys = strLocal.get(this.ns +'sys');
+				this.flushSub = ()=> {
+					strLocal.set(this.ns +'sys', this.data.sys);
+					strLocal.set(this.ns +'mark', this.data.mark);
+					strLocal.set(this.ns +'kidoku', this.data.kidoku);
+				};
+			}
 
 			fncLoaded();
 		})();
@@ -115,8 +129,14 @@ export class SysWeb extends SysBase {
 		else {
 			hTmp['const.sn.isFirstBoot'] = false;
 			this.data.sys = this.sys;
-			this.data.mark = strLocal.get(this.ns +'mark');
-			this.data.kidoku = strLocal.get(this.ns +'kidoku');
+			if (this.crypt) {
+				this.data.mark = JSON.parse(this.pre('_', strLocal.get(this.ns +'mark_')));
+				this.data.kidoku = JSON.parse(this.pre('_', strLocal.get(this.ns +'kidoku_')));
+			}
+			else {
+				this.data.mark = strLocal.get(this.ns +'mark');
+				this.data.kidoku = strLocal.get(this.ns +'kidoku');
+			}
 		}
 		comp(this.data);
 
@@ -126,12 +146,8 @@ export class SysWeb extends SysBase {
 
 		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
 	}
-	flush() {
-		strLocal.set(this.ns +'sys', this.data.sys);
-		strLocal.set(this.ns +'mark', this.data.mark);
-		strLocal.set(this.ns +'kidoku', this.data.kidoku);
-		// TODO: 暗号化
-	}
+	private	flushSub = ()=> {};
+	flush() {this.flushSub();}
 
 	// ＵＲＬを開く
 	protected readonly	navigate_to = (hArg: HArg)=> {
