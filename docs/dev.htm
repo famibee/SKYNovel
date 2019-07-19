@@ -152,6 +152,8 @@
 		<li class="mb1"><a href="#reserve_value_tmp">組み込み変数・定数(tmp:)</a></li>
 		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
+		<li class="mb1"><a href="#crypt">素材や・変数データを暗号化</a></li>
+		<li class="mb1"><a href="#save_path">セーブデータの保存場所</a></li>
 	</ul>
 </aside>
 
@@ -541,11 +543,12 @@
 
 	　ブラウザ版では、デベロッパーツール（ChromeやSafariの機能）を開いて【Application】-【Local Storage】から、システム変数(sys:)などの内容が見えます。<br>
 	※直接値の変更・クリアができます。jsonで記入して下さい。<br>
-	※暗号化ON/OFFも予定しています。<br>
+	※暗号化もします。<br>
 	<amp-img src="pic/val_debug0.png" width="934" height="602" layout="responsive"></amp-img>
 
-	　またプロジェクトファイル（prj.json）の【debug】-【variable】を true にすると、
-	<amp-img src="pic/val_debug1.png" width="612" height="868" layout="responsive"></amp-img>
+	　またプロジェクトファイル（prj.json）を右クリック-【SKYNovel GUIで編集する】から【variable】にチェックすると、
+	<amp-img src="pic/val_debug1a.png" width="568" height="514" layout="responsive"></amp-img>
+	<amp-img src="pic/val_debug1b.png" width="515" height="275" layout="responsive"></amp-img>
 	全ての変数が可視化されます。（Session Storageのほうに表示される）<br>
 	※こちらは値の変更をサポートしていません。[s][l]などの停止時に出力するだけです。<br>
 	※暗号化ON/OFFも予定しています。<br>
@@ -732,6 +735,57 @@ constでない変数は、設定するとその値がシステムに反映され
 	</p>
 
 	<br>
+
+
+</p>
+<h2 id="crypt" class="w-heading">素材や・変数データを暗号化</h2>
+<h4>暗号化機能について解説していきます。</h4>
+<p class="mb2 px1">
+	<h4>1.暗号化する</h4>
+	<p class="mb2 px1">
+		※<a href="https://marketplace.visualstudio.com/items?itemName=famibee.skynovel" target="_blank" rel="noopener">VSCode用拡張機能 SKYNovel</a> の【開発ツール】の【暗号化】がその機能です。<br>
+		<amp-img src="pic/crypt0.png" width="500" height="360" layout="responsive"></amp-img>
+		<br>
+		「暗号化」の「しない」を「する」に変更すると、暗号化します。<br>
+		<amp-img src="pic/crypt1.png" width="500" height="128" layout="responsive"></amp-img>
+	</p>
+	<h4>2.「snスクリプト」「path_json」「prj_json」などの様子</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/crypt2.jpg" width="500" height="1688" layout="responsive"></amp-img>
+	</p>
+	<h4>3.セーブデータ、ブラウザ版はこの通り。「sys_」とかです。</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/crypt3.png" width="1500" height="668" layout="responsive"></amp-img>
+	</p>
+	<h4>4.セーブデータ、アプリ版はこの通り。</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/crypt4.png" width="1456" height="950" layout="responsive"></amp-img>
+		　暗号化データは「data_.json」です。<br>
+		　暗号化アプリリリース時は「data.json」は作らず、暗号化データのみで動作します。<br>
+	</p>
+
+	<br>
+
+
+</p>
+<h2 id="save_path" class="w-heading">セーブデータの保存場所</h2>
+<h4>暗号化機能について解説していきます。</h4>
+<p class="mb2 px1">
+	<h4>1.Macの場合は下記のPathにファイルが保存されます。</h4>
+	<p class="mb2 px1">
+		/Users/&lt;ユーザー名&gt;/Library/Application Support/&lt;アプリ名&gt;/storage/data.json
+	</p>
+	<h4>2.Windowsの場合は下記のPathにファイルが保存されます</h4>
+	<p class="mb2 px1">
+		C:\Users\&lt;ユーザー名&gt;\AppData\Roaming\&lt;アプリ名&gt;\storage\data.json
+	</p>
+	<h4>3.Linuxの場合は下記のPathにファイルが保存されます</h4>
+	<p class="mb2 px1">
+		~/.config/&lt;アプリ名&gt;/storage/data.json
+	</p>
+
+	<br>
+
 
 </p>
 
