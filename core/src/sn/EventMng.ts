@@ -207,6 +207,7 @@ export class EventMng implements IEvtMng {
 	private isStop = false;
 
 	popLocalEvts(): IHEvt2Fnc {
+		if (this.isStop) return {};	// [tsy]などのonComplete()から呼ばれた際の対応
 		const ret = this.hLocalEvt2Fnc;
 		this.hLocalEvt2Fnc = {};
 		return ret;

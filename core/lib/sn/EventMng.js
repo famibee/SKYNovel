@@ -167,6 +167,8 @@ class EventMng {
         ke(e);
     }
     popLocalEvts() {
+        if (this.isStop)
+            return {};
         const ret = this.hLocalEvt2Fnc;
         this.hLocalEvt2Fnc = {};
         return ret;
