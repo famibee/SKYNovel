@@ -109,29 +109,22 @@ class SysWeb extends SysBase_1.SysBase {
                         h[ext] = this.arg.cur + h[ext];
             }
             this.ns = cfg.getNs();
-            if (this.crypt) {
-                if (this.sys)
-                    this.sys = JSON.parse(this.pre('_', strLocal.get(this.ns + 'sys_')));
-                this.flushSub = () => {
-                    strLocal.set(this.ns + 'sys_', String(this.enc(JSON.stringify(this.data.sys))));
-                    strLocal.set(this.ns + 'mark_', String(this.enc(JSON.stringify(this.data.mark))));
-                    strLocal.set(this.ns + 'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
-                };
-            }
-            else {
-                if (this.sys)
-                    this.sys = strLocal.get(this.ns + 'sys');
-                this.flushSub = () => {
-                    strLocal.set(this.ns + 'sys', this.data.sys);
-                    strLocal.set(this.ns + 'mark', this.data.mark);
-                    strLocal.set(this.ns + 'kidoku', this.data.kidoku);
-                };
-            }
             fncLoaded();
         })();
     }
     initVal(data, hTmp, comp) {
-        if (this.sys == undefined) {
+        this.flushSub = this.crypt
+            ? () => {
+                strLocal.set(this.ns + 'sys_', String(this.enc(JSON.stringify(this.data.sys))));
+                strLocal.set(this.ns + 'mark_', String(this.enc(JSON.stringify(this.data.mark))));
+                strLocal.set(this.ns + 'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+            }
+            : () => {
+                strLocal.set(this.ns + 'sys', this.data.sys);
+                strLocal.set(this.ns + 'mark', this.data.mark);
+                strLocal.set(this.ns + 'kidoku', this.data.kidoku);
+            };
+        if (strLocal.get(this.ns + 'sys' + this.crypt_) == undefined) {
             hTmp['const.sn.isFirstBoot'] = true;
             this.data.sys = data['sys'];
             this.data.mark = data['mark'];
@@ -140,12 +133,13 @@ class SysWeb extends SysBase_1.SysBase {
         }
         else {
             hTmp['const.sn.isFirstBoot'] = false;
-            this.data.sys = this.sys;
             if (this.crypt) {
+                this.data.sys = JSON.parse(this.pre('_', strLocal.get(this.ns + 'sys_')));
                 this.data.mark = JSON.parse(this.pre('_', strLocal.get(this.ns + 'mark_')));
                 this.data.kidoku = JSON.parse(this.pre('_', strLocal.get(this.ns + 'kidoku_')));
             }
             else {
+                this.data.sys = strLocal.get(this.ns + 'sys');
                 this.data.mark = strLocal.get(this.ns + 'mark');
                 this.data.kidoku = strLocal.get(this.ns + 'kidoku');
             }

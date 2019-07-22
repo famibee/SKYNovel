@@ -336,8 +336,7 @@ class Variable {
         return false;
     }
     clearsysvar() {
-        const sys = this.hSys = this.hScope['sys'] = this.data.sys
-            = {};
+        const sys = this.hSys = this.hScope['sys'] = this.data.sys = {};
         const is_nw = (typeof process !== 'undefined');
         if (is_nw) {
         }
@@ -361,6 +360,8 @@ class Variable {
         for (const fn in this.data.kidoku)
             this.data.kidoku[fn].hAreas = {};
         this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 1);
+        this.hScope['mark'] = this.data.mark = {};
+        this.setVal_Nochk('sys', 'const.sn.save.place', 1);
         this.flush();
         return false;
     }

@@ -93,33 +93,24 @@ export class SysWeb extends SysBase {
 				const h = hPathFn2Exts[nm] = json[nm];
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext];
 			}
-
-			// NOTE: サーバ非同期データならここで解決
 			this.ns = cfg.getNs();
-			if (this.crypt) {
-				if (this.sys) this.sys = JSON.parse(this.pre('_', strLocal.get(this.ns +'sys_')));
-				this.flushSub = ()=> {
-					strLocal.set(this.ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
-					strLocal.set(this.ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
-					strLocal.set(this.ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
-				};
-			}
-			else {
-				if (this.sys) this.sys = strLocal.get(this.ns +'sys');
-				this.flushSub = ()=> {
-					strLocal.set(this.ns +'sys', this.data.sys);
-					strLocal.set(this.ns +'mark', this.data.mark);
-					strLocal.set(this.ns +'kidoku', this.data.kidoku);
-				};
-			}
-
-			fncLoaded();
+			fncLoaded();	// ここでnew Variable、clearsysvar()、次にinitVal()
 		})();
 	}
 	private ns	= '';
-	private sys: any;
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		if (this.sys == undefined) {
+		this.flushSub = this.crypt
+		? ()=> {
+			strLocal.set(this.ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
+			strLocal.set(this.ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
+			strLocal.set(this.ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+		}
+		: ()=> {
+			strLocal.set(this.ns +'sys', this.data.sys);
+			strLocal.set(this.ns +'mark', this.data.mark);
+			strLocal.set(this.ns +'kidoku', this.data.kidoku);
+		};
+		if (strLocal.get(this.ns +'sys'+ this.crypt_) == undefined) {
 			hTmp['const.sn.isFirstBoot'] = true;
 			this.data.sys = data['sys'];
 			this.data.mark = data['mark'];
@@ -128,12 +119,13 @@ export class SysWeb extends SysBase {
 		}
 		else {
 			hTmp['const.sn.isFirstBoot'] = false;
-			this.data.sys = this.sys;
 			if (this.crypt) {
+				this.data.sys = JSON.parse(this.pre('_',strLocal.get(this.ns +'sys_')));
 				this.data.mark = JSON.parse(this.pre('_', strLocal.get(this.ns +'mark_')));
 				this.data.kidoku = JSON.parse(this.pre('_', strLocal.get(this.ns +'kidoku_')));
 			}
 			else {
+				this.data.sys = strLocal.get(this.ns +'sys');
 				this.data.mark = strLocal.get(this.ns +'mark');
 				this.data.kidoku = strLocal.get(this.ns +'kidoku');
 			}

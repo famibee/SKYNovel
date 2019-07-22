@@ -14,7 +14,6 @@ export declare class SysWeb extends SysBase {
     private main;
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
     private ns;
-    private sys;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     private flushSub;
     flush(): void;

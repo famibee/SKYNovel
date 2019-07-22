@@ -1,3 +1,6 @@
+## v0.6.2
+- add：次のセーブplaceを示す変数 sys:const.sn.save.place 追加
+- bug：ブラウザ版、sysなど保存した値が再起動で戻る件
 ## v0.6.1
 - bug：[tsy][playse][fadese][tsy_frame]中に[l][p]などでクリック待ちすると、先に進まなくなる不具合
 ## v0.6.0

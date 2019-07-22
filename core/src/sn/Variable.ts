@@ -62,7 +62,6 @@ export class Variable implements IVariable {
 		});
 
 		// tmp:
-		/// この辺でsys:ロード処理か
 		this.hTmp['const.sn.isFirstBoot'] = true;
 
 		this.hTmp['sn.tagL.enabled'] = true;	// 頁末まで一気に読み進むか(l無視)
@@ -376,8 +375,7 @@ export class Variable implements IVariable {
 // デバッグ・その他
 	// システム変数の全消去
 	private clearsysvar() {
-		const sys = this.hSys = this.hScope['sys'] = this.data.sys
-			= {};
+		const sys = this.hSys = this.hScope['sys'] = this.data.sys = {};
 
 		const is_nw = (typeof process !== 'undefined');
 		if (is_nw) {
@@ -420,6 +418,12 @@ export class Variable implements IVariable {
 
 
 		this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 1);
+
+
+		this.hScope['mark'] = this.data.mark = {};
+		this.setVal_Nochk('sys', 'const.sn.save.place', 1);
+
+
 		this.flush();
 
 		return false;

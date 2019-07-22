@@ -1036,6 +1036,9 @@ export class ScriptIterator {
 		this.mark.json = hArg;
 		this.val.setMark(place, this.mark);
 
+		const now_sp = Number(this.val.getVal('sys:const.sn.save.place'));
+		if (place == now_sp) this.val.setVal_Nochk('sys', 'const.sn.save.place', now_sp +1);
+
 		return false;
 	}
 
