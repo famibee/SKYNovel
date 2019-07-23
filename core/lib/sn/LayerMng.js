@@ -215,7 +215,11 @@ void main(void) {
         return tl.click();
     }
     snapshot(hArg) {
-        const fn = 'desktop:/' + (hArg.fn || ('snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg'));
+        const fn = (hArg.fn)
+            ? ((hArg.fn.substr(0, 10) == 'userdata:/')
+                ? hArg.fn
+                : 'desktop:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg')
+            : 'desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg';
         const ext = CmnLib_1.CmnLib.getExt(fn);
         const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
         const renderer = new pixi_js_1.Renderer({

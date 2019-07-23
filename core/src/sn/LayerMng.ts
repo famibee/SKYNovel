@@ -222,7 +222,11 @@ export class LayerMng {
 //	//	システム
 	// スナップショット
 	private snapshot(hArg: HArg) {
-		const fn = 'desktop:/'+ (hArg.fn || ('snapshot'+ getDateStr('-', '_', '', '_') +'.jpg'));
+		const fn = (hArg.fn)
+			? ((hArg.fn.substr(0, 10) == 'userdata:/')
+				? hArg.fn
+				: 'desktop:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.jpg')
+			: 'desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg';
 		const ext = CmnLib.getExt(fn);
 		const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
 		const renderer = new Renderer({
