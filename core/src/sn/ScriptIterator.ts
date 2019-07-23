@@ -1030,9 +1030,10 @@ export class ScriptIterator {
 	private save(hArg: HArg) {
 		const place = hArg.place;
 		if (! place) throw 'placeは必須です';
+
 		delete hArg.タグ名;
 		delete hArg.place;
-
+		hArg.txt = (hArg.txt || '').replace(/^(<br\/>)+/, '');
 		this.mark.json = hArg;
 		this.val.setMark(place, this.mark);
 

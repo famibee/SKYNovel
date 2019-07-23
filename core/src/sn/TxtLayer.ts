@@ -22,10 +22,12 @@ export class TxtLayer extends Layer {
 	private	static	cfg		: Config;
 	private	static	val		: IVariable;
 	private	static	glbStyle: HTMLStyleElement;
+	private	static	recText	: (txt: string)=> void;
 	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void): void {
 		TxtLayer.cfg = cfg;
-		TxtStage.init(cfg, recText);
+		TxtStage.init(cfg);
 		TxtLayer.val = val;
+		TxtLayer.recText = recText;
 
 		hTag.autowc			= o=> TxtLayer.autowc(o);	// 文字を追加する
 		const o: any = {enabled: 'false', text: '', time: ''};
@@ -256,6 +258,7 @@ export class TxtLayer extends Layer {
 				else {
 					add_htm = '<br/>';
 				}
+				this.recText('<br/>');
 				break;
 			}
 			if (this.firstCh) {		// １文字目にルビが無い場合は見えないルビで、行揃え
@@ -267,6 +270,7 @@ export class TxtLayer extends Layer {
 				if (w) text = `<span data-add="{'wait':${w}}">${text}</span>`;
 			}
 			add_htm = (ruby) ?`<ruby>${text}<rt>${ruby}</rt></ruby>` :text;
+			this.recText(text);
 			break;
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
@@ -342,6 +346,7 @@ export class TxtLayer extends Layer {
 					if (w) text = `<span data-add="{'wait':${w}}">${text}</span>`;
 				}
 				add_htm = `<ruby>${text}<rt>${ruby}</rt></ruby>`;
+				this.recText(text);
 			}
 			break;
 
@@ -394,12 +399,21 @@ export class TxtLayer extends Layer {
 
 	readonly click = ()=> this.txs.skipFI();	// true is stay
 
+	private	log = '';
+	private	recText(text: string) {
+		if (! TxtLayer.val.getVal('save:sn.doRecLog')) return;
+
+		this.log = this.log + text;
+		TxtLayer.recText(this.log);
+	}
+
 	clearText(): void {
 		this.txs = this.txs.passBaton();
 
 		this.aSpan = [];
 		this.aSpan_bk = null;
 		this.firstCh = true;
+		this.log = '';
 	}
 
 	get enabled() {return this.cntBtn.interactiveChildren;}

@@ -54,6 +54,7 @@ class TxtLayer extends Layer_1.Layer {
                         else {
                             add_htm = '<br/>';
                         }
+                        this.recText('<br/>');
                         break;
                     }
                     if (this.firstCh) {
@@ -67,6 +68,7 @@ class TxtLayer extends Layer_1.Layer {
                             text = `<span data-add="{'wait':${w}}">${text}</span>`;
                     }
                     add_htm = (ruby) ? `<ruby>${text}<rt>${ruby}</rt></ruby>` : text;
+                    this.recText(text);
                     break;
                 case 2:
                     switch (a_ruby[0]) {
@@ -132,6 +134,7 @@ class TxtLayer extends Layer_1.Layer {
                                     text = `<span data-add="{'wait':${w}}">${text}</span>`;
                             }
                             add_htm = `<ruby>${text}<rt>${ruby}</rt></ruby>`;
+                            this.recText(text);
                     }
                     break;
                 case 3:
@@ -168,6 +171,7 @@ class TxtLayer extends Layer_1.Layer {
         this.aSpan = [];
         this.aSpan_bk = null;
         this.click = () => this.txs.skipFI();
+        this.log = '';
         this.record = () => Object.assign(super.record(), {
             enabled: this.enabled,
             b_do: (this.b_do == null)
@@ -191,8 +195,9 @@ class TxtLayer extends Layer_1.Layer {
     }
     static init(cfg, hTag, val, recText) {
         TxtLayer.cfg = cfg;
-        TxtStage_1.TxtStage.init(cfg, recText);
+        TxtStage_1.TxtStage.init(cfg);
         TxtLayer.val = val;
+        TxtLayer.recText = recText;
         hTag.autowc = o => TxtLayer.autowc(o);
         const o = { enabled: 'false', text: '', time: '' };
         hTag.autowc(o);
@@ -337,11 +342,18 @@ class TxtLayer extends Layer_1.Layer {
         this.aSpan = Array.prototype.concat.apply([], this.aSpan_bk);
         this.aSpan_bk = null;
     }
+    recText(text) {
+        if (!TxtLayer.val.getVal('save:sn.doRecLog'))
+            return;
+        this.log = this.log + text;
+        TxtLayer.recText(this.log);
+    }
     clearText() {
         this.txs = this.txs.passBaton();
         this.aSpan = [];
         this.aSpan_bk = null;
         this.firstCh = true;
+        this.log = '';
     }
     get enabled() { return this.cntBtn.interactiveChildren; }
     set enabled(v) { this.cntBtn.interactiveChildren = v; }

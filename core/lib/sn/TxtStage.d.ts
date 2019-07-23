@@ -14,8 +14,7 @@ export interface IInfTxLay {
 export declare class TxtStage extends Container {
     private infTL;
     private static cfg;
-    private static recText;
-    static init(cfg: Config, recText: (txt: string) => void): void;
+    static init(cfg: Config): void;
     private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
     private htmTxt;

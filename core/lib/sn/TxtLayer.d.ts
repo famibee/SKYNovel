@@ -7,6 +7,7 @@ export declare class TxtLayer extends Layer {
     private static cfg;
     private static val;
     private static glbStyle;
+    private static recText;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void): void;
     private static main;
     private static evtMng;
@@ -37,6 +38,8 @@ export declare class TxtLayer extends Layer {
     private aSpan_bk;
     private autoCloseSpan;
     readonly click: () => boolean;
+    private log;
+    private recText;
     clearText(): void;
     enabled: boolean;
     addButton(hArg: HArg): boolean;

@@ -219,7 +219,7 @@ void main(void) {
             ? ((hArg.fn.substr(0, 10) == 'userdata:/')
                 ? hArg.fn
                 : ('desktop:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg'))
-            : 'desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg';
+            : ('desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg');
         const ext = CmnLib_1.CmnLib.getExt(fn);
         const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
         const renderer = new pixi_js_1.Renderer({
@@ -674,7 +674,13 @@ void main(void) {
             : CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', -1);
         if (wait >= 0)
             this.cmdTxt(`add｜{'wait': ${wait}}`, tl);
+        const record = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'record', true);
+        const doRecLog = Boolean(this.val.getVal('save:sn.doRecLog'));
+        if (!record)
+            this.val.setVal_Nochk('save', 'sn.doRecLog', record);
         tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
+        if (!record)
+            this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
         if (wait >= 0)
             this.cmdTxt(`add_close｜`, tl);
         return false;

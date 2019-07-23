@@ -42,11 +42,9 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	private	static	cfg		: Config;
-	private	static	recText	: (txt: string)=> void;
-	static	init(cfg: Config, recText: (txt: string)=> void): void {
+	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
 
-		TxtStage.recText = recText;
 		TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
 			? ()=> true
 			: ()=> TxtStage.evtMng.isSkipKeyDown();
@@ -169,7 +167,6 @@ export class TxtStage extends Container {
 		// <br/>ではなく<p>〜</p>にする（ただし空では改行せず、全角空白一文字必要らしい）
 		this.aSpan = this.aSpan1to2;
 		let sJoinSpan = this.aSpan.join('');
-		TxtStage.recText(sJoinSpan);	// TODO: 正しくなさそう
 
 		// 「<br/>」分割を「<p ...></p>」囲みに変換
 		if (sJoinSpan.slice(-5) == '<br/>') sJoinSpan = sJoinSpan.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理

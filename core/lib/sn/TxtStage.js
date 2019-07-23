@@ -38,9 +38,8 @@ class TxtStage extends pixi_js_1.Container {
         cnt.addChild(this.grpDbgMasume);
         this.grpDbgMasume.name = 'grpDbgMasume';
     }
-    static init(cfg, recText) {
+    static init(cfg) {
         TxtStage.cfg = cfg;
-        TxtStage.recText = recText;
         TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
             ? () => true
             : () => TxtStage.evtMng.isSkipKeyDown();
@@ -115,7 +114,6 @@ class TxtStage extends pixi_js_1.Container {
     goTxt2_htm2tx() {
         this.aSpan = this.aSpan1to2;
         let sJoinSpan = this.aSpan.join('');
-        TxtStage.recText(sJoinSpan);
         if (sJoinSpan.slice(-5) == '<br/>')
             sJoinSpan = sJoinSpan.slice(0, -5) + `<p style='margin: 0px;'>　</p>`;
         const tmp = sJoinSpan.split('<br/>')

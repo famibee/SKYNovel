@@ -93,6 +93,7 @@ export interface HArg {
     from?: number;
     to?: number | string;
     place?: number;
+    txt?: string;
     buf?: string;
     buf2?: string;
     loop?: boolean;
