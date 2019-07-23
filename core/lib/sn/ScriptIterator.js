@@ -893,7 +893,7 @@ class ScriptIterator {
             throw 'placeは必須です';
         delete hArg.タグ名;
         delete hArg.place;
-        hArg.txt = (hArg.txt || '').replace(/^(<br\/>)+/, '');
+        hArg.text = (hArg.text || '').replace(/^(<br\/>)+/, '');
         this.mark.json = hArg;
         this.val.setMark(place, this.mark);
         const now_sp = Number(this.val.getVal('sys:const.sn.save.place'));
