@@ -97,7 +97,7 @@ export class EventMng implements IEvtMng {
 
 		appPixi.stage.interactive = true;
 		this.elc.add(appPixi.stage, this.enMDownTap, e=> {
-			this.defEvt2Fnc(e, e.data.button == 0 ?'click' :'rightclick')
+			if (e.data.button == 0) this.defEvt2Fnc(e, 'click')
 		});
 		this.elc.add(window, 'keydown', e=> this.ev_keydown(e));
 		this.elc.add(appPixi.view, 'contextmenu', e=> this.ev_contextmenu(e));
