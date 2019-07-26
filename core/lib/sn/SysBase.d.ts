@@ -20,7 +20,7 @@ export declare class SysBase implements ISysBase {
     });
     readonly cur: string;
     readonly crypt: boolean;
-    readonly crypt_: "_" | "";
+    readonly crypt_: "" | "_";
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     reso4frame: number;

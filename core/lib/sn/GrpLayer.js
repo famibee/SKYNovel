@@ -25,6 +25,7 @@ class GrpLayer extends Layer_1.Layer {
         GrpLayer.cfg = cfg;
         GrpLayer.sys = sys;
     }
+    static setEvtMng(evtMng) { GrpLayer.evtMng = evtMng; }
     static destroy() {
         GrpLayer.elc.clear();
         GrpLayer.hFace = {};
@@ -136,9 +137,31 @@ class GrpLayer extends Layer_1.Layer {
                 GrpLayer.hFn2ResAniSpr[r.name] = { aTex: aTex, meta: r.data.meta };
                 return GrpLayer.mkSprite(fn, res);
             case 5:
+                const hve = r.data;
+                GrpLayer.fn2Video[fn] = hve;
                 return new pixi_js_1.Sprite(pixi_js_1.Texture.from(r.data));
             default: return new pixi_js_1.Sprite(r.texture);
         }
+    }
+    static wv(hArg) {
+        const fn = hArg.fn;
+        if (!fn)
+            throw 'fnは必須です';
+        const hve = GrpLayer.fn2Video[fn];
+        if (!hve)
+            return false;
+        if (hve.ended) {
+            delete GrpLayer.fn2Video[fn];
+            return false;
+        }
+        const fnc = () => {
+            hve.removeEventListener('ended', fnc);
+            delete GrpLayer.fn2Video[fn];
+            this.main.resume();
+        };
+        hve.addEventListener('ended', fnc);
+        GrpLayer.evtMng.stdWait(() => { hve.pause(); fnc(); }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true));
+        return true;
     }
     static ldPic(fn, fnc) {
         const url = GrpLayer.cfg.searchPath(fn, Config_1.Config.EXT_SPRITE);
@@ -200,5 +223,6 @@ GrpLayer.hFn2ResAniSpr = {};
 GrpLayer.fncDefAllComp = (isStop) => { if (isStop)
     GrpLayer.main.resume(); };
 GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
+GrpLayer.fn2Video = {};
 exports.GrpLayer = GrpLayer;
 //# sourceMappingURL=GrpLayer.js.map

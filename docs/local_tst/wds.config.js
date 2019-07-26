@@ -9,7 +9,7 @@ module.exports = {
 
 	devServer: {
 		contentBase: './docs',
-		port: 8082,
+		port: 8083,
 		openPage: 'tag.htm#development=1',
 		watchContentBase: true,
 		open: true

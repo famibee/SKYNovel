@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, int} from './CmnLib';
+import {CmnLib, int, IEvtMng} from './CmnLib';
 import {HArg, IMain} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
@@ -44,6 +44,8 @@ export class GrpLayer extends Layer {
 		GrpLayer.cfg = cfg;
 		GrpLayer.sys = sys;
 	}
+	private static	evtMng	: IEvtMng;
+	static	setEvtMng(evtMng: IEvtMng) {GrpLayer.evtMng = evtMng;}
 	static	destroy() {
 		GrpLayer.elc.clear();
 
@@ -177,13 +179,35 @@ export class GrpLayer extends Layer {
 				return GrpLayer.mkSprite(fn, res);
 
 			case 5:		// loaders.Resource.TYPE.VIDEO:
+				const hve = r.data as HTMLVideoElement;
+				GrpLayer.fn2Video[fn] = hve;
+				// NOTE: hve.loop = true;	[wv]でもループ時はスルーするように
 				return new Sprite(Texture.from(r.data));
-				//	const hve = vsp.texture.baseTexture.source as HTMLVideoElement;
-				//const hve = r.data as HTMLVideoElement;
-				//hve.loop = true;
 
 			default:	return new Sprite(r.texture);
 		}
+	}
+	static fn2Video	: {[name: string]: HTMLVideoElement} = {};
+	static wv(hArg: HArg) {
+		// 動画ファイル名指定でいいかなと。だって、「ループ」「それは再生しつつ」
+		// 同じファイル名の別の動画の再生は待ちたい、なんて状況は普通は無いだろうと
+		const fn = hArg.fn;
+		if (! fn) throw 'fnは必須です';
+		const hve = GrpLayer.fn2Video[fn];
+		if (! hve) return false;
+		if (hve.ended) {delete GrpLayer.fn2Video[fn]; return false;}
+		const fnc = ()=> {
+			hve.removeEventListener('ended', fnc);
+			delete GrpLayer.fn2Video[fn];
+			this.main.resume();
+		};
+		hve.addEventListener('ended', fnc);
+
+		GrpLayer.evtMng.stdWait(
+			()=> {hve.pause(); fnc();},
+			CmnLib.argChk_Boolean(hArg, 'canskip', true)
+		);	// stdWait()したらreturn true;
+		return true;
 	}
 
 	static ldPic(fn: string, fnc: (tx: Texture)=> void): void {

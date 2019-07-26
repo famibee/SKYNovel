@@ -125,6 +125,7 @@ void main(void) {
         hTag.span = o => this.span(o);
         hTag.tcy = o => this.tcy(o);
         hTag.add_face = o => GrpLayer_1.GrpLayer.add_face(o);
+        hTag.wv = o => GrpLayer_1.GrpLayer.wv(o);
         hTag.dump_lay = o => this.dump_lay(o);
         hTag.enable_event = o => this.enable_event(o);
         hTag.button = o => this.button(o);
@@ -179,7 +180,11 @@ void main(void) {
             this.stage.addChild(this.grpCover);
         }
     }
-    setEvtMng(evtMng) { this.evtMng = evtMng; this.frmMng.setEvtMng(evtMng); }
+    setEvtMng(evtMng) {
+        this.evtMng = evtMng;
+        this.frmMng.setEvtMng(evtMng);
+        GrpLayer_1.GrpLayer.setEvtMng(evtMng);
+    }
     before_destroy() { for (const pg in this.hPages)
         this.hPages[pg].destroy(); }
     destroy() {

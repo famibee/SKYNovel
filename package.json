@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.6.7",
+	"version": "0.6.8",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"types": "./core/lib/index.d.ts",
@@ -13,7 +13,7 @@
 		"fs-extra": "^8.1.0",
 		"hammerjs": "^2.0.8",
 		"howler": "^2.1.2",
-		"parsimmon": "^1.12.1",
+		"parsimmon": "^1.13.0",
 		"pixi-filters": "^3.0.3",
 		"pixi.js": "^5.0.4",
 		"platform": "^1.3.5",

@@ -91,7 +91,7 @@ export class LayerMng {
 		hTag.wa				= o=> this.wa(o);			// SWFアニメの停止待ち
 */
 		//	ムービーレイヤ
-	//	hTag.wv				= o=> this.wv(o);			// ムービー再生終了待ち
+		hTag.wv				= o=> GrpLayer.wv(o);		// ムービー再生終了待ち
 
 		//	デバッグ・その他
 		hTag.dump_lay		= o=> this.dump_lay(o);		// レイヤのダンプ
@@ -172,7 +172,11 @@ export class LayerMng {
 	}
 
 	private evtMng	: IEvtMng;
-	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng; this.frmMng.setEvtMng(evtMng)}
+	setEvtMng(evtMng: IEvtMng) {
+		this.evtMng = evtMng;
+		this.frmMng.setEvtMng(evtMng);
+		GrpLayer.setEvtMng(evtMng);
+	}
 
 	before_destroy() {for (const pg in this.hPages) this.hPages[pg].destroy();}
 	destroy() {

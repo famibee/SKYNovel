@@ -179,6 +179,7 @@
 	<p>画像・画像レイヤ</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#add_face">[add_face] 差分画像の追加</a></li>
+		<li class="mb1"><a href="#wv">[wv] 動画再生終了待ち</a></li>
 	</ul>
 	<p>HTMLフレーム</p>
 	<ul class="anchors list-reset m0 p0 px1">
@@ -726,7 +727,7 @@
 [event]などでイベントが登録されていても、イベント発生待ちを行わない。
 繰返し回数が0（無限ループ）の場合、何もせず終了する
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>layer</td><td rowspan="3">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr><tr class="y"><td>plugin</td><td></td><td>プラグイン名</td><td>処理対象のプラグイン</td></tr><tr><td>arrive</td><td>n</td><td>false</td><td>Boolean</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr><tr><td>backlay</td><td>n</td><td>false</td><td>Boolean</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scaleX, scaleY, width, x, y。<br/>（rotationX〜Z、scaleZ、zは設定すると三次元方向の拡大縮小ルーチンが働き画像がぼやけるのでbacklayで設定しない方針）</td></tr><tr><td>canskip</td><td>n</td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr><tr><td>arrive</td><td>n</td><td>false</td><td>Boolean</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr><tr><td>backlay</td><td>n</td><td>false</td><td>Boolean</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scaleX, scaleY, width, x, y。<br/>（rotationX〜Z、scaleZ、zは設定すると三次元方向の拡大縮小ルーチンが働き画像がぼやけるのでbacklayで設定しない方針）</td></tr><tr><td>canskip</td><td>n</td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
 
 </p>
 
@@ -1012,6 +1013,20 @@
 	[add_face name="a_10_10" fn="画像" dx=10 dy=10]<br/>
 	[add_face name="a_screen" fn="画像" dx=0 dy=0 blendmode="screen"]<br/>
 	とnameを変えることで登録できます。</p>
+
+</p>
+
+
+<h2 id="wv" class="w-heading">[wv]動画再生終了待ち</h2>
+<h4>[lay]で開始したムービー再生の終了を待つ</h4>
+<p class="mb2 px1">
+
+<p>何かしらの画像レイヤで再生している動画の終了を待つ</p>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>fn</td><td>y</td><td></td><td>動画ファイル名</td><td>再生終了を待つ動画</td></tr>
+<tr><td>canskip</td><td>n</td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+</table>
+
 
 </p>
 

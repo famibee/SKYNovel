@@ -1,4 +1,5 @@
 import { Layer } from './Layer';
+import { IEvtMng } from './CmnLib';
 import { HArg, IMain } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
@@ -19,6 +20,8 @@ export declare class GrpLayer extends Layer {
     private static cfg;
     private static sys;
     static init(main: IMain, cfg: Config, sys: SysBase): void;
+    private static evtMng;
+    static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
     private csvFn;
     private sBkFn;
@@ -31,6 +34,10 @@ export declare class GrpLayer extends Layer {
     private static fncAllComp;
     static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
     private static mkSprite;
+    static fn2Video: {
+        [name: string]: HTMLVideoElement;
+    };
+    static wv(hArg: HArg): boolean;
     static ldPic(fn: string, fnc: (tx: Texture) => void): void;
     setPos(hArg: HArg): void;
     static add_face(hArg: HArg): boolean;
