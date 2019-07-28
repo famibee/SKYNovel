@@ -1,3 +1,6 @@
+## v0.6.10
+- bug：ログ画面表示がundefinedになる件
+- chg：const.sn.sLogをconst.sn.log.jsonに変名
 ## v0.6.9
 - bug：[quake]終了時に内部バッファが 0,0 に戻らない件
 ## v0.6.8

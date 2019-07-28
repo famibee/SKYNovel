@@ -143,13 +143,13 @@ export class LayerMng {
 		fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button.fontFamily));
 		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
-		val.defTmp('const.sn.sLog', ()=> {
+		val.defTmp('const.sn.log.json', ()=> {
 			return JSON.stringify(
 				(String(this.val.getVal('save:const.sn.sLog') +'\f'+
 				String(this.val.getVal('tmp:const.sn.last_page_text')))
 				.replace(/^\f/g, '')
 				.split('\f')
-				.map(v=> {return {txt: v}})));
+				.map(v=> {return {text: v}})));
 		});
 	}
 	private fncTicker = ()=> TWEEN.update();
