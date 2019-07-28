@@ -676,6 +676,8 @@ void main(void) {
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			this.fore.visible = true;
 			this.spTransFore.visible = false;
+			this.spTransFore.x = 0;	// 必須、onUpdateのせいかtoの値にしてくれない
+			this.spTransFore.y = 0;
 			if (this.twInfTrans.resume) this.main.resume();
 			this.twInfTrans = {tw: null, resume: false};
 		};

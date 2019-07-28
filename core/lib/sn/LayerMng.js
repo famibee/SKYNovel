@@ -533,6 +533,8 @@ void main(void) {
                 this.appPixi.ticker.remove(fncRender);
             this.fore.visible = true;
             this.spTransFore.visible = false;
+            this.spTransFore.x = 0;
+            this.spTransFore.y = 0;
             if (this.twInfTrans.resume)
                 this.main.resume();
             this.twInfTrans = { tw: null, resume: false };
