@@ -417,7 +417,7 @@ export class Variable implements IVariable {
 		for (const fn in this.data.kidoku) this.data.kidoku[fn].hAreas = {};
 
 
-		this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 1);
+		this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 0.5);
 
 
 		this.hScope['mark'] = this.data.mark = {};

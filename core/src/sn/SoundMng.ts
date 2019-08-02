@@ -109,6 +109,9 @@ export class SoundMng {
 
 		if (CmnLib.argChk_Num(hArg, 'time', NaN) == 0) {
 			oSb.snd.volume(vol);
+			if (stop) {
+				if (buf == 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
+			}
 			return false;
 		}
 

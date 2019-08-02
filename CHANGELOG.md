@@ -1,3 +1,6 @@
+## v0.6.11
+- chg：バック不透明度をテンプレでは0.5初期化、[clearsysvar]では1の齟齬、0.5に統一
+- bug：[fadese(bgm)][fadeoutse(bgm)]でtime=0の際、stop指定が利かない件
 ## v0.6.10
 - bug：ログ画面表示がundefinedになる件
 - chg：const.sn.sLogをconst.sn.log.jsonに変名

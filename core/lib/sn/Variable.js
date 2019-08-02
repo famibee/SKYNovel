@@ -359,7 +359,7 @@ class Variable {
         this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);
         for (const fn in this.data.kidoku)
             this.data.kidoku[fn].hAreas = {};
-        this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 1);
+        this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 0.5);
         this.hScope['mark'] = this.data.mark = {};
         this.setVal_Nochk('sys', 'const.sn.save.place', 1);
         this.flush();
