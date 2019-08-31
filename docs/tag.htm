@@ -1128,58 +1128,57 @@
 <tr><td>frame</td><td></td><td>10</td><td>1〜</td><td>key=enter_frameの場合のみ有効。<br/>フレームイベントは毎秒何度も（[window]のframerate回）発生するが、 アプリ全体が重くなるので、適度に間引いてイベントを時々発生させるため、
 	フレーム何回に一回イベントを発生させるかを指定する。<br/>例）30フレームで動作するアプリでframe=15を指定すると、30/15=0.5秒に一回発生（タイミングにより厳密ではない）</td></tr>
 </table>
-<p>※1 イベントのキー名は以下のキーボードキー名かActionScriptイベント名のいずれか。
-	key属性の値 | コメント
-	-- | --
-	alternate | optionと同値。Winで言うALTキー。MacならOptionキー
-	backquote |
-	backslash |
-	backspace |
-	caps_lock |
-	command | Macにある、Winで言うCTRLキーのようなもの
-	control |
-	delete |
-	down | 矢印キーの下
-	end |
-	enter |
-	equal | 「=（イコール）」キーはMacにしか無い
-	escape |
-	home |
-	left | 矢印キーの左
+
+<p>※1 イベントのキー名は以下の表を参考に。</p>
+<p>
+	技術的の話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>を基本とする。<br/>
+	（keyCode（<a href="https://qiita.com/ledsun/items/fb2570cc1542039f4516" target="_blank" rel="noopener">非推奨</a>）・codeプロパティとは違うので注意）<br/>
+	<span style="color:ff0000;background-color:#FFCACA;">重要な点として、大文字小「key属性の値」は文字区別無し、どちらでもよい。</span><br/>
+	修飾キー（shiftなど）は、その前に追加していく。（追加順は決まっており、以下を参照。ABC順）<br/>
+</p>
+<table><tr><th>key属性の値</th><th>コメント</th></tr>
+<tr><td>Control</td><td>Mac/Winの Controlキー</td></tr>
+<tr><td>Alt</td><td>Macの Optionキー。Winの ALT（Option）キー</td></tr>
+<tr><td>Meta</td><td>Mac/Winの Commandキー</td></tr>
+<tr><td>Backspace</td><td></td></tr>
+<tr><td>Enter</td><td>Macの Enterキー、Winの returnキー</td></tr>
+<tr><td>=</td><td>※注：イコールキーはMacキーボードにしか無い</td></tr>
+<tr><td>A</td><td>Aキー</td></tr>
+<tr><td>alt+A</td><td>Altキーと Aキーを同時押し</td></tr>
+<tr><td>ctrl+A</td><td>Controlキーと Aキーを同時押し</td></tr>
+<tr><td>shift+A</td><td>Shiftキーと Aキーを同時押し</td></tr>
+<tr><td>alt+ctrl+A</td><td>Altキーと Controlキーと Aキーを同時押し</td></tr>
+<tr><td>ctrl+shift+A</td><td>Controlキーと Shiftキーと Aキーを同時押し</td></tr>
+<tr><td>alt+shift+A</td><td>Altキーと Shiftキーと Aキーを同時押し</td></tr>
+<tr><td>alt+ctrl+shift+A</td><td>Altキーと Controlキーと Shiftキーと Aキーを同時押し</td></tr>
+<tr><td> </td><td>スペースキー（半角空白文字で。「space」ではない）</td></tr>
+<tr><td>（その他文字）</td><td>文字そのままの値を指定。 (B、¥ など)</td></tr>
+<tr><td>ArrowLeft</td><td>矢印キーの左</td></tr>
+<tr><td>ArrowRight</td><td>矢印キーの右</td></tr>
+<tr><td>ArrowUp</td><td>矢印キーの上</td></tr>
+<tr><td>ArrowDown</td><td>矢印キーの下</td></tr>
+<tr><td>Tab</td><td>タブキー</td></tr>
+<tr><td>Delete</td><td></td></tr>
+<tr><td>Home</td><td></td></tr>
+<tr><td>End</td><td></td></tr>
+<tr><td>PageUp</td><td></td></tr>
+<tr><td>PageDown</td><td></td></tr>
+<tr><td>Escape</td><td>※注：新型MacBook Proではキーがないかも（<a href="https://www.gizmodo.jp/2016/10/esc-key-macos-sierra.html" target="_blank" rel="noopener">他に割り当て可能</a>）</td></tr>
+<tr><td>F1</td><td>ファンクションキー（Macなどではユーザーが機能を割り当てている恐れ）</td></tr>
+<tr><td>F12</td><td>〃</td></tr>
+<tr><td>F13</td><td>※注：F13以上は、キーボードによっては存在しない</td></tr>
+</table>
+
+<!--
+<p>
 	numpad_enter | テンキーのEnterキー。テンキーはキーボードによっては存在しない
-	option | alternateと同値。Winで言うALTキー。MacならOptionキー
 	orientation | （デバイス・ANBooksのみ）デバイスが回転したらイベント発生（※3）
-	page_down |
-	page_up |
-	right | 矢印キーの右
-	shift |
-	space |
-	tab |
-	up | 矢印キーの上
-	f1 |
-	f2 |
-	f3 |
-	f4 |
-	f5 |
-	f6 |
-	f7 |
-	f8 |
-	f9 |
-	f10 |
-	f11 |
-	f12 |
-	f13 | キーボードによっては存在しない
-	f14 | キーボードによっては存在しない
-	f15 | キーボードによっては存在しない
 	enter_frame | 毎フレーム毎にイベント発生（※2）
 	activate | アプリがフォーカスを取得して、アクティブ（前面）になった
 	deactivate | アプリがフォーカスを失って、非アクティブになった
-	back | （Android）戻るキー<br/>（ちなみにホームキーはAndroid仕様でホームに戻る以外の機能は持たせられない）
-	menu | （Android）メニューキー
-	search | （Android）検索キー</p>
-<p>※2 enter_frameイベントは毎秒何度も発生する。</p>
-
+※2 enter_frameイベントは毎秒何度も発生する。
 </p>
+-->
 
 
 <h2 id="l" class="w-heading">[l] 行末クリック待ち</h2>
