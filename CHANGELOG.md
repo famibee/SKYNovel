@@ -1,3 +1,5 @@
+## v0.6.12
+- upd：ライブラリ更新
 ## v0.6.11
 - chg：バック不透明度をテンプレでは0.5初期化、[clearsysvar]では1の齟齬、0.5に統一
 - bug：[fadese(bgm)][fadeoutse(bgm)]でtime=0の際、stop指定が利かない件

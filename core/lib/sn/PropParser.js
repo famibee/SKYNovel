@@ -259,6 +259,6 @@ class PropParser {
         return str;
     }
 }
-PropParser.REG_VAL = m_xregexp('^((?<scope>\\w+?):)?(?<name>[^\\s :@]+)(?<at>\\@str)?$');
 exports.PropParser = PropParser;
+PropParser.REG_VAL = m_xregexp('^((?<scope>\\w+?):)?(?<name>[^\\s :@]+)(?<at>\\@str)?$');
 //# sourceMappingURL=PropParser.js.map

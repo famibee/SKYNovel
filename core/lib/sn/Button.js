@@ -96,6 +96,6 @@ class Button extends pixi_js_1.Container {
         }
     }
 }
-Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 exports.Button = Button;
+Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 //# sourceMappingURL=Button.js.map

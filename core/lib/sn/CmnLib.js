@@ -98,6 +98,7 @@ class CmnLib {
         };
     }
 }
+exports.CmnLib = CmnLib;
 CmnLib.stageW = 0;
 CmnLib.stageH = 0;
 CmnLib.devtool = false;
@@ -129,5 +130,4 @@ CmnLib.REG_MULTILINE_TAG_SPLIT = m_xregexp(`((["'#]).*?\\2|;.*\\n|\\n+|[^\\n"'#;
 CmnLib.REG_TAG = m_xregexp(`^\\[ (?<name>\\S*) (\\s+ (?<args>.+) )? ]$`, 'x');
 CmnLib.getFn = (path) => m_path.basename(path, m_path.extname(path));
 CmnLib.getExt = (path) => m_path.extname(path).slice(1);
-exports.CmnLib = CmnLib;
 //# sourceMappingURL=CmnLib.js.map

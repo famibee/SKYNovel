@@ -119,6 +119,7 @@ class DebugMng {
     }
     ;
 }
+exports.DebugMng = DebugMng;
 DebugMng.title = () => false;
 DebugMng.myTrace = (txt, lvl = 'E') => {
     let mes = '{' + lvl + '} ' + txt;
@@ -143,5 +144,4 @@ DebugMng.myTrace = (txt, lvl = 'E') => {
     }
     console.info('%c' + mes, sty);
 };
-exports.DebugMng = DebugMng;
 //# sourceMappingURL=DebugMng.js.map

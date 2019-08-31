@@ -895,6 +895,6 @@ void main(void) {
             .catch(e => console.error(`fn:LayerMng.ts playback e:%o`, e));
     }
 }
-LayerMng.$msecChWait = 10;
 exports.LayerMng = LayerMng;
+LayerMng.$msecChWait = 10;
 //# sourceMappingURL=LayerMng.js.map

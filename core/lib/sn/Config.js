@@ -225,9 +225,9 @@ class Config {
         return aRet;
     }
 }
+exports.Config = Config;
 Config.EXT_SPRITE = 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';
 Config.EXT_SCRIPT = 'sn_|sn';
 Config.EXT_FONT = 'woff2|otf|ttf';
 Config.EXT_SOUND = 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
-exports.Config = Config;
 //# sourceMappingURL=Config.js.map

@@ -213,6 +213,7 @@ class Layer {
         dsp.y = (CmnLib_1.CmnLib.stageH - rct.height) * 0.5;
     }
 }
+exports.Layer = Layer;
 Layer.hBlendmode = {
     'normal': pixi_js_1.BLEND_MODES.NORMAL,
     'add': pixi_js_1.BLEND_MODES.ADD,
@@ -232,5 +233,4 @@ Layer.hBlendmode = {
     'color': pixi_js_1.BLEND_MODES.COLOR,
     'luminosity': pixi_js_1.BLEND_MODES.LUMINOSITY,
 };
-exports.Layer = Layer;
 //# sourceMappingURL=Layer.js.map

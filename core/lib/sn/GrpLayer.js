@@ -217,6 +217,7 @@ class GrpLayer extends Layer_1.Layer {
         return this.lay({ fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y });
     }
 }
+exports.GrpLayer = GrpLayer;
 GrpLayer.elc = new EventListenerCtn_1.EventListenerCtn;
 GrpLayer.hFace = {};
 GrpLayer.hFn2ResAniSpr = {};
@@ -224,5 +225,4 @@ GrpLayer.fncDefAllComp = (isStop) => { if (isStop)
     GrpLayer.main.resume(); };
 GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
 GrpLayer.fn2Video = {};
-exports.GrpLayer = GrpLayer;
 //# sourceMappingURL=GrpLayer.js.map

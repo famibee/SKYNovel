@@ -50,6 +50,7 @@ class RubySpliter {
     }
     static destroy() { RubySpliter.sesame = 'ヽ'; }
 }
+exports.RubySpliter = RubySpliter;
 RubySpliter.sesame = 'ヽ';
 RubySpliter.REG_RUBY = m_xregexp(`(?:` +
     `	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)` +
@@ -60,5 +61,4 @@ RubySpliter.REG_RUBY = m_xregexp(`(?:` +
     `|	(?<txt3>.)` +
     `)`, 'gsx');
 RubySpliter.REG_TAB_G = /\t/g;
-exports.RubySpliter = RubySpliter;
 //# sourceMappingURL=RubySpliter.js.map

@@ -704,6 +704,7 @@ class TxtStage extends pixi_js_1.Container {
         super.destroy();
     }
 }
+exports.TxtStage = TxtStage;
 TxtStage.hWarning = {
     backgroundColor: 0,
     borderBottomWidth: 0,
@@ -718,5 +719,4 @@ TxtStage.hWarning = {
 TxtStage.REG_SURROGATE = /[\uDC00-\uDFFF]/;
 TxtStage.fncChkSkip = () => false;
 TxtStage.cntBreak = new pixi_js_1.Container;
-exports.TxtStage = TxtStage;
 //# sourceMappingURL=TxtStage.js.map

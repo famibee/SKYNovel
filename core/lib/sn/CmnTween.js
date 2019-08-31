@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const TWEEN = require("@tweenjs/tween.js");
 class CmnTween {
 }
+exports.CmnTween = CmnTween;
 CmnTween.hEase = {
     'Back.In': TWEEN.Easing.Back.In,
     'Back.InOut': TWEEN.Easing.Back.InOut,
@@ -36,5 +37,4 @@ CmnTween.hEase = {
     'Sinusoidal.InOut': TWEEN.Easing.Sinusoidal.InOut,
     'Sinusoidal.Out': TWEEN.Easing.Sinusoidal.Out,
 };
-exports.CmnTween = CmnTween;
 //# sourceMappingURL=CmnTween.js.map

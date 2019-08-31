@@ -396,8 +396,8 @@ class TxtLayer extends Layer_1.Layer {
         return super.dump() + `, "enabled":"${this.enabled}", ${this.txs.dump()}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${aPixiObj.join(',')}]`;
     }
 }
+exports.TxtLayer = TxtLayer;
 TxtLayer.doAutoWc = false;
 TxtLayer.hAutoWc = Object.create(null);
-exports.TxtLayer = TxtLayer;
 ;
 //# sourceMappingURL=TxtLayer.js.map

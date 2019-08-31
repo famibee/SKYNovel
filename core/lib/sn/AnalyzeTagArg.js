@@ -40,6 +40,7 @@ class AnalyzeTagArg {
     get isKomeParam() { return this.$isKomeParam; }
     get literal() { return this.$literal; }
 }
+exports.AnalyzeTagArg = AnalyzeTagArg;
 AnalyzeTagArg.REG_TAGARG = m_xregexp(`(?: (?<key>[^\\s=]+) \\s* = \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\2 )` +
     `| (?<val2> [^\\s\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\5 )` +
     `| (?<def2> [^\\s\\"\\'\\#\\|]+) ) )? )` +
@@ -47,5 +48,4 @@ AnalyzeTagArg.REG_TAGARG = m_xregexp(`(?: (?<key>[^\\s=]+) \\s* = \\s* (?: (?: (
 AnalyzeTagArg.REG_TAGARG_VAL = m_xregexp(`(?: \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\1 )` +
     `| (?<val2> [^\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\4 )` +
     `| (?<def2> [^\\"\\'\\#\\|]+) ) )? )`, 'x');
-exports.AnalyzeTagArg = AnalyzeTagArg;
 //# sourceMappingURL=AnalyzeTagArg.js.map
