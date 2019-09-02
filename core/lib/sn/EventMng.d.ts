@@ -20,9 +20,13 @@ export declare class EventMng implements IEvtMng {
     private readonly hHamEv;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator);
     resvFlameEvent(win: Window): void;
+    private resvFlameEvent4Wheel;
     private ev_keydown;
     private ev_contextmenu;
     private ev_wheel;
+    private wheeling;
+    private extend_wheel;
+    private ev_wheel_waitstop;
     destroy(): void;
     private hLocalEvt2Fnc;
     private hGlobalEvt2Fnc;
@@ -33,6 +37,7 @@ export declare class EventMng implements IEvtMng {
     stdWait(fnc: (e?: interaction.InteractionEvent) => void, canskip?: boolean): void;
     button(hArg: HArg, em: DisplayObject): void;
     waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: () => void): void;
+    private waitCustomEvent4Wheel;
     private clear_event;
     private clear_eventer;
     private event;

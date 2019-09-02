@@ -97,11 +97,26 @@ export class EventMng implements IEvtMng {
 
 		appPixi.stage.interactive = true;
 		this.elc.add(appPixi.stage, this.enMDownTap, e=> {
-			if (e.data.button == 0) this.defEvt2Fnc(e, 'click')
+			switch (e.data.button) {
+				case 0:	this.defEvt2Fnc(e, 'click');	break;
+				case 1:	this.defEvt2Fnc(e, 'middleclick');	break;
+			}
 		});
 		this.elc.add(window, 'keydown', e=> this.ev_keydown(e));
 		this.elc.add(appPixi.view, 'contextmenu', e=> this.ev_contextmenu(e));
-		if ('WheelEvent' in window) this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e));
+
+		if ('WheelEvent' in window) {
+			this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e), {passive: true});
+			this.resvFlameEvent4Wheel = (win: Window)=> win.addEventListener('wheel', e=> this.ev_wheel(e), {passive: true});
+			this.waitCustomEvent4Wheel = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(this.appPixi.view, 'wheel', (e: any)=> {
+				//if (! e.isTrusted) return;
+				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
+				if (e.deltaY <= 0) return;
+
+				e.stopPropagation();
+				fnc();
+			});
+		}
 
 		// Gamepad APIの利用 - ウェブデベロッパーガイド | MDN https://developer.mozilla.org/ja/docs/Web/Guide/API/Gamepad
 		// Gamepad の接続
@@ -139,8 +154,9 @@ export class EventMng implements IEvtMng {
 	resvFlameEvent(win: Window) {
 		win.addEventListener('keydown', e=> this.ev_keydown(e));
 		win.addEventListener('contextmenu', e=> this.ev_contextmenu(e));
-		if ((win as any)['WheelEvent']) win.addEventListener('wheel', e=> this.ev_wheel(e));
+		this.resvFlameEvent4Wheel(win);
 	}
+	private resvFlameEvent4Wheel = (_win: Window)=> {};
 	private ev_keydown(e: any) {
 		//if (! e.isTrusted) return;
 		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
@@ -150,7 +166,7 @@ export class EventMng implements IEvtMng {
 		const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
 		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
 		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
-		+	e.key
+		+	e.key;
 		this.defEvt2Fnc(e, key);
 	}
 	private ev_contextmenu(e: any) {
@@ -159,22 +175,37 @@ export class EventMng implements IEvtMng {
 		const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
 		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
 		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
-		+	'rightclick'
+		+	'rightclick';
 		this.defEvt2Fnc(e, key);
 		e.preventDefault();		// イベント未登録時、メニューが出てしまうので
 	}
+
 	private ev_wheel(e: any) {
 		//if (! e.isTrusted) return;
 		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 
+		if (this.wheeling) {this.extend_wheel = true; return;}
+		this.wheeling = true;
+		this.ev_wheel_waitstop();
+
+		// 今のところ縦回転ホイールのみ想定
 		const key = (e.altKey ?'alt+' :'')
 		+	(e.ctrlKey ?'ctrl+' :'')
 		+	(e.shiftKey ?'shift+' :'')
-		+	`${e.type}.`
-		+	(e.deltaX != 0 ?(e.deltaX > 0 ?'x>0' :'x<0') :'')
-		+	(e.deltaY != 0 ?(e.deltaY > 0 ?'y>0' :'y<0') :'')
-		+	(e.deltaZ != 0 ?(e.deltaZ > 0 ?'z>0' :'z<0') :'')
+		+	(e.deltaY > 0 ?'downwheel' :'upwheel');
 		this.defEvt2Fnc(e, key);
+	}
+	private wheeling = false;
+	private extend_wheel = false;
+	private ev_wheel_waitstop() {
+		setTimeout(()=> {
+			if (this.extend_wheel) {
+				this.extend_wheel = false;
+				this.ev_wheel_waitstop();
+				return;
+			}
+			this.wheeling = false;
+		}, 250);
 	}
 
 	destroy() {
@@ -196,7 +227,7 @@ export class EventMng implements IEvtMng {
 				|| this.hGlobalEvt2Fnc[key];
 		if (! ke) return;
 
-		if ('preventDefault' in e) e.preventDefault();
+		if ((key.slice(-5) != 'wheel') && ('preventDefault' in e)) e.preventDefault();
 		e.stopPropagation();
 		if (this.layMng.clickTxtLay()) return;
 
@@ -319,11 +350,11 @@ export class EventMng implements IEvtMng {
 		this.goTxt();
 		if (! CmnLib.argChk_Boolean(hArg, 'canskip', true)) return;
 
-		elc.add(window, 'pointerdown', (e: any) => {
+		elc.add(window, 'pointerdown', (e: any)=> {
 			e.stopPropagation();
 			fnc();
 		});
-		elc.add(window, 'keydown', (e: any) => {
+		elc.add(window, 'keydown', (e: any)=> {
 			//if (! e.isTrusted) return;
 			if (e['isComposing']) return; // サポートしてない環境でもいける書き方
 			/*	限定する？
@@ -333,16 +364,9 @@ export class EventMng implements IEvtMng {
 			e.stopPropagation();
 			fnc();
 		});
-		if ('WheelEvent' in window) elc.add(this.appPixi.view, 'wheel', (e: any) => {
-			//if (! e.isTrusted) return;
-			if (e['isComposing'])
-				return; // サポートしてない環境でもいける書き方
-			if (e.deltaY <= 0)
-				return;
-			e.stopPropagation();
-			fnc();
-		});
+		this.waitCustomEvent4Wheel(elc, fnc);
 	}
+	private waitCustomEvent4Wheel = (_elc: EventListenerCtn, _fnc: ()=> void)=> {};
 
 
 	// イベントを全消去
@@ -363,7 +387,6 @@ export class EventMng implements IEvtMng {
 
 
 	// イベントを予約
-	//	Key Values - Web APIs | MDN https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 	private event(hArg: HArg) {
 		const KEY = hArg.key;
 		if (! KEY) throw 'keyは必須です';

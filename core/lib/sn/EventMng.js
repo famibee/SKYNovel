@@ -25,9 +25,13 @@ class EventMng {
             swipeup: null,
             swipedown: null,
         };
+        this.resvFlameEvent4Wheel = (_win) => { };
+        this.wheeling = false;
+        this.extend_wheel = false;
         this.hLocalEvt2Fnc = {};
         this.hGlobalEvt2Fnc = {};
         this.isStop = false;
+        this.waitCustomEvent4Wheel = (_elc, _fnc) => { };
         this.goTxt = () => this.layMng.goTxt();
         this.fncCancelSkip = () => { };
         this.cr = (len) => this.scrItr.addLineNum(len);
@@ -75,13 +79,29 @@ class EventMng {
         }
         appPixi.stage.interactive = true;
         this.elc.add(appPixi.stage, this.enMDownTap, e => {
-            if (e.data.button == 0)
-                this.defEvt2Fnc(e, 'click');
+            switch (e.data.button) {
+                case 0:
+                    this.defEvt2Fnc(e, 'click');
+                    break;
+                case 1:
+                    this.defEvt2Fnc(e, 'middleclick');
+                    break;
+            }
         });
         this.elc.add(window, 'keydown', e => this.ev_keydown(e));
         this.elc.add(appPixi.view, 'contextmenu', e => this.ev_contextmenu(e));
-        if ('WheelEvent' in window)
-            this.elc.add(appPixi.view, 'wheel', e => this.ev_wheel(e));
+        if ('WheelEvent' in window) {
+            this.elc.add(appPixi.view, 'wheel', e => this.ev_wheel(e), { passive: true });
+            this.resvFlameEvent4Wheel = (win) => win.addEventListener('wheel', e => this.ev_wheel(e), { passive: true });
+            this.waitCustomEvent4Wheel = (elc, fnc) => elc.add(this.appPixi.view, 'wheel', (e) => {
+                if (e['isComposing'])
+                    return;
+                if (e.deltaY <= 0)
+                    return;
+                e.stopPropagation();
+                fnc();
+            });
+        }
         this.elc.add(window, 'gamepadconnected', (e) => {
             if (CmnLib_1.CmnLib.devtool)
                 console.log('👺 Gamepad connected at index %d: %s. %d buttons, %d axes.', e['gamepad'].index, e['gamepad'].id, e['gamepad'].buttons.length, e['gamepad'].axes.length);
@@ -110,8 +130,7 @@ class EventMng {
     resvFlameEvent(win) {
         win.addEventListener('keydown', e => this.ev_keydown(e));
         win.addEventListener('contextmenu', e => this.ev_contextmenu(e));
-        if (win['WheelEvent'])
-            win.addEventListener('wheel', e => this.ev_wheel(e));
+        this.resvFlameEvent4Wheel(win);
     }
     ev_keydown(e) {
         if (e['isComposing'])
@@ -135,14 +154,27 @@ class EventMng {
     ev_wheel(e) {
         if (e['isComposing'])
             return;
+        if (this.wheeling) {
+            this.extend_wheel = true;
+            return;
+        }
+        this.wheeling = true;
+        this.ev_wheel_waitstop();
         const key = (e.altKey ? 'alt+' : '')
             + (e.ctrlKey ? 'ctrl+' : '')
             + (e.shiftKey ? 'shift+' : '')
-            + `${e.type}.`
-            + (e.deltaX != 0 ? (e.deltaX > 0 ? 'x>0' : 'x<0') : '')
-            + (e.deltaY != 0 ? (e.deltaY > 0 ? 'y>0' : 'y<0') : '')
-            + (e.deltaZ != 0 ? (e.deltaZ > 0 ? 'z>0' : 'z<0') : '');
+            + (e.deltaY > 0 ? 'downwheel' : 'upwheel');
         this.defEvt2Fnc(e, key);
+    }
+    ev_wheel_waitstop() {
+        setTimeout(() => {
+            if (this.extend_wheel) {
+                this.extend_wheel = false;
+                this.ev_wheel_waitstop();
+                return;
+            }
+            this.wheeling = false;
+        }, 250);
     }
     destroy() {
         this.elc.clear();
@@ -157,7 +189,7 @@ class EventMng {
             || this.hGlobalEvt2Fnc[key];
         if (!ke)
             return;
-        if ('preventDefault' in e)
+        if ((key.slice(-5) != 'wheel') && ('preventDefault' in e))
             e.preventDefault();
         e.stopPropagation();
         if (this.layMng.clickTxtLay())
@@ -267,15 +299,7 @@ class EventMng {
             e.stopPropagation();
             fnc();
         });
-        if ('WheelEvent' in window)
-            elc.add(this.appPixi.view, 'wheel', (e) => {
-                if (e['isComposing'])
-                    return;
-                if (e.deltaY <= 0)
-                    return;
-                e.stopPropagation();
-                fnc();
-            });
+        this.waitCustomEvent4Wheel(elc, fnc);
     }
     clear_event(hArg) {
         const glb = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false);

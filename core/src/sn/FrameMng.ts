@@ -247,6 +247,7 @@ export class FrameMng {
 			};
 		}
 
+		this.appPixi.stage.interactive = false;
 		const tw_nm = `frm\n${hArg.id}`;
 		const tw = new TWEEN.Tween(hNow)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
@@ -257,8 +258,10 @@ export class FrameMng {
 			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
 			.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();})
 			.onComplete(()=> {
+				this.appPixi.stage.interactive = true;
 				const twInf = this.hTwInf[tw_nm];
 				if (! twInf) return;
+
 				delete this.hTwInf[tw_nm];
 				this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
 				if (twInf.resume) this.main.resume();

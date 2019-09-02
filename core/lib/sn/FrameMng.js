@@ -207,6 +207,7 @@ class FrameMng {
                 this.val.setVal_Nochk('tmp', frmnm + '.height', hNow.h);
             };
         }
+        this.appPixi.stage.interactive = false;
         const tw_nm = `frm\n${hArg.id}`;
         const tw = new TWEEN.Tween(hNow)
             .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
@@ -217,6 +218,7 @@ class FrameMng {
             .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
             .onUpdate(() => { fncA(); fncXYSR(); fncW(); fncH(); })
             .onComplete(() => {
+            this.appPixi.stage.interactive = true;
             const twInf = this.hTwInf[tw_nm];
             if (!twInf)
                 return;

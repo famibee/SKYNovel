@@ -635,10 +635,19 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>const.Date.getTime</td><td>ミリ秒</td><td>Integer</td><td>JavaScriptの(new Date).getTime()</td></tr>
 <tr><td>const.Stage.mouseX</td><td>0</td><td>Integer</td><td>マウス水平座標</td></tr>
 <tr><td>const.Stage.mouseY</td><td>0</td><td>Integer</td><td>マウス垂直座標</td></tr>
-<tr><td>const.sn.Math.PI</td><td>3.141592653589793</td><td>Number</td><td>円周率</td></tr>
 <tr><td>const.sn.bookmark.json</td><td>'[]'</td><td>Array</td><td>SKYNovel内部によるsave:の管理用</td></tr>
 <tr><td>const.sn.config.（略）</td><td></td><td></td><td>テンプレートの_config.snの作業用</td></tr>
 <tr><td>const.sn.displayState</td><td>false</td><td>Boolean</td><td>ウインドウ・フルスクリーン状態。trueならフルスクリーン</td></tr>
+<tr><td>const.sn.frm.（フレーム名）</td><td>true</td><td>Boolean</td><td>[add_frame]でロードされた id属性が存在するか</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.alpha</td><td>1</td><td>Number</td><td>フレームの不透明度</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">フレームの座標。leftやtopでないことに注意</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.y</td><td>0</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.scale_x</td><td>1</td><td>Boolean</td><td>cssでのtransform: scaleの値</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.scale_y</td><td>1</td><td>Boolean</td><td>cssでのtransform: scaleの値</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.rotate</td><td>0</td><td>Boolean</td><td>cssでのrotate、回転角度（単位：deg 度）、正の値は時計回り</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.width</td><td>prjのアプリ横幅画面サイズ</td><td>Integer</td><td>フレームの横幅</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.height</td><td>prjのアプリ縦幅画面サイズ</td><td>Integer</td><td>フレームの縦幅</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.visible</td><td>true</td><td>Boolean</td><td>フレームが表示されているか。visible属性の値を返す</td></tr>
 <tr><td>const.sn.isApp</td><td>false</td><td>Boolean</td><td>ランタイム環境のタイプ（仕様策定中）</td></tr>
 <tr><td>const.sn.isDebugger</td><td>true</td><td>Boolean</td><td>ブラウザ実行、それもVSCode・npmによる「npm: webタスク」上での実行か</td></tr>
 <tr><td>const.sn.isFirstBoot</td><td>false</td><td>Boolean</td><td>ゲームがインストールされてから、初めての起動か（起動されるまでデータが空だったか）</td></tr>
@@ -652,11 +661,12 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>const.sn.last_page_text</td><td>''</td><td>String</td><td>そのページの履歴テキスト（《》文法もそのまま）</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）</td><td>true</td><td>Boolean</td><td>レイヤが[add_lay]され存在するか</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.alpha</td><td>0.0〜1.0</td><td>Number</td><td>レイヤの不透明度</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.width</td><td>1</td><td>Integer</td><td>レイヤの横幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.height</td><td>1</td><td>Integer</td><td>レイヤの縦幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.visible</td><td>true</td><td>Boolean</td><td>レイヤが表示されているか。visible属性の値を返す</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.width</td><td>1</td><td>Integer</td><td>レイヤの横幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">レイヤの座標。leftやtopでないことに注意</td></tr>
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.y</td><td>0</td></tr>
+<tr><td>const.sn.Math.PI</td><td>3.141592653589793</td><td>Number</td><td>円周率</td></tr>
 <tr><td>const.sn.needClick2Play</td><td>環境による</td><td>Boolean</td><td>ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる</td></tr>
 <tr><td>const.sn.platform.os.family</td><td>'Windows', 'OS X', 'Ubuntu', 'Android', 'iOS'など</td><td>String</td><td>プラットフォーム名。詳細は<a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">Platform.js の【platform.os.family】の項</a>を参照</td></tr>
 <tr><td> <span style="text-decoration: line-through">const.sn.sLog</span>【2019/07/28変名】<br/>

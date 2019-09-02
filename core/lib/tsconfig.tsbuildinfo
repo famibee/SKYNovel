@@ -518,7 +518,7 @@
         "signature": "52ce3a22256078e66ede1298098f6542ad915815474d82925c8475da8ab3ec2f"
       },
       "../src/sn/framemng.ts": {
-        "version": "e9c8842a318c2a9d1a11a60754c24fb6de91b10229cea5da69e5a769f20eb96f",
+        "version": "9be03394c70c44a0ac2bc1a99a6b3fcc7aef4cf429a0d60d086f13108961c62e",
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
@@ -538,8 +538,8 @@
         "signature": "e5c5e805c2e2696d62922f3e2c4742be28a0c729e88327e3222f89826d58b38c"
       },
       "../src/sn/eventmng.ts": {
-        "version": "2188f5c7989ed0b42450e3e953ab20fc8f1e839c8d62f64089f7458ac9459e33",
-        "signature": "e053a15c27f14d605753fbaea5c4695ba7cd9615fa3a7f5287ac69347544c3e1"
+        "version": "c146c3d2c146fddf401d35294241c2b146038d09250de5831c6b77d58e2d203a",
+        "signature": "ca80d2bceb1ed0f92fb4cb052fb8e825a2d4a101f396019e025e9a5ee5d4db6f"
       },
       "../src/sn/scriptiterator.ts": {
         "version": "29a30ab189d1ee2b4eaad961e179a4651d053c8052088b16f405657b08ca08e4",

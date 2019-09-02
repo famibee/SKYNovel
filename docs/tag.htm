@@ -149,13 +149,13 @@
 		<li class="mb1"><a href="#trans">[trans] ページ裏表を交換</a></li>
 		<li class="mb1"><a href="#wt">[wt] トランス終了待ち</a></li>
 	</ul>
-	<p>レイヤトゥイーン</p>
+	<p>トゥイーンアニメ</p>
 	<ul class="anchors list-reset m0 p0 px1">
-		<li class="mb1"><a href="#pause_tsy"><span class="red">【暫定版】</span>[pause_tsy] 一時停止</a></li>
-		<li class="mb1"><a href="#resume_tsy"><span class="red">【暫定版】</span>[resume_tsy] 一時停止再開</a></li>
-		<li class="mb1"><a href="#stop_tsy"><span class="red">【暫定版】</span>[stop_tsy] トゥイーン中断</a></li>
-		<li class="mb1"><a href="#tsy"><span class="red">【暫定版】</span>[tsy] トゥイーン開始</a></li>
-		<li class="mb1"><a href="#wait_tsy"><span class="red">【暫定版】</span>[wait_tsy] トゥイーン終了待ち</a></li>
+		<li class="mb1"><a href="#pause_tsy">[pause_tsy] 一時停止</a></li>
+		<li class="mb1"><a href="#resume_tsy">[resume_tsy] 一時停止再開</a></li>
+		<li class="mb1"><a href="#stop_tsy">[stop_tsy] トゥイーン中断</a></li>
+		<li class="mb1"><a href="#tsy">[tsy] トゥイーン開始</a></li>
+		<li class="mb1"><a href="#wait_tsy">[wait_tsy] トゥイーン終了待ち</a></li>
 	</ul>
 	<p>文字・文字レイヤ</p>
 	<ul class="anchors list-reset m0 p0 px1">
@@ -172,7 +172,7 @@
 		<li class="mb1"><a href="#rec_r"><span class="red">【暫定版】</span>[rec_r] 履歴改行</a></li>
 		<li class="mb1"><a href="#reset_rec"><span class="red">【暫定版】</span>[reset_rec] 履歴リセット</a></li>
 		<li class="mb1"><a href="#ruby2">[ruby2] 文字列と複数ルビの追加</a></li>
-		<li class="mb1"><a href="#set_focus"><span class="red">【暫定版】</span>[set_focus] 未作成：フォーカス移動</a></li>
+		<li class="mb1"><a href="#set_focus"><span class="red">【暫定版・未作成】</span>[set_focus] フォーカス移動</a></li>
 		<li class="mb1"><a href="#span">[span] インラインスタイル設定</a></li>
 		<li class="mb1"><a href="#tcy">[tcy] 縦中横を表示する</a></li>
 	</ul>
@@ -183,17 +183,17 @@
 	</ul>
 	<p>HTMLフレーム</p>
 	<ul class="anchors list-reset m0 p0 px1">
-		<li class="mb1"><a href="#add_frame"><span class="red">【暫定版】</span>[add_frame] フレーム</a></li>
-		<li class="mb1"><a href="#let_frame"><span class="red">【暫定版】</span>[let_frame] フレーム</a></li>
-		<li class="mb1"><a href="#set_frame"><span class="red">【暫定版】</span>[set_frame] フレーム</a></li>
-		<li class="mb1"><a href="#frame"><span class="red">【暫定版】</span>[frame] フレーム</a></li>
-		<li class="mb1"><a href="#tsy_frame"><span class="red">【暫定版】</span>[tsy_frame] フレーム</a></li>
+		<li class="mb1"><a href="#add_frame">[add_frame] フレーム追加</a></li>
+		<li class="mb1"><a href="#let_frame">[let_frame] フレーム変数を取得</a></li>
+		<li class="mb1"><a href="#set_frame">[set_frame] フレーム変数に設定</a></li>
+		<li class="mb1"><a href="#frame">[frame] フレームに設定</a></li>
+		<li class="mb1"><a href="#tsy_frame">[tsy_frame] フレームをトゥイーン開始</a></li>
 	</ul>
 	<p>イベント</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#clear_event">[clear_event] イベントを全消去</a></li>
 		<li class="mb1"><a href="#enable_event">[enable_event] イベント有無の切替</a></li>
-		<li class="mb1"><a href="#event"><span class="red">【暫定版】</span>[event] イベントを予約</a></li>
+		<li class="mb1"><a href="#event">[event] イベントを予約</a></li>
 		<li class="mb1"><a href="#l">[l] 行末クリック待ち</a></li>
 		<li class="mb1"><a href="#p">[p] 改ページクリック待ち</a></li>
 		<li class="mb1"><a href="#s">[s] 停止する</a></li>
@@ -689,49 +689,115 @@
 </p>
 
 
-<h1><a id="レイヤトゥイーンレイヤトゥイーン"></a>レイヤトゥイーン</h1>
+<h1><a id="トゥイーンアニメ"></a>トゥイーンアニメ</h1>
 <h2 id="pause_tsy" class="w-heading">[pause_tsy]一時停止</h2>
-<h4>[tsy]を一時停止させる</h4>
+<h4>レイヤーやフレームのトゥイーンアニメを一時停止させる</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>layer</td><td rowspan="3">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr><tr class="y"><td>plugin</td><td></td><td>プラグイン名</td><td>処理対象のプラグイン</td></tr></table>
+	「layer（とpage）」を指定した場合はレイヤーの操作、<br/>
+	「id」を指定した場合はフレームの操作を行なう。<br/>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
+<tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
+</table>
 
 </p>
 <h2 id="resume_tsy" class="w-heading">[resume_tsy]一時停止再開</h2>
-<h4>[tsy]一時停止を再開させる</h4>
+<h4>レイヤーやフレームのトゥイーンアニメ一時停止を再開させる</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>layer</td><td rowspan="3">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr><tr class="y"><td>plugin</td><td></td><td>プラグイン名</td><td>処理対象のプラグイン</td></tr></table>
+	「layer（とpage）」を指定した場合はレイヤーの操作、<br/>
+	「id」を指定した場合はフレームの操作を行なう。<br/>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
+<tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
+</table>
 
 </p>
 <h2 id="stop_tsy" class="w-heading">[stop_tsy]トゥイーン中断</h2>
+<h4>レイヤーやフレームのトゥイーンアニメを中断、終了する。</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>layer</td><td rowspan="3">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr><tr class="y"><td>plugin</td><td></td><td>プラグイン名</td><td>処理対象のプラグイン</td></tr><tr><td>arrive</td><td>n</td><td>false</td><td>Boolean</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr><tr><td>backlay</td><td>n</td><td>false</td><td>Boolean</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scaleX, scaleY, width, x, y。<br/>（rotationX〜Z、scaleZ、zは設定すると三次元方向の拡大縮小ルーチンが働き画像がぼやけるのでbacklayで設定しない方針）</td></tr></table>
+	「layer（とpage）」を指定した場合はレイヤーの操作、<br/>
+	「id」を指定した場合はフレームの操作を行なう。<br/>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
+<tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
+</table>
 
 </p>
 <h2 id="tsy" class="w-heading">[tsy]トゥイーン開始</h2>
 <h4>レイヤーにトゥイーンアニメ（変形・移動・回転アニメーション）を加える。</h4>
 <p class="mb2 px1">
 
-	「目標値」を設定する時、相対値あるいは絶対値を指定できる。「x=10」は絶対値、「x='=10'」は現在値からの相対値。
-	またある値域でランダムな絶対値を指定することも出来る。「x='250,500'」だと250から500までの間でランダムなXとする
-
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>layer</td><td rowspan="3">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr><tr class="y"><td>plugin</td><td></td><td>プラグイン名</td><td>処理対象のプラグイン</td></tr><tr><td>delay</td><td>n</td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr><tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr><tr class="y"><td>alpha</td><td rowspan="13">いずれかを指定</td><td rowspan="13">何もしない</td><td rowspan="13">ミリ秒数</td><td rowspan="10">同名属性の変化目標値。<br/>詳細は<a href="http://goo.gl/hfDHaJ" target="_blank" rel="noopener">DisplayObject</a>の解説を参照</td></tr><tr class="y"><td>height</td></tr><tr class="y"><td>rotation</td></tr><tr class="y"><td>rotationX</td></tr><tr class="y"><td>rotationY</td></tr><tr class="y"><td>rotationZ</td></tr><tr class="y"><td>scaleX</td></tr><tr class="y"><td>scaleY</td></tr><tr class="y"><td>scaleZ</td></tr><tr class="y"><td>width</td></tr><tr class="y"><td>x</td><td>leftの変化目標値</td></tr><tr class="y"><td>y</td><td>topの変化目標値</td></tr><tr class="y"><td>z</td><td>同名属性の変化目標値</td></tr><tr><td>ease</td><td>n</td><td>イージング無し</td><td>（同右）</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>指定できる値は以下の通り。<br/>Back.easeIn、Back.easeInOut、Back.easeOut<br/>Bounce.easeIn、Bounce.easeInOut、Bounce.easeOut<br/>Circular.easeIn、Circular.easeInOut、Circular.easeOut<br/>Cubic.easeIn、Cubic.easeInOut、Cubic.easeOut<br/>Elastic.easeIn、Elastic.easeInOut、Elastic.easeOut<br/>Exponential.easeIn、Exponential.easeInOut、Exponential.easeOut<br/>Linear.easeIn、Linear.easeInOut、Linear.easeNone、Linear.easeOut<br/>Quadratic.easeIn、Quadratic.easeInOut、Quadratic.easeOut<br/>Quartic.easeIn、Quartic.easeInOut、Quartic.easeOut<br/>Quintic.easeIn、Quintic.easeInOut、Quintic.easeOut<br/>Sine.easeIn、Sine.easeInOut、Sine.easeOut<br/>
+	「目標値」を設定する時、相対値あるいは絶対値を指定できる。
+	<table><tr><th>指定</th><th>説明</th></tr>
+	<tr><td>x=500			</td><td>X位置を500に</td></tr>
+	<tr><td>x='=500'		</td><td>現在のX位置に+500加算した位置</td></tr>
+	<tr><td>x='=-500'		</td><td>現在のX位置に-500加算した位置</td></tr>
+	<tr><td>x='250,500'		</td><td>+250から＋500までの間でランダムな値をX位置に</td></tr>
+	<tr><td>x='=250,500'	</td><td>+250から＋500までの間でランダムな値を現在のX位置に加算</td></tr>
+	</table>
 	<br/>
-	・<a href="https://github.com/tweenjs/tween.js/blob/master/README.md" target="_blank" rel="noopener">tween.js/README.md at master · tweenjs/tween.js</a><br/>
-	・<a href="https://ics.media/tutorial-createjs/tween/" target="_blank" rel="noopener">CreateJS でのトゥイーンの作成方法 - ICS MEDIA</a><br/>
-</td></tr><tr><td>repeats</td><td>n</td><td>1</td><td>0（無限ループ）〜</td><td></td></tr></table>
+	注：フレームのトゥイーンアニメは<a href="#tsy_frame">[tsy_frame]</a>で行なう。<br/>
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
+<tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
+<tr><td>arrive</td><td></td><td>false</td><td>Boolean</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr>
+<tr><td>backlay</td><td></td><td>false</td><td>Boolean</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scale_x, scale_y, width, left, top。</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>（同右）</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/>
+<a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>
+指定できる値は以下の通り。<br/>
+Back.In、Back.InOut、Back.Out<br/>
+Bounce.In、Bounce.InOut、Bounce.Out<br/>
+Circular.In、Circular.InOut、Circular.Out<br/>
+Cubic.In、Cubic.InOut、Cubic.Out<br/>
+Elastic.In、Elastic.InOut、Elastic.Out<br/>
+Exponential.In、Exponential.InOut、Exponential.Out<br/>
+Linear.None<br/>
+Quadratic.In、Quadratic.InOut、Quadratic.Out<br/>
+Quartic.In、Quartic.InOut、Quartic.Out<br/>
+Quintic.In、Quintic.InOut、Quintic.Out<br/>
+Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
+<br/>
+・<a href="https://github.com/tweenjs/tween.js/blob/master/README.md" target="_blank" rel="noopener">tween.js/README.md at master · tweenjs/tween.js</a><br/>
+・<a href="https://ics.media/tutorial-createjs/tween/" target="_blank" rel="noopener">CreateJS でのトゥイーンの作成方法 - ICS MEDIA</a><br/>
+<tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
+<tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
+<tr class="y"><td>alpha</td><td rowspan="8">いずれかを指定</td><td rowspan="8">何もしない</td><td rowspan="8"></td><td rowspan="6">同名属性の変化目標値</td></tr>
+<tr class="y"><td>height</td></tr>
+<tr class="y"><td>rotation</td></tr>
+<tr class="y"><td>scale_x</td></tr>
+<tr class="y"><td>scale_y</td></tr>
+<tr class="y"><td>width</td></tr>
+<tr class="y"><td>x</td><td>leftの変化目標値</td></tr>
+<tr class="y"><td>y</td><td>topの変化目標値</td></tr>
+</td></tr>
+</table>
 
 </p>
 <h2 id="wait_tsy" class="w-heading">[wait_tsy]トゥイーン終了待ち</h2>
-<h4>[tsy]トゥイーンの終了を待ち、再開する。</h4>
+<h4>レイヤーやフレームの終了を待ち、再開する。</h4>
 <p class="mb2 px1">
 
 [event]などでイベントが登録されていても、イベント発生待ちを行わない。
 繰返し回数が0（無限ループ）の場合、何もせず終了する
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr><tr><td>arrive</td><td>n</td><td>false</td><td>Boolean</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr><tr><td>backlay</td><td>n</td><td>false</td><td>Boolean</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scaleX, scaleY, width, x, y。<br/>（rotationX〜Z、scaleZ、zは設定すると三次元方向の拡大縮小ルーチンが働き画像がぼやけるのでbacklayで設定しない方針）</td></tr><tr><td>canskip</td><td>n</td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
+「layer（とpage）」を指定した場合はレイヤーの操作、<br/>
+「id」を指定した場合はフレームの操作を行なう。<br/>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
+<tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+</table>
 
 </p>
 
@@ -1028,7 +1094,7 @@
 <p>何かしらの画像レイヤで再生している動画の終了を待つ</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>動画ファイル名</td><td>再生終了を待つ動画</td></tr>
-<tr><td>canskip</td><td>n</td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="#waitclick">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
 </table>
 
 
@@ -1036,51 +1102,108 @@
 
 
 <h1><a id="htmlフレームhtmlフレーム"></a>HTMLフレーム</h1>
-<h2 id="add_frame" class="w-heading">[add_frame]フレーム</h2>
+<h2 id="add_frame" class="w-heading">[add_frame]フレーム追加</h2>
+<h4>HTMLファイルをベースとする「フレーム」を追加する</h4>
 <p class="mb2 px1">
 
+<p>
+	注：これは HTML要素の iframe（インラインフレーム要素）で、フレームは全てのレイヤの手前に表示され、互い違いに重ねられない。<br/>
+	<a href="dev.htm#reserve_value_tmp">const.sn.frm.（フレーム名）系</a>の値もセットする。<br/>
+</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>xxxxxx</td><td>y</td><td></td><td></td><td></td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>src</td><td>y</td><td></td><td>ファイルパス</td><td>フレームとして読み込むhtmlファイルパス（prj/をルートとする相対指定）</td></tr>
+<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
+<tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
+<tr><td>x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>画面内におけるフレームの横位置を指定</td></tr>
+<tr><td>y</td><td></td><td>0</td><td>(↑と同じ)</td><td>画面内におけるフレームの縦位置を指定</td></tr>
+<tr><td>width</td><td></td><td>フレームの横サイズ</td><td>1〜</td><td>表示するフレームの横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>height</td><td></td><td>フレームの縦サイズ</td><td>1〜</td><td>保存するフレームの縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 </table>
 
 </p>
 
 
-<h2 id="let_frame" class="w-heading">[let_frame]フレーム</h2>
+<h2 id="let_frame" class="w-heading">[let_frame]フレーム変数を取得</h2>
+<h4>フレーム内の変数から、値を取得する</h4>
 <p class="mb2 px1">
 
+<p>
+	関数名を指定した場合は関数を実行し、その戻り値を取得する。<br/>
+	【const.sn.frm.（id名）.（var_name名）】に値がセットされる。<br/>
+</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>xxxxxx</td><td>y</td><td></td><td></td><td></td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数/関数名。</td></tr>
 </table>
 
 </p>
 
 
-<h2 id="set_frame" class="w-heading">[set_frame]フレーム</h2>
+<h2 id="set_frame" class="w-heading">[set_frame]フレーム変数に設定</h2>
+<h4>フレーム内の変数に、値を設定する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>xxxxxx</td><td>y</td><td></td><td></td><td></td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数名。</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td></td><td>フレーム内の変数にセットする値。</td></tr>
 </table>
 
 </p>
 
 
-<h2 id="frame" class="w-heading">[frame]フレーム</h2>
+<h2 id="frame" class="w-heading">[frame]フレームに設定</h2>
+<h4>フレームそのものの属性を設定する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>xxxxxx</td><td>y</td><td></td><td></td><td></td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
+<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
+<tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
+<tr><td>x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>画面内におけるフレームの横位置を指定</td></tr>
+<tr><td>y</td><td></td><td>0</td><td>(↑と同じ)</td><td>画面内におけるフレームの縦位置を指定</td></tr>
+<tr><td>width</td><td></td><td>フレームの横サイズ</td><td>1〜</td><td>表示するフレームの横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>height</td><td></td><td>フレームの縦サイズ</td><td>1〜</td><td>保存するフレームの縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 </table>
 
 </p>
 
 
-<h2 id="tsy_frame" class="w-heading">[tsy_frame]フレーム</h2>
+<h2 id="tsy_frame" class="w-heading">[tsy_frame]フレームをトゥイーン開始</h2>
+<h4>フレームのトゥイーンアニメを行なう</h4>
 <p class="mb2 px1">
 
+	フレームのトゥイーンアニメを開始したあと、id属性指定により以下のタグを使用できる。<br/>
+	<a href="#pause_tsy">[pause_tsy]</a>（一時停止）<br/>
+	<a href="#resume_tsy">[resume_tsy]</a>（一時停止再開）<br/>
+	<a href="#stop_tsy">[stop_tsy]</a>（トゥイーン中断）<br/>
+	<a href="#wait_tsy">[wait_tsy]</a>（トゥイーン終了待ち）<br/>
+
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>xxxxxx</td><td>y</td><td></td><td></td><td></td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
+<tr><td>ease</td><td></td><td>イージング無し</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>指定できる値は<a href="#tsy">[tsy]</a>を参照</td></tr>
+<tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
+<tr class="y"><td>alpha</td><td rowspan="8">いずれかを指定</td><td rowspan="8">何もしない</td><td rowspan="8"></td><td rowspan="6">同名属性の変化目標値</td></tr>
+<tr class="y"><td>height</td></tr>
+<tr class="y"><td>rotation</td></tr>
+<tr class="y"><td>scale_x</td></tr>
+<tr class="y"><td>scale_y</td></tr>
+<tr class="y"><td>width</td></tr>
+<tr class="y"><td>x</td><td>leftの変化目標値</td></tr>
+<tr class="y"><td>y</td><td>topの変化目標値</td></tr>
 </table>
 
 </p>
@@ -1119,25 +1242,30 @@
 
 <p>あるイベントが発生した際、global=falseのイベント予約は全て削除される</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>key</td><td>y</td><td></td><td>click、rightclick、middleclick、upwheel、downwheel、<br/>イベントのキー名※1</td><td>イベントを発生させるトリガーイベント<br/><br/>修飾キーの同時押し（あるいは修飾キーを押しといて通常キー）を任意に組み合わせられます。「半角プラスで」「ABC順に」「イベントのキー名の前に」繋げて下さい。<br/>（例1）key=alt+enter<br/>（例2）key=alt+ctrl+shift+enter<br/>修飾キー対応表は以下になります。<br/>AIRNovel表記</td></tr>
+<tr class="y"><td>key</td><td>y</td><td></td><td>click、rightclick、middleclick、upwheel、downwheel、<br/>イベントのキー名※1</td><td>イベントを発生させるトリガーイベント<br/><br/>修飾キーの同時押し（あるいは修飾キーを押しといて通常キー）を任意に組み合わせられます。「半角プラスで」「ABC順に」「イベントのキー名の前に」繋げて下さい。<br/>（例1）key=alt+enter<br/>（例2）key=alt+ctrl+shift+enter</td></tr>
 <tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>イベント発生時にジャンプする先。指定方法は[jump]と同様。<br/>callの場合、ジャンプ先から[return]で戻ると、<br/>再度[s]などのイベント待ち状態に戻る。</td></tr>
 <tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)</td></tr>
 <tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>trueを指定すると大域的なイベント扱いとなり、<br/>イベント発生時にイベント予約が削除されない</td></tr>
 <tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;const.an.eventArg」にて値を受け取れる</td></tr>
 <tr><td>del</td><td>...</td><td></td><td>Boolean</td><td>trueを指定すると予約済みイベントを削除する。<br/>fn/label/callとdelは同時指定できません</td></tr>
-<tr><td>frame</td><td></td><td>10</td><td>1〜</td><td>key=enter_frameの場合のみ有効。<br/>フレームイベントは毎秒何度も（[window]のframerate回）発生するが、 アプリ全体が重くなるので、適度に間引いてイベントを時々発生させるため、
+<tr><td>frame</td><td></td><td>10</td><td>1〜</td><td>※未実装<br/><br/>key=enter_frameの場合のみ有効。<br/>フレームイベントは毎秒何度も（[window]のframerate回）発生するが、 アプリ全体が重くなるので、適度に間引いてイベントを時々発生させるため、
 	フレーム何回に一回イベントを発生させるかを指定する。<br/>例）30フレームで動作するアプリでframe=15を指定すると、30/15=0.5秒に一回発生（タイミングにより厳密ではない）</td></tr>
 </table>
 </p>
 
 <p>※1 イベントのキー名は以下の表を参考に。</p>
 <p>
-	技術的の話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>を基本とする。<br/>
+	技術的の話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>（<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" target="_blank" rel="noopener">Key Values - Web APIs | MDN</a>）を基本とする。<br/>
 	（keyCode（<a href="https://qiita.com/ledsun/items/fb2570cc1542039f4516" target="_blank" rel="noopener">非推奨</a>）・codeプロパティとは違うので注意）<br/>
-	<span style="color:ff0000;background-color:#FFCACA;">重要な点として、大文字小「key属性の値」は文字区別無し、どちらでもよい。</span><br/>
+	<span style="color:ff0000;background-color:#FFCACA;">重要な点として、「key属性の値」は大文字小文字区別無し、どちらでもよい。</span><br/>
 	修飾キー（shiftなど）は、その前に追加していく。（追加順は決まっており、以下を参照。ABC順）<br/>
 </p>
 <table><tr><th>key属性の値</th><th>コメント</th></tr>
+<tr><td>Click</td><td>マウスボタンクリック（[button]以外のどこか）</td></tr>
+<tr><td>RightClick</td><td>マウス右ボタンクリック（[button]以外のどこか）</td></tr>
+<tr><td>MiddleClick</td><td>マウス中（ホイール）ボタンクリック（[button]以外のどこか）</td></tr>
+<tr><td>UpWheel</td><td>マウスホイール回転（手前に）※回転開始時に一度のみ発生</td></tr>
+<tr><td>DownWheel</td><td>マウスホイール回転（奥に）※回転開始時に一度のみ発生</td></tr>
 <tr><td>Control</td><td>Mac/Winの Controlキー</td></tr>
 <tr><td>Alt</td><td>Macの Optionキー。Winの ALT（Option）キー</td></tr>
 <tr><td>Meta</td><td>Mac/Winの Commandキー</td></tr>
@@ -1168,6 +1296,33 @@
 <tr><td>F1</td><td>ファンクションキー（Macなどではユーザーが機能を割り当てている恐れ）</td></tr>
 <tr><td>F12</td><td>〃</td></tr>
 <tr><td>F13</td><td>※注：F13以上は、キーボードによっては存在しない</td></tr>
+<tr><td>dom=【フレーム名】:【ボタン系 HTML要素の id名】</td><td>
+	<a href="#add_frame">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
+	<br/>
+	「ボタン系 HTML要素」とは、【&lt;a id="close"&gt;x&lt;/a&gt;】など。<br/>
+	【key='dom=config:#close'】と記述した場合、その要素をクリックした際にイベントが発生する。<br/>
+	<br/>
+	HTML要素に【&lt;a id="close" data-arg="res"&gt;x&lt;/a&gt;】などとカスタムデータ属性を付加すると、イベント発生時に tmp変数として値を受け取れる。<br/>
+	例では、sn.event.domdata.arg に文字列【res】が入る。<br/>
+</td></tr>
+<tr><td>dom=【フレーム名】:【スライダー系 HTML要素の id名】</td><td>
+	<a href="#add_frame">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
+	<br/>
+	「スライダー系 HTML要素」とは、【&lt;input type="range" id="sldBackAlpha" min="0" max="100" step="5" value="70"/&gt;】など。<br/>
+	【key='dom=config:#sldBackAlpha'】と記述した場合、そのスライダーを変更した際にイベントが発生する。<br/>
+	<br/>
+	HTML要素に【&lt;input type="range" id="sldBackAlpha" min="0" max="100" step="5" value="70" data-arg2="res2"/&gt;】などとカスタムデータ属性を付加すると、イベント発生時に tmp変数として値を受け取れる。<br/>
+	例では、sn.event.domdata.arg2 に文字列【res2】が入る。<br/>
+</td></tr>
+<tr><td>dom=【フレーム名】:【トグルボタン系 HTML要素の id名】</td><td>
+	<a href="#add_frame">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
+	<br/>
+	「トグルボタン系 HTML要素」とは、【&lt;input type="checkbox" id="chkScrMode" checked="."/&gt;】など。<br/>
+	【key='dom=config:#chkScrMode'】と記述した場合、その要素をクリックした際にイベントが発生する。<br/>
+	<br/>
+	HTML要素に【&lt;input type="checkbox" id="chkScrMode" checked="." data-arg3="res3"/&gt;】などとカスタムデータ属性を付加すると、イベント発生時に tmp変数として値を受け取れる。<br/>
+	例では、sn.event.domdata.arg3 に文字列【res3】が入る。<br/>
+</td></tr>
 </table>
 
 <!--
@@ -1479,7 +1634,7 @@
 <p>詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。</td></tr>
-<tr><td>falseなら次の[elsif]や[else]の評価を行なう。</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>falseなら次の<a href="#elsif">[elsif]</a>や<a href="#else">[else]</a>の評価を行なう。</td><td></td><td></td><td></td><td></td></tr>
 </table>
 
 </p>
@@ -1501,7 +1656,7 @@
 
 <p>詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の[elsif]や[else]の評価を行なう。</td></tr>
+<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="#elsif">[elsif]</a>や<a href="#else">[else]</a>の評価を行なう。</td></tr>
 </table>
 
 </p>
@@ -1805,14 +1960,20 @@
 <h4>画面全体を揺らす</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>揺らす時間</td></tr><tr><td>hmax</td><td>n</td><td>10</td><td>Integer</td><td>横方向の最大揺らし幅。幅はランダム値を取る</td></tr><tr><td>vmax</td><td>n</td><td>10</td><td>Integer</td><td>縦方向の最大揺らし幅。幅はランダム値を取る</td></tr><tr><td>ease</td><td>n</td><td>イージング無し</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>指定できる値はplgTweensyの<a href="macro_plg.htm#tsy">[tsy]</a>を参照</td></tr></table>
+<table>
+<tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>揺らす時間</td></tr>
+<tr><td>hmax</td><td></td><td>10</td><td>Integer</td><td>横方向の最大揺らし幅。幅はランダム値を取る</td></tr>
+<tr><td>vmax</td><td></td><td>10</td><td>Integer</td><td>縦方向の最大揺らし幅。幅はランダム値を取る</td></tr>
+<tr><td>ease</td><td></td><td>イージング無し</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>指定できる値はplgTweensyの<a href="macro_plg.htm#tsy">[tsy]</a>を参照</td></tr>
+</table>
 
 </p>
 <h2 id="stop_quake" class="w-heading">[stop_quake]画面揺らし中断</h2>
 <h4>画面揺らしを中断する</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td>n</td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
 
 </p>
 <h2 id="wq" class="w-heading">[wq]画面揺らし終了待ち</h2>
@@ -1820,7 +1981,7 @@
 <p class="mb2 px1">
 	[event]などでイベントが登録されていても、イベント発生待ちを行わない。
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td>n</td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
 
 </p>
 <h1><a id="システムシステム"></a>システム</h1>

@@ -1,3 +1,9 @@
+## v0.6.13
+- chg：ホイールイベント名をAIRNovel準拠の UpWheel / DownWheel とする
+- add：[event key=MiddleClick]追加
+- chg：[tsy_frame]中はレイヤなどのイベントを受け付けないように
+- add：タグリファレンス：[event]のkey属性の解説を更新（dom= など）
+- add：タグリファレンス：HTMLフレーム系説明追加
 ## v0.6.12
 - upd：ライブラリ更新
 ## v0.6.11
