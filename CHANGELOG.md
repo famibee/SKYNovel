@@ -1,3 +1,5 @@
+## v0.6.15
+- chg：ライブラリダウングレード（@tweenjs/tween.js）
 ## v0.6.14
 - chg：ライブラリ更新（@tweenjs/tween.js）
 ## v0.6.13
