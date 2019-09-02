@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.6.13",
+	"version": "0.6.14",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"types": "./core/lib/index.d.ts",
@@ -8,7 +8,7 @@
 	"publisher": "famibee",
 	"license": "MIT",
 	"dependencies": {
-		"@tweenjs/tween.js": "^17.4.0",
+		"@tweenjs/tween.js": "^18.1.0",
 		"electron-store": "^4.0.0",
 		"fs-extra": "^8.1.0",
 		"hammerjs": "^2.0.8",

@@ -1,3 +1,5 @@
+## v0.6.14
+- chg：ライブラリ更新（@tweenjs/tween.js）
 ## v0.6.13
 - chg：ホイールイベント名をAIRNovel準拠の UpWheel / DownWheel とする
 - add：[event key=MiddleClick]追加
