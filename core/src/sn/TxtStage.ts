@@ -637,10 +637,7 @@ export class TxtStage extends Container {
 		this.aRect = aRect;
 
 		// TODO: 仕様策定中。後々文字waitと同じような処理だろう
-		const ease = this.fi_easing
-			? CmnTween.hEase[this.fi_easing]
-			: TWEEN.Easing.Linear.None;
-		if (! ease) throw '異常なease指定です';
+		const ease = CmnTween.ease(this.fi_easing);
 
 		//console.log(`cnt(%d, %d) cntInsidePadding(%d, %d) cntTxt(%d, %d) grpDbgMasume(%d, %d)`, this.cnt.x, this.cnt.y, this.cntInsidePadding.x, this.cntInsidePadding.y, this.cntTxt.x, this.cntTxt.y, this.grpDbgMasume.x, this.grpDbgMasume.y);
 		let delay = 0;
@@ -878,11 +875,7 @@ export class TxtStage extends Container {
 			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
 		}
 		else {
-			const ease = this.fo_easing
-				? CmnTween.hEase[this.fo_easing]
-				: TWEEN.Easing.Linear.None;
-			if (! ease) throw '異常なease指定です';
-
+			const ease = CmnTween.ease(this.fo_easing);
 			for (const c of this.cntTxt.children) {
 				c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
 				new TWEEN.Tween(c)

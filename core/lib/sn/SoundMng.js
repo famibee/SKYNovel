@@ -86,9 +86,7 @@ class SoundMng {
             }
             return false;
         }
-        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
-        if (!ease)
-            throw '異常なease指定です';
+        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
         oSb.twFade = new TWEEN.Tween({ v: oSb.snd.volume() })
             .to({ v: vol }, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN))

@@ -444,11 +444,7 @@ class TxtStage extends pixi_js_1.Container {
                 begin = lenPutedRect;
         }
         this.aRect = aRect;
-        const ease = this.fi_easing
-            ? CmnTween_1.CmnTween.hEase[this.fi_easing]
-            : TWEEN.Easing.Linear.None;
-        if (!ease)
-            throw '異常なease指定です';
+        const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
         let delay = 0;
         const len = this.aRect.length;
         for (let i = begin; i < len; ++i) {
@@ -631,11 +627,7 @@ class TxtStage extends pixi_js_1.Container {
                 c.removeAllListeners().destroy();
         }
         else {
-            const ease = this.fo_easing
-                ? CmnTween_1.CmnTween.hEase[this.fo_easing]
-                : TWEEN.Easing.Linear.None;
-            if (!ease)
-                throw '異常なease指定です';
+            const ease = CmnTween_1.CmnTween.ease(this.fo_easing);
             for (const c of this.cntTxt.children) {
                 c.removeAllListeners();
                 new TWEEN.Tween(c)

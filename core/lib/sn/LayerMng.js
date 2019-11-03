@@ -373,9 +373,7 @@ void main(void) {
     }
     trans(hArg) {
         this.finish_trans();
-        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
-        if (!ease)
-            throw '異常なease指定です';
+        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
         this.aBackTransAfter = [];
         const hTarget = {};
         for (const v of this.getLayers(hArg.layer))
@@ -539,9 +537,7 @@ void main(void) {
                 this.main.resume();
             this.twInfTrans = { tw: null, resume: false };
         };
-        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
-        if (!ease)
-            throw '異常なease指定です';
+        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
         const h = CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'hmax', 10));
         const v = CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'vmax', 10));
         const fncH = (h == 0)
@@ -570,9 +566,7 @@ void main(void) {
             throw 'layerは必須です';
         const layer = this.argChk_layer(hArg);
         const foreLay = this.hPages[layer].fore;
-        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
-        if (!ease)
-            throw '異常なease指定です';
+        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
         const hTo = {};
         for (const nm in this.hMemberCnt) {
             if (!(nm in hArg))

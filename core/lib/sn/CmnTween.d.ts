@@ -6,7 +6,6 @@ export interface ITwInf {
     onComplete?: () => void;
 }
 export declare class CmnTween {
-    static readonly hEase: {
-        [name: string]: (k: number) => number;
-    };
+    private static readonly hEase;
+    static ease(nm: string | undefined): (k: number) => number;
 }

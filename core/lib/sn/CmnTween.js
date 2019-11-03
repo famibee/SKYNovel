@@ -2,39 +2,46 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const TWEEN = require("@tweenjs/tween.js");
 class CmnTween {
+    static ease(nm) {
+        if (!nm)
+            return k => TWEEN.Easing.Linear.None(k);
+        if (!(nm in CmnTween.hEase))
+            throw '異常なease指定です';
+        return CmnTween.hEase[nm];
+    }
 }
 exports.CmnTween = CmnTween;
 CmnTween.hEase = {
-    'Back.In': TWEEN.Easing.Back.In,
-    'Back.InOut': TWEEN.Easing.Back.InOut,
-    'Back.Out': TWEEN.Easing.Back.Out,
-    'Bounce.In': TWEEN.Easing.Bounce.In,
-    'Bounce.InOut': TWEEN.Easing.Bounce.InOut,
-    'Bounce.Out': TWEEN.Easing.Bounce.Out,
-    'Circular.In': TWEEN.Easing.Circular.In,
-    'Circular.InOut': TWEEN.Easing.Circular.InOut,
-    'Circular.Out': TWEEN.Easing.Circular.Out,
-    'Cubic.In': TWEEN.Easing.Cubic.In,
-    'Cubic.InOut': TWEEN.Easing.Cubic.InOut,
-    'Cubic.Out': TWEEN.Easing.Cubic.Out,
-    'Elastic.In': TWEEN.Easing.Elastic.In,
-    'Elastic.InOut': TWEEN.Easing.Elastic.InOut,
-    'Elastic.Out': TWEEN.Easing.Elastic.Out,
-    'Exponential.In': TWEEN.Easing.Exponential.In,
-    'Exponential.InOut': TWEEN.Easing.Exponential.InOut,
-    'Exponential.Out': TWEEN.Easing.Exponential.Out,
-    'Linear.None': TWEEN.Easing.Linear.None,
-    'Quadratic.In': TWEEN.Easing.Quadratic.In,
-    'Quadratic.InOut': TWEEN.Easing.Quadratic.InOut,
-    'Quadratic.Out': TWEEN.Easing.Quadratic.Out,
-    'Quartic.In': TWEEN.Easing.Quartic.In,
-    'Quartic.InOut': TWEEN.Easing.Quartic.InOut,
-    'Quartic.Out': TWEEN.Easing.Quartic.Out,
-    'Quintic.In': TWEEN.Easing.Quintic.In,
-    'Quintic.InOut': TWEEN.Easing.Quintic.InOut,
-    'Quintic.Out': TWEEN.Easing.Quintic.Out,
-    'Sinusoidal.In': TWEEN.Easing.Sinusoidal.In,
-    'Sinusoidal.InOut': TWEEN.Easing.Sinusoidal.InOut,
-    'Sinusoidal.Out': TWEEN.Easing.Sinusoidal.Out,
+    'Back.In': k => TWEEN.Easing.Back.In(k),
+    'Back.InOut': k => TWEEN.Easing.Back.InOut(k),
+    'Back.Out': k => TWEEN.Easing.Back.Out(k),
+    'Bounce.In': k => TWEEN.Easing.Bounce.In(k),
+    'Bounce.InOut': k => TWEEN.Easing.Bounce.InOut(k),
+    'Bounce.Out': k => TWEEN.Easing.Bounce.Out(k),
+    'Circular.In': k => TWEEN.Easing.Circular.In(k),
+    'Circular.InOut': k => TWEEN.Easing.Circular.InOut(k),
+    'Circular.Out': k => TWEEN.Easing.Circular.Out(k),
+    'Cubic.In': k => TWEEN.Easing.Cubic.In(k),
+    'Cubic.InOut': k => TWEEN.Easing.Cubic.InOut(k),
+    'Cubic.Out': k => TWEEN.Easing.Cubic.Out(k),
+    'Elastic.In': k => TWEEN.Easing.Elastic.In(k),
+    'Elastic.InOut': k => TWEEN.Easing.Elastic.InOut(k),
+    'Elastic.Out': k => TWEEN.Easing.Elastic.Out(k),
+    'Exponential.In': k => TWEEN.Easing.Exponential.In(k),
+    'Exponential.InOut': k => TWEEN.Easing.Exponential.InOut(k),
+    'Exponential.Out': k => TWEEN.Easing.Exponential.Out(k),
+    'Linear.None': k => TWEEN.Easing.Linear.None(k),
+    'Quadratic.In': k => TWEEN.Easing.Quadratic.In(k),
+    'Quadratic.InOut': k => TWEEN.Easing.Quadratic.InOut(k),
+    'Quadratic.Out': k => TWEEN.Easing.Quadratic.Out(k),
+    'Quartic.In': k => TWEEN.Easing.Quartic.In(k),
+    'Quartic.InOut': k => TWEEN.Easing.Quartic.InOut(k),
+    'Quartic.Out': k => TWEEN.Easing.Quartic.Out(k),
+    'Quintic.In': k => TWEEN.Easing.Quintic.In(k),
+    'Quintic.InOut': k => TWEEN.Easing.Quintic.InOut(k),
+    'Quintic.Out': k => TWEEN.Easing.Quintic.Out(k),
+    'Sinusoidal.In': k => TWEEN.Easing.Sinusoidal.In(k),
+    'Sinusoidal.InOut': k => TWEEN.Easing.Sinusoidal.InOut(k),
+    'Sinusoidal.Out': k => TWEEN.Easing.Sinusoidal.Out(k),
 };
 //# sourceMappingURL=CmnTween.js.map

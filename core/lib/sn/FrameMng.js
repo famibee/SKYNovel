@@ -147,9 +147,7 @@ class FrameMng {
         const frmnm = `const.sn.frm.${id}`;
         if (!this.val.getVal(`tmp:${frmnm}`, 0))
             throw `frame【${id}】が読み込まれていません`;
-        const ease = hArg.ease ? CmnTween_1.CmnTween.hEase[hArg.ease] : TWEEN.Easing.Linear.None;
-        if (!ease)
-            throw '異常なease指定です';
+        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
         const ifrm = document.getElementById(id);
         const hNow = {};
         const hTo = {};
