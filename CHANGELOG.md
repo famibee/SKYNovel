@@ -1,3 +1,5 @@
+## v0.6.17
+- chg：ライブラリ更新（pixi.jsを最新5.1.5に）
 ## v0.6.16
 - upd：ライブラリ更新（pixi.js、@tweenjs/tween.js以外）
 ## v0.6.15
