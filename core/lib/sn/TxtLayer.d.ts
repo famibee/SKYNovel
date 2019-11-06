@@ -41,7 +41,8 @@ export declare class TxtLayer extends Layer {
     private log;
     private recText;
     clearText(): void;
-    enabled: boolean;
+    get enabled(): boolean;
+    set enabled(v: boolean);
     addButton(hArg: HArg): boolean;
     clearLay(hArg: HArg): void;
     readonly record: () => {

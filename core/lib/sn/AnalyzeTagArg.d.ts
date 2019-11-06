@@ -4,9 +4,9 @@ export declare class AnalyzeTagArg {
     private static readonly REG_TAGARG_VAL;
     goVal(args: string): void;
     private $hPrm;
-    readonly hPrm: any;
+    get hPrm(): any;
     private $isKomeParam;
-    readonly isKomeParam: boolean;
+    get isKomeParam(): boolean;
     private $literal;
-    readonly literal: string;
+    get literal(): string;
 }

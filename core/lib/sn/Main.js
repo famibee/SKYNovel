@@ -86,13 +86,14 @@ class Main {
             throw mes;
     }
     resumeByJumpOrCall(hArg) {
+        var _a, _b;
         const url = hArg['url'];
         if (url) {
             window.open(url);
             return;
         }
-        this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg || '');
-        this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label || '');
+        this.val.setVal_Nochk('tmp', 'sn.eventArg', (_a = hArg.arg, (_a !== null && _a !== void 0 ? _a : '')));
+        this.val.setVal_Nochk('tmp', 'sn.eventLabel', (_b = hArg.label, (_b !== null && _b !== void 0 ? _b : '')));
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'call', false)) {
             this.scrItr.subIdxToken();
             this.resume(() => this.hTag.call(hArg));

@@ -61,7 +61,7 @@ export class SoundMng {
 
 	// 音量設定（独自拡張）
 	private volume(hArg: HArg) {
-		const buf = hArg.buf || 'SE';
+		const buf = hArg.buf ?? 'SE';
 		const bvn = 'const.sn.sound.'+ buf +'.volume';
 		const arg_vol = this.getVol(hArg, 1);
 		if (Number(this.val.getVal('sys:'+ bvn)) == arg_vol) return false;
@@ -91,7 +91,7 @@ export class SoundMng {
 	private fadese(hArg: HArg) {
 		this.stopfadese(hArg);
 
-		const buf = hArg.buf || 'SE';
+		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.snd.playing()) return false;
 
@@ -154,7 +154,7 @@ export class SoundMng {
 
 	// 効果音の再生
 	private playse(hArg: HArg) {
-		const buf = hArg.buf || 'SE';
+		const buf = hArg.buf ?? 'SE';
 		this.stopse({buf: buf});
 		const fn = hArg.fn;
 		if (! fn) throw '[playse] fnは必須です(buf='+ buf +')';
@@ -230,7 +230,7 @@ export class SoundMng {
 	private stopbgm(hArg: HArg) {hArg.buf = 'BGM'; return this.stopse(hArg);}
 	// 効果音再生の停止
 	private stopse(hArg: HArg) {
-		const buf = hArg.buf || 'SE';
+		const buf = hArg.buf ?? 'SE';
 		this.stopfadese(hArg);
 		this.delLoopPlay(buf);
 
@@ -245,7 +245,7 @@ export class SoundMng {
 
 	// 効果音フェードの終了待ち
 	private wf(hArg: HArg) {
-		const buf = hArg.buf || 'SE';
+		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.twFade) return false;
 		if (! oSb.snd.playing()) return false;
@@ -260,7 +260,7 @@ export class SoundMng {
 
 	// 音声フェードの停止
 	private stopfadese(hArg: HArg) {
-		const buf = hArg.buf || 'SE';
+		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.twFade) return false;
 
@@ -273,7 +273,7 @@ export class SoundMng {
 	private wl(hArg: HArg) {hArg.buf = 'BGM'; return this.ws(hArg);}
 	// 効果音再生の終了待ち
 	private ws(hArg: HArg) {
-		const buf = hArg.buf || 'SE';
+		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.snd.playing() || oSb.loop) return false;
 
@@ -293,8 +293,8 @@ export class SoundMng {
 
 	// 再生トラックの交換
 	private xchgbuf(hArg: HArg) {	// TODO: xchgbuf()が未テスト
-		const buf = hArg.buf || 'SE';
-		const buf2 = hArg.buf2 || 'SE';
+		const buf = hArg.buf ?? 'SE';
+		const buf2 = hArg.buf2 ?? 'SE';
 		[this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
 		// const oSb = this.hSndBuf[buf];
 		// this.hSndBuf[buf] = this.hSndBuf[buf2];

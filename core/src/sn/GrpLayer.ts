@@ -59,7 +59,7 @@ export class GrpLayer extends Layer {
 	static	hFn2ResAniSpr	: {[name: string]:	IResAniSpr} = {};
 	lay(hArg: HArg): boolean {
 		const fn = hArg.fn;
-		const face = hArg.face || '';
+		const face = hArg.face ?? '';
 		//console.log('layer:%s page:%s fn:%s face:%s', hArg['layer'], hArg['page'], fn, face);
 		if (! fn) {
 			super.lay(hArg);
@@ -154,7 +154,7 @@ export class GrpLayer extends Layer {
 		if (fn in GrpLayer.hFn2ResAniSpr) {
 			const ras = GrpLayer.hFn2ResAniSpr[fn];
 			const asp = new AnimatedSprite(ras.aTex);
-			asp.animationSpeed = ras.meta['animationSpeed'] || 1.0;
+			asp.animationSpeed = ras.meta['animationSpeed'] ?? 1.0;
 			asp.play();
 			return asp;
 		}
@@ -240,7 +240,7 @@ export class GrpLayer extends Layer {
 		if (! name) throw 'nameは必須です';
 		if (name in GrpLayer.hFace) throw '一つのname（'+ name +'）に対して同じ画像を複数割り当てられません';
 
-		const fn = hArg.fn || name;
+		const fn = hArg.fn ?? name;
 		GrpLayer.hFace[name] = {
 			fn: fn,
 			dx: CmnLib.argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,

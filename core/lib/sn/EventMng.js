@@ -227,10 +227,11 @@ class EventMng {
         this.isStop = true;
     }
     button(hArg, em) {
+        var _a;
         if (!hArg.fn && !hArg.label)
             this.main.errScript('fnまたはlabelは必須です');
         em.interactive = em.buttonMode = true;
-        const key = (hArg.key || '').toLowerCase();
+        const key = (_a = hArg.key, (_a !== null && _a !== void 0 ? _a : ' ')).toLowerCase();
         if (!hArg.fn)
             hArg.fn = this.scrItr.scriptFn;
         const glb = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false);

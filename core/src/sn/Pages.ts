@@ -57,7 +57,7 @@ export class Pages {
 			? this.pg.fore
 			: this.pg.back;
 	static	argChk_page(hash: HArg, def: string): string {
-		const v = hash.page || def;
+		const v = hash.page ?? def;
 		if (v == 'fore') return hash.page = v;
 		if (v == 'back') return hash.page = v;
 

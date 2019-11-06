@@ -67,7 +67,8 @@ export declare class LayerMng {
     private pause_tsy;
     private resume_tsy;
     private static $msecChWait;
-    static msecChWait: number;
+    static get msecChWait(): number;
+    static set msecChWait(v: number);
     private ch;
     private getTxtLayer;
     setNormalWaitTxtLayer(): void;

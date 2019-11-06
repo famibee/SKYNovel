@@ -83,13 +83,13 @@ export class TxtStage extends Container {
 				}
 				this.htmTxt.style[key] = cln.style[key];
 			}
-			this.infTL.pad_left = parseFloat(this.htmTxt.style.paddingLeft || '0');
-			this.infTL.pad_right = parseFloat(this.htmTxt.style.paddingRight || '0');
-			this.infTL.pad_top = parseFloat(this.htmTxt.style.paddingTop || '0');
-			this.infTL.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom || '0');
-			this.infTL.fontsize = parseFloat(this.htmTxt.style.fontSize || '0');
-			this.infTL.$width = parseFloat(this.htmTxt.style.width || '0');
-			this.infTL.$height = parseFloat(this.htmTxt.style.height || '0');
+			this.infTL.pad_left = parseFloat(this.htmTxt.style.paddingLeft ?? '0');
+			this.infTL.pad_right = parseFloat(this.htmTxt.style.paddingRight ?? '0');
+			this.infTL.pad_top = parseFloat(this.htmTxt.style.paddingTop ?? '0');
+			this.infTL.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom ?? '0');
+			this.infTL.fontsize = parseFloat(this.htmTxt.style.fontSize ?? '0');
+			this.infTL.$width = parseFloat(this.htmTxt.style.width ?? '0');
+			this.infTL.$height = parseFloat(this.htmTxt.style.height ?? '0');
 		}
 		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
@@ -121,12 +121,12 @@ export class TxtStage extends Container {
 
 		this.lh_half = (this.htmTxt.style.writingMode == 'vertical-rl')
 			? 0
-			: (	((this.htmTxt.style.lineHeight || '0').slice(-2) == 'px')
-				? parseFloat(this.htmTxt.style.lineHeight || '0')
-				: parseFloat(this.htmTxt.style.fontSize || '0')
-					* parseFloat(this.htmTxt.style.lineHeight || '0')
+			: (	((this.htmTxt.style.lineHeight ?? '0').slice(-2) == 'px')
+				? parseFloat(this.htmTxt.style.lineHeight ?? '0')
+				: parseFloat(this.htmTxt.style.fontSize ?? '0')
+					* parseFloat(this.htmTxt.style.lineHeight ?? '0')
 					// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
-				-parseFloat(this.htmTxt.style.fontSize || '0')	) /2;
+				-parseFloat(this.htmTxt.style.fontSize ?? '0')	) /2;
 	}
 	setSize(width: number, height: number) {
 		this.infTL.$width = width;
@@ -480,10 +480,10 @@ export class TxtStage extends Container {
 			cln.style.padding = '0px';		// ややこしいのでシンプルに
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 			if (cln.style.writingMode == 'vertical-rl') {
-				padTx4x = parseFloat(cln.style.fontSize || '0');
+				padTx4x = parseFloat(cln.style.fontSize ?? '0');
 			}
 			else {
-				padTx4y = parseFloat(cln.style.fontSize || '0');
+				padTx4y = parseFloat(cln.style.fontSize ?? '0');
 			}
 			cln.style.paddingRight = padTx4x +'px';
 			cln.style.paddingTop = padTx4y +'px';
@@ -807,10 +807,10 @@ export class TxtStage extends Container {
 					r.top  +window.pageYOffset,
 					r.width,
 					r.height +('gjqy'.includes(ch) ?this.lh_half :0)),
-				cmd	: pe.getAttribute('data-cmd') || undefined,
-				arg	: pe.getAttribute('data-arg') || undefined,
-				add	: pe.getAttribute('data-add') || undefined,
-				tcy	: pe.getAttribute('data-tcy') || undefined,
+				cmd	: pe.getAttribute('data-cmd') ?? undefined,
+				arg	: pe.getAttribute('data-arg') ?? undefined,
+				add	: pe.getAttribute('data-add') ?? undefined,
+				tcy	: pe.getAttribute('data-tcy') ?? undefined,
 			};
 			ret.push(cr);
 			//console.log('ch:%s rect:%o', cr.ch, cr.rect);

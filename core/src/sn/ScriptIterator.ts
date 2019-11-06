@@ -117,7 +117,7 @@ export class ScriptIterator {
 		hArg.cast = 'str';
 		this.hTag['let'](hArg);
 		this.idxToken_ += 2;
-		this.lineNum_ += (ml.match(/\n/g) || []).length;
+		this.lineNum_ += (ml.match(/\n/g) ?? []).length;
 
 		return false;
 	}
@@ -229,7 +229,7 @@ export class ScriptIterator {
 		let s = '';
 		for (let i=this.idxToken_ -1; i>=0; --i) {
 			s = this.script.aToken[i] + s;
-			if ((s.match(/\n/g) || []).length >= this.dumpErrLine) break;
+			if ((s.match(/\n/g) ?? []).length >= this.dumpErrLine) break;
 		}
 		const a = s.split('\n').slice(-this.dumpErrLine);
 		const len = a.length;
@@ -417,7 +417,7 @@ export class ScriptIterator {
 	private skipLabel = '';
 	private jumpWork(fn = '', label = '', idx = 0) {
 		if (! fn && ! label) this.main.errScript('[jump系] fnまたはlabelは必須です');
-		this.skipLabel = label || '';
+		this.skipLabel = label ?? '';
 		if (this.skipLabel && this.skipLabel.charAt(0) != '*') {
 			this.main.errScript('[jump系] labelは*で始まります');
 		}
@@ -564,7 +564,7 @@ export class ScriptIterator {
 						in_let_ml = false;
 						continue;
 					}
-					lineNum += (token.match(/\n/g) || []).length;	// \n 改行
+					lineNum += (token.match(/\n/g) ?? []).length;	// \n 改行
 				}
 				else {
 					this.REG_TAG_LET_ML.lastIndex = 0;
@@ -688,7 +688,7 @@ export class ScriptIterator {
 			if (this.REG_TAG_LET_ML.test(token)) {
 				const idxSpl = token.indexOf(']') +1;
 				const ml = token.slice(idxSpl);
-				const cnt = (ml.match(/\n/g) || []).length;
+				const cnt = (ml.match(/\n/g) ?? []).length;
 				this.script.aToken.splice(i, 1, token.slice(0, idxSpl), ml);
 				this.script.aLNum.splice(i, 0, this.script.aLNum[i]);
 				const len = this.script.aToken.length;
@@ -815,7 +815,7 @@ export class ScriptIterator {
 		if (! text) throw '[bracket2macro] textは必須です';
 		if (text.length != 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
 
-		this.hC2M = this.hC2M || {};
+		this.hC2M = this.hC2M ?? {};
 
 		const op = text.charAt(0);
 		const cl = text.charAt(1);
@@ -856,7 +856,7 @@ export class ScriptIterator {
 
 	// 一文字マクロの定義
 	private char2macro(hArg: HArg) {
-		this.hC2M = this.hC2M || {};
+		this.hC2M = this.hC2M ?? {};
 
 		const char = hArg.char;
 		if (! char) throw '[char2macro] charは必須です';
@@ -925,7 +925,7 @@ export class ScriptIterator {
 				return false;
 			}
 
-			if (token.charCodeAt(0) == 10) this.lineNum_ += (token.match(/\n/g) || []).length;
+			if (token.charCodeAt(0) == 10) this.lineNum_ += (token.match(/\n/g) ?? []).length;
 		}
 		throw 'マクロ'+ name +'定義の終端・[endmacro]がありません';
 	}
@@ -1033,7 +1033,7 @@ export class ScriptIterator {
 
 		delete hArg.タグ名;
 		delete hArg.place;
-		hArg.text = (hArg.text || '').replace(/^(<br\/>)+/, '');
+		hArg.text = (hArg.text ?? '').replace(/^(<br\/>)+/, '');
 		this.mark.json = hArg;
 		this.val.setMark(place, this.mark);
 

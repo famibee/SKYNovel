@@ -10,8 +10,8 @@ export declare class Pages {
     readonly lay: (hArg: HArg) => boolean;
     readonly getPage: (hArg: HArg) => Layer;
     static argChk_page(hash: HArg, def: string): string;
-    readonly cls: string;
-    readonly fore: Layer;
-    readonly back: Layer;
+    get cls(): string;
+    get fore(): Layer;
+    get back(): Layer;
     transPage(): void;
 }

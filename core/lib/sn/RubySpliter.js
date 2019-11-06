@@ -10,6 +10,7 @@ class RubySpliter {
     getSesame() { return RubySpliter.sesame; }
     init(putCh) { this.putCh = putCh; }
     putTxt(text) {
+        var _a, _b, _c;
         let elm = null, pos = 0;
         while (elm = m_xregexp.exec(text, RubySpliter.REG_RUBY, pos)) {
             pos = elm['index'] + elm[0].length;
@@ -23,7 +24,7 @@ class RubySpliter {
                 this.putTxtRb(elm['kan'], kan_ruby);
                 continue;
             }
-            const txt = elm['txt'] || elm['txt2'] || elm['txt3'] || '';
+            const txt = (_c = (_b = (_a = elm['txt'], (_a !== null && _a !== void 0 ? _a : elm['txt2'])), (_b !== null && _b !== void 0 ? _b : elm['txt3'])), (_c !== null && _c !== void 0 ? _c : ''));
             for (const v of txt)
                 this.putCh(v, '');
         }

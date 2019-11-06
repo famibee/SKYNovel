@@ -6,6 +6,6 @@ export declare class Areas implements IAreas {
     search(idx: number): boolean;
     record(idx: number): void;
     erase(idx: number): void;
-    readonly count: number;
+    get count(): number;
     toString(): string;
 }

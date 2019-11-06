@@ -326,8 +326,8 @@ export class PropParser {
 			scope	: a.scope || 'tmp',
 			//name	: (a.name || '')
 			//			.replace(REG_VALN_B2D, getValName_B2D)
-			name	: PropParser.getValName_B2D(a.name || ''),
-			at		: a.at || '',
+			name	: PropParser.getValName_B2D(a.name),
+			at		: a.at ?? '',
 		};
 	}
 

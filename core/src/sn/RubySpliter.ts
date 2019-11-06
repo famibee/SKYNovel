@@ -66,7 +66,7 @@ export class RubySpliter {
 				continue;
 			}
 
-			const txt = elm['txt'] || elm['txt2'] || elm['txt3'] || '';
+			const txt = elm['txt'] ?? elm['txt2'] ?? elm['txt3'] ?? '';
 			for (const v of txt) this.putCh(v, '');
 		}
 	}

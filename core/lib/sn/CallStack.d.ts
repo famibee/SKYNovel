@@ -15,8 +15,8 @@ export declare class CallStack {
     private readonly $idx;
     private readonly $hArg;
     constructor($fn?: string, $idx?: number, $hArg?: ICallStackArg | null);
-    readonly fn: string;
-    readonly idx: number;
-    readonly hArg: ICallStackArg | null;
+    get fn(): string;
+    get idx(): number;
+    get hArg(): ICallStackArg | null;
     readonly toString: () => string;
 }

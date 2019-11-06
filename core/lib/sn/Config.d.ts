@@ -12,9 +12,9 @@ export declare class Config implements IConfig {
     static readonly EXT_SOUND = "mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav";
     constructor(sys: SysBase, fncLoaded: () => void, oCfg4tst?: any);
     private $existsBreakline;
-    readonly existsBreakline: boolean;
+    get existsBreakline(): boolean;
     private $existsBreakpage;
-    readonly existsBreakpage: boolean;
+    get existsBreakpage(): boolean;
     getNs(): string;
     searchPath(fn: string, extptn?: string): string;
     matchPath(fnptn: string, extptn?: string): ReadonlyArray<IExts>;

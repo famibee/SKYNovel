@@ -18,9 +18,9 @@ export declare class SysBase implements ISysBase {
         cur: string;
         crypt: boolean;
     });
-    readonly cur: string;
-    readonly crypt: boolean;
-    readonly crypt_: "" | "_";
+    get cur(): string;
+    get crypt(): boolean;
+    get crypt_(): "" | "_";
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     reso4frame: number;
@@ -46,9 +46,9 @@ export declare class SysBase implements ISysBase {
     protected stk: () => string;
     protected readonly isApp: () => boolean;
     protected $path_desktop: string;
-    readonly path_desktop: string;
+    get path_desktop(): string;
     protected $path_userdata: string;
-    readonly path_userdata: string;
+    get path_userdata(): string;
     readonly existsSync: (_path: string) => boolean;
     readonly writeFile: (_file: string | number | Buffer, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     readonly savePic: (_fn: string, _data_url: string) => void;

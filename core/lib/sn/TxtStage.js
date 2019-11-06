@@ -46,6 +46,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     static setEvtMng(evtMng) { TxtStage.evtMng = evtMng; }
     lay(hArg) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (hArg.style) {
             const cln = document.createElement('span');
             cln.style.cssText = hArg.style;
@@ -58,13 +59,13 @@ class TxtStage extends pixi_js_1.Container {
                 }
                 this.htmTxt.style[key] = cln.style[key];
             }
-            this.infTL.pad_left = parseFloat(this.htmTxt.style.paddingLeft || '0');
-            this.infTL.pad_right = parseFloat(this.htmTxt.style.paddingRight || '0');
-            this.infTL.pad_top = parseFloat(this.htmTxt.style.paddingTop || '0');
-            this.infTL.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom || '0');
-            this.infTL.fontsize = parseFloat(this.htmTxt.style.fontSize || '0');
-            this.infTL.$width = parseFloat(this.htmTxt.style.width || '0');
-            this.infTL.$height = parseFloat(this.htmTxt.style.height || '0');
+            this.infTL.pad_left = parseFloat((_a = this.htmTxt.style.paddingLeft, (_a !== null && _a !== void 0 ? _a : '0')));
+            this.infTL.pad_right = parseFloat((_b = this.htmTxt.style.paddingRight, (_b !== null && _b !== void 0 ? _b : '0')));
+            this.infTL.pad_top = parseFloat((_c = this.htmTxt.style.paddingTop, (_c !== null && _c !== void 0 ? _c : '0')));
+            this.infTL.pad_bottom = parseFloat((_d = this.htmTxt.style.paddingBottom, (_d !== null && _d !== void 0 ? _d : '0')));
+            this.infTL.fontsize = parseFloat((_e = this.htmTxt.style.fontSize, (_e !== null && _e !== void 0 ? _e : '0')));
+            this.infTL.$width = parseFloat((_f = this.htmTxt.style.width, (_f !== null && _f !== void 0 ? _f : '0')));
+            this.infTL.$height = parseFloat((_g = this.htmTxt.style.height, (_g !== null && _g !== void 0 ? _g : '0')));
         }
         this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
         const xSlide = TxtStage.cfg.oCfg.debug.slideBaseSpan
@@ -91,11 +92,11 @@ class TxtStage extends pixi_js_1.Container {
             }
         this.lh_half = (this.htmTxt.style.writingMode == 'vertical-rl')
             ? 0
-            : (((this.htmTxt.style.lineHeight || '0').slice(-2) == 'px')
-                ? parseFloat(this.htmTxt.style.lineHeight || '0')
-                : parseFloat(this.htmTxt.style.fontSize || '0')
-                    * parseFloat(this.htmTxt.style.lineHeight || '0')
-                    - parseFloat(this.htmTxt.style.fontSize || '0')) / 2;
+            : (((_h = this.htmTxt.style.lineHeight, (_h !== null && _h !== void 0 ? _h : '0')).slice(-2) == 'px')
+                ? parseFloat((_j = this.htmTxt.style.lineHeight, (_j !== null && _j !== void 0 ? _j : '0')))
+                : parseFloat((_k = this.htmTxt.style.fontSize, (_k !== null && _k !== void 0 ? _k : '0')))
+                    * parseFloat((_l = this.htmTxt.style.lineHeight, (_l !== null && _l !== void 0 ? _l : '0')))
+                    - parseFloat((_m = this.htmTxt.style.fontSize, (_m !== null && _m !== void 0 ? _m : '0')))) / 2;
     }
     setSize(width, height) {
         this.infTL.$width = width;
@@ -321,13 +322,14 @@ class TxtStage extends pixi_js_1.Container {
         let padTx4y = 0;
         Promise.resolve(this.htmTxt)
             .then(node => {
+            var _a, _b;
             const cln = node.cloneNode(true);
             cln.style.padding = '0px';
             if (cln.style.writingMode == 'vertical-rl') {
-                padTx4x = parseFloat(cln.style.fontSize || '0');
+                padTx4x = parseFloat((_a = cln.style.fontSize, (_a !== null && _a !== void 0 ? _a : '0')));
             }
             else {
-                padTx4y = parseFloat(cln.style.fontSize || '0');
+                padTx4y = parseFloat((_b = cln.style.fontSize, (_b !== null && _b !== void 0 ? _b : '0')));
             }
             cln.style.paddingRight = padTx4x + 'px';
             cln.style.paddingTop = padTx4y + 'px';
@@ -575,6 +577,7 @@ class TxtStage extends pixi_js_1.Container {
         this.aSpTw.push(st);
     }
     getChRects(elm) {
+        var _a, _b, _c, _d;
         const ret = [];
         if (elm.nodeType != elm.TEXT_NODE) {
             for (const v of elm.childNodes)
@@ -596,10 +599,10 @@ class TxtStage extends pixi_js_1.Container {
             const cr = {
                 ch: ch,
                 rect: new pixi_js_1.Rectangle(r.left + window.pageXOffset, r.top + window.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? this.lh_half : 0)),
-                cmd: pe.getAttribute('data-cmd') || undefined,
-                arg: pe.getAttribute('data-arg') || undefined,
-                add: pe.getAttribute('data-add') || undefined,
-                tcy: pe.getAttribute('data-tcy') || undefined,
+                cmd: (_a = pe.getAttribute('data-cmd'), (_a !== null && _a !== void 0 ? _a : undefined)),
+                arg: (_b = pe.getAttribute('data-arg'), (_b !== null && _b !== void 0 ? _b : undefined)),
+                add: (_c = pe.getAttribute('data-add'), (_c !== null && _c !== void 0 ? _c : undefined)),
+                tcy: (_d = pe.getAttribute('data-tcy'), (_d !== null && _d !== void 0 ? _d : undefined)),
             };
             ret.push(cr);
         }

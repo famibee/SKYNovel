@@ -232,7 +232,7 @@ export class LayerMng {
 			: ('desktop:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.jpg'))
 		: ('desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg');
 		const ext = CmnLib.getExt(fn);
-		const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
+		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
 		const renderer = new Renderer({
 			width: CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW),
 			height: CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH),
@@ -377,7 +377,7 @@ return false;	// TODO: 未作成：フォーカス移動
 
 			this.val.setVal_Nochk(
 				'save',
-				'const.sn.layer.'+ (layer || this.strTxtlay) + '.enabled',
+				'const.sn.layer.'+ (layer ?? this.strTxtlay) + '.enabled',
 				true);
 			break;
 		}
@@ -745,7 +745,7 @@ void main(void) {
 		}
 
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
-		const tw_nm = hArg.name || hArg.layer;
+		const tw_nm = hArg.name ?? hArg.layer;
 		const tw = new TWEEN.Tween(foreLay)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
 				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
@@ -763,7 +763,7 @@ void main(void) {
 			});
 
 		if ('chain' in hArg) {
-			const twFrom = this.hTwInf[hArg.chain || ''];
+			const twFrom = this.hTwInf[hArg.chain ?? ''];
 			if (! twFrom || ! twFrom.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
 			twFrom.onComplete = ()=> {};
 			twFrom.tw.chain(tw);
@@ -785,7 +785,7 @@ void main(void) {
 
 	// トゥイーン終了待ち
 	private wait_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
@@ -800,7 +800,7 @@ void main(void) {
 
 	// トゥイーン中断
 	private stop_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
@@ -812,7 +812,7 @@ void main(void) {
 
 	// 一時停止
 	private pause_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
@@ -824,7 +824,7 @@ void main(void) {
 
 	// 一時停止再開
 	private resume_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name || hArg.layer);
+		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const twInf = this.hTwInf[tw_nm];
 		if (! twInf || ! twInf.tw) return false;
@@ -900,7 +900,7 @@ void main(void) {
 
 	private argChk_layer(hash: any, def = ''): string {
 		//console.log('[argChk_layer] layer:'+ hash['layer']);
-		const v = hash.layer || def;
+		const v = hash.layer ?? def;
 		if (v.includes(',')) throw 'layer名に「,」は使えません';
 		if (! (v in this.hPages)) throw '属性 layer【'+ v +'】が不正です。レイヤーがありません';
 
@@ -990,7 +990,7 @@ void main(void) {
 
 	// 履歴リセット
 	private reset_rec(hArg: HArg) {
-		this.val.setVal_Nochk('save', 'const.sn.sLog', hArg.text || '');
+		this.val.setVal_Nochk('save', 'const.sn.sLog', hArg.text ?? '');
 		return false;
 	}
 
@@ -1009,14 +1009,14 @@ void main(void) {
 
 	// インラインスタイル設定
 	private span(hArg: HArg) {
-		this.cmdTxt(`span｜${hArg.style || ''}`);
+		this.cmdTxt(`span｜${hArg.style ?? ''}`);
 		return false;
 	}
 
 	// tcy縦中横を表示する
 	private tcy(hArg: HArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
-		hArg.text = '｜　｜《tcy｜'+ hArg.t +'｜'+ (hArg.r || '') +'》';
+		hArg.text = '｜　｜《tcy｜'+ hArg.t +'｜'+ (hArg.r ?? '') +'》';
 		this.hTag.ch(hArg);
 		return false;
 	};
@@ -1058,9 +1058,9 @@ void main(void) {
 	// ボタンを表示
 	private button(hArg: HArg) {
 		Pages.argChk_page(hArg, 'back');	// チェックしたいというよりデフォルトをbackに
-		hArg.clicksebuf = hArg.clicksebuf || 'SYS';
-		hArg.entersebuf = hArg.entersebuf || 'SYS';
-		hArg.leavesebuf = hArg.leavesebuf || 'SYS';
+		hArg.clicksebuf = hArg.clicksebuf ?? 'SYS';
+		hArg.entersebuf = hArg.entersebuf ?? 'SYS';
+		hArg.leavesebuf = hArg.leavesebuf ?? 'SYS';
 		return this.getTxtLayer(hArg).addButton(hArg);
 	}
 

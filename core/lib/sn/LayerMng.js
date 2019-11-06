@@ -220,13 +220,14 @@ void main(void) {
         return tl.click();
     }
     snapshot(hArg) {
+        var _a;
         const fn = (hArg.fn)
             ? ((hArg.fn.substr(0, 10) == 'userdata:/')
                 ? hArg.fn
                 : ('desktop:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg'))
             : ('desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg');
         const ext = CmnLib_1.CmnLib.getExt(fn);
-        const b_color = hArg.b_color || this.cfg.oCfg.init.bg_color;
+        const b_color = (_a = hArg.b_color, (_a !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color));
         const renderer = new pixi_js_1.Renderer({
             width: CmnLib_1.CmnLib.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW),
             height: CmnLib_1.CmnLib.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH),
@@ -313,7 +314,7 @@ void main(void) {
                         }
                     };
                 }
-                this.val.setVal_Nochk('save', 'const.sn.layer.' + (layer || this.strTxtlay) + '.enabled', true);
+                this.val.setVal_Nochk('save', 'const.sn.layer.' + ((layer !== null && layer !== void 0 ? layer : this.strTxtlay)) + '.enabled', true);
                 break;
         }
         this.aLayName.push(layer);
@@ -562,6 +563,7 @@ void main(void) {
         return false;
     }
     tsy(hArg) {
+        var _a, _b;
         if (!hArg.layer)
             throw 'layerは必須です';
         const layer = this.argChk_layer(hArg);
@@ -581,7 +583,7 @@ void main(void) {
                 hTo[nm] += parseFloat(foreLay[nm]);
         }
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
-        const tw_nm = hArg.name || hArg.layer;
+        const tw_nm = (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
         const tw = new TWEEN.Tween(foreLay)
             .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
             * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
@@ -601,7 +603,7 @@ void main(void) {
                 twInf.onComplete();
         });
         if ('chain' in hArg) {
-            const twFrom = this.hTwInf[hArg.chain || ''];
+            const twFrom = this.hTwInf[_b = hArg.chain, (_b !== null && _b !== void 0 ? _b : '')];
             if (!twFrom || !twFrom.tw)
                 throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
             twFrom.onComplete = () => { };
@@ -623,7 +625,8 @@ void main(void) {
         return false;
     }
     wait_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name || hArg.layer);
+        var _a;
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -635,7 +638,8 @@ void main(void) {
         return true;
     }
     stop_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name || hArg.layer);
+        var _a;
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -645,7 +649,8 @@ void main(void) {
         return false;
     }
     pause_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name || hArg.layer);
+        var _a;
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -655,7 +660,8 @@ void main(void) {
         return false;
     }
     resume_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name || hArg.layer);
+        var _a;
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -718,7 +724,8 @@ void main(void) {
         return this.pgTxtlay.fore;
     }
     argChk_layer(hash, def = '') {
-        const v = hash.layer || def;
+        var _a;
+        const v = (_a = hash.layer, (_a !== null && _a !== void 0 ? _a : def));
         if (v.includes(','))
             throw 'layer名に「,」は使えません';
         if (!(v in this.hPages))
@@ -787,7 +794,8 @@ void main(void) {
     }
     ;
     reset_rec(hArg) {
-        this.val.setVal_Nochk('save', 'const.sn.sLog', hArg.text || '');
+        var _a;
+        this.val.setVal_Nochk('save', 'const.sn.sLog', (_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')));
         return false;
     }
     ruby2(hArg) {
@@ -802,13 +810,15 @@ void main(void) {
         return false;
     }
     span(hArg) {
-        this.cmdTxt(`span｜${hArg.style || ''}`);
+        var _a;
+        this.cmdTxt(`span｜${_a = hArg.style, (_a !== null && _a !== void 0 ? _a : '')}`);
         return false;
     }
     tcy(hArg) {
+        var _a;
         if (!hArg.t)
             throw '[tcy] tは必須です';
-        hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + (hArg.r || '') + '》';
+        hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + (_a = hArg.r, (_a !== null && _a !== void 0 ? _a : '')) + '》';
         this.hTag.ch(hArg);
         return false;
     }
@@ -838,10 +848,11 @@ void main(void) {
         return false;
     }
     button(hArg) {
+        var _a, _b, _c;
         Pages_1.Pages.argChk_page(hArg, 'back');
-        hArg.clicksebuf = hArg.clicksebuf || 'SYS';
-        hArg.entersebuf = hArg.entersebuf || 'SYS';
-        hArg.leavesebuf = hArg.leavesebuf || 'SYS';
+        hArg.clicksebuf = (_a = hArg.clicksebuf, (_a !== null && _a !== void 0 ? _a : 'SYS'));
+        hArg.entersebuf = (_b = hArg.entersebuf, (_b !== null && _b !== void 0 ? _b : 'SYS'));
+        hArg.leavesebuf = (_c = hArg.leavesebuf, (_c !== null && _c !== void 0 ? _c : 'SYS'));
         return this.getTxtLayer(hArg).addButton(hArg);
     }
     record() {

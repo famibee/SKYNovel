@@ -282,7 +282,7 @@ export class EventMng implements IEvtMng {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
 
 		em.interactive = em.buttonMode = true;
-		const key = (hArg.key || '').toLowerCase();
+		const key = (hArg.key ?? ' ').toLowerCase();
 		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
 		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
 		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
@@ -339,9 +339,9 @@ export class EventMng implements IEvtMng {
 		// （2019/04/28）音声再生しなくなるので使用凍結
 		/*
 		this.sndMng.loadAheadSnd([
-			hArg.clickse || '',
-			hArg.enterse || '',
-			hArg.leavese || '']);
+			hArg.clickse ?? '',
+			hArg.enterse ?? '',
+			hArg.leavese ?? '']);
 		*/
 	}
 

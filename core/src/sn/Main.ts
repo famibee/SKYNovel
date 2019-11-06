@@ -122,8 +122,8 @@ export class Main implements IMain {
 		const url = hArg['url'];
 		if (url) {window.open(url); return;}
 
-		this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg || '');
-		this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label || '');
+		this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
+		this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
 		if (CmnLib.argChk_Boolean(hArg, 'call', false)) {
 			this.scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
 			this.resume(()=> this.hTag.call(hArg));

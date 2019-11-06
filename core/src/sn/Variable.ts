@@ -102,7 +102,7 @@ export class Variable implements IVariable {
 			// const.flash.display.Stage.displayState
 
 		const win: any = window;
-		const ac = win['AudioContext'] || win['webkitAudioContext'];
+		const ac = win['AudioContext'] ?? win['webkitAudioContext'];
 		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state == 'suspended';
 		this.hTmp['const.Date.getTime'] = ()=> (new Date).getTime();
 		this.hTmp['const.Date.getDateStr'] = ()=> getDateStr();
@@ -297,7 +297,7 @@ export class Variable implements IVariable {
 
 	// 文字列から一字取りだし
 	private let_char_at(hArg: HArg) {
-		hArg.text = (hArg.text || '').charAt(CmnLib.argChk_Num(hArg, 'pos', 0));
+		hArg.text = (hArg.text ?? '').charAt(CmnLib.argChk_Num(hArg, 'pos', 0));
 		this.let(hArg);
 
 		return false;
@@ -309,7 +309,7 @@ export class Variable implements IVariable {
 		if (! val) throw 'valは必須です';
 		const start = CmnLib.argChk_Num(hArg, 'start', 0);
 
-		hArg.text = String((hArg.text || '').indexOf(val, start));
+		hArg.text = String((hArg.text ?? '').indexOf(val, start));
 		this.let(hArg);
 
 		return false;
@@ -317,7 +317,7 @@ export class Variable implements IVariable {
 
 	// 文字列の長さ
 	private let_length(hArg: HArg) {
-		hArg.text = String((hArg.text || '').length);
+		hArg.text = String((hArg.text ?? '').length);
 		this.let(hArg);
 
 		return false;
@@ -331,7 +331,7 @@ export class Variable implements IVariable {
 		const reg = (! flags)
 			? new RegExp(hArg.reg)
 			: new RegExp(hArg.reg, flags);
-		hArg.text = String(hArg.text || '').replace(reg, String(hArg.val));
+		hArg.text = String(hArg.text ?? '').replace(reg, String(hArg.val));
 		this.let(hArg);
 
 		return false;
@@ -354,7 +354,7 @@ export class Variable implements IVariable {
 		const reg = (! flags)
 			? new RegExp(hArg.reg)
 			: new RegExp(hArg.reg, flags);
-		hArg.text = String((hArg.text || '').search(reg));
+		hArg.text = String((hArg.text ?? '').search(reg));
 		this.let(hArg);
 
 		return false;
@@ -364,8 +364,8 @@ export class Variable implements IVariable {
 	private let_substr(hArg: HArg) {
 		const i = CmnLib.argChk_Num(hArg, 'pos', 0);
 		hArg.text = (hArg.len != 'all')
-			? (hArg.text || '').substr(i, int(CmnLib.argChk_Num(hArg, 'len', 1)))
-			: (hArg.text || '').substr(i);
+			? (hArg.text ?? '').substr(i, int(CmnLib.argChk_Num(hArg, 'len', 1)))
+			: (hArg.text ?? '').substr(i);
 		this.let(hArg);
 
 		return false;
@@ -402,8 +402,8 @@ export class Variable implements IVariable {
 
 		// 自動読みすすみモード時の改ページ時のウェイト
 		//	//	runFirst_sys_an_auto_msecPageWait('sn.auto.msecPageWait', '');
-		this.setVal_Nochk('sys', 'sn.auto.msecPageWait', CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait || 3500));
-		this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait || 3500));
+		this.setVal_Nochk('sys', 'sn.auto.msecPageWait', CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
+		this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
 		// 自動読みすすみモード時の行クリック待ち時のウェイト
 		this.setVal_Nochk('sys', 'sn.auto.msecLineWait', 500);
 		this.setVal_Nochk('sys', 'sn.auto.msecLineWait_Kidoku', 500);	// 【既読】
@@ -431,9 +431,9 @@ export class Variable implements IVariable {
 
 	// ゲーム変数の全消去
 	private clearvar() {
-		const mesLayer	= this.hSave['const.sn.mesLayer'] || '';
-		const doRecLog	= this.hSave['sn.doRecLog'] || false;
-		const sLog		= this.hSave['const.sn.sLog'] || '';
+		const mesLayer	= this.hSave['const.sn.mesLayer'] ?? '';
+		const doRecLog	= this.hSave['sn.doRecLog'] ?? false;
+		const sLog		= this.hSave['const.sn.sLog'] ?? '';
 
 		this.hSave = this.hScope.save = {};
 

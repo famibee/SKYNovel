@@ -85,13 +85,14 @@ class ScriptIterator {
         };
         this.replaceScript_Wildcard_Sub_ext = (nm) => nm == 'loadplugin' ? 'css' : 'sn';
         this.replaceScriptChar2macro_And_let_ml = (start_idx = 0) => {
+            var _a;
             for (let i = this.script.len - 1; i >= start_idx; --i) {
                 const token = this.script.aToken[i];
                 this.REG_TAG_LET_ML.lastIndex = 0;
                 if (this.REG_TAG_LET_ML.test(token)) {
                     const idxSpl = token.indexOf(']') + 1;
                     const ml = token.slice(idxSpl);
-                    const cnt = (ml.match(/\n/g) || []).length;
+                    const cnt = (_a = ml.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
                     this.script.aToken.splice(i, 1, token.slice(0, idxSpl), ml);
                     this.script.aLNum.splice(i, 0, this.script.aLNum[i]);
                     const len = this.script.aToken.length;
@@ -177,6 +178,7 @@ class ScriptIterator {
         this.layMng = layMng;
     }
     let_ml(hArg) {
+        var _a;
         const name = hArg.name;
         if (!name)
             throw 'nameは必須です';
@@ -185,7 +187,7 @@ class ScriptIterator {
         hArg.cast = 'str';
         this.hTag['let'](hArg);
         this.idxToken_ += 2;
-        this.lineNum_ += (ml.match(/\n/g) || []).length;
+        this.lineNum_ += (_a = ml.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
         return false;
     }
     dump_stack() {
@@ -264,6 +266,7 @@ class ScriptIterator {
         return false;
     }
     dumpErrForeLine() {
+        var _a;
         if (this.idxToken_ == 0) {
             console.group(`🥟 Error line (from 0 rows before) fn:${this.scriptFn_}`);
             console.groupEnd();
@@ -272,7 +275,7 @@ class ScriptIterator {
         let s = '';
         for (let i = this.idxToken_ - 1; i >= 0; --i) {
             s = this.script.aToken[i] + s;
-            if ((s.match(/\n/g) || []).length >= this.dumpErrLine)
+            if ((_a = s.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length >= this.dumpErrLine)
                 break;
         }
         const a = s.split('\n').slice(-this.dumpErrLine);
@@ -448,7 +451,7 @@ class ScriptIterator {
     jumpWork(fn = '', label = '', idx = 0) {
         if (!fn && !label)
             this.main.errScript('[jump系] fnまたはlabelは必須です');
-        this.skipLabel = label || '';
+        this.skipLabel = (label !== null && label !== void 0 ? label : '');
         if (this.skipLabel && this.skipLabel.charAt(0) != '*') {
             this.main.errScript('[jump系] labelは*で始まります');
         }
@@ -496,6 +499,7 @@ class ScriptIterator {
         this.runAnalyze();
     }
     seekScript(tokens, inMacro, lineNum, skipLabel, idxToken) {
+        var _a;
         const len = this.script.aToken.length;
         if (!skipLabel) {
             if (idxToken >= len)
@@ -582,7 +586,7 @@ class ScriptIterator {
                         in_let_ml = false;
                         continue;
                     }
-                    lineNum += (token.match(/\n/g) || []).length;
+                    lineNum += (_a = token.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
                 }
                 else {
                     this.REG_TAG_LET_ML.lastIndex = 0;
@@ -717,6 +721,7 @@ class ScriptIterator {
                 : 0);
     }
     bracket2macro(hArg) {
+        var _a;
         const name = hArg.name;
         if (!name)
             throw '[bracket2macro] nameは必須です';
@@ -725,7 +730,7 @@ class ScriptIterator {
             throw '[bracket2macro] textは必須です';
         if (text.length != 2)
             throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
-        this.hC2M = this.hC2M || {};
+        this.hC2M = (_a = this.hC2M, (_a !== null && _a !== void 0 ? _a : {}));
         const op = text.charAt(0);
         const cl = text.charAt(1);
         if (op in this.hC2M)
@@ -756,7 +761,8 @@ class ScriptIterator {
         return this.hTag['return'](hArg);
     }
     char2macro(hArg) {
-        this.hC2M = this.hC2M || {};
+        var _a;
+        this.hC2M = (_a = this.hC2M, (_a !== null && _a !== void 0 ? _a : {}));
         const char = hArg.char;
         if (!char)
             throw '[char2macro] charは必須です';
@@ -778,6 +784,7 @@ class ScriptIterator {
         return false;
     }
     macro(hArg) {
+        var _a;
         const name = hArg.name;
         if (!name)
             throw 'nameは必須です';
@@ -811,7 +818,7 @@ class ScriptIterator {
                 return false;
             }
             if (token.charCodeAt(0) == 10)
-                this.lineNum_ += (token.match(/\n/g) || []).length;
+                this.lineNum_ += (_a = token.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
         }
         throw 'マクロ' + name + '定義の終端・[endmacro]がありません';
     }
@@ -888,12 +895,13 @@ class ScriptIterator {
         return false;
     }
     save(hArg) {
+        var _a;
         const place = hArg.place;
         if (!place)
             throw 'placeは必須です';
         delete hArg.タグ名;
         delete hArg.place;
-        hArg.text = (hArg.text || '').replace(/^(<br\/>)+/, '');
+        hArg.text = (_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')).replace(/^(<br\/>)+/, '');
         this.mark.json = hArg;
         this.val.setMark(place, this.mark);
         const now_sp = Number(this.val.getVal('sys:const.sn.save.place'));

@@ -70,6 +70,7 @@ class SysWeb extends SysBase_1.SysBase {
         const idxCur = arg.cur.lastIndexOf('/', arg.cur.length - 2);
         this.def_prj = arg.cur.slice(idxCur + 1, -1);
         window.onload = () => {
+            var _a;
             for (const v of document.querySelectorAll('[data-prj]')) {
                 v.addEventListener('click', () => {
                     const elm = v.attributes.getNamedItem('data-prj');
@@ -83,7 +84,7 @@ class SysWeb extends SysBase_1.SysBase {
             for (const v of document.querySelectorAll('[data-reload]')) {
                 v.addEventListener('click', () => this.run(this.now_prj));
             }
-            this.run((new URLSearchParams(location.search)).get('cur') || '');
+            this.run((_a = (new URLSearchParams(location.search)).get('cur'), (_a !== null && _a !== void 0 ? _a : '')));
         };
         if ('webkitFullscreenEnabled' in document)
             this.tgl_full_scr = o => this.regEvt_FullScr(o, 'webkitRequestFullscreen', 'webkitCancelFullScreen', 'webkitFullscreenElement');

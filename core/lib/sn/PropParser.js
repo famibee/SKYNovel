@@ -228,13 +228,14 @@ class PropParser {
         }));
     }
     static getValName(arg_name) {
+        var _a;
         const a = m_xregexp.exec(CmnLib_1.trim(arg_name), this.REG_VAL);
         if (!a)
             return undefined;
         return {
             scope: a.scope || 'tmp',
-            name: PropParser.getValName_B2D(a.name || ''),
-            at: a.at || '',
+            name: PropParser.getValName_B2D(a.name),
+            at: (_a = a.at, (_a !== null && _a !== void 0 ? _a : '')),
         };
     }
     static getValName_B2D(str) {
