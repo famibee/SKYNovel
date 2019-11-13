@@ -15,7 +15,6 @@ import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import { DebugMng } from './DebugMng';
 import TWEEN = require('@tweenjs/tween.js');
-import {GlowFilter} from 'pixi-filters';
 
 export interface IInfTxLay {
 	fontsize	: number;
@@ -42,8 +41,11 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	private	static	cfg		: Config;
+	private	static	cr		: DOMRect;
 	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
+		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
+		TxtStage.cr = cvs.getBoundingClientRect();
 
 		TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
 			? ()=> true
@@ -99,7 +101,8 @@ export class TxtStage extends Container {
 		this.htmTxt.style.position = 'absolute';
 		this.htmTxt.style.left = xSlide +'px';
 		this.htmTxt.style.top = `0px`;
-		this.htmTxt.style.zIndex = '-2';
+//		this.htmTxt.style.zIndex = '-2';
+		if (! CmnLib.hDip['tx']) this.htmTxt.style.zIndex = '-2';
 
 		this.xz4htm2rect = xSlide
 			+ this.infTL.pad_left	// テクスチャ元中間objはpaddingを使わないので
@@ -108,16 +111,9 @@ export class TxtStage extends Container {
 					// 　ｘ文字選択にとってpaddingがないので
 				: 0);
 
-		if (hArg.filter) switch (hArg.filter) {	// PixiJS Filters Documentation https://pixijs.io/pixi-filters/docs/PIXI.filters.GlowFilter.html
-			case 'null':
-				this.ch_filter = null;
-				break;
-
-			default:
-				const f = new GlowFilter(10, 4, 0, 0x000000, 0.5);
-				this.ch_filter = [f];
-				break;
-		}
+		this.htmTxt.style.textShadow = (hArg.filter)
+			? `1px 1px 2px gray, 0 0 1em #000, 0 0 0.2em #000`
+			: '';
 
 		this.lh_half = (this.htmTxt.style.writingMode == 'vertical-rl')
 			? 0
@@ -732,6 +728,131 @@ export class TxtStage extends Container {
 		}
 	//	this.putBreakMark(delay + this.ch_anime_time_仮);	// 微妙に遅い気がする
 		this.putBreakMark(delay);
+	}
+
+	goTxt_next(aSpan: string[], layname: string, delay: number) {
+		this.name = layname;	// dump表示などに使用
+
+		this.aSpan = [...aSpan];
+		let s = this.aSpan.join('');
+		if (s.slice(-5) == '<br/>') s = s.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
+		this.htmTxt.innerHTML = s.split('<br/>')
+		.map(v=>`<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
+		.join('');
+			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
+			// insertAdjacentHTML()は使わない
+		this.htmTxt.hidden = false;
+
+		let padTx4x = 0;
+		let padTx4y = 0;
+		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
+		if (this.htmTxt.style.writingMode == 'vertical-rl') {
+			padTx4x = parseFloat(this.htmTxt.style.fontSize ?? '0');
+		}
+		else {
+			padTx4y = parseFloat(this.htmTxt.style.fontSize ?? '0');
+		}
+
+		const begin = this.aRect.length;
+		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
+			if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
+				this.name} v:${this.visible} l:${this.x} t:${this.y
+				} a:${this.alpha} pl:${this.infTL.pad_left
+				} pr:${this.infTL.pad_right
+				} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom
+				} w:${this.infTL.$width} h:${this.infTL.$height}`);
+
+			this.grpDbgMasume.clear();
+			this.grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
+			this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
+			this.grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
+				// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
+			this.grpDbgMasume.endFill();
+
+			this.grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
+			this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
+			this.grpDbgMasume.drawRect(0, 0,
+			this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right,
+			this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom);
+			this.grpDbgMasume.endFill();
+		}
+
+		const aRect = this.getChRects(this.htmTxt);
+		// テクスチャ元中間objはpaddingを使わないので
+		for (const cr of aRect) cr.rect.y -= this.infTL.pad_top;
+		this.aRect = aRect;
+		this.putBreakMark(delay);
+
+		const len = this.aRect.length;
+		for (let i=begin; i<len; ++i) {
+			const v = this.aRect[i];
+			const rct = v.rect.clone();
+			rct.x -= this.xz4htm2rect;
+
+			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
+//if (v.cmd == 'grp') console.log(`fn:TxtStage.ts line:791 i:${i} ch:${v.ch} rct:%o cmd:${v.cmd} arg:${v.arg}`, rct);
+			if (TxtStage.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
+				if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
+				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
+				this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
+				this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
+				this.grpDbgMasume.endFill();
+			}
+
+			// TODO: 仕様策定中。後々文字waitと同じような処理だろう
+			const ease = CmnTween.ease(this.fi_easing);
+
+			const o = v.arg ?JSON.parse(v.arg) :{};
+			const spWork = (sp: Container, arg: any, replace_pos_by_sp = true)=> {
+				// 文字表示効果・初期状態変更
+				sp.alpha = 0;
+				sp.position.set(rct.x, rct.y);
+				if (o.width) sp.width = o.width;
+				if (o.height) sp.height = o.height;
+				if (replace_pos_by_sp) {
+					rct.width = sp.width;	// スプライトのサイズを正とする
+					rct.height = sp.height;
+				}
+
+				const st: ISpTw = {
+					sp: sp,
+					tw: new TWEEN.Tween(sp)
+						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+						.easing(ease)
+						.delay(arg.delay ?? 0)
+						.onComplete(()=> {
+							st.tw = null;
+							//(略)	if (rct.width == 0 || rct.height == 0) return;
+							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
+							//　これを有効にすると[snapshot]で文字が出ない
+						})
+						.start(),
+				};
+				this.aSpTw.push(st);
+			};
+			switch (v.cmd) {
+				case 'grp':
+					const cnt = new Container;	// 親コンテナかまし、即時spWork()
+					this.cntTxt.addChild(cnt);
+					spWork(cnt, arg, false);
+					GrpLayer.csv2Sprites(o.pic, cnt, ()=> {
+						// ロード完了時にクリアされていた場合はコンテナを空に
+						if (! cnt.parent) cnt.removeChildren();
+					});
+
+					break;
+
+				default:
+					break;
+			}
+		}
+
+//console.log(`fn:TxtStage.ts line:850 l:${TxtStage.cr.left} t:${TxtStage.cr.top} xx:${this.infTL.pad_left} yy:${this.infTL.pad_top}`);
+		this.htmTxt.style.left = TxtStage.cr.left -padTx4x +'px';
+		this.htmTxt.style.top = TxtStage.cr.top -padTx4y +6 +'px';
+
+		// TODO: 瞬時表示
+//		if (TxtStage.fncChkSkip()) {this.putBreakMark(0); return;}
 	}
 
 	private static	cntBreak	= new Container;

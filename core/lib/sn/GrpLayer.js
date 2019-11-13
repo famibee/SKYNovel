@@ -114,8 +114,8 @@ class GrpLayer extends Layer_1.Layer {
         var _a;
         if (fn in pixi_js_1.utils.TextureCache)
             return new pixi_js_1.Sprite(pixi_js_1.Texture.from(fn));
-        if (fn in GrpLayer.hFn2ResAniSpr) {
-            const ras = GrpLayer.hFn2ResAniSpr[fn];
+        const ras = GrpLayer.hFn2ResAniSpr[fn];
+        if (ras) {
             const asp = new pixi_js_1.AnimatedSprite(ras.aTex);
             asp.animationSpeed = (_a = ras.meta['animationSpeed'], (_a !== null && _a !== void 0 ? _a : 1.0));
             asp.play();

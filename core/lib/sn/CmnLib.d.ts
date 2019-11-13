@@ -25,6 +25,9 @@ export declare class CmnLib {
     static stageH: number;
     static devtool: boolean;
     static osName: string;
+    static hDip: {
+        [name: string]: string;
+    };
     static isRetina: boolean;
     static retinaRate: number;
     static argChk_Num(hash: any, name: string, def: number): number;

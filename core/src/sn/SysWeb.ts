@@ -12,7 +12,7 @@ import {Main} from './Main';
 const strLocal = require('store');
 
 export class SysWeb extends SysBase {
-	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
+	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
 		super(hPlg, arg);
 
 		const idxCur = arg.cur.lastIndexOf('/', arg.cur.length -2);
@@ -33,7 +33,10 @@ export class SysWeb extends SysBase {
 			for (const v of document.querySelectorAll('[data-reload]')) {
 				v.addEventListener('click', ()=> this.run(this.now_prj));
 			}
-			this.run((new URLSearchParams(location.search)).get('cur') ?? '');
+			const sp = new URLSearchParams(location.search);
+			const dip = sp.get('dip');	// ディップスイッチ
+			if (dip) CmnLib.hDip = JSON.parse(dip);
+			this.run(sp.get('cur') ?? '');
 		}
 
 		if ('webkitFullscreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(

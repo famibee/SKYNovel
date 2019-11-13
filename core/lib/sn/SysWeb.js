@@ -5,7 +5,7 @@ const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const strLocal = require('store');
 class SysWeb extends SysBase_1.SysBase {
-    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false }) {
+    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false, dip: '' }) {
         super(hPlg, arg);
         this.def_prj = 'prj';
         this.run = async (prj) => {
@@ -84,7 +84,11 @@ class SysWeb extends SysBase_1.SysBase {
             for (const v of document.querySelectorAll('[data-reload]')) {
                 v.addEventListener('click', () => this.run(this.now_prj));
             }
-            this.run((_a = (new URLSearchParams(location.search)).get('cur'), (_a !== null && _a !== void 0 ? _a : '')));
+            const sp = new URLSearchParams(location.search);
+            const dip = sp.get('dip');
+            if (dip)
+                CmnLib_1.CmnLib.hDip = JSON.parse(dip);
+            this.run((_a = sp.get('cur'), (_a !== null && _a !== void 0 ? _a : '')));
         };
         if ('webkitFullscreenEnabled' in document)
             this.tgl_full_scr = o => this.regEvt_FullScr(o, 'webkitRequestFullscreen', 'webkitCancelFullScreen', 'webkitFullscreenElement');

@@ -7,6 +7,7 @@ export declare class SysWeb extends SysBase {
     }, arg?: {
         cur: string;
         crypt: boolean;
+        dip: string;
     });
     private def_prj;
     private readonly run;

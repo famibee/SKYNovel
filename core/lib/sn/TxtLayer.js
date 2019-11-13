@@ -8,6 +8,7 @@ const RubySpliter_1 = require("./RubySpliter");
 const GrpLayer_1 = require("./GrpLayer");
 const Button_1 = require("./Button");
 const pixi_js_1 = require("pixi.js");
+const LayerMng_1 = require("./LayerMng");
 const platform = require('platform');
 class TxtLayer extends Layer_1.Layer {
     constructor() {
@@ -31,6 +32,7 @@ class TxtLayer extends Layer_1.Layer {
         this.rbSpl = new RubySpliter_1.RubySpliter;
         this.cntBtn = new pixi_js_1.Container;
         this.putCh = (text, ruby) => {
+            var _a, _b, _c;
             if (TxtLayer.cfg.oCfg.debug.putCh)
                 console.log(`🖊 文字表示 text:\`${text}\` ruby:\`${ruby}\` name:\`${this.name}\``);
             const a_ruby = ruby.split('｜');
@@ -62,28 +64,31 @@ class TxtLayer extends Layer_1.Layer {
                         if (ruby == '')
                             ruby = '　';
                     }
-                    if (TxtLayer.doAutoWc) {
-                        const w = TxtLayer.hAutoWc[text];
-                        if (w)
-                            text = `<span data-add="{'wait':${w}}">${text}</span>`;
-                    }
                     add_htm = (ruby) ? `<ruby>${text}<rt>${ruby}</rt></ruby>` : text;
+                    this.cumDelay += (TxtLayer.doAutoWc)
+                        ? (_a = TxtLayer.hAutoWc[text], (_a !== null && _a !== void 0 ? _a : 0)) : LayerMng_1.LayerMng.msecChWait;
+                    if (CmnLib_1.CmnLib.hDip['tx'])
+                        add_htm = `<span class='tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
                     this.recText(text);
                     break;
                 case 2:
                     switch (a_ruby[0]) {
                         case 'gotxt':
                             this.autoCloseSpan();
-                            this.txs.goTxt(this.aSpan, this.name);
+                            if (CmnLib_1.CmnLib.hDip['tx']) {
+                                this.txs.goTxt_next(this.aSpan, this.name, this.cumDelay);
+                            }
+                            else
+                                this.txs.goTxt(this.aSpan, this.name);
                             return;
                         case 'add':
                             if (this.aSpan_bk) {
                                 const s = this.aSpan_bk.slice(-1)[0];
                                 this.autoCloseSpan();
-                                this.aSpan.push(s.replace(/<span( data-add=".+?")?/, `<span data-add="${a_ruby[1]}"`));
+                                this.aSpan.push(s.replace(/<span( data-add='.+?')?/, `<span data-add='${a_ruby[1]}'`));
                             }
                             else {
-                                this.aSpan.push(`<span data-add="${a_ruby[1]}">`);
+                                this.aSpan.push(`<span data-add='${a_ruby[1]}'>`);
                             }
                             this.aSpan_bk = this.aSpan;
                             this.aSpan = [];
@@ -92,16 +97,22 @@ class TxtLayer extends Layer_1.Layer {
                             this.autoCloseSpan();
                             return;
                         case 'grp':
-                            const oJsonGrp = JSON.parse(a_ruby[1]);
-                            if (!('id' in oJsonGrp))
-                                oJsonGrp.id = this.aSpan.length;
-                            if (oJsonGrp.id == 'break') {
-                                this.txs.dispBreak(oJsonGrp.pic);
-                                return;
+                            {
+                                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + ',' : `{`) + `"delay": ${this.cumDelay}}`;
+                                const o = JSON.parse(arg);
+                                if (!('id' in o))
+                                    o.id = this.aSpan.length;
+                                this.cumDelay += (TxtLayer.doAutoWc)
+                                    ? 0
+                                    : LayerMng_1.LayerMng.msecChWait;
+                                if (o.id == 'break') {
+                                    this.txs.dispBreak(o.pic);
+                                    return;
+                                }
+                                add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'>　</span>`;
+                                if (this.aSpan.slice(-1)[0] == add_htm)
+                                    return;
                             }
-                            add_htm = `<span data-cmd='grp' data-id='${oJsonGrp.id}' data-arg='${a_ruby[1]}'>　</span>`;
-                            if (this.aSpan.slice(-1)[0] == add_htm)
-                                return;
                             break;
                         case 'del':
                             const id_del = a_ruby[1];
@@ -112,28 +123,31 @@ class TxtLayer extends Layer_1.Layer {
                         case 'span':
                             this.autoCloseSpan();
                             if (a_ruby[1]) {
-                                this.aSpan.push(`<span style="${a_ruby[1]}">`);
+                                this.aSpan.push(`<span style='${a_ruby[1]}'>`);
                                 this.aSpan_bk = this.aSpan;
                                 this.aSpan = [];
                             }
                             return;
                         case 'link':
                             this.autoCloseSpan();
-                            const oJson2 = JSON.parse(a_ruby[1]);
-                            this.aSpan.push(`<span style='${oJson2.style}' data-cmd='link' data-arg='${a_ruby[1]}'>`);
-                            this.aSpan_bk = this.aSpan;
-                            this.aSpan = [];
+                            {
+                                const o = JSON.parse(a_ruby[1]);
+                                this.aSpan.push(`<span ` + (CmnLib_1.CmnLib.hDip['tx']
+                                    ? `class='tx' style='animation-delay: ${this.cumDelay}ms; `
+                                    : `style='`) + `${o.style}' data-cmd='link' data-arg='${a_ruby[1]}'>`);
+                                this.aSpan_bk = this.aSpan;
+                                this.aSpan = [];
+                            }
                             return;
                         case 'endlink':
                             this.autoCloseSpan();
                             return;
                         default:
-                            if (TxtLayer.doAutoWc) {
-                                const w = TxtLayer.hAutoWc[text.charAt(0)];
-                                if (w)
-                                    text = `<span data-add="{'wait':${w}}">${text}</span>`;
-                            }
                             add_htm = `<ruby>${text}<rt>${ruby}</rt></ruby>`;
+                            this.cumDelay += (TxtLayer.doAutoWc)
+                                ? (_b = TxtLayer.hAutoWc[text.charAt(0)], (_b !== null && _b !== void 0 ? _b : 0)) : LayerMng_1.LayerMng.msecChWait;
+                            if (CmnLib_1.CmnLib.hDip['tx'])
+                                add_htm = `<span class='tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
                             this.recText(text);
                     }
                     break;
@@ -149,17 +163,19 @@ class TxtLayer extends Layer_1.Layer {
                             add_htm = ruby
                                 ? `<ruby style='
 					text-orientation: upright;
-					-webkit-text-orientation: upright;
 				'><span data-tcy='${id_tcy}' style='
 					text-combine-upright: all;
 					-webkit-text-combine: horizontal;
 				'>${a_ruby[1]}</span><rt>${ruby}</rt></ruby>`
                                 : `<span data-tcy='${id_tcy}' style='
 					text-orientation: upright;
-					-webkit-text-orientation: upright;
 					text-combine-upright: all;
 					-webkit-text-combine: horizontal;
 				'>${a_ruby[1]}</span>`;
+                            this.cumDelay += (TxtLayer.doAutoWc)
+                                ? (_c = TxtLayer.hAutoWc[text.charAt(0)], (_c !== null && _c !== void 0 ? _c : 0)) : LayerMng_1.LayerMng.msecChWait;
+                            if (CmnLib_1.CmnLib.hDip['tx'])
+                                add_htm = `<span class='tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
                             break;
                         default:
                     }
@@ -167,6 +183,7 @@ class TxtLayer extends Layer_1.Layer {
             }
             this.aSpan.push(add_htm);
         };
+        this.cumDelay = 0;
         this.firstCh = true;
         this.aSpan = [];
         this.aSpan_bk = null;
@@ -204,22 +221,49 @@ class TxtLayer extends Layer_1.Layer {
         TxtLayer.glbStyle = document.createElement('style');
         document.getElementsByTagName('head')[0].appendChild(TxtLayer.glbStyle);
         TxtLayer.glbStyle.type = 'text/css';
-        let autoloadfont = '';
         for (const o of cfg.matchPath('.+', Config_1.Config.EXT_FONT)) {
             for (const key in o)
-                autoloadfont += `
+                TxtLayer.gs_autoLoadFont += `
 @font-face {
 	font-family: '${CmnLib_1.CmnLib.getFn(o[key])}';
 	src: url('${o[key]}');
 }
 `;
         }
-        TxtLayer.glbStyle.innerHTML = autoloadfont;
+        TxtLayer.setTextFadeStyle(`
+.tx {
+	opacity: 0;
+	position: relative;
+	animation: tx_fi 500ms ease-out 0s forwards;
+}
+@keyframes tx_fi {
+	from {left: 0.3em;}
+	to {opacity: 1; left: 0;}
+}
+@keyframes tx_fo {
+	from {opacity: 1; left: 0;}
+	to {opacity: 0; left: -0.3em;}
+}
+`);
     }
     static setEvtMng(main, evtMng) {
         TxtLayer.main = main;
         TxtLayer.evtMng = evtMng;
         TxtStage_1.TxtStage.setEvtMng(evtMng);
+    }
+    static setTextFadeStyle(style) {
+        TxtLayer.gs_textFade = style;
+        TxtLayer.glbStyle.innerHTML
+            = TxtLayer.gs_autoLoadFont
+                + TxtLayer.gs_textFade
+                + TxtLayer.gs_addStyle;
+    }
+    static addStyle(style) {
+        TxtLayer.gs_addStyle += style + '\n';
+        TxtLayer.glbStyle.innerHTML
+            = TxtLayer.gs_autoLoadFont
+                + TxtLayer.gs_textFade
+                + TxtLayer.gs_addStyle;
     }
     static autowc(hArg) {
         TxtLayer.doAutoWc = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
@@ -250,7 +294,6 @@ class TxtLayer extends Layer_1.Layer {
         }
         this.clearText();
     }
-    static addStyle(text) { TxtLayer.glbStyle.innerHTML += text + '\n'; }
     lay(hArg) {
         super.lay(hArg);
         Layer_1.Layer.setXY(this.cnt, hArg, this.cnt);
@@ -350,9 +393,10 @@ class TxtLayer extends Layer_1.Layer {
     }
     clearText() {
         this.txs = this.txs.passBaton();
+        this.cumDelay = 0;
+        this.firstCh = true;
         this.aSpan = [];
         this.aSpan_bk = null;
-        this.firstCh = true;
         this.log = '';
     }
     get enabled() { return this.cntBtn.interactiveChildren; }
@@ -397,6 +441,9 @@ class TxtLayer extends Layer_1.Layer {
     }
 }
 exports.TxtLayer = TxtLayer;
+TxtLayer.gs_autoLoadFont = '';
+TxtLayer.gs_textFade = '';
+TxtLayer.gs_addStyle = '';
 TxtLayer.doAutoWc = false;
 TxtLayer.hAutoWc = Object.create(null);
 ;

@@ -15,6 +15,7 @@ import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
 import {Sprite, DisplayObject, Graphics, Container} from 'pixi.js';
+import {LayerMng} from './LayerMng';
 
 const platform = require('platform');
 
@@ -36,16 +37,35 @@ export class TxtLayer extends Layer {
 		TxtLayer.glbStyle = document.createElement('style');
 		document.getElementsByTagName('head')[0].appendChild(TxtLayer.glbStyle);
 		TxtLayer.glbStyle.type = 'text/css';
-		let autoloadfont = '';
 		for (const o of cfg.matchPath('.+', Config.EXT_FONT)) {
-			for (const key in o) autoloadfont += `
+			for (const key in o) TxtLayer.gs_autoLoadFont += `
 @font-face {
 	font-family: '${CmnLib.getFn(o[key])}';
 	src: url('${o[key]}');
 }
 `;
 		}
-		TxtLayer.glbStyle.innerHTML = autoloadfont;
+
+		TxtLayer.setTextFadeStyle(`
+.tx {
+	opacity: 0;
+	position: relative;
+	animation: tx_fi 500ms ease-out 0s forwards;
+}
+@keyframes tx_fi {
+	from {left: 0.3em;}
+	to {opacity: 1; left: 0;}
+}
+@keyframes tx_fo {
+	from {opacity: 1; left: 0;}
+	to {opacity: 0; left: -0.3em;}
+}
+`		);
+/*
+	quadraticEaseInOut
+	CSS3 : cubic-bezier(0.455, 0.03, 0.515, 0.955)
+		・CSS3のtransition-timing-functionの値、cubic-bezier()に関して | KnockKnock http://www.knockknock.jp/archives/184
+*/
 	}
 	private	static	main	: IMain;
 	private	static	evtMng	: IEvtMng;
@@ -54,6 +74,25 @@ export class TxtLayer extends Layer {
 		TxtLayer.evtMng = evtMng;
 		TxtStage.setEvtMng(evtMng);
 	}
+
+	static setTextFadeStyle(style: string) {
+		TxtLayer.gs_textFade = style;
+		TxtLayer.glbStyle.innerHTML
+			= TxtLayer.gs_autoLoadFont
+			+ TxtLayer.gs_textFade
+			+ TxtLayer.gs_addStyle;
+	}
+	private	static	gs_autoLoadFont	= '';
+	private	static	gs_textFade		= '';
+
+	static addStyle(style: string) {
+		TxtLayer.gs_addStyle += style +'\n';
+		TxtLayer.glbStyle.innerHTML
+			= TxtLayer.gs_autoLoadFont
+			+ TxtLayer.gs_textFade
+			+ TxtLayer.gs_addStyle;
+	}
+	private	static	gs_addStyle		= '';
 
 	// 文字ごとのウェイト
 	private	static doAutoWc	= false;
@@ -128,8 +167,6 @@ export class TxtLayer extends Layer {
 
 		this.clearText();
 	}
-
-	static addStyle(text: string) {TxtLayer.glbStyle.innerHTML += text +'\n';}
 
 
 	lay(hArg: HArg): boolean {
@@ -251,7 +288,7 @@ export class TxtLayer extends Layer {
 					this.aSpan = [];
 					return;	// breakではない
 				}
-				if (this.firstCh) {	// １文字目にルビが無い場合は見えないルビで、行揃え
+				if (this.firstCh) {	// １文字目にルビが無い場合は不可視ルビで、行揃え
 					this.firstCh = false;
 					add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
 				}
@@ -261,15 +298,15 @@ export class TxtLayer extends Layer {
 				this.recText('<br/>');
 				break;
 			}
-			if (this.firstCh) {		// １文字目にルビが無い場合は見えないルビで、行揃え
+			if (this.firstCh) {	// １文字目にルビが無い場合は見えないルビで、行揃え
 				this.firstCh = false;
 				if (ruby == '') ruby = '　';
 			}
-			if (TxtLayer.doAutoWc) {
-				const w = TxtLayer.hAutoWc[text];
-				if (w) text = `<span data-add="{'wait':${w}}">${text}</span>`;
-			}
 			add_htm = (ruby) ?`<ruby>${text}<rt>${ruby}</rt></ruby>` :text;
+			this.cumDelay += (TxtLayer.doAutoWc)
+				? TxtLayer.hAutoWc[text] ?? 0
+				: LayerMng.msecChWait;
+			if (CmnLib.hDip['tx']) add_htm = `<span class='tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
 			this.recText(text);
 			break;
 
@@ -277,7 +314,11 @@ export class TxtLayer extends Layer {
 			switch (a_ruby[0]) {
 			case 'gotxt':
 				this.autoCloseSpan();
-				this.txs.goTxt(this.aSpan, this.name);
+//				this.txs.goTxt(this.aSpan, this.name);
+				if (CmnLib.hDip['tx']) {
+					this.txs.goTxt_next(this.aSpan, this.name, this.cumDelay);
+				}
+				else this.txs.goTxt(this.aSpan, this.name);
 				return;	// breakではない
 
 			case 'add':	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
@@ -286,11 +327,11 @@ export class TxtLayer extends Layer {
 					this.autoCloseSpan();
 
 					this.aSpan.push(s.replace(
-						/<span( data-add=".+?")?/,
-						`<span data-add="${a_ruby[1]}"`));
+						/<span( data-add='.+?')?/,
+						`<span data-add='${a_ruby[1]}'`));
 				}
 				else {
-					this.aSpan.push(`<span data-add="${a_ruby[1]}">`);
+					this.aSpan.push(`<span data-add='${a_ruby[1]}'>`);
 				}
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
@@ -300,16 +341,21 @@ export class TxtLayer extends Layer {
 				return;	// breakではない
 
 			case 'grp':	//	画像など 《grp｜{"id":"break","pic":"breakline"}》
-				const oJsonGrp = JSON.parse(a_ruby[1]);
-				if (! ('id' in oJsonGrp)) oJsonGrp.id = this.aSpan.length;
-
-				if (oJsonGrp.id == 'break') {
-					this.txs.dispBreak(oJsonGrp.pic);
+			{
+				const arg = (a_ruby[1] ?a_ruby[1].slice(0, -1) +',' :`{`) +`"delay": ${this.cumDelay}}`;
+				const o = JSON.parse(arg);
+				if (! ('id' in o)) o.id = this.aSpan.length;
+				this.cumDelay += (TxtLayer.doAutoWc)
+					? 0
+					: LayerMng.msecChWait;
+				if (o.id == 'break') {
+					this.txs.dispBreak(o.pic);
 					return;	// breakではない
 				}
 
-				add_htm = `<span data-cmd='grp' data-id='${oJsonGrp.id}' data-arg='${a_ruby[1]}'>　</span>`;
+				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'>　</span>`;
 				if (this.aSpan.slice(-1)[0] == add_htm) return;	// breakではない
+			}
 				break;
 
 			case 'del':
@@ -322,7 +368,7 @@ export class TxtLayer extends Layer {
 			case 'span':
 				this.autoCloseSpan();
 				if (a_ruby[1]) {
-					this.aSpan.push(`<span style="${a_ruby[1]}">`);
+					this.aSpan.push(`<span style='${a_ruby[1]}'>`);
 					this.aSpan_bk = this.aSpan;
 					this.aSpan = [];
 				}
@@ -330,22 +376,28 @@ export class TxtLayer extends Layer {
 
 			case 'link':
 				this.autoCloseSpan();
-
+			{
 				// b_color, b_alpha, fn, label
-				const oJson2 = JSON.parse(a_ruby[1]);
-				this.aSpan.push(`<span style='${oJson2.style}' data-cmd='link' data-arg='${a_ruby[1]}'>`);
+				const o = JSON.parse(a_ruby[1]);
+				this.aSpan.push(
+					`<span `+ (CmnLib.hDip['tx']
+					? `class='tx' style='animation-delay: ${this.cumDelay}ms; `
+					: `style='`
+					) +`${o.style
+					}' data-cmd='link' data-arg='${a_ruby[1]}'>`);
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
+			}
 				return;	// breakではない
 
 			case 'endlink':	this.autoCloseSpan();	return;	// breakではない
 
 			default:	// ルビあり文字列
-				if (TxtLayer.doAutoWc) {
-					const w = TxtLayer.hAutoWc[text.charAt(0)];
-					if (w) text = `<span data-add="{'wait':${w}}">${text}</span>`;
-				}
 				add_htm = `<ruby>${text}<rt>${ruby}</rt></ruby>`;
+				this.cumDelay += (TxtLayer.doAutoWc)
+					? TxtLayer.hAutoWc[text.charAt(0)] ?? 0
+					: LayerMng.msecChWait;
+				if (CmnLib.hDip['tx']) add_htm = `<span class='tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
 				this.recText(text);
 			}
 			break;
@@ -354,7 +406,6 @@ export class TxtLayer extends Layer {
 			switch (a_ruby[0]) {
 			case 'tcy':	// ルビ付き縦中横
 				// text-orientation: mixed;（デフォルト）和文は縦、英語は横に表示
-				// -webkit-								(Safari)
 				// text-combine-upright: all;			縦中横
 				// -webkit-text-combine: horizontal;	縦中横(Safari)
 				const id_tcy = (a_ruby[1].length > 1)
@@ -367,17 +418,19 @@ export class TxtLayer extends Layer {
 				add_htm = ruby
 				? `<ruby style='
 					text-orientation: upright;
-					-webkit-text-orientation: upright;
 				'><span data-tcy='${id_tcy}' style='
 					text-combine-upright: all;
 					-webkit-text-combine: horizontal;
 				'>${a_ruby[1]}</span><rt>${ruby}</rt></ruby>`
 				: `<span data-tcy='${id_tcy}' style='
 					text-orientation: upright;
-					-webkit-text-orientation: upright;
 					text-combine-upright: all;
 					-webkit-text-combine: horizontal;
 				'>${a_ruby[1]}</span>`;
+				this.cumDelay += (TxtLayer.doAutoWc)
+					? TxtLayer.hAutoWc[text.charAt(0)] ?? 0
+					: LayerMng.msecChWait;
+				if (CmnLib.hDip['tx']) add_htm = `<span class='tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
 				break;
 
 			default:
@@ -386,9 +439,10 @@ export class TxtLayer extends Layer {
 		}
 		this.aSpan.push(add_htm);
 	}
-	private firstCh	= true;
-	private aSpan: string[] = [];
-	private aSpan_bk: any[] | null = null;
+	private cumDelay	= 0;
+	private firstCh		= true;
+	private aSpan		: string[]		= [];
+	private aSpan_bk	: any[] | null	= null;
 	private autoCloseSpan() {
 		if (! this.aSpan_bk) return;
 
@@ -410,9 +464,10 @@ export class TxtLayer extends Layer {
 	clearText(): void {
 		this.txs = this.txs.passBaton();
 
+		this.cumDelay = 0;
+		this.firstCh = true;
 		this.aSpan = [];
 		this.aSpan_bk = null;
-		this.firstCh = true;
 		this.log = '';
 	}
 

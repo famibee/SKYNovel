@@ -47,7 +47,7 @@ export class RubySpliter {
 		`	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)`+
 		`|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))`+
 		`|	(?<txt2>[^｜《》]+(?=｜\\|　))`+
-		`|	(?<txt3>.)`+
+		`|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)`+
 		`)`, 'gsx');
 
 	putTxt(text: string): void {
@@ -67,34 +67,37 @@ export class RubySpliter {
 			}
 
 			const txt = elm['txt'] ?? elm['txt2'] ?? elm['txt3'] ?? '';
-			for (const v of txt) this.putCh(v, '');
+			const a: string[] = Array.from(txt);
+			const len = a.length;
+			for (let i=0; i<len; ++i) this.putCh(a[i], '');
 		}
 	}
 
 	putTxtRb(text: string, ruby: string): void {
-		if (ruby.charAt(0) == '*' && ruby.length<=2) {
+		const a: string[] = Array.from(text);
+		const len = a.length;
+		if (ruby.charAt(0) == '*' && ruby.length <= 2) {
 			const rb_ses
 				= 'center｜'
 				+ ((ruby == '*') ? RubySpliter.sesame : ruby.charAt(1));
-			for (const v of text) this.putCh(v, rb_ses);
+			for (let i=0; i<len; ++i) this.putCh(a[i], rb_ses);
 			return;
 		}
 
 		// 自動区切りを行わない
-		const len_text = text.length;
-		if (len_text == 1 || ruby.indexOf(' ') == -1) {
+		if (len == 1 || ruby.indexOf(' ') == -1) {
 			this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
 			return;
 		}
 
 		// 空白がある場合はユーザが区切りを指定しているものと見なす
-		const vct = ruby.split(' ');
-		const len_spl = vct.length;
-		const loop_max = (len_spl > len_text) ? len_spl : len_text;
-		for (let i=0; i<loop_max; ++i) {
+		const aR = ruby.split(' ');
+		const lenR = aR.length;
+		const len_max = (lenR > len) ?lenR :len;
+		for (let i=0; i<len_max; ++i) {
 			this.putCh(
-				(i < len_text) ? text.charAt(i) : '',
-				(i < len_spl) ? vct[i].replace(RubySpliter.REG_TAB_G,' ') : ''
+				(i < len) ? a[i] : '',
+				(i < lenR) ? aR[i].replace(RubySpliter.REG_TAB_G,' ') : ''
 			);
 		}
 	}

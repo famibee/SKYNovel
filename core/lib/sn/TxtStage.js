@@ -7,7 +7,6 @@ const CmnTween_1 = require("./CmnTween");
 const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
 const TWEEN = require("@tweenjs/tween.js");
-const pixi_filters_1 = require("pixi-filters");
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
@@ -40,6 +39,8 @@ class TxtStage extends pixi_js_1.Container {
     }
     static init(cfg) {
         TxtStage.cfg = cfg;
+        const cvs = document.getElementById('skynovel');
+        TxtStage.cr = cvs.getBoundingClientRect();
         TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
             ? () => true
             : () => TxtStage.evtMng.isSkipKeyDown();
@@ -74,22 +75,16 @@ class TxtStage extends pixi_js_1.Container {
         this.htmTxt.style.position = 'absolute';
         this.htmTxt.style.left = xSlide + 'px';
         this.htmTxt.style.top = `0px`;
-        this.htmTxt.style.zIndex = '-2';
+        if (!CmnLib_1.CmnLib.hDip['tx'])
+            this.htmTxt.style.zIndex = '-2';
         this.xz4htm2rect = xSlide
             + this.infTL.pad_left
             + ((this.htmTxt.style.writingMode == 'vertical-rl')
                 ? this.infTL.pad_left + this.infTL.pad_right
                 : 0);
-        if (hArg.filter)
-            switch (hArg.filter) {
-                case 'null':
-                    this.ch_filter = null;
-                    break;
-                default:
-                    const f = new pixi_filters_1.GlowFilter(10, 4, 0, 0x000000, 0.5);
-                    this.ch_filter = [f];
-                    break;
-            }
+        this.htmTxt.style.textShadow = (hArg.filter)
+            ? `1px 1px 2px gray, 0 0 1em #000, 0 0 0.2em #000`
+            : '';
         this.lh_half = (this.htmTxt.style.writingMode == 'vertical-rl')
             ? 0
             : (((_h = this.htmTxt.style.lineHeight, (_h !== null && _h !== void 0 ? _h : '0')).slice(-2) == 'px')
@@ -531,6 +526,102 @@ class TxtStage extends pixi_js_1.Container {
             }
         }
         this.putBreakMark(delay);
+    }
+    goTxt_next(aSpan, layname, delay) {
+        var _a, _b, _c;
+        this.name = layname;
+        this.aSpan = [...aSpan];
+        let s = this.aSpan.join('');
+        if (s.slice(-5) == '<br/>')
+            s = s.slice(0, -5) + `<p style='margin: 0px;'>　</p>`;
+        this.htmTxt.innerHTML = s.split('<br/>')
+            .map(v => `<p style='margin: 0px;'>${(v == '') ? '　' : v}</p>`)
+            .join('');
+        this.htmTxt.hidden = false;
+        let padTx4x = 0;
+        let padTx4y = 0;
+        if (this.htmTxt.style.writingMode == 'vertical-rl') {
+            padTx4x = parseFloat((_a = this.htmTxt.style.fontSize, (_a !== null && _a !== void 0 ? _a : '0')));
+        }
+        else {
+            padTx4y = parseFloat((_b = this.htmTxt.style.fontSize, (_b !== null && _b !== void 0 ? _b : '0')));
+        }
+        const begin = this.aRect.length;
+        if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
+            if (TxtStage.cfg.oCfg.debug.devtool)
+                console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
+            this.grpDbgMasume.clear();
+            this.grpDbgMasume.beginFill(0x33FF00, 0.2);
+            this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
+            this.grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
+            this.grpDbgMasume.endFill();
+            this.grpDbgMasume.beginFill(0x0033FF, 0.2);
+            this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
+            this.grpDbgMasume.drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom);
+            this.grpDbgMasume.endFill();
+        }
+        const aRect = this.getChRects(this.htmTxt);
+        for (const cr of aRect)
+            cr.rect.y -= this.infTL.pad_top;
+        this.aRect = aRect;
+        this.putBreakMark(delay);
+        const len = this.aRect.length;
+        for (let i = begin; i < len; ++i) {
+            const v = this.aRect[i];
+            const rct = v.rect.clone();
+            rct.x -= this.xz4htm2rect;
+            const arg = JSON.parse((_c = v.arg, (_c !== null && _c !== void 0 ? _c : '{"delay": 0}')));
+            if (TxtStage.cfg.oCfg.debug.masume) {
+                if (TxtStage.cfg.oCfg.debug.devtool)
+                    console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
+                this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
+                this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
+                this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
+                this.grpDbgMasume.endFill();
+            }
+            const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
+            const o = v.arg ? JSON.parse(v.arg) : {};
+            const spWork = (sp, arg, replace_pos_by_sp = true) => {
+                var _a;
+                sp.alpha = 0;
+                sp.position.set(rct.x, rct.y);
+                if (o.width)
+                    sp.width = o.width;
+                if (o.height)
+                    sp.height = o.height;
+                if (replace_pos_by_sp) {
+                    rct.width = sp.width;
+                    rct.height = sp.height;
+                }
+                const st = {
+                    sp: sp,
+                    tw: new TWEEN.Tween(sp)
+                        .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+                        .easing(ease)
+                        .delay((_a = arg.delay, (_a !== null && _a !== void 0 ? _a : 0)))
+                        .onComplete(() => {
+                        st.tw = null;
+                    })
+                        .start(),
+                };
+                this.aSpTw.push(st);
+            };
+            switch (v.cmd) {
+                case 'grp':
+                    const cnt = new pixi_js_1.Container;
+                    this.cntTxt.addChild(cnt);
+                    spWork(cnt, arg, false);
+                    GrpLayer_1.GrpLayer.csv2Sprites(o.pic, cnt, () => {
+                        if (!cnt.parent)
+                            cnt.removeChildren();
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+        this.htmTxt.style.left = TxtStage.cr.left - padTx4x + 'px';
+        this.htmTxt.style.top = TxtStage.cr.top - padTx4y + 6 + 'px';
     }
     dispBreak(pic) {
         const cnt = TxtStage.cntBreak;

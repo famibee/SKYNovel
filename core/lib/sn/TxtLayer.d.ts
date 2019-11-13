@@ -12,6 +12,11 @@ export declare class TxtLayer extends Layer {
     private static main;
     private static evtMng;
     static setEvtMng(main: IMain, evtMng: IEvtMng): void;
+    static setTextFadeStyle(style: string): void;
+    private static gs_autoLoadFont;
+    private static gs_textFade;
+    static addStyle(style: string): void;
+    private static gs_addStyle;
     private static doAutoWc;
     private static hAutoWc;
     private static autowc;
@@ -27,12 +32,12 @@ export declare class TxtLayer extends Layer {
     private cntBtn;
     constructor();
     destroy(): void;
-    static addStyle(text: string): void;
     lay(hArg: HArg): boolean;
     private drawBack;
     chgBackAlpha(g_alpha: number): void;
     tagCh(text: string): void;
     private putCh;
+    private cumDelay;
     private firstCh;
     private aSpan;
     private aSpan_bk;

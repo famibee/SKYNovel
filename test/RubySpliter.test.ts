@@ -897,6 +897,31 @@ context('class RubySpliter', ()=>{
 		});
 
 
+		it('test_サロゲートペア', ()=> {
+			rbSpl.putTxt('🌈');
+			assert.equal(retText, '.🌈');
+			assert.equal(retRuby, '.');
+		});
+		it('test_サロゲートペア2', ()=> {
+			rbSpl.putTxt('🌈𩸽🌕');
+			assert.equal(retText, '.🌈.𩸽.🌕');
+			assert.equal(retRuby, '...');
+		});
+		it('test_サロゲートペア10', ()=> {
+			rbSpl.putTxt('　｜🌈《にじ》　');
+			assert.equal(retText, '.　.🌈.　');
+			assert.equal(retRuby, '..にじ.');
+		});
+		it('test_サロゲートペア11', ()=> {
+			rbSpl.putTxt('　🌈《にじ》');
+			assert.equal(retText, '.　.🌈');
+			assert.equal(retRuby, '..にじ');
+		});
+		it('test_サロゲートペア12', ()=> {
+			rbSpl.putTxt('｜🌈𩸽🌕《にじ ほっけ まんげつ》');
+			assert.equal(retText, '.🌈.𩸽.🌕');
+			assert.equal(retRuby, '.にじ.ほっけ.まんげつ');
+		});
 
 	});
 

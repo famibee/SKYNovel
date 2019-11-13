@@ -14,6 +14,7 @@ export interface IInfTxLay {
 export declare class TxtStage extends Container {
     private infTL;
     private static cfg;
+    private static cr;
     static init(cfg: Config): void;
     private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
@@ -38,6 +39,7 @@ export declare class TxtStage extends Container {
     private aSpTw;
     private static fncChkSkip;
     private goTxt3_tx2sp;
+    goTxt_next(aSpan: string[], layname: string, delay: number): void;
     private static cntBreak;
     dispBreak(pic: string): void;
     static delBreak(): void;

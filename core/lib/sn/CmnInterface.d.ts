@@ -1,4 +1,3 @@
-/// <reference types="pixi.js" />
 export interface HArg {
     タグ名?: string;
     layer?: string;

@@ -25,28 +25,31 @@ class RubySpliter {
                 continue;
             }
             const txt = (_c = (_b = (_a = elm['txt'], (_a !== null && _a !== void 0 ? _a : elm['txt2'])), (_b !== null && _b !== void 0 ? _b : elm['txt3'])), (_c !== null && _c !== void 0 ? _c : ''));
-            for (const v of txt)
-                this.putCh(v, '');
+            const a = Array.from(txt);
+            const len = a.length;
+            for (let i = 0; i < len; ++i)
+                this.putCh(a[i], '');
         }
     }
     putTxtRb(text, ruby) {
+        const a = Array.from(text);
+        const len = a.length;
         if (ruby.charAt(0) == '*' && ruby.length <= 2) {
             const rb_ses = 'center｜'
                 + ((ruby == '*') ? RubySpliter.sesame : ruby.charAt(1));
-            for (const v of text)
-                this.putCh(v, rb_ses);
+            for (let i = 0; i < len; ++i)
+                this.putCh(a[i], rb_ses);
             return;
         }
-        const len_text = text.length;
-        if (len_text == 1 || ruby.indexOf(' ') == -1) {
+        if (len == 1 || ruby.indexOf(' ') == -1) {
             this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
             return;
         }
-        const vct = ruby.split(' ');
-        const len_spl = vct.length;
-        const loop_max = (len_spl > len_text) ? len_spl : len_text;
-        for (let i = 0; i < loop_max; ++i) {
-            this.putCh((i < len_text) ? text.charAt(i) : '', (i < len_spl) ? vct[i].replace(RubySpliter.REG_TAB_G, ' ') : '');
+        const aR = ruby.split(' ');
+        const lenR = aR.length;
+        const len_max = (lenR > len) ? lenR : len;
+        for (let i = 0; i < len_max; ++i) {
+            this.putCh((i < len) ? a[i] : '', (i < lenR) ? aR[i].replace(RubySpliter.REG_TAB_G, ' ') : '');
         }
     }
     static destroy() { RubySpliter.sesame = 'ヽ'; }
@@ -59,7 +62,7 @@ RubySpliter.REG_RUBY = m_xregexp(`(?:` +
     `	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)` +
     `|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))` +
     `|	(?<txt2>[^｜《》]+(?=｜\\|　))` +
-    `|	(?<txt3>.)` +
+    `|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)` +
     `)`, 'gsx');
 RubySpliter.REG_TAB_G = /\t/g;
 //# sourceMappingURL=RubySpliter.js.map

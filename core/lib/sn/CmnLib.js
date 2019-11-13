@@ -103,6 +103,7 @@ CmnLib.stageW = 0;
 CmnLib.stageH = 0;
 CmnLib.devtool = false;
 CmnLib.osName = '';
+CmnLib.hDip = {};
 CmnLib.isRetina = false;
 CmnLib.retinaRate = 1;
 CmnLib.REG_TOKEN = m_xregexp(`(?: \\[let_ml \\s+ [^\\[\\]]+ \\])` +

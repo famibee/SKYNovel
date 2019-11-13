@@ -1,3 +1,8 @@
+## v0.6.19
+- chg：フィルタ文字が重いのでPIXIフィルタではなくCSSで
+- bug：サロゲートペア文字の扱いを修正・テスト追加
+- labo：文字表示技術研究中
+- upd：ライブラリ更新
 ## v0.6.18
 - upd：ライブラリ更新
 - upd：なるべく Nullish Coalescing を使用するように（TypeScript v3.7.2）

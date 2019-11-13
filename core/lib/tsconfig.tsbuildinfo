@@ -142,8 +142,8 @@
         "signature": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370"
       },
       "../src/sn/cmnlib.ts": {
-        "version": "1108a315e9d947b27381e40eac329c3209f2f5585181f71f82aad3066c61a183",
-        "signature": "1f517fefa113730e36524c8b764a926fc772c4ff09e3b715d122c86f8d3e42d7"
+        "version": "453961e1aacc681eb580dee57fb36a3cca116eccd18e1cc3cdec28a783a0dbd6",
+        "signature": "e3da2770fec2d17c413b52dc8c062bd83026049b16afb3098e21560c90c5ffe7"
       },
       "../src/sn/layer.ts": {
         "version": "dbbc5a4d5250b2f4741ccacca94558cc3eda34fb95439e0fc6638713aceb5ef4",
@@ -151,11 +151,11 @@
       },
       "../src/sn/cmninterface.ts": {
         "version": "684f325dc525a1527be1e0ea9df8107341a3dffc2195a0ddc1f76d78c74574fb",
-        "signature": "27bd645341aa6d2facc2e1b47631dd4bab21e2c0a8ae085dfdb083c35c144865"
+        "signature": "a2c3a573a8c35298976cb616bc6ea1360fb21836fa55c9c99f03b339417a261c"
       },
       "../src/sn/sysbase.ts": {
         "version": "d3cd0e56f16f974441d38f553ca8fdfed07fb6221bd80a32df610be247eb2128",
-        "signature": "91afda67aee42da208dd5eb63a96d047624e1e34f71ddec4fe25f7d621a8c4fa"
+        "signature": "cff681d561247f00e326281fd024f6a2841d2f1b53ed3717aadf18bbd2671db1"
       },
       "../../node_modules/@types/node/globals.d.ts": {
         "version": "6cf62fbc792aa81fa62f99dab5cc692c5315ecd5da09dd35f1ccc82778c4d5bc",
@@ -274,8 +274,8 @@
         "signature": "30b9c2c0949e27506c7e751bd51749ca5ecb0d0a3ea854064039ffaa3707fad4"
       },
       "../../node_modules/@types/node/stream.d.ts": {
-        "version": "73a55ad91626031c206e696547ca8065ab6b7d4888306f3ac883862f38774379",
-        "signature": "73a55ad91626031c206e696547ca8065ab6b7d4888306f3ac883862f38774379"
+        "version": "87a856ce45263344ebf69270ea1b0fc4eb13236a6194300bd5e99d1f022b0c6e",
+        "signature": "87a856ce45263344ebf69270ea1b0fc4eb13236a6194300bd5e99d1f022b0c6e"
       },
       "../../node_modules/@types/node/string_decoder.d.ts": {
         "version": "7e62aac2cc9c0710d772047ad89e8d7117f52592c791eb995ce1f865fedab432",
@@ -374,143 +374,15 @@
         "signature": "87422792f8e91af9baba49565a99141face0e9b51bf5b22a3fc3d7f9e5e20180"
       },
       "../src/sn/grplayer.ts": {
-        "version": "288c2ea3adbc69b79d3fae0396d961097e368dfc7156e52f0a7c52e54ac3ac81",
+        "version": "0de2d6f1ffedaeb9ff0eb4c96ecd73ae783244c6e79f068b4132081ebb9b8550",
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
-      "../../node_modules/@pixi/filter-adjustment/types.d.ts": {
-        "version": "2c7fd1363a035ae84149566e110f5b7f6728f2ae4ea3f78d825f126acc78d272",
-        "signature": "2c7fd1363a035ae84149566e110f5b7f6728f2ae4ea3f78d825f126acc78d272"
-      },
-      "../../node_modules/@pixi/filter-advanced-bloom/types.d.ts": {
-        "version": "6835c6695a35a34e292e905930735aff5232901bb3dc7a0208061f8f36fa435d",
-        "signature": "6835c6695a35a34e292e905930735aff5232901bb3dc7a0208061f8f36fa435d"
-      },
-      "../../node_modules/@pixi/filter-ascii/types.d.ts": {
-        "version": "43f1446e8af392d9839e38214be8d31aa92bef6235854f501f80ba74c48fa7aa",
-        "signature": "43f1446e8af392d9839e38214be8d31aa92bef6235854f501f80ba74c48fa7aa"
-      },
-      "../../node_modules/@pixi/filter-bevel/types.d.ts": {
-        "version": "e1b2b14c028b0d2069a2f1afbbfa0240f104eac4cd48977c21583432b4503b47",
-        "signature": "e1b2b14c028b0d2069a2f1afbbfa0240f104eac4cd48977c21583432b4503b47"
-      },
-      "../../node_modules/@pixi/filter-bloom/types.d.ts": {
-        "version": "fd24a8e818ceaa3d2046c8e89af016ebf1ed72230440d2480ab3d1ed91feeb49",
-        "signature": "fd24a8e818ceaa3d2046c8e89af016ebf1ed72230440d2480ab3d1ed91feeb49"
-      },
-      "../../node_modules/@pixi/filter-bulge-pinch/types.d.ts": {
-        "version": "8ceda993beb92f27101e5ee0fe7344b3c35223b0aac6f152929c8bef8cc3cc2f",
-        "signature": "8ceda993beb92f27101e5ee0fe7344b3c35223b0aac6f152929c8bef8cc3cc2f"
-      },
-      "../../node_modules/@pixi/filter-color-map/types.d.ts": {
-        "version": "e5960846262fcd57f377ab03ef2e4357656a4c9962ff24f3b56d965da17b19dd",
-        "signature": "e5960846262fcd57f377ab03ef2e4357656a4c9962ff24f3b56d965da17b19dd"
-      },
-      "../../node_modules/@pixi/filter-color-replace/types.d.ts": {
-        "version": "41122ea5da02e5d7489e0ed07f9539693472e262cf8a56b6fa07520d055d6458",
-        "signature": "41122ea5da02e5d7489e0ed07f9539693472e262cf8a56b6fa07520d055d6458"
-      },
-      "../../node_modules/@pixi/filter-convolution/types.d.ts": {
-        "version": "ade182173541f89f32a7268edc65c1ce0479297c4e4f53252e610d8509dc3e88",
-        "signature": "ade182173541f89f32a7268edc65c1ce0479297c4e4f53252e610d8509dc3e88"
-      },
-      "../../node_modules/@pixi/filter-cross-hatch/types.d.ts": {
-        "version": "c7144890408979a1cd06b7ad6b1ce529e9badec5a68efa6fe520e788b01843ca",
-        "signature": "c7144890408979a1cd06b7ad6b1ce529e9badec5a68efa6fe520e788b01843ca"
-      },
-      "../../node_modules/@pixi/filter-crt/types.d.ts": {
-        "version": "056ce8851175eb84b45de53db1a30704f4d40989ffbf09920268edfef8f83c6f",
-        "signature": "056ce8851175eb84b45de53db1a30704f4d40989ffbf09920268edfef8f83c6f"
-      },
-      "../../node_modules/@pixi/filter-dot/types.d.ts": {
-        "version": "a79651e204839f1cf66c56a4c3e514bfe16703a5deaf461c48c56ad95c1ae07b",
-        "signature": "a79651e204839f1cf66c56a4c3e514bfe16703a5deaf461c48c56ad95c1ae07b"
-      },
-      "../../node_modules/@pixi/filter-drop-shadow/types.d.ts": {
-        "version": "31b03b774a86c34b910c9ce398a11aa4cd71b020bf3e7c4bb0676d097a2fb3c0",
-        "signature": "31b03b774a86c34b910c9ce398a11aa4cd71b020bf3e7c4bb0676d097a2fb3c0"
-      },
-      "../../node_modules/@pixi/filter-emboss/types.d.ts": {
-        "version": "5052ecfe05c3ff684210d889bef1e8531b5d44a649810b1dd7a13a269a2b07dd",
-        "signature": "5052ecfe05c3ff684210d889bef1e8531b5d44a649810b1dd7a13a269a2b07dd"
-      },
-      "../../node_modules/@pixi/filter-glitch/types.d.ts": {
-        "version": "b8dec1f6fc5ed4bf65b395d2516c10cb052f69b426c1be7676b98a14af39fec4",
-        "signature": "b8dec1f6fc5ed4bf65b395d2516c10cb052f69b426c1be7676b98a14af39fec4"
-      },
-      "../../node_modules/@pixi/filter-glow/types.d.ts": {
-        "version": "9274ce2af924def2dd8d36cc04e24f46a8fa9c4b0f75b574f6006dec96c05e12",
-        "signature": "9274ce2af924def2dd8d36cc04e24f46a8fa9c4b0f75b574f6006dec96c05e12"
-      },
-      "../../node_modules/@pixi/filter-godray/types.d.ts": {
-        "version": "39e3e04fe2189c7db08156c3b47c328713eebbe3c5593b443eeb1d74e5945719",
-        "signature": "39e3e04fe2189c7db08156c3b47c328713eebbe3c5593b443eeb1d74e5945719"
-      },
-      "../../node_modules/@pixi/filter-kawase-blur/types.d.ts": {
-        "version": "df1ff88f3c5c30e70580a852a7ff0f55051fef235d16bcd2bfcac388cfa0cce4",
-        "signature": "df1ff88f3c5c30e70580a852a7ff0f55051fef235d16bcd2bfcac388cfa0cce4"
-      },
-      "../../node_modules/@pixi/filter-motion-blur/types.d.ts": {
-        "version": "e093c73c3a68431f7cdf9c5d1f8ced9b831ae23a4fedc3152d579168cb8a7475",
-        "signature": "e093c73c3a68431f7cdf9c5d1f8ced9b831ae23a4fedc3152d579168cb8a7475"
-      },
-      "../../node_modules/@pixi/filter-multi-color-replace/types.d.ts": {
-        "version": "ba461e2053b245d0275efae4abd829fc286f1e225b6f840b4f4f2dc89765d964",
-        "signature": "ba461e2053b245d0275efae4abd829fc286f1e225b6f840b4f4f2dc89765d964"
-      },
-      "../../node_modules/@pixi/filter-old-film/types.d.ts": {
-        "version": "27929ba907c00c952a9f727b8b848fb57ce19170142ba573b18d56fd187c7721",
-        "signature": "27929ba907c00c952a9f727b8b848fb57ce19170142ba573b18d56fd187c7721"
-      },
-      "../../node_modules/@pixi/filter-outline/types.d.ts": {
-        "version": "b4efcadf2fd764efaa9fe79f306711c1fbbf224cd87bafb6a0c9600946ea5717",
-        "signature": "b4efcadf2fd764efaa9fe79f306711c1fbbf224cd87bafb6a0c9600946ea5717"
-      },
-      "../../node_modules/@pixi/filter-pixelate/types.d.ts": {
-        "version": "5c7733e83d6bd3ccf3fe1afb8a4e4e95318a67467da3e3aa16965296512f6573",
-        "signature": "5c7733e83d6bd3ccf3fe1afb8a4e4e95318a67467da3e3aa16965296512f6573"
-      },
-      "../../node_modules/@pixi/filter-radial-blur/types.d.ts": {
-        "version": "b6f835810736e4eea6b57307eec5df35a3d93e4559558718d56ff35699ac9016",
-        "signature": "b6f835810736e4eea6b57307eec5df35a3d93e4559558718d56ff35699ac9016"
-      },
-      "../../node_modules/@pixi/filter-reflection/types.d.ts": {
-        "version": "a51562667a87804e535a81b6759dd340070d61754b5e6d5aab9a28bbe00182db",
-        "signature": "a51562667a87804e535a81b6759dd340070d61754b5e6d5aab9a28bbe00182db"
-      },
-      "../../node_modules/@pixi/filter-rgb-split/types.d.ts": {
-        "version": "967620d92bc31dbea0e771443ebb2dae378d1b4b76a7ccfd8d489a6d5f9cf796",
-        "signature": "967620d92bc31dbea0e771443ebb2dae378d1b4b76a7ccfd8d489a6d5f9cf796"
-      },
-      "../../node_modules/@pixi/filter-shockwave/types.d.ts": {
-        "version": "1f8de28187844678dbec9e7271b9c9e4382ebc46caa27ce4f668afa354a73b73",
-        "signature": "1f8de28187844678dbec9e7271b9c9e4382ebc46caa27ce4f668afa354a73b73"
-      },
-      "../../node_modules/@pixi/filter-simple-lightmap/types.d.ts": {
-        "version": "9b2ff0a81b032c1aa8af09b47fc0659f37bd06b5304dfc5630437c4e4f82ad5e",
-        "signature": "9b2ff0a81b032c1aa8af09b47fc0659f37bd06b5304dfc5630437c4e4f82ad5e"
-      },
-      "../../node_modules/@pixi/filter-tilt-shift/types.d.ts": {
-        "version": "82337ab0db5185691d3bafecbb50f52fdfbd99b5b096607667bc39ccf92844ec",
-        "signature": "82337ab0db5185691d3bafecbb50f52fdfbd99b5b096607667bc39ccf92844ec"
-      },
-      "../../node_modules/@pixi/filter-twist/types.d.ts": {
-        "version": "4481c0da262ecbf72fb6bab03aee4ad882328847fc32057b232f77b12154161d",
-        "signature": "4481c0da262ecbf72fb6bab03aee4ad882328847fc32057b232f77b12154161d"
-      },
-      "../../node_modules/@pixi/filter-zoom-blur/types.d.ts": {
-        "version": "2da372ac5923caa06b33e434caf6226526bd2d27e40518922663a0cad9cc30e8",
-        "signature": "2da372ac5923caa06b33e434caf6226526bd2d27e40518922663a0cad9cc30e8"
-      },
-      "../../node_modules/pixi-filters/types.d.ts": {
-        "version": "012cf3913ee5ea292a65fbf0e43ccefa8a95ad30982c7bd5c38c43ad8e671665",
-        "signature": "012cf3913ee5ea292a65fbf0e43ccefa8a95ad30982c7bd5c38c43ad8e671665"
-      },
       "../src/sn/txtstage.ts": {
-        "version": "9732fa9680a5ab3cfec1e6e9721978d5c3e4cf9ce6be1f67b4f81fc0ac078d5e",
-        "signature": "aea289b6f655d6315d618bcee13b2d6e3ee27d9b384136cb8cdb1084cc17dee2"
+        "version": "664f935de2b6c60673d3cfeb7b75e6006113d47b6a1c1a8959fac7ddeb2a9cb9",
+        "signature": "676e6b628bc3cd867213f6f2ef79113659adb550958c41d12bdfee94cfa576be"
       },
       "../src/sn/rubyspliter.ts": {
-        "version": "ed1572956c006fad068d8aad2b89cd4bd1ec702dd086509fcd3835beb67e4800",
+        "version": "a2f437d1610acc7e5ba9d906b4f79a182d849f546cb141fce2879ff9769b2e34",
         "signature": "c12897b25bbeb9bffc8c7a75ac9445433a04c5387476a708e25e8a86d9726df8"
       },
       "../src/sn/button.ts": {
@@ -518,8 +390,8 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "52d1b0e9616f099b83acf035542ad03bf8dcf7c883dba8dc3663aed9a636c172",
-        "signature": "970a589684d11cdd81382907bc3a7443a1fddb81c51cd45fae06e62f0ed6a1c8"
+        "version": "24910f0cf277893b732e7412817d402ef5d5a53d54e8e9db3569cb8ec0b0b13a",
+        "signature": "1f36e022504243acb5d9091ff75062b9e066f931fd6715300f75e4c1816256f9"
       },
       "../src/sn/framemng.ts": {
         "version": "8ee7787a361e8e2e279163d7a563bf8d2427ce386acd3844f406bb43d3e01d02",
@@ -530,8 +402,8 @@
         "signature": "4e2687dcc1e61d62fdb4dd13a380e20b38729afb75b51117705130ff297b5bd7"
       },
       "../../node_modules/@types/howler/index.d.ts": {
-        "version": "f41c404d4b676daf4c3e78d83e5abfe6df29ac8eb57f0b24e09f41d2ad06d41e",
-        "signature": "f41c404d4b676daf4c3e78d83e5abfe6df29ac8eb57f0b24e09f41d2ad06d41e"
+        "version": "71e20e9f63e1063a8ca6205b6f97e00e5144521c459546900d8698d13b376577",
+        "signature": "71e20e9f63e1063a8ca6205b6f97e00e5144521c459546900d8698d13b376577"
       },
       "../src/sn/soundmng.ts": {
         "version": "a9a62aaf2fe0703774717ade271ccd999642aa5382cd318dcd67b7c47f26f0ab",
@@ -578,8 +450,8 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/sn/sysweb.ts": {
-        "version": "81526a737509153cc215252befab63f1f3bb8f784181d71dcf1b7032a638545d",
-        "signature": "cf8d8bb46edd9fed847d67ac772c9476a042d4e50e6deb47a8de5a542570ff26"
+        "version": "4cf82cfdde2f60e2699c2f759f23d131873dfdfc9a2b0eb9f1f58e14c4b3a866",
+        "signature": "8a87cb6a78267e13732297b124087842ef39a4bc8de46fdc347188cabd36d5c6"
       },
       "../src/web.ts": {
         "version": "678f1d1ed4f68f4fa97dae49b39b7eb082c319f04169ee25420de60f4b54ebef",
@@ -1351,260 +1223,6 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../node_modules/@pixi/filter-adjustment/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-advanced-bloom/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-ascii/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-bevel/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-bloom/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-bulge-pinch/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-color-map/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-color-replace/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-convolution/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-cross-hatch/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-crt/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-dot/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-drop-shadow/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-emboss/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-glitch/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-glow/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-godray/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-kawase-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-motion-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-multi-color-replace/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-old-film/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-outline/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-pixelate/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-radial-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-reflection/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-rgb-split/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-shockwave/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-simple-lightmap/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-tilt-shift/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-twist/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-zoom-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/pixi-filters/types.d.ts": [
-        "../../node_modules/@pixi/filter-adjustment/types.d.ts",
-        "../../node_modules/@pixi/filter-advanced-bloom/types.d.ts",
-        "../../node_modules/@pixi/filter-ascii/types.d.ts",
-        "../../node_modules/@pixi/filter-bevel/types.d.ts",
-        "../../node_modules/@pixi/filter-bloom/types.d.ts",
-        "../../node_modules/@pixi/filter-bulge-pinch/types.d.ts",
-        "../../node_modules/@pixi/filter-color-map/types.d.ts",
-        "../../node_modules/@pixi/filter-color-replace/types.d.ts",
-        "../../node_modules/@pixi/filter-convolution/types.d.ts",
-        "../../node_modules/@pixi/filter-cross-hatch/types.d.ts",
-        "../../node_modules/@pixi/filter-crt/types.d.ts",
-        "../../node_modules/@pixi/filter-dot/types.d.ts",
-        "../../node_modules/@pixi/filter-drop-shadow/types.d.ts",
-        "../../node_modules/@pixi/filter-emboss/types.d.ts",
-        "../../node_modules/@pixi/filter-glitch/types.d.ts",
-        "../../node_modules/@pixi/filter-glow/types.d.ts",
-        "../../node_modules/@pixi/filter-godray/types.d.ts",
-        "../../node_modules/@pixi/filter-kawase-blur/types.d.ts",
-        "../../node_modules/@pixi/filter-motion-blur/types.d.ts",
-        "../../node_modules/@pixi/filter-multi-color-replace/types.d.ts",
-        "../../node_modules/@pixi/filter-old-film/types.d.ts",
-        "../../node_modules/@pixi/filter-outline/types.d.ts",
-        "../../node_modules/@pixi/filter-pixelate/types.d.ts",
-        "../../node_modules/@pixi/filter-radial-blur/types.d.ts",
-        "../../node_modules/@pixi/filter-reflection/types.d.ts",
-        "../../node_modules/@pixi/filter-rgb-split/types.d.ts",
-        "../../node_modules/@pixi/filter-shockwave/types.d.ts",
-        "../../node_modules/@pixi/filter-simple-lightmap/types.d.ts",
-        "../../node_modules/@pixi/filter-tilt-shift/types.d.ts",
-        "../../node_modules/@pixi/filter-twist/types.d.ts",
-        "../../node_modules/@pixi/filter-zoom-blur/types.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/sn/txtstage.ts": [
         "../../node_modules/pixi.js/pixi.js.d.ts",
         "../src/sn/cmnlib.ts",
@@ -1615,7 +1233,6 @@
         "../src/sn/grplayer.ts",
         "../src/sn/debugmng.ts",
         "../../node_modules/@types/tween.js/index.d.ts",
-        "../../node_modules/pixi-filters/types.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1649,6 +1266,7 @@
         "../src/sn/grplayer.ts",
         "../src/sn/button.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
+        "../src/sn/layermng.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -2558,260 +2176,6 @@
         "../src/sn/cmnlib.ts",
         "../src/sn/layer.ts"
       ],
-      "../../node_modules/@pixi/filter-adjustment/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-advanced-bloom/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-ascii/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-bevel/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-bloom/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-bulge-pinch/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-color-map/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-color-replace/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-convolution/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-cross-hatch/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-crt/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-dot/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-drop-shadow/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-emboss/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-glitch/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-glow/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-godray/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-kawase-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-motion-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-multi-color-replace/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-old-film/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-outline/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-pixelate/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-radial-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-reflection/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-rgb-split/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-shockwave/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-simple-lightmap/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-tilt-shift/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-twist/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/@pixi/filter-zoom-blur/types.d.ts": [
-        "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../node_modules/pixi-filters/types.d.ts": [
-        "../../node_modules/@pixi/filter-adjustment/types.d.ts",
-        "../../node_modules/@pixi/filter-advanced-bloom/types.d.ts",
-        "../../node_modules/@pixi/filter-ascii/types.d.ts",
-        "../../node_modules/@pixi/filter-bevel/types.d.ts",
-        "../../node_modules/@pixi/filter-bloom/types.d.ts",
-        "../../node_modules/@pixi/filter-bulge-pinch/types.d.ts",
-        "../../node_modules/@pixi/filter-color-map/types.d.ts",
-        "../../node_modules/@pixi/filter-color-replace/types.d.ts",
-        "../../node_modules/@pixi/filter-convolution/types.d.ts",
-        "../../node_modules/@pixi/filter-cross-hatch/types.d.ts",
-        "../../node_modules/@pixi/filter-crt/types.d.ts",
-        "../../node_modules/@pixi/filter-dot/types.d.ts",
-        "../../node_modules/@pixi/filter-drop-shadow/types.d.ts",
-        "../../node_modules/@pixi/filter-emboss/types.d.ts",
-        "../../node_modules/@pixi/filter-glitch/types.d.ts",
-        "../../node_modules/@pixi/filter-glow/types.d.ts",
-        "../../node_modules/@pixi/filter-godray/types.d.ts",
-        "../../node_modules/@pixi/filter-kawase-blur/types.d.ts",
-        "../../node_modules/@pixi/filter-motion-blur/types.d.ts",
-        "../../node_modules/@pixi/filter-multi-color-replace/types.d.ts",
-        "../../node_modules/@pixi/filter-old-film/types.d.ts",
-        "../../node_modules/@pixi/filter-outline/types.d.ts",
-        "../../node_modules/@pixi/filter-pixelate/types.d.ts",
-        "../../node_modules/@pixi/filter-radial-blur/types.d.ts",
-        "../../node_modules/@pixi/filter-reflection/types.d.ts",
-        "../../node_modules/@pixi/filter-rgb-split/types.d.ts",
-        "../../node_modules/@pixi/filter-shockwave/types.d.ts",
-        "../../node_modules/@pixi/filter-simple-lightmap/types.d.ts",
-        "../../node_modules/@pixi/filter-tilt-shift/types.d.ts",
-        "../../node_modules/@pixi/filter-twist/types.d.ts",
-        "../../node_modules/@pixi/filter-zoom-blur/types.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/sn/txtstage.ts": [
         "../src/sn/config.ts",
         "../src/sn/cmnlib.ts",
@@ -3097,45 +2461,13 @@
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
-      "../../node_modules/@pixi/filter-adjustment/types.d.ts",
-      "../../node_modules/@pixi/filter-advanced-bloom/types.d.ts",
-      "../../node_modules/@pixi/filter-ascii/types.d.ts",
-      "../../node_modules/@pixi/filter-bevel/types.d.ts",
-      "../../node_modules/@pixi/filter-bloom/types.d.ts",
-      "../../node_modules/@pixi/filter-bulge-pinch/types.d.ts",
-      "../../node_modules/@pixi/filter-color-map/types.d.ts",
-      "../../node_modules/@pixi/filter-color-replace/types.d.ts",
-      "../../node_modules/@pixi/filter-convolution/types.d.ts",
-      "../../node_modules/@pixi/filter-cross-hatch/types.d.ts",
-      "../../node_modules/@pixi/filter-crt/types.d.ts",
-      "../../node_modules/@pixi/filter-dot/types.d.ts",
-      "../../node_modules/@pixi/filter-drop-shadow/types.d.ts",
-      "../../node_modules/@pixi/filter-emboss/types.d.ts",
-      "../../node_modules/@pixi/filter-glitch/types.d.ts",
-      "../../node_modules/@pixi/filter-glow/types.d.ts",
-      "../../node_modules/@pixi/filter-godray/types.d.ts",
-      "../../node_modules/@pixi/filter-kawase-blur/types.d.ts",
-      "../../node_modules/@pixi/filter-motion-blur/types.d.ts",
-      "../../node_modules/@pixi/filter-multi-color-replace/types.d.ts",
-      "../../node_modules/@pixi/filter-old-film/types.d.ts",
-      "../../node_modules/@pixi/filter-outline/types.d.ts",
-      "../../node_modules/@pixi/filter-pixelate/types.d.ts",
-      "../../node_modules/@pixi/filter-radial-blur/types.d.ts",
-      "../../node_modules/@pixi/filter-reflection/types.d.ts",
-      "../../node_modules/@pixi/filter-rgb-split/types.d.ts",
-      "../../node_modules/@pixi/filter-shockwave/types.d.ts",
-      "../../node_modules/@pixi/filter-simple-lightmap/types.d.ts",
-      "../../node_modules/@pixi/filter-tilt-shift/types.d.ts",
-      "../../node_modules/@pixi/filter-twist/types.d.ts",
-      "../../node_modules/@pixi/filter-zoom-blur/types.d.ts",
-      "../../node_modules/pixi-filters/types.d.ts",
       "../src/sn/txtstage.ts",
-      "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
       "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
+      "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
       "../src/sn/eventmng.ts",
       "../src/sn/scriptiterator.ts",
@@ -3161,7 +2493,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/soundmng.ts"
+      "../src/sn/rubyspliter.ts"
     ]
   },
   "version": "3.7.2"

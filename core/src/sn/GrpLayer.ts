@@ -149,10 +149,10 @@ export class GrpLayer extends Layer {
 		return needLoad;
 	}
 	private static mkSprite(fn: string, res: LoaderResource): Sprite {
-		//console.log('a:%O b:%O c:%O', res[fn], utils.TextureCache[fn], GrpLayer.hFn2ResAniSpr[fn]);
+		//console.log(`fn:GrpLayer.ts line:153 fn:${fn} a:%O b:%O c:%O`, ras, utils.TextureCache[fn], Loader.shared.resources[fn]);
 		if (fn in utils.TextureCache) return new Sprite(Texture.from(fn));
-		if (fn in GrpLayer.hFn2ResAniSpr) {
-			const ras = GrpLayer.hFn2ResAniSpr[fn];
+		const ras = GrpLayer.hFn2ResAniSpr[fn];
+		if (ras) {
 			const asp = new AnimatedSprite(ras.aTex);
 			asp.animationSpeed = ras.meta['animationSpeed'] ?? 1.0;
 			asp.play();
