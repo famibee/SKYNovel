@@ -62,7 +62,13 @@ export class TxtStage extends Container {
 	constructor(private infTL: IInfTxLay, cnt: Container) {
 		super();
 
-		this.htmTxt.hidden = true;
+//		this.htmTxt.hidden = true;
+		if (CmnLib.hDip['tx']) {
+			this.htmTxt.classList.add('sn_txl');
+		}
+		else {
+			this.htmTxt.hidden = true;
+		}
 		document.body.appendChild(this.htmTxt);
 
 		cnt.addChild(this);
@@ -101,15 +107,24 @@ export class TxtStage extends Container {
 		this.htmTxt.style.position = 'absolute';
 		this.htmTxt.style.left = xSlide +'px';
 		this.htmTxt.style.top = `0px`;
+		const nopadX = (this.htmTxt.style.writingMode == 'vertical-rl')
+			? this.infTL.pad_left +this.infTL.pad_right
+			: 0
 //		this.htmTxt.style.zIndex = '-2';
-		if (! CmnLib.hDip['tx']) this.htmTxt.style.zIndex = '-2';
-
+		if (CmnLib.hDip['tx']) {
+			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
+			const left = CmnLib.argChk_Num(hArg, 'left', 0);
+			const top = CmnLib.argChk_Num(hArg, 'top', 0);
+			this.htmTxt.style.left = (TxtStage.cr.left +left -nopadX) +'px';
+			this.htmTxt.style.top = (TxtStage.cr.top +top) +'px';
+//console.log(`fn:TxtStage.ts line:116 l:${TxtStage.cr.left} t:${TxtStage.cr.top} xx:${this.infTL.pad_left} yy:${this.infTL.pad_top} l:${this.htmTxt.style.left} t:${this.htmTxt.style.top} pt:${this.infTL.pad_top} w:${this.infTL.$width} h:${this.infTL.$height} l:${left} t:${top}`);
+		}
+		else {
+			this.htmTxt.style.zIndex = '-2';
+		}
 		this.xz4htm2rect = xSlide
 			+ this.infTL.pad_left	// テクスチャ元中間objはpaddingを使わないので
-			+ ((this.htmTxt.style.writingMode == 'vertical-rl')
-				? this.infTL.pad_left +this.infTL.pad_right
-					// 　ｘ文字選択にとってpaddingがないので
-				: 0);
+			+ nopadX;	// 　ｘ文字選択にとってpaddingがないので
 
 		this.htmTxt.style.textShadow = (hArg.filter)
 			? `1px 1px 2px gray, 0 0 1em #000, 0 0 0.2em #000`
@@ -739,19 +754,6 @@ export class TxtStage extends Container {
 		this.htmTxt.innerHTML = s.split('<br/>')
 		.map(v=>`<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
 		.join('');
-			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
-			// insertAdjacentHTML()は使わない
-		this.htmTxt.hidden = false;
-
-		let padTx4x = 0;
-		let padTx4y = 0;
-		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-		if (this.htmTxt.style.writingMode == 'vertical-rl') {
-			padTx4x = parseFloat(this.htmTxt.style.fontSize ?? '0');
-		}
-		else {
-			padTx4y = parseFloat(this.htmTxt.style.fontSize ?? '0');
-		}
 
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
@@ -777,20 +779,19 @@ export class TxtStage extends Container {
 			this.grpDbgMasume.endFill();
 		}
 
-		const aRect = this.getChRects(this.htmTxt);
-		// テクスチャ元中間objはpaddingを使わないので
-		for (const cr of aRect) cr.rect.y -= this.infTL.pad_top;
-		this.aRect = aRect;
-		this.putBreakMark(delay);
-
+		this.aRect = this.getChRects(this.htmTxt);
 		const len = this.aRect.length;
+		const fncVVV = (this.htmTxt.style.writingMode == 'vertical-rl')
+			? (rct: Rectangle)=> rct.x += this.infTL.fontsize
+			: (rct: Rectangle)=> rct.y += this.infTL.fontsize;
+		const ease = CmnTween.ease(this.fi_easing);
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
-			const rct = v.rect.clone();
+			const rct = v.rect;
 			rct.x -= this.xz4htm2rect;
-
-			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
-//if (v.cmd == 'grp') console.log(`fn:TxtStage.ts line:791 i:${i} ch:${v.ch} rct:%o cmd:${v.cmd} arg:${v.arg}`, rct);
+			rct.y -= this.infTL.pad_top +parseFloat(this.htmTxt.style.top);
+			fncVVV(rct);
+			this.rctm = rct;
 			if (TxtStage.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
 				if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
 				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
@@ -799,70 +800,89 @@ export class TxtStage extends Container {
 				this.grpDbgMasume.endFill();
 			}
 
-			// TODO: 仕様策定中。後々文字waitと同じような処理だろう
-			const ease = CmnTween.ease(this.fi_easing);
-
-			const o = v.arg ?JSON.parse(v.arg) :{};
-			const spWork = (sp: Container, arg: any, replace_pos_by_sp = true)=> {
-				// 文字表示効果・初期状態変更
-				sp.alpha = 0;
-				sp.position.set(rct.x, rct.y);
-				if (o.width) sp.width = o.width;
-				if (o.height) sp.height = o.height;
-				if (replace_pos_by_sp) {
-					rct.width = sp.width;	// スプライトのサイズを正とする
-					rct.height = sp.height;
-				}
-
-				const st: ISpTw = {
-					sp: sp,
-					tw: new TWEEN.Tween(sp)
-						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
-						.easing(ease)
-						.delay(arg.delay ?? 0)
-						.onComplete(()=> {
-							st.tw = null;
-							//(略)	if (rct.width == 0 || rct.height == 0) return;
-							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
-							//　これを有効にすると[snapshot]で文字が出ない
-						})
-						.start(),
-				};
-				this.aSpTw.push(st);
-			};
+			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
+//console.log(`fn:TxtStage.ts line:807 i:${i} ch:${v.ch} rct:%o cmd:${v.cmd} arg:%o`, rct, arg);
 			switch (v.cmd) {
 				case 'grp':
-					const cnt = new Container;	// 親コンテナかまし、即時spWork()
+					const cnt = new Container;	// 親コンテナかまし、即spWork()
+					this.spWork(cnt, arg, rct, ease);
 					this.cntTxt.addChild(cnt);
-					spWork(cnt, arg, false);
-					GrpLayer.csv2Sprites(o.pic, cnt, ()=> {
-						// ロード完了時にクリアされていた場合はコンテナを空に
-						if (! cnt.parent) cnt.removeChildren();
+						// 次のcsv2Spritesが即終わる場合もあるので先に行なう
+					GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
+						if (! cnt.parent) cnt.removeChild(sp);
 					});
-
 					break;
 
-				default:
+				case 'link':
+					const sp = new Sprite;
+					sp.width = rct.width;
+					sp.height = rct.height;
+					arg.key = this.name +' link:'+ i;	// 一文字ずつ別ボタン
+					this.spWork(sp, arg, rct, ease);
+					TxtStage.evtMng.button(arg, sp);
+					this.cntTxt.addChild(sp);
 					break;
 			}
 		}
 
-//console.log(`fn:TxtStage.ts line:850 l:${TxtStage.cr.left} t:${TxtStage.cr.top} xx:${this.infTL.pad_left} yy:${this.infTL.pad_top}`);
-		this.htmTxt.style.left = TxtStage.cr.left -padTx4x +'px';
-		this.htmTxt.style.top = TxtStage.cr.top -padTx4y +6 +'px';
+		this.putBreakMark2(delay);
+	}
+	private rctm = new Rectangle;
+	private spWork(sp: Container, arg: any, rct: Rectangle, ease: (k: number)=> number) {
+		sp.alpha = 0;
+		sp.position.set(rct.x, rct.y);
+		if (arg.width) sp.width = arg.width;
+		if (arg.height) sp.height = arg.height;
+		const st: ISpTw = {
+			sp: sp,
+			tw: new TWEEN.Tween(sp)
+				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+				.easing(ease)
+				.delay(arg.delay ?? 0)
+				.onComplete(()=> {
+					st.tw = null;
+					//(略)	if (rct.width == 0 || rct.height == 0) return;
+					//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
+					//　これを有効にすると[snapshot]で文字が出ない
+				})
+				.start(),
+		};
+		this.aSpTw.push(st);
+	}
 
-		// TODO: 瞬時表示
-//		if (TxtStage.fncChkSkip()) {this.putBreakMark(0); return;}
+	private putBreakMark2(delay: number) {
+		const cnt = TxtStage.cntBreak;	// Tween開始時の Obj を保存
+		if (cnt.parent == null) return;
+
+		cnt.x = this.rctm.x;
+		cnt.y = this.rctm.y;
+		if (this.htmTxt.style.writingMode == 'vertical-rl') {
+			cnt.y += this.rctm.height;
+		}
+		else {
+			cnt.x += this.rctm.width;
+		}
+		if (delay == 0) {cnt.visible = true; return;}
+
+		cnt.visible = false;	// trueの場合はdelay後まで消したいので
+		const st: ISpTw = {
+			sp: cnt,
+			tw: new TWEEN.Tween(cnt)
+				.to({}, 0)
+				.delay(delay)
+				.onComplete(()=> {st.tw = null; st.sp.visible = true;})
+				.start(),
+		};
+		this.aSpTw.push(st);
 	}
 
 	private static	cntBreak	= new Container;
 	dispBreak(pic: string) {
 		const cnt = TxtStage.cntBreak;
 		cnt.visible = false;
-		this.addChild(cnt);
-
+		this.addChild(cnt);	// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 		GrpLayer.csv2Sprites(pic, cnt, sp=> {
-			if (cnt.parent == null) cnt.removeChild(sp);
+			if (! cnt.parent) cnt.removeChild(sp);
 		});
 	}
 	static	delBreak() {

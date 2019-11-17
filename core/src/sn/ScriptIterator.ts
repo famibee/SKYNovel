@@ -400,8 +400,6 @@ export class ScriptIterator {
 			this.jumpWork(cs!.fn, '', cs!.idx);
 			return true;	// 確実にスクリプトロードなので
 		}
-		this.lineNum_ = oscr.aLNum[cs!.idx -1];
-
 		this.jump_light(cs!.fn, cs!.idx);
 
 		return false;
@@ -417,11 +415,15 @@ export class ScriptIterator {
 	private skipLabel = '';
 	private jumpWork(fn = '', label = '', idx = 0) {
 		if (! fn && ! label) this.main.errScript('[jump系] fnまたはlabelは必須です');
-		this.skipLabel = label ?? '';
-		if (this.skipLabel && this.skipLabel.charAt(0) != '*') {
-			this.main.errScript('[jump系] labelは*で始まります');
+		if (label) {
+			if (label.charAt(0) != '*') this.main.errScript('[jump系] labelは*で始まります');
+			this.skipLabel = label;
+			if (this.skipLabel.slice(0, 2) != '**') this.idxToken_ = idx;
 		}
-		this.idxToken_	= idx;
+		else {
+			this.skipLabel = '';
+			this.idxToken_ = idx;
+		}
 
 		if (! fn) {this.analyzeInit(); return;}
 
@@ -475,87 +477,79 @@ export class ScriptIterator {
 	private	readonly	REG_LABEL_ESC			= /\*/g;
 	private	readonly	REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
 	private	readonly	REG_TOKEN_MACRO_END		= /\[endmacro[\s\]]/;
-	private	seekScript(tokens: Script, inMacro: boolean, lineNum: number, skipLabel: string, idxToken: number): ISeek {
-		//console.log('seekScript (from)inMacro:'+ inMacro +' (from)lineNum:'+ lineNum +' (to)skipLabel:'+ skipLabel +': (to)idxToken:'+ idxToken);
-		const len = this.script.aToken.length;
+	private	seekScript(st: Script, inMacro: boolean, ln: number, skipLabel: string, idxToken: number): ISeek {
+		//console.log('seekScript (from)inMacro:'+ inMacro +' (from)lineNum:'+ ln +' (to)skipLabel:'+ skipLabel +': (to)idxToken:'+ idxToken);
+		const len = st.aToken.length;
 		if (! skipLabel) {
 			if (idxToken >= len) DebugMng.myTrace('[jump系] 内部エラー idxToken:'+ idxToken +' は、最大トークン数:'+ len +'を越えます', 'ET');
-			if (! tokens.aLNum[idxToken]) {	// undefined
-				lineNum = 1;
+			if (! st.aLNum[idxToken]) {	// undefined
+				ln = 1;
 				for (let j=0; j<idxToken; ++j) {
 					// 走査ついでにトークンの行番号も更新
-					if (! tokens.aLNum[j]) tokens.aLNum[j] = lineNum;
+					if (! st.aLNum[j]) st.aLNum[j] = ln;
 
-					const token_j = this.script.aToken[j];
+					const token_j = st.aToken[j];
 					if (token_j.charCodeAt(0) == 10) {	// \n 改行
-						lineNum += token_j.length;
+						ln += token_j.length;
 					}
 				}
-				tokens.aLNum[idxToken] = lineNum;
+				st.aLNum[idxToken] = ln;
 			}
 			else {
-				lineNum = tokens.aLNum[idxToken];
+				ln = st.aLNum[idxToken];
 			}
 
 			return {
 				idx: idxToken,
-				lineNum	: lineNum
+				lineNum	: ln
 			}
 		}
 
-		let i = 0;
-		tokens.aLNum[0] = 1;		// 先頭トークン＝一行目
+		st.aLNum[0] = 1;		// 先頭トークン＝一行目
 		const a_skipLabel = skipLabel.match(this.REG_NONAME_LABEL);
 		if (a_skipLabel) {
-			const base_skipLabel = skipLabel;
 			skipLabel = a_skipLabel[1];
+			let i = idxToken;
 			switch (a_skipLabel[2]) {
 			case 'before':
-				while (tokens.aLNum[i] != lineNum) ++i;	// 前から起点探し
-				while (this.script.aToken[i] != skipLabel) {
+				while (st.aToken[--i] != skipLabel) {
 					if (i == 0) DebugMng.myTrace('[jump系 無名ラベルbefore] '
-						+ lineNum +'行目以前で'+ (inMacro ?'マクロ内に' :'')
+						+ ln +'行目以前で'+ (inMacro ?'マクロ内に' :'')
 						+ 'ラベル【'+ skipLabel +'】がありません', 'ET');
-					if (inMacro && this.script.aToken[i].search(this.REG_TOKEN_MACRO_BEGIN) > -1) DebugMng.myTrace('[jump系 無名ラベルbefore] マクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
-					--i;
+					if (inMacro && st.aToken[i].search(this.REG_TOKEN_MACRO_BEGIN) > -1) DebugMng.myTrace('[jump系 無名ラベルbefore] マクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
 				}
 				return {
 					idx: i +1,
-					lineNum	: tokens.aLNum[i]
+					lineNum	: st.aLNum[i]
 				}	//	break;
 
 			case 'after':
-				i = len -1;
-				while (tokens.aLNum[i] != lineNum) --i;	// 後ろから起点探し
-				if (! inMacro) break;
-
-				while (this.script.aToken[i] != skipLabel) {
+				while (st.aToken[++i] != skipLabel) {
 					if (i == len) DebugMng.myTrace('[jump系 無名ラベルafter] '
-						+ lineNum +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
-					if (this.script.aToken[i].search(this.REG_TOKEN_MACRO_END) > -1) DebugMng.myTrace('[jump系 無名ラベルafter] '
-						+ lineNum +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
-					++i;
+						+ ln +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
+					if (st.aToken[i].search(this.REG_TOKEN_MACRO_END) > -1) DebugMng.myTrace('[jump系 無名ラベルafter] '
+						+ ln +'行目以後でマクロ内にラベル【'+ skipLabel +'】がありません', 'ET');
 				}
 				return {
 					idx: i +1,
-					lineNum	: tokens.aLNum[i]
+					lineNum	: st.aLNum[i]
 				}	//	break;
 
 			default:
-				DebugMng.myTrace('[jump系] 無名ラベル指定【label='+ base_skipLabel +'】が間違っています', 'ET');
+				DebugMng.myTrace('[jump系] 無名ラベル指定【label='+ skipLabel +'】が間違っています', 'ET');
 			}
 		}
 
-		lineNum = 1;
+		ln = 1;
 		const reLabel = new RegExp(
 			'^'+ skipLabel.replace(this.REG_LABEL_ESC, '\\*')
 			+'(?:\\s|;|\\[|$)');
 		let in_let_ml = false;
 		for (let i=0; i<len; ++i) {
 			// 走査ついでにトークンの行番号も更新
-			if (! tokens.aLNum[i]) tokens.aLNum[i] = lineNum;
+			if (! st.aLNum[i]) st.aLNum[i] = ln;
 
-			const token = this.script.aToken[i];
+			const token = st.aToken[i];
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
 			if (uc != 42) {	// 42 = *
 				if (in_let_ml) {
@@ -564,7 +558,7 @@ export class ScriptIterator {
 						in_let_ml = false;
 						continue;
 					}
-					lineNum += (token.match(/\n/g) ?? []).length;	// \n 改行
+					ln += (token.match(/\n/g) ?? []).length;	// \n 改行
 				}
 				else {
 					this.REG_TAG_LET_ML.lastIndex = 0;
@@ -572,14 +566,14 @@ export class ScriptIterator {
 						in_let_ml = true;
 						continue;
 					}
-					if (uc == 10) lineNum += token.length;	// \n 改行
+					if (uc == 10) ln += token.length;	// \n 改行
 				}
 				continue;
 			}
 
 			if (token.search(reLabel) > -1) return {
 				idx: i +1,
-				lineNum	: lineNum
+				lineNum	: ln
 			}	//	break;
 		}
 		if (in_let_ml) throw '[let_ml]の終端・[endlet_ml]がありません';
@@ -638,6 +632,7 @@ export class ScriptIterator {
 		this.idxToken_	= idx;
 		const st = this.hScript[this.scriptFn_];
 		if (st != null) this.script = st;
+		this.lineNum_ = this.script.aLNum[idx];
 	}
 
 

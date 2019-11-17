@@ -36,11 +36,13 @@ export declare class TxtLayer extends Layer {
     private drawBack;
     chgBackAlpha(g_alpha: number): void;
     tagCh(text: string): void;
+    private restBuf;
     private putCh;
     private cumDelay;
     private firstCh;
     private aSpan;
     private aSpan_bk;
+    private aSpan_link;
     private autoCloseSpan;
     readonly click: () => boolean;
     private log;
