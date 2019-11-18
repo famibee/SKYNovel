@@ -378,7 +378,7 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "35065dddcdab049785fd80ce035fd480858c741ab6c6115e7455cd62e45e7906",
+        "version": "b7b0eef58f51f7be62a89af0f68cb4c398e177f8a1b72ae10ab6244d685616b0",
         "signature": "1ad50b62d52624f007a5966cf7ec86167187aaf165bcf61da85754158d89e9af"
       },
       "../src/sn/rubyspliter.ts": {
@@ -390,7 +390,7 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "48b19ec2b14161b25b46754d4be0dc85a4809f775e7d14140bda2b9924e397df",
+        "version": "275e4cbc8f83df10e801e33293887522d85e67afa3ac661a104dccf42c974d98",
         "signature": "910903117c382e6e494a5dd3eea19612e0cc6db568d395ddf173fa10808ac48c"
       },
       "../src/sn/framemng.ts": {
@@ -2464,12 +2464,12 @@
       "../src/sn/txtstage.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
-      "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
       "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
+      "../src/sn/eventmng.ts",
       "../src/sn/scriptiterator.ts",
       "../src/sn/debugmng.ts",
       "../src/sn/config.ts",
@@ -2493,7 +2493,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/eventmng.ts"
+      "../src/sn/txtlayer.ts"
     ]
   },
   "version": "3.7.2"

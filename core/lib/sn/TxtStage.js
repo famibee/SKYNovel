@@ -643,6 +643,7 @@ class TxtStage extends pixi_js_1.Container {
         }
         else {
             cnt.x += this.rctm.width;
+            cnt.y -= this.rctm.height;
         }
         if (delay == 0) {
             cnt.visible = true;
@@ -819,6 +820,7 @@ class TxtStage extends pixi_js_1.Container {
         return `"txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')}", "style":{${aStyle.join(',')}}`;
     }
     destroy() {
+        TxtStage.delBreak();
         document.body.removeChild(this.htmTxt);
         this.parent.removeChild(this.cntTxt);
         this.parent.removeChild(this.grpDbgMasume);

@@ -101,10 +101,10 @@ class TxtLayer extends Layer_1.Layer {
                             if (this.aSpan_bk) {
                                 const s = this.aSpan_bk.slice(-1)[0];
                                 this.autoCloseSpan();
-                                this.aSpan.push(s.replace(/<span( data-add='.+?')?/, `<span data-add='${a_ruby[1]}'`));
+                                this.aSpan.push(s.replace(/<span( data-add=".+?")?/, `<span data-add="${a_ruby[1]}"`));
                             }
                             else {
-                                this.aSpan.push(`<span data-add='${a_ruby[1]}'>`);
+                                this.aSpan.push(`<span data-add="${a_ruby[1]}">`);
                             }
                             this.aSpan_bk = this.aSpan;
                             this.aSpan = [];

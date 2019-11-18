@@ -865,6 +865,7 @@ export class TxtStage extends Container {
 		}
 		else {
 			cnt.x += this.rctm.width;
+			cnt.y -= this.rctm.height;
 		}
 		if (delay == 0) {cnt.visible = true; return;}
 
@@ -1093,6 +1094,7 @@ export class TxtStage extends Container {
 	}
 
 	destroy() {
+		TxtStage.delBreak();
 		document.body.removeChild(this.htmTxt);
 		this.parent.removeChild(this.cntTxt);
 		this.parent.removeChild(this.grpDbgMasume);

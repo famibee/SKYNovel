@@ -351,11 +351,12 @@ export class TxtLayer extends Layer {
 					this.autoCloseSpan();
 
 					this.aSpan.push(s.replace(
-						/<span( data-add='.+?')?/,
-						`<span data-add='${a_ruby[1]}'`));
+						/<span( data-add=".+?")?/,	// "を'にしてはいけない
+						`<span data-add="${a_ruby[1]}"`));
 				}
 				else {
-					this.aSpan.push(`<span data-add='${a_ruby[1]}'>`);
+					this.aSpan.push(`<span data-add="${a_ruby[1]}">`);
+						// "を'にしてはいけない
 				}
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
