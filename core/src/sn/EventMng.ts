@@ -352,6 +352,7 @@ export class EventMng implements IEvtMng {
 
 		elc.add(window, 'pointerdown', (e: any)=> {
 			e.stopPropagation();
+			this.fncCancelSkip();
 			fnc();
 		});
 		elc.add(window, 'keydown', (e: any)=> {
@@ -362,6 +363,7 @@ export class EventMng implements IEvtMng {
 				this.hLocalEvt2Fnc['arrowdown'] = fncKey;
 			*/
 			e.stopPropagation();
+			this.fncCancelSkip();
 			fnc();
 		});
 		this.waitCustomEvent4Wheel(elc, fnc);

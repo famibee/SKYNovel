@@ -173,6 +173,7 @@ export class TxtLayer extends Layer {
 		if (this.b_do) {this.cnt.removeChild(this.b_do).destroy(); this.b_do = null}
 
 		this.clearText();
+		this.txs.destroy();
 	}
 
 
@@ -515,7 +516,9 @@ export class TxtLayer extends Layer {
 	}
 
 	clearText(): void {
+		const txs = this.txs;
 		this.txs = this.txs.passBaton();
+		txs.destroy();
 
 		this.cumDelay = 0;
 		this.firstCh = true;

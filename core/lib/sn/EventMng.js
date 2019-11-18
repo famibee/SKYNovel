@@ -292,12 +292,14 @@ class EventMng {
             return;
         elc.add(window, 'pointerdown', (e) => {
             e.stopPropagation();
+            this.fncCancelSkip();
             fnc();
         });
         elc.add(window, 'keydown', (e) => {
             if (e['isComposing'])
                 return;
             e.stopPropagation();
+            this.fncCancelSkip();
             fnc();
         });
         this.waitCustomEvent4Wheel(elc, fnc);

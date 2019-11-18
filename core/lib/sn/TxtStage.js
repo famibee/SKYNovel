@@ -46,7 +46,8 @@ class TxtStage extends pixi_js_1.Container {
     static init(cfg) {
         TxtStage.cfg = cfg;
         const cvs = document.getElementById('skynovel');
-        TxtStage.cr = cvs.getBoundingClientRect();
+        const cr = cvs.getBoundingClientRect();
+        TxtStage.cr = new pixi_js_1.Rectangle(cr.x + document.documentElement.scrollLeft, cr.y + document.documentElement.scrollTop, cr.width, cr.height);
         TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
             ? () => true
             : () => TxtStage.evtMng.isSkipKeyDown();
@@ -819,9 +820,9 @@ class TxtStage extends pixi_js_1.Container {
     }
     destroy() {
         document.body.removeChild(this.htmTxt);
-        this.parent.removeChild(this);
         this.parent.removeChild(this.cntTxt);
         this.parent.removeChild(this.grpDbgMasume);
+        this.parent.removeChild(this);
         super.destroy();
     }
 }

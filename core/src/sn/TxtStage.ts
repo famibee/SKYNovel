@@ -41,11 +41,15 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	private	static	cfg		: Config;
-	private	static	cr		: DOMRect;
+	private	static	cr		: Rectangle;
 	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
 		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
-		TxtStage.cr = cvs.getBoundingClientRect();
+		const cr = cvs.getBoundingClientRect();
+		TxtStage.cr = new Rectangle(
+			cr.x +document.documentElement.scrollLeft,
+			cr.y +document.documentElement.scrollTop,
+			cr.width, cr.height);
 
 		TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
 			? ()=> true
@@ -1090,9 +1094,9 @@ export class TxtStage extends Container {
 
 	destroy() {
 		document.body.removeChild(this.htmTxt);
-		this.parent.removeChild(this);
 		this.parent.removeChild(this.cntTxt);
 		this.parent.removeChild(this.grpDbgMasume);
+		this.parent.removeChild(this);
 		super.destroy();
 	}
 }

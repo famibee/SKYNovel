@@ -348,6 +348,7 @@ class TxtLayer extends Layer_1.Layer {
             this.b_do = null;
         }
         this.clearText();
+        this.txs.destroy();
     }
     lay(hArg) {
         super.lay(hArg);
@@ -447,7 +448,9 @@ class TxtLayer extends Layer_1.Layer {
         TxtLayer.recText(this.log);
     }
     clearText() {
+        const txs = this.txs;
         this.txs = this.txs.passBaton();
+        txs.destroy();
         this.cumDelay = 0;
         this.firstCh = true;
         this.aSpan = [];
