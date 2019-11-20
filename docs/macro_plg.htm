@@ -473,7 +473,8 @@
 <h2 id="for_call">[for_call] 変数の値を増やしながら[call]する</h2>
 <h4>for文のように変数を変化させながら[call]を繰り返す。</h4>
 <p class="mb2 px1">
-	for文がないAIRNovelを補助するマクロ。
+	for文がないAIRNovelを補助するマクロ。<br/>
+	テンプレの【prj/other/ext_fg2.sn】で使用されているので、使用法のご参考にどうぞ。
 
 	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>name</td><td>y</td><td></td><td>ループ変数名</td><td>ループインデックスに使用する変数名を指定する。<br>実際の変数名は前に'tmp:for_call_idx.'を付けたもの</td></tr><tr class="y"><td>from</td><td>y</td><td></td><td>整数値</td><td>ループ変数の開始値</td></tr><tr class="y"><td>to</td><td>y</td><td></td><td>整数値</td><td>ループ変数の終了値</td></tr><tr class="y"><td>fn</td><td rowspan="2">少なくともどちらかを指定</td><td rowspan="2">…</td><td rowspan="2">…</td><td rowspan="2">ループ中処理を行なうサブルーチンへのジャンプ先。<br>指定方法は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#jump" target="_blank" rel="noopener">[jump]</a>と同様</td></tr><tr class="y"><td>label</td></tr><tr><td>arg</td><td>n</td><td></td><td>String</td><td>指定した場合、ジャンプ先で「&amp;const.sn.eventArg」にて値を受け取れる</td></tr></table>
 
