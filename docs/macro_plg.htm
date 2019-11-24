@@ -420,7 +420,7 @@
 	<tr><td>fn</td><td>n</td><td>レイヤをクリア</td><td>画像ファイル名</td><td>基本画像ファイルを指定する</td></tr>
 	<tr><td>alpha</td><td>n</td><td>1.0</td><td>0.0〜1.0（実数）</td><td>レイヤの透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 	<tr><td>time</td><td>n</td><td>500</td><td>ミリ秒数</td><td>変化にかける時間</td></tr>
-	<tr><td>…</td><td>…</td><td></td><td>…</td><td>引数は<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>（画像レイヤ）、<a href="tag.htm#trans" target="_blank" rel="noopener">[trans]</a>（ページ裏表を交換）の物を指定。<br>立ち絵なら主にlayer、fn、pos、rule、time属性を使用すれば表現できる</td></tr>
+	<tr><td>…</td><td>…</td><td></td><td>…</td><td>引数は<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>（画像レイヤ）、<a href="tag.htm#trans" target="_blank" rel="noopener">[trans]</a>（ページ裏表を交換）の物を指定。<br/>立ち絵なら主にlayer、fn、pos、rule、time属性を使用すれば表現できる</td></tr>
 	</table>
 
 </p>
@@ -435,21 +435,21 @@
 <h4>クロスフェードしながらレイヤ画像を変更する</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>layer</td><td>n</td><td>0</td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr><td>time</td><td>n</td><td>500</td><td>ミリ秒数</td><td>変化にかける時間</td></tr><tr><td>left</td><td rowspan="2">n</td><td rowspan="2">（現在位置）</td><td rowspan="2">ドット数</td><td>移動元・横位置の絶対位置</td></tr><tr><td>top</td><td>移動元・縦位置の絶対位置</td></tr><tr><td>x</td><td rowspan="2">n</td><td rowspan="2">（移動しない）</td><td rowspan="2">ドット数</td><td>移動先・横位置の絶対位置</td></tr><tr><td>y</td><td>移動先・縦位置の絶対位置（x,yは x='=-50'だと相対位置移動、x='-50'だと絶対位置移動）</td></tr><tr><td>alpha</td><td rowspan="2">n</td><td>0</td><td rowspan="2">0.0〜1.0（実数）</td><td>レイヤの透過度（初期値）。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr><tr><td>to_alpha</td><td>1</td><td>レイヤの透過度（終端値）</td></tr><tr><td>scale_x</td><td rowspan="2">n</td><td rowspan="2">1</td><td rowspan="2">ドット数</td><td>移動元・横方向拡大／縮小するか。負の値ならレイヤを左右反転</td></tr><tr><td>scale_y</td><td>移動元・縦方向拡大／縮小するか。負の値ならレイヤを上下反転</td></tr><tr><td>to_scale_x</td><td rowspan="2">n</td><td rowspan="2">1</td><td rowspan="2">ドット数</td><td>移動先・横方向拡大／縮小するか。負の値ならレイヤを左右反転</td></tr><tr><td>to_scale_y</td><td>移動先・縦方向拡大／縮小するか。負の値ならレイヤを上下反転</td></tr><tr><td>ease</td><td>n</td><td>Circular.easeOut</td><td>イージング名</td><td>alpha・x・yなど値変化のイージング（値の変化の仕方）を指定する。<br><a href="http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br>指定できる値はplgTweensyの<a href="ex.htm">[tsy]</a>を参照</td></tr><tr><td>no_wait</td><td>n</td><td>false</td><td>Boolean</td><td>trueを指定すると、終了を待たない</td></tr><tr><td>…</td><td>…</td><td></td><td>…</td><td>その他引数は<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>（画像レイヤ）、<a href="tag.htm#trans" target="_blank" rel="noopener">[trans]</a>（ページ裏表を交換）の物を指定。<br>立ち絵なら主にlayer、fn、pos、rule、time属性を使用すれば表現できる</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>layer</td><td>n</td><td>0</td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr><td>time</td><td>n</td><td>500</td><td>ミリ秒数</td><td>変化にかける時間</td></tr><tr><td>left</td><td rowspan="2">n</td><td rowspan="2">（現在位置）</td><td rowspan="2">ドット数</td><td>移動元・横位置の絶対位置</td></tr><tr><td>top</td><td>移動元・縦位置の絶対位置</td></tr><tr><td>x</td><td rowspan="2">n</td><td rowspan="2">（移動しない）</td><td rowspan="2">ドット数</td><td>移動先・横位置の絶対位置</td></tr><tr><td>y</td><td>移動先・縦位置の絶対位置（x,yは x='=-50'だと相対位置移動、x='-50'だと絶対位置移動）</td></tr><tr><td>alpha</td><td rowspan="2">n</td><td>0</td><td rowspan="2">0.0〜1.0（実数）</td><td>レイヤの透過度（初期値）。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr><tr><td>to_alpha</td><td>1</td><td>レイヤの透過度（終端値）</td></tr><tr><td>scale_x</td><td rowspan="2">n</td><td rowspan="2">1</td><td rowspan="2">ドット数</td><td>移動元・横方向拡大／縮小するか。負の値ならレイヤを左右反転</td></tr><tr><td>scale_y</td><td>移動元・縦方向拡大／縮小するか。負の値ならレイヤを上下反転</td></tr><tr><td>to_scale_x</td><td rowspan="2">n</td><td rowspan="2">1</td><td rowspan="2">ドット数</td><td>移動先・横方向拡大／縮小するか。負の値ならレイヤを左右反転</td></tr><tr><td>to_scale_y</td><td>移動先・縦方向拡大／縮小するか。負の値ならレイヤを上下反転</td></tr><tr><td>ease</td><td>n</td><td>Circular.easeOut</td><td>イージング名</td><td>alpha・x・yなど値変化のイージング（値の変化の仕方）を指定する。<br/><a href="http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>指定できる値はplgTweensyの<a href="ex.htm">[tsy]</a>を参照</td></tr><tr><td>no_wait</td><td>n</td><td>false</td><td>Boolean</td><td>trueを指定すると、終了を待たない</td></tr><tr><td>…</td><td>…</td><td></td><td>…</td><td>その他引数は<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>（画像レイヤ）、<a href="tag.htm#trans" target="_blank" rel="noopener">[trans]</a>（ページ裏表を交換）の物を指定。<br/>立ち絵なら主にlayer、fn、pos、rule、time属性を使用すれば表現できる</td></tr></table>
 
 </p>
 <h2 id="fg_fo" class="w-heading">[fg_fo] フェードアウト</h2>
 <h4>クロスフェードしながらレイヤ画像を変更する</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>layer</td><td>n</td><td>0</td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr><td>time</td><td>n</td><td>500</td><td>ミリ秒数</td><td>変化にかける時間</td></tr><tr><td>x</td><td rowspan="2">n</td><td rowspan="2">（移動しない）</td><td rowspan="2">ドット数</td><td>移動先・横位置の絶対位置</td></tr><tr><td>y</td><td>移動先・縦位置の絶対位置（x,yは x='=-50'だと相対位置移動、x='-50'だと絶対位置移動）</td></tr><tr><td>alpha</td><td>n</td><td>0</td><td>0.0〜1.0（実数）</td><td>レイヤの透過度（終端値・<a href="ex.htm">[fg_fi]</a>と違う）。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr><tr><td>ease</td><td>n</td><td>Circular.easeOut</td><td>イージング名</td><td>alpha・x・yなど値変化のイージング（値の変化の仕方）を指定する。<br><a href="http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br>指定できる値はplgTweensyの<a href="ex.htm">[tsy]</a>を参照</td></tr><tr><td>no_wait</td><td>n</td><td>false</td><td>Boolean</td><td>trueを指定すると、終了を待たない</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>layer</td><td>n</td><td>0</td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr><td>time</td><td>n</td><td>500</td><td>ミリ秒数</td><td>変化にかける時間</td></tr><tr><td>x</td><td rowspan="2">n</td><td rowspan="2">（移動しない）</td><td rowspan="2">ドット数</td><td>移動先・横位置の絶対位置</td></tr><tr><td>y</td><td>移動先・縦位置の絶対位置（x,yは x='=-50'だと相対位置移動、x='-50'だと絶対位置移動）</td></tr><tr><td>alpha</td><td>n</td><td>0</td><td>0.0〜1.0（実数）</td><td>レイヤの透過度（終端値・<a href="ex.htm">[fg_fi]</a>と違う）。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr><tr><td>ease</td><td>n</td><td>Circular.easeOut</td><td>イージング名</td><td>alpha・x・yなど値変化のイージング（値の変化の仕方）を指定する。<br/><a href="http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>指定できる値はplgTweensyの<a href="ex.htm">[tsy]</a>を参照</td></tr><tr><td>no_wait</td><td>n</td><td>false</td><td>Boolean</td><td>trueを指定すると、終了を待たない</td></tr></table>
 
 </p>
 <h2 id="fg_squat" class="w-heading">[fg_squat] レイヤを屈伸させる</h2>
 <h4>クロスフェードしながらレイヤ画像を変更する</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>layer</td><td>n</td><td>0</td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr><td>time</td><td>n</td><td>250</td><td>ミリ秒数</td><td>変化にかける時間</td></tr><tr><td>y</td><td>n</td><td>50</td><td>ドット数</td><td>下へ沈ませる移動量</td></tr><tr><td>ease</td><td>n</td><td>Circular.easeOut</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br><a href="http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br>指定できる値はplgTweensyの<a href="ex.htm">[tsy]</a>を参照</td></tr><tr><td>repeats</td><td>n</td><td>1</td><td>0〜（整数）</td><td>繰返し回数。0は無限ループ</td></tr><tr><td>no_wait</td><td>n</td><td>false</td><td>Boolean</td><td>trueを指定すると、終了を待たない</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>layer</td><td>n</td><td>0</td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr><tr><td>time</td><td>n</td><td>250</td><td>ミリ秒数</td><td>変化にかける時間</td></tr><tr><td>y</td><td>n</td><td>50</td><td>ドット数</td><td>下へ沈ませる移動量</td></tr><tr><td>ease</td><td>n</td><td>Circular.easeOut</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="http://hosted.zeh.com.br/tweener/docs/en-us/misc/transitions.html" target="_blank" rel="noopener">イージングの変化はこちらの図</a>が分かりやすい。<br/>指定できる値はplgTweensyの<a href="ex.htm">[tsy]</a>を参照</td></tr><tr><td>repeats</td><td>n</td><td>1</td><td>0〜（整数）</td><td>繰返し回数。0は無限ループ</td></tr><tr><td>no_wait</td><td>n</td><td>false</td><td>Boolean</td><td>trueを指定すると、終了を待たない</td></tr></table>
 
 </p>
 <h2 id="fg_shake" class="w-heading">[fg_shake] レイヤを震わせる</h2>
@@ -474,17 +474,26 @@
 <h4>for文のように変数を変化させながら[call]を繰り返す。</h4>
 <p class="mb2 px1">
 	for文がないAIRNovelを補助するマクロ。<br/>
-	テンプレの【prj/other/ext_fg2.sn】で使用されているので、使用法のご参考にどうぞ。
+	※ギャラリーの【<a href="https://famibee.github.io/SKYNovel_gallery/" target="_blank" rel="noopener">for文を使える</a>】を参照。（後述）
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>name</td><td>y</td><td></td><td>ループ変数名</td><td>ループインデックスに使用する変数名を指定する。<br>実際の変数名は前に'tmp:for_call_idx.'を付けたもの</td></tr><tr class="y"><td>from</td><td>y</td><td></td><td>整数値</td><td>ループ変数の開始値</td></tr><tr class="y"><td>to</td><td>y</td><td></td><td>整数値</td><td>ループ変数の終了値</td></tr><tr class="y"><td>fn</td><td rowspan="2">少なくともどちらかを指定</td><td rowspan="2">…</td><td rowspan="2">…</td><td rowspan="2">ループ中処理を行なうサブルーチンへのジャンプ先。<br>指定方法は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#jump" target="_blank" rel="noopener">[jump]</a>と同様</td></tr><tr class="y"><td>label</td></tr><tr><td>arg</td><td>n</td><td></td><td>String</td><td>指定した場合、ジャンプ先で「&amp;const.sn.eventArg」にて値を受け取れる</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr class="y"><td>name</td><td>y</td><td></td><td>ループ変数名</td><td>ループインデックスに使用する変数名を指定する。<br/>実際の変数名は前に'tmp:for_call_idx.'を付けたもの</td></tr><tr class="y"><td>from</td><td>y</td><td></td><td>整数値</td><td>ループ変数の開始値</td></tr><tr class="y"><td>to</td><td>y</td><td></td><td>整数値</td><td>ループ変数の終了値</td></tr><tr class="y"><td>fn</td><td rowspan="2">少なくともどちらかを指定</td><td rowspan="2">…</td><td rowspan="2">…</td><td rowspan="2">ループ中処理を行なうサブルーチンへのジャンプ先。<br/>指定方法は<a href="http://famibee.web.fc2.com/tag_dev/tags.htm#jump" target="_blank" rel="noopener">[jump]</a>と同様</td></tr><tr class="y"><td>label</td></tr><tr><td>arg</td><td>n</td><td></td><td>String</td><td>指定した場合、ジャンプ先で「&amp;const.sn.eventArg」にて値を受け取れる</td></tr></table>
+
+	【for文を使える】より、抜粋すると以下になる。
+	<amp-img src="pic/for_call0.png" width="948" height="308" layout="responsive"></amp-img>
+
+	ギャラリーで実行すると、「012345」という文字表示がなされる。<br/>
+	<br/>
+	テンプレの【<a href="https://github.com/famibee/SKYNovel_hatsune/blob/master/prj/other/ext_fg2.sn" target="_blank" rel="noopener">prj/other/ext_fg2.sn</a>】でも使用されているので、使用法のご参考にどうぞ。（多少複雑な例ですが）<br/>
 
 </p>
 <h2 id="for_call_break">[for_call_break] ループを中断する</h2>
 <h4>内側一つだけ脱出する</h4>
 <p class="mb2 px1">
-	[for_call]呼び先サブルーチンで使用すると、ループを終了し[for_call]の次に戻る。<br>
-	[for_call_break]の直後に[return]が必要。<br>
-	引数無し。
+	[for_call]呼び先サブルーチンで使用すると、ループを終了し[for_call]の次に戻る。<br/>
+	[for_call_break]の直後に[return]が必要。<br/>
+	引数無し。<br/>
+	<br/>
+	※使用例は[for_call]を参照。<br/>
 
 </p>
 
@@ -499,7 +508,7 @@
 
 <p class="mb2 px1">
 
-humaneフォルダを配置すれば使用できます。<br>
+humaneフォルダを配置すれば使用できます。<br/>
 サンプルプロジェクト「<a href="//github.com/famibee/SKYNovel_uc">桜の樹の下には</a>」では最初から配置されています。
 
 	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
