@@ -33,7 +33,7 @@ class TxtLayer extends Layer_1.Layer {
         this.cntBtn = new pixi_js_1.Container;
         this.restBuf = false;
         this.putCh = (text, ruby) => {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             if (TxtLayer.cfg.oCfg.debug.putCh)
                 console.log(`🖊 文字表示 text:\`${text}\` ruby:\`${ruby}\` name:\`${this.name}\``);
             const isSkip = TxtLayer.evtMng.isSkipKeyDown();
@@ -69,12 +69,10 @@ class TxtLayer extends Layer_1.Layer {
                     }
                     add_htm = (ruby) ? `<ruby>${text}<rt>${ruby}</rt></ruby>` : text;
                     if (CmnLib_1.CmnLib.hDip['tx']) {
-                        if (isSkip) {
+                        if (isSkip)
                             this.cumDelay = 0;
-                        }
-                        else {
+                        if (!this.aSpan_bk)
                             add_htm = `<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
-                        }
                     }
                     this.cumDelay += (TxtLayer.doAutoWc)
                         ? (_a = TxtLayer.hAutoWc[text], (_a !== null && _a !== void 0 ? _a : 0)) : LayerMng_1.LayerMng.msecChWait;
@@ -129,6 +127,14 @@ class TxtLayer extends Layer_1.Layer {
                                     return;
                                 }
                                 add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'>　</span>`;
+                                if (CmnLib_1.CmnLib.hDip['tx']) {
+                                    if (isSkip)
+                                        this.cumDelay = 0;
+                                    if (!this.aSpan_bk)
+                                        add_htm = `<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
+                                }
+                                this.cumDelay += (TxtLayer.doAutoWc)
+                                    ? (_b = TxtLayer.hAutoWc[text], (_b !== null && _b !== void 0 ? _b : 0)) : LayerMng_1.LayerMng.msecChWait;
                                 if (this.aSpan.slice(-1)[0] == add_htm)
                                     return;
                             }
@@ -143,7 +149,14 @@ class TxtLayer extends Layer_1.Layer {
                             this.autoCloseSpan();
                             this.restBuf = true;
                             if (a_ruby[1]) {
-                                this.aSpan.push(`<span style='${a_ruby[1]}'>`);
+                                if (CmnLib_1.CmnLib.hDip['tx']) {
+                                    if (isSkip)
+                                        this.cumDelay = 0;
+                                    this.aSpan.push(`<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms; ${a_ruby[1]}'>`);
+                                }
+                                else {
+                                    this.aSpan.push(`<span style='${a_ruby[1]}'>`);
+                                }
                                 this.aSpan_bk = this.aSpan;
                                 this.aSpan = [];
                             }
@@ -154,9 +167,9 @@ class TxtLayer extends Layer_1.Layer {
                             {
                                 const o = JSON.parse(a_ruby[1]);
                                 if (CmnLib_1.CmnLib.hDip['tx']) {
-                                    this.aSpan.push(`<span ` + (isSkip
-                                        ? `style='`
-                                        : `class='sn_tx' style='animation-delay: ${this.cumDelay}ms; `) + `${o.style}'>`);
+                                    if (isSkip)
+                                        this.cumDelay = 0;
+                                    this.aSpan.push(`<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms; ${o.style}'>`);
                                     this.aSpan_link = `data-cmd='link' data-arg='${a_ruby[1]}'`;
                                 }
                                 else {
@@ -179,15 +192,13 @@ class TxtLayer extends Layer_1.Layer {
                             this.restBuf = true;
                             add_htm = `<ruby>${text}<rt>${ruby}</rt></ruby>`;
                             if (CmnLib_1.CmnLib.hDip['tx']) {
-                                if (isSkip) {
+                                if (isSkip)
                                     this.cumDelay = 0;
-                                }
-                                else {
+                                if (!this.aSpan_bk)
                                     add_htm = `<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
-                                }
                             }
                             this.cumDelay += (TxtLayer.doAutoWc)
-                                ? (_b = TxtLayer.hAutoWc[text.charAt(0)], (_b !== null && _b !== void 0 ? _b : 0)) : LayerMng_1.LayerMng.msecChWait;
+                                ? (_c = TxtLayer.hAutoWc[text.charAt(0)], (_c !== null && _c !== void 0 ? _c : 0)) : LayerMng_1.LayerMng.msecChWait;
                             this.recText(text);
                     }
                     break;
@@ -214,14 +225,12 @@ class TxtLayer extends Layer_1.Layer {
 					-webkit-text-combine: horizontal;
 				'>${a_ruby[1]}</span>`;
                             this.cumDelay += (TxtLayer.doAutoWc)
-                                ? (_c = TxtLayer.hAutoWc[text.charAt(0)], (_c !== null && _c !== void 0 ? _c : 0)) : LayerMng_1.LayerMng.msecChWait;
+                                ? (_d = TxtLayer.hAutoWc[text.charAt(0)], (_d !== null && _d !== void 0 ? _d : 0)) : LayerMng_1.LayerMng.msecChWait;
                             if (CmnLib_1.CmnLib.hDip['tx']) {
-                                if (isSkip) {
+                                if (isSkip)
                                     this.cumDelay = 0;
-                                }
-                                else {
+                                if (!this.aSpan_bk)
                                     add_htm = `<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
-                                }
                             }
                             break;
                         default:
@@ -289,7 +298,7 @@ class TxtLayer extends Layer_1.Layer {
 .sn_tx {
 	opacity: 0;
 	position: relative;
-	animation: tx_fi 500ms ease-out 0s forwards;
+	animation: tx_fi 500ms ease-out 0s both;
 }
 @keyframes tx_fi {
 	from {left: 0.3em;}
@@ -487,6 +496,11 @@ class TxtLayer extends Layer_1.Layer {
             fncComp();
         return ret;
     }
+    snapshot(rnd, re) {
+        rnd.render(this.cnt, undefined, false);
+        this.txs.snapshot(rnd, re);
+    }
+    static snapshotBreak(rnd) { TxtStage_1.TxtStage.snapshotBreak(rnd); }
     dump() {
         let aPixiObj = [];
         const len = this.cnt.children.length;
@@ -504,5 +518,4 @@ TxtLayer.gs_textFade = '';
 TxtLayer.gs_addStyle = '';
 TxtLayer.doAutoWc = false;
 TxtLayer.hAutoWc = Object.create(null);
-;
 //# sourceMappingURL=TxtLayer.js.map

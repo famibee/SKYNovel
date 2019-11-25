@@ -72,6 +72,10 @@ class Layer {
         this.cnt.visible = hLay.visible;
         return false;
     }
+    snapshot(rnd, re) {
+        rnd.render(this.cnt, undefined, false);
+        re();
+    }
     dump() {
         return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation}, "name":"${this.name}", "scale_x":${this.cnt.scale.x}, "scale_y":${this.cnt.scale.y}`;
     }

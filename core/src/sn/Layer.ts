@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {BLEND_MODES, DisplayObject, Container, Sprite, Texture} from 'pixi.js';
+import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, Renderer} from 'pixi.js';
 import {CmnLib, int} from './CmnLib';
 import {HArg} from './CmnInterface';
 
@@ -92,6 +92,11 @@ export class Layer {
 		this.cnt.visible = hLay.visible;
 
 		return false;
+	}
+
+	snapshot(rnd: Renderer, re: ()=> void) {
+		rnd.render(this.cnt, undefined, false);
+		re();
 	}
 
 	dump(): string {

@@ -1,4 +1,4 @@
-import { DisplayObject, Container, Sprite } from 'pixi.js';
+import { DisplayObject, Container, Sprite, Renderer } from 'pixi.js';
 import { HArg } from './CmnInterface';
 export declare class Layer {
     name: string;
@@ -38,6 +38,7 @@ export declare class Layer {
     playback(hLay: any, _fncComp?: undefined | {
         (): void;
     }): boolean;
+    snapshot(rnd: Renderer, re: () => void): void;
     dump(): string;
     static argChk_BlendmodeAndSet(hash: any, $do: DisplayObject): void;
     static cnvBlendmode(name: string): number;

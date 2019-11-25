@@ -48,11 +48,13 @@ class Main {
         this.isDestroyed = () => this.destroyed;
         pixi_js_1.utils.skipHello();
         this.cfg = new Config_1.Config(sys, () => {
+            var _a, _b;
             const hApp = {
                 width: this.cfg.oCfg.window.width,
                 height: this.cfg.oCfg.window.height,
                 backgroundColor: this.cfg.oCfg.init.bg_color,
-                resolution: sys.resolution,
+                resolution: (_a = window.devicePixelRatio, (_a !== null && _a !== void 0 ? _a : 1)),
+                autoResize: true,
             };
             const cvs = document.getElementById('skynovel');
             if (cvs) {
@@ -63,6 +65,8 @@ class Main {
             this.appPixi = new pixi_js_1.Application(hApp);
             if (!cvs)
                 document.body.appendChild(this.appPixi.view);
+            if (CmnLib_1.CmnLib.hDip['tx'])
+                (_b = this.appPixi.view.parentElement) === null || _b === void 0 ? void 0 : _b.style.setProperty('position', 'relative');
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
             this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);

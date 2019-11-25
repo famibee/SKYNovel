@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Container, Texture, Sprite, Graphics, DisplayObject, Rectangle} from 'pixi.js';
+import {Container, Texture, Sprite, Graphics, DisplayObject, Rectangle, Renderer} from 'pixi.js';
 
 import {CmnLib, uint, IEvtMng} from './CmnLib';
 import {HArg} from './CmnInterface';
@@ -41,15 +41,10 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	private	static	cfg		: Config;
-	private	static	cr		: Rectangle;
+	private	static	cvs		: HTMLCanvasElement;
 	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
-		const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
-		const cr = cvs.getBoundingClientRect();
-		TxtStage.cr = new Rectangle(
-			cr.x +document.documentElement.scrollLeft,
-			cr.y +document.documentElement.scrollTop,
-			cr.width, cr.height);
+		TxtStage.cvs = document.getElementById('skynovel') as HTMLCanvasElement;
 
 		TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
 			? ()=> true
@@ -66,14 +61,14 @@ export class TxtStage extends Container {
 	constructor(private infTL: IInfTxLay, cnt: Container) {
 		super();
 
-//		this.htmTxt.hidden = true;
 		if (CmnLib.hDip['tx']) {
 			this.htmTxt.classList.add('sn_txl');
 		}
 		else {
 			this.htmTxt.hidden = true;
 		}
-		document.body.appendChild(this.htmTxt);
+		this.htmTxt.style.position = 'absolute';
+		TxtStage.cvs.parentElement!.appendChild(this.htmTxt);
 
 		cnt.addChild(this);
 		cnt.addChild(this.cntTxt);
@@ -95,54 +90,79 @@ export class TxtStage extends Container {
 				}
 				this.htmTxt.style[key] = cln.style[key];
 			}
-			this.infTL.pad_left = parseFloat(this.htmTxt.style.paddingLeft ?? '0');
-			this.infTL.pad_right = parseFloat(this.htmTxt.style.paddingRight ?? '0');
-			this.infTL.pad_top = parseFloat(this.htmTxt.style.paddingTop ?? '0');
-			this.infTL.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom ?? '0');
-			this.infTL.fontsize = parseFloat(this.htmTxt.style.fontSize ?? '0');
-			this.infTL.$width = parseFloat(this.htmTxt.style.width ?? '0');
-			this.infTL.$height = parseFloat(this.htmTxt.style.height ?? '0');
 		}
-		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
-
-		const xSlide = TxtStage.cfg.oCfg.debug.slideBaseSpan
-			? document.documentElement.clientWidth -CmnLib.stageW
-			: 0;
-		this.htmTxt.style.position = 'absolute';
-		this.htmTxt.style.left = xSlide +'px';
-		this.htmTxt.style.top = `0px`;
-		const nopadX = (this.htmTxt.style.writingMode == 'vertical-rl')
-			? this.infTL.pad_left +this.infTL.pad_right
-			: 0
-//		this.htmTxt.style.zIndex = '-2';
 		if (CmnLib.hDip['tx']) {
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 			const left = CmnLib.argChk_Num(hArg, 'left', 0);
 			const top = CmnLib.argChk_Num(hArg, 'top', 0);
-			this.htmTxt.style.left = (TxtStage.cr.left +left -nopadX) +'px';
-			this.htmTxt.style.top = (TxtStage.cr.top +top) +'px';
-//console.log(`fn:TxtStage.ts line:116 l:${TxtStage.cr.left} t:${TxtStage.cr.top} xx:${this.infTL.pad_left} yy:${this.infTL.pad_top} l:${this.htmTxt.style.left} t:${this.htmTxt.style.top} pt:${this.infTL.pad_top} w:${this.infTL.$width} h:${this.infTL.$height} l:${left} t:${top}`);
+			this.htmTxt.style.left = left +'px';
+			this.htmTxt.style.top = top +'px';
 		}
-		else {
-			this.htmTxt.style.zIndex = '-2';
-		}
-		this.xz4htm2rect = xSlide
-			+ this.infTL.pad_left	// テクスチャ元中間objはpaddingを使わないので
-			+ nopadX;	// 　ｘ文字選択にとってpaddingがないので
 
-		this.htmTxt.style.textShadow = (hArg.filter)
+		this.htmTxt.style.textShadow = (hArg.filter)	// TODO: 変更できるよう
 			? `1px 1px 2px gray, 0 0 1em #000, 0 0 0.2em #000`
 			: '';
 
-		this.lh_half = (this.htmTxt.style.writingMode == 'vertical-rl')
-			? 0
-			: (	((this.htmTxt.style.lineHeight ?? '0').slice(-2) == 'px')
-				? parseFloat(this.htmTxt.style.lineHeight ?? '0')
-				: parseFloat(this.htmTxt.style.fontSize ?? '0')
-					* parseFloat(this.htmTxt.style.lineHeight ?? '0')
-					// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
-				-parseFloat(this.htmTxt.style.fontSize ?? '0')	) /2;
+		this.lay_sub();
 	}
+	private lay_sub() {
+		const fs = parseFloat(this.htmTxt.style.fontSize ?? '0');
+		this.infTL.fontsize = fs;
+
+		this.infTL.pad_left = parseFloat(this.htmTxt.style.paddingLeft ?? '0');
+		this.infTL.pad_right = parseFloat(this.htmTxt.style.paddingRight ?? '0');
+		this.infTL.pad_top = parseFloat(this.htmTxt.style.paddingTop ?? '0');
+		this.infTL.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom ?? '0');
+		this.infTL.$width = parseFloat(this.htmTxt.style.width ?? '0');
+		this.infTL.$height = parseFloat(this.htmTxt.style.height ?? '0');
+		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
+
+		this.isTategaki = (this.htmTxt.style.writingMode == 'vertical-rl');
+
+		const xSlide = TxtStage.cfg.oCfg.debug.slideBaseSpan
+			? document.documentElement.clientWidth -CmnLib.stageW
+			: 0;
+
+		if (CmnLib.hDip['tx']) {
+			// スナップショット時のずれ
+			this.padTx4x = parseFloat(this.htmTxt.style.left) +this.infTL.pad_left;
+			this.padTx4y = parseFloat(this.htmTxt.style.top) +this.infTL.pad_top;
+
+			const boundClientRect = this.htmTxt.getBoundingClientRect();
+			this.rctBoundCli = boundClientRect.top;
+		}
+		else {
+			this.htmTxt.style.left = xSlide +'px';
+			this.htmTxt.style.top = `0px`;
+			this.htmTxt.style.zIndex = '-2';
+
+			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
+			if (this.isTategaki) {
+				this.padTx4x = fs;
+			}
+			else {
+				this.padTx4y = fs;
+			}
+		}
+
+		const lh = this.htmTxt.style.lineHeight ?? '0';
+		this.lh_half = this.isTategaki
+			? 0
+			: (	(lh.slice(-2) == 'px')
+				? parseFloat(lh)
+				: (fs *parseFloat(lh) -fs)) /2;
+			// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
+		this.xz4htm2rect = xSlide
+			+ this.infTL.pad_left	// テクスチャ元中間objはpaddingを使わないので
+			+ (this.isTategaki
+				? this.infTL.pad_left +this.infTL.pad_right
+				: 0);	// 　ｘ文字選択にとってpaddingがないので
+	}
+	private isTategaki = false;
+	private padTx4x = 0;
+	private padTx4y = 0;
+	private rctBoundCli = 0;
+
 	setSize(width: number, height: number) {
 		this.infTL.$width = width;
 		this.infTL.$height = height;
@@ -164,36 +184,42 @@ export class TxtStage extends Container {
 
 	goTxt(aSpan: string[], layname: string) {
 		if (aSpan.length == 0) return;
-		this.aSpan1to2 = [...aSpan];
-		this.name = layname;	// dump表示などに使用
 
 		//console.log(`🍅 goTxt htmTxt:${this.htmTxt.textContent}`);
-		if (++this.cntGoTxtSerializer == 1) this.goTxt2();	// VAL++ == 0
+		if (++this.cntGoTxtSerializer == 1) this.goTxt2(aSpan, layname);
+			// VAL++ == 0
 	}
-	private aSpan1to2: string[]	= [];	// 非同期の境界を越えるため
 
-	private goTxt2  = ()=> this.goTxt2_htm2tx();
+	private goTxt2  = (aSpan: string[], layname: string)=> this.goTxt2_htm(aSpan, layname);
 	private cntGoTxtSerializer = 0;
-	private aSpan	: string[]	= [];
-	private goTxt2_htm2tx() {
+	private goTxt2_htm(aSpan: string[], layname: string) {
 		//console.log(`🍆 goTxt2_htm2tx[${this.cntGoTxtSerializer}]`);
+		this.name = layname;	// dump表示などに使用
 		//this.htmTxt.innerHTML = this.aSpan.join('');
 		// これだとSafariでgetChRects()内 getBoundingClientRect()で異常な値になる。
 		// <br/>ではなく<p>〜</p>にする（ただし空では改行せず、全角空白一文字必要らしい）
-		this.aSpan = this.aSpan1to2;
-		let sJoinSpan = this.aSpan.join('');
-
+		let s = [...aSpan].join('');
 		// 「<br/>」分割を「<p ...></p>」囲みに変換
-		if (sJoinSpan.slice(-5) == '<br/>') sJoinSpan = sJoinSpan.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
-		const tmp = sJoinSpan.split('<br/>')
+		if (s.slice(-5) == '<br/>') s = s.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
+		this.htmTxt.innerHTML = s.split('<br/>')
 		.map(v=>`<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
 		.join('');
-		this.htmTxt.innerHTML = tmp;
 			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
 			// insertAdjacentHTML()は使わない
+
 		this.htmTxt.hidden = false;
+		this.htm2tx(tx2=> {
+			this.goTxt3(tx2);
 
-
+			if (--this.cntGoTxtSerializer <= 0) {
+				this.cntGoTxtSerializer = 0;
+				return;
+			}
+			this.skipFI();
+			this.goTxt2(aSpan, layname);
+		});
+	}
+	private htm2tx(fnc: (tx2: any)=> void, hidden = true) {
 		// tsayen/dom-to-image: Generates an image from a DOM node using HTML5 canvas https://github.com/tsayen/dom-to-image
 
 		// TODO: いつかのタイミングでコードをキレイにしたい
@@ -487,27 +513,18 @@ export class TxtStage extends Container {
 			this.styleHtmTxt.appendChild(document.createTextNode(css));
 */
 
-		let padTx4x = 0;
-		let padTx4y = 0;
 		Promise.resolve(this.htmTxt)
 		.then(node=> {	//console.log(`🍇 toSvg`);
 			const cln = node.cloneNode(true) as HTMLSpanElement;
 			cln.style.padding = '0px';		// ややこしいのでシンプルに
-			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-			if (cln.style.writingMode == 'vertical-rl') {
-				padTx4x = parseFloat(cln.style.fontSize ?? '0');
-			}
-			else {
-				padTx4y = parseFloat(cln.style.fontSize ?? '0');
-			}
-			cln.style.paddingRight = padTx4x +'px';
-			cln.style.paddingTop = padTx4y +'px';
+			cln.style.paddingRight = this.padTx4x +'px';
+			cln.style.paddingTop = this.padTx4y +'px';
 			cln.style.left = '0px';
 			cln.style.top = '0px';
 			cln.style.width = (this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right) +'px';
 			cln.style.height = (this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom) +'px';
 			//console.log(cln.style.cssText);
-			this.htmTxt.hidden = true;
+			this.htmTxt.hidden = hidden;
 			return cln;
 		})
 		.then(embedFonts)
@@ -533,33 +550,26 @@ export class TxtStage extends Container {
 			canvas.toBlob(blob=> {
 				const url = URL.createObjectURL(blob);
 				Texture.from(url).once('update', (tx2: any)=> {
-					this.goTxt3(tx2, padTx4x, padTx4y);
+					fnc(tx2);
 					URL.revokeObjectURL(url);
-
-					if (--this.cntGoTxtSerializer <= 0) {
-						this.cntGoTxtSerializer = 0;
-						return;
-					}
-					this.skipFI();
-					this.goTxt2();
 				});
 			});
 		})
 		.catch(err=> DebugMng.myTrace(`goTxt() = ${err}`));
 	}
 
-	private goTxt3  = (tx: Texture, padTx4x: number, padTx4y: number)=> this.goTxt3_tx2sp(tx, padTx4x, padTx4y);
+	private goTxt3  = (tx: Texture)=> this.goTxt3_tx2sp(tx);
 	private static	readonly	REG_SURROGATE	= /[\uDC00-\uDFFF]/;
 	private aRect   : IChRect[]	= [];
 	private ch_filter	: any[] | null;	// 文字にかけるフィルター
 	private xz4htm2rect = 0;
 	private aSpTw	: ISpTw[]	= [];
 	private	static	fncChkSkip = ()=> false;
-	private goTxt3_tx2sp(tx: Texture, padTx4x: number, padTx4y: number) {
+	private goTxt3_tx2sp(tx: Texture) {
 		if (TxtStage.fncChkSkip()) {	// 瞬時表示
 			const sp = new Sprite(tx);
-			sp.x -= padTx4x;
-			sp.y -= padTx4y;
+			sp.x -= this.padTx4x;
+			sp.y -= this.padTx4y;
 			this.cntTxt.addChild(sp);
 		//	this.putBreakMark();	// 表示を省略
 			return;
@@ -731,7 +741,7 @@ export class TxtStage extends Container {
 
 			default:	// 文字
 				const tx_c = tx.clone();
-				tx_c.frame = new Rectangle(rct.x +padTx4x, rct.y +padTx4y, rct.width, rct.height);
+				tx_c.frame = new Rectangle(rct.x +this.padTx4x, rct.y +this.padTx4y, rct.width, rct.height);
 				if (tx_c.frame.x < 0 || tx_c.frame.y < 0) console.log(`x=${tx_c.frame.x} または y=${tx_c.frame.y} が負の値です。文字「${v.ch}」が表示されない場合があります`);
 
 				const sp = new Sprite(tx_c);
@@ -752,8 +762,8 @@ export class TxtStage extends Container {
 	goTxt_next(aSpan: string[], layname: string, delay: number) {
 		this.name = layname;	// dump表示などに使用
 
-		this.aSpan = [...aSpan];
-		let s = this.aSpan.join('');
+		let s = [...aSpan].join('');
+		// 「<br/>」分割を「<p ...></p>」囲みに変換
 		if (s.slice(-5) == '<br/>') s = s.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
 		this.htmTxt.innerHTML = s.split('<br/>')
 		.map(v=>`<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
@@ -785,24 +795,36 @@ export class TxtStage extends Container {
 
 		this.aRect = this.getChRects(this.htmTxt);
 		const len = this.aRect.length;
-		const fncVVV = (this.htmTxt.style.writingMode == 'vertical-rl')
-			? (rct: Rectangle)=> rct.x += this.infTL.fontsize
-			: (rct: Rectangle)=> rct.y += this.infTL.fontsize;
-		const ease = CmnTween.ease(this.fi_easing);
-		for (let i=begin; i<len; ++i) {
-			const v = this.aRect[i];
-			const rct = v.rect;
-			rct.x -= this.xz4htm2rect;
-			rct.y -= this.infTL.pad_top +parseFloat(this.htmTxt.style.top);
-			fncVVV(rct);
-			this.rctm = rct;
-			if (TxtStage.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
-				if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
+		const fncMasumeLog = (TxtStage.cfg.oCfg.debug.devtool)
+			? (v: IChRect, rct: Rectangle)=> console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
+			: ()=> {};
+		const fncMasume = (TxtStage.cfg.oCfg.debug.masume)
+			? (v: IChRect, rct: Rectangle)=> {
+				fncMasumeLog(v, rct);
 				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
 				this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
 				this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
 				this.grpDbgMasume.endFill();
 			}
+			: ()=> {};
+		const ease = CmnTween.ease(this.fi_easing);
+		for (let i=begin; i<len; ++i) {
+			const v = this.aRect[i];
+			const rct = v.rect;
+	//		rct.x -= this.xz4htm2rect;
+	//		rct.x -= this.infTL.pad_left;
+			rct.x -= this.infTL.fontsize;
+	//		const boundClientRect = this.htmTxt.getBoundingClientRect();
+	//		rct.x -= this.infTL.pad_left +boundClientRect.left +6;
+
+//			rct.x -= this.xz4htm2rect -this.infTL.fontsize;
+	//		rct.x -= this.padTx4x;
+
+//x			rct.y -= this.infTL.pad_top +parseFloat(this.htmTxt.style.top);
+//x			rct.x -= rct.width;
+			rct.y -= this.infTL.pad_top +this.rctBoundCli;
+			fncMasume(v, rct);
+			this.rctm = rct;
 
 			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
 //console.log(`fn:TxtStage.ts line:807 i:${i} ch:${v.ch} rct:%o cmd:${v.cmd} arg:%o`, rct, arg);
@@ -860,12 +882,11 @@ export class TxtStage extends Container {
 
 		cnt.x = this.rctm.x;
 		cnt.y = this.rctm.y;
-		if (this.htmTxt.style.writingMode == 'vertical-rl') {
+		if (this.isTategaki) {
 			cnt.y += this.rctm.height;
 		}
 		else {
 			cnt.x += this.rctm.width;
-			cnt.y -= this.rctm.height;
 		}
 		if (delay == 0) {cnt.visible = true; return;}
 
@@ -904,7 +925,7 @@ export class TxtStage extends Container {
 
 		const rct = this.aRect.slice(-1)[0].rect;
 		cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
-		if (this.htmTxt.style.writingMode == 'vertical-rl') {
+		if (this.isTategaki) {
 			cnt.y += this.infTL.fontsize;
 		}
 		else {
@@ -1040,12 +1061,10 @@ export class TxtStage extends Container {
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
 
 		to.ch_filter = this.ch_filter;
-		to.lh_half = this.lh_half;
 		to.fi_easing = this.fi_easing;
 		to.fo = this.fo;
 		to.fo_easing = this.fo_easing;
 		to.ch_anime_time_仮 = this.ch_anime_time_仮;
-		to.xz4htm2rect = this.xz4htm2rect;
 		return to;
 	}
 
@@ -1056,28 +1075,41 @@ export class TxtStage extends Container {
 		cssText		: this.htmTxt.style.cssText,
 
 		ch_filter	: this.ch_filter,
-		lh_half		: this.lh_half,
 		//fncFi		: this.fncFi,		// TODO: 未作成
 		fi_easing	: this.fi_easing,
 		fo			: this.fo,
 		fo_easing	: this.fo_easing,
 		ch_anime_time_仮	: this.ch_anime_time_仮,
-		xz4htm2rect	: this.xz4htm2rect,
 	}};
 	playback(hLay: any) {
 		this.infTL		= hLay.infTL;
 		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
 		this.htmTxt.style.cssText = hLay.cssText;
+		this.lay_sub();
 
 		this.ch_filter	= hLay.ch_filter;
-		this.lh_half	= hLay.lh_half;
 		this.fncFi		= (sp: DisplayObject)=> {sp.x += this.infTL.fontsize/3};
 		this.fi_easing	= hLay.fi_easing;
 		this.fo			= hLay.fo;
 		this.fo_easing	= hLay.fo_easing;
 		this.ch_anime_time_仮	= hLay.ch_anime_time_仮;
-		this.xz4htm2rect	= hLay.xz4htm2rect;
+	}
+
+	snapshot(rnd: Renderer, re: ()=> void) {
+		if (! CmnLib.hDip['tx']) {re(); return;}
+
+		this.htm2tx(tx=> {
+			const sp = new Sprite(tx);
+			this.cntTxt.addChild(sp);
+			rnd.render(sp, undefined, false);
+			this.cntTxt.removeChild(sp);
+			re();
+		}, false);
+	}
+	static	snapshotBreak(rnd: Renderer) {
+console.log(`fn:TxtStage.ts line:1098 `);
+		rnd.render(TxtStage.cntBreak, undefined, false);
 	}
 
 	dump(): string {
@@ -1095,7 +1127,7 @@ export class TxtStage extends Container {
 
 	destroy() {
 		TxtStage.delBreak();
-		document.body.removeChild(this.htmTxt);
+		this.htmTxt.parentElement!.removeChild(this.htmTxt);
 		this.parent.removeChild(this.cntTxt);
 		this.parent.removeChild(this.grpDbgMasume);
 		this.parent.removeChild(this);

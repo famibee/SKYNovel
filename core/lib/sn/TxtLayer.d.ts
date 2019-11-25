@@ -3,6 +3,7 @@ import { IEvtMng } from './CmnLib';
 import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
 import { IInfTxLay } from './TxtStage';
 import { Config } from './Config';
+import { Renderer } from 'pixi.js';
 export declare class TxtLayer extends Layer {
     private static cfg;
     private static val;
@@ -76,7 +77,6 @@ export declare class TxtLayer extends Layer {
             infTL: IInfTxLay;
             cssText: string;
             ch_filter: any[] | null;
-            lh_half: number;
             fi_easing: string;
             fo: {
                 alpha: number;
@@ -84,12 +84,13 @@ export declare class TxtLayer extends Layer {
             };
             fo_easing: string;
             ch_anime_time_仮: number;
-            xz4htm2rect: number;
         };
         btns: string[];
     };
     playback(hLay: any, fncComp?: undefined | {
         (): void;
     }): boolean;
+    snapshot(rnd: Renderer, re: () => void): void;
+    static snapshotBreak(rnd: Renderer): void;
     dump(): string;
 }

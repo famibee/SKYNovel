@@ -229,8 +229,8 @@ export class LayerMng {
 		const fn = (hArg.fn)
 		? ((hArg.fn.substr(0, 10) == 'userdata:/')
 			? hArg.fn
-			: ('desktop:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.jpg'))
-		: ('desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.jpg');
+			: ('desktop:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.png'))
+		: ('desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.png');
 		const ext = CmnLib.getExt(fn);
 		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
 		const renderer = new Renderer({
@@ -240,30 +240,41 @@ export class LayerMng {
 			antialias: CmnLib.argChk_Boolean(hArg, 'smoothing', false),
 			preserveDrawingBuffer: true,
 			backgroundColor: uint(b_color) & 0xFFFFFF,
+			autoDensity: true,
+//			resolution: window.devicePixelRatio ?? 1,	// NOTE: 理想
 		});
+		const a = [];
 		if (this.twInfTrans.tw != null) {	// [trans]中
-			this.back.visible = true;
-			for (const lay of this.aBackTransAfter) {
-				renderer.render(lay, undefined, false);
-			}
-			this.back.visible = false;
-			this.spTransBack.visible = true;
+			a.push(new Promise(re=> {
+				this.back.visible = true;
+				for (const lay of this.aBackTransAfter) {
+					renderer.render(lay, undefined, false);
+				}
+				this.back.visible = false;
+				this.spTransBack.visible = true;
 
-			this.fore.filters = this.spTransFore.filters;
-			this.fore.visible = true;
-			renderer.render(this.fore, undefined, false);
-			this.fore.visible = false;
-			this.fore.filters = [];
+				this.fore.filters = this.spTransFore.filters;
+				this.fore.visible = true;
+				renderer.render(this.fore, undefined, false);
+				this.fore.visible = false;
+				this.fore.filters = [];
+				re();
+			}));
 		}
-		else for (const v of this.getLayers(hArg.layer)) renderer.render(
-			this.hPages[v][(hArg.page != 'back') ?'fore' :'back'].cnt,
-			undefined, false
-		);
-		this.sys.savePic(
-			this.cfg.searchPath(fn),
-			renderer.view.toDataURL('image/'+ (ext == 'png' ?'png' :'jpeg'))
-		);
-		renderer.destroy(true);
+		else {
+			const pg = (hArg.page != 'back') ?'fore' :'back';
+			for (const v of this.getLayers(hArg.layer)) a.push(new Promise(
+				re=> this.hPages[v][pg].snapshot(renderer, re)
+			));
+		}
+		a.push(new Promise(re=> {TxtLayer.snapshotBreak(renderer); re();}))
+		Promise.all(a).then(()=> {
+			this.sys.savePic(
+				this.cfg.searchPath(fn),
+				renderer.view.toDataURL('image/'+ (ext == 'png' ?'png' :'jpeg'))
+			);
+			renderer.destroy(true);
+		});
 
 		return false;
 	}
@@ -959,7 +970,7 @@ void main(void) {
 
 		hArg.text = '｜　《grp｜'+ JSON.stringify(hArg) +'》';
 		return this.hTag.ch(hArg);
-	};
+	}
 
 	// ハイパーリンク
 	private link(hArg: HArg) {
@@ -1019,7 +1030,7 @@ void main(void) {
 		hArg.text = '｜　｜《tcy｜'+ hArg.t +'｜'+ (hArg.r ?? '') +'》';
 		this.hTag.ch(hArg);
 		return false;
-	};
+	}
 
 
 	// レイヤのダンプ

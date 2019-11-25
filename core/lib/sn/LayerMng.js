@@ -224,8 +224,8 @@ void main(void) {
         const fn = (hArg.fn)
             ? ((hArg.fn.substr(0, 10) == 'userdata:/')
                 ? hArg.fn
-                : ('desktop:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg'))
-            : ('desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.jpg');
+                : ('desktop:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.png'))
+            : ('desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.png');
         const ext = CmnLib_1.CmnLib.getExt(fn);
         const b_color = (_a = hArg.b_color, (_a !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color));
         const renderer = new pixi_js_1.Renderer({
@@ -235,25 +235,35 @@ void main(void) {
             antialias: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'smoothing', false),
             preserveDrawingBuffer: true,
             backgroundColor: CmnLib_1.uint(b_color) & 0xFFFFFF,
+            autoDensity: true,
         });
+        const a = [];
         if (this.twInfTrans.tw != null) {
-            this.back.visible = true;
-            for (const lay of this.aBackTransAfter) {
-                renderer.render(lay, undefined, false);
-            }
-            this.back.visible = false;
-            this.spTransBack.visible = true;
-            this.fore.filters = this.spTransFore.filters;
-            this.fore.visible = true;
-            renderer.render(this.fore, undefined, false);
-            this.fore.visible = false;
-            this.fore.filters = [];
+            a.push(new Promise(re => {
+                this.back.visible = true;
+                for (const lay of this.aBackTransAfter) {
+                    renderer.render(lay, undefined, false);
+                }
+                this.back.visible = false;
+                this.spTransBack.visible = true;
+                this.fore.filters = this.spTransFore.filters;
+                this.fore.visible = true;
+                renderer.render(this.fore, undefined, false);
+                this.fore.visible = false;
+                this.fore.filters = [];
+                re();
+            }));
         }
-        else
+        else {
+            const pg = (hArg.page != 'back') ? 'fore' : 'back';
             for (const v of this.getLayers(hArg.layer))
-                renderer.render(this.hPages[v][(hArg.page != 'back') ? 'fore' : 'back'].cnt, undefined, false);
-        this.sys.savePic(this.cfg.searchPath(fn), renderer.view.toDataURL('image/' + (ext == 'png' ? 'png' : 'jpeg')));
-        renderer.destroy(true);
+                a.push(new Promise(re => this.hPages[v][pg].snapshot(renderer, re)));
+        }
+        a.push(new Promise(re => { TxtLayer_1.TxtLayer.snapshotBreak(renderer); re(); }));
+        Promise.all(a).then(() => {
+            this.sys.savePic(this.cfg.searchPath(fn), renderer.view.toDataURL('image/' + (ext == 'png' ? 'png' : 'jpeg')));
+            renderer.destroy(true);
+        });
         return false;
     }
     loadplugin(hArg) {
@@ -769,7 +779,6 @@ void main(void) {
         hArg.text = '｜　《grp｜' + JSON.stringify(hArg) + '》';
         return this.hTag.ch(hArg);
     }
-    ;
     link(hArg) {
         if (!hArg.style)
             hArg.style = 'background-color: rgba(255,0,0,0.5);';
@@ -822,7 +831,6 @@ void main(void) {
         this.hTag.ch(hArg);
         return false;
     }
-    ;
     dump_lay(hArg) {
         console.group('🥟 [dump_lay]');
         for (const name of this.getLayers(hArg.layer)) {

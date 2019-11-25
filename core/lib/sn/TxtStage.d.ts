@@ -1,4 +1,4 @@
-import { Container } from 'pixi.js';
+import { Container, Renderer } from 'pixi.js';
 import { IEvtMng } from './CmnLib';
 import { HArg } from './CmnInterface';
 import { Config } from './Config';
@@ -14,7 +14,7 @@ export interface IInfTxLay {
 export declare class TxtStage extends Container {
     private infTL;
     private static cfg;
-    private static cr;
+    private static cvs;
     static init(cfg: Config): void;
     private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
@@ -23,14 +23,18 @@ export declare class TxtStage extends Container {
     private grpDbgMasume;
     constructor(infTL: IInfTxLay, cnt: Container);
     lay(hArg: HArg): void;
+    private lay_sub;
+    private isTategaki;
+    private padTx4x;
+    private padTx4y;
+    private rctBoundCli;
     setSize(width: number, height: number): void;
     private static readonly hWarning;
     goTxt(aSpan: string[], layname: string): void;
-    private aSpan1to2;
     private goTxt2;
     private cntGoTxtSerializer;
-    private aSpan;
-    private goTxt2_htm2tx;
+    private goTxt2_htm;
+    private htm2tx;
     private goTxt3;
     private static readonly REG_SURROGATE;
     private aRect;
@@ -61,7 +65,6 @@ export declare class TxtStage extends Container {
         infTL: IInfTxLay;
         cssText: string;
         ch_filter: any[] | null;
-        lh_half: number;
         fi_easing: string;
         fo: {
             alpha: number;
@@ -69,9 +72,10 @@ export declare class TxtStage extends Container {
         };
         fo_easing: string;
         ch_anime_time_仮: number;
-        xz4htm2rect: number;
     };
     playback(hLay: any): void;
+    snapshot(rnd: Renderer, re: () => void): void;
+    static snapshotBreak(rnd: Renderer): void;
     dump(): string;
     destroy(): void;
 }

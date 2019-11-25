@@ -49,17 +49,19 @@ export class Main implements IMain {
 				width			: this.cfg.oCfg.window.width,
 				height			: this.cfg.oCfg.window.height,
 				backgroundColor	: this.cfg.oCfg.init.bg_color,
-				resolution		: sys.resolution,
+			//	resolution		: sys.resolution,
+				resolution		: window.devicePixelRatio ?? 1,	// NOTE: 理想
+				autoResize		: true,
 			};
 			const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
 			if (cvs) {
 				this.clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
 				this.clone_cvs.id = 'skynovel';
-
 				hApp.view = cvs;
 			}
 			this.appPixi = new Application(hApp);
 			if (! cvs) document.body.appendChild(this.appPixi.view);
+			if (CmnLib.hDip['tx']) this.appPixi.view.parentElement?.style.setProperty('position', 'relative');
 
 			// 変数
 			this.val = new Variable(this.cfg, this.hTag);
