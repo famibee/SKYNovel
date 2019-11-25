@@ -780,6 +780,7 @@ class TxtStage extends pixi_js_1.Container {
         this.clearText();
         const to = new TxtStage(this.infTL, this.parent);
         to.htmTxt.style.cssText = this.htmTxt.style.cssText;
+        to.lay_sub();
         to.ch_filter = this.ch_filter;
         to.fi_easing = this.fi_easing;
         to.fo = this.fo;
