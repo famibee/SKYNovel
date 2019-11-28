@@ -830,10 +830,11 @@ export class TxtStage extends Container {
 			const rct = v.rect;
 			rct.x -= sx;
 			rct.y -= sy;
+			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
+			if (v.cmd && arg.delay == 0) rct.x += this.ch_slide_x();
 			fncMasume(v, rct);
 			this.rctm = rct;
 
-			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
 //console.log(`fn:TxtStage.ts line:807 i:${i} ch:${v.ch} rct:%o cmd:${v.cmd} arg:%o`, rct, arg);
 			switch (v.cmd) {
 				case 'grp':

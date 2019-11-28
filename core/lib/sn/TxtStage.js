@@ -614,9 +614,11 @@ class TxtStage extends pixi_js_1.Container {
             const rct = v.rect;
             rct.x -= sx;
             rct.y -= sy;
+            const arg = JSON.parse((_a = v.arg, (_a !== null && _a !== void 0 ? _a : '{"delay": 0}')));
+            if (v.cmd && arg.delay == 0)
+                rct.x += this.ch_slide_x();
             fncMasume(v, rct);
             this.rctm = rct;
-            const arg = JSON.parse((_a = v.arg, (_a !== null && _a !== void 0 ? _a : '{"delay": 0}')));
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;
