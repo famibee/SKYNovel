@@ -328,7 +328,6 @@ export class TxtLayer extends Layer {
 			switch (a_ruby[0]) {
 			case 'gotxt':
 				this.autoCloseSpan();
-//				this.txs.goTxt(this.aSpan, this.name);
 				if (CmnLib.hDip['tx']) {
 					if (this.restBuf) {
 						this.txs.goTxt_next(this.aSpan, this.name, this.cumDelay);
@@ -368,9 +367,7 @@ export class TxtLayer extends Layer {
 				const arg = (a_ruby[1] ?a_ruby[1].slice(0, -1) +',' :`{`) +`"delay": ${this.cumDelay}}`;
 				const o = JSON.parse(arg);
 				if (! ('id' in o)) o.id = this.aSpan.length;
-				this.cumDelay += (TxtLayer.doAutoWc)
-					? 0
-					: LayerMng.msecChWait;
+				this.cumDelay += (TxtLayer.doAutoWc) ?0 :LayerMng.msecChWait;
 				if (o.id == 'break') {
 					this.txs.dispBreak(o.pic);
 					return;	// breakではない
@@ -384,7 +381,7 @@ export class TxtLayer extends Layer {
 				this.cumDelay += (TxtLayer.doAutoWc)
 					? TxtLayer.hAutoWc[text] ?? 0
 					: LayerMng.msecChWait;
-	//			this.recText(text);
+	//			this.recText(text);	// TODO: 履歴でのインライン画像
 				if (this.aSpan.slice(-1)[0] == add_htm) return;	// breakではない
 			}
 				break;
@@ -457,23 +454,25 @@ export class TxtLayer extends Layer {
 			this.restBuf = true;
 			switch (a_ruby[0]) {
 			case 'tcy':	// ルビ付き縦中横
+			{
 				// text-orientation: mixed;（デフォルト）和文は縦、英語は横に表示
 				// text-combine-upright: all;			縦中横
 				// -webkit-text-combine: horizontal;	縦中横(Safari)
 				const id_tcy = (a_ruby[1].length > 1)
 					? (this.aSpan.length +1)	// 0にならないよう +1
 					: '';
-				const ruby = (platform.name == 'Safari')
-					? a_ruby[2].replace(/[A-Za-z0-9]/g, s=> String.fromCharCode(s.charCodeAt(0) + 65248))	// 英数字を全角に
-					// (Safariで縦中横ルビが半角文字だと、選択矩形が横倒しになる不具合対策)
+				const rb = (platform.name == 'Safari')
+					? a_ruby[2].replace(/[A-Za-z0-9]/g, s=> String.fromCharCode(s.charCodeAt(0) + 65248))
+						// 英数字を全角に(Safariで縦中横ルビが半角文字だと、
+						// 選択矩形が横倒しになる不具合対策)
 					: a_ruby[2];
-				add_htm = ruby
+				add_htm = rb
 				? `<ruby style='
 					text-orientation: upright;
 				'><span data-tcy='${id_tcy}' style='
 					text-combine-upright: all;
 					-webkit-text-combine: horizontal;
-				'>${a_ruby[1]}</span><rt>${ruby}</rt></ruby>`
+				'>${a_ruby[1]}</span><rt>${rb}</rt></ruby>`
 				: `<span data-tcy='${id_tcy}' style='
 					text-orientation: upright;
 					text-combine-upright: all;
@@ -486,9 +485,11 @@ export class TxtLayer extends Layer {
 					if (isSkip) this.cumDelay = 0;
 					if (! this.aSpan_bk) add_htm = `<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
 				}
+			}
 				break;
 
 			default:
+				throw `異常な値です putCh(text: ${text}, ruby: ${ruby})`;
 			}
 			break;
 		}

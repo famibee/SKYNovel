@@ -7,6 +7,7 @@ const CmnTween_1 = require("./CmnTween");
 const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
 const TWEEN = require("@tweenjs/tween.js");
+const platform = require('platform');
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
@@ -16,6 +17,7 @@ class TxtStage extends pixi_js_1.Container {
         this.htmTxt = document.createElement('span');
         this.cntTxt = new pixi_js_1.Container;
         this.grpDbgMasume = new pixi_js_1.Graphics;
+        this.left = 0;
         this.isTategaki = false;
         this.padTx4x = 0;
         this.padTx4y = 0;
@@ -29,9 +31,10 @@ class TxtStage extends pixi_js_1.Container {
         this.rctm = new pixi_js_1.Rectangle;
         this.lh_half = 0;
         this.ch_anime_time_仮 = 500;
-        this.fncFi = (sp) => { sp.x += this.infTL.fontsize / 3; };
+        this.ch_slide_x = () => this.infTL.fontsize * 0.3;
+        this.fncFi = (sp) => { sp.x += this.ch_slide_x(); };
         this.fi_easing = 'Quadratic.Out';
-        this.fo = { alpha: 0, x: `+${this.infTL.fontsize / 3}` };
+        this.fo = { alpha: 0, x: `+${this.ch_slide_x()}` };
         this.fo_easing = 'Quadratic.Out';
         if (CmnLib_1.CmnLib.hDip['tx']) {
             this.htmTxt.classList.add('sn_txl');
@@ -55,6 +58,8 @@ class TxtStage extends pixi_js_1.Container {
     }
     static setEvtMng(evtMng) { TxtStage.evtMng = evtMng; }
     lay(hArg) {
+        var _a, _b;
+        const s = this.htmTxt.style;
         if (hArg.style) {
             const cln = document.createElement('span');
             cln.style.cssText = hArg.style;
@@ -65,45 +70,58 @@ class TxtStage extends pixi_js_1.Container {
                     DebugMng_1.DebugMng.myTrace(`${key}は指定できません`, 'W');
                     continue;
                 }
-                this.htmTxt.style[key] = cln.style[key];
+                s[key] = cln.style[key];
             }
         }
         if (CmnLib_1.CmnLib.hDip['tx']) {
-            const left = CmnLib_1.CmnLib.argChk_Num(hArg, 'left', 0);
-            const top = CmnLib_1.CmnLib.argChk_Num(hArg, 'top', 0);
-            this.htmTxt.style.left = left + 'px';
-            this.htmTxt.style.top = top + 'px';
+            this.isTategaki = (s.writingMode == 'vertical-rl');
+            this.left = CmnLib_1.CmnLib.argChk_Num(hArg, 'left', 0);
+            if (this.isTategaki) {
+                s.removeProperty('left');
+                this.infTL.pad_right = parseFloat(s.paddingRight || '0');
+                this.infTL.$width = parseFloat(s.width || '0');
+                const fs = parseFloat(s.fontSize || '0');
+                this.infTL.fontsize = fs;
+                s.right = (CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
+                    + ((platform.name == 'Safari')
+                        ? this.infTL.pad_right + fs / 2
+                        : 0)) + 'px';
+            }
+            else {
+                s.removeProperty('right');
+                s.left = this.left + 'px';
+            }
+            s.top = CmnLib_1.CmnLib.argChk_Num(hArg, 'top', 0) + 'px';
         }
-        this.htmTxt.style.textShadow = (hArg.filter)
-            ? `1px 1px 2px gray, 0 0 1em #000, 0 0 0.2em #000`
-            : '';
+        s.textShadow = (_b = (_a = hArg.filter, (_a !== null && _a !== void 0 ? _a : s.textShadow)), (_b !== null && _b !== void 0 ? _b : ''));
         this.lay_sub();
     }
     lay_sub() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        const fs = parseFloat((_a = this.htmTxt.style.fontSize, (_a !== null && _a !== void 0 ? _a : '0')));
+        var _a;
+        const s = this.htmTxt.style;
+        const fs = parseFloat(s.fontSize || '0');
         this.infTL.fontsize = fs;
-        this.infTL.pad_left = parseFloat((_b = this.htmTxt.style.paddingLeft, (_b !== null && _b !== void 0 ? _b : '0')));
-        this.infTL.pad_right = parseFloat((_c = this.htmTxt.style.paddingRight, (_c !== null && _c !== void 0 ? _c : '0')));
-        this.infTL.pad_top = parseFloat((_d = this.htmTxt.style.paddingTop, (_d !== null && _d !== void 0 ? _d : '0')));
-        this.infTL.pad_bottom = parseFloat((_e = this.htmTxt.style.paddingBottom, (_e !== null && _e !== void 0 ? _e : '0')));
-        this.infTL.$width = parseFloat((_f = this.htmTxt.style.width, (_f !== null && _f !== void 0 ? _f : '0')));
-        this.infTL.$height = parseFloat((_g = this.htmTxt.style.height, (_g !== null && _g !== void 0 ? _g : '0')));
+        this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
+        this.infTL.pad_right = parseFloat(s.paddingRight || '0');
+        this.infTL.pad_top = parseFloat(s.paddingTop || '0');
+        this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
+        this.infTL.$width = parseFloat(s.width || '0');
+        this.infTL.$height = parseFloat(s.height || '0');
         this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
-        this.isTategaki = (this.htmTxt.style.writingMode == 'vertical-rl');
+        this.isTategaki = (s.writingMode == 'vertical-rl');
         const xSlide = TxtStage.cfg.oCfg.debug.slideBaseSpan
             ? document.documentElement.clientWidth - CmnLib_1.CmnLib.stageW
             : 0;
         if (CmnLib_1.CmnLib.hDip['tx']) {
-            this.padTx4x = parseFloat(this.htmTxt.style.left) + this.infTL.pad_left;
-            this.padTx4y = parseFloat(this.htmTxt.style.top) + this.infTL.pad_top;
+            this.padTx4x = parseFloat(s.left || '0') + this.infTL.pad_left;
+            this.padTx4y = parseFloat(s.top || '0') + this.infTL.pad_top;
             const boundClientRect = this.htmTxt.getBoundingClientRect();
             this.rctBoundCli = boundClientRect.top;
         }
         else {
-            this.htmTxt.style.left = xSlide + 'px';
-            this.htmTxt.style.top = `0px`;
-            this.htmTxt.style.zIndex = '-2';
+            s.left = xSlide + 'px';
+            s.top = `0px`;
+            s.zIndex = '-2';
             if (this.isTategaki) {
                 this.padTx4x = fs;
             }
@@ -111,7 +129,7 @@ class TxtStage extends pixi_js_1.Container {
                 this.padTx4y = fs;
             }
         }
-        const lh = (_h = this.htmTxt.style.lineHeight, (_h !== null && _h !== void 0 ? _h : '0'));
+        const lh = (_a = s.lineHeight, (_a !== null && _a !== void 0 ? _a : '0'));
         this.lh_half = this.isTategaki
             ? 0
             : ((lh.slice(-2) == 'px')
@@ -588,11 +606,13 @@ class TxtStage extends pixi_js_1.Container {
             }
             : () => { };
         const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
+        const sx = this.left + this.infTL.pad_left + this.ch_slide_x();
+        const sy = this.infTL.pad_top + this.rctBoundCli;
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];
             const rct = v.rect;
-            rct.x -= this.infTL.fontsize;
-            rct.y -= this.infTL.pad_top + this.rctBoundCli;
+            rct.x -= sx;
+            rct.y -= sy;
             fncMasume(v, rct);
             this.rctm = rct;
             const arg = JSON.parse((_a = v.arg, (_a !== null && _a !== void 0 ? _a : '{"delay": 0}')));
@@ -780,6 +800,7 @@ class TxtStage extends pixi_js_1.Container {
         this.clearText();
         const to = new TxtStage(this.infTL, this.parent);
         to.htmTxt.style.cssText = this.htmTxt.style.cssText;
+        to.left = this.left;
         to.lay_sub();
         to.ch_filter = this.ch_filter;
         to.fi_easing = this.fi_easing;
@@ -792,6 +813,7 @@ class TxtStage extends pixi_js_1.Container {
         return {
             infTL: this.infTL,
             cssText: this.htmTxt.style.cssText,
+            left: this.left,
             ch_filter: this.ch_filter,
             fi_easing: this.fi_easing,
             fo: this.fo,
@@ -804,6 +826,7 @@ class TxtStage extends pixi_js_1.Container {
         this.infTL = hLay.infTL;
         this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
         this.htmTxt.style.cssText = hLay.cssText;
+        this.left = hLay.left;
         this.lay_sub();
         this.ch_filter = hLay.ch_filter;
         this.fncFi = (sp) => { sp.x += this.infTL.fontsize / 3; };
@@ -819,6 +842,7 @@ class TxtStage extends pixi_js_1.Container {
         }
         this.htm2tx(tx => {
             const sp = new pixi_js_1.Sprite(tx);
+            sp.x = this.padTx4x;
             this.cntTxt.addChild(sp);
             rnd.render(sp, undefined, false);
             this.cntTxt.removeChild(sp);

@@ -119,9 +119,7 @@ class TxtLayer extends Layer_1.Layer {
                                 const o = JSON.parse(arg);
                                 if (!('id' in o))
                                     o.id = this.aSpan.length;
-                                this.cumDelay += (TxtLayer.doAutoWc)
-                                    ? 0
-                                    : LayerMng_1.LayerMng.msecChWait;
+                                this.cumDelay += (TxtLayer.doAutoWc) ? 0 : LayerMng_1.LayerMng.msecChWait;
                                 if (o.id == 'break') {
                                     this.txs.dispBreak(o.pic);
                                     return;
@@ -206,34 +204,37 @@ class TxtLayer extends Layer_1.Layer {
                     this.restBuf = true;
                     switch (a_ruby[0]) {
                         case 'tcy':
-                            const id_tcy = (a_ruby[1].length > 1)
-                                ? (this.aSpan.length + 1)
-                                : '';
-                            const ruby = (platform.name == 'Safari')
-                                ? a_ruby[2].replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 65248))
-                                : a_ruby[2];
-                            add_htm = ruby
-                                ? `<ruby style='
+                            {
+                                const id_tcy = (a_ruby[1].length > 1)
+                                    ? (this.aSpan.length + 1)
+                                    : '';
+                                const rb = (platform.name == 'Safari')
+                                    ? a_ruby[2].replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 65248))
+                                    : a_ruby[2];
+                                add_htm = rb
+                                    ? `<ruby style='
 					text-orientation: upright;
 				'><span data-tcy='${id_tcy}' style='
 					text-combine-upright: all;
 					-webkit-text-combine: horizontal;
-				'>${a_ruby[1]}</span><rt>${ruby}</rt></ruby>`
-                                : `<span data-tcy='${id_tcy}' style='
+				'>${a_ruby[1]}</span><rt>${rb}</rt></ruby>`
+                                    : `<span data-tcy='${id_tcy}' style='
 					text-orientation: upright;
 					text-combine-upright: all;
 					-webkit-text-combine: horizontal;
 				'>${a_ruby[1]}</span>`;
-                            this.cumDelay += (TxtLayer.doAutoWc)
-                                ? (_d = TxtLayer.hAutoWc[text.charAt(0)], (_d !== null && _d !== void 0 ? _d : 0)) : LayerMng_1.LayerMng.msecChWait;
-                            if (CmnLib_1.CmnLib.hDip['tx']) {
-                                if (isSkip)
-                                    this.cumDelay = 0;
-                                if (!this.aSpan_bk)
-                                    add_htm = `<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
+                                this.cumDelay += (TxtLayer.doAutoWc)
+                                    ? (_d = TxtLayer.hAutoWc[text.charAt(0)], (_d !== null && _d !== void 0 ? _d : 0)) : LayerMng_1.LayerMng.msecChWait;
+                                if (CmnLib_1.CmnLib.hDip['tx']) {
+                                    if (isSkip)
+                                        this.cumDelay = 0;
+                                    if (!this.aSpan_bk)
+                                        add_htm = `<span class='sn_tx' style='animation-delay: ${this.cumDelay}ms;'>${add_htm}</span>`;
+                                }
                             }
                             break;
                         default:
+                            throw `異常な値です putCh(text: ${text}, ruby: ${ruby})`;
                     }
                     break;
             }

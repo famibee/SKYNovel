@@ -16,6 +16,8 @@ import {GrpLayer} from './GrpLayer';
 import { DebugMng } from './DebugMng';
 import TWEEN = require('@tweenjs/tween.js');
 
+const platform = require('platform');
+
 export interface IInfTxLay {
 	fontsize	: number;
 	$width		: number;	// レイヤサイズであり、背景色（画像）サイズ
@@ -78,6 +80,7 @@ export class TxtStage extends Container {
 	}
 
 	lay(hArg: HArg) {
+		const s = this.htmTxt.style;
 		if (hArg.style) {
 			const cln = document.createElement('span');
 			cln.style.cssText = hArg.style;
@@ -88,36 +91,48 @@ export class TxtStage extends Container {
 					DebugMng.myTrace(`${key}は指定できません`, 'W');
 					continue;
 				}
-				this.htmTxt.style[key] = cln.style[key];
+				s[key] = cln.style[key];
 			}
 		}
 		if (CmnLib.hDip['tx']) {
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-			const left = CmnLib.argChk_Num(hArg, 'left', 0);
-			const top = CmnLib.argChk_Num(hArg, 'top', 0);
-			this.htmTxt.style.left = left +'px';
-			this.htmTxt.style.top = top +'px';
+			this.isTategaki = (s.writingMode == 'vertical-rl');
+			this.left = CmnLib.argChk_Num(hArg, 'left', 0);
+			if (this.isTategaki) {
+				s.removeProperty('left');	// 重要
+				this.infTL.pad_right = parseFloat(s.paddingRight || '0');
+				this.infTL.$width = parseFloat(s.width || '0');
+				const fs = parseFloat(s.fontSize || '0');
+				this.infTL.fontsize = fs;
+				s.right = (CmnLib.stageW -(this.left +this.infTL.$width)
+					+((platform.name == 'Safari')
+						? this.infTL.pad_right +fs/2	// 後者はルビ
+						: 0)
+						// SafariとChromeでは paddingRight＆rightと
+						// 文字表示位置のクセが違う
+				) +'px';
+			}
+			else {s.removeProperty('right'); s.left = this.left +'px';}
+			s.top = CmnLib.argChk_Num(hArg, 'top', 0) +'px';
 		}
-
-		this.htmTxt.style.textShadow = (hArg.filter)	// TODO: 変更できるよう
-			? `1px 1px 2px gray, 0 0 1em #000, 0 0 0.2em #000`
-			: '';
+		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 
 		this.lay_sub();
 	}
 	private lay_sub() {
-		const fs = parseFloat(this.htmTxt.style.fontSize ?? '0');
+		const s = this.htmTxt.style;
+		const fs = parseFloat(s.fontSize || '0');
 		this.infTL.fontsize = fs;
 
-		this.infTL.pad_left = parseFloat(this.htmTxt.style.paddingLeft ?? '0');
-		this.infTL.pad_right = parseFloat(this.htmTxt.style.paddingRight ?? '0');
-		this.infTL.pad_top = parseFloat(this.htmTxt.style.paddingTop ?? '0');
-		this.infTL.pad_bottom = parseFloat(this.htmTxt.style.paddingBottom ?? '0');
-		this.infTL.$width = parseFloat(this.htmTxt.style.width ?? '0');
-		this.infTL.$height = parseFloat(this.htmTxt.style.height ?? '0');
+		this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
+		this.infTL.pad_right = parseFloat(s.paddingRight || '0');
+		this.infTL.pad_top = parseFloat(s.paddingTop || '0');
+		this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
+		this.infTL.$width = parseFloat(s.width || '0');
+		this.infTL.$height = parseFloat(s.height || '0');
 		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
-		this.isTategaki = (this.htmTxt.style.writingMode == 'vertical-rl');
+		this.isTategaki = (s.writingMode == 'vertical-rl');
 
 		const xSlide = TxtStage.cfg.oCfg.debug.slideBaseSpan
 			? document.documentElement.clientWidth -CmnLib.stageW
@@ -125,16 +140,17 @@ export class TxtStage extends Container {
 
 		if (CmnLib.hDip['tx']) {
 			// スナップショット時のずれ
-			this.padTx4x = parseFloat(this.htmTxt.style.left) +this.infTL.pad_left;
-			this.padTx4y = parseFloat(this.htmTxt.style.top) +this.infTL.pad_top;
+			this.padTx4x = parseFloat(s.left || '0') +this.infTL.pad_left;
+//console.log(`fn:TxtStage.ts line:144 s.left:${s.left} pl:${this.infTL.pad_left} padTx4x:${this.padTx4x}`);
+			this.padTx4y = parseFloat(s.top || '0') +this.infTL.pad_top;
 
 			const boundClientRect = this.htmTxt.getBoundingClientRect();
 			this.rctBoundCli = boundClientRect.top;
 		}
 		else {
-			this.htmTxt.style.left = xSlide +'px';
-			this.htmTxt.style.top = `0px`;
-			this.htmTxt.style.zIndex = '-2';
+			s.left = xSlide +'px';
+			s.top = `0px`;
+			s.zIndex = '-2';
 
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 			if (this.isTategaki) {
@@ -145,7 +161,7 @@ export class TxtStage extends Container {
 			}
 		}
 
-		const lh = this.htmTxt.style.lineHeight ?? '0';
+		const lh = s.lineHeight ?? '0';
 		this.lh_half = this.isTategaki
 			? 0
 			: (	(lh.slice(-2) == 'px')
@@ -158,6 +174,7 @@ export class TxtStage extends Container {
 				? this.infTL.pad_left +this.infTL.pad_right
 				: 0);	// 　ｘ文字選択にとってpaddingがないので
 	}
+	private left = 0;
 	private isTategaki = false;
 	private padTx4x = 0;
 	private padTx4y = 0;
@@ -808,21 +825,13 @@ export class TxtStage extends Container {
 			}
 			: ()=> {};
 		const ease = CmnTween.ease(this.fi_easing);
+		const sx = this.left +this.infTL.pad_left +this.ch_slide_x();
+		const sy = this.infTL.pad_top +this.rctBoundCli;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
-	//		rct.x -= this.xz4htm2rect;
-	//		rct.x -= this.infTL.pad_left;
-			rct.x -= this.infTL.fontsize;
-	//		const boundClientRect = this.htmTxt.getBoundingClientRect();
-	//		rct.x -= this.infTL.pad_left +boundClientRect.left +6;
-
-//			rct.x -= this.xz4htm2rect -this.infTL.fontsize;
-	//		rct.x -= this.padTx4x;
-
-//x			rct.y -= this.infTL.pad_top +parseFloat(this.htmTxt.style.top);
-//x			rct.x -= rct.width;
-			rct.y -= this.infTL.pad_top +this.rctBoundCli;
+			rct.x -= sx;
+			rct.y -= sy;
 			fncMasume(v, rct);
 			this.rctm = rct;
 
@@ -1023,9 +1032,10 @@ export class TxtStage extends Container {
 */
 
 	private	ch_anime_time_仮	= 500;	// TODO: 未作成
-	private	fncFi		= (sp: DisplayObject)=> {sp.x +=this.infTL.fontsize /3};
+	private ch_slide_x	= ()=> this.infTL.fontsize *0.3;	// TODO: 仮
+	private	fncFi		= (sp: DisplayObject)=> {sp.x +=this.ch_slide_x()};
 	private fi_easing	= 'Quadratic.Out';
-	private fo			= {alpha: 0, x: `+${ this.infTL.fontsize /3 }`};
+	private fo			= {alpha: 0, x: `+${this.ch_slide_x()}`};
 	private fo_easing	= 'Quadratic.Out';
 	private clearText() {
 		this.goTxt2 = ()=> {};
@@ -1059,6 +1069,7 @@ export class TxtStage extends Container {
 
 		const to = new TxtStage(this.infTL, this.parent);
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
+		to.left = this.left;
 		to.lay_sub();
 
 		to.ch_filter = this.ch_filter;
@@ -1074,6 +1085,7 @@ export class TxtStage extends Container {
 		infTL		: this.infTL,
 
 		cssText		: this.htmTxt.style.cssText,
+		left		: this.left,
 
 		ch_filter	: this.ch_filter,
 		//fncFi		: this.fncFi,		// TODO: 未作成
@@ -1087,6 +1099,7 @@ export class TxtStage extends Container {
 		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
 		this.htmTxt.style.cssText = hLay.cssText;
+		this.left = hLay.left;
 		this.lay_sub();
 
 		this.ch_filter	= hLay.ch_filter;
@@ -1099,9 +1112,10 @@ export class TxtStage extends Container {
 
 	snapshot(rnd: Renderer, re: ()=> void) {
 		if (! CmnLib.hDip['tx']) {re(); return;}
-
 		this.htm2tx(tx=> {
 			const sp = new Sprite(tx);
+			sp.x = this.padTx4x;
+//		const sx = this.left +this.infTL.pad_left +this.ch_slide_x();
 			this.cntTxt.addChild(sp);
 			rnd.render(sp, undefined, false);
 			this.cntTxt.removeChild(sp);

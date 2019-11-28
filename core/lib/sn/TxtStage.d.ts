@@ -24,6 +24,7 @@ export declare class TxtStage extends Container {
     constructor(infTL: IInfTxLay, cnt: Container);
     lay(hArg: HArg): void;
     private lay_sub;
+    private left;
     private isTategaki;
     private padTx4x;
     private padTx4y;
@@ -55,6 +56,7 @@ export declare class TxtStage extends Container {
     private getChRects;
     skipFI(): boolean;
     private ch_anime_time_仮;
+    private ch_slide_x;
     private fncFi;
     private fi_easing;
     private fo;
@@ -64,6 +66,7 @@ export declare class TxtStage extends Container {
     record(): {
         infTL: IInfTxLay;
         cssText: string;
+        left: number;
         ch_filter: any[] | null;
         fi_easing: string;
         fo: {

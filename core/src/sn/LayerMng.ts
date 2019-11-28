@@ -241,7 +241,6 @@ export class LayerMng {
 			preserveDrawingBuffer: true,
 			backgroundColor: uint(b_color) & 0xFFFFFF,
 			autoDensity: true,
-//			resolution: window.devicePixelRatio ?? 1,	// NOTE: 理想
 		});
 		const a = [];
 		if (this.twInfTrans.tw != null) {	// [trans]中

@@ -76,6 +76,7 @@ export declare class TxtLayer extends Layer {
         txs: {
             infTL: IInfTxLay;
             cssText: string;
+            left: number;
             ch_filter: any[] | null;
             fi_easing: string;
             fo: {
