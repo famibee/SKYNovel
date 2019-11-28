@@ -243,7 +243,7 @@ export class LayerMng {
 			autoDensity: true,
 		});
 		const a = [];
-		if (this.twInfTrans.tw != null) {	// [trans]中
+		if (this.twInfTrans.tw) {	// [trans]中
 			a.push(new Promise(re=> {
 				this.back.visible = true;
 				for (const lay of this.aBackTransAfter) {
@@ -266,12 +266,15 @@ export class LayerMng {
 				re=> this.hPages[v][pg].snapshot(renderer, re)
 			));
 		}
-		a.push(new Promise(re=> {TxtLayer.snapshotBreak(renderer); re();}))
 		Promise.all(a).then(()=> {
 			this.sys.savePic(
 				this.cfg.searchPath(fn),
 				this.appPixi.renderer.extract.base64(this.stage)
 			);
+			if (! this.twInfTrans.tw) {
+				const pg = (hArg.page != 'back') ?'fore' :'back';
+				for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
+			}
 			renderer.destroy(true);
 		});
 

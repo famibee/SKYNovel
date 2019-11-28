@@ -139,10 +139,8 @@ export class TxtStage extends Container {
 			: 0;
 
 		if (CmnLib.hDip['tx']) {
-			// スナップショット時のずれ
-			this.padTx4x = parseFloat(s.left || '0') +this.infTL.pad_left;
-//console.log(`fn:TxtStage.ts line:144 s.left:${s.left} pl:${this.infTL.pad_left} padTx4x:${this.padTx4x}`);
-			this.padTx4y = parseFloat(s.top || '0') +this.infTL.pad_top;
+			this.padTx4x = 0;
+			this.padTx4y = 0;
 
 			const boundClientRect = this.htmTxt.getBoundingClientRect();
 			this.rctBoundCli = boundClientRect.top;
@@ -1110,21 +1108,26 @@ export class TxtStage extends Container {
 		this.ch_anime_time_仮	= hLay.ch_anime_time_仮;
 	}
 
+	private sss :Sprite | null = null;
 	snapshot(rnd: Renderer, re: ()=> void) {
 		if (! CmnLib.hDip['tx']) {re(); return;}
+
 		this.htm2tx(tx=> {
-			const sp = new Sprite(tx);
-			sp.x = this.padTx4x;
-//		const sx = this.left +this.infTL.pad_left +this.ch_slide_x();
-			this.cntTxt.addChild(sp);
-			rnd.render(sp, undefined, false);
-			this.cntTxt.removeChild(sp);
+			this.sss = new Sprite(tx);	// Safariだけ文字影が映らない
+			if (this.isTategaki) {
+				this.sss.x += CmnLib.stageW -(this.left +this.infTL.$width)
+				- (platform.name == 'Safari'
+				? 0
+				: this.infTL.pad_left +this.infTL.pad_right);
+			}
+			this.sss.y -= this.padTx4y;
+			this.cntTxt.addChild(this.sss);
+			rnd.render(this.sss, undefined, false);
 			re();
 		}, false);
 	}
-	static	snapshotBreak(rnd: Renderer) {
-console.log(`fn:TxtStage.ts line:1098 `);
-		rnd.render(TxtStage.cntBreak, undefined, false);
+	snapshot_end() {
+		if (this.sss) {this.cntTxt.removeChild(this.sss); this.sss = null;}
 	}
 
 	dump(): string {

@@ -238,7 +238,7 @@ void main(void) {
             autoDensity: true,
         });
         const a = [];
-        if (this.twInfTrans.tw != null) {
+        if (this.twInfTrans.tw) {
             a.push(new Promise(re => {
                 this.back.visible = true;
                 for (const lay of this.aBackTransAfter) {
@@ -259,9 +259,13 @@ void main(void) {
             for (const v of this.getLayers(hArg.layer))
                 a.push(new Promise(re => this.hPages[v][pg].snapshot(renderer, re)));
         }
-        a.push(new Promise(re => { TxtLayer_1.TxtLayer.snapshotBreak(renderer); re(); }));
         Promise.all(a).then(() => {
             this.sys.savePic(this.cfg.searchPath(fn), this.appPixi.renderer.extract.base64(this.stage));
+            if (!this.twInfTrans.tw) {
+                const pg = (hArg.page != 'back') ? 'fore' : 'back';
+                for (const v of this.getLayers(hArg.layer))
+                    this.hPages[v][pg].snapshot_end();
+            }
             renderer.destroy(true);
         });
         return false;

@@ -36,6 +36,7 @@ class TxtStage extends pixi_js_1.Container {
         this.fi_easing = 'Quadratic.Out';
         this.fo = { alpha: 0, x: `+${this.ch_slide_x()}` };
         this.fo_easing = 'Quadratic.Out';
+        this.sss = null;
         if (CmnLib_1.CmnLib.hDip['tx']) {
             this.htmTxt.classList.add('sn_txl');
         }
@@ -113,8 +114,8 @@ class TxtStage extends pixi_js_1.Container {
             ? document.documentElement.clientWidth - CmnLib_1.CmnLib.stageW
             : 0;
         if (CmnLib_1.CmnLib.hDip['tx']) {
-            this.padTx4x = parseFloat(s.left || '0') + this.infTL.pad_left;
-            this.padTx4y = parseFloat(s.top || '0') + this.infTL.pad_top;
+            this.padTx4x = 0;
+            this.padTx4y = 0;
             const boundClientRect = this.htmTxt.getBoundingClientRect();
             this.rctBoundCli = boundClientRect.top;
         }
@@ -841,17 +842,24 @@ class TxtStage extends pixi_js_1.Container {
             return;
         }
         this.htm2tx(tx => {
-            const sp = new pixi_js_1.Sprite(tx);
-            sp.x = this.padTx4x;
-            this.cntTxt.addChild(sp);
-            rnd.render(sp, undefined, false);
-            this.cntTxt.removeChild(sp);
+            this.sss = new pixi_js_1.Sprite(tx);
+            if (this.isTategaki) {
+                this.sss.x += CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
+                    - (platform.name == 'Safari'
+                        ? 0
+                        : this.infTL.pad_left + this.infTL.pad_right);
+            }
+            this.sss.y -= this.padTx4y;
+            this.cntTxt.addChild(this.sss);
+            rnd.render(this.sss, undefined, false);
             re();
         }, false);
     }
-    static snapshotBreak(rnd) {
-        console.log(`fn:TxtStage.ts line:1098 `);
-        rnd.render(TxtStage.cntBreak, undefined, false);
+    snapshot_end() {
+        if (this.sss) {
+            this.cntTxt.removeChild(this.sss);
+            this.sss = null;
+        }
     }
     dump() {
         const aStyle = [];

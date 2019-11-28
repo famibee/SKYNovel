@@ -92,6 +92,6 @@ export declare class TxtLayer extends Layer {
         (): void;
     }): boolean;
     snapshot(rnd: Renderer, re: () => void): void;
-    static snapshotBreak(rnd: Renderer): void;
+    snapshot_end(): void;
     dump(): string;
 }

@@ -77,8 +77,9 @@ export declare class TxtStage extends Container {
         ch_anime_time_仮: number;
     };
     playback(hLay: any): void;
+    private sss;
     snapshot(rnd: Renderer, re: () => void): void;
-    static snapshotBreak(rnd: Renderer): void;
+    snapshot_end(): void;
     dump(): string;
     destroy(): void;
 }

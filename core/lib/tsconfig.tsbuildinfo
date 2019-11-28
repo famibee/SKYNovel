@@ -146,8 +146,8 @@
         "signature": "e3da2770fec2d17c413b52dc8c062bd83026049b16afb3098e21560c90c5ffe7"
       },
       "../src/sn/layer.ts": {
-        "version": "8bfdaf110754b29bd6685878ccd1dc1eb5d8975abf2f2ece6dd3e5675e826f8a",
-        "signature": "6c73c3d8a869aba17fbf3db4cdf59f62130fac75a5ee1f2fa927c60c1dfce55d"
+        "version": "34e1667a6a544d08106114063a68f5ace323aa1b8977f879cac9bb97d8b491a4",
+        "signature": "77b09667f37d0932e0e079476a63269641e6360eb3cb95e06d06fe60be0cf268"
       },
       "../src/sn/cmninterface.ts": {
         "version": "684f325dc525a1527be1e0ea9df8107341a3dffc2195a0ddc1f76d78c74574fb",
@@ -378,8 +378,8 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "84ad4a4c6aa132005f95d2bd45582b88b933e69d26286cd7a8e65a2a5d2a1ebc",
-        "signature": "a12d8b9dca79839431a0c4f974217f4132d88ba81802f79a4cc5e5b8cb3a256a"
+        "version": "6559ae01021d57072a77323f498423b93d226ea913bac83fe31ab84d4121bae1",
+        "signature": "368a420b87d0cab9fbdab0597afd0cfbaf09efc7629fce8791d775018dddb77a"
       },
       "../src/sn/rubyspliter.ts": {
         "version": "a2f437d1610acc7e5ba9d906b4f79a182d849f546cb141fce2879ff9769b2e34",
@@ -390,15 +390,15 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "672f9d781ed00653f017d790ac75b98c3651952a120da081280b9ae0af1976b9",
-        "signature": "aa13b7c5befcf526b3bff7dfc84f9789584b109808cd96d90f1816ece1e3337c"
+        "version": "73ab1c9612a3cd87a7c5bdfdaef4a6d0c2aa8cd6e4049669936ce15469e130f0",
+        "signature": "a7b76f8589f7ae9522f86914688affec6bda33b1b1705dd1dfb85f51705259eb"
       },
       "../src/sn/framemng.ts": {
         "version": "8ee7787a361e8e2e279163d7a563bf8d2427ce386acd3844f406bb43d3e01d02",
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
-        "version": "0882a83583cbe8c44d8d27e129bd59ae4aeecd4b0f8a15c694e4bff3fe7a6536",
+        "version": "651109d731244e9083d54a2991b18097ba5c8537c5bff25cb40609a760528773",
         "signature": "4e2687dcc1e61d62fdb4dd13a380e20b38729afb75b51117705130ff297b5bd7"
       },
       "../../node_modules/@types/howler/index.d.ts": {
@@ -2462,11 +2462,11 @@
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
-      "../src/sn/txtstage.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
+      "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
@@ -2494,7 +2494,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/layermng.ts"
+      "../src/sn/txtstage.ts"
     ]
   },
   "version": "3.7.2"

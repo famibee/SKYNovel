@@ -98,6 +98,7 @@ export class Layer {
 		rnd.render(this.cnt, undefined, false);
 		re();
 	}
+	snapshot_end() {}
 
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${

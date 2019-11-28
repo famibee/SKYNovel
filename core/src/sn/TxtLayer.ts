@@ -592,7 +592,7 @@ export class TxtLayer extends Layer {
 		rnd.render(this.cnt, undefined, false);
 		this.txs.snapshot(rnd, re);
 	}
-	static	snapshotBreak(rnd: Renderer) {TxtStage.snapshotBreak(rnd);}
+	snapshot_end() {this.txs.snapshot_end();}
 
 	dump(): string {
 		let aPixiObj: string[] = [];

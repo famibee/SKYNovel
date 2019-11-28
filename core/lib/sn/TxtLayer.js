@@ -501,7 +501,7 @@ class TxtLayer extends Layer_1.Layer {
         rnd.render(this.cnt, undefined, false);
         this.txs.snapshot(rnd, re);
     }
-    static snapshotBreak(rnd) { TxtStage_1.TxtStage.snapshotBreak(rnd); }
+    snapshot_end() { this.txs.snapshot_end(); }
     dump() {
         let aPixiObj = [];
         const len = this.cnt.children.length;
