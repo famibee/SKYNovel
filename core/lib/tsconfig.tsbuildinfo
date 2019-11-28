@@ -398,7 +398,7 @@
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
-        "version": "8292830b3388d93db6379fd2e0c2e09a5ce26344f5d6700ddd88a63c1816e08d",
+        "version": "0882a83583cbe8c44d8d27e129bd59ae4aeecd4b0f8a15c694e4bff3fe7a6536",
         "signature": "4e2687dcc1e61d62fdb4dd13a380e20b38729afb75b51117705130ff297b5bd7"
       },
       "../../node_modules/@types/howler/index.d.ts": {
@@ -2462,11 +2462,11 @@
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
+      "../src/sn/txtstage.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
-      "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
@@ -2494,7 +2494,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/txtstage.ts"
+      "../src/sn/layermng.ts"
     ]
   },
   "version": "3.7.2"

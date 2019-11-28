@@ -19,7 +19,7 @@ import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 
 import TWEEN = require('@tweenjs/tween.js');
-import {Container, Application, Renderer, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject} from 'pixi.js';
+import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 
 export class LayerMng {
@@ -233,7 +233,7 @@ export class LayerMng {
 		: ('desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.png');
 		const ext = CmnLib.getExt(fn);
 		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
-		const renderer = new Renderer({
+		const renderer = autoDetectRenderer({
 			width: CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW),
 			height: CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH),
 			transparent: (b_color > 0x1000000) && (ext == 'png'),
@@ -270,7 +270,7 @@ export class LayerMng {
 		Promise.all(a).then(()=> {
 			this.sys.savePic(
 				this.cfg.searchPath(fn),
-				renderer.view.toDataURL('image/'+ (ext == 'png' ?'png' :'jpeg'))
+				this.appPixi.renderer.extract.base64(this.stage)
 			);
 			renderer.destroy(true);
 		});

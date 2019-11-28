@@ -228,7 +228,7 @@ void main(void) {
             : ('desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.png');
         const ext = CmnLib_1.CmnLib.getExt(fn);
         const b_color = (_a = hArg.b_color, (_a !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color));
-        const renderer = new pixi_js_1.Renderer({
+        const renderer = pixi_js_1.autoDetectRenderer({
             width: CmnLib_1.CmnLib.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW),
             height: CmnLib_1.CmnLib.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH),
             transparent: (b_color > 0x1000000) && (ext == 'png'),
@@ -261,7 +261,7 @@ void main(void) {
         }
         a.push(new Promise(re => { TxtLayer_1.TxtLayer.snapshotBreak(renderer); re(); }));
         Promise.all(a).then(() => {
-            this.sys.savePic(this.cfg.searchPath(fn), renderer.view.toDataURL('image/' + (ext == 'png' ? 'png' : 'jpeg')));
+            this.sys.savePic(this.cfg.searchPath(fn), this.appPixi.renderer.extract.base64(this.stage));
             renderer.destroy(true);
         });
         return false;
