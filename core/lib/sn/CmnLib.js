@@ -35,6 +35,7 @@ exports.getDateStr = getDateStr;
 ;
 const m_path = require("path");
 const m_xregexp = require("xregexp");
+const platform = require('platform');
 class CmnLib {
     static argChk_Num(hash, name, def) {
         const v = hash[name];
@@ -103,6 +104,7 @@ CmnLib.stageW = 0;
 CmnLib.stageH = 0;
 CmnLib.devtool = false;
 CmnLib.osName = '';
+CmnLib.isSafari = (platform.name == 'Safari');
 CmnLib.hDip = {};
 CmnLib.isRetina = false;
 CmnLib.retinaRate = 1;

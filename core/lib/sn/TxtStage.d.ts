@@ -47,6 +47,10 @@ export declare class TxtStage extends Container {
     goTxt_next(aSpan: string[], layname: string, delay: number): void;
     private rctm;
     private spWork;
+    private static hChInStyle;
+    private static REG_NG_CHSTYLE_NAME_CHR;
+    static isChInStyle(name: string): boolean;
+    static ch_in_style(hArg: HArg): any;
     private putBreakMark2;
     private static cntBreak;
     dispBreak(pic: string): void;
@@ -55,12 +59,11 @@ export declare class TxtStage extends Container {
     private lh_half;
     private getChRects;
     skipFI(): boolean;
-    private ch_anime_time_仮;
     private ch_slide_x;
-    private fncFi;
     private fi_easing;
-    private fo;
     private fo_easing;
+    private static gs_chFadeWait;
+    private static gs_chFadeDx;
     private clearText;
     passBaton(): TxtStage;
     record(): {
@@ -69,12 +72,7 @@ export declare class TxtStage extends Container {
         left: number;
         ch_filter: any[] | null;
         fi_easing: string;
-        fo: {
-            alpha: number;
-            x: string;
-        };
         fo_easing: string;
-        ch_anime_time_仮: number;
     };
     playback(hLay: any): void;
     private sss;

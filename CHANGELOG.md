@@ -1,3 +1,10 @@
+## v0.6.27
+- add：jsonの一要素を「.」表記で取り出せる書式追加
+	const.sn.sound.codecs = '{"aac": true, "flac": false}' という文字列が入っているとき、
+	const.sn.sound.codecs.aac で true を返す。
+- （実装中）add：文字出現演出を定義する[ch_in_style]追加
+- （実装中）add：文字レイヤの[lay]に文字出現演出を指定する in_style 属性追加
+- labo：新文字表示技術実装中
 ## v0.6.26
 - labo：新文字表示技術実装中・スナップショット修正
 ## v0.6.25

@@ -49,7 +49,9 @@ export class SoundMng {
 		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> Howler.volume(Number(val)));
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
-		['mp3','m4a','ogg','aac','webm','flac','wav'].forEach(v=> val.setVal_Nochk('tmp', 'const.sn.sound.codecs.'+ v, Howler.codecs(v)));
+		const codecs :{[name: string]: boolean} = {};
+		['mp3','m4a','ogg','aac','webm','flac','wav'].forEach(v=> {codecs[v] = Howler.codecs(v)});
+		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(codecs));
 	}
 	private initVol = ()=> {
 		Howler.volume(Number(this.val.getVal('sys:sn.sound.global_volume', 1)));

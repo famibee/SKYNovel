@@ -7,7 +7,6 @@ const CmnTween_1 = require("./CmnTween");
 const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
 const TWEEN = require("@tweenjs/tween.js");
-const platform = require('platform');
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
@@ -30,15 +29,12 @@ class TxtStage extends pixi_js_1.Container {
         this.aSpTw = [];
         this.rctm = new pixi_js_1.Rectangle;
         this.lh_half = 0;
-        this.ch_anime_time_仮 = 500;
-        this.ch_slide_x = () => this.infTL.fontsize * 0.3;
-        this.fncFi = (sp) => { sp.x += this.ch_slide_x(); };
+        this.ch_slide_x = () => this.infTL.fontsize * TxtStage.gs_chFadeDx;
         this.fi_easing = 'Quadratic.Out';
-        this.fo = { alpha: 0, x: `+${this.ch_slide_x()}` };
         this.fo_easing = 'Quadratic.Out';
         this.sss = null;
         if (CmnLib_1.CmnLib.hDip['tx']) {
-            this.htmTxt.classList.add('sn_txl');
+            this.htmTxt.classList.add('sn_tx');
         }
         else {
             this.htmTxt.hidden = true;
@@ -84,9 +80,7 @@ class TxtStage extends pixi_js_1.Container {
                 const fs = parseFloat(s.fontSize || '0');
                 this.infTL.fontsize = fs;
                 s.right = (CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
-                    + ((platform.name == 'Safari')
-                        ? this.infTL.pad_right + fs / 2
-                        : 0)) + 'px';
+                    + (CmnLib_1.CmnLib.isSafari ? this.infTL.pad_right + fs / 2 : 0)) + 'px';
             }
             else {
                 s.removeProperty('right');
@@ -159,9 +153,13 @@ class TxtStage extends pixi_js_1.Container {
         let s = [...aSpan].join('');
         if (s.slice(-5) == '<br/>')
             s = s.slice(0, -5) + `<p style='margin: 0px;'>　</p>`;
-        this.htmTxt.innerHTML = s.split('<br/>')
-            .map(v => `<p style='margin: 0px;'>${(v == '') ? '　' : v}</p>`)
-            .join('');
+        const a = s.split('<br/>');
+        const len_a = a.length;
+        for (let i = 0; i < len_a; ++i) {
+            const v = a[i];
+            a[i] = `<p style='margin: 0px;'>${(v == '') ? '　' : v}</p>`;
+        }
+        this.htmTxt.innerHTML = a.join('');
         this.htmTxt.hidden = false;
         this.htm2tx(tx2 => {
             this.goTxt3(tx2);
@@ -502,7 +500,7 @@ class TxtStage extends pixi_js_1.Container {
                 ? CmnLib_1.uint(JSON.parse(v.add.replace(/'/g, '"')).wait)
                 : LayerMng_1.LayerMng.msecChWait;
             const delay_put = (i < lenPutedRect)
-                || this.ch_anime_time_仮 == 0 || delay == 0;
+                || TxtStage.gs_chFadeWait == 0 || delay == 0;
             const o = v.arg ? JSON.parse(v.arg) : {};
             const spWork = (sp, replace_pos_by_sp = true) => {
                 sp.alpha = 0;
@@ -517,7 +515,7 @@ class TxtStage extends pixi_js_1.Container {
                 }
                 if (this.ch_filter && v.cmd != 'link')
                     sp.filters = this.ch_filter;
-                this.fncFi(sp);
+                sp.x += this.ch_slide_x();
                 if (delay_put) {
                     sp.alpha = 1;
                     sp.x = rct.x;
@@ -530,7 +528,7 @@ class TxtStage extends pixi_js_1.Container {
                 const st = {
                     sp: sp,
                     tw: new TWEEN.Tween(sp)
-                        .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+                        .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, TxtStage.gs_chFadeWait)
                         .easing(ease)
                         .delay(delay)
                         .onComplete(() => {
@@ -570,14 +568,19 @@ class TxtStage extends pixi_js_1.Container {
         this.putBreakMark(delay);
     }
     goTxt_next(aSpan, layname, delay) {
-        var _a;
+        var _a, _b;
         this.name = layname;
         let s = [...aSpan].join('');
         if (s.slice(-5) == '<br/>')
             s = s.slice(0, -5) + `<p style='margin: 0px;'>　</p>`;
-        this.htmTxt.innerHTML = s.split('<br/>')
-            .map(v => `<p style='margin: 0px;'>${(v == '') ? '　' : v}</p>`)
-            .join('');
+        const a = s.split('<br/>');
+        const len_a = a.length;
+        for (let i = 0; i < len_a; ++i) {
+            const v = a[i];
+            a[i] = `<p style='margin: 0px;'>${(v == '') ? '　' : v}</p>`;
+        }
+        this.htmTxt.innerHTML = a.join('');
+        ;
         const begin = this.aRect.length;
         if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
             if (TxtStage.cfg.oCfg.debug.devtool)
@@ -607,22 +610,23 @@ class TxtStage extends pixi_js_1.Container {
             }
             : () => { };
         const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
-        const sx = this.left + this.infTL.pad_left + this.ch_slide_x();
+        const sx = this.left + this.infTL.pad_left;
         const sy = this.infTL.pad_top + this.rctBoundCli;
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];
             const rct = v.rect;
+            const arg = JSON.parse((_a = v.arg, (_a !== null && _a !== void 0 ? _a : '{"delay": 0}')));
+            const add = JSON.parse((_b = v.add, (_b !== null && _b !== void 0 ? _b : '{}')));
+            const cis = TxtStage.hChInStyle[add.ch_in_style];
             rct.x -= sx;
             rct.y -= sy;
-            const arg = JSON.parse((_a = v.arg, (_a !== null && _a !== void 0 ? _a : '{"delay": 0}')));
-            if (v.cmd && arg.delay == 0)
-                rct.x += this.ch_slide_x();
             fncMasume(v, rct);
-            this.rctm = rct;
+            if (cis)
+                this.rctm = rct;
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;
-                    this.spWork(cnt, arg, rct, ease);
+                    this.spWork(cnt, arg, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
                     this.cntTxt.addChild(cnt);
                     GrpLayer_1.GrpLayer.csv2Sprites(arg.pic, cnt, sp => {
                         if (!cnt.parent)
@@ -634,16 +638,17 @@ class TxtStage extends pixi_js_1.Container {
                     sp.width = rct.width;
                     sp.height = rct.height;
                     arg.key = this.name + ' link:' + i;
-                    this.spWork(sp, arg, rct, ease);
+                    this.spWork(sp, arg, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
                     TxtStage.evtMng.button(arg, sp);
                     this.cntTxt.addChild(sp);
                     break;
             }
         }
+        this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/class="sn(_ch_in_\S+)"/g, `class="go$1"`);
         this.putBreakMark2(delay);
     }
-    spWork(sp, arg, rct, ease) {
-        var _a;
+    spWork(sp, arg, rct, ease, cis) {
+        var _a, _b;
         sp.alpha = 0;
         sp.position.set(rct.x, rct.y);
         if (arg.width)
@@ -653,15 +658,36 @@ class TxtStage extends pixi_js_1.Container {
         const st = {
             sp: sp,
             tw: new TWEEN.Tween(sp)
-                .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+                .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait, (_a !== null && _a !== void 0 ? _a : 0)))
                 .easing(ease)
-                .delay((_a = arg.delay, (_a !== null && _a !== void 0 ? _a : 0)))
+                .delay((_b = arg.delay, (_b !== null && _b !== void 0 ? _b : 0)))
                 .onComplete(() => {
                 st.tw = null;
             })
                 .start(),
         };
         this.aSpTw.push(st);
+    }
+    static isChInStyle(name) { return name in TxtStage.hChInStyle; }
+    static ch_in_style(hArg) {
+        var _a, _b;
+        const name = hArg.name;
+        if (!name)
+            throw 'nameは必須です';
+        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
+            throw `name【${name}】に使えない文字が含まれます`;
+        if (name in TxtStage.hChInStyle)
+            throw `name【${name}】はすでにあります`;
+        return TxtStage.hChInStyle[name] = {
+            wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
+            alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
+            x: (_a = hArg.x, (_a !== null && _a !== void 0 ? _a : '=0')),
+            y: (_b = hArg.y, (_b !== null && _b !== void 0 ? _b : '=0')),
+            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 0),
+            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 0),
+            rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
+        };
     }
     putBreakMark2(delay) {
         const cnt = TxtStage.cntBreak;
@@ -783,7 +809,7 @@ class TxtStage extends pixi_js_1.Container {
         this.aRect = [];
         this.htmTxt.textContent = '';
         this.skipFI();
-        if (this.ch_anime_time_仮 == 0) {
+        if (TxtStage.gs_chFadeWait == 0) {
             for (const c of this.cntTxt.removeChildren())
                 c.removeAllListeners().destroy();
         }
@@ -792,7 +818,7 @@ class TxtStage extends pixi_js_1.Container {
             for (const c of this.cntTxt.children) {
                 c.removeAllListeners();
                 new TWEEN.Tween(c)
-                    .to(this.fo, this.ch_anime_time_仮)
+                    .to({ alpha: 0, x: `+${this.ch_slide_x()}` }, TxtStage.gs_chFadeWait)
                     .easing(ease)
                     .onComplete(o => this.cntTxt.removeChild(o))
                     .start();
@@ -807,9 +833,7 @@ class TxtStage extends pixi_js_1.Container {
         to.lay_sub();
         to.ch_filter = this.ch_filter;
         to.fi_easing = this.fi_easing;
-        to.fo = this.fo;
         to.fo_easing = this.fo_easing;
-        to.ch_anime_time_仮 = this.ch_anime_time_仮;
         return to;
     }
     record() {
@@ -819,9 +843,7 @@ class TxtStage extends pixi_js_1.Container {
             left: this.left,
             ch_filter: this.ch_filter,
             fi_easing: this.fi_easing,
-            fo: this.fo,
             fo_easing: this.fo_easing,
-            ch_anime_time_仮: this.ch_anime_time_仮,
         };
     }
     ;
@@ -832,11 +854,8 @@ class TxtStage extends pixi_js_1.Container {
         this.left = hLay.left;
         this.lay_sub();
         this.ch_filter = hLay.ch_filter;
-        this.fncFi = (sp) => { sp.x += this.infTL.fontsize / 3; };
         this.fi_easing = hLay.fi_easing;
-        this.fo = hLay.fo;
         this.fo_easing = hLay.fo_easing;
-        this.ch_anime_time_仮 = hLay.ch_anime_time_仮;
     }
     snapshot(rnd, re) {
         if (!CmnLib_1.CmnLib.hDip['tx']) {
@@ -847,7 +866,7 @@ class TxtStage extends pixi_js_1.Container {
             this.sss = new pixi_js_1.Sprite(tx);
             if (this.isTategaki) {
                 this.sss.x += CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
-                    - (platform.name == 'Safari'
+                    - (CmnLib_1.CmnLib.isSafari
                         ? 0
                         : this.infTL.pad_left + this.infTL.pad_right);
             }
@@ -896,5 +915,9 @@ TxtStage.hWarning = {
 };
 TxtStage.REG_SURROGATE = /[\uDC00-\uDFFF]/;
 TxtStage.fncChkSkip = () => false;
+TxtStage.hChInStyle = Object.create(null);
+TxtStage.REG_NG_CHSTYLE_NAME_CHR = /[\s\.,]/;
 TxtStage.cntBreak = new pixi_js_1.Container;
+TxtStage.gs_chFadeWait = 500;
+TxtStage.gs_chFadeDx = 0.3;
 //# sourceMappingURL=TxtStage.js.map

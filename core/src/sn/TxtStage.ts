@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Container, Texture, Sprite, Graphics, DisplayObject, Rectangle, Renderer} from 'pixi.js';
+import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
 
 import {CmnLib, uint, IEvtMng} from './CmnLib';
 import {HArg} from './CmnInterface';
@@ -13,10 +13,8 @@ import {Config} from './Config';
 import {LayerMng} from './LayerMng';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
-import { DebugMng } from './DebugMng';
+import {DebugMng} from './DebugMng';
 import TWEEN = require('@tweenjs/tween.js');
-
-const platform = require('platform');
 
 export interface IInfTxLay {
 	fontsize	: number;
@@ -64,7 +62,7 @@ export class TxtStage extends Container {
 		super();
 
 		if (CmnLib.hDip['tx']) {
-			this.htmTxt.classList.add('sn_txl');
+			this.htmTxt.classList.add('sn_tx');
 		}
 		else {
 			this.htmTxt.hidden = true;
@@ -105,9 +103,8 @@ export class TxtStage extends Container {
 				const fs = parseFloat(s.fontSize || '0');
 				this.infTL.fontsize = fs;
 				s.right = (CmnLib.stageW -(this.left +this.infTL.$width)
-					+((platform.name == 'Safari')
-						? this.infTL.pad_right +fs/2	// 後者はルビ
-						: 0)
+					+(CmnLib.isSafari ?this.infTL.pad_right +fs/2 :0)
+						// fs/2 後者はルビ
 						// SafariとChromeでは paddingRight＆rightと
 						// 文字表示位置のクセが違う
 				) +'px';
@@ -216,9 +213,13 @@ export class TxtStage extends Container {
 		let s = [...aSpan].join('');
 		// 「<br/>」分割を「<p ...></p>」囲みに変換
 		if (s.slice(-5) == '<br/>') s = s.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
-		this.htmTxt.innerHTML = s.split('<br/>')
-		.map(v=>`<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
-		.join('');
+		const a = s.split('<br/>')
+		const len_a = a.length;
+		for (let i=0; i<len_a; ++i) {
+			const v = a[i];
+			a[i] = `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`;
+		}
+		this.htmTxt.innerHTML = a.join('');
 			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
 			// insertAdjacentHTML()は使わない
 
@@ -698,7 +699,7 @@ export class TxtStage extends Container {
 				? uint(JSON.parse(v.add.replace(/'/g, '"')).wait)
 				: LayerMng.msecChWait;
 			const delay_put = (i < lenPutedRect)	// 文字変更時は瞬時差し替え
-				|| this.ch_anime_time_仮 == 0 || delay == 0;
+				|| TxtStage.gs_chFadeWait == 0 || delay == 0;
 
 			const o = v.arg ?JSON.parse(v.arg) :{};
 			const spWork = (sp: Container, replace_pos_by_sp = true)=> {
@@ -713,7 +714,7 @@ export class TxtStage extends Container {
 				}
 				if (this.ch_filter && v.cmd != 'link') sp.filters = this.ch_filter;
 				//Layer.argChk_BlendmodeAndSet(o, sp);
-				this.fncFi(sp);
+				sp.x += this.ch_slide_x();
 
 				//console.log(`spWork i:${i} ch:${v.ch} x:${rct.x} y:${rct.y}`);
 				if (delay_put) {
@@ -729,7 +730,7 @@ export class TxtStage extends Container {
 				const st: ISpTw = {
 					sp: sp,
 					tw: new TWEEN.Tween(sp)
-						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, TxtStage.gs_chFadeWait)
 						.easing(ease)
 						.delay(delay)
 						.onComplete(()=> {
@@ -770,9 +771,10 @@ export class TxtStage extends Container {
 				}
 			}
 		}
-	//	this.putBreakMark(delay + this.ch_anime_time_仮);	// 微妙に遅い気がする
+	//	this.putBreakMark(delay + TxtLayer.chFadeTime);	// 微妙に遅い気がする
 		this.putBreakMark(delay);
 	}
+
 
 	goTxt_next(aSpan: string[], layname: string, delay: number) {
 		this.name = layname;	// dump表示などに使用
@@ -780,9 +782,13 @@ export class TxtStage extends Container {
 		let s = [...aSpan].join('');
 		// 「<br/>」分割を「<p ...></p>」囲みに変換
 		if (s.slice(-5) == '<br/>') s = s.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
-		this.htmTxt.innerHTML = s.split('<br/>')
-		.map(v=>`<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`)
-		.join('');
+		const a = s.split('<br/>')
+		const len_a = a.length;
+		for (let i=0; i<len_a; ++i) {
+			const v = a[i];
+			a[i] = `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`;
+		}
+		this.htmTxt.innerHTML = a.join('');;
 
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
@@ -823,23 +829,23 @@ export class TxtStage extends Container {
 			}
 			: ()=> {};
 		const ease = CmnTween.ease(this.fi_easing);
-		const sx = this.left +this.infTL.pad_left +this.ch_slide_x();
+		const sx = this.left +this.infTL.pad_left;
 		const sy = this.infTL.pad_top +this.rctBoundCli;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
+			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
+			const add = JSON.parse(v.add ?? '{}');
+			const cis = TxtStage.hChInStyle[add.ch_in_style];
 			rct.x -= sx;
 			rct.y -= sy;
-			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
-			if (v.cmd && arg.delay == 0) rct.x += this.ch_slide_x();
 			fncMasume(v, rct);
-			this.rctm = rct;
+			if (cis) this.rctm = rct;	// !cis ならルビ
 
-//console.log(`fn:TxtStage.ts line:807 i:${i} ch:${v.ch} rct:%o cmd:${v.cmd} arg:%o`, rct, arg);
 			switch (v.cmd) {
 				case 'grp':
 					const cnt = new Container;	// 親コンテナかまし、即spWork()
-					this.spWork(cnt, arg, rct, ease);
+					this.spWork(cnt, arg, rct, ease, cis ?? {});
 					this.cntTxt.addChild(cnt);
 						// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 					GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
@@ -852,17 +858,20 @@ export class TxtStage extends Container {
 					sp.width = rct.width;
 					sp.height = rct.height;
 					arg.key = this.name +' link:'+ i;	// 一文字ずつ別ボタン
-					this.spWork(sp, arg, rct, ease);
+					this.spWork(sp, arg, rct, ease, cis ?? {});
 					TxtStage.evtMng.button(arg, sp);
 					this.cntTxt.addChild(sp);
 					break;
 			}
 		}
 
+		// 文字出現演出・開始
+		this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/class="sn(_ch_in_\S+)"/g, `class="go$1"`);
+
 		this.putBreakMark2(delay);
 	}
 	private rctm = new Rectangle;
-	private spWork(sp: Container, arg: any, rct: Rectangle, ease: (k: number)=> number) {
+	private spWork(sp: Container, arg: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
 		sp.position.set(rct.x, rct.y);
 		if (arg.width) sp.width = arg.width;
@@ -870,7 +879,7 @@ export class TxtStage extends Container {
 		const st: ISpTw = {
 			sp: sp,
 			tw: new TWEEN.Tween(sp)
-				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, this.ch_anime_time_仮)
+				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, cis.wait ?? 0)
 				.easing(ease)
 				.delay(arg.delay ?? 0)
 				.onComplete(()=> {
@@ -882,6 +891,37 @@ export class TxtStage extends Container {
 				.start(),
 		};
 		this.aSpTw.push(st);
+	}
+	private	static	hChInStyle	= Object.create(null);
+	private	static REG_NG_CHSTYLE_NAME_CHR	:RegExp	= /[\s\.,]/;
+	static	isChInStyle(name: string) {return name in TxtStage.hChInStyle;}
+	static	ch_in_style(hArg: HArg): any {
+		const name = hArg.name;
+		if (! name) throw 'nameは必須です';
+		TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+		if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
+		if (name in TxtStage.hChInStyle) throw `name【${name}】はすでにあります`;
+
+		return TxtStage.hChInStyle[name] = {
+			wait	: CmnLib.argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
+			alpha	: CmnLib.argChk_Num(hArg, 'alpha', 0),
+			x		: hArg.x ?? '=0',	// 初期x値
+			y		: hArg.y ?? '=0',	// [tsy]と同様に絶対・相対指定可能
+			// {x:500}			X位置を500に
+			// {x:'=500'}		現在のX位置に+500加算した位置
+			// {x:'=-500'}		現在のX位置に-500加算した位置
+			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
+			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
+			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 0),
+			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 0),
+			rotate	: CmnLib.argChk_Num(hArg, 'rotate', 0),
+//			ease	: '',	// NOTE: ease未実装
+/*
+	quadraticEaseInOut
+	CSS3 : cubic-bezier(0.455, 0.03, 0.515, 0.955)
+		・CSS3のtransition-timing-functionの値、cubic-bezier()に関して | KnockKnock http://www.knockknock.jp/archives/184
+*/
+		};
 	}
 
 	private putBreakMark2(delay: number) {
@@ -1030,12 +1070,11 @@ export class TxtStage extends Container {
 		// Easing Function 早見表 http://easings.net/ja
 */
 
-	private	ch_anime_time_仮	= 500;	// TODO: 未作成
-	private ch_slide_x	= ()=> this.infTL.fontsize *0.3;	// TODO: 仮
-	private	fncFi		= (sp: DisplayObject)=> {sp.x +=this.ch_slide_x()};
+	private ch_slide_x	= ()=> this.infTL.fontsize *TxtStage.gs_chFadeDx;
 	private fi_easing	= 'Quadratic.Out';
-	private fo			= {alpha: 0, x: `+${this.ch_slide_x()}`};
 	private fo_easing	= 'Quadratic.Out';
+	private	static	gs_chFadeWait	= 500;
+	private	static	gs_chFadeDx		= 0.3;
 	private clearText() {
 		this.goTxt2 = ()=> {};
 		this.goTxt3  = (_tx: Texture)=> {};
@@ -1047,7 +1086,7 @@ export class TxtStage extends Container {
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.skipFI();
-		if (this.ch_anime_time_仮 == 0) {
+		if (TxtStage.gs_chFadeWait == 0) {	// NOTE: this.$chOut.wait
 			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
 		}
 		else {
@@ -1055,7 +1094,7 @@ export class TxtStage extends Container {
 			for (const c of this.cntTxt.children) {
 				c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
 				new TWEEN.Tween(c)
-				.to(this.fo, this.ch_anime_time_仮)
+				.to({alpha: 0, x: `+${this.ch_slide_x()}`}, TxtStage.gs_chFadeWait)	// NOTE: this.$chOut.wait
 				.easing(ease)
 				//.delay(i * LayerMng.msecChWait)
 				.onComplete(o=> this.cntTxt.removeChild(o))
@@ -1073,9 +1112,7 @@ export class TxtStage extends Container {
 
 		to.ch_filter = this.ch_filter;
 		to.fi_easing = this.fi_easing;
-		to.fo = this.fo;
 		to.fo_easing = this.fo_easing;
-		to.ch_anime_time_仮 = this.ch_anime_time_仮;
 		return to;
 	}
 
@@ -1087,11 +1124,8 @@ export class TxtStage extends Container {
 		left		: this.left,
 
 		ch_filter	: this.ch_filter,
-		//fncFi		: this.fncFi,		// TODO: 未作成
 		fi_easing	: this.fi_easing,
-		fo			: this.fo,
 		fo_easing	: this.fo_easing,
-		ch_anime_time_仮	: this.ch_anime_time_仮,
 	}};
 	playback(hLay: any) {
 		this.infTL		= hLay.infTL;
@@ -1102,11 +1136,8 @@ export class TxtStage extends Container {
 		this.lay_sub();
 
 		this.ch_filter	= hLay.ch_filter;
-		this.fncFi		= (sp: DisplayObject)=> {sp.x += this.infTL.fontsize/3};
 		this.fi_easing	= hLay.fi_easing;
-		this.fo			= hLay.fo;
 		this.fo_easing	= hLay.fo_easing;
-		this.ch_anime_time_仮	= hLay.ch_anime_time_仮;
 	}
 
 	private sss :Sprite | null = null;
@@ -1117,9 +1148,9 @@ export class TxtStage extends Container {
 			this.sss = new Sprite(tx);	// Safariだけ文字影が映らない
 			if (this.isTategaki) {
 				this.sss.x += CmnLib.stageW -(this.left +this.infTL.$width)
-				- (platform.name == 'Safari'
-				? 0
-				: this.infTL.pad_left +this.infTL.pad_right);
+				- (CmnLib.isSafari
+					? 0
+					: this.infTL.pad_left +this.infTL.pad_right);
 			}
 			this.sss.y -= this.padTx4y;
 			this.cntTxt.addChild(this.sss);

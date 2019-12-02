@@ -64,6 +64,8 @@ export class LayerMng {
 	//	hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
 		//hTag.autowc		// TxtLayer.ts で定義		// 文字ごとのウェイト
 		hTag.ch				= o=> this.ch(o);			// 文字を追加する
+		//hTag.ch_in_style	// TxtLayer.ts で定義		// 文字出現文字出現演出
+		//hTag.ch_out_style	// TxtLayer.ts で定義		// 文字消去文字出現演出
 		hTag.clear_text		= o=> this.clear_text(o);	// 文字消去
 		hTag.current		= o=> this.current(o);		// デフォルト文字レイヤ設定
 		hTag.endlink		= ()=> this.endlink();		// ハイパーリンクの終了
@@ -1022,7 +1024,7 @@ void main(void) {
 
 	// インラインスタイル設定
 	private span(hArg: HArg) {
-		this.cmdTxt(`span｜${hArg.style ?? ''}`);
+		this.cmdTxt('span｜'+ JSON.stringify(hArg));
 		return false;
 	}
 

@@ -25,6 +25,7 @@ export declare class CmnLib {
     static stageH: number;
     static devtool: boolean;
     static osName: string;
+    static isSafari: boolean;
     static hDip: {
         [name: string]: string;
     };

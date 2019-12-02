@@ -142,20 +142,20 @@
         "signature": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370"
       },
       "../src/sn/cmnlib.ts": {
-        "version": "453961e1aacc681eb580dee57fb36a3cca116eccd18e1cc3cdec28a783a0dbd6",
-        "signature": "e3da2770fec2d17c413b52dc8c062bd83026049b16afb3098e21560c90c5ffe7"
+        "version": "b20b8285ce1e50fdb23bebc8aa89e2146f53e0f1f27259c873ef3a451166a1d2",
+        "signature": "5854d09a66af8fa8c115238dc5f885a87e87dc4706e49876491059d846bedcec"
       },
       "../src/sn/layer.ts": {
         "version": "34e1667a6a544d08106114063a68f5ace323aa1b8977f879cac9bb97d8b491a4",
         "signature": "77b09667f37d0932e0e079476a63269641e6360eb3cb95e06d06fe60be0cf268"
       },
       "../src/sn/cmninterface.ts": {
-        "version": "684f325dc525a1527be1e0ea9df8107341a3dffc2195a0ddc1f76d78c74574fb",
-        "signature": "a2c3a573a8c35298976cb616bc6ea1360fb21836fa55c9c99f03b339417a261c"
+        "version": "0fa60a9ea00e0eb1a9b8b415618089ad3fae53169676a57a2d9c0be7880c1d75",
+        "signature": "6986cb8397a5320c6dda426c23c8f86b314f758972f7cd324bdb0eecb2e4c109"
       },
       "../src/sn/sysbase.ts": {
         "version": "d3cd0e56f16f974441d38f553ca8fdfed07fb6221bd80a32df610be247eb2128",
-        "signature": "91afda67aee42da208dd5eb63a96d047624e1e34f71ddec4fe25f7d621a8c4fa"
+        "signature": "cff681d561247f00e326281fd024f6a2841d2f1b53ed3717aadf18bbd2671db1"
       },
       "../../node_modules/@types/node/globals.d.ts": {
         "version": "6cf62fbc792aa81fa62f99dab5cc692c5315ecd5da09dd35f1ccc82778c4d5bc",
@@ -378,8 +378,8 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "a6b613825949728093acb3db908fcf650d838ffcab69eab6fe53041b0d161ce4",
-        "signature": "368a420b87d0cab9fbdab0597afd0cfbaf09efc7629fce8791d775018dddb77a"
+        "version": "06585cdaff7eb0d0e00eaca682e3a594e78b421ccd780183b34c29a26de360ff",
+        "signature": "38d691b9606f62564685a4001be86ead1aaa04275c0586e3dea20ca1c2b5c6e9"
       },
       "../src/sn/rubyspliter.ts": {
         "version": "a2f437d1610acc7e5ba9d906b4f79a182d849f546cb141fce2879ff9769b2e34",
@@ -390,15 +390,15 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "73ab1c9612a3cd87a7c5bdfdaef4a6d0c2aa8cd6e4049669936ce15469e130f0",
-        "signature": "a7b76f8589f7ae9522f86914688affec6bda33b1b1705dd1dfb85f51705259eb"
+        "version": "1ecaf42bed4900e8245afef2ff74f690d2540b7ae51cbb1b5294fdc992189fcb",
+        "signature": "a53da3813b0e93401326e989921cb2eee89e180b47c9988a675635e7349fbfde"
       },
       "../src/sn/framemng.ts": {
         "version": "8ee7787a361e8e2e279163d7a563bf8d2427ce386acd3844f406bb43d3e01d02",
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
-        "version": "651109d731244e9083d54a2991b18097ba5c8537c5bff25cb40609a760528773",
+        "version": "6de46b20d3605b59dc38532179dbe90f31bdbf7734d717694a1f2dde79cf9686",
         "signature": "4e2687dcc1e61d62fdb4dd13a380e20b38729afb75b51117705130ff297b5bd7"
       },
       "../../node_modules/@types/howler/index.d.ts": {
@@ -406,7 +406,7 @@
         "signature": "71e20e9f63e1063a8ca6205b6f97e00e5144521c459546900d8698d13b376577"
       },
       "../src/sn/soundmng.ts": {
-        "version": "a9a62aaf2fe0703774717ade271ccd999642aa5382cd318dcd67b7c47f26f0ab",
+        "version": "1c1f83e571c2c4517e4ed82bb759a741d14291ae0873cb79595e4249527e5fb5",
         "signature": "20d3b4d3233c5b48277b54129b43831f8fffe50b27004e1641a312c63927debe"
       },
       "../../node_modules/@types/hammerjs/index.d.ts": {
@@ -434,7 +434,7 @@
         "signature": "c00705f582429199e234f47e635c230bf5cb743b7e61726f530682c5f0990218"
       },
       "../src/sn/variable.ts": {
-        "version": "bcabb23ba510314dbfd1c6eadec20f935763c024cc84f19c531b41c36c870fa5",
+        "version": "37f7ac76ec7af40f7b215f7586c944e944907ce785361229411c07d80e1a2da5",
         "signature": "aa15a6a1dd38e5b0c8e8a0f87e8fd7aed318eae3a38c645bf1c9def7b29e6807"
       },
       "../src/sn/main.ts": {

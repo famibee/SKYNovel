@@ -43,9 +43,22 @@ class Variable {
             if (!hScope)
                 throw '[変数参照] scopeが異常【' + o['scope'] + '】です';
             const name = o['name'];
-            if ((!(name in hScope)) && def != undefined)
-                hScope[name] = def;
             let val = hScope[name];
+            if (!(name in hScope)) {
+                const i = name.lastIndexOf('.');
+                if (i == -1) {
+                    val = def;
+                }
+                else {
+                    const sn = name.slice(0, i);
+                    if (sn in hScope) {
+                        const o2 = JSON.parse(hScope[sn]);
+                        val = o2[name.slice(i + 1)];
+                    }
+                    else
+                        val = def;
+                }
+            }
             if (val instanceof Function)
                 val = val();
             if (o['at'] == '@str')

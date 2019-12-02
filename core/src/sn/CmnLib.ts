@@ -57,12 +57,14 @@ export interface IEvtMng {
 
 import m_path = require('path');
 import m_xregexp = require('xregexp');
+const platform = require('platform');
 
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
 	static	devtool		= false;
 	static	osName		= '';	// TODO: 誰もセットしてない。やるなら３文字でOS名
+	static	isSafari	= (platform.name == 'Safari');
 	static	hDip		: {[name: string]: string}	= {};
 
 	static	isRetina	= false;

@@ -823,8 +823,7 @@ void main(void) {
         return false;
     }
     span(hArg) {
-        var _a;
-        this.cmdTxt(`span｜${_a = hArg.style, (_a !== null && _a !== void 0 ? _a : '')}`);
+        this.cmdTxt('span｜' + JSON.stringify(hArg));
         return false;
     }
     tcy(hArg) {

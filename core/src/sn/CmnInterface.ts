@@ -14,8 +14,21 @@ export interface HArg {
 	index?	: string;
 	dive?	: string;
 	page?	: string;
-	alpha?	: string;
+	alpha?	: number;
+	pivot_x?: number;
+	pivot_y?: number;
+	rotation?	: number;
+	scale_x?: number;
+	scale_y?: number;
 	visible?: boolean;
+
+	left?	: string;
+	top?	: string;
+	width?	: string;
+	height?	: string;
+
+	rotate?	: number;
+	in_style?	: string;
 
 	time?	: number;
 	rule?	: string;
@@ -66,7 +79,7 @@ export interface HArg {
 	b_width?	: string;
 	b_height?	: string;
 	b_color?	: string;
-	b_alpha?	: string;
+	b_alpha?	: number;
 	b_alpha_isfixed?	: string;
 	b_pic?		: string;
 	back_clear?	: string;
@@ -94,19 +107,14 @@ export interface HArg {
 	canskip?	:boolean;
 
 	centering?	:boolean;
-	x?	: number;
-	y?	: number;
+	x?		: number | string;
+	y?		: number | string;
 
 	id?			: string;
 	src?		: string;
 	var_name?	: string;
 	set_fnc?	: string;
 	break_fnc?	: string;
-
-	left?	: string;
-	top?	: string;
-	width?	: string;
-	height?	: string;
 
 	swipe?	: string;
 	f2tap?	: string;
