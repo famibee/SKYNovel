@@ -48,7 +48,7 @@ class Main {
         this.isDestroyed = () => this.destroyed;
         pixi_js_1.utils.skipHello();
         this.cfg = new Config_1.Config(sys, () => {
-            var _a, _b;
+            var _a;
             const hApp = {
                 width: this.cfg.oCfg.window.width,
                 height: this.cfg.oCfg.window.height,
@@ -65,8 +65,12 @@ class Main {
             this.appPixi = new pixi_js_1.Application(hApp);
             if (!cvs)
                 document.body.appendChild(this.appPixi.view);
-            if (CmnLib_1.CmnLib.hDip['tx'])
-                (_b = this.appPixi.view.parentElement) === null || _b === void 0 ? void 0 : _b.style.setProperty('position', 'relative');
+            if (CmnLib_1.CmnLib.hDip['tx']) {
+                const s = this.appPixi.view.parentElement.style;
+                s.position = 'relative';
+                s.width = `${this.cfg.oCfg.window.width}px`;
+                s.height = `${this.cfg.oCfg.window.height}px`;
+            }
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
             this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);

@@ -378,8 +378,8 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "06585cdaff7eb0d0e00eaca682e3a594e78b421ccd780183b34c29a26de360ff",
-        "signature": "38d691b9606f62564685a4001be86ead1aaa04275c0586e3dea20ca1c2b5c6e9"
+        "version": "dfa7ac5af4b68f456383c3d116a921956bc5480e938cfcacf5d50b83293431e5",
+        "signature": "78f9dc05fd1e70b1ad1d3e09a90c3c2f28cbba99d4eb7e06834f69f6efa26ad6"
       },
       "../src/sn/rubyspliter.ts": {
         "version": "a2f437d1610acc7e5ba9d906b4f79a182d849f546cb141fce2879ff9769b2e34",
@@ -438,7 +438,7 @@
         "signature": "aa15a6a1dd38e5b0c8e8a0f87e8fd7aed318eae3a38c645bf1c9def7b29e6807"
       },
       "../src/sn/main.ts": {
-        "version": "59ba69075c772472697319ce6922355b0ca5ee1a5995d9f0cdeebcc83d42add6",
+        "version": "43446dc5d1dcd2dabacccb697f1bd16e7247adfefbfc74b2a596b905e70bc482",
         "signature": "46657d3b0610efd79b14dd9f9ed016b6402de73f7b7c0c129c91d6ddd7374e75"
       },
       "../src/sn/sysapp.ts": {

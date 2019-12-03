@@ -28,7 +28,6 @@ export declare class TxtStage extends Container {
     private isTategaki;
     private padTx4x;
     private padTx4y;
-    private rctBoundCli;
     setSize(width: number, height: number): void;
     private static readonly hWarning;
     goTxt(aSpan: string[], layname: string): void;

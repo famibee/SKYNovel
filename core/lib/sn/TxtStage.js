@@ -20,7 +20,6 @@ class TxtStage extends pixi_js_1.Container {
         this.isTategaki = false;
         this.padTx4x = 0;
         this.padTx4y = 0;
-        this.rctBoundCli = 0;
         this.goTxt2 = (aSpan, layname) => this.goTxt2_htm(aSpan, layname);
         this.cntGoTxtSerializer = 0;
         this.goTxt3 = (tx) => this.goTxt3_tx2sp(tx);
@@ -110,8 +109,6 @@ class TxtStage extends pixi_js_1.Container {
         if (CmnLib_1.CmnLib.hDip['tx']) {
             this.padTx4x = 0;
             this.padTx4y = 0;
-            const boundClientRect = this.htmTxt.getBoundingClientRect();
-            this.rctBoundCli = boundClientRect.top;
         }
         else {
             s.left = xSlide + 'px';
@@ -610,8 +607,9 @@ class TxtStage extends pixi_js_1.Container {
             }
             : () => { };
         const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
-        const sx = this.left + this.infTL.pad_left;
-        const sy = this.infTL.pad_top + this.rctBoundCli;
+        const bcr = this.htmTxt.getBoundingClientRect();
+        const sx = bcr.left + this.infTL.pad_left;
+        const sy = bcr.top + this.infTL.pad_top;
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];
             const rct = v.rect;

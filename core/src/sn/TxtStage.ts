@@ -138,9 +138,6 @@ export class TxtStage extends Container {
 		if (CmnLib.hDip['tx']) {
 			this.padTx4x = 0;
 			this.padTx4y = 0;
-
-			const boundClientRect = this.htmTxt.getBoundingClientRect();
-			this.rctBoundCli = boundClientRect.top;
 		}
 		else {
 			s.left = xSlide +'px';
@@ -173,7 +170,6 @@ export class TxtStage extends Container {
 	private isTategaki = false;
 	private padTx4x = 0;
 	private padTx4y = 0;
-	private rctBoundCli = 0;
 
 	setSize(width: number, height: number) {
 		this.infTL.$width = width;
@@ -677,7 +673,6 @@ export class TxtStage extends Container {
 		}
 		this.aRect = aRect;
 
-		// TODO: 仕様策定中。後々文字waitと同じような処理だろう
 		const ease = CmnTween.ease(this.fi_easing);
 
 		//console.log(`cnt(%d, %d) cntInsidePadding(%d, %d) cntTxt(%d, %d) grpDbgMasume(%d, %d)`, this.cnt.x, this.cnt.y, this.cntInsidePadding.x, this.cntInsidePadding.y, this.cntTxt.x, this.cntTxt.y, this.grpDbgMasume.x, this.grpDbgMasume.y);
@@ -829,8 +824,10 @@ export class TxtStage extends Container {
 			}
 			: ()=> {};
 		const ease = CmnTween.ease(this.fi_easing);
-		const sx = this.left +this.infTL.pad_left;
-		const sy = this.infTL.pad_top +this.rctBoundCli;
+
+		const bcr = this.htmTxt.getBoundingClientRect();
+		const sx = bcr.left + this.infTL.pad_left;
+		const sy = bcr.top + this.infTL.pad_top;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;

@@ -61,7 +61,12 @@ export class Main implements IMain {
 			}
 			this.appPixi = new Application(hApp);
 			if (! cvs) document.body.appendChild(this.appPixi.view);
-			if (CmnLib.hDip['tx']) this.appPixi.view.parentElement?.style.setProperty('position', 'relative');
+			if (CmnLib.hDip['tx']) {
+				const s = this.appPixi.view.parentElement!.style;
+				s.position = 'relative';
+				s.width = `${this.cfg.oCfg.window.width}px`;
+				s.height= `${this.cfg.oCfg.window.height}px`;
+			}
 
 			// 変数
 			this.val = new Variable(this.cfg, this.hTag);
