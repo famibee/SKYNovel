@@ -47,7 +47,7 @@ class SysApp extends SysNode_1.SysNode {
                     return;
                 e.stopPropagation();
                 this.tgl_full_scr_sub();
-            });
+            }, { passive: true });
             return false;
         };
         this.tgl_full_scr_sub = () => {
@@ -119,7 +119,7 @@ class SysApp extends SysNode_1.SysNode {
             this.flush();
             return false;
         };
-        window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), false);
+        window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), { once: true, passive: true });
         ipcRenderer.on('log', (e, arg) => {
             console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
         });
@@ -145,11 +145,9 @@ class SysApp extends SysNode_1.SysNode {
         hTmp['const.sn.screenResolutionX'] = this.dsp.size.width;
         hTmp['const.sn.screenResolutionY'] = this.dsp.size.height;
         this.val.defTmp('const.sn.displayState', () => this.win.isSimpleFullScreen());
-        const fncWin = () => {
+        window.addEventListener('resize', () => {
             this.window((hTmp['const.sn.isFirstBoot']) ? { centering: true } : {});
-            window.removeEventListener('resize', fncWin, false);
-        };
-        window.addEventListener('resize', fncWin, false);
+        }, { once: true, passive: true });
         this.win.on('move', () => {
             if (this.isMovingWin)
                 return;

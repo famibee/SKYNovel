@@ -201,7 +201,7 @@ export class GrpLayer extends Layer {
 			delete GrpLayer.fn2Video[fn];
 			this.main.resume();
 		};
-		hve.addEventListener('ended', fnc);
+		hve.addEventListener('ended', fnc, {once: true, passive: true});
 
 		GrpLayer.evtMng.stdWait(
 			()=> {hve.pause(); fnc();},

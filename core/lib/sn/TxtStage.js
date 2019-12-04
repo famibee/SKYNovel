@@ -23,9 +23,10 @@ class TxtStage extends pixi_js_1.Container {
         this.goTxt2 = (aSpan, layname) => this.goTxt2_htm(aSpan, layname);
         this.cntGoTxtSerializer = 0;
         this.goTxt3 = (tx) => this.goTxt3_tx2sp(tx);
-        this.aRect = [];
         this.xz4htm2rect = 0;
         this.aSpTw = [];
+        this.aRect = [];
+        this.lenHtmTxt = 0;
         this.rctm = new pixi_js_1.Rectangle;
         this.lh_half = 0;
         this.ch_slide_x = () => this.infTL.fontsize * TxtStage.gs_chFadeDx;
@@ -564,20 +565,9 @@ class TxtStage extends pixi_js_1.Container {
         }
         this.putBreakMark(delay);
     }
-    goTxt_next(aSpan, layname, delay) {
+    goTxt_next(aSpan, layname) {
         var _a, _b;
         this.name = layname;
-        let s = [...aSpan].join('');
-        if (s.slice(-5) == '<br/>')
-            s = s.slice(0, -5) + `<p style='margin: 0px;'>　</p>`;
-        const a = s.split('<br/>');
-        const len_a = a.length;
-        for (let i = 0; i < len_a; ++i) {
-            const v = a[i];
-            a[i] = `<p style='margin: 0px;'>${(v == '') ? '　' : v}</p>`;
-        }
-        this.htmTxt.innerHTML = a.join('');
-        ;
         const begin = this.aRect.length;
         if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
             if (TxtStage.cfg.oCfg.debug.devtool)
@@ -592,6 +582,13 @@ class TxtStage extends pixi_js_1.Container {
             this.grpDbgMasume.drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom);
             this.grpDbgMasume.endFill();
         }
+        if (begin == 0) {
+            this.htmTxt.innerHTML = [...aSpan].join('');
+        }
+        else {
+            this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
+        }
+        this.lenHtmTxt = aSpan.length;
         this.aRect = this.getChRects(this.htmTxt);
         const len = this.aRect.length;
         const fncMasumeLog = (TxtStage.cfg.oCfg.debug.devtool)
@@ -624,7 +621,7 @@ class TxtStage extends pixi_js_1.Container {
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;
-                    this.spWork(cnt, arg, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
+                    this.spWork_next(cnt, arg, add, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
                     this.cntTxt.addChild(cnt);
                     GrpLayer_1.GrpLayer.csv2Sprites(arg.pic, cnt, sp => {
                         if (!cnt.parent)
@@ -636,29 +633,40 @@ class TxtStage extends pixi_js_1.Container {
                     sp.width = rct.width;
                     sp.height = rct.height;
                     arg.key = this.name + ' link:' + i;
-                    this.spWork(sp, arg, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
+                    this.spWork_next(sp, arg, add, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
                     TxtStage.evtMng.button(arg, sp);
                     this.cntTxt.addChild(sp);
                     break;
             }
         }
-        this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/class="sn(_ch_in_\S+)"/g, `class="go$1"`);
-        this.putBreakMark2(delay);
+        const chs = document.querySelectorAll('span.sn_ch');
+        const len_chs = chs.length;
+        for (let i = 0; i < len_chs; ++i) {
+            const v = chs[i];
+            v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
+        }
+        this.htmTxt.lastElementChild.addEventListener('animationend', () => {
+            for (let i = 0; i < len_chs; ++i) {
+                const v = chs[i];
+                v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
+            }
+            this.putBreakMark_next();
+        }, { once: true, passive: true });
     }
-    spWork(sp, arg, rct, ease, cis) {
-        var _a, _b;
+    spWork_next(sp, arg, add, rct, ease, cis) {
+        var _a, _b, _c;
         sp.alpha = 0;
-        sp.position.set(rct.x, rct.y);
         if (arg.width)
             sp.width = arg.width;
         if (arg.height)
             sp.height = arg.height;
+        sp.position.set((cis.x.charAt(0) == '=') ? rct.x + sp.width * cis.nx : cis.nx, (cis.y.charAt(0) == '=') ? rct.y + sp.height * cis.ny : cis.ny);
         const st = {
             sp: sp,
             tw: new TWEEN.Tween(sp)
                 .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait, (_a !== null && _a !== void 0 ? _a : 0)))
                 .easing(ease)
-                .delay((_b = arg.delay, (_b !== null && _b !== void 0 ? _b : 0)))
+                .delay((_b = add.wait, (_b !== null && _b !== void 0 ? _b : 0)) + (_c = arg.delay, (_c !== null && _c !== void 0 ? _c : 0)))
                 .onComplete(() => {
                 st.tw = null;
             })
@@ -666,28 +674,7 @@ class TxtStage extends pixi_js_1.Container {
         };
         this.aSpTw.push(st);
     }
-    static isChInStyle(name) { return name in TxtStage.hChInStyle; }
-    static ch_in_style(hArg) {
-        var _a, _b;
-        const name = hArg.name;
-        if (!name)
-            throw 'nameは必須です';
-        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
-            throw `name【${name}】に使えない文字が含まれます`;
-        if (name in TxtStage.hChInStyle)
-            throw `name【${name}】はすでにあります`;
-        return TxtStage.hChInStyle[name] = {
-            wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
-            alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
-            x: (_a = hArg.x, (_a !== null && _a !== void 0 ? _a : '=0')),
-            y: (_b = hArg.y, (_b !== null && _b !== void 0 ? _b : '=0')),
-            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 0),
-            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 0),
-            rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
-        };
-    }
-    putBreakMark2(delay) {
+    putBreakMark_next() {
         const cnt = TxtStage.cntBreak;
         if (cnt.parent == null)
             return;
@@ -699,20 +686,34 @@ class TxtStage extends pixi_js_1.Container {
         else {
             cnt.x += this.rctm.width;
         }
-        if (delay == 0) {
-            cnt.visible = true;
-            return;
-        }
-        cnt.visible = false;
-        const st = {
-            sp: cnt,
-            tw: new TWEEN.Tween(cnt)
-                .to({}, 0)
-                .delay(delay)
-                .onComplete(() => { st.tw = null; st.sp.visible = true; })
-                .start(),
+        cnt.visible = true;
+    }
+    static initChInStyle() { TxtStage.hChInStyle = {}; }
+    static isChInStyle(name) { return name in TxtStage.hChInStyle; }
+    static ch_in_style(hArg) {
+        var _a, _b, _c;
+        const name = hArg.name;
+        if (!name)
+            throw 'nameは必須です';
+        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
+            throw `name【${name}】に使えない文字が含まれます`;
+        if (name in TxtStage.hChInStyle)
+            throw `name【${name}】はすでにあります`;
+        const x = String((_a = hArg.x, (_a !== null && _a !== void 0 ? _a : '=0')));
+        const y = String((_b = hArg.y, (_b !== null && _b !== void 0 ? _b : '=0')));
+        return TxtStage.hChInStyle[name] = {
+            wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
+            alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
+            x: x,
+            y: y,
+            nx: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
+            ny: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
+            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 0),
+            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 0),
+            rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
+            ease: (_c = hArg.ease, (_c !== null && _c !== void 0 ? _c : 'ease-out')),
         };
-        this.aSpTw.push(st);
     }
     dispBreak(pic) {
         const cnt = TxtStage.cntBreak;
@@ -805,6 +806,7 @@ class TxtStage extends pixi_js_1.Container {
         this.goTxt3 = (_tx) => { };
         this.grpDbgMasume.clear();
         this.aRect = [];
+        this.lenHtmTxt = 0;
         this.htmTxt.textContent = '';
         this.skipFI();
         if (TxtStage.gs_chFadeWait == 0) {

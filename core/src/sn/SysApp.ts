@@ -17,7 +17,7 @@ const Store = require('electron-store');
 export class SysApp extends SysNode {
 	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
 		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt});
-		window.addEventListener('DOMContentLoaded', ()=>new Main(this), false);
+		window.addEventListener('DOMContentLoaded', ()=>new Main(this), {once: true, passive: true});
 
 		ipcRenderer.on('log', (e: any, arg: any)=> {
 console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
@@ -85,12 +85,10 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 
 		this.val.defTmp('const.sn.displayState', ()=> this.win.isSimpleFullScreen());
 
-		const fncWin = ()=> {
+		window.addEventListener('resize', ()=> {
 			// NOTE: 2019/07/14 Windowsでこのように遅らせないと正しい縦幅にならない
 			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true}: {});
-			window.removeEventListener('resize', fncWin, false);
-		};
-		window.addEventListener('resize', fncWin, false);
+		}, {once: true, passive: true});
 
 		this.win.on('move', ()=> {
 			if (this.isMovingWin) return;
@@ -158,7 +156,7 @@ console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
 
 			e.stopPropagation();
 			this.tgl_full_scr_sub();
-		});
+		}, {passive: true});
 		return false;
 	}
 	protected readonly	tgl_full_scr_sub = ()=> {

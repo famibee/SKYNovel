@@ -161,7 +161,7 @@ class GrpLayer extends Layer_1.Layer {
             delete GrpLayer.fn2Video[fn];
             this.main.resume();
         };
-        hve.addEventListener('ended', fnc);
+        hve.addEventListener('ended', fnc, { once: true, passive: true });
         GrpLayer.evtMng.stdWait(() => { hve.pause(); fnc(); }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true));
         return true;
     }

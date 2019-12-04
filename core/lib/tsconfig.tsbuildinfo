@@ -374,12 +374,12 @@
         "signature": "87422792f8e91af9baba49565a99141face0e9b51bf5b22a3fc3d7f9e5e20180"
       },
       "../src/sn/grplayer.ts": {
-        "version": "9312e47329534fad429aa5206bd70439e045627c4d52e9444c7608160290b116",
+        "version": "9ceb95b15f391576f4e514ba38ba836217b7d6435a13675b2d100e8ec00ab500",
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "dfa7ac5af4b68f456383c3d116a921956bc5480e938cfcacf5d50b83293431e5",
-        "signature": "78f9dc05fd1e70b1ad1d3e09a90c3c2f28cbba99d4eb7e06834f69f6efa26ad6"
+        "version": "03748df9583ab89888d02ed21c8f8fb9a7c97d1a688efe347886a4691809f905",
+        "signature": "4d69381e6d9d3c70452fd78c9d77987332a07bf7cb9c55f0be358c1e90d422dd"
       },
       "../src/sn/rubyspliter.ts": {
         "version": "a2f437d1610acc7e5ba9d906b4f79a182d849f546cb141fce2879ff9769b2e34",
@@ -390,11 +390,11 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "1ecaf42bed4900e8245afef2ff74f690d2540b7ae51cbb1b5294fdc992189fcb",
+        "version": "c4b99efd3705bd979260d8f6b29e21486af9aca39dbdf066635cefe2e3fb95a3",
         "signature": "a53da3813b0e93401326e989921cb2eee89e180b47c9988a675635e7349fbfde"
       },
       "../src/sn/framemng.ts": {
-        "version": "8ee7787a361e8e2e279163d7a563bf8d2427ce386acd3844f406bb43d3e01d02",
+        "version": "ccaccca22d67f517cb2af9b7be28339235d6861b5975f83330e69cc68c06bf3a",
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
@@ -442,7 +442,7 @@
         "signature": "46657d3b0610efd79b14dd9f9ed016b6402de73f7b7c0c129c91d6ddd7374e75"
       },
       "../src/sn/sysapp.ts": {
-        "version": "7e32fe7f7610178dd81772db20975fb2f2f475ba4b7d16c3f845cc2d1b71b295",
+        "version": "953422c38883f3050986f7a42acf51345657e17d808a56c479f3a7dc57da9f91",
         "signature": "90258df20a08731c1627e41d09253d4058d73ec42e627389c6521a418c6fd93b"
       },
       "../src/app.ts": {

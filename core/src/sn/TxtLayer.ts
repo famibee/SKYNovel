@@ -42,15 +42,22 @@ export class TxtLayer extends Layer {
 }
 `;
 		}
+
+		// 文字出現演出関係
 		font += `
 .sn_tx {
 	pointer-events: none;
 	user-select: none;
 	-webkit-touch-callout: none;
 }
-`;
+.sn_ch {
+	position: relative;
+	display: inline-block;
+}
+`;	// 「sn_ch」と「sn_ch_in_〜」の中身が重複しているが、これは必須
 		TxtLayer.addStyle(font);
 
+		TxtStage.initChInStyle();	// ギャラリーリロード用
 		TxtLayer.ch_in_style({
 			name	: 'default',
 			wait	: 500,
@@ -60,7 +67,7 @@ export class TxtLayer extends Layer {
 			scale_x	: 1,
 			scale_y	: 1,
 			rotate	: 0,
-//			ease	: '',
+			ease	: 'ease-out',
 		});
 	}
 	static addStyle(style: string) {
@@ -72,13 +79,17 @@ export class TxtLayer extends Layer {
 
 	// 文字出現演出
 	private	static	ch_in_style(hArg: HArg) {
+		const needTransform = ('scale_x' in hArg) || ('scale_y' in hArg)
+			|| ('rotate' in hArg);
+		const t3d = CmnLib.argChk_Boolean(hArg, 't3d', needTransform);
 		const o = TxtStage.ch_in_style(hArg);
+
 		const x = (o.x.charAt(0) == '=')
-			? parseFloat(o.x.slice(1)) *100 +'%'
-			: o.x;
+			? (t3d ?`${o.nx *100}%` :`${o.nx}em`)
+			: `${o.nx}px`;
 		const y = (o.y.charAt(0) == '=')
-			? parseFloat(o.y.slice(1)) *100 +'%'
-			: o.y;
+			? (t3d ?`${o.ny *100}%` :`${o.ny}em`)
+			: `${o.ny}px`;
 
 		const name = hArg.name;
 		TxtLayer.addStyle(`
@@ -91,11 +102,18 @@ export class TxtLayer extends Layer {
 	opacity: ${o.alpha};
 	position: relative;
 	display: inline-block;
-	animation: sn_ch_in_${name} ${o.wait}ms ease-out 0s both;
+	animation: sn_ch_in_${name} ${o.wait}ms ${o.ease} 0s both;
 }
 @keyframes sn_ch_in_${name} {
-	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate3D(${x}, ${y}, 0);}
-	to {opacity: 1; transform: none;}
+	from {${t3d
+		? `transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});`
+		: `left: ${x}; top: ${y};`
+	} }
+	to {opacity: 1; ${t3d ?'transform: none;' :'left: 0; top: 0;'}}
+}
+.go_ch_out_${name} {
+	position: relative;
+	display: inline-block;
 }
 `		);
 
@@ -200,10 +218,9 @@ export class TxtLayer extends Layer {
 	}
 	private set_ch_in(hArg: HArg) {
 		const ins = hArg.in_style;
-		if (ins) {
-			if (! TxtStage.isChInStyle(ins)) throw `存在しないin_style【${ins}】です`;
-			this.ch_in_style = ins;
-		}
+		if (! ins) return;
+		if (! TxtStage.isChInStyle(ins)) throw `存在しないin_style【${ins}】です`;
+		this.ch_in_style = ins;
 	}
 	private	ch_in_style		= '';
 
@@ -339,16 +356,17 @@ export class TxtLayer extends Layer {
 			switch (a_ruby[0]) {
 			case 'gotxt':
 				this.autoCloseSpan();
-				if (CmnLib.hDip['tx']) {
-					if (this.needGoTxt) {
-						this.txs.goTxt_next(this.aSpan, this.name, this.cumDelay);
-						this.needGoTxt = false;
-						this.cumDelay = 0;
-						const len = this.aSpan.length;	// 表示アニメは一度のみ
-						for (let i=0; i<len; ++i) this.aSpan[i] = this.aSpan[i].replace(/ class='sn_ch_in_\S+'/, '');
-					}
+				if (! CmnLib.hDip['tx']) {
+					this.txs.goTxt(this.aSpan, this.name);
+					return;	// breakではない
 				}
-				else this.txs.goTxt(this.aSpan, this.name);
+
+				if (! this.needGoTxt) return;	// breakではない
+				this.txs.goTxt_next(this.aSpan, this.name);
+				this.needGoTxt = false;
+				this.cumDelay = 0;
+				const len = this.aSpan.length;	// 表示アニメは一度のみ
+				for (let i=0; i<len; ++i) this.aSpan[i] = this.aSpan[i].replace(/ class='sn_ch sn_ch_in_\S+'/, '');
 				return;	// breakではない
 
 			case 'add':	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
@@ -376,24 +394,18 @@ export class TxtLayer extends Layer {
 			{
 				if (isSkip) this.cumDelay = 0;
 				const arg = (a_ruby[1] ?a_ruby[1].slice(0, -1) +',' :`{`) +`"delay": ${this.cumDelay}}`;
+				this.cumDelay += (TxtLayer.doAutoWc) ?0 :LayerMng.msecChWait;
+
 				const o = JSON.parse(arg);
 				if (! ('id' in o)) o.id = this.aSpan.length;
-				this.cumDelay += (TxtLayer.doAutoWc) ?0 :LayerMng.msecChWait;
-				if (o.id == 'break') {
-					this.txs.dispBreak(o.pic);
-					return;	// breakではない
-				}
-
+				if (o.id == 'break') {this.txs.dispBreak(o.pic); return;}
+					// breakではない
 				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
 				if (CmnLib.hDip['tx']) {
-					if (isSkip) this.cumDelay = 0;
-					if (this.aSpan_bk) add_htm += ` class='sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'`;
+					if (this.aSpan_bk) add_htm += ` class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'`;
 					add_htm += ` data-add='{"ch_in_style":"${this.ch_in_style}"}'`;
 				}
 				add_htm += `>　</span>`;
-				this.cumDelay += (TxtLayer.doAutoWc)
-					? TxtLayer.hAutoWc[text] ?? 0
-					: LayerMng.msecChWait;
 	//			this.recText(text);	// TODO: 履歴でのインライン画像
 				if (this.aSpan.slice(-1)[0] == add_htm) return;	// breakではない
 			}
@@ -418,7 +430,7 @@ export class TxtLayer extends Layer {
 
 				if (CmnLib.hDip['tx']) {
 					if (isSkip) this.cumDelay = 0;
-					this.aSpan.push(`<span class='sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms; ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}"}'>`);
+					this.aSpan.push(`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms; ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}"}'>`);
 				}
 				else {
 					this.aSpan.push(`<span style='${o.style}'>`);
@@ -439,7 +451,7 @@ export class TxtLayer extends Layer {
 				if (CmnLib.hDip['tx']) {
 					if (isSkip) this.cumDelay = 0;
 					this.aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
-					this.aSpan.push(`<span${this.aSpan_link} class='sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms; ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}"}'>`);
+					this.aSpan.push(`<span${this.aSpan_link} class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms; ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}"}'>`);
 				}
 				else {
 					this.aSpan.push(`<span data-cmd='link' data-arg='${a_ruby[1]}' style='${o.style}'>`);
@@ -490,7 +502,7 @@ export class TxtLayer extends Layer {
 									-webkit-text-combine: horizontal;
 								' data-add='{"ch_in_style":"${this.ch_in_style}"}' data-cmd='linkrsv'>${tx}</span>`
 								+`<rt>${rb}</rt></ruby>`)
-							: (`<span class='sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
+							: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
 								+`<ruby style='text-orientation: upright;'>`
 									+`<span data-tcy='${id_tcy}' style='
 										text-combine-upright: all;
@@ -510,7 +522,7 @@ export class TxtLayer extends Layer {
 								-webkit-text-combine: horizontal;
 								animation-delay: ${this.cumDelay}ms;
 								height: 1em;
-							' class='sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}"}'>${tx}</span>`);
+							' class='sn_ch sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}"}'>${tx}</span>`);
 				}
 				else {
 					add_htm = rb
@@ -524,6 +536,7 @@ export class TxtLayer extends Layer {
 							text-orientation: upright;
 							text-combine-upright: all;
 							-webkit-text-combine: horizontal;
+							height: 1em;
 						'>${tx}</span>`;
 				}
 				this.cumDelay += (TxtLayer.doAutoWc)
@@ -547,12 +560,12 @@ export class TxtLayer extends Layer {
 			add_htm = ruby
 				? (this.aSpan_bk
 					? `<ruby data-add='{"ch_in_style":"${this.ch_in_style}"}' data-cmd='linkrsv'>${text}<rt>${ruby}</rt></ruby>`
-					: (`<span class='sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
+					: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
 						+`<ruby data-add='{"ch_in_style":"${this.ch_in_style}"}'>${text}<rt>${ruby}</rt></ruby>`
 					+`</span>`))
 				: (this.aSpan_bk
 					? text
-					: `<span class='sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;' data-add='{"ch_in_style":"${this.ch_in_style}"}'>${text}</span>`);
+					: `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;' data-add='{"ch_in_style":"${this.ch_in_style}"}'>${text}</span>`);
 		}
 		else {
 			add_htm = ruby ?`<ruby>${text}<rt>${ruby}</rt></ruby>` :text;

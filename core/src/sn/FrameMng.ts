@@ -72,7 +72,7 @@ export class FrameMng {
 			this.evtMng.resvFlameEvent(win);
 
 			this.main.resume();
-		});
+		}, {once: true, passive: true});
 
 		return true;
 	}

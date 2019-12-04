@@ -50,7 +50,7 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
             this.evtMng.resvFlameEvent(win);
             this.main.resume();
-        });
+        }, { once: true, passive: true });
         return true;
     }
     rect(hArg) {

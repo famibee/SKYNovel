@@ -572,7 +572,6 @@ export class TxtStage extends Container {
 
 	private goTxt3  = (tx: Texture)=> this.goTxt3_tx2sp(tx);
 	private static	readonly	REG_SURROGATE	= /[\uDC00-\uDFFF]/;
-	private aRect   : IChRect[]	= [];
 	private ch_filter	: any[] | null;	// 文字にかけるフィルター
 	private xz4htm2rect = 0;
 	private aSpTw	: ISpTw[]	= [];
@@ -771,20 +770,10 @@ export class TxtStage extends Container {
 	}
 
 
-	goTxt_next(aSpan: string[], layname: string, delay: number) {
+	private aRect   : IChRect[]	= [];
+	private	lenHtmTxt = 0;
+	goTxt_next(aSpan: string[], layname: string) {
 		this.name = layname;	// dump表示などに使用
-
-		let s = [...aSpan].join('');
-		// 「<br/>」分割を「<p ...></p>」囲みに変換
-		if (s.slice(-5) == '<br/>') s = s.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
-		const a = s.split('<br/>')
-		const len_a = a.length;
-		for (let i=0; i<len_a; ++i) {
-			const v = a[i];
-			a[i] = `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`;
-		}
-		this.htmTxt.innerHTML = a.join('');;
-
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
 			if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
@@ -808,6 +797,14 @@ export class TxtStage extends Container {
 			this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom);
 			this.grpDbgMasume.endFill();
 		}
+
+		if (begin == 0) {
+			this.htmTxt.innerHTML = [...aSpan].join('');
+		}
+		else {
+			this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
+		}
+		this.lenHtmTxt = aSpan.length;
 
 		this.aRect = this.getChRects(this.htmTxt);
 		const len = this.aRect.length;
@@ -842,7 +839,7 @@ export class TxtStage extends Container {
 			switch (v.cmd) {
 				case 'grp':
 					const cnt = new Container;	// 親コンテナかまし、即spWork()
-					this.spWork(cnt, arg, rct, ease, cis ?? {});
+					this.spWork_next(cnt, arg, add, rct, ease, cis ?? {});
 					this.cntTxt.addChild(cnt);
 						// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 					GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
@@ -855,30 +852,44 @@ export class TxtStage extends Container {
 					sp.width = rct.width;
 					sp.height = rct.height;
 					arg.key = this.name +' link:'+ i;	// 一文字ずつ別ボタン
-					this.spWork(sp, arg, rct, ease, cis ?? {});
+					this.spWork_next(sp, arg, add, rct, ease, cis ?? {});
 					TxtStage.evtMng.button(arg, sp);
 					this.cntTxt.addChild(sp);
 					break;
 			}
 		}
 
-		// 文字出現演出・開始
-		this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/class="sn(_ch_in_\S+)"/g, `class="go$1"`);
+		// 文字出現演出・開始〜終了
+		const chs = document.querySelectorAll('span.sn_ch');
+		const len_chs = chs.length;
+		for (let i=0; i<len_chs; ++i) {
+			const v = chs[i];
+			v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
+		}
 
-		this.putBreakMark2(delay);
+		this.htmTxt.lastElementChild!.addEventListener('animationend', ()=> {
+			for (let i=0; i<len_chs; ++i) {
+				const v = chs[i];
+				v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
+			}
+			this.putBreakMark_next();
+		}, {once: true, passive: true});
 	}
 	private rctm = new Rectangle;
-	private spWork(sp: Container, arg: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
+	private spWork_next(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
-		sp.position.set(rct.x, rct.y);
 		if (arg.width) sp.width = arg.width;
 		if (arg.height) sp.height = arg.height;
+		sp.position.set(
+			(cis.x.charAt(0) == '=') ?rct.x +sp.width  *cis.nx :cis.nx,
+			(cis.y.charAt(0) == '=') ?rct.y +sp.height *cis.ny :cis.ny
+		);
 		const st: ISpTw = {
 			sp: sp,
 			tw: new TWEEN.Tween(sp)
 				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, cis.wait ?? 0)
 				.easing(ease)
-				.delay(arg.delay ?? 0)
+				.delay((add.wait ?? 0) +(arg.delay ?? 0))
 				.onComplete(()=> {
 					st.tw = null;
 					//(略)	if (rct.width == 0 || rct.height == 0) return;
@@ -889,39 +900,7 @@ export class TxtStage extends Container {
 		};
 		this.aSpTw.push(st);
 	}
-	private	static	hChInStyle	= Object.create(null);
-	private	static REG_NG_CHSTYLE_NAME_CHR	:RegExp	= /[\s\.,]/;
-	static	isChInStyle(name: string) {return name in TxtStage.hChInStyle;}
-	static	ch_in_style(hArg: HArg): any {
-		const name = hArg.name;
-		if (! name) throw 'nameは必須です';
-		TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-		if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
-		if (name in TxtStage.hChInStyle) throw `name【${name}】はすでにあります`;
-
-		return TxtStage.hChInStyle[name] = {
-			wait	: CmnLib.argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
-			alpha	: CmnLib.argChk_Num(hArg, 'alpha', 0),
-			x		: hArg.x ?? '=0',	// 初期x値
-			y		: hArg.y ?? '=0',	// [tsy]と同様に絶対・相対指定可能
-			// {x:500}			X位置を500に
-			// {x:'=500'}		現在のX位置に+500加算した位置
-			// {x:'=-500'}		現在のX位置に-500加算した位置
-			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
-			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 0),
-			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 0),
-			rotate	: CmnLib.argChk_Num(hArg, 'rotate', 0),
-//			ease	: '',	// NOTE: ease未実装
-/*
-	quadraticEaseInOut
-	CSS3 : cubic-bezier(0.455, 0.03, 0.515, 0.955)
-		・CSS3のtransition-timing-functionの値、cubic-bezier()に関して | KnockKnock http://www.knockknock.jp/archives/184
-*/
-		};
-	}
-
-	private putBreakMark2(delay: number) {
+	private putBreakMark_next() {
 		const cnt = TxtStage.cntBreak;	// Tween開始時の Obj を保存
 		if (cnt.parent == null) return;
 
@@ -933,18 +912,44 @@ export class TxtStage extends Container {
 		else {
 			cnt.x += this.rctm.width;
 		}
-		if (delay == 0) {cnt.visible = true; return;}
+		cnt.visible = true;
+	}
 
-		cnt.visible = false;	// trueの場合はdelay後まで消したいので
-		const st: ISpTw = {
-			sp: cnt,
-			tw: new TWEEN.Tween(cnt)
-				.to({}, 0)
-				.delay(delay)
-				.onComplete(()=> {st.tw = null; st.sp.visible = true;})
-				.start(),
+	private	static	hChInStyle	= Object.create(null);
+	private	static REG_NG_CHSTYLE_NAME_CHR	:RegExp	= /[\s\.,]/;
+	static	initChInStyle() {TxtStage.hChInStyle = {};}
+	static	isChInStyle(name: string) {return name in TxtStage.hChInStyle;}
+	static	ch_in_style(hArg: HArg): any {
+		const name = hArg.name;
+		if (! name) throw 'nameは必須です';
+		TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+		if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
+		if (name in TxtStage.hChInStyle) throw `name【${name}】はすでにあります`;
+
+		const x = String(hArg.x ?? '=0');
+		const y = String(hArg.y ?? '=0');
+		return TxtStage.hChInStyle[name] = {
+			wait	: CmnLib.argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
+			alpha	: CmnLib.argChk_Num(hArg, 'alpha', 0),
+			x		: x,	// 初期x値
+			y		: y,	// [tsy]と同様に絶対・相対指定可能
+			// {x:500}			X位置を500に
+			// {x:'=500'}		現在のX位置に+500加算した位置
+			// {x:'=-500'}		現在のX位置に-500加算した位置
+			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
+			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
+			nx		: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
+			ny		: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
+			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 0),
+			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 0),
+			rotate	: CmnLib.argChk_Num(hArg, 'rotate', 0),
+			ease	: hArg.ease ?? 'ease-out',
+/*
+	quadraticEaseInOut
+	CSS3 : cubic-bezier(0.455, 0.03, 0.515, 0.955)
+		・CSS3のtransition-timing-functionの値、cubic-bezier()に関して | KnockKnock http://www.knockknock.jp/archives/184
+*/
 		};
-		this.aSpTw.push(st);
 	}
 
 	private static	cntBreak	= new Container;
@@ -1078,12 +1083,13 @@ export class TxtStage extends Container {
 
 		this.grpDbgMasume.clear();
 		this.aRect = [];
+		this.lenHtmTxt = 0;
 		//this.htmTxt.innerHTML = '';		以下の方が早いらしい
 		this.htmTxt.textContent = '';
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.skipFI();
-		if (TxtStage.gs_chFadeWait == 0) {	// NOTE: this.$chOut.wait
+		if (TxtStage.gs_chFadeWait == 0) {
 			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
 		}
 		else {
@@ -1091,7 +1097,7 @@ export class TxtStage extends Container {
 			for (const c of this.cntTxt.children) {
 				c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
 				new TWEEN.Tween(c)
-				.to({alpha: 0, x: `+${this.ch_slide_x()}`}, TxtStage.gs_chFadeWait)	// NOTE: this.$chOut.wait
+				.to({alpha: 0, x: `+${this.ch_slide_x()}`}, TxtStage.gs_chFadeWait)
 				.easing(ease)
 				//.delay(i * LayerMng.msecChWait)
 				.onComplete(o=> this.cntTxt.removeChild(o))
