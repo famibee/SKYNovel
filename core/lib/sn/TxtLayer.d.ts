@@ -9,8 +9,10 @@ export declare class TxtLayer extends Layer {
     private static val;
     private static recText;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void): void;
+    private static css_key4del;
     static addStyle(style: string): void;
     private static ch_in_style;
+    private static ch_out_style;
     private static main;
     private static evtMng;
     static setEvtMng(main: IMain, evtMng: IEvtMng): void;
@@ -32,6 +34,9 @@ export declare class TxtLayer extends Layer {
     lay(hArg: HArg): boolean;
     private set_ch_in;
     private ch_in_style;
+    private ch_in_join;
+    private set_ch_out;
+    private ch_out_style;
     private drawBack;
     chgBackAlpha(g_alpha: number): void;
     tagCh(text: string): void;
@@ -43,6 +48,7 @@ export declare class TxtLayer extends Layer {
     private aSpan;
     private aSpan_bk;
     private aSpan_ch_in_style_bk;
+    private aSpan_ch_out_style_bk;
     private aSpan_link;
     private autoCloseSpan;
     readonly click: () => boolean;

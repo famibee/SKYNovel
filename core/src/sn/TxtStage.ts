@@ -227,7 +227,7 @@ export class TxtStage extends Container {
 				this.cntGoTxtSerializer = 0;
 				return;
 			}
-			this.skipFI();
+			this.skipChIn();
 			this.goTxt2(aSpan, layname);
 		});
 	}
@@ -662,7 +662,7 @@ export class TxtStage extends Container {
 
 				// 表示済み文字変更発見、まずは旧文字を削除
 				//console.log(`!!! begin:${begin} '${aRect[begin].ch}' != '${this.aRect[begin].ch}'`);
-				this.skipFI();	// tween停止
+				this.skipChIn();	// tween停止
 				for (const v of this.cntTxt.removeChildren(begin)) {
 					v.removeAllListeners().destroy();
 				}
@@ -860,6 +860,7 @@ export class TxtStage extends Container {
 		}
 
 		// 文字出現演出・開始〜終了
+		this.isChInIng = true;
 		const chs = document.querySelectorAll('span.sn_ch');
 		const len_chs = chs.length;
 		for (let i=0; i<len_chs; ++i) {
@@ -867,14 +868,20 @@ export class TxtStage extends Container {
 			v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
 		}
 
-		this.htmTxt.lastElementChild!.addEventListener('animationend', ()=> {
+		this.fncEndChIn = ()=> {
 			for (let i=0; i<len_chs; ++i) {
 				const v = chs[i];
 				v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
 			}
 			this.putBreakMark_next();
+			this.isChInIng = false;
+			this.fncEndChIn = ()=> {};
+		};
+		this.htmTxt.lastElementChild!.addEventListener('animationend', ()=> {
+			this.fncEndChIn();	// クリックキャンセル時は発生しない
 		}, {once: true, passive: true});
 	}
+	private	fncEndChIn	= ()=> {};
 	private rctm = new Rectangle;
 	private spWork_next(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
@@ -907,18 +914,24 @@ export class TxtStage extends Container {
 		cnt.x = this.rctm.x;
 		cnt.y = this.rctm.y;
 		if (this.isTategaki) {
+			cnt.x += (this.rctm.width
+				-parseFloat(this.htmTxt.style.fontSize)) /2;
 			cnt.y += this.rctm.height;
 		}
 		else {
 			cnt.x += this.rctm.width;
+			cnt.y += this.rctm.height-parseFloat(this.htmTxt.style.fontSize);
 		}
 		cnt.visible = true;
 	}
 
 	private	static	hChInStyle	= Object.create(null);
 	private	static REG_NG_CHSTYLE_NAME_CHR	:RegExp	= /[\s\.,]/;
-	static	initChInStyle() {TxtStage.hChInStyle = {};}
-	static	isChInStyle(name: string) {return name in TxtStage.hChInStyle;}
+	static	initChStyle() {
+		TxtStage.hChInStyle = Object.create(null);
+		TxtStage.hChOutStyle = Object.create(null);
+	}
+	static	getChInStyle(name: string) {return TxtStage.hChInStyle[name];}
 	static	ch_in_style(hArg: HArg): any {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
@@ -940,15 +953,49 @@ export class TxtStage extends Container {
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
 			nx		: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
 			ny		: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
-			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 0),
-			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 0),
+			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 1),
+			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 1),
 			rotate	: CmnLib.argChk_Num(hArg, 'rotate', 0),
+			join	: CmnLib.argChk_Boolean(hArg, 'join', true),
+						// 文字を順番に出すか（true）同時か（false）
 			ease	: hArg.ease ?? 'ease-out',
 /*
 	quadraticEaseInOut
 	CSS3 : cubic-bezier(0.455, 0.03, 0.515, 0.955)
 		・CSS3のtransition-timing-functionの値、cubic-bezier()に関して | KnockKnock http://www.knockknock.jp/archives/184
 */
+		};
+	}
+
+	private	static	hChOutStyle	= Object.create(null);
+	static	getChOutStyle(name: string) {return TxtStage.hChOutStyle[name];}
+	static	ch_out_style(hArg: HArg): any {
+		const name = hArg.name;
+		if (! name) throw 'nameは必須です';
+		TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+		if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
+		if (name in TxtStage.hChOutStyle) throw `name【${name}】はすでにあります`;
+
+		const x = String(hArg.x ?? '=0');
+		const y = String(hArg.y ?? '=0');
+		return TxtStage.hChOutStyle[name] = {
+			wait	: CmnLib.argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
+			alpha	: CmnLib.argChk_Num(hArg, 'alpha', 0),
+			x		: x,	// 初期x値
+			y		: y,	// [tsy]と同様に絶対・相対指定可能
+			// {x:500}			X位置を500に
+			// {x:'=500'}		現在のX位置に+500加算した位置
+			// {x:'=-500'}		現在のX位置に-500加算した位置
+			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
+			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
+			nx		: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
+			ny		: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
+			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 1),
+			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 1),
+			rotate	: CmnLib.argChk_Num(hArg, 'rotate', 0),
+			join	: CmnLib.argChk_Boolean(hArg, 'join', false),
+						// 文字を順番に出すか（true）同時か（false）
+			ease	: hArg.ease ?? 'ease-out',
 		};
 	}
 
@@ -1037,40 +1084,15 @@ export class TxtStage extends Container {
 		return ret;
 	}
 
-	skipFI(): boolean {	// true is stay
-		let isLiveTw = false;
+	private	isChInIng	= false;
+	skipChIn(): boolean {	// true is stay
+		let isLiveTw = this.isChInIng;
+		if (this.isChInIng) this.fncEndChIn();
 		this.aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); isLiveTw = true}});
 			// Text Skip。stop() と end() は別！
 		this.aSpTw = [];
 		return isLiveTw;
 	}
-/*
-	X=0、左端から文字が吹っ飛んでくる動き、も面白い
-
-	const f_size = this.hLay_txt.fontsize;
-	tx.position.set(this.hps +tg_inf.dx *f_size, this.vps +tg_inf.dy *f_size);
-	tx.alpha = 0;
-	this.addChild(tx);
-	if (tg_inf.isRotate) {
-		const tx2 = new Text(text, this.tsSpan.clone());
-		tx.addChild(tx2);
-		tx2.setTransform(tx.height, 0, 1, 1, 90*Math.PI/180, 0, 0, 0, 1);
-	}
-	const x = tx.x, y = tx.y, w = tx.width, h = tx.height, r = tx.rotation;
-	//	tx.width /= 5;	tx.height /= 5;				// 2
-	//	tx.width *= 2;	tx.height *= 2;				// 3
-	//	tx.x += (w -tx.width)/2;	tx.y += (h -tx.height)/2;	// 2,3
-	//	tx.y -= f_size/5;	// 4
-	//	tx.y += f_size/3;	// 5
-	tx.x -= f_size/3;	// 6
-	//	tx.rotation = 45/90;	// 7
-	const tw = new TWEEN.Tween(tx)
-	//	.to({alpha: 1}, 500)	// 1
-	.to({alpha: 1, x: x, y: y, width: w, height: h, rotation: r}, 500)	// 2-7
-	.easing(TWEEN.Easing.Quadratic.Out)		// 4,(7)
-	//	.easing(TWEEN.Easing.Bounce.Out)		// 5,6
-		// Easing Function 早見表 http://easings.net/ja
-*/
 
 	private ch_slide_x	= ()=> this.infTL.fontsize *TxtStage.gs_chFadeDx;
 	private fi_easing	= 'Quadratic.Out';
@@ -1084,24 +1106,65 @@ export class TxtStage extends Container {
 		this.grpDbgMasume.clear();
 		this.aRect = [];
 		this.lenHtmTxt = 0;
-		//this.htmTxt.innerHTML = '';		以下の方が早いらしい
-		this.htmTxt.textContent = '';
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
-		this.skipFI();
-		if (TxtStage.gs_chFadeWait == 0) {
-			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
+		this.skipChIn();
+		if (CmnLib.hDip['tx']) {
+			const n = this.htmTxt.cloneNode(true) as HTMLSpanElement;
+			//this.htmTxt.innerHTML = '';		以下の方が早いらしい
+			n.textContent = '';
+			const old = this.htmTxt;
+			old.parentElement!.insertBefore(n, old);
+
+			const chs = document.querySelectorAll('span.sn_ch');
+			const len_chs = chs.length;
+			let sum_wait = 0;
+			for (let i=0; i<len_chs; ++i) {
+				const elm = chs[i] as HTMLElement;
+				const add = JSON.parse(
+					elm.getAttribute('data-add') ??				// 通常文字
+					elm.children[0].getAttribute('data-add') ??	// ルビ
+					elm.children[0].children[0]
+						.getAttribute('data-add') ?? '{}'		// 縦中横
+				);
+				if (! add.ch_out_style) continue;
+
+				const cos = TxtStage.hChOutStyle[add.ch_out_style];
+				if (! cos) continue;
+				if (cos.wait == 0) {elm.style.display = 'none'; continue;}
+
+				sum_wait += cos.wait;
+				if (! cos.join) elm.style.animationDelay = '0ms';
+				elm.classList.add(`go_ch_out_${add.ch_out_style}`);
+			}
+
+			const end = ()=> {
+				old.parentElement!.removeChild(old);
+				for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
+					// NOTE: 仮、後で文字と同じように
+			};
+			if (sum_wait == 0) {this.htmTxt.textContent = ''; end();}
+			else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
+
+			this.htmTxt = n;
 		}
 		else {
-			const ease = CmnTween.ease(this.fo_easing);
-			for (const c of this.cntTxt.children) {
-				c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
-				new TWEEN.Tween(c)
-				.to({alpha: 0, x: `+${this.ch_slide_x()}`}, TxtStage.gs_chFadeWait)
-				.easing(ease)
-				//.delay(i * LayerMng.msecChWait)
-				.onComplete(o=> this.cntTxt.removeChild(o))
-				.start();
+			//this.htmTxt.innerHTML = '';		以下の方が早いらしい
+			this.htmTxt.textContent = '';
+			if (TxtStage.gs_chFadeWait == 0) {
+				for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
+			}
+			else {
+				const ease = CmnTween.ease(this.fo_easing);
+				for (const c of this.cntTxt.children) {
+					c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
+					new TWEEN.Tween(c)
+					.to({alpha: 0, x: `+${this.ch_slide_x()}`}, TxtStage.gs_chFadeWait)
+					.easing(ease)
+					//.delay(i * LayerMng.msecChWait)
+					.onComplete(o=> this.cntTxt.removeChild(o))
+					.start();
+				}
 			}
 		}
 	}

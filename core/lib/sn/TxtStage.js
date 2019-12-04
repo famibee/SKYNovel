@@ -27,8 +27,10 @@ class TxtStage extends pixi_js_1.Container {
         this.aSpTw = [];
         this.aRect = [];
         this.lenHtmTxt = 0;
+        this.fncEndChIn = () => { };
         this.rctm = new pixi_js_1.Rectangle;
         this.lh_half = 0;
+        this.isChInIng = false;
         this.ch_slide_x = () => this.infTL.fontsize * TxtStage.gs_chFadeDx;
         this.fi_easing = 'Quadratic.Out';
         this.fo_easing = 'Quadratic.Out';
@@ -165,7 +167,7 @@ class TxtStage extends pixi_js_1.Container {
                 this.cntGoTxtSerializer = 0;
                 return;
             }
-            this.skipFI();
+            this.skipChIn();
             this.goTxt2(aSpan, layname);
         });
     }
@@ -469,7 +471,7 @@ class TxtStage extends pixi_js_1.Container {
             for (begin = lenPutedRect - 1; begin >= 0; --begin) {
                 if (aRect[begin].ch == this.aRect[begin].ch)
                     continue;
-                this.skipFI();
+                this.skipChIn();
                 for (const v of this.cntTxt.removeChildren(begin)) {
                     v.removeAllListeners().destroy();
                 }
@@ -639,18 +641,24 @@ class TxtStage extends pixi_js_1.Container {
                     break;
             }
         }
+        this.isChInIng = true;
         const chs = document.querySelectorAll('span.sn_ch');
         const len_chs = chs.length;
         for (let i = 0; i < len_chs; ++i) {
             const v = chs[i];
             v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
         }
-        this.htmTxt.lastElementChild.addEventListener('animationend', () => {
+        this.fncEndChIn = () => {
             for (let i = 0; i < len_chs; ++i) {
                 const v = chs[i];
                 v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
             }
             this.putBreakMark_next();
+            this.isChInIng = false;
+            this.fncEndChIn = () => { };
+        };
+        this.htmTxt.lastElementChild.addEventListener('animationend', () => {
+            this.fncEndChIn();
         }, { once: true, passive: true });
     }
     spWork_next(sp, arg, add, rct, ease, cis) {
@@ -681,15 +689,21 @@ class TxtStage extends pixi_js_1.Container {
         cnt.x = this.rctm.x;
         cnt.y = this.rctm.y;
         if (this.isTategaki) {
+            cnt.x += (this.rctm.width
+                - parseFloat(this.htmTxt.style.fontSize)) / 2;
             cnt.y += this.rctm.height;
         }
         else {
             cnt.x += this.rctm.width;
+            cnt.y += this.rctm.height - parseFloat(this.htmTxt.style.fontSize);
         }
         cnt.visible = true;
     }
-    static initChInStyle() { TxtStage.hChInStyle = {}; }
-    static isChInStyle(name) { return name in TxtStage.hChInStyle; }
+    static initChStyle() {
+        TxtStage.hChInStyle = Object.create(null);
+        TxtStage.hChOutStyle = Object.create(null);
+    }
+    static getChInStyle(name) { return TxtStage.hChInStyle[name]; }
     static ch_in_style(hArg) {
         var _a, _b, _c;
         const name = hArg.name;
@@ -709,9 +723,37 @@ class TxtStage extends pixi_js_1.Container {
             y: y,
             nx: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
             ny: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
-            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 0),
-            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 0),
+            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1),
+            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1),
             rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
+            join: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true),
+            ease: (_c = hArg.ease, (_c !== null && _c !== void 0 ? _c : 'ease-out')),
+        };
+    }
+    static getChOutStyle(name) { return TxtStage.hChOutStyle[name]; }
+    static ch_out_style(hArg) {
+        var _a, _b, _c;
+        const name = hArg.name;
+        if (!name)
+            throw 'nameは必須です';
+        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
+            throw `name【${name}】に使えない文字が含まれます`;
+        if (name in TxtStage.hChOutStyle)
+            throw `name【${name}】はすでにあります`;
+        const x = String((_a = hArg.x, (_a !== null && _a !== void 0 ? _a : '=0')));
+        const y = String((_b = hArg.y, (_b !== null && _b !== void 0 ? _b : '=0')));
+        return TxtStage.hChOutStyle[name] = {
+            wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
+            alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
+            x: x,
+            y: y,
+            nx: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
+            ny: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
+            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1),
+            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1),
+            rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
+            join: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', false),
             ease: (_c = hArg.ease, (_c !== null && _c !== void 0 ? _c : 'ease-out')),
         };
     }
@@ -792,8 +834,10 @@ class TxtStage extends pixi_js_1.Container {
         range.detach();
         return ret;
     }
-    skipFI() {
-        let isLiveTw = false;
+    skipChIn() {
+        let isLiveTw = this.isChInIng;
+        if (this.isChInIng)
+            this.fncEndChIn();
         this.aSpTw.forEach(st => { if (st.tw) {
             st.tw.stop().end();
             isLiveTw = true;
@@ -802,26 +846,68 @@ class TxtStage extends pixi_js_1.Container {
         return isLiveTw;
     }
     clearText() {
+        var _a, _b, _c, _d;
         this.goTxt2 = () => { };
         this.goTxt3 = (_tx) => { };
         this.grpDbgMasume.clear();
         this.aRect = [];
         this.lenHtmTxt = 0;
-        this.htmTxt.textContent = '';
-        this.skipFI();
-        if (TxtStage.gs_chFadeWait == 0) {
-            for (const c of this.cntTxt.removeChildren())
-                c.removeAllListeners().destroy();
+        this.skipChIn();
+        if (CmnLib_1.CmnLib.hDip['tx']) {
+            const n = this.htmTxt.cloneNode(true);
+            n.textContent = '';
+            const old = this.htmTxt;
+            old.parentElement.insertBefore(n, old);
+            const chs = document.querySelectorAll('span.sn_ch');
+            const len_chs = chs.length;
+            let sum_wait = 0;
+            for (let i = 0; i < len_chs; ++i) {
+                const elm = chs[i];
+                const add = JSON.parse((_c = (_b = (_a = elm.getAttribute('data-add'), (_a !== null && _a !== void 0 ? _a : elm.children[0].getAttribute('data-add'))), (_b !== null && _b !== void 0 ? _b : elm.children[0].children[0]
+                    .getAttribute('data-add'))), (_c !== null && _c !== void 0 ? _c : '{}')));
+                if (!add.ch_out_style)
+                    continue;
+                const cos = TxtStage.hChOutStyle[add.ch_out_style];
+                if (!cos)
+                    continue;
+                if (cos.wait == 0) {
+                    elm.style.display = 'none';
+                    continue;
+                }
+                sum_wait += cos.wait;
+                if (!cos.join)
+                    elm.style.animationDelay = '0ms';
+                elm.classList.add(`go_ch_out_${add.ch_out_style}`);
+            }
+            const end = () => {
+                old.parentElement.removeChild(old);
+                for (const c of this.cntTxt.removeChildren())
+                    c.removeAllListeners().destroy();
+            };
+            if (sum_wait == 0) {
+                this.htmTxt.textContent = '';
+                end();
+            }
+            else
+                (_d = old.lastElementChild) === null || _d === void 0 ? void 0 : _d.addEventListener('animationend', end, { once: true, passive: true });
+            this.htmTxt = n;
         }
         else {
-            const ease = CmnTween_1.CmnTween.ease(this.fo_easing);
-            for (const c of this.cntTxt.children) {
-                c.removeAllListeners();
-                new TWEEN.Tween(c)
-                    .to({ alpha: 0, x: `+${this.ch_slide_x()}` }, TxtStage.gs_chFadeWait)
-                    .easing(ease)
-                    .onComplete(o => this.cntTxt.removeChild(o))
-                    .start();
+            this.htmTxt.textContent = '';
+            if (TxtStage.gs_chFadeWait == 0) {
+                for (const c of this.cntTxt.removeChildren())
+                    c.removeAllListeners().destroy();
+            }
+            else {
+                const ease = CmnTween_1.CmnTween.ease(this.fo_easing);
+                for (const c of this.cntTxt.children) {
+                    c.removeAllListeners();
+                    new TWEEN.Tween(c)
+                        .to({ alpha: 0, x: `+${this.ch_slide_x()}` }, TxtStage.gs_chFadeWait)
+                        .easing(ease)
+                        .onComplete(o => this.cntTxt.removeChild(o))
+                        .start();
+                }
             }
         }
     }
@@ -917,6 +1003,7 @@ TxtStage.REG_SURROGATE = /[\uDC00-\uDFFF]/;
 TxtStage.fncChkSkip = () => false;
 TxtStage.hChInStyle = Object.create(null);
 TxtStage.REG_NG_CHSTYLE_NAME_CHR = /[\s\.,]/;
+TxtStage.hChOutStyle = Object.create(null);
 TxtStage.cntBreak = new pixi_js_1.Container;
 TxtStage.gs_chFadeWait = 500;
 TxtStage.gs_chFadeDx = 0.3;

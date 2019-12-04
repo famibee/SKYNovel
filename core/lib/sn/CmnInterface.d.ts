@@ -18,6 +18,7 @@ export interface HArg {
     height?: string;
     rotate?: number;
     in_style?: string;
+    out_style?: string;
     time?: number;
     rule?: string;
     glsl?: string;

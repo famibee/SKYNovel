@@ -29,6 +29,7 @@ export interface HArg {
 
 	rotate?	: number;
 	in_style?	: string;
+	out_style?	: string;
 
 	time?	: number;
 	rule?	: string;

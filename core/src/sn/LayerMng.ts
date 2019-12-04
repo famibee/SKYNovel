@@ -862,7 +862,7 @@ void main(void) {
 		const wait = (this.val.getVal('tmp:sn.skip.enabled'))
 			? 0
 			: CmnLib.argChk_Num(hArg, 'wait', -1);
-		if (wait >= 0) this.cmdTxt(`add｜{'wait': ${wait}}`, tl);
+		if (wait >= 0) this.cmdTxt(`add｜{"wait": ${wait}}`, tl);
 
 		const record = CmnLib.argChk_Boolean(hArg, 'record', true);
 		const doRecLog = Boolean(this.val.getVal('save:sn.doRecLog'));
