@@ -961,6 +961,7 @@ class TxtStage extends pixi_js_1.Container {
                         : this.infTL.pad_left + this.infTL.pad_right);
             }
             this.sss.y -= this.padTx4y;
+            this.sss.texture.frame = new pixi_js_1.Rectangle(0, 0, this.infTL.$width - this.left, this.infTL.$height);
             this.cntTxt.addChild(this.sss);
             rnd.render(this.sss, undefined, false);
             re();

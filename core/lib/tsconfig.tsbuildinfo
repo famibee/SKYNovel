@@ -378,7 +378,7 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "3d9597ad003e73774b5e18c6300f88f3e633d2c9f70e6df7d33497dd8033497e",
+        "version": "8075d18dd7e8a5389b4f4ac5dd2c944e6bb3d298707d2ac2905bd6b0beb9e6e7",
         "signature": "023d4b7e944093f5445fc199a3a95b989cdba6cd2ead4eb3fd46e0cf56dacc3d"
       },
       "../src/sn/rubyspliter.ts": {

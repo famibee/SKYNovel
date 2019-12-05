@@ -1216,6 +1216,7 @@ export class TxtStage extends Container {
 					: this.infTL.pad_left +this.infTL.pad_right);
 			}
 			this.sss.y -= this.padTx4y;
+			this.sss.texture.frame = new Rectangle(0, 0, this.infTL.$width -this.left, this.infTL.$height);	// これがないと画面サイズを超える
 			this.cntTxt.addChild(this.sss);
 			rnd.render(this.sss, undefined, false);
 			re();
