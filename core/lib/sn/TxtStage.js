@@ -657,6 +657,10 @@ class TxtStage extends pixi_js_1.Container {
             this.isChInIng = false;
             this.fncEndChIn = () => { };
         };
+        if (begin == len) {
+            this.fncEndChIn();
+            return;
+        }
         this.htmTxt.lastElementChild.addEventListener('animationend', () => {
             this.fncEndChIn();
         }, { once: true, passive: true });

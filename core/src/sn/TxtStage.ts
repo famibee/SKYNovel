@@ -877,6 +877,8 @@ export class TxtStage extends Container {
 			this.isChInIng = false;
 			this.fncEndChIn = ()=> {};
 		};
+		if (begin == len) {this.fncEndChIn(); return;}
+
 		this.htmTxt.lastElementChild!.addEventListener('animationend', ()=> {
 			this.fncEndChIn();	// クリックキャンセル時は発生しない
 		}, {once: true, passive: true});
@@ -959,11 +961,6 @@ export class TxtStage extends Container {
 			join	: CmnLib.argChk_Boolean(hArg, 'join', true),
 						// 文字を順番に出すか（true）同時か（false）
 			ease	: hArg.ease ?? 'ease-out',
-/*
-	quadraticEaseInOut
-	CSS3 : cubic-bezier(0.455, 0.03, 0.515, 0.955)
-		・CSS3のtransition-timing-functionの値、cubic-bezier()に関して | KnockKnock http://www.knockknock.jp/archives/184
-*/
 		};
 	}
 
