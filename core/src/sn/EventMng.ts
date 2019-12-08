@@ -433,7 +433,7 @@ export class EventMng implements IEvtMng {
 			const ie = elmlist[0] as HTMLInputElement;
 			const type = (ie) ?ie.type :'';
 
-			((type == 'range' || type == 'checkbox')
+			((type == 'range' || type == 'checkbox' || type == 'text' || type == 'textarea')
 				? ['input', 'change']
 				: ['click'])
 				.forEach(v=> {

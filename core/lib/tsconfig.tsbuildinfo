@@ -158,8 +158,8 @@
         "signature": "91afda67aee42da208dd5eb63a96d047624e1e34f71ddec4fe25f7d621a8c4fa"
       },
       "../../node_modules/@types/node/globals.d.ts": {
-        "version": "6cf62fbc792aa81fa62f99dab5cc692c5315ecd5da09dd35f1ccc82778c4d5bc",
-        "signature": "6cf62fbc792aa81fa62f99dab5cc692c5315ecd5da09dd35f1ccc82778c4d5bc"
+        "version": "05c42320698cb6eb4052d68ef35a0f3b88291b9275f13e9a188b96119844c5b6",
+        "signature": "05c42320698cb6eb4052d68ef35a0f3b88291b9275f13e9a188b96119844c5b6"
       },
       "../../node_modules/@types/node/assert.d.ts": {
         "version": "7860312f33f0cf2c93500787d02c4cc43ea3d0c080d4781095ac7715d5da3316",
@@ -178,8 +178,8 @@
         "signature": "400db42c3a46984118bff14260d60cec580057dc1ab4c2d7310beb643e4f5935"
       },
       "../../node_modules/@types/node/child_process.d.ts": {
-        "version": "163b9cd8ff3c8f1d4a7fd110099bb5d606a389c58233562516d70ac2d7e0ec7c",
-        "signature": "163b9cd8ff3c8f1d4a7fd110099bb5d606a389c58233562516d70ac2d7e0ec7c"
+        "version": "b61c2ff5ee2ff5ec8fb37b64be2713a6255d746e070dc5b26dd390006c74bfb5",
+        "signature": "b61c2ff5ee2ff5ec8fb37b64be2713a6255d746e070dc5b26dd390006c74bfb5"
       },
       "../../node_modules/@types/node/cluster.d.ts": {
         "version": "ce629710e5e58724902b753212e97861fd73e2aa09f5d88cb6d55dc763cf8c8a",
@@ -194,12 +194,12 @@
         "signature": "0279383034fae92db8097d0a41350293553599cc9c3c917b60e2542d0dfcbd44"
       },
       "../../node_modules/@types/node/crypto.d.ts": {
-        "version": "43f461871cd5ae52073e97d3c2e5869ebd955c42d30a51d3eb3a6c2cd16b80c4",
-        "signature": "43f461871cd5ae52073e97d3c2e5869ebd955c42d30a51d3eb3a6c2cd16b80c4"
+        "version": "3b6e751fc790e939efc4352e950b59be8c8e23c6e2bca2cf7359788b53f70485",
+        "signature": "3b6e751fc790e939efc4352e950b59be8c8e23c6e2bca2cf7359788b53f70485"
       },
       "../../node_modules/@types/node/dgram.d.ts": {
-        "version": "7954df44c35d39b851b996fdc1af0a252e4e23f862abfef388a058203bb94c30",
-        "signature": "7954df44c35d39b851b996fdc1af0a252e4e23f862abfef388a058203bb94c30"
+        "version": "387656ed4d6444031a0042c38701167e77ff5f4698ada32737082fbee76b1db0",
+        "signature": "387656ed4d6444031a0042c38701167e77ff5f4698ada32737082fbee76b1db0"
       },
       "../../node_modules/@types/node/dns.d.ts": {
         "version": "ef226a42de7022eacdfa0f15aabf73b46c47af93044c8ebfab8aa8e3cf6c330c",
@@ -218,8 +218,8 @@
         "signature": "91b0f655867e04d42d86347eb12b78316faed8bd2c75a7f8400e43e9e34e4ebd"
       },
       "../../node_modules/@types/node/http.d.ts": {
-        "version": "d5470fad800f025be0c4bd1b14c013ea5b4aeec90e53ab0e2703a8fe01f292b3",
-        "signature": "d5470fad800f025be0c4bd1b14c013ea5b4aeec90e53ab0e2703a8fe01f292b3"
+        "version": "4fd41897e21cc6def2735221fa7bd0986b44e44d224939a20f9e173ba2255646",
+        "signature": "4fd41897e21cc6def2735221fa7bd0986b44e44d224939a20f9e173ba2255646"
       },
       "../../node_modules/@types/node/http2.d.ts": {
         "version": "272c8598c3a29a3fa3027bd0a645c5f49b3f7832dfcf8e47b7260843ec8a40f3",
@@ -298,8 +298,8 @@
         "signature": "df905913ad47e24b6cb41d33f0c1f500bf9c4befe4325413a7644c9eb1e7965c"
       },
       "../../node_modules/@types/node/url.d.ts": {
-        "version": "1e3da92862604b1f7a32265169f9aa712c4567742d42597704e04ae3e07019e7",
-        "signature": "1e3da92862604b1f7a32265169f9aa712c4567742d42597704e04ae3e07019e7"
+        "version": "ae25aec5ed3795a3edfc356a7bc091554917ad0e0009a3cdffd7115ba22bd28d",
+        "signature": "ae25aec5ed3795a3edfc356a7bc091554917ad0e0009a3cdffd7115ba22bd28d"
       },
       "../../node_modules/@types/node/util.d.ts": {
         "version": "bf237fb2ca1ac62fde63e5f8178a9030e4d6b11987744007272f03a9deec6f76",
@@ -394,7 +394,7 @@
         "signature": "f6200e70018a82f0d18d4918cce13d480597cfe4a50a1b0e497cfd4adad2fb1b"
       },
       "../src/sn/framemng.ts": {
-        "version": "ccaccca22d67f517cb2af9b7be28339235d6861b5975f83330e69cc68c06bf3a",
+        "version": "ea40e4a294a1a63aa81126f624ec67c5efc76272f268f9b7dab8179b567e5b15",
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
@@ -414,7 +414,7 @@
         "signature": "e5c5e805c2e2696d62922f3e2c4742be28a0c729e88327e3222f89826d58b38c"
       },
       "../src/sn/eventmng.ts": {
-        "version": "b5b96fb1f793f3d73a21c63ecd5f8f3c6baf16ba3d44c5da7e25102cb7721154",
+        "version": "d527427e7ad9075bc4ef7485280cbd5d9ce2b933eed2503b538537d006a22520",
         "signature": "ca80d2bceb1ed0f92fb4cb052fb8e825a2d4a101f396019e025e9a5ee5d4db6f"
       },
       "../src/sn/scriptiterator.ts": {
@@ -485,9 +485,9 @@
         "version": "4f48842c9a5a6b4f9f50b3235a9986b2fe6a212d43f00b5f743fc6aab07ba7b0",
         "signature": "4f48842c9a5a6b4f9f50b3235a9986b2fe6a212d43f00b5f743fc6aab07ba7b0"
       },
-      "../../node_modules/@types/power-assert/index.d.ts": {
-        "version": "901bc444f2c9af0b20f1d4ffa0a7338a681d933e39a1b1865bf940caf033b874",
-        "signature": "901bc444f2c9af0b20f1d4ffa0a7338a681d933e39a1b1865bf940caf033b874"
+      "../../node_modules/@types/power-assert/ts3.7/index.d.ts": {
+        "version": "30bc6591308f85c0b0ab7573997ab4bc7209a3051f4d26c937b3c068cc455f84",
+        "signature": "30bc6591308f85c0b0ab7573997ab4bc7209a3051f4d26c937b3c068cc455f84"
       },
       "../../node_modules/@types/stats.js/index.d.ts": {
         "version": "983586a2ed8fb862c6043d43589450aba5ff7bd1ee446b74ae9f9c76aa4cd679",
@@ -1506,7 +1506,7 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../node_modules/@types/power-assert/index.d.ts": [
+      "../../node_modules/@types/power-assert/ts3.7/index.d.ts": [
         "../../node_modules/@types/empower/index.d.ts",
         "../../node_modules/@types/power-assert-formatter/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
@@ -2325,7 +2325,7 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../node_modules/@types/power-assert/index.d.ts": [
+      "../../node_modules/@types/power-assert/ts3.7/index.d.ts": [
         "../../node_modules/@types/empower/index.d.ts",
         "../../node_modules/@types/power-assert-formatter/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
@@ -2462,6 +2462,7 @@
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
+      "../src/sn/txtstage.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
@@ -2470,7 +2471,6 @@
       "../../node_modules/@types/howler/index.d.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
-      "../src/sn/eventmng.ts",
       "../src/sn/scriptiterator.ts",
       "../src/sn/debugmng.ts",
       "../src/sn/config.ts",
@@ -2488,14 +2488,14 @@
       "../../node_modules/@types/glob/index.d.ts",
       "../../node_modules/@types/mocha/index.d.ts",
       "../../node_modules/@types/power-assert-formatter/index.d.ts",
-      "../../node_modules/@types/power-assert/index.d.ts",
+      "../../node_modules/@types/power-assert/ts3.7/index.d.ts",
       "../../node_modules/@types/stats.js/index.d.ts",
       "../../node_modules/@types/store/index.d.ts",
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/txtstage.ts"
+      "../src/sn/eventmng.ts"
     ]
   },
-  "version": "3.7.2"
+  "version": "3.7.3"
 }

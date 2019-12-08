@@ -32,9 +32,10 @@ class FrameMng {
         const sy = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1);
         const r = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0);
         const v = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
+        const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
         const rct = this.rect(hArg);
         const cr = this.appPixi.view.getBoundingClientRect();
-        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + cr.left + rct.x * this.sys.reso4frame}px; top: ${this.sys.ofsTop4frm + cr.top + rct.y * this.sys.reso4frame}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};" width="${rct.width * this.sys.reso4frame}" height="${rct.height * this.sys.reso4frame}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
+        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + cr.left + rct.x * this.sys.reso4frame}px; top: ${this.sys.ofsTop4frm + cr.top + rct.y * this.sys.reso4frame}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};${b_color}" width="${rct.width * this.sys.reso4frame}" height="${rct.height * this.sys.reso4frame}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
         const ifrm = document.getElementById(id);
         const win = ifrm.contentWindow;
         win.addEventListener('load', () => {
@@ -137,6 +138,9 @@ class FrameMng {
             const v = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
             ifrm.style.display = v ? 'inline' : 'none';
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
+        }
+        if ('b_color' in hArg) {
+            ifrm.style.backgroundColor = hArg.b_color;
         }
         return false;
     }
