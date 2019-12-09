@@ -127,6 +127,11 @@ export class Variable implements IVariable {
 		this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
 
 		this.hTmp['const.sn.Math.PI'] = Math.PI;
+
+		// ダークモード切り替え検知
+		const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
+		this.hTmp['const.sn.isDarkMode'] = CmnLib.isDarkMode = dmmq.matches;
+		dmmq.addListener(e=> this.hTmp['const.sn.isDarkMode'] = CmnLib.isDarkMode = e.matches);
 	}
 
 
@@ -581,8 +586,7 @@ export class Variable implements IVariable {
 		'tmp:sn.auto.enabled'	: name=>
 			this.runFirst_Bool_hTmp_false(name),
 		'tmp:flash.desktop.NativeApplication.nativeApplication.systemIdleMode'	: (
-			()=>
-				 {
+			()=> {
 			//	NativeApplication.nativeApplication.systemIdleMode = val;
 			}
 		),

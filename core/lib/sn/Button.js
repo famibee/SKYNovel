@@ -5,6 +5,7 @@ const CmnLib_1 = require("./CmnLib");
 const GrpLayer_1 = require("./GrpLayer");
 class Button extends pixi_js_1.Container {
     constructor(main, evtMng, hArg) {
+        var _a;
         super();
         this.main = main;
         this.evtMng = evtMng;
@@ -12,7 +13,7 @@ class Button extends pixi_js_1.Container {
         const enabled = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', true);
         if (enabled)
             this.evtMng.button(hArg, this);
-        if (hArg.text) {
+        if ('text' in hArg) {
             const fontSize = CmnLib_1.uint(hArg.height || 30);
             const style = {
                 fill: 'black',
@@ -28,7 +29,7 @@ class Button extends pixi_js_1.Container {
             };
             if (hArg.style)
                 Button.s2hStyle(style, hArg.style);
-            const txt = new pixi_js_1.Text(hArg.text, style);
+            const txt = new pixi_js_1.Text((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')), style);
             txt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
             txt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', txt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', txt.pivot.y));
             txt.rotation = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', txt.rotation);
@@ -37,6 +38,18 @@ class Button extends pixi_js_1.Container {
             txt.height = fontSize;
             txt.x = CmnLib_1.uint(hArg.left || 0);
             txt.y = CmnLib_1.uint(hArg.top || 0);
+            if (hArg.b_pic) {
+                const cnt = new pixi_js_1.Container();
+                this.addChild(cnt);
+                this.isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.b_pic, cnt, sp => {
+                    sp.alpha = txt.alpha;
+                    sp.rotation = txt.rotation;
+                    sp.x = txt.x;
+                    sp.y = txt.y;
+                    sp.pivot.set((sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
+                }, isStop => { if (isStop)
+                    this.main.resume(); });
+            }
             this.addChild(txt);
             if (!enabled)
                 return;

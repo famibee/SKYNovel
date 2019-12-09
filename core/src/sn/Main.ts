@@ -60,7 +60,10 @@ export class Main implements IMain {
 				hApp.view = cvs;
 			}
 			this.appPixi = new Application(hApp);
-			if (! cvs) document.body.appendChild(this.appPixi.view);
+			if (! cvs) {
+				document.body.appendChild(this.appPixi.view);
+				this.appPixi.view.id = 'skynovel';
+			}
 			if (CmnLib.hDip['tx']) {
 				const s = this.appPixi.view.parentElement!.style;
 				s.position = 'relative';

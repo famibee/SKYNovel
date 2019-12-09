@@ -372,8 +372,10 @@ return false;	// TODO: 未作成：フォーカス移動
 		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val);
 		switch (cls) {
 		case 'txt':
-			if (! this.strTxtlay) {
+			if (! this.curTxtlay) {
 				this.fncChkTxtLay = ()=> {};
+				this.getTxtLayer = this.$getTxtLayer;
+				this.current = this.$current;
 				this.hTag.current({layer: layer});	// hPages更新後でないと呼べない
 				this.goTxt = ()=> {
 					if (this.val.getVal('sn.skip.enabled')) {
@@ -382,17 +384,13 @@ return false;	// TODO: 未作成：フォーカス移動
 					else {
 						this.setNormalWaitTxtLayer();
 					}
-					for (const name of this.getLayers()) {
-						const pg = this.hPages[name];
-						if (! (pg.fore instanceof TxtLayer)) continue;
-						this.cmdTxt('gotxt｜', pg.fore as TxtLayer, false);
-					}
+					this.cmdTxt('gotxt｜', this.pgTxtlay.fore as TxtLayer, false);
 				}
 			}
 
 			this.val.setVal_Nochk(
 				'save',
-				'const.sn.layer.'+ (layer ?? this.strTxtlay) + '.enabled',
+				'const.sn.layer.'+ (layer ?? this.curTxtlay) + '.enabled',
 				true);
 			break;
 		}
@@ -406,7 +404,7 @@ return false;	// TODO: 未作成：フォーカス移動
 	}
 	private hPages		: {[name: string]: Pages} = {};	// しおりLoad時再読込
 	private aLayName	: string[]	= [];	// 最適化用
-	private strTxtlay = '';
+	private curTxtlay	= '';
 
 	private lay(hArg: HArg): boolean {
 		// Trans
@@ -856,13 +854,14 @@ void main(void) {
 	static set msecChWait(v) {LayerMng.$msecChWait = v;}
 	// 文字を追加する
 	private ch(hArg: HArg) {
-		if (! hArg.text) throw '[ch] textは必須です';
+		if (! hArg.text) throw 'textは必須です';
+
+		let wait = CmnLib.argChk_Num(hArg, 'wait', -1);
+		if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled')) wait = 0;
+		hArg.wait = wait;
 
 		const tl = this.getTxtLayer(hArg) as TxtLayer;
-		const wait = (this.val.getVal('tmp:sn.skip.enabled'))
-			? 0
-			: CmnLib.argChk_Num(hArg, 'wait', -1);
-		if (wait >= 0) this.cmdTxt(`add｜{"wait": ${wait}}`, tl);
+		if (wait >= 0) this.cmdTxt('add｜'+ JSON.stringify(hArg), tl);
 
 		const record = CmnLib.argChk_Boolean(hArg, 'record', true);
 		const doRecLog = Boolean(this.val.getVal('save:sn.doRecLog'));
@@ -875,9 +874,9 @@ void main(void) {
 		return false;
 	}
 
-	private getTxtLayer(hArg: HArg): TxtLayer {
-		this.fncChkTxtLay();
-		const layer = this.argChk_layer(hArg, this.strTxtlay);
+	private getTxtLayer = (_hArg: HArg): TxtLayer=> {this.fncChkTxtLay(); throw 0};
+	private $getTxtLayer(hArg: HArg): TxtLayer {
+		const layer = this.argChk_layer(hArg, this.curTxtlay);
 		const pg = this.hPages[layer];
 		const lay = pg.getPage(hArg);
 		if (! (lay instanceof TxtLayer)) throw layer +'はTxtLayerではありません';
@@ -889,15 +888,16 @@ void main(void) {
 
 
 	// 操作対象のメッセージレイヤの指定
-	private current(hArg: HArg) {
-		this.fncChkTxtLay();
+	private current = (_hArg: HArg): boolean=> {this.fncChkTxtLay(); throw 0};
+	private $current(hArg: HArg) {
 		const layer = hArg.layer;
 		if (! layer) throw '[current] layerは必須です';
 
 		this.pgTxtlay = this.hPages[layer];
-		if (! (this.pgTxtlay.getPage(hArg) instanceof TxtLayer)) throw ''+ layer +'はTxtLayerではありません';
+		if (! (this.pgTxtlay.getPage(hArg) instanceof TxtLayer)) throw `${layer}はTxtLayerではありません`;
 
-		this.val.setVal_Nochk('save', 'const.sn.mesLayer', this.strTxtlay = layer);
+		this.curTxtlay = layer;
+		this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
 
 		return false;
 	}
@@ -911,10 +911,9 @@ void main(void) {
 		return this.pgTxtlay.fore as TxtLayer;
 	}
 	private	pgTxtlay: Pages;	// カレントテキストレイヤ
-	private fncChkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい';};
+	private fncChkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'};
 
 	private argChk_layer(hash: any, def = ''): string {
-		//console.log('[argChk_layer] layer:'+ hash['layer']);
 		const v = hash.layer ?? def;
 		if (v.includes(',')) throw 'layer名に「,」は使えません';
 		if (! (v in this.hPages)) throw '属性 layer【'+ v +'】が不正です。レイヤーがありません';
@@ -947,7 +946,7 @@ void main(void) {
 
 	private clear_text(hArg: HArg) {
 		const tf = this.getTxtLayer(hArg);
-		if (hArg.layer == this.strTxtlay && hArg.page == 'fore') this.recText('\f');	// 改ページ、クリア前に
+		if (hArg.layer == this.curTxtlay && hArg.page == 'fore') this.recText('\f');	// 改ページ、クリア前に
 		tf.clearText();
 		return false;
 	}
@@ -986,7 +985,7 @@ void main(void) {
 	// 改行
 	private r(hArg: HArg) {
 		this.hTag.ch({text: '\n'});
-		if (hArg.layer == this.strTxtlay) this.recText('\n');
+		if (hArg.layer == this.curTxtlay) this.recText('\n');
 		return false;
 	}
 
@@ -1043,7 +1042,7 @@ void main(void) {
 		for (const name of this.getLayers(hArg.layer)) {
 			const pg = this.hPages[name];
 			try {
-				console.info(`%c${pg.fore.name.slice(0, -7)} %o`, 'color:#0055AA;',
+				console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib.isDarkMode ?'49F' :'05A'};`,
 				JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
 			} catch (error) {
 				console.error(`dump_lay err:%o`, error);
@@ -1059,8 +1058,7 @@ void main(void) {
 
 	// イベント有無の切替
 	private enable_event(hArg: HArg) {
-		this.fncChkTxtLay();
-		const layer = this.argChk_layer(hArg, this.strTxtlay);
+		const layer = this.argChk_layer(hArg, this.curTxtlay);
 		const enb
 			= this.getTxtLayer(hArg).enabled
 			= CmnLib.argChk_Boolean(hArg, 'enabled', true);

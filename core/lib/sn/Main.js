@@ -63,8 +63,10 @@ class Main {
                 hApp.view = cvs;
             }
             this.appPixi = new pixi_js_1.Application(hApp);
-            if (!cvs)
+            if (!cvs) {
                 document.body.appendChild(this.appPixi.view);
+                this.appPixi.view.id = 'skynovel';
+            }
             if (CmnLib_1.CmnLib.hDip['tx']) {
                 const s = this.appPixi.view.parentElement.style;
                 s.position = 'relative';

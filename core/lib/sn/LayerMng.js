@@ -30,7 +30,7 @@ class LayerMng {
         this.breakPage = () => { };
         this.hPages = {};
         this.aLayName = [];
-        this.strTxtlay = '';
+        this.curTxtlay = '';
         this.srcRuleTransFragment = `
 precision mediump float;
 
@@ -87,6 +87,8 @@ void main(void) {
             y: 0,
         };
         this.hTwInf = {};
+        this.getTxtLayer = (_hArg) => { this.fncChkTxtLay(); throw 0; };
+        this.current = (_hArg) => { this.fncChkTxtLay(); throw 0; };
         this.fncChkTxtLay = () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; };
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
         GrpLayer_1.GrpLayer.init(main, cfg, sys);
@@ -310,8 +312,10 @@ void main(void) {
         this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val);
         switch (cls) {
             case 'txt':
-                if (!this.strTxtlay) {
+                if (!this.curTxtlay) {
                     this.fncChkTxtLay = () => { };
+                    this.getTxtLayer = this.$getTxtLayer;
+                    this.current = this.$current;
                     this.hTag.current({ layer: layer });
                     this.goTxt = () => {
                         if (this.val.getVal('sn.skip.enabled')) {
@@ -320,15 +324,10 @@ void main(void) {
                         else {
                             this.setNormalWaitTxtLayer();
                         }
-                        for (const name of this.getLayers()) {
-                            const pg = this.hPages[name];
-                            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                                continue;
-                            this.cmdTxt('gotxt｜', pg.fore, false);
-                        }
+                        this.cmdTxt('gotxt｜', this.pgTxtlay.fore, false);
                     };
                 }
-                this.val.setVal_Nochk('save', 'const.sn.layer.' + ((layer !== null && layer !== void 0 ? layer : this.strTxtlay)) + '.enabled', true);
+                this.val.setVal_Nochk('save', 'const.sn.layer.' + ((layer !== null && layer !== void 0 ? layer : this.curTxtlay)) + '.enabled', true);
                 break;
         }
         this.aLayName.push(layer);
@@ -688,13 +687,14 @@ void main(void) {
     static set msecChWait(v) { LayerMng.$msecChWait = v; }
     ch(hArg) {
         if (!hArg.text)
-            throw '[ch] textは必須です';
+            throw 'textは必須です';
+        let wait = CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', -1);
+        if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled'))
+            wait = 0;
+        hArg.wait = wait;
         const tl = this.getTxtLayer(hArg);
-        const wait = (this.val.getVal('tmp:sn.skip.enabled'))
-            ? 0
-            : CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', -1);
         if (wait >= 0)
-            this.cmdTxt(`add｜{"wait": ${wait}}`, tl);
+            this.cmdTxt('add｜' + JSON.stringify(hArg), tl);
         const record = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'record', true);
         const doRecLog = Boolean(this.val.getVal('save:sn.doRecLog'));
         if (!record)
@@ -706,9 +706,8 @@ void main(void) {
             this.cmdTxt(`add_close｜`, tl);
         return false;
     }
-    getTxtLayer(hArg) {
-        this.fncChkTxtLay();
-        const layer = this.argChk_layer(hArg, this.strTxtlay);
+    $getTxtLayer(hArg) {
+        const layer = this.argChk_layer(hArg, this.curTxtlay);
         const pg = this.hPages[layer];
         const lay = pg.getPage(hArg);
         if (!(lay instanceof TxtLayer_1.TxtLayer))
@@ -717,15 +716,15 @@ void main(void) {
         return tf;
     }
     setNormalWaitTxtLayer() { LayerMng.$msecChWait = this.scrItr.normalWait; }
-    current(hArg) {
-        this.fncChkTxtLay();
+    $current(hArg) {
         const layer = hArg.layer;
         if (!layer)
             throw '[current] layerは必須です';
         this.pgTxtlay = this.hPages[layer];
         if (!(this.pgTxtlay.getPage(hArg) instanceof TxtLayer_1.TxtLayer))
-            throw '' + layer + 'はTxtLayerではありません';
-        this.val.setVal_Nochk('save', 'const.sn.mesLayer', this.strTxtlay = layer);
+            throw `${layer}はTxtLayerではありません`;
+        this.curTxtlay = layer;
+        this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
         return false;
     }
     getCurrentTxtlayForeNeedErr() {
@@ -762,7 +761,7 @@ void main(void) {
     }
     clear_text(hArg) {
         const tf = this.getTxtLayer(hArg);
-        if (hArg.layer == this.strTxtlay && hArg.page == 'fore')
+        if (hArg.layer == this.curTxtlay && hArg.page == 'fore')
             this.recText('\f');
         tf.clearText();
         return false;
@@ -791,7 +790,7 @@ void main(void) {
     }
     r(hArg) {
         this.hTag.ch({ text: '\n' });
-        if (hArg.layer == this.strTxtlay)
+        if (hArg.layer == this.curTxtlay)
             this.recText('\n');
         return false;
     }
@@ -839,7 +838,7 @@ void main(void) {
         for (const name of this.getLayers(hArg.layer)) {
             const pg = this.hPages[name];
             try {
-                console.info(`%c${pg.fore.name.slice(0, -7)} %o`, 'color:#0055AA;', JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
+                console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`, JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
             }
             catch (error) {
                 console.error(`dump_lay err:%o`, error);
@@ -851,8 +850,7 @@ void main(void) {
         return false;
     }
     enable_event(hArg) {
-        this.fncChkTxtLay();
-        const layer = this.argChk_layer(hArg, this.strTxtlay);
+        const layer = this.argChk_layer(hArg, this.curTxtlay);
         const enb = this.getTxtLayer(hArg).enabled
             = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', true);
         this.val.setVal_Nochk('save', 'const.sn.layer.' + layer + '.enabled', enb);

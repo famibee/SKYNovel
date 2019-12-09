@@ -224,7 +224,7 @@ export class TxtLayer extends Layer {
 		this.cnt.addChild(this.cntBtn);	// ボタンはpaddingの影響を受けない
 		this.cntBtn.name = 'cntBtn';
 
-		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default'});
+		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
 	destroy() {
 		if (this.b_do) {this.cnt.removeChild(this.b_do).destroy(); this.b_do = null}
@@ -239,7 +239,7 @@ export class TxtLayer extends Layer {
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
 		this.rbSpl.setting(hArg);
-		this.txs.lay(hArg);
+		this.txs.lay(hArg, this.cnt);
 
 		this.set_ch_in(hArg);
 		this.set_ch_out(hArg);
@@ -407,23 +407,40 @@ export class TxtLayer extends Layer {
 				this.txs.goTxt_next(this.aSpan, this.name);
 				this.needGoTxt = false;
 				this.cumDelay = 0;
-				const len = this.aSpan.length;	// 表示アニメは一度のみ
-				for (let i=0; i<len; ++i) this.aSpan[i] = this.aSpan[i].replace(/ class='sn_ch sn_ch_in_[^\s"]+'/, '');
 				return;	// breakではない
 
 			case 'add':	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
+			{
+				const o = JSON.parse(a_ruby[1]);
+				this.aSpan_ch_in_style_bk = this.ch_in_style;
+				this.set_ch_in(o);
+				this.set_ch_out(o);
 				if (this.aSpan_bk) {
 					const s = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
 
+					if (! CmnLib.hDip['tx'])
 					this.aSpan.push(s.replace(
 						/<span( data-add='.+?')?/,	// 'を"にしてはいけない
 						`<span data-add='${a_ruby[1]}'`));
 				}
 				else {
-					this.aSpan.push(`<span data-add='${a_ruby[1]}'>`);
-						// "を"にしてはいけない
+					if (CmnLib.hDip['tx']) {
+						if (isSkip) this.cumDelay = 0;
+						const wait = o.wait ?? -1;
+						const sn_ch = (wait == 0)
+							? ''
+							: ` sn_ch_in_${this.ch_in_style}`;
+						const ad = (wait < 0)
+							? ''
+							: ` animation-duration: ${wait}ms;`
+						this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
+					}
+					else {
+						this.aSpan.push(`<span style='${o.style}' data-add='${a_ruby[1]}'>`);
+					}
 				}
+			}
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
 				return;	// breakではない
@@ -444,8 +461,14 @@ export class TxtLayer extends Layer {
 					// breakではない
 				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
 				if (CmnLib.hDip['tx']) {
-					if (this.aSpan_bk) add_htm += ` class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'`;
-					add_htm += ` data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'`;
+					const wait = o.wait ?? -1;
+					const sn_ch = (wait == 0)
+						? ''
+						: ` sn_ch_in_${this.ch_in_style}`;
+					const ad = (wait < 0)
+						? ''
+						: ` animation-duration: ${wait}ms;`
+					add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'`;
 				}
 				add_htm += `>　</span>`;
 	//			this.recText(text);	// TODO: 履歴でのインライン画像
@@ -467,13 +490,20 @@ export class TxtLayer extends Layer {
 				// style, in_style
 				const o = JSON.parse(a_ruby[1]);
 				this.aSpan_ch_in_style_bk = this.ch_in_style;
-				this.set_ch_in({in_style: o.in_style});
-				this.set_ch_out({out_style: o.out_style});
+				this.set_ch_in(o);
+				this.set_ch_out(o);
 				if (! o.style) return;	// breakではない
 
 				if (CmnLib.hDip['tx']) {
 					if (isSkip) this.cumDelay = 0;
-					this.aSpan.push(`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms; ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
+					const wait = o.wait ?? -1;
+					const sn_ch = (wait == 0)
+						? ''
+						: ` sn_ch_in_${this.ch_in_style}`;
+					const ad = (wait < 0)
+						? ''
+						: ` animation-duration: ${wait}ms;`
+					this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
 				}
 				else {
 					this.aSpan.push(`<span style='${o.style}'>`);
@@ -490,12 +520,19 @@ export class TxtLayer extends Layer {
 				// b_color, b_alpha, fn, label
 				const o = JSON.parse(a_ruby[1]);
 				this.aSpan_ch_in_style_bk = this.ch_in_style;
-				this.set_ch_in({in_style: o.in_style});
-				this.set_ch_out({out_style: o.out_style});
+				this.set_ch_in(o);
+				this.set_ch_out(o);
 				if (CmnLib.hDip['tx']) {
 					if (isSkip) this.cumDelay = 0;
+					const wait = o.wait ?? -1;
+					const sn_ch = (wait == 0)
+						? ''
+						: ` sn_ch_in_${this.ch_in_style}`;
+					const ad = (wait < 0)
+						? ''
+						: ` animation-duration: ${wait}ms;`
 					this.aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
-					this.aSpan.push(`<span${this.aSpan_link} class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms; ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
+					this.aSpan.push(`<span${this.aSpan_link} class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
 				}
 				else {
 					this.aSpan.push(`<span data-cmd='link' data-arg='${a_ruby[1]}' style='${o.style}'>`);

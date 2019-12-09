@@ -145,7 +145,7 @@
 		<li class="mb1"><a href="#add_lay">[add_lay] レイヤを追加する</a></li>
 		<li class="mb1"><a href="#clear_lay">[clear_lay] レイヤ設定の消去</a></li>
 		<li class="mb1"><a href="#finish_trans">[finish_trans] トランス強制終了</a></li>
-		<li class="mb1"><a href="#lay"><span class="red">【暫定版】</span>[lay] レイヤ設定</a></li>
+		<li class="mb1"><a href="#lay">[lay] レイヤ設定</a></li>
 		<li class="mb1"><a href="#trans">[trans] ページ裏表を交換</a></li>
 		<li class="mb1"><a href="#wt">[wt] トランス終了待ち</a></li>
 	</ul>
@@ -160,13 +160,15 @@
 	<p>文字・文字レイヤ</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#autowc">[autowc] 文字ごとのウェイト</a></li>
-		<li class="mb1"><a href="#ch"><span class="red">【暫定版】</span>[ch] 文字を追加する</a></li>
+		<li class="mb1"><a href="#ch">[ch] 文字を追加する</a></li>
+		<li class="mb1"><a href="#ch_in_style">[ch_in_style] 文字出現演出定義</a></li>
+		<li class="mb1"><a href="#ch_out_style">[ch_out_style] 文字消去演出定義</a></li>
 		<li class="mb1"><a href="#clear_text">[clear_text] 文字消去</a></li>
 		<li class="mb1"><a href="#current">[current] デフォルト文字レイヤ設定</a></li>
 		<li class="mb1"><a href="#endlink">[endlink] ハイパーリンクの終了</a></li>
 		<li class="mb1"><a href="#er">[er] ページ両面の文字消去</a></li>
 		<li class="mb1"><a href="#graph">[graph] インライン画像表示</a></li>
-		<li class="mb1"><a href="#link"><span class="red">【暫定版】</span>[link] ハイパーリンク</a></li>
+		<li class="mb1"><a href="#link">[link] ハイパーリンク</a></li>
 		<li class="mb1"><a href="#r">[r] 改行</a></li>
 		<li class="mb1"><a href="#rec_ch"><span class="red">【暫定版】</span>[rec_ch] 履歴書き込み</a></li>
 		<li class="mb1"><a href="#rec_r"><span class="red">【暫定版】</span>[rec_r] 履歴改行</a></li>
@@ -229,7 +231,7 @@
 	</ul>
 	<p>ラベル・ジャンプ</p>
 	<ul class="anchors list-reset m0 p0 px1">
-		<li class="mb1"><a href="#button"><span class="red">【暫定版】</span>[button] ボタンを表示</a></li>
+		<li class="mb1"><a href="#button">[button] ボタンを表示</a></li>
 		<li class="mb1"><a href="#call">[call] サブルーチンコール</a></li>
 		<li class="mb1"><a href="#jump">[jump] シナリオジャンプ</a></li>
 		<li class="mb1"><a href="#pop_stack">[pop_stack] コールスタック破棄</a></li>
@@ -261,9 +263,9 @@
 	<p>システム</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#close">[close] アプリの終了</a></li>
-		<li class="mb1"><a href="#loadplugin"><span class="red">【暫定版】</span>[loadplugin] プラグインの読み込み</a></li>
+		<li class="mb1"><a href="#loadplugin">[loadplugin] プラグインの読み込み</a></li>
 		<li class="mb1"><a href="#navigate_to">[navigate_to] ＵＲＬを開く</a></li>
-		<li class="mb1"><a href="#snapshot"><span class="red">【暫定版】</span>[snapshot] スナップショット</a></li>
+		<li class="mb1"><a href="#snapshot">[snapshot] スナップショット</a></li>
 		<li class="mb1"><a href="#title">[title] タイトル指定</a></li>
 		<li class="mb1"><a href="#toggle_full_screen">[toggle_full_screen] 全画面状態切替</a></li>
 		<li class="mb1"><a href="#window">[window] アプリウインドウ設定</a></li>
@@ -588,22 +590,19 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>max_col</td><td></td><td>現在値</td><td>1〜</td><td>ページあたりの表示列数（横書き時は上から下、縦書き時は右から左へ数える）<br/>改行・禁則処理に使用。実際に文字が表示されるかは、フォントサイズや表示位置との兼ね合いによる。<br/>初期値は 10</td></tr>
-<tr><td>max_row</td><td></td><td>現在値</td><td>1〜</td><td>ページあたりの表示行数。初期値は 10</td></tr>
-<tr><td>bura_col</td><td></td><td>現在値</td><td>0〜</td><td>禁則時ぶら下がり文字数。初期値は 2</td></tr>
-<tr><td>chk_overrow</td><td></td><td>現在値</td><td>Boolean</td><td>true：カーソルがmax_rowを超えたらエラー＆停止（初期値）<br/>false：表示行数を越える直前に自動改ページ</td></tr>
-<tr><td>b_left</td><td></td><td>現在値</td><td>画面左上を(0, 0)とする座標</td><td>テキスト背後の矩形表示位置。<br/>初期値はそれぞれ 16 16</td></tr>
-<tr><td>b_top</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>b_width</td><td></td><td>(↑と同じ)</td><td>矩形表示縦横ピクセル数</td><td>テキスト背後の矩形表示縦横サイズ。<br/>初期値はそれぞれ（画面横幅 - b_left *2）（画面縦幅 - b_top *2）</td></tr>
 <tr><td>b_height</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
 <tr><td>b_color</td><td></td><td>(↑と同じ)</td><td>色指定。0x000000など</td><td>テキスト背後の矩形色。初期値は 0x000000（黒）</td></tr>
 <tr><td>b_alpha</td><td></td><td>(↑と同じ)</td><td>実数：0.0（透明）〜1.0（不透過）</td><td>テキスト背後の矩形不透明度。<br/>表示しない場合は0を指定。初期値は 0</td></tr>
+<tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>Boolean</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
 <tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_top、b_left、b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
 <tr><td>back_clear</td><td></td><td>現在値</td><td>Boolean</td><td>true：背景をクリアする</td></tr>
 
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
-<tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>Boolean</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
 <tr><td>draggable</td><td></td><td>false</td><td>Boolean</td><td>true：テキスト背後の矩形をドラッグできる</td></tr>
 <tr><td>drag_x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>ドラッグ範囲の左上始点。</td></tr>
 <tr><td>drag_y</td><td></td><td>0</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
@@ -673,7 +672,7 @@
 <tr><td>layer</td><td></td><td>全てのレイヤ</td><td>処理対象レイヤ名（カンマ区切りで複数可能）</td><td>クロスフェードするレイヤ。指定以外のレイヤは変化させない</td></tr>
 <tr><td>time</td><td></td><td>0</td><td>ミリ秒</td><td>変化にかける時間</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
-<tr><td>rule</td><td></td><td>画面全体ピクセルで同時にクロスフェードする</td><td>画像ファイル名（swf不可）</td><td>指定した場合はルール画像として、ピクセル単位でクロスフェードするタイミングをずらす。<br/>ルール画像の黒いピクセル（と同じ位置にあるピクセル）が先に処理され、白が最後になる。</td></tr>
+<tr><td>rule</td><td></td><td>画面全体ピクセルで同時にクロスフェードする</td><td>画像ファイル名</td><td>指定した場合はルール画像として、ピクセル単位でクロスフェードするタイミングをずらす。<br/>ルール画像の黒いピクセル（と同じ位置にあるピクセル）が先に処理され、白が最後になる。</td></tr>
 <tr><td>vague</td><td></td><td>0.04</td><td>トランジション期間全体を1とした値</td><td>表レイヤと裏レイヤの境界を曖昧にぼかす度合い</td></tr>
 <tr><td>light</td><td></td><td>false</td><td>Boolean</td><td>少々ギザギザだが処理が軽い方法でクロスフェードするか</td></tr>
 <tr><td>c_plugin</td><td></td><td>何もしない</td><td>処理対象プラグイン名（カンマ区切りで複数可能）</td><td>指定したプラグインの可視状態が[trans]で変化するようになる。表示非表示が切り替わる。ただしクロスフェード中はアニメが止まる</td></tr>
@@ -844,10 +843,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>表示したい文字列。ルビ文法（《》）も解析する。改行も [r] で出来る</td></tr>
 <tr><td>record</td><td></td><td>true</td><td>Boolean</td><td>履歴に保存するか</td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。<br/>何らかのキー押下やマウスクリックで全てを瞬時表示する</td></tr>
-<tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>このタグによる表示のみに適用、以降は元に戻る</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 </table>
-<p>[ch]を使わない、より簡潔な記述文法があります。（ver 3.18以降）<br/>
+<p>[ch]を使わない、より簡潔な記述文法があります。<br/>
 	以下の記述は、<br/>
 	[ch text=&amp;test]<br/>
 	[ch text=test]<br/>
@@ -857,6 +858,63 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	&amp;test&amp;<br/>
 	&amp;'test'&amp;<br/>
 	&amp;a + b&amp;</p>
+
+</p>
+
+
+<h2 id="ch_in_style" class="w-heading">[ch_in_style]文字出現演出定義</h2>
+<h4>文字出現演出アニメを定義する</h4>
+<p class="mb2 px1">
+	[lay][span]などの ch_in_style属性で指定すると、定義どおりの文字出現演出アニメを行なう
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>name</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
+<tr><td>wait</td><td></td><td>500</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>x</td><td rowspan="2"></td><td rowspan="2">'=0'</td><td rowspan="2">
+	以下のような相対位置指定が出来る<br/>
+	500     ──　X位置を500に<br/>
+	'=500'  ──　文字表示位置を基準に+500加算した位置<br/>
+	'=-500' ──　文字表示位置を基準に-500加算した位置
+
+</td><td rowspan="2">変化の初期値</td></tr>
+<tr><td>y</td></tr>
+
+<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
+<tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
+<tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>CSSのanimation-timing-function プロパティ</td></tr>
+</table>
+
+</p>
+
+
+<h2 id="ch_out_style" class="w-heading">[ch_out_style]文字消去演出定義</h2>
+<h4>文字消去演出アニメを定義する</h4>
+<p class="mb2 px1">
+	[lay][span]などの ch_out_style属性で指定すると、定義どおりの文字消去演出アニメを行なう。<br/>
+	文字消去演出は、次ページの文字出現演出と同時に行なわれる。文字消去演出を待ちたい場合は、<a href="#wait">[wait]</a>などで待つ。
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>name</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
+<tr><td>wait</td><td></td><td>500</td><td>ミリ秒</td><td>一時的な文字消去速度。0で瞬時。</td></tr>
+<tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>x</td><td rowspan="2"></td><td rowspan="2">'=0'</td><td rowspan="2">
+	以下のような相対位置指定が出来る<br/>
+	500     ──　X位置を500に<br/>
+	'=500'  ──　文字位置を基準に+500加算した位置<br/>
+	'=-500' ──　文字位置を基準に-500加算した位置
+
+</td><td rowspan="2">変化の目標値</td></tr>
+<tr><td>y</td></tr>
+
+<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
+<tr><td>join</td><td></td><td>false</td><td>Boolean</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
+<tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>CSSのanimation-timing-function プロパティ</td></tr>
+</table>
 
 </p>
 
@@ -911,14 +969,18 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>文字レイヤに画像を文字として表示する。ルビは同時に設定する。</h4>
 <p class="mb2 px1">
 
-<p>フォントにない外字やswfアニメ画像表示に使える。</p>
+<p>フォントにない外字やアニメpng画像表示に使える。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>pic</td><td>y</td><td></td><td>画像ファイル名</td><td>表示する画像やswf</td></tr>
+<tr class="y"><td>pic</td><td>y</td><td></td><td>画像ファイル名</td><td>表示する画像やアニメpng</td></tr>
 <tr><td>r</td><td></td><td>ルビ無し</td><td>String</td><td>ルビ文字列（ただしあまりに他の文字サイズと大きく異なる場合は正しい位置に表示されない）</td></tr>
 <tr><td>width</td><td></td><td>画像の横サイズ（※）</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>height</td><td></td><td>画像の縦サイズ（※）</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 </table>
 <p>※省略時は画像サイズになるが、ロード完了直後に文字配置を決めるのでちらつく。それを嫌う際に指定する<br/>
 	※特にモバイルなどでゲーム画面が自動で拡大縮小される場合、省略したらその時の本文文字サイズとして扱われる。なるべくサイズ指定を推奨。</p>
@@ -932,38 +994,26 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <p>[link]から[endlink]（ハイパーリンクの終了）までで囲った範囲をリンク区間と呼び、<br/>
 	その区間の文字や縦中横がハイパーリンクになる。（リンク区間は入れ子に出来ません）<br/>
-	※選択肢として使用する場合、ジャンプ先のラベル直後には必ず[record_place]を記述して、ジャンプ直後でセーブしても正しくセーブされるようにして下さい。<br/>
-	ブラウザ実行時、ローカル版swfをブラウザで開いた場合はhref属性によるリンクジャンプが利きません。非ローカル版swfをサーバーに設置すれば動作します。</p>
+	※選択肢として使用する場合、ジャンプ先のラベル直後には必ず[record_place]を記述して、ジャンプ直後でセーブしても正しくセーブされるようにして下さい。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ名</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>href</td><td></td><td>何もしない</td><td>URL</td><td>クリック時にブラウザで指定URLを開く</td></tr>
-<tr><td>target</td><td></td><td>何もしない</td><td>HTML タグのtarget属性</td><td>hrefにてブラウザを開く際のtarget属性</td></tr>
-<tr><td>f_color</td><td></td><td>0x8888FF</td><td>色指定。0x000000など</td><td>（リンク上にマウスがない状態）文字色</td></tr>
-<tr><td>f_alpha</td><td></td><td>1.0（不透明）</td><td>0.0〜1.0（実数）</td><td>（リンク上にマウスがない状態）文字の透過度</td></tr>
-<tr><td>f_ul</td><td></td><td>true</td><td>Boolean</td><td>（リンク上にマウスがない状態）trueの場合は文字に下線を引く</td></tr>
-<tr><td>hf_color</td><td></td><td>0xFFFF00</td><td>色指定。0x000000など</td><td>（リンク上にマウスがある状態）文字色</td></tr>
-<tr><td>hf_alpha</td><td></td><td>1.0（不透明）</td><td>0.0〜1.0（実数）</td><td>（リンク上にマウスがある状態）文字の透過度</td></tr>
-<tr><td>hf_ul</td><td></td><td>false</td><td>Boolean</td><td>（リンク上にマウスがある状態）trueの場合は文字に下線を引く</td></tr>
-<tr><td>af_color</td><td></td><td>0x8888FF</td><td>色指定。0x000000など</td><td>（リンクをマウス押下した状態）文字色</td></tr>
-<tr><td>af_alpha</td><td></td><td>1.0（不透明）</td><td>0.0〜1.0（実数）</td><td>（リンクをマウス押下した状態）文字の透過度</td></tr>
-<tr><td>af_ul</td><td></td><td>true</td><td>Boolean</td><td>（リンクをマウス押下した状態）trueの場合は文字に下線を引く</td></tr>
-<tr><td>b_color</td><td></td><td>背景色なし</td><td>色指定。0x000000など</td><td>リンク背景色</td></tr>
-<tr><td>b_alpha</td><td></td><td>1.0（不透明）</td><td>0.0〜1.0（実数）</td><td>リンク背景の透過度</td></tr>
-<tr><td>hint</td><td></td><td></td><td>String</td><td>設定した場合のみ、マウスカーソルを載せるとヒントをチップス表示する</td></tr>
-<tr><td>clickse</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、クリック時に効果音を再生する</td></tr>
+<tr><td>style</td>'background-color: rgba(255,0,0,0.5);'<td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
+<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>クリック時にジャンプする先。<br/>指定方法は[jump]と同様</td></tr>
+<tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)<br/>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
+<tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 <tr><td>enterse</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する</td></tr>
 <tr><td>leavese</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する</td></tr>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
-<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>クリック時にジャンプする先。<br/>指定方法は[jump]と同様</td></tr>
-<tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)<br/>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
 <tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
 <tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
-<tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 </table>
 
 </p>
@@ -1050,7 +1100,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>layout</td><td></td><td>リセット</td><td>String</td><td>文字のレイアウトを指定する。文法は[lay]のlayout属性と同様。</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 </table>
 
 </p>
@@ -1078,7 +1131,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p>本タグだけでは差分画像を表示しない。画像レイヤの[lay]タグface属性で指定する差分名称を登録する。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>差分名称</td><td>[lay]タグface属性で指定する差分名称</td></tr>
-<tr><td>fn</td><td></td><td>属性nameの値</td><td>画像ファイル名</td><td>表示する画像、swf</td></tr>
+<tr><td>fn</td><td></td><td>属性nameの値</td><td>画像ファイル名</td><td>表示する画像、アニメpng</td></tr>
 <tr><td>dx</td><td></td><td>0</td><td>基本画像左上を(0, 0)とする座標</td><td>差分画像の表示横位置</td></tr>
 <tr><td>dy</td><td></td><td>0</td><td>(↑と同じ)</td><td>差分画像の表示縦位置</td></tr>
 <tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="#clearvar">blendModeの解説</a>を参照。</td></tr>
@@ -1348,7 +1401,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>シナリオファイルの順次処理を停止し、クリックやキー押下（→詳細は[waitclick]）を待つ。</h4>
 <p class="mb2 px1">
 
-<p>「breakline」という画像やswfファイルが用意されていれば、行末クリック待ちマークとして表示する。
+<p>「breakline」という画像やアニメpngファイルが用意されていれば、行末クリック待ちマークとして表示する。
 	クリックやキー押下が発生した場合、処理を再開する。
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -1362,7 +1415,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>シナリオファイルの順次処理を停止し、クリックやキー押下（→詳細は[waitclick]）を待つ。</h4>
 <p class="mb2 px1">
 
-<p>「breakpage」という画像やswfファイルが用意されていれば、改ページクリック待ちマークとして表示する。
+<p>「breakpage」という画像やアニメpngファイルが用意されていれば、改ページクリック待ちマークとして表示する。
 	クリックやキー押下が発生した場合、処理を再開する。
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -1680,6 +1733,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>page</td><td></td><td>back</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>pic</td><td>y</td><td></td><td>画像ファイル名</td><td>画像ボタンとして配置する画像を指定する。<br/>ただし画像は縦に三等分し、左から「通常時」「クリック押下時」「マウスカーソルを載せた時」の画像として表示する。</td></tr>
 <tr class="y"><td>text</td><td>...</td><td></td><td>ボタンにする文字列</td><td>文字ボタンとして配置する文字列を指定する。<br/>picかtextのどちらかの指定を必須とする</td></tr>
+<tr><td>b_pic</td><td></td><td></td><td>画像ファイル名</td><td>文字ボタンの背景画像が指定できる。画像の大きさにかかわらず、文字ボタンのちょうど真ん中に来るよう配置される。</td></tr>
 <tr><td>width</td><td></td><td>※100</td><td>1〜</td><td>文字ボタンの横幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする。</td></tr>
 <tr><td>height</td><td></td><td>※30</td><td>1〜</td><td>文字ボタンの縦幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする。<br/>また、文字は必ず横一列になるため、この設定値はフォントサイズと兼用になる。</td></tr>
 <tr><td>style</td><td></td><td>※</td><td>CSS style（右項で列挙した一部）</td><td>文字ボタン上にマウスカーソルが乗っていない状態のCSS スタイル。<br/>※以下がデフォルト値であり、指定できるプロパティ。<br/>
@@ -1690,7 +1744,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	padding: 5;<br/>
 	dropShadow: true;<br/>
 	dropShadowAlpha: 0.7;<br/>
-	dropShadowColor: 'white';<br/>
+	<s>dropShadowColor: white;</s><br/>
+	dropShadowColor: #ffffff';（※pixi.js v5.0.3 で色名前が使えない）<br/>
 	dropShadowBlur: 3;<br/>
 	dropShadowDistance: 0;<br/>
 </td></tr>
@@ -2001,13 +2056,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>プラグインとして読み込む</h4>
 <p class="mb2 px1">
 
-《注意》立ち絵や一枚絵を表示する目的にはこの命令を推奨しません。その目的を満たすタグは[lay]です。
-プラグインには裏表ページの概念がなかったりするためです
-
-※動的ライブラリの作り方については「プラグインの自作」をご覧下さい。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>fn</td><td>y</td><td></td><td>ファイル名</td><td>読み込むプラグインのファイル名<br/>[loadplugin fn=plg*]のようにワイルドカードをサポート。<br/>マッチするプラグインを順不同に読み込む。読み込み済みなら無視。<br/>（拡張子はswfのみ）（ワイルドカードは後方のみ）</td></tr>
-<tr><td>index</td><td></td><td>最前面※</td><td>0〜</td><td>重なり順を指定する。<br/>※最前面とは、Flashのstage.addChildにおける重なり順</td></tr>
+<tr class="y"><td>fn</td><td>y</td><td></td><td>ファイル名</td><td>読み込むプラグインのファイル名<br/>（拡張子はcssのみ、Webフォント用）</td></tr>
 <tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
 </table>
 
@@ -2027,20 +2077,18 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h2 id="snapshot" class="w-heading">[snapshot]スナップショット</h2>
 <h4>アプリ表示部分全体を画像として保存する</h4>
 <p class="mb2 px1">
+	文字の表示とスナップショットは、厳密には同じではないので注意。
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（半角カンマ区切りで複数レイヤを指定可能）</td><td>「plg:プラグイン名」と記述する事でプラグインも指定できる。</td></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（半角カンマ区切りで複数レイヤを指定可能）</td><td></td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>fn</td><td></td><td>snapshot</td><td>String</td><td>※保存するファイル名（拡張子を除く）</td></tr>
-<tr><td>format</td><td></td><td>jpg</td><td>png、jpg</td><td>保存する画像フォーマット</td></tr>
-<tr><td>quality</td><td></td><td>90</td><td>1〜100</td><td>jpg保存する際の画質。大きいと画質が高いが処理が遅くなる。</td></tr>
+<tr><td>fn</td><td></td><td>snapshot</td><td>String</td><td>※保存するファイル名<br/>省略時はデスクトップに保存<br/>保存する画像フォーマット（png、jpg）は拡張子で指定</td></tr>
 <tr><td>width</td><td></td><td>アプリ表示部分の横サイズ</td><td>1〜</td><td>保存する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>height</td><td></td><td>アプリ表示部分の縦サイズ</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>smoothing</td><td></td><td>false</td><td>Boolean</td><td>拡大・縮小保存される場合、スムージングするか</td></tr>
-<tr><td>pathdlg</td><td></td><td>false</td><td>Boolean</td><td>保存場所をGUIで選べるダイアログを表示するか</td></tr>
 <tr><td>b_color</td><td></td><td>config.anprjで指定した背景色</td><td>色指定。0xFF000000（黒）など<br/>16進数では透過2桁＋赤2桁＋緑2桁＋青2桁で指定</td><td>テキスト背後の矩形色。pngで 0x0 にすると透過する。<br/>透過しない黒は 0xFF000000</td></tr>
 </table>
-<p>※fnを「app-storage:」で始まるファイル名にするとセーブデータと同じフォルダに保存します。</p>
+<p>※fnを「userdata:/」で始まるファイル名にするとセーブデータと同じフォルダに保存します。<br/><span class="red">【暫定版】（2019/12/09）</span>以下は不正確です</p>
 <table>
 
 		<tr>
@@ -2056,10 +2104,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>　　[id]はアプリ固有のIDです。<br/></td><td></td></tr>
 <tr><td>参考：アプリケーション記憶領域ディレクトリ<br/></td><td></td></tr>
 </table>
-<br/>
-<br/>
-※fnを「ss:/」で始めると、セーブデータファイル内部（SharedObject）に保存します。（例　ss:/yyy）
-　保存した画像は、画像レイヤやボタンに画像として表示出来ます。（例　fn="ss:/yyy"）
 
 </p>
 

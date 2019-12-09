@@ -19,7 +19,7 @@ export class Button extends Container {
 		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);
 		if (enabled) this.evtMng.button(hArg, this);
 		// 文字列から生成
-		if (hArg.text) {
+		if ('text' in hArg) {
 			const fontSize = uint(hArg.height || 30);
 			const style = {
 				fill: 'black',
@@ -35,7 +35,7 @@ export class Button extends Container {
 				dropShadowDistance: 0,
 			};
 			if (hArg.style) Button.s2hStyle(style, hArg.style);
-			const txt = new Text(hArg.text, style);
+			const txt = new Text(hArg.text ?? '', style);
 			txt.alpha = CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
 			txt.pivot.set(
 				CmnLib.argChk_Num(hArg, 'pivot_x', txt.pivot.x),
@@ -50,6 +50,26 @@ export class Button extends Container {
 			txt.height = fontSize;
 			txt.x = uint(hArg.left || 0);
 			txt.y = uint(hArg.top || 0);
+
+			if (hArg.b_pic) {
+				const cnt = new Container();
+				this.addChild(cnt);
+				this.isStop = GrpLayer.csv2Sprites(
+					hArg.b_pic,
+					cnt,
+					sp=> {
+						sp.alpha = txt.alpha;
+						sp.rotation = txt.rotation;
+						sp.x = txt.x;
+						sp.y = txt.y;
+						sp.pivot.set(
+							(sp.width -txt.width) /2,
+							(sp.height -txt.height) /2
+						);
+					},
+					isStop=> {if (isStop) this.main.resume()});
+			}
+
 			this.addChild(txt);
 			if (! enabled) return;
 

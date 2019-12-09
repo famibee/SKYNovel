@@ -71,13 +71,13 @@ class DebugMng {
         let sty = '';
         switch (lvl) {
             case 'D':
-                sty = 'color:#0055AA;';
+                sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
                 break;
             case 'W':
-                sty = 'color:#FF8800;';
+                sty = 'color:#F80;';
                 break;
             case 'F':
-                sty = 'color:#BB0000;';
+                sty = 'color:#B00;';
                 break;
             case 'ET':
             case 'E':
@@ -88,10 +88,10 @@ class DebugMng {
                 this.hTag.dump_stack({});
                 if (lvl == 'ET')
                     throw mes;
-                console.error('%c' + mes, 'color:#FF3300;');
+                console.error('%c' + mes, 'color:#F30;');
                 return;
             default:
-                sty = 'color:black;';
+                sty = '';
                 mes = ' ' + mes;
         }
         console.info('%c' + mes, sty);
@@ -100,21 +100,21 @@ class DebugMng {
         let sty = '';
         switch (lvl) {
             case 'D':
-                sty = '#0055AA';
+                sty = 'color:#05A;';
                 break;
             case 'W':
-                sty = '#FF8800';
+                sty = 'color:#F80;';
                 break;
             case 'F':
-                sty = '#BB0000';
+                sty = 'color:#B00;';
                 break;
             case 'ET':
             case 'E':
-                sty = '#FF3300';
+                sty = 'color:#F30;';
                 break;
-            default: sty = 'black';
+            default: sty = '';
         }
-        DebugMng.spnDbg.innerHTML += `<span style='color:${sty};'>${mes}</span><br/>`;
+        DebugMng.spnDbg.innerHTML += `<span style='${sty}'>${mes}</span><br/>`;
         DebugMng.spnDbg.hidden = false;
     }
     ;
@@ -126,7 +126,7 @@ DebugMng.myTrace = (txt, lvl = 'E') => {
     let sty = '';
     switch (lvl) {
         case 'D':
-            sty = 'color:#0055AA;';
+            sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
             break;
         case 'W':
             sty = 'color:#FF8800;';

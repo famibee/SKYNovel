@@ -56,7 +56,7 @@ class TxtStage extends pixi_js_1.Container {
             : () => TxtStage.evtMng.isSkipKeyDown();
     }
     static setEvtMng(evtMng) { TxtStage.evtMng = evtMng; }
-    lay(hArg) {
+    lay(hArg, txl) {
         var _a, _b;
         const s = this.htmTxt.style;
         if (hArg.style) {
@@ -74,21 +74,9 @@ class TxtStage extends pixi_js_1.Container {
         }
         if (CmnLib_1.CmnLib.hDip['tx']) {
             this.isTategaki = (s.writingMode == 'vertical-rl');
-            this.left = CmnLib_1.CmnLib.argChk_Num(hArg, 'left', 0);
-            if (this.isTategaki) {
-                s.removeProperty('left');
-                this.infTL.pad_right = parseFloat(s.paddingRight || '0');
-                this.infTL.$width = parseFloat(s.width || '0');
-                const fs = parseFloat(s.fontSize || '0');
-                this.infTL.fontsize = fs;
-                s.right = (CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
-                    + (CmnLib_1.CmnLib.isSafari ? this.infTL.pad_right + fs / 2 : 0)) + 'px';
-            }
-            else {
-                s.removeProperty('right');
-                s.left = this.left + 'px';
-            }
-            s.top = CmnLib_1.CmnLib.argChk_Num(hArg, 'top', 0) + 'px';
+            this.left = txl.position.x;
+            s.left = this.left + 'px';
+            s.top = txl.position.y + 'px';
         }
         s.textShadow = (_b = (_a = hArg.filter, (_a !== null && _a !== void 0 ? _a : s.textShadow)), (_b !== null && _b !== void 0 ? _b : ''));
         this.lay_sub();

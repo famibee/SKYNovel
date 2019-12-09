@@ -166,6 +166,9 @@ class Variable {
         this.hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
         this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
         this.hTmp['const.sn.Math.PI'] = Math.PI;
+        const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
+        this.hTmp['const.sn.isDarkMode'] = CmnLib_1.CmnLib.isDarkMode = dmmq.matches;
+        dmmq.addListener(e => this.hTmp['const.sn.isDarkMode'] = CmnLib_1.CmnLib.isDarkMode = e.matches);
     }
     setSys(sys) {
         sys.initVal(this.data, this.hTmp, data => {

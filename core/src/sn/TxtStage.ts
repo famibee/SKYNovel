@@ -77,7 +77,7 @@ export class TxtStage extends Container {
 		this.grpDbgMasume.name = 'grpDbgMasume';
 	}
 
-	lay(hArg: HArg) {
+	lay(hArg: HArg, txl: Sprite) {
 		const s = this.htmTxt.style;
 		if (hArg.style) {
 			const cln = document.createElement('span');
@@ -95,22 +95,9 @@ export class TxtStage extends Container {
 		if (CmnLib.hDip['tx']) {
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 			this.isTategaki = (s.writingMode == 'vertical-rl');
-			this.left = CmnLib.argChk_Num(hArg, 'left', 0);
-			if (this.isTategaki) {
-				s.removeProperty('left');	// 重要
-				this.infTL.pad_right = parseFloat(s.paddingRight || '0');
-				this.infTL.$width = parseFloat(s.width || '0');
-				const fs = parseFloat(s.fontSize || '0');
-				this.infTL.fontsize = fs;
-				s.right = (CmnLib.stageW -(this.left +this.infTL.$width)
-					+(CmnLib.isSafari ?this.infTL.pad_right +fs/2 :0)
-						// fs/2 後者はルビ
-						// SafariとChromeでは paddingRight＆rightと
-						// 文字表示位置のクセが違う
-				) +'px';
-			}
-			else {s.removeProperty('right'); s.left = this.left +'px';}
-			s.top = CmnLib.argChk_Num(hArg, 'top', 0) +'px';
+			this.left = txl.position.x;
+			s.left = this.left +'px';
+			s.top = txl.position.y +'px';
 		}
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 

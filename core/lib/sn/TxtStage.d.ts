@@ -1,4 +1,4 @@
-import { Container, Renderer } from 'pixi.js';
+import { Container, Sprite, Renderer } from 'pixi.js';
 import { IEvtMng } from './CmnLib';
 import { HArg } from './CmnInterface';
 import { Config } from './Config';
@@ -22,7 +22,7 @@ export declare class TxtStage extends Container {
     private cntTxt;
     private grpDbgMasume;
     constructor(infTL: IInfTxLay, cnt: Container);
-    lay(hArg: HArg): void;
+    lay(hArg: HArg, txl: Sprite): void;
     private lay_sub;
     private left;
     private isTategaki;

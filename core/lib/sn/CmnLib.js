@@ -107,6 +107,7 @@ CmnLib.osName = '';
 CmnLib.isSafari = (platform.name == 'Safari');
 CmnLib.hDip = {};
 CmnLib.isRetina = false;
+CmnLib.isDarkMode = false;
 CmnLib.retinaRate = 1;
 CmnLib.REG_TOKEN = m_xregexp(`(?: \\[let_ml \\s+ [^\\[\\]]+ \\])` +
     `(?: . | \\s)+?` +

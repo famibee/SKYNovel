@@ -68,6 +68,7 @@ export class CmnLib {
 	static	hDip		: {[name: string]: string}	= {};
 
 	static	isRetina	= false;
+	static	isDarkMode	= false;
 	static	retinaRate	= 1;
 
 	static argChk_Num(hash: any, name: string, def: number): number {

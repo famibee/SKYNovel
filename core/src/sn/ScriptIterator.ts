@@ -243,9 +243,9 @@ export class ScriptIterator {
 			const line = (e.length > 75) ?e.substr(0, 75) +'…' :e;	// 長い場合は後略
 			if (i == len -1) console.info(
 				mes + line.slice(0, lc.col_s) +'%c'+ line.slice(lc.col_s),
-				'background-color: skyblue;', 'background-color: pink;'
+				'color: black; background-color: skyblue;', 'color: black; background-color: pink;'
 			)
-			else console.info(mes + line, 'background-color: skyblue;');
+			else console.info(mes + line, 'color: black; background-color: skyblue;');
 		}
 		console.groupEnd();
 		//console.log('Linkの出力   : %o', 'file:///Volumes/MacHD2/_Famibee/SKYNovel/prj/mat/main.sn');

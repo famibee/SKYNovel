@@ -289,9 +289,9 @@ class ScriptIterator {
             const e = a[i];
             const line = (e.length > 75) ? e.substr(0, 75) + '…' : e;
             if (i == len - 1)
-                console.info(mes + line.slice(0, lc.col_s) + '%c' + line.slice(lc.col_s), 'background-color: skyblue;', 'background-color: pink;');
+                console.info(mes + line.slice(0, lc.col_s) + '%c' + line.slice(lc.col_s), 'color: black; background-color: skyblue;', 'color: black; background-color: pink;');
             else
-                console.info(mes + line, 'background-color: skyblue;');
+                console.info(mes + line, 'color: black; background-color: skyblue;');
         }
         console.groupEnd();
     }

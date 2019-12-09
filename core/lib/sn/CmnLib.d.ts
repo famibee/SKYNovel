@@ -30,6 +30,7 @@ export declare class CmnLib {
         [name: string]: string;
     };
     static isRetina: boolean;
+    static isDarkMode: boolean;
     static retinaRate: number;
     static argChk_Num(hash: any, name: string, def: number): number;
     static argChk_Boolean(hash: any, name: string, def: boolean): boolean;

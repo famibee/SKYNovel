@@ -38,7 +38,7 @@ export declare class LayerMng {
     private add_lay;
     private hPages;
     private aLayName;
-    private strTxtlay;
+    private curTxtlay;
     private lay;
     private rebuildLayerRankInfo;
     private clear_lay;
@@ -71,8 +71,10 @@ export declare class LayerMng {
     static set msecChWait(v: number);
     private ch;
     private getTxtLayer;
+    private $getTxtLayer;
     setNormalWaitTxtLayer(): void;
     private current;
+    private $current;
     getCurrentTxtlayForeNeedErr(): TxtLayer;
     getCurrentTxtlayFore(): TxtLayer | undefined;
     private pgTxtlay;

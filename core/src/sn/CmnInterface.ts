@@ -75,8 +75,6 @@ export interface HArg {
 	style_clicked?	: string;
 	fill_hover?	: string;
 
-	b_left?		: string;
-	b_top?		: string;
 	b_width?	: string;
 	b_height?	: string;
 	b_color?	: string;
