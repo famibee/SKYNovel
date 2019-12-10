@@ -77,6 +77,10 @@ class TxtStage extends pixi_js_1.Container {
             this.left = txl.position.x;
             s.left = this.left + 'px';
             s.top = txl.position.y + 'px';
+            s.opacity = String(hArg.alpha);
+            s.transformOrigin = `${hArg.pivot_x}px ${hArg.pivot_y}px`;
+            s.transform = `rotate(${hArg.rotation}deg) scale(${hArg.scale_x}, ${hArg.scale_y}`;
+            s.display = Boolean(hArg.visible) ? 'inline' : 'none';
         }
         s.textShadow = (_b = (_a = hArg.filter, (_a !== null && _a !== void 0 ? _a : s.textShadow)), (_b !== null && _b !== void 0 ? _b : ''));
         this.lay_sub();

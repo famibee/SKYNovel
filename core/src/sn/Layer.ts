@@ -40,7 +40,8 @@ export class Layer {
 			CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x),
 			CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y)
 		);
-		this.cnt.rotation = CmnLib.argChk_Num(hArg, 'rotation', this.cnt.rotation);
+		this.cnt.angle = CmnLib.argChk_Num(hArg, 'rotation', this.cnt.angle);
+			// rotation is in radians, angle is in degrees.
 		this.cnt.scale.set(
 			CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x),
 			CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y)

@@ -146,7 +146,7 @@
         "signature": "76ce389db71efb5355e89e2cac08ef84ff09c52e6276951ab2792dd47e416798"
       },
       "../src/sn/layer.ts": {
-        "version": "34e1667a6a544d08106114063a68f5ace323aa1b8977f879cac9bb97d8b491a4",
+        "version": "ddf7526f029606d62d8f74f345309293b474b78642f3f70881bb892004e7b262",
         "signature": "77b09667f37d0932e0e079476a63269641e6360eb3cb95e06d06fe60be0cf268"
       },
       "../src/sn/cmninterface.ts": {
@@ -266,8 +266,8 @@
         "signature": "5b34786b5d59b4e627c76f1294a00b5e92260a31ca87b29d9b7cb9acd3ba1acc"
       },
       "../../node_modules/@types/node/readline.d.ts": {
-        "version": "e1045d32a6a59dbcbe0ed2edddc6568221acc299ac68d92284153e7c00b39d51",
-        "signature": "e1045d32a6a59dbcbe0ed2edddc6568221acc299ac68d92284153e7c00b39d51"
+        "version": "d08dfb553aa396ac399e7c67e24f6b964b12a49e99d245009c7c579827f6d5f2",
+        "signature": "d08dfb553aa396ac399e7c67e24f6b964b12a49e99d245009c7c579827f6d5f2"
       },
       "../../node_modules/@types/node/repl.d.ts": {
         "version": "30b9c2c0949e27506c7e751bd51749ca5ecb0d0a3ea854064039ffaa3707fad4",
@@ -378,7 +378,7 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "aa8d2f6bdb4f7008aef5dd4a4589f1264941de936a34d562239d1a40dcf335ce",
+        "version": "7107e101f85a8362fefdb17f573eb7d3d68b52bb78dbc52b01a12878d97fd89d",
         "signature": "0ed785cf65ef5b2d7e451cca4dad2f2f7aee64ac43f257ae61d60bc444d9daf7"
       },
       "../src/sn/rubyspliter.ts": {
@@ -398,7 +398,7 @@
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
-        "version": "65cb994761a33a3ef3d1be3c6fb867d765d2de55f57c6722be5f4103645a2a49",
+        "version": "686f7aa79642d02ec019224264a8de50b60c5f701baffabc89da8549a48a9d05",
         "signature": "3f7252c272e2ab114659a4df88b71a0113d0da598f46ab9c3d78d4ee5de8688b"
       },
       "../../node_modules/@types/howler/index.d.ts": {
@@ -2434,6 +2434,8 @@
       "../../node_modules/@types/node/process.d.ts",
       "../../node_modules/@types/node/punycode.d.ts",
       "../../node_modules/@types/node/querystring.d.ts",
+      "../../node_modules/@types/node/readline.d.ts",
+      "../../node_modules/@types/node/repl.d.ts",
       "../../node_modules/@types/node/stream.d.ts",
       "../../node_modules/@types/node/string_decoder.d.ts",
       "../../node_modules/@types/node/timers.d.ts",
@@ -2446,9 +2448,13 @@
       "../../node_modules/@types/node/vm.d.ts",
       "../../node_modules/@types/node/worker_threads.d.ts",
       "../../node_modules/@types/node/zlib.d.ts",
+      "../../node_modules/@types/node/base.d.ts",
       "../../node_modules/@types/node/ts3.2/fs.d.ts",
       "../../node_modules/@types/node/ts3.2/util.d.ts",
       "../../node_modules/@types/node/ts3.2/globals.d.ts",
+      "../../node_modules/@types/node/ts3.2/index.d.ts",
+      "../../node_modules/@types/fs-extra/index.d.ts",
+      "../src/sn/sysnode.ts",
       "../src/sn/callstack.ts",
       "../src/sn/analyzetagarg.ts",
       "../../node_modules/@types/parsimmon/index.d.ts",
@@ -2456,7 +2462,6 @@
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
-      "../src/sn/txtstage.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
@@ -2472,12 +2477,15 @@
       "../src/sn/areas.ts",
       "../src/sn/variable.ts",
       "../src/sn/main.ts",
+      "../src/sn/sysapp.ts",
+      "../src/app.ts",
       "../src/sn/sysweb.ts",
       "../src/web.ts",
       "../src/sn/sysmob.ts",
       "../../node_modules/@types/electron-json-storage/index.d.ts",
       "../../node_modules/@types/empower/index.d.ts",
       "../../node_modules/@types/minimatch/index.d.ts",
+      "../../node_modules/@types/glob/index.d.ts",
       "../../node_modules/@types/mocha/index.d.ts",
       "../../node_modules/@types/power-assert-formatter/index.d.ts",
       "../../node_modules/@types/power-assert/ts3.7/index.d.ts",
@@ -2485,16 +2493,8 @@
       "../../node_modules/@types/store/index.d.ts",
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
-      "../../node_modules/@types/node/readline.d.ts",
-      "../../node_modules/@types/node/base.d.ts",
-      "../../node_modules/@types/node/repl.d.ts",
-      "../../node_modules/@types/node/ts3.2/index.d.ts",
-      "../../node_modules/@types/fs-extra/index.d.ts",
-      "../src/sn/sysnode.ts",
-      "../src/sn/sysapp.ts",
-      "../src/app.ts",
-      "../../node_modules/@types/glob/index.d.ts",
-      "../../node_modules/@types/xml2js/index.d.ts"
+      "../../node_modules/@types/xml2js/index.d.ts",
+      "../src/sn/txtstage.ts"
     ]
   },
   "version": "3.7.3"

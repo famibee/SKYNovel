@@ -384,7 +384,11 @@ return false;	// TODO: 未作成：フォーカス移動
 					else {
 						this.setNormalWaitTxtLayer();
 					}
-					this.cmdTxt('gotxt｜', this.pgTxtlay.fore as TxtLayer, false);
+					for (const name of this.getLayers()) {
+						const pg = this.hPages[name];
+						if (! (pg.fore instanceof TxtLayer)) continue;
+						this.cmdTxt('gotxt｜', pg.fore as TxtLayer, false);
+					}
 				}
 			}
 

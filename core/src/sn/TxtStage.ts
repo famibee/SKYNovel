@@ -98,6 +98,11 @@ export class TxtStage extends Container {
 			this.left = txl.position.x;
 			s.left = this.left +'px';
 			s.top = txl.position.y +'px';
+
+			s.opacity = String(hArg.alpha);
+			s.transformOrigin = `${hArg.pivot_x}px ${hArg.pivot_y}px`;
+			s.transform = `rotate(${hArg.rotation}deg) scale(${hArg.scale_x}, ${hArg.scale_y}`;
+			s.display = Boolean(hArg.visible) ?'inline' :'none';
 		}
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 

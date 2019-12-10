@@ -324,7 +324,12 @@ void main(void) {
                         else {
                             this.setNormalWaitTxtLayer();
                         }
-                        this.cmdTxt('gotxt｜', this.pgTxtlay.fore, false);
+                        for (const name of this.getLayers()) {
+                            const pg = this.hPages[name];
+                            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                                continue;
+                            this.cmdTxt('gotxt｜', pg.fore, false);
+                        }
                     };
                 }
                 this.val.setVal_Nochk('save', 'const.sn.layer.' + ((layer !== null && layer !== void 0 ? layer : this.curTxtlay)) + '.enabled', true);

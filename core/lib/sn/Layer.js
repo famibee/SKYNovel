@@ -25,7 +25,7 @@ class Layer {
     lay(hArg) {
         this.cnt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', this.cnt.alpha);
         this.cnt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y));
-        this.cnt.rotation = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', this.cnt.rotation);
+        this.cnt.angle = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', this.cnt.angle);
         this.cnt.scale.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y));
         this.cnt.visible = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', this.cnt.visible);
         return false;
