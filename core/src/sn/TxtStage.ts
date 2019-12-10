@@ -848,7 +848,7 @@ export class TxtStage extends Container {
 
 		// 文字出現演出・開始〜終了
 		this.isChInIng = true;
-		const chs = document.querySelectorAll('span.sn_ch');
+		const chs = this.htmTxt.querySelectorAll('span.sn_ch');
 		const len_chs = chs.length;
 		for (let i=0; i<len_chs; ++i) {
 			const v = chs[i];
@@ -1100,7 +1100,7 @@ export class TxtStage extends Container {
 			const old = this.htmTxt;
 			old.parentElement!.insertBefore(n, old);
 
-			const chs = document.querySelectorAll('span.sn_ch');
+			const chs = old.querySelectorAll('span.sn_ch');
 			const len_chs = chs.length;
 			let sum_wait = 0;
 			for (let i=0; i<len_chs; ++i) {

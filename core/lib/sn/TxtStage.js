@@ -630,7 +630,7 @@ class TxtStage extends pixi_js_1.Container {
             }
         }
         this.isChInIng = true;
-        const chs = document.querySelectorAll('span.sn_ch');
+        const chs = this.htmTxt.querySelectorAll('span.sn_ch');
         const len_chs = chs.length;
         for (let i = 0; i < len_chs; ++i) {
             const v = chs[i];
@@ -850,7 +850,7 @@ class TxtStage extends pixi_js_1.Container {
             n.textContent = '';
             const old = this.htmTxt;
             old.parentElement.insertBefore(n, old);
-            const chs = document.querySelectorAll('span.sn_ch');
+            const chs = old.querySelectorAll('span.sn_ch');
             const len_chs = chs.length;
             let sum_wait = 0;
             for (let i = 0; i < len_chs; ++i) {

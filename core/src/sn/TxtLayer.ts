@@ -109,7 +109,6 @@ export class TxtLayer extends Layer {
 		const name = hArg.name;
 		TxtLayer.addStyle(`
 .sn_ch_in_${name} {
-	display: none;
 	position: relative;
 	display: inline-block;
 }
