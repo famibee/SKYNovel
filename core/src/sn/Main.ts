@@ -65,6 +65,10 @@ export class Main implements IMain {
 				this.appPixi.view.id = 'skynovel';
 			}
 			if (CmnLib.hDip['tx']) {
+				delete CmnLib.hDip['tx'];
+			}
+			else CmnLib.hDip['tx'] = '2';	// NOTE: 文字表示切り替え中
+			if (CmnLib.hDip['tx']) {
 				const s = this.appPixi.view.parentElement!.style;
 				s.position = 'relative';
 				s.width = `${this.cfg.oCfg.window.width}px`;

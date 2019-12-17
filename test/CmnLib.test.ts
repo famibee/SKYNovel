@@ -1155,7 +1155,45 @@ void main(void) {
 			ch = vctToken[1].charAt(0);
 			assert.equal(CmnLib.REG_TOKEN_NOTXT.test(ch), true);
 		});
+		it('test_let_ml_2', ()=> {
+			const sScr =
+`[let_ml name=const.db]
+{
+	"紀子": {
+		"fn"	: "nori",
+		"col"	: "lightskyblue"
+	},
+	"晶": {
+		"fn"	: "akir",
+		"col"	: "gold"
+	}
+}
+[endlet_ml]`;
+			vctToken = sScr.match(CmnLib.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+			let ch = "";
 
+			assert.equal(vctTokenLen, 2);
+			assert.equal(vctToken[0],
+`[let_ml name=const.db]
+{
+	"紀子": {
+		"fn"	: "nori",
+		"col"	: "lightskyblue"
+	},
+	"晶": {
+		"fn"	: "akir",
+		"col"	: "gold"
+	}
+}
+`);
+			ch = vctToken[0].charAt(0);
+			assert.equal(CmnLib.REG_TOKEN_NOTXT.test(ch), true);
+
+			assert.equal(vctToken[1], '[endlet_ml]');
+			ch = vctToken[1].charAt(0);
+			assert.equal(CmnLib.REG_TOKEN_NOTXT.test(ch), true);
+		});
 
 
 		// Main.splitAmpersand

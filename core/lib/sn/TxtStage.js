@@ -6,7 +6,8 @@ const LayerMng_1 = require("./LayerMng");
 const CmnTween_1 = require("./CmnTween");
 const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
-const TWEEN = require("@tweenjs/tween.js");
+const TW = require("@tweenjs/tween.js");
+const TWEEN = TW;
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
@@ -20,7 +21,7 @@ class TxtStage extends pixi_js_1.Container {
         this.isTategaki = false;
         this.padTx4x = 0;
         this.padTx4y = 0;
-        this.goTxt2 = (aSpan, layname) => this.goTxt2_htm(aSpan, layname);
+        this.goTxt2 = (aSpan) => this.goTxt2_htm(aSpan);
         this.cntGoTxtSerializer = 0;
         this.goTxt3 = (tx) => this.goTxt3_tx2sp(tx);
         this.xz4htm2rect = 0;
@@ -74,7 +75,10 @@ class TxtStage extends pixi_js_1.Container {
         }
         if (CmnLib_1.CmnLib.hDip['tx']) {
             this.isTategaki = (s.writingMode == 'vertical-rl');
-            this.left = txl.position.x;
+            this.left = txl.position.x
+                - (CmnLib_1.CmnLib.isSafari
+                    ? this.infTL.pad_left + this.infTL.pad_right
+                    : 0);
             s.left = this.left + 'px';
             s.top = txl.position.y + 'px';
             s.opacity = String(hArg.alpha);
@@ -134,14 +138,13 @@ class TxtStage extends pixi_js_1.Container {
         this.htmTxt.style.width = this.infTL.$width + 'px';
         this.htmTxt.style.height = this.infTL.$height + 'px';
     }
-    goTxt(aSpan, layname) {
+    goTxt(aSpan) {
         if (aSpan.length == 0)
             return;
         if (++this.cntGoTxtSerializer == 1)
-            this.goTxt2(aSpan, layname);
+            this.goTxt2(aSpan);
     }
-    goTxt2_htm(aSpan, layname) {
-        this.name = layname;
+    goTxt2_htm(aSpan) {
         let s = [...aSpan].join('');
         if (s.slice(-5) == '<br/>')
             s = s.slice(0, -5) + `<p style='margin: 0px;'>　</p>`;
@@ -160,7 +163,7 @@ class TxtStage extends pixi_js_1.Container {
                 return;
             }
             this.skipChIn();
-            this.goTxt2(aSpan, layname);
+            this.goTxt2(aSpan);
         });
     }
     htm2tx(fnc, hidden = true) {
@@ -519,7 +522,7 @@ class TxtStage extends pixi_js_1.Container {
                 }
                 const st = {
                     sp: sp,
-                    tw: new TWEEN.Tween(sp)
+                    tw: new TWEEN.default.Tween(sp)
                         .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, TxtStage.gs_chFadeWait)
                         .easing(ease)
                         .delay(delay)
@@ -559,9 +562,8 @@ class TxtStage extends pixi_js_1.Container {
         }
         this.putBreakMark(delay);
     }
-    goTxt_next(aSpan, layname) {
+    goTxt_next(aSpan) {
         var _a, _b;
-        this.name = layname;
         const begin = this.aRect.length;
         if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
             if (TxtStage.cfg.oCfg.debug.devtool)
@@ -667,7 +669,7 @@ class TxtStage extends pixi_js_1.Container {
         sp.position.set((cis.x.charAt(0) == '=') ? rct.x + sp.width * cis.nx : cis.nx, (cis.y.charAt(0) == '=') ? rct.y + sp.height * cis.ny : cis.ny);
         const st = {
             sp: sp,
-            tw: new TWEEN.Tween(sp)
+            tw: new TWEEN.default.Tween(sp)
                 .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait, (_a !== null && _a !== void 0 ? _a : 0)))
                 .easing(ease)
                 .delay((_b = add.wait, (_b !== null && _b !== void 0 ? _b : 0)) + (_c = arg.delay, (_c !== null && _c !== void 0 ? _c : 0)))
@@ -789,7 +791,7 @@ class TxtStage extends pixi_js_1.Container {
         cnt.visible = false;
         const st = {
             sp: cnt,
-            tw: new TWEEN.Tween(cnt)
+            tw: new TWEEN.default.Tween(cnt)
                 .to({}, 0)
                 .delay(delay)
                 .onComplete(() => { st.tw = null; st.sp.visible = true; })
@@ -898,10 +900,10 @@ class TxtStage extends pixi_js_1.Container {
                 const ease = CmnTween_1.CmnTween.ease(this.fo_easing);
                 for (const c of this.cntTxt.children) {
                     c.removeAllListeners();
-                    new TWEEN.Tween(c)
+                    new TWEEN.default.Tween(c)
                         .to({ alpha: 0, x: `+${this.ch_slide_x()}` }, TxtStage.gs_chFadeWait)
                         .easing(ease)
-                        .onComplete(o => this.cntTxt.removeChild(o))
+                        .onComplete((o) => this.cntTxt.removeChild(o))
                         .start();
                 }
             }
@@ -912,6 +914,7 @@ class TxtStage extends pixi_js_1.Container {
         const to = new TxtStage(this.infTL, this.parent);
         to.htmTxt.style.cssText = this.htmTxt.style.cssText;
         to.left = this.left;
+        to.name = this.name;
         to.lay_sub();
         to.ch_filter = this.ch_filter;
         to.fi_easing = this.fi_easing;

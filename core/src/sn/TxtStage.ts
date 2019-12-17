@@ -14,7 +14,8 @@ import {LayerMng} from './LayerMng';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
-import TWEEN = require('@tweenjs/tween.js');
+import * as TW from '@tweenjs/tween.js';
+const TWEEN: any = TW;
 
 export interface IInfTxLay {
 	fontsize	: number;
@@ -95,7 +96,10 @@ export class TxtStage extends Container {
 		if (CmnLib.hDip['tx']) {
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 			this.isTategaki = (s.writingMode == 'vertical-rl');
-			this.left = txl.position.x;
+			this.left = txl.position.x
+				-(CmnLib.isSafari
+					? this.infTL.pad_left +this.infTL.pad_right
+					: 0);
 			s.left = this.left +'px';
 			s.top = txl.position.y +'px';
 
@@ -182,19 +186,18 @@ export class TxtStage extends Container {
 	};
 
 
-	goTxt(aSpan: string[], layname: string) {
+	goTxt(aSpan: string[]) {
 		if (aSpan.length == 0) return;
 
 		//console.log(`🍅 goTxt htmTxt:${this.htmTxt.textContent}`);
-		if (++this.cntGoTxtSerializer == 1) this.goTxt2(aSpan, layname);
+		if (++this.cntGoTxtSerializer == 1) this.goTxt2(aSpan);
 			// VAL++ == 0
 	}
 
-	private goTxt2  = (aSpan: string[], layname: string)=> this.goTxt2_htm(aSpan, layname);
+	private goTxt2  = (aSpan: string[])=> this.goTxt2_htm(aSpan);
 	private cntGoTxtSerializer = 0;
-	private goTxt2_htm(aSpan: string[], layname: string) {
+	private goTxt2_htm(aSpan: string[]) {
 		//console.log(`🍆 goTxt2_htm2tx[${this.cntGoTxtSerializer}]`);
-		this.name = layname;	// dump表示などに使用
 		//this.htmTxt.innerHTML = this.aSpan.join('');
 		// これだとSafariでgetChRects()内 getBoundingClientRect()で異常な値になる。
 		// <br/>ではなく<p>〜</p>にする（ただし空では改行せず、全角空白一文字必要らしい）
@@ -220,7 +223,7 @@ export class TxtStage extends Container {
 				return;
 			}
 			this.skipChIn();
-			this.goTxt2(aSpan, layname);
+			this.goTxt2(aSpan);
 		});
 	}
 	private htm2tx(fnc: (tx2: any)=> void, hidden = true) {
@@ -715,7 +718,7 @@ export class TxtStage extends Container {
 
 				const st: ISpTw = {
 					sp: sp,
-					tw: new TWEEN.Tween(sp)
+					tw: new TWEEN.default.Tween(sp)
 						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, TxtStage.gs_chFadeWait)
 						.easing(ease)
 						.delay(delay)
@@ -764,8 +767,7 @@ export class TxtStage extends Container {
 
 	private aRect   : IChRect[]	= [];
 	private	lenHtmTxt = 0;
-	goTxt_next(aSpan: string[], layname: string) {
-		this.name = layname;	// dump表示などに使用
+	goTxt_next(aSpan: string[]) {
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
 			if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
@@ -887,7 +889,7 @@ export class TxtStage extends Container {
 		);
 		const st: ISpTw = {
 			sp: sp,
-			tw: new TWEEN.Tween(sp)
+			tw: new TWEEN.default.Tween(sp)
 				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, cis.wait ?? 0)
 				.easing(ease)
 				.delay((add.wait ?? 0) +(arg.delay ?? 0))
@@ -1022,7 +1024,7 @@ export class TxtStage extends Container {
 		cnt.visible = false;	// trueの場合はdelay後まで消したいので
 		const st: ISpTw = {
 			sp: cnt,
-			tw: new TWEEN.Tween(cnt)
+			tw: new TWEEN.default.Tween(cnt)
 				.to({}, 0)
 				.delay(delay)
 				.onComplete(()=> {st.tw = null; st.sp.visible = true;})
@@ -1147,11 +1149,11 @@ export class TxtStage extends Container {
 				const ease = CmnTween.ease(this.fo_easing);
 				for (const c of this.cntTxt.children) {
 					c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
-					new TWEEN.Tween(c)
+					new TWEEN.default.Tween(c)
 					.to({alpha: 0, x: `+${this.ch_slide_x()}`}, TxtStage.gs_chFadeWait)
 					.easing(ease)
 					//.delay(i * LayerMng.msecChWait)
-					.onComplete(o=> this.cntTxt.removeChild(o))
+					.onComplete((o: any)=> this.cntTxt.removeChild(o))
 					.start();
 				}
 			}
@@ -1163,6 +1165,7 @@ export class TxtStage extends Container {
 		const to = new TxtStage(this.infTL, this.parent);
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
 		to.left = this.left;
+		to.name = this.name;
 		to.lay_sub();
 
 		to.ch_filter = this.ch_filter;

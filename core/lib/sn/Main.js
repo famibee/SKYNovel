@@ -68,6 +68,11 @@ class Main {
                 this.appPixi.view.id = 'skynovel';
             }
             if (CmnLib_1.CmnLib.hDip['tx']) {
+                delete CmnLib_1.CmnLib.hDip['tx'];
+            }
+            else
+                CmnLib_1.CmnLib.hDip['tx'] = '2';
+            if (CmnLib_1.CmnLib.hDip['tx']) {
                 const s = this.appPixi.view.parentElement.style;
                 s.position = 'relative';
                 s.width = `${this.cfg.oCfg.window.width}px`;

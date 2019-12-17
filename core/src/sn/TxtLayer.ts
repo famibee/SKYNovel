@@ -20,12 +20,14 @@ import {LayerMng} from './LayerMng';
 export class TxtLayer extends Layer {
 	private	static	cfg		: Config;
 	private	static	val		: IVariable;
-	private	static	recText	: (txt: string)=> void;
+	private	static	recText	: (txt: string, pagebreak?: boolean)=> void;
 	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void): void {
 		TxtLayer.cfg = cfg;
 		TxtStage.init(cfg);
 		TxtLayer.val = val;
 		TxtLayer.recText = recText;
+
+		val.setDoRecProc(TxtLayer.chgDoRec);
 
 		hTag.autowc			= o=> TxtLayer.autowc(o);	// 文字を追加する
 		const o: any = {enabled: 'false', text: '', time: ''};
@@ -231,6 +233,8 @@ export class TxtLayer extends Layer {
 		this.clearText();
 		this.txs.destroy();
 	}
+	set name(nm: string) {if (this.txs) this.txs.name = nm;}
+	get name() {return this.txs ?this.txs.name :''}
 
 
 	lay(hArg: HArg) {
@@ -355,14 +359,24 @@ export class TxtLayer extends Layer {
 	}
 
 
+	static	chgDoRec(doRec: boolean) {
+		TxtLayer.rec = doRec
+			? (tx: string)=> tx
+			: (tx: string)=> `<span class='offrec'>${tx}</span>`;
+				// 囲んだ領域は履歴で非表示
+	}
+	static	rec = (tx: string)=> tx;
+
+	isCur	= false;
+
 	tagCh(text: string): void {this.rbSpl.putTxt(text);}
 	private	needGoTxt = false;
 	private	putCh : IPutCh = (text: string, ruby: string)=> {
 		if (TxtLayer.cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${text}\` ruby:\`${ruby}\` name:\`${this.name}\``);
-		const isSkip = TxtLayer.evtMng.isSkipKeyDown();
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
+		const isSkip = TxtLayer.evtMng.isSkipKeyDown();
 		switch (a_ruby.length) {
 		case 1:		// 字or春《はる》
 			this.needGoTxt = true;
@@ -370,7 +384,7 @@ export class TxtLayer extends Layer {
 				if (this.aSpan_bk) {
 					add_htm = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
-					this.aSpan.push('<br/>');
+					this.aSpan.push(TxtLayer.rec('<br/>'));
 					this.aSpan.push(add_htm);	// ここでaSpan末尾に追加しないと続かない
 					this.aSpan_bk = this.aSpan;
 					this.aSpan = [];
@@ -383,7 +397,6 @@ export class TxtLayer extends Layer {
 				else {
 					add_htm = '<br/>';
 				}
-				this.recText('<br/>');
 				break;
 			}
 			if (this.firstCh) {	// １文字目にルビが無い場合は見えないルビで、行揃え
@@ -395,22 +408,52 @@ export class TxtLayer extends Layer {
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
 			switch (a_ruby[0]) {
+			// ルビ揃え指定と同時シリーズ
+			case 'left':	//（肩付き）先頭親文字から、ルビ間は密着
+			case 'center':	//（中付き）センター合わせ、〃
+			case 'right':	//（右／下揃え）末尾親文字から、〃
+			case 'justify':	//（両端揃え）先頭から末尾親文字間に、ルビ間は均等にあける
+			case '121':		//（1-2-1(JIS)）ルビの前後を比率1、ルビ間を比率2であける
+			case 'even':	//（均等アキ）ルビの前後、ルビ間も均等にあける
+			case '1ruby':	//（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける
+				// TODO: 未作成
+				this.firstCh = false;
+				this.needGoTxt = true;
+				add_htm = this.tagCh_sub(text, a_ruby[1], isSkip);
+				break;
+
 			case 'gotxt':
+			{
 				this.autoCloseSpan();
+				if (this.isCur) TxtLayer.recText(
+					this.aSpan.join('')
+					.replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
+						// 前方の空行をtrim
+					.replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
+					.replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
+					.replace(/class='sn_ch .+?'/g, `class='sn_ch'`)
+						// 不要情報削除
+					.replace(/class='offrec'/g, `style='display: none;'`)
+						// 囲んだ領域は履歴で非表示
+					.replace(/`/g, '\\`')
+						// JSON対策
+				);
 				if (! CmnLib.hDip['tx']) {
-					this.txs.goTxt(this.aSpan, this.name);
+					this.txs.goTxt(this.aSpan);
 					return;	// breakではない
 				}
 
 				if (! this.needGoTxt) return;	// breakではない
-				this.txs.goTxt_next(this.aSpan, this.name);
+				this.txs.goTxt_next(this.aSpan);
 				this.needGoTxt = false;
 				this.cumDelay = 0;
 				return;	// breakではない
+			}
 
 			case 'add':	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
 			{
 				const o = JSON.parse(a_ruby[1]);
+				o.style = o.style ?? '';
 				this.aSpan_ch_in_style_bk = this.ch_in_style;
 				this.set_ch_in(o);
 				this.set_ch_out(o);
@@ -439,9 +482,9 @@ export class TxtLayer extends Layer {
 						this.aSpan.push(`<span style='${o.style}' data-add='${a_ruby[1]}'>`);
 					}
 				}
-			}
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
+			}
 				return;	// breakではない
 			case 'add_close':
 				this.autoCloseSpan();
@@ -455,6 +498,7 @@ export class TxtLayer extends Layer {
 				if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc) ?0 :LayerMng.msecChWait;
 
 				const o = JSON.parse(arg);
+				o.style = o.style ?? '';
 				if (! ('id' in o)) o.id = this.aSpan.length;
 				if (o.id == 'break') {this.txs.dispBreak(o.pic); return;}
 					// breakではない
@@ -470,7 +514,10 @@ export class TxtLayer extends Layer {
 					add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'`;
 				}
 				add_htm += `>　</span>`;
-	//			this.recText(text);	// TODO: 履歴でのインライン画像
+				if (this.firstCh) {	// １文字目にルビが無い場合は不可視ルビで、行揃え
+					this.firstCh = false;
+					add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
+				}
 				if (this.aSpan.slice(-1)[0] == add_htm) return;	// breakではない
 			}
 				break;
@@ -488,6 +535,7 @@ export class TxtLayer extends Layer {
 			{
 				// style, in_style
 				const o = JSON.parse(a_ruby[1]);
+			//	o.style = o.style ?? '';
 				this.aSpan_ch_in_style_bk = this.ch_in_style;
 				this.set_ch_in(o);
 				this.set_ch_out(o);
@@ -518,6 +566,7 @@ export class TxtLayer extends Layer {
 			{
 				// b_color, b_alpha, fn, label
 				const o = JSON.parse(a_ruby[1]);
+				o.style = o.style ?? '';
 				this.aSpan_ch_in_style_bk = this.ch_in_style;
 				this.set_ch_in(o);
 				this.set_ch_out(o);
@@ -556,10 +605,14 @@ export class TxtLayer extends Layer {
 			break;
 
 		case 3:		// 《tcy｜451｜かし》
+			this.firstCh = false;
 			this.needGoTxt = true;
 			switch (a_ruby[0]) {
 			case 'tcy':	// ルビ付き縦中横
 			{
+				if (TxtLayer.val.doRecLog()) this.page_text += text
+				+(ruby ?`《${ruby}》` :'');
+
 				// text-orientation: mixed;（デフォルト）和文は縦、英語は横に表示
 				// text-combine-upright: all;			縦中横
 				// -webkit-text-combine: horizontal;	縦中横(Safari)
@@ -622,7 +675,6 @@ export class TxtLayer extends Layer {
 				if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc)
 					? TxtLayer.hAutoWc[text.charAt(0)] ?? 0
 					: LayerMng.msecChWait;
-				this.recText(text);
 			}
 				break;
 
@@ -631,9 +683,12 @@ export class TxtLayer extends Layer {
 			}
 			break;
 		}
-		this.aSpan.push(add_htm);
+		this.aSpan.push(TxtLayer.rec(add_htm));
 	}
 	private tagCh_sub(text: string, ruby: string, isSkip: boolean): string {
+		if (TxtLayer.val.doRecLog()) this.page_text += text
+		+(ruby ?`《${ruby}》` :'');
+
 		let add_htm = '';
 		if (CmnLib.hDip['tx']) {
 			if (isSkip) this.cumDelay = 0;
@@ -653,7 +708,6 @@ export class TxtLayer extends Layer {
 		if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc)
 			? TxtLayer.hAutoWc[text.charAt(0)] ?? 0
 			: LayerMng.msecChWait;
-		this.recText(text);
 
 		return add_htm;
 	}
@@ -676,14 +730,6 @@ export class TxtLayer extends Layer {
 
 	readonly click = ()=> this.txs.skipChIn();	// true is stay
 
-	private	log = '';
-	private	recText(text: string) {
-		if (! TxtLayer.val.getVal('save:sn.doRecLog')) return;
-
-		this.log = this.log + text;
-		TxtLayer.recText(this.log);
-	}
-
 	clearText(): void {
 		const txs = this.txs;
 		this.txs = this.txs.passBaton();
@@ -693,8 +739,11 @@ export class TxtLayer extends Layer {
 		this.firstCh = true;
 		this.aSpan = [];
 		this.aSpan_bk = null;
-		this.log = '';
+		this.page_text = '';
+		TxtLayer.recText('', true);
 	}
+	private	page_text	= '';
+	get pageText() {return this.page_text}
 
 	get enabled() {return this.cntBtn.interactiveChildren;}
 	set enabled(v) {this.cntBtn.interactiveChildren = v;}

@@ -14,6 +14,7 @@ class Variable {
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.hAreaKidoku = {};
         this.flush_ = () => { };
+        this.doRecProc = (_doRec) => { };
         this.getMark = (place) => this.data.mark[place];
         this.getAreaKidoku = (fn) => this.hAreaKidoku[fn];
         this.setVal = (arg_name, val, autocast = true) => {
@@ -45,18 +46,26 @@ class Variable {
             const name = o['name'];
             let val = hScope[name];
             if (!(name in hScope)) {
-                const i = name.lastIndexOf('.');
-                if (i == -1) {
-                    val = def;
-                }
-                else {
-                    const sn = name.slice(0, i);
-                    if (sn in hScope) {
-                        const o2 = JSON.parse(hScope[sn]);
-                        val = o2[name.slice(i + 1)];
+                val = def;
+                const aNm = name.split('.');
+                const len = aNm.length;
+                let nm = '';
+                for (let i = 0; i < len; ++i) {
+                    nm += '.' + aNm[i];
+                    const bn = nm.slice(1);
+                    if (!(bn in hScope))
+                        continue;
+                    val = JSON.parse(hScope[bn]);
+                    while (++i < len) {
+                        if (!(aNm[i] in val)) {
+                            val = def;
+                            break;
+                        }
+                        val = val[aNm[i]];
                     }
-                    else
-                        val = def;
+                    if (val instanceof Object)
+                        val = JSON.stringify(val);
+                    break;
                 }
             }
             if (val instanceof Function)
@@ -83,6 +92,7 @@ class Variable {
             console.info('🥟 [dump_val]', val);
             return false;
         };
+        this.$doRecLog = false;
         this.hValTrg = {
             'sys:sn.tagCh.doWait': name => this.runFirst_Bool_hSysVal_true(name),
             'sys:sn.tagCh.doWait_Kidoku': name => this.runFirst_Bool_hSysVal_true(name),
@@ -93,7 +103,9 @@ class Variable {
             'sys:sn.auto.msecPageWait_Kidoku': name => this.runFirst_sys_an_auto_msecPageWait(name),
             'sys:sn.auto.msecLineWait': name => this.runFirst_sys_an_auto_msecLineWait(name),
             'sys:sn.auto.msecLineWait_Kidoku': name => this.runFirst_sys_an_auto_msecLineWait(name),
-            'save:sn.doRecLog': name => this.runFirst_Bool_hSaveVal_true(name),
+            'save:sn.doRecLog': name => {
+                this.doRecProc(this.$doRecLog = this.runFirst_Bool_hSaveVal_true(name));
+            },
             'save:sn.userFnTail': (_name, val) => this.cfg.userFnTail = val,
             'tmp:sn.tagL.enabled': name => this.runFirst_Bool_hTmp_true(name),
             'tmp:sn.skip.all': name => this.runFirst_Bool_hTmp_false(name),
@@ -147,9 +159,6 @@ class Variable {
         this.hTmp['sn.auto.enabled'] = false;
         this.hTmp['const.sn.last_page_text'] = '';
         this.hTmp['const.sn.displayState'] = false;
-        const win = window;
-        const ac = (_a = win['AudioContext'], (_a !== null && _a !== void 0 ? _a : win['webkitAudioContext']));
-        this.hTmp['const.sn.needClick2Play'] = () => new ac().state == 'suspended';
         this.hTmp['const.Date.getTime'] = () => (new Date).getTime();
         this.hTmp['const.Date.getDateStr'] = () => CmnLib_1.getDateStr();
         this.hTmp['const.Stage.mouseX'] = () => {
@@ -166,6 +175,11 @@ class Variable {
         this.hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
         this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
         this.hTmp['const.sn.Math.PI'] = Math.PI;
+        if (typeof window == 'undefined')
+            return;
+        const win = window;
+        const ac = (_a = win['AudioContext'], (_a !== null && _a !== void 0 ? _a : win['webkitAudioContext']));
+        this.hTmp['const.sn.needClick2Play'] = () => new ac().state == 'suspended';
         const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
         this.hTmp['const.sn.isDarkMode'] = CmnLib_1.CmnLib.isDarkMode = dmmq.matches;
         dmmq.addListener(e => this.hTmp['const.sn.isDarkMode'] = CmnLib_1.CmnLib.isDarkMode = e.matches);
@@ -224,6 +238,9 @@ class Variable {
         });
     }
     flush() { this.flush_(); }
+    setDoRecProc(doRecProc) {
+        this.doRecProc = doRecProc;
+    }
     defTmp(name, fnc) { this.hTmp[name] = fnc; }
     ;
     cloneMp() { return Object.assign({}, this.hScope.mp); }
@@ -231,8 +248,9 @@ class Variable {
     setMark(place, mark) { this.data.mark[place] = mark; this.flush(); }
     cloneSave() { return Object.assign({}, this.hScope.save); }
     mark2save(mark) {
+        var _a;
         this.hSave = this.hScope.save = Object.assign({}, mark.hSave);
-        this.hSave['const.sn.sLog'] += '\f';
+        this.$doRecLog = (_a = this.hSave['sn.doRecLog'], (_a !== null && _a !== void 0 ? _a : false));
     }
     loadScrWork(fn) {
         if (!(fn in this.hAreaKidoku))
@@ -424,6 +442,7 @@ class Variable {
             return parseFloat(s_val);
         return val;
     }
+    doRecLog() { return this.$doRecLog; }
     defValTrg(name, fnc) { this.hValTrg[name] = fnc; }
     runFirst_Bool_hSysVal_true(name) {
         CmnLib_1.CmnLib.argChk_Boolean(this.hSys, name, true);
@@ -449,7 +468,7 @@ class Variable {
         CmnLib_1.CmnLib.argChk_Num(this.hSys, name, 500);
     }
     runFirst_Bool_hSaveVal_true(name) {
-        CmnLib_1.CmnLib.argChk_Boolean(this.hSave, name, true);
+        return CmnLib_1.CmnLib.argChk_Boolean(this.hSave, name, true);
     }
     runFirst_Bool_hTmp_true(name) {
         CmnLib_1.CmnLib.argChk_Boolean(this.hTmp, name, true);

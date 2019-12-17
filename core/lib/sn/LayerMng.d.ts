@@ -80,7 +80,9 @@ export declare class LayerMng {
     private pgTxtlay;
     private fncChkTxtLay;
     private argChk_layer;
-    private recText;
+    private oLastPage;
+    private aPageLog;
+    recText(txt: string, pagebreak?: boolean): void;
     private clear_text;
     private endlink;
     private er;

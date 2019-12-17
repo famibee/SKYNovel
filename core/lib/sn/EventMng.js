@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const TxtLayer_1 = require("./TxtLayer");
 const EventListenerCtn_1 = require("./EventListenerCtn");
-const TWEEN = require("@tweenjs/tween.js");
+const TW = require("@tweenjs/tween.js");
+const TWEEN = TW;
 const Config_1 = require("./Config");
 const Hammer = require("hammerjs");
 class EventMng {
@@ -359,7 +360,7 @@ class EventMng {
             }
             const need_err = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'need_err', true);
             if (elmlist.length == 0 && need_err)
-                throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=true と指定してください`;
+                throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
             const ie = elmlist[0];
             const type = (ie) ? ie.type : '';
             ((type == 'range' || type == 'checkbox' || type == 'text' || type == 'textarea')
@@ -463,7 +464,7 @@ class EventMng {
     }
     wait(hArg) {
         this.val.saveKidoku();
-        const twSleep = new TWEEN.Tween(this)
+        const twSleep = new TWEEN.default.Tween(this)
             .to({}, CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)))
             .onComplete(() => this.main.resume())
             .start();

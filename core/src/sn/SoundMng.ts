@@ -10,7 +10,8 @@ import {CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {Howl} from 'howler';
-import TWEEN = require('@tweenjs/tween.js');
+import * as TW from '@tweenjs/tween.js';
+const TWEEN: any = TW;
 
 interface ISndBuf {
 	snd		: Howl;
@@ -120,13 +121,13 @@ export class SoundMng {
 		const ease = CmnTween.ease(hArg.ease);
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume(), vol);
-		oSb.twFade = new TWEEN.Tween({v: oSb.snd.volume()})
+		oSb.twFade = new TWEEN.default.Tween({v: oSb.snd.volume()})
 			.to({v: vol}, CmnLib.argChk_Num(hArg, 'time', NaN))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
 			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-			.onUpdate(o=> {if (oSb.snd.playing()) oSb.snd.volume(o.v);})
+			.onUpdate((o: any)=> {if (oSb.snd.playing()) oSb.snd.volume(o.v);})
 			.onComplete(()=> {	//console.log('fadese: onComplete');
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
@@ -141,7 +142,7 @@ export class SoundMng {
 				}
 				if (oSb.onCompleteFade) oSb.onCompleteFade();
 			});
-		oSb.twFade.start();
+		oSb.twFade!.start();
 
 		return false;
 	}

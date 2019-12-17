@@ -207,6 +207,7 @@ export interface ISetVal { (arg_name: string, val: any, autocast?: boolean): voi
 export interface IVariable {
 	setSys(sys: ISysBase): void;
 	flush(): void;
+	setDoRecProc(doRecProc: (doRec: boolean)=> void): void;
 
 	getVal(arg_name: string, def?: number | string): object;
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
@@ -224,6 +225,8 @@ export interface IVariable {
 	saveKidoku(): void;
 
 	defValTrg(name: string, fnc: ISetVal): void;
+
+	doRecLog(): boolean;
 }
 
 export interface IData4Vari {

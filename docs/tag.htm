@@ -170,9 +170,9 @@
 		<li class="mb1"><a href="#graph">[graph] インライン画像表示</a></li>
 		<li class="mb1"><a href="#link">[link] ハイパーリンク</a></li>
 		<li class="mb1"><a href="#r">[r] 改行</a></li>
-		<li class="mb1"><a href="#rec_ch"><span class="red">【暫定版】</span>[rec_ch] 履歴書き込み</a></li>
-		<li class="mb1"><a href="#rec_r"><span class="red">【暫定版】</span>[rec_r] 履歴改行</a></li>
-		<li class="mb1"><a href="#reset_rec"><span class="red">【暫定版】</span>[reset_rec] 履歴リセット</a></li>
+		<li class="mb1"><a href="#rec_ch">[rec_ch] 履歴書き込み</a></li>
+		<li class="mb1"><a href="#rec_r">[rec_r] 履歴改行</a></li>
+		<li class="mb1"><a href="#reset_rec">[reset_rec] 履歴リセット</a></li>
 		<li class="mb1"><a href="#ruby2">[ruby2] 文字列と複数ルビの追加</a></li>
 		<li class="mb1"><a href="#set_focus"><span class="red">【暫定版・未作成】</span>[set_focus] フォーカス移動</a></li>
 		<li class="mb1"><a href="#span">[span] インラインスタイル設定</a></li>
@@ -273,7 +273,7 @@
 	<p>デバッグ・その他</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#dump_val">[dump_val] 変数のダンプ</a></li>
-		<li class="mb1"><a href="#dump_script"><span class="red">【暫定版】</span>[dump_script] スクリプトのダンプ</a></li>
+		<li class="mb1"><a href="#dump_script">[dump_script] スクリプトのダンプ</a></li>
 		<li class="mb1"><a href="#dump_stack">[dump_stack] スタックのダンプ</a></li>
 		<li class="mb1"><a href="#log">[log] ログ出力</a></li>
 		<li class="mb1"><a href="#dump_lay">[dump_lay] レイヤのダンプ</a></li>
@@ -857,7 +857,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	以下のようにも書けます。&amp;から&amp;までを[ch]文と解釈します。<br/>
 	&amp;test&amp;<br/>
 	&amp;'test'&amp;<br/>
-	&amp;a + b&amp;</p>
+	&amp;a + b&amp;<br/>
+	<br/>
+	では「&（半角）」を表示するには？（これらの文法のせいで普通に書けない）<br/>
+	[ch text="&'&'"]として下さい。
+</p>
 
 </p>
 
@@ -1032,12 +1036,15 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 
 <h2 id="rec_ch" class="w-heading">[rec_ch]履歴書き込み</h2>
-<h4>履歴に改行を出力する。自動で改行を付加する。</h4>
+<h4>履歴に文字や付加情報を出力する。</h4>
 <p class="mb2 px1">
+	「現在のページ」のテキストに文字を追加する。<br/>
+	「現在のページ」に対する、任意の属性も自由に追加できる。その属性はconst.sn.log.jsonにも含まれ、フレームに渡しJavaScriptなどで（JSON.parse()して）利用できる。<br/>
+		→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=log_and_play" target="_blank" rel="noopener">参考（機能ギャラリー・履歴と機能追加）</a>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>表示したい文字列。ルビ文法（《》）も解析する。</td></tr>
-<tr><td>r</td><td></td><td>true</td><td>Boolean</td><td>trueなら改行する</td></tr>
+<tr><td>text</td><td></td><td></td><td>String</td><td>表示したい文字列。ルビ文法（《》）も解析する。</td></tr>
+<tr><td>（任意）</td><td></td><td></td><td>（任意）</td><td>（任意）</td></tr>
 </table>
 
 </p>

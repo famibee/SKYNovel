@@ -8,7 +8,8 @@ const TxtLayer_1 = require("./TxtLayer");
 const RubySpliter_1 = require("./RubySpliter");
 const FrameMng_1 = require("./FrameMng");
 const Button_1 = require("./Button");
-const TWEEN = require("@tweenjs/tween.js");
+const TW = require("@tweenjs/tween.js");
+const TWEEN = TW;
 const pixi_js_1 = require("pixi.js");
 const EventListenerCtn_1 = require("./EventListenerCtn");
 class LayerMng {
@@ -22,7 +23,7 @@ class LayerMng {
         this.sys = sys;
         this.fore = new pixi_js_1.Container;
         this.back = new pixi_js_1.Container;
-        this.fncTicker = () => TWEEN.update();
+        this.fncTicker = () => TWEEN.default.update();
         this.grpCover = null;
         this.cmdTxt = (cmd, tl = this.getCurrentTxtlayForeNeedErr(), _record = true) => tl.tagCh('｜　《' + cmd + '》');
         this.goTxt = () => { };
@@ -90,6 +91,8 @@ void main(void) {
         this.getTxtLayer = (_hArg) => { this.fncChkTxtLay(); throw 0; };
         this.current = (_hArg) => { this.fncChkTxtLay(); throw 0; };
         this.fncChkTxtLay = () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; };
+        this.oLastPage = { text: '' };
+        this.aPageLog = [];
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
         GrpLayer_1.GrpLayer.init(main, cfg, sys);
         this.frmMng = new FrameMng_1.FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
@@ -159,12 +162,10 @@ void main(void) {
         };
         fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button_1.Button.fontFamily));
         val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
-        val.defTmp('const.sn.log.json', () => {
-            return JSON.stringify((String(this.val.getVal('save:const.sn.sLog') + '\f' +
-                String(this.val.getVal('tmp:const.sn.last_page_text')))
-                .replace(/^\f/g, '')
-                .split('\f')
-                .map(v => { return { text: v }; })));
+        val.defTmp('const.sn.log.json', () => JSON.stringify([...this.aPageLog, this.oLastPage]));
+        val.defTmp('const.sn.last_page_text', () => {
+            const tl = this.getCurrentTxtlayFore();
+            return tl ? tl.pageText : '';
         });
     }
     cover(visible, bg_color = 0x0) {
@@ -310,6 +311,7 @@ void main(void) {
         if (!cls)
             throw 'clsは必須です';
         this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val);
+        this.aLayName.push(layer);
         switch (cls) {
             case 'txt':
                 if (!this.curTxtlay) {
@@ -335,7 +337,6 @@ void main(void) {
                 this.val.setVal_Nochk('save', 'const.sn.layer.' + ((layer !== null && layer !== void 0 ? layer : this.curTxtlay)) + '.enabled', true);
                 break;
         }
-        this.aLayName.push(layer);
         return false;
     }
     lay(hArg) {
@@ -450,7 +451,7 @@ void main(void) {
         const is_glsl = 'glsl' in hArg;
         if ((!is_glsl) && !('rule' in hArg)) {
             this.spTransFore.filters = [];
-            this.twInfTrans.tw = new TWEEN.Tween(this.spTransFore)
+            this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
                 .to({ alpha: 0 }, time)
                 .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
                 .easing(ease)
@@ -464,7 +465,7 @@ void main(void) {
             : this.fltRule;
         flt.uniforms.vague = CmnLib_1.CmnLib.argChk_Num(hArg, 'vague', 0.04);
         flt.uniforms.tick = 0;
-        this.twInfTrans.tw = new TWEEN.Tween(flt.uniforms)
+        this.twInfTrans.tw = new TWEEN.default.Tween(flt.uniforms)
             .to({ tick: 1 }, time)
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
             .easing(ease)
@@ -568,7 +569,7 @@ void main(void) {
         this.spTransFore.filters = [];
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
         this.twInfTrans = { tw: null, resume: false };
-        this.twInfTrans.tw = new TWEEN.Tween(this.spTransFore)
+        this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
             .to({ x: 0, y: 0 }, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
             .easing(ease)
@@ -602,7 +603,7 @@ void main(void) {
         }
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
         const tw_nm = (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
-        const tw = new TWEEN.Tween(foreLay)
+        const tw = new TWEEN.default.Tween(foreLay)
             .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
             * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
@@ -701,7 +702,7 @@ void main(void) {
         if (wait >= 0)
             this.cmdTxt('add｜' + JSON.stringify(hArg), tl);
         const record = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'record', true);
-        const doRecLog = Boolean(this.val.getVal('save:sn.doRecLog'));
+        const doRecLog = this.val.doRecLog();
         if (!record)
             this.val.setVal_Nochk('save', 'sn.doRecLog', record);
         tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
@@ -728,8 +729,19 @@ void main(void) {
         this.pgTxtlay = this.hPages[layer];
         if (!(this.pgTxtlay.getPage(hArg) instanceof TxtLayer_1.TxtLayer))
             throw `${layer}はTxtLayerではありません`;
+        this.recText('', true);
         this.curTxtlay = layer;
         this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
+        const vct = this.getLayers();
+        const len = vct.length;
+        for (let i = 0; i < len; ++i) {
+            const name = vct[i];
+            const pg = this.hPages[name];
+            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                continue;
+            pg.fore.isCur =
+                pg.back.isCur = (name == layer);
+        }
         return false;
     }
     getCurrentTxtlayForeNeedErr() {
@@ -750,31 +762,29 @@ void main(void) {
             throw '属性 layer【' + v + '】が不正です。レイヤーがありません';
         return hash.layer = v;
     }
-    recText(txt) {
-        if (!this.val.getVal('save:sn.doRecLog'))
-            return;
-        if (txt != '\f') {
-            this.val.setVal_Nochk('tmp', 'const.sn.last_page_text', txt);
+    recText(txt, pagebreak = false) {
+        if (pagebreak) {
+            if (this.oLastPage.text) {
+                this.aPageLog.push(this.oLastPage);
+                this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
+            }
+            this.oLastPage = { text: '' };
             return;
         }
-        this.val.setVal_Nochk('save', 'const.sn.sLog', (String(this.val.getVal('save:const.sn.sLog')) + '\f' +
-            String(this.val.getVal('tmp:const.sn.last_page_text')))
-            .replace(/^\f|^<br\/>|\f(?=\f)/g, '')
-            .replace(/\f<br\/>/g, '\f')
-            .split('\f').slice(-this.cfg.oCfg.log.max_len).join('\f'));
-        this.val.setVal_Nochk('tmp', 'const.sn.last_page_text', '');
+        this.oLastPage.text = txt;
+        this.val.setVal_Nochk('save', 'const.sn.sLog', String(this.val.getVal('const.sn.log.json')));
     }
     clear_text(hArg) {
         const tf = this.getTxtLayer(hArg);
         if (hArg.layer == this.curTxtlay && hArg.page == 'fore')
-            this.recText('\f');
+            this.recText('', true);
         tf.clearText();
         return false;
     }
     endlink() { this.cmdTxt('endlink｜'); return false; }
     er(hArg) {
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'rec_page_break', true))
-            this.recText('\f');
+            this.recText('', true);
         if (this.pgTxtlay) {
             this.pgTxtlay.fore.clearLay(hArg);
             this.pgTxtlay.back.clearLay(hArg);
@@ -802,17 +812,17 @@ void main(void) {
     rec_r() { this.recText('\n'); return false; }
     ;
     rec_ch(hArg) {
-        if (!hArg.text)
-            throw '[rec_ch] textは必須です';
-        this.recText(hArg.text);
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'r', true))
-            this.recText('\n');
+        var _a;
+        this.oLastPage = hArg;
+        this.recText((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')));
         return false;
     }
     ;
     reset_rec(hArg) {
-        var _a;
+        var _a, _b;
         this.val.setVal_Nochk('save', 'const.sn.sLog', (_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')));
+        this.aPageLog = [];
+        this.oLastPage = { text: (_b = hArg.text, (_b !== null && _b !== void 0 ? _b : '')) };
         return false;
     }
     ruby2(hArg) {
@@ -912,6 +922,8 @@ void main(void) {
             fncComp();
         })
             .catch(e => console.error(`fn:LayerMng.ts playback e:%o`, e));
+        this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
+        this.oLastPage = { text: '' };
     }
 }
 exports.LayerMng = LayerMng;

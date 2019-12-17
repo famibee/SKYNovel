@@ -101,9 +101,6 @@ export class Variable implements IVariable {
 		this.hTmp['const.sn.displayState'] = false;
 			// const.flash.display.Stage.displayState
 
-		const win: any = window;
-		const ac = win['AudioContext'] ?? win['webkitAudioContext'];
-		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state == 'suspended';
 		this.hTmp['const.Date.getTime'] = ()=> (new Date).getTime();
 		this.hTmp['const.Date.getDateStr'] = ()=> getDateStr();
 		this.hTmp['const.Stage.mouseX'] = ()=> {
@@ -127,6 +124,12 @@ export class Variable implements IVariable {
 		this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
 
 		this.hTmp['const.sn.Math.PI'] = Math.PI;
+
+
+		if (typeof window == 'undefined') return;
+		const win: any = window;
+		const ac = win['AudioContext'] ?? win['webkitAudioContext'];
+		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state == 'suspended';
 
 		// ダークモード切り替え検知
 		const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -202,6 +205,11 @@ export class Variable implements IVariable {
 	private flush_	= ()=> {};
 	flush() {this.flush_();}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える
 
+	setDoRecProc(doRecProc: (doRec: boolean)=> void) {
+		this.doRecProc = doRecProc;
+	}
+	private	doRecProc = (_doRec: boolean)=> {};
+
 	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
 	cloneMp(): object {return {...this.hScope.mp}}
 	setMp(mp: object) {this.hScope.mp = mp;}
@@ -210,9 +218,7 @@ export class Variable implements IVariable {
 	cloneSave(): object {return {...this.hScope.save}}
 	mark2save(mark: IMark) {
 		this.hSave = this.hScope.save = {...mark.hSave};
-		this.hSave['const.sn.sLog'] += '\f';
-			// 吉里吉里に動作を合わせる
-			// 改ページは履歴がページからあふれるため
+		this.$doRecLog	= this.hSave['sn.doRecLog'] ?? false;
 	}
 
 
@@ -494,17 +500,23 @@ export class Variable implements IVariable {
 		const name = o['name'];
 		let val = hScope[name];
 		if (! (name in hScope)) {
-			const i = name.lastIndexOf('.');
-			if (i == -1) {
-				val = def;
-			}
-			else {
-				const sn = name.slice(0, i);
-				if (sn in hScope) {
-					const o2 = JSON.parse(hScope[sn]);
-					val = o2[name.slice(i +1)];
+			val = def;
+
+			const aNm = name.split('.');
+			const len = aNm.length;
+			let nm = '';
+			for (let i=0; i<len; ++i) {
+				nm += '.'+ aNm[i];
+				const bn = nm.slice(1);
+				if (! (bn in hScope)) continue;
+
+				val = JSON.parse(hScope[bn]);
+				while (++i < len) {
+					if (! (aNm[i] in val)) {val = def; break;}
+					val = val[aNm[i]];
 				}
-				else val = def;
+				if (val instanceof Object) val = JSON.stringify(val);
+				break;
 			}
 		}
 		if (val instanceof Function) val = (val as Function)();
@@ -548,6 +560,9 @@ export class Variable implements IVariable {
 		return false;
 	}
 
+	private	$doRecLog	= false;
+	doRecLog() {return this.$doRecLog;}
+
 
 	private hValTrg	: {[name: string]: ISetVal}	= {
 		// sys
@@ -558,22 +573,25 @@ export class Variable implements IVariable {
 		'sys:sn.tagCh.msecWait'			: name=>
 			this.runFirst_sys_an_tagCh_msecWait(name),
 		'sys:sn.tagCh.msecWait_Kidoku'	: name=>
-				this.runFirst_sys_an_tagCh_msecWait_Kidoku(name),
+			this.runFirst_sys_an_tagCh_msecWait_Kidoku(name),
 		'sys:sn.tagCh.canskip'			: name=>
 			this.runFirst_Bool_hSysVal_true(name),
 
 		'sys:sn.auto.msecPageWait'			: name=>
 			this.runFirst_sys_an_auto_msecPageWait(name),
 		'sys:sn.auto.msecPageWait_Kidoku'	: name=>
-				this.runFirst_sys_an_auto_msecPageWait(name),
+			this.runFirst_sys_an_auto_msecPageWait(name),
 		'sys:sn.auto.msecLineWait'			: name=>
 			this.runFirst_sys_an_auto_msecLineWait(name),
 		'sys:sn.auto.msecLineWait_Kidoku'	: name=>
-				this.runFirst_sys_an_auto_msecLineWait(name),
+			this.runFirst_sys_an_auto_msecLineWait(name),
 
 		// save
-		'save:sn.doRecLog'		: name=>
-			this.runFirst_Bool_hSaveVal_true(name),
+		'save:sn.doRecLog'		: name=> {
+			this.doRecProc(
+				this.$doRecLog = this.runFirst_Bool_hSaveVal_true(name)
+			);
+		},
 		'save:sn.userFnTail'	: (_name, val)=> this.cfg.userFnTail = val,
 
 		// tmp
@@ -629,8 +647,8 @@ export class Variable implements IVariable {
 		CmnLib.argChk_Num(this.hSys, name, 500);
 	}
 
-	private runFirst_Bool_hSaveVal_true(name: string): void {
-		CmnLib.argChk_Boolean(this.hSave, name, true);
+	private runFirst_Bool_hSaveVal_true(name: string) {
+		return CmnLib.argChk_Boolean(this.hSave, name, true);
 	}
 
 	private runFirst_Bool_hTmp_true(name: string): void {

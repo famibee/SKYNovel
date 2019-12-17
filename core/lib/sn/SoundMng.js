@@ -4,7 +4,8 @@ const CmnLib_1 = require("./CmnLib");
 const CmnTween_1 = require("./CmnTween");
 const Config_1 = require("./Config");
 const howler_1 = require("howler");
-const TWEEN = require("@tweenjs/tween.js");
+const TW = require("@tweenjs/tween.js");
+const TWEEN = TW;
 ;
 class SoundMng {
     constructor(cfg, hTag, val, main) {
@@ -92,13 +93,13 @@ class SoundMng {
         }
         const ease = CmnTween_1.CmnTween.ease(hArg.ease);
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
-        oSb.twFade = new TWEEN.Tween({ v: oSb.snd.volume() })
+        oSb.twFade = new TWEEN.default.Tween({ v: oSb.snd.volume() })
             .to({ v: vol }, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
             .easing(ease)
             .repeat(repeat == 0 ? Infinity : (repeat - 1))
             .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-            .onUpdate(o => { if (oSb.snd.playing())
+            .onUpdate((o) => { if (oSb.snd.playing())
             oSb.snd.volume(o.v); })
             .onComplete(() => {
             const oSb = this.hSndBuf[buf];

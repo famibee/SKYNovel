@@ -575,7 +575,11 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>save:const.sn.autowc.time</td></tr>
 <tr><td>save:const.sn.mesLayer</td><td>''</td><td>String</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.htm#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
 <tr><td>save:sn.doRecLog</td><td>false</td><td>Boolean</td><td>テキストを履歴に記録するか</td></tr>
-<tr><td>save:const.sn.sLog</td><td>''</td><td>String</td><td>履歴テキスト</td></tr>
+<tr><td>save:const.sn.sLog</td><td>''</td><td>String</td><td>
+	履歴テキスト<br/>
+	【2019/12/18】内容が const.sn.log.json と同様に。<br/>
+	→以前は、'\f'区切りの妙なフォーマットだった。
+</td></tr>
 <tr><td>save:const.sn.loopPlaying</td><td>'{}'</td><td>json</td><td>ループ中のサウンドバッファ</td></tr>
 <tr><td>save:const.sn.scriptFn</td><td>''</td><td>スクリプト名</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプト名</td></tr>
 <tr><td>save:const.sn.scriptIdx</td><td>0</td><td>Integer</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプトインデックス（行番号ではなく内部トークン単位）</td></tr>
@@ -685,8 +689,9 @@ const.sn.log.json
 <tr><td>const.sn.vctCallStk.length</td><td>0</td><td>Integer</td><td>コールスタックの深さ（[call]するたびに増）</td></tr>
 <tr><td>sn.auto.enabled</td><td>false</td><td>Boolean</td><td>自動読みすすみモードかどうか</td></tr>
 <tr><td>sn.button.fontFamily</td><td>"'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"</td><td>String</td><td>文字ボタンフォントを指定</td></tr>
-<tr><td>sn.eventArg</td><td>''</td><td>場合による</td><td>ボタン等のイベント発生時、そのボタンタグのarg属性でで指定された値。使い道はスクリプトで自由に決めていい</td></tr>
-<tr><td>sn.eventLabel</td><td>''</td><td>場合による</td><td>ボタン等のイベント発生時、そのボタンタグのlabel属性でで指定された値。使い道はスクリプトで自由に決めていい</td></tr>
+<tr><td>sn.event.domdata.（任意）</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#event" target="_blank" rel="noopener">event</a>]でフレーム内のHTML要素に登録したイベントで、そのイベント発生時、HTML要素のdata-（任意）属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
+<tr><td>sn.eventArg</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのarg属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
+<tr><td>sn.eventLabel</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのlabel属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
 <tr><td>sn.skip.all</td><td>false</td><td>Boolean</td><td>false（初期値）なら既読のみをスキップ</td></tr>
 <tr><td>sn.skip.enabled</td><td>false</td><td>Boolean</td><td>次の選択肢(/未読)まで進む　が有効か</td></tr>
 <tr><td>sn.tagL.enabled</td><td>true</td><td>Boolean</td><td>頁末まで一気に読み進むか(l無視)</td></tr>

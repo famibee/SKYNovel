@@ -30,7 +30,7 @@ export declare class TxtStage extends Container {
     private padTx4y;
     setSize(width: number, height: number): void;
     private static readonly hWarning;
-    goTxt(aSpan: string[], layname: string): void;
+    goTxt(aSpan: string[]): void;
     private goTxt2;
     private cntGoTxtSerializer;
     private goTxt2_htm;
@@ -44,7 +44,7 @@ export declare class TxtStage extends Container {
     private goTxt3_tx2sp;
     private aRect;
     private lenHtmTxt;
-    goTxt_next(aSpan: string[], layname: string): void;
+    goTxt_next(aSpan: string[]): void;
     private fncEndChIn;
     private rctm;
     private spWork_next;

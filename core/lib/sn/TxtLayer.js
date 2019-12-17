@@ -33,14 +33,15 @@ class TxtLayer extends Layer_1.Layer {
         this.ch_in_style = '';
         this.ch_in_join = true;
         this.ch_out_style = '';
+        this.isCur = false;
         this.needGoTxt = false;
         this.putCh = (text, ruby) => {
-            var _a, _b, _c, _d, _e;
+            var _a, _b, _c, _d, _e, _f, _g, _h;
             if (TxtLayer.cfg.oCfg.debug.putCh)
                 console.log(`🖊 文字表示 text:\`${text}\` ruby:\`${ruby}\` name:\`${this.name}\``);
-            const isSkip = TxtLayer.evtMng.isSkipKeyDown();
             const a_ruby = ruby.split('｜');
             let add_htm = '';
+            const isSkip = TxtLayer.evtMng.isSkipKeyDown();
             switch (a_ruby.length) {
                 case 1:
                     this.needGoTxt = true;
@@ -48,7 +49,7 @@ class TxtLayer extends Layer_1.Layer {
                         if (this.aSpan_bk) {
                             add_htm = this.aSpan_bk.slice(-1)[0];
                             this.autoCloseSpan();
-                            this.aSpan.push('<br/>');
+                            this.aSpan.push(TxtLayer.rec('<br/>'));
                             this.aSpan.push(add_htm);
                             this.aSpan_bk = this.aSpan;
                             this.aSpan = [];
@@ -61,7 +62,6 @@ class TxtLayer extends Layer_1.Layer {
                         else {
                             add_htm = '<br/>';
                         }
-                        this.recText('<br/>');
                         break;
                     }
                     if (this.firstCh) {
@@ -73,21 +73,43 @@ class TxtLayer extends Layer_1.Layer {
                     break;
                 case 2:
                     switch (a_ruby[0]) {
+                        case 'left':
+                        case 'center':
+                        case 'right':
+                        case 'justify':
+                        case '121':
+                        case 'even':
+                        case '1ruby':
+                            this.firstCh = false;
+                            this.needGoTxt = true;
+                            add_htm = this.tagCh_sub(text, a_ruby[1], isSkip);
+                            break;
                         case 'gotxt':
-                            this.autoCloseSpan();
-                            if (!CmnLib_1.CmnLib.hDip['tx']) {
-                                this.txs.goTxt(this.aSpan, this.name);
+                            {
+                                this.autoCloseSpan();
+                                if (this.isCur)
+                                    TxtLayer.recText(this.aSpan.join('')
+                                        .replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
+                                        .replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
+                                        .replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
+                                        .replace(/class='sn_ch .+?'/g, `class='sn_ch'`)
+                                        .replace(/class='offrec'/g, `style='display: none;'`)
+                                        .replace(/`/g, '\\`'));
+                                if (!CmnLib_1.CmnLib.hDip['tx']) {
+                                    this.txs.goTxt(this.aSpan);
+                                    return;
+                                }
+                                if (!this.needGoTxt)
+                                    return;
+                                this.txs.goTxt_next(this.aSpan);
+                                this.needGoTxt = false;
+                                this.cumDelay = 0;
                                 return;
                             }
-                            if (!this.needGoTxt)
-                                return;
-                            this.txs.goTxt_next(this.aSpan, this.name);
-                            this.needGoTxt = false;
-                            this.cumDelay = 0;
-                            return;
                         case 'add':
                             {
                                 const o = JSON.parse(a_ruby[1]);
+                                o.style = (_a = o.style, (_a !== null && _a !== void 0 ? _a : ''));
                                 this.aSpan_ch_in_style_bk = this.ch_in_style;
                                 this.set_ch_in(o);
                                 this.set_ch_out(o);
@@ -101,7 +123,7 @@ class TxtLayer extends Layer_1.Layer {
                                     if (CmnLib_1.CmnLib.hDip['tx']) {
                                         if (isSkip)
                                             this.cumDelay = 0;
-                                        const wait = (_a = o.wait, (_a !== null && _a !== void 0 ? _a : -1));
+                                        const wait = (_b = o.wait, (_b !== null && _b !== void 0 ? _b : -1));
                                         const sn_ch = (wait == 0)
                                             ? ''
                                             : ` sn_ch_in_${this.ch_in_style}`;
@@ -114,9 +136,9 @@ class TxtLayer extends Layer_1.Layer {
                                         this.aSpan.push(`<span style='${o.style}' data-add='${a_ruby[1]}'>`);
                                     }
                                 }
+                                this.aSpan_bk = this.aSpan;
+                                this.aSpan = [];
                             }
-                            this.aSpan_bk = this.aSpan;
-                            this.aSpan = [];
                             return;
                         case 'add_close':
                             this.autoCloseSpan();
@@ -130,6 +152,7 @@ class TxtLayer extends Layer_1.Layer {
                                 if (this.ch_in_join)
                                     this.cumDelay += (TxtLayer.doAutoWc) ? 0 : LayerMng_1.LayerMng.msecChWait;
                                 const o = JSON.parse(arg);
+                                o.style = (_c = o.style, (_c !== null && _c !== void 0 ? _c : ''));
                                 if (!('id' in o))
                                     o.id = this.aSpan.length;
                                 if (o.id == 'break') {
@@ -138,7 +161,7 @@ class TxtLayer extends Layer_1.Layer {
                                 }
                                 add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
                                 if (CmnLib_1.CmnLib.hDip['tx']) {
-                                    const wait = (_b = o.wait, (_b !== null && _b !== void 0 ? _b : -1));
+                                    const wait = (_d = o.wait, (_d !== null && _d !== void 0 ? _d : -1));
                                     const sn_ch = (wait == 0)
                                         ? ''
                                         : ` sn_ch_in_${this.ch_in_style}`;
@@ -148,6 +171,10 @@ class TxtLayer extends Layer_1.Layer {
                                     add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'`;
                                 }
                                 add_htm += `>　</span>`;
+                                if (this.firstCh) {
+                                    this.firstCh = false;
+                                    add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
+                                }
                                 if (this.aSpan.slice(-1)[0] == add_htm)
                                     return;
                             }
@@ -171,7 +198,7 @@ class TxtLayer extends Layer_1.Layer {
                                 if (CmnLib_1.CmnLib.hDip['tx']) {
                                     if (isSkip)
                                         this.cumDelay = 0;
-                                    const wait = (_c = o.wait, (_c !== null && _c !== void 0 ? _c : -1));
+                                    const wait = (_e = o.wait, (_e !== null && _e !== void 0 ? _e : -1));
                                     const sn_ch = (wait == 0)
                                         ? ''
                                         : ` sn_ch_in_${this.ch_in_style}`;
@@ -192,13 +219,14 @@ class TxtLayer extends Layer_1.Layer {
                             this.needGoTxt = true;
                             {
                                 const o = JSON.parse(a_ruby[1]);
+                                o.style = (_f = o.style, (_f !== null && _f !== void 0 ? _f : ''));
                                 this.aSpan_ch_in_style_bk = this.ch_in_style;
                                 this.set_ch_in(o);
                                 this.set_ch_out(o);
                                 if (CmnLib_1.CmnLib.hDip['tx']) {
                                     if (isSkip)
                                         this.cumDelay = 0;
-                                    const wait = (_d = o.wait, (_d !== null && _d !== void 0 ? _d : -1));
+                                    const wait = (_g = o.wait, (_g !== null && _g !== void 0 ? _g : -1));
                                     const sn_ch = (wait == 0)
                                         ? ''
                                         : ` sn_ch_in_${this.ch_in_style}`;
@@ -230,10 +258,14 @@ class TxtLayer extends Layer_1.Layer {
                     }
                     break;
                 case 3:
+                    this.firstCh = false;
                     this.needGoTxt = true;
                     switch (a_ruby[0]) {
                         case 'tcy':
                             {
+                                if (TxtLayer.val.doRecLog())
+                                    this.page_text += text
+                                        + (ruby ? `《${ruby}》` : '');
                                 const tx = a_ruby[1];
                                 const id_tcy = (tx.length > 1)
                                     ? (this.aSpan.length + 1)
@@ -291,8 +323,7 @@ class TxtLayer extends Layer_1.Layer {
                                 }
                                 if (this.ch_in_join)
                                     this.cumDelay += (TxtLayer.doAutoWc)
-                                        ? (_e = TxtLayer.hAutoWc[text.charAt(0)], (_e !== null && _e !== void 0 ? _e : 0)) : LayerMng_1.LayerMng.msecChWait;
-                                this.recText(text);
+                                        ? (_h = TxtLayer.hAutoWc[text.charAt(0)], (_h !== null && _h !== void 0 ? _h : 0)) : LayerMng_1.LayerMng.msecChWait;
                             }
                             break;
                         default:
@@ -300,7 +331,7 @@ class TxtLayer extends Layer_1.Layer {
                     }
                     break;
             }
-            this.aSpan.push(add_htm);
+            this.aSpan.push(TxtLayer.rec(add_htm));
         };
         this.cumDelay = 0;
         this.firstCh = true;
@@ -310,7 +341,7 @@ class TxtLayer extends Layer_1.Layer {
         this.aSpan_ch_out_style_bk = '';
         this.aSpan_link = '';
         this.click = () => this.txs.skipChIn();
-        this.log = '';
+        this.page_text = '';
         this.record = () => Object.assign(super.record(), {
             enabled: this.enabled,
             b_do: (this.b_do == null)
@@ -337,6 +368,7 @@ class TxtLayer extends Layer_1.Layer {
         TxtStage_1.TxtStage.init(cfg);
         TxtLayer.val = val;
         TxtLayer.recText = recText;
+        val.setDoRecProc(TxtLayer.chgDoRec);
         hTag.autowc = o => TxtLayer.autowc(o);
         const o = { enabled: 'false', text: '', time: '' };
         hTag.autowc(o);
@@ -483,6 +515,9 @@ class TxtLayer extends Layer_1.Layer {
         this.clearText();
         this.txs.destroy();
     }
+    set name(nm) { if (this.txs)
+        this.txs.name = nm; }
+    get name() { return this.txs ? this.txs.name : ''; }
     lay(hArg) {
         super.lay(hArg);
         Layer_1.Layer.setXY(this.cnt, hArg, this.cnt);
@@ -587,9 +622,17 @@ class TxtLayer extends Layer_1.Layer {
             this.b_do.alpha = alpha;
         }
     }
+    static chgDoRec(doRec) {
+        TxtLayer.rec = doRec
+            ? (tx) => tx
+            : (tx) => `<span class='offrec'>${tx}</span>`;
+    }
     tagCh(text) { this.rbSpl.putTxt(text); }
     tagCh_sub(text, ruby, isSkip) {
         var _a;
+        if (TxtLayer.val.doRecLog())
+            this.page_text += text
+                + (ruby ? `《${ruby}》` : '');
         let add_htm = '';
         if (CmnLib_1.CmnLib.hDip['tx']) {
             if (isSkip)
@@ -610,7 +653,6 @@ class TxtLayer extends Layer_1.Layer {
         if (this.ch_in_join)
             this.cumDelay += (TxtLayer.doAutoWc)
                 ? (_a = TxtLayer.hAutoWc[text.charAt(0)], (_a !== null && _a !== void 0 ? _a : 0)) : LayerMng_1.LayerMng.msecChWait;
-        this.recText(text);
         return add_htm;
     }
     autoCloseSpan() {
@@ -622,12 +664,6 @@ class TxtLayer extends Layer_1.Layer {
         this.set_ch_in({ in_style: this.aSpan_ch_in_style_bk });
         this.set_ch_out({ out_style: this.aSpan_ch_out_style_bk });
     }
-    recText(text) {
-        if (!TxtLayer.val.getVal('save:sn.doRecLog'))
-            return;
-        this.log = this.log + text;
-        TxtLayer.recText(this.log);
-    }
     clearText() {
         const txs = this.txs;
         this.txs = this.txs.passBaton();
@@ -636,8 +672,10 @@ class TxtLayer extends Layer_1.Layer {
         this.firstCh = true;
         this.aSpan = [];
         this.aSpan_bk = null;
-        this.log = '';
+        this.page_text = '';
+        TxtLayer.recText('', true);
     }
+    get pageText() { return this.page_text; }
     get enabled() { return this.cntBtn.interactiveChildren; }
     set enabled(v) { this.cntBtn.interactiveChildren = v; }
     addButton(hArg) {
@@ -688,4 +726,5 @@ exports.TxtLayer = TxtLayer;
 TxtLayer.css_key4del = '/* SKYNovel */';
 TxtLayer.doAutoWc = false;
 TxtLayer.hAutoWc = Object.create(null);
+TxtLayer.rec = (tx) => tx;
 //# sourceMappingURL=TxtLayer.js.map

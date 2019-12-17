@@ -12,7 +12,8 @@ import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
 
-import TWEEN = require('@tweenjs/tween.js');
+import * as TW from '@tweenjs/tween.js';
+const TWEEN: any = TW;
 import {interaction, DisplayObject, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
@@ -429,7 +430,7 @@ export class EventMng implements IEvtMng {
 				elmlist = document.querySelectorAll(sel);
 			}
 			const need_err = CmnLib.argChk_Boolean(hArg, 'need_err', true);
-			if (elmlist.length == 0 && need_err) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=true と指定してください`;
+			if (elmlist.length == 0 && need_err) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 			const ie = elmlist[0] as HTMLInputElement;
 			const type = (ie) ?ie.type :'';
 
@@ -562,7 +563,7 @@ export class EventMng implements IEvtMng {
 	private wait(hArg: HArg) {
 		this.val.saveKidoku();
 
-		const twSleep = new TWEEN.Tween(this)
+		const twSleep = new TWEEN.default.Tween(this)
 		.to({}, uint(CmnLib.argChk_Num(hArg, 'time', NaN)))
 		.onComplete(()=> this.main.resume())
 		.start();

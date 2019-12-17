@@ -39,6 +39,7 @@ class MyVal implements IVariable {
 
 	setSys(_sys: ISysBase): void {};
 	flush(): void {};
+	setDoRecProc(_doRecProc: (doRec: boolean)=> void): void {}
 
 	getVal(arg_name: string): object {return this.hGetVal[arg_name];}
 	setVal_Nochk = (_sc: string, _nm: string, _v: any, _ac?: boolean)=> {};
@@ -56,6 +57,8 @@ class MyVal implements IVariable {
 	saveKidoku(): void {};
 
 	defValTrg(_name: string, _fnc: ISetVal): void {};
+
+	doRecLog = ()=> false;
 };
 
 context('class PropParser', ()=>{

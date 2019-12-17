@@ -31,6 +31,8 @@ export declare class TxtLayer extends Layer {
     private cntBtn;
     constructor();
     destroy(): void;
+    set name(nm: string);
+    get name(): string;
     lay(hArg: HArg): boolean;
     private set_ch_in;
     private ch_in_style;
@@ -39,6 +41,9 @@ export declare class TxtLayer extends Layer {
     private ch_out_style;
     private drawBack;
     chgBackAlpha(g_alpha: number): void;
+    static chgDoRec(doRec: boolean): void;
+    static rec: (tx: string) => string;
+    isCur: boolean;
     tagCh(text: string): void;
     private needGoTxt;
     private putCh;
@@ -52,9 +57,9 @@ export declare class TxtLayer extends Layer {
     private aSpan_link;
     private autoCloseSpan;
     readonly click: () => boolean;
-    private log;
-    private recText;
     clearText(): void;
+    private page_text;
+    get pageText(): string;
     get enabled(): boolean;
     set enabled(v: boolean);
     addButton(hArg: HArg): boolean;

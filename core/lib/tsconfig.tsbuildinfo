@@ -150,8 +150,8 @@
         "signature": "77b09667f37d0932e0e079476a63269641e6360eb3cb95e06d06fe60be0cf268"
       },
       "../src/sn/cmninterface.ts": {
-        "version": "ee4a7699e323db03cba45827e1a08a79f9da03a891052db1b4ca7c3f937a46e0",
-        "signature": "438afce1344ce43e0fe8d844cab4533e4b0e3dc2bf448654b8cc3aeb63ab7afe"
+        "version": "5fac742e178ec6a8bceb317af49905891f27fb1068d846e284b8920ecec3b7dc",
+        "signature": "53ae1bd77f9ec9540226bb2a7efce64238733bc401fb25220a6f1b9717998d20"
       },
       "../src/sn/sysbase.ts": {
         "version": "d3cd0e56f16f974441d38f553ca8fdfed07fb6221bd80a32df610be247eb2128",
@@ -366,8 +366,8 @@
         "signature": "e3498f83c22f03608a4a4a7eccf64e6c6de5199268450c976e92e815a42e0daf"
       },
       "../src/sn/cmntween.ts": {
-        "version": "4de630ed7e95993b0cadbcbace9a0f8ac8af73e3b3d04db689dc96911987875d",
-        "signature": "8fdf70fa5c8ead66458db5e1e77db4bd6d57946d7094e0eefa0927e820798ba7"
+        "version": "4a61ff3329a1dff5e79ee7424f8d61249cfe76fc5d20b830dc4e3dda4d6b8bae",
+        "signature": "2ba9da458f90fb17dc48a53f45ae388e97825b9419ffba0e616d542bbbd04820"
       },
       "../src/sn/pages.ts": {
         "version": "855e7e9e49416685d6fa069d066478b2269058c7a5a1d1624dceb423767cdf51",
@@ -378,8 +378,8 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "7107e101f85a8362fefdb17f573eb7d3d68b52bb78dbc52b01a12878d97fd89d",
-        "signature": "0ed785cf65ef5b2d7e451cca4dad2f2f7aee64ac43f257ae61d60bc444d9daf7"
+        "version": "4b385fa1cc7240a1ca9422062ab49c2361f2e9684f0b2624aa67b1586c16cfc3",
+        "signature": "a45132a16f61e2cb0d645fd792a849ce403e99eb6c69487c53952088205453a8"
       },
       "../src/sn/rubyspliter.ts": {
         "version": "a2f437d1610acc7e5ba9d906b4f79a182d849f546cb141fce2879ff9769b2e34",
@@ -390,23 +390,23 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "7af21e10f7da5783674088f5265c7e647b65078de756643b8efa668319398609",
-        "signature": "f6200e70018a82f0d18d4918cce13d480597cfe4a50a1b0e497cfd4adad2fb1b"
+        "version": "ae602cfa7b413f21b85def36ade342d130c35d2edfdeefddee36eab07f867202",
+        "signature": "415f585127cd769c457b50f97ad6600c0c1ee974d275a97827dd1262831edd09"
       },
       "../src/sn/framemng.ts": {
-        "version": "ea40e4a294a1a63aa81126f624ec67c5efc76272f268f9b7dab8179b567e5b15",
+        "version": "9d093040ee4ff3be2f4095f197d2857c2c0a4e1157bcb6c118452afb5079ad7e",
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
-        "version": "686f7aa79642d02ec019224264a8de50b60c5f701baffabc89da8549a48a9d05",
-        "signature": "3f7252c272e2ab114659a4df88b71a0113d0da598f46ab9c3d78d4ee5de8688b"
+        "version": "cf0e5de2c22957f8fa7e218f47616be7e7c7d6b857426fe1b709b1f78e633cea",
+        "signature": "67141b7284325338b52c345427335e9eedcb2476c0c5b7186543575abfbd54a1"
       },
       "../../node_modules/@types/howler/index.d.ts": {
         "version": "71e20e9f63e1063a8ca6205b6f97e00e5144521c459546900d8698d13b376577",
         "signature": "71e20e9f63e1063a8ca6205b6f97e00e5144521c459546900d8698d13b376577"
       },
       "../src/sn/soundmng.ts": {
-        "version": "1c1f83e571c2c4517e4ed82bb759a741d14291ae0873cb79595e4249527e5fb5",
+        "version": "1c2e577190af0951f1bc911aa793953f6d5d4c1bf853844b02ab62099343984d",
         "signature": "20d3b4d3233c5b48277b54129b43831f8fffe50b27004e1641a312c63927debe"
       },
       "../../node_modules/@types/hammerjs/index.d.ts": {
@@ -414,11 +414,11 @@
         "signature": "e5c5e805c2e2696d62922f3e2c4742be28a0c729e88327e3222f89826d58b38c"
       },
       "../src/sn/eventmng.ts": {
-        "version": "d527427e7ad9075bc4ef7485280cbd5d9ce2b933eed2503b538537d006a22520",
+        "version": "26f0f24e41b7db6d8c7102ea5c833b08829d32cdcdc2f9d08bd513d663e77d81",
         "signature": "ca80d2bceb1ed0f92fb4cb052fb8e825a2d4a101f396019e025e9a5ee5d4db6f"
       },
       "../src/sn/scriptiterator.ts": {
-        "version": "7c2dbdbadde896c9902a80ad50076290da5d4b8f80402e781d2d78154fb21fe4",
+        "version": "a80cdc85d1394ece3da7d8d88c45bfb60e42924ed760f1fce2dac1c561c7f78b",
         "signature": "6c48766790300d850b510836e49a1a9713f6dd2ca74f2f55d6978f0984601914"
       },
       "../src/sn/debugmng.ts": {
@@ -434,11 +434,11 @@
         "signature": "c00705f582429199e234f47e635c230bf5cb743b7e61726f530682c5f0990218"
       },
       "../src/sn/variable.ts": {
-        "version": "f46e7fdd561c4fc0dec0a6af3c9f50ffa7012afec2cbfbb2102ecf4d80be3e71",
-        "signature": "aa15a6a1dd38e5b0c8e8a0f87e8fd7aed318eae3a38c645bf1c9def7b29e6807"
+        "version": "efaa199276788e48579af1083c42b80a8f00d609c1e6a0ee8baed386599c1801",
+        "signature": "419a335325b559d4d079a73e445178e4f34c2181fe2ab6dc876d6234229cf6bc"
       },
       "../src/sn/main.ts": {
-        "version": "91e5af75c18db415bdd4645b3bcb63f9e281a98f3c09827e371969af16cb0c30",
+        "version": "a26922f5a917ed8b1cba13dda0b980117252e41b3c6d92343264ec44391ac79f",
         "signature": "46657d3b0610efd79b14dd9f9ed016b6402de73f7b7c0c129c91d6ddd7374e75"
       },
       "../src/sn/sysapp.ts": {
@@ -2159,9 +2159,6 @@
       "../src/sn/propparser.ts": [
         "../src/sn/cmninterface.ts"
       ],
-      "../src/sn/cmntween.ts": [
-        "../../node_modules/@types/tween.js/index.d.ts"
-      ],
       "../src/sn/pages.ts": [
         "../../node_modules/pixi.js/pixi.js.d.ts",
         "../src/sn/cmninterface.ts",
@@ -2462,9 +2459,9 @@
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
+      "../src/sn/txtstage.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
-      "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
       "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
@@ -2494,7 +2491,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/txtstage.ts"
+      "../src/sn/txtlayer.ts"
     ]
   },
   "version": "3.7.3"

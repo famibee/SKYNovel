@@ -1,3 +1,13 @@
+## v0.8.0
+- new：新文字表示技術、リリース
+- add：履歴でも文字サイズ・背景色などstyle属性によるcss指定が反映されるように
+- add：jsonの一要素を「.」表記で取り出せる書式、深い階層もサポート
+- add：[rec_ch]仕様変更、text属性は必須でなくなり、その他属性を自由に指定できるように
+- chg：save:const.sn.sLogを\f区切りではなくシンプルなjsonに（以前と非互換）（破壊的変更）内容が const.sn.log.json と同じに
+- bug：const.sn.last_page_textが[current]文字レイヤの履歴テキストを返すように
+- bug：[let_ml]不具合修正、内部的に改行などの数が変わる場合に対応
+- bug：ルビ揃え指定と同時シリーズ（黒《center｜ヽ》）未作成、仮対応
+- info：class Variableの自動テスト追加
 ## v0.7.2
 - bug：テンプレのダイアログで文字が出ない件
 - bug：レイヤ回転rotation属性で度ではなくラジアンで指定していた件

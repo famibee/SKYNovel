@@ -18,7 +18,8 @@ import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 
-import TWEEN = require('@tweenjs/tween.js');
+import * as TW from '@tweenjs/tween.js';
+const TWEEN: any = TW;
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 
@@ -84,14 +85,7 @@ export class LayerMng {
 
 		//	画像・画像レイヤ
 		hTag.add_face		= o=> GrpLayer.add_face(o);	// 差分画像の追加
-/*		hTag.let_face_frame	= o=> this.let_face_frame(o);
-														// 差分SWFの現在フレーム番号
-		hTag.let_face_totalframes	= o=> this.let_face_totalframes(o);
-														// 差分SWFのフレーム総数
-		hTag.play_face		= o=> this.play_face(o);	// 差分SWFの再生開始
-		hTag.stop_face		= o=> this.stop_face(o);	// 差分SWFの再生停止
-		hTag.wa				= o=> this.wa(o);			// SWFアニメの停止待ち
-*/
+
 		//	ムービーレイヤ
 		hTag.wv				= o=> GrpLayer.wv(o);		// ムービー再生終了待ち
 
@@ -145,16 +139,15 @@ export class LayerMng {
 		fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button.fontFamily));
 		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
-		val.defTmp('const.sn.log.json', ()=> {
-			return JSON.stringify(
-				(String(this.val.getVal('save:const.sn.sLog') +'\f'+
-				String(this.val.getVal('tmp:const.sn.last_page_text')))
-				.replace(/^\f/g, '')
-				.split('\f')
-				.map(v=> {return {text: v}})));
+		val.defTmp('const.sn.log.json', ()=> JSON.stringify(
+			[...this.aPageLog, this.oLastPage]
+		));
+		val.defTmp('const.sn.last_page_text', ()=> {
+			const tl = this.getCurrentTxtlayFore();
+			return tl ?tl.pageText :'';
 		});
 	}
-	private fncTicker = ()=> TWEEN.update();
+	private fncTicker = ()=> TWEEN.default.update();
 
 	private grpCover : Graphics | null = null;
 	cover(visible: boolean, bg_color: number = 0x0) {
@@ -370,6 +363,7 @@ return false;	// TODO: 未作成：フォーカス移動
 		if (! cls) throw 'clsは必須です';
 
 		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val);
+		this.aLayName.push(layer);
 		switch (cls) {
 		case 'txt':
 			if (! this.curTxtlay) {
@@ -398,7 +392,6 @@ return false;	// TODO: 未作成：フォーカス移動
 				true);
 			break;
 		}
-		this.aLayName.push(layer);
 /*
 		fncLetAs(hArg);
 		fncReCover();
@@ -454,7 +447,7 @@ return false;	// TODO: 未作成：フォーカス移動
 	// レイヤ設定の消去
 	private clear_lay(hArg: HArg) {
 		this.foreachLayers(hArg, name=> {
-			//if (name == this.strTxtlay && hArg.page != 'back') this.recText('\f');
+			//if (name == this.strTxtlay && hArg.page != 'back') this.recText('', true);
 				// 改ページ
 			const pg = this.hPages[this.argChk_layer({layer: name})];
 			if (hArg.page == 'both') {	// page=both で両面削除
@@ -581,7 +574,7 @@ void main(void) {
 		const is_glsl = 'glsl' in hArg;
 		if ((! is_glsl) && ! ('rule' in hArg)) {
 			this.spTransFore.filters = [];
-			this.twInfTrans.tw = new TWEEN.Tween(this.spTransFore)
+			this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
 				.to({alpha: 0}, time)
 				.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 				.easing(ease)
@@ -597,14 +590,14 @@ void main(void) {
 			: this.fltRule;
 		flt.uniforms.vague = CmnLib.argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
-		this.twInfTrans.tw = new TWEEN.Tween(flt.uniforms)
+		this.twInfTrans.tw = new TWEEN.default.Tween(flt.uniforms)
 			.to({tick: 1}, time)
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
 			.onComplete(closeTrans);
 		this.spTransFore.filters = [flt];
 		if (is_glsl) {
-			this.twInfTrans.tw.start();
+			this.twInfTrans.tw!.start();
 			this.appPixi.ticker.add(fncRender);
 			return false;
 		}
@@ -709,7 +702,7 @@ void main(void) {
 		this.spTransFore.filters = [];
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		this.twInfTrans = {tw: null, resume: false};
-		this.twInfTrans.tw = new TWEEN.Tween(this.spTransFore)
+		this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
 			.to({x: 0, y: 0}, CmnLib.argChk_Num(hArg, 'time', NaN))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
@@ -763,7 +756,7 @@ void main(void) {
 
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		const tw_nm = hArg.name ?? hArg.layer;
-		const tw = new TWEEN.Tween(foreLay)
+		const tw = new TWEEN.default.Tween(foreLay)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
 				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
@@ -868,7 +861,7 @@ void main(void) {
 		if (wait >= 0) this.cmdTxt('add｜'+ JSON.stringify(hArg), tl);
 
 		const record = CmnLib.argChk_Boolean(hArg, 'record', true);
-		const doRecLog = Boolean(this.val.getVal('save:sn.doRecLog'));
+		const doRecLog = this.val.doRecLog();
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', record);
 		tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
@@ -900,8 +893,18 @@ void main(void) {
 		this.pgTxtlay = this.hPages[layer];
 		if (! (this.pgTxtlay.getPage(hArg) instanceof TxtLayer)) throw `${layer}はTxtLayerではありません`;
 
+		this.recText('', true);	// カレント変更前に現在の履歴を保存
 		this.curTxtlay = layer;
 		this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
+		const vct = this.getLayers();
+		const len = vct.length;
+		for (let i=0; i<len; ++i) {
+			const name = vct[i];
+			const pg = this.hPages[name];
+			if (! (pg.fore instanceof TxtLayer)) continue;
+			(pg.fore as TxtLayer).isCur =
+			(pg.back as TxtLayer).isCur = (name == layer);
+		}
 
 		return false;
 	}
@@ -926,31 +929,28 @@ void main(void) {
 	}
 
 
-	private recText(txt: string) {
-		if (! this.val.getVal('save:sn.doRecLog')) return;
-
-		if (txt != '\f') {
-			this.val.setVal_Nochk('tmp', 'const.sn.last_page_text', txt);
+	private oLastPage	: HArg						= {text: ''};
+	private	aPageLog	: {[name: string]: any}[]	= [];
+	recText(txt: string, pagebreak = false) {
+		if (pagebreak) {
+			if (this.oLastPage.text) {
+				this.aPageLog.push(this.oLastPage);
+				this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
+			}
+			this.oLastPage = {text: ''};
 			return;
 		}
 
+		this.oLastPage.text = txt;
 		this.val.setVal_Nochk('save', 'const.sn.sLog',
-			(String(this.val.getVal('save:const.sn.sLog')) +'\f'+
-			String(this.val.getVal('tmp:const.sn.last_page_text')))
-			//.replace(/^\f|^<br\/>|\f(?=\f)|(?<=\f)<br\/>/g, '')
-			.replace(/^\f|^<br\/>|\f(?=\f)/g, '')
-			.replace(/\f<br\/>/g, '\f')
-			// iOS、過ぎ去った前を見る肯定後読み「(?<=」使えない。エラーになるので
-			// Electronも？
-			.split('\f').slice(-this.cfg.oCfg.log.max_len).join('\f')
+			String(this.val.getVal('const.sn.log.json'))
 		);
-		this.val.setVal_Nochk('tmp', 'const.sn.last_page_text', '');
 	}
 
 
 	private clear_text(hArg: HArg) {
 		const tf = this.getTxtLayer(hArg);
-		if (hArg.layer == this.curTxtlay && hArg.page == 'fore') this.recText('\f');	// 改ページ、クリア前に
+		if (hArg.layer == this.curTxtlay && hArg.page == 'fore') this.recText('', true);	// 改ページ、クリア前に
 		tf.clearText();
 		return false;
 	}
@@ -961,7 +961,7 @@ void main(void) {
 
 	// ページ両面の文字消去
 	private er(hArg: HArg) {
-		if (CmnLib.argChk_Boolean(hArg, 'rec_page_break', true)) this.recText('\f');	// 改ページ、クリア前に
+		if (CmnLib.argChk_Boolean(hArg, 'rec_page_break', true)) this.recText('', true);	// 改ページ、クリア前に
 
 		if (this.pgTxtlay) {
 			this.pgTxtlay.fore.clearLay(hArg);
@@ -998,10 +998,8 @@ void main(void) {
 
 	// 履歴書き込み
 	private rec_ch(hArg: HArg) {
-		if (! hArg.text) throw '[rec_ch] textは必須です';
-
-		this.recText(hArg.text);
-		if (CmnLib.argChk_Boolean(hArg, 'r', true)) this.recText('\n');
+		this.oLastPage = hArg;
+		this.recText(hArg.text ?? '');
 
 		return false;
 	};
@@ -1009,6 +1007,9 @@ void main(void) {
 	// 履歴リセット
 	private reset_rec(hArg: HArg) {
 		this.val.setVal_Nochk('save', 'const.sn.sLog', hArg.text ?? '');
+		this.aPageLog = [];
+		this.oLastPage = {text: hArg.text ?? ''};
+
 		return false;
 	}
 
@@ -1124,6 +1125,9 @@ void main(void) {
 			fncComp();
 		})
 		.catch(e=> console.error(`fn:LayerMng.ts playback e:%o`, e));
+
+		this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
+		this.oLastPage = {text: ''};
 	}
 
 }

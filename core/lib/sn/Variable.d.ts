@@ -13,6 +13,8 @@ export declare class Variable implements IVariable {
     setSys(sys: ISysBase): void;
     private flush_;
     flush(): void;
+    setDoRecProc(doRecProc: (doRec: boolean) => void): void;
+    private doRecProc;
     defTmp(name: string, fnc: typeProcVal): void;
     cloneMp(): object;
     setMp(mp: object): void;
@@ -42,6 +44,8 @@ export declare class Variable implements IVariable {
     private castAuto;
     private REG_NUMERICLITERAL;
     private readonly dump_val;
+    private $doRecLog;
+    doRecLog(): boolean;
     private hValTrg;
     defValTrg(name: string, fnc: ISetVal): void;
     private runFirst_Bool_hSysVal_true;

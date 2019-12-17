@@ -112,7 +112,12 @@ export class ScriptIterator {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
 
-		const ml = this.script.aToken[++this.idxToken_];
+		let ml = '';
+		const len = this.script.len;
+		for (; this.idxToken_<len; ++this.idxToken_) {
+			ml = this.script.aToken[this.idxToken_];
+			if (ml != '') break;
+		}
 		hArg.text = ml;
 		hArg.cast = 'str';
 		this.hTag['let'](hArg);
@@ -943,6 +948,7 @@ export class ScriptIterator {
 		this.layMng.cover(true);
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
+		this.layMng.recText('', true);
 
 		if (reload_sound) this.sndMng.playLoopFromSaveObj();
 
