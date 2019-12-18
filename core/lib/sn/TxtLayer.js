@@ -340,7 +340,11 @@ class TxtLayer extends Layer_1.Layer {
         this.aSpan_ch_in_style_bk = '';
         this.aSpan_ch_out_style_bk = '';
         this.aSpan_link = '';
-        this.click = () => this.txs.skipChIn();
+        this.click = () => {
+            if (!this.cntBtn.interactiveChildren || !this.cnt.visible)
+                return true;
+            return this.txs.skipChIn();
+        };
         this.page_text = '';
         this.record = () => Object.assign(super.record(), {
             enabled: this.enabled,

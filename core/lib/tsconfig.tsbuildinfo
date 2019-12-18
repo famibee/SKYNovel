@@ -142,8 +142,8 @@
         "signature": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370"
       },
       "../src/sn/cmnlib.ts": {
-        "version": "41d9557f6a34f8c6dcab99493aa21cd3ac4007f3f2ff3c9f6b390d1da887c96f",
-        "signature": "76ce389db71efb5355e89e2cac08ef84ff09c52e6276951ab2792dd47e416798"
+        "version": "ae0c34c4cf203ea0f724c70ec8139a9ea98c3aba2c45d1793fa032ff2c0fb22c",
+        "signature": "f913ec4cd2ee7debf0581d8a6647f7b8f0f0fec90166515a85833dcba47e0d3d"
       },
       "../src/sn/layer.ts": {
         "version": "ddf7526f029606d62d8f74f345309293b474b78642f3f70881bb892004e7b262",
@@ -378,7 +378,7 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "4b385fa1cc7240a1ca9422062ab49c2361f2e9684f0b2624aa67b1586c16cfc3",
+        "version": "4b96d1a22e2798c484bf40aeeb12eb3d2df0e9312ee815934ae69bebb907c71f",
         "signature": "a45132a16f61e2cb0d645fd792a849ce403e99eb6c69487c53952088205453a8"
       },
       "../src/sn/rubyspliter.ts": {
@@ -390,15 +390,15 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "ae602cfa7b413f21b85def36ade342d130c35d2edfdeefddee36eab07f867202",
+        "version": "3aa3ea174501903fbb0a462d324a34b54aa79a4518a3b047809ca81e5b3563e8",
         "signature": "415f585127cd769c457b50f97ad6600c0c1ee974d275a97827dd1262831edd09"
       },
       "../src/sn/framemng.ts": {
-        "version": "9d093040ee4ff3be2f4095f197d2857c2c0a4e1157bcb6c118452afb5079ad7e",
+        "version": "c86d79d25406f3b7c47c0908dbfff42e55438392e7de9fe4bfe0870edace6145",
         "signature": "717979834b47fcd142d6839fe392712b8d7a652fdf04a3294a22cf345031fde7"
       },
       "../src/sn/layermng.ts": {
-        "version": "cf0e5de2c22957f8fa7e218f47616be7e7c7d6b857426fe1b709b1f78e633cea",
+        "version": "6bde0772049e0fa4d60108c02e7fbe56451fd524cd7eb9729650027fc8864912",
         "signature": "67141b7284325338b52c345427335e9eedcb2476c0c5b7186543575abfbd54a1"
       },
       "../../node_modules/@types/howler/index.d.ts": {
@@ -414,7 +414,7 @@
         "signature": "e5c5e805c2e2696d62922f3e2c4742be28a0c729e88327e3222f89826d58b38c"
       },
       "../src/sn/eventmng.ts": {
-        "version": "26f0f24e41b7db6d8c7102ea5c833b08829d32cdcdc2f9d08bd513d663e77d81",
+        "version": "3ef653280f701082409b32d36dcd870b9f381daf7a0e762bb76675d9c1ce8293",
         "signature": "ca80d2bceb1ed0f92fb4cb052fb8e825a2d4a101f396019e025e9a5ee5d4db6f"
       },
       "../src/sn/scriptiterator.ts": {
@@ -438,7 +438,7 @@
         "signature": "419a335325b559d4d079a73e445178e4f34c2181fe2ab6dc876d6234229cf6bc"
       },
       "../src/sn/main.ts": {
-        "version": "a26922f5a917ed8b1cba13dda0b980117252e41b3c6d92343264ec44391ac79f",
+        "version": "aa4ec19deeaec2446350c53dbf25f1d48a12499fcdedb5c563e2a26349b9a883",
         "signature": "46657d3b0610efd79b14dd9f9ed016b6402de73f7b7c0c129c91d6ddd7374e75"
       },
       "../src/sn/sysapp.ts": {
@@ -458,7 +458,7 @@
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/sn/sysmob.ts": {
-        "version": "eebd7887a15e998ddc8b7f75736093ac8da6cf32b29579b060edaed3cb23a612",
+        "version": "1e6dc213acf19527db388a71d1c699db7440d4fa217c38a80e60a810a843f212",
         "signature": "a7ab4b39e06cb02476fda9e2214ef10d19e9b052de2dbf700020685116708a66"
       },
       "../../node_modules/@types/electron-json-storage/index.d.ts": {
@@ -1459,6 +1459,7 @@
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/sn/sysmob.ts": [
+        "../src/sn/cmnlib.ts",
         "../src/sn/sysbase.ts",
         "../src/sn/cmninterface.ts",
         "../src/sn/main.ts",
@@ -2462,7 +2463,7 @@
       "../src/sn/txtstage.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
-      "../src/sn/framemng.ts",
+      "../src/sn/txtlayer.ts",
       "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
       "../src/sn/soundmng.ts",
@@ -2491,7 +2492,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/txtlayer.ts"
+      "../src/sn/framemng.ts"
     ]
   },
   "version": "3.7.3"

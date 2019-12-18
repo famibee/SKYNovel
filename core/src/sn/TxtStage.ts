@@ -45,7 +45,7 @@ export class TxtStage extends Container {
 	private	static	cvs		: HTMLCanvasElement;
 	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
-		TxtStage.cvs = document.getElementById('skynovel') as HTMLCanvasElement;
+		TxtStage.cvs = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
 
 		TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
 			? ()=> true
@@ -103,7 +103,7 @@ export class TxtStage extends Container {
 			s.left = this.left +'px';
 			s.top = txl.position.y +'px';
 
-			s.opacity = String(hArg.alpha);
+			if (! ('alpha' in hArg)) s.opacity = String(hArg.alpha);
 			s.transformOrigin = `${hArg.pivot_x}px ${hArg.pivot_y}px`;
 			s.transform = `rotate(${hArg.rotation}deg) scale(${hArg.scale_x}, ${hArg.scale_y}`;
 			s.display = Boolean(hArg.visible) ?'inline' :'none';

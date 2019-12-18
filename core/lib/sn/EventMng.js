@@ -5,6 +5,7 @@ const TxtLayer_1 = require("./TxtLayer");
 const EventListenerCtn_1 = require("./EventListenerCtn");
 const TW = require("@tweenjs/tween.js");
 const TWEEN = TW;
+const pixi_js_1 = require("pixi.js");
 const Config_1 = require("./Config");
 const Hammer = require("hammerjs");
 class EventMng {
@@ -193,7 +194,7 @@ class EventMng {
         if ((key.slice(-5) != 'wheel') && ('preventDefault' in e))
             e.preventDefault();
         e.stopPropagation();
-        if (this.layMng.clickTxtLay())
+        if (e.target instanceof pixi_js_1.DisplayObject && this.layMng.clickTxtLay())
             return;
         if (!this.isStop)
             return;

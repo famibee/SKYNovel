@@ -178,7 +178,7 @@ export class LayerMng {
 		GrpLayer.destroy();
 		RubySpliter.destroy();
 
-		TWEEN.removeAll();
+		TWEEN.default.removeAll();
 		this.appPixi.ticker.remove(this.fncTicker);
 		LayerMng.$msecChWait = 10;
 	}

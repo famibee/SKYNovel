@@ -53,21 +53,18 @@ export class Main implements IMain {
 				resolution		: window.devicePixelRatio ?? 1,	// NOTE: 理想
 				autoResize		: true,
 			};
-			const cvs = document.getElementById('skynovel') as HTMLCanvasElement;
+			const cvs = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
 			if (cvs) {
 				this.clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
-				this.clone_cvs.id = 'skynovel';
+				this.clone_cvs.id = CmnLib.sn_id;
 				hApp.view = cvs;
 			}
 			this.appPixi = new Application(hApp);
 			if (! cvs) {
 				document.body.appendChild(this.appPixi.view);
-				this.appPixi.view.id = 'skynovel';
+				this.appPixi.view.id = CmnLib.sn_id;
 			}
-			if (CmnLib.hDip['tx']) {
-				delete CmnLib.hDip['tx'];
-			}
-			else CmnLib.hDip['tx'] = '2';	// NOTE: 文字表示切り替え中
+			CmnLib.hDip['tx'] = '2';	// NOTE: 文字表示切り替え中
 			if (CmnLib.hDip['tx']) {
 				const s = this.appPixi.view.parentElement!.style;
 				s.position = 'relative';

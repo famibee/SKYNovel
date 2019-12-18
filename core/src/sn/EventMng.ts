@@ -230,7 +230,7 @@ export class EventMng implements IEvtMng {
 
 		if ((key.slice(-5) != 'wheel') && ('preventDefault' in e)) e.preventDefault();
 		e.stopPropagation();
-		if (this.layMng.clickTxtLay()) return;
+		if (e.target instanceof DisplayObject && this.layMng.clickTxtLay()) return;
 
 		if (! this.isStop) return;
 		this.isStop = false;

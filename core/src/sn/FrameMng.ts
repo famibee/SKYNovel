@@ -44,13 +44,12 @@ export class FrameMng {
 		const v = CmnLib.argChk_Boolean(hArg, 'visible', true);
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.rect(hArg);
-		const cr = this.appPixi.view.getBoundingClientRect();
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src
 		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${
-			this.sys.ofsLeft4frm +cr.left +rct.x *this.sys.reso4frame
+			this.sys.ofsLeft4frm +rct.x *this.sys.reso4frame
 		}px; top: ${
-			this.sys.ofsTop4frm  +cr.top  +rct.y *this.sys.reso4frame
+			this.sys.ofsTop4frm  +rct.y *this.sys.reso4frame
 		}px; border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
 		};${b_color}" width="${rct.width *this.sys.reso4frame
 		}" height="${rct.height *this.sys.reso4frame
@@ -150,9 +149,8 @@ export class FrameMng {
 		}
 		const rct = this.rect(hArg);
 		if ('x' in hArg || 'y' in hArg) {
-			const cr = this.appPixi.view.getBoundingClientRect();
-			ifrm.style.left = this.sys.ofsLeft4frm +cr.left +rct.x *this.sys.reso4frame +'px';
-			ifrm.style.top  = this.sys.ofsTop4frm  +cr.top  +rct.y *this.sys.reso4frame +'px';
+			ifrm.style.left = this.sys.ofsLeft4frm +rct.x *this.sys.reso4frame +'px';
+			ifrm.style.top  = this.sys.ofsTop4frm  +rct.y *this.sys.reso4frame +'px';
 			this.val.setVal_Nochk('tmp', frmnm +'.x', rct.x);
 			this.val.setVal_Nochk('tmp', frmnm +'.y', rct.y);
 		}
@@ -220,10 +218,9 @@ export class FrameMng {
 			hTo.sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
 			hTo.sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
 			hTo.r = CmnLib.argChk_Num(hArg, 'rotate', 0);
-			const cr = this.appPixi.view.getBoundingClientRect();
 			fncXYSR = ()=> {
-				ifrm.style.left = this.sys.ofsLeft4frm +cr.left +hNow.x *this.sys.reso4frame +'px';
-				ifrm.style.top  = this.sys.ofsTop4frm  +cr.top  +hNow.y *this.sys.reso4frame +'px';
+				ifrm.style.left = this.sys.ofsLeft4frm +hNow.x *this.sys.reso4frame +'px';
+				ifrm.style.top  = this.sys.ofsTop4frm  +hNow.y *this.sys.reso4frame +'px';
 				ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
 				this.val.setVal_Nochk('tmp', frmnm +'.x', hNow.x);
 				this.val.setVal_Nochk('tmp', frmnm +'.y', hNow.y);

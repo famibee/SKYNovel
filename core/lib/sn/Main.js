@@ -56,22 +56,18 @@ class Main {
                 resolution: (_a = window.devicePixelRatio, (_a !== null && _a !== void 0 ? _a : 1)),
                 autoResize: true,
             };
-            const cvs = document.getElementById('skynovel');
+            const cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
             if (cvs) {
                 this.clone_cvs = cvs.cloneNode(true);
-                this.clone_cvs.id = 'skynovel';
+                this.clone_cvs.id = CmnLib_1.CmnLib.sn_id;
                 hApp.view = cvs;
             }
             this.appPixi = new pixi_js_1.Application(hApp);
             if (!cvs) {
                 document.body.appendChild(this.appPixi.view);
-                this.appPixi.view.id = 'skynovel';
+                this.appPixi.view.id = CmnLib_1.CmnLib.sn_id;
             }
-            if (CmnLib_1.CmnLib.hDip['tx']) {
-                delete CmnLib_1.CmnLib.hDip['tx'];
-            }
-            else
-                CmnLib_1.CmnLib.hDip['tx'] = '2';
+            CmnLib_1.CmnLib.hDip['tx'] = '2';
             if (CmnLib_1.CmnLib.hDip['tx']) {
                 const s = this.appPixi.view.parentElement.style;
                 s.position = 'relative';

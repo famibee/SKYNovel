@@ -728,7 +728,10 @@ export class TxtLayer extends Layer {
 		this.set_ch_out({out_style: this.aSpan_ch_out_style_bk});
 	}
 
-	readonly click = ()=> this.txs.skipChIn();	// true is stay
+	readonly click = ()=> {
+		if (! this.cntBtn.interactiveChildren || ! this.cnt.visible) return true;
+		return this.txs.skipChIn();	// true is stay
+	}
 
 	clearText(): void {
 		const txs = this.txs;

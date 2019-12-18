@@ -32,6 +32,7 @@ export declare class CmnLib {
     static isRetina: boolean;
     static isDarkMode: boolean;
     static retinaRate: number;
+    static readonly sn_id = "skynovel";
     static argChk_Num(hash: any, name: string, def: number): number;
     static argChk_Boolean(hash: any, name: string, def: boolean): boolean;
     static readonly REG_TOKEN: RegExp;

@@ -193,7 +193,7 @@ void main(void) {
     destroy() {
         GrpLayer_1.GrpLayer.destroy();
         RubySpliter_1.RubySpliter.destroy();
-        TWEEN.removeAll();
+        TWEEN.default.removeAll();
         this.appPixi.ticker.remove(this.fncTicker);
         LayerMng.$msecChWait = 10;
     }

@@ -71,6 +71,8 @@ export class CmnLib {
 	static	isDarkMode	= false;
 	static	retinaRate	= 1;
 
+	static	readonly	sn_id	= 'skynovel';
+
 	static argChk_Num(hash: any, name: string, def: number): number {
 		const v = hash[name];
 		if (! (name in hash)) {

@@ -51,7 +51,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     static init(cfg) {
         TxtStage.cfg = cfg;
-        TxtStage.cvs = document.getElementById('skynovel');
+        TxtStage.cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
         TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
             ? () => true
             : () => TxtStage.evtMng.isSkipKeyDown();
@@ -81,7 +81,8 @@ class TxtStage extends pixi_js_1.Container {
                     : 0);
             s.left = this.left + 'px';
             s.top = txl.position.y + 'px';
-            s.opacity = String(hArg.alpha);
+            if (!('alpha' in hArg))
+                s.opacity = String(hArg.alpha);
             s.transformOrigin = `${hArg.pivot_x}px ${hArg.pivot_y}px`;
             s.transform = `rotate(${hArg.rotation}deg) scale(${hArg.scale_x}, ${hArg.scale_y}`;
             s.display = Boolean(hArg.visible) ? 'inline' : 'none';

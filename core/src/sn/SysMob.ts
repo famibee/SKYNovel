@@ -5,6 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
+import {CmnLib} from './CmnLib';
 import { SysBase } from "./SysBase";
 import {IConfig, IFn2Path, IData4Vari, IPlugin} from './CmnInterface';
 import {Main} from './Main';
@@ -40,7 +41,7 @@ export class SysMob extends SysBase {
 // TODO: 	this.sys = strLocal.get(this.ns +'sys');
 
 			// 全体が入るよう拡大・縮小
-			const cvs: HTMLCanvasElement = document.getElementById('skynovel') as HTMLCanvasElement;
+			const cvs: HTMLCanvasElement = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
 			if (cvs) {
 				const zoom = (screen.width > screen.height ?screen.height :screen.width)/ cfg.oCfg.window.height;
 //console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} zoom:${zoom}`);

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const CmnLib_1 = require("./CmnLib");
 const SysBase_1 = require("./SysBase");
 const Main_1 = require("./Main");
 class SysMob extends SysBase_1.SysBase {
@@ -45,7 +46,7 @@ class SysMob extends SysBase_1.SysBase {
                     if (ext != ':cnt')
                         h[ext] = this.arg.cur + h[ext];
             }
-            const cvs = document.getElementById('skynovel');
+            const cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
             if (cvs) {
                 const zoom = (screen.width > screen.height ? screen.height : screen.width) / cfg.oCfg.window.height;
                 this.resolution = zoom;

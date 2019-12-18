@@ -109,6 +109,7 @@ CmnLib.hDip = {};
 CmnLib.isRetina = false;
 CmnLib.isDarkMode = false;
 CmnLib.retinaRate = 1;
+CmnLib.sn_id = 'skynovel';
 CmnLib.REG_TOKEN = m_xregexp(`(?: \\[let_ml \\s+ [^\\[\\]]+ \\])` +
     `(?: . | \\s)+?` +
     `(?=\\[endlet_ml \\s* \\])` +
