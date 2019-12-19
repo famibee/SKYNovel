@@ -26,6 +26,7 @@ export declare class TxtStage extends Container {
     private lay_sub;
     private left;
     private isTategaki;
+    get tategaki(): boolean;
     private padTx4x;
     private padTx4y;
     setSize(width: number, height: number): void;
@@ -46,9 +47,7 @@ export declare class TxtStage extends Container {
     private lenHtmTxt;
     goTxt_next(aSpan: string[]): void;
     private fncEndChIn;
-    private rctm;
     private spWork_next;
-    private putBreakMark_next;
     private static hChInStyle;
     private static REG_NG_CHSTYLE_NAME_CHR;
     static initChStyle(): void;

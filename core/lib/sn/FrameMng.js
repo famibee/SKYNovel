@@ -11,6 +11,7 @@ class FrameMng {
         this.main = main;
         this.sys = sys;
         this.hTwInf = hTwInf;
+        this.hIfrm = Object.create(null);
         hTag.add_frame = o => this.add_frame(o);
         hTag.let_frame = o => this.let_frame(o);
         hTag.set_frame = o => this.set_frame(o);
@@ -18,6 +19,12 @@ class FrameMng {
         hTag.tsy_frame = o => this.tsy_frame(o);
     }
     setEvtMng(evtMng) { this.evtMng = evtMng; }
+    destroy() {
+        for (const k in this.hIfrm) {
+            const v = this.hIfrm[k];
+            v.parentElement.removeChild(v);
+        }
+    }
     add_frame(hArg) {
         const id = hArg.id;
         if (!id)
@@ -37,6 +44,7 @@ class FrameMng {
         const rct = this.rect(hArg);
         this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * this.sys.reso4frame}px; top: ${this.sys.ofsTop4frm + rct.y * this.sys.reso4frame}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};${b_color}" width="${rct.width * this.sys.reso4frame}" height="${rct.height * this.sys.reso4frame}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
         const ifrm = document.getElementById(id);
+        this.hIfrm[id] = ifrm;
         const win = ifrm.contentWindow;
         win.addEventListener('load', () => {
             this.val.setVal_Nochk('tmp', frmnm, true);

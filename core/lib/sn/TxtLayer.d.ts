@@ -44,6 +44,9 @@ export declare class TxtLayer extends Layer {
     static chgDoRec(doRec: boolean): void;
     static rec: (tx: string) => string;
     isCur: boolean;
+    private ruby_pd;
+    private mkStyle_r_align;
+    private r_align;
     tagCh(text: string): void;
     private needGoTxt;
     private putCh;
@@ -52,9 +55,9 @@ export declare class TxtLayer extends Layer {
     private firstCh;
     private aSpan;
     private aSpan_bk;
-    private aSpan_ch_in_style_bk;
-    private aSpan_ch_out_style_bk;
     private aSpan_link;
+    private hSpanBk;
+    private beginSpan;
     private autoCloseSpan;
     readonly click: () => boolean;
     clearText(): void;
@@ -79,6 +82,7 @@ export declare class TxtLayer extends Layer {
         visible: boolean;
     } & {
         enabled: boolean;
+        r_align: string;
         b_do: string | null;
         b_pic: string;
         b_color: number;

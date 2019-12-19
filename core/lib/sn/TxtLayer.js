@@ -34,6 +34,8 @@ class TxtLayer extends Layer_1.Layer {
         this.ch_in_join = true;
         this.ch_out_style = '';
         this.isCur = false;
+        this.ruby_pd = () => '';
+        this.r_align = '';
         this.needGoTxt = false;
         this.putCh = (text, ruby) => {
             var _a, _b, _c, _d, _e, _f, _g, _h;
@@ -69,10 +71,11 @@ class TxtLayer extends Layer_1.Layer {
                         if (ruby == '')
                             ruby = '　';
                     }
-                    add_htm = this.tagCh_sub(text, ruby, isSkip);
+                    add_htm = this.tagCh_sub(text, ruby, isSkip, this.r_align);
                     break;
                 case 2:
                     switch (a_ruby[0]) {
+                        case 'start':
                         case 'left':
                         case 'center':
                         case 'right':
@@ -82,7 +85,7 @@ class TxtLayer extends Layer_1.Layer {
                         case '1ruby':
                             this.firstCh = false;
                             this.needGoTxt = true;
-                            add_htm = this.tagCh_sub(text, a_ruby[1], isSkip);
+                            add_htm = this.tagCh_sub(text, a_ruby[1], isSkip, a_ruby[0]);
                             break;
                         case 'gotxt':
                             {
@@ -101,7 +104,7 @@ class TxtLayer extends Layer_1.Layer {
                                 }
                                 if (!this.needGoTxt)
                                     return;
-                                this.txs.goTxt_next(this.aSpan);
+                                this.txs.goTxt_next([...this.aSpan, this.tagCh_sub('　', '', false, '')]);
                                 this.needGoTxt = false;
                                 this.cumDelay = 0;
                                 return;
@@ -110,9 +113,7 @@ class TxtLayer extends Layer_1.Layer {
                             {
                                 const o = JSON.parse(a_ruby[1]);
                                 o.style = (_a = o.style, (_a !== null && _a !== void 0 ? _a : ''));
-                                this.aSpan_ch_in_style_bk = this.ch_in_style;
-                                this.set_ch_in(o);
-                                this.set_ch_out(o);
+                                this.beginSpan(o);
                                 if (this.aSpan_bk) {
                                     const s = this.aSpan_bk.slice(-1)[0];
                                     this.autoCloseSpan();
@@ -190,9 +191,7 @@ class TxtLayer extends Layer_1.Layer {
                             this.needGoTxt = true;
                             {
                                 const o = JSON.parse(a_ruby[1]);
-                                this.aSpan_ch_in_style_bk = this.ch_in_style;
-                                this.set_ch_in(o);
-                                this.set_ch_out(o);
+                                this.beginSpan(o);
                                 if (!o.style)
                                     return;
                                 if (CmnLib_1.CmnLib.hDip['tx']) {
@@ -220,9 +219,7 @@ class TxtLayer extends Layer_1.Layer {
                             {
                                 const o = JSON.parse(a_ruby[1]);
                                 o.style = (_f = o.style, (_f !== null && _f !== void 0 ? _f : ''));
-                                this.aSpan_ch_in_style_bk = this.ch_in_style;
-                                this.set_ch_in(o);
-                                this.set_ch_out(o);
+                                this.beginSpan(o);
                                 if (CmnLib_1.CmnLib.hDip['tx']) {
                                     if (isSkip)
                                         this.cumDelay = 0;
@@ -254,7 +251,7 @@ class TxtLayer extends Layer_1.Layer {
                             return;
                         default:
                             this.needGoTxt = true;
-                            add_htm = this.tagCh_sub(text, ruby, isSkip);
+                            add_htm = this.tagCh_sub(text, ruby, isSkip, this.r_align);
                     }
                     break;
                 case 3:
@@ -276,6 +273,7 @@ class TxtLayer extends Layer_1.Layer {
                                 if (CmnLib_1.CmnLib.hDip['tx']) {
                                     if (isSkip)
                                         this.cumDelay = 0;
+                                    const rs = this.mkStyle_r_align(tx, rb, this.r_align);
                                     add_htm = rb
                                         ? (this.aSpan_bk
                                             ? (`<ruby style='text-orientation: upright;'>`
@@ -283,14 +281,14 @@ class TxtLayer extends Layer_1.Layer {
 									text-combine-upright: all;
 									-webkit-text-combine: horizontal;
 								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
-                                                + `<rt>${rb}</rt></ruby>`)
+                                                + `<rt${rs}>${rb}</rt></ruby>`)
                                             : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
                                                 + `<ruby style='text-orientation: upright;'>`
                                                 + `<span data-tcy='${id_tcy}' style='
 										text-combine-upright: all;
 										-webkit-text-combine: horizontal;
 									' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
-                                                + `<rt>${rb}</rt></ruby>`
+                                                + `<rt${rs}>${rb}</rt></ruby>`
                                                 + `</span>`))
                                         : (this.aSpan_bk
                                             ? (`<span data-tcy='${id_tcy}' style='
@@ -337,9 +335,12 @@ class TxtLayer extends Layer_1.Layer {
         this.firstCh = true;
         this.aSpan = [];
         this.aSpan_bk = null;
-        this.aSpan_ch_in_style_bk = '';
-        this.aSpan_ch_out_style_bk = '';
         this.aSpan_link = '';
+        this.hSpanBk = {
+            ch_in_style: '',
+            ch_out_style: '',
+            r_align: '',
+        };
         this.click = () => {
             if (!this.cntBtn.interactiveChildren || !this.cnt.visible)
                 return true;
@@ -348,6 +349,7 @@ class TxtLayer extends Layer_1.Layer {
         this.page_text = '';
         this.record = () => Object.assign(super.record(), {
             enabled: this.enabled,
+            r_align: this.r_align,
             b_do: (this.b_do == null)
                 ? null
                 : (this.b_do instanceof pixi_js_1.Sprite ? 'Sprite' : 'Graphics'),
@@ -523,10 +525,20 @@ class TxtLayer extends Layer_1.Layer {
         this.txs.name = nm; }
     get name() { return this.txs ? this.txs.name : ''; }
     lay(hArg) {
+        var _a;
         super.lay(hArg);
         Layer_1.Layer.setXY(this.cnt, hArg, this.cnt);
         this.rbSpl.setting(hArg);
         this.txs.lay(hArg, this.cnt);
+        if ('r_align' in hArg)
+            this.r_align = (_a = hArg.r_align, (_a !== null && _a !== void 0 ? _a : ''));
+        this.ruby_pd = CmnLib_1.CmnLib.isSafari
+            ? this.txs.tategaki
+                ? (v, l) => `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
+                : (v, l) => `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
+            : this.txs.tategaki
+                ? v => `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
+                : v => `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
         this.set_ch_in(hArg);
         this.set_ch_out(hArg);
         return this.drawBack(hArg);
@@ -631,33 +643,69 @@ class TxtLayer extends Layer_1.Layer {
             ? (tx) => tx
             : (tx) => `<span class='offrec'>${tx}</span>`;
     }
+    mkStyle_r_align(text, rb, r_align) {
+        if (!r_align)
+            return '';
+        const len = text.length * 2;
+        if (len - rb.length < 0)
+            return ` style='text-align: ${r_align};'`;
+        let st = '';
+        switch (r_align) {
+            case 'justify':
+                st = this.ruby_pd('0', len);
+                break;
+            case '121':
+                st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
+                break;
+            case 'even':
+                st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
+                break;
+            case '1ruby':
+                st = this.ruby_pd('1em', len);
+                break;
+            default:
+                st = `text-align: ${r_align};`;
+        }
+        return ` style='${st}'`;
+    }
+    ;
     tagCh(text) { this.rbSpl.putTxt(text); }
-    tagCh_sub(text, ruby, isSkip) {
+    tagCh_sub(text, ruby, isSkip, r_align) {
         var _a;
         if (TxtLayer.val.doRecLog())
             this.page_text += text
                 + (ruby ? `《${ruby}》` : '');
         let add_htm = '';
+        const rs = this.mkStyle_r_align(text, ruby, r_align);
         if (CmnLib_1.CmnLib.hDip['tx']) {
             if (isSkip)
                 this.cumDelay = 0;
             add_htm = ruby
                 ? (this.aSpan_bk
-                    ? `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${text}<rt>${ruby}</rt></ruby>`
+                    ? `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${text}<rt${rs}>${ruby}</rt></ruby>`
                     : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
-                        + `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}<rt>${ruby}</rt></ruby>`
+                        + `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}<rt${rs}>${ruby}</rt></ruby>`
                         + `</span>`))
                 : (this.aSpan_bk
                     ? text
                     : `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}</span>`);
         }
         else {
-            add_htm = ruby ? `<ruby>${text}<rt>${ruby}</rt></ruby>` : text;
+            add_htm = ruby ? `<ruby>${text}<rt${rs}>${ruby}</rt></ruby>` : text;
         }
         if (this.ch_in_join)
             this.cumDelay += (TxtLayer.doAutoWc)
                 ? (_a = TxtLayer.hAutoWc[text.charAt(0)], (_a !== null && _a !== void 0 ? _a : 0)) : LayerMng_1.LayerMng.msecChWait;
         return add_htm;
+    }
+    beginSpan(o) {
+        this.hSpanBk.ch_in_style = this.ch_in_style;
+        this.set_ch_in(o);
+        this.hSpanBk.ch_out_style = this.ch_out_style;
+        this.set_ch_out(o);
+        this.hSpanBk.r_align = this.r_align;
+        if ('r_align' in o)
+            this.r_align = o.r_align;
     }
     autoCloseSpan() {
         if (!this.aSpan_bk)
@@ -665,8 +713,9 @@ class TxtLayer extends Layer_1.Layer {
         this.aSpan_bk.push(this.aSpan, '</span>');
         this.aSpan = Array.prototype.concat.apply([], this.aSpan_bk);
         this.aSpan_bk = null;
-        this.set_ch_in({ in_style: this.aSpan_ch_in_style_bk });
-        this.set_ch_out({ out_style: this.aSpan_ch_out_style_bk });
+        this.set_ch_in({ in_style: this.hSpanBk.ch_in_style });
+        this.set_ch_out({ out_style: this.hSpanBk.ch_out_style });
+        this.r_align = this.hSpanBk.r_align;
     }
     clearText() {
         const txs = this.txs;
@@ -698,6 +747,7 @@ class TxtLayer extends Layer_1.Layer {
     playback(hLay, fncComp = undefined) {
         super.playback(hLay);
         this.enabled = hLay.enabled;
+        this.r_align = hLay.r_align;
         this.b_alpha = hLay.b_alpha;
         this.b_alpha_isfixed = hLay.b_alpha_isfixed;
         let ret = this.drawBack((hLay.b_do)

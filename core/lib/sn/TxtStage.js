@@ -29,7 +29,6 @@ class TxtStage extends pixi_js_1.Container {
         this.aRect = [];
         this.lenHtmTxt = 0;
         this.fncEndChIn = () => { };
-        this.rctm = new pixi_js_1.Rectangle;
         this.lh_half = 0;
         this.isChInIng = false;
         this.ch_slide_x = () => this.infTL.fontsize * TxtStage.gs_chFadeDx;
@@ -76,7 +75,7 @@ class TxtStage extends pixi_js_1.Container {
         if (CmnLib_1.CmnLib.hDip['tx']) {
             this.isTategaki = (s.writingMode == 'vertical-rl');
             this.left = txl.position.x
-                - (CmnLib_1.CmnLib.isSafari
+                - (CmnLib_1.CmnLib.isSafari && this.isTategaki
                     ? this.infTL.pad_left + this.infTL.pad_right
                     : 0);
             s.left = this.left + 'px';
@@ -133,6 +132,7 @@ class TxtStage extends pixi_js_1.Container {
                 ? this.infTL.pad_left + this.infTL.pad_right
                 : 0);
     }
+    get tategaki() { return this.isTategaki; }
     setSize(width, height) {
         this.infTL.$width = width;
         this.infTL.$height = height;
@@ -604,6 +604,7 @@ class TxtStage extends pixi_js_1.Container {
         const bcr = this.htmTxt.getBoundingClientRect();
         const sx = bcr.left + this.infTL.pad_left;
         const sy = bcr.top + this.infTL.pad_top;
+        let rctm = new pixi_js_1.Rectangle;
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];
             const rct = v.rect;
@@ -614,7 +615,7 @@ class TxtStage extends pixi_js_1.Container {
             rct.y -= sy;
             fncMasume(v, rct);
             if (cis)
-                this.rctm = rct;
+                rctm = rct;
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;
@@ -636,7 +637,9 @@ class TxtStage extends pixi_js_1.Container {
                     break;
             }
         }
-        this.isChInIng = true;
+        this.aRect.slice(0, -1);
+        --this.lenHtmTxt;
+        this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');
         const chs = this.htmTxt.querySelectorAll('span.sn_ch');
         const len_chs = chs.length;
         for (let i = 0; i < len_chs; ++i) {
@@ -648,15 +651,20 @@ class TxtStage extends pixi_js_1.Container {
                 const v = chs[i];
                 v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
             }
-            this.putBreakMark_next();
-            this.isChInIng = false;
+            const cnt = TxtStage.cntBreak;
+            if (cnt) {
+                cnt.position.set(rctm.x, rctm.y);
+                cnt.visible = true;
+            }
             this.fncEndChIn = () => { };
         };
-        if (begin == len) {
+        if (len_chs == 0) {
             this.fncEndChIn();
             return;
         }
-        this.htmTxt.lastElementChild.addEventListener('animationend', () => {
+        this.isChInIng = true;
+        chs[len_chs - 1].addEventListener('animationend', () => {
+            this.isChInIng = false;
             this.fncEndChIn();
         }, { once: true, passive: true });
     }
@@ -680,23 +688,6 @@ class TxtStage extends pixi_js_1.Container {
                 .start(),
         };
         this.aSpTw.push(st);
-    }
-    putBreakMark_next() {
-        const cnt = TxtStage.cntBreak;
-        if (cnt.parent == null)
-            return;
-        cnt.x = this.rctm.x;
-        cnt.y = this.rctm.y;
-        if (this.isTategaki) {
-            cnt.x += (this.rctm.width
-                - parseFloat(this.htmTxt.style.fontSize)) / 2;
-            cnt.y += this.rctm.height;
-        }
-        else {
-            cnt.x += this.rctm.width;
-            cnt.y += this.rctm.height - parseFloat(this.htmTxt.style.fontSize);
-        }
-        cnt.visible = true;
     }
     static initChStyle() {
         TxtStage.hChInStyle = Object.create(null);

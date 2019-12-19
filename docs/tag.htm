@@ -600,7 +600,18 @@
 <tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>Boolean</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
 <tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_top、b_left、b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
 <tr><td>back_clear</td><td></td><td>現在値</td><td>Boolean</td><td>true：背景をクリアする</td></tr>
+<tr><td>r_align</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>ルビ揃えを指定する。<br/>left ……（肩付き）先頭親文字から、ルビ間は密着<br/>center ……（中付き）センター合わせ、〃<br/>right ……（右／下揃え）末尾親文字から、〃<br/>justify
+	……（両端揃え）先頭から末尾親文字間に、ルビ間は均等にあける<br/>121 ……（1-2-1(JIS)）ルビの前後を比率1、ルビ間を比率2であける<br/>even ……（均等アキ）ルビの前後、ルビ間も均等にあける<br/>1ruby
+	……（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける<br/><br/>初期値は center。<br/>
+	<br/>
+	※親文字よりルビの方が長い場合は、親文字に対する「中付き」表示になる<br/>
+	→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=built_in_ruby" target="_blank" rel="noopener">参考（機能ギャラリー・直感的なルビ文法）</a>
+</td></tr>
+</table>
 
+	<amp-img src="pic/r_align.png" width="864" height="275" layout="responsive"></amp-img>
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
 <tr><td>draggable</td><td></td><td>false</td><td>Boolean</td><td>true：テキスト背後の矩形をドラッグできる</td></tr>
@@ -624,9 +635,6 @@
 <tr><td>r_color</td><td></td><td>現在値</td><td>色指定。0x000000など</td><td>ルビの文字色。初期値は 0xFFFFFF</td></tr>
 <tr><td>r_size</td><td></td><td>現在値</td><td>1〜</td><td>ルビ文字サイズ。初期値は 12</td></tr>
 <tr><td>r_shift</td><td></td><td>現在値</td><td>正負の整数</td><td>ルビ文字を親文字から何ピクセル離すか。<br/>値の正負と縦書き横書きの関係は、TLFのBaselineShiftに従う。初期値は 0</td></tr>
-<tr><td>r_align</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>ルビ揃えを指定する。<br/>left ……（肩付き）先頭親文字から、ルビ間は密着<br/>center ……（中付き）センター合わせ、〃<br/>right ……（右／下揃え）末尾親文字から、〃<br/>justify
-	……（両端揃え）先頭から末尾親文字間に、ルビ間は均等にあける<br/>121 ……（1-2-1(JIS)）ルビの前後を比率1、ルビ間を比率2であける<br/>even ……（均等アキ）ルビの前後、ルビ間も均等にあける<br/>1ruby
-	……（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける<br/><br/>初期値は center。<br/><br/>※leftやright以外において、親文字よりルビの方が長い場合は、親文字に対する「中付き」表示になる</td></tr>
 </table>
 
 </p>
@@ -1107,10 +1115,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
 <tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
 <tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr><td>r_align</td><td></td><td>現在値</td><td></td><td>ルビ揃えを指定する。<br/>設定値は「<a href="#lay">[lay]</a>レイヤ設定(文字レイヤ)」を参照
+</td></tr>
 </table>
 
 </p>

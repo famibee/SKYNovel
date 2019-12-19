@@ -97,7 +97,7 @@ export class TxtStage extends Container {
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 			this.isTategaki = (s.writingMode == 'vertical-rl');
 			this.left = txl.position.x
-				-(CmnLib.isSafari
+				-(CmnLib.isSafari && this.isTategaki
 					? this.infTL.pad_left +this.infTL.pad_right
 					: 0);
 			s.left = this.left +'px';
@@ -164,6 +164,7 @@ export class TxtStage extends Container {
 	}
 	private left = 0;
 	private isTategaki = false;
+	get tategaki() {return this.isTategaki}
 	private padTx4x = 0;
 	private padTx4y = 0;
 
@@ -819,6 +820,7 @@ export class TxtStage extends Container {
 		const bcr = this.htmTxt.getBoundingClientRect();
 		const sx = bcr.left + this.infTL.pad_left;
 		const sy = bcr.top + this.infTL.pad_top;
+		let rctm = new Rectangle;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
@@ -828,7 +830,7 @@ export class TxtStage extends Container {
 			rct.x -= sx;
 			rct.y -= sy;
 			fncMasume(v, rct);
-			if (cis) this.rctm = rct;	// !cis ならルビ
+			if (cis) rctm = rct;	// !cis ならルビ
 
 			switch (v.cmd) {
 				case 'grp':
@@ -852,9 +854,12 @@ export class TxtStage extends Container {
 					break;
 			}
 		}
+		// クリック待ち用ダミー空白を削除
+		this.aRect.slice(0, -1);
+		--this.lenHtmTxt;
+		this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');
 
 		// 文字出現演出・開始〜終了
-		this.isChInIng = true;
 		const chs = this.htmTxt.querySelectorAll('span.sn_ch');
 		const len_chs = chs.length;
 		for (let i=0; i<len_chs; ++i) {
@@ -867,18 +872,22 @@ export class TxtStage extends Container {
 				const v = chs[i];
 				v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
 			}
-			this.putBreakMark_next();
-			this.isChInIng = false;
+			const cnt = TxtStage.cntBreak;	// Tween開始時の Obj を保存
+			if (cnt) {
+				cnt.position.set(rctm.x, rctm.y);
+				cnt.visible = true;
+			}
 			this.fncEndChIn = ()=> {};
 		};
-		if (begin == len) {this.fncEndChIn(); return;}
+		if (len_chs == 0) {this.fncEndChIn(); return;}
 
-		this.htmTxt.lastElementChild!.addEventListener('animationend', ()=> {
+		this.isChInIng = true;
+		chs[len_chs -1].addEventListener('animationend', ()=> {
+			this.isChInIng = false;
 			this.fncEndChIn();	// クリックキャンセル時は発生しない
 		}, {once: true, passive: true});
 	}
 	private	fncEndChIn	= ()=> {};
-	private rctm = new Rectangle;
 	private spWork_next(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
 		if (arg.width) sp.width = arg.width;
@@ -902,23 +911,6 @@ export class TxtStage extends Container {
 				.start(),
 		};
 		this.aSpTw.push(st);
-	}
-	private putBreakMark_next() {
-		const cnt = TxtStage.cntBreak;	// Tween開始時の Obj を保存
-		if (cnt.parent == null) return;
-
-		cnt.x = this.rctm.x;
-		cnt.y = this.rctm.y;
-		if (this.isTategaki) {
-			cnt.x += (this.rctm.width
-				-parseFloat(this.htmTxt.style.fontSize)) /2;
-			cnt.y += this.rctm.height;
-		}
-		else {
-			cnt.x += this.rctm.width;
-			cnt.y += this.rctm.height-parseFloat(this.htmTxt.style.fontSize);
-		}
-		cnt.visible = true;
 	}
 
 	private	static	hChInStyle	= Object.create(null);

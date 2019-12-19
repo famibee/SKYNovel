@@ -27,6 +27,14 @@ export class FrameMng {
 	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 
+	private	hIfrm	: {[name: string]: HTMLIFrameElement} = Object.create(null);
+	destroy() {
+		for (const k in this.hIfrm) {
+			const v = this.hIfrm[k];
+			v.parentElement!.removeChild(v);
+		}
+	}
+
 	//	HTMLフレーム
 	// フレーム追加
 	private add_frame(hArg: HArg) {
@@ -56,6 +64,7 @@ export class FrameMng {
 		}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		this.hIfrm[id] = ifrm;
 		const win = ifrm.contentWindow!;
 		win.addEventListener('load', ()=> {
 			// 組み込み変数

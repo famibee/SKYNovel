@@ -244,6 +244,15 @@ export class TxtLayer extends Layer {
 		this.rbSpl.setting(hArg);
 		this.txs.lay(hArg, this.cnt);
 
+		if ('r_align' in hArg) this.r_align = hArg.r_align ?? '';
+		this.ruby_pd = CmnLib.isSafari
+			? this.txs.tategaki		// Safariでは親文字幅 l は疑似値
+				? (v, l)=> `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
+				: (v, l)=> `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
+			: this.txs.tategaki
+				? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
+				: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
+
 		this.set_ch_in(hArg);
 		this.set_ch_out(hArg);
 
@@ -368,6 +377,29 @@ export class TxtLayer extends Layer {
 	static	rec = (tx: string)=> tx;
 
 	isCur	= false;
+	private ruby_pd: (v: string, l: number)=> string = ()=> '';
+	private mkStyle_r_align(text: string, rb: string, r_align: string) {
+		if (! r_align) return '';
+
+		const len = text.length *2;
+		if (len -rb.length < 0) return ` style='text-align: ${r_align};'`;
+
+		let st = '';
+		switch (r_align) {
+		case 'justify':
+			st = this.ruby_pd('0', len);	break;
+		case '121':
+			st = this.ruby_pd(`calc(${(len -rb.length) /(rb.length *2)}em)`, len);	break;
+		case 'even':
+			st = this.ruby_pd(`calc(${(len -rb.length) /(rb.length +1)}em)`, len);	break;
+		case '1ruby':
+			st = this.ruby_pd('1em', len);	break;
+		default:
+			st = `text-align: ${r_align};`;
+		}
+		return ` style='${st}'`;
+	};
+	private	r_align	= '';
 
 	tagCh(text: string): void {this.rbSpl.putTxt(text);}
 	private	needGoTxt = false;
@@ -403,12 +435,13 @@ export class TxtLayer extends Layer {
 				this.firstCh = false;
 				if (ruby == '') ruby = '　';
 			}
-			add_htm = this.tagCh_sub(text, ruby, isSkip);
+			add_htm = this.tagCh_sub(text, ruby, isSkip, this.r_align);
 			break;
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
 			switch (a_ruby[0]) {
 			// ルビ揃え指定と同時シリーズ
+			case 'start':	// 初期値
 			case 'left':	//（肩付き）先頭親文字から、ルビ間は密着
 			case 'center':	//（中付き）センター合わせ、〃
 			case 'right':	//（右／下揃え）末尾親文字から、〃
@@ -416,10 +449,9 @@ export class TxtLayer extends Layer {
 			case '121':		//（1-2-1(JIS)）ルビの前後を比率1、ルビ間を比率2であける
 			case 'even':	//（均等アキ）ルビの前後、ルビ間も均等にあける
 			case '1ruby':	//（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける
-				// TODO: 未作成
 				this.firstCh = false;
 				this.needGoTxt = true;
-				add_htm = this.tagCh_sub(text, a_ruby[1], isSkip);
+				add_htm = this.tagCh_sub(text, a_ruby[1], isSkip, a_ruby[0]);
 				break;
 
 			case 'gotxt':
@@ -444,7 +476,9 @@ export class TxtLayer extends Layer {
 				}
 
 				if (! this.needGoTxt) return;	// breakではない
-				this.txs.goTxt_next(this.aSpan);
+				this.txs.goTxt_next(	// クリック待ち用ダミー空白を追加
+					[...this.aSpan, this.tagCh_sub('　', '', false, '')]
+				);
 				this.needGoTxt = false;
 				this.cumDelay = 0;
 				return;	// breakではない
@@ -454,9 +488,7 @@ export class TxtLayer extends Layer {
 			{
 				const o = JSON.parse(a_ruby[1]);
 				o.style = o.style ?? '';
-				this.aSpan_ch_in_style_bk = this.ch_in_style;
-				this.set_ch_in(o);
-				this.set_ch_out(o);
+				this.beginSpan(o);
 				if (this.aSpan_bk) {
 					const s = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
@@ -536,9 +568,7 @@ export class TxtLayer extends Layer {
 				// style, in_style
 				const o = JSON.parse(a_ruby[1]);
 			//	o.style = o.style ?? '';
-				this.aSpan_ch_in_style_bk = this.ch_in_style;
-				this.set_ch_in(o);
-				this.set_ch_out(o);
+				this.beginSpan(o);
 				if (! o.style) return;	// breakではない
 
 				if (CmnLib.hDip['tx']) {
@@ -567,9 +597,7 @@ export class TxtLayer extends Layer {
 				// b_color, b_alpha, fn, label
 				const o = JSON.parse(a_ruby[1]);
 				o.style = o.style ?? '';
-				this.aSpan_ch_in_style_bk = this.ch_in_style;
-				this.set_ch_in(o);
-				this.set_ch_out(o);
+				this.beginSpan(o);
 				if (CmnLib.hDip['tx']) {
 					if (isSkip) this.cumDelay = 0;
 					const wait = o.wait ?? -1;
@@ -600,7 +628,7 @@ export class TxtLayer extends Layer {
 
 			default:	// ルビあり文字列
 				this.needGoTxt = true;
-				add_htm = this.tagCh_sub(text, ruby, isSkip);
+				add_htm = this.tagCh_sub(text, ruby, isSkip, this.r_align);
 			}
 			break;
 
@@ -627,6 +655,7 @@ export class TxtLayer extends Layer {
 					: a_ruby[2];
 				if (CmnLib.hDip['tx']) {
 					if (isSkip) this.cumDelay = 0;
+					const rs = this.mkStyle_r_align(tx, rb, this.r_align);
 					add_htm = rb
 						? (this.aSpan_bk
 							? (`<ruby style='text-orientation: upright;'>`
@@ -634,14 +663,14 @@ export class TxtLayer extends Layer {
 									text-combine-upright: all;
 									-webkit-text-combine: horizontal;
 								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
-								+`<rt>${rb}</rt></ruby>`)
+								+`<rt${rs}>${rb}</rt></ruby>`)
 							: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
 								+`<ruby style='text-orientation: upright;'>`
 									+`<span data-tcy='${id_tcy}' style='
 										text-combine-upright: all;
 										-webkit-text-combine: horizontal;
 									' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
-									+`<rt>${rb}</rt></ruby>`
+									+`<rt${rs}>${rb}</rt></ruby>`
 							+`</span>`))
 						: (this.aSpan_bk
 							? (`<span data-tcy='${id_tcy}' style='
@@ -685,25 +714,26 @@ export class TxtLayer extends Layer {
 		}
 		this.aSpan.push(TxtLayer.rec(add_htm));
 	}
-	private tagCh_sub(text: string, ruby: string, isSkip: boolean): string {
+	private tagCh_sub(text: string, ruby: string, isSkip: boolean, r_align: string): string {
 		if (TxtLayer.val.doRecLog()) this.page_text += text
 		+(ruby ?`《${ruby}》` :'');
 
 		let add_htm = '';
+		const rs = this.mkStyle_r_align(text, ruby, r_align);
 		if (CmnLib.hDip['tx']) {
 			if (isSkip) this.cumDelay = 0;
 			add_htm = ruby
 				? (this.aSpan_bk
-					? `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${text}<rt>${ruby}</rt></ruby>`
+					? `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${text}<rt${rs}>${ruby}</rt></ruby>`
 					: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
-						+`<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}<rt>${ruby}</rt></ruby>`
+						+`<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}<rt${rs}>${ruby}</rt></ruby>`
 					+`</span>`))
 				: (this.aSpan_bk
 					? text
 					: `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}</span>`);
 		}
 		else {
-			add_htm = ruby ?`<ruby>${text}<rt>${ruby}</rt></ruby>` :text;
+			add_htm = ruby ?`<ruby>${text}<rt${rs}>${ruby}</rt></ruby>` :text;
 		}
 		if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc)
 			? TxtLayer.hAutoWc[text.charAt(0)] ?? 0
@@ -715,17 +745,31 @@ export class TxtLayer extends Layer {
 	private firstCh		= true;
 	private aSpan		: string[]		= [];
 	private aSpan_bk	: any[] | null	= null;
-	private	aSpan_ch_in_style_bk		= '';
-	private	aSpan_ch_out_style_bk		= '';
 	private aSpan_link	= '';
+
+	private	hSpanBk = {
+		ch_in_style	: '',
+		ch_out_style: '',
+		r_align		: '',
+	};
+	private beginSpan(o :any) {
+		this.hSpanBk.ch_in_style = this.ch_in_style;
+		this.set_ch_in(o);
+		this.hSpanBk.ch_out_style = this.ch_out_style;
+		this.set_ch_out(o);
+		this.hSpanBk.r_align = this.r_align;
+		if ('r_align' in o) this.r_align = o.r_align;
+	}
 	private autoCloseSpan() {
 		if (! this.aSpan_bk) return;
 
 		this.aSpan_bk.push(this.aSpan, '</span>')
 		this.aSpan = Array.prototype.concat.apply([], this.aSpan_bk);
 		this.aSpan_bk = null;
-		this.set_ch_in({in_style: this.aSpan_ch_in_style_bk});
-		this.set_ch_out({out_style: this.aSpan_ch_out_style_bk});
+
+		this.set_ch_in({in_style: this.hSpanBk.ch_in_style});
+		this.set_ch_out({out_style: this.hSpanBk.ch_out_style});
+		this.r_align = this.hSpanBk.r_align;
 	}
 
 	readonly click = ()=> {
@@ -768,6 +812,7 @@ export class TxtLayer extends Layer {
 	}
 	readonly record = ()=> Object.assign(super.record(), {
 		enabled	: this.enabled,
+		r_align	: this.r_align,
 
 		// バック
 		b_do	: (this.b_do == null)
@@ -785,6 +830,7 @@ export class TxtLayer extends Layer {
 	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
 		this.enabled	= hLay.enabled;
+		this.r_align	= hLay.r_align;
 
 		// バック
 		this.b_alpha			= hLay.b_alpha;

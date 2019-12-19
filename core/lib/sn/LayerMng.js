@@ -193,6 +193,7 @@ void main(void) {
     destroy() {
         GrpLayer_1.GrpLayer.destroy();
         RubySpliter_1.RubySpliter.destroy();
+        this.frmMng.destroy();
         TWEEN.default.removeAll();
         this.appPixi.ticker.remove(this.fncTicker);
         LayerMng.$msecChWait = 10;
@@ -795,7 +796,7 @@ void main(void) {
         if (!('pic' in hArg))
             throw '[graph] picは必須です';
         hArg.text = '｜　《grp｜' + JSON.stringify(hArg) + '》';
-        return this.hTag.ch(hArg);
+        return this.ch(hArg);
     }
     link(hArg) {
         if (!hArg.style)
@@ -803,12 +804,7 @@ void main(void) {
         this.cmdTxt('link｜' + JSON.stringify(hArg));
         return false;
     }
-    r(hArg) {
-        this.hTag.ch({ text: '\n' });
-        if (hArg.layer == this.curTxtlay)
-            this.recText('\n');
-        return false;
-    }
+    r(hArg) { hArg.text = '\n'; return this.ch(hArg); }
     rec_r() { this.recText('\n'); return false; }
     ;
     rec_ch(hArg) {
@@ -833,8 +829,7 @@ void main(void) {
         if (!r)
             throw '[ruby2] rは必須です';
         hArg.text = '｜' + t + '《' + r + '》';
-        this.hTag.ch(hArg);
-        return false;
+        return this.ch(hArg);
     }
     span(hArg) {
         this.cmdTxt('span｜' + JSON.stringify(hArg));
@@ -845,8 +840,7 @@ void main(void) {
         if (!hArg.t)
             throw '[tcy] tは必須です';
         hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + (_a = hArg.r, (_a !== null && _a !== void 0 ? _a : '')) + '》';
-        this.hTag.ch(hArg);
-        return false;
+        return this.ch(hArg);
     }
     dump_lay(hArg) {
         console.group('🥟 [dump_lay]');

@@ -177,6 +177,7 @@ export class LayerMng {
 	destroy() {
 		GrpLayer.destroy();
 		RubySpliter.destroy();
+		this.frmMng.destroy();
 
 		TWEEN.default.removeAll();
 		this.appPixi.ticker.remove(this.fncTicker);
@@ -976,7 +977,7 @@ void main(void) {
 		if (! ('pic' in hArg)) throw '[graph] picは必須です';
 
 		hArg.text = '｜　《grp｜'+ JSON.stringify(hArg) +'》';
-		return this.hTag.ch(hArg);
+		return this.ch(hArg);
 	}
 
 	// ハイパーリンク
@@ -987,11 +988,7 @@ void main(void) {
 	}
 
 	// 改行
-	private r(hArg: HArg) {
-		this.hTag.ch({text: '\n'});
-		if (hArg.layer == this.curTxtlay) this.recText('\n');
-		return false;
-	}
+	private r(hArg: HArg) {hArg.text = '\n'; return this.ch(hArg);}
 
 	// 履歴改行
 	private rec_r() {this.recText('\n'); return false;};
@@ -1021,8 +1018,7 @@ void main(void) {
 		if (! r) throw '[ruby2] rは必須です';
 
 		hArg.text = '｜'+ t +'《'+ r +'》';
-		this.hTag.ch(hArg);
-		return false;
+		return this.ch(hArg);
 	}
 
 
@@ -1036,8 +1032,7 @@ void main(void) {
 	private tcy(hArg: HArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
 		hArg.text = '｜　｜《tcy｜'+ hArg.t +'｜'+ (hArg.r ?? '') +'》';
-		this.hTag.ch(hArg);
-		return false;
+		return this.ch(hArg);
 	}
 
 

@@ -83,6 +83,7 @@ export interface HArg {
 	b_pic?		: string;
 	back_clear?	: string;
 
+	r_align?	: string;
 	max_col?	: string;
 	max_row?	: string;
 	bura_col?	: string;

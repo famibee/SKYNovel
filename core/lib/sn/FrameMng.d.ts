@@ -14,6 +14,8 @@ export declare class FrameMng {
     });
     private evtMng;
     setEvtMng(evtMng: IEvtMng): void;
+    private hIfrm;
+    destroy(): void;
     private add_frame;
     private rect;
     private let_frame;
