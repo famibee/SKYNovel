@@ -8,6 +8,7 @@
 import {CmnLib} from './CmnLib';
 import {IHTag, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
+import {Grammar} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {PropParser} from './PropParser';
 import {DebugMng} from './DebugMng';
@@ -130,8 +131,7 @@ export class Main implements IMain {
 	};
 	resume = this.fncresume;
 	resumeByJumpOrCall(hArg: HArg) {
-		const url = hArg['url'];
-		if (url) {window.open(url); return;}
+		if (hArg.url) {window.open(hArg.url); return;}
 
 		this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
 		this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
@@ -173,7 +173,7 @@ export class Main implements IMain {
 						const e = err as Error;
 					//	if (e is StackOverflowError) traceDbg(e.getStackTrace())
 						mes = 'タグ解析中例外 mes='+ e.message +'('+ e.name +')';
-						const a_tag: any = CmnLib.REG_TAG.exec(token);
+						const a_tag: any = Grammar.REG_TAG.exec(token);
 						if (a_tag != null) mes = '['+ a_tag.name +']'+ mes;
 					}
 					else {
@@ -188,7 +188,7 @@ export class Main implements IMain {
 				try {
 					if (token.substr(-1) != '&') {//変数操作
 						//変数計算
-						const o: any = CmnLib.splitAmpersand(token.slice(1));
+						const o: any = Grammar.splitAmpersand(token.slice(1));
 						o.name = this.getValAmpersand(o.name);
 						o.text = String(this.prpPrs.parse(o.text));
 						this.hTag.let(o);
@@ -241,7 +241,7 @@ export class Main implements IMain {
 
 	// result = true : waitする  resume()で再開
 	private タグ解析(tagToken: string): boolean {
-		const a_tag: any = m_xregexp.exec(tagToken, CmnLib.REG_TAG);
+		const a_tag: any = m_xregexp.exec(tagToken, Grammar.REG_TAG);
 		if (a_tag == null) throw 'タグ記述['+ tagToken +']異常です(タグ解析)';
 
 		const tag_name = a_tag['name'];

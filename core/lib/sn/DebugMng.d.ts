@@ -12,6 +12,7 @@ export declare class DebugMng {
     constructor(sys: SysBase, hTag: IHTag, scrItr: ScriptIterator);
     destroy(): void;
     update(): void;
+    private first;
     private log;
     private stats;
     private trace;

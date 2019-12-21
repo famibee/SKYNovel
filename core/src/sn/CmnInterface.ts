@@ -142,6 +142,14 @@ export interface IMyTrace {
 }
 
 
+// =============== ScriptIterator
+export interface Script {
+	aToken	: string[];		// トークン群
+	len		: number;		// トークン数
+	aLNum	: number[];		// トークンの行番号
+};
+
+
 // =============== Plugin
 export interface IPluginInitArg {
 	addTag(tag_name: string, tag_fnc: ITag): void;

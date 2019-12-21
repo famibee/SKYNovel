@@ -8,7 +8,6 @@
 import {CmnLib, int} from './CmnLib';
 import {IConfig, IExts, IFn2Path} from './CmnInterface';
 import {SysBase} from './SysBase';
-import {DebugMng} from './DebugMng';
 
 export class Config implements IConfig {
 	oCfg: any = {
@@ -31,13 +30,14 @@ export class Config implements IConfig {
 			version		: '1.0',
 			nocode_reg	: 'system/.+.mp3|m4a|config/.+',
 			nocode		: '',
-			pack_exc	: '\.swf\.cache',
+			pack_exc	: '',
 		},
 		log		: {max_len: 1024},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
 		init	: {
 			bg_color			: 0x000000,	// 背景色
 			tagch_msecwait		: 10,		// 通常文字表示待ち時間（未読／既読）
 			auto_msecpagewait	: 3500,		// 自動文字表示、行クリック待ち時間（未読／既読）
+			escape				: '',		// エスケープ文字
 		},
 		debug	: {	// デバッグ情報（プレイヤーもONに出来るので注意）
 			devtool		: false,
@@ -61,65 +61,51 @@ export class Config implements IConfig {
 	static	readonly	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
 
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
-		let err_mes = 'prj.json';
 		const load = (oCfg: any)=> {
-			const oIni = {...this.oCfg};
-			this.oCfg = oCfg;
-			err_mes = 'first_script';
-			if (! ('first_script' in oCfg)) this.oCfg.first_script = oIni.first_script;
+			this.oCfg.first_script = oCfg?.first_script ?? this.oCfg.first_script;
 
-			err_mes = 'coder';
-			if (! ('coder' in oCfg)) this.oCfg.coder = oIni.coder;
-			err_mes = 'window';
-			if ('window' in oCfg) {
-				CmnLib.argChk_Num(this.oCfg, 'width', oIni.window.width);
-				CmnLib.argChk_Num(this.oCfg, 'height', oIni.window.height);
-			}
-			else {
-				this.oCfg.window = oIni.window;
-			}
-			CmnLib.stageW =	this.oCfg.window.width;
-			CmnLib.stageH = this.oCfg.window.height;
+			this.oCfg.coder = oCfg?.coder ?? this.oCfg.coder;
 
-			err_mes = 'book';
-			if ('book' in oCfg) for (const nm in oIni) {
-				if (nm != 'inc') {
-					CmnLib.argChk_Boolean(this.oCfg.book, nm, oIni.book[nm]);
-					continue;
-				}
-				for (const v of oIni[nm]) {
-					if (! sys.existsSync(sys.cur + v.path)) continue;
+			CmnLib.stageW = this.oCfg.window.width = Number(oCfg?.window?.width ?? this.oCfg.window.width);
+			CmnLib.stageH = this.oCfg.window.height = Number(oCfg?.window?.height ?? this.oCfg.window.height);
 
-					this.oCfg.book.inc_path[v.path] = true;
+			if ('book' in oCfg) {
+				const b = this.oCfg.book;
+				for (const nm in b) {
+					if (nm != 'inc') {
+						b[nm] = CmnLib.argChk_Boolean(oCfg.book, nm, b[nm]);
+						continue;
+					}
+					for (const v of b[nm]) {
+						if (! sys.existsSync(sys.cur + v.path)) continue;
+
+						b.inc_path[v.path] = true;
+					}
 				}
 			}
-			else this.oCfg.book = oIni.book;
 
-			err_mes = 'log';
-			if (! ('log' in oCfg)) this.oCfg.log = {max_len: oIni.log.max_len};
-			err_mes = 'init';
-			if ('init' in oCfg) for (const nm in oIni) {
-				const v: string = oIni.init[nm];
-				if (! v) continue;
-
-				if (v.charAt(0) == '#')
-					this.oCfg.init[nm] = parseInt(v.slice(1), 16);
-				else
-					CmnLib.argChk_Num(this.oCfg, nm, oIni.init[nm]);
+			this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
+			if ('init' in oCfg) {
+				const i = this.oCfg.init;
+				for (const nm in i) {
+					const v: string = oCfg.init[nm];
+					if (v) i[nm] = (v.charAt(0) == '#')
+						? parseInt(v.slice(1), 16)
+						: v;
+				}
 			}
-			else this.oCfg.init = oIni.init;
 
-			err_mes = 'debug';
-			if ('debug' in oCfg) for (const nm in oIni) {
-				CmnLib.argChk_Boolean(this.oCfg.debug, nm, oIni.debug[nm]);
+			if ('debug' in oCfg) {
+				const d = this.oCfg.debug;
+				for (const nm in d) {
+					d[nm] = CmnLib.argChk_Boolean(oCfg.debug, nm, d[nm]);
+				}
 			}
-			else this.oCfg.debug = oIni.debug;
 			CmnLib.devtool = this.oCfg.debug.devtool;
 
 			// これが同期（App）非同期（Web、path.json）混在してるので、
 			// （Mainのメンバ変数に入れる→他のクラスに渡す都合により）
 			// 当クラスのコンストラクタとload()は分ける
-			err_mes = 'sys.loadPathAndVal';
 			sys.loadPathAndVal(this.hPathFn2Exts, ()=> {
 				this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
 				this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
@@ -128,15 +114,7 @@ export class Config implements IConfig {
 			}, this);
 		};
 
-		if (oCfg4tst) {
-			for (const key in this.oCfg) {
-				if (key in oCfg4tst) this.oCfg[key] = oCfg4tst[key];
-			}
-			// Object.assign(this.oCfg, oCfg4tst);
-				// 本当はこうしたいが、テストがES6未満なので
-			load(this.oCfg);
-			return;
-		}
+		if (oCfg4tst) {load(oCfg4tst); return;}
 
 		// テストで引っかかるのでPromise・async/awaitにしない
 		const fn = sys.cur +'prj.json'+ sys.crypt_;
@@ -144,7 +122,6 @@ export class Config implements IConfig {
 		.then(res=> res.text())
 		.then(d=> JSON.parse(sys.pre(fn, d)))
 		.then(load)
-		.catch(err=> DebugMng.myTrace(`load ${fn} "${err_mes}" = ${err}`));
 /*
 		try {
 			(async ()=> {

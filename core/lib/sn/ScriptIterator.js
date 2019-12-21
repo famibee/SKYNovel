@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const Config_1 = require("./Config");
 const CallStack_1 = require("./CallStack");
+const Grammar_1 = require("./Grammar");
 const m_xregexp = require("xregexp");
 const pixi_js_1 = require("pixi.js");
 const DebugMng_1 = require("./DebugMng");
-;
 ;
 ;
 class ScriptIterator {
@@ -27,6 +27,7 @@ class ScriptIterator {
         this.addLineNum = (len) => { this.lineNum_ += len; };
         this.aCallStk = [];
         this.getCallStk = (idx) => this.aCallStk[idx].hArg;
+        this.grm = new Grammar_1.Grammar;
         this.csAnalyBf = new CallStack_1.CallStack('', 0);
         this.fncSet = () => { };
         this.fncBreak = () => { };
@@ -50,9 +51,9 @@ class ScriptIterator {
         this.REG_LABEL_ESC = /\*/g;
         this.REG_TOKEN_MACRO_BEGIN = /\[macro\s/;
         this.REG_TOKEN_MACRO_END = /\[endmacro[\s\]]/;
-        this.hScript = Object.create(null);
         this.REG_TAG_LET_ML = m_xregexp(`^\\[let_ml\\s`, 'g');
         this.REG_TAG_ENDLET_ML = m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
+        this.hScript = Object.create(null);
         this.REG_WILDCARD = /^\[(call|loadplugin)\s/;
         this.REG_WILDCARD2 = /\bfn\s*=\s*[^\s\]]+/;
         this.replaceScript_Wildcard = () => {
@@ -61,7 +62,7 @@ class ScriptIterator {
                 this.REG_WILDCARD.lastIndex = 0;
                 if (!this.REG_WILDCARD.test(token))
                     continue;
-                const a_tag = m_xregexp.exec(token, CmnLib_1.CmnLib.REG_TAG);
+                const a_tag = m_xregexp.exec(token, Grammar_1.Grammar.REG_TAG);
                 if (!this.alzTagArg.go(a_tag['args']))
                     continue;
                 const p_fn = this.alzTagArg.hPrm['fn'];
@@ -84,52 +85,8 @@ class ScriptIterator {
             this.script.len = this.script.aToken.length;
         };
         this.replaceScript_Wildcard_Sub_ext = (nm) => nm == 'loadplugin' ? 'css' : 'sn';
-        this.replaceScriptChar2macro_And_let_ml = (start_idx = 0) => {
-            var _a;
-            for (let i = this.script.len - 1; i >= start_idx; --i) {
-                const token = this.script.aToken[i];
-                this.REG_TAG_LET_ML.lastIndex = 0;
-                if (this.REG_TAG_LET_ML.test(token)) {
-                    const idxSpl = token.indexOf(']') + 1;
-                    const ml = token.slice(idxSpl);
-                    const cnt = (_a = ml.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
-                    this.script.aToken.splice(i, 1, token.slice(0, idxSpl), ml);
-                    this.script.aLNum.splice(i, 0, this.script.aLNum[i]);
-                    const len = this.script.aToken.length;
-                    for (let j = i + 2; j < len; ++j)
-                        this.script.aLNum[j] += cnt;
-                    continue;
-                }
-                CmnLib_1.CmnLib.REG_TOKEN_NOTXT.lastIndex = 0;
-                if (CmnLib_1.CmnLib.REG_TOKEN_NOTXT.test(token.charAt(0)))
-                    continue;
-                const lnum = this.script.aLNum[i];
-                const a = token.match(this.regC2M);
-                if (!a)
-                    continue;
-                const len = a.length - 1;
-                let del = 1;
-                for (let j = len; j >= 0; --j) {
-                    let ch = a[j];
-                    const macro = this.hC2M[ch.charAt(0)];
-                    if (macro) {
-                        ch = macro + ((macro.substr(-1) == ']')
-                            ? ''
-                            : (`'${ch.slice(1, -1)}']`));
-                    }
-                    this.script.aToken.splice(i, del, ch);
-                    this.script.aLNum.splice(i, del, lnum);
-                    del = 0;
-                }
-            }
-            this.script.len = this.script.aToken.length;
-        };
-        this.regC2M = new RegExp('');
         this.nextToken = () => '';
         this.isKidoku_ = false;
-        this.REG_CANTC2M = /[\w\s;[\]*=&｜《》]/;
-        this.regStrC2M = '';
-        this.regStrC2M4not = '';
         this.hTagInf = {};
         this.mark = {
             hSave: {},
@@ -157,6 +114,7 @@ class ScriptIterator {
         hTag.record_place = () => this.record_place();
         hTag.save = o => this.save(o);
         val.defTmp('const.sn.vctCallStk.length', () => this.aCallStk.length);
+        this.grm.setEscape(cfg.oCfg.init.escape);
     }
     get scriptFn() { return this.scriptFn_; }
     ;
@@ -330,7 +288,7 @@ class ScriptIterator {
             }
             if (uc != 91)
                 continue;
-            const a_tag = m_xregexp.exec(t, CmnLib_1.CmnLib.REG_TAG);
+            const a_tag = m_xregexp.exec(t, Grammar_1.Grammar.REG_TAG);
             if (a_tag == null)
                 throw 'タグ記述[' + t + ']異常です(if文)';
             const tag_name = a_tag['name'];
@@ -613,7 +571,7 @@ class ScriptIterator {
     }
     resolveScript(txt) {
         txt = txt.replace(/(\r\n|\r)/g, '\n');
-        const v = CmnLib_1.CmnLib.cnvMultilineTag(txt).match(CmnLib_1.CmnLib.REG_TOKEN);
+        const v = this.grm.cnvMultilineTag(txt).match(this.grm.REG_TOKEN);
         if (!v)
             throw 'CmnLib.cnvMultilineTag fail';
         for (let i = v.length - 1; i >= 0; --i) {
@@ -632,8 +590,7 @@ class ScriptIterator {
         let mes = '';
         try {
             mes = 'ScriptIterator.replaceScriptChar2macro';
-            if (this.hC2M)
-                this.replaceScriptChar2macro_And_let_ml();
+            this.grm.replaceScr_C2M_And_let_ml(this.script);
             mes = 'ScriptIterator.replaceScript_Wildcard';
             this.replaceScript_Wildcard();
         }
@@ -723,34 +680,7 @@ class ScriptIterator {
                 : 0);
     }
     bracket2macro(hArg) {
-        var _a;
-        const name = hArg.name;
-        if (!name)
-            throw '[bracket2macro] nameは必須です';
-        const text = hArg.text;
-        if (!text)
-            throw '[bracket2macro] textは必須です';
-        if (text.length != 2)
-            throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
-        this.hC2M = (_a = this.hC2M, (_a !== null && _a !== void 0 ? _a : {}));
-        const op = text.charAt(0);
-        const cl = text.charAt(1);
-        if (op in this.hC2M)
-            throw '[bracket2macro] text【' + op + '】が登録済みの括弧マクロまたは一文字マクロです';
-        if (cl in this.hC2M)
-            throw '[bracket2macro] text【' + cl + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(op))
-            throw '[bracket2macro] text【' + op + '】は括弧マクロに使用できない文字です';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(cl))
-            throw '[bracket2macro] text【' + cl + '】は括弧マクロに使用できない文字です';
-        this.hC2M[cl] = '0';
-        this.hC2M[op] = '[' + name + ' text=';
-        this.regStrC2M += '\\' + op + '[^\\' + cl + ']*\\' + cl + '|';
-        this.regStrC2M4not += '\\' + op + '\\' + cl;
-        this.regC2M = new RegExp('(' + this.regStrC2M + '[^' + this.regStrC2M4not + ']+)', 'g');
-        this.replaceScriptChar2macro_And_let_ml(this.idxToken_);
+        this.grm.bracket2macro(hArg, this.script, this.idxToken_);
         return false;
     }
     break_macro(hArg) {
@@ -763,26 +693,7 @@ class ScriptIterator {
         return this.hTag['return'](hArg);
     }
     char2macro(hArg) {
-        var _a;
-        this.hC2M = (_a = this.hC2M, (_a !== null && _a !== void 0 ? _a : {}));
-        const char = hArg.char;
-        if (!char)
-            throw '[char2macro] charは必須です';
-        if (char in this.hC2M)
-            throw '[char2macro] char【' + char + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(char))
-            throw '[char2macro] char【' + char + '】は一文字マクロに使用できない文字です';
-        const name = hArg.name;
-        if (!name)
-            throw '[char2macro] nameは必須です';
-        if (!(name in this.hTag))
-            throw '[char2macro] 未定義のタグ又はマクロ[' + name + ']です';
-        this.hC2M[char] = '[' + name + ']';
-        this.regStrC2M += '\\' + char + '|';
-        this.regStrC2M4not += '\\' + char;
-        this.regC2M = new RegExp('(' + this.regStrC2M + '[^' + this.regStrC2M4not + ']+)', 'g');
-        this.replaceScriptChar2macro_And_let_ml(this.idxToken_);
+        this.grm.char2macro(hArg, this.hTag, this.script, this.idxToken_);
         return false;
     }
     macro(hArg) {

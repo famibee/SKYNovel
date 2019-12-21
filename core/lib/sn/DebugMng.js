@@ -2,10 +2,12 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const Stats = require('stats.js');
+const platform = require('platform');
 class DebugMng {
     constructor(sys, hTag, scrItr) {
         this.sys = sys;
         this.fncUpd = () => { };
+        this.first = true;
         DebugMng.scrItr = scrItr;
         DebugMng.hTag = hTag;
         DebugMng.title = hTag.title;
@@ -29,15 +31,12 @@ class DebugMng {
     }
     update() { this.fncUpd(); }
     log(hArg) {
-        if (!('text' in hArg))
-            throw '[log] textは必須です';
-        const dat = '--- ' + CmnLib_1.getDateStr('-', '_', '')
-            + ' [fn:' + DebugMng.scrItr.scriptFn
-            + ' line:' + DebugMng.scrItr.lineNum + ']'
-            + ' os:' + CmnLib_1.CmnLib.osName
-            + ' prj:' + this.sys.cur
-            + '\n' + hArg.text + '\n';
-        this.sys.appendFile(this.sys.path_desktop + 'log.txt', dat, err => { if (err)
+        if (this.first) {
+            this.first = false;
+            this.sys.appendFile(this.sys.path_desktop + 'log.txt', `== ${platform.description} ==`, err => { if (err)
+                console.log(err); });
+        }
+        this.sys.appendFile(this.sys.path_desktop + 'log.txt', `--- ${CmnLib_1.getDateStr('-', '_', '')} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)
             console.log(err); });
         return false;
     }
@@ -59,11 +58,11 @@ class DebugMng {
         return false;
     }
     trace(hArg) {
-        DebugMng.myTrace((hArg.text ? hArg.text : `(text is ${String(hArg.text)})`), 'I');
+        DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
         return false;
     }
     static fncMyTrace(txt, lvl = 'E') {
-        let mes = '{' + lvl + '} ';
+        let mes = `{${lvl}} `;
         if (DebugMng.scrItr)
             mes += `(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;
         mes += txt;
@@ -120,9 +119,8 @@ class DebugMng {
     ;
 }
 exports.DebugMng = DebugMng;
-DebugMng.title = () => false;
 DebugMng.myTrace = (txt, lvl = 'E') => {
-    let mes = '{' + lvl + '} ' + txt;
+    let mes = `{${lvl}} ` + txt;
     let sty = '';
     switch (lvl) {
         case 'D':

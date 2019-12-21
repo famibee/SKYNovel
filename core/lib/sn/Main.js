@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const Config_1 = require("./Config");
+const Grammar_1 = require("./Grammar");
 const AnalyzeTagArg_1 = require("./AnalyzeTagArg");
 const PropParser_1 = require("./PropParser");
 const DebugMng_1 = require("./DebugMng");
@@ -98,9 +99,8 @@ class Main {
     }
     resumeByJumpOrCall(hArg) {
         var _a, _b;
-        const url = hArg['url'];
-        if (url) {
-            window.open(url);
+        if (hArg.url) {
+            window.open(hArg.url);
             return;
         }
         this.val.setVal_Nochk('tmp', 'sn.eventArg', (_a = hArg.arg, (_a !== null && _a !== void 0 ? _a : '')));
@@ -142,7 +142,7 @@ class Main {
                     if (err instanceof Error) {
                         const e = err;
                         mes = 'タグ解析中例外 mes=' + e.message + '(' + e.name + ')';
-                        const a_tag = CmnLib_1.CmnLib.REG_TAG.exec(token);
+                        const a_tag = Grammar_1.Grammar.REG_TAG.exec(token);
                         if (a_tag != null)
                             mes = '[' + a_tag.name + ']' + mes;
                     }
@@ -156,7 +156,7 @@ class Main {
             if (uc == 38) {
                 try {
                     if (token.substr(-1) != '&') {
-                        const o = CmnLib_1.CmnLib.splitAmpersand(token.slice(1));
+                        const o = Grammar_1.Grammar.splitAmpersand(token.slice(1));
                         o.name = this.getValAmpersand(o.name);
                         o.text = String(this.prpPrs.parse(o.text));
                         this.hTag.let(o);
@@ -202,7 +202,7 @@ class Main {
         }
     }
     タグ解析(tagToken) {
-        const a_tag = m_xregexp.exec(tagToken, CmnLib_1.CmnLib.REG_TAG);
+        const a_tag = m_xregexp.exec(tagToken, Grammar_1.Grammar.REG_TAG);
         if (a_tag == null)
             throw 'タグ記述[' + tagToken + ']異常です(タグ解析)';
         const tag_name = a_tag['name'];

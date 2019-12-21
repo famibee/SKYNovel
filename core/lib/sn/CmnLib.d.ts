@@ -24,7 +24,6 @@ export declare class CmnLib {
     static stageW: number;
     static stageH: number;
     static devtool: boolean;
-    static osName: string;
     static isSafari: boolean;
     static hDip: {
         [name: string]: string;
@@ -35,13 +34,6 @@ export declare class CmnLib {
     static readonly sn_id = "skynovel";
     static argChk_Num(hash: any, name: string, def: number): number;
     static argChk_Boolean(hash: any, name: string, def: boolean): boolean;
-    static readonly REG_TOKEN: RegExp;
-    static readonly REG_TOKEN_NOTXT: RegExp;
-    private static readonly REG_MULTILINE_TAG;
-    private static readonly REG_MULTILINE_TAG_SPLIT;
-    static cnvMultilineTag(txt: string): string;
-    static splitAmpersand(token: string): object;
-    static readonly REG_TAG: RegExp;
     static readonly getFn: (path: string) => string;
     static readonly getExt: (path: string) => string;
 }

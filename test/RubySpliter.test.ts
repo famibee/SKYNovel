@@ -9,6 +9,7 @@ import assert = require('power-assert');
 
 import {RubySpliter} from '../core/src/sn/RubySpliter';
 import {HArg, IPutCh} from '../core/src/sn/CmnInterface';
+import { CmnLib } from '../core/src/sn/CmnLib';
 
 context('class RubySpliter', ()=>{
 	let	rbSpl	= null;
@@ -17,6 +18,7 @@ context('class RubySpliter', ()=>{
 	beforeEach(() => {
 		rbSpl = new RubySpliter();
 		rbSpl.init(putCh, null);
+		RubySpliter.setEscape('');
 		retText	= '';
 		retRuby	= '';
 	});
@@ -921,6 +923,165 @@ context('class RubySpliter', ()=>{
 			rbSpl.putTxt('｜🌈𩸽🌕《にじ ほっけ まんげつ》');
 			assert.equal(retText, '.🌈.𩸽.🌕');
 			assert.equal(retRuby, '.にじ.ほっけ.まんげつ');
+		});
+
+		it('test_｜｜《》', ()=> {
+			rbSpl.putTxt('｜｜　論語《ろんごに》');
+			assert.equal(retText, '.｜　論語');
+			assert.equal(retRuby, '.ろんごに');
+		});
+		it('test_｜《《》', ()=> {
+			rbSpl.putTxt('｜《　論語《ろんごに》');
+			assert.equal(retText, '.｜.《.　.論語');
+			assert.equal(retRuby, '....ろんごに');
+		});
+			it('test_｜｜《《》', ()=> {
+				rbSpl.putTxt('｜｜　《論語《ろんごに》');
+				assert.equal(retText, '.｜　');
+				assert.equal(retRuby, '.論語《ろんごに');
+			});
+		it('test_esc｜', ()=> {
+			rbSpl.putTxt('\\｜｜　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.\\.｜　論語');
+			assert.equal(retRuby, '..ろんごに');
+		});
+			it('test_escDefEsc｜', ()=> {
+				RubySpliter.setEscape('\\');
+				rbSpl.putTxt('\\｜｜　論語《ろんごに》');	// 「\\」で一文字
+				assert.equal(retText, '.｜.　論語');
+				assert.equal(retRuby, '..ろんごに');
+			});
+			it('test_escDefEsc¥｜', ()=> {
+				RubySpliter.setEscape('¥');
+				rbSpl.putTxt('¥｜｜　論語《ろんごに》');	// 「¥」で一文字
+				assert.equal(retText, '.｜.　論語');
+				assert.equal(retRuby, '..ろんごに');
+			});
+			it('test_escDefEsc\\2｜', ()=> {
+				RubySpliter.setEscape('\\');
+				rbSpl.putTxt('\\｜｜　論語《ろんごに》\\｜　曰《いはく》');	// 「\\」で一文字
+				assert.equal(retText, '.｜.　論語.｜.　.曰');
+				assert.equal(retRuby, '..ろんごに...いはく');
+			});
+			it('test_escDefEsc\\No¥｜', ()=> {
+				RubySpliter.setEscape('\\');
+				rbSpl.putTxt('\\｜｜　論語《ろんごに》¥｜　曰《いはく》');	// 「\\」で一文字
+				assert.equal(retText, '.｜.　論語.¥.　曰');
+				assert.equal(retRuby, '..ろんごに..いはく');
+			});
+			it('test_escDefEsc¥No\\｜', ()=> {
+				RubySpliter.setEscape('¥');
+				rbSpl.putTxt('\\｜｜　論語《ろんごに》¥｜　曰《いはく》');	// 「\\」で一文字
+				assert.equal(retText, '.\\.｜　論語.｜.　.曰');
+				assert.equal(retRuby, '..ろんごに...いはく');
+			});
+		it('test_esc｜2', ()=> {
+			rbSpl.putTxt('\\｜　論語《ろんごに》');
+			assert.equal(retText, '.\\.　論語');
+			assert.equal(retRuby, '..ろんごに');
+		});
+			it('test_esc｜2DefEsc', ()=> {
+				RubySpliter.setEscape('\\');
+				rbSpl.putTxt('\\｜　論語《ろんごに》');
+				assert.equal(retText, '.｜.　.論語');
+				assert.equal(retRuby, '...ろんごに');
+			});
+			it('test_esc｜2DefEsc¥', ()=> {
+				RubySpliter.setEscape('¥');
+				rbSpl.putTxt('¥｜　論語《ろんごに》');
+				assert.equal(retText, '.｜.　.論語');
+				assert.equal(retRuby, '...ろんごに');
+			});
+		it('test_｜esc《》', ()=> {
+			rbSpl.putTxt('｜\\　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.\\　論語');
+			assert.equal(retRuby, '.ろんごに');
+		});
+			it('test_escesc｜《》', ()=> {
+				rbSpl.putTxt('\\\\｜　論語《ろんごに》');	// 「\\」で一文字
+				assert.equal(retText, '.\\.\\.　論語');
+				assert.equal(retRuby, '...ろんごに');
+			});
+			it('test_escescDefEsc｜《》', ()=> {
+				RubySpliter.setEscape('\\');
+				rbSpl.putTxt('\\\\｜　論語《ろんごに》');	// 「\\」で一文字
+				assert.equal(retText, '.\\.　論語');
+				assert.equal(retRuby, '..ろんごに');
+			});
+			it('test_escescDefEsc¥｜《》', ()=> {
+				RubySpliter.setEscape('¥');
+				rbSpl.putTxt('¥¥｜　論語《ろんごに》');	// 「¥」で一文字
+				assert.equal(retText, '.¥.　論語');
+				assert.equal(retRuby, '..ろんごに');
+			});
+
+		it('test_esc&｜《》', ()=> {
+			rbSpl.putTxt('\\&　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.\\.&.　.論語');
+			assert.equal(retRuby, '....ろんごに');
+		});
+		it('test_esc[｜《》', ()=> {
+			rbSpl.putTxt('\\[　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.\\.[.　.論語');
+			assert.equal(retRuby, '....ろんごに');
+		});
+		it('test_esc;｜《》', ()=> {
+			rbSpl.putTxt('\\;　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.\\.;.　.論語');
+			assert.equal(retRuby, '....ろんごに');
+		});
+		it('test_esc*｜《》', ()=> {
+			rbSpl.putTxt('\\*　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.\\.*.　.論語');
+			assert.equal(retRuby, '....ろんごに');
+		});
+		it('test_esc&DefEsc｜《》', ()=> {
+			RubySpliter.setEscape('\\');
+			rbSpl.putTxt('\\&　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.&.　.論語');
+			assert.equal(retRuby, '...ろんごに');
+		});
+		it('test_esc[DefEsc｜《》', ()=> {
+			RubySpliter.setEscape('\\');
+			rbSpl.putTxt('\\[　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.[.　.論語');
+			assert.equal(retRuby, '...ろんごに');
+		});
+		it('test_esc;DefEsc｜《》', ()=> {
+			RubySpliter.setEscape('\\');
+			rbSpl.putTxt('\\;　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.;.　.論語');
+			assert.equal(retRuby, '...ろんごに');
+		});
+		it('test_esc*DefEsc｜《》', ()=> {
+			RubySpliter.setEscape('\\');
+			rbSpl.putTxt('\\*　論語《ろんごに》');	// 「\\」で一文字
+			assert.equal(retText, '.*.　.論語');
+			assert.equal(retRuby, '...ろんごに');
+		});
+		it('test_esc&DefEsc¥｜《》', ()=> {
+			RubySpliter.setEscape('¥');
+			rbSpl.putTxt('¥&　論語《ろんごに》');
+			assert.equal(retText, '.&.　.論語');
+			assert.equal(retRuby, '...ろんごに');
+		});
+		it('test_esc[DefEsc¥｜《》', ()=> {
+			RubySpliter.setEscape('¥');
+			rbSpl.putTxt('¥[　論語《ろんごに》');
+			assert.equal(retText, '.[.　.論語');
+			assert.equal(retRuby, '...ろんごに');
+		});
+		it('test_esc;DefEsc¥｜《》', ()=> {
+			RubySpliter.setEscape('¥');
+			rbSpl.putTxt('¥;　論語《ろんごに》');
+			assert.equal(retText, '.;.　.論語');
+			assert.equal(retRuby, '...ろんごに');
+		});
+		it('test_esc*DefEsc¥｜《》', ()=> {
+			RubySpliter.setEscape('¥');
+			rbSpl.putTxt('¥*　論語《ろんごに》');
+			assert.equal(retText, '.*.　.論語');
+			assert.equal(retRuby, '...ろんごに');
 		});
 
 	});

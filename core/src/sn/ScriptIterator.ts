@@ -6,9 +6,10 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, uint} from './CmnLib';
-import {IHTag, IMain, IVariable, IMark, HArg} from './CmnInterface';
+import {IHTag, IMain, IVariable, IMark, HArg, Script} from './CmnInterface';
 import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
+import {Grammar} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {IParse} from './PropParser';
 
@@ -20,11 +21,6 @@ import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
 
-interface Script {
-	aToken	: string[];		// トークン群
-	len		: number;		// トークン数
-	aLNum	: number[];		// トークンの行番号
-};
 interface HScript {
 	[name: string]: Script;
 };
@@ -55,7 +51,8 @@ export class ScriptIterator {
 	get lastHArg(): any {return this.aCallStk[this.lenCallStk -1].hArg;};
 	readonly getCallStk = (idx: number)=> this.aCallStk[idx].hArg;
 
-	private csAnalyBf	: CallStack		= new CallStack('', 0);
+	private	grm			= new Grammar;
+	private csAnalyBf	= new CallStack('', 0);
 
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly alzTagArg: AnalyzeTagArg, private readonly runAnalyze: ()=> void, private readonly parse: IParse, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
@@ -96,6 +93,8 @@ export class ScriptIterator {
 
 
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.aCallStk.length);
+
+		this.grm.setEscape(cfg.oCfg.init.escape);
 	}
 
 	private	evtMng	: EventMng;
@@ -287,7 +286,7 @@ export class ScriptIterator {
 			if (uc == 10) {this.addLineNum(t.length); continue;}	// \n 改行
 			if (uc != 91) continue;		// [ タグ開始以外
 
-			const a_tag: any = m_xregexp.exec(t, CmnLib.REG_TAG);
+			const a_tag: any = m_xregexp.exec(t, Grammar.REG_TAG);
 			if (a_tag == null) throw 'タグ記述['+ t +']異常です(if文)';
 			const tag_name = a_tag['name'];
 			if (! (tag_name in this.hTag)) throw '未定義のタグ['+ tag_name +']です';
@@ -478,10 +477,12 @@ export class ScriptIterator {
 	}
 
 
-	private	readonly	REG_NONAME_LABEL		= /(\*{2,})(.*)/;
-	private	readonly	REG_LABEL_ESC			= /\*/g;
-	private	readonly	REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
-	private	readonly	REG_TOKEN_MACRO_END		= /\[endmacro[\s\]]/;
+	private	readonly REG_NONAME_LABEL		= /(\*{2,})(.*)/;
+	private	readonly REG_LABEL_ESC			= /\*/g;
+	private	readonly REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
+	private	readonly REG_TOKEN_MACRO_END	= /\[endmacro[\s\]]/;
+	private	readonly REG_TAG_LET_ML		= m_xregexp(`^\\[let_ml\\s`, 'g');
+	private	readonly REG_TAG_ENDLET_ML	= m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
 	private	seekScript(st: Script, inMacro: boolean, ln: number, skipLabel: string, idxToken: number): ISeek {
 		//console.log('seekScript (from)inMacro:'+ inMacro +' (from)lineNum:'+ ln +' (to)skipLabel:'+ skipLabel +': (to)idxToken:'+ idxToken);
 		const len = st.aToken.length;
@@ -588,11 +589,9 @@ export class ScriptIterator {
 	}
 
 	private hScript	: HScript	= Object.create(null);	//{} シナリオキャッシュ
-	private	readonly REG_TAG_LET_ML		= m_xregexp(`^\\[let_ml\\s`, 'g');
-	private	readonly REG_TAG_ENDLET_ML	= m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
 	private resolveScript(txt: string) {
 		txt = txt.replace(/(\r\n|\r)/g, '\n');
-		const v = CmnLib.cnvMultilineTag(txt).match(CmnLib.REG_TOKEN);
+		const v = this.grm.cnvMultilineTag(txt).match(this.grm.REG_TOKEN);
 		if (! v) throw 'CmnLib.cnvMultilineTag fail';
 		for (let i=v.length -1; i>=0; --i) {
 			const e = v[i];
@@ -610,7 +609,7 @@ export class ScriptIterator {
 		let mes = '';
 		try {
 			mes = 'ScriptIterator.replaceScriptChar2macro';
-			if (this.hC2M) this.replaceScriptChar2macro_And_let_ml();
+			this.grm.replaceScr_C2M_And_let_ml(this.script);
 			mes = 'ScriptIterator.replaceScript_Wildcard';
 			this.replaceScript_Wildcard();
 		}
@@ -650,7 +649,7 @@ export class ScriptIterator {
 			this.REG_WILDCARD.lastIndex = 0;
 			if (! this.REG_WILDCARD.test(token)) continue;
 
-			const a_tag: any = m_xregexp.exec(token, CmnLib.REG_TAG);
+			const a_tag: any = m_xregexp.exec(token, Grammar.REG_TAG);
 			if (! this.alzTagArg.go(a_tag['args'])) continue;
 
 			const p_fn = this.alzTagArg.hPrm['fn'];
@@ -679,48 +678,6 @@ export class ScriptIterator {
 	}
 	private replaceScript_Wildcard_Sub_ext = (nm: string): string=>
 		nm == 'loadplugin' ?'css' :'sn';
-
-	private hC2M	: {[char: string]: string};
-	private replaceScriptChar2macro_And_let_ml = (start_idx = 0): void => {
-		for (let i=this.script.len- 1; i >= start_idx; --i) {
-			const token = this.script.aToken[i];
-			this.REG_TAG_LET_ML.lastIndex = 0;
-			if (this.REG_TAG_LET_ML.test(token)) {
-				const idxSpl = token.indexOf(']') +1;
-				const ml = token.slice(idxSpl);
-				const cnt = (ml.match(/\n/g) ?? []).length;
-				this.script.aToken.splice(i, 1, token.slice(0, idxSpl), ml);
-				this.script.aLNum.splice(i, 0, this.script.aLNum[i]);
-				const len = this.script.aToken.length;
-				for (let j=i +2; j<len; ++j) this.script.aLNum[j] += cnt;
-				continue;
-			}
-			CmnLib.REG_TOKEN_NOTXT.lastIndex = 0;
-			if (CmnLib.REG_TOKEN_NOTXT.test(token.charAt(0))) continue;
-
-			const lnum = this.script.aLNum[i];
-			const a = token.match(this.regC2M);
-			if (! a) continue;
-			const len = a.length -1;
-			let del = 1;
-			for (let j=len; j>=0; --j) {
-				let ch = a[j];
-				const macro = this.hC2M[ch.charAt(0)];
-				if (macro) {
-					ch = macro +((macro.substr(-1) == ']')
-						? ''
-						: (`'${ch.slice(1, -1)}']`));
-					// 文字列は半角空白を意識して''で囲むが、いずれ変えたい場合がある？
-				}
-				this.script.aToken.splice(i, del, ch);
-
-				this.script.aLNum.splice(i, del, lnum);
-				del = 0;
-			}
-		}
-		this.script.len = this.script.aToken.length;
-	}
-	private regC2M	: RegExp	= new RegExp('');
 
 	// シナリオ解析処理ループ・冒頭処理
 	nextToken = ()=> '';	// 初期化前に終了した場合向け
@@ -809,38 +766,10 @@ export class ScriptIterator {
 		// マクロ
 	// 括弧マクロの定義
 	private bracket2macro(hArg: HArg) {
-		const name = hArg.name;
-		if (! name) throw '[bracket2macro] nameは必須です';
-		const text = hArg.text;
-		if (! text) throw '[bracket2macro] textは必須です';
-		if (text.length != 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
-
-		this.hC2M = this.hC2M ?? {};
-
-		const op = text.charAt(0);
-		const cl = text.charAt(1);
-		if (op in this.hC2M) throw '[bracket2macro] text【'+ op +'】が登録済みの括弧マクロまたは一文字マクロです';
-		if (cl in this.hC2M) throw '[bracket2macro] text【'+ cl +'】が登録済みの括弧マクロまたは一文字マクロです';
-		this.REG_CANTC2M.lastIndex = 0;
-		if (this.REG_CANTC2M.test(op)) throw '[bracket2macro] text【'+ op +'】は括弧マクロに使用できない文字です';
-		this.REG_CANTC2M.lastIndex = 0;
-		if (this.REG_CANTC2M.test(cl)) throw '[bracket2macro] text【'+ cl +'】は括弧マクロに使用できない文字です';
-
-		this.hC2M[cl] = '0';	// チェック用ダミー
-		this.hC2M[op] = '['+ name +' text=';
-
-		this.regStrC2M += '\\'+ op +'[^\\'+ cl +']*\\'+ cl +'|';
-		this.regStrC2M4not += '\\'+ op +'\\'+ cl;
-		this.regC2M = new RegExp('('+ this.regStrC2M +'[^'+ this.regStrC2M4not +']+)', 'g');
-
-		this.replaceScriptChar2macro_And_let_ml(this.idxToken_);
+		this.grm.bracket2macro(hArg, this.script, this.idxToken_);
 
 		return false;
 	}
-
-	private	readonly REG_CANTC2M	= /[\w\s;[\]*=&｜《》]/;
-	private regStrC2M			= '';
-	private regStrC2M4not		= '';
 
 	// マクロから脱出
 	private break_macro(hArg: HArg) {
@@ -856,25 +785,7 @@ export class ScriptIterator {
 
 	// 一文字マクロの定義
 	private char2macro(hArg: HArg) {
-		this.hC2M = this.hC2M ?? {};
-
-		const char = hArg.char;
-		if (! char) throw '[char2macro] charは必須です';
-		if (char in this.hC2M) throw '[char2macro] char【'+ char +'】が登録済みの括弧マクロまたは一文字マクロです';
-		this.REG_CANTC2M.lastIndex = 0;
-		if (this.REG_CANTC2M.test(char)) throw '[char2macro] char【'+ char +'】は一文字マクロに使用できない文字です';
-
-		const name = hArg.name;
-		if (! name) throw '[char2macro] nameは必須です';
-		if (! (name in this.hTag)) throw '[char2macro] 未定義のタグ又はマクロ['+ name +']です';
-
-		this.hC2M[char] = '['+ name +']';
-
-		this.regStrC2M += '\\'+ char +'|';
-		this.regStrC2M4not += '\\'+ char;
-		this.regC2M = new RegExp('('+ this.regStrC2M +'[^'+ this.regStrC2M4not +']+)', 'g');
-
-		this.replaceScriptChar2macro_And_let_ml(this.idxToken_);
+		this.grm.char2macro(hArg, this.hTag, this.script, this.idxToken_);
 
 		return false;
 	}

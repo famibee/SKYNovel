@@ -56,14 +56,12 @@ export interface IEvtMng {
 
 
 import m_path = require('path');
-import m_xregexp = require('xregexp');
 const platform = require('platform');
 
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
 	static	devtool		= false;
-	static	osName		= '';	// TODO: 誰もセットしてない。やるなら３文字でOS名
 	static	isSafari	= (platform.name == 'Safari');
 	static	hDip		: {[name: string]: string}	= {};
 
@@ -117,81 +115,6 @@ export class CmnLib {
 		const v2 = String(v);
 		return hash[name] = (v2 == "false")? false : Boolean(v2);
 	}
-
-
-	// =============== ScriptIterator
-	static	readonly	REG_TOKEN		= m_xregexp(	// テスト用にpublic
-		`(?: \\[let_ml \\s+ [^\\[\\]]+ \\])`+
-			`(?: . | \\s)+?`+	// [let_ml]〜[endlet_ml]間のテキスト
-		`(?=\\[endlet_ml \\s* \\])`+
-		//		`| (?<= \\[let_ml \\s+ [^\\[\\]]+ \\])`+
-			// iOS、過ぎ去った前を見る肯定後読み「(?<=」使えない。エラーになるので
-			// Electronも？
-		`| \\[ (?: ([\\"\\'\\#]) .*? \\1 | . ) *? \\]`+	// タグ
-		'| \\n+'+			// 改行
-		'| \\t+'+			// タブ
-		'| &[^&\\n]+&'+		// ＆表示＆
-		'| &&?[^;\\n\\t&]+'+// ＆代入
-		'| ;[^\\n]+'+		// コメント
-		'| ^\\*\\w+'+		// ラベル
-		'| [^\\n\\t\\[;]+'	// 本文
-		, 'gx');
-	static	readonly	REG_TOKEN_NOTXT	= /[\n\t;\[*&]/;	// テスト用にpublic
-
-
-	private	static	readonly	REG_MULTILINE_TAG	= m_xregexp(
-	`\\[
-		([^\\n\\]]+ \\n
-			(?:
-				(["'#]) .*? \\2
-			|	[^\\[\\]]
-			)*
-		)
-	\\]
-|	;[^\\n]+`
-		, 'gx');
-	private	static	readonly	REG_MULTILINE_TAG_SPLIT	= m_xregexp(
-		`((["'#]).*?\\2|;.*\\n|\\n+|[^\\n"'#;]+)`, 'g');
-	static	cnvMultilineTag(txt: string): string {	// テスト用にpublic
-		return txt.replace(
-			CmnLib.REG_MULTILINE_TAG,
-			function (): string {
-				if (arguments[0].charAt(0) == ';') return arguments[0];
-
-				let fore = '';
-				let back = '';
-				for (const v of arguments[1].match(CmnLib.REG_MULTILINE_TAG_SPLIT)) {
-					switch (v.substr(-1)) {
-						case '\n':	back += v;	break;
-						case `"`:
-						case `'`:
-						case `#`:	fore += v;	break;
-						default:	fore += ' '+ trim(v);	break;
-					}
-				}
-
-				return '['+ trim(fore.slice(1)) +']'+ back;
-			}
-		);
-	}
-
-
-	static	splitAmpersand(token: string): object {	// テスト用にpublic
-		const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
-			// != を弾けないので中途半端ではある
-		const cnt_equa = equa.length;
-		if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
-		if (equa[1].charAt(0) == '&') throw '「&計算」書式では「&」指定が不要です';
-		return {
-			name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
-			text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
-			cast: ((cnt_equa == 3) ?trim(equa[2]) :null)
-		};
-	}
-
-
-	// Unit testの為publicにする
-	static	readonly	REG_TAG	= m_xregexp(`^\\[ (?<name>\\S*) (\\s+ (?<args>.+) )? ]$`, 'x');
 
 
 	static	readonly 	getFn = (path: string)=> m_path.basename(path, m_path.extname(path));

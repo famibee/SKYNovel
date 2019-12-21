@@ -12,12 +12,11 @@ export interface IAutoPage { (idx: number, str: string): void; }
 
 export class RubySpliter {
 	private static	sesame		= 'ヽ';
-	setting(hArg: HArg): void {if (hArg.sesame) RubySpliter.sesame = hArg.sesame;}
+	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.sesame = hArg.sesame;}
 	getSesame() {return RubySpliter.sesame;}
 
 	private putCh	: IPutCh	= ()=> {};
-	init(putCh: IPutCh): void {this.putCh = putCh;}
-
+	init(putCh: IPutCh) {this.putCh = putCh;}
 
 /*
 		★Unicodeで「漢字」の正規表現 – ものかの http://tama-san.com/kanji-regex/
@@ -36,19 +35,19 @@ export class RubySpliter {
 		[⺀-⿟々〇〻㐀-鿿豈-﫿\u20000-\u2FFFF]			// ヽ--30FD が変に引っかかる。多分\u2000-\u2FFF解釈
 		\\u{20000}-\\u{2FFFF}	// 五桁だとエラー
 */
-	private static	readonly	REG_RUBY	= m_xregexp(
-		`(?:`+
-		`	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)`+
-		// AIRNovel時代
-	//	`|	(?: (?<kan>[々〇㐀-鿿豈-﫿]+[ぁ-ヿ]*`+
-	//	`	|	[^　｜》\\n々〇㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)`+
-	//	`|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[々〇㐀-鿿豈-﫿]+《))`+
-		`|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*`+
-		`	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)`+
-		`|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))`+
-		`|	(?<txt2>[^｜《》]+(?=｜\\|　))`+
-		`|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)`+
-		`)`, 'gsx');
+	private static	REG_RUBY	: RegExp;
+	static	setEscape(ce: string) {
+		RubySpliter.REG_RUBY = m_xregexp(RubySpliter.mkEscReg(ce), 'gsx');
+	}
+	private	static	mkEscReg = (ce: string)=>
+`(?: ${ce ? `(?<txt4>\\${ce}\\S) |` :''}
+	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)
+|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*
+	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)
+|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))
+|	(?<txt2>[^｜《》]+(?=｜\\|　))
+|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)
+)`;
 
 	putTxt(text: string): void {
 		let elm: any = null, pos = 0;
@@ -66,8 +65,11 @@ export class RubySpliter {
 				continue;
 			}
 
+			if (elm['txt4']) {this.putCh(elm['txt4'].slice(1), ''); continue}
+
 			const txt = elm['txt'] ?? elm['txt2'] ?? elm['txt3'] ?? '';
 			const a: string[] = Array.from(txt);
+				// txt.split('')や [...txt] はサロゲートペアで問題
 			const len = a.length;
 			for (let i=0; i<len; ++i) this.putCh(a[i], '');
 		}

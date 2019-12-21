@@ -818,8 +818,8 @@ export class TxtStage extends Container {
 		const ease = CmnTween.ease(this.fi_easing);
 
 		const bcr = this.htmTxt.getBoundingClientRect();
-		const sx = bcr.left + this.infTL.pad_left;
-		const sy = bcr.top + this.infTL.pad_top;
+		const sx = bcr.left +window.pageXOffset +this.infTL.pad_left;
+		const sy = bcr.top +window.pageYOffset +this.infTL.pad_top;
 		let rctm = new Rectangle;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];

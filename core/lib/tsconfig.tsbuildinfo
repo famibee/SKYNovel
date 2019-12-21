@@ -137,21 +137,17 @@
         "version": "358c8cdc901c14ce5d2f5066abffbde8cbb7aab930a71643ca53814c91e2e6cf",
         "signature": "4b8d1fea0b3947075e3a90d7e1f0c46ce54ca33b488fb279dd1528e823ab400e"
       },
-      "../../node_modules/@types/xregexp/index.d.ts": {
-        "version": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370",
-        "signature": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370"
-      },
       "../src/sn/cmnlib.ts": {
-        "version": "ae0c34c4cf203ea0f724c70ec8139a9ea98c3aba2c45d1793fa032ff2c0fb22c",
-        "signature": "f913ec4cd2ee7debf0581d8a6647f7b8f0f0fec90166515a85833dcba47e0d3d"
+        "version": "9acbe556ff8431c09de8657f5e95039cdb5950738f2d417664fcc55f15520bb7",
+        "signature": "958fdc93d275a78aa2053cf3e3a0cd03143b512e112532303367bc7b33116ae4"
       },
       "../src/sn/layer.ts": {
         "version": "ddf7526f029606d62d8f74f345309293b474b78642f3f70881bb892004e7b262",
         "signature": "77b09667f37d0932e0e079476a63269641e6360eb3cb95e06d06fe60be0cf268"
       },
       "../src/sn/cmninterface.ts": {
-        "version": "3642b0ea1245610ece69a1bb31e25eaf406e13f96d1d5b5659dcc804d42f1f1a",
-        "signature": "080cd9ce6a2ecf00b5aa4ef37f57d16d39a7c86d597e5f8b3ac3142e288ae96c"
+        "version": "da8548745df53b46e9da9d58e308fbb38eac80c0b5b0db77d7a269f5e7b8616e",
+        "signature": "efe3d431027637ffecb54ca39b8b8eb9de791429d2e5b7273f1493c64e5479d0"
       },
       "../src/sn/sysbase.ts": {
         "version": "d3cd0e56f16f974441d38f553ca8fdfed07fb6221bd80a32df610be247eb2128",
@@ -349,9 +345,21 @@
         "version": "9d3ba0136b8542d5a303b49024e0578836f20afe351e910c536d7cf6caf4eed3",
         "signature": "60e0efa5bbf49006d29493aa7105fa2e447623e5050267eeafd214ac51de01ee"
       },
-      "../src/sn/callstack.ts": {
-        "version": "aa4c9979e59a253734e323b0df6a7ebe354f931240a1fea540425bdd1ff42c78",
-        "signature": "a4fbb6f02d5bd4e6f3d858b9c99fcf6e5a0c9e1624d2dd983c083ccf24ece993"
+      "../src/sn/config.ts": {
+        "version": "92fefd125df42632e577349696f19f5f2113b3632d77ce60c3c1778299b76543",
+        "signature": "6548dc39901c9f0f30fcfd9b2f446d297d6ca08d83e6e44ff859de0a521e586a"
+      },
+      "../../node_modules/@types/xregexp/index.d.ts": {
+        "version": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370",
+        "signature": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370"
+      },
+      "../src/sn/rubyspliter.ts": {
+        "version": "9534439263e1b4da9e19bfede0fb89de5c0926909a054e7eb35212b2fc15fe11",
+        "signature": "735ab121f5461a534748c5e0bc152ecaa149396dd606b96e58ffc96b2492d163"
+      },
+      "../src/sn/grammar.ts": {
+        "version": "6d2b5ed85afcf2a0505ac900ec3cb955828c9f7c87ee000f4cfe4bb23b63349e",
+        "signature": "e50e5231f34a3775caa717f7336465f0cf8bc4bd3d703f90cb21fb168bf6eddc"
       },
       "../src/sn/analyzetagarg.ts": {
         "version": "1b089019da2b9296705c3f746f0cc27bdeb9ac0131cb8416232d854992dfbe9d",
@@ -364,6 +372,10 @@
       "../src/sn/propparser.ts": {
         "version": "17ded9a0e25ba4eea553ce8b92fc136958aac6fdef13c904b7fbd00c5ce8dbf4",
         "signature": "e3498f83c22f03608a4a4a7eccf64e6c6de5199268450c976e92e815a42e0daf"
+      },
+      "../src/sn/callstack.ts": {
+        "version": "aa4c9979e59a253734e323b0df6a7ebe354f931240a1fea540425bdd1ff42c78",
+        "signature": "a4fbb6f02d5bd4e6f3d858b9c99fcf6e5a0c9e1624d2dd983c083ccf24ece993"
       },
       "../src/sn/cmntween.ts": {
         "version": "4a61ff3329a1dff5e79ee7424f8d61249cfe76fc5d20b830dc4e3dda4d6b8bae",
@@ -378,12 +390,8 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "db2d055015b48b6f8a7d999cb6a470e45b24cc6cc632a096fb1bd4e0b43d95a6",
+        "version": "e86f8e56a4039041fac4666848e11d46b4f0dccb4be613cac5043b7a20cb20ea",
         "signature": "0403ae50d40cc2ddd8f0ed3d0697b8b64b64f0e04bf95142a2ed2e8fff0a3a42"
-      },
-      "../src/sn/rubyspliter.ts": {
-        "version": "a2f437d1610acc7e5ba9d906b4f79a182d849f546cb141fce2879ff9769b2e34",
-        "signature": "c12897b25bbeb9bffc8c7a75ac9445433a04c5387476a708e25e8a86d9726df8"
       },
       "../src/sn/button.ts": {
         "version": "ca3809b0d49c52b026f1b66c660fa97b89f4b3c677707de5354c1efe9ebe5f71",
@@ -418,16 +426,12 @@
         "signature": "ca80d2bceb1ed0f92fb4cb052fb8e825a2d4a101f396019e025e9a5ee5d4db6f"
       },
       "../src/sn/scriptiterator.ts": {
-        "version": "a80cdc85d1394ece3da7d8d88c45bfb60e42924ed760f1fce2dac1c561c7f78b",
-        "signature": "6c48766790300d850b510836e49a1a9713f6dd2ca74f2f55d6978f0984601914"
+        "version": "d106f0595485b705d45b281999a9085772779a7b021d1b61595c5044136f2b1e",
+        "signature": "ee4a9878a75be29aaac69f3dd92d7b11579fb59e0544f2934de7a7c1927ba5ee"
       },
       "../src/sn/debugmng.ts": {
-        "version": "0e431b8d0c7a27a59e9a340b7680e1003285985fa7e13de343c565242660981a",
-        "signature": "9d0c43d8bc0269410aa906c679496259c1512b402f9a3b3dd44ca146ae46b190"
-      },
-      "../src/sn/config.ts": {
-        "version": "4369b6dcb804edd22374bd68736c3bace9e0e904daae872feb793ac071098b95",
-        "signature": "6548dc39901c9f0f30fcfd9b2f446d297d6ca08d83e6e44ff859de0a521e586a"
+        "version": "29d34b94aebbbbc3c92e3c8a11737fcbfa231e3dbef3b34bb58a248b79aab4f3",
+        "signature": "aa8f622daebe1250ca107a502acad5577d96fda20fd167ef03f8ad7e3fd9715b"
       },
       "../src/sn/areas.ts": {
         "version": "9c683b317cb1efa44648bb180c4bc3a9b24338a743825b740b28d36601e7f4f4",
@@ -438,7 +442,7 @@
         "signature": "419a335325b559d4d079a73e445178e4f34c2181fe2ab6dc876d6234229cf6bc"
       },
       "../src/sn/main.ts": {
-        "version": "aa4ec19deeaec2446350c53dbf25f1d48a12499fcdedb5c563e2a26349b9a883",
+        "version": "540b03b7eb48526cf5efe6d54e4a87a38444d9de6f2e1ec55f359101b38c52d4",
         "signature": "46657d3b0610efd79b14dd9f9ed016b6402de73f7b7c0c129c91d6ddd7374e75"
       },
       "../src/sn/sysapp.ts": {
@@ -741,18 +745,11 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../node_modules/@types/xregexp/index.d.ts": [
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/sn/cmnlib.ts": [
         "../src/sn/cmninterface.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
         "../src/sn/eventlistenerctn.ts",
         "../../node_modules/@types/node/path.d.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1162,8 +1159,34 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/sn/callstack.ts": [
+      "../src/sn/config.ts": [
         "../src/sn/cmnlib.ts",
+        "../src/sn/cmninterface.ts",
+        "../src/sn/sysbase.ts",
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/@types/xregexp/index.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/sn/rubyspliter.ts": [
+        "../src/sn/cmninterface.ts",
+        "../../node_modules/@types/xregexp/index.d.ts",
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/sn/grammar.ts": [
+        "../src/sn/cmninterface.ts",
+        "../src/sn/cmnlib.ts",
+        "../src/sn/rubyspliter.ts",
+        "../../node_modules/@types/xregexp/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1187,6 +1210,13 @@
         "../../node_modules/@types/xregexp/index.d.ts",
         "../src/sn/cmnlib.ts",
         "../src/sn/cmninterface.ts",
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/sn/callstack.ts": [
+        "../src/sn/cmnlib.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1233,14 +1263,6 @@
         "../src/sn/grplayer.ts",
         "../src/sn/debugmng.ts",
         "../../node_modules/@types/tween.js/index.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/sn/rubyspliter.ts": [
-        "../src/sn/cmninterface.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1351,6 +1373,7 @@
         "../src/sn/cmninterface.ts",
         "../src/sn/config.ts",
         "../src/sn/callstack.ts",
+        "../src/sn/grammar.ts",
         "../src/sn/analyzetagarg.ts",
         "../src/sn/propparser.ts",
         "../../node_modules/@types/xregexp/index.d.ts",
@@ -1370,16 +1393,6 @@
         "../src/sn/cmninterface.ts",
         "../src/sn/sysbase.ts",
         "../src/sn/scriptiterator.ts",
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/sn/config.ts": [
-        "../src/sn/cmnlib.ts",
-        "../src/sn/cmninterface.ts",
-        "../src/sn/sysbase.ts",
-        "../src/sn/debugmng.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1407,6 +1420,7 @@
         "../src/sn/cmnlib.ts",
         "../src/sn/cmninterface.ts",
         "../src/sn/config.ts",
+        "../src/sn/grammar.ts",
         "../src/sn/analyzetagarg.ts",
         "../src/sn/propparser.ts",
         "../src/sn/debugmng.ts",
@@ -1751,12 +1765,6 @@
       "../src/sn/eventlistenerctn.ts": [
         "../../node_modules/pixi.js/pixi.js.d.ts"
       ],
-      "../../node_modules/@types/xregexp/index.d.ts": [
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/sn/cmnlib.ts": [
         "../src/sn/cmninterface.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
@@ -2148,8 +2156,21 @@
         "../../node_modules/@types/fs-extra/index.d.ts",
         "../src/sn/sysbase.ts"
       ],
-      "../src/sn/callstack.ts": [
-        "../src/sn/cmnlib.ts"
+      "../src/sn/config.ts": [
+        "../src/sn/sysbase.ts",
+        "../src/sn/cmninterface.ts"
+      ],
+      "../../node_modules/@types/xregexp/index.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/sn/rubyspliter.ts": [
+        "../src/sn/cmninterface.ts"
+      ],
+      "../src/sn/grammar.ts": [
+        "../src/sn/cmninterface.ts"
       ],
       "../../node_modules/@types/parsimmon/index.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
@@ -2159,6 +2180,9 @@
       ],
       "../src/sn/propparser.ts": [
         "../src/sn/cmninterface.ts"
+      ],
+      "../src/sn/callstack.ts": [
+        "../src/sn/cmnlib.ts"
       ],
       "../src/sn/pages.ts": [
         "../../node_modules/pixi.js/pixi.js.d.ts",
@@ -2178,9 +2202,6 @@
         "../src/sn/config.ts",
         "../src/sn/cmnlib.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
-        "../src/sn/cmninterface.ts"
-      ],
-      "../src/sn/rubyspliter.ts": [
         "../src/sn/cmninterface.ts"
       ],
       "../src/sn/button.ts": [
@@ -2254,10 +2275,6 @@
         "../src/sn/sysbase.ts",
         "../src/sn/cmninterface.ts",
         "../src/sn/scriptiterator.ts"
-      ],
-      "../src/sn/config.ts": [
-        "../src/sn/sysbase.ts",
-        "../src/sn/cmninterface.ts"
       ],
       "../src/sn/areas.ts": [
         "../src/sn/cmninterface.ts"
@@ -2400,7 +2417,6 @@
       "../../node_modules/typescript/lib/lib.es2017.full.d.ts",
       "../../node_modules/pixi.js/pixi.js.d.ts",
       "../src/sn/eventlistenerctn.ts",
-      "../../node_modules/@types/xregexp/index.d.ts",
       "../src/sn/cmnlib.ts",
       "../src/sn/layer.ts",
       "../src/sn/cmninterface.ts",
@@ -2453,14 +2469,17 @@
       "../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../node_modules/@types/fs-extra/index.d.ts",
       "../src/sn/sysnode.ts",
-      "../src/sn/callstack.ts",
+      "../src/sn/config.ts",
+      "../../node_modules/@types/xregexp/index.d.ts",
+      "../src/sn/rubyspliter.ts",
+      "../src/sn/grammar.ts",
       "../src/sn/analyzetagarg.ts",
       "../../node_modules/@types/parsimmon/index.d.ts",
       "../src/sn/propparser.ts",
+      "../src/sn/callstack.ts",
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
-      "../src/sn/rubyspliter.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
@@ -2471,7 +2490,6 @@
       "../src/sn/eventmng.ts",
       "../src/sn/scriptiterator.ts",
       "../src/sn/debugmng.ts",
-      "../src/sn/config.ts",
       "../src/sn/areas.ts",
       "../src/sn/variable.ts",
       "../src/sn/main.ts",

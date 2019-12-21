@@ -9,6 +9,9 @@ class RubySpliter {
         RubySpliter.sesame = hArg.sesame; }
     getSesame() { return RubySpliter.sesame; }
     init(putCh) { this.putCh = putCh; }
+    static setEscape(ce) {
+        RubySpliter.REG_RUBY = m_xregexp(RubySpliter.mkEscReg(ce), 'gsx');
+    }
     putTxt(text) {
         var _a, _b, _c;
         let elm = null, pos = 0;
@@ -22,6 +25,10 @@ class RubySpliter {
             const kan_ruby = elm['kan_ruby'];
             if (kan_ruby) {
                 this.putTxtRb(elm['kan'], kan_ruby);
+                continue;
+            }
+            if (elm['txt4']) {
+                this.putCh(elm['txt4'].slice(1), '');
                 continue;
             }
             const txt = (_c = (_b = (_a = elm['txt'], (_a !== null && _a !== void 0 ? _a : elm['txt2'])), (_b !== null && _b !== void 0 ? _b : elm['txt3'])), (_c !== null && _c !== void 0 ? _c : ''));
@@ -56,13 +63,13 @@ class RubySpliter {
 }
 exports.RubySpliter = RubySpliter;
 RubySpliter.sesame = 'ヽ';
-RubySpliter.REG_RUBY = m_xregexp(`(?:` +
-    `	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)` +
-    `|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*` +
-    `	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)` +
-    `|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))` +
-    `|	(?<txt2>[^｜《》]+(?=｜\\|　))` +
-    `|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)` +
-    `)`, 'gsx');
+RubySpliter.mkEscReg = (ce) => `(?: ${ce ? `(?<txt4>\\${ce}\\S) |` : ''}
+	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)
+|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*
+	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)
+|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))
+|	(?<txt2>[^｜《》]+(?=｜\\|　))
+|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)
+)`;
 RubySpliter.REG_TAB_G = /\t/g;
 //# sourceMappingURL=RubySpliter.js.map

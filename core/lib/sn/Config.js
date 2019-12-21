@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
-const DebugMng_1 = require("./DebugMng");
 class Config {
     constructor(sys, fncLoaded, oCfg4tst) {
         this.sys = sys;
@@ -23,13 +22,14 @@ class Config {
                 version: '1.0',
                 nocode_reg: 'system/.+.mp3|m4a|config/.+',
                 nocode: '',
-                pack_exc: '\.swf\.cache',
+                pack_exc: '',
             },
             log: { max_len: 1024 },
             init: {
                 bg_color: 0x000000,
                 tagch_msecwait: 10,
                 auto_msecpagewait: 3500,
+                escape: '',
             },
             debug: {
                 devtool: false,
@@ -47,66 +47,44 @@ class Config {
         this.getJsonSearchPath = () => JSON.stringify(this.hPathFn2Exts);
         this.$existsBreakline = false;
         this.$existsBreakpage = false;
-        let err_mes = 'prj.json';
         const load = (oCfg) => {
-            const oIni = Object.assign({}, this.oCfg);
-            this.oCfg = oCfg;
-            err_mes = 'first_script';
-            if (!('first_script' in oCfg))
-                this.oCfg.first_script = oIni.first_script;
-            err_mes = 'coder';
-            if (!('coder' in oCfg))
-                this.oCfg.coder = oIni.coder;
-            err_mes = 'window';
-            if ('window' in oCfg) {
-                CmnLib_1.CmnLib.argChk_Num(this.oCfg, 'width', oIni.window.width);
-                CmnLib_1.CmnLib.argChk_Num(this.oCfg, 'height', oIni.window.height);
-            }
-            else {
-                this.oCfg.window = oIni.window;
-            }
-            CmnLib_1.CmnLib.stageW = this.oCfg.window.width;
-            CmnLib_1.CmnLib.stageH = this.oCfg.window.height;
-            err_mes = 'book';
-            if ('book' in oCfg)
-                for (const nm in oIni) {
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+            this.oCfg.first_script = (_b = (_a = oCfg) === null || _a === void 0 ? void 0 : _a.first_script, (_b !== null && _b !== void 0 ? _b : this.oCfg.first_script));
+            this.oCfg.coder = (_d = (_c = oCfg) === null || _c === void 0 ? void 0 : _c.coder, (_d !== null && _d !== void 0 ? _d : this.oCfg.coder));
+            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_g = (_f = (_e = oCfg) === null || _e === void 0 ? void 0 : _e.window) === null || _f === void 0 ? void 0 : _f.width, (_g !== null && _g !== void 0 ? _g : this.oCfg.window.width)));
+            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_k = (_j = (_h = oCfg) === null || _h === void 0 ? void 0 : _h.window) === null || _j === void 0 ? void 0 : _j.height, (_k !== null && _k !== void 0 ? _k : this.oCfg.window.height)));
+            if ('book' in oCfg) {
+                const b = this.oCfg.book;
+                for (const nm in b) {
                     if (nm != 'inc') {
-                        CmnLib_1.CmnLib.argChk_Boolean(this.oCfg.book, nm, oIni.book[nm]);
+                        b[nm] = CmnLib_1.CmnLib.argChk_Boolean(oCfg.book, nm, b[nm]);
                         continue;
                     }
-                    for (const v of oIni[nm]) {
+                    for (const v of b[nm]) {
                         if (!sys.existsSync(sys.cur + v.path))
                             continue;
-                        this.oCfg.book.inc_path[v.path] = true;
+                        b.inc_path[v.path] = true;
                     }
                 }
-            else
-                this.oCfg.book = oIni.book;
-            err_mes = 'log';
-            if (!('log' in oCfg))
-                this.oCfg.log = { max_len: oIni.log.max_len };
-            err_mes = 'init';
-            if ('init' in oCfg)
-                for (const nm in oIni) {
-                    const v = oIni.init[nm];
-                    if (!v)
-                        continue;
-                    if (v.charAt(0) == '#')
-                        this.oCfg.init[nm] = parseInt(v.slice(1), 16);
-                    else
-                        CmnLib_1.CmnLib.argChk_Num(this.oCfg, nm, oIni.init[nm]);
+            }
+            this.oCfg.log.max_len = (_o = (_m = (_l = oCfg.log) === null || _l === void 0 ? void 0 : _l.max_len) === null || _m === void 0 ? void 0 : _m.max_len, (_o !== null && _o !== void 0 ? _o : this.oCfg.log.max_len));
+            if ('init' in oCfg) {
+                const i = this.oCfg.init;
+                for (const nm in i) {
+                    const v = oCfg.init[nm];
+                    if (v)
+                        i[nm] = (v.charAt(0) == '#')
+                            ? parseInt(v.slice(1), 16)
+                            : v;
                 }
-            else
-                this.oCfg.init = oIni.init;
-            err_mes = 'debug';
-            if ('debug' in oCfg)
-                for (const nm in oIni) {
-                    CmnLib_1.CmnLib.argChk_Boolean(this.oCfg.debug, nm, oIni.debug[nm]);
+            }
+            if ('debug' in oCfg) {
+                const d = this.oCfg.debug;
+                for (const nm in d) {
+                    d[nm] = CmnLib_1.CmnLib.argChk_Boolean(oCfg.debug, nm, d[nm]);
                 }
-            else
-                this.oCfg.debug = oIni.debug;
+            }
             CmnLib_1.CmnLib.devtool = this.oCfg.debug.devtool;
-            err_mes = 'sys.loadPathAndVal';
             sys.loadPathAndVal(this.hPathFn2Exts, () => {
                 this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
                 this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
@@ -114,19 +92,14 @@ class Config {
             }, this);
         };
         if (oCfg4tst) {
-            for (const key in this.oCfg) {
-                if (key in oCfg4tst)
-                    this.oCfg[key] = oCfg4tst[key];
-            }
-            load(this.oCfg);
+            load(oCfg4tst);
             return;
         }
         const fn = sys.cur + 'prj.json' + sys.crypt_;
         sys.fetch(fn)
             .then(res => res.text())
             .then(d => JSON.parse(sys.pre(fn, d)))
-            .then(load)
-            .catch(err => DebugMng_1.DebugMng.myTrace(`load ${fn} "${err_mes}" = ${err}`));
+            .then(load);
     }
     get existsBreakline() { return this.$existsBreakline; }
     get existsBreakpage() { return this.$existsBreakpage; }

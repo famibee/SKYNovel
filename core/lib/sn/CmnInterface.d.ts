@@ -117,6 +117,11 @@ export interface IHTag {
 export interface IMyTrace {
     (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number): void;
 }
+export interface Script {
+    aToken: string[];
+    len: number;
+    aLNum: number[];
+}
 export interface IPluginInitArg {
     addTag(tag_name: string, tag_fnc: ITag): void;
     addLayCls(cls: string, fnc: ILayerFactory): void;

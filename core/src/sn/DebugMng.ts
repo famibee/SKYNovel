@@ -11,11 +11,12 @@ import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 
 const Stats = require('stats.js');
+const platform = require('platform');
 
 export class DebugMng {
 	private	static	scrItr	: ScriptIterator;
 	private	static	hTag	: IHTag;
-	private static	title	: ITag		= ()=> false;
+	private static	title	: ITag;
 	private static	spnDbg	: HTMLSpanElement;
 
 	private _stats		: Stats;
@@ -56,17 +57,24 @@ export class DebugMng {
 	update() {this.fncUpd()}		// 外部に呼んでもらう
 
 	// ログ出力
+	private	first = true;
 	private log(hArg: HArg) {
-		if (!('text' in hArg)) throw '[log] textは必須です';
-
-		const dat = '--- '+ getDateStr('-', '_', '')
-			+' [fn:'+ DebugMng.scrItr.scriptFn
-			+' line:'+ DebugMng.scrItr.lineNum +']'
-				+' os:'+ CmnLib.osName
-				+' prj:'+ this.sys.cur
-			//	+' prj:'+ hTmp['const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename']
-				+'\n'+ hArg.text +'\n';
-		this.sys.appendFile(this.sys.path_desktop +'log.txt', dat, err=> {if (err) console.log(err);});
+		if (this.first) {
+			this.first = false;
+			this.sys.appendFile(
+				this.sys.path_desktop +'log.txt',
+				`== ${platform.description} ==`,
+				err=> {if (err) console.log(err)}
+			);
+		}
+		this.sys.appendFile(
+			this.sys.path_desktop +'log.txt',
+			`--- ${getDateStr('-', '_', '')
+			} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum
+			}] prj:${this.sys.cur
+			}\n${hArg.text || `(text is ${hArg.text})`}\n`,
+			err=> {if (err) console.log(err)}
+		);
 
 		return false;
 	}
@@ -96,13 +104,13 @@ export class DebugMng {
 	}
 
 	private trace(hArg: HArg) {
-		DebugMng.myTrace((hArg.text ?hArg.text :`(text is ${String(hArg.text)})`), 'I');
+		DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
 
 		return false;
 	}
 
 	static myTrace	= (txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E')=> {
-		let mes = '{'+ lvl +'} '+ txt;
+		let mes = `{${lvl}} `+ txt;
 		let sty = '';
 		switch (lvl) {
 			case 'D':	sty = `color:#${CmnLib.isDarkMode ?'49F' :'05A'};`;	break;
@@ -115,7 +123,7 @@ export class DebugMng {
 		console.info('%c'+ mes, sty);
 	}
 	private static fncMyTrace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
-		let mes = '{'+ lvl +'} ';
+		let mes = `{${lvl}} `;
 		if (DebugMng.scrItr) mes += `(fn:${DebugMng.scrItr.scriptFn
 			} line:${DebugMng.scrItr.lineNum}) `;
 		mes += txt;

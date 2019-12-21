@@ -602,8 +602,8 @@ class TxtStage extends pixi_js_1.Container {
             : () => { };
         const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
         const bcr = this.htmTxt.getBoundingClientRect();
-        const sx = bcr.left + this.infTL.pad_left;
-        const sy = bcr.top + this.infTL.pad_top;
+        const sx = bcr.left + window.pageXOffset + this.infTL.pad_left;
+        const sy = bcr.top + window.pageYOffset + this.infTL.pad_top;
         let rctm = new pixi_js_1.Rectangle;
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];

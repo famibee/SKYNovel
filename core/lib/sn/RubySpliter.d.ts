@@ -8,7 +8,9 @@ export declare class RubySpliter {
     getSesame(): string;
     private putCh;
     init(putCh: IPutCh): void;
-    private static readonly REG_RUBY;
+    private static REG_RUBY;
+    static setEscape(ce: string): void;
+    private static mkEscReg;
     putTxt(text: string): void;
     putTxtRb(text: string, ruby: string): void;
     private static readonly REG_TAB_G;
