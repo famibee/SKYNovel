@@ -28,6 +28,8 @@ class TxtStage extends pixi_js_1.Container {
         this.aSpTw = [];
         this.aRect = [];
         this.lenHtmTxt = 0;
+        this.rctm = new pixi_js_1.Rectangle;
+        this.regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
         this.fncEndChIn = () => { };
         this.lh_half = 0;
         this.isChInIng = false;
@@ -564,7 +566,7 @@ class TxtStage extends pixi_js_1.Container {
         this.putBreakMark(delay);
     }
     goTxt_next(aSpan) {
-        var _a, _b;
+        var _a, _b, _c;
         const begin = this.aRect.length;
         if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
             if (TxtStage.cfg.oCfg.debug.devtool)
@@ -604,7 +606,6 @@ class TxtStage extends pixi_js_1.Container {
         const bcr = this.htmTxt.getBoundingClientRect();
         const sx = bcr.left + window.pageXOffset + this.infTL.pad_left;
         const sy = bcr.top + window.pageYOffset + this.infTL.pad_top;
-        let rctm = new pixi_js_1.Rectangle;
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];
             const rct = v.rect;
@@ -615,7 +616,7 @@ class TxtStage extends pixi_js_1.Container {
             rct.y -= sy;
             fncMasume(v, rct);
             if (cis)
-                rctm = rct;
+                this.rctm = rct;
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;
@@ -651,19 +652,31 @@ class TxtStage extends pixi_js_1.Container {
                 const v = chs[i];
                 v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
             }
-            const cnt = TxtStage.cntBreak;
-            if (cnt) {
-                cnt.position.set(rctm.x, rctm.y);
-                cnt.visible = true;
-            }
+            TxtStage.cntBreak.position.set(this.rctm.x, this.rctm.y);
+            TxtStage.cntBreak.visible = true;
             this.fncEndChIn = () => { };
         };
         if (len_chs == 0) {
             this.fncEndChIn();
             return;
         }
+        let le = null;
+        for (let i = len_chs - 1; i >= 0; --i) {
+            const v = chs[i];
+            if (v.className == 'sn_ch')
+                continue;
+            const m = (_c = v.getAttribute('style')) === null || _c === void 0 ? void 0 : _c.match(this.regDs);
+            if (!m || Number(m.groups.ms) > 0) {
+                le = v;
+                break;
+            }
+        }
+        if (!le) {
+            this.fncEndChIn();
+            return;
+        }
         this.isChInIng = true;
-        chs[len_chs - 1].addEventListener('animationend', () => {
+        le.addEventListener('animationend', () => {
             this.isChInIng = false;
             this.fncEndChIn();
         }, { once: true, passive: true });

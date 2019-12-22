@@ -820,7 +820,6 @@ export class TxtStage extends Container {
 		const bcr = this.htmTxt.getBoundingClientRect();
 		const sx = bcr.left +window.pageXOffset +this.infTL.pad_left;
 		const sy = bcr.top +window.pageYOffset +this.infTL.pad_top;
-		let rctm = new Rectangle;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
@@ -830,7 +829,7 @@ export class TxtStage extends Container {
 			rct.x -= sx;
 			rct.y -= sy;
 			fncMasume(v, rct);
-			if (cis) rctm = rct;	// !cis ならルビ
+			if (cis) this.rctm = rct;	// !cis ならルビ
 
 			switch (v.cmd) {
 				case 'grp':
@@ -872,21 +871,30 @@ export class TxtStage extends Container {
 				const v = chs[i];
 				v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
 			}
-			const cnt = TxtStage.cntBreak;	// Tween開始時の Obj を保存
-			if (cnt) {
-				cnt.position.set(rctm.x, rctm.y);
-				cnt.visible = true;
-			}
+			TxtStage.cntBreak.position.set(this.rctm.x, this.rctm.y);
+			TxtStage.cntBreak.visible = true;
 			this.fncEndChIn = ()=> {};
 		};
 		if (len_chs == 0) {this.fncEndChIn(); return;}
 
+		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
+		let le = null;
+		for (let i=len_chs -1; i>=0; --i) {
+			const v = chs[i];
+			if (v.className == 'sn_ch') continue;
+			const m = v.getAttribute('style')?.match(this.regDs);
+			if (! m || Number(m.groups!.ms) > 0) {le = v; break;}
+		}
+		if (! le) {this.fncEndChIn(); return;}
+
 		this.isChInIng = true;
-		chs[len_chs -1].addEventListener('animationend', ()=> {
+		le.addEventListener('animationend', ()=> {
 			this.isChInIng = false;
 			this.fncEndChIn();	// クリックキャンセル時は発生しない
 		}, {once: true, passive: true});
 	}
+	private rctm = new Rectangle;
+	private readonly regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
 	private	fncEndChIn	= ()=> {};
 	private spWork_next(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
@@ -914,7 +922,7 @@ export class TxtStage extends Container {
 	}
 
 	private	static	hChInStyle	= Object.create(null);
-	private	static REG_NG_CHSTYLE_NAME_CHR	:RegExp	= /[\s\.,]/;
+	private	static REG_NG_CHSTYLE_NAME_CHR	= /[\s\.,]/;
 	static	initChStyle() {
 		TxtStage.hChInStyle = Object.create(null);
 		TxtStage.hChOutStyle = Object.create(null);

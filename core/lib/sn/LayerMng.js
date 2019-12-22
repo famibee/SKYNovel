@@ -772,7 +772,7 @@ void main(void) {
             this.oLastPage = { text: '' };
             return;
         }
-        this.oLastPage.text = txt;
+        this.oLastPage.text = txt.replace(/\\`/, '`');
         this.val.setVal_Nochk('save', 'const.sn.sLog', String(this.val.getVal('const.sn.log.json')));
     }
     clear_text(hArg) {

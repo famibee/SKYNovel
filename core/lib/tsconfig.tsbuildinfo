@@ -362,8 +362,8 @@
         "signature": "e50e5231f34a3775caa717f7336465f0cf8bc4bd3d703f90cb21fb168bf6eddc"
       },
       "../src/sn/analyzetagarg.ts": {
-        "version": "1b089019da2b9296705c3f746f0cc27bdeb9ac0131cb8416232d854992dfbe9d",
-        "signature": "2747a8d20bb3f00caf8f7229bf6e0c387b53860b3d986aba9a9b784253a721e0"
+        "version": "0005a6d8e443805733699e3c1f1b7d120e22d44681e72a34813f9e791d6db39c",
+        "signature": "fc4b94f1120a2133aa927426e8a5969cf60a0f08d0e0ff29fe9b00041d406ec6"
       },
       "../../node_modules/@types/parsimmon/index.d.ts": {
         "version": "0d9a6c4b7be5d86742f18f67855aebf94b521a9ef96badcf3a92f4a2272aa86e",
@@ -390,8 +390,8 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "e86f8e56a4039041fac4666848e11d46b4f0dccb4be613cac5043b7a20cb20ea",
-        "signature": "0403ae50d40cc2ddd8f0ed3d0697b8b64b64f0e04bf95142a2ed2e8fff0a3a42"
+        "version": "82c1af4349ed00479b3e0a276a9da8fd119a97d0a5eb01518c6aef8239b73ad0",
+        "signature": "c868fdeb35a0aef7787e842bcdf405ba396d996ca812cec384db5ffa00452d34"
       },
       "../src/sn/button.ts": {
         "version": "ca3809b0d49c52b026f1b66c660fa97b89f4b3c677707de5354c1efe9ebe5f71",
@@ -406,7 +406,7 @@
         "signature": "da5302732104b61c0d50e68273cab1bf0df091eb8080c0a445550d01e1520a98"
       },
       "../src/sn/layermng.ts": {
-        "version": "0fbaefc804d309272937512e7485c64f187680c28a6fe44ef5b0287e408d4795",
+        "version": "3c33a73603872d6f8024c4e01a647c06457b714159135431a68b00d5223db669",
         "signature": "67141b7284325338b52c345427335e9eedcb2476c0c5b7186543575abfbd54a1"
       },
       "../../node_modules/@types/howler/index.d.ts": {

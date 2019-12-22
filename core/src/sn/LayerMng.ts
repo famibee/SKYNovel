@@ -942,7 +942,8 @@ void main(void) {
 			return;
 		}
 
-		this.oLastPage.text = txt;
+		this.oLastPage.text = txt.replace(/\\`/, '`');
+			// 本文→HTML化の過程でつけられてしまうエスケープ文字を削除
 		this.val.setVal_Nochk('save', 'const.sn.sLog',
 			String(this.val.getVal('const.sn.log.json'))
 		);

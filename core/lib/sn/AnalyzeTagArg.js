@@ -3,6 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const m_xregexp = require("xregexp");
 class AnalyzeTagArg {
     constructor() {
+        this.REG_TAGARG = m_xregexp(`(?: (?<key>[^\\s=]+) \\s* = \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\2 )
+| (?<val2> [^\\s\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\5 )
+| (?<def2> [^\\s\\"\\'\\#\\|]+) ) )? )
+| (?<literal>\\S+)`, 'gx');
+        this.REG_TAGARG_VAL = m_xregexp(`(?: \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\1 )
+| (?<val2> [^\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\4 )
+| (?<def2> [^\\"\\'\\#\\|]+) ) )? )`, 'x');
         this.$hPrm = {};
         this.$isKomeParam = false;
         this.$literal = '';
@@ -13,7 +20,7 @@ class AnalyzeTagArg {
         if (args == null)
             return true;
         let elm = null, pos = 0;
-        while (elm = m_xregexp.exec(args, AnalyzeTagArg.REG_TAGARG, pos)) {
+        while (elm = m_xregexp.exec(args, this.REG_TAGARG, pos)) {
             pos = elm['index'] + elm[0].length;
             this.$literal = elm['literal'];
             if (this.$literal == undefined) {
@@ -30,7 +37,7 @@ class AnalyzeTagArg {
         return true;
     }
     goVal(args) {
-        const elm = m_xregexp.exec(args, AnalyzeTagArg.REG_TAGARG_VAL);
+        const elm = m_xregexp.exec(args, this.REG_TAGARG_VAL);
         this.$hPrm = {
             val: (elm['val'] == undefined) ? elm['val2'] : elm['val'],
             def: (elm['def'] == undefined) ? elm['def2'] : elm['def']
@@ -41,11 +48,4 @@ class AnalyzeTagArg {
     get literal() { return this.$literal; }
 }
 exports.AnalyzeTagArg = AnalyzeTagArg;
-AnalyzeTagArg.REG_TAGARG = m_xregexp(`(?: (?<key>[^\\s=]+) \\s* = \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\2 )` +
-    `| (?<val2> [^\\s\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\5 )` +
-    `| (?<def2> [^\\s\\"\\'\\#\\|]+) ) )? )` +
-    '| (?<literal>\\S+)', 'gx');
-AnalyzeTagArg.REG_TAGARG_VAL = m_xregexp(`(?: \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\1 )` +
-    `| (?<val2> [^\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\4 )` +
-    `| (?<def2> [^\\"\\'\\#\\|]+) ) )? )`, 'x');
 //# sourceMappingURL=AnalyzeTagArg.js.map

@@ -46,6 +46,8 @@ export declare class TxtStage extends Container {
     private aRect;
     private lenHtmTxt;
     goTxt_next(aSpan: string[]): void;
+    private rctm;
+    private readonly regDs;
     private fncEndChIn;
     private spWork_next;
     private static hChInStyle;
