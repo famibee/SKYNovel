@@ -50,6 +50,8 @@ export declare class TxtStage extends Container {
     private readonly regDs;
     private fncEndChIn;
     private spWork_next;
+    private isChInIng;
+    skipChIn(): boolean;
     private static hChInStyle;
     private static REG_NG_CHSTYLE_NAME_CHR;
     static initChStyle(): void;
@@ -64,8 +66,6 @@ export declare class TxtStage extends Container {
     private putBreakMark;
     private lh_half;
     private getChRects;
-    private isChInIng;
-    skipChIn(): boolean;
     private ch_slide_x;
     private fi_easing;
     private fo_easing;

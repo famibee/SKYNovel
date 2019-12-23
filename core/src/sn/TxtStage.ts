@@ -866,7 +866,9 @@ export class TxtStage extends Container {
 			v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
 		}
 
+		this.isChInIng = true;
 		this.fncEndChIn = ()=> {
+			this.isChInIng = false;
 			for (let i=0; i<len_chs; ++i) {
 				const v = chs[i];
 				v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
@@ -881,17 +883,13 @@ export class TxtStage extends Container {
 		let le = null;
 		for (let i=len_chs -1; i>=0; --i) {
 			const v = chs[i];
-			if (v.className == 'sn_ch') continue;
+			if (v.className == 'sn_ch') break;	// 表示済みのみ
 			const m = v.getAttribute('style')?.match(this.regDs);
 			if (! m || Number(m.groups!.ms) > 0) {le = v; break;}
 		}
 		if (! le) {this.fncEndChIn(); return;}
 
-		this.isChInIng = true;
-		le.addEventListener('animationend', ()=> {
-			this.isChInIng = false;
-			this.fncEndChIn();	// クリックキャンセル時は発生しない
-		}, {once: true, passive: true});
+		le.addEventListener('animationend', this.fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
 	private rctm = new Rectangle;
 	private readonly regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
@@ -919,6 +917,16 @@ export class TxtStage extends Container {
 				.start(),
 		};
 		this.aSpTw.push(st);
+	}
+
+	private	isChInIng	= false;
+	skipChIn(): boolean {	// true is stay
+		let isLiveTw = this.isChInIng;
+		this.fncEndChIn();
+		this.aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); isLiveTw = true}});
+			// Text Skip。stop() と end() は別！
+		this.aSpTw = [];
+		return isLiveTw;
 	}
 
 	private	static	hChInStyle	= Object.create(null);
@@ -1073,16 +1081,6 @@ export class TxtStage extends Container {
 		range.detach();
 
 		return ret;
-	}
-
-	private	isChInIng	= false;
-	skipChIn(): boolean {	// true is stay
-		let isLiveTw = this.isChInIng;
-		if (this.isChInIng) this.fncEndChIn();
-		this.aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); isLiveTw = true}});
-			// Text Skip。stop() と end() は別！
-		this.aSpTw = [];
-		return isLiveTw;
 	}
 
 	private ch_slide_x	= ()=> this.infTL.fontsize *TxtStage.gs_chFadeDx;

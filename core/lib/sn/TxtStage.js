@@ -31,8 +31,8 @@ class TxtStage extends pixi_js_1.Container {
         this.rctm = new pixi_js_1.Rectangle;
         this.regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
         this.fncEndChIn = () => { };
-        this.lh_half = 0;
         this.isChInIng = false;
+        this.lh_half = 0;
         this.ch_slide_x = () => this.infTL.fontsize * TxtStage.gs_chFadeDx;
         this.fi_easing = 'Quadratic.Out';
         this.fo_easing = 'Quadratic.Out';
@@ -647,7 +647,9 @@ class TxtStage extends pixi_js_1.Container {
             const v = chs[i];
             v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
         }
+        this.isChInIng = true;
         this.fncEndChIn = () => {
+            this.isChInIng = false;
             for (let i = 0; i < len_chs; ++i) {
                 const v = chs[i];
                 v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
@@ -664,7 +666,7 @@ class TxtStage extends pixi_js_1.Container {
         for (let i = len_chs - 1; i >= 0; --i) {
             const v = chs[i];
             if (v.className == 'sn_ch')
-                continue;
+                break;
             const m = (_c = v.getAttribute('style')) === null || _c === void 0 ? void 0 : _c.match(this.regDs);
             if (!m || Number(m.groups.ms) > 0) {
                 le = v;
@@ -675,11 +677,7 @@ class TxtStage extends pixi_js_1.Container {
             this.fncEndChIn();
             return;
         }
-        this.isChInIng = true;
-        le.addEventListener('animationend', () => {
-            this.isChInIng = false;
-            this.fncEndChIn();
-        }, { once: true, passive: true });
+        le.addEventListener('animationend', this.fncEndChIn, { once: true, passive: true });
     }
     spWork_next(sp, arg, add, rct, ease, cis) {
         var _a, _b, _c;
@@ -701,6 +699,16 @@ class TxtStage extends pixi_js_1.Container {
                 .start(),
         };
         this.aSpTw.push(st);
+    }
+    skipChIn() {
+        let isLiveTw = this.isChInIng;
+        this.fncEndChIn();
+        this.aSpTw.forEach(st => { if (st.tw) {
+            st.tw.stop().end();
+            isLiveTw = true;
+        } });
+        this.aSpTw = [];
+        return isLiveTw;
     }
     static initChStyle() {
         TxtStage.hChInStyle = Object.create(null);
@@ -836,17 +844,6 @@ class TxtStage extends pixi_js_1.Container {
         }
         range.detach();
         return ret;
-    }
-    skipChIn() {
-        let isLiveTw = this.isChInIng;
-        if (this.isChInIng)
-            this.fncEndChIn();
-        this.aSpTw.forEach(st => { if (st.tw) {
-            st.tw.stop().end();
-            isLiveTw = true;
-        } });
-        this.aSpTw = [];
-        return isLiveTw;
     }
     clearText() {
         var _a, _b, _c, _d;
