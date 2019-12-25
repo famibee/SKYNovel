@@ -56,31 +56,27 @@ class Config {
             if ('book' in oCfg) {
                 const b = this.oCfg.book;
                 for (const nm in b) {
-                    if (nm != 'inc') {
-                        b[nm] = CmnLib_1.CmnLib.argChk_Boolean(oCfg.book, nm, b[nm]);
-                        continue;
-                    }
-                    for (const v of b[nm]) {
-                        if (!sys.existsSync(sys.cur + v.path))
-                            continue;
-                        b.inc_path[v.path] = true;
-                    }
+                    if (nm in oCfg.book)
+                        b[nm] = oCfg.book[nm];
                 }
             }
             this.oCfg.log.max_len = (_o = (_m = (_l = oCfg.log) === null || _l === void 0 ? void 0 : _l.max_len) === null || _m === void 0 ? void 0 : _m.max_len, (_o !== null && _o !== void 0 ? _o : this.oCfg.log.max_len));
             if ('init' in oCfg) {
                 const i = this.oCfg.init;
                 for (const nm in i) {
-                    const v = oCfg.init[nm];
-                    if (v)
-                        i[nm] = (v.charAt(0) == '#')
-                            ? parseInt(v.slice(1), 16)
-                            : v;
+                    if (!(nm in oCfg.init))
+                        continue;
+                    const v = String(oCfg.init[nm]);
+                    i[nm] = (v.charAt(0) == '#')
+                        ? parseInt(v.slice(1), 16)
+                        : v;
                 }
             }
             if ('debug' in oCfg) {
                 const d = this.oCfg.debug;
                 for (const nm in d) {
+                    if (!(nm in oCfg.debug))
+                        continue;
                     d[nm] = CmnLib_1.CmnLib.argChk_Boolean(oCfg.debug, nm, d[nm]);
                 }
             }

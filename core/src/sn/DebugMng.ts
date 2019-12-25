@@ -11,7 +11,6 @@ import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 
 const Stats = require('stats.js');
-const platform = require('platform');
 
 export class DebugMng {
 	private	static	scrItr	: ScriptIterator;
@@ -63,7 +62,7 @@ export class DebugMng {
 			this.first = false;
 			this.sys.appendFile(
 				this.sys.path_desktop +'log.txt',
-				`== ${platform.description} ==`,
+				`== ${CmnLib.platform.description} ==`,
 				err=> {if (err) console.log(err)}
 			);
 		}

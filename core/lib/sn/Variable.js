@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const Areas_1 = require("./Areas");
 const PropParser_1 = require("./PropParser");
-const platform = require('platform');
 class Variable {
     constructor(cfg, hTag) {
         var _a;
@@ -167,7 +166,7 @@ class Variable {
         this.hTmp['const.Stage.mouseY'] = () => {
             return 0;
         };
-        this.hTmp['const.sn.platform.os.family'] = platform.os.family;
+        this.hTmp['const.sn.platform'] = JSON.stringify(CmnLib_1.CmnLib.platform);
         this.clearsysvar();
         this.clearvar();
         this.hTmp['const.sn.config.window.width'] = cfg.oCfg.window.width;

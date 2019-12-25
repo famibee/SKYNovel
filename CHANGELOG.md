@@ -1,3 +1,9 @@
+## v0.9.4
+- bug：prj.json の book要素などの解釈不具合
+- add：const.sn.platform.os.family をJSON文字列による const.sn.platform にし、より多くの情報を提供
+- bug：スマホでインライン画像アスペクト比が変わる対策
+- bug：スマホで「451」などを縦中横した際に横幅が狭くなる件
+- add：スマホ用疑似スワイプスクロール
 ## v0.9.3
 - bug：skipすると文字リンクが押せなくなる件
 ## v0.9.2

@@ -615,8 +615,17 @@ class TxtStage extends pixi_js_1.Container {
             rct.x -= sx;
             rct.y -= sy;
             fncMasume(v, rct);
-            if (cis)
+            if (cis) {
+                if (this.isTategaki) {
+                    rct.x += (rct.width - rct.height) / 2;
+                    rct.width = rct.height;
+                }
+                else {
+                    rct.y += (rct.height - rct.width) / 2;
+                    rct.height = rct.width;
+                }
                 this.rctm = rct;
+            }
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;

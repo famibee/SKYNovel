@@ -675,17 +675,17 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>const.sn.lay.（レイヤ名）.（foreかback）.y</td><td>0</td></tr>
 <tr><td>const.sn.Math.PI</td><td>3.141592653589793</td><td>Number</td><td>円周率</td></tr>
 <tr><td>const.sn.needClick2Play</td><td>環境による</td><td>Boolean</td><td>ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる</td></tr>
-<tr><td>const.sn.platform.os.family</td><td>'Windows', 'OS X', 'Ubuntu', 'Android', 'iOS'など</td><td>String</td><td>プラットフォーム名。詳細は<a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">Platform.js の【platform.os.family】の項</a>を参照</td></tr>
+<tr><td>const.sn.platform</td><td>環境による</td><td>JSON文字列</td><td>
+	プラットフォーム情報。詳細は<a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">Platform.js </a>を参照のこと。<br/>
+	例えば <a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">const.sn.platform.os.family</a> だと、「OS X」「Android」などを返す
+</td></tr>
 <tr><td> <span style="text-decoration: line-through">const.sn.sLog</span>【2019/07/28変名】<br/>
 const.sn.log.json
-</td><td>'[{'txt':'}]'</td><td>左記json</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
-<tr><td>const.sn.sound.codecs.aac</td><td rowspan="7">環境による</td><td rowspan="7">Boolean</td><td rowspan="7">ゲーム実行環境がこのコーデックをサポートしているか</td></tr>
-<tr><td>const.sn.sound.codecs.flac</td></tr>
-<tr><td>const.sn.sound.codecs.m4a</td></tr>
-<tr><td>const.sn.sound.codecs.mp3</td></tr>
-<tr><td>const.sn.sound.codecs.ogg</td></tr>
-<tr><td>const.sn.sound.codecs.wav</td></tr>
-<tr><td>const.sn.sound.codecs.webm</td></tr>
+</td><td>"[{'txt':'}]"</td><td>左記JSON文字列</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
+<tr><td>const.sn.sound.codecs</td><td>環境による</td><td>JSON文字列</td><td>
+	ゲーム実行環境がこのコーデックをサポートしているか。<br/>
+	flac、m4a、mp3、ogg、wav、webmなど
+</td></tr>
 <tr><td>const.sn.vctCallStk.length</td><td>0</td><td>Integer</td><td>コールスタックの深さ（[call]するたびに増）</td></tr>
 <tr><td>sn.auto.enabled</td><td>false</td><td>Boolean</td><td>自動読みすすみモードかどうか</td></tr>
 <tr><td>sn.button.fontFamily</td><td>"'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"</td><td>String</td><td>文字ボタンフォントを指定</td></tr>

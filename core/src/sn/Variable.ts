@@ -10,7 +10,6 @@ import {HArg, IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMar
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
-const platform = require('platform');
 
 export class Variable implements IVariable {
 	private	hScope	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
@@ -112,7 +111,7 @@ export class Variable implements IVariable {
 			return 0;
 		};
 
-		this.hTmp['const.sn.platform.os.family'] = platform.os.family;
+		this.hTmp['const.sn.platform'] = JSON.stringify(CmnLib.platform);
 
 		this.clearsysvar();
 		this.clearvar();

@@ -276,15 +276,13 @@ class TxtLayer extends Layer_1.Layer {
                                     const rs = this.mkStyle_r_align(tx, rb, this.r_align);
                                     add_htm = rb
                                         ? (this.aSpan_bk
-                                            ? (`<ruby style='text-orientation: upright;'>`
-                                                + `<span data-tcy='${id_tcy}' style='
+                                            ? (`<ruby><span data-tcy='${id_tcy}' style='
 									text-combine-upright: all;
 									-webkit-text-combine: horizontal;
 								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
                                                 + `<rt${rs}>${rb}</rt></ruby>`)
                                             : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
-                                                + `<ruby style='text-orientation: upright;'>`
-                                                + `<span data-tcy='${id_tcy}' style='
+                                                + `<ruby><span data-tcy='${id_tcy}' style='
 										text-combine-upright: all;
 										-webkit-text-combine: horizontal;
 									' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
@@ -292,12 +290,10 @@ class TxtLayer extends Layer_1.Layer {
                                                 + `</span>`))
                                         : (this.aSpan_bk
                                             ? (`<span data-tcy='${id_tcy}' style='
-								text-orientation: upright;
 								text-combine-upright: all;
 								-webkit-text-combine: horizontal;
 							' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`)
                                             : `<span data-tcy='${id_tcy}' style='
-								text-orientation: upright;
 								text-combine-upright: all;
 								-webkit-text-combine: horizontal;
 								animation-delay: ${this.cumDelay}ms;
@@ -306,14 +302,12 @@ class TxtLayer extends Layer_1.Layer {
                                 }
                                 else {
                                     add_htm = rb
-                                        ? `<ruby style='text-orientation: upright;'>
-							<span data-tcy='${id_tcy}' style='
+                                        ? `<ruby><span data-tcy='${id_tcy}' style='
 								text-combine-upright: all;
 								-webkit-text-combine: horizontal;
 							'>${tx}</span>
 							<rt>${rb}</rt></ruby>`
                                         : `<span data-tcy='${id_tcy}' style='
-							text-orientation: upright;
 							text-combine-upright: all;
 							-webkit-text-combine: horizontal;
 							height: 1em;

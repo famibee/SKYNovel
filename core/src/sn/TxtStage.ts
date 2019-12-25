@@ -829,7 +829,18 @@ export class TxtStage extends Container {
 			rct.x -= sx;
 			rct.y -= sy;
 			fncMasume(v, rct);
-			if (cis) this.rctm = rct;	// !cis ならルビ
+			if (cis) {
+				// スマホでインライン画像アスペクト比が変わる対策
+				if (this.isTategaki) {
+					rct.x += (rct.width -rct.height) /2;
+					rct.width = rct.height;
+				}
+				else {
+					rct.y += (rct.height -rct.width) /2;
+					rct.height = rct.width;
+				}
+				this.rctm = rct;	// !cis ならルビ
+			}
 
 			switch (v.cmd) {
 				case 'grp':

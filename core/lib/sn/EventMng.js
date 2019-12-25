@@ -186,11 +186,17 @@ class EventMng {
         this.ham.destroy();
     }
     defEvt2Fnc(e, KEY) {
+        var _a, _b;
         const key = KEY.toLowerCase();
         const ke = this.hLocalEvt2Fnc[key]
             || this.hGlobalEvt2Fnc[key];
-        if (!ke)
+        if (!ke) {
+            if (key.slice(0, 5) == 'swipe') {
+                const esw = e;
+                window.scrollBy(-(_a = esw.deltaX, (_a !== null && _a !== void 0 ? _a : 0)), -(_b = esw.deltaY, (_b !== null && _b !== void 0 ? _b : 0)));
+            }
             return;
+        }
         if ((key.slice(-5) != 'wheel') && ('preventDefault' in e))
             e.preventDefault();
         e.stopPropagation();

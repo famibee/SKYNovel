@@ -226,7 +226,13 @@ export class EventMng implements IEvtMng {
 		//if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, e);
 		const ke = this.hLocalEvt2Fnc[key]
 				|| this.hGlobalEvt2Fnc[key];
-		if (! ke) return;
+		if (! ke) {
+			if (key.slice(0, 5) == 'swipe') {	// スマホ用疑似スワイプスクロール
+				const esw: any = e;
+				window.scrollBy(-(esw.deltaX ?? 0), -(esw.deltaY ?? 0));
+			}
+			return;
+		}
 
 		if ((key.slice(-5) != 'wheel') && ('preventDefault' in e)) e.preventDefault();
 		e.stopPropagation();

@@ -65,6 +65,7 @@ exports.CmnLib = CmnLib;
 CmnLib.stageW = 0;
 CmnLib.stageH = 0;
 CmnLib.devtool = false;
+CmnLib.platform = Object.assign({}, platform);
 CmnLib.isSafari = (platform.name == 'Safari');
 CmnLib.hDip = {};
 CmnLib.isRetina = false;

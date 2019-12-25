@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const Stats = require('stats.js');
-const platform = require('platform');
 class DebugMng {
     constructor(sys, hTag, scrItr) {
         this.sys = sys;
@@ -33,7 +32,7 @@ class DebugMng {
     log(hArg) {
         if (this.first) {
             this.first = false;
-            this.sys.appendFile(this.sys.path_desktop + 'log.txt', `== ${platform.description} ==`, err => { if (err)
+            this.sys.appendFile(this.sys.path_desktop + 'log.txt', `== ${CmnLib_1.CmnLib.platform.description} ==`, err => { if (err)
                 console.log(err); });
         }
         this.sys.appendFile(this.sys.path_desktop + 'log.txt', `--- ${CmnLib_1.getDateStr('-', '_', '')} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)

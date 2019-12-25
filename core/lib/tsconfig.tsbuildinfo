@@ -138,8 +138,8 @@
         "signature": "4b8d1fea0b3947075e3a90d7e1f0c46ce54ca33b488fb279dd1528e823ab400e"
       },
       "../src/sn/cmnlib.ts": {
-        "version": "9acbe556ff8431c09de8657f5e95039cdb5950738f2d417664fcc55f15520bb7",
-        "signature": "958fdc93d275a78aa2053cf3e3a0cd03143b512e112532303367bc7b33116ae4"
+        "version": "3093e6a45249fb11a48e8749eaa5547af0137ae42690358445d0690675989b95",
+        "signature": "b5380f1e73ec350f241759f3676cb67e85f0c1b60d44370d7c3bbb9c40892cec"
       },
       "../src/sn/layer.ts": {
         "version": "ddf7526f029606d62d8f74f345309293b474b78642f3f70881bb892004e7b262",
@@ -346,7 +346,7 @@
         "signature": "60e0efa5bbf49006d29493aa7105fa2e447623e5050267eeafd214ac51de01ee"
       },
       "../src/sn/config.ts": {
-        "version": "92fefd125df42632e577349696f19f5f2113b3632d77ce60c3c1778299b76543",
+        "version": "8ffe23366cf9e61b37981c809896e8717535bec1648d9077d38b1a819ab82c97",
         "signature": "6548dc39901c9f0f30fcfd9b2f446d297d6ca08d83e6e44ff859de0a521e586a"
       },
       "../../node_modules/@types/xregexp/index.d.ts": {
@@ -390,7 +390,7 @@
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
-        "version": "92cd0116e78ec6fb0350c1d7539eb0bfe9b294bfbb99964437a8ad34f244d566",
+        "version": "bb73402dad46803539d50b5ce7d3db45fad409607617de39bdc7f06c88808b11",
         "signature": "40bbe4c1a4ee8618ced90eeb88aa893d8d371065afbfa8504fab95732a95e68a"
       },
       "../src/sn/button.ts": {
@@ -398,7 +398,7 @@
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
-        "version": "e523e72381db54639e4d49f233f34d6c492ae8ad67c77b26aca01999c96b8585",
+        "version": "82fa4dcfdeeda367cbe0eb9a2df2c6b9866b82a5311075d3baee6cbe3746b205",
         "signature": "80faf94a37da16f8d0180963013e6b7c8179f792be15fddd0942c14d83cecd20"
       },
       "../src/sn/framemng.ts": {
@@ -422,7 +422,7 @@
         "signature": "e5c5e805c2e2696d62922f3e2c4742be28a0c729e88327e3222f89826d58b38c"
       },
       "../src/sn/eventmng.ts": {
-        "version": "3ef653280f701082409b32d36dcd870b9f381daf7a0e762bb76675d9c1ce8293",
+        "version": "8f6e3414d66354208decf397a28916f8e3a388463094db406843c938ac0adf29",
         "signature": "ca80d2bceb1ed0f92fb4cb052fb8e825a2d4a101f396019e025e9a5ee5d4db6f"
       },
       "../src/sn/scriptiterator.ts": {
@@ -430,7 +430,7 @@
         "signature": "ee4a9878a75be29aaac69f3dd92d7b11579fb59e0544f2934de7a7c1927ba5ee"
       },
       "../src/sn/debugmng.ts": {
-        "version": "29d34b94aebbbbc3c92e3c8a11737fcbfa231e3dbef3b34bb58a248b79aab4f3",
+        "version": "ffd7452af5efe98784dcc540de06fda6e2ef073e469518225c2f2bac2fd0e65d",
         "signature": "aa8f622daebe1250ca107a502acad5577d96fda20fd167ef03f8ad7e3fd9715b"
       },
       "../src/sn/areas.ts": {
@@ -438,7 +438,7 @@
         "signature": "c00705f582429199e234f47e635c230bf5cb743b7e61726f530682c5f0990218"
       },
       "../src/sn/variable.ts": {
-        "version": "efaa199276788e48579af1083c42b80a8f00d609c1e6a0ee8baed386599c1801",
+        "version": "a162728db9016b73d574d298e60f4e08ad5a15b594e76aef1379f741cbf6646d",
         "signature": "419a335325b559d4d079a73e445178e4f34c2181fe2ab6dc876d6234229cf6bc"
       },
       "../src/sn/main.ts": {
@@ -2469,7 +2469,6 @@
       "../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../node_modules/@types/fs-extra/index.d.ts",
       "../src/sn/sysnode.ts",
-      "../src/sn/config.ts",
       "../../node_modules/@types/xregexp/index.d.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/grammar.ts",
@@ -2480,6 +2479,7 @@
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
       "../src/sn/grplayer.ts",
+      "../src/sn/txtstage.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
@@ -2510,7 +2510,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/txtstage.ts"
+      "../src/sn/config.ts"
     ]
   },
   "version": "3.7.4"

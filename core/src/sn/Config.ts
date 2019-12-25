@@ -72,15 +72,7 @@ export class Config implements IConfig {
 			if ('book' in oCfg) {
 				const b = this.oCfg.book;
 				for (const nm in b) {
-					if (nm != 'inc') {
-						b[nm] = CmnLib.argChk_Boolean(oCfg.book, nm, b[nm]);
-						continue;
-					}
-					for (const v of b[nm]) {
-						if (! sys.existsSync(sys.cur + v.path)) continue;
-
-						b.inc_path[v.path] = true;
-					}
+					if (nm in oCfg.book) b[nm] = oCfg.book[nm];
 				}
 			}
 
@@ -88,8 +80,10 @@ export class Config implements IConfig {
 			if ('init' in oCfg) {
 				const i = this.oCfg.init;
 				for (const nm in i) {
-					const v: string = oCfg.init[nm];
-					if (v) i[nm] = (v.charAt(0) == '#')
+					if (! (nm in oCfg.init)) continue;
+
+					const v = String(oCfg.init[nm]);
+					i[nm] = (v.charAt(0) == '#')
 						? parseInt(v.slice(1), 16)
 						: v;
 				}
@@ -98,6 +92,7 @@ export class Config implements IConfig {
 			if ('debug' in oCfg) {
 				const d = this.oCfg.debug;
 				for (const nm in d) {
+					if (! (nm in oCfg.debug)) continue;
 					d[nm] = CmnLib.argChk_Boolean(oCfg.debug, nm, d[nm]);
 				}
 			}

@@ -62,6 +62,7 @@ export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
 	static	devtool		= false;
+	static	platform	= {...platform};
 	static	isSafari	= (platform.name == 'Safari');
 	static	hDip		: {[name: string]: string}	= {};
 
