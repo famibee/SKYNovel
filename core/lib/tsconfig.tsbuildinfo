@@ -422,7 +422,7 @@
         "signature": "e5c5e805c2e2696d62922f3e2c4742be28a0c729e88327e3222f89826d58b38c"
       },
       "../src/sn/eventmng.ts": {
-        "version": "9f4b4440e03ceb44a8498ecfd512dcb6e788c2f0e76ffc706e79f9ecf6fff0c0",
+        "version": "6ab3e48554f0ca938d42925fd67dcad8432a4f8cf752d5a7d5e0c6897c1db279",
         "signature": "ca80d2bceb1ed0f92fb4cb052fb8e825a2d4a101f396019e025e9a5ee5d4db6f"
       },
       "../src/sn/scriptiterator.ts": {
@@ -2490,10 +2490,10 @@
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
+      "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
-      "../src/sn/eventmng.ts",
       "../src/sn/scriptiterator.ts",
       "../src/sn/debugmng.ts",
       "../src/sn/areas.ts",
@@ -2516,7 +2516,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/layermng.ts"
+      "../src/sn/eventmng.ts"
     ]
   },
   "version": "3.7.4"

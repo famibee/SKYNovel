@@ -199,7 +199,7 @@ class EventMng {
         if ((key.slice(-5) != 'wheel') && ('preventDefault' in e))
             e.preventDefault();
         e.stopPropagation();
-        if (this.layMng.clickTxtLay())
+        if (key.slice(0, 4) != 'dom=' && this.layMng.clickTxtLay())
             return;
         if (!this.isStop)
             return;
