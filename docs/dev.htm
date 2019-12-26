@@ -154,6 +154,7 @@
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
 		<li class="mb1"><a href="#crypt">素材や・変数データを暗号化</a></li>
 		<li class="mb1"><a href="#save_path">セーブデータの保存場所</a></li>
+		<li class="mb1"><a href="#on_browser">ブラウザ版の公開方法</a></li>
 	</ul>
 </aside>
 
@@ -541,17 +542,17 @@
 <h4>デベロッパーツールから変数や定数を確認できる機能です。</h4>
 <p class="mb2 px1">
 
-	　ブラウザ版では、デベロッパーツール（ChromeやSafariの機能）を開いて【Application】-【Local Storage】から、システム変数(sys:)などの内容が見えます。<br>
-	※直接値の変更・クリアができます。jsonで記入して下さい。<br>
-	※暗号化もします。<br>
+	　ブラウザ版では、デベロッパーツール（ChromeやSafariの機能）を開いて【Application】-【Local Storage】から、システム変数(sys:)などの内容が見えます。<br/>
+	※直接値の変更・クリアができます。jsonで記入して下さい。<br/>
+	※暗号化もします。<br/>
 	<amp-img src="pic/val_debug0.png" width="934" height="602" layout="responsive"></amp-img>
 
 	　またプロジェクトファイル（prj.json）を右クリック-【SKYNovel GUIで編集する】から【variable】にチェックすると、
 	<amp-img src="pic/val_debug1a.png" width="568" height="514" layout="responsive"></amp-img>
 	<amp-img src="pic/val_debug1b.png" width="515" height="275" layout="responsive"></amp-img>
-	全ての変数が可視化されます。（Session Storageのほうに表示される）<br>
-	※こちらは値の変更をサポートしていません。[s][l]などの停止時に出力するだけです。<br>
-	※暗号化ON/OFFも予定しています。<br>
+	全ての変数が可視化されます。（Session Storageのほうに表示される）<br/>
+	※こちらは値の変更をサポートしていません。[s][l]などの停止時に出力するだけです。<br/>
+	※暗号化ON/OFFも予定しています。<br/>
 	<amp-img src="pic/val_debug2.png" width="674" height="368" layout="responsive"></amp-img>
 
 </p>
@@ -559,11 +560,11 @@
 <h4>SKYNovelが値を設定している変数や定数です。起動直後から使えます。</h4>
 <p class="mb2 px1">
 
-const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br>
-以下の表にあるモノを使うの（読み・書き）は全然ＯＫです！<br>
-<br>
-冒頭がconstな変数は、書く（設定）することができません。<br>
-constでない変数は、設定するとその値がシステムに反映されます。<br>
+const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
+以下の表にあるモノを使うの（読み・書き）は全然ＯＫです！<br/>
+<br/>
+冒頭がconstな変数は、書く（設定）することができません。<br/>
+constでない変数は、設定するとその値がシステムに反映されます。<br/>
 例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
@@ -591,10 +592,10 @@ constでない変数は、設定するとその値がシステムに反映され
 <h4>SKYNovelが値を設定している変数や定数です。起動直後から使えます。</h4>
 <p class="mb2 px1">
 
-const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br>
-以下の表にあるモノを使うのは全然ＯＫです！<br>
-<br>
-constでない変数は、設定するとその値がシステムに反映されます。<br>
+const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
+以下の表にあるモノを使うのは全然ＯＫです！<br/>
+<br/>
+constでない変数は、設定するとその値がシステムに反映されます。<br/>
 例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
@@ -602,19 +603,19 @@ constでない変数は、設定するとその値がシステムに反映され
 <tr><td>sys:const.sn.nativeWindow.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">アプリウインドウの座標。[<a href="tag.htm#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.nativeWindow.y</td><td>0</td></tr>
 <tr><td>sys:const.sn.save.place</td><td>1</td><td>1〜</td><td>次のセーブplaceを示す</td></tr>
-<tr><td>sys:const.sn.sound.BGM.volume</td><td rowspan="4">1</td><td rowspan="4">0.0〜1.0</td><td>BGMの基準音量（buf="BGM"の効果音）<br>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
-<tr><td>sys:const.sn.sound.SE.volume</td><td>効果音の基準音量（buf="SE"の効果音）<br>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
-<tr><td>sys:const.sn.sound.SYS.volume</td><td>システムの基準音量（buf="SYS"の効果音）<br>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
-<tr><td>sys:const.sn.sound.【buf】.volume</td><td>システムの基準音量（buf="【buf】"の効果音）<br>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br>任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数</td></tr>
-<tr><td>sys:sn.auto.msecLineWait</td><td>500</td><td>Integer</td><td>未読テキストの改行待ち時間（ミリ秒）<br>※ここでの改行とは[l]の事</td></tr>
-<tr><td>sys:sn.auto.msecLineWait_Kidoku</td><td>500</td><td>Integer</td><td>既読テキストの改行待ち時間（ミリ秒）<br>※ここでの改行とは[l]の事</td></tr>
-<tr><td>sys:sn.auto.msecPageWait</td><td>3500</td><td>Integer</td><td>未読テキストの改ページ待ち時間（ミリ秒）<br>※ここでの改ページとは[p]の事</td></tr>
-<tr><td>sys:sn.auto.msecPageWait_Kidoku</td><td>3500</td><td>Integer</td><td>既読テキストの改ページ待ち時間（ミリ秒）<br>※ここでの改ページとは[p]の事</td></tr>
-<tr><td>sys:sn.skip.mode</td><td>'s'</td><td>String</td><td>スキップモード。<br>
-	sn.skip.enabled = trueの際、改行待ちや改ページ待ちをスキップするかどうかの動作を指定する。<br>
-	'l' …… 改行待ち=する、改ページ待ち=する<br>
-	'p' …… 改行待ち=しない、改ページ待ち=する<br>
-	's' …… 改行待ち=しない、改ページ待ち=しない<br>
+<tr><td>sys:const.sn.sound.BGM.volume</td><td rowspan="4">1</td><td rowspan="4">0.0〜1.0</td><td>BGMの基準音量（buf="BGM"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.sound.SE.volume</td><td>効果音の基準音量（buf="SE"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.sound.SYS.volume</td><td>システムの基準音量（buf="SYS"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.sound.【buf】.volume</td><td>システムの基準音量（buf="【buf】"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数</td></tr>
+<tr><td>sys:sn.auto.msecLineWait</td><td>500</td><td>Integer</td><td>未読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
+<tr><td>sys:sn.auto.msecLineWait_Kidoku</td><td>500</td><td>Integer</td><td>既読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
+<tr><td>sys:sn.auto.msecPageWait</td><td>3500</td><td>Integer</td><td>未読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
+<tr><td>sys:sn.auto.msecPageWait_Kidoku</td><td>3500</td><td>Integer</td><td>既読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
+<tr><td>sys:sn.skip.mode</td><td>'s'</td><td>String</td><td>スキップモード。<br/>
+	sn.skip.enabled = trueの際、改行待ちや改ページ待ちをスキップするかどうかの動作を指定する。<br/>
+	'l' …… 改行待ち=する、改ページ待ち=する<br/>
+	'p' …… 改行待ち=しない、改ページ待ち=する<br/>
+	's' …… 改行待ち=しない、改ページ待ち=しない<br/>
 	（初期値="s"）</td></tr>
 <tr><td>sys:sn.tagCh.canskip</td><td>true</td><td>Boolean</td><td>テキストをクリックなどでスキップ可能か</td></tr>
 <tr><td>sys:sn.tagCh.doWait</td><td>true</td><td>Boolean</td><td>未読テキストにウェイトを掛けるか</td></tr>
@@ -628,10 +629,10 @@ constでない変数は、設定するとその値がシステムに反映され
 <h4>SKYNovelが値を設定している変数や定数です。起動直後から使えます。</h4>
 <p class="mb2 px1">
 
-const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br>
-以下の表にあるモノを使うのは全然ＯＫです！<br>
-<br>
-constでない変数は、設定するとその値がシステムに反映されます。<br>
+const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
+以下の表にあるモノを使うのは全然ＯＫです！<br/>
+<br/>
+constでない変数は、設定するとその値がシステムに反映されます。<br/>
 例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
@@ -704,8 +705,8 @@ const.sn.log.json
 <p class="mb2 px1">
 
 	<ul type="disc">
-	<li>組み込み変数名が変わりました。<br>旧）save:const.<span class="red" style="font-weight: bold;">an</span>.scriptFn<br>新）save:const.<span style="color: blue; font-weight: bold;">sn</span>.scriptFn</li>
-	<li>定数が変数になったモノも。<br>例）const.an.eventArg → sn.eventArg</li>
+	<li>組み込み変数名が変わりました。<br/>旧）save:const.<span class="red" style="font-weight: bold;">an</span>.scriptFn<br/>新）save:const.<span style="color: blue; font-weight: bold;">sn</span>.scriptFn</li>
+	<li>定数が変数になったモノも。<br/>例）const.an.eventArg → sn.eventArg</li>
 	</ul>
 	詳細は当ページの「組み込み変数」関連の記事をご覧下さい。<br/>
 
@@ -716,29 +717,29 @@ const.sn.log.json
 <p class="mb2 px1">
 	<h4>1.フォントを準備</h4>
 	<p class="mb2 px1">
-		※以下をサンプルとして話を進めます。字形が多いのでだいたい入ってるだろうし。<br>
-		・<a href="https://forest.watch.impress.co.jp/library/software/ipamjfont/" target="_blank" rel="noopener">「IPAmj明朝フォント」戸籍統一文字などに含まれる6万字の漢字を収録したフォント - 窓の杜</a><br>
-		・【参考資料】<a href="http://www.hirok-k.com/blog/751.html" target="_blank" rel="noopener">日本語フリーフォントをwebフォント化する4ステップ / hirok-k.com</a><br>
+		※以下をサンプルとして話を進めます。字形が多いのでだいたい入ってるだろうし。<br/>
+		・<a href="https://forest.watch.impress.co.jp/library/software/ipamjfont/" target="_blank" rel="noopener">「IPAmj明朝フォント」戸籍統一文字などに含まれる6万字の漢字を収録したフォント - 窓の杜</a><br/>
+		・【参考資料】<a href="http://www.hirok-k.com/blog/751.html" target="_blank" rel="noopener">日本語フリーフォントをwebフォント化する4ステップ / hirok-k.com</a><br/>
 	</p>
 	<h4>2.使用する字形だけ入ったフォントファイルを作成</h4>
 	<p class="mb2 px1">
-		・<a href="https://opentype.jp/subsetfontmk.htm">サブセットフォントメーカー</a>（Win / Mac版あり）<br>
-			【フォントに格納する文字】へ本文をコピペして、ツールに貼って変換します。<br>
-			※【書体名を変更する】は使わない<br>
-			※ただ縦書きフォントでは「──」を渡すと上手くいかないので、入れない。<br>
-			<br>
-			全ての文字が入ったフォントファイルは大きすぎる。ロード時間も掛かる。<br>
-			上記手順で、「初音館にて」ではサイズが1/100ほどになった。<br>
-			・ipamjm.woff2<br>
-			　　23.1MB（全部入り）<br>
-			　　344 KB（初音館で使用しているモノのみ）<br>
-			　　343540 /23065440 = 0.014894145<br>
+		・<a href="https://opentype.jp/subsetfontmk.htm">サブセットフォントメーカー</a>（Win / Mac版あり）<br/>
+			【フォントに格納する文字】へ本文をコピペして、ツールに貼って変換します。<br/>
+			※【書体名を変更する】は使わない<br/>
+			※ただ縦書きフォントでは「──」を渡すと上手くいかないので、入れない。<br/>
+			<br/>
+			全ての文字が入ったフォントファイルは大きすぎる。ロード時間も掛かる。<br/>
+			上記手順で、「初音館にて」ではサイズが1/100ほどになった。<br/>
+			・ipamjm.woff2<br/>
+			　　23.1MB（全部入り）<br/>
+			　　344 KB（初音館で使用しているモノのみ）<br/>
+			　　343540 /23065440 = 0.014894145<br/>
 	</p>
 	<h4>3.（可能なら圧縮率の高い）woff2に変換</h4>
 	<p class="mb2 px1">
-		・<a href="https://memorva.jp/memo/html/css_webfont_woff_woff2_converter_henkan_soft.php">WebフォントWOFF、WOFF2形式に変換できるフリーソフト</a><br>
-		・<a href="https://opentype.jp/woffconv.htm">WOFFコンバータ</a>（Win / Mac版あり）<br>
-		　SKYNovelがサポートするフォント拡張子は「woff2, otf, ttf」です。※ブラウザによる<br>
+		・<a href="https://memorva.jp/memo/html/css_webfont_woff_woff2_converter_henkan_soft.php">WebフォントWOFF、WOFF2形式に変換できるフリーソフト</a><br/>
+		・<a href="https://opentype.jp/woffconv.htm">WOFFコンバータ</a>（Win / Mac版あり）<br/>
+		　SKYNovelがサポートするフォント拡張子は「woff2, otf, ttf」です。※ブラウザによる<br/>
 	</p>
 	<h4>4.生成ファイルをプロジェクトフォルダにコピー</h4>
 	<p class="mb2 px1">
@@ -747,15 +748,13 @@ const.sn.log.json
 	<h4>5.sub.sn の「def_fonts」でフォント名を指定すると、本文に反映される</h4>
 	<p class="mb2 px1">
 		<amp-img src="pic/font0.jpg" width="500" height="144" layout="responsive"></amp-img>
-		sn.button.fontFamily で文字ボタンのフォントを指定できます。<br>
+		sn.button.fontFamily で文字ボタンのフォントを指定できます。<br/>
 	</p>
 	<h4>6.部分的・一時的に変更したい場合は、</h4>
 	<p class="mb2 px1">
-		[span style='font-family: QuiMi_mincho;']フォント[span] などと使う。<br>
-		戻すときも同様。<br>
+		[span style='font-family: QuiMi_mincho;']フォント[span] などと使う。<br/>
+		戻すときも同様。<br/>
 	</p>
-
-	<br>
 
 
 </p>
@@ -764,10 +763,10 @@ const.sn.log.json
 <p class="mb2 px1">
 	<h4>1.暗号化する</h4>
 	<p class="mb2 px1">
-		※<a href="https://marketplace.visualstudio.com/items?itemName=famibee.skynovel" target="_blank" rel="noopener">VSCode用拡張機能 SKYNovel</a> の【開発ツール】の【暗号化】がその機能です。<br>
+		※<a href="https://marketplace.visualstudio.com/items?itemName=famibee.skynovel" target="_blank" rel="noopener">VSCode用拡張機能 SKYNovel</a> の【開発ツール】の【暗号化】がその機能です。<br/>
 		<amp-img src="pic/crypt0.png" width="500" height="360" layout="responsive"></amp-img>
-		<br>
-		「暗号化」の「しない」を「する」に変更すると、暗号化します。<br>
+		<br/>
+		「暗号化」の「しない」を「する」に変更すると、暗号化します。<br/>
 		<amp-img src="pic/crypt1.png" width="500" height="128" layout="responsive"></amp-img>
 	</p>
 	<h4>2.「snスクリプト」「path_json」「prj_json」などの様子</h4>
@@ -781,11 +780,9 @@ const.sn.log.json
 	<h4>4.セーブデータ、アプリ版はこの通り。</h4>
 	<p class="mb2 px1">
 		<amp-img src="pic/crypt4.png" width="1456" height="950" layout="responsive"></amp-img>
-		　暗号化データは「data_.json」です。<br>
-		　暗号化アプリリリース時は「data.json」は作らず、暗号化データのみで動作します。<br>
+		　暗号化データは「data_.json」です。<br/>
+		　暗号化アプリリリース時は「data.json」は作らず、暗号化データのみで動作します。<br/>
 	</p>
-
-	<br>
 
 
 </p>
@@ -805,7 +802,21 @@ const.sn.log.json
 		~/.config/&lt;アプリ名&gt;/storage/data.json
 	</p>
 
-	<br>
+
+</p>
+<h2 id="on_browser" class="w-heading">ブラウザ版の公開方法</h2>
+<h4>暗号化機能について解説していきます。</h4>
+<p class="mb2 px1">
+	<h4>1.必要なもの、以下の三つのみです。</h4>
+	<p class="mb2 px1">
+		・web.htm（web/web.jsへのパスが記述されている。必要なら変更）<br/>
+		・web/web.js<br/>
+		・prjフォルダ丸ごと（web.htmと同じフォルダに入れる）<br/>
+	</p>
+	<h4>2.上記のファイルを、FTPなどで公開します。</h4>
+	<p class="mb2 px1">
+		必ず実行してテストしましょう。
+	</p>
 
 
 </p>
