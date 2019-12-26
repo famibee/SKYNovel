@@ -32,20 +32,26 @@ export class Layer {
 	destroy() {}
 
 	lay(hArg: HArg): boolean {
+		// パフォーマンスから余計な処理をしないように
+		if ('alpha' in hArg)
 		this.cnt.alpha = CmnLib.argChk_Num(hArg, 'alpha', this.cnt.alpha);
 
 		//Layer.argChk_BlendmodeAndSet(hArg, this.ctn);
 
+		if ('pivot_x' in hArg || 'pivot_y' in hArg)
 		this.cnt.pivot.set(
 			CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x),
 			CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y)
 		);
+		if ('rotation' in hArg)
 		this.cnt.angle = CmnLib.argChk_Num(hArg, 'rotation', this.cnt.angle);
 			// rotation is in radians, angle is in degrees.
+		if ('scale_x' in hArg || 'scale_y' in hArg)
 		this.cnt.scale.set(
 			CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x),
 			CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y)
 		);
+		if ('visible' in hArg)
 		this.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', this.cnt.visible);
 
 		return false;

@@ -223,7 +223,7 @@ export class EventMng implements IEvtMng {
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 	private defEvt2Fnc(e: Event, KEY: string) {
 		const key = KEY.toLowerCase();
-		//if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, e);
+		//if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
 		const ke = this.hLocalEvt2Fnc[key]
 				|| this.hGlobalEvt2Fnc[key];
 		if (! ke) {
@@ -236,7 +236,7 @@ export class EventMng implements IEvtMng {
 
 		if ((key.slice(-5) != 'wheel') && ('preventDefault' in e)) e.preventDefault();
 		e.stopPropagation();
-		if (e.target instanceof DisplayObject && this.layMng.clickTxtLay()) return;
+		if (this.layMng.clickTxtLay()) return;
 
 		if (! this.isStop) return;
 		this.isStop = false;

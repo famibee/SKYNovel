@@ -336,7 +336,7 @@ class TxtLayer extends Layer_1.Layer {
             r_align: '',
         };
         this.click = () => {
-            if (!this.cntBtn.interactiveChildren || !this.cnt.visible)
+            if (!this.cnt.interactiveChildren || !this.cnt.visible)
                 return true;
             return this.txs.skipChIn();
         };
@@ -533,6 +533,8 @@ class TxtLayer extends Layer_1.Layer {
             : this.txs.tategaki
                 ? v => `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
                 : v => `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
+        if ('alpha' in hArg)
+            this.cntBtn.children.forEach(e => e.alpha = this.cnt.alpha);
         this.set_ch_in(hArg);
         this.set_ch_out(hArg);
         return this.drawBack(hArg);
@@ -723,8 +725,8 @@ class TxtLayer extends Layer_1.Layer {
         TxtLayer.recText('', true);
     }
     get pageText() { return this.page_text; }
-    get enabled() { return this.cntBtn.interactiveChildren; }
-    set enabled(v) { this.cntBtn.interactiveChildren = v; }
+    get enabled() { return this.cnt.interactiveChildren; }
+    set enabled(e) { this.cnt.interactiveChildren = e; }
     addButton(hArg) {
         hArg.key = `btn=[${this.cntBtn.children.length}] ` + this.name;
         const btn = new Button_1.Button(TxtLayer.main, TxtLayer.evtMng, hArg);

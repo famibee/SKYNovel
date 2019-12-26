@@ -253,6 +253,8 @@ export class TxtLayer extends Layer {
 				? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
 				: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
 
+		if ('alpha' in hArg) this.cntBtn.children.forEach(e=> e.alpha = this.cnt.alpha);
+
 		this.set_ch_in(hArg);
 		this.set_ch_out(hArg);
 
@@ -766,7 +768,7 @@ export class TxtLayer extends Layer {
 	}
 
 	readonly click = ()=> {
-		if (! this.cntBtn.interactiveChildren || ! this.cnt.visible) return true;
+		if (! this.cnt.interactiveChildren || ! this.cnt.visible) return true;
 		return this.txs.skipChIn();	// true is stay
 	}
 
@@ -785,8 +787,8 @@ export class TxtLayer extends Layer {
 	private	page_text	= '';
 	get pageText() {return this.page_text}
 
-	get enabled() {return this.cntBtn.interactiveChildren;}
-	set enabled(v) {this.cntBtn.interactiveChildren = v;}
+	get enabled() {return this.cnt.interactiveChildren}
+	set enabled(e) {this.cnt.interactiveChildren = e}
 
 	addButton(hArg: HArg): boolean {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name;

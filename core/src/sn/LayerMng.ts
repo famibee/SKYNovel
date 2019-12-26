@@ -215,7 +215,17 @@ export class LayerMng {
 		const tl = this.getCurrentTxtlayFore();
 		if (! tl) return true;
 
-		return tl.click();
+		// イベントを受ける文字レイヤが一つでも存在すれば、クリック待ち解除(false)する
+		const vct = this.getLayers();
+		const len = vct.length;
+		for (let i=0; i<len; ++i) {
+			const name = vct[i];
+			const pg = this.hPages[name];
+			if (! (pg.fore instanceof TxtLayer)) continue;
+			const pTxt = pg.fore as TxtLayer;
+			if (! pTxt.click())	return false;
+		}
+		return true;
 	}
 
 

@@ -64,7 +64,7 @@ export declare class TxtLayer extends Layer {
     private page_text;
     get pageText(): string;
     get enabled(): boolean;
-    set enabled(v: boolean);
+    set enabled(e: boolean);
     addButton(hArg: HArg): boolean;
     clearLay(hArg: HArg): void;
     readonly record: () => {

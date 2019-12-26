@@ -221,7 +221,18 @@ void main(void) {
         const tl = this.getCurrentTxtlayFore();
         if (!tl)
             return true;
-        return tl.click();
+        const vct = this.getLayers();
+        const len = vct.length;
+        for (let i = 0; i < len; ++i) {
+            const name = vct[i];
+            const pg = this.hPages[name];
+            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                continue;
+            const pTxt = pg.fore;
+            if (!pTxt.click())
+                return false;
+        }
+        return true;
     }
     snapshot(hArg) {
         var _a;

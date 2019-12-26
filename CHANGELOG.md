@@ -1,3 +1,9 @@
+## v0.9.5
+- chg：文字レイヤの[lay alpha]変更で、ボタンやボタン背景も変更するように
+- chg：文字レイヤ自身(alpha)と文字(style='opacity: 1.0;')で個別に透過度を指定できるように
+- chg：[enable_event]で文字リンクも無効になるように
+- bug：イベントを受ける文字レイヤが一つでも存在すれば、クリック待ち解除(false)するように
+（「タイトルに戻りますか？」ボタンが効かない不具合）
 ## v0.9.4
 - bug：prj.json の book要素などの解釈不具合
 - add：const.sn.platform.os.family をJSON文字列による const.sn.platform にし、より多くの情報を提供

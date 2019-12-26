@@ -92,22 +92,23 @@ export class TxtStage extends Container {
 				}
 				s[key] = cln.style[key];
 			}
+			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(txl.alpha);
 		}
+		else if ('alpha' in hArg) s.opacity = String(txl.alpha);
+
+		this.isTategaki = (s.writingMode == 'vertical-rl');
 		if (CmnLib.hDip['tx']) {
 			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-			this.isTategaki = (s.writingMode == 'vertical-rl');
 			this.left = txl.position.x
 				-(CmnLib.isSafari && this.isTategaki
 					? this.infTL.pad_left +this.infTL.pad_right
 					: 0);
 			s.left = this.left +'px';
 			s.top = txl.position.y +'px';
-
-			if (! ('alpha' in hArg)) s.opacity = String(hArg.alpha);
-			s.transformOrigin = `${hArg.pivot_x}px ${hArg.pivot_y}px`;
-			s.transform = `rotate(${hArg.rotation}deg) scale(${hArg.scale_x}, ${hArg.scale_y}`;
-			s.display = Boolean(hArg.visible) ?'inline' :'none';
 		}
+		s.transformOrigin = `${txl.pivot.x}px ${txl.pivot.y}px`;
+		s.transform = `rotate(${txl.rotation}deg) scale(${txl.scale.x}, ${txl.scale.y}`;
+		s.display = txl.visible ?'inline' :'none';
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 
 		this.lay_sub();
@@ -857,7 +858,7 @@ export class TxtStage extends Container {
 					const sp = new Sprite;
 					sp.width = rct.width;
 					sp.height = rct.height;
-					arg.key = this.name +' link:'+ i;	// 一文字ずつ別ボタン
+					arg.key = `lnk=[${i}] `+ this.name;
 					this.spWork_next(sp, arg, add, rct, ease, cis ?? {});
 					TxtStage.evtMng.button(arg, sp);
 					this.cntTxt.addChild(sp);

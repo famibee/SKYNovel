@@ -23,11 +23,16 @@ class Layer {
     set y(v) { this.cnt.y = v; }
     destroy() { }
     lay(hArg) {
-        this.cnt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', this.cnt.alpha);
-        this.cnt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y));
-        this.cnt.angle = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', this.cnt.angle);
-        this.cnt.scale.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y));
-        this.cnt.visible = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', this.cnt.visible);
+        if ('alpha' in hArg)
+            this.cnt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', this.cnt.alpha);
+        if ('pivot_x' in hArg || 'pivot_y' in hArg)
+            this.cnt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y));
+        if ('rotation' in hArg)
+            this.cnt.angle = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', this.cnt.angle);
+        if ('scale_x' in hArg || 'scale_y' in hArg)
+            this.cnt.scale.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y));
+        if ('visible' in hArg)
+            this.cnt.visible = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', this.cnt.visible);
         return false;
     }
     clearLay(hArg) {
