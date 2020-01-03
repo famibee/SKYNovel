@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2019 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2020 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -19,9 +19,7 @@ export class SysApp extends SysNode {
 		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt});
 		window.addEventListener('DOMContentLoaded', ()=>new Main(this), {once: true, passive: true});
 
-		ipcRenderer.on('log', (e: any, arg: any)=> {
-console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
-		});
+		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));
 	}
 	protected readonly	$path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
 	protected readonly	$path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';

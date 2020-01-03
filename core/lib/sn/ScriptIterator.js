@@ -28,7 +28,6 @@ class ScriptIterator {
         this.aCallStk = [];
         this.getCallStk = (idx) => this.aCallStk[idx].hArg;
         this.grm = new Grammar_1.Grammar;
-        this.csAnalyBf = new CallStack_1.CallStack('', 0);
         this.fncSet = () => { };
         this.fncBreak = () => { };
         this.fnLastBreak = '';
@@ -73,13 +72,12 @@ class ScriptIterator {
                     continue;
                 const ext = this.replaceScript_Wildcard_Sub_ext(a_tag['name']);
                 const a = this.cfg.matchPath('^' + fn.slice(0, -1) + '.*', ext);
-                const lnum = this.script.aLNum[i];
                 this.script.aToken.splice(i, 1, '\t', '; ' + token);
-                this.script.aLNum.splice(i, 1, lnum, lnum);
+                this.script.aLNum.splice(i, 1, NaN, NaN);
                 for (const v of a) {
                     const nt = token.replace(this.REG_WILDCARD2, 'fn=' + decodeURIComponent(CmnLib_1.CmnLib.getFn(v[ext])));
                     this.script.aToken.splice(i, 0, nt);
-                    this.script.aLNum.splice(i, 0, lnum);
+                    this.script.aLNum.splice(i, 0, NaN);
                 }
             }
             this.script.len = this.script.aToken.length;
@@ -342,8 +340,9 @@ class ScriptIterator {
         const fn = hArg.fn;
         if (fn)
             this.cfg.searchPath(fn, Config_1.Config.EXT_SCRIPT);
+        this.script.aLNum[this.idxToken_] = this.lineNum_;
         const hPushArg = {
-            csAnalyBf: this.csAnalyBf,
+            csAnalyBf: new CallStack_1.CallStack(this.scriptFn_, this.idxToken_),
             hEvt1Time: this.evtMng.popLocalEvts()
         };
         this.callSub(hPushArg);
@@ -385,9 +384,8 @@ class ScriptIterator {
         if (this.aCallStk.length == 0)
             throw '[return] スタックが空です';
         const cs = this.aCallStk.pop();
-        const osac = cs.hArg.csAnalyBf;
-        if (osac)
-            this.csAnalyBf = new CallStack_1.CallStack(osac.fn, osac.idx);
+        if (!cs || !cs.hArg)
+            return false;
         this.aIfStk.shift();
         const after_token = cs.hArg.resvToken;
         if (after_token)
@@ -775,7 +773,6 @@ class ScriptIterator {
                 this.layMng.cover(false);
                 this.scriptFn_ = fn;
                 this.idxToken_ = idx;
-                this.csAnalyBf = new CallStack_1.CallStack('', 0);
                 this.hTag.call({ fn: hArg.fn, label: hArg.label });
             }
             : () => {

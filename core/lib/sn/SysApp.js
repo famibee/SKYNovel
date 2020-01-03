@@ -120,9 +120,7 @@ class SysApp extends SysNode_1.SysNode {
             return false;
         };
         window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), { once: true, passive: true });
-        ipcRenderer.on('log', (e, arg) => {
-            console.log(`fn:SysApp.ts line:23 e:%o arg:%o`, e, arg);
-        });
+        ipcRenderer.on('log', (e, arg) => console.log(`[main log] e:%o arg:%o`, e, arg));
     }
     initVal(data, hTmp, comp) {
         if (this.crypt)

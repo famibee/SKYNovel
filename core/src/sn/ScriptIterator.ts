@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2019 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2020 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -52,7 +52,6 @@ export class ScriptIterator {
 	readonly getCallStk = (idx: number)=> this.aCallStk[idx].hArg;
 
 	private	grm			= new Grammar;
-	private csAnalyBf	= new CallStack('', 0);
 
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly alzTagArg: AnalyzeTagArg, private readonly runAnalyze: ()=> void, private readonly parse: IParse, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
@@ -336,8 +335,9 @@ export class ScriptIterator {
 		const fn = hArg.fn;
 		//console.log('\t[call] fn:'+ fn);
 		if (fn) this.cfg.searchPath(fn, Config.EXT_SCRIPT);	// chk only
+		this.script.aLNum[this.idxToken_] = this.lineNum_;
 		const hPushArg: ICallStackArg = {
-			csAnalyBf	: this.csAnalyBf,
+			csAnalyBf	: new CallStack(this.scriptFn_, this.idxToken_),
 			hEvt1Time	: this.evtMng.popLocalEvts()
 		};
 		this.callSub(hPushArg);
@@ -385,26 +385,25 @@ export class ScriptIterator {
 	private return() {
 		if (this.aCallStk.length == 0) throw'[return] スタックが空です';
 		const cs = this.aCallStk.pop();		// cs != nullはcall()で保証
-		const osac = cs!.hArg!.csAnalyBf;	// cs.hArg != nullはcall()で保証
-		if (osac) this.csAnalyBf = new CallStack(osac.fn, osac.idx);
+		if (! cs || ! cs.hArg) return false;
 		this.aIfStk.shift();
 
-		const after_token = cs!.hArg!.resvToken;
+		const after_token = cs.hArg.resvToken;
 		if (after_token) this.nextToken = ()=> {
 			this.clearResvToken();
 			return after_token;
 		}
 		else this.clearResvToken();
-		if (cs!.hArg!.hEvt1Time) this.evtMng.pushLocalEvts(cs!.hArg!.hEvt1Time);
+		if (cs.hArg.hEvt1Time) this.evtMng.pushLocalEvts(cs.hArg.hEvt1Time);
 
 		//	lineNum = hScrTokens[cs.fn].tokens.aLNum[cs.idx -1];
 		// 上のを下に分解。通常は不要なチェックだが、[load fn= label=]文法用に。
-		const oscr = this.hScript[cs!.fn];
+		const oscr = this.hScript[cs.fn];
 		if (! oscr) {
-			this.jumpWork(cs!.fn, '', cs!.idx);
+			this.jumpWork(cs.fn, '', cs.idx);
 			return true;	// 確実にスクリプトロードなので
 		}
-		this.jump_light(cs!.fn, cs!.idx);
+		this.jump_light(cs.fn, cs.idx);
 
 		return false;
 	}
@@ -660,9 +659,8 @@ export class ScriptIterator {
 			const ext = this.replaceScript_Wildcard_Sub_ext(a_tag['name']);
 			const a = this.cfg.matchPath('^'+ fn.slice(0, -1) +'.*', ext);
 
-			const lnum = this.script.aLNum[i];
 			this.script.aToken.splice(i, 1, '\t', '; '+ token);
-			this.script.aLNum.splice(i, 1, lnum, lnum);
+			this.script.aLNum.splice(i, 1, NaN, NaN);
 
 			for (const v of a) {
 				const nt = token.replace(
@@ -671,7 +669,7 @@ export class ScriptIterator {
 				);
 				//console.log('\t='+ nt +'=');
 				this.script.aToken.splice(i, 0, nt);
-				this.script.aLNum.splice(i, 0, lnum);
+				this.script.aLNum.splice(i, 0, NaN);
 			}
 		}
 		this.script.len = this.script.aToken.length;
@@ -886,7 +884,6 @@ export class ScriptIterator {
 				this.layMng.cover(false);
 				this.scriptFn_ = fn;
 				this.idxToken_ = idx;
-				this.csAnalyBf = new CallStack('', 0);
 				this.hTag.call({fn: hArg.fn, label: hArg.label});
 			}
 			: ()=> {

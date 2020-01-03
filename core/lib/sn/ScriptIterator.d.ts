@@ -33,7 +33,6 @@ export declare class ScriptIterator {
     get lastHArg(): any;
     readonly getCallStk: (idx: number) => ICallStackArg | null;
     private grm;
-    private csAnalyBf;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, parse: IParse, sndMng: SoundMng, sys: SysBase);
     private evtMng;
     private layMng;
