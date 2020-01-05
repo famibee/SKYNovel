@@ -7,12 +7,16 @@
 
 import { SysNode } from "./SysNode";
 import {CmnLib} from './CmnLib';
-import {HArg, IHTag, IVariable, IData4Vari, IPlugin, IConfig, IMain} from './CmnInterface';
+import {ITag, IHTag, IVariable, IData4Vari, IPlugin, IConfig, IMain} from './CmnInterface';
 import {Main} from './Main';
 import {Application} from 'pixi.js';
 
 const {remote, shell, ipcRenderer} = require('electron');
 const Store = require('electron-store');
+
+const {Readable} = require('stream');
+import m_fs = require('fs-extra');
+const crypto = require('crypto');
 
 export class SysApp extends SysNode {
 	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
@@ -114,8 +118,10 @@ export class SysApp extends SysNode {
 
 	private readonly	win	= remote.getCurrentWindow();
 	private readonly	wc	= this.win.webContents;
+	private	cfg: IConfig;
 	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		super.init(cfg, hTag, appPixi, val, main);
+		this.cfg = cfg;
 
 		if (CmnLib.devtool) this.wc.openDevTools();
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
@@ -124,7 +130,7 @@ export class SysApp extends SysNode {
 	// アプリの終了
 	protected readonly	close = ()=> {this.win.close(); return false;}
 	// ＵＲＬを開く
-	protected readonly	navigate_to = (hArg: HArg)=> {
+	protected readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 		shell.openExternal(url);
@@ -132,7 +138,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// タイトル指定
-	protected readonly	title = (hArg: HArg)=> {
+	protected readonly	title: ITag = hArg=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 
@@ -141,7 +147,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// 全画面状態切替
-	protected readonly	tgl_full_scr = (hArg: HArg)=> {
+	protected readonly	tgl_full_scr: ITag = hArg=> {
 		if (! hArg.key) {this.tgl_full_scr_sub(); return false;}
 
 		const key = hArg.key.toLowerCase();
@@ -194,16 +200,88 @@ export class SysApp extends SysNode {
 		this.resizeFrames();
 	}
 	// 更新チェック
-	protected readonly	update_check = (hArg: HArg)=> {
+	protected readonly	update_check: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[update_check] urlは必須です';
+		if (url.slice(-1) != '/') throw '[update_check] urlの最後は/です';
 
-		ipcRenderer.send('update_check', JSON.stringify(hArg));
+		(async ()=> {
+			const res = await this.fetch(url +`latest${CmnLib.isMac ?'-mac' :''}.yml`);
+			if (! res.ok) return;
+			if (CmnLib.devtool) console.log(`[update_check] ymlを取得しました url=${url}`);
+			const txt = await res.text();
+			const mv = /version: (.+)/.exec(txt);
+			if (! mv) throw `[update_check] ファイル内にversionが見つかりません`;
+			const netver = mv[1];
+
+			const myver = remote.app.getVersion();
+			if (netver == myver) {
+				if (CmnLib.devtool) console.log(`[update_check] バージョン更新なし ver:${myver}`);
+				return;
+			}
+			if (CmnLib.devtool) console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
+
+			const o = {
+				title: 'アプリ更新',
+				icon: remote.app.getAppPath() +'/app/icon.png',
+				buttons: ['OK', 'Cancel'],
+				defaultId: 0,
+				cancelId: 1,
+				message: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
+				detail: `現在ver ${myver}\n新規ver ${netver}`,
+			};
+			const di = await remote.dialog.showMessageBox(o);
+			if (di.response > 0) return;
+
+			if (CmnLib.devtool) console.log(`[update_check] アプリダウンロード開始`);
+			const mp = /path: (.+)/.exec(txt);
+			if (! mp) throw `[update_check] ファイル内にpathが見つかりません`;
+			const fn = mp[1];
+
+			const mc = /sha512: (.+)/.exec(txt);
+			if (! mc) throw `[update_check] ファイル内にsha512が見つかりません`;
+			const sha = mc[1];
+
+			const res_dl = await this.fetch(url + fn);
+			if (! res_dl.ok) return;
+			const pathDL = remote.app.getPath('downloads') +'/'+ fn;
+			const rd_dl = (res: Response)=> {
+				const reader = res!.body!.getReader();
+				const rdb = new Readable();
+				rdb._read = async ()=> {
+					const {done, value} = await reader.read();
+					if (done) {rdb.push(null); return;}
+					rdb.push(Buffer.from(value));
+				};
+				return rdb;
+			}
+			const pipe_dl = await rd_dl(res_dl);
+			pipe_dl.on('end', ()=> {
+				if (CmnLib.devtool) console.log(`[update_check] アプリダウンロード完了`);
+
+				m_fs.readFile(pathDL, (err, data)=> {
+					if (err) throw err;
+
+					const h = crypto.createHash('SHA512');
+					h.update(data)
+					const hash = h.digest('base64');
+
+					const isOk = sha == hash;
+					if (CmnLib.devtool) console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
+					if (! isOk) m_fs.unlink(pathDL);
+
+					o.buttons.pop();
+					o.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました`+ (isOk ?'' :'が、破損しています。\n開発元に連絡してください');
+					remote.dialog.showMessageBox(o);
+				});
+			});
+			pipe_dl.pipe(m_fs.createWriteStream(pathDL));
+		})();
 
 		return false;
 	}
 	// アプリウインドウ設定
-	protected readonly	window = (hArg: HArg)=> {
+	protected readonly	window: ITag = hArg=> {
 		const screenRX = this.dsp.size.width;
 		const screenRY = this.dsp.size.height;
 		if (CmnLib.argChk_Boolean(hArg, 'centering', false)) {

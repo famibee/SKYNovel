@@ -7,7 +7,7 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib} from './CmnLib';
-import {IConfig, HArg, IFn2Path, IData4Vari, IPlugin} from './CmnInterface';
+import {IConfig, HArg, ITag, IFn2Path, IData4Vari, IPlugin} from './CmnInterface';
 import {Main} from './Main';
 const strLocal = require('store');
 
@@ -145,7 +145,7 @@ export class SysWeb extends SysBase {
 	flush() {this.flushSub();}
 
 	// ＵＲＬを開く
-	protected readonly	navigate_to = (hArg: HArg)=> {
+	protected readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 	//	window.open(url);		// 近年セキュリティ的に効かない
@@ -155,7 +155,7 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 	// タイトル指定
-	protected readonly	title = (hArg: HArg)=> {
+	protected readonly	title: ITag = hArg=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 

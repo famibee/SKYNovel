@@ -5,6 +5,9 @@ const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const { remote, shell, ipcRenderer } = require('electron');
 const Store = require('electron-store');
+const { Readable } = require('stream');
+const m_fs = require("fs-extra");
+const crypto = require('crypto');
 class SysApp extends SysNode_1.SysNode {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false }) {
         super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypt: arg.crypt });
@@ -18,21 +21,21 @@ class SysApp extends SysNode_1.SysNode {
         this.win = remote.getCurrentWindow();
         this.wc = this.win.webContents;
         this.close = () => { this.win.close(); return false; };
-        this.navigate_to = (hArg) => {
+        this.navigate_to = hArg => {
             const url = hArg.url;
             if (!url)
                 throw '[navigate_to] urlは必須です';
             shell.openExternal(url);
             return false;
         };
-        this.title = (hArg) => {
+        this.title = hArg => {
             const text = hArg.text;
             if (!text)
                 throw '[title] textは必須です';
             this.win.setTitle(text);
             return false;
         };
-        this.tgl_full_scr = (hArg) => {
+        this.tgl_full_scr = hArg => {
             if (!hArg.key) {
                 this.tgl_full_scr_sub();
                 return false;
@@ -83,14 +86,95 @@ class SysApp extends SysNode_1.SysNode {
             }
             this.resizeFrames();
         };
-        this.update_check = (hArg) => {
+        this.update_check = hArg => {
             const url = hArg.url;
             if (!url)
                 throw '[update_check] urlは必須です';
-            ipcRenderer.send('update_check', JSON.stringify(hArg));
+            if (url.slice(-1) != '/')
+                throw '[update_check] urlの最後は/です';
+            (async () => {
+                const res = await this.fetch(url + `latest${CmnLib_1.CmnLib.isMac ? '-mac' : ''}.yml`);
+                if (!res.ok)
+                    return;
+                if (CmnLib_1.CmnLib.devtool)
+                    console.log(`[update_check] ymlを取得しました url=${url}`);
+                const txt = await res.text();
+                const mv = /version: (.+)/.exec(txt);
+                if (!mv)
+                    throw `[update_check] ファイル内にversionが見つかりません`;
+                const netver = mv[1];
+                const myver = remote.app.getVersion();
+                if (netver == myver) {
+                    if (CmnLib_1.CmnLib.devtool)
+                        console.log(`[update_check] バージョン更新なし ver:${myver}`);
+                    return;
+                }
+                if (CmnLib_1.CmnLib.devtool)
+                    console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
+                const o = {
+                    title: 'アプリ更新',
+                    icon: remote.app.getAppPath() + '/app/icon.png',
+                    buttons: ['OK', 'Cancel'],
+                    defaultId: 0,
+                    cancelId: 1,
+                    message: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
+                    detail: `現在ver ${myver}\n新規ver ${netver}`,
+                };
+                const di = await remote.dialog.showMessageBox(o);
+                if (di.response > 0)
+                    return;
+                if (CmnLib_1.CmnLib.devtool)
+                    console.log(`[update_check] アプリダウンロード開始`);
+                const mp = /path: (.+)/.exec(txt);
+                if (!mp)
+                    throw `[update_check] ファイル内にpathが見つかりません`;
+                const fn = mp[1];
+                const mc = /sha512: (.+)/.exec(txt);
+                if (!mc)
+                    throw `[update_check] ファイル内にsha512が見つかりません`;
+                const sha = mc[1];
+                const res_dl = await this.fetch(url + fn);
+                if (!res_dl.ok)
+                    return;
+                const pathDL = remote.app.getPath('downloads') + '/' + fn;
+                const rd_dl = (res) => {
+                    const reader = res.body.getReader();
+                    const rdb = new Readable();
+                    rdb._read = async () => {
+                        const { done, value } = await reader.read();
+                        if (done) {
+                            rdb.push(null);
+                            return;
+                        }
+                        rdb.push(Buffer.from(value));
+                    };
+                    return rdb;
+                };
+                const pipe_dl = await rd_dl(res_dl);
+                pipe_dl.on('end', () => {
+                    if (CmnLib_1.CmnLib.devtool)
+                        console.log(`[update_check] アプリダウンロード完了`);
+                    m_fs.readFile(pathDL, (err, data) => {
+                        if (err)
+                            throw err;
+                        const h = crypto.createHash('SHA512');
+                        h.update(data);
+                        const hash = h.digest('base64');
+                        const isOk = sha == hash;
+                        if (CmnLib_1.CmnLib.devtool)
+                            console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
+                        if (!isOk)
+                            m_fs.unlink(pathDL);
+                        o.buttons.pop();
+                        o.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました` + (isOk ? '' : 'が、破損しています。\n開発元に連絡してください');
+                        remote.dialog.showMessageBox(o);
+                    });
+                });
+                pipe_dl.pipe(m_fs.createWriteStream(pathDL));
+            })();
             return false;
         };
-        this.window = (hArg) => {
+        this.window = hArg => {
             const screenRX = this.dsp.size.width;
             const screenRY = this.dsp.size.height;
             if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'centering', false)) {
@@ -169,6 +253,7 @@ class SysApp extends SysNode_1.SysNode {
     flush() { this.store.store = this.data; }
     init(cfg, hTag, appPixi, val, main) {
         super.init(cfg, hTag, appPixi, val, main);
+        this.cfg = cfg;
         if (CmnLib_1.CmnLib.devtool)
             this.wc.openDevTools();
         this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);

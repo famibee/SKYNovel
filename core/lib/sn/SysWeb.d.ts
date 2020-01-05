@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { SysBase } from "./SysBase";
-import { IConfig, HArg, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
+import { IConfig, ITag, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysWeb extends SysBase {
     constructor(hPlg?: {
         [name: string]: IPlugin;
@@ -18,8 +18,8 @@ export declare class SysWeb extends SysBase {
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     private flushSub;
     flush(): void;
-    protected readonly navigate_to: (hArg: HArg) => boolean;
-    protected readonly title: (hArg: HArg) => boolean;
+    protected readonly navigate_to: ITag;
+    protected readonly title: ITag;
     private readonly isFullScr;
     private regEvt_FullScr;
     private resizeFramesWork;

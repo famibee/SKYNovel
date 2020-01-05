@@ -1,3 +1,5 @@
+## v0.10.0
+- add：更新チェック機能[update_check]追加(Windows/Mac)
 ## v0.9.7
 - bug：最初に読み込んだスクリプトの行番号が異常な件
 - bug：[return]から戻ったあと、行番号がundefined・NaNになる件

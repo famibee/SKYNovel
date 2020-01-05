@@ -25,14 +25,14 @@ class SysWeb extends SysBase_1.SysBase {
         this.now_prj = ':';
         this.ns = '';
         this.flushSub = () => { };
-        this.navigate_to = (hArg) => {
+        this.navigate_to = hArg => {
             const url = hArg.url;
             if (!url)
                 throw '[navigate_to] urlは必須です';
             window.open(url, '_blank');
             return false;
         };
-        this.title = (hArg) => {
+        this.title = hArg => {
             const text = hArg.text;
             if (!text)
                 throw '[title] textは必須です';

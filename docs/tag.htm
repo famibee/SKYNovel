@@ -268,6 +268,7 @@
 		<li class="mb1"><a href="#snapshot">[snapshot] スナップショット</a></li>
 		<li class="mb1"><a href="#title">[title] タイトル指定</a></li>
 		<li class="mb1"><a href="#toggle_full_screen">[toggle_full_screen] 全画面状態切替</a></li>
+		<li class="mb1"><a href="#update_check">[update_check] 更新チェック機能</a></li>
 		<li class="mb1"><a href="#window">[window] アプリウインドウ設定</a></li>
 	</ul>
 	<p>デバッグ・その他</p>
@@ -2144,6 +2145,47 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>fn</td><td></td><td>イベント登録せずモード切替</td><td>イベントのキー名※1</td><td>イベントを発生させるトリガーイベントを予約する。<br/>key属性の値は<a href="#event">[event]</a>を参照</td></tr>
 </table>
+
+</p>
+
+
+<h2 id="update_check" class="w-heading">[update_check] 更新チェック機能</h2>
+<h4>ネットにアプリの更新を確認し、ダウンロードもサポートする</h4>
+<p class="mb2 px1">
+
+	アプリの最新バージョンをネットで確認する。<br/>
+	処理は非同期に行われ、更新があった時のみ更新確認ウインドウが表示される。<br/>
+	ダウンロードフォルダにアプリパッケージの dmg（インストーラー exe）をダウンロードする。<br/>
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>url</td><td>y</td><td></td><td>String</td><td>latest(-mac).ymlや、dmg(exe)を置いたWebサーバーのフォルダURLを指定する。終端は「/」をつけること。</td></tr>
+</table>
+
+	Webサーバーの準備方法を説明します。<br/>
+	基本的に二つのファイルをアップロードするだけです。<br/>
+	・OS X<br/>
+	　1.【exe作成】で build/ 下に「〜.dmg」と「latest-mac.yml」などが生成される。<br/>
+	　2.「latest-mac.yml」を開き、書いてあるファイル名に合わせるように「〜.dmg」ファイル名を変える。（サーバーにアップしてから変えても良さげ）<br/>
+	<amp-img src="pic/update_check0mac.png" width="948" height="563" layout="responsive"></amp-img>
+	　3.上記二つを FTP などで Webサーバーにアップロードする。(httpsを大推奨)<br/>
+	　　「~.yml」がWebブラウザなどで開けるのを確認。<br/>
+	　　例) http://ugainovel.hiho.jp/famibee/sample/hatsune/latest-mac.yml<br/>
+	　4. main.sn にある [update_check] の url属性に、二つのファイルをアップした「ディレクトリ名」を記述。<br/>
+	[update_check url='http://ugainovel.hiho.jp/famibee/sample/hatsune/']　5.【アプリ版を起動】して試してみる。バージョン番号が違う場合のみ、更新チェック機能によるダイアログが表示される。<br/>
+	<amp-img src="pic/update_check2mac.png" width="840" height="314" layout="responsive"></amp-img>
+	<br/>
+	<amp-img src="pic/update_check3mac.png" width="840" height="314" layout="responsive"></amp-img>
+
+	・Windows<br/>
+	　1.【exe作成】で build/ 下に「〜.exe」と「latest.yml」などが生成される。<br/>
+	　2.「latest.yml」を開き、書いてあるファイル名に合わせるように「〜.exe」ファイル名を変える。（サーバーにアップしてから変えても良さげ）<br/>
+	<amp-img src="pic/update_check1win.png" width="998" height="438" layout="responsive"></amp-img>
+	　3.上記二つを FTP などで Webサーバーにアップロードする。(httpsを大推奨)<br/>
+	　　「~.yml」がWebブラウザなどで開けるのを確認。URLをメモ。<br/>
+	　　例) http://ugainovel.hiho.jp/famibee/sample/hatsune/latest.yml<br/>
+	　4. main.sn にある [update_check] の url属性に、二つのファイルをアップした「ディレクトリ名」を記述。<br/>
+	[update_check url='http://ugainovel.hiho.jp/famibee/sample/hatsune/']　5.【アプリ版を起動】して試してみる。バージョン番号が違う場合のみ、更新チェック機能によるダイアログが表示される。<br/>
+
 
 </p>
 

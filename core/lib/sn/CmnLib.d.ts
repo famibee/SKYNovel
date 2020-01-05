@@ -26,6 +26,7 @@ export declare class CmnLib {
     static devtool: boolean;
     static platform: any;
     static isSafari: boolean;
+    static isMac: boolean;
     static hDip: {
         [name: string]: string;
     };

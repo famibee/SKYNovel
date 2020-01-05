@@ -138,8 +138,8 @@
         "signature": "4b8d1fea0b3947075e3a90d7e1f0c46ce54ca33b488fb279dd1528e823ab400e"
       },
       "../src/sn/cmnlib.ts": {
-        "version": "e8670b2b6903f1073101c00a348a5d9f0860686ebdeda69051003707078a6222",
-        "signature": "b5380f1e73ec350f241759f3676cb67e85f0c1b60d44370d7c3bbb9c40892cec"
+        "version": "d7ffb24bdc68f7ad3eb0890456435b692f119b04db84f47b21011e5300a19865",
+        "signature": "1cdb9fde6db1d614f5fa5923ae9f037c7a5a2eb378cdd3b0f686cbb7cf7acfc9"
       },
       "../src/sn/layer.ts": {
         "version": "49202d0b797e56c6405cbcd49f0b89bc93ffa1a9f2ea20220b50f70d3db20445",
@@ -154,8 +154,8 @@
         "signature": "91afda67aee42da208dd5eb63a96d047624e1e34f71ddec4fe25f7d621a8c4fa"
       },
       "../../node_modules/@types/node/globals.d.ts": {
-        "version": "ad77e6a294669d9c365407829ebfb73a6645147bd42668679b8f378e7dd03765",
-        "signature": "ad77e6a294669d9c365407829ebfb73a6645147bd42668679b8f378e7dd03765"
+        "version": "9a52fe500e1e0ed7362ae65094ec6d4f655033d21f873886211e252fc9c5b9c8",
+        "signature": "9a52fe500e1e0ed7362ae65094ec6d4f655033d21f873886211e252fc9c5b9c8"
       },
       "../../node_modules/@types/node/assert.d.ts": {
         "version": "886ca158fd7e781ce501509505d3ac40879466f4dad4e9a0faa951d10b967d9d",
@@ -446,16 +446,16 @@
         "signature": "46657d3b0610efd79b14dd9f9ed016b6402de73f7b7c0c129c91d6ddd7374e75"
       },
       "../src/sn/sysapp.ts": {
-        "version": "2803af6e5cba0954aaeee0213b9856dae81341070c3702b2c3cd875c1386bfc3",
-        "signature": "90258df20a08731c1627e41d09253d4058d73ec42e627389c6521a418c6fd93b"
+        "version": "389eeb0ae02903ac8a669704d27834fb2b7a478078629da33fbc5f30fb7ca358",
+        "signature": "edf435dea54e387765df5048dad9c476d7373b2f02dbd9b5d2890ccf9c512547"
       },
       "../src/app.ts": {
         "version": "83d55e2d4f9a8a47994ef3c978d51c5867b675f573b9a548802d29a53db47061",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/sn/sysweb.ts": {
-        "version": "bbfb5f86102863b7f40de9de959f84d9e72e419392d3783b69a667386d85c10f",
-        "signature": "8a87cb6a78267e13732297b124087842ef39a4bc8de46fdc347188cabd36d5c6"
+        "version": "a6716016a15b7c29e15073651a3d25e90a808b1dfccc1354144e89f536975e39",
+        "signature": "e280538baa2c3ece31c54ad3d840bf45eb5ef4838b88640735dffd95cafe940b"
       },
       "../src/web.ts": {
         "version": "c071affdbe29a26e531b2d155a8bd47a092857918df249d0c8f38b1124d6e47f",
@@ -1446,6 +1446,7 @@
         "../src/sn/cmninterface.ts",
         "../src/sn/main.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
+        "../../node_modules/@types/fs-extra/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -2495,11 +2496,11 @@
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
       "../src/sn/eventmng.ts",
+      "../src/sn/scriptiterator.ts",
       "../src/sn/debugmng.ts",
       "../src/sn/areas.ts",
       "../src/sn/variable.ts",
       "../src/sn/main.ts",
-      "../src/sn/sysapp.ts",
       "../src/app.ts",
       "../src/sn/sysweb.ts",
       "../src/web.ts",
@@ -2516,7 +2517,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/scriptiterator.ts"
+      "../src/sn/sysapp.ts"
     ]
   },
   "version": "3.7.4"

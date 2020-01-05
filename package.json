@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.9.7",
+	"version": "0.10.0",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"types": "./core/lib/index.d.ts",
@@ -27,7 +27,7 @@
 		"@types/hammerjs": "^2.0.36",
 		"@types/howler": "^2.1.2",
 		"@types/mocha": "^5.2.7",
-		"@types/node": "^13.1.2",
+		"@types/node": "^13.1.4",
 		"@types/parsimmon": "^1.10.0",
 		"@types/power-assert": "^1.5.2",
 		"@types/stats.js": "^0.17.0",
