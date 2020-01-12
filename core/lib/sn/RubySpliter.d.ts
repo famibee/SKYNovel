@@ -12,7 +12,7 @@ export declare class RubySpliter {
     static setEscape(ce: string): void;
     private static mkEscReg;
     putTxt(text: string): void;
-    putTxtRb(text: string, ruby: string): void;
+    private putTxtRb;
     private static readonly REG_TAB_G;
     static destroy(): void;
 }

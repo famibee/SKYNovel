@@ -49,7 +49,7 @@ export class RubySpliter {
 |	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)
 )`;
 
-	putTxt(text: string): void {
+	putTxt(text: string) {
 		let elm: any = null, pos = 0;
 		while (elm = m_xregexp.exec(text, RubySpliter.REG_RUBY, pos)) {
 			pos = elm['index'] + elm[0].length;
@@ -75,7 +75,7 @@ export class RubySpliter {
 		}
 	}
 
-	putTxtRb(text: string, ruby: string): void {
+	private	putTxtRb(text: string, ruby: string) {
 		const a: string[] = Array.from(text);
 		const len = a.length;
 		if (ruby.charAt(0) == '*' && ruby.length <= 2) {

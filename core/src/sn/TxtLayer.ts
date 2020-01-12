@@ -204,7 +204,7 @@ export class TxtLayer extends Layer {
 	private b_do			: DisplayObject | null	= null;
 	private b_pic			= '';	// 背景画像無し（＝単色塗り）
 
-	// メッセージ
+	// 文字表示
 	private cntInsidePadding= new Container;
 	private	txs				= new TxtStage(this.infTL, this.cntInsidePadding);
 
@@ -242,6 +242,7 @@ export class TxtLayer extends Layer {
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
 		this.rbSpl.setting(hArg);
+		this.setFfs(hArg);
 		this.txs.lay(hArg, this.cnt);
 
 		if ('r_align' in hArg) this.r_align = hArg.r_align ?? '';
@@ -369,6 +370,34 @@ export class TxtLayer extends Layer {
 		}
 	}
 
+	private	setFfs(hArg: HArg) {
+		if ('noffs' in hArg) {
+			this.strNoFFS = hArg.noffs ?? '';
+			this.regNoFFS = new RegExp(`[　${this.strNoFFS}]`);
+		}
+		if (! ('ffs' in hArg)) return;
+
+		this.ffs = hArg.ffs ?? '';
+		if (this.ffs == '') {
+			this.fncFFSStyle = ()=> '';
+			this.fncFFSSpan = ch=> ch;
+		}
+		else {
+			this.fncFFSStyle = ch=> this.regNoFFS.test(ch)
+				? ''
+				: ` font-feature-settings: ${this.ffs};`;
+			this.fncFFSSpan = ch=> this.regNoFFS.test(ch)
+				? ch
+				: `<span style='font-feature-settings: ${this.ffs};'>${ch}</span>`;
+		}
+	}
+	private	ffs	= '';
+	private	fncFFSStyle	= (_ch: string)=> '';
+	private	fncFFSSpan	= (ch: string)=> ch;
+	private	strNoFFS	= '';
+	private	regNoFFS	= new RegExp('[　]');
+	// NOTE: Safariが全体に「font-feature-settings」した後、特定文字の「font-feature-settings: initial;」を受け付けてくれないのでわざわざ一つずつ指定
+
 
 	static	chgDoRec(doRec: boolean) {
 		TxtLayer.rec = doRec
@@ -380,10 +409,10 @@ export class TxtLayer extends Layer {
 
 	isCur	= false;
 	private ruby_pd: (v: string, l: number)=> string = ()=> '';
-	private mkStyle_r_align(text: string, rb: string, r_align: string) {
+	private mkStyle_r_align(ch: string, rb: string, r_align: string) {
 		if (! r_align) return '';
 
-		const len = text.length *2;
+		const len = ch.length *2;
 		if (len -rb.length < 0) return ` style='text-align: ${r_align};'`;
 
 		let st = '';
@@ -405,8 +434,8 @@ export class TxtLayer extends Layer {
 
 	tagCh(text: string): void {this.rbSpl.putTxt(text);}
 	private	needGoTxt = false;
-	private	putCh : IPutCh = (text: string, ruby: string)=> {
-		if (TxtLayer.cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${text}\` ruby:\`${ruby}\` name:\`${this.name}\``);
+	private	putCh	: IPutCh = (ch, ruby)=> {
+		if (TxtLayer.cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name}\``);
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
@@ -414,7 +443,7 @@ export class TxtLayer extends Layer {
 		switch (a_ruby.length) {
 		case 1:		// 字or春《はる》
 			this.needGoTxt = true;
-			if (text == '\n') {
+			if (ch == '\n') {
 				if (this.aSpan_bk) {
 					add_htm = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
@@ -437,7 +466,7 @@ export class TxtLayer extends Layer {
 				this.firstCh = false;
 				if (ruby == '') ruby = '　';
 			}
-			add_htm = this.tagCh_sub(text, ruby, isSkip, this.r_align);
+			add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
 			break;
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
@@ -453,7 +482,7 @@ export class TxtLayer extends Layer {
 			case '1ruby':	//（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける
 				this.firstCh = false;
 				this.needGoTxt = true;
-				add_htm = this.tagCh_sub(text, a_ruby[1], isSkip, a_ruby[0]);
+				add_htm = this.tagCh_sub(ch, a_ruby[1], isSkip, a_ruby[0]);
 				break;
 
 			case 'gotxt':
@@ -630,7 +659,7 @@ export class TxtLayer extends Layer {
 
 			default:	// ルビあり文字列
 				this.needGoTxt = true;
-				add_htm = this.tagCh_sub(text, ruby, isSkip, this.r_align);
+				add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
 			}
 			break;
 
@@ -640,7 +669,7 @@ export class TxtLayer extends Layer {
 			switch (a_ruby[0]) {
 			case 'tcy':	// ルビ付き縦中横
 			{
-				if (TxtLayer.val.doRecLog()) this.page_text += text
+				if (TxtLayer.val.doRecLog()) this.page_text += ch
 				+(ruby ?`《${ruby}》` :'');
 
 				// text-combine-upright: all;			縦中横
@@ -662,12 +691,14 @@ export class TxtLayer extends Layer {
 							? (`<ruby><span data-tcy='${id_tcy}' style='
 									text-combine-upright: all;
 									-webkit-text-combine: horizontal;
+									${this.fncFFSStyle(tx)}
 								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
 								+`<rt${rs}>${rb}</rt></ruby>`)
 							: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
 								+`<ruby><span data-tcy='${id_tcy}' style='
 										text-combine-upright: all;
 										-webkit-text-combine: horizontal;
+										${this.fncFFSStyle(tx)}
 									' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
 									+`<rt${rs}>${rb}</rt></ruby>`
 							+`</span>`))
@@ -675,12 +706,14 @@ export class TxtLayer extends Layer {
 							? (`<span data-tcy='${id_tcy}' style='
 								text-combine-upright: all;
 								-webkit-text-combine: horizontal;
+								${this.fncFFSStyle(tx)}
 							' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`)
 							: `<span data-tcy='${id_tcy}' style='
 								text-combine-upright: all;
 								-webkit-text-combine: horizontal;
 								animation-delay: ${this.cumDelay}ms;
 								height: 1em;
+								${this.fncFFSStyle(tx)}
 							' class='sn_ch sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`);
 				}
 				else {
@@ -697,41 +730,41 @@ export class TxtLayer extends Layer {
 						'>${tx}</span>`;
 				}
 				if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc)
-					? TxtLayer.hAutoWc[text.charAt(0)] ?? 0
+					? TxtLayer.hAutoWc[ch.charAt(0)] ?? 0
 					: LayerMng.msecChWait;
 			}
 				break;
 
 			default:
-				throw `異常な値です putCh(text: ${text}, ruby: ${ruby})`;
+				throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
 			}
 			break;
 		}
 		this.aSpan.push(TxtLayer.rec(add_htm));
 	}
-	private tagCh_sub(text: string, ruby: string, isSkip: boolean, r_align: string): string {
-		if (TxtLayer.val.doRecLog()) this.page_text += text
+	private tagCh_sub(ch: string, ruby: string, isSkip: boolean, r_align: string): string {
+		if (TxtLayer.val.doRecLog()) this.page_text += ch
 		+(ruby ?`《${ruby}》` :'');
 
 		let add_htm = '';
-		const rs = this.mkStyle_r_align(text, ruby, r_align);
+		const rs = this.mkStyle_r_align(ch, ruby, r_align);
 		if (CmnLib.hDip['tx']) {
 			if (isSkip) this.cumDelay = 0;
 			add_htm = ruby
 				? (this.aSpan_bk
-					? `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${text}<rt${rs}>${ruby}</rt></ruby>`
-					: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
-						+`<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}<rt${rs}>${ruby}</rt></ruby>`
+					? `<ruby style='${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+					: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}'>`
+						+`<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
 					+`</span>`))
 				: (this.aSpan_bk
-					? text
-					: `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${text}</span>`);
+					? this.fncFFSSpan(ch)
+					: `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}</span>`);
 		}
 		else {
-			add_htm = ruby ?`<ruby>${text}<rt${rs}>${ruby}</rt></ruby>` :text;
+			add_htm = ruby ?`<ruby>${ch}<rt${rs}>${ruby}</rt></ruby>` :ch;
 		}
-		if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc)
-			? TxtLayer.hAutoWc[text.charAt(0)] ?? 0
+		if (this.ch_in_join) this.cumDelay += TxtLayer.doAutoWc
+			? TxtLayer.hAutoWc[ch.charAt(0)] ?? 0
 			: LayerMng.msecChWait;
 
 		return add_htm;
@@ -818,9 +851,11 @@ export class TxtLayer extends Layer {
 		b_alpha	: this.b_alpha,
 		b_alpha_isfixed	: this.b_alpha_isfixed,
 
-		txs: this.txs.record(),
+		txs		: this.txs.record(),
+		ffs		: this.ffs,
+		strNoFFS: this.strNoFFS,
 
-		btns: this.cntBtn.children.map(btn=> btn.name),
+		btns	: this.cntBtn.children.map(btn=> btn.name),
 	});
 	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
@@ -836,6 +871,7 @@ export class TxtLayer extends Layer {
 			: {b_pic: ''}
 		);
 
+		this.setFfs(hLay);
 		this.txs.playback(hLay.txs);
 
 		// addButton(hArg: HArg): boolean

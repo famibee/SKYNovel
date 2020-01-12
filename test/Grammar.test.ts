@@ -15,14 +15,14 @@ context('class Grammar & ScriptIterator', ()=>{
 
 	let	grm;
 
-	beforeEach(() => {
+	beforeEach(()=> {
 		grm = new Grammar;
 	});
-/*	after(() => {
+/*	after(()=> {
 		jsdomify.destroy();
 	});
 */
-	describe('Tst', () => {
+	describe('Tst', ()=> {
 		it('testAnalyzeScript0', ()=> {
 			const sScr = "";
 			vctToken = sScr.match(grm.REG_TOKEN);

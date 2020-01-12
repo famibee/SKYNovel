@@ -11,10 +11,10 @@ import {Areas} from '../core/src/sn/Areas';
 
 context('class AreasTest', ()=>{
 	let areas;
-	beforeEach(() => {
+	beforeEach(()=> {
 		areas = new Areas();
 	});
-	describe('Tst', () => {
+	describe('Tst', ()=> {
 		it('test_record_erase_0', ()=> {
 			assert.equal(areas.search(-1), false);
 			assert.equal(areas.search(0), false);

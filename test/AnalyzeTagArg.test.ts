@@ -11,10 +11,10 @@ import {AnalyzeTagArg} from '../core/src/sn/AnalyzeTagArg';
 
 context('class AnalyzeTagArg', ()=>{
 	let alz;
-	beforeEach(() => {
+	beforeEach(()=> {
 		alz = new AnalyzeTagArg();
 	});
-	describe('Tst', () => {
+	describe('Tst', ()=> {
 		it('Arg0', ()=> {
 			assert.equal(alz.go(""), true);
 			assert.equal(isHashEmpty(alz.hPrm), true);

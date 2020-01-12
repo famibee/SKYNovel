@@ -1,3 +1,7 @@
+## v0.11.0
+- add：行頭禁則文字・行末禁則文字・分割禁止文字を追い出しするように
+- add：文字レイヤ[lay ffs='']で CSS の文字詰め font-feature-settingsでの「"pwid"」「"palt"」などサポート
+- add：font-feature-settingsの対象としない文字を指定できる文字レイヤ[lay noffs=]追加
 ## v0.10.0
 - add：更新チェック機能[update_check]追加(Windows/Mac)
 ## v0.9.7

@@ -8,26 +8,25 @@
 import assert = require('power-assert');
 
 import {CmnLib} from '../core/src/sn/CmnLib';
-import {Grammar} from '../core/src/sn/Grammar';
 
 context('class CmnLib & ScriptIterator & Main', ()=>{
 	let	vctToken	: string[]	= null;
 	let	vctTokenLen				= 0;
 /*	let target;
 	const jsdomify = require('jsdomify');
-	before(() => {
+	before(()=> {
 		jsdomify.create('<!doctype html><html><body><div id="content"></div></body></html>');
 		target = document.querySelector('#content');
 	});*/
-	beforeEach(() => {
+	beforeEach(()=> {
 		vctToken = null;
 		vctTokenLen= 0;
 	});
-/*	after(() => {
+/*	after(()=> {
 		jsdomify.destroy();
 	});
 */
-	describe('Tst', () => {
+	describe('Tst', ()=> {
 		it('argChk_Num0', ()=> {
 			assert.equal(CmnLib.argChk_Num(
 				{あ:2, い:3.5, う:'0x15', え:'も', タグ名:'ぺきゅ'},

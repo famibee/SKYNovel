@@ -41,6 +41,12 @@ export declare class TxtLayer extends Layer {
     private ch_out_style;
     private drawBack;
     chgBackAlpha(g_alpha: number): void;
+    private setFfs;
+    private ffs;
+    private fncFFSStyle;
+    private fncFFSSpan;
+    private strNoFFS;
+    private regNoFFS;
     static chgDoRec(doRec: boolean): void;
     static rec: (tx: string) => string;
     isCur: boolean;
@@ -96,6 +102,8 @@ export declare class TxtLayer extends Layer {
             fi_easing: string;
             fo_easing: string;
         };
+        ffs: string;
+        strNoFFS: string;
         btns: string[];
     };
     playback(hLay: any, fncComp?: undefined | {

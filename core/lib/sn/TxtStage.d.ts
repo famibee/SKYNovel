@@ -45,6 +45,9 @@ export declare class TxtStage extends Container {
     private goTxt3_tx2sp;
     private aRect;
     private lenHtmTxt;
+    private static reg行頭禁則;
+    private static reg行末禁則;
+    private static reg分割禁止;
     goTxt_next(aSpan: string[]): void;
     private rctm;
     private readonly regDs;

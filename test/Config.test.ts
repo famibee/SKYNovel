@@ -12,13 +12,13 @@ import {SysNode} from '../core/src/sn/SysNode';
 
 context('class Config', ()=>{
 	let	cfg	= null;
-	beforeEach(() => {
+	beforeEach(()=> {
 		cfg = new Config(new SysNode({}, {cur: 'test/', crypt: false}), ()=> {}, {
 			search	: ["mat"],
 		});
 	});
 
-	describe('Tst', () => {
+	describe('Tst', ()=> {
 		it('testsetSearchPath_0', ()=> {
 			assert.equal(cfg.searchPath("http://bbb"), "http://bbb");
 

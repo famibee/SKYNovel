@@ -30,6 +30,7 @@ export interface IInfTxLay {
 interface IChRect {
 	ch		: string;
 	rect	: Rectangle;
+	elm		: HTMLElement;
 	cmd?	: string;
 	arg?	: string;
 	add?	: string;
@@ -769,6 +770,9 @@ export class TxtStage extends Container {
 
 	private aRect   : IChRect[]	= [];
 	private	lenHtmTxt = 0;
+	private	static	reg行頭禁則	= new RegExp('[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]');
+	private	static	reg行末禁則	= new RegExp('[［（｛〈「『【〔“〝]');
+	private	static	reg分割禁止	= new RegExp('[─‥…]');
 	goTxt_next(aSpan: string[]) {
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
@@ -802,8 +806,66 @@ export class TxtStage extends Container {
 		}
 		this.lenHtmTxt = aSpan.length;
 
-		this.aRect = this.getChRects(this.htmTxt);
-		const len = this.aRect.length;
+		let len = 0;
+		let j = 2;	// 本来 1 だがひと文字目の行頭禁則文字を無視したいので
+	//	let j_start = 0;
+		do {
+			const e = this.aRect = this.getChRects(this.htmTxt);
+			len = e.length;
+			if (len < 2) break;
+
+			let sl_xy = -Infinity;
+			for (; j<len; ++j) {
+				const he = e[j];
+				if (he.elm.outerHTML.slice(0, 3) == '<rt') continue;
+
+				const xy = this.tategaki ?he.rect.y :he.rect.x;
+				if (sl_xy < xy) {sl_xy = xy; continue;}
+				sl_xy = -Infinity;	// 改行発生！
+
+				// 追い出し
+				if (TxtStage.reg分割禁止.test(e[j -1].ch)
+				&& e[j -1].ch == he.ch) --j;
+				else {
+					if (TxtStage.reg行末禁則.test(e[j -1].ch)) --j;
+					else if (TxtStage.reg行頭禁則.test(he.ch)) {
+						while (j>0 && TxtStage.reg行頭禁則.test(e[--j].ch));
+					}
+					else continue;	// 追い出しなし
+
+					while (j>0 && TxtStage.reg行末禁則.test(e[j-1].ch)) --j;
+				}
+				const pal = e[j].elm.parentElement!;
+				if (pal.classList.contains('sn_tx')) pal.insertBefore(
+					document.createElement('br'), e[j].elm
+				);
+				else pal.parentElement!.insertBefore(
+					document.createElement('br'), pal
+				);
+					// TODO: 追い出し＋前行を均等割付
+/*					//=== 前行を<span>で囲むサンプル
+					const line = document.createElement('span');
+					he.elm.parentElement!.insertBefore(line, e[j -1].elm);
+					for (let z=j -2; z>=j_start; --z) {
+						if (! e[z].elm.dataset['add']) continue;
+						line.insertBefore(
+							(e[z].elm.outerHTML.slice(0, 6) == '<ruby ')
+								? e[z].elm.parentElement!
+								: e[z].elm,
+							line.firstChild
+						);
+					}
+					line.insertBefore(document.createElement('br'), null);
+
+					j_start = j;
+*/
+				j += 2;
+				len = -1;	// doループ先頭に戻る
+				break;
+			}
+		} while (len < 0);
+
+
 		const fncMasumeLog = (TxtStage.cfg.oCfg.debug.devtool)
 			? (v: IChRect, rct: Rectangle)=> console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
 			: ()=> {};
@@ -896,7 +958,7 @@ export class TxtStage extends Container {
 		for (let i=len_chs -1; i>=0; --i) {
 			const v = chs[i];
 			if (v.className == 'sn_ch') break;	// 表示済みのみ
-			const m = v.getAttribute('style')?.match(this.regDs);
+			const m = v.getAttribute('style')!.match(this.regDs);
 			if (! m || Number(m.groups!.ms) > 0) {le = v; break;}
 		}
 		if (! le) {this.fncEndChIn(); return;}
@@ -1082,6 +1144,7 @@ export class TxtStage extends Container {
 					r.top  +window.pageYOffset,
 					r.width,
 					r.height +('gjqy'.includes(ch) ?this.lh_half :0)),
+				elm	: pe,
 				cmd	: pe.getAttribute('data-cmd') ?? undefined,
 				arg	: pe.getAttribute('data-arg') ?? undefined,
 				add	: pe.getAttribute('data-add') ?? undefined,

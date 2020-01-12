@@ -63,12 +63,12 @@ class MyVal implements IVariable {
 
 context('class PropParser', ()=>{
 	let parser;
-	beforeEach(() => {
+	beforeEach(()=> {
 		parser = new PropParser(new MyVal);
 	});
 
 	false
-	? describe('⏰ Time', () => {
+	? describe('⏰ Time', ()=> {
 		it('console.time', ()=> {
 			for (let j=0; j<5; ++j) {
 				console.time('PropParser.getValName');
@@ -86,7 +86,7 @@ PropParser.getValName: 0.016ms
 */
 		});
 	})
-	: describe('Tst', () => {
+	: describe('Tst', ()=> {
 		// 数値計算
 		it('Num-bug20180618_0s', ()=> {	// Error: (PropParser)不明な単語【 0】です
 			assert.equal(parser.parse(" 0"), "0");

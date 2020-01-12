@@ -15,7 +15,7 @@ context('class RubySpliter', ()=>{
 	let	rbSpl	= null;
 	let	retText	= '';
 	let	retRuby	= '';
-	beforeEach(() => {
+	beforeEach(()=> {
 		rbSpl = new RubySpliter();
 		rbSpl.init(putCh, null);
 		RubySpliter.setEscape('');
@@ -27,7 +27,7 @@ context('class RubySpliter', ()=>{
 			retRuby = retRuby + '.'+ ruby;
 		}
 
-	describe('Tst', () => {
+	describe('Tst', ()=> {
 		// RubySpliter
 		it('test_putTxt_1t_0r', ()=> {
 			rbSpl.putTxt("雷");

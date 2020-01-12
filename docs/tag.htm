@@ -601,6 +601,15 @@
 <tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>Boolean</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
 <tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_top、b_left、b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
 <tr><td>back_clear</td><td></td><td>現在値</td><td>Boolean</td><td>true：背景をクリアする</td></tr>
+<tr><td>ffs</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>
+	CSS の文字詰め font-feature-settingsでの「"pwid"」「"palt"」など指定できる。（styleで指定してはいけない）<br/>
+	初期値は指定なし<br/>
+	→【参考】<a href="https://ics.media/entry/14087/" target="_blank" rel="noopener">文字詰めできるCSSのfont-feature-settingsが凄い！ 日本語フォントこそ指定したい自動カーニング - ICS MEDIA</a>
+</td></tr>
+<tr><td>noffs</td><td></td><td>現在値</td><td>String</td><td>
+	font-feature-settingsの対象としない文字を指定できる。複数指定可能。<br/>
+	デフォルト値は指定なし。（ただしインライン画像やクリック待ち記号表示のため、全角空白は必ず指定に含まれる）
+</td></tr>
 <tr><td>r_align</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>ルビ揃えを指定する。<br/>left ……（肩付き）先頭親文字から、ルビ間は密着<br/>center ……（中付き）センター合わせ、〃<br/>right ……（右／下揃え）末尾親文字から、〃<br/>justify
 	……（両端揃え）先頭から末尾親文字間に、ルビ間は均等にあける<br/>121 ……（1-2-1(JIS)）ルビの前後を比率1、ルビ間を比率2であける<br/>even ……（均等アキ）ルビの前後、ルビ間も均等にあける<br/>1ruby
 	……（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける<br/><br/>初期値は center。<br/>
@@ -626,13 +635,6 @@
 <tr><td>h_scroll</td><td></td><td></td><td>ピクセル数</td><td>横スクロールさせる量</td></tr>
 <tr><td>v_scroll</td><td></td><td></td><td>ピクセル数</td><td>縦スクロールさせる量</td></tr>
 <tr><td>mouse_wheel_enabled</td><td></td><td></td><td>Boolean</td><td>マウスホイールでスクロール許可するか否か</td></tr>
-<tr><td>layout</td><td></td><td>現在値</td><td>String</td><td>文字レイヤのレイアウトを指定する。<br/>文法はFlex SDK 4のTLF (Text Layout Framework)・TextFlowのXML指定による。<br/>※「TLFのXML指定」と言われても良く判らないでしょうし、こちらのサイト（Text
-	Layout Editor Demo Application - Adobe Labs）で色々いじってみて、下の【Markup...】ボタンで出てくるXMLを参考にして下さい。<br/><br/>このlayoutという属性の中にTLF属性群を入れ子状に記述する。<br/>例えば、blockProgressionで縦書き・横書きを指定できる。<br/>設定しないTLF属性は現在値を継続する。<br/>初期値は空（から）、全くの未指定。<br/><br/>駆使すると、「文字表示領域矩形内に自動で文字を並べる」事なども出来ます</td></tr>
-<tr><td>onend</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>行末禁則処理を指定する。（全文字レイヤで設定を共有）<br/>warning …… 行末禁則・Warning処理<br/>nop …… 何もしない<br/>enter …… 行末禁則・追い込み処理<br/>leave ……
-	行末禁則・追い出し処理（初期値）</td></tr>
-<tr><td>end</td><td></td><td>現在値</td><td>String</td><td>行末禁則処理対象の文字群を指定する。（全文字レイヤで設定を共有）<br/>初期値は……［（｛〈「『【〔“〝</td></tr>
-<tr><td>bura</td><td></td><td>現在値</td><td>String</td><td>ぶら下がり処理対象の文字群を指定する。（全文字レイヤで設定を共有）<br/>「、」「。」などを連結した文字列。<br/>初期値は……<br/>、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々<br/>onsplit</td></tr>
-<tr><td>dont_sprit</td><td></td><td>現在値</td><td>String</td><td>分割禁止処理対象の文字群を指定する。（全文字レイヤで設定を共有）<br/>初期値は「─（ダーシ）」「‥（二点リーダ）」「…（三点リーダ）」</td></tr>
 <tr><td>r_color</td><td></td><td>現在値</td><td>色指定。0x000000など</td><td>ルビの文字色。初期値は 0xFFFFFF</td></tr>
 <tr><td>r_size</td><td></td><td>現在値</td><td>1〜</td><td>ルビ文字サイズ。初期値は 12</td></tr>
 <tr><td>r_shift</td><td></td><td>現在値</td><td>正負の整数</td><td>ルビ文字を親文字から何ピクセル離すか。<br/>値の正負と縦書き横書きの関係は、TLFのBaselineShiftに従う。初期値は 0</td></tr>
@@ -2153,7 +2155,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>ネットにアプリの更新を確認し、ダウンロードもサポートする</h4>
 <p class="mb2 px1">
 
-	アプリの最新バージョンをネットで確認する。<br/>
+	アプリの最新バージョンをネットで確認する。（アプリ版でのみ動作）<br/>
 	処理は非同期に行われ、更新があった時のみ更新確認ウインドウが表示される。<br/>
 	ダウンロードフォルダにアプリパッケージの dmg（インストーラー exe）をダウンロードする。<br/>
 

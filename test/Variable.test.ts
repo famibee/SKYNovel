@@ -15,7 +15,7 @@ import {IHTag} from '../core/src/sn/CmnInterface';
 
 context('class Variable', ()=>{
 	let	val	= null;
-	beforeEach(() => {
+	beforeEach(()=> {
 		const cfg = new Config(new SysNode({}, {cur: 'test/', crypt: false}), ()=> {}, {
 			search	: ["mat"],
 		});
@@ -23,7 +23,7 @@ context('class Variable', ()=>{
 		val = new Variable(cfg, hTag);
 	});
 
-	describe('Tst', () => {
+	describe('Tst', ()=> {
 		it('getVal_0', ()=> {
 			assert.equal(val.getVal('mp:fn', 'def'), 'def');	// 516
 		});

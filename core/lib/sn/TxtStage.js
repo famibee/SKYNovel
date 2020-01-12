@@ -568,7 +568,7 @@ class TxtStage extends pixi_js_1.Container {
         this.putBreakMark(delay);
     }
     goTxt_next(aSpan) {
-        var _a, _b, _c;
+        var _a, _b;
         const begin = this.aRect.length;
         if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
             if (TxtStage.cfg.oCfg.debug.devtool)
@@ -590,8 +590,49 @@ class TxtStage extends pixi_js_1.Container {
             this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
         }
         this.lenHtmTxt = aSpan.length;
-        this.aRect = this.getChRects(this.htmTxt);
-        const len = this.aRect.length;
+        let len = 0;
+        let j = 2;
+        do {
+            const e = this.aRect = this.getChRects(this.htmTxt);
+            len = e.length;
+            if (len < 2)
+                break;
+            let sl_xy = -Infinity;
+            for (; j < len; ++j) {
+                const he = e[j];
+                if (he.elm.outerHTML.slice(0, 3) == '<rt')
+                    continue;
+                const xy = this.tategaki ? he.rect.y : he.rect.x;
+                if (sl_xy < xy) {
+                    sl_xy = xy;
+                    continue;
+                }
+                sl_xy = -Infinity;
+                if (TxtStage.reg分割禁止.test(e[j - 1].ch)
+                    && e[j - 1].ch == he.ch)
+                    --j;
+                else {
+                    if (TxtStage.reg行末禁則.test(e[j - 1].ch))
+                        --j;
+                    else if (TxtStage.reg行頭禁則.test(he.ch)) {
+                        while (j > 0 && TxtStage.reg行頭禁則.test(e[--j].ch))
+                            ;
+                    }
+                    else
+                        continue;
+                    while (j > 0 && TxtStage.reg行末禁則.test(e[j - 1].ch))
+                        --j;
+                }
+                const pal = e[j].elm.parentElement;
+                if (pal.classList.contains('sn_tx'))
+                    pal.insertBefore(document.createElement('br'), e[j].elm);
+                else
+                    pal.parentElement.insertBefore(document.createElement('br'), pal);
+                j += 2;
+                len = -1;
+                break;
+            }
+        } while (len < 0);
         const fncMasumeLog = (TxtStage.cfg.oCfg.debug.devtool)
             ? (v, rct) => console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
             : () => { };
@@ -678,7 +719,7 @@ class TxtStage extends pixi_js_1.Container {
             const v = chs[i];
             if (v.className == 'sn_ch')
                 break;
-            const m = (_c = v.getAttribute('style')) === null || _c === void 0 ? void 0 : _c.match(this.regDs);
+            const m = v.getAttribute('style').match(this.regDs);
             if (!m || Number(m.groups.ms) > 0) {
                 le = v;
                 break;
@@ -846,6 +887,7 @@ class TxtStage extends pixi_js_1.Container {
             const cr = {
                 ch: ch,
                 rect: new pixi_js_1.Rectangle(r.left + window.pageXOffset, r.top + window.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? this.lh_half : 0)),
+                elm: pe,
                 cmd: (_a = pe.getAttribute('data-cmd'), (_a !== null && _a !== void 0 ? _a : undefined)),
                 arg: (_b = pe.getAttribute('data-arg'), (_b !== null && _b !== void 0 ? _b : undefined)),
                 add: (_c = pe.getAttribute('data-add'), (_c !== null && _c !== void 0 ? _c : undefined)),
@@ -1014,6 +1056,9 @@ TxtStage.hWarning = {
 };
 TxtStage.REG_SURROGATE = /[\uDC00-\uDFFF]/;
 TxtStage.fncChkSkip = () => false;
+TxtStage.reg行頭禁則 = new RegExp('[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]');
+TxtStage.reg行末禁則 = new RegExp('[［（｛〈「『【〔“〝]');
+TxtStage.reg分割禁止 = new RegExp('[─‥…]');
 TxtStage.hChInStyle = Object.create(null);
 TxtStage.REG_NG_CHSTYLE_NAME_CHR = /[\s\.,]/;
 TxtStage.hChOutStyle = Object.create(null);
