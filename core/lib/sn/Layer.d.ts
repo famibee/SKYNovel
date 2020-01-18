@@ -40,6 +40,7 @@ export declare class Layer {
     }): boolean;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
+    cvsResize(): void;
     dump(): string;
     static argChk_BlendmodeAndSet(hash: any, $do: DisplayObject): void;
     static cnvBlendmode(name: string): number;

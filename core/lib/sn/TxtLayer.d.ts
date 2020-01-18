@@ -33,6 +33,7 @@ export declare class TxtLayer extends Layer {
     destroy(): void;
     set name(nm: string);
     get name(): string;
+    cvsResize(): void;
     lay(hArg: HArg): boolean;
     private set_ch_in;
     private ch_in_style;

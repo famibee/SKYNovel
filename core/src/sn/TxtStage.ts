@@ -7,10 +7,9 @@
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
 
-import {CmnLib, uint, IEvtMng} from './CmnLib';
+import {CmnLib, IEvtMng} from './CmnLib';
 import {HArg} from './CmnInterface';
 import {Config} from './Config';
-import {LayerMng} from './LayerMng';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
@@ -47,10 +46,6 @@ export class TxtStage extends Container {
 	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
 		TxtStage.cvs = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
-
-		TxtStage.fncChkSkip = (TxtStage.cfg.oCfg.debug.baseTx)
-			? ()=> true
-			: ()=> TxtStage.evtMng.isSkipKeyDown();
 	}
 	private	static	evtMng	: IEvtMng;
 	static setEvtMng(evtMng: IEvtMng) {TxtStage.evtMng = evtMng;}
@@ -60,26 +55,21 @@ export class TxtStage extends Container {
 	private grpDbgMasume= new Graphics;
 
 
-	constructor(private infTL: IInfTxLay, cnt: Container) {
+	constructor(private infTL: IInfTxLay, cntInsidePadding: Container, private cnt: Sprite) {
 		super();
 
-		if (CmnLib.hDip['tx']) {
-			this.htmTxt.classList.add('sn_tx');
-		}
-		else {
-			this.htmTxt.hidden = true;
-		}
+		this.htmTxt.classList.add('sn_tx');
 		this.htmTxt.style.position = 'absolute';
 		TxtStage.cvs.parentElement!.appendChild(this.htmTxt);
 
-		cnt.addChild(this);
-		cnt.addChild(this.cntTxt);
+		cntInsidePadding.addChild(this);
+		cntInsidePadding.addChild(this.cntTxt);
 
-		cnt.addChild(this.grpDbgMasume);
+		cntInsidePadding.addChild(this.grpDbgMasume);
 		this.grpDbgMasume.name = 'grpDbgMasume';
 	}
 
-	lay(hArg: HArg, txl: Sprite) {
+	lay(hArg: HArg) {
 		const s = this.htmTxt.style;
 		if (hArg.style) {
 			const cln = document.createElement('span');
@@ -93,23 +83,21 @@ export class TxtStage extends Container {
 				}
 				s[key] = cln.style[key];
 			}
-			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(txl.alpha);
+			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.cnt.alpha);
 		}
-		else if ('alpha' in hArg) s.opacity = String(txl.alpha);
+		else if ('alpha' in hArg) s.opacity = String(this.cnt.alpha);
 
 		this.isTategaki = (s.writingMode == 'vertical-rl');
-		if (CmnLib.hDip['tx']) {
-			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-			this.left = txl.position.x
-				-(CmnLib.isSafari && this.isTategaki
-					? this.infTL.pad_left +this.infTL.pad_right
-					: 0);
-			s.left = this.left +'px';
-			s.top = txl.position.y +'px';
-		}
-		s.transformOrigin = `${txl.pivot.x}px ${txl.pivot.y}px`;
-		s.transform = `rotate(${txl.rotation}deg) scale(${txl.scale.x}, ${txl.scale.y}`;
-		s.display = txl.visible ?'inline' :'none';
+		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
+		this.left = this.cnt.position.x
+			-((CmnLib.isSafari && !CmnLib.isMobile) && this.isTategaki
+				? this.infTL.pad_left +this.infTL.pad_right
+				: 0);
+		s.left = this.left +'px';
+		s.top = this.cnt.position.y +'px';
+		s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
+		this.cvsResize();
+		s.display = this.cnt.visible ?'inline' :'none';
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 
 		this.lay_sub();
@@ -129,27 +117,8 @@ export class TxtStage extends Container {
 
 		this.isTategaki = (s.writingMode == 'vertical-rl');
 
-		const xSlide = TxtStage.cfg.oCfg.debug.slideBaseSpan
-			? document.documentElement.clientWidth -CmnLib.stageW
-			: 0;
-
-		if (CmnLib.hDip['tx']) {
-			this.padTx4x = 0;
-			this.padTx4y = 0;
-		}
-		else {
-			s.left = xSlide +'px';
-			s.top = `0px`;
-			s.zIndex = '-2';
-
-			// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-			if (this.isTategaki) {
-				this.padTx4x = fs;
-			}
-			else {
-				this.padTx4y = fs;
-			}
-		}
+		this.padTx4x = 0;
+		this.padTx4y = 0;
 
 		const lh = s.lineHeight ?? '0';
 		this.lh_half = this.isTategaki
@@ -158,11 +127,9 @@ export class TxtStage extends Container {
 				? parseFloat(lh)
 				: (fs *parseFloat(lh) -fs)) /2;
 			// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
-		this.xz4htm2rect = xSlide
-			+ this.infTL.pad_left	// テクスチャ元中間objはpaddingを使わないので
-			+ (this.isTategaki
-				? this.infTL.pad_left +this.infTL.pad_right
-				: 0);	// 　ｘ文字選択にとってpaddingがないので
+	}
+	cvsResize() {
+		this.htmTxt.style.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x *CmnLib.cvsScaleX}, ${this.cnt.scale.y *CmnLib.cvsScaleY}`;
 	}
 	private left = 0;
 	private isTategaki = false;
@@ -189,46 +156,6 @@ export class TxtStage extends Container {
 	};
 
 
-	goTxt(aSpan: string[]) {
-		if (aSpan.length == 0) return;
-
-		//console.log(`🍅 goTxt htmTxt:${this.htmTxt.textContent}`);
-		if (++this.cntGoTxtSerializer == 1) this.goTxt2(aSpan);
-			// VAL++ == 0
-	}
-
-	private goTxt2  = (aSpan: string[])=> this.goTxt2_htm(aSpan);
-	private cntGoTxtSerializer = 0;
-	private goTxt2_htm(aSpan: string[]) {
-		//console.log(`🍆 goTxt2_htm2tx[${this.cntGoTxtSerializer}]`);
-		//this.htmTxt.innerHTML = this.aSpan.join('');
-		// これだとSafariでgetChRects()内 getBoundingClientRect()で異常な値になる。
-		// <br/>ではなく<p>〜</p>にする（ただし空では改行せず、全角空白一文字必要らしい）
-		let s = [...aSpan].join('');
-		// 「<br/>」分割を「<p ...></p>」囲みに変換
-		if (s.slice(-5) == '<br/>') s = s.slice(0, -5) +`<p style='margin: 0px;'>　</p>`;	// 次行で終端に「　」を追加させない前処理
-		const a = s.split('<br/>')
-		const len_a = a.length;
-		for (let i=0; i<len_a; ++i) {
-			const v = a[i];
-			a[i] = `<p style='margin: 0px;'>${(v == '') ?'　' :v}</p>`;
-		}
-		this.htmTxt.innerHTML = a.join('');
-			// <span>内の絵文字で元ネタDomが壊れる（？マーク）ので
-			// insertAdjacentHTML()は使わない
-
-		this.htmTxt.hidden = false;
-		this.htm2tx(tx2=> {
-			this.goTxt3(tx2);
-
-			if (--this.cntGoTxtSerializer <= 0) {
-				this.cntGoTxtSerializer = 0;
-				return;
-			}
-			this.skipChIn();
-			this.goTxt2(aSpan);
-		});
-	}
 	private htm2tx(fnc: (tx2: any)=> void, hidden = true) {
 		// tsayen/dom-to-image: Generates an image from a DOM node using HTML5 canvas https://github.com/tsayen/dom-to-image
 
@@ -568,204 +495,8 @@ export class TxtStage extends Container {
 		.catch(err=> DebugMng.myTrace(`goTxt() = ${err}`));
 	}
 
-	private goTxt3  = (tx: Texture)=> this.goTxt3_tx2sp(tx);
-	private static	readonly	REG_SURROGATE	= /[\uDC00-\uDFFF]/;
 	private ch_filter	: any[] | null;	// 文字にかけるフィルター
-	private xz4htm2rect = 0;
-	private aSpTw	: ISpTw[]	= [];
-	private	static	fncChkSkip = ()=> false;
-	private goTxt3_tx2sp(tx: Texture) {
-		if (TxtStage.fncChkSkip()) {	// 瞬時表示
-			const sp = new Sprite(tx);
-			sp.x -= this.padTx4x;
-			sp.y -= this.padTx4y;
-			this.cntTxt.addChild(sp);
-		//	this.putBreakMark();	// 表示を省略
-			return;
-		}
-
-
-		// 以降、個別文字テクスチャを作成・表示
-		const lenPutedRect = this.aRect.length;
-
-		this.htmTxt.hidden = false;
-		const aRect = this.getChRects(this.htmTxt);
-		this.htmTxt.hidden = true;
-		// サロゲートペア対策（分割されるので一つに結合）
-		for (let i=aRect.length -1; i>0; --i) {	// i==0はなし
-			const r2 = aRect[i];
-			TxtStage.REG_SURROGATE.lastIndex = 0;
-			if (! TxtStage.REG_SURROGATE.test(r2.ch)) continue;
-
-			const r1 = aRect[i -1];
-			r1.ch += r2.ch;
-			if (r1.rect.y != r2.rect.y) r1.rect.height += r2.rect.height;
-				// SafariとWebkit系で文字選択結果が異なる対応
-			aRect.splice(--i, 2, r1);
-		}
-		// 縦中横結合
-		for (let i=aRect.length -1; i>0; --i) {	// i==0はなし
-			const t2 = aRect[i];
-			if (! t2.tcy) continue;
-
-			for (let j=i-1; j>=0; --j) {
-				const t1 = aRect[j];
-				if (t1.tcy != t2.tcy) {i = j +1; break;}
-
-				t2.ch = t1.ch + t2.ch;	// 上と違ってt2に集約、二個以上があるので
-				t1.rect.height += t2.rect.height;	// ChromeとSafari動作違い考慮
-				t2.rect = t1.rect;			// rectは最後(t1)が常に正しい。が、
-											// heightだけは合計する必要がある
-				aRect.splice(j, 2, t2);	// 毎回置換
-			}
-		}
-		// テクスチャ元中間objはpaddingを使わないので
-		for (const cr of aRect) cr.rect.y -= this.infTL.pad_top;
-		// [l]後に文字続ける場合、後にくっつく文字によって場所が変わる対応
-		for (let i=0; i<lenPutedRect; ++i) {
-			const rect = aRect[i].rect.clone();
-			rect.x -= this.xz4htm2rect;
-			this.cntTxt.children[i].position.set(rect.x, rect.y);
-		}
-
-		// 表示済み文字変更を検知
-		let begin = 0;
-		if (this.aRect.length == 0) {	// 初回
-			if (TxtStage.cfg.oCfg.debug.masume) {
-				if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
-					this.name} v:${this.visible} l:${this.x} t:${this.y
-					} a:${this.alpha} pl:${this.infTL.pad_left
-					} pr:${this.infTL.pad_right
-					} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom
-					} w:${this.infTL.$width} h:${this.infTL.$height}`);
-
-				this.grpDbgMasume.clear();
-				this.grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
-				this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
-				this.grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
-					// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
-				this.grpDbgMasume.endFill();
-
-				this.grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
-				this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
-				this.grpDbgMasume.drawRect(0, 0,
-				this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right,
-				this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom);
-				this.grpDbgMasume.endFill();
-			}
-		}
-		else {
-			for (begin=lenPutedRect -1; begin>=0; --begin) {
-				if (aRect[begin].ch == this.aRect[begin].ch) continue;
-
-				// 表示済み文字変更発見、まずは旧文字を削除
-				//console.log(`!!! begin:${begin} '${aRect[begin].ch}' != '${this.aRect[begin].ch}'`);
-				this.skipChIn();	// tween停止
-				for (const v of this.cntTxt.removeChildren(begin)) {
-					v.removeAllListeners().destroy();
-				}
-				break;
-			}
-			if (begin < 0) begin = lenPutedRect;	// 変化無し
-		}
-		this.aRect = aRect;
-
-		const ease = CmnTween.ease(this.fi_easing);
-
-		//console.log(`cnt(%d, %d) cntInsidePadding(%d, %d) cntTxt(%d, %d) grpDbgMasume(%d, %d)`, this.cnt.x, this.cnt.y, this.cntInsidePadding.x, this.cntInsidePadding.y, this.cntTxt.x, this.cntTxt.y, this.grpDbgMasume.x, this.grpDbgMasume.y);
-		let delay = 0;
-		const len = this.aRect.length;
-		for (let i=begin; i<len; ++i) {
-			const v = this.aRect[i];
-			const rct = v.rect.clone();
-			rct.x -= this.xz4htm2rect;
-			if (TxtStage.cfg.oCfg.debug.masume) {	// ガイドマス目（デバッグ用）
-				if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`);
-				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
-				this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
-				this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
-				this.grpDbgMasume.endFill();
-			}
-
-			delay += (v.add)
-				? uint(JSON.parse(v.add.replace(/'/g, '"')).wait)
-				: LayerMng.msecChWait;
-			const delay_put = (i < lenPutedRect)	// 文字変更時は瞬時差し替え
-				|| TxtStage.gs_chFadeWait == 0 || delay == 0;
-
-			const o = v.arg ?JSON.parse(v.arg) :{};
-			const spWork = (sp: Container, replace_pos_by_sp = true)=> {
-				// 文字表示効果・初期状態変更
-				sp.alpha = 0;
-				sp.position.set(rct.x, rct.y);
-				if (o.width) sp.width = o.width;
-				if (o.height) sp.height = o.height;
-				if (replace_pos_by_sp) {
-					rct.width = sp.width;	// スプライトのサイズを正とする
-					rct.height = sp.height;
-				}
-				if (this.ch_filter && v.cmd != 'link') sp.filters = this.ch_filter;
-				//Layer.argChk_BlendmodeAndSet(o, sp);
-				sp.x += this.ch_slide_x();
-
-				//console.log(`spWork i:${i} ch:${v.ch} x:${rct.x} y:${rct.y}`);
-				if (delay_put) {
-					sp.alpha = 1;
-					sp.x = rct.x;
-					sp.y = rct.y;
-					sp.width = rct.width;
-					sp.height = rct.height;
-					sp.rotation = 0;
-					return;
-				}
-
-				const st: ISpTw = {
-					sp: sp,
-					tw: new TWEEN.default.Tween(sp)
-						.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, TxtStage.gs_chFadeWait)
-						.easing(ease)
-						.delay(delay)
-						.onComplete(()=> {
-							st.tw = null;
-							//(略)	if (rct.width == 0 || rct.height == 0) return;
-							//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
-							//　これを有効にすると[snapshot]で文字が出ない
-						})
-						.start(),
-				};
-				this.aSpTw.push(st);
-			};
-
-			switch (v.cmd) {
-			case 'grp':	//	画像など 《grp｜{"id":"break","pic":"breakline"}》
-				const cnt = new Container;	// 親コンテナかまし、即時spWork()
-				this.cntTxt.addChild(cnt);
-				spWork(cnt, false);
-				GrpLayer.csv2Sprites(o.pic, cnt, ()=> {
-					// ロード完了時にクリアされていた場合はコンテナを空に
-					if (! cnt.parent) cnt.removeChildren();
-				});
-				break;
-
-			default:	// 文字
-				const tx_c = tx.clone();
-				tx_c.frame = new Rectangle(rct.x +this.padTx4x, rct.y +this.padTx4y, rct.width, rct.height);
-				if (tx_c.frame.x < 0 || tx_c.frame.y < 0) console.log(`x=${tx_c.frame.x} または y=${tx_c.frame.y} が負の値です。文字「${v.ch}」が表示されない場合があります`);
-
-				const sp = new Sprite(tx_c);
-				this.cntTxt.addChild(sp);
-				spWork(sp);
-				if (v.cmd == 'link') {
-					if (! v.arg) throw `fn:TxtStage.ts v.arg null`;
-					const o: any = JSON.parse(v.arg);
-					o.key = this.name +' link:'+ i;	// 一文字ずつ別ボタン
-					TxtStage.evtMng.button(o, sp);
-				}
-			}
-		}
-	//	this.putBreakMark(delay + TxtLayer.chFadeTime);	// 微妙に遅い気がする
-		this.putBreakMark(delay);
-	}
+	private aSpTw		: ISpTw[]	= [];
 
 
 	private aRect   : IChRect[]	= [];
@@ -773,7 +504,7 @@ export class TxtStage extends Container {
 	private	static	reg行頭禁則	= new RegExp('[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]');
 	private	static	reg行末禁則	= new RegExp('[［（｛〈「『【〔“〝]');
 	private	static	reg分割禁止	= new RegExp('[─‥…]');
-	goTxt_next(aSpan: string[]) {
+	goTxt(aSpan: string[]) {
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
 			if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
@@ -798,12 +529,8 @@ export class TxtStage extends Container {
 			this.grpDbgMasume.endFill();
 		}
 
-		if (begin == 0) {
-			this.htmTxt.innerHTML = [...aSpan].join('');
-		}
-		else {
-			this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
-		}
+		if (begin == 0) this.htmTxt.innerHTML = [...aSpan].join('');
+		else this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
 		this.lenHtmTxt = aSpan.length;
 
 		let len = 0;
@@ -812,6 +539,16 @@ export class TxtStage extends Container {
 		do {
 			const e = this.aRect = this.getChRects(this.htmTxt);
 			len = e.length;
+			if (CmnLib.cvsScaleX != 1 || CmnLib.cvsScaleY != 1) {
+				// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響が大きい
+				for (let i=0; i<len; ++i) {
+					const r = e[i].rect;
+					r.x /= CmnLib.cvsScaleX;
+					r.y /= CmnLib.cvsScaleY;
+					r.width /= CmnLib.cvsScaleX;
+					r.height /= CmnLib.cvsScaleY;
+				}
+			}
 			if (len < 2) break;
 
 			let sl_xy = -Infinity;
@@ -908,7 +645,7 @@ export class TxtStage extends Container {
 			switch (v.cmd) {
 				case 'grp':
 					const cnt = new Container;	// 親コンテナかまし、即spWork()
-					this.spWork_next(cnt, arg, add, rct, ease, cis ?? {});
+					this.spWork(cnt, arg, add, rct, ease, cis ?? {});
 					this.cntTxt.addChild(cnt);
 						// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 					GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
@@ -921,7 +658,7 @@ export class TxtStage extends Container {
 					sp.width = rct.width;
 					sp.height = rct.height;
 					arg.key = `lnk=[${i}] `+ this.name;
-					this.spWork_next(sp, arg, add, rct, ease, cis ?? {});
+					this.spWork(sp, arg, add, rct, ease, cis ?? {});
 					TxtStage.evtMng.button(arg, sp);
 					this.cntTxt.addChild(sp);
 					break;
@@ -968,7 +705,7 @@ export class TxtStage extends Container {
 	private rctm = new Rectangle;
 	private readonly regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
 	private	fncEndChIn	= ()=> {};
-	private spWork_next(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
+	private spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
 		if (arg.width) sp.width = arg.width;
 		if (arg.height) sp.height = arg.height;
@@ -1089,31 +826,6 @@ export class TxtStage extends Container {
 		}
 		TxtStage.cntBreak = new Container;
 	}
-	private putBreakMark(delay = 0) {
-		const cnt = TxtStage.cntBreak;	// Tween開始時の Obj を保存
-		if (cnt.parent == null) return;
-
-		const rct = this.aRect.slice(-1)[0].rect;
-		cnt.position.set(rct.x -this.xz4htm2rect, rct.y);
-		if (this.isTategaki) {
-			cnt.y += this.infTL.fontsize;
-		}
-		else {
-			cnt.x += this.infTL.fontsize;
-		}
-		if (delay == 0) {cnt.visible = true; return;}
-
-		cnt.visible = false;	// trueの場合はdelay後まで消したいので
-		const st: ISpTw = {
-			sp: cnt,
-			tw: new TWEEN.default.Tween(cnt)
-				.to({}, 0)
-				.delay(delay)
-				.onComplete(()=> {st.tw = null; st.sp.visible = true;})
-				.start(),
-		};
-		this.aSpTw.push(st);
-	}
 
 	private lh_half		= 0;	// 「g」などで下が欠ける問題対策
 	private getChRects(elm: Node): IChRect[] {	// 注意）再帰関数
@@ -1158,84 +870,57 @@ export class TxtStage extends Container {
 		return ret;
 	}
 
-	private ch_slide_x	= ()=> this.infTL.fontsize *TxtStage.gs_chFadeDx;
 	private fi_easing	= 'Quadratic.Out';
 	private fo_easing	= 'Quadratic.Out';
-	private	static	gs_chFadeWait	= 500;
-	private	static	gs_chFadeDx		= 0.3;
 	private clearText() {
-		this.goTxt2 = ()=> {};
-		this.goTxt3  = (_tx: Texture)=> {};
-
 		this.grpDbgMasume.clear();
 		this.aRect = [];
 		this.lenHtmTxt = 0;
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.skipChIn();
-		if (CmnLib.hDip['tx']) {
-			const n = this.htmTxt.cloneNode(true) as HTMLSpanElement;
-			//this.htmTxt.innerHTML = '';		以下の方が早いらしい
-			n.textContent = '';
-			const old = this.htmTxt;
-			old.parentElement!.insertBefore(n, old);
+		const n = this.htmTxt.cloneNode(true) as HTMLSpanElement;
+		//this.htmTxt.innerHTML = '';		以下の方が早いらしい
+		n.textContent = '';
+		const old = this.htmTxt;
+		old.parentElement!.insertBefore(n, old);
 
-			const chs = old.querySelectorAll('span.sn_ch');
-			const len_chs = chs.length;
-			let sum_wait = 0;
-			for (let i=0; i<len_chs; ++i) {
-				const elm = chs[i] as HTMLElement;
-				const add = JSON.parse(
-					elm.getAttribute('data-add') ??				// 通常文字
-					elm.children[0].getAttribute('data-add') ??	// ルビ
-					elm.children[0].children[0]
-						.getAttribute('data-add') ?? '{}'		// 縦中横
-				);
-				if (! add.ch_out_style) continue;
+		const chs = old.querySelectorAll('span.sn_ch');
+		const len_chs = chs.length;
+		let sum_wait = 0;
+		for (let i=0; i<len_chs; ++i) {
+			const elm = chs[i] as HTMLElement;
+			const add = JSON.parse(
+				elm.getAttribute('data-add') ??				// 通常文字
+				elm.children[0].getAttribute('data-add') ??	// ルビ
+				elm.children[0].children[0]
+					.getAttribute('data-add') ?? '{}'		// 縦中横
+			);
+			if (! add.ch_out_style) continue;
 
-				const cos = TxtStage.hChOutStyle[add.ch_out_style];
-				if (! cos) continue;
-				if (cos.wait == 0) {elm.style.display = 'none'; continue;}
+			const cos = TxtStage.hChOutStyle[add.ch_out_style];
+			if (! cos) continue;
+			if (cos.wait == 0) {elm.style.display = 'none'; continue;}
 
-				sum_wait += cos.wait;
-				if (! cos.join) elm.style.animationDelay = '0ms';
-				elm.classList.add(`go_ch_out_${add.ch_out_style}`);
-			}
-
-			const end = ()=> {
-				old.parentElement!.removeChild(old);
-				for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
-					// NOTE: 仮、後で文字と同じように
-			};
-			if (sum_wait == 0) {this.htmTxt.textContent = ''; end();}
-			else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
-
-			this.htmTxt = n;
+			sum_wait += cos.wait;
+			if (! cos.join) elm.style.animationDelay = '0ms';
+			elm.classList.add(`go_ch_out_${add.ch_out_style}`);
 		}
-		else {
-			//this.htmTxt.innerHTML = '';		以下の方が早いらしい
-			this.htmTxt.textContent = '';
-			if (TxtStage.gs_chFadeWait == 0) {
-				for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
-			}
-			else {
-				const ease = CmnTween.ease(this.fo_easing);
-				for (const c of this.cntTxt.children) {
-					c.removeAllListeners();	// マウスオーバーイベントなど。クリックは別
-					new TWEEN.default.Tween(c)
-					.to({alpha: 0, x: `+${this.ch_slide_x()}`}, TxtStage.gs_chFadeWait)
-					.easing(ease)
-					//.delay(i * LayerMng.msecChWait)
-					.onComplete((o: any)=> this.cntTxt.removeChild(o))
-					.start();
-				}
-			}
-		}
+
+		const end = ()=> {
+			old.parentElement!.removeChild(old);
+			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
+				// NOTE: 仮、後で文字と同じように
+		};
+		if (sum_wait == 0) {this.htmTxt.textContent = ''; end();}
+		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
+
+		this.htmTxt = n;
 	}
 	passBaton(): TxtStage {
 		this.clearText();
 
-		const to = new TxtStage(this.infTL, this.parent);
+		const to = new TxtStage(this.infTL, this.parent, this.cnt);
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
 		to.left = this.left;
 		to.name = this.name;
@@ -1273,13 +958,11 @@ export class TxtStage extends Container {
 
 	private sss :Sprite | null = null;
 	snapshot(rnd: Renderer, re: ()=> void) {
-		if (! CmnLib.hDip['tx']) {re(); return;}
-
 		this.htm2tx(tx=> {
 			this.sss = new Sprite(tx);	// Safariだけ文字影が映らない
 			if (this.isTategaki) {
 				this.sss.x += CmnLib.stageW -(this.left +this.infTL.$width)
-				- (CmnLib.isSafari
+				- ((CmnLib.isSafari && !CmnLib.isMobile)
 					? 0
 					: this.infTL.pad_left +this.infTL.pad_right);
 			}

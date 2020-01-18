@@ -61,10 +61,15 @@ const platform = require('platform');
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
+	static	cvsWidth	= 0;
+	static	cvsHeight	= 0;
+	static	cvsScaleX	= 1;
+	static	cvsScaleY	= 1;
 	static	devtool		= false;
 	static	platform	= {...platform};
 	static	isSafari	= platform.name == 'Safari';
 	static	isMac		= process.platform === 'darwin';
+	static	isMobile	= new RegExp('(iOS|Android)').test(CmnLib.platform.os.family);
 	static	hDip		: {[name: string]: string}	= {};
 
 	static	isRetina	= false;
@@ -116,6 +121,40 @@ export class CmnLib {
 
 		const v2 = String(v);
 		return hash[name] = (v2 == "false")? false : Boolean(v2);
+	}
+
+	static cvsResize(): boolean {
+		const bk_cw = CmnLib.cvsWidth;
+		const bk_ch = CmnLib.cvsHeight;
+		let wiw = window.innerWidth;
+		let wih = window.innerHeight;
+		const wi: any = window;
+		const lp = screen.orientation
+			? screen.orientation.type.charAt(0)
+			: ((wi.orientation ?? 90) % 180 == 0) ?'p' :'l';	// 4Safari
+		if (CmnLib.isMobile &&
+			((lp == 'p' && wiw > wih) || (lp == 'l' && wiw < wih))
+			) [wiw, wih] = [wih, wiw];
+		if (CmnLib.stageW <= wiw &&
+			CmnLib.stageH <= wih) {
+			CmnLib.cvsWidth = CmnLib.stageW;
+			CmnLib.cvsHeight = CmnLib.stageH;
+			CmnLib.cvsScaleX = 1;
+			CmnLib.cvsScaleY = 1;
+		}
+		else {
+			if (CmnLib.stageW /CmnLib.stageH <= wiw /wih) {
+				CmnLib.cvsHeight = wih;
+				CmnLib.cvsWidth = CmnLib.stageW /CmnLib.stageH *wih;
+			}
+			else {
+				CmnLib.cvsWidth = wiw;
+				CmnLib.cvsHeight = CmnLib.stageH /CmnLib.stageW	*wiw;
+			}
+			CmnLib.cvsScaleX = CmnLib.cvsWidth /CmnLib.stageW;
+			CmnLib.cvsScaleY = CmnLib.cvsHeight/CmnLib.stageH;
+		}
+		return bk_cw != CmnLib.cvsWidth || bk_ch != CmnLib.cvsHeight;
 	}
 
 

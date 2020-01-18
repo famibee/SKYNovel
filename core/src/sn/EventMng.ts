@@ -23,7 +23,6 @@ import Hammer = require('hammerjs');
 export class EventMng implements IEvtMng {
 	private	readonly	elc		= new EventListenerCtn;
 
-	private	readonly	enMDownTap	= 'pointerdown';
 	private ham		: any;
 	private	readonly hHamEv :{[name: string]: null | {(e: any): void}}	= {
 	//	tap			: null,
@@ -55,15 +54,6 @@ export class EventMng implements IEvtMng {
 		hTag.wait			= o=> this.wait(o);				// ウェイトを入れる
 		hTag.waitclick		= ()=> {this.stdWait(()=> main.resume()); return true;};	// クリックを待つ
 			// stdWait()したらreturn true;
-
-		switch (String(val.getVal('tmp:const.sn.platform.os.family'))) {
-			case 'Android':
-			case 'iOS':
-			case 'Windows Phone':
-//				this.enMDownTap	= 'tap';
-				break;
-		}
-		//this.enMDownTap	= 'tap';
 
 		this.ham = new Hammer(appPixi.view, {recognizers: [
 			//	[Hammer.Tap],
@@ -97,7 +87,8 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		this.elc.add(appPixi.stage, this.enMDownTap, e=> {
+		if (CmnLib.isMobile) this.elc.add(appPixi.view, 'pointerdown', e=> this.defEvt2Fnc(e, 'click'));
+		else this.elc.add(appPixi.stage, 'pointerdown', e=> {
 			switch (e.data.button) {
 				case 0:	this.defEvt2Fnc(e, 'click');	break;
 				case 1:	this.defEvt2Fnc(e, 'middleclick');	break;

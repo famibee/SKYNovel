@@ -93,6 +93,37 @@ void main(void) {
         this.fncChkTxtLay = () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; };
         this.oLastPage = { text: '' };
         this.aPageLog = [];
+        const ps = this.appPixi.view.parentElement.style;
+        ps.position = 'relative';
+        const s = this.appPixi.view.style;
+        const fncResize = () => {
+            if (!CmnLib_1.CmnLib.cvsResize())
+                return false;
+            ps.width = s.width = `${CmnLib_1.CmnLib.cvsWidth}px`;
+            ps.height = s.height = `${CmnLib_1.CmnLib.cvsHeight}px`;
+            return true;
+        };
+        const fncResizeLay = () => {
+            if (!fncResize())
+                return;
+            this.aLayName.forEach(layer => {
+                const pg = this.hPages[layer];
+                pg.fore.cvsResize();
+                pg.back.cvsResize();
+            });
+        };
+        if (CmnLib_1.CmnLib.isMobile) {
+            window.addEventListener('orientationchange', fncResizeLay);
+        }
+        else {
+            let tid = 0;
+            window.addEventListener('resize', () => {
+                if (tid)
+                    return;
+                tid = setTimeout(() => { tid = 0; fncResizeLay(); }, 500);
+            });
+        }
+        fncResize();
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
         GrpLayer_1.GrpLayer.init(main, cfg, sys);
         this.frmMng = new FrameMng_1.FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);

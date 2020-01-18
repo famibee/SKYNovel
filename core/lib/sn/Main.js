@@ -68,13 +68,6 @@ class Main {
                 document.body.appendChild(this.appPixi.view);
                 this.appPixi.view.id = CmnLib_1.CmnLib.sn_id;
             }
-            CmnLib_1.CmnLib.hDip['tx'] = '2';
-            if (CmnLib_1.CmnLib.hDip['tx']) {
-                const s = this.appPixi.view.parentElement.style;
-                s.position = 'relative';
-                s.width = `${this.cfg.oCfg.window.width}px`;
-                s.height = `${this.cfg.oCfg.window.height}px`;
-            }
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
             this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);

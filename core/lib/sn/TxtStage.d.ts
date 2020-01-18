@@ -13,6 +13,7 @@ export interface IInfTxLay {
 }
 export declare class TxtStage extends Container {
     private infTL;
+    private cnt;
     private static cfg;
     private static cvs;
     static init(cfg: Config): void;
@@ -21,9 +22,10 @@ export declare class TxtStage extends Container {
     private htmTxt;
     private cntTxt;
     private grpDbgMasume;
-    constructor(infTL: IInfTxLay, cnt: Container);
-    lay(hArg: HArg, txl: Sprite): void;
+    constructor(infTL: IInfTxLay, cntInsidePadding: Container, cnt: Sprite);
+    lay(hArg: HArg): void;
     private lay_sub;
+    cvsResize(): void;
     private left;
     private isTategaki;
     get tategaki(): boolean;
@@ -31,28 +33,19 @@ export declare class TxtStage extends Container {
     private padTx4y;
     setSize(width: number, height: number): void;
     private static readonly hWarning;
-    goTxt(aSpan: string[]): void;
-    private goTxt2;
-    private cntGoTxtSerializer;
-    private goTxt2_htm;
     private htm2tx;
-    private goTxt3;
-    private static readonly REG_SURROGATE;
     private ch_filter;
-    private xz4htm2rect;
     private aSpTw;
-    private static fncChkSkip;
-    private goTxt3_tx2sp;
     private aRect;
     private lenHtmTxt;
     private static reg行頭禁則;
     private static reg行末禁則;
     private static reg分割禁止;
-    goTxt_next(aSpan: string[]): void;
+    goTxt(aSpan: string[]): void;
     private rctm;
     private readonly regDs;
     private fncEndChIn;
-    private spWork_next;
+    private spWork;
     private isChInIng;
     skipChIn(): boolean;
     private static hChInStyle;
@@ -66,14 +59,10 @@ export declare class TxtStage extends Container {
     private static cntBreak;
     dispBreak(pic: string): void;
     static delBreak(): void;
-    private putBreakMark;
     private lh_half;
     private getChRects;
-    private ch_slide_x;
     private fi_easing;
     private fo_easing;
-    private static gs_chFadeWait;
-    private static gs_chFadeDx;
     private clearText;
     passBaton(): TxtStage;
     record(): {

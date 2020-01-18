@@ -17,7 +17,6 @@ class EventMng {
         this.val = val;
         this.scrItr = scrItr;
         this.elc = new EventListenerCtn_1.EventListenerCtn;
-        this.enMDownTap = 'pointerdown';
         this.hHamEv = {
             tap2: null,
             press: null,
@@ -59,12 +58,6 @@ class EventMng {
         hTag.set_cancel_skip = () => this.set_cancel_skip();
         hTag.wait = o => this.wait(o);
         hTag.waitclick = () => { this.stdWait(() => main.resume()); return true; };
-        switch (String(val.getVal('tmp:const.sn.platform.os.family'))) {
-            case 'Android':
-            case 'iOS':
-            case 'Windows Phone':
-                break;
-        }
         this.ham = new Hammer(appPixi.view, { recognizers: [
                 [Hammer.Press],
                 [Hammer.Swipe, { direction: Hammer.DIRECTION_ALL }],
@@ -79,16 +72,19 @@ class EventMng {
             this.ham.on(key, fnc);
         }
         appPixi.stage.interactive = true;
-        this.elc.add(appPixi.stage, this.enMDownTap, e => {
-            switch (e.data.button) {
-                case 0:
-                    this.defEvt2Fnc(e, 'click');
-                    break;
-                case 1:
-                    this.defEvt2Fnc(e, 'middleclick');
-                    break;
-            }
-        });
+        if (CmnLib_1.CmnLib.isMobile)
+            this.elc.add(appPixi.view, 'pointerdown', e => this.defEvt2Fnc(e, 'click'));
+        else
+            this.elc.add(appPixi.stage, 'pointerdown', e => {
+                switch (e.data.button) {
+                    case 0:
+                        this.defEvt2Fnc(e, 'click');
+                        break;
+                    case 1:
+                        this.defEvt2Fnc(e, 'middleclick');
+                        break;
+                }
+            });
         this.elc.add(window, 'keydown', e => this.ev_keydown(e));
         this.elc.add(appPixi.view, 'contextmenu', e => this.ev_contextmenu(e));
         if ('WheelEvent' in window) {

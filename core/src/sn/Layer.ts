@@ -107,6 +107,8 @@ export class Layer {
 	}
 	snapshot_end() {}
 
+	cvsResize() {}
+
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${
 			this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y

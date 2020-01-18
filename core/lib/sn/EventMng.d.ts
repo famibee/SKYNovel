@@ -15,7 +15,6 @@ export declare class EventMng implements IEvtMng {
     private readonly val;
     private readonly scrItr;
     private readonly elc;
-    private readonly enMDownTap;
     private ham;
     private readonly hHamEv;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator);

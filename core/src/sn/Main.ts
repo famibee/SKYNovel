@@ -65,13 +65,6 @@ export class Main implements IMain {
 				document.body.appendChild(this.appPixi.view);
 				this.appPixi.view.id = CmnLib.sn_id;
 			}
-			CmnLib.hDip['tx'] = '2';	// NOTE: 文字表示切り替え中
-			if (CmnLib.hDip['tx']) {
-				const s = this.appPixi.view.parentElement!.style;
-				s.position = 'relative';
-				s.width = `${this.cfg.oCfg.window.width}px`;
-				s.height= `${this.cfg.oCfg.window.height}px`;
-			}
 
 			// 変数
 			this.val = new Variable(this.cfg, this.hTag);

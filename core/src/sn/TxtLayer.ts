@@ -62,6 +62,7 @@ export class TxtLayer extends Layer {
 	pointer-events: none;
 	user-select: none;
 	-webkit-touch-callout: none;
+	box-sizing: border-box;
 }
 .sn_ch {
 	position: relative;
@@ -206,7 +207,7 @@ export class TxtLayer extends Layer {
 
 	// 文字表示
 	private cntInsidePadding= new Container;
-	private	txs				= new TxtStage(this.infTL, this.cntInsidePadding);
+	private	txs				= new TxtStage(this.infTL, this.cntInsidePadding, this.cnt);
 
 	private	rbSpl			= new RubySpliter;
 
@@ -237,13 +238,15 @@ export class TxtLayer extends Layer {
 	get name() {return this.txs ?this.txs.name :''}
 
 
+	cvsResize() {this.txs.cvsResize();}
+
 	lay(hArg: HArg) {
 		super.lay(hArg);
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
 		this.rbSpl.setting(hArg);
 		this.setFfs(hArg);
-		this.txs.lay(hArg, this.cnt);
+		this.txs.lay(hArg);
 
 		if ('r_align' in hArg) this.r_align = hArg.r_align ?? '';
 		this.ruby_pd = CmnLib.isSafari
@@ -501,13 +504,9 @@ export class TxtLayer extends Layer {
 					.replace(/`/g, '\\`')
 						// JSON対策
 				);
-				if (! CmnLib.hDip['tx']) {
-					this.txs.goTxt(this.aSpan);
-					return;	// breakではない
-				}
 
 				if (! this.needGoTxt) return;	// breakではない
-				this.txs.goTxt_next(	// クリック待ち用ダミー空白を追加
+				this.txs.goTxt(	// クリック待ち用ダミー空白を追加
 					[...this.aSpan, this.tagCh_sub('　', '', false, '')]
 				);
 				this.needGoTxt = false;
@@ -520,30 +519,17 @@ export class TxtLayer extends Layer {
 				const o = JSON.parse(a_ruby[1]);
 				o.style = o.style ?? '';
 				this.beginSpan(o);
-				if (this.aSpan_bk) {
-					const s = this.aSpan_bk.slice(-1)[0];
-					this.autoCloseSpan();
-
-					if (! CmnLib.hDip['tx'])
-					this.aSpan.push(s.replace(
-						/<span( data-add='.+?')?/,	// 'を"にしてはいけない
-						`<span data-add='${a_ruby[1]}'`));
-				}
+				if (this.aSpan_bk) this.autoCloseSpan();
 				else {
-					if (CmnLib.hDip['tx']) {
-						if (isSkip) this.cumDelay = 0;
-						const wait = o.wait ?? -1;
-						const sn_ch = (wait == 0)
-							? ''
-							: ` sn_ch_in_${this.ch_in_style}`;
-						const ad = (wait < 0)
-							? ''
-							: ` animation-duration: ${wait}ms;`
-						this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
-					}
-					else {
-						this.aSpan.push(`<span style='${o.style}' data-add='${a_ruby[1]}'>`);
-					}
+					if (isSkip) this.cumDelay = 0;
+					const wait = o.wait ?? -1;
+					const sn_ch = (wait == 0)
+						? ''
+						: ` sn_ch_in_${this.ch_in_style}`;
+					const ad = (wait < 0)
+						? ''
+						: ` animation-duration: ${wait}ms;`
+					this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
 				}
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
@@ -566,17 +552,14 @@ export class TxtLayer extends Layer {
 				if (o.id == 'break') {this.txs.dispBreak(o.pic); return;}
 					// breakではない
 				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
-				if (CmnLib.hDip['tx']) {
-					const wait = o.wait ?? -1;
-					const sn_ch = (wait == 0)
-						? ''
-						: ` sn_ch_in_${this.ch_in_style}`;
-					const ad = (wait < 0)
-						? ''
-						: ` animation-duration: ${wait}ms;`
-					add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'`;
-				}
-				add_htm += `>　</span>`;
+				const wait = o.wait ?? -1;
+				const sn_ch = (wait == 0)
+					? ''
+					: ` sn_ch_in_${this.ch_in_style}`;
+				const ad = (wait < 0)
+					? ''
+					: ` animation-duration: ${wait}ms;`
+				add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>　</span>`;
 				if (this.firstCh) {	// １文字目にルビが無い場合は不可視ルビで、行揃え
 					this.firstCh = false;
 					add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
@@ -602,20 +585,15 @@ export class TxtLayer extends Layer {
 				this.beginSpan(o);
 				if (! o.style) return;	// breakではない
 
-				if (CmnLib.hDip['tx']) {
-					if (isSkip) this.cumDelay = 0;
-					const wait = o.wait ?? -1;
-					const sn_ch = (wait == 0)
-						? ''
-						: ` sn_ch_in_${this.ch_in_style}`;
-					const ad = (wait < 0)
-						? ''
-						: ` animation-duration: ${wait}ms;`
-					this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
-				}
-				else {
-					this.aSpan.push(`<span style='${o.style}'>`);
-				}
+				if (isSkip) this.cumDelay = 0;
+				const wait = o.wait ?? -1;
+				const sn_ch = (wait == 0)
+					? ''
+					: ` sn_ch_in_${this.ch_in_style}`;
+				const ad = (wait < 0)
+					? ''
+					: ` animation-duration: ${wait}ms;`
+				this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
 			}
@@ -629,21 +607,16 @@ export class TxtLayer extends Layer {
 				const o = JSON.parse(a_ruby[1]);
 				o.style = o.style ?? '';
 				this.beginSpan(o);
-				if (CmnLib.hDip['tx']) {
-					if (isSkip) this.cumDelay = 0;
-					const wait = o.wait ?? -1;
-					const sn_ch = (wait == 0)
-						? ''
-						: ` sn_ch_in_${this.ch_in_style}`;
-					const ad = (wait < 0)
-						? ''
-						: ` animation-duration: ${wait}ms;`
-					this.aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
-					this.aSpan.push(`<span${this.aSpan_link} class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
-				}
-				else {
-					this.aSpan.push(`<span data-cmd='link' data-arg='${a_ruby[1]}' style='${o.style}'>`);
-				}
+				if (isSkip) this.cumDelay = 0;
+				const wait = o.wait ?? -1;
+				const sn_ch = (wait == 0)
+					? ''
+					: ` sn_ch_in_${this.ch_in_style}`;
+				const ad = (wait < 0)
+					? ''
+					: ` animation-duration: ${wait}ms;`
+				this.aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
+				this.aSpan.push(`<span${this.aSpan_link} class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
 				this.aSpan_bk = this.aSpan;
 				this.aSpan = [];
 			}
@@ -683,52 +656,37 @@ export class TxtLayer extends Layer {
 						// 英数字を全角に(Safariで縦中横ルビが半角文字だと、
 						// 選択矩形が横倒しになる不具合対策)
 					: a_ruby[2];
-				if (CmnLib.hDip['tx']) {
-					if (isSkip) this.cumDelay = 0;
-					const rs = this.mkStyle_r_align(tx, rb, this.r_align);
-					add_htm = rb
-						? (this.aSpan_bk
-							? (`<ruby><span data-tcy='${id_tcy}' style='
+				if (isSkip) this.cumDelay = 0;
+				const rs = this.mkStyle_r_align(tx, rb, this.r_align);
+				add_htm = rb
+					? (this.aSpan_bk
+						? (`<ruby><span data-tcy='${id_tcy}' style='
+								text-combine-upright: all;
+								-webkit-text-combine: horizontal;
+								${this.fncFFSStyle(tx)}
+							' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
+							+`<rt${rs}>${rb}</rt></ruby>`)
+						: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
+							+`<ruby><span data-tcy='${id_tcy}' style='
 									text-combine-upright: all;
 									-webkit-text-combine: horizontal;
 									${this.fncFFSStyle(tx)}
-								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
-								+`<rt${rs}>${rb}</rt></ruby>`)
-							: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
-								+`<ruby><span data-tcy='${id_tcy}' style='
-										text-combine-upright: all;
-										-webkit-text-combine: horizontal;
-										${this.fncFFSStyle(tx)}
-									' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
-									+`<rt${rs}>${rb}</rt></ruby>`
-							+`</span>`))
-						: (this.aSpan_bk
-							? (`<span data-tcy='${id_tcy}' style='
-								text-combine-upright: all;
-								-webkit-text-combine: horizontal;
-								${this.fncFFSStyle(tx)}
-							' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`)
-							: `<span data-tcy='${id_tcy}' style='
-								text-combine-upright: all;
-								-webkit-text-combine: horizontal;
-								animation-delay: ${this.cumDelay}ms;
-								height: 1em;
-								${this.fncFFSStyle(tx)}
-							' class='sn_ch sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`);
-				}
-				else {
-					add_htm = rb
-						? `<ruby><span data-tcy='${id_tcy}' style='
-								text-combine-upright: all;
-								-webkit-text-combine: horizontal;
-							'>${tx}</span>
-							<rt>${rb}</rt></ruby>`
+								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
+								+`<rt${rs}>${rb}</rt></ruby>`
+						+`</span>`))
+					: (this.aSpan_bk
+						? (`<span data-tcy='${id_tcy}' style='
+							text-combine-upright: all;
+							-webkit-text-combine: horizontal;
+							${this.fncFFSStyle(tx)}
+						' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`)
 						: `<span data-tcy='${id_tcy}' style='
 							text-combine-upright: all;
 							-webkit-text-combine: horizontal;
+							animation-delay: ${this.cumDelay}ms;
 							height: 1em;
-						'>${tx}</span>`;
-				}
+							${this.fncFFSStyle(tx)}
+						' class='sn_ch sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`);
 				if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc)
 					? TxtLayer.hAutoWc[ch.charAt(0)] ?? 0
 					: LayerMng.msecChWait;
@@ -748,21 +706,16 @@ export class TxtLayer extends Layer {
 
 		let add_htm = '';
 		const rs = this.mkStyle_r_align(ch, ruby, r_align);
-		if (CmnLib.hDip['tx']) {
-			if (isSkip) this.cumDelay = 0;
-			add_htm = ruby
-				? (this.aSpan_bk
-					? `<ruby style='${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-					: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}'>`
-						+`<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-					+`</span>`))
-				: (this.aSpan_bk
-					? this.fncFFSSpan(ch)
-					: `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}</span>`);
-		}
-		else {
-			add_htm = ruby ?`<ruby>${ch}<rt${rs}>${ruby}</rt></ruby>` :ch;
-		}
+		if (isSkip) this.cumDelay = 0;
+		add_htm = ruby
+			? (this.aSpan_bk
+				? `<ruby style='${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+				: (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}'>`
+					+`<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+				+`</span>`))
+			: (this.aSpan_bk
+				? this.fncFFSSpan(ch)
+				: `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}</span>`);
 		if (this.ch_in_join) this.cumDelay += TxtLayer.doAutoWc
 			? TxtLayer.hAutoWc[ch.charAt(0)] ?? 0
 			: LayerMng.msecChWait;
@@ -861,6 +814,7 @@ export class TxtLayer extends Layer {
 		super.playback(hLay);
 		this.enabled	= hLay.enabled;
 		this.r_align	= hLay.r_align;
+		this.cvsResize();
 
 		// バック
 		this.b_alpha			= hLay.b_alpha;
