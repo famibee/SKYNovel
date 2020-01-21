@@ -30,6 +30,7 @@ export declare class CmnLib {
     static devtool: boolean;
     static platform: any;
     static isSafari: boolean;
+    static isFirefox: boolean;
     static isMac: boolean;
     static isMobile: boolean;
     static hDip: {

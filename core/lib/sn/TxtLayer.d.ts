@@ -54,6 +54,7 @@ export declare class TxtLayer extends Layer {
     private ruby_pd;
     private mkStyle_r_align;
     private r_align;
+    private mkStyle_r_align4ff;
     tagCh(text: string): void;
     private needGoTxt;
     private putCh;

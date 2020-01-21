@@ -15,6 +15,7 @@ import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
 import * as TW from '@tweenjs/tween.js';
 const TWEEN: any = TW;
+import m_xregexp = require('xregexp');
 
 export interface IInfTxLay {
 	fontsize	: number;
@@ -90,7 +91,7 @@ export class TxtStage extends Container {
 		this.isTategaki = (s.writingMode == 'vertical-rl');
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 		this.left = this.cnt.position.x
-			-((CmnLib.isSafari && !CmnLib.isMobile) && this.isTategaki
+			-(CmnLib.isSafari && !CmnLib.isMobile && this.isTategaki
 				? this.infTL.pad_left +this.infTL.pad_right
 				: 0);
 		s.left = this.left +'px';
@@ -505,6 +506,8 @@ export class TxtStage extends Container {
 	private	static	reg行末禁則	= new RegExp('[［（｛〈「『【〔“〝]');
 	private	static	reg分割禁止	= new RegExp('[─‥…]');
 	goTxt(aSpan: string[]) {
+		TxtStage.cntBreak.visible = false;
+
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
 			if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
@@ -695,15 +698,21 @@ export class TxtStage extends Container {
 		for (let i=len_chs -1; i>=0; --i) {
 			const v = chs[i];
 			if (v.className == 'sn_ch') break;	// 表示済みのみ
-			const m = v.getAttribute('style')!.match(this.regDs);
-			if (! m || Number(m.groups!.ms) > 0) {le = v; break;}
+			const st = v.getAttribute('style');
+			if (! st) {le = v; break;}
+		//	const m = st.match(this.regDs);
+		//	if (! m || Number(m.groups!.ms) > 0) {le = v; break;}
+			const m: any = m_xregexp.exec(st, this.regDs);
+			if (! m || Number(m['ms']) > 0) {le = v; break;}
 		}
 		if (! le) {this.fncEndChIn(); return;}
 
 		le.addEventListener('animationend', this.fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
 	private rctm = new Rectangle;
-	private readonly regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
+	//private readonly regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
+		// Firefoxで【invalid regexp group(SyntaxError)】になるので
+	private readonly regDs = m_xregexp('animation\\-duration: (?<ms>\\d+)ms;');
 	private	fncEndChIn	= ()=> {};
 	private spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;

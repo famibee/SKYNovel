@@ -105,6 +105,7 @@ CmnLib.cvsScaleY = 1;
 CmnLib.devtool = false;
 CmnLib.platform = Object.assign({}, platform);
 CmnLib.isSafari = platform.name == 'Safari';
+CmnLib.isFirefox = platform.name == 'Firefox';
 CmnLib.isMac = process.platform === 'darwin';
 CmnLib.isMobile = new RegExp('(iOS|Android)').test(CmnLib.platform.os.family);
 CmnLib.hDip = {};

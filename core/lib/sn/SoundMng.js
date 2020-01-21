@@ -69,7 +69,7 @@ class SoundMng {
         this.stopfadese(hArg);
         const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
         const oSb = this.hSndBuf[buf];
-        if (!oSb || !oSb.snd.playing())
+        if (!oSb || !oSb.playing())
             return false;
         const bvn = 'const.sn.sound.' + buf + '.volume';
         const savevol = this.getVol(hArg, NaN);
@@ -99,7 +99,7 @@ class SoundMng {
             .easing(ease)
             .repeat(repeat == 0 ? Infinity : (repeat - 1))
             .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-            .onUpdate((o) => { if (oSb.snd.playing())
+            .onUpdate((o) => { if (oSb.playing())
             oSb.snd.volume(o.v); })
             .onComplete(() => {
             const oSb = this.hSndBuf[buf];
@@ -166,16 +166,22 @@ class SoundMng {
         const join = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true);
         if (join)
             o.onload = () => this.main.resume();
+        const snd = new howler_1.Howl(o);
         this.hSndBuf[buf] = {
-            snd: new howler_1.Howl(o),
+            snd: snd,
             loop: loop,
             ret_ms: ret_ms,
             end_ms: end_ms,
             resume: false,
+            playing: CmnLib_1.CmnLib.isFirefox
+                ? () => true
+                : () => snd.playing(),
             onend: () => {
                 const oSb = this.hSndBuf[buf];
                 if (!oSb)
                     return;
+                if (CmnLib_1.CmnLib.isFirefox)
+                    oSb.playing = () => false;
                 this.stopfadese(hArg);
                 if (oSb.resume) {
                     this.evtMng.popLocalEvts();
@@ -210,7 +216,7 @@ class SoundMng {
         const oSb = this.hSndBuf[buf];
         if (!oSb || !oSb.twFade)
             return false;
-        if (!oSb.snd.playing())
+        if (!oSb.playing())
             return false;
         oSb.resumeFade = true;
         this.evtMng.stdWait(() => { this.stopfadese(hArg); }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true));
@@ -228,18 +234,23 @@ class SoundMng {
     wl(hArg) { hArg.buf = 'BGM'; return this.ws(hArg); }
     ws(hArg) {
         var _a;
+        console.log(`fn:SoundMng.ts line:279 `);
         const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
         const oSb = this.hSndBuf[buf];
-        if (!oSb || !oSb.snd.playing() || oSb.loop)
+        console.log(`fn:SoundMng.ts line:282 A:${!oSb} B:${!oSb.playing()} C:${oSb.loop}`);
+        if (!oSb || !oSb.playing() || oSb.loop)
             return false;
+        console.log(`fn:SoundMng.ts line:283 `);
         oSb.resume = true;
         this.evtMng.stdWait(() => {
+            console.log(`fn:SoundMng.ts line:286 FIN`);
             this.stopse(hArg);
             const oSb = this.hSndBuf[buf];
-            if (!oSb || !oSb.snd.playing() || oSb.loop)
+            if (!oSb || !oSb.playing() || oSb.loop)
                 return;
             oSb.onend();
         }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', false));
+        console.log(`fn:SoundMng.ts line:296 `);
         return true;
     }
     xchgbuf(hArg) {

@@ -19,6 +19,7 @@ interface ISndBuf {
 	ret_ms	: number;
 	end_ms	: number;
 	resume	: boolean;
+	playing	: ()=> boolean;
 	onend	: ()=> void;
 
 	twFade?			: TWEEN.Tween;
@@ -96,7 +97,7 @@ export class SoundMng {
 
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
-		if (! oSb || ! oSb.snd.playing()) return false;
+		if (! oSb || ! oSb.playing()) return false;
 
 		const bvn = 'const.sn.sound.'+ buf +'.volume';
 		const savevol = this.getVol(hArg, NaN);
@@ -127,7 +128,7 @@ export class SoundMng {
 			.easing(ease)
 			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-			.onUpdate((o: any)=> {if (oSb.snd.playing()) oSb.snd.volume(o.v);})
+			.onUpdate((o: any)=> {if (oSb.playing()) oSb.snd.volume(o.v);})
 			.onComplete(()=> {	//console.log('fadese: onComplete');
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
@@ -197,16 +198,21 @@ export class SoundMng {
 		};
 		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
 		if (join) o.onload = ()=> this.main.resume();
+		const snd = new Howl(o);
 		this.hSndBuf[buf] = {
-			snd		: new Howl(o),
+			snd		: snd,
 			loop	: loop,
 			ret_ms	: ret_ms,
 			end_ms	: end_ms,
 			resume	: false,
+			playing	: CmnLib.isFirefox
+				? ()=> true
+				: ()=> snd.playing(),
 			onend	: ()=> {	//console.log('playse: onend');
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
 				if (! oSb) return;
+				if (CmnLib.isFirefox) oSb.playing = ()=> false;
 				//delete this.hSndBuf[buf];
 					// [xchgbuf]をされるかもしれないので、delete不可
 					// 【2018/06/25】cache=falseならここでunload()？
@@ -251,7 +257,7 @@ export class SoundMng {
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
 		if (! oSb || ! oSb.twFade) return false;
-		if (! oSb.snd.playing()) return false;
+		if (! oSb.playing()) return false;
 
 		oSb.resumeFade = true;
 		this.evtMng.stdWait(
@@ -276,21 +282,25 @@ export class SoundMng {
 	private wl(hArg: HArg) {hArg.buf = 'BGM'; return this.ws(hArg);}
 	// 効果音再生の終了待ち
 	private ws(hArg: HArg) {
+console.log(`fn:SoundMng.ts line:279 `);
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
-		if (! oSb || ! oSb.snd.playing() || oSb.loop) return false;
-
+console.log(`fn:SoundMng.ts line:282 A:${! oSb} B:${! oSb.playing()} C:${oSb.loop}`);
+		if (! oSb || ! oSb.playing() || oSb.loop) return false;
+console.log(`fn:SoundMng.ts line:283 `);
 		oSb.resume = true;
 		this.evtMng.stdWait(
 			()=> {
+console.log(`fn:SoundMng.ts line:286 FIN`);
 				this.stopse(hArg);
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
-				if (! oSb || ! oSb.snd.playing() || oSb.loop) return;
+				if (! oSb || ! oSb.playing() || oSb.loop) return;
 				oSb.onend();
 			},
 			CmnLib.argChk_Boolean(hArg, 'canskip', false)
 		);
+console.log(`fn:SoundMng.ts line:296 `);
 		return true;
 	}
 

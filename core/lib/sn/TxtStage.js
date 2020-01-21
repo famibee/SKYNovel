@@ -7,6 +7,7 @@ const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
 const TW = require("@tweenjs/tween.js");
 const TWEEN = TW;
+const m_xregexp = require("xregexp");
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
@@ -25,7 +26,7 @@ class TxtStage extends pixi_js_1.Container {
         this.aRect = [];
         this.lenHtmTxt = 0;
         this.rctm = new pixi_js_1.Rectangle;
-        this.regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
+        this.regDs = m_xregexp('animation\\-duration: (?<ms>\\d+)ms;');
         this.fncEndChIn = () => { };
         this.isChInIng = false;
         this.lh_half = 0;
@@ -67,7 +68,7 @@ class TxtStage extends pixi_js_1.Container {
             s.opacity = String(this.cnt.alpha);
         this.isTategaki = (s.writingMode == 'vertical-rl');
         this.left = this.cnt.position.x
-            - ((CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile) && this.isTategaki
+            - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && this.isTategaki
                 ? this.infTL.pad_left + this.infTL.pad_right
                 : 0);
         s.left = this.left + 'px';
@@ -346,6 +347,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     goTxt(aSpan) {
         var _a, _b;
+        TxtStage.cntBreak.visible = false;
         const begin = this.aRect.length;
         if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
             if (TxtStage.cfg.oCfg.debug.devtool)
@@ -503,8 +505,13 @@ class TxtStage extends pixi_js_1.Container {
             const v = chs[i];
             if (v.className == 'sn_ch')
                 break;
-            const m = v.getAttribute('style').match(this.regDs);
-            if (!m || Number(m.groups.ms) > 0) {
+            const st = v.getAttribute('style');
+            if (!st) {
+                le = v;
+                break;
+            }
+            const m = m_xregexp.exec(st, this.regDs);
+            if (!m || Number(m['ms']) > 0) {
                 le = v;
                 break;
             }

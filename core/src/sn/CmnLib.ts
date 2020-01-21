@@ -68,6 +68,7 @@ export class CmnLib {
 	static	devtool		= false;
 	static	platform	= {...platform};
 	static	isSafari	= platform.name == 'Safari';
+	static	isFirefox	= platform.name == 'Firefox';
 	static	isMac		= process.platform === 'darwin';
 	static	isMobile	= new RegExp('(iOS|Android)').test(CmnLib.platform.os.family);
 	static	hDip		: {[name: string]: string}	= {};

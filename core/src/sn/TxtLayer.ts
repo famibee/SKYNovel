@@ -256,6 +256,7 @@ export class TxtLayer extends Layer {
 			: this.txs.tategaki
 				? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
 				: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
+		if (CmnLib.isFirefox) this.mkStyle_r_align = this.mkStyle_r_align4ff;
 
 		if ('alpha' in hArg) this.cntBtn.children.forEach(e=> e.alpha = this.cnt.alpha);
 
@@ -412,7 +413,7 @@ export class TxtLayer extends Layer {
 
 	isCur	= false;
 	private ruby_pd: (v: string, l: number)=> string = ()=> '';
-	private mkStyle_r_align(ch: string, rb: string, r_align: string) {
+	private mkStyle_r_align(ch: string, rb: string, r_align: string): string {
 		if (! r_align) return '';
 
 		const len = ch.length *2;
@@ -434,6 +435,36 @@ export class TxtLayer extends Layer {
 		return ` style='${st}'`;
 	};
 	private	r_align	= '';
+	private mkStyle_r_align4ff(ch: string, rb: string, r_align: string): string {
+		if (! r_align) return '';
+
+		const len = ch.length *2;
+		if (len -rb.length < 0) return ` style='text-align: ${r_align};'`;
+
+		let st = '';
+		switch (r_align) {
+			case 'left':	st = `ruby-align: start;`;	break;
+			case 'center':	st = `ruby-align: center;`;	break;
+			case 'right':	// エレガントにサポートできていない
+				st = `ruby-align: start;`;	break;
+			case 'justify':	st = `ruby-align: space-between;`;	break;
+			case '121':		st = `ruby-align: space-around;`;	break;
+			case 'even':
+				const ev = (len -rb.length) /(rb.length +1);
+				st = `ruby-align: space-between; `+
+				(this.txs.tategaki
+					? `padding-top: ${ev}em; padding-bottom: ${ev}em;`
+					: `padding-left: ${ev}em; padding-right: ${ev}em;`);
+				break;
+			case '1ruby':	st = `ruby-align: space-between; `+
+				(this.txs.tategaki
+					? `padding-top: 1em; padding-bottom: 1em;`
+					: `padding-left: 1em; padding-right: 1em;`);
+				break;
+			default:		st = `text-align: ${r_align};`;
+		}
+		return ` style='${st}'`;
+	}
 
 	tagCh(text: string): void {this.rbSpl.putTxt(text);}
 	private	needGoTxt = false;
