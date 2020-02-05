@@ -66,7 +66,7 @@ class TxtStage extends pixi_js_1.Container {
         }
         else if ('alpha' in hArg)
             s.opacity = String(this.cnt.alpha);
-        this.isTategaki = (s.writingMode == 'vertical-rl');
+        this.lay_sub();
         this.left = this.cnt.position.x
             - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && this.isTategaki
                 ? this.infTL.pad_left + this.infTL.pad_right
@@ -77,7 +77,6 @@ class TxtStage extends pixi_js_1.Container {
         this.cvsResize();
         s.display = this.cnt.visible ? 'inline' : 'none';
         s.textShadow = (_b = (_a = hArg.filter, (_a !== null && _a !== void 0 ? _a : s.textShadow)), (_b !== null && _b !== void 0 ? _b : ''));
-        this.lay_sub();
     }
     lay_sub() {
         var _a;
@@ -102,7 +101,7 @@ class TxtStage extends pixi_js_1.Container {
                 : (fs * parseFloat(lh) - fs)) / 2;
     }
     cvsResize() {
-        this.htmTxt.style.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x * CmnLib_1.CmnLib.cvsScaleX}, ${this.cnt.scale.y * CmnLib_1.CmnLib.cvsScaleY}`;
+        this.htmTxt.style.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x * CmnLib_1.CmnLib.cvsScale}, ${this.cnt.scale.y * CmnLib_1.CmnLib.cvsScale}`;
     }
     get tategaki() { return this.isTategaki; }
     setSize(width, height) {
@@ -372,13 +371,15 @@ class TxtStage extends pixi_js_1.Container {
         do {
             const e = this.aRect = this.getChRects(this.htmTxt);
             len = e.length;
-            if (CmnLib_1.CmnLib.cvsScaleX != 1 || CmnLib_1.CmnLib.cvsScaleY != 1) {
+            if (CmnLib_1.CmnLib.cvsScale != 1) {
                 for (let i = 0; i < len; ++i) {
                     const r = e[i].rect;
-                    r.x /= CmnLib_1.CmnLib.cvsScaleX;
-                    r.y /= CmnLib_1.CmnLib.cvsScaleY;
-                    r.width /= CmnLib_1.CmnLib.cvsScaleX;
-                    r.height /= CmnLib_1.CmnLib.cvsScaleY;
+                    r.x -= CmnLib_1.CmnLib.ofsPadLeft_Dom2PIXI;
+                    r.y -= CmnLib_1.CmnLib.ofsPadTop_Dom2PIXI;
+                    r.x /= CmnLib_1.CmnLib.cvsScale;
+                    r.y /= CmnLib_1.CmnLib.cvsScale;
+                    r.width /= CmnLib_1.CmnLib.cvsScale;
+                    r.height /= CmnLib_1.CmnLib.cvsScale;
                 }
             }
             if (len < 2)

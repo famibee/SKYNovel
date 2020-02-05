@@ -23,10 +23,11 @@ export interface IEvtMng {
 export declare class CmnLib {
     static stageW: number;
     static stageH: number;
+    static ofsPadLeft_Dom2PIXI: number;
+    static ofsPadTop_Dom2PIXI: number;
     static cvsWidth: number;
     static cvsHeight: number;
-    static cvsScaleX: number;
-    static cvsScaleY: number;
+    static cvsScale: number;
     static devtool: boolean;
     static platform: any;
     static isSafari: boolean;
@@ -42,7 +43,7 @@ export declare class CmnLib {
     static readonly sn_id = "skynovel";
     static argChk_Num(hash: any, name: string, def: number): number;
     static argChk_Boolean(hash: any, name: string, def: boolean): boolean;
-    static cvsResize(): boolean;
+    static cvsResize(cvs: HTMLCanvasElement): boolean;
     static readonly getFn: (path: string) => string;
     static readonly getExt: (path: string) => string;
 }

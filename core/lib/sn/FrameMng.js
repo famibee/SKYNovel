@@ -42,7 +42,8 @@ class FrameMng {
         const v = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
         const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
         const rct = this.rect(hArg);
-        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * this.sys.reso4frame}px; top: ${this.sys.ofsTop4frm + rct.y * this.sys.reso4frame}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};${b_color}" width="${rct.width * this.sys.reso4frame}" height="${rct.height * this.sys.reso4frame}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
+        const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
+        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * scale}px; top: ${this.sys.ofsTop4frm + rct.y * scale}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};${b_color}" width="${rct.width * scale}" height="${rct.height * scale}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
         const ifrm = document.getElementById(id);
         this.hIfrm[id] = ifrm;
         const win = ifrm.contentWindow;
@@ -118,9 +119,10 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
         }
         const rct = this.rect(hArg);
+        const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
         if ('x' in hArg || 'y' in hArg) {
-            ifrm.style.left = this.sys.ofsLeft4frm + rct.x * this.sys.reso4frame + 'px';
-            ifrm.style.top = this.sys.ofsTop4frm + rct.y * this.sys.reso4frame + 'px';
+            ifrm.style.left = this.sys.ofsLeft4frm + rct.x * scale + 'px';
+            ifrm.style.top = this.sys.ofsTop4frm + rct.y * scale + 'px';
             this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
             this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
         }
@@ -134,11 +136,11 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
         }
         if ('width' in hArg) {
-            ifrm.style.width = String(rct.width * this.sys.reso4frame);
+            ifrm.style.width = String(rct.width * scale);
             this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
         }
         if ('height' in hArg) {
-            ifrm.style.height = String(rct.height * this.sys.reso4frame);
+            ifrm.style.height = String(rct.height * scale);
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
         }
         if ('visible' in hArg) {
@@ -174,6 +176,7 @@ class FrameMng {
         }
         let fncXYSR = () => { };
         const rct = this.rect(hArg);
+        const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
         if ('x' in hArg || 'y' in hArg
             || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
             hNow.x = Number(this.val.getVal(`tmp:${frmnm}.x`));
@@ -187,8 +190,8 @@ class FrameMng {
             hTo.sy = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1);
             hTo.r = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0);
             fncXYSR = () => {
-                ifrm.style.left = this.sys.ofsLeft4frm + hNow.x * this.sys.reso4frame + 'px';
-                ifrm.style.top = this.sys.ofsTop4frm + hNow.y * this.sys.reso4frame + 'px';
+                ifrm.style.left = this.sys.ofsLeft4frm + hNow.x * scale + 'px';
+                ifrm.style.top = this.sys.ofsTop4frm + hNow.y * scale + 'px';
                 ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
                 this.val.setVal_Nochk('tmp', frmnm + '.x', hNow.x);
                 this.val.setVal_Nochk('tmp', frmnm + '.y', hNow.y);
@@ -202,7 +205,7 @@ class FrameMng {
             hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
             hTo.w = rct.width;
             fncW = () => {
-                ifrm.style.width = hNow.w * this.sys.reso4frame + 'px';
+                ifrm.style.width = hNow.w * scale + 'px';
                 this.val.setVal_Nochk('tmp', frmnm + '.width', hNow.w);
             };
         }
@@ -211,7 +214,7 @@ class FrameMng {
             hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
             hTo.h = rct.height;
             fncH = () => {
-                ifrm.style.height = hNow.h * this.sys.reso4frame + 'px';
+                ifrm.style.height = hNow.h * scale + 'px';
                 this.val.setVal_Nochk('tmp', frmnm + '.height', hNow.h);
             };
         }

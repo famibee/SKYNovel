@@ -88,7 +88,7 @@ export class Button extends Container {
 			this.on('pointerover', hover);
 			this.on('pointerout', normal);
 			this.on('pointerdown', clicked);
-			this.on('pointerup', hover);
+			this.on('pointerup', CmnLib.isMobile ?normal :hover);
 			return;
 		}
 
@@ -123,7 +123,7 @@ export class Button extends Container {
 				this.on('pointerover', hover);
 				this.on('pointerout', normal);
 				this.on('pointerdown', clicked);
-				this.on('pointerup', hover);
+				this.on('pointerup', CmnLib.isMobile ?normal :hover);
 				normal();
 			},
 			isStop=> {if (isStop) this.main.resume()}

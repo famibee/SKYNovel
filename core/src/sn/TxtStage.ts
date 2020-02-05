@@ -88,7 +88,7 @@ export class TxtStage extends Container {
 		}
 		else if ('alpha' in hArg) s.opacity = String(this.cnt.alpha);
 
-		this.isTategaki = (s.writingMode == 'vertical-rl');
+		this.lay_sub();
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 		this.left = this.cnt.position.x
 			-(CmnLib.isSafari && !CmnLib.isMobile && this.isTategaki
@@ -100,8 +100,6 @@ export class TxtStage extends Container {
 		this.cvsResize();
 		s.display = this.cnt.visible ?'inline' :'none';
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
-
-		this.lay_sub();
 	}
 	private lay_sub() {
 		const s = this.htmTxt.style;
@@ -130,7 +128,7 @@ export class TxtStage extends Container {
 			// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
 	}
 	cvsResize() {
-		this.htmTxt.style.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x *CmnLib.cvsScaleX}, ${this.cnt.scale.y *CmnLib.cvsScaleY}`;
+		this.htmTxt.style.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x *CmnLib.cvsScale}, ${this.cnt.scale.y *CmnLib.cvsScale}`;
 	}
 	private left = 0;
 	private isTategaki = false;
@@ -542,14 +540,17 @@ export class TxtStage extends Container {
 		do {
 			const e = this.aRect = this.getChRects(this.htmTxt);
 			len = e.length;
-			if (CmnLib.cvsScaleX != 1 || CmnLib.cvsScaleY != 1) {
+			if (CmnLib.cvsScale != 1) {
+				// Resizeを意識してDOM位置をPIXIに変換
 				// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響が大きい
 				for (let i=0; i<len; ++i) {
 					const r = e[i].rect;
-					r.x /= CmnLib.cvsScaleX;
-					r.y /= CmnLib.cvsScaleY;
-					r.width /= CmnLib.cvsScaleX;
-					r.height /= CmnLib.cvsScaleY;
+					r.x -= CmnLib.ofsPadLeft_Dom2PIXI;
+					r.y -= CmnLib.ofsPadTop_Dom2PIXI;	// 次行と前後関係固定で
+					r.x /= CmnLib.cvsScale;
+					r.y /= CmnLib.cvsScale;
+					r.width  /= CmnLib.cvsScale;
+					r.height /= CmnLib.cvsScale;
 				}
 			}
 			if (len < 2) break;

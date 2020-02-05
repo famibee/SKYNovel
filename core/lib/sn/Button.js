@@ -69,7 +69,7 @@ class Button extends pixi_js_1.Container {
             this.on('pointerover', hover);
             this.on('pointerout', normal);
             this.on('pointerdown', clicked);
-            this.on('pointerup', hover);
+            this.on('pointerup', CmnLib_1.CmnLib.isMobile ? normal : hover);
             return;
         }
         if (!hArg.pic)
@@ -93,7 +93,7 @@ class Button extends pixi_js_1.Container {
             this.on('pointerover', hover);
             this.on('pointerout', normal);
             this.on('pointerdown', clicked);
-            this.on('pointerup', hover);
+            this.on('pointerup', CmnLib_1.CmnLib.isMobile ? normal : hover);
             normal();
         }, isStop => { if (isStop)
             this.main.resume(); });

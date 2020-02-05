@@ -73,7 +73,7 @@ class EventMng {
         }
         appPixi.stage.interactive = true;
         if (CmnLib_1.CmnLib.isMobile)
-            this.elc.add(appPixi.view, 'pointerdown', e => this.defEvt2Fnc(e, 'click'));
+            appPixi.stage.on('pointerdown', (e) => this.defEvt2Fnc(e, 'click'));
         else
             this.elc.add(appPixi.stage, 'pointerdown', e => {
                 switch (e.data.button) {

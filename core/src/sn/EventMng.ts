@@ -87,7 +87,7 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		if (CmnLib.isMobile) this.elc.add(appPixi.view, 'pointerdown', e=> this.defEvt2Fnc(e, 'click'));
+		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', (e: any)=> this.defEvt2Fnc(e, 'click'));
 		else this.elc.add(appPixi.stage, 'pointerdown', e=> {
 			switch (e.data.button) {
 				case 0:	this.defEvt2Fnc(e, 'click');	break;
@@ -317,7 +317,7 @@ export class EventMng implements IEvtMng {
 			});
 		}
 		if (hArg.onenter) {
-			//	onenter	ラベル名	マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。
+			// マウス重なり（フォーカス取得）時、ラベルコール。必ず[return]で戻ること
 			const key2 = key + hArg.onenter.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
@@ -325,7 +325,7 @@ export class EventMng implements IEvtMng {
 			em.on('pointerover', (e: any)=> this.defEvt2Fnc(e, key2));
 		}
 		if (hArg.onleave) {
-			//	onleave	ラベル名	マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。
+			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
 			const key2 = key + hArg.onleave.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);

@@ -33,7 +33,7 @@ export class EventListenerCtn {	// リソースリーク対策
 			return;
 		}
 		ed.addEventListener(type, fnc, ctx);
-		this.vctEvt.push(()=> ed.removeEventListener(type, fnc, {capture: ctx.capture || false}));
+		this.vctEvt.push(()=> ed.removeEventListener(type, fnc, {capture: ctx.capture ?? false}));
 	}
 
 	clear(): void {

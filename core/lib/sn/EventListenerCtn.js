@@ -24,7 +24,7 @@ class EventListenerCtn {
             return;
         }
         ed.addEventListener(type, fnc, ctx);
-        this.vctEvt.push(() => ed.removeEventListener(type, fnc, { capture: ctx.capture || false }));
+        this.vctEvt.push(() => { var _a; return ed.removeEventListener(type, fnc, { capture: (_a = ctx.capture, (_a !== null && _a !== void 0 ? _a : false)) }); });
     }
     clear() {
         for (const fnc of this.vctEvt)

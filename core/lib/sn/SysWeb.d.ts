@@ -10,7 +10,8 @@ export declare class SysWeb extends SysBase {
         dip: string;
     });
     private def_prj;
-    private readonly run;
+    readonly run: (prj: string) => Promise<void>;
+    stop(): void;
     private now_prj;
     private main;
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;

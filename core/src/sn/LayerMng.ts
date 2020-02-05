@@ -32,18 +32,8 @@ export class LayerMng {
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		// レスポンシブや回転の対応
-		const ps = this.appPixi.view.parentElement!.style;
-		ps.position = 'relative';
-		const s = this.appPixi.view.style;
-		const fncResize = (): boolean=> {
-			if (! CmnLib.cvsResize()) return false;
-			ps.width = s.width = `${CmnLib.cvsWidth}px`;
-			ps.height= s.height= `${CmnLib.cvsHeight}px`;
-//console.log(`fn:Main.ts line:73 cvsResize/回転 wiw:${window.innerWidth} wih:${window.innerHeight} w:${CmnLib.cvsWidth} h:${CmnLib.cvsHeight} sx:${CmnLib.cvsScaleX} sy:${CmnLib.cvsScaleY}`);
-			return true;
-		};
 		const fncResizeLay = ()=> {
-			if (! fncResize()) return;
+			if (! CmnLib.cvsResize(appPixi.view)) return;
 			this.aLayName.forEach(layer=> {
 				const pg = this.hPages[layer];
 				pg.fore.cvsResize();
@@ -60,7 +50,7 @@ export class LayerMng {
 				tid = setTimeout(()=> {tid = 0; fncResizeLay();}, 500);
 			});
 		}
-		fncResize();
+		CmnLib.cvsResize(appPixi.view);
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
 		GrpLayer.init(main, cfg, sys);

@@ -61,16 +61,17 @@ const platform = require('platform');
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
+	static	ofsPadLeft_Dom2PIXI	= 0;
+	static	ofsPadTop_Dom2PIXI	= 0;
 	static	cvsWidth	= 0;
 	static	cvsHeight	= 0;
-	static	cvsScaleX	= 1;
-	static	cvsScaleY	= 1;
+	static	cvsScale	= 1;
 	static	devtool		= false;
 	static	platform	= {...platform};
 	static	isSafari	= platform.name == 'Safari';
 	static	isFirefox	= platform.name == 'Firefox';
-	static	isMac		= process.platform === 'darwin';
-	static	isMobile	= new RegExp('(iOS|Android)').test(CmnLib.platform.os.family);
+	static	isMac		= new RegExp('OS X').test(CmnLib.platform.os.family);
+	static	isMobile	= ! new RegExp('(Windows|OS X)').test(CmnLib.platform.os.family);
 	static	hDip		: {[name: string]: string}	= {};
 
 	static	isRetina	= false;
@@ -124,7 +125,7 @@ export class CmnLib {
 		return hash[name] = (v2 == "false")? false : Boolean(v2);
 	}
 
-	static cvsResize(): boolean {
+	static cvsResize(cvs: HTMLCanvasElement): boolean {
 		const bk_cw = CmnLib.cvsWidth;
 		const bk_ch = CmnLib.cvsHeight;
 		let wiw = window.innerWidth;
@@ -136,14 +137,10 @@ export class CmnLib {
 		if (CmnLib.isMobile &&
 			((lp == 'p' && wiw > wih) || (lp == 'l' && wiw < wih))
 			) [wiw, wih] = [wih, wiw];
-		if (CmnLib.stageW <= wiw &&
-			CmnLib.stageH <= wih) {
-			CmnLib.cvsWidth = CmnLib.stageW;
-			CmnLib.cvsHeight = CmnLib.stageH;
-			CmnLib.cvsScaleX = 1;
-			CmnLib.cvsScaleY = 1;
-		}
-		else {
+		if (CmnLib.argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
+			CmnLib.stageW > wiw ||
+			CmnLib.stageH > wih
+		) {
 			if (CmnLib.stageW /CmnLib.stageH <= wiw /wih) {
 				CmnLib.cvsHeight = wih;
 				CmnLib.cvsWidth = CmnLib.stageW /CmnLib.stageH *wih;
@@ -152,9 +149,27 @@ export class CmnLib {
 				CmnLib.cvsWidth = wiw;
 				CmnLib.cvsHeight = CmnLib.stageH /CmnLib.stageW	*wiw;
 			}
-			CmnLib.cvsScaleX = CmnLib.cvsWidth /CmnLib.stageW;
-			CmnLib.cvsScaleY = CmnLib.cvsHeight/CmnLib.stageH;
+			CmnLib.cvsScale = CmnLib.cvsWidth /CmnLib.stageW;
+
+			const cr = cvs.getBoundingClientRect();
+			CmnLib.ofsPadLeft_Dom2PIXI	= cr.left *(1- CmnLib.cvsScale);
+			CmnLib.ofsPadTop_Dom2PIXI	= cr.top  *(1- CmnLib.cvsScale);
+				// +cr.left /CmnLib.cvsScale -cr.left、
+					// PaddingLeft を DOMで引いてPIXIで足すイメージ
 		}
+		else {
+			CmnLib.cvsWidth = CmnLib.stageW;
+			CmnLib.cvsHeight = CmnLib.stageH;
+			CmnLib.cvsScale = 1;
+			CmnLib.ofsPadLeft_Dom2PIXI	= 0;
+			CmnLib.ofsPadTop_Dom2PIXI	= 0;
+		}
+		const ps = cvs.parentElement!.style;
+		ps.position = 'relative';
+		const s = cvs.style;
+		ps.width = s.width = `${CmnLib.cvsWidth}px`;
+		ps.height= s.height= `${CmnLib.cvsHeight}px`;
+
 		return bk_cw != CmnLib.cvsWidth || bk_ch != CmnLib.cvsHeight;
 	}
 

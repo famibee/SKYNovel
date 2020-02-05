@@ -84,10 +84,14 @@ class SysWeb extends SysBase_1.SysBase {
             for (const v of document.querySelectorAll('[data-reload]')) {
                 v.addEventListener('click', () => this.run(this.now_prj));
             }
+            if (arg.dip)
+                CmnLib_1.CmnLib.hDip = JSON.parse(arg.dip);
             const sp = new URLSearchParams(location.search);
             const dip = sp.get('dip');
             if (dip)
-                CmnLib_1.CmnLib.hDip = JSON.parse(dip);
+                CmnLib_1.CmnLib.hDip = Object.assign(Object.assign({}, CmnLib_1.CmnLib.hDip), JSON.parse(dip));
+            if (!CmnLib_1.CmnLib.argChk_Boolean(CmnLib_1.CmnLib.hDip, 'oninit_run', true))
+                return;
             this.run((_a = sp.get('cur'), (_a !== null && _a !== void 0 ? _a : '')));
         };
         if ('webkitFullscreenEnabled' in document)
@@ -98,6 +102,12 @@ class SysWeb extends SysBase_1.SysBase {
             this.tgl_full_scr = o => this.regEvt_FullScr(o, 'msRequestFullscreen', 'msExitFullscreen', 'msFullscreenElement');
         else if (document['fullscreenEnabled'])
             this.tgl_full_scr = o => this.regEvt_FullScr(o, 'requestFullscreen', 'exitFullscreen', 'fullscreenElement');
+    }
+    stop() {
+        if (!this.main)
+            return;
+        this.main.destroy();
+        this.main = null;
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
         (async () => {
@@ -189,8 +199,8 @@ class SysWeb extends SysBase_1.SysBase {
         const ratioHeight = screen.height / CmnLib_1.CmnLib.stageH;
         const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
         this.reso4frame = is_fs ? 1 : ratio;
-        this.ofsLeft4frm = is_fs ? 0 : (screen.width - CmnLib_1.CmnLib.stageW * this.reso4frame) / 2;
-        this.ofsTop4frm = is_fs ? 0 : (screen.height - CmnLib_1.CmnLib.stageH * this.reso4frame) / 2;
+        this.ofsLeft4frm = is_fs ? 0 : (screen.width - CmnLib_1.CmnLib.stageW * this.reso4frame * CmnLib_1.CmnLib.cvsScale) / 2;
+        this.ofsTop4frm = is_fs ? 0 : (screen.height - CmnLib_1.CmnLib.stageH * this.reso4frame * CmnLib_1.CmnLib.cvsScale) / 2;
         this.resizeFrames();
     }
 }

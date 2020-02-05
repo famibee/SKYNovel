@@ -33,9 +33,11 @@ export class SysWeb extends SysBase {
 			for (const v of document.querySelectorAll('[data-reload]')) {
 				v.addEventListener('click', ()=> this.run(this.now_prj));
 			}
+			if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
 			const sp = new URLSearchParams(location.search);
 			const dip = sp.get('dip');	// ディップスイッチ
-			if (dip) CmnLib.hDip = JSON.parse(dip);
+			if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip)};
+			if (! CmnLib.argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
 			this.run(sp.get('cur') ?? '');
 		}
 
@@ -65,7 +67,7 @@ export class SysWeb extends SysBase {
 		);
 	}
 	private def_prj = 'prj';
-	private readonly	run = async (prj: string)=> {
+	readonly	run = async (prj: string)=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.main.destroy(ms_late);
@@ -80,8 +82,13 @@ export class SysWeb extends SysBase {
 			+ this.now_prj +'/';
 		this.main = new Main(this);
 	}
+	stop() {
+		if (! this.main) return;
+		this.main.destroy();
+		this.main = null;
+	}
 	private now_prj = ':';
-	private main: Main;
+	private main: Main | null;
 
 
 	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
@@ -205,8 +212,8 @@ export class SysWeb extends SysBase {
 		const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
 		this.reso4frame = is_fs ?1 :ratio;
 			// document.body.clientWidth が時々正しい値を返さないのでscreen.widthで
-		this.ofsLeft4frm = is_fs ?0 :(screen.width -CmnLib.stageW *this.reso4frame) /2;
-		this.ofsTop4frm  = is_fs ?0 :(screen.height -CmnLib.stageH *this.reso4frame) /2;
+		this.ofsLeft4frm = is_fs ?0 :(screen.width -CmnLib.stageW *this.reso4frame *CmnLib.cvsScale) /2;
+		this.ofsTop4frm  = is_fs ?0 :(screen.height -CmnLib.stageH *this.reso4frame *CmnLib.cvsScale) /2;
 		this.resizeFrames();
 	}
 

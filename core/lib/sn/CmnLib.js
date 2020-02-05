@@ -60,7 +60,7 @@ class CmnLib {
         const v2 = String(v);
         return hash[name] = (v2 == "false") ? false : Boolean(v2);
     }
-    static cvsResize() {
+    static cvsResize(cvs) {
         var _a;
         const bk_cw = CmnLib.cvsWidth;
         const bk_ch = CmnLib.cvsHeight;
@@ -73,14 +73,9 @@ class CmnLib {
         if (CmnLib.isMobile &&
             ((lp == 'p' && wiw > wih) || (lp == 'l' && wiw < wih)))
             [wiw, wih] = [wih, wiw];
-        if (CmnLib.stageW <= wiw &&
-            CmnLib.stageH <= wih) {
-            CmnLib.cvsWidth = CmnLib.stageW;
-            CmnLib.cvsHeight = CmnLib.stageH;
-            CmnLib.cvsScaleX = 1;
-            CmnLib.cvsScaleY = 1;
-        }
-        else {
+        if (CmnLib.argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
+            CmnLib.stageW > wiw ||
+            CmnLib.stageH > wih) {
             if (CmnLib.stageW / CmnLib.stageH <= wiw / wih) {
                 CmnLib.cvsHeight = wih;
                 CmnLib.cvsWidth = CmnLib.stageW / CmnLib.stageH * wih;
@@ -89,25 +84,40 @@ class CmnLib {
                 CmnLib.cvsWidth = wiw;
                 CmnLib.cvsHeight = CmnLib.stageH / CmnLib.stageW * wiw;
             }
-            CmnLib.cvsScaleX = CmnLib.cvsWidth / CmnLib.stageW;
-            CmnLib.cvsScaleY = CmnLib.cvsHeight / CmnLib.stageH;
+            CmnLib.cvsScale = CmnLib.cvsWidth / CmnLib.stageW;
+            const cr = cvs.getBoundingClientRect();
+            CmnLib.ofsPadLeft_Dom2PIXI = cr.left * (1 - CmnLib.cvsScale);
+            CmnLib.ofsPadTop_Dom2PIXI = cr.top * (1 - CmnLib.cvsScale);
         }
+        else {
+            CmnLib.cvsWidth = CmnLib.stageW;
+            CmnLib.cvsHeight = CmnLib.stageH;
+            CmnLib.cvsScale = 1;
+            CmnLib.ofsPadLeft_Dom2PIXI = 0;
+            CmnLib.ofsPadTop_Dom2PIXI = 0;
+        }
+        const ps = cvs.parentElement.style;
+        ps.position = 'relative';
+        const s = cvs.style;
+        ps.width = s.width = `${CmnLib.cvsWidth}px`;
+        ps.height = s.height = `${CmnLib.cvsHeight}px`;
         return bk_cw != CmnLib.cvsWidth || bk_ch != CmnLib.cvsHeight;
     }
 }
 exports.CmnLib = CmnLib;
 CmnLib.stageW = 0;
 CmnLib.stageH = 0;
+CmnLib.ofsPadLeft_Dom2PIXI = 0;
+CmnLib.ofsPadTop_Dom2PIXI = 0;
 CmnLib.cvsWidth = 0;
 CmnLib.cvsHeight = 0;
-CmnLib.cvsScaleX = 1;
-CmnLib.cvsScaleY = 1;
+CmnLib.cvsScale = 1;
 CmnLib.devtool = false;
 CmnLib.platform = Object.assign({}, platform);
 CmnLib.isSafari = platform.name == 'Safari';
 CmnLib.isFirefox = platform.name == 'Firefox';
-CmnLib.isMac = process.platform === 'darwin';
-CmnLib.isMobile = new RegExp('(iOS|Android)').test(CmnLib.platform.os.family);
+CmnLib.isMac = new RegExp('OS X').test(CmnLib.platform.os.family);
+CmnLib.isMobile = !new RegExp('(Windows|OS X)').test(CmnLib.platform.os.family);
 CmnLib.hDip = {};
 CmnLib.isRetina = false;
 CmnLib.isDarkMode = false;
