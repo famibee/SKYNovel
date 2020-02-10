@@ -94,8 +94,10 @@ export class TxtStage extends Container {
 			-(CmnLib.isSafari && !CmnLib.isMobile && this.isTategaki
 				? this.infTL.pad_left +this.infTL.pad_right
 				: 0);
-		s.left = this.left +'px';
-		s.top = this.cnt.position.y +'px';
+//		s.left = this.left +'px';
+		s.left = (this.left *CmnLib.cvsScale) +'px';
+//		s.top = this.cnt.position.y +'px';
+		s.top = (this.cnt.position.y *CmnLib.cvsScale) +'px';
 		s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
 		this.cvsResize();
 		s.display = this.cnt.visible ?'inline' :'none';
@@ -543,10 +545,16 @@ export class TxtStage extends Container {
 			if (CmnLib.cvsScale != 1) {
 				// Resizeを意識してDOM位置をPIXIに変換
 				// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響が大きい
+				const ox = CmnLib.ofsPadLeft_Dom2PIXI
+					+ parseFloat(this.htmTxt.style.left)
+						*(1- CmnLib.cvsScale);
+				const oy = CmnLib.ofsPadTop_Dom2PIXI
+					+ parseFloat(this.htmTxt.style.top)
+						*(1- CmnLib.cvsScale);
 				for (let i=0; i<len; ++i) {
 					const r = e[i].rect;
-					r.x -= CmnLib.ofsPadLeft_Dom2PIXI;
-					r.y -= CmnLib.ofsPadTop_Dom2PIXI;	// 次行と前後関係固定で
+					r.x -= ox;
+					r.y -= oy;	// 次行と前後関係固定で
 					r.x /= CmnLib.cvsScale;
 					r.y /= CmnLib.cvsScale;
 					r.width  /= CmnLib.cvsScale;

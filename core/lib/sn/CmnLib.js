@@ -86,8 +86,14 @@ class CmnLib {
             }
             CmnLib.cvsScale = CmnLib.cvsWidth / CmnLib.stageW;
             const cr = cvs.getBoundingClientRect();
-            CmnLib.ofsPadLeft_Dom2PIXI = cr.left * (1 - CmnLib.cvsScale);
-            CmnLib.ofsPadTop_Dom2PIXI = cr.top * (1 - CmnLib.cvsScale);
+            CmnLib.ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
+                ? (window.innerWidth - CmnLib.cvsWidth) / 2
+                : cr.left)
+                * (1 - CmnLib.cvsScale);
+            CmnLib.ofsPadTop_Dom2PIXI = (CmnLib.isMobile
+                ? (window.innerHeight - CmnLib.cvsHeight) / 2
+                : cr.top)
+                * (1 - CmnLib.cvsScale);
         }
         else {
             CmnLib.cvsWidth = CmnLib.stageW;

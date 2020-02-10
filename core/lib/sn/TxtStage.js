@@ -71,8 +71,8 @@ class TxtStage extends pixi_js_1.Container {
             - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && this.isTategaki
                 ? this.infTL.pad_left + this.infTL.pad_right
                 : 0);
-        s.left = this.left + 'px';
-        s.top = this.cnt.position.y + 'px';
+        s.left = (this.left * CmnLib_1.CmnLib.cvsScale) + 'px';
+        s.top = (this.cnt.position.y * CmnLib_1.CmnLib.cvsScale) + 'px';
         s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
         this.cvsResize();
         s.display = this.cnt.visible ? 'inline' : 'none';
@@ -372,10 +372,16 @@ class TxtStage extends pixi_js_1.Container {
             const e = this.aRect = this.getChRects(this.htmTxt);
             len = e.length;
             if (CmnLib_1.CmnLib.cvsScale != 1) {
+                const ox = CmnLib_1.CmnLib.ofsPadLeft_Dom2PIXI
+                    + parseFloat(this.htmTxt.style.left)
+                        * (1 - CmnLib_1.CmnLib.cvsScale);
+                const oy = CmnLib_1.CmnLib.ofsPadTop_Dom2PIXI
+                    + parseFloat(this.htmTxt.style.top)
+                        * (1 - CmnLib_1.CmnLib.cvsScale);
                 for (let i = 0; i < len; ++i) {
                     const r = e[i].rect;
-                    r.x -= CmnLib_1.CmnLib.ofsPadLeft_Dom2PIXI;
-                    r.y -= CmnLib_1.CmnLib.ofsPadTop_Dom2PIXI;
+                    r.x -= ox;
+                    r.y -= oy;
                     r.x /= CmnLib_1.CmnLib.cvsScale;
                     r.y /= CmnLib_1.CmnLib.cvsScale;
                     r.width /= CmnLib_1.CmnLib.cvsScale;

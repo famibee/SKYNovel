@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.12.2",
+	"version": "0.12.3",
 	"description": "webgl novelgame framework",
 	"main": "index.js",
 	"types": "./core/lib/index.d.ts",
