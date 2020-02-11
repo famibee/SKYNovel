@@ -17,9 +17,9 @@ export class SysMob extends SysBase {
 
 		document.addEventListener('deviceready', ()=> {
 			const main = new Main(this);
-			document.addEventListener('pause', ()=> main.pauseDev(), false);
-			document.addEventListener('resume', ()=> main.resumeDev(), false);
-		}, false);
+			document.addEventListener('pause', ()=> main.pauseDev(), {passive: true});
+			document.addEventListener('resume', ()=> main.resumeDev(), {passive: true});
+		}, {once: true, passive: true});
 	}
 
 	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {

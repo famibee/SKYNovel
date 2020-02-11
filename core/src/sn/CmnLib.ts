@@ -172,11 +172,13 @@ export class CmnLib {
 			CmnLib.ofsPadLeft_Dom2PIXI	= 0;
 			CmnLib.ofsPadTop_Dom2PIXI	= 0;
 		}
-		const ps = cvs.parentElement!.style;
-		ps.position = 'relative';
-		const s = cvs.style;
-		ps.width = s.width = `${CmnLib.cvsWidth}px`;
-		ps.height= s.height= `${CmnLib.cvsHeight}px`;
+		if (cvs.parentElement) {
+			const ps = cvs.parentElement.style;
+			ps.position = 'relative';
+			const s = cvs.style;
+			ps.width = s.width = `${CmnLib.cvsWidth}px`;
+			ps.height= s.height= `${CmnLib.cvsHeight}px`;
+		}
 
 		return bk_cw != CmnLib.cvsWidth || bk_ch != CmnLib.cvsHeight;
 	}

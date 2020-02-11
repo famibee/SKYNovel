@@ -732,6 +732,7 @@ export class TxtLayer extends Layer {
 		this.aSpan.push(TxtLayer.rec(add_htm));
 	}
 	private tagCh_sub(ch: string, ruby: string, isSkip: boolean, r_align: string): string {
+		if (ch == ' ') ch = '&nbsp;';
 		if (TxtLayer.val.doRecLog()) this.page_text += ch
 		+(ruby ?`《${ruby}》` :'');
 

@@ -28,9 +28,9 @@ class SysMob extends SysBase_1.SysBase {
         };
         document.addEventListener('deviceready', () => {
             const main = new Main_1.Main(this);
-            document.addEventListener('pause', () => main.pauseDev(), false);
-            document.addEventListener('resume', () => main.resumeDev(), false);
-        }, false);
+            document.addEventListener('pause', () => main.pauseDev(), { passive: true });
+            document.addEventListener('resume', () => main.resumeDev(), { passive: true });
+        }, { once: true, passive: true });
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
         (async () => {

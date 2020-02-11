@@ -28,10 +28,10 @@ export class SysWeb extends SysBase {
 					if (! elm) return;
 					const prj = elm.value;
 					if (this.now_prj != prj) this.run(prj);
-				});
+				}, {passive: true});
 			}
 			for (const v of document.querySelectorAll('[data-reload]')) {
-				v.addEventListener('click', ()=> this.run(this.now_prj));
+				v.addEventListener('click', ()=> this.run(this.now_prj), {passive: true});
 			}
 			if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
 			const sp = new URLSearchParams(location.search);
@@ -198,7 +198,7 @@ export class SysWeb extends SysBase {
 			if (doc[get_fnc_name] != null) doc[exit_fnc_name]();
 			else elm[go_fnc_name]();
 			this.resizeFramesWork();
-		});
+		}, {passive: true});
 
 		return false;
 	}

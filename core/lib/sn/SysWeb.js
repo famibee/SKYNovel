@@ -79,10 +79,10 @@ class SysWeb extends SysBase_1.SysBase {
                     const prj = elm.value;
                     if (this.now_prj != prj)
                         this.run(prj);
-                });
+                }, { passive: true });
             }
             for (const v of document.querySelectorAll('[data-reload]')) {
-                v.addEventListener('click', () => this.run(this.now_prj));
+                v.addEventListener('click', () => this.run(this.now_prj), { passive: true });
             }
             if (arg.dip)
                 CmnLib_1.CmnLib.hDip = JSON.parse(arg.dip);
@@ -190,7 +190,7 @@ class SysWeb extends SysBase_1.SysBase {
             else
                 elm[go_fnc_name]();
             this.resizeFramesWork();
-        });
+        }, { passive: true });
         return false;
     }
     resizeFramesWork() {

@@ -32,8 +32,9 @@ export class LayerMng {
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		// レスポンシブや回転の対応
+		const cvs = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
 		const fncResizeLay = ()=> {
-			if (! CmnLib.cvsResize(appPixi.view)) return;
+			if (! CmnLib.cvsResize(cvs)) return;
 			this.aLayName.forEach(layer=> {
 				const pg = this.hPages[layer];
 				pg.fore.cvsResize();
@@ -41,16 +42,16 @@ export class LayerMng {
 			});
 		};
 		if (CmnLib.isMobile) {
-			window.addEventListener('orientationchange', fncResizeLay);
+			window.addEventListener('orientationchange', fncResizeLay, {passive: true});
 		}
 		else {
 			let tid: any = 0;
 			window.addEventListener('resize', ()=> {
 				if (tid) return;
 				tid = setTimeout(()=> {tid = 0; fncResizeLay();}, 500);
-			});
+			}, {passive: true});
 		}
-		CmnLib.cvsResize(appPixi.view);
+		CmnLib.cvsResize(cvs);
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
 		GrpLayer.init(main, cfg, sys);

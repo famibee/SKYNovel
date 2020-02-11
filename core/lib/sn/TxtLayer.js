@@ -705,6 +705,8 @@ class TxtLayer extends Layer_1.Layer {
     tagCh(text) { this.rbSpl.putTxt(text); }
     tagCh_sub(ch, ruby, isSkip, r_align) {
         var _a;
+        if (ch == ' ')
+            ch = '&nbsp;';
         if (TxtLayer.val.doRecLog())
             this.page_text += ch
                 + (ruby ? `《${ruby}》` : '');
