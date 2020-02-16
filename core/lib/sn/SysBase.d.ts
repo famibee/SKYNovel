@@ -1,26 +1,16 @@
 /// <reference types="node" />
-import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory, IMain } from './CmnInterface';
+import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
-    protected readonly hPlg: {
-        [name: string]: IPlugin;
-    };
-    protected readonly arg: {
-        cur: string;
-        crypt: boolean;
-    };
+    protected readonly hPlg: HPlugin;
+    protected readonly arg: HSysBaseArg;
     hFactoryCls: {
         [name: string]: ILayerFactory;
     };
-    constructor(hPlg: {
-        [name: string]: IPlugin;
-    }, arg: {
-        cur: string;
-        crypt: boolean;
-    });
+    constructor(hPlg: HPlugin, arg: HSysBaseArg);
     get cur(): string;
     get crypt(): boolean;
-    get crypt_(): "" | "_";
+    get crypt_(): "_" | "";
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     reso4frame: number;

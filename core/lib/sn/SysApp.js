@@ -9,8 +9,8 @@ const { Readable } = require('stream');
 const m_fs = require("fs-extra");
 const crypto = require('crypto');
 class SysApp extends SysNode_1.SysNode {
-    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false }) {
-        super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypt: arg.crypt });
+    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false, dip: '' }) {
+        super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypt: arg.crypt, dip: '' });
         this.$path_desktop = remote.app.getPath('desktop').replace(/\\/g, '/') + '/';
         this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);

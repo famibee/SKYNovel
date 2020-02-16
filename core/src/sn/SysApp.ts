@@ -7,7 +7,7 @@
 
 import { SysNode } from "./SysNode";
 import {CmnLib} from './CmnLib';
-import {ITag, IHTag, IVariable, IData4Vari, IPlugin, IConfig, IMain} from './CmnInterface';
+import {ITag, IHTag, IVariable, IData4Vari, IConfig, IMain} from './CmnInterface';
 import {Main} from './Main';
 import {Application} from 'pixi.js';
 
@@ -19,8 +19,8 @@ import m_fs = require('fs-extra');
 const crypto = require('crypto');
 
 export class SysApp extends SysNode {
-	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
-		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt});
+	constructor(hPlg = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
+		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt, dip: ''});
 		window.addEventListener('DOMContentLoaded', ()=>new Main(this), {once: true, passive: true});
 
 		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));

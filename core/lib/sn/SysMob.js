@@ -4,7 +4,7 @@ const CmnLib_1 = require("./CmnLib");
 const SysBase_1 = require("./SysBase");
 const Main_1 = require("./Main");
 class SysMob extends SysBase_1.SysBase {
-    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false }) {
+    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false, dip: '' }) {
         super(hPlg, arg);
         this.fetch = (url) => new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest;

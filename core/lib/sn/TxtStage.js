@@ -71,8 +71,6 @@ class TxtStage extends pixi_js_1.Container {
             - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && this.isTategaki
                 ? this.infTL.pad_left + this.infTL.pad_right
                 : 0);
-        s.left = (this.left * CmnLib_1.CmnLib.cvsScale) + 'px';
-        s.top = (this.cnt.position.y * CmnLib_1.CmnLib.cvsScale) + 'px';
         s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
         this.cvsResize();
         s.display = this.cnt.visible ? 'inline' : 'none';
@@ -101,7 +99,10 @@ class TxtStage extends pixi_js_1.Container {
                 : (fs * parseFloat(lh) - fs)) / 2;
     }
     cvsResize() {
-        this.htmTxt.style.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x * CmnLib_1.CmnLib.cvsScale}, ${this.cnt.scale.y * CmnLib_1.CmnLib.cvsScale}`;
+        const s = this.htmTxt.style;
+        s.left = (this.left * CmnLib_1.CmnLib.cvsScale) + 'px';
+        s.top = (this.cnt.position.y * CmnLib_1.CmnLib.cvsScale) + 'px';
+        s.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x * CmnLib_1.CmnLib.cvsScale}, ${this.cnt.scale.y * CmnLib_1.CmnLib.cvsScale}`;
     }
     get tategaki() { return this.isTategaki; }
     setSize(width, height) {

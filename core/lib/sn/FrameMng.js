@@ -20,9 +20,9 @@ class FrameMng {
     }
     setEvtMng(evtMng) { this.evtMng = evtMng; }
     destroy() {
-        for (const k in this.hIfrm) {
-            const v = this.hIfrm[k];
-            v.parentElement.removeChild(v);
+        for (const n in this.hIfrm) {
+            const f = this.hIfrm[n];
+            f.parentElement.removeChild(f);
         }
     }
     add_frame(hArg) {
@@ -67,6 +67,20 @@ class FrameMng {
         const a = Object.assign({}, hArg);
         const re = this.sys.resolution;
         return new DOMRect(CmnLib_1.CmnLib.argChk_Num(a, 'x', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'y', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'width', CmnLib_1.CmnLib.stageW) * re, CmnLib_1.CmnLib.argChk_Num(a, 'height', CmnLib_1.CmnLib.stageH) * re);
+    }
+    cvsResize() {
+        const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
+        for (const n in this.hIfrm) {
+            const f = this.hIfrm[n];
+            const x = Number(this.val.getVal(`const.sn.frm.${n}.x`));
+            const y = Number(this.val.getVal(`const.sn.frm.${n}.y`));
+            const w = Number(this.val.getVal(`const.sn.frm.${n}.width`));
+            const h = Number(this.val.getVal(`const.sn.frm.${n}.height`));
+            f.style.left = this.sys.ofsLeft4frm + x * scale + 'px';
+            f.style.top = this.sys.ofsTop4frm + y * scale + 'px';
+            f.width = String(w * scale);
+            f.height = String(h * scale);
+        }
     }
     let_frame(hArg) {
         const id = hArg.id;
@@ -136,11 +150,11 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
         }
         if ('width' in hArg) {
-            ifrm.style.width = String(rct.width * scale);
+            ifrm.width = String(rct.width * scale);
             this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
         }
         if ('height' in hArg) {
-            ifrm.style.height = String(rct.height * scale);
+            ifrm.height = String(rct.height * scale);
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
         }
         if ('visible' in hArg) {
@@ -205,7 +219,7 @@ class FrameMng {
             hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
             hTo.w = rct.width;
             fncW = () => {
-                ifrm.style.width = hNow.w * scale + 'px';
+                ifrm.width = hNow.w * scale + 'px';
                 this.val.setVal_Nochk('tmp', frmnm + '.width', hNow.w);
             };
         }
@@ -214,7 +228,7 @@ class FrameMng {
             hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
             hTo.h = rct.height;
             fncH = () => {
-                ifrm.style.height = hNow.h * scale + 'px';
+                ifrm.height = hNow.h * scale + 'px';
                 this.val.setVal_Nochk('tmp', frmnm + '.height', hNow.h);
             };
         }

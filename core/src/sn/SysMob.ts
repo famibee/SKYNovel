@@ -12,7 +12,7 @@ import {Main} from './Main';
 // TODO: const strLocal = require('store');
 
 export class SysMob extends SysBase {
-	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false}) {
+	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
 		super(hPlg, arg);
 
 		document.addEventListener('deviceready', ()=> {

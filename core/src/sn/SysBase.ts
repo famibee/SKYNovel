@@ -5,16 +5,13 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, IPlugin, ILayerFactory, IMain} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain} from './CmnInterface';
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
 
-	constructor(protected readonly hPlg: {[name: string]: IPlugin} = {}, protected readonly arg: {
-		cur		: string;
-		crypt	: boolean;
-	}) {
+	constructor(protected readonly hPlg: HPlugin = {}, protected readonly arg: HSysBaseArg) {
 		const fncPre = hPlg['snsys_pre'];	// prj・path.json_ の為に先読み
 		if (fncPre) fncPre.init({
 			addTag: ()=> {},

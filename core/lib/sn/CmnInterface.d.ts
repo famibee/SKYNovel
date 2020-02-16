@@ -138,9 +138,17 @@ export interface IPluginInitArg {
 export interface IPlugin {
     init(plgArg: IPluginInitArg): boolean;
 }
+export interface HPlugin {
+    [name: string]: IPlugin;
+}
 import { Layer } from './Layer';
 export interface ILayerFactory {
     (): Layer;
+}
+export interface HSysBaseArg {
+    cur: string;
+    crypt: boolean;
+    dip: string;
 }
 export interface ISysBase {
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;

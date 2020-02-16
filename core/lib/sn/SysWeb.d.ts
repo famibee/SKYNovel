@@ -1,10 +1,8 @@
 /// <reference types="node" />
 import { SysBase } from "./SysBase";
-import { IConfig, ITag, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
+import { IConfig, ITag, IFn2Path, IData4Vari } from './CmnInterface';
 export declare class SysWeb extends SysBase {
-    constructor(hPlg?: {
-        [name: string]: IPlugin;
-    }, arg?: {
+    constructor(hPlg?: {}, arg?: {
         cur: string;
         crypt: boolean;
         dip: string;

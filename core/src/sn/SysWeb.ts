@@ -7,12 +7,12 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib} from './CmnLib';
-import {IConfig, HArg, ITag, IFn2Path, IData4Vari, IPlugin} from './CmnInterface';
+import {IConfig, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
 import {Main} from './Main';
 const strLocal = require('store');
 
 export class SysWeb extends SysBase {
-	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
+	constructor(hPlg = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
 		super(hPlg, arg);
 
 		const idxCur = arg.cur.lastIndexOf('/', arg.cur.length -2);

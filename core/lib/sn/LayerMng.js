@@ -102,6 +102,7 @@ void main(void) {
                 pg.fore.cvsResize();
                 pg.back.cvsResize();
             });
+            this.frmMng.cvsResize();
         };
         if (CmnLib_1.CmnLib.isMobile) {
             window.addEventListener('orientationchange', fncResizeLay, { passive: true });

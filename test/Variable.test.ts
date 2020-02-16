@@ -16,7 +16,7 @@ import {IHTag} from '../core/src/sn/CmnInterface';
 context('class Variable', ()=>{
 	let	val	= null;
 	beforeEach(()=> {
-		const cfg = new Config(new SysNode({}, {cur: 'test/', crypt: false}), ()=> {}, {
+		const cfg = new Config(new SysNode({}, {cur: 'test/', crypt: false, dip: ''}), ()=> {}, {
 			search	: ["mat"],
 		});
 		const hTag: IHTag = {};

@@ -18,6 +18,7 @@ export declare class FrameMng {
     destroy(): void;
     private add_frame;
     private rect;
+    cvsResize(): void;
     private let_frame;
     private set_frame;
     private frame;

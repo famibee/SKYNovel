@@ -94,10 +94,6 @@ export class TxtStage extends Container {
 			-(CmnLib.isSafari && !CmnLib.isMobile && this.isTategaki
 				? this.infTL.pad_left +this.infTL.pad_right
 				: 0);
-//		s.left = this.left +'px';
-		s.left = (this.left *CmnLib.cvsScale) +'px';
-//		s.top = this.cnt.position.y +'px';
-		s.top = (this.cnt.position.y *CmnLib.cvsScale) +'px';
 		s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
 		this.cvsResize();
 		s.display = this.cnt.visible ?'inline' :'none';
@@ -130,7 +126,10 @@ export class TxtStage extends Container {
 			// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
 	}
 	cvsResize() {
-		this.htmTxt.style.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x *CmnLib.cvsScale}, ${this.cnt.scale.y *CmnLib.cvsScale}`;
+		const s = this.htmTxt.style;
+		s.left = (this.left *CmnLib.cvsScale) +'px';
+		s.top = (this.cnt.position.y *CmnLib.cvsScale) +'px';
+		s.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x *CmnLib.cvsScale}, ${this.cnt.scale.y *CmnLib.cvsScale}`;
 	}
 	private left = 0;
 	private isTategaki = false;
@@ -928,7 +927,6 @@ export class TxtStage extends Container {
 		const end = ()=> {
 			old.parentElement!.removeChild(old);
 			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
-				// NOTE: 仮、後で文字と同じように
 		};
 		if (sum_wait == 0) {this.htmTxt.textContent = ''; end();}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});

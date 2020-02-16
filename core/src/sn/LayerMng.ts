@@ -40,6 +40,7 @@ export class LayerMng {
 				pg.fore.cvsResize();
 				pg.back.cvsResize();
 			});
+			this.frmMng.cvsResize();
 		};
 		if (CmnLib.isMobile) {
 			window.addEventListener('orientationchange', fncResizeLay, {passive: true});
