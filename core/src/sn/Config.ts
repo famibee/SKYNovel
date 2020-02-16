@@ -62,40 +62,28 @@ export class Config implements IConfig {
 
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		const load = (oCfg: any)=> {
+			// this.oCfg = {...this.oCfg, ...oCfg};	// 一階層目でコピーしてしまう
 			this.oCfg.first_script = oCfg?.first_script ?? this.oCfg.first_script;
+			this.oCfg.save_ns = oCfg?.save_ns ?? this.oCfg.save_ns;
 
 			this.oCfg.coder = oCfg?.coder ?? this.oCfg.coder;
 
 			CmnLib.stageW = this.oCfg.window.width = Number(oCfg?.window?.width ?? this.oCfg.window.width);
 			CmnLib.stageH = this.oCfg.window.height = Number(oCfg?.window?.height ?? this.oCfg.window.height);
 
-			if ('book' in oCfg) {
-				const b = this.oCfg.book;
-				for (const nm in b) {
-					if (nm in oCfg.book) b[nm] = oCfg.book[nm];
-				}
-			}
+			this.oCfg.book = {...this.oCfg.book, ...oCfg.book};
 
 			this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
+
+			this.oCfg.init = {...this.oCfg.init, ...oCfg.init};
 			if ('init' in oCfg) {
-				const i = this.oCfg.init;
-				for (const nm in i) {
-					if (! (nm in oCfg.init)) continue;
-
-					const v = String(oCfg.init[nm]);
-					i[nm] = (v.charAt(0) == '#')
-						? parseInt(v.slice(1), 16)
-						: v;
+				for (const n in this.oCfg.init) {
+					const v = String(this.oCfg.init[n]);
+					if (v.charAt(0) == '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
 				}
 			}
 
-			if ('debug' in oCfg) {
-				const d = this.oCfg.debug;
-				for (const nm in d) {
-					if (! (nm in oCfg.debug)) continue;
-					d[nm] = CmnLib.argChk_Boolean(oCfg.debug, nm, d[nm]);
-				}
-			}
+			this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};
 			CmnLib.devtool = this.oCfg.debug.devtool;
 
 			// これが同期（App）非同期（Web、path.json）混在してるので、

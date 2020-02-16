@@ -48,38 +48,23 @@ class Config {
         this.$existsBreakline = false;
         this.$existsBreakpage = false;
         const load = (oCfg) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
             this.oCfg.first_script = (_b = (_a = oCfg) === null || _a === void 0 ? void 0 : _a.first_script, (_b !== null && _b !== void 0 ? _b : this.oCfg.first_script));
-            this.oCfg.coder = (_d = (_c = oCfg) === null || _c === void 0 ? void 0 : _c.coder, (_d !== null && _d !== void 0 ? _d : this.oCfg.coder));
-            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_g = (_f = (_e = oCfg) === null || _e === void 0 ? void 0 : _e.window) === null || _f === void 0 ? void 0 : _f.width, (_g !== null && _g !== void 0 ? _g : this.oCfg.window.width)));
-            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_k = (_j = (_h = oCfg) === null || _h === void 0 ? void 0 : _h.window) === null || _j === void 0 ? void 0 : _j.height, (_k !== null && _k !== void 0 ? _k : this.oCfg.window.height)));
-            if ('book' in oCfg) {
-                const b = this.oCfg.book;
-                for (const nm in b) {
-                    if (nm in oCfg.book)
-                        b[nm] = oCfg.book[nm];
-                }
-            }
-            this.oCfg.log.max_len = (_o = (_m = (_l = oCfg.log) === null || _l === void 0 ? void 0 : _l.max_len) === null || _m === void 0 ? void 0 : _m.max_len, (_o !== null && _o !== void 0 ? _o : this.oCfg.log.max_len));
+            this.oCfg.save_ns = (_d = (_c = oCfg) === null || _c === void 0 ? void 0 : _c.save_ns, (_d !== null && _d !== void 0 ? _d : this.oCfg.save_ns));
+            this.oCfg.coder = (_f = (_e = oCfg) === null || _e === void 0 ? void 0 : _e.coder, (_f !== null && _f !== void 0 ? _f : this.oCfg.coder));
+            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_j = (_h = (_g = oCfg) === null || _g === void 0 ? void 0 : _g.window) === null || _h === void 0 ? void 0 : _h.width, (_j !== null && _j !== void 0 ? _j : this.oCfg.window.width)));
+            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_m = (_l = (_k = oCfg) === null || _k === void 0 ? void 0 : _k.window) === null || _l === void 0 ? void 0 : _l.height, (_m !== null && _m !== void 0 ? _m : this.oCfg.window.height)));
+            this.oCfg.book = Object.assign(Object.assign({}, this.oCfg.book), oCfg.book);
+            this.oCfg.log.max_len = (_q = (_p = (_o = oCfg.log) === null || _o === void 0 ? void 0 : _o.max_len) === null || _p === void 0 ? void 0 : _p.max_len, (_q !== null && _q !== void 0 ? _q : this.oCfg.log.max_len));
+            this.oCfg.init = Object.assign(Object.assign({}, this.oCfg.init), oCfg.init);
             if ('init' in oCfg) {
-                const i = this.oCfg.init;
-                for (const nm in i) {
-                    if (!(nm in oCfg.init))
-                        continue;
-                    const v = String(oCfg.init[nm]);
-                    i[nm] = (v.charAt(0) == '#')
-                        ? parseInt(v.slice(1), 16)
-                        : v;
+                for (const n in this.oCfg.init) {
+                    const v = String(this.oCfg.init[n]);
+                    if (v.charAt(0) == '#')
+                        this.oCfg.init[n] = parseInt(v.slice(1), 16);
                 }
             }
-            if ('debug' in oCfg) {
-                const d = this.oCfg.debug;
-                for (const nm in d) {
-                    if (!(nm in oCfg.debug))
-                        continue;
-                    d[nm] = CmnLib_1.CmnLib.argChk_Boolean(oCfg.debug, nm, d[nm]);
-                }
-            }
+            this.oCfg.debug = Object.assign(Object.assign({}, this.oCfg.debug), oCfg.debug);
             CmnLib_1.CmnLib.devtool = this.oCfg.debug.devtool;
             sys.loadPathAndVal(this.hPathFn2Exts, () => {
                 this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;

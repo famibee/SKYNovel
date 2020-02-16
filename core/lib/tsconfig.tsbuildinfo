@@ -350,7 +350,7 @@
         "signature": "60e0efa5bbf49006d29493aa7105fa2e447623e5050267eeafd214ac51de01ee"
       },
       "../src/sn/config.ts": {
-        "version": "d5b3a84876b90c543d1b53dca3b250ea520136da7a56a070e2b8e83a2de31903",
+        "version": "1e6a5a49e0d80ab7a3cd15c0473794b594d40665b219a2d33c7d44dc2051acb6",
         "signature": "6548dc39901c9f0f30fcfd9b2f446d297d6ca08d83e6e44ff859de0a521e586a"
       },
       "../../node_modules/@types/xregexp/index.d.ts": {
@@ -2495,7 +2495,6 @@
       "../../node_modules/@types/node/ts3.5/index.d.ts",
       "../../node_modules/@types/fs-extra/index.d.ts",
       "../src/sn/sysnode.ts",
-      "../src/sn/config.ts",
       "../../node_modules/@types/xregexp/index.d.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/grammar.ts",
@@ -2509,6 +2508,7 @@
       "../src/sn/txtstage.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
+      "../src/sn/framemng.ts",
       "../src/sn/layermng.ts",
       "../../node_modules/@types/howler/index.d.ts",
       "../src/sn/soundmng.ts",
@@ -2536,7 +2536,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/framemng.ts"
+      "../src/sn/config.ts"
     ]
   },
   "version": "3.7.5"
