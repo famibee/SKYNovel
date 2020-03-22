@@ -135,7 +135,11 @@ export class GrpLayer extends Layer {
 		if (needLoad) {
 			ldr.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 				this.sys.pre(res.extension, res.data)
-				.then(r=> {res.data = r; res.type = 3; next();})
+				.then(r=> {
+					res.data = r;
+					if (res.extension == 'bin') res.type = LoaderResource.TYPE.IMAGE;
+					next();
+				})
 				.catch(e=> this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));
 			}))
 			.load((_loader: any, res: any)=> fncLoaded(res));
@@ -159,7 +163,7 @@ export class GrpLayer extends Layer {
 		if (! r) return new Sprite;	// ロード中にリソース削除
 
 		switch (r.type) {
-			case 1:		// loaders.Resource.TYPE.JSON:	// アニメスプライト
+			case LoaderResource.TYPE.JSON:	// アニメスプライト
 				const aFK: string[] = r.spritesheet._frameKeys;
 				const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
 				if (a_base_name) {
@@ -174,7 +178,7 @@ export class GrpLayer extends Layer {
 				GrpLayer.hFn2ResAniSpr[r.name] = {aTex: aTex, meta: r.data.meta};
 				return GrpLayer.mkSprite(fn, res);
 
-			case 5:		// loaders.Resource.TYPE.VIDEO:
+			case LoaderResource.TYPE.VIDEO:
 				const hve = r.data as HTMLVideoElement;
 				GrpLayer.fn2Video[fn] = hve;
 				// NOTE: hve.loop = true;	[wv]でもループ時はスルーするように

@@ -50,7 +50,17 @@ class SysBase {
     init(cfg, hTag, appPixi, val, main) {
         this.val = val;
         this.appPixi = appPixi;
-        this.val.setSys(this);
+        let mes = '';
+        try {
+            this.val.setSys(this);
+            mes = 'sys';
+            mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+            mes = 'kidoku';
+            this.val.saveKidoku();
+        }
+        catch (e) {
+            console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+        }
         this.hFactoryCls = {};
         for (const nm in this.hPlg) {
             this.hPlg[nm].init({

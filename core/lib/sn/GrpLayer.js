@@ -96,7 +96,12 @@ class GrpLayer extends Layer_1.Layer {
         if (needLoad) {
             ldr.pre((res, next) => res.load(() => {
                 this.sys.pre(res.extension, res.data)
-                    .then(r => { res.data = r; res.type = 3; next(); })
+                    .then(r => {
+                    res.data = r;
+                    if (res.extension == 'bin')
+                        res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                    next();
+                })
                     .catch(e => this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));
             }))
                 .load((_loader, res) => fncLoaded(res));
@@ -120,7 +125,7 @@ class GrpLayer extends Layer_1.Layer {
         if (!r)
             return new pixi_js_1.Sprite;
         switch (r.type) {
-            case 1:
+            case pixi_js_1.LoaderResource.TYPE.JSON:
                 const aFK = r.spritesheet._frameKeys;
                 const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
                 if (a_base_name) {
@@ -133,7 +138,7 @@ class GrpLayer extends Layer_1.Layer {
                     aTex.push(pixi_js_1.Texture.from(v));
                 GrpLayer.hFn2ResAniSpr[r.name] = { aTex: aTex, meta: r.data.meta };
                 return GrpLayer.mkSprite(fn, res);
-            case 5:
+            case pixi_js_1.LoaderResource.TYPE.VIDEO:
                 const hve = r.data;
                 GrpLayer.fn2Video[fn] = hve;
                 return new pixi_js_1.Sprite(pixi_js_1.Texture.from(r.data));

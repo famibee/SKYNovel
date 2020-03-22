@@ -44,7 +44,20 @@ export class SysBase implements ISysBase {
 	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		this.val = val;
 		this.appPixi = appPixi;
-		this.val.setSys(this);
+		let mes = '';
+		try {
+			this.val.setSys(this);
+
+			//l = String(this.val.getVal('save:const.sn.sLog'));
+			mes = 'sys';	// tst sys
+			mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+			mes = 'kidoku';	// tst kidoku
+			this.val.saveKidoku();
+		//	mes = 'save';	// tst save
+		//	mes += String(this.val.getVal('save:sn.doRecLog', 'false'));
+		} catch (e) {
+			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+		}
 
 		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
 		for (const nm in this.hPlg) {	// プラグイン初期化
