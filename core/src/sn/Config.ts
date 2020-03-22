@@ -55,10 +55,10 @@ export class Config implements IConfig {
 	private	hPathFn2Exts	: IFn2Path		= {};
 	readonly getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
 
-	static	readonly	EXT_SPRITE	= 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';
-	static	readonly	EXT_SCRIPT	= 'sn_|sn';
+	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|svg|json|mp4';
+	static	readonly	EXT_SCRIPT	= 'sn';
 	static	readonly	EXT_FONT	= 'woff2|otf|ttf';
-	static	readonly	EXT_SOUND	= 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
+	static	readonly	EXT_SOUND	= 'mp3|m4a|ogg|aac|webm|flac|wav';
 
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		const load = (oCfg: any)=> {
@@ -100,22 +100,20 @@ export class Config implements IConfig {
 		if (oCfg4tst) {load(oCfg4tst); return;}
 
 		// テストで引っかかるのでPromise・async/awaitにしない
-		const fn = sys.cur +'prj.json'+ sys.crypt_;
+		const fn = sys.cur +'prj.json';
 		sys.fetch(fn)
 		.then(res=> res.text())
-		.then(d=> JSON.parse(sys.pre(fn, d)))
+		.then(d=> sys.pre('json', d))
+		.then(s=> JSON.parse(s))
 		.then(load)
-/*
-		try {
+		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
+		/*
 			(async ()=> {
-				const fn = sys.cur +'prj.json'+ sys.crypt_;
+				const fn = sys.cur +'prj.json';
 				const res = await this.fetch(fn);
 				load(await res.json());
 			})();
-		} catch (e) {
-			DebugMng.myTrace(`load fn=${fn} = %o`, e);
-		}
-*/
+		*/
 	}
 	private $existsBreakline = false;
 	get existsBreakline(): boolean {return this.$existsBreakline}

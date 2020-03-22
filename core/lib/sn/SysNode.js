@@ -23,9 +23,9 @@ class SysNode extends SysBase_1.SysBase {
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, _cfg) {
         (async () => {
-            const fn = this.arg.cur + 'path.json' + this.crypt_;
+            const fn = this.arg.cur + 'path.json';
             const mes = m_fs.readFileSync(fn, { encoding: 'utf8' });
-            const json = JSON.parse(this.pre(fn, mes));
+            const json = JSON.parse(await this.pre('json', mes));
             for (const nm in json) {
                 const h = hPathFn2Exts[nm] = json[nm];
                 for (const ext in h)

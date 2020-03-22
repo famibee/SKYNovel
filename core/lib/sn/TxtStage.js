@@ -74,7 +74,7 @@ class TxtStage extends pixi_js_1.Container {
         s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
         this.cvsResize();
         s.display = this.cnt.visible ? 'inline' : 'none';
-        s.textShadow = (_b = (_a = hArg.filter, (_a !== null && _a !== void 0 ? _a : s.textShadow)), (_b !== null && _b !== void 0 ? _b : ''));
+        s.textShadow = (_b = (_a = hArg.filter) !== null && _a !== void 0 ? _a : s.textShadow) !== null && _b !== void 0 ? _b : '';
     }
     lay_sub() {
         var _a;
@@ -91,7 +91,7 @@ class TxtStage extends pixi_js_1.Container {
         this.isTategaki = (s.writingMode == 'vertical-rl');
         this.padTx4x = 0;
         this.padTx4y = 0;
-        const lh = (_a = s.lineHeight, (_a !== null && _a !== void 0 ? _a : '0'));
+        const lh = (_a = s.lineHeight) !== null && _a !== void 0 ? _a : '0';
         this.lh_half = this.isTategaki
             ? 0
             : ((lh.slice(-2) == 'px')
@@ -446,8 +446,8 @@ class TxtStage extends pixi_js_1.Container {
         for (let i = begin; i < len; ++i) {
             const v = this.aRect[i];
             const rct = v.rect;
-            const arg = JSON.parse((_a = v.arg, (_a !== null && _a !== void 0 ? _a : '{"delay": 0}')));
-            const add = JSON.parse((_b = v.add, (_b !== null && _b !== void 0 ? _b : '{}')));
+            const arg = JSON.parse((_a = v.arg) !== null && _a !== void 0 ? _a : '{"delay": 0}');
+            const add = JSON.parse((_b = v.add) !== null && _b !== void 0 ? _b : '{}');
             const cis = TxtStage.hChInStyle[add.ch_in_style];
             rct.x -= sx;
             rct.y -= sy;
@@ -466,7 +466,7 @@ class TxtStage extends pixi_js_1.Container {
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;
-                    this.spWork(cnt, arg, add, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
+                    this.spWork(cnt, arg, add, rct, ease, cis !== null && cis !== void 0 ? cis : {});
                     this.cntTxt.addChild(cnt);
                     GrpLayer_1.GrpLayer.csv2Sprites(arg.pic, cnt, sp => {
                         if (!cnt.parent)
@@ -478,7 +478,7 @@ class TxtStage extends pixi_js_1.Container {
                     sp.width = rct.width;
                     sp.height = rct.height;
                     arg.key = `lnk=[${i}] ` + this.name;
-                    this.spWork(sp, arg, add, rct, ease, (cis !== null && cis !== void 0 ? cis : {}));
+                    this.spWork(sp, arg, add, rct, ease, cis !== null && cis !== void 0 ? cis : {});
                     TxtStage.evtMng.button(arg, sp);
                     this.cntTxt.addChild(sp);
                     break;
@@ -541,9 +541,9 @@ class TxtStage extends pixi_js_1.Container {
         const st = {
             sp: sp,
             tw: new TWEEN.default.Tween(sp)
-                .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait, (_a !== null && _a !== void 0 ? _a : 0)))
+                .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait) !== null && _a !== void 0 ? _a : 0)
                 .easing(ease)
-                .delay((_b = add.wait, (_b !== null && _b !== void 0 ? _b : 0)) + (_c = arg.delay, (_c !== null && _c !== void 0 ? _c : 0)))
+                .delay(((_b = add.wait) !== null && _b !== void 0 ? _b : 0) + ((_c = arg.delay) !== null && _c !== void 0 ? _c : 0))
                 .onComplete(() => {
                 st.tw = null;
             })
@@ -576,8 +576,8 @@ class TxtStage extends pixi_js_1.Container {
             throw `name【${name}】に使えない文字が含まれます`;
         if (name in TxtStage.hChInStyle)
             throw `name【${name}】はすでにあります`;
-        const x = String((_a = hArg.x, (_a !== null && _a !== void 0 ? _a : '=0')));
-        const y = String((_b = hArg.y, (_b !== null && _b !== void 0 ? _b : '=0')));
+        const x = String((_a = hArg.x) !== null && _a !== void 0 ? _a : '=0');
+        const y = String((_b = hArg.y) !== null && _b !== void 0 ? _b : '=0');
         return TxtStage.hChInStyle[name] = {
             wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
             alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
@@ -589,7 +589,7 @@ class TxtStage extends pixi_js_1.Container {
             scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1),
             rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
             join: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true),
-            ease: (_c = hArg.ease, (_c !== null && _c !== void 0 ? _c : 'ease-out')),
+            ease: (_c = hArg.ease) !== null && _c !== void 0 ? _c : 'ease-out',
         };
     }
     static getChOutStyle(name) { return TxtStage.hChOutStyle[name]; }
@@ -603,8 +603,8 @@ class TxtStage extends pixi_js_1.Container {
             throw `name【${name}】に使えない文字が含まれます`;
         if (name in TxtStage.hChOutStyle)
             throw `name【${name}】はすでにあります`;
-        const x = String((_a = hArg.x, (_a !== null && _a !== void 0 ? _a : '=0')));
-        const y = String((_b = hArg.y, (_b !== null && _b !== void 0 ? _b : '=0')));
+        const x = String((_a = hArg.x) !== null && _a !== void 0 ? _a : '=0');
+        const y = String((_b = hArg.y) !== null && _b !== void 0 ? _b : '=0');
         return TxtStage.hChOutStyle[name] = {
             wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
             alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
@@ -616,7 +616,7 @@ class TxtStage extends pixi_js_1.Container {
             scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1),
             rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
             join: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', false),
-            ease: (_c = hArg.ease, (_c !== null && _c !== void 0 ? _c : 'ease-out')),
+            ease: (_c = hArg.ease) !== null && _c !== void 0 ? _c : 'ease-out',
         };
     }
     dispBreak(pic) {
@@ -660,10 +660,10 @@ class TxtStage extends pixi_js_1.Container {
                 ch: ch,
                 rect: new pixi_js_1.Rectangle(r.left + window.pageXOffset, r.top + window.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? this.lh_half : 0)),
                 elm: pe,
-                cmd: (_a = pe.getAttribute('data-cmd'), (_a !== null && _a !== void 0 ? _a : undefined)),
-                arg: (_b = pe.getAttribute('data-arg'), (_b !== null && _b !== void 0 ? _b : undefined)),
-                add: (_c = pe.getAttribute('data-add'), (_c !== null && _c !== void 0 ? _c : undefined)),
-                tcy: (_d = pe.getAttribute('data-tcy'), (_d !== null && _d !== void 0 ? _d : undefined)),
+                cmd: (_a = pe.getAttribute('data-cmd')) !== null && _a !== void 0 ? _a : undefined,
+                arg: (_b = pe.getAttribute('data-arg')) !== null && _b !== void 0 ? _b : undefined,
+                add: (_c = pe.getAttribute('data-add')) !== null && _c !== void 0 ? _c : undefined,
+                tcy: (_d = pe.getAttribute('data-tcy')) !== null && _d !== void 0 ? _d : undefined,
             };
             ret.push(cr);
         }
@@ -685,8 +685,8 @@ class TxtStage extends pixi_js_1.Container {
         let sum_wait = 0;
         for (let i = 0; i < len_chs; ++i) {
             const elm = chs[i];
-            const add = JSON.parse((_c = (_b = (_a = elm.getAttribute('data-add'), (_a !== null && _a !== void 0 ? _a : elm.children[0].getAttribute('data-add'))), (_b !== null && _b !== void 0 ? _b : elm.children[0].children[0]
-                .getAttribute('data-add'))), (_c !== null && _c !== void 0 ? _c : '{}')));
+            const add = JSON.parse((_c = (_b = (_a = elm.getAttribute('data-add')) !== null && _a !== void 0 ? _a : elm.children[0].getAttribute('data-add')) !== null && _b !== void 0 ? _b : elm.children[0].children[0]
+                .getAttribute('data-add')) !== null && _c !== void 0 ? _c : '{}');
             if (!add.ch_out_style)
                 continue;
             const cos = TxtStage.hChOutStyle[add.ch_out_style];

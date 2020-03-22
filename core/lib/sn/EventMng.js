@@ -188,7 +188,7 @@ class EventMng {
         if (!ke) {
             if (key.slice(0, 5) == 'swipe') {
                 const esw = e;
-                window.scrollBy(-(_a = esw.deltaX, (_a !== null && _a !== void 0 ? _a : 0)), -(_b = esw.deltaY, (_b !== null && _b !== void 0 ? _b : 0)));
+                window.scrollBy(-((_a = esw.deltaX) !== null && _a !== void 0 ? _a : 0), -((_b = esw.deltaY) !== null && _b !== void 0 ? _b : 0));
             }
             return;
         }
@@ -234,7 +234,7 @@ class EventMng {
         if (!hArg.fn && !hArg.label)
             this.main.errScript('fnまたはlabelは必須です');
         em.interactive = em.buttonMode = true;
-        const key = (_a = hArg.key, (_a !== null && _a !== void 0 ? _a : ' ')).toLowerCase();
+        const key = ((_a = hArg.key) !== null && _a !== void 0 ? _a : ' ').toLowerCase();
         if (!hArg.fn)
             hArg.fn = this.scrItr.scriptFn;
         const glb = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false);

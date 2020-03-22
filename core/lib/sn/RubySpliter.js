@@ -31,7 +31,7 @@ class RubySpliter {
                 this.putCh(elm['txt4'].slice(1), '');
                 continue;
             }
-            const txt = (_c = (_b = (_a = elm['txt'], (_a !== null && _a !== void 0 ? _a : elm['txt2'])), (_b !== null && _b !== void 0 ? _b : elm['txt3'])), (_c !== null && _c !== void 0 ? _c : ''));
+            const txt = (_c = (_b = (_a = elm['txt']) !== null && _a !== void 0 ? _a : elm['txt2']) !== null && _b !== void 0 ? _b : elm['txt3']) !== null && _c !== void 0 ? _c : '';
             const a = Array.from(txt);
             const len = a.length;
             for (let i = 0; i < len; ++i)

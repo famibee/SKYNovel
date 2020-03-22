@@ -121,7 +121,7 @@ export class GrpLayer extends Layer {
 			if (f.fn in Loader.shared.resources) return;
 
 			needLoad = true;
-			ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE));
+			ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE), this.sys.crypt ?{xhrType: 'arraybuffer'} :{});
 		});
 
 		const fncLoaded = (res: any)=> {
@@ -134,13 +134,9 @@ export class GrpLayer extends Layer {
 		}
 		if (needLoad) {
 			ldr.pre((res: LoaderResource, next: Function)=> res.load(()=> {
-				const d = GrpLayer.sys.pre(res.extension, res.data);
-				if (res.extension == 'json_') {
-					res.type = 1;
-					res.data = JSON.parse(d);
-				}
-				else res.data = d;
-				next();
+				this.sys.pre(res.extension, res.data)
+				.then(r=> {res.data = r; res.type = 3; next();})
+				.catch(e=> this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));
 			}))
 			.load((_loader: any, res: any)=> fncLoaded(res));
 		}

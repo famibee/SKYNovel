@@ -48,14 +48,14 @@ class Config {
         this.$existsBreakline = false;
         this.$existsBreakpage = false;
         const load = (oCfg) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q;
-            this.oCfg.first_script = (_b = (_a = oCfg) === null || _a === void 0 ? void 0 : _a.first_script, (_b !== null && _b !== void 0 ? _b : this.oCfg.first_script));
-            this.oCfg.save_ns = (_d = (_c = oCfg) === null || _c === void 0 ? void 0 : _c.save_ns, (_d !== null && _d !== void 0 ? _d : this.oCfg.save_ns));
-            this.oCfg.coder = (_f = (_e = oCfg) === null || _e === void 0 ? void 0 : _e.coder, (_f !== null && _f !== void 0 ? _f : this.oCfg.coder));
-            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_j = (_h = (_g = oCfg) === null || _g === void 0 ? void 0 : _g.window) === null || _h === void 0 ? void 0 : _h.width, (_j !== null && _j !== void 0 ? _j : this.oCfg.window.width)));
-            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_m = (_l = (_k = oCfg) === null || _k === void 0 ? void 0 : _k.window) === null || _l === void 0 ? void 0 : _l.height, (_m !== null && _m !== void 0 ? _m : this.oCfg.window.height)));
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+            this.oCfg.first_script = (_a = oCfg === null || oCfg === void 0 ? void 0 : oCfg.first_script) !== null && _a !== void 0 ? _a : this.oCfg.first_script;
+            this.oCfg.save_ns = (_b = oCfg === null || oCfg === void 0 ? void 0 : oCfg.save_ns) !== null && _b !== void 0 ? _b : this.oCfg.save_ns;
+            this.oCfg.coder = (_c = oCfg === null || oCfg === void 0 ? void 0 : oCfg.coder) !== null && _c !== void 0 ? _c : this.oCfg.coder;
+            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_e = (_d = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _d === void 0 ? void 0 : _d.width) !== null && _e !== void 0 ? _e : this.oCfg.window.width);
+            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_g = (_f = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _f === void 0 ? void 0 : _f.height) !== null && _g !== void 0 ? _g : this.oCfg.window.height);
             this.oCfg.book = Object.assign(Object.assign({}, this.oCfg.book), oCfg.book);
-            this.oCfg.log.max_len = (_q = (_p = (_o = oCfg.log) === null || _o === void 0 ? void 0 : _o.max_len) === null || _p === void 0 ? void 0 : _p.max_len, (_q !== null && _q !== void 0 ? _q : this.oCfg.log.max_len));
+            this.oCfg.log.max_len = (_k = (_j = (_h = oCfg.log) === null || _h === void 0 ? void 0 : _h.max_len) === null || _j === void 0 ? void 0 : _j.max_len) !== null && _k !== void 0 ? _k : this.oCfg.log.max_len;
             this.oCfg.init = Object.assign(Object.assign({}, this.oCfg.init), oCfg.init);
             if ('init' in oCfg) {
                 for (const n in this.oCfg.init) {
@@ -76,11 +76,13 @@ class Config {
             load(oCfg4tst);
             return;
         }
-        const fn = sys.cur + 'prj.json' + sys.crypt_;
+        const fn = sys.cur + 'prj.json';
         sys.fetch(fn)
             .then(res => res.text())
-            .then(d => JSON.parse(sys.pre(fn, d)))
-            .then(load);
+            .then(d => sys.pre('json', d))
+            .then(s => JSON.parse(s))
+            .then(load)
+            .catch(e => console.error(`load err fn:prj.json e:%o`, e));
     }
     get existsBreakline() { return this.$existsBreakline; }
     get existsBreakpage() { return this.$existsBreakpage; }
@@ -180,8 +182,8 @@ class Config {
     }
 }
 exports.Config = Config;
-Config.EXT_SPRITE = 'png_|jpg_|jpeg_|json_|svg_|mp4_|png|jpg|jpeg|svg|json|mp4';
-Config.EXT_SCRIPT = 'sn_|sn';
+Config.EXT_SPRITE = 'png|jpg|jpeg|svg|json|mp4';
+Config.EXT_SCRIPT = 'sn';
 Config.EXT_FONT = 'woff2|otf|ttf';
-Config.EXT_SOUND = 'mp3_|mp3|m4a_|m4a|ogg_|ogg|aac_|aac|webm_|webm|flac_|flac|wav';
+Config.EXT_SOUND = 'mp3|m4a|ogg|aac|webm|flac|wav';
 //# sourceMappingURL=Config.js.map

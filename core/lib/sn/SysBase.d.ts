@@ -10,7 +10,7 @@ export declare class SysBase implements ISysBase {
     constructor(hPlg: HPlugin, arg: HSysBaseArg);
     get cur(): string;
     get crypt(): boolean;
-    get crypt_(): "_" | "";
+    get crypt_(): "" | "_";
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     reso4frame: number;
@@ -31,8 +31,8 @@ export declare class SysBase implements ISysBase {
     protected tgl_full_scr: ITag;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
-    pre: (_ext: string, data: string) => string;
-    protected enc: (data: string) => string;
+    pre: (_ext: string, data: string) => Promise<string>;
+    protected enc: (data: string) => Promise<string>;
     protected stk: () => string;
     protected readonly isApp: () => boolean;
     protected $path_desktop: string;

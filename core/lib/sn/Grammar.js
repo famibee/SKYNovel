@@ -79,7 +79,7 @@ class Grammar {
             throw '[bracket2macro] textは必須です';
         if (text.length != 2)
             throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
-        this.hC2M = (_a = this.hC2M, (_a !== null && _a !== void 0 ? _a : {}));
+        this.hC2M = (_a = this.hC2M) !== null && _a !== void 0 ? _a : {};
         const op = text.charAt(0);
         const cl = text.charAt(1);
         if (op in this.hC2M)
@@ -102,7 +102,7 @@ class Grammar {
         const char = hArg.char;
         if (!char)
             throw '[char2macro] charは必須です';
-        this.hC2M = (_a = this.hC2M, (_a !== null && _a !== void 0 ? _a : {}));
+        this.hC2M = (_a = this.hC2M) !== null && _a !== void 0 ? _a : {};
         if (char in this.hC2M)
             throw '[char2macro] char【' + char + '】が登録済みの括弧マクロまたは一文字マクロです';
         this.REG_CANTC2M.lastIndex = 0;

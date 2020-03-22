@@ -265,7 +265,7 @@ void main(void) {
                 : ('desktop:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.png'))
             : ('desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.png');
         const ext = CmnLib_1.CmnLib.getExt(fn);
-        const b_color = (_a = hArg.b_color, (_a !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color));
+        const b_color = (_a = hArg.b_color) !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color;
         const renderer = pixi_js_1.autoDetectRenderer({
             width: CmnLib_1.CmnLib.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW),
             height: CmnLib_1.CmnLib.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH),
@@ -369,7 +369,7 @@ void main(void) {
                         }
                     };
                 }
-                this.val.setVal_Nochk('save', 'const.sn.layer.' + ((layer !== null && layer !== void 0 ? layer : this.curTxtlay)) + '.enabled', true);
+                this.val.setVal_Nochk('save', 'const.sn.layer.' + (layer !== null && layer !== void 0 ? layer : this.curTxtlay) + '.enabled', true);
                 break;
         }
         return false;
@@ -637,7 +637,7 @@ void main(void) {
                 hTo[nm] += parseFloat(foreLay[nm]);
         }
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
-        const tw_nm = (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
+        const tw_nm = (_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer;
         const tw = new TWEEN.default.Tween(foreLay)
             .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
             * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
@@ -657,7 +657,7 @@ void main(void) {
                 twInf.onComplete();
         });
         if ('chain' in hArg) {
-            const twFrom = this.hTwInf[_b = hArg.chain, (_b !== null && _b !== void 0 ? _b : '')];
+            const twFrom = this.hTwInf[(_b = hArg.chain) !== null && _b !== void 0 ? _b : ''];
             if (!twFrom || !twFrom.tw)
                 throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
             twFrom.onComplete = () => { };
@@ -680,7 +680,7 @@ void main(void) {
     }
     wait_tsy(hArg) {
         var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -693,7 +693,7 @@ void main(void) {
     }
     stop_tsy(hArg) {
         var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -704,7 +704,7 @@ void main(void) {
     }
     pause_tsy(hArg) {
         var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -715,7 +715,7 @@ void main(void) {
     }
     resume_tsy(hArg) {
         var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (_a = hArg.name, (_a !== null && _a !== void 0 ? _a : hArg.layer));
+        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
         if (!tw_nm)
             throw 'トゥイーンが指定されていません';
         const twInf = this.hTwInf[tw_nm];
@@ -790,7 +790,7 @@ void main(void) {
     }
     argChk_layer(hash, def = '') {
         var _a;
-        const v = (_a = hash.layer, (_a !== null && _a !== void 0 ? _a : def));
+        const v = (_a = hash.layer) !== null && _a !== void 0 ? _a : def;
         if (v.includes(','))
             throw 'layer名に「,」は使えません';
         if (!(v in this.hPages))
@@ -844,15 +844,15 @@ void main(void) {
     rec_ch(hArg) {
         var _a;
         this.oLastPage = hArg;
-        this.recText((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')));
+        this.recText((_a = hArg.text) !== null && _a !== void 0 ? _a : '');
         return false;
     }
     ;
     reset_rec(hArg) {
         var _a, _b;
-        this.val.setVal_Nochk('save', 'const.sn.sLog', (_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')));
+        this.val.setVal_Nochk('save', 'const.sn.sLog', (_a = hArg.text) !== null && _a !== void 0 ? _a : '');
         this.aPageLog = [];
-        this.oLastPage = { text: (_b = hArg.text, (_b !== null && _b !== void 0 ? _b : '')) };
+        this.oLastPage = { text: (_b = hArg.text) !== null && _b !== void 0 ? _b : '' };
         return false;
     }
     ruby2(hArg) {
@@ -873,7 +873,7 @@ void main(void) {
         var _a;
         if (!hArg.t)
             throw '[tcy] tは必須です';
-        hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + (_a = hArg.r, (_a !== null && _a !== void 0 ? _a : '')) + '》';
+        hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + ((_a = hArg.r) !== null && _a !== void 0 ? _a : '') + '》';
         return this.ch(hArg);
     }
     dump_lay(hArg) {
@@ -902,9 +902,9 @@ void main(void) {
     button(hArg) {
         var _a, _b, _c;
         Pages_1.Pages.argChk_page(hArg, 'back');
-        hArg.clicksebuf = (_a = hArg.clicksebuf, (_a !== null && _a !== void 0 ? _a : 'SYS'));
-        hArg.entersebuf = (_b = hArg.entersebuf, (_b !== null && _b !== void 0 ? _b : 'SYS'));
-        hArg.leavesebuf = (_c = hArg.leavesebuf, (_c !== null && _c !== void 0 ? _c : 'SYS'));
+        hArg.clicksebuf = (_a = hArg.clicksebuf) !== null && _a !== void 0 ? _a : 'SYS';
+        hArg.entersebuf = (_b = hArg.entersebuf) !== null && _b !== void 0 ? _b : 'SYS';
+        hArg.leavesebuf = (_c = hArg.leavesebuf) !== null && _c !== void 0 ? _c : 'SYS';
         return this.getTxtLayer(hArg).addButton(hArg);
     }
     record() {

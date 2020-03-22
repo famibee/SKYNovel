@@ -113,14 +113,14 @@ class TxtLayer extends Layer_1.Layer {
                         case 'add':
                             {
                                 const o = JSON.parse(a_ruby[1]);
-                                o.style = (_a = o.style, (_a !== null && _a !== void 0 ? _a : ''));
+                                o.style = (_a = o.style) !== null && _a !== void 0 ? _a : '';
                                 this.beginSpan(o);
                                 if (this.aSpan_bk)
                                     this.autoCloseSpan();
                                 else {
                                     if (isSkip)
                                         this.cumDelay = 0;
-                                    const wait = (_b = o.wait, (_b !== null && _b !== void 0 ? _b : -1));
+                                    const wait = (_b = o.wait) !== null && _b !== void 0 ? _b : -1;
                                     const sn_ch = (wait == 0)
                                         ? ''
                                         : ` sn_ch_in_${this.ch_in_style}`;
@@ -145,7 +145,7 @@ class TxtLayer extends Layer_1.Layer {
                                 if (this.ch_in_join)
                                     this.cumDelay += (TxtLayer.doAutoWc) ? 0 : LayerMng_1.LayerMng.msecChWait;
                                 const o = JSON.parse(arg);
-                                o.style = (_c = o.style, (_c !== null && _c !== void 0 ? _c : ''));
+                                o.style = (_c = o.style) !== null && _c !== void 0 ? _c : '';
                                 if (!('id' in o))
                                     o.id = this.aSpan.length;
                                 if (o.id == 'break') {
@@ -153,7 +153,7 @@ class TxtLayer extends Layer_1.Layer {
                                     return;
                                 }
                                 add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
-                                const wait = (_d = o.wait, (_d !== null && _d !== void 0 ? _d : -1));
+                                const wait = (_d = o.wait) !== null && _d !== void 0 ? _d : -1;
                                 const sn_ch = (wait == 0)
                                     ? ''
                                     : ` sn_ch_in_${this.ch_in_style}`;
@@ -185,7 +185,7 @@ class TxtLayer extends Layer_1.Layer {
                                     return;
                                 if (isSkip)
                                     this.cumDelay = 0;
-                                const wait = (_e = o.wait, (_e !== null && _e !== void 0 ? _e : -1));
+                                const wait = (_e = o.wait) !== null && _e !== void 0 ? _e : -1;
                                 const sn_ch = (wait == 0)
                                     ? ''
                                     : ` sn_ch_in_${this.ch_in_style}`;
@@ -202,11 +202,11 @@ class TxtLayer extends Layer_1.Layer {
                             this.needGoTxt = true;
                             {
                                 const o = JSON.parse(a_ruby[1]);
-                                o.style = (_f = o.style, (_f !== null && _f !== void 0 ? _f : ''));
+                                o.style = (_f = o.style) !== null && _f !== void 0 ? _f : '';
                                 this.beginSpan(o);
                                 if (isSkip)
                                     this.cumDelay = 0;
-                                const wait = (_g = o.wait, (_g !== null && _g !== void 0 ? _g : -1));
+                                const wait = (_g = o.wait) !== null && _g !== void 0 ? _g : -1;
                                 const sn_ch = (wait == 0)
                                     ? ''
                                     : ` sn_ch_in_${this.ch_in_style}`;
@@ -283,7 +283,7 @@ class TxtLayer extends Layer_1.Layer {
 						' class='sn_ch sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`);
                                 if (this.ch_in_join)
                                     this.cumDelay += (TxtLayer.doAutoWc)
-                                        ? (_h = TxtLayer.hAutoWc[ch.charAt(0)], (_h !== null && _h !== void 0 ? _h : 0)) : LayerMng_1.LayerMng.msecChWait;
+                                        ? (_h = TxtLayer.hAutoWc[ch.charAt(0)]) !== null && _h !== void 0 ? _h : 0 : LayerMng_1.LayerMng.msecChWait;
                             }
                             break;
                         default:
@@ -498,7 +498,7 @@ class TxtLayer extends Layer_1.Layer {
         this.setFfs(hArg);
         this.txs.lay(hArg);
         if ('r_align' in hArg)
-            this.r_align = (_a = hArg.r_align, (_a !== null && _a !== void 0 ? _a : ''));
+            this.r_align = (_a = hArg.r_align) !== null && _a !== void 0 ? _a : '';
         this.ruby_pd = CmnLib_1.CmnLib.isSafari
             ? this.txs.tategaki
                 ? (v, l) => `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
@@ -612,12 +612,12 @@ class TxtLayer extends Layer_1.Layer {
     setFfs(hArg) {
         var _a, _b;
         if ('noffs' in hArg) {
-            this.strNoFFS = (_a = hArg.noffs, (_a !== null && _a !== void 0 ? _a : ''));
+            this.strNoFFS = (_a = hArg.noffs) !== null && _a !== void 0 ? _a : '';
             this.regNoFFS = new RegExp(`[　${this.strNoFFS}]`);
         }
         if (!('ffs' in hArg))
             return;
-        this.ffs = (_b = hArg.ffs, (_b !== null && _b !== void 0 ? _b : ''));
+        this.ffs = (_b = hArg.ffs) !== null && _b !== void 0 ? _b : '';
         if (this.ffs == '') {
             this.fncFFSStyle = () => '';
             this.fncFFSSpan = ch => ch;
@@ -725,7 +725,7 @@ class TxtLayer extends Layer_1.Layer {
                 : `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}</span>`);
         if (this.ch_in_join)
             this.cumDelay += TxtLayer.doAutoWc
-                ? (_a = TxtLayer.hAutoWc[ch.charAt(0)], (_a !== null && _a !== void 0 ? _a : 0)) : LayerMng_1.LayerMng.msecChWait;
+                ? (_a = TxtLayer.hAutoWc[ch.charAt(0)]) !== null && _a !== void 0 ? _a : 0 : LayerMng_1.LayerMng.msecChWait;
         return add_htm;
     }
     beginSpan(o) {

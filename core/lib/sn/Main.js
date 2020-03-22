@@ -54,7 +54,7 @@ class Main {
                 width: this.cfg.oCfg.window.width,
                 height: this.cfg.oCfg.window.height,
                 backgroundColor: this.cfg.oCfg.init.bg_color,
-                resolution: (_a = window.devicePixelRatio, (_a !== null && _a !== void 0 ? _a : 1)),
+                resolution: (_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1,
                 autoResize: true,
             };
             const cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
@@ -96,8 +96,8 @@ class Main {
             window.open(hArg.url);
             return;
         }
-        this.val.setVal_Nochk('tmp', 'sn.eventArg', (_a = hArg.arg, (_a !== null && _a !== void 0 ? _a : '')));
-        this.val.setVal_Nochk('tmp', 'sn.eventLabel', (_b = hArg.label, (_b !== null && _b !== void 0 ? _b : '')));
+        this.val.setVal_Nochk('tmp', 'sn.eventArg', (_a = hArg.arg) !== null && _a !== void 0 ? _a : '');
+        this.val.setVal_Nochk('tmp', 'sn.eventLabel', (_b = hArg.label) !== null && _b !== void 0 ? _b : '');
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'call', false)) {
             this.scrItr.subIdxToken();
             this.resume(() => this.hTag.call(hArg));

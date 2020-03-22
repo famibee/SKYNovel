@@ -93,12 +93,12 @@ export class SysWeb extends SysBase {
 
 	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
 		(async ()=> {
-			const fn = this.arg.cur +'path.json'+ this.crypt_;
+			const fn = this.arg.cur +'path.json';
 			const res = await fetch(fn);
 			if (! res.ok) throw Error(res.statusText);
 
 			const mes = await res.text();
-			const json = JSON.parse(this.pre(fn, mes));
+			const json = JSON.parse(await this.pre(fn, mes));
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext];
@@ -109,6 +109,12 @@ export class SysWeb extends SysBase {
 	}
 	private ns	= '';
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+		// システム情報
+		const hn = document.location.hostname;
+		hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
+
+		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
+
 		this.flushSub = this.crypt
 		? ()=> {
 			strLocal.set(this.ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
@@ -130,9 +136,20 @@ export class SysWeb extends SysBase {
 		else {
 			hTmp['const.sn.isFirstBoot'] = false;
 			if (this.crypt) {
-				this.data.sys = JSON.parse(this.pre('_',strLocal.get(this.ns +'sys_')));
-				this.data.mark = JSON.parse(this.pre('_', strLocal.get(this.ns +'mark_')));
-				this.data.kidoku = JSON.parse(this.pre('_', strLocal.get(this.ns +'kidoku_')));
+			(async ()=> {
+				this.data.sys = JSON.parse(
+					await this.pre('json', strLocal.get(this.ns +'sys_'))
+				);
+
+				this.data.mark = JSON.parse(
+					await this.pre('json', strLocal.get(this.ns +'mark_'))
+				);
+				this.data.kidoku = JSON.parse(
+					await this.pre('json', strLocal.get(this.ns +'kidoku_'))
+				);
+				comp(this.data);
+			})();
+				return;
 			}
 			else {
 				this.data.sys = strLocal.get(this.ns +'sys');
@@ -141,12 +158,6 @@ export class SysWeb extends SysBase {
 			}
 		}
 		comp(this.data);
-
-		// システム情報
-		const hn = document.location.hostname;
-		hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
-
-		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
 	}
 	private	flushSub = ()=> {};
 	flush() {this.flushSub();}
@@ -224,7 +235,7 @@ export class SysWeb extends SysBase {
 				const res = await fetch(path);	//fetch(path, {mode: 'same-origin'})
 				if (! res.ok) throw Error(res.statusText);
 
-				callback(null, new Buffer(await res.text()));
+				callback(null, Buffer.from(await res.text()));
 			})();
 		} catch (e) {
 			console.error('Error:', e);

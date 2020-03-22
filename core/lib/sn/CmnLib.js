@@ -69,7 +69,7 @@ class CmnLib {
         const wi = window;
         const lp = screen.orientation
             ? screen.orientation.type.charAt(0)
-            : ((_a = wi.orientation, (_a !== null && _a !== void 0 ? _a : 90)) % 180 == 0) ? 'p' : 'l';
+            : (((_a = wi.orientation) !== null && _a !== void 0 ? _a : 90) % 180 == 0) ? 'p' : 'l';
         if (CmnLib.isMobile &&
             ((lp == 'p' && wiw > wih) || (lp == 'l' && wiw < wih)))
             [wiw, wih] = [wih, wiw];

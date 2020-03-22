@@ -29,7 +29,7 @@ class Button extends pixi_js_1.Container {
             };
             if (hArg.style)
                 Button.s2hStyle(style, hArg.style);
-            const txt = new pixi_js_1.Text((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')), style);
+            const txt = new pixi_js_1.Text((_a = hArg.text) !== null && _a !== void 0 ? _a : '', style);
             txt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
             txt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', txt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', txt.pivot.y));
             txt.rotation = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', txt.rotation);

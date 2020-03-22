@@ -42,7 +42,7 @@ class SoundMng {
     setEvtMng(evtMng) { this.evtMng = evtMng; }
     volume(hArg) {
         var _a;
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         const bvn = 'const.sn.sound.' + buf + '.volume';
         const arg_vol = this.getVol(hArg, 1);
         if (Number(this.val.getVal('sys:' + bvn)) == arg_vol)
@@ -67,7 +67,7 @@ class SoundMng {
     fadese(hArg) {
         var _a;
         this.stopfadese(hArg);
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         const oSb = this.hSndBuf[buf];
         if (!oSb || !oSb.playing())
             return false;
@@ -130,7 +130,7 @@ class SoundMng {
     }
     playse(hArg) {
         var _a;
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         this.stopse({ buf: buf });
         const fn = hArg.fn;
         if (!fn)
@@ -201,7 +201,7 @@ class SoundMng {
     stopbgm(hArg) { hArg.buf = 'BGM'; return this.stopse(hArg); }
     stopse(hArg) {
         var _a;
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         this.stopfadese(hArg);
         this.delLoopPlay(buf);
         const oSb = this.hSndBuf[buf];
@@ -212,7 +212,7 @@ class SoundMng {
     wb(hArg) { hArg.buf = 'BGM'; return this.wf(hArg); }
     wf(hArg) {
         var _a;
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         const oSb = this.hSndBuf[buf];
         if (!oSb || !oSb.twFade)
             return false;
@@ -224,7 +224,7 @@ class SoundMng {
     }
     stopfadese(hArg) {
         var _a;
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         const oSb = this.hSndBuf[buf];
         if (!oSb || !oSb.twFade)
             return false;
@@ -235,7 +235,7 @@ class SoundMng {
     ws(hArg) {
         var _a;
         console.log(`fn:SoundMng.ts line:279 `);
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         const oSb = this.hSndBuf[buf];
         console.log(`fn:SoundMng.ts line:282 A:${!oSb} B:${!oSb.playing()} C:${oSb.loop}`);
         if (!oSb || !oSb.playing() || oSb.loop)
@@ -255,8 +255,8 @@ class SoundMng {
     }
     xchgbuf(hArg) {
         var _a, _b;
-        const buf = (_a = hArg.buf, (_a !== null && _a !== void 0 ? _a : 'SE'));
-        const buf2 = (_b = hArg.buf2, (_b !== null && _b !== void 0 ? _b : 'SE'));
+        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
+        const buf2 = (_b = hArg.buf2) !== null && _b !== void 0 ? _b : 'SE';
         [this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
         return false;
     }

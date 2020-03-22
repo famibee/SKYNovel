@@ -24,12 +24,12 @@ export class SysMob extends SysBase {
 
 	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
 		(async ()=> {
-			const fn = this.arg.cur +'path.json'+ this.crypt_;
+			const fn = this.arg.cur +'path.json';
 			const res = await this.fetch(fn);
 			if (! res.ok) throw Error(res.statusText);
 
 			const mes = await res.text()
-			const json = JSON.parse(this.pre(fn, mes));
+			const json = JSON.parse(await this.pre('json', mes));
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext]
@@ -105,7 +105,7 @@ export class SysMob extends SysBase {
 				const res = await this.fetch(path);
 				if (! res.ok) throw Error(res.statusText);
 
-				callback(null, new Buffer(await res.text()));
+				callback(null, Buffer.from(await res.text()));
 			})();
 		} catch (e) {
 			console.error('Error:', e);

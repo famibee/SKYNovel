@@ -177,7 +177,7 @@ class Variable {
         if (typeof window == 'undefined')
             return;
         const win = window;
-        const ac = (_a = win['AudioContext'], (_a !== null && _a !== void 0 ? _a : win['webkitAudioContext']));
+        const ac = (_a = win['AudioContext']) !== null && _a !== void 0 ? _a : win['webkitAudioContext'];
         this.hTmp['const.sn.needClick2Play'] = () => new ac().state == 'suspended';
         const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
         this.hTmp['const.sn.isDarkMode'] = CmnLib_1.CmnLib.isDarkMode = dmmq.matches;
@@ -249,7 +249,7 @@ class Variable {
     mark2save(mark) {
         var _a;
         this.hSave = this.hScope.save = Object.assign({}, mark.hSave);
-        this.$doRecLog = (_a = this.hSave['sn.doRecLog'], (_a !== null && _a !== void 0 ? _a : false));
+        this.$doRecLog = (_a = this.hSave['sn.doRecLog']) !== null && _a !== void 0 ? _a : false;
     }
     loadScrWork(fn) {
         if (!(fn in this.hAreaKidoku))
@@ -316,7 +316,7 @@ class Variable {
     }
     let_char_at(hArg) {
         var _a;
-        hArg.text = (_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')).charAt(CmnLib_1.CmnLib.argChk_Num(hArg, 'pos', 0));
+        hArg.text = ((_a = hArg.text) !== null && _a !== void 0 ? _a : '').charAt(CmnLib_1.CmnLib.argChk_Num(hArg, 'pos', 0));
         this.let(hArg);
         return false;
     }
@@ -326,13 +326,13 @@ class Variable {
         if (!val)
             throw 'valは必須です';
         const start = CmnLib_1.CmnLib.argChk_Num(hArg, 'start', 0);
-        hArg.text = String((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')).indexOf(val, start));
+        hArg.text = String(((_a = hArg.text) !== null && _a !== void 0 ? _a : '').indexOf(val, start));
         this.let(hArg);
         return false;
     }
     let_length(hArg) {
         var _a;
-        hArg.text = String((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')).length);
+        hArg.text = String(((_a = hArg.text) !== null && _a !== void 0 ? _a : '').length);
         this.let(hArg);
         return false;
     }
@@ -344,7 +344,7 @@ class Variable {
         const reg = (!flags)
             ? new RegExp(hArg.reg)
             : new RegExp(hArg.reg, flags);
-        hArg.text = String((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : ''))).replace(reg, String(hArg.val));
+        hArg.text = String((_a = hArg.text) !== null && _a !== void 0 ? _a : '').replace(reg, String(hArg.val));
         this.let(hArg);
         return false;
     }
@@ -362,7 +362,7 @@ class Variable {
         const reg = (!flags)
             ? new RegExp(hArg.reg)
             : new RegExp(hArg.reg, flags);
-        hArg.text = String((_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')).search(reg));
+        hArg.text = String(((_a = hArg.text) !== null && _a !== void 0 ? _a : '').search(reg));
         this.let(hArg);
         return false;
     }
@@ -370,8 +370,8 @@ class Variable {
         var _a, _b;
         const i = CmnLib_1.CmnLib.argChk_Num(hArg, 'pos', 0);
         hArg.text = (hArg.len != 'all')
-            ? (_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')).substr(i, CmnLib_1.int(CmnLib_1.CmnLib.argChk_Num(hArg, 'len', 1)))
-            : (_b = hArg.text, (_b !== null && _b !== void 0 ? _b : '')).substr(i);
+            ? ((_a = hArg.text) !== null && _a !== void 0 ? _a : '').substr(i, CmnLib_1.int(CmnLib_1.CmnLib.argChk_Num(hArg, 'len', 1)))
+            : ((_b = hArg.text) !== null && _b !== void 0 ? _b : '').substr(i);
         this.let(hArg);
         return false;
     }
@@ -391,8 +391,8 @@ class Variable {
         this.setVal_Nochk('sys', 'sn.tagCh.msecWait_Kidoku', this.cfg.oCfg.init.tagch_msecwait);
         this.setVal_Nochk('sys', 'sn.tagCh.canskip', true);
         this.setVal_Nochk('sys', 'sn.skip.mode', 's');
-        this.setVal_Nochk('sys', 'sn.auto.msecPageWait', CmnLib_1.CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', (_a = this.cfg.oCfg.init.auto_msecpagewait, (_a !== null && _a !== void 0 ? _a : 3500))));
-        this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', CmnLib_1.CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', (_b = this.cfg.oCfg.init.auto_msecpagewait, (_b !== null && _b !== void 0 ? _b : 3500))));
+        this.setVal_Nochk('sys', 'sn.auto.msecPageWait', CmnLib_1.CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', (_a = this.cfg.oCfg.init.auto_msecpagewait) !== null && _a !== void 0 ? _a : 3500));
+        this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', CmnLib_1.CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', (_b = this.cfg.oCfg.init.auto_msecpagewait) !== null && _b !== void 0 ? _b : 3500));
         this.setVal_Nochk('sys', 'sn.auto.msecLineWait', 500);
         this.setVal_Nochk('sys', 'sn.auto.msecLineWait_Kidoku', 500);
         this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
@@ -408,9 +408,9 @@ class Variable {
     }
     clearvar() {
         var _a, _b, _c;
-        const mesLayer = (_a = this.hSave['const.sn.mesLayer'], (_a !== null && _a !== void 0 ? _a : ''));
-        const doRecLog = (_b = this.hSave['sn.doRecLog'], (_b !== null && _b !== void 0 ? _b : false));
-        const sLog = (_c = this.hSave['const.sn.sLog'], (_c !== null && _c !== void 0 ? _c : ''));
+        const mesLayer = (_a = this.hSave['const.sn.mesLayer']) !== null && _a !== void 0 ? _a : '';
+        const doRecLog = (_b = this.hSave['sn.doRecLog']) !== null && _b !== void 0 ? _b : false;
+        const sLog = (_c = this.hSave['const.sn.sLog']) !== null && _c !== void 0 ? _c : '';
         this.hSave = this.hScope.save = {};
         this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
         this.setVal_Nochk('save', 'sn.doRecLog', doRecLog);

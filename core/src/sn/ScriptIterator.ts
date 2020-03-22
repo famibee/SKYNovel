@@ -440,16 +440,11 @@ export class ScriptIterator {
 
 		(new Loader()).add(this.scriptFn_, full_path)
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
-			res.data = this.sys.pre(res.extension, res.data);
-			next();
+			this.sys.pre(res.extension, res.data)
+			.then(r=> {res.data = r; next();})
+			.catch(e=> this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
 		}))
 		.load((_loader: any, res: any)=> {
-			const err = res[this.scriptFn_].error;
-			if (err) {
-				this.main.errScript(`[jump系]スクリプトロード失敗です ${err}`, false);
-				return;
-			}
-
 			this.nextToken = this.nextToken_Proc;
 
 			this.resolveScript(res[this.scriptFn_].data);

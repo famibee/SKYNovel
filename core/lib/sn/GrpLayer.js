@@ -34,7 +34,7 @@ class GrpLayer extends Layer_1.Layer {
     lay(hArg) {
         var _a;
         const fn = hArg.fn;
-        const face = (_a = hArg.face, (_a !== null && _a !== void 0 ? _a : ''));
+        const face = (_a = hArg.face) !== null && _a !== void 0 ? _a : '';
         if (!fn) {
             super.lay(hArg);
             if (this.cnt.children.length > 0)
@@ -83,7 +83,7 @@ class GrpLayer extends Layer_1.Layer {
             if (f.fn in pixi_js_1.Loader.shared.resources)
                 return;
             needLoad = true;
-            ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE));
+            ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE), this.sys.crypt ? { xhrType: 'arraybuffer' } : {});
         });
         const fncLoaded = (res) => {
             for (const v of aComp) {
@@ -95,14 +95,9 @@ class GrpLayer extends Layer_1.Layer {
         };
         if (needLoad) {
             ldr.pre((res, next) => res.load(() => {
-                const d = GrpLayer.sys.pre(res.extension, res.data);
-                if (res.extension == 'json_') {
-                    res.type = 1;
-                    res.data = JSON.parse(d);
-                }
-                else
-                    res.data = d;
-                next();
+                this.sys.pre(res.extension, res.data)
+                    .then(r => { res.data = r; res.type = 3; next(); })
+                    .catch(e => this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));
             }))
                 .load((_loader, res) => fncLoaded(res));
         }
@@ -117,7 +112,7 @@ class GrpLayer extends Layer_1.Layer {
         const ras = GrpLayer.hFn2ResAniSpr[fn];
         if (ras) {
             const asp = new pixi_js_1.AnimatedSprite(ras.aTex);
-            asp.animationSpeed = (_a = ras.meta['animationSpeed'], (_a !== null && _a !== void 0 ? _a : 1.0));
+            asp.animationSpeed = (_a = ras.meta['animationSpeed']) !== null && _a !== void 0 ? _a : 1.0;
             asp.play();
             return asp;
         }
@@ -185,7 +180,7 @@ class GrpLayer extends Layer_1.Layer {
             throw 'nameは必須です';
         if (name in GrpLayer.hFace)
             throw '一つのname（' + name + '）に対して同じ画像を複数割り当てられません';
-        const fn = (_a = hArg.fn, (_a !== null && _a !== void 0 ? _a : name));
+        const fn = (_a = hArg.fn) !== null && _a !== void 0 ? _a : name;
         GrpLayer.hFace[name] = {
             fn: fn,
             dx: CmnLib_1.CmnLib.argChk_Num(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,

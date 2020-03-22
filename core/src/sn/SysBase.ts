@@ -92,8 +92,8 @@ export class SysBase implements ISysBase {
 	protected readonly	update_check	: ITag = ()=> false;
 	protected readonly	window			: ITag = ()=> false;
 
-	pre = (_ext: string, data: string)=> data;
-	protected enc = (data: string)=> data;
+	pre = async (_ext: string, data: string)=> data;
+	protected enc = async (data: string)=> data;
 	protected stk = ()=> '';
 
 	protected readonly	isApp = ()=> false;

@@ -41,7 +41,7 @@ class Pages {
     }
     static argChk_page(hash, def) {
         var _a;
-        const v = (_a = hash.page, (_a !== null && _a !== void 0 ? _a : def));
+        const v = (_a = hash.page) !== null && _a !== void 0 ? _a : def;
         if (v == 'fore')
             return hash.page = v;
         if (v == 'back')

@@ -15,8 +15,8 @@ class SysBase {
         this.tgl_full_scr = () => false;
         this.update_check = () => false;
         this.window = () => false;
-        this.pre = (_ext, data) => data;
-        this.enc = (data) => data;
+        this.pre = async (_ext, data) => data;
+        this.enc = async (data) => data;
         this.stk = () => '';
         this.isApp = () => false;
         this.$path_desktop = '';

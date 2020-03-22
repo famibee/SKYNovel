@@ -62,8 +62,9 @@ class DebugMng {
     }
     static fncMyTrace(txt, lvl = 'E') {
         let mes = `{${lvl}} `;
-        if (DebugMng.scrItr)
-            mes += `(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;
+        if (DebugMng.scrItr && DebugMng.scrItr.lineNum > 0)
+            mes +=
+                `(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;
         mes += txt;
         DebugMng.dspDbg(mes, lvl);
         let sty = '';

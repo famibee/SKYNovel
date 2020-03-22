@@ -19,7 +19,7 @@ class SysMob extends SysBase_1.SysBase {
                     const res = await this.fetch(path);
                     if (!res.ok)
                         throw Error(res.statusText);
-                    callback(null, new Buffer(await res.text()));
+                    callback(null, Buffer.from(await res.text()));
                 })();
             }
             catch (e) {
@@ -34,12 +34,12 @@ class SysMob extends SysBase_1.SysBase {
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
         (async () => {
-            const fn = this.arg.cur + 'path.json' + this.crypt_;
+            const fn = this.arg.cur + 'path.json';
             const res = await this.fetch(fn);
             if (!res.ok)
                 throw Error(res.statusText);
             const mes = await res.text();
-            const json = JSON.parse(this.pre(fn, mes));
+            const json = JSON.parse(await this.pre('json', mes));
             for (const nm in json) {
                 const h = hPathFn2Exts[nm] = json[nm];
                 for (const ext in h)

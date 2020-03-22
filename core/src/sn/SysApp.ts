@@ -251,7 +251,7 @@ export class SysApp extends SysNode {
 				rdb._read = async ()=> {
 					const {done, value} = await reader.read();
 					if (done) {rdb.push(null); return;}
-					rdb.push(Buffer.from(value));
+					rdb.push(Buffer.from(value!));
 				};
 				return rdb;
 			}

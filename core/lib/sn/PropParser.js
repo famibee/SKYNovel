@@ -235,7 +235,7 @@ class PropParser {
         return {
             scope: a.scope || 'tmp',
             name: PropParser.getValName_B2D(a.name),
-            at: (_a = a.at, (_a !== null && _a !== void 0 ? _a : '')),
+            at: (_a = a.at) !== null && _a !== void 0 ? _a : '',
         };
     }
     static getValName_B2D(str) {

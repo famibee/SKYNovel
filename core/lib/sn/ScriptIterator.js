@@ -149,7 +149,7 @@ class ScriptIterator {
         hArg.cast = 'str';
         this.hTag['let'](hArg);
         this.idxToken_ += 2;
-        this.lineNum_ += (_a = ml.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
+        this.lineNum_ += ((_a = ml.match(/\n/g)) !== null && _a !== void 0 ? _a : []).length;
         return false;
     }
     dump_stack() {
@@ -237,7 +237,7 @@ class ScriptIterator {
         let s = '';
         for (let i = this.idxToken_ - 1; i >= 0; --i) {
             s = this.script.aToken[i] + s;
-            if ((_a = s.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length >= this.dumpErrLine)
+            if (((_a = s.match(/\n/g)) !== null && _a !== void 0 ? _a : []).length >= this.dumpErrLine)
                 break;
         }
         const a = s.split('\n').slice(-this.dumpErrLine);
@@ -443,15 +443,11 @@ class ScriptIterator {
             this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
         (new pixi_js_1.Loader()).add(this.scriptFn_, full_path)
             .pre((res, next) => res.load(() => {
-            res.data = this.sys.pre(res.extension, res.data);
-            next();
+            this.sys.pre(res.extension, res.data)
+                .then(r => { res.data = r; next(); })
+                .catch(e => this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
         }))
             .load((_loader, res) => {
-            const err = res[this.scriptFn_].error;
-            if (err) {
-                this.main.errScript(`[jump系]スクリプトロード失敗です ${err}`, false);
-                return;
-            }
             this.nextToken = this.nextToken_Proc;
             this.resolveScript(res[this.scriptFn_].data);
             this.hTag.record_place({});
@@ -543,7 +539,7 @@ class ScriptIterator {
                         in_let_ml = false;
                         continue;
                     }
-                    ln += (_a = token.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
+                    ln += ((_a = token.match(/\n/g)) !== null && _a !== void 0 ? _a : []).length;
                 }
                 else {
                     this.REG_TAG_LET_ML.lastIndex = 0;
@@ -729,7 +725,7 @@ class ScriptIterator {
                 return false;
             }
             if (token.charCodeAt(0) == 10)
-                this.lineNum_ += (_a = token.match(/\n/g), (_a !== null && _a !== void 0 ? _a : [])).length;
+                this.lineNum_ += ((_a = token.match(/\n/g)) !== null && _a !== void 0 ? _a : []).length;
         }
         throw 'マクロ' + name + '定義の終端・[endmacro]がありません';
     }
@@ -812,7 +808,7 @@ class ScriptIterator {
             throw 'placeは必須です';
         delete hArg.タグ名;
         delete hArg.place;
-        hArg.text = (_a = hArg.text, (_a !== null && _a !== void 0 ? _a : '')).replace(/^(<br\/>)+/, '');
+        hArg.text = ((_a = hArg.text) !== null && _a !== void 0 ? _a : '').replace(/^(<br\/>)+/, '');
         this.mark.json = hArg;
         this.val.setMark(place, this.mark);
         const now_sp = Number(this.val.getVal('sys:const.sn.save.place'));
