@@ -97,9 +97,14 @@ class GrpLayer extends Layer_1.Layer {
             ldr.pre((res, next) => res.load(() => {
                 this.sys.pre(res.extension, res.data)
                     .then(r => {
+                    if (res.extension != 'bin') {
+                        next();
+                        return;
+                    }
                     res.data = r;
-                    if (res.extension == 'bin')
+                    if (res.data instanceof HTMLImageElement) {
                         res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                    }
                     next();
                 })
                     .catch(e => this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));

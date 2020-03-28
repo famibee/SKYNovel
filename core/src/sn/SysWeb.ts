@@ -137,16 +137,25 @@ export class SysWeb extends SysBase {
 			hTmp['const.sn.isFirstBoot'] = false;
 			if (this.crypt) {
 			(async ()=> {
-				this.data.sys = JSON.parse(
-					await this.pre('json', strLocal.get(this.ns +'sys_'))
-				);
-
-				this.data.mark = JSON.parse(
-					await this.pre('json', strLocal.get(this.ns +'mark_'))
-				);
-				this.data.kidoku = JSON.parse(
-					await this.pre('json', strLocal.get(this.ns +'kidoku_'))
-				);
+				let mes = '';
+				try {
+					mes = 'sys';	// tst sys
+					this.data.sys = JSON.parse(
+						await this.pre('json', strLocal.get(this.ns +'sys_'))
+					);
+					mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+					mes = 'mark';	// tst mark
+					this.data.mark = JSON.parse(
+						await this.pre('json', strLocal.get(this.ns +'mark_'))
+					);
+					mes = 'kidoku';	// tst kidoku
+					this.data.kidoku = JSON.parse(
+						await this.pre('json', strLocal.get(this.ns +'kidoku_'))
+					);
+					this.val.saveKidoku();
+				} catch (e) {
+					console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+				}
 				comp(this.data);
 			})();
 				return;

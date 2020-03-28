@@ -136,8 +136,11 @@ export class GrpLayer extends Layer {
 			ldr.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 				this.sys.pre(res.extension, res.data)
 				.then(r=> {
+					if (res.extension != 'bin') {next(); return;}
 					res.data = r;
-					if (res.extension == 'bin') res.type = LoaderResource.TYPE.IMAGE;
+					if (res.data instanceof HTMLImageElement) {
+						res.type = LoaderResource.TYPE.IMAGE;
+					}
 					next();
 				})
 				.catch(e=> this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));
