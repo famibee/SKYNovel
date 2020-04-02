@@ -1,5 +1,10 @@
+## v0.14.0
+- add：音声復号化機能（ (mp3|m4a|ogg|aac|webm|flac|wav)→ bin）
+- upd：音声再生ライブラリを goldfire/howler.js から pixijs/pixi-sound に変更
+- add：[button][link]の効果音はレスポンス向上のため音声ファイルを先読みするように
+- add：[playse][playbgm]に speed属性（=1:元のまま、<1:遅い、>1:早い）
 ## v0.13.0
-- add：画像暗号化機能（bin → (jpe?g|png|svg|webp)）
+- add：画像復号化機能（ (jpe?g|png|svg|webp)→ bin）
 ## v0.12.10
 - bug：アニメスプライトjson読み込みでエラーになっていた件
 - upd：デーブデータ破損チェック

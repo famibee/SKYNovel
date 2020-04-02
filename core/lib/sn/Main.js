@@ -72,7 +72,7 @@ class Main {
             this.prpPrs = new PropParser_1.PropParser(this.val);
             this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);
             this.hTag['title']({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
-            this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this);
+            this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
             this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs.parse, this.sndMng, this.sys);
             this.dbgMng = new DebugMng_1.DebugMng(this.sys, this.hTag, this.scrItr);
             this.layMng = new LayerMng_1.LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);

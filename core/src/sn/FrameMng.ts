@@ -11,8 +11,7 @@ import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 
-import * as TW from '@tweenjs/tween.js';
-const TWEEN: any = TW;
+const Tween = require('@tweenjs/tween.js').default;
 
 export class FrameMng {
 	constructor(hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
@@ -277,7 +276,7 @@ export class FrameMng {
 
 		this.appPixi.stage.interactive = false;
 		const tw_nm = `frm\n${hArg.id}`;
-		const tw = new TWEEN.default.Tween(hNow)
+		const tw = new Tween.Tween(hNow)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
 				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))

@@ -3,8 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const TxtLayer_1 = require("./TxtLayer");
 const EventListenerCtn_1 = require("./EventListenerCtn");
-const TW = require("@tweenjs/tween.js");
-const TWEEN = TW;
+const Tween = require('@tweenjs/tween.js').default;
 const Config_1 = require("./Config");
 const Hammer = require("hammerjs");
 class EventMng {
@@ -15,6 +14,7 @@ class EventMng {
         this.main = main;
         this.layMng = layMng;
         this.val = val;
+        this.sndMng = sndMng;
         this.scrItr = scrItr;
         this.elc = new EventListenerCtn_1.EventListenerCtn;
         this.hHamEv = {
@@ -288,6 +288,7 @@ class EventMng {
                 this.hLocalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);
             em.on('pointerout', (e) => this.defEvt2Fnc(e, key2));
         }
+        this.sndMng.loadAheadSnd(hArg);
     }
     waitCustomEvent(hArg, elc, fnc) {
         this.goTxt();
@@ -466,7 +467,7 @@ class EventMng {
     }
     wait(hArg) {
         this.val.saveKidoku();
-        const twSleep = new TWEEN.default.Tween(this)
+        const twSleep = new Tween.Tween(this)
             .to({}, CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)))
             .onComplete(() => this.main.resume())
             .start();

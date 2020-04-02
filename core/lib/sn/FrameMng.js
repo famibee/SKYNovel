@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const CmnTween_1 = require("./CmnTween");
-const TW = require("@tweenjs/tween.js");
-const TWEEN = TW;
+const Tween = require('@tweenjs/tween.js').default;
 class FrameMng {
     constructor(hTag, appPixi, val, main, sys, hTwInf) {
         this.appPixi = appPixi;
@@ -234,7 +233,7 @@ class FrameMng {
         }
         this.appPixi.stage.interactive = false;
         const tw_nm = `frm\n${hArg.id}`;
-        const tw = new TWEEN.default.Tween(hNow)
+        const tw = new Tween.Tween(hNow)
             .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
             * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))

@@ -143,7 +143,7 @@ export class GrpLayer extends Layer {
 					}
 					next();
 				})
-				.catch(e=> this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));
+				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 			}))
 			.load((_loader: any, res: any)=> fncLoaded(res));
 		}

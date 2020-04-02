@@ -5,8 +5,7 @@ const CmnLib_1 = require("./CmnLib");
 const CmnTween_1 = require("./CmnTween");
 const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
-const TW = require("@tweenjs/tween.js");
-const TWEEN = TW;
+const Tween = require('@tweenjs/tween.js').default;
 const m_xregexp = require("xregexp");
 ;
 ;
@@ -540,7 +539,7 @@ class TxtStage extends pixi_js_1.Container {
         sp.position.set((cis.x.charAt(0) == '=') ? rct.x + sp.width * cis.nx : cis.nx, (cis.y.charAt(0) == '=') ? rct.y + sp.height * cis.ny : cis.ny);
         const st = {
             sp: sp,
-            tw: new TWEEN.default.Tween(sp)
+            tw: new Tween.Tween(sp)
                 .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait) !== null && _a !== void 0 ? _a : 0)
                 .easing(ease)
                 .delay(((_b = add.wait) !== null && _b !== void 0 ? _b : 0) + ((_c = arg.delay) !== null && _c !== void 0 ? _c : 0))

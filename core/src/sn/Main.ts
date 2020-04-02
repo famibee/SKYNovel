@@ -75,7 +75,7 @@ export class Main implements IMain {
 			this.hTag['title']({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音
-			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this);
+			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
 
 			// 条件分岐、ラベル・ジャンプ、マクロ、しおり
 			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs.parse, this.sndMng, this.sys);

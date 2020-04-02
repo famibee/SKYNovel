@@ -107,7 +107,7 @@ class GrpLayer extends Layer_1.Layer {
                     }
                     next();
                 })
-                    .catch(e => this.main.errScript(`Grpロード失敗です fn:${res.name} ${e}`, false));
+                    .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
             }))
                 .load((_loader, res) => fncLoaded(res));
         }

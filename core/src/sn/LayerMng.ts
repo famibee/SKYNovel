@@ -18,8 +18,7 @@ import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 
-import * as TW from '@tweenjs/tween.js';
-const TWEEN: any = TW;
+const Tween = require('@tweenjs/tween.js').default;
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 
@@ -170,7 +169,7 @@ export class LayerMng {
 			return tl ?tl.pageText :'';
 		});
 	}
-	private fncTicker = ()=> TWEEN.default.update();
+	private fncTicker = ()=> Tween.update();
 
 	private grpCover : Graphics | null = null;
 	cover(visible: boolean, bg_color: number = 0x0) {
@@ -202,7 +201,7 @@ export class LayerMng {
 		RubySpliter.destroy();
 		this.frmMng.destroy();
 
-		TWEEN.default.removeAll();
+		Tween.removeAll();
 		this.appPixi.ticker.remove(this.fncTicker);
 		LayerMng.$msecChWait = 10;
 	}
@@ -608,7 +607,7 @@ void main(void) {
 		const is_glsl = 'glsl' in hArg;
 		if ((! is_glsl) && ! ('rule' in hArg)) {
 			this.spTransFore.filters = [];
-			this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
+			this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
 				.to({alpha: 0}, time)
 				.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 				.easing(ease)
@@ -624,7 +623,7 @@ void main(void) {
 			: this.fltRule;
 		flt.uniforms.vague = CmnLib.argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
-		this.twInfTrans.tw = new TWEEN.default.Tween(flt.uniforms)
+		this.twInfTrans.tw = new Tween.Tween(flt.uniforms)
 			.to({tick: 1}, time)
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
@@ -736,7 +735,7 @@ void main(void) {
 		this.spTransFore.filters = [];
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		this.twInfTrans = {tw: null, resume: false};
-		this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
+		this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
 			.to({x: 0, y: 0}, CmnLib.argChk_Num(hArg, 'time', NaN))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
@@ -790,7 +789,7 @@ void main(void) {
 
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		const tw_nm = hArg.name ?? hArg.layer;
-		const tw = new TWEEN.default.Tween(foreLay)
+		const tw = new Tween.Tween(foreLay)
 			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
 				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))

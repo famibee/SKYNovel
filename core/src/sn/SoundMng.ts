@@ -9,12 +9,14 @@ import {CmnLib, IEvtMng} from './CmnLib';
 import {CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
-import {Howl} from 'howler';
-import * as TW from '@tweenjs/tween.js';
-const TWEEN: any = TW;
+import {SysBase} from './SysBase';
+
+const PSnd = require('pixi-sound').default;
+import {Loader, LoaderResource} from 'pixi.js';
+const Tween = require('@tweenjs/tween.js').default;
 
 interface ISndBuf {
-	snd		: Howl;
+	snd		: any;
 	loop	: boolean;
 	ret_ms	: number;
 	end_ms	: number;
@@ -30,7 +32,7 @@ interface ISndBuf {
 export class SoundMng {
 	private hSndBuf	: {[name: string]: ISndBuf} = {};
 
-	constructor(private readonly cfg: Config, hTag: IHTag, private readonly val: IVariable, private readonly main: IMain) {
+	constructor(private readonly cfg: Config, hTag: IHTag, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase) {
 		hTag.volume		= o=> this.volume(o);		// 音量設定（独自拡張）
 		hTag.fadebgm	= o=> this.fadebgm(o);		// BGMのフェード
 		hTag.fadeoutbgm	= o=> this.fadeoutbgm(o);	// BGMのフェードアウト
@@ -48,17 +50,11 @@ export class SoundMng {
 		hTag.ws			= o=> this.ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
 
-		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> Howler.volume(Number(val)));
+		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> PSnd.volumeAll(Number(val)));
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
-		const codecs :{[name: string]: boolean} = {};
-		['mp3','m4a','ogg','aac','webm','flac','wav'].forEach(v=> {codecs[v] = Howler.codecs(v)});
-		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(codecs));
+		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
 	}
-	private initVol = ()=> {
-		Howler.volume(Number(this.val.getVal('sys:sn.sound.global_volume', 1)));
-		this.initVol = ()=> {};
-	};
 
 	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
@@ -112,7 +108,7 @@ export class SoundMng {
 		this.val.flush();
 
 		if (CmnLib.argChk_Num(hArg, 'time', NaN) == 0) {
-			oSb.snd.volume(vol);
+			oSb.snd.volume = vol;
 			if (stop) {
 				if (buf == 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
 			}
@@ -121,14 +117,14 @@ export class SoundMng {
 
 		const ease = CmnTween.ease(hArg.ease);
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
-		//console.log('fadese start from:%f to:%f', oSb.snd.volume(), vol);
-		oSb.twFade = new TWEEN.default.Tween({v: oSb.snd.volume()})
+		//console.log('fadese start from:%f to:%f', oSb.snd.volume, vol);
+		oSb.twFade = new Tween.Tween({v: oSb.snd.volume})
 			.to({v: vol}, CmnLib.argChk_Num(hArg, 'time', NaN))
 			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
 			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-			.onUpdate((o: any)=> {if (oSb.playing()) oSb.snd.volume(o.v);})
+			.onUpdate((o: any)=> {if (oSb.playing()) oSb.snd.volume = o.v;})
 			.onComplete(()=> {	//console.log('fadese: onComplete');
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
@@ -182,52 +178,79 @@ export class SoundMng {
 		this.val.setVal_Nochk('save', nm +'end_ms', end_ms);
 		this.val.flush();
 
-		const o: IHowlProperties = {
-			src: this.cfg.searchPath(fn, Config.EXT_SOUND),
-			//src: ['sound.webm', 'sound.mp3', 'sound.wav'],
-			autoplay: true,
-			loop: loop,
-			volume: vol,
-			//sprite: {key: [offset, duration, (loop)]},
+		const o: any = {
+			autoPlay: true,
+		//	autoPlay: false,	// loaded が発生しない
+			loop	: loop,			// (apiには載ってないけど、ちゃんと効いた)
+			volume	: vol,
+			speed	: CmnLib.argChk_Num(hArg, 'speed', 1),
+			loaded	: (e: Error, snd: any)=> {
+				if (e) {this.main.errScript(`Sound ロード失敗です fn:${fn} ${e}`, false); return;}
+
+				const oSb = this.hSndBuf[buf];
+				if (oSb) oSb.snd = snd;
+			},
 		};
-		if (! loop) o.onend = ()=> {
+		if (! loop) o.complete = ()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 			const oSb = this.hSndBuf[buf];
-			if (! oSb) return;
-			oSb.onend();
+			if (oSb) {oSb.playing = ()=> false; oSb.onend();}
 		};
-		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
-		if (join) o.onload = ()=> this.main.resume();
-		const snd = new Howl(o);
+
+		const snd = PSnd.find(fn);	// バッファ
 		this.hSndBuf[buf] = {
 			snd		: snd,
 			loop	: loop,
-			ret_ms	: ret_ms,
-			end_ms	: end_ms,
+			ret_ms	: ret_ms,		// TODO: 未作成
+			end_ms	: end_ms,		// TODO: 未作成
 			resume	: false,
-			playing	: CmnLib.isFirefox
-				? ()=> true
-				: ()=> snd.playing(),
-			onend	: ()=> {	//console.log('playse: onend');
+			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
+			onend	: ()=> {
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
 				if (! oSb) return;
-				if (CmnLib.isFirefox) oSb.playing = ()=> false;
+	//			if (CmnLib.isFirefox) oSb.playing = ()=> false;
 				//delete this.hSndBuf[buf];
 					// [xchgbuf]をされるかもしれないので、delete不可
 					// 【2018/06/25】cache=falseならここでunload()？
-					//	const cache = CmnLib.argChk_Boolean(hArg, 'cache', true);
 				this.stopfadese(hArg);	// 止めた方が良いかなと
 				if (oSb.resume) {
-					this.evtMng.popLocalEvts();	// [ws]したのにキャンセルされなかった時用
+					this.evtMng.popLocalEvts();	// [ws]中にキャンセルされなかった時用
 					this.main.resume();
 				}
 			},
 		};
+		if (snd) {snd.volume = vol; snd.play(o); return false;}
+			// snd.volume = ...; がないと、音量が戻らない不具合
+
+		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
+		if (join) {
+			const old = o.loaded;
+			o.loaded = (e: Error, snd: any)=> {this.main.resume(); old(e, snd)};
+		}
+		this.playseSub(fn, o);
+
 		this.initVol();
 
 		return join;
 	}
+	private playseSub(fn: string, o: any): void {
+		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
+	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
+		if (url.slice(-4) != '.bin') {o.url = url; PSnd.add(fn, o); return}
+
+		(new Loader()).add(fn, url, {xhrType: 'arraybuffer'})
+		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+			this.sys.pre(res.extension, res.data)
+			.then(r=> {res.data = r; next();})
+			.catch(e=> this.main.errScript(`Sndロード失敗です fn:${res.name} ${e}`, false));
+		}))
+		.load((_ldr, res)=> {o.source = res[fn]?.data; PSnd.add(fn, o);});
+	}
+	private initVol = ()=> {
+		PSnd.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
+		this.initVol = ()=> {};
+	};
 
 	// 全効果音再生の停止
 	private stop_allse() {
@@ -282,16 +305,13 @@ export class SoundMng {
 	private wl(hArg: HArg) {hArg.buf = 'BGM'; return this.ws(hArg);}
 	// 効果音再生の終了待ち
 	private ws(hArg: HArg) {
-console.log(`fn:SoundMng.ts line:279 `);
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
-console.log(`fn:SoundMng.ts line:282 A:${! oSb} B:${! oSb.playing()} C:${oSb.loop}`);
 		if (! oSb || ! oSb.playing() || oSb.loop) return false;
-console.log(`fn:SoundMng.ts line:283 `);
+
 		oSb.resume = true;
 		this.evtMng.stdWait(
 			()=> {
-console.log(`fn:SoundMng.ts line:286 FIN`);
 				this.stopse(hArg);
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
@@ -300,7 +320,7 @@ console.log(`fn:SoundMng.ts line:286 FIN`);
 			},
 			CmnLib.argChk_Boolean(hArg, 'canskip', false)
 		);
-console.log(`fn:SoundMng.ts line:296 `);
+
 		return true;
 	}
 
@@ -317,15 +337,13 @@ console.log(`fn:SoundMng.ts line:296 `);
 	}
 
 	// レスポンス向上のため音声ファイルを先読み
-	// （2019/04/28）音声再生しなくなるので使用凍結
-	/*
-	loadAheadSnd(_aFn: string[]): void {
-		_aFn.filter(v=> (v)).forEach(fn=> new Howl({
-			src: this.cfg.searchPath(fn, Config.EXT_SOUND),
-			autoplay: false,
-		}));
+	loadAheadSnd(hArg: HArg): void {
+		[hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn=> {
+			if (! fn || PSnd.exists(fn)) return;
+
+			this.playseSub(fn, {preload: true, autoPlay: false});
+		});
 	}
-	*/
 
 	// しおりの読込（BGM状態復元）
 	playLoopFromSaveObj(): void {

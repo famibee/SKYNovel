@@ -1,13 +1,14 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain } from './CmnInterface';
+import { IHTag, IVariable, IMain, HArg } from './CmnInterface';
 import { Config } from './Config';
+import { SysBase } from './SysBase';
 export declare class SoundMng {
     private readonly cfg;
     private readonly val;
     private readonly main;
+    private readonly sys;
     private hSndBuf;
-    constructor(cfg: Config, hTag: IHTag, val: IVariable, main: IMain);
-    private initVol;
+    constructor(cfg: Config, hTag: IHTag, val: IVariable, main: IMain, sys: SysBase);
     private evtMng;
     setEvtMng(evtMng: IEvtMng): void;
     private volume;
@@ -18,6 +19,8 @@ export declare class SoundMng {
     private fadese;
     private playbgm;
     private playse;
+    private playseSub;
+    private initVol;
     private stop_allse;
     private stopbgm;
     private stopse;
@@ -27,6 +30,7 @@ export declare class SoundMng {
     private wl;
     private ws;
     private xchgbuf;
+    loadAheadSnd(hArg: HArg): void;
     playLoopFromSaveObj(): void;
     private addLoopPlay;
     private delLoopPlay;

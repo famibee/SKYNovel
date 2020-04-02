@@ -13,8 +13,7 @@ import {Config} from './Config';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
-import * as TW from '@tweenjs/tween.js';
-const TWEEN: any = TW;
+const Tween = require('@tweenjs/tween.js').default;
 import m_xregexp = require('xregexp');
 
 export interface IInfTxLay {
@@ -732,7 +731,7 @@ export class TxtStage extends Container {
 		);
 		const st: ISpTw = {
 			sp: sp,
-			tw: new TWEEN.default.Tween(sp)
+			tw: new Tween.Tween(sp)
 				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, cis.wait ?? 0)
 				.easing(ease)
 				.delay((add.wait ?? 0) +(arg.delay ?? 0))

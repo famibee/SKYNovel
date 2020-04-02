@@ -12,8 +12,7 @@ import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
 
-import * as TW from '@tweenjs/tween.js';
-const TWEEN: any = TW;
+const Tween = require('@tweenjs/tween.js').default;
 import {interaction, DisplayObject, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
@@ -35,7 +34,7 @@ export class EventMng implements IEvtMng {
 		swipedown	: null,
 	};
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, sndMng: SoundMng, private readonly scrItr: ScriptIterator) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator) {
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(main, this);
@@ -333,14 +332,7 @@ export class EventMng implements IEvtMng {
 			em.on('pointerout', (e: any)=> this.defEvt2Fnc(e, key2));
 		}
 
-		// レスポンス向上のため音声ファイルを先読み。結果再生時にjoin不要
-		// （2019/04/28）音声再生しなくなるので使用凍結
-		/*
-		this.sndMng.loadAheadSnd([
-			hArg.clickse ?? '',
-			hArg.enterse ?? '',
-			hArg.leavese ?? '']);
-		*/
+		this.sndMng.loadAheadSnd(hArg);
 	}
 
 
@@ -560,7 +552,7 @@ export class EventMng implements IEvtMng {
 	private wait(hArg: HArg) {
 		this.val.saveKidoku();
 
-		const twSleep = new TWEEN.default.Tween(this)
+		const twSleep = new Tween.Tween(this)
 		.to({}, uint(CmnLib.argChk_Num(hArg, 'time', NaN)))
 		.onComplete(()=> this.main.resume())
 		.start();

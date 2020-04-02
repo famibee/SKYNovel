@@ -3,18 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const CmnTween_1 = require("./CmnTween");
 const Config_1 = require("./Config");
-const howler_1 = require("howler");
-const TW = require("@tweenjs/tween.js");
-const TWEEN = TW;
+const PSnd = require('pixi-sound').default;
+const pixi_js_1 = require("pixi.js");
+const Tween = require('@tweenjs/tween.js').default;
 ;
 class SoundMng {
-    constructor(cfg, hTag, val, main) {
+    constructor(cfg, hTag, val, main, sys) {
         this.cfg = cfg;
         this.val = val;
         this.main = main;
+        this.sys = sys;
         this.hSndBuf = {};
         this.initVol = () => {
-            Howler.volume(Number(this.val.getVal('sys:sn.sound.global_volume', 1)));
+            PSnd.volumeAll = Number(this.val.getVal('sys:sn.sound.global_volume', 1));
             this.initVol = () => { };
         };
         hTag.volume = o => this.volume(o);
@@ -33,11 +34,9 @@ class SoundMng {
         hTag.wl = o => this.wl(o);
         hTag.ws = o => this.ws(o);
         hTag.xchgbuf = o => this.xchgbuf(o);
-        val.defValTrg('sys:sn.sound.global_volume', (_name, val) => Howler.volume(Number(val)));
+        val.defValTrg('sys:sn.sound.global_volume', (_name, val) => PSnd.volumeAll(Number(val)));
         this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
-        const codecs = {};
-        ['mp3', 'm4a', 'ogg', 'aac', 'webm', 'flac', 'wav'].forEach(v => { codecs[v] = Howler.codecs(v); });
-        val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(codecs));
+        val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
     }
     setEvtMng(evtMng) { this.evtMng = evtMng; }
     volume(hArg) {
@@ -82,7 +81,7 @@ class SoundMng {
         }
         this.val.flush();
         if (CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN) == 0) {
-            oSb.snd.volume(vol);
+            oSb.snd.volume = vol;
             if (stop) {
                 if (buf == 'BGM')
                     this.stopbgm(hArg);
@@ -93,14 +92,14 @@ class SoundMng {
         }
         const ease = CmnTween_1.CmnTween.ease(hArg.ease);
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
-        oSb.twFade = new TWEEN.default.Tween({ v: oSb.snd.volume() })
+        oSb.twFade = new Tween.Tween({ v: oSb.snd.volume })
             .to({ v: vol }, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
             .easing(ease)
             .repeat(repeat == 0 ? Infinity : (repeat - 1))
             .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
             .onUpdate((o) => { if (oSb.playing())
-            oSb.snd.volume(o.v); })
+            oSb.snd.volume = o.v; })
             .onComplete(() => {
             const oSb = this.hSndBuf[buf];
             if (!oSb || !oSb.twFade)
@@ -151,37 +150,40 @@ class SoundMng {
         this.val.setVal_Nochk('save', nm + 'end_ms', end_ms);
         this.val.flush();
         const o = {
-            src: this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND),
-            autoplay: true,
+            autoPlay: true,
             loop: loop,
             volume: vol,
+            speed: CmnLib_1.CmnLib.argChk_Num(hArg, 'speed', 1),
+            loaded: (e, snd) => {
+                if (e) {
+                    this.main.errScript(`Sound ロード失敗です fn:${fn} ${e}`, false);
+                    return;
+                }
+                const oSb = this.hSndBuf[buf];
+                if (oSb)
+                    oSb.snd = snd;
+            },
         };
         if (!loop)
-            o.onend = () => {
+            o.complete = () => {
                 const oSb = this.hSndBuf[buf];
-                if (!oSb)
-                    return;
-                oSb.onend();
+                if (oSb) {
+                    oSb.playing = () => false;
+                    oSb.onend();
+                }
             };
-        const join = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true);
-        if (join)
-            o.onload = () => this.main.resume();
-        const snd = new howler_1.Howl(o);
+        const snd = PSnd.find(fn);
         this.hSndBuf[buf] = {
             snd: snd,
             loop: loop,
             ret_ms: ret_ms,
             end_ms: end_ms,
             resume: false,
-            playing: CmnLib_1.CmnLib.isFirefox
-                ? () => true
-                : () => snd.playing(),
+            playing: () => true,
             onend: () => {
                 const oSb = this.hSndBuf[buf];
                 if (!oSb)
                     return;
-                if (CmnLib_1.CmnLib.isFirefox)
-                    oSb.playing = () => false;
                 this.stopfadese(hArg);
                 if (oSb.resume) {
                     this.evtMng.popLocalEvts();
@@ -189,8 +191,34 @@ class SoundMng {
                 }
             },
         };
+        if (snd) {
+            snd.volume = vol;
+            snd.play(o);
+            return false;
+        }
+        const join = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true);
+        if (join) {
+            const old = o.loaded;
+            o.loaded = (e, snd) => { this.main.resume(); old(e, snd); };
+        }
+        this.playseSub(fn, o);
         this.initVol();
         return join;
+    }
+    playseSub(fn, o) {
+        const url = this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND);
+        if (url.slice(-4) != '.bin') {
+            o.url = url;
+            PSnd.add(fn, o);
+            return;
+        }
+        (new pixi_js_1.Loader()).add(fn, url, { xhrType: 'arraybuffer' })
+            .pre((res, next) => res.load(() => {
+            this.sys.pre(res.extension, res.data)
+                .then(r => { res.data = r; next(); })
+                .catch(e => this.main.errScript(`Sndロード失敗です fn:${res.name} ${e}`, false));
+        }))
+            .load((_ldr, res) => { var _a; o.source = (_a = res[fn]) === null || _a === void 0 ? void 0 : _a.data; PSnd.add(fn, o); });
     }
     stop_allse() {
         for (const buf in this.hSndBuf)
@@ -234,23 +262,18 @@ class SoundMng {
     wl(hArg) { hArg.buf = 'BGM'; return this.ws(hArg); }
     ws(hArg) {
         var _a;
-        console.log(`fn:SoundMng.ts line:279 `);
         const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
         const oSb = this.hSndBuf[buf];
-        console.log(`fn:SoundMng.ts line:282 A:${!oSb} B:${!oSb.playing()} C:${oSb.loop}`);
         if (!oSb || !oSb.playing() || oSb.loop)
             return false;
-        console.log(`fn:SoundMng.ts line:283 `);
         oSb.resume = true;
         this.evtMng.stdWait(() => {
-            console.log(`fn:SoundMng.ts line:286 FIN`);
             this.stopse(hArg);
             const oSb = this.hSndBuf[buf];
             if (!oSb || !oSb.playing() || oSb.loop)
                 return;
             oSb.onend();
         }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', false));
-        console.log(`fn:SoundMng.ts line:296 `);
         return true;
     }
     xchgbuf(hArg) {
@@ -259,6 +282,13 @@ class SoundMng {
         const buf2 = (_b = hArg.buf2) !== null && _b !== void 0 ? _b : 'SE';
         [this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
         return false;
+    }
+    loadAheadSnd(hArg) {
+        [hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn => {
+            if (!fn || PSnd.exists(fn))
+                return;
+            this.playseSub(fn, { preload: true, autoPlay: false });
+        });
     }
     playLoopFromSaveObj() {
         const loopPlaying = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));

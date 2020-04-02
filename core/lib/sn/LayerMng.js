@@ -8,8 +8,7 @@ const TxtLayer_1 = require("./TxtLayer");
 const RubySpliter_1 = require("./RubySpliter");
 const FrameMng_1 = require("./FrameMng");
 const Button_1 = require("./Button");
-const TW = require("@tweenjs/tween.js");
-const TWEEN = TW;
+const Tween = require('@tweenjs/tween.js').default;
 const pixi_js_1 = require("pixi.js");
 const EventListenerCtn_1 = require("./EventListenerCtn");
 class LayerMng {
@@ -23,7 +22,7 @@ class LayerMng {
         this.sys = sys;
         this.fore = new pixi_js_1.Container;
         this.back = new pixi_js_1.Container;
-        this.fncTicker = () => TWEEN.default.update();
+        this.fncTicker = () => Tween.update();
         this.grpCover = null;
         this.cmdTxt = (cmd, tl = this.getCurrentTxtlayForeNeedErr(), _record = true) => tl.tagCh('｜　《' + cmd + '》');
         this.goTxt = () => { };
@@ -217,7 +216,7 @@ void main(void) {
         GrpLayer_1.GrpLayer.destroy();
         RubySpliter_1.RubySpliter.destroy();
         this.frmMng.destroy();
-        TWEEN.default.removeAll();
+        Tween.removeAll();
         this.appPixi.ticker.remove(this.fncTicker);
         LayerMng.$msecChWait = 10;
     }
@@ -486,7 +485,7 @@ void main(void) {
         const is_glsl = 'glsl' in hArg;
         if ((!is_glsl) && !('rule' in hArg)) {
             this.spTransFore.filters = [];
-            this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
+            this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
                 .to({ alpha: 0 }, time)
                 .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
                 .easing(ease)
@@ -500,7 +499,7 @@ void main(void) {
             : this.fltRule;
         flt.uniforms.vague = CmnLib_1.CmnLib.argChk_Num(hArg, 'vague', 0.04);
         flt.uniforms.tick = 0;
-        this.twInfTrans.tw = new TWEEN.default.Tween(flt.uniforms)
+        this.twInfTrans.tw = new Tween.Tween(flt.uniforms)
             .to({ tick: 1 }, time)
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
             .easing(ease)
@@ -604,7 +603,7 @@ void main(void) {
         this.spTransFore.filters = [];
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
         this.twInfTrans = { tw: null, resume: false };
-        this.twInfTrans.tw = new TWEEN.default.Tween(this.spTransFore)
+        this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
             .to({ x: 0, y: 0 }, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
             .easing(ease)
@@ -638,7 +637,7 @@ void main(void) {
         }
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
         const tw_nm = (_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer;
-        const tw = new TWEEN.default.Tween(foreLay)
+        const tw = new Tween.Tween(foreLay)
             .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
             * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))

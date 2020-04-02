@@ -13,6 +13,7 @@ export declare class EventMng implements IEvtMng {
     private readonly main;
     private readonly layMng;
     private readonly val;
+    private readonly sndMng;
     private readonly scrItr;
     private readonly elc;
     private ham;
