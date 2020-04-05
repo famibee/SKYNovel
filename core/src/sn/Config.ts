@@ -55,10 +55,12 @@ export class Config implements IConfig {
 	private	hPathFn2Exts	: IFn2Path		= {};
 	readonly getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
 
-	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4';
+	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm';
+//	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm|ogv';
+		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
 	static	readonly	EXT_SCRIPT	= 'sn';
 	static	readonly	EXT_FONT	= 'woff2|otf|ttf';
-	static	readonly	EXT_SOUND	= 'mp3|m4a|ogg|aac|webm|flac|wav';
+	static	readonly	EXT_SOUND	= 'mp3|m4a|ogg|aac|flac|wav';
 
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		const load = (oCfg: any)=> {

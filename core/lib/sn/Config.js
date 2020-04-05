@@ -182,8 +182,8 @@ class Config {
     }
 }
 exports.Config = Config;
-Config.EXT_SPRITE = 'png|jpg|jpeg|json|svg|webp|mp4';
+Config.EXT_SPRITE = 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 Config.EXT_SCRIPT = 'sn';
 Config.EXT_FONT = 'woff2|otf|ttf';
-Config.EXT_SOUND = 'mp3|m4a|ogg|aac|webm|flac|wav';
+Config.EXT_SOUND = 'mp3|m4a|ogg|aac|flac|wav';
 //# sourceMappingURL=Config.js.map

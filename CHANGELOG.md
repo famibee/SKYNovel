@@ -1,3 +1,5 @@
+## v0.15.0
+- add：動画復号化機能（ (mp4|webm)→ bin）
 ## v0.14.0
 - add：音声復号化機能（ (mp3|m4a|ogg|aac|webm|flac|wav)→ bin）
 - upd：音声再生ライブラリを goldfire/howler.js から pixijs/pixi-sound に変更
