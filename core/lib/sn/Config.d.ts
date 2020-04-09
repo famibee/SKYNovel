@@ -10,6 +10,7 @@ export declare class Config implements IConfig {
     static readonly EXT_SCRIPT = "sn";
     static readonly EXT_FONT = "woff2|otf|ttf";
     static readonly EXT_SOUND = "mp3|m4a|ogg|aac|flac|wav";
+    static readonly EXT_HTML = "htm|html";
     constructor(sys: SysBase, fncLoaded: () => void, oCfg4tst?: any);
     private $existsBreakline;
     get existsBreakline(): boolean;

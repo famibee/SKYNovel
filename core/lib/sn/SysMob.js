@@ -46,7 +46,7 @@ class SysMob extends SysBase_1.SysBase {
                     if (ext != ':cnt')
                         h[ext] = this.arg.cur + h[ext];
             }
-            const cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
+            const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
             if (cvs) {
                 const zoom = (screen.width > screen.height ? screen.height : screen.width) / cfg.oCfg.window.height;
                 this.resolution = zoom;

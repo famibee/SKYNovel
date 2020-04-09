@@ -42,7 +42,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     static init(cfg) {
         TxtStage.cfg = cfg;
-        TxtStage.cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
+        TxtStage.cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
     }
     static setEvtMng(evtMng) { TxtStage.evtMng = evtMng; }
     lay(hArg) {
@@ -349,7 +349,7 @@ class TxtStage extends pixi_js_1.Container {
         TxtStage.cntBreak.visible = false;
         const begin = this.aRect.length;
         if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
-            if (TxtStage.cfg.oCfg.debug.devtool)
+            if (CmnLib_1.CmnLib.debugLog)
                 console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
             this.grpDbgMasume.clear();
             this.grpDbgMasume.beginFill(0x33FF00, 0.2);
@@ -426,7 +426,7 @@ class TxtStage extends pixi_js_1.Container {
                 break;
             }
         } while (len < 0);
-        const fncMasumeLog = (TxtStage.cfg.oCfg.debug.devtool)
+        const fncMasumeLog = CmnLib_1.CmnLib.debugLog
             ? (v, rct) => console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
             : () => { };
         const fncMasume = (TxtStage.cfg.oCfg.debug.masume)

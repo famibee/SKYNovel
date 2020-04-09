@@ -57,16 +57,16 @@ class Main {
                 resolution: (_a = window.devicePixelRatio) !== null && _a !== void 0 ? _a : 1,
                 autoResize: true,
             };
-            const cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
+            const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
             if (cvs) {
                 this.clone_cvs = cvs.cloneNode(true);
-                this.clone_cvs.id = CmnLib_1.CmnLib.sn_id;
+                this.clone_cvs.id = CmnLib_1.CmnLib.SN_ID;
                 hApp.view = cvs;
             }
             this.appPixi = new pixi_js_1.Application(hApp);
             if (!cvs) {
                 document.body.appendChild(this.appPixi.view);
-                this.appPixi.view.id = CmnLib_1.CmnLib.sn_id;
+                this.appPixi.view.id = CmnLib_1.CmnLib.SN_ID;
             }
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
@@ -85,7 +85,7 @@ class Main {
     errScript(mes, isThrow = true) {
         this.stop();
         DebugMng_1.DebugMng.myTrace(mes);
-        if (CmnLib_1.CmnLib.devtool)
+        if (CmnLib_1.CmnLib.debugLog)
             console.log('🍜 SKYNovel err!');
         if (isThrow)
             throw mes;
@@ -195,6 +195,7 @@ class Main {
         }
     }
     タグ解析(tagToken) {
+        var _a;
         const a_tag = m_xregexp.exec(tagToken, Grammar_1.Grammar.REG_TAG);
         if (a_tag == null)
             throw 'タグ記述[' + tagToken + ']異常です(タグ解析)';
@@ -228,22 +229,22 @@ class Main {
                 hArg[k] = hArgDef[k];
         }
         for (const k in this.alzTagArg.hPrm) {
-            let val = this.alzTagArg.hPrm[k].val;
-            if (val.charAt(0) == '%') {
+            let v = this.alzTagArg.hPrm[k].val;
+            if (v.charAt(0) == '%') {
                 if (this.scrItr.isEmptyCallStk)
                     throw '属性「%」はマクロのみ有効です';
-                const mac = this.scrItr.lastHArg[val.substr(1)];
-                if (mac) {
-                    hArg[k] = mac;
-                    continue;
-                }
-                val = this.alzTagArg.hPrm[k].def;
-                if (!val || val == 'null')
-                    continue;
+                v = this.scrItr.lastHArg[v.substr(1)];
             }
-            const v = this.getValAmpersand(val);
-            if (v != 'undefined')
+            else
+                v = this.getValAmpersand(v);
+            if (v) {
                 hArg[k] = v;
+                continue;
+            }
+            v = this.getValAmpersand((_a = this.alzTagArg.hPrm[k].def) !== null && _a !== void 0 ? _a : 'null');
+            if (!v || v == 'null')
+                continue;
+            hArg[k] = v;
         }
         return tag_fnc(hArg);
     }

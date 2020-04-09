@@ -112,7 +112,7 @@ export class EventMng implements IEvtMng {
 		// Gamepad APIの利用 - ウェブデベロッパーガイド | MDN https://developer.mozilla.org/ja/docs/Web/Guide/API/Gamepad
 		// Gamepad の接続
 		this.elc.add(window, 'gamepadconnected', (e: any)=> {
-			if (CmnLib.devtool) console.log(
+			if (CmnLib.debugLog) console.log(
 				'👺 Gamepad connected at index %d: %s. %d buttons, %d axes.',
 				e['gamepad'].index, e['gamepad'].id,
 				e['gamepad'].buttons.length, e['gamepad'].axes.length);
@@ -122,7 +122,7 @@ export class EventMng implements IEvtMng {
 		});
 		// Gamepad の切断
 		this.elc.add(window, 'gamepaddisconnected', (e: any)=> {
-			if (CmnLib.devtool) console.log(
+			if (CmnLib.debugLog) console.log(
 				'👺 Gamepad disconnected from index %d: %s', e['gamepad'].index,
 				e['gamepad'].id);
 
@@ -213,7 +213,7 @@ export class EventMng implements IEvtMng {
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 	private defEvt2Fnc(e: Event, KEY: string) {
 		const key = KEY.toLowerCase();
-		//if (CmnLib.devtool) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
+		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
 		const ke = this.hLocalEvt2Fnc[key]
 				|| this.hGlobalEvt2Fnc[key];
 		if (! ke) {

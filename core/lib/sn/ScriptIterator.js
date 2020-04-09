@@ -447,9 +447,9 @@ class ScriptIterator {
                 .then(r => { res.data = r; next(); })
                 .catch(e => this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
         }))
-            .load((_loader, res) => {
+            .load((_ldr, hRes) => {
             this.nextToken = this.nextToken_Proc;
-            this.resolveScript(res[this.scriptFn_].data);
+            this.resolveScript(hRes[fn].data);
             this.hTag.record_place({});
             this.main.resume(() => this.analyzeInit());
         });

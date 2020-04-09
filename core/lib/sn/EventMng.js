@@ -100,13 +100,13 @@ class EventMng {
             });
         }
         this.elc.add(window, 'gamepadconnected', (e) => {
-            if (CmnLib_1.CmnLib.devtool)
+            if (CmnLib_1.CmnLib.debugLog)
                 console.log('👺 Gamepad connected at index %d: %s. %d buttons, %d axes.', e['gamepad'].index, e['gamepad'].id, e['gamepad'].buttons.length, e['gamepad'].axes.length);
             const key = e.type;
             this.defEvt2Fnc(e, key);
         });
         this.elc.add(window, 'gamepaddisconnected', (e) => {
-            if (CmnLib_1.CmnLib.devtool)
+            if (CmnLib_1.CmnLib.debugLog)
                 console.log('👺 Gamepad disconnected from index %d: %s', e['gamepad'].index, e['gamepad'].id);
             const key = e.type;
             this.defEvt2Fnc(e, key);

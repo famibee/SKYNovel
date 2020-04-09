@@ -218,7 +218,7 @@ class SoundMng {
                 .then(r => { res.data = r; next(); })
                 .catch(e => this.main.errScript(`Sndロード失敗です fn:${res.name} ${e}`, false));
         }))
-            .load((_ldr, res) => { var _a; o.source = (_a = res[fn]) === null || _a === void 0 ? void 0 : _a.data; PSnd.add(fn, o); });
+            .load((_ldr, hRes) => { var _a; o.source = (_a = hRes[fn]) === null || _a === void 0 ? void 0 : _a.data; PSnd.add(fn, o); });
     }
     stop_allse() {
         for (const buf in this.hSndBuf)

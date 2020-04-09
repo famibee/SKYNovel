@@ -31,7 +31,7 @@ export class LayerMng {
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		// レスポンシブや回転の対応
-		const cvs = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
+		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		const fncResizeLay = ()=> {
 			if (! CmnLib.cvsResize(cvs)) return;
 			this.aLayName.forEach(layer=> {
@@ -56,7 +56,7 @@ export class LayerMng {
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
 		GrpLayer.init(main, cfg, sys);
 
-		this.frmMng = new FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
+		this.frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 		sys.hFactoryCls['grp'] = ()=> new GrpLayer;
 		sys.hFactoryCls['txt'] = ()=> new TxtLayer;
 

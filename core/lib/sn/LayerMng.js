@@ -92,7 +92,7 @@ void main(void) {
         this.fncChkTxtLay = () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; };
         this.oLastPage = { text: '' };
         this.aPageLog = [];
-        const cvs = document.getElementById(CmnLib_1.CmnLib.sn_id);
+        const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
         const fncResizeLay = () => {
             if (!CmnLib_1.CmnLib.cvsResize(cvs))
                 return;
@@ -117,7 +117,7 @@ void main(void) {
         CmnLib_1.CmnLib.cvsResize(cvs);
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
         GrpLayer_1.GrpLayer.init(main, cfg, sys);
-        this.frmMng = new FrameMng_1.FrameMng(this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
+        this.frmMng = new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
         sys.hFactoryCls['grp'] = () => new GrpLayer_1.GrpLayer;
         sys.hFactoryCls['txt'] = () => new TxtLayer_1.TxtLayer;
         hTag.snapshot = o => this.snapshot(o);

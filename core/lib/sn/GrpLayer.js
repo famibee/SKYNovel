@@ -109,7 +109,7 @@ class GrpLayer extends Layer_1.Layer {
                 })
                     .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
             }))
-                .load((_loader, res) => fncLoaded(res));
+                .load((_ldr, hRes) => fncLoaded(hRes));
         }
         else
             fncLoaded(pixi_js_1.utils.TextureCache);

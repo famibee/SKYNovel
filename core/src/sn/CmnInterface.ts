@@ -208,6 +208,7 @@ export interface IMain {
 	resumeByJumpOrCall(hArg: HArg): void;
 	stop(): void;
 	isDestroyed(): boolean;
+	destroy(ms_late?: number): void;
 }
 
 

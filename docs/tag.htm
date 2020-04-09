@@ -1190,7 +1190,13 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
-<tr class="y"><td>src</td><td>y</td><td></td><td>ファイルパス</td><td>フレームとして読み込むhtmlファイルパス（prj/をルートとする相対指定）</td></tr>
+<tr class="y"><td>src</td><td>y</td><td></td><td>
+	<del>ファイルパス</del><br/>ファイル名
+</td><td>
+	フレームとして読み込むhtmlファイルの<br/>
+	<del>パス（prj/をルートとする相対指定）</del><br/>
+	ファイル名（画像や音声などのfn属性と同じように）
+</td></tr>
 <tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 <tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>

@@ -1,6 +1,8 @@
 /// <reference types="node" />
 import { SysBase } from "./SysBase";
-import { IConfig, ITag, IFn2Path, IData4Vari } from './CmnInterface';
+import { IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari } from './CmnInterface';
+import { Application } from 'pixi.js';
+import 'devtools-detect';
 export declare class SysWeb extends SysBase {
     constructor(hPlg?: {}, arg?: {
         cur: string;
@@ -17,6 +19,7 @@ export declare class SysWeb extends SysBase {
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     private flushSub;
     flush(): void;
+    init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
     private readonly isFullScr;

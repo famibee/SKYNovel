@@ -120,7 +120,7 @@ CmnLib.ofsPadTop_Dom2PIXI = 0;
 CmnLib.cvsWidth = 0;
 CmnLib.cvsHeight = 0;
 CmnLib.cvsScale = 1;
-CmnLib.devtool = false;
+CmnLib.debugLog = false;
 CmnLib.platform = Object.assign({}, platform);
 CmnLib.isSafari = platform.name == 'Safari';
 CmnLib.isFirefox = platform.name == 'Firefox';
@@ -130,7 +130,7 @@ CmnLib.hDip = {};
 CmnLib.isRetina = false;
 CmnLib.isDarkMode = false;
 CmnLib.retinaRate = 1;
-CmnLib.sn_id = 'skynovel';
+CmnLib.SN_ID = 'skynovel';
 CmnLib.getFn = (path) => m_path.basename(path, m_path.extname(path));
 CmnLib.getExt = (path) => m_path.extname(path).slice(1);
 //# sourceMappingURL=CmnLib.js.map

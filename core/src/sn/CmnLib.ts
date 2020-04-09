@@ -66,7 +66,7 @@ export class CmnLib {
 	static	cvsWidth	= 0;
 	static	cvsHeight	= 0;
 	static	cvsScale	= 1;
-	static	devtool		= false;
+	static	debugLog	= false;
 	static	platform	= {...platform};
 	static	isSafari	= platform.name == 'Safari';
 	static	isFirefox	= platform.name == 'Firefox';
@@ -78,7 +78,7 @@ export class CmnLib {
 	static	isDarkMode	= false;
 	static	retinaRate	= 1;
 
-	static	readonly	sn_id	= 'skynovel';
+	static	readonly	SN_ID	= 'skynovel';
 
 	static argChk_Num(hash: any, name: string, def: number): number {
 		const v = hash[name];

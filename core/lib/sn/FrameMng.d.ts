@@ -3,13 +3,15 @@ import { ITwInf } from './CmnTween';
 import { IHTag, IVariable, IMain } from './CmnInterface';
 import { Application } from 'pixi.js';
 import { SysBase } from './SysBase';
+import { Config } from './Config';
 export declare class FrameMng {
+    private readonly cfg;
     private readonly appPixi;
     private readonly val;
     private readonly main;
     private readonly sys;
     private readonly hTwInf;
-    constructor(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, sys: SysBase, hTwInf: {
+    constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, sys: SysBase, hTwInf: {
         [name: string]: ITwInf;
     });
     private evtMng;

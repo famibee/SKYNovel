@@ -245,7 +245,7 @@ export class SoundMng {
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`Sndロード失敗です fn:${res.name} ${e}`, false));
 		}))
-		.load((_ldr, res)=> {o.source = res[fn]?.data; PSnd.add(fn, o);});
+		.load((_ldr, hRes)=> {o.source = hRes[fn]?.data; PSnd.add(fn, o);});
 	}
 	private initVol = ()=> {
 		PSnd.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));

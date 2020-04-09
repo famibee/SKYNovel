@@ -145,7 +145,7 @@ export class GrpLayer extends Layer {
 				})
 				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 			}))
-			.load((_loader: any, res: any)=> fncLoaded(res));
+			.load((_ldr: any, hRes: any)=> fncLoaded(hRes));
 		}
 		else fncLoaded(utils.TextureCache);
 

@@ -41,7 +41,7 @@ export class SysMob extends SysBase {
 // TODO: 	this.sys = strLocal.get(this.ns +'sys');
 
 			// 全体が入るよう拡大・縮小
-			const cvs: HTMLCanvasElement = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
+			const cvs: HTMLCanvasElement = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 			if (cvs) {
 				const zoom = (screen.width > screen.height ?screen.height :screen.width)/ cfg.oCfg.window.height;
 //console.log(`fn:SysMob.ts line:45 screen.width:${screen.width} screen.height:${screen.height} zoom:${zoom}`);
@@ -129,7 +129,7 @@ export class SysMob extends SysBase {
 		const e = document.createEvent('MouseEvent');
 		e.initEvent('click');
 		anchor.dispatchEvent(e);
-		if (CmnLib.devtool) console.log('画像ファイルをダウンロードします');
+		if (CmnLib.debugLog) console.log('画像ファイルをダウンロードします');
 	};
 */
 }

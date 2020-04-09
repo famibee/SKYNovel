@@ -44,7 +44,7 @@ export class Config implements IConfig {
 			token		: false,
 			tag			: false,
 			putCh		: false,
-			slideBaseSpan	: false,
+			debugLog	: false,
 			baseTx		: false,
 			masume		: false,	// テキストレイヤ：ガイドマス目を表示するか
 			variable	: false,
@@ -61,6 +61,7 @@ export class Config implements IConfig {
 	static	readonly	EXT_SCRIPT	= 'sn';
 	static	readonly	EXT_FONT	= 'woff2|otf|ttf';
 	static	readonly	EXT_SOUND	= 'mp3|m4a|ogg|aac|flac|wav';
+	static	readonly	EXT_HTML	= 'htm|html';
 
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		const load = (oCfg: any)=> {
@@ -86,7 +87,7 @@ export class Config implements IConfig {
 			}
 
 			this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};
-			CmnLib.devtool = this.oCfg.debug.devtool;
+			CmnLib.debugLog = this.oCfg.debug.debugLog;
 
 			// これが同期（App）非同期（Web、path.json）混在してるので、
 			// （Mainのメンバ変数に入れる→他のクラスに渡す都合により）

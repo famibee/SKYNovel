@@ -54,16 +54,16 @@ export class Main implements IMain {
 				resolution		: window.devicePixelRatio ?? 1,	// NOTE: 理想
 				autoResize		: true,
 			};
-			const cvs = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
+			const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 			if (cvs) {
 				this.clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
-				this.clone_cvs.id = CmnLib.sn_id;
+				this.clone_cvs.id = CmnLib.SN_ID;
 				hApp.view = cvs;
 			}
 			this.appPixi = new Application(hApp);
 			if (! cvs) {
 				document.body.appendChild(this.appPixi.view);
-				this.appPixi.view.id = CmnLib.sn_id;
+				this.appPixi.view.id = CmnLib.SN_ID;
 			}
 
 			// 変数
@@ -103,7 +103,7 @@ export class Main implements IMain {
 	errScript(mes: string, isThrow = true) {
 		this.stop();
 		DebugMng.myTrace(mes);
-		if (CmnLib.devtool) console.log('🍜 SKYNovel err!');
+		if (CmnLib.debugLog) console.log('🍜 SKYNovel err!');
 		if (isThrow) throw mes;
 	}
 
@@ -228,7 +228,7 @@ export class Main implements IMain {
 			}
 		}
 
-//		if (CmnLib.devtool) console.log('🍵 waiting...');
+//		if (CmnLib.debugLog) console.log('🍵 waiting...');
 	}
 
 
@@ -262,21 +262,18 @@ export class Main implements IMain {
 		}
 
 		for (const k in this.alzTagArg.hPrm) {
-			let val = this.alzTagArg.hPrm[k].val;
-			//console.log('タグ解析 2 val:'+ val);
-			if (val.charAt(0) == '%') {
+			let v = this.alzTagArg.hPrm[k].val;
+			if (v.charAt(0) == '%') {
 				if (this.scrItr.isEmptyCallStk) throw '属性「%」はマクロのみ有効です';
-				const mac = this.scrItr.lastHArg[val.substr(1)];
-				if (mac) {hArg[k] = mac; continue;}
-
-				val = this.alzTagArg.hPrm[k].def;
-				if (! val || val == 'null') continue;
-					// defのnull指定。%指定が無い場合、タグやマクロに属性を渡さない
+				v = this.scrItr.lastHArg[v.substr(1)];
 			}
+			else v = this.getValAmpersand(v);
+			if (v) {hArg[k] = v; continue;}
 
-		//	hArg[k] = this.getValAmpersand(val);// ActionScript3 ならこれで同じ挙動
-			const v = this.getValAmpersand(val);
-			if (v != 'undefined') hArg[k] = v;	// 存在しない値の場合、属性を渡さない
+			v = this.getValAmpersand(this.alzTagArg.hPrm[k].def ?? 'null');
+			if (! v || v == 'null') continue;
+				// defのnull指定。%指定が無い場合、タグやマクロに属性を渡さない
+			hArg[k] = v;
 		}
 
 		return tag_fnc(hArg);

@@ -96,7 +96,7 @@ class SysApp extends SysNode_1.SysNode {
                 const res = await this.fetch(url + `latest${CmnLib_1.CmnLib.isMac ? '-mac' : ''}.yml`);
                 if (!res.ok)
                     return;
-                if (CmnLib_1.CmnLib.devtool)
+                if (CmnLib_1.CmnLib.debugLog)
                     console.log(`[update_check] ymlを取得しました url=${url}`);
                 const txt = await res.text();
                 const mv = /version: (.+)/.exec(txt);
@@ -105,11 +105,11 @@ class SysApp extends SysNode_1.SysNode {
                 const netver = mv[1];
                 const myver = remote.app.getVersion();
                 if (netver == myver) {
-                    if (CmnLib_1.CmnLib.devtool)
+                    if (CmnLib_1.CmnLib.debugLog)
                         console.log(`[update_check] バージョン更新なし ver:${myver}`);
                     return;
                 }
-                if (CmnLib_1.CmnLib.devtool)
+                if (CmnLib_1.CmnLib.debugLog)
                     console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
                 const o = {
                     title: 'アプリ更新',
@@ -123,7 +123,7 @@ class SysApp extends SysNode_1.SysNode {
                 const di = await remote.dialog.showMessageBox(o);
                 if (di.response > 0)
                     return;
-                if (CmnLib_1.CmnLib.devtool)
+                if (CmnLib_1.CmnLib.debugLog)
                     console.log(`[update_check] アプリダウンロード開始`);
                 const mp = /path: (.+)/.exec(txt);
                 if (!mp)
@@ -152,7 +152,7 @@ class SysApp extends SysNode_1.SysNode {
                 };
                 const pipe_dl = await rd_dl(res_dl);
                 pipe_dl.on('end', () => {
-                    if (CmnLib_1.CmnLib.devtool)
+                    if (CmnLib_1.CmnLib.debugLog)
                         console.log(`[update_check] アプリダウンロード完了`);
                     m_fs.readFile(pathDL, (err, data) => {
                         if (err)
@@ -161,7 +161,7 @@ class SysApp extends SysNode_1.SysNode {
                         h.update(data);
                         const hash = h.digest('base64');
                         const isOk = sha == hash;
-                        if (CmnLib_1.CmnLib.devtool)
+                        if (CmnLib_1.CmnLib.debugLog)
                             console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
                         if (!isOk)
                             m_fs.unlink(pathDL);
@@ -254,8 +254,13 @@ class SysApp extends SysNode_1.SysNode {
     init(cfg, hTag, appPixi, val, main) {
         super.init(cfg, hTag, appPixi, val, main);
         this.cfg = cfg;
-        if (CmnLib_1.CmnLib.devtool)
+        if (cfg.oCfg.debug.devtool)
             this.wc.openDevTools();
+        else
+            this.wc.on('devtools-opened', () => {
+                console.error(`DevToolは禁止されています`);
+                main.destroy();
+            });
         this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
     }
 }

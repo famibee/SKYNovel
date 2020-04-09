@@ -4,6 +4,7 @@ const SysBase_1 = require("./SysBase");
 const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const strLocal = require('store');
+require("devtools-detect");
 class SysWeb extends SysBase_1.SysBase {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false, dip: '' }) {
         super(hPlg, arg);
@@ -64,7 +65,7 @@ class SysWeb extends SysBase_1.SysBase {
             const e = document.createEvent('MouseEvent');
             e.initEvent('click');
             anchor.dispatchEvent(e);
-            if (CmnLib_1.CmnLib.devtool)
+            if (CmnLib_1.CmnLib.debugLog)
                 console.log('画像ファイルをダウンロードします');
         };
         const idxCur = arg.cur.lastIndexOf('/', arg.cur.length - 2);
@@ -180,6 +181,16 @@ class SysWeb extends SysBase_1.SysBase {
         comp(this.data);
     }
     flush() { this.flushSub(); }
+    init(cfg, hTag, appPixi, val, main) {
+        super.init(cfg, hTag, appPixi, val, main);
+        if (!cfg.oCfg.debug.devtool)
+            window.addEventListener('devtoolschange', e => {
+                if (!e.detail.isOpen)
+                    return;
+                console.error(`DevToolは禁止されています`);
+                main.destroy();
+            });
+    }
     regEvt_FullScr(hArg, go_fnc_name, exit_fnc_name, get_fnc_name) {
         const elm = document.body;
         const doc = document;

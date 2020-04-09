@@ -10,11 +10,13 @@ import {ITwInf, CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
+import {Config} from './Config';
 
 const Tween = require('@tweenjs/tween.js').default;
+import {Loader, LoaderResource} from 'pixi.js';
 
 export class FrameMng {
-	constructor(hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
+	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.add_frame(o);	// フレーム追加
 		hTag.let_frame		= o=> this.let_frame(o);	// フレーム変数を取得
@@ -53,9 +55,7 @@ export class FrameMng {
 		const rct = this.rect(hArg);
 		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
-		}" sandbox="allow-scripts allow-same-origin" src="${
-			this.sys.cur + src
-		}" style="z-index: 1; opacity: ${a}; position: absolute; left:${
+		}" sandbox="allow-scripts allow-same-origin" style="z-index: 1; opacity: ${a}; position: absolute; left:${
 			this.sys.ofsLeft4frm +rct.x *scale
 		}px; top: ${
 			this.sys.ofsTop4frm  +rct.y *scale
@@ -65,8 +65,7 @@ export class FrameMng {
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		this.hIfrm[id] = ifrm;
-		const win = ifrm.contentWindow!;
-		win.addEventListener('load', ()=> {
+		ifrm.onload = ()=> {
 			// 組み込み変数
 			this.val.setVal_Nochk('tmp', frmnm, true);
 			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
@@ -79,10 +78,40 @@ export class FrameMng {
 			this.val.setVal_Nochk('tmp', frmnm +'.height', rct.height);
 			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 
-			this.evtMng.resvFlameEvent(win);
+			this.evtMng.resvFlameEvent(ifrm.contentWindow!);
 
 			this.main.resume();
-		}, {once: true, passive: true});
+		};
+
+		const url = this.cfg.searchPath(src, Config.EXT_HTML);
+		ifrm.src = url;
+//		if (url.slice(-4) != '.bin') {ifrm.src = url; return true}
+/*
+		(new Loader()).add(src, url, {xhrType: 'arraybuffer'})
+//		(new Loader()).add(src, url)
+		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+			this.sys.pre(res.extension, res.data)
+			.then(r=> {res.data = r; next();})
+			.catch(e=> this.main.errScript(`[add_frame]Htmlロード失敗です src:${res.name} ${e}`, false));
+		}))
+		.load((_ldr, hRes)=> {
+
+			const gg = hRes[src]?.data;
+			const blob = new Blob([gg], {type: 'text/html'});
+			ifrm.src = URL.createObjectURL(blob);
+
+		});
+*/
+/*
+			const gg = (new Buffer(hRes[src]?.data)).toString('utf8')
+//				.replace(/&/g, '&amp;')
+//				.replace(/</g, '&lt;')
+//				.replace(/>/g, '&gt;')
+//				.replace(/"/g, '&quot;')
+//				.replace(/'/g, '&#039;');
+//	console.log(`fn:FrameMng.ts line:108 src:${src} %o`, gg);
+			ifrm.srcdoc = gg;
+*/
 
 		return true;
 	}

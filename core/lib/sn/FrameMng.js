@@ -2,9 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 const CmnTween_1 = require("./CmnTween");
+const Config_1 = require("./Config");
 const Tween = require('@tweenjs/tween.js').default;
 class FrameMng {
-    constructor(hTag, appPixi, val, main, sys, hTwInf) {
+    constructor(cfg, hTag, appPixi, val, main, sys, hTwInf) {
+        this.cfg = cfg;
         this.appPixi = appPixi;
         this.val = val;
         this.main = main;
@@ -42,11 +44,10 @@ class FrameMng {
         const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
         const rct = this.rect(hArg);
         const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" src="${this.sys.cur + src}" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * scale}px; top: ${this.sys.ofsTop4frm + rct.y * scale}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};${b_color}" width="${rct.width * scale}" height="${rct.height * scale}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
+        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * scale}px; top: ${this.sys.ofsTop4frm + rct.y * scale}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};${b_color}" width="${rct.width * scale}" height="${rct.height * scale}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
         const ifrm = document.getElementById(id);
         this.hIfrm[id] = ifrm;
-        const win = ifrm.contentWindow;
-        win.addEventListener('load', () => {
+        ifrm.onload = () => {
             this.val.setVal_Nochk('tmp', frmnm, true);
             this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
             this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
@@ -57,9 +58,11 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
-            this.evtMng.resvFlameEvent(win);
+            this.evtMng.resvFlameEvent(ifrm.contentWindow);
             this.main.resume();
-        }, { once: true, passive: true });
+        };
+        const url = this.cfg.searchPath(src, Config_1.Config.EXT_HTML);
+        ifrm.src = url;
         return true;
     }
     rect(hArg) {

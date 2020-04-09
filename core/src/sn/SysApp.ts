@@ -123,7 +123,11 @@ export class SysApp extends SysNode {
 		super.init(cfg, hTag, appPixi, val, main);
 		this.cfg = cfg;
 
-		if (CmnLib.devtool) this.wc.openDevTools();
+		if (cfg.oCfg.debug.devtool) this.wc.openDevTools();
+		else this.wc.on('devtools-opened', ()=> {
+			console.error(`DevToolは禁止されています`);
+			main.destroy();
+		})
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
 	}
 
@@ -208,7 +212,7 @@ export class SysApp extends SysNode {
 		(async ()=> {
 			const res = await this.fetch(url +`latest${CmnLib.isMac ?'-mac' :''}.yml`);
 			if (! res.ok) return;
-			if (CmnLib.devtool) console.log(`[update_check] ymlを取得しました url=${url}`);
+			if (CmnLib.debugLog) console.log(`[update_check] ymlを取得しました url=${url}`);
 			const txt = await res.text();
 			const mv = /version: (.+)/.exec(txt);
 			if (! mv) throw `[update_check] ファイル内にversionが見つかりません`;
@@ -216,10 +220,10 @@ export class SysApp extends SysNode {
 
 			const myver = remote.app.getVersion();
 			if (netver == myver) {
-				if (CmnLib.devtool) console.log(`[update_check] バージョン更新なし ver:${myver}`);
+				if (CmnLib.debugLog) console.log(`[update_check] バージョン更新なし ver:${myver}`);
 				return;
 			}
-			if (CmnLib.devtool) console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
+			if (CmnLib.debugLog) console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
 
 			const o = {
 				title: 'アプリ更新',
@@ -233,7 +237,7 @@ export class SysApp extends SysNode {
 			const di = await remote.dialog.showMessageBox(o);
 			if (di.response > 0) return;
 
-			if (CmnLib.devtool) console.log(`[update_check] アプリダウンロード開始`);
+			if (CmnLib.debugLog) console.log(`[update_check] アプリダウンロード開始`);
 			const mp = /path: (.+)/.exec(txt);
 			if (! mp) throw `[update_check] ファイル内にpathが見つかりません`;
 			const fn = mp[1];
@@ -257,7 +261,7 @@ export class SysApp extends SysNode {
 			}
 			const pipe_dl = await rd_dl(res_dl);
 			pipe_dl.on('end', ()=> {
-				if (CmnLib.devtool) console.log(`[update_check] アプリダウンロード完了`);
+				if (CmnLib.debugLog) console.log(`[update_check] アプリダウンロード完了`);
 
 				m_fs.readFile(pathDL, (err, data)=> {
 					if (err) throw err;
@@ -267,7 +271,7 @@ export class SysApp extends SysNode {
 					const hash = h.digest('base64');
 
 					const isOk = sha == hash;
-					if (CmnLib.devtool) console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
+					if (CmnLib.debugLog) console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
 					if (! isOk) m_fs.unlink(pathDL);
 
 					o.buttons.pop();

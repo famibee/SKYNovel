@@ -36,7 +36,7 @@ class Config {
                 token: false,
                 tag: false,
                 putCh: false,
-                slideBaseSpan: false,
+                debugLog: false,
                 baseTx: false,
                 masume: false,
                 variable: false,
@@ -65,7 +65,7 @@ class Config {
                 }
             }
             this.oCfg.debug = Object.assign(Object.assign({}, this.oCfg.debug), oCfg.debug);
-            CmnLib_1.CmnLib.devtool = this.oCfg.debug.devtool;
+            CmnLib_1.CmnLib.debugLog = this.oCfg.debug.debugLog;
             sys.loadPathAndVal(this.hPathFn2Exts, () => {
                 this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
                 this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
@@ -186,4 +186,5 @@ Config.EXT_SPRITE = 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 Config.EXT_SCRIPT = 'sn';
 Config.EXT_FONT = 'woff2|otf|ttf';
 Config.EXT_SOUND = 'mp3|m4a|ogg|aac|flac|wav';
+Config.EXT_HTML = 'htm|html';
 //# sourceMappingURL=Config.js.map

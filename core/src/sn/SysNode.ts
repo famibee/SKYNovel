@@ -37,7 +37,7 @@ export class SysNode extends SysBase {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
 		this.writeFile(fn, Buffer.from(bs64, 'base64'), err=> {
 			if (err) throw err;
-			if (CmnLib.devtool) console.log(`画像ファイル ${fn} を保存しました`);
+			if (CmnLib.debugLog) console.log(`画像ファイル ${fn} を保存しました`);
 		});
 	};
 

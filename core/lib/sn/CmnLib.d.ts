@@ -28,7 +28,7 @@ export declare class CmnLib {
     static cvsWidth: number;
     static cvsHeight: number;
     static cvsScale: number;
-    static devtool: boolean;
+    static debugLog: boolean;
     static platform: any;
     static isSafari: boolean;
     static isFirefox: boolean;
@@ -40,7 +40,7 @@ export declare class CmnLib {
     static isRetina: boolean;
     static isDarkMode: boolean;
     static retinaRate: number;
-    static readonly sn_id = "skynovel";
+    static readonly SN_ID = "skynovel";
     static argChk_Num(hash: any, name: string, def: number): number;
     static argChk_Boolean(hash: any, name: string, def: boolean): boolean;
     static cvsResize(cvs: HTMLCanvasElement): boolean;

@@ -7,9 +7,12 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib} from './CmnLib';
-import {IConfig, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
+import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
 import {Main} from './Main';
+
 const strLocal = require('store');
+import {Application} from 'pixi.js';
+import 'devtools-detect';
 
 export class SysWeb extends SysBase {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
@@ -171,6 +174,16 @@ export class SysWeb extends SysBase {
 	private	flushSub = ()=> {};
 	flush() {this.flushSub();}
 
+	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+		super.init(cfg, hTag, appPixi, val, main);
+
+		if (! cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
+			if (! e.detail.isOpen) return;
+			console.error(`DevToolは禁止されています`);
+			main.destroy();
+		});
+}
+
 	// ＵＲＬを開く
 	protected readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
@@ -268,7 +281,7 @@ export class SysWeb extends SysBase {
 		const e = document.createEvent('MouseEvent');
 		e.initEvent('click');
 		anchor.dispatchEvent(e);
-		if (CmnLib.devtool) console.log('画像ファイルをダウンロードします');
+		if (CmnLib.debugLog) console.log('画像ファイルをダウンロードします');
 	};
 
 }

@@ -15,7 +15,7 @@ class SysNode extends SysBase_1.SysBase {
             this.writeFile(fn, Buffer.from(bs64, 'base64'), err => {
                 if (err)
                     throw err;
-                if (CmnLib_1.CmnLib.devtool)
+                if (CmnLib_1.CmnLib.debugLog)
                     console.log(`画像ファイル ${fn} を保存しました`);
             });
         };

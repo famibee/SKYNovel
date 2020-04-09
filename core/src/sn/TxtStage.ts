@@ -45,7 +45,7 @@ export class TxtStage extends Container {
 	private	static	cvs		: HTMLCanvasElement;
 	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
-		TxtStage.cvs = document.getElementById(CmnLib.sn_id) as HTMLCanvasElement;
+		TxtStage.cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 	}
 	private	static	evtMng	: IEvtMng;
 	static setEvtMng(evtMng: IEvtMng) {TxtStage.evtMng = evtMng;}
@@ -508,7 +508,7 @@ export class TxtStage extends Container {
 
 		const begin = this.aRect.length;
 		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
-			if (TxtStage.cfg.oCfg.debug.devtool) console.log(`🍌 masume ${
+			if (CmnLib.debugLog) console.log(`🍌 masume ${
 				this.name} v:${this.visible} l:${this.x} t:${this.y
 				} a:${this.alpha} pl:${this.infTL.pad_left
 				} pr:${this.infTL.pad_right
@@ -613,7 +613,7 @@ export class TxtStage extends Container {
 		} while (len < 0);
 
 
-		const fncMasumeLog = (TxtStage.cfg.oCfg.debug.devtool)
+		const fncMasumeLog = CmnLib.debugLog
 			? (v: IChRect, rct: Rectangle)=> console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
 			: ()=> {};
 		const fncMasume = (TxtStage.cfg.oCfg.debug.masume)
