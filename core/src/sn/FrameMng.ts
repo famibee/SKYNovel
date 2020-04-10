@@ -65,6 +65,7 @@ export class FrameMng {
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		this.hIfrm[id] = ifrm;
+		const win: Window = ifrm.contentWindow!;
 		ifrm.onload = ()=> {
 			// 組み込み変数
 			this.val.setVal_Nochk('tmp', frmnm, true);
@@ -78,40 +79,54 @@ export class FrameMng {
 			this.val.setVal_Nochk('tmp', frmnm +'.height', rct.height);
 			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 
-			this.evtMng.resvFlameEvent(ifrm.contentWindow!);
+			this.evtMng.resvFlameEvent(win);
+
+			const fnc: Function = (win as any).sn_repRes;
+			if (this.sys.crypto && fnc) fnc((i: HTMLImageElement)=> {
+				const src = (i.dataset.src ?? '').replace(/\..+/, '');
+				const url = this.cfg.searchPath(src, Config.EXT_SPRITE);
+				(new Loader()).add(src, url, {xhrType: 'arraybuffer'})
+				.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+					this.sys.pre(res.extension, res.data)
+					.then(r=> {
+						if (res.extension != 'bin') {next(); return;}
+						res.data = r;
+						if (res.data instanceof HTMLImageElement) {
+							res.type = LoaderResource.TYPE.IMAGE;
+							i.src = res.data.src;
+							URL.revokeObjectURL(res.data.src);
+						}
+						next();
+					})
+					.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+				}))
+				.load();
+			});
 
 			this.main.resume();
 		};
 
 		const url = this.cfg.searchPath(src, Config.EXT_HTML);
-		ifrm.src = url;
-//		if (url.slice(-4) != '.bin') {ifrm.src = url; return true}
-/*
-		(new Loader()).add(src, url, {xhrType: 'arraybuffer'})
-//		(new Loader()).add(src, url)
+		if (! this.sys.crypto) {ifrm.src = url; return true}
+
+		(new Loader())
+		.add(src, url, {xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT})
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
-			.catch(e=> this.main.errScript(`[add_frame]Htmlロード失敗です src:${res.name} ${e}`, false));
+			.catch(e=> this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
 		}))
 		.load((_ldr, hRes)=> {
-
-			const gg = hRes[src]?.data;
-			const blob = new Blob([gg], {type: 'text/html'});
+			const base = url.slice(0, url.lastIndexOf('/') +1);
+			const htm = String(hRes[src]?.data).replace(
+				/\s(?:src|href)=(["'])(\S+)\1/g,
+				(v, p1, p2)=> (p2.slice(0, 3) == '../')
+					? v.replace('../', this.sys.cur)
+					: v.replace(p1, p1 + base)
+			);
+			const blob = new Blob([htm], {type: 'text/html'});
 			ifrm.src = URL.createObjectURL(blob);
-
 		});
-*/
-/*
-			const gg = (new Buffer(hRes[src]?.data)).toString('utf8')
-//				.replace(/&/g, '&amp;')
-//				.replace(/</g, '&lt;')
-//				.replace(/>/g, '&gt;')
-//				.replace(/"/g, '&quot;')
-//				.replace(/'/g, '&#039;');
-//	console.log(`fn:FrameMng.ts line:108 src:${src} %o`, gg);
-			ifrm.srcdoc = gg;
-*/
 
 		return true;
 	}

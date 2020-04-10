@@ -9,12 +9,12 @@ const { Readable } = require('stream');
 const m_fs = require("fs-extra");
 const crypto = require('crypto');
 class SysApp extends SysNode_1.SysNode {
-    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false, dip: '' }) {
-        super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypt: arg.crypt, dip: '' });
+    constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
+        super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypto: arg.crypto, dip: '' });
         this.$path_desktop = remote.app.getPath('desktop').replace(/\\/g, '/') + '/';
         this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
-        this.store = new Store({ cwd: 'storage', name: 'data' + this.crypt_ });
+        this.store = new Store({ cwd: 'storage', name: this.arg.crypto ? 'data_' : 'data' });
         this.isMovingWin = false;
         this.posMovingWin = [0, 0];
         this.dsp = remote.screen.getPrimaryDisplay();
@@ -207,7 +207,7 @@ class SysApp extends SysNode_1.SysNode {
         ipcRenderer.on('log', (e, arg) => console.log(`[main log] e:%o arg:%o`, e, arg));
     }
     initVal(data, hTmp, comp) {
-        if (this.crypt)
+        if (this.crypto)
             this.store.encryptionKey = this.stk();
         if (this.store.size == 0) {
             hTmp['const.sn.isFirstBoot'] = true;
@@ -258,7 +258,7 @@ class SysApp extends SysNode_1.SysNode {
             this.wc.openDevTools();
         else
             this.wc.on('devtools-opened', () => {
-                console.error(`DevToolは禁止されています`);
+                console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
                 main.destroy();
             });
         this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);

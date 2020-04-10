@@ -19,8 +19,8 @@ import m_fs = require('fs-extra');
 const crypto = require('crypto');
 
 export class SysApp extends SysNode {
-	constructor(hPlg = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
-		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypt: arg.crypt, dip: ''});
+	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
+		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypto: arg.crypto, dip: ''});
 		window.addEventListener('DOMContentLoaded', ()=>new Main(this), {once: true, passive: true});
 
 		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));
@@ -30,9 +30,9 @@ export class SysApp extends SysNode {
 
 	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
-	private readonly	store = new Store({cwd: 'storage', name: 'data'+ this.crypt_});
+	private readonly	store = new Store({cwd: 'storage', name: this.arg.crypto ?'data_' :'data'});
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		if (this.crypt) this.store.encryptionKey = this.stk();
+		if (this.crypto) this.store.encryptionKey = this.stk();
 		if (this.store.size == 0) {
 			// データがないときの処理
 			hTmp['const.sn.isFirstBoot'] = true;
@@ -125,7 +125,7 @@ export class SysApp extends SysNode {
 
 		if (cfg.oCfg.debug.devtool) this.wc.openDevTools();
 		else this.wc.on('devtools-opened', ()=> {
-			console.error(`DevToolは禁止されています`);
+			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
 		})
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);

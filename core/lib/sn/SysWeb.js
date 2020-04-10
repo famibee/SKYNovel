@@ -6,7 +6,7 @@ const Main_1 = require("./Main");
 const strLocal = require('store');
 require("devtools-detect");
 class SysWeb extends SysBase_1.SysBase {
-    constructor(hPlg = {}, arg = { cur: 'prj/', crypt: false, dip: '' }) {
+    constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
         super(hPlg, arg);
         this.def_prj = 'prj';
         this.run = async (prj) => {
@@ -132,7 +132,7 @@ class SysWeb extends SysBase_1.SysBase {
         const hn = document.location.hostname;
         hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
         this.val.defTmp('const.sn.displayState', () => this.isFullScr());
-        this.flushSub = this.crypt
+        this.flushSub = this.crypto
             ? () => {
                 strLocal.set(this.ns + 'sys_', String(this.enc(JSON.stringify(this.data.sys))));
                 strLocal.set(this.ns + 'mark_', String(this.enc(JSON.stringify(this.data.mark))));
@@ -143,7 +143,7 @@ class SysWeb extends SysBase_1.SysBase {
                 strLocal.set(this.ns + 'mark', this.data.mark);
                 strLocal.set(this.ns + 'kidoku', this.data.kidoku);
             };
-        if (strLocal.get(this.ns + 'sys' + this.crypt_) == undefined) {
+        if (strLocal.get(this.ns + (this.arg.crypto ? 'sys_' : 'sys')) == undefined) {
             hTmp['const.sn.isFirstBoot'] = true;
             this.data.sys = data['sys'];
             this.data.mark = data['mark'];
@@ -152,7 +152,7 @@ class SysWeb extends SysBase_1.SysBase {
         }
         else {
             hTmp['const.sn.isFirstBoot'] = false;
-            if (this.crypt) {
+            if (this.crypto) {
                 (async () => {
                     let mes = '';
                     try {
@@ -187,7 +187,7 @@ class SysWeb extends SysBase_1.SysBase {
             window.addEventListener('devtoolschange', e => {
                 if (!e.detail.isOpen)
                     return;
-                console.error(`DevToolは禁止されています`);
+                console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
                 main.destroy();
             });
     }

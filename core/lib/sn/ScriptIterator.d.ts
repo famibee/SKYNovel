@@ -60,7 +60,6 @@ export declare class ScriptIterator {
     private clearResvToken;
     private skipLabel;
     private jumpWork;
-    private onlyCodeScript;
     private analyzeInit;
     private readonly REG_NONAME_LABEL;
     private readonly REG_LABEL_ESC;
@@ -75,7 +74,6 @@ export declare class ScriptIterator {
     private readonly REG_WILDCARD;
     private readonly REG_WILDCARD2;
     private replaceScript_Wildcard;
-    private replaceScript_Wildcard_Sub_ext;
     nextToken: () => string;
     private nextToken_Proc;
     private recordKidoku;

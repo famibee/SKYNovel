@@ -4,6 +4,7 @@ const CmnLib_1 = require("./CmnLib");
 const CmnTween_1 = require("./CmnTween");
 const Config_1 = require("./Config");
 const Tween = require('@tweenjs/tween.js').default;
+const pixi_js_1 = require("pixi.js");
 class FrameMng {
     constructor(cfg, hTag, appPixi, val, main, sys, hTwInf) {
         this.cfg = cfg;
@@ -47,6 +48,7 @@ class FrameMng {
         this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="z-index: 1; opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * scale}px; top: ${this.sys.ofsTop4frm + rct.y * scale}px; border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'};${b_color}" width="${rct.width * scale}" height="${rct.height * scale}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
         const ifrm = document.getElementById(id);
         this.hIfrm[id] = ifrm;
+        const win = ifrm.contentWindow;
         ifrm.onload = () => {
             this.val.setVal_Nochk('tmp', frmnm, true);
             this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
@@ -58,11 +60,56 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
-            this.evtMng.resvFlameEvent(ifrm.contentWindow);
+            this.evtMng.resvFlameEvent(win);
+            const fnc = win.sn_repRes;
+            if (this.sys.crypto && fnc)
+                fnc((i) => {
+                    var _a;
+                    const src = ((_a = i.dataset.src) !== null && _a !== void 0 ? _a : '').replace(/\..+/, '');
+                    const url = this.cfg.searchPath(src, Config_1.Config.EXT_SPRITE);
+                    (new pixi_js_1.Loader()).add(src, url, { xhrType: 'arraybuffer' })
+                        .pre((res, next) => res.load(() => {
+                        this.sys.pre(res.extension, res.data)
+                            .then(r => {
+                            if (res.extension != 'bin') {
+                                next();
+                                return;
+                            }
+                            res.data = r;
+                            if (res.data instanceof HTMLImageElement) {
+                                res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                                i.src = res.data.src;
+                                URL.revokeObjectURL(res.data.src);
+                            }
+                            next();
+                        })
+                            .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+                    }))
+                        .load();
+                });
             this.main.resume();
         };
         const url = this.cfg.searchPath(src, Config_1.Config.EXT_HTML);
-        ifrm.src = url;
+        if (!this.sys.crypto) {
+            ifrm.src = url;
+            return true;
+        }
+        (new pixi_js_1.Loader())
+            .add(src, url, { xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT })
+            .pre((res, next) => res.load(() => {
+            this.sys.pre(res.extension, res.data)
+                .then(r => { res.data = r; next(); })
+                .catch(e => this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
+        }))
+            .load((_ldr, hRes) => {
+            var _a;
+            const base = url.slice(0, url.lastIndexOf('/') + 1);
+            const htm = String((_a = hRes[src]) === null || _a === void 0 ? void 0 : _a.data).replace(/\s(?:src|href)=(["'])(\S+)\1/g, (v, p1, p2) => (p2.slice(0, 3) == '../')
+                ? v.replace('../', this.sys.cur)
+                : v.replace(p1, p1 + base));
+            const blob = new Blob([htm], { type: 'text/html' });
+            ifrm.src = URL.createObjectURL(blob);
+        });
         return true;
     }
     rect(hArg) {

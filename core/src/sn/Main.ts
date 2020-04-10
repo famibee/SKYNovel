@@ -90,7 +90,7 @@ export class Main implements IMain {
 			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);
 
 			this.appPixi.ticker.add(this.fncTicker);
-			this.resumeByJumpOrCall({fn: this.cfg.oCfg.first_script});
+			this.resumeByJumpOrCall({fn: 'main'});
 
 			this.inited = true;
 		});

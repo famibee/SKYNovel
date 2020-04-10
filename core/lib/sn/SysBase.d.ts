@@ -9,8 +9,7 @@ export declare class SysBase implements ISysBase {
     };
     constructor(hPlg: HPlugin, arg: HSysBaseArg);
     get cur(): string;
-    get crypt(): boolean;
-    get crypt_(): "" | "_";
+    get crypto(): boolean;
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     reso4frame: number;

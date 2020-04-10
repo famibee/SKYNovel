@@ -6,7 +6,7 @@ import 'devtools-detect';
 export declare class SysWeb extends SysBase {
     constructor(hPlg?: {}, arg?: {
         cur: string;
-        crypt: boolean;
+        crypto: boolean;
         dip: string;
     });
     private def_prj;

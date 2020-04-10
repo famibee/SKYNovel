@@ -15,7 +15,7 @@ import {Application} from 'pixi.js';
 import 'devtools-detect';
 
 export class SysWeb extends SysBase {
-	constructor(hPlg = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
+	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, arg);
 
 		const idxCur = arg.cur.lastIndexOf('/', arg.cur.length -2);
@@ -118,7 +118,7 @@ export class SysWeb extends SysBase {
 
 		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
 
-		this.flushSub = this.crypt
+		this.flushSub = this.crypto
 		? ()=> {
 			strLocal.set(this.ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
 			strLocal.set(this.ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
@@ -129,7 +129,7 @@ export class SysWeb extends SysBase {
 			strLocal.set(this.ns +'mark', this.data.mark);
 			strLocal.set(this.ns +'kidoku', this.data.kidoku);
 		};
-		if (strLocal.get(this.ns +'sys'+ this.crypt_) == undefined) {
+		if (strLocal.get(this.ns +(this.arg.crypto ?'sys_' :'sys')) == undefined) {
 			hTmp['const.sn.isFirstBoot'] = true;
 			this.data.sys = data['sys'];
 			this.data.mark = data['mark'];
@@ -138,7 +138,7 @@ export class SysWeb extends SysBase {
 		}
 		else {
 			hTmp['const.sn.isFirstBoot'] = false;
-			if (this.crypt) {
+			if (this.crypto) {
 			(async ()=> {
 				let mes = '';
 				try {
@@ -179,7 +179,7 @@ export class SysWeb extends SysBase {
 
 		if (! cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
 			if (! e.detail.isOpen) return;
-			console.error(`DevToolは禁止されています`);
+			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
 		});
 }

@@ -12,7 +12,7 @@ import {Main} from './Main';
 // TODO: const strLocal = require('store');
 
 export class SysMob extends SysBase {
-	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypt: false, dip: ''}) {
+	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, arg);
 
 		document.addEventListener('deviceready', ()=> {
@@ -37,8 +37,8 @@ export class SysMob extends SysBase {
 
 			//strLocal.clearAll();
 			// NOTE: サーバ非同期データならここで解決
-// TODO: 			this.ns = cfg.getNs();
-// TODO: 	this.sys = strLocal.get(this.ns +'sys');
+//		 			this.ns = cfg.getNs();
+//		 	this.sys = strLocal.get(this.ns +'sys');
 
 			// 全体が入るよう拡大・縮小
 			const cvs: HTMLCanvasElement = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;

@@ -167,7 +167,7 @@ export class Layer {
 						? rct_base.height: rct_base.height*r_absclY;
 
 		// 横位置計算
-		let x = ret.x;	// NOTE: AIRNovelでは 0
+		let x = ret.x;	// AIRNovelでは 0
 		if ('left' in hArg) {
 			x = CmnLib.argChk_Num(hArg, 'left', 0);
 			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;

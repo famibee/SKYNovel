@@ -26,8 +26,7 @@ export class SysBase implements ISysBase {
 	});
 	}
 	get cur() {return this.arg.cur}
-	get crypt() {return this.arg.crypt}
-	get crypt_() {return this.arg.crypt ?'_' :''}
+	get crypto() {return this.arg.crypto}
 	fetch = (url: string)=> fetch(url);
 
 	resolution	= 1;

@@ -83,7 +83,7 @@ class GrpLayer extends Layer_1.Layer {
             if (f.fn in pixi_js_1.Loader.shared.resources)
                 return;
             needLoad = true;
-            ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE), this.sys.crypt ? { xhrType: 'arraybuffer' } : {});
+            ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE), this.sys.crypto ? { xhrType: 'arraybuffer' } : {});
         });
         const fncLoaded = (res) => {
             for (const v of aComp) {
@@ -104,6 +104,7 @@ class GrpLayer extends Layer_1.Layer {
                     res.data = r;
                     if (res.data instanceof HTMLImageElement) {
                         res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                        URL.revokeObjectURL(res.data.src);
                     }
                     next();
                 })

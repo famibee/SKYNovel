@@ -400,7 +400,7 @@ export class TxtLayer extends Layer {
 	private	fncFFSSpan	= (ch: string)=> ch;
 	private	strNoFFS	= '';
 	private	regNoFFS	= new RegExp('[　]');
-	// NOTE: Safariが全体に「font-feature-settings」した後、特定文字の「font-feature-settings: initial;」を受け付けてくれないのでわざわざ一つずつ指定
+	// Safariが全体に「font-feature-settings」した後、特定文字の「font-feature-settings: initial;」を受け付けてくれないのでわざわざ一つずつ指定
 
 
 	static	chgDoRec(doRec: boolean) {

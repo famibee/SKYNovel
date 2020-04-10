@@ -15,7 +15,7 @@ class SoundMng {
         this.sys = sys;
         this.hSndBuf = {};
         this.initVol = () => {
-            PSnd.volumeAll = Number(this.val.getVal('sys:sn.sound.global_volume', 1));
+            PSnd.sound.volumeAll = Number(this.val.getVal('sys:sn.sound.global_volume', 1));
             this.initVol = () => { };
         };
         hTag.volume = o => this.volume(o);
@@ -34,7 +34,7 @@ class SoundMng {
         hTag.wl = o => this.wl(o);
         hTag.ws = o => this.ws(o);
         hTag.xchgbuf = o => this.xchgbuf(o);
-        val.defValTrg('sys:sn.sound.global_volume', (_name, val) => PSnd.volumeAll(Number(val)));
+        val.defValTrg('sys:sn.sound.global_volume', (_name, val) => PSnd.sound.volumeAll = Number(val));
         this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
         val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
     }
@@ -216,7 +216,7 @@ class SoundMng {
             .pre((res, next) => res.load(() => {
             this.sys.pre(res.extension, res.data)
                 .then(r => { res.data = r; next(); })
-                .catch(e => this.main.errScript(`Sndロード失敗です fn:${res.name} ${e}`, false));
+                .catch(e => this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
         }))
             .load((_ldr, hRes) => { var _a; o.source = (_a = hRes[fn]) === null || _a === void 0 ? void 0 : _a.data; PSnd.add(fn, o); });
     }

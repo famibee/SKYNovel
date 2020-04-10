@@ -42,8 +42,7 @@ class SysBase {
             });
     }
     get cur() { return this.arg.cur; }
-    get crypt() { return this.arg.crypt; }
-    get crypt_() { return this.arg.crypt ? '_' : ''; }
+    get crypto() { return this.arg.crypto; }
     loadPathAndVal(_hPathFn2Exts, _fncLoaded, _cfg) { }
     initVal(_data, _hTmp, _comp) { }
     flush() { }

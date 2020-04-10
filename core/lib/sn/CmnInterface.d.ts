@@ -147,7 +147,7 @@ export interface ILayerFactory {
 }
 export interface HSysBaseArg {
     cur: string;
-    crypt: boolean;
+    crypto: boolean;
     dip: string;
 }
 export interface ISysBase {

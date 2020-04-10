@@ -436,12 +436,12 @@ export class ScriptIterator {
 		const st = this.hScript[this.scriptFn_];
 		if (st) {this.script = st; this.analyzeInit(); return;}
 
-		if (this.onlyCodeScript(full_path)) this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
-
 		(new Loader()).add(this.scriptFn_, full_path)
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
+				// TODO: 暗号化スクリプトかは、前方から一定の長さに(\n|\t)有無で分かる
+//		if (this.onlyCodeScript()) this.main.errScript('[セキュリティ] 暗号化スクリプト以外許されません');
 			.catch(e=> this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
 		}))
 		.load((_ldr: any, hRes: any)=> {
@@ -454,15 +454,6 @@ export class ScriptIterator {
 		});
 		this.main.stop();
 	}
-	private onlyCodeScript	= (full_path: string): boolean => {
-		const is_cry = full_path.substr(-1) == '_';
-		if (is_cry) this.replaceScript_Wildcard_Sub_ext = (nm: string): string => nm == 'loadplugin' ?'css' :'sn_';
-
-		this.onlyCodeScript = is_cry	// 初回チェック
-			? (fp: string)=> (fp.substr(-1) != '_')	// エラーにする
-			: (_: string)=> false;		// 初回がsnなら、以後ノーチェック
-		return false;
-	};
 	private analyzeInit(): void {
 		const o = this.seekScript(this.script, Boolean(this.val.getVal('mp:const.sn.macro_name')), this.lineNum_, this.skipLabel, this.idxToken_);
 		this.idxToken_	= o.idx;
@@ -651,7 +642,7 @@ export class ScriptIterator {
 			const fn = p_fn.val;
 			if (! fn || fn.slice(-1) != '*') continue;
 
-			const ext = this.replaceScript_Wildcard_Sub_ext(a_tag['name']);
+			const ext = (a_tag['name'] == 'loadplugin') ?'css' :'sn';
 			const a = this.cfg.matchPath('^'+ fn.slice(0, -1) +'.*', ext);
 
 			this.script.aToken.splice(i, 1, '\t', '; '+ token);
@@ -669,8 +660,6 @@ export class ScriptIterator {
 		}
 		this.script.len = this.script.aToken.length;
 	}
-	private replaceScript_Wildcard_Sub_ext = (nm: string): string=>
-		nm == 'loadplugin' ?'css' :'sn';
 
 	// シナリオ解析処理ループ・冒頭処理
 	nextToken = ()=> '';	// 初期化前に終了した場合向け

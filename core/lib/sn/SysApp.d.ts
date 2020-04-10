@@ -4,7 +4,7 @@ import { Application } from 'pixi.js';
 export declare class SysApp extends SysNode {
     constructor(hPlg?: {}, arg?: {
         cur: string;
-        crypt: boolean;
+        crypto: boolean;
         dip: string;
     });
     protected readonly $path_desktop: string;

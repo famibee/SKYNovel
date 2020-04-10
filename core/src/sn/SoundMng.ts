@@ -50,7 +50,7 @@ export class SoundMng {
 		hTag.ws			= o=> this.ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
 
-		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> PSnd.volumeAll(Number(val)));
+		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> PSnd.sound.volumeAll = Number(val));
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
 		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
@@ -201,8 +201,8 @@ export class SoundMng {
 		this.hSndBuf[buf] = {
 			snd		: snd,
 			loop	: loop,
-			ret_ms	: ret_ms,		// TODO: 未作成
-			end_ms	: end_ms,		// TODO: 未作成
+			ret_ms	: ret_ms,		// TODO: ret_ms未作成
+			end_ms	: end_ms,		// TODO: end_ms未作成
 			resume	: false,
 			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
 			onend	: ()=> {
@@ -243,12 +243,12 @@ export class SoundMng {
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
-			.catch(e=> this.main.errScript(`Sndロード失敗です fn:${res.name} ${e}`, false));
+			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
 		}))
 		.load((_ldr, hRes)=> {o.source = hRes[fn]?.data; PSnd.add(fn, o);});
 	}
 	private initVol = ()=> {
-		PSnd.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
+		PSnd.sound.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
 		this.initVol = ()=> {};
 	};
 

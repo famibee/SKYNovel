@@ -1,5 +1,13 @@
+## v0.16.0
+- add：HTML復号化機能
+- add：暗号化HTML内で暗号化画像を使用できる機能
+- bug：グローバル音量変更時にエラー
+- chg：DevTool禁止時のメッセージに追記
+- chg：変数・関数名修正（crypt→crypto）
+- del：「first_script」は廃止、main.sn固定に
+- del：プロジェクト設定「nocode_reg」「nocode」「pack_exc」廃止
 ## v0.15.1
-- upd：プロジェクト設定「slideBaseSpan」廃止
+- del：プロジェクト設定「slideBaseSpan」廃止
 - chg：プロジェクト設定「devtool」を開発者ツールの許可（不許可時は終了）、に機能変更
 - chg：内部処理ログ表示・プロジェクト設定「devtool」を「debugLog」に変名
 - upd：[add_frame]の src属性も拡張子を省略できるように

@@ -37,15 +37,6 @@ class ScriptIterator {
         this.aIfStk = [-1];
         this.resvToken = '';
         this.skipLabel = '';
-        this.onlyCodeScript = (full_path) => {
-            const is_cry = full_path.substr(-1) == '_';
-            if (is_cry)
-                this.replaceScript_Wildcard_Sub_ext = (nm) => nm == 'loadplugin' ? 'css' : 'sn_';
-            this.onlyCodeScript = is_cry
-                ? (fp) => (fp.substr(-1) != '_')
-                : (_) => false;
-            return false;
-        };
         this.REG_NONAME_LABEL = /(\*{2,})(.*)/;
         this.REG_LABEL_ESC = /\*/g;
         this.REG_TOKEN_MACRO_BEGIN = /\[macro\s/;
@@ -70,7 +61,7 @@ class ScriptIterator {
                 const fn = p_fn.val;
                 if (!fn || fn.slice(-1) != '*')
                     continue;
-                const ext = this.replaceScript_Wildcard_Sub_ext(a_tag['name']);
+                const ext = (a_tag['name'] == 'loadplugin') ? 'css' : 'sn';
                 const a = this.cfg.matchPath('^' + fn.slice(0, -1) + '.*', ext);
                 this.script.aToken.splice(i, 1, '\t', '; ' + token);
                 this.script.aLNum.splice(i, 1, NaN, NaN);
@@ -82,7 +73,6 @@ class ScriptIterator {
             }
             this.script.len = this.script.aToken.length;
         };
-        this.replaceScript_Wildcard_Sub_ext = (nm) => nm == 'loadplugin' ? 'css' : 'sn';
         this.nextToken = () => '';
         this.isKidoku_ = false;
         this.hTagInf = {};
@@ -439,8 +429,6 @@ class ScriptIterator {
             this.analyzeInit();
             return;
         }
-        if (this.onlyCodeScript(full_path))
-            this.main.errScript('[セキュリティ] 最初のスクリプトが暗号化だったため、以降は暗号化スクリプト以外許されません');
         (new pixi_js_1.Loader()).add(this.scriptFn_, full_path)
             .pre((res, next) => res.load(() => {
             this.sys.pre(res.extension, res.data)

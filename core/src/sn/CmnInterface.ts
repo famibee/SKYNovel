@@ -178,7 +178,7 @@ export interface ILayerFactory {
 // =============== SysBase
 export interface HSysBaseArg {
 	cur		: string;
-	crypt	: boolean;
+	crypto	: boolean;
 	dip		: string;
 }
 

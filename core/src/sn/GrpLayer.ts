@@ -121,7 +121,7 @@ export class GrpLayer extends Layer {
 			if (f.fn in Loader.shared.resources) return;
 
 			needLoad = true;
-			ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE), this.sys.crypt ?{xhrType: 'arraybuffer'} :{});
+			ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE), this.sys.crypto ?{xhrType: 'arraybuffer'} :{});
 		});
 
 		const fncLoaded = (res: any)=> {
@@ -140,6 +140,7 @@ export class GrpLayer extends Layer {
 					res.data = r;
 					if (res.data instanceof HTMLImageElement) {
 						res.type = LoaderResource.TYPE.IMAGE;
+						URL.revokeObjectURL(res.data.src);
 					}
 					next();
 				})

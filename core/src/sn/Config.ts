@@ -11,7 +11,6 @@ import {SysBase} from './SysBase';
 
 export class Config implements IConfig {
 	oCfg: any = {
-		first_script: 'main',	// 最初に起動するスクリプトファイル
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
 		coder		: {len: 0x360},
 			// 画像や音声ファイルを前からなんバイト暗号化するか
@@ -28,9 +27,6 @@ export class Config implements IConfig {
 			pub_url		: '',	//出版社URL。無ければ省略します
 			detail		: '',	// 内容紹介。端的に記入
 			version		: '1.0',
-			nocode_reg	: 'system/.+.mp3|m4a|config/.+',
-			nocode		: '',
-			pack_exc	: '',
 		},
 		log		: {max_len: 1024},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
 		init	: {
@@ -39,7 +35,7 @@ export class Config implements IConfig {
 			auto_msecpagewait	: 3500,		// 自動文字表示、行クリック待ち時間（未読／既読）
 			escape				: '',		// エスケープ文字
 		},
-		debug	: {	// デバッグ情報（プレイヤーもONに出来るので注意）
+		debug	: {
 			devtool		: false,
 			token		: false,
 			tag			: false,
@@ -66,7 +62,6 @@ export class Config implements IConfig {
 	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
 		const load = (oCfg: any)=> {
 			// this.oCfg = {...this.oCfg, ...oCfg};	// 一階層目でコピーしてしまう
-			this.oCfg.first_script = oCfg?.first_script ?? this.oCfg.first_script;
 			this.oCfg.save_ns = oCfg?.save_ns ?? this.oCfg.save_ns;
 
 			this.oCfg.coder = oCfg?.coder ?? this.oCfg.coder;

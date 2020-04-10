@@ -5,7 +5,6 @@ class Config {
     constructor(sys, fncLoaded, oCfg4tst) {
         this.sys = sys;
         this.oCfg = {
-            first_script: 'main',
             save_ns: '',
             coder: { len: 0x360 },
             window: {
@@ -20,9 +19,6 @@ class Config {
                 pub_url: '',
                 detail: '',
                 version: '1.0',
-                nocode_reg: 'system/.+.mp3|m4a|config/.+',
-                nocode: '',
-                pack_exc: '',
             },
             log: { max_len: 1024 },
             init: {
@@ -48,14 +44,13 @@ class Config {
         this.$existsBreakline = false;
         this.$existsBreakpage = false;
         const load = (oCfg) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-            this.oCfg.first_script = (_a = oCfg === null || oCfg === void 0 ? void 0 : oCfg.first_script) !== null && _a !== void 0 ? _a : this.oCfg.first_script;
-            this.oCfg.save_ns = (_b = oCfg === null || oCfg === void 0 ? void 0 : oCfg.save_ns) !== null && _b !== void 0 ? _b : this.oCfg.save_ns;
-            this.oCfg.coder = (_c = oCfg === null || oCfg === void 0 ? void 0 : oCfg.coder) !== null && _c !== void 0 ? _c : this.oCfg.coder;
-            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_e = (_d = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _d === void 0 ? void 0 : _d.width) !== null && _e !== void 0 ? _e : this.oCfg.window.width);
-            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_g = (_f = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _f === void 0 ? void 0 : _f.height) !== null && _g !== void 0 ? _g : this.oCfg.window.height);
+            var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+            this.oCfg.save_ns = (_a = oCfg === null || oCfg === void 0 ? void 0 : oCfg.save_ns) !== null && _a !== void 0 ? _a : this.oCfg.save_ns;
+            this.oCfg.coder = (_b = oCfg === null || oCfg === void 0 ? void 0 : oCfg.coder) !== null && _b !== void 0 ? _b : this.oCfg.coder;
+            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_d = (_c = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _c === void 0 ? void 0 : _c.width) !== null && _d !== void 0 ? _d : this.oCfg.window.width);
+            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_f = (_e = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _e === void 0 ? void 0 : _e.height) !== null && _f !== void 0 ? _f : this.oCfg.window.height);
             this.oCfg.book = Object.assign(Object.assign({}, this.oCfg.book), oCfg.book);
-            this.oCfg.log.max_len = (_k = (_j = (_h = oCfg.log) === null || _h === void 0 ? void 0 : _h.max_len) === null || _j === void 0 ? void 0 : _j.max_len) !== null && _k !== void 0 ? _k : this.oCfg.log.max_len;
+            this.oCfg.log.max_len = (_j = (_h = (_g = oCfg.log) === null || _g === void 0 ? void 0 : _g.max_len) === null || _h === void 0 ? void 0 : _h.max_len) !== null && _j !== void 0 ? _j : this.oCfg.log.max_len;
             this.oCfg.init = Object.assign(Object.assign({}, this.oCfg.init), oCfg.init);
             if ('init' in oCfg) {
                 for (const n in this.oCfg.init) {
