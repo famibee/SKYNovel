@@ -386,7 +386,7 @@
         "signature": "87422792f8e91af9baba49565a99141face0e9b51bf5b22a3fc3d7f9e5e20180"
       },
       "../src/sn/grplayer.ts": {
-        "version": "27b616e9a84aae257f615a07e02cc4536d2750ead076ba644f0c97bd16dd6332",
+        "version": "2e0f0367eec1285372a3cbbae909df472afa1fc359c09cde8c57d673cd606b20",
         "signature": "c4ed0c687ca61ef8fb1892ab7db4b0f4be7389d61d6e665d39871734783cf600"
       },
       "../src/sn/txtstage.ts": {
@@ -2504,10 +2504,10 @@
       "../src/sn/callstack.ts",
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
-      "../src/sn/grplayer.ts",
       "../src/sn/txtstage.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
+      "../src/sn/framemng.ts",
       "../src/sn/layermng.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
@@ -2536,7 +2536,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/framemng.ts"
+      "../src/sn/grplayer.ts"
     ]
   },
   "version": "3.8.3"

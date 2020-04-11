@@ -106,6 +106,10 @@ class GrpLayer extends Layer_1.Layer {
                         res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
                         URL.revokeObjectURL(res.data.src);
                     }
+                    else if (res.data instanceof HTMLVideoElement) {
+                        res.type = pixi_js_1.LoaderResource.TYPE.VIDEO;
+                        URL.revokeObjectURL(res.data.src);
+                    }
                     next();
                 })
                     .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
