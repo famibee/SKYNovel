@@ -33,6 +33,7 @@ export declare class SysBase implements ISysBase {
     pre: (_ext: string, data: string) => Promise<string>;
     protected enc: (data: string) => Promise<string>;
     protected stk: () => string;
+    hash: (_data: string) => string;
     protected readonly isApp: () => boolean;
     protected $path_desktop: string;
     get path_desktop(): string;

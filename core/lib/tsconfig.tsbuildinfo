@@ -146,12 +146,12 @@
         "signature": "1c34b0e43358bf8453a84095248b6add54528136091788b6ab2d0290736a1a8f"
       },
       "../src/sn/cmninterface.ts": {
-        "version": "63f03dbbbba4897a23b7b7d7f85ec0b6d987cbd77368402f5f7214f6ed469643",
-        "signature": "abf729676e42d161e294c03c5520fb226dfafde1606a818be75e53c22fd71543"
+        "version": "695a41be0a112b69e13d03efd2b31bba1286247f38b23f3bcfa893cddbf5ec9b",
+        "signature": "7dea45dfad053d5b0f874b9ed8b4e82f1c168cdb1ebe293a5e29f0b455aa6c24"
       },
       "../src/sn/sysbase.ts": {
-        "version": "55ffb56b742c3a0827b21e2b89b98edcdd1d68aba3faa4cdcd451030b3399957",
-        "signature": "edf4737295849f608a731caa8587e5460c6e0f995b5ca9c0995b493edd341859"
+        "version": "6e08cd25af9c20ca1390dc6e58a63e1ffcd4930540f82665113e82a6cc80f2f7",
+        "signature": "a3c2b92aa73fe14caf254265b6fa54920a009932bafab13a40c703ecdfbb41c5"
       },
       "../../node_modules/@types/node/globals.d.ts": {
         "version": "9a9a22159b64df8f4e5a6317cef7aa8348fb409aab0dbbff4c19f189ba416609",
@@ -346,7 +346,7 @@
         "signature": "60e0efa5bbf49006d29493aa7105fa2e447623e5050267eeafd214ac51de01ee"
       },
       "../src/sn/config.ts": {
-        "version": "b656d1aedf3e22c4050677540233f68b23b4ff68d89bbf17fc6cd4f60493f1e3",
+        "version": "c0b299fe95fe1d33dfa76d2b38593751dfb656aeb59f7c99f58f3535a64d3821",
         "signature": "14803e328902dc0523c0c63636bf0849b7d6a1d617e84b97fb1a4e6dd1c03160"
       },
       "../../node_modules/@types/xregexp/index.d.ts": {
@@ -2494,7 +2494,6 @@
       "../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../node_modules/@types/fs-extra/index.d.ts",
       "../src/sn/sysnode.ts",
-      "../src/sn/config.ts",
       "../../node_modules/@types/xregexp/index.d.ts",
       "../src/sn/rubyspliter.ts",
       "../src/sn/grammar.ts",
@@ -2504,6 +2503,7 @@
       "../src/sn/callstack.ts",
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
+      "../src/sn/grplayer.ts",
       "../src/sn/txtstage.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
@@ -2536,7 +2536,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/grplayer.ts"
+      "../src/sn/config.ts"
     ]
   },
   "version": "3.8.3"

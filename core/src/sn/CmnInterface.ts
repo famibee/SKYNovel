@@ -163,6 +163,7 @@ export interface IPluginInitArg {
 	setPre(fnc: (ext: string, data: string)=> Promise<string>): void;
 	setEnc(fnc: (data: string)=> Promise<string>): void;
 	getStK(fnc: ()=> string): void;
+	getHash(fnc: (data: string)=> string): void;
 }
 export interface IPlugin {
 	init(plgArg: IPluginInitArg): boolean;

@@ -18,6 +18,7 @@ class SysBase {
         this.pre = async (_ext, data) => data;
         this.enc = async (data) => data;
         this.stk = () => '';
+        this.hash = (_data) => '';
         this.isApp = () => false;
         this.$path_desktop = '';
         this.$path_userdata = '';
@@ -39,6 +40,7 @@ class SysBase {
                 setPre: fnc => this.pre = fnc,
                 setEnc: fnc => this.enc = fnc,
                 getStK: fnc => this.stk = fnc,
+                getHash: fnc => this.hash = fnc,
             });
     }
     get cur() { return this.arg.cur; }
@@ -80,6 +82,7 @@ class SysBase {
                 setPre: fnc => this.pre = fnc,
                 setEnc: fnc => this.enc = fnc,
                 getStK: fnc => this.stk = fnc,
+                getHash: fnc => this.hash = fnc,
             });
         }
         hTag.close = o => this.close(o);

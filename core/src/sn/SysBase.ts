@@ -23,6 +23,7 @@ export class SysBase implements ISysBase {
 			setPre: fnc=> this.pre = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
+			getHash: fnc=> this.hash = fnc,
 	});
 	}
 	get cur() {return this.arg.cur}
@@ -76,6 +77,7 @@ export class SysBase implements ISysBase {
 				setPre: fnc=> this.pre = fnc,
 				setEnc: fnc=> this.enc = fnc,
 				getStK: fnc=> this.stk = fnc,
+				getHash: fnc=> this.hash = fnc,
 			});
 		}
 
@@ -107,6 +109,7 @@ export class SysBase implements ISysBase {
 	pre = async (_ext: string, data: string)=> data;
 	protected enc = async (data: string)=> data;
 	protected stk = ()=> '';
+	hash = (_data: string)=> '';
 
 	protected readonly	isApp = ()=> false;
 	protected $path_desktop	= '';

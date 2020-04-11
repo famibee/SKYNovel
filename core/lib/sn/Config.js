@@ -61,9 +61,23 @@ class Config {
             }
             this.oCfg.debug = Object.assign(Object.assign({}, this.oCfg.debug), oCfg.debug);
             CmnLib_1.CmnLib.debugLog = this.oCfg.debug.debugLog;
-            sys.loadPathAndVal(this.hPathFn2Exts, () => {
+            sys.loadPathAndVal(this.hPathFn2Exts, async () => {
                 this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
                 this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
+                for (const nm in this.hPathFn2Exts) {
+                    const o = this.hPathFn2Exts[nm];
+                    for (const ext in o) {
+                        if (ext.slice(-10) != ':RIPEMD160')
+                            continue;
+                        const hp = o[ext].slice(o[ext].lastIndexOf('/') + 1);
+                        const fn = o[ext.slice(0, -10)];
+                        const res = await sys.fetch(fn);
+                        const s = await res.text();
+                        const hf = sys.hash(s);
+                        if (hp != hf)
+                            throw `ファイル改竄エラーです fn:${fn}`;
+                    }
+                }
                 fncLoaded();
             }, this);
         };
