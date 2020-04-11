@@ -402,8 +402,8 @@
         "signature": "9f5dd645aa4e2a58456b5c66156216fa16c5d2edf63d118de2756c8f4be06a62"
       },
       "../src/sn/framemng.ts": {
-        "version": "deffe94c9adbd4cb07d612f43d1e26b41f89da1ea43424ef7ec6137d2388e9d9",
-        "signature": "2b6d0b5f8535050a6236bc97883c33b91e92f7cf916e28dae7c58ab222137286"
+        "version": "d1c584aaf009c57ef11a80b9d76126be46484e0cfe3838ef1b55b05820d7d245",
+        "signature": "9c9f534ae61e087c91c0f6316f5fc34537418f6d8661ac0be5018a8884ca40a5"
       },
       "../src/sn/layermng.ts": {
         "version": "b7ba49795dfe4be9e70692bd9041ba29e4a406fac562dea0184d1cac2aac1ae3",

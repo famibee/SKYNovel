@@ -34,6 +34,7 @@ export class FrameMng {
 			const f = this.hIfrm[n];
 			f.parentElement!.removeChild(f);
 		}
+		this.hIfrm = Object.create(null);
 	}
 
 	//	HTMLフレーム
@@ -81,9 +82,16 @@ export class FrameMng {
 
 			this.evtMng.resvFlameEvent(win);
 
-			const fnc: Function = (win as any).sn_repRes;
-			if (this.sys.crypto && fnc) fnc((i: HTMLImageElement)=> {
-				const src = (i.dataset.src ?? '').replace(/\..+/, '');
+			const setImg: Function = (win as any).sn_repRes;
+			if (this.sys.crypto && setImg) setImg((i: HTMLImageElement)=> {
+				const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
+				const oUrl = this.hEncImgOUrl[src];
+				if (oUrl) {i.src = oUrl; return}
+
+				const aImg = this.hAEncImg[src];
+				if (aImg) {aImg.push(i); return}
+				this.hAEncImg[src] = [i];
+
 				const url = this.cfg.searchPath(src, Config.EXT_SPRITE);
 				(new Loader()).add(src, url, {xhrType: 'arraybuffer'})
 				.pre((res: LoaderResource, next: Function)=> res.load(()=> {
@@ -93,14 +101,20 @@ export class FrameMng {
 						res.data = r;
 						if (res.data instanceof HTMLImageElement) {
 							res.type = LoaderResource.TYPE.IMAGE;
-							i.src = res.data.src;
-							URL.revokeObjectURL(res.data.src);
+							this.hEncImgOUrl[src] = res.data.src;
 						}
 						next();
 					})
 					.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 				}))
-				.load();
+				.load((_ldr: any, hRes: any)=> {
+					for (const src in hRes) {
+						const oUrl = hRes[src].data.src;
+						this.hAEncImg[src].map(v=> v.src = oUrl);
+						delete this.hAEncImg[src];
+					//	URL.revokeObjectURL(oUrl);	// 画面遷移で毎回再生成するので
+					}
+				});
 			});
 
 			this.main.resume();
@@ -130,6 +144,8 @@ export class FrameMng {
 
 		return true;
 	}
+	private	hAEncImg	: {[name: string]: HTMLImageElement[]}	= Object.create(null);
+	private	hEncImgOUrl	: {[name: string]: string}		= Object.create(null);
 	private rect(hArg: HArg): DOMRect {
 		const a = {...hArg};
 		const re = this.sys.resolution;

@@ -19,6 +19,8 @@ export declare class FrameMng {
     private hIfrm;
     destroy(): void;
     private add_frame;
+    private hAEncImg;
+    private hEncImgOUrl;
     private rect;
     cvsResize(): void;
     private let_frame;

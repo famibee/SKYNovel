@@ -14,6 +14,8 @@ class FrameMng {
         this.sys = sys;
         this.hTwInf = hTwInf;
         this.hIfrm = Object.create(null);
+        this.hAEncImg = Object.create(null);
+        this.hEncImgOUrl = Object.create(null);
         hTag.add_frame = o => this.add_frame(o);
         hTag.let_frame = o => this.let_frame(o);
         hTag.set_frame = o => this.set_frame(o);
@@ -26,6 +28,7 @@ class FrameMng {
             const f = this.hIfrm[n];
             f.parentElement.removeChild(f);
         }
+        this.hIfrm = Object.create(null);
     }
     add_frame(hArg) {
         const id = hArg.id;
@@ -61,11 +64,22 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
             this.evtMng.resvFlameEvent(win);
-            const fnc = win.sn_repRes;
-            if (this.sys.crypto && fnc)
-                fnc((i) => {
+            const setImg = win.sn_repRes;
+            if (this.sys.crypto && setImg)
+                setImg((i) => {
                     var _a;
-                    const src = ((_a = i.dataset.src) !== null && _a !== void 0 ? _a : '').replace(/\..+/, '');
+                    const src = ((_a = i.dataset.src) !== null && _a !== void 0 ? _a : '').replace(/(.+\/|\..+)/g, '');
+                    const oUrl = this.hEncImgOUrl[src];
+                    if (oUrl) {
+                        i.src = oUrl;
+                        return;
+                    }
+                    const aImg = this.hAEncImg[src];
+                    if (aImg) {
+                        aImg.push(i);
+                        return;
+                    }
+                    this.hAEncImg[src] = [i];
                     const url = this.cfg.searchPath(src, Config_1.Config.EXT_SPRITE);
                     (new pixi_js_1.Loader()).add(src, url, { xhrType: 'arraybuffer' })
                         .pre((res, next) => res.load(() => {
@@ -78,14 +92,19 @@ class FrameMng {
                             res.data = r;
                             if (res.data instanceof HTMLImageElement) {
                                 res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                                i.src = res.data.src;
-                                URL.revokeObjectURL(res.data.src);
+                                this.hEncImgOUrl[src] = res.data.src;
                             }
                             next();
                         })
                             .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
                     }))
-                        .load();
+                        .load((_ldr, hRes) => {
+                        for (const src in hRes) {
+                            const oUrl = hRes[src].data.src;
+                            this.hAEncImg[src].map(v => v.src = oUrl);
+                            delete this.hAEncImg[src];
+                        }
+                    });
                 });
             this.main.resume();
         };
