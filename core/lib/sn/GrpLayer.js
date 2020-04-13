@@ -24,6 +24,8 @@ class GrpLayer extends Layer_1.Layer {
         GrpLayer.main = main;
         GrpLayer.cfg = cfg;
         GrpLayer.sys = sys;
+        if (GrpLayer.sys.crypto)
+            GrpLayer.preThen = GrpLayer.preThen4Cripto;
     }
     static setEvtMng(evtMng) { GrpLayer.evtMng = evtMng; }
     static destroy() {
@@ -82,8 +84,17 @@ class GrpLayer extends Layer_1.Layer {
                 return;
             if (f.fn in pixi_js_1.Loader.shared.resources)
                 return;
+            if (f.fn in GrpLayer.ldrHFn)
+                return;
+            GrpLayer.ldrHFn[f.fn] = 0;
             needLoad = true;
-            ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE), this.sys.crypto ? { xhrType: 'arraybuffer' } : {});
+            const path = GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE);
+            const xt = this.sys.crypto
+                ? { xhrType: (path.slice(-5) == '.json')
+                        ? pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT
+                        : pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER }
+                : {};
+            ldr.add(f.fn, path, xt);
         });
         const fncLoaded = (res) => {
             for (const v of aComp) {
@@ -96,22 +107,7 @@ class GrpLayer extends Layer_1.Layer {
         if (needLoad) {
             ldr.pre((res, next) => res.load(() => {
                 this.sys.pre(res.extension, res.data)
-                    .then(r => {
-                    if (res.extension != 'bin') {
-                        next();
-                        return;
-                    }
-                    res.data = r;
-                    if (res.data instanceof HTMLImageElement) {
-                        res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                        URL.revokeObjectURL(res.data.src);
-                    }
-                    else if (res.data instanceof HTMLVideoElement) {
-                        res.type = pixi_js_1.LoaderResource.TYPE.VIDEO;
-                        URL.revokeObjectURL(res.data.src);
-                    }
-                    next();
-                })
+                    .then(r => GrpLayer.preThen(r, res, next))
                     .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
             }))
                 .load((_ldr, hRes) => fncLoaded(hRes));
@@ -119,6 +115,57 @@ class GrpLayer extends Layer_1.Layer {
         else
             fncLoaded(pixi_js_1.utils.TextureCache);
         return needLoad;
+    }
+    static preThen4Cripto(r, res, next) {
+        var _a;
+        res.data = r;
+        if (res.extension == 'bin') {
+            if (res.data instanceof HTMLImageElement) {
+                res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                URL.revokeObjectURL(res.data.src);
+            }
+            else if (res.data instanceof HTMLVideoElement) {
+                res.type = pixi_js_1.LoaderResource.TYPE.VIDEO;
+                URL.revokeObjectURL(res.data.src);
+            }
+        }
+        if (res.extension != 'json') {
+            next();
+            return;
+        }
+        const o = res.data = JSON.parse(r);
+        res.type = pixi_js_1.LoaderResource.TYPE.JSON;
+        if (!((_a = o.meta) === null || _a === void 0 ? void 0 : _a.image)) {
+            next();
+            return;
+        }
+        const fn = CmnLib_1.CmnLib.getFn(o.meta.image);
+        const url = GrpLayer.cfg.searchPath(fn, Config_1.Config.EXT_SPRITE);
+        (new pixi_js_1.Loader())
+            .pre((res2, next2) => res2.load(() => {
+            this.sys.pre(res2.extension, res2.data)
+                .then(r => {
+                res2.data = r;
+                if (res2.data instanceof HTMLImageElement) {
+                    res2.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                    const mime = `image/${CmnLib_1.CmnLib.getExt(o.meta.image)}`;
+                    o.meta.image = GrpLayer.im2Base64(res2.data, mime);
+                    res2.data = o.meta.image;
+                }
+                next2();
+            })
+                .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res2.name} ${e}`, false));
+        }))
+            .add(fn, url, { xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER })
+            .load(() => next());
+    }
+    static im2Base64(img, mime) {
+        const cvs = document.createElement('canvas');
+        cvs.width = img.width;
+        cvs.height = img.height;
+        const ctx = cvs.getContext('2d');
+        ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(img, 0, 0);
+        return cvs.toDataURL(mime);
     }
     static mkSprite(fn, res) {
         var _a;
@@ -237,5 +284,7 @@ GrpLayer.hFn2ResAniSpr = {};
 GrpLayer.fncDefAllComp = (isStop) => { if (isStop)
     GrpLayer.main.resume(); };
 GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
+GrpLayer.ldrHFn = {};
+GrpLayer.preThen = (_r, _res, _n) => { };
 GrpLayer.fn2Video = {};
 //# sourceMappingURL=GrpLayer.js.map

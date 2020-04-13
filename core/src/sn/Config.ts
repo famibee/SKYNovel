@@ -91,6 +91,7 @@ export class Config implements IConfig {
 				this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
 				this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
 
+				if (this.sys.crypto)
 				for (const nm in this.hPathFn2Exts) {
 					const o = this.hPathFn2Exts[nm];
 					for (const ext in o) {
@@ -149,7 +150,6 @@ export class Config implements IConfig {
 		};
 		if (this.userFnTail) {
 			const utn = a.fn +'@@'+ this.userFnTail;
-				// ここは%40にしない
 			if (utn in this.hPathFn2Exts) {
 				if (extptn == '') a.fn = utn;
 				else

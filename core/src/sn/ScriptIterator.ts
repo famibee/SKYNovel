@@ -450,7 +450,7 @@ export class ScriptIterator {
 			this.resolveScript(hRes[fn].data);
 			this.hTag.record_place({});
 			this.main.resume(()=> this.analyzeInit());
-				// 直接呼んでもいいのだが、内部コールスタック積んだままになるのがなんかイヤで
+				// 直接呼んでもいいが、内部コールスタック積んだままになるのがなんかイヤで
 		});
 		this.main.stop();
 	}

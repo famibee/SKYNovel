@@ -43,6 +43,8 @@ export class GrpLayer extends Layer {
 		GrpLayer.main = main;
 		GrpLayer.cfg = cfg;
 		GrpLayer.sys = sys;
+
+		if (GrpLayer.sys.crypto) GrpLayer.preThen = GrpLayer.preThen4Cripto;
 	}
 	private static	evtMng	: IEvtMng;
 	static	setEvtMng(evtMng: IEvtMng) {GrpLayer.evtMng = evtMng;}
@@ -95,6 +97,7 @@ export class GrpLayer extends Layer {
 	private static	fncDefAllComp	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume()};
 	private static	fncAllComp	= GrpLayer.fncDefAllComp;
 
+	private	static ldrHFn: {[name: string]: number} = {};
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		let needLoad = false;
@@ -119,9 +122,18 @@ export class GrpLayer extends Layer {
 			if (f.fn in GrpLayer.hFn2ResAniSpr) return;
 			if (f.fn in utils.TextureCache) return;
 			if (f.fn in Loader.shared.resources) return;
+			if (f.fn in GrpLayer.ldrHFn) return;
+			GrpLayer.ldrHFn[f.fn] = 0;
 
 			needLoad = true;
-			ldr.add(f.fn, GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE), this.sys.crypto ?{xhrType: 'arraybuffer'} :{});
+			const path = GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE);
+			const xt = this.sys.crypto
+			? {xhrType: (path.slice(-5) == '.json')
+				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
+				: LoaderResource.XHR_RESPONSE_TYPE.BUFFER}
+			: {};
+
+			ldr.add(f.fn, path, xt);
 		});
 
 		const fncLoaded = (res: any)=> {
@@ -135,19 +147,7 @@ export class GrpLayer extends Layer {
 		if (needLoad) {
 			ldr.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 				this.sys.pre(res.extension, res.data)
-				.then(r=> {
-					if (res.extension != 'bin') {next(); return;}
-					res.data = r;
-					if (res.data instanceof HTMLImageElement) {
-						res.type = LoaderResource.TYPE.IMAGE;
-						URL.revokeObjectURL(res.data.src);
-					}
-					else if (res.data instanceof HTMLVideoElement) {
-						res.type = LoaderResource.TYPE.VIDEO;
-						URL.revokeObjectURL(res.data.src);
-					}
-					next();
-				})
+				.then(r=> GrpLayer.preThen(r, res, next))
 				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 			}))
 			.load((_ldr: any, hRes: any)=> fncLoaded(hRes));
@@ -155,6 +155,57 @@ export class GrpLayer extends Layer {
 		else fncLoaded(utils.TextureCache);
 
 		return needLoad;
+	}
+	private static preThen = (_r: any, _res: LoaderResource, _n: Function)=> {};
+	private static preThen4Cripto(r: any, res: LoaderResource, next: Function): void {
+		res.data = r;
+		if (res.extension == 'bin') {
+			if (res.data instanceof HTMLImageElement) {
+				res.type = LoaderResource.TYPE.IMAGE;
+				URL.revokeObjectURL(res.data.src);
+			}
+			else if (res.data instanceof HTMLVideoElement) {
+				res.type = LoaderResource.TYPE.VIDEO;
+				URL.revokeObjectURL(res.data.src);
+			}
+		}
+		if (res.extension != 'json') {next(); return;}
+
+		const o = res.data = JSON.parse(r);
+		res.type = LoaderResource.TYPE.JSON;
+		if (! o.meta?.image) {next(); return;}
+
+		const fn = CmnLib.getFn(o.meta.image);
+		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
+		(new Loader())
+		.pre((res2: LoaderResource, next2: Function)=> res2.load(()=> {
+			this.sys.pre(res2.extension, res2.data)
+			.then(r=> {
+				res2.data = r;
+				if (res2.data instanceof HTMLImageElement) {
+					res2.type = LoaderResource.TYPE.IMAGE;
+					const mime = `image/${CmnLib.getExt(o.meta.image)}`;
+					o.meta.image = GrpLayer.im2Base64(res2.data, mime);
+					res2.data = o.meta.image;
+				}
+			/*	else if (res2.data instanceof HTMLVideoElement) {
+					res2.type = LoaderResource.TYPE.VIDEO;
+					o.meta.image = res2.data.src;
+				}*/
+				next2();
+			})
+			.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res2.name} ${e}`, false));
+		}))
+		.add(fn, url, {xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
+		.load(()=> next());
+	}
+	private static im2Base64(img: HTMLImageElement, mime: string) {
+		const cvs = document.createElement('canvas');
+		cvs.width  = img.width;
+		cvs.height = img.height;
+		const ctx = cvs.getContext('2d');
+		ctx?.drawImage(img, 0, 0);
+		return cvs.toDataURL(mime);
 	}
 	private static mkSprite(fn: string, res: LoaderResource): Sprite {
 		//console.log(`fn:GrpLayer.ts line:153 fn:${fn} a:%O b:%O c:%O`, GrpLayer.hFn2ResAniSpr[fn], utils.TextureCache[fn], Loader.shared.resources[fn]);
@@ -167,7 +218,7 @@ export class GrpLayer extends Layer {
 			return asp;
 		}
 
-		const r: any = (res as any)[fn];
+		const r = (res as any)[fn];
 		if (! r) return new Sprite;	// ロード中にリソース削除
 
 		switch (r.type) {
