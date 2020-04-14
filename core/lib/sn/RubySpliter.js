@@ -13,25 +13,25 @@ class RubySpliter {
         RubySpliter.REG_RUBY = m_xregexp(RubySpliter.mkEscReg(ce), 'gsx');
     }
     putTxt(text) {
-        var _a, _b, _c;
+        var _a;
         let elm = null, pos = 0;
         while (elm = m_xregexp.exec(text, RubySpliter.REG_RUBY, pos)) {
-            pos = elm['index'] + elm[0].length;
-            const ruby = elm['ruby'];
+            pos = elm.index + elm[0].length;
+            const ruby = elm.ruby;
             if (ruby) {
-                this.putTxtRb(elm['str'], ruby);
+                this.putTxtRb(elm.str, ruby);
                 continue;
             }
-            const kan_ruby = elm['kan_ruby'];
+            const kan_ruby = elm.kan_ruby;
             if (kan_ruby) {
-                this.putTxtRb(elm['kan'], kan_ruby);
+                this.putTxtRb(elm.kan, kan_ruby);
                 continue;
             }
-            if (elm['txt4']) {
-                this.putCh(elm['txt4'].slice(1), '');
+            if (elm.ce) {
+                this.putCh(elm.ce.slice(1), '');
                 continue;
             }
-            const txt = (_c = (_b = (_a = elm['txt']) !== null && _a !== void 0 ? _a : elm['txt2']) !== null && _b !== void 0 ? _b : elm['txt3']) !== null && _c !== void 0 ? _c : '';
+            const txt = (_a = elm.txt) !== null && _a !== void 0 ? _a : '';
             const a = Array.from(txt);
             const len = a.length;
             for (let i = 0; i < len; ++i)
@@ -63,13 +63,14 @@ class RubySpliter {
 }
 exports.RubySpliter = RubySpliter;
 RubySpliter.sesame = 'ヽ';
-RubySpliter.mkEscReg = (ce) => `(?: ${ce ? `(?<txt4>\\${ce}\\S) |` : ''}
-	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)
-|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*
-	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)
-|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))
-|	(?<txt2>[^｜《》]+(?=｜\\|　))
-|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)
-)`;
+RubySpliter.mkEscReg = (ce) => `${ce ? `(?<ce>\\${ce}\\S) |` : ''}
+	｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》
+|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+ [ぁ-ヿ]* | [^　｜《》\\n])
+		《(?<kan_ruby>[^》\\n]+)》)
+|	(?<txt>
+	[\uD800-\uDBFF][\uDC00-\uDFFF]
+|	[^　｜《》]+ (?=｜)
+|	[^　｜《》]* [ぁ-ヿ] (?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)
+|	.)`;
 RubySpliter.REG_TAB_G = /\t/g;
 //# sourceMappingURL=RubySpliter.js.map

@@ -62,7 +62,6 @@ export class GrpLayer extends Layer {
 	lay(hArg: HArg): boolean {
 		const fn = hArg.fn;
 		const face = hArg.face ?? '';
-		//console.log('layer:%s page:%s fn:%s face:%s', hArg['layer'], hArg['page'], fn, face);
 		if (! fn) {
 			super.lay(hArg);
 
@@ -156,7 +155,7 @@ export class GrpLayer extends Layer {
 
 		return needLoad;
 	}
-	private static preThen = (_r: any, _res: LoaderResource, _n: Function)=> {};
+	private static preThen = (_r: any, _res: LoaderResource, next: Function)=> next();
 	private static preThen4Cripto(r: any, res: LoaderResource, next: Function): void {
 		res.data = r;
 		if (res.extension == 'bin') {

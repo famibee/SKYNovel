@@ -71,13 +71,13 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
-		it('Arg44', ()=> {
+	/*	it('Arg44', ()=> {
 			assert.equal(alz.go("sys:a=4.5"), true);
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm["sys:a"].val, "4.5");
 			assert.equal(alz.hPrm["sys:a"].def, undefined);
 			assert.equal(alz.isKomeParam, false);
-		});
+		});*/
 
 		it('Arg45', ()=> {
 			assert.equal(alz.go("a='2009'"), true);
@@ -257,15 +257,15 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg82', ()=> {
-			assert.equal(alz.go('* layer="mes" page=%page|back visible=%visible|true b_left=&l b_top=0 b_width=&w b_height=&const.flash.display.Stage.stageHeight b_color=%b_color|&0xffffff b_alpha=%b_alpha|&sys:TextLayer.Back.Alpha r_size=12 max_col=25 bura_col=2 max_row=7'), true);
+			assert.equal(alz.go('* layer="me s" page=%page|back visible=%visible|"tr ue" b_left=&l b_top=0 b_width=&w b_height=&const.flash.display.Stage.stageHeight b_color=%b_color|"0xffffff" b_alpha=%b_alpha|&sys:TextLayer.Back.Alpha r_size=12 max_col=25 bura_col=2 max_row=7'), true);
 			assert.equal(isHashEmpty(alz.hPrm), false);
 
-			assert.equal(alz.hPrm['layer'].val, "mes");
+			assert.equal(alz.hPrm['layer'].val, "me s");
 			assert.equal(alz.hPrm['layer'].def, undefined);
 			assert.equal(alz.hPrm['page'].val, "%page");
 			assert.equal(alz.hPrm['page'].def, "back");
 			assert.equal(alz.hPrm['visible'].val, "%visible");
-			assert.equal(alz.hPrm['visible'].def, "true");
+			assert.equal(alz.hPrm['visible'].def, "tr ue");
 
 			assert.equal(alz.hPrm['b_left'].val, "&l");
 			assert.equal(alz.hPrm['b_left'].def, undefined);
@@ -277,7 +277,7 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.hPrm['b_height'].def, undefined);
 
 			assert.equal(alz.hPrm['b_color'].val, "%b_color");
-			assert.equal(alz.hPrm['b_color'].def, "&0xffffff");
+			assert.equal(alz.hPrm['b_color'].def, "0xffffff");
 			assert.equal(alz.hPrm['b_alpha'].val, "%b_alpha");
 			assert.equal(alz.hPrm['b_alpha'].def, "&sys:TextLayer.Back.Alpha");
 

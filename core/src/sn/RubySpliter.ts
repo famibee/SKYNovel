@@ -40,34 +40,28 @@ export class RubySpliter {
 		RubySpliter.REG_RUBY = m_xregexp(RubySpliter.mkEscReg(ce), 'gsx');
 	}
 	private	static	mkEscReg = (ce: string)=>
-`(?: ${ce ? `(?<txt4>\\${ce}\\S) |` :''}
-	(?: ｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》)
-|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*
-	|	[^　｜》\\n⺀-⿟々〇〻㐀-鿿豈-﫿])《(?<kan_ruby>[^》\\n]+)》)
-|	(?: (?<txt>[^　｜《》]*[ぁ-ヿ])(?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《))
-|	(?<txt2>[^｜《》]+(?=｜\\|　))
-|	(?<txt3>[\uD800-\uDBFF][\uDC00-\uDFFF]|.)
-)`;
+`${ce ? `(?<ce>\\${ce}\\S) |` :''}
+	｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》
+|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+ [ぁ-ヿ]* | [^　｜《》\\n])
+		《(?<kan_ruby>[^》\\n]+)》)
+|	(?<txt>
+	[\uD800-\uDBFF][\uDC00-\uDFFF]
+|	[^　｜《》]+ (?=｜)
+|	[^　｜《》]* [ぁ-ヿ] (?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)
+|	.)`;
 
 	putTxt(text: string) {
 		let elm: any = null, pos = 0;
 		while (elm = m_xregexp.exec(text, RubySpliter.REG_RUBY, pos)) {
-			pos = elm['index'] + elm[0].length;
-			const ruby: string = elm['ruby'];
-			if (ruby) {
-				this.putTxtRb(elm['str'], ruby);
-				continue;
-			}
+			pos = elm.index + elm[0].length;
+			const ruby: string = elm.ruby;
+			if (ruby) {this.putTxtRb(elm.str, ruby); continue;}
 
-			const kan_ruby: string = elm['kan_ruby'];
-			if (kan_ruby) {
-				this.putTxtRb(elm['kan'], kan_ruby);
-				continue;
-			}
+			const kan_ruby: string = elm.kan_ruby;
+			if (kan_ruby) {this.putTxtRb(elm.kan, kan_ruby); continue;}
+			if (elm.ce) {this.putCh(elm.ce.slice(1), ''); continue}
 
-			if (elm['txt4']) {this.putCh(elm['txt4'].slice(1), ''); continue}
-
-			const txt = elm['txt'] ?? elm['txt2'] ?? elm['txt3'] ?? '';
+			const txt = elm.txt ?? '';
 			const a: string[] = Array.from(txt);
 				// txt.split('')や [...txt] はサロゲートペアで問題
 			const len = a.length;

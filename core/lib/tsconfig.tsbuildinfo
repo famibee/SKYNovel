@@ -354,15 +354,15 @@
         "signature": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370"
       },
       "../src/sn/rubyspliter.ts": {
-        "version": "4fda8762b8c7832de1e6f9b0940202433aeeaab98c654c0b9fdad275c6d9969d",
+        "version": "31e3b74395e187c329f7b5088db74fba8bceab9168c7cf231a4807beed2f8313",
         "signature": "f688d4a1be7431654afaafcde6fe37d4d254dedf720813428cc117349a7c4d65"
       },
       "../src/sn/grammar.ts": {
-        "version": "705c2bacd6c663a34d8966c426246c30b924da40c0e47d1a4f11e6bddf4afb85",
+        "version": "a8c5b3d2f1a844d1635d3f070b6b31e43a80c9e60c2d45fc0aee8076ae8f50b8",
         "signature": "e50e5231f34a3775caa717f7336465f0cf8bc4bd3d703f90cb21fb168bf6eddc"
       },
       "../src/sn/analyzetagarg.ts": {
-        "version": "5202a1be96575d4278259e08a85d99ea3a7d4ba0a1b0f2137480cec8e1c2083e",
+        "version": "599302a7db6730895286b654dfba685879e35f0c75c7c6fc7da32dc6c6db6565",
         "signature": "fc4b94f1120a2133aa927426e8a5969cf60a0f08d0e0ff29fe9b00041d406ec6"
       },
       "../../node_modules/@types/parsimmon/index.d.ts": {
@@ -386,7 +386,7 @@
         "signature": "87422792f8e91af9baba49565a99141face0e9b51bf5b22a3fc3d7f9e5e20180"
       },
       "../src/sn/grplayer.ts": {
-        "version": "55fe684b5ead8d68cede80257fa6a7086fb67dc5505b8cb67f272f1330557ad7",
+        "version": "93db3ab03e274a7ad7e8e095efd4578984bd4e57f8561cfe9f5c1fe1f56909cc",
         "signature": "8633ae56f4886bae0a5cba2fafc1b39a12d820fc9e97ad775be8a7987940fff8"
       },
       "../src/sn/txtstage.ts": {

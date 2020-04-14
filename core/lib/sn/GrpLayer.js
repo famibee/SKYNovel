@@ -285,6 +285,6 @@ GrpLayer.fncDefAllComp = (isStop) => { if (isStop)
     GrpLayer.main.resume(); };
 GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
 GrpLayer.ldrHFn = {};
-GrpLayer.preThen = (_r, _res, _n) => { };
+GrpLayer.preThen = (_r, _res, next) => next();
 GrpLayer.fn2Video = {};
 //# sourceMappingURL=GrpLayer.js.map

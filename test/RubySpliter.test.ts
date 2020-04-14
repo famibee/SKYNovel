@@ -8,8 +8,7 @@
 import assert = require('power-assert');
 
 import {RubySpliter} from '../core/src/sn/RubySpliter';
-import {HArg, IPutCh} from '../core/src/sn/CmnInterface';
-import { CmnLib } from '../core/src/sn/CmnLib';
+import {IPutCh} from '../core/src/sn/CmnInterface';
 
 context('class RubySpliter', ()=>{
 	let	rbSpl	= null;

@@ -9,10 +9,13 @@ import m_xregexp = require('xregexp');
 
 export class AnalyzeTagArg {
 	private	readonly	REG_TAGARG		= m_xregexp(
-`(?: (?<key>[^\\s=]+) \\s* = \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\2 )
-| (?<val2> [^\\s\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\5 )
-| (?<def2> [^\\s\\"\\'\\#\\|]+) ) )? )
+`(?<key>\\w+) \\s* = \\s*
+(?: (["'#]) (?<val>.*?) \\2
+| (?<val2> [^\\s|]+)
+	(?: \\| (?: (["'#]) (?<def>.*?) \\5
+	| (?<def2> \\S+) ) )? )
 | (?<literal>\\S+)`, 'gx');
+	// 【属性 = 値 | 省略値】の分析
 	go(args: string): boolean {
 		this.$hPrm = {};
 		this.$isKomeParam = false;
@@ -20,16 +23,15 @@ export class AnalyzeTagArg {
 
 		let elm: any = null, pos = 0;
 		while (elm = m_xregexp.exec(args, this.REG_TAGARG, pos)) {
-			pos = elm['index'] + elm[0].length;
-			this.$literal = elm['literal'];
+			pos = elm.index + elm[0].length;
+			this.$literal = elm.literal;
 			if (this.$literal == undefined) {
-				this.$hPrm[elm['key']] = {
-					val: (elm['val'] == undefined) ?elm['val2'] :elm['val'],
-					def: (elm['def'] == undefined) ?elm['def2'] :elm['def']
+				this.$hPrm[elm.key] = {
+					val: elm.val ?? elm.val2,
+					def: elm.def ?? elm.def2
 				};
 				continue;
 			}
-
 			if (this.$literal != '*') return false;
 
 			this.$isKomeParam = true;
@@ -40,14 +42,17 @@ export class AnalyzeTagArg {
 
 	// 上とは微妙に違って空白を許す
 	private	readonly	REG_TAGARG_VAL	= m_xregexp(
-`(?: \\s* (?: (?: ([\\"\\'\\#]) (?<val>.*?) \\1 )
-| (?<val2> [^\\"\\'\\#\\|]+) ) (?: \\| (?: (?: ([\\"\\'\\#]) (?<def>.*?) \\4 )
-| (?<def2> [^\\"\\'\\#\\|]+) ) )? )`, 'x');
+`\\s*
+(?: (["'#]) (?<val>.*?) \\1 | (?<val2> [^|]+) )
+(?: \\|
+	(?: (["'#]) (?<def>.*?) \\4 | (?<def2> .+) )
+)?`, 'x');
+	// 【値 | 省略値】の分析
 	goVal(args: string): void {
 		const elm: any = m_xregexp.exec(args, this.REG_TAGARG_VAL)
 		this.$hPrm = {
-			val: (elm['val'] == undefined) ?elm['val2'] :elm['val'],
-			def: (elm['def'] == undefined) ?elm['def2'] :elm['def']
+			val: elm.val ?? elm.val2,
+			def: elm.def ?? elm.def2
 		};
 	}
 
