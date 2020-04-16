@@ -40,6 +40,7 @@ export class RubySpliter {
 		RubySpliter.REG_RUBY = m_xregexp(RubySpliter.mkEscReg(ce), 'gsx');
 	}
 	private	static	mkEscReg = (ce: string)=>
+		// 577 match 14303 step(~10ms) 	https://regex101.com/r/YmT3m1/2
 `${ce ? `(?<ce>\\${ce}\\S) |` :''}
 	｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》
 |	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+ [ぁ-ヿ]* | [^　｜《》\\n])

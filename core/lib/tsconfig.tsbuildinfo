@@ -146,8 +146,8 @@
         "signature": "1c34b0e43358bf8453a84095248b6add54528136091788b6ab2d0290736a1a8f"
       },
       "../src/sn/cmninterface.ts": {
-        "version": "695a41be0a112b69e13d03efd2b31bba1286247f38b23f3bcfa893cddbf5ec9b",
-        "signature": "7dea45dfad053d5b0f874b9ed8b4e82f1c168cdb1ebe293a5e29f0b455aa6c24"
+        "version": "c482bcb2007b322483e65ab22b95900e4e35002cca2f11d0b400589eb25960e7",
+        "signature": "bb7783263a0a5f0c7921a4e1d0868931ee6578ae6bba551f812b33897b0743a3"
       },
       "../src/sn/sysbase.ts": {
         "version": "6e08cd25af9c20ca1390dc6e58a63e1ffcd4930540f82665113e82a6cc80f2f7",
@@ -346,32 +346,32 @@
         "signature": "60e0efa5bbf49006d29493aa7105fa2e447623e5050267eeafd214ac51de01ee"
       },
       "../src/sn/config.ts": {
-        "version": "24bc7efd83eb6e3b2029605992fc2e03776e078ad7c8f099bfc57b917dd85b5b",
-        "signature": "14803e328902dc0523c0c63636bf0849b7d6a1d617e84b97fb1a4e6dd1c03160"
+        "version": "e716da882cdfbc1c644d0b47205a37978f38e5209acc056d280fcb8c471cea04",
+        "signature": "8cd4453c1ff644be4d4e4b8c65dae5846cd1c08c06f20cb317e0c7d6c8402e20"
       },
       "../../node_modules/@types/xregexp/index.d.ts": {
         "version": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370",
         "signature": "60aff2e4476ac9f3d1b4dbdae4049fc4b8be169da0f5aa04fba40b7871ef1370"
       },
       "../src/sn/rubyspliter.ts": {
-        "version": "31e3b74395e187c329f7b5088db74fba8bceab9168c7cf231a4807beed2f8313",
+        "version": "3679746a6155c7b23a8544ca05c289e729a58f6f116d99ad18615ba9e10e4a8f",
         "signature": "f688d4a1be7431654afaafcde6fe37d4d254dedf720813428cc117349a7c4d65"
       },
       "../src/sn/grammar.ts": {
-        "version": "a8c5b3d2f1a844d1635d3f070b6b31e43a80c9e60c2d45fc0aee8076ae8f50b8",
-        "signature": "e50e5231f34a3775caa717f7336465f0cf8bc4bd3d703f90cb21fb168bf6eddc"
+        "version": "1e73dacc33121ad538ae6e564f9b9ef5bec420e0cd52ed8ee2208591932590bc",
+        "signature": "7dd1fde804e365aa91a50a78789920267898d6d33fa78a3e8bf71fa256c9a84b"
       },
       "../src/sn/analyzetagarg.ts": {
-        "version": "599302a7db6730895286b654dfba685879e35f0c75c7c6fc7da32dc6c6db6565",
-        "signature": "fc4b94f1120a2133aa927426e8a5969cf60a0f08d0e0ff29fe9b00041d406ec6"
+        "version": "a2bb3cd9aaeeca4d915d78f53fd92d5d5e2e769654b9e2f437a1797ac6350ed1",
+        "signature": "d02b0f36ed10a82605d0b1d72e57d156f6457bb1effae06b68dc0ace0e94c085"
       },
       "../../node_modules/@types/parsimmon/index.d.ts": {
         "version": "19b32dcf848f5a494e0220509b2ce6bb5f85ef8d82ed1d48d1c4c255133a2936",
         "signature": "19b32dcf848f5a494e0220509b2ce6bb5f85ef8d82ed1d48d1c4c255133a2936"
       },
       "../src/sn/propparser.ts": {
-        "version": "d65213ef7170d85602817ce896a36153be08e0e143392929b559f349dedb02bb",
-        "signature": "e3498f83c22f03608a4a4a7eccf64e6c6de5199268450c976e92e815a42e0daf"
+        "version": "601448d57f564099581bc5e87e5abf33f15cfc33efc758856b86b8613c992314",
+        "signature": "371a88afd6be9b1cef442a952608119038980e70cb130c7ae3625d7a39d06c83"
       },
       "../src/sn/callstack.ts": {
         "version": "daacb8746545892f32e05ad9161fe49fb282947619049629af6cd1f2cf1aa79d",
@@ -422,8 +422,8 @@
         "signature": "de012c9e435a209dafb9fd9e798cea80e1230ead6ba04db925c4d7166fc4fbeb"
       },
       "../src/sn/scriptiterator.ts": {
-        "version": "d573cefa5f68f88a505336cc38cad0228debd6cf99f82ded2d03ca70e409a7c4",
-        "signature": "cffeeb72595345121ff5111efce28846089877a2d2d1fe90ca47f89909798d5c"
+        "version": "60bfcc6e7021932d9c28efb150f20f52aef17011295673da53f4ca73b1c7cb21",
+        "signature": "3d24439d5a6559dce14333a05038edd2e325497447e108205c2a3ddebf5b46a3"
       },
       "../src/sn/debugmng.ts": {
         "version": "a11cb44492c1a052a00b9a318e77d03b1d4ae924ef07479bfa066d7a437cc2a7",
@@ -438,8 +438,8 @@
         "signature": "419a335325b559d4d079a73e445178e4f34c2181fe2ab6dc876d6234229cf6bc"
       },
       "../src/sn/main.ts": {
-        "version": "e8789e1fa97abfc7bb5d91c15f2ae0985407f2b06dde30ce54570f5c73e7eb14",
-        "signature": "46657d3b0610efd79b14dd9f9ed016b6402de73f7b7c0c129c91d6ddd7374e75"
+        "version": "1d30d05147ded5fb7eda97a9f56dc8873683b28cd7aac0f153a76e6db8ebca79",
+        "signature": "fbe0de010c59d3e1a632c16a1d62b1c7d9dda7f5a2b776816c30b4e4328283a2"
       },
       "../src/sn/sysapp.ts": {
         "version": "2711e8b1e82a0e8eae6185ff774687176bd811af5a4992715acd732081283230",
@@ -1372,7 +1372,6 @@
         "../src/sn/callstack.ts",
         "../src/sn/grammar.ts",
         "../src/sn/analyzetagarg.ts",
-        "../src/sn/propparser.ts",
         "../../node_modules/@types/xregexp/index.d.ts",
         "../src/sn/eventmng.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
@@ -1426,7 +1425,6 @@
         "../src/sn/layermng.ts",
         "../src/sn/eventmng.ts",
         "../src/sn/scriptiterator.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../src/sn/sysbase.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
@@ -2276,7 +2274,6 @@
         "../src/sn/config.ts",
         "../src/sn/cmninterface.ts",
         "../src/sn/analyzetagarg.ts",
-        "../src/sn/propparser.ts",
         "../src/sn/soundmng.ts",
         "../src/sn/sysbase.ts",
         "../src/sn/eventmng.ts",
@@ -2504,25 +2501,16 @@
       "../src/sn/callstack.ts",
       "../src/sn/cmntween.ts",
       "../src/sn/pages.ts",
-      "../src/sn/txtstage.ts",
+      "../src/sn/grplayer.ts",
       "../src/sn/button.ts",
-      "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
-      "../src/sn/layermng.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
-      "../src/sn/eventmng.ts",
-      "../src/sn/scriptiterator.ts",
-      "../src/sn/debugmng.ts",
       "../src/sn/areas.ts",
       "../src/sn/variable.ts",
-      "../src/sn/main.ts",
-      "../src/sn/sysapp.ts",
       "../src/app.ts",
       "../../node_modules/devtools-detect/index.d.ts",
-      "../src/sn/sysweb.ts",
       "../src/web.ts",
-      "../src/sn/sysmob.ts",
       "../../node_modules/@types/electron-json-storage/index.d.ts",
       "../../node_modules/@types/empower/index.d.ts",
       "../../node_modules/@types/minimatch/index.d.ts",
@@ -2536,7 +2524,16 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/grplayer.ts"
+      "../src/sn/scriptiterator.ts",
+      "../src/sn/main.ts",
+      "../src/sn/debugmng.ts",
+      "../src/sn/eventmng.ts",
+      "../src/sn/layermng.ts",
+      "../src/sn/txtstage.ts",
+      "../src/sn/txtlayer.ts",
+      "../src/sn/sysapp.ts",
+      "../src/sn/sysweb.ts",
+      "../src/sn/sysmob.ts"
     ]
   },
   "version": "3.8.3"

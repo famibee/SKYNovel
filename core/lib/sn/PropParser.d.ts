@@ -1,17 +1,15 @@
-import { IVariable } from './CmnInterface';
-export interface IParse {
-    (s: string): object;
-}
-export declare class PropParser {
+import { IPropParser, IVariable } from './CmnInterface';
+export declare class PropParser implements IPropParser {
     private readonly val;
     private parser;
     constructor(val: IVariable);
-    readonly parse: IParse;
+    parse(s: string): any;
     private calc;
     private hFnc;
     private fncSub_ChkNum;
     private readonly REG_EMBEDVAR;
     private procEmbedVar;
+    getValAmpersand: (val: string) => string;
     private static readonly REG_VAL;
     static getValName(arg_name: string): {
         [name: string]: string;

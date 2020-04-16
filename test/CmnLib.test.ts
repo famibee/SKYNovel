@@ -9,7 +9,7 @@ import assert = require('power-assert');
 
 import {CmnLib} from '../core/src/sn/CmnLib';
 
-context('class CmnLib & ScriptIterator & Main', ()=>{
+context('class CmnLib', ()=>{
 	let	vctToken	: string[]	= null;
 	let	vctTokenLen				= 0;
 /*	let target;

@@ -9,35 +9,39 @@ import m_xregexp = require('xregexp');
 
 export class AnalyzeTagArg {
 	private	readonly	REG_TAGARG		= m_xregexp(
-`(?<key>\\w+) \\s* = \\s*
-(?: (["'#]) (?<val>.*?) \\2
-| (?<val2> [^\\s|]+)
-	(?: \\| (?: (["'#]) (?<def>.*?) \\5
-	| (?<def2> \\S+) ) )? )
-| (?<literal>\\S+)`, 'gx');
+		// 71 match 2715 step(~2ms) https://regex101.com/r/SA3sGj/7
+`	;[^\\n]*
+|	(?<key>\\w+)
+	(?: \\s+ | ;[^\\n]*\\n)*
+	=
+	(?: \\s+ | ;[^\\n]*)*
+	(?:	(?<val> [^\\s"'#|;]+)
+	|	(["'#]) (?<val2>.*?) \\3 )
+	(?: \\|
+		(?: (?<def> [^\\s"'#;]+)
+	|	(["'#]) (?<def2>.*?) \\6 ) )?
+|	(?<literal>[^\\s;]+)`, 'gx');
 	// 【属性 = 値 | 省略値】の分析
-	go(args: string): boolean {
+	go(args: string) {
 		this.$hPrm = {};
 		this.$isKomeParam = false;
-		if (args == null) return true;	// undefined も
+		if (args == null) return;	// undefined も
 
 		let elm: any = null, pos = 0;
 		while (elm = m_xregexp.exec(args, this.REG_TAGARG, pos)) {
 			pos = elm.index + elm[0].length;
-			this.$literal = elm.literal;
-			if (this.$literal == undefined) {
+			if (elm.key) {
 				this.$hPrm[elm.key] = {
 					val: elm.val ?? elm.val2,
 					def: elm.def ?? elm.def2
 				};
 				continue;
 			}
-			if (this.$literal != '*') return false;
-
-			this.$isKomeParam = true;
+			if (elm.literal) {
+				if (elm.literal == '*') this.$isKomeParam = true;
+				else this.$hPrm[elm.literal] = {val: '1'};
+			}
 		}
-
-		return true;
 	}
 
 	// 上とは微妙に違って空白を許す
@@ -48,7 +52,7 @@ export class AnalyzeTagArg {
 	(?: (["'#]) (?<def>.*?) \\4 | (?<def2> .+) )
 )?`, 'x');
 	// 【値 | 省略値】の分析
-	goVal(args: string): void {
+	goVal(args: string) {
 		const elm: any = m_xregexp.exec(args, this.REG_TAGARG_VAL)
 		this.$hPrm = {
 			val: elm.val ?? elm.val2,
@@ -61,8 +65,5 @@ export class AnalyzeTagArg {
 
 	private	$isKomeParam	= false;
 	get isKomeParam() {return this.$isKomeParam}
-
-	private	$literal		= '';
-	get literal() {return this.$literal}
 
 }

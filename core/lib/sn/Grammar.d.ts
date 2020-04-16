@@ -14,9 +14,6 @@ export declare class Grammar {
     private hC2M;
     private REG_TOKEN_NOTXT;
     replaceScr_C2M_And_let_ml: (scr: Script, start_idx?: number) => void;
-    private readonly REG_MULTILINE_TAG;
-    private static readonly REG_MULTILINE_TAG_SPLIT;
-    cnvMultilineTag(txt: string): string;
     static splitAmpersand(token: string): object;
     static readonly REG_TAG: RegExp;
 }

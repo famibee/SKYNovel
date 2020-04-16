@@ -23,8 +23,6 @@ export declare class Main implements IMain {
     resumeByJumpOrCall(hArg: HArg): void;
     readonly stop: () => void;
     private runAnalyze;
-    private タグ解析;
-    private readonly getValAmpersand;
     readonly pauseDev: () => void;
     readonly resumeDev: () => void;
     destroy(ms_late?: number): Promise<void>;

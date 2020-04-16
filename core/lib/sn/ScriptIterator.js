@@ -10,14 +10,14 @@ const DebugMng_1 = require("./DebugMng");
 ;
 ;
 class ScriptIterator {
-    constructor(cfg, hTag, main, val, alzTagArg, runAnalyze, parse, sndMng, sys) {
+    constructor(cfg, hTag, main, val, alzTagArg, runAnalyze, prpPrs, sndMng, sys) {
         this.cfg = cfg;
         this.hTag = hTag;
         this.main = main;
         this.val = val;
         this.alzTagArg = alzTagArg;
         this.runAnalyze = runAnalyze;
-        this.parse = parse;
+        this.prpPrs = prpPrs;
         this.sndMng = sndMng;
         this.sys = sys;
         this.script = { aToken: [''], len: 1, aLNum: [1] };
@@ -53,8 +53,7 @@ class ScriptIterator {
                 if (!this.REG_WILDCARD.test(token))
                     continue;
                 const a_tag = m_xregexp.exec(token, Grammar_1.Grammar.REG_TAG);
-                if (!this.alzTagArg.go(a_tag['args']))
-                    continue;
+                this.alzTagArg.go(a_tag['args']);
                 const p_fn = this.alzTagArg.hPrm['fn'];
                 if (!p_fn)
                     continue;
@@ -106,19 +105,74 @@ class ScriptIterator {
     }
     get scriptFn() { return this.scriptFn_; }
     ;
-    get idxToken() { return this.idxToken_; }
-    ;
     subIdxToken() { --this.idxToken_; }
     ;
     get lineNum() { return this.lineNum_; }
-    get now_token() { return this.script.aToken[this.idxToken_ - 1]; }
-    ;
-    get isEmptyCallStk() { return this.aCallStk.length == 0; }
-    ;
     get lenCallStk() { return this.aCallStk.length; }
     ;
     get lastHArg() { return this.aCallStk[this.lenCallStk - 1].hArg; }
     ;
+    タグ解析(tagToken) {
+        const a_tag = m_xregexp.exec(tagToken, Grammar_1.Grammar.REG_TAG);
+        if (a_tag == null)
+            throw 'タグ記述【' + tagToken + '】異常です(タグ解析)';
+        const tag_name = a_tag['name'];
+        const tag_fnc = this.hTag[tag_name];
+        if (tag_fnc == null)
+            throw '未定義のタグ【' + tag_name + '】です';
+        this.alzTagArg.go(a_tag['args']);
+        if (this.cfg.oCfg.debug.tag)
+            console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
+        if (this.alzTagArg.hPrm['cond']) {
+            const cond = this.alzTagArg.hPrm['cond'].val;
+            if (cond.charAt(0) == '&')
+                throw '属性condは「&」が不要です';
+            const p = this.prpPrs.parse(cond);
+            const ps = String(p);
+            if (ps == 'null' || ps == 'undefined')
+                return false;
+            if (!p)
+                return false;
+        }
+        let hArg = {};
+        if (this.alzTagArg.isKomeParam) {
+            if (this.aCallStk.length == 0)
+                throw '属性「*」はマクロのみ有効です';
+            const hArgDef = this.lastHArg;
+            if (!hArgDef)
+                throw '属性「*」はマクロのみ有効です';
+            for (const k in hArgDef)
+                hArg[k] = hArgDef[k];
+        }
+        hArg['タグ名'] = tag_name;
+        for (const k in this.alzTagArg.hPrm) {
+            let v = this.alzTagArg.hPrm[k].val;
+            if (v.charAt(0) == '%') {
+                if (this.aCallStk.length == 0)
+                    throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
+                const mac = this.lastHArg[v.slice(1)];
+                if (mac) {
+                    hArg[k] = mac;
+                    continue;
+                }
+                v = this.alzTagArg.hPrm[k].def;
+                if (!v || v == 'null')
+                    continue;
+            }
+            v = this.prpPrs.getValAmpersand(v);
+            if (v != 'undefined') {
+                hArg[k] = v;
+                continue;
+            }
+            const def = this.alzTagArg.hPrm[k].def;
+            if (def == null)
+                continue;
+            v = this.prpPrs.getValAmpersand(def);
+            if (v != 'undefined')
+                hArg[k] = v;
+        }
+        return tag_fnc(hArg);
+    }
     setOtherObj(evtMng, layMng) {
         this.evtMng = evtMng;
         this.layMng = layMng;
@@ -262,7 +316,7 @@ class ScriptIterator {
         if (exp.charAt(0) == '&')
             throw '属性expは「&」が不要です';
         let cntDepth = 0;
-        let idxGo = this.parse(exp) ? this.idxToken_ : -1;
+        let idxGo = this.prpPrs.parse(exp) ? this.idxToken_ : -1;
         for (; this.idxToken_ < this.script.len; ++this.idxToken_) {
             if (!this.script.aLNum[this.idxToken_])
                 this.script.aLNum[this.idxToken_] = this.lineNum_;
@@ -282,8 +336,7 @@ class ScriptIterator {
             const tag_name = a_tag['name'];
             if (!(tag_name in this.hTag))
                 throw '未定義のタグ[' + tag_name + ']です';
-            if (!this.alzTagArg.go(a_tag['args']))
-                throw '属性「' + this.alzTagArg.literal + '」は異常です';
+            this.alzTagArg.go(a_tag['args']);
             switch (tag_name) {
                 case 'if':
                     ++cntDepth;
@@ -296,7 +349,7 @@ class ScriptIterator {
                     const e = this.alzTagArg.hPrm['exp'].val;
                     if (e.charAt() == '&')
                         throw '属性expは「&」が不要です';
-                    if (this.parse(e))
+                    if (this.prpPrs.parse(e))
                         idxGo = this.idxToken_ + 1;
                     break;
                 case 'else':
@@ -552,10 +605,10 @@ class ScriptIterator {
         throw 'Dummy';
     }
     resolveScript(txt) {
-        txt = txt.replace(/(\r\n|\r)/g, '\n');
-        const v = this.grm.cnvMultilineTag(txt).match(this.grm.REG_TOKEN);
-        if (!v)
-            throw 'CmnLib.cnvMultilineTag fail';
+        var _a;
+        const v = (_a = txt
+            .replace(/(\r\n|\r)/g, '\n')
+            .match(this.grm.REG_TOKEN)) !== null && _a !== void 0 ? _a : [];
         for (let i = v.length - 1; i >= 0; --i) {
             const e = v[i];
             this.REG_TAG_LET_ML.lastIndex = 0;
@@ -632,7 +685,7 @@ class ScriptIterator {
     }
     get isNextKidoku() {
         let fn = this.scriptFn;
-        let idx = this.idxToken;
+        let idx = this.idxToken_;
         let len = this.script.len;
         if (this.aCallStk.length > 0) {
             const cs = this.aCallStk[0];
@@ -776,7 +829,7 @@ class ScriptIterator {
             return false;
         if (this.aCallStk.length == 0) {
             this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
-            this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.idxToken);
+            this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.idxToken_);
         }
         else {
             this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.aCallStk[0].fn);

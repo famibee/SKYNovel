@@ -43,6 +43,7 @@ class Config {
         this.getJsonSearchPath = () => JSON.stringify(this.hPathFn2Exts);
         this.$existsBreakline = false;
         this.$existsBreakpage = false;
+        this.regPath = /([^\/\s]+)\.([^\d]\w+)/;
         const load = (oCfg) => {
             var _a, _b, _c, _d, _e, _f, _g, _h, _j;
             this.oCfg.save_ns = (_a = oCfg === null || oCfg === void 0 ? void 0 : oCfg.save_ns) !== null && _a !== void 0 ? _a : this.oCfg.save_ns;
@@ -97,45 +98,44 @@ class Config {
     get existsBreakline() { return this.$existsBreakline; }
     get existsBreakpage() { return this.$existsBreakpage; }
     getNs() { return `skynovel.${this.oCfg.save_ns} - `; }
-    searchPath(fn, extptn = '') {
-        if (!fn)
+    searchPath(path, extptn = '') {
+        if (!path)
             throw '[searchPath] fnが空です';
-        if (fn.substr(0, 7) == 'http://')
-            return fn;
-        if (fn.substr(0, 9) == 'desktop:/') {
-            return this.sys.path_desktop + fn.slice(9);
+        if (path.substr(0, 7) == 'http://')
+            return path;
+        if (path.substr(0, 9) == 'desktop:/') {
+            return this.sys.path_desktop + path.slice(9);
         }
-        if (fn.substr(0, 10) == 'userdata:/') {
-            return this.sys.path_userdata + fn.slice(10);
+        if (path.substr(0, 10) == 'userdata:/') {
+            return this.sys.path_userdata + path.slice(10);
         }
-        const a = {
-            fn: CmnLib_1.CmnLib.getFn(fn),
-            ext: CmnLib_1.CmnLib.getExt(fn)
-        };
+        const a = path.match(this.regPath);
+        let fn = a ? a[1] : path;
+        const ext = a ? a[2] : '';
         if (this.userFnTail) {
-            const utn = a.fn + '@@' + this.userFnTail;
+            const utn = fn + '@@' + this.userFnTail;
             if (utn in this.hPathFn2Exts) {
                 if (extptn == '')
-                    a.fn = utn;
+                    fn = utn;
                 else
                     for (let e3 in this.hPathFn2Exts[utn]) {
                         if (`|${extptn}|`.indexOf(`|${e3}|`) == -1)
                             continue;
-                        a.fn = utn;
+                        fn = utn;
                         break;
                     }
             }
         }
-        const h_exts = this.hPathFn2Exts[a.fn];
+        const h_exts = this.hPathFn2Exts[fn];
         if (!h_exts)
-            throw `サーチパスに存在しないファイル【${fn}】です`;
+            throw `サーチパスに存在しないファイル【${path}】です`;
         let ret = '';
-        if (!a.ext) {
+        if (!ext) {
             const hcnt = CmnLib_1.int(h_exts[':cnt']);
             if (extptn == '') {
                 if (hcnt > 1)
-                    throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
-                return fn;
+                    throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
+                return path;
             }
             const search_exts = `|${extptn}|`;
             if (hcnt > 1) {
@@ -144,7 +144,7 @@ class Config {
                     if (search_exts.indexOf(`|${e2}|`) == -1)
                         continue;
                     if (++cnt > 1)
-                        throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
+                        throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
                 }
             }
             for (let e in h_exts) {
@@ -152,17 +152,17 @@ class Config {
                     continue;
                 return h_exts[e];
             }
-            throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${fn}】`;
+            throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${path}】`;
         }
         if (extptn != '') {
             const search_exts2 = `|${extptn}|`;
-            if (search_exts2.indexOf(`|${a.ext}|`) == -1) {
-                throw `指定ファイルの拡張子【${a.ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${fn}】`;
+            if (search_exts2.indexOf(`|${ext}|`) == -1) {
+                throw `指定ファイルの拡張子【${ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${path}】`;
             }
         }
-        ret = h_exts[a.ext];
+        ret = h_exts[ext];
         if (!ret)
-            throw `サーチパスに存在しない拡張子【${a.ext}】です。探索ファイル名=【${fn}】、サーチ対象拡張子群【${extptn}】`;
+            throw `サーチパスに存在しない拡張子【${ext}】です。探索ファイル名=【${path}】、サーチ対象拡張子群【${extptn}】`;
         return ret;
     }
     matchPath(fnptn, extptn = '') {

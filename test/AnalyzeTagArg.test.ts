@@ -16,7 +16,7 @@ context('class AnalyzeTagArg', ()=>{
 	});
 	describe('Tst', ()=> {
 		it('Arg0', ()=> {
-			assert.equal(alz.go(""), true);
+			alz.go("");
 			assert.equal(isHashEmpty(alz.hPrm), true);
 			assert.equal(alz.isKomeParam, false);
 		});
@@ -26,53 +26,54 @@ context('class AnalyzeTagArg', ()=>{
 				return c == 0;
 			}
 		it('Arg1', ()=>{
-			assert.equal(alz.go("8"), false);
-			assert.equal(alz.literal, "8");
+			alz.go("8");
+			assert.equal(alz.hPrm['8'].val, true);
+			assert.equal(alz.hPrm['8'].def, undefined);
 		});
 
 
 		it('Arg20', ()=> {
-			assert.equal(alz.go("*"), true);
+			alz.go("*");
 			assert.equal(isHashEmpty(alz.hPrm), true);
 			assert.equal(alz.isKomeParam, true);
 		});
 		it('Arg21', ()=> {
-			assert.equal(alz.go("* "), true);
+			alz.go("* ");
 			assert.equal(isHashEmpty(alz.hPrm), true);
 			assert.equal(alz.isKomeParam, true);
 		});
 
 
 		it('Arg40', ()=> {
-			assert.equal(alz.go("a=3"), true);
+			alz.go("a=3");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "3");
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg41', ()=> {
-			assert.equal(alz.go("a =3"), true);
+			alz.go("a =3");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "3");
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg42', ()=> {
-			assert.equal(alz.go("a= 3"), true);
+			alz.go("a= 3");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "3");
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg43', ()=> {
-			assert.equal(alz.go("a = 3"), true);
+			alz.go("a = 3");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "3");
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 	/*	it('Arg44', ()=> {
-			assert.equal(alz.go("sys:a=4.5"), true);
+			"sys:a=4.5");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm["sys:a"].val, "4.5");
 			assert.equal(alz.hPrm["sys:a"].def, undefined);
@@ -80,21 +81,21 @@ context('class AnalyzeTagArg', ()=>{
 		});*/
 
 		it('Arg45', ()=> {
-			assert.equal(alz.go("a='2009'"), true);
+			alz.go("a='2009'");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "2009");
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg46', ()=> {
-			assert.equal(alz.go('a="2009"'), true);
+			alz.go('a="2009"');
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "2009");
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg47', ()=> {
-			assert.equal(alz.go("a=#2009#"), true);
+			alz.go("a=#2009#");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "2009");
 			assert.equal(alz.hPrm['a'].def, undefined);
@@ -102,7 +103,7 @@ context('class AnalyzeTagArg', ()=>{
 		});
 
 		it('Arg50', ()=> {
-			assert.equal(alz.go(' name="_submenu.png" visible=false'), true);
+			alz.go(' name="_submenu.png" visible=false');
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['name'].val, "_submenu.png");
 			assert.equal(alz.hPrm['name'].def, undefined);
@@ -113,28 +114,28 @@ context('class AnalyzeTagArg', ()=>{
 
 
 		it('Arg60', ()=> {
-			assert.equal(alz.go("a=%bar"), true);
+			alz.go("a=%bar");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "%bar");
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg61', ()=> {
-			assert.equal(alz.go("a=%bar|ref"), true);
+			alz.go("a=%bar|ref");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "%bar");
 			assert.equal(alz.hPrm['a'].def, "ref");
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg62', ()=> {
-			assert.equal(alz.go("a=%bar|'うひょー'"), true);
+			alz.go("a=%bar|'うひょー'");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "%bar");
 			assert.equal(alz.hPrm['a'].def, "うひょー");
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg63', ()=> {
-			assert.equal(alz.go("a=%bar|'う ひょー'"), true);
+			alz.go("a=%bar|'う ひょー'");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "%bar");
 			assert.equal(alz.hPrm['a'].def, "う ひょー");
@@ -210,14 +211,14 @@ context('class AnalyzeTagArg', ()=>{
 		});
 
 		it('Arg44_bug0', ()=> {
-			assert.equal(alz.go("text=&sys:_album.img.渡り廊下・桜昼"), true);
+			alz.go("text=&sys:_album.img.渡り廊下・桜昼");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm["text"].val, "&sys:_album.img.渡り廊下・桜昼");
 			assert.equal(alz.hPrm["text"].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg44_bug1', ()=> {
-			assert.equal(alz.go('* x=0 y=1 pic="渡り廊下・桜昼" cond=sys:_album.img.渡り廊下・桜昼'), true);
+			alz.go('* x=0 y=1 pic="渡り廊下・桜昼" cond=sys:_album.img.渡り廊下・桜昼');
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['x'].val, "0");
 			assert.equal(alz.hPrm['x'].def, undefined);
@@ -230,7 +231,7 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.isKomeParam, true);
 		});
 		it('Arg50_bug0', ()=> {
-			assert.equal(alz.go('text=&-const.sn.config.window.width'), true);
+			alz.go('text=&-const.sn.config.window.width');
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['text'].val, "&-const.sn.config.window.width");
 			assert.equal(alz.hPrm['text'].def, undefined);
@@ -239,7 +240,7 @@ context('class AnalyzeTagArg', ()=>{
 
 
 		it('Arg80', ()=> {
-			assert.equal(alz.go("a=3 b='1327' "), true);
+			alz.go("a=3 b='1327' ");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['a'].val, "3");
 			assert.equal(alz.hPrm['a'].def, undefined);
@@ -248,7 +249,7 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg81', ()=> {
-			assert.equal(alz.go('name="fcol" text=%fcol|&0x000000'), true);
+			alz.go('name="fcol" text=%fcol|&0x000000');
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['name'].val, "fcol");
 			assert.equal(alz.hPrm['name'].def, undefined);
@@ -257,7 +258,7 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.isKomeParam, false);
 		});
 		it('Arg82', ()=> {
-			assert.equal(alz.go('* layer="me s" page=%page|back visible=%visible|"tr ue" b_left=&l b_top=0 b_width=&w b_height=&const.flash.display.Stage.stageHeight b_color=%b_color|"0xffffff" b_alpha=%b_alpha|&sys:TextLayer.Back.Alpha r_size=12 max_col=25 bura_col=2 max_row=7'), true);
+			alz.go('* layer="me s" page=%page|back visible=%visible|"tr ue" b_left=&l b_top=0 b_width=&w b_height=&const.flash.display.Stage.stageHeight b_color=%b_color|"0xffffff" b_alpha=%b_alpha|&sys:TextLayer.Back.Alpha r_size=12 max_col=25 bura_col=2 max_row=7');
 			assert.equal(isHashEmpty(alz.hPrm), false);
 
 			assert.equal(alz.hPrm['layer'].val, "me s");
@@ -293,10 +294,80 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.isKomeParam, true);
 		});
 		it('Arg83', ()=> {
-			assert.equal(alz.go("layout=#&'" + 'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"' + "'#"), true);
+			alz.go("layout=#&'" + 'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"' + "'#");
 			assert.equal(isHashEmpty(alz.hPrm), false);
 			assert.equal(alz.hPrm['layout'].val, "&'" + 'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"' + "'");
 			assert.equal(alz.hPrm['layout'].def, undefined);
+			assert.equal(alz.isKomeParam, false);
+		});
+
+
+		it('20200416_test_multiline_arg0', ()=> {
+			alz.go(
+`	page=fore	;===
+	text="]"
+
+	layer=mes
+class=txt
+		abc
+		def	;=====
+		ghi;=====
+		jkl
+	=
+		'color="0xaaaaaa"'
+;`);
+			assert.equal(isHashEmpty(alz.hPrm), false);
+
+			assert.equal(alz.hPrm['layer'].val, `mes`);
+			assert.equal(alz.hPrm['layer'].def, undefined);
+			assert.equal(alz.hPrm['page'].val, 'fore');
+			assert.equal(alz.hPrm['page'].def, undefined);
+			assert.equal(alz.hPrm['text'].val, `]`);
+			assert.equal(alz.hPrm['text'].def, undefined);
+			assert.equal(alz.hPrm['class'].val, `txt`);
+			assert.equal(alz.hPrm['class'].def, undefined);
+			assert.equal(alz.hPrm['abc'].val, true);
+			assert.equal(alz.hPrm['abc'].def, undefined);
+			assert.equal(alz.hPrm['def'].val, true);
+			assert.equal(alz.hPrm['def'].def, undefined);
+			assert.equal(alz.hPrm['ghi'].val, true);
+			assert.equal(alz.hPrm['ghi'].def, undefined);
+			assert.equal(alz.hPrm['jkl'].val, `color="0xaaaaaa"`);
+			assert.equal(alz.hPrm['jkl'].def, undefined);
+
+			assert.equal(alz.isKomeParam, false);
+		});
+		it('20200416_test_multiline_arg1', ()=> {
+			alz.go(
+`	;=====
+	layer=mes	;=====
+class=txt	;======
+	;=====
+		layout;=====
+	=	;"""""
+'color="0xaaaaaa"'	;=====
+text=%fcol|&0x000000;=====
+txt=%fcol|'&0x000000';=====
+a='2009';=====
+b='#{fcol}'|true;=====`);
+console.log(`fn:AnalyzeTagArg.test.ts line:347 alz.hPrm:%o`, alz.hPrm);
+			assert.equal(isHashEmpty(alz.hPrm), false);
+
+			assert.equal(alz.hPrm['layer'].val, `mes`);
+			assert.equal(alz.hPrm['layer'].def, undefined);
+			assert.equal(alz.hPrm['class'].val, `txt`);
+			assert.equal(alz.hPrm['class'].def, undefined);
+			assert.equal(alz.hPrm['layout'].val, `color="0xaaaaaa"`);
+			assert.equal(alz.hPrm['layout'].def, undefined);
+			assert.equal(alz.hPrm['text'].val, `%fcol`);
+			assert.equal(alz.hPrm['text'].def, `&0x000000`);
+			assert.equal(alz.hPrm['txt'].val, `%fcol`);
+			assert.equal(alz.hPrm['txt'].def, `&0x000000`);
+			assert.equal(alz.hPrm['a'].val, `2009`);
+			assert.equal(alz.hPrm['a'].def, undefined);
+			assert.equal(alz.hPrm['b'].val, `#{fcol}`);
+			assert.equal(alz.hPrm['b'].def, `true`);
+
 			assert.equal(alz.isKomeParam, false);
 		});
 

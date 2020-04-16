@@ -8,14 +8,12 @@
 import P = require('parsimmon');
 import m_xregexp = require('xregexp');
 import {trim, int} from './CmnLib';
-import {IVariable} from './CmnInterface';
-
-export interface IParse { (s: string): object; }
+import {IPropParser, IVariable} from './CmnInterface';
 
 interface IFncCalc { (a: any[]): any;}
 interface IHFncCalc { [key: string]: IFncCalc; }
 
-export class PropParser {
+export class PropParser implements IPropParser {
 	private parser: any = null;
 
 	constructor(private readonly val: IVariable) {
@@ -153,7 +151,7 @@ export class PropParser {
 		this.parser = tableParser.trim(P.optWhitespace);
 	}
 
-	readonly parse: IParse =s=> {
+	parse(s: string): any {
 		//console.log("🌱 Parsimmon'%s'", s);
 		const p = this.parser.parse(s);
 		if (! p.status) throw Error('(PropParser)文法エラー【'+ s +'】');
@@ -305,19 +303,26 @@ export class PropParser {
 
 	private	readonly REG_EMBEDVAR
 		= /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
-	private procEmbedVar(b: object): object {
+	private procEmbedVar(b: object): any {
 		if (b == null) return b;	// undefined も
 
-		return Object( String(b).replace(this.REG_EMBEDVAR, ($0): string=>{
-			return Object(($0.charAt(0) == '$')
-				? this.val.getVal($0.slice(1))
-				: this.parse($0.slice(2, -1)));
-		}) );
+		return String(b).replace(this.REG_EMBEDVAR, v=> {
+			return (v.charAt(0) == '$')
+				? this.val.getVal(v.slice(1))
+				: this.parse(v.slice(2, -1));
+		});
 	}
+
+
+	getValAmpersand = (val: string)=> (val.charAt(0) == '&')
+		? String(this.parse(val.substr(1)))
+		: val;
 
 
 	private	static	readonly	REG_VAL
 		= m_xregexp('^((?<scope>\\w+?):)?(?<name>[^\\s :@]+)(?<at>\\@str)?$');
+		// 522 match 18413 step(~10ms) https://regex101.com/r/tmCKuE/1
+			// →これは改良しようがない。いい意味で改善の余地なし
 	static	getValName(arg_name: string): {[name: string]: string} | undefined {
 		const a: any = m_xregexp.exec(trim(arg_name), this.REG_VAL);
 		if (! a) return undefined;

@@ -13,8 +13,9 @@ import m_xregexp = require('xregexp');
 export class Grammar {
 	constructor() {this.setEscape('');}
 
-	REG_TOKEN	: RegExp;	// テスト用にpublic
+	REG_TOKEN	: RegExp;
 	private	mkEscape(ce: string) {return m_xregexp(
+			// 1059 match 13935 step (8ms) https://regex101.com/r/ygXx16/6
 		(ce	?`\\${ce}\\S |` :'')+	// エスケープシーケンス
 		'	\\n+'+			// 改行
 		'|	\\t+'+			// タブ
@@ -24,7 +25,7 @@ export class Grammar {
 		//		`| (?<= \\[let_ml \\s+ [^\\[\\]]+ \\])`+
 			// iOS、過ぎ去った前を見る肯定後読み「(?<=」使えない。エラーになるので
 			// Electronも？
-		`|	\\[ (?: (["'#]) .*? \\1 | [^"'#\\]]+ ) *? \\]`+	// タグ
+		`|	\\[ (?: [^"'#;\\]]+ | (["'#]) .*? \\1 | ;[^\\n]* ) *? ]`+	// タグ
 		'|	;[^\\n]*'+		// コメント
 		'|	&[^&\\n]+&'+	// ＆表示＆
 		'|	&&?[^;\\n\\t&]+'+// ＆代入
@@ -130,43 +131,6 @@ export class Grammar {
 	}
 
 
-	private	readonly	REG_MULTILINE_TAG	= m_xregexp(
-	`\\[
-		([^\\n\\]]+ \\n
-			(?:
-				(["'#]) .*? \\2
-			|	[^\\[\\]]
-			)*
-		)
-	\\]
-|	;[^\\n]+`
-		, 'gx');
-	private	static	readonly	REG_MULTILINE_TAG_SPLIT	= m_xregexp(
-		`((["'#]).*?\\2|;.*\\n|\\n+|[^\\n"'#;]+)`, 'g');
-	cnvMultilineTag(txt: string): string {	// テスト用にpublic
-		return txt.replace(
-			this.REG_MULTILINE_TAG,
-			function (): string {
-				if (arguments[0].charAt(0) == ';') return arguments[0];
-
-				let fore = '';
-				let back = '';
-				for (const v of arguments[1].match(Grammar.REG_MULTILINE_TAG_SPLIT)) {
-					switch (v.substr(-1)) {
-						case '\n':	back += v;	break;
-						case `"`:
-						case `'`:
-						case `#`:	fore += v;	break;
-						default:	fore += ' '+ trim(v);	break;
-					}
-				}
-
-				return '['+ trim(fore.slice(1)) +']'+ back;
-			}
-		);
-	}
-
-
 	static	splitAmpersand(token: string): object {	// テスト用にpublic
 		const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
 			// != を弾けないので中途半端ではある
@@ -180,7 +144,10 @@ export class Grammar {
 		};
 	}
 
-	// テスト用にpublic
-	static	readonly	REG_TAG	= m_xregexp(`^\\[ (?<name>\\S*) (\\s+ (?<args>.+) )? ]$`, 'x');
+	static	readonly	REG_TAG	= m_xregexp(
+		// 46 match 945 step (0ms) https://regex101.com/r/TKk1Iz/3
+`\\[ (?<name>[^\\]\\s]+) \\s*
+	(?<args> (?: [^"'#\\]]+ | (["'#]) .*? \\3 )*?)
+]`, 'x');
 
 }

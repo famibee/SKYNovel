@@ -18,7 +18,6 @@ import {LayerMng} from './LayerMng';
 import {EventMng} from './EventMng';
 import {ScriptIterator} from './ScriptIterator';
 
-import m_xregexp = require('xregexp');
 import {SysBase} from './SysBase';
 import {Application, utils} from 'pixi.js';
 
@@ -78,7 +77,7 @@ export class Main implements IMain {
 			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
 
 			// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs.parse, this.sndMng, this.sys);
+			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
 
 			// デバッグ・その他
 			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);
@@ -158,7 +157,8 @@ export class Main implements IMain {
 			// [ タグ開始
 			if (uc == 91) {
 				try {
-					if (this.タグ解析(token)) {this.stop(); break;} else continue;
+					if (this.scrItr.タグ解析(token)) {this.stop(); break;}
+					continue;
 				}
 				catch (err) {
 					let mes = '';
@@ -182,7 +182,7 @@ export class Main implements IMain {
 					if (token.substr(-1) != '&') {//変数操作
 						//変数計算
 						const o: any = Grammar.splitAmpersand(token.slice(1));
-						o.name = this.getValAmpersand(o.name);
+						o.name = this.prpPrs.getValAmpersand(o.name);
 						o.text = String(this.prpPrs.parse(o.text));
 						this.hTag.let(o);
 						continue;
@@ -231,56 +231,6 @@ export class Main implements IMain {
 //		if (CmnLib.debugLog) console.log('🍵 waiting...');
 	}
 
-
-	// result = true : waitする  resume()で再開
-	private タグ解析(tagToken: string): boolean {
-		const a_tag: any = m_xregexp.exec(tagToken, Grammar.REG_TAG);
-		if (a_tag == null) throw 'タグ記述['+ tagToken +']異常です(タグ解析)';
-
-		const tag_name = a_tag['name'];
-		const tag_fnc = this.hTag[tag_name];
-		if (tag_fnc == null) throw '未定義のタグ['+ tag_name +']です';
-
-		if (! this.alzTagArg.go(a_tag['args'])) throw '属性「'+ this.alzTagArg.literal +'」は異常です';
-		if (this.cfg.oCfg.debug.tag) console.log(`🌲 タグ解析 fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
-
-		if (this.alzTagArg.hPrm['cond']) {
-			const cond = this.alzTagArg.hPrm['cond'].val;
-			if (cond.charAt(0) == '&') throw '属性condは「&」が不要です';
-			const p = this.prpPrs.parse(cond);
-			const ps = String(p);
-			if (ps == 'null' || ps == 'undefined') return false;
-			if (! p) return false;
-		}
-
-		const hArg: any = {タグ名: tag_name};
-		if (this.alzTagArg.isKomeParam) {
-			if (this.scrItr.isEmptyCallStk) throw '属性「*」はマクロのみ有効です';
-			const hArgDef = this.scrItr.lastHArg;
-			if (! hArgDef) throw '属性「*」はマクロのみ有効です';
-			for (const k in hArgDef) hArg[k] = hArgDef[k];
-		}
-
-		for (const k in this.alzTagArg.hPrm) {
-			let v = this.alzTagArg.hPrm[k].val;
-			if (v.charAt(0) == '%') {
-				if (this.scrItr.isEmptyCallStk) throw '属性「%」はマクロのみ有効です';
-				v = this.scrItr.lastHArg[v.substr(1)];
-			}
-			else v = this.getValAmpersand(v);
-			if (v) {hArg[k] = v; continue;}
-
-			v = this.getValAmpersand(this.alzTagArg.hPrm[k].def ?? 'null');
-			if (! v || v == 'null') continue;
-				// defのnull指定。%指定が無い場合、タグやマクロに属性を渡さない
-			hArg[k] = v;
-		}
-
-		return tag_fnc(hArg);
-	}
-	private readonly getValAmpersand = (val: string)=> (val.charAt(0) == '&')
-		? String(this.prpPrs.parse(val.substr(1)))
-		: val;
 
 	readonly pauseDev = ()=> this.appPixi.stop();
 	readonly resumeDev = ()=> this.appPixi.start();

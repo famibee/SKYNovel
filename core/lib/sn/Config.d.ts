@@ -17,6 +17,7 @@ export declare class Config implements IConfig {
     private $existsBreakpage;
     get existsBreakpage(): boolean;
     getNs(): string;
-    searchPath(fn: string, extptn?: string): string;
+    private readonly regPath;
+    searchPath(path: string, extptn?: string): string;
     matchPath(fnptn: string, extptn?: string): ReadonlyArray<IExts>;
 }

@@ -152,6 +152,13 @@ export interface Script {
 };
 
 
+// =============== PropParser
+export interface IPropParser {
+	parse(s: string): any;
+	getValAmpersand(val: string): string;
+}
+
+
 // =============== Plugin
 export interface IPluginInitArg {
 	addTag(tag_name: string, tag_fnc: ITag): void;
@@ -230,7 +237,7 @@ export interface IVariable {
 	flush(): void;
 	setDoRecProc(doRecProc: (doRec: boolean)=> void): void;
 
-	getVal(arg_name: string, def?: number | string): object;
+	getVal(arg_name: string, def?: number | string): any;
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
 
 	defTmp(name: string, fnc: typeProcVal): void;

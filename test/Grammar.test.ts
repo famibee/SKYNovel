@@ -759,53 +759,70 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 
 		it('test_multiline_tag_nochg0', ()=> {
 			const sScr = '[r]';
-			assert.equal(grm.cnvMultilineTag(sScr), sScr);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
 		});
 		it('test_multiline_tag_nochg1', ()=> {
 			const sScr = '[ch]';
-			assert.equal(grm.cnvMultilineTag(sScr), sScr);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
 		});
 		it('test_multiline_tag0', ()=> {
 			const sScr =
 `[r
 ]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[r]
-`);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
 		});
 		it('test_multiline_tag1', ()=> {
 			const sScr =
 `[ch
 ]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[ch]
-`);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
 		});
 		it('test_multiline_tag10', ()=> {
 			const sScr =
 `[r
 a= 0]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[r a= 0]
-`);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
 		});
 		it('test_multiline_tag11', ()=> {
 			const sScr =
 `[ch
 ;===
 text=""]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[ch text=""]
-;===
-`);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
 		});
 		it('test_multiline_tag12', ()=> {
 			const sScr =
 `[ch
 ]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[ch]
-`);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
 		});
 		it('test_multiline_tag20', ()=> {
 			const sScr =
@@ -814,55 +831,84 @@ text=""]`;
 a= 0]ん[r]こ[ch
 ;===
 text=""]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[r]
-あ[r a= 0]
-ん[r]こ[ch text=""]
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 7);
+			assert.equal(vctToken[0],
+`[r
+]`);
+			assert.equal(vctToken[1], 'あ');
+			assert.equal(vctToken[2],
+`[r
+a= 0]`);
+			assert.equal(vctToken[3], `ん`);
+			assert.equal(vctToken[4], `[r]`);
+			assert.equal(vctToken[5], `こ`);
+			assert.equal(vctToken[6],
+`[ch
 ;===
-`
-			);
+text=""]`);
 		});
 		it('test_multiline_tag21', ()=> {
 			const sScr =
 `こ[ch
 	page=fore\t;===
 	text=""]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`こ[ch page=fore text=""]
-;===
-`
-			);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 2);
+			assert.equal(vctToken[0], `こ`);
+			assert.equal(vctToken[1],
+`[ch
+	page=fore\t;===
+	text=""]`);
 		});
 		it('test_multiline_tag_bug120904', ()=> {
 			const sScr =
 `; [hoge
 [s]
 [trace text="error"]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-				sScr
-			);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 5);
+			assert.equal(vctToken[0], `; [hoge`);
+			assert.equal(vctToken[1], '\n');
+			assert.equal(vctToken[2], `[s]`);
+			assert.equal(vctToken[3], '\n');
+			assert.equal(vctToken[4], `[trace text="error"]`);
 		});
 		it('test_multiline_tag_bug120904_2', ()=> {
 			const sScr =
 `め[ch
 	page=fore\t;===
 	text="["]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`め[ch page=fore text="["]
-;===
-`
-			);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 2);
+			assert.equal(vctToken[0], `め`);
+			assert.equal(vctToken[1],
+`[ch
+	page=fore\t;===
+	text="["]`);
 		});
 		it('test_multiline_tag_bug120904_3', ()=> {
 			const sScr =
 `め[ch
 	page=fore\t;===
 	text="]"]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`め[ch page=fore text="]"]
-;===
-`
-			);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 2);
+			assert.equal(vctToken[0], `め`);
+			assert.equal(vctToken[1],
+`[ch
+	page=fore\t;===
+	text="]"]`);
 		});
 		it('test_multiline_tag_bug140108', ()=> {
 			const sScr =
@@ -873,11 +919,22 @@ text=""]`;
 ;	[lay pos=&pos.l	等として使用。
 ;	組み込みで「c」という指定が出来る。例：pos=c、pos="c"
 [let name="pos.l" text="140"]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-				sScr
-			);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 9);
+			assert.equal(vctToken[0],
+`[let name="sysse_ok1" text="BurstB_11"]`);
+			assert.equal(vctToken[1], '\n\n\n');
+			assert.equal(vctToken[2], '; 立ち絵配置位置定数');
+			assert.equal(vctToken[3], '\n');
+			assert.equal(vctToken[4], ';	[lay pos=&pos.l	等として使用。');
+			assert.equal(vctToken[5], '\n');
+			assert.equal(vctToken[6], ';	組み込みで「c」という指定が出来る。例：pos=c、pos="c"');
+			assert.equal(vctToken[7], '\n');
+			assert.equal(vctToken[8], '[let name="pos.l" text="140"]');
 		});
-		it('test_multiline_tag_180623gallery0', ()=> {
+		it('20200415upd_test_multiline_tag_180623gallery0', ()=> {
 			const sScr =
 `[add_lay
 	layer=mes
@@ -894,31 +951,133 @@ class=txt
 	タグやマクロは複数行に改行して書ける[r]
 	[span]
 [s]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[add_lay layer=mes class=txt]
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
 
-
-
-
-		multi
-	line tag[r]
-	[span layout = 'color="0xaaaaaa"']
-
-
-
-
-	タグやマクロは複数行に改行して書ける[r]
-	[span]
-[s]`);
+			assert.equal(vctTokenLen, 20);
+			assert.equal(vctToken[0],
+`[add_lay
+	layer=mes
+class=txt
+]`);
+			assert.equal(vctToken[1], '\n\n');
+			assert.equal(vctToken[2], '\t\t');
+			assert.equal(vctToken[3], 'multi');
+			assert.equal(vctToken[4], '\n');
+			assert.equal(vctToken[5], '\t');
+			assert.equal(vctToken[6], 'line tag');
+			assert.equal(vctToken[7], '[r]');
+			assert.equal(vctToken[8], '\n');
+			assert.equal(vctToken[9], '\t');
+			assert.equal(vctToken[10],
+`[span
+		layout
+	=
+		'color="0xaaaaaa"'
+	]`);
+			assert.equal(vctToken[11], '\n');
+			assert.equal(vctToken[12], '\t');
+			assert.equal(vctToken[13], 'タグやマクロは複数行に改行して書ける');
+			assert.equal(vctToken[14], '[r]');
+			assert.equal(vctToken[15], '\n');
+			assert.equal(vctToken[16], '\t');
+			assert.equal(vctToken[17], '[span]');
+			assert.equal(vctToken[18], '\n');
+			assert.equal(vctToken[19], '[s]');
 		});
 
-		it('test_multiline_tag_180731', ()=> {	// 文字列リテラル内の「;」が効く不具合
+		it('20200415upd_test_multiline_tag_180731', ()=> {	// 文字列リテラル内の「;」が効く不具合
 			const sScr =
 `[lay
 style="&'color: '+ fcol +'; writing-mode: vertical-rl;'"]`;
-			assert.equal(grm.cnvMultilineTag(sScr),
-`[lay style="&'color: '+ fcol +'; writing-mode: vertical-rl;'"]
-`);
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 1);
+			assert.equal(vctToken[0], sScr);
+		});
+
+
+		it('20200416_test_multiline_tag_0', ()=> {	// regex101.comで発見
+			const sScr =
+`[ch
+	page=fore	;===
+	text="]"]
+
+[add_lay
+	layer=mes
+class=txt
+]
+	[span
+		layout
+		def	;=====
+		ghi;=====
+	=
+		'color="0xaaaaaa"'
+	]
+	タグやマクロは複数行に改行して書ける[r]
+
+[add_lay	;=====
+	layer=mes	;=====
+class=txt	;======
+	;=====
+]
+	[span	;=====
+		layout;=====
+	=	;"""""
+'color="0xaaaaaa"'	;=====
+text=%fcol|&0x000000;=====
+text=%fcol|'&0x000000';=====
+a='2009';=====
+a='#{fcol}'|true;=====
+	]`;
+			vctToken = sScr.match(grm.REG_TOKEN);
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 15);
+			assert.equal(vctToken[0],
+`[ch
+	page=fore	;===
+	text="]"]`);
+			assert.equal(vctToken[1], '\n\n');
+			assert.equal(vctToken[2],
+`[add_lay
+	layer=mes
+class=txt
+]`);
+			assert.equal(vctToken[3], '\n');
+			assert.equal(vctToken[4], '\t');
+			assert.equal(vctToken[5],
+`[span
+		layout
+		def	;=====
+		ghi;=====
+	=
+		'color="0xaaaaaa"'
+	]`);
+			assert.equal(vctToken[6], '\n');
+			assert.equal(vctToken[7], '\t');
+			assert.equal(vctToken[8], 'タグやマクロは複数行に改行して書ける');
+			assert.equal(vctToken[9], '[r]');
+			assert.equal(vctToken[10], '\n\n');
+			assert.equal(vctToken[11],
+`[add_lay	;=====
+	layer=mes	;=====
+class=txt	;======
+	;=====
+]`);
+			assert.equal(vctToken[12], '\n');
+			assert.equal(vctToken[13], '\t');
+			assert.equal(vctToken[14],
+`[span	;=====
+		layout;=====
+	=	;"""""
+'color="0xaaaaaa"'	;=====
+text=%fcol|&0x000000;=====
+text=%fcol|'&0x000000';=====
+a='2009';=====
+a='#{fcol}'|true;=====
+	]`);
 		});
 
 

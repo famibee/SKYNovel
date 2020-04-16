@@ -36,15 +36,6 @@ class Grammar {
             }
             scr.len = scr.aToken.length;
         };
-        this.REG_MULTILINE_TAG = m_xregexp(`\\[
-		([^\\n\\]]+ \\n
-			(?:
-				(["'#]) .*? \\2
-			|	[^\\[\\]]
-			)*
-		)
-	\\]
-|	;[^\\n]+`, 'gx');
         this.setEscape('');
     }
     mkEscape(ce) {
@@ -54,7 +45,7 @@ class Grammar {
             `|	\\[let_ml \\s+ [^\\]]+ \\]` +
             `.+?` +
             `(?=\\[endlet_ml [\\]\\s])` +
-            `|	\\[ (?: (["'#]) .*? \\1 | [^"'#\\]]+ ) *? \\]` +
+            `|	\\[ (?: [^"'#;\\]]+ | (["'#]) .*? \\1 | ;[^\\n]* ) *? ]` +
             '|	;[^\\n]*' +
             '|	&[^&\\n]+&' +
             '|	&&?[^;\\n\\t&]+' +
@@ -122,30 +113,6 @@ class Grammar {
         this.regStrC2M4not += `${b}`;
         this.regC2M = new RegExp(`(${this.regStrC2M}[^${this.regStrC2M4not}]+)`, 'g');
     }
-    cnvMultilineTag(txt) {
-        return txt.replace(this.REG_MULTILINE_TAG, function () {
-            if (arguments[0].charAt(0) == ';')
-                return arguments[0];
-            let fore = '';
-            let back = '';
-            for (const v of arguments[1].match(Grammar.REG_MULTILINE_TAG_SPLIT)) {
-                switch (v.substr(-1)) {
-                    case '\n':
-                        back += v;
-                        break;
-                    case `"`:
-                    case `'`:
-                    case `#`:
-                        fore += v;
-                        break;
-                    default:
-                        fore += ' ' + CmnLib_1.trim(v);
-                        break;
-                }
-            }
-            return '[' + CmnLib_1.trim(fore.slice(1)) + ']' + back;
-        });
-    }
     static splitAmpersand(token) {
         const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
         const cnt_equa = equa.length;
@@ -161,6 +128,7 @@ class Grammar {
     }
 }
 exports.Grammar = Grammar;
-Grammar.REG_MULTILINE_TAG_SPLIT = m_xregexp(`((["'#]).*?\\2|;.*\\n|\\n+|[^\\n"'#;]+)`, 'g');
-Grammar.REG_TAG = m_xregexp(`^\\[ (?<name>\\S*) (\\s+ (?<args>.+) )? ]$`, 'x');
+Grammar.REG_TAG = m_xregexp(`\\[ (?<name>[^\\]\\s]+) \\s*
+	(?<args> (?: [^"'#\\]]+ | (["'#]) .*? \\3 )*?)
+]`, 'x');
 //# sourceMappingURL=Grammar.js.map

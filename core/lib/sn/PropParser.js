@@ -7,15 +7,6 @@ class PropParser {
     constructor(val) {
         this.val = val;
         this.parser = null;
-        this.parse = s => {
-            const p = this.parser.parse(s);
-            if (!p.status)
-                throw Error('(PropParser)文法エラー【' + s + '】');
-            const a = p.value;
-            if (a[0] == '!str!')
-                return this.procEmbedVar(a[1]);
-            return this.calc(a);
-        };
         this.hFnc = {
             '!num!': a => a.shift(),
             '!str!': a => this.procEmbedVar(a.shift()),
@@ -119,6 +110,9 @@ class PropParser {
             ':': () => { throw Error('(PropParser)三項演算子の文法エラーです。? が見つかりません'); },
         };
         this.REG_EMBEDVAR = /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
+        this.getValAmpersand = (val) => (val.charAt(0) == '&')
+            ? String(this.parse(val.substr(1)))
+            : val;
         function ope(a) {
             const ps = [];
             for (const v of a)
@@ -205,6 +199,15 @@ class PropParser {
         const tableParser = table.reduce((acc, level) => level.type(level.ops, acc), Basic);
         this.parser = tableParser.trim(P.optWhitespace);
     }
+    parse(s) {
+        const p = this.parser.parse(s);
+        if (!p.status)
+            throw Error('(PropParser)文法エラー【' + s + '】');
+        const a = p.value;
+        if (a[0] == '!str!')
+            return this.procEmbedVar(a[1]);
+        return this.calc(a);
+    }
     calc(a) {
         const elm = a.shift();
         if (elm instanceof Array)
@@ -221,11 +224,11 @@ class PropParser {
     procEmbedVar(b) {
         if (b == null)
             return b;
-        return Object(String(b).replace(this.REG_EMBEDVAR, ($0) => {
-            return Object(($0.charAt(0) == '$')
-                ? this.val.getVal($0.slice(1))
-                : this.parse($0.slice(2, -1)));
-        }));
+        return String(b).replace(this.REG_EMBEDVAR, v => {
+            return (v.charAt(0) == '$')
+                ? this.val.getVal(v.slice(1))
+                : this.parse(v.slice(2, -1));
+        });
     }
     static getValName(arg_name) {
         var _a;

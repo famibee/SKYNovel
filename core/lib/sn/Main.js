@@ -11,7 +11,6 @@ const SoundMng_1 = require("./SoundMng");
 const LayerMng_1 = require("./LayerMng");
 const EventMng_1 = require("./EventMng");
 const ScriptIterator_1 = require("./ScriptIterator");
-const m_xregexp = require("xregexp");
 const pixi_js_1 = require("pixi.js");
 class Main {
     constructor(sys) {
@@ -40,9 +39,6 @@ class Main {
             this.resume = this.fncresume;
             this.scrItr.noticeBreak(true);
         };
-        this.getValAmpersand = (val) => (val.charAt(0) == '&')
-            ? String(this.prpPrs.parse(val.substr(1)))
-            : val;
         this.pauseDev = () => this.appPixi.stop();
         this.resumeDev = () => this.appPixi.start();
         this.destroyed = false;
@@ -73,7 +69,7 @@ class Main {
             this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);
             this.hTag['title']({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
             this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
-            this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs.parse, this.sndMng, this.sys);
+            this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
             this.dbgMng = new DebugMng_1.DebugMng(this.sys, this.hTag, this.scrItr);
             this.layMng = new LayerMng_1.LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
             this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);
@@ -123,12 +119,11 @@ class Main {
             }
             if (uc == 91) {
                 try {
-                    if (this.タグ解析(token)) {
+                    if (this.scrItr.タグ解析(token)) {
                         this.stop();
                         break;
                     }
-                    else
-                        continue;
+                    continue;
                 }
                 catch (err) {
                     let mes = '';
@@ -150,7 +145,7 @@ class Main {
                 try {
                     if (token.substr(-1) != '&') {
                         const o = Grammar_1.Grammar.splitAmpersand(token.slice(1));
-                        o.name = this.getValAmpersand(o.name);
+                        o.name = this.prpPrs.getValAmpersand(o.name);
                         o.text = String(this.prpPrs.parse(o.text));
                         this.hTag.let(o);
                         continue;
@@ -193,60 +188,6 @@ class Main {
                 return;
             }
         }
-    }
-    タグ解析(tagToken) {
-        var _a;
-        const a_tag = m_xregexp.exec(tagToken, Grammar_1.Grammar.REG_TAG);
-        if (a_tag == null)
-            throw 'タグ記述[' + tagToken + ']異常です(タグ解析)';
-        const tag_name = a_tag['name'];
-        const tag_fnc = this.hTag[tag_name];
-        if (tag_fnc == null)
-            throw '未定義のタグ[' + tag_name + ']です';
-        if (!this.alzTagArg.go(a_tag['args']))
-            throw '属性「' + this.alzTagArg.literal + '」は異常です';
-        if (this.cfg.oCfg.debug.tag)
-            console.log(`🌲 タグ解析 fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
-        if (this.alzTagArg.hPrm['cond']) {
-            const cond = this.alzTagArg.hPrm['cond'].val;
-            if (cond.charAt(0) == '&')
-                throw '属性condは「&」が不要です';
-            const p = this.prpPrs.parse(cond);
-            const ps = String(p);
-            if (ps == 'null' || ps == 'undefined')
-                return false;
-            if (!p)
-                return false;
-        }
-        const hArg = { タグ名: tag_name };
-        if (this.alzTagArg.isKomeParam) {
-            if (this.scrItr.isEmptyCallStk)
-                throw '属性「*」はマクロのみ有効です';
-            const hArgDef = this.scrItr.lastHArg;
-            if (!hArgDef)
-                throw '属性「*」はマクロのみ有効です';
-            for (const k in hArgDef)
-                hArg[k] = hArgDef[k];
-        }
-        for (const k in this.alzTagArg.hPrm) {
-            let v = this.alzTagArg.hPrm[k].val;
-            if (v.charAt(0) == '%') {
-                if (this.scrItr.isEmptyCallStk)
-                    throw '属性「%」はマクロのみ有効です';
-                v = this.scrItr.lastHArg[v.substr(1)];
-            }
-            else
-                v = this.getValAmpersand(v);
-            if (v) {
-                hArg[k] = v;
-                continue;
-            }
-            v = this.getValAmpersand((_a = this.alzTagArg.hPrm[k].def) !== null && _a !== void 0 ? _a : 'null');
-            if (!v || v == 'null')
-                continue;
-            hArg[k] = v;
-        }
-        return tag_fnc(hArg);
     }
     async destroy(ms_late = 0) {
         if (this.destroyed)

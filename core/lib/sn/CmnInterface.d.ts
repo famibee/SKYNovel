@@ -124,6 +124,10 @@ export interface Script {
     len: number;
     aLNum: number[];
 }
+export interface IPropParser {
+    parse(s: string): any;
+    getValAmpersand(val: string): string;
+}
 export interface IPluginInitArg {
     addTag(tag_name: string, tag_fnc: ITag): void;
     addLayCls(cls: string, fnc: ILayerFactory): void;
@@ -191,7 +195,7 @@ export interface IVariable {
     setSys(sys: ISysBase): void;
     flush(): void;
     setDoRecProc(doRecProc: (doRec: boolean) => void): void;
-    getVal(arg_name: string, def?: number | string): object;
+    getVal(arg_name: string, def?: number | string): any;
     setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
     defTmp(name: string, fnc: typeProcVal): void;
     cloneMp(): object;
