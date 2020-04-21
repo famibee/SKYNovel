@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const m_xregexp = require("xregexp");
 class AnalyzeTagArg {
     constructor() {
-        this.REG_TAGARG = m_xregexp(`	;[^\\n]*
+        this.REG_TAGARG = m_xregexp(`	;.*\\n
 |	(?<key>\\w+)
 	(?: \\s+ | ;[^\\n]*\\n)*
 	=
-	(?: \\s+ | ;[^\\n]*)*
+	(?: \\s+ | ;.*\\n)*
 	(?:	(?<val> [^\\s"'#|;]+)
 	|	(["'#]) (?<val2>.*?) \\3 )
 	(?: \\|

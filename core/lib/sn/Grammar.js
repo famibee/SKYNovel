@@ -128,7 +128,7 @@ class Grammar {
     }
 }
 exports.Grammar = Grammar;
-Grammar.REG_TAG = m_xregexp(`\\[ (?<name>[^\\]\\s]+) \\s*
+Grammar.REG_TAG = m_xregexp(`\\[ (?<name>[^\\s;\\]]+) \\s*
 	(?<args> (?: [^"'#\\]]+ | (["'#]) .*? \\3 )*?)
 ]`, 'x');
 //# sourceMappingURL=Grammar.js.map

@@ -9,12 +9,12 @@ import m_xregexp = require('xregexp');
 
 export class AnalyzeTagArg {
 	private	readonly	REG_TAGARG		= m_xregexp(
-		// 71 match 2715 step(~2ms) https://regex101.com/r/SA3sGj/7
-`	;[^\\n]*
+		// 71 match 2662 step(~1ms) https://regex101.com/r/yyenjO/2
+`	;.*\\n
 |	(?<key>\\w+)
 	(?: \\s+ | ;[^\\n]*\\n)*
 	=
-	(?: \\s+ | ;[^\\n]*)*
+	(?: \\s+ | ;.*\\n)*
 	(?:	(?<val> [^\\s"'#|;]+)
 	|	(["'#]) (?<val2>.*?) \\3 )
 	(?: \\|

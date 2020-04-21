@@ -145,8 +145,8 @@ export class Grammar {
 	}
 
 	static	readonly	REG_TAG	= m_xregexp(
-		// 46 match 945 step (0ms) https://regex101.com/r/TKk1Iz/3
-`\\[ (?<name>[^\\]\\s]+) \\s*
+		// 47 match 959 step (1ms) https://regex101.com/r/TKk1Iz/4
+`\\[ (?<name>[^\\s;\\]]+) \\s*
 	(?<args> (?: [^"'#\\]]+ | (["'#]) .*? \\3 )*?)
 ]`, 'x');
 
