@@ -9,7 +9,7 @@ import assert = require('power-assert');
 
 import {PropParser} from '../core/src/sn/PropParser';
 
-import {IVariable, ISysBase, typeProcVal, ISetVal, IMark} from '../core/src/sn/CmnInterface';
+import {IVariable, ISysBase, typeProcVal, ISetVal, IMark, IData4Vari} from '../core/src/sn/CmnInterface';
 
 class MyVal implements IVariable {
 	private hGetVal = {
@@ -55,6 +55,7 @@ class MyVal implements IVariable {
 	loadScrWork = (_fn: string)=> {};
 	getAreaKidoku = (_fn: string)=> null;
 	saveKidoku(): void {};
+	updateData(data: IData4Vari): void {};
 
 	defValTrg(_name: string, _fnc: ISetVal): void {};
 
