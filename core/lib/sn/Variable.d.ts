@@ -1,4 +1,4 @@
-import { IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IMark } from './CmnInterface';
+import { IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark } from './CmnInterface';
 import { Config } from './Config';
 import { Areas } from './Areas';
 export declare class Variable implements IVariable {
@@ -11,6 +11,7 @@ export declare class Variable implements IVariable {
     private hSys;
     private hAreaKidoku;
     setSys(sys: ISysBase): void;
+    updateData(data: IData4Vari): void;
     private flush_;
     flush(): void;
     setDoRecProc(doRecProc: (doRec: boolean) => void): void;

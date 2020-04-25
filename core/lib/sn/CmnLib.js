@@ -10,10 +10,10 @@ exports.uint = uint;
 function trim(s) { return s.replace(/^\s+|\s+$/g, ''); }
 exports.trim = trim;
 if (!('toInt' in String.prototype)) {
-    String.prototype['toInt'] = function () { return int(this); };
+    String.prototype.toInt = function () { return int(this); };
 }
 if (!('toUint' in String.prototype)) {
-    String.prototype['toUint'] = function () {
+    String.prototype.toUint = function () {
         const v = int(this);
         return v < 0 ? -v : v;
     };
@@ -40,7 +40,7 @@ class CmnLib {
         const v = hash[name];
         if (!(name in hash)) {
             if (isNaN(def))
-                throw '[' + hash['タグ名'] + ']属性 ' + name + ' は必須です';
+                throw `[${hash.タグ名}]属性 ${name} は必須です`;
             hash[name] = def;
             return def;
         }
@@ -48,7 +48,7 @@ class CmnLib {
             ? parseInt(v)
             : parseFloat(v);
         if (isNaN(n))
-            throw '[' + hash['タグ名'] + ']属性 ' + name + ' の値【' + v + '】が数値ではありません';
+            throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
         return hash[name] = n;
     }
     static argChk_Boolean(hash, name, def) {

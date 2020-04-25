@@ -84,7 +84,7 @@ class Grammar {
         if (this.REG_CANTC2M.test(cl))
             throw '[bracket2macro] text【' + cl + '】は括弧マクロに使用できない文字です';
         this.hC2M[cl] = '0';
-        this.hC2M[op] = '[' + name + ' text=';
+        this.hC2M[op] = `[${name} text=`;
         this.addC2M(`\\${op}[^\\${cl}]*\\${cl}`, `\\${op}\\${cl}`);
         this.replaceScr_C2M_And_let_ml(script, idxToken);
     }
@@ -103,8 +103,8 @@ class Grammar {
         if (!name)
             throw '[char2macro] nameは必須です';
         if (!(name in hTag))
-            throw '[char2macro] 未定義のタグ又はマクロ[' + name + ']です';
-        this.hC2M[char] = '[' + name + ']';
+            throw `[char2macro] 未定義のタグ又はマクロ[${name}]です`;
+        this.hC2M[char] = `[${name}]`;
         this.addC2M(`\\${char}`, `\\${char}`);
         this.replaceScr_C2M_And_let_ml(script, idxToken);
     }

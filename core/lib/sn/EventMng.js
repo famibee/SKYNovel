@@ -7,7 +7,7 @@ const Tween = require('@tweenjs/tween.js').default;
 const Config_1 = require("./Config");
 const Hammer = require("hammerjs");
 class EventMng {
-    constructor(cfg, hTag, appPixi, main, layMng, val, sndMng, scrItr) {
+    constructor(cfg, hTag, appPixi, main, layMng, val, sndMng, scrItr, sys) {
         this.cfg = cfg;
         this.hTag = hTag;
         this.appPixi = appPixi;
@@ -16,6 +16,7 @@ class EventMng {
         this.val = val;
         this.sndMng = sndMng;
         this.scrItr = scrItr;
+        this.sys = sys;
         this.elc = new EventListenerCtn_1.EventListenerCtn;
         this.hHamEv = {
             tap2: null,
@@ -50,6 +51,7 @@ class EventMng {
         scrItr.setOtherObj(this, layMng);
         TxtLayer_1.TxtLayer.setEvtMng(main, this);
         layMng.setEvtMng(this);
+        sys.setFire((KEY, e) => this.fire(KEY, e));
         hTag.clear_event = o => this.clear_event(o);
         hTag.event = o => this.event(o);
         hTag.l = o => this.l(o);
@@ -67,21 +69,21 @@ class EventMng {
             const fnc = this.hHamEv[key] = (e) => {
                 val.defTmp('sn.eventArg.type', e.type);
                 val.defTmp('sn.eventArg.pointers', e.pointers);
-                this.defEvt2Fnc(e, e.type);
+                this.fire(e.type, e);
             };
             this.ham.on(key, fnc);
         }
         appPixi.stage.interactive = true;
         if (CmnLib_1.CmnLib.isMobile)
-            appPixi.stage.on('pointerdown', (e) => this.defEvt2Fnc(e, 'click'));
+            appPixi.stage.on('pointerdown', (e) => this.fire('click', e));
         else
             this.elc.add(appPixi.stage, 'pointerdown', e => {
                 switch (e.data.button) {
                     case 0:
-                        this.defEvt2Fnc(e, 'click');
+                        this.fire('click', e);
                         break;
                     case 1:
-                        this.defEvt2Fnc(e, 'middleclick');
+                        this.fire('middleclick', e);
                         break;
                 }
             });
@@ -103,13 +105,13 @@ class EventMng {
             if (CmnLib_1.CmnLib.debugLog)
                 console.log('👺 Gamepad connected at index %d: %s. %d buttons, %d axes.', e['gamepad'].index, e['gamepad'].id, e['gamepad'].buttons.length, e['gamepad'].axes.length);
             const key = e.type;
-            this.defEvt2Fnc(e, key);
+            this.fire(key, e);
         });
         this.elc.add(window, 'gamepaddisconnected', (e) => {
             if (CmnLib_1.CmnLib.debugLog)
                 console.log('👺 Gamepad disconnected from index %d: %s', e['gamepad'].index, e['gamepad'].id);
             const key = e.type;
-            this.defEvt2Fnc(e, key);
+            this.fire(key, e);
         });
         this.elc.add(window, 'keyup', (e) => {
             if (e['isComposing'])
@@ -138,14 +140,14 @@ class EventMng {
             + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
             + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
             + e.key;
-        this.defEvt2Fnc(e, key);
+        this.fire(key, e);
     }
     ev_contextmenu(e) {
         const key = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
             + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
             + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
             + 'rightclick';
-        this.defEvt2Fnc(e, key);
+        this.fire(key, e);
         e.preventDefault();
     }
     ev_wheel(e) {
@@ -161,7 +163,7 @@ class EventMng {
             + (e.ctrlKey ? 'ctrl+' : '')
             + (e.shiftKey ? 'shift+' : '')
             + (e.deltaY > 0 ? 'downwheel' : 'upwheel');
-        this.defEvt2Fnc(e, key);
+        this.fire(key, e);
     }
     ev_wheel_waitstop() {
         setTimeout(() => {
@@ -180,7 +182,7 @@ class EventMng {
         }
         this.ham.destroy();
     }
-    defEvt2Fnc(e, KEY) {
+    fire(KEY, e) {
         var _a, _b;
         const key = KEY.toLowerCase();
         const ke = this.hLocalEvt2Fnc[key]
@@ -242,7 +244,7 @@ class EventMng {
             this.hGlobalEvt2Fnc[key] = () => this.main.resumeByJumpOrCall(hArg);
         else
             this.hLocalEvt2Fnc[key] = () => this.main.resumeByJumpOrCall(hArg);
-        em.on('pointerdown', (e) => this.defEvt2Fnc(e, key));
+        em.on('pointerdown', (e) => this.fire(key, e));
         if (hArg.clickse) {
             this.cfg.searchPath(hArg.clickse, Config_1.Config.EXT_SOUND);
             em.on('pointerdown', () => {
@@ -277,7 +279,7 @@ class EventMng {
                 this.hGlobalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);
             else
                 this.hLocalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);
-            em.on('pointerover', (e) => this.defEvt2Fnc(e, key2));
+            em.on('pointerover', (e) => this.fire(key2, e));
         }
         if (hArg.onleave) {
             const key2 = key + hArg.onleave.toLowerCase();
@@ -286,7 +288,7 @@ class EventMng {
                 this.hGlobalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);
             else
                 this.hLocalEvt2Fnc[key2] = () => this.main.resumeByJumpOrCall(o);
-            em.on('pointerout', (e) => this.defEvt2Fnc(e, key2));
+            em.on('pointerout', (e) => this.fire(key2, e));
         }
         this.sndMng.loadAheadSnd(hArg);
     }
@@ -377,14 +379,14 @@ class EventMng {
                             if (e2.hasOwnProperty(key))
                                 this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
                         }
-                        this.defEvt2Fnc(e, KEY);
+                        this.fire(KEY, e);
                     });
             });
             for (const elm of elmlist)
                 this.elc.add(elm, 'mouseleave', e => {
                     if (e.which != 1)
                         return;
-                    this.defEvt2Fnc(e, KEY);
+                    this.fire(KEY, e);
                 });
         }
         h[key] = () => this.main.resumeByJumpOrCall(hArg);

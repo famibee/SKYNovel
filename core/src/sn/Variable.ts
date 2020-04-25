@@ -142,64 +142,67 @@ export class Variable implements IVariable {
 	private	hAreaKidoku	: {[name: string]: Areas}	= {};
 	setSys(sys: ISysBase) {
 		sys.initVal(this.data, this.hTmp, data=> {
-			this.data = data;
-			this.hSys = this.hScope.sys = this.data.sys;
-
-			for (const fn in this.data.kidoku) {
-				const areas = new Areas();
-				areas.hAreas = {...this.data.kidoku[fn]};
-				this.hAreaKidoku[fn] = areas;
-			}
+			this.updateData(data);
 
 			sessionStorage.clear();
-			this.flush_ = (this.cfg.oCfg.debug.variable)
-				? ()=> {
-					const oSys: any = {};
-					Object.keys(this.hSys).forEach(k=> {
-						const v = this.hSys[k];
-						oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
-					});
-					sessionStorage[this.cfg.getNs() +'sys'] = JSON.stringify(oSys);
+			this.flush_ = (this.cfg.oCfg.debug.variable) ?()=> {
+				const oSys: any = {};
+				Object.keys(this.hSys).forEach(k=> {
+					const v = this.hSys[k];
+					oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
+				});
+				sessionStorage[this.cfg.getNs() +'sys'] = JSON.stringify(oSys);
 
-					const oSave: any = {};
-					Object.keys(this.hSave).forEach(k=> {
-						const v = this.hSave[k];
-						oSave['save:'+ k] = (v instanceof Function) ?v(): v;
-					});
-					sessionStorage[this.cfg.getNs() +'save'] = JSON.stringify(oSave);
+				const oSave: any = {};
+				Object.keys(this.hSave).forEach(k=> {
+					const v = this.hSave[k];
+					oSave['save:'+ k] = (v instanceof Function) ?v(): v;
+				});
+				sessionStorage[this.cfg.getNs()+'save'] = JSON.stringify(oSave);
 
-					const oTmp: any = {};
-					Object.keys(this.hTmp).forEach(k=> {
-						const v = this.hTmp[k];
-						oTmp[k] = (v instanceof Function) ?v(): v;
-					});
-					sessionStorage[this.cfg.getNs() +'tmp'] = JSON.stringify(oTmp);
+				const oTmp: any = {};
+				Object.keys(this.hTmp).forEach(k=> {
+					const v = this.hTmp[k];
+					oTmp[k] = (v instanceof Function) ?v(): v;
+				});
+				sessionStorage[this.cfg.getNs() +'tmp'] = JSON.stringify(oTmp);
 
-					const oMp: any = {};
-					Object.keys(this.hScope.mp).forEach(k=> {
-						const v = this.hScope.mp[k];
-						oMp[k] = (v instanceof Function) ?v(): v;
-					});
-					sessionStorage[this.cfg.getNs() +'mp'] = JSON.stringify(oMp);
+				const oMp: any = {};
+				Object.keys(this.hScope.mp).forEach(k=> {
+					const v = this.hScope.mp[k];
+					oMp[k] = (v instanceof Function) ?v(): v;
+				});
+				sessionStorage[this.cfg.getNs() +'mp'] = JSON.stringify(oMp);
 
-					const oMark: any = {};
-					Object.keys(this.data.mark).forEach(k=> {
-						const v = this.data.mark[k];
-						oMark[k] = (v instanceof Function) ?v(): v;
-					});
-					sessionStorage[this.cfg.getNs() +'mark'] = JSON.stringify(oMark);
+				const oMark: any = {};
+				Object.keys(this.data.mark).forEach(k=> {
+					const v = this.data.mark[k];
+					oMark[k] = (v instanceof Function) ?v(): v;
+				});
+				sessionStorage[this.cfg.getNs()+'mark'] = JSON.stringify(oMark);
 
-					const oKidoku: any = {};
-					Object.keys(this.data.kidoku).forEach(k=> {
-						const v = this.data.kidoku[k];
-						oKidoku[k] = (v instanceof Function) ?v(): v;
-					});
-					sessionStorage[this.cfg.getNs() +'kidoku'] = JSON.stringify(oKidoku);
+				const oKidoku: any = {};
+				Object.keys(this.data.kidoku).forEach(k=> {
+					const v = this.data.kidoku[k];
+					oKidoku[k] = (v instanceof Function) ?v(): v;
+				});
+				sessionStorage[this.cfg.getNs() +'kidoku'] = JSON.stringify(oKidoku);
 
-					sys.flush();
-				}
-				: ()=> sys.flush();
+				sys.flush();
+			}
+			: ()=> sys.flush();
 		});
+	}
+	updateData(data: IData4Vari): void {
+		this.data = data;
+		this.hSys = this.hScope.sys = this.data.sys;
+
+		this.hAreaKidoku = {};
+		for (const fn in this.data.kidoku) {
+			const areas = new Areas();
+			areas.hAreas = {...this.data.kidoku[fn]};
+			this.hAreaKidoku[fn] = areas;
+		}
 	}
 	private flush_	= ()=> {};
 	flush() {this.flush_();}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える

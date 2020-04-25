@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {CmnLib} from './CmnLib';
+import {CmnLib, getDateStr} from './CmnLib';
 import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
 import {Main} from './Main';
 
@@ -118,7 +118,7 @@ export class SysWeb extends SysBase {
 
 		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
 
-		this.flushSub = this.crypto
+		this.flush = this.crypto
 		? ()=> {
 			strLocal.set(this.ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
 			strLocal.set(this.ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
@@ -129,50 +129,46 @@ export class SysWeb extends SysBase {
 			strLocal.set(this.ns +'mark', this.data.mark);
 			strLocal.set(this.ns +'kidoku', this.data.kidoku);
 		};
-		if (strLocal.get(this.ns +(this.arg.crypto ?'sys_' :'sys')) == undefined) {
-			hTmp['const.sn.isFirstBoot'] = true;
+		const nm = this.ns +(this.arg.crypto ?'sys_' :'sys');
+		if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) == undefined)) {
 			this.data.sys = data['sys'];
 			this.data.mark = data['mark'];
 			this.data.kidoku = data['kidoku'];
-			this.flush();
+			this.flush();	// 初期化なのでここのみ必要
+			comp(this.data);
+			return;
 		}
-		else {
-			hTmp['const.sn.isFirstBoot'] = false;
-			if (this.crypto) {
-			(async ()=> {
-				let mes = '';
-				try {
-					mes = 'sys';	// tst sys
-					this.data.sys = JSON.parse(
-						await this.pre('json', strLocal.get(this.ns +'sys_'))
-					);
-					mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
-					mes = 'mark';	// tst mark
-					this.data.mark = JSON.parse(
-						await this.pre('json', strLocal.get(this.ns +'mark_'))
-					);
-					mes = 'kidoku';	// tst kidoku
-					this.data.kidoku = JSON.parse(
-						await this.pre('json', strLocal.get(this.ns +'kidoku_'))
-					);
-					this.val.saveKidoku();
-				} catch (e) {
-					console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
-				}
-				comp(this.data);
-			})();
-				return;
-			}
-			else {
-				this.data.sys = strLocal.get(this.ns +'sys');
-				this.data.mark = strLocal.get(this.ns +'mark');
-				this.data.kidoku = strLocal.get(this.ns +'kidoku');
-			}
+
+		if (! this.crypto) {
+			this.data.sys = strLocal.get(this.ns +'sys');
+			this.data.mark = strLocal.get(this.ns +'mark');
+			this.data.kidoku = strLocal.get(this.ns +'kidoku');
+			comp(this.data);
+			return;
 		}
-		comp(this.data);
+
+		(async ()=> {
+			let mes = '';
+			try {
+				mes = 'sys';	// tst sys
+				this.data.sys = JSON.parse(
+					await this.pre('json', strLocal.get(this.ns +'sys_'))
+				);
+				mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+				mes = 'mark';	// tst mark
+				this.data.mark = JSON.parse(
+					await this.pre('json', strLocal.get(this.ns +'mark_'))
+				);
+				mes = 'kidoku';	// tst kidoku
+				this.data.kidoku = JSON.parse(
+					await this.pre('json', strLocal.get(this.ns +'kidoku_'))
+				);
+			} catch (e) {
+				console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+			}
+			comp(this.data);
+		})();
 	}
-	private	flushSub = ()=> {};
-	flush() {this.flushSub();}
 
 	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		super.init(cfg, hTag, appPixi, val, main);
@@ -182,7 +178,62 @@ export class SysWeb extends SysBase {
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
 		});
-}
+	}
+
+	// プレイデータをエクスポート
+	protected readonly	_export: ITag = ()=> {
+		const s = JSON.stringify({
+			'sys': this.data.sys,
+			'mark': this.data.mark,
+			'kidoku': this.data.kidoku,
+		});
+		const s2 = this.crypto ?String(this.enc(s)) :s;
+		const blob = new Blob([s2], {'type':'text/json'});
+		// TODO: サムネイル保存と復元 path="app-storage:/bookmark/*"]
+
+		const a = document.createElement('a');
+		a.href = URL.createObjectURL(blob);
+		a.download = this.ns + getDateStr('-', '_', '') +'.spd';
+		a.click();
+		if (CmnLib.debugLog) console.log('プレイデータをエクスポートします');
+
+		return false;
+	}
+
+	// プレイデータをインポート
+	protected readonly	_import: ITag = ()=> {
+		new Promise((rs, rj)=> {
+			const inp = document.createElement('input');
+			inp.type = 'file';
+			inp.accept = '.spd, text/plain';
+			inp.onchange = (e: any)=> {
+				const file = e?.target?.files?.[0];
+				if (file) rs(file); else rj();
+			};
+			inp.click();
+		})
+		.then((file: any)=> new Promise(rs=> {
+			const rd = new FileReader();
+			rd.readAsText(file);
+			rd.onload = ()=> rs(rd.result);
+		}))
+		.then(async (s: string)=> {
+			const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
+			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
+
+			this.data.sys = o.sys;
+			this.data.mark = o.mark;
+			this.data.kidoku = o.kidoku;
+			this.flush();
+			this.val.updateData(o);
+
+			this.fire('sn:imported', new Event('click'));
+		})
+		.catch(e=> console.error(`異常なプレイデータです ${e.message}`));
+
+		return false;
+	}
+
 
 	// ＵＲＬを開く
 	protected readonly	navigate_to: ITag = hArg=> {
@@ -252,35 +303,20 @@ export class SysWeb extends SysBase {
 
 
 	readonly	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
-		try {
-			(async ()=> {
-				const res = await fetch(path);	//fetch(path, {mode: 'same-origin'})
-				if (! res.ok) throw Error(res.statusText);
+		fetch(path)	//fetch(path, {mode: 'same-origin'})
+		.then(res=> {
+			if (! res.ok) throw Error(res.statusText);
 
-				callback(null, Buffer.from(await res.text()));
-			})();
-		} catch (e) {
-			console.error('Error:', e);
-		}
-/*
-		const FETCH_TIMEOUT = 5000;
-		let didTimeOut = false;
-		const timeout = setTimeout(function() {
-			didTimeOut = true;
-			//reject(new Error('Request timed out'));
-		}, FETCH_TIMEOUT);
-
-//	'⏰ Time Out'
-*/
+			callback(null, Buffer.from(res.text()));
+		})
+		.catch(e=> console.error('Error:', e));
 	};
 
 	readonly	savePic = (fn: string, data_url: string)=> {
-		const anchor = document.createElement('a');
-		anchor.href = data_url;
-		anchor.download = fn;
-		const e = document.createEvent('MouseEvent');
-		e.initEvent('click');
-		anchor.dispatchEvent(e);
+		const a = document.createElement('a');
+		a.href = data_url;
+		a.download = fn;
+		a.click();
 		if (CmnLib.debugLog) console.log('画像ファイルをダウンロードします');
 	};
 

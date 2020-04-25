@@ -57,31 +57,31 @@ export class LayerMng {
 		GrpLayer.init(main, cfg, sys);
 
 		this.frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
-		sys.hFactoryCls['grp'] = ()=> new GrpLayer;
-		sys.hFactoryCls['txt'] = ()=> new TxtLayer;
+		sys.hFactoryCls.grp = ()=> new GrpLayer;
+		sys.hFactoryCls.txt = ()=> new TxtLayer;
 
 		//	システム
-		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
 		hTag.loadplugin		= o=> this.loadplugin(o);	// プラグインの読み込み
 		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
+		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.add_lay(o);		// レイヤを追加する
-		hTag.lay			= o=> this.lay(o);			// レイヤ設定
 		hTag.clear_lay		= o=> this.clear_lay(o);	// レイヤ設定の消去
+		hTag.finish_trans	= ()=> this.finish_trans();	// トランス強制終了
+		hTag.lay			= o=> this.lay(o);			// レイヤ設定
 		hTag.trans			= o=> this.trans(o);		// ページ裏表を交換
 		hTag.wt				= o=> this.wt(o);			// トランス終了待ち
-		hTag.finish_trans	= ()=> this.finish_trans();	// トランス強制終了
 
 		hTag.quake			= o=> this.quake(o);		// 画面を揺らす
-		hTag.wq				= o=> hTag.wt(o);			// 画面揺らし終了待ち
 		hTag.stop_quake		= o=> hTag.finish_trans(o);	// 画面揺らし中断
+		hTag.wq				= o=> hTag.wt(o);			// 画面揺らし終了待ち
 
-		hTag.tsy			= o=> this.tsy(o);			// トゥイーン開始
-		hTag.wait_tsy		= o=> this.wait_tsy(o);		// トゥイーン終了待ち
-		hTag.stop_tsy		= o=> this.stop_tsy(o);		// トゥイーン中断
 		hTag.pause_tsy		= o=> this.pause_tsy(o);	// 一時停止
 		hTag.resume_tsy		= o=> this.resume_tsy(o);	// 一時停止再開
+		hTag.stop_tsy		= o=> this.stop_tsy(o);		// トゥイーン中断
+		hTag.tsy			= o=> this.tsy(o);			// トゥイーン開始
+		hTag.wait_tsy		= o=> this.wait_tsy(o);		// トゥイーン終了待ち
 
 		//	文字・文字レイヤ
 	//	hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
@@ -96,8 +96,8 @@ export class LayerMng {
 		hTag.graph			= o=> this.graph(o);		// インライン画像表示
 		hTag.link			= o=> this.link(o);			// ハイパーリンク
 		hTag.r				= o=> this.r(o);			// 改行
-		hTag.rec_r			= ()=> this.rec_r();		// 履歴改行
 		hTag.rec_ch			= o=> this.rec_ch(o);		// 履歴書き込み
+		hTag.rec_r			= ()=> this.rec_r();		// 履歴改行
 		hTag.reset_rec		= o=> this.reset_rec(o);	// 履歴リセット
 		//hTag.ruby			= o=> this.ruby(o);			// 直前一文字のルビ（廃止
 			// タグでは無く、「｜＠《》」というスクリプト書き換えで良い
@@ -649,7 +649,7 @@ void main(void) {
 		return (layer)? layer.split(',') : this.aLayName;
 	}
 	private foreachLayers(hArg: HArg, fnc: (name: string, $pg: Pages)=> void): ReadonlyArray<string> {
-		const vct = this.getLayers(hArg['layer']);
+		const vct = this.getLayers(hArg.layer);
 		for (const name of vct) {
 			if (! name) continue;
 

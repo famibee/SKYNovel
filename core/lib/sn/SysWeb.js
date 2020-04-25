@@ -25,7 +25,56 @@ class SysWeb extends SysBase_1.SysBase {
         };
         this.now_prj = ':';
         this.ns = '';
-        this.flushSub = () => { };
+        this._export = () => {
+            const s = JSON.stringify({
+                'sys': this.data.sys,
+                'mark': this.data.mark,
+                'kidoku': this.data.kidoku,
+            });
+            const s2 = this.crypto ? String(this.enc(s)) : s;
+            const blob = new Blob([s2], { 'type': 'text/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = this.ns + CmnLib_1.getDateStr('-', '_', '') + '.spd';
+            a.click();
+            if (CmnLib_1.CmnLib.debugLog)
+                console.log('プレイデータをエクスポートします');
+            return false;
+        };
+        this._import = () => {
+            new Promise((rs, rj) => {
+                const inp = document.createElement('input');
+                inp.type = 'file';
+                inp.accept = '.spd, text/plain';
+                inp.onchange = (e) => {
+                    var _a, _b;
+                    const file = (_b = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b[0];
+                    if (file)
+                        rs(file);
+                    else
+                        rj();
+                };
+                inp.click();
+            })
+                .then((file) => new Promise(rs => {
+                const rd = new FileReader();
+                rd.readAsText(file);
+                rd.onload = () => rs(rd.result);
+            }))
+                .then(async (s) => {
+                const o = JSON.parse(this.crypto ? await this.pre('json', s) : s);
+                if (!o.sys || !o.mark || !o.kidoku)
+                    throw new Error('異常なプレイデータです');
+                this.data.sys = o.sys;
+                this.data.mark = o.mark;
+                this.data.kidoku = o.kidoku;
+                this.flush();
+                this.val.updateData(o);
+                this.fire('sn:imported', new Event('click'));
+            })
+                .catch(e => console.error(`異常なプレイデータです ${e.message}`));
+            return false;
+        };
         this.navigate_to = hArg => {
             const url = hArg.url;
             if (!url)
@@ -46,25 +95,19 @@ class SysWeb extends SysBase_1.SysBase {
             ? document['mozFullScreen']
             : document.fullscreen;
         this.readFile = (path, callback) => {
-            try {
-                (async () => {
-                    const res = await fetch(path);
-                    if (!res.ok)
-                        throw Error(res.statusText);
-                    callback(null, Buffer.from(await res.text()));
-                })();
-            }
-            catch (e) {
-                console.error('Error:', e);
-            }
+            fetch(path)
+                .then(res => {
+                if (!res.ok)
+                    throw Error(res.statusText);
+                callback(null, Buffer.from(res.text()));
+            })
+                .catch(e => console.error('Error:', e));
         };
         this.savePic = (fn, data_url) => {
-            const anchor = document.createElement('a');
-            anchor.href = data_url;
-            anchor.download = fn;
-            const e = document.createEvent('MouseEvent');
-            e.initEvent('click');
-            anchor.dispatchEvent(e);
+            const a = document.createElement('a');
+            a.href = data_url;
+            a.download = fn;
+            a.click();
             if (CmnLib_1.CmnLib.debugLog)
                 console.log('画像ファイルをダウンロードします');
         };
@@ -132,7 +175,7 @@ class SysWeb extends SysBase_1.SysBase {
         const hn = document.location.hostname;
         hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
         this.val.defTmp('const.sn.displayState', () => this.isFullScr());
-        this.flushSub = this.crypto
+        this.flush = this.crypto
             ? () => {
                 strLocal.set(this.ns + 'sys_', String(this.enc(JSON.stringify(this.data.sys))));
                 strLocal.set(this.ns + 'mark_', String(this.enc(JSON.stringify(this.data.mark))));
@@ -143,44 +186,39 @@ class SysWeb extends SysBase_1.SysBase {
                 strLocal.set(this.ns + 'mark', this.data.mark);
                 strLocal.set(this.ns + 'kidoku', this.data.kidoku);
             };
-        if (strLocal.get(this.ns + (this.arg.crypto ? 'sys_' : 'sys')) == undefined) {
-            hTmp['const.sn.isFirstBoot'] = true;
+        const nm = this.ns + (this.arg.crypto ? 'sys_' : 'sys');
+        if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) == undefined)) {
             this.data.sys = data['sys'];
             this.data.mark = data['mark'];
             this.data.kidoku = data['kidoku'];
             this.flush();
+            comp(this.data);
+            return;
         }
-        else {
-            hTmp['const.sn.isFirstBoot'] = false;
-            if (this.crypto) {
-                (async () => {
-                    let mes = '';
-                    try {
-                        mes = 'sys';
-                        this.data.sys = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'sys_')));
-                        mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
-                        mes = 'mark';
-                        this.data.mark = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'mark_')));
-                        mes = 'kidoku';
-                        this.data.kidoku = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'kidoku_')));
-                        this.val.saveKidoku();
-                    }
-                    catch (e) {
-                        console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
-                    }
-                    comp(this.data);
-                })();
-                return;
-            }
-            else {
-                this.data.sys = strLocal.get(this.ns + 'sys');
-                this.data.mark = strLocal.get(this.ns + 'mark');
-                this.data.kidoku = strLocal.get(this.ns + 'kidoku');
-            }
+        if (!this.crypto) {
+            this.data.sys = strLocal.get(this.ns + 'sys');
+            this.data.mark = strLocal.get(this.ns + 'mark');
+            this.data.kidoku = strLocal.get(this.ns + 'kidoku');
+            comp(this.data);
+            return;
         }
-        comp(this.data);
+        (async () => {
+            let mes = '';
+            try {
+                mes = 'sys';
+                this.data.sys = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'sys_')));
+                mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+                mes = 'mark';
+                this.data.mark = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'mark_')));
+                mes = 'kidoku';
+                this.data.kidoku = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'kidoku_')));
+            }
+            catch (e) {
+                console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+            }
+            comp(this.data);
+        })();
     }
-    flush() { this.flushSub(); }
     init(cfg, hTag, appPixi, val, main) {
         super.init(cfg, hTag, appPixi, val, main);
         if (!cfg.oCfg.debug.devtool)

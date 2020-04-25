@@ -129,7 +129,6 @@
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#clearsysvar">[clearsysvar] システム変数の全消去</a></li>
 		<li class="mb1"><a href="#clearvar">[clearvar] ゲーム変数の全消去</a></li>
-		<li class="mb1"><a href="#let">[let] 変数代入・演算</a></li>
 		<li class="mb1"><a href="#let_abs">[let_abs] 絶対値</a></li>
 		<li class="mb1"><a href="#let_char_at">[let_char_at] 文字列から一字取りだし</a></li>
 		<li class="mb1"><a href="#let_index_of">[let_index_of] 文字列で検索</a></li>
@@ -139,6 +138,7 @@
 		<li class="mb1"><a href="#let_round">[let_round] 四捨五入</a></li>
 		<li class="mb1"><a href="#let_search">[let_search] 正規表現で検索</a></li>
 		<li class="mb1"><a href="#let_substr">[let_substr] 文字列から抜きだし</a></li>
+		<li class="mb1"><a href="#let">[let] 変数代入・演算</a></li>
 	</ul>
 	<p>レイヤ共通</p>
 	<ul class="anchors list-reset m0 p0 px1">
@@ -160,9 +160,9 @@
 	<p>文字・文字レイヤ</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#autowc">[autowc] 文字ごとのウェイト</a></li>
-		<li class="mb1"><a href="#ch">[ch] 文字を追加する</a></li>
 		<li class="mb1"><a href="#ch_in_style">[ch_in_style] 文字出現演出定義</a></li>
 		<li class="mb1"><a href="#ch_out_style">[ch_out_style] 文字消去演出定義</a></li>
+		<li class="mb1"><a href="#ch">[ch] 文字を追加する</a></li>
 		<li class="mb1"><a href="#clear_text">[clear_text] 文字消去</a></li>
 		<li class="mb1"><a href="#current">[current] デフォルト文字レイヤ設定</a></li>
 		<li class="mb1"><a href="#endlink">[endlink] ハイパーリンクの終了</a></li>
@@ -174,7 +174,7 @@
 		<li class="mb1"><a href="#rec_r">[rec_r] 履歴改行</a></li>
 		<li class="mb1"><a href="#reset_rec">[reset_rec] 履歴リセット</a></li>
 		<li class="mb1"><a href="#ruby2">[ruby2] 文字列と複数ルビの追加</a></li>
-		<li class="mb1"><a href="#set_focus"><span class="red">【暫定版・未作成】</span>[set_focus] フォーカス移動</a></li>
+		<li class="mb1"><a href="#set_focus"><span class="red">【未作成】</span>[set_focus] フォーカス移動</a></li>
 		<li class="mb1"><a href="#span">[span] インラインスタイル設定</a></li>
 		<li class="mb1"><a href="#tcy">[tcy] 縦中横を表示する</a></li>
 	</ul>
@@ -186,9 +186,9 @@
 	<p>HTMLフレーム</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#add_frame">[add_frame] フレーム追加</a></li>
+		<li class="mb1"><a href="#frame">[frame] フレームに設定</a></li>
 		<li class="mb1"><a href="#let_frame">[let_frame] フレーム変数を取得</a></li>
 		<li class="mb1"><a href="#set_frame">[set_frame] フレーム変数に設定</a></li>
-		<li class="mb1"><a href="#frame">[frame] フレームに設定</a></li>
 		<li class="mb1"><a href="#tsy_frame">[tsy_frame] フレームをトゥイーン開始</a></li>
 	</ul>
 	<p>イベント</p>
@@ -263,6 +263,8 @@
 	<p>システム</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#close">[close] アプリの終了</a></li>
+		<li class="mb1"><a href="#export">[export] プレイデータをエクスポート</a></li>
+		<li class="mb1"><a href="#import">[import] プレイデータをインポート</a></li>
 		<li class="mb1"><a href="#loadplugin">[loadplugin] プラグインの読み込み</a></li>
 		<li class="mb1"><a href="#navigate_to">[navigate_to] ＵＲＬを開く</a></li>
 		<li class="mb1"><a href="#snapshot">[snapshot] スナップショット</a></li>
@@ -305,43 +307,6 @@
 	&save:const.sn.sLog = ''
 
 </p>
-<h2 id="let" class="w-heading">[let] 変数代入・演算</h2>
-<h4>変数に値を代入する。</h4>
-<p class="mb2 px1">
-
-<p class="mb2 px1">
-変数については「<a href="dev.md#reserve_value_sys">SKYNovel 組み込み変数</a>」を参照して下さい
-
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>String（変数名書式※）</td><td>変数名</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>セットする値</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td>（コメントを参照）</td><td>値をセットする際の型。<br/>num……数値（実数）。「01」は数値の1となる。<br/>int……数値（符合付き整数）<br/>uint……数値（符合なし整数）<br/>bool……Boolean<br/>str……文字列。「01」は「01」のまま。</td></tr>
-</table>
-<pre>
-[let]を使わない、より簡潔な記述文法があります。
-	※condのような条件分岐、「=aaa|0x0」のような省略記法はできません。
-以下の記述は、
-	[let name=a text=1]
-	[let name="b" text=2]
-	[let name=ret text="&amp;a + b"]（文字列ではなく計算の場合、右辺に&amp;をつける）
-	[let name="&amp;'ret'+ a" text="&amp;1 + b"]（左辺で&amp;を使える）
-	以下のようにも書けます。（&amp;から改行かタブまでを[let]文と解釈します）
-	&amp;a=1
-	&amp;b=2
-	&amp;ret = a + b（このように、右辺の&amp;は省略します。常に&amp;がついているイメージ）
-	&amp;&amp;'tst' + a = 1+b（左辺で&amp;を使える。&amp;ret1 = 1 + b と同じ）
-キャストも記述できます。（両者は同じ意味）
-	[let name=ret text=&amp;1+2 cast=int]（結果は3。1+2の計算結果が入る）
-	&amp;ret=1+2=int（同上）
-キャスト動作そのものは、以下のとおり。
-	&amp;num = '0+1' = int（結果は0、文字列「0+1」を計算せず文字列のまま、数値に変換できないため）
-	&amp;num = 0+1 = int（結果は1、0+1という計算結果をintで変数へ）
-	&amp;txt = '0+1' = str（結果は文字列「0+1」、文字列をそのまま変数に）
-	&amp;txt = 0+1 = str（結果は文字列「1」、0+1を計算してから結果1を文字列「1」として変数に）
-</pre>
-</p>
-
-
 <h2 id="let_abs" class="w-heading">[let_abs]絶対値</h2>
 <h4>絶対値を求める</h4>
 <p class="mb2 px1">
@@ -353,8 +318,6 @@
 </table>
 
 </p>
-
-
 <h2 id="let_char_at" class="w-heading">[let_char_at] 文字列から一字取りだし</h2>
 <h4>文字列中の一文字を取り出す</h4>
 <p class="mb2 px1">
@@ -367,8 +330,6 @@
 </table>
 
 </p>
-
-
 <h2 id="let_index_of" class="w-heading">[let_index_of]文字列で検索</h2>
 <h4>文字列内を検索し、文字列内の start 以降で、最初に val が見つかった位置を返します。</h4>
 <p class="mb2 px1">
@@ -382,8 +343,6 @@
 </table>
 
 </p>
-
-
 <h2 id="let_length" class="w-heading">[let_length]文字列の長さ</h2>
 <h4>文字列の長さを求める</h4>
 <p class="mb2 px1">
@@ -455,6 +414,40 @@
 </table>
 
 </p>
+<h2 id="let" class="w-heading">[let] 変数代入・演算</h2>
+<h4>変数に値を代入する。</h4>
+<p class="mb2 px1">
+	変数については「<a href="dev.md#reserve_value_sys">SKYNovel 組み込み変数</a>」を参照して下さい
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>String（変数名書式※）</td><td>変数名</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>セットする値</td></tr>
+<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td>（コメントを参照）</td><td>値をセットする際の型。<br/>num……数値（実数）。「01」は数値の1となる。<br/>int……数値（符合付き整数）<br/>uint……数値（符合なし整数）<br/>bool……Boolean<br/>str……文字列。「01」は「01」のまま。</td></tr>
+</table>
+<pre>
+[let]を使わない、より簡潔な記述文法があります。
+	※condのような条件分岐、「=aaa|0x0」のような省略記法はできません。
+以下の記述は、
+	[let name=a text=1]
+	[let name="b" text=2]
+	[let name=ret text="&amp;a + b"]（文字列ではなく計算の場合、右辺に&amp;をつける）
+	[let name="&amp;'ret'+ a" text="&amp;1 + b"]（左辺で&amp;を使える）
+	以下のようにも書けます。（&amp;から改行かタブまでを[let]文と解釈します）
+	&amp;a=1
+	&amp;b=2
+	&amp;ret = a + b（このように、右辺の&amp;は省略します。常に&amp;がついているイメージ）
+	&amp;&amp;'tst' + a = 1+b（左辺で&amp;を使える。&amp;ret1 = 1 + b と同じ）
+キャストも記述できます。（両者は同じ意味）
+	[let name=ret text=&amp;1+2 cast=int]（結果は3。1+2の計算結果が入る）
+	&amp;ret=1+2=int（同上）
+キャスト動作そのものは、以下のとおり。
+	&amp;num = '0+1' = int（結果は0、文字列「0+1」を計算せず文字列のまま、数値に変換できないため）
+	&amp;num = 0+1 = int（結果は1、0+1という計算結果をintで変数へ）
+	&amp;txt = '0+1' = str（結果は文字列「0+1」、文字列をそのまま変数に）
+	&amp;txt = 0+1 = str（結果は文字列「1」、0+1を計算してから結果1を文字列「1」として変数に）
+</pre>
+
+</p>
 
 
 <h1><a id="レイヤ共通"></a>レイヤ共通</h1>
@@ -473,8 +466,6 @@
 </table>
 
 </p>
-
-
 <h2 id="clear_lay" class="w-heading">[clear_lay]レイヤ設定の消去</h2>
 <h4>画像や文字などレイヤ状態をクリアする。</h4>
 <p class="mb2 px1">
@@ -489,18 +480,15 @@
 </table>
 
 </p>
-
-
 <h2 id="finish_trans" class="w-heading">[finish_trans] トランス強制終了</h2>
-<p>引数無し。<br/>
-	<p class="mb2 px1">
-
-[trans]で開始したトランス終了を待たず、すぐ終了させる。<br/>
-	終了次第、スクリプト処理を次へ進める</p>
+<h4>[trans]で開始したトランスをすぐ終了させる</h4>
+<p class="mb2 px1">
+	引数無し。<br/>
+	<br/>
+	[trans]で開始したトランス終了を待たず、すぐ終了させる。<br/>
+	終了次第、スクリプト処理を次へ進める
 
 </p>
-
-
 <h2 id="lay" class="w-heading">[lay]レイヤ設定(共通)</h2>
 <h4>レイヤに各種設定を行う。</h4>
 <p class="mb2 px1">
@@ -511,7 +499,7 @@
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr><td>visible</td><td></td><td>現在値</td><td>Boolean</td><td>true：表示、false：非表示</td></tr>
 <tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>レイヤの透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="#clearvar">blendModeの解説</a>を参照。</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
 <tr><td>pos</td><td></td><td>c※</td><td>c、l、r、横座標</td><td>主に立ち絵に使う。横と縦座標を同時に設定する。<br/>横座標は指定した値（文字cの場合は画面中央、lは左寄り、rは右寄り）に設定し、画像下端を画面下端に接するように自動計算する。</td></tr>
 <tr><td>left</td><td></td><td>0</td><td>画面左上を(0, 0)とする横座標※</td><td>レイヤやボタン左端の画面左端からの距離</td></tr>
 <tr><td>center</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン中央の画面左端からの距離</td></tr>
@@ -592,8 +580,8 @@
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
-<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
-<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>b_width</td><td></td><td>(↑と同じ)</td><td>矩形表示縦横ピクセル数</td><td>テキスト背後の矩形表示縦横サイズ。<br/>初期値はそれぞれ（画面横幅 - b_left *2）（画面縦幅 - b_top *2）</td></tr>
 <tr><td>b_height</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
 <tr><td>b_color</td><td></td><td>(↑と同じ)</td><td>色指定。0x000000など</td><td>テキスト背後の矩形色。初期値は 0x000000（黒）</td></tr>
@@ -641,8 +629,6 @@
 </table>
 
 </p>
-
-
 <h2 id="grplay" class="w-heading">[lay]レイヤ設定(画像レイヤ)</h2>
 <p class="mb2 px1">
 
@@ -665,8 +651,6 @@
 </table>
 
 </p>
-
-
 <h2 id="trans" class="w-heading">[trans]ページ裏表を交換</h2>
 <h4>裏ページを表ページとクロスフェードする。</h4>
 <p class="mb2 px1">
@@ -758,7 +742,7 @@
 	<tr><td>x='=250,500'	</td><td>+250から＋500までの間でランダムな値を現在のX位置に加算</td></tr>
 	</table>
 	<br/>
-	注：フレームのトゥイーンアニメは<a href="#tsy_frame">[tsy_frame]</a>で行なう。<br/>
+	注：フレームのトゥイーンアニメは<a href="tag.htm#tsy_frame" target="_blank" rel="noopener">[tsy_frame]</a>で行なう。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
@@ -817,7 +801,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </p>
 
 
-<h1><a id="文字文字レイヤ文字文字レイヤ"></a>文字・文字レイヤ</h1>
+<h1><a id="文字・文字レイヤ"></a>文字・文字レイヤ</h1>
 <h2 id="autowc" class="w-heading">[autowc]文字ごとのウェイト</h2>
 <h4>特定の文字の直後に自動的にウェイトを入れる。</h4>
 <p class="mb2 px1">
@@ -843,40 +827,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	;x [autowc text="" time=""]</p>
 
 </p>
-
-
-<h2 id="ch" class="w-heading">[ch]文字を追加する</h2>
-<h4>文字レイヤに文字を出力する</h4>
-<p class="mb2 px1">
-
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
-<tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>表示したい文字列。ルビ文法（《》）も解析する。改行も [r] で出来る</td></tr>
-<tr><td>record</td><td></td><td>true</td><td>Boolean</td><td>履歴に保存するか</td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
-<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>このタグによる表示のみに適用、以降は元に戻る</td></tr>
-<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
-<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
-</table>
-<p>[ch]を使わない、より簡潔な記述文法があります。<br/>
-	以下の記述は、<br/>
-	[ch text=&amp;test]<br/>
-	[ch text=test]<br/>
-	[ch text="&amp;a + b"]<br/>
-	<br/>
-	以下のようにも書けます。&amp;から&amp;までを[ch]文と解釈します。<br/>
-	&amp;test&amp;<br/>
-	&amp;'test'&amp;<br/>
-	&amp;a + b&amp;<br/>
-	<br/>
-	では「&（半角）」を表示するには？（これらの文法のせいで普通に書けない）<br/>
-	[ch text="&'&'"]として下さい。
-</p>
-
-</p>
-
-
 <h2 id="ch_in_style" class="w-heading">[ch_in_style]文字出現演出定義</h2>
 <h4>文字出現演出アニメを定義する</h4>
 <p class="mb2 px1">
@@ -903,13 +853,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="ch_out_style" class="w-heading">[ch_out_style]文字消去演出定義</h2>
 <h4>文字消去演出アニメを定義する</h4>
 <p class="mb2 px1">
 	[lay][span]などの ch_out_style属性で指定すると、定義どおりの文字消去演出アニメを行なう。<br/>
-	文字消去演出は、次ページの文字出現演出と同時に行なわれる。文字消去演出を待ちたい場合は、<a href="#wait">[wait]</a>などで待つ。
+	文字消去演出は、次ページの文字出現演出と同時に行なわれる。文字消去演出を待ちたい場合は、<a href="tag.htm#wait" target="_blank" rel="noopener">[wait]</a>などで待つ。
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
@@ -932,8 +880,36 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
+<h2 id="ch" class="w-heading">[ch]文字を追加する</h2>
+<h4>文字レイヤに文字を出力する</h4>
+<p class="mb2 px1">
 
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
+<tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>表示したい文字列。ルビ文法（《》）も解析する。改行も [r] で出来る</td></tr>
+<tr><td>record</td><td></td><td>true</td><td>Boolean</td><td>履歴に保存するか</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>このタグによる表示のみに適用、以降は元に戻る</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+</table>
+<p>[ch]を使わない、より簡潔な記述文法があります。<br/>
+	以下の記述は、<br/>
+	[ch text=&amp;test]<br/>
+	[ch text=test]<br/>
+	[ch text="&amp;a + b"]<br/>
+	<br/>
+	以下のようにも書けます。&amp;から&amp;までを[ch]文と解釈します。<br/>
+	&amp;test&amp;<br/>
+	&amp;'test'&amp;<br/>
+	&amp;a + b&amp;<br/>
+	<br/>
+	では「&（半角）」を表示するには？（これらの文法のせいで普通に書けない）<br/>
+	[ch text="&'&'"]として下さい。
+</p>
 
+</p>
 <h2 id="clear_text" class="w-heading">[clear_text]文字消去</h2>
 <h4>文字のみをクリアする</h4>
 <p class="mb2 px1">
@@ -944,8 +920,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="current" class="w-heading">[current] デフォルト文字レイヤ設定</h2>
 <h4>デフォルト文字レイヤを設定する</h4>
 <p class="mb2 px1">
@@ -955,8 +929,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="endlink" class="w-heading">[endlink]ハイパーリンクの終了</h2>
 <h4>[link]（ハイパーリンク）で開始したリンク区間を終了する</h4>
 <p class="mb2 px1">
@@ -967,8 +939,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="er" class="w-heading">[er]ページ両面の文字消去</h2>
 <h4>デフォルト文字レイヤの裏と表の両方に対して[clear_lay]を行う。</h4>
 <p class="mb2 px1">
@@ -978,8 +948,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="graph" class="w-heading">[graph]インライン画像表示</h2>
 <h4>文字レイヤに画像を文字として表示する。ルビは同時に設定する。</h4>
 <p class="mb2 px1">
@@ -993,16 +961,14 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>width</td><td></td><td>画像の横サイズ（※）</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>height</td><td></td><td>画像の縦サイズ（※）</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
-<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
-<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 </table>
 <p>※省略時は画像サイズになるが、ロード完了直後に文字配置を決めるのでちらつく。それを嫌う際に指定する<br/>
 	※特にモバイルなどでゲーム画面が自動で拡大縮小される場合、省略したらその時の本文文字サイズとして扱われる。なるべくサイズ指定を推奨。</p>
 
 </p>
-
-
 <h2 id="link" class="w-heading">[link]ハイパーリンク</h2>
 <h4>指定した文字レイヤの表ページに、ハイパーリンクを作成する。</h4>
 <p class="mb2 px1">
@@ -1014,8 +980,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ名</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr><td>style</td>'background-color: rgba(255,0,0,0.5);'<td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
-<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
-<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 <tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
 <tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>クリック時にジャンプする先。<br/>指定方法は[jump]と同様</td></tr>
@@ -1032,8 +998,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="r" class="w-heading">[r] 改行</h2>
 <h4>指定した文字レイヤの表ページに、改行を出力する。</h4>
 <p class="mb2 px1">
@@ -1044,8 +1008,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="rec_ch" class="w-heading">[rec_ch]履歴書き込み</h2>
 <h4>履歴に文字や付加情報を出力する。</h4>
 <p class="mb2 px1">
@@ -1059,8 +1021,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="rec_r" class="w-heading">[rec_r]履歴改行</h2>
 <h4>履歴に改行を出力する。</h4>
 <p class="mb2 px1">
@@ -1068,8 +1028,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p>引数無し。</p>
 
 </p>
-
-
 <h2 id="reset_rec" class="w-heading">[reset_rec]履歴リセット</h2>
 <h4>履歴をクリアする。</h4>
 <p class="mb2 px1">
@@ -1080,8 +1038,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="ruby2" class="w-heading">[ruby2]文字列と複数ルビの追加</h2>
 <h4>親文字列とルビ文字列のセットで文字を追加する</h4>
 <p class="mb2 px1">
@@ -1094,41 +1050,35 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="set_focus" class="w-heading">[set_focus] 未作成：フォーカス移動</h2>
 <h4>[button]フォーカスを移動する。</h4>
 <p class="mb2 px1">
 
-<p>説明に「フォーカス順」とある場合は、[button]が文字レイヤに追加された順番。<br/>
-	先頭は最初に追加された[button]。</p>
+	説明に「フォーカス順」とある場合は、[button]が文字レイヤに追加された順番。<br/>
+	先頭は最初に追加された[button]。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>to</td><td>y</td><td></td><td>（コメントで解説）</td><td>prev……フォーカス順で前の[button]に移動<br/>next……フォーカス順で次の[button]に移動<br/>null……どの[button]にもフォーカスがない状態にする<br/>数値……数値をフォーカス順の番号（0〜）として移動</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="span" class="w-heading">[span]インラインスタイル設定</h2>
 <h4>この指定以降の文字のレイアウト（フォントや文字色など）を指定する。</h4>
 <p class="mb2 px1">
 
-<p>一時的に文字レイヤのlayout属性への指定を上書きするイメージ。
-	文字レイヤをクリア（[clear_text]、[clear_lay]）するとリセット、以降は元通り文字レイヤのlayout属性に従う</p>
+	一時的に文字レイヤのlayout属性への指定を上書きするイメージ。
+	文字レイヤをクリア（[clear_text]、[clear_lay]）するとリセット、以降は元通り文字レイヤのlayout属性に従う
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
-<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="#ch_in_style">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
-<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="#ch_out_style">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
-<tr><td>r_align</td><td></td><td>現在値</td><td></td><td>ルビ揃えを指定する。<br/>設定値は「<a href="#lay">[lay]</a>レイヤ設定(文字レイヤ)」を参照
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+<tr><td>r_align</td><td></td><td>現在値</td><td></td><td>ルビ揃えを指定する。<br/>設定値は「<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>レイヤ設定(文字レイヤ)」を参照
 </td></tr>
 </table>
 
 </p>
-
-
 <h2 id="tcy" class="w-heading">[tcy]縦中横を表示する</h2>
 <h4>縦中横文字を追加する。ルビは同時に設定する</h4>
 <p class="mb2 px1">
@@ -1143,28 +1093,26 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </p>
 
 
-<h1><a id="画像画像レイヤ画像画像レイヤ"></a>画像・画像レイヤ</h1>
+<h1><a id="画像・画像レイヤ"></a>画像・画像レイヤ</h1>
 <h2 id="add_face" class="w-heading">[add_face]差分画像の追加</h2>
 <h4>差分画像を登録する。</h4>
 <p class="mb2 px1">
 
-<p>本タグだけでは差分画像を表示しない。画像レイヤの[lay]タグface属性で指定する差分名称を登録する。</p>
+	本タグだけでは差分画像を表示しない。画像レイヤの[lay]タグface属性で指定する差分名称を登録する。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>差分名称</td><td>[lay]タグface属性で指定する差分名称</td></tr>
 <tr><td>fn</td><td></td><td>属性nameの値</td><td>画像ファイル名</td><td>表示する画像、アニメpng</td></tr>
 <tr><td>dx</td><td></td><td>0</td><td>基本画像左上を(0, 0)とする座標</td><td>差分画像の表示横位置</td></tr>
 <tr><td>dy</td><td></td><td>0</td><td>(↑と同じ)</td><td>差分画像の表示縦位置</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="#clearvar">blendModeの解説</a>を参照。</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
 </table>
-<p>例えば同じ画像で差分表示位置やブレンドモードが違う登録をしたい場合、<br/>
+	例えば同じ画像で差分表示位置やブレンドモードが違う登録をしたい場合、<br/>
 	[add_face name="a_normal" fn="画像" dx=0 dy=0]<br/>
 	[add_face name="a_10_10" fn="画像" dx=10 dy=10]<br/>
 	[add_face name="a_screen" fn="画像" dx=0 dy=0 blendmode="screen"]<br/>
-	とnameを変えることで登録できます。</p>
+	とnameを変えることで登録できます。
 
 </p>
-
-
 <h2 id="wv" class="w-heading">[wv]動画再生終了待ち</h2>
 <h4>[lay]で開始したムービー再生の終了を待つ</h4>
 <p class="mb2 px1">
@@ -1172,22 +1120,19 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p>何かしらの画像レイヤで再生している動画の終了を待つ</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>動画ファイル名</td><td>再生終了を待つ動画</td></tr>
-<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="#waitclick">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
 </table>
-
 
 </p>
 
 
-<h1><a id="htmlフレームhtmlフレーム"></a>HTMLフレーム</h1>
+<h1><a id="htmlフレーム"></a>HTMLフレーム</h1>
 <h2 id="add_frame" class="w-heading">[add_frame]フレーム追加</h2>
 <h4>HTMLファイルをベースとする「フレーム」を追加する</h4>
 <p class="mb2 px1">
 
-<p>
 	注：これは HTML要素の iframe（インラインフレーム要素）で、フレームは全てのレイヤの手前に表示され、互い違いに重ねられない。<br/>
-	<a href="dev.htm#reserve_value_tmp">const.sn.frm.（フレーム名）系</a>の値もセットする。<br/>
-</p>
+	<a href="dev.htm#reserve_value_tmp">const.sn.frm.（フレーム名）系</a>の値もセットする。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
 <tr class="y"><td>src</td><td>y</td><td></td><td>
@@ -1210,37 +1155,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
-<h2 id="let_frame" class="w-heading">[let_frame]フレーム変数を取得</h2>
-<h4>フレーム内の変数から、値を取得する</h4>
-<p class="mb2 px1">
-
-<p>
-	関数名を指定した場合は関数を実行し、その戻り値を取得する。<br/>
-	【const.sn.frm.（id名）.（var_name名）】に値がセットされる。<br/>
-</p>
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
-<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数/関数名。</td></tr>
-</table>
-
-</p>
-
-
-<h2 id="set_frame" class="w-heading">[set_frame]フレーム変数に設定</h2>
-<h4>フレーム内の変数に、値を設定する</h4>
-<p class="mb2 px1">
-
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
-<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数名。</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td></td><td>フレーム内の変数にセットする値。</td></tr>
-</table>
-
-</p>
-
-
 <h2 id="frame" class="w-heading">[frame]フレームに設定</h2>
 <h4>フレームそのものの属性を設定する</h4>
 <p class="mb2 px1">
@@ -1263,24 +1177,45 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
+<h2 id="let_frame" class="w-heading">[let_frame]フレーム変数を取得</h2>
+<h4>フレーム内の変数から、値を取得する</h4>
+<p class="mb2 px1">
 
+	関数名を指定した場合は関数を実行し、その戻り値を取得する。<br/>
+	【const.sn.frm.（id名）.（var_name名）】に値がセットされる。<br/>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数/関数名。</td></tr>
+</table>
 
+</p>
+<h2 id="set_frame" class="w-heading">[set_frame]フレーム変数に設定</h2>
+<h4>フレーム内の変数に、値を設定する</h4>
+<p class="mb2 px1">
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数名。</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td></td><td>フレーム内の変数にセットする値。</td></tr>
+</table>
+
+</p>
 <h2 id="tsy_frame" class="w-heading">[tsy_frame]フレームをトゥイーン開始</h2>
 <h4>フレームのトゥイーンアニメを行なう</h4>
 <p class="mb2 px1">
 
 	フレームのトゥイーンアニメを開始したあと、id属性指定により以下のタグを使用できる。<br/>
-	<a href="#pause_tsy">[pause_tsy]</a>（一時停止）<br/>
-	<a href="#resume_tsy">[resume_tsy]</a>（一時停止再開）<br/>
-	<a href="#stop_tsy">[stop_tsy]</a>（トゥイーン中断）<br/>
-	<a href="#wait_tsy">[wait_tsy]</a>（トゥイーン終了待ち）<br/>
+	<a href="tag.htm#pause_tsy" target="_blank" rel="noopener">[pause_tsy]</a>（一時停止）<br/>
+	<a href="tag.htm#resume_tsy" target="_blank" rel="noopener">[resume_tsy]</a>（一時停止再開）<br/>
+	<a href="tag.htm#stop_tsy" target="_blank" rel="noopener">[stop_tsy]</a>（トゥイーン中断）<br/>
+	<a href="tag.htm#wait_tsy" target="_blank" rel="noopener">[wait_tsy]</a>（トゥイーン終了待ち）<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
 <tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
-<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="#tsy">[tsy]</a>を参照</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
 <tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 <tr class="y"><td>alpha</td><td rowspan="8">いずれかを指定</td><td rowspan="8">何もしない</td><td rowspan="8"></td><td rowspan="6">同名属性の変化目標値</td></tr>
 <tr class="y"><td>height</td></tr>
@@ -1295,7 +1230,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </p>
 
 
-<h1><a id="イベントイベント"></a>イベント</h1>
+<h1><a id="イベント"></a>イベント</h1>
 <h2 id="clear_event" class="w-heading">[clear_event] イベントを全消去</h2>
 <h4>イベント予約を全て削除する</h4>
 <p class="mb2 px1">
@@ -1306,8 +1241,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="enable_event" class="w-heading">[enable_event] イベント有無の切替</h2>
 <h4>文字レイヤごとのイベント発生有効無効を設定する。</h4>
 <p class="mb2 px1">
@@ -1320,8 +1253,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="event" class="w-heading">[event]イベントを予約</h2>
 <h4>次の[s]などのイベント待ちに向けてイベント処理を予約する。</h4>
 <p class="mb2 px1">
@@ -1333,19 +1264,19 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)<br/>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
 <tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>trueを指定すると大域的なイベント扱いとなり、<br/>イベント発生時にイベント予約が削除されない</td></tr>
 <tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>del</td><td>...</td><td></td><td>Boolean</td><td>trueを指定すると予約済みイベントを削除する。<br/>fn/label/callとdelは同時指定できません</td></tr>
+<tr><td>url</td><td></td><td></td><td>URL文字列</td><td>開くURL</td></tr>
+<tr><td>del</td><td></td><td></td><td>Boolean</td><td>trueを指定すると予約済みイベントを削除する。<br/>fn/label/callとdelは同時指定できません</td></tr>
 <tr><td>frame</td><td></td><td>10</td><td>1〜</td><td>※未実装<br/><br/>key=enter_frameの場合のみ有効。<br/>フレームイベントは毎秒何度も（[window]のframerate回）発生するが、 アプリ全体が重くなるので、適度に間引いてイベントを時々発生させるため、
 	フレーム何回に一回イベントを発生させるかを指定する。<br/>例）30フレームで動作するアプリでframe=15を指定すると、30/15=0.5秒に一回発生（タイミングにより厳密ではない）</td></tr>
 </table>
-</p>
 
-<p>※1 イベントのキー名は以下の表を参考に。</p>
-<p>
+	※1 イベントのキー名は以下の表を参考に。<br/>
+	<br/>
 	技術的の話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>（<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" target="_blank" rel="noopener">Key Values - Web APIs | MDN</a>）を基本とする。<br/>
 	（keyCode（<a href="https://qiita.com/ledsun/items/fb2570cc1542039f4516" target="_blank" rel="noopener">非推奨</a>）・codeプロパティとは違うので注意）<br/>
 	<span style="color:ff0000;background-color:#FFCACA;">重要な点として、「key属性の値」は大文字小文字区別無し、どちらでもよい。</span><br/>
 	修飾キー（shiftなど）は、その前に追加していく。（追加順は決まっており、以下を参照。ABC順）<br/>
-</p>
+
 <table><tr><th>key属性の値</th><th>コメント</th></tr>
 <tr><td>Click</td><td>マウスボタンクリック（[button]以外のどこか）</td></tr>
 <tr><td>RightClick</td><td>マウス右ボタンクリック（[button]以外のどこか）</td></tr>
@@ -1383,7 +1314,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>F12</td><td>〃</td></tr>
 <tr><td>F13</td><td>※注：F13以上は、キーボードによっては存在しない</td></tr>
 <tr><td>dom=【フレーム名】:【ボタン系 HTML要素の id名】</td><td>
-	<a href="#add_frame">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
+	<a href="tag.htm#add_frame" target="_blank" rel="noopener">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
 	<br/>
 	「ボタン系 HTML要素」とは、【&lt;a id="close"&gt;x&lt;/a&gt;】など。<br/>
 	【key='dom=config:#close'】と記述した場合、その要素をクリックした際にイベントが発生する。<br/>
@@ -1392,7 +1323,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	例では、sn.event.domdata.arg に文字列【res】が入る。<br/>
 </td></tr>
 <tr><td>dom=【フレーム名】:【スライダー系 HTML要素の id名】</td><td>
-	<a href="#add_frame">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
+	<a href="tag.htm#add_frame" target="_blank" rel="noopener">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
 	<br/>
 	「スライダー系 HTML要素」とは、【&lt;input type="range" id="sldBackAlpha" min="0" max="100" step="5" value="70"/&gt;】など。<br/>
 	【key='dom=config:#sldBackAlpha'】と記述した場合、そのスライダーを変更した際にイベントが発生する。<br/>
@@ -1401,7 +1332,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	例では、sn.event.domdata.arg2 に文字列【res2】が入る。<br/>
 </td></tr>
 <tr><td>dom=【フレーム名】:【トグルボタン系 HTML要素の id名】</td><td>
-	<a href="#add_frame">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
+	<a href="tag.htm#add_frame" target="_blank" rel="noopener">[add_frame]</a>で読み込んだ HTML要素に発生したイベントを検知し、イベントとする。<br/>
 	<br/>
 	「トグルボタン系 HTML要素」とは、【&lt;input type="checkbox" id="chkScrMode" checked="."/&gt;】など。<br/>
 	【key='dom=config:#chkScrMode'】と記述した場合、その要素をクリックした際にイベントが発生する。<br/>
@@ -1409,86 +1340,75 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	HTML要素に【&lt;input type="checkbox" id="chkScrMode" checked="." data-arg3="res3"/&gt;】などとカスタムデータ属性を付加すると、イベント発生時に tmp変数として値を受け取れる。<br/>
 	例では、sn.event.domdata.arg3 に文字列【res3】が入る。<br/>
 </td></tr>
+<tr><td>sn:imported</td><td><a href="tag.htm#import" target="_blank" rel="noopener">[import]</a>によるインポート完了時</td></tr>
 </table>
 
-<!--
-<p>
-	numpad_enter | テンキーのEnterキー。テンキーはキーボードによっては存在しない
-	orientation | （デバイス・ANBooksのみ）デバイスが回転したらイベント発生（※3）
-	enter_frame | 毎フレーム毎にイベント発生（※2）
-	activate | アプリがフォーカスを取得して、アクティブ（前面）になった
-	deactivate | アプリがフォーカスを失って、非アクティブになった
-※2 enter_frameイベントは毎秒何度も発生する。
 </p>
--->
-
-
 <h2 id="l" class="w-heading">[l] 行末クリック待ち</h2>
 <h4>シナリオファイルの順次処理を停止し、クリックやキー押下（→詳細は[waitclick]）を待つ。</h4>
 <p class="mb2 px1">
 
-<p>「breakline」という画像やアニメpngファイルが用意されていれば、行末クリック待ちマークとして表示する。
-	クリックやキー押下が発生した場合、処理を再開する。
-	[event]などでイベントが登録されていれば、イベント発生待ちを行う。</p>
+	「breakline」という画像やアニメpngファイルが用意されていれば、行末クリック待ちマークとして表示する。<br/>
+	クリックやキー押下が発生した場合、処理を再開する。<br/>
+	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="p" class="w-heading">[p]改ページクリック待ち</h2>
 <h4>シナリオファイルの順次処理を停止し、クリックやキー押下（→詳細は[waitclick]）を待つ。</h4>
 <p class="mb2 px1">
 
-<p>「breakpage」という画像やアニメpngファイルが用意されていれば、改ページクリック待ちマークとして表示する。
-	クリックやキー押下が発生した場合、処理を再開する。
-	[event]などでイベントが登録されていれば、イベント発生待ちを行う。</p>
+	「breakpage」という画像やアニメpngファイルが用意されていれば、改ページクリック待ちマークとして表示する。<br/>
+	クリックやキー押下が発生した場合、処理を再開する。<br/>
+	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで改ページ記号を表示、falseで非表示</td></tr>
 <tr><td>er</td><td></td><td>何もしない</td><td>Boolean</td><td>trueで改ページ待ち後に[er]処理を行なう</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="s" class="w-heading">[s] 停止する</h2>
-<h4>引数無し。</h4>
+<h4>シナリオファイルの順次処理を停止する</h4>
 <p class="mb2 px1">
 
-<p>シナリオファイルの順次処理を停止する。
-	[event]などでイベントが登録されていれば、イベント発生待ちを行う。</p>
+	引数無し。<br/>
+	<br/>
+	シナリオファイルの順次処理を停止する。<br/>
+	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
 
 </p>
-
-
 <h2 id="set_cancel_skip" class="w-heading">[set_cancel_skip] スキップ中断予約</h2>
-<p>引数無し。
-	ページ末まで一気に読み進むモード、自動読みすすみモードなどの開始に備え、クリックなどで処理を中断できるような特殊イベントを予約する。
-	クリックやキー押下が発生した場合、処理を再開する。</p>
-<p>※例えば自動読み進みモードだと[l][p]などで停止しないため、予約イベントが処理されない。その為のタグ。</p>
+<h4>スキップ中断を予約</h4>
+<p class="mb2 px1">
+
+	引数無し。<br/>
+	<br/>
+	（普段使わないし、かなり高度な話なので、このタグは理解しなくて結構です）<br/>
+	ページ末まで一気に読み進むモード、自動読みすすみモードなどの開始に備え、クリックなどで処理を中断できるような特殊イベントを予約する。<br/>
+	クリックやキー押下が発生した場合、処理を再開する。<br/>
+	<br/>
+	※例えば自動読み進みモードだと[l][p]などで停止しないため、予約イベントが処理されない。その為のタグ。<br/>
 
 </p>
-
-
 <h2 id="wait" class="w-heading">[wait]ウェイトを入れる</h2>
 <h4>指定時間スクリプト処理を待ち、再開する。</h4>
 <p class="mb2 px1">
 
-<p>[event]などでイベントが登録されていても、イベント発生待ちを行わない。</p>
+	[event]などでイベントが登録されていても、イベント発生待ちを行わない。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>処理を待つ時間</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は[waitclick]）でウエイトをキャンセルできるか</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="waitclick" class="w-heading">[waitclick]クリックを待つ</h2>
 <h4>シナリオファイルの順次処理を停止し、クリックやキー押下※を待つ。</h4>
 <p class="mb2 px1">
 
-<p>引数無し。<br/>
+	引数無し。<br/>
+	<br/>
 	クリックやキー押下が発生した場合、処理を再開する。<br/>
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
 	<br/>
@@ -1497,12 +1417,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　　downwheel（下方向へのマウスホイール）<br/>
 	　　enter<br/>
 	　　space<br/>
-	　　down（矢印キーの下）</p>
+	　　down（矢印キーの下）<br/>
 
 </p>
 
 
-<h1><a id="ｂｇｍ効果音ｂｇｍ効果音"></a>ＢＧＭ・効果音</h1>
+<h1><a id="ＢＧＭ・効果音"></a>ＢＧＭ・効果音</h1>
 <h2 id="fadebgm" class="w-heading">[fadebgm]BGMのフェード</h2>
 <h4>BGMを指定した音量に、段階的に変化させる。</h4>
 <p class="mb2 px1">
@@ -1514,8 +1434,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="fadeoutbgm" class="w-heading">[fadeoutbgm] BGMのフェードアウト</h2>
 <h4>BGMを無音に、段階的に変化させる。</h4>
 <p class="mb2 px1">
@@ -1527,8 +1445,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="fadeoutse" class="w-heading">[fadeoutse] 効果音のフェードアウト</h2>
 <h4>効果音を無音に、段階的に変化させる。</h4>
 <p class="mb2 px1">
@@ -1541,8 +1457,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="fadese" class="w-heading">[fadese]効果音のフェード</h2>
 <h4>効果音を指定した音量に、段階的に変化させる。</h4>
 <p class="mb2 px1">
@@ -1555,8 +1469,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="playbgm" class="w-heading">[playbgm]BGM の演奏</h2>
 <h4>BGMを再生する。</h4>
 <p class="mb2 px1">
@@ -1576,8 +1488,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="playse" class="w-heading">[playse]効果音の再生</h2>
 <h4>効果音を再生する。</h4>
 <p class="mb2 px1">
@@ -1602,24 +1512,16 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="stop_allse" class="w-heading">[stop_allse] 全効果音再生の停止</h2>
 <h4>全てのサウンドを停止する。ぴたっと止める。</h4>
 <p class="mb2 px1">
 
-
 </p>
-
-
 <h2 id="stopbgm" class="w-heading">[stopbgm]BGM 演奏の停止</h2>
 <h4>BGM 演奏を停止する。ぴたっと止める。</h4>
 <p class="mb2 px1">
 
-
 </p>
-
-
 <h2 id="stopfadese" class="w-heading">[stopfadese] 音声フェードの停止</h2>
 <h4>音声フェードを停止する。</h4>
 <p class="mb2 px1">
@@ -1629,8 +1531,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="stopse" class="w-heading">[stopse]効果音再生の停止</h2>
 <h4>効果音再生を停止する。</h4>
 <p class="mb2 px1">
@@ -1640,20 +1540,17 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="volume" class="w-heading">[volume]音量設定</h2>
-<h4>BGMや効果音を指定した音量にする。</h4>
+<h4>BGMや効果音の音量を指定</h4>
 <p class="mb2 px1">
 
+	BGMや効果音を指定した音量にする。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの音量設定。</td></tr>
 <tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>音量</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="wb" class="w-heading">[wb]BGM フェードの終了待ち</h2>
 <h4>BGM フェードの終了を待つ。</h4>
 <p class="mb2 px1">
@@ -1663,8 +1560,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="wf" class="w-heading">[wf]効果音フェードの終了待ち</h2>
 <h4>効果音 フェードの終了を待つ。</h4>
 <p class="mb2 px1">
@@ -1675,32 +1570,26 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="wl" class="w-heading">[wl]BGM 再生の終了待ち</h2>
 <h4>BGM 再生の終了を待つ。</h4>
 <p class="mb2 px1">
 
-<p>loop=true（[playbgm]のデフォルト値）なら待たない。<br/>
-	利用時は【音声再生[playbgm]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。</p>
+	loop=true（[playbgm]のデフォルト値）なら待たない。<br/>
+	利用時は【音声再生[playbgm]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。
 
 </p>
-
-
 <h2 id="ws" class="w-heading">[ws]効果音再生の終了待ち</h2>
 <h4>効果音再生の終了を待つ。</h4>
 <p class="mb2 px1">
 
-<p>loop=trueなら待たない。
-	利用時は【音声再生[playse]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。</p>
+	loop=trueなら待たない。
+	利用時は【音声再生[playse]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="xchgbuf" class="w-heading">[xchgbuf]再生トラックの交換</h2>
 <h4>二つのバッファを交換する。未再生でも再生中でも良いが、フェード中は避けること。</h4>
 <p class="mb2 px1">
@@ -1718,12 +1607,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>プログラム言語における、条件分岐のelse文。</h4>
 <p class="mb2 px1">
 
-<p>引数無し。<br/>
-	詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
+	引数無し。<br/>
+	<br/>
+	詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。
 
 </p>
-
-
 <h2 id="elsif" class="w-heading">[elsif]別条件のifブロック開始</h2>
 <h4>プログラム言語における、条件分岐のelsif文。</h4>
 <p class="mb2 px1">
@@ -1731,40 +1619,36 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p>詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。</td></tr>
-<tr><td>falseなら次の<a href="#elsif">[elsif]</a>や<a href="#else">[else]</a>の評価を行なう。</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td><td></td><td></td><td></td><td></td></tr>
 </table>
 
 </p>
-
-
 <h2 id="endif" class="w-heading">[endif]ifブロックの終端</h2>
 <h4>プログラム言語における、条件分岐のendif文。</h4>
 <p class="mb2 px1">
 
-<p>引数無し。<br/>
-	詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
+	引数無し。<br/>
+	詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。
 
 </p>
-
-
 <h2 id="if" class="w-heading">[if]ifブロックの開始</h2>
 <h4>プログラム言語における、条件分岐のif文。</h4>
 <p class="mb2 px1">
 
 <p>詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="#elsif">[elsif]</a>や<a href="#else">[else]</a>の評価を行なう。</td></tr>
+<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td></tr>
 </table>
 
 </p>
 
 
-<h1><a id="ラベルジャンプラベルジャンプ"></a>ラベル・ジャンプ</h1>
+<h1><a id="ラベル・ジャンプ"></a>ラベル・ジャンプ</h1>
 <h2 id="button" class="w-heading">[button]ボタンを表示</h2>
 <h4>文字レイヤにボタンを配置する。</h4>
 <p class="mb2 px1">
 
-<p>※選択肢として使用する場合、ジャンプ先のラベル直後には必ず[record_place]を記述して、ジャンプ直後でセーブしても正しくセーブされるようにして下さい。</p>
+	※選択肢として使用する場合、ジャンプ先のラベル直後には必ず<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>を記述して、ジャンプ直後でセーブしても正しくセーブされるようにして下さい。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>ボタンを配置する文字レイヤ</td></tr>
 <tr><td>page</td><td></td><td>back</td><td>fore、back</td><td>ページの裏表</td></tr>
@@ -1789,7 +1673,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>style_hover</td><td></td><td>styleの設定＋「fill: white;」を採用</td><td>...</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしていない）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
 <tr><td>style_clicked</td><td></td><td>style_hoverの設定＋「dropShadow: false;」を採用</td><td>...</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしている）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
 <tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>left<br/>top</td><td></td><td>※</td><td>※</td><td>※詳細は<a href="#lay">[lay]</a>を参照</td></tr>
+<tr><td>left<br/>top</td><td></td><td>※</td><td>※</td><td>※詳細は<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>を参照</td></tr>
 <tr><td>rotation</td><td></td><td>0</td><td>-180〜180</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
 <tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
@@ -1821,18 +1705,16 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>dragmove_fn</td><td>...</td><td>...</td><td>...</td><td>ドラッグ中にサブルーチンコールする先。<br/>指定方法は[jump]と同様</td></tr>
 <tr><td>dragmove_label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)</td></tr>
 <tr><td>dragmove_arg</td><td></td><td></td><td>String</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="#clearvar">blendModeの解説</a>を参照。</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="call" class="w-heading">[call]サブルーチンコール</h2>
 <h4>スクリプト処理の現在位置をコールスタックに積み、ジャンプする。</h4>
 <p class="mb2 px1">
 
-<p>ジャンプ先での[return]により本タグの次の位置に戻る事が出来る。
-	※あらゆるタグの中で唯一「通常、既読としない」タグですが、普通に使う分には気にしなくて良いです。</p>
+	ジャンプ先での[return]により本タグの次の位置に戻る事が出来る。
+	※あらゆるタグの中で唯一「通常、既読としない」タグですが、普通に使う分には気にしなくて良いです。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>コール先のスクリプトファイル<br/>[call fn=ext_*]のようにワイルドカードをサポート。マッチするスクリプトを順不同にコールする。 （ワイルドカードは後方のみ）</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td></td></tr>
@@ -1841,8 +1723,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="jump" class="w-heading">[jump]シナリオジャンプ</h2>
 <h4>指定位置のスクリプトにジャンプする</h4>
 <p class="mb2 px1">
@@ -1886,40 +1766,37 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 「**」とか「***」とかアスタリスクは二個以上の任意の数が使え、同じ数同士が対応するラベルとなります。
 が、上記例で見るとおりあんまり複雑に使うと可読性が下がってしまう気がしますので、局所的な用途に限ったほうが良さげです。
 </pre>
+
 </p>
-
-
 <h2 id="pop_stack" class="w-heading">[pop_stack]コールスタック破棄</h2>
 <h4>コールスタックを一つ破棄する</h4>
 <p class="mb2 px1">
-極力使用しないコーディングを推奨します。
+	極力使用しないコーディングを推奨します。
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>clear</td><td></td><td>false</td><td>Boolean</td><td>true：全て破棄する。空でもエラーを出さない<br/>false：スタックを一つ破棄する。空の場合はエラーメッセージ＆アプリ停止</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="return" class="w-heading">[return]サブルーチンから戻る</h2>
 <h4>コールスタックに積まれているジャンプ先にジャンプする。</h4>
 <p class="mb2 px1">
 
-最後に積んだスタックを一つ破棄する。
+	最後に積んだスタックを一つ破棄する。
 
 </p>
 
 
-<h1><a id="マクロマクロ"></a>マクロ</h1>
+<h1><a id="マクロ"></a>マクロ</h1>
 <h2 id="bracket2macro" class="w-heading">[bracket2macro] 括弧マクロの定義</h2>
 <h4>引数textを持つマクロやタグを、任意の二つの文字を括弧とし、括弧で囲った記述で代用できるよう</h4>
 <p class="mb2 px1">
 
-例 …… [bracket2macro name=title text=｟｠]
-（訂正：「任意の二つの文字」は特定の半角文字じゃなくてもよいです）
-※適用範囲について
-　　本タグより前にロードされたスクリプトファイルには適用されません。
-　　またスクリプトファイルに本タグが記述された場合、本タグより前に出現した半角文字にも適用されません。
+	例 …… [bracket2macro name=title text=｟｠]<br/>
+	（訂正：「任意の二つの文字」は特定の半角文字じゃなくてもよいです）<br/>
+	※適用範囲について<br/>
+	　　本タグより前にロードされたスクリプトファイルには適用されません。<br/>
+	　　またスクリプトファイルに本タグが記述された場合、本タグより前に出現した半角文字にも適用されません。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>text</td><td>y</td><td></td><td>特定の文字</td><td>括弧にする任意の二つの文字。<br/>マクロに出来るのは英文字、空白、;、[、]、<em>、=、&amp;、｜、《、》以外のみ。<br/>正規表現で言えば　/[\w\s;[]</em>=&amp;｜《》]/　以外。<br/>一文字マクロや定義済みの括弧文字は使用できない。</td></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。<br/>組み込みタグやマクロは引数textだけを指定しても問題なく動作し、
@@ -1927,45 +1804,34 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="break_macro" class="w-heading">[break_macro]マクロから脱出</h2>
 <h4>マクロ内の途中で、マクロから脱出したい際に使用する。</h4>
 <p class="mb2 px1">
 
-
 </p>
-
-
 <h2 id="char2macro" class="w-heading">[char2macro] 一文字マクロの定義</h2>
 <h4>引数無しのマクロやタグを、半角文字の記述で代用できるよう定義する</h4>
 <p class="mb2 px1">
 
-　　本タグより前にロードされたスクリプトファイルには適用されません。
-　　またスクリプトファイルに本タグが記述された場合、本タグより前に出現した半角文字にも適用されません。
+	本タグより前にロードされたスクリプトファイルには適用されません。<br/>
+	またスクリプトファイルに本タグが記述された場合、本タグより前に出現した半角文字にも適用されません。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>char</td><td>y</td><td></td><td>特定の半角文字</td><td>マクロにする半角文字。<br/>マクロに出来るのは英文字、空白、;、[、]、<em>、=、&amp;、｜、《、》以外のみ。<br/>正規表現で言えば　/[\w\s;[]</em>=&amp;｜《》]/　以外。<br/>括弧文字や定義済みの一文字マクロは使用できない。</td></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="endmacro" class="w-heading">[endmacro]マクロ定義の終了</h2>
 <h4>[macro]と[endmacro]に囲まれた部分をマクロとして定義する。</h4>
 <p class="mb2 px1">
 
-
 </p>
-
-
 <h2 id="macro" class="w-heading">[macro]マクロ定義の開始</h2>
 <h4>[macro]と[endmacro]に囲まれた部分をマクロとして定義する。</h4>
 <p class="mb2 px1">
 
-
-定義したマクロは既存のタグと同様に使用できる。
-渡した引数は、マクロ側で「mp:」スコープにより参照できる。
+	定義したマクロは既存のタグと同様に使用できる。<br/>
+	渡した引数は、マクロ側で「mp:」スコープにより参照できる。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td>マクロ名</td><td>String</td><td>既存のタグやマクロと重複しないマクロ名</td></tr>
 </table>
@@ -1973,7 +1839,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </p>
 
 
-<h1><a id="しおりしおり"></a>しおり</h1>
+<h1><a id="しおり"></a>しおり</h1>
 <h2 id="copybookmark" class="w-heading">[copybookmark]しおりの複写</h2>
 <h4>しおりデータを複写する</h4>
 <p class="mb2 px1">
@@ -1985,8 +1851,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="erasebookmark" class="w-heading">[erasebookmark] しおりの消去</h2>
 <h4>しおりデータを削除する</h4>
 <p class="mb2 px1">
@@ -1996,8 +1860,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="load" class="w-heading">[load]しおりの読込</h2>
 <h4>しおりデータを読み込み、スクリプト処理を再開する</h4>
 <p class="mb2 px1">
@@ -2008,40 +1870,42 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="record_place" class="w-heading">[record_place] セーブポイント指定</h2>
 <h4>本タグの位置を、スクリプト読み込み時に再開する位置として設定する。</h4>
 <p class="mb2 px1">
-。
-引数無し。
 
-※マクロやサブルーチン内に記述された場合、最初に積まれたコールスタック位置をセーブポイントとする。
+	引数無し。<br/>
+	<br/>
+	本タグの位置を、スクリプト読み込み時に再開する位置として設定する。<br/>
+	本タグで「しおりを挟み」、<a href="tag.htm#save" target="_blank" rel="noopener">[save]</a>タグで実際にデータをセーブするイメージ。<br/>
+	<br/>
+	※マクロやサブルーチン内に記述された場合、最初に積まれたコールスタック位置をセーブポイントとする。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>全てのレイヤ</td><td>保存対象レイヤ名（カンマ区切りで複数可能）</td><td>しおりに状態を保存するレイヤ。Save/Load画面レイヤや設定画面レイヤなど、保存すべきでないレイヤを除いて指定すべき</td></tr>
 <tr><td>reset_sound</td><td></td><td>true</td><td>Boolean</td><td>全てのサウンドを停止・再度再生開始するか</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="reload_script" class="w-heading">[reload_script] スクリプト再読込</h2>
 <h4>現在処理中のスクリプトをリロードする。</h4>
 <p class="mb2 px1">
-トまで戻って再開する。
-引数無し。
-※スクリプトを大幅に変えた後だと、正常に再開できない場合があります。
+
+	引数無し。<br/>
+	<br/>
+	現在処理中のスクリプトをリロードする。<br/>
+	実行位置は<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>によるセーブポイントまで戻って再開する。<br/>
+	※スクリプトを大幅に変えた後だと、正常に再開できない場合があります。<br/>
 
 </p>
-
-
 <h2 id="save" class="w-heading">[save]しおりの保存</h2>
 <h4>しおりデータを保存する。</h4>
 <p class="mb2 px1">
-トの位置は最後に[record_place]をコールした位置。
 
-[record_place]がゲーム状態（レイヤ状態など）をバッファに退避し、
-[save]は指定しおりに書き出す機能。
+	しおりデータを保存する。<br/>
+	読み込み時に再開するスクリプトの位置は最後に<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>をコールした位置。<br/>
+	<br/>
+	<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>がゲーム状態（レイヤ状態など）をバッファに退避し、<br/>
+	<a href="tag.htm#save" target="_blank" rel="noopener">[save]</a>は指定しおりに書き出す機能。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>place</td><td>y</td><td></td><td>数値</td><td>処理対象のしおり番号</td></tr>
 <tr><td>path</td><td></td><td>従来通り SharedObjectに保存</td><td>フォルダパス</td><td>指定した場合、しおりをファイルとしてフォルダパス下に保存する。</td></tr>
@@ -2050,7 +1914,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </p>
 
 
-<h1><a id="画面揺らし画面揺らし"></a>画面揺らし</h1>
+<h1><a id="画面揺らし"></a>画面揺らし</h1>
 <h2 id="quake" class="w-heading">[quake]画面を揺らす</h2>
 <h4>画面全体を揺らす</h4>
 <p class="mb2 px1">
@@ -2060,7 +1924,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>揺らす時間</td></tr>
 <tr><td>hmax</td><td></td><td>10</td><td>Integer</td><td>横方向の最大揺らし幅。幅はランダム値を取る</td></tr>
 <tr><td>vmax</td><td></td><td>10</td><td>Integer</td><td>縦方向の最大揺らし幅。幅はランダム値を取る</td></tr>
-<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="#tsy">[tsy]</a>を参照</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
 </table>
 
 </p>
@@ -2074,21 +1938,38 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h2 id="wq" class="w-heading">[wq]画面揺らし終了待ち</h2>
 <h4>画面揺らしの終了を待ち、再開する。</h4>
 <p class="mb2 px1">
-	[event]などでイベントが登録されていても、イベント発生待ちを行わない。
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
+	[event]などでイベントが登録されていても、イベント発生待ちを行わない。<br/>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+	</table>
 
 </p>
-<h1><a id="システムシステム"></a>システム</h1>
+
+
+<h1><a id="システム"></a>システム</h1>
 <h2 id="close" class="w-heading">[close]アプリの終了</h2>
 <h4>アプリケーションを終了する</h4>
 <p class="mb2 px1">
 
-※Flash 上では動作しません。タグを呼んでも何もしません。
+</p>
+<h2 id="export" class="w-heading">[export]プレイデータをエクスポート</h2>
+<h4>プレイデータをファイルとしてエクスポートする</h4>
+<p class="mb2 px1">
+	保存ダイアログが表示され、選択したフォルダにプレイデータファイル（*.spd）が保存される。<br/>
+	暗号化するプロジェクトの場合、出力するプレイデータファイルも暗号化される。<br/>
+	ブラウザならファイルをダウンロードする。<br/>
 
 </p>
+<h2 id="import" class="w-heading">[import]プレイデータをインポート</h2>
+<h4>プレイデータファイルをインポートする</h4>
+<p class="mb2 px1">
+	読み込みダイアログが表示され、選択したプレイデータファイル（*.spd）をインポートする。<br/>
+	<br/>
+	タグはダイアログを表示次第すぐ次の処理に移り、ユーザーの選択を待たない。<br/>
+	インポート完了時には【sn:imported】というイベントを発火する。<br/>
+	これは【[event key='sn:imported' 〜]】という記述でジャンプなどして検知できる。
 
-
+</p>
 <h2 id="loadplugin" class="w-heading">[loadplugin] プラグインの読み込み</h2>
 <h4>プラグインとして読み込む</h4>
 <p class="mb2 px1">
@@ -2099,8 +1980,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="naviate_to" class="w-heading">[naviate_to]ＵＲＬを開く</h2>
 <p class="mb2 px1">
 
@@ -2109,12 +1988,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="snapshot" class="w-heading">[snapshot]スナップショット</h2>
 <h4>アプリ表示部分全体を画像として保存する</h4>
 <p class="mb2 px1">
-	文字の表示とスナップショットは、厳密には同じではないので注意。
+
+	文字の表示とスナップショットは、厳密には同じではないので注意。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（半角カンマ区切りで複数レイヤを指定可能）</td><td></td></tr>
@@ -2143,8 +2021,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="title" class="w-heading">[title]タイトル指定</h2>
 <h4>アプリウインドウのタイトル文字列を設定する。</h4>
 <p class="mb2 px1">
@@ -2154,20 +2030,16 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="toggle_full_screen" class="w-heading">[toggle_full_screen] 全画面状態切替</h2>
 <h4>呼び出す度にアプリの全画面／ウインドウモードを切り替えます。</h4>
 <p class="mb2 px1">
 
 <p>現在の状態は文字列変数「tmp:const.sn.displayState」で分かる。trueならフルスクリーン</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>fn</td><td></td><td>イベント登録せずモード切替</td><td>イベントのキー名※1</td><td>イベントを発生させるトリガーイベントを予約する。<br/>key属性の値は<a href="#event">[event]</a>を参照</td></tr>
+<tr><td>fn</td><td></td><td>イベント登録せずモード切替</td><td>イベントのキー名※1</td><td>イベントを発生させるトリガーイベントを予約する。<br/>key属性の値は<a href="tag.htm#event" target="_blank" rel="noopener">[event]</a>を参照</td></tr>
 </table>
 
 </p>
-
-
 <h2 id="update_check" class="w-heading">[update_check] 更新チェック機能</h2>
 <h4>ネットにアプリの更新を確認し、ダウンロードもサポートする</h4>
 <p class="mb2 px1">
@@ -2205,10 +2077,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　4. main.sn にある [update_check] の url属性に、二つのファイルをアップした「ディレクトリ名」を記述。<br/>
 	[update_check url='http://ugainovel.hiho.jp/famibee/sample/hatsune/']　5.【アプリ版を起動】して試してみる。バージョン番号が違う場合のみ、更新チェック機能によるダイアログが表示される。<br/>
 
-
 </p>
-
-
 <h2 id="window" class="w-heading">[window]アプリウインドウ設定</h2>
 <h4>ゲームアプリのウインドウサイズや位置などを変更する</h4>
 <p class="mb2 px1">
@@ -2235,13 +2104,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
-<h2 id="dump_val" class="w-heading">[dump_val]変数のダンプ</h2>
-<h4>変数の内容をデバッグ表示する</h4>
-<p class="mb2 px1">
-
-</p>
 <h2 id="dump_script" class="w-heading">[dump_script] スクリプトのダンプ</h2>
 <p class="mb2 px1">
 
@@ -2250,20 +2112,21 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="dump_stack" class="w-heading">[dump_stack]スタックのダンプ</h2>
 <h4>[call]等によるコールスタックの内容をデバッグ表示する</h4>
 <p class="mb2 px1">
+
 </p>
+<h2 id="dump_val" class="w-heading">[dump_val]変数のダンプ</h2>
+<h4>変数の内容をデバッグ表示する</h4>
+<p class="mb2 px1">
 
-
+</p>
 <h2 id="log" class="w-heading">[log] ログ出力</h2>
 <h4>引数をデスクトップにテキスト出力する（追記ではなく上書き。追記する。出力日時・分・スクリプト名や行番号やプロジェクト名も出力</h4>
 <p class="mb2 px1">
+
 </p>
-
-
 <h2 id="stats" class="w-heading">[stats]パフォーマンス表示</h2>
 <h4>FPSやメモリ使用量をチェックするStatsを表示する。（見方）。</h4>
 <p class="mb2 px1">
@@ -2274,8 +2137,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-
-
 <h2 id="trace" class="w-heading">[trace]デバッグ表示へ出力</h2>
 <h4>引数をデバッグ表示する</h4>
 <p class="mb2 px1">

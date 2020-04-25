@@ -350,7 +350,6 @@ text=%fcol|&0x000000;=====
 txt=%fcol|'&0x000000';=====
 a='2009';=====
 b='#{fcol}'|true;=====`);
-console.log(`fn:AnalyzeTagArg.test.ts line:347 alz.hPrm:%o`, alz.hPrm);
 			assert.equal(isHashEmpty(alz.hPrm), false);
 
 			assert.equal(alz.hPrm['layer'].val, `mes`);

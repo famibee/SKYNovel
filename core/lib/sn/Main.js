@@ -67,12 +67,12 @@ class Main {
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
             this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);
-            this.hTag['title']({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
+            this.hTag.title({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
             this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
             this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
             this.dbgMng = new DebugMng_1.DebugMng(this.sys, this.hTag, this.scrItr);
             this.layMng = new LayerMng_1.LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
-            this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);
+            this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, this.sys);
             this.appPixi.ticker.add(this.fncTicker);
             this.resumeByJumpOrCall({ fn: 'main' });
             this.inited = true;
@@ -138,7 +138,7 @@ class Main {
                         mes = 'タグ解析中例外 mes=' + e.message + '(' + e.name + ')';
                         const a_tag = Grammar_1.Grammar.REG_TAG.exec(token);
                         if (a_tag != null)
-                            mes = '[' + a_tag.name + ']' + mes;
+                            mes = `[${a_tag.name}]` + mes;
                     }
                     else {
                         mes = err;

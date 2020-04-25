@@ -118,7 +118,7 @@ export class Layer {
 	}
 
 	static argChk_BlendmodeAndSet(hash: any, $do: DisplayObject):void {
-		const v = hash['blendmode'];
+		const v = hash.blendmode;
 		if (! v) return;
 		if (! ($do instanceof Sprite)) return;
 		const sp = $do as Sprite;

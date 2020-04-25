@@ -87,7 +87,7 @@ class Layer {
         return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation}, "name":"${this.name}", "scale_x":${this.cnt.scale.x}, "scale_y":${this.cnt.scale.y}`;
     }
     static argChk_BlendmodeAndSet(hash, $do) {
-        const v = hash['blendmode'];
+        const v = hash.blendmode;
         if (!v)
             return;
         if (!($do instanceof pixi_js_1.Sprite))

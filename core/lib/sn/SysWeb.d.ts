@@ -17,9 +17,9 @@ export declare class SysWeb extends SysBase {
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
     private ns;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
-    private flushSub;
-    flush(): void;
     init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    protected readonly _export: ITag;
+    protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
     private readonly isFullScr;

@@ -212,7 +212,7 @@ export class GrpLayer extends Layer {
 		const ras = GrpLayer.hFn2ResAniSpr[fn];
 		if (ras) {
 			const asp = new AnimatedSprite(ras.aTex);
-			asp.animationSpeed = ras.meta['animationSpeed'] ?? 1.0;
+			asp.animationSpeed = ras.meta.animationSpeed ?? 1.0;
 			asp.play();
 			return asp;
 		}

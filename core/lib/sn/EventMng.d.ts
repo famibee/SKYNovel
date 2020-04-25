@@ -6,6 +6,7 @@ import { EventListenerCtn } from './EventListenerCtn';
 import { interaction, DisplayObject, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { Config } from './Config';
+import { SysBase } from './SysBase';
 export declare class EventMng implements IEvtMng {
     private readonly cfg;
     private readonly hTag;
@@ -15,10 +16,11 @@ export declare class EventMng implements IEvtMng {
     private readonly val;
     private readonly sndMng;
     private readonly scrItr;
+    readonly sys: SysBase;
     private readonly elc;
     private ham;
     private readonly hHamEv;
-    constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator);
+    constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator, sys: SysBase);
     resvFlameEvent(win: Window): void;
     private resvFlameEvent4Wheel;
     private ev_keydown;
@@ -30,7 +32,7 @@ export declare class EventMng implements IEvtMng {
     destroy(): void;
     private hLocalEvt2Fnc;
     private hGlobalEvt2Fnc;
-    private defEvt2Fnc;
+    fire(KEY: string, e: Event): void;
     private isStop;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;

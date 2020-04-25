@@ -10,6 +10,8 @@ class SysBase {
         this.reso4frame = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.close = () => false;
+        this._export = () => false;
+        this._import = () => false;
         this.navigate_to = () => false;
         this.title = () => false;
         this.tgl_full_scr = () => false;
@@ -28,7 +30,7 @@ class SysBase {
         this.appendFile = (_path, _data, _callback) => { };
         this.ofsLeft4frm = 0;
         this.ofsTop4frm = 0;
-        const fncPre = hPlg['snsys_pre'];
+        const fncPre = hPlg.snsys_pre;
         if (fncPre)
             fncPre.init({
                 addTag: () => { },
@@ -86,6 +88,8 @@ class SysBase {
             });
         }
         hTag.close = o => this.close(o);
+        hTag.export = o => this._export(o);
+        hTag.import = o => this._import(o);
         hTag.navigate_to = o => this.navigate_to(o);
         hTag.title = o => this.title(o);
         hTag.toggle_full_screen = o => this.tgl_full_scr(o);
@@ -93,6 +97,7 @@ class SysBase {
         hTag.window = o => this.window(o);
         val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
     }
+    setFire(fire) { this.fire = fire; }
     get path_desktop() { return this.$path_desktop; }
     get path_userdata() { return this.$path_userdata; }
     resizeFrames() {

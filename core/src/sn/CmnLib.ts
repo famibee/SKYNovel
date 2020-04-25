@@ -15,10 +15,10 @@ export function uint(o: any): number {
 }
 export function trim(s: string): string {return s.replace(/^\s+|\s+$/g,'')}
 if (! ('toInt' in String.prototype)) {
-	(String.prototype as any)['toInt'] = function () { return int(this); };
+	(String.prototype as any).toInt = function () { return int(this); };
 }
 if (! ('toUint' in String.prototype)) {
-	(String.prototype as any)['toUint'] = function () {
+	(String.prototype as any).toUint = function () {
 		const v = int(this);
 		return v < 0 ? -v : v;
 	};
@@ -83,7 +83,7 @@ export class CmnLib {
 	static argChk_Num(hash: any, name: string, def: number): number {
 		const v = hash[name];
 		if (! (name in hash)) {
-			if (isNaN(def)) throw '['+ hash['タグ名'] +']属性 '+ name +' は必須です';
+			if (isNaN(def)) throw `[${hash.タグ名}]属性 ${name} は必須です`;
 
 			hash[name] = def;
 			return def;
@@ -92,7 +92,7 @@ export class CmnLib {
 		const n = (String(v).substr(0, 2) == '0x')
 			? parseInt(v)
 			: parseFloat(v);
-		if (isNaN(n)) throw '['+ hash['タグ名'] +']属性 '+ name +' の値【'+ v +'】が数値ではありません';
+		if (isNaN(n)) throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
 
 		return hash[name] = n;
 	}

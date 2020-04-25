@@ -5,14 +5,14 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire} from './CmnInterface';
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
 
 	constructor(protected readonly hPlg: HPlugin = {}, protected readonly arg: HSysBaseArg) {
-		const fncPre = hPlg['snsys_pre'];	// prj・path.json_ の為に先読み
+		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		if (fncPre) fncPre.init({
 			addTag: ()=> {},
 			addLayCls: ()=> {},
@@ -83,23 +83,30 @@ export class SysBase implements ISysBase {
 
 		//	システム
 		hTag.close			= o=> this.close(o);	// アプリの終了
-//		hTag.export			= o=> this.export(o);	// プレイデータをエクスポート
-//		hTag.import			= o=> this.import(o);	// プレイデータをインポート
+		hTag.export			= o=> this._export(o);	// プレイデータをエクスポート
+		hTag.import			= o=> this._import(o);	// プレイデータをインポート
+
 	//	hTag.loadplugin		// LayerMng.ts内で定義	// cssの読み込み
 //		hTag.mouse			= o=> this.mouse(o);	// マウスの設定
 		hTag.navigate_to	= o=> this.navigate_to(o);	// ＵＲＬを開く
-	//	hTag.plugin			// LayerMng.ts内で定義		// プラグインの設定（廃止
-	//	hTag.set_focus		// LayerMng.ts内で定義		// フォーカス移動
+//		hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
+	//	hTag.snapshot		// LayerMng.ts内で定義	// スナップショット
 		hTag.title			= o=> this.title(o);	// タイトル指定
 		hTag.toggle_full_screen = o=> this.tgl_full_scr(o);	// 全画面状態切替
-	//	hTag.unloadplugin	// LayerMng.ts内で定義		// プラグインの破棄（廃止
 //		hTag.unzip			= o=> this.unzip(o);	// ネット素材取得
 		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
 	}
+
+	protected fire: IFire;
+	setFire(fire: IFire) {this.fire = fire}
+
+
 	protected readonly	close			: ITag = ()=> false;
+	protected readonly	_export			: ITag = ()=> false;
+	protected readonly	_import			: ITag = ()=> false;
 	protected readonly	navigate_to		: ITag = ()=> false;
 	protected readonly	title			: ITag = ()=> false;
 	protected			tgl_full_scr	: ITag = ()=> false;

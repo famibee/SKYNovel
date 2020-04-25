@@ -69,9 +69,9 @@ export class Main implements IMain {
 			this.val = new Variable(this.cfg, this.hTag);
 			this.prpPrs = new PropParser(this.val);
 
-			// システム（5+3/13）
+			// システム（10/13）
 			this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
-			this.hTag['title']({text: this.cfg.oCfg.book.title || 'SKYNovel'});
+			this.hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音
 			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
@@ -86,7 +86,7 @@ export class Main implements IMain {
 			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
 
 			// イベント
-			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr);
+			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, this.sys);
 
 			this.appPixi.ticker.add(this.fncTicker);
 			this.resumeByJumpOrCall({fn: 'main'});
@@ -171,7 +171,7 @@ export class Main implements IMain {
 					//	if (e is StackOverflowError) traceDbg(e.getStackTrace())
 						mes = 'タグ解析中例外 mes='+ e.message +'('+ e.name +')';
 						const a_tag: any = Grammar.REG_TAG.exec(token);
-						if (a_tag != null) mes = '['+ a_tag.name +']'+ mes;
+						if (a_tag != null) mes = `[${a_tag.name}]`+ mes;
 					}
 					else {
 						mes = err as string;

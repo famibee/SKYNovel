@@ -1,5 +1,5 @@
 /// <reference types="node" />
-import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain } from './CmnInterface';
+import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
     protected readonly hPlg: HPlugin;
@@ -24,7 +24,11 @@ export declare class SysBase implements ISysBase {
     protected val: IVariable;
     protected appPixi: Application;
     init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    protected fire: IFire;
+    setFire(fire: IFire): void;
     protected readonly close: ITag;
+    protected readonly _export: ITag;
+    protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
     protected tgl_full_scr: ITag;

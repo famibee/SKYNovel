@@ -161,6 +161,9 @@ export interface ISysBase {
     flush(): void;
     pre(ext: string, data: string): Promise<string>;
 }
+export interface IFire {
+    (KEY: string, e: Event): void;
+}
 export interface IExts {
     [ext: string]: string;
 }
@@ -207,6 +210,7 @@ export interface IVariable {
     loadScrWork(fn: string): void;
     getAreaKidoku(fn: string): IAreas;
     saveKidoku(): void;
+    updateData(data: IData4Vari): void;
     defValTrg(name: string, fnc: ISetVal): void;
     doRecLog(): boolean;
 }

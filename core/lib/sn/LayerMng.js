@@ -118,25 +118,25 @@ void main(void) {
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
         GrpLayer_1.GrpLayer.init(main, cfg, sys);
         this.frmMng = new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
-        sys.hFactoryCls['grp'] = () => new GrpLayer_1.GrpLayer;
-        sys.hFactoryCls['txt'] = () => new TxtLayer_1.TxtLayer;
-        hTag.snapshot = o => this.snapshot(o);
+        sys.hFactoryCls.grp = () => new GrpLayer_1.GrpLayer;
+        sys.hFactoryCls.txt = () => new TxtLayer_1.TxtLayer;
         hTag.loadplugin = o => this.loadplugin(o);
         hTag.set_focus = o => this.set_focus(o);
+        hTag.snapshot = o => this.snapshot(o);
         hTag.add_lay = o => this.add_lay(o);
-        hTag.lay = o => this.lay(o);
         hTag.clear_lay = o => this.clear_lay(o);
+        hTag.finish_trans = () => this.finish_trans();
+        hTag.lay = o => this.lay(o);
         hTag.trans = o => this.trans(o);
         hTag.wt = o => this.wt(o);
-        hTag.finish_trans = () => this.finish_trans();
         hTag.quake = o => this.quake(o);
-        hTag.wq = o => hTag.wt(o);
         hTag.stop_quake = o => hTag.finish_trans(o);
-        hTag.tsy = o => this.tsy(o);
-        hTag.wait_tsy = o => this.wait_tsy(o);
-        hTag.stop_tsy = o => this.stop_tsy(o);
+        hTag.wq = o => hTag.wt(o);
         hTag.pause_tsy = o => this.pause_tsy(o);
         hTag.resume_tsy = o => this.resume_tsy(o);
+        hTag.stop_tsy = o => this.stop_tsy(o);
+        hTag.tsy = o => this.tsy(o);
+        hTag.wait_tsy = o => this.wait_tsy(o);
         hTag.ch = o => this.ch(o);
         hTag.clear_text = o => this.clear_text(o);
         hTag.current = o => this.current(o);
@@ -145,8 +145,8 @@ void main(void) {
         hTag.graph = o => this.graph(o);
         hTag.link = o => this.link(o);
         hTag.r = o => this.r(o);
-        hTag.rec_r = () => this.rec_r();
         hTag.rec_ch = o => this.rec_ch(o);
+        hTag.rec_r = () => this.rec_r();
         hTag.reset_rec = o => this.reset_rec(o);
         hTag.ruby2 = o => this.ruby2(o);
         hTag.span = o => this.span(o);
@@ -524,7 +524,7 @@ void main(void) {
         return (layer) ? layer.split(',') : this.aLayName;
     }
     foreachLayers(hArg, fnc) {
-        const vct = this.getLayers(hArg['layer']);
+        const vct = this.getLayers(hArg.layer);
         for (const name of vct) {
             if (!name)
                 continue;

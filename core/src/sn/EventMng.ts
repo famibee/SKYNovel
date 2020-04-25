@@ -16,6 +16,7 @@ const Tween = require('@tweenjs/tween.js').default;
 import {interaction, DisplayObject, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
+import {SysBase} from './SysBase';
 
 import Hammer = require('hammerjs');
 
@@ -34,13 +35,14 @@ export class EventMng implements IEvtMng {
 		swipedown	: null,
 	};
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(main, this);
 		layMng.setEvtMng(this);
+		sys.setFire((KEY, e)=> this.fire(KEY, e));
 
-		// イベント
+		//	イベント
 		hTag.clear_event	= o=> this.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
 		hTag.event			= o=> this.event(o);		// イベントを予約
@@ -72,7 +74,7 @@ export class EventMng implements IEvtMng {
 			const fnc = this.hHamEv[key] = (e: any)=> {
 				val.defTmp('sn.eventArg.type', e.type);
 				val.defTmp('sn.eventArg.pointers', e.pointers);
-				this.defEvt2Fnc(e, e.type);
+				this.fire(e.type, e);
 			}
 			this.ham.on(key, fnc);
 		}
@@ -86,11 +88,11 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', (e: any)=> this.defEvt2Fnc(e, 'click'));
+		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', (e: any)=> this.fire('click', e));
 		else this.elc.add(appPixi.stage, 'pointerdown', e=> {
 			switch (e.data.button) {
-				case 0:	this.defEvt2Fnc(e, 'click');	break;
-				case 1:	this.defEvt2Fnc(e, 'middleclick');	break;
+				case 0:	this.fire('click', e);	break;
+				case 1:	this.fire('middleclick', e);	break;
 			}
 		});
 		this.elc.add(window, 'keydown', e=> this.ev_keydown(e));
@@ -118,7 +120,7 @@ export class EventMng implements IEvtMng {
 				e['gamepad'].buttons.length, e['gamepad'].axes.length);
 
 			const key = e.type;
-			this.defEvt2Fnc(e, key);
+			this.fire(key, e);
 		});
 		// Gamepad の切断
 		this.elc.add(window, 'gamepaddisconnected', (e: any)=> {
@@ -127,7 +129,7 @@ export class EventMng implements IEvtMng {
 				e['gamepad'].id);
 
 			const key = e.type;
-			this.defEvt2Fnc(e, key);
+			this.fire(key, e);
 		});
 
 		this.elc.add(window, 'keyup', (e: any)=> {
@@ -158,7 +160,7 @@ export class EventMng implements IEvtMng {
 		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
 		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
 		+	e.key;
-		this.defEvt2Fnc(e, key);
+		this.fire(key, e);
 	}
 	private ev_contextmenu(e: any) {
 		//if (! e.isTrusted) return;
@@ -167,7 +169,7 @@ export class EventMng implements IEvtMng {
 		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
 		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
 		+	'rightclick';
-		this.defEvt2Fnc(e, key);
+		this.fire(key, e);
 		e.preventDefault();		// イベント未登録時、メニューが出てしまうので
 	}
 
@@ -184,7 +186,7 @@ export class EventMng implements IEvtMng {
 		+	(e.ctrlKey ?'ctrl+' :'')
 		+	(e.shiftKey ?'shift+' :'')
 		+	(e.deltaY > 0 ?'downwheel' :'upwheel');
-		this.defEvt2Fnc(e, key);
+		this.fire(key, e);
 	}
 	private wheeling = false;
 	private extend_wheel = false;
@@ -211,7 +213,7 @@ export class EventMng implements IEvtMng {
 
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
-	private defEvt2Fnc(e: Event, KEY: string) {
+	fire(KEY: string, e: Event) {
 		const key = KEY.toLowerCase();
 		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
 		const ke = this.hLocalEvt2Fnc[key]
@@ -284,7 +286,7 @@ export class EventMng implements IEvtMng {
 		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
 		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-		em.on('pointerdown', (e: any)=> this.defEvt2Fnc(e, key));
+		em.on('pointerdown', (e: any)=> this.fire(key, e));
 
 		// TODO: hint マウスカーソルを載せるとヒントをチップス表示する
 
@@ -321,7 +323,7 @@ export class EventMng implements IEvtMng {
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
-			em.on('pointerover', (e: any)=> this.defEvt2Fnc(e, key2));
+			em.on('pointerover', (e: any)=> this.fire(key2, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
@@ -329,7 +331,7 @@ export class EventMng implements IEvtMng {
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: key2};
 			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
-			em.on('pointerout', (e: any)=> this.defEvt2Fnc(e, key2));
+			em.on('pointerout', (e: any)=> this.fire(key2, e));
 		}
 
 		this.sndMng.loadAheadSnd(hArg);
@@ -432,13 +434,13 @@ export class EventMng implements IEvtMng {
 						for (const key in e2) {
 							if (e2.hasOwnProperty(key)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
 						}
-						this.defEvt2Fnc(e, KEY);
+						this.fire(KEY, e);
 					});
 				});
 			// 押したまま部品外へ出たときも確定イベント発生
 			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
 				if (e.which != 1) return;
-				this.defEvt2Fnc(e, KEY);
+				this.fire(KEY, e);
 			});
 
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
