@@ -70,7 +70,7 @@ export class Main implements IMain {
 			this.prpPrs = new PropParser(this.val);
 
 			// システム（10/13）
-			this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
+			this.sys.init(this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
 			this.hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音

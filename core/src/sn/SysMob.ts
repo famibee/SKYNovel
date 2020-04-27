@@ -23,6 +23,7 @@ export class SysMob extends SysBase {
 	}
 
 	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
+		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
 		(async ()=> {
 			const fn = this.arg.cur +'path.json';
 			const res = await this.fetch(fn);
@@ -34,11 +35,6 @@ export class SysMob extends SysBase {
 				const h = hPathFn2Exts[nm] = json[nm];
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext]
 			}
-
-			//strLocal.clearAll();
-			// サーバ非同期データならここで解決
-//		 			this.ns = cfg.getNs();
-//		 	this.sys = strLocal.get(this.ns +'sys');
 
 			// 全体が入るよう拡大・縮小
 			const cvs: HTMLCanvasElement = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;

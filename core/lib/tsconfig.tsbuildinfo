@@ -150,8 +150,8 @@
         "signature": "f136368e2d5e5ecdcc44dcbbf013df7b762dcab57d1fe8eba4a25d20a90ea0b5"
       },
       "../src/sn/sysbase.ts": {
-        "version": "52ccf8c4a70426c96958fc8f154aa72db86817d6d0ff8f43afce82fe1c3d6750",
-        "signature": "153e0b05b579a6e056b2a53f8294f5c86e58eefa2409852f160a3d4c6fcf7e35"
+        "version": "9993146aa6e72600e702aff94ecc4ac8a84bee6f035b24581f9c34994aaadbe3",
+        "signature": "6ef460c117be885114f701a31fb037bcb3f52a8d691c5e231ab285445c49c0ff"
       },
       "../../node_modules/@types/node/globals.d.ts": {
         "version": "9d0b32c595a2e0d320a56b3d0e8f0a317e4149239ec913aa8f11eeb73edc92be",
@@ -346,8 +346,8 @@
         "signature": "5171627120eeb3a7e8afb8ed04ea9be7f0b53ba09bb1fc95172483e0fbb0740c"
       },
       "../src/sn/sysnode.ts": {
-        "version": "64cdd2e86567c818ebadfbbc10689159bdfb7f9508e9cbe2e5d9975583a65569",
-        "signature": "60e0efa5bbf49006d29493aa7105fa2e447623e5050267eeafd214ac51de01ee"
+        "version": "8a1f24e9f283e176f9163c125f8080a444dbe26bda9e0cfbfa7712f82d53f224",
+        "signature": "940559ab33735766a971c65024f386a08badc90613a7d204061d1eaabcf6d07f"
       },
       "../src/sn/config.ts": {
         "version": "47dc6cc361a974bd3f54d546762f216c2e16e6b79ce1f4bd62fae7849dfb967d",
@@ -438,16 +438,16 @@
         "signature": "c00705f582429199e234f47e635c230bf5cb743b7e61726f530682c5f0990218"
       },
       "../src/sn/variable.ts": {
-        "version": "c8588403a8968bcc29bde417592bce565a4c8f8ab6759dd63f62f9e39507e6d8",
+        "version": "c79d0e4e0c9d5cdc0b8b0779626eb3f58d3b89742a21abc42c3b6ec693d7b9e1",
         "signature": "c53917ade1fd2a1b36fd12f2ad54a636d8a26a87f43734d4166202aa8b341c1d"
       },
       "../src/sn/main.ts": {
-        "version": "ab0c0e5d9b5df12680d01d6869ee032c70b5529162b5dbe1dd2d13c3612f99a3",
+        "version": "3d34264b42d2589a9dedc8deb497d0b66e71be4a70965a1efa24b44c92113ea0",
         "signature": "fbe0de010c59d3e1a632c16a1d62b1c7d9dda7f5a2b776816c30b4e4328283a2"
       },
       "../src/sn/sysapp.ts": {
-        "version": "8c6f92a6549b2a1a54de4c472f3c1ec18d7dde2d064b9cbf0cf89c85db665ea2",
-        "signature": "eaa1908969359bc021ea7c1f4332c11df3fe6bfa47ac6bf69be94be671a9388a"
+        "version": "663be83fd82c43d1927df1a048dda0d462fb4fb828b793a457f6cb6cdfbe709a",
+        "signature": "672ccac93cd3a265809ec22d4d95c6be078bceffda20435cbcb56b9f41f1c113"
       },
       "../src/app.ts": {
         "version": "83d55e2d4f9a8a47994ef3c978d51c5867b675f573b9a548802d29a53db47061",
@@ -458,15 +458,15 @@
         "signature": "34f2c708386dc4b32c96247f183998dbb75d8643cffdfa46e81ae9a3040a3d18"
       },
       "../src/sn/sysweb.ts": {
-        "version": "a720144ef9a9657ccacef7b9659b48cd64c5903dde2be204f5f19348ca2c555c",
-        "signature": "51000f636b7340ff67002b11c747939e494aa8ba2972a7c036b53ac7f21b3dac"
+        "version": "1a6844fd8debb17fa1b63e590ebc241939472461a5f97784d0e77a85464bf86c",
+        "signature": "1b91ea5ac6ab15ba6b153a046acefb02a560aee65573964e446966b54390c2cf"
       },
       "../src/web.ts": {
         "version": "c071affdbe29a26e531b2d155a8bd47a092857918df249d0c8f38b1124d6e47f",
         "signature": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
       },
       "../src/sn/sysmob.ts": {
-        "version": "2b1f95681646ff89abde8e0b5de6f67772e742713fd10c4969e2fac71c0908ef",
+        "version": "a03eae0346dc245f9b932cdb7af14163605399b96b96e750139f9bb10c84db60",
         "signature": "cd18adf6d0a77f12f1537573d9dbd87df0994930726a9da7debe522ce13cca7e"
       },
       "../../node_modules/@types/electron-json-storage/index.d.ts": {
@@ -1455,6 +1455,7 @@
       ],
       "../src/sn/sysapp.ts": [
         "../src/sn/sysnode.ts",
+        "../src/sn/sysbase.ts",
         "../src/sn/cmnlib.ts",
         "../src/sn/cmninterface.ts",
         "../src/sn/main.ts",

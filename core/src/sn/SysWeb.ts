@@ -95,6 +95,7 @@ export class SysWeb extends SysBase {
 
 
 	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
+		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
 		(async ()=> {
 			const fn = this.arg.cur +'path.json';
 			const res = await fetch(fn);
@@ -106,11 +107,9 @@ export class SysWeb extends SysBase {
 				const h = hPathFn2Exts[nm] = json[nm];
 				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext];
 			}
-			this.ns = cfg.getNs();
 			fncLoaded();	// ここでnew Variable、clearsysvar()、次にinitVal()
 		})();
 	}
-	private ns	= '';
 
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// システム情報
@@ -119,18 +118,19 @@ export class SysWeb extends SysBase {
 
 		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
 
+		const ns = this.cfg.getNs();
 		this.flush = this.crypto
 		? ()=> {
-			strLocal.set(this.ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
-			strLocal.set(this.ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
-			strLocal.set(this.ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+			strLocal.set(ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
+			strLocal.set(ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
+			strLocal.set(ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
 		}
 		: ()=> {
-			strLocal.set(this.ns +'sys', this.data.sys);
-			strLocal.set(this.ns +'mark', this.data.mark);
-			strLocal.set(this.ns +'kidoku', this.data.kidoku);
+			strLocal.set(ns +'sys', this.data.sys);
+			strLocal.set(ns +'mark', this.data.mark);
+			strLocal.set(ns +'kidoku', this.data.kidoku);
 		};
-		const nm = this.ns +(this.arg.crypto ?'sys_' :'sys');
+		const nm = ns +(this.arg.crypto ?'sys_' :'sys');
 		if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) == undefined)) {
 			// データがない（初回起動）場合の処理
 			this.data.sys = data.sys;
@@ -143,9 +143,9 @@ export class SysWeb extends SysBase {
 
 		// データがある場合の処理
 		if (! this.crypto) {
-			this.data.sys = strLocal.get(this.ns +'sys');
-			this.data.mark = strLocal.get(this.ns +'mark');
-			this.data.kidoku = strLocal.get(this.ns +'kidoku');
+			this.data.sys = strLocal.get(ns +'sys');
+			this.data.mark = strLocal.get(ns +'mark');
+			this.data.kidoku = strLocal.get(ns +'kidoku');
 			comp(this.data);
 			return;
 		}
@@ -155,16 +155,16 @@ export class SysWeb extends SysBase {
 			try {
 				mes = 'sys';	// tst sys
 				this.data.sys = JSON.parse(
-					await this.pre('json', strLocal.get(this.ns +'sys_'))
+					await this.pre('json', strLocal.get(ns +'sys_'))
 				);
 				mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
 				mes = 'mark';	// tst mark
 				this.data.mark = JSON.parse(
-					await this.pre('json', strLocal.get(this.ns +'mark_'))
+					await this.pre('json', strLocal.get(ns +'mark_'))
 				);
 				mes = 'kidoku';	// tst kidoku
 				this.data.kidoku = JSON.parse(
-					await this.pre('json', strLocal.get(this.ns +'kidoku_'))
+					await this.pre('json', strLocal.get(ns +'kidoku_'))
 				);
 			} catch (e) {
 				console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
@@ -173,10 +173,10 @@ export class SysWeb extends SysBase {
 		})();
 	}
 
-	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
-		super.init(cfg, hTag, appPixi, val, main);
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+		super.init(hTag, appPixi, val, main);
 
-		if (! cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
+		if (! this.cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
 			if (! e.detail.isOpen) return;
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
@@ -195,7 +195,8 @@ export class SysWeb extends SysBase {
 
 		const a = document.createElement('a');
 		a.href = URL.createObjectURL(blob);
-		a.download = this.ns + getDateStr('-', '_', '') +'.swpd';
+		a.download = (this.crypto ?'' :'no_crypto_')
+			+ this.cfg.getNs() + getDateStr('-', '_', '') +'.swpd';
 		a.click();
 
 		if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
@@ -224,6 +225,10 @@ export class SysWeb extends SysBase {
 		.then(async (s: string)=> {
 			const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
 			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
+			if (o.sys[SysBase.VALNM_CFG_NS] != this.cfg.oCfg.save_ns) {
+				console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);
+				return;
+			}
 
 			this.data.sys = o.sys;
 			this.data.mark = o.mark;

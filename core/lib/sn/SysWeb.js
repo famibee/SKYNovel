@@ -24,7 +24,6 @@ class SysWeb extends SysBase_1.SysBase {
             this.main = new Main_1.Main(this);
         };
         this.now_prj = ':';
-        this.ns = '';
         this._export = () => {
             const s = JSON.stringify({
                 'sys': this.data.sys,
@@ -35,7 +34,8 @@ class SysWeb extends SysBase_1.SysBase {
             const blob = new Blob([s2], { 'type': 'text/json' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = this.ns + CmnLib_1.getDateStr('-', '_', '') + '.swpd';
+            a.download = (this.crypto ? '' : 'no_crypto_')
+                + this.cfg.getNs() + CmnLib_1.getDateStr('-', '_', '') + '.swpd';
             a.click();
             if (CmnLib_1.CmnLib.debugLog)
                 console.log('プレイデータをエクスポートしました');
@@ -66,6 +66,10 @@ class SysWeb extends SysBase_1.SysBase {
                 const o = JSON.parse(this.crypto ? await this.pre('json', s) : s);
                 if (!o.sys || !o.mark || !o.kidoku)
                     throw new Error('異常なプレイデータです');
+                if (o.sys[SysBase_1.SysBase.VALNM_CFG_NS] != this.cfg.oCfg.save_ns) {
+                    console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase_1.SysBase.VALNM_CFG_NS]}】のプレイデータです`);
+                    return;
+                }
                 this.data.sys = o.sys;
                 this.data.mark = o.mark;
                 this.data.kidoku = o.kidoku;
@@ -157,6 +161,7 @@ class SysWeb extends SysBase_1.SysBase {
         this.main = null;
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
+        super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
         (async () => {
             const fn = this.arg.cur + 'path.json';
             const res = await fetch(fn);
@@ -170,7 +175,6 @@ class SysWeb extends SysBase_1.SysBase {
                     if (ext != ':cnt')
                         h[ext] = this.arg.cur + h[ext];
             }
-            this.ns = cfg.getNs();
             fncLoaded();
         })();
     }
@@ -178,18 +182,19 @@ class SysWeb extends SysBase_1.SysBase {
         const hn = document.location.hostname;
         hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
         this.val.defTmp('const.sn.displayState', () => this.isFullScr());
+        const ns = this.cfg.getNs();
         this.flush = this.crypto
             ? () => {
-                strLocal.set(this.ns + 'sys_', String(this.enc(JSON.stringify(this.data.sys))));
-                strLocal.set(this.ns + 'mark_', String(this.enc(JSON.stringify(this.data.mark))));
-                strLocal.set(this.ns + 'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+                strLocal.set(ns + 'sys_', String(this.enc(JSON.stringify(this.data.sys))));
+                strLocal.set(ns + 'mark_', String(this.enc(JSON.stringify(this.data.mark))));
+                strLocal.set(ns + 'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
             }
             : () => {
-                strLocal.set(this.ns + 'sys', this.data.sys);
-                strLocal.set(this.ns + 'mark', this.data.mark);
-                strLocal.set(this.ns + 'kidoku', this.data.kidoku);
+                strLocal.set(ns + 'sys', this.data.sys);
+                strLocal.set(ns + 'mark', this.data.mark);
+                strLocal.set(ns + 'kidoku', this.data.kidoku);
             };
-        const nm = this.ns + (this.arg.crypto ? 'sys_' : 'sys');
+        const nm = ns + (this.arg.crypto ? 'sys_' : 'sys');
         if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) == undefined)) {
             this.data.sys = data.sys;
             this.data.mark = data.mark;
@@ -199,9 +204,9 @@ class SysWeb extends SysBase_1.SysBase {
             return;
         }
         if (!this.crypto) {
-            this.data.sys = strLocal.get(this.ns + 'sys');
-            this.data.mark = strLocal.get(this.ns + 'mark');
-            this.data.kidoku = strLocal.get(this.ns + 'kidoku');
+            this.data.sys = strLocal.get(ns + 'sys');
+            this.data.mark = strLocal.get(ns + 'mark');
+            this.data.kidoku = strLocal.get(ns + 'kidoku');
             comp(this.data);
             return;
         }
@@ -209,12 +214,12 @@ class SysWeb extends SysBase_1.SysBase {
             let mes = '';
             try {
                 mes = 'sys';
-                this.data.sys = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'sys_')));
+                this.data.sys = JSON.parse(await this.pre('json', strLocal.get(ns + 'sys_')));
                 mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
                 mes = 'mark';
-                this.data.mark = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'mark_')));
+                this.data.mark = JSON.parse(await this.pre('json', strLocal.get(ns + 'mark_')));
                 mes = 'kidoku';
-                this.data.kidoku = JSON.parse(await this.pre('json', strLocal.get(this.ns + 'kidoku_')));
+                this.data.kidoku = JSON.parse(await this.pre('json', strLocal.get(ns + 'kidoku_')));
             }
             catch (e) {
                 console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
@@ -222,9 +227,9 @@ class SysWeb extends SysBase_1.SysBase {
             comp(this.data);
         })();
     }
-    init(cfg, hTag, appPixi, val, main) {
-        super.init(cfg, hTag, appPixi, val, main);
-        if (!cfg.oCfg.debug.devtool)
+    init(hTag, appPixi, val, main) {
+        super.init(hTag, appPixi, val, main);
+        if (!this.cfg.oCfg.debug.devtool)
             window.addEventListener('devtoolschange', e => {
                 if (!e.detail.isOpen)
                     return;

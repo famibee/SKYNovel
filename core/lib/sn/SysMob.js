@@ -33,6 +33,7 @@ class SysMob extends SysBase_1.SysBase {
         }, { once: true, passive: true });
     }
     loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
+        super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
         (async () => {
             const fn = this.arg.cur + 'path.json';
             const res = await this.fetch(fn);

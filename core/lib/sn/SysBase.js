@@ -47,10 +47,12 @@ class SysBase {
     }
     get cur() { return this.arg.cur; }
     get crypto() { return this.arg.crypto; }
-    loadPathAndVal(_hPathFn2Exts, _fncLoaded, _cfg) { }
+    loadPathAndVal(_hPathFn2Exts, _fncLoaded, cfg) {
+        this.cfg = cfg;
+    }
     initVal(_data, _hTmp, _comp) { }
     flush() { }
-    init(cfg, hTag, appPixi, val, main) {
+    init(hTag, appPixi, val, main) {
         this.val = val;
         this.appPixi = appPixi;
         let mes = '';
@@ -77,7 +79,7 @@ class SysBase {
                         throw `すでに定義済みのレイヤcls【${cls}】です`;
                     this.hFactoryCls[cls] = fnc;
                 },
-                searchPath: (fn, extptn = '') => cfg.searchPath(fn, extptn),
+                searchPath: (fn, extptn = '') => this.cfg.searchPath(fn, extptn),
                 getVal: val.getVal,
                 resume: () => main.resume(),
                 render: (dsp, renTx, clear = false) => this.appPixi.renderer.render(dsp, renTx, clear),
@@ -96,6 +98,8 @@ class SysBase {
         hTag.update_check = o => this.update_check(o);
         hTag.window = o => this.window(o);
         val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
+        val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
+        val.flush();
     }
     setFire(fire) { this.fire = fire; }
     get path_downloads() { return this.$path_downloads; }
@@ -119,4 +123,5 @@ class SysBase {
     }
 }
 exports.SysBase = SysBase;
+SysBase.VALNM_CFG_NS = 'const.sn.cfg.ns';
 //# sourceMappingURL=SysBase.js.map

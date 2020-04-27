@@ -6,8 +6,9 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysNode } from "./SysNode";
+import {SysBase} from "./SysBase";
 import {CmnLib, getDateStr} from './CmnLib';
-import {ITag, IHTag, IVariable, IFn2Path, IConfig, IData4Vari, IMain} from './CmnInterface';
+import {ITag, IHTag, IVariable, IData4Vari, IMain} from './CmnInterface';
 import {Main} from './Main';
 import {Application} from 'pixi.js';
 
@@ -30,12 +31,6 @@ export class SysApp extends SysNode {
 	protected readonly	$path_downloads	= remote.app.getPath('downloads').replace(/\\/g, '/') +'/';
 
 	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
-
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
-		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
-		this.ns = cfg.getNs();
-	}
-	private ns	= '';
 
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		const st = new Store({
@@ -103,12 +98,10 @@ export class SysApp extends SysNode {
 
 	private readonly	win	= remote.getCurrentWindow();
 	private readonly	wc	= this.win.webContents;
-	private	cfg: IConfig;
-	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
-		super.init(cfg, hTag, appPixi, val, main);
-		this.cfg = cfg;
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+		super.init(hTag, appPixi, val, main);
 
-		if (cfg.oCfg.debug.devtool) this.wc.openDevTools();
+		if (this.cfg.oCfg.debug.devtool) this.wc.openDevTools();
 		else this.wc.on('devtools-opened', ()=> {
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
@@ -127,7 +120,8 @@ export class SysApp extends SysNode {
 			this.fire('sn:exported', new Event('click'));
 		});
 		r.pipe(m_fs.createWriteStream(
-			this.$path_downloads + this.ns + getDateStr('-', '_', '') +'.spd'
+			this.$path_downloads + (this.crypto ?'' :'no_crypto_')
+			+ this.cfg.getNs() + getDateStr('-', '_', '') +'.spd'
 		));
 
 		return false;
@@ -160,6 +154,10 @@ export class SysApp extends SysNode {
 			const s = String(m_fs.readFileSync(fn));
 			const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
 			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
+			if (o.sys[SysBase.VALNM_CFG_NS] != this.cfg.oCfg.save_ns) {
+				console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);
+				return;
+			}
 
 			this.data.sys = o.sys;
 			this.data.mark = o.mark;

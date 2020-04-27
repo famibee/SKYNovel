@@ -66,7 +66,7 @@ class Main {
             }
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
-            this.sys.init(this.cfg, this.hTag, this.appPixi, this.val, this);
+            this.sys.init(this.hTag, this.appPixi, this.val, this);
             this.hTag.title({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
             this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
             this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);

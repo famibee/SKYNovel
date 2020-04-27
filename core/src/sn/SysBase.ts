@@ -33,7 +33,10 @@ export class SysBase implements ISysBase {
 	resolution	= 1;
 	reso4frame	= 1;
 
-	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, _cfg: IConfig): void {}
+	protected	cfg	: IConfig;
+	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, cfg: IConfig): void {
+		this.cfg = cfg;
+	}
 
 	protected	data	= {sys:{}, mark:{}, kidoku:{}};
 	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
@@ -41,7 +44,7 @@ export class SysBase implements ISysBase {
 
 	protected	val		: IVariable;
 	protected	appPixi	: Application;
-	init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		this.val = val;
 		this.appPixi = appPixi;
 		let mes = '';
@@ -70,7 +73,7 @@ export class SysBase implements ISysBase {
 					if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
 					this.hFactoryCls[cls] = fnc;
 				},
-				searchPath: (fn: string, extptn = '')=>	cfg.searchPath(fn, extptn),
+				searchPath: (fn, extptn = '')=>	this.cfg.searchPath(fn, extptn),
 				getVal: val.getVal,
 				resume: ()=> main.resume(),
 				render: (dsp: DisplayObject, renTx: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
@@ -98,7 +101,12 @@ export class SysBase implements ISysBase {
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
+
+		val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
+			// [import]時のチェック用
+		val.flush();
 	}
+	protected	static	VALNM_CFG_NS = 'const.sn.cfg.ns';
 
 	protected fire: IFire;
 	setFire(fire: IFire) {this.fire = fire}

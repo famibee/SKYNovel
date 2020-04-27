@@ -13,7 +13,8 @@ export declare class SysBase implements ISysBase {
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     reso4frame: number;
-    loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: () => void, _cfg: IConfig): void;
+    protected cfg: IConfig;
+    loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: () => void, cfg: IConfig): void;
     protected data: {
         sys: {};
         mark: {};
@@ -23,7 +24,8 @@ export declare class SysBase implements ISysBase {
     flush(): void;
     protected val: IVariable;
     protected appPixi: Application;
-    init(cfg: IConfig, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    protected static VALNM_CFG_NS: string;
     protected fire: IFire;
     setFire(fire: IFire): void;
     protected readonly close: ITag;

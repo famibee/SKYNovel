@@ -14,7 +14,8 @@ import m_fs = require('fs-extra');
 export class SysNode extends SysBase {
 	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test
 
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, _cfg: IConfig): void {
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
+		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
 		(async ()=> {
 			const fn = this.arg.cur +'path.json';
 			const mes = m_fs.readFileSync(fn, {encoding: 'utf8'});

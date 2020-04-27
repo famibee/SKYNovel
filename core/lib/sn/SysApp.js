@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const SysNode_1 = require("./SysNode");
+const SysBase_1 = require("./SysBase");
 const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");
 const { remote, shell, ipcRenderer } = require('electron');
@@ -15,7 +16,6 @@ class SysApp extends SysNode_1.SysNode {
         this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.$path_downloads = remote.app.getPath('downloads').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
-        this.ns = '';
         this.isMovingWin = false;
         this.posMovingWin = [0, 0];
         this.dsp = remote.screen.getPrimaryDisplay();
@@ -29,7 +29,8 @@ class SysApp extends SysNode_1.SysNode {
                     console.log('プレイデータをエクスポートしました');
                 this.fire('sn:exported', new Event('click'));
             });
-            r.pipe(m_fs.createWriteStream(this.$path_downloads + this.ns + CmnLib_1.getDateStr('-', '_', '') + '.spd'));
+            r.pipe(m_fs.createWriteStream(this.$path_downloads + (this.crypto ? '' : 'no_crypto_')
+                + this.cfg.getNs() + CmnLib_1.getDateStr('-', '_', '') + '.spd'));
             return false;
         };
         this._import = () => {
@@ -62,6 +63,10 @@ class SysApp extends SysNode_1.SysNode {
                 const o = JSON.parse(this.crypto ? await this.pre('json', s) : s);
                 if (!o.sys || !o.mark || !o.kidoku)
                     throw new Error('異常なプレイデータです');
+                if (o.sys[SysBase_1.SysBase.VALNM_CFG_NS] != this.cfg.oCfg.save_ns) {
+                    console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase_1.SysBase.VALNM_CFG_NS]}】のプレイデータです`);
+                    return;
+                }
                 this.data.sys = o.sys;
                 this.data.mark = o.mark;
                 this.data.kidoku = o.kidoku;
@@ -259,10 +264,6 @@ class SysApp extends SysNode_1.SysNode {
         window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), { once: true, passive: true });
         ipcRenderer.on('log', (e, arg) => console.log(`[main log] e:%o arg:%o`, e, arg));
     }
-    loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
-        super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
-        this.ns = cfg.getNs();
-    }
     initVal(data, hTmp, comp) {
         const st = new Store({
             cwd: 'storage',
@@ -309,10 +310,9 @@ class SysApp extends SysNode_1.SysNode {
         this.window({ x: p[0], y: p[1] });
         this.isMovingWin = false;
     }
-    init(cfg, hTag, appPixi, val, main) {
-        super.init(cfg, hTag, appPixi, val, main);
-        this.cfg = cfg;
-        if (cfg.oCfg.debug.devtool)
+    init(hTag, appPixi, val, main) {
+        super.init(hTag, appPixi, val, main);
+        if (this.cfg.oCfg.debug.devtool)
             this.wc.openDevTools();
         else
             this.wc.on('devtools-opened', () => {
