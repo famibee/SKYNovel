@@ -615,6 +615,7 @@ export class Variable implements IVariable {
 			if (this.hTmp['const.sn.onLauncher']) return;
 			if (! this.hTmp['const.sn.isDebugger']) return;
 
+			// TODO: sn.chkFontMode、テンプレにも
 			//	Hyphenation.chkFontMode = CmnLib.argChk_Boolean(this.hTmp, name, true)
 		}
 	};

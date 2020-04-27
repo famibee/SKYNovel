@@ -39,8 +39,8 @@ export declare class SysBase implements ISysBase {
     protected stk: () => string;
     hash: (_data: string) => string;
     protected readonly isApp: () => boolean;
-    protected $path_desktop: string;
-    get path_desktop(): string;
+    protected $path_downloads: string;
+    get path_downloads(): string;
     protected $path_userdata: string;
     get path_userdata(): string;
     readonly existsSync: (_path: string) => boolean;

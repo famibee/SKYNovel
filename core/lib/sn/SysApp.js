@@ -8,19 +8,72 @@ const Store = require('electron-store');
 const { Readable } = require('stream');
 const m_fs = require("fs-extra");
 const crypto = require('crypto');
+const tar = require('tar-fs');
 class SysApp extends SysNode_1.SysNode {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
         super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypto: arg.crypto, dip: '' });
-        this.$path_desktop = remote.app.getPath('desktop').replace(/\\/g, '/') + '/';
         this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
+        this.$path_downloads = remote.app.getPath('downloads').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
-        this.store = new Store({ cwd: 'storage', name: this.arg.crypto ? 'data_' : 'data' });
+        this.ns = '';
         this.isMovingWin = false;
         this.posMovingWin = [0, 0];
         this.dsp = remote.screen.getPrimaryDisplay();
         this.win = remote.getCurrentWindow();
         this.wc = this.win.webContents;
         this.close = () => { this.win.close(); return false; };
+        this._export = () => {
+            const r = tar.pack(this.$path_userdata + 'storage/');
+            r.on('end', () => {
+                if (CmnLib_1.CmnLib.debugLog)
+                    console.log('プレイデータをエクスポートしました');
+                this.fire('sn:exported', new Event('click'));
+            });
+            r.pipe(m_fs.createWriteStream(this.$path_downloads + this.ns + CmnLib_1.getDateStr('-', '_', '') + '.spd'));
+            return false;
+        };
+        this._import = () => {
+            const flush = this.flush;
+            new Promise((rs, rj) => {
+                const inp = document.createElement('input');
+                inp.type = 'file';
+                inp.accept = '.spd, text/plain';
+                inp.onchange = (e) => {
+                    var _a, _b, _c;
+                    const path = (_c = (_b = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.path;
+                    if (path)
+                        rs(path);
+                    else
+                        rj();
+                };
+                inp.click();
+            })
+                .then((inp_path) => new Promise(rs => {
+                this.flush = () => { };
+                const out_path = this.$path_userdata + 'storage/';
+                m_fs.removeSync(out_path);
+                m_fs.ensureDirSync(out_path);
+                m_fs.createReadStream(inp_path)
+                    .pipe(tar.extract(out_path, { finish: () => rs() }));
+            }))
+                .then(async () => {
+                const fn = this.$path_userdata + 'storage/data.json' + (this.crypto ? '_' : '');
+                const s = String(m_fs.readFileSync(fn));
+                const o = JSON.parse(this.crypto ? await this.pre('json', s) : s);
+                if (!o.sys || !o.mark || !o.kidoku)
+                    throw new Error('異常なプレイデータです');
+                this.data.sys = o.sys;
+                this.data.mark = o.mark;
+                this.data.kidoku = o.kidoku;
+                this.flush = flush;
+                this.flush();
+                this.val.updateData(o);
+                if (CmnLib_1.CmnLib.debugLog)
+                    console.log('プレイデータをインポートしました');
+                this.fire('sn:imported', new Event('click'));
+            });
+            return false;
+        };
         this.navigate_to = hArg => {
             const url = hArg.url;
             if (!url)
@@ -206,21 +259,27 @@ class SysApp extends SysNode_1.SysNode {
         window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), { once: true, passive: true });
         ipcRenderer.on('log', (e, arg) => console.log(`[main log] e:%o arg:%o`, e, arg));
     }
+    loadPathAndVal(hPathFn2Exts, fncLoaded, cfg) {
+        super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
+        this.ns = cfg.getNs();
+    }
     initVal(data, hTmp, comp) {
-        if (this.crypto)
-            this.store.encryptionKey = this.stk();
-        if (this.store.size == 0) {
-            hTmp['const.sn.isFirstBoot'] = true;
-            this.data.sys = data['sys'];
-            this.data.mark = data['mark'];
-            this.data.kidoku = data['kidoku'];
+        const st = new Store({
+            cwd: 'storage',
+            name: this.arg.crypto ? 'data_' : 'data',
+            encryptionKey: this.arg.crypto ? this.stk() : undefined,
+        });
+        this.flush = () => st.store = this.data;
+        if (hTmp['const.sn.isFirstBoot'] = (st.size == 0)) {
+            this.data.sys = data.sys;
+            this.data.mark = data.mark;
+            this.data.kidoku = data.kidoku;
             this.flush();
         }
         else {
-            hTmp['const.sn.isFirstBoot'] = false;
-            this.data.sys = this.store.store['sys'];
-            this.data.mark = this.store.store['mark'];
-            this.data.kidoku = this.store.store['kidoku'];
+            this.data.sys = st.store.sys;
+            this.data.mark = st.store.mark;
+            this.data.kidoku = st.store.kidoku;
         }
         comp(this.data);
         hTmp['const.sn.isDebugger'] = false;
@@ -250,7 +309,6 @@ class SysApp extends SysNode_1.SysNode {
         this.window({ x: p[0], y: p[1] });
         this.isMovingWin = false;
     }
-    flush() { this.store.store = this.data; }
     init(cfg, hTag, appPixi, val, main) {
         super.init(cfg, hTag, appPixi, val, main);
         this.cfg = cfg;

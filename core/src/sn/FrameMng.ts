@@ -157,7 +157,7 @@ export class FrameMng {
 		);
 	}
 
-	cvsResize() {	// TODO: フォントサイズはどう変更すべきか
+	cvsResize() {	// NOTE: フォントサイズはどう変更すべきか
 		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		for (const n in this.hIfrm) {
 			const f = this.hIfrm[n];

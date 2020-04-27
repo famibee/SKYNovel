@@ -6,8 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysNode } from "./SysNode";
-import {CmnLib} from './CmnLib';
-import {ITag, IHTag, IVariable, IData4Vari, IConfig, IMain} from './CmnInterface';
+import {CmnLib, getDateStr} from './CmnLib';
+import {ITag, IHTag, IVariable, IFn2Path, IConfig, IData4Vari, IMain} from './CmnInterface';
 import {Main} from './Main';
 import {Application} from 'pixi.js';
 
@@ -17,6 +17,7 @@ const Store = require('electron-store');
 const {Readable} = require('stream');
 import m_fs = require('fs-extra');
 const crypto = require('crypto');
+const tar = require('tar-fs');
 
 export class SysApp extends SysNode {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
@@ -25,28 +26,37 @@ export class SysApp extends SysNode {
 
 		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));
 	}
-	protected readonly	$path_desktop	= remote.app.getPath('desktop').replace(/\\/g, '/') +'/';
 	protected readonly	$path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
+	protected readonly	$path_downloads	= remote.app.getPath('downloads').replace(/\\/g, '/') +'/';
 
 	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
-	private readonly	store = new Store({cwd: 'storage', name: this.arg.crypto ?'data_' :'data'});
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
+		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
+		this.ns = cfg.getNs();
+	}
+	private ns	= '';
+
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		if (this.crypto) this.store.encryptionKey = this.stk();
-		if (this.store.size == 0) {
-			// データがないときの処理
-			hTmp['const.sn.isFirstBoot'] = true;
-			this.data.sys = data['sys'];
-			this.data.mark = data['mark'];
-			this.data.kidoku = data['kidoku'];
-			this.flush();
+		const st = new Store({
+			cwd: 'storage',
+			name: this.arg.crypto ?'data_' :'data',
+			encryptionKey: this.arg.crypto ?this.stk() :undefined,
+		});
+		this.flush = ()=> st.store = this.data;
+
+		if (hTmp['const.sn.isFirstBoot'] = (st.size == 0)) {
+			// データがない（初回起動）場合の処理
+			this.data.sys = data.sys;
+			this.data.mark = data.mark;
+			this.data.kidoku = data.kidoku;
+			this.flush();	// 初期化なのでここのみ必要
 		}
 		else {
-			// データがあるときの処理
-			hTmp['const.sn.isFirstBoot'] = false;
-			this.data.sys = this.store.store['sys'];
-			this.data.mark = this.store.store['mark'];
-			this.data.kidoku = this.store.store['kidoku'];
+			// データがある場合の処理
+			this.data.sys = st.store.sys;
+			this.data.mark = st.store.mark;
+			this.data.kidoku = st.store.kidoku;
 		}
 		comp(this.data);
 
@@ -54,42 +64,18 @@ export class SysApp extends SysNode {
 		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
 			// AIRNovel の const.flash.system.Capabilities.isDebugger
-		/*
-		hTmp['const.flash.system.Capabilities.language']
-			= Capabilities.language;
-			// コンテンツが実行されているシステムの言語コード
-		hTmp['const.flash.system.Capabilities.os']
-			= Capabilities.os;
-			// 現在のオペレーティングシステム
-		hTmp['const.flash.system.Capabilities.pixelAspectRatio']
-			= Capabilities.pixelAspectRatio;
-			// 画面のピクセル縦横比を指定
-		hTmp['const.flash.system.Capabilities.playerType']	→ const.sn.isApp
-		hTmp['const.flash.system.Capabilities.screenDPI']
-			= Capabilities.screenDPI;
-			// 画面の1インチあたりのドット数(dpi)解像度をピクセル単位で指定
-		*/
 		hTmp['const.sn.screenResolutionX'] = this.dsp.size.width;
 			// 画面の最大水平解像度
 		hTmp['const.sn.screenResolutionY'] = this.dsp.size.height;
 			// 画面の最大垂直解像度
 			// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
 			// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
-		/*
-		hTmp['const.flash.system.Capabilities.version']
-			= Capabilities.version;
-			// Flash Player又はAdobe® AIRのプラットフォームとバージョン
-
-		hTmp['const.flash.display.Stage.displayState']
-			= StageDisplayState.NORMAL;
-			//	stage.displayState;
-		*/
 
 		this.val.defTmp('const.sn.displayState', ()=> this.win.isSimpleFullScreen());
 
 		window.addEventListener('resize', ()=> {
 			// NOTE: 2019/07/14 Windowsでこのように遅らせないと正しい縦幅にならない
-			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true}: {});
+			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true} :{});
 		}, {once: true, passive: true});
 
 		this.win.on('move', ()=> {
@@ -114,7 +100,6 @@ export class SysApp extends SysNode {
 		this.isMovingWin = false;
 	}
 	private readonly	dsp	= remote.screen.getPrimaryDisplay();
-	flush() {this.store.store = this.data;}
 
 	private readonly	win	= remote.getCurrentWindow();
 	private readonly	wc	= this.win.webContents;
@@ -133,6 +118,63 @@ export class SysApp extends SysNode {
 
 	// アプリの終了
 	protected readonly	close = ()=> {this.win.close(); return false;}
+
+	// プレイデータをエクスポート
+	protected readonly	_export: ITag = ()=> {
+		const r = tar.pack(this.$path_userdata +'storage/')
+		r.on('end', ()=> {
+			if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
+			this.fire('sn:exported', new Event('click'));
+		});
+		r.pipe(m_fs.createWriteStream(
+			this.$path_downloads + this.ns + getDateStr('-', '_', '') +'.spd'
+		));
+
+		return false;
+	}
+
+	// プレイデータをインポート
+	protected readonly	_import: ITag = ()=> {
+		const flush = this.flush;
+		new Promise((rs, rj)=> {
+			const inp = document.createElement('input');
+			inp.type = 'file';
+			inp.accept = '.spd, text/plain';
+			inp.onchange = (e: any)=> {
+				const path = e?.target?.files?.[0]?.path;
+				if (path) rs(path); else rj();
+			};
+			inp.click();
+		})
+		.then((inp_path: any)=> new Promise(rs=> {
+			this.flush = ()=> {};
+			const out_path = this.$path_userdata +'storage/';
+			m_fs.removeSync(out_path);
+			m_fs.ensureDirSync(out_path);
+
+			m_fs.createReadStream(inp_path)
+			.pipe(tar.extract(out_path, {finish: ()=> rs()}));
+		}))
+		.then(async ()=> {
+			const fn = this.$path_userdata +'storage/data.json'+ (this.crypto ?'_': '');
+			const s = String(m_fs.readFileSync(fn));
+			const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
+			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
+
+			this.data.sys = o.sys;
+			this.data.mark = o.mark;
+			this.data.kidoku = o.kidoku;
+			this.flush = flush;
+			this.flush();
+			this.val.updateData(o);
+
+			if (CmnLib.debugLog) console.log('プレイデータをインポートしました');
+			this.fire('sn:imported', new Event('click'));
+		});
+
+		return false;
+	}
+
 	// ＵＲＬを開く
 	protected readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
@@ -303,10 +345,10 @@ export class SysApp extends SysNode {
 		}
 		this.win.setPosition(hArg.x, hArg.y);
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
-			// NOTE: 2019/07/06 Windowsでこれがないとどんどん縦に短くなる
+			// 2019/07/06 Windowsでこれがないとどんどん縦に短くなる
 		const hz = this.win.getContentSize()[1];
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH *2 -hz);
-			// NOTE: 2019/07/14 setContentSize()したのにメニュー高さぶん勝手に削られた値にされる不具合ぽい動作への対応
+			// 2019/07/14 setContentSize()したのにメニュー高さぶん勝手に削られた値にされる不具合ぽい動作への対応
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
 		this.flush();

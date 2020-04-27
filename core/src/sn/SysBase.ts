@@ -119,8 +119,8 @@ export class SysBase implements ISysBase {
 	hash = (_data: string)=> '';
 
 	protected readonly	isApp = ()=> false;
-	protected $path_desktop	= '';
-	get path_desktop() {return this.$path_desktop}
+	protected $path_downloads	= '';
+	get path_downloads() {return this.$path_downloads}
 	protected $path_userdata= '';
 	get path_userdata() {return this.$path_userdata}
 

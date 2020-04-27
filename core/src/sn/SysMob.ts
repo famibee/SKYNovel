@@ -9,7 +9,7 @@ import {CmnLib} from './CmnLib';
 import { SysBase } from "./SysBase";
 import {IConfig, IFn2Path, IData4Vari, IPlugin} from './CmnInterface';
 import {Main} from './Main';
-// TODO: const strLocal = require('store');
+// const strLocal = require('store');
 
 export class SysMob extends SysBase {
 	constructor(hPlg: {[name: string]: IPlugin} = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
@@ -36,7 +36,7 @@ export class SysMob extends SysBase {
 			}
 
 			//strLocal.clearAll();
-			// NOTE: サーバ非同期データならここで解決
+			// サーバ非同期データならここで解決
 //		 			this.ns = cfg.getNs();
 //		 	this.sys = strLocal.get(this.ns +'sys');
 
@@ -58,7 +58,7 @@ export class SysMob extends SysBase {
 		xhr.open('GET', url)
 		xhr.send(null)
 	});
-// TODO: 	private ns	= '';
+// 	private ns	= '';
 	private sys: any;
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		if (this.sys == undefined) {
@@ -71,8 +71,8 @@ export class SysMob extends SysBase {
 		else {
 			hTmp['const.sn.isFirstBoot'] = false;
 			this.data.sys = this.sys;
-// TODO: 	this.data.mark = strLocal.get(this.ns +'mark');
-// TODO: 	this.data.kidoku = strLocal.get(this.ns +'kidoku');
+// 	this.data.mark = strLocal.get(this.ns +'mark');
+// 	this.data.kidoku = strLocal.get(this.ns +'kidoku');
 		}
 		comp(this.data);
 
@@ -81,14 +81,14 @@ export class SysMob extends SysBase {
 		hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
 	}
 	flush() {
-/* TODO: strLocal.set(this.ns +'sys', this.data.sys);
+/* strLocal.set(this.ns +'sys', this.data.sys);
 		strLocal.set(this.ns +'mark', this.data.mark);
 		strLocal.set(this.ns +'kidoku', this.data.kidoku);
-		// TODO: 暗号化*/
+		// 暗号化*/
 	}
 
 	// ＵＲＬを開く
-/* TODO: protected navigate_to = (hArg: HArg)=> {
+/* protected navigate_to = (hArg: HArg)=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 	//	window.open(url);		// 近年セキュリティ的に効かない
@@ -121,7 +121,7 @@ export class SysMob extends SysBase {
 //	'⏰ Time Out'
 */
 	};
-/* TODO:
+/*
 	savePic = (fn: string, data_url: string)=> {
 		const anchor = document.createElement('a');
 		anchor.href = data_url;

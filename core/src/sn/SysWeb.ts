@@ -111,6 +111,7 @@ export class SysWeb extends SysBase {
 		})();
 	}
 	private ns	= '';
+
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// システム情報
 		const hn = document.location.hostname;
@@ -131,14 +132,16 @@ export class SysWeb extends SysBase {
 		};
 		const nm = this.ns +(this.arg.crypto ?'sys_' :'sys');
 		if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) == undefined)) {
-			this.data.sys = data['sys'];
-			this.data.mark = data['mark'];
-			this.data.kidoku = data['kidoku'];
+			// データがない（初回起動）場合の処理
+			this.data.sys = data.sys;
+			this.data.mark = data.mark;
+			this.data.kidoku = data.kidoku;
 			this.flush();	// 初期化なのでここのみ必要
 			comp(this.data);
 			return;
 		}
 
+		// データがある場合の処理
 		if (! this.crypto) {
 			this.data.sys = strLocal.get(this.ns +'sys');
 			this.data.mark = strLocal.get(this.ns +'mark');
@@ -177,7 +180,7 @@ export class SysWeb extends SysBase {
 			if (! e.detail.isOpen) return;
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
-		});
+		}, {once: true, passive: true});
 	}
 
 	// プレイデータをエクスポート
@@ -189,13 +192,14 @@ export class SysWeb extends SysBase {
 		});
 		const s2 = this.crypto ?String(this.enc(s)) :s;
 		const blob = new Blob([s2], {'type':'text/json'});
-		// TODO: サムネイル保存と復元 path="app-storage:/bookmark/*"]
 
 		const a = document.createElement('a');
 		a.href = URL.createObjectURL(blob);
-		a.download = this.ns + getDateStr('-', '_', '') +'.spd';
+		a.download = this.ns + getDateStr('-', '_', '') +'.swpd';
 		a.click();
-		if (CmnLib.debugLog) console.log('プレイデータをエクスポートします');
+
+		if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
+		setTimeout(()=> this.fire('sn:exported', new Event('click')), 10);
 
 		return false;
 	}
@@ -205,7 +209,7 @@ export class SysWeb extends SysBase {
 		new Promise((rs, rj)=> {
 			const inp = document.createElement('input');
 			inp.type = 'file';
-			inp.accept = '.spd, text/plain';
+			inp.accept = '.swpd, text/plain';
 			inp.onchange = (e: any)=> {
 				const file = e?.target?.files?.[0];
 				if (file) rs(file); else rj();
@@ -227,6 +231,7 @@ export class SysWeb extends SysBase {
 			this.flush();
 			this.val.updateData(o);
 
+			if (CmnLib.debugLog) console.log('プレイデータをインポートしました');
 			this.fire('sn:imported', new Event('click'));
 		})
 		.catch(e=> console.error(`異常なプレイデータです ${e.message}`));

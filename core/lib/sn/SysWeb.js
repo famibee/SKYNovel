@@ -35,17 +35,18 @@ class SysWeb extends SysBase_1.SysBase {
             const blob = new Blob([s2], { 'type': 'text/json' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = this.ns + CmnLib_1.getDateStr('-', '_', '') + '.spd';
+            a.download = this.ns + CmnLib_1.getDateStr('-', '_', '') + '.swpd';
             a.click();
             if (CmnLib_1.CmnLib.debugLog)
-                console.log('プレイデータをエクスポートします');
+                console.log('プレイデータをエクスポートしました');
+            setTimeout(() => this.fire('sn:exported', new Event('click')), 10);
             return false;
         };
         this._import = () => {
             new Promise((rs, rj) => {
                 const inp = document.createElement('input');
                 inp.type = 'file';
-                inp.accept = '.spd, text/plain';
+                inp.accept = '.swpd, text/plain';
                 inp.onchange = (e) => {
                     var _a, _b;
                     const file = (_b = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b[0];
@@ -70,6 +71,8 @@ class SysWeb extends SysBase_1.SysBase {
                 this.data.kidoku = o.kidoku;
                 this.flush();
                 this.val.updateData(o);
+                if (CmnLib_1.CmnLib.debugLog)
+                    console.log('プレイデータをインポートしました');
                 this.fire('sn:imported', new Event('click'));
             })
                 .catch(e => console.error(`異常なプレイデータです ${e.message}`));
@@ -188,9 +191,9 @@ class SysWeb extends SysBase_1.SysBase {
             };
         const nm = this.ns + (this.arg.crypto ? 'sys_' : 'sys');
         if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) == undefined)) {
-            this.data.sys = data['sys'];
-            this.data.mark = data['mark'];
-            this.data.kidoku = data['kidoku'];
+            this.data.sys = data.sys;
+            this.data.mark = data.mark;
+            this.data.kidoku = data.kidoku;
             this.flush();
             comp(this.data);
             return;
@@ -227,7 +230,7 @@ class SysWeb extends SysBase_1.SysBase {
                     return;
                 console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
                 main.destroy();
-            });
+            }, { once: true, passive: true });
     }
     regEvt_FullScr(hArg, go_fnc_name, exit_fnc_name, get_fnc_name) {
         const elm = document.body;

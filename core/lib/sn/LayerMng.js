@@ -261,8 +261,8 @@ void main(void) {
         const fn = (hArg.fn)
             ? ((hArg.fn.substr(0, 10) == 'userdata:/')
                 ? hArg.fn
-                : ('desktop:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.png'))
-            : ('desktop:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.png');
+                : ('downloads:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.png'))
+            : ('downloads:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.png');
         const ext = CmnLib_1.CmnLib.getExt(fn);
         const b_color = (_a = hArg.b_color) !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color;
         const renderer = pixi_js_1.autoDetectRenderer({

@@ -61,13 +61,13 @@ export class DebugMng {
 		if (this.first) {
 			this.first = false;
 			this.sys.appendFile(
-				this.sys.path_desktop +'log.txt',
+				this.sys.path_downloads +'log.txt',
 				`== ${CmnLib.platform.description} ==`,
 				err=> {if (err) console.log(err)}
 			);
 		}
 		this.sys.appendFile(
-			this.sys.path_desktop +'log.txt',
+			this.sys.path_downloads +'log.txt',
 			`--- ${getDateStr('-', '_', '')
 			} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum
 			}] prj:${this.sys.cur

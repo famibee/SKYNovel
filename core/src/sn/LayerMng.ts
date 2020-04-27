@@ -257,8 +257,8 @@ export class LayerMng {
 		const fn = (hArg.fn)
 		? ((hArg.fn.substr(0, 10) == 'userdata:/')
 			? hArg.fn
-			: ('desktop:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.png'))
-		: ('desktop:/snapshot'+ getDateStr('-', '_', '', '_') +'.png');
+			: ('downloads:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.png'))
+		: ('downloads:/snapshot'+ getDateStr('-', '_', '', '_') +'.png');
 		const ext = CmnLib.getExt(fn);
 		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
 		const renderer = autoDetectRenderer({

@@ -32,10 +32,10 @@ class DebugMng {
     log(hArg) {
         if (this.first) {
             this.first = false;
-            this.sys.appendFile(this.sys.path_desktop + 'log.txt', `== ${CmnLib_1.CmnLib.platform.description} ==`, err => { if (err)
+            this.sys.appendFile(this.sys.path_downloads + 'log.txt', `== ${CmnLib_1.CmnLib.platform.description} ==`, err => { if (err)
                 console.log(err); });
         }
-        this.sys.appendFile(this.sys.path_desktop + 'log.txt', `--- ${CmnLib_1.getDateStr('-', '_', '')} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)
+        this.sys.appendFile(this.sys.path_downloads + 'log.txt', `--- ${CmnLib_1.getDateStr('-', '_', '')} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)
             console.log(err); });
         return false;
     }

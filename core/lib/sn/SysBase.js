@@ -22,7 +22,7 @@ class SysBase {
         this.stk = () => '';
         this.hash = (_data) => '';
         this.isApp = () => false;
-        this.$path_desktop = '';
+        this.$path_downloads = '';
         this.$path_userdata = '';
         this.existsSync = (_path) => true;
         this.writeFile = (_file, _data, _callback) => { };
@@ -98,7 +98,7 @@ class SysBase {
         val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
     }
     setFire(fire) { this.fire = fire; }
-    get path_desktop() { return this.$path_desktop; }
+    get path_downloads() { return this.$path_downloads; }
     get path_userdata() { return this.$path_userdata; }
     resizeFrames() {
         const cr = this.appPixi.view.getBoundingClientRect();

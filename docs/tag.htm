@@ -146,6 +146,9 @@
 		<li class="mb1"><a href="#clear_lay">[clear_lay] レイヤ設定の消去</a></li>
 		<li class="mb1"><a href="#finish_trans">[finish_trans] トランス強制終了</a></li>
 		<li class="mb1"><a href="#lay">[lay] レイヤ設定</a></li>
+		<li class="mb1"><a href="#blendMode">　blendModeの解説</a></li>
+		<li class="mb1"><a href="#txtlay">　レイヤ設定(文字レイヤ)</a></li>
+		<li class="mb1"><a href="#grplay">　レイヤ設定(画像レイヤ)</a></li>
 		<li class="mb1"><a href="#trans">[trans] ページ裏表を交換</a></li>
 		<li class="mb1"><a href="#wt">[wt] トランス終了待ち</a></li>
 	</ul>
@@ -590,7 +593,9 @@
 <tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_top、b_left、b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
 <tr><td>back_clear</td><td></td><td>現在値</td><td>Boolean</td><td>true：背景をクリアする</td></tr>
 <tr><td>ffs</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>
-	CSS の文字詰め font-feature-settingsでの「"pwid"」「"palt"」など指定できる。（styleで指定してはいけない）<br/>
+	CSS の文字詰め font-feature-settingsでの「"pwid"」「"palt"」など指定できる。<br/>
+	（styleで指定してはいけない）<br/>
+	（二重引用符・ダブルコーテーションマークも必要なので、【ffs='"pwid"'】と指定する）<br/>
 	初期値は指定なし<br/>
 	→【参考】<a href="https://ics.media/entry/14087/" target="_blank" rel="noopener">文字詰めできるCSSのfont-feature-settingsが凄い！ 日本語フォントこそ指定したい自動カーニング - ICS MEDIA</a>
 </td></tr>
@@ -1955,19 +1960,24 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h2 id="export" class="w-heading">[export]プレイデータをエクスポート</h2>
 <h4>プレイデータをファイルとしてエクスポートする</h4>
 <p class="mb2 px1">
-	保存ダイアログが表示され、選択したフォルダにプレイデータファイル（*.spd）が保存される。<br/>
+	保存ダイアログが表示され、選択したフォルダにプレイデータファイルが保存される。<br/>
+	プレイデータ拡張子、ウェブ版は.swpd、アプリ版は.spdで互換性はない。<br/>
 	暗号化するプロジェクトの場合、出力するプレイデータファイルも暗号化される。<br/>
 	ブラウザならファイルをダウンロードする。<br/>
+	<br/>
+	エクスポート完了時には【sn:exported】というイベントを発火する。<br/>
+	【[event key='sn:exported' 〜]】という記述でジャンプできる。<br/>
 
 </p>
 <h2 id="import" class="w-heading">[import]プレイデータをインポート</h2>
 <h4>プレイデータファイルをインポートする</h4>
 <p class="mb2 px1">
-	読み込みダイアログが表示され、選択したプレイデータファイル（*.spd）をインポートする。<br/>
+	読み込みダイアログが表示され、選択したプレイデータファイルをインポートする。<br/>
+	プレイデータ拡張子、ウェブ版は.swpd、アプリ版は.spdで互換性はない。<br/>
 	<br/>
 	タグはダイアログを表示次第すぐ次の処理に移り、ユーザーの選択を待たない。<br/>
 	インポート完了時には【sn:imported】というイベントを発火する。<br/>
-	これは【[event key='sn:imported' 〜]】という記述でジャンプなどして検知できる。
+	【[event key='sn:imported' 〜]】という記述でジャンプできる。<br/>
 
 </p>
 <h2 id="loadplugin" class="w-heading">[loadplugin] プラグインの読み込み</h2>
@@ -1992,7 +2002,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>アプリ表示部分全体を画像として保存する</h4>
 <p class="mb2 px1">
 
-	文字の表示とスナップショットは、厳密には同じではないので注意。<br/>
+	画面スナップショットをダウンロードフォルダに保存する。<br/>
+	ファイル名にはプロジェクト名と日時どが追加される。<br/>
+	<br/>
+	※文字の表示とスナップショットは、厳密には同じではないので注意。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（半角カンマ区切りで複数レイヤを指定可能）</td><td></td></tr>
@@ -2123,7 +2136,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 </p>
 <h2 id="log" class="w-heading">[log] ログ出力</h2>
-<h4>引数をデスクトップにテキスト出力する（追記ではなく上書き。追記する。出力日時・分・スクリプト名や行番号やプロジェクト名も出力</h4>
+<h4>ダウンロードフォルダにテキスト出力する（追記ではなく上書き。追記する。出力日時・分・スクリプト名や行番号やプロジェクト名も出力</h4>
 <p class="mb2 px1">
 
 </p>

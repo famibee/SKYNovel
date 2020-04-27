@@ -103,8 +103,8 @@ class Config {
             throw '[searchPath] fnが空です';
         if (path.substr(0, 7) == 'http://')
             return path;
-        if (path.substr(0, 9) == 'desktop:/') {
-            return this.sys.path_desktop + path.slice(9);
+        if (path.substr(0, 11) == 'downloads:/') {
+            return this.sys.path_downloads + path.slice(11);
         }
         if (path.substr(0, 10) == 'userdata:/') {
             return this.sys.path_userdata + path.slice(10);
