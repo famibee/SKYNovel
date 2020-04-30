@@ -304,14 +304,11 @@
 <h4>save:変数を全消去。削除すると言うより、初期化する</h4>
 <p class="mb2 px1">
 
-	具体的には、save:変数を全消去してから、<br/>
-	&save:const.sn.mesLayer = ''<br/>
-	&save:sn.doRecLog = false<br/>
-	&save:const.sn.sLog = ''
+	引数無し
 
 </p>
 <h2 id="let_abs" class="w-heading">[let_abs]絶対値</h2>
-<h4>絶対値を求める</h4>
+<h4>絶対値を求める。結果を変数に代入する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -322,7 +319,7 @@
 
 </p>
 <h2 id="let_char_at" class="w-heading">[let_char_at] 文字列から一字取りだし</h2>
-<h4>文字列中の一文字を取り出す</h4>
+<h4>文字列中の一文字を取り出す。結果を変数に代入する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -334,7 +331,7 @@
 
 </p>
 <h2 id="let_index_of" class="w-heading">[let_index_of]文字列で検索</h2>
-<h4>文字列内を検索し、文字列内の start 以降で、最初に val が見つかった位置を返します。</h4>
+<h4>文字列内を検索し、文字列内の start 以降で、最初に val が見つかった位置を返す。</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -347,7 +344,7 @@
 
 </p>
 <h2 id="let_length" class="w-heading">[let_length]文字列の長さ</h2>
-<h4>文字列の長さを求める</h4>
+<h4>文字列の長さを求める。結果を変数に代入する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -381,7 +378,7 @@
 
 </p>
 <h2 id="let_round" class="w-heading">[let_round]四捨五入</h2>
-<h4>四捨五入する</h4>
+<h4>四捨五入する。結果を変数に代入する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -405,7 +402,7 @@
 
 </p>
 <h2 id="let_substr" class="w-heading">[let_substr] 文字列から抜きだし</h2>
-<h4>文字列の一部を取り出す</h4>
+<h4>文字列の一部を取り出す。結果を変数に代入する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
@@ -418,7 +415,7 @@
 
 </p>
 <h2 id="let" class="w-heading">[let] 変数代入・演算</h2>
-<h4>変数に値を代入する。</h4>
+<h4>変数に値を代入する</h4>
 <p class="mb2 px1">
 	変数については「<a href="dev.md#reserve_value_sys">SKYNovel 組み込み変数</a>」を参照して下さい
 
@@ -839,7 +836,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	[lay][span]などの ch_in_style属性で指定すると、定義どおりの文字出現演出アニメを行なう
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>文字出現演出名</td><td>文字出現演出を特定する名前</td></tr>
 <tr><td>wait</td><td></td><td>500</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 <tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 <tr><td>x</td><td rowspan="2"></td><td rowspan="2">'=0'</td><td rowspan="2">
@@ -866,7 +863,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	文字消去演出は、次ページの文字出現演出と同時に行なわれる。文字消去演出を待ちたい場合は、<a href="tag.htm#wait" target="_blank" rel="noopener">[wait]</a>などで待つ。
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>文字消去演出名</td><td>文字消去演出を特定する名前</td></tr>
 <tr><td>wait</td><td></td><td>500</td><td>ミリ秒</td><td>一時的な文字消去速度。0で瞬時。</td></tr>
 <tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 <tr><td>x</td><td rowspan="2"></td><td rowspan="2">'=0'</td><td rowspan="2">
@@ -1719,8 +1716,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>スクリプト処理の現在位置をコールスタックに積み、ジャンプする。</h4>
 <p class="mb2 px1">
 
-	ジャンプ先での[return]により本タグの次の位置に戻る事が出来る。
-	※あらゆるタグの中で唯一「通常、既読としない」タグですが、普通に使う分には気にしなくて良いです。
+	ジャンプ先での[return]により本タグの次の位置に戻る事が出来る。<br/>
+	※マニアックな話ですが、あらゆるタグの中で唯一「通常、既読としない」タグです。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>コール先のスクリプトファイル<br/>[call fn=ext_*]のようにワイルドカードをサポート。マッチするスクリプトを順不同にコールする。 （ワイルドカードは後方のみ）</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td></td></tr>
