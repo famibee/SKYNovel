@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const CmnLib_1 = require("./CmnLib");
 const RubySpliter_1 = require("./RubySpliter");
-const m_xregexp = require("xregexp");
 class Grammar {
     constructor() {
         this.regC2M = new RegExp('');
@@ -38,27 +36,24 @@ class Grammar {
         };
         this.setEscape('');
     }
-    mkEscape(ce) {
-        return m_xregexp((ce ? `\\${ce}\\S |` : '') +
-            '	\\n+' +
-            '|	\\t+' +
-            `|	\\[let_ml \\s+ [^\\]]+ \\]` +
-            `.+?` +
-            `(?=\\[endlet_ml [\\]\\s])` +
-            `|	\\[ (?: [^"'#;\\]]+ | (["'#]) .*? \\1 | ;[^\\n]* ) *? ]` +
-            '|	;[^\\n]*' +
-            '|	&[^&\\n]+&' +
-            '|	&&?[^;\\n\\t&]+' +
-            '|	^\\*\\w+' +
-            `| [^\\n\\t\\[;${ce ? `\\${ce}` : ''}]+`, 'gxs');
-    }
     setEscape(ce) {
         if (this.hC2M && (ce in this.hC2M))
             throw '[エスケープ文字] char【' + ce + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_TOKEN = this.mkEscape(ce);
+        this.REG_TOKEN = new RegExp((ce ? `\\${ce}\\S|` : '') +
+            '\\n+' +
+            '|\\t+' +
+            `|\\[let_ml\\s+[^\\]]+\\]` +
+            `.+?` +
+            `(?=\\[endlet_ml[\\]\\s])` +
+            `|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]` +
+            '|;[^\\n]*' +
+            '|&[^&\\n]+&' +
+            '|&&?[^;\\n\\t&]+' +
+            '|^\\*\\w+' +
+            `|[^\\n\\t\\[;${ce ? `\\${ce}` : ''}]+`, 'gs');
         RubySpliter_1.RubySpliter.setEscape(ce);
-        this.REG_CANTC2M = new RegExp(`[\w\s;[\]*=&｜《》${ce}]`);
-        this.REG_TOKEN_NOTXT = new RegExp(`[\n\t;\[*&${ce ? `\\${ce}` : ''}]`);
+        this.REG_CANTC2M = new RegExp(`[\\w\\s;[\\]*=&｜《》${ce ? `\\${ce}` : ''}]`);
+        this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ? `\\${ce}` : ''}]`);
     }
     bracket2macro(hArg, script, idxToken) {
         var _a;
@@ -123,12 +118,10 @@ class Grammar {
         return {
             name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
             text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
-            cast: ((cnt_equa == 3) ? CmnLib_1.trim(equa[2]) : null)
+            cast: ((cnt_equa == 3) ? equa[2].trim() : null)
         };
     }
 }
 exports.Grammar = Grammar;
-Grammar.REG_TAG = m_xregexp(`\\[ (?<name>[^\\s;\\]]+) \\s*
-	(?<args> (?: [^"'#\\]]+ | (["'#]) .*? \\3 )*?)
-]`, 'x');
+Grammar.REG_TAG = /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]/;
 //# sourceMappingURL=Grammar.js.map

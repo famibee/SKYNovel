@@ -6,7 +6,6 @@ const CmnTween_1 = require("./CmnTween");
 const GrpLayer_1 = require("./GrpLayer");
 const DebugMng_1 = require("./DebugMng");
 const Tween = require('@tweenjs/tween.js').default;
-const m_xregexp = require("xregexp");
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
@@ -25,7 +24,7 @@ class TxtStage extends pixi_js_1.Container {
         this.aRect = [];
         this.lenHtmTxt = 0;
         this.rctm = new pixi_js_1.Rectangle;
-        this.regDs = m_xregexp('animation\\-duration: (?<ms>\\d+)ms;');
+        this.regDs = /animation\-duration: (?<ms>\d+)ms;/;
         this.fncEndChIn = () => { };
         this.isChInIng = false;
         this.lh_half = 0;
@@ -517,8 +516,9 @@ class TxtStage extends pixi_js_1.Container {
                 le = v;
                 break;
             }
-            const m = m_xregexp.exec(st, this.regDs);
-            if (!m || Number(m['ms']) > 0) {
+            const m = st.match(this.regDs);
+            const g = m === null || m === void 0 ? void 0 : m.groups;
+            if (!g || Number(g.ms) > 0) {
                 le = v;
                 break;
             }
@@ -799,9 +799,9 @@ TxtStage.hWarning = {
     marginRight: 0,
     marginTop: 0,
 };
-TxtStage.reg行頭禁則 = new RegExp('[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]');
-TxtStage.reg行末禁則 = new RegExp('[［（｛〈「『【〔“〝]');
-TxtStage.reg分割禁止 = new RegExp('[─‥…]');
+TxtStage.reg行頭禁則 = /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
+TxtStage.reg行末禁則 = /[［（｛〈「『【〔“〝]/;
+TxtStage.reg分割禁止 = /[─‥…]/;
 TxtStage.hChInStyle = Object.create(null);
 TxtStage.REG_NG_CHSTYLE_NAME_CHR = /[\s\.,]/;
 TxtStage.hChOutStyle = Object.create(null);

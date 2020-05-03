@@ -1,3 +1,5 @@
+## v0.19.3
+- upd：es2019に更新、xregexpが不要に
 ## v0.19.2
 - add：[export]プロジェクト名が違うプレイデータの場合、読み込まずDevToolエラー出力しsn:importedイベント発生しないように
 - chg：[export]上記仕様に変更、プレイデータ更新

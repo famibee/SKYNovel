@@ -7,8 +7,6 @@ function uint(o) {
     return v < 0 ? -v : v;
 }
 exports.uint = uint;
-function trim(s) { return s.replace(/^\s+|\s+$/g, ''); }
-exports.trim = trim;
 if (!('toInt' in String.prototype)) {
     String.prototype.toInt = function () { return int(this); };
 }
@@ -121,7 +119,7 @@ CmnLib.cvsWidth = 0;
 CmnLib.cvsHeight = 0;
 CmnLib.cvsScale = 1;
 CmnLib.debugLog = false;
-CmnLib.platform = Object.assign({}, platform);
+CmnLib.platform = { ...platform };
 CmnLib.isSafari = platform.name == 'Safari';
 CmnLib.isFirefox = platform.name == 'Firefox';
 CmnLib.isMac = new RegExp('OS X').test(CmnLib.platform.os.family);

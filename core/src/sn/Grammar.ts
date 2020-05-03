@@ -6,40 +6,33 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Script, HArg} from './CmnInterface';
-import {trim} from './CmnLib';
 import {RubySpliter} from './RubySpliter';
-import m_xregexp = require('xregexp');
 
 export class Grammar {
 	constructor() {this.setEscape('');}
 
 	REG_TOKEN	: RegExp;
-	private	mkEscape(ce: string) {return m_xregexp(
-			// 1059 match 13935 step (8ms) https://regex101.com/r/ygXx16/6
-		(ce	?`\\${ce}\\S |` :'')+	// エスケープシーケンス
-		'	\\n+'+			// 改行
-		'|	\\t+'+			// タブ
-		`|	\\[let_ml \\s+ [^\\]]+ \\]`+
-			`.+?`+	// [let_ml]〜[endlet_ml]間のテキスト
-		`(?=\\[endlet_ml [\\]\\s])`+
-		//		`| (?<= \\[let_ml \\s+ [^\\[\\]]+ \\])`+
-			// iOS、過ぎ去った前を見る肯定後読み「(?<=」使えない。エラーになるので
-			// Electronも？
-		`|	\\[ (?: [^"'#;\\]]+ | (["'#]) .*? \\1 | ;[^\\n]* ) *? ]`+	// タグ
-		'|	;[^\\n]*'+		// コメント
-		'|	&[^&\\n]+&'+	// ＆表示＆
-		'|	&&?[^;\\n\\t&]+'+// ＆代入
-		'|	^\\*\\w+'+		// ラベル
-		`| [^\\n\\t\\[;${ce ?`\\${ce}` :''}]+`,	// 本文
-		'gxs');
-	}
 	setEscape(ce: string) {
 		if (this.hC2M && (ce in this.hC2M)) throw '[エスケープ文字] char【'+ ce +'】が登録済みの括弧マクロまたは一文字マクロです';
 
-		this.REG_TOKEN = this.mkEscape(ce);
+		// 1059 match 13935 step (8ms) https://regex101.com/r/ygXx16/6
+		this.REG_TOKEN = new RegExp(
+		(ce	?`\\${ce}\\S|`:'')+	// エスケープシーケンス
+		'\\n+'+				// 改行
+		'|\\t+'+			// タブ
+		`|\\[let_ml\\s+[^\\]]+\\]`+
+			`.+?`+		// [let_ml]〜[endlet_ml]間のテキスト
+		`(?=\\[endlet_ml[\\]\\s])`+
+		`|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]`+	// タグ
+		'|;[^\\n]*'+		// コメント
+		'|&[^&\\n]+&'+		// ＆表示＆
+		'|&&?[^;\\n\\t&]+'+	// ＆代入
+		'|^\\*\\w+'+		// ラベル
+		`|[^\\n\\t\\[;${ce?`\\${ce}`:''}]+`,	// 本文
+		'gs');
 		RubySpliter.setEscape(ce);
-		this.REG_CANTC2M = new RegExp(`[\w\s;[\]*=&｜《》${ce}]`);
-		this.REG_TOKEN_NOTXT = new RegExp(`[\n\t;\[*&${ce ?`\\${ce}` :''}]`);
+		this.REG_CANTC2M = new RegExp(`[\\w\\s;[\\]*=&｜《》${ce ?`\\${ce}` :''}]`);
+		this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ?`\\${ce}` :''}]`);
 	}
 
 
@@ -140,14 +133,11 @@ export class Grammar {
 		return {
 			name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
 			text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
-			cast: ((cnt_equa == 3) ?trim(equa[2]) :null)
+			cast: ((cnt_equa == 3) ?equa[2].trim() :null)
 		};
 	}
 
-	static	readonly	REG_TAG	= m_xregexp(
-		// 47 match 959 step (1ms) https://regex101.com/r/TKk1Iz/4
-`\\[ (?<name>[^\\s;\\]]+) \\s*
-	(?<args> (?: [^"'#\\]]+ | (["'#]) .*? \\3 )*?)
-]`, 'x');
+	// 47 match 959 step (1ms) https://regex101.com/r/TKk1Iz/4
+	static	readonly	REG_TAG	= /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]/;
 
 }

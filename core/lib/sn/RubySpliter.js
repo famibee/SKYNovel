@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const m_xregexp = require("xregexp");
 class RubySpliter {
     constructor() {
         this.putCh = () => { };
@@ -10,28 +9,38 @@ class RubySpliter {
     getSesame() { return RubySpliter.sesame; }
     init(putCh) { this.putCh = putCh; }
     static setEscape(ce) {
-        RubySpliter.REG_RUBY = m_xregexp(RubySpliter.mkEscReg(ce), 'gsx');
+        RubySpliter.REG_RUBY = new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ''}` +
+            `｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》` +
+            `|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])` +
+            `《(?<kan_ruby>[^》\\n]+)》)` +
+            `|(?<txt>` +
+            `[\uD800-\uDBFF][\uDC00-\uDFFF]` +
+            `|[^　｜《》]+(?=｜)` +
+            `|[^　｜《》]*[ぁ-ヿ](?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)` +
+            `|.)`, 'gs');
     }
     putTxt(text) {
         var _a;
-        let elm = null, pos = 0;
-        while (elm = m_xregexp.exec(text, RubySpliter.REG_RUBY, pos)) {
-            pos = elm.index + elm[0].length;
-            const ruby = elm.ruby;
+        let e = null;
+        while (e = RubySpliter.REG_RUBY.exec(text)) {
+            const g = e === null || e === void 0 ? void 0 : e.groups;
+            if (!g)
+                continue;
+            const ruby = g.ruby;
             if (ruby) {
-                this.putTxtRb(elm.str, ruby);
+                this.putTxtRb(g.str, ruby);
                 continue;
             }
-            const kan_ruby = elm.kan_ruby;
+            const kan_ruby = g.kan_ruby;
             if (kan_ruby) {
-                this.putTxtRb(elm.kan, kan_ruby);
+                this.putTxtRb(g.kan, kan_ruby);
                 continue;
             }
-            if (elm.ce) {
-                this.putCh(elm.ce.slice(1), '');
+            if (g.ce) {
+                this.putCh(g.ce.slice(1), '');
                 continue;
             }
-            const txt = (_a = elm.txt) !== null && _a !== void 0 ? _a : '';
+            const txt = (_a = g.txt) !== null && _a !== void 0 ? _a : '';
             const a = Array.from(txt);
             const len = a.length;
             for (let i = 0; i < len; ++i)
@@ -63,14 +72,5 @@ class RubySpliter {
 }
 exports.RubySpliter = RubySpliter;
 RubySpliter.sesame = 'ヽ';
-RubySpliter.mkEscReg = (ce) => `${ce ? `(?<ce>\\${ce}\\S) |` : ''}
-	｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》
-|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+ [ぁ-ヿ]* | [^　｜《》\\n])
-		《(?<kan_ruby>[^》\\n]+)》)
-|	(?<txt>
-	[\uD800-\uDBFF][\uDC00-\uDFFF]
-|	[^　｜《》]+ (?=｜)
-|	[^　｜《》]* [ぁ-ヿ] (?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)
-|	.)`;
 RubySpliter.REG_TAB_G = /\t/g;
 //# sourceMappingURL=RubySpliter.js.map

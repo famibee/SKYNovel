@@ -137,8 +137,8 @@ class Main {
                         const e = err;
                         mes = 'タグ解析中例外 mes=' + e.message + '(' + e.name + ')';
                         const a_tag = Grammar_1.Grammar.REG_TAG.exec(token);
-                        if (a_tag != null)
-                            mes = `[${a_tag.name}]` + mes;
+                        if (a_tag)
+                            mes = `[${a_tag.groups.name}]` + mes;
                     }
                     else {
                         mes = err;
