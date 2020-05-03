@@ -14,7 +14,6 @@ import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
 const Tween = require('@tweenjs/tween.js').default;
-import m_xregexp = require('xregexp');
 
 export interface IInfTxLay {
 	fontsize	: number;
@@ -500,9 +499,9 @@ export class TxtStage extends Container {
 
 	private aRect   : IChRect[]	= [];
 	private	lenHtmTxt = 0;
-	private	static	reg行頭禁則	= new RegExp('[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]');
-	private	static	reg行末禁則	= new RegExp('[［（｛〈「『【〔“〝]');
-	private	static	reg分割禁止	= new RegExp('[─‥…]');
+	private	static	reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
+	private	static	reg行末禁則	= /[［（｛〈「『【〔“〝]/;
+	private	static	reg分割禁止	= /[─‥…]/;
 	goTxt(aSpan: string[]) {
 		TxtStage.cntBreak.visible = false;
 
@@ -707,19 +706,16 @@ export class TxtStage extends Container {
 			if (v.className == 'sn_ch') break;	// 表示済みのみ
 			const st = v.getAttribute('style');
 			if (! st) {le = v; break;}
-		//	const m = st.match(this.regDs);
-		//	if (! m || Number(m.groups!.ms) > 0) {le = v; break;}
-			const m: any = m_xregexp.exec(st, this.regDs);
-			if (! m || Number(m['ms']) > 0) {le = v; break;}
+			const m = st.match(this.regDs);
+			const g = m?.groups;
+			if (! g || Number(g.ms) > 0) {le = v; break;}
 		}
 		if (! le) {this.fncEndChIn(); return;}
 
 		le.addEventListener('animationend', this.fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
 	private rctm = new Rectangle;
-	//private readonly regDs = new RegExp('animation\\-duration: (?<ms>\\d+)ms;');
-		// Firefoxで【invalid regexp group(SyntaxError)】になるので
-	private readonly regDs = m_xregexp('animation\\-duration: (?<ms>\\d+)ms;');
+	private readonly regDs = /animation\-duration: (?<ms>\d+)ms;/;
 	private	fncEndChIn	= ()=> {};
 	private spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;

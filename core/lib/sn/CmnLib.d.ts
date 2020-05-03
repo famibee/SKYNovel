@@ -1,7 +1,6 @@
 import { HArg } from './CmnInterface';
 export declare function int(o: any): number;
 export declare function uint(o: any): number;
-export declare function trim(s: string): string;
 export declare function getDateStr(spl_dd?: string, spl_dt?: string, spl_tt?: string, spl_ms?: string): string;
 import { interaction, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';

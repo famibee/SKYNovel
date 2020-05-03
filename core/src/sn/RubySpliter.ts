@@ -6,7 +6,6 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {HArg, IPutCh} from './CmnInterface';
-import m_xregexp = require('xregexp');
 
 export interface IAutoPage { (idx: number, str: string): void; }
 
@@ -37,32 +36,34 @@ export class RubySpliter {
 */
 	private static	REG_RUBY	: RegExp;
 	static	setEscape(ce: string) {
-		RubySpliter.REG_RUBY = m_xregexp(RubySpliter.mkEscReg(ce), 'gsx');
-	}
-	private	static	mkEscReg = (ce: string)=>
 		// 577 match 14303 step(~10ms) 	https://regex101.com/r/YmT3m1/2
-`${ce ? `(?<ce>\\${ce}\\S) |` :''}
-	｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》
-|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+ [ぁ-ヿ]* | [^　｜《》\\n])
-		《(?<kan_ruby>[^》\\n]+)》)
-|	(?<txt>
-	[\uD800-\uDBFF][\uDC00-\uDFFF]
-|	[^　｜《》]+ (?=｜)
-|	[^　｜《》]* [ぁ-ヿ] (?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)
-|	.)`;
+		RubySpliter.REG_RUBY = new RegExp(
+			`${ce ?`(?<ce>\\${ce}\\S)|` :''}`+
+			`｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》`+
+			`|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])`+
+			`《(?<kan_ruby>[^》\\n]+)》)`+
+			`|(?<txt>`+
+			`[\uD800-\uDBFF][\uDC00-\uDFFF]`+
+			`|[^　｜《》]+(?=｜)`+
+			`|[^　｜《》]*[ぁ-ヿ](?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)`+
+			`|.)`,
+			'gs'
+		);
+	}
 
 	putTxt(text: string) {
-		let elm: any = null, pos = 0;
-		while (elm = m_xregexp.exec(text, RubySpliter.REG_RUBY, pos)) {
-			pos = elm.index + elm[0].length;
-			const ruby: string = elm.ruby;
-			if (ruby) {this.putTxtRb(elm.str, ruby); continue;}
+		let e: any = null;
+		while (e = RubySpliter.REG_RUBY.exec(text)) {
+			const g = e?.groups;
+			if (! g) continue;
+			const ruby: string = g.ruby;
+			if (ruby) {this.putTxtRb(g.str, ruby); continue;}
 
-			const kan_ruby: string = elm.kan_ruby;
-			if (kan_ruby) {this.putTxtRb(elm.kan, kan_ruby); continue;}
-			if (elm.ce) {this.putCh(elm.ce.slice(1), ''); continue}
+			const kan_ruby: string = g.kan_ruby;
+			if (kan_ruby) {this.putTxtRb(g.kan, kan_ruby); continue;}
+			if (g.ce) {this.putCh(g.ce.slice(1), ''); continue}
 
-			const txt = elm.txt ?? '';
+			const txt = g.txt ?? '';
 			const a: string[] = Array.from(txt);
 				// txt.split('')や [...txt] はサロゲートペアで問題
 			const len = a.length;

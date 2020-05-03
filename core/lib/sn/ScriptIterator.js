@@ -4,7 +4,6 @@ const CmnLib_1 = require("./CmnLib");
 const Config_1 = require("./Config");
 const CallStack_1 = require("./CallStack");
 const Grammar_1 = require("./Grammar");
-const m_xregexp = require("xregexp");
 const pixi_js_1 = require("pixi.js");
 const DebugMng_1 = require("./DebugMng");
 ;
@@ -41,8 +40,8 @@ class ScriptIterator {
         this.REG_LABEL_ESC = /\*/g;
         this.REG_TOKEN_MACRO_BEGIN = /\[macro\s/;
         this.REG_TOKEN_MACRO_END = /\[endmacro[\s\]]/;
-        this.REG_TAG_LET_ML = m_xregexp(`^\\[let_ml\\s`, 'g');
-        this.REG_TAG_ENDLET_ML = m_xregexp(`^\\[endlet_ml\\s*]`, 'g');
+        this.REG_TAG_LET_ML = /^\[let_ml\s/g;
+        this.REG_TAG_ENDLET_ML = /^\[endlet_ml\s*]/g;
         this.hScript = Object.create(null);
         this.REG_WILDCARD = /^\[(call|loadplugin)\s/;
         this.REG_WILDCARD2 = /\bfn\s*=\s*[^\s\]]+/;
@@ -52,15 +51,18 @@ class ScriptIterator {
                 this.REG_WILDCARD.lastIndex = 0;
                 if (!this.REG_WILDCARD.test(token))
                     continue;
-                const a_tag = m_xregexp.exec(token, Grammar_1.Grammar.REG_TAG);
-                this.alzTagArg.go(a_tag['args']);
-                const p_fn = this.alzTagArg.hPrm['fn'];
+                const e = Grammar_1.Grammar.REG_TAG.exec(token);
+                const g = e === null || e === void 0 ? void 0 : e.groups;
+                if (!g)
+                    continue;
+                this.alzTagArg.go(g.args);
+                const p_fn = this.alzTagArg.hPrm.fn;
                 if (!p_fn)
                     continue;
                 const fn = p_fn.val;
                 if (!fn || fn.slice(-1) != '*')
                     continue;
-                const ext = (a_tag['name'] == 'loadplugin') ? 'css' : 'sn';
+                const ext = (g.name == 'loadplugin') ? 'css' : 'sn';
                 const a = this.cfg.matchPath('^' + fn.slice(0, -1) + '.*', ext);
                 this.script.aToken.splice(i, 1, '\t', '; ' + token);
                 this.script.aLNum.splice(i, 1, NaN, NaN);
@@ -113,19 +115,20 @@ class ScriptIterator {
     get lastHArg() { return this.aCallStk[this.lenCallStk - 1].hArg; }
     ;
     タグ解析(tagToken) {
-        const a_tag = m_xregexp.exec(tagToken, Grammar_1.Grammar.REG_TAG);
-        if (a_tag == null)
+        const e = Grammar_1.Grammar.REG_TAG.exec(tagToken);
+        const g = e === null || e === void 0 ? void 0 : e.groups;
+        if (!g)
             throw 'タグ記述【' + tagToken + '】異常です(タグ解析)';
-        const tag_name = a_tag['name'];
+        const tag_name = g.name;
         const tag_fnc = this.hTag[tag_name];
         if (tag_fnc == null)
             throw '未定義のタグ【' + tag_name + '】です';
-        this.alzTagArg.go(a_tag['args']);
+        this.alzTagArg.go(g.args);
         if (this.cfg.oCfg.debug.tag)
             console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
-        if (this.alzTagArg.hPrm['cond']) {
-            const cond = this.alzTagArg.hPrm['cond'].val;
-            if (cond.charAt(0) == '&')
+        if (this.alzTagArg.hPrm.cond) {
+            const cond = this.alzTagArg.hPrm.cond.val;
+            if (!cond || cond.charAt(0) == '&')
                 throw '属性condは「&」が不要です';
             const p = this.prpPrs.parse(cond);
             const ps = String(p);
@@ -147,7 +150,7 @@ class ScriptIterator {
         hArg['タグ名'] = tag_name;
         for (const k in this.alzTagArg.hPrm) {
             let v = this.alzTagArg.hPrm[k].val;
-            if (v.charAt(0) == '%') {
+            if (v && v.charAt(0) == '%') {
                 if (this.aCallStk.length == 0)
                     throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
                 const mac = this.lastHArg[v.slice(1)];
@@ -159,7 +162,7 @@ class ScriptIterator {
                 if (!v || v == 'null')
                     continue;
             }
-            v = this.prpPrs.getValAmpersand(v);
+            v = this.prpPrs.getValAmpersand(v !== null && v !== void 0 ? v : '');
             if (v != 'undefined') {
                 hArg[k] = v;
                 continue;
@@ -310,6 +313,7 @@ class ScriptIterator {
         return false;
     }
     if(hArg) {
+        var _a;
         const exp = hArg.exp;
         if (!exp)
             throw 'expは必須です';
@@ -330,13 +334,14 @@ class ScriptIterator {
             }
             if (uc != 91)
                 continue;
-            const a_tag = m_xregexp.exec(t, Grammar_1.Grammar.REG_TAG);
-            if (a_tag == null)
+            const a_tag = Grammar_1.Grammar.REG_TAG.exec(t);
+            const g = a_tag === null || a_tag === void 0 ? void 0 : a_tag.groups;
+            if (!g)
                 throw 'タグ記述[' + t + ']異常です(if文)';
-            const tag_name = a_tag['name'];
+            const tag_name = g.name;
             if (!(tag_name in this.hTag))
-                throw '未定義のタグ[' + tag_name + ']です';
-            this.alzTagArg.go(a_tag['args']);
+                throw `未定義のタグ[${tag_name}]です`;
+            this.alzTagArg.go(g.args);
             switch (tag_name) {
                 case 'if':
                     ++cntDepth;
@@ -346,8 +351,8 @@ class ScriptIterator {
                         break;
                     if (idxGo > -1)
                         break;
-                    const e = this.alzTagArg.hPrm['exp'].val;
-                    if (e.charAt() == '&')
+                    const e = (_a = this.alzTagArg.hPrm.exp.val) !== null && _a !== void 0 ? _a : '';
+                    if (e.charAt(0) == '&')
                         throw '属性expは「&」が不要です';
                     if (this.prpPrs.parse(e))
                         idxGo = this.idxToken_ + 1;
@@ -745,7 +750,7 @@ class ScriptIterator {
         const cs = new CallStack_1.CallStack(this.scriptFn_, this.idxToken_);
         const ln = this.lineNum_;
         this.hTag[name] = hArg => {
-            const hPushArg = Object.assign({}, hArg);
+            const hPushArg = { ...hArg };
             hPushArg.hMpVal = this.val.cloneMp();
             this.callSub(hPushArg);
             this.val.setMp(hArg);
@@ -791,7 +796,7 @@ class ScriptIterator {
         if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'do_rec', true))
             this.mark = {
                 hSave: this.val.cloneSave(),
-                hPages: Object.assign({}, mark.hPages),
+                hPages: { ...mark.hPages },
                 aIfStk: [...mark.aIfStk],
             };
         const o = {

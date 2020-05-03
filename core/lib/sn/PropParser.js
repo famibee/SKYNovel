@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const P = require("parsimmon");
-const m_xregexp = require("xregexp");
 const CmnLib_1 = require("./CmnLib");
 class PropParser {
     constructor(val) {
@@ -232,13 +231,14 @@ class PropParser {
     }
     static getValName(arg_name) {
         var _a;
-        const a = m_xregexp.exec(CmnLib_1.trim(arg_name), this.REG_VAL);
-        if (!a)
+        const e = this.REG_VAL.exec(arg_name.trim());
+        const g = e === null || e === void 0 ? void 0 : e.groups;
+        if (!g)
             return undefined;
         return {
-            scope: a.scope || 'tmp',
-            name: PropParser.getValName_B2D(a.name),
-            at: (_a = a.at) !== null && _a !== void 0 ? _a : '',
+            scope: g.scope || 'tmp',
+            name: PropParser.getValName_B2D(g.name),
+            at: (_a = g.at) !== null && _a !== void 0 ? _a : '',
         };
     }
     static getValName_B2D(str) {
@@ -264,5 +264,5 @@ class PropParser {
     }
 }
 exports.PropParser = PropParser;
-PropParser.REG_VAL = m_xregexp('^((?<scope>\\w+?):)?(?<name>[^\\s :@]+)(?<at>\\@str)?$');
+PropParser.REG_VAL = /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
 //# sourceMappingURL=PropParser.js.map

@@ -54,13 +54,13 @@ class Button extends pixi_js_1.Container {
             if (!enabled)
                 return;
             const normal = () => Object.assign(txt.style, style);
-            const style_hover = Object.assign({}, style);
+            const style_hover = { ...style };
             if (hArg.style_hover)
                 Button.s2hStyle(style_hover, hArg.style_hover);
             else
                 style_hover.fill = 'white';
             const hover = () => Object.assign(txt.style, style_hover);
-            const style_clicked = Object.assign({}, style_hover);
+            const style_clicked = { ...style_hover };
             if (hArg.style_clicked)
                 Button.s2hStyle(style_clicked, hArg.style_clicked);
             else

@@ -2,7 +2,6 @@ import { Script, HArg } from './CmnInterface';
 export declare class Grammar {
     constructor();
     REG_TOKEN: RegExp;
-    private mkEscape;
     setEscape(ce: string): void;
     bracket2macro(hArg: HArg, script: Script, idxToken: number): void;
     char2macro(hArg: HArg, hTag: HArg, script: Script, idxToken: number): void;

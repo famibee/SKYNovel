@@ -50,9 +50,9 @@ class Config {
             this.oCfg.coder = (_b = oCfg === null || oCfg === void 0 ? void 0 : oCfg.coder) !== null && _b !== void 0 ? _b : this.oCfg.coder;
             CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_d = (_c = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _c === void 0 ? void 0 : _c.width) !== null && _d !== void 0 ? _d : this.oCfg.window.width);
             CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_f = (_e = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _e === void 0 ? void 0 : _e.height) !== null && _f !== void 0 ? _f : this.oCfg.window.height);
-            this.oCfg.book = Object.assign(Object.assign({}, this.oCfg.book), oCfg.book);
+            this.oCfg.book = { ...this.oCfg.book, ...oCfg.book };
             this.oCfg.log.max_len = (_j = (_h = (_g = oCfg.log) === null || _g === void 0 ? void 0 : _g.max_len) === null || _h === void 0 ? void 0 : _h.max_len) !== null && _j !== void 0 ? _j : this.oCfg.log.max_len;
-            this.oCfg.init = Object.assign(Object.assign({}, this.oCfg.init), oCfg.init);
+            this.oCfg.init = { ...this.oCfg.init, ...oCfg.init };
             if ('init' in oCfg) {
                 for (const n in this.oCfg.init) {
                     const v = String(this.oCfg.init[n]);
@@ -60,7 +60,7 @@ class Config {
                         this.oCfg.init[n] = parseInt(v.slice(1), 16);
                 }
             }
-            this.oCfg.debug = Object.assign(Object.assign({}, this.oCfg.debug), oCfg.debug);
+            this.oCfg.debug = { ...this.oCfg.debug, ...oCfg.debug };
             CmnLib_1.CmnLib.debugLog = this.oCfg.debug.debugLog;
             sys.loadPathAndVal(this.hPathFn2Exts, async () => {
                 this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;

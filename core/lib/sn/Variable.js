@@ -137,7 +137,7 @@ class Variable {
         this.defTmp('const.sn.bookmark.json', () => {
             const a = [];
             Object.keys(this.data.mark).sort().forEach(k => {
-                const o = Object.assign({}, this.data.mark[k].json);
+                const o = { ...this.data.mark[k].json };
                 for (const key in o) {
                     const v = o[key];
                     if (typeof v != 'string')
@@ -236,7 +236,7 @@ class Variable {
         this.hAreaKidoku = {};
         for (const fn in this.data.kidoku) {
             const areas = new Areas_1.Areas();
-            areas.hAreas = Object.assign({}, this.data.kidoku[fn]);
+            areas.hAreas = { ...this.data.kidoku[fn] };
             this.hAreaKidoku[fn] = areas;
         }
     }
@@ -246,13 +246,13 @@ class Variable {
     }
     defTmp(name, fnc) { this.hTmp[name] = fnc; }
     ;
-    cloneMp() { return Object.assign({}, this.hScope.mp); }
+    cloneMp() { return { ...this.hScope.mp }; }
     setMp(mp) { this.hScope.mp = mp; }
     setMark(place, mark) { this.data.mark[place] = mark; this.flush(); }
-    cloneSave() { return Object.assign({}, this.hScope.save); }
+    cloneSave() { return { ...this.hScope.save }; }
     mark2save(mark) {
         var _a;
-        this.hSave = this.hScope.save = Object.assign({}, mark.hSave);
+        this.hSave = this.hScope.save = { ...mark.hSave };
         this.$doRecLog = (_a = this.hSave['sn.doRecLog']) !== null && _a !== void 0 ? _a : false;
     }
     loadScrWork(fn) {
@@ -261,7 +261,7 @@ class Variable {
     }
     saveKidoku() {
         for (const fn in this.hAreaKidoku) {
-            this.data.kidoku[fn] = Object.assign({}, this.hAreaKidoku[fn].hAreas);
+            this.data.kidoku[fn] = { ...this.hAreaKidoku[fn].hAreas };
         }
         this.flush();
     }
@@ -273,7 +273,7 @@ class Variable {
         const from = Number(hArg.from);
         const to = Number(hArg.to);
         if (from != to)
-            this.setMark(to, Object.assign({}, this.data.mark[from]));
+            this.setMark(to, { ...this.data.mark[from] });
         return false;
     }
     erasebookmark(hArg) {

@@ -1,10 +1,13 @@
 export declare class AnalyzeTagArg {
     private readonly REG_TAGARG;
     go(args: string): void;
-    private readonly REG_TAGARG_VAL;
-    goVal(args: string): void;
     private $hPrm;
-    get hPrm(): any;
+    get hPrm(): {
+        [name: string]: {
+            val?: string | undefined;
+            def?: string | undefined;
+        };
+    };
     private $isKomeParam;
     get isKomeParam(): boolean;
 }

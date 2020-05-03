@@ -132,7 +132,7 @@ class FrameMng {
         return true;
     }
     rect(hArg) {
-        const a = Object.assign({}, hArg);
+        const a = { ...hArg };
         const re = this.sys.resolution;
         return new DOMRect(CmnLib_1.CmnLib.argChk_Num(a, 'x', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'y', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'width', CmnLib_1.CmnLib.stageW) * re, CmnLib_1.CmnLib.argChk_Num(a, 'height', CmnLib_1.CmnLib.stageH) * re);
     }

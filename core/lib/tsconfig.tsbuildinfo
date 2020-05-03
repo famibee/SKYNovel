@@ -21,6 +21,10 @@
         "version": "9c67dcc7ca897b61f58d57d487bc9f07950546e5ac8701cbc41a8a4fec48b091",
         "signature": "9c67dcc7ca897b61f58d57d487bc9f07950546e5ac8701cbc41a8a4fec48b091"
       },
+      "../../node_modules/typescript/lib/lib.es2019.d.ts": {
+        "version": "0fc0f68d3f4d94aa65fab955592e4a9f2066e6f8ee2f66fcc45adf4037fc167b",
+        "signature": "0fc0f68d3f4d94aa65fab955592e4a9f2066e6f8ee2f66fcc45adf4037fc167b"
+      },
       "../../node_modules/typescript/lib/lib.dom.d.ts": {
         "version": "f2039e0dbc31f69183f6377b368c033802dfdcf77e5fd214def06c1fd7b225ed",
         "signature": "f2039e0dbc31f69183f6377b368c033802dfdcf77e5fd214def06c1fd7b225ed"
@@ -117,6 +121,22 @@
         "version": "e7780d04cd4120ee554c665829db2bbdd6b947cbaa3c150b7d9ea74df3beb2e8",
         "signature": "e7780d04cd4120ee554c665829db2bbdd6b947cbaa3c150b7d9ea74df3beb2e8"
       },
+      "../../node_modules/typescript/lib/lib.es2019.array.d.ts": {
+        "version": "7054111c49ea06f0f2e623eab292a9c1ae9b7d04854bd546b78f2b8b57e13d13",
+        "signature": "7054111c49ea06f0f2e623eab292a9c1ae9b7d04854bd546b78f2b8b57e13d13"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.object.d.ts": {
+        "version": "989b95205f1189943fab0ce12a39c80570edf8f200aca60e0fdc500afc4d5859",
+        "signature": "989b95205f1189943fab0ce12a39c80570edf8f200aca60e0fdc500afc4d5859"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.string.d.ts": {
+        "version": "e9bfd234b801c955459cde7109bebf6fd1b4814fd8b394942f5ba746828a6486",
+        "signature": "e9bfd234b801c955459cde7109bebf6fd1b4814fd8b394942f5ba746828a6486"
+      },
+      "../../node_modules/typescript/lib/lib.es2019.symbol.d.ts": {
+        "version": "5f2a476cdb4990b249077b46a6242979876e9bba5152e066d68fad77510ee328",
+        "signature": "5f2a476cdb4990b249077b46a6242979876e9bba5152e066d68fad77510ee328"
+      },
       "../../node_modules/typescript/lib/lib.es2020.bigint.d.ts": {
         "version": "0c9ea8c2028047f39a3f66752682604f543c08be8806258c3d95c93e75a43255",
         "signature": "0c9ea8c2028047f39a3f66752682604f543c08be8806258c3d95c93e75a43255"
@@ -125,9 +145,9 @@
         "version": "1377923021927244ea19433873b997ad8585533b0a56d5de29cda497f7842756",
         "signature": "1377923021927244ea19433873b997ad8585533b0a56d5de29cda497f7842756"
       },
-      "../../node_modules/typescript/lib/lib.es2017.full.d.ts": {
-        "version": "873c09f1c309389742d98b7b67419a8e0a5fa6f10ce59fd5149ecd31a2818594",
-        "signature": "873c09f1c309389742d98b7b67419a8e0a5fa6f10ce59fd5149ecd31a2818594"
+      "../../node_modules/typescript/lib/lib.es2019.full.d.ts": {
+        "version": "2e29c91abb0c3a575ff79670fa315b6c09ac7a57a7b42aa509fa17f0a224968f",
+        "signature": "2e29c91abb0c3a575ff79670fa315b6c09ac7a57a7b42aa509fa17f0a224968f"
       },
       "../../node_modules/pixi.js/pixi.js.d.ts": {
         "version": "9f2c8236840dc53005e8742fedf8a788902356c2a6aac2d3be43d4c0b1925d1d",
@@ -138,8 +158,8 @@
         "signature": "4b8d1fea0b3947075e3a90d7e1f0c46ce54ca33b488fb279dd1528e823ab400e"
       },
       "../src/sn/cmnlib.ts": {
-        "version": "b5718ae68de68592de9efe42253fb19f7c15728e12ce9d15c914c7385297999e",
-        "signature": "dfa44298a721b98add246a668a5f4dbc708403f58a03709728391a43136d6657"
+        "version": "2db021c125638fec1468b76e266b4838502fab617f34f650927d45d084d8a99f",
+        "signature": "795073ac6084b65c38b993f1ee4c9ff705dc410091d125c207622ee28b84cd3f"
       },
       "../src/sn/layer.ts": {
         "version": "fd5ba163498ff28ab1b3f09ff63a0fdbba5497140100315da66a73a396c6a4b0",
@@ -353,28 +373,24 @@
         "version": "47dc6cc361a974bd3f54d546762f216c2e16e6b79ce1f4bd62fae7849dfb967d",
         "signature": "8cd4453c1ff644be4d4e4b8c65dae5846cd1c08c06f20cb317e0c7d6c8402e20"
       },
-      "../../node_modules/@types/xregexp/index.d.ts": {
-        "version": "c09bea849d28fbe6dfde4bc1c7980a77b0270e9d478c0d5ca5dada004065dbf0",
-        "signature": "c09bea849d28fbe6dfde4bc1c7980a77b0270e9d478c0d5ca5dada004065dbf0"
-      },
       "../src/sn/rubyspliter.ts": {
-        "version": "3679746a6155c7b23a8544ca05c289e729a58f6f116d99ad18615ba9e10e4a8f",
-        "signature": "f688d4a1be7431654afaafcde6fe37d4d254dedf720813428cc117349a7c4d65"
+        "version": "786824c28d94a5107dcf466da292d2588f48f963bc94a38c99a128174d23be1a",
+        "signature": "fa9d5450af3ef3e9490a440522cd3543ae5265b260cc6f4919b9165b2415010b"
       },
       "../src/sn/grammar.ts": {
-        "version": "1c16455820f2e73ed75f793fc0107dd6e9a339682ef46f932f03e2ffb97d9cf6",
-        "signature": "7dd1fde804e365aa91a50a78789920267898d6d33fa78a3e8bf71fa256c9a84b"
+        "version": "1c1f39553ca21cce794340b703425c2ab3bc57ec8a4e9494f3b44c935c30fb0e",
+        "signature": "c463851e7991be710f3b9be43a414eedd63b8a642e7b8d865fd0989508d09392"
       },
       "../src/sn/analyzetagarg.ts": {
-        "version": "8d4589adbe38daf581f0ba95b757c001f3d0fdecd22b0e849d781248e8561c21",
-        "signature": "d02b0f36ed10a82605d0b1d72e57d156f6457bb1effae06b68dc0ace0e94c085"
+        "version": "a5ff632ec41e2dea7a889981c4807cb1c01433cbe8416219588ae6b1b1439fe5",
+        "signature": "ae1eefe4bf82631962812a1526e300c8000002a4f7814e8893f9a9eb5743e3b3"
       },
       "../../node_modules/@types/parsimmon/index.d.ts": {
         "version": "19b32dcf848f5a494e0220509b2ce6bb5f85ef8d82ed1d48d1c4c255133a2936",
         "signature": "19b32dcf848f5a494e0220509b2ce6bb5f85ef8d82ed1d48d1c4c255133a2936"
       },
       "../src/sn/propparser.ts": {
-        "version": "601448d57f564099581bc5e87e5abf33f15cfc33efc758856b86b8613c992314",
+        "version": "c8e86b5a8e8f9143a510bde2ca6841478327d1776a534b79b99fd9494e283542",
         "signature": "371a88afd6be9b1cef442a952608119038980e70cb130c7ae3625d7a39d06c83"
       },
       "../src/sn/callstack.ts": {
@@ -394,7 +410,7 @@
         "signature": "8633ae56f4886bae0a5cba2fafc1b39a12d820fc9e97ad775be8a7987940fff8"
       },
       "../src/sn/txtstage.ts": {
-        "version": "24a6c2b5b7f945f76cc72b4a780806c5ffddc16fa70b4d18db904d5e9c52cb0f",
+        "version": "a046f20068b19a1928b9aadcc9daec5b72641ed294d109a5855fdea13dbfa9a0",
         "signature": "f6e98489fbaf9ac8f26e8a016f608cf10269e4cc7953c01d25b5154a56a4817d"
       },
       "../src/sn/button.ts": {
@@ -426,7 +442,7 @@
         "signature": "d5edc147bf6b0f50a64fc434a169ba858b650613689e88acc84f2b8e8e23655a"
       },
       "../src/sn/scriptiterator.ts": {
-        "version": "60bfcc6e7021932d9c28efb150f20f52aef17011295673da53f4ca73b1c7cb21",
+        "version": "b30e8c6e8ae915cf540b54aed5a6df1eb23397abc9392e375058e0085abc0596",
         "signature": "3d24439d5a6559dce14333a05038edd2e325497447e108205c2a3ddebf5b46a3"
       },
       "../src/sn/debugmng.ts": {
@@ -442,7 +458,7 @@
         "signature": "c53917ade1fd2a1b36fd12f2ad54a636d8a26a87f43734d4166202aa8b341c1d"
       },
       "../src/sn/main.ts": {
-        "version": "3d34264b42d2589a9dedc8deb497d0b66e71be4a70965a1efa24b44c92113ea0",
+        "version": "8a5775c1fb98d8cc09505333cd671e41e154077e1b7ca902c33aa074965fa480",
         "signature": "fbe0de010c59d3e1a632c16a1d62b1c7d9dda7f5a2b776816c30b4e4328283a2"
       },
       "../src/sn/sysapp.ts": {
@@ -531,7 +547,7 @@
       }
     },
     "options": {
-      "target": 4,
+      "target": 6,
       "module": 1,
       "sourceMap": true,
       "outDir": "./",
@@ -581,6 +597,12 @@
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../../node_modules/typescript/lib/lib.es2018.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/typescript/lib/lib.es2019.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -730,6 +752,30 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../../node_modules/typescript/lib/lib.es2019.array.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/typescript/lib/lib.es2019.object.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/typescript/lib/lib.es2019.string.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/typescript/lib/lib.es2019.symbol.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../../node_modules/typescript/lib/lib.es2020.bigint.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -742,7 +788,7 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../node_modules/typescript/lib/lib.es2017.full.d.ts": [
+      "../../node_modules/typescript/lib/lib.es2019.full.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1195,15 +1241,8 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../node_modules/@types/xregexp/index.d.ts": [
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../src/sn/rubyspliter.ts": [
         "../src/sn/cmninterface.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1211,16 +1250,13 @@
       ],
       "../src/sn/grammar.ts": [
         "../src/sn/cmninterface.ts",
-        "../src/sn/cmnlib.ts",
         "../src/sn/rubyspliter.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/sn/analyzetagarg.ts": [
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1234,7 +1270,6 @@
       ],
       "../src/sn/propparser.ts": [
         "../../node_modules/@types/parsimmon/index.d.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../src/sn/cmnlib.ts",
         "../src/sn/cmninterface.ts",
         "../../node_modules/@types/node/fs.d.ts",
@@ -1287,7 +1322,6 @@
         "../src/sn/cmntween.ts",
         "../src/sn/grplayer.ts",
         "../src/sn/debugmng.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -1393,7 +1427,6 @@
         "../src/sn/callstack.ts",
         "../src/sn/grammar.ts",
         "../src/sn/analyzetagarg.ts",
-        "../../node_modules/@types/xregexp/index.d.ts",
         "../src/sn/eventmng.ts",
         "../../node_modules/pixi.js/pixi.js.d.ts",
         "../src/sn/layermng.ts",
@@ -1642,6 +1675,12 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../../node_modules/typescript/lib/lib.es2019.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../../node_modules/typescript/lib/lib.dom.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -1786,6 +1825,30 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../../node_modules/typescript/lib/lib.es2019.array.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/typescript/lib/lib.es2019.object.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/typescript/lib/lib.es2019.string.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../node_modules/typescript/lib/lib.es2019.symbol.d.ts": [
+        "../../node_modules/@types/node/fs.d.ts",
+        "../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../node_modules/@types/node/util.d.ts",
+        "../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../../node_modules/typescript/lib/lib.es2020.bigint.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
@@ -1798,7 +1861,7 @@
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../node_modules/typescript/lib/lib.es2017.full.d.ts": [
+      "../../node_modules/typescript/lib/lib.es2019.full.d.ts": [
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -2218,12 +2281,6 @@
       "../src/sn/config.ts": [
         "../src/sn/sysbase.ts",
         "../src/sn/cmninterface.ts"
-      ],
-      "../../node_modules/@types/xregexp/index.d.ts": [
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../node_modules/@types/node/util.d.ts",
-        "../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/sn/rubyspliter.ts": [
         "../src/sn/cmninterface.ts"
@@ -2473,6 +2530,7 @@
       "../../node_modules/typescript/lib/lib.es2016.d.ts",
       "../../node_modules/typescript/lib/lib.es2017.d.ts",
       "../../node_modules/typescript/lib/lib.es2018.d.ts",
+      "../../node_modules/typescript/lib/lib.es2019.d.ts",
       "../../node_modules/typescript/lib/lib.dom.d.ts",
       "../../node_modules/typescript/lib/lib.dom.iterable.d.ts",
       "../../node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
@@ -2497,9 +2555,13 @@
       "../../node_modules/typescript/lib/lib.es2018.intl.d.ts",
       "../../node_modules/typescript/lib/lib.es2018.promise.d.ts",
       "../../node_modules/typescript/lib/lib.es2018.regexp.d.ts",
+      "../../node_modules/typescript/lib/lib.es2019.array.d.ts",
+      "../../node_modules/typescript/lib/lib.es2019.object.d.ts",
+      "../../node_modules/typescript/lib/lib.es2019.string.d.ts",
+      "../../node_modules/typescript/lib/lib.es2019.symbol.d.ts",
       "../../node_modules/typescript/lib/lib.es2020.bigint.d.ts",
       "../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
-      "../../node_modules/typescript/lib/lib.es2017.full.d.ts",
+      "../../node_modules/typescript/lib/lib.es2019.full.d.ts",
       "../../node_modules/pixi.js/pixi.js.d.ts",
       "../src/sn/eventlistenerctn.ts",
       "../src/sn/cmnlib.ts",
@@ -2556,9 +2618,7 @@
       "../../node_modules/@types/fs-extra/index.d.ts",
       "../src/sn/sysnode.ts",
       "../src/sn/config.ts",
-      "../../node_modules/@types/xregexp/index.d.ts",
       "../src/sn/rubyspliter.ts",
-      "../src/sn/grammar.ts",
       "../src/sn/analyzetagarg.ts",
       "../../node_modules/@types/parsimmon/index.d.ts",
       "../src/sn/propparser.ts",
@@ -2579,6 +2639,7 @@
       "../src/sn/areas.ts",
       "../src/sn/variable.ts",
       "../src/sn/main.ts",
+      "../src/sn/sysapp.ts",
       "../src/app.ts",
       "../../node_modules/devtools-detect/index.d.ts",
       "../src/sn/sysweb.ts",
@@ -2599,7 +2660,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/sysapp.ts"
+      "../src/sn/grammar.ts"
     ]
   },
   "version": "3.8.3"

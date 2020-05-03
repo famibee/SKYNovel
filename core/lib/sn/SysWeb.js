@@ -140,7 +140,7 @@ class SysWeb extends SysBase_1.SysBase {
             const sp = new URLSearchParams(location.search);
             const dip = sp.get('dip');
             if (dip)
-                CmnLib_1.CmnLib.hDip = Object.assign(Object.assign({}, CmnLib_1.CmnLib.hDip), JSON.parse(dip));
+                CmnLib_1.CmnLib.hDip = { ...CmnLib_1.CmnLib.hDip, ...JSON.parse(dip) };
             if (!CmnLib_1.CmnLib.argChk_Boolean(CmnLib_1.CmnLib.hDip, 'oninit_run', true))
                 return;
             this.run((_a = sp.get('cur')) !== null && _a !== void 0 ? _a : '');

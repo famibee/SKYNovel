@@ -13,7 +13,6 @@ export function uint(o: any): number {
 	const v = parseInt(String(o), 10);
 	return v < 0 ? -v : v;
 }
-export function trim(s: string): string {return s.replace(/^\s+|\s+$/g,'')}
 if (! ('toInt' in String.prototype)) {
 	(String.prototype as any).toInt = function () { return int(this); };
 }

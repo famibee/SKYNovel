@@ -6,8 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import P = require('parsimmon');
-import m_xregexp = require('xregexp');
-import {trim, int} from './CmnLib';
+import {int} from './CmnLib';
 import {IPropParser, IVariable} from './CmnInterface';
 
 interface IFncCalc { (a: any[]): any;}
@@ -320,19 +319,20 @@ export class PropParser implements IPropParser {
 
 
 	private	static	readonly	REG_VAL
-		= m_xregexp('^((?<scope>\\w+?):)?(?<name>[^\\s :@]+)(?<at>\\@str)?$');
+		= /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
 		// 522 match 18413 step(~10ms) https://regex101.com/r/tmCKuE/1
 			// →これは改良しようがない。いい意味で改善の余地なし
 	static	getValName(arg_name: string): {[name: string]: string} | undefined {
-		const a: any = m_xregexp.exec(trim(arg_name), this.REG_VAL);
-		if (! a) return undefined;
+		const e = this.REG_VAL.exec(arg_name.trim());
+		const g = e?.groups;
+		if (! g) return undefined;
 
 		return {
-			scope	: a.scope || 'tmp',
-			//name	: (a.name || '')
+			scope	: g.scope || 'tmp',
+			//name	: (g.name || '')
 			//			.replace(REG_VALN_B2D, getValName_B2D)
-			name	: PropParser.getValName_B2D(a.name),
-			at		: a.at ?? '',
+			name	: PropParser.getValName_B2D(g.name),
+			at		: g.at ?? '',
 		};
 	}
 
