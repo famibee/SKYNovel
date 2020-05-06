@@ -94,10 +94,7 @@ export class Main implements IMain {
 			this.inited = true;
 		});
 	}
-	private fncTicker = ()=> {
-		this.fncNext();
-		this.dbgMng.update();
-	};
+	private fncTicker = ()=> {this.fncNext();};	// thisの扱いによりメソッドはダメ
 
 	errScript(mes: string, isThrow = true) {
 		this.stop();

@@ -5,21 +5,16 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, int, getDateStr} from './CmnLib';
+import {CmnLib, getDateStr} from './CmnLib';
 import {HArg, ITag, IHTag} from './CmnInterface';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
-
-const Stats = require('stats.js');
 
 export class DebugMng {
 	private	static	scrItr	: ScriptIterator;
 	private	static	hTag	: IHTag;
 	private static	title	: ITag;
 	private static	spnDbg	: HTMLSpanElement;
-
-	private _stats		: Stats;
-	private fncUpd		= ()=> {};
 
 	constructor(private readonly sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
 		DebugMng.scrItr = scrItr;
@@ -35,7 +30,6 @@ export class DebugMng {
 		//hTag.dump_stack	// ScriptIteratorで定義			// スタックのダンプ
 		hTag.log			= o=> this.log(o);				// ログ出力
 		//hTag.reload_script// ScriptIterator.ts内で定義	// スクリプト再読込
-		hTag.stats			= o=> this.stats(o);			// パフォーマンス表示
 		hTag.trace			= o=> this.trace(o);			// デバッグ表示へ出力
 
 		DebugMng.spnDbg = document.createElement('span');
@@ -53,51 +47,22 @@ export class DebugMng {
 		document.body.removeChild(DebugMng.spnDbg);
 	}
 
-	update() {this.fncUpd()}		// 外部に呼んでもらう
-
 	// ログ出力
 	private	first = true;
 	private log(hArg: HArg) {
+		let dat = '';
 		if (this.first) {
 			this.first = false;
-			this.sys.appendFile(
-				this.sys.path_downloads +'log.txt',
-				`== ${CmnLib.platform.description} ==`,
-				err=> {if (err) console.log(err)}
-			);
+			dat = `== ${CmnLib.platform.description} ==\n`;
 		}
 		this.sys.appendFile(
 			this.sys.path_downloads +'log.txt',
-			`--- ${getDateStr('-', '_', '')
+			`${dat}--- ${getDateStr('-', '_', '')
 			} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum
 			}] prj:${this.sys.cur
 			}\n${hArg.text || `(text is ${hArg.text})`}\n`,
 			err=> {if (err) console.log(err)}
 		);
-
-		return false;
-	}
-
-	// パフォーマンス表示
-	private stats(hArg: HArg) {
-		if (this._stats) {
-			this._stats.dom.style.right = '0px';
-			this._stats.dom.style.top = '0px';
-			return false;
-		}
-
-		this._stats = new Stats();
-		this._stats.showPanel(0);
-		this._stats.dom.style.position = 'fixed';
-		this._stats.dom.style.right = '0px';
-		this._stats.dom.style.top = '0px';
-		//if (! ('left' in hArg)) tfDbg.x = this._stats.width;
-			// コンソールあるけど、モバイルなどのために画面表示版も必要だろうね
-		this._stats.dom.style.right = CmnLib.argChk_Num(hArg, 'left', int(this._stats.dom.style.right)) +'px';
-		this._stats.dom.style.top = CmnLib.argChk_Num(hArg, 'top', int(this._stats.dom.style.top)) +'px';
-
-		document.body.appendChild(this._stats.dom);
-		this.fncUpd = ()=> {this._stats.update()}
 
 		return false;
 	}

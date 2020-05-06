@@ -330,4 +330,16 @@ export class SysWeb extends SysBase {
 		if (CmnLib.debugLog) console.log('画像ファイルをダウンロードします');
 	};
 
+	private	readonly	hAppendFile: {[path: string]: string} = {};
+	readonly	appendFile = (path: string, data: any, _callback: (err: NodeJS.ErrnoException)=> void)=> {
+		const txt = (this.hAppendFile[path] ?? '') + data;
+		this.hAppendFile[path] = txt;
+
+		const blob = new Blob([txt], {'type':'text/json'});
+		const a = document.createElement('a');
+		a.href = URL.createObjectURL(blob);
+		a.download = path;
+		a.click();
+	};
+
 }

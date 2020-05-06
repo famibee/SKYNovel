@@ -19,10 +19,7 @@ class Main {
         this.fncNext = () => { };
         this.alzTagArg = new AnalyzeTagArg_1.AnalyzeTagArg;
         this.inited = false;
-        this.fncTicker = () => {
-            this.fncNext();
-            this.dbgMng.update();
-        };
+        this.fncTicker = () => { this.fncNext(); };
         this.fncresume = (fnc = this.runAnalyze) => {
             if (this.destroyed)
                 return;

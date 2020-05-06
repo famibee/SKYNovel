@@ -13,7 +13,6 @@ class AnalyzeTagArg {
         if (!args)
             return;
         let e = null;
-        this.REG_TAGARG.lastIndex = 0;
         while (e = this.REG_TAGARG.exec(args)) {
             const g = e === null || e === void 0 ? void 0 : e.groups;
             if (!g)

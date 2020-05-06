@@ -106,7 +106,7 @@ export class LayerMng {
 		hTag.tcy			= o=> this.tcy(o);			// 縦中横を表示する
 
 		//	画像・画像レイヤ
-		hTag.add_face		= o=> GrpLayer.add_face(o);	// 差分画像の追加
+		hTag.add_face		= o=> GrpLayer.add_face(o);	// 差分名称の定義
 
 		//	ムービーレイヤ
 		hTag.wv				= o=> GrpLayer.wv(o);		// ムービー再生終了待ち

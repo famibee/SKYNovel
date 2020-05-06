@@ -26,4 +26,6 @@ export declare class SysWeb extends SysBase {
     private resizeFramesWork;
     readonly readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
     readonly savePic: (fn: string, data_url: string) => void;
+    private readonly hAppendFile;
+    readonly appendFile: (path: string, data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
 }

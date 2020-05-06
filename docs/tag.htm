@@ -282,7 +282,6 @@
 		<li class="mb1"><a href="#dump_stack">[dump_stack] スタックのダンプ</a></li>
 		<li class="mb1"><a href="#dump_val">[dump_val] 変数のダンプ</a></li>
 		<li class="mb1"><a href="#log">[log] ログ出力</a></li>
-		<li class="mb1"><a href="#stats">[stats] パフォーマンス表示</a></li>
 		<li class="mb1"><a href="#trace">[trace] デバッグ表示へ出力</a></li>
 	</ul>
 </aside>
@@ -2128,18 +2127,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>ダウンロードフォルダにテキスト出力する（追記ではなく上書き。追記する。出力日時・分・スクリプト名や行番号やプロジェクト名も出力</h4>
 <p class="mb2 px1">
 
+	Web版でもログファイルをダウンロードします。ただし連続だと間隔が開いてないと失敗します。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>ログ出力する値</td></tr>
-</table>
-
-</p>
-<h2 id="stats" class="w-heading">[stats]パフォーマンス表示</h2>
-<h4>FPSやメモリ使用量をチェックするStatsを表示する。（見方）。</h4>
-<p class="mb2 px1">
-
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>left</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>表示の横位置</td></tr>
-<tr><td>top</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>表示の縦位置</td></tr>
 </table>
 
 </p>

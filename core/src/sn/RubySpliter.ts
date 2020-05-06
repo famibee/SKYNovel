@@ -53,6 +53,7 @@ export class RubySpliter {
 
 	putTxt(text: string) {
 		let e: any = null;
+		// 全ループリセットかかるので不要	.lastIndex = 0;	// /gなので必要
 		while (e = RubySpliter.REG_RUBY.exec(text)) {
 			const g = e?.groups;
 			if (! g) continue;

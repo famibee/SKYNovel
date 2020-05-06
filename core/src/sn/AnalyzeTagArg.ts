@@ -15,7 +15,7 @@ export class AnalyzeTagArg {
 		if (! args) return;	// undefined も
 
 		let e: any = null;
-		this.REG_TAGARG.lastIndex = 0;
+		// 全ループリセットかかるので不要	.lastIndex = 0;	// /gなので必要
 		while (e = this.REG_TAGARG.exec(args)) {
 			const g = e?.groups;
 			if (! g) continue;

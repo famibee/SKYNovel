@@ -118,6 +118,17 @@ class SysWeb extends SysBase_1.SysBase {
             if (CmnLib_1.CmnLib.debugLog)
                 console.log('画像ファイルをダウンロードします');
         };
+        this.hAppendFile = {};
+        this.appendFile = (path, data, _callback) => {
+            var _a;
+            const txt = ((_a = this.hAppendFile[path]) !== null && _a !== void 0 ? _a : '') + data;
+            this.hAppendFile[path] = txt;
+            const blob = new Blob([txt], { 'type': 'text/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = path;
+            a.click();
+        };
         const idxCur = arg.cur.lastIndexOf('/', arg.cur.length - 2);
         this.def_prj = arg.cur.slice(idxCur + 1, -1);
         window.onload = () => {
