@@ -183,7 +183,7 @@
 	</ul>
 	<p>画像・画像レイヤ</p>
 	<ul class="anchors list-reset m0 p0 px1">
-		<li class="mb1"><a href="#add_face">[add_face] 差分画像の追加</a></li>
+		<li class="mb1"><a href="#add_face">[add_face] 差分名称の定義</a></li>
 		<li class="mb1"><a href="#wv">[wv] 動画再生終了待ち</a></li>
 	</ul>
 	<p>HTMLフレーム</p>
@@ -637,8 +637,8 @@
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td>何もしない</td><td>画像ファイル名</td><td>基本画像ファイルを指定する</td></tr>
-<tr><td>face</td><td></td><td>何もしない</td><td>[add_face]で登録した差分画像（半角カンマ区切りで複数可能）</td><td>差分画像ファイルを指定する。<br/>[fg fn="a" face="b,c,d"]なら「基本a」の上に「差分b」を重ね、「差分c」を重ね、「差分d」を重ねる。<br/><br/>【注意】fnは同じでface属性だけを指定→指定なしにした場合、表示が変わりませんが不具合ではありません。
-	「face属性指定なし」は「何もしない」、つまり変化させないからです。<br/>[fg layer=upd fn="a" face="b"]<br/>[l]<br/>[fg layer=upd fn="a"]<br/>[l]<br/><br/>差分画像を無くしたい場合、明確に空文字（""）を指定します。<br/>[fg
+<tr><td>face</td><td></td><td>何もしない</td><td>[add_face]で登録した差分名称（半角カンマ区切りで複数可能）</td><td>差分名称を指定する。<br/>[fg fn="a" face="b,c,d"]なら「基本a」の上に「差分b」を重ね、「差分c」を重ね、「差分d」を重ねる。<br/><br/>【注意】fnは同じでface属性だけを指定→指定なしにした場合、表示が変わりませんが不具合ではありません。
+	「face属性指定なし」は「何もしない」、つまり変化させないからです。<br/>[fg layer=upd fn="a" face="b"]<br/>[l]<br/>[fg layer=upd fn="a"]<br/>[l]<br/><br/>差分名称を無くしたい場合、明確に空文字（""）を指定します。<br/>[fg
 	layer=upd fn="a" face="b"]<br/>[l]<br/>[fg layer=upd fn="a" face=""]<br/>[l]</td></tr>
 
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
@@ -1097,11 +1097,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 
 <h1><a id="画像・画像レイヤ"></a>画像・画像レイヤ</h1>
-<h2 id="add_face" class="w-heading">[add_face]差分画像の追加</h2>
-<h4>差分画像を登録する。</h4>
+<h2 id="add_face" class="w-heading">[add_face]差分名称の定義</h2>
+<h4>差分名称を定義する。</h4>
 <p class="mb2 px1">
 
-	本タグだけでは差分画像を表示しない。画像レイヤの[lay]タグface属性で指定する差分名称を登録する。
+	本タグだけでは差分画像を表示しない。画像レイヤの[lay]タグface属性で指定する差分名称を登録するのみ。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>差分名称</td><td>[lay]タグface属性で指定する差分名称</td></tr>
 <tr><td>fn</td><td></td><td>属性nameの値</td><td>画像ファイル名</td><td>表示する画像、アニメpng</td></tr>
