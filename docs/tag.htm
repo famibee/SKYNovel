@@ -279,7 +279,6 @@
 	<p>デバッグ・その他</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#dump_lay">[dump_lay] レイヤのダンプ</a></li>
-		<li class="mb1"><a href="#dump_script">[dump_script] スクリプトのダンプ</a></li>
 		<li class="mb1"><a href="#dump_stack">[dump_stack] スタックのダンプ</a></li>
 		<li class="mb1"><a href="#dump_val">[dump_val] 変数のダンプ</a></li>
 		<li class="mb1"><a href="#log">[log] ログ出力</a></li>
@@ -349,7 +348,7 @@
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>長さを求める文字列。長さをセットする</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>長さを求める文字列</td></tr>
 <tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
@@ -2111,15 +2110,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer n 全てのレイヤ レイヤ名（半角カンマ区切りで複数レイヤを指定可能） 「plg:プラグイン名」と記述する事でプラグインも指定できる。</td><td></td><td></td><td></td><td></td></tr>
-</table>
-
-</p>
-<h2 id="dump_script" class="w-heading">[dump_script] スクリプトのダンプ</h2>
-<p class="mb2 px1">
-
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>xxxxxx</td><td>y</td><td></td><td></td><td></td></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名</td><td>デバッグ表示するレイヤ名を指定。半角カンマ区切りで複数レイヤを指定可能</td></tr>
 </table>
 
 </p>
@@ -2136,6 +2127,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h2 id="log" class="w-heading">[log] ログ出力</h2>
 <h4>ダウンロードフォルダにテキスト出力する（追記ではなく上書き。追記する。出力日時・分・スクリプト名や行番号やプロジェクト名も出力</h4>
 <p class="mb2 px1">
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>ログ出力する値</td></tr>
+</table>
 
 </p>
 <h2 id="stats" class="w-heading">[stats]パフォーマンス表示</h2>
