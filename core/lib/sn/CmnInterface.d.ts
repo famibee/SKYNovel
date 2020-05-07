@@ -233,6 +233,12 @@ export interface IMark {
     aIfStk: number[];
     json?: any;
 }
+export interface IEvt2Fnc {
+    (e: Event): void;
+}
+export interface IHEvt2Fnc {
+    [name: string]: IEvt2Fnc;
+}
 export interface HPage {
     [name: string]: IPage;
 }

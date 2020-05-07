@@ -243,7 +243,6 @@
 	<p>マクロ</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#bracket2macro">[bracket2macro] 括弧マクロの定義</a></li>
-		<li class="mb1"><a href="#break_macro">[break_macro] マクロから脱出</a></li>
 		<li class="mb1"><a href="#char2macro">[char2macro] 一文字マクロの定義</a></li>
 		<li class="mb1"><a href="#endmacro">[endmacro] マクロ定義の終了</a></li>
 		<li class="mb1"><a href="#macro">[macro] マクロ定義の開始</a></li>
@@ -810,7 +809,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p>textに指定した文字に対し、timeに指定した数値が対応する。<br/>
 	通常の文字表示速度にtimeの数値を掛け算する。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>enabled</td><td></td><td>現在値</td><td>Boolean</td><td>自動ウェイトを有効にするか</td></tr>
+<tr><td>enabled</td><td></td><td>現在値</td><td>Boolean</td><td>自動ウェイトを有効にするか。初期値false</td></tr>
 <tr><td>text</td><td>両方同時に指定、或いは省略</td><td>現在値</td><td>String</td><td>ウェイトを指定する文字の集まり</td></tr>
 <tr><td>time</td><td>(↑と同じ)</td><td>現在値</td><td>カンマ区切りの数値</td><td>文字表示ウェイト倍数</td></tr>
 </table>
@@ -1237,8 +1236,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>trueを指定すると全ての大域イベントを削除する。</td></tr>
-<tr><td>falseの場合は大域以外の全てのイベントを削除する</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>trueを指定すると全ての大域イベントを削除する。<br/>falseの場合は大域以外の全てのイベントを削除する</td></tr>
 </table>
 
 </p>
@@ -1619,8 +1617,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <p>詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。</td></tr>
-<tr><td>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td><td></td><td></td><td></td><td></td></tr>
+<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td></tr>
 </table>
 
 </p>
@@ -1803,11 +1800,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。<br/>組み込みタグやマクロは引数textだけを指定しても問題なく動作し、
 	それを処理すること。渡される引数textは空文字の場合もある。</td></tr>
 </table>
-
-</p>
-<h2 id="break_macro" class="w-heading">[break_macro]マクロから脱出</h2>
-<h4>マクロ内の途中で、マクロから脱出したい際に使用する。</h4>
-<p class="mb2 px1">
 
 </p>
 <h2 id="char2macro" class="w-heading">[char2macro] 一文字マクロの定義</h2>
@@ -2045,7 +2037,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <p>現在の状態は文字列変数「tmp:const.sn.displayState」で分かる。trueならフルスクリーン</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>fn</td><td></td><td>イベント登録せずモード切替</td><td>イベントのキー名※1</td><td>イベントを発生させるトリガーイベントを予約する。<br/>key属性の値は<a href="tag.htm#event" target="_blank" rel="noopener">[event]</a>を参照</td></tr>
+<tr><td>key</td><td></td><td>イベント登録せずモード切替</td><td>イベントのキー名※1</td><td>イベントを発生させるトリガーイベントを予約する。<br/>key属性の値は<a href="tag.htm#event" target="_blank" rel="noopener">[event]</a>を参照</td></tr>
 </table>
 
 </p>

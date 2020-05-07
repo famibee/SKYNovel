@@ -29,8 +29,6 @@ function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = '') {
         + (spl_ms == '' ? '' : spl_ms + String(now.getMilliseconds()));
 }
 exports.getDateStr = getDateStr;
-;
-;
 const m_path = require("path");
 const platform = require('platform');
 class CmnLib {

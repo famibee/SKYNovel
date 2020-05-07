@@ -274,6 +274,11 @@ export interface IMark {
 }
 
 
+// =============== EventMng
+export interface IEvt2Fnc {(e: Event): void};
+export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
+
+
 // =============== Pages
 export interface HPage {[name: string]: IPage};
 export interface IPage {

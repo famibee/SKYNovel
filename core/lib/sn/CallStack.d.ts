@@ -1,12 +1,9 @@
-import { IHEvt2Fnc } from './CmnLib';
+import { IHEvt2Fnc } from './CmnInterface';
 export interface ICallStackArg {
-    csAnalyBf: {
-        [name: string]: any;
-    };
     resvToken?: string;
     hEvt1Time: IHEvt2Fnc;
-    hMpVal?: {
-        [name: string]: any;
+    hMp?: {
+        [name: string]: string;
     };
     タグ名?: string;
 }
@@ -17,6 +14,6 @@ export declare class CallStack {
     constructor($fn?: string, $idx?: number, $hArg?: ICallStackArg | null);
     get fn(): string;
     get idx(): number;
-    get hArg(): ICallStackArg | null;
+    get csArg(): ICallStackArg | null;
     readonly toString: () => string;
 }

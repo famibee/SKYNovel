@@ -9,7 +9,7 @@ class CallStack {
     }
     get fn() { return this.$fn; }
     get idx() { return this.$idx; }
-    get hArg() { return this.$hArg; }
+    get csArg() { return this.$hArg; }
 }
 exports.CallStack = CallStack;
 //# sourceMappingURL=CallStack.js.map

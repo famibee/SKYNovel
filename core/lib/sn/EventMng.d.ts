@@ -1,5 +1,5 @@
-import { IEvtMng, IHEvt2Fnc } from './CmnLib';
-import { HArg, IHTag, IVariable, IMain } from './CmnInterface';
+import { IEvtMng } from './CmnLib';
+import { HArg, IHTag, IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
 import { LayerMng } from './LayerMng';
 import { ScriptIterator } from './ScriptIterator';
 import { EventListenerCtn } from './EventListenerCtn';

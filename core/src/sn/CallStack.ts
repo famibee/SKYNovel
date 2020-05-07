@@ -5,13 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IHEvt2Fnc} from './CmnLib';
+import {IHEvt2Fnc} from './CmnInterface';
 
 export interface ICallStackArg {
-	csAnalyBf	: {[name: string]: any};
 	resvToken?	: string;
 	hEvt1Time	: IHEvt2Fnc;
-	hMpVal?		: {[name: string]: any};
+	hMp?		: {[name: string]: string};
 	タグ名?		: string;
 }
 
@@ -20,7 +19,7 @@ export class CallStack {
 
 	get fn() {return this.$fn}
 	get idx() {return this.$idx}
-	get hArg() {return this.$hArg}
+	get csArg() {return this.$hArg}
 	readonly	toString = ()=> `[fn:${this.$fn}, idx:${this.$idx}, hArg:${this.$hArg}]`;
 
 }

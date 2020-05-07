@@ -1,15 +1,9 @@
-import { HArg } from './CmnInterface';
+import { HArg, IHEvt2Fnc } from './CmnInterface';
 export declare function int(o: any): number;
 export declare function uint(o: any): number;
 export declare function getDateStr(spl_dd?: string, spl_dt?: string, spl_tt?: string, spl_ms?: string): string;
 import { interaction, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
-export interface IEvt2Fnc {
-    (e: Event): void;
-}
-export interface IHEvt2Fnc {
-    [name: string]: IEvt2Fnc;
-}
 export interface IEvtMng {
     button(hArg: HArg, em: DisplayObject): void;
     isSkipKeyDown(): boolean;

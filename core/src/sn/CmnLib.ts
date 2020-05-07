@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg} from './CmnInterface';
+import {HArg, IHEvt2Fnc} from './CmnInterface';
 
 // =============== Global
 export function int(o: any): number {return parseInt(String(o), 10)}
@@ -40,8 +40,6 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 // =============== EventMng
 import {interaction, DisplayObject} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
-export interface IEvt2Fnc {(e: Event): void};
-export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 export interface IEvtMng {
 	button(hArg: HArg, em: DisplayObject): void;
 	isSkipKeyDown(): boolean;

@@ -5,8 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, uint, IEvtMng, IEvt2Fnc, IHEvt2Fnc} from './CmnLib';
-import {HArg, IHTag, IVariable, IMain} from './CmnInterface';
+import {CmnLib, uint, IEvtMng} from './CmnLib';
+import {HArg, IHTag, IVariable, IMain, IEvt2Fnc, IHEvt2Fnc} from './CmnInterface';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
