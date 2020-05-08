@@ -669,8 +669,30 @@
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
 <tr><td>rule</td><td></td><td>画面全体ピクセルで同時にクロスフェードする</td><td>画像ファイル名</td><td>指定した場合はルール画像として、ピクセル単位でクロスフェードするタイミングをずらす。<br/>ルール画像の黒いピクセル（と同じ位置にあるピクセル）が先に処理され、白が最後になる。</td></tr>
 <tr><td>vague</td><td></td><td>0.04</td><td>トランジション期間全体を1とした値</td><td>表レイヤと裏レイヤの境界を曖昧にぼかす度合い</td></tr>
-<tr><td>light</td><td></td><td>false</td><td>Boolean</td><td>少々ギザギザだが処理が軽い方法でクロスフェードするか</td></tr>
-<tr><td>c_plugin</td><td></td><td>何もしない</td><td>処理対象プラグイン名（カンマ区切りで複数可能）</td><td>指定したプラグインの可視状態が[trans]で変化するようになる。表示非表示が切り替わる。ただしクロスフェード中はアニメが止まる</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>
+指定できる値は以下の通り。<br/>
+Back.In、Back.InOut、Back.Out<br/>
+Bounce.In、Bounce.InOut、Bounce.Out<br/>
+Circular.In、Circular.InOut、Circular.Out<br/>
+Cubic.In、Cubic.InOut、Cubic.Out<br/>
+Elastic.In、Elastic.InOut、Elastic.Out<br/>
+Exponential.In、Exponential.InOut、Exponential.Out<br/>
+Linear.None<br/>
+Quadratic.In、Quadratic.InOut、Quadratic.Out<br/>
+Quartic.In、Quartic.InOut、Quartic.Out<br/>
+Quintic.In、Quintic.InOut、Quintic.Out<br/>
+Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
+<br/>
+・<a href="https://github.com/tweenjs/tween.js/blob/master/README.md" target="_blank" rel="noopener">tween.js/README.md at master · tweenjs/tween.js</a><br/>
+・<a href="https://ics.media/tutorial-createjs/tween/" target="_blank" rel="noopener">CreateJS でのトゥイーンの作成方法 - ICS MEDIA</a><br/>
+</td></tr>
+<tr><td>glsl</td><td></td><td></td><td>シェーダー記述言語GLSL</td><td>
+動作サンプルがありますので、詳細はそちらで。<br/>機能ギャラリー【[フラグメントシェーダで[trans]](https://famibee.github.io/SKYNovel_gallery/?cur=glsl_slide)】<br/>
+	ざっくり説明すると、<br/>
+	【vTextureCoord】がピクセルの位置、<br/>
+	【uSampler】が一ピクセル単位の画像データ、<br/>
+	【tick】が時間経過、です。<br/>
+</td></tr>
 </table>
 
 </p>
@@ -768,6 +790,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <br/>
 ・<a href="https://github.com/tweenjs/tween.js/blob/master/README.md" target="_blank" rel="noopener">tween.js/README.md at master · tweenjs/tween.js</a><br/>
 ・<a href="https://ics.media/tutorial-createjs/tween/" target="_blank" rel="noopener">CreateJS でのトゥイーンの作成方法 - ICS MEDIA</a><br/>
+</td></tr>
 <tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 <tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
 <tr class="y"><td>alpha</td><td rowspan="8">いずれかを指定</td><td rowspan="8">何もしない</td><td rowspan="8"></td><td rowspan="6">同名属性の変化目標値</td></tr>
@@ -778,7 +801,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>width</td></tr>
 <tr class="y"><td>x</td><td>leftの変化目標値</td></tr>
 <tr class="y"><td>y</td><td>topの変化目標値</td></tr>
-</td></tr>
 </table>
 
 </p>
@@ -849,7 +871,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
 <tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
 <tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
-<tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>CSSのanimation-timing-function プロパティ</td></tr>
+<tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>
+	<a href="https://developer.mozilla.org/ja/docs/Web/CSS/animation-timing-function" target="_blank" rel="noopener">CSSのanimation-timing-function プロパティ</a>
+</td></tr>
 </table>
 
 </p>
@@ -876,7 +900,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
 <tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
 <tr><td>join</td><td></td><td>false</td><td>Boolean</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
-<tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>CSSのanimation-timing-function プロパティ</td></tr>
+<tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>
+	<a href="https://developer.mozilla.org/ja/docs/Web/CSS/animation-timing-function" target="_blank" rel="noopener">CSSのanimation-timing-function プロパティ</a>
+</td></tr>
 </table>
 
 </p>
@@ -979,7 +1005,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ名</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>style</td>'background-color: rgba(255,0,0,0.5);'<td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
+<tr><td>style</td><td>'background-color: rgba(255,0,0,0.5);'</td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
 <tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
 <tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
