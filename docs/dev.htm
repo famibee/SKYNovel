@@ -151,6 +151,7 @@
 		<li class="mb1"><a href="#reserve_value_save">組み込み変数・定数(save:)</a></li>
 		<li class="mb1"><a href="#reserve_value_sys">組み込み変数・定数(sys:)</a></li>
 		<li class="mb1"><a href="#reserve_value_tmp">組み込み変数・定数(tmp:)</a></li>
+		<li class="mb1"><a href="#cond">式の評価と条件分岐</a></li>
 		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
 		<li class="mb1"><a href="#crypt">素材や・変数データを暗号化</a></li>
@@ -724,6 +725,66 @@ const.sn.log.json
 <tr><td>sn.skip.enabled</td><td>false</td><td>Boolean</td><td>次の選択肢(/未読)まで進む　が有効か</td></tr>
 <tr><td>sn.tagL.enabled</td><td>true</td><td>Boolean</td><td>頁末まで一気に読み進むか(l無視)</td></tr>
 </table>
+
+
+</p>
+<h2 id="cond" class="w-heading">式の評価と条件分岐</h2>
+<h4>AIRNovelからの変更点をざっくり説明します。</h4>
+<p class="mb2 px1">
+
+	　変数の中身を値や他の変数と比較し、その結果によって処理をしたり、しなかったりする事が出来ます。<br/>
+	　これは<span style="color:red;">非常に重要なテクニックで、変数の使い道の半分はこのため</span>にあります。<br/>
+	　例えば変数「tmp:好感度」が75の時、<br/>
+	<div class="alert alert-def">[title text="割と好かれてる" cond="tmp:好感度 &gt;= 50"]</div>
+	という文を処理した時、cond属性の文字列に対し「式の評価」が行なわれます。<br/>
+	　変数の値を考えると「75 &gt;= 50」です。「&gt;=」に注目すると「75は50より大なり・大きいか、同じ」なので、式は成立します。<br/>
+	<div class="alert alert-def">これを「式の評価が真」または「true」と言います。</div>
+	「&gt;=」は演算子といいます。色んな種類があります。<br/>
+	・a &gt;= b は「aとbは同じ値・または aがbより大きい　なら真」→日本語でいう「aはb以上」<br/>
+	・a &gt; b は「aよりbが小さい　なら真」（aとbは同じ値　は負）→日本語でいう「aはbより大きい」<br/>
+	・a &lt;= b は「aとbは同じ値・または aよりbが大きい　なら真」→日本語でいう「aはb以下」<br/>
+	・a &lt; b は「aよりbが大きい　なら真」（aとbは同じ値　は負）→日本語でいう「aはb未満」<br/>
+	・a == b は「aとbは同じ値」<br/>
+	・a != b は「aとbは違う値」（違っていれば、大きくても小さくても構わない）<br/>
+	<br/>
+	<span style="color:red;">cond属性はあらゆるタグやマクロに必ずある属性</span>で、「式の評価が真の場合のみ、そのタグ（マクロ）を実行する」という働きがあります。<br/>
+	　よって<a href="tag.htm#title">[title]</a>によりアプリウインドウのタイトル文字列が設定されます。<br/>
+	<br/>
+	<br/>
+	　別の場合、例えば「tmp:好感度」が49の時には[title]は処理されません。式が成立しないからです。<br/>
+	<div class="alert alert-def">これを「式の評価が偽」または「false」と言います。</div>
+	<br/>
+	　このように「式を評価」し、処理を変える事をプログラム言語的に「条件分岐」と言います。<br/>
+	<br/>
+
+	<hr/>
+	　よりダイナミックに処理の流れを変える、条件分岐方法があります。<br/>
+	<a href="tag.htm#jump">[jump]</a>、<a href="tag.htm#call">[call]</a>に対しcond属性で式の評価を行なうのです。<br/>
+	　条件が成立したときだけ<a href="tag.htm#jump">[jump]</a>、<a href="tag.htm#call">[call]</a>するわけです。<br/>
+	<br/>
+
+	<hr/>
+	　さらに高級言語によくある、if文もあります。<br/>
+	　<a href="tag.htm#if">[if]</a>、<a href="tag.htm#elsif">[elsif]</a>、<a href="tag.htm#else">[else]</a>、<a href="tag.htm#endif">[endif]</a>をサポートしています。<br/>
+	<br/>
+	　例えば以下のように記述すると、<br/>
+	<div class="alert alert-def">
+		[if exp=false]<br/>
+			い<br/>
+		[elsif exp=true] <br/>
+			ろ<br/>
+		[else]<br/>
+			は<br/>
+		[endif]
+	</div>
+	　文字レイヤに「ろ」と表示されます。<br/>
+	　それぞれのタグの並びはこの通りで無ければなりませんが、<a href="tag.htm#elsif">[elsif]</a>は必要ならいくつあってもいいし、なくてもいいし、<a href="tag.htm#else">[else]</a>も不要ならなくてもいいです。<br/>
+	<br/>
+	　<a href="tag.htm#if">[if]</a>と<a href="tag.htm#elsif">[elsif]</a>などの区間を、「ifブロック」と呼びます。<br/>
+	　ifブロックでは<span style="color:red;">ラベルの記述「*xxxx」以外なら</span>全ての記述が出来ます。<br/>
+	　タグやマクロ、<a href="tag.htm#jump">[jump]</a>、<a href="tag.htm#call">[call]</a>によるジャンプやコールも可能です。<br/>
+	<br/>
+	<div class="alert alert-success">IF文サンプル（<a href="https://famibee.github.io/SKYNovel_gallery/?cur=tag_if" style="color: black;" target="_blank" rel="noopener">別ページで開く</a>）</div>
 
 
 </p>
