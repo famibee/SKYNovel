@@ -223,7 +223,7 @@
 		<li class="mb1"><a href="#wf">[wf] 効果音フェードの終了待ち</a></li>
 		<li class="mb1"><a href="#wl">[wl] BGM 再生の終了待ち</a></li>
 		<li class="mb1"><a href="#ws">[ws] 効果音再生の終了待ち</a></li>
-		<li class="mb1"><a href="#xchgbuf">[xchgbuf] 再生トラックの交換</a></li>
+		<li class="mb1"><a href="#xchgbuf">[xchgbuf] サウンドバッファの交換</a></li>
 	</ul>
 	<p>条件分岐</p>
 	<ul class="anchors list-reset m0 p0 px1">
@@ -509,7 +509,7 @@
 <tr><td>s_bottom</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン下端の画面下端からの距離</td></tr>
 <tr><td>rotation</td><td></td><td>0</td><td>-180〜180</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
 <tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
-<tr><td>scale_y</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
 <tr><td>float</td><td></td><td>何もしない</td><td>Boolean</td><td>true：レイヤを最前面に移動する。<br/>※最前面とは、Flashのstage.addChildにおける重なり順</td></tr>
 <tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>レイヤをindexで指定したインデックスに移動する。<br/>※インデックスは、FlashのStage.setChildIndex()を参照。</td></tr>
 <tr><td>dive</td><td></td><td>何もしない</td><td>レイヤ名</td><td>レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる。<br/>「plg:プラグイン名」と記述する事でプラグインも指定できる。</td></tr>
@@ -998,17 +998,18 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 <tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
-<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>クリック時にジャンプする先。<br/>指定方法は[jump]と同様</td></tr>
-<tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)<br/>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
+<tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>クリック時にジャンプする先</td></tr>
+<tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
 <tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
 <tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>enterse</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する</td></tr>
-<tr><td>leavese</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する</td></tr>
+<tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
+<tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
+<tr><td>clickse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、クリック時に効果音を再生する</td></tr>
+<tr><td>enterse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する</td></tr>
+<tr><td>leavese</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する</td></tr>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
-<tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
 </table>
 
 </p>
@@ -1174,10 +1175,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
-<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
 <tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 <tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
@@ -1198,7 +1196,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	関数名を指定した場合は関数を実行し、その戻り値を取得する。<br/>
 	【const.sn.frm.（id名）.（var_name名）】に値がセットされる。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
 <tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数/関数名。</td></tr>
 </table>
 
@@ -1208,7 +1206,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
 <tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数名。</td></tr>
 <tr class="y"><td>text</td><td>y</td><td></td><td></td><td>フレーム内の変数にセットする値。</td></tr>
 </table>
@@ -1225,7 +1223,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<a href="tag.htm#wait_tsy" target="_blank" rel="noopener">[wait_tsy]</a>（トゥイーン終了待ち）<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
 <tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
@@ -1463,7 +1461,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>フェード時間</td></tr>
 <tr><td>stop</td><td></td><td>true</td><td>Boolean</td><td>trueで「フェード終了時の再生停止」、falseなら行なわない。</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
@@ -1475,7 +1473,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr class="y"><td>volume</td><td>y</td><td></td><td>0.0〜1.0（実数）</td><td>音量</td></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>フェード時間</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
@@ -1507,9 +1505,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>効果音音声ファイル名</td><td>再生する音声ファイル名</td></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>loop</td><td></td><td>false</td><td>Boolean</td><td>trueでBGMのようにループ再生する。</td></tr>
-<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.【トラック名】.volume）は変更しない</td></tr>
+<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.【サウンドバッファ名】.volume）は変更しない</td></tr>
+<tr><td>speed</td><td></td><td>1.0</td><td>0.0&lt;（実数）</td><td>再生速度。（=1:元のまま、&lt;1:遅い、&gt;1:早い）</td></tr>
 <tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
 
@@ -1540,7 +1539,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの指定。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの指定。</td></tr>
 </table>
 
 </p>
@@ -1549,7 +1548,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 </table>
 
 </p>
@@ -1559,7 +1558,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	BGMや効果音を指定した音量にする。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの音量設定。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの音量設定。</td></tr>
 <tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>音量</td></tr>
 </table>
 
@@ -1578,7 +1577,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
 </table>
 
@@ -1598,18 +1597,18 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	loop=trueなら待たない。
 	利用時は【音声再生[playse]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
 </table>
 
 </p>
-<h2 id="xchgbuf" class="w-heading">[xchgbuf]再生トラックの交換</h2>
+<h2 id="xchgbuf" class="w-heading">[xchgbuf]サウンドバッファの交換</h2>
 <h4>二つのバッファを交換する。未再生でも再生中でも良いが、フェード中は避けること。</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>トラック名</td></tr>
-<tr><td>buf2</td><td></td><td>SE</td><td>効果音を識別するトラック名</td><td>もう一つのトラック名</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名</td></tr>
+<tr><td>buf2</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>もう一つのサウンドバッファ名</td></tr>
 </table>
 
 </p>
@@ -1622,14 +1621,14 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	引数無し。<br/>
 	<br/>
-	詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。
+	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 
 </p>
 <h2 id="elsif" class="w-heading">[elsif]別条件のifブロック開始</h2>
 <h4>プログラム言語における、条件分岐のelsif文。</h4>
 <p class="mb2 px1">
 
-<p>詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
+	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td></tr>
 </table>
@@ -1640,14 +1639,14 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 	引数無し。<br/>
-	詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。
+	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 
 </p>
 <h2 id="if" class="w-heading">[if]ifブロックの開始</h2>
 <h4>プログラム言語における、条件分岐のif文。</h4>
 <p class="mb2 px1">
 
-<p>詳細は【開発者向け情報：式の評価と条件分岐】をご覧下さい。</p>
+	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td></tr>
 </table>
@@ -1689,20 +1688,20 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>rotation</td><td></td><td>0</td><td>-180〜180</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
 <tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>clickse</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、クリック時に効果音を再生する</td></tr>
-<tr><td>enterse</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する</td></tr>
-<tr><td>leavese</td><td></td><td>省略時は無音</td><td>効果音ファイル名</td><td>指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する</td></tr>
-<tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
+<tr><td>enabled</td><td></td><td>true</td><td>Boolean</td><td>falseだと押せないボタンとなり、クリックイベントが発生しない。<br/>これにより文字レイヤの任意の位置に画像表示できる機能を提供する。<br/>画像は三等分しない。イベントや効果音指定は無効だが、ヒント機能は有効。</td></tr>
 <tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
-<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>クリック時にジャンプする先。<br/>指定方法は[jump]と同様</td></tr>
-<tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)<br/>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
+<tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>クリック時にジャンプする先</td></tr>
+<tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
 <tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 <tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
 <tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
-<tr><td>enabled</td><td></td><td>true</td><td>Boolean</td><td>falseだと押せないボタンとなり、クリックイベントが発生しない。<br/>これにより文字レイヤの任意の位置に画像表示できる機能を提供する。<br/>画像は三等分しない。イベントや効果音指定は無効だが、ヒント機能は有効。</td></tr>
+<tr><td>clickse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、クリック時に効果音を再生する</td></tr>
+<tr><td>enterse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する</td></tr>
+<tr><td>leavese</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する</td></tr>
+<tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
+<tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
+<tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
@@ -1881,8 +1880,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>本タグの位置を、スクリプト読み込み時に再開する位置として設定する。</h4>
 <p class="mb2 px1">
 
-	引数無し。<br/>
-	<br/>
 	本タグの位置を、スクリプト読み込み時に再開する位置として設定する。<br/>
 	本タグで「しおりを挟み」、<a href="tag.htm#save" target="_blank" rel="noopener">[save]</a>タグで実際にデータをセーブするイメージ。<br/>
 	<br/>
@@ -1992,7 +1989,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-<h2 id="naviate_to" class="w-heading">[naviate_to]ＵＲＬを開く</h2>
+<h2 id="navigate_to" class="w-heading">[navigate_to]ＵＲＬを開く</h2>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
