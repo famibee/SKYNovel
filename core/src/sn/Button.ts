@@ -9,6 +9,7 @@ import {Container, Text, Rectangle, Texture} from "pixi.js";
 import {uint, CmnLib, IEvtMng} from "./CmnLib";
 import {HArg, IMain} from "./CmnInterface";
 import {GrpLayer} from "./GrpLayer";
+import {Layer} from "./Layer";
 
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
@@ -67,23 +68,28 @@ export class Button extends Container {
 							(sp.height -txt.height) /2
 						);
 					},
-					isStop=> {if (isStop) this.main.resume()});
+					isStop=> {
+						Layer.setBlendmode(this, hArg);
+						if (isStop) this.main.resume()
+					}
+				);
 			}
 
 			this.addChild(txt);
+			if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
 			if (! enabled) return;
 
-			const normal = ()=> Object.assign(txt.style, style);
+			const normal = ()=> txt.style = {...txt.style, ...style};
 
 			const style_hover = {...style};
 			if (hArg.style_hover) Button.s2hStyle(style_hover, hArg.style_hover);
 			else style_hover.fill = 'white';
-			const hover = ()=> Object.assign(txt.style, style_hover);
+			const hover = ()=> txt.style = {...txt.style, ...style_hover};
 
 			const style_clicked = {...style_hover};
 			if (hArg.style_clicked) Button.s2hStyle(style_clicked, hArg.style_clicked);
 			else style_clicked.dropShadow = false;
-			const clicked = ()=> Object.assign(txt.style, style_clicked);
+			const clicked = ()=> txt.style = {...txt.style, ...style_clicked};
 
 			this.on('pointerover', hover);
 			this.on('pointerout', normal);
@@ -137,7 +143,7 @@ export class Button extends Container {
 		const s = Button.cln.style;
 		s.cssText = style;
 
-		//Object.assign(hStyle, s);
+		// hStyle = {...hStyle, ...s};
 			// 不要要素もコピーしすぎて不具合になるので、以下のようにする
 		const len = s.length;
 		for (let i=0; i<len; ++i) {

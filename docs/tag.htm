@@ -521,54 +521,43 @@
 <h2 id="blendMode" class="w-heading">blendModeの解説</h2>
 <p class="mb2 px1">
 
-	<span class="red">暫定版です、SKYNovelで指定できる値については追って記述します（_ _）</span>
-
-<table><tr><th>Photoshop ブレンドモード名</th><th>AIRNovel での blendmode 属性の値</th><th>ActionScript での blendmode 値</th><th>コメント</th></tr>
-<tr><td>加算</td><td>（使えない）</td><td>add</td><td>
-	表示オブジェクトの要素カラーの値を背景色に加算し、その際に上限 0xFF を適用します。
-</td></tr>
-<tr><td>アルファ</td><td>（使えない）</td><td>alpha</td><td>
-	表示オブジェクトの各ピクセルのアルファ値を背景に適用します。
-</td></tr>
-<tr class="success"><td>比較 (暗)</td><td>この値→</td><td>darken</td><td>
-	表示オブジェクトの要素カラーと背景色のうち暗い方（値が小さい方）の色を選択します。
-</td></tr>
-<tr class="success"><td>差の絶対値</td><td>この値→</td><td>difference</td><td>表示オブジェクトの各ピクセルのアルファ値を
-	背景に適用します。</td></tr>
-<tr><td>消去</td><td>（使えない）</td><td>erase</td><td>
-	表示オブジェクトのアルファ値に基づいて背景を消去します。
-</td></tr>
-<tr class="success"><td>ハードライト</td><td>この値→</td><td>hardlight</td><td>
-	表示オブジェクトの暗さに基づいて、各ピクセルの色を調整します。
-</td></tr>
-<tr><td>反転</td><td>（使えない）</td><td>invert</td><td>
-	背景を反転します。
-</td></tr>
-<tr><td>（なし）</td><td>（使えない）</td><td>layer</td><td>
-	表示オブジェクトに関する透明度グループを強制的に作成します。
-</td></tr>
-<tr class="success"><td>比較 (明)</td><td>この値→</td><td>lighten</td><td>
-	表示オブジェクトの要素カラーと背景色のうち明るい方（値が大きい方）の色を選択します。
-</td></tr>
-<tr class="success"><td>乗算</td><td>この値→</td><td>multiply</td><td>
-	表示オブジェクトの要素カラーの値と背景色の要素カラーの値を乗算した後、0xFF で割って正規化し、色を暗くします。
-</td></tr>
-<tr class="success"><td>標準</td><td>この値→</td><td>normal</td><td>
-	表示オブジェクトは、背景の前に表示されます。（なにもしない）
-</td></tr>
-<tr class="success"><td>オーバーレイ</td><td>この値→</td><td>overlay</td><td>
-	背景の暗さに基づいて、各ピクセルの色を調整します。
-</td></tr>
-<tr class="success"><td>スクリーン</td><td>この値→</td><td>screen</td><td>
-	表示オブジェクトの色の補数（逆）と背景色の補数を乗算して、ブリーチ効果を得ます。
-</td></tr>
-<tr><td>（なし）</td><td>（使えない）</td><td>shader</td><td>
-	シェーダーを使用して、オブジェクト間のブレンドを定義します。
-</td></tr>
-<tr><td>減算</td><td>（使えない）</td><td>subtract</td><td>
-	結果の下限を 0 として、表示オブジェクトの要素カラーの値をその背景色の値から減算します。
-</td></tr>
+<table><tr><th>SKYNovel での blendmode 属性の値</th><th>Photoshop ブレンドモード名</th><th>コメント</th></tr>
+<tr><td>normal		</td><td>標準	</td><td>表示オブジェクトは、背景の前に表示されます。（なにもしない）</td></tr>
+<tr><td>add			</td><td>加算	</td><td>表示オブジェクトの要素カラーの値を背景色に加算し、その際に上限 0xFF を適用します。</td></tr>
+<tr><td>multiply	</td><td>乗算	</td><td>表示オブジェクトの要素カラーの値と背景色の要素カラーの値を乗算した後、0xFF で割って正規化し、色を暗くします。</td></tr>
+<tr><td>screen		</td><td>スクリーン	</td><td>表示オブジェクトの色の補数（逆）と背景色の補数を乗算して、ブリーチ効果を得ます。</td></tr>
+<tr><td>overlay		</td><td>オーバーレイ	</td><td>背景の暗さに基づいて、各ピクセルの色を調整します。</td></tr>
+<tr><td>darken		</td><td>比較 (暗)	</td><td>表示オブジェクトの要素カラーと背景色のうち暗い方（値が小さい方）の色を選択します。</td></tr>
+<tr><td>lighten		</td><td>比較 (明)	</td><td>表示オブジェクトの要素カラーと背景色のうち明るい方（値が大きい方）の色を選択します。</td></tr>
+<tr><td>color_dodge	</td><td>	</td><td></td></tr>
+<tr><td>color_burn	</td><td>	</td><td></td></tr>
+<tr><td>hard_light	</td><td>ハードライト	</td><td>表示オブジェクトの暗さに基づいて、各ピクセルの色を調整します。</td></tr>
+<tr><td>soft_light	</td><td>	</td><td></td></tr>
+<tr><td>difference	</td><td>差の絶対値	</td><td>表示オブジェクトの各ピクセルのアルファ値を背景に適用します。</td></tr>
+<tr><td>exclusion	</td><td>	</td><td></td></tr>
+<tr><td>hue			</td><td>	</td><td></td></tr>
+<tr><td>saturation	</td><td>	</td><td></td></tr>
+<tr><td>color		</td><td>	</td><td></td></tr>
+<tr><td>luminosity	</td><td>	</td><td></td></tr>
+<tr><td>normal_npm	</td><td>	</td><td></td></tr>
+<tr><td>add_npm		</td><td>	</td><td></td></tr>
+<tr><td>screen_npm	</td><td>	</td><td></td></tr>
+<tr><td>none		</td><td>	</td><td></td></tr>
+<tr><td>src_in		</td><td>	</td><td></td></tr>
+<tr><td>src_out		</td><td>	</td><td></td></tr>
+<tr><td>src_atop	</td><td>	</td><td></td></tr>
+<tr><td>dst_over	</td><td>	</td><td></td></tr>
+<tr><td>dst_in		</td><td>	</td><td></td></tr>
+<tr><td>dst_out		</td><td>	</td><td></td></tr>
+<tr><td>dst_atop	</td><td>	</td><td></td></tr>
+<tr><td>subtract	</td><td>減算	</td><td>結果の下限を 0 として、表示オブジェクトの要素カラーの値をその背景色の値から減算します。</td></tr>
+<tr><td>src_over	</td><td>	</td><td></td></tr>
+<tr><td>erase		</td><td>消去	</td><td>表示オブジェクトのアルファ値に基づいて背景を消去します。</td></tr>
+<tr><td>xor			</td><td>	</td><td></td></tr>
 </table>
+
+	http://localhost:8082/index.html?cur=blendmode
+	https://pixijs.download/dev/docs/PIXI.html#.BLEND_MODES
 
 </p>
 
@@ -603,7 +592,7 @@
 	……（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける<br/><br/>初期値は center。<br/>
 	<br/>
 	※親文字よりルビの方が長い場合は、親文字に対する「中付き」表示になる<br/>
-	→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=built_in_ruby" target="_blank" rel="noopener">参考（機能ギャラリー・直感的なルビ文法）</a>
+	→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=ruby" target="_blank" rel="noopener">参考（機能ギャラリー・直感的なルビ文法）</a>
 </td></tr>
 </table>
 

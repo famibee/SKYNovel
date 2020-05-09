@@ -395,7 +395,8 @@ return false;	// TODO: 未作成：フォーカス移動
 		const cls = hArg.class;
 		if (! cls) throw 'clsは必須です';
 
-		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val);
+		const ret = {isWait: false}
+		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val, ret);
 		this.aLayName.push(layer);
 		switch (cls) {
 		case 'txt':
@@ -430,7 +431,7 @@ return false;	// TODO: 未作成：フォーカス移動
 		fncReCover();
 */
 
-		return false;
+		return ret.isWait;
 	}
 	private hPages		: {[name: string]: Pages} = {};	// しおりLoad時再読込
 	private aLayName	: string[]	= [];	// 最適化用

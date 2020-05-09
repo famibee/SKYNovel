@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const pixi_js_1 = require("pixi.js");
 const CmnLib_1 = require("./CmnLib");
 const GrpLayer_1 = require("./GrpLayer");
+const Layer_1 = require("./Layer");
 class Button extends pixi_js_1.Container {
     constructor(main, evtMng, hArg) {
         var _a;
@@ -47,25 +48,30 @@ class Button extends pixi_js_1.Container {
                     sp.x = txt.x;
                     sp.y = txt.y;
                     sp.pivot.set((sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
-                }, isStop => { if (isStop)
-                    this.main.resume(); });
+                }, isStop => {
+                    Layer_1.Layer.setBlendmode(this, hArg);
+                    if (isStop)
+                        this.main.resume();
+                });
             }
             this.addChild(txt);
+            if (!hArg.b_pic)
+                Layer_1.Layer.setBlendmode(this, hArg);
             if (!enabled)
                 return;
-            const normal = () => Object.assign(txt.style, style);
+            const normal = () => txt.style = { ...txt.style, ...style };
             const style_hover = { ...style };
             if (hArg.style_hover)
                 Button.s2hStyle(style_hover, hArg.style_hover);
             else
                 style_hover.fill = 'white';
-            const hover = () => Object.assign(txt.style, style_hover);
+            const hover = () => txt.style = { ...txt.style, ...style_hover };
             const style_clicked = { ...style_hover };
             if (hArg.style_clicked)
                 Button.s2hStyle(style_clicked, hArg.style_clicked);
             else
                 style_clicked.dropShadow = false;
-            const clicked = () => Object.assign(txt.style, style_clicked);
+            const clicked = () => txt.style = { ...txt.style, ...style_clicked };
             this.on('pointerover', hover);
             this.on('pointerout', normal);
             this.on('pointerdown', clicked);

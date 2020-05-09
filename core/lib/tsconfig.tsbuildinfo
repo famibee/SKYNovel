@@ -162,8 +162,8 @@
         "signature": "fdc8c66e4f00d42bf024de82005b06b67fb04635a64c060f6b085f59563a8894"
       },
       "../src/sn/layer.ts": {
-        "version": "fd5ba163498ff28ab1b3f09ff63a0fdbba5497140100315da66a73a396c6a4b0",
-        "signature": "1c34b0e43358bf8453a84095248b6add54528136091788b6ab2d0290736a1a8f"
+        "version": "e400ff9232880457b5157608ef5a5e6b6a8a270768f4583cf3b89b79d2148399",
+        "signature": "5abf9cd8ae8f4dd6b411c19935fef7481b5d296a2cb3a4f2303d97c26c5d3c92"
       },
       "../src/sn/cmninterface.ts": {
         "version": "0ede9f164c047c0bf7cc2380b490919d247432da542277e25d79a2eb3bf8a695",
@@ -414,11 +414,11 @@
         "signature": "2ba9da458f90fb17dc48a53f45ae388e97825b9419ffba0e616d542bbbd04820"
       },
       "../src/sn/pages.ts": {
-        "version": "ad3388e6fa3f88c5186992a73b87ef245a4b4e7324db8ca01395eaa5f5fcdb0c",
-        "signature": "87422792f8e91af9baba49565a99141face0e9b51bf5b22a3fc3d7f9e5e20180"
+        "version": "4ab5414a4c6fafe0835a09007820e1f7f39e258da89e2f7e5fe76fb756b51c58",
+        "signature": "e4a4bb4308c871157fb6ae724a578accd0f8e629d524ed3ece7873098fa4500a"
       },
       "../src/sn/grplayer.ts": {
-        "version": "47ffc22007721c859fa8e1eda2184bf16137cb4af336b28973fa78c40ab048ac",
+        "version": "3112fceb2778823f448f4d9e1c28fa348d2a2a8a104c5fb13d16271c7e19ca97",
         "signature": "8633ae56f4886bae0a5cba2fafc1b39a12d820fc9e97ad775be8a7987940fff8"
       },
       "../src/sn/txtstage.ts": {
@@ -426,7 +426,7 @@
         "signature": "f6e98489fbaf9ac8f26e8a016f608cf10269e4cc7953c01d25b5154a56a4817d"
       },
       "../src/sn/button.ts": {
-        "version": "e2c5612a64a9c61f838b0d1a2ae33cdd4d8cab3a932df94735f70d2b8c46a7b7",
+        "version": "7917ba7feb5bf324c72821ea1fcc38760c4f63a5e4b7a917f5341f95f0dacddd",
         "signature": "5ee44ef49b9b6fec536bf409b224b1cd6e10a9923745cc9be19d75d8d36c6e3d"
       },
       "../src/sn/txtlayer.ts": {
@@ -438,7 +438,7 @@
         "signature": "9c9f534ae61e087c91c0f6316f5fc34537418f6d8661ac0be5018a8884ca40a5"
       },
       "../src/sn/layermng.ts": {
-        "version": "7ce408a17776fa9bda5ac6babdc6a9fea4c999b2b639b07e2c649fb61e70ec55",
+        "version": "7fd66ffba619ab27d5355091f6e5a1b6960108d0688de57255c8f15eba0c14b9",
         "signature": "67141b7284325338b52c345427335e9eedcb2476c0c5b7186543575abfbd54a1"
       },
       "../src/sn/soundmng.ts": {
@@ -1361,6 +1361,7 @@
         "../src/sn/cmnlib.ts",
         "../src/sn/cmninterface.ts",
         "../src/sn/grplayer.ts",
+        "../src/sn/layer.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../node_modules/@types/node/util.d.ts",
@@ -2603,7 +2604,6 @@
       "../../node_modules/pixi.js/pixi.js.d.ts",
       "../src/sn/eventlistenerctn.ts",
       "../src/sn/cmnlib.ts",
-      "../src/sn/layer.ts",
       "../src/sn/cmninterface.ts",
       "../src/sn/sysbase.ts",
       "../../node_modules/@types/node/globals.d.ts",
@@ -2672,10 +2672,33 @@
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
       "../src/sn/framemng.ts",
-      "../src/sn/layermng.ts",
+      [
+        "../src/sn/layermng.ts",
+        [
+          {
+            "file": "../src/sn/layermng.ts",
+            "start": 33448,
+            "length": 75,
+            "messageText": "Expected 9 arguments, but got 8.",
+            "category": 1,
+            "code": 2554,
+            "relatedInformation": [
+              {
+                "file": "../src/sn/pages.ts",
+                "start": 631,
+                "length": 22,
+                "messageText": "An argument for 'ret' was not provided.",
+                "category": 3,
+                "code": 6210
+              }
+            ]
+          }
+        ]
+      ],
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
       "../src/sn/eventmng.ts",
+      "../src/sn/scriptiterator.ts",
       "../src/sn/debugmng.ts",
       "../src/sn/areas.ts",
       "../src/sn/variable.ts",
@@ -2700,7 +2723,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/scriptiterator.ts"
+      "../src/sn/layer.ts"
     ]
   },
   "version": "3.8.3"

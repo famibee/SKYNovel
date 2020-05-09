@@ -57,7 +57,10 @@ class GrpLayer extends Layer_1.Layer {
         hArg.dy = 0;
         return GrpLayer.csv2Sprites(this.csvFn = fn + (face ? ',' + face : ''), this.cnt, sp => {
             Layer_1.Layer.setXY(sp, hArg, this.cnt, true);
-        }, GrpLayer.fncAllComp);
+        }, isStop => {
+            Layer_1.Layer.setBlendmode(this.cnt, hArg);
+            GrpLayer.fncAllComp(isStop);
+        });
     }
     static csv2Sprites(csv, parent, fncFirstComp, fncAllComp = () => { }) {
         const aComp = [];
@@ -247,7 +250,7 @@ class GrpLayer extends Layer_1.Layer {
             fn: fn,
             dx: CmnLib_1.CmnLib.argChk_Num(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,
             dy: CmnLib_1.CmnLib.argChk_Num(hArg, 'dy', 0) * CmnLib_1.CmnLib.retinaRate,
-            blendmode: Layer_1.Layer.cnvBlendmode(hArg.blendmode || '')
+            blendmode: Layer_1.Layer.getBlendmodeNum(hArg.blendmode || '')
         };
         return false;
     }

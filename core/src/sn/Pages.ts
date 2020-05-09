@@ -15,7 +15,7 @@ import {Container} from 'pixi.js';
 export class Pages {
 	private pg: {fore: Layer, back: Layer};
 
-	constructor(layer: string, private readonly cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable) {
+	constructor(layer: string, private readonly cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable, ret: {isWait: boolean}) {
 		const fncF = sys.hFactoryCls[cls_];
 		if (! fncF) throw `属性 class【${cls_}】が不正です`;
 
@@ -27,8 +27,8 @@ export class Pages {
 		CmnLib.argChk_Boolean(hArgFore, 'visible', true);
 		CmnLib.argChk_Boolean(hArgBack, 'visible', true);
 			// SKYNovelではデフォルトはtrueとする
-		this.fore.lay(hArgFore);
-		this.back.lay(hArgBack);
+		ret.isWait = this.fore.lay(hArgFore);
+		ret.isWait = ret.isWait || this.back.lay(hArgBack);
 
 		// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;

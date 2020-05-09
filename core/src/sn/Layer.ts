@@ -32,30 +32,87 @@ export class Layer {
 	destroy() {}
 
 	lay(hArg: HArg): boolean {
-		// パフォーマンスから余計な処理をしないように
-		if ('alpha' in hArg)
-		this.cnt.alpha = CmnLib.argChk_Num(hArg, 'alpha', this.cnt.alpha);
+		if ('alpha' in hArg) this.cnt.alpha = CmnLib.argChk_Num(hArg, 'alpha', 1);
 
-		//Layer.argChk_BlendmodeAndSet(hArg, this.ctn);
+		Layer.setBlendmode(this.cnt, hArg);
 
-		if ('pivot_x' in hArg || 'pivot_y' in hArg)
-		this.cnt.pivot.set(
+		if ('pivot_x' in hArg || 'pivot_y' in hArg) this.cnt.pivot.set(
 			CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x),
 			CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y)
 		);
-		if ('rotation' in hArg)
-		this.cnt.angle = CmnLib.argChk_Num(hArg, 'rotation', this.cnt.angle);
+
+		if ('rotation' in hArg) this.cnt.angle = CmnLib.argChk_Num(hArg, 'rotation', 0);
 			// rotation is in radians, angle is in degrees.
-		if ('scale_x' in hArg || 'scale_y' in hArg)
-		this.cnt.scale.set(
+
+		if ('scale_x' in hArg || 'scale_y' in hArg) this.cnt.scale.set(
 			CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x),
 			CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y)
 		);
-		if ('visible' in hArg)
-		this.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', this.cnt.visible);
+
+		if ('visible' in hArg) this.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', true);
 
 		return false;
 	}
+
+	static	setBlendmode(cnt: Container, hArg: HArg) {
+		const bm_name = hArg.blendmode;		// 省略時になにもしない
+		if (! bm_name) return;
+
+		const bmn = Layer.getBlendmodeNum(bm_name);
+		const sp = cnt as Sprite;
+		if (sp) sp.blendMode = bmn;
+		for (const c of cnt.children) {
+			const cSp = c as Sprite;
+			if (cSp) cSp.blendMode = bmn;
+		}
+	}
+
+	static getBlendmodeNum(bm_name: string): number {
+		if (! bm_name) return BLEND_MODES.NORMAL;	// 省略時にデフォルトを返す
+
+		const bmn = Layer.hBlendmode[bm_name];
+		if (bmn !== undefined) return bmn;
+		throw `${bm_name} はサポートされない blendmode です`;
+	}
+	private	static	readonly	hBlendmode: {[bm_name: string]: number} = {
+		'normal'		: BLEND_MODES.NORMAL,
+		'add'			: BLEND_MODES.ADD,
+		'multiply'		: BLEND_MODES.MULTIPLY,
+		'screen'		: BLEND_MODES.SCREEN,
+/*
+		'overlay'		: BLEND_MODES.OVERLAY,
+		'darken'		: BLEND_MODES.DARKEN,
+		'lighten'		: BLEND_MODES.LIGHTEN,
+		'color_dodge'	: BLEND_MODES.COLOR_DODGE,
+		'color_burn'	: BLEND_MODES.COLOR_BURN,
+		'hard_light'	: BLEND_MODES.HARD_LIGHT,
+		'soft_light'	: BLEND_MODES.SOFT_LIGHT,
+		'difference'	: BLEND_MODES.DIFFERENCE,
+		'exclusion'		: BLEND_MODES.EXCLUSION,
+		'hue'			: BLEND_MODES.HUE,
+		'saturation'	: BLEND_MODES.SATURATION,
+		'color'			: BLEND_MODES.COLOR,
+		'luminosity'	: BLEND_MODES.LUMINOSITY,
+
+		'normal_npm'	: BLEND_MODES.NORMAL_NPM,
+		'add_npm'		: BLEND_MODES.ADD_NPM,
+		'screen_npm'	: BLEND_MODES.SCREEN_NPM,
+		'none'			: BLEND_MODES.NONE,
+		'src_in'		: BLEND_MODES.SRC_IN,
+		'src_out'		: BLEND_MODES.SRC_OUT,
+		'src_atop'		: BLEND_MODES.SRC_ATOP,
+		'dst_over'		: BLEND_MODES.DST_OVER,
+		'dst_in'		: BLEND_MODES.DST_IN,
+		'dst_out'		: BLEND_MODES.DST_OUT,
+		'dst_atop'		: BLEND_MODES.DST_ATOP,
+		'subtract'		: BLEND_MODES.SUBTRACT,
+		'src_over'		: BLEND_MODES.SRC_OVER,
+		'erase'			: BLEND_MODES.ERASE,
+		'xor'			: BLEND_MODES.XOR,
+*/
+	}
+
+
 	clearLay(hArg: HArg): void {
 		this.cnt.alpha = 1;
 		this.cnt.blendMode = BLEND_MODES.NORMAL;
@@ -115,44 +172,6 @@ export class Layer {
 			}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation
 			}, "name":"${this.name}", "scale_x":${this.cnt.scale.x
 			}, "scale_y":${this.cnt.scale.y}`;
-	}
-
-	static argChk_BlendmodeAndSet(hash: any, $do: DisplayObject):void {
-		const v = hash.blendmode;
-		if (! v) return;
-		if (! ($do instanceof Sprite)) return;
-		const sp = $do as Sprite;
-
-		if (!(v in Layer.hBlendmode)) throw 'blendmode='+ v +' は異常な値です';
-
-		if (! Layer.hBlendmode[v]) throw '（'+ name +'）はサポートされない blendmode です';
-		sp.blendMode = v;
-	}
-	static cnvBlendmode(name: string): number {
-		if (! name) return BLEND_MODES.NORMAL;
-
-		const bm = Layer.hBlendmode[name];
-		if (bm) return bm;
-		throw '（'+ name +'）はサポートされない blendmode です';
-	}
-	static	readonly	hBlendmode: any = {
-		'normal':		BLEND_MODES.NORMAL,
-		'add':			BLEND_MODES.ADD,
-		'multiply':		BLEND_MODES.MULTIPLY,
-		'screen':		BLEND_MODES.SCREEN,
-		'overlay':		BLEND_MODES.OVERLAY,
-		'darken':		BLEND_MODES.DARKEN,
-		'lighten':		BLEND_MODES.LIGHTEN,
-		'color_dodge':	BLEND_MODES.COLOR_DODGE,
-		'color_burn':	BLEND_MODES.COLOR_BURN,
-		'hard_light':	BLEND_MODES.HARD_LIGHT,
-		'soft_light':	BLEND_MODES.SOFT_LIGHT,
-		'difference':	BLEND_MODES.DIFFERENCE,
-		'exclusion':	BLEND_MODES.EXCLUSION,
-		'hue':			BLEND_MODES.HUE,
-		'saturation':	BLEND_MODES.SATURATION,
-		'color':		BLEND_MODES.COLOR,
-		'luminosity':	BLEND_MODES.LUMINOSITY,
 	}
 
 	static	setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp = false, isButton = false): void {

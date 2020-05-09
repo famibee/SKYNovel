@@ -1,3 +1,7 @@
+## v0.19.6
+- add：画像レイヤの[lay]にblendmode追加。設定はface差分画像などにも波及する
+- add：[button]にblendmode追加
+- bug：[add_lay]で画像ロード時、ロード終了を待たない件
 ## v0.19.5
 - bug：マクロコールから戻ると行番号がNaNになる件
 - del：[break_macro]廃止、[return]で代替可能

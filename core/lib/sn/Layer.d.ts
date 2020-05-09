@@ -19,6 +19,9 @@ export declare class Layer {
     set y(v: number);
     destroy(): void;
     lay(hArg: HArg): boolean;
+    static setBlendmode(cnt: Container, hArg: HArg): void;
+    static getBlendmodeNum(bm_name: string): number;
+    private static readonly hBlendmode;
     clearLay(hArg: HArg): void;
     copy(fromLayer: Layer): void;
     record(): {
@@ -42,9 +45,6 @@ export declare class Layer {
     snapshot_end(): void;
     cvsResize(): void;
     dump(): string;
-    static argChk_BlendmodeAndSet(hash: any, $do: DisplayObject): void;
-    static cnvBlendmode(name: string): number;
-    static readonly hBlendmode: any;
     static setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp?: boolean, isButton?: boolean): void;
     static setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void;
     static setXYCenter(dsp: DisplayObject): void;

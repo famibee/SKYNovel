@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const CmnLib_1 = require("./CmnLib");
 class Pages {
-    constructor(layer, cls_, fore, hArgFore, back, hArgBack, sys, val) {
+    constructor(layer, cls_, fore, hArgFore, back, hArgBack, sys, val, ret) {
         this.cls_ = cls_;
         this.lay = (hArg) => this.getPage(hArg).lay(hArg);
         this.getPage = (hArg) => (Pages.argChk_page(hArg, 'fore') != 'back')
@@ -18,8 +18,8 @@ class Pages {
         back.addChild(this.back.cnt);
         CmnLib_1.CmnLib.argChk_Boolean(hArgFore, 'visible', true);
         CmnLib_1.CmnLib.argChk_Boolean(hArgBack, 'visible', true);
-        this.fore.lay(hArgFore);
-        this.back.lay(hArgBack);
+        ret.isWait = this.fore.lay(hArgFore);
+        ret.isWait = ret.isWait || this.back.lay(hArgBack);
         const valnm = `const.sn.lay.${layer}`;
         val.setVal_Nochk('tmp', valnm, true);
         val.defTmp(valnm + '.fore.alpha', () => this.pg.fore.alpha);

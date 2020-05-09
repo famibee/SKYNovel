@@ -344,7 +344,8 @@ void main(void) {
         const cls = hArg.class;
         if (!cls)
             throw 'clsは必須です';
-        this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val);
+        const ret = { isWait: false };
+        this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val, ret);
         this.aLayName.push(layer);
         switch (cls) {
             case 'txt':
@@ -371,7 +372,7 @@ void main(void) {
                 this.val.setVal_Nochk('save', 'const.sn.layer.' + (layer !== null && layer !== void 0 ? layer : this.curTxtlay) + '.enabled', true);
                 break;
         }
-        return false;
+        return ret.isWait;
     }
     lay(hArg) {
         const layer = this.argChk_layer(hArg);

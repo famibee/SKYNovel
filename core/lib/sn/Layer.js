@@ -24,16 +24,39 @@ class Layer {
     destroy() { }
     lay(hArg) {
         if ('alpha' in hArg)
-            this.cnt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', this.cnt.alpha);
+            this.cnt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 1);
+        Layer.setBlendmode(this.cnt, hArg);
         if ('pivot_x' in hArg || 'pivot_y' in hArg)
             this.cnt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y));
         if ('rotation' in hArg)
-            this.cnt.angle = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', this.cnt.angle);
+            this.cnt.angle = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', 0);
         if ('scale_x' in hArg || 'scale_y' in hArg)
             this.cnt.scale.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y));
         if ('visible' in hArg)
-            this.cnt.visible = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', this.cnt.visible);
+            this.cnt.visible = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
         return false;
+    }
+    static setBlendmode(cnt, hArg) {
+        const bm_name = hArg.blendmode;
+        if (!bm_name)
+            return;
+        const bmn = Layer.getBlendmodeNum(bm_name);
+        const sp = cnt;
+        if (sp)
+            sp.blendMode = bmn;
+        for (const c of cnt.children) {
+            const cSp = c;
+            if (cSp)
+                cSp.blendMode = bmn;
+        }
+    }
+    static getBlendmodeNum(bm_name) {
+        if (!bm_name)
+            return pixi_js_1.BLEND_MODES.NORMAL;
+        const bmn = Layer.hBlendmode[bm_name];
+        if (bmn !== undefined)
+            return bmn;
+        throw `${bm_name} はサポートされない blendmode です`;
     }
     clearLay(hArg) {
         this.cnt.alpha = 1;
@@ -85,27 +108,6 @@ class Layer {
     cvsResize() { }
     dump() {
         return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation}, "name":"${this.name}", "scale_x":${this.cnt.scale.x}, "scale_y":${this.cnt.scale.y}`;
-    }
-    static argChk_BlendmodeAndSet(hash, $do) {
-        const v = hash.blendmode;
-        if (!v)
-            return;
-        if (!($do instanceof pixi_js_1.Sprite))
-            return;
-        const sp = $do;
-        if (!(v in Layer.hBlendmode))
-            throw 'blendmode=' + v + ' は異常な値です';
-        if (!Layer.hBlendmode[v])
-            throw '（' + name + '）はサポートされない blendmode です';
-        sp.blendMode = v;
-    }
-    static cnvBlendmode(name) {
-        if (!name)
-            return pixi_js_1.BLEND_MODES.NORMAL;
-        const bm = Layer.hBlendmode[name];
-        if (bm)
-            return bm;
-        throw '（' + name + '）はサポートされない blendmode です';
     }
     static setXY(base, hArg, ret, isGrp = false, isButton = false) {
         if (hArg.pos) {
@@ -230,18 +232,5 @@ Layer.hBlendmode = {
     'add': pixi_js_1.BLEND_MODES.ADD,
     'multiply': pixi_js_1.BLEND_MODES.MULTIPLY,
     'screen': pixi_js_1.BLEND_MODES.SCREEN,
-    'overlay': pixi_js_1.BLEND_MODES.OVERLAY,
-    'darken': pixi_js_1.BLEND_MODES.DARKEN,
-    'lighten': pixi_js_1.BLEND_MODES.LIGHTEN,
-    'color_dodge': pixi_js_1.BLEND_MODES.COLOR_DODGE,
-    'color_burn': pixi_js_1.BLEND_MODES.COLOR_BURN,
-    'hard_light': pixi_js_1.BLEND_MODES.HARD_LIGHT,
-    'soft_light': pixi_js_1.BLEND_MODES.SOFT_LIGHT,
-    'difference': pixi_js_1.BLEND_MODES.DIFFERENCE,
-    'exclusion': pixi_js_1.BLEND_MODES.EXCLUSION,
-    'hue': pixi_js_1.BLEND_MODES.HUE,
-    'saturation': pixi_js_1.BLEND_MODES.SATURATION,
-    'color': pixi_js_1.BLEND_MODES.COLOR,
-    'luminosity': pixi_js_1.BLEND_MODES.LUMINOSITY,
 };
 //# sourceMappingURL=Layer.js.map

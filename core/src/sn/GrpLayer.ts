@@ -87,10 +87,13 @@ export class GrpLayer extends Layer {
 			this.cnt,
 			sp=> {
 				Layer.setXY(sp, hArg, this.cnt, true);
-//				if (hArg.page == 'fore') this.rsvEvent(sp);	// ======
+			//	if (hArg.page == 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 			},
-			GrpLayer.fncAllComp
+			isStop=> {
+				Layer.setBlendmode(this.cnt, hArg);
+				GrpLayer.fncAllComp(isStop);
+			}
 		);
 	}
 	private static	fncDefAllComp	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume()};
@@ -303,7 +306,7 @@ export class GrpLayer extends Layer {
 			fn: fn,
 			dx: CmnLib.argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,
 			dy: CmnLib.argChk_Num(hArg, 'dy', 0) * CmnLib.retinaRate,
-			blendmode: Layer.cnvBlendmode(hArg.blendmode || '')
+			blendmode: Layer.getBlendmodeNum(hArg.blendmode || '')
 		};
 
 		return false;
