@@ -29,6 +29,33 @@ function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = '') {
         + (spl_ms == '' ? '' : spl_ms + String(now.getMilliseconds()));
 }
 exports.getDateStr = getDateStr;
+exports.hMemberCnt = {
+    alpha: 0,
+    height: 0,
+    rotation: 0,
+    scale_x: 0,
+    scale_y: 0,
+    width: 0,
+    x: 0,
+    y: 0,
+};
+function cnvTweenArg(hArg, lay) {
+    const hTo = {};
+    for (const nm in exports.hMemberCnt) {
+        if (!(nm in hArg))
+            continue;
+        const v = String(hArg[nm]);
+        const a = ((v.charAt(0) == '=') ? v.slice(1) : v).split(',');
+        const a0 = hTo[nm] = parseFloat(a[0]);
+        if (a.length > 1)
+            hTo[nm] += Math.round(Math.random()
+                * (parseFloat(a[1]) - a0 + 1));
+        if (v.charAt(0) == '=')
+            hTo[nm] += parseFloat(lay[nm]);
+    }
+    return hTo;
+}
+exports.cnvTweenArg = cnvTweenArg;
 const m_path = require("path");
 const platform = require('platform');
 class CmnLib {

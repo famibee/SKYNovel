@@ -59,7 +59,6 @@ export declare class LayerMng {
     private elcTrans;
     private finish_trans;
     private quake;
-    private readonly hMemberCnt;
     private hTwInf;
     private tsy;
     private wait_tsy;

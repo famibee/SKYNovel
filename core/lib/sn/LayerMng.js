@@ -76,16 +76,6 @@ void main(void) {
         this.aBackTransAfter = [];
         this.twInfTrans = { tw: null, resume: false };
         this.elcTrans = new EventListenerCtn_1.EventListenerCtn;
-        this.hMemberCnt = {
-            alpha: 0,
-            height: 0,
-            rotation: 0,
-            scale_x: 0,
-            scale_y: 0,
-            width: 0,
-            x: 0,
-            y: 0,
-        };
         this.hTwInf = {};
         this.getTxtLayer = (_hArg) => { this.fncChkTxtLay(); throw 0; };
         this.current = (_hArg) => { this.fncChkTxtLay(); throw 0; };
@@ -622,27 +612,14 @@ void main(void) {
             throw 'layerは必須です';
         const layer = this.argChk_layer(hArg);
         const foreLay = this.hPages[layer].fore;
-        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
-        const hTo = {};
-        for (const nm in this.hMemberCnt) {
-            if (!(nm in hArg))
-                continue;
-            const v = String(hArg[nm]);
-            const a = ((v.charAt(0) == '=') ? v.slice(1) : v).split(',');
-            const a0 = hTo[nm] = parseFloat(a[0]);
-            if (a.length > 1)
-                hTo[nm] += Math.round(Math.random()
-                    * (parseFloat(a[1]) - a0 + 1));
-            if (v.charAt(0) == '=')
-                hTo[nm] += parseFloat(foreLay[nm]);
-        }
+        const hTo = CmnLib_1.cnvTweenArg(hArg, foreLay);
         const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
         const tw_nm = (_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer;
         const tw = new Tween.Tween(foreLay)
             .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
             * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
             .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
-            .easing(ease)
+            .easing(CmnTween_1.CmnTween.ease(hArg.ease))
             .repeat(repeat == 0 ? Infinity : (repeat - 1))
             .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
             .onComplete(() => {
@@ -672,7 +649,7 @@ void main(void) {
                     Object.assign(foreLay, hTo);
                 if (backlay) {
                     const backCnt = this.hPages[layer].back.cnt;
-                    for (const nm in this.hMemberCnt)
+                    for (const nm in CmnLib_1.hMemberCnt)
                         backCnt[nm] = foreLay[nm];
                 }
             } };
@@ -925,7 +902,7 @@ void main(void) {
         for (const layer in $hPages) {
             const $pg = $hPages[layer];
             aSort.push({ layer: layer, idx: $pg.fore.idx });
-            const pg = this.hPages[layer] || new Pages_1.Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val);
+            const pg = this.hPages[layer] || new Pages_1.Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val, { isWait: false });
             this.hPages[layer] = pg;
             aPromise.push(new Promise(re => pg.fore.playback($pg.fore, re)));
             aPromise.push(new Promise(re => pg.back.playback($pg.back, re)));

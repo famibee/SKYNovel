@@ -510,8 +510,8 @@
 <tr><td>rotation</td><td></td><td>0</td><td>-180〜180</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
 <tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>float</td><td></td><td>何もしない</td><td>Boolean</td><td>true：レイヤを最前面に移動する。<br/>※最前面とは、Flashのstage.addChildにおける重なり順</td></tr>
-<tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>レイヤをindexで指定したインデックスに移動する。<br/>※インデックスは、FlashのStage.setChildIndex()を参照。</td></tr>
+<tr><td>float</td><td></td><td>何もしない</td><td>Boolean</td><td>true：レイヤを最前面に移動する。</td></tr>
+<tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>レイヤをindexで指定したインデックスに移動する。<br/>0がもっとも背後。レイヤを重ねるたびに1加算したindexになる</td></tr>
 <tr><td>dive</td><td></td><td>何もしない</td><td>レイヤ名</td><td>レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる。<br/>「plg:プラグイン名」と記述する事でプラグインも指定できる。</td></tr>
 </table>
 
@@ -1229,6 +1229,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
 <tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
 <tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
+<tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
 <tr class="y"><td>alpha</td><td rowspan="8">いずれかを指定</td><td rowspan="8">何もしない</td><td rowspan="8"></td><td rowspan="6">同名属性の変化目標値</td></tr>
 <tr class="y"><td>height</td></tr>
 <tr class="y"><td>rotation</td></tr>

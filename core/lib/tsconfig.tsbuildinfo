@@ -158,8 +158,8 @@
         "signature": "4b8d1fea0b3947075e3a90d7e1f0c46ce54ca33b488fb279dd1528e823ab400e"
       },
       "../src/sn/cmnlib.ts": {
-        "version": "541955eba0f0a408ee57d1c13f390e9514550679b1adbad28f6dbbf2adce42f8",
-        "signature": "fdc8c66e4f00d42bf024de82005b06b67fb04635a64c060f6b085f59563a8894"
+        "version": "94cdd5f5f47912e7e049503740c739dec580a5e5e5c2faf62660a77f0fdfe7d9",
+        "signature": "dc353b24e590fc0102183c7718c084738c336ed9d96d1c18e692897d8eb73059"
       },
       "../src/sn/layer.ts": {
         "version": "e400ff9232880457b5157608ef5a5e6b6a8a270768f4583cf3b89b79d2148399",
@@ -434,15 +434,15 @@
         "signature": "9f5dd645aa4e2a58456b5c66156216fa16c5d2edf63d118de2756c8f4be06a62"
       },
       "../src/sn/framemng.ts": {
-        "version": "e3ebe6c4f50a37d6c580606dbd4d2c88cc655607d039c631719cf310fc8b6f41",
+        "version": "8a95e971bc74eb2705480cc0b5845ad68289a32c6fa81308755a26212fe49dac",
         "signature": "9c9f534ae61e087c91c0f6316f5fc34537418f6d8661ac0be5018a8884ca40a5"
       },
       "../src/sn/layermng.ts": {
-        "version": "7fd66ffba619ab27d5355091f6e5a1b6960108d0688de57255c8f15eba0c14b9",
-        "signature": "67141b7284325338b52c345427335e9eedcb2476c0c5b7186543575abfbd54a1"
+        "version": "754cc0ddfbc318edc7f74a6dd2ac4b0f825e21977fca2a79bde8125ac42875f4",
+        "signature": "825bcc53249db3850b563da85c870494ffda30570a13131210c8a60e7e4051f3"
       },
       "../src/sn/soundmng.ts": {
-        "version": "92a7ffb1875512b31f9a9216688fcca374717bd20be8bb3ed1871d221f3b569b",
+        "version": "642d9bce39e5ec7cf7ee1d4fca275377bdfce7ff8d12085b15ace0bd794b34fa",
         "signature": "f967c73d5a2b61e2fb2043e224e727efedee55738f61af5e1a56ec894e3ca0c8"
       },
       "../../node_modules/@types/hammerjs/index.d.ts": {
@@ -2604,6 +2604,7 @@
       "../../node_modules/pixi.js/pixi.js.d.ts",
       "../src/sn/eventlistenerctn.ts",
       "../src/sn/cmnlib.ts",
+      "../src/sn/layer.ts",
       "../src/sn/cmninterface.ts",
       "../src/sn/sysbase.ts",
       "../../node_modules/@types/node/globals.d.ts",
@@ -2671,30 +2672,7 @@
       "../src/sn/txtstage.ts",
       "../src/sn/button.ts",
       "../src/sn/txtlayer.ts",
-      "../src/sn/framemng.ts",
-      [
-        "../src/sn/layermng.ts",
-        [
-          {
-            "file": "../src/sn/layermng.ts",
-            "start": 33448,
-            "length": 75,
-            "messageText": "Expected 9 arguments, but got 8.",
-            "category": 1,
-            "code": 2554,
-            "relatedInformation": [
-              {
-                "file": "../src/sn/pages.ts",
-                "start": 631,
-                "length": 22,
-                "messageText": "An argument for 'ret' was not provided.",
-                "category": 3,
-                "code": 6210
-              }
-            ]
-          }
-        ]
-      ],
+      "../src/sn/layermng.ts",
       "../src/sn/soundmng.ts",
       "../../node_modules/@types/hammerjs/index.d.ts",
       "../src/sn/eventmng.ts",
@@ -2723,7 +2701,7 @@
       "../../node_modules/@types/tween.js/index.d.ts",
       "../../node_modules/@types/xml2js/lib/processors.d.ts",
       "../../node_modules/@types/xml2js/index.d.ts",
-      "../src/sn/layer.ts"
+      "../src/sn/framemng.ts"
     ]
   },
   "version": "3.8.3"

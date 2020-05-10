@@ -1,3 +1,6 @@
+## v0.19.7
+- add：[tsy_frame]にchain属性追加
+- add：[tsy_frame]も[tsy]風の相対値指定ができるように
 ## v0.19.6
 - add：画像レイヤの[lay]にblendmode追加。設定はface差分画像などにも波及する
 - add：[button]にblendmode追加

@@ -325,13 +325,10 @@ export class SoundMng {
 	}
 
 	// 再生トラックの交換
-	private xchgbuf(hArg: HArg) {	// TODO: xchgbuf()が未テスト
+	private xchgbuf(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
 		const buf2 = hArg.buf2 ?? 'SE';
 		[this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
-		// const oSb = this.hSndBuf[buf];
-		// this.hSndBuf[buf] = this.hSndBuf[buf2];
-		// this.hSndBuf[buf2] = oSb;
 
 		return false;
 	}

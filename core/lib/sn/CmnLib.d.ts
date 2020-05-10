@@ -2,6 +2,17 @@ import { HArg, IHEvt2Fnc } from './CmnInterface';
 export declare function int(o: any): number;
 export declare function uint(o: any): number;
 export declare function getDateStr(spl_dd?: string, spl_dt?: string, spl_tt?: string, spl_ms?: string): string;
+export declare const hMemberCnt: {
+    alpha: number;
+    height: number;
+    rotation: number;
+    scale_x: number;
+    scale_y: number;
+    width: number;
+    x: number;
+    y: number;
+};
+export declare function cnvTweenArg(hArg: HArg, lay: any): {};
 import { interaction, DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
 export interface IEvtMng {

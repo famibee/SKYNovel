@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IEvtMng} from './CmnLib';
+import {CmnLib, IEvtMng, cnvTweenArg} from './CmnLib';
 import {ITwInf, CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Application} from 'pixi.js';
@@ -176,12 +176,13 @@ export class FrameMng {
 	private let_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		if (! ifrm) throw `id【${id}】はフレームではありません`;
 		const frmnm = `const.sn.frm.${id}`;
 		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
 		const var_name = hArg.var_name;
 		if (! var_name) throw 'var_nameは必須です';
 
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win: Window = ifrm.contentWindow!;
 		if (! win.hasOwnProperty(var_name)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
@@ -200,6 +201,8 @@ export class FrameMng {
 	private set_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		if (! ifrm) throw `id【${id}】はフレームではありません`;
 		const frmnm = `const.sn.frm.${id}`;
 		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
 		const var_name = hArg.var_name;
@@ -211,7 +214,6 @@ export class FrameMng {
 		this.val.setVal_Nochk('tmp', frmnm +'.'+ var_name, text);
 
 		// -> var変数に設定
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const win: any = ifrm.contentWindow!;
 		win[var_name] = text;
 
@@ -222,10 +224,11 @@ export class FrameMng {
 	private frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		if (! ifrm) throw `id【${id}】はフレームではありません`;
 		const frmnm = `const.sn.frm.${id}`;
 		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
 
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		if ('alpha' in hArg) {
 			const a = String(hArg.alpha);
 			ifrm.style.opacity = a;
@@ -272,26 +275,13 @@ export class FrameMng {
 	private tsy_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
+		const ifrm = document.getElementById(id) as HTMLIFrameElement;
+		if (! ifrm) throw `id【${id}】はフレームではありません`;
 		const frmnm = `const.sn.frm.${id}`;
 		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `frame【${id}】が読み込まれていません`;
 
-		const ease = CmnTween.ease(hArg.ease);
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		const hNow: any = {};
-		const hTo: any = {};
-		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
-		let fncA = ()=> {};
-		if ('alpha' in hArg) {
-			hNow.a = ifrm.style.opacity;
-			hTo.a = CmnLib.argChk_Num(hArg, 'alpha', 0);
-			fncA = ()=> {
-				ifrm.style.opacity = hNow.a;
-				this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
-			}
-		}
-		let fncXYSR = ()=> {};
-		const rct = this.rect(hArg);
-		const scale = this.sys.reso4frame *CmnLib.cvsScale;
+		if ('alpha' in hArg) hNow.a = ifrm.style.opacity;
 		if ('x' in hArg || 'y' in hArg
 		|| 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
 			hNow.x = Number(this.val.getVal(`tmp:${frmnm}.x`));
@@ -299,11 +289,31 @@ export class FrameMng {
 			hNow.sx = Number(this.val.getVal(`tmp:${frmnm}.scale_x`));
 			hNow.sy = Number(this.val.getVal(`tmp:${frmnm}.scale_y`));
 			hNow.r = Number(this.val.getVal(`tmp:${frmnm}.rotate`));
+		}
+		if ('width' in hArg) hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
+		if ('height' in hArg) hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
+		const hArg2 = cnvTweenArg(hArg, hNow);
+
+		const hTo: any = {};
+		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
+		let fncA = ()=> {};
+		if ('alpha' in hArg) {
+			hTo.a = CmnLib.argChk_Num(hArg2, 'alpha', 0);
+			fncA = ()=> {
+				ifrm.style.opacity = hNow.a;
+				this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
+			};
+		}
+		let fncXYSR = ()=> {};
+		const rct = this.rect(hArg2);
+		const scale = this.sys.reso4frame *CmnLib.cvsScale;
+		if ('x' in hArg || 'y' in hArg
+		|| 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
 			hTo.x = rct.x;
 			hTo.y = rct.y;
-			hTo.sx = CmnLib.argChk_Num(hArg, 'scale_x', 1);
-			hTo.sy = CmnLib.argChk_Num(hArg, 'scale_y', 1);
-			hTo.r = CmnLib.argChk_Num(hArg, 'rotate', 0);
+			hTo.sx = CmnLib.argChk_Num(hArg2, 'scale_x', 1);
+			hTo.sy = CmnLib.argChk_Num(hArg2, 'scale_y', 1);
+			hTo.r = CmnLib.argChk_Num(hArg2, 'rotate', 0);
 			fncXYSR = ()=> {
 				ifrm.style.left = this.sys.ofsLeft4frm +hNow.x *scale +'px';
 				ifrm.style.top  = this.sys.ofsTop4frm  +hNow.y *scale +'px';
@@ -317,7 +327,6 @@ export class FrameMng {
 		}
 		let fncW = ()=> {};
 		if ('width' in hArg) {
-			hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
 			hTo.w = rct.width;
 			fncW = ()=> {
 				ifrm.width = hNow.w *scale +'px';
@@ -326,7 +335,6 @@ export class FrameMng {
 		}
 		let fncH = ()=> {};
 		if ('height' in hArg) {
-			hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
 			hTo.h = rct.height;
 			fncH = ()=> {
 				ifrm.height = hNow.h *scale +'px';
@@ -337,24 +345,31 @@ export class FrameMng {
 		this.appPixi.stage.interactive = false;
 		const tw_nm = `frm\n${hArg.id}`;
 		const tw = new Tween.Tween(hNow)
-			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
-				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
-			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
-			.easing(ease)
-			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-			.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();})
-			.onComplete(()=> {
-				this.appPixi.stage.interactive = true;
-				const twInf = this.hTwInf[tw_nm];
-				if (! twInf) return;
+		.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
+			* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
+		.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
+		.easing(CmnTween.ease(hArg.ease))
+		.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
+		.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();})
+		.onComplete(()=> {
+			this.appPixi.stage.interactive = true;
+			const twInf = this.hTwInf[tw_nm];
+			if (! twInf) return;
 
-				delete this.hTwInf[tw_nm];
-				this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
-				if (twInf.resume) this.main.resume();
-				if (twInf.onComplete) twInf.onComplete();
-			})
-			.start();
+			delete this.hTwInf[tw_nm];
+			this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
+			if (twInf.resume) this.main.resume();
+			if (twInf.onComplete) twInf.onComplete();
+		});
+
+		if ('chain' in hArg) {
+			const twFrom = this.hTwInf[hArg.chain ?? ''];
+			if (! twFrom || ! twFrom.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+			twFrom.onComplete = ()=> {};
+			twFrom.tw.chain(tw);
+		}
+		else tw.start();
 
 		this.hTwInf[tw_nm] = {tw: tw, resume: false, onComplete: ()=> {}}
 

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, getDateStr, uint, IEvtMng} from './CmnLib';
+import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
 import {IHTag, IVariable, IMain, HPage, HArg} from './CmnInterface';
 import {Pages} from './Pages';
@@ -752,59 +752,31 @@ void main(void) {
 
 
 	// トゥイーン開始
-	private	readonly	hMemberCnt	= {
-		alpha		:0,
-		height		:0,
-		rotation	:0,
-		scale_x		:0,
-		scale_y		:0,
-		width		:0,
-		x			:0,
-		y			:0,
-	};			// rotationX〜Z、scaleZ、zは設定すると
-				// 三次元方向の拡大縮小ルーチンが働き画像がぼやけるので
-				// backlayで設定しない方針
 	private	hTwInf	: {[name: string]: ITwInf}	= {};
 	private tsy(hArg: HArg) {
 		if (! hArg.layer) throw 'layerは必須です';
 
 		const layer = this.argChk_layer(hArg);
 		const foreLay: any = this.hPages[layer].fore;
-		const ease = CmnTween.ease(hArg.ease);
-		const hTo: any = {};
-		for (const nm in this.hMemberCnt) {
-			if (! (nm in hArg)) continue;
-
-			// {x:500}			X位置を500に
-			// {x:'=500'}		現在のX位置に+500加算した位置
-			// {x:'=-500'}		現在のX位置に-500加算した位置
-			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
-			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			const v = String((hArg as any)[nm]);
-			const a = ((v.charAt(0) == '=') ?v.slice(1) :v).split(',');
-			const a0 = hTo[nm] = parseFloat(a[0]);
-			if (a.length > 1) hTo[nm] += Math.round(Math.random()
-				* (parseFloat(a[1]) -a0 +1));
-			if (v.charAt(0) == '=') hTo[nm] += parseFloat(foreLay[nm]);	// 相対に
-		}
-
+		const hTo = cnvTweenArg(hArg, foreLay);
 		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
 		const tw_nm = hArg.name ?? hArg.layer;
 		const tw = new Tween.Tween(foreLay)
-			.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
-				* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
-			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
-			.easing(ease)
-			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-			.onComplete(()=> {
-				const twInf = this.hTwInf[tw_nm];
-				if (! twInf) return;
-				delete this.hTwInf[tw_nm];
-				this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
-				if (twInf.resume) this.main.resume();
-				if (twInf.onComplete) twInf.onComplete();
-			});
+		.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
+			* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
+		.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
+		.easing(CmnTween.ease(hArg.ease))
+		.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
+		.onComplete(()=> {
+			const twInf = this.hTwInf[tw_nm];
+			if (! twInf) return;
+
+			delete this.hTwInf[tw_nm];
+			this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
+			if (twInf.resume) this.main.resume();
+			if (twInf.onComplete) twInf.onComplete();
+		});
 
 		if ('chain' in hArg) {
 			const twFrom = this.hTwInf[hArg.chain ?? ''];
@@ -820,7 +792,7 @@ void main(void) {
 			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
 				const backCnt: any = this.hPages[layer].back.cnt;
-				for (const nm in this.hMemberCnt) backCnt[nm] = foreLay[nm];
+				for (const nm in hMemberCnt) backCnt[nm] = foreLay[nm];
 			}
 		}}
 
@@ -1131,7 +1103,7 @@ void main(void) {
 			const $pg = $hPages[layer];
 			aSort.push({layer: layer, idx: $pg.fore.idx});
 
-			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val);
+			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val, {isWait: false});
 			this.hPages[layer] = pg;
 			aPromise.push(new Promise(re=> pg.fore.playback($pg.fore, re)));
 			aPromise.push(new Promise(re=> pg.back.playback($pg.back, re)));
