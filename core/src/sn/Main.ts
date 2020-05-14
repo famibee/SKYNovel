@@ -182,10 +182,10 @@ export class Main implements IMain {
 				try {
 					if (token.substr(-1) != '&') {//変数操作
 						//変数計算
-						const o: any = Grammar.splitAmpersand(token.slice(1));
+						const o = Grammar.splitAmpersand(token.slice(1));
 						o.name = this.prpPrs.getValAmpersand(o.name);
 						o.text = String(this.prpPrs.parse(o.text));
-						this.hTag.let(o);
+						this.hTag.let(o as any);
 						continue;
 					}
 

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SysApp = void 0;
 const SysNode_1 = require("./SysNode");
 const SysBase_1 = require("./SysBase");
 const CmnLib_1 = require("./CmnLib");
@@ -12,7 +13,7 @@ const crypto = require('crypto');
 const tar = require('tar-fs');
 class SysApp extends SysNode_1.SysNode {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
-        super(hPlg, { cur: remote.app.getAppPath().replace(/\\/g, '/') + '/' + arg.cur, crypto: arg.crypto, dip: '' });
+        super(hPlg, { ...arg, cur: remote.app.getAppPath().replace(/\\/g, '/') + (remote.app.isPackaged ? '/doc/' : '/') + arg.cur });
         this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
         this.$path_downloads = remote.app.getPath('downloads').replace(/\\/g, '/') + '/';
         this.normalize = (src, form) => src.normalize(form);
@@ -21,6 +22,7 @@ class SysApp extends SysNode_1.SysNode {
         this.dsp = remote.screen.getPrimaryDisplay();
         this.win = remote.getCurrentWindow();
         this.wc = this.win.webContents;
+        this.isPackaged = () => remote.app.isPackaged;
         this.close = () => { this.win.close(); return false; };
         this._export = () => {
             const r = tar.pack(this.$path_userdata + 'storage/');

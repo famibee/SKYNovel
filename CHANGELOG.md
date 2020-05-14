@@ -1,3 +1,7 @@
+## v0.20.0
+- breaking change：新テンプレ「doc」フォルダ構成変更（prj→doc/prj）対応（アプリ版のみ後方互換性なし）
+- add：パッケージされたアプリかどうかを返す組み込み変数 const.sn.isPackaged 追加
+- chg：タグリファレンス表記ゆれ修正「引数→属性」「コマンド→タグ」
 ## v0.19.7
 - add：[tsy_frame]にchain属性追加
 - add：[tsy_frame]も[tsy]風の相対値指定ができるように

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AnalyzeTagArg = void 0;
 class AnalyzeTagArg {
     constructor() {
         this.REG_TAGARG = /;.*\n|(?<key>\w+)(?:\s+|;[^\n]*\n)*=(?:\s+|;.*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;

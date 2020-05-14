@@ -124,7 +124,11 @@ export class Grammar {
 	}
 
 
-	static	splitAmpersand(token: string): object {	// テスト用にpublic
+	static	splitAmpersand(token: string): {
+		name: string;
+		text: string;
+		cast: string | null;
+	} {	// テスト用にpublic
 		const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
 			// != を弾けないので中途半端ではある
 		const cnt_equa = equa.length;

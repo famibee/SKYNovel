@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventListenerCtn = void 0;
 const pixi_js_1 = require("pixi.js");
 class EventListenerCtn {
     constructor() {

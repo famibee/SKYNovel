@@ -13,6 +13,10 @@ export declare class Grammar {
     private hC2M;
     private REG_TOKEN_NOTXT;
     replaceScr_C2M_And_let_ml: (scr: Script, start_idx?: number) => void;
-    static splitAmpersand(token: string): object;
+    static splitAmpersand(token: string): {
+        name: string;
+        text: string;
+        cast: string | null;
+    };
     static readonly REG_TAG: RegExp;
 }

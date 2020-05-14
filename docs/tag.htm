@@ -294,14 +294,14 @@
 <h4>sys:変数を全消去。削除すると言うより、初期化する</h4>
 <p class="mb2 px1">
 
-	引数無し
+	属性無し
 
 </p>
 <h2 id="clearvar" class="w-heading">[clearvar] ゲーム変数の全消去</h2>
 <h4>save:変数を全消去。削除すると言うより、初期化する</h4>
 <p class="mb2 px1">
 
-	引数無し
+	属性無し
 
 </p>
 <h2 id="let_abs" class="w-heading">[let_abs]絶対値</h2>
@@ -481,7 +481,7 @@
 <h2 id="finish_trans" class="w-heading">[finish_trans] トランス強制終了</h2>
 <h4>[trans]で開始したトランスをすぐ終了させる</h4>
 <p class="mb2 px1">
-	引数無し。<br/>
+	属性無し。<br/>
 	<br/>
 	[trans]で開始したトランス終了を待たず、すぐ終了させる。<br/>
 	終了次第、スクリプト処理を次へ進める
@@ -1040,7 +1040,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>履歴に改行を出力する。</h4>
 <p class="mb2 px1">
 
-<p>引数無し。</p>
+<p>属性無し。</p>
 
 </p>
 <h2 id="reset_rec" class="w-heading">[reset_rec]履歴リセット</h2>
@@ -1385,7 +1385,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>シナリオファイルの順次処理を停止する</h4>
 <p class="mb2 px1">
 
-	引数無し。<br/>
+	属性無し。<br/>
 	<br/>
 	シナリオファイルの順次処理を停止する。<br/>
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
@@ -1395,7 +1395,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>スキップ中断を予約</h4>
 <p class="mb2 px1">
 
-	引数無し。<br/>
+	属性無し。<br/>
 	<br/>
 	（普段使わないし、かなり高度な話なので、このタグは理解しなくて結構です）<br/>
 	ページ末まで一気に読み進むモード、自動読みすすみモードなどの開始に備え、クリックなどで処理を中断できるような特殊イベントを予約する。<br/>
@@ -1419,7 +1419,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>シナリオファイルの順次処理を停止し、クリックやキー押下※を待つ。</h4>
 <p class="mb2 px1">
 
-	引数無し。<br/>
+	属性無し。<br/>
 	<br/>
 	クリックやキー押下が発生した場合、処理を再開する。<br/>
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
@@ -1620,7 +1620,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>プログラム言語における、条件分岐のelse文。</h4>
 <p class="mb2 px1">
 
-	引数無し。<br/>
+	属性無し。<br/>
 	<br/>
 	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 
@@ -1639,7 +1639,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>プログラム言語における、条件分岐のendif文。</h4>
 <p class="mb2 px1">
 
-	引数無し。<br/>
+	属性無し。<br/>
 	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 
 </p>
@@ -1752,8 +1752,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 ; =======================
 
 さらにラベル名を考えるのが面倒なとき、「無名ラベル」ともいうべき機能が使えます。
-「**after」は「そのコマンド以降で最初に見つかった**ラベルに」
-「**before」は「そのコマンド以前で最初に見つかった**ラベルに」
+「**after」は「そのタグ以降で最初に見つかった**ラベルに」
+「**before」は「そのタグ以前で最初に見つかった**ラベルに」
 ジャンプ・コールする、という指定です。次のように書きます。
 ; =======================
 [jump label=****after]
@@ -1801,7 +1801,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <h1><a id="マクロ"></a>マクロ</h1>
 <h2 id="bracket2macro" class="w-heading">[bracket2macro] 括弧マクロの定義</h2>
-<h4>引数textを持つマクロやタグを、任意の二つの文字を括弧とし、括弧で囲った記述で代用できるよう</h4>
+<h4>属性textを持つマクロやタグを、任意の二つの文字を括弧とし、括弧で囲った記述で代用できるよう</h4>
 <p class="mb2 px1">
 
 	例 …… [bracket2macro name=title text=｟｠]<br/>
@@ -1811,13 +1811,13 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　　またスクリプトファイルに本タグが記述された場合、本タグより前に出現した半角文字にも適用されません。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>text</td><td>y</td><td></td><td>特定の文字</td><td>括弧にする任意の二つの文字。<br/>マクロに出来るのは英文字、空白、;、[、]、<em>、=、&amp;、｜、《、》以外のみ。<br/>正規表現で言えば　/[\w\s;[]</em>=&amp;｜《》]/　以外。<br/>一文字マクロや定義済みの括弧文字は使用できない。</td></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。<br/>組み込みタグやマクロは引数textだけを指定しても問題なく動作し、
-	それを処理すること。渡される引数textは空文字の場合もある。</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。<br/>組み込みタグやマクロは属性textだけを指定しても問題なく動作し、
+	それを処理すること。渡される属性textは空文字の場合もある。</td></tr>
 </table>
 
 </p>
 <h2 id="char2macro" class="w-heading">[char2macro] 一文字マクロの定義</h2>
-<h4>引数無しのマクロやタグを、半角文字の記述で代用できるよう定義する</h4>
+<h4>属性無しのマクロやタグを、半角文字の記述で代用できるよう定義する</h4>
 <p class="mb2 px1">
 
 	本タグより前にロードされたスクリプトファイルには適用されません。<br/>
@@ -1838,7 +1838,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 	定義したマクロは既存のタグと同様に使用できる。<br/>
-	渡した引数は、マクロ側で「mp:」スコープにより参照できる。<br/>
+	渡した属性は、マクロ側で「mp:」スコープにより参照できる。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td>マクロ名</td><td>String</td><td>既存のタグやマクロと重複しないマクロ名</td></tr>
 </table>
@@ -1895,7 +1895,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>現在処理中のスクリプトをリロードする。</h4>
 <p class="mb2 px1">
 
-	引数無し。<br/>
+	属性無し。<br/>
 	<br/>
 	現在処理中のスクリプトをリロードする。<br/>
 	実行位置は<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>によるセーブポイントまで戻って再開する。<br/>
@@ -2138,7 +2138,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 </p>
 <h2 id="trace" class="w-heading">[trace]デバッグ表示へ出力</h2>
-<h4>引数をデバッグ表示する</h4>
+<h4>属性をデバッグ表示する</h4>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>

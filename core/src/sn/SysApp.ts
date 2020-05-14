@@ -22,9 +22,9 @@ const tar = require('tar-fs');
 
 export class SysApp extends SysNode {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
-		super(hPlg, {cur: remote.app.getAppPath().replace(/\\/g, '/') +'/'+ arg.cur, crypto: arg.crypto, dip: ''});
-		window.addEventListener('DOMContentLoaded', ()=>new Main(this), {once: true, passive: true});
+		super(hPlg, {...arg, cur: remote.app.getAppPath().replace(/\\/g, '/') + (remote.app.isPackaged ?'/doc/' :'/')+ arg.cur});
 
+		window.addEventListener('DOMContentLoaded', ()=>new Main(this), {once: true, passive: true});
 		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));
 	}
 	protected readonly	$path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
@@ -108,6 +108,8 @@ export class SysApp extends SysNode {
 		})
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
 	}
+
+	protected readonly	isPackaged = ()=> remote.app.isPackaged;
 
 	// アプリの終了
 	protected readonly	close = ()=> {this.win.close(); return false;}

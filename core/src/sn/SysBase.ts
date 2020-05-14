@@ -101,6 +101,7 @@ export class SysBase implements ISysBase {
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
+		val.setVal_Nochk('tmp', 'const.sn.isPackaged', this.isPackaged());
 
 		val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
 			// [import]時のチェック用
@@ -127,6 +128,7 @@ export class SysBase implements ISysBase {
 	hash = (_data: string)=> '';
 
 	protected readonly	isApp = ()=> false;
+	protected readonly	isPackaged = ()=> false;
 	protected $path_downloads	= '';
 	get path_downloads() {return this.$path_downloads}
 	protected $path_userdata= '';

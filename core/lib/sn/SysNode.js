@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SysNode = void 0;
 const SysBase_1 = require("./SysBase");
 const CmnLib_1 = require("./CmnLib");
 const m_fs = require("fs-extra");

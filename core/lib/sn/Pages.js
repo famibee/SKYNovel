@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Pages = void 0;
 const CmnLib_1 = require("./CmnLib");
 class Pages {
     constructor(layer, cls_, fore, hArgFore, back, hArgBack, sys, val, ret) {

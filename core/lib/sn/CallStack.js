@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CallStack = void 0;
 class CallStack {
     constructor($fn = '', $idx = 0, $hArg = null) {
         this.$fn = $fn;

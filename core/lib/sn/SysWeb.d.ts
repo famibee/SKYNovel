@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="mocha" />
 import { SysBase } from "./SysBase";
 import { IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari } from './CmnInterface';
 import { Application } from 'pixi.js';

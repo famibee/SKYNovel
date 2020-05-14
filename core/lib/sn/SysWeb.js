@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SysWeb = void 0;
 const SysBase_1 = require("./SysBase");
 const CmnLib_1 = require("./CmnLib");
 const Main_1 = require("./Main");

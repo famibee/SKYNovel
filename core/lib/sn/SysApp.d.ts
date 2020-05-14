@@ -18,6 +18,7 @@ export declare class SysApp extends SysNode {
     private readonly win;
     private readonly wc;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    protected readonly isPackaged: () => any;
     protected readonly close: () => boolean;
     protected readonly _export: ITag;
     protected readonly _import: ITag;

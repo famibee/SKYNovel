@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Variable = void 0;
 const CmnLib_1 = require("./CmnLib");
 const Areas_1 = require("./Areas");
 const PropParser_1 = require("./PropParser");
