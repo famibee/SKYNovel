@@ -1,6 +1,5 @@
-export declare function web(arg: {
-    cur?: string;
-    crypto?: boolean;
-    dip?: string;
-}): void;
+import { SysWeb } from './sn/SysWeb';
+import { CmnLib } from './sn/CmnLib';
+import { Layer } from './sn/Layer';
+export { SysWeb, CmnLib, Layer };
 //# sourceMappingURL=web.d.ts.map

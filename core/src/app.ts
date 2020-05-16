@@ -7,7 +7,7 @@
 
 // electron レンダラープロセス
 import {SysApp} from './sn/SysApp';
+import {CmnLib} from './sn/CmnLib';
+import {Layer} from './sn/Layer';
 
-export function app(arg: {cur?: string, crypto?: boolean, dip?: string}) {
-	new SysApp(arg);
-}
+export {SysApp, CmnLib, Layer};

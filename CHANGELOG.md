@@ -1,3 +1,5 @@
+## v0.20.4
+- breaking change：プラグイン用クラス定義追加と変更
 ## v0.20.3
 - breaking change：webpackでumdモジュールバンドル化（後方互換性なし）
 - bug：マクロ内の複数行タグで行番号が狂う件

@@ -416,7 +416,7 @@ eval("/* WEBPACK VAR INJECTION */(function(process) {\nObject.defineProperty(exp
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.web = void 0;\nconst SysWeb_1 = __webpack_require__(/*! ./sn/SysWeb */ \"./core/src/sn/SysWeb.ts\");\nfunction web(arg) {\n    new SysWeb_1.SysWeb(arg);\n}\nexports.web = web;\n\n\n//# sourceURL=webpack:///./core/src/web.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nexports.Layer = exports.CmnLib = exports.SysWeb = void 0;\nconst SysWeb_1 = __webpack_require__(/*! ./sn/SysWeb */ \"./core/src/sn/SysWeb.ts\");\nObject.defineProperty(exports, \"SysWeb\", { enumerable: true, get: function () { return SysWeb_1.SysWeb; } });\nconst CmnLib_1 = __webpack_require__(/*! ./sn/CmnLib */ \"./core/src/sn/CmnLib.ts\");\nObject.defineProperty(exports, \"CmnLib\", { enumerable: true, get: function () { return CmnLib_1.CmnLib; } });\nconst Layer_1 = __webpack_require__(/*! ./sn/Layer */ \"./core/src/sn/Layer.ts\");\nObject.defineProperty(exports, \"Layer\", { enumerable: true, get: function () { return Layer_1.Layer; } });\n\n\n//# sourceURL=webpack:///./core/src/web.ts?");
 
 /***/ }),
 

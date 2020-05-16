@@ -7,7 +7,7 @@
 
 // ブラウザ レンダラープロセス
 import {SysWeb} from './sn/SysWeb';
+import {CmnLib} from './sn/CmnLib';
+import {Layer} from './sn/Layer';
 
-export function web(arg: {cur?: string, crypto?: boolean, dip?: string}) {
-	new SysWeb(arg);
-}
+export {SysWeb, CmnLib, Layer};
