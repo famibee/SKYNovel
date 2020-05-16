@@ -11,3 +11,4 @@ export declare class AnalyzeTagArg {
     private $isKomeParam;
     get isKomeParam(): boolean;
 }
+//# sourceMappingURL=AnalyzeTagArg.d.ts.map

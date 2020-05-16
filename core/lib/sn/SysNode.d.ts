@@ -11,3 +11,4 @@ export declare class SysNode extends SysBase {
     readonly savePic: (fn: string, data_url: string) => void;
     readonly appendFile: typeof m_fs.appendFile;
 }
+//# sourceMappingURL=SysNode.d.ts.map

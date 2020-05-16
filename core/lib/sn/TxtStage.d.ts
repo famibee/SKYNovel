@@ -80,3 +80,4 @@ export declare class TxtStage extends Container {
     dump(): string;
     destroy(): void;
 }
+//# sourceMappingURL=TxtStage.d.ts.map

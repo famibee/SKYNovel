@@ -28,3 +28,4 @@ export declare class FrameMng {
     private frame;
     private tsy_frame;
 }
+//# sourceMappingURL=FrameMng.d.ts.map

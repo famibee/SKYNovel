@@ -21,3 +21,4 @@ export declare class Config implements IConfig {
     searchPath(path: string, extptn?: string): string;
     matchPath(fnptn: string, extptn?: string): ReadonlyArray<IExts>;
 }
+//# sourceMappingURL=Config.d.ts.map

@@ -29,3 +29,4 @@ export declare class SysApp extends SysNode {
     protected readonly update_check: ITag;
     protected readonly window: ITag;
 }
+//# sourceMappingURL=SysApp.d.ts.map

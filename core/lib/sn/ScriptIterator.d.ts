@@ -89,3 +89,4 @@ export declare class ScriptIterator {
     private record_place;
     private save;
 }
+//# sourceMappingURL=ScriptIterator.d.ts.map

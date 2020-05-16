@@ -20,3 +20,4 @@ export declare class Grammar {
     };
     static readonly REG_TAG: RegExp;
 }
+//# sourceMappingURL=Grammar.d.ts.map

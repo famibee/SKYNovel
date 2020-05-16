@@ -30,3 +30,4 @@ export declare class SysWeb extends SysBase {
     private readonly hAppendFile;
     readonly appendFile: (path: string, data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
 }
+//# sourceMappingURL=SysWeb.d.ts.map

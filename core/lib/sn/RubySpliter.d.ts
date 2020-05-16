@@ -15,3 +15,4 @@ export declare class RubySpliter {
     private static readonly REG_TAB_G;
     static destroy(): void;
 }
+//# sourceMappingURL=RubySpliter.d.ts.map

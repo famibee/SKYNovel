@@ -801,7 +801,7 @@ export class ScriptIterator {
 		const ln = this.lineNum_;
 		const cs = new CallStack(this.scriptFn_, this.idxToken_);
 		this.hTag[name] = (hArgM: HArg)=> {
-			this.callSub({...hArgM, hMpVal: this.val.cloneMp()} as any);
+			this.callSub({...hArgM, hMp: this.val.cloneMp()} as any);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
@@ -825,7 +825,9 @@ export class ScriptIterator {
 				return false;
 			}
 
-			if (token.charCodeAt(0) == 10) this.lineNum_ += (token.match(/\n/g) ?? []).length;
+			const uc = token.charCodeAt(0);	// TokenTopUnicode
+			if (uc == 10) this.lineNum_ += token.length;	// \n 改行
+			else if (uc == 91) this.lineNum_ += (token.match(/\n/g) ?? []).length;	// [ タグ開始
 		}
 		throw `マクロ[${name}]定義の終端・[endmacro]がありません`;
 	}

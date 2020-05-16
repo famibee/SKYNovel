@@ -49,3 +49,4 @@ export declare class Layer {
     static setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void;
     static setXYCenter(dsp: DisplayObject): void;
 }
+//# sourceMappingURL=Layer.d.ts.map

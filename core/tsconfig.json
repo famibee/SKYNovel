@@ -6,23 +6,25 @@
 		"sourceMap": true,
 		"outDir": "lib/",
 		"declaration": true,
+		"declarationMap": true,
 		"newLine": "LF",
 		"removeComments": true,
 		"noImplicitThis": true,		// this に型を明示しないとエラーに
 		"noImplicitReturns": true,	// 暗黙的に undefined を返している関数をエラーに
-		"noFallthroughCasesInSwitch": true,	// switch 文のフォールスルーに対してエラーに
+		"noFallthroughCasesInSwitch": true,	// switch 文のフォールスルーをエラーに
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitAny": true,		// 暗黙的な any をエラーに
 		"strictNullChecks": true,	// 全ての型で Null を許容しないように
 		"noUnusedLocals": true,		// 使っていないローカル変数をエラーに
 		"noUnusedParameters": true,	// 使っていない仮引数をエラーに
-									// ただし引数名の先頭にアンダースコアを付けると回避できる
+								// ただし引数名の先頭にアンダースコアを付けると回避できる
 		"allowUnreachableCode": false,	// 到達しえないコードを許容しない (false)
-		"allowUnusedLabels": false,	// 到達しえないラベルを許容しない (false)
+		"allowUnusedLabels": true,	// 到達しえないラベルを許容しない
 		// オブジェクトへの過剰なプロパティチェックを抑制しない
-		"suppressExcessPropertyErrors": false,
+		"suppressExcessPropertyErrors": true,
 		// インデックスシグネチャが欠損したオブジェクトの noImplicitAny エラーを抑制しない
 		"suppressImplicitAnyIndexErrors": false,
+		"strictPropertyInitialization": false,	// クラス定義時、インスタンス変数の初期化が宣言時、もしくはコンストラクタのどちらでも行われていない場合にエラー
 		"incremental": true,		// 差分ビルド
 	},
 	"include": [

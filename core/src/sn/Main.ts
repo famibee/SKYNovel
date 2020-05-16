@@ -154,10 +154,8 @@ export class Main implements IMain {
 			// [ タグ開始
 			if (uc == 91) {
 				try {
-					let cntLines = 0;
-					let i = -1;
-					while ((i = token.indexOf('\n', i +1)) >= 0) ++cntLines;
-					if (cntLines > 0) this.evtMng.cr(cntLines);
+					const cl = (token.match(/\n/g) ?? []).length;
+					if (cl > 0) this.evtMng.cr(cl);
 					if (this.scrItr.タグ解析(token)) {this.stop(); break;}
 					continue;
 				}

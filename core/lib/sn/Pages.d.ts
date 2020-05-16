@@ -17,3 +17,4 @@ export declare class Pages {
     get back(): Layer;
     transPage(): void;
 }
+//# sourceMappingURL=Pages.d.ts.map

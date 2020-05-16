@@ -17,3 +17,4 @@ export declare class SysMob extends SysBase {
     flush(): void;
     readonly readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
 }
+//# sourceMappingURL=SysMob.d.ts.map

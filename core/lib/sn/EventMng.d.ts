@@ -54,3 +54,4 @@ export declare class EventMng implements IEvtMng {
     isSkipKeyDown(): boolean;
     private readonly hDownKeys;
 }
+//# sourceMappingURL=EventMng.d.ts.map

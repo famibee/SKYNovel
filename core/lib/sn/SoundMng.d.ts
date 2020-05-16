@@ -35,3 +35,4 @@ export declare class SoundMng {
     private addLoopPlay;
     private delLoopPlay;
 }
+//# sourceMappingURL=SoundMng.d.ts.map

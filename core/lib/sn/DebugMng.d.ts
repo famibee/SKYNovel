@@ -16,3 +16,4 @@ export declare class DebugMng {
     private static fncMyTrace;
     private static dspDbg;
 }
+//# sourceMappingURL=DebugMng.d.ts.map

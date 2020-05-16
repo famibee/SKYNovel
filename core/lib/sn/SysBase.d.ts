@@ -55,3 +55,4 @@ export declare class SysBase implements ISysBase {
     ofsTop4frm: number;
     protected resizeFrames(): void;
 }
+//# sourceMappingURL=SysBase.d.ts.map

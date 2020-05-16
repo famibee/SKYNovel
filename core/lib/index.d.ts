@@ -1,9 +1,3 @@
-// Type definitions for skynovel 0.1
-// Project: https://github.com/famibee/skynovel
-// Definitions by: famibee <http://famibee.blog38.fc2.com/>
-
-export as namespace SKYNOVEL;
-
 export * from "./sn/AnalyzeTagArg";
 export * from "./sn/Areas";
 export * from "./sn/Button";
@@ -34,3 +28,6 @@ export * from "./sn/SysWeb";
 export * from "./sn/TxtLayer";
 export * from "./sn/TxtStage";
 export * from "./sn/Variable";
+export * from "./app";
+export * from "./web";
+//# sourceMappingURL=index.d.ts.map

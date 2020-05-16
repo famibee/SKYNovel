@@ -1,3 +1,7 @@
+## v0.20.3
+- breaking change：webpackでumdモジュールバンドル化（後方互換性なし）
+- bug：マクロ内の複数行タグで行番号が狂う件
+- bug：マクロから呼び出し元に戻る際、mp:変数を復帰しない件
 ## v0.20.0
 - breaking change：新テンプレ「doc」フォルダ構成変更（prj→doc/prj）対応（アプリ版のみ後方互換性なし）
 - add：パッケージされたアプリかどうかを返す組み込み変数 const.sn.isPackaged 追加

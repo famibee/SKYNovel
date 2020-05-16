@@ -7,4 +7,7 @@
 
 // electron レンダラープロセス
 import {SysApp} from './sn/SysApp';
-new SysApp;
+
+export function app(arg: {cur?: string, crypto?: boolean, dip?: string}) {
+	new SysApp(arg);
+}

@@ -100,3 +100,4 @@ export declare class LayerMng {
     record(): any;
     playback($hPages: HPage, fncComp: () => void): void;
 }
+//# sourceMappingURL=LayerMng.d.ts.map

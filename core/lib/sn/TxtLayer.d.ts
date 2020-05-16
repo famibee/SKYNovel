@@ -115,3 +115,4 @@ export declare class TxtLayer extends Layer {
     snapshot_end(): void;
     dump(): string;
 }
+//# sourceMappingURL=TxtLayer.d.ts.map

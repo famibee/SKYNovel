@@ -7,4 +7,7 @@
 
 // ブラウザ レンダラープロセス
 import {SysWeb} from './sn/SysWeb';
-new SysWeb;
+
+export function web(arg: {cur?: string, crypto?: boolean, dip?: string}) {
+	new SysWeb(arg);
+}

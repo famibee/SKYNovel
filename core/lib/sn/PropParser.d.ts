@@ -16,3 +16,4 @@ export declare class PropParser implements IPropParser {
     } | undefined;
     private static getValName_B2D;
 }
+//# sourceMappingURL=PropParser.d.ts.map

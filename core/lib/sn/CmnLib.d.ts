@@ -51,3 +51,4 @@ export declare class CmnLib {
     static readonly getFn: (path: string) => string;
     static readonly getExt: (path: string) => string;
 }
+//# sourceMappingURL=CmnLib.d.ts.map

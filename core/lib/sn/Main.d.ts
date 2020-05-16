@@ -30,3 +30,4 @@ export declare class Main implements IMain {
     readonly isDestroyed: () => boolean;
     private clone_cvs;
 }
+//# sourceMappingURL=Main.d.ts.map

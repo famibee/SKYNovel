@@ -58,3 +58,4 @@ export declare class Variable implements IVariable {
     private runFirst_Bool_hTmp_true;
     private runFirst_Bool_hTmp_false;
 }
+//# sourceMappingURL=Variable.d.ts.map

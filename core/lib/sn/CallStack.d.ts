@@ -17,3 +17,4 @@ export declare class CallStack {
     get csArg(): ICallStackArg | null;
     readonly toString: () => string;
 }
+//# sourceMappingURL=CallStack.d.ts.map

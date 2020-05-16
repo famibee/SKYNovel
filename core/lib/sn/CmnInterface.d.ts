@@ -254,3 +254,4 @@ export interface IPage {
 export interface IPutCh {
     (ch: string, ruby: string): void;
 }
+//# sourceMappingURL=CmnInterface.d.ts.map

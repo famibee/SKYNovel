@@ -10,3 +10,4 @@ export declare class Button extends Container {
     private static cln;
     private static s2hStyle;
 }
+//# sourceMappingURL=Button.d.ts.map

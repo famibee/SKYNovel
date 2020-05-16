@@ -9,3 +9,4 @@ export declare class Areas implements IAreas {
     get count(): number;
     toString(): string;
 }
+//# sourceMappingURL=Areas.d.ts.map
