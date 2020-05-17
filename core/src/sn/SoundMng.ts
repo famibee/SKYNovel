@@ -220,6 +220,7 @@ export class SoundMng {
 				}
 			},
 		};
+		this.initVol();
 		if (snd) {snd.volume = vol; snd.play(o); return false;}
 			// snd.volume = ...; がないと、音量が戻らない不具合
 
@@ -229,8 +230,6 @@ export class SoundMng {
 			o.loaded = (e: Error, snd: any)=> {this.main.resume(); old(e, snd)};
 		}
 		this.playseSub(fn, o);
-
-		this.initVol();
 
 		return join;
 	}

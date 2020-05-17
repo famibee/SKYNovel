@@ -5305,6 +5305,7 @@ class SoundMng {
                 }
             },
         };
+        this.initVol();
         if (snd) {
             snd.volume = vol;
             snd.play(o);
@@ -5316,7 +5317,6 @@ class SoundMng {
             o.loaded = (e, snd) => { this.main.resume(); old(e, snd); };
         }
         this.playseSub(fn, o);
-        this.initVol();
         return join;
     }
     playseSub(fn, o) {
