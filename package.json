@@ -1,6 +1,6 @@
 {
 	"name": "skynovel",
-	"version": "0.20.4",
+	"version": "0.20.5",
 	"description": "webgl novelgame framework",
 	"main": "core/web.js",
 	"types": "core/lib/index.d.ts",
@@ -45,8 +45,8 @@
 		"webpack-dev-server": "^3.11.0"
 	},
 	"scripts": {
-		"once": "npm run wp && npm run test",
-		"dev": "npm run wp:w & npm run test:w",
+		"build": "npm run wp && npm run test",
+		"watch": "npm run wp:w & npm run test:w",
 		"wp": "webpack --config ./core/webpack.config.js",
 		"wp:w": "webpack --watch --config ./core/webpack.config.js",
 		"version:patch": "npm -no-git-tag-version version patch",
@@ -58,7 +58,7 @@
 		"npm_check_updates_do": "ncu -a && npm update",
 		"test": "mocha",
 		"test:w": "mocha --watch",
-		"rebuild": "rm -rf node_modules && rm package-lock.json && npm cache clear --force && npm i && npm run dev",
+		"rebuild": "rm -rf node_modules && rm package-lock.json && npm cache clear --force && npm i && npm run watch",
 		"docs": "webpack-dev-server --config ./docs/local_tst/wds.config.js"
 	},
 	"mocha": {

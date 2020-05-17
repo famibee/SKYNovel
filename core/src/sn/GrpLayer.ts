@@ -92,12 +92,11 @@ export class GrpLayer extends Layer {
 			},
 			isStop=> {
 				Layer.setBlendmode(this.cnt, hArg);
-				GrpLayer.fncAllComp(isStop);
+				this.compOneAtMultiLD(isStop);
 			}
 		);
 	}
-	private static	fncDefAllComp	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume()};
-	private static	fncAllComp	= GrpLayer.fncDefAllComp;
+	private	compOneAtMultiLD	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume();}
 
 	private	static ldrHFn: {[name: string]: number} = {};
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
@@ -333,8 +332,8 @@ export class GrpLayer extends Layer {
 			return false;
 		}
 
-		if (fncComp != undefined) GrpLayer.fncAllComp = ()=> {
-			GrpLayer.fncAllComp = GrpLayer.fncDefAllComp;
+		if (fncComp != undefined) this.compOneAtMultiLD = ()=> {
+			this.compOneAtMultiLD = (isStop: boolean)=> {if (isStop) GrpLayer.main.resume();}
 			fncComp();
 		};
 

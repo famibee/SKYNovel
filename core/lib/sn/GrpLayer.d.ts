@@ -30,8 +30,7 @@ export declare class GrpLayer extends Layer {
         [name: string]: IResAniSpr;
     };
     lay(hArg: HArg): boolean;
-    private static fncDefAllComp;
-    private static fncAllComp;
+    private compOneAtMultiLD;
     private static ldrHFn;
     static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
     private static preThen;

@@ -521,7 +521,7 @@ export class ScriptIterator {
 	private	readonly REG_TAG_LET_ML			= /^\[let_ml\s/g;
 	private	readonly REG_TAG_ENDLET_ML		= /^\[endlet_ml\s*]/g;
 	private	seekScript(st: Script, inMacro: boolean, ln: number, skipLabel: string, idxToken: number): ISeek {
-		//console.log('seekScript (from)inMacro:'+ inMacro +' (from)lineNum:'+ ln +' (to)skipLabel:'+ skipLabel +': (to)idxToken:'+ idxToken);
+		//console.log(`seekScript (from)inMacro:${inMacro} (from)lineNum:${ln} (to)skipLabel:${skipLabel}: (to)idxToken:${idxToken}`);
 		const len = st.aToken.length;
 		if (! skipLabel) {
 			if (idxToken >= len) DebugMng.myTrace('[jump系] 内部エラー idxToken:'+ idxToken +' は、最大トークン数:'+ len +'を越えます', 'ET');
@@ -849,6 +849,7 @@ export class ScriptIterator {
 		this.layMng.cover(true);
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
+		this.val.setMp({});
 		this.layMng.recText('', true);
 
 		if (reload_sound) this.sndMng.playLoopFromSaveObj();
@@ -871,6 +872,8 @@ export class ScriptIterator {
 		delete this.hScript[fn];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
 		this.aIfStk = [...this.mark.aIfStk];
 		this.aCallStk = [];
+
+		// playback中の画像読み込み完了イベントを破棄
 		this.layMng.playback(this.mark.hPages, 'label' in hArg
 			? ()=> {
 				this.layMng.cover(false);
@@ -893,8 +896,6 @@ export class ScriptIterator {
 		// 起動から再読込までの間に追加・変更・削除されたファイルがあるかも、に対応
 		//	delete this.hScript[this.scriptFn_];	// これだと[reload_script]位置になる
 		delete this.hScript[CmnLib.getFn(mark.hSave['const.sn.scriptFn'])];
-
-	//	CmnLib.setSearchPath(MainThread.xmlConfig);	// TODO: 後々にはこれもリロード
 
 		hArg.do_rec = false;
 		return this.loadFromMark(hArg, mark, false);
