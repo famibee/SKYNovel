@@ -18,8 +18,9 @@ const Tween = require('@tweenjs/tween.js').default;
 interface ISndBuf {
 	snd		: any;
 	loop	: boolean;
-	ret_ms	: number;
+	start_ms: number;
 	end_ms	: number;
+	ret_ms	: number;
 	resume	: boolean;
 	playing	: ()=> boolean;
 	onend	: ()=> void;
@@ -153,6 +154,7 @@ export class SoundMng {
 	}
 
 	// 効果音の再生
+	private	static	MAX_END_MS	= 999000;
 	private playse(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
 		this.stopse({buf: buf});
@@ -172,18 +174,29 @@ export class SoundMng {
 		const savevol = this.getVol(hArg, 1);
 		this.val.setVal_Nochk('save', nm +'volume', savevol);	// 目標音量（save:）
 		const vol = savevol * Number(this.val.getVal('sys:'+ nm +'volume', 1));
+
+		const start_ms = CmnLib.argChk_Num(hArg, 'start_ms', 0);
+		const end_ms = CmnLib.argChk_Num(hArg, 'end_ms', SoundMng.MAX_END_MS);
 		const ret_ms = CmnLib.argChk_Num(hArg, 'ret_ms', 0);
-		this.val.setVal_Nochk('save', nm +'ret_ms', ret_ms);
-		const end_ms = CmnLib.argChk_Num(hArg, 'end_ms', 0);
+
+		if (start_ms < 0) throw `[playse] start_ms:${start_ms} が負の値です`;
+		if (ret_ms < 0) throw `[playse] ret_ms:${ret_ms} が負の値です`;
+		if (end_ms > 0) {
+			if (start_ms >= end_ms) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
+			if (ret_ms >= end_ms) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
+		}
+
+		this.val.setVal_Nochk('save', nm +'start_ms', start_ms);
 		this.val.setVal_Nochk('save', nm +'end_ms', end_ms);
+		this.val.setVal_Nochk('save', nm +'ret_ms', ret_ms);
 		this.val.flush();
 
+		// pixi-sound用基本パラメータ
 		const o: any = {
-			autoPlay: true,
-		//	autoPlay: false,	// loaded が発生しない
-			loop	: loop,			// (apiには載ってないけど、ちゃんと効いた)
+			loop	: loop,
 			volume	: vol,
 			speed	: CmnLib.argChk_Num(hArg, 'speed', 1),
+			sprites	: {},
 			loaded	: (e: Error, snd: any)=> {
 				if (e) {this.main.errScript(`Sound ロード失敗です fn:${fn} ${e}`, false); return;}
 
@@ -191,25 +204,91 @@ export class SoundMng {
 				if (oSb) oSb.snd = snd;
 			},
 		};
+
+		// start_ms・end_ms機能→pixi-sound準備
+		let sp_nm = '';
+		if (start_ms > 0 || end_ms < SoundMng.MAX_END_MS) {
+			sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
+			const os = o.sprites[sp_nm] = {
+				start	: start_ms /1000,
+				end		: end_ms /1000,
+			};
+			o.preload = true;		// loaded発生用
+			const old = o.loaded;
+			o.loaded = (e: Error, snd: any)=> {
+				const d = snd.duration;
+				old(e, snd);
+				if (os.end < 0) {	// 負の値は末尾から
+					os.end += d;
+					snd.removeSprites(sp_nm);
+					snd.addSprites(sp_nm, os);
+
+					if (os.start >= os.end) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
+					if (ret_ms >= os.end *1000) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
+				}
+				if (os.start >= d) throw`[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+				if (end_ms != SoundMng.MAX_END_MS && os.end >= d) throw`[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+
+				snd.play(sp_nm, o.complete);	// completeがundefinedでもいい
+			};
+		}
+		else o.autoPlay = true;
+
+		// ループなし ... 再生完了イベント
 		if (! loop) o.complete = ()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-			const oSb = this.hSndBuf[buf];
-			if (oSb) {oSb.playing = ()=> false; oSb.onend();}
+			const oSb2 = this.hSndBuf[buf];
+			if (oSb2) {oSb2.playing = ()=> false; oSb2.onend();}
 		};
+		// ループあり ... ret_ms処理
+		else if (ret_ms != 0) {
+			o.loop = false;	// 一周目はループなしとする
+			o.complete = (snd: any)=> {
+				const d = snd.duration;
+				const sp_nm2 = `${fn};loop2;${end_ms};${ret_ms}`;
+				const o2: any = {	// oのコピーからやるとトラブルの元だった
+					preload	: true,		// loaded発生用
+					loop	: true,
+					volume	: vol,
+					speed	: o.speed,
+					sprites	: {},
+					loaded	: (_: Error, snd2: any)=> {
+						// [xchgbuf]をされるかもしれないので、外のoSb使用不可
+						const oSb2 = this.hSndBuf[buf];
+						if (oSb2) oSb2.snd = snd2;
+						snd2.play(sp_nm2)
+					},
+				};
 
-		const snd = PSnd.find(fn);	// バッファ
+				const o2s = o2.sprites[sp_nm2] = {
+					start	: ret_ms /1000,
+					end		: end_ms /1000,
+				};
+				if (o2s.end < 0) {	// 負の値は末尾から
+					o2s.end += d;
+					snd.removeSprites(sp_nm2);
+					snd.addSprites(sp_nm2, o2s);
+				}
+				if (o2s.start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+
+				this.playseSub(fn, o2, sp_nm2);
+			}
+		}
+
+		const snd = PSnd.find(fn);	// バッファにあるか
 		this.hSndBuf[buf] = {
 			snd		: snd,
 			loop	: loop,
-			ret_ms	: ret_ms,		// TODO: ret_ms未作成
-			end_ms	: end_ms,		// TODO: end_ms未作成
+			start_ms: start_ms,
+			end_ms	: end_ms,
+			ret_ms	: ret_ms,
 			resume	: false,
 			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
 			onend	: ()=> {
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb = this.hSndBuf[buf];
 				if (! oSb) return;
-	//			if (CmnLib.isFirefox) oSb.playing = ()=> false;
+			//	if (CmnLib.isFirefox) oSb.playing = ()=> false;
 				//delete this.hSndBuf[buf];
 					// [xchgbuf]をされるかもしれないので、delete不可
 					// 【2018/06/25】cache=falseならここでunload()？
@@ -221,22 +300,29 @@ export class SoundMng {
 			},
 		};
 		this.initVol();
-		if (snd) {snd.volume = vol; snd.play(o); return false;}
-			// snd.volume = ...; がないと、音量が戻らない不具合
+		if (snd) {
+			snd.volume = vol;	// 再生のたびに音量を戻す
+			if (sp_nm) this.playseSub(fn, o, sp_nm); else snd.play(o);
+			return false;
+		}
 
 		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
 		if (join) {
 			const old = o.loaded;
 			o.loaded = (e: Error, snd: any)=> {this.main.resume(); old(e, snd)};
 		}
-		this.playseSub(fn, o);
+		this.playseSub(fn, o, sp_nm);
 
 		return join;
 	}
-	private playseSub(fn: string, o: any): void {
+	private playseSub(fn: string, o: any, sp_nm: string): void {
 		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
-		if (url.slice(-4) != '.bin') {o.url = url; PSnd.add(fn, o); return}
+		if (url.slice(-4) != '.bin') {
+			o.url = url;
+			if (sp_nm) PSnd.Sound.from(o); else PSnd.add(fn, o);
+			return;
+		}
 
 		(new Loader()).add(fn, url, {xhrType: 'arraybuffer'})
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
@@ -244,7 +330,10 @@ export class SoundMng {
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
 		}))
-		.load((_ldr, hRes)=> {o.source = hRes[fn]?.data; PSnd.add(fn, o);});
+		.load((_ldr, hRes)=> {
+			o.source = hRes[fn]?.data;
+			if (sp_nm) PSnd.Sound.from(o); else PSnd.add(fn, o);
+		});
 	}
 	private initVol = ()=> {
 		PSnd.sound.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
@@ -337,7 +426,7 @@ export class SoundMng {
 		[hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn=> {
 			if (! fn || PSnd.exists(fn)) return;
 
-			this.playseSub(fn, {preload: true, autoPlay: false});
+			this.playseSub(fn, {preload: true, autoPlay: false}, '');
 		});
 	}
 
@@ -357,8 +446,9 @@ export class SoundMng {
 				join	: false,
 				loop	: true,
 				volume	: Number(this.val.getVal(nm +'volume')),
-				ret_ms	: Number(this.val.getVal(nm +'ret_ms')),
+				start_ms: Number(this.val.getVal(nm +'start_ms')),
 				end_ms	: Number(this.val.getVal(nm +'end_ms')),
+				ret_ms	: Number(this.val.getVal(nm +'ret_ms')),
 			};
 			aFnc.push(()=> {
 				if (hArg.buf == 'BGM') this.playbgm(hArg);

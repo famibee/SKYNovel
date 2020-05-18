@@ -1492,11 +1492,20 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.BGM.volume）は変更しない</td></tr>
 <tr><td>speed</td><td></td><td>1.0</td><td>0.0&lt;（実数）</td><td>再生速度。（=1:元のまま、&lt;1:遅い、&gt;1:早い）</td></tr>
 <tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
-
-<tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
-
-<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>ループ戻り位置指定。冒頭から再生開始するが、mp3終端に行くたびに指定したミリ秒の位置に戻る</td></tr>
-<tr><td>end_ms</td><td></td><td>終端</td><td>ミリ秒</td><td>音声ファイルの終端位置を指定する。（音声ファイルの末尾にどうしても無音が残る場合、ループ時に困るときなどに）<br/>正の値は「冒頭から何ms目を終端とするか」<br/>負の値は「末尾から何ms手前を終端とするか」の指定。</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
+<tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+	再生の開始位置を指定する。
+</td></tr>
+<tr><td>end_ms</td><td></td><td>末端</td><td>ミリ秒</td><td>
+	再生の終了位置を指定する。<br/>
+	正の値は「冒頭から何ms目を終端とするか」<br/>
+	負の値は「末尾から何ms手前を終端とするか」の指定。
+</td></tr>
+<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+	ループ戻り位置を指定する。<br/>
+	ループ再生中にend_ms指定位置（省略時は末尾）に到達した場合、この指定位置に戻る。
+	ループ再生しない（loop=false）際は無視される。<br/>
+</td></tr>
 </table>
 
 </p>
@@ -1512,16 +1521,19 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>speed</td><td></td><td>1.0</td><td>0.0&lt;（実数）</td><td>再生速度。（=1:元のまま、&lt;1:遅い、&gt;1:早い）</td></tr>
 <tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
-
-<tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
-
-<tr><td><del>cache</del></td><td></td><td><del>true</del></td><td><del>Boolean</del></td><td>
-	<del>trueなら今まで通り、内部的にサウンドデータをキャッシュして再度再生時に素早く再生する（mp3のみ）</del><br/>
-	（2020/04/02）廃止になりました
+<tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+	再生の開始位置を指定する。
 </td></tr>
-
-<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>ループ戻り位置指定。冒頭から再生開始するが、mp3終端に行くたびに指定したミリ秒の位置に戻る。</td></tr>
-<tr><td>end_ms</td><td></td><td>終端</td><td>ミリ秒</td><td>音声ファイルの終端位置を指定する。（音声ファイルの末尾にどうしても無音が残る場合、ループ時に困るときなどに）<br/>正の値は「冒頭から何ms目を終端とするか」<br/>負の値は「末尾から何ms手前を終端とするか」の指定。</td></tr>
+<tr><td>end_ms</td><td></td><td>末端</td><td>ミリ秒</td><td>
+	再生の終了位置を指定する。<br/>
+	正の値は「冒頭から何ms目を終端とするか」<br/>
+	負の値は「末尾から何ms手前を終端とするか」の指定。
+</td></tr>
+<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+	ループ戻り位置を指定する。<br/>
+	ループ再生中にend_ms指定位置（省略時は末尾）に到達した場合、この指定位置に戻る。
+	ループ再生しない（loop=false）際は無視される。<br/>
+</td></tr>
 </table>
 
 </p>
