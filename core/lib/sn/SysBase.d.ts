@@ -1,5 +1,4 @@
 /// <reference types="node" />
-/// <reference types="mocha" />
 import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
@@ -48,7 +47,7 @@ export declare class SysBase implements ISysBase {
     protected $path_userdata: string;
     get path_userdata(): string;
     readonly existsSync: (_path: string) => boolean;
-    readonly writeFile: (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
+    readonly writeFile: (_file: string | number | Buffer, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     readonly savePic: (_fn: string, _data_url: string) => void;
     readonly appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     ofsLeft4frm: number;

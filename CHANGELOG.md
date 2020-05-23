@@ -1,3 +1,5 @@
+## v0.21.1
+- upd：ライブラリ更新
 ## v0.21.0
 - add：[playse][playbgm]に属性start_ms（開始位置）、end_ms（終了位置）、ret_ms（ループ戻り位置）追加
 ## v0.20.6

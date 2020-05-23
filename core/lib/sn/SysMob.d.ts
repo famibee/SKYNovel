@@ -1,5 +1,4 @@
 /// <reference types="node" />
-/// <reference types="mocha" />
 import { SysBase } from "./SysBase";
 import { IConfig, IFn2Path, IData4Vari, IPlugin } from './CmnInterface';
 export declare class SysMob extends SysBase {
