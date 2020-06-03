@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IEvtMng} from './CmnLib';
+import {IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
@@ -65,7 +65,7 @@ export class SoundMng {
 		const buf = hArg.buf ?? 'SE';
 		const bvn = 'const.sn.sound.'+ buf +'.volume';
 		const arg_vol = this.getVol(hArg, 1);
-		if (Number(this.val.getVal('sys:'+ bvn)) == arg_vol) return false;
+		if (Number(this.val.getVal('sys:'+ bvn)) === arg_vol) return false;
 
 		this.val.setVal_Nochk('sys', bvn, arg_vol)	// 基準音量（sys:）
 		this.val.flush();	// fadese()内で必ずしも呼ばれないので
@@ -76,7 +76,7 @@ export class SoundMng {
 		return this.fadese(hArg);
 	}
 	private getVol(hArg: HArg, def: number) {
-		const vol = CmnLib.argChk_Num(hArg, 'volume', def);
+		const vol = argChk_Num(hArg, 'volume', def);
 		if (vol < 0) return 0;
 		if (vol > 1) return 1;
 		return vol;
@@ -100,7 +100,8 @@ export class SoundMng {
 		const savevol = this.getVol(hArg, NaN);
 		this.val.setVal_Nochk('save', bvn, savevol);	// 目標音量（save:）
 		const vol = savevol * Number(this.val.getVal('sys:'+ bvn, 1))
-		const stop = CmnLib.argChk_Boolean(hArg, 'stop', (hArg.volume == 0));
+		const stop = argChk_Boolean(hArg, 'stop', (savevol === 0));
+			// this.getVol() により savevol = hArg.volume
 		if (stop) {
 			this.delLoopPlay(buf);
 			this.val.setVal_Nochk('save', 'const.sn.sound.'+ buf +'.fn', '');
@@ -108,23 +109,23 @@ export class SoundMng {
 		}
 		this.val.flush();
 
-		if (CmnLib.argChk_Num(hArg, 'time', NaN) == 0) {
+		if (argChk_Num(hArg, 'time', NaN) === 0) {
 			oSb.snd.volume = vol;
 			if (stop) {
-				if (buf == 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
+				if (buf === 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
 			}
 			return false;
 		}
 
 		const ease = CmnTween.ease(hArg.ease);
-		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
+		const repeat = argChk_Num(hArg, 'repeat', 1);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume, vol);
 		oSb.twFade = new Tween.Tween({v: oSb.snd.volume})
-			.to({v: vol}, CmnLib.argChk_Num(hArg, 'time', NaN))
-			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
+			.to({v: vol}, argChk_Num(hArg, 'time', NaN))
+			.delay(argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
-			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
+			.repeat(repeat ===0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+			.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 			.onUpdate((o: any)=> {if (oSb.playing()) oSb.snd.volume = o.v;})
 			.onComplete(()=> {	//console.log('fadese: onComplete');
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
@@ -132,7 +133,7 @@ export class SoundMng {
 				if (! oSb || ! oSb.twFade) return;
 				delete oSb.twFade;
 				if (stop) {
-					if (buf == 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
+					if (buf === 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
 				}
 				if (oSb.resumeFade) {
 					this.evtMng.popLocalEvts();	// [wf]したのにキャンセルされなかった時用
@@ -149,7 +150,7 @@ export class SoundMng {
 	private playbgm(hArg: HArg) {
 		hArg.buf = 'BGM';
 		hArg.canskip = false;
-		CmnLib.argChk_Boolean(hArg, 'loop', true);
+		argChk_Boolean(hArg, 'loop', true);
 		return this.playse(hArg);
 	}
 
@@ -162,10 +163,10 @@ export class SoundMng {
 		if (! fn) throw '[playse] fnは必須です(buf='+ buf +')';
 
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
-		if (CmnLib.argChk_Boolean(hArg, 'canskip', true)
+		if (argChk_Boolean(hArg, 'canskip', true)
 			&& this.evtMng.isSkipKeyDown()) return false;
 
-		const loop = CmnLib.argChk_Boolean(hArg, 'loop', false);
+		const loop = argChk_Boolean(hArg, 'loop', false);
 		this.addLoopPlay(buf, loop);
 
 		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
@@ -175,9 +176,9 @@ export class SoundMng {
 		this.val.setVal_Nochk('save', nm +'volume', savevol);	// 目標音量（save:）
 		const vol = savevol * Number(this.val.getVal('sys:'+ nm +'volume', 1));
 
-		const start_ms = CmnLib.argChk_Num(hArg, 'start_ms', 0);
-		const end_ms = CmnLib.argChk_Num(hArg, 'end_ms', SoundMng.MAX_END_MS);
-		const ret_ms = CmnLib.argChk_Num(hArg, 'ret_ms', 0);
+		const start_ms = argChk_Num(hArg, 'start_ms', 0);
+		const end_ms = argChk_Num(hArg, 'end_ms', SoundMng.MAX_END_MS);
+		const ret_ms = argChk_Num(hArg, 'ret_ms', 0);
 
 		if (start_ms < 0) throw `[playse] start_ms:${start_ms} が負の値です`;
 		if (ret_ms < 0) throw `[playse] ret_ms:${ret_ms} が負の値です`;
@@ -195,7 +196,7 @@ export class SoundMng {
 		const o: any = {
 			loop	: loop,
 			volume	: vol,
-			speed	: CmnLib.argChk_Num(hArg, 'speed', 1),
+			speed	: argChk_Num(hArg, 'speed', 1),
 			sprites	: {},
 			loaded	: (e: Error, snd: any)=> {
 				if (e) {this.main.errScript(`Sound ロード失敗です fn:${fn} ${e}`, false); return;}
@@ -227,7 +228,7 @@ export class SoundMng {
 					if (ret_ms >= os.end *1000) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
 				}
 				if (os.start >= d) throw`[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-				if (end_ms != SoundMng.MAX_END_MS && os.end >= d) throw`[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+				if (end_ms !== SoundMng.MAX_END_MS && os.end >= d) throw`[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 
 				snd.play(sp_nm, o.complete);	// completeがundefinedでもいい
 			};
@@ -241,7 +242,7 @@ export class SoundMng {
 			if (oSb2) {oSb2.playing = ()=> false; oSb2.onend();}
 		};
 		// ループあり ... ret_ms処理
-		else if (ret_ms != 0) {
+		else if (ret_ms !== 0) {
 			o.loop = false;	// 一周目はループなしとする
 			o.complete = (snd: any)=> {
 				const d = snd.duration;
@@ -306,7 +307,7 @@ export class SoundMng {
 			return false;
 		}
 
-		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
+		const join = argChk_Boolean(hArg, 'join', true);
 		if (join) {
 			const old = o.loaded;
 			o.loaded = (e: Error, snd: any)=> {this.main.resume(); old(e, snd)};
@@ -318,7 +319,7 @@ export class SoundMng {
 	private playseSub(fn: string, o: any, sp_nm: string): void {
 		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
-		if (url.slice(-4) != '.bin') {
+		if (url.slice(-4) !== '.bin') {
 			o.url = url;
 			if (sp_nm) PSnd.Sound.from(o); else PSnd.add(fn, o);
 			return;
@@ -373,7 +374,7 @@ export class SoundMng {
 		oSb.resumeFade = true;
 		this.evtMng.stdWait(
 			()=> {this.stopfadese(hArg)},
-			CmnLib.argChk_Boolean(hArg, 'canskip', true)
+			argChk_Boolean(hArg, 'canskip', true)
 		);
 		return true;
 	}
@@ -406,7 +407,7 @@ export class SoundMng {
 				if (! oSb || ! oSb.playing() || oSb.loop) return;
 				oSb.onend();
 			},
-			CmnLib.argChk_Boolean(hArg, 'canskip', false)
+			argChk_Boolean(hArg, 'canskip', false)
 		);
 
 		return true;
@@ -434,7 +435,7 @@ export class SoundMng {
 	playLoopFromSaveObj(): void {
 		const loopPlaying = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
 		this.val.flush();
-		if (loopPlaying == '{}') {this.stop_allse(); return;}
+		if (loopPlaying === '{}') {this.stop_allse(); return;}
 
 		const aFnc: {(): void}[] = [];
 		const hBuf = JSON.parse(loopPlaying);
@@ -451,7 +452,7 @@ export class SoundMng {
 				ret_ms	: Number(this.val.getVal(nm +'ret_ms')),
 			};
 			aFnc.push(()=> {
-				if (hArg.buf == 'BGM') this.playbgm(hArg);
+				if (hArg.buf === 'BGM') this.playbgm(hArg);
 				else this.playse(hArg);
 			});
 		}

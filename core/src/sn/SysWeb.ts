@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {CmnLib, getDateStr} from './CmnLib';
+import {CmnLib, getDateStr, argChk_Boolean} from './CmnLib';
 import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
 import {Main} from './Main';
 
@@ -20,7 +20,7 @@ export class SysWeb extends SysBase {
 
 		const idxCur = arg.cur.lastIndexOf('/', arg.cur.length -2);
 		this.def_prj = arg.cur.slice(idxCur +1, -1);
-		//	(idxCur == -1)
+		//	(idxCur === -1)
 		//	? arg.cur.slice(0, -1)
 		//	: arg.cur.slice(idxCur +1, -1);
 
@@ -30,7 +30,7 @@ export class SysWeb extends SysBase {
 					const elm = v.attributes.getNamedItem('data-prj');
 					if (! elm) return;
 					const prj = elm.value;
-					if (this.now_prj != prj) this.run(prj);
+					if (this.now_prj !== prj) this.run(prj);
 				}, {passive: true});
 			}
 			for (const v of document.querySelectorAll('[data-reload]')) {
@@ -40,7 +40,7 @@ export class SysWeb extends SysBase {
 			const sp = new URLSearchParams(location.search);
 			const dip = sp.get('dip');	// ディップスイッチ
 			if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip)};
-			if (! CmnLib.argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
+			if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
 			this.run(sp.get('cur') ?? '');
 		}
 
@@ -81,7 +81,7 @@ export class SysWeb extends SysBase {
 		const idxEnd = this.arg.cur.lastIndexOf('/', this.arg.cur.length -2) +1;
 		const idxStart = this.arg.cur.lastIndexOf('/', idxEnd -2) +1;
 		this.arg.cur = location.href.slice(0, location.href.lastIndexOf('/') +1)
-			+ (idxEnd == 0 ?'' :this.arg.cur.slice(idxStart, idxEnd))
+			+ (idxEnd === 0 ?'' :this.arg.cur.slice(idxStart, idxEnd))
 			+ this.now_prj +'/';
 		this.main = new Main(this);
 	}
@@ -105,7 +105,7 @@ export class SysWeb extends SysBase {
 			const json = JSON.parse(await this.pre(fn, mes));
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
-				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext];
+				for (const ext in h) if (ext !== ':cnt') h[ext] = this.arg.cur + h[ext];
 			}
 			fncLoaded();	// ここでnew Variable、clearsysvar()、次にinitVal()
 		})();
@@ -114,7 +114,7 @@ export class SysWeb extends SysBase {
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// システム情報
 		const hn = document.location.hostname;
-		hTmp['const.sn.isDebugger'] = (hn == 'localhost' || hn == '127.0.0.1');
+		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
 
 		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
 
@@ -131,7 +131,7 @@ export class SysWeb extends SysBase {
 			strLocal.set(ns +'kidoku', this.data.kidoku);
 		};
 		const nm = ns +(this.arg.crypto ?'sys_' :'sys');
-		if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) == undefined)) {
+		if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) === undefined)) {
 			// データがない（初回起動）場合の処理
 			this.data.sys = data.sys;
 			this.data.mark = data.mark;
@@ -225,7 +225,7 @@ export class SysWeb extends SysBase {
 		.then(async (s: string)=> {
 			const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
 			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
-			if (o.sys[SysBase.VALNM_CFG_NS] != this.cfg.oCfg.save_ns) {
+			if (o.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
 				console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);
 				return;
 			}
@@ -256,14 +256,9 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 	// タイトル指定
-	protected readonly	title: ITag = hArg=> {
-		const text = hArg.text;
-		if (! text) throw '[title] textは必須です';
-
-		document.title = text;
-		for (const v of document.querySelectorAll('[data-title]')) v.textContent = text;
-
-		return false;
+	protected titleSub(txt: string) {
+		document.title = txt;
+		for (const v of document.querySelectorAll('[data-title]')) v.textContent = txt;
 	}
 	// 全画面状態切替（タグではない手段で提供）
 	private readonly isFullScr = ()=> ('mozFullScreen' in document)
@@ -273,7 +268,7 @@ export class SysWeb extends SysBase {
 		const elm: any = document.body;
 		const doc: any = document;
 		if (! hArg.key) {
-			if (doc[get_fnc_name] != null) doc[exit_fnc_name]();
+			if (doc[get_fnc_name]) doc[exit_fnc_name]();
 			else elm[go_fnc_name]();
 			this.resizeFramesWork();
 
@@ -282,14 +277,14 @@ export class SysWeb extends SysBase {
 
 		const key = hArg.key.toLowerCase();
 		doc.addEventListener('keydown', (e: KeyboardEvent)=> {
-			const key2 = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
-			+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
+			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
 			+	e.key.toLowerCase();
-			if (key2 != key) return;
+			if (key2 !== key) return;
 
 			e.stopPropagation();
-			if (doc[get_fnc_name] != null) doc[exit_fnc_name]();
+			if (doc[get_fnc_name]) doc[exit_fnc_name]();
 			else elm[go_fnc_name]();
 			this.resizeFramesWork();
 		}, {passive: true});

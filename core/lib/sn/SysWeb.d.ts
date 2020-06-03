@@ -1,4 +1,5 @@
 /// <reference types="node" />
+/// <reference types="mocha" />
 import { SysBase } from "./SysBase";
 import { IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari } from './CmnInterface';
 import { Application } from 'pixi.js';
@@ -20,7 +21,7 @@ export declare class SysWeb extends SysBase {
     protected readonly _export: ITag;
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
-    protected readonly title: ITag;
+    protected titleSub(txt: string): void;
     private readonly isFullScr;
     private regEvt_FullScr;
     private resizeFramesWork;

@@ -25,7 +25,7 @@ export class Areas implements IAreas {
 
 		for (const begin in this.hAreas) {
 			// 領域末尾+1とマッチ
-			if (this.hAreas[begin] +1 == idx) {
+			if (this.hAreas[begin] +1 === idx) {
 				if ((idx +1) in this.hAreas) {
 					// 二つの領域がマージできる場合
 					this.hAreas[begin] = this.hAreas[idx +1];
@@ -63,7 +63,7 @@ export class Areas implements IAreas {
 			if (this.hAreas[begin] < idx) continue;
 
 			// 領域末尾とマッチ
-			if (this.hAreas[begin] == idx) {
+			if (this.hAreas[begin] === idx) {
 				this.hAreas[begin] = idx -1;
 				return;
 			}
@@ -85,12 +85,12 @@ export class Areas implements IAreas {
 		aBegin.sort(function (x: number, y: number): number {return x-y;});
 
 		for (const v of aBegin) {
-			ret += ','+ v + (v == this.hAreas[v])
+			ret += ','+ v + (v === this.hAreas[v])
 				? ''
 				: '~'+ this.hAreas[v];
 		}
 
-		if (ret != '') ret = ret.substr(1);
+		if (ret !== '') ret = ret.substr(1);
 
 		return ret;
 	}

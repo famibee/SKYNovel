@@ -148,9 +148,9 @@
 	<p>中級テクニック</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#val_debug">変数・定数の可視化機能</a></li>
-		<li class="mb1"><a href="#reserve_value_save">組み込み変数・定数(save:)</a></li>
-		<li class="mb1"><a href="#reserve_value_sys">組み込み変数・定数(sys:)</a></li>
-		<li class="mb1"><a href="#reserve_value_tmp">組み込み変数・定数(tmp:)</a></li>
+		<li class="mb1"><a href="#reserve_value_save">セーブ変数(save:)</a></li>
+		<li class="mb1"><a href="#reserve_value_sys">システム変数(sys:)</a></li>
+		<li class="mb1"><a href="#reserve_value_tmp">雑用変数(tmp:)</a></li>
 		<li class="mb1"><a href="#cond">式の評価と条件分岐</a></li>
 		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
@@ -583,16 +583,22 @@
 	<amp-img src="pic/val_debug2.png" width="674" height="368" layout="responsive"></amp-img>
 
 </p>
-<h2 id="reserve_value_save" class="w-heading">組み込み変数・定数(save:)</h2>
-<h4>SKYNovelが値を設定している変数や定数です。起動直後から使えます。</h4>
+<h2 id="reserve_value_save" class="w-heading">セーブ変数(save:)</h2>
+<h4>セーブデータにセーブされる変数</h4>
 <p class="mb2 px1">
-
-const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
-以下の表にあるモノを使うの（読み・書き）は全然ＯＫです！<br/>
-<br/>
-冒頭がconstな変数は、書く（設定）することができません。<br/>
-constでない変数は、設定するとその値がシステムに反映されます。<br/>
-例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
+	[record_place]と[save]でセーブデータに保存され、[load]で回復できる変数。<br/>
+	同じ変数でもセーブデータ個別に違う値になる想定で使う。<br/>
+	別のセーブデータを[load]すると、現在のセーブ変数は上書きされる。<br/>
+	<br/>
+	<br/>
+	※スクリプターが自由に新たに値セット・取得できますが、SKYNovelが値を設定している変数や定数もあります。<br/>
+	const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
+	以下の表にあるモノを使うの（読み・書き）は全然ＯＫです！<br/>
+	（const.sn.〜は必ずしも定数ではなく、一部は実行中にSKYNovelが値を変更する場合があります）<br/>
+	<br/>
+	冒頭がconstな変数は、書く（設定）することができません。<br/>
+	constでない変数は、設定するとその値がシステムに反映されます。<br/>
+	例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>save:const.sn.autowc.enabled</td><td>false</td><td>Boolean</td><td>[<a href="tag.htm#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）enabled属性で指定した値。</td></tr>
@@ -615,15 +621,21 @@ constでない変数は、設定するとその値がシステムに反映され
 </table>
 
 </p>
-<h2 id="reserve_value_sys" class="w-heading">組み込み変数・定数(sys:)</h2>
-<h4>SKYNovelが値を設定している変数や定数です。起動直後から使えます。</h4>
+<h2 id="reserve_value_sys" class="w-heading">システム変数(sys:)</h2>
+<h4>（セーブデータに関わらず）共通でセーブされる変数</h4>
 <p class="mb2 px1">
-
-const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
-以下の表にあるモノを使うのは全然ＯＫです！<br/>
-<br/>
-constでない変数は、設定するとその値がシステムに反映されます。<br/>
-例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
+	変数の変更が即時に保存される変数。<br/>
+	セーブデータに関わらず、共通して使用する情報を保存する用途。（例：アルバム解放情報・ゲームの達成率など）<br/>
+	<br/>
+	<br/>
+	※スクリプターが自由に新たに値セット・取得できますが、SKYNovelが値を設定している変数や定数もあります。<br/>
+	const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
+	以下の表にあるモノを使うの（読み・書き）は全然ＯＫです！<br/>
+	（const.sn.〜は必ずしも定数ではなく、一部は実行中にSKYNovelが値を変更する場合があります）<br/>
+	<br/>
+	冒頭がconstな変数は、書く（設定）することができません。<br/>
+	constでない変数は、設定するとその値がシステムに反映されます。<br/>
+	例えば「&sys:TextLayer.Back.Alpha」はテキストウインドウの背景の濃度を変更できます。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>sys:TextLayer.Back.Alpha</td><td>1</td><td>0.0〜1.0</td><td>バック不透明度。テキストウインドウの背景の濃度。0.0で透明、1.0で不透明。</td></tr>
@@ -652,15 +664,20 @@ constでない変数は、設定するとその値がシステムに反映され
 </table>
 
 </p>
-<h2 id="reserve_value_tmp" class="w-heading">組み込み変数・定数(tmp:)</h2>
-<h4>SKYNovelが値を設定している変数や定数です。起動直後から使えます。</h4>
+<h2 id="reserve_value_tmp" class="w-heading">雑用変数(tmp:)</h2>
+<h4>雑用の変数</h4>
 <p class="mb2 px1">
-
-const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは「新規に作成」しないで下さい。<br/>
-以下の表にあるモノを「使う」のは全然ＯＫです！<br/>
-<br/>
-constでない変数は、設定するとその値がシステムに反映されます。<br/>
-例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
+	保存しない変数です。セーブデータを読み込んでも変化せず、ゲームを終了すると消え去ります。<br/>
+	SKYNovelが「保存する必要は無いけど値を使いたいだろうから変数に」している変数もあります。<br/>
+	<br/>
+	※スクリプターが自由に新たに値セット・取得できますが、SKYNovelが値を設定している変数や定数もあります。<br/>
+	const.sn.〜、sn.〜という名前はSKYNovelが使いますので、皆さんは新規に作成しないで下さい。<br/>
+	以下の表にあるモノを使うの（読み・書き）は全然ＯＫです！<br/>
+	（const.sn.〜は必ずしも定数ではなく、一部は実行中にSKYNovelが値を変更する場合があります）<br/>
+	<br/>
+	冒頭がconstな変数は、書く（設定）することができません。<br/>
+	constでない変数は、設定するとその値がシステムに反映されます。<br/>
+	例えば「sn.auto.enabled」は自動読みすすみモードかどうかを変更できます。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>const.Date.getDateStr</td><td>取得の瞬間の日時</td><td>"2019/02/10 15:47"形式</td><td>変数参照時の日時を返す</td></tr>

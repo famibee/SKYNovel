@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, uint, int, getDateStr} from './CmnLib';
+import {CmnLib, uint, int, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg, IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark} from './CmnInterface';
 import {Config} from './Config';
 import {Areas} from './Areas';
@@ -50,8 +50,8 @@ export class Variable implements IVariable {
 				const o = {...this.data.mark[k].json};
 				for (const key in o) {
 					const v = o[key];
-					if (typeof v != 'string') continue;
-					if (v.substr(0, 10) != 'userdata:/') continue;
+					if (typeof v !== 'string') continue;
+					if (v.substr(0, 10) !== 'userdata:/') continue;
 					o[key] = cfg.searchPath(v);
 				}
 				o.place = k;
@@ -125,10 +125,10 @@ export class Variable implements IVariable {
 		this.hTmp['const.sn.Math.PI'] = Math.PI;
 
 
-		if (typeof window == 'undefined') return;
+		if (typeof window === 'undefined') return;
 		const win: any = window;
 		const ac = win['AudioContext'] ?? win['webkitAudioContext'];
-		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state == 'suspended';
+		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state === 'suspended';
 
 		// ダークモード切り替え検知
 		const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -192,6 +192,11 @@ export class Variable implements IVariable {
 				sys.flush();
 			}
 			: ()=> sys.flush();
+
+			sys.addHook((type: string, o: any)=> {
+				if (type !== 'var') return;
+				sys.sendDbg('var', {v: this.hScope[o.scope] ?? {}});
+			});
 		});
 	}
 	updateData(data: IData4Vari): void {
@@ -246,7 +251,7 @@ export class Variable implements IVariable {
 
 		const from = Number(hArg.from);
 		const to = Number(hArg.to);
-		if (from != to) this.setMark(to, {...this.data.mark[from]});
+		if (from !== to) this.setMark(to, {...this.data.mark[from]});
 
 		return false;
 	}
@@ -273,16 +278,16 @@ export class Variable implements IVariable {
 			//switch (trim(hArg.cast)) {
 			switch (hArg.cast) {
 			case 'num':
-				CmnLib.argChk_Num(hArg, 'text', NaN);
+				argChk_Num(hArg, 'text', NaN);
 				break;
 			case 'int':
-				hArg.text = String(int(CmnLib.argChk_Num(hArg, 'text', NaN)));
+				hArg.text = String(int(argChk_Num(hArg, 'text', NaN)));
 				break;
 			case 'uint':
-				hArg.text = String(uint(CmnLib.argChk_Num(hArg, 'text', NaN)));
+				hArg.text = String(uint(argChk_Num(hArg, 'text', NaN)));
 				break;
 			case 'bool':
-				CmnLib.argChk_Boolean(hArg, 'text', false);
+				argChk_Boolean(hArg, 'text', false);
 				break;
 			case 'str':
 				autocast = false;
@@ -299,7 +304,7 @@ export class Variable implements IVariable {
 
 	// 絶対値
 	private let_abs(hArg: HArg) {
-		const n = CmnLib.argChk_Num(hArg, 'text', 0);
+		const n = argChk_Num(hArg, 'text', 0);
 		//hArg.text = Math.abs(n);
 		hArg.text = String((n < 0) ?-n :n);
 			// JavaScriptのMath.abs()で絶対値を取得しないほうが良い理由 | iwb.jp https://iwb.jp/javascript-math-abs-deprecated/
@@ -311,7 +316,7 @@ export class Variable implements IVariable {
 
 	// 文字列から一字取りだし
 	private let_char_at(hArg: HArg) {
-		hArg.text = (hArg.text ?? '').charAt(CmnLib.argChk_Num(hArg, 'pos', 0));
+		hArg.text = (hArg.text ?? '').charAt(argChk_Num(hArg, 'pos', 0));
 		this.let(hArg);
 
 		return false;
@@ -321,7 +326,7 @@ export class Variable implements IVariable {
 	private let_index_of(hArg: HArg) {
 		const val = hArg.val;
 		if (! val) throw 'valは必須です';
-		const start = CmnLib.argChk_Num(hArg, 'start', 0);
+		const start = argChk_Num(hArg, 'start', 0);
 
 		hArg.text = String((hArg.text ?? '').indexOf(val, start));
 		this.let(hArg);
@@ -353,7 +358,7 @@ export class Variable implements IVariable {
 
 	// 四捨五入
 	private let_round(hArg: HArg) {
-		const n = CmnLib.argChk_Num(hArg, 'text', 0);
+		const n = argChk_Num(hArg, 'text', 0);
 		hArg.text = String(Math.round(n));
 		this.let(hArg);
 
@@ -376,9 +381,9 @@ export class Variable implements IVariable {
 
 	// 文字列から抜きだし
 	private let_substr(hArg: HArg) {
-		const i = CmnLib.argChk_Num(hArg, 'pos', 0);
-		hArg.text = (hArg.len != 'all')
-			? (hArg.text ?? '').substr(i, int(CmnLib.argChk_Num(hArg, 'len', 1)))
+		const i = argChk_Num(hArg, 'pos', 0);
+		hArg.text = (hArg.len !== 'all')
+			? (hArg.text ?? '').substr(i, int(argChk_Num(hArg, 'len', 1)))
 			: (hArg.text ?? '').substr(i);
 		this.let(hArg);
 
@@ -416,8 +421,8 @@ export class Variable implements IVariable {
 
 		// 自動読みすすみモード時の改ページ時のウェイト
 		//	//	runFirst_sys_an_auto_msecPageWait('sn.auto.msecPageWait', '');
-		this.setVal_Nochk('sys', 'sn.auto.msecPageWait', CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
-		this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
+		this.setVal_Nochk('sys', 'sn.auto.msecPageWait', argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
+		this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', argChk_Num(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
 		// 自動読みすすみモード時の行クリック待ち時のウェイト
 		this.setVal_Nochk('sys', 'sn.auto.msecLineWait', 500);
 		this.setVal_Nochk('sys', 'sn.auto.msecLineWait_Kidoku', 500);	// 【既読】
@@ -463,13 +468,13 @@ export class Variable implements IVariable {
 		if (val == null) throw '[変数に値セット] textは必須です（空文字はOK）';
 
 		const o = PropParser.getValName(arg_name);
-		if (o == undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
+		if (o === undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
 		const hScope = this.hScope[o.scope];
 		if (! hScope) throw '[変数に値セット] scopeが異常【'+ o.scope +'】です';
 
 		const nm = o['name'];
-		if (nm.slice(0, 6) == 'const.' && (nm in hScope)) {
+		if (nm.slice(0, 6) === 'const.' && (nm in hScope)) {
 			throw '[変数に値セット] 変数【'+ nm +'】は書き換え不可です';
 		}
 
@@ -481,21 +486,21 @@ export class Variable implements IVariable {
 		hScope[nm] = val;
 
 		const trg = this.hValTrg[scope +':'+ nm];
-		if (trg != null) trg(nm, val);
+		if (trg) trg(nm, val);
 
-		// if (scope == 'sys') this.flush()
+		// if (scope === 'sys') this.flush()
 			// 厳密にはここですべきだが、パフォーマンスに問題があるので
 			// クリック待ちを期待できるwait、waitclick、s、l、pタグで
 			// saveKidoku()をコール。（中で保存しているのでついでに）
 
-		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg != null)}]`);
+		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg)}]`);
 	}
 
 	readonly getVal = (arg_name: string, def?: number | string)=> {
 		if (! arg_name) throw '[変数参照] nameは必須です';
 
 		const o = PropParser.getValName(arg_name);
-		if (o == undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
+		if (o === undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
 		const hScope = this.hScope[o['scope']];
 		if (! hScope) throw '[変数参照] scopeが異常【'+ o['scope'] +'】です';
@@ -525,17 +530,17 @@ export class Variable implements IVariable {
 		if (val instanceof Function) val = (val as Function)();
 		//console.log('\tget ['+ arg_name +'] -> s['+ o['scope'] +'] a['+ o['at'] +'] n['+ name +'] ret['+ val +']('+ typeof val +')');
 
-		if (o['at'] == '@str') return val;
+		if (o['at'] === '@str') return val;
 
 		return this.castAuto(val);
 	}
 
 	private castAuto(val: Object): any {
 		const s_val = val as string;
-		if (s_val == 'true') return true;
-		if (s_val == 'false') return false;
-		if (s_val == 'null') return null;
-		if (s_val == 'undefined') return undefined;
+		if (s_val === 'true') return true;
+		if (s_val === 'false') return false;
+		if (s_val === 'null') return null;
+		if (s_val === 'undefined') return undefined;
 		this.REG_NUMERICLITERAL.lastIndex = 0;
 		if (this.REG_NUMERICLITERAL.test(s_val)) return parseFloat(s_val);
 
@@ -552,7 +557,7 @@ export class Variable implements IVariable {
 			const hRet = val[scope];
 			for (let key in hVal) {
 				const v = hVal[key];
-				if (Object.prototype.toString.call(v) == '[object Function]') {
+				if (Object.prototype.toString.call(v) === '[object Function]') {
 					hRet[key] = v();
 				}
 				else hRet[key] = v;
@@ -617,22 +622,22 @@ export class Variable implements IVariable {
 			if (! this.hTmp['const.sn.isDebugger']) return;
 
 			// TODO: sn.chkFontMode、テンプレにも
-			//	Hyphenation.chkFontMode = CmnLib.argChk_Boolean(this.hTmp, name, true)
+			//	Hyphenation.chkFontMode = argChk_Boolean(this.hTmp, name, true)
 		}
 	};
 	defValTrg(name: string, fnc: ISetVal) {this.hValTrg[name] = fnc;}
 	private runFirst_Bool_hSysVal_true(name: string): void {
-			CmnLib.argChk_Boolean(this.hSys, name, true);
+			argChk_Boolean(this.hSys, name, true);
 		}
 	private runFirst_sys_an_tagCh_msecWait(name: string): void {
-			CmnLib.argChk_Num(this.hSys, name, 10);
+			argChk_Num(this.hSys, name, 10);
 			if (this.hSys['sn.tagCh.doWait']) {
 //				LayerMng.msecChWait = this.hSysVal[name];
 			}
 		}
 	private runFirst_sys_an_tagCh_msecWait_Kidoku(name: string): void {
-		CmnLib.argChk_Num(this.hSys, name,
-			(this.cfg.oCfg.init.tagch_msecwait == undefined)
+		argChk_Num(this.hSys, name,
+			(this.cfg.oCfg.init.tagch_msecwait === undefined)
 				? 10
 				: this.cfg.oCfg.init.tagch_msecwait
 		);
@@ -641,25 +646,25 @@ export class Variable implements IVariable {
 		}
 	}
 	private runFirst_sys_an_auto_msecPageWait(name: string): void {
-		CmnLib.argChk_Num(this.hSys, name,
-			(this.cfg.oCfg.init.auto_msecpagewait == undefined)
+		argChk_Num(this.hSys, name,
+			(this.cfg.oCfg.init.auto_msecpagewait === undefined)
 				? 3500
 				: this.cfg.oCfg.init.auto_msecpagewait
 		);
 	}
 	private runFirst_sys_an_auto_msecLineWait(name: string): void {
-		CmnLib.argChk_Num(this.hSys, name, 500);
+		argChk_Num(this.hSys, name, 500);
 	}
 
 	private runFirst_Bool_hSaveVal_true(name: string) {
-		return CmnLib.argChk_Boolean(this.hSave, name, true);
+		return argChk_Boolean(this.hSave, name, true);
 	}
 
 	private runFirst_Bool_hTmp_true(name: string): void {
-		CmnLib.argChk_Boolean(this.hTmp, name, true);
+		argChk_Boolean(this.hTmp, name, true);
 	}
 	private runFirst_Bool_hTmp_false(name: string): void {
-		CmnLib.argChk_Boolean(this.hTmp, name, false);
+		argChk_Boolean(this.hTmp, name, false);
 	}
 
 };

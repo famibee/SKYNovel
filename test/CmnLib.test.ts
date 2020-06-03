@@ -7,7 +7,7 @@
 
 import assert = require('power-assert');
 
-import {CmnLib} from '../core/src/sn/CmnLib';
+import {argChk_Boolean, argChk_Num} from '../core/src/sn/CmnLib';
 
 context('class CmnLib', ()=>{
 	let	vctToken	: string[]	= null;
@@ -28,32 +28,32 @@ context('class CmnLib', ()=>{
 */
 	describe('Tst', ()=> {
 		it('argChk_Num0', ()=> {
-			assert.equal(CmnLib.argChk_Num(
+			assert.equal(argChk_Num(
 				{あ:2, い:3.5, う:'0x15', え:'も', タグ名:'ぺきゅ'},
 				'あ', 13),
 				2);
 		});
 		it('argChk_Num1', ()=> {
-			assert.equal(CmnLib.argChk_Num(
+			assert.equal(argChk_Num(
 				{あ:2, い:3.5, う:'0x15', え:'も', タグ名:'ぺきゅ'},
 				'い', 13),
 				3.5);
 		});
 		it('argChk_Num2', ()=> {
-			assert.equal(CmnLib.argChk_Num(
+			assert.equal(argChk_Num(
 				{あ:2, い:3.5, う:'0x15', え:'も', タグ名:'ぺきゅ'},
 				'う', 13),
 				21);
 		});
 		it('argChk_Num5', ()=> {
-			assert.equal(CmnLib.argChk_Num(
+			assert.equal(argChk_Num(
 				{あ:2, い:3.5, う:'0x15', え:'も', タグ名:'ぺきゅ'},
 				'ぷ', 13),
 				13);
 		});
 		it('argChk_Num10_err', ()=> {
 			try {
-				assert.equal(CmnLib.argChk_Num(
+				assert.equal(argChk_Num(
 					{あ:2, い:3.5, う:'0x15', え:'も', タグ名:'ぺきゅ'},
 					'ぷ', NaN),
 					2);
@@ -65,7 +65,7 @@ context('class CmnLib', ()=>{
 		});
 		it('argChk_Num11_err', ()=> {
 			try {
-				assert.equal(CmnLib.argChk_Num(
+				assert.equal(argChk_Num(
 					{あ:2, い:3.5, う:'0x15', え:'も', タグ名:'ぺきゅ'},
 					'え', 13),
 					2);
@@ -78,52 +78,52 @@ context('class CmnLib', ()=>{
 
 
 		it('argChk_Boolean0', ()=> {
-			assert.equal(CmnLib.argChk_Boolean(
+			assert.equal(argChk_Boolean(
 				{あ:true, い:false}, 'あ', false),
 				true);
 		});
 			it('argChk_Boolean1', ()=> {
-				assert.equal(CmnLib.argChk_Boolean(
+				assert.equal(argChk_Boolean(
 					{あ:true, い:false}, 'い', true),
 					false);
 			});
 			it('argChk_Boolean2', ()=> {
-				assert.equal(CmnLib.argChk_Boolean(
+				assert.equal(argChk_Boolean(
 					{あ:false, い:false}, 'う', true),
 					true);
 			});
 		it('argChk_Boolean10', ()=> {
-			assert.equal(CmnLib.argChk_Boolean(
+			assert.equal(argChk_Boolean(
 				{あ:null, い:true}, 'あ', true),	// x多分defになる
 				false);
 		});
 			it('argChk_Boolean11', ()=> {
-				assert.equal(CmnLib.argChk_Boolean(
+				assert.equal(argChk_Boolean(
 					{あ:'null', い:true}, 'あ', true),
 					true);	// 空文字じゃないので
 			});
 		it('argChk_Boolean20', ()=> {
-			assert.equal(CmnLib.argChk_Boolean(
+			assert.equal(argChk_Boolean(
 				{あ:500, い:false}, 'あ', false),
 				true);
 		});
 			it('argChk_Boolean21', ()=> {
-				assert.equal(CmnLib.argChk_Boolean(
+				assert.equal(argChk_Boolean(
 					{あ:0, い:false}, 'あ', false),
 					true);	// 空文字じゃないので
 			});
 			it('argChk_Boolean22', ()=> {
-				assert.equal(CmnLib.argChk_Boolean(
+				assert.equal(argChk_Boolean(
 					{あ:NaN, い:false}, 'あ', false),
 					true);	// 空文字じゃないので
 			});
 		it('argChk_Boolean30', ()=> {
-			assert.equal(CmnLib.argChk_Boolean(
+			assert.equal(argChk_Boolean(
 				{あ:'true', い:false}, 'あ', false),
 				true);
 		});
 			it('argChk_Boolean31', ()=> {
-				assert.equal(CmnLib.argChk_Boolean(
+				assert.equal(argChk_Boolean(
 					{あ:'false', い:true}, 'あ', true),
 					false);
 			});

@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {uint, CmnLib, IEvtMng} from './CmnLib';
+import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {TxtStage, IInfTxLay} from './TxtStage';
 import {Config} from './Config';
@@ -42,7 +42,7 @@ export class TxtLayer extends Layer {
 		for (let i=len -1; i>=0; --i) {
 			const v = he.children[i];
 			if (! (v instanceof HTMLStyleElement)) continue;
-			if (v.innerText.slice(0, 14) != TxtLayer.css_key4del) continue;
+			if (v.innerText.slice(0, 14) !== TxtLayer.css_key4del) continue;
 			he.removeChild(v);
 		}
 
@@ -50,7 +50,7 @@ export class TxtLayer extends Layer {
 		for (const o of cfg.matchPath('.+', Config.EXT_FONT)) {
 			for (const key in o) font += `
 @font-face {
-	font-family: '${CmnLib.getFn(o[key])}';
+	font-family: '${getFn(o[key])}';
 	src: url('${o[key]}');
 }
 `;
@@ -107,8 +107,8 @@ export class TxtLayer extends Layer {
 	// 文字出現演出
 	private	static	ch_in_style(hArg: HArg) {
 		const o = TxtStage.ch_in_style(hArg);
-		const x = (o.x.charAt(0) == '=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = (o.y.charAt(0) == '=') ?`${o.ny *100}%` :`${o.ny}px`;
+		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
+		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const name = hArg.name;
 		TxtLayer.addStyle(`
 .sn_ch_in_${name} {
@@ -132,8 +132,8 @@ export class TxtLayer extends Layer {
 	// 文字消去演出
 	private	static	ch_out_style(hArg: HArg) {
 		const o = TxtStage.ch_out_style(hArg);
-		const x = (o.x.charAt(0) == '=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = (o.y.charAt(0) == '=') ?`${o.ny *100}%` :`${o.ny}px`;
+		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
+		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const name = hArg.name;
 		TxtLayer.addStyle(`
 .go_ch_out_${name} {
@@ -164,11 +164,11 @@ export class TxtLayer extends Layer {
 	private	static doAutoWc	= false;
 	private	static hAutoWc	: {[ch: string]: number} = Object.create(null);//{}
 	private static autowc(hArg: HArg) {
-		TxtLayer.doAutoWc = CmnLib.argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
+		TxtLayer.doAutoWc = argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
 		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.doAutoWc);
 
 		const ch = hArg.text;
-		if (('text' in hArg) != ('time' in hArg)) throw '[autowc] textとtimeは同時指定必須です';
+		if (('text' in hArg) !== ('time' in hArg)) throw '[autowc] textとtimeは同時指定必須です';
 		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.text', ch);
 		if (! ch) {
 			TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', '');
@@ -176,10 +176,10 @@ export class TxtLayer extends Layer {
 		}
 
 		const len = ch.length;
-		if (TxtLayer.doAutoWc && len == 0) throw '[autowc] enabled == false かつ text == "" は許されません';
+		if (TxtLayer.doAutoWc && len === 0) throw '[autowc] enabled === false かつ text === "" は許されません';
 
 		const a = String(hArg.time).split(',');
-		if (a.length != len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
+		if (a.length !== len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
 		TxtLayer.hAutoWc = Object.create(null);	//{}	// 毎回クリアを仕様とする
 		a.forEach((v, i)=> TxtLayer.hAutoWc[ch[i]] = uint(v));
 		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
@@ -287,7 +287,7 @@ export class TxtLayer extends Layer {
 
 	private drawBack(hArg: HArg): boolean {
 		if ('back_clear' in hArg) {
-			if (CmnLib.argChk_Boolean(hArg, 'back_clear', false)) {
+			if (argChk_Boolean(hArg, 'back_clear', false)) {
 				this.b_color = 0x000000;
 				this.b_alpha = 0;
 				this.b_alpha_isfixed = false;
@@ -296,14 +296,14 @@ export class TxtLayer extends Layer {
 			return false;
 		}
 
-		this.b_alpha = CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
-		this.b_alpha_isfixed = CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
+		this.b_alpha = argChk_Num(hArg, 'b_alpha', this.b_alpha);
+		this.b_alpha_isfixed = argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
 		const alpha = (this.b_alpha_isfixed
 			? 1
 			: Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))
 		) *this.b_alpha;
 		if (hArg.b_pic) {
-			if (this.b_pic != hArg.b_pic) {
+			if (this.b_pic !== hArg.b_pic) {
 				this.b_pic = hArg.b_pic;
 				if (this.b_do) {
 					this.cnt.removeChild(this.b_do);
@@ -382,7 +382,7 @@ export class TxtLayer extends Layer {
 		if (! ('ffs' in hArg)) return;
 
 		this.ffs = hArg.ffs ?? '';
-		if (this.ffs == '') {
+		if (this.ffs === '') {
 			this.fncFFSStyle = ()=> '';
 			this.fncFFSSpan = ch=> ch;
 		}
@@ -477,7 +477,7 @@ export class TxtLayer extends Layer {
 		switch (a_ruby.length) {
 		case 1:		// 字or春《はる》
 			this.needGoTxt = true;
-			if (ch == '\n') {
+			if (ch === '\n') {
 				if (this.aSpan_bk) {
 					add_htm = this.aSpan_bk.slice(-1)[0];
 					this.autoCloseSpan();
@@ -498,7 +498,7 @@ export class TxtLayer extends Layer {
 			}
 			if (this.firstCh) {	// １文字目にルビが無い場合は見えないルビで、行揃え
 				this.firstCh = false;
-				if (ruby == '') ruby = '　';
+				if (ruby === '') ruby = '　';
 			}
 			add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
 			break;
@@ -553,8 +553,8 @@ export class TxtLayer extends Layer {
 				if (this.aSpan_bk) this.autoCloseSpan();
 				else {
 					if (isSkip) this.cumDelay = 0;
-					const wait = o.wait ?? -1;
-					const sn_ch = (wait == 0)
+					const wait = Number(o.wait ?? -1);
+					const sn_ch = (wait === 0)
 						? ''
 						: ` sn_ch_in_${this.ch_in_style}`;
 					const ad = (wait < 0)
@@ -580,11 +580,11 @@ export class TxtLayer extends Layer {
 				const o = JSON.parse(arg);
 				o.style = o.style ?? '';
 				if (! ('id' in o)) o.id = this.aSpan.length;
-				if (o.id == 'break') {this.txs.dispBreak(o.pic); return;}
+				if (o.id === 'break') {this.txs.dispBreak(o.pic); return;}
 					// breakではない
 				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
-				const wait = o.wait ?? -1;
-				const sn_ch = (wait == 0)
+				const wait = Number(o.wait ?? -1);
+				const sn_ch = (wait === 0)
 					? ''
 					: ` sn_ch_in_${this.ch_in_style}`;
 				const ad = (wait < 0)
@@ -595,13 +595,13 @@ export class TxtLayer extends Layer {
 					this.firstCh = false;
 					add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
 				}
-				if (this.aSpan.slice(-1)[0] == add_htm) return;	// breakではない
+				if (this.aSpan.slice(-1)[0] === add_htm) return;	// breakではない
 			}
 				break;
 
 			case 'del':
 				const id_del = a_ruby[1];
-				if (id_del != 'break') throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
+				if (id_del !== 'break') throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
 
 				TxtStage.delBreak();
 				return;	// breakではない
@@ -617,8 +617,8 @@ export class TxtLayer extends Layer {
 				if (! o.style) return;	// breakではない
 
 				if (isSkip) this.cumDelay = 0;
-				const wait = o.wait ?? -1;
-				const sn_ch = (wait == 0)
+				const wait = Number(o.wait ?? -1);
+				const sn_ch = (wait === 0)
 					? ''
 					: ` sn_ch_in_${this.ch_in_style}`;
 				const ad = (wait < 0)
@@ -639,8 +639,8 @@ export class TxtLayer extends Layer {
 				o.style = o.style ?? '';
 				this.beginSpan(o);
 				if (isSkip) this.cumDelay = 0;
-				const wait = o.wait ?? -1;
-				const sn_ch = (wait == 0)
+				const wait = Number(o.wait ?? -1);
+				const sn_ch = (wait === 0)
 					? ''
 					: ` sn_ch_in_${this.ch_in_style}`;
 				const ad = (wait < 0)
@@ -732,7 +732,7 @@ export class TxtLayer extends Layer {
 		this.aSpan.push(TxtLayer.rec(add_htm));
 	}
 	private tagCh_sub(ch: string, ruby: string, isSkip: boolean, r_align: string): string {
-		if (ch == ' ') ch = '&nbsp;';
+		if (ch === ' ') ch = '&nbsp;';
 		if (TxtLayer.val.doRecLog()) this.page_text += ch
 		+(ruby ?`《${ruby}》` :'');
 
@@ -828,7 +828,7 @@ export class TxtLayer extends Layer {
 		r_align	: this.r_align,
 
 		// バック
-		b_do	: (this.b_do == null)
+		b_do	: (this.b_do === null)
 					? null
 					: (this.b_do instanceof Sprite ?'Sprite' :'Graphics'),
 		b_pic	: this.b_pic,
@@ -853,7 +853,7 @@ export class TxtLayer extends Layer {
 		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
 		let ret = this.drawBack(
 			(hLay.b_do)
-			? (hLay.b_do == 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color})
+			? (hLay.b_do === 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color})
 			: {b_pic: ''}
 		);
 
@@ -864,7 +864,7 @@ export class TxtLayer extends Layer {
 		const aBtn: string[] = hLay.btns;
 		aBtn.forEach(v=> ret = ret || this.addButton(JSON.parse(v)));
 
-		if (fncComp != undefined) fncComp();
+		if (fncComp) fncComp();
 
 		return ret;
 	}

@@ -33,10 +33,12 @@ export declare class EventMng implements IEvtMng {
     private hLocalEvt2Fnc;
     private hGlobalEvt2Fnc;
     fire(KEY: string, e: Event): void;
-    private isStop;
+    private isWait;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;
     stdWait(fnc: (e?: interaction.InteractionEvent) => void, canskip?: boolean): void;
+    private procHook;
+    private isBreak;
     button(hArg: HArg, em: DisplayObject): void;
     waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: () => void): void;
     private waitCustomEvent4Wheel;
@@ -50,7 +52,6 @@ export declare class EventMng implements IEvtMng {
     private set_cancel_skip;
     private unregisterClickEvts;
     private wait;
-    readonly cr: (len: number) => void;
     isSkipKeyDown(): boolean;
     private readonly hDownKeys;
 }

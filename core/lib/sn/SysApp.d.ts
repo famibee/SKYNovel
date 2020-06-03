@@ -1,5 +1,5 @@
 import { SysNode } from "./SysNode";
-import { ITag, IHTag, IVariable, IData4Vari, IMain } from './CmnInterface';
+import { ITag, IHTag, IVariable, IData4Vari, IMain, IFncHook } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysApp extends SysNode {
     constructor(hPlg?: {}, arg?: {
@@ -17,13 +17,19 @@ export declare class SysApp extends SysNode {
     private readonly dsp;
     private readonly win;
     private readonly wc;
+    private sktDbg;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
-    protected readonly isPackaged: () => any;
+    private toast;
+    private static readonly hToastDat;
+    private aFncHook;
+    addHook(fnc: IFncHook): void;
+    callHook: IFncHook;
+    readonly isPackaged: () => any;
     protected readonly close: () => boolean;
     protected readonly _export: ITag;
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
-    protected readonly title: ITag;
+    protected titleSub(txt: string): void;
     protected readonly tgl_full_scr: ITag;
     protected readonly tgl_full_scr_sub: () => void;
     protected readonly update_check: ITag;

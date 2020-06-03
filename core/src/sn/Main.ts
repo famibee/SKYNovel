@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib} from './CmnLib';
+import {CmnLib, argChk_Boolean} from './CmnLib';
 import {IHTag, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {Grammar} from './Grammar';
@@ -70,23 +70,23 @@ export class Main implements IMain {
 			this.prpPrs = new PropParser(this.val);
 
 			// システム（10/13）
-			this.sys.init(this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
+			sys.init(this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
 			this.hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音
-			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
+			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, sys);
 
 			// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
+			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs, this.sndMng, sys);
 
 			// デバッグ・その他
-			this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);
+			this.dbgMng = new DebugMng(sys, this.hTag, this.scrItr);
 
 			// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
+			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, sys);
 
 			// イベント
-			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, this.sys);
+			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, sys);
 
 			this.appPixi.ticker.add(this.fncTicker);
 			this.resumeByJumpOrCall({fn: 'main'});
@@ -94,7 +94,7 @@ export class Main implements IMain {
 			this.inited = true;
 		});
 	}
-	private fncTicker = ()=> {this.fncNext();};	// thisの扱いによりメソッドはダメ
+	private fncTicker = ()=> this.fncNext();	// thisの扱いによりメソッド代入はダメ
 
 	errScript(mes: string, isThrow = true) {
 		this.stop();
@@ -124,7 +124,7 @@ export class Main implements IMain {
 
 		this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
 		this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
-		if (CmnLib.argChk_Boolean(hArg, 'call', false)) {
+		if (argChk_Boolean(hArg, 'call', false)) {
 			this.scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
 			this.resume(()=> this.hTag.call(hArg));
 		}
@@ -140,46 +140,50 @@ export class Main implements IMain {
 		this.scrItr.noticeBreak(true);
 	};
 
+	setLoop(isLoop: boolean) {
+		this.isLoop = isLoop;
+		this.sys.setTitleInfo(isLoop ?'' :' -- 一時停止中');
+	}
+	private	isLoop = true;
 	private runAnalyze() {
-		while (true) {
+		while (this.isLoop) {
 			let token = this.scrItr.nextToken();
 			if (! token) break;	// 初期化前に終了した場合向け
 
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
 			if (this.cfg.oCfg.debug.token) console.log(`🌱 トークン fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} uc:${uc} token<${token}>`);
 			// \t タブ
-			if (uc == 9) continue;
+			if (uc === 9) continue;
 			// \n 改行
-			if (uc == 10) {this.evtMng.cr(token.length); continue;}
+			if (uc === 10) {this.scrItr.addLineNum(token.length); continue;}
 			// [ タグ開始
-			if (uc == 91) {
+			if (uc === 91) {
+				if (this.scrItr.isBreak()) return;
 				try {
 					const cl = (token.match(/\n/g) ?? []).length;
-					if (cl > 0) this.evtMng.cr(cl);
+					if (cl > 0) this.scrItr.addLineNum(cl);
 					if (this.scrItr.タグ解析(token)) {this.stop(); break;}
 					continue;
 				}
 				catch (err) {
-					let mes = '';
 					if (err instanceof Error) {
 						const e = err as Error;
 					//	if (e is StackOverflowError) traceDbg(e.getStackTrace())
-						mes = 'タグ解析中例外 mes='+ e.message +'('+ e.name +')';
+						let mes = `タグ解析中例外 mes=${e.message}(${e.name})`;
 						const a_tag: any = Grammar.REG_TAG.exec(token);
 						if (a_tag) mes = `[${a_tag.groups.name}]`+ mes;
+						this.errScript(mes, false);
 					}
-					else {
-						mes = err as string;
-					}
-					this.errScript(mes, false);
+					else this.errScript(String(err), false);
 					return;
 				}
 			}
 			// & 変数操作・変数表示
-			if (uc == 38) {
+			if (uc === 38) {
 				try {
-					if (token.substr(-1) != '&') {//変数操作
+					if (token.substr(-1) !== '&') {//変数操作
 						//変数計算
+						if (this.scrItr.isBreak()) return;
 						const o = Grammar.splitAmpersand(token.slice(1));
 						o.name = this.prpPrs.getValAmpersand(o.name);
 						o.text = String(this.prpPrs.parse(o.text));
@@ -187,26 +191,23 @@ export class Main implements IMain {
 						continue;
 					}
 
-					if (token.charAt(1) == '&') throw new Error('「&表示&」書式では「&」指定が不要です');
+					if (token.charAt(1) === '&') throw new Error('「&表示&」書式では「&」指定が不要です');
 					token = String(this.prpPrs.parse( token.slice(1, -1) ));
 				}
 				catch (err) {
-					let mes = '';
-					if (err instanceof Error) {
-						const e = err as Error;
-						mes = '& 変数操作・変数表示 mes='+ e.message +'('+ e.name +')';
-					}
-					else {
-						mes = err as string;
-					}
-					this.errScript(mes, false);
+					this.errScript(
+						err instanceof Error
+							? `& 変数操作・表示 mes=${err.message}(${err.name})`
+							: err as string,
+						false
+					);
 					return;
 				}
 			}
 			// ; コメント
-			else if (uc == 59) continue;
+			else if (uc === 59) continue;
 			// * ラベル
-			else if ((uc == 42) && (token.length > 1)) continue;
+			else if ((uc === 42) && (token.length > 1)) continue;
 
 			// 文字表示
 			try {
@@ -214,25 +215,18 @@ export class Main implements IMain {
 				tl.tagCh(token);
 			}
 			catch (err) {
-				let mes = '';
-				if (err instanceof Error) {
-					const e = err as Error;
-					mes = '文字表示 mes='+ e.message +'('+ e.name +')';
-				}
-				else {
-					mes = err as string;
-				}
-				this.errScript(mes, false);
+				this.errScript(
+					err instanceof Error
+						? `文字表示 mes=${err.message}(${err.name})`
+						: err as string,
+					false
+				);
 				return;
 			}
 		}
 
 //		if (CmnLib.debugLog) console.log('🍵 waiting...');
 	}
-
-
-	readonly pauseDev = ()=> this.appPixi.stop();
-	readonly resumeDev = ()=> this.appPixi.start();
 
 
 	async destroy(ms_late = 0) {

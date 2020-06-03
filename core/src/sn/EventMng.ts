@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, uint, IEvtMng} from './CmnLib';
+import {CmnLib, uint, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg, IHTag, IVariable, IMain, IEvt2Fnc, IHEvt2Fnc} from './CmnInterface';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
@@ -36,12 +36,6 @@ export class EventMng implements IEvtMng {
 	};
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
-		sndMng.setEvtMng(this);
-		scrItr.setOtherObj(this, layMng);
-		TxtLayer.setEvtMng(main, this);
-		layMng.setEvtMng(this);
-		sys.setFire((KEY, e)=> this.fire(KEY, e));
-
 		//	イベント
 		hTag.clear_event	= o=> this.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
@@ -55,6 +49,13 @@ export class EventMng implements IEvtMng {
 		hTag.wait			= o=> this.wait(o);				// ウェイトを入れる
 		hTag.waitclick		= ()=> {this.stdWait(()=> main.resume()); return true;};	// クリックを待つ
 			// stdWait()したらreturn true;
+
+		sndMng.setEvtMng(this);
+		scrItr.setOtherObj(this, layMng);
+		TxtLayer.setEvtMng(main, this);
+		layMng.setEvtMng(this);
+		sys.setFire((KEY, e)=> this.fire(KEY, e));
+		sys.addHook((type: string, o: object)=> this.procHook(type, o));
 
 		this.ham = new Hammer(appPixi.view, {recognizers: [
 			//	[Hammer.Tap],
@@ -156,18 +157,18 @@ export class EventMng implements IEvtMng {
 
 		if (e.key in this.hDownKeys) this.hDownKeys[e.key] = e.repeat ?2 :1;
 
-		const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
-		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
-		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
+		const key = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+		+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+		+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
 		+	e.key;
 		this.fire(key, e);
 	}
 	private ev_contextmenu(e: any) {
 		//if (! e.isTrusted) return;
 
-		const key = (e.altKey ?(e.key == 'Alt' ?'' :'alt+') :'')
-		+	(e.ctrlKey ?(e.key == 'Control' ?'' :'ctrl+') :'')
-		+	(e.shiftKey ?(e.key == 'Shift' ?'' :'shift+') :'')
+		const key = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+		+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+		+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
 		+	'rightclick';
 		this.fire(key, e);
 		e.preventDefault();		// イベント未登録時、メニューが出てしまうので
@@ -214,30 +215,33 @@ export class EventMng implements IEvtMng {
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 	fire(KEY: string, e: Event) {
+		if (this.isBreak) return;
+
 		const key = KEY.toLowerCase();
 		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
 		const ke = this.hLocalEvt2Fnc[key]
 				|| this.hGlobalEvt2Fnc[key];
 		if (! ke) {
-			if (key.slice(0, 5) == 'swipe') {	// スマホ用疑似スワイプスクロール
+			if (key.slice(0, 5) === 'swipe') {	// スマホ用疑似スワイプスクロール
 				const esw: any = e;
 				window.scrollBy(-(esw.deltaX ?? 0), -(esw.deltaY ?? 0));
 			}
 			return;
 		}
 
-		if ((key.slice(-5) != 'wheel') && ('preventDefault' in e)) e.preventDefault();
+		if ((key.slice(-5) !== 'wheel') && ('preventDefault' in e)) e.preventDefault();
 		e.stopPropagation();
-		if (key.slice(0, 4) != 'dom=' && this.layMng.clickTxtLay()) return;
+		if (key.slice(0, 4) !== 'dom=' && this.layMng.clickTxtLay()) return;
 
-		if (! this.isStop) return;
-		this.isStop = false;
+		if (! this.isWait) return;
+		this.isWait = false;
 		ke(e);
 	}
-	private isStop = false;
+	private isWait = false;
 
 	popLocalEvts(): IHEvt2Fnc {
-		if (this.isStop) return {};	// [tsy]などのonComplete()から呼ばれた際の対応
+		if (this.isWait) return {};
+			// [tsy]などのonComplete()から呼ばれた際の対応
 		const ret = this.hLocalEvt2Fnc;
 		this.hLocalEvt2Fnc = {};
 		return ret;
@@ -273,9 +277,16 @@ export class EventMng implements IEvtMng {
 		// evtfncWait();
 		this.val.saveKidoku(); // これはそのままか
 		this.fncCancelSkip();
-		//this.hHook_waiting();
-		this.isStop = true;
+		this.isWait = true;
 	}
+	private	procHook(type: string, _o: any): void {
+		switch (type) {
+			case 'continue':
+			case 'disconnect':	this.isBreak = false;	break;
+			default:	this.isBreak = true;
+		}
+	}
+	private isBreak = false;
 
 	button(hArg: HArg, em: DisplayObject) {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
@@ -283,7 +294,7 @@ export class EventMng implements IEvtMng {
 		em.interactive = em.buttonMode = true;
 		const key = (hArg.key ?? ' ').toLowerCase();
 		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
-		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
+		const glb = argChk_Boolean(hArg, 'global', false);
 		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		em.on('pointerdown', (e: any)=> this.fire(key, e));
@@ -340,7 +351,7 @@ export class EventMng implements IEvtMng {
 
 	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void) {
 		this.goTxt();
-		if (! CmnLib.argChk_Boolean(hArg, 'canskip', true)) return;
+		if (! argChk_Boolean(hArg, 'canskip', true)) return;
 
 		elc.add(window, 'pointerdown', (e: any)=> {
 			e.stopPropagation();
@@ -365,7 +376,7 @@ export class EventMng implements IEvtMng {
 
 	// イベントを全消去
 	private clear_event(hArg: HArg) {
-		const glb = CmnLib.argChk_Boolean(hArg, 'global', false);
+		const glb = argChk_Boolean(hArg, 'global', false);
 		const h = glb ?this.hGlobalEvt2Fnc :this.hLocalEvt2Fnc;
 		for (const nm in h) this.clear_eventer(nm, h[nm]);
 		if (glb) this.hGlobalEvt2Fnc = {}; else this.hLocalEvt2Fnc = {};
@@ -373,7 +384,7 @@ export class EventMng implements IEvtMng {
 		return false;
 	}
 		private clear_eventer(key: string, e2f: IEvt2Fnc) {
-			if (key.slice(0, 4) != 'dom=') return;
+			if (key.slice(0, 4) !== 'dom=') return;
 			for (const v of document.querySelectorAll(key.slice(4))) {
 				v.removeEventListener('click', e2f);
 			}
@@ -386,11 +397,11 @@ export class EventMng implements IEvtMng {
 		if (! KEY) throw 'keyは必須です';
 		const key = KEY.toLowerCase();
 
-		const call = CmnLib.argChk_Boolean(hArg, 'call', false);
-		const h = CmnLib.argChk_Boolean(hArg, 'global', false)
+		const call = argChk_Boolean(hArg, 'call', false);
+		const h = argChk_Boolean(hArg, 'global', false)
 			? this.hGlobalEvt2Fnc
 			: this.hLocalEvt2Fnc;
-		if (CmnLib.argChk_Boolean(hArg, 'del', false)) {
+		if (argChk_Boolean(hArg, 'del', false)) {
 			if (hArg.fn || hArg.label || call) throw 'fn/label/callとdelは同時指定できません';
 
 			this.clear_eventer(KEY, h[key]);
@@ -402,7 +413,7 @@ export class EventMng implements IEvtMng {
 		hArg.fn = hArg.fn || this.scrItr.scriptFn;
 
 		// domイベント
-		if (KEY.slice(0, 4) == 'dom=') {
+		if (KEY.slice(0, 4) === 'dom=') {
 			let elmlist: NodeListOf<HTMLElement>;
 			const idx = KEY.indexOf(':');
 			let sel = '';
@@ -420,12 +431,12 @@ export class EventMng implements IEvtMng {
 				sel = KEY.slice(4);
 				elmlist = document.querySelectorAll(sel);
 			}
-			const need_err = CmnLib.argChk_Boolean(hArg, 'need_err', true);
-			if (elmlist.length == 0 && need_err) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+			const need_err = argChk_Boolean(hArg, 'need_err', true);
+			if (elmlist.length === 0 && need_err) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 			const ie = elmlist[0] as HTMLInputElement;
 			const type = (ie) ?ie.type :'';
 
-			((type == 'range' || type == 'checkbox' || type == 'text' || type == 'textarea')
+			((type === 'range' || type === 'checkbox' || type === 'text' || type === 'textarea')
 				? ['input', 'change']
 				: ['click'])
 				.forEach(v=> {
@@ -439,7 +450,7 @@ export class EventMng implements IEvtMng {
 				});
 			// 押したまま部品外へ出たときも確定イベント発生
 			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
-				if (e.which != 1) return;
+				if (e.which !== 1) return;
 				this.fire(KEY, e);
 			});
 
@@ -478,7 +489,7 @@ export class EventMng implements IEvtMng {
 			});
 		}
 
-		if (CmnLib.argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine();
+		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine();
 
 		this.stdWait(()=> this.main.resume());	// stdWait()したらreturn true;
 		return true;
@@ -495,7 +506,7 @@ export class EventMng implements IEvtMng {
 			this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);// 次の選択肢(/未読)まで進むが有効か
 		}
 
-		if (this.val.getVal('tmp:sn.skip.enabled') && ('s' == String(this.val.getVal('sys:sn.skip.mode')))) {this.goTxt(); return false;}
+		if (this.val.getVal('tmp:sn.skip.enabled') && ('s' === String(this.val.getVal('sys:sn.skip.mode')))) {this.goTxt(); return false;}
 		if (this.val.getVal('tmp:sn.auto.enabled')) {
 			//traceDbg('p:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
 			return this.wait({
@@ -505,11 +516,11 @@ export class EventMng implements IEvtMng {
 			});
 		}
 
-		if (CmnLib.argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage();
+		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage();
 
 		this.stdWait(
 			this.layMng.getCurrentTxtlayFore()
-				&& CmnLib.argChk_Boolean(hArg, 'er', false)
+				&& argChk_Boolean(hArg, 'er', false)
 				? ()=> {this.hTag.er(hArg); this.main.resume();}
 				: ()=> this.main.resume()
 		);	// stdWait()したらreturn true;
@@ -555,18 +566,16 @@ export class EventMng implements IEvtMng {
 		this.val.saveKidoku();
 
 		const twSleep = new Tween.Tween(this)
-		.to({}, uint(CmnLib.argChk_Num(hArg, 'time', NaN)))
+		.to({}, uint(argChk_Num(hArg, 'time', NaN)))
 		.onComplete(()=> this.main.resume())
 		.start();
 
-		this.stdWait(()=> twSleep.stop().end(), CmnLib.argChk_Boolean(hArg, 'canskip', true));	// stdWait()したらreturn true;
+		this.stdWait(()=> twSleep.stop().end(), argChk_Boolean(hArg, 'canskip', true));	// stdWait()したらreturn true;
 		return true;
 	}
 
-	readonly cr = (len: number)=> this.scrItr.addLineNum(len);
-
 	isSkipKeyDown(): boolean {
-		for (const v in this.hDownKeys) if (this.hDownKeys[v] == 2) return true;
+		for (const v in this.hDownKeys) if (this.hDownKeys[v] === 2) return true;
 		return false;
 	}
 	// 0:no push  1:one push  2:push repeating

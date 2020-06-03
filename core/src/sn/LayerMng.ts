@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt} from './CmnLib';
+import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
 import {IHTag, IVariable, IMain, HPage, HArg} from './CmnInterface';
 import {Pages} from './Pages';
@@ -255,17 +255,17 @@ export class LayerMng {
 	// スナップショット
 	private snapshot(hArg: HArg) {
 		const fn = (hArg.fn)
-		? ((hArg.fn.substr(0, 10) == 'userdata:/')
+		? ((hArg.fn.substr(0, 10) === 'userdata:/')
 			? hArg.fn
 			: ('downloads:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.png'))
 		: ('downloads:/snapshot'+ getDateStr('-', '_', '', '_') +'.png');
-		const ext = CmnLib.getExt(fn);
+		const ext = getExt(fn);
 		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
 		const renderer = autoDetectRenderer({
-			width: CmnLib.argChk_Num(hArg, 'width', CmnLib.stageW),
-			height: CmnLib.argChk_Num(hArg, 'height', CmnLib.stageH),
-			transparent: (b_color > 0x1000000) && (ext == 'png'),
-			antialias: CmnLib.argChk_Boolean(hArg, 'smoothing', false),
+			width: argChk_Num(hArg, 'width', CmnLib.stageW),
+			height: argChk_Num(hArg, 'height', CmnLib.stageH),
+			transparent: (b_color > 0x1000000) && (ext === 'png'),
+			antialias: argChk_Boolean(hArg, 'smoothing', false),
 			preserveDrawingBuffer: true,
 			backgroundColor: uint(b_color) & 0xFFFFFF,
 			autoDensity: true,
@@ -289,7 +289,7 @@ export class LayerMng {
 			}));
 		}
 		else {
-			const pg = (hArg.page != 'back') ?'fore' :'back';
+			const pg = (hArg.page !== 'back') ?'fore' :'back';
 			for (const v of this.getLayers(hArg.layer)) a.push(new Promise(
 				re=> this.hPages[v][pg].snapshot(renderer, re)
 			));
@@ -300,7 +300,7 @@ export class LayerMng {
 				this.appPixi.renderer.extract.base64(this.stage)
 			);
 			if (! this.twInfTrans.tw) {
-				const pg = (hArg.page != 'back') ?'fore' :'back';
+				const pg = (hArg.page !== 'back') ?'fore' :'back';
 				for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
 			}
 			renderer.destroy(true);
@@ -313,9 +313,9 @@ export class LayerMng {
 	private loadplugin(hArg: HArg) {
 		const fn = hArg.fn;
 		if (! fn) throw 'fnは必須です';
-		const join = CmnLib.argChk_Boolean(hArg, 'join', true);
+		const join = argChk_Boolean(hArg, 'join', true);
 
-		switch (CmnLib.getExt(fn)) {
+		switch (getExt(fn)) {
 			case 'css':		// 読み込んで<style>に追加
 				(async ()=> {
 					const res = await fetch(fn);
@@ -337,7 +337,7 @@ export class LayerMng {
 		if (! to) throw '[set_focus] toは必須です';
 return false;	// TODO: 未作成：フォーカス移動
 /*
-		if (to == 'null') {
+		if (to === 'null') {
 //			stage.focus = stage;
 			return false;
 		}
@@ -356,17 +356,17 @@ return false;	// TODO: 未作成：フォーカス移動
 		});
 
 		const len = vct.length;
-		if (len == 0) return false;
+		if (len === 0) return false;
 
-		if (stage.focus == stage) {
+		if (stage.focus === stage) {
 			stage.focus = vct[0];
 			return false;
 		}
 
-		if (to == 'next' || to == 'prev') {
+		if (to === 'next' || to === 'prev') {
 			for (var i:uint=0; i<len; ++i) {
 				if (stage.focus != vct[i]) continue;
-				stage.focus = vct[(i +(to == 'next' ?1 :len-1))% len];
+				stage.focus = vct[(i +(to === 'next' ?1 :len-1))% len];
 				break;
 			}
 
@@ -443,13 +443,13 @@ return false;	// TODO: 未作成：フォーカス移動
 		const pg = this.hPages[layer];
 		const back = pg.back.cnt;
 		const fore = pg.fore.cnt;
-		if (CmnLib.argChk_Boolean(hArg, 'float', false)) {
+		if (argChk_Boolean(hArg, 'float', false)) {
 			this.back.setChildIndex(back, this.back.children.length -1);
 			this.fore.setChildIndex(fore, this.fore.children.length -1);
 			this.rebuildLayerRankInfo();
 		}
 		else if (hArg.index) {
-			if (CmnLib.argChk_Num(hArg, 'index', 0)) {
+			if (argChk_Num(hArg, 'index', 0)) {
 				this.back.setChildIndex(back, uint(hArg.index));
 				this.fore.setChildIndex(fore, uint(hArg.index));
 				this.rebuildLayerRankInfo();
@@ -458,7 +458,7 @@ return false;	// TODO: 未作成：フォーカス移動
 		else if (hArg.dive) {
 			const dive = hArg.dive;
 			let idx_dive = 0;
-			if (layer == dive) throw '[lay] 属性 layerとdiveが同じ【'+ dive +'】です';
+			if (layer === dive) throw '[lay] 属性 layerとdiveが同じ【'+ dive +'】です';
 
 			const pg_dive = this.hPages[dive];
 			if (! pg_dive) throw '[lay] 属性 dive【'+ dive +'】が不正です。レイヤーがありません';
@@ -481,10 +481,10 @@ return false;	// TODO: 未作成：フォーカス移動
 	// レイヤ設定の消去
 	private clear_lay(hArg: HArg) {
 		this.foreachLayers(hArg, name=> {
-			//if (name == this.strTxtlay && hArg.page != 'back') this.recText('', true);
+			//if (name === this.strTxtlay && hArg.page !== 'back') this.recText('', true);
 				// 改ページ
 			const pg = this.hPages[this.argChk_layer({layer: name})];
-			if (hArg.page == 'both') {	// page=both で両面削除
+			if (hArg.page === 'both') {	// page=both で両面削除
 				pg.fore.clearLay(hArg);
 				pg.back.clearLay(hArg);
 			}
@@ -600,8 +600,8 @@ void main(void) {
 			if (this.twInfTrans.resume) this.main.resume();
 			this.twInfTrans = {tw: null, resume: false};
 		};
-		const time = CmnLib.argChk_Num(hArg, 'time', 0);
-		if (time == 0 || this.evtMng.isSkipKeyDown()) {closeTrans(); return false;}
+		const time = argChk_Num(hArg, 'time', 0);
+		if (time === 0 || this.evtMng.isSkipKeyDown()) {closeTrans(); return false;}
 
 		// クロスフェード
 		this.twInfTrans = {tw: null, resume: false};
@@ -610,7 +610,7 @@ void main(void) {
 			this.spTransFore.filters = [];
 			this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
 				.to({alpha: 0}, time)
-				.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
+				.delay(argChk_Num(hArg, 'delay', 0))
 				.easing(ease)
 				.onComplete(closeTrans)
 				.start();
@@ -622,11 +622,11 @@ void main(void) {
 		const flt = is_glsl
 			? new Filter(undefined, hArg.glsl, this.ufRuleTrans)
 			: this.fltRule;
-		flt.uniforms.vague = CmnLib.argChk_Num(hArg, 'vague', 0.04);
+		flt.uniforms.vague = argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
 		this.twInfTrans.tw = new Tween.Tween(flt.uniforms)
 			.to({tick: 1}, time)
-			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
+			.delay(argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
 			.onComplete(closeTrans);
 		this.spTransFore.filters = [flt];
@@ -655,7 +655,7 @@ void main(void) {
 			if (! name) continue;
 
 			const pg = this.hPages[name];
-			if (pg == null) throw '存在しないlayer【'+ name +'】です';
+			if (! pg) throw '存在しないlayer【'+ name +'】です';
 
 			fnc(name, pg);
 		}
@@ -725,24 +725,24 @@ void main(void) {
 		};
 
 		const ease = CmnTween.ease(hArg.ease);
-		const h = uint(CmnLib.argChk_Num(hArg, 'hmax', 10));
-		const v = uint(CmnLib.argChk_Num(hArg, 'vmax', 10));
-		const fncH = (h == 0)
+		const h = uint(argChk_Num(hArg, 'hmax', 10));
+		const v = uint(argChk_Num(hArg, 'vmax', 10));
+		const fncH = (h === 0)
 			? ()=> {}
 			: ()=> this.spTransFore.x = Math.round(Math.random()* h*2) -h;
-		const fncV = (v == 0)
+		const fncV = (v === 0)
 			? ()=> {}
 			: ()=> this.spTransFore.y = Math.round(Math.random()* v*2) -v;
 		this.spTransFore.filters = [];
-		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
+		const repeat = argChk_Num(hArg, 'repeat', 1);
 		this.twInfTrans = {tw: null, resume: false};
 		this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
-			.to({x: 0, y: 0}, CmnLib.argChk_Num(hArg, 'time', NaN))
-			.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
+			.to({x: 0, y: 0}, argChk_Num(hArg, 'time', NaN))
+			.delay(argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
 			.onUpdate(()=> {fncH(); fncV();})
-			.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-			.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
+			.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+			.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 			.onComplete(closeTrans)
 			.start();
 		this.appPixi.ticker.add(fncRender);
@@ -759,15 +759,15 @@ void main(void) {
 		const layer = this.argChk_layer(hArg);
 		const foreLay: any = this.hPages[layer].fore;
 		const hTo = cnvTweenArg(hArg, foreLay);
-		const repeat = CmnLib.argChk_Num(hArg, 'repeat', 1);
+		const repeat = argChk_Num(hArg, 'repeat', 1);
 		const tw_nm = hArg.name ?? hArg.layer;
 		const tw = new Tween.Tween(foreLay)
-		.to(hTo, CmnLib.argChk_Num(hArg, 'time', NaN)
+		.to(hTo, argChk_Num(hArg, 'time', NaN)
 			* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
-		.delay(CmnLib.argChk_Num(hArg, 'delay', 0))
+		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(hArg.ease))
-		.repeat(repeat == 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-		.yoyo(CmnLib.argChk_Boolean(hArg, 'yoyo', false))
+		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onComplete(()=> {
 			const twInf = this.hTwInf[tw_nm];
 			if (! twInf) return;
@@ -786,8 +786,8 @@ void main(void) {
 		}
 		else tw.start();
 
-		const arrive = CmnLib.argChk_Boolean(hArg, 'arrive', false);
-		const backlay = CmnLib.argChk_Boolean(hArg, 'backlay', false);
+		const arrive = argChk_Boolean(hArg, 'arrive', false);
+		const backlay = argChk_Boolean(hArg, 'backlay', false);
 		this.hTwInf[tw_nm] = {tw: tw, resume: false, onComplete: ()=> {
 			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
@@ -809,7 +809,7 @@ void main(void) {
 		twInf.resume = true;
 		this.evtMng.stdWait(
 			()=> {if (twInf.tw) twInf.tw.stop().end()},	// stop()とend()は別
-			CmnLib.argChk_Boolean(hArg, 'canskip', true)
+			argChk_Boolean(hArg, 'canskip', true)
 		);
 		return true;
 	}
@@ -859,14 +859,14 @@ void main(void) {
 	private ch(hArg: HArg) {
 		if (! hArg.text) throw 'textは必須です';
 
-		let wait = CmnLib.argChk_Num(hArg, 'wait', -1);
+		let wait = argChk_Num(hArg, 'wait', -1);
 		if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled')) wait = 0;
 		hArg.wait = wait;
 
 		const tl = this.getTxtLayer(hArg) as TxtLayer;
 		if (wait >= 0) this.cmdTxt('add｜'+ JSON.stringify(hArg), tl);
 
-		const record = CmnLib.argChk_Boolean(hArg, 'record', true);
+		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', record);
 		tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
@@ -909,7 +909,7 @@ void main(void) {
 			const pg = this.hPages[name];
 			if (! (pg.fore instanceof TxtLayer)) continue;
 			(pg.fore as TxtLayer).isCur =
-			(pg.back as TxtLayer).isCur = (name == layer);
+			(pg.back as TxtLayer).isCur = (name === layer);
 		}
 
 		return false;
@@ -957,7 +957,7 @@ void main(void) {
 
 	private clear_text(hArg: HArg) {
 		const tf = this.getTxtLayer(hArg);
-		if (hArg.layer == this.curTxtlay && hArg.page == 'fore') this.recText('', true);	// 改ページ、クリア前に
+		if (hArg.layer === this.curTxtlay && hArg.page === 'fore') this.recText('', true);	// 改ページ、クリア前に
 		tf.clearText();
 		return false;
 	}
@@ -968,7 +968,7 @@ void main(void) {
 
 	// ページ両面の文字消去
 	private er(hArg: HArg) {
-		if (CmnLib.argChk_Boolean(hArg, 'rec_page_break', true)) this.recText('', true);	// 改ページ、クリア前に
+		if (argChk_Boolean(hArg, 'rec_page_break', true)) this.recText('', true);	// 改ページ、クリア前に
 
 		if (this.pgTxtlay) {
 			this.pgTxtlay.fore.clearLay(hArg);
@@ -1067,7 +1067,7 @@ void main(void) {
 		const layer = this.argChk_layer(hArg, this.curTxtlay);
 		const enb
 			= this.getTxtLayer(hArg).enabled
-			= CmnLib.argChk_Boolean(hArg, 'enabled', true);
+			= argChk_Boolean(hArg, 'enabled', true);
 		this.val.setVal_Nochk('save', 'const.sn.layer.'+ layer +'.enabled', enb);
 
 		return false;

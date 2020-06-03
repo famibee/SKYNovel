@@ -12,7 +12,7 @@ export declare class DebugMng {
     private first;
     private log;
     private trace;
-    static myTrace: (txt: string, lvl?: "D" | "W" | "F" | "E" | "I" | "ET") => void;
+    static myTrace: (txt: string, lvl?: 'D' | 'W' | 'F' | 'E' | 'I' | 'ET') => void;
     private static fncMyTrace;
     private static dspDbg;
 }

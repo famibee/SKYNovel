@@ -33,7 +33,7 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 		+ spl_dd+ String(100 +now.getDate()).substr(1, 2)
 		+ spl_dt+ String(100 +now.getHours()).substr(1, 2)
 		+ spl_tt+ String(100 +now.getMinutes()).substr(1, 2)
-		+ (spl_ms == '' ?'' :spl_ms+ String(now.getMilliseconds()));
+		+ (spl_ms === '' ?'' :spl_ms+ String(now.getMilliseconds()));
 }
 
 export const hMemberCnt	= {
@@ -59,11 +59,11 @@ export function cnvTweenArg(hArg: HArg, lay: any): {} {
 		// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 		// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
 		const v = String((hArg as any)[nm]);
-		const a = ((v.charAt(0) == '=') ?v.slice(1) :v).split(',');
+		const a = ((v.charAt(0) === '=') ?v.slice(1) :v).split(',');
 		const a0 = hTo[nm] = parseFloat(a[0]);
 		if (a.length > 1) hTo[nm] += Math.round(Math.random()
 			* (parseFloat(a[1]) -a0 +1));
-		if (v.charAt(0) == '=') hTo[nm] += parseFloat(lay[nm]);	// 相対に
+		if (v.charAt(0) === '=') hTo[nm] += parseFloat(lay[nm]);	// 相対に
 	}
 	return hTo;
 }
@@ -84,8 +84,56 @@ export interface IEvtMng {
 	resvFlameEvent(win: Window): void;
 }
 
+export	function argChk_Num(hash: any, name: string, def: number): number {
+	const v = hash[name];
+	if (! (name in hash)) {
+		if (isNaN(def)) throw `[${hash.タグ名}]属性 ${name} は必須です`;
+
+		hash[name] = def;
+		return def;
+	}
+
+	const n = (String(v).substr(0, 2) === '0x')
+		? parseInt(v)
+		: parseFloat(v);
+	if (isNaN(n)) throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
+
+	return hash[name] = n;
+}
+
+/*
+	それぞれの型を Boolean 型に変換した場合の値は以下のようになります。
+
+	Undefiend 	false
+	Null 		false
+	Boolean 	変換前のオブジェクトと同じ
+	Number 		0 または NaN は false それ以外の値は true
+	String 		空文字列は false  それ以外の値は true
+	Object 		true
+*/
+export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
+	//	t-r-a-c-e(Boolean(null),Boolean(""),Boolean(undefined),Boolean("0"),Boolean("1"),Boolean("true"),Boolean("false"),Boolean("あい"));
+	//	[exec] false false false true true true true true
+	/*console.log('%o %o %o %o %o %o %o %o',
+		Boolean(null), Boolean(""), Boolean(undefined), Boolean("0"), Boolean("1"),
+		Boolean("true"), Boolean("false"), Boolean("あい"));
+	*/
+
+	//if (! hArg[name]) return hArg[name] = def;
+	if (! (name in hash)) return hash[name] = def;
+
+	const v = hash[name];
+	if (v === null) return false;
+
+	const v2 = String(v);
+	return hash[name] = (v2 === 'false')? false : Boolean(v2);
+}
+
 
 import m_path = require('path');
+export	function getFn(path: string) {return m_path.basename(path, m_path.extname(path));}
+export 	function getExt(path: string) {return m_path.extname(path).slice(1);}
+
 const platform = require('platform');
 
 export class CmnLib {
@@ -98,8 +146,8 @@ export class CmnLib {
 	static	cvsScale	= 1;
 	static	debugLog	= false;
 	static	platform	= {...platform};
-	static	isSafari	= platform.name == 'Safari';
-	static	isFirefox	= platform.name == 'Firefox';
+	static	isSafari	= platform.name === 'Safari';
+	static	isFirefox	= platform.name === 'Firefox';
 	static	isMac		= new RegExp('OS X').test(CmnLib.platform.os.family);
 	static	isMobile	= ! new RegExp('(Windows|OS X)').test(CmnLib.platform.os.family);
 	static	hDip		: {[name: string]: string}	= {};
@@ -110,51 +158,6 @@ export class CmnLib {
 
 	static	readonly	SN_ID	= 'skynovel';
 
-	static argChk_Num(hash: any, name: string, def: number): number {
-		const v = hash[name];
-		if (! (name in hash)) {
-			if (isNaN(def)) throw `[${hash.タグ名}]属性 ${name} は必須です`;
-
-			hash[name] = def;
-			return def;
-		}
-
-		const n = (String(v).substr(0, 2) == '0x')
-			? parseInt(v)
-			: parseFloat(v);
-		if (isNaN(n)) throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
-
-		return hash[name] = n;
-	}
-
-	/*
-		それぞれの型を Boolean 型に変換した場合の値は以下のようになります。
-
-		Undefiend 	false
-		Null 		false
-		Boolean 	変換前のオブジェクトと同じ
-		Number 		0 または NaN は false それ以外の値は true
-		String 		空文字列は false  それ以外の値は true
-		Object 		true
-	*/
-	static argChk_Boolean(hash: any, name: string, def: boolean): boolean {
-		//	t-r-a-c-e(Boolean(null),Boolean(""),Boolean(undefined),Boolean("0"),Boolean("1"),Boolean("true"),Boolean("false"),Boolean("あい"));
-		//	[exec] false false false true true true true true
-		/*console.log('%o %o %o %o %o %o %o %o',
-			Boolean(null), Boolean(""), Boolean(undefined), Boolean("0"), Boolean("1"),
-			Boolean("true"), Boolean("false"), Boolean("あい"));
-		*/
-
-		//if (! hArg[name]) return hArg[name] = def;
-		if (! (name in hash)) return hash[name] = def;
-
-		const v = hash[name];
-		if (v == null) return false;
-
-		const v2 = String(v);
-		return hash[name] = (v2 == "false")? false : Boolean(v2);
-	}
-
 	static cvsResize(cvs: HTMLCanvasElement): boolean {
 		const bk_cw = CmnLib.cvsWidth;
 		const bk_ch = CmnLib.cvsHeight;
@@ -163,11 +166,11 @@ export class CmnLib {
 		const wi: any = window;
 		const lp = screen.orientation
 			? screen.orientation.type.charAt(0)
-			: ((wi.orientation ?? 90) % 180 == 0) ?'p' :'l';	// 4Safari
+			: ((wi.orientation ?? 90) % 180 === 0) ?'p' :'l';	// 4Safari
 		if (CmnLib.isMobile &&
-			((lp == 'p' && wiw > wih) || (lp == 'l' && wiw < wih))
+			((lp === 'p' && wiw > wih) || (lp === 'l' && wiw < wih))
 			) [wiw, wih] = [wih, wiw];
-		if (CmnLib.argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
+		if (argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
 			CmnLib.stageW > wiw ||
 			CmnLib.stageH > wih
 		) {
@@ -210,11 +213,7 @@ export class CmnLib {
 			ps.height= s.height= `${CmnLib.cvsHeight}px`;
 		}
 
-		return bk_cw != CmnLib.cvsWidth || bk_ch != CmnLib.cvsHeight;
+		return bk_cw !== CmnLib.cvsWidth || bk_ch !== CmnLib.cvsHeight;
 	}
-
-
-	static	readonly 	getFn = (path: string)=> m_path.basename(path, m_path.extname(path));
-	static	readonly 	getExt = (path: string)=> m_path.extname(path).slice(1);
 
 }

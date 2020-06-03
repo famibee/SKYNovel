@@ -1,5 +1,6 @@
 /// <reference types="node" />
-import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire } from './CmnInterface';
+/// <reference types="mocha" />
+import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
     protected readonly hPlg: HPlugin;
@@ -28,26 +29,33 @@ export declare class SysBase implements ISysBase {
     protected static VALNM_CFG_NS: string;
     protected fire: IFire;
     setFire(fire: IFire): void;
+    addHook(_fnc: IFncHook): void;
+    callHook: IFncHook;
+    sendDbg: (_type: string, _o: object) => void;
     protected readonly close: ITag;
     protected readonly _export: ITag;
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
+    private main_title;
+    protected titleSub(_txt: string): void;
     protected tgl_full_scr: ITag;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
+    private info_title;
+    setTitleInfo(txt: string): void;
     pre: (_ext: string, data: string) => Promise<string>;
     protected enc: (data: string) => Promise<string>;
     protected stk: () => string;
     hash: (_data: string) => string;
     protected readonly isApp: () => boolean;
-    protected readonly isPackaged: () => boolean;
+    readonly isPackaged: () => boolean;
     protected $path_downloads: string;
     get path_downloads(): string;
     protected $path_userdata: string;
     get path_userdata(): string;
     readonly existsSync: (_path: string) => boolean;
-    readonly writeFile: (_file: string | number | Buffer, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
+    readonly writeFile: (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     readonly savePic: (_fn: string, _data_url: string) => void;
     readonly appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     ofsLeft4frm: number;

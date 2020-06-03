@@ -77,7 +77,7 @@ export class PropParser implements IPropParser {
 		.map(()=> ['!str!', null]);
 
 		const BooleanLiteral = P.regex(/(true|false)/)
-		.map(b=> ['!bool!', b == 'true'])
+		.map(b=> ['!bool!', b === 'true'])
 		.desc('boolean');
 
 		const StringLiteral = P
@@ -87,24 +87,23 @@ export class PropParser implements IPropParser {
 
 		const REG_BRACKETS = /\[[^\]]+\]/g;
 		const VarLiteral = P
-		//.regex(/((tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(@str)?/)
-		.regex(/\-?((tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(@str)?/)
+		.regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/)
 		.map(b=> {
 			//console.log('   👺 VarLiteral:0 b:%O:', b);
 			const s = String(b).replace(REG_BRACKETS, v=>
 				'.'+ this.parse(v.slice(1, -1))
 			);
-			if (s.charAt(0) == '-') {	// 変数頭に「-」
+			if (s.charAt(0) === '-') {	// 変数頭に「-」
 				const val = this.val.getVal(s.slice(1));
-				if (val == null || String(val) == 'null') throw Error('(PropParser)数値以外に-符号がついています');
+				if (val == null || String(val) === 'null') throw Error('(PropParser)数値以外に-符号がついています');
 				return ['!num!', -Number(val)];
 			}
 			const val = this.val.getVal(s);
 			//console.log('      👹 s:%O: val:%O:', s, val);
 			if (val == null) return ['!str!', val];		// undefined も
-			if (typeof val == 'boolean') return ['!bool!', val];
+			if (typeof val === 'boolean') return ['!bool!', val];
 
-			return (Object.prototype.toString.call(val) == '[object String]')
+			return (Object.prototype.toString.call(val) === '[object String]')
 				? ['!str!', String(val)]
 				: ['!num!', Number(val)];
 		})
@@ -156,7 +155,7 @@ export class PropParser implements IPropParser {
 		if (! p.status) throw Error('(PropParser)文法エラー【'+ s +'】');
 
 		const a = p.value;
-		if (a[0] == '!str!') return this.procEmbedVar(a[1]);
+		if (a[0] === '!str!') return this.procEmbedVar(a[1]);
 
 		return this.calc(a);
 	}
@@ -176,9 +175,9 @@ export class PropParser implements IPropParser {
 		// 論理 NOT
 		'!':	a=> {
 			const b = a.shift();
-			return (b[0] == '!bool!')
+			return (b[0] === '!bool!')
 				? ! Boolean( b[1] )
-				: ! (String(this.calc(b)) == 'true');
+				: ! (String(this.calc(b)) === 'true');
 		},
 		// チルダ演算子（ビット反転）
 		'~':	a=> ~ Number(this.calc(a.shift())),
@@ -198,8 +197,8 @@ export class PropParser implements IPropParser {
 		'+':	a=> {
 			const b = this.calc(a.shift());
 			const c = this.calc(a.shift());
-			if (Object.prototype.toString.call(b) == '[object String]'
-			|| Object.prototype.toString.call(c) == '[object String]') {
+			if (Object.prototype.toString.call(b) === '[object String]'
+			|| Object.prototype.toString.call(c) === '[object String]') {
 				return String(b) + String(c);
 			}
 			return Number(b) + Number(c);
@@ -212,7 +211,7 @@ export class PropParser implements IPropParser {
 		'parseInt':	a=> int(this.hFnc['Number'](a)),
 		'Number':	a=> {
 			const b = this.calc(a.shift());
-			if (Object.prototype.toString.call(b) != '[object String]') return Number(b);
+			if (Object.prototype.toString.call(b) !== '[object String]') return Number(b);
 
 			return this.fncSub_ChkNum(this.parser.parse(String(b)).value);
 		},
@@ -246,7 +245,7 @@ export class PropParser implements IPropParser {
 				// 一・二項目は undefined も適合。
 				// 三項目での falseは、""か 0か falseか undefinedか nullかも
 				// ここでは undefined == null でよい。（===では区別する）
-			return String(b) == String(c);
+			return String(b) === String(c);
 		},
 		'!=':	a=> ! this.hFnc['=='](a),
 		'===':	a=> {
@@ -255,7 +254,7 @@ export class PropParser implements IPropParser {
 			if (Object.prototype.toString.call(b) !=
 				Object.prototype.toString.call(c)) return false;
 
-			return String(b) == String(c);
+			return String(b) === String(c);
 		},
 		'!==':	a=> ! this.hFnc['==='](a),
 
@@ -268,27 +267,27 @@ export class PropParser implements IPropParser {
 					Number(this.calc(a.shift())),
 
 		// 論理 AND,OR
-		'&&':	a=> (String(this.calc(a.shift())) == 'true') &&
-					(String(this.calc(a.shift())) == 'true'),
-		'||':	a=> (String(this.calc(a.shift())) == 'true') ||
-					(String(this.calc(a.shift())) == 'true'),
+		'&&':	a=> (String(this.calc(a.shift())) === 'true') &&
+					(String(this.calc(a.shift())) === 'true'),
+		'||':	a=> (String(this.calc(a.shift())) === 'true') ||
+					(String(this.calc(a.shift())) === 'true'),
 
 		// 条件
 		'?':	a=> {
 			const b = a.shift();
 			let cond = false;
-			if (b[0] == '!bool!') {
+			if (b[0] === '!bool!') {
 				cond = Boolean( b[1] );
 			}
 			else {
 				const cond2 = String( this.calc(b) );
-				cond = (cond2 != 'true' && cond2 != 'false')
-					? (int(cond2) != 0)
-					: (cond2 == 'true');
+				cond = (cond2 !== 'true' && cond2 !== 'false')
+					? (int(cond2) !== 0)
+					: (cond2 === 'true');
 			}
 
 			const elm2 = a.shift();
-			if (elm2[0] != ':') throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
+			if (elm2[0] !== ':') throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
 
 			return this.calc(elm2[cond ?1 :2]);
 		},
@@ -296,7 +295,7 @@ export class PropParser implements IPropParser {
 	}
 	private fncSub_ChkNum(v: any[]): number {
 		const b = this.calc(v);
-		if (Object.prototype.toString.call(b) != '[object Number]') throw Error('(PropParser)引数【'+ b +'】が数値ではありません');
+		if (Object.prototype.toString.call(b) !== '[object Number]') throw Error('(PropParser)引数【'+ b +'】が数値ではありません');
 		return Number(b);
 	}
 
@@ -306,14 +305,14 @@ export class PropParser implements IPropParser {
 		if (b == null) return b;	// undefined も
 
 		return String(b).replace(this.REG_EMBEDVAR, v=> {
-			return (v.charAt(0) == '$')
+			return (v.charAt(0) === '$')
 				? this.val.getVal(v.slice(1))
 				: this.parse(v.slice(2, -1));
 		});
 	}
 
 
-	getValAmpersand = (val: string)=> (val.charAt(0) == '&')
+	getValAmpersand = (val: string)=> (val.charAt(0) === '&')
 		? String(this.parse(val.substr(1)))
 		: val;
 

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, HArg} from './CmnInterface';
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 
 export class SysBase implements ISysBase {
@@ -24,7 +24,7 @@ export class SysBase implements ISysBase {
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
 			getHash: fnc=> this.hash = fnc,
-	});
+		});
 	}
 	get cur() {return this.arg.cur}
 	get crypto() {return this.arg.crypto}
@@ -112,15 +112,35 @@ export class SysBase implements ISysBase {
 	protected fire: IFire;
 	setFire(fire: IFire) {this.fire = fire}
 
+	addHook(_fnc: IFncHook) {}
+	callHook: IFncHook = (_type: string, _o: object)=> {}
+	sendDbg = (_type: string, _o: object)=> {};
+
 
 	protected readonly	close			: ITag = ()=> false;
 	protected readonly	_export			: ITag = ()=> false;
 	protected readonly	_import			: ITag = ()=> false;
 	protected readonly	navigate_to		: ITag = ()=> false;
-	protected readonly	title			: ITag = ()=> false;
+	protected readonly	title			: ITag = (hArg: HArg)=> {
+		const text = hArg.text;
+		if (! text) throw '[title] textは必須です';
+
+		this.main_title = text;
+		this.titleSub(this.main_title + this.info_title);
+
+		return false;
+	};
+		private main_title	= '';
+		protected titleSub(_txt: string) {}
 	protected			tgl_full_scr	: ITag = ()=> false;
 	protected readonly	update_check	: ITag = ()=> false;
 	protected readonly	window			: ITag = ()=> false;
+
+	private info_title	= '';
+	setTitleInfo(txt: string) {
+		this.info_title = txt;
+		this.titleSub(this.main_title + this.info_title);
+	}
 
 	pre = async (_ext: string, data: string)=> data;
 	protected enc = async (data: string)=> data;
@@ -128,7 +148,7 @@ export class SysBase implements ISysBase {
 	hash = (_data: string)=> '';
 
 	protected readonly	isApp = ()=> false;
-	protected readonly	isPackaged = ()=> false;
+	readonly	isPackaged = ()=> false;
 	protected $path_downloads	= '';
 	get path_downloads() {return this.$path_downloads}
 	protected $path_userdata= '';

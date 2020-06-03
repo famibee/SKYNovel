@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Container, Text, Rectangle, Texture} from "pixi.js";
-import {uint, CmnLib, IEvtMng} from "./CmnLib";
+import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from "./CmnLib";
 import {HArg, IMain} from "./CmnInterface";
 import {GrpLayer} from "./GrpLayer";
 import {Layer} from "./Layer";
@@ -17,7 +17,7 @@ export class Button extends Container {
 	constructor(private readonly main: IMain, private readonly evtMng: IEvtMng, hArg: HArg) {
 		super();
 
-		const enabled = CmnLib.argChk_Boolean(hArg, 'enabled', true);
+		const enabled = argChk_Boolean(hArg, 'enabled', true);
 		if (enabled) this.evtMng.button(hArg, this);
 		// 文字列から生成
 		if ('text' in hArg) {
@@ -37,15 +37,15 @@ export class Button extends Container {
 			};
 			if (hArg.style) Button.s2hStyle(style, hArg.style);
 			const txt = new Text(hArg.text ?? '', style);
-			txt.alpha = CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
+			txt.alpha = argChk_Num(hArg, 'alpha', txt.alpha);
 			txt.pivot.set(
-				CmnLib.argChk_Num(hArg, 'pivot_x', txt.pivot.x),
-				CmnLib.argChk_Num(hArg, 'pivot_y', txt.pivot.y)
+				argChk_Num(hArg, 'pivot_x', txt.pivot.x),
+				argChk_Num(hArg, 'pivot_y', txt.pivot.y)
 			);
-			txt.rotation = CmnLib.argChk_Num(hArg, 'rotation', txt.rotation);
+			txt.rotation = argChk_Num(hArg, 'rotation', txt.rotation);
 			txt.scale.set(
-				CmnLib.argChk_Num(hArg, 'scale_x', txt.scale.x),
-				CmnLib.argChk_Num(hArg, 'scale_y', txt.scale.y)
+				argChk_Num(hArg, 'scale_x', txt.scale.x),
+				argChk_Num(hArg, 'scale_y', txt.scale.y)
 			);
 			txt.width = uint(hArg.width || 100);
 			txt.height = fontSize;
@@ -104,15 +104,15 @@ export class Button extends Container {
 			hArg.pic,
 			this,
 			sp=> {
-				sp.alpha = CmnLib.argChk_Num(hArg, 'alpha', sp.alpha);
+				sp.alpha = argChk_Num(hArg, 'alpha', sp.alpha);
 				sp.pivot.set(
-					CmnLib.argChk_Num(hArg, 'pivot_x', sp.pivot.x),
-					CmnLib.argChk_Num(hArg, 'pivot_y', sp.pivot.y)
+					argChk_Num(hArg, 'pivot_x', sp.pivot.x),
+					argChk_Num(hArg, 'pivot_y', sp.pivot.y)
 				);
-				sp.rotation = CmnLib.argChk_Num(hArg, 'rotation', sp.rotation);
+				sp.rotation = argChk_Num(hArg, 'rotation', sp.rotation);
 				sp.scale.set(
-					CmnLib.argChk_Num(hArg, 'scale_x', sp.scale.x),
-					CmnLib.argChk_Num(hArg, 'scale_y', sp.scale.y)
+					argChk_Num(hArg, 'scale_x', sp.scale.x),
+					argChk_Num(hArg, 'scale_y', sp.scale.y)
 				);
 				sp.x = uint(hArg.left || 0);
 				sp.y = uint(hArg.top || 0);

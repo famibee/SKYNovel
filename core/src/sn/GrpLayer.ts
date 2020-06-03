@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, int, IEvtMng} from './CmnLib';
+import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn, getExt} from './CmnLib';
 import {HArg, IMain} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
@@ -87,7 +87,7 @@ export class GrpLayer extends Layer {
 			this.cnt,
 			sp=> {
 				Layer.setXY(sp, hArg, this.cnt, true);
-			//	if (hArg.page == 'fore') this.rsvEvent(sp);	// ======
+			//	if (hArg.page === 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 			},
 			isStop=> {
@@ -113,7 +113,7 @@ export class GrpLayer extends Layer {
 				dy: 0,
 				blendmode: BLEND_MODES.NORMAL
 			};
-			const fnc = (i == 0) ?fncFirstComp :(sp: Sprite)=> {
+			const fnc = (i === 0) ?fncFirstComp :(sp: Sprite)=> {
 				sp.x = f.dx;
 				sp.y = f.dy;
 				sp.blendMode = f.blendmode;
@@ -129,7 +129,7 @@ export class GrpLayer extends Layer {
 			needLoad = true;
 			const path = GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE);
 			const xt = this.sys.crypto
-			? {xhrType: (path.slice(-5) == '.json')
+			? {xhrType: (path.slice(-5) === '.json')
 				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
 				: LoaderResource.XHR_RESPONSE_TYPE.BUFFER}
 			: {};
@@ -160,7 +160,7 @@ export class GrpLayer extends Layer {
 	private static preThen = (_r: any, _res: LoaderResource, next: Function)=> next();
 	private static preThen4Cripto(r: any, res: LoaderResource, next: Function): void {
 		res.data = r;
-		if (res.extension == 'bin') {
+		if (res.extension === 'bin') {
 			if (res.data instanceof HTMLImageElement) {
 				res.type = LoaderResource.TYPE.IMAGE;
 				URL.revokeObjectURL(res.data.src);
@@ -170,13 +170,13 @@ export class GrpLayer extends Layer {
 				URL.revokeObjectURL(res.data.src);
 			}
 		}
-		if (res.extension != 'json') {next(); return;}
+		if (res.extension !== 'json') {next(); return;}
 
 		const o = res.data = JSON.parse(r);
 		res.type = LoaderResource.TYPE.JSON;
 		if (! o.meta?.image) {next(); return;}
 
-		const fn = CmnLib.getFn(o.meta.image);
+		const fn = getFn(o.meta.image);
 		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
 		(new Loader())
 		.pre((res2: LoaderResource, next2: Function)=> res2.load(()=> {
@@ -185,7 +185,7 @@ export class GrpLayer extends Layer {
 				res2.data = r;
 				if (res2.data instanceof HTMLImageElement) {
 					res2.type = LoaderResource.TYPE.IMAGE;
-					const mime = `image/${CmnLib.getExt(o.meta.image)}`;
+					const mime = `image/${getExt(o.meta.image)}`;
 					o.meta.image = GrpLayer.im2Base64(res2.data, mime);
 					res2.data = o.meta.image;
 				}
@@ -265,7 +265,7 @@ export class GrpLayer extends Layer {
 
 		GrpLayer.evtMng.stdWait(
 			()=> {hve.pause(); fnc();},
-			CmnLib.argChk_Boolean(hArg, 'canskip', true)
+			argChk_Boolean(hArg, 'canskip', true)
 		);	// stdWait()したらreturn true;
 		return true;
 	}
@@ -281,7 +281,7 @@ export class GrpLayer extends Layer {
 
 	setPos(hArg: HArg): void {
 		Layer.setXY(
-			(this.cnt.children.length == 0) ?this.cnt :this.cnt.children[0],
+			(this.cnt.children.length === 0) ?this.cnt :this.cnt.children[0],
 			hArg,
 			this.cnt,
 			true
@@ -289,9 +289,9 @@ export class GrpLayer extends Layer {
 	}
 	/*private rsvEvent(_$do: DisplayObject): void {
 		const ldr:Loader = $do as Loader;
-		if (ldr == null) return;
+		if (ldr === null) return;
 		const mc:MovieClip = ldr.content as MovieClip;
-		if (mc == null) return;
+		if (mc === null) return;
 		GrpLayer.elc.add(mc, Event.EXIT_FRAME, rsvEvent_ExitFrame);
 	}*/
 
@@ -303,8 +303,8 @@ export class GrpLayer extends Layer {
 		const fn = hArg.fn ?? name;
 		GrpLayer.hFace[name] = {
 			fn: fn,
-			dx: CmnLib.argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,
-			dy: CmnLib.argChk_Num(hArg, 'dy', 0) * CmnLib.retinaRate,
+			dx: argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,
+			dy: argChk_Num(hArg, 'dy', 0) * CmnLib.retinaRate,
 			blendmode: Layer.getBlendmodeNum(hArg.blendmode || '')
 		};
 
@@ -325,14 +325,14 @@ export class GrpLayer extends Layer {
 	});
 	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
 		super.playback(hLay);
-		if (hLay.sBkFn == '' && hLay.sBkFace == '') {
+		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
 			this.sBkFn	= hLay.sBkFn;
 			this.sBkFace= hLay.sBkFace;
-			if (fncComp != undefined) fncComp();
+			if (fncComp !== undefined) fncComp();
 			return false;
 		}
 
-		if (fncComp != undefined) this.compOneAtMultiLD = ()=> {
+		if (fncComp !== undefined) this.compOneAtMultiLD = ()=> {
 			this.compOneAtMultiLD = (isStop: boolean)=> {if (isStop) GrpLayer.main.resume();}
 			fncComp();
 		};

@@ -24,6 +24,10 @@ export interface IEvtMng {
     waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: () => void): void;
     resvFlameEvent(win: Window): void;
 }
+export declare function argChk_Num(hash: any, name: string, def: number): number;
+export declare function argChk_Boolean(hash: any, name: string, def: boolean): boolean;
+export declare function getFn(path: string): string;
+export declare function getExt(path: string): string;
 export declare class CmnLib {
     static stageW: number;
     static stageH: number;
@@ -45,10 +49,6 @@ export declare class CmnLib {
     static isDarkMode: boolean;
     static retinaRate: number;
     static readonly SN_ID = "skynovel";
-    static argChk_Num(hash: any, name: string, def: number): number;
-    static argChk_Boolean(hash: any, name: string, def: boolean): boolean;
     static cvsResize(cvs: HTMLCanvasElement): boolean;
-    static readonly getFn: (path: string) => string;
-    static readonly getExt: (path: string) => string;
 }
 //# sourceMappingURL=CmnLib.d.ts.map

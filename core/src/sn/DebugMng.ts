@@ -100,7 +100,7 @@ export class DebugMng {
 			case 'F':	sty = 'color:#B00;';	break;
 			case 'ET':
 			case 'E':	DebugMng.title({text: txt});
-				/*if (CmnLib.osName == "AND") {
+				/*if (CmnLib.osName === "AND") {
 					const buf = "mailto:foo@hoge.co.jp"
 						+ "?subject=AIRNovel_ERR&body="
 						+ CmnLib.escapeZenkaku(mes) + "\n"
@@ -112,7 +112,7 @@ export class DebugMng {
 				DebugMng.scrItr.dumpErrForeLine();
 				this.hTag.dump_stack({});
 
-				if (lvl == 'ET') throw mes;
+				if (lvl === 'ET') throw mes;
 				console.error('%c'+ mes, 'color:#F30;');	return;
 			default:	sty = '';	mes = ' '+ mes;
 		}

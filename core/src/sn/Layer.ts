@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, Renderer} from 'pixi.js';
-import {CmnLib, int} from './CmnLib';
+import {CmnLib, int, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './CmnInterface';
 
 export class Layer {
@@ -32,24 +32,24 @@ export class Layer {
 	destroy() {}
 
 	lay(hArg: HArg): boolean {
-		if ('alpha' in hArg) this.cnt.alpha = CmnLib.argChk_Num(hArg, 'alpha', 1);
+		if ('alpha' in hArg) this.cnt.alpha = argChk_Num(hArg, 'alpha', 1);
 
 		Layer.setBlendmode(this.cnt, hArg);
 
 		if ('pivot_x' in hArg || 'pivot_y' in hArg) this.cnt.pivot.set(
-			CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x),
-			CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y)
+			argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x),
+			argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y)
 		);
 
-		if ('rotation' in hArg) this.cnt.angle = CmnLib.argChk_Num(hArg, 'rotation', 0);
+		if ('rotation' in hArg) this.cnt.angle = argChk_Num(hArg, 'rotation', 0);
 			// rotation is in radians, angle is in degrees.
 
 		if ('scale_x' in hArg || 'scale_y' in hArg) this.cnt.scale.set(
-			CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x),
-			CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y)
+			argChk_Num(hArg, 'scale_x', this.cnt.scale.x),
+			argChk_Num(hArg, 'scale_y', this.cnt.scale.y)
 		);
 
-		if ('visible' in hArg) this.cnt.visible = CmnLib.argChk_Boolean(hArg, 'visible', true);
+		if ('visible' in hArg) this.cnt.visible = argChk_Boolean(hArg, 'visible', true);
 
 		return false;
 	}
@@ -120,7 +120,7 @@ export class Layer {
 		this.cnt.pivot.set(0, 0);
 		this.cnt.rotation = 0;
 		this.cnt.scale.set(1, 1);
-		if (CmnLib.argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = [];
+		if (argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = [];
 		//transform.colorTransform = nulColTrfm;
 	}
 	copy(fromLayer: Layer): void {
@@ -179,30 +179,30 @@ export class Layer {
 
 		const rct_base = base.getBounds();
 		const r_absclX	= (ret.scale.x < 0)? -ret.scale.x : ret.scale.x;
-		const b_width	= (r_absclX == 1)
+		const b_width	= (r_absclX === 1)
 						? rct_base.width : rct_base.width *r_absclX;
 		const r_absclY	= (ret.scale.y < 0)? -ret.scale.y : ret.scale.y;
-		const b_height	= (r_absclY == 1)
+		const b_height	= (r_absclY === 1)
 						? rct_base.height: rct_base.height*r_absclY;
 
 		// 横位置計算
 		let x = ret.x;	// AIRNovelでは 0
 		if ('left' in hArg) {
-			x = CmnLib.argChk_Num(hArg, 'left', 0);
+			x = argChk_Num(hArg, 'left', 0);
 			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
 		}
 		else if ('center' in hArg) {
-			x = CmnLib.argChk_Num(hArg, 'center', 0);
+			x = argChk_Num(hArg, 'center', 0);
 			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
 			x = x - (isButton ?b_width/3 :b_width)/2;
 		}
 		else if ('right' in hArg) {
-			x = CmnLib.argChk_Num(hArg, 'right', 0);
+			x = argChk_Num(hArg, 'right', 0);
 			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
 			x = x - (isButton ?b_width/3 :b_width);
 		}
 		else if ('s_right' in hArg) {
-			x = CmnLib.argChk_Num(hArg, 's_right', 0);
+			x = argChk_Num(hArg, 's_right', 0);
 			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
 			x = CmnLib.stageW - x
 				- (isButton ?b_width/3 :b_width);
@@ -214,21 +214,21 @@ export class Layer {
 		// 縦位置計算
 		let y = ret.y;	// AIRNovelでは 0
 		if ('top' in hArg) {
-			y = CmnLib.argChk_Num(hArg, 'top', 0);
+			y = argChk_Num(hArg, 'top', 0);
 			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
 		}
 		else if ('middle' in hArg) {
-			y = CmnLib.argChk_Num(hArg, 'middle', 0);
+			y = argChk_Num(hArg, 'middle', 0);
 			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
 			y = y - b_height/2;
 		}
 		else if ('bottom' in hArg) {
-			y = CmnLib.argChk_Num(hArg, 'bottom', 0);
+			y = argChk_Num(hArg, 'bottom', 0);
 			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
 			y = y - b_height;
 		}
 		else if ('s_bottom' in hArg) {
-			y = CmnLib.argChk_Num(hArg, 's_bottom', 0);
+			y = argChk_Num(hArg, 's_bottom', 0);
 			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
 			y = CmnLib.stageH - y - b_height;
 		}
@@ -252,20 +252,20 @@ export class Layer {
 	}
 
 	static	setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void {
-		if (pos == 'stay') return;
-		if (base == null) throw 'setXYByPos base == null';
-		if (ret == null) throw 'setXYByPos result == null';
+		if (pos === 'stay') return;
+		if (base === null) throw 'setXYByPos base === null';
+		if (ret === null) throw 'setXYByPos result === null';
 
 		const rct_base = base.getBounds();
 		const r_absclX = (ret.scale.x < 0)? -ret.scale.x : ret.scale.x;
-		const b_width = (r_absclX == 1)? rct_base.width : rct_base.width *r_absclX;
+		const b_width = (r_absclX === 1)? rct_base.width : rct_base.width *r_absclX;
 		const r_absclY = (ret.scale.y < 0)? -ret.scale.y : ret.scale.y;
-		const b_height = (r_absclY == 1)? rct_base.height: rct_base.height*r_absclY;
+		const b_height = (r_absclY === 1)? rct_base.height: rct_base.height*r_absclY;
 
 		let c = 0;	// 忘れたけど、プルプルするからintなんだっけ
-		if (! pos || pos == 'c') {c = CmnLib.stageW *0.5;}
-		else if (pos == 'r') {c = CmnLib.stageW - b_width *0.5;}
-		else if (pos == 'l') {c = b_width *0.5;}
+		if (! pos || pos === 'c') {c = CmnLib.stageW *0.5;}
+		else if (pos === 'r') {c = CmnLib.stageW - b_width *0.5;}
+		else if (pos === 'l') {c = b_width *0.5;}
 		else {c = int(pos) *CmnLib.retinaRate;}
 
 		ret.x = int(c -b_width *0.5);

@@ -77,7 +77,7 @@ export class Config implements IConfig {
 			if ('init' in oCfg) {
 				for (const n in this.oCfg.init) {
 					const v = String(this.oCfg.init[n]);
-					if (v.charAt(0) == '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
+					if (v.charAt(0) === '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
 				}
 			}
 
@@ -95,13 +95,13 @@ export class Config implements IConfig {
 				for (const nm in this.hPathFn2Exts) {
 					const o = this.hPathFn2Exts[nm];
 					for (const ext in o) {
-						if (ext.slice(-10) != ':RIPEMD160') continue;
+						if (ext.slice(-10) !== ':RIPEMD160') continue;
 						const hp = o[ext].slice(o[ext].lastIndexOf('/') +1);
 						const fn = o[ext.slice(0, -10)];
 						const res = await sys.fetch(fn);
 						const s = await res.text();
 						const hf = sys.hash(s);
-						if (hp != hf) throw `ファイル改竄エラーです fn:${fn}`;
+						if (hp !== hf) throw `ファイル改竄エラーです fn:${fn}`;
 					}
 				}
 
@@ -138,11 +138,11 @@ export class Config implements IConfig {
 			// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
 	searchPath(path: string, extptn = ''): string {
 		if (! path) throw '[searchPath] fnが空です';
-		if (path.substr(0, 7) == 'http://') return path;
-		if (path.substr(0, 11) == 'downloads:/') {
+		if (path.substr(0, 7) === 'http://') return path;
+		if (path.substr(0, 11) === 'downloads:/') {
 			return this.sys.path_downloads + path.slice(11);
 		}
-		if (path.substr(0, 10) == 'userdata:/') {
+		if (path.substr(0, 10) === 'userdata:/') {
 			return this.sys.path_userdata + path.slice(10);
 		}
 
@@ -152,10 +152,10 @@ export class Config implements IConfig {
 		if (this.userFnTail) {
 			const utn = fn +'@@'+ this.userFnTail;
 			if (utn in this.hPathFn2Exts) {
-				if (extptn == '') fn = utn;
+				if (extptn === '') fn = utn;
 				else
 				for (let e3 in this.hPathFn2Exts[utn]) {
-					if (`|${extptn}|`.indexOf(`|${e3}|`) == -1) continue;
+					if (`|${extptn}|`.indexOf(`|${e3}|`) === -1) continue;
 
 					fn = utn;
 					break;
@@ -171,7 +171,7 @@ export class Config implements IConfig {
 			//	extのどれかでサーチ
 			//		（ファイル名サーチ→拡張子群にextが含まれるか）
 			const hcnt = int(h_exts[':cnt']);
-			if (extptn == '') {
+			if (extptn === '') {
 				if (hcnt > 1) throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
 
 				return path;
@@ -181,12 +181,12 @@ export class Config implements IConfig {
 			if (hcnt > 1) {
 				let cnt = 0;
 				for (const e2 in h_exts) {
-					if (search_exts.indexOf(`|${e2}|`) == -1) continue;
+					if (search_exts.indexOf(`|${e2}|`) === -1) continue;
 					if (++cnt > 1) throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
 				}
 			}
 			for (let e in h_exts) {
-				if (search_exts.indexOf(`|${e}|`) == -1) continue;
+				if (search_exts.indexOf(`|${e}|`) === -1) continue;
 
 				return h_exts[e];
 			}
@@ -195,9 +195,9 @@ export class Config implements IConfig {
 
 		// fnに拡張子xが含まれている
 		//	ファイル名サーチ→拡張子群にxが含まれるか
-		if (extptn != '') {
+		if (extptn !== '') {
 			const search_exts2 = `|${extptn}|`;
-			if (search_exts2.indexOf(`|${ext}|`) == -1) {
+			if (search_exts2.indexOf(`|${ext}|`) === -1) {
 				throw `指定ファイルの拡張子【${ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${path}】`;
 			}
 		}
@@ -214,15 +214,15 @@ export class Config implements IConfig {
 		const regPtn = new RegExp(fnptn);
 		const regExt = new RegExp(extptn);
 		for (let fn in this.hPathFn2Exts) {
-			if (fn.search(regPtn) == -1) continue;
+			if (fn.search(regPtn) === -1) continue;
 
 			const h_exts = this.hPathFn2Exts[fn];
-			if (extptn == '') {aRet.push(h_exts); continue;}
+			if (extptn === '') {aRet.push(h_exts); continue;}
 
 			const o :IExts = {};
 			let isa = false;
 			for (const ext in h_exts) {
-				if (ext.search(regExt) == -1) continue;
+				if (ext.search(regExt) === -1) continue;
 
 				o[ext] = h_exts[ext];
 				isa = true;

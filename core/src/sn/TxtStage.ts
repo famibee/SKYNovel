@@ -7,7 +7,7 @@
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
 
-import {CmnLib, IEvtMng} from './CmnLib';
+import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './CmnInterface';
 import {Config} from './Config';
 import {CmnTween} from './CmnTween';
@@ -110,7 +110,7 @@ export class TxtStage extends Container {
 		this.infTL.$height = parseFloat(s.height || '0');
 		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
-		this.isTategaki = (s.writingMode == 'vertical-rl');
+		this.isTategaki = (s.writingMode === 'vertical-rl');
 
 		this.padTx4x = 0;
 		this.padTx4y = 0;
@@ -118,7 +118,7 @@ export class TxtStage extends Container {
 		const lh = s.lineHeight ?? '0';
 		this.lh_half = this.isTategaki
 			? 0
-			: (	(lh.slice(-2) == 'px')
+			: (	(lh.slice(-2) === 'px')
 				? parseFloat(lh)
 				: (fs *parseFloat(lh) -fs)) /2;
 			// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
@@ -506,7 +506,7 @@ export class TxtStage extends Container {
 		TxtStage.cntBreak.visible = false;
 
 		const begin = this.aRect.length;
-		if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {	// 初回
+		if (TxtStage.cfg.oCfg.debug.masume && begin === 0) {	// 初回
 			if (CmnLib.debugLog) console.log(`🍌 masume ${
 				this.name} v:${this.visible} l:${this.x} t:${this.y
 				} a:${this.alpha} pl:${this.infTL.pad_left
@@ -529,7 +529,7 @@ export class TxtStage extends Container {
 			this.grpDbgMasume.endFill();
 		}
 
-		if (begin == 0) this.htmTxt.innerHTML = [...aSpan].join('');
+		if (begin === 0) this.htmTxt.innerHTML = [...aSpan].join('');
 		else this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
 		this.lenHtmTxt = aSpan.length;
 
@@ -539,7 +539,7 @@ export class TxtStage extends Container {
 		do {
 			const e = this.aRect = this.getChRects(this.htmTxt);
 			len = e.length;
-			if (CmnLib.cvsScale != 1) {
+			if (CmnLib.cvsScale !== 1) {
 				// Resizeを意識してDOM位置をPIXIに変換
 				// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響が大きい
 				const ox = CmnLib.ofsPadLeft_Dom2PIXI
@@ -563,7 +563,7 @@ export class TxtStage extends Container {
 			let sl_xy = -Infinity;
 			for (; j<len; ++j) {
 				const he = e[j];
-				if (he.elm.outerHTML.slice(0, 3) == '<rt') continue;
+				if (he.elm.outerHTML.slice(0, 3) === '<rt') continue;
 
 				const xy = this.tategaki ?he.rect.y :he.rect.x;
 				if (sl_xy < xy) {sl_xy = xy; continue;}
@@ -571,7 +571,7 @@ export class TxtStage extends Container {
 
 				// 追い出し
 				if (TxtStage.reg分割禁止.test(e[j -1].ch)
-				&& e[j -1].ch == he.ch) --j;
+				&& e[j -1].ch === he.ch) --j;
 				else {
 					if (TxtStage.reg行末禁則.test(e[j -1].ch)) --j;
 					else if (TxtStage.reg行頭禁則.test(he.ch)) {
@@ -595,7 +595,7 @@ export class TxtStage extends Container {
 					for (let z=j -2; z>=j_start; --z) {
 						if (! e[z].elm.dataset['add']) continue;
 						line.insertBefore(
-							(e[z].elm.outerHTML.slice(0, 6) == '<ruby ')
+							(e[z].elm.outerHTML.slice(0, 6) === '<ruby ')
 								? e[z].elm.parentElement!
 								: e[z].elm,
 							line.firstChild
@@ -697,13 +697,13 @@ export class TxtStage extends Container {
 			TxtStage.cntBreak.visible = true;
 			this.fncEndChIn = ()=> {};
 		};
-		if (len_chs == 0) {this.fncEndChIn(); return;}
+		if (len_chs === 0) {this.fncEndChIn(); return;}
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
 		let le = null;
 		for (let i=len_chs -1; i>=0; --i) {
 			const v = chs[i];
-			if (v.className == 'sn_ch') break;	// 表示済みのみ
+			if (v.className === 'sn_ch') break;	// 表示済みのみ
 			const st = v.getAttribute('style');
 			if (! st) {le = v; break;}
 			const m = st.match(this.regDs);
@@ -722,8 +722,8 @@ export class TxtStage extends Container {
 		if (arg.width) sp.width = arg.width;
 		if (arg.height) sp.height = arg.height;
 		sp.position.set(
-			(cis.x.charAt(0) == '=') ?rct.x +sp.width  *cis.nx :cis.nx,
-			(cis.y.charAt(0) == '=') ?rct.y +sp.height *cis.ny :cis.ny
+			(cis.x.charAt(0) === '=') ?rct.x +sp.width  *cis.nx :cis.nx,
+			(cis.y.charAt(0) === '=') ?rct.y +sp.height *cis.ny :cis.ny
 		);
 		const st: ISpTw = {
 			sp: sp,
@@ -733,7 +733,7 @@ export class TxtStage extends Container {
 				.delay((add.wait ?? 0) +(arg.delay ?? 0))
 				.onComplete(()=> {
 					st.tw = null;
-					//(略)	if (rct.width == 0 || rct.height == 0) return;
+					//(略)	if (rct.width === 0 || rct.height === 0) return;
 					//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
 					//　これを有効にすると[snapshot]で文字が出ない
 				})
@@ -769,8 +769,8 @@ export class TxtStage extends Container {
 		const x = String(hArg.x ?? '=0');
 		const y = String(hArg.y ?? '=0');
 		return TxtStage.hChInStyle[name] = {
-			wait	: CmnLib.argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
-			alpha	: CmnLib.argChk_Num(hArg, 'alpha', 0),
+			wait	: argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
+			alpha	: argChk_Num(hArg, 'alpha', 0),
 			x		: x,	// 初期x値
 			y		: y,	// [tsy]と同様に絶対・相対指定可能
 			// {x:500}			X位置を500に
@@ -778,18 +778,30 @@ export class TxtStage extends Container {
 			// {x:'=-500'}		現在のX位置に-500加算した位置
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			nx		: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
-			ny		: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
-			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 1),
-			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 1),
-			rotate	: CmnLib.argChk_Num(hArg, 'rotate', 0),
-			join	: CmnLib.argChk_Boolean(hArg, 'join', true),
+			nx		: parseFloat((x.charAt(0) === '=') ? x.slice(1) : x),
+			ny		: parseFloat((y.charAt(0) === '=') ? y.slice(1) : y),
+			scale_x	: argChk_Num(hArg, 'scale_x', 1),
+			scale_y	: argChk_Num(hArg, 'scale_y', 1),
+			rotate	: argChk_Num(hArg, 'rotate', 0),
+			join	: argChk_Boolean(hArg, 'join', true),
 						// 文字を順番に出すか（true）同時か（false）
 			ease	: hArg.ease ?? 'ease-out',
 		};
 	}
 
-	private	static	hChOutStyle	= Object.create(null);
+	private	static	hChOutStyle: {[nm: string]: {
+		wait	: number;
+		alpha	: number;
+		x		: string;
+		y		: string;
+		nx		: number;
+		ny		: number;
+		scale_x	: number;
+		scale_y	: number;
+		rotate	: number;
+		join	: boolean;
+		ease	: string;
+	}}	= Object.create(null);
 	static	getChOutStyle(name: string) {return TxtStage.hChOutStyle[name];}
 	static	ch_out_style(hArg: HArg): any {
 		const name = hArg.name;
@@ -801,8 +813,8 @@ export class TxtStage extends Container {
 		const x = String(hArg.x ?? '=0');
 		const y = String(hArg.y ?? '=0');
 		return TxtStage.hChOutStyle[name] = {
-			wait	: CmnLib.argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
-			alpha	: CmnLib.argChk_Num(hArg, 'alpha', 0),
+			wait	: argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
+			alpha	: argChk_Num(hArg, 'alpha', 0),
 			x		: x,	// 初期x値
 			y		: y,	// [tsy]と同様に絶対・相対指定可能
 			// {x:500}			X位置を500に
@@ -810,12 +822,12 @@ export class TxtStage extends Container {
 			// {x:'=-500'}		現在のX位置に-500加算した位置
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			nx		: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
-			ny		: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
-			scale_x	: CmnLib.argChk_Num(hArg, 'scale_x', 1),
-			scale_y	: CmnLib.argChk_Num(hArg, 'scale_y', 1),
-			rotate	: CmnLib.argChk_Num(hArg, 'rotate', 0),
-			join	: CmnLib.argChk_Boolean(hArg, 'join', false),
+			nx		: parseFloat((x.charAt(0) === '=') ? x.slice(1) : x),
+			ny		: parseFloat((y.charAt(0) === '=') ? y.slice(1) : y),
+			scale_x	: argChk_Num(hArg, 'scale_x', 1),
+			scale_y	: argChk_Num(hArg, 'scale_y', 1),
+			rotate	: argChk_Num(hArg, 'rotate', 0),
+			join	: argChk_Boolean(hArg, 'join', false),
 						// 文字を順番に出すか（true）同時か（false）
 			ease	: hArg.ease ?? 'ease-out',
 		};
@@ -842,7 +854,7 @@ export class TxtStage extends Container {
 	private lh_half		= 0;	// 「g」などで下が欠ける問題対策
 	private getChRects(elm: Node): IChRect[] {	// 注意）再帰関数
 		const ret: any = [];
-		if (elm.nodeType != elm.TEXT_NODE) {
+		if (elm.nodeType !== elm.TEXT_NODE) {
 			for (const v of elm.childNodes) ret.push(this.getChRects(v));
 			return Array.prototype.concat.apply([], ret);	// 配列をフラットにする
 		}
@@ -912,7 +924,7 @@ export class TxtStage extends Container {
 
 			const cos = TxtStage.hChOutStyle[add.ch_out_style];
 			if (! cos) continue;
-			if (cos.wait == 0) {elm.style.display = 'none'; continue;}
+			if (cos.wait === 0) {elm.style.display = 'none'; continue;}
 
 			sum_wait += cos.wait;
 			if (! cos.join) elm.style.animationDelay = '0ms';
@@ -923,7 +935,7 @@ export class TxtStage extends Container {
 			old.parentElement!.removeChild(old);
 			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
 		};
-		if (sum_wait == 0) {this.htmTxt.textContent = ''; end();}
+		if (sum_wait === 0) {this.htmTxt.textContent = ''; end();}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
 
 		this.htmTxt = n;

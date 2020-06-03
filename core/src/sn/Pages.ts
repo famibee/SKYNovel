@@ -8,7 +8,7 @@
 import {HArg, IVariable} from './CmnInterface';
 import {Layer} from './Layer';
 import {SysBase} from './SysBase';
-import {CmnLib} from './CmnLib';
+import {argChk_Boolean} from './CmnLib';
 
 import {Container} from 'pixi.js';
 
@@ -24,8 +24,8 @@ export class Pages {
 		this.pg.back.name = `layer:${layer} cls:${cls_} page:B`;
 		fore.addChild(this.fore.cnt);
 		back.addChild(this.back.cnt);
-		CmnLib.argChk_Boolean(hArgFore, 'visible', true);
-		CmnLib.argChk_Boolean(hArgBack, 'visible', true);
+		argChk_Boolean(hArgFore, 'visible', true);
+		argChk_Boolean(hArgBack, 'visible', true);
 			// SKYNovelではデフォルトはtrueとする
 		ret.isWait = this.fore.lay(hArgFore);
 		ret.isWait = ret.isWait || this.back.lay(hArgBack);
@@ -53,13 +53,13 @@ export class Pages {
 
 	readonly lay = (hArg: HArg)=> this.getPage(hArg).lay(hArg);
 	readonly getPage = (hArg: HArg)=>
-		(Pages.argChk_page(hArg, 'fore') != 'back')
+		(Pages.argChk_page(hArg, 'fore') !== 'back')
 			? this.pg.fore
 			: this.pg.back;
 	static	argChk_page(hash: HArg, def: string): string {
 		const v = hash.page ?? def;
-		if (v == 'fore') return hash.page = v;
-		if (v == 'back') return hash.page = v;
+		if (v === 'fore') return hash.page = v;
+		if (v === 'back') return hash.page = v;
 
 		throw Error('属性 page【'+ v +'】が不正です');
 	}

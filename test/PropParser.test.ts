@@ -894,8 +894,7 @@ PropParser.getValName: 0.016ms
 				assert.equal('fail', '起こるべき例外が起こっていない');
 			}
 			catch (e) {
-				assert.equal(e.message,
-					'(PropParser)数値以外に-符号がついています');
+				assert.equal(e.message,'(PropParser)数値以外に-符号がついています');
 			}
 		});
 

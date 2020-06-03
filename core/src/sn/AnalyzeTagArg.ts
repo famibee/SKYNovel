@@ -25,7 +25,7 @@ export class AnalyzeTagArg {
 				def: g.def ?? g.def2
 			};
 			else if (g.literal) {
-				if (g.literal == '*') this.$isKomeParam = true;
+				if (g.literal === '*') this.$isKomeParam = true;
 				else this.$hPrm[g.literal] = {val: '1'};
 			}
 		}

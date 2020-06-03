@@ -75,16 +75,16 @@ export class RubySpliter {
 	private	putTxtRb(text: string, ruby: string) {
 		const a: string[] = Array.from(text);
 		const len = a.length;
-		if (ruby.charAt(0) == '*' && ruby.length <= 2) {
+		if (ruby.charAt(0) === '*' && ruby.length <= 2) {
 			const rb_ses
 				= 'center｜'
-				+ ((ruby == '*') ? RubySpliter.sesame : ruby.charAt(1));
+				+ ((ruby === '*') ? RubySpliter.sesame : ruby.charAt(1));
 			for (let i=0; i<len; ++i) this.putCh(a[i], rb_ses);
 			return;
 		}
 
 		// 自動区切りを行わない
-		if (len == 1 || ruby.indexOf(' ') == -1) {
+		if (len === 1 || ruby.indexOf(' ') === -1) {
 			this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
 			return;
 		}

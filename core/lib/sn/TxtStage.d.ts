@@ -54,7 +54,19 @@ export declare class TxtStage extends Container {
     static getChInStyle(name: string): any;
     static ch_in_style(hArg: HArg): any;
     private static hChOutStyle;
-    static getChOutStyle(name: string): any;
+    static getChOutStyle(name: string): {
+        wait: number;
+        alpha: number;
+        x: string;
+        y: string;
+        nx: number;
+        ny: number;
+        scale_x: number;
+        scale_y: number;
+        rotate: number;
+        join: boolean;
+        ease: string;
+    };
     static ch_out_style(hArg: HArg): any;
     private static cntBreak;
     dispBreak(pic: string): void;

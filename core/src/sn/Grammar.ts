@@ -42,7 +42,7 @@ export class Grammar {
 		if (! name) throw '[bracket2macro] nameは必須です';
 		const text = hArg.text;
 		if (! text) throw '[bracket2macro] textは必須です';
-		if (text.length != 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
+		if (text.length !== 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
 
 		this.hC2M = this.hC2M ?? {};
 		const op = text.charAt(0);
@@ -109,7 +109,7 @@ export class Grammar {
 				let ch = a[j];
 				const macro = this.hC2M[ch.charAt(0)];
 				if (macro) {
-					ch = macro +((macro.substr(-1) == ']')
+					ch = macro +((macro.substr(-1) === ']')
 						? ''
 						: (`'${ch.slice(1, -1)}']`));
 					// 文字列は半角空白を意識して''で囲むが、いずれ変えたい場合がある？
@@ -133,11 +133,11 @@ export class Grammar {
 			// != を弾けないので中途半端ではある
 		const cnt_equa = equa.length;
 		if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
-		if (equa[1].charAt(0) == '&') throw '「&計算」書式では「&」指定が不要です';
+		if (equa[1].charAt(0) === '&') throw '「&計算」書式では「&」指定が不要です';
 		return {
 			name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
 			text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
-			cast: ((cnt_equa == 3) ?equa[2].trim() :null)
+			cast: ((cnt_equa === 3) ?equa[2].trim() :null)
 		};
 	}
 

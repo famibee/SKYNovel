@@ -106,12 +106,13 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Layer = exports.CmnLib = exports.SysApp = void 0;
 const SysApp_1 = __webpack_require__(/*! ./sn/SysApp */ "./core/src/sn/SysApp.ts");
-exports.SysApp = SysApp_1.SysApp;
+Object.defineProperty(exports, "SysApp", { enumerable: true, get: function () { return SysApp_1.SysApp; } });
 const CmnLib_1 = __webpack_require__(/*! ./sn/CmnLib */ "./core/src/sn/CmnLib.ts");
-exports.CmnLib = CmnLib_1.CmnLib;
+Object.defineProperty(exports, "CmnLib", { enumerable: true, get: function () { return CmnLib_1.CmnLib; } });
 const Layer_1 = __webpack_require__(/*! ./sn/Layer */ "./core/src/sn/Layer.ts");
-exports.Layer = Layer_1.Layer;
+Object.defineProperty(exports, "Layer", { enumerable: true, get: function () { return Layer_1.Layer; } });
 
 
 /***/ }),
@@ -126,6 +127,7 @@ exports.Layer = Layer_1.Layer;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AnalyzeTagArg = void 0;
 class AnalyzeTagArg {
     constructor() {
         this.REG_TAGARG = /;.*\n|(?<key>\w+)(?:\s+|;[^\n]*\n)*=(?:\s+|;.*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
@@ -149,7 +151,7 @@ class AnalyzeTagArg {
                     def: (_b = g.def) !== null && _b !== void 0 ? _b : g.def2
                 };
             else if (g.literal) {
-                if (g.literal == '*')
+                if (g.literal === '*')
                     this.$isKomeParam = true;
                 else
                     this.$hPrm[g.literal] = { val: '1' };
@@ -174,6 +176,7 @@ exports.AnalyzeTagArg = AnalyzeTagArg;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Areas = void 0;
 class Areas {
     constructor() {
         this.hAreas = {};
@@ -191,7 +194,7 @@ class Areas {
         if (this.search(idx))
             return;
         for (const begin in this.hAreas) {
-            if (this.hAreas[begin] + 1 == idx) {
+            if (this.hAreas[begin] + 1 === idx) {
                 if ((idx + 1) in this.hAreas) {
                     this.hAreas[begin] = this.hAreas[idx + 1];
                     delete this.hAreas[idx + 1];
@@ -223,7 +226,7 @@ class Areas {
                 continue;
             if (this.hAreas[begin] < idx)
                 continue;
-            if (this.hAreas[begin] == idx) {
+            if (this.hAreas[begin] === idx) {
                 this.hAreas[begin] = idx - 1;
                 return;
             }
@@ -244,7 +247,7 @@ class Areas {
                 ? ''
                 : undefined;
         }
-        if (ret != '')
+        if (ret !== '')
             ret = ret.substr(1);
         return ret;
     }
@@ -264,123 +267,127 @@ exports.Areas = Areas;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Button = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const GrpLayer_1 = __webpack_require__(/*! ./GrpLayer */ "./core/src/sn/GrpLayer.ts");
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
-class Button extends pixi_js_1.Container {
-    constructor(main, evtMng, hArg) {
-        var _a;
-        super();
-        this.main = main;
-        this.evtMng = evtMng;
-        this.isStop = false;
-        const enabled = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', true);
-        if (enabled)
-            this.evtMng.button(hArg, this);
-        if ('text' in hArg) {
-            const fontSize = CmnLib_1.uint(hArg.height || 30);
-            const style = {
-                fill: 'black',
-                align: 'center',
-                fontFamily: Button.fontFamily,
-                fontSize: fontSize,
-                padding: 5,
-                dropShadow: true,
-                dropShadowAlpha: 0.7,
-                dropShadowColor: '#ffffff',
-                dropShadowBlur: 7,
-                dropShadowDistance: 0,
-            };
-            if (hArg.style)
-                Button.s2hStyle(style, hArg.style);
-            const txt = new pixi_js_1.Text((_a = hArg.text) !== null && _a !== void 0 ? _a : '', style);
-            txt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', txt.alpha);
-            txt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', txt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', txt.pivot.y));
-            txt.rotation = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', txt.rotation);
-            txt.scale.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', txt.scale.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', txt.scale.y));
-            txt.width = CmnLib_1.uint(hArg.width || 100);
-            txt.height = fontSize;
-            txt.x = CmnLib_1.uint(hArg.left || 0);
-            txt.y = CmnLib_1.uint(hArg.top || 0);
-            if (hArg.b_pic) {
-                const cnt = new pixi_js_1.Container();
-                this.addChild(cnt);
-                this.isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.b_pic, cnt, sp => {
-                    sp.alpha = txt.alpha;
-                    sp.rotation = txt.rotation;
-                    sp.x = txt.x;
-                    sp.y = txt.y;
-                    sp.pivot.set((sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
-                }, isStop => {
+let Button = (() => {
+    class Button extends pixi_js_1.Container {
+        constructor(main, evtMng, hArg) {
+            var _a;
+            super();
+            this.main = main;
+            this.evtMng = evtMng;
+            this.isStop = false;
+            const enabled = CmnLib_1.argChk_Boolean(hArg, 'enabled', true);
+            if (enabled)
+                this.evtMng.button(hArg, this);
+            if ('text' in hArg) {
+                const fontSize = CmnLib_1.uint(hArg.height || 30);
+                const style = {
+                    fill: 'black',
+                    align: 'center',
+                    fontFamily: Button.fontFamily,
+                    fontSize: fontSize,
+                    padding: 5,
+                    dropShadow: true,
+                    dropShadowAlpha: 0.7,
+                    dropShadowColor: '#ffffff',
+                    dropShadowBlur: 7,
+                    dropShadowDistance: 0,
+                };
+                if (hArg.style)
+                    Button.s2hStyle(style, hArg.style);
+                const txt = new pixi_js_1.Text((_a = hArg.text) !== null && _a !== void 0 ? _a : '', style);
+                txt.alpha = CmnLib_1.argChk_Num(hArg, 'alpha', txt.alpha);
+                txt.pivot.set(CmnLib_1.argChk_Num(hArg, 'pivot_x', txt.pivot.x), CmnLib_1.argChk_Num(hArg, 'pivot_y', txt.pivot.y));
+                txt.rotation = CmnLib_1.argChk_Num(hArg, 'rotation', txt.rotation);
+                txt.scale.set(CmnLib_1.argChk_Num(hArg, 'scale_x', txt.scale.x), CmnLib_1.argChk_Num(hArg, 'scale_y', txt.scale.y));
+                txt.width = CmnLib_1.uint(hArg.width || 100);
+                txt.height = fontSize;
+                txt.x = CmnLib_1.uint(hArg.left || 0);
+                txt.y = CmnLib_1.uint(hArg.top || 0);
+                if (hArg.b_pic) {
+                    const cnt = new pixi_js_1.Container();
+                    this.addChild(cnt);
+                    this.isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.b_pic, cnt, sp => {
+                        sp.alpha = txt.alpha;
+                        sp.rotation = txt.rotation;
+                        sp.x = txt.x;
+                        sp.y = txt.y;
+                        sp.pivot.set((sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
+                    }, isStop => {
+                        Layer_1.Layer.setBlendmode(this, hArg);
+                        if (isStop)
+                            this.main.resume();
+                    });
+                }
+                this.addChild(txt);
+                if (!hArg.b_pic)
                     Layer_1.Layer.setBlendmode(this, hArg);
-                    if (isStop)
-                        this.main.resume();
-                });
-            }
-            this.addChild(txt);
-            if (!hArg.b_pic)
-                Layer_1.Layer.setBlendmode(this, hArg);
-            if (!enabled)
+                if (!enabled)
+                    return;
+                const normal = () => txt.style = { ...txt.style, ...style };
+                const style_hover = { ...style };
+                if (hArg.style_hover)
+                    Button.s2hStyle(style_hover, hArg.style_hover);
+                else
+                    style_hover.fill = 'white';
+                const hover = () => txt.style = { ...txt.style, ...style_hover };
+                const style_clicked = { ...style_hover };
+                if (hArg.style_clicked)
+                    Button.s2hStyle(style_clicked, hArg.style_clicked);
+                else
+                    style_clicked.dropShadow = false;
+                const clicked = () => txt.style = { ...txt.style, ...style_clicked };
+                this.on('pointerover', hover);
+                this.on('pointerout', normal);
+                this.on('pointerdown', clicked);
+                this.on('pointerup', CmnLib_1.CmnLib.isMobile ? normal : hover);
                 return;
-            const normal = () => txt.style = { ...txt.style, ...style };
-            const style_hover = { ...style };
-            if (hArg.style_hover)
-                Button.s2hStyle(style_hover, hArg.style_hover);
-            else
-                style_hover.fill = 'white';
-            const hover = () => txt.style = { ...txt.style, ...style_hover };
-            const style_clicked = { ...style_hover };
-            if (hArg.style_clicked)
-                Button.s2hStyle(style_clicked, hArg.style_clicked);
-            else
-                style_clicked.dropShadow = false;
-            const clicked = () => txt.style = { ...txt.style, ...style_clicked };
-            this.on('pointerover', hover);
-            this.on('pointerout', normal);
-            this.on('pointerdown', clicked);
-            this.on('pointerup', CmnLib_1.CmnLib.isMobile ? normal : hover);
-            return;
+            }
+            if (!hArg.pic)
+                throw 'textまたはpic属性は必須です';
+            this.isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => {
+                sp.alpha = CmnLib_1.argChk_Num(hArg, 'alpha', sp.alpha);
+                sp.pivot.set(CmnLib_1.argChk_Num(hArg, 'pivot_x', sp.pivot.x), CmnLib_1.argChk_Num(hArg, 'pivot_y', sp.pivot.y));
+                sp.rotation = CmnLib_1.argChk_Num(hArg, 'rotation', sp.rotation);
+                sp.scale.set(CmnLib_1.argChk_Num(hArg, 'scale_x', sp.scale.x), CmnLib_1.argChk_Num(hArg, 'scale_y', sp.scale.y));
+                sp.x = CmnLib_1.uint(hArg.left || 0);
+                sp.y = CmnLib_1.uint(hArg.top || 0);
+                const w3 = sp.width / 3;
+                const h = sp.height;
+                const tx = sp.texture.baseTexture;
+                const txNormal = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(0, 0, w3, h));
+                const txClicked = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3, 0, w3, h));
+                const txHover = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3 * 2, 0, w3, h));
+                const normal = () => sp.texture = txNormal;
+                const hover = () => sp.texture = txHover;
+                const clicked = () => sp.texture = txClicked;
+                this.on('pointerover', hover);
+                this.on('pointerout', normal);
+                this.on('pointerdown', clicked);
+                this.on('pointerup', CmnLib_1.CmnLib.isMobile ? normal : hover);
+                normal();
+            }, isStop => { if (isStop)
+                this.main.resume(); });
         }
-        if (!hArg.pic)
-            throw 'textまたはpic属性は必須です';
-        this.isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => {
-            sp.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', sp.alpha);
-            sp.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', sp.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', sp.pivot.y));
-            sp.rotation = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', sp.rotation);
-            sp.scale.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', sp.scale.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', sp.scale.y));
-            sp.x = CmnLib_1.uint(hArg.left || 0);
-            sp.y = CmnLib_1.uint(hArg.top || 0);
-            const w3 = sp.width / 3;
-            const h = sp.height;
-            const tx = sp.texture.baseTexture;
-            const txNormal = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(0, 0, w3, h));
-            const txClicked = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3, 0, w3, h));
-            const txHover = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3 * 2, 0, w3, h));
-            const normal = () => sp.texture = txNormal;
-            const hover = () => sp.texture = txHover;
-            const clicked = () => sp.texture = txClicked;
-            this.on('pointerover', hover);
-            this.on('pointerout', normal);
-            this.on('pointerdown', clicked);
-            this.on('pointerup', CmnLib_1.CmnLib.isMobile ? normal : hover);
-            normal();
-        }, isStop => { if (isStop)
-            this.main.resume(); });
-    }
-    static s2hStyle(hStyle, style) {
-        Button.cln = document.createElement('span');
-        const s = Button.cln.style;
-        s.cssText = style;
-        const len = s.length;
-        for (let i = 0; i < len; ++i) {
-            const nm = s[i];
-            hStyle[nm] = s[nm];
+        static s2hStyle(hStyle, style) {
+            Button.cln = document.createElement('span');
+            const s = Button.cln.style;
+            s.cssText = style;
+            const len = s.length;
+            for (let i = 0; i < len; ++i) {
+                const nm = s[i];
+                hStyle[nm] = s[nm];
+            }
         }
     }
-}
+    Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
+    return Button;
+})();
 exports.Button = Button;
-Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 
 
 /***/ }),
@@ -395,6 +402,7 @@ Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシッ
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CallStack = void 0;
 class CallStack {
     constructor($fn = '', $idx = 0, $hArg = null) {
         this.$fn = $fn;
@@ -421,6 +429,7 @@ exports.CallStack = CallStack;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CmnLib = exports.getExt = exports.getFn = exports.argChk_Boolean = exports.argChk_Num = exports.cnvTweenArg = exports.hMemberCnt = exports.getDateStr = exports.uint = exports.int = void 0;
 function int(o) { return parseInt(String(o), 10); }
 exports.int = int;
 function uint(o) {
@@ -447,7 +456,7 @@ function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = '') {
         + spl_dd + String(100 + now.getDate()).substr(1, 2)
         + spl_dt + String(100 + now.getHours()).substr(1, 2)
         + spl_tt + String(100 + now.getMinutes()).substr(1, 2)
-        + (spl_ms == '' ? '' : spl_ms + String(now.getMilliseconds()));
+        + (spl_ms === '' ? '' : spl_ms + String(now.getMilliseconds()));
 }
 exports.getDateStr = getDateStr;
 exports.hMemberCnt = {
@@ -466,117 +475,124 @@ function cnvTweenArg(hArg, lay) {
         if (!(nm in hArg))
             continue;
         const v = String(hArg[nm]);
-        const a = ((v.charAt(0) == '=') ? v.slice(1) : v).split(',');
+        const a = ((v.charAt(0) === '=') ? v.slice(1) : v).split(',');
         const a0 = hTo[nm] = parseFloat(a[0]);
         if (a.length > 1)
             hTo[nm] += Math.round(Math.random()
                 * (parseFloat(a[1]) - a0 + 1));
-        if (v.charAt(0) == '=')
+        if (v.charAt(0) === '=')
             hTo[nm] += parseFloat(lay[nm]);
     }
     return hTo;
 }
 exports.cnvTweenArg = cnvTweenArg;
+function argChk_Num(hash, name, def) {
+    const v = hash[name];
+    if (!(name in hash)) {
+        if (isNaN(def))
+            throw `[${hash.タグ名}]属性 ${name} は必須です`;
+        hash[name] = def;
+        return def;
+    }
+    const n = (String(v).substr(0, 2) === '0x')
+        ? parseInt(v)
+        : parseFloat(v);
+    if (isNaN(n))
+        throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
+    return hash[name] = n;
+}
+exports.argChk_Num = argChk_Num;
+function argChk_Boolean(hash, name, def) {
+    if (!(name in hash))
+        return hash[name] = def;
+    const v = hash[name];
+    if (v === null)
+        return false;
+    const v2 = String(v);
+    return hash[name] = (v2 === 'false') ? false : Boolean(v2);
+}
+exports.argChk_Boolean = argChk_Boolean;
 const m_path = __webpack_require__(/*! path */ "path");
+function getFn(path) { return m_path.basename(path, m_path.extname(path)); }
+exports.getFn = getFn;
+function getExt(path) { return m_path.extname(path).slice(1); }
+exports.getExt = getExt;
 const platform = __webpack_require__(/*! platform */ "./node_modules/platform/platform.js");
-class CmnLib {
-    static argChk_Num(hash, name, def) {
-        const v = hash[name];
-        if (!(name in hash)) {
-            if (isNaN(def))
-                throw `[${hash.タグ名}]属性 ${name} は必須です`;
-            hash[name] = def;
-            return def;
-        }
-        const n = (String(v).substr(0, 2) == '0x')
-            ? parseInt(v)
-            : parseFloat(v);
-        if (isNaN(n))
-            throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
-        return hash[name] = n;
-    }
-    static argChk_Boolean(hash, name, def) {
-        if (!(name in hash))
-            return hash[name] = def;
-        const v = hash[name];
-        if (v == null)
-            return false;
-        const v2 = String(v);
-        return hash[name] = (v2 == "false") ? false : Boolean(v2);
-    }
-    static cvsResize(cvs) {
-        var _a;
-        const bk_cw = CmnLib.cvsWidth;
-        const bk_ch = CmnLib.cvsHeight;
-        let wiw = window.innerWidth;
-        let wih = window.innerHeight;
-        const wi = window;
-        const lp = screen.orientation
-            ? screen.orientation.type.charAt(0)
-            : (((_a = wi.orientation) !== null && _a !== void 0 ? _a : 90) % 180 == 0) ? 'p' : 'l';
-        if (CmnLib.isMobile &&
-            ((lp == 'p' && wiw > wih) || (lp == 'l' && wiw < wih)))
-            [wiw, wih] = [wih, wiw];
-        if (CmnLib.argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
-            CmnLib.stageW > wiw ||
-            CmnLib.stageH > wih) {
-            if (CmnLib.stageW / CmnLib.stageH <= wiw / wih) {
-                CmnLib.cvsHeight = wih;
-                CmnLib.cvsWidth = CmnLib.stageW / CmnLib.stageH * wih;
+let CmnLib = (() => {
+    class CmnLib {
+        static cvsResize(cvs) {
+            var _a;
+            const bk_cw = CmnLib.cvsWidth;
+            const bk_ch = CmnLib.cvsHeight;
+            let wiw = window.innerWidth;
+            let wih = window.innerHeight;
+            const wi = window;
+            const lp = screen.orientation
+                ? screen.orientation.type.charAt(0)
+                : (((_a = wi.orientation) !== null && _a !== void 0 ? _a : 90) % 180 === 0) ? 'p' : 'l';
+            if (CmnLib.isMobile &&
+                ((lp === 'p' && wiw > wih) || (lp === 'l' && wiw < wih)))
+                [wiw, wih] = [wih, wiw];
+            if (argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
+                CmnLib.stageW > wiw ||
+                CmnLib.stageH > wih) {
+                if (CmnLib.stageW / CmnLib.stageH <= wiw / wih) {
+                    CmnLib.cvsHeight = wih;
+                    CmnLib.cvsWidth = CmnLib.stageW / CmnLib.stageH * wih;
+                }
+                else {
+                    CmnLib.cvsWidth = wiw;
+                    CmnLib.cvsHeight = CmnLib.stageH / CmnLib.stageW * wiw;
+                }
+                CmnLib.cvsScale = CmnLib.cvsWidth / CmnLib.stageW;
+                const cr = cvs.getBoundingClientRect();
+                CmnLib.ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
+                    ? (window.innerWidth - CmnLib.cvsWidth) / 2
+                    : cr.left)
+                    * (1 - CmnLib.cvsScale);
+                CmnLib.ofsPadTop_Dom2PIXI = (CmnLib.isMobile
+                    ? (window.innerHeight - CmnLib.cvsHeight) / 2
+                    : cr.top)
+                    * (1 - CmnLib.cvsScale);
             }
             else {
-                CmnLib.cvsWidth = wiw;
-                CmnLib.cvsHeight = CmnLib.stageH / CmnLib.stageW * wiw;
+                CmnLib.cvsWidth = CmnLib.stageW;
+                CmnLib.cvsHeight = CmnLib.stageH;
+                CmnLib.cvsScale = 1;
+                CmnLib.ofsPadLeft_Dom2PIXI = 0;
+                CmnLib.ofsPadTop_Dom2PIXI = 0;
             }
-            CmnLib.cvsScale = CmnLib.cvsWidth / CmnLib.stageW;
-            const cr = cvs.getBoundingClientRect();
-            CmnLib.ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
-                ? (window.innerWidth - CmnLib.cvsWidth) / 2
-                : cr.left)
-                * (1 - CmnLib.cvsScale);
-            CmnLib.ofsPadTop_Dom2PIXI = (CmnLib.isMobile
-                ? (window.innerHeight - CmnLib.cvsHeight) / 2
-                : cr.top)
-                * (1 - CmnLib.cvsScale);
+            if (cvs.parentElement) {
+                const ps = cvs.parentElement.style;
+                ps.position = 'relative';
+                const s = cvs.style;
+                ps.width = s.width = `${CmnLib.cvsWidth}px`;
+                ps.height = s.height = `${CmnLib.cvsHeight}px`;
+            }
+            return bk_cw !== CmnLib.cvsWidth || bk_ch !== CmnLib.cvsHeight;
         }
-        else {
-            CmnLib.cvsWidth = CmnLib.stageW;
-            CmnLib.cvsHeight = CmnLib.stageH;
-            CmnLib.cvsScale = 1;
-            CmnLib.ofsPadLeft_Dom2PIXI = 0;
-            CmnLib.ofsPadTop_Dom2PIXI = 0;
-        }
-        if (cvs.parentElement) {
-            const ps = cvs.parentElement.style;
-            ps.position = 'relative';
-            const s = cvs.style;
-            ps.width = s.width = `${CmnLib.cvsWidth}px`;
-            ps.height = s.height = `${CmnLib.cvsHeight}px`;
-        }
-        return bk_cw != CmnLib.cvsWidth || bk_ch != CmnLib.cvsHeight;
     }
-}
+    CmnLib.stageW = 0;
+    CmnLib.stageH = 0;
+    CmnLib.ofsPadLeft_Dom2PIXI = 0;
+    CmnLib.ofsPadTop_Dom2PIXI = 0;
+    CmnLib.cvsWidth = 0;
+    CmnLib.cvsHeight = 0;
+    CmnLib.cvsScale = 1;
+    CmnLib.debugLog = false;
+    CmnLib.platform = { ...platform };
+    CmnLib.isSafari = platform.name === 'Safari';
+    CmnLib.isFirefox = platform.name === 'Firefox';
+    CmnLib.isMac = new RegExp('OS X').test(CmnLib.platform.os.family);
+    CmnLib.isMobile = !new RegExp('(Windows|OS X)').test(CmnLib.platform.os.family);
+    CmnLib.hDip = {};
+    CmnLib.isRetina = false;
+    CmnLib.isDarkMode = false;
+    CmnLib.retinaRate = 1;
+    CmnLib.SN_ID = 'skynovel';
+    return CmnLib;
+})();
 exports.CmnLib = CmnLib;
-CmnLib.stageW = 0;
-CmnLib.stageH = 0;
-CmnLib.ofsPadLeft_Dom2PIXI = 0;
-CmnLib.ofsPadTop_Dom2PIXI = 0;
-CmnLib.cvsWidth = 0;
-CmnLib.cvsHeight = 0;
-CmnLib.cvsScale = 1;
-CmnLib.debugLog = false;
-CmnLib.platform = { ...platform };
-CmnLib.isSafari = platform.name == 'Safari';
-CmnLib.isFirefox = platform.name == 'Firefox';
-CmnLib.isMac = new RegExp('OS X').test(CmnLib.platform.os.family);
-CmnLib.isMobile = !new RegExp('(Windows|OS X)').test(CmnLib.platform.os.family);
-CmnLib.hDip = {};
-CmnLib.isRetina = false;
-CmnLib.isDarkMode = false;
-CmnLib.retinaRate = 1;
-CmnLib.SN_ID = 'skynovel';
-CmnLib.getFn = (path) => m_path.basename(path, m_path.extname(path));
-CmnLib.getExt = (path) => m_path.extname(path).slice(1);
 
 
 /***/ }),
@@ -591,50 +607,54 @@ CmnLib.getExt = (path) => m_path.extname(path).slice(1);
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CmnTween = void 0;
 const Tween = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/dist/tween.esm.js").default;
-class CmnTween {
-    static ease(nm) {
-        if (!nm)
-            return k => Tween.Easing.Linear.None(k);
-        if (!(nm in CmnTween.hEase))
-            throw '異常なease指定です';
-        return CmnTween.hEase[nm];
+let CmnTween = (() => {
+    class CmnTween {
+        static ease(nm) {
+            if (!nm)
+                return k => Tween.Easing.Linear.None(k);
+            if (!(nm in CmnTween.hEase))
+                throw '異常なease指定です';
+            return CmnTween.hEase[nm];
+        }
     }
-}
+    CmnTween.hEase = {
+        'Back.In': k => Tween.Easing.Back.In(k),
+        'Back.InOut': k => Tween.Easing.Back.InOut(k),
+        'Back.Out': k => Tween.Easing.Back.Out(k),
+        'Bounce.In': k => Tween.Easing.Bounce.In(k),
+        'Bounce.InOut': k => Tween.Easing.Bounce.InOut(k),
+        'Bounce.Out': k => Tween.Easing.Bounce.Out(k),
+        'Circular.In': k => Tween.Easing.Circular.In(k),
+        'Circular.InOut': k => Tween.Easing.Circular.InOut(k),
+        'Circular.Out': k => Tween.Easing.Circular.Out(k),
+        'Cubic.In': k => Tween.Easing.Cubic.In(k),
+        'Cubic.InOut': k => Tween.Easing.Cubic.InOut(k),
+        'Cubic.Out': k => Tween.Easing.Cubic.Out(k),
+        'Elastic.In': k => Tween.Easing.Elastic.In(k),
+        'Elastic.InOut': k => Tween.Easing.Elastic.InOut(k),
+        'Elastic.Out': k => Tween.Easing.Elastic.Out(k),
+        'Exponential.In': k => Tween.Easing.Exponential.In(k),
+        'Exponential.InOut': k => Tween.Easing.Exponential.InOut(k),
+        'Exponential.Out': k => Tween.Easing.Exponential.Out(k),
+        'Linear.None': k => Tween.Easing.Linear.None(k),
+        'Quadratic.In': k => Tween.Easing.Quadratic.In(k),
+        'Quadratic.InOut': k => Tween.Easing.Quadratic.InOut(k),
+        'Quadratic.Out': k => Tween.Easing.Quadratic.Out(k),
+        'Quartic.In': k => Tween.Easing.Quartic.In(k),
+        'Quartic.InOut': k => Tween.Easing.Quartic.InOut(k),
+        'Quartic.Out': k => Tween.Easing.Quartic.Out(k),
+        'Quintic.In': k => Tween.Easing.Quintic.In(k),
+        'Quintic.InOut': k => Tween.Easing.Quintic.InOut(k),
+        'Quintic.Out': k => Tween.Easing.Quintic.Out(k),
+        'Sinusoidal.In': k => Tween.Easing.Sinusoidal.In(k),
+        'Sinusoidal.InOut': k => Tween.Easing.Sinusoidal.InOut(k),
+        'Sinusoidal.Out': k => Tween.Easing.Sinusoidal.Out(k),
+    };
+    return CmnTween;
+})();
 exports.CmnTween = CmnTween;
-CmnTween.hEase = {
-    'Back.In': k => Tween.Easing.Back.In(k),
-    'Back.InOut': k => Tween.Easing.Back.InOut(k),
-    'Back.Out': k => Tween.Easing.Back.Out(k),
-    'Bounce.In': k => Tween.Easing.Bounce.In(k),
-    'Bounce.InOut': k => Tween.Easing.Bounce.InOut(k),
-    'Bounce.Out': k => Tween.Easing.Bounce.Out(k),
-    'Circular.In': k => Tween.Easing.Circular.In(k),
-    'Circular.InOut': k => Tween.Easing.Circular.InOut(k),
-    'Circular.Out': k => Tween.Easing.Circular.Out(k),
-    'Cubic.In': k => Tween.Easing.Cubic.In(k),
-    'Cubic.InOut': k => Tween.Easing.Cubic.InOut(k),
-    'Cubic.Out': k => Tween.Easing.Cubic.Out(k),
-    'Elastic.In': k => Tween.Easing.Elastic.In(k),
-    'Elastic.InOut': k => Tween.Easing.Elastic.InOut(k),
-    'Elastic.Out': k => Tween.Easing.Elastic.Out(k),
-    'Exponential.In': k => Tween.Easing.Exponential.In(k),
-    'Exponential.InOut': k => Tween.Easing.Exponential.InOut(k),
-    'Exponential.Out': k => Tween.Easing.Exponential.Out(k),
-    'Linear.None': k => Tween.Easing.Linear.None(k),
-    'Quadratic.In': k => Tween.Easing.Quadratic.In(k),
-    'Quadratic.InOut': k => Tween.Easing.Quadratic.InOut(k),
-    'Quadratic.Out': k => Tween.Easing.Quadratic.Out(k),
-    'Quartic.In': k => Tween.Easing.Quartic.In(k),
-    'Quartic.InOut': k => Tween.Easing.Quartic.InOut(k),
-    'Quartic.Out': k => Tween.Easing.Quartic.Out(k),
-    'Quintic.In': k => Tween.Easing.Quintic.In(k),
-    'Quintic.InOut': k => Tween.Easing.Quintic.InOut(k),
-    'Quintic.Out': k => Tween.Easing.Quintic.Out(k),
-    'Sinusoidal.In': k => Tween.Easing.Sinusoidal.In(k),
-    'Sinusoidal.InOut': k => Tween.Easing.Sinusoidal.InOut(k),
-    'Sinusoidal.Out': k => Tween.Easing.Sinusoidal.Out(k),
-};
 
 
 /***/ }),
@@ -649,203 +669,207 @@ CmnTween.hEase = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Config = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
-class Config {
-    constructor(sys, fncLoaded, oCfg4tst) {
-        this.sys = sys;
-        this.oCfg = {
-            save_ns: '',
-            coder: { len: 0x360 },
-            window: {
-                width: 300,
-                height: 300,
-            },
-            book: {
-                title: '',
-                creator: '',
-                cre_url: '',
-                publisher: '',
-                pub_url: '',
-                detail: '',
-                version: '1.0',
-            },
-            log: { max_len: 1024 },
-            init: {
-                bg_color: 0x000000,
-                tagch_msecwait: 10,
-                auto_msecpagewait: 3500,
-                escape: '',
-            },
-            debug: {
-                devtool: false,
-                token: false,
-                tag: false,
-                putCh: false,
-                debugLog: false,
-                baseTx: false,
-                masume: false,
-                variable: false,
-            },
-        };
-        this.userFnTail = '';
-        this.hPathFn2Exts = {};
-        this.getJsonSearchPath = () => JSON.stringify(this.hPathFn2Exts);
-        this.$existsBreakline = false;
-        this.$existsBreakpage = false;
-        this.regPath = /([^\/\s]+)\.([^\d]\w+)/;
-        const load = (oCfg) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-            this.oCfg.save_ns = (_a = oCfg === null || oCfg === void 0 ? void 0 : oCfg.save_ns) !== null && _a !== void 0 ? _a : this.oCfg.save_ns;
-            this.oCfg.coder = (_b = oCfg === null || oCfg === void 0 ? void 0 : oCfg.coder) !== null && _b !== void 0 ? _b : this.oCfg.coder;
-            CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_d = (_c = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _c === void 0 ? void 0 : _c.width) !== null && _d !== void 0 ? _d : this.oCfg.window.width);
-            CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_f = (_e = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _e === void 0 ? void 0 : _e.height) !== null && _f !== void 0 ? _f : this.oCfg.window.height);
-            this.oCfg.book = { ...this.oCfg.book, ...oCfg.book };
-            this.oCfg.log.max_len = (_j = (_h = (_g = oCfg.log) === null || _g === void 0 ? void 0 : _g.max_len) === null || _h === void 0 ? void 0 : _h.max_len) !== null && _j !== void 0 ? _j : this.oCfg.log.max_len;
-            this.oCfg.init = { ...this.oCfg.init, ...oCfg.init };
-            if ('init' in oCfg) {
-                for (const n in this.oCfg.init) {
-                    const v = String(this.oCfg.init[n]);
-                    if (v.charAt(0) == '#')
-                        this.oCfg.init[n] = parseInt(v.slice(1), 16);
+let Config = (() => {
+    class Config {
+        constructor(sys, fncLoaded, oCfg4tst) {
+            this.sys = sys;
+            this.oCfg = {
+                save_ns: '',
+                coder: { len: 0x360 },
+                window: {
+                    width: 300,
+                    height: 300,
+                },
+                book: {
+                    title: '',
+                    creator: '',
+                    cre_url: '',
+                    publisher: '',
+                    pub_url: '',
+                    detail: '',
+                    version: '1.0',
+                },
+                log: { max_len: 1024 },
+                init: {
+                    bg_color: 0x000000,
+                    tagch_msecwait: 10,
+                    auto_msecpagewait: 3500,
+                    escape: '',
+                },
+                debug: {
+                    devtool: false,
+                    token: false,
+                    tag: false,
+                    putCh: false,
+                    debugLog: false,
+                    baseTx: false,
+                    masume: false,
+                    variable: false,
+                },
+            };
+            this.userFnTail = '';
+            this.hPathFn2Exts = {};
+            this.getJsonSearchPath = () => JSON.stringify(this.hPathFn2Exts);
+            this.$existsBreakline = false;
+            this.$existsBreakpage = false;
+            this.regPath = /([^\/\s]+)\.([^\d]\w+)/;
+            const load = (oCfg) => {
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+                this.oCfg.save_ns = (_a = oCfg === null || oCfg === void 0 ? void 0 : oCfg.save_ns) !== null && _a !== void 0 ? _a : this.oCfg.save_ns;
+                this.oCfg.coder = (_b = oCfg === null || oCfg === void 0 ? void 0 : oCfg.coder) !== null && _b !== void 0 ? _b : this.oCfg.coder;
+                CmnLib_1.CmnLib.stageW = this.oCfg.window.width = Number((_d = (_c = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _c === void 0 ? void 0 : _c.width) !== null && _d !== void 0 ? _d : this.oCfg.window.width);
+                CmnLib_1.CmnLib.stageH = this.oCfg.window.height = Number((_f = (_e = oCfg === null || oCfg === void 0 ? void 0 : oCfg.window) === null || _e === void 0 ? void 0 : _e.height) !== null && _f !== void 0 ? _f : this.oCfg.window.height);
+                this.oCfg.book = { ...this.oCfg.book, ...oCfg.book };
+                this.oCfg.log.max_len = (_j = (_h = (_g = oCfg.log) === null || _g === void 0 ? void 0 : _g.max_len) === null || _h === void 0 ? void 0 : _h.max_len) !== null && _j !== void 0 ? _j : this.oCfg.log.max_len;
+                this.oCfg.init = { ...this.oCfg.init, ...oCfg.init };
+                if ('init' in oCfg) {
+                    for (const n in this.oCfg.init) {
+                        const v = String(this.oCfg.init[n]);
+                        if (v.charAt(0) === '#')
+                            this.oCfg.init[n] = parseInt(v.slice(1), 16);
+                    }
                 }
-            }
-            this.oCfg.debug = { ...this.oCfg.debug, ...oCfg.debug };
-            CmnLib_1.CmnLib.debugLog = this.oCfg.debug.debugLog;
-            sys.loadPathAndVal(this.hPathFn2Exts, async () => {
-                this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
-                this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
-                if (this.sys.crypto)
-                    for (const nm in this.hPathFn2Exts) {
-                        const o = this.hPathFn2Exts[nm];
-                        for (const ext in o) {
-                            if (ext.slice(-10) != ':RIPEMD160')
-                                continue;
-                            const hp = o[ext].slice(o[ext].lastIndexOf('/') + 1);
-                            const fn = o[ext.slice(0, -10)];
-                            const res = await sys.fetch(fn);
-                            const s = await res.text();
-                            const hf = sys.hash(s);
-                            if (hp != hf)
-                                throw `ファイル改竄エラーです fn:${fn}`;
+                this.oCfg.debug = { ...this.oCfg.debug, ...oCfg.debug };
+                CmnLib_1.CmnLib.debugLog = this.oCfg.debug.debugLog;
+                sys.loadPathAndVal(this.hPathFn2Exts, async () => {
+                    this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
+                    this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
+                    if (this.sys.crypto)
+                        for (const nm in this.hPathFn2Exts) {
+                            const o = this.hPathFn2Exts[nm];
+                            for (const ext in o) {
+                                if (ext.slice(-10) !== ':RIPEMD160')
+                                    continue;
+                                const hp = o[ext].slice(o[ext].lastIndexOf('/') + 1);
+                                const fn = o[ext.slice(0, -10)];
+                                const res = await sys.fetch(fn);
+                                const s = await res.text();
+                                const hf = sys.hash(s);
+                                if (hp !== hf)
+                                    throw `ファイル改竄エラーです fn:${fn}`;
+                            }
                         }
-                    }
-                fncLoaded();
-            }, this);
-        };
-        if (oCfg4tst) {
-            load(oCfg4tst);
-            return;
-        }
-        const fn = sys.cur + 'prj.json';
-        sys.fetch(fn)
-            .then(res => res.text())
-            .then(d => sys.pre('json', d))
-            .then(s => JSON.parse(s))
-            .then(load)
-            .catch(e => console.error(`load err fn:prj.json e:%o`, e));
-    }
-    get existsBreakline() { return this.$existsBreakline; }
-    get existsBreakpage() { return this.$existsBreakpage; }
-    getNs() { return `skynovel.${this.oCfg.save_ns} - `; }
-    searchPath(path, extptn = '') {
-        if (!path)
-            throw '[searchPath] fnが空です';
-        if (path.substr(0, 7) == 'http://')
-            return path;
-        if (path.substr(0, 11) == 'downloads:/') {
-            return this.sys.path_downloads + path.slice(11);
-        }
-        if (path.substr(0, 10) == 'userdata:/') {
-            return this.sys.path_userdata + path.slice(10);
-        }
-        const a = path.match(this.regPath);
-        let fn = a ? a[1] : path;
-        const ext = a ? a[2] : '';
-        if (this.userFnTail) {
-            const utn = fn + '@@' + this.userFnTail;
-            if (utn in this.hPathFn2Exts) {
-                if (extptn == '')
-                    fn = utn;
-                else
-                    for (let e3 in this.hPathFn2Exts[utn]) {
-                        if (`|${extptn}|`.indexOf(`|${e3}|`) == -1)
-                            continue;
-                        fn = utn;
-                        break;
-                    }
+                    fncLoaded();
+                }, this);
+            };
+            if (oCfg4tst) {
+                load(oCfg4tst);
+                return;
             }
+            const fn = sys.cur + 'prj.json';
+            sys.fetch(fn)
+                .then(res => res.text())
+                .then(d => sys.pre('json', d))
+                .then(s => JSON.parse(s))
+                .then(load)
+                .catch(e => console.error(`load err fn:prj.json e:%o`, e));
         }
-        const h_exts = this.hPathFn2Exts[fn];
-        if (!h_exts)
-            throw `サーチパスに存在しないファイル【${path}】です`;
-        let ret = '';
-        if (!ext) {
-            const hcnt = CmnLib_1.int(h_exts[':cnt']);
-            if (extptn == '') {
-                if (hcnt > 1)
-                    throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
+        get existsBreakline() { return this.$existsBreakline; }
+        get existsBreakpage() { return this.$existsBreakpage; }
+        getNs() { return `skynovel.${this.oCfg.save_ns} - `; }
+        searchPath(path, extptn = '') {
+            if (!path)
+                throw '[searchPath] fnが空です';
+            if (path.substr(0, 7) === 'http://')
                 return path;
+            if (path.substr(0, 11) === 'downloads:/') {
+                return this.sys.path_downloads + path.slice(11);
             }
-            const search_exts = `|${extptn}|`;
-            if (hcnt > 1) {
-                let cnt = 0;
-                for (const e2 in h_exts) {
-                    if (search_exts.indexOf(`|${e2}|`) == -1)
-                        continue;
-                    if (++cnt > 1)
-                        throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
+            if (path.substr(0, 10) === 'userdata:/') {
+                return this.sys.path_userdata + path.slice(10);
+            }
+            const a = path.match(this.regPath);
+            let fn = a ? a[1] : path;
+            const ext = a ? a[2] : '';
+            if (this.userFnTail) {
+                const utn = fn + '@@' + this.userFnTail;
+                if (utn in this.hPathFn2Exts) {
+                    if (extptn === '')
+                        fn = utn;
+                    else
+                        for (let e3 in this.hPathFn2Exts[utn]) {
+                            if (`|${extptn}|`.indexOf(`|${e3}|`) === -1)
+                                continue;
+                            fn = utn;
+                            break;
+                        }
                 }
             }
-            for (let e in h_exts) {
-                if (search_exts.indexOf(`|${e}|`) == -1)
-                    continue;
-                return h_exts[e];
-            }
-            throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${path}】`;
-        }
-        if (extptn != '') {
-            const search_exts2 = `|${extptn}|`;
-            if (search_exts2.indexOf(`|${ext}|`) == -1) {
-                throw `指定ファイルの拡張子【${ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${path}】`;
-            }
-        }
-        ret = h_exts[ext];
-        if (!ret)
-            throw `サーチパスに存在しない拡張子【${ext}】です。探索ファイル名=【${path}】、サーチ対象拡張子群【${extptn}】`;
-        return ret;
-    }
-    matchPath(fnptn, extptn = '') {
-        const aRet = [];
-        const regPtn = new RegExp(fnptn);
-        const regExt = new RegExp(extptn);
-        for (let fn in this.hPathFn2Exts) {
-            if (fn.search(regPtn) == -1)
-                continue;
             const h_exts = this.hPathFn2Exts[fn];
-            if (extptn == '') {
-                aRet.push(h_exts);
-                continue;
+            if (!h_exts)
+                throw `サーチパスに存在しないファイル【${path}】です`;
+            let ret = '';
+            if (!ext) {
+                const hcnt = CmnLib_1.int(h_exts[':cnt']);
+                if (extptn === '') {
+                    if (hcnt > 1)
+                        throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
+                    return path;
+                }
+                const search_exts = `|${extptn}|`;
+                if (hcnt > 1) {
+                    let cnt = 0;
+                    for (const e2 in h_exts) {
+                        if (search_exts.indexOf(`|${e2}|`) === -1)
+                            continue;
+                        if (++cnt > 1)
+                            throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
+                    }
+                }
+                for (let e in h_exts) {
+                    if (search_exts.indexOf(`|${e}|`) === -1)
+                        continue;
+                    return h_exts[e];
+                }
+                throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${path}】`;
             }
-            const o = {};
-            let isa = false;
-            for (const ext in h_exts) {
-                if (ext.search(regExt) == -1)
-                    continue;
-                o[ext] = h_exts[ext];
-                isa = true;
+            if (extptn !== '') {
+                const search_exts2 = `|${extptn}|`;
+                if (search_exts2.indexOf(`|${ext}|`) === -1) {
+                    throw `指定ファイルの拡張子【${ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${path}】`;
+                }
             }
-            if (isa)
-                aRet.push(o);
+            ret = h_exts[ext];
+            if (!ret)
+                throw `サーチパスに存在しない拡張子【${ext}】です。探索ファイル名=【${path}】、サーチ対象拡張子群【${extptn}】`;
+            return ret;
         }
-        return aRet;
+        matchPath(fnptn, extptn = '') {
+            const aRet = [];
+            const regPtn = new RegExp(fnptn);
+            const regExt = new RegExp(extptn);
+            for (let fn in this.hPathFn2Exts) {
+                if (fn.search(regPtn) === -1)
+                    continue;
+                const h_exts = this.hPathFn2Exts[fn];
+                if (extptn === '') {
+                    aRet.push(h_exts);
+                    continue;
+                }
+                const o = {};
+                let isa = false;
+                for (const ext in h_exts) {
+                    if (ext.search(regExt) === -1)
+                        continue;
+                    o[ext] = h_exts[ext];
+                    isa = true;
+                }
+                if (isa)
+                    aRet.push(o);
+            }
+            return aRet;
+        }
     }
-}
+    Config.EXT_SPRITE = 'png|jpg|jpeg|json|svg|webp|mp4|webm';
+    Config.EXT_SCRIPT = 'sn';
+    Config.EXT_FONT = 'woff2|otf|ttf';
+    Config.EXT_SOUND = 'mp3|m4a|ogg|aac|flac|wav';
+    Config.EXT_HTML = 'htm|html';
+    return Config;
+})();
 exports.Config = Config;
-Config.EXT_SPRITE = 'png|jpg|jpeg|json|svg|webp|mp4|webm';
-Config.EXT_SCRIPT = 'sn';
-Config.EXT_FONT = 'woff2|otf|ttf';
-Config.EXT_SOUND = 'mp3|m4a|ogg|aac|flac|wav';
-Config.EXT_HTML = 'htm|html';
 
 
 /***/ }),
@@ -860,127 +884,131 @@ Config.EXT_HTML = 'htm|html';
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DebugMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
-class DebugMng {
-    constructor(sys, hTag, scrItr) {
-        this.sys = sys;
-        this.first = true;
-        DebugMng.scrItr = scrItr;
-        DebugMng.hTag = hTag;
-        DebugMng.title = hTag.title;
-        DebugMng.myTrace = DebugMng.fncMyTrace;
-        hTag.log = o => this.log(o);
-        hTag.trace = o => this.trace(o);
-        DebugMng.spnDbg = document.createElement('span');
-        DebugMng.spnDbg.hidden = true;
-        DebugMng.spnDbg.textContent = '';
-        DebugMng.spnDbg.style.cssText =
-            `	z-index: ${Number.MAX_SAFE_INTEGER};
+let DebugMng = (() => {
+    class DebugMng {
+        constructor(sys, hTag, scrItr) {
+            this.sys = sys;
+            this.first = true;
+            DebugMng.scrItr = scrItr;
+            DebugMng.hTag = hTag;
+            DebugMng.title = hTag.title;
+            DebugMng.myTrace = DebugMng.fncMyTrace;
+            hTag.log = o => this.log(o);
+            hTag.trace = o => this.trace(o);
+            DebugMng.spnDbg = document.createElement('span');
+            DebugMng.spnDbg.hidden = true;
+            DebugMng.spnDbg.textContent = '';
+            DebugMng.spnDbg.style.cssText =
+                `	z-index: ${Number.MAX_SAFE_INTEGER};
 			position: absolute; left: 0; top: 0;
 			color: black;
 			background-color: rgba(255, 255, 255, 0.7);`;
-        document.body.appendChild(DebugMng.spnDbg);
-    }
-    destroy() {
-        DebugMng.title = () => false;
-        document.body.removeChild(DebugMng.spnDbg);
-    }
-    log(hArg) {
-        let dat = '';
-        if (this.first) {
-            this.first = false;
-            dat = `== ${CmnLib_1.CmnLib.platform.description} ==\n`;
+            document.body.appendChild(DebugMng.spnDbg);
         }
-        this.sys.appendFile(this.sys.path_downloads + 'log.txt', `${dat}--- ${CmnLib_1.getDateStr('-', '_', '')} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)
-            console.log(err); });
-        return false;
+        destroy() {
+            DebugMng.title = () => false;
+            document.body.removeChild(DebugMng.spnDbg);
+        }
+        log(hArg) {
+            let dat = '';
+            if (this.first) {
+                this.first = false;
+                dat = `== ${CmnLib_1.CmnLib.platform.description} ==\n`;
+            }
+            this.sys.appendFile(this.sys.path_downloads + 'log.txt', `${dat}--- ${CmnLib_1.getDateStr('-', '_', '')} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)
+                console.log(err); });
+            return false;
+        }
+        trace(hArg) {
+            DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
+            return false;
+        }
+        static fncMyTrace(txt, lvl = 'E') {
+            let mes = `{${lvl}} `;
+            if (DebugMng.scrItr && DebugMng.scrItr.lineNum > 0)
+                mes +=
+                    `(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;
+            mes += txt;
+            DebugMng.dspDbg(mes, lvl);
+            let sty = '';
+            switch (lvl) {
+                case 'D':
+                    sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
+                    break;
+                case 'W':
+                    sty = 'color:#F80;';
+                    break;
+                case 'F':
+                    sty = 'color:#B00;';
+                    break;
+                case 'ET':
+                case 'E':
+                    DebugMng.title({ text: txt });
+                    this.hTag.dump_lay({});
+                    this.hTag.dump_val({});
+                    DebugMng.scrItr.dumpErrForeLine();
+                    this.hTag.dump_stack({});
+                    if (lvl === 'ET')
+                        throw mes;
+                    console.error('%c' + mes, 'color:#F30;');
+                    return;
+                default:
+                    sty = '';
+                    mes = ' ' + mes;
+            }
+            console.info('%c' + mes, sty);
+        }
+        static dspDbg(mes, lvl) {
+            let sty = '';
+            switch (lvl) {
+                case 'D':
+                    sty = 'color:#05A;';
+                    break;
+                case 'W':
+                    sty = 'color:#F80;';
+                    break;
+                case 'F':
+                    sty = 'color:#B00;';
+                    break;
+                case 'ET':
+                case 'E':
+                    sty = 'color:#F30;';
+                    break;
+                default: sty = '';
+            }
+            DebugMng.spnDbg.innerHTML += `<span style='${sty}'>${mes}</span><br/>`;
+            DebugMng.spnDbg.hidden = false;
+        }
+        ;
     }
-    trace(hArg) {
-        DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
-        return false;
-    }
-    static fncMyTrace(txt, lvl = 'E') {
-        let mes = `{${lvl}} `;
-        if (DebugMng.scrItr && DebugMng.scrItr.lineNum > 0)
-            mes +=
-                `(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;
-        mes += txt;
-        DebugMng.dspDbg(mes, lvl);
+    DebugMng.myTrace = (txt, lvl = 'E') => {
+        let mes = `{${lvl}} ` + txt;
         let sty = '';
         switch (lvl) {
             case 'D':
                 sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
                 break;
             case 'W':
-                sty = 'color:#F80;';
+                sty = 'color:#FF8800;';
                 break;
             case 'F':
-                sty = 'color:#B00;';
+                sty = 'color:#BB0000;';
                 break;
-            case 'ET':
+            case 'ET': throw mes;
             case 'E':
-                DebugMng.title({ text: txt });
-                this.hTag.dump_lay({});
-                this.hTag.dump_val({});
-                DebugMng.scrItr.dumpErrForeLine();
-                this.hTag.dump_stack({});
-                if (lvl == 'ET')
-                    throw mes;
-                console.error('%c' + mes, 'color:#F30;');
+                console.error('%c' + mes, 'color:#FF3300;');
                 return;
             default:
-                sty = '';
+                sty = 'color:black;';
                 mes = ' ' + mes;
         }
         console.info('%c' + mes, sty);
-    }
-    static dspDbg(mes, lvl) {
-        let sty = '';
-        switch (lvl) {
-            case 'D':
-                sty = 'color:#05A;';
-                break;
-            case 'W':
-                sty = 'color:#F80;';
-                break;
-            case 'F':
-                sty = 'color:#B00;';
-                break;
-            case 'ET':
-            case 'E':
-                sty = 'color:#F30;';
-                break;
-            default: sty = '';
-        }
-        DebugMng.spnDbg.innerHTML += `<span style='${sty}'>${mes}</span><br/>`;
-        DebugMng.spnDbg.hidden = false;
-    }
-    ;
-}
+    };
+    return DebugMng;
+})();
 exports.DebugMng = DebugMng;
-DebugMng.myTrace = (txt, lvl = 'E') => {
-    let mes = `{${lvl}} ` + txt;
-    let sty = '';
-    switch (lvl) {
-        case 'D':
-            sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
-            break;
-        case 'W':
-            sty = 'color:#FF8800;';
-            break;
-        case 'F':
-            sty = 'color:#BB0000;';
-            break;
-        case 'ET': throw mes;
-        case 'E':
-            console.error('%c' + mes, 'color:#FF3300;');
-            return;
-        default:
-            sty = 'color:black;';
-            mes = ' ' + mes;
-    }
-    console.info('%c' + mes, sty);
-};
 
 
 /***/ }),
@@ -995,6 +1023,7 @@ DebugMng.myTrace = (txt, lvl = 'E') => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventListenerCtn = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 class EventListenerCtn {
     constructor() {
@@ -1042,6 +1071,7 @@ exports.EventListenerCtn = EventListenerCtn;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.EventMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const TxtLayer_1 = __webpack_require__(/*! ./TxtLayer */ "./core/src/sn/TxtLayer.ts");
 const EventListenerCtn_1 = __webpack_require__(/*! ./EventListenerCtn */ "./core/src/sn/EventListenerCtn.ts");
@@ -1073,11 +1103,11 @@ class EventMng {
         this.extend_wheel = false;
         this.hLocalEvt2Fnc = {};
         this.hGlobalEvt2Fnc = {};
-        this.isStop = false;
+        this.isWait = false;
+        this.isBreak = false;
         this.waitCustomEvent4Wheel = (_elc, _fnc) => { };
         this.goTxt = () => this.layMng.goTxt();
         this.fncCancelSkip = () => { };
-        this.cr = (len) => this.scrItr.addLineNum(len);
         this.hDownKeys = {
             'Alt': 0,
             'Meta': 0,
@@ -1089,11 +1119,6 @@ class EventMng {
             ' ': 0,
             'GoBack': 0,
         };
-        sndMng.setEvtMng(this);
-        scrItr.setOtherObj(this, layMng);
-        TxtLayer_1.TxtLayer.setEvtMng(main, this);
-        layMng.setEvtMng(this);
-        sys.setFire((KEY, e) => this.fire(KEY, e));
         hTag.clear_event = o => this.clear_event(o);
         hTag.event = o => this.event(o);
         hTag.l = o => this.l(o);
@@ -1102,6 +1127,12 @@ class EventMng {
         hTag.set_cancel_skip = () => this.set_cancel_skip();
         hTag.wait = o => this.wait(o);
         hTag.waitclick = () => { this.stdWait(() => main.resume()); return true; };
+        sndMng.setEvtMng(this);
+        scrItr.setOtherObj(this, layMng);
+        TxtLayer_1.TxtLayer.setEvtMng(main, this);
+        layMng.setEvtMng(this);
+        sys.setFire((KEY, e) => this.fire(KEY, e));
+        sys.addHook((type, o) => this.procHook(type, o));
         this.ham = new Hammer(appPixi.view, { recognizers: [
                 [Hammer.Press],
                 [Hammer.Swipe, { direction: Hammer.DIRECTION_ALL }],
@@ -1178,16 +1209,16 @@ class EventMng {
             return;
         if (e.key in this.hDownKeys)
             this.hDownKeys[e.key] = e.repeat ? 2 : 1;
-        const key = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
-            + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
-            + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
+        const key = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
+            + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
+            + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
             + e.key;
         this.fire(key, e);
     }
     ev_contextmenu(e) {
-        const key = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
-            + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
-            + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
+        const key = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
+            + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
+            + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
             + 'rightclick';
         this.fire(key, e);
         e.preventDefault();
@@ -1226,28 +1257,30 @@ class EventMng {
     }
     fire(KEY, e) {
         var _a, _b;
+        if (this.isBreak)
+            return;
         const key = KEY.toLowerCase();
         const ke = this.hLocalEvt2Fnc[key]
             || this.hGlobalEvt2Fnc[key];
         if (!ke) {
-            if (key.slice(0, 5) == 'swipe') {
+            if (key.slice(0, 5) === 'swipe') {
                 const esw = e;
                 window.scrollBy(-((_a = esw.deltaX) !== null && _a !== void 0 ? _a : 0), -((_b = esw.deltaY) !== null && _b !== void 0 ? _b : 0));
             }
             return;
         }
-        if ((key.slice(-5) != 'wheel') && ('preventDefault' in e))
+        if ((key.slice(-5) !== 'wheel') && ('preventDefault' in e))
             e.preventDefault();
         e.stopPropagation();
-        if (key.slice(0, 4) != 'dom=' && this.layMng.clickTxtLay())
+        if (key.slice(0, 4) !== 'dom=' && this.layMng.clickTxtLay())
             return;
-        if (!this.isStop)
+        if (!this.isWait)
             return;
-        this.isStop = false;
+        this.isWait = false;
         ke(e);
     }
     popLocalEvts() {
-        if (this.isStop)
+        if (this.isWait)
             return {};
         const ret = this.hLocalEvt2Fnc;
         this.hLocalEvt2Fnc = {};
@@ -1271,7 +1304,16 @@ class EventMng {
         }
         this.val.saveKidoku();
         this.fncCancelSkip();
-        this.isStop = true;
+        this.isWait = true;
+    }
+    procHook(type, _o) {
+        switch (type) {
+            case 'continue':
+            case 'disconnect':
+                this.isBreak = false;
+                break;
+            default: this.isBreak = true;
+        }
     }
     button(hArg, em) {
         var _a;
@@ -1281,7 +1323,7 @@ class EventMng {
         const key = ((_a = hArg.key) !== null && _a !== void 0 ? _a : ' ').toLowerCase();
         if (!hArg.fn)
             hArg.fn = this.scrItr.scriptFn;
-        const glb = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false);
+        const glb = CmnLib_1.argChk_Boolean(hArg, 'global', false);
         if (glb)
             this.hGlobalEvt2Fnc[key] = () => this.main.resumeByJumpOrCall(hArg);
         else
@@ -1336,7 +1378,7 @@ class EventMng {
     }
     waitCustomEvent(hArg, elc, fnc) {
         this.goTxt();
-        if (!CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true))
+        if (!CmnLib_1.argChk_Boolean(hArg, 'canskip', true))
             return;
         elc.add(window, 'pointerdown', (e) => {
             e.stopPropagation();
@@ -1353,7 +1395,7 @@ class EventMng {
         this.waitCustomEvent4Wheel(elc, fnc);
     }
     clear_event(hArg) {
-        const glb = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false);
+        const glb = CmnLib_1.argChk_Boolean(hArg, 'global', false);
         const h = glb ? this.hGlobalEvt2Fnc : this.hLocalEvt2Fnc;
         for (const nm in h)
             this.clear_eventer(nm, h[nm]);
@@ -1364,7 +1406,7 @@ class EventMng {
         return false;
     }
     clear_eventer(key, e2f) {
-        if (key.slice(0, 4) != 'dom=')
+        if (key.slice(0, 4) !== 'dom=')
             return;
         for (const v of document.querySelectorAll(key.slice(4))) {
             v.removeEventListener('click', e2f);
@@ -1375,11 +1417,11 @@ class EventMng {
         if (!KEY)
             throw 'keyは必須です';
         const key = KEY.toLowerCase();
-        const call = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'call', false);
-        const h = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'global', false)
+        const call = CmnLib_1.argChk_Boolean(hArg, 'call', false);
+        const h = CmnLib_1.argChk_Boolean(hArg, 'global', false)
             ? this.hGlobalEvt2Fnc
             : this.hLocalEvt2Fnc;
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'del', false)) {
+        if (CmnLib_1.argChk_Boolean(hArg, 'del', false)) {
             if (hArg.fn || hArg.label || call)
                 throw 'fn/label/callとdelは同時指定できません';
             this.clear_eventer(KEY, h[key]);
@@ -1387,7 +1429,7 @@ class EventMng {
             return false;
         }
         hArg.fn = hArg.fn || this.scrItr.scriptFn;
-        if (KEY.slice(0, 4) == 'dom=') {
+        if (KEY.slice(0, 4) === 'dom=') {
             let elmlist;
             const idx = KEY.indexOf(':');
             let sel = '';
@@ -1405,12 +1447,12 @@ class EventMng {
                 sel = KEY.slice(4);
                 elmlist = document.querySelectorAll(sel);
             }
-            const need_err = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'need_err', true);
-            if (elmlist.length == 0 && need_err)
+            const need_err = CmnLib_1.argChk_Boolean(hArg, 'need_err', true);
+            if (elmlist.length === 0 && need_err)
                 throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
             const ie = elmlist[0];
             const type = (ie) ? ie.type : '';
-            ((type == 'range' || type == 'checkbox' || type == 'text' || type == 'textarea')
+            ((type === 'range' || type === 'checkbox' || type === 'text' || type === 'textarea')
                 ? ['input', 'change']
                 : ['click'])
                 .forEach(v => {
@@ -1426,7 +1468,7 @@ class EventMng {
             });
             for (const elm of elmlist)
                 this.elc.add(elm, 'mouseleave', e => {
-                    if (e.which != 1)
+                    if (e.which !== 1)
                         return;
                     this.fire(KEY, e);
                 });
@@ -1453,7 +1495,7 @@ class EventMng {
                     : this.val.getVal('sys:sn.auto.msecLineWait'))
             });
         }
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true))
+        if (CmnLib_1.argChk_Boolean(hArg, 'visible', true))
             this.layMng.breakLine();
         this.stdWait(() => this.main.resume());
         return true;
@@ -1464,7 +1506,7 @@ class EventMng {
             this.fncCancelSkip();
             this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);
         }
-        if (this.val.getVal('tmp:sn.skip.enabled') && ('s' == String(this.val.getVal('sys:sn.skip.mode')))) {
+        if (this.val.getVal('tmp:sn.skip.enabled') && ('s' === String(this.val.getVal('sys:sn.skip.mode')))) {
             this.goTxt();
             return false;
         }
@@ -1475,10 +1517,10 @@ class EventMng {
                     : this.val.getVal('sys:sn.auto.msecPageWait'))
             });
         }
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true))
+        if (CmnLib_1.argChk_Boolean(hArg, 'visible', true))
             this.layMng.breakPage();
         this.stdWait(this.layMng.getCurrentTxtlayFore()
-            && CmnLib_1.CmnLib.argChk_Boolean(hArg, 'er', false)
+            && CmnLib_1.argChk_Boolean(hArg, 'er', false)
             ? () => { this.hTag.er(hArg); this.main.resume(); }
             : () => this.main.resume());
         return true;
@@ -1512,15 +1554,15 @@ class EventMng {
     wait(hArg) {
         this.val.saveKidoku();
         const twSleep = new Tween.Tween(this)
-            .to({}, CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)))
+            .to({}, CmnLib_1.uint(CmnLib_1.argChk_Num(hArg, 'time', NaN)))
             .onComplete(() => this.main.resume())
             .start();
-        this.stdWait(() => twSleep.stop().end(), CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true));
+        this.stdWait(() => twSleep.stop().end(), CmnLib_1.argChk_Boolean(hArg, 'canskip', true));
         return true;
     }
     isSkipKeyDown() {
         for (const v in this.hDownKeys)
-            if (this.hDownKeys[v] == 2)
+            if (this.hDownKeys[v] === 2)
                 return true;
         return false;
     }
@@ -1540,6 +1582,7 @@ exports.EventMng = EventMng;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.FrameMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const CmnTween_1 = __webpack_require__(/*! ./CmnTween */ "./core/src/sn/CmnTween.ts");
 const Config_1 = __webpack_require__(/*! ./Config */ "./core/src/sn/Config.ts");
@@ -1580,11 +1623,11 @@ class FrameMng {
         const frmnm = `const.sn.frm.${id}`;
         if (this.val.getVal(`tmp:${frmnm}`))
             throw `frame【${id}】はすでにあります`;
-        const a = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 1);
-        const sx = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1);
-        const sy = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1);
-        const r = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0);
-        const v = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
+        const a = CmnLib_1.argChk_Num(hArg, 'alpha', 1);
+        const sx = CmnLib_1.argChk_Num(hArg, 'scale_x', 1);
+        const sy = CmnLib_1.argChk_Num(hArg, 'scale_y', 1);
+        const r = CmnLib_1.argChk_Num(hArg, 'rotate', 0);
+        const v = CmnLib_1.argChk_Boolean(hArg, 'visible', true);
         const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
         const rct = this.rect(hArg);
         const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
@@ -1625,7 +1668,7 @@ class FrameMng {
                         .pre((res, next) => res.load(() => {
                         this.sys.pre(res.extension, res.data)
                             .then(r => {
-                            if (res.extension != 'bin') {
+                            if (res.extension !== 'bin') {
                                 next();
                                 return;
                             }
@@ -1663,7 +1706,7 @@ class FrameMng {
             .load((_ldr, hRes) => {
             var _a;
             const base = url.slice(0, url.lastIndexOf('/') + 1);
-            const htm = String((_a = hRes[src]) === null || _a === void 0 ? void 0 : _a.data).replace(/\s(?:src|href)=(["'])(\S+)\1/g, (v, p1, p2) => (p2.slice(0, 3) == '../')
+            const htm = String((_a = hRes[src]) === null || _a === void 0 ? void 0 : _a.data).replace(/\s(?:src|href)=(["'])(\S+)\1/g, (v, p1, p2) => (p2.slice(0, 3) === '../')
                 ? v.replace('../', this.sys.cur)
                 : v.replace(p1, p1 + base));
             const blob = new Blob([htm], { type: 'text/html' });
@@ -1674,7 +1717,7 @@ class FrameMng {
     rect(hArg) {
         const a = { ...hArg };
         const re = this.sys.resolution;
-        return new DOMRect(CmnLib_1.CmnLib.argChk_Num(a, 'x', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'y', 0) * re, CmnLib_1.CmnLib.argChk_Num(a, 'width', CmnLib_1.CmnLib.stageW) * re, CmnLib_1.CmnLib.argChk_Num(a, 'height', CmnLib_1.CmnLib.stageH) * re);
+        return new DOMRect(CmnLib_1.argChk_Num(a, 'x', 0) * re, CmnLib_1.argChk_Num(a, 'y', 0) * re, CmnLib_1.argChk_Num(a, 'width', CmnLib_1.CmnLib.stageW) * re, CmnLib_1.argChk_Num(a, 'height', CmnLib_1.CmnLib.stageH) * re);
     }
     cvsResize() {
         const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
@@ -1707,7 +1750,7 @@ class FrameMng {
         if (!win.hasOwnProperty(var_name))
             throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
         const v = win[var_name];
-        this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'function', false) ? v() : v);
+        this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, CmnLib_1.argChk_Boolean(hArg, 'function', false) ? v() : v);
         return false;
     }
     set_frame(hArg) {
@@ -1755,9 +1798,9 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
         }
         if ('scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
-            const sx = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1);
-            const sy = CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1);
-            const r = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0);
+            const sx = CmnLib_1.argChk_Num(hArg, 'scale_x', 1);
+            const sy = CmnLib_1.argChk_Num(hArg, 'scale_y', 1);
+            const r = CmnLib_1.argChk_Num(hArg, 'rotate', 0);
             ifrm.style.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
             this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
             this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
@@ -1772,7 +1815,7 @@ class FrameMng {
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
         }
         if ('visible' in hArg) {
-            const v = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
+            const v = CmnLib_1.argChk_Boolean(hArg, 'visible', true);
             ifrm.style.display = v ? 'inline' : 'none';
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
         }
@@ -1809,10 +1852,10 @@ class FrameMng {
             hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
         const hArg2 = CmnLib_1.cnvTweenArg(hArg, hNow);
         const hTo = {};
-        const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
+        const repeat = CmnLib_1.argChk_Num(hArg, 'repeat', 1);
         let fncA = () => { };
         if ('alpha' in hArg) {
-            hTo.a = CmnLib_1.CmnLib.argChk_Num(hArg2, 'alpha', 0);
+            hTo.a = CmnLib_1.argChk_Num(hArg2, 'alpha', 0);
             fncA = () => {
                 ifrm.style.opacity = hNow.a;
                 this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
@@ -1825,9 +1868,9 @@ class FrameMng {
             || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
             hTo.x = rct.x;
             hTo.y = rct.y;
-            hTo.sx = CmnLib_1.CmnLib.argChk_Num(hArg2, 'scale_x', 1);
-            hTo.sy = CmnLib_1.CmnLib.argChk_Num(hArg2, 'scale_y', 1);
-            hTo.r = CmnLib_1.CmnLib.argChk_Num(hArg2, 'rotate', 0);
+            hTo.sx = CmnLib_1.argChk_Num(hArg2, 'scale_x', 1);
+            hTo.sy = CmnLib_1.argChk_Num(hArg2, 'scale_y', 1);
+            hTo.r = CmnLib_1.argChk_Num(hArg2, 'rotate', 0);
             fncXYSR = () => {
                 ifrm.style.left = this.sys.ofsLeft4frm + hNow.x * scale + 'px';
                 ifrm.style.top = this.sys.ofsTop4frm + hNow.y * scale + 'px';
@@ -1858,12 +1901,12 @@ class FrameMng {
         this.appPixi.stage.interactive = false;
         const tw_nm = `frm\n${hArg.id}`;
         const tw = new Tween.Tween(hNow)
-            .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
+            .to(hTo, CmnLib_1.argChk_Num(hArg, 'time', NaN)
             * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
-            .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
+            .delay(CmnLib_1.argChk_Num(hArg, 'delay', 0))
             .easing(CmnTween_1.CmnTween.ease(hArg.ease))
-            .repeat(repeat == 0 ? Infinity : (repeat - 1))
-            .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
+            .repeat(repeat === 0 ? Infinity : (repeat - 1))
+            .yoyo(CmnLib_1.argChk_Boolean(hArg, 'yoyo', false))
             .onUpdate(() => { fncA(); fncXYSR(); fncW(); fncH(); })
             .onComplete(() => {
             this.appPixi.stage.interactive = true;
@@ -1905,130 +1948,134 @@ exports.FrameMng = FrameMng;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Grammar = void 0;
 const RubySpliter_1 = __webpack_require__(/*! ./RubySpliter */ "./core/src/sn/RubySpliter.ts");
-class Grammar {
-    constructor() {
-        this.regC2M = new RegExp('');
-        this.regStrC2M = '';
-        this.regStrC2M4not = '';
-        this.replaceScr_C2M_And_let_ml = (scr, start_idx = 0) => {
-            if (!this.hC2M)
-                return;
-            for (let i = scr.len - 1; i >= start_idx; --i) {
-                const token = scr.aToken[i];
-                this.REG_TOKEN_NOTXT.lastIndex = 0;
-                if (this.REG_TOKEN_NOTXT.test(token.charAt(0)))
-                    continue;
-                const lnum = scr.aLNum[i];
-                const a = token.match(this.regC2M);
-                if (!a)
-                    continue;
-                let del = 1;
-                for (let j = a.length - 1; j >= 0; --j) {
-                    let ch = a[j];
-                    const macro = this.hC2M[ch.charAt(0)];
-                    if (macro) {
-                        ch = macro + ((macro.substr(-1) == ']')
-                            ? ''
-                            : (`'${ch.slice(1, -1)}']`));
+let Grammar = (() => {
+    class Grammar {
+        constructor() {
+            this.regC2M = new RegExp('');
+            this.regStrC2M = '';
+            this.regStrC2M4not = '';
+            this.replaceScr_C2M_And_let_ml = (scr, start_idx = 0) => {
+                if (!this.hC2M)
+                    return;
+                for (let i = scr.len - 1; i >= start_idx; --i) {
+                    const token = scr.aToken[i];
+                    this.REG_TOKEN_NOTXT.lastIndex = 0;
+                    if (this.REG_TOKEN_NOTXT.test(token.charAt(0)))
+                        continue;
+                    const lnum = scr.aLNum[i];
+                    const a = token.match(this.regC2M);
+                    if (!a)
+                        continue;
+                    let del = 1;
+                    for (let j = a.length - 1; j >= 0; --j) {
+                        let ch = a[j];
+                        const macro = this.hC2M[ch.charAt(0)];
+                        if (macro) {
+                            ch = macro + ((macro.substr(-1) === ']')
+                                ? ''
+                                : (`'${ch.slice(1, -1)}']`));
+                        }
+                        scr.aToken.splice(i, del, ch);
+                        scr.aLNum.splice(i, del, lnum);
+                        del = 0;
                     }
-                    scr.aToken.splice(i, del, ch);
-                    scr.aLNum.splice(i, del, lnum);
-                    del = 0;
                 }
-            }
-            scr.len = scr.aToken.length;
-        };
-        this.setEscape('');
+                scr.len = scr.aToken.length;
+            };
+            this.setEscape('');
+        }
+        setEscape(ce) {
+            if (this.hC2M && (ce in this.hC2M))
+                throw '[エスケープ文字] char【' + ce + '】が登録済みの括弧マクロまたは一文字マクロです';
+            this.REG_TOKEN = new RegExp((ce ? `\\${ce}\\S|` : '') +
+                '\\n+' +
+                '|\\t+' +
+                `|\\[let_ml\\s+[^\\]]+\\]` +
+                `.+?` +
+                `(?=\\[endlet_ml[\\]\\s])` +
+                `|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]` +
+                '|;[^\\n]*' +
+                '|&[^&\\n]+&' +
+                '|&&?[^;\\n\\t&]+' +
+                '|^\\*\\w+' +
+                `|[^\\n\\t\\[;${ce ? `\\${ce}` : ''}]+`, 'gs');
+            RubySpliter_1.RubySpliter.setEscape(ce);
+            this.REG_CANTC2M = new RegExp(`[\\w\\s;[\\]*=&｜《》${ce ? `\\${ce}` : ''}]`);
+            this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ? `\\${ce}` : ''}]`);
+        }
+        bracket2macro(hArg, script, idxToken) {
+            var _a;
+            const name = hArg.name;
+            if (!name)
+                throw '[bracket2macro] nameは必須です';
+            const text = hArg.text;
+            if (!text)
+                throw '[bracket2macro] textは必須です';
+            if (text.length !== 2)
+                throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
+            this.hC2M = (_a = this.hC2M) !== null && _a !== void 0 ? _a : {};
+            const op = text.charAt(0);
+            const cl = text.charAt(1);
+            if (op in this.hC2M)
+                throw '[bracket2macro] text【' + op + '】が登録済みの括弧マクロまたは一文字マクロです';
+            if (cl in this.hC2M)
+                throw '[bracket2macro] text【' + cl + '】が登録済みの括弧マクロまたは一文字マクロです';
+            this.REG_CANTC2M.lastIndex = 0;
+            if (this.REG_CANTC2M.test(op))
+                throw '[bracket2macro] text【' + op + '】は括弧マクロに使用できない文字です';
+            this.REG_CANTC2M.lastIndex = 0;
+            if (this.REG_CANTC2M.test(cl))
+                throw '[bracket2macro] text【' + cl + '】は括弧マクロに使用できない文字です';
+            this.hC2M[cl] = '0';
+            this.hC2M[op] = `[${name} text=`;
+            this.addC2M(`\\${op}[^\\${cl}]*\\${cl}`, `\\${op}\\${cl}`);
+            this.replaceScr_C2M_And_let_ml(script, idxToken);
+        }
+        char2macro(hArg, hTag, script, idxToken) {
+            var _a;
+            const char = hArg.char;
+            if (!char)
+                throw '[char2macro] charは必須です';
+            this.hC2M = (_a = this.hC2M) !== null && _a !== void 0 ? _a : {};
+            if (char in this.hC2M)
+                throw '[char2macro] char【' + char + '】が登録済みの括弧マクロまたは一文字マクロです';
+            this.REG_CANTC2M.lastIndex = 0;
+            if (this.REG_CANTC2M.test(char))
+                throw '[char2macro] char【' + char + '】は一文字マクロに使用できない文字です';
+            const name = hArg.name;
+            if (!name)
+                throw '[char2macro] nameは必須です';
+            if (!(name in hTag))
+                throw `[char2macro] 未定義のタグ又はマクロ[${name}]です`;
+            this.hC2M[char] = `[${name}]`;
+            this.addC2M(`\\${char}`, `\\${char}`);
+            this.replaceScr_C2M_And_let_ml(script, idxToken);
+        }
+        addC2M(a, b) {
+            this.regStrC2M += `${a}|`;
+            this.regStrC2M4not += `${b}`;
+            this.regC2M = new RegExp(`(${this.regStrC2M}[^${this.regStrC2M4not}]+)`, 'g');
+        }
+        static splitAmpersand(token) {
+            const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
+            const cnt_equa = equa.length;
+            if (cnt_equa < 2 || cnt_equa > 3)
+                throw '「&計算」書式では「=」指定が一つか二つ必要です';
+            if (equa[1].charAt(0) === '&')
+                throw '「&計算」書式では「&」指定が不要です';
+            return {
+                name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
+                text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
+                cast: ((cnt_equa === 3) ? equa[2].trim() : null)
+            };
+        }
     }
-    setEscape(ce) {
-        if (this.hC2M && (ce in this.hC2M))
-            throw '[エスケープ文字] char【' + ce + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_TOKEN = new RegExp((ce ? `\\${ce}\\S|` : '') +
-            '\\n+' +
-            '|\\t+' +
-            `|\\[let_ml\\s+[^\\]]+\\]` +
-            `.+?` +
-            `(?=\\[endlet_ml[\\]\\s])` +
-            `|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]` +
-            '|;[^\\n]*' +
-            '|&[^&\\n]+&' +
-            '|&&?[^;\\n\\t&]+' +
-            '|^\\*\\w+' +
-            `|[^\\n\\t\\[;${ce ? `\\${ce}` : ''}]+`, 'gs');
-        RubySpliter_1.RubySpliter.setEscape(ce);
-        this.REG_CANTC2M = new RegExp(`[\\w\\s;[\\]*=&｜《》${ce ? `\\${ce}` : ''}]`);
-        this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ? `\\${ce}` : ''}]`);
-    }
-    bracket2macro(hArg, script, idxToken) {
-        var _a;
-        const name = hArg.name;
-        if (!name)
-            throw '[bracket2macro] nameは必須です';
-        const text = hArg.text;
-        if (!text)
-            throw '[bracket2macro] textは必須です';
-        if (text.length != 2)
-            throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
-        this.hC2M = (_a = this.hC2M) !== null && _a !== void 0 ? _a : {};
-        const op = text.charAt(0);
-        const cl = text.charAt(1);
-        if (op in this.hC2M)
-            throw '[bracket2macro] text【' + op + '】が登録済みの括弧マクロまたは一文字マクロです';
-        if (cl in this.hC2M)
-            throw '[bracket2macro] text【' + cl + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(op))
-            throw '[bracket2macro] text【' + op + '】は括弧マクロに使用できない文字です';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(cl))
-            throw '[bracket2macro] text【' + cl + '】は括弧マクロに使用できない文字です';
-        this.hC2M[cl] = '0';
-        this.hC2M[op] = `[${name} text=`;
-        this.addC2M(`\\${op}[^\\${cl}]*\\${cl}`, `\\${op}\\${cl}`);
-        this.replaceScr_C2M_And_let_ml(script, idxToken);
-    }
-    char2macro(hArg, hTag, script, idxToken) {
-        var _a;
-        const char = hArg.char;
-        if (!char)
-            throw '[char2macro] charは必須です';
-        this.hC2M = (_a = this.hC2M) !== null && _a !== void 0 ? _a : {};
-        if (char in this.hC2M)
-            throw '[char2macro] char【' + char + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(char))
-            throw '[char2macro] char【' + char + '】は一文字マクロに使用できない文字です';
-        const name = hArg.name;
-        if (!name)
-            throw '[char2macro] nameは必須です';
-        if (!(name in hTag))
-            throw `[char2macro] 未定義のタグ又はマクロ[${name}]です`;
-        this.hC2M[char] = `[${name}]`;
-        this.addC2M(`\\${char}`, `\\${char}`);
-        this.replaceScr_C2M_And_let_ml(script, idxToken);
-    }
-    addC2M(a, b) {
-        this.regStrC2M += `${a}|`;
-        this.regStrC2M4not += `${b}`;
-        this.regC2M = new RegExp(`(${this.regStrC2M}[^${this.regStrC2M4not}]+)`, 'g');
-    }
-    static splitAmpersand(token) {
-        const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
-        const cnt_equa = equa.length;
-        if (cnt_equa < 2 || cnt_equa > 3)
-            throw '「&計算」書式では「=」指定が一つか二つ必要です';
-        if (equa[1].charAt(0) == '&')
-            throw '「&計算」書式では「&」指定が不要です';
-        return {
-            name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
-            text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
-            cast: ((cnt_equa == 3) ? equa[2].trim() : null)
-        };
-    }
-}
+    Grammar.REG_TAG = /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]/;
+    return Grammar;
+})();
 exports.Grammar = Grammar;
-Grammar.REG_TAG = /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]/;
 
 
 /***/ }),
@@ -2043,6 +2090,7 @@ Grammar.REG_TAG = /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GrpLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const Config_1 = __webpack_require__(/*! ./Config */ "./core/src/sn/Config.ts");
@@ -2051,288 +2099,291 @@ const EventListenerCtn_1 = __webpack_require__(/*! ./EventListenerCtn */ "./core
 ;
 ;
 ;
-class GrpLayer extends Layer_1.Layer {
-    constructor() {
-        super(...arguments);
-        this.csvFn = '';
-        this.sBkFn = '';
-        this.sBkFace = '';
-        this.compOneAtMultiLD = (isStop) => { if (isStop)
-            GrpLayer.main.resume(); };
-        this.record = () => Object.assign(super.record(), {
-            sBkFn: this.sBkFn,
-            sBkFace: this.sBkFace,
-        });
-        this.dump = () => super.dump() + `, "pic":"${this.csvFn}"`;
-    }
-    static init(main, cfg, sys) {
-        GrpLayer.main = main;
-        GrpLayer.cfg = cfg;
-        GrpLayer.sys = sys;
-        if (GrpLayer.sys.crypto)
-            GrpLayer.preThen = GrpLayer.preThen4Cripto;
-    }
-    static setEvtMng(evtMng) { GrpLayer.evtMng = evtMng; }
-    static destroy() {
-        GrpLayer.elc.clear();
-        GrpLayer.hFace = {};
-        GrpLayer.hFn2ResAniSpr = {};
-    }
-    lay(hArg) {
-        var _a;
-        const fn = hArg.fn;
-        const face = (_a = hArg.face) !== null && _a !== void 0 ? _a : '';
-        if (!fn) {
-            super.lay(hArg);
-            if (this.cnt.children.length > 0)
-                this.setPos(hArg);
+let GrpLayer = (() => {
+    class GrpLayer extends Layer_1.Layer {
+        constructor() {
+            super(...arguments);
+            this.csvFn = '';
             this.sBkFn = '';
-            this.csvFn = this.sBkFace = face;
-            return false;
+            this.sBkFace = '';
+            this.compOneAtMultiLD = (isStop) => { if (isStop)
+                GrpLayer.main.resume(); };
+            this.record = () => Object.assign(super.record(), {
+                sBkFn: this.sBkFn,
+                sBkFace: this.sBkFace,
+            });
+            this.dump = () => super.dump() + `, "pic":"${this.csvFn}"`;
         }
-        const inFn = 'fn' in hArg;
-        const inFace = 'face' in hArg;
-        this.clearLay({ filter: 'true' });
-        if (inFn)
-            this.sBkFn = fn;
-        if (inFace)
-            this.sBkFace = face;
-        super.lay(hArg);
-        hArg.dx = 0;
-        hArg.dy = 0;
-        return GrpLayer.csv2Sprites(this.csvFn = fn + (face ? ',' + face : ''), this.cnt, sp => {
-            Layer_1.Layer.setXY(sp, hArg, this.cnt, true);
-        }, isStop => {
-            Layer_1.Layer.setBlendmode(this.cnt, hArg);
-            this.compOneAtMultiLD(isStop);
-        });
-    }
-    static csv2Sprites(csv, parent, fncFirstComp, fncAllComp = () => { }) {
-        const aComp = [];
-        let needLoad = false;
-        const ldr = new pixi_js_1.Loader();
-        csv.split(',').forEach((fn, i) => {
-            if (!fn)
-                throw 'face属性に空要素が含まれます';
-            const f = GrpLayer.hFace[fn] || {
-                fn: fn,
-                dx: 0,
-                dy: 0,
-                blendmode: pixi_js_1.BLEND_MODES.NORMAL
-            };
-            const fnc = (i == 0) ? fncFirstComp : (sp) => {
-                sp.x = f.dx;
-                sp.y = f.dy;
-                sp.blendMode = f.blendmode;
-            };
-            aComp.push({ fn: f.fn, fnc: fnc });
-            if (f.fn in GrpLayer.hFn2ResAniSpr)
-                return;
-            if (f.fn in pixi_js_1.utils.TextureCache)
-                return;
-            if (f.fn in pixi_js_1.Loader.shared.resources)
-                return;
-            if (f.fn in GrpLayer.ldrHFn)
-                return;
-            GrpLayer.ldrHFn[f.fn] = 0;
-            needLoad = true;
-            const path = GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE);
-            const xt = this.sys.crypto
-                ? { xhrType: (path.slice(-5) == '.json')
-                        ? pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT
-                        : pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER }
-                : {};
-            ldr.add(f.fn, path, xt);
-        });
-        const fncLoaded = (res) => {
-            for (const v of aComp) {
-                const sp = GrpLayer.mkSprite(v.fn, res);
-                parent.addChild(sp);
-                v.fnc(sp);
+        static init(main, cfg, sys) {
+            GrpLayer.main = main;
+            GrpLayer.cfg = cfg;
+            GrpLayer.sys = sys;
+            if (GrpLayer.sys.crypto)
+                GrpLayer.preThen = GrpLayer.preThen4Cripto;
+        }
+        static setEvtMng(evtMng) { GrpLayer.evtMng = evtMng; }
+        static destroy() {
+            GrpLayer.elc.clear();
+            GrpLayer.hFace = {};
+            GrpLayer.hFn2ResAniSpr = {};
+        }
+        lay(hArg) {
+            var _a;
+            const fn = hArg.fn;
+            const face = (_a = hArg.face) !== null && _a !== void 0 ? _a : '';
+            if (!fn) {
+                super.lay(hArg);
+                if (this.cnt.children.length > 0)
+                    this.setPos(hArg);
+                this.sBkFn = '';
+                this.csvFn = this.sBkFace = face;
+                return false;
             }
-            fncAllComp(needLoad);
-        };
-        if (needLoad) {
-            ldr.pre((res, next) => res.load(() => {
-                this.sys.pre(res.extension, res.data)
-                    .then(r => GrpLayer.preThen(r, res, next))
-                    .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+            const inFn = 'fn' in hArg;
+            const inFace = 'face' in hArg;
+            this.clearLay({ filter: 'true' });
+            if (inFn)
+                this.sBkFn = fn;
+            if (inFace)
+                this.sBkFace = face;
+            super.lay(hArg);
+            hArg.dx = 0;
+            hArg.dy = 0;
+            return GrpLayer.csv2Sprites(this.csvFn = fn + (face ? ',' + face : ''), this.cnt, sp => {
+                Layer_1.Layer.setXY(sp, hArg, this.cnt, true);
+            }, isStop => {
+                Layer_1.Layer.setBlendmode(this.cnt, hArg);
+                this.compOneAtMultiLD(isStop);
+            });
+        }
+        static csv2Sprites(csv, parent, fncFirstComp, fncAllComp = () => { }) {
+            const aComp = [];
+            let needLoad = false;
+            const ldr = new pixi_js_1.Loader();
+            csv.split(',').forEach((fn, i) => {
+                if (!fn)
+                    throw 'face属性に空要素が含まれます';
+                const f = GrpLayer.hFace[fn] || {
+                    fn: fn,
+                    dx: 0,
+                    dy: 0,
+                    blendmode: pixi_js_1.BLEND_MODES.NORMAL
+                };
+                const fnc = (i === 0) ? fncFirstComp : (sp) => {
+                    sp.x = f.dx;
+                    sp.y = f.dy;
+                    sp.blendMode = f.blendmode;
+                };
+                aComp.push({ fn: f.fn, fnc: fnc });
+                if (f.fn in GrpLayer.hFn2ResAniSpr)
+                    return;
+                if (f.fn in pixi_js_1.utils.TextureCache)
+                    return;
+                if (f.fn in pixi_js_1.Loader.shared.resources)
+                    return;
+                if (f.fn in GrpLayer.ldrHFn)
+                    return;
+                GrpLayer.ldrHFn[f.fn] = 0;
+                needLoad = true;
+                const path = GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE);
+                const xt = this.sys.crypto
+                    ? { xhrType: (path.slice(-5) === '.json')
+                            ? pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT
+                            : pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER }
+                    : {};
+                ldr.add(f.fn, path, xt);
+            });
+            const fncLoaded = (res) => {
+                for (const v of aComp) {
+                    const sp = GrpLayer.mkSprite(v.fn, res);
+                    parent.addChild(sp);
+                    v.fnc(sp);
+                }
+                fncAllComp(needLoad);
+            };
+            if (needLoad) {
+                ldr.pre((res, next) => res.load(() => {
+                    this.sys.pre(res.extension, res.data)
+                        .then(r => GrpLayer.preThen(r, res, next))
+                        .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+                }))
+                    .load((_ldr, hRes) => fncLoaded(hRes));
+            }
+            else
+                fncLoaded(pixi_js_1.utils.TextureCache);
+            return needLoad;
+        }
+        static preThen4Cripto(r, res, next) {
+            var _a;
+            res.data = r;
+            if (res.extension === 'bin') {
+                if (res.data instanceof HTMLImageElement) {
+                    res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                    URL.revokeObjectURL(res.data.src);
+                }
+                else if (res.data instanceof HTMLVideoElement) {
+                    res.type = pixi_js_1.LoaderResource.TYPE.VIDEO;
+                    URL.revokeObjectURL(res.data.src);
+                }
+            }
+            if (res.extension !== 'json') {
+                next();
+                return;
+            }
+            const o = res.data = JSON.parse(r);
+            res.type = pixi_js_1.LoaderResource.TYPE.JSON;
+            if (!((_a = o.meta) === null || _a === void 0 ? void 0 : _a.image)) {
+                next();
+                return;
+            }
+            const fn = CmnLib_1.getFn(o.meta.image);
+            const url = GrpLayer.cfg.searchPath(fn, Config_1.Config.EXT_SPRITE);
+            (new pixi_js_1.Loader())
+                .pre((res2, next2) => res2.load(() => {
+                this.sys.pre(res2.extension, res2.data)
+                    .then(r => {
+                    res2.data = r;
+                    if (res2.data instanceof HTMLImageElement) {
+                        res2.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                        const mime = `image/${CmnLib_1.getExt(o.meta.image)}`;
+                        o.meta.image = GrpLayer.im2Base64(res2.data, mime);
+                        res2.data = o.meta.image;
+                    }
+                    next2();
+                })
+                    .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res2.name} ${e}`, false));
             }))
-                .load((_ldr, hRes) => fncLoaded(hRes));
+                .add(fn, url, { xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER })
+                .load(() => next());
         }
-        else
-            fncLoaded(pixi_js_1.utils.TextureCache);
-        return needLoad;
-    }
-    static preThen4Cripto(r, res, next) {
-        var _a;
-        res.data = r;
-        if (res.extension == 'bin') {
-            if (res.data instanceof HTMLImageElement) {
-                res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                URL.revokeObjectURL(res.data.src);
+        static im2Base64(img, mime) {
+            const cvs = document.createElement('canvas');
+            cvs.width = img.width;
+            cvs.height = img.height;
+            const ctx = cvs.getContext('2d');
+            ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(img, 0, 0);
+            return cvs.toDataURL(mime);
+        }
+        static mkSprite(fn, res) {
+            var _a;
+            if (fn in pixi_js_1.utils.TextureCache)
+                return new pixi_js_1.Sprite(pixi_js_1.Texture.from(fn));
+            const ras = GrpLayer.hFn2ResAniSpr[fn];
+            if (ras) {
+                const asp = new pixi_js_1.AnimatedSprite(ras.aTex);
+                asp.animationSpeed = (_a = ras.meta.animationSpeed) !== null && _a !== void 0 ? _a : 1.0;
+                asp.play();
+                return asp;
             }
-            else if (res.data instanceof HTMLVideoElement) {
-                res.type = pixi_js_1.LoaderResource.TYPE.VIDEO;
-                URL.revokeObjectURL(res.data.src);
+            const r = res[fn];
+            if (!r)
+                return new pixi_js_1.Sprite;
+            switch (r.type) {
+                case pixi_js_1.LoaderResource.TYPE.JSON:
+                    const aFK = r.spritesheet._frameKeys;
+                    const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
+                    if (a_base_name) {
+                        const is = a_base_name[1].length;
+                        const ie = -a_base_name[2].length - 1;
+                        aFK.sort((a, b) => (CmnLib_1.int(a.slice(is, ie)) > CmnLib_1.int(b.slice(is, ie))) ? 1 : -1);
+                    }
+                    const aTex = [];
+                    for (const v of aFK)
+                        aTex.push(pixi_js_1.Texture.from(v));
+                    GrpLayer.hFn2ResAniSpr[r.name] = { aTex: aTex, meta: r.data.meta };
+                    return GrpLayer.mkSprite(fn, res);
+                case pixi_js_1.LoaderResource.TYPE.VIDEO:
+                    const hve = r.data;
+                    GrpLayer.fn2Video[fn] = hve;
+                    return new pixi_js_1.Sprite(pixi_js_1.Texture.from(r.data));
+                default: return new pixi_js_1.Sprite(r.texture);
             }
         }
-        if (res.extension != 'json') {
-            next();
-            return;
-        }
-        const o = res.data = JSON.parse(r);
-        res.type = pixi_js_1.LoaderResource.TYPE.JSON;
-        if (!((_a = o.meta) === null || _a === void 0 ? void 0 : _a.image)) {
-            next();
-            return;
-        }
-        const fn = CmnLib_1.CmnLib.getFn(o.meta.image);
-        const url = GrpLayer.cfg.searchPath(fn, Config_1.Config.EXT_SPRITE);
-        (new pixi_js_1.Loader())
-            .pre((res2, next2) => res2.load(() => {
-            this.sys.pre(res2.extension, res2.data)
-                .then(r => {
-                res2.data = r;
-                if (res2.data instanceof HTMLImageElement) {
-                    res2.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                    const mime = `image/${CmnLib_1.CmnLib.getExt(o.meta.image)}`;
-                    o.meta.image = GrpLayer.im2Base64(res2.data, mime);
-                    res2.data = o.meta.image;
-                }
-                next2();
-            })
-                .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res2.name} ${e}`, false));
-        }))
-            .add(fn, url, { xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER })
-            .load(() => next());
-    }
-    static im2Base64(img, mime) {
-        const cvs = document.createElement('canvas');
-        cvs.width = img.width;
-        cvs.height = img.height;
-        const ctx = cvs.getContext('2d');
-        ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(img, 0, 0);
-        return cvs.toDataURL(mime);
-    }
-    static mkSprite(fn, res) {
-        var _a;
-        if (fn in pixi_js_1.utils.TextureCache)
-            return new pixi_js_1.Sprite(pixi_js_1.Texture.from(fn));
-        const ras = GrpLayer.hFn2ResAniSpr[fn];
-        if (ras) {
-            const asp = new pixi_js_1.AnimatedSprite(ras.aTex);
-            asp.animationSpeed = (_a = ras.meta.animationSpeed) !== null && _a !== void 0 ? _a : 1.0;
-            asp.play();
-            return asp;
-        }
-        const r = res[fn];
-        if (!r)
-            return new pixi_js_1.Sprite;
-        switch (r.type) {
-            case pixi_js_1.LoaderResource.TYPE.JSON:
-                const aFK = r.spritesheet._frameKeys;
-                const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
-                if (a_base_name) {
-                    const is = a_base_name[1].length;
-                    const ie = -a_base_name[2].length - 1;
-                    aFK.sort((a, b) => (CmnLib_1.int(a.slice(is, ie)) > CmnLib_1.int(b.slice(is, ie))) ? 1 : -1);
-                }
-                const aTex = [];
-                for (const v of aFK)
-                    aTex.push(pixi_js_1.Texture.from(v));
-                GrpLayer.hFn2ResAniSpr[r.name] = { aTex: aTex, meta: r.data.meta };
-                return GrpLayer.mkSprite(fn, res);
-            case pixi_js_1.LoaderResource.TYPE.VIDEO:
-                const hve = r.data;
-                GrpLayer.fn2Video[fn] = hve;
-                return new pixi_js_1.Sprite(pixi_js_1.Texture.from(r.data));
-            default: return new pixi_js_1.Sprite(r.texture);
-        }
-    }
-    static wv(hArg) {
-        const fn = hArg.fn;
-        if (!fn)
-            throw 'fnは必須です';
-        const hve = GrpLayer.fn2Video[fn];
-        if (!hve)
-            return false;
-        if (hve.ended) {
-            delete GrpLayer.fn2Video[fn];
-            return false;
-        }
-        const fnc = () => {
-            hve.removeEventListener('ended', fnc);
-            delete GrpLayer.fn2Video[fn];
-            this.main.resume();
-        };
-        hve.addEventListener('ended', fnc, { once: true, passive: true });
-        GrpLayer.evtMng.stdWait(() => { hve.pause(); fnc(); }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true));
-        return true;
-    }
-    static ldPic(fn, fnc) {
-        const url = GrpLayer.cfg.searchPath(fn, Config_1.Config.EXT_SPRITE);
-        const tx = pixi_js_1.utils.TextureCache[url];
-        if (tx) {
-            fnc(tx);
-            return;
-        }
-        const tx2 = pixi_js_1.Texture.from(url);
-        GrpLayer.elc.add(tx2.baseTexture, 'loaded', () => fnc(tx2));
-    }
-    setPos(hArg) {
-        Layer_1.Layer.setXY((this.cnt.children.length == 0) ? this.cnt : this.cnt.children[0], hArg, this.cnt, true);
-    }
-    static add_face(hArg) {
-        var _a;
-        const name = hArg.name;
-        if (!name)
-            throw 'nameは必須です';
-        if (name in GrpLayer.hFace)
-            throw '一つのname（' + name + '）に対して同じ画像を複数割り当てられません';
-        const fn = (_a = hArg.fn) !== null && _a !== void 0 ? _a : name;
-        GrpLayer.hFace[name] = {
-            fn: fn,
-            dx: CmnLib_1.CmnLib.argChk_Num(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,
-            dy: CmnLib_1.CmnLib.argChk_Num(hArg, 'dy', 0) * CmnLib_1.CmnLib.retinaRate,
-            blendmode: Layer_1.Layer.getBlendmodeNum(hArg.blendmode || '')
-        };
-        return false;
-    }
-    static clearFace2Name() { GrpLayer.hFace = {}; }
-    clearLay(hArg) {
-        super.clearLay(hArg);
-        for (const c of this.cnt.removeChildren())
-            c.destroy();
-        this.sBkFn = '';
-        this.sBkFace = '';
-        this.csvFn = '';
-    }
-    playback(hLay, fncComp = undefined) {
-        super.playback(hLay);
-        if (hLay.sBkFn == '' && hLay.sBkFace == '') {
-            this.sBkFn = hLay.sBkFn;
-            this.sBkFace = hLay.sBkFace;
-            if (fncComp != undefined)
-                fncComp();
-            return false;
-        }
-        if (fncComp != undefined)
-            this.compOneAtMultiLD = () => {
-                this.compOneAtMultiLD = (isStop) => { if (isStop)
-                    GrpLayer.main.resume(); };
-                fncComp();
+        static wv(hArg) {
+            const fn = hArg.fn;
+            if (!fn)
+                throw 'fnは必須です';
+            const hve = GrpLayer.fn2Video[fn];
+            if (!hve)
+                return false;
+            if (hve.ended) {
+                delete GrpLayer.fn2Video[fn];
+                return false;
+            }
+            const fnc = () => {
+                hve.removeEventListener('ended', fnc);
+                delete GrpLayer.fn2Video[fn];
+                this.main.resume();
             };
-        return this.lay({ fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y });
+            hve.addEventListener('ended', fnc, { once: true, passive: true });
+            GrpLayer.evtMng.stdWait(() => { hve.pause(); fnc(); }, CmnLib_1.argChk_Boolean(hArg, 'canskip', true));
+            return true;
+        }
+        static ldPic(fn, fnc) {
+            const url = GrpLayer.cfg.searchPath(fn, Config_1.Config.EXT_SPRITE);
+            const tx = pixi_js_1.utils.TextureCache[url];
+            if (tx) {
+                fnc(tx);
+                return;
+            }
+            const tx2 = pixi_js_1.Texture.from(url);
+            GrpLayer.elc.add(tx2.baseTexture, 'loaded', () => fnc(tx2));
+        }
+        setPos(hArg) {
+            Layer_1.Layer.setXY((this.cnt.children.length === 0) ? this.cnt : this.cnt.children[0], hArg, this.cnt, true);
+        }
+        static add_face(hArg) {
+            var _a;
+            const name = hArg.name;
+            if (!name)
+                throw 'nameは必須です';
+            if (name in GrpLayer.hFace)
+                throw '一つのname（' + name + '）に対して同じ画像を複数割り当てられません';
+            const fn = (_a = hArg.fn) !== null && _a !== void 0 ? _a : name;
+            GrpLayer.hFace[name] = {
+                fn: fn,
+                dx: CmnLib_1.argChk_Num(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,
+                dy: CmnLib_1.argChk_Num(hArg, 'dy', 0) * CmnLib_1.CmnLib.retinaRate,
+                blendmode: Layer_1.Layer.getBlendmodeNum(hArg.blendmode || '')
+            };
+            return false;
+        }
+        static clearFace2Name() { GrpLayer.hFace = {}; }
+        clearLay(hArg) {
+            super.clearLay(hArg);
+            for (const c of this.cnt.removeChildren())
+                c.destroy();
+            this.sBkFn = '';
+            this.sBkFace = '';
+            this.csvFn = '';
+        }
+        playback(hLay, fncComp = undefined) {
+            super.playback(hLay);
+            if (hLay.sBkFn === '' && hLay.sBkFace === '') {
+                this.sBkFn = hLay.sBkFn;
+                this.sBkFace = hLay.sBkFace;
+                if (fncComp !== undefined)
+                    fncComp();
+                return false;
+            }
+            if (fncComp !== undefined)
+                this.compOneAtMultiLD = () => {
+                    this.compOneAtMultiLD = (isStop) => { if (isStop)
+                        GrpLayer.main.resume(); };
+                    fncComp();
+                };
+            return this.lay({ fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y });
+        }
     }
-}
+    GrpLayer.elc = new EventListenerCtn_1.EventListenerCtn;
+    GrpLayer.hFace = {};
+    GrpLayer.hFn2ResAniSpr = {};
+    GrpLayer.ldrHFn = {};
+    GrpLayer.preThen = (_r, _res, next) => next();
+    GrpLayer.fn2Video = {};
+    return GrpLayer;
+})();
 exports.GrpLayer = GrpLayer;
-GrpLayer.elc = new EventListenerCtn_1.EventListenerCtn;
-GrpLayer.hFace = {};
-GrpLayer.hFn2ResAniSpr = {};
-GrpLayer.ldrHFn = {};
-GrpLayer.preThen = (_r, _res, next) => next();
-GrpLayer.fn2Video = {};
 
 
 /***/ }),
@@ -2347,239 +2398,243 @@ GrpLayer.fn2Video = {};
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Layer = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
-class Layer {
-    constructor() {
-        this.name = '';
-        this.cnt = new pixi_js_1.Sprite(pixi_js_1.Texture.EMPTY);
-    }
-    get alpha() { return this.cnt.alpha; }
-    set alpha(v) { this.cnt.alpha = v; }
-    get height() { return this.cnt.getBounds().height; }
-    get rotation() { return this.cnt.rotation; }
-    set rotation(v) { this.cnt.rotation = v; }
-    get scale_x() { return this.cnt.scale.x; }
-    set scale_x(v) { this.cnt.scale.x = v; }
-    get scale_y() { return this.cnt.scale.y; }
-    set scale_y(v) { this.cnt.scale.y = v; }
-    get width() { return this.cnt.getBounds().width; }
-    get x() { return this.cnt.x; }
-    set x(v) { this.cnt.x = v; }
-    get y() { return this.cnt.y; }
-    set y(v) { this.cnt.y = v; }
-    destroy() { }
-    lay(hArg) {
-        if ('alpha' in hArg)
-            this.cnt.alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 1);
-        Layer.setBlendmode(this.cnt, hArg);
-        if ('pivot_x' in hArg || 'pivot_y' in hArg)
-            this.cnt.pivot.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y));
-        if ('rotation' in hArg)
-            this.cnt.angle = CmnLib_1.CmnLib.argChk_Num(hArg, 'rotation', 0);
-        if ('scale_x' in hArg || 'scale_y' in hArg)
-            this.cnt.scale.set(CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', this.cnt.scale.x), CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', this.cnt.scale.y));
-        if ('visible' in hArg)
-            this.cnt.visible = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'visible', true);
-        return false;
-    }
-    static setBlendmode(cnt, hArg) {
-        const bm_name = hArg.blendmode;
-        if (!bm_name)
-            return;
-        const bmn = Layer.getBlendmodeNum(bm_name);
-        const sp = cnt;
-        if (sp)
-            sp.blendMode = bmn;
-        for (const c of cnt.children) {
-            const cSp = c;
-            if (cSp)
-                cSp.blendMode = bmn;
+let Layer = (() => {
+    class Layer {
+        constructor() {
+            this.name = '';
+            this.cnt = new pixi_js_1.Sprite(pixi_js_1.Texture.EMPTY);
         }
-    }
-    static getBlendmodeNum(bm_name) {
-        if (!bm_name)
-            return pixi_js_1.BLEND_MODES.NORMAL;
-        const bmn = Layer.hBlendmode[bm_name];
-        if (bmn !== undefined)
-            return bmn;
-        throw `${bm_name} はサポートされない blendmode です`;
-    }
-    clearLay(hArg) {
-        this.cnt.alpha = 1;
-        this.cnt.blendMode = pixi_js_1.BLEND_MODES.NORMAL;
-        this.cnt.pivot.set(0, 0);
-        this.cnt.rotation = 0;
-        this.cnt.scale.set(1, 1);
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'filter', false))
-            this.cnt.filters = [];
-    }
-    copy(fromLayer) {
-        const org_name = this.name;
-        this.playback(fromLayer.record());
-        this.name = org_name;
-    }
-    record() {
-        return {
-            name: this.name,
-            idx: this.cnt.parent.getChildIndex(this.cnt),
-            alpha: this.cnt.alpha,
-            blendMode: this.cnt.blendMode,
-            rotation: this.cnt.rotation,
-            scale_x: this.cnt.scale.x,
-            scale_y: this.cnt.scale.y,
-            pivot_x: this.cnt.pivot.x,
-            pivot_y: this.cnt.pivot.y,
-            x: this.cnt.x,
-            y: this.cnt.y,
-            visible: this.cnt.visible,
-        };
-    }
-    playback(hLay, _fncComp = undefined) {
-        this.name = hLay.name;
-        this.clearLay({ filter: 'true' });
-        this.cnt.alpha = hLay.alpha;
-        this.cnt.blendMode = hLay.blendMode;
-        this.cnt.rotation = hLay.rotation;
-        this.cnt.scale.set(hLay.scale_x, hLay.scale_y);
-        this.cnt.pivot.set(hLay.pivot_x, hLay.pivot_y);
-        this.cnt.position.set(hLay.x, hLay.y);
-        this.cnt.visible = hLay.visible;
-        return false;
-    }
-    snapshot(rnd, re) {
-        rnd.render(this.cnt, undefined, false);
-        re();
-    }
-    snapshot_end() { }
-    cvsResize() { }
-    dump() {
-        return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation}, "name":"${this.name}", "scale_x":${this.cnt.scale.x}, "scale_y":${this.cnt.scale.y}`;
-    }
-    static setXY(base, hArg, ret, isGrp = false, isButton = false) {
-        if (hArg.pos) {
-            Layer.setXYByPos(base, hArg.pos, ret);
-            return;
+        get alpha() { return this.cnt.alpha; }
+        set alpha(v) { this.cnt.alpha = v; }
+        get height() { return this.cnt.getBounds().height; }
+        get rotation() { return this.cnt.rotation; }
+        set rotation(v) { this.cnt.rotation = v; }
+        get scale_x() { return this.cnt.scale.x; }
+        set scale_x(v) { this.cnt.scale.x = v; }
+        get scale_y() { return this.cnt.scale.y; }
+        set scale_y(v) { this.cnt.scale.y = v; }
+        get width() { return this.cnt.getBounds().width; }
+        get x() { return this.cnt.x; }
+        set x(v) { this.cnt.x = v; }
+        get y() { return this.cnt.y; }
+        set y(v) { this.cnt.y = v; }
+        destroy() { }
+        lay(hArg) {
+            if ('alpha' in hArg)
+                this.cnt.alpha = CmnLib_1.argChk_Num(hArg, 'alpha', 1);
+            Layer.setBlendmode(this.cnt, hArg);
+            if ('pivot_x' in hArg || 'pivot_y' in hArg)
+                this.cnt.pivot.set(CmnLib_1.argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x), CmnLib_1.argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y));
+            if ('rotation' in hArg)
+                this.cnt.angle = CmnLib_1.argChk_Num(hArg, 'rotation', 0);
+            if ('scale_x' in hArg || 'scale_y' in hArg)
+                this.cnt.scale.set(CmnLib_1.argChk_Num(hArg, 'scale_x', this.cnt.scale.x), CmnLib_1.argChk_Num(hArg, 'scale_y', this.cnt.scale.y));
+            if ('visible' in hArg)
+                this.cnt.visible = CmnLib_1.argChk_Boolean(hArg, 'visible', true);
+            return false;
         }
-        const rct_base = base.getBounds();
-        const r_absclX = (ret.scale.x < 0) ? -ret.scale.x : ret.scale.x;
-        const b_width = (r_absclX == 1)
-            ? rct_base.width : rct_base.width * r_absclX;
-        const r_absclY = (ret.scale.y < 0) ? -ret.scale.y : ret.scale.y;
-        const b_height = (r_absclY == 1)
-            ? rct_base.height : rct_base.height * r_absclY;
-        let x = ret.x;
-        if ('left' in hArg) {
-            x = CmnLib_1.CmnLib.argChk_Num(hArg, 'left', 0);
-            if ((x > -1) && (x < 1))
-                x *= CmnLib_1.CmnLib.stageW;
-        }
-        else if ('center' in hArg) {
-            x = CmnLib_1.CmnLib.argChk_Num(hArg, 'center', 0);
-            if ((x > -1) && (x < 1))
-                x *= CmnLib_1.CmnLib.stageW;
-            x = x - (isButton ? b_width / 3 : b_width) / 2;
-        }
-        else if ('right' in hArg) {
-            x = CmnLib_1.CmnLib.argChk_Num(hArg, 'right', 0);
-            if ((x > -1) && (x < 1))
-                x *= CmnLib_1.CmnLib.stageW;
-            x = x - (isButton ? b_width / 3 : b_width);
-        }
-        else if ('s_right' in hArg) {
-            x = CmnLib_1.CmnLib.argChk_Num(hArg, 's_right', 0);
-            if ((x > -1) && (x < 1))
-                x *= CmnLib_1.CmnLib.stageW;
-            x = CmnLib_1.CmnLib.stageW - x
-                - (isButton ? b_width / 3 : b_width);
-        }
-        ret.x = CmnLib_1.int(((ret.scale.x < 0)
-            ? x + (isButton ? b_width / 3 : b_width)
-            : x) * CmnLib_1.CmnLib.retinaRate);
-        let y = ret.y;
-        if ('top' in hArg) {
-            y = CmnLib_1.CmnLib.argChk_Num(hArg, 'top', 0);
-            if ((y > -1) && (y < 1))
-                y *= CmnLib_1.CmnLib.stageH;
-        }
-        else if ('middle' in hArg) {
-            y = CmnLib_1.CmnLib.argChk_Num(hArg, 'middle', 0);
-            if ((y > -1) && (y < 1))
-                y *= CmnLib_1.CmnLib.stageH;
-            y = y - b_height / 2;
-        }
-        else if ('bottom' in hArg) {
-            y = CmnLib_1.CmnLib.argChk_Num(hArg, 'bottom', 0);
-            if ((y > -1) && (y < 1))
-                y *= CmnLib_1.CmnLib.stageH;
-            y = y - b_height;
-        }
-        else if ('s_bottom' in hArg) {
-            y = CmnLib_1.CmnLib.argChk_Num(hArg, 's_bottom', 0);
-            if ((y > -1) && (y < 1))
-                y *= CmnLib_1.CmnLib.stageH;
-            y = CmnLib_1.CmnLib.stageH - y - b_height;
-        }
-        ret.y = CmnLib_1.int(((ret.scale.y < 0) ? y + b_height : y)
-            * CmnLib_1.CmnLib.retinaRate);
-        if (isGrp) {
-            if (!('left' in hArg)
-                && !('center' in hArg)
-                && !('right' in hArg)
-                && !('s_right' in hArg)
-                && !('top' in hArg)
-                && !('middle' in hArg)
-                && !('bottom' in hArg)
-                && !('s_bottom' in hArg)) {
-                Layer.setXYByPos(base, 'c', ret);
+        static setBlendmode(cnt, hArg) {
+            const bm_name = hArg.blendmode;
+            if (!bm_name)
+                return;
+            const bmn = Layer.getBlendmodeNum(bm_name);
+            const sp = cnt;
+            if (sp)
+                sp.blendMode = bmn;
+            for (const c of cnt.children) {
+                const cSp = c;
+                if (cSp)
+                    cSp.blendMode = bmn;
             }
         }
+        static getBlendmodeNum(bm_name) {
+            if (!bm_name)
+                return pixi_js_1.BLEND_MODES.NORMAL;
+            const bmn = Layer.hBlendmode[bm_name];
+            if (bmn !== undefined)
+                return bmn;
+            throw `${bm_name} はサポートされない blendmode です`;
+        }
+        clearLay(hArg) {
+            this.cnt.alpha = 1;
+            this.cnt.blendMode = pixi_js_1.BLEND_MODES.NORMAL;
+            this.cnt.pivot.set(0, 0);
+            this.cnt.rotation = 0;
+            this.cnt.scale.set(1, 1);
+            if (CmnLib_1.argChk_Boolean(hArg, 'filter', false))
+                this.cnt.filters = [];
+        }
+        copy(fromLayer) {
+            const org_name = this.name;
+            this.playback(fromLayer.record());
+            this.name = org_name;
+        }
+        record() {
+            return {
+                name: this.name,
+                idx: this.cnt.parent.getChildIndex(this.cnt),
+                alpha: this.cnt.alpha,
+                blendMode: this.cnt.blendMode,
+                rotation: this.cnt.rotation,
+                scale_x: this.cnt.scale.x,
+                scale_y: this.cnt.scale.y,
+                pivot_x: this.cnt.pivot.x,
+                pivot_y: this.cnt.pivot.y,
+                x: this.cnt.x,
+                y: this.cnt.y,
+                visible: this.cnt.visible,
+            };
+        }
+        playback(hLay, _fncComp = undefined) {
+            this.name = hLay.name;
+            this.clearLay({ filter: 'true' });
+            this.cnt.alpha = hLay.alpha;
+            this.cnt.blendMode = hLay.blendMode;
+            this.cnt.rotation = hLay.rotation;
+            this.cnt.scale.set(hLay.scale_x, hLay.scale_y);
+            this.cnt.pivot.set(hLay.pivot_x, hLay.pivot_y);
+            this.cnt.position.set(hLay.x, hLay.y);
+            this.cnt.visible = hLay.visible;
+            return false;
+        }
+        snapshot(rnd, re) {
+            rnd.render(this.cnt, undefined, false);
+            re();
+        }
+        snapshot_end() { }
+        cvsResize() { }
+        dump() {
+            return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation}, "name":"${this.name}", "scale_x":${this.cnt.scale.x}, "scale_y":${this.cnt.scale.y}`;
+        }
+        static setXY(base, hArg, ret, isGrp = false, isButton = false) {
+            if (hArg.pos) {
+                Layer.setXYByPos(base, hArg.pos, ret);
+                return;
+            }
+            const rct_base = base.getBounds();
+            const r_absclX = (ret.scale.x < 0) ? -ret.scale.x : ret.scale.x;
+            const b_width = (r_absclX === 1)
+                ? rct_base.width : rct_base.width * r_absclX;
+            const r_absclY = (ret.scale.y < 0) ? -ret.scale.y : ret.scale.y;
+            const b_height = (r_absclY === 1)
+                ? rct_base.height : rct_base.height * r_absclY;
+            let x = ret.x;
+            if ('left' in hArg) {
+                x = CmnLib_1.argChk_Num(hArg, 'left', 0);
+                if ((x > -1) && (x < 1))
+                    x *= CmnLib_1.CmnLib.stageW;
+            }
+            else if ('center' in hArg) {
+                x = CmnLib_1.argChk_Num(hArg, 'center', 0);
+                if ((x > -1) && (x < 1))
+                    x *= CmnLib_1.CmnLib.stageW;
+                x = x - (isButton ? b_width / 3 : b_width) / 2;
+            }
+            else if ('right' in hArg) {
+                x = CmnLib_1.argChk_Num(hArg, 'right', 0);
+                if ((x > -1) && (x < 1))
+                    x *= CmnLib_1.CmnLib.stageW;
+                x = x - (isButton ? b_width / 3 : b_width);
+            }
+            else if ('s_right' in hArg) {
+                x = CmnLib_1.argChk_Num(hArg, 's_right', 0);
+                if ((x > -1) && (x < 1))
+                    x *= CmnLib_1.CmnLib.stageW;
+                x = CmnLib_1.CmnLib.stageW - x
+                    - (isButton ? b_width / 3 : b_width);
+            }
+            ret.x = CmnLib_1.int(((ret.scale.x < 0)
+                ? x + (isButton ? b_width / 3 : b_width)
+                : x) * CmnLib_1.CmnLib.retinaRate);
+            let y = ret.y;
+            if ('top' in hArg) {
+                y = CmnLib_1.argChk_Num(hArg, 'top', 0);
+                if ((y > -1) && (y < 1))
+                    y *= CmnLib_1.CmnLib.stageH;
+            }
+            else if ('middle' in hArg) {
+                y = CmnLib_1.argChk_Num(hArg, 'middle', 0);
+                if ((y > -1) && (y < 1))
+                    y *= CmnLib_1.CmnLib.stageH;
+                y = y - b_height / 2;
+            }
+            else if ('bottom' in hArg) {
+                y = CmnLib_1.argChk_Num(hArg, 'bottom', 0);
+                if ((y > -1) && (y < 1))
+                    y *= CmnLib_1.CmnLib.stageH;
+                y = y - b_height;
+            }
+            else if ('s_bottom' in hArg) {
+                y = CmnLib_1.argChk_Num(hArg, 's_bottom', 0);
+                if ((y > -1) && (y < 1))
+                    y *= CmnLib_1.CmnLib.stageH;
+                y = CmnLib_1.CmnLib.stageH - y - b_height;
+            }
+            ret.y = CmnLib_1.int(((ret.scale.y < 0) ? y + b_height : y)
+                * CmnLib_1.CmnLib.retinaRate);
+            if (isGrp) {
+                if (!('left' in hArg)
+                    && !('center' in hArg)
+                    && !('right' in hArg)
+                    && !('s_right' in hArg)
+                    && !('top' in hArg)
+                    && !('middle' in hArg)
+                    && !('bottom' in hArg)
+                    && !('s_bottom' in hArg)) {
+                    Layer.setXYByPos(base, 'c', ret);
+                }
+            }
+        }
+        static setXYByPos(base, pos, ret) {
+            if (pos === 'stay')
+                return;
+            if (base === null)
+                throw 'setXYByPos base === null';
+            if (ret === null)
+                throw 'setXYByPos result === null';
+            const rct_base = base.getBounds();
+            const r_absclX = (ret.scale.x < 0) ? -ret.scale.x : ret.scale.x;
+            const b_width = (r_absclX === 1) ? rct_base.width : rct_base.width * r_absclX;
+            const r_absclY = (ret.scale.y < 0) ? -ret.scale.y : ret.scale.y;
+            const b_height = (r_absclY === 1) ? rct_base.height : rct_base.height * r_absclY;
+            let c = 0;
+            if (!pos || pos === 'c') {
+                c = CmnLib_1.CmnLib.stageW * 0.5;
+            }
+            else if (pos === 'r') {
+                c = CmnLib_1.CmnLib.stageW - b_width * 0.5;
+            }
+            else if (pos === 'l') {
+                c = b_width * 0.5;
+            }
+            else {
+                c = CmnLib_1.int(pos) * CmnLib_1.CmnLib.retinaRate;
+            }
+            ret.x = CmnLib_1.int(c - b_width * 0.5);
+            ret.y = CmnLib_1.CmnLib.stageH - b_height;
+            if (ret.scale.x < 0)
+                ret.x += b_width;
+            if (ret.scale.y < 0)
+                ret.y += b_height;
+        }
+        static setXYCenter(dsp) {
+            const rct = dsp.getBounds();
+            dsp.x = (CmnLib_1.CmnLib.stageW - rct.width) * 0.5;
+            dsp.y = (CmnLib_1.CmnLib.stageH - rct.height) * 0.5;
+        }
     }
-    static setXYByPos(base, pos, ret) {
-        if (pos == 'stay')
-            return;
-        if (base == null)
-            throw 'setXYByPos base == null';
-        if (ret == null)
-            throw 'setXYByPos result == null';
-        const rct_base = base.getBounds();
-        const r_absclX = (ret.scale.x < 0) ? -ret.scale.x : ret.scale.x;
-        const b_width = (r_absclX == 1) ? rct_base.width : rct_base.width * r_absclX;
-        const r_absclY = (ret.scale.y < 0) ? -ret.scale.y : ret.scale.y;
-        const b_height = (r_absclY == 1) ? rct_base.height : rct_base.height * r_absclY;
-        let c = 0;
-        if (!pos || pos == 'c') {
-            c = CmnLib_1.CmnLib.stageW * 0.5;
-        }
-        else if (pos == 'r') {
-            c = CmnLib_1.CmnLib.stageW - b_width * 0.5;
-        }
-        else if (pos == 'l') {
-            c = b_width * 0.5;
-        }
-        else {
-            c = CmnLib_1.int(pos) * CmnLib_1.CmnLib.retinaRate;
-        }
-        ret.x = CmnLib_1.int(c - b_width * 0.5);
-        ret.y = CmnLib_1.CmnLib.stageH - b_height;
-        if (ret.scale.x < 0)
-            ret.x += b_width;
-        if (ret.scale.y < 0)
-            ret.y += b_height;
-    }
-    static setXYCenter(dsp) {
-        const rct = dsp.getBounds();
-        dsp.x = (CmnLib_1.CmnLib.stageW - rct.width) * 0.5;
-        dsp.y = (CmnLib_1.CmnLib.stageH - rct.height) * 0.5;
-    }
-}
+    Layer.hBlendmode = {
+        'normal': pixi_js_1.BLEND_MODES.NORMAL,
+        'add': pixi_js_1.BLEND_MODES.ADD,
+        'multiply': pixi_js_1.BLEND_MODES.MULTIPLY,
+        'screen': pixi_js_1.BLEND_MODES.SCREEN,
+    };
+    return Layer;
+})();
 exports.Layer = Layer;
-Layer.hBlendmode = {
-    'normal': pixi_js_1.BLEND_MODES.NORMAL,
-    'add': pixi_js_1.BLEND_MODES.ADD,
-    'multiply': pixi_js_1.BLEND_MODES.MULTIPLY,
-    'screen': pixi_js_1.BLEND_MODES.SCREEN,
-};
 
 
 /***/ }),
@@ -2594,6 +2649,7 @@ Layer.hBlendmode = {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.LayerMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const CmnTween_1 = __webpack_require__(/*! ./CmnTween */ "./core/src/sn/CmnTween.ts");
 const Pages_1 = __webpack_require__(/*! ./Pages */ "./core/src/sn/Pages.ts");
@@ -2605,27 +2661,28 @@ const Button_1 = __webpack_require__(/*! ./Button */ "./core/src/sn/Button.ts");
 const Tween = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/dist/tween.esm.js").default;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 const EventListenerCtn_1 = __webpack_require__(/*! ./EventListenerCtn */ "./core/src/sn/EventListenerCtn.ts");
-class LayerMng {
-    constructor(cfg, hTag, appPixi, val, main, scrItr, sys) {
-        this.cfg = cfg;
-        this.hTag = hTag;
-        this.appPixi = appPixi;
-        this.val = val;
-        this.main = main;
-        this.scrItr = scrItr;
-        this.sys = sys;
-        this.fore = new pixi_js_1.Container;
-        this.back = new pixi_js_1.Container;
-        this.fncTicker = () => Tween.update();
-        this.grpCover = null;
-        this.cmdTxt = (cmd, tl = this.getCurrentTxtlayForeNeedErr(), _record = true) => tl.tagCh('｜　《' + cmd + '》');
-        this.goTxt = () => { };
-        this.breakLine = () => { };
-        this.breakPage = () => { };
-        this.hPages = {};
-        this.aLayName = [];
-        this.curTxtlay = '';
-        this.srcRuleTransFragment = `
+let LayerMng = (() => {
+    class LayerMng {
+        constructor(cfg, hTag, appPixi, val, main, scrItr, sys) {
+            this.cfg = cfg;
+            this.hTag = hTag;
+            this.appPixi = appPixi;
+            this.val = val;
+            this.main = main;
+            this.scrItr = scrItr;
+            this.sys = sys;
+            this.fore = new pixi_js_1.Container;
+            this.back = new pixi_js_1.Container;
+            this.fncTicker = () => Tween.update();
+            this.grpCover = null;
+            this.cmdTxt = (cmd, tl = this.getCurrentTxtlayForeNeedErr(), _record = true) => tl.tagCh('｜　《' + cmd + '》');
+            this.goTxt = () => { };
+            this.breakLine = () => { };
+            this.breakPage = () => { };
+            this.hPages = {};
+            this.aLayName = [];
+            this.curTxtlay = '';
+            this.srcRuleTransFragment = `
 precision mediump float;
 
 varying vec2 vTextureCoord;
@@ -2651,882 +2708,884 @@ void main(void) {
 		gl_FragColor = (v >= 0.0)? fg : vec4(0);
 	}
 }`;
-        this.ufRuleTrans = {
-            rule: { type: 'sampler2D', value: pixi_js_1.Texture.EMPTY },
-            vague: { type: '1f', value: 0.0 },
-            tick: { type: '1f', value: 0.0 },
-        };
-        this.fltRule = new pixi_js_1.Filter(undefined, this.srcRuleTransFragment, this.ufRuleTrans);
-        this.rtTransBack = pixi_js_1.RenderTexture.create({
-            width: CmnLib_1.CmnLib.stageW,
-            height: CmnLib_1.CmnLib.stageH,
-        });
-        this.spTransBack = new pixi_js_1.Sprite(this.rtTransBack);
-        this.rtTransFore = pixi_js_1.RenderTexture.create({
-            width: CmnLib_1.CmnLib.stageW,
-            height: CmnLib_1.CmnLib.stageH,
-        });
-        this.spTransFore = new pixi_js_1.Sprite(this.rtTransFore);
-        this.aBackTransAfter = [];
-        this.twInfTrans = { tw: null, resume: false };
-        this.elcTrans = new EventListenerCtn_1.EventListenerCtn;
-        this.hTwInf = {};
-        this.getTxtLayer = (_hArg) => { this.fncChkTxtLay(); throw 0; };
-        this.current = (_hArg) => { this.fncChkTxtLay(); throw 0; };
-        this.fncChkTxtLay = () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; };
-        this.oLastPage = { text: '' };
-        this.aPageLog = [];
-        const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
-        const fncResizeLay = () => {
-            if (!CmnLib_1.CmnLib.cvsResize(cvs))
-                return;
-            this.aLayName.forEach(layer => {
-                const pg = this.hPages[layer];
-                pg.fore.cvsResize();
-                pg.back.cvsResize();
+            this.ufRuleTrans = {
+                rule: { type: 'sampler2D', value: pixi_js_1.Texture.EMPTY },
+                vague: { type: '1f', value: 0.0 },
+                tick: { type: '1f', value: 0.0 },
+            };
+            this.fltRule = new pixi_js_1.Filter(undefined, this.srcRuleTransFragment, this.ufRuleTrans);
+            this.rtTransBack = pixi_js_1.RenderTexture.create({
+                width: CmnLib_1.CmnLib.stageW,
+                height: CmnLib_1.CmnLib.stageH,
             });
-            this.frmMng.cvsResize();
-        };
-        if (CmnLib_1.CmnLib.isMobile) {
-            window.addEventListener('orientationchange', fncResizeLay, { passive: true });
-        }
-        else {
-            let tid = 0;
-            window.addEventListener('resize', () => {
-                if (tid)
+            this.spTransBack = new pixi_js_1.Sprite(this.rtTransBack);
+            this.rtTransFore = pixi_js_1.RenderTexture.create({
+                width: CmnLib_1.CmnLib.stageW,
+                height: CmnLib_1.CmnLib.stageH,
+            });
+            this.spTransFore = new pixi_js_1.Sprite(this.rtTransFore);
+            this.aBackTransAfter = [];
+            this.twInfTrans = { tw: null, resume: false };
+            this.elcTrans = new EventListenerCtn_1.EventListenerCtn;
+            this.hTwInf = {};
+            this.getTxtLayer = (_hArg) => { this.fncChkTxtLay(); throw 0; };
+            this.current = (_hArg) => { this.fncChkTxtLay(); throw 0; };
+            this.fncChkTxtLay = () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; };
+            this.oLastPage = { text: '' };
+            this.aPageLog = [];
+            const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
+            const fncResizeLay = () => {
+                if (!CmnLib_1.CmnLib.cvsResize(cvs))
                     return;
-                tid = setTimeout(() => { tid = 0; fncResizeLay(); }, 500);
-            }, { passive: true });
+                this.aLayName.forEach(layer => {
+                    const pg = this.hPages[layer];
+                    pg.fore.cvsResize();
+                    pg.back.cvsResize();
+                });
+                this.frmMng.cvsResize();
+            };
+            if (CmnLib_1.CmnLib.isMobile) {
+                window.addEventListener('orientationchange', fncResizeLay, { passive: true });
+            }
+            else {
+                let tid = 0;
+                window.addEventListener('resize', () => {
+                    if (tid)
+                        return;
+                    tid = setTimeout(() => { tid = 0; fncResizeLay(); }, 500);
+                }, { passive: true });
+            }
+            CmnLib_1.CmnLib.cvsResize(cvs);
+            TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
+            GrpLayer_1.GrpLayer.init(main, cfg, sys);
+            this.frmMng = new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
+            sys.hFactoryCls.grp = () => new GrpLayer_1.GrpLayer;
+            sys.hFactoryCls.txt = () => new TxtLayer_1.TxtLayer;
+            hTag.loadplugin = o => this.loadplugin(o);
+            hTag.set_focus = o => this.set_focus(o);
+            hTag.snapshot = o => this.snapshot(o);
+            hTag.add_lay = o => this.add_lay(o);
+            hTag.clear_lay = o => this.clear_lay(o);
+            hTag.finish_trans = () => this.finish_trans();
+            hTag.lay = o => this.lay(o);
+            hTag.trans = o => this.trans(o);
+            hTag.wt = o => this.wt(o);
+            hTag.quake = o => this.quake(o);
+            hTag.stop_quake = o => hTag.finish_trans(o);
+            hTag.wq = o => hTag.wt(o);
+            hTag.pause_tsy = o => this.pause_tsy(o);
+            hTag.resume_tsy = o => this.resume_tsy(o);
+            hTag.stop_tsy = o => this.stop_tsy(o);
+            hTag.tsy = o => this.tsy(o);
+            hTag.wait_tsy = o => this.wait_tsy(o);
+            hTag.ch = o => this.ch(o);
+            hTag.clear_text = o => this.clear_text(o);
+            hTag.current = o => this.current(o);
+            hTag.endlink = () => this.endlink();
+            hTag.er = o => this.er(o);
+            hTag.graph = o => this.graph(o);
+            hTag.link = o => this.link(o);
+            hTag.r = o => this.r(o);
+            hTag.rec_ch = o => this.rec_ch(o);
+            hTag.rec_r = () => this.rec_r();
+            hTag.reset_rec = o => this.reset_rec(o);
+            hTag.ruby2 = o => this.ruby2(o);
+            hTag.span = o => this.span(o);
+            hTag.tcy = o => this.tcy(o);
+            hTag.add_face = o => GrpLayer_1.GrpLayer.add_face(o);
+            hTag.wv = o => GrpLayer_1.GrpLayer.wv(o);
+            hTag.dump_lay = o => this.dump_lay(o);
+            hTag.enable_event = o => this.enable_event(o);
+            hTag.button = o => this.button(o);
+            if (cfg.existsBreakline)
+                this.breakLine = () => this.cmdTxt('grp｜{"id":"break","pic":"breakline"}');
+            if (cfg.existsBreakpage)
+                this.breakPage = () => this.cmdTxt('grp｜{"id":"break","pic":"breakpage"}');
+            const grp = new pixi_js_1.Graphics;
+            grp.beginFill(cfg.oCfg.init.bg_color, 1);
+            grp.lineStyle(0, cfg.oCfg.init.bg_color);
+            grp.drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            grp.endFill();
+            this.fore.addChild(grp.clone());
+            this.back.addChild(grp);
+            this.back.visible = false;
+            this.stage = this.appPixi.stage;
+            this.stage.addChild(this.back);
+            this.stage.addChild(this.fore);
+            this.stage.addChild(this.spTransBack);
+            this.stage.addChild(this.spTransFore);
+            this.appPixi.ticker.add(this.fncTicker);
+            const fncTxt_b_alpha = (_name, val) => {
+                this.foreachRedrawTxtLayBack(Number(val));
+            };
+            fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
+            val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
+            const fncBtnFont = (_name, val) => {
+                Button_1.Button.fontFamily = val;
+            };
+            fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button_1.Button.fontFamily));
+            val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
+            val.defTmp('const.sn.log.json', () => JSON.stringify([...this.aPageLog, this.oLastPage]));
+            val.defTmp('const.sn.last_page_text', () => {
+                const tl = this.getCurrentTxtlayFore();
+                return tl ? tl.pageText : '';
+            });
         }
-        CmnLib_1.CmnLib.cvsResize(cvs);
-        TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt));
-        GrpLayer_1.GrpLayer.init(main, cfg, sys);
-        this.frmMng = new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
-        sys.hFactoryCls.grp = () => new GrpLayer_1.GrpLayer;
-        sys.hFactoryCls.txt = () => new TxtLayer_1.TxtLayer;
-        hTag.loadplugin = o => this.loadplugin(o);
-        hTag.set_focus = o => this.set_focus(o);
-        hTag.snapshot = o => this.snapshot(o);
-        hTag.add_lay = o => this.add_lay(o);
-        hTag.clear_lay = o => this.clear_lay(o);
-        hTag.finish_trans = () => this.finish_trans();
-        hTag.lay = o => this.lay(o);
-        hTag.trans = o => this.trans(o);
-        hTag.wt = o => this.wt(o);
-        hTag.quake = o => this.quake(o);
-        hTag.stop_quake = o => hTag.finish_trans(o);
-        hTag.wq = o => hTag.wt(o);
-        hTag.pause_tsy = o => this.pause_tsy(o);
-        hTag.resume_tsy = o => this.resume_tsy(o);
-        hTag.stop_tsy = o => this.stop_tsy(o);
-        hTag.tsy = o => this.tsy(o);
-        hTag.wait_tsy = o => this.wait_tsy(o);
-        hTag.ch = o => this.ch(o);
-        hTag.clear_text = o => this.clear_text(o);
-        hTag.current = o => this.current(o);
-        hTag.endlink = () => this.endlink();
-        hTag.er = o => this.er(o);
-        hTag.graph = o => this.graph(o);
-        hTag.link = o => this.link(o);
-        hTag.r = o => this.r(o);
-        hTag.rec_ch = o => this.rec_ch(o);
-        hTag.rec_r = () => this.rec_r();
-        hTag.reset_rec = o => this.reset_rec(o);
-        hTag.ruby2 = o => this.ruby2(o);
-        hTag.span = o => this.span(o);
-        hTag.tcy = o => this.tcy(o);
-        hTag.add_face = o => GrpLayer_1.GrpLayer.add_face(o);
-        hTag.wv = o => GrpLayer_1.GrpLayer.wv(o);
-        hTag.dump_lay = o => this.dump_lay(o);
-        hTag.enable_event = o => this.enable_event(o);
-        hTag.button = o => this.button(o);
-        if (cfg.existsBreakline)
-            this.breakLine = () => this.cmdTxt('grp｜{"id":"break","pic":"breakline"}');
-        if (cfg.existsBreakpage)
-            this.breakPage = () => this.cmdTxt('grp｜{"id":"break","pic":"breakpage"}');
-        const grp = new pixi_js_1.Graphics;
-        grp.beginFill(cfg.oCfg.init.bg_color, 1);
-        grp.lineStyle(0, cfg.oCfg.init.bg_color);
-        grp.drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        grp.endFill();
-        this.fore.addChild(grp.clone());
-        this.back.addChild(grp);
-        this.back.visible = false;
-        this.stage = this.appPixi.stage;
-        this.stage.addChild(this.back);
-        this.stage.addChild(this.fore);
-        this.stage.addChild(this.spTransBack);
-        this.stage.addChild(this.spTransFore);
-        this.appPixi.ticker.add(this.fncTicker);
-        const fncTxt_b_alpha = (_name, val) => {
-            this.foreachRedrawTxtLayBack(Number(val));
-        };
-        fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
-        val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
-        const fncBtnFont = (_name, val) => {
-            Button_1.Button.fontFamily = val;
-        };
-        fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button_1.Button.fontFamily));
-        val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
-        val.defTmp('const.sn.log.json', () => JSON.stringify([...this.aPageLog, this.oLastPage]));
-        val.defTmp('const.sn.last_page_text', () => {
+        cover(visible, bg_color = 0x0) {
+            if (this.grpCover) {
+                this.stage.removeChild(this.grpCover);
+                this.grpCover.destroy();
+                this.grpCover = null;
+            }
+            if (visible) {
+                this.grpCover = new pixi_js_1.Graphics;
+                this.grpCover.beginFill(bg_color);
+                this.grpCover.lineStyle(0, bg_color);
+                this.grpCover.drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+                this.grpCover.endFill();
+                this.stage.addChild(this.grpCover);
+            }
+        }
+        setEvtMng(evtMng) {
+            this.evtMng = evtMng;
+            this.frmMng.setEvtMng(evtMng);
+            GrpLayer_1.GrpLayer.setEvtMng(evtMng);
+        }
+        before_destroy() { for (const pg in this.hPages)
+            this.hPages[pg].destroy(); }
+        destroy() {
+            GrpLayer_1.GrpLayer.destroy();
+            RubySpliter_1.RubySpliter.destroy();
+            this.frmMng.destroy();
+            Tween.removeAll();
+            this.appPixi.ticker.remove(this.fncTicker);
+            LayerMng.$msecChWait = 10;
+        }
+        foreachRedrawTxtLayBack(g_alpha) {
+            const vct = this.getLayers();
+            const len = vct.length;
+            for (let i = 0; i < len; ++i) {
+                const name = vct[i];
+                const pg = this.hPages[name];
+                if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                    continue;
+                const pTxt = pg.fore;
+                pTxt.chgBackAlpha(g_alpha);
+                pg.back.chgBackAlpha(g_alpha);
+            }
+        }
+        clearBreak() {
+            if (!this.getCurrentTxtlayFore())
+                return;
+            this.clearBreak = () => this.cmdTxt('del｜break');
+            this.clearBreak();
+        }
+        clickTxtLay() {
             const tl = this.getCurrentTxtlayFore();
-            return tl ? tl.pageText : '';
-        });
-    }
-    cover(visible, bg_color = 0x0) {
-        if (this.grpCover) {
-            this.stage.removeChild(this.grpCover);
-            this.grpCover.destroy();
-            this.grpCover = null;
-        }
-        if (visible) {
-            this.grpCover = new pixi_js_1.Graphics;
-            this.grpCover.beginFill(bg_color);
-            this.grpCover.lineStyle(0, bg_color);
-            this.grpCover.drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-            this.grpCover.endFill();
-            this.stage.addChild(this.grpCover);
-        }
-    }
-    setEvtMng(evtMng) {
-        this.evtMng = evtMng;
-        this.frmMng.setEvtMng(evtMng);
-        GrpLayer_1.GrpLayer.setEvtMng(evtMng);
-    }
-    before_destroy() { for (const pg in this.hPages)
-        this.hPages[pg].destroy(); }
-    destroy() {
-        GrpLayer_1.GrpLayer.destroy();
-        RubySpliter_1.RubySpliter.destroy();
-        this.frmMng.destroy();
-        Tween.removeAll();
-        this.appPixi.ticker.remove(this.fncTicker);
-        LayerMng.$msecChWait = 10;
-    }
-    foreachRedrawTxtLayBack(g_alpha) {
-        const vct = this.getLayers();
-        const len = vct.length;
-        for (let i = 0; i < len; ++i) {
-            const name = vct[i];
-            const pg = this.hPages[name];
-            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                continue;
-            const pTxt = pg.fore;
-            pTxt.chgBackAlpha(g_alpha);
-            pg.back.chgBackAlpha(g_alpha);
-        }
-    }
-    clearBreak() {
-        if (!this.getCurrentTxtlayFore())
-            return;
-        this.clearBreak = () => this.cmdTxt('del｜break');
-        this.clearBreak();
-    }
-    clickTxtLay() {
-        const tl = this.getCurrentTxtlayFore();
-        if (!tl)
+            if (!tl)
+                return true;
+            const vct = this.getLayers();
+            const len = vct.length;
+            for (let i = 0; i < len; ++i) {
+                const name = vct[i];
+                const pg = this.hPages[name];
+                if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                    continue;
+                const pTxt = pg.fore;
+                if (!pTxt.click())
+                    return false;
+            }
             return true;
-        const vct = this.getLayers();
-        const len = vct.length;
-        for (let i = 0; i < len; ++i) {
-            const name = vct[i];
-            const pg = this.hPages[name];
-            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                continue;
-            const pTxt = pg.fore;
-            if (!pTxt.click())
-                return false;
         }
-        return true;
-    }
-    snapshot(hArg) {
-        var _a;
-        const fn = (hArg.fn)
-            ? ((hArg.fn.substr(0, 10) == 'userdata:/')
-                ? hArg.fn
-                : ('downloads:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.png'))
-            : ('downloads:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.png');
-        const ext = CmnLib_1.CmnLib.getExt(fn);
-        const b_color = (_a = hArg.b_color) !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color;
-        const renderer = pixi_js_1.autoDetectRenderer({
-            width: CmnLib_1.CmnLib.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW),
-            height: CmnLib_1.CmnLib.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH),
-            transparent: (b_color > 0x1000000) && (ext == 'png'),
-            antialias: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'smoothing', false),
-            preserveDrawingBuffer: true,
-            backgroundColor: CmnLib_1.uint(b_color) & 0xFFFFFF,
-            autoDensity: true,
-        });
-        const a = [];
-        if (this.twInfTrans.tw) {
-            a.push(new Promise(re => {
+        snapshot(hArg) {
+            var _a;
+            const fn = (hArg.fn)
+                ? ((hArg.fn.substr(0, 10) === 'userdata:/')
+                    ? hArg.fn
+                    : ('downloads:/' + hArg.fn + CmnLib_1.getDateStr('-', '_', '', '_') + '.png'))
+                : ('downloads:/snapshot' + CmnLib_1.getDateStr('-', '_', '', '_') + '.png');
+            const ext = CmnLib_1.getExt(fn);
+            const b_color = (_a = hArg.b_color) !== null && _a !== void 0 ? _a : this.cfg.oCfg.init.bg_color;
+            const renderer = pixi_js_1.autoDetectRenderer({
+                width: CmnLib_1.argChk_Num(hArg, 'width', CmnLib_1.CmnLib.stageW),
+                height: CmnLib_1.argChk_Num(hArg, 'height', CmnLib_1.CmnLib.stageH),
+                transparent: (b_color > 0x1000000) && (ext === 'png'),
+                antialias: CmnLib_1.argChk_Boolean(hArg, 'smoothing', false),
+                preserveDrawingBuffer: true,
+                backgroundColor: CmnLib_1.uint(b_color) & 0xFFFFFF,
+                autoDensity: true,
+            });
+            const a = [];
+            if (this.twInfTrans.tw) {
+                a.push(new Promise(re => {
+                    this.back.visible = true;
+                    for (const lay of this.aBackTransAfter) {
+                        renderer.render(lay, undefined, false);
+                    }
+                    this.back.visible = false;
+                    this.spTransBack.visible = true;
+                    this.fore.filters = this.spTransFore.filters;
+                    this.fore.visible = true;
+                    renderer.render(this.fore, undefined, false);
+                    this.fore.visible = false;
+                    this.fore.filters = [];
+                    re();
+                }));
+            }
+            else {
+                const pg = (hArg.page !== 'back') ? 'fore' : 'back';
+                for (const v of this.getLayers(hArg.layer))
+                    a.push(new Promise(re => this.hPages[v][pg].snapshot(renderer, re)));
+            }
+            Promise.all(a).then(() => {
+                this.sys.savePic(this.cfg.searchPath(fn), this.appPixi.renderer.extract.base64(this.stage));
+                if (!this.twInfTrans.tw) {
+                    const pg = (hArg.page !== 'back') ? 'fore' : 'back';
+                    for (const v of this.getLayers(hArg.layer))
+                        this.hPages[v][pg].snapshot_end();
+                }
+                renderer.destroy(true);
+            });
+            return false;
+        }
+        loadplugin(hArg) {
+            const fn = hArg.fn;
+            if (!fn)
+                throw 'fnは必須です';
+            const join = CmnLib_1.argChk_Boolean(hArg, 'join', true);
+            switch (CmnLib_1.getExt(fn)) {
+                case 'css':
+                    (async () => {
+                        const res = await fetch(fn);
+                        if (!res.ok)
+                            throw new Error('Network response was not ok.');
+                        TxtLayer_1.TxtLayer.addStyle(await res.text());
+                        if (join)
+                            this.main.resume();
+                    })();
+                    break;
+                default: throw 'サポートされない拡張子です';
+            }
+            return join;
+        }
+        set_focus(hArg) {
+            const to = hArg.to;
+            if (!to)
+                throw '[set_focus] toは必須です';
+            return false;
+        }
+        add_lay(hArg) {
+            const layer = hArg.layer;
+            if (!layer)
+                throw 'layerは必須です';
+            if (layer.includes(','))
+                throw 'layer名に「,」は使えません';
+            if (layer in this.hPages)
+                throw `layer【${layer}】はすでにあります`;
+            const cls = hArg.class;
+            if (!cls)
+                throw 'clsは必須です';
+            const ret = { isWait: false };
+            this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val, ret);
+            this.aLayName.push(layer);
+            switch (cls) {
+                case 'txt':
+                    if (!this.curTxtlay) {
+                        this.fncChkTxtLay = () => { };
+                        this.getTxtLayer = this.$getTxtLayer;
+                        this.current = this.$current;
+                        this.hTag.current({ layer: layer });
+                        this.goTxt = () => {
+                            if (this.val.getVal('sn.skip.enabled')) {
+                                LayerMng.$msecChWait = 0;
+                            }
+                            else {
+                                this.setNormalWaitTxtLayer();
+                            }
+                            for (const name of this.getLayers()) {
+                                const pg = this.hPages[name];
+                                if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                                    continue;
+                                this.cmdTxt('gotxt｜', pg.fore, false);
+                            }
+                        };
+                    }
+                    this.val.setVal_Nochk('save', 'const.sn.layer.' + (layer !== null && layer !== void 0 ? layer : this.curTxtlay) + '.enabled', true);
+                    break;
+            }
+            return ret.isWait;
+        }
+        lay(hArg) {
+            const layer = this.argChk_layer(hArg);
+            const pg = this.hPages[layer];
+            const back = pg.back.cnt;
+            const fore = pg.fore.cnt;
+            if (CmnLib_1.argChk_Boolean(hArg, 'float', false)) {
+                this.back.setChildIndex(back, this.back.children.length - 1);
+                this.fore.setChildIndex(fore, this.fore.children.length - 1);
+                this.rebuildLayerRankInfo();
+            }
+            else if (hArg.index) {
+                if (CmnLib_1.argChk_Num(hArg, 'index', 0)) {
+                    this.back.setChildIndex(back, CmnLib_1.uint(hArg.index));
+                    this.fore.setChildIndex(fore, CmnLib_1.uint(hArg.index));
+                    this.rebuildLayerRankInfo();
+                }
+            }
+            else if (hArg.dive) {
+                const dive = hArg.dive;
+                let idx_dive = 0;
+                if (layer === dive)
+                    throw '[lay] 属性 layerとdiveが同じ【' + dive + '】です';
+                const pg_dive = this.hPages[dive];
+                if (!pg_dive)
+                    throw '[lay] 属性 dive【' + dive + '】が不正です。レイヤーがありません';
+                const back_dive = pg_dive.back;
+                const fore_dive = pg_dive.fore;
+                const idx_back_dive = this.back.getChildIndex(back_dive.cnt);
+                const idx_fore_dive = this.fore.getChildIndex(fore_dive.cnt);
+                idx_dive = (idx_back_dive < idx_fore_dive) ? idx_back_dive : idx_fore_dive;
+                if (idx_dive > this.back.getChildIndex(back))
+                    --idx_dive;
+                this.fore.setChildIndex(fore, idx_dive);
+                this.back.setChildIndex(back, idx_dive);
+                this.rebuildLayerRankInfo();
+            }
+            return pg.lay(hArg);
+        }
+        rebuildLayerRankInfo() { this.aLayName = this.sortLayers(); }
+        clear_lay(hArg) {
+            this.foreachLayers(hArg, name => {
+                const pg = this.hPages[this.argChk_layer({ layer: name })];
+                if (hArg.page === 'both') {
+                    pg.fore.clearLay(hArg);
+                    pg.back.clearLay(hArg);
+                }
+                else {
+                    pg.getPage(hArg).clearLay(hArg);
+                }
+            });
+            return false;
+        }
+        trans(hArg) {
+            this.finish_trans();
+            const ease = CmnTween_1.CmnTween.ease(hArg.ease);
+            this.aBackTransAfter = [];
+            const hTarget = {};
+            for (const v of this.getLayers(hArg.layer))
+                hTarget[v] = true;
+            for (const lay_nm of this.getLayers())
+                this.aBackTransAfter.push(this.hPages[lay_nm][hTarget[lay_nm] ? 'back' : 'fore'].cnt);
+            this.rtTransBack.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            this.appPixi.renderer.render(this.back, this.rtTransBack);
+            this.rtTransFore.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            this.appPixi.renderer.render(this.fore, this.rtTransFore);
+            const fncRender = () => {
                 this.back.visible = true;
                 for (const lay of this.aBackTransAfter) {
-                    renderer.render(lay, undefined, false);
+                    this.appPixi.renderer.render(lay, this.rtTransBack, false);
                 }
                 this.back.visible = false;
                 this.spTransBack.visible = true;
-                this.fore.filters = this.spTransFore.filters;
                 this.fore.visible = true;
-                renderer.render(this.fore, undefined, false);
+                this.appPixi.renderer.render(this.fore, this.rtTransFore);
                 this.fore.visible = false;
-                this.fore.filters = [];
-                re();
-            }));
-        }
-        else {
-            const pg = (hArg.page != 'back') ? 'fore' : 'back';
-            for (const v of this.getLayers(hArg.layer))
-                a.push(new Promise(re => this.hPages[v][pg].snapshot(renderer, re)));
-        }
-        Promise.all(a).then(() => {
-            this.sys.savePic(this.cfg.searchPath(fn), this.appPixi.renderer.extract.base64(this.stage));
-            if (!this.twInfTrans.tw) {
-                const pg = (hArg.page != 'back') ? 'fore' : 'back';
-                for (const v of this.getLayers(hArg.layer))
-                    this.hPages[v][pg].snapshot_end();
-            }
-            renderer.destroy(true);
-        });
-        return false;
-    }
-    loadplugin(hArg) {
-        const fn = hArg.fn;
-        if (!fn)
-            throw 'fnは必須です';
-        const join = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true);
-        switch (CmnLib_1.CmnLib.getExt(fn)) {
-            case 'css':
-                (async () => {
-                    const res = await fetch(fn);
-                    if (!res.ok)
-                        throw new Error('Network response was not ok.');
-                    TxtLayer_1.TxtLayer.addStyle(await res.text());
-                    if (join)
-                        this.main.resume();
-                })();
-                break;
-            default: throw 'サポートされない拡張子です';
-        }
-        return join;
-    }
-    set_focus(hArg) {
-        const to = hArg.to;
-        if (!to)
-            throw '[set_focus] toは必須です';
-        return false;
-    }
-    add_lay(hArg) {
-        const layer = hArg.layer;
-        if (!layer)
-            throw 'layerは必須です';
-        if (layer.includes(','))
-            throw 'layer名に「,」は使えません';
-        if (layer in this.hPages)
-            throw `layer【${layer}】はすでにあります`;
-        const cls = hArg.class;
-        if (!cls)
-            throw 'clsは必須です';
-        const ret = { isWait: false };
-        this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val, ret);
-        this.aLayName.push(layer);
-        switch (cls) {
-            case 'txt':
-                if (!this.curTxtlay) {
-                    this.fncChkTxtLay = () => { };
-                    this.getTxtLayer = this.$getTxtLayer;
-                    this.current = this.$current;
-                    this.hTag.current({ layer: layer });
-                    this.goTxt = () => {
-                        if (this.val.getVal('sn.skip.enabled')) {
-                            LayerMng.$msecChWait = 0;
-                        }
-                        else {
-                            this.setNormalWaitTxtLayer();
-                        }
-                        for (const name of this.getLayers()) {
-                            const pg = this.hPages[name];
-                            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                                continue;
-                            this.cmdTxt('gotxt｜', pg.fore, false);
-                        }
-                    };
+                this.spTransFore.visible = true;
+            };
+            this.spTransFore.alpha = 1;
+            const closeTrans = () => {
+                if (this.appPixi.ticker)
+                    this.appPixi.ticker.remove(fncRender);
+                this.elcTrans.clear();
+                [this.fore, this.back] = [this.back, this.fore];
+                for (const lay_name in this.hPages) {
+                    const pg = this.hPages[lay_name];
+                    if (hTarget[lay_name]) {
+                        pg.transPage();
+                        continue;
+                    }
+                    const idx = this.fore.getChildIndex(pg.back.cnt);
+                    this.fore.removeChild(pg.back.cnt);
+                    this.back.removeChild(pg.fore.cnt);
+                    this.fore.addChildAt(pg.fore.cnt, idx);
+                    this.back.addChildAt(pg.back.cnt, idx);
                 }
-                this.val.setVal_Nochk('save', 'const.sn.layer.' + (layer !== null && layer !== void 0 ? layer : this.curTxtlay) + '.enabled', true);
-                break;
-        }
-        return ret.isWait;
-    }
-    lay(hArg) {
-        const layer = this.argChk_layer(hArg);
-        const pg = this.hPages[layer];
-        const back = pg.back.cnt;
-        const fore = pg.fore.cnt;
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'float', false)) {
-            this.back.setChildIndex(back, this.back.children.length - 1);
-            this.fore.setChildIndex(fore, this.fore.children.length - 1);
-            this.rebuildLayerRankInfo();
-        }
-        else if (hArg.index) {
-            if (CmnLib_1.CmnLib.argChk_Num(hArg, 'index', 0)) {
-                this.back.setChildIndex(back, CmnLib_1.uint(hArg.index));
-                this.fore.setChildIndex(fore, CmnLib_1.uint(hArg.index));
-                this.rebuildLayerRankInfo();
+                this.fore.visible = true;
+                this.back.visible = false;
+                this.spTransBack.visible = false;
+                this.spTransFore.visible = false;
+                if (this.twInfTrans.resume)
+                    this.main.resume();
+                this.twInfTrans = { tw: null, resume: false };
+            };
+            const time = CmnLib_1.argChk_Num(hArg, 'time', 0);
+            if (time === 0 || this.evtMng.isSkipKeyDown()) {
+                closeTrans();
+                return false;
             }
-        }
-        else if (hArg.dive) {
-            const dive = hArg.dive;
-            let idx_dive = 0;
-            if (layer == dive)
-                throw '[lay] 属性 layerとdiveが同じ【' + dive + '】です';
-            const pg_dive = this.hPages[dive];
-            if (!pg_dive)
-                throw '[lay] 属性 dive【' + dive + '】が不正です。レイヤーがありません';
-            const back_dive = pg_dive.back;
-            const fore_dive = pg_dive.fore;
-            const idx_back_dive = this.back.getChildIndex(back_dive.cnt);
-            const idx_fore_dive = this.fore.getChildIndex(fore_dive.cnt);
-            idx_dive = (idx_back_dive < idx_fore_dive) ? idx_back_dive : idx_fore_dive;
-            if (idx_dive > this.back.getChildIndex(back))
-                --idx_dive;
-            this.fore.setChildIndex(fore, idx_dive);
-            this.back.setChildIndex(back, idx_dive);
-            this.rebuildLayerRankInfo();
-        }
-        return pg.lay(hArg);
-    }
-    rebuildLayerRankInfo() { this.aLayName = this.sortLayers(); }
-    clear_lay(hArg) {
-        this.foreachLayers(hArg, name => {
-            const pg = this.hPages[this.argChk_layer({ layer: name })];
-            if (hArg.page == 'both') {
-                pg.fore.clearLay(hArg);
-                pg.back.clearLay(hArg);
-            }
-            else {
-                pg.getPage(hArg).clearLay(hArg);
-            }
-        });
-        return false;
-    }
-    trans(hArg) {
-        this.finish_trans();
-        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
-        this.aBackTransAfter = [];
-        const hTarget = {};
-        for (const v of this.getLayers(hArg.layer))
-            hTarget[v] = true;
-        for (const lay_nm of this.getLayers())
-            this.aBackTransAfter.push(this.hPages[lay_nm][hTarget[lay_nm] ? 'back' : 'fore'].cnt);
-        this.rtTransBack.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        this.appPixi.renderer.render(this.back, this.rtTransBack);
-        this.rtTransFore.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        this.appPixi.renderer.render(this.fore, this.rtTransFore);
-        const fncRender = () => {
-            this.back.visible = true;
-            for (const lay of this.aBackTransAfter) {
-                this.appPixi.renderer.render(lay, this.rtTransBack, false);
-            }
-            this.back.visible = false;
-            this.spTransBack.visible = true;
-            this.fore.visible = true;
-            this.appPixi.renderer.render(this.fore, this.rtTransFore);
-            this.fore.visible = false;
-            this.spTransFore.visible = true;
-        };
-        this.spTransFore.alpha = 1;
-        const closeTrans = () => {
-            if (this.appPixi.ticker)
-                this.appPixi.ticker.remove(fncRender);
-            this.elcTrans.clear();
-            [this.fore, this.back] = [this.back, this.fore];
-            for (const lay_name in this.hPages) {
-                const pg = this.hPages[lay_name];
-                if (hTarget[lay_name]) {
-                    pg.transPage();
-                    continue;
-                }
-                const idx = this.fore.getChildIndex(pg.back.cnt);
-                this.fore.removeChild(pg.back.cnt);
-                this.back.removeChild(pg.fore.cnt);
-                this.fore.addChildAt(pg.fore.cnt, idx);
-                this.back.addChildAt(pg.back.cnt, idx);
-            }
-            this.fore.visible = true;
-            this.back.visible = false;
-            this.spTransBack.visible = false;
-            this.spTransFore.visible = false;
-            if (this.twInfTrans.resume)
-                this.main.resume();
             this.twInfTrans = { tw: null, resume: false };
-        };
-        const time = CmnLib_1.CmnLib.argChk_Num(hArg, 'time', 0);
-        if (time == 0 || this.evtMng.isSkipKeyDown()) {
-            closeTrans();
+            const is_glsl = 'glsl' in hArg;
+            if ((!is_glsl) && !('rule' in hArg)) {
+                this.spTransFore.filters = [];
+                this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
+                    .to({ alpha: 0 }, time)
+                    .delay(CmnLib_1.argChk_Num(hArg, 'delay', 0))
+                    .easing(ease)
+                    .onComplete(closeTrans)
+                    .start();
+                this.appPixi.ticker.add(fncRender);
+                return false;
+            }
+            const flt = is_glsl
+                ? new pixi_js_1.Filter(undefined, hArg.glsl, this.ufRuleTrans)
+                : this.fltRule;
+            flt.uniforms.vague = CmnLib_1.argChk_Num(hArg, 'vague', 0.04);
+            flt.uniforms.tick = 0;
+            this.twInfTrans.tw = new Tween.Tween(flt.uniforms)
+                .to({ tick: 1 }, time)
+                .delay(CmnLib_1.argChk_Num(hArg, 'delay', 0))
+                .easing(ease)
+                .onComplete(closeTrans);
+            this.spTransFore.filters = [flt];
+            if (is_glsl) {
+                this.twInfTrans.tw.start();
+                this.appPixi.ticker.add(fncRender);
+                return false;
+            }
+            if (!hArg.rule)
+                throw 'ruleが指定されていません';
+            GrpLayer_1.GrpLayer.ldPic(hArg.rule, tx => {
+                flt.uniforms.rule = tx;
+                if (this.twInfTrans.tw)
+                    this.twInfTrans.tw.start();
+                this.appPixi.ticker.add(fncRender);
+            });
             return false;
         }
-        this.twInfTrans = { tw: null, resume: false };
-        const is_glsl = 'glsl' in hArg;
-        if ((!is_glsl) && !('rule' in hArg)) {
+        getLayers(layer = '') {
+            return (layer) ? layer.split(',') : this.aLayName;
+        }
+        foreachLayers(hArg, fnc) {
+            const vct = this.getLayers(hArg.layer);
+            for (const name of vct) {
+                if (!name)
+                    continue;
+                const pg = this.hPages[name];
+                if (!pg)
+                    throw '存在しないlayer【' + name + '】です';
+                fnc(name, pg);
+            }
+            return vct;
+        }
+        sortLayers(layers = '') {
+            const a = this.getLayers(layers);
+            a.sort((a, b) => {
+                const ai = this.fore.getChildIndex(this.hPages[a].fore.cnt);
+                const bi = this.fore.getChildIndex(this.hPages[b].fore.cnt);
+                if (ai < bi)
+                    return -1;
+                if (ai > bi)
+                    return 1;
+                return 0;
+            });
+            return a;
+        }
+        wt(hArg) {
+            if (!this.twInfTrans.tw)
+                return false;
+            this.twInfTrans.resume = true;
+            this.evtMng.waitCustomEvent(hArg, this.elcTrans, () => this.finish_trans());
+            return true;
+        }
+        finish_trans() {
+            if (this.twInfTrans.tw)
+                this.twInfTrans.tw.stop().end();
+            return false;
+        }
+        quake(hArg) {
+            this.finish_trans();
+            if (this.val.getVal('tmp:sn.skip.enabled'))
+                return false;
+            if (this.evtMng.isSkipKeyDown())
+                return false;
+            const aDo = [];
+            for (const lay_nm of this.getLayers(hArg.layer)) {
+                aDo.push(this.hPages[lay_nm].fore.cnt);
+            }
+            this.rtTransFore.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            const fncRender = () => {
+                this.fore.visible = true;
+                for (const lay of aDo) {
+                    this.appPixi.renderer.render(lay, this.rtTransFore, false);
+                }
+                this.fore.visible = false;
+            };
+            this.spTransFore.visible = true;
+            this.spTransFore.alpha = 1;
+            const closeTrans = () => {
+                if (this.appPixi.ticker)
+                    this.appPixi.ticker.remove(fncRender);
+                this.fore.visible = true;
+                this.spTransFore.visible = false;
+                this.spTransFore.x = 0;
+                this.spTransFore.y = 0;
+                if (this.twInfTrans.resume)
+                    this.main.resume();
+                this.twInfTrans = { tw: null, resume: false };
+            };
+            const ease = CmnTween_1.CmnTween.ease(hArg.ease);
+            const h = CmnLib_1.uint(CmnLib_1.argChk_Num(hArg, 'hmax', 10));
+            const v = CmnLib_1.uint(CmnLib_1.argChk_Num(hArg, 'vmax', 10));
+            const fncH = (h === 0)
+                ? () => { }
+                : () => this.spTransFore.x = Math.round(Math.random() * h * 2) - h;
+            const fncV = (v === 0)
+                ? () => { }
+                : () => this.spTransFore.y = Math.round(Math.random() * v * 2) - v;
             this.spTransFore.filters = [];
+            const repeat = CmnLib_1.argChk_Num(hArg, 'repeat', 1);
+            this.twInfTrans = { tw: null, resume: false };
             this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
-                .to({ alpha: 0 }, time)
-                .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
+                .to({ x: 0, y: 0 }, CmnLib_1.argChk_Num(hArg, 'time', NaN))
+                .delay(CmnLib_1.argChk_Num(hArg, 'delay', 0))
                 .easing(ease)
+                .onUpdate(() => { fncH(); fncV(); })
+                .repeat(repeat === 0 ? Infinity : (repeat - 1))
+                .yoyo(CmnLib_1.argChk_Boolean(hArg, 'yoyo', false))
                 .onComplete(closeTrans)
                 .start();
             this.appPixi.ticker.add(fncRender);
             return false;
         }
-        const flt = is_glsl
-            ? new pixi_js_1.Filter(undefined, hArg.glsl, this.ufRuleTrans)
-            : this.fltRule;
-        flt.uniforms.vague = CmnLib_1.CmnLib.argChk_Num(hArg, 'vague', 0.04);
-        flt.uniforms.tick = 0;
-        this.twInfTrans.tw = new Tween.Tween(flt.uniforms)
-            .to({ tick: 1 }, time)
-            .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
-            .easing(ease)
-            .onComplete(closeTrans);
-        this.spTransFore.filters = [flt];
-        if (is_glsl) {
-            this.twInfTrans.tw.start();
-            this.appPixi.ticker.add(fncRender);
-            return false;
-        }
-        if (!hArg.rule)
-            throw 'ruleが指定されていません';
-        GrpLayer_1.GrpLayer.ldPic(hArg.rule, tx => {
-            flt.uniforms.rule = tx;
-            if (this.twInfTrans.tw)
-                this.twInfTrans.tw.start();
-            this.appPixi.ticker.add(fncRender);
-        });
-        return false;
-    }
-    getLayers(layer = '') {
-        return (layer) ? layer.split(',') : this.aLayName;
-    }
-    foreachLayers(hArg, fnc) {
-        const vct = this.getLayers(hArg.layer);
-        for (const name of vct) {
-            if (!name)
-                continue;
-            const pg = this.hPages[name];
-            if (pg == null)
-                throw '存在しないlayer【' + name + '】です';
-            fnc(name, pg);
-        }
-        return vct;
-    }
-    sortLayers(layers = '') {
-        const a = this.getLayers(layers);
-        a.sort((a, b) => {
-            const ai = this.fore.getChildIndex(this.hPages[a].fore.cnt);
-            const bi = this.fore.getChildIndex(this.hPages[b].fore.cnt);
-            if (ai < bi)
-                return -1;
-            if (ai > bi)
-                return 1;
-            return 0;
-        });
-        return a;
-    }
-    wt(hArg) {
-        if (!this.twInfTrans.tw)
-            return false;
-        this.twInfTrans.resume = true;
-        this.evtMng.waitCustomEvent(hArg, this.elcTrans, () => this.finish_trans());
-        return true;
-    }
-    finish_trans() {
-        if (this.twInfTrans.tw)
-            this.twInfTrans.tw.stop().end();
-        return false;
-    }
-    quake(hArg) {
-        this.finish_trans();
-        if (this.val.getVal('tmp:sn.skip.enabled'))
-            return false;
-        if (this.evtMng.isSkipKeyDown())
-            return false;
-        const aDo = [];
-        for (const lay_nm of this.getLayers(hArg.layer)) {
-            aDo.push(this.hPages[lay_nm].fore.cnt);
-        }
-        this.rtTransFore.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        const fncRender = () => {
-            this.fore.visible = true;
-            for (const lay of aDo) {
-                this.appPixi.renderer.render(lay, this.rtTransFore, false);
-            }
-            this.fore.visible = false;
-        };
-        this.spTransFore.visible = true;
-        this.spTransFore.alpha = 1;
-        const closeTrans = () => {
-            if (this.appPixi.ticker)
-                this.appPixi.ticker.remove(fncRender);
-            this.fore.visible = true;
-            this.spTransFore.visible = false;
-            this.spTransFore.x = 0;
-            this.spTransFore.y = 0;
-            if (this.twInfTrans.resume)
-                this.main.resume();
-            this.twInfTrans = { tw: null, resume: false };
-        };
-        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
-        const h = CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'hmax', 10));
-        const v = CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'vmax', 10));
-        const fncH = (h == 0)
-            ? () => { }
-            : () => this.spTransFore.x = Math.round(Math.random() * h * 2) - h;
-        const fncV = (v == 0)
-            ? () => { }
-            : () => this.spTransFore.y = Math.round(Math.random() * v * 2) - v;
-        this.spTransFore.filters = [];
-        const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
-        this.twInfTrans = { tw: null, resume: false };
-        this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
-            .to({ x: 0, y: 0 }, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN))
-            .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
-            .easing(ease)
-            .onUpdate(() => { fncH(); fncV(); })
-            .repeat(repeat == 0 ? Infinity : (repeat - 1))
-            .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-            .onComplete(closeTrans)
-            .start();
-        this.appPixi.ticker.add(fncRender);
-        return false;
-    }
-    tsy(hArg) {
-        var _a, _b;
-        if (!hArg.layer)
-            throw 'layerは必須です';
-        const layer = this.argChk_layer(hArg);
-        const foreLay = this.hPages[layer].fore;
-        const hTo = CmnLib_1.cnvTweenArg(hArg, foreLay);
-        const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
-        const tw_nm = (_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer;
-        const tw = new Tween.Tween(foreLay)
-            .to(hTo, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN)
-            * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
-            .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
-            .easing(CmnTween_1.CmnTween.ease(hArg.ease))
-            .repeat(repeat == 0 ? Infinity : (repeat - 1))
-            .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-            .onComplete(() => {
-            const twInf = this.hTwInf[tw_nm];
-            if (!twInf)
-                return;
-            delete this.hTwInf[tw_nm];
-            this.evtMng.popLocalEvts();
-            if (twInf.resume)
-                this.main.resume();
-            if (twInf.onComplete)
-                twInf.onComplete();
-        });
-        if ('chain' in hArg) {
-            const twFrom = this.hTwInf[(_b = hArg.chain) !== null && _b !== void 0 ? _b : ''];
-            if (!twFrom || !twFrom.tw)
-                throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
-            twFrom.onComplete = () => { };
-            twFrom.tw.chain(tw);
-        }
-        else
-            tw.start();
-        const arrive = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'arrive', false);
-        const backlay = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'backlay', false);
-        this.hTwInf[tw_nm] = { tw: tw, resume: false, onComplete: () => {
-                if (arrive)
-                    Object.assign(foreLay, hTo);
-                if (backlay) {
-                    const backCnt = this.hPages[layer].back.cnt;
-                    for (const nm in CmnLib_1.hMemberCnt)
-                        backCnt[nm] = foreLay[nm];
-                }
-            } };
-        return false;
-    }
-    wait_tsy(hArg) {
-        var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        const twInf = this.hTwInf[tw_nm];
-        if (!twInf || !twInf.tw)
-            return false;
-        twInf.resume = true;
-        this.evtMng.stdWait(() => { if (twInf.tw)
-            twInf.tw.stop().end(); }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true));
-        return true;
-    }
-    stop_tsy(hArg) {
-        var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        const twInf = this.hTwInf[tw_nm];
-        if (!twInf || !twInf.tw)
-            return false;
-        twInf.tw.stop().end();
-        return false;
-    }
-    pause_tsy(hArg) {
-        var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        const twInf = this.hTwInf[tw_nm];
-        if (!twInf || !twInf.tw)
-            return false;
-        twInf.tw.stop();
-        return false;
-    }
-    resume_tsy(hArg) {
-        var _a;
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        const twInf = this.hTwInf[tw_nm];
-        if (!twInf || !twInf.tw)
-            return false;
-        twInf.tw.start();
-        return false;
-    }
-    static get msecChWait() { return LayerMng.$msecChWait; }
-    static set msecChWait(v) { LayerMng.$msecChWait = v; }
-    ch(hArg) {
-        if (!hArg.text)
-            throw 'textは必須です';
-        let wait = CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', -1);
-        if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled'))
-            wait = 0;
-        hArg.wait = wait;
-        const tl = this.getTxtLayer(hArg);
-        if (wait >= 0)
-            this.cmdTxt('add｜' + JSON.stringify(hArg), tl);
-        const record = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'record', true);
-        const doRecLog = this.val.doRecLog();
-        if (!record)
-            this.val.setVal_Nochk('save', 'sn.doRecLog', record);
-        tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
-        if (!record)
-            this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
-        if (wait >= 0)
-            this.cmdTxt(`add_close｜`, tl);
-        return false;
-    }
-    $getTxtLayer(hArg) {
-        const layer = this.argChk_layer(hArg, this.curTxtlay);
-        const pg = this.hPages[layer];
-        const lay = pg.getPage(hArg);
-        if (!(lay instanceof TxtLayer_1.TxtLayer))
-            throw layer + 'はTxtLayerではありません';
-        const tf = lay;
-        return tf;
-    }
-    setNormalWaitTxtLayer() { LayerMng.$msecChWait = this.scrItr.normalWait; }
-    $current(hArg) {
-        const layer = hArg.layer;
-        if (!layer)
-            throw '[current] layerは必須です';
-        this.pgTxtlay = this.hPages[layer];
-        if (!(this.pgTxtlay.getPage(hArg) instanceof TxtLayer_1.TxtLayer))
-            throw `${layer}はTxtLayerではありません`;
-        this.recText('', true);
-        this.curTxtlay = layer;
-        this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
-        const vct = this.getLayers();
-        const len = vct.length;
-        for (let i = 0; i < len; ++i) {
-            const name = vct[i];
-            const pg = this.hPages[name];
-            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                continue;
-            pg.fore.isCur =
-                pg.back.isCur = (name == layer);
-        }
-        return false;
-    }
-    getCurrentTxtlayForeNeedErr() {
-        this.fncChkTxtLay();
-        return this.getCurrentTxtlayFore();
-    }
-    getCurrentTxtlayFore() {
-        if (!this.pgTxtlay)
-            return undefined;
-        return this.pgTxtlay.fore;
-    }
-    argChk_layer(hash, def = '') {
-        var _a;
-        const v = (_a = hash.layer) !== null && _a !== void 0 ? _a : def;
-        if (v.includes(','))
-            throw 'layer名に「,」は使えません';
-        if (!(v in this.hPages))
-            throw '属性 layer【' + v + '】が不正です。レイヤーがありません';
-        return hash.layer = v;
-    }
-    recText(txt, pagebreak = false) {
-        if (pagebreak) {
-            if (this.oLastPage.text) {
-                this.aPageLog.push(this.oLastPage);
-                this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
-            }
-            this.oLastPage = { text: '' };
-            return;
-        }
-        this.oLastPage.text = txt.replace(/\\`/, '`');
-        this.val.setVal_Nochk('save', 'const.sn.sLog', String(this.val.getVal('const.sn.log.json')));
-    }
-    clear_text(hArg) {
-        const tf = this.getTxtLayer(hArg);
-        if (hArg.layer == this.curTxtlay && hArg.page == 'fore')
-            this.recText('', true);
-        tf.clearText();
-        return false;
-    }
-    endlink() { this.cmdTxt('endlink｜'); return false; }
-    er(hArg) {
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'rec_page_break', true))
-            this.recText('', true);
-        if (this.pgTxtlay) {
-            this.pgTxtlay.fore.clearLay(hArg);
-            this.pgTxtlay.back.clearLay(hArg);
-        }
-        return false;
-    }
-    graph(hArg) {
-        if (!('pic' in hArg))
-            throw '[graph] picは必須です';
-        hArg.text = '｜　《grp｜' + JSON.stringify(hArg) + '》';
-        return this.ch(hArg);
-    }
-    link(hArg) {
-        if (!hArg.style)
-            hArg.style = 'background-color: rgba(255,0,0,0.5);';
-        this.cmdTxt('link｜' + JSON.stringify(hArg));
-        return false;
-    }
-    r(hArg) { hArg.text = '\n'; return this.ch(hArg); }
-    rec_r() { this.recText('\n'); return false; }
-    ;
-    rec_ch(hArg) {
-        var _a;
-        this.oLastPage = hArg;
-        this.recText((_a = hArg.text) !== null && _a !== void 0 ? _a : '');
-        return false;
-    }
-    ;
-    reset_rec(hArg) {
-        var _a, _b;
-        this.val.setVal_Nochk('save', 'const.sn.sLog', (_a = hArg.text) !== null && _a !== void 0 ? _a : '');
-        this.aPageLog = [];
-        this.oLastPage = { text: (_b = hArg.text) !== null && _b !== void 0 ? _b : '' };
-        return false;
-    }
-    ruby2(hArg) {
-        const t = hArg.t;
-        if (!t)
-            throw '[ruby2] tは必須です';
-        const r = hArg.r;
-        if (!r)
-            throw '[ruby2] rは必須です';
-        hArg.text = '｜' + t + '《' + r + '》';
-        return this.ch(hArg);
-    }
-    span(hArg) {
-        this.cmdTxt('span｜' + JSON.stringify(hArg));
-        return false;
-    }
-    tcy(hArg) {
-        var _a;
-        if (!hArg.t)
-            throw '[tcy] tは必須です';
-        hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + ((_a = hArg.r) !== null && _a !== void 0 ? _a : '') + '》';
-        return this.ch(hArg);
-    }
-    dump_lay(hArg) {
-        console.group('🥟 [dump_lay]');
-        for (const name of this.getLayers(hArg.layer)) {
-            const pg = this.hPages[name];
-            try {
-                console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`, JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
-            }
-            catch (error) {
-                console.error(`dump_lay err:%o`, error);
-                console.error(`   back:${pg.back.dump()}`);
-                console.error(`   fore:${pg.fore.dump()}`);
-            }
-        }
-        console.groupEnd();
-        return false;
-    }
-    enable_event(hArg) {
-        const layer = this.argChk_layer(hArg, this.curTxtlay);
-        const enb = this.getTxtLayer(hArg).enabled
-            = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', true);
-        this.val.setVal_Nochk('save', 'const.sn.layer.' + layer + '.enabled', enb);
-        return false;
-    }
-    button(hArg) {
-        var _a, _b, _c;
-        Pages_1.Pages.argChk_page(hArg, 'back');
-        hArg.clicksebuf = (_a = hArg.clicksebuf) !== null && _a !== void 0 ? _a : 'SYS';
-        hArg.entersebuf = (_b = hArg.entersebuf) !== null && _b !== void 0 ? _b : 'SYS';
-        hArg.leavesebuf = (_c = hArg.leavesebuf) !== null && _c !== void 0 ? _c : 'SYS';
-        return this.getTxtLayer(hArg).addButton(hArg);
-    }
-    record() {
-        const o = {};
-        this.aLayName.forEach(layer => {
-            const pg = this.hPages[layer];
-            o[layer] = {
-                cls: pg.cls,
-                fore: pg.fore.record(),
-                back: pg.back.record(),
-            };
-        });
-        return o;
-    }
-    playback($hPages, fncComp) {
-        const aPromise = [];
-        const aSort = [];
-        for (const layer in $hPages) {
-            const $pg = $hPages[layer];
-            aSort.push({ layer: layer, idx: $pg.fore.idx });
-            const pg = this.hPages[layer] || new Pages_1.Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val, { isWait: false });
-            this.hPages[layer] = pg;
-            aPromise.push(new Promise(re => pg.fore.playback($pg.fore, re)));
-            aPromise.push(new Promise(re => pg.back.playback($pg.back, re)));
-        }
-        const len = this.fore.children.length;
-        Promise.all(aPromise).then(() => {
-            aSort.sort(function (a, b) {
-                if (a.idx < b.idx)
-                    return -1;
-                if (a.idx > b.idx)
-                    return 1;
-                return 0;
-            });
-            aSort.forEach(o => {
-                const pg = this.hPages[o.layer];
-                if (!pg)
+        tsy(hArg) {
+            var _a, _b;
+            if (!hArg.layer)
+                throw 'layerは必須です';
+            const layer = this.argChk_layer(hArg);
+            const foreLay = this.hPages[layer].fore;
+            const hTo = CmnLib_1.cnvTweenArg(hArg, foreLay);
+            const repeat = CmnLib_1.argChk_Num(hArg, 'repeat', 1);
+            const tw_nm = (_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer;
+            const tw = new Tween.Tween(foreLay)
+                .to(hTo, CmnLib_1.argChk_Num(hArg, 'time', NaN)
+                * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
+                .delay(CmnLib_1.argChk_Num(hArg, 'delay', 0))
+                .easing(CmnTween_1.CmnTween.ease(hArg.ease))
+                .repeat(repeat === 0 ? Infinity : (repeat - 1))
+                .yoyo(CmnLib_1.argChk_Boolean(hArg, 'yoyo', false))
+                .onComplete(() => {
+                const twInf = this.hTwInf[tw_nm];
+                if (!twInf)
                     return;
-                const idx = len > o.idx ? o.idx : len - 1;
-                this.fore.setChildIndex(pg.fore.cnt, idx);
-                this.back.setChildIndex(pg.back.cnt, idx);
+                delete this.hTwInf[tw_nm];
+                this.evtMng.popLocalEvts();
+                if (twInf.resume)
+                    this.main.resume();
+                if (twInf.onComplete)
+                    twInf.onComplete();
             });
-            fncComp();
-        })
-            .catch(e => console.error(`fn:LayerMng.ts playback e:%o`, e));
-        this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
-        this.oLastPage = { text: '' };
+            if ('chain' in hArg) {
+                const twFrom = this.hTwInf[(_b = hArg.chain) !== null && _b !== void 0 ? _b : ''];
+                if (!twFrom || !twFrom.tw)
+                    throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+                twFrom.onComplete = () => { };
+                twFrom.tw.chain(tw);
+            }
+            else
+                tw.start();
+            const arrive = CmnLib_1.argChk_Boolean(hArg, 'arrive', false);
+            const backlay = CmnLib_1.argChk_Boolean(hArg, 'backlay', false);
+            this.hTwInf[tw_nm] = { tw: tw, resume: false, onComplete: () => {
+                    if (arrive)
+                        Object.assign(foreLay, hTo);
+                    if (backlay) {
+                        const backCnt = this.hPages[layer].back.cnt;
+                        for (const nm in CmnLib_1.hMemberCnt)
+                            backCnt[nm] = foreLay[nm];
+                    }
+                } };
+            return false;
+        }
+        wait_tsy(hArg) {
+            var _a;
+            const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
+            if (!tw_nm)
+                throw 'トゥイーンが指定されていません';
+            const twInf = this.hTwInf[tw_nm];
+            if (!twInf || !twInf.tw)
+                return false;
+            twInf.resume = true;
+            this.evtMng.stdWait(() => { if (twInf.tw)
+                twInf.tw.stop().end(); }, CmnLib_1.argChk_Boolean(hArg, 'canskip', true));
+            return true;
+        }
+        stop_tsy(hArg) {
+            var _a;
+            const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
+            if (!tw_nm)
+                throw 'トゥイーンが指定されていません';
+            const twInf = this.hTwInf[tw_nm];
+            if (!twInf || !twInf.tw)
+                return false;
+            twInf.tw.stop().end();
+            return false;
+        }
+        pause_tsy(hArg) {
+            var _a;
+            const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
+            if (!tw_nm)
+                throw 'トゥイーンが指定されていません';
+            const twInf = this.hTwInf[tw_nm];
+            if (!twInf || !twInf.tw)
+                return false;
+            twInf.tw.stop();
+            return false;
+        }
+        resume_tsy(hArg) {
+            var _a;
+            const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : ((_a = hArg.name) !== null && _a !== void 0 ? _a : hArg.layer);
+            if (!tw_nm)
+                throw 'トゥイーンが指定されていません';
+            const twInf = this.hTwInf[tw_nm];
+            if (!twInf || !twInf.tw)
+                return false;
+            twInf.tw.start();
+            return false;
+        }
+        static get msecChWait() { return LayerMng.$msecChWait; }
+        static set msecChWait(v) { LayerMng.$msecChWait = v; }
+        ch(hArg) {
+            if (!hArg.text)
+                throw 'textは必須です';
+            let wait = CmnLib_1.argChk_Num(hArg, 'wait', -1);
+            if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled'))
+                wait = 0;
+            hArg.wait = wait;
+            const tl = this.getTxtLayer(hArg);
+            if (wait >= 0)
+                this.cmdTxt('add｜' + JSON.stringify(hArg), tl);
+            const record = CmnLib_1.argChk_Boolean(hArg, 'record', true);
+            const doRecLog = this.val.doRecLog();
+            if (!record)
+                this.val.setVal_Nochk('save', 'sn.doRecLog', record);
+            tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
+            if (!record)
+                this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
+            if (wait >= 0)
+                this.cmdTxt(`add_close｜`, tl);
+            return false;
+        }
+        $getTxtLayer(hArg) {
+            const layer = this.argChk_layer(hArg, this.curTxtlay);
+            const pg = this.hPages[layer];
+            const lay = pg.getPage(hArg);
+            if (!(lay instanceof TxtLayer_1.TxtLayer))
+                throw layer + 'はTxtLayerではありません';
+            const tf = lay;
+            return tf;
+        }
+        setNormalWaitTxtLayer() { LayerMng.$msecChWait = this.scrItr.normalWait; }
+        $current(hArg) {
+            const layer = hArg.layer;
+            if (!layer)
+                throw '[current] layerは必須です';
+            this.pgTxtlay = this.hPages[layer];
+            if (!(this.pgTxtlay.getPage(hArg) instanceof TxtLayer_1.TxtLayer))
+                throw `${layer}はTxtLayerではありません`;
+            this.recText('', true);
+            this.curTxtlay = layer;
+            this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
+            const vct = this.getLayers();
+            const len = vct.length;
+            for (let i = 0; i < len; ++i) {
+                const name = vct[i];
+                const pg = this.hPages[name];
+                if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                    continue;
+                pg.fore.isCur =
+                    pg.back.isCur = (name === layer);
+            }
+            return false;
+        }
+        getCurrentTxtlayForeNeedErr() {
+            this.fncChkTxtLay();
+            return this.getCurrentTxtlayFore();
+        }
+        getCurrentTxtlayFore() {
+            if (!this.pgTxtlay)
+                return undefined;
+            return this.pgTxtlay.fore;
+        }
+        argChk_layer(hash, def = '') {
+            var _a;
+            const v = (_a = hash.layer) !== null && _a !== void 0 ? _a : def;
+            if (v.includes(','))
+                throw 'layer名に「,」は使えません';
+            if (!(v in this.hPages))
+                throw '属性 layer【' + v + '】が不正です。レイヤーがありません';
+            return hash.layer = v;
+        }
+        recText(txt, pagebreak = false) {
+            if (pagebreak) {
+                if (this.oLastPage.text) {
+                    this.aPageLog.push(this.oLastPage);
+                    this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
+                }
+                this.oLastPage = { text: '' };
+                return;
+            }
+            this.oLastPage.text = txt.replace(/\\`/, '`');
+            this.val.setVal_Nochk('save', 'const.sn.sLog', String(this.val.getVal('const.sn.log.json')));
+        }
+        clear_text(hArg) {
+            const tf = this.getTxtLayer(hArg);
+            if (hArg.layer === this.curTxtlay && hArg.page === 'fore')
+                this.recText('', true);
+            tf.clearText();
+            return false;
+        }
+        endlink() { this.cmdTxt('endlink｜'); return false; }
+        er(hArg) {
+            if (CmnLib_1.argChk_Boolean(hArg, 'rec_page_break', true))
+                this.recText('', true);
+            if (this.pgTxtlay) {
+                this.pgTxtlay.fore.clearLay(hArg);
+                this.pgTxtlay.back.clearLay(hArg);
+            }
+            return false;
+        }
+        graph(hArg) {
+            if (!('pic' in hArg))
+                throw '[graph] picは必須です';
+            hArg.text = '｜　《grp｜' + JSON.stringify(hArg) + '》';
+            return this.ch(hArg);
+        }
+        link(hArg) {
+            if (!hArg.style)
+                hArg.style = 'background-color: rgba(255,0,0,0.5);';
+            this.cmdTxt('link｜' + JSON.stringify(hArg));
+            return false;
+        }
+        r(hArg) { hArg.text = '\n'; return this.ch(hArg); }
+        rec_r() { this.recText('\n'); return false; }
+        ;
+        rec_ch(hArg) {
+            var _a;
+            this.oLastPage = hArg;
+            this.recText((_a = hArg.text) !== null && _a !== void 0 ? _a : '');
+            return false;
+        }
+        ;
+        reset_rec(hArg) {
+            var _a, _b;
+            this.val.setVal_Nochk('save', 'const.sn.sLog', (_a = hArg.text) !== null && _a !== void 0 ? _a : '');
+            this.aPageLog = [];
+            this.oLastPage = { text: (_b = hArg.text) !== null && _b !== void 0 ? _b : '' };
+            return false;
+        }
+        ruby2(hArg) {
+            const t = hArg.t;
+            if (!t)
+                throw '[ruby2] tは必須です';
+            const r = hArg.r;
+            if (!r)
+                throw '[ruby2] rは必須です';
+            hArg.text = '｜' + t + '《' + r + '》';
+            return this.ch(hArg);
+        }
+        span(hArg) {
+            this.cmdTxt('span｜' + JSON.stringify(hArg));
+            return false;
+        }
+        tcy(hArg) {
+            var _a;
+            if (!hArg.t)
+                throw '[tcy] tは必須です';
+            hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + ((_a = hArg.r) !== null && _a !== void 0 ? _a : '') + '》';
+            return this.ch(hArg);
+        }
+        dump_lay(hArg) {
+            console.group('🥟 [dump_lay]');
+            for (const name of this.getLayers(hArg.layer)) {
+                const pg = this.hPages[name];
+                try {
+                    console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`, JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
+                }
+                catch (error) {
+                    console.error(`dump_lay err:%o`, error);
+                    console.error(`   back:${pg.back.dump()}`);
+                    console.error(`   fore:${pg.fore.dump()}`);
+                }
+            }
+            console.groupEnd();
+            return false;
+        }
+        enable_event(hArg) {
+            const layer = this.argChk_layer(hArg, this.curTxtlay);
+            const enb = this.getTxtLayer(hArg).enabled
+                = CmnLib_1.argChk_Boolean(hArg, 'enabled', true);
+            this.val.setVal_Nochk('save', 'const.sn.layer.' + layer + '.enabled', enb);
+            return false;
+        }
+        button(hArg) {
+            var _a, _b, _c;
+            Pages_1.Pages.argChk_page(hArg, 'back');
+            hArg.clicksebuf = (_a = hArg.clicksebuf) !== null && _a !== void 0 ? _a : 'SYS';
+            hArg.entersebuf = (_b = hArg.entersebuf) !== null && _b !== void 0 ? _b : 'SYS';
+            hArg.leavesebuf = (_c = hArg.leavesebuf) !== null && _c !== void 0 ? _c : 'SYS';
+            return this.getTxtLayer(hArg).addButton(hArg);
+        }
+        record() {
+            const o = {};
+            this.aLayName.forEach(layer => {
+                const pg = this.hPages[layer];
+                o[layer] = {
+                    cls: pg.cls,
+                    fore: pg.fore.record(),
+                    back: pg.back.record(),
+                };
+            });
+            return o;
+        }
+        playback($hPages, fncComp) {
+            const aPromise = [];
+            const aSort = [];
+            for (const layer in $hPages) {
+                const $pg = $hPages[layer];
+                aSort.push({ layer: layer, idx: $pg.fore.idx });
+                const pg = this.hPages[layer] || new Pages_1.Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val, { isWait: false });
+                this.hPages[layer] = pg;
+                aPromise.push(new Promise(re => pg.fore.playback($pg.fore, re)));
+                aPromise.push(new Promise(re => pg.back.playback($pg.back, re)));
+            }
+            const len = this.fore.children.length;
+            Promise.all(aPromise).then(() => {
+                aSort.sort(function (a, b) {
+                    if (a.idx < b.idx)
+                        return -1;
+                    if (a.idx > b.idx)
+                        return 1;
+                    return 0;
+                });
+                aSort.forEach(o => {
+                    const pg = this.hPages[o.layer];
+                    if (!pg)
+                        return;
+                    const idx = len > o.idx ? o.idx : len - 1;
+                    this.fore.setChildIndex(pg.fore.cnt, idx);
+                    this.back.setChildIndex(pg.back.cnt, idx);
+                });
+                fncComp();
+            })
+                .catch(e => console.error(`fn:LayerMng.ts playback e:%o`, e));
+            this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
+            this.oLastPage = { text: '' };
+        }
     }
-}
+    LayerMng.$msecChWait = 10;
+    return LayerMng;
+})();
 exports.LayerMng = LayerMng;
-LayerMng.$msecChWait = 10;
 
 
 /***/ }),
@@ -3541,6 +3600,7 @@ LayerMng.$msecChWait = 10;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Main = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const Config_1 = __webpack_require__(/*! ./Config */ "./core/src/sn/Config.ts");
 const Grammar_1 = __webpack_require__(/*! ./Grammar */ "./core/src/sn/Grammar.ts");
@@ -3560,7 +3620,7 @@ class Main {
         this.fncNext = () => { };
         this.alzTagArg = new AnalyzeTagArg_1.AnalyzeTagArg;
         this.inited = false;
-        this.fncTicker = () => { this.fncNext(); };
+        this.fncTicker = () => this.fncNext();
         this.fncresume = (fnc = this.runAnalyze) => {
             if (this.destroyed)
                 return;
@@ -3577,8 +3637,7 @@ class Main {
             this.resume = this.fncresume;
             this.scrItr.noticeBreak(true);
         };
-        this.pauseDev = () => this.appPixi.stop();
-        this.resumeDev = () => this.appPixi.start();
+        this.isLoop = true;
         this.destroyed = false;
         this.isDestroyed = () => this.destroyed;
         pixi_js_1.utils.skipHello();
@@ -3604,13 +3663,13 @@ class Main {
             }
             this.val = new Variable_1.Variable(this.cfg, this.hTag);
             this.prpPrs = new PropParser_1.PropParser(this.val);
-            this.sys.init(this.hTag, this.appPixi, this.val, this);
+            sys.init(this.hTag, this.appPixi, this.val, this);
             this.hTag.title({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
-            this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
-            this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
-            this.dbgMng = new DebugMng_1.DebugMng(this.sys, this.hTag, this.scrItr);
-            this.layMng = new LayerMng_1.LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys);
-            this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, this.sys);
+            this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, sys);
+            this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs, this.sndMng, sys);
+            this.dbgMng = new DebugMng_1.DebugMng(sys, this.hTag, this.scrItr);
+            this.layMng = new LayerMng_1.LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, sys);
+            this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, sys);
             this.appPixi.ticker.add(this.fncTicker);
             this.resumeByJumpOrCall({ fn: 'main' });
             this.inited = true;
@@ -3632,7 +3691,7 @@ class Main {
         }
         this.val.setVal_Nochk('tmp', 'sn.eventArg', (_a = hArg.arg) !== null && _a !== void 0 ? _a : '');
         this.val.setVal_Nochk('tmp', 'sn.eventLabel', (_b = hArg.label) !== null && _b !== void 0 ? _b : '');
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'call', false)) {
+        if (CmnLib_1.argChk_Boolean(hArg, 'call', false)) {
             this.scrItr.subIdxToken();
             this.resume(() => this.hTag.call(hArg));
         }
@@ -3641,26 +3700,32 @@ class Main {
             this.resume(() => this.hTag.jump(hArg));
         }
     }
+    setLoop(isLoop) {
+        this.isLoop = isLoop;
+        this.sys.setTitleInfo(isLoop ? '' : ' -- 一時停止中');
+    }
     runAnalyze() {
         var _a;
-        while (true) {
+        while (this.isLoop) {
             let token = this.scrItr.nextToken();
             if (!token)
                 break;
             const uc = token.charCodeAt(0);
             if (this.cfg.oCfg.debug.token)
                 console.log(`🌱 トークン fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} uc:${uc} token<${token}>`);
-            if (uc == 9)
+            if (uc === 9)
                 continue;
-            if (uc == 10) {
-                this.evtMng.cr(token.length);
+            if (uc === 10) {
+                this.scrItr.addLineNum(token.length);
                 continue;
             }
-            if (uc == 91) {
+            if (uc === 91) {
+                if (this.scrItr.isBreak())
+                    return;
                 try {
                     const cl = ((_a = token.match(/\n/g)) !== null && _a !== void 0 ? _a : []).length;
                     if (cl > 0)
-                        this.evtMng.cr(cl);
+                        this.scrItr.addLineNum(cl);
                     if (this.scrItr.タグ解析(token)) {
                         this.stop();
                         break;
@@ -3668,65 +3733,53 @@ class Main {
                     continue;
                 }
                 catch (err) {
-                    let mes = '';
                     if (err instanceof Error) {
                         const e = err;
-                        mes = 'タグ解析中例外 mes=' + e.message + '(' + e.name + ')';
+                        let mes = `タグ解析中例外 mes=${e.message}(${e.name})`;
                         const a_tag = Grammar_1.Grammar.REG_TAG.exec(token);
                         if (a_tag)
                             mes = `[${a_tag.groups.name}]` + mes;
+                        this.errScript(mes, false);
                     }
-                    else {
-                        mes = err;
-                    }
-                    this.errScript(mes, false);
+                    else
+                        this.errScript(String(err), false);
                     return;
                 }
             }
-            if (uc == 38) {
+            if (uc === 38) {
                 try {
-                    if (token.substr(-1) != '&') {
+                    if (token.substr(-1) !== '&') {
+                        if (this.scrItr.isBreak())
+                            return;
                         const o = Grammar_1.Grammar.splitAmpersand(token.slice(1));
                         o.name = this.prpPrs.getValAmpersand(o.name);
                         o.text = String(this.prpPrs.parse(o.text));
                         this.hTag.let(o);
                         continue;
                     }
-                    if (token.charAt(1) == '&')
+                    if (token.charAt(1) === '&')
                         throw new Error('「&表示&」書式では「&」指定が不要です');
                     token = String(this.prpPrs.parse(token.slice(1, -1)));
                 }
                 catch (err) {
-                    let mes = '';
-                    if (err instanceof Error) {
-                        const e = err;
-                        mes = '& 変数操作・変数表示 mes=' + e.message + '(' + e.name + ')';
-                    }
-                    else {
-                        mes = err;
-                    }
-                    this.errScript(mes, false);
+                    this.errScript(err instanceof Error
+                        ? `& 変数操作・表示 mes=${err.message}(${err.name})`
+                        : err, false);
                     return;
                 }
             }
-            else if (uc == 59)
+            else if (uc === 59)
                 continue;
-            else if ((uc == 42) && (token.length > 1))
+            else if ((uc === 42) && (token.length > 1))
                 continue;
             try {
                 const tl = this.layMng.getCurrentTxtlayForeNeedErr();
                 tl.tagCh(token);
             }
             catch (err) {
-                let mes = '';
-                if (err instanceof Error) {
-                    const e = err;
-                    mes = '文字表示 mes=' + e.message + '(' + e.name + ')';
-                }
-                else {
-                    mes = err;
-                }
-                this.errScript(mes, false);
+                this.errScript(err instanceof Error
+                    ? `文字表示 mes=${err.message}(${err.name})`
+                    : err, false);
                 return;
             }
         }
@@ -3768,12 +3821,13 @@ exports.Main = Main;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Pages = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 class Pages {
     constructor(layer, cls_, fore, hArgFore, back, hArgBack, sys, val, ret) {
         this.cls_ = cls_;
         this.lay = (hArg) => this.getPage(hArg).lay(hArg);
-        this.getPage = (hArg) => (Pages.argChk_page(hArg, 'fore') != 'back')
+        this.getPage = (hArg) => (Pages.argChk_page(hArg, 'fore') !== 'back')
             ? this.pg.fore
             : this.pg.back;
         const fncF = sys.hFactoryCls[cls_];
@@ -3784,8 +3838,8 @@ class Pages {
         this.pg.back.name = `layer:${layer} cls:${cls_} page:B`;
         fore.addChild(this.fore.cnt);
         back.addChild(this.back.cnt);
-        CmnLib_1.CmnLib.argChk_Boolean(hArgFore, 'visible', true);
-        CmnLib_1.CmnLib.argChk_Boolean(hArgBack, 'visible', true);
+        CmnLib_1.argChk_Boolean(hArgFore, 'visible', true);
+        CmnLib_1.argChk_Boolean(hArgBack, 'visible', true);
         ret.isWait = this.fore.lay(hArgFore);
         ret.isWait = ret.isWait || this.back.lay(hArgBack);
         const valnm = `const.sn.lay.${layer}`;
@@ -3810,9 +3864,9 @@ class Pages {
     static argChk_page(hash, def) {
         var _a;
         const v = (_a = hash.page) !== null && _a !== void 0 ? _a : def;
-        if (v == 'fore')
+        if (v === 'fore')
             return hash.page = v;
-        if (v == 'back')
+        if (v === 'back')
             return hash.page = v;
         throw Error('属性 page【' + v + '】が不正です');
     }
@@ -3839,271 +3893,275 @@ exports.Pages = Pages;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.PropParser = void 0;
 const P = __webpack_require__(/*! parsimmon */ "./node_modules/parsimmon/build/parsimmon.umd.min.js");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
-class PropParser {
-    constructor(val) {
-        this.val = val;
-        this.parser = null;
-        this.hFnc = {
-            '!num!': a => a.shift(),
-            '!str!': a => this.procEmbedVar(a.shift()),
-            '!bool!': a => a.shift(),
-            '!': a => {
-                const b = a.shift();
-                return (b[0] == '!bool!')
-                    ? !Boolean(b[1])
-                    : !(String(this.calc(b)) == 'true');
-            },
-            '~': a => ~Number(this.calc(a.shift())),
-            '**': a => Number(this.calc(a.shift())) **
-                Number(this.calc(a.shift())),
-            '*': a => Number(this.calc(a.shift())) *
-                Number(this.calc(a.shift())),
-            '/': a => Number(this.calc(a.shift())) /
-                Number(this.calc(a.shift())),
-            '¥': a => Math.floor(this.hFnc['/'](a)),
-            '%': a => Number(this.calc(a.shift())) %
-                Number(this.calc(a.shift())),
-            '+': a => {
-                const b = this.calc(a.shift());
-                const c = this.calc(a.shift());
-                if (Object.prototype.toString.call(b) == '[object String]'
-                    || Object.prototype.toString.call(c) == '[object String]') {
-                    return String(b) + String(c);
+let PropParser = (() => {
+    class PropParser {
+        constructor(val) {
+            this.val = val;
+            this.parser = null;
+            this.hFnc = {
+                '!num!': a => a.shift(),
+                '!str!': a => this.procEmbedVar(a.shift()),
+                '!bool!': a => a.shift(),
+                '!': a => {
+                    const b = a.shift();
+                    return (b[0] === '!bool!')
+                        ? !Boolean(b[1])
+                        : !(String(this.calc(b)) === 'true');
+                },
+                '~': a => ~Number(this.calc(a.shift())),
+                '**': a => Number(this.calc(a.shift())) **
+                    Number(this.calc(a.shift())),
+                '*': a => Number(this.calc(a.shift())) *
+                    Number(this.calc(a.shift())),
+                '/': a => Number(this.calc(a.shift())) /
+                    Number(this.calc(a.shift())),
+                '¥': a => Math.floor(this.hFnc['/'](a)),
+                '%': a => Number(this.calc(a.shift())) %
+                    Number(this.calc(a.shift())),
+                '+': a => {
+                    const b = this.calc(a.shift());
+                    const c = this.calc(a.shift());
+                    if (Object.prototype.toString.call(b) === '[object String]'
+                        || Object.prototype.toString.call(c) === '[object String]') {
+                        return String(b) + String(c);
+                    }
+                    return Number(b) + Number(c);
+                },
+                '-': a => Number(this.calc(a.shift())) -
+                    Number(this.calc(a.shift())),
+                'int': a => CmnLib_1.int(this.fncSub_ChkNum(a.shift())),
+                'parseInt': a => CmnLib_1.int(this.hFnc['Number'](a)),
+                'Number': a => {
+                    const b = this.calc(a.shift());
+                    if (Object.prototype.toString.call(b) !== '[object String]')
+                        return Number(b);
+                    return this.fncSub_ChkNum(this.parser.parse(String(b)).value);
+                },
+                'ceil': a => Math.ceil(this.fncSub_ChkNum(a.shift())),
+                'floor': a => Math.floor(this.fncSub_ChkNum(a.shift())),
+                'round': a => Math.round(this.fncSub_ChkNum(a.shift())),
+                '<<': a => Number(this.calc(a.shift())) <<
+                    Number(this.calc(a.shift())),
+                '>>': a => Number(this.calc(a.shift())) >>
+                    Number(this.calc(a.shift())),
+                '>>>': a => Number(this.calc(a.shift())) >>>
+                    Number(this.calc(a.shift())),
+                '<': a => Number(this.calc(a.shift())) <
+                    Number(this.calc(a.shift())),
+                '<=': a => Number(this.calc(a.shift())) <=
+                    Number(this.calc(a.shift())),
+                '>': a => Number(this.calc(a.shift())) >
+                    Number(this.calc(a.shift())),
+                '>=': a => Number(this.calc(a.shift())) >=
+                    Number(this.calc(a.shift())),
+                '==': a => {
+                    const b = this.calc(a.shift());
+                    const c = this.calc(a.shift());
+                    if ((b == null) && (c == null) && (!b || !c))
+                        return (b == c);
+                    return String(b) === String(c);
+                },
+                '!=': a => !this.hFnc['=='](a),
+                '===': a => {
+                    const b = this.calc(a.shift());
+                    const c = this.calc(a.shift());
+                    if (Object.prototype.toString.call(b) !=
+                        Object.prototype.toString.call(c))
+                        return false;
+                    return String(b) === String(c);
+                },
+                '!==': a => !this.hFnc['==='](a),
+                '&': a => Number(this.calc(a.shift())) &
+                    Number(this.calc(a.shift())),
+                '^': a => Number(this.calc(a.shift())) ^
+                    Number(this.calc(a.shift())),
+                '|': a => Number(this.calc(a.shift())) |
+                    Number(this.calc(a.shift())),
+                '&&': a => (String(this.calc(a.shift())) === 'true') &&
+                    (String(this.calc(a.shift())) === 'true'),
+                '||': a => (String(this.calc(a.shift())) === 'true') ||
+                    (String(this.calc(a.shift())) === 'true'),
+                '?': a => {
+                    const b = a.shift();
+                    let cond = false;
+                    if (b[0] === '!bool!') {
+                        cond = Boolean(b[1]);
+                    }
+                    else {
+                        const cond2 = String(this.calc(b));
+                        cond = (cond2 !== 'true' && cond2 !== 'false')
+                            ? (CmnLib_1.int(cond2) !== 0)
+                            : (cond2 === 'true');
+                    }
+                    const elm2 = a.shift();
+                    if (elm2[0] !== ':')
+                        throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
+                    return this.calc(elm2[cond ? 1 : 2]);
+                },
+                ':': () => { throw Error('(PropParser)三項演算子の文法エラーです。? が見つかりません'); },
+            };
+            this.REG_EMBEDVAR = /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
+            this.getValAmpersand = (val) => (val.charAt(0) === '&')
+                ? String(this.parse(val.substr(1)))
+                : val;
+            function ope(a) {
+                const ps = [];
+                for (const v of a)
+                    ps.push(((v instanceof RegExp)
+                        ? P.regex(v)
+                        : P.string(v))
+                        .trim(P.optWhitespace));
+                return P.alt.apply(null, ps);
+            }
+            function PREFIX(operatorsParser, nextParser) {
+                const parser = P.lazy(() => {
+                    return P.seq(operatorsParser, parser).or(nextParser);
+                });
+                return parser;
+            }
+            function BINARY_RIGHT(operatorsParser, nextParser) {
+                let parser = P.lazy(() => nextParser.chain((next) => P.seq(operatorsParser, P.of(next), parser).or(P.of(next))));
+                return parser;
+            }
+            function BINARY_LEFT(operatorsParser, nextParser) {
+                return P.seqMap(nextParser, P.seq(operatorsParser, nextParser).many(), (first, rest) => {
+                    return rest.reduce((acc, ch) => {
+                        return [ch[0], acc, ch[1]];
+                    }, first);
+                });
+            }
+            const Num = P.alt(P.alt(P.regex(/-?(0|[1-9][0-9]*)\.[0-9]+/), P.regex(/0x[0-9a-fA-F]+/)).map(Number), P.alt(P.regex(/-?(0|[1-9][0-9]*)/)).map(n => CmnLib_1.int(n)))
+                .map(str => ['!num!', str])
+                .desc('number');
+            const NullLiteral = P.string('null')
+                .map(() => ['!str!', null]);
+            const BooleanLiteral = P.regex(/(true|false)/)
+                .map(b => ['!bool!', b === 'true'])
+                .desc('boolean');
+            const StringLiteral = P
+                .regex(/("|'|#).*?\1/)
+                .map(b => ['!str!', b.slice(1, -1)])
+                .desc('string');
+            const REG_BRACKETS = /\[[^\]]+\]/g;
+            const VarLiteral = P
+                .regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/)
+                .map(b => {
+                const s = String(b).replace(REG_BRACKETS, v => '.' + this.parse(v.slice(1, -1)));
+                if (s.charAt(0) === '-') {
+                    const val = this.val.getVal(s.slice(1));
+                    if (val == null || String(val) === 'null')
+                        throw Error('(PropParser)数値以外に-符号がついています');
+                    return ['!num!', -Number(val)];
                 }
-                return Number(b) + Number(c);
-            },
-            '-': a => Number(this.calc(a.shift())) -
-                Number(this.calc(a.shift())),
-            'int': a => CmnLib_1.int(this.fncSub_ChkNum(a.shift())),
-            'parseInt': a => CmnLib_1.int(this.hFnc['Number'](a)),
-            'Number': a => {
-                const b = this.calc(a.shift());
-                if (Object.prototype.toString.call(b) != '[object String]')
-                    return Number(b);
-                return this.fncSub_ChkNum(this.parser.parse(String(b)).value);
-            },
-            'ceil': a => Math.ceil(this.fncSub_ChkNum(a.shift())),
-            'floor': a => Math.floor(this.fncSub_ChkNum(a.shift())),
-            'round': a => Math.round(this.fncSub_ChkNum(a.shift())),
-            '<<': a => Number(this.calc(a.shift())) <<
-                Number(this.calc(a.shift())),
-            '>>': a => Number(this.calc(a.shift())) >>
-                Number(this.calc(a.shift())),
-            '>>>': a => Number(this.calc(a.shift())) >>>
-                Number(this.calc(a.shift())),
-            '<': a => Number(this.calc(a.shift())) <
-                Number(this.calc(a.shift())),
-            '<=': a => Number(this.calc(a.shift())) <=
-                Number(this.calc(a.shift())),
-            '>': a => Number(this.calc(a.shift())) >
-                Number(this.calc(a.shift())),
-            '>=': a => Number(this.calc(a.shift())) >=
-                Number(this.calc(a.shift())),
-            '==': a => {
-                const b = this.calc(a.shift());
-                const c = this.calc(a.shift());
-                if ((b == null) && (c == null) && (!b || !c))
-                    return (b == c);
-                return String(b) == String(c);
-            },
-            '!=': a => !this.hFnc['=='](a),
-            '===': a => {
-                const b = this.calc(a.shift());
-                const c = this.calc(a.shift());
-                if (Object.prototype.toString.call(b) !=
-                    Object.prototype.toString.call(c))
-                    return false;
-                return String(b) == String(c);
-            },
-            '!==': a => !this.hFnc['==='](a),
-            '&': a => Number(this.calc(a.shift())) &
-                Number(this.calc(a.shift())),
-            '^': a => Number(this.calc(a.shift())) ^
-                Number(this.calc(a.shift())),
-            '|': a => Number(this.calc(a.shift())) |
-                Number(this.calc(a.shift())),
-            '&&': a => (String(this.calc(a.shift())) == 'true') &&
-                (String(this.calc(a.shift())) == 'true'),
-            '||': a => (String(this.calc(a.shift())) == 'true') ||
-                (String(this.calc(a.shift())) == 'true'),
-            '?': a => {
-                const b = a.shift();
-                let cond = false;
-                if (b[0] == '!bool!') {
-                    cond = Boolean(b[1]);
+                const val = this.val.getVal(s);
+                if (val == null)
+                    return ['!str!', val];
+                if (typeof val === 'boolean')
+                    return ['!bool!', val];
+                return (Object.prototype.toString.call(val) === '[object String]')
+                    ? ['!str!', String(val)]
+                    : ['!num!', Number(val)];
+            })
+                .desc('string');
+            const Basic = P.lazy(() => P
+                .string('(').then(this.parser).skip(P.string(')'))
+                .or(Num)
+                .or(NullLiteral)
+                .or(BooleanLiteral)
+                .or(StringLiteral)
+                .or(VarLiteral));
+            const table = [
+                { type: PREFIX, ops: ope([/[A-Za-z_][A-Za-z0-9_]*(?=\()/]) },
+                { type: PREFIX, ops: ope([/(!(?!=)|~)/]) },
+                { type: BINARY_RIGHT, ops: ope(['**']) },
+                { type: BINARY_LEFT, ops: ope(['*', '/', '¥', '%']) },
+                { type: BINARY_LEFT, ops: ope(['+', '-']) },
+                { type: BINARY_LEFT, ops: ope([/(>>>|<<|>>)/]) },
+                { type: BINARY_LEFT, ops: ope([/(<=|<|>=|>)/]) },
+                { type: BINARY_LEFT, ops: ope([/(===|!==|==|!=)/]) },
+                { type: BINARY_LEFT, ops: ope([/&(?!&)/]) },
+                { type: BINARY_LEFT, ops: ope(['^']) },
+                { type: BINARY_LEFT, ops: ope([/\|(?!\|)/]) },
+                { type: BINARY_LEFT, ops: ope(['&&']) },
+                { type: BINARY_LEFT, ops: ope(['||']) },
+                { type: BINARY_RIGHT, ops: ope([':']) },
+                { type: BINARY_RIGHT, ops: ope(['?']) },
+            ];
+            const tableParser = table.reduce((acc, level) => level.type(level.ops, acc), Basic);
+            this.parser = tableParser.trim(P.optWhitespace);
+        }
+        parse(s) {
+            const p = this.parser.parse(s);
+            if (!p.status)
+                throw Error('(PropParser)文法エラー【' + s + '】');
+            const a = p.value;
+            if (a[0] === '!str!')
+                return this.procEmbedVar(a[1]);
+            return this.calc(a);
+        }
+        calc(a) {
+            const elm = a.shift();
+            if (elm instanceof Array)
+                return this.calc(elm);
+            const fnc = this.hFnc[elm];
+            return (fnc) ? fnc(a) : Object(null);
+        }
+        fncSub_ChkNum(v) {
+            const b = this.calc(v);
+            if (Object.prototype.toString.call(b) !== '[object Number]')
+                throw Error('(PropParser)引数【' + b + '】が数値ではありません');
+            return Number(b);
+        }
+        procEmbedVar(b) {
+            if (b == null)
+                return b;
+            return String(b).replace(this.REG_EMBEDVAR, v => {
+                return (v.charAt(0) === '$')
+                    ? this.val.getVal(v.slice(1))
+                    : this.parse(v.slice(2, -1));
+            });
+        }
+        static getValName(arg_name) {
+            var _a;
+            const e = this.REG_VAL.exec(arg_name.trim());
+            const g = e === null || e === void 0 ? void 0 : e.groups;
+            if (!g)
+                return undefined;
+            return {
+                scope: g.scope || 'tmp',
+                name: PropParser.getValName_B2D(g.name),
+                at: (_a = g.at) !== null && _a !== void 0 ? _a : '',
+            };
+        }
+        static getValName_B2D(str) {
+            let i = 0, e = 0;
+            while (true) {
+                i = str.indexOf('["');
+                if (i < 0) {
+                    i = str.indexOf("['");
+                    if (i < 0)
+                        break;
+                    e = str.indexOf("']", i + 2);
                 }
                 else {
-                    const cond2 = String(this.calc(b));
-                    cond = (cond2 != 'true' && cond2 != 'false')
-                        ? (CmnLib_1.int(cond2) != 0)
-                        : (cond2 == 'true');
+                    e = str.indexOf('"]', i + 2);
                 }
-                const elm2 = a.shift();
-                if (elm2[0] != ':')
-                    throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
-                return this.calc(elm2[cond ? 1 : 2]);
-            },
-            ':': () => { throw Error('(PropParser)三項演算子の文法エラーです。? が見つかりません'); },
-        };
-        this.REG_EMBEDVAR = /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
-        this.getValAmpersand = (val) => (val.charAt(0) == '&')
-            ? String(this.parse(val.substr(1)))
-            : val;
-        function ope(a) {
-            const ps = [];
-            for (const v of a)
-                ps.push(((v instanceof RegExp)
-                    ? P.regex(v)
-                    : P.string(v))
-                    .trim(P.optWhitespace));
-            return P.alt.apply(null, ps);
-        }
-        function PREFIX(operatorsParser, nextParser) {
-            const parser = P.lazy(() => {
-                return P.seq(operatorsParser, parser).or(nextParser);
-            });
-            return parser;
-        }
-        function BINARY_RIGHT(operatorsParser, nextParser) {
-            let parser = P.lazy(() => nextParser.chain((next) => P.seq(operatorsParser, P.of(next), parser).or(P.of(next))));
-            return parser;
-        }
-        function BINARY_LEFT(operatorsParser, nextParser) {
-            return P.seqMap(nextParser, P.seq(operatorsParser, nextParser).many(), (first, rest) => {
-                return rest.reduce((acc, ch) => {
-                    return [ch[0], acc, ch[1]];
-                }, first);
-            });
-        }
-        const Num = P.alt(P.alt(P.regex(/-?(0|[1-9][0-9]*)\.[0-9]+/), P.regex(/0x[0-9a-fA-F]+/)).map(Number), P.alt(P.regex(/-?(0|[1-9][0-9]*)/)).map(n => CmnLib_1.int(n)))
-            .map(str => ['!num!', str])
-            .desc('number');
-        const NullLiteral = P.string('null')
-            .map(() => ['!str!', null]);
-        const BooleanLiteral = P.regex(/(true|false)/)
-            .map(b => ['!bool!', b == 'true'])
-            .desc('boolean');
-        const StringLiteral = P
-            .regex(/("|'|#).*?\1/)
-            .map(b => ['!str!', b.slice(1, -1)])
-            .desc('string');
-        const REG_BRACKETS = /\[[^\]]+\]/g;
-        const VarLiteral = P
-            .regex(/\-?((tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(@str)?/)
-            .map(b => {
-            const s = String(b).replace(REG_BRACKETS, v => '.' + this.parse(v.slice(1, -1)));
-            if (s.charAt(0) == '-') {
-                const val = this.val.getVal(s.slice(1));
-                if (val == null || String(val) == 'null')
-                    throw Error('(PropParser)数値以外に-符号がついています');
-                return ['!num!', -Number(val)];
-            }
-            const val = this.val.getVal(s);
-            if (val == null)
-                return ['!str!', val];
-            if (typeof val == 'boolean')
-                return ['!bool!', val];
-            return (Object.prototype.toString.call(val) == '[object String]')
-                ? ['!str!', String(val)]
-                : ['!num!', Number(val)];
-        })
-            .desc('string');
-        const Basic = P.lazy(() => P
-            .string('(').then(this.parser).skip(P.string(')'))
-            .or(Num)
-            .or(NullLiteral)
-            .or(BooleanLiteral)
-            .or(StringLiteral)
-            .or(VarLiteral));
-        const table = [
-            { type: PREFIX, ops: ope([/[A-Za-z_][A-Za-z0-9_]*(?=\()/]) },
-            { type: PREFIX, ops: ope([/(!(?!=)|~)/]) },
-            { type: BINARY_RIGHT, ops: ope(['**']) },
-            { type: BINARY_LEFT, ops: ope(['*', '/', '¥', '%']) },
-            { type: BINARY_LEFT, ops: ope(['+', '-']) },
-            { type: BINARY_LEFT, ops: ope([/(>>>|<<|>>)/]) },
-            { type: BINARY_LEFT, ops: ope([/(<=|<|>=|>)/]) },
-            { type: BINARY_LEFT, ops: ope([/(===|!==|==|!=)/]) },
-            { type: BINARY_LEFT, ops: ope([/&(?!&)/]) },
-            { type: BINARY_LEFT, ops: ope(['^']) },
-            { type: BINARY_LEFT, ops: ope([/\|(?!\|)/]) },
-            { type: BINARY_LEFT, ops: ope(['&&']) },
-            { type: BINARY_LEFT, ops: ope(['||']) },
-            { type: BINARY_RIGHT, ops: ope([':']) },
-            { type: BINARY_RIGHT, ops: ope(['?']) },
-        ];
-        const tableParser = table.reduce((acc, level) => level.type(level.ops, acc), Basic);
-        this.parser = tableParser.trim(P.optWhitespace);
-    }
-    parse(s) {
-        const p = this.parser.parse(s);
-        if (!p.status)
-            throw Error('(PropParser)文法エラー【' + s + '】');
-        const a = p.value;
-        if (a[0] == '!str!')
-            return this.procEmbedVar(a[1]);
-        return this.calc(a);
-    }
-    calc(a) {
-        const elm = a.shift();
-        if (elm instanceof Array)
-            return this.calc(elm);
-        const fnc = this.hFnc[elm];
-        return (fnc) ? fnc(a) : Object(null);
-    }
-    fncSub_ChkNum(v) {
-        const b = this.calc(v);
-        if (Object.prototype.toString.call(b) != '[object Number]')
-            throw Error('(PropParser)引数【' + b + '】が数値ではありません');
-        return Number(b);
-    }
-    procEmbedVar(b) {
-        if (b == null)
-            return b;
-        return String(b).replace(this.REG_EMBEDVAR, v => {
-            return (v.charAt(0) == '$')
-                ? this.val.getVal(v.slice(1))
-                : this.parse(v.slice(2, -1));
-        });
-    }
-    static getValName(arg_name) {
-        var _a;
-        const e = this.REG_VAL.exec(arg_name.trim());
-        const g = e === null || e === void 0 ? void 0 : e.groups;
-        if (!g)
-            return undefined;
-        return {
-            scope: g.scope || 'tmp',
-            name: PropParser.getValName_B2D(g.name),
-            at: (_a = g.at) !== null && _a !== void 0 ? _a : '',
-        };
-    }
-    static getValName_B2D(str) {
-        let i = 0, e = 0;
-        while (true) {
-            i = str.indexOf('["');
-            if (i < 0) {
-                i = str.indexOf("['");
-                if (i < 0)
+                if (e < 0)
                     break;
-                e = str.indexOf("']", i + 2);
+                str = str.slice(0, i) + '.' + str.slice(i + 2, e)
+                    + str.slice(e + 2);
+                i = e - 2;
             }
-            else {
-                e = str.indexOf('"]', i + 2);
-            }
-            if (e < 0)
-                break;
-            str = str.slice(0, i) + '.' + str.slice(i + 2, e)
-                + str.slice(e + 2);
-            i = e - 2;
+            return str;
         }
-        return str;
     }
-}
+    PropParser.REG_VAL = /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
+    return PropParser;
+})();
 exports.PropParser = PropParser;
-PropParser.REG_VAL = /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
 
 
 /***/ }),
@@ -4118,79 +4176,83 @@ PropParser.REG_VAL = /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-class RubySpliter {
-    constructor() {
-        this.putCh = () => { };
-    }
-    setting(hArg) { if (hArg.sesame)
-        RubySpliter.sesame = hArg.sesame; }
-    getSesame() { return RubySpliter.sesame; }
-    init(putCh) { this.putCh = putCh; }
-    static setEscape(ce) {
-        RubySpliter.REG_RUBY = new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ''}` +
-            `｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》` +
-            `|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])` +
-            `《(?<kan_ruby>[^》\\n]+)》)` +
-            `|(?<txt>` +
-            `[\uD800-\uDBFF][\uDC00-\uDFFF]` +
-            `|[^　｜《》]+(?=｜)` +
-            `|[^　｜《》]*[ぁ-ヿ](?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)` +
-            `|.)`, 'gs');
-    }
-    putTxt(text) {
-        var _a;
-        let e = null;
-        while (e = RubySpliter.REG_RUBY.exec(text)) {
-            const g = e === null || e === void 0 ? void 0 : e.groups;
-            if (!g)
-                continue;
-            const ruby = g.ruby;
-            if (ruby) {
-                this.putTxtRb(g.str, ruby);
-                continue;
+exports.RubySpliter = void 0;
+let RubySpliter = (() => {
+    class RubySpliter {
+        constructor() {
+            this.putCh = () => { };
+        }
+        setting(hArg) { if (hArg.sesame)
+            RubySpliter.sesame = hArg.sesame; }
+        getSesame() { return RubySpliter.sesame; }
+        init(putCh) { this.putCh = putCh; }
+        static setEscape(ce) {
+            RubySpliter.REG_RUBY = new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ''}` +
+                `｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》` +
+                `|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])` +
+                `《(?<kan_ruby>[^》\\n]+)》)` +
+                `|(?<txt>` +
+                `[\uD800-\uDBFF][\uDC00-\uDFFF]` +
+                `|[^　｜《》]+(?=｜)` +
+                `|[^　｜《》]*[ぁ-ヿ](?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)` +
+                `|.)`, 'gs');
+        }
+        putTxt(text) {
+            var _a;
+            let e = null;
+            while (e = RubySpliter.REG_RUBY.exec(text)) {
+                const g = e === null || e === void 0 ? void 0 : e.groups;
+                if (!g)
+                    continue;
+                const ruby = g.ruby;
+                if (ruby) {
+                    this.putTxtRb(g.str, ruby);
+                    continue;
+                }
+                const kan_ruby = g.kan_ruby;
+                if (kan_ruby) {
+                    this.putTxtRb(g.kan, kan_ruby);
+                    continue;
+                }
+                if (g.ce) {
+                    this.putCh(g.ce.slice(1), '');
+                    continue;
+                }
+                const txt = (_a = g.txt) !== null && _a !== void 0 ? _a : '';
+                const a = Array.from(txt);
+                const len = a.length;
+                for (let i = 0; i < len; ++i)
+                    this.putCh(a[i], '');
             }
-            const kan_ruby = g.kan_ruby;
-            if (kan_ruby) {
-                this.putTxtRb(g.kan, kan_ruby);
-                continue;
-            }
-            if (g.ce) {
-                this.putCh(g.ce.slice(1), '');
-                continue;
-            }
-            const txt = (_a = g.txt) !== null && _a !== void 0 ? _a : '';
-            const a = Array.from(txt);
+        }
+        putTxtRb(text, ruby) {
+            const a = Array.from(text);
             const len = a.length;
-            for (let i = 0; i < len; ++i)
-                this.putCh(a[i], '');
+            if (ruby.charAt(0) === '*' && ruby.length <= 2) {
+                const rb_ses = 'center｜'
+                    + ((ruby === '*') ? RubySpliter.sesame : ruby.charAt(1));
+                for (let i = 0; i < len; ++i)
+                    this.putCh(a[i], rb_ses);
+                return;
+            }
+            if (len === 1 || ruby.indexOf(' ') === -1) {
+                this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
+                return;
+            }
+            const aR = ruby.split(' ');
+            const lenR = aR.length;
+            const len_max = (lenR > len) ? lenR : len;
+            for (let i = 0; i < len_max; ++i) {
+                this.putCh((i < len) ? a[i] : '', (i < lenR) ? aR[i].replace(RubySpliter.REG_TAB_G, ' ') : '');
+            }
         }
+        static destroy() { RubySpliter.sesame = 'ヽ'; }
     }
-    putTxtRb(text, ruby) {
-        const a = Array.from(text);
-        const len = a.length;
-        if (ruby.charAt(0) == '*' && ruby.length <= 2) {
-            const rb_ses = 'center｜'
-                + ((ruby == '*') ? RubySpliter.sesame : ruby.charAt(1));
-            for (let i = 0; i < len; ++i)
-                this.putCh(a[i], rb_ses);
-            return;
-        }
-        if (len == 1 || ruby.indexOf(' ') == -1) {
-            this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
-            return;
-        }
-        const aR = ruby.split(' ');
-        const lenR = aR.length;
-        const len_max = (lenR > len) ? lenR : len;
-        for (let i = 0; i < len_max; ++i) {
-            this.putCh((i < len) ? a[i] : '', (i < lenR) ? aR[i].replace(RubySpliter.REG_TAB_G, ' ') : '');
-        }
-    }
-    static destroy() { RubySpliter.sesame = 'ヽ'; }
-}
+    RubySpliter.sesame = 'ヽ';
+    RubySpliter.REG_TAB_G = /\t/g;
+    return RubySpliter;
+})();
 exports.RubySpliter = RubySpliter;
-RubySpliter.sesame = 'ヽ';
-RubySpliter.REG_TAB_G = /\t/g;
 
 
 /***/ }),
@@ -4205,6 +4267,7 @@ RubySpliter.REG_TAB_G = /\t/g;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ScriptIterator = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const Config_1 = __webpack_require__(/*! ./Config */ "./core/src/sn/Config.ts");
 const CallStack_1 = __webpack_require__(/*! ./CallStack */ "./core/src/sn/CallStack.ts");
@@ -4212,6 +4275,14 @@ const Grammar_1 = __webpack_require__(/*! ./Grammar */ "./core/src/sn/Grammar.ts
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 const DebugMng_1 = __webpack_require__(/*! ./DebugMng */ "./core/src/sn/DebugMng.ts");
 ;
+;
+var BreakState;
+(function (BreakState) {
+    BreakState[BreakState["run"] = 0] = "run";
+    BreakState[BreakState["wait"] = 1] = "wait";
+    BreakState[BreakState["before"] = 2] = "before";
+    BreakState[BreakState["stepping"] = 3] = "stepping";
+})(BreakState || (BreakState = {}));
 ;
 class ScriptIterator {
     constructor(cfg, hTag, main, val, alzTagArg, runAnalyze, prpPrs, sndMng, sys) {
@@ -4232,6 +4303,42 @@ class ScriptIterator {
         this.aCallStk = [];
         this.getCallStk = (idx) => this.aCallStk[idx].csArg;
         this.grm = new Grammar_1.Grammar;
+        this.hHook = {
+            'attach': () => {
+                this.breakState = BreakState.wait;
+                this.main.setLoop(false);
+                this.sys.sendDbg('stop', {});
+            },
+            'disconnect': () => {
+                for (const fn in this.hBreakPoint)
+                    this.hBreakPoint[fn] = {};
+                this.breakState = BreakState.run;
+                this.main.setLoop(true);
+            },
+            'clear_break': (_, o) => this.hBreakPoint[CmnLib_1.getFn(o.fn)] = {},
+            'add_break': (_, o) => this.hBreakPoint[CmnLib_1.getFn(o.fn)][o.ln] = 1,
+            'del_break': (_, o) => delete this.hBreakPoint[CmnLib_1.getFn(o.fn)][o.ln],
+            'stack': () => this.sys.sendDbg('stack', { a: this.stack() }),
+            'step': () => {
+                if (this.breakState === BreakState.before) {
+                    this.breakState = BreakState.stepping;
+                    --this.idxToken_;
+                    this.sys.sendDbg('stopOnStep', {});
+                }
+                else
+                    this.breakState = BreakState.run;
+                this.main.setLoop(true);
+            },
+            'continue': () => {
+                if (this.breakState === BreakState.before)
+                    --this.idxToken_;
+                this.breakState = BreakState.run;
+                this.main.setLoop(true);
+            },
+        };
+        this.hBreakPoint = {};
+        this.breakState = BreakState.run;
+        this.isBreak = () => false;
         this.fncSet = () => { };
         this.fncBreak = () => { };
         this.fnLastBreak = '';
@@ -4266,14 +4373,14 @@ class ScriptIterator {
                 if (!p_fn)
                     continue;
                 const fn = p_fn.val;
-                if (!fn || fn.slice(-1) != '*')
+                if (!fn || fn.slice(-1) !== '*')
                     continue;
-                const ext = (g.name == 'loadplugin') ? 'css' : 'sn';
+                const ext = (g.name === 'loadplugin') ? 'css' : 'sn';
                 const a = this.cfg.matchPath('^' + fn.slice(0, -1) + '.*', ext);
                 this.script.aToken.splice(i, 1, '\t', '; ' + token);
                 this.script.aLNum.splice(i, 1, NaN, NaN);
                 for (const v of a) {
-                    const nt = token.replace(this.REG_WILDCARD2, 'fn=' + decodeURIComponent(CmnLib_1.CmnLib.getFn(v[ext])));
+                    const nt = token.replace(this.REG_WILDCARD2, 'fn=' + decodeURIComponent(CmnLib_1.getFn(v[ext])));
                     this.script.aToken.splice(i, 0, nt);
                     this.script.aLNum.splice(i, 0, NaN);
                 }
@@ -4307,6 +4414,14 @@ class ScriptIterator {
         hTag.save = o => this.save(o);
         val.defTmp('const.sn.vctCallStk.length', () => this.aCallStk.length);
         this.grm.setEscape(cfg.oCfg.init.escape);
+        if (!sys.isPackaged()) {
+            sys.addHook((type, o) => {
+                const h = this.hHook[type];
+                if (h)
+                    h(type, o);
+            });
+            this.isBreak = this.isBreak_base;
+        }
     }
     get scriptFn() { return this.scriptFn_; }
     ;
@@ -4317,25 +4432,72 @@ class ScriptIterator {
     ;
     get lastHArg() { return this.aCallStk[this.lenCallStk - 1].csArg; }
     ;
+    isBreak_base() {
+        switch (this.breakState) {
+            case BreakState.run:
+                const bp = this.hBreakPoint[this.scriptFn_];
+                if (!bp || !(this.lineNum_ in bp))
+                    break;
+                this.breakState = BreakState.before;
+                this.main.setLoop(false);
+                this.sys.callHook('stopOnBreakpoint', {});
+                this.sys.sendDbg('stopOnBreakpoint', {});
+                return true;
+            case BreakState.stepping:
+                this.breakState = BreakState.before;
+                break;
+            case BreakState.before:
+                this.main.setLoop(false);
+                this.sys.callHook('stopOnStep', {});
+                this.sys.sendDbg('stopOnStep', {});
+                return true;
+        }
+        return false;
+    }
+    stack() {
+        var _a;
+        const tkn0 = this.script.aToken[this.idxToken_ - 1];
+        const fn0 = this.cfg.searchPath(this.scriptFn_, Config_1.Config.EXT_SCRIPT);
+        if (this.idxToken_ === 0)
+            return [{ fn: fn0, ln: 1, col: 0, nm: tkn0, }];
+        const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);
+        const a = [{ fn: fn0, ln: lc0.ln, col: lc0.col_s + 1, nm: tkn0, }];
+        const len = this.aCallStk.length;
+        if (len === 0)
+            return a;
+        for (let i = len - 1; i >= 0; --i) {
+            const cs = this.aCallStk[i];
+            if (!cs.csArg)
+                continue;
+            const lc = this.cnvIdx2lineCol(this.hScript[cs.fn], cs.idx);
+            a.push({
+                fn: this.cfg.searchPath(cs.fn, Config_1.Config.EXT_SCRIPT),
+                ln: lc.ln,
+                col: lc.col_s + 1,
+                nm: (_a = cs.csArg.タグ名) !== null && _a !== void 0 ? _a : '',
+            });
+        }
+        return a;
+    }
     タグ解析(tagToken) {
         const e = Grammar_1.Grammar.REG_TAG.exec(tagToken);
         const g = e === null || e === void 0 ? void 0 : e.groups;
         if (!g)
-            throw 'タグ記述【' + tagToken + '】異常です(タグ解析)';
+            throw `タグ記述【${tagToken}】異常です(タグ解析)`;
         const tag_name = g.name;
         const tag_fnc = this.hTag[tag_name];
-        if (tag_fnc == null)
-            throw '未定義のタグ【' + tag_name + '】です';
+        if (!tag_fnc)
+            throw `未定義のタグ【${tag_name}】です`;
         this.alzTagArg.go(g.args);
         if (this.cfg.oCfg.debug.tag)
             console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
         if (this.alzTagArg.hPrm.cond) {
             const cond = this.alzTagArg.hPrm.cond.val;
-            if (!cond || cond.charAt(0) == '&')
+            if (!cond || cond.charAt(0) === '&')
                 throw '属性condは「&」が不要です';
             const p = this.prpPrs.parse(cond);
             const ps = String(p);
-            if (ps == 'null' || ps == 'undefined')
+            if (ps === 'null' || ps === 'undefined')
                 return false;
             if (!p)
                 return false;
@@ -4343,17 +4505,17 @@ class ScriptIterator {
         let hArg = {};
         const lenStk = this.aCallStk.length;
         if (this.alzTagArg.isKomeParam) {
-            if (lenStk == 0)
+            if (lenStk === 0)
                 throw '属性「*」はマクロのみ有効です';
             if (!this.lastHArg)
                 throw '属性「*」はマクロのみ有効です';
             hArg = { ...hArg, ...this.lastHArg };
         }
-        hArg['タグ名'] = tag_name;
+        hArg.タグ名 = tag_name;
         for (const k in this.alzTagArg.hPrm) {
             let v = this.alzTagArg.hPrm[k].val;
-            if (v && v.charAt(0) == '%') {
-                if (lenStk == 0)
+            if (v && v.charAt(0) === '%') {
+                if (lenStk === 0)
                     throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
                 const mac = this.lastHArg[v.slice(1)];
                 if (mac) {
@@ -4361,19 +4523,19 @@ class ScriptIterator {
                     continue;
                 }
                 v = this.alzTagArg.hPrm[k].def;
-                if (!v || v == 'null')
+                if (!v || v === 'null')
                     continue;
             }
             v = this.prpPrs.getValAmpersand(v !== null && v !== void 0 ? v : '');
-            if (v != 'undefined') {
+            if (v !== 'undefined') {
                 hArg[k] = v;
                 continue;
             }
             const def = this.alzTagArg.hPrm[k].def;
-            if (def == null)
+            if (def === undefined)
                 continue;
             v = this.prpPrs.getValAmpersand(def);
-            if (v != 'undefined')
+            if (v !== 'undefined')
                 hArg[k] = v;
         }
         return tag_fnc(hArg);
@@ -4391,7 +4553,7 @@ class ScriptIterator {
         const len = this.script.len;
         for (; this.idxToken_ < len; ++this.idxToken_) {
             ml = this.script.aToken[this.idxToken_];
-            if (ml != '')
+            if (ml !== '')
                 break;
         }
         hArg.text = ml;
@@ -4402,40 +4564,40 @@ class ScriptIterator {
         return false;
     }
     dump_stack() {
-        if (this.idxToken_ == 0) {
+        if (this.idxToken_ === 0) {
             console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.scriptFn_} line:${1} col:${0}`);
             console.groupEnd();
             return false;
         }
-        const lc0 = this.getScr2lineCol(this.script, this.idxToken_);
-        const now = `スクリプト現在地 fn:${this.scriptFn_} line:${lc0.line} col:${lc0.col_s + 1}`;
+        const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);
+        const now = `スクリプト現在地 fn:${this.scriptFn_} line:${lc0.ln} col:${lc0.col_s + 1}`;
         console.group(`🥟 [dump_stack] ${now}`);
         const len = this.aCallStk.length;
         if (len > 0) {
             console.info(now);
             for (let i = len - 1; i >= 0; --i) {
                 const cs = this.aCallStk[i];
-                const lc = this.getScr2lineCol(this.hScript[cs.fn], cs.idx);
                 if (!cs.csArg)
                     continue;
                 const csa = cs.csArg.hMp;
                 const from_macro_nm = csa ? csa['タグ名'] : null;
                 const call_nm = cs.csArg.タグ名;
-                console.info(`${len - i}つ前のコール元 fn:${cs.fn} line:${lc.line} col:${lc.col_s + 1}` + (from_macro_nm ? '（[' + from_macro_nm + ']マクロ内）' : ' ') +
+                const lc = this.cnvIdx2lineCol(this.hScript[cs.fn], cs.idx);
+                console.info(`${len - i}つ前のコール元 fn:${cs.fn} line:${lc.ln} col:${lc.col_s + 1}` + (from_macro_nm ? '（[' + from_macro_nm + ']マクロ内）' : ' ') +
                     `で [${call_nm} ...]をコール`);
             }
         }
         console.groupEnd();
         return false;
     }
-    getScr2lineCol(st, idx) {
-        const ret = { line: 0, col_s: 0, col_e: 0 };
-        if (st == null)
+    cnvIdx2lineCol(st, idx) {
+        const ret = { ln: 0, col_s: 0, col_e: 0 };
+        if (!st)
             return ret;
-        const lN = ret.line = st.aLNum[idx - 1];
+        const lN = ret.ln = st.aLNum[idx - 1];
         let col_e = 0;
         let i = idx - 1;
-        while (st.aLNum[i] == lN) {
+        while (st.aLNum[i] === lN) {
             col_e += st.aToken[i].length;
             if (--i < 0)
                 break;
@@ -4450,13 +4612,13 @@ class ScriptIterator {
             throw 'set_fncは必須です';
         this.fncSet = window[set_fnc];
         if (!this.fncSet) {
-            if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'need_err', true))
+            if (CmnLib_1.argChk_Boolean(hArg, 'need_err', true))
                 throw `HTML内に関数${set_fnc}が見つかりません`;
             this.fncSet = () => { };
             return false;
         }
         this.noticeBreak = (set) => {
-            if (this.fnLastBreak != this.scriptFn_) {
+            if (this.fnLastBreak !== this.scriptFn_) {
                 this.fnLastBreak = this.scriptFn_;
                 this.fncSet(this.hScrCache4Dump[this.scriptFn_]
                     = this.hScrCache4Dump[this.scriptFn_]
@@ -4470,7 +4632,7 @@ class ScriptIterator {
             return false;
         this.fncBreak = window[break_fnc];
         if (!this.fncBreak) {
-            if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'need_err', true))
+            if (CmnLib_1.argChk_Boolean(hArg, 'need_err', true))
                 throw `HTML内に関数${break_fnc}が見つかりません`;
             this.fncBreak = () => { };
         }
@@ -4478,7 +4640,7 @@ class ScriptIterator {
     }
     dumpErrForeLine() {
         var _a;
-        if (this.idxToken_ == 0) {
+        if (this.idxToken_ === 0) {
             console.group(`🥟 Error line (from 0 rows before) fn:${this.scriptFn_}`);
             console.groupEnd();
             return;
@@ -4493,13 +4655,13 @@ class ScriptIterator {
         const len = a.length;
         console.group(`🥟 Error line (from ${len} rows before) fn:${this.scriptFn_}`);
         const ln_txt_width = String(this.lineNum_).length;
-        const lc = this.getScr2lineCol(this.script, this.idxToken_);
+        const lc = this.cnvIdx2lineCol(this.script, this.idxToken_);
         for (let i = 0; i < len; ++i) {
             const ln = this.lineNum_ - len + i + 1;
             const mes = `${String(ln).padStart(ln_txt_width, ' ')}: %c`;
             const e = a[i];
             const line = (e.length > 75) ? e.substr(0, 75) + '…' : e;
-            if (i == len - 1)
+            if (i === len - 1)
                 console.info(mes + line.slice(0, lc.col_s) + '%c' + line.slice(lc.col_s), 'color: black; background-color: skyblue;', 'color: black; background-color: pink;');
             else
                 console.info(mes + line, 'color: black; background-color: skyblue;');
@@ -4507,7 +4669,7 @@ class ScriptIterator {
         console.groupEnd();
     }
     endif() {
-        if (this.aIfStk[0] == -1)
+        if (this.aIfStk[0] === -1)
             throw 'ifブロック内ではありません';
         this.idxToken_ = this.aIfStk[0];
         this.lineNum_ = this.script.aLNum[this.idxToken_ - 1];
@@ -4519,7 +4681,7 @@ class ScriptIterator {
         const exp = hArg.exp;
         if (!exp)
             throw 'expは必須です';
-        if (exp.charAt(0) == '&')
+        if (exp.charAt(0) === '&')
             throw '属性expは「&」が不要です';
         let cntDepth = 0;
         let idxGo = this.prpPrs.parse(exp) ? this.idxToken_ : -1;
@@ -4530,11 +4692,11 @@ class ScriptIterator {
             if (!t)
                 continue;
             const uc = t.charCodeAt(0);
-            if (uc == 10) {
+            if (uc === 10) {
                 this.addLineNum(t.length);
                 continue;
             }
-            if (uc != 91)
+            if (uc !== 91)
                 continue;
             const a_tag = Grammar_1.Grammar.REG_TAG.exec(t);
             const g = a_tag === null || a_tag === void 0 ? void 0 : a_tag.groups;
@@ -4554,7 +4716,7 @@ class ScriptIterator {
                     if (idxGo > -1)
                         break;
                     const e = (_a = this.alzTagArg.hPrm.exp.val) !== null && _a !== void 0 ? _a : '';
-                    if (e.charAt(0) == '&')
+                    if (e.charAt(0) === '&')
                         throw '属性expは「&」が不要です';
                     if (this.prpPrs.parse(e))
                         idxGo = this.idxToken_ + 1;
@@ -4562,7 +4724,7 @@ class ScriptIterator {
                 case 'else':
                     if (cntDepth > 0)
                         break;
-                    if (idxGo == -1)
+                    if (idxGo === -1)
                         idxGo = this.idxToken_ + 1;
                     break;
                 case 'endif':
@@ -4570,7 +4732,7 @@ class ScriptIterator {
                         --cntDepth;
                         break;
                     }
-                    if (idxGo == -1) {
+                    if (idxGo === -1) {
                         ++this.idxToken_;
                         this.script.aLNum[this.idxToken_] = this.lineNum_;
                     }
@@ -4585,13 +4747,13 @@ class ScriptIterator {
         throw '[endif]がないままスクリプト終端です';
     }
     call(hArg) {
-        if (!CmnLib_1.CmnLib.argChk_Boolean(hArg, 'count', false))
+        if (!CmnLib_1.argChk_Boolean(hArg, 'count', false))
             this.eraseKidoku();
         const fn = hArg.fn;
         if (fn)
             this.cfg.searchPath(fn, Config_1.Config.EXT_SCRIPT);
         this.callSub({ hEvt1Time: this.evtMng.popLocalEvts() });
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'clear_local_event', false))
+        if (CmnLib_1.argChk_Boolean(hArg, 'clear_local_event', false))
             this.hTag.clear_event({});
         this.jumpWork(fn, hArg.label);
         return true;
@@ -4606,14 +4768,14 @@ class ScriptIterator {
         this.aIfStk.unshift(-1);
     }
     jump(hArg) {
-        if (!CmnLib_1.CmnLib.argChk_Boolean(hArg, 'count', true))
+        if (!CmnLib_1.argChk_Boolean(hArg, 'count', true))
             this.eraseKidoku();
         this.aIfStk[0] = -1;
         this.jumpWork(hArg.fn, hArg.label);
         return true;
     }
     pop_stack(hArg) {
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'clear', false))
+        if (CmnLib_1.argChk_Boolean(hArg, 'clear', false))
             this.aCallStk = [];
         else if (!this.aCallStk.pop())
             throw '[pop_stack] スタックが空です';
@@ -4657,10 +4819,10 @@ class ScriptIterator {
         if (!fn && !label)
             this.main.errScript('[jump系] fnまたはlabelは必須です');
         if (label) {
-            if (label.charAt(0) != '*')
+            if (label.charAt(0) !== '*')
                 this.main.errScript('[jump系] labelは*で始まります');
             this.skipLabel = label;
-            if (this.skipLabel.slice(0, 2) != '**')
+            if (this.skipLabel.slice(0, 2) !== '**')
                 this.idxToken_ = idx;
         }
         else {
@@ -4672,7 +4834,7 @@ class ScriptIterator {
             return;
         }
         const full_path = this.cfg.searchPath(fn, Config_1.Config.EXT_SCRIPT);
-        if (fn == this.scriptFn_) {
+        if (fn === this.scriptFn_) {
             this.analyzeInit();
             return;
         }
@@ -4704,13 +4866,12 @@ class ScriptIterator {
         this.runAnalyze();
     }
     nextToken_Proc() {
-        if (this.idxToken_ == this.script.len)
+        if (this.idxToken_ === this.script.len)
             this.main.errScript('スクリプト終端です  idxToken:' + this.idxToken_ + ' this.tokens.aToken.length:' + this.script.aToken.length);
         this.recordKidoku();
         if (!this.script.aLNum[this.idxToken_])
             this.script.aLNum[this.idxToken_] = this.lineNum_;
         const token = this.script.aToken[this.idxToken_];
-        this.main.stop();
         ++this.idxToken_;
         return token;
     }
@@ -4726,7 +4887,7 @@ class ScriptIterator {
                     if (!st.aLNum[j])
                         st.aLNum[j] = ln;
                     const token_j = st.aToken[j];
-                    if (token_j.charCodeAt(0) == 10) {
+                    if (token_j.charCodeAt(0) === 10) {
                         ln += token_j.length;
                     }
                 }
@@ -4747,8 +4908,8 @@ class ScriptIterator {
             let i = idxToken;
             switch (a_skipLabel[2]) {
                 case 'before':
-                    while (st.aToken[--i] != skipLabel) {
-                        if (i == 0)
+                    while (st.aToken[--i] !== skipLabel) {
+                        if (i === 0)
                             DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルbefore] '
                                 + ln + '行目以前で' + (inMacro ? 'マクロ内に' : '')
                                 + 'ラベル【' + skipLabel + '】がありません', 'ET');
@@ -4760,8 +4921,8 @@ class ScriptIterator {
                         lineNum: st.aLNum[i]
                     };
                 case 'after':
-                    while (st.aToken[++i] != skipLabel) {
-                        if (i == len)
+                    while (st.aToken[++i] !== skipLabel) {
+                        if (i === len)
                             DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルafter] '
                                 + ln + '行目以後でマクロ内にラベル【' + skipLabel + '】がありません', 'ET');
                         if (st.aToken[i].search(this.REG_TOKEN_MACRO_END) > -1)
@@ -4785,7 +4946,7 @@ class ScriptIterator {
                 st.aLNum[i] = ln;
             const token = st.aToken[i];
             const uc = token.charCodeAt(0);
-            if (uc != 42) {
+            if (uc !== 42) {
                 if (in_let_ml) {
                     this.REG_TAG_ENDLET_ML.lastIndex = 0;
                     if (this.REG_TAG_ENDLET_ML.test(token)) {
@@ -4800,7 +4961,7 @@ class ScriptIterator {
                         in_let_ml = true;
                         continue;
                     }
-                    if (uc == 10)
+                    if (uc === 10)
                         ln += token.length;
                 }
                 continue;
@@ -4826,7 +4987,7 @@ class ScriptIterator {
             this.REG_TAG_LET_ML.lastIndex = 0;
             if (this.REG_TAG_LET_ML.test(e)) {
                 const idx = e.indexOf(']') + 1;
-                if (idx == 0)
+                if (idx === 0)
                     throw '[let_ml]で閉じる【]】がありません';
                 const a = e.slice(0, idx);
                 const b = e.slice(idx);
@@ -4858,14 +5019,14 @@ class ScriptIterator {
         this.scriptFn_ = cs.fn;
         this.idxToken_ = cs.idx;
         const st = this.hScript[this.scriptFn_];
-        if (st != null)
+        if (st)
             this.script = st;
         this.lineNum_ = this.script.aLNum[cs.idx];
     }
     recordKidoku() {
         const areas = this.val.getAreaKidoku(this.scriptFn_);
         if (!areas)
-            throw `recordKidoku fn:'${this.scriptFn_}' (areas == null)`;
+            throw `recordKidoku fn:'${this.scriptFn_}' (areas === null)`;
         if (this.aCallStk.length > 0) {
             areas.record(this.idxToken_);
             return;
@@ -4893,13 +5054,13 @@ class ScriptIterator {
             fn = cs.fn;
             idx = cs.idx;
             const st = this.hScript[fn];
-            if (st != null)
+            if (st)
                 len = st.len;
         }
         const areas = this.val.getAreaKidoku(fn);
         if (!areas)
             return false;
-        if (idx == len)
+        if (idx === len)
             return false;
         return areas.search(idx);
     }
@@ -4947,9 +5108,9 @@ class ScriptIterator {
                 return false;
             }
             const uc = token.charCodeAt(0);
-            if (uc == 10)
+            if (uc === 10)
                 this.lineNum_ += token.length;
-            else if (uc == 91)
+            else if (uc === 91)
                 this.lineNum_ += ((_a = token.match(/\n/g)) !== null && _a !== void 0 ? _a : []).length;
         }
         throw `マクロ[${name}]定義の終端・[endmacro]がありません`;
@@ -4958,7 +5119,7 @@ class ScriptIterator {
         const place = hArg.place;
         if (!place)
             throw 'placeは必須です';
-        if (('fn' in hArg) != ('label' in hArg))
+        if (('fn' in hArg) !== ('label' in hArg))
             throw 'fnとlabelはセットで指定して下さい';
         const mark = this.val.getMark(place);
         if (!mark)
@@ -4973,7 +5134,7 @@ class ScriptIterator {
         this.layMng.recText('', true);
         if (reload_sound)
             this.sndMng.playLoopFromSaveObj();
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'do_rec', true))
+        if (CmnLib_1.argChk_Boolean(hArg, 'do_rec', true))
             this.mark = {
                 hSave: this.val.cloneSave(),
                 hPages: { ...mark.hPages },
@@ -5005,7 +5166,7 @@ class ScriptIterator {
     }
     reload_script(hArg) {
         const mark = this.val.getMark(0);
-        delete this.hScript[CmnLib_1.CmnLib.getFn(mark.hSave['const.sn.scriptFn'])];
+        delete this.hScript[CmnLib_1.getFn(mark.hSave['const.sn.scriptFn'])];
         hArg.do_rec = false;
         return this.loadFromMark(hArg, mark, false);
     }
@@ -5013,7 +5174,7 @@ class ScriptIterator {
         if (this.main.isDestroyed())
             return false;
         const len = this.aCallStk.length;
-        if (len == 0) {
+        if (len === 0) {
             this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
             this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.idxToken_);
         }
@@ -5039,7 +5200,7 @@ class ScriptIterator {
         this.mark.json = hArg;
         this.val.setMark(place, this.mark);
         const now_sp = Number(this.val.getVal('sys:const.sn.save.place'));
-        if (place == now_sp)
+        if (place === now_sp)
             this.val.setVal_Nochk('sys', 'const.sn.save.place', now_sp + 1);
         return false;
     }
@@ -5059,6 +5220,7 @@ exports.ScriptIterator = ScriptIterator;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SoundMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const CmnTween_1 = __webpack_require__(/*! ./CmnTween */ "./core/src/sn/CmnTween.ts");
 const Config_1 = __webpack_require__(/*! ./Config */ "./core/src/sn/Config.ts");
@@ -5066,427 +5228,430 @@ const PSnd = __webpack_require__(/*! pixi-sound */ "./node_modules/pixi-sound/di
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 const Tween = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/dist/tween.esm.js").default;
 ;
-class SoundMng {
-    constructor(cfg, hTag, val, main, sys) {
-        this.cfg = cfg;
-        this.val = val;
-        this.main = main;
-        this.sys = sys;
-        this.hSndBuf = {};
-        this.initVol = () => {
-            PSnd.sound.volumeAll = Number(this.val.getVal('sys:sn.sound.global_volume', 1));
-            this.initVol = () => { };
-        };
-        hTag.volume = o => this.volume(o);
-        hTag.fadebgm = o => this.fadebgm(o);
-        hTag.fadeoutbgm = o => this.fadeoutbgm(o);
-        hTag.fadeoutse = o => this.fadeoutse(o);
-        hTag.fadese = o => this.fadese(o);
-        hTag.playbgm = o => this.playbgm(o);
-        hTag.playse = o => this.playse(o);
-        hTag.stop_allse = () => this.stop_allse();
-        hTag.stopbgm = o => this.stopbgm(o);
-        hTag.stopse = o => this.stopse(o);
-        hTag.wb = o => this.wb(o);
-        hTag.wf = o => this.wf(o);
-        hTag.stopfadese = o => this.stopfadese(o);
-        hTag.wl = o => this.wl(o);
-        hTag.ws = o => this.ws(o);
-        hTag.xchgbuf = o => this.xchgbuf(o);
-        val.defValTrg('sys:sn.sound.global_volume', (_name, val) => PSnd.sound.volumeAll = Number(val));
-        this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
-        val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
-    }
-    setEvtMng(evtMng) { this.evtMng = evtMng; }
-    volume(hArg) {
-        var _a;
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        const bvn = 'const.sn.sound.' + buf + '.volume';
-        const arg_vol = this.getVol(hArg, 1);
-        if (Number(this.val.getVal('sys:' + bvn)) == arg_vol)
-            return false;
-        this.val.setVal_Nochk('sys', bvn, arg_vol);
-        this.val.flush();
-        hArg.time = 0;
-        hArg.volume = Number(this.val.getVal('save:' + bvn));
-        return this.fadese(hArg);
-    }
-    getVol(hArg, def) {
-        const vol = CmnLib_1.CmnLib.argChk_Num(hArg, 'volume', def);
-        if (vol < 0)
-            return 0;
-        if (vol > 1)
-            return 1;
-        return vol;
-    }
-    fadeoutbgm(hArg) { hArg.volume = 0; return this.fadebgm(hArg); }
-    fadeoutse(hArg) { hArg.volume = 0; return this.fadese(hArg); }
-    fadebgm(hArg) { hArg.buf = 'BGM'; return this.fadese(hArg); }
-    fadese(hArg) {
-        var _a;
-        this.stopfadese(hArg);
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        const oSb = this.hSndBuf[buf];
-        if (!oSb || !oSb.playing())
-            return false;
-        const bvn = 'const.sn.sound.' + buf + '.volume';
-        const savevol = this.getVol(hArg, NaN);
-        this.val.setVal_Nochk('save', bvn, savevol);
-        const vol = savevol * Number(this.val.getVal('sys:' + bvn, 1));
-        const stop = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'stop', (hArg.volume == 0));
-        if (stop) {
-            this.delLoopPlay(buf);
-            this.val.setVal_Nochk('save', 'const.sn.sound.' + buf + '.fn', '');
+let SoundMng = (() => {
+    class SoundMng {
+        constructor(cfg, hTag, val, main, sys) {
+            this.cfg = cfg;
+            this.val = val;
+            this.main = main;
+            this.sys = sys;
+            this.hSndBuf = {};
+            this.initVol = () => {
+                PSnd.sound.volumeAll = Number(this.val.getVal('sys:sn.sound.global_volume', 1));
+                this.initVol = () => { };
+            };
+            hTag.volume = o => this.volume(o);
+            hTag.fadebgm = o => this.fadebgm(o);
+            hTag.fadeoutbgm = o => this.fadeoutbgm(o);
+            hTag.fadeoutse = o => this.fadeoutse(o);
+            hTag.fadese = o => this.fadese(o);
+            hTag.playbgm = o => this.playbgm(o);
+            hTag.playse = o => this.playse(o);
+            hTag.stop_allse = () => this.stop_allse();
+            hTag.stopbgm = o => this.stopbgm(o);
+            hTag.stopse = o => this.stopse(o);
+            hTag.wb = o => this.wb(o);
+            hTag.wf = o => this.wf(o);
+            hTag.stopfadese = o => this.stopfadese(o);
+            hTag.wl = o => this.wl(o);
+            hTag.ws = o => this.ws(o);
+            hTag.xchgbuf = o => this.xchgbuf(o);
+            val.defValTrg('sys:sn.sound.global_volume', (_name, val) => PSnd.sound.volumeAll = Number(val));
+            this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
+            val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
         }
-        this.val.flush();
-        if (CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN) == 0) {
-            oSb.snd.volume = vol;
-            if (stop) {
-                if (buf == 'BGM')
-                    this.stopbgm(hArg);
-                else
-                    this.stopse(hArg);
-            }
-            return false;
+        setEvtMng(evtMng) { this.evtMng = evtMng; }
+        volume(hArg) {
+            var _a;
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
+            const bvn = 'const.sn.sound.' + buf + '.volume';
+            const arg_vol = this.getVol(hArg, 1);
+            if (Number(this.val.getVal('sys:' + bvn)) === arg_vol)
+                return false;
+            this.val.setVal_Nochk('sys', bvn, arg_vol);
+            this.val.flush();
+            hArg.time = 0;
+            hArg.volume = Number(this.val.getVal('save:' + bvn));
+            return this.fadese(hArg);
         }
-        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
-        const repeat = CmnLib_1.CmnLib.argChk_Num(hArg, 'repeat', 1);
-        oSb.twFade = new Tween.Tween({ v: oSb.snd.volume })
-            .to({ v: vol }, CmnLib_1.CmnLib.argChk_Num(hArg, 'time', NaN))
-            .delay(CmnLib_1.CmnLib.argChk_Num(hArg, 'delay', 0))
-            .easing(ease)
-            .repeat(repeat == 0 ? Infinity : (repeat - 1))
-            .yoyo(CmnLib_1.CmnLib.argChk_Boolean(hArg, 'yoyo', false))
-            .onUpdate((o) => { if (oSb.playing())
-            oSb.snd.volume = o.v; })
-            .onComplete(() => {
+        getVol(hArg, def) {
+            const vol = CmnLib_1.argChk_Num(hArg, 'volume', def);
+            if (vol < 0)
+                return 0;
+            if (vol > 1)
+                return 1;
+            return vol;
+        }
+        fadeoutbgm(hArg) { hArg.volume = 0; return this.fadebgm(hArg); }
+        fadeoutse(hArg) { hArg.volume = 0; return this.fadese(hArg); }
+        fadebgm(hArg) { hArg.buf = 'BGM'; return this.fadese(hArg); }
+        fadese(hArg) {
+            var _a;
+            this.stopfadese(hArg);
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
             const oSb = this.hSndBuf[buf];
-            if (!oSb || !oSb.twFade)
-                return;
-            delete oSb.twFade;
+            if (!oSb || !oSb.playing())
+                return false;
+            const bvn = 'const.sn.sound.' + buf + '.volume';
+            const savevol = this.getVol(hArg, NaN);
+            this.val.setVal_Nochk('save', bvn, savevol);
+            const vol = savevol * Number(this.val.getVal('sys:' + bvn, 1));
+            const stop = CmnLib_1.argChk_Boolean(hArg, 'stop', (savevol === 0));
             if (stop) {
-                if (buf == 'BGM')
-                    this.stopbgm(hArg);
-                else
-                    this.stopse(hArg);
+                this.delLoopPlay(buf);
+                this.val.setVal_Nochk('save', 'const.sn.sound.' + buf + '.fn', '');
             }
-            if (oSb.resumeFade) {
-                this.evtMng.popLocalEvts();
-                this.main.resume();
+            this.val.flush();
+            if (CmnLib_1.argChk_Num(hArg, 'time', NaN) === 0) {
+                oSb.snd.volume = vol;
+                if (stop) {
+                    if (buf === 'BGM')
+                        this.stopbgm(hArg);
+                    else
+                        this.stopse(hArg);
+                }
+                return false;
             }
-            if (oSb.onCompleteFade)
-                oSb.onCompleteFade();
-        });
-        oSb.twFade.start();
-        return false;
-    }
-    playbgm(hArg) {
-        hArg.buf = 'BGM';
-        hArg.canskip = false;
-        CmnLib_1.CmnLib.argChk_Boolean(hArg, 'loop', true);
-        return this.playse(hArg);
-    }
-    playse(hArg) {
-        var _a;
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        this.stopse({ buf: buf });
-        const fn = hArg.fn;
-        if (!fn)
-            throw '[playse] fnは必須です(buf=' + buf + ')';
-        if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true)
-            && this.evtMng.isSkipKeyDown())
-            return false;
-        const loop = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'loop', false);
-        this.addLoopPlay(buf, loop);
-        const nm = 'const.sn.sound.' + buf + '.';
-        this.val.setVal_Nochk('save', nm + 'fn', fn);
-        const savevol = this.getVol(hArg, 1);
-        this.val.setVal_Nochk('save', nm + 'volume', savevol);
-        const vol = savevol * Number(this.val.getVal('sys:' + nm + 'volume', 1));
-        const start_ms = CmnLib_1.CmnLib.argChk_Num(hArg, 'start_ms', 0);
-        const end_ms = CmnLib_1.CmnLib.argChk_Num(hArg, 'end_ms', SoundMng.MAX_END_MS);
-        const ret_ms = CmnLib_1.CmnLib.argChk_Num(hArg, 'ret_ms', 0);
-        if (start_ms < 0)
-            throw `[playse] start_ms:${start_ms} が負の値です`;
-        if (ret_ms < 0)
-            throw `[playse] ret_ms:${ret_ms} が負の値です`;
-        if (end_ms > 0) {
-            if (start_ms >= end_ms)
-                throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
-            if (ret_ms >= end_ms)
-                throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
-        }
-        this.val.setVal_Nochk('save', nm + 'start_ms', start_ms);
-        this.val.setVal_Nochk('save', nm + 'end_ms', end_ms);
-        this.val.setVal_Nochk('save', nm + 'ret_ms', ret_ms);
-        this.val.flush();
-        const o = {
-            loop: loop,
-            volume: vol,
-            speed: CmnLib_1.CmnLib.argChk_Num(hArg, 'speed', 1),
-            sprites: {},
-            loaded: (e, snd) => {
-                if (e) {
-                    this.main.errScript(`Sound ロード失敗です fn:${fn} ${e}`, false);
-                    return;
-                }
+            const ease = CmnTween_1.CmnTween.ease(hArg.ease);
+            const repeat = CmnLib_1.argChk_Num(hArg, 'repeat', 1);
+            oSb.twFade = new Tween.Tween({ v: oSb.snd.volume })
+                .to({ v: vol }, CmnLib_1.argChk_Num(hArg, 'time', NaN))
+                .delay(CmnLib_1.argChk_Num(hArg, 'delay', 0))
+                .easing(ease)
+                .repeat(repeat === 0 ? Infinity : (repeat - 1))
+                .yoyo(CmnLib_1.argChk_Boolean(hArg, 'yoyo', false))
+                .onUpdate((o) => { if (oSb.playing())
+                oSb.snd.volume = o.v; })
+                .onComplete(() => {
                 const oSb = this.hSndBuf[buf];
-                if (oSb)
-                    oSb.snd = snd;
-            },
-        };
-        let sp_nm = '';
-        if (start_ms > 0 || end_ms < SoundMng.MAX_END_MS) {
-            sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
-            const os = o.sprites[sp_nm] = {
-                start: start_ms / 1000,
-                end: end_ms / 1000,
-            };
-            o.preload = true;
-            const old = o.loaded;
-            o.loaded = (e, snd) => {
-                const d = snd.duration;
-                old(e, snd);
-                if (os.end < 0) {
-                    os.end += d;
-                    snd.removeSprites(sp_nm);
-                    snd.addSprites(sp_nm, os);
-                    if (os.start >= os.end)
-                        throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
-                    if (ret_ms >= os.end * 1000)
-                        throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
-                }
-                if (os.start >= d)
-                    throw `[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-                if (end_ms != SoundMng.MAX_END_MS && os.end >= d)
-                    throw `[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-                snd.play(sp_nm, o.complete);
-            };
-        }
-        else
-            o.autoPlay = true;
-        if (!loop)
-            o.complete = () => {
-                const oSb2 = this.hSndBuf[buf];
-                if (oSb2) {
-                    oSb2.playing = () => false;
-                    oSb2.onend();
-                }
-            };
-        else if (ret_ms != 0) {
-            o.loop = false;
-            o.complete = (snd) => {
-                const d = snd.duration;
-                const sp_nm2 = `${fn};loop2;${end_ms};${ret_ms}`;
-                const o2 = {
-                    preload: true,
-                    loop: true,
-                    volume: vol,
-                    speed: o.speed,
-                    sprites: {},
-                    loaded: (_, snd2) => {
-                        const oSb2 = this.hSndBuf[buf];
-                        if (oSb2)
-                            oSb2.snd = snd2;
-                        snd2.play(sp_nm2);
-                    },
-                };
-                const o2s = o2.sprites[sp_nm2] = {
-                    start: ret_ms / 1000,
-                    end: end_ms / 1000,
-                };
-                if (o2s.end < 0) {
-                    o2s.end += d;
-                    snd.removeSprites(sp_nm2);
-                    snd.addSprites(sp_nm2, o2s);
-                }
-                if (o2s.start >= d)
-                    throw `[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-                this.playseSub(fn, o2, sp_nm2);
-            };
-        }
-        const snd = PSnd.find(fn);
-        this.hSndBuf[buf] = {
-            snd: snd,
-            loop: loop,
-            start_ms: start_ms,
-            end_ms: end_ms,
-            ret_ms: ret_ms,
-            resume: false,
-            playing: () => true,
-            onend: () => {
-                const oSb = this.hSndBuf[buf];
-                if (!oSb)
+                if (!oSb || !oSb.twFade)
                     return;
-                this.stopfadese(hArg);
-                if (oSb.resume) {
+                delete oSb.twFade;
+                if (stop) {
+                    if (buf === 'BGM')
+                        this.stopbgm(hArg);
+                    else
+                        this.stopse(hArg);
+                }
+                if (oSb.resumeFade) {
                     this.evtMng.popLocalEvts();
                     this.main.resume();
                 }
-            },
-        };
-        this.initVol();
-        if (snd) {
-            snd.volume = vol;
-            if (sp_nm)
-                this.playseSub(fn, o, sp_nm);
-            else
-                snd.play(o);
+                if (oSb.onCompleteFade)
+                    oSb.onCompleteFade();
+            });
+            oSb.twFade.start();
             return false;
         }
-        const join = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true);
-        if (join) {
-            const old = o.loaded;
-            o.loaded = (e, snd) => { this.main.resume(); old(e, snd); };
+        playbgm(hArg) {
+            hArg.buf = 'BGM';
+            hArg.canskip = false;
+            CmnLib_1.argChk_Boolean(hArg, 'loop', true);
+            return this.playse(hArg);
         }
-        this.playseSub(fn, o, sp_nm);
-        return join;
-    }
-    playseSub(fn, o, sp_nm) {
-        const url = this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND);
-        if (url.slice(-4) != '.bin') {
-            o.url = url;
-            if (sp_nm)
-                PSnd.Sound.from(o);
-            else
-                PSnd.add(fn, o);
-            return;
-        }
-        (new pixi_js_1.Loader()).add(fn, url, { xhrType: 'arraybuffer' })
-            .pre((res, next) => res.load(() => {
-            this.sys.pre(res.extension, res.data)
-                .then(r => { res.data = r; next(); })
-                .catch(e => this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
-        }))
-            .load((_ldr, hRes) => {
+        playse(hArg) {
             var _a;
-            o.source = (_a = hRes[fn]) === null || _a === void 0 ? void 0 : _a.data;
-            if (sp_nm)
-                PSnd.Sound.from(o);
-            else
-                PSnd.add(fn, o);
-        });
-    }
-    stop_allse() {
-        for (const buf in this.hSndBuf)
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
             this.stopse({ buf: buf });
-        this.hSndBuf = {};
-        return false;
-    }
-    stopbgm(hArg) { hArg.buf = 'BGM'; return this.stopse(hArg); }
-    stopse(hArg) {
-        var _a;
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        this.stopfadese(hArg);
-        this.delLoopPlay(buf);
-        const oSb = this.hSndBuf[buf];
-        if (oSb)
-            oSb.snd.stop();
-        return false;
-    }
-    wb(hArg) { hArg.buf = 'BGM'; return this.wf(hArg); }
-    wf(hArg) {
-        var _a;
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        const oSb = this.hSndBuf[buf];
-        if (!oSb || !oSb.twFade)
-            return false;
-        if (!oSb.playing())
-            return false;
-        oSb.resumeFade = true;
-        this.evtMng.stdWait(() => { this.stopfadese(hArg); }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', true));
-        return true;
-    }
-    stopfadese(hArg) {
-        var _a;
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        const oSb = this.hSndBuf[buf];
-        if (!oSb || !oSb.twFade)
-            return false;
-        oSb.twFade.stop().end();
-        return false;
-    }
-    wl(hArg) { hArg.buf = 'BGM'; return this.ws(hArg); }
-    ws(hArg) {
-        var _a;
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        const oSb = this.hSndBuf[buf];
-        if (!oSb || !oSb.playing() || oSb.loop)
-            return false;
-        oSb.resume = true;
-        this.evtMng.stdWait(() => {
-            this.stopse(hArg);
-            const oSb = this.hSndBuf[buf];
-            if (!oSb || !oSb.playing() || oSb.loop)
-                return;
-            oSb.onend();
-        }, CmnLib_1.CmnLib.argChk_Boolean(hArg, 'canskip', false));
-        return true;
-    }
-    xchgbuf(hArg) {
-        var _a, _b;
-        const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
-        const buf2 = (_b = hArg.buf2) !== null && _b !== void 0 ? _b : 'SE';
-        [this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
-        return false;
-    }
-    loadAheadSnd(hArg) {
-        [hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn => {
-            if (!fn || PSnd.exists(fn))
-                return;
-            this.playseSub(fn, { preload: true, autoPlay: false }, '');
-        });
-    }
-    playLoopFromSaveObj() {
-        const loopPlaying = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
-        this.val.flush();
-        if (loopPlaying == '{}') {
-            this.stop_allse();
-            return;
-        }
-        const aFnc = [];
-        const hBuf = JSON.parse(loopPlaying);
-        for (const buf in hBuf) {
-            const nm = 'save:const.sn.sound.' + buf + '.';
-            const hArg = {
-                fn: String(this.val.getVal(nm + 'fn')),
-                buf: buf,
-                join: false,
-                loop: true,
-                volume: Number(this.val.getVal(nm + 'volume')),
-                start_ms: Number(this.val.getVal(nm + 'start_ms')),
-                end_ms: Number(this.val.getVal(nm + 'end_ms')),
-                ret_ms: Number(this.val.getVal(nm + 'ret_ms')),
+            const fn = hArg.fn;
+            if (!fn)
+                throw '[playse] fnは必須です(buf=' + buf + ')';
+            if (CmnLib_1.argChk_Boolean(hArg, 'canskip', true)
+                && this.evtMng.isSkipKeyDown())
+                return false;
+            const loop = CmnLib_1.argChk_Boolean(hArg, 'loop', false);
+            this.addLoopPlay(buf, loop);
+            const nm = 'const.sn.sound.' + buf + '.';
+            this.val.setVal_Nochk('save', nm + 'fn', fn);
+            const savevol = this.getVol(hArg, 1);
+            this.val.setVal_Nochk('save', nm + 'volume', savevol);
+            const vol = savevol * Number(this.val.getVal('sys:' + nm + 'volume', 1));
+            const start_ms = CmnLib_1.argChk_Num(hArg, 'start_ms', 0);
+            const end_ms = CmnLib_1.argChk_Num(hArg, 'end_ms', SoundMng.MAX_END_MS);
+            const ret_ms = CmnLib_1.argChk_Num(hArg, 'ret_ms', 0);
+            if (start_ms < 0)
+                throw `[playse] start_ms:${start_ms} が負の値です`;
+            if (ret_ms < 0)
+                throw `[playse] ret_ms:${ret_ms} が負の値です`;
+            if (end_ms > 0) {
+                if (start_ms >= end_ms)
+                    throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
+                if (ret_ms >= end_ms)
+                    throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
+            }
+            this.val.setVal_Nochk('save', nm + 'start_ms', start_ms);
+            this.val.setVal_Nochk('save', nm + 'end_ms', end_ms);
+            this.val.setVal_Nochk('save', nm + 'ret_ms', ret_ms);
+            this.val.flush();
+            const o = {
+                loop: loop,
+                volume: vol,
+                speed: CmnLib_1.argChk_Num(hArg, 'speed', 1),
+                sprites: {},
+                loaded: (e, snd) => {
+                    if (e) {
+                        this.main.errScript(`Sound ロード失敗です fn:${fn} ${e}`, false);
+                        return;
+                    }
+                    const oSb = this.hSndBuf[buf];
+                    if (oSb)
+                        oSb.snd = snd;
+                },
             };
-            aFnc.push(() => {
-                if (hArg.buf == 'BGM')
-                    this.playbgm(hArg);
+            let sp_nm = '';
+            if (start_ms > 0 || end_ms < SoundMng.MAX_END_MS) {
+                sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
+                const os = o.sprites[sp_nm] = {
+                    start: start_ms / 1000,
+                    end: end_ms / 1000,
+                };
+                o.preload = true;
+                const old = o.loaded;
+                o.loaded = (e, snd) => {
+                    const d = snd.duration;
+                    old(e, snd);
+                    if (os.end < 0) {
+                        os.end += d;
+                        snd.removeSprites(sp_nm);
+                        snd.addSprites(sp_nm, os);
+                        if (os.start >= os.end)
+                            throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
+                        if (ret_ms >= os.end * 1000)
+                            throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
+                    }
+                    if (os.start >= d)
+                        throw `[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+                    if (end_ms !== SoundMng.MAX_END_MS && os.end >= d)
+                        throw `[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+                    snd.play(sp_nm, o.complete);
+                };
+            }
+            else
+                o.autoPlay = true;
+            if (!loop)
+                o.complete = () => {
+                    const oSb2 = this.hSndBuf[buf];
+                    if (oSb2) {
+                        oSb2.playing = () => false;
+                        oSb2.onend();
+                    }
+                };
+            else if (ret_ms !== 0) {
+                o.loop = false;
+                o.complete = (snd) => {
+                    const d = snd.duration;
+                    const sp_nm2 = `${fn};loop2;${end_ms};${ret_ms}`;
+                    const o2 = {
+                        preload: true,
+                        loop: true,
+                        volume: vol,
+                        speed: o.speed,
+                        sprites: {},
+                        loaded: (_, snd2) => {
+                            const oSb2 = this.hSndBuf[buf];
+                            if (oSb2)
+                                oSb2.snd = snd2;
+                            snd2.play(sp_nm2);
+                        },
+                    };
+                    const o2s = o2.sprites[sp_nm2] = {
+                        start: ret_ms / 1000,
+                        end: end_ms / 1000,
+                    };
+                    if (o2s.end < 0) {
+                        o2s.end += d;
+                        snd.removeSprites(sp_nm2);
+                        snd.addSprites(sp_nm2, o2s);
+                    }
+                    if (o2s.start >= d)
+                        throw `[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+                    this.playseSub(fn, o2, sp_nm2);
+                };
+            }
+            const snd = PSnd.find(fn);
+            this.hSndBuf[buf] = {
+                snd: snd,
+                loop: loop,
+                start_ms: start_ms,
+                end_ms: end_ms,
+                ret_ms: ret_ms,
+                resume: false,
+                playing: () => true,
+                onend: () => {
+                    const oSb = this.hSndBuf[buf];
+                    if (!oSb)
+                        return;
+                    this.stopfadese(hArg);
+                    if (oSb.resume) {
+                        this.evtMng.popLocalEvts();
+                        this.main.resume();
+                    }
+                },
+            };
+            this.initVol();
+            if (snd) {
+                snd.volume = vol;
+                if (sp_nm)
+                    this.playseSub(fn, o, sp_nm);
                 else
-                    this.playse(hArg);
+                    snd.play(o);
+                return false;
+            }
+            const join = CmnLib_1.argChk_Boolean(hArg, 'join', true);
+            if (join) {
+                const old = o.loaded;
+                o.loaded = (e, snd) => { this.main.resume(); old(e, snd); };
+            }
+            this.playseSub(fn, o, sp_nm);
+            return join;
+        }
+        playseSub(fn, o, sp_nm) {
+            const url = this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND);
+            if (url.slice(-4) !== '.bin') {
+                o.url = url;
+                if (sp_nm)
+                    PSnd.Sound.from(o);
+                else
+                    PSnd.add(fn, o);
+                return;
+            }
+            (new pixi_js_1.Loader()).add(fn, url, { xhrType: 'arraybuffer' })
+                .pre((res, next) => res.load(() => {
+                this.sys.pre(res.extension, res.data)
+                    .then(r => { res.data = r; next(); })
+                    .catch(e => this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
+            }))
+                .load((_ldr, hRes) => {
+                var _a;
+                o.source = (_a = hRes[fn]) === null || _a === void 0 ? void 0 : _a.data;
+                if (sp_nm)
+                    PSnd.Sound.from(o);
+                else
+                    PSnd.add(fn, o);
             });
         }
-        this.stop_allse();
-        aFnc.forEach(f => f());
-    }
-    addLoopPlay(buf, is_loop) {
-        if (!is_loop) {
-            this.delLoopPlay(buf);
-            return;
+        stop_allse() {
+            for (const buf in this.hSndBuf)
+                this.stopse({ buf: buf });
+            this.hSndBuf = {};
+            return false;
         }
-        const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
-        hBuf[buf] = 0;
-        this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
-        this.val.flush();
+        stopbgm(hArg) { hArg.buf = 'BGM'; return this.stopse(hArg); }
+        stopse(hArg) {
+            var _a;
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
+            this.stopfadese(hArg);
+            this.delLoopPlay(buf);
+            const oSb = this.hSndBuf[buf];
+            if (oSb)
+                oSb.snd.stop();
+            return false;
+        }
+        wb(hArg) { hArg.buf = 'BGM'; return this.wf(hArg); }
+        wf(hArg) {
+            var _a;
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
+            const oSb = this.hSndBuf[buf];
+            if (!oSb || !oSb.twFade)
+                return false;
+            if (!oSb.playing())
+                return false;
+            oSb.resumeFade = true;
+            this.evtMng.stdWait(() => { this.stopfadese(hArg); }, CmnLib_1.argChk_Boolean(hArg, 'canskip', true));
+            return true;
+        }
+        stopfadese(hArg) {
+            var _a;
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
+            const oSb = this.hSndBuf[buf];
+            if (!oSb || !oSb.twFade)
+                return false;
+            oSb.twFade.stop().end();
+            return false;
+        }
+        wl(hArg) { hArg.buf = 'BGM'; return this.ws(hArg); }
+        ws(hArg) {
+            var _a;
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
+            const oSb = this.hSndBuf[buf];
+            if (!oSb || !oSb.playing() || oSb.loop)
+                return false;
+            oSb.resume = true;
+            this.evtMng.stdWait(() => {
+                this.stopse(hArg);
+                const oSb = this.hSndBuf[buf];
+                if (!oSb || !oSb.playing() || oSb.loop)
+                    return;
+                oSb.onend();
+            }, CmnLib_1.argChk_Boolean(hArg, 'canskip', false));
+            return true;
+        }
+        xchgbuf(hArg) {
+            var _a, _b;
+            const buf = (_a = hArg.buf) !== null && _a !== void 0 ? _a : 'SE';
+            const buf2 = (_b = hArg.buf2) !== null && _b !== void 0 ? _b : 'SE';
+            [this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
+            return false;
+        }
+        loadAheadSnd(hArg) {
+            [hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn => {
+                if (!fn || PSnd.exists(fn))
+                    return;
+                this.playseSub(fn, { preload: true, autoPlay: false }, '');
+            });
+        }
+        playLoopFromSaveObj() {
+            const loopPlaying = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
+            this.val.flush();
+            if (loopPlaying === '{}') {
+                this.stop_allse();
+                return;
+            }
+            const aFnc = [];
+            const hBuf = JSON.parse(loopPlaying);
+            for (const buf in hBuf) {
+                const nm = 'save:const.sn.sound.' + buf + '.';
+                const hArg = {
+                    fn: String(this.val.getVal(nm + 'fn')),
+                    buf: buf,
+                    join: false,
+                    loop: true,
+                    volume: Number(this.val.getVal(nm + 'volume')),
+                    start_ms: Number(this.val.getVal(nm + 'start_ms')),
+                    end_ms: Number(this.val.getVal(nm + 'end_ms')),
+                    ret_ms: Number(this.val.getVal(nm + 'ret_ms')),
+                };
+                aFnc.push(() => {
+                    if (hArg.buf === 'BGM')
+                        this.playbgm(hArg);
+                    else
+                        this.playse(hArg);
+                });
+            }
+            this.stop_allse();
+            aFnc.forEach(f => f());
+        }
+        addLoopPlay(buf, is_loop) {
+            if (!is_loop) {
+                this.delLoopPlay(buf);
+                return;
+            }
+            const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
+            hBuf[buf] = 0;
+            this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
+            this.val.flush();
+        }
+        delLoopPlay(buf) {
+            const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
+            delete hBuf[buf];
+            this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
+            this.val.flush();
+        }
     }
-    delLoopPlay(buf) {
-        const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
-        delete hBuf[buf];
-        this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
-        this.val.flush();
-    }
-}
+    SoundMng.MAX_END_MS = 999000;
+    return SoundMng;
+})();
 exports.SoundMng = SoundMng;
-SoundMng.MAX_END_MS = 999000;
 
 
 /***/ }),
@@ -5501,6 +5666,7 @@ SoundMng.MAX_END_MS = 999000;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SysApp = void 0;
 const SysNode_1 = __webpack_require__(/*! ./SysNode */ "./core/src/sn/SysNode.ts");
 const SysBase_1 = __webpack_require__(/*! ./SysBase */ "./core/src/sn/SysBase.ts");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -5511,319 +5677,443 @@ const { Readable } = __webpack_require__(/*! stream */ "stream");
 const m_fs = __webpack_require__(/*! fs-extra */ "./node_modules/fs-extra/lib/index.js");
 const crypto = __webpack_require__(/*! crypto */ "crypto");
 const tar = __webpack_require__(/*! tar-fs */ "./node_modules/tar-fs/index.js");
-class SysApp extends SysNode_1.SysNode {
-    constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
-        super(hPlg, { ...arg, cur: remote.app.getAppPath().replace(/\\/g, '/') + (remote.app.isPackaged ? '/doc/' : '/') + arg.cur });
-        this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
-        this.$path_downloads = remote.app.getPath('downloads').replace(/\\/g, '/') + '/';
-        this.normalize = (src, form) => src.normalize(form);
-        this.isMovingWin = false;
-        this.posMovingWin = [0, 0];
-        this.dsp = remote.screen.getPrimaryDisplay();
-        this.win = remote.getCurrentWindow();
-        this.wc = this.win.webContents;
-        this.isPackaged = () => remote.app.isPackaged;
-        this.close = () => { this.win.close(); return false; };
-        this._export = () => {
-            const r = tar.pack(this.$path_userdata + 'storage/');
-            r.on('end', () => {
-                if (CmnLib_1.CmnLib.debugLog)
-                    console.log('プレイデータをエクスポートしました');
-                this.fire('sn:exported', new Event('click'));
-            });
-            r.pipe(m_fs.createWriteStream(this.$path_downloads + (this.crypto ? '' : 'no_crypto_')
-                + this.cfg.getNs() + CmnLib_1.getDateStr('-', '_', '') + '.spd'));
-            return false;
-        };
-        this._import = () => {
-            const flush = this.flush;
-            new Promise((rs, rj) => {
-                const inp = document.createElement('input');
-                inp.type = 'file';
-                inp.accept = '.spd, text/plain';
-                inp.onchange = (e) => {
-                    var _a, _b, _c;
-                    const path = (_c = (_b = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.path;
-                    if (path)
-                        rs(path);
-                    else
-                        rj();
-                };
-                inp.click();
-            })
-                .then((inp_path) => new Promise(rs => {
-                this.flush = () => { };
-                const out_path = this.$path_userdata + 'storage/';
-                m_fs.removeSync(out_path);
-                m_fs.ensureDirSync(out_path);
-                m_fs.createReadStream(inp_path)
-                    .pipe(tar.extract(out_path, { finish: () => rs() }));
-            }))
-                .then(async () => {
-                const fn = this.$path_userdata + 'storage/data.json' + (this.crypto ? '_' : '');
-                const s = String(m_fs.readFileSync(fn));
-                const o = JSON.parse(this.crypto ? await this.pre('json', s) : s);
-                if (!o.sys || !o.mark || !o.kidoku)
-                    throw new Error('異常なプレイデータです');
-                if (o.sys[SysBase_1.SysBase.VALNM_CFG_NS] != this.cfg.oCfg.save_ns) {
-                    console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase_1.SysBase.VALNM_CFG_NS]}】のプレイデータです`);
-                    return;
-                }
-                this.data.sys = o.sys;
-                this.data.mark = o.mark;
-                this.data.kidoku = o.kidoku;
-                this.flush = flush;
-                this.flush();
-                this.val.updateData(o);
-                if (CmnLib_1.CmnLib.debugLog)
-                    console.log('プレイデータをインポートしました');
-                this.fire('sn:imported', new Event('click'));
-            });
-            return false;
-        };
-        this.navigate_to = hArg => {
-            const url = hArg.url;
-            if (!url)
-                throw '[navigate_to] urlは必須です';
-            shell.openExternal(url);
-            return false;
-        };
-        this.title = hArg => {
-            const text = hArg.text;
-            if (!text)
-                throw '[title] textは必須です';
-            this.win.setTitle(text);
-            return false;
-        };
-        this.tgl_full_scr = hArg => {
-            if (!hArg.key) {
-                this.tgl_full_scr_sub();
+const net_1 = __webpack_require__(/*! net */ "net");
+let SysApp = (() => {
+    class SysApp extends SysNode_1.SysNode {
+        constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
+            super(hPlg, { ...arg, cur: remote.app.getAppPath().replace(/\\/g, '/') + (remote.app.isPackaged ? '/doc/' : '/') + arg.cur });
+            this.$path_userdata = remote.app.getPath('userData').replace(/\\/g, '/') + '/';
+            this.$path_downloads = remote.app.getPath('downloads').replace(/\\/g, '/') + '/';
+            this.normalize = (src, form) => src.normalize(form);
+            this.isMovingWin = false;
+            this.posMovingWin = [0, 0];
+            this.dsp = remote.screen.getPrimaryDisplay();
+            this.win = remote.getCurrentWindow();
+            this.wc = this.win.webContents;
+            this.sktDbg = null;
+            this.aFncHook = [];
+            this.callHook = (type, o) => this.aFncHook.forEach(fnc => fnc(type, o));
+            this.isPackaged = () => remote.app.isPackaged;
+            this.close = () => { this.win.close(); return false; };
+            this._export = () => {
+                const r = tar.pack(this.$path_userdata + 'storage/');
+                r.on('end', () => {
+                    if (CmnLib_1.CmnLib.debugLog)
+                        console.log('プレイデータをエクスポートしました');
+                    this.fire('sn:exported', new Event('click'));
+                });
+                r.pipe(m_fs.createWriteStream(this.$path_downloads + (this.crypto ? '' : 'no_crypto_')
+                    + this.cfg.getNs() + CmnLib_1.getDateStr('-', '_', '') + '.spd'));
                 return false;
-            }
-            const key = hArg.key.toLowerCase();
-            document.addEventListener('keydown', (e) => {
-                const key2 = (e.altKey ? (e.key == 'Alt' ? '' : 'alt+') : '')
-                    + (e.ctrlKey ? (e.key == 'Control' ? '' : 'ctrl+') : '')
-                    + (e.shiftKey ? (e.key == 'Shift' ? '' : 'shift+') : '')
-                    + e.key.toLowerCase();
-                if (key2 != key)
-                    return;
-                e.stopPropagation();
-                this.tgl_full_scr_sub();
-            }, { passive: true });
-            return false;
-        };
-        this.tgl_full_scr_sub = () => {
-            if (this.win.isSimpleFullScreen()) {
-                this.win.setSimpleFullScreen(false);
-                this.win.setSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-                this.appPixi.view.style.width = CmnLib_1.CmnLib.stageW + 'px';
-                this.appPixi.view.style.height = CmnLib_1.CmnLib.stageH + 'px';
-                this.appPixi.view.style.marginLeft = '0px';
-                this.appPixi.view.style.marginTop = '0px';
-                this.window({});
-                this.reso4frame = 1;
-            }
-            else {
-                const w = this.dsp.size.width;
-                const h = this.dsp.size.height;
-                const ratioWidth = w / CmnLib_1.CmnLib.stageW;
-                const ratioHeight = h / CmnLib_1.CmnLib.stageH;
-                const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
-                this.win.setSize(CmnLib_1.CmnLib.stageW * ratio, CmnLib_1.CmnLib.stageH * ratio);
-                this.appPixi.view.style.width = (CmnLib_1.CmnLib.stageW * ratio) + 'px';
-                this.appPixi.view.style.height = (CmnLib_1.CmnLib.stageH * ratio) + 'px';
-                if (ratioWidth < ratioHeight) {
-                    this.appPixi.view.style.marginTop = (h - CmnLib_1.CmnLib.stageH * ratio) / 2 + 'px';
+            };
+            this._import = () => {
+                const flush = this.flush;
+                new Promise((rs, rj) => {
+                    const inp = document.createElement('input');
+                    inp.type = 'file';
+                    inp.accept = '.spd, text/plain';
+                    inp.onchange = (e) => {
+                        var _a, _b, _c;
+                        const path = (_c = (_b = (_a = e === null || e === void 0 ? void 0 : e.target) === null || _a === void 0 ? void 0 : _a.files) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.path;
+                        if (path)
+                            rs(path);
+                        else
+                            rj();
+                    };
+                    inp.click();
+                })
+                    .then((inp_path) => new Promise(rs => {
+                    this.flush = () => { };
+                    const out_path = this.$path_userdata + 'storage/';
+                    m_fs.removeSync(out_path);
+                    m_fs.ensureDirSync(out_path);
+                    m_fs.createReadStream(inp_path)
+                        .pipe(tar.extract(out_path, { finish: () => rs() }));
+                }))
+                    .then(async () => {
+                    const fn = this.$path_userdata + 'storage/data.json' + (this.crypto ? '_' : '');
+                    const s = String(m_fs.readFileSync(fn));
+                    const o = JSON.parse(this.crypto ? await this.pre('json', s) : s);
+                    if (!o.sys || !o.mark || !o.kidoku)
+                        throw new Error('異常なプレイデータです');
+                    if (o.sys[SysBase_1.SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
+                        console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase_1.SysBase.VALNM_CFG_NS]}】のプレイデータです`);
+                        return;
+                    }
+                    this.data.sys = o.sys;
+                    this.data.mark = o.mark;
+                    this.data.kidoku = o.kidoku;
+                    this.flush = flush;
+                    this.flush();
+                    this.val.updateData(o);
+                    if (CmnLib_1.CmnLib.debugLog)
+                        console.log('プレイデータをインポートしました');
+                    this.fire('sn:imported', new Event('click'));
+                });
+                return false;
+            };
+            this.navigate_to = hArg => {
+                const url = hArg.url;
+                if (!url)
+                    throw '[navigate_to] urlは必須です';
+                shell.openExternal(url);
+                return false;
+            };
+            this.tgl_full_scr = hArg => {
+                if (!hArg.key) {
+                    this.tgl_full_scr_sub();
+                    return false;
+                }
+                const key = hArg.key.toLowerCase();
+                document.addEventListener('keydown', (e) => {
+                    const key2 = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
+                        + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
+                        + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
+                        + e.key.toLowerCase();
+                    if (key2 !== key)
+                        return;
+                    e.stopPropagation();
+                    this.tgl_full_scr_sub();
+                }, { passive: true });
+                return false;
+            };
+            this.tgl_full_scr_sub = () => {
+                if (this.win.isSimpleFullScreen()) {
+                    this.win.setSimpleFullScreen(false);
+                    this.win.setSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+                    this.appPixi.view.style.width = CmnLib_1.CmnLib.stageW + 'px';
+                    this.appPixi.view.style.height = CmnLib_1.CmnLib.stageH + 'px';
+                    this.appPixi.view.style.marginLeft = '0px';
+                    this.appPixi.view.style.marginTop = '0px';
+                    this.window({});
+                    this.reso4frame = 1;
                 }
                 else {
-                    this.appPixi.view.style.marginLeft = (w - CmnLib_1.CmnLib.stageW * ratio) / 2 + 'px';
+                    const w = this.dsp.size.width;
+                    const h = this.dsp.size.height;
+                    const ratioWidth = w / CmnLib_1.CmnLib.stageW;
+                    const ratioHeight = h / CmnLib_1.CmnLib.stageH;
+                    const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
+                    this.win.setSize(CmnLib_1.CmnLib.stageW * ratio, CmnLib_1.CmnLib.stageH * ratio);
+                    this.appPixi.view.style.width = (CmnLib_1.CmnLib.stageW * ratio) + 'px';
+                    this.appPixi.view.style.height = (CmnLib_1.CmnLib.stageH * ratio) + 'px';
+                    if (ratioWidth < ratioHeight) {
+                        this.appPixi.view.style.marginTop = (h - CmnLib_1.CmnLib.stageH * ratio) / 2 + 'px';
+                    }
+                    else {
+                        this.appPixi.view.style.marginLeft = (w - CmnLib_1.CmnLib.stageW * ratio) / 2 + 'px';
+                    }
+                    this.win.setSimpleFullScreen(true);
+                    this.win.setContentSize(screen.width, screen.height);
+                    const cr = this.appPixi.view.getBoundingClientRect();
+                    this.reso4frame = cr.width / CmnLib_1.CmnLib.stageW;
                 }
-                this.win.setSimpleFullScreen(true);
-                this.win.setContentSize(screen.width, screen.height);
-                const cr = this.appPixi.view.getBoundingClientRect();
-                this.reso4frame = cr.width / CmnLib_1.CmnLib.stageW;
-            }
-            this.resizeFrames();
-        };
-        this.update_check = hArg => {
-            const url = hArg.url;
-            if (!url)
-                throw '[update_check] urlは必須です';
-            if (url.slice(-1) != '/')
-                throw '[update_check] urlの最後は/です';
-            (async () => {
-                const res = await this.fetch(url + `latest${CmnLib_1.CmnLib.isMac ? '-mac' : ''}.yml`);
-                if (!res.ok)
-                    return;
-                if (CmnLib_1.CmnLib.debugLog)
-                    console.log(`[update_check] ymlを取得しました url=${url}`);
-                const txt = await res.text();
-                const mv = /version: (.+)/.exec(txt);
-                if (!mv)
-                    throw `[update_check] ファイル内にversionが見つかりません`;
-                const netver = mv[1];
-                const myver = remote.app.getVersion();
-                if (netver == myver) {
+                this.resizeFrames();
+            };
+            this.update_check = hArg => {
+                const url = hArg.url;
+                if (!url)
+                    throw '[update_check] urlは必須です';
+                if (url.slice(-1) !== '/')
+                    throw '[update_check] urlの最後は/です';
+                (async () => {
+                    const res = await this.fetch(url + `latest${CmnLib_1.CmnLib.isMac ? '-mac' : ''}.yml`);
+                    if (!res.ok)
+                        return;
                     if (CmnLib_1.CmnLib.debugLog)
-                        console.log(`[update_check] バージョン更新なし ver:${myver}`);
-                    return;
-                }
-                if (CmnLib_1.CmnLib.debugLog)
-                    console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
-                const o = {
-                    title: 'アプリ更新',
-                    icon: remote.app.getAppPath() + '/app/icon.png',
-                    buttons: ['OK', 'Cancel'],
-                    defaultId: 0,
-                    cancelId: 1,
-                    message: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
-                    detail: `現在ver ${myver}\n新規ver ${netver}`,
-                };
-                const di = await remote.dialog.showMessageBox(o);
-                if (di.response > 0)
-                    return;
-                if (CmnLib_1.CmnLib.debugLog)
-                    console.log(`[update_check] アプリダウンロード開始`);
-                const mp = /path: (.+)/.exec(txt);
-                if (!mp)
-                    throw `[update_check] ファイル内にpathが見つかりません`;
-                const fn = mp[1];
-                const mc = /sha512: (.+)/.exec(txt);
-                if (!mc)
-                    throw `[update_check] ファイル内にsha512が見つかりません`;
-                const sha = mc[1];
-                const res_dl = await this.fetch(url + fn);
-                if (!res_dl.ok)
-                    return;
-                const pathDL = remote.app.getPath('downloads') + '/' + fn;
-                const rd_dl = (res) => {
-                    const reader = res.body.getReader();
-                    const rdb = new Readable();
-                    rdb._read = async () => {
-                        const { done, value } = await reader.read();
-                        if (done) {
-                            rdb.push(null);
-                            return;
-                        }
-                        rdb.push(Buffer.from(value));
-                    };
-                    return rdb;
-                };
-                const pipe_dl = await rd_dl(res_dl);
-                pipe_dl.on('end', () => {
-                    if (CmnLib_1.CmnLib.debugLog)
-                        console.log(`[update_check] アプリダウンロード完了`);
-                    m_fs.readFile(pathDL, (err, data) => {
-                        if (err)
-                            throw err;
-                        const h = crypto.createHash('SHA512');
-                        h.update(data);
-                        const hash = h.digest('base64');
-                        const isOk = sha == hash;
+                        console.log(`[update_check] ymlを取得しました url=${url}`);
+                    const txt = await res.text();
+                    const mv = /version: (.+)/.exec(txt);
+                    if (!mv)
+                        throw `[update_check] ファイル内にversionが見つかりません`;
+                    const netver = mv[1];
+                    const myver = String(remote.app.getVersion());
+                    if (netver === myver) {
                         if (CmnLib_1.CmnLib.debugLog)
-                            console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
-                        if (!isOk)
-                            m_fs.unlink(pathDL);
-                        o.buttons.pop();
-                        o.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました` + (isOk ? '' : 'が、破損しています。\n開発元に連絡してください');
-                        remote.dialog.showMessageBox(o);
+                            console.log(`[update_check] バージョン更新なし ver:${myver}`);
+                        return;
+                    }
+                    if (CmnLib_1.CmnLib.debugLog)
+                        console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
+                    const o = {
+                        title: 'アプリ更新',
+                        icon: remote.app.getAppPath() + '/app/icon.png',
+                        buttons: ['OK', 'Cancel'],
+                        defaultId: 0,
+                        cancelId: 1,
+                        message: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
+                        detail: `現在ver ${myver}\n新規ver ${netver}`,
+                    };
+                    const di = await remote.dialog.showMessageBox(o);
+                    if (di.response > 0)
+                        return;
+                    if (CmnLib_1.CmnLib.debugLog)
+                        console.log(`[update_check] アプリダウンロード開始`);
+                    const mp = /path: (.+)/.exec(txt);
+                    if (!mp)
+                        throw `[update_check] ファイル内にpathが見つかりません`;
+                    const fn = mp[1];
+                    const mc = /sha512: (.+)/.exec(txt);
+                    if (!mc)
+                        throw `[update_check] ファイル内にsha512が見つかりません`;
+                    const sha = mc[1];
+                    const res_dl = await this.fetch(url + fn);
+                    if (!res_dl.ok)
+                        return;
+                    const pathDL = remote.app.getPath('downloads') + '/' + fn;
+                    const rd_dl = (res) => {
+                        const reader = res.body.getReader();
+                        const rdb = new Readable();
+                        rdb._read = async () => {
+                            const { done, value } = await reader.read();
+                            if (done) {
+                                rdb.push(null);
+                                return;
+                            }
+                            rdb.push(Buffer.from(value));
+                        };
+                        return rdb;
+                    };
+                    const pipe_dl = await rd_dl(res_dl);
+                    pipe_dl.on('end', () => {
+                        if (CmnLib_1.CmnLib.debugLog)
+                            console.log(`[update_check] アプリダウンロード完了`);
+                        m_fs.readFile(pathDL, (err, data) => {
+                            if (err)
+                                throw err;
+                            const h = crypto.createHash('SHA512');
+                            h.update(data);
+                            const hash = String(h.digest('base64'));
+                            const isOk = sha === hash;
+                            if (CmnLib_1.CmnLib.debugLog)
+                                console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
+                            if (!isOk)
+                                m_fs.unlink(pathDL);
+                            o.buttons.pop();
+                            o.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました` + (isOk ? '' : 'が、破損しています。\n開発元に連絡してください');
+                            remote.dialog.showMessageBox(o);
+                        });
                     });
-                });
-                pipe_dl.pipe(m_fs.createWriteStream(pathDL));
-            })();
-            return false;
-        };
-        this.window = hArg => {
-            const screenRX = this.dsp.size.width;
-            const screenRY = this.dsp.size.height;
-            if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'centering', false)) {
-                const s = this.win.getPosition();
-                hArg.x = (screenRX - s[0]) * 0.5;
-                hArg.y = (screenRY - s[1]) * 0.5;
+                    pipe_dl.pipe(m_fs.createWriteStream(pathDL));
+                })();
+                return false;
+            };
+            this.window = hArg => {
+                const screenRX = this.dsp.size.width;
+                const screenRY = this.dsp.size.height;
+                if (CmnLib_1.argChk_Boolean(hArg, 'centering', false)) {
+                    const s = this.win.getPosition();
+                    hArg.x = (screenRX - s[0]) * 0.5;
+                    hArg.y = (screenRY - s[1]) * 0.5;
+                }
+                else {
+                    hArg.x = CmnLib_1.argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
+                    hArg.y = CmnLib_1.argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
+                    if (hArg.x < 0)
+                        hArg.x = 0;
+                    else if (hArg.x > screenRX)
+                        hArg.x = 0;
+                    if (hArg.y < 0)
+                        hArg.y = 0;
+                    else if (hArg.y > screenRY)
+                        hArg.y = 0;
+                }
+                this.win.setPosition(hArg.x, hArg.y);
+                this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+                const hz = this.win.getContentSize()[1];
+                this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH * 2 - hz);
+                this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
+                this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
+                this.flush();
+                return false;
+            };
+            window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), { once: true, passive: true });
+            ipcRenderer.on('log', (e, arg) => console.log(`[main log] e:%o arg:%o`, e, arg));
+            if (!this.isPackaged()) {
+                const gs = document.createElement('style');
+                gs.type = 'text/css';
+                gs.innerHTML = `/* SKYNovel Dbg */
+.sn_BounceInOut { animation: sn_kfBounceInOut linear 1.5s; }
+@keyframes sn_kfBounceInOut{
+	0%	{opacity: 0;	transform: scaleX(0.30) scaleY(0.30);}
+	10%	{opacity: 1;	transform: scaleX(1.10) scaleY(1.10);}
+	20%	{				transform: scaleX(0.95) scaleY(0.95);}
+	30%	{				transform: scaleX(1.00) scaleY(1.00);}
+	70%	{opacity: 1;}
+	100%{opacity: 0;}
+}
+.sn_BounceIn { animation: sn_kfBounceIn linear 0.3s; }
+@keyframes sn_kfBounceIn{
+	0%	{opacity: 0;	transform: scaleX(0.30) scaleY(0.30);}
+	50%	{opacity: 1;	transform: scaleX(1.10) scaleY(1.10);}
+	100%{				transform: scaleX(0.95) scaleY(0.95);}
+}
+.sn_HopIn { animation: sn_kfHopIn linear 0.8s; }
+@keyframes sn_kfHopIn{
+	0%	{transform:	translate(0px,   0px);}
+	15% {transform:	translate(0px, -25px);}
+	30% {transform:	translate(0px,   0px);}
+	45% {transform:	translate(0px, -15px);}
+	60% {transform:	translate(0px,   0px);}
+	75% {transform:	translate(0px,  -5px);}
+	100%{transform:	translate(0px,   0px);}
+}`;
+                document.getElementsByTagName('head')[0].appendChild(gs);
+            }
+        }
+        initVal(data, hTmp, comp) {
+            const st = new Store({
+                cwd: 'storage',
+                name: this.arg.crypto ? 'data_' : 'data',
+                encryptionKey: this.arg.crypto ? this.stk() : undefined,
+            });
+            this.flush = () => st.store = this.data;
+            if (hTmp['const.sn.isFirstBoot'] = (st.size === 0)) {
+                this.data.sys = data.sys;
+                this.data.mark = data.mark;
+                this.data.kidoku = data.kidoku;
+                this.flush();
             }
             else {
-                hArg.x = CmnLib_1.CmnLib.argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
-                hArg.y = CmnLib_1.CmnLib.argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
-                if (hArg.x < 0)
-                    hArg.x = 0;
-                else if (hArg.x > screenRX)
-                    hArg.x = 0;
-                if (hArg.y < 0)
-                    hArg.y = 0;
-                else if (hArg.y > screenRY)
-                    hArg.y = 0;
+                this.data.sys = st.store.sys;
+                this.data.mark = st.store.mark;
+                this.data.kidoku = st.store.kidoku;
             }
-            this.win.setPosition(hArg.x, hArg.y);
-            this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-            const hz = this.win.getContentSize()[1];
-            this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH * 2 - hz);
-            this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', hArg.x);
-            this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', hArg.y);
-            this.flush();
-            return false;
-        };
-        window.addEventListener('DOMContentLoaded', () => new Main_1.Main(this), { once: true, passive: true });
-        ipcRenderer.on('log', (e, arg) => console.log(`[main log] e:%o arg:%o`, e, arg));
-    }
-    initVal(data, hTmp, comp) {
-        const st = new Store({
-            cwd: 'storage',
-            name: this.arg.crypto ? 'data_' : 'data',
-            encryptionKey: this.arg.crypto ? this.stk() : undefined,
-        });
-        this.flush = () => st.store = this.data;
-        if (hTmp['const.sn.isFirstBoot'] = (st.size == 0)) {
-            this.data.sys = data.sys;
-            this.data.mark = data.mark;
-            this.data.kidoku = data.kidoku;
-            this.flush();
-        }
-        else {
-            this.data.sys = st.store.sys;
-            this.data.mark = st.store.mark;
-            this.data.kidoku = st.store.kidoku;
-        }
-        comp(this.data);
-        hTmp['const.sn.isDebugger'] = false;
-        hTmp['const.sn.screenResolutionX'] = this.dsp.size.width;
-        hTmp['const.sn.screenResolutionY'] = this.dsp.size.height;
-        this.val.defTmp('const.sn.displayState', () => this.win.isSimpleFullScreen());
-        window.addEventListener('resize', () => {
-            this.window((hTmp['const.sn.isFirstBoot']) ? { centering: true } : {});
-        }, { once: true, passive: true });
-        this.win.on('move', () => {
-            if (this.isMovingWin)
-                return;
-            this.isMovingWin = true;
-            this.posMovingWin = this.win.getPosition();
-            setTimeout(() => this.delayWinPos(), 500);
-        });
-    }
-    delayWinPos() {
-        if (this.win.isSimpleFullScreen())
-            return;
-        const p = this.win.getPosition();
-        if (this.posMovingWin[0] != p[0] || this.posMovingWin[1] != p[1]) {
-            this.posMovingWin = p;
-            setTimeout(() => this.delayWinPos(), 500);
-            return;
-        }
-        this.window({ x: p[0], y: p[1] });
-        this.isMovingWin = false;
-    }
-    init(hTag, appPixi, val, main) {
-        super.init(hTag, appPixi, val, main);
-        if (this.cfg.oCfg.debug.devtool)
-            this.wc.openDevTools();
-        else
-            this.wc.on('devtools-opened', () => {
-                console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
-                main.destroy();
+            comp(this.data);
+            hTmp['const.sn.isDebugger'] = false;
+            hTmp['const.sn.screenResolutionX'] = this.dsp.size.width;
+            hTmp['const.sn.screenResolutionY'] = this.dsp.size.height;
+            this.val.defTmp('const.sn.displayState', () => this.win.isSimpleFullScreen());
+            window.addEventListener('resize', () => {
+                this.window((hTmp['const.sn.isFirstBoot']) ? { centering: true } : {});
+            }, { once: true, passive: true });
+            this.win.on('move', () => {
+                if (this.isMovingWin)
+                    return;
+                this.isMovingWin = true;
+                this.posMovingWin = this.win.getPosition();
+                setTimeout(() => this.delayWinPos(), 500);
             });
-        this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+        }
+        delayWinPos() {
+            if (this.win.isSimpleFullScreen())
+                return;
+            const p = this.win.getPosition();
+            if (this.posMovingWin[0] !== p[0] || this.posMovingWin[1] !== p[1]) {
+                this.posMovingWin = p;
+                setTimeout(() => this.delayWinPos(), 500);
+                return;
+            }
+            this.window({ x: p[0], y: p[1] });
+            this.isMovingWin = false;
+        }
+        init(hTag, appPixi, val, main) {
+            super.init(hTag, appPixi, val, main);
+            if (this.cfg.oCfg.debug.devtool)
+                this.wc.openDevTools();
+            else
+                this.wc.on('devtools-opened', () => {
+                    console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
+                    main.destroy();
+                });
+            this.win.setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            if (!this.isPackaged()) {
+                const srvDbg = net_1.createServer(skt => {
+                    if (this.sktDbg)
+                        return;
+                    this.sktDbg = skt;
+                    skt.on('data', b => {
+                        const s = b.toString();
+                        if (s.charAt(0) !== '\x1f')
+                            return;
+                        s.slice(1).split('\x1f').forEach(f => {
+                            const o = JSON.parse(f);
+                            this.callHook(o.type, o);
+                        });
+                    })
+                        .on('error', err => { console.error(err.message); skt === null || skt === void 0 ? void 0 : skt.end(); })
+                        .on('close', () => { this.sktDbg = null; this.sendDbg = () => { }; });
+                    this.sendDbg = (type, o) => skt.write('\x1f' + JSON.stringify({ ...o, type: type }));
+                    this.toast('接続');
+                });
+                this.addHook((type, _o) => {
+                    switch (type) {
+                        case 'continue':
+                            this.toast('再生');
+                            break;
+                        case 'disconnect':
+                            this.toast('切断');
+                            break;
+                        case 'attach':
+                        case 'step':
+                        case 'stopOnEntry':
+                            this.toast('一時停止');
+                            break;
+                        case 'stopOnBreakpoint':
+                            this.toast('注意');
+                            break;
+                        case 'stopOnStep':
+                            this.toast('一歩進む');
+                            break;
+                        case 'stopOnStepIn':
+                            this.toast('ステップイン');
+                            break;
+                        case 'stopOnStepOut':
+                            this.toast('ステップアウト');
+                            break;
+                        case 'stopOnBackstep':
+                            this.toast('一歩戻る');
+                            break;
+                    }
+                });
+                const UNIX_SOCK = '.vscode/skynovel.sock';
+                try {
+                    m_fs.unlinkSync(UNIX_SOCK);
+                }
+                catch { }
+                srvDbg.listen(UNIX_SOCK);
+            }
+        }
+        toast(nm) {
+            var _a, _b, _c;
+            const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
+            if (!cvs)
+                return;
+            const p = cvs.parentNode;
+            const doms = p.querySelectorAll('.sn_BounceIn, .sn_HopIn');
+            const len = doms.length;
+            for (let i = 0; i < len; ++i)
+                p.removeChild(doms[i]);
+            const img = document.createElement('img');
+            const td = SysApp.hToastDat[nm];
+            img.src = `data:image/svg+xml;base64,${td.dat}`;
+            const size = Math.min(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH) / 4;
+            img.width = img.height = size;
+            img.style.cssText =
+                `position: absolute;
+left: ${(CmnLib_1.CmnLib.stageW - size) / 2 + size * ((_a = td.dx) !== null && _a !== void 0 ? _a : 0)}px;
+top: ${(CmnLib_1.CmnLib.stageH - size) / 2 + size * ((_b = td.dy) !== null && _b !== void 0 ? _b : 0)}px;`;
+            img.classList.add('sn_toast', (_c = td.ease) !== null && _c !== void 0 ? _c : 'sn_BounceInOut');
+            if (!td.ease)
+                img.addEventListener('animationend', () => p.removeChild(img));
+            p.insertBefore(img, cvs);
+        }
+        addHook(fnc) { this.aFncHook.push(fnc); }
+        titleSub(txt) { this.win.setTitle(txt); }
     }
-}
+    SysApp.hToastDat = {
+        '接続': { dx: -1, dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+' },
+        '切断': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMTkxLjUzIDIyMS4yNGMtNDUuNjggMC04NC4wMSAzMS4wNC05NS4zIDczLjE2LTYuNDEgMC0zOC40OSAwLTk2LjIzIDB2NTEuMjFoOTYuMjNjMTEuMyA0Mi4xMSA0OS42MyA3My4xNiA5NS4zIDczLjE2aDcxLjMzdi00OC4yNGg1My43OHYtMTAxLjA1aC01My43OHYtNDguMjRjLTQyLjggMC02Ni41NyAwLTcxLjMzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im00NDguNDcgMjIxLjIzYy00Ljc2IDAtMjguNTMgMC03MS4zMyAwdjE5Ny41M2g3MS4zM2M0NS42OCAwIDgzLjk5LTMxLjA0IDk1LjI5LTczLjE1aDk2LjI0di01MS4yMWgtOTYuMjRjLTMzLjA4LTQ4Ljc4LTY0Ljg0LTczLjE3LTk1LjI5LTczLjE3eiIvPjwvZGVmcz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0iI2RmNTY1NiIgeGxpbms6aHJlZj0iI2IiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjZGY1NjU2IiB4bGluazpocmVmPSIjYyIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2MiLz48L3N2Zz4=' },
+        '再生': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yNTguODMgMTExLjA1Yy0xLjI5Ljc5LTIuOTMuODMtNC4yNi4wNC0xLjI5LS43NC0yLjExLTIuMTItMi4xMS0zLjY3IDAtNy4xNiAwLTQyLjk3IDAtMTA3LjQzczAtMTAwLjI3IDAtMTA3LjQzYzAtMS41My44Mi0yLjkzIDIuMTEtMy42OCAxLjMzLS43NiAyLjk3LS43MiA0LjI2LjA0IDE4IDEwLjc1IDE2MiA5Ni43MSAxODAgMTA3LjQ2IDEuMjkuNzMgMi4wNSAyLjE0IDIuMDUgMy42MSAwIDEuNDktLjc2IDIuODgtMi4wNSAzLjYzLTM2IDIxLjQ5LTE2MiA5Ni42OS0xODAgMTA3LjQzeiIvPjwvZGVmcz48cGF0aCBkPSJtMTU0LjU3IDE3MC4xOWgzNDYuMTV2MzA3LjY5aC0zNDYuMTV6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=' },
+        '一時停止': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yMDAgMTAwdi0yMDBoODB2MjAwem0xNjAgMHYtMjAwaDgwdjIwMHoiLz48L2RlZnM+PHBhdGggZD0ibTE0Ny40OSAxODAuNDFoMzUyLjR2MjgyLjY5aC0zNTIuNHoiIGZpbGw9IiNmZmYiLz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjwvc3ZnPg==' },
+        '注意': { ease: 'sn_HopIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMzQzLjM0IDI5LjJjLTEwLjM3LTE3Ljk3LTM2LjMxLTE3Ljk3LTQ2LjY5IDAtMjkuMyA1MC43NS0yNjMuNyA0NTYuNzQtMjkzIDUwNy40OS0xMC4zNyAxNy45NyAyLjU5IDQwLjQ0IDIzLjM0IDQwLjQ0aDU4Ni4wMWMyMC43NSAwIDMzLjcyLTIyLjQ2IDIzLjM1LTQwLjQ0LTU4LjYtMTAxLjUtMjYzLjctNDU2Ljc0LTI5My4wMS01MDcuNDl6bS0yMy4zNCA0ODIuODNjLTE0LjUyIDAtMjYuMjktMi43MS0yNi4yOS02LjA2IDAtNC4yMSAwLTM3Ljg2IDAtNDIuMDcgMC0zLjM1IDExLjc3LTYuMDcgMjYuMjktNi4wN3MyNi4yOSAyLjcyIDI2LjI5IDYuMDd2NDIuMDdjLTcuODQgNC4wNC0xNi42MSA2LjA2LTI2LjI5IDYuMDZ6bTIxLjk5LTEwMy44NGMwIDUuNDMtOS44NSA5LjgzLTIxLjk5IDkuODMtMTIuMTUgMC0yMS45OS00LjQtMjEuOTktOS44MyAwLS4xMy4wNy0uMjUuMDgtLjM4LTEuMzctMTcuNTYtMTIuMy0xNTguMDYtMTMuNjctMTc1LjYyIDAtNS40MyAxNS45My05Ljg0IDM1LjU4LTkuODRzMzUuNTggNC40MSAzNS41OCA5Ljg0Yy0uOTEgMTEuNy01LjQ3IDcwLjI1LTEzLjY3IDE3NS42Mi4wNi4xNi4wOC4yOS4wOC4zOHoiLz48L2RlZnM+PHBhdGggZD0ibTI0MS4yOSAxOTEuNDRoMTQ1LjQ5djM1MS42NmgtMTQ1LjQ5eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iI2QyYmYzYSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
+        '一歩進む': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0zNzYuOTMgOTEuOTdjMC01My41MSAwLTgzLjI0IDAtODkuMTktLjE1LjE0LS4yNS4zNC0uNDQuNDUtMTYuMTEgOS42Mi0xNDQuOTUgODYuNTQtMTYxLjA2IDk2LjE1LTEuMTUuNjktMi42Mi43My0zLjgxLjAyLTEuMTUtLjY0LTEuODktMS44OS0xLjg5LTMuMjggMC02LjQxIDAtMzguNDQgMC05Ni4xMSAwLTU3LjY5IDAtODkuNzQgMC05Ni4xNSAwLTEuMzUuNzQtMi42MiAxLjg5LTMuMjkgMS4xOS0uNjggMi42Ni0uNjQgMy44MS4wNCAxNi4xMSA5LjYyIDE0NC45NSA4Ni41NCAxNjEuMDYgOTYuMTYuMTkuMS4yOS4zMS40NC40NSAwLTYuMTMgMC0zNi43NyAwLTkxLjkyaDUzLjMydjE4Ni42N3oiLz48L2RlZnM+PHBhdGggZD0ibTE0Ny40OSAxNTQuMmgzNTIuNHYzMDguOWgtMzUyLjR6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=' },
+        '一歩戻る': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem00MzAuMjcgOTYuMTRjMCAxLjM1LS43NCAyLjYyLTEuODkgMy4yOC0xLjE5LjY5LTIuNjYuNjUtMy44MS0uMDMtMTYuMTEtOS42Mi0xNDQuOTUtODYuNTQtMTYxLjA1LTk2LjE2LS4yLS4xLS4yOS0uMzEtLjQ1LS40NXY5MS45MmgtNTMuMzJ2LTE4Ni42N2g1My4zMnY4OS4xOWMuMTYtLjE0LjI1LS4zNC40NS0uNDUgMTYuMS05LjYyIDE0NC45NC04Ni41NCAxNjEuMDUtOTYuMTYgMS4xNS0uNjggMi42Mi0uNzIgMy44MS0uMDEgMS4xNS42NCAxLjg5IDEuODkgMS44OSAzLjI4djk2LjExeiIvPjwvZGVmcz48cGF0aCBkPSJtMTQ3LjQ5IDE1NC4yaDM1Mi40djMwOC45aC0zNTIuNHoiIGZpbGw9IiNmZmYiLz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjwvc3ZnPg==' },
+        'ステップイン': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMTkuOTljMCAxNzYuNzQgMTQzLjI3IDMyMC4wMSAzMjAuMDEgMzIwLjAxIDE3Ni43MiAwIDMxOS45OS0xNDMuMjcgMzE5Ljk5LTMyMC4wMSAwLTE3Ni43Mi0xNDMuMjctMzE5Ljk5LTMxOS45OS0zMTkuOTktMTc2Ljc0IDAtMzIwLjAxIDE0My4yNy0zMjAuMDEgMzE5Ljk5em0xNTMuMDUtMjkuNzIgNTUuMTItNTUuMTMgMTExLjg0IDExMS44MiAxMTEuODItMTExLjgyIDU1LjEyIDU1LjEyLTE2Ni45NCAxNjYuOTd6Ii8+PC9kZWZzPjxwYXRoIGQ9Im0xNDcuNDkgMTU0LjJoMzUyLjR2MzA4LjloLTM1Mi40eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iIzJlMmUyZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
+        'ステップアウト': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjAuMDFjMCAxNzYuNzIgMTQzLjI3IDMxOS45OSAzMTkuOTkgMzE5Ljk5IDE3Ni43NCAwIDMyMC4wMS0xNDMuMjcgMzIwLjAxLTMxOS45OSAwLTE3Ni43NC0xNDMuMjctMzIwLjAxLTMyMC4wMS0zMjAuMDEtMTc2LjcyIDAtMzE5Ljk5IDE0My4yNy0zMTkuOTkgMzIwLjAxem0zMTkuOTktMjYuOTgtMTExLjgyIDExMS44My01NS4xMi01NS4xMyAxNjYuOTQtMTY2Ljk2IDE2Ni45NiAxNjYuOTYtNTUuMTIgNTUuMTN6Ii8+PC9kZWZzPjxwYXRoIGQ9Im0xNDcuNDkgMTU0LjJoMzUyLjR2MzA4LjloLTM1Mi40eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iIzJlMmUyZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
+    };
+    return SysApp;
+})();
 exports.SysApp = SysApp;
 
 
@@ -5839,132 +6129,153 @@ exports.SysApp = SysApp;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-class SysBase {
-    constructor(hPlg = {}, arg) {
-        this.hPlg = hPlg;
-        this.arg = arg;
-        this.hFactoryCls = {};
-        this.fetch = (url) => fetch(url);
-        this.resolution = 1;
-        this.reso4frame = 1;
-        this.data = { sys: {}, mark: {}, kidoku: {} };
-        this.close = () => false;
-        this._export = () => false;
-        this._import = () => false;
-        this.navigate_to = () => false;
-        this.title = () => false;
-        this.tgl_full_scr = () => false;
-        this.update_check = () => false;
-        this.window = () => false;
-        this.pre = async (_ext, data) => data;
-        this.enc = async (data) => data;
-        this.stk = () => '';
-        this.hash = (_data) => '';
-        this.isApp = () => false;
-        this.isPackaged = () => false;
-        this.$path_downloads = '';
-        this.$path_userdata = '';
-        this.existsSync = (_path) => true;
-        this.writeFile = (_file, _data, _callback) => { };
-        this.savePic = (_fn, _data_url) => { };
-        this.appendFile = (_path, _data, _callback) => { };
-        this.ofsLeft4frm = 0;
-        this.ofsTop4frm = 0;
-        const fncPre = hPlg.snsys_pre;
-        if (fncPre)
-            fncPre.init({
-                addTag: () => { },
-                addLayCls: () => { },
-                searchPath: () => '',
-                getVal: () => { return {}; },
-                resume: () => { },
-                render: () => { },
-                setPre: fnc => this.pre = fnc,
-                setEnc: fnc => this.enc = fnc,
-                getStK: fnc => this.stk = fnc,
-                getHash: fnc => this.hash = fnc,
+exports.SysBase = void 0;
+let SysBase = (() => {
+    class SysBase {
+        constructor(hPlg = {}, arg) {
+            this.hPlg = hPlg;
+            this.arg = arg;
+            this.hFactoryCls = {};
+            this.fetch = (url) => fetch(url);
+            this.resolution = 1;
+            this.reso4frame = 1;
+            this.data = { sys: {}, mark: {}, kidoku: {} };
+            this.callHook = (_type, _o) => { };
+            this.sendDbg = (_type, _o) => { };
+            this.close = () => false;
+            this._export = () => false;
+            this._import = () => false;
+            this.navigate_to = () => false;
+            this.title = (hArg) => {
+                const text = hArg.text;
+                if (!text)
+                    throw '[title] textは必須です';
+                this.main_title = text;
+                this.titleSub(this.main_title + this.info_title);
+                return false;
+            };
+            this.main_title = '';
+            this.tgl_full_scr = () => false;
+            this.update_check = () => false;
+            this.window = () => false;
+            this.info_title = '';
+            this.pre = async (_ext, data) => data;
+            this.enc = async (data) => data;
+            this.stk = () => '';
+            this.hash = (_data) => '';
+            this.isApp = () => false;
+            this.isPackaged = () => false;
+            this.$path_downloads = '';
+            this.$path_userdata = '';
+            this.existsSync = (_path) => true;
+            this.writeFile = (_file, _data, _callback) => { };
+            this.savePic = (_fn, _data_url) => { };
+            this.appendFile = (_path, _data, _callback) => { };
+            this.ofsLeft4frm = 0;
+            this.ofsTop4frm = 0;
+            const fncPre = hPlg.snsys_pre;
+            if (fncPre)
+                fncPre.init({
+                    addTag: () => { },
+                    addLayCls: () => { },
+                    searchPath: () => '',
+                    getVal: () => { return {}; },
+                    resume: () => { },
+                    render: () => { },
+                    setPre: fnc => this.pre = fnc,
+                    setEnc: fnc => this.enc = fnc,
+                    getStK: fnc => this.stk = fnc,
+                    getHash: fnc => this.hash = fnc,
+                });
+        }
+        get cur() { return this.arg.cur; }
+        get crypto() { return this.arg.crypto; }
+        loadPathAndVal(_hPathFn2Exts, _fncLoaded, cfg) {
+            this.cfg = cfg;
+        }
+        initVal(_data, _hTmp, _comp) { }
+        flush() { }
+        init(hTag, appPixi, val, main) {
+            this.val = val;
+            this.appPixi = appPixi;
+            let mes = '';
+            try {
+                this.val.setSys(this);
+                mes = 'sys';
+                mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+                mes = 'kidoku';
+                this.val.saveKidoku();
+            }
+            catch (e) {
+                console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+            }
+            this.hFactoryCls = {};
+            for (const nm in this.hPlg) {
+                this.hPlg[nm].init({
+                    addTag: (name, tag_fnc) => {
+                        if (hTag[name])
+                            throw `すでに定義済みのタグ[${name}]です`;
+                        hTag[name] = tag_fnc;
+                    },
+                    addLayCls: (cls, fnc) => {
+                        if (this.hFactoryCls[cls])
+                            throw `すでに定義済みのレイヤcls【${cls}】です`;
+                        this.hFactoryCls[cls] = fnc;
+                    },
+                    searchPath: (fn, extptn = '') => this.cfg.searchPath(fn, extptn),
+                    getVal: val.getVal,
+                    resume: () => main.resume(),
+                    render: (dsp, renTx, clear = false) => this.appPixi.renderer.render(dsp, renTx, clear),
+                    setPre: fnc => this.pre = fnc,
+                    setEnc: fnc => this.enc = fnc,
+                    getStK: fnc => this.stk = fnc,
+                    getHash: fnc => this.hash = fnc,
+                });
+            }
+            hTag.close = o => this.close(o);
+            hTag.export = o => this._export(o);
+            hTag.import = o => this._import(o);
+            hTag.navigate_to = o => this.navigate_to(o);
+            hTag.title = o => this.title(o);
+            hTag.toggle_full_screen = o => this.tgl_full_scr(o);
+            hTag.update_check = o => this.update_check(o);
+            hTag.window = o => this.window(o);
+            val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
+            val.setVal_Nochk('tmp', 'const.sn.isPackaged', this.isPackaged());
+            val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
+            val.flush();
+        }
+        setFire(fire) { this.fire = fire; }
+        addHook(_fnc) { }
+        titleSub(_txt) { }
+        setTitleInfo(txt) {
+            this.info_title = txt;
+            this.titleSub(this.main_title + this.info_title);
+        }
+        get path_downloads() { return this.$path_downloads; }
+        get path_userdata() { return this.$path_userdata; }
+        resizeFrames() {
+            const cr = this.appPixi.view.getBoundingClientRect();
+            Array.prototype.slice.call(document.getElementsByTagName('iframe'))
+                .forEach((it) => {
+                const frmnm = `const.sn.frm.${it.id}`;
+                it.style.left = this.ofsLeft4frm + cr.left
+                    + Number(this.val.getVal(`tmp:${frmnm}.x`)) * this.reso4frame
+                    + 'px';
+                it.style.top = this.ofsTop4frm + cr.top
+                    + Number(this.val.getVal(`tmp:${frmnm}.y`)) * this.reso4frame
+                    + 'px';
+                it.width = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
+                    * this.reso4frame);
+                it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
+                    * this.reso4frame);
             });
-    }
-    get cur() { return this.arg.cur; }
-    get crypto() { return this.arg.crypto; }
-    loadPathAndVal(_hPathFn2Exts, _fncLoaded, cfg) {
-        this.cfg = cfg;
-    }
-    initVal(_data, _hTmp, _comp) { }
-    flush() { }
-    init(hTag, appPixi, val, main) {
-        this.val = val;
-        this.appPixi = appPixi;
-        let mes = '';
-        try {
-            this.val.setSys(this);
-            mes = 'sys';
-            mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
-            mes = 'kidoku';
-            this.val.saveKidoku();
         }
-        catch (e) {
-            console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
-        }
-        this.hFactoryCls = {};
-        for (const nm in this.hPlg) {
-            this.hPlg[nm].init({
-                addTag: (name, tag_fnc) => {
-                    if (hTag[name])
-                        throw `すでに定義済みのタグ[${name}]です`;
-                    hTag[name] = tag_fnc;
-                },
-                addLayCls: (cls, fnc) => {
-                    if (this.hFactoryCls[cls])
-                        throw `すでに定義済みのレイヤcls【${cls}】です`;
-                    this.hFactoryCls[cls] = fnc;
-                },
-                searchPath: (fn, extptn = '') => this.cfg.searchPath(fn, extptn),
-                getVal: val.getVal,
-                resume: () => main.resume(),
-                render: (dsp, renTx, clear = false) => this.appPixi.renderer.render(dsp, renTx, clear),
-                setPre: fnc => this.pre = fnc,
-                setEnc: fnc => this.enc = fnc,
-                getStK: fnc => this.stk = fnc,
-                getHash: fnc => this.hash = fnc,
-            });
-        }
-        hTag.close = o => this.close(o);
-        hTag.export = o => this._export(o);
-        hTag.import = o => this._import(o);
-        hTag.navigate_to = o => this.navigate_to(o);
-        hTag.title = o => this.title(o);
-        hTag.toggle_full_screen = o => this.tgl_full_scr(o);
-        hTag.update_check = o => this.update_check(o);
-        hTag.window = o => this.window(o);
-        val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
-        val.setVal_Nochk('tmp', 'const.sn.isPackaged', this.isPackaged());
-        val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
-        val.flush();
     }
-    setFire(fire) { this.fire = fire; }
-    get path_downloads() { return this.$path_downloads; }
-    get path_userdata() { return this.$path_userdata; }
-    resizeFrames() {
-        const cr = this.appPixi.view.getBoundingClientRect();
-        Array.prototype.slice.call(document.getElementsByTagName('iframe'))
-            .forEach((it) => {
-            const frmnm = `const.sn.frm.${it.id}`;
-            it.style.left = this.ofsLeft4frm + cr.left
-                + Number(this.val.getVal(`tmp:${frmnm}.x`)) * this.reso4frame
-                + 'px';
-            it.style.top = this.ofsTop4frm + cr.top
-                + Number(this.val.getVal(`tmp:${frmnm}.y`)) * this.reso4frame
-                + 'px';
-            it.width = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
-                * this.reso4frame);
-            it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
-                * this.reso4frame);
-        });
-    }
-}
+    SysBase.VALNM_CFG_NS = 'const.sn.cfg.ns';
+    return SysBase;
+})();
 exports.SysBase = SysBase;
-SysBase.VALNM_CFG_NS = 'const.sn.cfg.ns';
 
 
 /***/ }),
@@ -5979,6 +6290,7 @@ SysBase.VALNM_CFG_NS = 'const.sn.cfg.ns';
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SysNode = void 0;
 const SysBase_1 = __webpack_require__(/*! ./SysBase */ "./core/src/sn/SysBase.ts");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const m_fs = __webpack_require__(/*! fs-extra */ "./node_modules/fs-extra/lib/index.js");
@@ -6009,7 +6321,7 @@ class SysNode extends SysBase_1.SysBase {
             for (const nm in json) {
                 const h = hPathFn2Exts[nm] = json[nm];
                 for (const ext in h)
-                    if (ext != ':cnt')
+                    if (ext !== ':cnt')
                         h[ext] = this.arg.cur + h[ext];
             }
             fncLoaded();
@@ -6031,6 +6343,7 @@ exports.SysNode = SysNode;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TxtLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const TxtStage_1 = __webpack_require__(/*! ./TxtStage */ "./core/src/sn/TxtStage.ts");
@@ -6040,363 +6353,364 @@ const GrpLayer_1 = __webpack_require__(/*! ./GrpLayer */ "./core/src/sn/GrpLayer
 const Button_1 = __webpack_require__(/*! ./Button */ "./core/src/sn/Button.ts");
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 const LayerMng_1 = __webpack_require__(/*! ./LayerMng */ "./core/src/sn/LayerMng.ts");
-class TxtLayer extends Layer_1.Layer {
-    constructor() {
-        super();
-        this.infTL = {
-            fontsize: 24,
-            $width: 0,
-            $height: 0,
-            pad_left: 0,
-            pad_right: 0,
-            pad_top: 0,
-            pad_bottom: 0,
-        };
-        this.b_color = 0x000000;
-        this.b_alpha = 0;
-        this.b_alpha_isfixed = false;
-        this.b_do = null;
-        this.b_pic = '';
-        this.cntInsidePadding = new pixi_js_1.Container;
-        this.txs = new TxtStage_1.TxtStage(this.infTL, this.cntInsidePadding, this.cnt);
-        this.rbSpl = new RubySpliter_1.RubySpliter;
-        this.cntBtn = new pixi_js_1.Container;
-        this.ch_in_style = '';
-        this.ch_in_join = true;
-        this.ch_out_style = '';
-        this.ffs = '';
-        this.fncFFSStyle = (_ch) => '';
-        this.fncFFSSpan = (ch) => ch;
-        this.strNoFFS = '';
-        this.regNoFFS = new RegExp('[　]');
-        this.isCur = false;
-        this.ruby_pd = () => '';
-        this.r_align = '';
-        this.needGoTxt = false;
-        this.putCh = (ch, ruby) => {
-            var _a, _b, _c, _d, _e, _f, _g, _h;
-            if (TxtLayer.cfg.oCfg.debug.putCh)
-                console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name}\``);
-            const a_ruby = ruby.split('｜');
-            let add_htm = '';
-            const isSkip = TxtLayer.evtMng.isSkipKeyDown();
-            switch (a_ruby.length) {
-                case 1:
-                    this.needGoTxt = true;
-                    if (ch == '\n') {
-                        if (this.aSpan_bk) {
-                            add_htm = this.aSpan_bk.slice(-1)[0];
-                            this.autoCloseSpan();
-                            this.aSpan.push(TxtLayer.rec('<br/>'));
-                            this.aSpan.push(add_htm);
-                            this.aSpan_bk = this.aSpan;
-                            this.aSpan = [];
-                            return;
+let TxtLayer = (() => {
+    class TxtLayer extends Layer_1.Layer {
+        constructor() {
+            super();
+            this.infTL = {
+                fontsize: 24,
+                $width: 0,
+                $height: 0,
+                pad_left: 0,
+                pad_right: 0,
+                pad_top: 0,
+                pad_bottom: 0,
+            };
+            this.b_color = 0x000000;
+            this.b_alpha = 0;
+            this.b_alpha_isfixed = false;
+            this.b_do = null;
+            this.b_pic = '';
+            this.cntInsidePadding = new pixi_js_1.Container;
+            this.txs = new TxtStage_1.TxtStage(this.infTL, this.cntInsidePadding, this.cnt);
+            this.rbSpl = new RubySpliter_1.RubySpliter;
+            this.cntBtn = new pixi_js_1.Container;
+            this.ch_in_style = '';
+            this.ch_in_join = true;
+            this.ch_out_style = '';
+            this.ffs = '';
+            this.fncFFSStyle = (_ch) => '';
+            this.fncFFSSpan = (ch) => ch;
+            this.strNoFFS = '';
+            this.regNoFFS = new RegExp('[　]');
+            this.isCur = false;
+            this.ruby_pd = () => '';
+            this.r_align = '';
+            this.needGoTxt = false;
+            this.putCh = (ch, ruby) => {
+                var _a, _b, _c, _d, _e, _f, _g, _h;
+                if (TxtLayer.cfg.oCfg.debug.putCh)
+                    console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name}\``);
+                const a_ruby = ruby.split('｜');
+                let add_htm = '';
+                const isSkip = TxtLayer.evtMng.isSkipKeyDown();
+                switch (a_ruby.length) {
+                    case 1:
+                        this.needGoTxt = true;
+                        if (ch === '\n') {
+                            if (this.aSpan_bk) {
+                                add_htm = this.aSpan_bk.slice(-1)[0];
+                                this.autoCloseSpan();
+                                this.aSpan.push(TxtLayer.rec('<br/>'));
+                                this.aSpan.push(add_htm);
+                                this.aSpan_bk = this.aSpan;
+                                this.aSpan = [];
+                                return;
+                            }
+                            if (this.firstCh) {
+                                this.firstCh = false;
+                                add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
+                            }
+                            else {
+                                add_htm = '<br/>';
+                            }
+                            break;
                         }
                         if (this.firstCh) {
                             this.firstCh = false;
-                            add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
+                            if (ruby === '')
+                                ruby = '　';
                         }
-                        else {
-                            add_htm = '<br/>';
-                        }
+                        add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
                         break;
-                    }
-                    if (this.firstCh) {
-                        this.firstCh = false;
-                        if (ruby == '')
-                            ruby = '　';
-                    }
-                    add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
-                    break;
-                case 2:
-                    switch (a_ruby[0]) {
-                        case 'start':
-                        case 'left':
-                        case 'center':
-                        case 'right':
-                        case 'justify':
-                        case '121':
-                        case 'even':
-                        case '1ruby':
-                            this.firstCh = false;
-                            this.needGoTxt = true;
-                            add_htm = this.tagCh_sub(ch, a_ruby[1], isSkip, a_ruby[0]);
-                            break;
-                        case 'gotxt':
-                            {
-                                this.autoCloseSpan();
-                                if (this.isCur)
-                                    TxtLayer.recText(this.aSpan.join('')
-                                        .replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
-                                        .replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
-                                        .replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
-                                        .replace(/class='sn_ch .+?'/g, `class='sn_ch'`)
-                                        .replace(/class='offrec'/g, `style='display: none;'`)
-                                        .replace(/`/g, '\\`'));
-                                if (!this.needGoTxt)
-                                    return;
-                                this.txs.goTxt([...this.aSpan, this.tagCh_sub('　', '', false, '')]);
-                                this.needGoTxt = false;
-                                this.cumDelay = 0;
-                                return;
-                            }
-                        case 'add':
-                            {
-                                const o = JSON.parse(a_ruby[1]);
-                                o.style = (_a = o.style) !== null && _a !== void 0 ? _a : '';
-                                this.beginSpan(o);
-                                if (this.aSpan_bk)
+                    case 2:
+                        switch (a_ruby[0]) {
+                            case 'start':
+                            case 'left':
+                            case 'center':
+                            case 'right':
+                            case 'justify':
+                            case '121':
+                            case 'even':
+                            case '1ruby':
+                                this.firstCh = false;
+                                this.needGoTxt = true;
+                                add_htm = this.tagCh_sub(ch, a_ruby[1], isSkip, a_ruby[0]);
+                                break;
+                            case 'gotxt':
+                                {
                                     this.autoCloseSpan();
-                                else {
+                                    if (this.isCur)
+                                        TxtLayer.recText(this.aSpan.join('')
+                                            .replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
+                                            .replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
+                                            .replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
+                                            .replace(/class='sn_ch .+?'/g, `class='sn_ch'`)
+                                            .replace(/class='offrec'/g, `style='display: none;'`)
+                                            .replace(/`/g, '\\`'));
+                                    if (!this.needGoTxt)
+                                        return;
+                                    this.txs.goTxt([...this.aSpan, this.tagCh_sub('　', '', false, '')]);
+                                    this.needGoTxt = false;
+                                    this.cumDelay = 0;
+                                    return;
+                                }
+                            case 'add':
+                                {
+                                    const o = JSON.parse(a_ruby[1]);
+                                    o.style = (_a = o.style) !== null && _a !== void 0 ? _a : '';
+                                    this.beginSpan(o);
+                                    if (this.aSpan_bk)
+                                        this.autoCloseSpan();
+                                    else {
+                                        if (isSkip)
+                                            this.cumDelay = 0;
+                                        const wait = Number((_b = o.wait) !== null && _b !== void 0 ? _b : -1);
+                                        const sn_ch = (wait === 0)
+                                            ? ''
+                                            : ` sn_ch_in_${this.ch_in_style}`;
+                                        const ad = (wait < 0)
+                                            ? ''
+                                            : ` animation-duration: ${wait}ms;`;
+                                        this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
+                                    }
+                                    this.aSpan_bk = this.aSpan;
+                                    this.aSpan = [];
+                                }
+                                return;
+                            case 'add_close':
+                                this.autoCloseSpan();
+                                return;
+                            case 'grp':
+                                this.needGoTxt = true;
+                                {
                                     if (isSkip)
                                         this.cumDelay = 0;
-                                    const wait = (_b = o.wait) !== null && _b !== void 0 ? _b : -1;
-                                    const sn_ch = (wait == 0)
+                                    const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + ',' : `{`) + `"delay": ${this.cumDelay}}`;
+                                    if (this.ch_in_join)
+                                        this.cumDelay += (TxtLayer.doAutoWc) ? 0 : LayerMng_1.LayerMng.msecChWait;
+                                    const o = JSON.parse(arg);
+                                    o.style = (_c = o.style) !== null && _c !== void 0 ? _c : '';
+                                    if (!('id' in o))
+                                        o.id = this.aSpan.length;
+                                    if (o.id === 'break') {
+                                        this.txs.dispBreak(o.pic);
+                                        return;
+                                    }
+                                    add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
+                                    const wait = Number((_d = o.wait) !== null && _d !== void 0 ? _d : -1);
+                                    const sn_ch = (wait === 0)
                                         ? ''
                                         : ` sn_ch_in_${this.ch_in_style}`;
                                     const ad = (wait < 0)
                                         ? ''
                                         : ` animation-duration: ${wait}ms;`;
-                                    this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
+                                    add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>　</span>`;
+                                    if (this.firstCh) {
+                                        this.firstCh = false;
+                                        add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
+                                    }
+                                    if (this.aSpan.slice(-1)[0] === add_htm)
+                                        return;
                                 }
-                                this.aSpan_bk = this.aSpan;
-                                this.aSpan = [];
-                            }
-                            return;
-                        case 'add_close':
-                            this.autoCloseSpan();
-                            return;
-                        case 'grp':
-                            this.needGoTxt = true;
-                            {
-                                if (isSkip)
-                                    this.cumDelay = 0;
-                                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + ',' : `{`) + `"delay": ${this.cumDelay}}`;
-                                if (this.ch_in_join)
-                                    this.cumDelay += (TxtLayer.doAutoWc) ? 0 : LayerMng_1.LayerMng.msecChWait;
-                                const o = JSON.parse(arg);
-                                o.style = (_c = o.style) !== null && _c !== void 0 ? _c : '';
-                                if (!('id' in o))
-                                    o.id = this.aSpan.length;
-                                if (o.id == 'break') {
-                                    this.txs.dispBreak(o.pic);
-                                    return;
+                                break;
+                            case 'del':
+                                const id_del = a_ruby[1];
+                                if (id_del !== 'break')
+                                    throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
+                                TxtStage_1.TxtStage.delBreak();
+                                return;
+                            case 'span':
+                                this.autoCloseSpan();
+                                this.needGoTxt = true;
+                                {
+                                    const o = JSON.parse(a_ruby[1]);
+                                    this.beginSpan(o);
+                                    if (!o.style)
+                                        return;
+                                    if (isSkip)
+                                        this.cumDelay = 0;
+                                    const wait = Number((_e = o.wait) !== null && _e !== void 0 ? _e : -1);
+                                    const sn_ch = (wait === 0)
+                                        ? ''
+                                        : ` sn_ch_in_${this.ch_in_style}`;
+                                    const ad = (wait < 0)
+                                        ? ''
+                                        : ` animation-duration: ${wait}ms;`;
+                                    this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
+                                    this.aSpan_bk = this.aSpan;
+                                    this.aSpan = [];
                                 }
-                                add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
-                                const wait = (_d = o.wait) !== null && _d !== void 0 ? _d : -1;
-                                const sn_ch = (wait == 0)
-                                    ? ''
-                                    : ` sn_ch_in_${this.ch_in_style}`;
-                                const ad = (wait < 0)
-                                    ? ''
-                                    : ` animation-duration: ${wait}ms;`;
-                                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>　</span>`;
-                                if (this.firstCh) {
-                                    this.firstCh = false;
-                                    add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
+                                return;
+                            case 'link':
+                                this.autoCloseSpan();
+                                this.needGoTxt = true;
+                                {
+                                    const o = JSON.parse(a_ruby[1]);
+                                    o.style = (_f = o.style) !== null && _f !== void 0 ? _f : '';
+                                    this.beginSpan(o);
+                                    if (isSkip)
+                                        this.cumDelay = 0;
+                                    const wait = Number((_g = o.wait) !== null && _g !== void 0 ? _g : -1);
+                                    const sn_ch = (wait === 0)
+                                        ? ''
+                                        : ` sn_ch_in_${this.ch_in_style}`;
+                                    const ad = (wait < 0)
+                                        ? ''
+                                        : ` animation-duration: ${wait}ms;`;
+                                    this.aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
+                                    this.aSpan.push(`<span${this.aSpan_link} class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
+                                    this.aSpan_bk = this.aSpan;
+                                    this.aSpan = [];
                                 }
-                                if (this.aSpan.slice(-1)[0] == add_htm)
-                                    return;
-                            }
-                            break;
-                        case 'del':
-                            const id_del = a_ruby[1];
-                            if (id_del != 'break')
-                                throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
-                            TxtStage_1.TxtStage.delBreak();
-                            return;
-                        case 'span':
-                            this.autoCloseSpan();
-                            this.needGoTxt = true;
-                            {
-                                const o = JSON.parse(a_ruby[1]);
-                                this.beginSpan(o);
-                                if (!o.style)
-                                    return;
-                                if (isSkip)
-                                    this.cumDelay = 0;
-                                const wait = (_e = o.wait) !== null && _e !== void 0 ? _e : -1;
-                                const sn_ch = (wait == 0)
-                                    ? ''
-                                    : ` sn_ch_in_${this.ch_in_style}`;
-                                const ad = (wait < 0)
-                                    ? ''
-                                    : ` animation-duration: ${wait}ms;`;
-                                this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
-                                this.aSpan_bk = this.aSpan;
-                                this.aSpan = [];
-                            }
-                            return;
-                        case 'link':
-                            this.autoCloseSpan();
-                            this.needGoTxt = true;
-                            {
-                                const o = JSON.parse(a_ruby[1]);
-                                o.style = (_f = o.style) !== null && _f !== void 0 ? _f : '';
-                                this.beginSpan(o);
-                                if (isSkip)
-                                    this.cumDelay = 0;
-                                const wait = (_g = o.wait) !== null && _g !== void 0 ? _g : -1;
-                                const sn_ch = (wait == 0)
-                                    ? ''
-                                    : ` sn_ch_in_${this.ch_in_style}`;
-                                const ad = (wait < 0)
-                                    ? ''
-                                    : ` animation-duration: ${wait}ms;`;
-                                this.aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
-                                this.aSpan.push(`<span${this.aSpan_link} class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
-                                this.aSpan_bk = this.aSpan;
-                                this.aSpan = [];
-                            }
-                            return;
-                        case 'endlink':
-                            this.needGoTxt = true;
-                            if (this.aSpan_bk) {
-                                const len = this.aSpan.length;
-                                for (let i = 0; i < len; ++i)
-                                    this.aSpan[i] = this.aSpan[i].replace(/ data-cmd='linkrsv'/, this.aSpan_link);
-                            }
-                            this.autoCloseSpan();
-                            return;
-                        default:
-                            this.needGoTxt = true;
-                            add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
-                    }
-                    break;
-                case 3:
-                    this.firstCh = false;
-                    this.needGoTxt = true;
-                    switch (a_ruby[0]) {
-                        case 'tcy':
-                            {
-                                if (TxtLayer.val.doRecLog())
-                                    this.page_text += ch
-                                        + (ruby ? `《${ruby}》` : '');
-                                const tx = a_ruby[1];
-                                const id_tcy = (tx.length > 1)
-                                    ? (this.aSpan.length + 1)
-                                    : '';
-                                const rb = CmnLib_1.CmnLib.isSafari
-                                    ? a_ruby[2].replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 65248))
-                                    : a_ruby[2];
-                                if (isSkip)
-                                    this.cumDelay = 0;
-                                const rs = this.mkStyle_r_align(tx, rb, this.r_align);
-                                add_htm = rb
-                                    ? (this.aSpan_bk
-                                        ? (`<ruby><span data-tcy='${id_tcy}' style='
+                                return;
+                            case 'endlink':
+                                this.needGoTxt = true;
+                                if (this.aSpan_bk) {
+                                    const len = this.aSpan.length;
+                                    for (let i = 0; i < len; ++i)
+                                        this.aSpan[i] = this.aSpan[i].replace(/ data-cmd='linkrsv'/, this.aSpan_link);
+                                }
+                                this.autoCloseSpan();
+                                return;
+                            default:
+                                this.needGoTxt = true;
+                                add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
+                        }
+                        break;
+                    case 3:
+                        this.firstCh = false;
+                        this.needGoTxt = true;
+                        switch (a_ruby[0]) {
+                            case 'tcy':
+                                {
+                                    if (TxtLayer.val.doRecLog())
+                                        this.page_text += ch
+                                            + (ruby ? `《${ruby}》` : '');
+                                    const tx = a_ruby[1];
+                                    const id_tcy = (tx.length > 1)
+                                        ? (this.aSpan.length + 1)
+                                        : '';
+                                    const rb = CmnLib_1.CmnLib.isSafari
+                                        ? a_ruby[2].replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 65248))
+                                        : a_ruby[2];
+                                    if (isSkip)
+                                        this.cumDelay = 0;
+                                    const rs = this.mkStyle_r_align(tx, rb, this.r_align);
+                                    add_htm = rb
+                                        ? (this.aSpan_bk
+                                            ? (`<ruby><span data-tcy='${id_tcy}' style='
 								text-combine-upright: all;
 								-webkit-text-combine: horizontal;
 								${this.fncFFSStyle(tx)}
 							' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
-                                            + `<rt${rs}>${rb}</rt></ruby>`)
-                                        : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
-                                            + `<ruby><span data-tcy='${id_tcy}' style='
+                                                + `<rt${rs}>${rb}</rt></ruby>`)
+                                            : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
+                                                + `<ruby><span data-tcy='${id_tcy}' style='
 									text-combine-upright: all;
 									-webkit-text-combine: horizontal;
 									${this.fncFFSStyle(tx)}
 								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
-                                            + `<rt${rs}>${rb}</rt></ruby>`
-                                            + `</span>`))
-                                    : (this.aSpan_bk
-                                        ? (`<span data-tcy='${id_tcy}' style='
+                                                + `<rt${rs}>${rb}</rt></ruby>`
+                                                + `</span>`))
+                                        : (this.aSpan_bk
+                                            ? (`<span data-tcy='${id_tcy}' style='
 							text-combine-upright: all;
 							-webkit-text-combine: horizontal;
 							${this.fncFFSStyle(tx)}
 						' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`)
-                                        : `<span data-tcy='${id_tcy}' style='
+                                            : `<span data-tcy='${id_tcy}' style='
 							text-combine-upright: all;
 							-webkit-text-combine: horizontal;
 							animation-delay: ${this.cumDelay}ms;
 							height: 1em;
 							${this.fncFFSStyle(tx)}
 						' class='sn_ch sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`);
-                                if (this.ch_in_join)
-                                    this.cumDelay += (TxtLayer.doAutoWc)
-                                        ? (_h = TxtLayer.hAutoWc[ch.charAt(0)]) !== null && _h !== void 0 ? _h : 0 : LayerMng_1.LayerMng.msecChWait;
-                            }
-                            break;
-                        default:
-                            throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
-                    }
-                    break;
-            }
-            this.aSpan.push(TxtLayer.rec(add_htm));
-        };
-        this.cumDelay = 0;
-        this.firstCh = true;
-        this.aSpan = [];
-        this.aSpan_bk = null;
-        this.aSpan_link = '';
-        this.hSpanBk = {
-            ch_in_style: '',
-            ch_out_style: '',
-            r_align: '',
-        };
-        this.click = () => {
-            if (!this.cnt.interactiveChildren || !this.cnt.visible)
-                return true;
-            return this.txs.skipChIn();
-        };
-        this.page_text = '';
-        this.record = () => Object.assign(super.record(), {
-            enabled: this.enabled,
-            r_align: this.r_align,
-            b_do: (this.b_do == null)
-                ? null
-                : (this.b_do instanceof pixi_js_1.Sprite ? 'Sprite' : 'Graphics'),
-            b_pic: this.b_pic,
-            b_color: this.b_color,
-            b_alpha: this.b_alpha,
-            b_alpha_isfixed: this.b_alpha_isfixed,
-            txs: this.txs.record(),
-            ffs: this.ffs,
-            strNoFFS: this.strNoFFS,
-            btns: this.cntBtn.children.map(btn => btn.name),
-        });
-        const padding = 16 * CmnLib_1.CmnLib.retinaRate;
-        this.cnt.addChild(this.cntInsidePadding);
-        this.cntInsidePadding.name = 'cntInsidePadding';
-        this.cntInsidePadding.position.set(padding, padding);
-        this.rbSpl.init(this.putCh);
-        this.cnt.addChild(this.cntBtn);
-        this.cntBtn.name = 'cntBtn';
-        this.lay({ style: `width: ${CmnLib_1.CmnLib.stageW}px; height: ${CmnLib_1.CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true' });
-    }
-    static init(cfg, hTag, val, recText) {
-        TxtLayer.cfg = cfg;
-        TxtStage_1.TxtStage.init(cfg);
-        TxtLayer.val = val;
-        TxtLayer.recText = recText;
-        val.setDoRecProc(TxtLayer.chgDoRec);
-        hTag.autowc = o => TxtLayer.autowc(o);
-        const o = { enabled: 'false', text: '', time: '' };
-        hTag.autowc(o);
-        hTag.ch_in_style = o => TxtLayer.ch_in_style(o);
-        hTag.ch_out_style = o => TxtLayer.ch_out_style(o);
-        TxtStage_1.TxtStage.initChStyle();
-        const he = document.getElementsByTagName('head')[0];
-        const len = he.children.length;
-        for (let i = len - 1; i >= 0; --i) {
-            const v = he.children[i];
-            if (!(v instanceof HTMLStyleElement))
-                continue;
-            if (v.innerText.slice(0, 14) != TxtLayer.css_key4del)
-                continue;
-            he.removeChild(v);
+                                    if (this.ch_in_join)
+                                        this.cumDelay += (TxtLayer.doAutoWc)
+                                            ? (_h = TxtLayer.hAutoWc[ch.charAt(0)]) !== null && _h !== void 0 ? _h : 0 : LayerMng_1.LayerMng.msecChWait;
+                                }
+                                break;
+                            default:
+                                throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
+                        }
+                        break;
+                }
+                this.aSpan.push(TxtLayer.rec(add_htm));
+            };
+            this.cumDelay = 0;
+            this.firstCh = true;
+            this.aSpan = [];
+            this.aSpan_bk = null;
+            this.aSpan_link = '';
+            this.hSpanBk = {
+                ch_in_style: '',
+                ch_out_style: '',
+                r_align: '',
+            };
+            this.click = () => {
+                if (!this.cnt.interactiveChildren || !this.cnt.visible)
+                    return true;
+                return this.txs.skipChIn();
+            };
+            this.page_text = '';
+            this.record = () => Object.assign(super.record(), {
+                enabled: this.enabled,
+                r_align: this.r_align,
+                b_do: (this.b_do === null)
+                    ? null
+                    : (this.b_do instanceof pixi_js_1.Sprite ? 'Sprite' : 'Graphics'),
+                b_pic: this.b_pic,
+                b_color: this.b_color,
+                b_alpha: this.b_alpha,
+                b_alpha_isfixed: this.b_alpha_isfixed,
+                txs: this.txs.record(),
+                ffs: this.ffs,
+                strNoFFS: this.strNoFFS,
+                btns: this.cntBtn.children.map(btn => btn.name),
+            });
+            const padding = 16 * CmnLib_1.CmnLib.retinaRate;
+            this.cnt.addChild(this.cntInsidePadding);
+            this.cntInsidePadding.name = 'cntInsidePadding';
+            this.cntInsidePadding.position.set(padding, padding);
+            this.rbSpl.init(this.putCh);
+            this.cnt.addChild(this.cntBtn);
+            this.cntBtn.name = 'cntBtn';
+            this.lay({ style: `width: ${CmnLib_1.CmnLib.stageW}px; height: ${CmnLib_1.CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true' });
         }
-        let font = '';
-        for (const o of cfg.matchPath('.+', Config_1.Config.EXT_FONT)) {
-            for (const key in o)
-                font += `
+        static init(cfg, hTag, val, recText) {
+            TxtLayer.cfg = cfg;
+            TxtStage_1.TxtStage.init(cfg);
+            TxtLayer.val = val;
+            TxtLayer.recText = recText;
+            val.setDoRecProc(TxtLayer.chgDoRec);
+            hTag.autowc = o => TxtLayer.autowc(o);
+            const o = { enabled: 'false', text: '', time: '' };
+            hTag.autowc(o);
+            hTag.ch_in_style = o => TxtLayer.ch_in_style(o);
+            hTag.ch_out_style = o => TxtLayer.ch_out_style(o);
+            TxtStage_1.TxtStage.initChStyle();
+            const he = document.getElementsByTagName('head')[0];
+            const len = he.children.length;
+            for (let i = len - 1; i >= 0; --i) {
+                const v = he.children[i];
+                if (!(v instanceof HTMLStyleElement))
+                    continue;
+                if (v.innerText.slice(0, 14) !== TxtLayer.css_key4del)
+                    continue;
+                he.removeChild(v);
+            }
+            let font = '';
+            for (const o of cfg.matchPath('.+', Config_1.Config.EXT_FONT)) {
+                for (const key in o)
+                    font += `
 @font-face {
-	font-family: '${CmnLib_1.CmnLib.getFn(o[key])}';
+	font-family: '${CmnLib_1.getFn(o[key])}';
 	src: url('${o[key]}');
 }
 `;
-        }
-        font += `
+            }
+            font += `
 .sn_tx {
 	pointer-events: none;
 	user-select: none;
@@ -6408,44 +6722,44 @@ class TxtLayer extends Layer_1.Layer {
 	display: inline-block;
 }
 `;
-        TxtLayer.addStyle(font);
-        TxtLayer.ch_in_style({
-            name: 'default',
-            wait: 500,
-            alpha: 0,
-            x: '=0.3',
-            y: '=0',
-            scale_x: 1,
-            scale_y: 1,
-            rotate: 0,
-            join: true,
-            ease: 'ease-out',
-        });
-        TxtLayer.ch_out_style({
-            name: 'default',
-            wait: 0,
-            alpha: 0,
-            x: '=0',
-            y: '=0',
-            scale_x: 1,
-            scale_y: 1,
-            rotate: 0,
-            join: false,
-            ease: 'ease-out',
-        });
-    }
-    static addStyle(style) {
-        const gs = document.createElement('style');
-        gs.type = 'text/css';
-        gs.innerHTML = TxtLayer.css_key4del + style;
-        document.getElementsByTagName('head')[0].appendChild(gs);
-    }
-    static ch_in_style(hArg) {
-        const o = TxtStage_1.TxtStage.ch_in_style(hArg);
-        const x = (o.x.charAt(0) == '=') ? `${o.nx * 100}%` : `${o.nx}px`;
-        const y = (o.y.charAt(0) == '=') ? `${o.ny * 100}%` : `${o.ny}px`;
-        const name = hArg.name;
-        TxtLayer.addStyle(`
+            TxtLayer.addStyle(font);
+            TxtLayer.ch_in_style({
+                name: 'default',
+                wait: 500,
+                alpha: 0,
+                x: '=0.3',
+                y: '=0',
+                scale_x: 1,
+                scale_y: 1,
+                rotate: 0,
+                join: true,
+                ease: 'ease-out',
+            });
+            TxtLayer.ch_out_style({
+                name: 'default',
+                wait: 0,
+                alpha: 0,
+                x: '=0',
+                y: '=0',
+                scale_x: 1,
+                scale_y: 1,
+                rotate: 0,
+                join: false,
+                ease: 'ease-out',
+            });
+        }
+        static addStyle(style) {
+            const gs = document.createElement('style');
+            gs.type = 'text/css';
+            gs.innerHTML = TxtLayer.css_key4del + style;
+            document.getElementsByTagName('head')[0].appendChild(gs);
+        }
+        static ch_in_style(hArg) {
+            const o = TxtStage_1.TxtStage.ch_in_style(hArg);
+            const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
+            const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
+            const name = hArg.name;
+            TxtLayer.addStyle(`
 .sn_ch_in_${name} {
 	position: relative;
 	display: inline-block;
@@ -6461,14 +6775,14 @@ class TxtLayer extends Layer_1.Layer {
 	to {opacity: 1; transform: none;}
 }
 `);
-        return false;
-    }
-    static ch_out_style(hArg) {
-        const o = TxtStage_1.TxtStage.ch_out_style(hArg);
-        const x = (o.x.charAt(0) == '=') ? `${o.nx * 100}%` : `${o.nx}px`;
-        const y = (o.y.charAt(0) == '=') ? `${o.ny * 100}%` : `${o.ny}px`;
-        const name = hArg.name;
-        TxtLayer.addStyle(`
+            return false;
+        }
+        static ch_out_style(hArg) {
+            const o = TxtStage_1.TxtStage.ch_out_style(hArg);
+            const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
+            const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
+            const name = hArg.name;
+            TxtLayer.addStyle(`
 .go_ch_out_${name} {
 	position: relative;
 	display: inline-block;
@@ -6480,370 +6794,372 @@ class TxtLayer extends Layer_1.Layer {
 		transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});
 	}
 `);
-        return false;
-    }
-    static setEvtMng(main, evtMng) {
-        TxtLayer.main = main;
-        TxtLayer.evtMng = evtMng;
-        TxtStage_1.TxtStage.setEvtMng(evtMng);
-    }
-    static autowc(hArg) {
-        TxtLayer.doAutoWc = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
-        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.doAutoWc);
-        const ch = hArg.text;
-        if (('text' in hArg) != ('time' in hArg))
-            throw '[autowc] textとtimeは同時指定必須です';
-        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.text', ch);
-        if (!ch) {
-            TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', '');
             return false;
         }
-        const len = ch.length;
-        if (TxtLayer.doAutoWc && len == 0)
-            throw '[autowc] enabled == false かつ text == "" は許されません';
-        const a = String(hArg.time).split(',');
-        if (a.length != len)
-            throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
-        TxtLayer.hAutoWc = Object.create(null);
-        a.forEach((v, i) => TxtLayer.hAutoWc[ch[i]] = CmnLib_1.uint(v));
-        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
-        return false;
-    }
-    destroy() {
-        if (this.b_do) {
-            this.cnt.removeChild(this.b_do).destroy();
-            this.b_do = null;
+        static setEvtMng(main, evtMng) {
+            TxtLayer.main = main;
+            TxtLayer.evtMng = evtMng;
+            TxtStage_1.TxtStage.setEvtMng(evtMng);
         }
-        this.clearText();
-        this.txs.destroy();
-    }
-    set name(nm) { if (this.txs)
-        this.txs.name = nm; }
-    get name() { return this.txs ? this.txs.name : ''; }
-    cvsResize() { this.txs.cvsResize(); }
-    lay(hArg) {
-        var _a;
-        super.lay(hArg);
-        Layer_1.Layer.setXY(this.cnt, hArg, this.cnt);
-        this.rbSpl.setting(hArg);
-        this.setFfs(hArg);
-        this.txs.lay(hArg);
-        if ('r_align' in hArg)
-            this.r_align = (_a = hArg.r_align) !== null && _a !== void 0 ? _a : '';
-        this.ruby_pd = CmnLib_1.CmnLib.isSafari
-            ? this.txs.tategaki
-                ? (v, l) => `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
-                : (v, l) => `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
-            : this.txs.tategaki
-                ? v => `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
-                : v => `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
-        if (CmnLib_1.CmnLib.isFirefox)
-            this.mkStyle_r_align = this.mkStyle_r_align4ff;
-        if ('alpha' in hArg)
-            this.cntBtn.children.forEach(e => e.alpha = this.cnt.alpha);
-        this.set_ch_in(hArg);
-        this.set_ch_out(hArg);
-        return this.drawBack(hArg);
-    }
-    set_ch_in(hArg) {
-        const ins = hArg.in_style;
-        if (!ins)
-            return;
-        const cis = TxtStage_1.TxtStage.getChInStyle(ins);
-        if (!cis)
-            throw `存在しないin_style【${ins}】です`;
-        this.ch_in_style = ins;
-        this.ch_in_join = cis.join;
-    }
-    set_ch_out(hArg) {
-        const outs = hArg.out_style;
-        if (!outs)
-            return;
-        const cos = TxtStage_1.TxtStage.getChOutStyle(outs);
-        if (!cos)
-            throw `存在しないout_style【${outs}】です`;
-        this.ch_out_style = outs;
-    }
-    drawBack(hArg) {
-        if ('back_clear' in hArg) {
-            if (CmnLib_1.CmnLib.argChk_Boolean(hArg, 'back_clear', false)) {
-                this.b_color = 0x000000;
-                this.b_alpha = 0;
-                this.b_alpha_isfixed = false;
-                this.b_pic = '';
+        static autowc(hArg) {
+            TxtLayer.doAutoWc = CmnLib_1.argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
+            TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.doAutoWc);
+            const ch = hArg.text;
+            if (('text' in hArg) !== ('time' in hArg))
+                throw '[autowc] textとtimeは同時指定必須です';
+            TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.text', ch);
+            if (!ch) {
+                TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', '');
+                return false;
             }
+            const len = ch.length;
+            if (TxtLayer.doAutoWc && len === 0)
+                throw '[autowc] enabled === false かつ text === "" は許されません';
+            const a = String(hArg.time).split(',');
+            if (a.length !== len)
+                throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
+            TxtLayer.hAutoWc = Object.create(null);
+            a.forEach((v, i) => TxtLayer.hAutoWc[ch[i]] = CmnLib_1.uint(v));
+            TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
             return false;
         }
-        this.b_alpha = CmnLib_1.CmnLib.argChk_Num(hArg, 'b_alpha', this.b_alpha);
-        this.b_alpha_isfixed = CmnLib_1.CmnLib.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
-        const alpha = (this.b_alpha_isfixed
-            ? 1
-            : Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))) * this.b_alpha;
-        if (hArg.b_pic) {
-            if (this.b_pic != hArg.b_pic) {
-                this.b_pic = hArg.b_pic;
+        destroy() {
+            if (this.b_do) {
+                this.cnt.removeChild(this.b_do).destroy();
+                this.b_do = null;
+            }
+            this.clearText();
+            this.txs.destroy();
+        }
+        set name(nm) { if (this.txs)
+            this.txs.name = nm; }
+        get name() { return this.txs ? this.txs.name : ''; }
+        cvsResize() { this.txs.cvsResize(); }
+        lay(hArg) {
+            var _a;
+            super.lay(hArg);
+            Layer_1.Layer.setXY(this.cnt, hArg, this.cnt);
+            this.rbSpl.setting(hArg);
+            this.setFfs(hArg);
+            this.txs.lay(hArg);
+            if ('r_align' in hArg)
+                this.r_align = (_a = hArg.r_align) !== null && _a !== void 0 ? _a : '';
+            this.ruby_pd = CmnLib_1.CmnLib.isSafari
+                ? this.txs.tategaki
+                    ? (v, l) => `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
+                    : (v, l) => `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
+                : this.txs.tategaki
+                    ? v => `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
+                    : v => `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
+            if (CmnLib_1.CmnLib.isFirefox)
+                this.mkStyle_r_align = this.mkStyle_r_align4ff;
+            if ('alpha' in hArg)
+                this.cntBtn.children.forEach(e => e.alpha = this.cnt.alpha);
+            this.set_ch_in(hArg);
+            this.set_ch_out(hArg);
+            return this.drawBack(hArg);
+        }
+        set_ch_in(hArg) {
+            const ins = hArg.in_style;
+            if (!ins)
+                return;
+            const cis = TxtStage_1.TxtStage.getChInStyle(ins);
+            if (!cis)
+                throw `存在しないin_style【${ins}】です`;
+            this.ch_in_style = ins;
+            this.ch_in_join = cis.join;
+        }
+        set_ch_out(hArg) {
+            const outs = hArg.out_style;
+            if (!outs)
+                return;
+            const cos = TxtStage_1.TxtStage.getChOutStyle(outs);
+            if (!cos)
+                throw `存在しないout_style【${outs}】です`;
+            this.ch_out_style = outs;
+        }
+        drawBack(hArg) {
+            if ('back_clear' in hArg) {
+                if (CmnLib_1.argChk_Boolean(hArg, 'back_clear', false)) {
+                    this.b_color = 0x000000;
+                    this.b_alpha = 0;
+                    this.b_alpha_isfixed = false;
+                    this.b_pic = '';
+                }
+                return false;
+            }
+            this.b_alpha = CmnLib_1.argChk_Num(hArg, 'b_alpha', this.b_alpha);
+            this.b_alpha_isfixed = CmnLib_1.argChk_Boolean(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
+            const alpha = (this.b_alpha_isfixed
+                ? 1
+                : Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))) * this.b_alpha;
+            if (hArg.b_pic) {
+                if (this.b_pic !== hArg.b_pic) {
+                    this.b_pic = hArg.b_pic;
+                    if (this.b_do) {
+                        this.cnt.removeChild(this.b_do);
+                        this.b_do.destroy();
+                    }
+                    return GrpLayer_1.GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp => {
+                        this.b_do = sp;
+                        sp.name = 'back(pic)';
+                        sp.visible = (alpha > 0);
+                        sp.alpha = alpha;
+                        this.txs.setSize(sp.width, sp.height);
+                        this.cnt.setChildIndex(sp, 0);
+                        TxtLayer.main.resume();
+                    });
+                }
+            }
+            else if ('b_color' in hArg) {
+                this.b_color = parseInt(hArg.b_color || '0');
                 if (this.b_do) {
                     this.cnt.removeChild(this.b_do);
                     this.b_do.destroy();
                 }
-                return GrpLayer_1.GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp => {
-                    this.b_do = sp;
-                    sp.name = 'back(pic)';
-                    sp.visible = (alpha > 0);
-                    sp.alpha = alpha;
-                    this.txs.setSize(sp.width, sp.height);
-                    this.cnt.setChildIndex(sp, 0);
-                    TxtLayer.main.resume();
-                });
+                this.b_pic = '';
+                const grp = this.b_do = new pixi_js_1.Graphics;
+                grp.name = 'back(color)';
+                grp.beginFill(this.b_color);
+                grp.lineStyle(undefined);
+                grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
+                grp.endFill();
+                this.cnt.addChildAt(grp, 0);
             }
-        }
-        else if ('b_color' in hArg) {
-            this.b_color = parseInt(hArg.b_color || '0');
             if (this.b_do) {
-                this.cnt.removeChild(this.b_do);
-                this.b_do.destroy();
+                this.b_do.visible = (alpha > 0);
+                this.b_do.alpha = alpha;
             }
-            this.b_pic = '';
-            const grp = this.b_do = new pixi_js_1.Graphics;
-            grp.name = 'back(color)';
-            grp.beginFill(this.b_color);
-            grp.lineStyle(undefined);
-            grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
-            grp.endFill();
-            this.cnt.addChildAt(grp, 0);
+            return false;
         }
-        if (this.b_do) {
-            this.b_do.visible = (alpha > 0);
-            this.b_do.alpha = alpha;
-        }
-        return false;
-    }
-    chgBackAlpha(g_alpha) {
-        const alpha = this.b_alpha_isfixed
-            ? this.b_alpha
-            : g_alpha * this.b_alpha;
-        if (this.b_do instanceof pixi_js_1.Graphics) {
+        chgBackAlpha(g_alpha) {
+            const alpha = this.b_alpha_isfixed
+                ? this.b_alpha
+                : g_alpha * this.b_alpha;
+            if (this.b_do instanceof pixi_js_1.Graphics) {
+                if (this.b_do) {
+                    this.cnt.removeChild(this.b_do);
+                    this.b_do.destroy();
+                }
+                const grp = this.b_do = new pixi_js_1.Graphics;
+                grp.name = 'back(color)';
+                grp.beginFill(this.b_color);
+                grp.lineStyle(undefined);
+                grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
+                grp.endFill();
+                this.cnt.addChildAt(grp, 0);
+            }
             if (this.b_do) {
-                this.cnt.removeChild(this.b_do);
-                this.b_do.destroy();
+                this.b_do.visible = (alpha > 0);
+                this.b_do.alpha = alpha;
             }
-            const grp = this.b_do = new pixi_js_1.Graphics;
-            grp.name = 'back(color)';
-            grp.beginFill(this.b_color);
-            grp.lineStyle(undefined);
-            grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
-            grp.endFill();
-            this.cnt.addChildAt(grp, 0);
         }
-        if (this.b_do) {
-            this.b_do.visible = (alpha > 0);
-            this.b_do.alpha = alpha;
+        setFfs(hArg) {
+            var _a, _b;
+            if ('noffs' in hArg) {
+                this.strNoFFS = (_a = hArg.noffs) !== null && _a !== void 0 ? _a : '';
+                this.regNoFFS = new RegExp(`[　${this.strNoFFS}]`);
+            }
+            if (!('ffs' in hArg))
+                return;
+            this.ffs = (_b = hArg.ffs) !== null && _b !== void 0 ? _b : '';
+            if (this.ffs === '') {
+                this.fncFFSStyle = () => '';
+                this.fncFFSSpan = ch => ch;
+            }
+            else {
+                this.fncFFSStyle = ch => this.regNoFFS.test(ch)
+                    ? ''
+                    : ` font-feature-settings: ${this.ffs};`;
+                this.fncFFSSpan = ch => this.regNoFFS.test(ch)
+                    ? ch
+                    : `<span style='font-feature-settings: ${this.ffs};'>${ch}</span>`;
+            }
         }
-    }
-    setFfs(hArg) {
-        var _a, _b;
-        if ('noffs' in hArg) {
-            this.strNoFFS = (_a = hArg.noffs) !== null && _a !== void 0 ? _a : '';
-            this.regNoFFS = new RegExp(`[　${this.strNoFFS}]`);
+        static chgDoRec(doRec) {
+            TxtLayer.rec = doRec
+                ? (tx) => tx
+                : (tx) => `<span class='offrec'>${tx}</span>`;
         }
-        if (!('ffs' in hArg))
-            return;
-        this.ffs = (_b = hArg.ffs) !== null && _b !== void 0 ? _b : '';
-        if (this.ffs == '') {
-            this.fncFFSStyle = () => '';
-            this.fncFFSSpan = ch => ch;
+        mkStyle_r_align(ch, rb, r_align) {
+            if (!r_align)
+                return '';
+            const len = ch.length * 2;
+            if (len - rb.length < 0)
+                return ` style='text-align: ${r_align};'`;
+            let st = '';
+            switch (r_align) {
+                case 'justify':
+                    st = this.ruby_pd('0', len);
+                    break;
+                case '121':
+                    st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
+                    break;
+                case 'even':
+                    st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
+                    break;
+                case '1ruby':
+                    st = this.ruby_pd('1em', len);
+                    break;
+                default:
+                    st = `text-align: ${r_align};`;
+            }
+            return ` style='${st}'`;
         }
-        else {
-            this.fncFFSStyle = ch => this.regNoFFS.test(ch)
-                ? ''
-                : ` font-feature-settings: ${this.ffs};`;
-            this.fncFFSSpan = ch => this.regNoFFS.test(ch)
-                ? ch
-                : `<span style='font-feature-settings: ${this.ffs};'>${ch}</span>`;
+        ;
+        mkStyle_r_align4ff(ch, rb, r_align) {
+            if (!r_align)
+                return '';
+            const len = ch.length * 2;
+            if (len - rb.length < 0)
+                return ` style='text-align: ${r_align};'`;
+            let st = '';
+            switch (r_align) {
+                case 'left':
+                    st = `ruby-align: start;`;
+                    break;
+                case 'center':
+                    st = `ruby-align: center;`;
+                    break;
+                case 'right':
+                    st = `ruby-align: start;`;
+                    break;
+                case 'justify':
+                    st = `ruby-align: space-between;`;
+                    break;
+                case '121':
+                    st = `ruby-align: space-around;`;
+                    break;
+                case 'even':
+                    const ev = (len - rb.length) / (rb.length + 1);
+                    st = `ruby-align: space-between; ` +
+                        (this.txs.tategaki
+                            ? `padding-top: ${ev}em; padding-bottom: ${ev}em;`
+                            : `padding-left: ${ev}em; padding-right: ${ev}em;`);
+                    break;
+                case '1ruby':
+                    st = `ruby-align: space-between; ` +
+                        (this.txs.tategaki
+                            ? `padding-top: 1em; padding-bottom: 1em;`
+                            : `padding-left: 1em; padding-right: 1em;`);
+                    break;
+                default: st = `text-align: ${r_align};`;
+            }
+            return ` style='${st}'`;
         }
-    }
-    static chgDoRec(doRec) {
-        TxtLayer.rec = doRec
-            ? (tx) => tx
-            : (tx) => `<span class='offrec'>${tx}</span>`;
-    }
-    mkStyle_r_align(ch, rb, r_align) {
-        if (!r_align)
-            return '';
-        const len = ch.length * 2;
-        if (len - rb.length < 0)
-            return ` style='text-align: ${r_align};'`;
-        let st = '';
-        switch (r_align) {
-            case 'justify':
-                st = this.ruby_pd('0', len);
-                break;
-            case '121':
-                st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
-                break;
-            case 'even':
-                st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
-                break;
-            case '1ruby':
-                st = this.ruby_pd('1em', len);
-                break;
-            default:
-                st = `text-align: ${r_align};`;
+        tagCh(text) { this.rbSpl.putTxt(text); }
+        tagCh_sub(ch, ruby, isSkip, r_align) {
+            var _a;
+            if (ch === ' ')
+                ch = '&nbsp;';
+            if (TxtLayer.val.doRecLog())
+                this.page_text += ch
+                    + (ruby ? `《${ruby}》` : '');
+            let add_htm = '';
+            const rs = this.mkStyle_r_align(ch, ruby, r_align);
+            if (isSkip)
+                this.cumDelay = 0;
+            add_htm = ruby
+                ? (this.aSpan_bk
+                    ? `<ruby style='${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+                    : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}'>`
+                        + `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+                        + `</span>`))
+                : (this.aSpan_bk
+                    ? this.fncFFSSpan(ch)
+                    : `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}</span>`);
+            if (this.ch_in_join)
+                this.cumDelay += TxtLayer.doAutoWc
+                    ? (_a = TxtLayer.hAutoWc[ch.charAt(0)]) !== null && _a !== void 0 ? _a : 0 : LayerMng_1.LayerMng.msecChWait;
+            return add_htm;
         }
-        return ` style='${st}'`;
-    }
-    ;
-    mkStyle_r_align4ff(ch, rb, r_align) {
-        if (!r_align)
-            return '';
-        const len = ch.length * 2;
-        if (len - rb.length < 0)
-            return ` style='text-align: ${r_align};'`;
-        let st = '';
-        switch (r_align) {
-            case 'left':
-                st = `ruby-align: start;`;
-                break;
-            case 'center':
-                st = `ruby-align: center;`;
-                break;
-            case 'right':
-                st = `ruby-align: start;`;
-                break;
-            case 'justify':
-                st = `ruby-align: space-between;`;
-                break;
-            case '121':
-                st = `ruby-align: space-around;`;
-                break;
-            case 'even':
-                const ev = (len - rb.length) / (rb.length + 1);
-                st = `ruby-align: space-between; ` +
-                    (this.txs.tategaki
-                        ? `padding-top: ${ev}em; padding-bottom: ${ev}em;`
-                        : `padding-left: ${ev}em; padding-right: ${ev}em;`);
-                break;
-            case '1ruby':
-                st = `ruby-align: space-between; ` +
-                    (this.txs.tategaki
-                        ? `padding-top: 1em; padding-bottom: 1em;`
-                        : `padding-left: 1em; padding-right: 1em;`);
-                break;
-            default: st = `text-align: ${r_align};`;
+        beginSpan(o) {
+            this.hSpanBk.ch_in_style = this.ch_in_style;
+            this.set_ch_in(o);
+            this.hSpanBk.ch_out_style = this.ch_out_style;
+            this.set_ch_out(o);
+            this.hSpanBk.r_align = this.r_align;
+            if ('r_align' in o)
+                this.r_align = o.r_align;
         }
-        return ` style='${st}'`;
-    }
-    tagCh(text) { this.rbSpl.putTxt(text); }
-    tagCh_sub(ch, ruby, isSkip, r_align) {
-        var _a;
-        if (ch == ' ')
-            ch = '&nbsp;';
-        if (TxtLayer.val.doRecLog())
-            this.page_text += ch
-                + (ruby ? `《${ruby}》` : '');
-        let add_htm = '';
-        const rs = this.mkStyle_r_align(ch, ruby, r_align);
-        if (isSkip)
+        autoCloseSpan() {
+            if (!this.aSpan_bk)
+                return;
+            this.aSpan_bk.push(this.aSpan, '</span>');
+            this.aSpan = Array.prototype.concat.apply([], this.aSpan_bk);
+            this.aSpan_bk = null;
+            this.set_ch_in({ in_style: this.hSpanBk.ch_in_style });
+            this.set_ch_out({ out_style: this.hSpanBk.ch_out_style });
+            this.r_align = this.hSpanBk.r_align;
+        }
+        clearText() {
+            const txs = this.txs;
+            this.txs = this.txs.passBaton();
+            txs.destroy();
             this.cumDelay = 0;
-        add_htm = ruby
-            ? (this.aSpan_bk
-                ? `<ruby style='${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-                : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}'>`
-                    + `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-                    + `</span>`))
-            : (this.aSpan_bk
-                ? this.fncFFSSpan(ch)
-                : `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}</span>`);
-        if (this.ch_in_join)
-            this.cumDelay += TxtLayer.doAutoWc
-                ? (_a = TxtLayer.hAutoWc[ch.charAt(0)]) !== null && _a !== void 0 ? _a : 0 : LayerMng_1.LayerMng.msecChWait;
-        return add_htm;
-    }
-    beginSpan(o) {
-        this.hSpanBk.ch_in_style = this.ch_in_style;
-        this.set_ch_in(o);
-        this.hSpanBk.ch_out_style = this.ch_out_style;
-        this.set_ch_out(o);
-        this.hSpanBk.r_align = this.r_align;
-        if ('r_align' in o)
-            this.r_align = o.r_align;
-    }
-    autoCloseSpan() {
-        if (!this.aSpan_bk)
-            return;
-        this.aSpan_bk.push(this.aSpan, '</span>');
-        this.aSpan = Array.prototype.concat.apply([], this.aSpan_bk);
-        this.aSpan_bk = null;
-        this.set_ch_in({ in_style: this.hSpanBk.ch_in_style });
-        this.set_ch_out({ out_style: this.hSpanBk.ch_out_style });
-        this.r_align = this.hSpanBk.r_align;
-    }
-    clearText() {
-        const txs = this.txs;
-        this.txs = this.txs.passBaton();
-        txs.destroy();
-        this.cumDelay = 0;
-        this.firstCh = true;
-        this.aSpan = [];
-        this.aSpan_bk = null;
-        this.page_text = '';
-        TxtLayer.recText('', true);
-    }
-    get pageText() { return this.page_text; }
-    get enabled() { return this.cnt.interactiveChildren; }
-    set enabled(e) { this.cnt.interactiveChildren = e; }
-    addButton(hArg) {
-        hArg.key = `btn=[${this.cntBtn.children.length}] ` + this.name;
-        const btn = new Button_1.Button(TxtLayer.main, TxtLayer.evtMng, hArg);
-        btn.name = JSON.stringify(hArg);
-        this.cntBtn.addChild(btn);
-        return btn.isStop;
-    }
-    clearLay(hArg) {
-        super.clearLay(hArg);
-        this.clearText();
-        for (const c of this.cntBtn.removeChildren())
-            c.removeAllListeners().destroy();
-    }
-    playback(hLay, fncComp = undefined) {
-        super.playback(hLay);
-        this.enabled = hLay.enabled;
-        this.r_align = hLay.r_align;
-        this.cvsResize();
-        this.b_alpha = hLay.b_alpha;
-        this.b_alpha_isfixed = hLay.b_alpha_isfixed;
-        let ret = this.drawBack((hLay.b_do)
-            ? (hLay.b_do == 'Sprite' ? { b_pic: hLay.b_pic } : { b_color: hLay.b_color })
-            : { b_pic: '' });
-        this.setFfs(hLay);
-        this.txs.playback(hLay.txs);
-        const aBtn = hLay.btns;
-        aBtn.forEach(v => ret = ret || this.addButton(JSON.parse(v)));
-        if (fncComp != undefined)
-            fncComp();
-        return ret;
-    }
-    snapshot(rnd, re) {
-        rnd.render(this.cnt, undefined, false);
-        this.txs.snapshot(rnd, re);
-    }
-    snapshot_end() { this.txs.snapshot_end(); }
-    dump() {
-        let aPixiObj = [];
-        const len = this.cnt.children.length;
-        for (let i = 0; i < len; ++i) {
-            const e = this.cnt.children[i];
-            const cls = (e instanceof pixi_js_1.Sprite) ? "Sprite" : ((e instanceof pixi_js_1.Graphics) ? "Graphics" : ((e instanceof pixi_js_1.Container) ? "Container" : "?"));
-            aPixiObj.push(`{"class":"${cls}", "name":"${e.name}", "alpha":${e.alpha || 1}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`);
+            this.firstCh = true;
+            this.aSpan = [];
+            this.aSpan_bk = null;
+            this.page_text = '';
+            TxtLayer.recText('', true);
         }
-        return super.dump() + `, "enabled":"${this.enabled}", ${this.txs.dump()}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${aPixiObj.join(',')}]`;
+        get pageText() { return this.page_text; }
+        get enabled() { return this.cnt.interactiveChildren; }
+        set enabled(e) { this.cnt.interactiveChildren = e; }
+        addButton(hArg) {
+            hArg.key = `btn=[${this.cntBtn.children.length}] ` + this.name;
+            const btn = new Button_1.Button(TxtLayer.main, TxtLayer.evtMng, hArg);
+            btn.name = JSON.stringify(hArg);
+            this.cntBtn.addChild(btn);
+            return btn.isStop;
+        }
+        clearLay(hArg) {
+            super.clearLay(hArg);
+            this.clearText();
+            for (const c of this.cntBtn.removeChildren())
+                c.removeAllListeners().destroy();
+        }
+        playback(hLay, fncComp = undefined) {
+            super.playback(hLay);
+            this.enabled = hLay.enabled;
+            this.r_align = hLay.r_align;
+            this.cvsResize();
+            this.b_alpha = hLay.b_alpha;
+            this.b_alpha_isfixed = hLay.b_alpha_isfixed;
+            let ret = this.drawBack((hLay.b_do)
+                ? (hLay.b_do === 'Sprite' ? { b_pic: hLay.b_pic } : { b_color: hLay.b_color })
+                : { b_pic: '' });
+            this.setFfs(hLay);
+            this.txs.playback(hLay.txs);
+            const aBtn = hLay.btns;
+            aBtn.forEach(v => ret = ret || this.addButton(JSON.parse(v)));
+            if (fncComp)
+                fncComp();
+            return ret;
+        }
+        snapshot(rnd, re) {
+            rnd.render(this.cnt, undefined, false);
+            this.txs.snapshot(rnd, re);
+        }
+        snapshot_end() { this.txs.snapshot_end(); }
+        dump() {
+            let aPixiObj = [];
+            const len = this.cnt.children.length;
+            for (let i = 0; i < len; ++i) {
+                const e = this.cnt.children[i];
+                const cls = (e instanceof pixi_js_1.Sprite) ? "Sprite" : ((e instanceof pixi_js_1.Graphics) ? "Graphics" : ((e instanceof pixi_js_1.Container) ? "Container" : "?"));
+                aPixiObj.push(`{"class":"${cls}", "name":"${e.name}", "alpha":${e.alpha || 1}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`);
+            }
+            return super.dump() + `, "enabled":"${this.enabled}", ${this.txs.dump()}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${aPixiObj.join(',')}]`;
+        }
     }
-}
+    TxtLayer.css_key4del = '/* SKYNovel */';
+    TxtLayer.doAutoWc = false;
+    TxtLayer.hAutoWc = Object.create(null);
+    TxtLayer.rec = (tx) => tx;
+    return TxtLayer;
+})();
 exports.TxtLayer = TxtLayer;
-TxtLayer.css_key4del = '/* SKYNovel */';
-TxtLayer.doAutoWc = false;
-TxtLayer.hAutoWc = Object.create(null);
-TxtLayer.rec = (tx) => tx;
 
 
 /***/ }),
@@ -6858,6 +7174,7 @@ TxtLayer.rec = (tx) => tx;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TxtStage = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/lib/pixi.es.js");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const CmnTween_1 = __webpack_require__(/*! ./CmnTween */ "./core/src/sn/CmnTween.ts");
@@ -6866,804 +7183,807 @@ const DebugMng_1 = __webpack_require__(/*! ./DebugMng */ "./core/src/sn/DebugMng
 const Tween = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/dist/tween.esm.js").default;
 ;
 ;
-class TxtStage extends pixi_js_1.Container {
-    constructor(infTL, cntInsidePadding, cnt) {
-        super();
-        this.infTL = infTL;
-        this.cnt = cnt;
-        this.htmTxt = document.createElement('span');
-        this.cntTxt = new pixi_js_1.Container;
-        this.grpDbgMasume = new pixi_js_1.Graphics;
-        this.left = 0;
-        this.isTategaki = false;
-        this.padTx4x = 0;
-        this.padTx4y = 0;
-        this.aSpTw = [];
-        this.aRect = [];
-        this.lenHtmTxt = 0;
-        this.rctm = new pixi_js_1.Rectangle;
-        this.regDs = /animation\-duration: (?<ms>\d+)ms;/;
-        this.fncEndChIn = () => { };
-        this.isChInIng = false;
-        this.lh_half = 0;
-        this.fi_easing = 'Quadratic.Out';
-        this.fo_easing = 'Quadratic.Out';
-        this.sss = null;
-        this.htmTxt.classList.add('sn_tx');
-        this.htmTxt.style.position = 'absolute';
-        TxtStage.cvs.parentElement.appendChild(this.htmTxt);
-        cntInsidePadding.addChild(this);
-        cntInsidePadding.addChild(this.cntTxt);
-        cntInsidePadding.addChild(this.grpDbgMasume);
-        this.grpDbgMasume.name = 'grpDbgMasume';
-    }
-    static init(cfg) {
-        TxtStage.cfg = cfg;
-        TxtStage.cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
-    }
-    static setEvtMng(evtMng) { TxtStage.evtMng = evtMng; }
-    lay(hArg) {
-        var _a, _b;
-        const s = this.htmTxt.style;
-        if (hArg.style) {
-            const cln = document.createElement('span');
-            cln.style.cssText = hArg.style;
-            const len = cln.style.length;
-            for (let i = 0; i < len; ++i) {
-                const key = cln.style[i];
-                if (key in TxtStage.hWarning) {
-                    DebugMng_1.DebugMng.myTrace(`${key}は指定できません`, 'W');
-                    continue;
-                }
-                s[key] = cln.style[key];
-            }
-            if ((!cln.style.opacity) && ('alpha' in hArg))
-                s.opacity = String(this.cnt.alpha);
+let TxtStage = (() => {
+    class TxtStage extends pixi_js_1.Container {
+        constructor(infTL, cntInsidePadding, cnt) {
+            super();
+            this.infTL = infTL;
+            this.cnt = cnt;
+            this.htmTxt = document.createElement('span');
+            this.cntTxt = new pixi_js_1.Container;
+            this.grpDbgMasume = new pixi_js_1.Graphics;
+            this.left = 0;
+            this.isTategaki = false;
+            this.padTx4x = 0;
+            this.padTx4y = 0;
+            this.aSpTw = [];
+            this.aRect = [];
+            this.lenHtmTxt = 0;
+            this.rctm = new pixi_js_1.Rectangle;
+            this.regDs = /animation\-duration: (?<ms>\d+)ms;/;
+            this.fncEndChIn = () => { };
+            this.isChInIng = false;
+            this.lh_half = 0;
+            this.fi_easing = 'Quadratic.Out';
+            this.fo_easing = 'Quadratic.Out';
+            this.sss = null;
+            this.htmTxt.classList.add('sn_tx');
+            this.htmTxt.style.position = 'absolute';
+            TxtStage.cvs.parentElement.appendChild(this.htmTxt);
+            cntInsidePadding.addChild(this);
+            cntInsidePadding.addChild(this.cntTxt);
+            cntInsidePadding.addChild(this.grpDbgMasume);
+            this.grpDbgMasume.name = 'grpDbgMasume';
         }
-        else if ('alpha' in hArg)
-            s.opacity = String(this.cnt.alpha);
-        this.lay_sub();
-        this.left = this.cnt.position.x
-            - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && this.isTategaki
-                ? this.infTL.pad_left + this.infTL.pad_right
-                : 0);
-        s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
-        this.cvsResize();
-        s.display = this.cnt.visible ? 'inline' : 'none';
-        s.textShadow = (_b = (_a = hArg.filter) !== null && _a !== void 0 ? _a : s.textShadow) !== null && _b !== void 0 ? _b : '';
-    }
-    lay_sub() {
-        var _a;
-        const s = this.htmTxt.style;
-        const fs = parseFloat(s.fontSize || '0');
-        this.infTL.fontsize = fs;
-        this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
-        this.infTL.pad_right = parseFloat(s.paddingRight || '0');
-        this.infTL.pad_top = parseFloat(s.paddingTop || '0');
-        this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
-        this.infTL.$width = parseFloat(s.width || '0');
-        this.infTL.$height = parseFloat(s.height || '0');
-        this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
-        this.isTategaki = (s.writingMode == 'vertical-rl');
-        this.padTx4x = 0;
-        this.padTx4y = 0;
-        const lh = (_a = s.lineHeight) !== null && _a !== void 0 ? _a : '0';
-        this.lh_half = this.isTategaki
-            ? 0
-            : ((lh.slice(-2) == 'px')
-                ? parseFloat(lh)
-                : (fs * parseFloat(lh) - fs)) / 2;
-    }
-    cvsResize() {
-        const s = this.htmTxt.style;
-        s.left = (this.left * CmnLib_1.CmnLib.cvsScale) + 'px';
-        s.top = (this.cnt.position.y * CmnLib_1.CmnLib.cvsScale) + 'px';
-        s.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x * CmnLib_1.CmnLib.cvsScale}, ${this.cnt.scale.y * CmnLib_1.CmnLib.cvsScale}`;
-    }
-    get tategaki() { return this.isTategaki; }
-    setSize(width, height) {
-        this.infTL.$width = width;
-        this.infTL.$height = height;
-        this.htmTxt.style.width = this.infTL.$width + 'px';
-        this.htmTxt.style.height = this.infTL.$height + 'px';
-    }
-    htm2tx(fnc, hidden = true) {
-        const util = {
-            escape: (str) => str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
-            mimeType: (url) => {
-                const extension = parseExtension(url).toLowerCase();
-                return mimes()[extension] || '';
-            },
-            dataAsUrl: dataAsUrl,
-            isDataUrl: isDataUrl,
-            resolveUrl: resolveUrl,
-            getAndEncode: getAndEncode,
-            asArray: (arrayLike) => {
-                const array = [];
-                const length = arrayLike.length;
-                for (let i = 0; i < length; ++i)
-                    array.push(arrayLike[i]);
-                return array;
-            },
-        };
-        function mimes() {
-            const WOFF = 'application/font-woff';
-            const JPEG = 'image/jpeg';
-            return {
-                'woff': WOFF,
-                'woff2': WOFF,
-                'ttf': 'application/font-truetype',
-                'eot': 'application/vnd.ms-fontobject',
-                'png': 'image/png',
-                'jpg': JPEG,
-                'jpeg': JPEG,
-                'gif': 'image/gif',
-                'tiff': 'image/tiff',
-                'svg': 'image/svg+xml'
-            };
+        static init(cfg) {
+            TxtStage.cfg = cfg;
+            TxtStage.cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
         }
-        const inliner = newInliner();
-        const fontFaces = newFontFaces();
-        function embedFonts(node) {
-            return fontFaces.resolveAll()
-                .then(cssText => {
-                const styleNode = document.createElement('style');
-                node.appendChild(styleNode);
-                styleNode.appendChild(document.createTextNode(cssText));
-                return node;
-            });
-        }
-        function parseExtension(url) {
-            const match = /\.([^\.\/]*?)$/g.exec(url);
-            if (match)
-                return match[1];
-            else
-                return '';
-        }
-        function isDataUrl(url) {
-            return url.search(/^(data:)/) !== -1;
-        }
-        function resolveUrl(url, baseUrl) {
-            const doc = document.implementation.createHTMLDocument();
-            const base = doc.createElement('base');
-            doc.head.appendChild(base);
-            const a = doc.createElement('a');
-            doc.body.appendChild(a);
-            base.href = baseUrl;
-            a.href = url;
-            return a.href;
-        }
-        function getAndEncode(url) {
-            let TIMEOUT = 30000;
-            return new Promise(function (resolve) {
-                const request = new XMLHttpRequest();
-                request.onreadystatechange = done;
-                request.ontimeout = timeout;
-                request.responseType = 'blob';
-                request.timeout = TIMEOUT;
-                request.open('GET', url, true);
-                request.send();
-                function done() {
-                    if (request.readyState !== 4)
-                        return;
-                    if (request.status !== 200) {
-                        fail('cannot fetch resource: ' + url + ', status: ' + request.status);
-                        return;
-                    }
-                    const encoder = new FileReader();
-                    encoder.onloadend = function () {
-                        const content = encoder.result.toString().split(/,/)[1];
-                        resolve(content);
-                    };
-                    encoder.readAsDataURL(request.response);
-                }
-                function timeout() {
-                    fail('timeout of ' + TIMEOUT + 'ms occured while fetching resource: ' + url);
-                }
-                function fail(message) {
-                    console.error(message);
-                    resolve('');
-                }
-            });
-        }
-        function dataAsUrl(content, type) {
-            return 'data:' + type + ';base64,' + content;
-        }
-        function newInliner() {
-            const URL_REGEX = /url\(['"]?([^'"]+?)['"]?\)/g;
-            return {
-                inlineAll: inlineAll,
-                shouldProcess: shouldProcess,
-            };
-            function shouldProcess(str) {
-                return str.search(URL_REGEX) !== -1;
-            }
-            function readUrls(str) {
-                const result = [];
-                let match;
-                while ((match = URL_REGEX.exec(str))) {
-                    result.push(match[1]);
-                }
-                return result.filter(function (url) {
-                    return !util.isDataUrl(url);
-                });
-            }
-            function inline(str, url, baseUrl, get) {
-                return Promise.resolve(url)
-                    .then(url => baseUrl ? util.resolveUrl(url, baseUrl) : url)
-                    .then(get || util.getAndEncode)
-                    .then(data => util.dataAsUrl(data, util.mimeType(url)))
-                    .then(dataUrl => str.replace(urlAsRegex(url), '$1' + dataUrl + '$3'));
-                function urlAsRegex(url) {
-                    return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
-                }
-            }
-            function inlineAll(str, baseUrl, get) {
-                if (nothingToInline())
-                    return Promise.resolve(str);
-                return Promise.resolve(str)
-                    .then(readUrls)
-                    .then(urls => {
-                    let done = Promise.resolve(str);
-                    for (const url of urls) {
-                        done = done.then(string => {
-                            return inline(string, url, baseUrl, get);
-                        });
-                    }
-                    return done;
-                });
-                function nothingToInline() {
-                    return !shouldProcess(str);
-                }
-            }
-        }
-        function newFontFaces() {
-            return {
-                resolveAll: resolveAll,
-                impl: { readAll: readAll }
-            };
-            function resolveAll() {
-                return readAll()
-                    .then(webFonts => Promise.all(webFonts.map((webFont) => webFont.resolve())))
-                    .then(cssStrings => cssStrings.join('\n'));
-            }
-            function readAll() {
-                return Promise.resolve(util.asArray(document.styleSheets))
-                    .then(getCssRules)
-                    .then(selectWebFontRules)
-                    .then(rules => rules.map(newWebFont));
-                function selectWebFontRules(cssRules) {
-                    return cssRules
-                        .filter((rule) => rule.type === CSSRule.FONT_FACE_RULE)
-                        .filter((rule) => inliner.shouldProcess(rule.style.getPropertyValue('src')));
-                }
-                function getCssRules(styleSheets) {
-                    const cssRules = [];
-                    for (const sheet of styleSheets) {
-                        try {
-                            if (sheet.href)
-                                continue;
-                            util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
-                        }
-                        catch (e) {
-                            console.error('Error while reading CSS rules from ' + sheet.href, e.toString());
-                        }
-                    }
-                    return cssRules;
-                }
-                function newWebFont(webFontRule) {
-                    return {
-                        resolve: function resolve() {
-                            const baseUrl = (webFontRule.parentStyleSheet || {}).href;
-                            return inliner.inlineAll(webFontRule.cssText, baseUrl);
-                        },
-                        src: function () {
-                            return webFontRule.style.getPropertyValue('src');
-                        }
-                    };
-                }
-            }
-        }
-        Promise.resolve(this.htmTxt)
-            .then(node => {
-            const cln = node.cloneNode(true);
-            cln.style.padding = '0px';
-            cln.style.paddingRight = this.padTx4x + 'px';
-            cln.style.paddingTop = this.padTx4y + 'px';
-            cln.style.left = '0px';
-            cln.style.top = '0px';
-            cln.style.width = (this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right) + 'px';
-            cln.style.height = (this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom) + 'px';
-            this.htmTxt.hidden = hidden;
-            return cln;
-        })
-            .then(embedFonts)
-            .then(node => {
-            node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-            const img = new Image;
-            img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.infTL.$width}px" height="${this.infTL.$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node)
-                .replace(/#/g, '%23').replace(/\n/g, '%0A')}</foreignObject></svg>`;
-            return new Promise(resolve => img.onload = () => resolve(img));
-        })
-            .then(img => new Promise(resolve => setTimeout(() => resolve(img), 100)))
-            .then((img) => {
-            const canvas = document.createElement('canvas');
-            canvas.width = this.infTL.$width;
-            canvas.height = this.infTL.$height;
-            canvas.getContext('2d').drawImage(img, 0, 0);
-            canvas.toBlob(blob => {
-                const url = URL.createObjectURL(blob);
-                pixi_js_1.Texture.from(url).once('update', (tx2) => {
-                    fnc(tx2);
-                    URL.revokeObjectURL(url);
-                });
-            });
-        })
-            .catch(err => DebugMng_1.DebugMng.myTrace(`goTxt() = ${err}`));
-    }
-    goTxt(aSpan) {
-        var _a, _b;
-        TxtStage.cntBreak.visible = false;
-        const begin = this.aRect.length;
-        if (TxtStage.cfg.oCfg.debug.masume && begin == 0) {
-            if (CmnLib_1.CmnLib.debugLog)
-                console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
-            this.grpDbgMasume.clear();
-            this.grpDbgMasume.beginFill(0x33FF00, 0.2);
-            this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
-            this.grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
-            this.grpDbgMasume.endFill();
-            this.grpDbgMasume.beginFill(0x0033FF, 0.2);
-            this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
-            this.grpDbgMasume.drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom);
-            this.grpDbgMasume.endFill();
-        }
-        if (begin == 0)
-            this.htmTxt.innerHTML = [...aSpan].join('');
-        else
-            this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
-        this.lenHtmTxt = aSpan.length;
-        let len = 0;
-        let j = 2;
-        do {
-            const e = this.aRect = this.getChRects(this.htmTxt);
-            len = e.length;
-            if (CmnLib_1.CmnLib.cvsScale != 1) {
-                const ox = CmnLib_1.CmnLib.ofsPadLeft_Dom2PIXI
-                    + parseFloat(this.htmTxt.style.left)
-                        * (1 - CmnLib_1.CmnLib.cvsScale);
-                const oy = CmnLib_1.CmnLib.ofsPadTop_Dom2PIXI
-                    + parseFloat(this.htmTxt.style.top)
-                        * (1 - CmnLib_1.CmnLib.cvsScale);
+        static setEvtMng(evtMng) { TxtStage.evtMng = evtMng; }
+        lay(hArg) {
+            var _a, _b;
+            const s = this.htmTxt.style;
+            if (hArg.style) {
+                const cln = document.createElement('span');
+                cln.style.cssText = hArg.style;
+                const len = cln.style.length;
                 for (let i = 0; i < len; ++i) {
-                    const r = e[i].rect;
-                    r.x -= ox;
-                    r.y -= oy;
-                    r.x /= CmnLib_1.CmnLib.cvsScale;
-                    r.y /= CmnLib_1.CmnLib.cvsScale;
-                    r.width /= CmnLib_1.CmnLib.cvsScale;
-                    r.height /= CmnLib_1.CmnLib.cvsScale;
-                }
-            }
-            if (len < 2)
-                break;
-            let sl_xy = -Infinity;
-            for (; j < len; ++j) {
-                const he = e[j];
-                if (he.elm.outerHTML.slice(0, 3) == '<rt')
-                    continue;
-                const xy = this.tategaki ? he.rect.y : he.rect.x;
-                if (sl_xy < xy) {
-                    sl_xy = xy;
-                    continue;
-                }
-                sl_xy = -Infinity;
-                if (TxtStage.reg分割禁止.test(e[j - 1].ch)
-                    && e[j - 1].ch == he.ch)
-                    --j;
-                else {
-                    if (TxtStage.reg行末禁則.test(e[j - 1].ch))
-                        --j;
-                    else if (TxtStage.reg行頭禁則.test(he.ch)) {
-                        while (j > 0 && TxtStage.reg行頭禁則.test(e[--j].ch))
-                            ;
-                    }
-                    else
+                    const key = cln.style[i];
+                    if (key in TxtStage.hWarning) {
+                        DebugMng_1.DebugMng.myTrace(`${key}は指定できません`, 'W');
                         continue;
-                    while (j > 0 && TxtStage.reg行末禁則.test(e[j - 1].ch))
-                        --j;
+                    }
+                    s[key] = cln.style[key];
                 }
-                const pal = e[j].elm.parentElement;
-                if (pal.classList.contains('sn_tx'))
-                    pal.insertBefore(document.createElement('br'), e[j].elm);
-                else
-                    pal.parentElement.insertBefore(document.createElement('br'), pal);
-                j += 2;
-                len = -1;
-                break;
+                if ((!cln.style.opacity) && ('alpha' in hArg))
+                    s.opacity = String(this.cnt.alpha);
             }
-        } while (len < 0);
-        const fncMasumeLog = CmnLib_1.CmnLib.debugLog
-            ? (v, rct) => console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
-            : () => { };
-        const fncMasume = (TxtStage.cfg.oCfg.debug.masume)
-            ? (v, rct) => {
-                fncMasumeLog(v, rct);
-                this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
-                this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
-                this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
+            else if ('alpha' in hArg)
+                s.opacity = String(this.cnt.alpha);
+            this.lay_sub();
+            this.left = this.cnt.position.x
+                - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && this.isTategaki
+                    ? this.infTL.pad_left + this.infTL.pad_right
+                    : 0);
+            s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
+            this.cvsResize();
+            s.display = this.cnt.visible ? 'inline' : 'none';
+            s.textShadow = (_b = (_a = hArg.filter) !== null && _a !== void 0 ? _a : s.textShadow) !== null && _b !== void 0 ? _b : '';
+        }
+        lay_sub() {
+            var _a;
+            const s = this.htmTxt.style;
+            const fs = parseFloat(s.fontSize || '0');
+            this.infTL.fontsize = fs;
+            this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
+            this.infTL.pad_right = parseFloat(s.paddingRight || '0');
+            this.infTL.pad_top = parseFloat(s.paddingTop || '0');
+            this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
+            this.infTL.$width = parseFloat(s.width || '0');
+            this.infTL.$height = parseFloat(s.height || '0');
+            this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
+            this.isTategaki = (s.writingMode === 'vertical-rl');
+            this.padTx4x = 0;
+            this.padTx4y = 0;
+            const lh = (_a = s.lineHeight) !== null && _a !== void 0 ? _a : '0';
+            this.lh_half = this.isTategaki
+                ? 0
+                : ((lh.slice(-2) === 'px')
+                    ? parseFloat(lh)
+                    : (fs * parseFloat(lh) - fs)) / 2;
+        }
+        cvsResize() {
+            const s = this.htmTxt.style;
+            s.left = (this.left * CmnLib_1.CmnLib.cvsScale) + 'px';
+            s.top = (this.cnt.position.y * CmnLib_1.CmnLib.cvsScale) + 'px';
+            s.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x * CmnLib_1.CmnLib.cvsScale}, ${this.cnt.scale.y * CmnLib_1.CmnLib.cvsScale}`;
+        }
+        get tategaki() { return this.isTategaki; }
+        setSize(width, height) {
+            this.infTL.$width = width;
+            this.infTL.$height = height;
+            this.htmTxt.style.width = this.infTL.$width + 'px';
+            this.htmTxt.style.height = this.infTL.$height + 'px';
+        }
+        htm2tx(fnc, hidden = true) {
+            const util = {
+                escape: (str) => str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
+                mimeType: (url) => {
+                    const extension = parseExtension(url).toLowerCase();
+                    return mimes()[extension] || '';
+                },
+                dataAsUrl: dataAsUrl,
+                isDataUrl: isDataUrl,
+                resolveUrl: resolveUrl,
+                getAndEncode: getAndEncode,
+                asArray: (arrayLike) => {
+                    const array = [];
+                    const length = arrayLike.length;
+                    for (let i = 0; i < length; ++i)
+                        array.push(arrayLike[i]);
+                    return array;
+                },
+            };
+            function mimes() {
+                const WOFF = 'application/font-woff';
+                const JPEG = 'image/jpeg';
+                return {
+                    'woff': WOFF,
+                    'woff2': WOFF,
+                    'ttf': 'application/font-truetype',
+                    'eot': 'application/vnd.ms-fontobject',
+                    'png': 'image/png',
+                    'jpg': JPEG,
+                    'jpeg': JPEG,
+                    'gif': 'image/gif',
+                    'tiff': 'image/tiff',
+                    'svg': 'image/svg+xml'
+                };
+            }
+            const inliner = newInliner();
+            const fontFaces = newFontFaces();
+            function embedFonts(node) {
+                return fontFaces.resolveAll()
+                    .then(cssText => {
+                    const styleNode = document.createElement('style');
+                    node.appendChild(styleNode);
+                    styleNode.appendChild(document.createTextNode(cssText));
+                    return node;
+                });
+            }
+            function parseExtension(url) {
+                const match = /\.([^\.\/]*?)$/g.exec(url);
+                if (match)
+                    return match[1];
+                else
+                    return '';
+            }
+            function isDataUrl(url) {
+                return url.search(/^(data:)/) !== -1;
+            }
+            function resolveUrl(url, baseUrl) {
+                const doc = document.implementation.createHTMLDocument();
+                const base = doc.createElement('base');
+                doc.head.appendChild(base);
+                const a = doc.createElement('a');
+                doc.body.appendChild(a);
+                base.href = baseUrl;
+                a.href = url;
+                return a.href;
+            }
+            function getAndEncode(url) {
+                let TIMEOUT = 30000;
+                return new Promise(function (resolve) {
+                    const request = new XMLHttpRequest();
+                    request.onreadystatechange = done;
+                    request.ontimeout = timeout;
+                    request.responseType = 'blob';
+                    request.timeout = TIMEOUT;
+                    request.open('GET', url, true);
+                    request.send();
+                    function done() {
+                        if (request.readyState !== 4)
+                            return;
+                        if (request.status !== 200) {
+                            fail('cannot fetch resource: ' + url + ', status: ' + request.status);
+                            return;
+                        }
+                        const encoder = new FileReader();
+                        encoder.onloadend = function () {
+                            const content = encoder.result.toString().split(/,/)[1];
+                            resolve(content);
+                        };
+                        encoder.readAsDataURL(request.response);
+                    }
+                    function timeout() {
+                        fail('timeout of ' + TIMEOUT + 'ms occured while fetching resource: ' + url);
+                    }
+                    function fail(message) {
+                        console.error(message);
+                        resolve('');
+                    }
+                });
+            }
+            function dataAsUrl(content, type) {
+                return 'data:' + type + ';base64,' + content;
+            }
+            function newInliner() {
+                const URL_REGEX = /url\(['"]?([^'"]+?)['"]?\)/g;
+                return {
+                    inlineAll: inlineAll,
+                    shouldProcess: shouldProcess,
+                };
+                function shouldProcess(str) {
+                    return str.search(URL_REGEX) !== -1;
+                }
+                function readUrls(str) {
+                    const result = [];
+                    let match;
+                    while ((match = URL_REGEX.exec(str))) {
+                        result.push(match[1]);
+                    }
+                    return result.filter(function (url) {
+                        return !util.isDataUrl(url);
+                    });
+                }
+                function inline(str, url, baseUrl, get) {
+                    return Promise.resolve(url)
+                        .then(url => baseUrl ? util.resolveUrl(url, baseUrl) : url)
+                        .then(get || util.getAndEncode)
+                        .then(data => util.dataAsUrl(data, util.mimeType(url)))
+                        .then(dataUrl => str.replace(urlAsRegex(url), '$1' + dataUrl + '$3'));
+                    function urlAsRegex(url) {
+                        return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
+                    }
+                }
+                function inlineAll(str, baseUrl, get) {
+                    if (nothingToInline())
+                        return Promise.resolve(str);
+                    return Promise.resolve(str)
+                        .then(readUrls)
+                        .then(urls => {
+                        let done = Promise.resolve(str);
+                        for (const url of urls) {
+                            done = done.then(string => {
+                                return inline(string, url, baseUrl, get);
+                            });
+                        }
+                        return done;
+                    });
+                    function nothingToInline() {
+                        return !shouldProcess(str);
+                    }
+                }
+            }
+            function newFontFaces() {
+                return {
+                    resolveAll: resolveAll,
+                    impl: { readAll: readAll }
+                };
+                function resolveAll() {
+                    return readAll()
+                        .then(webFonts => Promise.all(webFonts.map((webFont) => webFont.resolve())))
+                        .then(cssStrings => cssStrings.join('\n'));
+                }
+                function readAll() {
+                    return Promise.resolve(util.asArray(document.styleSheets))
+                        .then(getCssRules)
+                        .then(selectWebFontRules)
+                        .then(rules => rules.map(newWebFont));
+                    function selectWebFontRules(cssRules) {
+                        return cssRules
+                            .filter((rule) => rule.type === CSSRule.FONT_FACE_RULE)
+                            .filter((rule) => inliner.shouldProcess(rule.style.getPropertyValue('src')));
+                    }
+                    function getCssRules(styleSheets) {
+                        const cssRules = [];
+                        for (const sheet of styleSheets) {
+                            try {
+                                if (sheet.href)
+                                    continue;
+                                util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
+                            }
+                            catch (e) {
+                                console.error('Error while reading CSS rules from ' + sheet.href, e.toString());
+                            }
+                        }
+                        return cssRules;
+                    }
+                    function newWebFont(webFontRule) {
+                        return {
+                            resolve: function resolve() {
+                                const baseUrl = (webFontRule.parentStyleSheet || {}).href;
+                                return inliner.inlineAll(webFontRule.cssText, baseUrl);
+                            },
+                            src: function () {
+                                return webFontRule.style.getPropertyValue('src');
+                            }
+                        };
+                    }
+                }
+            }
+            Promise.resolve(this.htmTxt)
+                .then(node => {
+                const cln = node.cloneNode(true);
+                cln.style.padding = '0px';
+                cln.style.paddingRight = this.padTx4x + 'px';
+                cln.style.paddingTop = this.padTx4y + 'px';
+                cln.style.left = '0px';
+                cln.style.top = '0px';
+                cln.style.width = (this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right) + 'px';
+                cln.style.height = (this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom) + 'px';
+                this.htmTxt.hidden = hidden;
+                return cln;
+            })
+                .then(embedFonts)
+                .then(node => {
+                node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+                const img = new Image;
+                img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.infTL.$width}px" height="${this.infTL.$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node)
+                    .replace(/#/g, '%23').replace(/\n/g, '%0A')}</foreignObject></svg>`;
+                return new Promise(resolve => img.onload = () => resolve(img));
+            })
+                .then(img => new Promise(resolve => setTimeout(() => resolve(img), 100)))
+                .then((img) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = this.infTL.$width;
+                canvas.height = this.infTL.$height;
+                canvas.getContext('2d').drawImage(img, 0, 0);
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    pixi_js_1.Texture.from(url).once('update', (tx2) => {
+                        fnc(tx2);
+                        URL.revokeObjectURL(url);
+                    });
+                });
+            })
+                .catch(err => DebugMng_1.DebugMng.myTrace(`goTxt() = ${err}`));
+        }
+        goTxt(aSpan) {
+            var _a, _b;
+            TxtStage.cntBreak.visible = false;
+            const begin = this.aRect.length;
+            if (TxtStage.cfg.oCfg.debug.masume && begin === 0) {
+                if (CmnLib_1.CmnLib.debugLog)
+                    console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
+                this.grpDbgMasume.clear();
+                this.grpDbgMasume.beginFill(0x33FF00, 0.2);
+                this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
+                this.grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
+                this.grpDbgMasume.endFill();
+                this.grpDbgMasume.beginFill(0x0033FF, 0.2);
+                this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
+                this.grpDbgMasume.drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom);
                 this.grpDbgMasume.endFill();
             }
-            : () => { };
-        const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
-        const bcr = this.htmTxt.getBoundingClientRect();
-        const sx = bcr.left + window.pageXOffset + this.infTL.pad_left;
-        const sy = bcr.top + window.pageYOffset + this.infTL.pad_top;
-        for (let i = begin; i < len; ++i) {
-            const v = this.aRect[i];
-            const rct = v.rect;
-            const arg = JSON.parse((_a = v.arg) !== null && _a !== void 0 ? _a : '{"delay": 0}');
-            const add = JSON.parse((_b = v.add) !== null && _b !== void 0 ? _b : '{}');
-            const cis = TxtStage.hChInStyle[add.ch_in_style];
-            rct.x -= sx;
-            rct.y -= sy;
-            fncMasume(v, rct);
-            if (cis) {
-                if (this.isTategaki) {
-                    rct.x += (rct.width - rct.height) / 2;
-                    rct.width = rct.height;
+            if (begin === 0)
+                this.htmTxt.innerHTML = [...aSpan].join('');
+            else
+                this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
+            this.lenHtmTxt = aSpan.length;
+            let len = 0;
+            let j = 2;
+            do {
+                const e = this.aRect = this.getChRects(this.htmTxt);
+                len = e.length;
+                if (CmnLib_1.CmnLib.cvsScale !== 1) {
+                    const ox = CmnLib_1.CmnLib.ofsPadLeft_Dom2PIXI
+                        + parseFloat(this.htmTxt.style.left)
+                            * (1 - CmnLib_1.CmnLib.cvsScale);
+                    const oy = CmnLib_1.CmnLib.ofsPadTop_Dom2PIXI
+                        + parseFloat(this.htmTxt.style.top)
+                            * (1 - CmnLib_1.CmnLib.cvsScale);
+                    for (let i = 0; i < len; ++i) {
+                        const r = e[i].rect;
+                        r.x -= ox;
+                        r.y -= oy;
+                        r.x /= CmnLib_1.CmnLib.cvsScale;
+                        r.y /= CmnLib_1.CmnLib.cvsScale;
+                        r.width /= CmnLib_1.CmnLib.cvsScale;
+                        r.height /= CmnLib_1.CmnLib.cvsScale;
+                    }
                 }
-                else {
-                    rct.y += (rct.height - rct.width) / 2;
-                    rct.height = rct.width;
+                if (len < 2)
+                    break;
+                let sl_xy = -Infinity;
+                for (; j < len; ++j) {
+                    const he = e[j];
+                    if (he.elm.outerHTML.slice(0, 3) === '<rt')
+                        continue;
+                    const xy = this.tategaki ? he.rect.y : he.rect.x;
+                    if (sl_xy < xy) {
+                        sl_xy = xy;
+                        continue;
+                    }
+                    sl_xy = -Infinity;
+                    if (TxtStage.reg分割禁止.test(e[j - 1].ch)
+                        && e[j - 1].ch === he.ch)
+                        --j;
+                    else {
+                        if (TxtStage.reg行末禁則.test(e[j - 1].ch))
+                            --j;
+                        else if (TxtStage.reg行頭禁則.test(he.ch)) {
+                            while (j > 0 && TxtStage.reg行頭禁則.test(e[--j].ch))
+                                ;
+                        }
+                        else
+                            continue;
+                        while (j > 0 && TxtStage.reg行末禁則.test(e[j - 1].ch))
+                            --j;
+                    }
+                    const pal = e[j].elm.parentElement;
+                    if (pal.classList.contains('sn_tx'))
+                        pal.insertBefore(document.createElement('br'), e[j].elm);
+                    else
+                        pal.parentElement.insertBefore(document.createElement('br'), pal);
+                    j += 2;
+                    len = -1;
+                    break;
                 }
-                this.rctm = rct;
+            } while (len < 0);
+            const fncMasumeLog = CmnLib_1.CmnLib.debugLog
+                ? (v, rct) => console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
+                : () => { };
+            const fncMasume = (TxtStage.cfg.oCfg.debug.masume)
+                ? (v, rct) => {
+                    fncMasumeLog(v, rct);
+                    this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
+                    this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
+                    this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
+                    this.grpDbgMasume.endFill();
+                }
+                : () => { };
+            const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
+            const bcr = this.htmTxt.getBoundingClientRect();
+            const sx = bcr.left + window.pageXOffset + this.infTL.pad_left;
+            const sy = bcr.top + window.pageYOffset + this.infTL.pad_top;
+            for (let i = begin; i < len; ++i) {
+                const v = this.aRect[i];
+                const rct = v.rect;
+                const arg = JSON.parse((_a = v.arg) !== null && _a !== void 0 ? _a : '{"delay": 0}');
+                const add = JSON.parse((_b = v.add) !== null && _b !== void 0 ? _b : '{}');
+                const cis = TxtStage.hChInStyle[add.ch_in_style];
+                rct.x -= sx;
+                rct.y -= sy;
+                fncMasume(v, rct);
+                if (cis) {
+                    if (this.isTategaki) {
+                        rct.x += (rct.width - rct.height) / 2;
+                        rct.width = rct.height;
+                    }
+                    else {
+                        rct.y += (rct.height - rct.width) / 2;
+                        rct.height = rct.width;
+                    }
+                    this.rctm = rct;
+                }
+                switch (v.cmd) {
+                    case 'grp':
+                        const cnt = new pixi_js_1.Container;
+                        this.spWork(cnt, arg, add, rct, ease, cis !== null && cis !== void 0 ? cis : {});
+                        this.cntTxt.addChild(cnt);
+                        GrpLayer_1.GrpLayer.csv2Sprites(arg.pic, cnt, sp => {
+                            if (!cnt.parent)
+                                cnt.removeChild(sp);
+                        });
+                        break;
+                    case 'link':
+                        const sp = new pixi_js_1.Sprite;
+                        sp.width = rct.width;
+                        sp.height = rct.height;
+                        arg.key = `lnk=[${i}] ` + this.name;
+                        this.spWork(sp, arg, add, rct, ease, cis !== null && cis !== void 0 ? cis : {});
+                        TxtStage.evtMng.button(arg, sp);
+                        this.cntTxt.addChild(sp);
+                        break;
+                }
             }
-            switch (v.cmd) {
-                case 'grp':
-                    const cnt = new pixi_js_1.Container;
-                    this.spWork(cnt, arg, add, rct, ease, cis !== null && cis !== void 0 ? cis : {});
-                    this.cntTxt.addChild(cnt);
-                    GrpLayer_1.GrpLayer.csv2Sprites(arg.pic, cnt, sp => {
-                        if (!cnt.parent)
-                            cnt.removeChild(sp);
-                    });
-                    break;
-                case 'link':
-                    const sp = new pixi_js_1.Sprite;
-                    sp.width = rct.width;
-                    sp.height = rct.height;
-                    arg.key = `lnk=[${i}] ` + this.name;
-                    this.spWork(sp, arg, add, rct, ease, cis !== null && cis !== void 0 ? cis : {});
-                    TxtStage.evtMng.button(arg, sp);
-                    this.cntTxt.addChild(sp);
-                    break;
-            }
-        }
-        this.aRect.slice(0, -1);
-        --this.lenHtmTxt;
-        this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');
-        const chs = this.htmTxt.querySelectorAll('span.sn_ch');
-        const len_chs = chs.length;
-        for (let i = 0; i < len_chs; ++i) {
-            const v = chs[i];
-            v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
-        }
-        this.isChInIng = true;
-        this.fncEndChIn = () => {
-            this.isChInIng = false;
+            this.aRect.slice(0, -1);
+            --this.lenHtmTxt;
+            this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');
+            const chs = this.htmTxt.querySelectorAll('span.sn_ch');
+            const len_chs = chs.length;
             for (let i = 0; i < len_chs; ++i) {
                 const v = chs[i];
-                v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
+                v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
             }
-            TxtStage.cntBreak.position.set(this.rctm.x, this.rctm.y);
-            TxtStage.cntBreak.visible = true;
-            this.fncEndChIn = () => { };
-        };
-        if (len_chs == 0) {
-            this.fncEndChIn();
-            return;
-        }
-        let le = null;
-        for (let i = len_chs - 1; i >= 0; --i) {
-            const v = chs[i];
-            if (v.className == 'sn_ch')
-                break;
-            const st = v.getAttribute('style');
-            if (!st) {
-                le = v;
-                break;
-            }
-            const m = st.match(this.regDs);
-            const g = m === null || m === void 0 ? void 0 : m.groups;
-            if (!g || Number(g.ms) > 0) {
-                le = v;
-                break;
-            }
-        }
-        if (!le) {
-            this.fncEndChIn();
-            return;
-        }
-        le.addEventListener('animationend', this.fncEndChIn, { once: true, passive: true });
-    }
-    spWork(sp, arg, add, rct, ease, cis) {
-        var _a, _b, _c;
-        sp.alpha = 0;
-        if (arg.width)
-            sp.width = arg.width;
-        if (arg.height)
-            sp.height = arg.height;
-        sp.position.set((cis.x.charAt(0) == '=') ? rct.x + sp.width * cis.nx : cis.nx, (cis.y.charAt(0) == '=') ? rct.y + sp.height * cis.ny : cis.ny);
-        const st = {
-            sp: sp,
-            tw: new Tween.Tween(sp)
-                .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait) !== null && _a !== void 0 ? _a : 0)
-                .easing(ease)
-                .delay(((_b = add.wait) !== null && _b !== void 0 ? _b : 0) + ((_c = arg.delay) !== null && _c !== void 0 ? _c : 0))
-                .onComplete(() => {
-                st.tw = null;
-            })
-                .start(),
-        };
-        this.aSpTw.push(st);
-    }
-    skipChIn() {
-        let isLiveTw = this.isChInIng;
-        this.fncEndChIn();
-        this.aSpTw.forEach(st => { if (st.tw) {
-            st.tw.stop().end();
-            isLiveTw = true;
-        } });
-        this.aSpTw = [];
-        return isLiveTw;
-    }
-    static initChStyle() {
-        TxtStage.hChInStyle = Object.create(null);
-        TxtStage.hChOutStyle = Object.create(null);
-    }
-    static getChInStyle(name) { return TxtStage.hChInStyle[name]; }
-    static ch_in_style(hArg) {
-        var _a, _b, _c;
-        const name = hArg.name;
-        if (!name)
-            throw 'nameは必須です';
-        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
-            throw `name【${name}】に使えない文字が含まれます`;
-        if (name in TxtStage.hChInStyle)
-            throw `name【${name}】はすでにあります`;
-        const x = String((_a = hArg.x) !== null && _a !== void 0 ? _a : '=0');
-        const y = String((_b = hArg.y) !== null && _b !== void 0 ? _b : '=0');
-        return TxtStage.hChInStyle[name] = {
-            wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
-            alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
-            x: x,
-            y: y,
-            nx: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
-            ny: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
-            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1),
-            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1),
-            rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
-            join: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', true),
-            ease: (_c = hArg.ease) !== null && _c !== void 0 ? _c : 'ease-out',
-        };
-    }
-    static getChOutStyle(name) { return TxtStage.hChOutStyle[name]; }
-    static ch_out_style(hArg) {
-        var _a, _b, _c;
-        const name = hArg.name;
-        if (!name)
-            throw 'nameは必須です';
-        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
-            throw `name【${name}】に使えない文字が含まれます`;
-        if (name in TxtStage.hChOutStyle)
-            throw `name【${name}】はすでにあります`;
-        const x = String((_a = hArg.x) !== null && _a !== void 0 ? _a : '=0');
-        const y = String((_b = hArg.y) !== null && _b !== void 0 ? _b : '=0');
-        return TxtStage.hChOutStyle[name] = {
-            wait: CmnLib_1.CmnLib.argChk_Num(hArg, 'wait', 500),
-            alpha: CmnLib_1.CmnLib.argChk_Num(hArg, 'alpha', 0),
-            x: x,
-            y: y,
-            nx: parseFloat((x.charAt(0) == '=') ? x.slice(1) : x),
-            ny: parseFloat((y.charAt(0) == '=') ? y.slice(1) : y),
-            scale_x: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_x', 1),
-            scale_y: CmnLib_1.CmnLib.argChk_Num(hArg, 'scale_y', 1),
-            rotate: CmnLib_1.CmnLib.argChk_Num(hArg, 'rotate', 0),
-            join: CmnLib_1.CmnLib.argChk_Boolean(hArg, 'join', false),
-            ease: (_c = hArg.ease) !== null && _c !== void 0 ? _c : 'ease-out',
-        };
-    }
-    dispBreak(pic) {
-        const cnt = TxtStage.cntBreak;
-        cnt.visible = false;
-        this.addChild(cnt);
-        GrpLayer_1.GrpLayer.csv2Sprites(pic, cnt, sp => {
-            if (!cnt.parent)
-                cnt.removeChild(sp);
-        });
-    }
-    static delBreak() {
-        const cnt = TxtStage.cntBreak;
-        if (cnt.parent) {
-            cnt.parent.removeChild(cnt);
-            cnt.removeChildren();
-        }
-        TxtStage.cntBreak = new pixi_js_1.Container;
-    }
-    getChRects(elm) {
-        var _a, _b, _c, _d;
-        const ret = [];
-        if (elm.nodeType != elm.TEXT_NODE) {
-            for (const v of elm.childNodes)
-                ret.push(this.getChRects(v));
-            return Array.prototype.concat.apply([], ret);
-        }
-        const range = elm.ownerDocument.createRange();
-        range.selectNodeContents(elm);
-        let pos = 0;
-        const end = range.endOffset;
-        while (pos < end) {
-            range.setStart(elm, pos);
-            range.setEnd(elm, ++pos);
-            const r = range.getBoundingClientRect();
-            const pe = range.startContainer.parentElement;
-            if (!pe)
-                throw `fn:TxtStage.ts pe null`;
-            const ch = range.toString();
-            const cr = {
-                ch: ch,
-                rect: new pixi_js_1.Rectangle(r.left + window.pageXOffset, r.top + window.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? this.lh_half : 0)),
-                elm: pe,
-                cmd: (_a = pe.getAttribute('data-cmd')) !== null && _a !== void 0 ? _a : undefined,
-                arg: (_b = pe.getAttribute('data-arg')) !== null && _b !== void 0 ? _b : undefined,
-                add: (_c = pe.getAttribute('data-add')) !== null && _c !== void 0 ? _c : undefined,
-                tcy: (_d = pe.getAttribute('data-tcy')) !== null && _d !== void 0 ? _d : undefined,
+            this.isChInIng = true;
+            this.fncEndChIn = () => {
+                this.isChInIng = false;
+                for (let i = 0; i < len_chs; ++i) {
+                    const v = chs[i];
+                    v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
+                }
+                TxtStage.cntBreak.position.set(this.rctm.x, this.rctm.y);
+                TxtStage.cntBreak.visible = true;
+                this.fncEndChIn = () => { };
             };
-            ret.push(cr);
-        }
-        range.detach();
-        return ret;
-    }
-    clearText() {
-        var _a, _b, _c, _d;
-        this.grpDbgMasume.clear();
-        this.aRect = [];
-        this.lenHtmTxt = 0;
-        this.skipChIn();
-        const n = this.htmTxt.cloneNode(true);
-        n.textContent = '';
-        const old = this.htmTxt;
-        old.parentElement.insertBefore(n, old);
-        const chs = old.querySelectorAll('span.sn_ch');
-        const len_chs = chs.length;
-        let sum_wait = 0;
-        for (let i = 0; i < len_chs; ++i) {
-            const elm = chs[i];
-            const add = JSON.parse((_c = (_b = (_a = elm.getAttribute('data-add')) !== null && _a !== void 0 ? _a : elm.children[0].getAttribute('data-add')) !== null && _b !== void 0 ? _b : elm.children[0].children[0]
-                .getAttribute('data-add')) !== null && _c !== void 0 ? _c : '{}');
-            if (!add.ch_out_style)
-                continue;
-            const cos = TxtStage.hChOutStyle[add.ch_out_style];
-            if (!cos)
-                continue;
-            if (cos.wait == 0) {
-                elm.style.display = 'none';
-                continue;
+            if (len_chs === 0) {
+                this.fncEndChIn();
+                return;
             }
-            sum_wait += cos.wait;
-            if (!cos.join)
-                elm.style.animationDelay = '0ms';
-            elm.classList.add(`go_ch_out_${add.ch_out_style}`);
-        }
-        const end = () => {
-            old.parentElement.removeChild(old);
-            for (const c of this.cntTxt.removeChildren())
-                c.removeAllListeners().destroy();
-        };
-        if (sum_wait == 0) {
-            this.htmTxt.textContent = '';
-            end();
-        }
-        else
-            (_d = old.lastElementChild) === null || _d === void 0 ? void 0 : _d.addEventListener('animationend', end, { once: true, passive: true });
-        this.htmTxt = n;
-    }
-    passBaton() {
-        this.clearText();
-        const to = new TxtStage(this.infTL, this.parent, this.cnt);
-        to.htmTxt.style.cssText = this.htmTxt.style.cssText;
-        to.left = this.left;
-        to.name = this.name;
-        to.lay_sub();
-        to.ch_filter = this.ch_filter;
-        to.fi_easing = this.fi_easing;
-        to.fo_easing = this.fo_easing;
-        return to;
-    }
-    record() {
-        return {
-            infTL: this.infTL,
-            cssText: this.htmTxt.style.cssText,
-            left: this.left,
-            ch_filter: this.ch_filter,
-            fi_easing: this.fi_easing,
-            fo_easing: this.fo_easing,
-        };
-    }
-    ;
-    playback(hLay) {
-        this.infTL = hLay.infTL;
-        this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
-        this.htmTxt.style.cssText = hLay.cssText;
-        this.left = hLay.left;
-        this.lay_sub();
-        this.ch_filter = hLay.ch_filter;
-        this.fi_easing = hLay.fi_easing;
-        this.fo_easing = hLay.fo_easing;
-    }
-    snapshot(rnd, re) {
-        this.htm2tx(tx => {
-            this.sss = new pixi_js_1.Sprite(tx);
-            if (this.isTategaki) {
-                this.sss.x += CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
-                    - ((CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile)
-                        ? 0
-                        : this.infTL.pad_left + this.infTL.pad_right);
+            let le = null;
+            for (let i = len_chs - 1; i >= 0; --i) {
+                const v = chs[i];
+                if (v.className === 'sn_ch')
+                    break;
+                const st = v.getAttribute('style');
+                if (!st) {
+                    le = v;
+                    break;
+                }
+                const m = st.match(this.regDs);
+                const g = m === null || m === void 0 ? void 0 : m.groups;
+                if (!g || Number(g.ms) > 0) {
+                    le = v;
+                    break;
+                }
             }
-            this.sss.y -= this.padTx4y;
-            this.sss.texture.frame = new pixi_js_1.Rectangle(0, 0, this.infTL.$width - this.left, this.infTL.$height);
-            this.cntTxt.addChild(this.sss);
-            rnd.render(this.sss, undefined, false);
-            re();
-        }, false);
-    }
-    snapshot_end() {
-        if (this.sss) {
-            this.cntTxt.removeChild(this.sss);
-            this.sss = null;
+            if (!le) {
+                this.fncEndChIn();
+                return;
+            }
+            le.addEventListener('animationend', this.fncEndChIn, { once: true, passive: true });
+        }
+        spWork(sp, arg, add, rct, ease, cis) {
+            var _a, _b, _c;
+            sp.alpha = 0;
+            if (arg.width)
+                sp.width = arg.width;
+            if (arg.height)
+                sp.height = arg.height;
+            sp.position.set((cis.x.charAt(0) === '=') ? rct.x + sp.width * cis.nx : cis.nx, (cis.y.charAt(0) === '=') ? rct.y + sp.height * cis.ny : cis.ny);
+            const st = {
+                sp: sp,
+                tw: new Tween.Tween(sp)
+                    .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, (_a = cis.wait) !== null && _a !== void 0 ? _a : 0)
+                    .easing(ease)
+                    .delay(((_b = add.wait) !== null && _b !== void 0 ? _b : 0) + ((_c = arg.delay) !== null && _c !== void 0 ? _c : 0))
+                    .onComplete(() => {
+                    st.tw = null;
+                })
+                    .start(),
+            };
+            this.aSpTw.push(st);
+        }
+        skipChIn() {
+            let isLiveTw = this.isChInIng;
+            this.fncEndChIn();
+            this.aSpTw.forEach(st => { if (st.tw) {
+                st.tw.stop().end();
+                isLiveTw = true;
+            } });
+            this.aSpTw = [];
+            return isLiveTw;
+        }
+        static initChStyle() {
+            TxtStage.hChInStyle = Object.create(null);
+            TxtStage.hChOutStyle = Object.create(null);
+        }
+        static getChInStyle(name) { return TxtStage.hChInStyle[name]; }
+        static ch_in_style(hArg) {
+            var _a, _b, _c;
+            const name = hArg.name;
+            if (!name)
+                throw 'nameは必須です';
+            TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+            if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
+                throw `name【${name}】に使えない文字が含まれます`;
+            if (name in TxtStage.hChInStyle)
+                throw `name【${name}】はすでにあります`;
+            const x = String((_a = hArg.x) !== null && _a !== void 0 ? _a : '=0');
+            const y = String((_b = hArg.y) !== null && _b !== void 0 ? _b : '=0');
+            return TxtStage.hChInStyle[name] = {
+                wait: CmnLib_1.argChk_Num(hArg, 'wait', 500),
+                alpha: CmnLib_1.argChk_Num(hArg, 'alpha', 0),
+                x: x,
+                y: y,
+                nx: parseFloat((x.charAt(0) === '=') ? x.slice(1) : x),
+                ny: parseFloat((y.charAt(0) === '=') ? y.slice(1) : y),
+                scale_x: CmnLib_1.argChk_Num(hArg, 'scale_x', 1),
+                scale_y: CmnLib_1.argChk_Num(hArg, 'scale_y', 1),
+                rotate: CmnLib_1.argChk_Num(hArg, 'rotate', 0),
+                join: CmnLib_1.argChk_Boolean(hArg, 'join', true),
+                ease: (_c = hArg.ease) !== null && _c !== void 0 ? _c : 'ease-out',
+            };
+        }
+        static getChOutStyle(name) { return TxtStage.hChOutStyle[name]; }
+        static ch_out_style(hArg) {
+            var _a, _b, _c;
+            const name = hArg.name;
+            if (!name)
+                throw 'nameは必須です';
+            TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+            if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
+                throw `name【${name}】に使えない文字が含まれます`;
+            if (name in TxtStage.hChOutStyle)
+                throw `name【${name}】はすでにあります`;
+            const x = String((_a = hArg.x) !== null && _a !== void 0 ? _a : '=0');
+            const y = String((_b = hArg.y) !== null && _b !== void 0 ? _b : '=0');
+            return TxtStage.hChOutStyle[name] = {
+                wait: CmnLib_1.argChk_Num(hArg, 'wait', 500),
+                alpha: CmnLib_1.argChk_Num(hArg, 'alpha', 0),
+                x: x,
+                y: y,
+                nx: parseFloat((x.charAt(0) === '=') ? x.slice(1) : x),
+                ny: parseFloat((y.charAt(0) === '=') ? y.slice(1) : y),
+                scale_x: CmnLib_1.argChk_Num(hArg, 'scale_x', 1),
+                scale_y: CmnLib_1.argChk_Num(hArg, 'scale_y', 1),
+                rotate: CmnLib_1.argChk_Num(hArg, 'rotate', 0),
+                join: CmnLib_1.argChk_Boolean(hArg, 'join', false),
+                ease: (_c = hArg.ease) !== null && _c !== void 0 ? _c : 'ease-out',
+            };
+        }
+        dispBreak(pic) {
+            const cnt = TxtStage.cntBreak;
+            cnt.visible = false;
+            this.addChild(cnt);
+            GrpLayer_1.GrpLayer.csv2Sprites(pic, cnt, sp => {
+                if (!cnt.parent)
+                    cnt.removeChild(sp);
+            });
+        }
+        static delBreak() {
+            const cnt = TxtStage.cntBreak;
+            if (cnt.parent) {
+                cnt.parent.removeChild(cnt);
+                cnt.removeChildren();
+            }
+            TxtStage.cntBreak = new pixi_js_1.Container;
+        }
+        getChRects(elm) {
+            var _a, _b, _c, _d;
+            const ret = [];
+            if (elm.nodeType !== elm.TEXT_NODE) {
+                for (const v of elm.childNodes)
+                    ret.push(this.getChRects(v));
+                return Array.prototype.concat.apply([], ret);
+            }
+            const range = elm.ownerDocument.createRange();
+            range.selectNodeContents(elm);
+            let pos = 0;
+            const end = range.endOffset;
+            while (pos < end) {
+                range.setStart(elm, pos);
+                range.setEnd(elm, ++pos);
+                const r = range.getBoundingClientRect();
+                const pe = range.startContainer.parentElement;
+                if (!pe)
+                    throw `fn:TxtStage.ts pe null`;
+                const ch = range.toString();
+                const cr = {
+                    ch: ch,
+                    rect: new pixi_js_1.Rectangle(r.left + window.pageXOffset, r.top + window.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? this.lh_half : 0)),
+                    elm: pe,
+                    cmd: (_a = pe.getAttribute('data-cmd')) !== null && _a !== void 0 ? _a : undefined,
+                    arg: (_b = pe.getAttribute('data-arg')) !== null && _b !== void 0 ? _b : undefined,
+                    add: (_c = pe.getAttribute('data-add')) !== null && _c !== void 0 ? _c : undefined,
+                    tcy: (_d = pe.getAttribute('data-tcy')) !== null && _d !== void 0 ? _d : undefined,
+                };
+                ret.push(cr);
+            }
+            range.detach();
+            return ret;
+        }
+        clearText() {
+            var _a, _b, _c, _d;
+            this.grpDbgMasume.clear();
+            this.aRect = [];
+            this.lenHtmTxt = 0;
+            this.skipChIn();
+            const n = this.htmTxt.cloneNode(true);
+            n.textContent = '';
+            const old = this.htmTxt;
+            old.parentElement.insertBefore(n, old);
+            const chs = old.querySelectorAll('span.sn_ch');
+            const len_chs = chs.length;
+            let sum_wait = 0;
+            for (let i = 0; i < len_chs; ++i) {
+                const elm = chs[i];
+                const add = JSON.parse((_c = (_b = (_a = elm.getAttribute('data-add')) !== null && _a !== void 0 ? _a : elm.children[0].getAttribute('data-add')) !== null && _b !== void 0 ? _b : elm.children[0].children[0]
+                    .getAttribute('data-add')) !== null && _c !== void 0 ? _c : '{}');
+                if (!add.ch_out_style)
+                    continue;
+                const cos = TxtStage.hChOutStyle[add.ch_out_style];
+                if (!cos)
+                    continue;
+                if (cos.wait === 0) {
+                    elm.style.display = 'none';
+                    continue;
+                }
+                sum_wait += cos.wait;
+                if (!cos.join)
+                    elm.style.animationDelay = '0ms';
+                elm.classList.add(`go_ch_out_${add.ch_out_style}`);
+            }
+            const end = () => {
+                old.parentElement.removeChild(old);
+                for (const c of this.cntTxt.removeChildren())
+                    c.removeAllListeners().destroy();
+            };
+            if (sum_wait === 0) {
+                this.htmTxt.textContent = '';
+                end();
+            }
+            else
+                (_d = old.lastElementChild) === null || _d === void 0 ? void 0 : _d.addEventListener('animationend', end, { once: true, passive: true });
+            this.htmTxt = n;
+        }
+        passBaton() {
+            this.clearText();
+            const to = new TxtStage(this.infTL, this.parent, this.cnt);
+            to.htmTxt.style.cssText = this.htmTxt.style.cssText;
+            to.left = this.left;
+            to.name = this.name;
+            to.lay_sub();
+            to.ch_filter = this.ch_filter;
+            to.fi_easing = this.fi_easing;
+            to.fo_easing = this.fo_easing;
+            return to;
+        }
+        record() {
+            return {
+                infTL: this.infTL,
+                cssText: this.htmTxt.style.cssText,
+                left: this.left,
+                ch_filter: this.ch_filter,
+                fi_easing: this.fi_easing,
+                fo_easing: this.fo_easing,
+            };
+        }
+        ;
+        playback(hLay) {
+            this.infTL = hLay.infTL;
+            this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
+            this.htmTxt.style.cssText = hLay.cssText;
+            this.left = hLay.left;
+            this.lay_sub();
+            this.ch_filter = hLay.ch_filter;
+            this.fi_easing = hLay.fi_easing;
+            this.fo_easing = hLay.fo_easing;
+        }
+        snapshot(rnd, re) {
+            this.htm2tx(tx => {
+                this.sss = new pixi_js_1.Sprite(tx);
+                if (this.isTategaki) {
+                    this.sss.x += CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
+                        - ((CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile)
+                            ? 0
+                            : this.infTL.pad_left + this.infTL.pad_right);
+                }
+                this.sss.y -= this.padTx4y;
+                this.sss.texture.frame = new pixi_js_1.Rectangle(0, 0, this.infTL.$width - this.left, this.infTL.$height);
+                this.cntTxt.addChild(this.sss);
+                rnd.render(this.sss, undefined, false);
+                re();
+            }, false);
+        }
+        snapshot_end() {
+            if (this.sss) {
+                this.cntTxt.removeChild(this.sss);
+                this.sss = null;
+            }
+        }
+        dump() {
+            const aStyle = [];
+            const s = this.htmTxt.style;
+            const lenStyle = s.length;
+            for (let i = 0; i < lenStyle; ++i) {
+                const key = s[i];
+                aStyle.push(`"${key}":"${s[key].replace(/(")/g, '\\$1')}"`);
+            }
+            return `"txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')}", "style":{${aStyle.join(',')}}`;
+        }
+        destroy() {
+            TxtStage.delBreak();
+            this.htmTxt.parentElement.removeChild(this.htmTxt);
+            this.parent.removeChild(this.cntTxt);
+            this.parent.removeChild(this.grpDbgMasume);
+            this.parent.removeChild(this);
+            super.destroy();
         }
     }
-    dump() {
-        const aStyle = [];
-        const s = this.htmTxt.style;
-        const lenStyle = s.length;
-        for (let i = 0; i < lenStyle; ++i) {
-            const key = s[i];
-            aStyle.push(`"${key}":"${s[key].replace(/(")/g, '\\$1')}"`);
-        }
-        return `"txt":"${this.htmTxt.textContent.replace(/(")/g, '\\$1')}", "style":{${aStyle.join(',')}}`;
-    }
-    destroy() {
-        TxtStage.delBreak();
-        this.htmTxt.parentElement.removeChild(this.htmTxt);
-        this.parent.removeChild(this.cntTxt);
-        this.parent.removeChild(this.grpDbgMasume);
-        this.parent.removeChild(this);
-        super.destroy();
-    }
-}
+    TxtStage.hWarning = {
+        backgroundColor: 0,
+        borderBottomWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderTopWidth: 0,
+        marginBottom: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+    };
+    TxtStage.reg行頭禁則 = /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
+    TxtStage.reg行末禁則 = /[［（｛〈「『【〔“〝]/;
+    TxtStage.reg分割禁止 = /[─‥…]/;
+    TxtStage.hChInStyle = Object.create(null);
+    TxtStage.REG_NG_CHSTYLE_NAME_CHR = /[\s\.,]/;
+    TxtStage.hChOutStyle = Object.create(null);
+    TxtStage.cntBreak = new pixi_js_1.Container;
+    return TxtStage;
+})();
 exports.TxtStage = TxtStage;
-TxtStage.hWarning = {
-    backgroundColor: 0,
-    borderBottomWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    marginBottom: 0,
-    marginLeft: 0,
-    marginRight: 0,
-    marginTop: 0,
-};
-TxtStage.reg行頭禁則 = /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
-TxtStage.reg行末禁則 = /[［（｛〈「『【〔“〝]/;
-TxtStage.reg分割禁止 = /[─‥…]/;
-TxtStage.hChInStyle = Object.create(null);
-TxtStage.REG_NG_CHSTYLE_NAME_CHR = /[\s\.,]/;
-TxtStage.hChOutStyle = Object.create(null);
-TxtStage.cntBreak = new pixi_js_1.Container;
 
 
 /***/ }),
@@ -7678,6 +7998,7 @@ TxtStage.cntBreak = new pixi_js_1.Container;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Variable = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const Areas_1 = __webpack_require__(/*! ./Areas */ "./core/src/sn/Areas.ts");
 const PropParser_1 = __webpack_require__(/*! ./PropParser */ "./core/src/sn/PropParser.ts");
@@ -7700,13 +8021,13 @@ class Variable {
             if (val == null)
                 throw '[変数に値セット] textは必須です（空文字はOK）';
             const o = PropParser_1.PropParser.getValName(arg_name);
-            if (o == undefined)
+            if (o === undefined)
                 throw '[変数参照] name(' + arg_name + ')が変数名として異常です';
             const hScope = this.hScope[o.scope];
             if (!hScope)
                 throw '[変数に値セット] scopeが異常【' + o.scope + '】です';
             const nm = o['name'];
-            if (nm.slice(0, 6) == 'const.' && (nm in hScope)) {
+            if (nm.slice(0, 6) === 'const.' && (nm in hScope)) {
                 throw '[変数に値セット] 変数【' + nm + '】は書き換え不可です';
             }
             this.setVal_Nochk(o.scope, nm, val, autocast);
@@ -7715,7 +8036,7 @@ class Variable {
             if (!arg_name)
                 throw '[変数参照] nameは必須です';
             const o = PropParser_1.PropParser.getValName(arg_name);
-            if (o == undefined)
+            if (o === undefined)
                 throw '[変数参照] name(' + arg_name + ')が変数名として異常です';
             const hScope = this.hScope[o['scope']];
             if (!hScope)
@@ -7747,7 +8068,7 @@ class Variable {
             }
             if (val instanceof Function)
                 val = val();
-            if (o['at'] == '@str')
+            if (o['at'] === '@str')
                 return val;
             return this.castAuto(val);
         };
@@ -7759,7 +8080,7 @@ class Variable {
                 const hRet = val[scope];
                 for (let key in hVal) {
                     const v = hVal[key];
-                    if (Object.prototype.toString.call(v) == '[object Function]') {
+                    if (Object.prototype.toString.call(v) === '[object Function]') {
                         hRet[key] = v();
                     }
                     else
@@ -7818,9 +8139,9 @@ class Variable {
                 const o = { ...this.data.mark[k].json };
                 for (const key in o) {
                     const v = o[key];
-                    if (typeof v != 'string')
+                    if (typeof v !== 'string')
                         continue;
-                    if (v.substr(0, 10) != 'userdata:/')
+                    if (v.substr(0, 10) !== 'userdata:/')
                         continue;
                     o[key] = cfg.searchPath(v);
                 }
@@ -7852,11 +8173,11 @@ class Variable {
         this.hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
         this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
         this.hTmp['const.sn.Math.PI'] = Math.PI;
-        if (typeof window == 'undefined')
+        if (typeof window === 'undefined')
             return;
         const win = window;
         const ac = (_a = win['AudioContext']) !== null && _a !== void 0 ? _a : win['webkitAudioContext'];
-        this.hTmp['const.sn.needClick2Play'] = () => new ac().state == 'suspended';
+        this.hTmp['const.sn.needClick2Play'] = () => new ac().state === 'suspended';
         const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
         this.hTmp['const.sn.isDarkMode'] = CmnLib_1.CmnLib.isDarkMode = dmmq.matches;
         dmmq.addListener(e => this.hTmp['const.sn.isDarkMode'] = CmnLib_1.CmnLib.isDarkMode = e.matches);
@@ -7906,6 +8227,12 @@ class Variable {
                 sys.flush();
             }
                 : () => sys.flush();
+            sys.addHook((type, o) => {
+                var _a;
+                if (type !== 'var')
+                    return;
+                sys.sendDbg('var', { v: (_a = this.hScope[o.scope]) !== null && _a !== void 0 ? _a : {} });
+            });
         });
     }
     updateData(data) {
@@ -7950,7 +8277,7 @@ class Variable {
             throw 'toは必須です';
         const from = Number(hArg.from);
         const to = Number(hArg.to);
-        if (from != to)
+        if (from !== to)
             this.setMark(to, { ...this.data.mark[from] });
         return false;
     }
@@ -7969,16 +8296,16 @@ class Variable {
         if (hArg.cast) {
             switch (hArg.cast) {
                 case 'num':
-                    CmnLib_1.CmnLib.argChk_Num(hArg, 'text', NaN);
+                    CmnLib_1.argChk_Num(hArg, 'text', NaN);
                     break;
                 case 'int':
-                    hArg.text = String(CmnLib_1.int(CmnLib_1.CmnLib.argChk_Num(hArg, 'text', NaN)));
+                    hArg.text = String(CmnLib_1.int(CmnLib_1.argChk_Num(hArg, 'text', NaN)));
                     break;
                 case 'uint':
-                    hArg.text = String(CmnLib_1.uint(CmnLib_1.CmnLib.argChk_Num(hArg, 'text', NaN)));
+                    hArg.text = String(CmnLib_1.uint(CmnLib_1.argChk_Num(hArg, 'text', NaN)));
                     break;
                 case 'bool':
-                    CmnLib_1.CmnLib.argChk_Boolean(hArg, 'text', false);
+                    CmnLib_1.argChk_Boolean(hArg, 'text', false);
                     break;
                 case 'str':
                     autocast = false;
@@ -7991,14 +8318,14 @@ class Variable {
         return false;
     }
     let_abs(hArg) {
-        const n = CmnLib_1.CmnLib.argChk_Num(hArg, 'text', 0);
+        const n = CmnLib_1.argChk_Num(hArg, 'text', 0);
         hArg.text = String((n < 0) ? -n : n);
         this.let(hArg);
         return false;
     }
     let_char_at(hArg) {
         var _a;
-        hArg.text = ((_a = hArg.text) !== null && _a !== void 0 ? _a : '').charAt(CmnLib_1.CmnLib.argChk_Num(hArg, 'pos', 0));
+        hArg.text = ((_a = hArg.text) !== null && _a !== void 0 ? _a : '').charAt(CmnLib_1.argChk_Num(hArg, 'pos', 0));
         this.let(hArg);
         return false;
     }
@@ -8007,7 +8334,7 @@ class Variable {
         const val = hArg.val;
         if (!val)
             throw 'valは必須です';
-        const start = CmnLib_1.CmnLib.argChk_Num(hArg, 'start', 0);
+        const start = CmnLib_1.argChk_Num(hArg, 'start', 0);
         hArg.text = String(((_a = hArg.text) !== null && _a !== void 0 ? _a : '').indexOf(val, start));
         this.let(hArg);
         return false;
@@ -8031,7 +8358,7 @@ class Variable {
         return false;
     }
     let_round(hArg) {
-        const n = CmnLib_1.CmnLib.argChk_Num(hArg, 'text', 0);
+        const n = CmnLib_1.argChk_Num(hArg, 'text', 0);
         hArg.text = String(Math.round(n));
         this.let(hArg);
         return false;
@@ -8050,9 +8377,9 @@ class Variable {
     }
     let_substr(hArg) {
         var _a, _b;
-        const i = CmnLib_1.CmnLib.argChk_Num(hArg, 'pos', 0);
-        hArg.text = (hArg.len != 'all')
-            ? ((_a = hArg.text) !== null && _a !== void 0 ? _a : '').substr(i, CmnLib_1.int(CmnLib_1.CmnLib.argChk_Num(hArg, 'len', 1)))
+        const i = CmnLib_1.argChk_Num(hArg, 'pos', 0);
+        hArg.text = (hArg.len !== 'all')
+            ? ((_a = hArg.text) !== null && _a !== void 0 ? _a : '').substr(i, CmnLib_1.int(CmnLib_1.argChk_Num(hArg, 'len', 1)))
             : ((_b = hArg.text) !== null && _b !== void 0 ? _b : '').substr(i);
         this.let(hArg);
         return false;
@@ -8073,8 +8400,8 @@ class Variable {
         this.setVal_Nochk('sys', 'sn.tagCh.msecWait_Kidoku', this.cfg.oCfg.init.tagch_msecwait);
         this.setVal_Nochk('sys', 'sn.tagCh.canskip', true);
         this.setVal_Nochk('sys', 'sn.skip.mode', 's');
-        this.setVal_Nochk('sys', 'sn.auto.msecPageWait', CmnLib_1.CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', (_a = this.cfg.oCfg.init.auto_msecpagewait) !== null && _a !== void 0 ? _a : 3500));
-        this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', CmnLib_1.CmnLib.argChk_Num(sys, 'sn.auto.msecPageWait', (_b = this.cfg.oCfg.init.auto_msecpagewait) !== null && _b !== void 0 ? _b : 3500));
+        this.setVal_Nochk('sys', 'sn.auto.msecPageWait', CmnLib_1.argChk_Num(sys, 'sn.auto.msecPageWait', (_a = this.cfg.oCfg.init.auto_msecpagewait) !== null && _a !== void 0 ? _a : 3500));
+        this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', CmnLib_1.argChk_Num(sys, 'sn.auto.msecPageWait', (_b = this.cfg.oCfg.init.auto_msecpagewait) !== null && _b !== void 0 ? _b : 3500));
         this.setVal_Nochk('sys', 'sn.auto.msecLineWait', 500);
         this.setVal_Nochk('sys', 'sn.auto.msecLineWait_Kidoku', 500);
         this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
@@ -8105,18 +8432,18 @@ class Variable {
             val = this.castAuto(val);
         hScope[nm] = val;
         const trg = this.hValTrg[scope + ':' + nm];
-        if (trg != null)
+        if (trg)
             trg(nm, val);
     }
     castAuto(val) {
         const s_val = val;
-        if (s_val == 'true')
+        if (s_val === 'true')
             return true;
-        if (s_val == 'false')
+        if (s_val === 'false')
             return false;
-        if (s_val == 'null')
+        if (s_val === 'null')
             return null;
-        if (s_val == 'undefined')
+        if (s_val === 'undefined')
             return undefined;
         this.REG_NUMERICLITERAL.lastIndex = 0;
         if (this.REG_NUMERICLITERAL.test(s_val))
@@ -8126,36 +8453,36 @@ class Variable {
     doRecLog() { return this.$doRecLog; }
     defValTrg(name, fnc) { this.hValTrg[name] = fnc; }
     runFirst_Bool_hSysVal_true(name) {
-        CmnLib_1.CmnLib.argChk_Boolean(this.hSys, name, true);
+        CmnLib_1.argChk_Boolean(this.hSys, name, true);
     }
     runFirst_sys_an_tagCh_msecWait(name) {
-        CmnLib_1.CmnLib.argChk_Num(this.hSys, name, 10);
+        CmnLib_1.argChk_Num(this.hSys, name, 10);
         if (this.hSys['sn.tagCh.doWait']) {
         }
     }
     runFirst_sys_an_tagCh_msecWait_Kidoku(name) {
-        CmnLib_1.CmnLib.argChk_Num(this.hSys, name, (this.cfg.oCfg.init.tagch_msecwait == undefined)
+        CmnLib_1.argChk_Num(this.hSys, name, (this.cfg.oCfg.init.tagch_msecwait === undefined)
             ? 10
             : this.cfg.oCfg.init.tagch_msecwait);
         if (this.hSys['sn.tagCh.doWait_Kidoku']) {
         }
     }
     runFirst_sys_an_auto_msecPageWait(name) {
-        CmnLib_1.CmnLib.argChk_Num(this.hSys, name, (this.cfg.oCfg.init.auto_msecpagewait == undefined)
+        CmnLib_1.argChk_Num(this.hSys, name, (this.cfg.oCfg.init.auto_msecpagewait === undefined)
             ? 3500
             : this.cfg.oCfg.init.auto_msecpagewait);
     }
     runFirst_sys_an_auto_msecLineWait(name) {
-        CmnLib_1.CmnLib.argChk_Num(this.hSys, name, 500);
+        CmnLib_1.argChk_Num(this.hSys, name, 500);
     }
     runFirst_Bool_hSaveVal_true(name) {
-        return CmnLib_1.CmnLib.argChk_Boolean(this.hSave, name, true);
+        return CmnLib_1.argChk_Boolean(this.hSave, name, true);
     }
     runFirst_Bool_hTmp_true(name) {
-        CmnLib_1.CmnLib.argChk_Boolean(this.hTmp, name, true);
+        CmnLib_1.argChk_Boolean(this.hTmp, name, true);
     }
     runFirst_Bool_hTmp_false(name) {
-        CmnLib_1.CmnLib.argChk_Boolean(this.hTmp, name, false);
+        CmnLib_1.argChk_Boolean(this.hTmp, name, false);
     }
 }
 exports.Variable = Variable;
@@ -78582,6 +78909,17 @@ module.exports = require("events");
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
+
+/***/ }),
+
+/***/ "net":
+/*!**********************!*\
+  !*** external "net" ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("net");
 
 /***/ }),
 

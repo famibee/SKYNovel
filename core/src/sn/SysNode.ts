@@ -22,7 +22,7 @@ export class SysNode extends SysBase {
 			const json = JSON.parse(await this.pre('json', mes));
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
-				for (const ext in h) if (ext != ':cnt') h[ext] = this.arg.cur + h[ext];
+				for (const ext in h) if (ext !== ':cnt') h[ext] = this.arg.cur + h[ext];
 			}
 			fncLoaded();	// ここでnew Variable、clearsysvar()、次にinitVal()
 		})();
