@@ -255,7 +255,7 @@ export class LayerMng {
 	// スナップショット
 	private snapshot(hArg: HArg) {
 		const fn = (hArg.fn)
-		? ((hArg.fn.substr(0, 10) === 'userdata:/')
+		? ((hArg.fn.slice(0, 10) === 'userdata:/')
 			? hArg.fn
 			: ('downloads:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.png'))
 		: ('downloads:/snapshot'+ getDateStr('-', '_', '', '_') +'.png');

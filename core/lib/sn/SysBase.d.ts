@@ -16,7 +16,7 @@ export declare class SysBase implements ISysBase {
     reso4frame: number;
     protected cfg: IConfig;
     loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: () => void, cfg: IConfig): void;
-    protected data: {
+    protected readonly data: {
         sys: {};
         mark: {};
         kidoku: {};

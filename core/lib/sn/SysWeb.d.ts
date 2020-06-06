@@ -11,7 +11,7 @@ export declare class SysWeb extends SysBase {
         dip: string;
     });
     private def_prj;
-    readonly run: (prj: string) => Promise<void>;
+    private readonly run;
     stop(): void;
     private now_prj;
     private main;

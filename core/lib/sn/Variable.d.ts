@@ -41,6 +41,7 @@ export declare class Variable implements IVariable {
     private clearvar;
     private readonly setVal;
     setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
+    private hSetEvent;
     readonly getVal: (arg_name: string, def?: string | number | undefined) => any;
     private castAuto;
     private REG_NUMERICLITERAL;

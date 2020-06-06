@@ -161,7 +161,8 @@ export interface ISysBase {
     flush(): void;
     pre(ext: string, data: string): Promise<string>;
     addHook(fnc: IFncHook): void;
-    sendDbg(_type: string, _o: object): void;
+    callHook: IFncHook;
+    sendDbg(_type: string, o: object): void;
 }
 export interface IFire {
     (KEY: string, e: Event): void;
@@ -185,7 +186,7 @@ export interface IMain {
     resume(fnc?: () => void): void;
     resumeByJumpOrCall(hArg: HArg): void;
     stop(): void;
-    setLoop(v: boolean): void;
+    setLoop(v: boolean, mes?: string): void;
     isDestroyed(): boolean;
     destroy(ms_late?: number): void;
 }

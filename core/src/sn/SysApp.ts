@@ -19,13 +19,13 @@ const {Readable} = require('stream');
 import m_fs = require('fs-extra');
 const crypto = require('crypto');
 const tar = require('tar-fs');
-import {createServer, Socket} from 'net';
+import {createServer, createConnection} from 'net';
 
 export class SysApp extends SysNode {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, {...arg, cur: remote.app.getAppPath().replace(/\\/g, '/') + (remote.app.isPackaged ?'/doc/' :'/')+ arg.cur});
 
-		window.addEventListener('DOMContentLoaded', ()=>new Main(this), {once: true, passive: true});
+		window.addEventListener('DOMContentLoaded', ()=>this.run(), {once: true, passive: true});
 		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));
 
 		if (! this.isPackaged()) {	// 配布版では無効
@@ -129,9 +129,23 @@ export class SysApp extends SysNode {
 	}
 	private readonly	dsp	= remote.screen.getPrimaryDisplay();
 
+
+	private main: Main;
+	private async run() {
+		if (this.main) {
+			this.aFncHook = [];
+
+			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
+			this.main.destroy(ms_late);
+			await new Promise(r=> setTimeout(r, ms_late));
+		}
+
+		this.main = new Main(this);
+	}
+
+
 	private readonly	win	= remote.getCurrentWindow();
 	private readonly	wc	= this.win.webContents;
-	private sktDbg: Socket | null	= null;
 	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
 		super.init(hTag, appPixi, val, main);
 
@@ -142,35 +156,20 @@ export class SysApp extends SysNode {
 		});
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
 
-		if (! this.isPackaged()) {	// 配布版では無効
-			const srvDbg = createServer(skt=> {
-				if (this.sktDbg) return;
-
-				this.sktDbg = skt;
-				skt.on('data', b=> {
-					const s = b.toString();
-					if (s.charAt(0) !== '\x1f') return;
-
-					s.slice(1).split('\x1f').forEach(f=> {
-						const o = JSON.parse(f);
-						this.callHook(o.type, o);
-					});
-				})
-				.on('error', err=> {console.error(err.message); skt?.end()})
-				// endイベントは接続がきれいにクローズされないと発火しないらしい
-				.on('close', ()=> {this.sktDbg = null; this.sendDbg = ()=> {}});
-				this.sendDbg = (type, o)=> skt.write('\x1f'+ JSON.stringify({...o, type: type}));
-
-				this.toast('接続');
-			});
-			this.addHook((type: string, _o: any)=> {
-//if (type.slice(-6) !== '_break') console.log(`fn:SysApp.ts procHook o:%o`, _o);
+		if (process.env['SKYNOVEL_DBG'] && ! this.isPackaged()) {// 配布版では無効
+			this.addHook((type: string, o: any)=> {
 				switch (type) {	// 接続
 					case 'continue':	this.toast('再生');	break;
 					case 'disconnect':	this.toast('切断');	break;
+					case 'restart':	this.run();	this.sendDbg(o.ri, {});	break;
+					case 'launch':
+						// ScriptIterator.ts 'launch' の肩代わり（toast()の都合）
+						this.callHook('stopOnStep', {});	// sn全体へ通知
+						this.sendDbg('stopOnStep', {});
+						this.toast('一時停止');	break;	// 最後にやりたい
 					case 'attach':
-					case 'step':
 					case 'stopOnEntry':	this.toast('一時停止');	break;
+					case 'stopOnDataBreakpoint':
 					case 'stopOnBreakpoint': this.toast('注意');	break;
 					case 'stopOnStep': this.toast('一歩進む');	break;
 					case 'stopOnStepIn': this.toast('ステップイン');	break;
@@ -182,7 +181,28 @@ export class SysApp extends SysNode {
 			// ソケットファイルを削除（存在するとlistenできない）
 			const UNIX_SOCK = '.vscode/skynovel.sock';	// UNIXドメインソケット
 			try {m_fs.unlinkSync(UNIX_SOCK);} catch {}
-			srvDbg.listen(UNIX_SOCK);
+			createServer(skt=> {
+				skt.on('data', b=> {
+					const s = b.toString();
+					if (s.charAt(0) !== '\x1f') return;
+
+					s.slice(1).split('\x1f').forEach(f=> {
+						const o = JSON.parse(f);
+						this.callHook(o.type, o);
+					});
+				})
+				.on('error', err=> {console.error(err.message); skt?.end()})
+				// endイベントは接続がきれいにクローズされないと発火しないらしい
+				.on('close', ()=> this.sendDbg = ()=> {});
+				this.sendDbg = (type, o)=> skt.write('\x1f'+ JSON.stringify({...o, type: type}));
+
+				this.toast('接続');
+			}).listen(UNIX_SOCK);
+
+			main.setLoop(false, 'ステップ実行');
+				// ScriptIterator.ts 'launch' の肩代わり
+			createConnection('.vscode/sn_launch.sock')	// launch
+			.on('error', ()=> main.setLoop(true));	// attach
 		}
 	}
 	private toast(nm: string) {
@@ -204,7 +224,7 @@ export class SysApp extends SysNode {
 left: ${(CmnLib.stageW -size) /2 +size *(td.dx ?? 0)}px;
 top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 		img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
-		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img));
+		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
 		p.insertBefore(img, cvs);
 	}
 	private	static	readonly	hToastDat

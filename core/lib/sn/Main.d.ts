@@ -22,7 +22,7 @@ export declare class Main implements IMain {
     resume: (fnc?: () => void) => void;
     resumeByJumpOrCall(hArg: HArg): void;
     readonly stop: () => void;
-    setLoop(isLoop: boolean): void;
+    setLoop(isLoop: boolean, mes?: string): void;
     private isLoop;
     private runAnalyze;
     destroy(ms_late?: number): Promise<void>;

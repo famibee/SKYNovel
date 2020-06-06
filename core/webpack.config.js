@@ -17,5 +17,5 @@ module.exports = [{
 	...cfg,
 	entry: {app: ['./core/src/app'],},		// 「./」は必要
 	target: 'electron-renderer',
-	devtool: 'source-map',
+	devtool: 'inline-source-map',
 }];

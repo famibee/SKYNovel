@@ -138,11 +138,11 @@ export class Config implements IConfig {
 			// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
 	searchPath(path: string, extptn = ''): string {
 		if (! path) throw '[searchPath] fnが空です';
-		if (path.substr(0, 7) === 'http://') return path;
-		if (path.substr(0, 11) === 'downloads:/') {
+		if (path.slice(0, 7) === 'http://') return path;
+		if (path.slice(0, 11) === 'downloads:/') {
 			return this.sys.path_downloads + path.slice(11);
 		}
-		if (path.substr(0, 10) === 'userdata:/') {
+		if (path.slice(0, 10) === 'userdata:/') {
 			return this.sys.path_userdata + path.slice(10);
 		}
 

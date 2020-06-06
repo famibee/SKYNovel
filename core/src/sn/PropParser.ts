@@ -313,7 +313,7 @@ export class PropParser implements IPropParser {
 
 
 	getValAmpersand = (val: string)=> (val.charAt(0) === '&')
-		? String(this.parse(val.substr(1)))
+		? String(this.parse(val.slice(1)))
 		: val;
 
 

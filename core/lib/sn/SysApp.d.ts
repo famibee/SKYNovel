@@ -15,9 +15,10 @@ export declare class SysApp extends SysNode {
     private posMovingWin;
     private delayWinPos;
     private readonly dsp;
+    private main;
+    private run;
     private readonly win;
     private readonly wc;
-    private sktDbg;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
     private toast;
     private static readonly hToastDat;

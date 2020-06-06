@@ -90,7 +90,7 @@ export class Areas implements IAreas {
 				: '~'+ this.hAreas[v];
 		}
 
-		if (ret !== '') ret = ret.substr(1);
+		if (ret !== '') ret = ret.slice(1);
 
 		return ret;
 	}

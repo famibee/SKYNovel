@@ -30,12 +30,18 @@ export declare class ScriptIterator {
     readonly getCallStk: (idx: number) => ICallStackArg | null;
     private grm;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
+    destroy(): void;
     private readonly hHook;
+    private go_stepover;
+    private go_stepout;
+    private csDepth_macro_esc;
     private readonly hBreakPoint;
+    private hFuncBP;
     private breakState;
-    isBreak: () => boolean;
+    isBreak: (_token: string) => boolean;
     private isBreak_base;
-    private stack;
+    private subHitCondition;
+    private aStack;
     タグ解析(tagToken: string): boolean;
     private evtMng;
     private layMng;
@@ -48,7 +54,7 @@ export declare class ScriptIterator {
     private fncBreak;
     private fnLastBreak;
     private hScrCache4Dump;
-    noticeBreak: (_set: boolean) => void;
+    noticeBreak: (_goto: boolean) => void;
     private dumpErrLine;
     dumpErrForeLine(): void;
     private aIfStk;
@@ -66,6 +72,7 @@ export declare class ScriptIterator {
     private analyzeInit;
     nextToken: () => string;
     private nextToken_Proc;
+    private dbgToken;
     private readonly REG_NONAME_LABEL;
     private readonly REG_LABEL_ESC;
     private readonly REG_TOKEN_MACRO_BEGIN;
@@ -88,6 +95,7 @@ export declare class ScriptIterator {
     private bracket2macro;
     private char2macro;
     private macro;
+    private readonly hMacro;
     private load;
     private loadFromMark;
     private reload_script;

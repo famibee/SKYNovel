@@ -28,7 +28,7 @@ interface ISeek {
 	lineNum	: number;
 };
 
-enum BreakState { run, wait, before, stepping, };
+enum BreakState {running, wait, break, breaking, step, stepping, macro_escaping, macro_esc};
 
 export class ScriptIterator {
 	private script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
@@ -86,6 +86,8 @@ export class ScriptIterator {
 		hTag.save			= o=> this.save(o);			// しおりの保存
 
 
+		if (cfg.oCfg.debug.token) this.dbgToken = token=> console.log(`🌱 トークン fn:${this.scriptFn_} idxToken:${this.idxToken_} ln:${this.lineNum} token【${token}】`);
+
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.aCallStk.length);
 
 		this.grm.setEscape(cfg.oCfg.init.escape);
@@ -98,66 +100,157 @@ export class ScriptIterator {
 			this.isBreak = this.isBreak_base;
 		}
 	}
+
+	destroy() {this.isBreak = ()=> false;}
+
 	private	readonly hHook: {[type: string]: (type: string, o: any)=> void}	= {
-		'attach'	: ()=> {	// from Dbg
-			this.breakState = BreakState.wait;	this.main.setLoop(false);
+		'attach': ()=> {
+			this.breakState = BreakState.wait;
+			this.main.setLoop(false, '一時停止');
 			this.sys.sendDbg('stop', {});
 		},
-		'disconnect': ()=> {	// from Dbg
+		//'launch': ()=> {
+		//	this.main.setLoop(false);	// ここでは冒頭停止に間に合わないのでSysAppで
+		//	this.sys.callHook('stopOnStep', {});	// sn全体へ通知
+		//	this.sys.sendDbg('stopOnStep', {});
+		//},
+		'disconnect': ()=> {
 			for (const fn in this.hBreakPoint) this.hBreakPoint[fn] = {};
-			this.breakState = BreakState.run;	this.main.setLoop(true);
+			this.hHook.continue('', {});
 		},
-		// from Dbg 情報問い合わせ系
-		'clear_break'	: (_, o)=>	this.hBreakPoint[getFn(o.fn)] = {},
-		'add_break'	: (_, o)=> this.hBreakPoint[getFn(o.fn)][o.ln] = 1,
-		'del_break'	: (_, o)=>delete this.hBreakPoint[getFn(o.fn)][o.ln],
-		'stack'		: ()=> this.sys.sendDbg('stack', {a: this.stack()}),
 
-		'step'	: ()=> {	// from Dbg
-			if (this.breakState === BreakState.before) {
-				this.breakState = BreakState.stepping;
-				--this.idxToken_;
-				this.sys.sendDbg('stopOnStep', {});
-			}
-			else this.breakState = BreakState.run;
-			this.main.setLoop(true);
+		// ブレークポイント
+		'clear_break': (_, o)=>	this.hBreakPoint[getFn(o.fn)] = {},
+		'add_break': (_, o)=> this.hBreakPoint[getFn(o.fn)][o.ln] = o,
+		'del_break': (_, o)=>delete this.hBreakPoint[getFn(o.fn)][o.ln],
+		'data_break': (_, o)=> {
+			if (this.breakState !== BreakState.running) return;
+
+			this.breakState = BreakState.wait;
+			this.main.setLoop(false, `変数 ${o.dataId}【${o.old_v}】→【${o.new_v}】データブレーク`);
+			this.sys.callHook('stopOnDataBreakpoint', {});	// sn全体へ通知
+			this.sys.sendDbg('stopOnDataBreakpoint', {});
 		},
-		'continue'	: ()=> {	// from Dbg
-			if (this.breakState === BreakState.before) --this.idxToken_;
-			this.breakState = BreakState.run;
+		'set_func_break': (_, o)=> {
+			this.hFuncBP = {};
+			o.a.forEach((v: any)=> this.hFuncBP[v.name] = 1);
+			this.sys.sendDbg(o.ri, {});
+		},
+
+		// 情報問い合わせ系
+		'stack': (_, o)=> this.sys.sendDbg(o.ri, {a: this.aStack()}),
+		'eval': (_,o)=> {this.sys.sendDbg(o.ri, {v: this.prpPrs.parse(o.txt)})},
+
+		// デバッガからの操作系
+		'continue': ()=> {
+			if (this.breakState === BreakState.break ||
+				this.breakState === BreakState.step) --this.idxToken_;
+			this.breakState = BreakState.breaking;
 			this.main.setLoop(true);
+			this.main.resume();	// jumpループ後などで停止している場合があるので
+		},
+		'stepover': (type, o)=> this.go_stepover(type, o),
+		'stepin': ()=> {
+			const tkn = this.script.aToken[this.idxToken_ -1];
+			this.sys.callHook(`stopOnStep${
+				tkn.charAt(0) === '[' && tkn.slice(1,-1)in this.hMacro ?'In' :''
+			}`, {});	// sn全体へ通知
+
+			if (this.breakState === BreakState.break ||
+				this.breakState === BreakState.step) --this.idxToken_;
+			this.breakState = BreakState.stepping;
+			this.main.setLoop(true);
+			this.main.resume();	// jumpループ後などで停止している場合があるので
+		},
+		'stepout': (type, o)=> {
+			if (this.lenCallStk > 0) this.go_stepout(true);
+			else this.go_stepover(type, o);
 		},
 	};
+	private	go_stepover(type: string, o: any) {
+		const tkn = this.script.aToken[this.idxToken_ -1];
+		if (tkn.charAt(0) === '[' && tkn.slice(1, -1) in this.hMacro) this.go_stepout(); else {
+			this.sys.callHook('stopOnStep', {});	// sn全体へ通知
+			this.hHook.stepin(type, o);
+		}
+	}
+	private	go_stepout(out = false) {
+		this.sys.callHook(`stopOnStep${out ?'Out' :''}`, {});	// sn全体へ通知
+		this.csDepth_macro_esc = this.lenCallStk -(out ?1 :0);
+		if (this.breakState === BreakState.break ||
+			this.breakState === BreakState.step) --this.idxToken_;
+		this.breakState = out ?BreakState.macro_esc :BreakState.macro_escaping;
+		this.main.setLoop(true);
+		this.main.resume();	// jumpループ後などで停止している場合があるので
+	}
+	private	csDepth_macro_esc	= 0;
 
-	private	readonly	hBreakPoint: {[fn: string]: {[ln: number]: 1}}	= {};
-	private	breakState	:BreakState = BreakState.run;
-	isBreak = ()=> false;
-	private isBreak_base(): boolean {
+	private	readonly	hBreakPoint: {[fn: string]: {[ln: number]: any}} = {};
+	private	hFuncBP: {[tag_name: string]: 1} = {};
+	private	breakState	= BreakState.running;
+	isBreak = (_token: string)=> false;
+	private isBreak_base(token: string): boolean {
 		switch (this.breakState) {
-			case BreakState.run:
-				const bp = this.hBreakPoint[this.scriptFn_];
-				if (! bp || !(this.lineNum_ in bp)) break;
+			case BreakState.macro_escaping:	this.subHitCondition();
+				this.breakState = BreakState.macro_esc;	break;
+			case BreakState.macro_esc:
+				if (this.lenCallStk !== this.csDepth_macro_esc) break;
 
-				this.breakState = BreakState.before;
-				this.main.setLoop(false);
-				this.sys.callHook('stopOnBreakpoint', {});	// sn全体へ通知
-				this.sys.sendDbg('stopOnBreakpoint', {});
+				this.breakState = BreakState.step;
+				this.main.setLoop(false, 'ステップ実行');
+				this.sys.sendDbg('stopOnStep', {});
 				return true;	// タグを実行せず、直前停止
 
-			case BreakState.stepping:
-				this.breakState = BreakState.before;	break;
-
-			case BreakState.before:
-				this.main.setLoop(false);
-				this.sys.callHook('stopOnStep', {});	// sn全体へ通知
+			case BreakState.stepping:	this.subHitCondition();
+				this.breakState = BreakState.step;	break;
+			case BreakState.step:		this.subHitCondition();
+				this.main.setLoop(false, 'ステップ実行');
 				this.sys.sendDbg('stopOnStep', {});
+				return true;	// タグを実行せず、直前停止
+
+			case BreakState.breaking:	this.subHitCondition();
+				this.breakState = BreakState.running;	break;
+
+			default:
+			{	// 関数ブレークポイント
+				const e = Grammar.REG_TAG.exec(token);
+				const tag_name = e?.groups?.name ?? '';
+				if (tag_name in this.hFuncBP) {
+					this.breakState = BreakState.break;
+					this.main.setLoop(false, `関数 ${token} ブレーク`);
+					this.sys.callHook('stopOnBreakpoint', {});	// sn全体へ通知
+					this.sys.sendDbg('stopOnBreakpoint', {});
+					return true;	// タグを実行せず、直前停止
+				}
+			}
+			{	// ブレークポイント
+				const bp = this.hBreakPoint[getFn(this.scriptFn_)];
+				if (! bp) break;
+				const o: any = bp[this.lineNum_];
+				if (! o) break;
+//console.log(`fn:ScriptIterator.ts line:145 👺 【bs:${this.breakState} idx:${this.idxToken_} ln:${this.lineNum_} tkn:${this.script.aToken[this.idxToken_ -1]}:】 o:%o`, o);
+				if (o.condition) {if (! this.prpPrs.parse(o.condition)) break;}
+				else if (('hitCondition' in o) && --o.hitCondition > 0) break;
+			}
+				const isBreak = this.breakState === BreakState.running;
+				this.breakState = BreakState.break;
+				this.main.setLoop(false, isBreak ?'ブレーク' :'ステップ実行');
+				const type = isBreak ?'stopOnBreakpoint' :'stopOnStep';
+				this.sys.callHook(type, {});	// sn全体へ通知
+				this.sys.sendDbg(type, {});
 				return true;	// タグを実行せず、直前停止
 		}
 
 		return false;	// no break、タグを実行
 	}
+	private	subHitCondition() {	// step実行中でbreakしないがヒットカウントだけ減算
+		const bp = this.hBreakPoint[getFn(this.scriptFn_)];
+		if (! bp) return;
+		const bpo: any = bp[this.lineNum_];
+		if (bpo) {if (bpo.hitCondition) --bpo.hitCondition}
+	}
 
-	private stack(): {fn: string, ln: number, col: number, nm: string}[] {
+	private aStack(): {fn: string, ln: number, col: number, nm: string}[] {
 		const tkn0 = this.script.aToken[this.idxToken_ -1];
 		const fn0 = this.cfg.searchPath(this.scriptFn_, Config.EXT_SCRIPT);
 		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 0, nm: tkn0,}];
@@ -324,32 +417,33 @@ export class ScriptIterator {
 
 	// 外部へスクリプトを表示
 	private dump_script(hArg: HArg) {
-		const set_fnc = hArg.set_fnc;
+		const set_fnc = hArg.set_fnc;	// スクリプトを返すコールバック
 		if (! set_fnc) throw 'set_fncは必須です';
 
-		this.fncSet = (window as any)[set_fnc];
+		this.fncSet = (globalThis as any)[set_fnc];
 		if (! this.fncSet) {
 			if (argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${set_fnc}が見つかりません`;
 			this.fncSet = ()=> {};
 			return false;
 		}
 
-		this.noticeBreak = (set: boolean)=> {
+		this.noticeBreak = (goto: boolean)=> {
 			if (this.fnLastBreak !== this.scriptFn_) {
 				this.fnLastBreak = this.scriptFn_;
 				this.fncSet(
 					this.hScrCache4Dump[this.scriptFn_]
 					=  this.hScrCache4Dump[this.scriptFn_]
-					|| this.script.aToken.join(''));
+					?? this.script.aToken.join('')
+				);
 			}
-			this.fncBreak(this.lineNum_, set);
+			this.fncBreak(this.lineNum_, goto);
 		};
 		this.noticeBreak(true);	// 一度目のthis.fncBreak()はスルー（まだ読んでないし）
 
-		const break_fnc = hArg.break_fnc;
+		const break_fnc = hArg.break_fnc;	// Break通知コールバック
 		if (! break_fnc) return false;
 
-		this.fncBreak = (window as any)[break_fnc];
+		this.fncBreak = (globalThis as any)[break_fnc];
 		if (! this.fncBreak) {
 			if (argChk_Boolean(hArg, 'need_err', true)) throw `HTML内に関数${break_fnc}が見つかりません`;
 			this.fncBreak = ()=> {};
@@ -358,10 +452,10 @@ export class ScriptIterator {
 		return false;
 	}
 	private fncSet: (txt: string)=> void = ()=> {};
-	private fncBreak: (line: number, set: boolean)=> void = ()=> {};
+	private fncBreak: (ln: number, goto: boolean)=> void = ()=> {};
 	private fnLastBreak = '';
-	private hScrCache4Dump: {[name: string]: string;} = {};
-	noticeBreak = (_set: boolean)=> {}
+	private hScrCache4Dump: {[fn: string]: string;} = {};
+	noticeBreak = (_goto: boolean)=> {}
 
 
 	private dumpErrLine = 5;
@@ -386,7 +480,7 @@ export class ScriptIterator {
 			const ln = this.lineNum_ -len +i +1;
 			const mes = `${String(ln).padStart(ln_txt_width, ' ')}: %c`;
 			const e = a[i];
-			const line = (e.length > 75) ?e.substr(0, 75) +'…' :e;	// 長い場合は後略
+			const line = (e.length > 75) ?e.slice(0, 75) +'…' :e;	// 長い場合は後略
 			if (i === len -1) console.info(
 				mes + line.slice(0, lc.col_s) +'%c'+ line.slice(lc.col_s),
 				'color: black; background-color: skyblue;', 'color: black; background-color: pink;'
@@ -599,11 +693,12 @@ export class ScriptIterator {
 		// トークンの行番号更新
 		if (! this.script.aLNum[this.idxToken_]) this.script.aLNum[this.idxToken_] = this.lineNum_;
 		const token = this.script.aToken[this.idxToken_];
-		//console.log(`🌱 fn:${this.scriptFn_} idxToken:${this.idxToken_} lineNum:${this.lineNum} token【${token}】`);
+		this.dbgToken(token);
 		++this.idxToken_;
 
 		return token;
 	}
+	private	dbgToken = (_token: string)=> {};
 
 
 	private	readonly REG_NONAME_LABEL		= /(\*{2,})(.*)/;
@@ -892,6 +987,7 @@ export class ScriptIterator {
 
 		const ln = this.lineNum_;
 		const cs = new CallStack(this.scriptFn_, this.idxToken_);
+		this.hMacro[name] = 1;
 		this.hTag[name] = (hArgM: HArg)=> {
 			this.callSub({...hArgM, hMp: this.val.cloneMp()} as any);
 
@@ -923,6 +1019,7 @@ export class ScriptIterator {
 		}
 		throw `マクロ[${name}]定義の終端・[endmacro]がありません`;
 	}
+	private	readonly	hMacro: {[nm: string]: 1}	= {};
 
 
 //	// しおり

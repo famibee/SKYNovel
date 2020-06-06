@@ -70,7 +70,7 @@ export class SysWeb extends SysBase {
 		);
 	}
 	private def_prj = 'prj';
-	readonly	run = async (prj: string)=> {
+	private	readonly	run = async (prj: string)=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.main.destroy(ms_late);

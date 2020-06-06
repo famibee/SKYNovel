@@ -140,9 +140,9 @@ export class Main implements IMain {
 		this.scrItr.noticeBreak(true);
 	};
 
-	setLoop(isLoop: boolean) {
+	setLoop(isLoop: boolean, mes = '') {
 		this.isLoop = isLoop;
-		this.sys.setTitleInfo(isLoop ?'' :' -- 一時停止中');
+		this.sys.setTitleInfo(mes ?` -- ${mes}中` :'');
 	}
 	private	isLoop = true;
 	private runAnalyze() {
@@ -151,14 +151,13 @@ export class Main implements IMain {
 			if (! token) break;	// 初期化前に終了した場合向け
 
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
-			if (this.cfg.oCfg.debug.token) console.log(`🌱 トークン fn:${this.scrItr.scriptFn} lnum:${this.scrItr.lineNum} uc:${uc} token<${token}>`);
 			// \t タブ
 			if (uc === 9) continue;
 			// \n 改行
 			if (uc === 10) {this.scrItr.addLineNum(token.length); continue;}
 			// [ タグ開始
 			if (uc === 91) {
-				if (this.scrItr.isBreak()) return;
+				if (this.scrItr.isBreak(token)) return;
 				try {
 					const cl = (token.match(/\n/g) ?? []).length;
 					if (cl > 0) this.scrItr.addLineNum(cl);
@@ -181,9 +180,9 @@ export class Main implements IMain {
 			// & 変数操作・変数表示
 			if (uc === 38) {
 				try {
-					if (token.substr(-1) !== '&') {//変数操作
-						//変数計算
-						if (this.scrItr.isBreak()) return;
+					if (token.slice(-1) !== '&') {//変数操作
+						// 変数計算
+						if (this.scrItr.isBreak(token)) return;
 						const o = Grammar.splitAmpersand(token.slice(1));
 						o.name = this.prpPrs.getValAmpersand(o.name);
 						o.text = String(this.prpPrs.parse(o.text));
@@ -234,12 +233,16 @@ export class Main implements IMain {
 		this.destroyed = true;
 
 		if (! this.inited) return;
+
+		this.stop();
+		this.isLoop = false;
+
 		await this.layMng.before_destroy();
 		if (ms_late > 0) await new Promise(r=> setTimeout(r, ms_late));
 
-		this.stop();
 		this.hTag = {};
 		this.evtMng.destroy();
+		this.scrItr.destroy();
 		this.layMng.destroy();
 		this.dbgMng.destroy();
 		this.appPixi.ticker.remove(this.fncTicker);

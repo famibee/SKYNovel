@@ -51,7 +51,7 @@ export class Variable implements IVariable {
 				for (const key in o) {
 					const v = o[key];
 					if (typeof v !== 'string') continue;
-					if (v.substr(0, 10) !== 'userdata:/') continue;
+					if (v.slice(0, 10) !== 'userdata:/') continue;
 					o[key] = cfg.searchPath(v);
 				}
 				o.place = k;
@@ -193,10 +193,31 @@ export class Variable implements IVariable {
 			}
 			: ()=> sys.flush();
 
-			sys.addHook((type: string, o: any)=> {
-				if (type !== 'var') return;
-				sys.sendDbg('var', {v: this.hScope[o.scope] ?? {}});
-			});
+			sys.addHook((type, o)=> {switch (type) {
+				case 'var':	sys.sendDbg(o.ri, {v: this.hScope[o.scope] ?? {}});
+					break;
+				case 'set_var':
+					try {this.setVal(o.nm, o.val);	sys.sendDbg(o.ri, {});}
+					catch {}
+					break;
+				case 'set_data_break':{
+					this.hSetEvent = {};
+					(Array.isArray(o.a) ?o.a :[])
+					.forEach((v: any)=> this.hSetEvent[v.dataId]
+					= (old_v, new_v)=> {
+						if (old_v != new_v) sys.callHook('data_break', {
+							dataId: v.dataId,
+							old_v: old_v,
+							new_v: new_v,
+						});
+					});
+
+					sys.sendDbg(o.ri, {});
+				}	break;
+				case 'disconnect':
+					this.hSetEvent = {};
+					break;
+			}});
 		});
 	}
 	updateData(data: IData4Vari): void {
@@ -383,8 +404,8 @@ export class Variable implements IVariable {
 	private let_substr(hArg: HArg) {
 		const i = argChk_Num(hArg, 'pos', 0);
 		hArg.text = (hArg.len !== 'all')
-			? (hArg.text ?? '').substr(i, int(argChk_Num(hArg, 'len', 1)))
-			: (hArg.text ?? '').substr(i);
+			? (hArg.text ?? '').slice(i, i +int(argChk_Num(hArg, 'len', 1)))
+			: (hArg.text ?? '').slice(i);
 		this.let(hArg);
 
 		return false;
@@ -483,9 +504,14 @@ export class Variable implements IVariable {
 	setVal_Nochk(scope: string, nm: string, val: any, autocast = false) {
 		const hScope = this.hScope[scope];
 		if (autocast) val = this.castAuto(val);
+
+		const fullnm = scope +':'+ nm;
+		const fncSetEv = this.hSetEvent[fullnm];
+		if (fncSetEv) fncSetEv(hScope[nm], val);
+
 		hScope[nm] = val;
 
-		const trg = this.hValTrg[scope +':'+ nm];
+		const trg = this.hValTrg[fullnm];
 		if (trg) trg(nm, val);
 
 		// if (scope === 'sys') this.flush()
@@ -495,6 +521,7 @@ export class Variable implements IVariable {
 
 		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg)}]`);
 	}
+	private	hSetEvent: {[fullnm: string]: (old_v: any, new_v: any)=> void} = {};
 
 	readonly getVal = (arg_name: string, def?: number | string)=> {
 		if (! arg_name) throw '[変数参照] nameは必須です';

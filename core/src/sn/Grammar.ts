@@ -109,7 +109,7 @@ export class Grammar {
 				let ch = a[j];
 				const macro = this.hC2M[ch.charAt(0)];
 				if (macro) {
-					ch = macro +((macro.substr(-1) === ']')
+					ch = macro +((macro.slice(-1) === ']')
 						? ''
 						: (`'${ch.slice(1, -1)}']`));
 					// 文字列は半角空白を意識して''で囲むが、いずれ変えたい場合がある？

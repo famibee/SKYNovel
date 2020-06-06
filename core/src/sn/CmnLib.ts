@@ -29,10 +29,10 @@ if (! String.prototype.trim) {
 export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''): string {
 	const now = new Date();
 	return now.getFullYear()
-		+ spl_dd+ String(100 +now.getMonth() +1).substr(1, 2)
-		+ spl_dd+ String(100 +now.getDate()).substr(1, 2)
-		+ spl_dt+ String(100 +now.getHours()).substr(1, 2)
-		+ spl_tt+ String(100 +now.getMinutes()).substr(1, 2)
+		+ spl_dd+ String(100 +now.getMonth() +1).slice(1, 3)
+		+ spl_dd+ String(100 +now.getDate()).slice(1, 3)
+		+ spl_dt+ String(100 +now.getHours()).slice(1, 3)
+		+ spl_tt+ String(100 +now.getMinutes()).slice(1, 3)
 		+ (spl_ms === '' ?'' :spl_ms+ String(now.getMilliseconds()));
 }
 
@@ -93,7 +93,7 @@ export	function argChk_Num(hash: any, name: string, def: number): number {
 		return def;
 	}
 
-	const n = (String(v).substr(0, 2) === '0x')
+	const n = (String(v).slice(0, 2) === '0x')
 		? parseInt(v)
 		: parseFloat(v);
 	if (isNaN(n)) throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
