@@ -22,9 +22,6 @@ if (! ('toUint' in String.prototype)) {
 		return v < 0 ? -v : v;
 	};
 }
-if (! String.prototype.trim) {
-	String.prototype.trim = function () { return this.replace(/^\s+|\s+$/g,''); };
-}
 
 export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''): string {
 	const now = new Date();

@@ -7,7 +7,7 @@
 
 // electron レンダラープロセス
 import {SysApp} from './sn/SysApp';
-import {CmnLib} from './sn/CmnLib';
+import {CmnLib, argChk_Num, argChk_Boolean} from './sn/CmnLib';
 import {Layer} from './sn/Layer';
 
-export {SysApp, CmnLib, Layer};
+export {SysApp, CmnLib, Layer, argChk_Num, argChk_Boolean};

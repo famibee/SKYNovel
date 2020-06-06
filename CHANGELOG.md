@@ -1,3 +1,5 @@
+## v0.21.4
+- bug：argChk_Num, argChk_Boolean の export 修正
 ## v0.21.3
 - upd：将来削除される可能性？につき .substr()ではなく.slice()に
 	- https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/substr
