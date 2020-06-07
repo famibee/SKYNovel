@@ -35,8 +35,10 @@ export declare class ScriptIterator {
     private go_stepover;
     private go_stepout;
     private csDepth_macro_esc;
-    private readonly hBreakPoint;
-    private hFuncBP;
+    private get idxDx4Dbg();
+    private isIdxOverLast;
+    private static hBrkP;
+    private static hFuncBP;
     private breakState;
     isBreak: (_token: string) => boolean;
     private isBreak_base;
@@ -73,6 +75,7 @@ export declare class ScriptIterator {
     nextToken: () => string;
     private nextToken_Proc;
     private dbgToken;
+    private errOverScr;
     private readonly REG_NONAME_LABEL;
     private readonly REG_LABEL_ESC;
     private readonly REG_TOKEN_MACRO_BEGIN;

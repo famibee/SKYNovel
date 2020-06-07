@@ -28,7 +28,7 @@ export class SysApp extends SysNode {
 		window.addEventListener('DOMContentLoaded', ()=>this.run(), {once: true, passive: true});
 		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));
 
-		if (! this.isPackaged()) {	// 配布版では無効
+		if (this.isDbg()) {
 			const gs = document.createElement('style');
 			gs.type = 'text/css';
 			gs.innerHTML = `/* SKYNovel Dbg */
@@ -133,8 +133,6 @@ export class SysApp extends SysNode {
 	private main: Main;
 	private async run() {
 		if (this.main) {
-			this.aFncHook = [];
-
 			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
 			this.main.destroy(ms_late);
 			await new Promise(r=> setTimeout(r, ms_late));
@@ -156,17 +154,16 @@ export class SysApp extends SysNode {
 		});
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
 
-		if (process.env['SKYNOVEL_DBG'] && ! this.isPackaged()) {// 配布版では無効
+		if (this.isDbg()) {
 			this.addHook((type: string, o: any)=> {
+//console.log(`fn:SysApp.ts line:162 hook type:${type}`);
 				switch (type) {	// 接続
 					case 'continue':	this.toast('再生');	break;
 					case 'disconnect':	this.toast('切断');	break;
-					case 'restart':	this.run();	this.sendDbg(o.ri, {});	break;
-					case 'launch':
-						// ScriptIterator.ts 'launch' の肩代わり（toast()の都合）
-						this.callHook('stopOnStep', {});	// sn全体へ通知
-						this.sendDbg('stopOnStep', {});
-						this.toast('一時停止');	break;	// 最後にやりたい
+					case 'restart':	this.sendDbg(o.ri, {});	this.endSkt();
+						// これ以前の this は旧Main。以後は this必須
+						// 以後は新Mainによる本メソッドinit()→launch接続待ち
+						this.run();	break;
 					case 'attach':
 					case 'stopOnEntry':	this.toast('一時停止');	break;
 					case 'stopOnDataBreakpoint':
@@ -178,10 +175,11 @@ export class SysApp extends SysNode {
 				}
 			});
 
-			// ソケットファイルを削除（存在するとlistenできない）
 			const UNIX_SOCK = '.vscode/skynovel.sock';	// UNIXドメインソケット
 			try {m_fs.unlinkSync(UNIX_SOCK);} catch {}
-			createServer(skt=> {
+				// ソケットファイルを削除（存在するとlistenできない）
+			const srv = createServer(skt=> {// launchサーバーはMainごとに生成
+				srv.close();	// 最初の接続のみ
 				skt.on('data', b=> {
 					const s = b.toString();
 					if (s.charAt(0) !== '\x1f') return;
@@ -191,20 +189,27 @@ export class SysApp extends SysNode {
 						this.callHook(o.type, o);
 					});
 				})
-				.on('error', err=> {console.error(err.message); skt?.end()})
+				.on('error', err=> {console.error(err.message); this.endSkt();})
 				// endイベントは接続がきれいにクローズされないと発火しないらしい
 				.on('close', ()=> this.sendDbg = ()=> {});
 				this.sendDbg = (type, o)=> skt.write('\x1f'+ JSON.stringify({...o, type: type}));
 
+				this.endSkt = ()=> {
+					this.endSkt = ()=> {};
+					this.aFncHook = [];
+					this.sendDbg = ()=> {};
+					skt.end();
+				};
+
 				this.toast('接続');
 			}).listen(UNIX_SOCK);
 
-			main.setLoop(false, 'ステップ実行');
-				// ScriptIterator.ts 'launch' の肩代わり
 			createConnection('.vscode/sn_launch.sock')	// launch
-			.on('error', ()=> main.setLoop(true));	// attach
+			.on('error', ()=> main.setLoop(true));		// attach
 		}
 	}
+	private	endSkt = ()=> {};
+
 	private toast(nm: string) {
 		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		if (! cvs) return;
@@ -243,9 +248,10 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 
 	private	aFncHook: IFncHook[]	= [];
 	addHook(fnc: IFncHook) {this.aFncHook.push(fnc);}
-	callHook: IFncHook = (type: string, o: any)=> this.aFncHook.forEach(fnc=> fnc(type, o));
+	callHook: IFncHook = (type, o)=> this.aFncHook.forEach(fnc=> fnc(type, o));
 
-	readonly	isPackaged = ()=> remote.app.isPackaged;
+	protected readonly	isPackaged = ()=> remote.app.isPackaged;
+	readonly isDbg = ()=> Boolean(process.env['SKYNOVEL_DBG']) && ! this.isPackaged();	// 配布版では無効
 
 	// アプリの終了
 	protected readonly	close = ()=> {this.win.close(); return false;}

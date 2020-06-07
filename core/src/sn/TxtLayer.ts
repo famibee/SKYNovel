@@ -864,7 +864,7 @@ export class TxtLayer extends Layer {
 		const aBtn: string[] = hLay.btns;
 		aBtn.forEach(v=> ret = ret || this.addButton(JSON.parse(v)));
 
-		if (fncComp) fncComp();
+		fncComp?.();
 
 		return ret;
 	}

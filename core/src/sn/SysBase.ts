@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, HArg} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook} from './CmnInterface';
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 
 export class SysBase implements ISysBase {
@@ -13,7 +13,7 @@ export class SysBase implements ISysBase {
 
 	constructor(protected readonly hPlg: HPlugin = {}, protected readonly arg: HSysBaseArg) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
-		if (fncPre) fncPre.init({
+		fncPre?.init({
 			addTag: ()=> {},
 			addLayCls: ()=> {},
 			searchPath: ()=> '',
@@ -99,6 +99,7 @@ export class SysBase implements ISysBase {
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
 		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
+		val.setVal_Nochk('tmp', 'const.sn.isDbg', this.isDbg());
 		val.setVal_Nochk('tmp', 'const.sn.isPackaged', this.isPackaged());
 
 		val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
@@ -111,15 +112,15 @@ export class SysBase implements ISysBase {
 	setFire(fire: IFire) {this.fire = fire}
 
 	addHook(_fnc: IFncHook) {}
-	callHook: IFncHook = (_type: string, _o: object)=> {}
-	sendDbg = (_type: string, _o: object)=> {};
+	callHook: IFncHook = ()=> {};
+	sendDbg: IFncHook = ()=> {};
 
 
 	protected readonly	close			: ITag = ()=> false;
 	protected readonly	_export			: ITag = ()=> false;
 	protected readonly	_import			: ITag = ()=> false;
 	protected readonly	navigate_to		: ITag = ()=> false;
-	protected readonly	title			: ITag = (hArg: HArg)=> {
+	protected readonly	title			: ITag = hArg=> {
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 
@@ -146,7 +147,8 @@ export class SysBase implements ISysBase {
 	hash = (_data: string)=> '';
 
 	protected readonly	isApp = ()=> false;
-	readonly	isPackaged = ()=> false;
+	protected readonly	isPackaged = ()=> false;
+	readonly	isDbg = ()=> false;
 	protected $path_downloads	= '';
 	get path_downloads() {return this.$path_downloads}
 	protected $path_userdata= '';

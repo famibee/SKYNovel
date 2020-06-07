@@ -20,12 +20,14 @@ export declare class SysApp extends SysNode {
     private readonly win;
     private readonly wc;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    private endSkt;
     private toast;
     private static readonly hToastDat;
     private aFncHook;
     addHook(fnc: IFncHook): void;
     callHook: IFncHook;
-    readonly isPackaged: () => any;
+    protected readonly isPackaged: () => any;
+    readonly isDbg: () => boolean;
     protected readonly close: () => boolean;
     protected readonly _export: ITag;
     protected readonly _import: ITag;

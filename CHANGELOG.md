@@ -1,3 +1,7 @@
+## v0.21.5
+- add：デバッグモードで起動されたかを示す変数「const.sn.isDbg」追加
+- chg：スクリプト終端エラーメッセージ修正
+- info：オプショナルチェイニング演算子を積極使用
 ## v0.21.4
 - bug：argChk_Num, argChk_Boolean の export 修正
 ## v0.21.3

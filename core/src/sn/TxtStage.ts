@@ -217,8 +217,7 @@ export class TxtStage extends Container {
 
 			function parseExtension(url: any) {
 				const match = /\.([^\.\/]*?)$/g.exec(url);
-				if (match) return match[1];
-				else return '';
+				return match?.[1] ?? '';
 			}
 
 			function isDataUrl(url: any) {

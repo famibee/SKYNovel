@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, uint, int, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg, IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark} from './CmnInterface';
+import {HArg, IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook} from './CmnInterface';
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
@@ -140,6 +140,7 @@ export class Variable implements IVariable {
 	private	data	: IData4Vari	= {sys:{}, mark:{}, kidoku:{}};
 	private	hSys	: any;
 	private	hAreaKidoku	: {[name: string]: Areas}	= {};
+	private	callHook: IFncHook;
 	setSys(sys: ISysBase) {
 		sys.initVal(this.data, this.hTmp, data=> {
 			this.updateData(data);
@@ -193,6 +194,7 @@ export class Variable implements IVariable {
 			}
 			: ()=> sys.flush();
 
+			this.callHook = sys.callHook;
 			sys.addHook((type, o)=> {switch (type) {
 				case 'var':	sys.sendDbg(o.ri, {v: this.hScope[o.scope] ?? {}});
 					break;
@@ -201,21 +203,14 @@ export class Variable implements IVariable {
 					catch {}
 					break;
 				case 'set_data_break':{
-					this.hSetEvent = {};
+					Variable.hSetEvent = {};
 					(Array.isArray(o.a) ?o.a :[])
-					.forEach((v: any)=> this.hSetEvent[v.dataId]
-					= (old_v, new_v)=> {
-						if (old_v != new_v) sys.callHook('data_break', {
-							dataId: v.dataId,
-							old_v: old_v,
-							new_v: new_v,
-						});
-					});
+					.forEach((v: any)=> Variable.hSetEvent[v.dataId] = 1);
 
 					sys.sendDbg(o.ri, {});
 				}	break;
 				case 'disconnect':
-					this.hSetEvent = {};
+					Variable.hSetEvent = {};
 					break;
 			}});
 		});
@@ -506,13 +501,19 @@ export class Variable implements IVariable {
 		if (autocast) val = this.castAuto(val);
 
 		const fullnm = scope +':'+ nm;
-		const fncSetEv = this.hSetEvent[fullnm];
-		if (fncSetEv) fncSetEv(hScope[nm], val);
+		if (fullnm in Variable.hSetEvent) {
+			const old_v = hScope[nm];
+			const new_v = val;
+			if (old_v != new_v) this.callHook('data_break', {
+				dataId: fullnm,
+				old_v: old_v,
+				new_v: new_v,
+			});
+		}
 
 		hScope[nm] = val;
 
-		const trg = this.hValTrg[fullnm];
-		if (trg) trg(nm, val);
+		this.hValTrg[fullnm]?.(nm, val);
 
 		// if (scope === 'sys') this.flush()
 			// 厳密にはここですべきだが、パフォーマンスに問題があるので
@@ -521,7 +522,8 @@ export class Variable implements IVariable {
 
 		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg)}]`);
 	}
-	private	hSetEvent: {[fullnm: string]: (old_v: any, new_v: any)=> void} = {};
+	// reload 再生成 Main に受け渡すため static
+	private	static	hSetEvent: {[fullnm: string]: 1} = {};
 
 	readonly getVal = (arg_name: string, def?: number | string)=> {
 		if (! arg_name) throw '[変数参照] nameは必須です';

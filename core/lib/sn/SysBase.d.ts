@@ -31,7 +31,7 @@ export declare class SysBase implements ISysBase {
     setFire(fire: IFire): void;
     addHook(_fnc: IFncHook): void;
     callHook: IFncHook;
-    sendDbg: (_type: string, _o: object) => void;
+    sendDbg: IFncHook;
     protected readonly close: ITag;
     protected readonly _export: ITag;
     protected readonly _import: ITag;
@@ -49,7 +49,8 @@ export declare class SysBase implements ISysBase {
     protected stk: () => string;
     hash: (_data: string) => string;
     protected readonly isApp: () => boolean;
-    readonly isPackaged: () => boolean;
+    protected readonly isPackaged: () => boolean;
+    readonly isDbg: () => boolean;
     protected $path_downloads: string;
     get path_downloads(): string;
     protected $path_userdata: string;

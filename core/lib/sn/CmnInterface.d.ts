@@ -162,7 +162,7 @@ export interface ISysBase {
     pre(ext: string, data: string): Promise<string>;
     addHook(fnc: IFncHook): void;
     callHook: IFncHook;
-    sendDbg(_type: string, o: object): void;
+    sendDbg: IFncHook;
 }
 export interface IFire {
     (KEY: string, e: Event): void;

@@ -92,12 +92,21 @@ export class ScriptIterator {
 
 		this.grm.setEscape(cfg.oCfg.init.escape);
 
-		if (! sys.isPackaged()) {
-			sys.addHook((type: string, o: any)=> {
-				const h = this.hHook[type];
-				if (h) h(type, o);
-			});
+		if (sys.isDbg()) {
+			sys.addHook((type, o)=> this.hHook[type]?.(type, o));
 			this.isBreak = this.isBreak_base;
+
+			const fnc = this.analyzeInit;
+			this.analyzeInit = ()=> {
+				this.breakState = BreakState.wait;
+				main.setLoop(false, 'ステップ実行');
+				// ScriptIterator.ts 'launch' の肩代わり
+				this.sys.callHook('stopOnStep', {});	// sn全体へ通知
+				this.sys.sendDbg('stopOnStep', {});
+
+				this.analyzeInit = fnc;
+				this.analyzeInit();
+			};
 		}
 	}
 
@@ -109,20 +118,21 @@ export class ScriptIterator {
 			this.main.setLoop(false, '一時停止');
 			this.sys.sendDbg('stop', {});
 		},
-		//'launch': ()=> {
-		//	this.main.setLoop(false);	// ここでは冒頭停止に間に合わないのでSysAppで
-		//	this.sys.callHook('stopOnStep', {});	// sn全体へ通知
-		//	this.sys.sendDbg('stopOnStep', {});
-		//},
+		//'launch':	// ここでは冒頭停止に間に合わないのでanalyzeInit()で
 		'disconnect': ()=> {
-			for (const fn in this.hBreakPoint) this.hBreakPoint[fn] = {};
-			this.hHook.continue('', {});
-		},
+			ScriptIterator.hBrkP = {};
+			ScriptIterator.hFuncBP = {};
+			this.isBreak = ()=> false;
 
-		// ブレークポイント
-		'clear_break': (_, o)=>	this.hBreakPoint[getFn(o.fn)] = {},
-		'add_break': (_, o)=> this.hBreakPoint[getFn(o.fn)][o.ln] = o,
-		'del_break': (_, o)=>delete this.hBreakPoint[getFn(o.fn)][o.ln],
+			this.hHook.continue('', {});
+			this.breakState = BreakState.running;
+		},
+		'restart': ()=> this.isBreak = ()=> false,
+
+		// ブレークポイント登録
+		'clear_break': (_, o)=>	ScriptIterator.hBrkP[getFn(o.fn)] = {},
+		'add_break': (_, o)=> ScriptIterator.hBrkP[getFn(o.fn)][o.ln] = o,
+		'del_break': (_, o)=>delete ScriptIterator.hBrkP[getFn(o.fn)][o.ln],
 		'data_break': (_, o)=> {
 			if (this.breakState !== BreakState.running) return;
 
@@ -132,8 +142,8 @@ export class ScriptIterator {
 			this.sys.sendDbg('stopOnDataBreakpoint', {});
 		},
 		'set_func_break': (_, o)=> {
-			this.hFuncBP = {};
-			o.a.forEach((v: any)=> this.hFuncBP[v.name] = 1);
+			ScriptIterator.hFuncBP = {};
+			o.a.forEach((v: any)=> ScriptIterator.hFuncBP[v.name] = 1);
 			this.sys.sendDbg(o.ri, {});
 		},
 
@@ -143,32 +153,40 @@ export class ScriptIterator {
 
 		// デバッガからの操作系
 		'continue': ()=> {
-			if (this.breakState === BreakState.break ||
-				this.breakState === BreakState.step) --this.idxToken_;
+			if (this.isIdxOverLast()) return;
+
+			this.idxToken_ -= this.idxDx4Dbg;
 			this.breakState = BreakState.breaking;
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
 		'stepover': (type, o)=> this.go_stepover(type, o),
 		'stepin': ()=> {
-			const tkn = this.script.aToken[this.idxToken_ -1];
+			if (this.isIdxOverLast()) return;
+
+			const tkn = this.script.aToken[this.idxToken_ -this.idxDx4Dbg];
 			this.sys.callHook(`stopOnStep${
 				tkn.charAt(0) === '[' && tkn.slice(1,-1)in this.hMacro ?'In' :''
 			}`, {});	// sn全体へ通知
 
-			if (this.breakState === BreakState.break ||
-				this.breakState === BreakState.step) --this.idxToken_;
-			this.breakState = BreakState.stepping;
+			this.idxToken_ -= this.idxDx4Dbg;
+			this.breakState = this.breakState === BreakState.wait
+				? BreakState.step
+				: BreakState.stepping;
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
 		'stepout': (type, o)=> {
+			if (this.isIdxOverLast()) return;
+
 			if (this.lenCallStk > 0) this.go_stepout(true);
 			else this.go_stepover(type, o);
 		},
 	};
 	private	go_stepover(type: string, o: any) {
-		const tkn = this.script.aToken[this.idxToken_ -1];
+		if (this.isIdxOverLast()) return;
+
+		const tkn = this.script.aToken[this.idxToken_ -this.idxDx4Dbg];
 		if (tkn.charAt(0) === '[' && tkn.slice(1, -1) in this.hMacro) this.go_stepout(); else {
 			this.sys.callHook('stopOnStep', {});	// sn全体へ通知
 			this.hHook.stepin(type, o);
@@ -177,16 +195,26 @@ export class ScriptIterator {
 	private	go_stepout(out = false) {
 		this.sys.callHook(`stopOnStep${out ?'Out' :''}`, {});	// sn全体へ通知
 		this.csDepth_macro_esc = this.lenCallStk -(out ?1 :0);
-		if (this.breakState === BreakState.break ||
-			this.breakState === BreakState.step) --this.idxToken_;
+		this.idxToken_ -= this.idxDx4Dbg;
 		this.breakState = out ?BreakState.macro_esc :BreakState.macro_escaping;
 		this.main.setLoop(true);
 		this.main.resume();	// jumpループ後などで停止している場合があるので
 	}
 	private	csDepth_macro_esc	= 0;
+	private get idxDx4Dbg() {
+		return this.breakState === BreakState.break
+			|| this.breakState === BreakState.step ?1 :0
+	};
+	private	isIdxOverLast(): boolean {
+		if (this.idxToken_ < this.script.len) return false;
+		this.main.setLoop(false, 'スクリプト終端です');
+		this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
+		return true;
+	}
 
-	private	readonly	hBreakPoint: {[fn: string]: {[ln: number]: any}} = {};
-	private	hFuncBP: {[tag_name: string]: 1} = {};
+	// reload 再生成 Main に受け渡すため static
+	private	static	hBrkP: {[fn: string]: {[ln: number]: any}} = {};
+	private	static	hFuncBP: {[tag_name: string]: 1} = {};
 	private	breakState	= BreakState.running;
 	isBreak = (_token: string)=> false;
 	private isBreak_base(token: string): boolean {
@@ -215,7 +243,7 @@ export class ScriptIterator {
 			{	// 関数ブレークポイント
 				const e = Grammar.REG_TAG.exec(token);
 				const tag_name = e?.groups?.name ?? '';
-				if (tag_name in this.hFuncBP) {
+				if (tag_name in ScriptIterator.hFuncBP) {
 					this.breakState = BreakState.break;
 					this.main.setLoop(false, `関数 ${token} ブレーク`);
 					this.sys.callHook('stopOnBreakpoint', {});	// sn全体へ通知
@@ -224,7 +252,7 @@ export class ScriptIterator {
 				}
 			}
 			{	// ブレークポイント
-				const bp = this.hBreakPoint[getFn(this.scriptFn_)];
+				const bp = ScriptIterator.hBrkP[getFn(this.scriptFn_)];
 				if (! bp) break;
 				const o: any = bp[this.lineNum_];
 				if (! o) break;
@@ -244,16 +272,14 @@ export class ScriptIterator {
 		return false;	// no break、タグを実行
 	}
 	private	subHitCondition() {	// step実行中でbreakしないがヒットカウントだけ減算
-		const bp = this.hBreakPoint[getFn(this.scriptFn_)];
-		if (! bp) return;
-		const bpo: any = bp[this.lineNum_];
-		if (bpo) {if (bpo.hitCondition) --bpo.hitCondition}
+		const bpo = ScriptIterator.hBrkP[getFn(this.scriptFn_)]?.[this.lineNum_];
+		if (bpo?.hitCondition) --bpo.hitCondition;
 	}
 
 	private aStack(): {fn: string, ln: number, col: number, nm: string}[] {
 		const tkn0 = this.script.aToken[this.idxToken_ -1];
 		const fn0 = this.cfg.searchPath(this.scriptFn_, Config.EXT_SCRIPT);
-		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 0, nm: tkn0,}];
+		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 1, nm: tkn0,}];
 
 		const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);
 		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s +1, nm: tkn0,}];
@@ -685,8 +711,8 @@ export class ScriptIterator {
 
 	// シナリオ解析処理ループ・冒頭処理
 	nextToken = ()=> '';	// 初期化前に終了した場合向け
-	private nextToken_Proc() {
-		if (this.idxToken_ === this.script.len) this.main.errScript('スクリプト終端です  idxToken:' + this.idxToken_ + ' this.tokens.aToken.length:' + this.script.aToken.length);
+	private nextToken_Proc(): string {
+		if (this.errOverScr()) return '';
 
 		this.recordKidoku();
 
@@ -699,6 +725,11 @@ export class ScriptIterator {
 		return token;
 	}
 	private	dbgToken = (_token: string)=> {};
+	private	errOverScr(): boolean {
+		if (this.idxToken_ < this.script.len) return false;
+		this.main.errScript('スクリプト終端です');
+		return true;
+	}
 
 
 	private	readonly REG_NONAME_LABEL		= /(\*{2,})(.*)/;
@@ -711,7 +742,8 @@ export class ScriptIterator {
 		//console.log(`seekScript (from)inMacro:${inMacro} (from)lineNum:${ln} (to)skipLabel:${skipLabel}: (to)idxToken:${idxToken}`);
 		const len = st.aToken.length;
 		if (! skipLabel) {
-			if (idxToken >= len) DebugMng.myTrace('[jump系] 内部エラー idxToken:'+ idxToken +' は、最大トークン数:'+ len +'を越えます', 'ET');
+			if (this.errOverScr()) return {idx: idxToken, lineNum: ln};
+
 			if (! st.aLNum[idxToken]) {	// undefined
 				ln = 1;
 				for (let j=0; j<idxToken; ++j) {
@@ -922,8 +954,7 @@ export class ScriptIterator {
 	private isKidoku_	= false;
 	get isKidoku(): boolean {return this.isKidoku_;};
 	private eraseKidoku(): void {
-		const areas = this.val.getAreaKidoku(this.scriptFn_);
-		if (areas) areas.erase(this.idxToken_);
+		this.val.getAreaKidoku(this.scriptFn_)?.erase(this.idxToken_);
 		this.isKidoku_ = false;
 	}
 	get isNextKidoku(): boolean {

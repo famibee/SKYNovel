@@ -94,7 +94,7 @@ export class Main implements IMain {
 			this.inited = true;
 		});
 	}
-	private fncTicker = ()=> this.fncNext();	// thisの扱いによりメソッド代入はダメ
+	private	readonly fncTicker = ()=> this.fncNext();	// thisの扱いによりメソッド代入はダメ
 
 	errScript(mes: string, isThrow = true) {
 		this.stop();
