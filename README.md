@@ -3,8 +3,8 @@
 ![platform](https://img.shields.io/badge/platform-windows%20%7C%20macos-lightgrey.svg)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/famibee/skynovel?color=brightgreen)
 ![GitHub last commit](https://img.shields.io/github/last-commit/famibee/skynovel)
-
 ![npm type definitions](https://img.shields.io/npm/types/skynovel)
+
 [![Build Status](https://travis-ci.org/famibee/SKYNovel.svg?branch=master)](https://travis-ci.org/famibee/SKYNovel)
 [![Maintainability](https://api.codeclimate.com/v1/badges/228e91311459ce3f7e10/maintainability)](https://codeclimate.com/github/famibee/SKYNovel/maintainability)
 [![dependencies](https://david-dm.org/famibee/SKYNovel/status.svg)](https://david-dm.org/famibee/SKYNovel)
