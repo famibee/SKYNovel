@@ -53,6 +53,8 @@ export class GrpLayer extends Layer {
 
 		GrpLayer.hFace	= {};
 		GrpLayer.hFn2ResAniSpr	= {};
+		GrpLayer.ldrHFn	= {};
+		GrpLayer.fn2Video	= {};
 	}
 
 	private csvFn		= '';
@@ -98,7 +100,7 @@ export class GrpLayer extends Layer {
 	}
 	private	compOneAtMultiLD	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume();}
 
-	private	static ldrHFn: {[name: string]: number} = {};
+	private	static ldrHFn: {[name: string]: 1} = {};
 	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		let needLoad = false;
@@ -124,7 +126,7 @@ export class GrpLayer extends Layer {
 			if (f.fn in utils.TextureCache) return;
 			if (f.fn in Loader.shared.resources) return;
 			if (f.fn in GrpLayer.ldrHFn) return;
-			GrpLayer.ldrHFn[f.fn] = 0;
+			GrpLayer.ldrHFn[f.fn] = 1;
 
 			needLoad = true;
 			const path = GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE);

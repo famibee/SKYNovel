@@ -96,7 +96,7 @@ export class TxtLayer extends Layer {
 			ease	: 'ease-out',
 		});
 	}
-	private	static	css_key4del	= '/* SKYNovel */';
+	private	static	readonly	css_key4del	= '/* SKYNovel */';
 	static addStyle(style: string) {
 		const gs = document.createElement('style');
 		gs.type = 'text/css';
@@ -162,7 +162,7 @@ export class TxtLayer extends Layer {
 
 	// 文字ごとのウェイト
 	private	static doAutoWc	= false;
-	private	static hAutoWc	: {[ch: string]: number} = Object.create(null);//{}
+	private	static hAutoWc	: {[ch: string]: number}	= {};
 	private static autowc(hArg: HArg) {
 		TxtLayer.doAutoWc = argChk_Boolean(hArg, 'enabled', TxtLayer.doAutoWc);
 		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.doAutoWc);
@@ -180,7 +180,7 @@ export class TxtLayer extends Layer {
 
 		const a = String(hArg.time).split(',');
 		if (a.length !== len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
-		TxtLayer.hAutoWc = Object.create(null);	//{}	// 毎回クリアを仕様とする
+		TxtLayer.hAutoWc = {};	// 毎回クリアを仕様とする
 		a.forEach((v, i)=> TxtLayer.hAutoWc[ch[i]] = uint(v));
 		TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
 
@@ -233,6 +233,11 @@ export class TxtLayer extends Layer {
 
 		this.clearText();
 		this.txs.destroy();
+
+		TxtLayer.doAutoWc = false;
+		TxtLayer.hAutoWc = {};
+
+		TxtLayer.rec = (tx: string)=> tx;
 	}
 	set name(nm: string) {if (this.txs) this.txs.name = nm;}
 	get name() {return this.txs ?this.txs.name :''}
@@ -244,7 +249,7 @@ export class TxtLayer extends Layer {
 		super.lay(hArg);
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
-		this.rbSpl.setting(hArg);
+		RubySpliter.setting(hArg);
 		this.setFfs(hArg);
 		this.txs.lay(hArg);
 

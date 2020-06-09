@@ -165,6 +165,7 @@ export class SysApp extends SysNode {
 						// 以後は新Mainによる本メソッドinit()→launch接続待ち
 						this.run();	break;
 					case 'attach':
+					case 'pause':
 					case 'stopOnEntry':	this.toast('一時停止');	break;
 					case 'stopOnDataBreakpoint':
 					case 'stopOnBreakpoint': this.toast('注意');	break;
@@ -215,9 +216,7 @@ export class SysApp extends SysNode {
 		if (! cvs) return;
 
 		const p = cvs.parentNode!;
-		const doms = p.querySelectorAll('.sn_BounceIn, .sn_HopIn');
-		const len = doms.length;
-		for (let i=0; i<len; ++i) p.removeChild(doms[i]);
+		p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v=> p.removeChild(v));
 
 		const img = document.createElement('img');
 		const td = SysApp.hToastDat[nm];

@@ -18,7 +18,7 @@ export declare class SoundMng {
     private fadebgm;
     private fadese;
     private playbgm;
-    private static MAX_END_MS;
+    private static readonly MAX_END_MS;
     private playse;
     private playseSub;
     private initVol;

@@ -1,3 +1,6 @@
+## v0.22.0
+- new：GitHub Packages 移行
+- upd：ライブラリ更新
 ## v0.21.5
 - add：デバッグモードで起動されたかを示す変数「const.sn.isDbg」追加
 - chg：スクリプト終端エラーメッセージ修正

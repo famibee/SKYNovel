@@ -11,8 +11,10 @@ export interface IAutoPage { (idx: number, str: string): void; }
 
 export class RubySpliter {
 	private static	sesame		= 'ヽ';
-	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.sesame = hArg.sesame;}
-	getSesame() {return RubySpliter.sesame;}
+	static	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.sesame = hArg.sesame;}
+	static	getSesame() {return RubySpliter.sesame;}
+
+	static	destroy() {RubySpliter.sesame = 'ヽ';}
 
 	private putCh	: IPutCh	= ()=> {};
 	init(putCh: IPutCh) {this.putCh = putCh;}
@@ -101,7 +103,5 @@ export class RubySpliter {
 		}
 	}
 	private	static	readonly	REG_TAB_G	= /\t/g;
-
-	static	destroy() {RubySpliter.sesame = 'ヽ';}
 
 }

@@ -350,12 +350,12 @@ context('class RubySpliter', ()=>{
 				assert.equal(retRuby, ".center｜ヽ");
 			});
 		it('test_putTxt_sesami1_chgmark', ()=> {
-			rbSpl.setting({sesame:"点"})
+			RubySpliter.setting({sesame:"点"})
 			rbSpl.putTxt("雷《*》");
 			assert.equal(retText, ".雷");
 			assert.equal(retRuby, ".center｜点");
 
-			rbSpl.setting({sesame:"ヽ"})
+			RubySpliter.setting({sesame:"ヽ"})
 		});
 		it('test_putTxt_sesami1_1', ()=> {
 			rbSpl.putTxt("雷の指《*》を");
@@ -384,12 +384,12 @@ context('class RubySpliter', ()=>{
 				assert.equal(retRuby, ".center｜ヽ.center｜ヽ");
 			});
 		it('test_putTxt_sp_sesami1_chgmark', ()=> {
-			rbSpl.setting({sesame:"点"})
+			RubySpliter.setting({sesame:"点"})
 			rbSpl.putTxt("　雷《*》");
 			assert.equal(retText, ".　.雷");
 			assert.equal(retRuby, "..center｜点");
 
-			rbSpl.setting({sesame:"ヽ"})
+			RubySpliter.setting({sesame:"ヽ"})
 		});
 		it('test_putTxt_sp_sesami1_1', ()=> {
 			rbSpl.putTxt("　雷神指《*》を");
@@ -481,12 +481,12 @@ context('class RubySpliter', ()=>{
 				assert.equal(retRuby, ".center｜★");
 			});
 		it('test_putTxt_no_sesami1_chgmark', ()=> {
-			rbSpl.setting({sesame:"点"})
+			RubySpliter.setting({sesame:"点"})
 			rbSpl.putTxt("雷《*★》");
 			assert.equal(retText, ".雷");
 			assert.equal(retRuby, ".center｜★");
 
-			rbSpl.setting({sesame:"ヽ"})
+			RubySpliter.setting({sesame:"ヽ"})
 		});
 		it('test_putTxt_no_sesami1_1', ()=> {
 			rbSpl.putTxt("雷の指《*★》を");

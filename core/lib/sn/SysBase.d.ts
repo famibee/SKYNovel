@@ -26,7 +26,7 @@ export declare class SysBase implements ISysBase {
     protected val: IVariable;
     protected appPixi: Application;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
-    protected static VALNM_CFG_NS: string;
+    protected static readonly VALNM_CFG_NS = "const.sn.cfg.ns";
     protected fire: IFire;
     setFire(fire: IFire): void;
     addHook(_fnc: IFncHook): void;

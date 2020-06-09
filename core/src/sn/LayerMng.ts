@@ -12,6 +12,7 @@ import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
 import {RubySpliter} from './RubySpliter';
+import {TxtStage} from './TxtStage';
 import {Config} from './Config';
 import {ScriptIterator} from './ScriptIterator';
 import {SysBase} from './SysBase';
@@ -199,6 +200,8 @@ export class LayerMng {
 	destroy() {
 		GrpLayer.destroy();
 		RubySpliter.destroy();
+		TxtStage.destroy();
+
 		this.frmMng.destroy();
 
 		Tween.removeAll();

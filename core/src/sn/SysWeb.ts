@@ -25,17 +25,17 @@ export class SysWeb extends SysBase {
 		//	: arg.cur.slice(idxCur +1, -1);
 
 		window.onload = ()=> {
-			for (const v of document.querySelectorAll('[data-prj]')) {
+			document.querySelectorAll('[data-prj]').forEach(v=> {
 				v.addEventListener('click', ()=> {
 					const elm = v.attributes.getNamedItem('data-prj');
 					if (! elm) return;
 					const prj = elm.value;
 					if (this.now_prj !== prj) this.run(prj);
 				}, {passive: true});
-			}
-			for (const v of document.querySelectorAll('[data-reload]')) {
+			});
+			document.querySelectorAll('[data-reload]').forEach(v=> {
 				v.addEventListener('click', ()=> this.run(this.now_prj), {passive: true});
-			}
+			});
 			if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
 			const sp = new URLSearchParams(location.search);
 			const dip = sp.get('dip');	// ディップスイッチ

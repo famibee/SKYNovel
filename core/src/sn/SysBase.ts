@@ -106,7 +106,7 @@ export class SysBase implements ISysBase {
 			// [import]時のチェック用
 		val.flush();
 	}
-	protected	static	VALNM_CFG_NS = 'const.sn.cfg.ns';
+	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
 
 	protected fire: IFire;
 	setFire(fire: IFire) {this.fire = fire}

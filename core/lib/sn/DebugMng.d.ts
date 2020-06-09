@@ -12,8 +12,9 @@ export declare class DebugMng {
     private first;
     private log;
     private trace;
-    static myTrace: (txt: string, lvl?: 'D' | 'W' | 'F' | 'E' | 'I' | 'ET') => void;
-    private static fncMyTrace;
+    private static trace_beforeNew;
+    static myTrace: typeof DebugMng.trace_beforeNew;
+    private static trace;
     private static dspDbg;
 }
 //# sourceMappingURL=DebugMng.d.ts.map

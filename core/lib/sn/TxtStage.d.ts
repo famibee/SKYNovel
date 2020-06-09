@@ -19,6 +19,7 @@ export declare class TxtStage extends Container {
     static init(cfg: Config): void;
     private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
+    static destroy(): void;
     private htmTxt;
     private cntTxt;
     private grpDbgMasume;
@@ -32,7 +33,7 @@ export declare class TxtStage extends Container {
     private padTx4x;
     private padTx4y;
     setSize(width: number, height: number): void;
-    private static readonly hWarning;
+    private static hWarning;
     private htm2tx;
     private ch_filter;
     private aSpTw;
@@ -49,7 +50,7 @@ export declare class TxtStage extends Container {
     private isChInIng;
     skipChIn(): boolean;
     private static hChInStyle;
-    private static REG_NG_CHSTYLE_NAME_CHR;
+    private static readonly REG_NG_CHSTYLE_NAME_CHR;
     static initChStyle(): void;
     static getChInStyle(name: string): any;
     static ch_in_style(hArg: HArg): any;

@@ -4,8 +4,9 @@ export interface IAutoPage {
 }
 export declare class RubySpliter {
     private static sesame;
-    setting(hArg: HArg): void;
-    getSesame(): string;
+    static setting(hArg: HArg): void;
+    static getSesame(): string;
+    static destroy(): void;
     private putCh;
     init(putCh: IPutCh): void;
     private static REG_RUBY;
@@ -13,6 +14,5 @@ export declare class RubySpliter {
     putTxt(text: string): void;
     private putTxtRb;
     private static readonly REG_TAB_G;
-    static destroy(): void;
 }
 //# sourceMappingURL=RubySpliter.d.ts.map

@@ -9,7 +9,7 @@ export declare class TxtLayer extends Layer {
     private static val;
     private static recText;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void): void;
-    private static css_key4del;
+    private static readonly css_key4del;
     static addStyle(style: string): void;
     private static ch_in_style;
     private static ch_out_style;

@@ -155,7 +155,7 @@ export class SoundMng {
 	}
 
 	// 効果音の再生
-	private	static	MAX_END_MS	= 999000;
+	private	static	readonly	MAX_END_MS	= 999000;
 	private playse(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
 		this.stopse({buf: buf});

@@ -20,7 +20,7 @@ export class DebugMng {
 		DebugMng.scrItr = scrItr;
 		DebugMng.hTag = hTag;
 		DebugMng.title = hTag.title;
-		DebugMng.myTrace = DebugMng.fncMyTrace;
+		DebugMng.myTrace = DebugMng.trace;
 
 		//	デバッグ・その他
 		//hTag.clearsysvar	// Variableで定義				// システム変数の全消去
@@ -45,6 +45,8 @@ export class DebugMng {
 	destroy() {
 		DebugMng.title = ()=> false;
 		document.body.removeChild(DebugMng.spnDbg);
+
+		DebugMng.myTrace = DebugMng.trace_beforeNew;
 	}
 
 	// ログ出力
@@ -73,7 +75,7 @@ export class DebugMng {
 		return false;
 	}
 
-	static myTrace	= (txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E')=> {
+	private	static trace_beforeNew(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
 		let mes = `{${lvl}} `+ txt;
 		let sty = '';
 		switch (lvl) {
@@ -86,7 +88,8 @@ export class DebugMng {
 		}
 		console.info('%c'+ mes, sty);
 	}
-	private static fncMyTrace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
+	static myTrace = DebugMng.trace_beforeNew;
+	private static trace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
 		let mes = `{${lvl}} `;
 		if (DebugMng.scrItr && DebugMng.scrItr.lineNum > 0) mes +=
 		`(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;

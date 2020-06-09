@@ -130,9 +130,7 @@ export class ScriptIterator {
 		'restart': ()=> this.isBreak = ()=> false,
 
 		// ブレークポイント登録
-		'clear_break': (_, o)=>	ScriptIterator.hBrkP[getFn(o.fn)] = {},
-		'add_break': (_, o)=> ScriptIterator.hBrkP[getFn(o.fn)][o.ln] = o,
-		'del_break': (_, o)=>delete ScriptIterator.hBrkP[getFn(o.fn)][o.ln],
+		'add_break': (_, o)=> ScriptIterator.hBrkP[o.fn] = o.o,
 		'data_break': (_, o)=> {
 			if (this.breakState !== BreakState.running) return;
 
@@ -181,6 +179,11 @@ export class ScriptIterator {
 
 			if (this.lenCallStk > 0) this.go_stepout(true);
 			else this.go_stepover(type, o);
+		},
+		'pause': ()=> {
+			this.breakState = BreakState.step;
+			this.main.setLoop(false, '一時停止');
+			this.sys.sendDbg('stopOnStep', {});
 		},
 	};
 	private	go_stepover(type: string, o: any) {
@@ -272,8 +275,8 @@ export class ScriptIterator {
 		return false;	// no break、タグを実行
 	}
 	private	subHitCondition() {	// step実行中でbreakしないがヒットカウントだけ減算
-		const bpo = ScriptIterator.hBrkP[getFn(this.scriptFn_)]?.[this.lineNum_];
-		if (bpo?.hitCondition) --bpo.hitCondition;
+		const o = ScriptIterator.hBrkP[getFn(this.scriptFn_)]?.[this.lineNum_];
+		if (o?.hitCondition) --o.hitCondition;
 	}
 
 	private aStack(): {fn: string, ln: number, col: number, nm: string}[] {

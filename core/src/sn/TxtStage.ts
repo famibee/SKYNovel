@@ -45,9 +45,33 @@ export class TxtStage extends Container {
 	static	init(cfg: Config): void {
 		TxtStage.cfg = cfg;
 		TxtStage.cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
+
+		TxtStage.reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
+		TxtStage.reg行末禁則	= /[［（｛〈「『【〔“〝]/;
+		TxtStage.reg分割禁止	= /[─‥…]/;
 	}
 	private	static	evtMng	: IEvtMng;
 	static setEvtMng(evtMng: IEvtMng) {TxtStage.evtMng = evtMng;}
+
+	static	destroy() {
+		TxtStage.hWarning = {
+			backgroundColor	: 0,
+			borderBottomWidth: 0,
+			borderLeftWidth	: 0,
+			borderRightWidth: 0,
+			borderTopWidth	: 0,
+			marginBottom	: 0,
+			marginLeft		: 0,
+			marginRight		: 0,
+			marginTop		: 0,
+		};
+
+		TxtStage.hChInStyle		= Object.create(null);
+		TxtStage.hChOutStyle	= Object.create(null);
+
+		TxtStage.cntBreak	= new Container;
+	}
+
 
 	private htmTxt		= document.createElement('span');	// サンプリング元
 	private cntTxt		= new Container;			// サンプリング先
@@ -141,7 +165,7 @@ export class TxtStage extends Container {
 		this.htmTxt.style.width = this.infTL.$width +'px';
 		this.htmTxt.style.height = this.infTL.$height +'px';
 	}
-	private static	readonly	hWarning = {
+	private static	hWarning = {
 		backgroundColor	: 0,
 		borderBottomWidth: 0,
 		borderLeftWidth	: 0,
@@ -498,9 +522,9 @@ export class TxtStage extends Container {
 
 	private aRect   : IChRect[]	= [];
 	private	lenHtmTxt = 0;
-	private	static	reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
-	private	static	reg行末禁則	= /[［（｛〈「『【〔“〝]/;
-	private	static	reg分割禁止	= /[─‥…]/;
+	private	static	reg行頭禁則: RegExp;
+	private	static	reg行末禁則: RegExp;
+	private	static	reg分割禁止: RegExp;
 	goTxt(aSpan: string[]) {
 		TxtStage.cntBreak.visible = false;
 
@@ -679,23 +703,17 @@ export class TxtStage extends Container {
 
 		// 文字出現演出・開始〜終了
 		const chs = this.htmTxt.querySelectorAll('span.sn_ch');
-		const len_chs = chs.length;
-		for (let i=0; i<len_chs; ++i) {
-			const v = chs[i];
-			v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
-		}
+		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
 		this.isChInIng = true;
 		this.fncEndChIn = ()=> {
 			this.isChInIng = false;
-			for (let i=0; i<len_chs; ++i) {
-				const v = chs[i];
-				v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, '');
-			}
+			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
 			TxtStage.cntBreak.position.set(this.rctm.x, this.rctm.y);
 			TxtStage.cntBreak.visible = true;
 			this.fncEndChIn = ()=> {};
 		};
+		const len_chs = chs.length;
 		if (len_chs === 0) {this.fncEndChIn(); return;}
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
@@ -752,7 +770,7 @@ export class TxtStage extends Container {
 	}
 
 	private	static	hChInStyle	= Object.create(null);
-	private	static REG_NG_CHSTYLE_NAME_CHR	= /[\s\.,]/;
+	private	static	readonly	REG_NG_CHSTYLE_NAME_CHR	= /[\s\.,]/;
 	static	initChStyle() {
 		TxtStage.hChInStyle = Object.create(null);
 		TxtStage.hChOutStyle = Object.create(null);
@@ -908,27 +926,24 @@ export class TxtStage extends Container {
 		const old = this.htmTxt;
 		old.parentElement!.insertBefore(n, old);
 
-		const chs = old.querySelectorAll('span.sn_ch');
-		const len_chs = chs.length;
 		let sum_wait = 0;
-		for (let i=0; i<len_chs; ++i) {
-			const elm = chs[i] as HTMLElement;
+		old.querySelectorAll<HTMLElement>('span.sn_ch').forEach(elm=> {
 			const add = JSON.parse(
 				elm.getAttribute('data-add') ??				// 通常文字
 				elm.children[0].getAttribute('data-add') ??	// ルビ
 				elm.children[0].children[0]
 					.getAttribute('data-add') ?? '{}'		// 縦中横
 			);
-			if (! add.ch_out_style) continue;
+			if (! add.ch_out_style) return;
 
 			const cos = TxtStage.hChOutStyle[add.ch_out_style];
-			if (! cos) continue;
-			if (cos.wait === 0) {elm.style.display = 'none'; continue;}
+			if (! cos) return;
+			if (cos.wait === 0) {elm.style.display = 'none'; return;}
 
 			sum_wait += cos.wait;
 			if (! cos.join) elm.style.animationDelay = '0ms';
 			elm.classList.add(`go_ch_out_${add.ch_out_style}`);
-		}
+		});
 
 		const end = ()=> {
 			old.parentElement!.removeChild(old);

@@ -385,9 +385,9 @@ export class EventMng implements IEvtMng {
 	}
 		private clear_eventer(key: string, e2f: IEvt2Fnc) {
 			if (key.slice(0, 4) !== 'dom=') return;
-			for (const v of document.querySelectorAll(key.slice(4))) {
+			document.querySelectorAll(key.slice(4)).forEach(v=> {
 				v.removeEventListener('click', e2f);
-			}
+			});
 		}
 
 
@@ -440,13 +440,13 @@ export class EventMng implements IEvtMng {
 				? ['input', 'change']
 				: ['click'])
 				.forEach(v=> {
-					for (const elm of elmlist) this.elc.add(elm, v, e=> {
+					elmlist.forEach(elm=> this.elc.add(elm, v, e=> {
 						const e2 = (elm as HTMLElement).dataset;
 						for (const key in e2) {
 							if (e2.hasOwnProperty(key)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
 						}
 						this.fire(KEY, e);
-					});
+					}));
 				});
 			// 押したまま部品外へ出たときも確定イベント発生
 			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
