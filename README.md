@@ -1,12 +1,16 @@
 # SKYNovel
 [![MIT License](https://img.shields.io/github/license/famibee/SKYNovel.svg)](https://github.com/famibee/SKYNovel/blob/master/LICENSE)
 ![platform](https://img.shields.io/badge/platform-windows%20%7C%20macos-lightgrey.svg)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/famibee/skynovel?color=brightgreen)
+![GitHub last commit](https://img.shields.io/github/last-commit/famibee/skynovel)
 
-[![npm version](https://badge.fury.io/js/skynovel.svg)](https://badge.fury.io/js/skynovel)
+![npm type definitions](https://img.shields.io/npm/types/skynovel)
 [![Build Status](https://travis-ci.org/famibee/SKYNovel.svg?branch=master)](https://travis-ci.org/famibee/SKYNovel)
 [![Maintainability](https://api.codeclimate.com/v1/badges/228e91311459ce3f7e10/maintainability)](https://codeclimate.com/github/famibee/SKYNovel/maintainability)
 [![dependencies](https://david-dm.org/famibee/SKYNovel/status.svg)](https://david-dm.org/famibee/SKYNovel)
 [![dependencies](https://david-dm.org/famibee/SKYNovel/dev-status.svg)](https://david-dm.org/famibee/SKYNovel?type=dev)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/famibee/skynovel)
+![GitHub Release Date](https://img.shields.io/github/release-date/famibee/skynovel)
 
 WebGL NovelGame framework by PixiJS
 
@@ -48,5 +52,4 @@ WebGL NovelGame framework by PixiJS
 ## Famibee is ?
 - [WebSite : 電子演劇部](https://famibee.blog.fc2.com/)
 - [Github](https://github.com/famibee/SKYNovel)
-- [npm](https://www.npmjs.com/package/skynovel)
 - Twitter ([famibee](https://twitter.com/famibee))
