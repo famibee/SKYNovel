@@ -24,7 +24,7 @@ export class SysWeb extends SysBase {
 		//	? arg.cur.slice(0, -1)
 		//	: arg.cur.slice(idxCur +1, -1);
 
-		window.onload = ()=> {
+		globalThis.onload = ()=> {
 			document.querySelectorAll('[data-prj]').forEach(v=> {
 				v.addEventListener('click', ()=> {
 					const elm = v.attributes.getNamedItem('data-prj');
@@ -249,8 +249,8 @@ export class SysWeb extends SysBase {
 	protected readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
-	//	window.open(url);		// 近年セキュリティ的に効かない
-		window.open(url, '_blank');		// 効くがポップアップブロック
+	//	globalThis.open(url);		// 近年セキュリティ的に効かない
+		globalThis.open(url, '_blank');		// 効くがポップアップブロック
 	//	location.href = url;	// これは効くがSKYNovelが終了してしまう
 
 		return false;

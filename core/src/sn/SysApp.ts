@@ -16,7 +16,7 @@ const {remote, shell, ipcRenderer} = require('electron');
 const Store = require('electron-store');
 
 const {Readable} = require('stream');
-import m_fs = require('fs-extra');
+const {createWriteStream, removeSync, ensureDirSync, createReadStream, readFileSync, readFile, existsSync, copySync} = require('fs-extra');
 const crypto = require('crypto');
 const tar = require('tar-fs');
 import {createServer, createConnection} from 'net';
@@ -25,8 +25,8 @@ export class SysApp extends SysNode {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, {...arg, cur: remote.app.getAppPath().replace(/\\/g, '/') + (remote.app.isPackaged ?'/doc/' :'/')+ arg.cur});
 
-		window.addEventListener('DOMContentLoaded', ()=>this.run(), {once: true, passive: true});
-		ipcRenderer.on('log', (e: any, arg: any)=>console.log(`[main log] e:%o arg:%o`, e, arg));
+		globalThis.addEventListener('DOMContentLoaded', ()=>this.run(), {once: true, passive: true});
+		ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
 
 		if (this.isDbg()) {
 			const gs = document.createElement('style');
@@ -60,18 +60,37 @@ export class SysApp extends SysNode {
 			document.getElementsByTagName('head')[0].appendChild(gs);
 		}
 	}
-	protected readonly	$path_userdata	= remote.app.getPath('userData').replace(/\\/g, '/') +'/';
+	protected 			$path_userdata	: string;
 	protected readonly	$path_downloads	= remote.app.getPath('downloads').replace(/\\/g, '/') +'/';
 
 	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+		this.$path_userdata	= this.isDbg()
+			? this.cur.slice(0, -8) +'.vscode/'	// /doc/prj/ → /
+			: remote.app.getPath('userData').replace(/\\/g, '/') +'/';
 		const st = new Store({
-			cwd: 'storage',
+			cwd: this.$path_userdata +'storage',
 			name: this.arg.crypto ?'data_' :'data',
 			encryptionKey: this.arg.crypto ?this.stk() :undefined,
 		});
 		this.flush = ()=> st.store = this.data;
+
+/*
+Uncaught Error: ENOENT: no such file or directory, open
+'/Users/ugai/Library/Application Support/hatsune_tst/777/pic.jpg'
+	hatsune_tst直下ではマズそう。
+	【[copybookmark][erasebookmark]は自動でフォルダも扱う。中身にタッチしない】
+	という機能は、【hatsune_tst/bookmark/〜】下に限定する？
+
+	【※fnを「userdata:/」で始まるファイル名にするとセーブデータと同じフォルダに保存します】
+	と書いたし、
+	this.$path_userdata はこのままで、
+	「userdata:/」 = this.$path_userdata + 'storage/' かなと。
+
+
+*/
+
 
 		if (hTmp['const.sn.isFirstBoot'] = (st.size === 0)) {
 			// データがない（初回起動）場合の処理
@@ -101,7 +120,7 @@ export class SysApp extends SysNode {
 
 		this.val.defTmp('const.sn.displayState', ()=> this.win.isSimpleFullScreen());
 
-		window.addEventListener('resize', ()=> {
+		globalThis.addEventListener('resize', ()=> {
 			// NOTE: 2019/07/14 Windowsでこのように遅らせないと正しい縦幅にならない
 			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true} :{});
 		}, {once: true, passive: true});
@@ -160,7 +179,7 @@ export class SysApp extends SysNode {
 				switch (type) {	// 接続
 					case 'continue':	this.toast('再生');	break;
 					case 'disconnect':	this.toast('切断');	break;
-					case 'restart':	this.sendDbg(o.ri, {});	this.endSkt();
+					case 'restart':	this.sendDbg(o?.ri, {}); this.endSkt();
 						// これ以前の this は旧Main。以後は this必須
 						// 以後は新Mainによる本メソッドinit()→launch接続待ち
 						this.run();	break;
@@ -177,7 +196,7 @@ export class SysApp extends SysNode {
 			});
 
 			const UNIX_SOCK = '.vscode/skynovel.sock';	// UNIXドメインソケット
-			try {m_fs.unlinkSync(UNIX_SOCK);} catch {}
+			try {removeSync(UNIX_SOCK);} catch {}
 				// ソケットファイルを削除（存在するとlistenできない）
 			const srv = createServer(skt=> {// launchサーバーはMainごとに生成
 				srv.close();	// 最初の接続のみ
@@ -249,6 +268,17 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 	addHook(fnc: IFncHook) {this.aFncHook.push(fnc);}
 	callHook: IFncHook = (type, o)=> this.aFncHook.forEach(fnc=> fnc(type, o));
 
+	copyBMFolder = (from: number, to: number)=> {
+		const path_from = `${this.$path_userdata}storage/${from}/`;
+		const path_to = `${this.$path_userdata}storage/${to}/`;
+		if (! existsSync(path_from)) return;	// 使ってない場合もある
+
+		copySync(path_from, path_to);
+	};
+	eraseBMFolder = (place: number)=> {
+		removeSync(`${this.$path_userdata}storage/${place}/`);
+	};
+
 	protected readonly	isPackaged = ()=> remote.app.isPackaged;
 	readonly isDbg = ()=> Boolean(process.env['SKYNOVEL_DBG']) && ! this.isPackaged();	// 配布版では無効
 
@@ -262,7 +292,7 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 			if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
 			this.fire('sn:exported', new Event('click'));
 		});
-		r.pipe(m_fs.createWriteStream(
+		r.pipe(createWriteStream(
 			this.$path_downloads + (this.crypto ?'' :'no_crypto_')
 			+ this.cfg.getNs() + getDateStr('-', '_', '') +'.spd'
 		));
@@ -286,15 +316,15 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 		.then((inp_path: any)=> new Promise(rs=> {
 			this.flush = ()=> {};
 			const out_path = this.$path_userdata +'storage/';
-			m_fs.removeSync(out_path);
-			m_fs.ensureDirSync(out_path);
+			removeSync(out_path);
+			ensureDirSync(out_path);	// ディレクトリ、なければ作る
 
-			m_fs.createReadStream(inp_path)
+			createReadStream(inp_path)
 			.pipe(tar.extract(out_path, {finish: ()=> rs()}));
 		}))
 		.then(async ()=> {
 			const fn = this.$path_userdata +'storage/data.json'+ (this.crypto ?'_': '');
-			const s = String(m_fs.readFileSync(fn));
+			const s = String(readFileSync(fn));
 			const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
 			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
 			if (o.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
@@ -439,7 +469,7 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 			pipe_dl.on('end', ()=> {
 				if (CmnLib.debugLog) console.log(`[update_check] アプリダウンロード完了`);
 
-				m_fs.readFile(pathDL, (err, data)=> {
+				readFile(pathDL, (err: any, data: any)=> {
 					if (err) throw err;
 
 					const h = crypto.createHash('SHA512');
@@ -448,14 +478,14 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 
 					const isOk = sha === hash;
 					if (CmnLib.debugLog) console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
-					if (! isOk) m_fs.unlink(pathDL);
+					if (! isOk) removeSync(pathDL);
 
 					o.buttons.pop();
 					o.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました`+ (isOk ?'' :'が、破損しています。\n開発元に連絡してください');
 					remote.dialog.showMessageBox(o);
 				});
 			});
-			pipe_dl.pipe(m_fs.createWriteStream(pathDL));
+			pipe_dl.pipe(createWriteStream(pathDL));
 		})();
 
 		return false;

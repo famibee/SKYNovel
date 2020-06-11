@@ -199,6 +199,9 @@ export interface ISysBase {
 	addHook(fnc: IFncHook): void;
 	callHook: IFncHook;
 	sendDbg: IFncHook;
+
+	copyBMFolder(from: number, to: number): void;
+	eraseBMFolder(place: number): void;
 }
 
 export interface IFire {(KEY: string, e: Event): void};

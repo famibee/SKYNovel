@@ -1,3 +1,36 @@
+## v1.1.0
+- chg：デバッガー起動ではアプリ版セーブデータパス（userdata:）を変更
+- bug：非パッケージアプリ版のセーブデータパスが、別アプリと被っていた件
+	- （語句説明）
+		- パッケージ済 ... 「exe生成」「app生成」で生成された *.app や *.dmg
+		- 非パッケージ ... VSCode上からの起動（アプリ版を起動、デバッガー起動）
+	- 旧
+		- ok：パッケージ済
+			（Win）C:\Users\【ユーザー名】\AppData\Roaming\【アプリ名】\storage\
+			（Mac）/Users/【ユーザー名】/Library/Application Support/【アプリ名】/storage/
+		- bug：非パッケージ
+			（Win）C:\Users\【ユーザー名】\AppData\Roaming\Electron\
+				→bug：「Electron」というアプリ名になってしまい別アプリと被っていた
+			（Mac）/Users/【ユーザー名】/Library/Application Support/Electron/storage/
+				→bug：「Electron」というアプリ名になってしまい別アプリと被っていた
+	- 変更点（Win・Mac）
+		- eq：パッケージ済
+			変更なし、前述のまま
+		- chg：非パッケージ（アプリ版を起動）
+			アプリと同じパスに変更し、別アプリと被らないように（テンプレ変更にて対応）
+		- new：非パッケージ（デバッガー起動）
+			｛プロジェクトルート｝/.vscode/storage/
+	- 新
+		- パッケージ済・非パッケージ（アプリ版を起動）
+			（Win）C:\Users\【ユーザー名】\AppData\Roaming\【アプリ名】\storage\
+			（Mac）/Users/【ユーザー名】/Library/Application Support/【アプリ名】/storage/
+		- 非パッケージ（デバッガー起動）
+			｛プロジェクトルート｝/.vscode/storage/
+- bug：ノーマルブレークポイントが効かない不具合
+- bug：コールスタック表示で、深い階層でのタグコール表示で角括弧【[]】が抜けてる件
+- add：「userdata:/」「downloads:/」指定で、途中のフォルダが無くてもエラーではなくフォルダ生成するように
+- add：[copybookmark]でセーブデータパスに to, from 属性と同名のフォルダがあればコピーするように
+- add：[erasebookmark]でセーブデータパスに place 属性と同名のフォルダがあれば削除するように
 ## v1.0.0
 - new：VSCode拡張機能と通信するデバッガー機能（非パッケージ・デバッグ起動アプリのみ）
 	- info：VSCode拡張機能 v3.0.0 以上

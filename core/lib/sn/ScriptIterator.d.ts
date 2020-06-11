@@ -32,6 +32,7 @@ export declare class ScriptIterator {
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
     destroy(): void;
     private readonly hHook;
+    private cnvSnPath;
     private go_stepover;
     private go_stepout;
     private csDepth_macro_esc;

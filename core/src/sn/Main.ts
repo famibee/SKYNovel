@@ -50,7 +50,7 @@ export class Main implements IMain {
 				height			: this.cfg.oCfg.window.height,
 				backgroundColor	: this.cfg.oCfg.init.bg_color,
 			//	resolution		: sys.resolution,
-				resolution		: window.devicePixelRatio ?? 1,	// NOTE: 理想
+				resolution		: globalThis.devicePixelRatio ?? 1,	// NOTE: 理想
 				autoResize		: true,
 			};
 			const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
@@ -120,7 +120,7 @@ export class Main implements IMain {
 	};
 	resume = this.fncresume;
 	resumeByJumpOrCall(hArg: HArg) {
-		if (hArg.url) {window.open(hArg.url); return;}
+		if (hArg.url) {globalThis.open(hArg.url); return;}
 
 		this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
 		this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');

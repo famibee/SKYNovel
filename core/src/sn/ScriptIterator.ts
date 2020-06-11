@@ -130,7 +130,7 @@ export class ScriptIterator {
 		'restart': ()=> this.isBreak = ()=> false,
 
 		// ブレークポイント登録
-		'add_break': (_, o)=> ScriptIterator.hBrkP[o.fn] = o.o,
+		'add_break': (_, o)=> ScriptIterator.hBrkP[this.cnvSnPath(o.fn)] = o.o,
 		'data_break': (_, o)=> {
 			if (this.breakState !== BreakState.running) return;
 
@@ -186,6 +186,7 @@ export class ScriptIterator {
 			this.sys.sendDbg('stopOnStep', {});
 		},
 	};
+	private cnvSnPath(fn: string): string {return this.cfg.searchPath(fn, Config.EXT_SCRIPT)};
 	private	go_stepover(type: string, o: any) {
 		if (this.isIdxOverLast()) return;
 
@@ -255,7 +256,7 @@ export class ScriptIterator {
 				}
 			}
 			{	// ブレークポイント
-				const bp = ScriptIterator.hBrkP[getFn(this.scriptFn_)];
+				const bp = ScriptIterator.hBrkP[this.cnvSnPath(this.scriptFn_)];
 				if (! bp) break;
 				const o: any = bp[this.lineNum_];
 				if (! o) break;
@@ -298,7 +299,7 @@ export class ScriptIterator {
 				fn: this.cfg.searchPath(cs.fn, Config.EXT_SCRIPT),
 				ln: lc.ln,
 				col: lc.col_s +1,
-				nm: cs.csArg.タグ名 ?? '',
+				nm: `[${cs.csArg.タグ名 ?? ''}]`,
 			});
 		}
 
@@ -600,7 +601,7 @@ export class ScriptIterator {
 		if (! argChk_Boolean(hArg, 'count', false)) this.eraseKidoku();
 
 		const fn = hArg.fn;
-		if (fn) this.cfg.searchPath(fn, Config.EXT_SCRIPT);	// chk only
+		if (fn) this.cnvSnPath(fn);	// chk only
 		this.callSub({hEvt1Time: this.evtMng.popLocalEvts()});
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
@@ -681,7 +682,7 @@ export class ScriptIterator {
 
 		if (! fn) {this.analyzeInit(); return;}
 
-		const full_path = this.cfg.searchPath(fn, Config.EXT_SCRIPT);
+		const full_path = this.cnvSnPath(fn);
 		if (fn === this.scriptFn_) {this.analyzeInit(); return;}
 		this.scriptFn_ = fn;
 		const st = this.hScript[this.scriptFn_];

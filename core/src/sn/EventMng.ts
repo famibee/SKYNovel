@@ -224,7 +224,7 @@ export class EventMng implements IEvtMng {
 		if (! ke) {
 			if (key.slice(0, 5) === 'swipe') {	// スマホ用疑似スワイプスクロール
 				const esw: any = e;
-				window.scrollBy(-(esw.deltaX ?? 0), -(esw.deltaY ?? 0));
+				globalThis.scrollBy(-(esw.deltaX ?? 0), -(esw.deltaY ?? 0));
 			}
 			return;
 		}

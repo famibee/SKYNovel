@@ -7,6 +7,7 @@ export declare class Variable implements IVariable {
     private hSave;
     private hTmp;
     constructor(cfg: Config, hTag: IHTag);
+    private sys;
     private data;
     private hSys;
     private hAreaKidoku;

@@ -131,17 +131,19 @@ export class Variable implements IVariable {
 		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state === 'suspended';
 
 		// ダークモード切り替え検知
-		const dmmq = window.matchMedia('(prefers-color-scheme: dark)');
+		const dmmq = globalThis.matchMedia('(prefers-color-scheme: dark)');
 		this.hTmp['const.sn.isDarkMode'] = CmnLib.isDarkMode = dmmq.matches;
 		dmmq.addListener(e=> this.hTmp['const.sn.isDarkMode'] = CmnLib.isDarkMode = e.matches);
 	}
 
 
+	private	sys		: ISysBase;
 	private	data	: IData4Vari	= {sys:{}, mark:{}, kidoku:{}};
 	private	hSys	: any;
 	private	hAreaKidoku	: {[name: string]: Areas}	= {};
 	private	callHook: IFncHook;
 	setSys(sys: ISysBase) {
+		this.sys = sys;
 		sys.initVal(this.data, this.hTmp, data=> {
 			this.updateData(data);
 
@@ -259,7 +261,7 @@ export class Variable implements IVariable {
 	}
 
 
-		// しおり
+//	// しおり
 	// しおりの複写
 	private copybookmark(hArg: HArg) {
 		if (! ('from' in hArg)) throw 'fromは必須です';
@@ -267,7 +269,11 @@ export class Variable implements IVariable {
 
 		const from = Number(hArg.from);
 		const to = Number(hArg.to);
-		if (from !== to) this.setMark(to, {...this.data.mark[from]});
+		if (from === to) return false;
+
+		if (! (from in this.data.mark)) throw `from:${from} のセーブデータは存在しません`;
+		this.setMark(to, {...this.data.mark[from]});
+		this.sys.copyBMFolder(from, to);
 
 		return false;
 	}
@@ -280,11 +286,13 @@ export class Variable implements IVariable {
 		delete this.data.mark[place];
 		this.flush();
 
+		this.sys.eraseBMFolder(place);
+
 		return false;
 	}
 
 
-		//	変数操作
+//	//	変数操作
 	// 変数代入・演算
 	private let(hArg: HArg) {
 		if (! hArg.name) throw 'nameは必須です';
@@ -407,7 +415,7 @@ export class Variable implements IVariable {
 	}
 
 
-// デバッグ・その他
+//	// デバッグ・その他
 	// システム変数の全消去
 	private clearsysvar() {
 		const sys = this.hSys = this.hScope['sys'] = this.data.sys = {};

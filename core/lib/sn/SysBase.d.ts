@@ -32,6 +32,8 @@ export declare class SysBase implements ISysBase {
     addHook(_fnc: IFncHook): void;
     callHook: IFncHook;
     sendDbg: IFncHook;
+    copyBMFolder: (_from: number, _to: number) => void;
+    eraseBMFolder: (_place: number) => void;
     protected readonly close: ITag;
     protected readonly _export: ITag;
     protected readonly _import: ITag;
@@ -55,10 +57,9 @@ export declare class SysBase implements ISysBase {
     get path_downloads(): string;
     protected $path_userdata: string;
     get path_userdata(): string;
-    readonly existsSync: (_path: string) => boolean;
-    readonly writeFile: (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
     readonly savePic: (_fn: string, _data_url: string) => void;
     readonly appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
+    readonly ensureFileSync: (_path: string) => void;
     ofsLeft4frm: number;
     ofsTop4frm: number;
     protected resizeFrames(): void;

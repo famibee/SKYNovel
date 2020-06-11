@@ -114,6 +114,8 @@ export class SysBase implements ISysBase {
 	addHook(_fnc: IFncHook) {}
 	callHook: IFncHook = ()=> {};
 	sendDbg: IFncHook = ()=> {};
+	copyBMFolder = (_from: number, _to: number)=> {};
+	eraseBMFolder = (_place: number)=> {};
 
 
 	protected readonly	close			: ITag = ()=> false;
@@ -154,13 +156,9 @@ export class SysBase implements ISysBase {
 	protected $path_userdata= '';
 	get path_userdata() {return this.$path_userdata}
 
-	readonly	existsSync = (_path: string)=> true;
-	//readFileSync = (path: string, options: { encoding: string; flag?: string; } | string)=> '';
-	//readFile = (path: string, callback: (err: NodeJS.ErrnoException, data: Buffer) => void)=> {};
-	readonly	writeFile = (_file: string | Buffer | number, _data: any, _callback: (err: NodeJS.ErrnoException) => void)=> {};
 	readonly	savePic = (_fn: string, _data_url: string)=> {};
-
 	readonly	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException)=> void)=> {};
+	readonly	ensureFileSync = (_path: string)=> {};
 
 	// 既存のiframeのサイズと表示位置を調整
 	ofsLeft4frm	= 0;

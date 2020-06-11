@@ -9,7 +9,7 @@ import { SysBase } from "./SysBase";
 import {CmnLib} from './CmnLib';
 import {IFn2Path, IConfig} from './CmnInterface';
 
-import m_fs = require('fs-extra');
+const {readFileSync, writeFileSync, appendFile, ensureFileSync} = require('fs-extra');
 
 export class SysNode extends SysBase {
 	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test
@@ -18,7 +18,7 @@ export class SysNode extends SysBase {
 		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
 		(async ()=> {
 			const fn = this.arg.cur +'path.json';
-			const mes = m_fs.readFileSync(fn, {encoding: 'utf8'});
+			const mes = readFileSync(fn, {encoding: 'utf8'});
 			const json = JSON.parse(await this.pre('json', mes));
 			for (const nm in json) {
 				const h = hPathFn2Exts[nm] = json[nm];
@@ -30,18 +30,14 @@ export class SysNode extends SysBase {
 
 	protected readonly	isApp = ()=> true;
 
-	readonly	existsSync = m_fs.existsSync;
-	//readFileSync = m_fs.readFileSync;
-	//readFile = m_fs.readFile;
-	readonly	writeFile = m_fs.writeFile;
 	readonly	savePic = (fn: string, data_url: string)=> {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
-		this.writeFile(fn, Buffer.from(bs64, 'base64'), err=> {
-			if (err) throw err;
+		try {
+			writeFileSync(fn, Buffer.from(bs64, 'base64'));
 			if (CmnLib.debugLog) console.log(`画像ファイル ${fn} を保存しました`);
-		});
+		} catch (e) {throw e;}
 	};
-
-	readonly	appendFile = m_fs.appendFile;
+	readonly	appendFile = appendFile;
+	readonly	ensureFileSync = (path: string)=> ensureFileSync(path);
 
 }

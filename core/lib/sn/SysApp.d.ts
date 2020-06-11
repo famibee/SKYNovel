@@ -7,7 +7,7 @@ export declare class SysApp extends SysNode {
         crypto: boolean;
         dip: string;
     });
-    protected readonly $path_userdata: string;
+    protected $path_userdata: string;
     protected readonly $path_downloads: string;
     protected readonly normalize: (src: string, form: string) => string;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
@@ -26,6 +26,8 @@ export declare class SysApp extends SysNode {
     private aFncHook;
     addHook(fnc: IFncHook): void;
     callHook: IFncHook;
+    copyBMFolder: (from: number, to: number) => void;
+    eraseBMFolder: (place: number) => void;
     protected readonly isPackaged: () => any;
     readonly isDbg: () => boolean;
     protected readonly close: () => boolean;

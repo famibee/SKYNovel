@@ -158,37 +158,37 @@ export class CmnLib {
 	static cvsResize(cvs: HTMLCanvasElement): boolean {
 		const bk_cw = CmnLib.cvsWidth;
 		const bk_ch = CmnLib.cvsHeight;
-		let wiw = window.innerWidth;
-		let wih = window.innerHeight;
-		const wi: any = window;
-		const lp = screen.orientation
-			? screen.orientation.type.charAt(0)
-			: ((wi.orientation ?? 90) % 180 === 0) ?'p' :'l';	// 4Safari
+		let w = globalThis.innerWidth;
+		let h = globalThis.innerHeight;
+
+		const angle = screen?.orientation?.angle
+		?? Number(window?.orientation ?? 90);
+		const lp = angle % 180 === 0 ?'p' :'l';	// 4Safari
 		if (CmnLib.isMobile &&
-			((lp === 'p' && wiw > wih) || (lp === 'l' && wiw < wih))
-			) [wiw, wih] = [wih, wiw];
+			((lp === 'p' && w > h) || (lp === 'l' && w < h))
+			) [w, h] = [h, w];
 		if (argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
-			CmnLib.stageW > wiw ||
-			CmnLib.stageH > wih
+			CmnLib.stageW > w ||
+			CmnLib.stageH > h
 		) {
-			if (CmnLib.stageW /CmnLib.stageH <= wiw /wih) {
-				CmnLib.cvsHeight = wih;
-				CmnLib.cvsWidth = CmnLib.stageW /CmnLib.stageH *wih;
+			if (CmnLib.stageW /CmnLib.stageH <= w /h) {
+				CmnLib.cvsHeight = h;
+				CmnLib.cvsWidth = CmnLib.stageW /CmnLib.stageH *h;
 			}
 			else {
-				CmnLib.cvsWidth = wiw;
-				CmnLib.cvsHeight = CmnLib.stageH /CmnLib.stageW	*wiw;
+				CmnLib.cvsWidth = w;
+				CmnLib.cvsHeight = CmnLib.stageH /CmnLib.stageW	*w;
 			}
 			CmnLib.cvsScale = CmnLib.cvsWidth /CmnLib.stageW;
 
 			const cr = cvs.getBoundingClientRect();
 			CmnLib.ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
-				? (window.innerWidth  -CmnLib.cvsWidth) /2
+				? (globalThis.innerWidth  -CmnLib.cvsWidth) /2
 				: cr.left
 			)
 			*(1- CmnLib.cvsScale);
 			CmnLib.ofsPadTop_Dom2PIXI = (CmnLib.isMobile
-				? (window.innerHeight -CmnLib.cvsHeight) /2
+				? (globalThis.innerHeight -CmnLib.cvsHeight) /2
 				: cr.top
 			)
 			*(1- CmnLib.cvsScale);

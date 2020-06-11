@@ -43,11 +43,11 @@ export class LayerMng {
 			this.frmMng.cvsResize();
 		};
 		if (CmnLib.isMobile) {
-			window.addEventListener('orientationchange', fncResizeLay, {passive: true});
+			globalThis.addEventListener('orientationchange', fncResizeLay, {passive: true});
 		}
 		else {
 			let tid: any = 0;
-			window.addEventListener('resize', ()=> {
+			globalThis.addEventListener('resize', ()=> {
 				if (tid) return;
 				tid = setTimeout(()=> {tid = 0; fncResizeLay();}, 500);
 			}, {passive: true});
@@ -257,11 +257,11 @@ export class LayerMng {
 //	//	システム
 	// スナップショット
 	private snapshot(hArg: HArg) {
-		const fn = (hArg.fn)
-		? ((hArg.fn.slice(0, 10) === 'userdata:/')
+		const fn = hArg.fn
+		? hArg.fn.slice(0, 10) === 'userdata:/'
 			? hArg.fn
-			: ('downloads:/'+ hArg.fn+ getDateStr('-', '_', '', '_') +'.png'))
-		: ('downloads:/snapshot'+ getDateStr('-', '_', '', '_') +'.png');
+			: `downloads:/${hArg.fn + getDateStr('-', '_', '', '_')}.png`
+		: `downloads:/snapshot${getDateStr('-', '_', '', '_')}.png`;
 		const ext = getExt(fn);
 		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
 		const renderer = autoDetectRenderer({
@@ -274,36 +274,31 @@ export class LayerMng {
 			autoDensity: true,
 		});
 		const a = [];
-		if (this.twInfTrans.tw) {	// [trans]中
-			a.push(new Promise(re=> {
-				this.back.visible = true;
-				for (const lay of this.aBackTransAfter) {
-					renderer.render(lay, undefined, false);
-				}
-				this.back.visible = false;
-				this.spTransBack.visible = true;
+		const pg = (hArg.page !== 'back') ?'fore' :'back';
+		if (this.twInfTrans.tw) a.push(new Promise(re=> {	// [trans]中
+			this.back.visible = true;
+			for (const lay of this.aBackTransAfter) {
+				renderer.render(lay, undefined, false);
+			}
+			this.back.visible = false;
+			this.spTransBack.visible = true;
 
-				this.fore.filters = this.spTransFore.filters;
-				this.fore.visible = true;
-				renderer.render(this.fore, undefined, false);
-				this.fore.visible = false;
-				this.fore.filters = [];
-				re();
-			}));
-		}
-		else {
-			const pg = (hArg.page !== 'back') ?'fore' :'back';
-			for (const v of this.getLayers(hArg.layer)) a.push(new Promise(
-				re=> this.hPages[v][pg].snapshot(renderer, re)
-			));
-		}
+			this.fore.filters = this.spTransFore.filters;
+			this.fore.visible = true;
+			renderer.render(this.fore, undefined, false);
+			this.fore.visible = false;
+			this.fore.filters = [];
+			re();
+		}));
+		else for (const v of this.getLayers(hArg.layer)) a.push(new Promise(
+			re=> this.hPages[v][pg].snapshot(renderer, re)
+		));
 		Promise.all(a).then(()=> {
 			this.sys.savePic(
 				this.cfg.searchPath(fn),
-				this.appPixi.renderer.extract.base64(this.stage)
+				this.appPixi.renderer.extract.base64(this.stage),
 			);
 			if (! this.twInfTrans.tw) {
-				const pg = (hArg.page !== 'back') ?'fore' :'back';
 				for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
 			}
 			renderer.destroy(true);

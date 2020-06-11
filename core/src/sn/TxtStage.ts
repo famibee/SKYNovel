@@ -145,7 +145,7 @@ export class TxtStage extends Container {
 			: (	(lh.slice(-2) === 'px')
 				? parseFloat(lh)
 				: (fs *parseFloat(lh) -fs)) /2;
-			// window.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
+			// globalThis.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
 	}
 	cvsResize() {
 		const s = this.htmTxt.style;
@@ -650,8 +650,8 @@ export class TxtStage extends Container {
 		const ease = CmnTween.ease(this.fi_easing);
 
 		const bcr = this.htmTxt.getBoundingClientRect();
-		const sx = bcr.left +window.pageXOffset +this.infTL.pad_left;
-		const sy = bcr.top +window.pageYOffset +this.infTL.pad_top;
+		const sx = bcr.left +globalThis.pageXOffset +this.infTL.pad_left;
+		const sy = bcr.top +globalThis.pageYOffset +this.infTL.pad_top;
 		for (let i=begin; i<len; ++i) {
 			const v = this.aRect[i];
 			const rct = v.rect;
@@ -881,7 +881,7 @@ export class TxtStage extends Container {
 		let pos = 0;
 		const end = range.endOffset;
 		// できれば一文字ずつ「after-edge - baseline」を調べたいが、暫定手段を取る
-		//const styles = window.getComputedStyle(this.htmTxt);
+		//const styles = globalThis.getComputedStyle(this.htmTxt);
 		//console.log('lh:'+ styles.lineHeight +' fs:'+ styles.fontSize);
 		while (pos < end) {
 			range.setStart(elm, pos);
@@ -893,8 +893,8 @@ export class TxtStage extends Container {
 			const cr :IChRect = {
 				ch	: ch,
 				rect: new Rectangle(
-					r.left +window.pageXOffset,
-					r.top  +window.pageYOffset,
+					r.left +globalThis.pageXOffset,
+					r.top  +globalThis.pageYOffset,
 					r.width,
 					r.height +('gjqy'.includes(ch) ?this.lh_half :0)),
 				elm	: pe,

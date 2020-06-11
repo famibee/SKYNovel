@@ -1972,10 +1972,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h2 id="export" class="w-heading">[export]プレイデータをエクスポート</h2>
 <h4>プレイデータをファイルとしてエクスポートする</h4>
 <p class="mb2 px1">
-	保存ダイアログが表示され、選択したフォルダにプレイデータファイルが保存される。<br/>
+	ダウンロードフォルダにプレイデータファイルが保存される。<br/>
+	ブラウザならファイルをダウンロードする。<br/>
 	プレイデータ拡張子、ウェブ版は.swpd、アプリ版は.spdで互換性はない。<br/>
 	暗号化するプロジェクトの場合、出力するプレイデータファイルも暗号化される。<br/>
-	ブラウザならファイルをダウンロードする。<br/>
+	関連するデータファイル（[snapshot fn='userdata:/777/pic.jpg']などと保存したサムネイル画像など）も含むが、暗号化しない。
 	<br/>
 	エクスポート完了時には【sn:exported】というイベントを発火する。<br/>
 	【[event key='sn:exported' 〜]】という記述でジャンプできる。<br/>
@@ -1990,6 +1991,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	タグはダイアログを表示次第すぐ次の処理に移り、ユーザーの選択を待たない。<br/>
 	インポート完了時には【sn:imported】というイベントを発火する。<br/>
 	【[event key='sn:imported' 〜]】という記述でジャンプできる。<br/>
+	関連するデータファイル（[snapshot fn='userdata:/777/pic.jpg']などと保存したサムネイル画像など）も含む。
 
 </p>
 <h2 id="loadplugin" class="w-heading">[loadplugin] プラグインの読み込み</h2>
@@ -2028,22 +2030,14 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>smoothing</td><td></td><td>false</td><td>Boolean</td><td>拡大・縮小保存される場合、スムージングするか</td></tr>
 <tr><td>b_color</td><td></td><td>config.anprjで指定した背景色</td><td>色指定。0xFF000000（黒）など<br/>16進数では透過2桁＋赤2桁＋緑2桁＋青2桁で指定</td><td>テキスト背後の矩形色。pngで 0x0 にすると透過する。<br/>透過しない黒は 0xFF000000</td></tr>
 </table>
-<p>※fnを「userdata:/」で始まるファイル名にするとセーブデータと同じフォルダに保存します。<br/><span class="red">【暫定版】（2019/12/09）</span>以下は不正確です</p>
-<table>
 
-		<tr>
-<th>OS</th>
-<th>Path</th>
-		</tr>
-
-
-		<tr><td>Mac OS X</td><td>HD/Users/[user]/Library/Preferences/[id]/</td></tr>
-<tr><td>Windows 7</td><td>C:\Users[user]\AppData\Roaming[id]\</td></tr>
-<tr><td>Linux</td><td>/home/[user]/.appdata/[id]/Local Store</td></tr>
-<tr><td>　　[user]はインストールしたユーザー名、<br/></td><td></td></tr>
-<tr><td>　　[id]はアプリ固有のIDです。<br/></td><td></td></tr>
-<tr><td>参考：アプリケーション記憶領域ディレクトリ<br/></td><td></td></tr>
-</table>
+<p>※fnを「userdata:/」で始まるファイル名にするとセーブデータと同じフォルダに保存します。</p>
+<br/>
+・パッケージ済・非パッケージ（アプリ版を起動）<br/>
+　　（Win）C:\Users\【ユーザー名】\AppData\Roaming\【アプリ名】\storage\<br/>
+　　（Mac）/Users/【ユーザー名】/Library/Application Support/【アプリ名】/storage/<br/>
+・非パッケージ（デバッガー起動）<br/>
+　　｛プロジェクトルート｝/.vscode/storage/<br/>
 
 </p>
 <h2 id="title" class="w-heading">[title]タイトル指定</h2>

@@ -140,10 +140,14 @@ export class Config implements IConfig {
 		if (! path) throw '[searchPath] fnが空です';
 		if (path.slice(0, 7) === 'http://') return path;
 		if (path.slice(0, 11) === 'downloads:/') {
-			return this.sys.path_downloads + path.slice(11);
+			const fp = this.sys.path_downloads + path.slice(11);
+			this.sys.ensureFileSync(fp);
+			return fp;
 		}
 		if (path.slice(0, 10) === 'userdata:/') {
-			return this.sys.path_userdata + path.slice(10);
+			const fp = this.sys.path_userdata + 'storage/'+ path.slice(10);
+			this.sys.ensureFileSync(fp);
+			return fp;
 		}
 
 		const a = path.match(this.regPath);
@@ -153,8 +157,7 @@ export class Config implements IConfig {
 			const utn = fn +'@@'+ this.userFnTail;
 			if (utn in this.hPathFn2Exts) {
 				if (extptn === '') fn = utn;
-				else
-				for (let e3 in this.hPathFn2Exts[utn]) {
+				else for (let e3 in this.hPathFn2Exts[utn]) {
 					if (`|${extptn}|`.indexOf(`|${e3}|`) === -1) continue;
 
 					fn = utn;
@@ -166,10 +169,8 @@ export class Config implements IConfig {
 		if (! h_exts) throw `サーチパスに存在しないファイル【${path}】です`;
 
 		let ret = '';
-		if (! ext) {
-			// fnに拡張子が含まれていない
-			//	extのどれかでサーチ
-			//		（ファイル名サーチ→拡張子群にextが含まれるか）
+		if (! ext) {	// fnに拡張子が含まれていない
+			//	extのどれかでサーチ（ファイル名サーチ→拡張子群にextが含まれるか）
 			const hcnt = int(h_exts[':cnt']);
 			if (extptn === '') {
 				if (hcnt > 1) throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
