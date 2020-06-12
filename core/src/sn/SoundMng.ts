@@ -11,7 +11,7 @@ import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 
-const PSnd = require('pixi-sound').default;
+import PSnd from 'pixi-sound';
 import {Loader, LoaderResource} from 'pixi.js';
 const Tween = require('@tweenjs/tween.js').default;
 
@@ -51,7 +51,7 @@ export class SoundMng {
 		hTag.ws			= o=> this.ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
 
-		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> PSnd.sound.volumeAll = Number(val));
+		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> PSnd.volumeAll = Number(val));
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
 		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
@@ -337,7 +337,7 @@ export class SoundMng {
 		});
 	}
 	private initVol = ()=> {
-		PSnd.sound.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
+		PSnd.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
 		this.initVol = ()=> {};
 	};
 

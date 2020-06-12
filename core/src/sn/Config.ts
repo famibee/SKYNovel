@@ -74,11 +74,10 @@ export class Config implements IConfig {
 			this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
 
 			this.oCfg.init = {...this.oCfg.init, ...oCfg.init};
-			if ('init' in oCfg) {
-				for (const n in this.oCfg.init) {
-					const v = String(this.oCfg.init[n]);
-					if (v.charAt(0) === '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
-				}
+			if ('init' in oCfg)
+			for (const n in this.oCfg.init) {
+				const v = String(this.oCfg.init[n]);
+				if (v.charAt(0) === '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
 			}
 
 			this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};

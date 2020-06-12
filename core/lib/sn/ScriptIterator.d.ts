@@ -33,6 +33,7 @@ export declare class ScriptIterator {
     destroy(): void;
     private readonly hHook;
     private cnvSnPath;
+    private cnvSnPath4Dbg;
     private go_stepover;
     private go_stepout;
     private csDepth_macro_esc;
@@ -99,7 +100,8 @@ export declare class ScriptIterator {
     private bracket2macro;
     private char2macro;
     private macro;
-    private readonly hMacro;
+    private strStepin;
+    private regStepin;
     private load;
     private loadFromMark;
     private reload_script;

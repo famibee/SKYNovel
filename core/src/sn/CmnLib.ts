@@ -127,11 +127,11 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 }
 
 
-import m_path = require('path');
-export	function getFn(path: string) {return m_path.basename(path, m_path.extname(path));}
-export 	function getExt(path: string) {return m_path.extname(path).slice(1);}
+import {basename, extname} from 'path';
+export	function getFn(path: string) {return basename(path, extname(path));}
+export 	function getExt(path: string) {return extname(path).slice(1);}
 
-const platform = require('platform');
+import * as platform from 'platform';
 
 export class CmnLib {
 	static	stageW		= 0;
@@ -145,8 +145,8 @@ export class CmnLib {
 	static	platform	= {...platform};
 	static	isSafari	= platform.name === 'Safari';
 	static	isFirefox	= platform.name === 'Firefox';
-	static	isMac		= new RegExp('OS X').test(CmnLib.platform.os.family);
-	static	isMobile	= ! new RegExp('(Windows|OS X)').test(CmnLib.platform.os.family);
+	static	isMac		= new RegExp('OS X').test(platform.os?.family ?? '');
+	static	isMobile	= ! new RegExp('(Windows|OS X)').test(platform.os?.family ?? '');
 	static	hDip		: {[name: string]: string}	= {};
 
 	static	isRetina	= false;
@@ -161,8 +161,7 @@ export class CmnLib {
 		let w = globalThis.innerWidth;
 		let h = globalThis.innerHeight;
 
-		const angle = screen?.orientation?.angle
-		?? Number(window?.orientation ?? 90);
+		const angle = screen.orientation.angle;
 		const lp = angle % 180 === 0 ?'p' :'l';	// 4Safari
 		if (CmnLib.isMobile &&
 			((lp === 'p' && w > h) || (lp === 'l' && w < h))

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import P = require('parsimmon');
+import * as P from 'parsimmon';
 import {int} from './CmnLib';
 import {IPropParser, IVariable} from './CmnInterface';
 

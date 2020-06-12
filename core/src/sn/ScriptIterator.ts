@@ -130,7 +130,7 @@ export class ScriptIterator {
 		'restart': ()=> this.isBreak = ()=> false,
 
 		// ブレークポイント登録
-		'add_break': (_, o)=> ScriptIterator.hBrkP[this.cnvSnPath(o.fn)] = o.o,
+		'add_break': (_, o)=> ScriptIterator.hBrkP[this.cnvSnPath4Dbg(o.fn)] = o.o,
 		'data_break': (_, o)=> {
 			if (this.breakState !== BreakState.running) return;
 
@@ -163,9 +163,7 @@ export class ScriptIterator {
 			if (this.isIdxOverLast()) return;
 
 			const tkn = this.script.aToken[this.idxToken_ -this.idxDx4Dbg];
-			this.sys.callHook(`stopOnStep${
-				tkn.charAt(0) === '[' && tkn.slice(1,-1)in this.hMacro ?'In' :''
-			}`, {});	// sn全体へ通知
+			this.sys.callHook(`stopOnStep${this.regStepin.test(tkn) ?'In' :''}`, {});	// sn全体へ通知
 
 			this.idxToken_ -= this.idxDx4Dbg;
 			this.breakState = this.breakState === BreakState.wait
@@ -186,12 +184,18 @@ export class ScriptIterator {
 			this.sys.sendDbg('stopOnStep', {});
 		},
 	};
-	private cnvSnPath(fn: string): string {return this.cfg.searchPath(fn, Config.EXT_SCRIPT)};
+	private cnvSnPath(fn: string): string {
+		return this.cfg.searchPath(fn, Config.EXT_SCRIPT);
+	}
+	private cnvSnPath4Dbg(fn: string): string {
+		return this.cnvSnPath(fn).replace('/crypto_prj/', '/prj/');
+	}
 	private	go_stepover(type: string, o: any) {
 		if (this.isIdxOverLast()) return;
 
 		const tkn = this.script.aToken[this.idxToken_ -this.idxDx4Dbg];
-		if (tkn.charAt(0) === '[' && tkn.slice(1, -1) in this.hMacro) this.go_stepout(); else {
+		if (this.regStepin.test(tkn)) this.go_stepout();
+		else {
 			this.sys.callHook('stopOnStep', {});	// sn全体へ通知
 			this.hHook.stepin(type, o);
 		}
@@ -256,7 +260,7 @@ export class ScriptIterator {
 				}
 			}
 			{	// ブレークポイント
-				const bp = ScriptIterator.hBrkP[this.cnvSnPath(this.scriptFn_)];
+				const bp = ScriptIterator.hBrkP[this.cnvSnPath4Dbg(this.scriptFn_)];
 				if (! bp) break;
 				const o: any = bp[this.lineNum_];
 				if (! o) break;
@@ -282,7 +286,7 @@ export class ScriptIterator {
 
 	private aStack(): {fn: string, ln: number, col: number, nm: string}[] {
 		const tkn0 = this.script.aToken[this.idxToken_ -1];
-		const fn0 = this.cfg.searchPath(this.scriptFn_, Config.EXT_SCRIPT);
+		const fn0 = this.cnvSnPath4Dbg(this.scriptFn_);
 		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 1, nm: tkn0,}];
 
 		const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);
@@ -296,7 +300,7 @@ export class ScriptIterator {
 
 			const lc = this.cnvIdx2lineCol(this.hScript[cs.fn], cs.idx);
 			a.push({
-				fn: this.cfg.searchPath(cs.fn, Config.EXT_SCRIPT),
+				fn: this.cnvSnPath4Dbg(cs.fn),
 				ln: lc.ln,
 				col: lc.col_s +1,
 				nm: `[${cs.csArg.タグ名 ?? ''}]`,
@@ -1022,7 +1026,8 @@ export class ScriptIterator {
 
 		const ln = this.lineNum_;
 		const cs = new CallStack(this.scriptFn_, this.idxToken_);
-		this.hMacro[name] = 1;
+		this.strStepin += '|'+ name;
+		this.regStepin = new RegExp(`\\[(${this.strStepin})\\b`);
 		this.hTag[name] = (hArgM: HArg)=> {
 			this.callSub({...hArgM, hMp: this.val.cloneMp()} as any);
 
@@ -1054,7 +1059,8 @@ export class ScriptIterator {
 		}
 		throw `マクロ[${name}]定義の終端・[endmacro]がありません`;
 	}
-	private	readonly	hMacro: {[nm: string]: 1}	= {};
+	private	strStepin	= 'call';
+	private	regStepin	= /\[(call)\b/;	// https://regex101.com/r/Lk9ASK/1
 
 
 //	// しおり

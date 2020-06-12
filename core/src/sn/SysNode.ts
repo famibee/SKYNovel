@@ -9,7 +9,7 @@ import { SysBase } from "./SysBase";
 import {CmnLib} from './CmnLib';
 import {IFn2Path, IConfig} from './CmnInterface';
 
-const {readFileSync, writeFileSync, appendFile, ensureFileSync} = require('fs-extra');
+import {readFileSync, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 
 export class SysNode extends SysBase {
 	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test

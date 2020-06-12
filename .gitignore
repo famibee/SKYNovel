@@ -3,3 +3,6 @@
 
 # Node.js Tools
 node_modules/
+
+core/lib/
+*.js

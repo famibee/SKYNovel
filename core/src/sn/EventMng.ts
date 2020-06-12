@@ -17,8 +17,7 @@ import {interaction, DisplayObject, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
-
-import Hammer = require('hammerjs');
+import * as Hammer from 'hammerjs';
 
 export class EventMng implements IEvtMng {
 	private	readonly	elc		= new EventListenerCtn;

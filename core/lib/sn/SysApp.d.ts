@@ -28,7 +28,7 @@ export declare class SysApp extends SysNode {
     callHook: IFncHook;
     copyBMFolder: (from: number, to: number) => void;
     eraseBMFolder: (place: number) => void;
-    protected readonly isPackaged: () => any;
+    protected readonly isPackaged: () => boolean;
     readonly isDbg: () => boolean;
     protected readonly close: () => boolean;
     protected readonly _export: ITag;

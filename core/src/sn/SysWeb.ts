@@ -10,7 +10,7 @@ import {CmnLib, getDateStr, argChk_Boolean} from './CmnLib';
 import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
 import {Main} from './Main';
 
-const strLocal = require('store');
+import {set, get} from 'store';
 import {Application} from 'pixi.js';
 import 'devtools-detect';
 
@@ -121,17 +121,17 @@ export class SysWeb extends SysBase {
 		const ns = this.cfg.getNs();
 		this.flush = this.crypto
 		? ()=> {
-			strLocal.set(ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
-			strLocal.set(ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
-			strLocal.set(ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+			set(ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
+			set(ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
+			set(ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
 		}
 		: ()=> {
-			strLocal.set(ns +'sys', this.data.sys);
-			strLocal.set(ns +'mark', this.data.mark);
-			strLocal.set(ns +'kidoku', this.data.kidoku);
+			set(ns +'sys', this.data.sys);
+			set(ns +'mark', this.data.mark);
+			set(ns +'kidoku', this.data.kidoku);
 		};
 		const nm = ns +(this.arg.crypto ?'sys_' :'sys');
-		if (hTmp['const.sn.isFirstBoot'] = (strLocal.get(nm) === undefined)) {
+		if (hTmp['const.sn.isFirstBoot'] = (get(nm) === undefined)) {
 			// データがない（初回起動）場合の処理
 			this.data.sys = data.sys;
 			this.data.mark = data.mark;
@@ -143,9 +143,9 @@ export class SysWeb extends SysBase {
 
 		// データがある場合の処理
 		if (! this.crypto) {
-			this.data.sys = strLocal.get(ns +'sys');
-			this.data.mark = strLocal.get(ns +'mark');
-			this.data.kidoku = strLocal.get(ns +'kidoku');
+			this.data.sys = get(ns +'sys');
+			this.data.mark = get(ns +'mark');
+			this.data.kidoku = get(ns +'kidoku');
 			comp(this.data);
 			return;
 		}
@@ -155,16 +155,16 @@ export class SysWeb extends SysBase {
 			try {
 				mes = 'sys';	// tst sys
 				this.data.sys = JSON.parse(
-					await this.pre('json', strLocal.get(ns +'sys_'))
+					await this.pre('json', get(ns +'sys_'))
 				);
 				mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
 				mes = 'mark';	// tst mark
 				this.data.mark = JSON.parse(
-					await this.pre('json', strLocal.get(ns +'mark_'))
+					await this.pre('json', get(ns +'mark_'))
 				);
 				mes = 'kidoku';	// tst kidoku
 				this.data.kidoku = JSON.parse(
-					await this.pre('json', strLocal.get(ns +'kidoku_'))
+					await this.pre('json', get(ns +'kidoku_'))
 				);
 			} catch (e) {
 				console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
@@ -211,10 +211,7 @@ export class SysWeb extends SysBase {
 			const inp = document.createElement('input');
 			inp.type = 'file';
 			inp.accept = '.swpd, text/plain';
-			inp.onchange = (e: any)=> {
-				const file = e?.target?.files?.[0];
-				if (file) rs(file); else rj();
-			};
+			inp.onchange = ()=> {if (inp.files) rs(inp.files[0].path); else rj();};
 			inp.click();
 		})
 		.then((file: any)=> new Promise(rs=> {
