@@ -82,8 +82,8 @@ export class FrameMng {
 
 			this.evtMng.resvFlameEvent(win);
 
-			const setImg: Function = (win as any).sn_repRes;
-			if (this.sys.crypto && setImg) setImg((i: HTMLImageElement)=> {
+			const repRes: Function = (win as any).sn_repRes;
+			if (this.sys.crypto && repRes) repRes((i: HTMLImageElement)=> {
 				const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
 				const oUrl = this.hEncImgOUrl[src];
 				if (oUrl) {i.src = oUrl; return}
@@ -130,17 +130,14 @@ export class FrameMng {
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
 		}))
-		.load((_ldr, hRes)=> {
-			const base = url.slice(0, url.lastIndexOf('/') +1);
-			const htm = String(hRes[src]?.data).replace(
-				/\s(?:src|href)=(["'])(\S+)\1/g,
-				(v, p1, p2)=> (p2.slice(0, 3) === '../')
-					? v.replace('../', this.sys.cur)
-					: v.replace(p1, p1 + base)
-			);
-			const blob = new Blob([htm], {type: 'text/html'});
-			ifrm.src = URL.createObjectURL(blob);
-		});
+		.load((_ldr, hRes)=> ifrm.srcdoc = String(hRes[src]?.data)
+		.replace('sn_repRes();', '')
+		.replace(
+			/\s(?:src|href)=(["'])(\S+)\1/g,
+			(v, p1, p2)=> (p2.slice(0, 3) === '../')
+				? v.replace('../', this.sys.cur)
+				: v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') +1))
+		));
 
 		return true;
 	}
