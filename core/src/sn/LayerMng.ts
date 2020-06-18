@@ -264,7 +264,7 @@ export class LayerMng {
 		: `downloads:/snapshot${getDateStr('-', '_', '', '_')}.png`;
 		const ext = getExt(fn);
 		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
-		const renderer = autoDetectRenderer({
+		const rnd = autoDetectRenderer({
 			width: argChk_Num(hArg, 'width', CmnLib.stageW),
 			height: argChk_Num(hArg, 'height', CmnLib.stageH),
 			transparent: (b_color > 0x1000000) && (ext === 'png'),
@@ -278,30 +278,30 @@ export class LayerMng {
 		if (this.twInfTrans.tw) a.push(new Promise(re=> {	// [trans]中
 			this.back.visible = true;
 			for (const lay of this.aBackTransAfter) {
-				renderer.render(lay, undefined, false);
+				rnd.render(lay, undefined, false);
 			}
 			this.back.visible = false;
 			this.spTransBack.visible = true;
 
 			this.fore.filters = this.spTransFore.filters;
 			this.fore.visible = true;
-			renderer.render(this.fore, undefined, false);
+			rnd.render(this.fore, undefined, false);
 			this.fore.visible = false;
 			this.fore.filters = [];
 			re();
 		}));
 		else for (const v of this.getLayers(hArg.layer)) a.push(new Promise(
-			re=> this.hPages[v][pg].snapshot(renderer, re)
+			re=> this.hPages[v][pg].snapshot(rnd, re)
 		));
 		Promise.all(a).then(()=> {
+			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
+			rnd.render(this.stage, renTx);
 			this.sys.savePic(
 				this.cfg.searchPath(fn),
-				this.appPixi.renderer.extract.base64(this.stage),
+				rnd.extract.base64(Sprite.from(renTx)),
 			);
-			if (! this.twInfTrans.tw) {
-				for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
-			}
-			renderer.destroy(true);
+			if (! this.twInfTrans.tw) for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
+			rnd.destroy(true);
 		});
 
 		return false;
