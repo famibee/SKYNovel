@@ -1,3 +1,5 @@
+## v1.1.6 ... 1.1.8
+- chg：GitHub Package をやめて npm に戻す
 ## v1.1.5
 - chg：access public
 ## v1.1.4
