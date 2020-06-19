@@ -14,9 +14,9 @@
 
 WebGL NovelGame framework by PixiJS
 
-![logo.svg](https://github.com/famibee/SKYNovel/blob/master/test/icon.svg)
+![logo.svg](https://raw.githubusercontent.com/famibee/SKYNovel/master/test/icon.svg)
 
-[CHANGELOG.md](https://github.com/famibee/SKYNovel/blob/master/CHANGELOG.md)
+[CHANGELOG.md](CHANGELOG.md)
 
 ---
 ## description（説明）

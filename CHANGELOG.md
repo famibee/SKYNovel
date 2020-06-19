@@ -1,3 +1,5 @@
+## v1.1.5
+- chg：access public
 ## v1.1.4
 - bug：ビルドエラー修正
 ## v1.1.3
