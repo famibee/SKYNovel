@@ -1,4 +1,4 @@
-## v1.1.9
+## v1.1.9 ... v1.1.10
 - info：GitHub Actions 設定中
 ## v1.1.6 ... 1.1.8
 - chg：GitHub Package をやめて npm に戻す
