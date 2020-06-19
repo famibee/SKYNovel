@@ -3,7 +3,7 @@ import { HArg, IHTag, IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
 import { LayerMng } from './LayerMng';
 import { ScriptIterator } from './ScriptIterator';
 import { EventListenerCtn } from './EventListenerCtn';
-import { interaction, DisplayObject, Application } from 'pixi.js';
+import { DisplayObject, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
@@ -36,7 +36,7 @@ export declare class EventMng implements IEvtMng {
     private isWait;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;
-    stdWait(fnc: (e?: interaction.InteractionEvent) => void, canskip?: boolean): void;
+    stdWait(fnc: () => void, canskip?: boolean): void;
     private procHook;
     private isBreak;
     button(hArg: HArg, em: DisplayObject): void;

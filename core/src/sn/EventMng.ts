@@ -13,7 +13,7 @@ import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
 
 const Tween = require('@tweenjs/tween.js').default;
-import {interaction, DisplayObject, Application} from 'pixi.js';
+import {DisplayObject, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
@@ -248,7 +248,7 @@ export class EventMng implements IEvtMng {
 	pushLocalEvts(h: IHEvt2Fnc) {this.hLocalEvt2Fnc = h;}
 
 	// stdWait()したらreturn true;
-	stdWait(fnc: (e?: interaction.InteractionEvent)=> void, canskip = true) {
+	stdWait(fnc: ()=> void, canskip = true) {
 		this.goTxt();
 		if (canskip) {
 			//hTag.event({key:'click', breakout: fnc});

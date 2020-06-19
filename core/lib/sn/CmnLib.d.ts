@@ -14,12 +14,12 @@ export declare const hMemberCnt: {
     y: number;
 };
 export declare function cnvTweenArg(hArg: HArg, lay: any): {};
-import { interaction, DisplayObject } from 'pixi.js';
+import { DisplayObject } from 'pixi.js';
 import { EventListenerCtn } from './EventListenerCtn';
 export interface IEvtMng {
     button(hArg: HArg, em: DisplayObject): void;
     isSkipKeyDown(): boolean;
-    stdWait(fnc: (e?: interaction.InteractionEvent) => void, canskip?: boolean): void;
+    stdWait(fnc: () => void, canskip?: boolean): void;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(a: IHEvt2Fnc): void;
     waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: () => void): void;
