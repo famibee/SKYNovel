@@ -12,8 +12,7 @@ jobs:
 
     - uses: actions/setup-node@v1
       with:
-        registry-url: https://registry.npmjs.org/
-        scope: '@famibee'
+        registry-url: https://npm.pkg.github.com/
 
     - run: npm ci
     - run: npm test
@@ -23,19 +22,20 @@ jobs:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
 
-    - run: npm publish --access=public
+    - run: npx can-npm-publish --verbose && npm publish || echo "Does not publish"
       env:
-        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-  publish-gpr:
+  publish-npm:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          registry-url: https://npm.pkg.github.com/
+          registry-url: https://registry.npmjs.org/
+          scope: '@famibee'
       - run: npm ci
-      - run: npx can-npm-publish --verbose && npm publish || echo "Does not publish"
+      - run: npx can-npm-publish --verbose && npm publish --access=public || echo "Does not publish"
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
