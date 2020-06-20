@@ -32,7 +32,15 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      - name: Fetch the latest tag
+        id: latest_tag
+        run: |
+          export LATEST_TAG="$(curl -fsi "https://github.com/${GITHUB_REPOSITORY}/releases/latest" | awk -F/ '/^(L|l)ocation:/ {print $(NF)}')"
+          echo "::set-output name=latest_tag::${LATEST_TAG}"
       - uses: actions/checkout@v2
+        with:
+          ref: ${{steps.latest_tag.outputs.latest_tag}}
+      - run: git log
 
       - uses: actions/setup-node@v1
         with:
@@ -40,11 +48,6 @@ jobs:
           scope: '@famibee'
 
       - run: npm ci
-
-      - name: Checkout Latest tag
-        run: |
-          git fetch --prune --unshallow
-          git checkout $(git describe --tags --abbrev=0)
 
       - run: npx can-npm-publish --verbose && npm publish --access=public || echo "Does not publish"
         env:
