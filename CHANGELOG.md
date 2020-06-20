@@ -1,3 +1,10 @@
+## [1.1.21](https://github.com/famibee/SKYNovel/compare/v1.1.20...v1.1.21) (2020-06-20)
+
+
+### Bug Fixes
+
+* テスト用ダミー更新10（npmjsのタグ更新） ([00b5547](https://github.com/famibee/SKYNovel/commit/00b554797c0f45608951911a0d8de2d4dab908bf))
+
 ## [1.1.20](https://github.com/famibee/SKYNovel/compare/v1.1.19...v1.1.20) (2020-06-20)
 
 
