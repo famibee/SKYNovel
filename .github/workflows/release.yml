@@ -29,14 +29,23 @@ jobs:
 
   publish-npm:
     needs: build
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v1
         with:
           registry-url: https://registry.npmjs.org/
           scope: '@famibee'
+
       - run: npm ci
+
+      - name: Checkout Latest tag
+        run: |
+          git fetch --prune --unshallow
+          git checkout $(git describe --tags --abbrev=0)
+
       - run: npx can-npm-publish --verbose && npm publish --access=public || echo "Does not publish"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -9,4 +9,6 @@ branches:
   - master
 
 bundler_args: --deployment
-cache: bundler
+cache:
+  bundler: true
+  npm: true

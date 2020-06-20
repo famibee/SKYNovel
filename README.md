@@ -11,8 +11,7 @@
 [![dependencies](https://david-dm.org/famibee/SKYNovel/dev-status.svg)](https://david-dm.org/famibee/SKYNovel?type=dev)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/famibee/skynovel)
 ![GitHub Release Date](https://img.shields.io/github/release-date/famibee/skynovel)
-![](https://github.com/famibee/skynovel/workflows/release/badge.svg)
-
+![Release package](https://github.com/famibee/SKYNovel/workflows/Release%20package/badge.svg)
 
 WebGL NovelGame framework by PixiJS
 
