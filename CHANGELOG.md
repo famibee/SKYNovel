@@ -1,3 +1,5 @@
+## v1.1.12
+- info：semantic-release 設定中
 ## v1.1.9 ... v1.1.11
 - info：GitHub Actions 設定中
 ## v1.1.6 ... 1.1.8

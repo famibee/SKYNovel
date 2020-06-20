@@ -1,6 +1,6 @@
 {
 	"name": "@famibee/skynovel",
-	"version": "1.1.11",
+	"version": "1.1.12",
 	"description": "webgl novelgame framework",
 	"main": "core/web.js",
 	"types": "core/lib/index.d.ts",
@@ -39,6 +39,7 @@
 		"espower-typescript": "^9.0.2",
 		"mocha": "^8.0.1",
 		"power-assert": "^1.6.1",
+		"semantic-release": "^17.0.8",
 		"ts-loader": "^7.0.5",
 		"typescript": "^3.9.5",
 		"webpack": "^4.43.0",
@@ -58,6 +59,7 @@
 		"test": "mocha",
 		"test:w": "mocha --watch",
 		"rebuild": "rm -rf node_modules && rm package-lock.json && npm cache clear --force && npm i && npm run watch",
+		"semantic-release": "semantic-release",
 		"docs": "webpack-dev-server --config ./docs/local_tst/wds.config.js"
 	},
 	"mocha": {
