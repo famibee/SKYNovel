@@ -39,6 +39,6 @@ jobs:
         with:
           registry-url: https://npm.pkg.github.com/
       - run: npm ci
-      - run: npm publish
+      - run: npx can-npm-publish --verbose && npm publish || echo "Does not publish"
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
