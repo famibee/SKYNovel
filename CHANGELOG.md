@@ -1,3 +1,10 @@
+## [1.1.19](https://github.com/famibee/SKYNovel/compare/v1.1.18...v1.1.19) (2020-06-20)
+
+
+### Bug Fixes
+
+* テスト用ダミー更新8 ([875fc2e](https://github.com/famibee/SKYNovel/commit/875fc2e434b23e34532e846932e2fdb5913f7d51))
+
 ## [1.1.18](https://github.com/famibee/SKYNovel/compare/v1.1.17...v1.1.18) (2020-06-20)
 
 
