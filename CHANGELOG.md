@@ -1,3 +1,10 @@
+## [1.1.22](https://github.com/famibee/SKYNovel/compare/v1.1.21...v1.1.22) (2020-06-21)
+
+
+### Bug Fixes
+
+* SafariとFirefoxの不具合修正 ([d75317b](https://github.com/famibee/SKYNovel/commit/d75317bfd02430944ece7eb86207d51e465a793c))
+
 - bug：Safariで「Unhandled Promise Rejection: TypeError: undefined is not an object (evaluating 'screen.orientation.angle')」エラー
 - bug：Firefoxで「SyntaxError: invalid regexp group」エラー
 - bug：FirefoxでFrameのスライダーなどをホバーすると、マウスアウトイベントなどが発生しスライダー操作したかのような状態になる不具合
