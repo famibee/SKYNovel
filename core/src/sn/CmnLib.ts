@@ -161,7 +161,7 @@ export class CmnLib {
 		let w = globalThis.innerWidth;
 		let h = globalThis.innerHeight;
 
-		const angle = screen.orientation.angle;
+		const angle = screen.orientation?.angle ?? 0;
 		const lp = angle % 180 === 0 ?'p' :'l';	// 4Safari
 		if (CmnLib.isMobile &&
 			((lp === 'p' && w > h) || (lp === 'l' && w < h))

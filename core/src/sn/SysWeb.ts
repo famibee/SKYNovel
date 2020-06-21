@@ -258,8 +258,8 @@ export class SysWeb extends SysBase {
 		for (const v of document.querySelectorAll('[data-title]')) v.textContent = txt;
 	}
 	// 全画面状態切替（タグではない手段で提供）
-	private readonly isFullScr = ()=> ('mozFullScreen' in document)
-		? document['mozFullScreen']
+	private readonly isFullScr = ()=> ('webkitFullscreenElement' in document)
+		? document['webkitFullscreenElement']	// Safari
 		: document.fullscreen;
 	private regEvt_FullScr(hArg: HArg, go_fnc_name: string, exit_fnc_name: string, get_fnc_name: string): boolean {
 		const elm: any = document.body;

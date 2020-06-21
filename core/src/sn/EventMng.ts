@@ -435,22 +435,18 @@ export class EventMng implements IEvtMng {
 			const ie = elmlist[0] as HTMLInputElement;
 			const type = (ie) ?ie.type :'';
 
-			((type === 'range' || type === 'checkbox' || type === 'text' || type === 'textarea')
-				? ['input', 'change']
-				: ['click'])
-				.forEach(v=> {
-					elmlist.forEach(elm=> this.elc.add(elm, v, e=> {
-						const e2 = (elm as HTMLElement).dataset;
-						for (const key in e2) {
-							if (e2.hasOwnProperty(key)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
-						}
-						this.fire(KEY, e);
-					}));
-				});
+			((type === 'range' || type === 'checkbox' || type === 'text'
+			|| type === 'textarea') ?['input', 'change'] :['click'])
+			.forEach(v=> elmlist.forEach(elm=> this.elc.add(elm, v, e=> {
+				const e2 = (elm as HTMLElement).dataset;
+				for (const key in e2) {
+					if (e2.hasOwnProperty(key)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
+				}
+				this.fire(KEY, e);
+			})));
 			// 押したまま部品外へ出たときも確定イベント発生
 			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
-				if (e.which !== 1) return;
-				this.fire(KEY, e);
+				if (e.buttons !== 0) this.fire(KEY, e);
 			});
 
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
