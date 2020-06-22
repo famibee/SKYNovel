@@ -1,3 +1,10 @@
+## [1.1.23](https://github.com/famibee/SKYNovel/compare/v1.1.22...v1.1.23) (2020-06-22)
+
+
+### Bug Fixes
+
+* @tweenjs/tween.js ライブラリVer戻し（18.6.0 → 18.5.0） ([adb616b](https://github.com/famibee/SKYNovel/commit/adb616b66388f7df4246231c652fb1ca2b4d13eb))
+
 - fix: @tweenjs/tween.js ライブラリVer戻し（18.6.0 → 18.5.0）
 （例えば[trans]キャンセルするとフリーズのような状態になる）
 
