@@ -1,3 +1,7 @@
+- fix: @tweenjs/tween.js ライブラリVer戻し（18.6.0 → 18.5.0）
+（例えば[trans]キャンセルするとフリーズのような状態になる）
+
+
 ## [1.1.22](https://github.com/famibee/SKYNovel/compare/v1.1.21...v1.1.22) (2020-06-21)
 
 
