@@ -1,3 +1,10 @@
+## [1.1.25](https://github.com/famibee/SKYNovel/compare/v1.1.24...v1.1.25) (2020-07-02)
+
+
+### Bug Fixes
+
+* 【暗号化時】rule画像処理の不具合。通常画像ロードと同じ処理を行うように ([b3915dd](https://github.com/famibee/SKYNovel/commit/b3915dd2a577dda980c63fbe892f43d51bdfc4ac))
+
 - fix: 【暗号化時】rule画像処理の不具合。通常画像ロードと同じ処理を行うように
 - fix: 内部的に[call fn=ext_*]などの展開処理でファイル名匿名化対応
 - fix: 【Firefox】履歴が効いて戻るボタンが押せてしまう件
