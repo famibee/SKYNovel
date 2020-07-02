@@ -430,11 +430,10 @@ export class EventMng implements IEvtMng {
 				sel = KEY.slice(4);
 				elmlist = document.querySelectorAll(sel);
 			}
-			const need_err = argChk_Boolean(hArg, 'need_err', true);
-			if (elmlist.length === 0 && need_err) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
-			const ie = elmlist[0] as HTMLInputElement;
-			const type = (ie) ?ie.type :'';
+			if (elmlist.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
+			const ie = elmlist[0] as HTMLInputElement;
+			const type = ie?.type ?? '';
 			((type === 'range' || type === 'checkbox' || type === 'text'
 			|| type === 'textarea') ?['input', 'change'] :['click'])
 			.forEach(v=> elmlist.forEach(elm=> this.elc.add(elm, v, e=> {

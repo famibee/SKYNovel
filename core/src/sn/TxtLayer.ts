@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib';
+import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {TxtStage, IInfTxLay} from './TxtStage';
 import {Config} from './Config';
@@ -50,8 +50,8 @@ export class TxtLayer extends Layer {
 		for (const o of cfg.matchPath('.+', Config.EXT_FONT)) {
 			for (const key in o) font += `
 @font-face {
-	font-family: '${getFn(o[key])}';
-	src: url('${o[key]}');
+	font-family: '${o[key]}';
+	src: url('${this.cfg.searchPath(o[key], Config.EXT_FONT)}');
 }
 `;
 		}

@@ -25,6 +25,12 @@ export class SysBase implements ISysBase {
 			getStK: fnc=> this.stk = fnc,
 			getHash: fnc=> this.hash = fnc,
 		});
+
+		// Firefox 戻るボタン無効化用
+		if (globalThis.history) {
+			globalThis.history.pushState(null, '', null);
+			globalThis.addEventListener('popstate', ()=> globalThis.history.pushState(null, '', null));
+		}
 	}
 	get cur() {return this.arg.cur}
 	get crypto() {return this.arg.crypto}

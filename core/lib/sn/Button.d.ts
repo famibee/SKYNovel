@@ -1,6 +1,6 @@
-import { Container } from "pixi.js";
-import { IEvtMng } from "./CmnLib";
-import { HArg, IMain } from "./CmnInterface";
+import { Container } from 'pixi.js';
+import { IEvtMng } from './CmnLib';
+import { HArg, IMain } from './CmnInterface';
 export declare class Button extends Container {
     private readonly main;
     private readonly evtMng;

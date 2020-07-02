@@ -208,7 +208,6 @@ export class Config implements IConfig {
 		return ret;
 	}
 
-	// 戻り値はフルパスなので注意
 	matchPath(fnptn: string, extptn = ''): ReadonlyArray<IExts> {
 		const aRet :IExts[] = [];
 		const regPtn = new RegExp(fnptn);
@@ -224,7 +223,7 @@ export class Config implements IConfig {
 			for (const ext in h_exts) {
 				if (ext.search(regExt) === -1) continue;
 
-				o[ext] = h_exts[ext];
+				o[ext] = fn;
 				isa = true;
 			}
 			if (isa) aRet.push(o);

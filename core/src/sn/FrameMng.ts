@@ -67,7 +67,7 @@ export class FrameMng {
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		this.hIfrm[id] = ifrm;
 		const win: Window = ifrm.contentWindow!;
-		ifrm.onload = ()=> {
+		const onload = () => {
 			// 組み込み変数
 			this.val.setVal_Nochk('tmp', frmnm, true);
 			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
@@ -81,47 +81,13 @@ export class FrameMng {
 			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 
 			this.evtMng.resvFlameEvent(win);
-
-			const repRes: Function = (win as any).sn_repRes;
-			if (this.sys.crypto && repRes) repRes((i: HTMLImageElement)=> {
-				const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
-				const oUrl = this.hEncImgOUrl[src];
-				if (oUrl) {i.src = oUrl; return}
-
-				const aImg = this.hAEncImg[src];
-				if (aImg) {aImg.push(i); return}
-				this.hAEncImg[src] = [i];
-
-				const url = this.cfg.searchPath(src, Config.EXT_SPRITE);
-				(new Loader()).add(src, url, {xhrType: 'arraybuffer'})
-				.pre((res: LoaderResource, next: Function)=> res.load(()=> {
-					this.sys.pre(res.extension, res.data)
-					.then(r=> {
-						if (res.extension !== 'bin') {next(); return;}
-						res.data = r;
-						if (res.data instanceof HTMLImageElement) {
-							res.type = LoaderResource.TYPE.IMAGE;
-							this.hEncImgOUrl[src] = res.data.src;
-						}
-						next();
-					})
-					.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
-				}))
-				.load((_ldr: any, hRes: any)=> {
-					for (const src in hRes) {
-						const oUrl = hRes[src].data.src;
-						this.hAEncImg[src].map(v=> v.src = oUrl);
-						delete this.hAEncImg[src];
-					//	URL.revokeObjectURL(oUrl);	// 画面遷移で毎回再生成するので
-					}
-				});
-			});
-
-			this.main.resume();
 		};
-
 		const url = this.cfg.searchPath(src, Config.EXT_HTML);
-		if (! this.sys.crypto) {ifrm.src = url; return true}
+		if (! this.sys.crypto) {
+			ifrm.onload = ()=> {onload(); this.main.resume();};
+			ifrm.src = url;
+			return true;
+		}
 
 		(new Loader())
 		.add(src, url, {xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT})
@@ -130,14 +96,57 @@ export class FrameMng {
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
 		}))
-		.load((_ldr, hRes)=> ifrm.srcdoc = String(hRes[src]?.data)
-		.replace('sn_repRes();', '')
-		.replace(
-			/\s(?:src|href)=(["'])(\S+)\1/g,
-			(v, p1, p2)=> (p2.slice(0, 3) === '../')
-				? v.replace('../', this.sys.cur)
-				: v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') +1))
-		));
+		.load((_ldr, hRes)=> {
+			ifrm.srcdoc = String(hRes[src]?.data)
+			.replace('sn_repRes();', '')
+			.replace(
+				/\s(?:src|href)=(["'])(\S+)\1/g,
+				(v, p1, p2)=> (p2.slice(0, 3) === '../')
+					? v.replace('../', this.sys.cur)
+					: v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') +1))
+			);
+			// 一度変数に入れてここで設定するのはFirefox対応。ifrm.onloadが二度呼ばれる！
+			ifrm.onload = ()=> {
+				onload();
+
+				const repRes: Function = (win as any).sn_repRes;
+				if (repRes) repRes((i: HTMLImageElement)=> {
+					const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
+					const oUrl = this.hEncImgOUrl[src];
+					if (oUrl) {i.src = oUrl; return}
+
+					const aImg = this.hAEncImg[src];
+					if (aImg) {aImg.push(i); return}
+					this.hAEncImg[src] = [i];
+
+					const url = this.cfg.searchPath(src, Config.EXT_SPRITE);
+					(new Loader()).add(src, url, {xhrType: 'arraybuffer'})
+					.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+						this.sys.pre(res.extension, res.data)
+						.then(r=> {
+							if (res.extension !== 'bin') {next(); return;}
+							res.data = r;
+							if (res.data instanceof HTMLImageElement) {
+								res.type = LoaderResource.TYPE.IMAGE;
+								this.hEncImgOUrl[src] = res.data.src;
+							}
+							next();
+						})
+						.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+					}))
+					.load((_ldr: any, hRes: any)=> {
+						for (const src in hRes) {
+							const oUrl = hRes[src].data.src;
+							this.hAEncImg[src].map(v=> v.src = oUrl);
+							delete this.hAEncImg[src];
+						//	URL.revokeObjectURL(oUrl);	// 画面遷移で毎回再生成するので
+						}
+					});
+				});
+
+				this.main.resume();
+			};
+		});
 
 		return true;
 	}

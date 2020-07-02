@@ -5,11 +5,11 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Container, Text, Rectangle, Texture} from "pixi.js";
-import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from "./CmnLib";
-import {HArg, IMain} from "./CmnInterface";
-import {GrpLayer} from "./GrpLayer";
-import {Layer} from "./Layer";
+import {Container, Text, Rectangle, Texture} from 'pixi.js';
+import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {HArg, IMain} from './CmnInterface';
+import {GrpLayer} from './GrpLayer';
+import {Layer} from './Layer';
 
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";

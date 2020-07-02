@@ -635,8 +635,9 @@ void main(void) {
 		}
 
 		if (! hArg.rule) throw 'ruleが指定されていません';
-		GrpLayer.ldPic(hArg.rule, tx=> {
-			flt.uniforms.rule = tx;
+		GrpLayer.csv2Sprites(hArg.rule, null, sp=> {
+			flt.uniforms.rule = sp.texture;
+			sp.destroy();
 			if (this.twInfTrans.tw) this.twInfTrans.tw.start();
 			this.appPixi.ticker.add(fncRender);
 		});

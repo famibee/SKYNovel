@@ -101,7 +101,7 @@ export class GrpLayer extends Layer {
 	private	compOneAtMultiLD	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume();}
 
 	private	static ldrHFn: {[name: string]: 1} = {};
-	static csv2Sprites(csv: string, parent: Container, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
+	static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
 		let needLoad = false;
 		const ldr = new Loader();
@@ -142,7 +142,7 @@ export class GrpLayer extends Layer {
 		const fncLoaded = (res: any)=> {
 			for (const v of aComp) {
 				const sp = GrpLayer.mkSprite(v.fn, res);
-				parent.addChild(sp);
+				parent?.addChild(sp);
 				v.fnc(sp);
 			}
 			fncAllComp(needLoad);
@@ -270,15 +270,6 @@ export class GrpLayer extends Layer {
 			argChk_Boolean(hArg, 'canskip', true)
 		);	// stdWait()したらreturn true;
 		return true;
-	}
-
-	static ldPic(fn: string, fnc: (tx: Texture)=> void): void {
-		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
-		const tx = utils.TextureCache[url];
-		if (tx) {fnc(tx); return;}
-
-		const tx2 = Texture.from(url);
-		GrpLayer.elc.add(tx2.baseTexture, 'loaded', ()=> fnc(tx2));	// ノイズ対策
 	}
 
 	setPos(hArg: HArg): void {

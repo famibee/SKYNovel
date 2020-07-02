@@ -1,3 +1,10 @@
+- fix: 【暗号化時】rule画像処理の不具合。通常画像ロードと同じ処理を行うように
+- fix: 内部的に[call fn=ext_*]などの展開処理でファイル名匿名化対応
+- fix: 【Firefox】履歴が効いて戻るボタンが押せてしまう件
+- fix: 【暗号化時＆Firefox】Frame系画面で「#close」が見つからないエラー（onloadが二度呼ばれる）対応
+- upd：ライブラリ更新
+
+
 ## [1.1.24](https://github.com/famibee/SKYNovel/compare/v1.1.23...v1.1.24) (2020-06-24)
 
 
