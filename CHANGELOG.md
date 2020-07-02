@@ -1,3 +1,10 @@
+## [1.1.26](https://github.com/famibee/SKYNovel/compare/v1.1.25...v1.1.26) (2020-07-02)
+
+
+### Bug Fixes
+
+* 履歴が効いて戻るボタンが押せてしまう件対応、Firefoxのみに限定するように ([cb708a8](https://github.com/famibee/SKYNovel/commit/cb708a8ee17e3b82daf14f1c90e0a851124cf8f7))
+
 - fix: 履歴が効いて戻るボタンが押せてしまう件対応、Firefoxのみに限定するように
 
 
