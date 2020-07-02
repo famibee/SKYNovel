@@ -7,6 +7,7 @@
 
 import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook} from './CmnInterface';
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
+import {CmnLib} from './CmnLib';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
@@ -27,7 +28,7 @@ export class SysBase implements ISysBase {
 		});
 
 		// Firefox 戻るボタン無効化用
-		if (globalThis.history) {
+		if (CmnLib.isFirefox && globalThis.history) {
 			globalThis.history.pushState(null, '', null);
 			globalThis.addEventListener('popstate', ()=> globalThis.history.pushState(null, '', null));
 		}

@@ -1,3 +1,6 @@
+- fix: 履歴が効いて戻るボタンが押せてしまう件対応、Firefoxのみに限定するように
+
+
 ## [1.1.25](https://github.com/famibee/SKYNovel/compare/v1.1.24...v1.1.25) (2020-07-02)
 
 
