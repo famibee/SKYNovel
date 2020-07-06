@@ -15,33 +15,38 @@ import {Application} from 'pixi.js';
 import 'devtools-detect';
 
 export class SysWeb extends SysBase {
+	private	path_base	= '';
+	private now_prj		= ':';
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, arg);
 
-		const idxCur = arg.cur.lastIndexOf('/', arg.cur.length -2);
-		this.def_prj = arg.cur.slice(idxCur +1, -1);
-		//	(idxCur === -1)
-		//	? arg.cur.slice(0, -1)
-		//	: arg.cur.slice(idxCur +1, -1);
+		const a = this.arg.cur.split('/');
+		this.path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
 
 		globalThis.onload = ()=> {
 			document.querySelectorAll('[data-prj]').forEach(v=> {
 				v.addEventListener('click', ()=> {
 					const elm = v.attributes.getNamedItem('data-prj');
 					if (! elm) return;
-					const prj = elm.value;
-					if (this.now_prj !== prj) this.run(prj);
+					this.arg.cur = this.path_base + elm.value +'/';
+					if (this.now_prj === this.arg.cur) return;
+
+					this.now_prj = this.arg.cur;
+					this.run();
 				}, {passive: true});
 			});
 			document.querySelectorAll('[data-reload]').forEach(v=> {
-				v.addEventListener('click', ()=> this.run(this.now_prj), {passive: true});
+				v.addEventListener('click', ()=> this.run(), {passive: true});
 			});
 			if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
 			const sp = new URLSearchParams(location.search);
 			const dip = sp.get('dip');	// ディップスイッチ
 			if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip)};
 			if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
-			this.run(sp.get('cur') ?? '');
+
+			const cur = sp.get('cur');
+			if (cur) this.arg.cur = this.path_base + cur +'/';
+			this.run();
 		}
 
 		if ('webkitFullscreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(
@@ -69,20 +74,13 @@ export class SysWeb extends SysBase {
 			'fullscreenElement'
 		);
 	}
-	private def_prj = 'prj';
-	private	readonly	run = async (prj: string)=> {
+	private	readonly	run = async ()=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.main.destroy(ms_late);
 			await new Promise(r=> setTimeout(r, ms_late));
 		}
 
-		this.now_prj = prj || this.def_prj;
-		const idxEnd = this.arg.cur.lastIndexOf('/', this.arg.cur.length -2) +1;
-		const idxStart = this.arg.cur.lastIndexOf('/', idxEnd -2) +1;
-		this.arg.cur = location.href.slice(0, location.href.lastIndexOf('/') +1)
-			+ (idxEnd === 0 ?'' :this.arg.cur.slice(idxStart, idxEnd))
-			+ this.now_prj +'/';
 		this.main = new Main(this);
 	}
 	stop() {
@@ -90,7 +88,6 @@ export class SysWeb extends SysBase {
 		this.main.destroy();
 		this.main = null;
 	}
-	private now_prj = ':';
 	private main: Main | null;
 
 

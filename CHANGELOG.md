@@ -1,3 +1,6 @@
+- fix: 【ブラウザ版】prj.json などの内部的パス指定を相対指定に
+
+
 ## [1.1.26](https://github.com/famibee/SKYNovel/compare/v1.1.25...v1.1.26) (2020-07-02)
 
 

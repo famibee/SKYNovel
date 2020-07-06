@@ -4,15 +4,15 @@ import { IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari } from './
 import { Application } from 'pixi.js';
 import 'devtools-detect';
 export declare class SysWeb extends SysBase {
+    private path_base;
+    private now_prj;
     constructor(hPlg?: {}, arg?: {
         cur: string;
         crypto: boolean;
         dip: string;
     });
-    private def_prj;
     private readonly run;
     stop(): void;
-    private now_prj;
     private main;
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
