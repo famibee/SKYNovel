@@ -1,3 +1,10 @@
+## [1.1.27](https://github.com/famibee/SKYNovel/compare/v1.1.26...v1.1.27) (2020-07-06)
+
+
+### Bug Fixes
+
+* 【ブラウザ版】prj.json などの内部的パス指定を相対指定に ([dda3df5](https://github.com/famibee/SKYNovel/commit/dda3df5dd3c83493c51076819eeba645328203df))
+
 - fix: 【ブラウザ版】prj.json などの内部的パス指定を相対指定に
 
 
