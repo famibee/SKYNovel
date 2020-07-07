@@ -16,7 +16,6 @@ import 'devtools-detect';
 
 export class SysWeb extends SysBase {
 	private	path_base	= '';
-	private now_prj		= ':';
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, arg);
 
@@ -27,12 +26,7 @@ export class SysWeb extends SysBase {
 			document.querySelectorAll('[data-prj]').forEach(v=> {
 				v.addEventListener('click', ()=> {
 					const elm = v.attributes.getNamedItem('data-prj');
-					if (! elm) return;
-					this.arg.cur = this.path_base + elm.value +'/';
-					if (this.now_prj === this.arg.cur) return;
-
-					this.now_prj = this.arg.cur;
-					this.run();
+					if (elm) this.runSN(elm.value);
 				}, {passive: true});
 			});
 			document.querySelectorAll('[data-reload]').forEach(v=> {
@@ -73,6 +67,15 @@ export class SysWeb extends SysBase {
 			'exitFullscreen',
 			'fullscreenElement'
 		);
+	}
+
+	private now_prj		= ':';
+	runSN(prj: string) {
+		this.arg.cur = this.path_base + prj +'/';
+		if (this.now_prj === this.arg.cur) return;
+
+		this.now_prj = this.arg.cur;
+		this.run();
 	}
 	private	readonly	run = async ()=> {
 		if (this.main) {

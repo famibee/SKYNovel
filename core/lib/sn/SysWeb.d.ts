@@ -5,12 +5,13 @@ import { Application } from 'pixi.js';
 import 'devtools-detect';
 export declare class SysWeb extends SysBase {
     private path_base;
-    private now_prj;
     constructor(hPlg?: {}, arg?: {
         cur: string;
         crypto: boolean;
         dip: string;
     });
+    private now_prj;
+    runSN(prj: string): void;
     private readonly run;
     stop(): void;
     private main;

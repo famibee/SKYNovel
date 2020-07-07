@@ -1,3 +1,7 @@
+- fix: 簡易版ギャラリー向け修正、runSN()追加
+- upd：ライブラリ更新
+
+
 ## [1.1.27](https://github.com/famibee/SKYNovel/compare/v1.1.26...v1.1.27) (2020-07-06)
 
 
