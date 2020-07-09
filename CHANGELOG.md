@@ -1,3 +1,10 @@
+## [1.1.29](https://github.com/famibee/SKYNovel/compare/v1.1.28...v1.1.29) (2020-07-09)
+
+
+### Bug Fixes
+
+* Firefox beta版で【戻るボタン無効化】処理そのものが、正式版で逆効果で削除 ([707aa69](https://github.com/famibee/SKYNovel/commit/707aa692e37ed5df6edb6d4cd6bae01276171ba1))
+
 - fix: Firefox beta版で【戻るボタン無効化】していた処理そのものが、正式版で逆効果になっていたので削除
 - fix: ライブラリ更新
 
