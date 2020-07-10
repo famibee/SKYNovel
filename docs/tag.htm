@@ -621,7 +621,13 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>fn</td><td>y</td><td>何もしない</td><td>画像ファイル名</td><td>基本画像ファイルを指定する</td></tr>
+<tr class="y"><td>fn</td><td>y</td><td>何もしない</td><td>画像ファイル名</td><td>
+	基本画像・動画ファイルを指定する<br/>
+	動画ファイルを指定時はロードしてすぐに動画再生が始まる。<br/>
+	<br/>
+	※ただし、ブラウザ版では「ページロード後に一度だけでもクリック（クリック待ちでもボタンでも可）されていないと再生させない」というブラウザの挙動があるため、再生する前のいつでもいいのでクリックの機会を作ること。<br/>
+	※ ムービー再生されない場合、DevTools に【Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.】のようなエラーが出ていればこの件。<br/>
+</td></tr>
 <tr><td>face</td><td></td><td>何もしない</td><td>[add_face]で登録した差分名称（半角カンマ区切りで複数可能）</td><td>差分名称を指定する。<br/>[fg fn="a" face="b,c,d"]なら「基本a」の上に「差分b」を重ね、「差分c」を重ね、「差分d」を重ねる。<br/><br/>【注意】fnは同じでface属性だけを指定→指定なしにした場合、表示が変わりませんが不具合ではありません。
 	「face属性指定なし」は「何もしない」、つまり変化させないからです。<br/>[fg layer=upd fn="a" face="b"]<br/>[l]<br/>[fg layer=upd fn="a"]<br/>[l]<br/><br/>差分名称を無くしたい場合、明確に空文字（""）を指定します。<br/>[fg
 	layer=upd fn="a" face="b"]<br/>[l]<br/>[fg layer=upd fn="a" face=""]<br/>[l]</td></tr>
