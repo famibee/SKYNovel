@@ -81,7 +81,6 @@ export class EventMng implements IEvtMng {
 		/*manager.add(new Hammer.Tap({event: 'tap2', pointers: 2}));
 		manager.on('tap2', e=> {
 			val.defTmp('sn.eventArg', e.type);
-		//console.log(e.type);	// TODO: これどうなってる？　最前面にデバッグ情報表示ほしい。
 		//hTag['title']({text: 'DBG:'+ e.type});
 			this.evt2Fnc(e, e.type);
 		});*/

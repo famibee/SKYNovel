@@ -696,8 +696,6 @@ export class ScriptIterator {
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
-				// TODO: 暗号化スクリプトかは、前方から一定の長さに(\n|\t)有無で分かる
-//		if (this.onlyCodeScript()) this.main.errScript('[セキュリティ] 暗号化スクリプト以外許されません');
 			.catch(e=> this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
 		}))
 		.load((_ldr: any, hRes: any)=> {

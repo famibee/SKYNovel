@@ -52,7 +52,6 @@ export class Config implements IConfig {
 	readonly getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
 
 	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm';
-//	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm|ogv';
 		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
 	static	readonly	EXT_SCRIPT	= 'sn';
 	static	readonly	EXT_FONT	= 'woff2|otf|ttf';

@@ -244,6 +244,7 @@ export class GrpLayer extends Layer {
 				const hve = r.data as HTMLVideoElement;
 				GrpLayer.fn2Video[fn] = hve;
 				// NOTE: hve.loop = true;	[wv]でもループ時はスルーするように
+				delete GrpLayer.ldrHFn[fn];	// 毎回来て欲しいのでキャッシュとしない
 				return new Sprite(Texture.from(r.data));
 
 			default:	return new Sprite(r.texture);
@@ -251,8 +252,8 @@ export class GrpLayer extends Layer {
 	}
 	static fn2Video	: {[name: string]: HTMLVideoElement} = {};
 	static wv(hArg: HArg) {
-		// 動画ファイル名指定でいいかなと。だって、「ループ」「それは再生しつつ」
-		// 同じファイル名の別の動画の再生は待ちたい、なんて状況は普通は無いだろうと
+		// 動画ファイル名指定でいいかなと。なぜなら「ループで再生しつつ」
+		// 同ファイル名の別の動画の再生は待ちたい、なんて状況は普通は無いだろうと
 		const fn = hArg.fn;
 		if (! fn) throw 'fnは必須です';
 		const hve = GrpLayer.fn2Video[fn];

@@ -1,3 +1,6 @@
+fix: 一度再生した動画を再度再生できない件
+
+
 ## [1.1.29](https://github.com/famibee/SKYNovel/compare/v1.1.28...v1.1.29) (2020-07-09)
 
 

@@ -181,7 +181,6 @@ export class TxtStage extends Container {
 	private htm2tx(fnc: (tx2: any)=> void, hidden = true) {
 		// tsayen/dom-to-image: Generates an image from a DOM node using HTML5 canvas https://github.com/tsayen/dom-to-image
 
-		// TODO: いつかのタイミングでコードをキレイにしたい
 /*---*/
 		const util = {
 			escape: (str: string)=> str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
