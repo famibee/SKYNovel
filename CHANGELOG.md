@@ -1,3 +1,10 @@
+## [1.1.30](https://github.com/famibee/SKYNovel/compare/v1.1.29...v1.1.30) (2020-07-10)
+
+
+### Bug Fixes
+
+* 一度再生した動画を再度再生できない件 ([dd1bc95](https://github.com/famibee/SKYNovel/commit/dd1bc95163e4855a7981920a3c973feb94891903))
+
 fix: 一度再生した動画を再度再生できない件
 
 
