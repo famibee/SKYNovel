@@ -227,9 +227,9 @@ export class EventMng implements IEvtMng {
 			return;
 		}
 
-		if ((key.slice(-5) !== 'wheel') && ('preventDefault' in e)) e.preventDefault();
+		if (key.slice(-5) !== 'wheel') e.preventDefault?.();
 		e.stopPropagation();
-		if (key.slice(0, 4) !== 'dom=' && this.layMng.clickTxtLay()) return;
+		if (key.slice(0, 4) !== 'dom=') this.layMng.clickTxtLay();
 
 		if (! this.isWait) return;
 		this.isWait = false;

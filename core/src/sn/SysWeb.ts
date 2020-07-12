@@ -23,6 +23,10 @@ export class SysWeb extends SysBase {
 		this.path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
 
 		globalThis.onload = ()=> {
+			this.tgl_full_scr = ('requestFullscreen' in document.body)
+				? o=> this.regEvt_FullScr(o, 'requestFullscreen', 'exitFullscreen', 'fullscreenElement')
+				: o=> this.regEvt_FullScr(o, 'webkitRequestFullscreen', 'webkitCancelFullScreen', 'webkitFullscreenElement');
+
 			document.querySelectorAll('[data-prj]').forEach(v=> {
 				v.addEventListener('click', ()=> {
 					const elm = v.attributes.getNamedItem('data-prj');
@@ -42,32 +46,50 @@ export class SysWeb extends SysBase {
 			if (cur) this.arg.cur = this.path_base + cur +'/';
 			this.run();
 		}
-
-		if ('webkitFullscreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(
-			o,	//Chrome15+, Safari5.1+, Opera15+
-			'webkitRequestFullscreen',
-			'webkitCancelFullScreen',
-			'webkitFullscreenElement'
-		);
-		else if ('mozFullScreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(
-			o,	//FF10+
-			'mozRequestFullScreen',
-			'mozCancelFullScreen',
-			'mozFullScreenElement'
-		);
-		else if ('msFullscreenEnabled' in document) this.tgl_full_scr = o=> this.regEvt_FullScr(
-			o,	//IE11+
-			'msRequestFullscreen',
-			'msExitFullscreen',
-			'msFullscreenElement'
-		);
-		else if (document['fullscreenEnabled']) this.tgl_full_scr = o=> this.regEvt_FullScr(
-			o,	// HTML5 Fullscreen API仕様
-			'requestFullscreen',
-			'exitFullscreen',
-			'fullscreenElement'
-		);
 	}
+	// 全画面状態切替（タグではない手段で提供）
+	private regEvt_FullScr(hArg: HArg, go_fnc_name: string, exit_fnc_name: string, get_fnc_name: string): boolean {
+		const elm: any = document.body;
+		const doc: any = document;
+		if (! hArg.key) {
+			if (doc[get_fnc_name]) doc[exit_fnc_name]();
+			else elm[go_fnc_name]();
+			this.resizeFramesWork();
+
+			return false;
+		}
+
+		const key = hArg.key.toLowerCase();
+		doc.addEventListener('keydown', (e: KeyboardEvent)=> {
+			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
+			+	e.key.toLowerCase();
+			if (key2 !== key) return;
+
+			e.stopPropagation();
+			if (doc[get_fnc_name]) doc[exit_fnc_name]();
+			else elm[go_fnc_name]();
+			this.resizeFramesWork();
+		}, {passive: true});
+
+		return false;
+	}
+	private resizeFramesWork() {
+		const is_fs = this.isFullScr();
+		//this.reso4frame = is_fs ?screen.width /CmnLib.stageW :1;
+			// 全画面を使う
+
+		const ratioWidth  = screen.width  / CmnLib.stageW;
+		const ratioHeight = screen.height / CmnLib.stageH;
+		const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
+		this.reso4frame = is_fs ?1 :ratio;
+			// document.body.clientWidth が時々正しい値を返さないのでscreen.widthで
+		this.ofsLeft4frm = is_fs ?0 :(screen.width -CmnLib.stageW *this.reso4frame *CmnLib.cvsScale) /2;
+		this.ofsTop4frm  = is_fs ?0 :(screen.height -CmnLib.stageH *this.reso4frame *CmnLib.cvsScale) /2;
+		this.resizeFrames();
+	}
+	private readonly isFullScr = ()=> ((document as any)?.webkitFullscreenElement ?? document.fullscreenElement) !== null;
 
 	private now_prj		= ':';
 	runSN(prj: string) {
@@ -256,51 +278,6 @@ export class SysWeb extends SysBase {
 	protected titleSub(txt: string) {
 		document.title = txt;
 		for (const v of document.querySelectorAll('[data-title]')) v.textContent = txt;
-	}
-	// 全画面状態切替（タグではない手段で提供）
-	private readonly isFullScr = ()=> ('webkitFullscreenElement' in document)
-		? document['webkitFullscreenElement']	// Safari
-		: document.fullscreen;
-	private regEvt_FullScr(hArg: HArg, go_fnc_name: string, exit_fnc_name: string, get_fnc_name: string): boolean {
-		const elm: any = document.body;
-		const doc: any = document;
-		if (! hArg.key) {
-			if (doc[get_fnc_name]) doc[exit_fnc_name]();
-			else elm[go_fnc_name]();
-			this.resizeFramesWork();
-
-			return false;
-		}
-
-		const key = hArg.key.toLowerCase();
-		doc.addEventListener('keydown', (e: KeyboardEvent)=> {
-			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-			+	e.key.toLowerCase();
-			if (key2 !== key) return;
-
-			e.stopPropagation();
-			if (doc[get_fnc_name]) doc[exit_fnc_name]();
-			else elm[go_fnc_name]();
-			this.resizeFramesWork();
-		}, {passive: true});
-
-		return false;
-	}
-	private resizeFramesWork() {
-		const is_fs = this.isFullScr();
-		//this.reso4frame = is_fs ?screen.width /CmnLib.stageW :1;
-			// 全画面を使う
-
-		const ratioWidth  = screen.width  / CmnLib.stageW;
-		const ratioHeight = screen.height / CmnLib.stageH;
-		const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
-		this.reso4frame = is_fs ?1 :ratio;
-			// document.body.clientWidth が時々正しい値を返さないのでscreen.widthで
-		this.ofsLeft4frm = is_fs ?0 :(screen.width -CmnLib.stageW *this.reso4frame *CmnLib.cvsScale) /2;
-		this.ofsTop4frm  = is_fs ?0 :(screen.height -CmnLib.stageH *this.reso4frame *CmnLib.cvsScale) /2;
-		this.resizeFrames();
 	}
 
 

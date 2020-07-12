@@ -10,6 +10,9 @@ export declare class SysWeb extends SysBase {
         crypto: boolean;
         dip: string;
     });
+    private regEvt_FullScr;
+    private resizeFramesWork;
+    private readonly isFullScr;
     private now_prj;
     runSN(prj: string): void;
     private readonly run;
@@ -22,9 +25,6 @@ export declare class SysWeb extends SysBase {
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
     protected titleSub(txt: string): void;
-    private readonly isFullScr;
-    private regEvt_FullScr;
-    private resizeFramesWork;
     readonly readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
     readonly savePic: (fn: string, data_url: string) => void;
     private readonly hAppendFile;

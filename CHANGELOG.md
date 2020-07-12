@@ -1,3 +1,10 @@
+fix: 文字レイヤの有無にかかわらずイベントを処理する方針に。無視したい場合は（[call]先やその状況で）[event]予約などを行うなどし、そちらを「特殊な状況」とする。
+fix: ウェブ標準から削除された Document.fullscreen を使用しないように
+	- Document.fullscreen - Web API | MDN https://developer.mozilla.org/ja/docs/Web/API/Document/fullscreen
+fix: ブラウザ・フルスクリーン系のAPIを最新対応に
+fix: const.sn.log.json、save:const.sn.sLog を軽量化
+
+
 ## [1.1.30](https://github.com/famibee/SKYNovel/compare/v1.1.29...v1.1.30) (2020-07-10)
 
 

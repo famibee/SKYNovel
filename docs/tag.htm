@@ -1275,7 +1275,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>次の[s]などのイベント待ちに向けてイベント処理を予約する。</h4>
 <p class="mb2 px1">
 
-<p>あるイベントが発生した際、global=falseのイベント予約は全て削除される</p>
+<p>あるイベントが発生した際、global=falseのイベント予約は全て削除（予約破棄）される</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>key</td><td>y</td><td></td><td>click、rightclick、middleclick、upwheel、downwheel、<br/>イベントのキー名※1</td><td>イベントを発生させるトリガーイベント<br/><br/>修飾キーの同時押し（あるいは修飾キーを押しといて通常キー）を任意に組み合わせられます。「半角プラスで」「ABC順に」「イベントのキー名の前に」繋げて下さい。<br/>（例1）key=alt+enter<br/>（例2）key=alt+ctrl+shift+enter</td></tr>
 <tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>イベント発生時にジャンプする先。指定方法は[jump]と同様。<br/>callの場合、ジャンプ先から[return]で戻ると、<br/>再度[s]などのイベント待ち状態に戻る。</td></tr>
@@ -1301,13 +1301,16 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>MiddleClick</td><td>マウス中（ホイール）ボタンクリック（[button]以外のどこか）</td></tr>
 <tr><td>UpWheel</td><td>マウスホイール回転（手前に）※回転開始時に一度のみ発生</td></tr>
 <tr><td>DownWheel</td><td>マウスホイール回転（奥に）※回転開始時に一度のみ発生</td></tr>
-<tr><td>Control</td><td>Mac/Winの Controlキー</td></tr>
-<tr><td>Alt</td><td>Macの Optionキー。Winの ALT（Option）キー</td></tr>
-<tr><td>Meta</td><td>Mac/Winの Commandキー</td></tr>
+<tr><td>Control</td><td>Mac/Winの Controlキー。単体押し検知用</td></tr>
+<tr><td>Alt</td><td>Macの Optionキー。Winの ALT（Option）キー。単体押し検知用</td></tr>
+<tr><td>Meta</td><td>Mac/Winの Commandキー。単体押し検知用</td></tr>
+<tr><td>Shift</td><td>Mac/Winの Shiftキー。単体押し検知用</td></tr>
 <tr><td>Backspace</td><td></td></tr>
 <tr><td>Enter</td><td>Macの Enterキー、Winの returnキー</td></tr>
 <tr><td>=</td><td>※注：イコールキーはMacキーボードにしか無い</td></tr>
 <tr><td>A</td><td>Aキー</td></tr>
+<tr><td>' '</td><td>スペースキー（半角空白文字を「'」や「"」で囲う。「space」ではない。文字キーの一種であるイメージ）</td></tr>
+<tr><td>（その他文字）</td><td>文字そのままの値を指定。 (B、¥ など)</td></tr>
 <tr><td>alt+A</td><td>Altキーと Aキーを同時押し</td></tr>
 <tr><td>ctrl+A</td><td>Controlキーと Aキーを同時押し</td></tr>
 <tr><td>shift+A</td><td>Shiftキーと Aキーを同時押し</td></tr>
@@ -1315,8 +1318,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>ctrl+shift+A</td><td>Controlキーと Shiftキーと Aキーを同時押し</td></tr>
 <tr><td>alt+shift+A</td><td>Altキーと Shiftキーと Aキーを同時押し</td></tr>
 <tr><td>alt+ctrl+shift+A</td><td>Altキーと Controlキーと Shiftキーと Aキーを同時押し</td></tr>
-<tr><td> </td><td>スペースキー（半角空白文字で。「space」ではない）</td></tr>
-<tr><td>（その他文字）</td><td>文字そのままの値を指定。 (B、¥ など)</td></tr>
 <tr><td>ArrowLeft</td><td>矢印キーの左</td></tr>
 <tr><td>ArrowRight</td><td>矢印キーの右</td></tr>
 <tr><td>ArrowUp</td><td>矢印キーの上</td></tr>

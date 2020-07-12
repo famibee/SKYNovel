@@ -236,11 +236,9 @@ export class LayerMng {
 		this.clearBreak();
 	}
 
-	clickTxtLay(): boolean {	// true is stay
-		const tl = this.getCurrentTxtlayFore();
-		if (! tl) return true;
+	clickTxtLay() {
+		if (! this.getCurrentTxtlayFore()) return;
 
-		// イベントを受ける文字レイヤが一つでも存在すれば、クリック待ち解除(false)する
 		const vct = this.getLayers();
 		const len = vct.length;
 		for (let i=0; i<len; ++i) {
@@ -248,9 +246,8 @@ export class LayerMng {
 			const pg = this.hPages[name];
 			if (! (pg.fore instanceof TxtLayer)) continue;
 			const pTxt = pg.fore as TxtLayer;
-			if (! pTxt.click())	return false;
+			if (! pTxt.click())	break;	// イベントを受ける文字レイヤを探しクリック
 		}
-		return true;
 	}
 
 
@@ -937,16 +934,17 @@ void main(void) {
 	private oLastPage	: HArg						= {text: ''};
 	private	aPageLog	: {[name: string]: any}[]	= [];
 	recText(txt: string, pagebreak = false) {
+		const o = this.oLastPage;
 		if (pagebreak) {
-			if (this.oLastPage.text) {
-				this.aPageLog.push(this.oLastPage);
-				this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
+			if (o.text) {
+				o.text = String(o.text).replace(/<\/span><span class='sn_ch'>/g, '');
+				if (this.aPageLog.push(o) > this.cfg.oCfg.log.max_len) this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
 			}
 			this.oLastPage = {text: ''};
 			return;
 		}
 
-		this.oLastPage.text = txt.replace(/\\`/, '`');
+		o.text = txt.replace(/\\`/, '`');
 			// 本文→HTML化の過程でつけられてしまうエスケープ文字を削除
 		this.val.setVal_Nochk('save', 'const.sn.sLog',
 			String(this.val.getVal('const.sn.log.json'))

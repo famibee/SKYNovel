@@ -31,7 +31,7 @@ export declare class LayerMng {
     breakLine: () => void;
     breakPage: () => void;
     clearBreak(): void;
-    clickTxtLay(): boolean;
+    clickTxtLay(): void;
     private snapshot;
     private loadplugin;
     protected set_focus(hArg: HArg): boolean;
