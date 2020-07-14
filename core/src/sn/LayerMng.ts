@@ -7,7 +7,7 @@
 
 import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
-import {IHTag, IVariable, IMain, HPage, HArg} from './CmnInterface';
+import {IHTag, IVariable, IMain, HPage, HArg, IGetFrm} from './CmnInterface';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -23,7 +23,7 @@ const Tween = require('@tweenjs/tween.js').default;
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 
-export class LayerMng {
+export class LayerMng implements IGetFrm {
 	private	stage	: Container;
 	private fore	= new Container;
 	private back	= new Container;
@@ -156,9 +156,7 @@ export class LayerMng {
 		fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
 		val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
 
-		const fncBtnFont = (_name: string, val: any)=> {
-			Button.fontFamily = val;
-		};
+		const fncBtnFont = (_name: string, val: any)=> Button.fontFamily = val;
 		fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button.fontFamily));
 		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
@@ -171,6 +169,8 @@ export class LayerMng {
 		});
 	}
 	private fncTicker = ()=> Tween.update();
+
+	getFrmDisabled(id: string): boolean {return this.frmMng.getFrmDisabled(id);}
 
 	private grpCover : Graphics | null = null;
 	cover(visible: boolean, bg_color: number = 0x0) {

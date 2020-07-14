@@ -38,13 +38,14 @@ export declare class EventMng implements IEvtMng {
     pushLocalEvts(h: IHEvt2Fnc): void;
     stdWait(fnc: () => void, canskip?: boolean): void;
     private procHook;
-    private isBreak;
+    private isDbgBreak;
     button(hArg: HArg, em: DisplayObject): void;
     waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: () => void): void;
     private waitCustomEvent4Wheel;
     private clear_event;
     private clear_eventer;
     private event;
+    private getHtmlElmList;
     private goTxt;
     private l;
     private p;

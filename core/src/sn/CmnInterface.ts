@@ -288,6 +288,12 @@ export interface IEvt2Fnc {(e: Event): void};
 export interface IHEvt2Fnc {[name: string]: IEvt2Fnc;};
 
 
+// =============== FrameMng, LayerMng
+export interface IGetFrm {
+	getFrmDisabled	: {(id: string): boolean};
+};
+
+
 // =============== Pages
 export interface HPage {[name: string]: IPage};
 export interface IPage {

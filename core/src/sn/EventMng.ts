@@ -213,7 +213,7 @@ export class EventMng implements IEvtMng {
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 	fire(KEY: string, e: Event) {
-		if (this.isBreak) return;
+		if (this.isDbgBreak) return;
 
 		const key = KEY.toLowerCase();
 		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
@@ -280,11 +280,11 @@ export class EventMng implements IEvtMng {
 	private	procHook(type: string, _o: any): void {
 		switch (type) {
 			case 'continue':
-			case 'disconnect':	this.isBreak = false;	break;
-			default:	this.isBreak = true;
+			case 'disconnect':	this.isDbgBreak = false;	break;
+			default:	this.isDbgBreak = true;
 		}
 	}
-	private isBreak = false;
+	private isDbgBreak = false;
 
 	button(hArg: HArg, em: DisplayObject) {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
@@ -381,19 +381,17 @@ export class EventMng implements IEvtMng {
 
 		return false;
 	}
-		private clear_eventer(key: string, e2f: IEvt2Fnc) {
-			if (key.slice(0, 4) !== 'dom=') return;
-			document.querySelectorAll(key.slice(4)).forEach(v=> {
-				v.removeEventListener('click', e2f);
-			});
+		private clear_eventer(KeY: string, e2f: IEvt2Fnc) {
+			if (KeY.slice(0, 4) !== 'dom=') return;
+			this.getHtmlElmList(KeY).el.forEach(v=> v.removeEventListener('click', e2f));
 		}
 
 
 	// イベントを予約
 	private event(hArg: HArg) {
-		const KEY = hArg.key;
-		if (! KEY) throw 'keyは必須です';
-		const key = KEY.toLowerCase();
+		const KeY = hArg.key;
+		if (! KeY) throw 'keyは必須です';
+		const key = KeY.toLowerCase();
 
 		const call = argChk_Boolean(hArg, 'call', false);
 		const h = argChk_Boolean(hArg, 'global', false)
@@ -402,50 +400,30 @@ export class EventMng implements IEvtMng {
 		if (argChk_Boolean(hArg, 'del', false)) {
 			if (hArg.fn || hArg.label || call) throw 'fn/label/callとdelは同時指定できません';
 
-			this.clear_eventer(KEY, h[key]);
+			this.clear_eventer(KeY, h[key]);
 
 			// その他・キーボードイベント
 			delete h[key];
 			return false;
 		}
-		hArg.fn = hArg.fn || this.scrItr.scriptFn;
+		hArg.fn = hArg.fn ?? this.scrItr.scriptFn;
 
 		// domイベント
-		if (KEY.slice(0, 4) === 'dom=') {
-			let elmlist: NodeListOf<HTMLElement>;
-			const idx = KEY.indexOf(':');
-			let sel = '';
-			if (idx >= 0) {		// key='dom=config:#ctrl2val
-				const name = KEY.slice(4, idx);
-				const frmnm = `const.sn.frm.${name}`;
-				if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `HTML【${name}】が読み込まれていません`;
+		if (KeY.slice(0, 4) === 'dom=') {
+			const g = this.getHtmlElmList(KeY);
+			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
-				const ifrm = document.getElementById(name) as HTMLIFrameElement;
-				const win = ifrm.contentWindow!;
-				sel = KEY.slice(idx +1);
-				elmlist = win.document.querySelectorAll(sel);
-			}
-			else {
-				sel = KEY.slice(4);
-				elmlist = document.querySelectorAll(sel);
-			}
-			if (elmlist.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
-
-			const ie = elmlist[0] as HTMLInputElement;
+			const ie = g.el[0] as HTMLInputElement;
 			const type = ie?.type ?? '';
 			((type === 'range' || type === 'checkbox' || type === 'text'
 			|| type === 'textarea') ?['input', 'change'] :['click'])
-			.forEach(v=> elmlist.forEach(elm=> this.elc.add(elm, v, e=> {
+			.forEach(v=> g.el.forEach(elm=> this.elc.add(elm, v, e=> {
+				if (! this.isWait || this.layMng.getFrmDisabled(g.id)) return;
+
 				const e2 = (elm as HTMLElement).dataset;
-				for (const key in e2) {
-					if (e2.hasOwnProperty(key)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${key}`, e2[key]);
-				}
-				this.fire(KEY, e);
+				for (const k2 in e2) if (e2.hasOwnProperty(k2)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${k2}`, e2[k2]);
+				this.fire(KeY, e);
 			})));
-			// 押したまま部品外へ出たときも確定イベント発生
-			for (const elm of elmlist) this.elc.add(elm, 'mouseleave', e=> {
-				if (e.buttons !== 0) this.fire(KEY, e);
-			});
 
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
 		}
@@ -454,6 +432,23 @@ export class EventMng implements IEvtMng {
 		h[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 
 		return false;
+	}
+	private	getHtmlElmList(KeY: string): {el: NodeListOf<HTMLElement>, id: string, sel: string} {
+		const idx = KeY.indexOf(':');
+		let sel = '';
+		if (idx >= 0) {		// key='dom=config:#ctrl2val
+			const id = KeY.slice(4, idx);
+			const frmnm = `const.sn.frm.${id}`;
+			if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `HTML【${id}】が読み込まれていません`;
+
+			const ifrm = document.getElementById(id) as HTMLIFrameElement;
+			const win = ifrm.contentWindow!;
+			sel = KeY.slice(idx +1);
+			return {el: win.document.querySelectorAll(sel), id: id, sel: sel};
+		}
+
+		sel = KeY.slice(4);
+		return {el: document.querySelectorAll(sel), id: '', sel: sel};
 	}
 
 

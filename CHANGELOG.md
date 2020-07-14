@@ -1,3 +1,10 @@
+- feat: [frame]にイベントを無視させるdisabled属性追加（enabled 系と逆値なので注意、HTML DOMに合わせたため）
+- fix: [event key='【フレーム名】:【DOMクエリー】']での連打時エラー対策
+	- （押したまま部品外へ出たときもイベント発生させていたが、連打でトラブルので削除）
+- fix: [add_frame]でのstyle指定ミス修正
+- fix: [stopse]時 null対策
+
+
 ## [1.1.31](https://github.com/famibee/SKYNovel/compare/v1.1.30...v1.1.31) (2020-07-12)
 
 
@@ -5,11 +12,11 @@
 
 * 文字レイヤ有無にかかわらずイベント処理する方針に。ブラウザフルスクリーンAPIを最新対応に ([9f21348](https://github.com/famibee/SKYNovel/commit/9f21348fdc6161bd76d7d5022a14b37bc096621e))
 
-fix: 文字レイヤの有無にかかわらずイベントを処理する方針に。無視したい場合は（[call]先やその状況で）[event]予約などを行うなどし、そちらを「特殊な状況」とする。
-fix: ウェブ標準から削除された Document.fullscreen を使用しないように
+- fix: 文字レイヤの有無にかかわらずイベントを処理する方針に。無視したい場合は（[call]先やその状況で）[event]予約などを行うなどし、そちらを「特殊な状況」とする。
+- fix: ウェブ標準から削除された Document.fullscreen を使用しないように
 	- Document.fullscreen - Web API | MDN https://developer.mozilla.org/ja/docs/Web/API/Document/fullscreen
-fix: ブラウザ・フルスクリーン系のAPIを最新対応に
-fix: const.sn.log.json、save:const.sn.sLog を軽量化
+- fix: ブラウザ・フルスクリーン系のAPIを最新対応に
+- fix: const.sn.log.json、save:const.sn.sLog を軽量化
 
 
 ## [1.1.30](https://github.com/famibee/SKYNovel/compare/v1.1.29...v1.1.30) (2020-07-10)
@@ -19,7 +26,7 @@ fix: const.sn.log.json、save:const.sn.sLog を軽量化
 
 * 一度再生した動画を再度再生できない件 ([dd1bc95](https://github.com/famibee/SKYNovel/commit/dd1bc95163e4855a7981920a3c973feb94891903))
 
-fix: 一度再生した動画を再度再生できない件
+- fix: 一度再生した動画を再度再生できない件
 
 
 ## [1.1.29](https://github.com/famibee/SKYNovel/compare/v1.1.28...v1.1.29) (2020-07-09)

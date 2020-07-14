@@ -5,7 +5,6 @@ export declare class Config implements IConfig {
     oCfg: any;
     userFnTail: string;
     private hPathFn2Exts;
-    readonly getJsonSearchPath: () => string;
     static readonly EXT_SPRITE = "png|jpg|jpeg|json|svg|webp|mp4|webm";
     static readonly EXT_SCRIPT = "sn";
     static readonly EXT_FONT = "woff2|otf|ttf";

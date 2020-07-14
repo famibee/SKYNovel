@@ -355,7 +355,7 @@ export class SoundMng {
 		this.stopfadese(hArg);
 		this.delLoopPlay(buf);
 
-		this.hSndBuf[buf]?.snd.stop();
+		this.hSndBuf[buf]?.snd?.stop();
 
 		return false;
 	}

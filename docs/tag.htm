@@ -1187,6 +1187,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
 <tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
 <tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
+<tr><td>disabled</td><td></td><td>false</td><td>Boolean</td><td>trueでスライダーなど操作不可・[event]の【dom=系】イベント無効、falseで可能</td></tr>
 <tr><td>b_color</td><td></td><td>透過</td><td>色指定。0x000000など</td><td>背後の矩形色。初期値は 透過（htmlで画像を表示すれば表示）</td></tr>
 <tr><td>x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>画面内におけるフレームの横位置を指定</td></tr>
 <tr><td>y</td><td></td><td>0</td><td>(↑と同じ)</td><td>画面内におけるフレームの縦位置を指定</td></tr>
@@ -1292,7 +1293,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<br/>
 	技術的の話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>（<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" target="_blank" rel="noopener">Key Values - Web APIs | MDN</a>）を基本とする。<br/>
 	（keyCode（<a href="https://qiita.com/ledsun/items/fb2570cc1542039f4516" target="_blank" rel="noopener">非推奨</a>）・codeプロパティとは違うので注意）<br/>
-	<span style="color:ff0000;background-color:#FFCACA;">重要な点として、「key属性の値」は大文字小文字区別無し、どちらでもよい。</span><br/>
+	<span style="color:ff0000;background-color:#FFCACA;">重要な点として、「key属性の値」は大文字小文字区別無し、どちらでもよい。<br/>
+	ただし【dom=【フレーム名】:【ボタン系 HTML要素の id名】】系はHTML要素名なども含むので、大小区別あり。</span><br/>
 	修飾キー（shiftなど）は、その前に追加していく。（追加順は決まっており、以下を参照。ABC順）<br/>
 
 <table><tr><th>key属性の値</th><th>コメント</th></tr>

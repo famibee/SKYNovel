@@ -50,7 +50,7 @@ export class Main implements IMain {
 				height			: this.cfg.oCfg.window.height,
 				backgroundColor	: this.cfg.oCfg.init.bg_color,
 			//	resolution		: sys.resolution,
-				resolution		: globalThis.devicePixelRatio ?? 1,	// NOTE: 理想
+				resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
 				autoResize		: true,
 			};
 			const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
@@ -70,7 +70,7 @@ export class Main implements IMain {
 			this.prpPrs = new PropParser(this.val);
 
 			// システム（10/13）
-			sys.init(this.hTag, this.appPixi, this.val, this);	// ここで変数準備完了
+			sys.init(this.hTag, this.appPixi, this.val, this);	// 変数準備完了
 			this.hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
 			// ＢＧＭ・効果音

@@ -1,11 +1,11 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain, HPage, HArg } from './CmnInterface';
+import { IHTag, IVariable, IMain, HPage, HArg, IGetFrm } from './CmnInterface';
 import { TxtLayer } from './TxtLayer';
 import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
 import { Application } from 'pixi.js';
-export declare class LayerMng {
+export declare class LayerMng implements IGetFrm {
     private readonly cfg;
     private readonly hTag;
     private readonly appPixi;
@@ -19,6 +19,7 @@ export declare class LayerMng {
     private frmMng;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase);
     private fncTicker;
+    getFrmDisabled(id: string): boolean;
     private grpCover;
     cover(visible: boolean, bg_color?: number): void;
     private evtMng;

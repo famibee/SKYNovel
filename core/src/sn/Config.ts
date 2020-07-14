@@ -49,8 +49,6 @@ export class Config implements IConfig {
 	userFnTail	= '';
 
 	private	hPathFn2Exts	: IFn2Path		= {};
-	readonly getJsonSearchPath	= ()=> JSON.stringify(this.hPathFn2Exts);
-
 	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
 	static	readonly	EXT_SCRIPT	= 'sn';

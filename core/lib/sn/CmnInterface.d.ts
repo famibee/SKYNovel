@@ -249,6 +249,11 @@ export interface IEvt2Fnc {
 export interface IHEvt2Fnc {
     [name: string]: IEvt2Fnc;
 }
+export interface IGetFrm {
+    getFrmDisabled: {
+        (id: string): boolean;
+    };
+}
 export interface HPage {
     [name: string]: IPage;
 }

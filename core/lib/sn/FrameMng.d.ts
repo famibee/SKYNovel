@@ -1,10 +1,10 @@
 import { IEvtMng } from './CmnLib';
 import { ITwInf } from './CmnTween';
-import { IHTag, IVariable, IMain } from './CmnInterface';
+import { IHTag, IVariable, IMain, IGetFrm } from './CmnInterface';
 import { Application } from 'pixi.js';
 import { SysBase } from './SysBase';
 import { Config } from './Config';
-export declare class FrameMng {
+export declare class FrameMng implements IGetFrm {
     private readonly cfg;
     private readonly appPixi;
     private readonly val;
@@ -19,6 +19,8 @@ export declare class FrameMng {
     private hIfrm;
     destroy(): void;
     private add_frame;
+    private hDisabled;
+    getFrmDisabled(id: string): boolean;
     private hAEncImg;
     private hEncImgOUrl;
     private rect;

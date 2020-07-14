@@ -7,7 +7,7 @@
 
 import {CmnLib, IEvtMng, cnvTweenArg, argChk_Boolean, argChk_Num} from './CmnLib';
 import {ITwInf, CmnTween} from './CmnTween';
-import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
+import {IHTag, IVariable, IMain, HArg, IGetFrm} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 import {Config} from './Config';
@@ -15,7 +15,7 @@ import {Config} from './Config';
 const Tween = require('@tweenjs/tween.js').default;
 import {Loader, LoaderResource} from 'pixi.js';
 
-export class FrameMng {
+export class FrameMng implements IGetFrm {
 	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.add_frame(o);	// フレーム追加
@@ -28,7 +28,7 @@ export class FrameMng {
 	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 
-	private	hIfrm	: {[name: string]: HTMLIFrameElement} = Object.create(null);
+	private	hIfrm	: {[id: string]: HTMLIFrameElement} = Object.create(null);
 	destroy() {
 		for (const n in this.hIfrm) {
 			const f = this.hIfrm[n];
@@ -54,18 +54,17 @@ export class FrameMng {
 		const v = argChk_Boolean(hArg, 'visible', true);
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.rect(hArg);
-		const scale = this.sys.reso4frame *CmnLib.cvsScale;
+		const scl = this.sys.reso4frame *CmnLib.cvsScale;
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
-		}" sandbox="allow-scripts allow-same-origin" style="z-index: 1; opacity: ${a}; position: absolute; left:${
-			this.sys.ofsLeft4frm +rct.x *scale
-		}px; top: ${
-			this.sys.ofsTop4frm  +rct.y *scale
-		}px; border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
-		};${b_color}" width="${rct.width *scale}" height="${rct.height *scale
-		}" transform: scale(${sx}, ${sy}) rotate(${r}deg);></iframe>`);
+		}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a
+		}; position: absolute; left:${this.sys.ofsLeft4frm +rct.x *scl
+		}px; top: ${this.sys.ofsTop4frm  +rct.y *scl}px; z-index: 1; ${b_color
+		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
+		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *scl}" height="${rct.height *scl}"></iframe>`);
 
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
 		this.hIfrm[id] = ifrm;
+		this.hDisabled[id] = false;
 		const win: Window = ifrm.contentWindow!;
 		const onload = () => {
 			// 組み込み変数
@@ -150,6 +149,8 @@ export class FrameMng {
 
 		return true;
 	}
+	private hDisabled	: {[id: string]: boolean}	= Object.create(null);
+	getFrmDisabled(id: string): boolean {return this.hDisabled[id]}
 	private	hAEncImg	: {[name: string]: HTMLImageElement[]}	= Object.create(null);
 	private	hEncImgOUrl	: {[name: string]: string}		= Object.create(null);
 	private rect(hArg: HArg): DOMRect {
@@ -270,8 +271,12 @@ export class FrameMng {
 			ifrm.style.display = v ?'inline' :'none';
 			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 		}
-		if ('b_color' in hArg) {
-			ifrm.style.backgroundColor = hArg.b_color!;
+		if ('b_color' in hArg) ifrm.style.backgroundColor = hArg.b_color!;
+		if ('disabled' in hArg) {
+			const d = this.hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
+			const il: NodeListOf<HTMLInputElement | HTMLSelectElement> = ifrm.contentDocument!.body.querySelectorAll('input,select');
+			const len = il.length;
+			for (let i=0; i<len; ++i) il[i].disabled = d;
 		}
 
 		return false;
