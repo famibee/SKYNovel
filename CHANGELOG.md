@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/famibee/SKYNovel/compare/v1.1.31...v1.2.0) (2020-07-14)
+
+
+### Features
+
+* [frame]にイベントを無視させるdisabled属性追加、フレームの連打時エラー対策 ([72d2aa0](https://github.com/famibee/SKYNovel/commit/72d2aa05b1b815fce95aaa7b6ae202c9dca0e484))
+
 - feat: [frame]にイベントを無視させるdisabled属性追加（enabled 系と逆値なので注意、HTML DOMに合わせたため）
 - fix: [event key='【フレーム名】:【DOMクエリー】']での連打時エラー対策
 	- （押したまま部品外へ出たときもイベント発生させていたが、連打でトラブルので削除）
