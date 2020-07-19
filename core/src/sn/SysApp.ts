@@ -85,9 +85,9 @@ export class SysApp extends SysNode {
 		}
 		else {
 			// データがある場合の処理
-			this.data.sys = st.store.sys;
-			this.data.mark = st.store.mark;
-			this.data.kidoku = st.store.kidoku;
+			this.data.sys = st.store.sys as any;
+			this.data.mark = st.store.mark as any;
+			this.data.kidoku = st.store.kidoku as any;
 		}
 		comp(this.data);
 
