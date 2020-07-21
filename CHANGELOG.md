@@ -1,3 +1,7 @@
+- fix: 非暗号化時の[add_frame]処理を暗号化時となるべく同じに。キャッシュも利く
+- fix: ライブラリ更新
+
+
 ## [1.2.4](https://github.com/famibee/SKYNovel/compare/v1.2.3...v1.2.4) (2020-07-19)
 
 
