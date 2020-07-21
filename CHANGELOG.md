@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/famibee/SKYNovel/compare/v1.2.4...v1.2.5) (2020-07-21)
+
+
+### Bug Fixes
+
+* 非暗号化時の[add_frame]処理を暗号化時となるべく同じに。キャッシュも利く ([31ebc1b](https://github.com/famibee/SKYNovel/commit/31ebc1b65930a71bccfcb577295f574bc204f67d))
+
 - fix: 非暗号化時の[add_frame]処理を暗号化時となるべく同じに。キャッシュも利く
 - fix: ライブラリ更新
 
