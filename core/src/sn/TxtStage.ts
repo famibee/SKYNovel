@@ -676,10 +676,10 @@ export class TxtStage extends Container {
 			switch (v.cmd) {
 				case 'grp':
 					const cnt = new Container;	// 親コンテナかまし、即spWork()
-					this.spWork(cnt, arg, add, rct, ease, cis ?? {});
 					this.cntTxt.addChild(cnt);
 						// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 					GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
+						this.spWork(cnt, arg, add, rct, ease, cis ?? {});
 						if (! cnt.parent) cnt.removeChild(sp);
 					});
 					break;
@@ -735,8 +735,17 @@ export class TxtStage extends Container {
 	private	fncEndChIn	= ()=> {};
 	private spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
-		if (arg.width) sp.width = arg.width;
-		if (arg.height) sp.height = arg.height;
+		if (arg.x) rct.x = (arg.x.charAt(0) === '=')
+			? rct.x +parseInt(arg.x.slice(1))
+			: parseInt(arg.x);
+		if (arg.y) rct.y = (arg.y.charAt(0) === '=')
+			? rct.y +parseInt(arg.y.slice(1))
+			: parseInt(arg.y);
+		if (arg.width) rct.width = parseInt(arg.width);
+		if (arg.height) rct.height = parseInt(arg.height);
+		if (arg.wait) cis.wait = parseInt(arg.wait);
+		sp.width = rct.width;
+		sp.height = rct.height;
 		sp.position.set(
 			(cis.x.charAt(0) === '=') ?rct.x +sp.width  *cis.nx :cis.nx,
 			(cis.y.charAt(0) === '=') ?rct.y +sp.height *cis.ny :cis.ny

@@ -1,3 +1,11 @@
+- fix: [span][link][endlink]でlayer属性が効かない件
+- fix: [graph]、wait=0指定すると直後に「"》」など文字表示される件
+- fix: [graph]、width, height, wait属性が効かない件
+- fix: [graph]、styleでfont-size指定するように（文字表示に合わせる）
+- fix: [graph]、x, y属性を追加。==100と文字表示位置からの相対指定もできる
+- fix: ライブラリ更新
+
+
 ## [1.2.5](https://github.com/famibee/SKYNovel/compare/v1.2.4...v1.2.5) (2020-07-21)
 
 

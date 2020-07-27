@@ -972,15 +972,25 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>文字レイヤに画像を文字として表示する。ルビは同時に設定する。</h4>
 <p class="mb2 px1">
 
-<p>フォントにない外字やアニメpng画像表示に使える。</p>
+	フォントにない外字やアニメpng画像表示に使える。
+	[span]は強制的に解除される。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>pic</td><td>y</td><td></td><td>画像ファイル名</td><td>表示する画像やアニメpng</td></tr>
 <tr><td>r</td><td></td><td>ルビ無し</td><td>String</td><td>ルビ文字列（ただしあまりに他の文字サイズと大きく異なる場合は正しい位置に表示されない）</td></tr>
+<tr><td>x</td><td></td><td>0</td><td>
+	文字表示位置左上を(0, 0)とする座標</td><td>表示位置を指定する。<br/>
+	==100と文字表示位置からの相対指定もできる
+</td></tr>
+<tr><td>y</td><td></td><td>0</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
 <tr><td>width</td><td></td><td>画像の横サイズ（※）</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>height</td><td></td><td>画像の縦サイズ（※）</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
+	※文字表示中の場合はすべてのスタイルが変更される。<br/>
+	他の文字と並べて表示したい場合は style='font-size: 60px;' などとサイズ指定する。<br/>
+	width, height属性は正確にサイズ指定できるが他の文字に関係なくはみ出して表示する
+</td></tr>
 <tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
 <tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>

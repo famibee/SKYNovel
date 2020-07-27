@@ -76,7 +76,7 @@ export class FrameMng implements IGetFrm {
 			const ifrm = document.getElementById(id) as HTMLIFrameElement;
 			this.hIfrm[id] = ifrm;
 			this.hDisabled[id] = false;
-			ifrm.srcdoc = String(hRes[src]?.data)
+			ifrm.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
 			.replace('sn_repRes();', '')
 			.replace(
 				/\s(?:src|href)=(["'])(\S+)\1/g,

@@ -92,7 +92,7 @@ export class LayerMng implements IGetFrm {
 		//hTag.ch_out_style	// TxtLayer.ts で定義		// 文字消去文字出現演出
 		hTag.clear_text		= o=> this.clear_text(o);	// 文字消去
 		hTag.current		= o=> this.current(o);		// デフォルト文字レイヤ設定
-		hTag.endlink		= ()=> this.endlink();		// ハイパーリンクの終了
+		hTag.endlink		= o=> this.endlink(o);		// ハイパーリンクの終了
 		hTag.er				= o=> this.er(o);			// ページ両面の文字消去
 		hTag.graph			= o=> this.graph(o);		// インライン画像表示
 		hTag.link			= o=> this.link(o);			// ハイパーリンク
@@ -853,19 +853,21 @@ void main(void) {
 	static set msecChWait(v) {LayerMng.$msecChWait = v;}
 	// 文字を追加する
 	private ch(hArg: HArg) {
-		if (! hArg.text) throw 'textは必須です';
+		const txt = hArg.text;
+		if (! txt) throw 'textは必須です';
 
 		let wait = argChk_Num(hArg, 'wait', -1);
 		if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled')) wait = 0;
 		hArg.wait = wait;
 
-		const tl = this.getTxtLayer(hArg) as TxtLayer;
+		const tl = this.getTxtLayer(hArg);
+		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
 		if (wait >= 0) this.cmdTxt('add｜'+ JSON.stringify(hArg), tl);
 
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', record);
-		tl.tagCh(hArg.text.replace(/\[r]/g, '\n'));
+		tl.tagCh(txt.replace(/\[r]/g, '\n'));
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
 		if (wait >= 0) this.cmdTxt(`add_close｜`, tl);
@@ -961,7 +963,7 @@ void main(void) {
 
 
 	// ハイパーリンクの終了
-	private endlink() {this.cmdTxt('endlink｜'); return false;}
+	private endlink(hArg: HArg) {this.cmdTxt('endlink｜', this.getTxtLayer(hArg)); return false;}
 
 	// ページ両面の文字消去
 	private er(hArg: HArg) {
@@ -977,7 +979,7 @@ void main(void) {
 
 	// インライン画像表示
 	private graph(hArg: HArg) {
-		if (! ('pic' in hArg)) throw '[graph] picは必須です';
+		if (! hArg.pic) throw '[graph] picは必須です';
 
 		hArg.text = '｜　《grp｜'+ JSON.stringify(hArg) +'》';
 		return this.ch(hArg);
@@ -986,7 +988,7 @@ void main(void) {
 	// ハイパーリンク
 	private link(hArg: HArg) {
 		if (! hArg.style) hArg.style = 'background-color: rgba(255,0,0,0.5);';
-		this.cmdTxt('link｜'+ JSON.stringify(hArg));
+		this.cmdTxt('link｜'+ JSON.stringify(hArg), this.getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1027,7 +1029,7 @@ void main(void) {
 
 	// インラインスタイル設定
 	private span(hArg: HArg) {
-		this.cmdTxt('span｜'+ JSON.stringify(hArg));
+		this.cmdTxt('span｜'+ JSON.stringify(hArg), this.getTxtLayer(hArg));
 		return false;
 	}
 
