@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/famibee/SKYNovel/compare/v1.2.5...v1.2.6) (2020-07-27)
+
+
+### Bug Fixes
+
+* [graph][span][link][endlink]不具合修正 ([24d17b4](https://github.com/famibee/SKYNovel/commit/24d17b45af8ee2da2f9fc42ac248ce0401b91cf0))
+
 - fix: [span][link][endlink]でlayer属性が効かない件
 - fix: [graph]、wait=0指定すると直後に「"》」など文字表示される件
 - fix: [graph]、width, height, wait属性が効かない件
