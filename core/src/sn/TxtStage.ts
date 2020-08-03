@@ -937,10 +937,10 @@ export class TxtStage extends Container {
 		let sum_wait = 0;
 		old.querySelectorAll<HTMLElement>('span.sn_ch').forEach(elm=> {
 			const add = JSON.parse(
-				elm.getAttribute('data-add') ??				// 通常文字
-				elm.children[0].getAttribute('data-add') ??	// ルビ
-				elm.children[0].children[0]
-					.getAttribute('data-add') ?? '{}'		// 縦中横
+				elm?.getAttribute('data-add') ??				// 通常文字
+				elm?.children[0]?.getAttribute('data-add') ??	// ルビ
+				elm?.children[0]?.children[0]
+					?.getAttribute('data-add') ?? '{}'		// 縦中横
 			);
 			if (! add.ch_out_style) return;
 

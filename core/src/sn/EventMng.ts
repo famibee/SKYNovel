@@ -214,6 +214,7 @@ export class EventMng implements IEvtMng {
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 	fire(KEY: string, e: Event) {
 		if (this.isDbgBreak) return;
+		if (! this.isWait) return;
 
 		const key = KEY.toLowerCase();
 		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
@@ -231,7 +232,6 @@ export class EventMng implements IEvtMng {
 		e.stopPropagation();
 		if (key.slice(0, 4) !== 'dom=') this.layMng.clickTxtLay();
 
-		if (! this.isWait) return;
 		this.isWait = false;
 		ke(e);
 	}

@@ -1,3 +1,7 @@
+- fix: イベント関係手直し
+- fix: ライブラリ更新
+
+
 ## [1.2.7](https://github.com/famibee/SKYNovel/compare/v1.2.6...v1.2.7) (2020-07-27)
 
 
