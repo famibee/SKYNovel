@@ -1,3 +1,10 @@
+## [1.2.8](https://github.com/famibee/SKYNovel/compare/v1.2.7...v1.2.8) (2020-08-03)
+
+
+### Bug Fixes
+
+* イベント関係手直し ([c524134](https://github.com/famibee/SKYNovel/commit/c524134e29641a0623fbd355e165032dd5f90e40))
+
 - fix: イベント関係手直し
 - fix: ライブラリ更新
 
