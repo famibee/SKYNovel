@@ -1,3 +1,10 @@
+## [1.2.9](https://github.com/famibee/SKYNovel/compare/v1.2.8...v1.2.9) (2020-08-04)
+
+
+### Bug Fixes
+
+* [wait][wv][wait_tsy][wf][ws]、グローバルイベでキャンセルさせる ([804f0b1](https://github.com/famibee/SKYNovel/commit/804f0b1201c9cf4016b9f7f55b2165c9140b0a8b))
+
 - fix: [wait][wv][wait_tsy][wf][ws]で待機中、グローバルイベント発生によるjump,call後に前述のイベント待ちがキャンセルされず発生してしまう不具合
 
 
