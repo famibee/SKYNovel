@@ -372,8 +372,9 @@ export class SoundMng {
 
 		oSb.resumeFade = true;
 		this.evtMng.stdWait(
-			()=> {this.stopfadese(hArg)},
-			argChk_Boolean(hArg, 'canskip', true)
+			()=> this.stopfadese(hArg),
+			argChk_Boolean(hArg, 'canskip', true),
+			()=> {this.stopfadese(hArg); this.main.stop();},
 		);
 		return true;
 	}
@@ -398,15 +399,17 @@ export class SoundMng {
 		if (! oSb || ! oSb.playing() || oSb.loop) return false;
 
 		oSb.resume = true;
+		const fnc = ()=> {
+			this.stopse(hArg);
+			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
+			const oSb = this.hSndBuf[buf];
+			if (! oSb || ! oSb.playing() || oSb.loop) return;
+			oSb.onend();
+		};
 		this.evtMng.stdWait(
-			()=> {
-				this.stopse(hArg);
-				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-				const oSb = this.hSndBuf[buf];
-				if (! oSb || ! oSb.playing() || oSb.loop) return;
-				oSb.onend();
-			},
-			argChk_Boolean(hArg, 'canskip', false)
+			fnc,
+			argChk_Boolean(hArg, 'canskip', false),
+			()=> {fnc(); this.main.stop();},
 		);
 
 		return true;

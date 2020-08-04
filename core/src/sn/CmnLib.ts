@@ -73,7 +73,7 @@ import {EventListenerCtn} from './EventListenerCtn';
 export interface IEvtMng {
 	button(hArg: HArg, em: DisplayObject): void;
 	isSkipKeyDown(): boolean;
-	stdWait(fnc: ()=> void, canskip?: boolean): void;
+	stdWait(fnc: ()=> void, canskip?: boolean, cancelWait?: ()=> void): void;
 	popLocalEvts(): IHEvt2Fnc;
 	pushLocalEvts(a: IHEvt2Fnc): void;
 	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void): void;

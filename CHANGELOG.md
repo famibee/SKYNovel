@@ -1,3 +1,6 @@
+- fix: [wait][wv][wait_tsy][wf][ws]で待機中、グローバルイベント発生によるjump,call後に前述のイベント待ちがキャンセルされず発生してしまう不具合
+
+
 ## [1.2.8](https://github.com/famibee/SKYNovel/compare/v1.2.7...v1.2.8) (2020-08-03)
 
 

@@ -803,9 +803,11 @@ void main(void) {
 		if (! twInf || ! twInf.tw) return false;
 
 		twInf.resume = true;
+		const fnc = ()=> twInf.tw?.stop()?.end();	// stop()とend()は別
 		this.evtMng.stdWait(
-			()=> {if (twInf.tw) twInf.tw.stop().end()},	// stop()とend()は別
-			argChk_Boolean(hArg, 'canskip', true)
+			fnc,
+			argChk_Boolean(hArg, 'canskip', true),
+			()=> {fnc(); this.main.stop()},
 		);
 		return true;
 	}
@@ -814,10 +816,8 @@ void main(void) {
 	private stop_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const twInf = this.hTwInf[tw_nm];
-		if (! twInf || ! twInf.tw) return false;
 
-		twInf.tw.stop().end();	// stop()とend()は別
+		this.hTwInf[tw_nm]?.tw?.stop()?.end();	// stop()とend()は別
 
 		return false;
 	}
@@ -826,10 +826,8 @@ void main(void) {
 	private pause_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const twInf = this.hTwInf[tw_nm];
-		if (! twInf || ! twInf.tw) return false;
 
-		twInf.tw.stop();
+		this.hTwInf[tw_nm]?.tw?.stop();
 
 		return false;
 	}
@@ -838,10 +836,8 @@ void main(void) {
 	private resume_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const twInf = this.hTwInf[tw_nm];
-		if (! twInf || ! twInf.tw) return false;
 
-		twInf.tw.start();
+		this.hTwInf[tw_nm]?.tw?.start();
 
 		return false;
 	}
