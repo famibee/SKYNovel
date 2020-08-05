@@ -36,8 +36,7 @@ export declare class EventMng implements IEvtMng {
     private isWait;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;
-    stdWait(fnc: () => void, canskip?: boolean, cancelWait?: () => void): void;
-    private cancelWait;
+    stdWait(fnc: () => void, canskip?: boolean): void;
     private procHook;
     private isDbgBreak;
     button(hArg: HArg, em: DisplayObject): void;

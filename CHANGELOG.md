@@ -1,3 +1,7 @@
+- fix: 前回更新（1.2.9）でデグレードしたため、v1.2.8 相当に戻す
+- fix: ライブラリ更新
+
+
 ## [1.2.9](https://github.com/famibee/SKYNovel/compare/v1.2.8...v1.2.9) (2020-08-04)
 
 

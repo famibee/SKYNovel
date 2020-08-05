@@ -228,9 +228,6 @@ export class EventMng implements IEvtMng {
 			return;
 		}
 
-		this.cancelWait();
-		this.cancelWait = ()=> {};
-
 		if (key.slice(-5) !== 'wheel') e.preventDefault?.();
 		e.stopPropagation();
 		if (key.slice(0, 4) !== 'dom=') this.layMng.clickTxtLay();
@@ -250,7 +247,7 @@ export class EventMng implements IEvtMng {
 	pushLocalEvts(h: IHEvt2Fnc) {this.hLocalEvt2Fnc = h;}
 
 	// stdWait()したらreturn true;
-	stdWait(fnc: ()=> void, canskip = true, cancelWait = ()=> {}) {
+	stdWait(fnc: ()=> void, canskip = true) {
 		this.goTxt();
 		if (canskip) {
 			//hTag.event({key:'click', breakout: fnc});
@@ -278,10 +275,8 @@ export class EventMng implements IEvtMng {
 		// evtfncWait();
 		this.val.saveKidoku(); // これはそのままか
 		this.fncCancelSkip();
-		this.cancelWait = cancelWait;
 		this.isWait = true;
 	}
-	private	cancelWait	= ()=> {};
 	private	procHook(type: string, _o: any): void {
 		switch (type) {
 			case 'continue':
@@ -558,16 +553,12 @@ export class EventMng implements IEvtMng {
 	private wait(hArg: HArg) {
 		this.val.saveKidoku();
 
-		const tw = new Tween.Tween(this)
+		const twSleep = new Tween.Tween(this)
 		.to({}, uint(argChk_Num(hArg, 'time', NaN)))
 		.onComplete(()=> this.main.resume())
 		.start();
 
-		this.stdWait(
-			()=> tw.stop().end(),
-			argChk_Boolean(hArg, 'canskip', true),
-			()=> tw.stop(),
-		);	// stdWait()したらreturn true;
+		this.stdWait(()=> twSleep.stop().end(), argChk_Boolean(hArg, 'canskip', true));	// stdWait()したらreturn true;
 		return true;
 	}
 
