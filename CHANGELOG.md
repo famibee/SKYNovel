@@ -1,3 +1,10 @@
+## [1.2.10](https://github.com/famibee/SKYNovel/compare/v1.2.9...v1.2.10) (2020-08-05)
+
+
+### Bug Fixes
+
+* 前回更新（1.2.9）でデグレードしたため、v1.2.8 相当に戻す ([41f5c67](https://github.com/famibee/SKYNovel/commit/41f5c67907850ad896dc52adfaa0e8382caaf8ab))
+
 - fix: 前回更新（1.2.9）でデグレードしたため、v1.2.8 相当に戻す
 - fix: ライブラリ更新
 
