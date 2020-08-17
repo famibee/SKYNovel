@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/famibee/SKYNovel/compare/v1.2.10...v1.3.0) (2020-08-17)
+
+
+### Features
+
+* [wait][wv][wait_tsy][wf][ws]にglobal属性。不具合修正 ([b4746b1](https://github.com/famibee/SKYNovel/commit/b4746b1080de444b15dc87318dd7a899710a54b1))
+
 - feat: [wait][wv][wait_tsy][wf][ws]にグローバルイベント待ちを有効/無効にする global属性（デフォルト=false）追加。ただしcanskipと同時にtrueにするとエラー
 - feat: [trans][quake][wait]もFキースキップ・未読で停止するように
 - feat: [wait][wv][wait_tsy][wf][ws]も既読スキップ・即時終端状態になるように
