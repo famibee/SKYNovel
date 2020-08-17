@@ -812,6 +812,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
 </table>
 
 </p>
@@ -1152,6 +1153,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>動画ファイル名</td><td>再生終了を待つ動画</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
 </table>
 
 </p>
@@ -1431,6 +1433,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>処理を待つ時間</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は[waitclick]）でウエイトをキャンセルできるか</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
 </table>
 
 </p>
@@ -1611,6 +1614,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
 </table>
 
 </p>
@@ -1631,6 +1635,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
 </table>
 
 </p>

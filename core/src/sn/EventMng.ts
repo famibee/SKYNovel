@@ -34,7 +34,7 @@ export class EventMng implements IEvtMng {
 		swipedown	: null,
 	};
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
 		//	イベント
 		hTag.clear_event	= o=> this.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
@@ -42,12 +42,12 @@ export class EventMng implements IEvtMng {
 		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
 		hTag.l				= o=> this.l(o);			// 行末クリック待ち
 		hTag.p				= o=> this.p(o);			// 改ページクリック待ち
-		hTag.s = ()=> {this.stdWait(()=> {}, false); return true;};	// 停止する
-							// stdWait()したらreturn true;
+		hTag.s = ()=> {this.waitEventBase(()=> {}, false, true); return true;};
+														// 停止する
+							// waitEventBase()したらreturn true;
 		hTag.set_cancel_skip= ()=> this.set_cancel_skip();	// スキップ中断予約
 		hTag.wait			= o=> this.wait(o);				// ウェイトを入れる
-		hTag.waitclick		= ()=> {this.stdWait(()=> main.resume()); return true;};	// クリックを待つ
-			// stdWait()したらreturn true;
+		hTag.waitclick		= ()=> this.waitclick();	// クリックを待つ
 
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
@@ -71,7 +71,7 @@ export class EventMng implements IEvtMng {
 		// Add the recognizer to the manager.
 		this.hHamEv.tap2 = null;
 		for (const key in this.hHamEv) {
-			const fnc = this.hHamEv[key] = (e: any)=> {
+			const fnc = this.hHamEv[key] = e=> {
 				val.defTmp('sn.eventArg.type', e.type);
 				val.defTmp('sn.eventArg.pointers', e.pointers);
 				this.fire(e.type, e);
@@ -99,8 +99,8 @@ export class EventMng implements IEvtMng {
 
 		if ('WheelEvent' in window) {
 			this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e), {passive: true});
-			this.resvFlameEvent4Wheel = (win: Window)=> win.addEventListener('wheel', e=> this.ev_wheel(e), {passive: true});
-			this.waitCustomEvent4Wheel = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(this.appPixi.view, 'wheel', (e: any)=> {
+			this.resvFlameEvent4Wheel = win=> win.addEventListener('wheel', e=> this.ev_wheel(e), {passive: true});
+			this.procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(appPixi.view, 'wheel', e=> {
 				//if (! e.isTrusted) return;
 				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
 				if (e.deltaY <= 0) return;
@@ -218,8 +218,7 @@ export class EventMng implements IEvtMng {
 
 		const key = KEY.toLowerCase();
 		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
-		const ke = this.hLocalEvt2Fnc[key]
-				|| this.hGlobalEvt2Fnc[key];
+		const ke = this.getEvt2Fnc(key);
 		if (! ke) {
 			if (key.slice(0, 5) === 'swipe') {	// スマホ用疑似スワイプスクロール
 				const esw: any = e;
@@ -234,36 +233,51 @@ export class EventMng implements IEvtMng {
 
 		this.isWait = false;
 		ke(e);
+		//this.hLocalEvt2Fnc = {};	// Main.ts resumeByJumpOrCall()が担当
 	}
 	private isWait = false;
+	private getEvt2Fnc	: (key: string)=> IEvt2Fnc
+		= key=> this.hLocalEvt2Fnc[key]
+			?? this.hGlobalEvt2Fnc[key];
 
 	popLocalEvts(): IHEvt2Fnc {
-		if (this.isWait) return {};
-			// [tsy]などのonComplete()から呼ばれた際の対応
 		const ret = this.hLocalEvt2Fnc;
 		this.hLocalEvt2Fnc = {};
 		return ret;
 	}
 	pushLocalEvts(h: IHEvt2Fnc) {this.hLocalEvt2Fnc = h;}
 
-	// stdWait()したらreturn true;
-	stdWait(fnc: ()=> void, canskip = true) {
+	waitEvent(onFinish: ()=> void, canskip = true, global = false): boolean {
+		if (canskip && global) throw `canskipとglobalを同時にtrue指定できません`;
+
+		// 既読スキップ時
+		if (this.val.getVal('tmp:sn.skip.enabled')) {
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&& ! this.scrItr.isNextKidoku) this.fncCancelSkip();	// 未読で停止
+			else {onFinish(); return false;}	// 既読スキップ
+		}
+
+		this.waitEventBase(onFinish, canskip, global);
+		return true;
+	}
+	private waitEventBase(onFinish: ()=> void, canskip = true, global = true) {
 		this.goTxt();
+		this.val.saveKidoku();
+
 		if (canskip) {
 			//hTag.event({key:'click', breakout: fnc});
 			//hTag.event({key:'middleclick', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			const fncKey = ()=> fnc();
-			this.hLocalEvt2Fnc['click'] = fncKey;
+			this.hLocalEvt2Fnc['click'] = onFinish;
 			//this.hTag.event({key:'enter', breakout: fnc});
 			//hTag.event({key:'down', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			this.hLocalEvt2Fnc['enter'] = fncKey;
-			this.hLocalEvt2Fnc['arrowdown'] = fncKey;
+			this.hLocalEvt2Fnc['enter'] = onFinish;
+			this.hLocalEvt2Fnc['arrowdown'] = onFinish;
 
 			// hTag.event({key:'downwheel', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			this.hLocalEvt2Fnc['wheel.y>0'] = fncKey;
+			this.hLocalEvt2Fnc['wheel.y>0'] = onFinish;
 		}
 		else {
 			delete this.hLocalEvt2Fnc['click'];
@@ -271,11 +285,12 @@ export class EventMng implements IEvtMng {
 			delete this.hLocalEvt2Fnc['arrowdown'];
 			delete this.hLocalEvt2Fnc['wheel.y>0'];
 		}
+		this.getEvt2Fnc = global
+			? key=> this.hLocalEvt2Fnc[key]
+				?? this.hGlobalEvt2Fnc[key]
+			: key=> this.hLocalEvt2Fnc[key];
 
-		// evtfncWait();
-		this.val.saveKidoku(); // これはそのままか
-		this.fncCancelSkip();
-		this.isWait = true;
+		this.isWait = true;		// 予約イベントの発生待ち
 	}
 	private	procHook(type: string, _o: any): void {
 		switch (type) {
@@ -347,29 +362,34 @@ export class EventMng implements IEvtMng {
 	}
 
 
-	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void) {
+	// 予約イベントの発生待ちしない waitEvent()
+	waitLimitedEvent(hArg: HArg, onFinish: ()=> void): boolean {
 		this.goTxt();
-		if (! argChk_Boolean(hArg, 'canskip', true)) return;
+		this.val.saveKidoku();
+		const fnc = ()=> {this.elcWLE.clear(); onFinish();};
 
-		elc.add(window, 'pointerdown', (e: any)=> {
-			e.stopPropagation();
-			this.fncCancelSkip();
-			fnc();
-		});
-		elc.add(window, 'keydown', (e: any)=> {
+		// 既読スキップ時
+		if (this.val.getVal('tmp:sn.skip.enabled')) {
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&& ! this.scrItr.isNextKidoku) this.fncCancelSkip();	// 未読で停止
+			else {fnc(); return false;}	// 既読スキップ
+		}
+
+		if (! argChk_Boolean(hArg, 'canskip', true)) return true;
+
+		this.elcWLE.add(window, 'pointerdown', e=>{e.stopPropagation(); fnc()});
+		this.elcWLE.add(window, 'keydown', (e: any)=> {
 			//if (! e.isTrusted) return;
 			if (e['isComposing']) return; // サポートしてない環境でもいける書き方
-			/*	限定する？
-				this.hLocalEvt2Fnc['enter'] = fncKey;
-				this.hLocalEvt2Fnc['arrowdown'] = fncKey;
-			*/
 			e.stopPropagation();
-			this.fncCancelSkip();
 			fnc();
 		});
-		this.waitCustomEvent4Wheel(elc, fnc);
+		this.procWheel4wle(this.elcWLE, fnc);
+
+		return true;
 	}
-	private waitCustomEvent4Wheel = (_elc: EventListenerCtn, _fnc: ()=> void)=> {};
+	private procWheel4wle = (_elc: EventListenerCtn, _fnc: ()=> void)=> {};
+	private	elcWLE	= new EventListenerCtn;
 
 
 	// イベントを全消去
@@ -457,62 +477,53 @@ export class EventMng implements IEvtMng {
 
 	// 行末クリック待ち
 	private l(hArg: HArg) {
-		//traceDbg('[l]0 :'+ this.val.getVal('tmp:sn.skip.enabled'] +' :'+ (! this.val.getVal('tmp:sn.skip.all') +' isKidoku:'+ isKidoku);
 		if (! this.val.getVal('tmp:sn.tagL.enabled')) {this.goTxt(); return false;}
 
-		if (this.val.getVal('tmp:sn.skip.enabled') && ! this.val.getVal('tmp:sn.skip.all')
-		&& ! this.scrItr.isNextKidoku) {
-			//traceDbg('[l] skip stop');
-			this.fncCancelSkip();
-			this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);// 次の選択肢(/未読)まで進むが有効か
+		// 既読スキップ時
+		if (this.val.getVal('tmp:sn.skip.enabled')) {
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&& ! this.scrItr.isNextKidoku) this.fncCancelSkip();	// 未読で停止
+			else if ('ps'.includes(String(this.val.getVal('sys:sn.skip.mode')))) return false;	// 既読スキップ
 		}
 
-		if (this.val.getVal('tmp:sn.skip.enabled') && ('ps'.includes(String(this.val.getVal('sys:sn.skip.mode'))))) return false;
-		if (this.val.getVal('tmp:sn.auto.enabled')) {
-			//traceDbg('l:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
-			return this.wait({
-				time: Number(this.scrItr.isKidoku
-					? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
-					: this.val.getVal('sys:sn.auto.msecLineWait'))
-			});
-		}
+		// 自動読み進み
+		if (this.val.getVal('tmp:sn.auto.enabled')) return this.wait({
+			time: Number(this.scrItr.isKidoku
+				? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
+				: this.val.getVal('sys:sn.auto.msecLineWait'))
+		});
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine();
 
-		this.stdWait(()=> this.main.resume());	// stdWait()したらreturn true;
-		return true;
+		this.waitEventBase(()=> this.main.resume());
+		return true;	// waitEventBase()したらreturn true;
 	}
 
 
 	// 改ページクリック待ち
 	private p(hArg: HArg) {
-		//traceDbg('[p]0 sk_en:'+ hTmp['sn.skip.enabled'] +' all:'+ (! hTmp['sn.skip.all']) +' isKidoku:'+ isKidoku +' mode:'+hSysVal['sn.skip.mode'] +' au_en:'+ hTmp['sn.auto.enabled'] +' au:'+ hTmp['sn.auto.enabled']);
-		if (this.val.getVal('tmp:sn.skip.enabled') && ! this.val.getVal('tmp:sn.skip.all')
-		&& ! this.scrItr.isNextKidoku) {
-			//traceDbg('[p] skip stop');
-			this.fncCancelSkip();
-			this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);// 次の選択肢(/未読)まで進むが有効か
+		// 既読スキップ時
+		if (this.val.getVal('tmp:sn.skip.enabled')) {
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&& ! this.scrItr.isNextKidoku) this.fncCancelSkip();	// 未読で停止
+			else if ('s' === String(this.val.getVal('sys:sn.skip.mode'))) {this.goTxt(); return false;}	// 既読スキップ
 		}
 
-		if (this.val.getVal('tmp:sn.skip.enabled') && ('s' === String(this.val.getVal('sys:sn.skip.mode')))) {this.goTxt(); return false;}
-		if (this.val.getVal('tmp:sn.auto.enabled')) {
-			//traceDbg('p:'+ (isKidoku?'既':'未') +' fn:'+ scriptFn +' idx:'+ idxToken +' cs:'+ vctCallStk.length);
-			return this.wait({
-				time: Number(this.scrItr.isKidoku
-					? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
-					: this.val.getVal('sys:sn.auto.msecPageWait'))
-			});
-		}
+		// 自動読み進み
+		if (this.val.getVal('tmp:sn.auto.enabled')) return this.wait({
+			time: Number(this.scrItr.isKidoku
+				? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
+				: this.val.getVal('sys:sn.auto.msecPageWait'))
+		});
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage();
 
-		this.stdWait(
-			this.layMng.getCurrentTxtlayFore()
-				&& argChk_Boolean(hArg, 'er', false)
+		this.waitEventBase(
+			this.layMng.getCurrentTxtlayFore() && argChk_Boolean(hArg, 'er', false)
 				? ()=> {this.hTag.er(hArg); this.main.resume();}
-				: ()=> this.main.resume()
-		);	// stdWait()したらreturn true;
-		return true;
+				: ()=> this.main.resume(),
+		);
+		return true;	// waitEventBase()したらreturn true;
 	}
 
 
@@ -551,15 +562,37 @@ export class EventMng implements IEvtMng {
 
 	// ウェイトを入れる
 	private wait(hArg: HArg) {
-		this.val.saveKidoku();
+		// 既読スキップ時
+		if (this.val.getVal('tmp:sn.skip.enabled')) {
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&& ! this.scrItr.isNextKidoku) this.fncCancelSkip();	// 未読で停止
+			else return false;	// 既読スキップ
+		}
 
-		const twSleep = new Tween.Tween(this)
+		const tw = new Tween.Tween()
 		.to({}, uint(argChk_Num(hArg, 'time', NaN)))
-		.onComplete(()=> this.main.resume())
+		.onComplete(()=> {tw.stop(); this.main.resume()})
+			// TODO: global=trueのとき、resumeしてはいけない
 		.start();
 
-		this.stdWait(()=> twSleep.stop().end(), argChk_Boolean(hArg, 'canskip', true));	// stdWait()したらreturn true;
-		return true;
+		return this.waitEvent(
+			()=> tw.end(),
+			argChk_Boolean(hArg, 'canskip', true),
+			argChk_Boolean(hArg, 'global', false),
+		);
+	}
+
+	// クリックを待つ
+	private waitclick(): boolean {
+		// 既読スキップ時
+		if (this.val.getVal('tmp:sn.skip.enabled')) {
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&& ! this.scrItr.isNextKidoku) this.fncCancelSkip();	// 未読で停止
+			else return false;	// 既読スキップ
+		}
+
+		this.waitEventBase(()=> this.main.resume());
+		return true;	// waitEventBase()したらreturn true;
 	}
 
 	isSkipKeyDown(): boolean {

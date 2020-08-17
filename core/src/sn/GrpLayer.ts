@@ -266,11 +266,11 @@ export class GrpLayer extends Layer {
 		};
 		hve.addEventListener('ended', fnc, {once: true, passive: true});
 
-		GrpLayer.evtMng.stdWait(
+		return GrpLayer.evtMng.waitEvent(
 			()=> {hve.pause(); fnc();},
-			argChk_Boolean(hArg, 'canskip', true)
-		);	// stdWait()したらreturn true;
-		return true;
+			argChk_Boolean(hArg, 'canskip', true),
+			argChk_Boolean(hArg, 'global', false),
+		);
 	}
 
 	setPos(hArg: HArg): void {

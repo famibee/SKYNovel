@@ -457,7 +457,10 @@ export class Variable implements IVariable {
 		this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SE.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);
-		for (const fn in this.data.kidoku) this.data.kidoku[fn].hAreas = {};
+		for (const fn in this.data.kidoku) {
+			this.data.kidoku[fn].hAreas = {};
+			this.hAreaKidoku[fn].clear();
+		}
 
 
 		this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 0.5);

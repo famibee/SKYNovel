@@ -2,7 +2,7 @@
 export interface ITwInf {
     tw: TWEEN.Tween | null;
     resume: boolean;
-    onComplete?: () => void;
+    onEnd?: () => void;
 }
 export declare class CmnTween {
     private static readonly hEase;

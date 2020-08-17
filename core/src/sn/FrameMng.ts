@@ -358,24 +358,25 @@ export class FrameMng implements IGetFrm {
 		.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();})
 		.onComplete(()=> {
 			this.appPixi.stage.interactive = true;
-			const twInf = this.hTwInf[tw_nm];
-			if (! twInf) return;
+			// この辺は LayerMng.ts tsy()と同様なので、変更時は相互に合わせること
+			const ti = this.hTwInf[tw_nm];
+			if (! ti) return;
 
 			delete this.hTwInf[tw_nm];
-			this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
-			if (twInf.resume) this.main.resume();
-			if (twInf.onComplete) twInf.onComplete();
+			ti.tw?.stop();
+			if (ti.resume) this.main.resume();
+			ti.onEnd?.();
 		});
 
 		if ('chain' in hArg) {
 			const twFrom = this.hTwInf[hArg.chain ?? ''];
 			if (! twFrom || ! twFrom.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
-			twFrom.onComplete = ()=> {};
+			delete twFrom.onEnd;
 			twFrom.tw.chain(tw);
 		}
 		else tw.start();
 
-		this.hTwInf[tw_nm] = {tw: tw, resume: false, onComplete: ()=> {}}
+		this.hTwInf[tw_nm] = {tw: tw, resume: false};
 
 		return false;
 	}

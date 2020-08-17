@@ -1,3 +1,14 @@
+- feat: [wait][wv][wait_tsy][wf][ws]にグローバルイベント待ちを有効/無効にする global属性（デフォルト=false）追加。ただしcanskipと同時にtrueにするとエラー
+- feat: [trans][quake][wait]もFキースキップ・未読で停止するように
+- feat: [wait][wv][wait_tsy][wf][ws]も既読スキップ・即時終端状態になるように
+- feat: 文字レイヤの[dump_lay]でボタンについても情報を出力するように
+- fix: [pause_tsy]で止めて[resume_tsy]再開時に最初からアニメしてしまう件
+- fix: 既読スキップ中でも[waitclick]で止まる件
+- fix: ライブラリ更新（@tweenjs/tween.js@18.6.0）対応
+- fix: イベント関係内部修正
+- fix: 既読スキップ周り修正
+
+
 ## [1.2.10](https://github.com/famibee/SKYNovel/compare/v1.2.9...v1.2.10) (2020-08-05)
 
 

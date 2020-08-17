@@ -2,7 +2,6 @@ import { IEvtMng } from './CmnLib';
 import { HArg, IHTag, IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
 import { LayerMng } from './LayerMng';
 import { ScriptIterator } from './ScriptIterator';
-import { EventListenerCtn } from './EventListenerCtn';
 import { DisplayObject, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { Config } from './Config';
@@ -10,7 +9,7 @@ import { SysBase } from './SysBase';
 export declare class EventMng implements IEvtMng {
     private readonly cfg;
     private readonly hTag;
-    private readonly appPixi;
+    readonly appPixi: Application;
     private readonly main;
     private readonly layMng;
     private readonly val;
@@ -34,14 +33,17 @@ export declare class EventMng implements IEvtMng {
     private hGlobalEvt2Fnc;
     fire(KEY: string, e: Event): void;
     private isWait;
+    private getEvt2Fnc;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;
-    stdWait(fnc: () => void, canskip?: boolean): void;
+    waitEvent(onFinish: () => void, canskip?: boolean, global?: boolean): boolean;
+    private waitEventBase;
     private procHook;
     private isDbgBreak;
     button(hArg: HArg, em: DisplayObject): void;
-    waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: () => void): void;
-    private waitCustomEvent4Wheel;
+    waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;
+    private procWheel4wle;
+    private elcWLE;
     private clear_event;
     private clear_eventer;
     private event;
@@ -53,6 +55,7 @@ export declare class EventMng implements IEvtMng {
     private set_cancel_skip;
     private unregisterClickEvts;
     private wait;
+    private waitclick;
     isSkipKeyDown(): boolean;
     private readonly hDownKeys;
 }

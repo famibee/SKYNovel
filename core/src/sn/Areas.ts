@@ -8,7 +8,9 @@
 import {IAreas} from './CmnInterface';
 
 export class Areas implements IAreas {
-	hAreas	: {[name: string]: number}	= {};
+	hAreas	: {[name: number]: number}	= {};
+
+	clear() {this.hAreas = {};}
 
 	search(idx: number): boolean {
 		for (const begin in this.hAreas) {

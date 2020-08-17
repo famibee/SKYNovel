@@ -52,12 +52,11 @@ export declare class LayerMng implements IGetFrm {
     private spTransFore;
     private aBackTransAfter;
     private trans;
-    private twInfTrans;
+    private tiTrans;
     private getLayers;
     private foreachLayers;
     private sortLayers;
     private wt;
-    private elcTrans;
     private finish_trans;
     private quake;
     private hTwInf;

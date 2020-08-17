@@ -881,23 +881,21 @@ export class TxtLayer extends Layer {
 	snapshot_end() {this.txs.snapshot_end();}
 
 	dump(): string {
-		let aPixiObj: string[] = [];
-		const len = this.cnt.children.length;
-		for (let i=0; i<len; ++i) {
-			const e = this.cnt.children[i];
-			const cls = (e instanceof Sprite) ?"Sprite" :(
-				(e instanceof Graphics) ?"Graphics" :(
-					(e instanceof Container) ?"Container" :"?"
-				)
-			);
-			aPixiObj.push(`{"class":"${cls}", "name":"${e.name}", "alpha":${e.alpha || 1}, "x":${e.x}, "y":${e.y}, "visible":"${
-				e.visible}"}`);
-		}
 		return super.dump() +`, "enabled":"${this.enabled}", ${this.txs.dump()
 		}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color
 		}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed
 		}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height
-		}, "pixi_obj":[${aPixiObj.join(',')}]`;
+		}, "pixi_obj":[${
+			this.cnt.children.map(e=> `{"class":"${
+				(e instanceof Sprite) ?'Sprite' :(
+					(e instanceof Graphics) ?'Graphics' :(
+						(e instanceof Container) ?'Container' :'?'
+					)
+				)
+			}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')
+		}], "button":[${
+			this.cntBtn.children.map(d=> (d as Sprite).children[0].name).join(',')
+		}]`;
 	}
 
 }

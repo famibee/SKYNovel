@@ -9,9 +9,9 @@ const Tween = require('@tweenjs/tween.js').default;
 
 // =============== Tween
 export interface ITwInf {
-	tw			: TWEEN.Tween | null;
-	resume		: boolean;
-	onComplete?	: ()=> void;
+	tw		: TWEEN.Tween | null;
+	resume	: boolean;
+	onEnd?	: ()=> void;
 }
 
 export class CmnTween {

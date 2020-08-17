@@ -21,7 +21,6 @@ import {Button} from './Button';
 
 const Tween = require('@tweenjs/tween.js').default;
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
-import {EventListenerCtn} from './EventListenerCtn';
 
 export class LayerMng implements IGetFrm {
 	private	stage	: Container;
@@ -272,7 +271,7 @@ export class LayerMng implements IGetFrm {
 		});
 		const a = [];
 		const pg = (hArg.page !== 'back') ?'fore' :'back';
-		if (this.twInfTrans.tw) a.push(new Promise(re=> {	// [trans]中
+		if (this.tiTrans.tw) a.push(new Promise(re=> {	// [trans]中
 			this.back.visible = true;
 			for (const lay of this.aBackTransAfter) {
 				rnd.render(lay, undefined, false);
@@ -297,7 +296,7 @@ export class LayerMng implements IGetFrm {
 				this.cfg.searchPath(fn),
 				rnd.extract.base64(Sprite.from(renTx)),
 			);
-			if (! this.twInfTrans.tw) for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
+			if (! this.tiTrans.tw) for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
 			rnd.destroy(true);
 		});
 
@@ -572,10 +571,9 @@ void main(void) {
 		//this.sprRtAtTransBack.visible = true;	// trans中専用back(Render Texture)
 		//this.sprRtAtTransFore.visible = true;	// trans中専用fore(Render Texture)
 		this.spTransFore.alpha = 1;
-		const closeTrans = ()=> {
+		const comp = ()=> {
 			if (this.appPixi.ticker) this.appPixi.ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
-			this.elcTrans.clear();
 			[this.fore, this.back] = [this.back, this.fore];
 			for (const lay_name in this.hPages) {
 				const pg = this.hPages[lay_name];
@@ -592,22 +590,23 @@ void main(void) {
 			this.back.visible = false;
 			this.spTransBack.visible = false;
 			this.spTransFore.visible = false;
-			if (this.twInfTrans.resume) this.main.resume();
-			this.twInfTrans = {tw: null, resume: false};
+			this.tiTrans.tw?.stop();
+			if (this.tiTrans.resume) this.main.resume();
+			this.tiTrans = {tw: null, resume: false};
 		};
+		this.tiTrans = {tw: null, resume: false};
 		const time = argChk_Num(hArg, 'time', 0);
-		if (time === 0 || this.evtMng.isSkipKeyDown()) {closeTrans(); return false;}
+		if (time === 0 || this.evtMng.isSkipKeyDown()) {comp(); return false;}
 
 		// クロスフェード
-		this.twInfTrans = {tw: null, resume: false};
 		const is_glsl = 'glsl' in hArg;
 		if ((! is_glsl) && ! ('rule' in hArg)) {
 			this.spTransFore.filters = [];
-			this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
+			this.tiTrans.tw = new Tween.Tween(this.spTransFore)
 				.to({alpha: 0}, time)
 				.delay(argChk_Num(hArg, 'delay', 0))
 				.easing(ease)
-				.onComplete(closeTrans)
+				.onComplete(comp)
 				.start();
 			this.appPixi.ticker.add(fncRender);
 			return false;
@@ -619,14 +618,14 @@ void main(void) {
 			: this.fltRule;
 		flt.uniforms.vague = argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
-		this.twInfTrans.tw = new Tween.Tween(flt.uniforms)
+		this.tiTrans.tw = new Tween.Tween(flt.uniforms)
 			.to({tick: 1}, time)
 			.delay(argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
-			.onComplete(closeTrans);
+			.onComplete(comp);
 		this.spTransFore.filters = [flt];
 		if (is_glsl) {
-			this.twInfTrans.tw!.start();
+			this.tiTrans.tw!.start();
 			this.appPixi.ticker.add(fncRender);
 			return false;
 		}
@@ -635,12 +634,12 @@ void main(void) {
 		GrpLayer.csv2Sprites(hArg.rule, null, sp=> {
 			flt.uniforms.rule = sp.texture;
 			sp.destroy();
-			if (this.twInfTrans.tw) this.twInfTrans.tw.start();
+			this.tiTrans.tw?.start();
 			this.appPixi.ticker.add(fncRender);
 		});
 		return false;
 	}
-	private twInfTrans : ITwInf = {tw: null, resume: false};
+	private tiTrans : ITwInf = {tw: null, resume: false};
 
 	private getLayers(layer = ''): string[] {
 		return (layer)? layer.split(',') : this.aLayName;
@@ -671,21 +670,16 @@ void main(void) {
 		return a;
 	}
 
+	// トランス終了待ち
 	private wt(hArg: HArg) {
-		if (! this.twInfTrans.tw) return false;
+		if (! this.tiTrans.tw) return false;
 
-		this.twInfTrans.resume = true;
-		this.evtMng.waitCustomEvent(hArg, this.elcTrans, ()=> this.finish_trans());
-		return true;
+		this.tiTrans.resume = true;
+		return this.evtMng.waitLimitedEvent(hArg, ()=> this.finish_trans());
 	}
-	private	elcTrans	= new EventListenerCtn;
 
 	// レイヤのトランジションの停止
-	private finish_trans() {
-		if (this.twInfTrans.tw) this.twInfTrans.tw.stop().end();
-			// stop()とend()は別
-		return false;
-	}
+	private finish_trans() {this.tiTrans.tw?.end(); return false;}
 
 
 	// 画面を揺らす
@@ -699,7 +693,7 @@ void main(void) {
 			aDo.push(this.hPages[lay_nm].fore.cnt);
 		}
 		this.rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
-			// ========= スマホ回転対応が要るかも？
+			// NOTE: スマホ回転対応が要るかも？
 		const fncRender = ()=> {
 			this.fore.visible = true;
 			for (const lay of aDo) {
@@ -709,16 +703,6 @@ void main(void) {
 		};
 		this.spTransFore.visible = true;
 		this.spTransFore.alpha = 1;
-		const closeTrans = ()=> {
-			if (this.appPixi.ticker) this.appPixi.ticker.remove(fncRender);
-				// transなしでもadd()してなくても走るが、構わないっぽい。
-			this.fore.visible = true;
-			this.spTransFore.visible = false;
-			this.spTransFore.x = 0;	// 必須、onUpdateのせいかtoの値にしてくれない
-			this.spTransFore.y = 0;
-			if (this.twInfTrans.resume) this.main.resume();
-			this.twInfTrans = {tw: null, resume: false};
-		};
 
 		const ease = CmnTween.ease(hArg.ease);
 		const h = uint(argChk_Num(hArg, 'hmax', 10));
@@ -731,16 +715,26 @@ void main(void) {
 			: ()=> this.spTransFore.y = Math.round(Math.random()* v*2) -v;
 		this.spTransFore.filters = [];
 		const repeat = argChk_Num(hArg, 'repeat', 1);
-		this.twInfTrans = {tw: null, resume: false};
-		this.twInfTrans.tw = new Tween.Tween(this.spTransFore)
-			.to({x: 0, y: 0}, argChk_Num(hArg, 'time', NaN))
-			.delay(argChk_Num(hArg, 'delay', 0))
-			.easing(ease)
-			.onUpdate(()=> {fncH(); fncV();})
-			.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-			.yoyo(argChk_Boolean(hArg, 'yoyo', false))
-			.onComplete(closeTrans)
-			.start();
+		const tw = new Tween.Tween(this.spTransFore)
+		.to({x: 0, y: 0}, argChk_Num(hArg, 'time', NaN))
+		.delay(argChk_Num(hArg, 'delay', 0))
+		.easing(ease)
+		.onUpdate(()=> {fncH(); fncV();})
+		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
+		.onComplete(()=> {
+			this.appPixi.ticker?.remove(fncRender);
+				// transなしでもadd()してなくても走るが、構わないっぽい。
+			this.fore.visible = true;
+			this.spTransFore.visible = false;
+			this.spTransFore.x = 0;	// 必須、onUpdateのせいかtoの値にしてくれない
+			this.spTransFore.y = 0;
+			this.tiTrans.tw?.stop();
+			if (this.tiTrans.resume) this.main.resume();
+			this.tiTrans = {tw: null, resume: false};
+		})
+		.start();
+		this.tiTrans = {tw: tw, resume: false};
 		this.appPixi.ticker.add(fncRender);
 
 		return false;
@@ -765,26 +759,27 @@ void main(void) {
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onComplete(()=> {
-			const twInf = this.hTwInf[tw_nm];
-			if (! twInf) return;
+			// この辺は FrameMng.ts tsy_frame()と同様なので、変更時は相互に合わせること
+			const ti = this.hTwInf[tw_nm];
+			if (! ti) return;
 
 			delete this.hTwInf[tw_nm];
-			this.evtMng.popLocalEvts();	// [wait_tsy]したのにキャンセルされなかった場合向け
-			if (twInf.resume) this.main.resume();
-			if (twInf.onComplete) twInf.onComplete();
+			ti.tw?.stop();
+			if (ti.resume) this.main.resume();
+			ti.onEnd?.();
 		});
 
 		if ('chain' in hArg) {
 			const twFrom = this.hTwInf[hArg.chain ?? ''];
-			if (! twFrom || ! twFrom.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
-			twFrom.onComplete = ()=> {};
+			if (! twFrom?.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+			delete twFrom.onEnd;
 			twFrom.tw.chain(tw);
 		}
 		else tw.start();
 
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		this.hTwInf[tw_nm] = {tw: tw, resume: false, onComplete: ()=> {
+		this.hTwInf[tw_nm] = {tw: tw, resume: false, onEnd: ()=> {
 			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
 				const backCnt: any = this.hPages[layer].back.cnt;
@@ -799,25 +794,22 @@ void main(void) {
 	private wait_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const twInf = this.hTwInf[tw_nm];
-		if (! twInf || ! twInf.tw) return false;
+		const ti = this.hTwInf[tw_nm];
+		if (! ti?.tw) return false;
 
-		twInf.resume = true;
-		this.evtMng.stdWait(
-			()=> {if (twInf.tw) twInf.tw.stop().end()},	// stop()とend()は別
-			argChk_Boolean(hArg, 'canskip', true)
+		return ti.resume = this.evtMng.waitEvent(
+			()=> ti.tw?.end(),	// stop()とend()は別
+			argChk_Boolean(hArg, 'canskip', true),
+			argChk_Boolean(hArg, 'global', false),
 		);
-		return true;
 	}
 
 	// トゥイーン中断
 	private stop_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const twInf = this.hTwInf[tw_nm];
-		if (! twInf || ! twInf.tw) return false;
 
-		twInf.tw.stop().end();	// stop()とend()は別
+		this.hTwInf[tw_nm]?.tw?.end();	// stop()とend()は別
 
 		return false;
 	}
@@ -826,10 +818,8 @@ void main(void) {
 	private pause_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const twInf = this.hTwInf[tw_nm];
-		if (! twInf || ! twInf.tw) return false;
 
-		twInf.tw.stop();
+		this.hTwInf[tw_nm]?.tw?.pause();
 
 		return false;
 	}
@@ -838,10 +828,8 @@ void main(void) {
 	private resume_tsy(hArg: HArg) {
 		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const twInf = this.hTwInf[tw_nm];
-		if (! twInf || ! twInf.tw) return false;
 
-		twInf.tw.start();
+		this.hTwInf[tw_nm]?.tw?.resume();
 
 		return false;
 	}

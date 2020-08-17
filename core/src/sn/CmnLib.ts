@@ -69,14 +69,13 @@ export function cnvTweenArg(hArg: HArg, lay: any): {} {
 
 // =============== EventMng
 import {DisplayObject} from 'pixi.js';
-import {EventListenerCtn} from './EventListenerCtn';
 export interface IEvtMng {
 	button(hArg: HArg, em: DisplayObject): void;
 	isSkipKeyDown(): boolean;
-	stdWait(fnc: ()=> void, canskip?: boolean): void;
+	waitEvent(fnc: ()=> void, canskip?: boolean, global?: boolean): boolean;
 	popLocalEvts(): IHEvt2Fnc;
 	pushLocalEvts(a: IHEvt2Fnc): void;
-	waitCustomEvent(hArg: HArg, elc: EventListenerCtn, fnc: ()=> void): void;
+	waitLimitedEvent(hArg: HArg, fnc: ()=> void): boolean;
 
 	resvFlameEvent(win: Window): void;
 }

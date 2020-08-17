@@ -25,9 +25,8 @@ interface ISndBuf {
 	playing	: ()=> boolean;
 	onend	: ()=> void;
 
-	twFade?			: TWEEN.Tween;
-	resumeFade?		: boolean;
-	onCompleteFade?	: ()=> {};
+	twFade?		: TWEEN.Tween;
+	resumeFade?	: boolean;
 };
 
 export class SoundMng {
@@ -94,7 +93,7 @@ export class SoundMng {
 
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
-		if (! oSb || ! oSb.playing()) return false;
+		if (! oSb?.playing()) return false;
 
 		const bvn = 'const.sn.sound.'+ buf +'.volume';
 		const savevol = this.getVol(hArg, NaN);
@@ -121,27 +120,25 @@ export class SoundMng {
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume, vol);
 		oSb.twFade = new Tween.Tween({v: oSb.snd.volume})
-			.to({v: vol}, argChk_Num(hArg, 'time', NaN))
-			.delay(argChk_Num(hArg, 'delay', 0))
-			.easing(ease)
-			.repeat(repeat ===0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-			.yoyo(argChk_Boolean(hArg, 'yoyo', false))
-			.onUpdate((o: any)=> {if (oSb.playing()) oSb.snd.volume = o.v;})
-			.onComplete(()=> {	//console.log('fadese: onComplete');
-				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-				const oSb = this.hSndBuf[buf];
-				if (! oSb || ! oSb.twFade) return;
-				delete oSb.twFade;
-				if (stop) {
-					if (buf === 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
-				}
-				if (oSb.resumeFade) {
-					this.evtMng.popLocalEvts();	// [wf]したのにキャンセルされなかった時用
-					this.main.resume();
-				}
-				if (oSb.onCompleteFade) oSb.onCompleteFade();
-			});
-		oSb.twFade!.start();
+		.to({v: vol}, argChk_Num(hArg, 'time', NaN))
+		.delay(argChk_Num(hArg, 'delay', 0))
+		.easing(ease)
+		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
+		.onUpdate((o: any)=> {if (oSb.playing()) oSb.snd.volume = o.v;})
+		.onComplete(()=> {
+			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
+			const oSb2 = this.hSndBuf[buf];
+			if (! oSb2?.twFade) return;
+
+			oSb2.twFade.stop();
+			delete oSb2.twFade;
+			if (stop) {
+				if (buf === 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
+			}
+			if (oSb2.resumeFade) this.main.resume();
+		})
+		.start();
 
 		return false;
 	}
@@ -287,17 +284,14 @@ export class SoundMng {
 			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
 			onend	: ()=> {
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-				const oSb = this.hSndBuf[buf];
-				if (! oSb) return;
+				const oSb2 = this.hSndBuf[buf];
+				if (! oSb2) return;
 			//	if (CmnLib.isFirefox) oSb.playing = ()=> false;
 				//delete this.hSndBuf[buf];
 					// [xchgbuf]をされるかもしれないので、delete不可
 					// 【2018/06/25】cache=falseならここでunload()？
 				this.stopfadese(hArg);	// 止めた方が良いかなと
-				if (oSb.resume) {
-					this.evtMng.popLocalEvts();	// [ws]中にキャンセルされなかった時用
-					this.main.resume();
-				}
+				if (oSb2.resume) this.main.resume();
 			},
 		};
 		this.initVol();
@@ -367,24 +361,19 @@ export class SoundMng {
 	private wf(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
-		if (! oSb || ! oSb.twFade) return false;
-		if (! oSb.playing()) return false;
+		if (! oSb?.twFade || ! oSb.playing()) return false;
 
-		oSb.resumeFade = true;
-		this.evtMng.stdWait(
-			()=> {this.stopfadese(hArg)},
-			argChk_Boolean(hArg, 'canskip', true)
+		return oSb.resumeFade = this.evtMng.waitEvent(
+			()=> this.stopfadese(hArg),
+			argChk_Boolean(hArg, 'canskip', true),
+			argChk_Boolean(hArg, 'global', false),
 		);
-		return true;
 	}
 
 	// 音声フェードの停止
 	private stopfadese(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
-		const oSb = this.hSndBuf[buf];
-		if (! oSb || ! oSb.twFade) return false;
-
-		oSb.twFade.stop().end();	// stop()とend()は別
+		this.hSndBuf[buf]?.twFade?.end();	// stop()とend()は別
 
 		return false;
 	}
@@ -395,21 +384,19 @@ export class SoundMng {
 	private ws(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
-		if (! oSb || ! oSb.playing() || oSb.loop) return false;
+		if (! oSb?.playing() || oSb.loop) return false;
 
-		oSb.resume = true;
-		this.evtMng.stdWait(
+		return oSb.resume = this.evtMng.waitEvent(
 			()=> {
 				this.stopse(hArg);
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-				const oSb = this.hSndBuf[buf];
-				if (! oSb || ! oSb.playing() || oSb.loop) return;
-				oSb.onend();
+				const oSb2 = this.hSndBuf[buf];
+				if (! oSb2?.playing() || oSb2.loop) return;
+				oSb2.onend();
 			},
-			argChk_Boolean(hArg, 'canskip', false)
+			argChk_Boolean(hArg, 'canskip', false),
+			argChk_Boolean(hArg, 'global', false),
 		);
-
-		return true;
 	}
 
 	// 再生トラックの交換

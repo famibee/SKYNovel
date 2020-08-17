@@ -17,7 +17,8 @@ export class Button extends Container {
 	constructor(private readonly main: IMain, private readonly evtMng: IEvtMng, hArg: HArg) {
 		super();
 
-		const enabled = argChk_Boolean(hArg, 'enabled', true);
+		let oName: any = {};
+		const enabled = oName.enabled = argChk_Boolean(hArg, 'enabled', true);
 		if (enabled) this.evtMng.button(hArg, this);
 		// 文字列から生成
 		if ('text' in hArg) {
@@ -52,7 +53,22 @@ export class Button extends Container {
 			txt.x = uint(hArg.left || 0);
 			txt.y = uint(hArg.top || 0);
 
+			oName.type = 'text';	// dump用
+			oName = {...oName, ...style};
+			oName.alpha = txt.alpha;
+			oName.text = txt.text;
+			oName.rotation = txt.rotation;
+			oName.pivot_x = txt.pivot.x;
+			oName.pivot_y = txt.pivot.y;
+			oName.scale_x = txt.scale.x;
+			oName.scale_y = txt.scale.y;
+			oName.width = txt.width;
+			oName.height = txt.height;
+			oName.x = txt.x;
+			oName.y = txt.y;
+
 			if (hArg.b_pic) {
+				oName.b_pic = hArg.b_pic;
 				const cnt = new Container();
 				this.addChild(cnt);
 				this.isStop = GrpLayer.csv2Sprites(
@@ -74,6 +90,7 @@ export class Button extends Container {
 					}
 				);
 			}
+			txt.name = JSON.stringify(oName);
 
 			this.addChild(txt);
 			if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
@@ -100,6 +117,7 @@ export class Button extends Container {
 
 		if (! hArg.pic) throw 'textまたはpic属性は必須です';
 		// 画像から生成
+		oName.type = 'pic';	// dump用
 		this.isStop = GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
@@ -116,6 +134,18 @@ export class Button extends Container {
 				);
 				sp.x = uint(hArg.left || 0);
 				sp.y = uint(hArg.top || 0);
+
+				oName.alpha = sp.alpha;	// dump用
+				oName.rotation = sp.rotation;
+				oName.pivot_x = sp.pivot.x;
+				oName.pivot_y = sp.pivot.y;
+				oName.scale_x = sp.scale.x;
+				oName.scale_y = sp.scale.y;
+				oName.width = sp.width;
+				oName.height = sp.height;
+				oName.x = sp.x;
+				oName.y = sp.y;
+				sp.name = JSON.stringify(oName);
 
 				const w3 = sp.width /3;
 				const h = sp.height;
