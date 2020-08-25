@@ -8,7 +8,6 @@
 - fix: [button]ブラッシュアップ、scale_x・scale_y、画像ボタンでwidth・heightが効かない件など一通りチェック
 - fix: 右クリックメニューなどが効かない件
 - feat: プロジェクト設定のデバッグスイッチmasumeで、ボタンを紫四角で囲うように（文字ボタンは背景画像あっても文字部分のみ）
-- fix: ビルドでエラーが合った場合ファイルを出力しないように
 
 
 # [1.3.0](https://github.com/famibee/SKYNovel/compare/v1.2.10...v1.3.0) (2020-08-17)
