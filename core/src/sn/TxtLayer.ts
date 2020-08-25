@@ -239,8 +239,8 @@ export class TxtLayer extends Layer {
 
 		TxtLayer.rec = (tx: string)=> tx;
 	}
-	set name(nm: string) {if (this.txs) this.txs.name = nm;}
-	get name() {return this.txs ?this.txs.name :''}
+	set name(nm: string) {this.name_ = nm; this.txs.name = nm;}
+	get name() {return this.name_;}	// getは継承しないらしい
 
 
 	cvsResize() {this.txs.cvsResize();}
@@ -474,7 +474,7 @@ export class TxtLayer extends Layer {
 	tagCh(text: string): void {this.rbSpl.putTxt(text);}
 	private	needGoTxt = false;
 	private	putCh	: IPutCh = (ch, ruby)=> {
-		if (TxtLayer.cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name}\``);
+		if (TxtLayer.cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
@@ -814,7 +814,8 @@ export class TxtLayer extends Layer {
 	set enabled(e) {this.cnt.interactiveChildren = e}
 
 	addButton(hArg: HArg): boolean {
-		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name;
+		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
+		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
 		const btn = new Button(TxtLayer.main, TxtLayer.evtMng, hArg);
 		btn.name = JSON.stringify(hArg);
 		this.cntBtn.addChild(btn);

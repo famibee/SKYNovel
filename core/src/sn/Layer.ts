@@ -10,15 +10,17 @@ import {CmnLib, int, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './CmnInterface';
 
 export class Layer {
-	name	= '';
+	protected		name_	= '';
+	set name(nm) {this.name_ = nm;}
+	get name() {return this.name_;}
 	readonly	cnt		= new Sprite(Texture.EMPTY);
 
 	// tsy用
 	get	alpha() {return this.cnt.alpha}
 	set alpha(v) {this.cnt.alpha = v}
 	get	height() {return this.cnt.getBounds().height}
-	get	rotation() {return this.cnt.rotation}
-	set rotation(v) {this.cnt.rotation = v}
+	get	rotation() {return this.cnt.angle}
+	set rotation(v) {this.cnt.angle = v}
 	get	scale_x() {return this.cnt.scale.x}
 	set scale_x(v) {this.cnt.scale.x = v}
 	get	scale_y() {return this.cnt.scale.y}
@@ -42,7 +44,8 @@ export class Layer {
 		);
 
 		if ('rotation' in hArg) this.cnt.angle = argChk_Num(hArg, 'rotation', 0);
-			// rotation is in radians, angle is in degrees.
+			// flash : rotation is in degrees.
+			// pixijs: rotation is in radians, angle is in degrees.
 
 		if ('scale_x' in hArg || 'scale_y' in hArg) this.cnt.scale.set(
 			argChk_Num(hArg, 'scale_x', this.cnt.scale.x),
@@ -118,22 +121,22 @@ export class Layer {
 		this.cnt.blendMode = BLEND_MODES.NORMAL;
 		// visibleは触らない
 		this.cnt.pivot.set(0, 0);
-		this.cnt.rotation = 0;
+		this.cnt.angle = 0;
 		this.cnt.scale.set(1, 1);
 		if (argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = [];
 		//transform.colorTransform = nulColTrfm;
 	}
 	copy(fromLayer: Layer): void {
-		const org_name = this.name;
+		const org_name = this.name_;
 		this.playback(fromLayer.record());
 		this.name = org_name;
 	}
 	record() {return {
-		name	: this.name,
+		name	: this.name_,
 		idx		: this.cnt.parent.getChildIndex(this.cnt),
 		alpha	: this.cnt.alpha,
 		blendMode	: this.cnt.blendMode,
-		rotation	: this.cnt.rotation,
+		rotation	: this.cnt.angle,
 		scale_x	: this.cnt.scale.x,
 		scale_y	: this.cnt.scale.y,
 		pivot_x	: this.cnt.pivot.x,
@@ -149,7 +152,7 @@ export class Layer {
 		this.clearLay({filter: 'true'});
 		this.cnt.alpha = hLay.alpha;
 		this.cnt.blendMode = hLay.blendMode;
-		this.cnt.rotation = hLay.rotation;
+		this.cnt.angle = hLay.rotation;
 		this.cnt.scale.set(hLay.scale_x, hLay.scale_y);
 		this.cnt.pivot.set(hLay.pivot_x, hLay.pivot_y);
 		this.cnt.position.set(hLay.x, hLay.y);
@@ -169,8 +172,8 @@ export class Layer {
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${
 			this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y
-			}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.rotation
-			}, "name":"${this.name}", "scale_x":${this.cnt.scale.x
+			}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.angle
+			}, "name":"${this.name_}", "scale_x":${this.cnt.scale.x
 			}, "scale_y":${this.cnt.scale.y}`;
 	}
 

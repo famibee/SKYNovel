@@ -41,6 +41,9 @@ export interface HArg {
 	wait?	: number;
 	record?	: boolean;
 	pic?	: string;
+	enabled?: boolean;
+	hint?	: string;
+	hint_tate?	: boolean;	// tooltips用
 	clickse?	: string;
 	enterse?	: string;
 	leavese?	: string;
@@ -75,7 +78,6 @@ export interface HArg {
 	style?			: string;
 	style_hover?	: string;
 	style_clicked?	: string;
-	fill_hover?	: string;
 
 	b_width?	: string;
 	b_height?	: string;
@@ -95,8 +97,6 @@ export interface HArg {
 	dy?	: number;
 
 	key?	: string;
-	em?		: any;
-	type?	: string;
 
 	breakout?	: Function;
 	arg?	: HArg;

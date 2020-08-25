@@ -11,9 +11,10 @@ import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
+import {Button} from './Button';
 
 const Tween = require('@tweenjs/tween.js').default;
-import {DisplayObject, Application} from 'pixi.js';
+import {Container, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
@@ -21,6 +22,9 @@ import * as Hammer from 'hammerjs';
 
 export class EventMng implements IEvtMng {
 	private	readonly	elc		= new EventListenerCtn;
+	private	readonly	hint	: Button;
+	private	readonly	zxHint	: number;
+	private	readonly	zyHint	: number;
 
 	private ham		: any;
 	private	readonly hHamEv :{[name: string]: null | {(e: any): void}}	= {
@@ -55,6 +59,16 @@ export class EventMng implements IEvtMng {
 		layMng.setEvtMng(this);
 		sys.setFire((KEY, e)=> this.fire(KEY, e));
 		sys.addHook((type: string, o: object)=> this.procHook(type, o));
+
+		let fnHint = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyBAMAAABYG2ONAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGuGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjAtMDgtMTlUMDM6MDk6MjUrMDk6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmFjZTQwNzA5LThlNDEtNDViNi1hMzBmLTk0NTVhYzU5MDAyYSIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQwMzowOToyNSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3Mzg4MzYwLWJjMjctNDRkZi1hMTYwLTk5N2M4ODNmYTA0ZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMjo0NTozNiswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMzo1MjoyOSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPC9yZGY6U2VxPiA8L3htcE1NOkhpc3Rvcnk+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+WWAYXwAAACdQTFRF////PDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlCOA6SAAAAA10Uk5TACB/MID/EJBA8NCwYDCdv6cAAABoSURBVHgBYxicYBQIKZEIlJmMSQWGTKS7a8RpGdUyqmVUy6iWUS3y7zGBAlwai+wnrOZwTA2FgBnE220F0RFlQLwWtq1gLdtI8SI7SEc4acFyMjQ08gBpgWzlAEKkgayoBJJj7AAuCQAm1kUjHh83WgAAAABJRU5ErkJggg==';
+		try {fnHint = cfg.searchPath('hint', Config.EXT_SPRITE);} catch {}
+		this.hint = new Button(main, this, {enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 *0.7}px"}`, b_pic: fnHint, width: '80'});
+		this.hint.visible = false;
+		appPixi.stage.addChild(this.hint);
+		const rctHint = this.hint.getBounds();
+		this.zxHint = this.hint.x -rctHint.x;
+		this.zyHint = this.hint.y -rctHint.y;
+
 
 		this.ham = new Hammer(appPixi.view, {recognizers: [
 			//	[Hammer.Tap],
@@ -233,6 +247,7 @@ export class EventMng implements IEvtMng {
 
 		this.isWait = false;
 		ke(e);
+		this.hint.visible = false;
 		//this.hLocalEvt2Fnc = {};	// Main.ts resumeByJumpOrCall()が担当
 	}
 	private isWait = false;
@@ -301,18 +316,61 @@ export class EventMng implements IEvtMng {
 	}
 	private isDbgBreak = false;
 
-	button(hArg: HArg, em: DisplayObject) {
+	button(hArg: HArg, em: Container) {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
 
 		em.interactive = em.buttonMode = true;
-		const key = (hArg.key ?? ' ').toLowerCase();
+		const key = hArg.key?.toLowerCase() ?? ' ';
 		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
 		const glb = argChk_Boolean(hArg, 'global', false);
-		if (glb) this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-			else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
+		if (glb)
+			this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
+		else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		em.on('pointerdown', (e: any)=> this.fire(key, e));
 
-		// TODO: hint マウスカーソルを載せるとヒントをチップス表示する
+		// マウスカーソルを載せるとヒントをツールチップス表示する
+		if (hArg.hint) {
+			const h = this.hint;
+			em.on('pointerover', ()=> {
+				const tx = h.children[1] as any;
+				tx.text = hArg.hint;
+
+				const isBgTextBtn = em.name?.includes('"b_pic":');
+				const isPicBtn = em.name?.includes('"pic":');
+				const isLink = (hArg.タグ名 === 'link');
+				h.parent?.removeChild(h);
+				(isLink ?em.parent :em).addChild(h);
+					// 文字リンクのクリック用Spriteだと、
+					// scale.x = 文字サイズという謎動作なので
+				if (argChk_Boolean(hArg, 'hint_tate', false)) h.setTransform(
+					isPicBtn ?em.width /em.scale.x
+					: (isBgTextBtn ?(h.width -em.width)/2 -this.zxHint :0)
+						+(isLink ?em.x :0) +em.width,
+					isPicBtn ?em.height /2 /em.scale.y
+					: isBgTextBtn ?h.height /2
+					: ((isLink ?em.y :0) +em.height/2 +this.zyHint),
+					1, 1, 1.570796327/* 90 *(Math.PI /180) */, 0, 0,
+					h.width /2,		// 左上軸回転に注意
+					h.height -this.zxHint *2,
+				);
+				else h.setTransform(
+					isPicBtn ?(em.width -h.width +this.zxHint)/2
+					: isBgTextBtn ?0
+					: (isLink ?em.x :0) +(em.width -h.width) /2,
+					isPicBtn ?0
+					: isBgTextBtn ?(h.height -em.height) /2
+					: isLink ?em.y :0,
+					1, 1, 0, 0, 0,
+					-this.zxHint /2,
+					h.height -10,	// 10px離した方が上下連続時にマウスなぞり感覚がよい
+						//	h.pivot.set(h.width /2, h.height -10);
+						//	h.x = (this.zxHint -h.width) /2		// を簡略化
+				);
+//	console.log(`fn:EventMng.ts line:382 h.x:${h.x} h.y:${h.y} h.w:${h.width} h.h:${h.height} em.x:${em.x} em.y:${em.y} em.w:${em.width} em.h:${em.height}`);
+				h.visible = true;
+			});
+			em.on('pointerout', ()=> h.visible = false);
+		}
 
 		if (hArg.clickse) {
 			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);	// 存在チェック
@@ -343,19 +401,21 @@ export class EventMng implements IEvtMng {
 		}
 		if (hArg.onenter) {
 			// マウス重なり（フォーカス取得）時、ラベルコール。必ず[return]で戻ること
-			const key2 = key + hArg.onenter.toLowerCase();
-			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: key2};
-			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
-			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
-			em.on('pointerover', (e: any)=> this.fire(key2, e));
+			const k = key + hArg.onenter.toLowerCase();
+			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: k};
+			if (glb)
+				this.hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
+			else this.hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
+			em.on('pointerover', (e: any)=> this.fire(k, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
-			const key2 = key + hArg.onleave.toLowerCase();
-			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: key2};
-			if (glb) this.hGlobalEvt2Fnc[key2] = ()=>this.main.resumeByJumpOrCall(o);
-			else this.hLocalEvt2Fnc[key2] = ()=> this.main.resumeByJumpOrCall(o);
-			em.on('pointerout', (e: any)=> this.fire(key2, e));
+			const k = key + hArg.onleave.toLowerCase();
+			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: k};
+			if (glb)
+				this.hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
+			else this.hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
+			em.on('pointerout', (e: any)=> this.fire(k, e));
 		}
 
 		this.sndMng.loadAheadSnd(hArg);
@@ -571,8 +631,7 @@ export class EventMng implements IEvtMng {
 
 		const tw = new Tween.Tween()
 		.to({}, uint(argChk_Num(hArg, 'time', NaN)))
-		.onComplete(()=> {tw.stop(); this.main.resume()})
-			// TODO: global=trueのとき、resumeしてはいけない
+		.onComplete(()=> {tw.stop(); this.main.resume();})
 		.start();
 
 		return this.waitEvent(

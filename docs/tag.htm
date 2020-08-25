@@ -1027,6 +1027,15 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
+<tr><td>hint</td><td></td><td></td><td>String</td><td>
+	指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。<br/>
+	hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う
+</td></tr>
+<tr><td>hint_tate</td><td></td><td>文字レイヤの縦書き横書きに追従</td><td>Boolean</td><td>
+	ツールチップスをリンクに対してどの位置に表示するか。<br/>
+	false：リンクの上に表示（横書き文字レイヤの動作）<br/>
+	true：リンクの右に横倒しで表示（縦書き文字レイヤの動作）<br/>
+</td></tr>
 </table>
 
 </p>
@@ -1705,7 +1714,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>b_pic</td><td></td><td></td><td>画像ファイル名</td><td>文字ボタンの背景画像が指定できる。画像の大きさにかかわらず、文字ボタンのちょうど真ん中に来るよう配置される。</td></tr>
 <tr><td>width</td><td></td><td>※100</td><td>1〜</td><td>文字ボタンの横幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする。</td></tr>
 <tr><td>height</td><td></td><td>※30</td><td>1〜</td><td>文字ボタンの縦幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする。<br/>また、文字は必ず横一列になるため、この設定値はフォントサイズと兼用になる。</td></tr>
-<tr><td>style</td><td></td><td>※</td><td>CSS style（右項で列挙した一部）</td><td>文字ボタン上にマウスカーソルが乗っていない状態のCSS スタイル。<br/>※以下がデフォルト値であり、指定できるプロパティ。<br/>
+<tr><td>style</td><td></td><td>※</td><td><del>CSS style</del><br/><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列（右項で列挙した一部）</td><td>
+	文字ボタン上にマウスカーソルが乗っていない状態のCSS スタイル。<br/>
+	JSONは　style='{"fill": "deepskyblue"}'　のように指定する。<br/>
+	<br/>
+	※以下がデフォルト値であり、指定できる主なプロパティ。<br/>
 	fill: 'black';<br/>
 	align: 'center';<br/>
 	fontFamily: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif;<br/>
@@ -1714,12 +1727,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	dropShadow: true;<br/>
 	dropShadowAlpha: 0.7;<br/>
 	<s>dropShadowColor: white;</s><br/>
-	dropShadowColor: #ffffff';（※pixi.js v5.0.3 で色名前が使えない）<br/>
+	dropShadowColor: #ffffff';（<a href="https://github.com/pixijs/pixi.js/issues/6818" target="_blank" rel="noopener">※pixi.js v5.0.3 頃から色名前が使えない不具合）</a><br/>
 	dropShadowBlur: 3;<br/>
 	dropShadowDistance: 0;<br/>
 </td></tr>
-<tr><td>style_hover</td><td></td><td>styleの設定＋「fill: white;」を採用</td><td>...</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしていない）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
-<tr><td>style_clicked</td><td></td><td>style_hoverの設定＋「dropShadow: false;」を採用</td><td>...</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしている）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
+<tr><td>style_hover</td><td></td><td>styleの設定＋「fill: white;」を採用</td><td><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしていない）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
+<tr><td>style_clicked</td><td></td><td>style_hoverの設定＋「dropShadow: false;」を採用</td><td><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしている）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
 <tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 <tr><td>left<br/>top</td><td></td><td>※</td><td>※</td><td>※詳細は<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>を参照</td></tr>
 <tr><td>rotation</td><td></td><td>0</td><td>-180〜180</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
@@ -1739,11 +1752,19 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
+<tr><td>hint</td><td></td><td></td><td>String</td><td>
+	指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。<br/>
+	hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う
+</td></tr>
+<tr><td>hint_tate</td><td></td><td>文字レイヤの縦書き横書きに追従</td><td>Boolean</td><td>
+	ツールチップスをボタンに対してどの位置に表示するか。ボタンが回転している場合は回転に追従する。<br/>
+	false：ボタンの上に表示（横書き文字レイヤの動作）<br/>
+	true：ボタンの右に横倒しで表示（縦書き文字レイヤの動作）<br/>
+</td></tr>
 
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
-<tr><td>hint</td><td></td><td></td><td>String</td><td>設定した場合のみ、マウスカーソルを載せるとヒントをチップス表示する</td></tr>
-<tr><td>join</td><td></td><td>false</td><td>Boolean</td><td>trueで画像読み込みを待って次のタグへ進む。</td></tr>
 <tr><td>event_at_down</td><td></td><td>false</td><td>Boolean</td><td>true：押すだけでイベント発動（画面常駐のシステムボタンなどに）<br/>false：押して離すとイベント発動</td></tr>
 <tr><td>draggable</td><td></td><td>false</td><td>Boolean</td><td>true：テキスト背後の矩形をドラッグできる。<br/>event_at_down=trueだとクリックイベントが発生しなくなる。</td></tr>
 <tr><td>drag_x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>ドラッグ範囲の左上始点。</td></tr>
@@ -1753,7 +1774,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>dragmove_fn</td><td>...</td><td>...</td><td>...</td><td>ドラッグ中にサブルーチンコールする先。<br/>指定方法は[jump]と同様</td></tr>
 <tr><td>dragmove_label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)</td></tr>
 <tr><td>dragmove_arg</td><td></td><td></td><td>String</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
 </table>
 
 </p>

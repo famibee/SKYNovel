@@ -1,7 +1,9 @@
 import { DisplayObject, Container, Sprite, Renderer } from 'pixi.js';
 import { HArg } from './CmnInterface';
 export declare class Layer {
-    name: string;
+    protected name_: string;
+    set name(nm: string);
+    get name(): string;
     readonly cnt: Sprite;
     get alpha(): number;
     set alpha(v: number);

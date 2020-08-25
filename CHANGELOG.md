@@ -1,3 +1,16 @@
+- feat: [button][link]にマウスカーソルを載せるとツールチップス表示する hint属性追加
+- feat: hint(.pngなど)をプロジェクトに含めると、それをツールチップスとして使うように
+- feat: [button]にツールチップスをボタンに対してどの位置に表示するか指定するhint_tate属性追加
+- breaking change: [button]style属性をCSS形式ではなくJSONに。タグリファレンスにもPIXI TextStyleと明記
+- feat: 画像としてData URIをサポート、スクリプト埋め込み画像が可能に（ただし画像レイヤface属性には「,」区切りによる複数指定はできない）
+- fix: ループ動画は[wv]をスルーするように
+- fix: 「Flashではrotationは度だけど、pixijsではラジアンで度はangle」問題、rotationで度とするように統一
+- fix: [button]ブラッシュアップ、scale_x・scale_y、画像ボタンでwidth・heightが効かない件など一通りチェック
+- fix: 右クリックメニューなどが効かない件
+- feat: プロジェクト設定のデバッグスイッチmasumeで、ボタンを紫四角で囲うように（文字ボタンは背景画像あっても文字部分のみ）
+- fix: ビルドでエラーが合った場合ファイルを出力しないように
+
+
 # [1.3.0](https://github.com/famibee/SKYNovel/compare/v1.2.10...v1.3.0) (2020-08-17)
 
 

@@ -2,7 +2,7 @@ import { IEvtMng } from './CmnLib';
 import { HArg, IHTag, IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
 import { LayerMng } from './LayerMng';
 import { ScriptIterator } from './ScriptIterator';
-import { DisplayObject, Application } from 'pixi.js';
+import { Container, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
@@ -17,6 +17,9 @@ export declare class EventMng implements IEvtMng {
     private readonly scrItr;
     readonly sys: SysBase;
     private readonly elc;
+    private readonly hint;
+    private readonly zxHint;
+    private readonly zyHint;
     private ham;
     private readonly hHamEv;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator, sys: SysBase);
@@ -40,7 +43,7 @@ export declare class EventMng implements IEvtMng {
     private waitEventBase;
     private procHook;
     private isDbgBreak;
-    button(hArg: HArg, em: DisplayObject): void;
+    button(hArg: HArg, em: Container): void;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;
     private procWheel4wle;
     private elcWLE;

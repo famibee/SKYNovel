@@ -55,6 +55,7 @@ export class LayerMng implements IGetFrm {
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
 		GrpLayer.init(main, cfg, sys);
+		Button.init(cfg);
 
 		this.frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 		sys.hFactoryCls.grp = ()=> new GrpLayer;

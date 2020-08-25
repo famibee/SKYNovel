@@ -102,8 +102,22 @@ export class GrpLayer extends Layer {
 
 	private	static ldrHFn: {[name: string]: 1} = {};
 	static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
-		const aComp : {fn: string, fnc: IFncCompSpr}[] = [];
+		// Data URI
 		let needLoad = false;
+		if (csv.slice(0, 5) === 'data:') {
+			const fnc = ()=> {
+				const sp = Sprite.from(csv);
+				parent?.addChild(sp);
+				fncFirstComp(sp);
+				fncAllComp(needLoad);
+			};
+			if (csv in utils.TextureCache) fnc();
+			else {needLoad = true; new Loader().add(csv, csv).load(fnc);}
+
+			return needLoad;
+		}
+
+		const aComp: {fn: string, fnc: IFncCompSpr}[] = [];
 		const ldr = new Loader();
 		csv.split(',').forEach((fn, i)=> {
 			if (! fn) throw 'face属性に空要素が含まれます';
@@ -212,7 +226,7 @@ export class GrpLayer extends Layer {
 	}
 	private static mkSprite(fn: string, res: LoaderResource): Sprite {
 		//console.log(`fn:GrpLayer.ts line:153 fn:${fn} a:%O b:%O c:%O`, GrpLayer.hFn2ResAniSpr[fn], utils.TextureCache[fn], Loader.shared.resources[fn]);
-		if (fn in utils.TextureCache) return new Sprite(Texture.from(fn));
+		if (fn in utils.TextureCache) return Sprite.from(fn);
 		const ras = GrpLayer.hFn2ResAniSpr[fn];
 		if (ras) {
 			const asp = new AnimatedSprite(ras.aTex);
@@ -243,9 +257,8 @@ export class GrpLayer extends Layer {
 			case LoaderResource.TYPE.VIDEO:
 				const hve = r.data as HTMLVideoElement;
 				GrpLayer.fn2Video[fn] = hve;
-				// NOTE: hve.loop = true;	[wv]でもループ時はスルーするように
 				delete GrpLayer.ldrHFn[fn];	// 毎回来て欲しいのでキャッシュとしない
-				return new Sprite(Texture.from(r.data));
+				return Sprite.from(r.data);
 
 			default:	return new Sprite(r.texture);
 		}
@@ -257,8 +270,9 @@ export class GrpLayer extends Layer {
 		const fn = hArg.fn;
 		if (! fn) throw 'fnは必須です';
 		const hve = GrpLayer.fn2Video[fn];
-		if (! hve) return false;
+		if (! hve || hve.loop) return false;
 		if (hve.ended) {delete GrpLayer.fn2Video[fn]; return false;}
+
 		const fnc = ()=> {
 			hve.removeEventListener('ended', fnc);
 			delete GrpLayer.fn2Video[fn];

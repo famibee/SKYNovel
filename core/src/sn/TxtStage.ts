@@ -151,7 +151,7 @@ export class TxtStage extends Container {
 		const s = this.htmTxt.style;
 		s.left = (this.left *CmnLib.cvsScale) +'px';
 		s.top = (this.cnt.position.y *CmnLib.cvsScale) +'px';
-		s.transform = `rotate(${this.cnt.rotation}deg) scale(${this.cnt.scale.x *CmnLib.cvsScale}, ${this.cnt.scale.y *CmnLib.cvsScale}`;
+		s.transform = `rotate(${this.cnt.angle}deg) scale(${this.cnt.scale.x *CmnLib.cvsScale}, ${this.cnt.scale.y *CmnLib.cvsScale}`;
 	}
 	private left = 0;
 	private isTategaki = false;
@@ -686,10 +686,9 @@ export class TxtStage extends Container {
 
 				case 'link':
 					const sp = new Sprite;
-					sp.width = rct.width;
-					sp.height = rct.height;
 					arg.key = `lnk=[${i}] `+ this.name;
 					this.spWork(sp, arg, add, rct, ease, cis ?? {});
+					arg.hint_tate = arg.hint_tate ?? this.isTategaki;	// tooltips用
 					TxtStage.evtMng.button(arg, sp);
 					this.cntTxt.addChild(sp);
 					break;
@@ -753,7 +752,7 @@ export class TxtStage extends Container {
 		const st: ISpTw = {
 			sp: sp,
 			tw: new Tween.Tween(sp)
-				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, rotation: 0 }, cis.wait ?? 0)
+				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, angle: 0 }, cis.wait ?? 0)
 				.easing(ease)
 				.delay((add.wait ?? 0) +(arg.delay ?? 0))
 				.onComplete(()=> {

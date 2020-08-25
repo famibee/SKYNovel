@@ -30,6 +30,9 @@ export interface HArg {
     wait?: number;
     record?: boolean;
     pic?: string;
+    enabled?: boolean;
+    hint?: string;
+    hint_tate?: boolean;
     clickse?: string;
     enterse?: string;
     leavese?: string;
@@ -62,7 +65,6 @@ export interface HArg {
     style?: string;
     style_hover?: string;
     style_clicked?: string;
-    fill_hover?: string;
     b_width?: string;
     b_height?: string;
     b_color?: string;
@@ -78,8 +80,6 @@ export interface HArg {
     dx?: number;
     dy?: number;
     key?: string;
-    em?: any;
-    type?: string;
     breakout?: Function;
     arg?: HArg;
     fnc?: (e: Event) => void;
