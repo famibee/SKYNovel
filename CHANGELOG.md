@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/famibee/SKYNovel/compare/v1.3.0...v1.4.0) (2020-08-25)
+
+
+### Features
+
+* [button][link]にマウスカーソルを載せるとツールチップス表示するhint属性 ([e29bb18](https://github.com/famibee/SKYNovel/commit/e29bb187f85d96acc8da45d9788f37d8b60d51f0))
+
 - feat: [button][link]にマウスカーソルを載せるとツールチップス表示する hint属性追加
 - feat: hint(.pngなど)をプロジェクトに含めると、それをツールチップスとして使うように
 - feat: [button]にツールチップスをボタンに対してどの位置に表示するか指定するhint_tate属性追加
