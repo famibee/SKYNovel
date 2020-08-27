@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/famibee/SKYNovel/compare/v1.5.0...v1.5.1) (2020-08-27)
+
+
+### Bug Fixes
+
+* フォーカス移動時にツールチップスも表示するように ([a6164a0](https://github.com/famibee/SKYNovel/commit/a6164a01eab39ef0d39bd7a0b5c5573e0b83e90f))
+
 - fix: フォーカス移動時にツールチップスも表示するように
 
 
