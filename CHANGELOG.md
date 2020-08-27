@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/famibee/SKYNovel/compare/v1.5.1...v1.5.2) (2020-08-27)
+
+
+### Bug Fixes
+
+* クリック待ち用ダミー空白を削除、でデグレード ([8180e95](https://github.com/famibee/SKYNovel/commit/8180e950fd027eced2558280194f1a6c32ebc77f))
+
 - fix: クリック待ち用ダミー空白を削除、でデグレード
 
 
