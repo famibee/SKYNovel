@@ -712,8 +712,10 @@ export class TxtStage extends Container {
 		// クリック待ち用ダミー空白を削除
 		this.aRect.slice(0, -1);
 		--this.lenHtmTxt;
-		this.htmTxt.removeChild(this.htmTxt.getElementsByTagName('span')[0]);
-			// this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');	だと this.aRect の DOM(.elm)を破壊してしまうので
+		const clSpan = this.htmTxt.getElementsByTagName('span');
+		const lenClSpan = clSpan.length;
+		if (lenClSpan > 0) this.htmTxt.removeChild(clSpan[lenClSpan -1]);
+			// this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');// だと this.aRect の DOM(.elm)を破壊してしまうので
 
 		// 文字出現演出・開始〜終了
 		const chs = this.htmTxt.querySelectorAll('span.sn_ch');

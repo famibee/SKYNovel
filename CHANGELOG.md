@@ -1,3 +1,6 @@
+- fix: クリック待ち用ダミー空白を削除、でデグレード
+
+
 ## [1.5.1](https://github.com/famibee/SKYNovel/compare/v1.5.0...v1.5.1) (2020-08-27)
 
 
