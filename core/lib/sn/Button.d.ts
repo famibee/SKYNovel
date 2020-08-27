@@ -3,12 +3,13 @@ import { IEvtMng } from './CmnLib';
 import { HArg, IMain } from './CmnInterface';
 import { Config } from './Config';
 export declare class Button extends Container {
-    private readonly main;
-    private readonly evtMng;
+    readonly main: IMain;
+    readonly evtMng: IEvtMng;
+    readonly hArg: HArg;
+    readonly cfg: Config;
+    readonly canFocus: () => boolean;
     static fontFamily: string;
-    private static cfg;
-    static init(cfg: Config): void;
-    constructor(main: IMain, evtMng: IEvtMng, hArg: HArg);
+    constructor(main: IMain, evtMng: IEvtMng, hArg: HArg, cfg: Config, canFocus: () => boolean);
     isStop: boolean;
 }
 //# sourceMappingURL=Button.d.ts.map

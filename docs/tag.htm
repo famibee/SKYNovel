@@ -177,7 +177,7 @@
 		<li class="mb1"><a href="#rec_r">[rec_r] 履歴改行</a></li>
 		<li class="mb1"><a href="#reset_rec">[reset_rec] 履歴リセット</a></li>
 		<li class="mb1"><a href="#ruby2">[ruby2] 文字列と複数ルビの追加</a></li>
-		<li class="mb1"><a href="#set_focus"><span class="red">【未作成】</span>[set_focus] フォーカス移動</a></li>
+		<li class="mb1"><a href="#set_focus">[set_focus] フォーカス移動</a></li>
 		<li class="mb1"><a href="#span">[span] インラインスタイル設定</a></li>
 		<li class="mb1"><a href="#tcy">[tcy] 縦中横を表示する</a></li>
 	</ul>
@@ -1010,7 +1010,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ名</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>style</td><td>'background-color: rgba(255,0,0,0.5);'</td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
+<tr><td>style</td><td>'background-color: rgba(255,0,0,0.5);'</td><td>何もしない</td><td>CSS style</td><td>リンク上にマウスカーソルが乗っていない状態のCSS スタイル</td></tr>
+<tr><td>style_hover</td><td>'background-color: rgba(255,0,0,0.9);'</td><td>何もしない</td><td>CSS style</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしていない）のCSS スタイル</td></tr>
+<tr><td>style_clicked</td><td>styleの値</td><td>何もしない</td><td>CSS style</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしている）のCSS スタイル</td></tr>
 <tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
 <tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
@@ -1091,14 +1093,18 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
-<h2 id="set_focus" class="w-heading">[set_focus] 未作成：フォーカス移動</h2>
-<h4>[button]フォーカスを移動する。</h4>
+<h2 id="set_focus" class="w-heading">[set_focus] フォーカス移動</h2>
+<h4>[button][link]などのフォーカスを移動する。</h4>
 <p class="mb2 px1">
 
-	説明に「フォーカス順」とある場合は、[button]が文字レイヤに追加された順番。<br/>
-	先頭は最初に追加された[button]。
+	[button][link]が文字レイヤに追加された順番、あるいは逆順に「マウスオーバー」表示を移動し、選択する。Enter(Return)キーでボタンクリックと同じ動作をする。<br/>
+	キーボードやゲームパッド、スイッチコントロールなどの操作を補助する。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>to</td><td>y</td><td></td><td>（コメントで解説）</td><td>prev……フォーカス順で前の[button]に移動<br/>next……フォーカス順で次の[button]に移動<br/>null……どの[button]にもフォーカスがない状態にする<br/>数値……数値をフォーカス順の番号（0〜）として移動</td></tr>
+<tr class="y"><td>to</td><td>y</td><td></td><td>prev、next、null</td><td>
+	prev……追加順で前に移動<br/>
+	next……追加順で次に移動<br/>
+	null……どの[button][link]にもフォーカスがない状態にする
+</td></tr>
 </table>
 
 </p>
@@ -1319,9 +1325,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	修飾キー（shiftなど）は、その前に追加していく。（追加順は決まっており、以下を参照。ABC順）<br/>
 
 <table><tr><th>key属性の値</th><th>コメント</th></tr>
-<tr><td>Click</td><td>マウスボタンクリック（[button]以外のどこか）</td></tr>
-<tr><td>RightClick</td><td>マウス右ボタンクリック（[button]以外のどこか）</td></tr>
-<tr><td>MiddleClick</td><td>マウス中（ホイール）ボタンクリック（[button]以外のどこか）</td></tr>
+<tr><td>Click</td><td>マウスボタンクリック（[button][link]以外のどこか）</td></tr>
+<tr><td>RightClick</td><td>マウス右ボタンクリック（[button][link]以外のどこか）</td></tr>
+<tr><td>MiddleClick</td><td>マウス中（ホイール）ボタンクリック（[button][link]以外のどこか）</td></tr>
 <tr><td>UpWheel</td><td>マウスホイール回転（手前に）※回転開始時に一度のみ発生</td></tr>
 <tr><td>DownWheel</td><td>マウスホイール回転（奥に）※回転開始時に一度のみ発生</td></tr>
 <tr><td>Control</td><td>Mac/Winの Controlキー。単体押し検知用</td></tr>
@@ -1613,6 +1619,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
 </table>
 
 </p>
@@ -1632,7 +1639,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 	loop=true（[playbgm]のデフォルト値）なら待たない。<br/>
-	利用時は【音声再生[playbgm]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。
+	利用時は【音声再生[playbgm]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。<br/>
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+</table>
 
 </p>
 <h2 id="ws" class="w-heading">[ws]効果音再生の終了待ち</h2>

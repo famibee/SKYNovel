@@ -4,7 +4,8 @@ import { TxtLayer } from './TxtLayer';
 import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
-import { Application } from 'pixi.js';
+import { FocusMng } from './FocusMng';
+import { Container, Application } from 'pixi.js';
 export declare class LayerMng implements IGetFrm {
     private readonly cfg;
     private readonly hTag;
@@ -13,10 +14,12 @@ export declare class LayerMng implements IGetFrm {
     private readonly main;
     private readonly scrItr;
     private readonly sys;
-    private stage;
+    private readonly stage;
     private fore;
     private back;
-    private frmMng;
+    private readonly frmMng;
+    private readonly fcs;
+    getFocusMng(): FocusMng;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase);
     private fncTicker;
     getFrmDisabled(id: string): boolean;
@@ -36,6 +39,7 @@ export declare class LayerMng implements IGetFrm {
     private snapshot;
     private loadplugin;
     protected set_focus(hArg: HArg): boolean;
+    getFocus(): Container | null;
     private add_lay;
     private hPages;
     private aLayName;

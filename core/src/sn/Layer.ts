@@ -10,6 +10,7 @@ import {CmnLib, int, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './CmnInterface';
 
 export class Layer {
+	layname		= '';
 	protected		name_	= '';
 	set name(nm) {this.name_ = nm;}
 	get name() {return this.name_;}

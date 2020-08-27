@@ -7,7 +7,7 @@
 
 import {Container, Text, Rectangle, Texture, TextStyle} from 'pixi.js';
 import {Graphics} from 'pixi.js';
-import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {uint, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg, IMain} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
@@ -16,10 +16,7 @@ import {Config} from './Config';
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 
-	private	static	cfg		: Config;
-	static	init(cfg: Config): void {Button.cfg = cfg;}
-
-	constructor(private readonly main: IMain, private readonly evtMng: IEvtMng, hArg: HArg) {
+	constructor(readonly main: IMain, readonly evtMng: IEvtMng, readonly hArg: HArg, readonly cfg: Config, readonly canFocus: ()=> boolean) {
 		super();
 
 		let oName: any = {
@@ -34,7 +31,6 @@ export class Button extends Container {
 			scale_y: this.scale.y = argChk_Num(hArg, 'scale_y', this.scale.y),
 		};
 		const enabled = oName.enabled = argChk_Boolean(hArg, 'enabled', true);
-		if (enabled) this.evtMng.button(hArg, this);
 
 		// 文字列から生成
 		if ('text' in hArg) {
@@ -88,7 +84,7 @@ export class Button extends Container {
 					},
 					isStop=> {
 						Layer.setBlendmode(this, hArg);
-						if (isStop) this.main.resume();
+						if (isStop) main.resume();
 					}
 				);
 			}
@@ -96,7 +92,7 @@ export class Button extends Container {
 
 			this.addChild(txt);
 			if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
-			if (Button.cfg.oCfg.debug.masume) {
+			if (cfg.oCfg.debug.masume) {
 				const grpDbgMasume = new Graphics;
 				grpDbgMasume.clear();
 				grpDbgMasume.beginFill(0x883388, 0.2);
@@ -107,32 +103,29 @@ export class Button extends Container {
 			}
 			if (! enabled) return;
 
-			const normal = ()=> txt.style = {...txt.style, ...style};
-
-			const style_hover = {...style};
+			const style_hover = style.clone();
 			if (hArg.style_hover) try {
 				const o = JSON.parse(hArg.style_hover);
-				for (const nm in o) (style as any)[nm] = o[nm];
+				for (const nm in o) (style_hover as any)[nm] = o[nm];
 			} catch (e) {
 				throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
 			}
 			else style_hover.fill = 'white';
-			const hover = ()=> txt.style = {...txt.style, ...style_hover};
 
-			const style_clicked = {...style_hover};
+			const style_clicked = style_hover.clone();
 			if (hArg.style_clicked) try {
 				const o = JSON.parse(hArg.style_clicked);
-				for (const nm in o) (style as any)[nm] = o[nm];
+				for (const nm in o) (style_clicked as any)[nm] = o[nm];
 			} catch (e) {
 				throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
 			}
 			else style_clicked.dropShadow = false;
-			const clicked = ()=> txt.style = {...txt.style, ...style_clicked};
 
-			this.on('pointerover', hover);
-			this.on('pointerout', normal);
-			this.on('pointerdown', clicked);
-			this.on('pointerup', CmnLib.isMobile ?normal :hover);
+			evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
+				if (! canFocus()) return false;
+				txt.style = style_hover;
+				return true;
+			}, ()=> txt.style = style_clicked);
 			return;
 		}
 
@@ -152,13 +145,12 @@ export class Button extends Container {
 				const txClicked = new Texture(tx, new Rectangle(w3, 0, w3, h));
 				const txHover = new Texture(tx, new Rectangle(w3 *2, 0, w3, h));
 				const normal = ()=> sp.texture = txNormal;
-				const hover = ()=> sp.texture = txHover;
-				const clicked = ()=> sp.texture = txClicked;
-				this.on('pointerover', hover);
-				this.on('pointerout', normal);
-				this.on('pointerdown', clicked);
-				this.on('pointerup', CmnLib.isMobile ?normal :hover);
 				normal();
+				if (enabled) evtMng.button(hArg, this, normal, ()=> {
+					if (! canFocus()) return false;
+					sp.texture = txHover;
+					return true;
+				}, ()=> sp.texture = txClicked);
 
 				if ('width' in hArg) {
 					oName.width = uint(hArg.width);
@@ -172,7 +164,7 @@ export class Button extends Container {
 				else oName.height = w3;
 				sp.name = JSON.stringify(oName);	// dump用
 
-				if (Button.cfg.oCfg.debug.masume) {
+				if (cfg.oCfg.debug.masume) {
 					const grpDbgMasume = new Graphics;
 					grpDbgMasume.clear();
 					grpDbgMasume.beginFill(0x883388, 0.2);
@@ -182,7 +174,7 @@ export class Button extends Container {
 					this.addChild(grpDbgMasume);
 				}
 			},
-			isStop=> {if (isStop) this.main.resume()}
+			isStop=> {if (isStop) main.resume()}
 		);
 	}
 	isStop = false;

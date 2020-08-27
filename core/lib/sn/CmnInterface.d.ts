@@ -80,6 +80,7 @@ export interface HArg {
     dx?: number;
     dy?: number;
     key?: string;
+    type?: string;
     breakout?: Function;
     arg?: HArg;
     fnc?: (e: Event) => void;

@@ -8,7 +8,8 @@ export declare class TxtLayer extends Layer {
     private static cfg;
     private static val;
     private static recText;
-    static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void): void;
+    private static isPageFore;
+    static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void, isPageFore: (me: TxtLayer) => boolean): void;
     private static readonly css_key4del;
     static addStyle(style: string): void;
     private static ch_in_style;
@@ -74,6 +75,7 @@ export declare class TxtLayer extends Layer {
     get enabled(): boolean;
     set enabled(e: boolean);
     addButton(hArg: HArg): boolean;
+    canFocus(): boolean;
     clearLay(hArg: HArg): void;
     readonly record: () => {
         name: string;

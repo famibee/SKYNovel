@@ -1,3 +1,12 @@
+- feat: フォーカス移動[set_focus]タグ作成、[button][link]を順次移動するように
+- feat: [button][link]にフォーカス状態でEnterキーを押すとクリック扱いになるように
+- feat: ゲームパッドサポート、上下左右とEnter・右クリック（ボタン番号の偶数奇数）イベントを起こす
+- feat: [link]にstyle_hover、style_clicked属性追加
+- fix: [button]のstyle、style_hover、style_clicked属性の反映ミスを修正
+- fix: タグリファレンス：[wb][wl]にglobal属性追記
+- fix: 新しい演算子（&&=、||=、??=）を積極使用（TypeScript 4.0.2）
+
+
 # [1.4.0](https://github.com/famibee/SKYNovel/compare/v1.3.0...v1.4.0) (2020-08-25)
 
 

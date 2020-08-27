@@ -1,6 +1,7 @@
 import { DisplayObject, Container, Sprite, Renderer } from 'pixi.js';
 import { HArg } from './CmnInterface';
 export declare class Layer {
+    layname: string;
     protected name_: string;
     set name(nm: string);
     get name(): string;

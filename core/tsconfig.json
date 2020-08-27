@@ -25,7 +25,7 @@
 		// インデックスシグネチャが欠損したオブジェクトの noImplicitAny エラーを抑制しない
 		"suppressImplicitAnyIndexErrors": false,
 		"strictPropertyInitialization": false,	// クラス定義時、インスタンス変数の初期化が宣言時、もしくはコンストラクタのどちらでも行われていない場合にエラー
-		"incremental": true,		// 差分ビルド
+		"incremental": true			// 差分ビルド
 	},
 	"include": [
 		"src/**/*"

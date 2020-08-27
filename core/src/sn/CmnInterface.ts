@@ -97,6 +97,7 @@ export interface HArg {
 	dy?	: number;
 
 	key?	: string;
+	type?	: string;	// 3Dレイヤで使用
 
 	breakout?	: Function;
 	arg?	: HArg;

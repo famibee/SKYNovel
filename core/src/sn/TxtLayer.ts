@@ -21,11 +21,13 @@ export class TxtLayer extends Layer {
 	private	static	cfg		: Config;
 	private	static	val		: IVariable;
 	private	static	recText	: (txt: string, pagebreak?: boolean)=> void;
-	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void): void {
+	private	static	isPageFore	: (me: TxtLayer)=> boolean;
+	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void, isPageFore: (me: TxtLayer)=> boolean): void {
 		TxtLayer.cfg = cfg;
 		TxtStage.init(cfg);
 		TxtLayer.val = val;
 		TxtLayer.recText = recText;
+		TxtLayer.isPageFore = isPageFore;
 
 		val.setDoRecProc(TxtLayer.chgDoRec);
 
@@ -207,7 +209,7 @@ export class TxtLayer extends Layer {
 
 	// 文字表示
 	private cntInsidePadding= new Container;
-	private	txs				= new TxtStage(this.infTL, this.cntInsidePadding, this.cnt);
+	private	txs				= new TxtStage(this.infTL, this.cntInsidePadding, this.cnt, ()=> this.canFocus());
 
 	private	rbSpl			= new RubySpliter;
 
@@ -386,7 +388,7 @@ export class TxtLayer extends Layer {
 		}
 		if (! ('ffs' in hArg)) return;
 
-		this.ffs = hArg.ffs ?? '';
+		this.ffs ??= '';
 		if (this.ffs === '') {
 			this.fncFFSStyle = ()=> '';
 			this.fncFFSSpan = ch=> ch;
@@ -553,7 +555,7 @@ export class TxtLayer extends Layer {
 			case 'add':	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
 			{
 				const o = JSON.parse(a_ruby[1]);
-				o.style = o.style ?? '';
+				o.style ??= '';
 				this.beginSpan(o);
 				if (this.aSpan_bk) this.autoCloseSpan();
 				else {
@@ -583,7 +585,7 @@ export class TxtLayer extends Layer {
 				if (this.ch_in_join) this.cumDelay += (TxtLayer.doAutoWc) ?0 :LayerMng.msecChWait;
 
 				const o = JSON.parse(arg);
-				o.style = o.style ?? '';
+				o.style ??= '';
 				if (! ('id' in o)) o.id = this.aSpan.length;
 				if (o.id === 'break') {this.txs.dispBreak(o.pic); return;}
 					// breakではない
@@ -617,7 +619,7 @@ export class TxtLayer extends Layer {
 			{
 				// style, in_style
 				const o = JSON.parse(a_ruby[1]);
-			//	o.style = o.style ?? '';
+			//	o.style ??= '';
 				this.beginSpan(o);
 				if (! o.style) return;	// breakではない
 
@@ -641,7 +643,7 @@ export class TxtLayer extends Layer {
 			{
 				// b_color, b_alpha, fn, label
 				const o = JSON.parse(a_ruby[1]);
-				o.style = o.style ?? '';
+				o.style ??= '';
 				this.beginSpan(o);
 				if (isSkip) this.cumDelay = 0;
 				const wait = Number(o.wait ?? -1);
@@ -816,10 +818,14 @@ export class TxtLayer extends Layer {
 	addButton(hArg: HArg): boolean {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
 		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
-		const btn = new Button(TxtLayer.main, TxtLayer.evtMng, hArg);
-		btn.name = JSON.stringify(hArg);
+		const btn = new Button(TxtLayer.main, TxtLayer.evtMng, hArg, TxtLayer.cfg, ()=> this.canFocus());
+		btn.name = JSON.stringify(hArg);	// 4 Debug
 		this.cntBtn.addChild(btn);
 		return btn.isStop;
+	}
+	canFocus(): boolean {
+		return this.cnt.interactiveChildren && this.cnt.visible
+			&& TxtLayer.isPageFore(this);
 	}
 
 
@@ -868,7 +874,7 @@ export class TxtLayer extends Layer {
 
 		// addButton(hArg: HArg): boolean
 		const aBtn: string[] = hLay.btns;
-		aBtn.forEach(v=> ret = ret || this.addButton(JSON.parse(v)));
+		aBtn.forEach(v=> ret ||= this.addButton(JSON.parse(v)));
 
 		fncComp?.();
 

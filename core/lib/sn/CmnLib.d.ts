@@ -16,7 +16,7 @@ export declare const hMemberCnt: {
 export declare function cnvTweenArg(hArg: HArg, lay: any): {};
 import { DisplayObject } from 'pixi.js';
 export interface IEvtMng {
-    button(hArg: HArg, em: DisplayObject): void;
+    button(hArg: HArg, em: DisplayObject, normal: () => void, hover: () => boolean, clicked: () => void): void;
     isSkipKeyDown(): boolean;
     waitEvent(fnc: () => void, canskip?: boolean, global?: boolean): boolean;
     popLocalEvts(): IHEvt2Fnc;

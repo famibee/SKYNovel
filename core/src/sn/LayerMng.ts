@@ -18,16 +18,19 @@ import {ScriptIterator} from './ScriptIterator';
 import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
+import {FocusMng} from './FocusMng';
 
 const Tween = require('@tweenjs/tween.js').default;
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 
 export class LayerMng implements IGetFrm {
-	private	stage	: Container;
-	private fore	= new Container;
-	private back	= new Container;
+	private readonly	stage	: Container;
+	private				fore	= new Container;
+	private				back	= new Container;
 
-	private frmMng	: FrameMng;
+	private readonly	frmMng	: FrameMng;
+	private readonly	fcs		= new FocusMng();
+	getFocusMng() {return this.fcs;}
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		// レスポンシブや回転の対応
@@ -53,9 +56,8 @@ export class LayerMng implements IGetFrm {
 		}
 		CmnLib.cvsResize(cvs);
 
-		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt));
+		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt), (me: TxtLayer)=> this.hPages[me.layname].fore === me);
 		GrpLayer.init(main, cfg, sys);
-		Button.init(cfg);
 
 		this.frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 		sys.hFactoryCls.grp = ()=> new GrpLayer;
@@ -198,6 +200,7 @@ export class LayerMng implements IGetFrm {
 
 	before_destroy() {for (const pg in this.hPages) this.hPages[pg].destroy();}
 	destroy() {
+		this.fcs.destroy();
 		GrpLayer.destroy();
 		RubySpliter.destroy();
 		TxtStage.destroy();
@@ -327,57 +330,19 @@ export class LayerMng implements IGetFrm {
 		return join;
 	}
 
-	protected set_focus(hArg: HArg) {	// フォーカス移動
+	// フォーカス移動
+	protected set_focus(hArg: HArg) {
 		const to = hArg.to;
 		if (! to) throw '[set_focus] toは必須です';
-return false;	// TODO: 未作成：フォーカス移動
-/*
-		if (to === 'null') {
-//			stage.focus = stage;
-			return false;
+
+		switch (to) {
+			case 'null':	this.fcs.blur();	break;
+			case 'next':	this.fcs.next();	break;
+			case 'prev':	this.fcs.prev();	break;
 		}
-
-		const vct:Vector.<InteractiveObject>
-			= new Vector.<InteractiveObject>;
-		trans.foreachLayers(hArg, function (name:String, pg:Pages):void {
-			const tf:TxtLayer = pg.getPage(hArg) as TxtLayer;
-			if (! tf) return;
-			if (! tf._visible) return;
-			if (! tf.enabled) return;
-
-			const vct_tl:Vector.<InteractiveObject> = tf.getButton();
-			const len_tl:uint = vct_tl.length;
-			for (var j:uint=0; j<len_tl; ++j) vct.push(vct_tl[j]);
-		});
-
-		const len = vct.length;
-		if (len === 0) return false;
-
-		if (stage.focus === stage) {
-			stage.focus = vct[0];
-			return false;
-		}
-
-		if (to === 'next' || to === 'prev') {
-			for (var i:uint=0; i<len; ++i) {
-				if (stage.focus != vct[i]) continue;
-				stage.focus = vct[(i +(to === 'next' ?1 :len-1))% len];
-				break;
-			}
-
-			return false;
-		}
-
-		var numTo:Number = parseInt(to);
-		if (isNaN(numTo)) return false;
-		numTo = uint(numTo);
-		if (numTo < 0 || numTo >= len) return false;
-
-		stage.focus = vct[numTo];
-
 		return false;
-*/
 	}
+	getFocus(): Container | null {return this.fcs.getFocus();}
 
 
 //	//	レイヤ共通
@@ -976,7 +941,9 @@ void main(void) {
 
 	// ハイパーリンク
 	private link(hArg: HArg) {
-		if (! hArg.style) hArg.style = 'background-color: rgba(255,0,0,0.5);';
+		hArg.style ??= 'background-color: rgba(255,0,0,0.5);';
+		hArg.style_hover ??= 'background-color: rgba(255,0,0,0.9);';
+		hArg.style_clicked ??= hArg.style;
 		this.cmdTxt('link｜'+ JSON.stringify(hArg), this.getTxtLayer(hArg));
 		return false;
 	}
@@ -1065,9 +1032,9 @@ void main(void) {
 	// ボタンを表示
 	private button(hArg: HArg) {
 		Pages.argChk_page(hArg, 'back');	// チェックしたいというよりデフォルトをbackに
-		hArg.clicksebuf = hArg.clicksebuf ?? 'SYS';
-		hArg.entersebuf = hArg.entersebuf ?? 'SYS';
-		hArg.leavesebuf = hArg.leavesebuf ?? 'SYS';
+		hArg.clicksebuf ??= 'SYS';
+		hArg.entersebuf ??= 'SYS';
+		hArg.leavesebuf ??= 'SYS';
 		return this.getTxtLayer(hArg).addButton(hArg);
 	}
 

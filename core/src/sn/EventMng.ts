@@ -12,6 +12,7 @@ import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
 import {Button} from './Button';
+import {FocusMng} from './FocusMng';
 
 const Tween = require('@tweenjs/tween.js').default;
 import {Container, Application} from 'pixi.js';
@@ -19,12 +20,18 @@ import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 import * as Hammer from 'hammerjs';
+const {GamepadListener} = require('gamepad.js');
 
 export class EventMng implements IEvtMng {
 	private	readonly	elc		= new EventListenerCtn;
 	private	readonly	hint	: Button;
 	private	readonly	zxHint	: number;
 	private	readonly	zyHint	: number;
+	private	readonly	gamepad	= new GamepadListener({
+		analog: false,
+		deadZone: 0.3,
+	});
+	private readonly	fcs		: FocusMng;
 
 	private ham		: any;
 	private	readonly hHamEv :{[name: string]: null | {(e: any): void}}	= {
@@ -39,6 +46,8 @@ export class EventMng implements IEvtMng {
 	};
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
+		this.fcs = this.layMng.getFocusMng();
+
 		//	イベント
 		hTag.clear_event	= o=> this.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
@@ -62,7 +71,7 @@ export class EventMng implements IEvtMng {
 
 		let fnHint = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyBAMAAABYG2ONAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGuGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjAtMDgtMTlUMDM6MDk6MjUrMDk6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmFjZTQwNzA5LThlNDEtNDViNi1hMzBmLTk0NTVhYzU5MDAyYSIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQwMzowOToyNSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3Mzg4MzYwLWJjMjctNDRkZi1hMTYwLTk5N2M4ODNmYTA0ZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMjo0NTozNiswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMzo1MjoyOSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPC9yZGY6U2VxPiA8L3htcE1NOkhpc3Rvcnk+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+WWAYXwAAACdQTFRF////PDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlCOA6SAAAAA10Uk5TACB/MID/EJBA8NCwYDCdv6cAAABoSURBVHgBYxicYBQIKZEIlJmMSQWGTKS7a8RpGdUyqmVUy6iWUS3y7zGBAlwai+wnrOZwTA2FgBnE220F0RFlQLwWtq1gLdtI8SI7SEc4acFyMjQ08gBpgWzlAEKkgayoBJJj7AAuCQAm1kUjHh83WgAAAABJRU5ErkJggg==';
 		try {fnHint = cfg.searchPath('hint', Config.EXT_SPRITE);} catch {}
-		this.hint = new Button(main, this, {enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 *0.7}px"}`, b_pic: fnHint, width: '80'});
+		this.hint = new Button(main, this, {enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 *0.7}px"}`, b_pic: fnHint, width: '80'}, cfg, ()=> false);
 		this.hint.visible = false;
 		appPixi.stage.addChild(this.hint);
 		const rctHint = this.hint.getBounds();
@@ -124,26 +133,33 @@ export class EventMng implements IEvtMng {
 			});
 		}
 
-		// Gamepad APIの利用 - ウェブデベロッパーガイド | MDN https://developer.mozilla.org/ja/docs/Web/Guide/API/Gamepad
-		// Gamepad の接続
-		this.elc.add(window, 'gamepadconnected', (e: any)=> {
-			if (CmnLib.debugLog) console.log(
-				'👺 Gamepad connected at index %d: %s. %d buttons, %d axes.',
-				e['gamepad'].index, e['gamepad'].id,
-				e['gamepad'].buttons.length, e['gamepad'].axes.length);
-
-			const key = e.type;
-			this.fire(key, e);
+		// Gamepad
+		if (CmnLib.debugLog) {
+			this.gamepad.on('gamepad:connected', (e: any)=> console.log(`👺<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+			this.gamepad.on('gamepad:disconnected', (e: any)=> console.log(`👺<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+		}
+		const aStick: string[] = [
+			'',			'ArrowUp',	'',				// '7', '8', '9',
+			'ArrowLeft', '',		'ArrowRight',	// '4', '5', '6',
+			'',			'ArrowDown', '',			// '1', '2', '3',
+		];
+		const stick_xy = [0, 0];
+		this.gamepad.on('gamepad:axis', (e: any)=> {
+			if (! document.hasFocus() || e.detail.stick !== 0) return;
+			stick_xy[e.detail.axis] = e.detail.value;
+			const s = (stick_xy[1] +1)*3 + (stick_xy[0] +1);
+//console.log(`fn:EventMng.ts line:137 👺 'gamepad:axis' detail:%o`, e.detail);
+			const s2 = aStick[s];
+			if (! s2) return;
+//console.log(`fn:EventMng.ts line:151 stick:${s} aArrow:${s2}`);
+			this.fire(s2, new Event('gamepad:axis'));
 		});
-		// Gamepad の切断
-		this.elc.add(window, 'gamepaddisconnected', (e: any)=> {
-			if (CmnLib.debugLog) console.log(
-				'👺 Gamepad disconnected from index %d: %s', e['gamepad'].index,
-				e['gamepad'].id);
-
-			const key = e.type;
-			this.fire(key, e);
+		this.gamepad.on('gamepad:button', (e: any)=> {
+			if (! document.hasFocus() || e.detail.value === 0) return;
+//console.log(`fn:EventMng.ts line:155 👺 'gamepad:button' detail:%o`, e.detail);
+			this.fire((e.detail.button % 2 === 0) ?'Enter' :'RightClick', new Event('gamepad:button'));
 		});
+		this.gamepad.start();
 
 		this.elc.add(window, 'keyup', (e: any)=> {
 			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
@@ -231,6 +247,14 @@ export class EventMng implements IEvtMng {
 		if (! this.isWait) return;
 
 		const key = KEY.toLowerCase();
+		if (key === 'enter') {
+			const em = this.layMng.getFocus();
+			if (em) {
+				em.emit('pointerdown', new Event('pointerdown'));
+				return;
+			}
+		}
+
 		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
 		const ke = this.getEvt2Fnc(key);
 		if (! ke) {
@@ -316,9 +340,10 @@ export class EventMng implements IEvtMng {
 	}
 	private isDbgBreak = false;
 
-	button(hArg: HArg, em: Container) {
+	button(hArg: HArg, em: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
 
+		// クリックイベント
 		em.interactive = em.buttonMode = true;
 		const key = hArg.key?.toLowerCase() ?? ' ';
 		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
@@ -327,6 +352,18 @@ export class EventMng implements IEvtMng {
 			this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		em.on('pointerdown', (e: any)=> this.fire(key, e));
+
+		// マウスオーバーでの見た目変化
+		em.on('pointerover', hover);
+		em.on('pointerout', ()=> {if (this.fcs.isFocus(em)) hover(); else normal()});
+		em.on('pointerdown', clicked);
+		em.on('pointerup', CmnLib.isMobile
+			? normal
+			: ()=> {if (this.fcs.isFocus(em)) hover(); else normal()}
+		);
+
+		// フォーカス処理対象として登録
+		this.fcs.add(em, hover, normal);
 
 		// マウスカーソルを載せるとヒントをツールチップス表示する
 		if (hArg.hint) {
@@ -372,28 +409,26 @@ export class EventMng implements IEvtMng {
 			em.on('pointerout', ()=> h.visible = false);
 		}
 
-		if (hArg.clickse) {
-			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);	// 存在チェック
+		// 音関係
+		if (hArg.clickse) {	//	clickse	クリック時に効果音
+			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);// 存在チェック
 			em.on('pointerdown', ()=> {
-				//	clickse	効果音ファイル名	クリック時に効果音
 				const o: HArg = {fn: hArg.clickse, join: false};
 				if (hArg.clicksebuf) o.buf = hArg.clicksebuf;
 				this.hTag.playse(o);
 			});
 		}
-		if (hArg.enterse) {
-			this.cfg.searchPath(hArg.enterse, Config.EXT_SOUND);	// 存在チェック
+		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
+			this.cfg.searchPath(hArg.enterse, Config.EXT_SOUND);// 存在チェック
 			em.on('pointerover', ()=> {
-				//	enterse	効果音ファイル名	ボタン上にマウスカーソルが載った時に効果音
 				const o: HArg = {fn: hArg.enterse, join: false};
 				if (hArg.entersebuf) o.buf = hArg.entersebuf;
 				this.hTag.playse(o);
 			});
 		}
-		if (hArg.leavese) {
-			this.cfg.searchPath(hArg.leavese, Config.EXT_SOUND);	// 存在チェック
+		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
+			this.cfg.searchPath(hArg.leavese, Config.EXT_SOUND);// 存在チェック
 			em.on('pointerout', ()=> {
-				//	leavese	効果音ファイル名	ボタン上からマウスカーソルが外れた時に効果音
 				const o: HArg = {fn: hArg.leavese, join: false};
 				if (hArg.leavesebuf) o.buf = hArg.leavesebuf;
 				this.hTag.playse(o);
@@ -486,7 +521,7 @@ export class EventMng implements IEvtMng {
 			delete h[key];
 			return false;
 		}
-		hArg.fn = hArg.fn ?? this.scrItr.scriptFn;
+		hArg.fn ??= this.scrItr.scriptFn;
 
 		// domイベント
 		if (KeY.slice(0, 4) === 'dom=') {

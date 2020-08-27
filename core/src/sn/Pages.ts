@@ -20,6 +20,8 @@ export class Pages {
 		if (! fncF) throw `属性 class【${cls_}】が不正です`;
 
 		this.pg = {fore: fncF(), back: fncF()};
+		this.pg.fore.layname = layer;
+		this.pg.back.layname = layer;
 		this.pg.fore.name = `layer:${layer} cls:${cls_} page:A`;
 		this.pg.back.name = `layer:${layer} cls:${cls_} page:B`;
 		fore.addChild(this.fore.cnt);
@@ -28,7 +30,7 @@ export class Pages {
 		argChk_Boolean(hArgBack, 'visible', true);
 			// SKYNovelではデフォルトはtrueとする
 		ret.isWait = this.fore.lay(hArgFore);
-		ret.isWait = ret.isWait || this.back.lay(hArgBack);
+		ret.isWait ||= this.back.lay(hArgBack);
 
 		// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;

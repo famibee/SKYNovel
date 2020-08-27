@@ -13,6 +13,7 @@ import {Config} from './Config';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
+
 const Tween = require('@tweenjs/tween.js').default;
 
 export interface IInfTxLay {
@@ -78,7 +79,7 @@ export class TxtStage extends Container {
 	private grpDbgMasume= new Graphics;
 
 
-	constructor(private infTL: IInfTxLay, cntInsidePadding: Container, private cnt: Sprite) {
+	constructor(private infTL: IInfTxLay, readonly cntInsidePadding: Container, private readonly cnt: Sprite, private readonly canFocus: ()=> boolean) {
 		super();
 
 		this.htmTxt.classList.add('sn_tx');
@@ -688,8 +689,22 @@ export class TxtStage extends Container {
 					const sp = new Sprite;
 					arg.key = `lnk=[${i}] `+ this.name;
 					this.spWork(sp, arg, add, rct, ease, cis ?? {});
-					arg.hint_tate = arg.hint_tate ?? this.isTategaki;	// tooltips用
-					TxtStage.evtMng.button(arg, sp);
+					arg.hint_tate ??= this.isTategaki;	// tooltips用
+					const style_normal = v.elm.style.cssText;
+					const style_hover = arg.style_hover ?? '';
+					const style_clicked = arg.style_clicked ?? '';
+					const isLinkHead = this.beforeHTMLElm !== v.elm;
+					TxtStage.evtMng.button(arg, sp,
+						()=> v.elm.style.cssText = style_normal,
+						isLinkHead ?()=> {
+							if (! this.canFocus()) return false;
+							v.elm.style.cssText = style_hover;
+							return true;
+						}
+						: ()=> false,
+						()=> v.elm.style.cssText = style_clicked
+					);
+					this.beforeHTMLElm = v.elm;
 					this.cntTxt.addChild(sp);
 					break;
 			}
@@ -697,7 +712,8 @@ export class TxtStage extends Container {
 		// クリック待ち用ダミー空白を削除
 		this.aRect.slice(0, -1);
 		--this.lenHtmTxt;
-		this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');
+		this.htmTxt.removeChild(this.htmTxt.getElementsByTagName('span')[0]);
+			// this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');	だと this.aRect の DOM(.elm)を破壊してしまうので
 
 		// 文字出現演出・開始〜終了
 		const chs = this.htmTxt.querySelectorAll('span.sn_ch');
@@ -729,6 +745,7 @@ export class TxtStage extends Container {
 
 		le.addEventListener('animationend', this.fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
+	private	beforeHTMLElm	: HTMLElement | null	= null;
 	private rctm = new Rectangle;
 	private readonly regDs = /animation\-duration: (?<ms>\d+)ms;/;
 	private	fncEndChIn	= ()=> {};
@@ -964,7 +981,7 @@ export class TxtStage extends Container {
 	passBaton(): TxtStage {
 		this.clearText();
 
-		const to = new TxtStage(this.infTL, this.parent, this.cnt);
+		const to = new TxtStage(this.infTL, this.parent, this.cnt, ()=> this.canFocus());
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
 		to.left = this.left;
 		to.name = this.name;
