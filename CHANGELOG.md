@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/famibee/SKYNovel/compare/v1.4.0...v1.5.0) (2020-08-27)
+
+
+### Features
+
+* フォーカス移動[set_focus]タグ作成、[button][link]を順次移動 ([f3d35d7](https://github.com/famibee/SKYNovel/commit/f3d35d771f4c98dc14d797e7de039c56fd8c2418))
+
 - feat: フォーカス移動[set_focus]タグ作成、[button][link]を順次移動するように
 - feat: [button][link]にフォーカス状態でEnterキーを押すとクリック扱いになるように
 - feat: ゲームパッドサポート、上下左右とEnter・右クリック（ボタン番号の偶数奇数）イベントを起こす
