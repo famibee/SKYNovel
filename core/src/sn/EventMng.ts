@@ -353,61 +353,20 @@ export class EventMng implements IEvtMng {
 		else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		em.on('pointerdown', (e: any)=> this.fire(key, e));
 
+		// マウスカーソルを載せるとヒントをツールチップス表示する
+		const onHint = hArg.hint ?()=> this.dispHint(hArg, em) :()=> {};
 		// マウスオーバーでの見た目変化
-		em.on('pointerover', hover);
-		em.on('pointerout', ()=> {if (this.fcs.isFocus(em)) hover(); else normal()});
+		const nr = ()=> {normal(); this.hint.visible = false;};
+		const hv = ()=> {onHint(); return hover();};
+		em.on('pointerover', hv);
+		em.on('pointerout', ()=> {if (this.fcs.isFocus(em)) hv(); else nr()});
 		em.on('pointerdown', clicked);
 		em.on('pointerup', CmnLib.isMobile
-			? normal
-			: ()=> {if (this.fcs.isFocus(em)) hover(); else normal()}
+			? nr
+			: ()=> {if (this.fcs.isFocus(em)) hv(); else nr()}
 		);
-
 		// フォーカス処理対象として登録
-		this.fcs.add(em, hover, normal);
-
-		// マウスカーソルを載せるとヒントをツールチップス表示する
-		if (hArg.hint) {
-			const h = this.hint;
-			em.on('pointerover', ()=> {
-				const tx = h.children[1] as any;
-				tx.text = hArg.hint;
-
-				const isBgTextBtn = em.name?.includes('"b_pic":');
-				const isPicBtn = em.name?.includes('"pic":');
-				const isLink = (hArg.タグ名 === 'link');
-				h.parent?.removeChild(h);
-				(isLink ?em.parent :em).addChild(h);
-					// 文字リンクのクリック用Spriteだと、
-					// scale.x = 文字サイズという謎動作なので
-				if (argChk_Boolean(hArg, 'hint_tate', false)) h.setTransform(
-					isPicBtn ?em.width /em.scale.x
-					: (isBgTextBtn ?(h.width -em.width)/2 -this.zxHint :0)
-						+(isLink ?em.x :0) +em.width,
-					isPicBtn ?em.height /2 /em.scale.y
-					: isBgTextBtn ?h.height /2
-					: ((isLink ?em.y :0) +em.height/2 +this.zyHint),
-					1, 1, 1.570796327/* 90 *(Math.PI /180) */, 0, 0,
-					h.width /2,		// 左上軸回転に注意
-					h.height -this.zxHint *2,
-				);
-				else h.setTransform(
-					isPicBtn ?(em.width -h.width +this.zxHint)/2
-					: isBgTextBtn ?0
-					: (isLink ?em.x :0) +(em.width -h.width) /2,
-					isPicBtn ?0
-					: isBgTextBtn ?(h.height -em.height) /2
-					: isLink ?em.y :0,
-					1, 1, 0, 0, 0,
-					-this.zxHint /2,
-					h.height -10,	// 10px離した方が上下連続時にマウスなぞり感覚がよい
-						//	h.pivot.set(h.width /2, h.height -10);
-						//	h.x = (this.zxHint -h.width) /2		// を簡略化
-				);
-//	console.log(`fn:EventMng.ts line:382 h.x:${h.x} h.y:${h.y} h.w:${h.width} h.h:${h.height} em.x:${em.x} em.y:${em.y} em.w:${em.width} em.h:${em.height}`);
-				h.visible = true;
-			});
-			em.on('pointerout', ()=> h.visible = false);
-		}
+		this.fcs.add(em, hv, nr);
 
 		// 音関係
 		if (hArg.clickse) {	//	clickse	クリック時に効果音
@@ -454,6 +413,43 @@ export class EventMng implements IEvtMng {
 		}
 
 		this.sndMng.loadAheadSnd(hArg);
+	}
+	private dispHint(hArg: HArg, em: Container) {
+		const h = this.hint;
+		const tx = h.children[1] as any;
+		tx.text = hArg.hint;
+
+		const isBgTextBtn = em.name?.includes('"b_pic":');
+		const isPicBtn = em.name?.includes('"pic":');
+		const isLink = (hArg.タグ名 === 'link');
+		h.parent?.removeChild(h);
+		(isLink ?em.parent :em).addChild(h);
+			// 文字リンクのクリック用Spriteだと、
+			// scale.x = 文字サイズという謎動作なので
+		if (argChk_Boolean(hArg, 'hint_tate', false)) h.setTransform(
+			isPicBtn ? em.width / em.scale.x
+				: (isBgTextBtn ? (h.width - em.width) / 2 - this.zxHint : 0)
+				+ (isLink ? em.x : 0) + em.width,
+			isPicBtn ? em.height / 2 / em.scale.y
+				: isBgTextBtn ? h.height / 2
+					: ((isLink ? em.y : 0) + em.height / 2 + this.zyHint),
+			1, 1, 1.570796327 /* 90 *(Math.PI /180) */, 0, 0,
+			h.width / 2,
+			h.height - this.zxHint * 2
+		);
+		else h.setTransform(
+			isPicBtn ? (em.width - h.width + this.zxHint) / 2
+				: isBgTextBtn ? 0
+					: (isLink ? em.x : 0) + (em.width - h.width) / 2,
+			isPicBtn ? 0
+				: isBgTextBtn ? (h.height - em.height) / 2
+					: isLink ? em.y : 0,
+			1, 1, 0, 0, 0,
+			-this.zxHint / 2,
+			h.height - 10
+		);
+		//	console.log(`fn:EventMng.ts line:382 h.x:${h.x} h.y:${h.y} h.w:${h.width} h.h:${h.height} em.x:${em.x} em.y:${em.y} em.w:${em.width} em.h:${em.height}`);
+		h.visible = true;
 	}
 
 

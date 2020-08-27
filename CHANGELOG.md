@@ -1,3 +1,6 @@
+- fix: フォーカス移動時にツールチップスも表示するように
+
+
 # [1.5.0](https://github.com/famibee/SKYNovel/compare/v1.4.0...v1.5.0) (2020-08-27)
 
 

@@ -46,6 +46,7 @@ export declare class EventMng implements IEvtMng {
     private procHook;
     private isDbgBreak;
     button(hArg: HArg, em: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
+    private dispHint;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;
     private procWheel4wle;
     private elcWLE;
