@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/famibee/SKYNovel/compare/v1.5.2...v1.6.0) (2020-09-14)
+
+
+### Features
+
+* [event]指定されたフォーム上のHTML要素にもフォーカス移動するように ([c12d205](https://github.com/famibee/SKYNovel/commit/c12d205adc204bb4f7b4b735c5b0b34d5819b128))
+
 - feat: [event]指定されたフォーム上のHTML要素にもフォーカス移動するように
 - feat: 上記機能、「data-focus="false"」指定でフォーカス移動しないように
 - feat: テキストボックスなどでは上下キーでカーソルを左右移動
