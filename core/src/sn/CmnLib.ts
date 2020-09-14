@@ -130,7 +130,7 @@ import {basename, extname} from 'path';
 export	function getFn(path: string) {return basename(path, extname(path));}
 export 	function getExt(path: string) {return extname(path).slice(1);}
 
-import * as platform from 'platform';
+const platform = require('platform');
 
 export class CmnLib {
 	static	stageW		= 0;
@@ -141,7 +141,6 @@ export class CmnLib {
 	static	cvsHeight	= 0;
 	static	cvsScale	= 1;
 	static	debugLog	= false;
-	static	platform	= {...platform};
 	static	isSafari	= platform.name === 'Safari';
 	static	isFirefox	= platform.name === 'Firefox';
 	static	isMac		= new RegExp('OS X').test(platform.os?.family ?? '');

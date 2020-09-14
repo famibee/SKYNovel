@@ -53,6 +53,7 @@ export declare class EventMng implements IEvtMng {
     private clear_event;
     private clear_eventer;
     private event;
+    private canFocus;
     private getHtmlElmList;
     private goTxt;
     private l;
@@ -60,6 +61,7 @@ export declare class EventMng implements IEvtMng {
     private fncCancelSkip;
     private set_cancel_skip;
     private unregisterClickEvts;
+    protected set_focus(hArg: HArg): boolean;
     private wait;
     private waitclick;
     isSkipKeyDown(): boolean;

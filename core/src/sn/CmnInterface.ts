@@ -127,6 +127,8 @@ export interface HArg {
 	from?	: number;
 	to?		: number | string;
 	place?	: number;
+	add?	: string;
+	del?	: string;
 
 	buf?	: string;	// 音系
 	buf2?	: string;

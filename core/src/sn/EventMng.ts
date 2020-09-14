@@ -31,7 +31,7 @@ export class EventMng implements IEvtMng {
 		analog: false,
 		deadZone: 0.3,
 	});
-	private readonly	fcs		: FocusMng;
+	private readonly	fcs		= new FocusMng();
 
 	private ham		: any;
 	private	readonly hHamEv :{[name: string]: null | {(e: any): void}}	= {
@@ -46,8 +46,6 @@ export class EventMng implements IEvtMng {
 	};
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
-		this.fcs = this.layMng.getFocusMng();
-
 		//	イベント
 		hTag.clear_event	= o=> this.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
@@ -59,6 +57,7 @@ export class EventMng implements IEvtMng {
 														// 停止する
 							// waitEventBase()したらreturn true;
 		hTag.set_cancel_skip= ()=> this.set_cancel_skip();	// スキップ中断予約
+		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
 		hTag.wait			= o=> this.wait(o);				// ウェイトを入れる
 		hTag.waitclick		= ()=> this.waitclick();	// クリックを待つ
 
@@ -151,13 +150,22 @@ export class EventMng implements IEvtMng {
 //console.log(`fn:EventMng.ts line:137 👺 'gamepad:axis' detail:%o`, e.detail);
 			const s2 = aStick[s];
 			if (! s2) return;
-//console.log(`fn:EventMng.ts line:151 stick:${s} aArrow:${s2}`);
-			this.fire(s2, new Event('gamepad:axis'));
+			const cmp = this.fcs.getFocus();
+			((! cmp || cmp instanceof Container) ?globalThis :cmp)
+			.dispatchEvent(new KeyboardEvent('keydown', {key: s2, bubbles: true}));
+
+			if (! cmp || cmp instanceof Container) return;
+			if (cmp.getAttribute('type') === 'range') cmp.dispatchEvent(new InputEvent('input', {bubbles: true}));	// スライダー変更時、表示数字が変わらない対応
 		});
 		this.gamepad.on('gamepad:button', (e: any)=> {
 			if (! document.hasFocus() || e.detail.value === 0) return;
 //console.log(`fn:EventMng.ts line:155 👺 'gamepad:button' detail:%o`, e.detail);
-			this.fire((e.detail.button % 2 === 0) ?'Enter' :'RightClick', new Event('gamepad:button'));
+			if (e.detail.button % 2 === 0) {
+				const cmp = this.fcs.getFocus();
+				((! cmp || cmp instanceof Container) ?globalThis :cmp)
+				.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
+			}
+			else appPixi.view.dispatchEvent(new Event('contextmenu'));
 		});
 		this.gamepad.start();
 
@@ -166,12 +174,12 @@ export class EventMng implements IEvtMng {
 
 			if (e.key in this.hDownKeys) this.hDownKeys[e.key] = 0;
 		});
-		val.defTmp('const.sn.key.alternate', ()=> (this.hDownKeys['Alt'] > 0));
-		val.defTmp('const.sn.key.command', ()=> (this.hDownKeys['Meta'] > 0));
-		val.defTmp('const.sn.key.control', ()=> (this.hDownKeys['Control'] > 0));
-		val.defTmp('const.sn.key.end', ()=> (this.hDownKeys['End'] > 0));
-		val.defTmp('const.sn.key.escape', ()=> (this.hDownKeys['Escape'] > 0));
-		val.defTmp('const.sn.key.back', ()=> (this.hDownKeys['GoBack'] > 0));
+		val.defTmp('const.sn.key.alternate', ()=> this.hDownKeys['Alt'] > 0);
+		val.defTmp('const.sn.key.command', ()=> this.hDownKeys['Meta'] > 0);
+		val.defTmp('const.sn.key.control', ()=> this.hDownKeys['Control'] > 0);
+		val.defTmp('const.sn.key.end', ()=> this.hDownKeys['End'] > 0);
+		val.defTmp('const.sn.key.escape', ()=> this.hDownKeys['Escape'] > 0);
+		val.defTmp('const.sn.key.back', ()=> this.hDownKeys['GoBack'] > 0);
 	}
 	resvFlameEvent(win: Window) {
 		win.addEventListener('keydown', e=> this.ev_keydown(e));
@@ -231,6 +239,7 @@ export class EventMng implements IEvtMng {
 	}
 
 	destroy() {
+		this.fcs.destroy();
 		this.elc.clear();
 
 		for (const key in this.hHamEv) {
@@ -247,15 +256,15 @@ export class EventMng implements IEvtMng {
 		if (! this.isWait) return;
 
 		const key = KEY.toLowerCase();
+		if (CmnLib.debugLog) console.log(`👺 fire<(key:\`${key}\` type:${e.type} e:%o)`, {...e});
 		if (key === 'enter') {
-			const em = this.layMng.getFocus();
-			if (em) {
+			const em = this.fcs.getFocus();
+			if (em && em instanceof Container) {
 				em.emit('pointerdown', new Event('pointerdown'));
 				return;
 			}
 		}
 
-		//if (CmnLib.debugLog) console.log(`👺 <(key:\`${key}\` type:${e.type} e:%o)`, {...e});
 		const ke = this.getEvt2Fnc(key);
 		if (! ke) {
 			if (key.slice(0, 5) === 'swipe') {	// スマホ用疑似スワイプスクロール
@@ -417,6 +426,7 @@ export class EventMng implements IEvtMng {
 	private dispHint(hArg: HArg, em: Container) {
 		const h = this.hint;
 		const tx = h.children[1] as any;
+		if (! tx) return;
 		tx.text = hArg.hint;
 
 		const isBgTextBtn = em.name?.includes('"b_pic":');
@@ -524,17 +534,36 @@ export class EventMng implements IEvtMng {
 			const g = this.getHtmlElmList(KeY);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
-			const ie = g.el[0] as HTMLInputElement;
-			const type = ie?.type ?? '';
-			((type === 'range' || type === 'checkbox' || type === 'text'
-			|| type === 'textarea') ?['input', 'change'] :['click'])
-			.forEach(v=> g.el.forEach(elm=> this.elc.add(elm, v, e=> {
-				if (! this.isWait || this.layMng.getFrmDisabled(g.id)) return;
+			let aEv = ['click', 'keydown'];	// ラジオボタンも
+			const inp = g.el[0] as HTMLInputElement;
+			switch (inp.type ?? '') {
+		//	switch (g.el[0].getAttribute('type') ?? '') { textareaで''になる
+				case 'checkbox':	aEv = ['input'];	break;
+				case 'range':		aEv = ['input'];	break;
+				case 'text':
+				case 'textarea':	aEv = ['input', 'change'];	break;
+			}
+			aEv.forEach((v, i)=> g.el.forEach(elm=> {
+				this.elc.add(elm, v, e=> {
+					if (! this.isWait || this.layMng.getFrmDisabled(g.id)) return;
+					if (v === 'keydown' && e.key !== 'Enter') return;
 
-				const e2 = (elm as HTMLElement).dataset;
-				for (const k2 in e2) if (e2.hasOwnProperty(k2)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${k2}`, e2[k2]);
-				this.fire(KeY, e);
-			})));
+					const d = (elm as HTMLElement).dataset;
+					for (const n in d) if (d.hasOwnProperty(n)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${n}`, d[n]);
+					this.fire(KeY, e);
+				});
+
+				// フォーカス処理対象として登録
+				if (i === 0) this.fcs.add(
+					elm,
+					()=> {
+						if (! this.canFocus(elm)) return false;
+						elm.focus();
+						return true;
+					},
+					()=> {},
+				);
+			}));
 
 			// return;	// hGlobalEvt2Fnc(hLocalEvt2Fnc)登録もする
 		}
@@ -543,6 +572,25 @@ export class EventMng implements IEvtMng {
 		h[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 
 		return false;
+	}
+	private	canFocus(elm: HTMLElement): boolean {
+		if (elm.offsetParent === null) return false;
+
+		let el: HTMLElement | null = elm;
+		do {
+			const style = getComputedStyle(el);
+			if (style.display === 'none'
+			|| style.visibility !== 'visible'
+			|| (el as any)?.disabled
+		//	|| parseFloat(style.opacity ?? '') <= 0.0
+		//	|| parseInt(style.height ?? '', 10) <= 0
+		//	|| parseInt(style.width ?? '', 10) <= 0
+			) return false;
+			el = el.parentElement;
+		}
+		while (el !== null);
+
+		return true;
 	}
 	private	getHtmlElmList(KeY: string): {el: NodeListOf<HTMLElement>, id: string, sel: string} {
 		const idx = KeY.indexOf(':');
@@ -650,6 +698,45 @@ export class EventMng implements IEvtMng {
 		}
 	}
 
+
+	// フォーカス移動
+	protected set_focus(hArg: HArg) {
+		const add = hArg.add;
+		if (add?.slice(0, 4) === 'dom=') {
+			const g = this.getHtmlElmList(add);
+			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+
+			g.el.forEach(elm=> this.fcs.add(
+				elm,
+				()=> {
+					if (! this.canFocus(elm)) return false;
+					elm.focus();
+					return true;
+				},
+				()=> {},
+			));
+			return false;
+		}
+
+		const del = hArg.del;
+		if (del?.slice(0, 4) === 'dom=') {
+			const g = this.getHtmlElmList(del);
+			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+
+			g.el.forEach(elm=> this.fcs.remove(elm));
+			return false;
+		}
+
+		const to = hArg.to;
+		if (! to) throw '[set_focus] add か to は必須です';
+
+		switch (to) {
+			case 'null':	this.fcs.blur();	break;
+			case 'next':	this.fcs.next();	break;
+			case 'prev':	this.fcs.prev();	break;
+		}
+		return false;
+	}
 
 	// ウェイトを入れる
 	private wait(hArg: HArg) {

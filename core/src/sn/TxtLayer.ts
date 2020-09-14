@@ -810,7 +810,7 @@ export class TxtLayer extends Layer {
 		TxtLayer.recText('', true);
 	}
 	private	page_text	= '';
-	get pageText() {return this.page_text}
+	get pageText() {return this.page_text.replace('《　》', '')}
 
 	get enabled() {return this.cnt.interactiveChildren}
 	set enabled(e) {this.cnt.interactiveChildren = e}

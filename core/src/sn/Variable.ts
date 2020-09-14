@@ -11,6 +11,8 @@ import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
 
+const platform = require('platform');
+
 export class Variable implements IVariable {
 	private	hScope	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
 	private	hSave	: any	= this.hScope.save;
@@ -102,16 +104,8 @@ export class Variable implements IVariable {
 
 		this.hTmp['const.Date.getTime'] = ()=> (new Date).getTime();
 		this.hTmp['const.Date.getDateStr'] = ()=> getDateStr();
-		this.hTmp['const.Stage.mouseX'] = ()=> {
-//			return stage.mouseX;
-			return 0;
-		};
-		this.hTmp['const.Stage.mouseY'] = ()=> {
-//			return stage.mouseY;
-			return 0;
-		};
 
-		this.hTmp['const.sn.platform'] = JSON.stringify(CmnLib.platform);
+		this.hTmp['const.sn.platform'] = JSON.stringify(platform);
 
 		this.clearsysvar();
 		this.clearvar();

@@ -23,15 +23,42 @@ export class SysWeb extends SysBase {
 		this.path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
 
 		globalThis.onload = ()=> {
-			this.tgl_full_scr = ('requestFullscreen' in document.body)
-				? o=> this.regEvt_FullScr(o, 'requestFullscreen', 'exitFullscreen', 'fullscreenElement')
-				: o=> this.regEvt_FullScr(o, 'webkitRequestFullscreen', 'webkitCancelFullScreen', 'webkitFullscreenElement');
+			// 全画面状態切替
+			const tgl_full_scr = ('requestFullscreen' in document.body)
+			? ()=> {
+				((this.isFullScr = ! Boolean(document.fullscreenElement))
+				? document.body.requestFullscreen()
+				: document.exitFullscreen())
+				.then(()=> this.resizeFramesWork())
+			}
+			: ()=> {
+				const doc: any = document;
+				((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
+				? doc.body.webkitRequestFullscreen()
+				: doc.webkitCancelFullScreen())
+				.then(()=> this.resizeFramesWork())
+			};
+			this.tgl_full_scr = (hArg: HArg)=> {
+				if (! hArg.key) {tgl_full_scr(); return false;}
+
+				const key = hArg.key.toLowerCase();
+				document.addEventListener('keydown', (e: KeyboardEvent)=> {
+					const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+					+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+					+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
+					+	e.key.toLowerCase();
+					if (key2 !== key) return;
+
+					e.stopPropagation();
+					tgl_full_scr();
+				}, {passive: true});
+
+				return false;
+			};
 
 			document.querySelectorAll('[data-prj]').forEach(v=> {
-				v.addEventListener('click', ()=> {
-					const elm = v.attributes.getNamedItem('data-prj');
-					if (elm) this.runSN(elm.value);
-				}, {passive: true});
+				const elm = v.attributes.getNamedItem('data-prj');
+				if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
 			});
 			document.querySelectorAll('[data-reload]').forEach(v=> {
 				v.addEventListener('click', ()=> this.run(), {passive: true});
@@ -47,49 +74,25 @@ export class SysWeb extends SysBase {
 			this.run();
 		}
 	}
-	// 全画面状態切替（タグではない手段で提供）
-	private regEvt_FullScr(hArg: HArg, go_fnc_name: string, exit_fnc_name: string, get_fnc_name: string): boolean {
-		const elm: any = document.body;
-		const doc: any = document;
-		if (! hArg.key) {
-			if (doc[get_fnc_name]) doc[exit_fnc_name]();
-			else elm[go_fnc_name]();
-			this.resizeFramesWork();
-
-			return false;
-		}
-
-		const key = hArg.key.toLowerCase();
-		doc.addEventListener('keydown', (e: KeyboardEvent)=> {
-			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-			+	e.key.toLowerCase();
-			if (key2 !== key) return;
-
-			e.stopPropagation();
-			if (doc[get_fnc_name]) doc[exit_fnc_name]();
-			else elm[go_fnc_name]();
-			this.resizeFramesWork();
-		}, {passive: true});
-
-		return false;
-	}
 	private resizeFramesWork() {
-		const is_fs = this.isFullScr();
-		//this.reso4frame = is_fs ?screen.width /CmnLib.stageW :1;
+		const is_fs = this.isFullScr;	// この状態へ移行する
+		//this.reso4frame = this.$isFullScr ?1 :screen.width /CmnLib.stageW;
 			// 全画面を使う
 
 		const ratioWidth  = screen.width  / CmnLib.stageW;
 		const ratioHeight = screen.height / CmnLib.stageH;
 		const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
-		this.reso4frame = is_fs ?1 :ratio;
+		this.reso4frame = is_fs ?ratio :1;
 			// document.body.clientWidth が時々正しい値を返さないのでscreen.widthで
-		this.ofsLeft4frm = is_fs ?0 :(screen.width -CmnLib.stageW *this.reso4frame *CmnLib.cvsScale) /2;
-		this.ofsTop4frm  = is_fs ?0 :(screen.height -CmnLib.stageH *this.reso4frame *CmnLib.cvsScale) /2;
+		this.ofsLeft4frm = is_fs
+			? (screen.width -CmnLib.stageW *this.reso4frame *CmnLib.cvsScale) /2
+			: 0;
+		this.ofsTop4frm  = is_fs
+			? (screen.height-CmnLib.stageH *this.reso4frame *CmnLib.cvsScale) /2
+			: 0;
 		this.resizeFrames();
 	}
-	private readonly isFullScr = ()=> ((document as any)?.webkitFullscreenElement ?? document.fullscreenElement) !== null;
+	private isFullScr	= false;
 
 	private now_prj		= ':';
 	runSN(prj: string) {
@@ -138,7 +141,7 @@ export class SysWeb extends SysBase {
 		const hn = document.location.hostname;
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
 
-		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr());
+		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr);
 
 		const ns = this.cfg.getNs();
 		this.flush = this.crypto

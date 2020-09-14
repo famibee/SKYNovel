@@ -10,9 +10,8 @@ export declare class SysWeb extends SysBase {
         crypto: boolean;
         dip: string;
     });
-    private regEvt_FullScr;
     private resizeFramesWork;
-    private readonly isFullScr;
+    private isFullScr;
     private now_prj;
     runSN(prj: string): void;
     private readonly run;

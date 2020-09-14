@@ -1,3 +1,15 @@
+- feat: [event]指定されたフォーム上のHTML要素にもフォーカス移動するように
+- feat: 上記機能、「data-focus="false"」指定でフォーカス移動しないように
+- feat: テキストボックスなどでは上下キーでカーソルを左右移動
+- feat: [set_focus add='dom=archive:.card-image,.btn_delete']のような（querySelectorAll()引数なセレクタ指定）でカーソルキー操作でフォーカス移動対象に加えるように
+- feat: [set_focus del='dom=（略）']でフォーカス移動対象から外せるように
+- feat: [set_focus to=null]でwindowにフォーカスを与えるように
+- fix: ブラウザ版：全画面化したさい、const.sn.displayStateが成否逆
+- fix: const.sn.last_page_text の値で、内部的に冒頭に追加される「　《　》」を「　」に置換するように
+- fix: ロード時履歴情報が回復されない件
+- fix: 現状必要性がないので未作成 const.Stage.mouseX、const.Stage.mouseY を削除
+
+
 ## [1.5.2](https://github.com/famibee/SKYNovel/compare/v1.5.1...v1.5.2) (2020-08-27)
 
 

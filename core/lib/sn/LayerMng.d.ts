@@ -1,11 +1,10 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain, HPage, HArg, IGetFrm } from './CmnInterface';
+import { IHTag, IVariable, IMain, HPage, IGetFrm } from './CmnInterface';
 import { TxtLayer } from './TxtLayer';
 import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
-import { FocusMng } from './FocusMng';
-import { Container, Application } from 'pixi.js';
+import { Application } from 'pixi.js';
 export declare class LayerMng implements IGetFrm {
     private readonly cfg;
     private readonly hTag;
@@ -18,8 +17,6 @@ export declare class LayerMng implements IGetFrm {
     private fore;
     private back;
     private readonly frmMng;
-    private readonly fcs;
-    getFocusMng(): FocusMng;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase);
     private fncTicker;
     getFrmDisabled(id: string): boolean;
@@ -38,8 +35,6 @@ export declare class LayerMng implements IGetFrm {
     clickTxtLay(): void;
     private snapshot;
     private loadplugin;
-    protected set_focus(hArg: HArg): boolean;
-    getFocus(): Container | null;
     private add_lay;
     private hPages;
     private aLayName;

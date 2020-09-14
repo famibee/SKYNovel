@@ -1094,16 +1094,25 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 </p>
 <h2 id="set_focus" class="w-heading">[set_focus] フォーカス移動</h2>
-<h4>[button][link]などのフォーカスを移動する。</h4>
+<h4>[button][link]やフレーム内HTML要素などのフォーカスを移動する。</h4>
 <p class="mb2 px1">
 
 	[button][link]が文字レイヤに追加された順番、あるいは逆順に「マウスオーバー」表示を移動し、選択する。Enter(Return)キーでボタンクリックと同じ動作をする。<br/>
+	フレーム内HTML要素も[event key='dom=（略）']で自動的にフォーカス移動対象に加えられる。<br/>
 	キーボードやゲームパッド、スイッチコントロールなどの操作を補助する。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>to</td><td>y</td><td></td><td>prev、next、null</td><td>
+<tr class="y"><td>to</td><td rowspan="3">y（いずれかを指定）</td><td></td><td>prev、next、null</td><td>
 	prev……追加順で前に移動<br/>
 	next……追加順で次に移動<br/>
 	null……どの[button][link]にもフォーカスがない状態にする
+</td></tr>
+<tr class="y"><td>add</td><td></td><td>（querySelectorAll()引数なセレクタ指定）</td><td>
+	[event key='dom=（略）']指定していないフレーム内HTML要素にフォーカス移動対象に加えられる。<br/>
+	【例】[set_focus add='dom=archive:.card-image,.btn_delete']
+</td></tr>
+<tr class="y"><td>del</td><td></td><td>（querySelectorAll()引数なセレクタ指定）</td><td>
+	フォーカス移動対象から外す。<br/>
+	【例】[set_focus del='dom=archive:.card-image,.btn_delete']
 </td></tr>
 </table>
 
@@ -1332,7 +1341,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>DownWheel</td><td>マウスホイール回転（奥に）※回転開始時に一度のみ発生</td></tr>
 <tr><td>Control</td><td>Mac/Winの Controlキー。単体押し検知用</td></tr>
 <tr><td>Alt</td><td>Macの Optionキー。Winの ALT（Option）キー。単体押し検知用</td></tr>
-<tr><td>Meta</td><td>Mac/Winの Commandキー。単体押し検知用</td></tr>
+<tr><td>Meta</td><td>Macは ⌘ Command キー、 Windowsは Windows キー ⊞。単体押し検知用</td></tr>
 <tr><td>Shift</td><td>Mac/Winの Shiftキー。単体押し検知用</td></tr>
 <tr><td>Backspace</td><td></td></tr>
 <tr><td>Enter</td><td>Macの Enterキー、Winの returnキー</td></tr>

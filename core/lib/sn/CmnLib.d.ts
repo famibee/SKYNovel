@@ -1,4 +1,3 @@
-/// <reference types="platform" />
 import { HArg, IHEvt2Fnc } from './CmnInterface';
 export declare function int(o: any): number;
 export declare function uint(o: any): number;
@@ -37,24 +36,6 @@ export declare class CmnLib {
     static cvsHeight: number;
     static cvsScale: number;
     static debugLog: boolean;
-    static platform: {
-        description?: string | undefined;
-        layout?: string | undefined;
-        manufacturer?: string | undefined;
-        name?: string | undefined;
-        prerelease?: string | undefined;
-        product?: string | undefined;
-        ua?: string | undefined;
-        version?: string | undefined;
-        os?: {
-            architecture?: number | undefined;
-            family?: string | undefined;
-            version?: string | undefined;
-            toString(): string;
-        } | undefined;
-        parse(ua: string): Platform;
-        toString(): string;
-    };
     static isSafari: boolean;
     static isFirefox: boolean;
     static isMac: boolean;

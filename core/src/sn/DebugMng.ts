@@ -10,6 +10,8 @@ import {HArg, ITag, IHTag} from './CmnInterface';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 
+const platform = require('platform');
+
 export class DebugMng {
 	private	static	scrItr	: ScriptIterator;
 	private	static	hTag	: IHTag;
@@ -55,7 +57,7 @@ export class DebugMng {
 		let dat = '';
 		if (this.first) {
 			this.first = false;
-			dat = `== ${CmnLib.platform.description} ==\n`;
+			dat = `== ${platform.description} ==\n`;
 		}
 		this.sys.appendFile(
 			this.sys.path_downloads +'log.txt',

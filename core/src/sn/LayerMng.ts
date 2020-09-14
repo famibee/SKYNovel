@@ -18,7 +18,6 @@ import {ScriptIterator} from './ScriptIterator';
 import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
-import {FocusMng} from './FocusMng';
 
 const Tween = require('@tweenjs/tween.js').default;
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
@@ -29,8 +28,6 @@ export class LayerMng implements IGetFrm {
 	private				back	= new Container;
 
 	private readonly	frmMng	: FrameMng;
-	private readonly	fcs		= new FocusMng();
-	getFocusMng() {return this.fcs;}
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		// レスポンシブや回転の対応
@@ -65,7 +62,7 @@ export class LayerMng implements IGetFrm {
 
 		//	システム
 		hTag.loadplugin		= o=> this.loadplugin(o);	// プラグインの読み込み
-		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
+		//hTag.set_focus	// EventMng.tsで定義	 	// フォーカス移動
 		hTag.snapshot		= o=> this.snapshot(o);		// スナップショット
 
 		//	レイヤ共通
@@ -163,12 +160,11 @@ export class LayerMng implements IGetFrm {
 		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
 		val.defTmp('const.sn.log.json', ()=> JSON.stringify(
-			[...this.aPageLog, this.oLastPage]
+			(this.oLastPage.text)
+				? [...this.aPageLog, this.oLastPage]
+				: this.aPageLog
 		));
-		val.defTmp('const.sn.last_page_text', ()=> {
-			const tl = this.getCurrentTxtlayFore();
-			return tl ?tl.pageText :'';
-		});
+		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
 	}
 	private fncTicker = ()=> Tween.update();
 
@@ -200,7 +196,6 @@ export class LayerMng implements IGetFrm {
 
 	before_destroy() {for (const pg in this.hPages) this.hPages[pg].destroy();}
 	destroy() {
-		this.fcs.destroy();
 		GrpLayer.destroy();
 		RubySpliter.destroy();
 		TxtStage.destroy();
@@ -329,20 +324,6 @@ export class LayerMng implements IGetFrm {
 
 		return join;
 	}
-
-	// フォーカス移動
-	protected set_focus(hArg: HArg) {
-		const to = hArg.to;
-		if (! to) throw '[set_focus] toは必須です';
-
-		switch (to) {
-			case 'null':	this.fcs.blur();	break;
-			case 'next':	this.fcs.next();	break;
-			case 'prev':	this.fcs.prev();	break;
-		}
-		return false;
-	}
-	getFocus(): Container | null {return this.fcs.getFocus();}
 
 
 //	//	レイヤ共通
@@ -964,9 +945,11 @@ void main(void) {
 
 	// 履歴リセット
 	private reset_rec(hArg: HArg) {
-		this.val.setVal_Nochk('save', 'const.sn.sLog', hArg.text ?? '');
 		this.aPageLog = [];
 		this.oLastPage = {text: hArg.text ?? ''};
+		this.val.setVal_Nochk('save', 'const.sn.sLog', 
+			(hArg.text) ?`[{text:"${hArg.text}"}]` : '[]'
+		);
 
 		return false;
 	}
@@ -1020,10 +1003,9 @@ void main(void) {
 	// イベント有無の切替
 	private enable_event(hArg: HArg) {
 		const layer = this.argChk_layer(hArg, this.curTxtlay);
-		const enb
-			= this.getTxtLayer(hArg).enabled
-			= argChk_Boolean(hArg, 'enabled', true);
-		this.val.setVal_Nochk('save', 'const.sn.layer.'+ layer +'.enabled', enb);
+		const v = argChk_Boolean(hArg, 'enabled', true);
+		this.getTxtLayer(hArg).enabled = v;
+		this.val.setVal_Nochk('save', 'const.sn.layer.'+ layer +'.enabled', v);
 
 		return false;
 	}
@@ -1052,6 +1034,10 @@ void main(void) {
 		return o;
 	}
 	playback($hPages: HPage, fncComp: ()=> void): void {
+		// これを先に。save:const.sn.sLog がクリアされてしまう
+		this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
+		this.oLastPage = {text: ''};
+
 		const aPromise: any[] = [];
 		const aSort: {layer: string, idx: number}[] = [];
 		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
@@ -1081,9 +1067,6 @@ void main(void) {
 			fncComp();
 		})
 		.catch(e=> console.error(`fn:LayerMng.ts playback e:%o`, e));
-
-		this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
-		this.oLastPage = {text: ''};
 	}
 
 }

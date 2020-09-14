@@ -165,7 +165,7 @@ export class SysBase implements ISysBase {
 	ofsTop4frm	= 0;
 	protected	resizeFrames() {
 		const cr = this.appPixi.view.getBoundingClientRect();
-		Array.prototype.slice.call(document.getElementsByTagName('iframe'))
+		Array.from(document.getElementsByTagName('iframe'))
 		.forEach((it: HTMLIFrameElement)=> {
 			const frmnm = `const.sn.frm.${it.id}`;
 			it.style.left = this.ofsLeft4frm +cr.left
