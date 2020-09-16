@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/famibee/SKYNovel/compare/v1.6.0...v1.6.1) (2020-09-16)
+
+
+### Bug Fixes
+
+* 「data-focus="false"」指定を変更すればフォーカスさせるように ([dcaf419](https://github.com/famibee/SKYNovel/commit/dcaf419d86d4fab4b7eb65a4f49ac8be8d9a94c9))
+
 - fix: 「data-focus="false"」指定を変更すればフォーカスさせるように
 - fix: タグリファレンスに「data-focus="false"」指定について追記
 - fix: [save]で const.sn.save.place が増えない不具合。タグリファレンス追記
