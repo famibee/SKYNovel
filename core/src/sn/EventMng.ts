@@ -580,7 +580,8 @@ export class EventMng implements IEvtMng {
 		do {
 			const style = getComputedStyle(el);
 			if (style.display === 'none'
-			|| style.visibility !== 'visible'
+			|| el.dataset.focus === 'false'
+		//	|| style.visibility !== 'visible'
 			|| (el as any)?.disabled
 		//	|| parseFloat(style.opacity ?? '') <= 0.0
 		//	|| parseInt(style.height ?? '', 10) <= 0

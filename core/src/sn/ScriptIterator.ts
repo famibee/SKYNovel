@@ -1064,8 +1064,8 @@ export class ScriptIterator {
 //	// しおり
 	// しおりの読込
 	private load(hArg: HArg) {
-		const place = hArg.place;
-		if (! place) throw 'placeは必須です';
+		if (! ('place' in hArg)) throw 'placeは必須です';
+		const place = Number(hArg.place);
 		if (('fn' in hArg) !== ('label' in hArg)) throw 'fnとlabelはセットで指定して下さい';
 
 		const mark = this.val.getMark(place);
@@ -1159,8 +1159,8 @@ export class ScriptIterator {
 
 	// しおりの保存
 	private save(hArg: HArg) {
-		const place = hArg.place;
-		if (! place) throw 'placeは必須です';
+		if (! ('place' in hArg)) throw 'placeは必須です';
+		const place = Number(hArg.place);
 
 		delete hArg.タグ名;
 		delete hArg.place;

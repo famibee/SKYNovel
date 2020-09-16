@@ -29,7 +29,6 @@ export class FocusMng {
 			this.aBtn.push({btn: cmp, on: on, off: off});
 			return;
 		}
-		if (cmp.dataset.focus === 'false') return;
 
 		let fnc = (_: KeyboardEvent)=> {};
 		let fnc4EnterSwitch: (e: KeyboardEvent)=> boolean

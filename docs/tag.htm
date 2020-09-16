@@ -1100,6 +1100,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	[button][link]が文字レイヤに追加された順番、あるいは逆順に「マウスオーバー」表示を移動し、選択する。Enter(Return)キーでボタンクリックと同じ動作をする。<br/>
 	フレーム内HTML要素も[event key='dom=（略）']で自動的にフォーカス移動対象に加えられる。<br/>
 	キーボードやゲームパッド、スイッチコントロールなどの操作を補助する。<br/>
+
+	<br/>
+	「data-focus="false"」指定したHTML要素は、一時的にフォーカスさせなく出来る。"true"指定か属性削除で再度有効化。<br/>
+
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>to</td><td rowspan="3">y（いずれかを指定）</td><td></td><td>prev、next、null</td><td>
 	prev……追加順で前に移動<br/>
@@ -1985,6 +1989,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	しおりデータを保存する。<br/>
 	読み込み時に再開するスクリプトの位置は最後に<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>をコールした位置。<br/>
+	指定した place が sys:const.sn.save.place と同じ場合、const.sn.save.place を +1 する<br/>。
 	<br/>
 	<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>がゲーム状態（レイヤ状態など）をバッファに退避し、<br/>
 	<a href="tag.htm#save" target="_blank" rel="noopener">[save]</a>は指定しおりに書き出す機能。<br/>
