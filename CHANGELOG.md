@@ -1,3 +1,6 @@
+- fix: [event key='dom=（略）' need_err=false] で要素が無い場合にエラーになる件
+
+
 ## [1.6.3](https://github.com/famibee/SKYNovel/compare/v1.6.2...v1.6.3) (2020-09-17)
 
 

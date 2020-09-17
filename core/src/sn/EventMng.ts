@@ -532,7 +532,10 @@ export class EventMng implements IEvtMng {
 		// domイベント
 		if (KeY.slice(0, 4) === 'dom=') {
 			const g = this.getHtmlElmList(KeY);
-			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+			if (g.el.length === 0) {
+				if (argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+				return false;
+			}
 
 			let aEv = ['click', 'keydown'];	// ラジオボタンも
 			const inp = g.el[0] as HTMLInputElement;
