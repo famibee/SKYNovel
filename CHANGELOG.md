@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/famibee/SKYNovel/compare/v1.6.2...v1.6.3) (2020-09-17)
+
+
+### Bug Fixes
+
+* あげミス・手直し2 ([c3b412c](https://github.com/famibee/SKYNovel/commit/c3b412c46b76e5c91d33caf2365d02e197a4094d))
+
 - fix: あげミス・手直し2
 - fix: .gitignore 記述修正
 
