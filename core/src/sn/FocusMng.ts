@@ -29,8 +29,9 @@ export class FocusMng {
 			cmp.on('pointerdown', ()=> {
 				for (let i=this.aBtn.length -1; i>=0; --i) {
 					const b = this.aBtn[i];
-					if (b.btn === cmp) {this.idx = i; break;}
+					if (b.btn === cmp) {this.idx = i; return;}
 				}
+				this.idx = -1;
 			});
 
 			this.aBtn.push({btn: cmp, on: on, off: off});
@@ -40,8 +41,9 @@ export class FocusMng {
 		cmp.addEventListener('focus', ()=> {
 			for (let i=this.aBtn.length -1; i>=0; --i) {
 				const b = this.aBtn[i];
-				if (b.btn === cmp) {this.idx = i; break;}
+				if (b.btn === cmp) {this.idx = i; return;}
 			}
+			this.idx = -1;
 		});
 
 		let fnc = (_: KeyboardEvent)=> {};

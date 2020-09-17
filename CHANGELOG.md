@@ -1,3 +1,4 @@
+- fix: あげミス・手直し
 - fix: .gitignore 記述修正
 
 
