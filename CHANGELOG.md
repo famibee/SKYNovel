@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/famibee/SKYNovel/compare/v1.6.1...v1.6.2) (2020-09-17)
+
+
+### Bug Fixes
+
+* クリックでフォーカスしたボタン等と、[set_focus]管理のフォーカスを一致させるよう ([2c7abc3](https://github.com/famibee/SKYNovel/commit/2c7abc352aa2886817c376a4b1aa2e8178e747bb))
+
 - fix: クリックなどでフォーカスされたボタンやHTML要素と、[set_focus]管理のフォーカスを一致させるように
 - fix: Click to play状態で、ゲームパッド左右でボタンにフォーカス移動する件
 - fix: .gitignore 設定が一部反映されず GitHub にアップされていたものを削除
