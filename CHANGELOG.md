@@ -1,3 +1,6 @@
+- fix: .gitignore 記述修正
+
+
 ## [1.6.2](https://github.com/famibee/SKYNovel/compare/v1.6.1...v1.6.2) (2020-09-17)
 
 
