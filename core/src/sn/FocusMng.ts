@@ -26,9 +26,23 @@ export class FocusMng {
 		if (this.aBtn.findIndex(b=> b.btn === cmp) >= 0) return;
 		if (cmp instanceof Container) {
 			// フレーム部品に【 if (btn instanceof HTMLElement) 】が上手く使えない
+			cmp.on('pointerdown', ()=> {
+				for (let i=this.aBtn.length -1; i>=0; --i) {
+					const b = this.aBtn[i];
+					if (b.btn === cmp) {this.idx = i; break;}
+				}
+			});
+
 			this.aBtn.push({btn: cmp, on: on, off: off});
 			return;
 		}
+
+		cmp.addEventListener('focus', ()=> {
+			for (let i=this.aBtn.length -1; i>=0; --i) {
+				const b = this.aBtn[i];
+				if (b.btn === cmp) {this.idx = i; break;}
+			}
+		});
 
 		let fnc = (_: KeyboardEvent)=> {};
 		let fnc4EnterSwitch: (e: KeyboardEvent)=> boolean
@@ -114,8 +128,9 @@ export class FocusMng {
 		if (--this.idx < 0) this.idx = len -1;
 		for (let i=len; i>=1; --i) {
 			const j = (this.idx +i) % len;
-			if (this.aBtn[j].on()) {this.idx = j; this.logFocus(j); break;}
+			if (this.aBtn[j].on()) {this.idx = j; this.logFocus(j); return;}
 		}
+		this.idx = -1;
 	}
 	next() {
 		this.allOff();
@@ -125,8 +140,9 @@ export class FocusMng {
 		if (++this.idx >= len) this.idx = 0;
 		for (let i=0; i<len; ++i) {
 			const j = (this.idx +i) % len;
-			if (this.aBtn[j].on()) {this.idx = j; this.logFocus(j); break;}
+			if (this.aBtn[j].on()) {this.idx = j; this.logFocus(j); return;}
 		}
+		this.idx = -1;
 	}
 	private	readonly	logFocus = CmnLib.debugLog
 		? (i: number)=> console.log(`👾 <FocusMng idx:${i} btn:%o`, this.aBtn[i].btn)

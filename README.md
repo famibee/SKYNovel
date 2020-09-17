@@ -5,7 +5,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/famibee/skynovel)
 ![npm type definitions](https://img.shields.io/npm/types/skynovel)
 
-[![Build Status](https://travis-ci.org/famibee/SKYNovel.svg?branch=master)](https://travis-ci.org/famibee/SKYNovel)
+[![Build Status](https://travis-ci.com/famibee/SKYNovel.svg?branch=master)](https://travis-ci.org/famibee/SKYNovel)
 [![Maintainability](https://api.codeclimate.com/v1/badges/228e91311459ce3f7e10/maintainability)](https://codeclimate.com/github/famibee/SKYNovel/maintainability)
 [![dependencies](https://david-dm.org/famibee/SKYNovel/status.svg)](https://david-dm.org/famibee/SKYNovel)
 [![dependencies](https://david-dm.org/famibee/SKYNovel/dev-status.svg)](https://david-dm.org/famibee/SKYNovel?type=dev)

@@ -1,3 +1,8 @@
+- fix: クリックなどでフォーカスされたボタンやHTML要素と、[set_focus]管理のフォーカスを一致させるように
+- fix: Click to play状態で、ゲームパッド左右でボタンにフォーカス移動する件
+- fix: .gitignore 設定が一部反映されず GitHub にアップされていたものを削除
+
+
 ## [1.6.1](https://github.com/famibee/SKYNovel/compare/v1.6.0...v1.6.1) (2020-09-16)
 
 
