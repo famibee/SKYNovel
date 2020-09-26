@@ -1,3 +1,6 @@
+- fix: ライブラリ更新
+
+
 ## [1.6.4](https://github.com/famibee/SKYNovel/compare/v1.6.3...v1.6.4) (2020-09-17)
 
 
