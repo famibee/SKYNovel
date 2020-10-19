@@ -1,3 +1,10 @@
+## [1.6.6](https://github.com/famibee/SKYNovel/compare/v1.6.5...v1.6.6) (2020-10-19)
+
+
+### Bug Fixes
+
+* node pathモジュールに少しだけ依存していた部分を正規表現に置き換え ([32f8f27](https://github.com/famibee/SKYNovel/commit/32f8f27ab58d05bc434886c275e4abd4ce697dec))
+
 - fix: node pathモジュールに少しだけ依存していた部分を正規表現に置き換え
 - fix: ライブラリ更新
 
