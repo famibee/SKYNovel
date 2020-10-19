@@ -126,9 +126,12 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 }
 
 
-import {basename, extname} from 'path';
-export	function getFn(path: string) {return basename(path, extname(path));}
-export 	function getExt(path: string) {return extname(path).slice(1);}
+const reg_fn	= /^[^\/\.]+$|[^\/]+(?=\.)/;
+	// https://regex101.com/r/8sltIm/1
+export	function getFn(p: string) {return (p.match(reg_fn) ?? [''])[0];}
+const reg_ext	= /(?<=\.)[^\.]+$/;
+	// https://regex101.com/r/IULqII/3
+export 	function getExt(p: string) {return (p.match(reg_ext) ?? [''])[0];}
 
 const platform = require('platform');
 

@@ -1,3 +1,7 @@
+- fix: node pathモジュールに少しだけ依存していた部分を正規表現に置き換え
+- fix: ライブラリ更新
+
+
 ## [1.6.5](https://github.com/famibee/SKYNovel/compare/v1.6.4...v1.6.5) (2020-09-26)
 
 
