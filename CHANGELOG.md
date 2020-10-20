@@ -1,3 +1,7 @@
+- fix: ライブラリ更新（webpack を 5.1.3、webpack-cli を 4.1.0に）
+- fix: tsconfig.json の target を es2020 に更新
+
+
 ## [1.6.6](https://github.com/famibee/SKYNovel/compare/v1.6.5...v1.6.6) (2020-10-19)
 
 
