@@ -1,3 +1,10 @@
+- fix: アプリ版が起動しない点を修正
+	- ライブラリ戻し（webpack を 4.44.2、webpack-cli を 3.3.12に戻し）
+	- tsconfig.json の target を es2019 に戻し
+	- @types/node を 14.11.11 に戻し。14.14.* 系は保留
+- fix: ライブラリ更新
+
+
 ## [1.6.7](https://github.com/famibee/SKYNovel/compare/v1.6.6...v1.6.7) (2020-10-20)
 
 

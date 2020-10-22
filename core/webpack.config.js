@@ -7,10 +7,6 @@ const cfg = {
 		filename: '[name].js',
 		libraryTarget: 'umd',
 	},
-	cache: {
-		type: 'filesystem',
-		buildDependencies: {config: [__filename]}
-	},
 };
 
 module.exports = [{
