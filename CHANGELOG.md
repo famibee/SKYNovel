@@ -1,3 +1,10 @@
+## [1.6.8](https://github.com/famibee/SKYNovel/compare/v1.6.7...v1.6.8) (2020-10-22)
+
+
+### Bug Fixes
+
+* アプリ版が起動しない点を修正 ([02cc3cf](https://github.com/famibee/SKYNovel/commit/02cc3cf79bf1f0a253be94a429dd1049b8321c4a))
+
 - fix: アプリ版が起動しない点を修正
 	- ライブラリ戻し（webpack を 4.44.2、webpack-cli を 3.3.12に戻し）
 	- tsconfig.json の target を es2019 に戻し
