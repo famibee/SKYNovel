@@ -1,3 +1,8 @@
+## v1.6.10
+- fix: 動画の音声に全体的音量の設定が反映されていないのを修正
+- feat: ムービー音量をサウンドバッファのように変更できるシステム変数 sys:sn.sound.movie_volume 追加
+
+
 ## [1.6.9](https://github.com/famibee/SKYNovel/compare/v1.6.8...v1.6.9) (2020-11-01)
 
 

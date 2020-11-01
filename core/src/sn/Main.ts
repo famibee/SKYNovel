@@ -83,7 +83,7 @@ export class Main implements IMain {
 			this.dbgMng = new DebugMng(sys, this.hTag, this.scrItr);
 
 			// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, sys);
+			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, sys, this.sndMng);
 
 			// イベント
 			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, sys);

@@ -311,3 +311,8 @@ export interface IPutCh {
 	(ch: string, ruby: string): void;
 }
 
+
+// =============== Volume change event notification (GrpLayer)
+export interface INoticeChgVolume {
+	(vol: number): void;
+}

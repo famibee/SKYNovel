@@ -13,6 +13,7 @@ import {Config} from './Config';
 import {SysBase} from './SysBase';
 import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
+import {SoundMng} from './SoundMng';
 
 export interface IFncCompSpr { (sp: Sprite): void; };
 
@@ -39,10 +40,20 @@ export class GrpLayer extends Layer {
 	private static	main	: IMain;
 	private static	cfg		: Config;
 	private static	sys		: SysBase;
-	static	init(main: IMain, cfg: Config, sys: SysBase): void {
+	private static	glbVol	: number	= 1;
+	private static	movVol	: number	= 1;
+	static	init(main: IMain, cfg: Config, sys: SysBase, sndMng: SoundMng): void {
 		GrpLayer.main = main;
 		GrpLayer.cfg = cfg;
 		GrpLayer.sys = sys;
+		const fnc = ()=> {
+			const vol = GrpLayer.glbVol * GrpLayer.movVol;
+			for (const fn in GrpLayer.fn2Video) GrpLayer.fn2Video[fn].volume = vol;
+		};
+		sndMng.setNoticeChgVolume(
+			vol=> {GrpLayer.glbVol = vol; fnc();},
+			vol=> {GrpLayer.movVol = vol; fnc();}
+		);
 
 		if (GrpLayer.sys.crypto) GrpLayer.preThen = GrpLayer.preThen4Cripto;
 	}
@@ -256,6 +267,7 @@ export class GrpLayer extends Layer {
 
 			case LoaderResource.TYPE.VIDEO:
 				const hve = r.data as HTMLVideoElement;
+				hve.volume = GrpLayer.glbVol;
 				GrpLayer.fn2Video[fn] = hve;
 				delete GrpLayer.ldrHFn[fn];	// 毎回来て欲しいのでキャッシュとしない
 				return Sprite.from(r.data);

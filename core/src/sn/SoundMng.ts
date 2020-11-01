@@ -7,7 +7,7 @@
 
 import {IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {CmnTween} from './CmnTween';
-import {IHTag, IVariable, IMain, HArg} from './CmnInterface';
+import {IHTag, IVariable, IMain, HArg, INoticeChgVolume} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 
@@ -50,7 +50,6 @@ export class SoundMng {
 		hTag.ws			= o=> this.ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.xchgbuf(o);		// 再生トラックの交換
 
-		val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> PSnd.volumeAll = Number(val));
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
 		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
@@ -58,6 +57,14 @@ export class SoundMng {
 
 	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
+	setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume) {
+		this.val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> setGlbVol(PSnd.volumeAll = Number(val)));
+		this.val.defValTrg('sys:sn.sound.movie_volume', (_name: string, val: any)=> setMovVol(Number(val)));
+
+		// 起動時初期値セット
+		this.val.setVal_Nochk('sys', 'sn.sound.global_volume', this.val.getVal('sys:sn.sound.global_volume', 1));
+		this.val.setVal_Nochk('sys', 'sn.sound.movie_volume', this.val.getVal('sys:sn.sound.movie_volume', 1));
+	}
 
 	// 音量設定（独自拡張）
 	private volume(hArg: HArg) {

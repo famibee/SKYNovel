@@ -18,6 +18,7 @@ import {ScriptIterator} from './ScriptIterator';
 import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
+import {SoundMng} from './SoundMng';
 
 const Tween = require('@tweenjs/tween.js').default;
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
@@ -29,7 +30,7 @@ export class LayerMng implements IGetFrm {
 
 	private readonly	frmMng	: FrameMng;
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng) {
 		// レスポンシブや回転の対応
 		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		const fncResizeLay = ()=> {
@@ -54,7 +55,7 @@ export class LayerMng implements IGetFrm {
 		CmnLib.cvsResize(cvs);
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt), (me: TxtLayer)=> this.hPages[me.layname].fore === me);
-		GrpLayer.init(main, cfg, sys);
+		GrpLayer.init(main, cfg, sys, sndMng);
 
 		this.frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 		sys.hFactoryCls.grp = ()=> new GrpLayer;

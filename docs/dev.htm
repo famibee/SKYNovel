@@ -656,6 +656,8 @@
 	'p' …… 改行待ち=しない、改ページ待ち=する<br/>
 	's' …… 改行待ち=しない、改ページ待ち=しない<br/>
 	（初期値="s"）</td></tr>
+<tr><td>sys:sn.sound.global_volume</td><td>1</td><td>0.0〜1.0</td><td>全体的な音量を設定する。バッファの実際の音量はバッファごとの「sys:const.sn.sound.【buf】.volume」x「全体的な音量」の値となる</td></tr>
+<tr><td>sys:sn.sound.movie_volume</td><td>1</td><td>0.0〜1.0</td><td>ムービー音量を設定する。バッファの実際の音量はこの「ムービー音量」x「全体的な音量」の値となる</td></tr>
 <tr><td>sys:sn.tagCh.canskip</td><td>true</td><td>Boolean</td><td>テキストをクリックなどでスキップ可能か</td></tr>
 <tr><td>sys:sn.tagCh.doWait</td><td>true</td><td>Boolean</td><td>未読テキストにウェイトを掛けるか</td></tr>
 <tr><td>sys:sn.tagCh.doWait_Kidoku</td><td>true</td><td>Boolean</td><td>既読テキストにウェイトを掛けるか</td></tr>
