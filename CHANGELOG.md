@@ -1,3 +1,6 @@
+- fix: ライブラリ更新（ただし @types/tween.js 18.6.4 はコンパイルエラーになるので 18.5.1 固定）
+
+
 ## [1.6.8](https://github.com/famibee/SKYNovel/compare/v1.6.7...v1.6.8) (2020-10-22)
 
 
