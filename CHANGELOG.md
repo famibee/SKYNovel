@@ -1,3 +1,10 @@
+## [1.6.11](https://github.com/famibee/SKYNovel/compare/v1.6.10...v1.6.11) (2020-11-05)
+
+
+### Bug Fixes
+
+* load時に複数画像ボタンが正しく復元されない件（セーブデータ非互換） ([8fe4b4a](https://github.com/famibee/SKYNovel/commit/8fe4b4a38b6f19eb542090efd73fd9335aea0c39))
+
 - fix: load時に複数画像ボタンが正しく復元されない件（セーブデータ非互換）
 - fix: 画像ロード非同期周りの処理をPromise.allSettled()駆動に変更
 - fix: ライブラリ更新（@types/tween.jsは削除、@tweenjs/tween.jsのみに）
