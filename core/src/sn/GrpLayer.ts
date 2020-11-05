@@ -72,7 +72,10 @@ export class GrpLayer extends Layer {
 	private sBkFn		= '';
 	private sBkFace		= '';
 	static	hFn2ResAniSpr	: {[name: string]:	IResAniSpr} = {};
-	lay(hArg: HArg): boolean {
+	readonly	lay = (hArg: HArg)=> this.laySub(hArg, isStop=> {
+		if (isStop) GrpLayer.main.resume();
+	});
+	private	laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
 		const fn = hArg.fn;
 		const face = hArg.face ?? '';
 		if (! fn) {
@@ -81,6 +84,7 @@ export class GrpLayer extends Layer {
 			if (this.cnt.children.length > 0) this.setPos(hArg);
 			this.sBkFn = '';
 			this.csvFn = this.sBkFace = face;
+			resolve(false);
 			return false;
 		}
 
@@ -95,7 +99,7 @@ export class GrpLayer extends Layer {
 		hArg.dx = 0;
 		hArg.dy = 0;
 
-		return GrpLayer.csv2Sprites(
+		const ret = GrpLayer.csv2Sprites(
 			this.csvFn = fn + (face ? ','+ face : ''),
 			this.cnt,
 			sp=> {
@@ -105,11 +109,12 @@ export class GrpLayer extends Layer {
 			},
 			isStop=> {
 				Layer.setBlendmode(this.cnt, hArg);
-				this.compOneAtMultiLD(isStop);
+				resolve(isStop);
 			}
 		);
+		if (! ret) resolve(false);
+		return ret;
 	}
-	private	compOneAtMultiLD	= (isStop: boolean)=> {if (isStop) GrpLayer.main.resume();}
 
 	private	static ldrHFn: {[name: string]: 1} = {};
 	static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
@@ -307,13 +312,6 @@ export class GrpLayer extends Layer {
 			true
 		);
 	}
-	/*private rsvEvent(_$do: DisplayObject): void {
-		const ldr:Loader = $do as Loader;
-		if (ldr === null) return;
-		const mc:MovieClip = ldr.content as MovieClip;
-		if (mc === null) return;
-		GrpLayer.elc.add(mc, Event.EXIT_FRAME, rsvEvent_ExitFrame);
-	}*/
 
 	static	add_face(hArg: HArg): boolean {
 		const name = hArg.name;
@@ -343,21 +341,18 @@ export class GrpLayer extends Layer {
 		sBkFn	: this.sBkFn,
 		sBkFace	: this.sBkFace,
 	});
-	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
-		super.playback(hLay);
+	playback(hLay: any, aPrm: Promise<void>[]): void {
+		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
 			this.sBkFn	= hLay.sBkFn;
 			this.sBkFace= hLay.sBkFace;
-			if (fncComp !== undefined) fncComp();
-			return false;
+			return;
 		}
 
-		if (fncComp !== undefined) this.compOneAtMultiLD = ()=> {
-			this.compOneAtMultiLD = (isStop: boolean)=> {if (isStop) GrpLayer.main.resume();}
-			fncComp();
-		};
-
-		return this.lay({fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y});
+		aPrm.push(new Promise(re=> this.laySub(
+			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y},
+			_isStop=> re(),
+		)));
 	}
 
 	readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;

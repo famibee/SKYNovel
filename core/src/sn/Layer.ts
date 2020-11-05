@@ -127,9 +127,9 @@ export class Layer {
 		if (argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = [];
 		//transform.colorTransform = nulColTrfm;
 	}
-	copy(fromLayer: Layer): void {
+	copy(fromLayer: Layer, aPrm: Promise<void>[]): void {
 		const org_name = this.name_;
-		this.playback(fromLayer.record());
+		this.playback(fromLayer.record(), aPrm);
 		this.name = org_name;
 	}
 	record() {return {
@@ -146,7 +146,7 @@ export class Layer {
 		y		: this.cnt.y,
 		visible	: this.cnt.visible,
 	};}
-	playback(hLay: any, _fncComp: undefined | {(): void} = undefined): boolean {
+	playback(hLay: any, _aPrm: Promise<void>[]): void {
 		this.name = hLay.name;
 		//idx	// コール順に意味があるので親でやる
 
@@ -158,8 +158,6 @@ export class Layer {
 		this.cnt.pivot.set(hLay.pivot_x, hLay.pivot_y);
 		this.cnt.position.set(hLay.x, hLay.y);
 		this.cnt.visible = hLay.visible;
-
-		return false;
 	}
 
 	snapshot(rnd: Renderer, re: ()=> void) {

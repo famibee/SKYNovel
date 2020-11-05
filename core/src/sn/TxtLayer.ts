@@ -270,7 +270,7 @@ export class TxtLayer extends Layer {
 		this.set_ch_in(hArg);
 		this.set_ch_out(hArg);
 
-		return this.drawBack(hArg);
+		return this.drawBack(hArg, isStop=> {if (isStop) TxtLayer.main.resume()});
 	}
 	private set_ch_in(hArg: HArg) {
 		const ins = hArg.in_style;
@@ -292,7 +292,7 @@ export class TxtLayer extends Layer {
 	}
 	private	ch_out_style	= '';
 
-	private drawBack(hArg: HArg): boolean {
+	private drawBack(hArg: HArg, fncComp: (isStop: boolean)=> void): boolean {
 		if ('back_clear' in hArg) {
 			if (argChk_Boolean(hArg, 'back_clear', false)) {
 				this.b_color = 0x000000;
@@ -300,6 +300,7 @@ export class TxtLayer extends Layer {
 				this.b_alpha_isfixed = false;
 				this.b_pic = '';
 			}
+			fncComp(false);
 			return false;
 		}
 
@@ -325,7 +326,7 @@ export class TxtLayer extends Layer {
 					this.txs.setSize(sp.width, sp.height);
 						// ちなみに左上表示位置は本レイヤと同じ
 					this.cnt.setChildIndex(sp, 0);
-					TxtLayer.main.resume();
+					fncComp(true);
 				});
 			}
 		}
@@ -352,6 +353,7 @@ export class TxtLayer extends Layer {
 				// 押せなくなる（透明だが塗りがあるという扱いなので）
 			this.b_do.alpha = alpha;
 		}
+		fncComp(false);
 
 		return false;
 	}
@@ -815,14 +817,13 @@ export class TxtLayer extends Layer {
 	get enabled() {return this.cnt.interactiveChildren}
 	set enabled(e) {this.cnt.interactiveChildren = e}
 
-	addButton(hArg: HArg): boolean {
+	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
 		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
-		const btn = new Button(TxtLayer.main, TxtLayer.evtMng, hArg, TxtLayer.cfg, ()=> this.canFocus());
-		btn.name = JSON.stringify(hArg);	// 4 Debug
+		const btn = new Button(hArg, TxtLayer.evtMng, TxtLayer.cfg, re, ()=> this.canFocus());
+		btn.name = JSON.stringify(hArg).replaceAll('"', "'");// playback時に使用
 		this.cntBtn.addChild(btn);
-		return btn.isStop;
-	}
+	});
 	canFocus(): boolean {
 		return this.cnt.interactiveChildren && this.cnt.visible
 			&& TxtLayer.isPageFore(this);
@@ -854,8 +855,8 @@ export class TxtLayer extends Layer {
 
 		btns	: this.cntBtn.children.map(btn=> btn.name),
 	});
-	playback(hLay: any, fncComp: undefined | {(): void} = undefined): boolean {
-		super.playback(hLay);
+	playback(hLay: any, aPrm: Promise<void>[]): void {
+		super.playback(hLay, aPrm);
 		this.enabled	= hLay.enabled;
 		this.r_align	= hLay.r_align;
 		this.cvsResize();
@@ -863,22 +864,24 @@ export class TxtLayer extends Layer {
 		// バック
 		this.b_alpha			= hLay.b_alpha;
 		this.b_alpha_isfixed	= hLay.b_alpha_isfixed;
-		let ret = this.drawBack(
-			(hLay.b_do)
-			? (hLay.b_do === 'Sprite' ?{b_pic: hLay.b_pic} :{b_color: hLay.b_color})
-			: {b_pic: ''}
-		);
+		aPrm.push(new Promise<void>(re=> {
+			if (! this.drawBack(
+				(hLay.b_do)
+				? (hLay.b_do === 'Sprite'
+					? {b_pic: hLay.b_pic}
+					: {b_color: hLay.b_color})
+				: {b_pic: ''},
+				isStop=> {if (isStop) re()}
+			)) re();
+		}));
 
 		this.setFfs(hLay);
 		this.txs.playback(hLay.txs);
 
-		// addButton(hArg: HArg): boolean
 		const aBtn: string[] = hLay.btns;
-		aBtn.forEach(v=> ret ||= this.addButton(JSON.parse(v)));
-
-		fncComp?.();
-
-		return ret;
+		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(
+			JSON.parse(v.replaceAll("'", '"'))
+		)));
 	}
 
 	snapshot(rnd: Renderer, re: ()=> void) {

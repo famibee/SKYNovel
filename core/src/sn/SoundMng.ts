@@ -13,7 +13,7 @@ import {SysBase} from './SysBase';
 
 import PSnd from 'pixi-sound';
 import {Loader, LoaderResource} from 'pixi.js';
-const Tween = require('@tweenjs/tween.js').default;
+import {Tween} from '@tweenjs/tween.js'
 
 interface ISndBuf {
 	snd		: any;
@@ -25,7 +25,7 @@ interface ISndBuf {
 	playing	: ()=> boolean;
 	onend	: ()=> void;
 
-	twFade?		: TWEEN.Tween;
+	twFade?		: Tween<{v: number}>;
 	resumeFade?	: boolean;
 };
 
@@ -126,7 +126,7 @@ export class SoundMng {
 		const ease = CmnTween.ease(hArg.ease);
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume, vol);
-		oSb.twFade = new Tween.Tween({v: oSb.snd.volume})
+		oSb.twFade = new Tween({v: oSb.snd.volume})
 		.to({v: vol}, argChk_Num(hArg, 'time', NaN))
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(ease)

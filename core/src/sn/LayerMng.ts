@@ -523,9 +523,10 @@ void main(void) {
 			if (this.appPixi.ticker) this.appPixi.ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			[this.fore, this.back] = [this.back, this.fore];
+			const aPrm: Promise<void>[] = [];
 			for (const lay_name in this.hPages) {
 				const pg = this.hPages[lay_name];
-				if (hTarget[lay_name]) {pg.transPage(); continue;}
+				if (hTarget[lay_name]) {pg.transPage(aPrm); continue;}
 
 				// transしないために交換する
 				const idx = this.fore.getChildIndex(pg.back.cnt);
@@ -534,6 +535,8 @@ void main(void) {
 				this.fore.addChildAt(pg.fore.cnt, idx);
 				this.back.addChildAt(pg.back.cnt, idx);
 			}
+			Promise.allSettled(aPrm);
+
 			this.fore.visible = true;
 			this.back.visible = false;
 			this.spTransBack.visible = false;
@@ -1018,7 +1021,9 @@ void main(void) {
 		hArg.clicksebuf ??= 'SYS';
 		hArg.entersebuf ??= 'SYS';
 		hArg.leavesebuf ??= 'SYS';
-		return this.getTxtLayer(hArg).addButton(hArg);
+		this.getTxtLayer(hArg).addButton(hArg).then(()=> this.main.resume());
+
+		return true;
 	}
 
 
@@ -1039,19 +1044,18 @@ void main(void) {
 		this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
 		this.oLastPage = {text: ''};
 
-		const aPromise: any[] = [];
+		const aPrm: Promise<void>[] = [];
 		const aSort: {layer: string, idx: number}[] = [];
 		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
 			const $pg = $hPages[layer];
 			aSort.push({layer: layer, idx: $pg.fore.idx});
 
-			const pg = this.hPages[layer] || new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val, {isWait: false});
-			this.hPages[layer] = pg;
-			aPromise.push(new Promise(re=> pg.fore.playback($pg.fore, re)));
-			aPromise.push(new Promise(re=> pg.back.playback($pg.back, re)));
+			const pg = this.hPages[layer] ||= new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val, {isWait: false});
+			pg.fore.playback($pg.fore, aPrm);
+			pg.back.playback($pg.back, aPrm);
 		}
 		const len = this.fore.children.length;
-		Promise.all(aPromise).then(()=> {
+		Promise.allSettled(aPrm).then(()=> {
 			aSort.sort(function(a, b) {	// ソートし若い順にsetChildIndex()
 				if (a.idx < b.idx) return -1;
 				if (a.idx > b.idx) return 1;

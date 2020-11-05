@@ -69,9 +69,9 @@ export class Pages {
 	get fore(): Layer {return this.pg.fore;}
 	get back(): Layer {return this.pg.back;}
 
-	transPage(): void {
+	transPage(aPrm: Promise<void>[]): void {
 		[this.pg.back, this.pg.fore] = [this.pg.fore, this.pg.back];
-		this.pg.back.copy(this.pg.fore);
+		this.pg.back.copy(this.pg.fore, aPrm);
 	}
 
 }

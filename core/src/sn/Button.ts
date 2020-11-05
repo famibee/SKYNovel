@@ -8,7 +8,7 @@
 import {Container, Text, Rectangle, Texture, TextStyle} from 'pixi.js';
 import {Graphics} from 'pixi.js';
 import {uint, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg, IMain} from './CmnInterface';
+import {HArg} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
 import {Config} from './Config';
@@ -16,8 +16,10 @@ import {Config} from './Config';
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 
-	constructor(readonly main: IMain, readonly evtMng: IEvtMng, readonly hArg: HArg, readonly cfg: Config, readonly canFocus: ()=> boolean) {
+	constructor(readonly hArg: HArg, readonly evtMng: IEvtMng, readonly cfg: Config, readonly resolve: ()=> void, readonly canFocus: ()=> boolean) {
 		super();
+
+		this.name = JSON.stringify(hArg);
 
 		let oName: any = {
 			x: this.x = uint(hArg.left ?? 0),
@@ -67,9 +69,10 @@ export class Button extends Container {
 			oName.width = txt.width;
 			oName.height = txt.height;
 
+			let isStop = false;
 			if (hArg.b_pic) {
 				oName.b_pic = hArg.b_pic;
-				this.isStop = GrpLayer.csv2Sprites(
+				isStop = GrpLayer.csv2Sprites(
 					hArg.b_pic,
 					this,
 					sp=> {
@@ -84,7 +87,7 @@ export class Button extends Container {
 					},
 					isStop=> {
 						Layer.setBlendmode(this, hArg);
-						if (isStop) main.resume();
+						if (isStop) resolve();
 					}
 				);
 			}
@@ -101,7 +104,7 @@ export class Button extends Container {
 				grpDbgMasume.endFill();
 				this.addChild(grpDbgMasume);
 			}
-			if (! enabled) return;
+			if (! enabled) {if (! isStop) resolve(); return;}
 
 			const style_hover = style.clone();
 			if (hArg.style_hover) try {
@@ -126,13 +129,15 @@ export class Button extends Container {
 				txt.style = style_hover;
 				return true;
 			}, ()=> txt.style = style_clicked);
+
+			if (! isStop) resolve();
 			return;
 		}
 
 		if (! hArg.pic) throw 'textまたはpic属性は必須です';
 		// 画像から生成
 		oName.type = 'pic';	// dump用
-		this.isStop = GrpLayer.csv2Sprites(
+		if (! GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
 			sp=> {
@@ -174,9 +179,8 @@ export class Button extends Container {
 					this.addChild(grpDbgMasume);
 				}
 			},
-			isStop=> {if (isStop) main.resume()}
-		);
+			isStop=> {if (isStop) resolve()}
+		)) resolve();
 	}
-	isStop = false;
 
 }
