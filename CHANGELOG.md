@@ -1,3 +1,10 @@
+## [1.6.12](https://github.com/famibee/SKYNovel/compare/v1.6.11...v1.6.12) (2020-11-06)
+
+
+### Bug Fixes
+
+* @tweenjs/tween.jsの使用箇所修正 ([53041f3](https://github.com/famibee/SKYNovel/commit/53041f32e133246b9e74aef1d0999db309fe9322))
+
 - fix: @tweenjs/tween.jsの使用箇所修正
 
 
