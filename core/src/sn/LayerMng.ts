@@ -20,7 +20,7 @@ import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 import {SoundMng} from './SoundMng';
 
-const Tween = require('@tweenjs/tween.js').default;
+import {Tween, update, removeAll} from '@tweenjs/tween.js'
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 
 export class LayerMng implements IGetFrm {
@@ -167,7 +167,7 @@ export class LayerMng implements IGetFrm {
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
 	}
-	private fncTicker = ()=> Tween.update();
+	private fncTicker = ()=> update();
 
 	getFrmDisabled(id: string): boolean {return this.frmMng.getFrmDisabled(id);}
 
@@ -203,7 +203,7 @@ export class LayerMng implements IGetFrm {
 
 		this.frmMng.destroy();
 
-		Tween.removeAll();
+		removeAll();
 		this.appPixi.ticker.remove(this.fncTicker);
 		LayerMng.$msecChWait = 10;
 	}
@@ -553,7 +553,7 @@ void main(void) {
 		const is_glsl = 'glsl' in hArg;
 		if ((! is_glsl) && ! ('rule' in hArg)) {
 			this.spTransFore.filters = [];
-			this.tiTrans.tw = new Tween.Tween(this.spTransFore)
+			this.tiTrans.tw = new Tween(this.spTransFore)
 				.to({alpha: 0}, time)
 				.delay(argChk_Num(hArg, 'delay', 0))
 				.easing(ease)
@@ -569,7 +569,7 @@ void main(void) {
 			: this.fltRule;
 		flt.uniforms.vague = argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
-		this.tiTrans.tw = new Tween.Tween(flt.uniforms)
+		this.tiTrans.tw = new Tween(flt.uniforms)
 			.to({tick: 1}, time)
 			.delay(argChk_Num(hArg, 'delay', 0))
 			.easing(ease)
@@ -666,7 +666,7 @@ void main(void) {
 			: ()=> this.spTransFore.y = Math.round(Math.random()* v*2) -v;
 		this.spTransFore.filters = [];
 		const repeat = argChk_Num(hArg, 'repeat', 1);
-		const tw = new Tween.Tween(this.spTransFore)
+		const tw = new Tween(this.spTransFore)
 		.to({x: 0, y: 0}, argChk_Num(hArg, 'time', NaN))
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(ease)
@@ -702,7 +702,7 @@ void main(void) {
 		const hTo = cnvTweenArg(hArg, foreLay);
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		const tw_nm = hArg.name ?? hArg.layer;
-		const tw = new Tween.Tween(foreLay)
+		const tw = new Tween(foreLay)
 		.to(hTo, argChk_Num(hArg, 'time', NaN)
 			* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
 		.delay(argChk_Num(hArg, 'delay', 0))

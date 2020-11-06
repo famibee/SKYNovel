@@ -9,7 +9,7 @@ import {Tween, Easing} from '@tweenjs/tween.js'
 
 // =============== Tween
 export interface ITwInf {
-	tw		: Tween<any> | null;
+	tw		: Tween | null;
 	resume	: boolean;
 	onEnd?	: ()=> void;
 }

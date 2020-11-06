@@ -12,7 +12,7 @@ import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 import {Config} from './Config';
 
-const Tween = require('@tweenjs/tween.js').default;
+import {Tween} from '@tweenjs/tween.js'
 import {Loader, LoaderResource} from 'pixi.js';
 
 export class FrameMng implements IGetFrm {
@@ -348,7 +348,7 @@ export class FrameMng implements IGetFrm {
 
 		this.appPixi.stage.interactive = false;
 		const tw_nm = `frm\n${hArg.id}`;
-		const tw = new Tween.Tween(hNow)
+		const tw = new Tween(hNow)
 		.to(hTo, argChk_Num(hArg, 'time', NaN)
 			* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
 		.delay(argChk_Num(hArg, 'delay', 0))

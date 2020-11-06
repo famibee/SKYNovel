@@ -1,3 +1,6 @@
+- fix: @tweenjs/tween.jsの使用箇所修正
+
+
 ## [1.6.11](https://github.com/famibee/SKYNovel/compare/v1.6.10...v1.6.11) (2020-11-05)
 
 

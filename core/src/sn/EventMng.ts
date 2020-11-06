@@ -14,7 +14,7 @@ import {EventListenerCtn} from './EventListenerCtn';
 import {Button} from './Button';
 import {FocusMng} from './FocusMng';
 
-const Tween = require('@tweenjs/tween.js').default;
+import {Tween} from '@tweenjs/tween.js'
 import {Container, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
@@ -751,7 +751,7 @@ export class EventMng implements IEvtMng {
 			else return false;	// 既読スキップ
 		}
 
-		const tw = new Tween.Tween()
+		const tw = new Tween()
 		.to({}, uint(argChk_Num(hArg, 'time', NaN)))
 		.onComplete(()=> {tw.stop(); this.main.resume();})
 		.start();

@@ -25,7 +25,7 @@ interface ISndBuf {
 	playing	: ()=> boolean;
 	onend	: ()=> void;
 
-	twFade?		: Tween<{v: number}>;
+	twFade?		: Tween;
 	resumeFade?	: boolean;
 };
 
