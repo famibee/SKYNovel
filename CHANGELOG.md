@@ -1,3 +1,10 @@
+## [1.6.13](https://github.com/famibee/SKYNovel/compare/v1.6.12...v1.6.13) (2020-11-06)
+
+
+### Bug Fixes
+
+* ロードやリロードで画像レイヤのalphaなどが復元されない件 ([57d54a2](https://github.com/famibee/SKYNovel/commit/57d54a2283e83ec9169364e9cb8a5690a1894c56))
+
 - fix: ロードやリロードで画像レイヤのalphaなどが復元されない件
 
 
