@@ -350,7 +350,7 @@ export class GrpLayer extends Layer {
 		}
 
 		aPrm.push(new Promise(re=> this.laySub(
-			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y},
+			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: hLay.blendMode, rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y},
 			_isStop=> re(),
 		)));
 	}
