@@ -1,3 +1,10 @@
+## [1.6.14](https://github.com/famibee/SKYNovel/compare/v1.6.13...v1.6.14) (2020-11-09)
+
+
+### Bug Fixes
+
+* 左右反転などした立ち絵の表示位置がおかしい件 ([bab67a8](https://github.com/famibee/SKYNovel/commit/bab67a8350981153beea44553c4257a0e93ce693))
+
 - fix: 左右反転などした立ち絵の表示位置がおかしい件
 
 
