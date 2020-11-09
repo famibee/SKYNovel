@@ -351,7 +351,8 @@ export class GrpLayer extends Layer {
 
 		aPrm.push(new Promise(re=> this.laySub(
 			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: hLay.blendMode, rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y},
-			_isStop=> re(),
+			_isStop=> {this.cnt.position.set(hLay.x, hLay.y); re();},
+				// Layer.setXY()の後に再度移動
 		)));
 	}
 

@@ -751,7 +751,7 @@ export class EventMng implements IEvtMng {
 			else return false;	// 既読スキップ
 		}
 
-		const tw = new Tween()
+		const tw = new Tween({})
 		.to({}, uint(argChk_Num(hArg, 'time', NaN)))
 		.onComplete(()=> {tw.stop(); this.main.resume();})
 		.start();
