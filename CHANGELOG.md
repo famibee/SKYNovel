@@ -1,3 +1,10 @@
+## [1.6.15](https://github.com/famibee/SKYNovel/compare/v1.6.14...v1.6.15) (2020-11-11)
+
+
+### Bug Fixes
+
+* [load]先直後にフェード操作があるとエラーになる場合がある件 ([51d299a](https://github.com/famibee/SKYNovel/commit/51d299a18465d3771e8f1d4fe9e1b9d5db41cb9f))
+
 - fix: [load]先直後にフェード操作があるとエラーになる場合がある件
 - fix: 追い出し時にdebugLogオンでコンソール出力するように
 
