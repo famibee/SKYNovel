@@ -1,3 +1,7 @@
+- fix: [load]先直後にフェード操作があるとエラーになる場合がある件
+- fix: 追い出し時にdebugLogオンでコンソール出力するように
+
+
 ## [1.6.14](https://github.com/famibee/SKYNovel/compare/v1.6.13...v1.6.14) (2020-11-09)
 
 

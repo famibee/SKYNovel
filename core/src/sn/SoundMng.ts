@@ -100,7 +100,7 @@ export class SoundMng {
 
 		const buf = hArg.buf ?? 'SE';
 		const oSb = this.hSndBuf[buf];
-		if (! oSb?.playing()) return false;
+		if (! oSb?.playing() || ! oSb.snd) return false;
 
 		const bvn = 'const.sn.sound.'+ buf +'.volume';
 		const savevol = this.getVol(hArg, NaN);

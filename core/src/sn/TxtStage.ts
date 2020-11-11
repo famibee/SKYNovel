@@ -593,39 +593,49 @@ export class TxtStage extends Container {
 
 				// 追い出し
 				if (TxtStage.reg分割禁止.test(e[j -1].ch)
-				&& e[j -1].ch === he.ch) --j;
+				&& (e[j -1].ch === he.ch)) {
+	if (CmnLib.debugLog) console.log(`🎴追い出し（分割禁止）ch:${he.ch}`);
+					--j;
+				}
 				else {
-					if (TxtStage.reg行末禁則.test(e[j -1].ch)) --j;
+					if (TxtStage.reg行末禁則.test(e[j -1].ch)) {
+	if (CmnLib.debugLog) console.log(`🎴追い出し（行末禁則）前ch:${e[j -1].ch}`);
+						--j;
+					}
 					else if (TxtStage.reg行頭禁則.test(he.ch)) {
-						while (j>0 && TxtStage.reg行頭禁則.test(e[--j].ch));
+	if (CmnLib.debugLog) console.log(`🎴追い出し（行頭禁則 A）前ch:${he.ch}`);
+						while (j > 0 && TxtStage.reg行頭禁則.test(e[--j].ch)) {
+	if (CmnLib.debugLog) console.log(`🎴　　　　（行頭禁則 A）前ch:${e[--j].ch}`);
+						}
 					}
 					else continue;	// 追い出しなし
 
-					while (j>0 && TxtStage.reg行末禁則.test(e[j-1].ch)) --j;
+					while (j > 0 && TxtStage.reg行末禁則.test(e[j -1].ch)) {
+	if (CmnLib.debugLog) console.log(`🎴追い出し（行末禁則 B）前ch:${e[j -1].ch}`);
+						--j;
+					}
 				}
 				const pal = e[j].elm.parentElement!;
-				if (pal.classList.contains('sn_tx')) pal.insertBefore(
-					document.createElement('br'), e[j].elm
-				);
-				else pal.parentElement!.insertBefore(
-					document.createElement('br'), pal
-				);
-					// TODO: 追い出し＋前行を均等割付
-/*					//=== 前行を<span>で囲むサンプル
-					const line = document.createElement('span');
-					he.elm.parentElement!.insertBefore(line, e[j -1].elm);
-					for (let z=j -2; z>=j_start; --z) {
-						if (! e[z].elm.dataset['add']) continue;
-						line.insertBefore(
-							(e[z].elm.outerHTML.slice(0, 6) === '<ruby ')
-								? e[z].elm.parentElement!
-								: e[z].elm,
-							line.firstChild
-						);
-					}
-					line.insertBefore(document.createElement('br'), null);
+				const br = document.createElement('br');
+				if (pal.classList.contains('sn_tx')) pal.insertBefore(br, e[j].elm);
+				else pal.parentElement!.insertBefore(br, pal);
 
-					j_start = j;
+				// TODO: 追い出し＋前行を均等割付
+/*				//=== 前行を<span>で囲むサンプル
+				const line = document.createElement('span');
+				he.elm.parentElement!.insertBefore(line, e[j -1].elm);
+				for (let z=j -2; z>=j_start; --z) {
+					if (! e[z].elm.dataset['add']) continue;
+					line.insertBefore(
+						(e[z].elm.outerHTML.slice(0, 6) === '<ruby ')
+							? e[z].elm.parentElement!
+							: e[z].elm,
+						line.firstChild
+					);
+				}
+				line.insertBefore(document.createElement('br'), null);
+
+				j_start = j;
 */
 				j += 2;
 				len = -1;	// doループ先頭に戻る
