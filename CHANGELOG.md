@@ -1,3 +1,6 @@
+- fix: 追い出し（行頭禁則 A）のデグレードミス修正
+
+
 ## [1.6.15](https://github.com/famibee/SKYNovel/compare/v1.6.14...v1.6.15) (2020-11-11)
 
 

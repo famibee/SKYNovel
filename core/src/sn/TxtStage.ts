@@ -605,7 +605,7 @@ export class TxtStage extends Container {
 					else if (TxtStage.reg行頭禁則.test(he.ch)) {
 	if (CmnLib.debugLog) console.log(`🎴追い出し（行頭禁則 A）前ch:${he.ch}`);
 						while (j > 0 && TxtStage.reg行頭禁則.test(e[--j].ch)) {
-	if (CmnLib.debugLog) console.log(`🎴　　　　（行頭禁則 A）前ch:${e[--j].ch}`);
+	if (CmnLib.debugLog) console.log(`🎴　　　　（行頭禁則 A）前ch:${e[j].ch}`);
 						}
 					}
 					else continue;	// 追い出しなし
