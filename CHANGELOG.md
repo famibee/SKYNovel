@@ -1,3 +1,10 @@
+## [1.6.16](https://github.com/famibee/SKYNovel/compare/v1.6.15...v1.6.16) (2020-11-12)
+
+
+### Bug Fixes
+
+* 追い出し（行頭禁則 A）のデグレードミス修正 ([783a931](https://github.com/famibee/SKYNovel/commit/783a9319a0bd85e1efe1fddcb1a94b9f37816a9b))
+
 - fix: 追い出し（行頭禁則 A）のデグレードミス修正
 
 
