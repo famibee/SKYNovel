@@ -36,7 +36,7 @@ interface IChRect {
 }
 interface ISpTw {
 	sp	: Container;
-	tw	: Tween<Container> | null;
+	tw	: Tween | null;
 };
 
 export class TxtStage extends Container {

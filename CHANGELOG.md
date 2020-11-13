@@ -1,3 +1,6 @@
+- fix: コンパイルエラー解消
+
+
 ## [1.6.16](https://github.com/famibee/SKYNovel/compare/v1.6.15...v1.6.16) (2020-11-12)
 
 
