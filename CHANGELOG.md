@@ -1,3 +1,10 @@
+## [1.6.20](https://github.com/famibee/SKYNovel/compare/v1.6.19...v1.6.20) (2020-11-20)
+
+
+### Bug Fixes
+
+* 同じバッファでロード前に再生しようとして警告がでる場合がある件 ([0e0e6a2](https://github.com/famibee/SKYNovel/commit/0e0e6a293417fd60988e8efcb6f5de2c041c588a))
+
 - fix: 同じバッファでロード前に再生しようとして警告がでる場合がある件
 - fix: コンパイルエラー解消
 
