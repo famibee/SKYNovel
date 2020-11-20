@@ -1,3 +1,7 @@
+- fix: コンパイルエラー解消
+- fix: ライブラリ更新
+
+
 ## [1.6.18](https://github.com/famibee/SKYNovel/compare/v1.6.17...v1.6.18) (2020-11-19)
 
 

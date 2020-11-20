@@ -271,7 +271,7 @@ export class LayerMng implements IGetFrm {
 		});
 		const a = [];
 		const pg = (hArg.page !== 'back') ?'fore' :'back';
-		if (this.tiTrans.tw) a.push(new Promise(re=> {	// [trans]中
+		if (this.tiTrans.tw) a.push(new Promise<void>(re=> {	// [trans]中
 			this.back.visible = true;
 			for (const lay of this.aBackTransAfter) {
 				rnd.render(lay, undefined, false);
@@ -286,9 +286,9 @@ export class LayerMng implements IGetFrm {
 			this.fore.filters = [];
 			re();
 		}));
-		else for (const v of this.getLayers(hArg.layer)) a.push(new Promise(
-			re=> this.hPages[v][pg].snapshot(rnd, re)
-		));
+		else for (const v of this.getLayers(hArg.layer)) a.push(
+			new Promise<void>(re=> this.hPages[v][pg].snapshot(rnd, re))
+		);
 		Promise.all(a).then(()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
 			rnd.render(this.stage, renTx);
@@ -454,8 +454,7 @@ void main(void) {
 
 	float v = ru.r - tick;
 	if (abs(v) < vague) {
-		float grd = 0.5 -v /vague *0.5;
-		float f_a = fg.a *(1.0 -grd);
+		float f_a = fg.a *(0.5 +v /vague *0.5);
 
 		gl_FragColor.rgb = fg.rgb *f_a;
 		gl_FragColor.a = f_a;
