@@ -1,3 +1,10 @@
+## [1.6.19](https://github.com/famibee/SKYNovel/compare/v1.6.18...v1.6.19) (2020-11-20)
+
+
+### Bug Fixes
+
+* コンパイルエラー解消、ライブラリ更新 ([f792c7a](https://github.com/famibee/SKYNovel/commit/f792c7a034d4ff90f4220f92e31396baa176e963))
+
 - fix: コンパイルエラー解消
 - fix: ライブラリ更新
 
