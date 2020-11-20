@@ -448,9 +448,15 @@ uniform sampler2D rule;
 uniform float vague;
 uniform float tick;
 
+uniform vec4 inputPixel;
+uniform highp vec4 outputFrame;
+vec2 getUV(vec2 coord) {
+	return coord * inputPixel.xy / outputFrame.zw;
+}
+
 void main(void) {
 	vec4 fg = texture2D(uSampler, vTextureCoord);
-	vec4 ru = texture2D(rule, vTextureCoord);
+	vec4 ru = texture2D(rule, getUV(vTextureCoord));
 
 	float v = ru.r - tick;
 	if (abs(v) < vague) {
@@ -464,9 +470,9 @@ void main(void) {
 	}
 }`;
 	private ufRuleTrans = {
-		rule : {type: 'sampler2D', value: Texture.EMPTY},
-		vague : {type: '1f', value: 0.0},
-		tick : {type: '1f', value: 0.0},
+		rule : Texture.EMPTY,
+		vague : 0.0,
+		tick : 0.0,
 	};
 	private fltRule = new Filter(undefined, this.srcRuleTransFragment, this.ufRuleTrans);
 

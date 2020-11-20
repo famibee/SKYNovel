@@ -1,3 +1,6 @@
+- fix: ルール画像[trans]で中心位置がずれている件
+
+
 ## [1.6.20](https://github.com/famibee/SKYNovel/compare/v1.6.19...v1.6.20) (2020-11-20)
 
 
