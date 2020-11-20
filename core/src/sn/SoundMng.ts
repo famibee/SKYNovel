@@ -305,7 +305,9 @@ export class SoundMng {
 		this.initVol();
 		if (snd) {
 			snd.volume = vol;	// 再生のたびに音量を戻す
-			if (sp_nm) this.playseSub(fn, o, sp_nm); else snd.play(o);
+			if (sp_nm) this.playseSub(fn, o, sp_nm);
+			else if (snd.isPlayable) snd.play(o);
+			//else snd.autoPlay = true;	// NOTE: なくていい？
 			return false;
 		}
 

@@ -287,7 +287,7 @@ export class LayerMng implements IGetFrm {
 			re();
 		}));
 		else for (const v of this.getLayers(hArg.layer)) a.push(
-			new Promise<void>(re=> this.hPages[v][pg].snapshot(rnd, re))
+			new Promise<void>(re=> this.hPages[v][pg].snapshot(rnd, ()=> re()))
 		);
 		Promise.all(a).then(()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
