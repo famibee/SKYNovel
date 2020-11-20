@@ -1,3 +1,10 @@
+## [1.6.21](https://github.com/famibee/SKYNovel/compare/v1.6.20...v1.6.21) (2020-11-20)
+
+
+### Bug Fixes
+
+* ルール画像[trans]で中心位置がずれている件 ([9267d6f](https://github.com/famibee/SKYNovel/commit/9267d6f3027115d2a7a4c0ef1f934ddce9c34282))
+
 - fix: ルール画像[trans]で中心位置がずれている件
 
 
