@@ -3,7 +3,3 @@
 
 # Node.js Tools
 /node_modules/
-
-/core/lib/sn/
-/core/lib/app.*
-/core/lib/web.*
