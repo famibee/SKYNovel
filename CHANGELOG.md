@@ -1,3 +1,10 @@
+## [1.6.22](https://github.com/famibee/SKYNovel/compare/v1.6.21...v1.6.22) (2020-11-25)
+
+
+### Bug Fixes
+
+* （ギャラリーでHArgなどの型宣言が見えないので）.npmignore修正 ([eb5c863](https://github.com/famibee/SKYNovel/commit/eb5c86313f942884ca4cf41e0477b18ead1df8bf))
+
 - fix: ライブラリ更新
 - fix: （ギャラリーでHArgなどの型宣言が見えないので）.npmignore修正
 
