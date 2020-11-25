@@ -1,3 +1,10 @@
+## [1.6.24](https://github.com/famibee/SKYNovel/compare/v1.6.23...v1.6.24) (2020-11-25)
+
+
+### Bug Fixes
+
+* .gitignore修正 ([b6850d4](https://github.com/famibee/SKYNovel/commit/b6850d416e782dd8cd82f677a183df27070d399c))
+
 - fix: .gitignore修正
 
 
