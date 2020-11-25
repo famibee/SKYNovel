@@ -1,7 +1,9 @@
 # Visual Studio Code cache/options directory
-.vscode/
+/.vscode/
 
 # Node.js Tools
-node_modules/
+/node_modules/
 
-core/lib/
+/core/lib/sn/
+/core/lib/app.*
+/core/lib/web.*
