@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 // =============== Global
-export interface HArg {
+export type HArg = {
 	タグ名?	: string;
 
 	layer?	: string;	// レイヤ系
@@ -148,7 +148,7 @@ export interface IMyTrace {
 
 
 // =============== ScriptIterator
-export interface Script {
+export type Script = {
 	aToken	: string[];		// トークン群
 	len		: number;		// トークン数
 	aLNum	: number[];		// トークンの行番号
@@ -163,7 +163,7 @@ export interface IPropParser {
 
 
 // =============== Plugin
-export interface IPluginInitArg {
+export type IPluginInitArg = {
 	addTag(tag_name: string, tag_fnc: ITag): void;
 	addLayCls(cls: string, fnc: ILayerFactory): void;
 	searchPath(fn: string, extptn?: string): string;
@@ -187,7 +187,7 @@ export interface ILayerFactory {
 
 
 // =============== SysBase
-export interface HSysBaseArg {
+export type HSysBaseArg = {
 	cur		: string;
 	crypto	: boolean;
 	dip		: string;
@@ -272,13 +272,13 @@ export interface IVariable {
 	doRecLog(): boolean;
 }
 
-export interface IData4Vari {
+export type IData4Vari = {
 	sys		: {[name: string]: any};
 	mark	: {[name: string]: IMark};
 	kidoku	: {[name: string]: any};
 }
 
-export interface IMark {
+export type IMark = {
 	hSave	: {[name: string]: any};
 	hPages	: HPage;
 	aIfStk	: number[];
@@ -298,8 +298,8 @@ export interface IGetFrm {
 
 
 // =============== Pages
-export interface HPage {[name: string]: IPage};
-export interface IPage {
+export type HPage = {[name: string]: IPage};
+export type IPage = {
 	cls		: string;
 	fore	: {[name: string]: any};
 	back	: {[name: string]: any};

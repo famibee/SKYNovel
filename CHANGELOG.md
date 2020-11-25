@@ -1,3 +1,6 @@
+- fix: HArgなどの型宣言修正（Interface → type）
+
+
 ## [1.6.22](https://github.com/famibee/SKYNovel/compare/v1.6.21...v1.6.22) (2020-11-25)
 
 
