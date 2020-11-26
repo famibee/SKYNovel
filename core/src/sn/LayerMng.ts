@@ -1026,9 +1026,9 @@ void main(void) {
 		hArg.clicksebuf ??= 'SYS';
 		hArg.entersebuf ??= 'SYS';
 		hArg.leavesebuf ??= 'SYS';
-		this.getTxtLayer(hArg).addButton(hArg).then(()=> this.main.resume());
+		this.getTxtLayer(hArg).addButton(hArg);
 
-		return true;
+		return false;
 	}
 
 

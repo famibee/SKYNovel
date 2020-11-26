@@ -1,3 +1,6 @@
+- fix: 文字ボタンが多数ある画面で一個ずつウェイトが入る件
+
+
 ## [1.6.24](https://github.com/famibee/SKYNovel/compare/v1.6.23...v1.6.24) (2020-11-25)
 
 
