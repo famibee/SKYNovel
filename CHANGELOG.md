@@ -1,3 +1,10 @@
+## [1.6.25](https://github.com/famibee/SKYNovel/compare/v1.6.24...v1.6.25) (2020-11-26)
+
+
+### Bug Fixes
+
+* 文字ボタンが多数ある画面で一個ずつウェイトが入る件 ([ce46e8a](https://github.com/famibee/SKYNovel/commit/ce46e8af992c2e2c2f7546b7574230705467cebb))
+
 - fix: 文字ボタンが多数ある画面で一個ずつウェイトが入る件
 
 
