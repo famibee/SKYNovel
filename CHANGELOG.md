@@ -1,3 +1,10 @@
+## [1.6.26](https://github.com/famibee/SKYNovel/compare/v1.6.25...v1.6.26) (2020-12-11)
+
+
+### Bug Fixes
+
+* 文字レイヤの[dump_lay]で、前回のクリック待ちまでの表示文字しかtxtに反映されない件 ([35348e4](https://github.com/famibee/SKYNovel/commit/35348e40b47a980f9c106b90603b4fd3e966ef5f))
+
 - fix: 文字レイヤの[dump_lay]で、前回のクリック待ちまでの表示文字しかtxtに反映されない件
 - fix: ライブラリ更新
 
