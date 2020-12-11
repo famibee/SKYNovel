@@ -820,7 +820,7 @@ export class TxtLayer extends Layer {
 	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
 		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
-		const btn = new Button(hArg, TxtLayer.evtMng, TxtLayer.cfg, re, ()=> this.canFocus());
+		const btn = new Button(hArg, TxtLayer.evtMng, TxtLayer.cfg, ()=> re(), ()=> this.canFocus());
 		btn.name = JSON.stringify(hArg).replaceAll('"', "'");// playback時に使用
 		this.cntBtn.addChild(btn);
 	});
@@ -891,6 +891,8 @@ export class TxtLayer extends Layer {
 	snapshot_end() {this.txs.snapshot_end();}
 
 	dump(): string {
+		this.putCh('', 'gotxt｜');	// バッファの文字を印字してしまう
+
 		return super.dump() +`, "enabled":"${this.enabled}", ${this.txs.dump()
 		}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color
 		}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed

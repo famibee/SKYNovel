@@ -1,13 +1,15 @@
+export interface PRM {
+    val?: string;
+    def?: string;
+}
+export interface HPRM {
+    [name: string]: PRM;
+}
 export declare class AnalyzeTagArg {
     private readonly REG_TAGARG;
     go(args: string): void;
     private $hPrm;
-    get hPrm(): {
-        [name: string]: {
-            val?: string | undefined;
-            def?: string | undefined;
-        };
-    };
+    get hPrm(): HPRM;
     private $isKomeParam;
     get isKomeParam(): boolean;
 }

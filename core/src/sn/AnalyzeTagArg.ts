@@ -5,6 +5,14 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
+export interface PRM {
+	val?	: string;
+	def?	: string;
+};
+export interface HPRM {
+	[name: string]: PRM,
+};
+
 export class AnalyzeTagArg {
 	// 71 match 2662 step(~1ms) https://regex101.com/r/yyenjO/2
 	private	readonly	REG_TAGARG	= /;.*\n|(?<key>\w+)(?:\s+|;[^\n]*\n)*=(?:\s+|;.*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
@@ -31,7 +39,7 @@ export class AnalyzeTagArg {
 		}
 	}
 
-	private	$hPrm: {[name: string]: {val?: string, def?: string}}	= {};
+	private	$hPrm: HPRM	= {};
 	get hPrm() {return this.$hPrm}
 
 	private	$isKomeParam	= false;

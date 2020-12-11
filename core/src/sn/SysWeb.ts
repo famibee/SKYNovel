@@ -289,7 +289,7 @@ export class SysWeb extends SysBase {
 		.then(res=> {
 			if (! res.ok) throw Error(res.statusText);
 
-			callback(null, Buffer.from(res.text()));
+			return res.text().then(txt=> callback(null, Buffer.from(txt)));
 		})
 		.catch(e=> console.error('Error:', e));
 	};
