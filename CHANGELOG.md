@@ -1,3 +1,10 @@
+## [1.6.27](https://github.com/famibee/SKYNovel/compare/v1.6.26...v1.6.27) (2020-12-13)
+
+
+### Bug Fixes
+
+* ドキュメント更新：フォント使用サンプル、mp4、現在H264しか再生できないらしい件追記 ([80205c8](https://github.com/famibee/SKYNovel/commit/80205c83d1991bc24c652cba9f5751ac389fcc8e))
+
 - fix: ドキュメント更新：フォント使用サンプル、mp4、現在H264しか再生できないらしい件追記
 - fix: ライブラリ更新
 
