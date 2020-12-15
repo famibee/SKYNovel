@@ -16,7 +16,7 @@
 		"hammerjs": "^2.0.8",
 		"parsimmon": "^1.16.0",
 		"pixi-sound": "^3.0.5",
-		"pixi.js": "^5.3.3",
+		"pixi.js": "^5.3.4",
 		"platform": "^1.3.6",
 		"store": "^2.0.12",
 		"tar-fs": "^2.1.1",
