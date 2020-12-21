@@ -1,3 +1,10 @@
+## [1.6.29](https://github.com/famibee/SKYNovel/compare/v1.6.28...v1.6.29) (2020-12-21)
+
+
+### Bug Fixes
+
+* スクリプト拡張子に「ssn」追加 ([05cc840](https://github.com/famibee/SKYNovel/commit/05cc8405739f8a5a5642ffceb1e99f33321433bc))
+
 - fix: スクリプト拡張子に「ssn」追加
 - fix: ライブラリ更新
 
