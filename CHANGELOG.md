@@ -1,3 +1,10 @@
+## [1.6.30](https://github.com/famibee/SKYNovel/compare/v1.6.29...v1.6.30) (2020-12-26)
+
+
+### Bug Fixes
+
+* アイコン更新、透過しないように ([47568ed](https://github.com/famibee/SKYNovel/commit/47568edf11e010f1f3d66a988caee14f16910450))
+
 - fix: アイコン更新、透過しないように
 - fix: ライブラリ更新
 
