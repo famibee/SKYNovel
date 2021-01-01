@@ -1,3 +1,6 @@
+- fix: Licenseブロック年表記更新
+
+
 ## [1.6.31](https://github.com/famibee/SKYNovel/compare/v1.6.30...v1.6.31) (2021-01-01)
 
 
