@@ -1,3 +1,10 @@
+## [1.6.34](https://github.com/famibee/SKYNovel/compare/v1.6.33...v1.6.34) (2021-01-11)
+
+
+### Bug Fixes
+
+* ライブラリ更新 ([9067ae8](https://github.com/famibee/SKYNovel/commit/9067ae812238fcf5bdcff97478702845985f7b5f))
+
 - fix: ライブラリ更新
 - fix: [dump_script][event][set_focus]タグリファレンスにneed_err属性の記述追加
 
