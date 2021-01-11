@@ -277,7 +277,10 @@
 	</ul>
 	<p>デバッグ・その他</p>
 	<ul class="anchors list-reset m0 p0 px1">
-		<li class="mb1"><a href="#dump_lay">[dump_lay] レイヤのダンプ</a></li>
+		<li class="mb1"><a href="#dump_lay">[dump_lay] 外部へスクリプトを表示</a></li>
+<!--
+		<li class="mb1"><a href="#dump_script">[dump_script] スクリプトのダンプ</a></li>
+-->
 		<li class="mb1"><a href="#dump_stack">[dump_stack] スタックのダンプ</a></li>
 		<li class="mb1"><a href="#dump_val">[dump_val] 変数のダンプ</a></li>
 		<li class="mb1"><a href="#log">[log] ログ出力</a></li>
@@ -1118,6 +1121,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	フォーカス移動対象から外す。<br/>
 	【例】[set_focus del='dom=archive:.card-image,.btn_delete']
 </td></tr>
+<tr><td>need_err</td><td></td><td>true</td><td>Boolean</td><td>
+	HTML内にセレクタ（add・del属性）に対応する要素が見つからない場合にエラーを出すか
+</td></tr>
 </table>
 
 </p>
@@ -1327,6 +1333,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>del</td><td></td><td></td><td>Boolean</td><td>trueを指定すると予約済みイベントを削除する。<br/>fn/label/callとdelは同時指定できません</td></tr>
 <tr><td>frame</td><td></td><td>10</td><td>1〜</td><td>※未実装<br/><br/>key=enter_frameの場合のみ有効。<br/>フレームイベントは毎秒何度も（[window]のframerate回）発生するが、 アプリ全体が重くなるので、適度に間引いてイベントを時々発生させるため、
 	フレーム何回に一回イベントを発生させるかを指定する。<br/>例）30フレームで動作するアプリでframe=15を指定すると、30/15=0.5秒に一回発生（タイミングにより厳密ではない）</td></tr>
+<tr><td>need_err</td><td></td><td>true</td><td>Boolean</td><td>
+	HTML内にセレクタ（key属性）に対応する要素が見つからない場合にエラーを出すか
+</td></tr>
 </table>
 
 	※1 イベントのキー名は以下の表を参考に。<br/>
@@ -2193,6 +2202,20 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </table>
 
 </p>
+<!--
+
+<h2 id="dump_script" class="w-heading">[dump_script]外部へスクリプトを表示</h2>
+<h4>レイヤの内容をデバッグ表示する</h4>
+<p class="mb2 px1">
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>set_fnc</td><td>y</td><td></td><td>GlobalThis要素名</td><td>...（内部APIにつき説明省略）</td></tr>
+<tr><td>need_err</td><td></td><td>true</td><td>Boolean</td><td>
+	HTML内にセレクタ（set_fnc属性）に対応する要素が見つからない場合にエラーを出すか
+</td></tr>
+</table>
+
+-->
 <h2 id="dump_stack" class="w-heading">[dump_stack]スタックのダンプ</h2>
 <h4>[call]等によるコールスタックの内容をデバッグ表示する</h4>
 <p class="mb2 px1">
