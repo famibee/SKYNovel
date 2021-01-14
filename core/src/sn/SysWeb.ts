@@ -119,7 +119,7 @@ export class SysWeb extends SysBase {
 	private main: Main | null;
 
 
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void {
+	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig) {
 		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
 		(async ()=> {
 			const fn = this.arg.cur +'path.json';
@@ -198,7 +198,7 @@ export class SysWeb extends SysBase {
 		})();
 	}
 
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
 		super.init(hTag, appPixi, val, main);
 
 		if (! this.cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {

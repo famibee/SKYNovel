@@ -34,7 +34,7 @@ export class SysBase implements ISysBase {
 	reso4frame	= 1;
 
 	protected	cfg	: IConfig;
-	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, cfg: IConfig): void {this.cfg = cfg;}
+	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, cfg: IConfig) {this.cfg = cfg;}
 
 	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
 	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
@@ -42,7 +42,7 @@ export class SysBase implements ISysBase {
 
 	protected	val		: IVariable;
 	protected	appPixi	: Application;
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
 		this.val = val;
 		this.appPixi = appPixi;
 		let mes = '';

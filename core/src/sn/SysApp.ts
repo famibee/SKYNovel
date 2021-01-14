@@ -147,7 +147,7 @@ export class SysApp extends SysNode {
 
 	private readonly	win	= remote.getCurrentWindow();
 	private readonly	wc	= this.win.webContents;
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void {
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
 		super.init(hTag, appPixi, val, main);
 
 		if (this.cfg.oCfg.debug.devtool) this.wc.openDevTools();
@@ -156,60 +156,59 @@ export class SysApp extends SysNode {
 			main.destroy();
 		});
 		this.win.setContentSize(CmnLib.stageW, CmnLib.stageH);
+		if (! this.isDbg()) return;
 
-		if (this.isDbg()) {
-			this.addHook((type: string, o: any)=> {
+		this.addHook((type: string, o: any)=> {
 //console.log(`fn:SysApp.ts hook(type:${type} o:${JSON.stringify(o)})`);
-				switch (type) {	// 接続
-					case 'continue':	this.toast('再生');	break;
-					case 'disconnect':	this.toast('切断');	break;
-					case 'restart':	this.sendDbg(o?.ri ??'', {}); this.endSkt();
-						// これ以前の this は旧Main。以後は this必須
-						// 以後は新Mainによる本メソッドinit()→launch接続待ち
-						this.run();	break;
-					case 'pause':
-					case 'stopOnEntry':	this.toast('一時停止');	break;
-					case 'stopOnDataBreakpoint':
-					case 'stopOnBreakpoint': this.toast('注意');	break;
-					case 'stopOnStep': this.toast('一歩進む');	break;
-					case 'stopOnStepIn': this.toast('ステップイン');	break;
-					case 'stopOnStepOut': this.toast('ステップアウト');	break;
-					case 'stopOnBackstep': this.toast('一歩戻る');	break;
-				}
-			});
+			switch (type) {	// 接続
+				case 'continue':	this.toast('再生');	break;
+				case 'disconnect':	this.toast('切断');	break;
+				case 'restart':	this.sendDbg(o?.ri ?? '', {});	this.endSkt();
+					// これ以前の this は旧Main。以後は this必須
+					// 以後は新Mainによる本メソッドinit()→launch接続待ち
+					this.run();	break;
+				case 'pause':
+				case 'stopOnEntry':	this.toast('一時停止');	break;
+				case 'stopOnDataBreakpoint':
+				case 'stopOnBreakpoint': this.toast('注意');	break;
+				case 'stopOnStep': this.toast('一歩進む');	break;
+				case 'stopOnStepIn': this.toast('ステップイン');	break;
+				case 'stopOnStepOut': this.toast('ステップアウト');	break;
+				case 'stopOnBackstep': this.toast('一歩戻る');	break;
+			}
+		});
 
-			const UNIX_SOCK = '.vscode/skynovel.sock';	// UNIXドメインソケット
-			try {removeSync(UNIX_SOCK);} catch {}
-				// ソケットファイルを削除（存在するとlistenできない）
-			const srv = createServer(skt=> {// launchサーバーはMainごとに生成
-				srv.close();	// 最初の接続のみ
-				skt.on('data', b=> {
-					const s = b.toString();
-					if (s.charAt(0) !== '\x1f') return;
+		const UNIX_SOCK = '.vscode/skynovel.sock';	// UNIXドメインソケット
+		try {removeSync(UNIX_SOCK);} catch {}
+			// ソケットファイルを削除（存在するとlistenできない）
+		const srv = createServer(skt=> {// launchサーバーはMainごとに生成
+			srv.close();	// 最初の接続のみ
+			skt.on('data', b=> {
+				const s = b.toString();
+				if (s.charAt(0) !== '\x1f') return;
 
-					s.slice(1).split('\x1f').forEach(f=> {
-						const o = JSON.parse(f);
-						this.callHook(o.type, o);
-					});
-				})
-				.on('error', err=> {console.error(err.message); this.endSkt();})
-				// endイベントは接続がきれいにクローズされないと発火しないらしい
-				.on('close', ()=> this.sendDbg = ()=> {});
-				this.sendDbg = (type, o)=> skt.write('\x1f'+ JSON.stringify({...o, type: type}));
+				s.slice(1).split('\x1f').forEach(f=> {
+					const o = JSON.parse(f);
+					this.callHook(o.type, o);
+				});
+			})
+			.on('error', err=> {console.error(err.message); this.endSkt();})
+			// endイベントは接続がきれいにクローズされないと発火しないらしい
+			.on('close', ()=> this.sendDbg = ()=> {});
+			this.sendDbg = (type, o)=> skt.write('\x1f'+ JSON.stringify({...o, type: type}));
 
-				this.endSkt = ()=> {
-					this.endSkt = ()=> {};
-					this.aFncHook = [];
-					this.sendDbg = ()=> {};
-					skt.end();
-				};
+			this.endSkt = ()=> {
+				this.endSkt = ()=> {};
+				this.aFncHook = [];
+				this.sendDbg = ()=> {};
+				skt.end();
+			};
 
-				this.toast('接続');
-			}).listen(UNIX_SOCK);
+			this.toast('接続');
+		}).listen(UNIX_SOCK);
 
-			createConnection('.vscode/sn_launch.sock')	// launch
-			.on('error', ()=> main.setLoop(true));		// attach
-		}
+		createConnection('.vscode/sn_launch.sock')	// launch
+		.on('error', ()=> main.setLoop(true));		// attach
 	}
 	private	endSkt = ()=> {};
 

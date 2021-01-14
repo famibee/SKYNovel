@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, uint, int, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
+import {uint, int, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg, IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook} from './CmnInterface';
 import {Config} from './Config';
 import {Areas} from './Areas';
@@ -123,11 +123,6 @@ export class Variable implements IVariable {
 		const win: any = window;
 		const ac = win['AudioContext'] ?? win['webkitAudioContext'];
 		this.hTmp['const.sn.needClick2Play'] = ()=> new ac().state === 'suspended';
-
-		// ダークモード切り替え検知
-		const dmmq = globalThis.matchMedia('(prefers-color-scheme: dark)');
-		this.hTmp['const.sn.isDarkMode'] = CmnLib.isDarkMode = dmmq.matches;
-		dmmq.addListener(e=> this.hTmp['const.sn.isDarkMode'] = CmnLib.isDarkMode = e.matches);
 	}
 
 

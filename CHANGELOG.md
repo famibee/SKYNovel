@@ -1,3 +1,7 @@
+- fix: ダークモード変更イベント[event key=sn:chgDarkMode]追加
+- fix: ダークモード変更判定APIが非推奨になっていたので更新
+
+
 ## [1.6.34](https://github.com/famibee/SKYNovel/compare/v1.6.33...v1.6.34) (2021-01-11)
 
 

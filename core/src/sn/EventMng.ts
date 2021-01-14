@@ -119,6 +119,18 @@ export class EventMng implements IEvtMng {
 		this.elc.add(window, 'keydown', e=> this.ev_keydown(e));
 		this.elc.add(appPixi.view, 'contextmenu', e=> this.ev_contextmenu(e));
 
+		// ダークモード切り替え検知
+		const fncMql = (mq: MediaQueryList | MediaQueryListEvent)=> {
+			CmnLib.isDarkMode = mq.matches;
+			val.setVal_Nochk('tmp', 'const.sn.isDarkMode', CmnLib.isDarkMode);
+		};
+		const mql = globalThis.matchMedia('(prefers-color-scheme: dark)');
+		fncMql(mql);
+		mql.addEventListener('change', e=> {
+			fncMql(e);
+			this.fire('sn:chgDarkMode', e);
+		});
+
 		if ('WheelEvent' in window) {
 			this.elc.add(appPixi.view, 'wheel', e=> this.ev_wheel(e), {passive: true});
 			this.resvFlameEvent4Wheel = win=> win.addEventListener('wheel', e=> this.ev_wheel(e), {passive: true});
