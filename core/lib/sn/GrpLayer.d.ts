@@ -34,7 +34,6 @@ export declare class GrpLayer extends Layer {
     };
     readonly lay: (hArg: HArg) => boolean;
     private laySub;
-    private static ldrHFn;
     static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
     private static preThen;
     private static preThen4Cripto;

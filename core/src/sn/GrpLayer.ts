@@ -64,7 +64,7 @@ export class GrpLayer extends Layer {
 
 		GrpLayer.hFace	= {};
 		GrpLayer.hFn2ResAniSpr	= {};
-		GrpLayer.ldrHFn	= {};
+//		GrpLayer.ldrHFn	= {};
 		GrpLayer.fn2Video	= {};
 	}
 
@@ -116,7 +116,7 @@ export class GrpLayer extends Layer {
 		return ret;
 	}
 
-	private	static ldrHFn: {[name: string]: 1} = {};
+//	private	static ldrHFn: {[name: string]: 1} = {};
 	static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		// Data URI
 		let needLoad = false;
@@ -155,8 +155,17 @@ export class GrpLayer extends Layer {
 			if (f.fn in GrpLayer.hFn2ResAniSpr) return;
 			if (f.fn in utils.TextureCache) return;
 			if (f.fn in Loader.shared.resources) return;
-			if (f.fn in GrpLayer.ldrHFn) return;
-			GrpLayer.ldrHFn[f.fn] = 1;
+//			if (f.fn in GrpLayer.ldrHFn) {
+				// ここに来るという中途半端な状態がある。お陰で警告が出てしまう
+// 以下の試みは効かない
+//	Texture.removeFromCache(f.fn);
+//	delete utils.TextureCache[f.fn];
+//	delete Loader.shared.resources[f.fn];
+				// return;	// これは厳禁、御法度。
+					// 画像ボタンや文字ボタン背景で同じ画像を、間を置かずロードした場合に最初一つしか表示されなくなる。以下は確認用
+					// http://localhost:8082/index.html?cur=ch_button
+//			}
+//			GrpLayer.ldrHFn[f.fn] = 1;
 
 			needLoad = true;
 			const path = GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE);
@@ -274,7 +283,7 @@ export class GrpLayer extends Layer {
 				const hve = r.data as HTMLVideoElement;
 				hve.volume = GrpLayer.glbVol;
 				GrpLayer.fn2Video[fn] = hve;
-				delete GrpLayer.ldrHFn[fn];	// 毎回来て欲しいのでキャッシュとしない
+//				delete GrpLayer.ldrHFn[fn];	// 毎回来て欲しいのでキャッシュとしない
 				return Sprite.from(r.data);
 
 			default:	return new Sprite(r.texture);

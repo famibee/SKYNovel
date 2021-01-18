@@ -106,31 +106,32 @@ export class Button extends Container {
 				grpDbgMasume.endFill();
 				this.addChild(grpDbgMasume);
 			}
-			if (! enabled) {if (! isStop) resolve(); return;}
+			if (enabled) {
+				const style_hover = style.clone();
+				if (hArg.style_hover) try {
+					const o = JSON.parse(hArg.style_hover);
+					for (const nm in o) (style_hover as any)[nm] = o[nm];
+				} catch (e) {
+					throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+				}
+				else style_hover.fill = 'white';
 
-			const style_hover = style.clone();
-			if (hArg.style_hover) try {
-				const o = JSON.parse(hArg.style_hover);
-				for (const nm in o) (style_hover as any)[nm] = o[nm];
-			} catch (e) {
-				throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+				const style_clicked = style_hover.clone();
+				if (hArg.style_clicked) try {
+					const o = JSON.parse(hArg.style_clicked);
+					for (const nm in o) (style_clicked as any)[nm] = o[nm];
+				} catch (e) {
+					throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+				}
+				else style_clicked.dropShadow = false;
+
+				evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
+					if (! canFocus()) return false;
+					txt.style = style_hover;
+					return true;
+				}, ()=> txt.style = style_clicked);
+
 			}
-			else style_hover.fill = 'white';
-
-			const style_clicked = style_hover.clone();
-			if (hArg.style_clicked) try {
-				const o = JSON.parse(hArg.style_clicked);
-				for (const nm in o) (style_clicked as any)[nm] = o[nm];
-			} catch (e) {
-				throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-			}
-			else style_clicked.dropShadow = false;
-
-			evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
-				if (! canFocus()) return false;
-				txt.style = style_hover;
-				return true;
-			}, ()=> txt.style = style_clicked);
 
 			if (! isStop) resolve();
 			return;
