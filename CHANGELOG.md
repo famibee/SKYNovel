@@ -1,3 +1,10 @@
+## [1.6.38](https://github.com/famibee/SKYNovel/compare/v1.6.37...v1.6.38) (2021-01-18)
+
+
+### Bug Fixes
+
+* 画像ボタンクリック時に、fn省略ジャンプやコールでスクリプトが狂ってしまう場合がある件 ([d861ce6](https://github.com/famibee/SKYNovel/commit/d861ce6c0b556bfe4256e58df824e52719844289))
+
 - fix: 画像ボタンクリック時に、fn省略ジャンプやコールでスクリプトが狂ってしまう場合がある件
 
 
