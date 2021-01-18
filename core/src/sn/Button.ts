@@ -159,6 +159,9 @@ export class Button extends Container {
 					sp.texture = txHover;
 					return true;
 				}, ()=> sp.texture = txClicked);
+					// 「画像ロード後」というタイミングで evtMng.button() を呼ぶと
+					// scrItr.scriptFn が変わってしまうので、LayerMng の button()
+					// で対応している
 
 				if ('width' in hArg) {
 					oName.width = uint(hArg.width);

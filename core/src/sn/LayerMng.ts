@@ -1019,6 +1019,9 @@ void main(void) {
 		hArg.clicksebuf ??= 'SYS';
 		hArg.entersebuf ??= 'SYS';
 		hArg.leavesebuf ??= 'SYS';
+		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
+			// fn省略時、画像ボタンはロード後という後のタイミングで scrItr.scriptFn を
+			// 参照してしまうので
 		this.getTxtLayer(hArg).addButton(hArg);
 
 		return false;
