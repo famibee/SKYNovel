@@ -1,3 +1,10 @@
+## [1.6.36](https://github.com/famibee/SKYNovel/compare/v1.6.35...v1.6.36) (2021-01-18)
+
+
+### Bug Fixes
+
+* 変数名が短い変数と長いjson変数がある際、短い変数を参照するとエラーになる件 ([9439b97](https://github.com/famibee/SKYNovel/commit/9439b97c4e08d472eafe703e6b950adecc4e0dd1))
+
 - fix: 変数名が短い変数と長いjson変数がある際、短い変数を参照するとエラーになる件
 	mp:const.sn.sound = true
 	mp:const.sn.sound.codecs = '{"aac": true, "flac": false}'
