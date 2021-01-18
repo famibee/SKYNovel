@@ -58,7 +58,7 @@ export class FrameMng implements IGetFrm {
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a
 		}; position: absolute; left:${this.sys.ofsLeft4frm +rct.x *scl
-		}px; top: ${this.sys.ofsTop4frm  +rct.y *scl}px; z-index: 1; ${b_color
+		}px; top: ${this.sys.ofsTop4frm +rct.y *scl}px; z-index: 1; ${b_color
 		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
 		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *scl}" height="${rct.height *scl}"></iframe>`);
 
@@ -268,8 +268,7 @@ export class FrameMng implements IGetFrm {
 		if ('disabled' in hArg) {
 			const d = this.hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
 			const il: NodeListOf<HTMLInputElement | HTMLSelectElement> = ifrm.contentDocument!.body.querySelectorAll('input,select');
-			const len = il.length;
-			for (let i=0; i<len; ++i) il[i].disabled = d;
+			il.forEach(v=> v.disabled = d);
 		}
 
 		return false;

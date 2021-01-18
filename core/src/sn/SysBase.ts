@@ -61,26 +61,24 @@ export class SysBase implements ISysBase {
 		}
 
 		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
-		for (const nm in this.hPlg) {	// プラグイン初期化
-			this.hPlg[nm].init({
-				addTag: (name: string, tag_fnc: ITag)=> {
-					if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
-					hTag[name] = tag_fnc;
-				},
-				addLayCls: (cls: string, fnc: ILayerFactory)=> {
-					if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
-					this.hFactoryCls[cls] = fnc;
-				},
-				searchPath: (fn, extptn = '')=>	this.cfg.searchPath(fn, extptn),
-				getVal: val.getVal,
-				resume: ()=> main.resume(),
-				render: (dsp: DisplayObject, renTx: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
-				setPre: fnc=> this.pre = fnc,
-				setEnc: fnc=> this.enc = fnc,
-				getStK: fnc=> this.stk = fnc,
-				getHash: fnc=> this.hash = fnc,
-			});
-		}
+		for (const nm in this.hPlg) this.hPlg[nm].init({	// プラグイン初期化
+			addTag: (name: string, tag_fnc: ITag)=> {
+				if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
+				hTag[name] = tag_fnc;
+			},
+			addLayCls: (cls: string, fnc: ILayerFactory)=> {
+				if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
+				this.hFactoryCls[cls] = fnc;
+			},
+			searchPath: (fn, extptn = '')=>	this.cfg.searchPath(fn, extptn),
+			getVal: val.getVal,
+			resume: ()=> main.resume(),
+			render: (dsp: DisplayObject, renTx: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
+			setPre: fnc=> this.pre = fnc,
+			setEnc: fnc=> this.enc = fnc,
+			getStK: fnc=> this.stk = fnc,
+			getHash: fnc=> this.hash = fnc,
+		});
 
 		//	システム
 		hTag.close			= o=> this.close(o);	// アプリの終了
@@ -165,8 +163,10 @@ export class SysBase implements ISysBase {
 	ofsTop4frm	= 0;
 	protected	resizeFrames() {
 		const cr = this.appPixi.view.getBoundingClientRect();
-		Array.from(document.getElementsByTagName('iframe'))
-		.forEach((it: HTMLIFrameElement)=> {
+		const a = document.getElementsByTagName('iframe');
+		const len = a.length;
+		for (let i=0; i<len; ++i) {
+			const it = a[i];
 			const frmnm = `const.sn.frm.${it.id}`;
 			it.style.left = this.ofsLeft4frm +cr.left
 				+ Number(this.val.getVal(`tmp:${frmnm}.x`)) *this.reso4frame
@@ -178,7 +178,7 @@ export class SysBase implements ISysBase {
 				*this.reso4frame);
 			it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
 				*this.reso4frame);
-		});
+		}
 	}
 
 }

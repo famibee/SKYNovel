@@ -36,6 +36,7 @@ export class Button extends Container {
 
 		// 文字列から生成
 		if ('text' in hArg) {
+			const height = argChk_Num(hArg, 'height', 30);
 			const style = new TextStyle({
 				align: 'center',
 				dropShadow: true,
@@ -46,7 +47,7 @@ export class Button extends Container {
 				dropShadowDistance: 0,
 				fill: 'black',
 				fontFamily: Button.fontFamily,
-				fontSize: uint(hArg.height ?? 30),
+				fontSize: height,
 				padding: 5,
 			});
 			if (hArg.style) try {
@@ -59,8 +60,9 @@ export class Button extends Container {
 
 			const txt = new Text(hArg.text ?? '', style);
 			txt.alpha = argChk_Num(hArg, 'alpha', txt.alpha);	// 上にまとめない
-			txt.width = uint(hArg.width ?? 100);
-			txt.height = parseInt(String(style.fontSize));
+			txt.width = argChk_Num(hArg, 'width', 100);
+			txt.height = height;
+			hArg.height = String(height);
 
 			oName.type = 'text';	// dump用
 			oName = {...oName, ...style};

@@ -18,12 +18,11 @@ export class PropParser implements IPropParser {
 	constructor(private readonly val: IVariable) {
 		function ope(a: (string | RegExp)[]) {
 			const ps: any = [];
-			for (const v of a) ps.push(
+			a.forEach(v=> ps.push(
 				((v instanceof RegExp)
 					? P.regex(v as RegExp)
 					: P.string(v as string))
-				.trim(P.optWhitespace)
-			);
+				.trim(P.optWhitespace)));
 			return P.alt.apply(null, ps);
 		}
 

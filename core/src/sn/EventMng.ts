@@ -19,7 +19,6 @@ import {Container, Application} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
-import * as Hammer from 'hammerjs';
 const {GamepadListener} = require('gamepad.js');
 
 export class EventMng implements IEvtMng {
@@ -32,18 +31,6 @@ export class EventMng implements IEvtMng {
 		deadZone: 0.3,
 	});
 	private readonly	fcs		= new FocusMng();
-
-	private ham		: any;
-	private	readonly hHamEv :{[name: string]: null | {(e: any): void}}	= {
-	//	tap			: null,
-		tap2		: null,
-		press		: null,	// 長押し
-		//swipe		: null,
-		swipeleft	: null,
-		swiperight	: null,
-		swipeup		: null,
-		swipedown	: null,
-	};
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
 		//	イベント
@@ -66,7 +53,11 @@ export class EventMng implements IEvtMng {
 		TxtLayer.setEvtMng(main, this);
 		layMng.setEvtMng(this);
 		sys.setFire((KEY, e)=> this.fire(KEY, e));
-		sys.addHook((type: string, o: object)=> this.procHook(type, o));
+		sys.addHook(type=> {switch (type) {
+			case 'continue':
+			case 'disconnect':	this.isDbgBreak = false;	break;
+			default:	this.isDbgBreak = true;
+		}});
 
 		let fnHint = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyBAMAAABYG2ONAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGuGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjAtMDgtMTlUMDM6MDk6MjUrMDk6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmFjZTQwNzA5LThlNDEtNDViNi1hMzBmLTk0NTVhYzU5MDAyYSIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQwMzowOToyNSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3Mzg4MzYwLWJjMjctNDRkZi1hMTYwLTk5N2M4ODNmYTA0ZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMjo0NTozNiswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMzo1MjoyOSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPC9yZGY6U2VxPiA8L3htcE1NOkhpc3Rvcnk+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+WWAYXwAAACdQTFRF////PDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlCOA6SAAAAA10Uk5TACB/MID/EJBA8NCwYDCdv6cAAABoSURBVHgBYxicYBQIKZEIlJmMSQWGTKS7a8RpGdUyqmVUy6iWUS3y7zGBAlwai+wnrOZwTA2FgBnE220F0RFlQLwWtq1gLdtI8SI7SEc4acFyMjQ08gBpgWzlAEKkgayoBJJj7AAuCQAm1kUjHh83WgAAAABJRU5ErkJggg==';
 		try {fnHint = cfg.searchPath('hint', Config.EXT_SPRITE);} catch {}
@@ -76,36 +67,6 @@ export class EventMng implements IEvtMng {
 		const rctHint = this.hint.getBounds();
 		this.zxHint = this.hint.x -rctHint.x;
 		this.zyHint = this.hint.y -rctHint.y;
-
-
-		this.ham = new Hammer(appPixi.view, {recognizers: [
-			//	[Hammer.Tap],
-				[Hammer.Press],
-				[Hammer.Swipe, {direction: Hammer.DIRECTION_ALL}],
-				//[Hammer.Rotate],
-				//[Hammer.Pinch, { enable: false }, ['rotate']],
-				// http://hammerjs.github.io/api/
-			]});
-
-		/*const manager = new Hammer.Manager(document.body, {recognizers: [
-			[Hammer.Tap, {pointers: 2}],
-		]});*/
-		// Add the recognizer to the manager.
-		this.hHamEv.tap2 = null;
-		for (const key in this.hHamEv) {
-			const fnc = this.hHamEv[key] = e=> {
-				val.defTmp('sn.eventArg.type', e.type);
-				val.defTmp('sn.eventArg.pointers', e.pointers);
-				this.fire(e.type, e);
-			}
-			this.ham.on(key, fnc);
-		}
-		/*manager.add(new Hammer.Tap({event: 'tap2', pointers: 2}));
-		manager.on('tap2', e=> {
-			val.defTmp('sn.eventArg', e.type);
-		//hTag['title']({text: 'DBG:'+ e.type});
-			this.evt2Fnc(e, e.type);
-		});*/
 
 
 		appPixi.stage.interactive = true;
@@ -253,16 +214,11 @@ export class EventMng implements IEvtMng {
 	destroy() {
 		this.fcs.destroy();
 		this.elc.clear();
-
-		for (const key in this.hHamEv) {
-			this.ham.off(key);
-			//this.ham.off(key, this.hHamEv[key]);
-		}
-		this.ham.destroy();
 	}
 
 	private hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	private hGlobalEvt2Fnc	: IHEvt2Fnc = {};
+	private isDbgBreak = false;
 	fire(KEY: string, e: Event) {
 		if (this.isDbgBreak) return;
 		if (! this.isWait) return;
@@ -352,14 +308,6 @@ export class EventMng implements IEvtMng {
 
 		this.isWait = true;		// 予約イベントの発生待ち
 	}
-	private	procHook(type: string, _o: any): void {
-		switch (type) {
-			case 'continue':
-			case 'disconnect':	this.isDbgBreak = false;	break;
-			default:	this.isDbgBreak = true;
-		}
-	}
-	private isDbgBreak = false;
 
 	button(hArg: HArg, em: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');

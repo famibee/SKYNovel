@@ -22,8 +22,6 @@ export declare class EventMng implements IEvtMng {
     private readonly zyHint;
     private readonly gamepad;
     private readonly fcs;
-    private ham;
-    private readonly hHamEv;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator, sys: SysBase);
     resvFlameEvent(win: Window): void;
     private resvFlameEvent4Wheel;
@@ -36,6 +34,7 @@ export declare class EventMng implements IEvtMng {
     destroy(): void;
     private hLocalEvt2Fnc;
     private hGlobalEvt2Fnc;
+    private isDbgBreak;
     fire(KEY: string, e: Event): void;
     private isWait;
     private getEvt2Fnc;
@@ -43,8 +42,6 @@ export declare class EventMng implements IEvtMng {
     pushLocalEvts(h: IHEvt2Fnc): void;
     waitEvent(onFinish: () => void, canskip?: boolean, global?: boolean): boolean;
     private waitEventBase;
-    private procHook;
-    private isDbgBreak;
     button(hArg: HArg, em: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     private dispHint;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;

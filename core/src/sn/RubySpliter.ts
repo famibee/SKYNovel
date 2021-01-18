@@ -66,11 +66,8 @@ export class RubySpliter {
 			if (kan_ruby) {this.putTxtRb(g.kan, kan_ruby); continue;}
 			if (g.ce) {this.putCh(g.ce.slice(1), ''); continue}
 
-			const txt = g.txt ?? '';
-			const a: string[] = Array.from(txt);
+			(Array.from(g.txt ?? '')as string[]).forEach(v=> this.putCh(v, ''));
 				// txt.split('')や [...txt] はサロゲートペアで問題
-			const len = a.length;
-			for (let i=0; i<len; ++i) this.putCh(a[i], '');
 		}
 	}
 

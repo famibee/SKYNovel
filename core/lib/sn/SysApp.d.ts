@@ -29,7 +29,7 @@ export declare class SysApp extends SysNode {
     copyBMFolder: (from: number, to: number) => void;
     eraseBMFolder: (place: number) => void;
     protected readonly isPackaged: () => boolean;
-    readonly isDbg: () => boolean;
+    isDbg: () => boolean;
     protected readonly close: () => boolean;
     protected readonly _export: ITag;
     protected readonly _import: ITag;

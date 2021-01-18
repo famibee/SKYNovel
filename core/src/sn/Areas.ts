@@ -86,11 +86,11 @@ export class Areas implements IAreas {
 		for (const begin in this.hAreas) aBegin.push(parseInt(begin));
 		aBegin.sort(function (x: number, y: number): number {return x-y;});
 
-		for (const v of aBegin) {
-			ret += ','+ v + (v === this.hAreas[v])
+		aBegin.forEach(v=> {ret += ','+ v
+			+ (v === this.hAreas[v])
 				? ''
 				: '~'+ this.hAreas[v];
-		}
+		});
 
 		if (ret !== '') ret = ret.slice(1);
 

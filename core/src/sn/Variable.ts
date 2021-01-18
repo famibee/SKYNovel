@@ -14,9 +14,9 @@ import {PropParser} from './PropParser';
 const platform = require('platform');
 
 export class Variable implements IVariable {
-	private	hScope	: any	= {sys:{}, save:{}, tmp:{}, mp:{}};
-	private	hSave	: any	= this.hScope.save;
-	private	hTmp	: any	= this.hScope.tmp;
+	private	hScopes	: {[name: string]: any}	= {sys:{}, save:{}, tmp:{}, mp:{}};
+	private	hSave	: any	= this.hScopes.save;
+	private	hTmp	: any	= this.hScopes.tmp;
 
 
 	constructor(private readonly cfg: Config, hTag: IHTag) {
@@ -161,8 +161,8 @@ export class Variable implements IVariable {
 				sessionStorage[ns +'tmp'] = JSON.stringify(oTmp);
 
 				const oMp: any = {};
-				Object.keys(this.hScope.mp).forEach(k=> {
-					const v = this.hScope.mp[k];
+				Object.keys(this.hScopes.mp).forEach(k=> {
+					const v = this.hScopes.mp[k];
 					oMp[k] = (v instanceof Function) ?v(): v;
 				});
 				sessionStorage[ns +'mp'] = JSON.stringify(oMp);
@@ -187,7 +187,7 @@ export class Variable implements IVariable {
 
 			this.callHook = sys.callHook;
 			sys.addHook((type, o)=> {switch (type) {
-				case 'var':	sys.sendDbg(o.ri, {v: this.hScope[o.scope] ?? {}});
+				case 'var':	sys.sendDbg(o.ri, {v: this.hScopes[o.scope] ?? {}});
 					break;
 				case 'set_var':
 					try {this.setVal(o.nm, o.val);	sys.sendDbg(o.ri, {});}
@@ -208,7 +208,7 @@ export class Variable implements IVariable {
 	}
 	updateData(data: IData4Vari): void {
 		this.data = data;
-		this.hSys = this.hScope.sys = this.data.sys;
+		this.hSys = this.hScopes.sys = this.data.sys;
 
 		this.hAreaKidoku = {};
 		for (const fn in this.data.kidoku) {
@@ -220,29 +220,27 @@ export class Variable implements IVariable {
 	private flush_	= ()=> {};
 	flush() {this.flush_();}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える
 
-	setDoRecProc(doRecProc: (doRec: boolean)=> void) {
-		this.doRecProc = doRecProc;
-	}
+	setDoRecProc(fnc: (doRec: boolean)=> void) {this.doRecProc = fnc;}
 	private	doRecProc = (_doRec: boolean)=> {};
 
-	defTmp(name: string, fnc: typeProcVal): void {this.hTmp[name] = fnc;};
-	cloneMp(): object {return {...this.hScope.mp}}
-	setMp(mp: object) {this.hScope.mp = mp;}
+	defTmp(name: string, fnc: typeProcVal) {this.hTmp[name] = fnc;};
+	cloneMp(): object {return {...this.hScopes.mp}}
+	setMp(mp: object) {this.hScopes.mp = mp;}
 	setMark(place: number, mark: IMark) {this.data.mark[place] = mark; this.flush()}
 	readonly	getMark = (place: number)=> this.data.mark[place];
-	cloneSave(): object {return {...this.hScope.save}}
+	cloneSave(): object {return {...this.hScopes.save}}
 	mark2save(mark: IMark) {
-		this.hSave = this.hScope.save = {...mark.hSave};
+		this.hSave = this.hScopes.save = {...mark.hSave};
 		this.$doRecLog	= this.hSave['sn.doRecLog'] ?? false;
 	}
 
 
 	// 既読系
-	loadScrWork(fn: string): void {
+	loadScrWork(fn: string) {
 		if (! (fn in this.hAreaKidoku)) this.hAreaKidoku[fn] = new Areas;
 	}
 	getAreaKidoku = (fn: string): Areas=> this.hAreaKidoku[fn];
-	saveKidoku(): void {
+	saveKidoku() {
 		for (const fn in this.hAreaKidoku) {
 			this.data.kidoku[fn] = {...this.hAreaKidoku[fn].hAreas};
 		}
@@ -407,7 +405,7 @@ export class Variable implements IVariable {
 //	// デバッグ・その他
 	// システム変数の全消去
 	private clearsysvar() {
-		const sys = this.hSys = this.hScope['sys'] = this.data.sys = {};
+		const sys = this.hSys = this.hScopes['sys'] = this.data.sys = {};
 
 		const is_nw = (typeof process !== 'undefined');
 		if (is_nw) {
@@ -455,7 +453,7 @@ export class Variable implements IVariable {
 		this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 0.5);
 
 
-		this.hScope['mark'] = this.data.mark = {};
+		this.hScopes['mark'] = this.data.mark = {};
 		this.setVal_Nochk('sys', 'const.sn.save.place', 1);
 
 
@@ -470,7 +468,7 @@ export class Variable implements IVariable {
 		const doRecLog	= this.hSave['sn.doRecLog'] ?? false;
 		const sLog		= this.hSave['const.sn.sLog'] ?? '';
 
-		this.hSave = this.hScope.save = {};
+		this.hSave = this.hScopes.save = {};
 
 		this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
 		this.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
@@ -486,7 +484,7 @@ export class Variable implements IVariable {
 		const o = PropParser.getValName(arg_name);
 		if (o === undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const hScope = this.hScope[o.scope];
+		const hScope = this.hScopes[o.scope];
 		if (! hScope) throw '[変数に値セット] scopeが異常【'+ o.scope +'】です';
 
 		const nm = o['name'];
@@ -497,7 +495,7 @@ export class Variable implements IVariable {
 		this.setVal_Nochk(o.scope, nm, val, autocast);
 	}
 	setVal_Nochk(scope: string, nm: string, val: any, autocast = false) {
-		const hScope = this.hScope[scope];
+		const hScope = this.hScopes[scope];
 		if (autocast) val = this.castAuto(val);
 
 		const fullnm = scope +':'+ nm;
@@ -531,27 +529,43 @@ export class Variable implements IVariable {
 		const o = PropParser.getValName(arg_name);
 		if (o === undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const hScope = this.hScope[o['scope']];
+		const hScope = this.hScopes[o['scope']];
 		if (! hScope) throw '[変数参照] scopeが異常【'+ o['scope'] +'】です';
 
-		const name = o['name'];
-		let val = hScope[name];
-		if (! (name in hScope)) {
+		const val_name = o['name'];
+		let val = hScope[val_name];
+//console.log(`fn:Variable.ts line:527 ・getVal arg_name=${arg_name}= val_name=${val_name}= A:${! (val_name in hScope)} val:%o`, val);
+		if (! (val_name in hScope)) {	// 存在しない変数名の場合、刻んで調べていく
 			val = def;
 
-			const aNm = name.split('.');
-			const len = aNm.length;
 			let nm = '';
-			for (let i=0; i<len; ++i) {
-				nm += '.'+ aNm[i];
-				const bn = nm.slice(1);
-				if (! (bn in hScope)) continue;
+			const aNm = val_name.split('.');
+			const len = aNm.length;
+			for (let i=0; i<len; ++i, nm += '.') {
+				nm += aNm[i];
+//console.log(`fn:Variable.ts line:546  nm:${nm}`);
+				if (! (nm in hScope)) continue;	// 存在しない変数名の場合、延ばす
 
-				val = JSON.parse(hScope[bn]);
-				while (++i < len) {
-					if (! (aNm[i] in val)) {val = def; break;}
-					val = val[aNm[i]];
+				let v = JSON.parse(hScope[nm]);
+//console.log(`fn:Variable.ts line:550   nm:${nm} type:${Object.prototype.toString.call(v)} v:%o`, v);
+				if (Object.prototype.toString.call(v) !== '[object Object]') {
+//console.log(`fn:Variable.ts line:552   != o i:${i} len:${len} C:${i +1 === len}`);
+					if (i +1 === len) {val = v; break;}	// 最下層ならそのまま返す
+					continue;
+						// 短い名前でヒットしたが、JSONでもなく
+						// 変数名にはまだ続きがあるので探索続行
 				}
+
+				let j = i;	// JSONオブジェクトの階層を降りつつ探索
+				while (++j < len) {
+//console.log(`fn:Variable.ts line:561   nm:${nm} j:${j} aNm[j]=${aNm[j]}= A:${! (aNm[j] in v)}`);
+					if (! (aNm[j] in v)) {val = def; break;}
+					v = v[aNm[j]];
+//console.log(`fn:Variable.ts line:564   v:${v} J:${j +1 === len}`);
+					if (Object.prototype.toString.call(v) !== '[object Object]'
+						|| j +1 === len) {val = v; break;}// 最下層ならそのまま返す
+				}
+
 				if (val instanceof Object) val = JSON.stringify(val);
 				break;
 			}
@@ -559,9 +573,7 @@ export class Variable implements IVariable {
 		if (val instanceof Function) val = (val as Function)();
 		//console.log('\tget ['+ arg_name +'] -> s['+ o['scope'] +'] a['+ o['at'] +'] n['+ name +'] ret['+ val +']('+ typeof val +')');
 
-		if (o['at'] === '@str') return val;
-
-		return this.castAuto(val);
+		return (o['at'] === '@str') ?val :this.castAuto(val);
 	}
 
 	private castAuto(val: Object): any {
@@ -582,7 +594,7 @@ export class Variable implements IVariable {
 	private readonly dump_val = ()=> {
 		const val: any = {tmp:{}, sys:{}, save:{}, mp:{}};
 		for (let scope in val) {
-			const hVal = this.hScope[scope];
+			const hVal = this.hScopes[scope];
 			const hRet = val[scope];
 			for (let key in hVal) {
 				const v = hVal[key];

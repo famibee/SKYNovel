@@ -206,7 +206,7 @@ export class Main implements IMain {
 			// ; コメント
 			else if (uc === 59) continue;
 			// * ラベル
-			else if ((uc === 42) && (token.length > 1)) continue;
+			else if (uc === 42 && token.length > 1) continue;
 
 			// 文字表示
 			try {

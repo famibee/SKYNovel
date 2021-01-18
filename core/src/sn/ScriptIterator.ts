@@ -39,7 +39,7 @@ export class ScriptIterator {
 	subIdxToken(): void {--this.idxToken_;};
 	private lineNum_	= 0;
 	get lineNum(): number {return this.lineNum_;}
-	readonly addLineNum	= (len: number)=> {this.lineNum_ += len;};
+	readonly addLineNum	= (len: number)=> this.lineNum_ += len;
 
 
 	private aCallStk	: CallStack[]	= [];
@@ -93,7 +93,7 @@ export class ScriptIterator {
 		this.grm.setEscape(cfg.oCfg.init.escape);
 
 		if (sys.isDbg()) {
-			sys.addHook((type, o)=> this.hHook[type]?.(type, o));
+			sys.addHook((type, o)=> this.hHook[type]?.(o));
 			this.isBreak = this.isBreak_base;
 
 			const fnc = this.analyzeInit;
@@ -108,11 +108,12 @@ export class ScriptIterator {
 				this.analyzeInit();
 			};
 		}
+		if (cfg.oCfg.debug.tag) this.procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
 	}
 
 	destroy() {this.isBreak = ()=> false;}
 
-	private	readonly hHook: {[type: string]: (type: string, o: any)=> void}	= {
+	private	readonly hHook	: {[type: string]: (o: any)=> void}	= {
 		'attach': ()=> {
 			this.breakState = BreakState.wait;
 			this.main.setLoop(false, '一時停止');
@@ -124,14 +125,14 @@ export class ScriptIterator {
 			ScriptIterator.hFuncBP = {};
 			this.isBreak = ()=> false;
 
-			this.hHook.continue('', {});
+			this.hHook.continue({});
 			this.breakState = BreakState.running;
 		},
 		'restart': ()=> this.isBreak = ()=> false,
 
 		// ブレークポイント登録
-		'add_break': (_, o)=> ScriptIterator.hBrkP[this.cnvSnPath4Dbg(o.fn)] = o.o,
-		'data_break': (_, o)=> {
+		'add_break': o=> ScriptIterator.hBrkP[this.cnvSnPath4Dbg(o.fn)] = o.o,
+		'data_break': o=> {
 			if (this.breakState !== BreakState.running) return;
 
 			this.breakState = BreakState.wait;
@@ -139,15 +140,15 @@ export class ScriptIterator {
 			this.sys.callHook('stopOnDataBreakpoint', {});	// sn全体へ通知
 			this.sys.sendDbg('stopOnDataBreakpoint', {});
 		},
-		'set_func_break': (_, o)=> {
+		'set_func_break': o=> {
 			ScriptIterator.hFuncBP = {};
 			o.a.forEach((v: any)=> ScriptIterator.hFuncBP[v.name] = 1);
 			this.sys.sendDbg(o.ri, {});
 		},
 
 		// 情報問い合わせ系
-		'stack': (_, o)=> this.sys.sendDbg(o.ri, {a: this.aStack()}),
-		'eval': (_,o)=> {this.sys.sendDbg(o.ri, {v: this.prpPrs.parse(o.txt)})},
+		'stack': o=> this.sys.sendDbg(o.ri, {a: this.aStack()}),
+		'eval': o=> {this.sys.sendDbg(o.ri, {v: this.prpPrs.parse(o.txt)})},
 
 		// デバッガからの操作系
 		'continue': ()=> {
@@ -158,7 +159,7 @@ export class ScriptIterator {
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
-		'stepover': (type, o)=> this.go_stepover(type, o),
+		'stepover': o=> this.go_stepover(o),
 		'stepin': ()=> {
 			if (this.isIdxOverLast()) return;
 
@@ -172,11 +173,11 @@ export class ScriptIterator {
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
-		'stepout': (type, o)=> {
+		'stepout': o=> {
 			if (this.isIdxOverLast()) return;
 
 			if (this.lenCallStk > 0) this.go_stepout(true);
-			else this.go_stepover(type, o);
+			else this.go_stepover(o);
 		},
 		'pause': ()=> {
 			this.breakState = BreakState.step;
@@ -184,20 +185,16 @@ export class ScriptIterator {
 			this.sys.sendDbg('stopOnStep', {});
 		},
 	};
-	private cnvSnPath(fn: string): string {
-		return this.cfg.searchPath(fn, Config.EXT_SCRIPT);
-	}
-	private cnvSnPath4Dbg(fn: string): string {
-		return this.cnvSnPath(fn).replace('/crypto_prj/', '/prj/');
-	}
-	private	go_stepover(type: string, o: any) {
+	private cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, Config.EXT_SCRIPT);
+	private cnvSnPath4Dbg = (fn: string)=> this.cnvSnPath(fn).replace('/crypto_prj/', '/prj/');
+	private	go_stepover(o: any) {
 		if (this.isIdxOverLast()) return;
 
 		const tkn = this.script.aToken[this.idxToken_ -this.idxDx4Dbg];
 		if (this.regStepin.test(tkn)) this.go_stepout();
 		else {
 			this.sys.callHook('stopOnStep', {});	// sn全体へ通知
-			this.hHook.stepin(type, o);
+			this.hHook.stepin(o);
 		}
 	}
 	private	go_stepout(out = false) {
@@ -311,6 +308,8 @@ export class ScriptIterator {
 	}
 
 	// result = true : waitする  resume()で再開
+	private	procDebugtag	= (_tag_name: string)=> {};
+	private	proc4DesignMode	= (_hArg: any)=> {};
 	タグ解析(tagToken: string): boolean {
 		const e = Grammar.REG_TAG.exec(tagToken);
 		const g = e?.groups;
@@ -321,7 +320,7 @@ export class ScriptIterator {
 		if (! tag_fnc) throw `未定義のタグ【${tag_name}】です`;
 
 		this.alzTagArg.go(g.args);
-		if (this.cfg.oCfg.debug.tag) console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
+		this.procDebugtag(tag_name);
 
 		if (this.alzTagArg.hPrm.cond) {
 			const cond = this.alzTagArg.hPrm.cond.val;
@@ -339,8 +338,6 @@ export class ScriptIterator {
 			if (! this.lastHArg) throw '属性「*」はマクロのみ有効です';
 			hArg = {...hArg, ...this.lastHArg};
 		}
-		hArg.タグ名 = tag_name;
-
 		for (const k in this.alzTagArg.hPrm) {
 			let v = this.alzTagArg.hPrm[k].val;
 			if (v && v.charAt(0) === '%') {
@@ -361,6 +358,8 @@ export class ScriptIterator {
 			v = this.prpPrs.getValAmpersand(def);
 			if (v !== 'undefined') hArg[k] = v;	// 存在しない値の場合、属性を渡さない
 		}
+		hArg.タグ名 = tag_name;
+		this.proc4DesignMode(hArg);
 
 		return tag_fnc(hArg);
 	}

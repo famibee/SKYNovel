@@ -210,17 +210,14 @@ export class LayerMng implements IGetFrm {
 
 
 	// 既存の全文字レイヤの実際のバック不透明度、を再計算
-	private foreachRedrawTxtLayBack(g_alpha: number): void {
-		const vct = this.getLayers();
-		const len = vct.length;
-		for (let i=0; i<len; ++i) {
-			const name = vct[i];
+	private foreachRedrawTxtLayBack(g_alpha: number) {
+		this.getLayers().forEach(name=> {
 			const pg = this.hPages[name];
-			if (! (pg.fore instanceof TxtLayer)) continue;
+			if (! (pg.fore instanceof TxtLayer)) return;
 			const pTxt = pg.fore as TxtLayer;
 			pTxt.chgBackAlpha(g_alpha);
 			(pg.back as TxtLayer).chgBackAlpha(g_alpha);
-		}
+		});
 	}
 
 
@@ -273,9 +270,7 @@ export class LayerMng implements IGetFrm {
 		const pg = (hArg.page !== 'back') ?'fore' :'back';
 		if (this.tiTrans.tw) a.push(new Promise<void>(re=> {	// [trans]中
 			this.back.visible = true;
-			for (const lay of this.aBackTransAfter) {
-				rnd.render(lay, undefined, false);
-			}
+			this.aBackTransAfter.forEach(lay=> rnd.render(lay, undefined, false));
 			this.back.visible = false;
 			this.spTransBack.visible = true;
 
@@ -286,9 +281,9 @@ export class LayerMng implements IGetFrm {
 			this.fore.filters = [];
 			re();
 		}));
-		else for (const v of this.getLayers(hArg.layer)) a.push(
-			new Promise<void>(re=> this.hPages[v][pg].snapshot(rnd, ()=> re()))
-		);
+		else this.getLayers(hArg.layer).forEach(v=> a.push(new Promise<void>(
+			re=> this.hPages[v][pg].snapshot(rnd, ()=> re())
+		)));
 		Promise.all(a).then(()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
 			rnd.render(this.stage, renTx);
@@ -296,7 +291,8 @@ export class LayerMng implements IGetFrm {
 				this.cfg.searchPath(fn),
 				rnd.extract.base64(Sprite.from(renTx)),
 			);
-			if (! this.tiTrans.tw) for (const v of this.getLayers(hArg.layer)) this.hPages[v][pg].snapshot_end();
+			if (! this.tiTrans.tw) this.getLayers(hArg.layer)
+			.forEach(v=> this.hPages[v][pg].snapshot_end());
 			rnd.destroy(true);
 		});
 
@@ -354,11 +350,11 @@ export class LayerMng implements IGetFrm {
 					else {
 						this.setNormalWaitTxtLayer();
 					}
-					for (const name of this.getLayers()) {
+					this.getLayers().forEach(name=> {
 						const pg = this.hPages[name];
-						if (! (pg.fore instanceof TxtLayer)) continue;
+						if (! (pg.fore instanceof TxtLayer)) return;
 						this.cmdTxt('gotxt｜', pg.fore as TxtLayer, false);
-					}
+					});
 				}
 			}
 
@@ -497,19 +493,19 @@ void main(void) {
 		const ease = CmnTween.ease(hArg.ease);
 		this.aBackTransAfter = [];
 		const hTarget: {[ley_nm: string]: boolean} = {};
-		for (const v of this.getLayers(hArg.layer)) hTarget[v] = true;
-		for (const lay_nm of this.getLayers()) this.aBackTransAfter.push(
+		this.getLayers(hArg.layer).forEach(v=> hTarget[v] = true);
+		this.getLayers().forEach(lay_nm=> this.aBackTransAfter.push(
 			this.hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'].cnt
-		);
+		));
 		this.rtTransBack.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.back, this.rtTransBack);	// clear
 		this.rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.fore, this.rtTransFore);	// clear
 		const fncRender = ()=> {
 			this.back.visible = true;
-			for (const lay of this.aBackTransAfter) {
+			this.aBackTransAfter.forEach(lay=> {
 				this.appPixi.renderer.render(lay, this.rtTransBack, false);
-			}
+			});
 			this.back.visible = false;
 			this.spTransBack.visible = true;
 
@@ -602,14 +598,14 @@ void main(void) {
 	}
 	private foreachLayers(hArg: HArg, fnc: (name: string, $pg: Pages)=> void): ReadonlyArray<string> {
 		const vct = this.getLayers(hArg.layer);
-		for (const name of vct) {
-			if (! name) continue;
+		vct.forEach(name=> {
+			if (! name) return;
 
 			const pg = this.hPages[name];
 			if (! pg) throw '存在しないlayer【'+ name +'】です';
 
 			fnc(name, pg);
-		}
+		});
 
 		return vct;
 	}
@@ -645,16 +641,16 @@ void main(void) {
 		if (this.evtMng.isSkipKeyDown()) return false;
 
 		const aDo: DisplayObject[] = [];
-		for (const lay_nm of this.getLayers(hArg.layer)) {
+		this.getLayers(hArg.layer).forEach(lay_nm=> {
 			aDo.push(this.hPages[lay_nm].fore.cnt);
-		}
+		});
 		this.rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 			// NOTE: スマホ回転対応が要るかも？
 		const fncRender = ()=> {
 			this.fore.visible = true;
-			for (const lay of aDo) {
-				this.appPixi.renderer.render(lay, this.rtTransFore, false);
-			}
+			aDo.forEach(lay=>
+				this.appPixi.renderer.render(lay, this.rtTransFore, false)
+			);
 			this.fore.visible = false;
 		};
 		this.spTransFore.visible = true;
@@ -844,15 +840,12 @@ void main(void) {
 		this.recText('', true);	// カレント変更前に現在の履歴を保存
 		this.curTxtlay = layer;
 		this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
-		const vct = this.getLayers();
-		const len = vct.length;
-		for (let i=0; i<len; ++i) {
-			const name = vct[i];
+		this.getLayers().forEach(name=> {
 			const pg = this.hPages[name];
-			if (! (pg.fore instanceof TxtLayer)) continue;
+			if (! (pg.fore instanceof TxtLayer)) return;
 			(pg.fore as TxtLayer).isCur =
 			(pg.back as TxtLayer).isCur = (name === layer);
-		}
+		});
 
 		return false;
 	}
@@ -992,7 +985,7 @@ void main(void) {
 	// レイヤのダンプ
 	private dump_lay(hArg: HArg) {
 		console.group('🥟 [dump_lay]');
-		for (const name of this.getLayers(hArg.layer)) {
+		this.getLayers(hArg.layer).forEach(name=> {
 			const pg = this.hPages[name];
 			try {
 				console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib.isDarkMode ?'49F' :'05A'};`,
@@ -1002,7 +995,7 @@ void main(void) {
 				console.error(`   back:${pg.back.dump()}`);
 				console.error(`   fore:${pg.fore.dump()}`);
 			}
-		}
+		});
 		console.groupEnd();
 
 		return false;

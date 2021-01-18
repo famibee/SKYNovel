@@ -37,7 +37,7 @@ export class EventListenerCtn {	// リソースリーク対策
 	}
 
 	clear(): void {
-		for (const fnc of this.vctEvt) fnc();
+		this.vctEvt.forEach(f=> f());
 		this.vctEvt = [];
 	}
 

@@ -194,10 +194,10 @@ export class TxtStage extends Container {
 			resolveUrl: resolveUrl,
 			getAndEncode: getAndEncode,
 			asArray: (arrayLike: StyleSheetList)=> {
-				const array: StyleSheet[] = [];
-				const length = arrayLike.length;
-				for (let i = 0; i < length; ++i) array.push(arrayLike[i]);
-				return array;
+				const a: StyleSheet[] = [];
+				const len = arrayLike.length;
+				for (let i=0; i<len; ++i) a.push(arrayLike[i]);
+				return a;
 			},
 		};
 			function mimes(): any {
@@ -908,7 +908,7 @@ export class TxtStage extends Container {
 	private getChRects(elm: Node): IChRect[] {	// 注意）再帰関数
 		const ret: any = [];
 		if (elm.nodeType !== elm.TEXT_NODE) {
-			for (const v of elm.childNodes) ret.push(this.getChRects(v));
+			elm.childNodes.forEach(v=> ret.push(this.getChRects(v)));
 			return Array.prototype.concat.apply([], ret);	// 配列をフラットにする
 		}
 
@@ -983,7 +983,7 @@ export class TxtStage extends Container {
 
 		const end = ()=> {
 			old.parentElement!.removeChild(old);
-			for (const c of this.cntTxt.removeChildren()) c.removeAllListeners().destroy();
+			this.cntTxt.removeChildren().forEach(c=> c.removeAllListeners().destroy());
 		};
 		if (sum_wait === 0) {this.htmTxt.textContent = ''; end();}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
@@ -1053,8 +1053,8 @@ export class TxtStage extends Container {
 	dump(): string {
 		const aStyle: string[] = [];
 		const s = this.htmTxt.style;
-		const lenStyle = s.length;
-		for (let i=0; i<lenStyle; ++i) {
+		const len = s.length;
+		for (let i=0; i<len; ++i) {
 			const key: any = s[i];
 			aStyle.push(`"${key}":"${s[key].replace(/(")/g, '\\$1')}"`);
 		}

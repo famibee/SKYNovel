@@ -49,14 +49,14 @@ export class TxtLayer extends Layer {
 		}
 
 		let font = '';
-		for (const o of cfg.matchPath('.+', Config.EXT_FONT)) {
+		cfg.matchPath('.+', Config.EXT_FONT).forEach(o=> {
 			for (const key in o) font += `
 @font-face {
 	font-family: '${o[key]}';
 	src: url('${this.cfg.searchPath(o[key], Config.EXT_FONT)}');
 }
 `;
-		}
+		});
 
 		// 文字出現演出関係
 		font += `
@@ -101,7 +101,6 @@ export class TxtLayer extends Layer {
 	private	static	readonly	css_key4del	= '/* SKYNovel */';
 	static addStyle(style: string) {
 		const gs = document.createElement('style');
-		gs.type = 'text/css';
 		gs.innerHTML = TxtLayer.css_key4del + style;
 		document.getElementsByTagName('head')[0].appendChild(gs);
 	}
@@ -664,10 +663,8 @@ export class TxtLayer extends Layer {
 
 			case 'endlink':
 				this.needGoTxt = true;
-				if (this.aSpan_bk) {
-					const len = this.aSpan.length;
-					for (let i=0; i<len; ++i) this.aSpan[i] = this.aSpan[i].replace(/ data-cmd='linkrsv'/, this.aSpan_link);
-				}
+				if (this.aSpan_bk) this.aSpan = this.aSpan.map(
+					v=> v.replace(/ data-cmd='linkrsv'/, this.aSpan_link));
 				this.autoCloseSpan();	return;	// breakではない
 
 			default:	// ルビあり文字列
@@ -834,7 +831,7 @@ export class TxtLayer extends Layer {
 		super.clearLay(hArg);
 
 		this.clearText();
-		for (const c of this.cntBtn.removeChildren()) c.removeAllListeners().destroy();	// removeAllListeners()はマウスオーバーイベントなど。クリックは別
+		this.cntBtn.removeChildren().forEach(c=> c.removeAllListeners().destroy());	// removeAllListeners()はマウスオーバーイベントなど。クリックは別
 	}
 	readonly record = ()=> Object.assign(super.record(), {
 		enabled	: this.enabled,
@@ -879,9 +876,7 @@ export class TxtLayer extends Layer {
 		this.txs.playback(hLay.txs);
 
 		const aBtn: string[] = hLay.btns;
-		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(
-			JSON.parse(v.replaceAll("'", '"'))
-		)));
+		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replaceAll("'", '"')))));
 	}
 
 	snapshot(rnd: Renderer, re: ()=> void) {

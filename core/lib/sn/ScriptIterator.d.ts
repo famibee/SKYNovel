@@ -23,7 +23,7 @@ export declare class ScriptIterator {
     subIdxToken(): void;
     private lineNum_;
     get lineNum(): number;
-    readonly addLineNum: (len: number) => void;
+    readonly addLineNum: (len: number) => number;
     private aCallStk;
     get lenCallStk(): number;
     get lastHArg(): any;
@@ -46,6 +46,8 @@ export declare class ScriptIterator {
     private isBreak_base;
     private subHitCondition;
     private aStack;
+    private procDebugtag;
+    private proc4DesignMode;
     タグ解析(tagToken: string): boolean;
     private evtMng;
     private layMng;

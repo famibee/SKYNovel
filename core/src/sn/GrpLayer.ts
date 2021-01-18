@@ -266,7 +266,7 @@ export class GrpLayer extends Layer {
 					);
 				}
 				const aTex: Texture[] = [];
-				for (const v of aFK) aTex.push(Texture.from(v));
+				aFK.forEach(v=> aTex.push(Texture.from(v)));
 				GrpLayer.hFn2ResAniSpr[r.name] = {aTex: aTex, meta: r.data.meta};
 				return GrpLayer.mkSprite(fn, res);
 

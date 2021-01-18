@@ -1,3 +1,12 @@
+- fix: 変数名が短い変数と長いjson変数がある際、短い変数を参照するとエラーになる件
+	mp:const.sn.sound = true
+	mp:const.sn.sound.codecs = '{"aac": true, "flac": false}'
+	// TypeError: Cannot use 'in' operator to search for 'codecs' in true
+- fix: リファクタリング
+- fix: ライブラリ更新
+- fix: npm test:w で変更監視の過敏さを軽減、ソース変更をテストに反映するように。（現状、test/*.test.ts変更は反映されていない。npm watch再起動が必要）
+
+
 ## [1.6.35](https://github.com/famibee/SKYNovel/compare/v1.6.34...v1.6.35) (2021-01-14)
 
 

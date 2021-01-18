@@ -59,6 +59,7 @@ context('class Variable', ()=>{
 
 		it('getVal_20_json', ()=> {
 			val.setVal_Nochk('mp', 'const.sn.sound.codecs', '{"aac": true, "flac": false}');
+
 			assert.equal(val.getVal('mp:const.sn.sound.codecs', 'def'), '{"aac": true, "flac": false}');
 			assert.equal(val.getVal('mp:const.sn.sound.codecs.aac', 'def'), true);
 			assert.equal(val.getVal('mp:const.sn.sound.codecs.aac0', 'def'), 'def');
@@ -76,6 +77,7 @@ context('class Variable', ()=>{
 	}
 }
 `);
+
 			assert.equal(val.getVal('tmp:const.db', 'def'), `
 {
 	"紀子": {
@@ -96,6 +98,17 @@ context('class Variable', ()=>{
 			assert.equal(val.getVal('tmp:const.db.梨香', 'def'), 'def');
 			assert.equal(val.getVal('tmp:const.db.紀子.fn', 'def'), 'nori');
 			assert.equal(val.getVal('tmp:const.db.紀子.fn0', 'def'), 'def');
+		});
+		it('getVal_22_json 不具合2021/01/18', ()=> {
+			val.setVal_Nochk('mp', 'const.sn.sound', 'true');
+			val.setVal_Nochk('mp', 'const.sn.sound.codecs', '{"aac": true, "flac": false}');
+
+			assert.equal(val.getVal('mp:const.sn.sound.codecs', 'def'), '{"aac": true, "flac": false}');
+			assert.equal(val.getVal('mp:const.sn.sound.codecs.aac', 'def'), true);
+			assert.equal(val.getVal('mp:const.sn.sound.codecs.aac0', 'def'), 'def');
+
+			assert.equal(val.getVal('mp:const.sn.sound', 'def'), true);
+				// TypeError: Cannot use 'in' operator to search for 'codecs' in true
 		});
 
 	});

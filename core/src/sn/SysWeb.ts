@@ -280,7 +280,7 @@ export class SysWeb extends SysBase {
 	// タイトル指定
 	protected titleSub(txt: string) {
 		document.title = txt;
-		for (const v of document.querySelectorAll('[data-title]')) v.textContent = txt;
+		document.querySelectorAll('[data-title]').forEach(v=> v.textContent = txt);
 	}
 
 

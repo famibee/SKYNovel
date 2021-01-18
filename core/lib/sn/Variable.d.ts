@@ -3,7 +3,7 @@ import { Config } from './Config';
 import { Areas } from './Areas';
 export declare class Variable implements IVariable {
     private readonly cfg;
-    private hScope;
+    private hScopes;
     private hSave;
     private hTmp;
     constructor(cfg: Config, hTag: IHTag);
@@ -16,7 +16,7 @@ export declare class Variable implements IVariable {
     updateData(data: IData4Vari): void;
     private flush_;
     flush(): void;
-    setDoRecProc(doRecProc: (doRec: boolean) => void): void;
+    setDoRecProc(fnc: (doRec: boolean) => void): void;
     private doRecProc;
     defTmp(name: string, fnc: typeProcVal): void;
     cloneMp(): object;

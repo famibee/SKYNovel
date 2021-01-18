@@ -30,7 +30,6 @@ export class SysApp extends SysNode {
 
 		if (this.isDbg()) {
 			const gs = document.createElement('style');
-			gs.type = 'text/css';
 			gs.innerHTML = `/* SKYNovel Dbg */
 .sn_BounceInOut { animation: sn_kfBounceInOut linear 1.5s; }
 @keyframes sn_kfBounceInOut{
@@ -262,7 +261,11 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 	};
 
 	protected readonly	isPackaged = ()=> remote.app.isPackaged;
-	readonly isDbg = ()=> Boolean(process.env['SKYNOVEL_DBG']) && ! this.isPackaged();	// 配布版では無効
+	isDbg = ()=> {	// 配布版では無効
+		const ret = Boolean(process.env['SKYNOVEL_DBG']) && ! this.isPackaged();
+		this.isDbg = ret ?()=> true :()=> false;
+		return ret;
+	};
 
 	// アプリの終了
 	protected readonly	close = ()=> {this.win.close(); return false;}
