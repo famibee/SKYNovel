@@ -1,3 +1,6 @@
+- fix: electron-store、7.0.0にするとアプリ版がエラーになるので6.0.1に戻し
+
+
 # [1.7.0](https://github.com/famibee/SKYNovel/compare/v1.6.38...v1.7.0) (2021-01-24)
 
 
