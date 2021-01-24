@@ -1,3 +1,11 @@
+# [1.7.0](https://github.com/famibee/SKYNovel/compare/v1.6.38...v1.7.0) (2021-01-24)
+
+
+### Features
+
+* Web版でもデバッグできるように ([9db8737](https://github.com/famibee/SKYNovel/commit/9db8737e0daf4ae8d455596ad046d139791e87b5))
+* Web版でもデバッグできるように(2) ([a2afba2](https://github.com/famibee/SKYNovel/commit/a2afba261ce4d77e2b0c26147b19582955834bef))
+
 - feat: Web版でもデバッグできるように
 
 
