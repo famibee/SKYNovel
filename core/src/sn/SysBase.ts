@@ -9,8 +9,7 @@ import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin
 import {CmnLib} from './CmnLib';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
-const io = require('socket.io-client');
-import {Socket} from "socket.io-client";
+import * as io from 'socket.io-client';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
@@ -153,7 +152,8 @@ export class SysBase implements ISysBase {
 
 		this.addHook((type, o)=> this.hHook[type]?.(o));
 
-		this.sk = io(`http://localhost:${this.extPort}`)
+		this.sk = io(`http://localhost:${this.extPort}`);
+		this.sk
 		.on('data', (type: string, o: any)=> {
 //console.log(`fn:SysBase.ts RSV dbg -> sn type:${type} o:${JSON.stringify(o).slice(0, 150)}`);
 			this.callHook(type, o);
@@ -168,7 +168,7 @@ export class SysBase implements ISysBase {
 		this.sk?.disconnect();
 		this.sk = null;
 	}
-	private	sk: Socket | null = null;
+	private	sk: SocketIOClient.Socket | null = null;
 	private	readonly	hHook	: {[type: string]: (o: any)=> void}	= {
 		'auth'			: o=> {
 			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return;}
