@@ -14,12 +14,13 @@ export declare class SysWeb extends SysBase {
     private isFullScr;
     private now_prj;
     runSN(prj: string): void;
-    private readonly run;
+    protected run: () => Promise<void>;
     stop(): void;
     private main;
     loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    pathBaseCnvSnPath4Dbg: string;
     protected readonly _export: ITag;
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;

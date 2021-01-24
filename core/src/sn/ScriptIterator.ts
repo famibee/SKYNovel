@@ -186,7 +186,7 @@ export class ScriptIterator {
 		},
 	};
 	private cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, Config.EXT_SCRIPT);
-	private cnvSnPath4Dbg = (fn: string)=> this.cnvSnPath(fn).replace('/crypto_prj/', '/prj/');
+	private cnvSnPath4Dbg = (fn: string)=> this.sys.pathBaseCnvSnPath4Dbg + this.cnvSnPath(fn).replace('/crypto_prj/', '/prj/');
 	private	go_stepover(o: any) {
 		if (this.isIdxOverLast()) return;
 

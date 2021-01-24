@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import { SysBase } from "./SysBase";
-import {CmnLib, getDateStr, argChk_Boolean} from './CmnLib';
+import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
 import {Main} from './Main';
 
@@ -19,7 +19,7 @@ export class SysWeb extends SysBase {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, arg);
 
-		const a = this.arg.cur.split('/');
+		const a = arg.cur.split('/');
 		this.path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
 
 		globalThis.onload = ()=> {
@@ -60,17 +60,21 @@ export class SysWeb extends SysBase {
 				const elm = v.attributes.getNamedItem('data-prj');
 				if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
 			});
-			document.querySelectorAll('[data-reload]').forEach(v=> {
-				v.addEventListener('click', ()=> this.run(), {passive: true});
-			});
+			document.querySelectorAll('[data-reload]').forEach(v=>
+				v.addEventListener('click', ()=> this.run(), {passive: true})
+			);
 			if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
+
 			const sp = new URLSearchParams(location.search);
 			const dip = sp.get('dip');	// ディップスイッチ
-			if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip)};
+			if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip.replace(/%2C/g, ','))};
 			if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
 
+			if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) this.isDbg = ()=> true;
+			this.extPort = argChk_Num(CmnLib.hDip, 'port', this.extPort);
+
 			const cur = sp.get('cur');
-			if (cur) this.arg.cur = this.path_base + cur +'/';
+			if (cur) arg.cur = this.path_base + cur +'/';
 			this.run();
 		}
 	}
@@ -102,7 +106,7 @@ export class SysWeb extends SysBase {
 		this.now_prj = this.arg.cur;
 		this.run();
 	}
-	private	readonly	run = async ()=> {
+	protected	run = async ()=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.main.destroy(ms_late);
@@ -207,6 +211,8 @@ export class SysWeb extends SysBase {
 			main.destroy();
 		}, {once: true, passive: true});
 	}
+
+	pathBaseCnvSnPath4Dbg = '${pathbase}/';
 
 	// プレイデータをエクスポート
 	protected readonly	_export: ITag = ()=> {

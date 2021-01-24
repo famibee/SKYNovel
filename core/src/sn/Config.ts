@@ -45,6 +45,8 @@ export class Config implements IConfig {
 			masume		: false,	// テキストレイヤ：ガイドマス目を表示するか
 			variable	: false,
 		},
+		code	: {},	// 暗号化しないフォルダ
+		debuger_token	: '',		// デバッガとの接続トークン
 	};
 	userFnTail	= '';
 
@@ -79,6 +81,8 @@ export class Config implements IConfig {
 
 			this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};
 			CmnLib.debugLog = this.oCfg.debug.debugLog;
+
+			this.oCfg.debuger_token = oCfg.debuger_token;
 
 			// これが同期（App）非同期（Web、path.json）混在してるので、
 			// （Mainのメンバ変数に入れる→他のクラスに渡す都合により）

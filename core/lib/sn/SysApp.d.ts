@@ -1,5 +1,5 @@
 import { SysNode } from "./SysNode";
-import { ITag, IHTag, IVariable, IData4Vari, IMain, IFncHook } from './CmnInterface';
+import { ITag, IHTag, IVariable, IData4Vari, IMain } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysApp extends SysNode {
     constructor(hPlg?: {}, arg?: {
@@ -16,16 +16,10 @@ export declare class SysApp extends SysNode {
     private delayWinPos;
     private readonly dsp;
     private main;
-    private run;
+    protected run(): Promise<void>;
     private readonly win;
     private readonly wc;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
-    private endSkt;
-    private toast;
-    private static readonly hToastDat;
-    private aFncHook;
-    addHook(fnc: IFncHook): void;
-    callHook: IFncHook;
     copyBMFolder: (from: number, to: number) => void;
     eraseBMFolder: (place: number) => void;
     protected readonly isPackaged: () => boolean;
