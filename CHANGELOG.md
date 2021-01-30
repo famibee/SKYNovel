@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/famibee/SKYNovel/compare/v1.7.1...v1.8.0) (2021-01-30)
+
+
+### Features
+
+* デバッグ実行時、一時停止した際にボタン位置・サイズをdrag&dropで変更できる機能 ([2fa7481](https://github.com/famibee/SKYNovel/commit/2fa7481c01ac7591846a8086dde4ea4e2efe9c69))
+
 - feat: デバッグ実行時、一時停止した際にボタン位置・サイズをdrag&dropで変更できる機能
 - feat: .vscode/launch.jsonに stopOnEntry（最初の行で停止するか選べる）機能追加
 - fix: デバッガ・アプリ間プロトコル改善、UMLシーケンス図・状態遷移図コメント追加
