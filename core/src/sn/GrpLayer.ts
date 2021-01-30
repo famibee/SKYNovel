@@ -14,6 +14,7 @@ import {SysBase} from './SysBase';
 import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
+import {IGenerateDesignCast} from './LayerMng';
 
 export interface IFncCompSpr { (sp: Sprite): void; };
 
@@ -363,6 +364,10 @@ export class GrpLayer extends Layer {
 			_isStop=> {this.cnt.position.set(hLay.x, hLay.y); re();},
 				// Layer.setXY()の後に再度移動
 		)));
+	}
+
+	drawDesignCast(_gdc: IGenerateDesignCast) {
+		if (! this.cnt.visible) return;
 	}
 
 	readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;

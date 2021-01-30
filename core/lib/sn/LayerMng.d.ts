@@ -1,11 +1,18 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain, HPage, IGetFrm } from './CmnInterface';
+import { IHTag, IVariable, IMain, HPage, HArg, IGetFrm } from './CmnInterface';
 import { TxtLayer } from './TxtLayer';
 import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
-import { Application } from 'pixi.js';
+import { Application, Rectangle } from 'pixi.js';
+export interface IInfoDesignCast {
+    hArg: HArg;
+    rect: Rectangle;
+}
+export interface IGenerateDesignCast {
+    (idc: IInfoDesignCast): void;
+}
 export declare class LayerMng implements IGetFrm {
     private readonly cfg;
     private readonly hTag;
@@ -21,6 +28,17 @@ export declare class LayerMng implements IGetFrm {
     private readonly frmMng;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng);
     private fncTicker;
+    private recodeDesign;
+    private readonly hProcDbgRes;
+    private enterDesignMode;
+    private leaveDesignMode;
+    private readonly ID_DESIGNMODE;
+    private readonly divDesignRoot;
+    private cvsResizeDesign;
+    private idDesignCast;
+    private dspDesignCast;
+    private tidDelay;
+    private delayChgCast;
     getFrmDisabled(id: string): boolean;
     private grpCover;
     cover(visible: boolean, bg_color?: number): void;

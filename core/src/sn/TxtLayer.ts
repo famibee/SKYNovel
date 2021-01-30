@@ -16,6 +16,7 @@ import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
 import {Sprite, DisplayObject, Graphics, Container, Renderer} from 'pixi.js';
 import {LayerMng} from './LayerMng';
+import {IGenerateDesignCast} from './LayerMng';
 
 export class TxtLayer extends Layer {
 	private	static	cfg		: Config;
@@ -816,8 +817,9 @@ export class TxtLayer extends Layer {
 
 	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
+		hArg[':id'] = hArg.key.replace(/ page:[AB]$/, '');	// Design用
 		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
-		const btn = new Button(hArg, TxtLayer.evtMng, TxtLayer.cfg, ()=> re(), ()=> this.canFocus());
+		const btn = new Button(hArg, TxtLayer.evtMng, ()=> re(), ()=> this.canFocus());
 		btn.name = JSON.stringify(hArg).replaceAll('"', "'");// playback時に使用
 		this.cntBtn.addChild(btn);
 	});
@@ -884,6 +886,11 @@ export class TxtLayer extends Layer {
 		this.txs.snapshot(rnd, re);
 	}
 	snapshot_end() {this.txs.snapshot_end();}
+
+	drawDesignCast(gdc: IGenerateDesignCast) {
+		if (! this.cnt.visible) return;
+		this.cntBtn.children.forEach(btn=> (btn as Button).drawDesignCast(gdc));
+	}
 
 	dump(): string {
 		this.putCh('', 'gotxt｜');	// バッファの文字を印字してしまう

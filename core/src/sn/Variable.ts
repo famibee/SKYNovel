@@ -186,26 +186,23 @@ export class Variable implements IVariable {
 			: ()=> sys.flush();
 
 			this.callHook = sys.callHook;
-			sys.addHook((type, o)=> {switch (type) {
-				case 'var':	sys.sendDbg(o.ri, {v: this.hScopes[o.scope] ?? {}});
-					break;
-				case 'set_var':
-					try {this.setVal(o.nm, o.val);	sys.sendDbg(o.ri, {});}
-					catch {}
-					break;
-				case 'set_data_break':{
-					Variable.hSetEvent = {};
-					(Array.isArray(o.a) ?o.a :[])
-					.forEach((v: any)=> Variable.hSetEvent[v.dataId] = 1);
-
-					sys.sendDbg(o.ri, {});
-				}	break;
-				case 'disconnect':
-					Variable.hSetEvent = {};
-					break;
-			}});
+			sys.addHook((type, o)=> this.hProcDbgRes[type]?.(type, o));
 		});
 	}
+	private	readonly	hProcDbgRes
+	: {[type: string]: (type: string, o: any)=> void}	= {
+		var	: (_,o)=> this.sys.send2Dbg(o.ri, {v: this.hScopes[o.scope] ?? {}}),
+		set_var	: (_, o)=> {
+			try {this.setVal(o.nm, o.val); this.sys.send2Dbg(o.ri, {})} catch {}
+		},
+		set_data_break	: (_, o)=> {
+			Variable.hSetEvent = {};
+			if (Array.isArray(o.a)) o.a.forEach((v: any)=> Variable.hSetEvent[v.dataId] = 1);
+			this.sys.send2Dbg(o.ri, {});
+		},
+		disconnect: _=> Variable.hSetEvent = {},
+	}
+
 	updateData(data: IData4Vari): void {
 		this.data = data;
 		this.hSys = this.hScopes.sys = this.data.sys;

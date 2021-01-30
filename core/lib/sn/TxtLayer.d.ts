@@ -4,6 +4,7 @@ import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
 import { IInfTxLay } from './TxtStage';
 import { Config } from './Config';
 import { Renderer } from 'pixi.js';
+import { IGenerateDesignCast } from './LayerMng';
 export declare class TxtLayer extends Layer {
     private static cfg;
     private static val;
@@ -113,6 +114,7 @@ export declare class TxtLayer extends Layer {
     playback(hLay: any, aPrm: Promise<void>[]): void;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
+    drawDesignCast(gdc: IGenerateDesignCast): void;
     dump(): string;
 }
 //# sourceMappingURL=TxtLayer.d.ts.map

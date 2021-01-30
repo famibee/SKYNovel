@@ -39,8 +39,7 @@ export declare class SysBase implements ISysBase {
     private aFncHook;
     addHook(fnc: IFncHook): void;
     callHook: IFncHook;
-    sendDbg: IFncHook;
-    private aSkBuf;
+    send2Dbg: IFncHook;
     copyBMFolder: (_from: number, _to: number) => void;
     eraseBMFolder: (_place: number) => void;
     protected readonly close: ITag;

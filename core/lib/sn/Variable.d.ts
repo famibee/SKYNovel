@@ -13,6 +13,7 @@ export declare class Variable implements IVariable {
     private hAreaKidoku;
     private callHook;
     setSys(sys: ISysBase): void;
+    private readonly hProcDbgRes;
     updateData(data: IData4Vari): void;
     private flush_;
     flush(): void;

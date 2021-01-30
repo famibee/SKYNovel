@@ -42,6 +42,7 @@ export declare class EventMng implements IEvtMng {
     pushLocalEvts(h: IHEvt2Fnc): void;
     waitEvent(onFinish: () => void, canskip?: boolean, global?: boolean): boolean;
     private waitEventBase;
+    private firstWait;
     button(hArg: HArg, em: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     private dispHint;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;

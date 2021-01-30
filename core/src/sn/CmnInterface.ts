@@ -138,6 +138,14 @@ export type HArg = {
 	end_ms?	: number;
 	join?	: boolean;
 	do_rec?	: boolean;
+
+	':id'?	: string;
+	':path'?	: string;
+	':ln'?		: number;
+	':col_s'?	: number;
+	':col_e'?	: number;
+	':idx_tkn'?	: number;
+	':token'?	: string;
 }
 export interface ITag { (hArg: HArg): boolean; }
 export interface IHTag { [name: string]: ITag; }
@@ -201,7 +209,7 @@ export interface ISysBase {
 
 	addHook(fnc: IFncHook): void;
 	callHook: IFncHook;
-	sendDbg: IFncHook;
+	send2Dbg: IFncHook;
 
 	copyBMFolder(from: number, to: number): void;
 	eraseBMFolder(place: number): void;

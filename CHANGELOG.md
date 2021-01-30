@@ -1,3 +1,9 @@
+- feat: デバッグ実行時、一時停止した際にボタン位置・サイズをdrag&dropで変更できる機能
+- feat: .vscode/launch.jsonに stopOnEntry（最初の行で停止するか選べる）機能追加
+- fix: デバッガ・アプリ間プロトコル改善、UMLシーケンス図・状態遷移図コメント追加
+- fix: デバッガにおけるコールスタック表示を修正
+
+
 ## [1.7.1](https://github.com/famibee/SKYNovel/compare/v1.7.0...v1.7.1) (2021-01-24)
 
 

@@ -28,7 +28,7 @@ interface ISeek {
 	lineNum	: number;
 };
 
-enum BreakState {running, wait, break, breaking, step, stepping, macro_escaping, macro_esc};
+enum BreakState {running, wait, break, breaking, step, stepping, stepouting, stepout};
 
 export class ScriptIterator {
 	private script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
@@ -97,30 +97,157 @@ export class ScriptIterator {
 			this.isBreak = this.isBreak_base;
 
 			const fnc = this.analyzeInit;
-			this.analyzeInit = ()=> {
-				this.breakState = BreakState.wait;
-				main.setLoop(false, 'ステップ実行');
-				// ScriptIterator.ts 'launch' の肩代わり
-				this.sys.callHook('stopOnStep', {});	// sn全体へ通知
-				this.sys.sendDbg('stopOnStep', {});
+/*
+			this.analyzeInit = ()=> {};
+			this.hHook.auth = o=> {
+				if (o.stopOnEntry) this.sys.callHook('stopOnEntry', {});
+				else {
+//=============
+					this.firstWait = ()=> {
+						const token = this.script.aToken[this.idxToken_ -1];
+console.log(`fn:ScriptIterator.ts line:133 NOW=${token}`);
+						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
 
+						this.sys.callHook('continue', {});	// sn全体へ通知
+					};
+//=============
+				}
 				this.analyzeInit = fnc;
 				this.analyzeInit();
+			}
+			this.sys.send2Dbg('hi', {});
+*/
+
+			this.analyzeInit = ()=> {
+//console.log(`fn:ScriptIterator.ts line:122 analyzeInit2`);
+/*
+				this.analyzeInit = fnc;
+				while (true) {
+					let token = this.nextToken();
+//console.log(`fn:ScriptIterator.ts line:125 this.idxToken_:${this.idxToken_} token:${token}:`);
+					if (! token) break;	// 初期化前に終了した場合向け
+
+					const uc = token.charCodeAt(0);	// TokenTopUnicode
+//console.log(`fn:ScriptIterator.ts line:130   uc:${uc}`);
+					if (uc === 91) break;	// [ タグ開始
+					if (uc === 38) break;	// & 変数操作・変数表示
+					if (uc === 42 && token.length == 1) break;	// 単文字の *
+					if (uc === 10) this.addLineNum(token.length);	// \n 改行
+				}
+				this.sys.callHook('stopOnEntry', {});
+*/
+				this.analyzeInit = ()=> {};
+				this.sys.send2Dbg('hi', {});
 			};
+			this.hHook.auth = o=> {
+				if (o.stopOnEntry) {
+					while (true) {
+						let token = this.nextToken();
+//console.log(`fn:ScriptIterator.ts line:125 this.idxToken_:${this.idxToken_} token:${token}:`);
+						if (! token) break;	// 初期化前に終了した場合向け
+
+						const uc = token.charCodeAt(0);	// TokenTopUnicode
+//console.log(`fn:ScriptIterator.ts line:130   uc:${uc}`);
+						if (uc === 91) break;	// [ タグ開始
+						if (uc === 38) break;	// & 変数操作・変数表示
+						if (uc === 42 && token.length == 1) break;	// 単文字の *
+						if (uc === 10) this.addLineNum(token.length);	// \n 改行
+					}
+					this.sys.callHook('stopOnEntry', {});
+					this.analyzeInit = fnc;
+					this.analyzeInit();
+				}
+				else {
+//=============
+//console.log(`fn:ScriptIterator.ts line:162 ! stopOnEntry`);
+					this.firstWait = ()=> {
+//console.log(`fn:ScriptIterator.ts line:164   idx:${this.idxToken_ -1} token:${this.script.aToken[this.idxToken_ -1]}:`);
+/*
+						const token = this.script.aToken[this.idxToken_ -1];
+						const e = Grammar.REG_TAG.exec(token);
+						const tag_name = e?.groups?.name ?? '';
+*/
+
+						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
+//							++this.idxToken_;
+
+
+//						this.sys.callHook('continue', {});	// sn全体へ通知
+//						this.breakState = BreakState.breaking;
+
+//						--this.idxToken_;
+/*
+						new Promise(re=> setTimeout(re, 10))
+						.then(()=> {
+//							this.analyzeInit();
+							this.sys.callHook('continue', {});	// sn全体へ通知
+						});
+*/
+/*
+						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
+
+console.log(`fn:ScriptIterator.ts line:133 tag_name=${tag_name}`);
+						if (tag_name === 's') {
+console.log(`fn:ScriptIterator.ts line:137 !!`);
+this.analyzeInit();
+
+						}
+//						this.breakState = BreakState.running;
+*/
+//						this.sys.callHook('continue', {});	// sn全体へ通知
+					};
+
+					this.analyzeInit = fnc;
+					this.analyzeInit();
+/*
+					new Promise(re=> setTimeout(re, 10))
+					.then(()=> {
+						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
+//						this.sys.callHook('continue', {});	// sn全体へ通知
+					});
+//					this.sys.callHook('continue', {});	// sn全体へ通知
+//++this.idxToken_;
+*/
+
+//=============
+				}
+//				this.analyzeInit = fnc;
+//				this.analyzeInit();
+			}
+//			this.sys.send2Dbg('hi', {});
+
+
+/*
+			this.analyzeInit = ()=> {};
+			this.hHook.auth = o=> {
+				if (o.stopOnEntry) {
+				else this.firstWait = ()=> {
+					this.breakState = BreakState.step;	// 重要
+				}
+				else this.firstWait = ()=> {
+					this.breakState = BreakState.step;	// 重要
+						// ++this.idxDx4Dbg;
+
+					this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
+					this.sys.send2Dbg('stopOnEntry', {});
+
+					this.sys.callHook('continue', {});	// sn全体へ通知
+				};
+				this.analyzeInit = fnc;
+				this.analyzeInit();
+			}
+			this.sys.send2Dbg('hi', {});
+*/
 		}
 		if (cfg.oCfg.debug.tag) this.procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
 	}
+	firstWait = ()=> {};
 
 	destroy() {this.isBreak = ()=> false;}
 
 	private	readonly hHook	: {[type: string]: (o: any)=> void}	= {
-		'attach': ()=> {
-			this.breakState = BreakState.wait;
-			this.main.setLoop(false, '一時停止');
-			this.sys.sendDbg('stop', {});
-		},
-		//'launch':	// ここでは冒頭停止に間に合わないのでanalyzeInit()で
-		'disconnect': ()=> {
+		//launch:	// ここでは冒頭停止に間に合わないのでanalyzeInit()で
+		disconnect: ()=> {
 			ScriptIterator.hBrkP = {};
 			ScriptIterator.hFuncBP = {};
 			this.isBreak = ()=> false;
@@ -128,30 +255,30 @@ export class ScriptIterator {
 			this.hHook.continue({});
 			this.breakState = BreakState.running;
 		},
-		'restart': ()=> this.isBreak = ()=> false,
+		restart: ()=> this.isBreak = ()=> false,
 
 		// ブレークポイント登録
-		'add_break': o=> ScriptIterator.hBrkP[this.cnvSnPath4Dbg(o.fn)] = o.o,
-		'data_break': o=> {
+		add_break: o=> ScriptIterator.hBrkP[this.cnvSnPath4Dbg(o.fn)] = o.o,
+		data_break: o=> {
 			if (this.breakState !== BreakState.running) return;
 
 			this.breakState = BreakState.wait;
 			this.main.setLoop(false, `変数 ${o.dataId}【${o.old_v}】→【${o.new_v}】データブレーク`);
 			this.sys.callHook('stopOnDataBreakpoint', {});	// sn全体へ通知
-			this.sys.sendDbg('stopOnDataBreakpoint', {});
+			this.sys.send2Dbg('stopOnDataBreakpoint', {});
 		},
-		'set_func_break': o=> {
+		set_func_break: o=> {
 			ScriptIterator.hFuncBP = {};
 			o.a.forEach((v: any)=> ScriptIterator.hFuncBP[v.name] = 1);
-			this.sys.sendDbg(o.ri, {});
+			this.sys.send2Dbg(o.ri, {});
 		},
 
 		// 情報問い合わせ系
-		'stack': o=> this.sys.sendDbg(o.ri, {a: this.aStack()}),
-		'eval': o=> {this.sys.sendDbg(o.ri, {v: this.prpPrs.parse(o.txt)})},
+		stack: o=> this.sys.send2Dbg(o.ri, {a: this.aStack()}),
+		eval: o=> {this.sys.send2Dbg(o.ri, {v: this.prpPrs.parse(o.txt)})},
 
 		// デバッガからの操作系
-		'continue': ()=> {
+		continue: ()=> {
 			if (this.isIdxOverLast()) return;
 
 			this.idxToken_ -= this.idxDx4Dbg;
@@ -159,8 +286,8 @@ export class ScriptIterator {
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
-		'stepover': o=> this.go_stepover(o),
-		'stepin': ()=> {
+		stepover: o=> this.go_stepover(o),
+		stepin: ()=> {
 			if (this.isIdxOverLast()) return;
 
 			const tkn = this.script.aToken[this.idxToken_ -this.idxDx4Dbg];
@@ -173,16 +300,21 @@ export class ScriptIterator {
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
-		'stepout': o=> {
+		stepout: o=> {
 			if (this.isIdxOverLast()) return;
 
 			if (this.lenCallStk > 0) this.go_stepout(true);
 			else this.go_stepover(o);
 		},
-		'pause': ()=> {
+		pause: ()=> {
 			this.breakState = BreakState.step;
 			this.main.setLoop(false, '一時停止');
-			this.sys.sendDbg('stopOnStep', {});
+			this.sys.send2Dbg('stopOnStep', {});
+		},
+		stopOnEntry: ()=> {
+			this.breakState = BreakState.step;
+			this.main.setLoop(false, '一時停止');
+			this.sys.send2Dbg('stopOnEntry', {});
 		},
 	};
 	private cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, Config.EXT_SCRIPT);
@@ -191,17 +323,17 @@ export class ScriptIterator {
 		if (this.isIdxOverLast()) return;
 
 		const tkn = this.script.aToken[this.idxToken_ -this.idxDx4Dbg];
-		if (this.regStepin.test(tkn)) this.go_stepout();
+		if (this.regStepin.test(tkn)) this.go_stepout(false);
 		else {
 			this.sys.callHook('stopOnStep', {});	// sn全体へ通知
 			this.hHook.stepin(o);
 		}
 	}
-	private	go_stepout(out = false) {
+	private	go_stepout(out: boolean) {
 		this.sys.callHook(`stopOnStep${out ?'Out' :''}`, {});	// sn全体へ通知
 		this.csDepth_macro_esc = this.lenCallStk -(out ?1 :0);
 		this.idxToken_ -= this.idxDx4Dbg;
-		this.breakState = out ?BreakState.macro_esc :BreakState.macro_escaping;
+		this.breakState = out ?BreakState.stepout :BreakState.stepouting;
 		this.main.setLoop(true);
 		this.main.resume();	// jumpループ後などで停止している場合があるので
 	}
@@ -212,8 +344,8 @@ export class ScriptIterator {
 	};
 	private	isIdxOverLast(): boolean {
 		if (this.idxToken_ < this.script.len) return false;
-		this.main.setLoop(false, 'スクリプト終端です');
 		this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
+		this.main.setLoop(false, 'スクリプト終端です');
 		return true;
 	}
 
@@ -221,24 +353,25 @@ export class ScriptIterator {
 	private	static	hBrkP: {[fn: string]: {[ln: number]: any}} = {};
 	private	static	hFuncBP: {[tag_name: string]: 1} = {};
 	private	breakState	= BreakState.running;
+		// https://raw.githubusercontent.com/famibee/SKYNovel-vscode-extension/master/res/img/breakState.svg
 	isBreak = (_token: string)=> false;
 	private isBreak_base(token: string): boolean {
 		switch (this.breakState) {
-			case BreakState.macro_escaping:	this.subHitCondition();
-				this.breakState = BreakState.macro_esc;	break;
-			case BreakState.macro_esc:
+			case BreakState.stepouting:	this.subHitCondition();
+				this.breakState = BreakState.stepout;	break;
+			case BreakState.stepout:
 				if (this.lenCallStk !== this.csDepth_macro_esc) break;
 
 				this.breakState = BreakState.step;
 				this.main.setLoop(false, 'ステップ実行');
-				this.sys.sendDbg('stopOnStep', {});
+				this.sys.send2Dbg('stopOnStep', {});
 				return true;	// タグを実行せず、直前停止
 
 			case BreakState.stepping:	this.subHitCondition();
 				this.breakState = BreakState.step;	break;
 			case BreakState.step:		this.subHitCondition();
 				this.main.setLoop(false, 'ステップ実行');
-				this.sys.sendDbg('stopOnStep', {});
+				this.sys.send2Dbg('stopOnStep', {});
 				return true;	// タグを実行せず、直前停止
 
 			case BreakState.breaking:	this.subHitCondition();
@@ -252,7 +385,7 @@ export class ScriptIterator {
 					this.breakState = BreakState.break;
 					this.main.setLoop(false, `関数 ${token} ブレーク`);
 					this.sys.callHook('stopOnBreakpoint', {});	// sn全体へ通知
-					this.sys.sendDbg('stopOnBreakpoint', {});
+					this.sys.send2Dbg('stopOnBreakpoint', {});
 					return true;	// タグを実行せず、直前停止
 				}
 			}
@@ -270,7 +403,7 @@ export class ScriptIterator {
 				this.main.setLoop(false, isBreak ?'ブレーク' :'ステップ実行');
 				const type = isBreak ?'stopOnBreakpoint' :'stopOnStep';
 				this.sys.callHook(type, {});	// sn全体へ通知
-				this.sys.sendDbg(type, {});
+				this.sys.send2Dbg(type, {});
 				return true;	// タグを実行せず、直前停止
 		}
 
@@ -282,12 +415,21 @@ export class ScriptIterator {
 	}
 
 	private aStack(): {fn: string, ln: number, col: number, nm: string}[] {
-		const tkn0 = this.script.aToken[this.idxToken_ -1];
-		const fn0 = this.cnvSnPath4Dbg(this.scriptFn_);
-		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 1, nm: tkn0,}];
+		const idx_n = this.breakState === BreakState.breaking ?1 :0;
+		const tkn0 = this.script.aToken[this.idxToken_ -1 +idx_n];
 
-		const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);
-		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s +1, nm: tkn0,}];
+		const e0 = Grammar.REG_TAG.exec(tkn0);
+		const tag_name0 = e0?.groups?.name ?? '';
+
+		const fn0 = this.cnvSnPath4Dbg(this.scriptFn_);
+		const nm = tag_name0 ?`[${tag_name0}]` :tkn0;
+//console.log(`fn:ScriptIterator.ts line:425 aStack breakState:${this.breakState} idx:${this.idxToken_ -1} idx_n:${idx_n} tkn0:${tkn0}: nm:${nm} tkn02:${this.script.aToken[this.idxToken_ -1]}: +tkn02:${this.script.aToken[this.idxToken_]}:`);
+//console.log(`fn:ScriptIterator.ts line:426    a:%o anum:%o`, this.script.aToken, this.script.aLNum);
+		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 0, nm: nm,}];
+
+		const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);// -1不要
+//console.log(`fn:ScriptIterator.ts line:430    ln:${lc0.ln} col:${lc0.col_s} col2:${this.script.aLNum[this.idxToken_ -1]}`);
+		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s, nm: nm,}];
 		const len = this.aCallStk.length;
 		if (len === 0) return a;
 
@@ -295,12 +437,16 @@ export class ScriptIterator {
 			const cs = this.aCallStk[i];
 			if (! cs.csArg) continue;
 
-			const lc = this.cnvIdx2lineCol(this.hScript[cs.fn], cs.idx);
+			const st = this.hScript[cs.fn];
+			const tkn = st.aToken[cs.idx -1];
+			const lc = this.cnvIdx2lineCol(st, cs.idx);	// -1不要
+			const e = Grammar.REG_TAG.exec(tkn);
+			const tag_name = e?.groups?.name ?? '';
 			a.push({
 				fn: this.cnvSnPath4Dbg(cs.fn),
 				ln: lc.ln,
-				col: lc.col_s +1,
-				nm: `[${cs.csArg.タグ名 ?? ''}]`,
+				col: lc.col_s,
+				nm: tag_name ?`[${tag_name}]` :tkn,
 			});
 		}
 
@@ -309,7 +455,6 @@ export class ScriptIterator {
 
 	// result = true : waitする  resume()で再開
 	private	procDebugtag	= (_tag_name: string)=> {};
-	private	proc4DesignMode	= (_hArg: any)=> {};
 	タグ解析(tagToken: string): boolean {
 		const e = Grammar.REG_TAG.exec(tagToken);
 		const g = e?.groups;
@@ -359,7 +504,6 @@ export class ScriptIterator {
 			if (v !== 'undefined') hArg[k] = v;	// 存在しない値の場合、属性を渡さない
 		}
 		hArg.タグ名 = tag_name;
-		this.proc4DesignMode(hArg);
 
 		return tag_fnc(hArg);
 	}
@@ -431,18 +575,20 @@ export class ScriptIterator {
 		return false;
 	}
 	private cnvIdx2lineCol(st: Script, idx: number): {ln: number, col_s: number, col_e: number} {
-		const ret = {ln: 0, col_s: 0, col_e: 0};
+		const ret = {ln: 1, col_s: 0, col_e: 0};
 		if (! st) return ret;
 
-		const lN = ret.ln = st.aLNum[idx -1];
-		let col_e = 0;
 		let i = idx -1;
+		const lN = ret.ln = st.aLNum[i];
 		while (st.aLNum[i] === lN) {
-			col_e += st.aToken[i].length;
+			if (st.aToken[i].charAt(0) !== '\n') {
+				const len = st.aToken[i].length;
+//console.log(`fn:ScriptIterator.ts line:586 cnvIdx2lineCol tkn:${st.aToken[i]} len:${len} s:${ret.col_s} e:${ret.col_e}`);
+				if (ret.col_e > 0) ret.col_s += len;
+				ret.col_e += len;
+			}
 			if (--i < 0) break;
 		}
-		ret.col_e = col_e;
-		ret.col_s = col_e -st.aToken[idx -1].length
 
 		return ret;
 	}
@@ -699,6 +845,7 @@ export class ScriptIterator {
 		}))
 		.load((_ldr: any, hRes: any)=> {
 			this.nextToken = this.nextToken_Proc;
+			this.lineNum_ = 1;
 
 			this.resolveScript(hRes[fn].data);
 			this.hTag.record_place({});
@@ -755,16 +902,12 @@ export class ScriptIterator {
 					// 走査ついでにトークンの行番号も更新
 					if (! st.aLNum[j]) st.aLNum[j] = ln;
 
-					const token_j = st.aToken[j];
-					if (token_j.charCodeAt(0) === 10) {	// \n 改行
-						ln += token_j.length;
-					}
+					const tkn = st.aToken[j];
+					if (tkn.charCodeAt(0) === 10) ln += tkn.length;	// \n 改行
 				}
 				st.aLNum[idxToken] = ln;
 			}
-			else {
-				ln = st.aLNum[idxToken];
-			}
+			else ln = st.aLNum[idxToken];
 
 			return {
 				idx: idxToken,
@@ -1172,5 +1315,18 @@ export class ScriptIterator {
 
 		return false;
 	}
+
+
+	getDesignInfo(hArg: HArg) {
+		hArg[':path']	= this.cnvSnPath4Dbg(this.scriptFn_);
+		const lc = this.cnvIdx2lineCol(this.script, this.idxToken_);
+		hArg[':ln']		= lc.ln;
+		hArg[':col_s']	= lc.col_s;
+		hArg[':col_e']	= lc.col_e;
+		const idx = this.idxToken_ -1;
+		hArg[':idx_tkn']= idx;
+		hArg[':token']	= this.script.aToken[idx];
+	}
+	replace(idx: number, val: string) {this.script.aToken[idx] = val;}
 
 }

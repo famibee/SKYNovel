@@ -1,4 +1,4 @@
-import { IHTag, IMain, IVariable, IPropParser } from './CmnInterface';
+import { IHTag, IMain, IVariable, HArg, IPropParser } from './CmnInterface';
 import { Config } from './Config';
 import { ICallStackArg } from './CallStack';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
@@ -30,6 +30,7 @@ export declare class ScriptIterator {
     readonly getCallStk: (idx: number) => ICallStackArg | null;
     private grm;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
+    firstWait: () => void;
     destroy(): void;
     private readonly hHook;
     private cnvSnPath;
@@ -47,7 +48,6 @@ export declare class ScriptIterator {
     private subHitCondition;
     private aStack;
     private procDebugtag;
-    private proc4DesignMode;
     タグ解析(tagToken: string): boolean;
     private evtMng;
     private layMng;
@@ -110,5 +110,7 @@ export declare class ScriptIterator {
     private mark;
     private record_place;
     private save;
+    getDesignInfo(hArg: HArg): void;
+    replace(idx: number, val: string): void;
 }
 //# sourceMappingURL=ScriptIterator.d.ts.map

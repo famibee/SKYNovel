@@ -8,6 +8,7 @@
 import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, Renderer} from 'pixi.js';
 import {CmnLib, int, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './CmnInterface';
+import {IGenerateDesignCast} from './LayerMng';
 
 export class Layer {
 	layname		= '';
@@ -167,6 +168,8 @@ export class Layer {
 	snapshot_end() {}
 
 	cvsResize() {}
+
+	drawDesignCast(_gdc: IGenerateDesignCast) {}
 
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${

@@ -5,18 +5,44 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Container, Text, Rectangle, Texture, TextStyle} from 'pixi.js';
+import {Container, Text, Rectangle, Texture, TextStyle, Sprite} from 'pixi.js';
 import {Graphics} from 'pixi.js';
 import {uint, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
 import {Config} from './Config';
+import {IGenerateDesignCast, IInfoDesignCast} from './LayerMng';
 
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
+	private	static	procMasume4txt = (_me: Button, _txt: Text)=> {};
+	private	static	procMasume4pic = (_me: Button, _sp: Sprite, _w3: number, _h: number)=> {};
+	static	init(cfg: Config) {
+		if (! cfg.oCfg.debug.masume) return;
 
-	constructor(readonly hArg: HArg, readonly evtMng: IEvtMng, readonly cfg: Config, readonly resolve: ()=> void, readonly canFocus: ()=> boolean) {
+		Button.procMasume4txt = (me, txt)=> {
+			const grpDbgMasume = new Graphics;
+			grpDbgMasume.clear();
+			grpDbgMasume.beginFill(0x883388, 0.2);
+			grpDbgMasume.lineStyle(1, 0x883388, 1);
+			grpDbgMasume.drawRect(txt.x, txt.y, txt.width, txt.height);
+			grpDbgMasume.endFill();
+			me.addChild(grpDbgMasume);
+		};
+		Button.procMasume4pic = (me, sp, w3, h)=> {
+			const grpDbgMasume = new Graphics;
+			grpDbgMasume.clear();
+			grpDbgMasume.beginFill(0x883388, 0.2);
+			grpDbgMasume.lineStyle(1, 0x883388, 1);
+			grpDbgMasume.drawRect(sp.x, sp.y, w3, h);
+			grpDbgMasume.endFill();
+			me.addChild(grpDbgMasume);
+		};
+	}
+
+	private	idc: IInfoDesignCast;
+	constructor(readonly hArg: HArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, readonly canFocus: ()=> boolean) {
 		super();
 
 		this.name = JSON.stringify(hArg);
@@ -70,6 +96,7 @@ export class Button extends Container {
 			oName.text = txt.text;
 			oName.width = txt.width;
 			oName.height = txt.height;
+			this.idc = {hArg: hArg, rect: new Rectangle(this.x, this.y, txt.width, txt.height)};
 
 			let isStop = false;
 			if (hArg.b_pic) {
@@ -86,6 +113,8 @@ export class Button extends Container {
 							(sp.width -txt.width) /2,
 							(sp.height -txt.height) /2,
 						);
+						this.idc.rect.width = sp.width;
+						this.idc.rect.height = sp.height;
 					},
 					isStop=> {
 						Layer.setBlendmode(this, hArg);
@@ -97,41 +126,32 @@ export class Button extends Container {
 
 			this.addChild(txt);
 			if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
-			if (cfg.oCfg.debug.masume) {
-				const grpDbgMasume = new Graphics;
-				grpDbgMasume.clear();
-				grpDbgMasume.beginFill(0x883388, 0.2);
-				grpDbgMasume.lineStyle(1, 0x883388, 1);
-				grpDbgMasume.drawRect(txt.x, txt.y, txt.width, txt.height);
-				grpDbgMasume.endFill();
-				this.addChild(grpDbgMasume);
+			Button.procMasume4txt(this, txt);
+			if (! enabled) {if (! isStop) resolve(); return;}
+
+			const style_hover = style.clone();
+			if (hArg.style_hover) try {
+				const o = JSON.parse(hArg.style_hover);
+				for (const nm in o) (style_hover as any)[nm] = o[nm];
+			} catch (e) {
+				throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
 			}
-			if (enabled) {
-				const style_hover = style.clone();
-				if (hArg.style_hover) try {
-					const o = JSON.parse(hArg.style_hover);
-					for (const nm in o) (style_hover as any)[nm] = o[nm];
-				} catch (e) {
-					throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-				}
-				else style_hover.fill = 'white';
+			else style_hover.fill = 'white';
 
-				const style_clicked = style_hover.clone();
-				if (hArg.style_clicked) try {
-					const o = JSON.parse(hArg.style_clicked);
-					for (const nm in o) (style_clicked as any)[nm] = o[nm];
-				} catch (e) {
-					throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-				}
-				else style_clicked.dropShadow = false;
-
-				evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
-					if (! canFocus()) return false;
-					txt.style = style_hover;
-					return true;
-				}, ()=> txt.style = style_clicked);
-
+			const style_clicked = style_hover.clone();
+			if (hArg.style_clicked) try {
+				const o = JSON.parse(hArg.style_clicked);
+				for (const nm in o) (style_clicked as any)[nm] = o[nm];
+			} catch (e) {
+				throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
 			}
+			else style_clicked.dropShadow = false;
+
+			evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
+				if (! canFocus()) return false;
+				txt.style = style_hover;
+				return true;
+			}, ()=> txt.style = style_clicked);
 
 			if (! isStop) resolve();
 			return;
@@ -140,11 +160,14 @@ export class Button extends Container {
 		if (! hArg.pic) throw 'textまたはpic属性は必須です';
 		// 画像から生成
 		oName.type = 'pic';	// dump用
+		this.idc = {hArg: hArg, rect: new Rectangle(this.x, this.y, 0, 0)};
 		if (! GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
 			sp=> {
 				oName.alpha = sp.alpha = argChk_Num(hArg, 'alpha', sp.alpha);
+				this.idc.rect.width = sp.width;
+				this.idc.rect.height = sp.height;
 
 				const w3 = sp.width /3;
 				const h = sp.height;
@@ -175,18 +198,12 @@ export class Button extends Container {
 				else oName.height = w3;
 				sp.name = JSON.stringify(oName);	// dump用
 
-				if (cfg.oCfg.debug.masume) {
-					const grpDbgMasume = new Graphics;
-					grpDbgMasume.clear();
-					grpDbgMasume.beginFill(0x883388, 0.2);
-					grpDbgMasume.lineStyle(1, 0x883388, 1);
-					grpDbgMasume.drawRect(sp.x, sp.y, w3, h);
-					grpDbgMasume.endFill();
-					this.addChild(grpDbgMasume);
-				}
+				Button.procMasume4pic(this, sp, w3, h);
 			},
 			isStop=> {if (isStop) resolve()}
 		)) resolve();
 	}
+
+	drawDesignCast(gdc: IGenerateDesignCast) {gdc(this.idc);}
 
 }

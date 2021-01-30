@@ -21,7 +21,14 @@ import {Button} from './Button';
 import {SoundMng} from './SoundMng';
 
 import {Tween, update, removeAll} from '@tweenjs/tween.js'
-import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
+import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer, Rectangle} from 'pixi.js';
+import interact from 'interactjs';
+
+export interface IInfoDesignCast {
+	hArg	: HArg,
+	rect	: Rectangle,
+};
+export interface IGenerateDesignCast { (idc	: IInfoDesignCast): void; };
 
 export class LayerMng implements IGetFrm {
 	private readonly	stage	: Container;
@@ -41,6 +48,7 @@ export class LayerMng implements IGetFrm {
 				pg.back.cvsResize();
 			});
 			this.frmMng.cvsResize();
+			this.cvsResizeDesign();
 		};
 		if (CmnLib.isMobile) {
 			globalThis.addEventListener('orientationchange', fncResizeLay, {passive: true});
@@ -56,6 +64,7 @@ export class LayerMng implements IGetFrm {
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt), (me: TxtLayer)=> this.hPages[me.layname].fore === me);
 		GrpLayer.init(main, cfg, sys, sndMng);
+		Button.init(cfg);
 
 		this.frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
 		sys.hFactoryCls.grp = ()=> new GrpLayer;
@@ -166,8 +175,148 @@ export class LayerMng implements IGetFrm {
 				: this.aPageLog
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
+
+		if (sys.isDbg()) {
+			this.appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${this.ID_DESIGNMODE}" style="width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+			this.divDesignRoot = document.getElementById(this.ID_DESIGNMODE) as HTMLDivElement;
+			this.cvsResizeDesign = ()=> {
+				this.divDesignRoot.style.width = `${CmnLib.stageW}px`;
+				this.divDesignRoot.style.height= `${CmnLib.stageH}px`;
+			};
+			sys.addHook((type, o)=> {
+				if (! this.hProcDbgRes[type]?.(type, o)) return;
+				delete this.hProcDbgRes[type];
+			});
+		}
+		else this.recodeDesign = ()=> {};
 	}
 	private fncTicker = ()=> update();
+
+
+	private	recodeDesign(hArg: HArg) {
+		this.scrItr.getDesignInfo(hArg);
+		this.sys.send2Dbg('_recodeDesign', hArg);
+	}
+
+	private	readonly	hProcDbgRes
+	: {[type: string]: (type: string, o: any)=> boolean}	= {
+		attach		: _=> {this.leaveDesignMode();	return false;},
+		continue	: _=> {this.leaveDesignMode();	return false;},
+		disconnect	: _=> {this.leaveDesignMode();	return false;},
+		_enterDesign: _=> {this.enterDesignMode();	return false;},
+		_replaceToken	: (_, o)=> {
+			this.scrItr.replace(o[':idx_tkn'], o[':token']);
+			return false;
+		},
+	}
+	private	enterDesignMode() {
+		this.divDesignRoot.textContent = '';
+		this.divDesignRoot.style.display = 'inline';
+		this.idDesignCast = 0;
+		this.aLayName.forEach(layer=> this.hPages[layer].fore.drawDesignCast(this.dspDesignCast));
+	}
+	private	leaveDesignMode() {
+		this.divDesignRoot.textContent = '';
+		this.divDesignRoot.style.display = 'none';
+	}
+
+	private	readonly	ID_DESIGNMODE = 'DesignMode';
+	private	readonly	divDesignRoot: HTMLDivElement;
+	private	cvsResizeDesign() {}
+	private	idDesignCast	= 0;
+	private	dspDesignCast: IGenerateDesignCast	= gdc=> {
+		const o = gdc.hArg;
+		const rect = gdc.rect;
+//console.log(`fn:LayerMng.ts line:229 [${o.タグ名}] id(${o[':id']}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} token:【${o[':token']}】 x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);
+		const rctLayer = new Rectangle;
+		if (o.layer) {
+			const lay = this.hPages[o.layer].fore;
+			rctLayer.x = lay.x;
+			rctLayer.y = lay.y;
+		}
+
+		const div = document.createElement('div');
+		div.id = this.ID_DESIGNMODE +'_'+ ++this.idDesignCast;
+		div.setAttribute('style', `
+position: absolute;
+left: ${rctLayer.x +rect.x}px;
+top: ${rctLayer.y +rect.y}px;
+height: ${rect.height}px;
+width: ${rect.width}px;
+touch-action: none;
+user-select: none;
+
+opacity: 0.6;
+border-radius: 8px;
+background-color: #29e;
+`);
+		this.divDesignRoot.appendChild(div);
+
+		const me = this;
+		const id = o[':id'];
+		interact('#'+ div.id)
+		.draggable({
+			listeners: {
+				move (e) {
+					const t = e.target;
+					let {x=0, y=0} = t.dataset;
+					// translate when resizing from top or left edges
+					x = parseFloat(x) + e.dx;
+					y = parseFloat(y) + e.dy;
+					t.style.transform = `translate(${x}px, ${y}px)`;
+					Object.assign(t.dataset, {x, y});
+
+					const left = uint(rect.x +x);
+					const top  = uint(rect.y +y);
+					if (o.タグ名 === 'button') me.delayChgCast({':id': id, left: left, top: top});
+				},
+			},
+			modifiers: [
+				// keep the edges inside the parent
+				interact.modifiers.restrictRect({restriction: 'parent'}),
+			]
+		})
+		.resizable({
+			edges: {left: false, right: true, bottom: true, top: false},
+			listeners: {
+				move(e) {
+					const t = e.target;
+					let {x=0, y=0} = t.dataset;
+					// translate when resizing from top or left edges
+					x = parseFloat(x) + e.deltaRect.left;
+					y = parseFloat(y) + e.deltaRect.top;
+
+					const w = uint(e.rect.width);
+					const h = uint(e.rect.height);
+					Object.assign(t.style, {
+						width: `${w}px`,
+						height: `${h}px`,
+						transform: `translate(${x}px, ${y}px)`,
+					});
+					Object.assign(t.dataset, {x, y});
+
+					if (o.タグ名 === 'button') me.delayChgCast({':id': id, width: w, height: h});
+				},
+			},
+			modifiers: [
+				// keep the edges inside the parent
+				interact.modifiers.restrictEdges({outer: 'parent'}),
+				// minimum size
+				interact.modifiers.restrictSize({min: {width: 40, height: 40}}),
+			],
+		})
+		.on('doubletap', e=> {
+console.log(`fn:LayerMng.ts line:310 doubletap`);
+			e.preventDefault()
+		});
+	};
+	// 遅延で遊びを作る
+	private tidDelay	:  NodeJS.Timer | null	= null;
+	private	delayChgCast(o: any) {
+		if (this.tidDelay) clearTimeout(this.tidDelay);
+		this.tidDelay = setTimeout(()=> this.sys.send2Dbg('_changeCast', o), 500);
+	}
+
 
 	getFrmDisabled(id: string): boolean {return this.frmMng.getFrmDisabled(id);}
 
@@ -364,10 +513,8 @@ export class LayerMng implements IGetFrm {
 				true);
 			break;
 		}
-/*
-		fncLetAs(hArg);
-		fncReCover();
-*/
+
+//		this.recodeDesign(hArg);
 
 		return ret.isWait;
 	}
@@ -376,6 +523,8 @@ export class LayerMng implements IGetFrm {
 	private curTxtlay	= '';
 
 	private lay(hArg: HArg): boolean {
+//		this.recodeDesign(hArg);
+
 		// Trans
 		const layer = this.argChk_layer(hArg);
 		const pg = this.hPages[layer];
@@ -548,6 +697,7 @@ void main(void) {
 		};
 		this.tiTrans = {tw: null, resume: false};
 		const time = argChk_Num(hArg, 'time', 0);
+//		this.recodeDesign(hArg);
 		if (time === 0 || this.evtMng.isSkipKeyDown()) {comp(); return false;}
 
 		// クロスフェード
@@ -610,16 +760,14 @@ void main(void) {
 		return vct;
 	}
 	private sortLayers(layers = ''): string[] {
-		const a = this.getLayers(layers);
-		a.sort((a, b)=> {
+		return this.getLayers(layers)
+		.sort((a, b)=> {
 			const ai = this.fore.getChildIndex(this.hPages[a].fore.cnt);
 			const bi = this.fore.getChildIndex(this.hPages[b].fore.cnt);
 			if (ai < bi) return -1;
 			if (ai > bi) return 1;
 			return 0;
 		});
-
-		return a;
 	}
 
 	// トランス終了待ち
@@ -738,6 +886,7 @@ void main(void) {
 				for (const nm in hMemberCnt) backCnt[nm] = foreLay[nm];
 			}
 		}}
+//		this.recodeDesign(hArg);
 
 		return false;
 	}
@@ -1023,6 +1172,7 @@ void main(void) {
 			// fn省略時、画像ボタンはロード後という後のタイミングで scrItr.scriptFn を
 			// 参照してしまうので
 		this.getTxtLayer(hArg).addButton(hArg);
+		this.recodeDesign(hArg);
 
 		return false;
 	}
