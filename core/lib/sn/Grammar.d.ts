@@ -1,4 +1,10 @@
 import { Script, HArg } from './CmnInterface';
+export declare const REG_TAG: RegExp;
+export declare function splitAmpersand(token: string): {
+    name: string;
+    text: string;
+    cast: string | null;
+};
 export declare class Grammar {
     constructor();
     REG_TOKEN: RegExp;
@@ -13,11 +19,5 @@ export declare class Grammar {
     private hC2M;
     private REG_TOKEN_NOTXT;
     replaceScr_C2M_And_let_ml: (scr: Script, start_idx?: number) => void;
-    static splitAmpersand(token: string): {
-        name: string;
-        text: string;
-        cast: string | null;
-    };
-    static readonly REG_TAG: RegExp;
 }
 //# sourceMappingURL=Grammar.d.ts.map

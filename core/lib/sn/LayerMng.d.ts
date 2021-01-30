@@ -5,6 +5,7 @@ import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
+import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { Application, Rectangle } from 'pixi.js';
 export interface IInfoDesignCast {
     hArg: HArg;
@@ -22,15 +23,17 @@ export declare class LayerMng implements IGetFrm {
     private readonly scrItr;
     private readonly sys;
     readonly sndMng: SoundMng;
+    private readonly alzTagArg;
     private readonly stage;
     private fore;
     private back;
     private readonly frmMng;
-    constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng);
+    constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, alzTagArg: AnalyzeTagArg);
     private fncTicker;
     private recodeDesign;
     private readonly hProcDbgRes;
     private enterDesignMode;
+    private id2gdc;
     private leaveDesignMode;
     private readonly ID_DESIGNMODE;
     private readonly divDesignRoot;

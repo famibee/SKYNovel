@@ -1,3 +1,6 @@
+- fix: Undoや手入力でも青四角を戻す・動かすように
+
+
 # [1.8.0](https://github.com/famibee/SKYNovel/compare/v1.7.1...v1.8.0) (2021-01-30)
 
 

@@ -9,7 +9,7 @@ import {uint, argChk_Boolean, getFn} from './CmnLib';
 import {IHTag, IMain, IVariable, IMark, HArg, Script, IPropParser} from './CmnInterface';
 import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
-import {Grammar} from './Grammar';
+import {Grammar, REG_TAG} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 
 import {EventMng} from './EventMng';
@@ -97,45 +97,7 @@ export class ScriptIterator {
 			this.isBreak = this.isBreak_base;
 
 			const fnc = this.analyzeInit;
-/*
-			this.analyzeInit = ()=> {};
-			this.hHook.auth = o=> {
-				if (o.stopOnEntry) this.sys.callHook('stopOnEntry', {});
-				else {
-//=============
-					this.firstWait = ()=> {
-						const token = this.script.aToken[this.idxToken_ -1];
-console.log(`fn:ScriptIterator.ts line:133 NOW=${token}`);
-						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
-
-						this.sys.callHook('continue', {});	// sn全体へ通知
-					};
-//=============
-				}
-				this.analyzeInit = fnc;
-				this.analyzeInit();
-			}
-			this.sys.send2Dbg('hi', {});
-*/
-
 			this.analyzeInit = ()=> {
-//console.log(`fn:ScriptIterator.ts line:122 analyzeInit2`);
-/*
-				this.analyzeInit = fnc;
-				while (true) {
-					let token = this.nextToken();
-//console.log(`fn:ScriptIterator.ts line:125 this.idxToken_:${this.idxToken_} token:${token}:`);
-					if (! token) break;	// 初期化前に終了した場合向け
-
-					const uc = token.charCodeAt(0);	// TokenTopUnicode
-//console.log(`fn:ScriptIterator.ts line:130   uc:${uc}`);
-					if (uc === 91) break;	// [ タグ開始
-					if (uc === 38) break;	// & 変数操作・変数表示
-					if (uc === 42 && token.length == 1) break;	// 単文字の *
-					if (uc === 10) this.addLineNum(token.length);	// \n 改行
-				}
-				this.sys.callHook('stopOnEntry', {});
-*/
 				this.analyzeInit = ()=> {};
 				this.sys.send2Dbg('hi', {});
 			};
@@ -143,101 +105,31 @@ console.log(`fn:ScriptIterator.ts line:133 NOW=${token}`);
 				if (o.stopOnEntry) {
 					while (true) {
 						let token = this.nextToken();
-//console.log(`fn:ScriptIterator.ts line:125 this.idxToken_:${this.idxToken_} token:${token}:`);
 						if (! token) break;	// 初期化前に終了した場合向け
 
 						const uc = token.charCodeAt(0);	// TokenTopUnicode
-//console.log(`fn:ScriptIterator.ts line:130   uc:${uc}`);
 						if (uc === 91) break;	// [ タグ開始
 						if (uc === 38) break;	// & 変数操作・変数表示
 						if (uc === 42 && token.length == 1) break;	// 単文字の *
-						if (uc === 10) this.addLineNum(token.length);	// \n 改行
+						if (uc === 10) this.addLineNum(token.length);// \n 改行
 					}
 					this.sys.callHook('stopOnEntry', {});
 					this.analyzeInit = fnc;
 					this.analyzeInit();
 				}
 				else {
-//=============
-//console.log(`fn:ScriptIterator.ts line:162 ! stopOnEntry`);
 					this.firstWait = ()=> {
-//console.log(`fn:ScriptIterator.ts line:164   idx:${this.idxToken_ -1} token:${this.script.aToken[this.idxToken_ -1]}:`);
-/*
-						const token = this.script.aToken[this.idxToken_ -1];
-						const e = Grammar.REG_TAG.exec(token);
-						const tag_name = e?.groups?.name ?? '';
-*/
-
+//console.log(`fn:ScriptIterator.ts line:122 idx:${this.idxToken_ -1} token:${this.script.aToken[this.idxToken_ -1]}:`);
 						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
-//							++this.idxToken_;
-
 
 //						this.sys.callHook('continue', {});	// sn全体へ通知
 //						this.breakState = BreakState.breaking;
-
-//						--this.idxToken_;
-/*
-						new Promise(re=> setTimeout(re, 10))
-						.then(()=> {
-//							this.analyzeInit();
-							this.sys.callHook('continue', {});	// sn全体へ通知
-						});
-*/
-/*
-						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
-
-console.log(`fn:ScriptIterator.ts line:133 tag_name=${tag_name}`);
-						if (tag_name === 's') {
-console.log(`fn:ScriptIterator.ts line:137 !!`);
-this.analyzeInit();
-
-						}
-//						this.breakState = BreakState.running;
-*/
-//						this.sys.callHook('continue', {});	// sn全体へ通知
 					};
 
 					this.analyzeInit = fnc;
 					this.analyzeInit();
-/*
-					new Promise(re=> setTimeout(re, 10))
-					.then(()=> {
-						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
-//						this.sys.callHook('continue', {});	// sn全体へ通知
-					});
-//					this.sys.callHook('continue', {});	// sn全体へ通知
-//++this.idxToken_;
-*/
-
-//=============
 				}
-//				this.analyzeInit = fnc;
-//				this.analyzeInit();
 			}
-//			this.sys.send2Dbg('hi', {});
-
-
-/*
-			this.analyzeInit = ()=> {};
-			this.hHook.auth = o=> {
-				if (o.stopOnEntry) {
-				else this.firstWait = ()=> {
-					this.breakState = BreakState.step;	// 重要
-				}
-				else this.firstWait = ()=> {
-					this.breakState = BreakState.step;	// 重要
-						// ++this.idxDx4Dbg;
-
-					this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
-					this.sys.send2Dbg('stopOnEntry', {});
-
-					this.sys.callHook('continue', {});	// sn全体へ通知
-				};
-				this.analyzeInit = fnc;
-				this.analyzeInit();
-			}
-			this.sys.send2Dbg('hi', {});
-*/
 		}
 		if (cfg.oCfg.debug.tag) this.procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
 	}
@@ -379,7 +271,7 @@ this.analyzeInit();
 
 			default:
 			{	// 関数ブレークポイント
-				const e = Grammar.REG_TAG.exec(token);
+				const e = REG_TAG.exec(token);
 				const tag_name = e?.groups?.name ?? '';
 				if (tag_name in ScriptIterator.hFuncBP) {
 					this.breakState = BreakState.break;
@@ -418,7 +310,7 @@ this.analyzeInit();
 		const idx_n = this.breakState === BreakState.breaking ?1 :0;
 		const tkn0 = this.script.aToken[this.idxToken_ -1 +idx_n];
 
-		const e0 = Grammar.REG_TAG.exec(tkn0);
+		const e0 = REG_TAG.exec(tkn0);
 		const tag_name0 = e0?.groups?.name ?? '';
 
 		const fn0 = this.cnvSnPath4Dbg(this.scriptFn_);
@@ -440,7 +332,7 @@ this.analyzeInit();
 			const st = this.hScript[cs.fn];
 			const tkn = st.aToken[cs.idx -1];
 			const lc = this.cnvIdx2lineCol(st, cs.idx);	// -1不要
-			const e = Grammar.REG_TAG.exec(tkn);
+			const e = REG_TAG.exec(tkn);
 			const tag_name = e?.groups?.name ?? '';
 			a.push({
 				fn: this.cnvSnPath4Dbg(cs.fn),
@@ -456,7 +348,7 @@ this.analyzeInit();
 	// result = true : waitする  resume()で再開
 	private	procDebugtag	= (_tag_name: string)=> {};
 	タグ解析(tagToken: string): boolean {
-		const e = Grammar.REG_TAG.exec(tagToken);
+		const e = REG_TAG.exec(tagToken);
 		const g = e?.groups;
 		if (! g) throw `タグ記述【${tagToken}】異常です(タグ解析)`;
 
@@ -483,25 +375,26 @@ this.analyzeInit();
 			if (! this.lastHArg) throw '属性「*」はマクロのみ有効です';
 			hArg = {...hArg, ...this.lastHArg};
 		}
-		for (const k in this.alzTagArg.hPrm) {
-			let v = this.alzTagArg.hPrm[k].val;
+		for (const arg_nm in this.alzTagArg.hPrm) {
+			let v = this.alzTagArg.hPrm[arg_nm].val;
 			if (v && v.charAt(0) === '%') {
 				if (lenStk === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
 				const mac = this.lastHArg[v.slice(1)];
-				if (mac) {hArg[k] = mac; continue;}
+				if (mac) {hArg[arg_nm] = mac; continue;}
 
-				v = this.alzTagArg.hPrm[k].def;
+				v = this.alzTagArg.hPrm[arg_nm].def;
 				if (! v || v === 'null') continue;
 					// defのnull指定。%指定が無い場合、タグやマクロに属性を渡さない
 			}
 
 			v = this.prpPrs.getValAmpersand(v ?? '');
-			if (v !== 'undefined') {hArg[k] = v; continue;}
+			if (v !== 'undefined') {hArg[arg_nm] = v; continue;}
 
-			const def = this.alzTagArg.hPrm[k].def;
+			const def = this.alzTagArg.hPrm[arg_nm].def;
 			if (def === undefined) continue;
 			v = this.prpPrs.getValAmpersand(def);
-			if (v !== 'undefined') hArg[k] = v;	// 存在しない値の場合、属性を渡さない
+			if (v !== 'undefined') hArg[arg_nm] = v;
+				// 存在しない値の場合、属性を渡さない
 		}
 		hArg.タグ名 = tag_name;
 
@@ -701,7 +594,7 @@ this.analyzeInit();
 			if (uc === 10) {this.addLineNum(t.length); continue;}	// \n 改行
 			if (uc !== 91) continue;		// [ タグ開始以外
 
-			const a_tag = Grammar.REG_TAG.exec(t);
+			const a_tag = REG_TAG.exec(t);
 			const g = a_tag?.groups;
 			if (! g) throw 'タグ記述['+ t +']異常です(if文)';
 			const tag_name = g.name;
@@ -1052,7 +945,7 @@ this.analyzeInit();
 			this.REG_WILDCARD.lastIndex = 0;
 			if (! this.REG_WILDCARD.test(token)) continue;
 
-			const e = Grammar.REG_TAG.exec(token);
+			const e = REG_TAG.exec(token);
 			const g = e?.groups;
 			if (! g) continue;
 			this.alzTagArg.go(g.args);

@@ -7,7 +7,7 @@
 
 import assert = require('power-assert');
 
-import {Grammar} from '../core/src/sn/Grammar';
+import {Grammar, REG_TAG, splitAmpersand} from '../core/src/sn/Grammar';
 
 context('class Grammar & ScriptIterator', ()=>{
 	let	vctToken	: string[]	= null;
@@ -209,7 +209,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 			assert.equal(vctToken[2], "[あ]");
 			assert.equal(vctToken[3], "[あい]");
 
-			const a_tag = Grammar.REG_TAG.exec(sScr);
+			const a_tag = REG_TAG.exec(sScr);
 			if (a_tag == null) assert.fail("Error:bug150603_0");
 		});
 		it('testAnalyzeScript_bug150603_1', ()=> {
@@ -220,7 +220,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 			assert.equal(vctTokenLen, 1);
 			assert.equal(vctToken[0], "[あ]");
 
-			const a_tag = Grammar.REG_TAG.exec(sScr);
+			const a_tag = REG_TAG.exec(sScr);
 			if (a_tag == null) assert.fail("Error:bug150603_1");
 		});
 		it('testAnalyzeScript_bug150603_2', ()=> {
@@ -231,7 +231,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 			assert.equal(vctTokenLen, 1);
 			assert.equal(vctToken[0], "[あい]");
 
-			const a_tag = Grammar.REG_TAG.exec(sScr);
+			const a_tag = REG_TAG.exec(sScr);
 			if (a_tag == null) assert.fail("Error:bug150603_2");
 		});
 		it('testAnalyzeScript_bug150603_3', ()=> {
@@ -242,7 +242,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 			assert.equal(vctTokenLen, 1);
 			assert.equal(vctToken[0], "[あ a=0]");
 
-			const a_tag = Grammar.REG_TAG.exec(sScr);
+			const a_tag = REG_TAG.exec(sScr);
 			if (a_tag == null) assert.fail("Error:bug150603_3");
 		});
 		it('testAnalyzeScript_bug150603_4', ()=> {
@@ -253,7 +253,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 			assert.equal(vctTokenLen, 1);
 			assert.equal(vctToken[0], "[あい a=0]");
 
-			const a_tag = Grammar.REG_TAG.exec(sScr);
+			const a_tag = REG_TAG.exec(sScr);
 			if (a_tag == null) assert.fail("Error:bug150603_4");
 		});
 
@@ -1192,33 +1192,33 @@ void main(void) {
 
 		// Main.splitAmpersand
 		it('test_mth_splitAmpersand0', ()=> {
-			const o = Grammar.splitAmpersand("pl = 70");
+			const o = splitAmpersand("pl = 70");
 			assert.equal(o['name'], "pl ");
 			assert.equal(o['text'], " 70");
 			assert.equal(o['cast'], null);
 		});
 		it('test_mth_splitAmpersand1', ()=> {
-			const o = Grammar.splitAmpersand("text=1+2=int");
+			const o = splitAmpersand("text=1+2=int");
 			assert.equal(o['name'], "text");
 			assert.equal(o['text'], "1+2");
 			assert.equal(o['cast'], "int");
 		});
 		it('test_mth_splitAmpersand2', ()=> {
-			const o = Grammar.splitAmpersand(
+			const o = splitAmpersand(
 				"buf_page.0 = -999");
 			assert.equal(o['name'], "buf_page.0 ");
 			assert.equal(o['text'], " -999");
 			assert.equal(o['cast'], null);
 		});
 		it('test_mth_splitAmpersand3', ()=> {
-			const o = Grammar.splitAmpersand(
+			const o = splitAmpersand(
 				"b = (1 == 0) = uint");
 			assert.equal(o['name'], "b ");
 			assert.equal(o['text'], " (1 == 0) ");
 			assert.equal(o['cast'], "uint");
 		});
 		it('test_mth_splitAmpersand4', ()=> {
-			const o = Grammar.splitAmpersand(
+			const o = splitAmpersand(
 				"b = (1 != 0) = int");
 			assert.equal(o['name'], "b ");
 			assert.equal(o['text'], " (1 != 0) ");
@@ -1228,7 +1228,7 @@ void main(void) {
 		it('test_mth_splitAmpersand_err0', ()=> {
 			try {
 				const o
-					= Grammar.splitAmpersand("b=1=0=uint");
+					= splitAmpersand("b=1=0=uint");
 				assert.fail("Error:ccc");
 			}
 			catch (s) {
@@ -1238,7 +1238,7 @@ void main(void) {
 		it('test_mth_splitAmpersand_err1', ()=> {
 			try {
 				const o
-					= Grammar.splitAmpersand("text=&1+2=int");
+					= splitAmpersand("text=&1+2=int");
 				assert.fail("Error:ccc");
 			}
 			catch (s) {

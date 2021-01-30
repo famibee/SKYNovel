@@ -8,7 +8,7 @@
 import {CmnLib, argChk_Boolean} from './CmnLib';
 import {IHTag, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
-import {Grammar} from './Grammar';
+import {REG_TAG, splitAmpersand} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {PropParser} from './PropParser';
 import {DebugMng} from './DebugMng';
@@ -83,7 +83,7 @@ export class Main implements IMain {
 			this.dbgMng = new DebugMng(sys, this.hTag, this.scrItr);
 
 			// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, sys, this.sndMng);
+			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, sys, this.sndMng, this.alzTagArg);
 
 			// イベント
 			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, sys);
@@ -169,7 +169,7 @@ export class Main implements IMain {
 						const e = err as Error;
 					//	if (e is StackOverflowError) traceDbg(e.getStackTrace())
 						let mes = `タグ解析中例外 mes=${e.message}(${e.name})`;
-						const a_tag: any = Grammar.REG_TAG.exec(token);
+						const a_tag: any = REG_TAG.exec(token);
 						if (a_tag) mes = `[${a_tag.groups.name}]`+ mes;
 						this.errScript(mes, false);
 					}
@@ -183,7 +183,7 @@ export class Main implements IMain {
 					if (token.slice(-1) !== '&') {//変数操作
 						// 変数計算
 						if (this.scrItr.isBreak(token)) return;
-						const o = Grammar.splitAmpersand(token.slice(1));
+						const o = splitAmpersand(token.slice(1));
 						o.name = this.prpPrs.getValAmpersand(o.name);
 						o.text = String(this.prpPrs.parse(o.text));
 						this.hTag.let(o as any);

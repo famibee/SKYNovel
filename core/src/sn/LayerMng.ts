@@ -19,6 +19,8 @@ import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 import {SoundMng} from './SoundMng';
+import {REG_TAG} from './Grammar';
+import {AnalyzeTagArg} from './AnalyzeTagArg';
 
 import {Tween, update, removeAll} from '@tweenjs/tween.js'
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer, Rectangle} from 'pixi.js';
@@ -37,7 +39,7 @@ export class LayerMng implements IGetFrm {
 
 	private readonly	frmMng	: FrameMng;
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, private readonly alzTagArg: AnalyzeTagArg) {
 		// レスポンシブや回転の対応
 		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		const fncResizeLay = ()=> {
@@ -205,7 +207,49 @@ export class LayerMng implements IGetFrm {
 		disconnect	: _=> {this.leaveDesignMode();	return false;},
 		_enterDesign: _=> {this.enterDesignMode();	return false;},
 		_replaceToken	: (_, o)=> {
-			this.scrItr.replace(o[':idx_tkn'], o[':token']);
+			// 青四角移動変更をスクリプト反映したレス（Undoや手変更でも呼ばれる）
+			// 内部スクリプト更新
+			const token = o[':token'];
+			this.scrItr.replace(o[':idx_tkn'], token);
+
+			const id = o[':id'];
+			const t = <HTMLDivElement>document.querySelector(`div[data-id='${id}']`);
+			const gdc = this.id2gdc[id];
+			if (! t || ! gdc) throw `_replaceToken 存在しないid【${id}】です`;
+			const rect = gdc.rect;
+
+			// 実ボタン・青四角（重複処理だがUndo時のため）も移動
+			const e = REG_TAG.exec(token);
+			const g = e?.groups;
+			if (! g) throw `_replaceToken タグ記述【${token}】異常です`;
+			const tag_name = g.name;
+			const tag_fnc = this.hTag[tag_name];
+			if (! tag_fnc) throw `_replaceToken 未定義のタグ【${tag_name}】です`;
+
+			this.alzTagArg.go(g.args);
+			const p = this.alzTagArg.hPrm;
+			switch (tag_name) {
+				case 'button':{
+					if ('left' in p || 'top' in p) {
+						const x = parseInt(p.left.val ?? '0') -rect.x;
+						const y = parseInt(p.top.val ?? '0')  -rect.y;
+						t.style.transform = `translate(${x}px, ${y}px)`;
+						Object.assign(t.dataset, {x, y});
+					}
+					if ('width' in p || 'height' in p) {
+						const w = parseInt(p.width.val ?? '0');
+						const h = parseInt(p.height.val ?? '0');
+						Object.assign(t.style, {
+							width: `${w}px`,
+							height: `${h}px`,
+						});
+					}
+				}	break;
+			
+				default:
+					break;
+			}
+
 			return false;
 		},
 	}
@@ -213,8 +257,10 @@ export class LayerMng implements IGetFrm {
 		this.divDesignRoot.textContent = '';
 		this.divDesignRoot.style.display = 'inline';
 		this.idDesignCast = 0;
+		this.id2gdc = {};
 		this.aLayName.forEach(layer=> this.hPages[layer].fore.drawDesignCast(this.dspDesignCast));
 	}
+	private	id2gdc: {[id: string]: IInfoDesignCast}	= {};
 	private	leaveDesignMode() {
 		this.divDesignRoot.textContent = '';
 		this.divDesignRoot.style.display = 'none';
@@ -234,6 +280,8 @@ export class LayerMng implements IGetFrm {
 			rctLayer.x = lay.x;
 			rctLayer.y = lay.y;
 		}
+		const id = o[':id'] ?? '';
+		this.id2gdc[id] = gdc;
 
 		const div = document.createElement('div');
 		div.id = this.ID_DESIGNMODE +'_'+ ++this.idDesignCast;
@@ -250,10 +298,10 @@ opacity: 0.6;
 border-radius: 8px;
 background-color: #29e;
 `);
+		div.dataset.id = id;
 		this.divDesignRoot.appendChild(div);
 
 		const me = this;
-		const id = o[':id'];
 		interact('#'+ div.id)
 		.draggable({
 			listeners: {

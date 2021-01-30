@@ -8,6 +8,26 @@
 import {Script, HArg} from './CmnInterface';
 import {RubySpliter} from './RubySpliter';
 
+export const	REG_TAG	= /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]/;
+	// 47 match 959 step (1ms) https://regex101.com/r/TKk1Iz/4
+
+export function	splitAmpersand(token: string): {
+		name: string;
+		text: string;
+		cast: string | null;
+} {	// テスト用にpublic
+	const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
+		// != を弾けないので中途半端ではある
+	const cnt_equa = equa.length;
+	if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
+	if (equa[1].charAt(0) === '&') throw '「&計算」書式では「&」指定が不要です';
+	return {
+		name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
+		text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
+		cast: ((cnt_equa === 3) ?equa[2].trim() :null)
+	};
+}
+
 export class Grammar {
 	constructor() {this.setEscape('');}
 
@@ -122,26 +142,5 @@ export class Grammar {
 		}
 		scr.len = scr.aToken.length;
 	}
-
-
-	static	splitAmpersand(token: string): {
-		name: string;
-		text: string;
-		cast: string | null;
-	} {	// テスト用にpublic
-		const equa = token.replace(/==/g, '＝').replace(/!=/g, '≠').split('=');
-			// != を弾けないので中途半端ではある
-		const cnt_equa = equa.length;
-		if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
-		if (equa[1].charAt(0) === '&') throw '「&計算」書式では「&」指定が不要です';
-		return {
-			name: equa[0].replace(/＝/g, '==').replace(/≠/g, '!='),
-			text: equa[1].replace(/＝/g, '==').replace(/≠/g, '!='),
-			cast: ((cnt_equa === 3) ?equa[2].trim() :null)
-		};
-	}
-
-	// 47 match 959 step (1ms) https://regex101.com/r/TKk1Iz/4
-	static	readonly	REG_TAG	= /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]/;
 
 }
