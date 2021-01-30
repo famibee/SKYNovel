@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/famibee/SKYNovel/compare/v1.8.1...v1.8.2) (2021-01-30)
+
+
+### Bug Fixes
+
+* 青四角移動・変更後、実ボタンも変更するように ([8032d65](https://github.com/famibee/SKYNovel/commit/8032d654bd5d99fee913b862b48f430e81d04dc5))
+
 - fix: 青四角移動・変更後、実ボタンも変更するように
 - fix: 青四角の位置・サイズを変更した際、トークンが長くなる場合に止まる件
 
