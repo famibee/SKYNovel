@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/famibee/SKYNovel/compare/v1.8.0...v1.8.1) (2021-01-30)
+
+
+### Bug Fixes
+
+* Undoや手入力でも青四角を戻す・動かすように ([5ce4ac3](https://github.com/famibee/SKYNovel/commit/5ce4ac3ae24df4e1ad7663d624a1375b08e2945c))
+
 - fix: Undoや手入力でも青四角を戻す・動かすように
 
 
