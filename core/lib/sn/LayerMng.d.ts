@@ -6,8 +6,9 @@ import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
-import { Application, Rectangle } from 'pixi.js';
+import { Container, Application, Rectangle } from 'pixi.js';
 export interface IInfoDesignCast {
+    cmp: Container;
     hArg: HArg;
     rect: Rectangle;
 }

@@ -27,6 +27,7 @@ import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite
 import interact from 'interactjs';
 
 export interface IInfoDesignCast {
+	cmp		: Container,
 	hArg	: HArg,
 	rect	: Rectangle,
 };
@@ -216,9 +217,8 @@ export class LayerMng implements IGetFrm {
 			const t = <HTMLDivElement>document.querySelector(`div[data-id='${id}']`);
 			const gdc = this.id2gdc[id];
 			if (! t || ! gdc) throw `_replaceToken 存在しないid【${id}】です`;
-			const rect = gdc.rect;
 
-			// 実ボタン・青四角（重複処理だがUndo時のため）も移動
+			// 実ボタン・青四角も移動（Undoや手入力変更時）
 			const e = REG_TAG.exec(token);
 			const g = e?.groups;
 			if (! g) throw `_replaceToken タグ記述【${token}】異常です`;
@@ -231,10 +231,12 @@ export class LayerMng implements IGetFrm {
 			switch (tag_name) {
 				case 'button':{
 					if ('left' in p || 'top' in p) {
-						const x = parseInt(p.left.val ?? '0') -rect.x;
-						const y = parseInt(p.top.val ?? '0')  -rect.y;
+						const x = parseInt(p.left.val ?? '0') -gdc.rect.x;
+						const y = parseInt(p.top.val ?? '0')  -gdc.rect.y;
 						t.style.transform = `translate(${x}px, ${y}px)`;
 						Object.assign(t.dataset, {x, y});
+						gdc.cmp.x = x;
+						gdc.cmp.y = y;
 					}
 					if ('width' in p || 'height' in p) {
 						const w = parseInt(p.width.val ?? '0');
@@ -243,11 +245,10 @@ export class LayerMng implements IGetFrm {
 							width: `${w}px`,
 							height: `${h}px`,
 						});
+						gdc.cmp.width = w;
+						gdc.cmp.height = h;
 					}
 				}	break;
-			
-				default:
-					break;
 			}
 
 			return false;
