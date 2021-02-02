@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/famibee/SKYNovel/compare/v1.8.2...v1.9.0) (2021-02-02)
+
+
+### Features
+
+* デバッグビューにレイヤ構造ビューを追加 ([f0fcee1](https://github.com/famibee/SKYNovel/commit/f0fcee10fc88d7420f91edc16cc86aa87e5f3d36))
+
 - feat: デバッグビューにレイヤ構造ビューを追加
 - feat: 文字レイヤもドラッグ移動・サイズ変更できるように
 - feat: デバッグ：ボタン長押しでスクリプトの該当箇所を開く
