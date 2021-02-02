@@ -1,3 +1,6 @@
+- fix: 非デバッグで、ボタンのツールチップス表示時に内部エラーになる件
+
+
 # [1.9.0](https://github.com/famibee/SKYNovel/compare/v1.8.2...v1.9.0) (2021-02-02)
 
 
