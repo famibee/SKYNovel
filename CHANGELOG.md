@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/famibee/SKYNovel/compare/v1.9.0...v1.9.1) (2021-02-02)
+
+
+### Bug Fixes
+
+* 非デバッグで、ボタンのツールチップス表示時に内部エラーになる件 ([e86f1a2](https://github.com/famibee/SKYNovel/commit/e86f1a2b7747796d8ee577d2daf4ad67d1d7ed4c))
+
 - fix: 非デバッグで、ボタンのツールチップス表示時に内部エラーになる件
 
 
