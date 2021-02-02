@@ -11,6 +11,7 @@ import {Config} from './Config';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
+import {IGenerateDesignCast, IInfoDesignCast} from './LayerMng';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
@@ -78,6 +79,8 @@ export class TxtStage extends Container {
 	private cntTxt		= new Container;			// サンプリング先
 	private grpDbgMasume= new Graphics;
 
+	private	idc		: IInfoDesignCast = {type: 'TXTLAY', cmp: this.cnt, hArg: {}, rect: Rectangle.EMPTY, bg_col: '#29e'};
+
 
 	constructor(private infTL: IInfTxLay, readonly cntInsidePadding: Container, private readonly cnt: Sprite, private readonly canFocus: ()=> boolean) {
 		super();
@@ -111,7 +114,12 @@ export class TxtStage extends Container {
 		}
 		else if ('alpha' in hArg) s.opacity = String(this.cnt.alpha);
 
+		if ('width' in hArg) s.width = (hArg.width ?? '0') +'px';
+		if ('height' in hArg) s.height = (hArg.height ?? '0') +'px';
+
+		this.idc.hArg = hArg;
 		this.lay_sub();
+
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 		this.left = this.cnt.position.x
 			-(CmnLib.isSafari && !CmnLib.isMobile && this.isTategaki
@@ -147,6 +155,8 @@ export class TxtStage extends Container {
 				? parseFloat(lh)
 				: (fs *parseFloat(lh) -fs)) /2;
 			// globalThis.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
+
+		this.idc.rect = new Rectangle(this.cnt.x, this.cnt.y, this.infTL.$width, this.infTL.$height);
 	}
 	cvsResize() {
 		const s = this.htmTxt.style;
@@ -160,11 +170,15 @@ export class TxtStage extends Container {
 	private padTx4x = 0;
 	private padTx4y = 0;
 
+	getWidth() {return this.infTL.$width}
+	getHeight() {return this.infTL.$height}
+
 	setSize(width: number, height: number) {
 		this.infTL.$width = width;
 		this.infTL.$height = height;
 		this.htmTxt.style.width = this.infTL.$width +'px';
 		this.htmTxt.style.height = this.infTL.$height +'px';
+		this.idc.rect = new Rectangle(this.cnt.x, this.cnt.y, this.infTL.$width, this.infTL.$height);
 	}
 	private static	hWarning = {
 		backgroundColor	: 0,
@@ -998,10 +1012,12 @@ export class TxtStage extends Container {
 		to.left = this.left;
 		to.name = this.name;
 		to.lay_sub();
+		to.idc.hArg = this.idc.hArg;
 
 		to.ch_filter = this.ch_filter;
 		to.fi_easing = this.fi_easing;
 		to.fo_easing = this.fo_easing;
+
 		return to;
 	}
 
@@ -1011,18 +1027,20 @@ export class TxtStage extends Container {
 
 		cssText		: this.htmTxt.style.cssText,
 		left		: this.left,
+		idc_hArg	: this.idc.hArg,
 
 		ch_filter	: this.ch_filter,
 		fi_easing	: this.fi_easing,
 		fo_easing	: this.fo_easing,
 	}};
 	playback(hLay: any) {
-		this.infTL		= hLay.infTL;
+		this.infTL	= hLay.infTL;
 		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
 		this.htmTxt.style.cssText = hLay.cssText;
 		this.left = hLay.left;
 		this.lay_sub();
+		this.idc.hArg	= hLay.idc_hArg;
 
 		this.ch_filter	= hLay.ch_filter;
 		this.fi_easing	= hLay.fi_easing;
@@ -1049,6 +1067,8 @@ export class TxtStage extends Container {
 	snapshot_end() {
 		if (this.sss) {this.cntTxt.removeChild(this.sss); this.sss = null;}
 	}
+
+	drawDesignCast(gdc: IGenerateDesignCast) {gdc(this.idc);}
 
 	dump(): string {
 		const aStyle: string[] = [];

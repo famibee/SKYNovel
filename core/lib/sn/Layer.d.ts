@@ -47,6 +47,7 @@ export declare class Layer {
     snapshot_end(): void;
     cvsResize(): void;
     drawDesignCast(_gdc: IGenerateDesignCast): void;
+    drawDesignCastChildren(_gdc: IGenerateDesignCast): void;
     dump(): string;
     static setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp?: boolean, isButton?: boolean): void;
     static setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void;

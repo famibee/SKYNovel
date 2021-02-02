@@ -27,9 +27,11 @@ import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite
 import interact from 'interactjs';
 
 export interface IInfoDesignCast {
+	type	: string;
 	cmp		: Container,
 	hArg	: HArg,
 	rect	: Rectangle,
+	bg_col	: string;
 };
 export interface IGenerateDesignCast { (idc	: IInfoDesignCast): void; };
 
@@ -196,7 +198,7 @@ export class LayerMng implements IGetFrm {
 	private fncTicker = ()=> update();
 
 
-	private	recodeDesign(hArg: HArg) {
+	private	recodeDesign(hArg: HArg) {	// 必ず[':id'] を設定すること
 		this.scrItr.getDesignInfo(hArg);
 		this.sys.send2Dbg('_recodeDesign', hArg);
 	}
@@ -228,38 +230,40 @@ export class LayerMng implements IGetFrm {
 
 			this.alzTagArg.go(g.args);
 			const p = this.alzTagArg.hPrm;
-			switch (tag_name) {
-				case 'button':{
-					if ('left' in p || 'top' in p) {
-						const x = parseInt(p.left.val ?? '0') -gdc.rect.x;
-						const y = parseInt(p.top.val ?? '0')  -gdc.rect.y;
-						t.style.transform = `translate(${x}px, ${y}px)`;
-						Object.assign(t.dataset, {x, y});
-						gdc.cmp.x = x;
-						gdc.cmp.y = y;
-					}
-					if ('width' in p || 'height' in p) {
-						const w = parseInt(p.width.val ?? '0');
-						const h = parseInt(p.height.val ?? '0');
-						Object.assign(t.style, {
-							width: `${w}px`,
-							height: `${h}px`,
-						});
-						gdc.cmp.width = w;
-						gdc.cmp.height = h;
-					}
-				}	break;
+			if ('left' in p || 'top' in p || 'x' in p || 'y' in p) {
+				const x = parseInt(p.left.val ?? p.x.val ?? '0') -gdc.rect.x;
+				const y = parseInt(p.top.val  ?? p.y.val ?? '0') -gdc.rect.y;
+				t.style.transform = `translate(${x}px, ${y}px)`;
+				Object.assign(t.dataset, {x, y});
+				gdc.cmp.x = x;
+				gdc.cmp.y = y;
+			}
+			if ('width' in p || 'height' in p) {
+				const w = parseInt(p.width.val ?? '0');
+				const h = parseInt(p.height.val ?? '0');
+				Object.assign(t.style, {
+					width	: `${w}px`,
+					height	: `${h}px`,
+				});
+				gdc.cmp.width = w;
+				gdc.cmp.height = h;
 			}
 
 			return false;
 		},
+		_selectNode: (_, o)=> {this.enterDesignMode(o.node); return false;},
 	}
-	private	enterDesignMode() {
+	private	enterDesignMode(node = this.curTxtlay +'/ボタン') {
+		const a = node.split('/');
+		const lay = this.hPages[a[0]];
+		if (! lay) return;
+
 		this.divDesignRoot.textContent = '';
 		this.divDesignRoot.style.display = 'inline';
 		this.idDesignCast = 0;
 		this.id2gdc = {};
-		this.aLayName.forEach(layer=> this.hPages[layer].fore.drawDesignCast(this.dspDesignCast));
+		if (a.length > 1) lay.fore.drawDesignCastChildren(this.dspDesignCast);
+		else lay.fore.drawDesignCast(this.dspDesignCast);
 	}
 	private	id2gdc: {[id: string]: IInfoDesignCast}	= {};
 	private	leaveDesignMode() {
@@ -273,23 +277,26 @@ export class LayerMng implements IGetFrm {
 	private	idDesignCast	= 0;
 	private	dspDesignCast: IGenerateDesignCast	= gdc=> {
 		const o = gdc.hArg;
-		const rect = gdc.rect;
-//console.log(`fn:LayerMng.ts line:229 [${o.タグ名}] id(${o[':id']}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} token:【${o[':token']}】 x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);
-		const rctLayer = new Rectangle;
-		if (o.layer) {
+		const rect = {...gdc.rect};
+if (o.タグ名 !== 'button')
+/**/console.log(`fn:LayerMng.ts line:285 [${o.タグ名}] id(${o[':id']}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} token:【${o[':token']}】 type:${gdc.type} x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);
+		let lx = 0, ly = 0;
+		if (gdc.type.slice(-3) !== 'LAY' && o.layer) {
 			const lay = this.hPages[o.layer].fore;
-			rctLayer.x = lay.x;
-			rctLayer.y = lay.y;
+			lx = lay.x;
+			ly = lay.y;
 		}
 		const id = o[':id'] ?? '';
 		this.id2gdc[id] = gdc;
 
 		const div = document.createElement('div');
 		div.id = this.ID_DESIGNMODE +'_'+ ++this.idDesignCast;
+if (o.タグ名 !== 'button')
+console.log(`fn:LayerMng.ts line:296   x:${rect.x} y:${rect.y}`);
 		div.setAttribute('style', `
 position: absolute;
-left: ${rctLayer.x +rect.x}px;
-top: ${rctLayer.y +rect.y}px;
+left: ${lx +rect.x}px;
+top: ${ly +rect.y}px;
 height: ${rect.height}px;
 width: ${rect.width}px;
 touch-action: none;
@@ -297,7 +304,7 @@ user-select: none;
 
 opacity: 0.6;
 border-radius: 8px;
-background-color: #29e;
+background-color: ${gdc.bg_col};
 `);
 		div.dataset.id = id;
 		this.divDesignRoot.appendChild(div);
@@ -317,7 +324,12 @@ background-color: #29e;
 
 					const left = uint(rect.x +x);
 					const top  = uint(rect.y +y);
-					if (o.タグ名 === 'button') me.delayChgCast({':id': id, left: left, top: top});
+					switch (o.タグ名) {
+						case 'lay':
+						case 'button':
+							me.delayChgCast({':id': id, left: left, top: top});
+							break;
+					}
 				},
 			},
 			modifiers: [
@@ -344,7 +356,12 @@ background-color: #29e;
 					});
 					Object.assign(t.dataset, {x, y});
 
-					if (o.タグ名 === 'button') me.delayChgCast({':id': id, width: w, height: h});
+					switch (o.タグ名) {
+						case 'lay':
+						case 'button':
+							me.delayChgCast({':id': id, width: w, height: h});
+							break;
+					}
 				},
 			},
 			modifiers: [
@@ -354,10 +371,13 @@ background-color: #29e;
 				interact.modifiers.restrictSize({min: {width: 40, height: 40}}),
 			],
 		})
+		.on('hold', ()=> this.sys.send2Dbg('_focusScript', o));
+/*
 		.on('doubletap', e=> {
 console.log(`fn:LayerMng.ts line:310 doubletap`);
 			e.preventDefault()
 		});
+*/
 	};
 	// 遅延で遊びを作る
 	private tidDelay	:  NodeJS.Timer | null	= null;
@@ -532,7 +552,7 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 		if (! cls) throw 'clsは必須です';
 
 		const ret = {isWait: false}
-		this.hPages[layer] = new Pages(layer, cls, this.fore, hArg, this.back, hArg, this.sys, this.val, ret);
+		this.hPages[layer] = new Pages(layer, cls, this.fore, this.back, hArg, this.sys, this.val, ret);
 		this.aLayName.push(layer);
 		switch (cls) {
 		case 'txt':
@@ -563,7 +583,7 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 			break;
 		}
 
-//		this.recodeDesign(hArg);
+		this.recodeDesign(hArg);
 
 		return ret.isWait;
 	}
@@ -572,8 +592,6 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 	private curTxtlay	= '';
 
 	private lay(hArg: HArg): boolean {
-//		this.recodeDesign(hArg);
-
 		// Trans
 		const layer = this.argChk_layer(hArg);
 		const pg = this.hPages[layer];
@@ -609,6 +627,9 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 			this.back.setChildIndex(back, idx_dive);
 			this.rebuildLayerRankInfo();
 		}
+
+		hArg[':id'] = pg.fore.name.slice(0, -7);
+		this.recodeDesign(hArg);
 
 		return pg.lay(hArg);
 	}
@@ -746,7 +767,7 @@ void main(void) {
 		};
 		this.tiTrans = {tw: null, resume: false};
 		const time = argChk_Num(hArg, 'time', 0);
-//		this.recodeDesign(hArg);
+		this.recodeDesign(hArg);
 		if (time === 0 || this.evtMng.isSkipKeyDown()) {comp(); return false;}
 
 		// クロスフェード
@@ -1250,7 +1271,7 @@ void main(void) {
 			const $pg = $hPages[layer];
 			aSort.push({layer: layer, idx: $pg.fore.idx});
 
-			const pg = this.hPages[layer] ||= new Pages(layer, $pg.cls, this.fore, {}, this.back, {}, this.sys, this.val, {isWait: false});
+			const pg = this.hPages[layer] ||= new Pages(layer, $pg.cls, this.fore, this.back, {}, this.sys, this.val, {isWait: false});
 			pg.fore.playback($pg.fore, aPrm);
 			pg.back.playback($pg.back, aPrm);
 		}

@@ -8,9 +8,11 @@ import { SoundMng } from './SoundMng';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { Container, Application, Rectangle } from 'pixi.js';
 export interface IInfoDesignCast {
+    type: string;
     cmp: Container;
     hArg: HArg;
     rect: Rectangle;
+    bg_col: string;
 }
 export interface IGenerateDesignCast {
     (idc: IInfoDesignCast): void;

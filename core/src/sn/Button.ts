@@ -96,7 +96,7 @@ export class Button extends Container {
 			oName.text = txt.text;
 			oName.width = txt.width;
 			oName.height = txt.height;
-			this.idc = {cmp: txt, hArg: hArg, rect: new Rectangle(this.x, this.y, txt.width, txt.height)};
+			this.idc = {type: 'TXTBTN', cmp: txt, hArg: hArg, rect: new Rectangle(this.x, this.y, txt.width, txt.height), bg_col: '#e92'};
 
 			let isStop = false;
 			if (hArg.b_pic) {
@@ -160,7 +160,7 @@ export class Button extends Container {
 		if (! hArg.pic) throw 'textまたはpic属性は必須です';
 		// 画像から生成
 		oName.type = 'pic';	// dump用
-		this.idc = {cmp: this, hArg: hArg, rect: new Rectangle(this.x, this.y, 0, 0)};
+		this.idc = {type: 'PICBTN', cmp: this, hArg: hArg, rect: new Rectangle(this.x, this.y, 0, 0), bg_col: '#e92'};
 		if (! GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,

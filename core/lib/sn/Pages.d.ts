@@ -5,7 +5,7 @@ import { Container } from 'pixi.js';
 export declare class Pages {
     private readonly cls_;
     private pg;
-    constructor(layer: string, cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable, ret: {
+    constructor(layer: string, cls_: string, fore: Container, back: Container, hArg: HArg, sys: SysBase, val: IVariable, ret: {
         isWait: boolean;
     });
     destroy(): void;

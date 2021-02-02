@@ -20,14 +20,14 @@ export class Layer {
 	// tsy用
 	get	alpha() {return this.cnt.alpha}
 	set alpha(v) {this.cnt.alpha = v}
-	get	height() {return this.cnt.getBounds().height}
+	get	height() {return this.cnt.height}
 	get	rotation() {return this.cnt.angle}
 	set rotation(v) {this.cnt.angle = v}
 	get	scale_x() {return this.cnt.scale.x}
 	set scale_x(v) {this.cnt.scale.x = v}
 	get	scale_y() {return this.cnt.scale.y}
 	set scale_y(v) {this.cnt.scale.y = v}
-	get	width() {return this.cnt.getBounds().width}
+	get	width() {return this.cnt.width}
 	get	x() {return this.cnt.x}
 	set x(v) {this.cnt.x = v}
 	get	y() {return this.cnt.y}
@@ -170,6 +170,7 @@ export class Layer {
 	cvsResize() {}
 
 	drawDesignCast(_gdc: IGenerateDesignCast) {}
+	drawDesignCastChildren(_gdc: IGenerateDesignCast) {}
 
 	dump(): string {
 		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${

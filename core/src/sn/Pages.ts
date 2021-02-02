@@ -15,22 +15,22 @@ import {Container} from 'pixi.js';
 export class Pages {
 	private pg: {fore: Layer, back: Layer};
 
-	constructor(layer: string, private readonly cls_: string, fore: Container, hArgFore: HArg, back: Container, hArgBack: HArg, sys: SysBase, val: IVariable, ret: {isWait: boolean}) {
+	constructor(layer: string, private readonly cls_: string, fore: Container, back: Container, hArg: HArg, sys: SysBase, val: IVariable, ret: {isWait: boolean}) {
 		const fncF = sys.hFactoryCls[cls_];
 		if (! fncF) throw `属性 class【${cls_}】が不正です`;
 
 		this.pg = {fore: fncF(), back: fncF()};
-		this.pg.fore.layname = layer;
+		this.pg.fore.layname =
 		this.pg.back.layname = layer;
-		this.pg.fore.name = `layer:${layer} cls:${cls_} page:A`;
-		this.pg.back.name = `layer:${layer} cls:${cls_} page:B`;
+		const nm = hArg[':id'] = `layer:${layer} cls:${cls_}`;
+		this.pg.fore.name = `${nm} page:A`;
+		this.pg.back.name = `${nm} page:B`;
 		fore.addChild(this.fore.cnt);
 		back.addChild(this.back.cnt);
-		argChk_Boolean(hArgFore, 'visible', true);
-		argChk_Boolean(hArgBack, 'visible', true);
+		argChk_Boolean(hArg, 'visible', true);
+		argChk_Boolean(hArg, 'visible', true);
 			// SKYNovelではデフォルトはtrueとする
-		ret.isWait = this.fore.lay(hArgFore);
-		ret.isWait ||= this.back.lay(hArgBack);
+		ret.isWait = this.fore.lay(hArg) || this.back.lay(hArg);
 
 		// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;

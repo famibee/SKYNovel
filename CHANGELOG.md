@@ -1,3 +1,11 @@
+- feat: デバッグビューにレイヤ構造ビューを追加
+- feat: 文字レイヤもドラッグ移動・サイズ変更できるように
+- feat: デバッグ：ボタン長押しでスクリプトの該当箇所を開く
+- feat: 文字レイヤの[lay]にwidth・height属性追加、style設定に上書きできる
+- fix: const.sn.lay.（レイヤ名）.（foreかback）.width、同.height の値が 1 なのを修正
+- fix: デバッグ：ボタンは半透明オレンジに変更
+
+
 ## [1.8.2](https://github.com/famibee/SKYNovel/compare/v1.8.1...v1.8.2) (2021-01-30)
 
 

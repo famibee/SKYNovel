@@ -3,8 +3,8 @@ import { IEvtMng } from './CmnLib';
 import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
 import { IInfTxLay } from './TxtStage';
 import { Config } from './Config';
-import { Renderer } from 'pixi.js';
 import { IGenerateDesignCast } from './LayerMng';
+import { Renderer } from 'pixi.js';
 export declare class TxtLayer extends Layer {
     private static cfg;
     private static val;
@@ -40,6 +40,8 @@ export declare class TxtLayer extends Layer {
     private set_ch_in;
     private ch_in_style;
     private ch_in_join;
+    get width(): number;
+    get height(): number;
     private set_ch_out;
     private ch_out_style;
     private drawBack;
@@ -99,15 +101,16 @@ export declare class TxtLayer extends Layer {
         b_color: number;
         b_alpha: number;
         b_alpha_isfixed: boolean;
+        ffs: string;
         txs: {
             infTL: IInfTxLay;
             cssText: string;
             left: number;
+            idc_hArg: HArg;
             ch_filter: any[] | null;
             fi_easing: string;
             fo_easing: string;
         };
-        ffs: string;
         strNoFFS: string;
         btns: string[];
     };
@@ -115,6 +118,7 @@ export declare class TxtLayer extends Layer {
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
     drawDesignCast(gdc: IGenerateDesignCast): void;
+    drawDesignCastChildren(gdc: IGenerateDesignCast): void;
     dump(): string;
 }
 //# sourceMappingURL=TxtLayer.d.ts.map

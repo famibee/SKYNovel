@@ -1,6 +1,7 @@
 import { IEvtMng } from './CmnLib';
 import { HArg } from './CmnInterface';
 import { Config } from './Config';
+import { IGenerateDesignCast } from './LayerMng';
 import { Container, Sprite, Renderer } from 'pixi.js';
 export interface IInfTxLay {
     fontsize: number;
@@ -25,6 +26,7 @@ export declare class TxtStage extends Container {
     private htmTxt;
     private cntTxt;
     private grpDbgMasume;
+    private idc;
     constructor(infTL: IInfTxLay, cntInsidePadding: Container, cnt: Sprite, canFocus: () => boolean);
     lay(hArg: HArg): void;
     private lay_sub;
@@ -34,6 +36,8 @@ export declare class TxtStage extends Container {
     get tategaki(): boolean;
     private padTx4x;
     private padTx4y;
+    getWidth(): number;
+    getHeight(): number;
     setSize(width: number, height: number): void;
     private static hWarning;
     private htm2tx;
@@ -85,6 +89,7 @@ export declare class TxtStage extends Container {
         infTL: IInfTxLay;
         cssText: string;
         left: number;
+        idc_hArg: HArg;
         ch_filter: any[] | null;
         fi_easing: string;
         fo_easing: string;
@@ -93,6 +98,7 @@ export declare class TxtStage extends Container {
     private sss;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
+    drawDesignCast(gdc: IGenerateDesignCast): void;
     dump(): string;
     destroy(): void;
 }

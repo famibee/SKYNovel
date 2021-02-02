@@ -368,6 +368,11 @@ export class GrpLayer extends Layer {
 
 	drawDesignCast(_gdc: IGenerateDesignCast) {
 		if (! this.cnt.visible) return;
+//		this.txs.drawDesignCast(gdc);
+	}
+	drawDesignCastChildren(_gdc: IGenerateDesignCast) {
+		if (! this.cnt.visible) return;
+//		this.cntBtn.children.forEach(btn=> (btn as Button).drawDesignCast(gdc));
 	}
 
 	readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;

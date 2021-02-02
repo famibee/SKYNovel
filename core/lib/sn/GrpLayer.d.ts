@@ -67,6 +67,7 @@ export declare class GrpLayer extends Layer {
     };
     playback(hLay: any, aPrm: Promise<void>[]): void;
     drawDesignCast(_gdc: IGenerateDesignCast): void;
+    drawDesignCastChildren(_gdc: IGenerateDesignCast): void;
     readonly dump: () => string;
 }
 export {};

@@ -6,7 +6,6 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Layer} from './Layer';
-
 import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {TxtStage, IInfTxLay} from './TxtStage';
@@ -14,9 +13,9 @@ import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
+import {LayerMng, IGenerateDesignCast} from './LayerMng';
+
 import {Sprite, DisplayObject, Graphics, Container, Renderer} from 'pixi.js';
-import {LayerMng} from './LayerMng';
-import {IGenerateDesignCast} from './LayerMng';
 
 export class TxtLayer extends Layer {
 	private	static	cfg		: Config;
@@ -251,6 +250,7 @@ export class TxtLayer extends Layer {
 		super.lay(hArg);
 		Layer.setXY(this.cnt, hArg, this.cnt);
 
+		hArg[':id'] = this.name_.slice(0, -7);	// Design用
 		RubySpliter.setting(hArg);
 		this.setFfs(hArg);
 		this.txs.lay(hArg);
@@ -282,6 +282,9 @@ export class TxtLayer extends Layer {
 	}
 	private	ch_in_style		= '';
 	private	ch_in_join		= true;
+
+	get	width() {return this.txs.getWidth()}
+	get	height() {return this.txs.getHeight()}
 
 	private set_ch_out(hArg: HArg) {
 		const outs = hArg.out_style;
@@ -817,7 +820,7 @@ export class TxtLayer extends Layer {
 
 	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
-		hArg[':id'] = hArg.key.replace(/ page:[AB]$/, '');	// Design用
+		hArg[':id'] = hArg.key.slice(0, -7);	// Design用
 		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
 		const btn = new Button(hArg, TxtLayer.evtMng, ()=> re(), ()=> this.canFocus());
 		btn.name = JSON.stringify(hArg).replaceAll('"', "'");// playback時に使用
@@ -848,8 +851,8 @@ export class TxtLayer extends Layer {
 		b_alpha	: this.b_alpha,
 		b_alpha_isfixed	: this.b_alpha_isfixed,
 
-		txs		: this.txs.record(),
 		ffs		: this.ffs,
+		txs		: this.txs.record(),
 		strNoFFS: this.strNoFFS,
 
 		btns	: this.cntBtn.children.map(btn=> btn.name),
@@ -888,6 +891,10 @@ export class TxtLayer extends Layer {
 	snapshot_end() {this.txs.snapshot_end();}
 
 	drawDesignCast(gdc: IGenerateDesignCast) {
+		if (! this.cnt.visible) return;
+		this.txs.drawDesignCast(gdc);
+	}
+	drawDesignCastChildren(gdc: IGenerateDesignCast) {
 		if (! this.cnt.visible) return;
 		this.cntBtn.children.forEach(btn=> (btn as Button).drawDesignCast(gdc));
 	}
