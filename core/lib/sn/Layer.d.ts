@@ -6,7 +6,7 @@ export declare class Layer {
     protected name_: string;
     set name(nm: string);
     get name(): string;
-    readonly cnt: Sprite;
+    readonly spLay: Sprite;
     get alpha(): number;
     set alpha(v: number);
     get height(): number;

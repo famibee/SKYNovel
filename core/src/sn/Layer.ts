@@ -15,46 +15,46 @@ export class Layer {
 	protected		name_	= '';
 	set name(nm) {this.name_ = nm;}
 	get name() {return this.name_;}
-	readonly	cnt		= new Sprite(Texture.EMPTY);
+	readonly	spLay		= new Sprite(Texture.EMPTY);
 
 	// tsy用
-	get	alpha() {return this.cnt.alpha}
-	set alpha(v) {this.cnt.alpha = v}
-	get	height() {return this.cnt.height}
-	get	rotation() {return this.cnt.angle}
-	set rotation(v) {this.cnt.angle = v}
-	get	scale_x() {return this.cnt.scale.x}
-	set scale_x(v) {this.cnt.scale.x = v}
-	get	scale_y() {return this.cnt.scale.y}
-	set scale_y(v) {this.cnt.scale.y = v}
-	get	width() {return this.cnt.width}
-	get	x() {return this.cnt.x}
-	set x(v) {this.cnt.x = v}
-	get	y() {return this.cnt.y}
-	set y(v) {this.cnt.y = v}
+	get	alpha() {return this.spLay.alpha}
+	set alpha(v) {this.spLay.alpha = v}
+	get	height() {return this.spLay.height}
+	get	rotation() {return this.spLay.angle}
+	set rotation(v) {this.spLay.angle = v}
+	get	scale_x() {return this.spLay.scale.x}
+	set scale_x(v) {this.spLay.scale.x = v}
+	get	scale_y() {return this.spLay.scale.y}
+	set scale_y(v) {this.spLay.scale.y = v}
+	get	width() {return this.spLay.width}
+	get	x() {return this.spLay.x}
+	set x(v) {this.spLay.x = v}
+	get	y() {return this.spLay.y}
+	set y(v) {this.spLay.y = v}
 
 	destroy() {}
 
 	lay(hArg: HArg): boolean {
-		if ('alpha' in hArg) this.cnt.alpha = argChk_Num(hArg, 'alpha', 1);
+		if ('alpha' in hArg) this.spLay.alpha = argChk_Num(hArg, 'alpha', 1);
 
-		Layer.setBlendmode(this.cnt, hArg);
+		Layer.setBlendmode(this.spLay, hArg);
 
-		if ('pivot_x' in hArg || 'pivot_y' in hArg) this.cnt.pivot.set(
-			argChk_Num(hArg, 'pivot_x', this.cnt.pivot.x),
-			argChk_Num(hArg, 'pivot_y', this.cnt.pivot.y)
+		if ('pivot_x' in hArg || 'pivot_y' in hArg) this.spLay.pivot.set(
+			argChk_Num(hArg, 'pivot_x', this.spLay.pivot.x),
+			argChk_Num(hArg, 'pivot_y', this.spLay.pivot.y)
 		);
 
-		if ('rotation' in hArg) this.cnt.angle = argChk_Num(hArg, 'rotation', 0);
+		if ('rotation' in hArg) this.spLay.angle = argChk_Num(hArg, 'rotation', 0);
 			// flash : rotation is in degrees.
 			// pixijs: rotation is in radians, angle is in degrees.
 
-		if ('scale_x' in hArg || 'scale_y' in hArg) this.cnt.scale.set(
-			argChk_Num(hArg, 'scale_x', this.cnt.scale.x),
-			argChk_Num(hArg, 'scale_y', this.cnt.scale.y)
+		if ('scale_x' in hArg || 'scale_y' in hArg) this.spLay.scale.set(
+			argChk_Num(hArg, 'scale_x', this.spLay.scale.x),
+			argChk_Num(hArg, 'scale_y', this.spLay.scale.y)
 		);
 
-		if ('visible' in hArg) this.cnt.visible = argChk_Boolean(hArg, 'visible', true);
+		if ('visible' in hArg) this.spLay.visible = argChk_Boolean(hArg, 'visible', true);
 
 		return false;
 	}
@@ -119,13 +119,13 @@ export class Layer {
 
 
 	clearLay(hArg: HArg): void {
-		this.cnt.alpha = 1;
-		this.cnt.blendMode = BLEND_MODES.NORMAL;
+		this.spLay.alpha = 1;
+		this.spLay.blendMode = BLEND_MODES.NORMAL;
 		// visibleは触らない
-		this.cnt.pivot.set(0, 0);
-		this.cnt.angle = 0;
-		this.cnt.scale.set(1, 1);
-		if (argChk_Boolean(hArg, 'filter', false)) this.cnt.filters = [];
+		this.spLay.pivot.set(0, 0);
+		this.spLay.angle = 0;
+		this.spLay.scale.set(1, 1);
+		if (argChk_Boolean(hArg, 'filter', false)) this.spLay.filters = [];
 		//transform.colorTransform = nulColTrfm;
 	}
 	copy(fromLayer: Layer, aPrm: Promise<void>[]): void {
@@ -135,34 +135,34 @@ export class Layer {
 	}
 	record() {return {
 		name	: this.name_,
-		idx		: this.cnt.parent.getChildIndex(this.cnt),
-		alpha	: this.cnt.alpha,
-		blendMode	: this.cnt.blendMode,
-		rotation	: this.cnt.angle,
-		scale_x	: this.cnt.scale.x,
-		scale_y	: this.cnt.scale.y,
-		pivot_x	: this.cnt.pivot.x,
-		pivot_y	: this.cnt.pivot.y,
-		x		: this.cnt.x,
-		y		: this.cnt.y,
-		visible	: this.cnt.visible,
+		idx		: this.spLay.parent.getChildIndex(this.spLay),
+		alpha	: this.spLay.alpha,
+		blendMode	: this.spLay.blendMode,
+		rotation	: this.spLay.angle,
+		scale_x	: this.spLay.scale.x,
+		scale_y	: this.spLay.scale.y,
+		pivot_x	: this.spLay.pivot.x,
+		pivot_y	: this.spLay.pivot.y,
+		x		: this.spLay.x,
+		y		: this.spLay.y,
+		visible	: this.spLay.visible,
 	};}
 	playback(hLay: any, _aPrm: Promise<void>[]): void {
 		this.name = hLay.name;
 		//idx	// コール順に意味があるので親でやる
 
 		this.clearLay({filter: 'true'});
-		this.cnt.alpha = hLay.alpha;
-		this.cnt.blendMode = hLay.blendMode;
-		this.cnt.angle = hLay.rotation;
-		this.cnt.scale.set(hLay.scale_x, hLay.scale_y);
-		this.cnt.pivot.set(hLay.pivot_x, hLay.pivot_y);
-		this.cnt.position.set(hLay.x, hLay.y);
-		this.cnt.visible = hLay.visible;
+		this.spLay.alpha = hLay.alpha;
+		this.spLay.blendMode = hLay.blendMode;
+		this.spLay.angle = hLay.rotation;
+		this.spLay.scale.set(hLay.scale_x, hLay.scale_y);
+		this.spLay.pivot.set(hLay.pivot_x, hLay.pivot_y);
+		this.spLay.position.set(hLay.x, hLay.y);
+		this.spLay.visible = hLay.visible;
 	}
 
 	snapshot(rnd: Renderer, re: ()=> void) {
-		rnd.render(this.cnt, undefined, false);
+		rnd.render(this.spLay, undefined, false);
 		re();
 	}
 	snapshot_end() {}
@@ -173,11 +173,11 @@ export class Layer {
 	drawDesignCastChildren(_gdc: IGenerateDesignCast) {}
 
 	dump(): string {
-		return ` "idx":${this.cnt.parent.getChildIndex(this.cnt)}, "visible":"${
-			this.cnt.visible}", "left":${this.cnt.x}, "top":${this.cnt.y
-			}, "alpha":${this.cnt.alpha}, "rotation":${this.cnt.angle
-			}, "name":"${this.name_}", "scale_x":${this.cnt.scale.x
-			}, "scale_y":${this.cnt.scale.y}`;
+		return ` "idx":${this.spLay.parent.getChildIndex(this.spLay)}, "visible":"${
+			this.spLay.visible}", "left":${this.spLay.x}, "top":${this.spLay.y
+			}, "alpha":${this.spLay.alpha}, "rotation":${this.spLay.angle
+			}, "name":"${this.name_}", "scale_x":${this.spLay.scale.x
+			}, "scale_y":${this.spLay.scale.y}`;
 	}
 
 	static	setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp = false, isButton = false): void {

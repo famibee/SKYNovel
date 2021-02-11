@@ -10,7 +10,7 @@ import {IHEvt2Fnc} from './CmnInterface';
 export interface ICallStackArg {
 	resvToken?	: string;
 	hEvt1Time	: IHEvt2Fnc;
-	hMp?		: {[name: string]: string};
+	hMp			: {[name: string]: string};
 	タグ名?		: string;
 }
 

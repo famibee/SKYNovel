@@ -131,6 +131,7 @@ export class ScriptIterator {
 				}
 			}
 		}
+		else this.recodeDesign = ()=> {};
 		if (cfg.oCfg.debug.tag) this.procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
 	}
 	firstWait = ()=> {};
@@ -644,7 +645,7 @@ export class ScriptIterator {
 
 		const fn = hArg.fn;
 		if (fn) this.cnvSnPath(fn);	// chk only
-		this.callSub({hEvt1Time: this.evtMng.popLocalEvts()});
+		this.callSub({hEvt1Time: this.evtMng.popLocalEvts(), hMp: {}});
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.jumpWork(fn, hArg.label);
@@ -1062,6 +1063,7 @@ export class ScriptIterator {
 		this.strStepin += '|'+ name;
 		this.regStepin = new RegExp(`\\[(${this.strStepin})\\b`);
 		this.hTag[name] = (hArgM: HArg)=> {
+			hArgM.design_unit = hArg.design_unit;
 			this.callSub({...hArgM, hMp: this.val.cloneMp()} as any);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
@@ -1210,15 +1212,31 @@ export class ScriptIterator {
 	}
 
 
-	getDesignInfo(hArg: HArg) {
-		hArg[':path']	= this.cnvSnPath4Dbg(this.scriptFn_);
-		const lc = this.cnvIdx2lineCol(this.script, this.idxToken_);
+	recodeDesign(hArg: HArg) {
+		let fn = '';
+		let idx = 0;
+
+		const len = this.aCallStk.length;
+		if (hArg.design_unit && len > 0) {
+			// デザインモードでこのマクロへの引数変更とするか（内部をサーチさせない）
+			const cs = this.aCallStk[len -1];
+			fn = cs.fn;
+			idx = cs.idx;
+		}
+		else {
+			fn = this.scriptFn_;
+			idx = this.idxToken_;
+		}
+		hArg[':path']	= this.cnvSnPath4Dbg(fn);
+		const lc = this.cnvIdx2lineCol(this.hScript[fn], idx);
 		hArg[':ln']		= lc.ln;
 		hArg[':col_s']	= lc.col_s;
 		hArg[':col_e']	= lc.col_e;
-		const idx = this.idxToken_ -1;
-		hArg[':idx_tkn']= idx;
-		hArg[':token']	= this.script.aToken[idx];
+		const idx_1 = idx -1;
+		hArg[':idx_tkn']= idx_1;
+		hArg[':token']	= this.hScript[fn].aToken[idx_1];
+
+		this.sys.send2Dbg('_recodeDesign', hArg);
 	}
 	replace(idx: number, val: string) {this.script.aToken[idx] = val;}
 

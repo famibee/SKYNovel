@@ -14,89 +14,89 @@ context('class Config', ()=>{
 	let	cfg	= null;
 	beforeEach(()=> {
 		cfg = new Config(new SysNode({}, {cur: 'test/', crypto: false, dip: ''}), ()=> {}, {
-			search	: ["mat"],
+			search	: ['mat'],
 		});
 	});
 
 	describe('Tst', ()=> {
 		it('testsetSearchPath_0', ()=> {
-			assert.equal(cfg.searchPath("http://bbb"), "http://bbb");
+			assert.equal(cfg.searchPath('http://bbb'), 'http://bbb');
 
 			try {
-				assert.equal(cfg.searchPath("ccc"), "ccc");
-				assert.fail("Error:ccc");
+				assert.equal(cfg.searchPath('ccc'), 'ccc');
+				assert.fail('Error:ccc');
 			}
 			catch (s) {
-				assert.equal(s, "サーチパスに存在しないファイル【ccc】です");
+				assert.equal(s, 'サーチパスに存在しないファイル【ccc】です');
 			}
 
-			assert.equal(cfg.searchPath("update.png"),
+			assert.equal(cfg.searchPath('update.png'),
 				`test/:dummy dir:/mat/update.png`);
-			assert.equal(cfg.searchPath("update", "png|png_"),
+			assert.equal(cfg.searchPath('update', 'png|png_'),
 				`test/:dummy dir:/mat/update.png`);
 
 			try {
-				assert.equal(cfg.searchPath("update", "hh"), "ii");
-				assert.fail("Error:hh");
+				assert.equal(cfg.searchPath('update', 'hh'), 'ii');
+				assert.fail('Error:hh');
 			}
 			catch (s) {
-				assert.equal(s, "サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】");
+				assert.equal(s, 'サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】');
 			}
 
 			try {
-				assert.equal(cfg.searchPath("update.ddd", "eee"), "fff");
-				assert.fail("Error:fff");
+				assert.equal(cfg.searchPath('update.ddd', 'eee'), 'fff');
+				assert.fail('Error:fff');
 			}
 			catch (s) {
-				assert.equal(s, "指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】");
+				assert.equal(s, '指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
 			}
 
 			try {
-				assert.equal(cfg.searchPath("update.ggg", "ggg"), "fff");
-				assert.fail("Error:ggg");
+				assert.equal(cfg.searchPath('update.ggg', 'ggg'), 'fff');
+				assert.fail('Error:ggg');
 			}
 			catch (s) {
-				assert.equal(s, "サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】");
+				assert.equal(s, 'サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
 			}
 
 			try {
-				assert.equal(cfg.searchPath("update", "png|xml"), "jjj");
-				assert.fail("Error:jjj");
+				assert.equal(cfg.searchPath('update', 'png|xml'), 'jjj');
+				assert.fail('Error:jjj');
 			}
 			catch (s) {
-				assert.equal(s, "指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。");
+				assert.equal(s, '指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。');
 			}
 			try {
-				assert.equal(cfg.searchPath("update"), "update");
-				assert.fail("Error:update2");
+				assert.equal(cfg.searchPath('update'), 'update');
+				assert.fail('Error:update2');
 			}
 			catch (s) {
-				assert.equal(s, "指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。");
+				assert.equal(s, '指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
 			}
 
-			assert.equal(cfg.searchPath("update2.png"),
+			assert.equal(cfg.searchPath('update2.png'),
 				`test/:dummy dir:/mat/update2.png`);
 			try {
-				cfg.searchPath("update3.png");
-				assert.fail("Error:kkk");
+				cfg.searchPath('update3.png');
+				assert.fail('Error:kkk');
 			}
 			catch (s) {
-				assert.equal(s, "サーチパスに存在しないファイル【update3.png】です");
+				assert.equal(s, 'サーチパスに存在しないファイル【update3.png】です');
 			}
-			assert.equal(cfg.searchPath("update2", "png|png_"),
+			assert.equal(cfg.searchPath('update2', 'png|png_'),
 				`test/:dummy dir:/mat/update2.png`);
 			try {
-				cfg.searchPath("update3", "png|png_");
-				assert.fail("Error:lll");
+				cfg.searchPath('update3', 'png|png_');
+				assert.fail('Error:lll');
 			}
 			catch (s) {
-				assert.equal(s, "サーチパスに存在しないファイル【update3】です");
+				assert.equal(s, 'サーチパスに存在しないファイル【update3】です');
 			}
 
 
-			assert.equal(cfg.searchPath("update0", Config.EXT_SCRIPT),
+			assert.equal(cfg.searchPath('update0', Config.EXT_SCRIPT),
 				`test/:dummy dir:/mat/update0.sn`);
-			assert.equal(cfg.searchPath("update", Config.EXT_SCRIPT),
+			assert.equal(cfg.searchPath('update', Config.EXT_SCRIPT),
 				`test/:dummy dir:/mat/update.sn`);
 		});
 		it('testsetSearchPath_1_userFnTail', ()=> {

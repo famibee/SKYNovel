@@ -11,7 +11,8 @@ import {Config} from './Config';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
-import {IGenerateDesignCast, IInfoDesignCast} from './LayerMng';
+import {IGenerateDesignCast} from './LayerMng';
+import {DesignCast, TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
@@ -75,25 +76,29 @@ export class TxtStage extends Container {
 	}
 
 
-	private htmTxt		= document.createElement('span');	// サンプリング元
-	private cntTxt		= new Container;			// サンプリング先
-	private grpDbgMasume= new Graphics;
+	private		htmTxt	= document.createElement('span');	// サンプリング元
+	private	readonly cntTxt		= new Container;			// サンプリング先
+	private	readonly grpDbgMasume= new Graphics;
 
-	private	idc		: IInfoDesignCast = {type: 'TXTLAY', cmp: this.cnt, hArg: {}, rect: Rectangle.EMPTY, bg_col: '#29e'};
+	private	readonly	idc: DesignCast	= new TxtLayDesignCast(this,this.spLay);
+	private	readonly	idcCh	: DesignCast = new TxtLayPadDesignCast(this);
+	getInfTL(): IInfTxLay {return this.infTL}
 
 
-	constructor(private infTL: IInfTxLay, readonly cntInsidePadding: Container, private readonly cnt: Sprite, private readonly canFocus: ()=> boolean) {
+	constructor(private infTL: IInfTxLay, private readonly spLay: Sprite, private readonly canFocus: ()=> boolean) {
 		super();
 
 		this.htmTxt.classList.add('sn_tx');
 		this.htmTxt.style.position = 'absolute';
 		TxtStage.cvs.parentElement!.appendChild(this.htmTxt);
 
-		cntInsidePadding.addChild(this);
-		cntInsidePadding.addChild(this.cntTxt);
+		this.addChild(this.cntTxt);
 
-		cntInsidePadding.addChild(this.grpDbgMasume);
+		this.addChild(this.grpDbgMasume);
 		this.grpDbgMasume.name = 'grpDbgMasume';
+
+		this.idc.child = this.idcCh;
+		this.idcCh.parent = this.idc;
 	}
 
 	lay(hArg: HArg) {
@@ -110,24 +115,32 @@ export class TxtStage extends Container {
 				}
 				s[key] = cln.style[key];
 			}
-			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.cnt.alpha);
+			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.spLay.alpha);
 		}
-		else if ('alpha' in hArg) s.opacity = String(this.cnt.alpha);
+		else if ('alpha' in hArg) s.opacity = String(this.spLay.alpha);
 
-		if ('width' in hArg) s.width = (hArg.width ?? '0') +'px';
-		if ('height' in hArg) s.height = (hArg.height ?? '0') +'px';
+		if ('pl' in hArg || 'pr' in hArg || 'pt' in hArg || 'pb' in hArg
+		|| 'left'in hArg || 'top'in hArg || 'width'in hArg || 'height'in hArg
+		|| 'pos' in hArg) {
+			if ('width' in hArg) s.width = (hArg.width ?? '0') +'px';
+			if ('height' in hArg) s.height = (hArg.height ?? '0') +'px';
+			if ('pl' in hArg) s.paddingLeft = (hArg.pl ?? '0') +'px';
+			if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
+			if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
+			if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
 
-		this.idc.hArg = hArg;
+			this.idc.hArg = hArg;
+		}
 		this.lay_sub();
 
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-		this.left = this.cnt.position.x
+		this.left = this.spLay.position.x
 			-(CmnLib.isSafari && !CmnLib.isMobile && this.isTategaki
 				? this.infTL.pad_left +this.infTL.pad_right
 				: 0);
-		s.transformOrigin = `${this.cnt.pivot.x}px ${this.cnt.pivot.y}px`;
+		s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
 		this.cvsResize();
-		s.display = this.cnt.visible ?'inline' :'none';
+		s.display = this.spLay.visible ?'inline' :'none';
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 	}
 	private lay_sub() {
@@ -141,7 +154,7 @@ export class TxtStage extends Container {
 		this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
 		this.infTL.$width = parseFloat(s.width || '0');
 		this.infTL.$height = parseFloat(s.height || '0');
-		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
+		this.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
 		this.isTategaki = (s.writingMode === 'vertical-rl');
 
@@ -155,14 +168,12 @@ export class TxtStage extends Container {
 				? parseFloat(lh)
 				: (fs *parseFloat(lh) -fs)) /2;
 			// globalThis.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
-
-		this.idc.rect = new Rectangle(this.cnt.x, this.cnt.y, this.infTL.$width, this.infTL.$height);
 	}
 	cvsResize() {
 		const s = this.htmTxt.style;
 		s.left = (this.left *CmnLib.cvsScale) +'px';
-		s.top = (this.cnt.position.y *CmnLib.cvsScale) +'px';
-		s.transform = `rotate(${this.cnt.angle}deg) scale(${this.cnt.scale.x *CmnLib.cvsScale}, ${this.cnt.scale.y *CmnLib.cvsScale}`;
+		s.top = (this.spLay.position.y *CmnLib.cvsScale) +'px';
+		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *CmnLib.cvsScale}, ${this.spLay.scale.y *CmnLib.cvsScale}`;
 	}
 	private left = 0;
 	private isTategaki = false;
@@ -178,7 +189,6 @@ export class TxtStage extends Container {
 		this.infTL.$height = height;
 		this.htmTxt.style.width = this.infTL.$width +'px';
 		this.htmTxt.style.height = this.infTL.$height +'px';
-		this.idc.rect = new Rectangle(this.cnt.x, this.cnt.y, this.infTL.$width, this.infTL.$height);
 	}
 	private static	hWarning = {
 		backgroundColor	: 0,
@@ -1007,7 +1017,7 @@ export class TxtStage extends Container {
 	passBaton(): TxtStage {
 		this.clearText();
 
-		const to = new TxtStage(this.infTL, this.parent, this.cnt, ()=> this.canFocus());
+		const to = new TxtStage(this.infTL, this.spLay, ()=> this.canFocus());
 		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
 		to.left = this.left;
 		to.name = this.name;
@@ -1022,7 +1032,8 @@ export class TxtStage extends Container {
 	}
 
 
-	record() {return {
+	record() {
+		return {
 		infTL		: this.infTL,
 
 		cssText		: this.htmTxt.style.cssText,
@@ -1035,7 +1046,7 @@ export class TxtStage extends Container {
 	}};
 	playback(hLay: any) {
 		this.infTL	= hLay.infTL;
-		this.parent.position.set(this.infTL.pad_left, this.infTL.pad_top);
+		this.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
 		this.htmTxt.style.cssText = hLay.cssText;
 		this.left = hLay.left;
@@ -1068,7 +1079,13 @@ export class TxtStage extends Container {
 		if (this.sss) {this.cntTxt.removeChild(this.sss); this.sss = null;}
 	}
 
-	drawDesignCast(gdc: IGenerateDesignCast) {gdc(this.idc);}
+	drawDesignCast(gdc: IGenerateDesignCast) {
+		gdc(this.idc);
+
+		const o = this.idc.hArg;
+		this.idcCh.hArg = {...o, ':id_dc': o[':id_tag'] +'_pad'};
+		gdc(this.idcCh);
+	}
 
 	dump(): string {
 		const aStyle: string[] = [];
@@ -1086,9 +1103,8 @@ export class TxtStage extends Container {
 	destroy() {
 		TxtStage.delBreak();
 		this.htmTxt.parentElement!.removeChild(this.htmTxt);
-		this.parent.removeChild(this.cntTxt);
-		this.parent.removeChild(this.grpDbgMasume);
-		this.parent.removeChild(this);
+		this.removeChild(this.cntTxt);
+		this.removeChild(this.grpDbgMasume);
 		super.destroy();
 	}
 }

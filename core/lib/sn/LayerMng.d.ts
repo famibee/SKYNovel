@@ -1,21 +1,19 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain, HPage, HArg, IGetFrm } from './CmnInterface';
+import { IHTag, IVariable, IMain, HIPage, IGetFrm, IPropParser } from './CmnInterface';
+import { Pages } from './Pages';
 import { TxtLayer } from './TxtLayer';
 import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
-import { Container, Application, Rectangle } from 'pixi.js';
-export interface IInfoDesignCast {
-    type: string;
-    cmp: Container;
-    hArg: HArg;
-    rect: Rectangle;
-    bg_col: string;
-}
+import { DesignCast } from './DesignCast';
+import { Application } from 'pixi.js';
 export interface IGenerateDesignCast {
-    (idc: IInfoDesignCast): void;
+    (idc: DesignCast): void;
+}
+export interface HPage {
+    [name: string]: Pages;
 }
 export declare class LayerMng implements IGetFrm {
     private readonly cfg;
@@ -26,25 +24,16 @@ export declare class LayerMng implements IGetFrm {
     private readonly scrItr;
     private readonly sys;
     readonly sndMng: SoundMng;
-    private readonly alzTagArg;
+    readonly alzTagArg: AnalyzeTagArg;
+    readonly prpPrs: IPropParser;
     private readonly stage;
     private fore;
     private back;
     private readonly frmMng;
-    constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, alzTagArg: AnalyzeTagArg);
+    constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, alzTagArg: AnalyzeTagArg, prpPrs: IPropParser);
     private fncTicker;
-    private recodeDesign;
     private readonly hProcDbgRes;
-    private enterDesignMode;
-    private id2gdc;
-    private leaveDesignMode;
-    private readonly ID_DESIGNMODE;
-    private readonly divDesignRoot;
     private cvsResizeDesign;
-    private idDesignCast;
-    private dspDesignCast;
-    private tidDelay;
-    private delayChgCast;
     getFrmDisabled(id: string): boolean;
     private grpCover;
     cover(visible: boolean, bg_color?: number): void;
@@ -123,6 +112,6 @@ export declare class LayerMng implements IGetFrm {
     private enable_event;
     private button;
     record(): any;
-    playback($hPages: HPage, fncComp: () => void): void;
+    playback($hPages: HIPage, fncComp: () => void): void;
 }
 //# sourceMappingURL=LayerMng.d.ts.map

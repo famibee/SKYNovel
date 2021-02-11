@@ -27,7 +27,6 @@ export declare class TxtLayer extends Layer {
     private b_alpha_isfixed;
     private b_do;
     private b_pic;
-    private cntInsidePadding;
     private txs;
     private rbSpl;
     private cntBtn;

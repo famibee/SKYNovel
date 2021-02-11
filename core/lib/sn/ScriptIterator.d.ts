@@ -110,7 +110,7 @@ export declare class ScriptIterator {
     private mark;
     private record_place;
     private save;
-    getDesignInfo(hArg: HArg): void;
+    recodeDesign(hArg: HArg): void;
     replace(idx: number, val: string): void;
 }
 //# sourceMappingURL=ScriptIterator.d.ts.map

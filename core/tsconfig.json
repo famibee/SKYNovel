@@ -2,6 +2,7 @@
 	"compileOnSave": true,
 	"compilerOptions": {
 		"target": "es2019",
+		"lib": ["es2020"],
 		"module": "commonjs",
 		"sourceMap": true,
 		"outDir": "lib/",

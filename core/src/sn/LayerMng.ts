@@ -7,7 +7,7 @@
 
 import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
-import {IHTag, IVariable, IMain, HPage, HArg, IGetFrm} from './CmnInterface';
+import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser} from './CmnInterface';
 import {Pages} from './Pages';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
@@ -19,21 +19,15 @@ import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 import {SoundMng} from './SoundMng';
-import {REG_TAG} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
+import {DesignCast} from './DesignCast';
 
 import {Tween, update, removeAll} from '@tweenjs/tween.js'
-import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer, Rectangle} from 'pixi.js';
-import interact from 'interactjs';
+import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 
-export interface IInfoDesignCast {
-	type	: string;
-	cmp		: Container,
-	hArg	: HArg,
-	rect	: Rectangle,
-	bg_col	: string;
-};
-export interface IGenerateDesignCast { (idc	: IInfoDesignCast): void; };
+export interface IGenerateDesignCast { (idc	: DesignCast): void; };
+
+export interface HPage {[name: string]: Pages};
 
 export class LayerMng implements IGetFrm {
 	private readonly	stage	: Container;
@@ -42,7 +36,7 @@ export class LayerMng implements IGetFrm {
 
 	private readonly	frmMng	: FrameMng;
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, private readonly alzTagArg: AnalyzeTagArg) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転の対応
 		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		const fncResizeLay = ()=> {
@@ -182,209 +176,34 @@ export class LayerMng implements IGetFrm {
 		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
 
 		if (sys.isDbg()) {
-			this.appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${this.ID_DESIGNMODE}" style="width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
-			this.divDesignRoot = document.getElementById(this.ID_DESIGNMODE) as HTMLDivElement;
-			this.cvsResizeDesign = ()=> {
-				this.divDesignRoot.style.width = `${CmnLib.stageW}px`;
-				this.divDesignRoot.style.height= `${CmnLib.stageH}px`;
-			};
+			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg);
+			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();
 			sys.addHook((type, o)=> {
 				if (! this.hProcDbgRes[type]?.(type, o)) return;
 				delete this.hProcDbgRes[type];
 			});
 		}
-		else this.recodeDesign = ()=> {};
 	}
 	private fncTicker = ()=> update();
 
 
-	private	recodeDesign(hArg: HArg) {	// 必ず[':id'] を設定すること
-		this.scrItr.getDesignInfo(hArg);
-		this.sys.send2Dbg('_recodeDesign', hArg);
-	}
-
 	private	readonly	hProcDbgRes
 	: {[type: string]: (type: string, o: any)=> boolean}	= {
-		attach		: _=> {this.leaveDesignMode();	return false;},
-		continue	: _=> {this.leaveDesignMode();	return false;},
-		disconnect	: _=> {this.leaveDesignMode();	return false;},
-		_enterDesign: _=> {this.enterDesignMode();	return false;},
-		_replaceToken	: (_, o)=> {
-			// 青四角移動変更をスクリプト反映したレス（Undoや手変更でも呼ばれる）
-			// 内部スクリプト更新
-			const token = o[':token'];
-			this.scrItr.replace(o[':idx_tkn'], token);
-
-			const id = o[':id'];
-			const t = <HTMLDivElement>document.querySelector(`div[data-id='${id}']`);
-			const gdc = this.id2gdc[id];
-			if (! t || ! gdc) throw `_replaceToken 存在しないid【${id}】です`;
-
-			// 実ボタン・青四角も移動（Undoや手入力変更時）
-			const e = REG_TAG.exec(token);
-			const g = e?.groups;
-			if (! g) throw `_replaceToken タグ記述【${token}】異常です`;
-			const tag_name = g.name;
-			const tag_fnc = this.hTag[tag_name];
-			if (! tag_fnc) throw `_replaceToken 未定義のタグ【${tag_name}】です`;
-
-			this.alzTagArg.go(g.args);
-			const p = this.alzTagArg.hPrm;
-			if ('left' in p || 'top' in p || 'x' in p || 'y' in p) {
-				const x = parseInt(p.left.val ?? p.x.val ?? '0') -gdc.rect.x;
-				const y = parseInt(p.top.val  ?? p.y.val ?? '0') -gdc.rect.y;
-				t.style.transform = `translate(${x}px, ${y}px)`;
-				Object.assign(t.dataset, {x, y});
-				gdc.cmp.x = x;
-				gdc.cmp.y = y;
-			}
-			if ('width' in p || 'height' in p) {
-				const w = parseInt(p.width.val ?? '0');
-				const h = parseInt(p.height.val ?? '0');
-				Object.assign(t.style, {
-					width	: `${w}px`,
-					height	: `${h}px`,
-				});
-				gdc.cmp.width = w;
-				gdc.cmp.height = h;
-			}
-
-			return false;
+		attach		: _=> {DesignCast.leaveMode();	return false;},
+		continue	: _=> {DesignCast.leaveMode();	return false;},
+		disconnect	: _=> {DesignCast.leaveMode();	return false;},
+		_enterDesign: _=> {
+			DesignCast.enterMode(this.curTxtlay, this.hPages);	return false;
 		},
-		_selectNode: (_, o)=> {this.enterDesignMode(o.node); return false;},
-	}
-	private	enterDesignMode(node = this.curTxtlay +'/ボタン') {
-		const a = node.split('/');
-		const lay = this.hPages[a[0]];
-		if (! lay) return;
-
-		this.divDesignRoot.textContent = '';
-		this.divDesignRoot.style.display = 'inline';
-		this.idDesignCast = 0;
-		this.id2gdc = {};
-		if (a.length > 1) lay.fore.drawDesignCastChildren(this.dspDesignCast);
-		else lay.fore.drawDesignCast(this.dspDesignCast);
-	}
-	private	id2gdc: {[id: string]: IInfoDesignCast}	= {};
-	private	leaveDesignMode() {
-		this.divDesignRoot.textContent = '';
-		this.divDesignRoot.style.display = 'none';
+		_replaceToken	: (_, o)=> {
+			DesignCast.replaceToken(o, this.hPages);	return false;
+		},
+		_selectNode: (_, o)=> {
+			DesignCast.enterMode(o.node, this.hPages); return false;
+		},
 	}
 
-	private	readonly	ID_DESIGNMODE = 'DesignMode';
-	private	readonly	divDesignRoot: HTMLDivElement;
 	private	cvsResizeDesign() {}
-	private	idDesignCast	= 0;
-	private	dspDesignCast: IGenerateDesignCast	= gdc=> {
-		const o = gdc.hArg;
-		const rect = {...gdc.rect};
-if (o.タグ名 !== 'button')
-/**/console.log(`fn:LayerMng.ts line:285 [${o.タグ名}] id(${o[':id']}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} token:【${o[':token']}】 type:${gdc.type} x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);
-		let lx = 0, ly = 0;
-		if (gdc.type.slice(-3) !== 'LAY' && o.layer) {
-			const lay = this.hPages[o.layer].fore;
-			lx = lay.x;
-			ly = lay.y;
-		}
-		const id = o[':id'] ?? '';
-		this.id2gdc[id] = gdc;
-
-		const div = document.createElement('div');
-		div.id = this.ID_DESIGNMODE +'_'+ ++this.idDesignCast;
-if (o.タグ名 !== 'button')
-console.log(`fn:LayerMng.ts line:296   x:${rect.x} y:${rect.y}`);
-		div.setAttribute('style', `
-position: absolute;
-left: ${lx +rect.x}px;
-top: ${ly +rect.y}px;
-height: ${rect.height}px;
-width: ${rect.width}px;
-touch-action: none;
-user-select: none;
-
-opacity: 0.6;
-border-radius: 8px;
-background-color: ${gdc.bg_col};
-`);
-		div.dataset.id = id;
-		this.divDesignRoot.appendChild(div);
-
-		const me = this;
-		interact('#'+ div.id)
-		.draggable({
-			listeners: {
-				move (e) {
-					const t = e.target;
-					let {x=0, y=0} = t.dataset;
-					// translate when resizing from top or left edges
-					x = parseFloat(x) + e.dx;
-					y = parseFloat(y) + e.dy;
-					t.style.transform = `translate(${x}px, ${y}px)`;
-					Object.assign(t.dataset, {x, y});
-
-					const left = uint(rect.x +x);
-					const top  = uint(rect.y +y);
-					switch (o.タグ名) {
-						case 'lay':
-						case 'button':
-							me.delayChgCast({':id': id, left: left, top: top});
-							break;
-					}
-				},
-			},
-			modifiers: [
-				// keep the edges inside the parent
-				interact.modifiers.restrictRect({restriction: 'parent'}),
-			]
-		})
-		.resizable({
-			edges: {left: false, right: true, bottom: true, top: false},
-			listeners: {
-				move(e) {
-					const t = e.target;
-					let {x=0, y=0} = t.dataset;
-					// translate when resizing from top or left edges
-					x = parseFloat(x) + e.deltaRect.left;
-					y = parseFloat(y) + e.deltaRect.top;
-
-					const w = uint(e.rect.width);
-					const h = uint(e.rect.height);
-					Object.assign(t.style, {
-						width: `${w}px`,
-						height: `${h}px`,
-						transform: `translate(${x}px, ${y}px)`,
-					});
-					Object.assign(t.dataset, {x, y});
-
-					switch (o.タグ名) {
-						case 'lay':
-						case 'button':
-							me.delayChgCast({':id': id, width: w, height: h});
-							break;
-					}
-				},
-			},
-			modifiers: [
-				// keep the edges inside the parent
-				interact.modifiers.restrictEdges({outer: 'parent'}),
-				// minimum size
-				interact.modifiers.restrictSize({min: {width: 40, height: 40}}),
-			],
-		})
-		.on('hold', ()=> this.sys.send2Dbg('_focusScript', o));
-/*
-		.on('doubletap', e=> {
-console.log(`fn:LayerMng.ts line:310 doubletap`);
-			e.preventDefault()
-		});
-*/
-	};
-	// 遅延で遊びを作る
-	private tidDelay	:  NodeJS.Timer | null	= null;
-	private	delayChgCast(o: any) {
-		if (this.tidDelay) clearTimeout(this.tidDelay);
-		this.tidDelay = setTimeout(()=> this.sys.send2Dbg('_changeCast', o), 500);
-	}
 
 
 	getFrmDisabled(id: string): boolean {return this.frmMng.getFrmDisabled(id);}
@@ -583,11 +402,11 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 			break;
 		}
 
-		this.recodeDesign(hArg);
+		this.scrItr.recodeDesign(hArg);	// hArg[':id_tag'] は new Pages 内で設定
 
 		return ret.isWait;
 	}
-	private hPages		: {[name: string]: Pages} = {};	// しおりLoad時再読込
+	private hPages		: HPage		= {};	// しおりLoad時再読込
 	private aLayName	: string[]	= [];	// 最適化用
 	private curTxtlay	= '';
 
@@ -595,8 +414,8 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 		// Trans
 		const layer = this.argChk_layer(hArg);
 		const pg = this.hPages[layer];
-		const back = pg.back.cnt;
-		const fore = pg.fore.cnt;
+		const back = pg.back.spLay;
+		const fore = pg.fore.spLay;
 		if (argChk_Boolean(hArg, 'float', false)) {
 			this.back.setChildIndex(back, this.back.children.length -1);
 			this.fore.setChildIndex(fore, this.fore.children.length -1);
@@ -618,8 +437,8 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 			if (! pg_dive) throw '[lay] 属性 dive【'+ dive +'】が不正です。レイヤーがありません';
 			const back_dive = pg_dive.back;
 			const fore_dive = pg_dive.fore;
-			const idx_back_dive = this.back.getChildIndex(back_dive.cnt);
-			const idx_fore_dive = this.fore.getChildIndex(fore_dive.cnt);
+			const idx_back_dive = this.back.getChildIndex(back_dive.spLay);
+			const idx_fore_dive = this.fore.getChildIndex(fore_dive.spLay);
 			idx_dive = (idx_back_dive < idx_fore_dive) ?idx_back_dive :idx_fore_dive;
 			if (idx_dive > this.back.getChildIndex(back)) --idx_dive;	//自分が無くなって下がる分下げる
 
@@ -628,8 +447,8 @@ console.log(`fn:LayerMng.ts line:310 doubletap`);
 			this.rebuildLayerRankInfo();
 		}
 
-		hArg[':id'] = pg.fore.name.slice(0, -7);
-		this.recodeDesign(hArg);
+		hArg[':id_tag'] = pg.fore.name.slice(0, -7);
+		this.scrItr.recodeDesign(hArg);	// 必ず[':id_tag'] を設定すること
 
 		return pg.lay(hArg);
 	}
@@ -714,7 +533,7 @@ void main(void) {
 		const hTarget: {[ley_nm: string]: boolean} = {};
 		this.getLayers(hArg.layer).forEach(v=> hTarget[v] = true);
 		this.getLayers().forEach(lay_nm=> this.aBackTransAfter.push(
-			this.hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'].cnt
+			this.hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'].spLay
 		));
 		this.rtTransBack.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.back, this.rtTransBack);	// clear
@@ -749,11 +568,11 @@ void main(void) {
 				if (hTarget[lay_name]) {pg.transPage(aPrm); continue;}
 
 				// transしないために交換する
-				const idx = this.fore.getChildIndex(pg.back.cnt);
-				this.fore.removeChild(pg.back.cnt);
-				this.back.removeChild(pg.fore.cnt);
-				this.fore.addChildAt(pg.fore.cnt, idx);
-				this.back.addChildAt(pg.back.cnt, idx);
+				const idx = this.fore.getChildIndex(pg.back.spLay);
+				this.fore.removeChild(pg.back.spLay);
+				this.back.removeChild(pg.fore.spLay);
+				this.fore.addChildAt(pg.fore.spLay, idx);
+				this.back.addChildAt(pg.back.spLay, idx);
 			}
 			Promise.allSettled(aPrm);
 
@@ -767,7 +586,8 @@ void main(void) {
 		};
 		this.tiTrans = {tw: null, resume: false};
 		const time = argChk_Num(hArg, 'time', 0);
-		this.recodeDesign(hArg);
+//		hArg[':id'] = pg.fore.name.slice(0, -7);
+//		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
 		if (time === 0 || this.evtMng.isSkipKeyDown()) {comp(); return false;}
 
 		// クロスフェード
@@ -832,8 +652,8 @@ void main(void) {
 	private sortLayers(layers = ''): string[] {
 		return this.getLayers(layers)
 		.sort((a, b)=> {
-			const ai = this.fore.getChildIndex(this.hPages[a].fore.cnt);
-			const bi = this.fore.getChildIndex(this.hPages[b].fore.cnt);
+			const ai = this.fore.getChildIndex(this.hPages[a].fore.spLay);
+			const bi = this.fore.getChildIndex(this.hPages[b].fore.spLay);
 			if (ai < bi) return -1;
 			if (ai > bi) return 1;
 			return 0;
@@ -860,7 +680,7 @@ void main(void) {
 
 		const aDo: DisplayObject[] = [];
 		this.getLayers(hArg.layer).forEach(lay_nm=> {
-			aDo.push(this.hPages[lay_nm].fore.cnt);
+			aDo.push(this.hPages[lay_nm].fore.spLay);
 		});
 		this.rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 			// NOTE: スマホ回転対応が要るかも？
@@ -952,11 +772,12 @@ void main(void) {
 		this.hTwInf[tw_nm] = {tw: tw, resume: false, onEnd: ()=> {
 			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
-				const backCnt: any = this.hPages[layer].back.cnt;
+				const backCnt: any = this.hPages[layer].back.spLay;
 				for (const nm in hMemberCnt) backCnt[nm] = foreLay[nm];
 			}
 		}}
-//		this.recodeDesign(hArg);
+//		hArg[':id'] = pg.fore.name.slice(0, -7);
+//		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
 
 		return false;
 	}
@@ -1241,8 +1062,9 @@ void main(void) {
 		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
 			// fn省略時、画像ボタンはロード後という後のタイミングで scrItr.scriptFn を
 			// 参照してしまうので
-		this.getTxtLayer(hArg).addButton(hArg);
-		this.recodeDesign(hArg);
+		this.getTxtLayer(hArg).addButton(hArg);	// hArg[':id_tag'] も設定
+
+		this.scrItr.recodeDesign(hArg);	// 必ず[':id_tag'] を設定すること
 
 		return false;
 	}
@@ -1260,7 +1082,7 @@ void main(void) {
 		});
 		return o;
 	}
-	playback($hPages: HPage, fncComp: ()=> void): void {
+	playback($hPages: HIPage, fncComp: ()=> void): void {
 		// これを先に。save:const.sn.sLog がクリアされてしまう
 		this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
 		this.oLastPage = {text: ''};
@@ -1286,8 +1108,8 @@ void main(void) {
 				const pg = this.hPages[o.layer];
 				if (! pg) return;
 				const idx = len > o.idx ?o.idx :len -1;
-				this.fore.setChildIndex(pg.fore.cnt, idx);
-				this.back.setChildIndex(pg.back.cnt, idx);
+				this.fore.setChildIndex(pg.fore.spLay, idx);
+				this.back.setChildIndex(pg.back.spLay, idx);
 			});
 
 			fncComp();

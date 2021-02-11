@@ -14,8 +14,7 @@ export interface IInfTxLay {
 }
 export declare class TxtStage extends Container {
     private infTL;
-    readonly cntInsidePadding: Container;
-    private readonly cnt;
+    private readonly spLay;
     private readonly canFocus;
     private static cfg;
     private static cvs;
@@ -24,10 +23,12 @@ export declare class TxtStage extends Container {
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
     private htmTxt;
-    private cntTxt;
-    private grpDbgMasume;
-    private idc;
-    constructor(infTL: IInfTxLay, cntInsidePadding: Container, cnt: Sprite, canFocus: () => boolean);
+    private readonly cntTxt;
+    private readonly grpDbgMasume;
+    private readonly idc;
+    private readonly idcCh;
+    getInfTL(): IInfTxLay;
+    constructor(infTL: IInfTxLay, spLay: Sprite, canFocus: () => boolean);
     lay(hArg: HArg): void;
     private lay_sub;
     cvsResize(): void;

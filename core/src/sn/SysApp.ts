@@ -12,30 +12,59 @@ import {ITag, IHTag, IVariable, IData4Vari, IMain} from './CmnInterface';
 import {Main} from './Main';
 import {Application} from 'pixi.js';
 
-import {remote, shell, ipcRenderer} from 'electron';
-import * as Store from 'electron-store';
+import {remote} from 'electron';
+const app = remote.app;
+//import * as Store from 'electron-store';
 
-import {Readable} from 'stream';
-import {createWriteStream, removeSync, ensureDirSync, createReadStream, readFileSync, readFile, existsSync, copySync} from 'fs-extra';
+//import {createWriteStream, removeSync, ensureDirSync, createReadStream, readFileSync, readFile, existsSync, copySync} from 'fs-extra';
+	let createWriteStream: Function;
+	let removeSync: Function;
+	let ensureDirSync: Function;
+	let createReadStream: Function;
+	let readFileSync: Function;
+	let readFile: Function;
+	let existsSync: Function;
+	let copySync: Function;
 import {createHash} from 'crypto';
-import {pack, extract} from 'tar-fs';
+//import {pack, extract} from 'tar-fs';
+	let pack: Function;
+	let extract: Function;
 
 export class SysApp extends SysNode {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
-		super(hPlg, {...arg, cur: remote.app.getAppPath().replace(/\\/g, '/') + (remote.app.isPackaged ?'/doc/' :'/')+ arg.cur});
+		super(hPlg, {...arg, cur: app.getAppPath().replace(/\\/g, '/') + (app.isPackaged ?'/doc/' :'/')+ arg.cur});
 
 		globalThis.addEventListener('DOMContentLoaded', ()=>this.run(), {once: true, passive: true});
-		ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
+
+		(async ()=> {
+			const {ipcRenderer} = await import('electron');
+			ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
+
+			const {createWriteStream: fe0, removeSync: fe1, ensureDirSync: fe2, createReadStream: fe3, readFileSync: fe4, readFile: fe5, existsSync: fe6, copySync: fe7} = await import('fs-extra');
+			createWriteStream = fe0;
+			removeSync = fe1;
+			ensureDirSync = fe2;
+			createReadStream = fe3;
+			readFileSync = fe4;
+			readFile = fe5;
+			existsSync = fe6;
+			copySync = fe7;
+
+			const {pack: pc, extract: ext} = await import('tar-fs');
+			pack = pc;
+			extract = ext;
+		})();
 	}
 	protected 			$path_userdata	: string;
-	protected readonly	$path_downloads	= remote.app.getPath('downloads').replace(/\\/g, '/') +'/';
+	protected readonly	$path_downloads	= app.getPath('downloads').replace(/\\/g, '/') +'/';
 
 	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		this.$path_userdata	= this.isDbg()
-			? remote.app.getAppPath().slice(0, -3) +'.vscode/'	// /doc → /
-			: remote.app.getPath('userData').replace(/\\/g, '/') +'/';
+			? app.getAppPath().slice(0, -3) +'.vscode/'	// /doc → /
+			: app.getPath('userData').replace(/\\/g, '/') +'/';
+		const Store = require('electron-store');
 		const st = new Store({
 			cwd: this.$path_userdata +'storage',
 			name: this.arg.crypto ?'data_' :'data',
@@ -137,7 +166,7 @@ export class SysApp extends SysNode {
 		removeSync(`${this.$path_userdata}storage/${place}/`);
 	};
 
-	protected readonly	isPackaged = ()=> remote.app.isPackaged;
+	protected readonly	isPackaged = ()=> app.isPackaged;
 	isDbg = ()=> {	// 配布版では無効
 		const ret = Boolean(process.env['SKYNOVEL_DBG']) && ! this.isPackaged();
 		this.isDbg = ret ?()=> true :()=> false;
@@ -210,7 +239,12 @@ export class SysApp extends SysNode {
 	protected readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
-		shell.openExternal(url);
+
+		const fnc =	async ()=> {
+			const {shell} = await import('electron');
+			shell.openExternal(url);
+		}
+		fnc();
 
 		return false;
 	}
@@ -284,7 +318,7 @@ export class SysApp extends SysNode {
 			if (! mv) throw `[update_check] ファイル内にversionが見つかりません`;
 			const netver = mv[1];
 
-			const myver = String(remote.app.getVersion());
+			const myver = String(app.getVersion());
 			if (netver === myver) {
 				if (CmnLib.debugLog) console.log(`[update_check] バージョン更新なし ver:${myver}`);
 				return;
@@ -293,7 +327,7 @@ export class SysApp extends SysNode {
 
 			const o = {
 				title: 'アプリ更新',
-				icon: remote.app.getAppPath() +'/app/icon.png',
+				icon: app.getAppPath() +'/app/icon.png',
 				buttons: ['OK', 'Cancel'],
 				defaultId: 0,
 				cancelId: 1,
@@ -314,9 +348,10 @@ export class SysApp extends SysNode {
 
 			const res_dl = await this.fetch(url + fn);
 			if (! res_dl.ok) return;
-			const pathDL = remote.app.getPath('downloads') +'/'+ fn;
-			const rd_dl = (res: Response)=> {
+			const pathDL = app.getPath('downloads') +'/'+ fn;
+			const rd_dl = async (res: Response)=> {
 				const reader = res!.body!.getReader();
+				const {Readable} = await import('stream');
 				const rdb = new Readable();
 				rdb._read = async ()=> {
 					const {done, value} = await reader.read();

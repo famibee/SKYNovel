@@ -22,11 +22,11 @@ export class Pages {
 		this.pg = {fore: fncF(), back: fncF()};
 		this.pg.fore.layname =
 		this.pg.back.layname = layer;
-		const nm = hArg[':id'] = `layer:${layer} cls:${cls_}`;
+		const nm = hArg[':id_tag'] = `layer:${layer} cls:${cls_}`;
 		this.pg.fore.name = `${nm} page:A`;
 		this.pg.back.name = `${nm} page:B`;
-		fore.addChild(this.fore.cnt);
-		back.addChild(this.back.cnt);
+		fore.addChild(this.fore.spLay);
+		back.addChild(this.back.spLay);
 		argChk_Boolean(hArg, 'visible', true);
 		argChk_Boolean(hArg, 'visible', true);
 			// SKYNovelではデフォルトはtrueとする
@@ -39,8 +39,8 @@ export class Pages {
 		val.defTmp(valnm +'.back.alpha', ()=> this.pg.back.alpha);
 		val.defTmp(valnm +'.fore.height', ()=> this.pg.fore.height);
 		val.defTmp(valnm +'.back.height', ()=> this.pg.back.height);
-		val.defTmp(valnm +'.fore.visible', ()=> this.pg.fore.cnt.visible);
-		val.defTmp(valnm +'.back.visible', ()=> this.pg.back.cnt.visible);
+		val.defTmp(valnm +'.fore.visible', ()=> this.pg.fore.spLay.visible);
+		val.defTmp(valnm +'.back.visible', ()=> this.pg.back.spLay.visible);
 		val.defTmp(valnm +'.fore.width', ()=> this.pg.fore.width);
 		val.defTmp(valnm +'.back.width', ()=> this.pg.back.width);
 		val.defTmp(valnm +'.fore.x', ()=> this.pg.fore.x);

@@ -1,3 +1,13 @@
+- feat: 文字パディングもドラッグ移動・サイズ変更できるように
+- feat: 文字レイヤの[lay]にpl・pr・pt・pb属性追加、style設定（paddingLeftなど）に上書きできる
+- feat: マクロ定義[macro]に属性 design_unit=true を追加すると、そのマクロへの引数変更とする（マクロの内部をサーチさせない）
+- fix: Promise.allSettled()がエラーになるので tsconfig.json に lib: ["es2020"] 追加
+- fix: SysApp.ts・SysNode.ts でライブラリ import を await import() 化
+- fix: ライブラリ更新
+- fix: webpack 5 準備（import()化など）
+- fix: リファクタリング
+
+
 ## [1.9.1](https://github.com/famibee/SKYNovel/compare/v1.9.0...v1.9.1) (2021-02-02)
 
 

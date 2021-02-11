@@ -82,7 +82,7 @@ export class GrpLayer extends Layer {
 		if (! fn) {
 			super.lay(hArg);
 
-			if (this.cnt.children.length > 0) this.setPos(hArg);
+			if (this.spLay.children.length > 0) this.setPos(hArg);
 			this.sBkFn = '';
 			this.csvFn = this.sBkFace = face;
 			resolve(false);
@@ -102,14 +102,14 @@ export class GrpLayer extends Layer {
 
 		const ret = GrpLayer.csv2Sprites(
 			this.csvFn = fn + (face ? ','+ face : ''),
-			this.cnt,
+			this.spLay,
 			sp=> {
-				Layer.setXY(sp, hArg, this.cnt, true);
+				Layer.setXY(sp, hArg, this.spLay, true);
 			//	if (hArg.page === 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 			},
 			isStop=> {
-				Layer.setBlendmode(this.cnt, hArg);
+				Layer.setBlendmode(this.spLay, hArg);
 				resolve(isStop);
 			}
 		);
@@ -316,9 +316,9 @@ export class GrpLayer extends Layer {
 
 	setPos(hArg: HArg): void {
 		Layer.setXY(
-			(this.cnt.children.length === 0) ?this.cnt :this.cnt.children[0],
+			(this.spLay.children.length === 0) ?this.spLay :this.spLay.children[0],
 			hArg,
-			this.cnt,
+			this.spLay,
 			true
 		);
 	}
@@ -342,7 +342,7 @@ export class GrpLayer extends Layer {
 
 	clearLay(hArg: HArg): void {
 		super.clearLay(hArg);
-		for (const c of this.cnt.removeChildren()) c.destroy();
+		for (const c of this.spLay.removeChildren()) c.destroy();
 		this.sBkFn	= '';
 		this.sBkFace= '';
 		this.csvFn	= '';
@@ -361,17 +361,17 @@ export class GrpLayer extends Layer {
 
 		aPrm.push(new Promise(re=> this.laySub(
 			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: hLay.blendMode, rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y},
-			_isStop=> {this.cnt.position.set(hLay.x, hLay.y); re();},
+			_isStop=> {this.spLay.position.set(hLay.x, hLay.y); re();},
 				// Layer.setXY()の後に再度移動
 		)));
 	}
 
 	drawDesignCast(_gdc: IGenerateDesignCast) {
-		if (! this.cnt.visible) return;
+		if (! this.spLay.visible) return;
 //		this.txs.drawDesignCast(gdc);
 	}
 	drawDesignCastChildren(_gdc: IGenerateDesignCast) {
-		if (! this.cnt.visible) return;
+		if (! this.spLay.visible) return;
 //		this.cntBtn.children.forEach(btn=> (btn as Button).drawDesignCast(gdc));
 	}
 

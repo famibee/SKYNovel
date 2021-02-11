@@ -22,7 +22,7 @@ export class AnalyzeTagArg {
 		this.$isKomeParam = false;
 		if (! args) return;	// undefined も
 
-		let e: any = null;
+		let e: RegExpExecArray | null = null;
 		// 全ループリセットかかるので不要	.lastIndex = 0;	// /gなので必要
 		while (e = this.REG_TAGARG.exec(args)) {
 			const g = e?.groups;

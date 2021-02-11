@@ -12,7 +12,8 @@ import {HArg} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
 import {Config} from './Config';
-import {IGenerateDesignCast, IInfoDesignCast} from './LayerMng';
+import {IGenerateDesignCast} from './LayerMng';
+import {DesignCast, TxtBtnDesignCast, PicBtnDesignCast} from './DesignCast';
 
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
@@ -41,7 +42,7 @@ export class Button extends Container {
 		};
 	}
 
-	private	idc: IInfoDesignCast;
+	private	idc: DesignCast;
 	constructor(readonly hArg: HArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, readonly canFocus: ()=> boolean) {
 		super();
 
@@ -88,7 +89,7 @@ export class Button extends Container {
 			txt.alpha = argChk_Num(hArg, 'alpha', txt.alpha);	// 上にまとめない
 			txt.width = argChk_Num(hArg, 'width', 100);
 			txt.height = height;
-			hArg.height = String(height);
+			hArg.height = height;
 
 			oName.type = 'text';	// dump用
 			oName = {...oName, ...style};
@@ -96,7 +97,7 @@ export class Button extends Container {
 			oName.text = txt.text;
 			oName.width = txt.width;
 			oName.height = txt.height;
-			this.idc = {type: 'TXTBTN', cmp: txt, hArg: hArg, rect: new Rectangle(this.x, this.y, txt.width, txt.height), bg_col: '#e92'};
+			this.idc = new TxtBtnDesignCast(this, hArg, txt);
 
 			let isStop = false;
 			if (hArg.b_pic) {
@@ -113,8 +114,7 @@ export class Button extends Container {
 							(sp.width -txt.width) /2,
 							(sp.height -txt.height) /2,
 						);
-						this.idc.rect.width = sp.width;
-						this.idc.rect.height = sp.height;
+						this.idc.setSize(sp.width, sp.height);
 					},
 					isStop=> {
 						Layer.setBlendmode(this, hArg);
@@ -160,15 +160,13 @@ export class Button extends Container {
 		if (! hArg.pic) throw 'textまたはpic属性は必須です';
 		// 画像から生成
 		oName.type = 'pic';	// dump用
-		this.idc = {type: 'PICBTN', cmp: this, hArg: hArg, rect: new Rectangle(this.x, this.y, 0, 0), bg_col: '#e92'};
+		this.idc = new PicBtnDesignCast(this, hArg);
 		if (! GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
 			sp=> {
 				oName.alpha = sp.alpha = argChk_Num(hArg, 'alpha', sp.alpha);
-				this.idc.cmp = sp;
-				this.idc.rect.width = sp.width;
-				this.idc.rect.height = sp.height;
+				(<PicBtnDesignCast>this.idc).setSp(sp);
 
 				const w3 = sp.width /3;
 				const h = sp.height;

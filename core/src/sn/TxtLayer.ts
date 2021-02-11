@@ -207,30 +207,25 @@ export class TxtLayer extends Layer {
 	private b_pic			= '';	// 背景画像無し（＝単色塗り）
 
 	// 文字表示
-	private cntInsidePadding= new Container;
-	private	txs				= new TxtStage(this.infTL, this.cntInsidePadding, this.cnt, ()=> this.canFocus());
+	private	txs		= new TxtStage(this.infTL, this.spLay, ()=> this.canFocus());
 
-	private	rbSpl			= new RubySpliter;
+	private	rbSpl	= new RubySpliter;
 
-	private cntBtn			= new Container;
+	private cntBtn	= new Container;
 
 	constructor() {
 		super();
 
-		const padding = 16 *CmnLib.retinaRate;	// 初期padding
-		this.cnt.addChild(this.cntInsidePadding);
-		this.cntInsidePadding.name = 'cntInsidePadding';
-		this.cntInsidePadding.position.set(padding, padding);
-
 		this.rbSpl.init(this.putCh);
 
-		this.cnt.addChild(this.cntBtn);	// ボタンはpaddingの影響を受けない
+		this.spLay.addChild(this.cntBtn);	// ボタンはpaddingの影響を受けない
 		this.cntBtn.name = 'cntBtn';
 
+		const padding = 16 *CmnLib.retinaRate;	// 初期padding
 		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
 	destroy() {
-		if (this.b_do) {this.cnt.removeChild(this.b_do).destroy(); this.b_do = null}
+		if (this.b_do) {this.spLay.removeChild(this.b_do).destroy(); this.b_do = null}
 
 		this.clearText();
 		this.txs.destroy();
@@ -248,9 +243,9 @@ export class TxtLayer extends Layer {
 
 	lay(hArg: HArg) {
 		super.lay(hArg);
-		Layer.setXY(this.cnt, hArg, this.cnt);
+		Layer.setXY(this.spLay, hArg, this.spLay);
 
-		hArg[':id'] = this.name_.slice(0, -7);	// Design用
+		hArg[':id_tag'] = this.name_.slice(0, -7);	// Design用
 		RubySpliter.setting(hArg);
 		this.setFfs(hArg);
 		this.txs.lay(hArg);
@@ -265,7 +260,7 @@ export class TxtLayer extends Layer {
 				: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
 		if (CmnLib.isFirefox) this.mkStyle_r_align = this.mkStyle_r_align4ff;
 
-		if ('alpha' in hArg) this.cntBtn.children.forEach(e=> e.alpha = this.cnt.alpha);
+		if ('alpha' in hArg) this.cntBtn.children.forEach(e=> e.alpha = this.spLay.alpha);
 
 		this.set_ch_in(hArg);
 		this.set_ch_out(hArg);
@@ -317,10 +312,10 @@ export class TxtLayer extends Layer {
 			if (this.b_pic !== hArg.b_pic) {
 				this.b_pic = hArg.b_pic;
 				if (this.b_do) {
-					this.cnt.removeChild(this.b_do);
+					this.spLay.removeChild(this.b_do);
 					this.b_do.destroy();
 				}
-				return GrpLayer.csv2Sprites(this.b_pic, this.cnt, sp=> {
+				return GrpLayer.csv2Sprites(this.b_pic, this.spLay, sp=> {
 					this.b_do = sp;
 					sp.name = 'back(pic)';
 					sp.visible = (alpha > 0);
@@ -328,7 +323,7 @@ export class TxtLayer extends Layer {
 					//CmnLib.adjustRetinaSize(this.b_pic, sp);
 					this.txs.setSize(sp.width, sp.height);
 						// ちなみに左上表示位置は本レイヤと同じ
-					this.cnt.setChildIndex(sp, 0);
+					this.spLay.setChildIndex(sp, 0);
 					fncComp(true);
 				});
 			}
@@ -336,7 +331,7 @@ export class TxtLayer extends Layer {
 		else if ('b_color' in hArg) {
 			this.b_color = parseInt(hArg.b_color || '0');
 			if (this.b_do) {
-				this.cnt.removeChild(this.b_do);
+				this.spLay.removeChild(this.b_do);
 				this.b_do.destroy();
 			}
 			this.b_pic = '';	// 忘れずクリア
@@ -346,7 +341,7 @@ export class TxtLayer extends Layer {
 			grp.lineStyle(undefined);
 			grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
 			grp.endFill();
-			this.cnt.addChildAt(grp, 0);
+			this.spLay.addChildAt(grp, 0);
 			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
 
@@ -366,7 +361,7 @@ export class TxtLayer extends Layer {
 			: g_alpha * this.b_alpha;
 		if (this.b_do instanceof Graphics) {
 			if (this.b_do) {
-				this.cnt.removeChild(this.b_do);
+				this.spLay.removeChild(this.b_do);
 				this.b_do.destroy();
 			}
 			const grp = this.b_do = new Graphics;
@@ -375,7 +370,7 @@ export class TxtLayer extends Layer {
 			grp.lineStyle(undefined);
 			grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
 			grp.endFill();
-			this.cnt.addChildAt(grp, 0);
+			this.spLay.addChildAt(grp, 0);
 			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
 		if (this.b_do) {
@@ -796,7 +791,7 @@ export class TxtLayer extends Layer {
 	}
 
 	readonly click = ()=> {
-		if (! this.cnt.interactiveChildren || ! this.cnt.visible) return true;
+		if (! this.spLay.interactiveChildren || ! this.spLay.visible) return true;
 		return this.txs.skipChIn();	// true is stay
 	}
 
@@ -815,19 +810,19 @@ export class TxtLayer extends Layer {
 	private	page_text	= '';
 	get pageText() {return this.page_text.replace('《　》', '')}
 
-	get enabled() {return this.cnt.interactiveChildren}
-	set enabled(e) {this.cnt.interactiveChildren = e}
+	get enabled() {return this.spLay.interactiveChildren}
+	set enabled(e) {this.spLay.interactiveChildren = e}
 
 	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
-		hArg[':id'] = hArg.key.slice(0, -7);	// Design用
+		hArg[':id_tag'] = hArg.key.slice(0, -7);	// Design用
 		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
 		const btn = new Button(hArg, TxtLayer.evtMng, ()=> re(), ()=> this.canFocus());
-		btn.name = JSON.stringify(hArg).replaceAll('"', "'");// playback時に使用
+		btn.name = JSON.stringify(hArg).replace(/"/g, "'");// playback時に使用
 		this.cntBtn.addChild(btn);
 	});
 	canFocus(): boolean {
-		return this.cnt.interactiveChildren && this.cnt.visible
+		return this.spLay.interactiveChildren && this.spLay.visible
 			&& TxtLayer.isPageFore(this);
 	}
 
@@ -881,21 +876,21 @@ export class TxtLayer extends Layer {
 		this.txs.playback(hLay.txs);
 
 		const aBtn: string[] = hLay.btns;
-		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replaceAll("'", '"')))));
+		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replace(/'/g, '"')))));
 	}
 
 	snapshot(rnd: Renderer, re: ()=> void) {
-		rnd.render(this.cnt, undefined, false);
+		rnd.render(this.spLay, undefined, false);
 		this.txs.snapshot(rnd, re);
 	}
 	snapshot_end() {this.txs.snapshot_end();}
 
 	drawDesignCast(gdc: IGenerateDesignCast) {
-		if (! this.cnt.visible) return;
+		if (! this.spLay.visible) return;
 		this.txs.drawDesignCast(gdc);
 	}
 	drawDesignCastChildren(gdc: IGenerateDesignCast) {
-		if (! this.cnt.visible) return;
+		if (! this.spLay.visible) return;
 		this.cntBtn.children.forEach(btn=> (btn as Button).drawDesignCast(gdc));
 	}
 
@@ -907,7 +902,7 @@ export class TxtLayer extends Layer {
 		}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed
 		}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height
 		}, "pixi_obj":[${
-			this.cnt.children.map(e=> `{"class":"${
+			this.spLay.children.map(e=> `{"class":"${
 				(e instanceof Sprite) ?'Sprite' :(
 					(e instanceof Graphics) ?'Graphics' :(
 						(e instanceof Container) ?'Container' :'?'

@@ -13,10 +13,14 @@ export declare type HArg = {
     scale_x?: number;
     scale_y?: number;
     visible?: boolean;
-    left?: string;
-    top?: string;
-    width?: string;
-    height?: string;
+    left?: number;
+    top?: number;
+    width?: number;
+    height?: number;
+    pl?: number;
+    pr?: number;
+    pt?: number;
+    pb?: number;
     rotate?: number;
     in_style?: string;
     out_style?: string;
@@ -113,13 +117,15 @@ export declare type HArg = {
     end_ms?: number;
     join?: boolean;
     do_rec?: boolean;
-    ':id'?: string;
+    ':id_dc'?: string;
+    ':id_tag'?: string;
     ':path'?: string;
     ':ln'?: number;
     ':col_s'?: number;
     ':col_e'?: number;
     ':idx_tkn'?: number;
     ':token'?: string;
+    design_unit?: string;
 };
 export interface ITag {
     (hArg: HArg): boolean;
@@ -249,7 +255,7 @@ export declare type IMark = {
     hSave: {
         [name: string]: any;
     };
-    hPages: HPage;
+    hPages: HIPage;
     aIfStk: number[];
     json?: any;
 };
@@ -264,7 +270,7 @@ export interface IGetFrm {
         (id: string): boolean;
     };
 }
-export declare type HPage = {
+export declare type HIPage = {
     [name: string]: IPage;
 };
 export declare type IPage = {
