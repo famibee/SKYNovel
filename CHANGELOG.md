@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/famibee/SKYNovel/compare/v1.10.1...v1.11.0) (2021-02-12)
+
+
+### Features
+
+* デバッグ：画像レイヤもドラッグ移動・サイズ変更できるように ([efbf13f](https://github.com/famibee/SKYNovel/commit/efbf13fdb556ce568e68a887f9051622500223b2))
+
 - feat: デバッグ：画像レイヤもドラッグ移動・サイズ変更できるように
 - fix: hintの文字が縦に大きい件
 
