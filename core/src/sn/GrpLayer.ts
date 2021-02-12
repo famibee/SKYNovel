@@ -15,6 +15,7 @@ import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, 
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
 import {IGenerateDesignCast} from './LayerMng';
+import {GrpLayDesignCast} from './DesignCast';
 
 export interface IFncCompSpr { (sp: Sprite): void; };
 
@@ -69,6 +70,8 @@ export class GrpLayer extends Layer {
 		GrpLayer.fn2Video	= {};
 	}
 
+	private	readonly	idc	= new GrpLayDesignCast(this.spLay);
+
 	private csvFn		= '';
 	private sBkFn		= '';
 	private sBkFace		= '';
@@ -79,6 +82,7 @@ export class GrpLayer extends Layer {
 	private	laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
 		const fn = hArg.fn;
 		const face = hArg.face ?? '';
+		this.idc.hArg = hArg;
 		if (! fn) {
 			super.lay(hArg);
 
@@ -104,9 +108,14 @@ export class GrpLayer extends Layer {
 			this.csvFn = fn + (face ? ','+ face : ''),
 			this.spLay,
 			sp=> {
+				if ('width' in hArg || 'height' in hArg) {
+					sp.width = argChk_Num(hArg, 'width', 0);
+					sp.height = argChk_Num(hArg, 'height', 0);
+				}
 				Layer.setXY(sp, hArg, this.spLay, true);
 			//	if (hArg.page === 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
+				this.idc.setSp(sp);
 			},
 			isStop=> {
 				Layer.setBlendmode(this.spLay, hArg);
@@ -366,9 +375,9 @@ export class GrpLayer extends Layer {
 		)));
 	}
 
-	drawDesignCast(_gdc: IGenerateDesignCast) {
+	drawDesignCast(gdc: IGenerateDesignCast) {
 		if (! this.spLay.visible) return;
-//		this.txs.drawDesignCast(gdc);
+		gdc(this.idc);
 	}
 	drawDesignCastChildren(_gdc: IGenerateDesignCast) {
 		if (! this.spLay.visible) return;

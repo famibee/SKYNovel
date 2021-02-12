@@ -27,6 +27,7 @@ export declare class GrpLayer extends Layer {
     private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
+    private readonly idc;
     private csvFn;
     private sBkFn;
     private sBkFace;
@@ -66,7 +67,7 @@ export declare class GrpLayer extends Layer {
         sBkFace: string;
     };
     playback(hLay: any, aPrm: Promise<void>[]): void;
-    drawDesignCast(_gdc: IGenerateDesignCast): void;
+    drawDesignCast(gdc: IGenerateDesignCast): void;
     drawDesignCastChildren(_gdc: IGenerateDesignCast): void;
     readonly dump: () => string;
 }

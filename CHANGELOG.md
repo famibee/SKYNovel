@@ -1,3 +1,10 @@
+- fix: [call]でマクロ変数をクリアしていたのを修正
+- fix: [pop_stack]でマクロ変数をクリアするように
+- fix: 画像レイヤ[lay]でwidth・height指定時は、ロード画像サイズによらずそのサイズとするように
+- fix: ライブラリ更新（electron-store 6.0.1→7.0.2）
+	- テンプレの npm i -S electron-store と doc/app.js 追記必須
+
+
 # [1.10.0](https://github.com/famibee/SKYNovel/compare/v1.9.1...v1.10.0) (2021-02-11)
 
 

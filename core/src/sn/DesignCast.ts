@@ -227,9 +227,25 @@ console.log(`fn:DesignCast.ts line:163 doubletap`);
 }
 
 
+// 画像レイヤ
+export class GrpLayDesignCast extends DesignCast {
+	constructor(private readonly spLay: Sprite) {super('#29e', true);}
+
+	private	sp: Sprite;
+	setSp(sp: Sprite) {this.sp = sp}
+
+	getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp.width, this.sp.height)}
+	getPosArg(left: number, top: number) {return {left, top}}
+	getSizeArg(width: number, height: number) {return {width, height}}
+	setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
+	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+//	setOther(hPrm: HPRM) {this.child?.setOther(hPrm);}
+}
+
+
 // 文字レイヤ
 export class TxtLayDesignCast extends DesignCast {
-	constructor(private readonly ts: TxtStage, private readonly spLay: Sprite) {
+	constructor(private readonly spLay: Sprite, private readonly ts: TxtStage) {
 		super('#29e', true);
 	}
 	getRect() {
@@ -315,8 +331,8 @@ export class PicBtnDesignCast extends DesignCast {
 	setSp(sp: Sprite) {this.sp = sp}
 
 	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.sp.width, this.sp.height)}
-	getPosArg(x: number, y: number) {return {left: x, top: y,}}
-	getSizeArg(w: number, h: number) {return {width: w, height: h,}}
+	getPosArg(left: number, top: number) {return {left, top}}
+	getSizeArg(width: number, height: number) {return {width, height}}
 	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
 	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
 }

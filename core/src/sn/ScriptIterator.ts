@@ -645,7 +645,7 @@ export class ScriptIterator {
 
 		const fn = hArg.fn;
 		if (fn) this.cnvSnPath(fn);	// chk only
-		this.callSub({hEvt1Time: this.evtMng.popLocalEvts(), hMp: {}});
+		this.callSub({hEvt1Time: this.evtMng.popLocalEvts(), hMp: this.val.cloneMp()});
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.jumpWork(fn, hArg.label);
@@ -675,6 +675,7 @@ export class ScriptIterator {
 		else if (! this.aCallStk.pop()) throw '[pop_stack] スタックが空です';
 		this.clearResvToken();
 		this.aIfStk = [-1];
+		this.val.setMp({});
 
 		return false;
 	}
@@ -1062,13 +1063,13 @@ export class ScriptIterator {
 		const cs = new CallStack(this.scriptFn_, this.idxToken_);
 		this.strStepin += '|'+ name;
 		this.regStepin = new RegExp(`\\[(${this.strStepin})\\b`);
-		this.hTag[name] = (hArgM: HArg)=> {
+		this.hTag[name] = hArgM=> {
 			hArgM.design_unit = hArg.design_unit;
 			this.callSub({...hArgM, hMp: this.val.cloneMp()} as any);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
-			this.val.setMp(hArgM);
+			this.val.setMp(hArgM as any);
 			this.val.setVal_Nochk('mp', 'const.sn.macro_name', name);
 			this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', this.scriptFn_);
 

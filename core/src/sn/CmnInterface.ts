@@ -269,11 +269,11 @@ export interface IVariable {
 	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
 
 	defTmp(name: string, fnc: typeProcVal): void;
-	cloneMp(): object;
-	setMp(mp: object): void;
+	cloneMp(): IValMp;
+	setMp(mp: IValMp): void;
 	setMark(place: number, mark: IMark): void;
 	getMark(place: number): IMark;
-	cloneSave(): object;
+	cloneSave(): IValSave;
 	mark2save(mark: IMark): void;
 
 	loadScrWork(fn: string): void;
@@ -285,6 +285,8 @@ export interface IVariable {
 
 	doRecLog(): boolean;
 }
+export interface IValMp {[name: string]: string};
+export interface IValSave {[name: string]: string};
 
 export type IData4Vari = {
 	sys		: {[name: string]: any};

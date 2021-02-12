@@ -227,11 +227,11 @@ export interface IVariable {
     getVal(arg_name: string, def?: number | string): any;
     setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
     defTmp(name: string, fnc: typeProcVal): void;
-    cloneMp(): object;
-    setMp(mp: object): void;
+    cloneMp(): IValMp;
+    setMp(mp: IValMp): void;
     setMark(place: number, mark: IMark): void;
     getMark(place: number): IMark;
-    cloneSave(): object;
+    cloneSave(): IValSave;
     mark2save(mark: IMark): void;
     loadScrWork(fn: string): void;
     getAreaKidoku(fn: string): IAreas;
@@ -239,6 +239,12 @@ export interface IVariable {
     updateData(data: IData4Vari): void;
     defValTrg(name: string, fnc: ISetVal): void;
     doRecLog(): boolean;
+}
+export interface IValMp {
+    [name: string]: string;
+}
+export interface IValSave {
+    [name: string]: string;
 }
 export declare type IData4Vari = {
     sys: {

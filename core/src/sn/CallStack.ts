@@ -5,12 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IHEvt2Fnc} from './CmnInterface';
+import {IHEvt2Fnc, IValMp} from './CmnInterface';
 
 export interface ICallStackArg {
 	resvToken?	: string;
 	hEvt1Time	: IHEvt2Fnc;
-	hMp			: {[name: string]: string};
+	hMp			: IValMp;
 	タグ名?		: string;
 }
 

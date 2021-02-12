@@ -1,4 +1,4 @@
-import { IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark } from './CmnInterface';
+import { IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IValMp, IValSave } from './CmnInterface';
 import { Config } from './Config';
 import { Areas } from './Areas';
 export declare class Variable implements IVariable {
@@ -20,11 +20,11 @@ export declare class Variable implements IVariable {
     setDoRecProc(fnc: (doRec: boolean) => void): void;
     private doRecProc;
     defTmp(name: string, fnc: typeProcVal): void;
-    cloneMp(): object;
-    setMp(mp: object): void;
+    cloneMp(): IValMp;
+    setMp(mp: IValMp): void;
     setMark(place: number, mark: IMark): void;
     readonly getMark: (place: number) => IMark;
-    cloneSave(): object;
+    cloneSave(): IValSave;
     mark2save(mark: IMark): void;
     loadScrWork(fn: string): void;
     getAreaKidoku: (fn: string) => Areas;

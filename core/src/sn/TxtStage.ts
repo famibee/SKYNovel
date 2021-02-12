@@ -12,7 +12,7 @@ import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
 import {IGenerateDesignCast} from './LayerMng';
-import {DesignCast, TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
+import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
@@ -80,8 +80,8 @@ export class TxtStage extends Container {
 	private	readonly cntTxt		= new Container;			// サンプリング先
 	private	readonly grpDbgMasume= new Graphics;
 
-	private	readonly	idc: DesignCast	= new TxtLayDesignCast(this,this.spLay);
-	private	readonly	idcCh	: DesignCast = new TxtLayPadDesignCast(this);
+	private	readonly	idc		= new TxtLayDesignCast(this.spLay, this);
+	private	readonly	idcCh	= new TxtLayPadDesignCast(this);
 	getInfTL(): IInfTxLay {return this.infTL}
 
 

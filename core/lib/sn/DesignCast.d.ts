@@ -40,10 +40,27 @@ export declare class DesignCast {
     private delayChgCast;
     static replaceToken(o: any, hPages: HPage): void;
 }
-export declare class TxtLayDesignCast extends DesignCast {
-    private readonly ts;
+export declare class GrpLayDesignCast extends DesignCast {
     private readonly spLay;
-    constructor(ts: TxtStage, spLay: Sprite);
+    constructor(spLay: Sprite);
+    private sp;
+    setSp(sp: Sprite): void;
+    getRect(): Rectangle;
+    getPosArg(left: number, top: number): {
+        left: number;
+        top: number;
+    };
+    getSizeArg(width: number, height: number): {
+        width: number;
+        height: number;
+    };
+    setPos(x: number, y: number): void;
+    setSize(w: number, h: number): void;
+}
+export declare class TxtLayDesignCast extends DesignCast {
+    private readonly spLay;
+    private readonly ts;
+    constructor(spLay: Sprite, ts: TxtStage);
     getRect(): Rectangle;
     getPosArg(left: number, top: number): {
         left: number;
@@ -97,11 +114,11 @@ export declare class PicBtnDesignCast extends DesignCast {
     private sp;
     setSp(sp: Sprite): void;
     getRect(): Rectangle;
-    getPosArg(x: number, y: number): {
+    getPosArg(left: number, top: number): {
         left: number;
         top: number;
     };
-    getSizeArg(w: number, h: number): {
+    getSizeArg(width: number, height: number): {
         width: number;
         height: number;
     };
