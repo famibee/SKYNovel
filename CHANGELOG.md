@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/famibee/SKYNovel/compare/v1.10.0...v1.10.1) (2021-02-12)
+
+
+### Bug Fixes
+
+* [call]でマクロ変数をクリアしていたのを修正 ([500976f](https://github.com/famibee/SKYNovel/commit/500976fca87d955c93c2bf694f5b8dcdc3e785e2))
+
 - fix: [call]でマクロ変数をクリアしていたのを修正
 - fix: [pop_stack]でマクロ変数をクリアするように
 - fix: 画像レイヤ[lay]でwidth・height指定時は、ロード画像サイズによらずそのサイズとするように
