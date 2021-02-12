@@ -1,3 +1,7 @@
+- feat: デバッグ：画像レイヤもドラッグ移動・サイズ変更できるように
+- fix: hintの文字が縦に大きい件
+
+
 ## [1.10.1](https://github.com/famibee/SKYNovel/compare/v1.10.0...v1.10.1) (2021-02-12)
 
 
@@ -19,9 +23,9 @@
 
 * 文字パディングもドラッグ移動・サイズ変更できるように ([def8921](https://github.com/famibee/SKYNovel/commit/def8921783a26d32fb924c82100674c27d5773af))
 
-- feat: 文字パディングもドラッグ移動・サイズ変更できるように
+- feat: デバッグ：文字パディングもドラッグ移動・サイズ変更できるように
 - feat: 文字レイヤの[lay]にpl・pr・pt・pb属性追加、style設定（paddingLeftなど）に上書きできる
-- feat: マクロ定義[macro]に属性 design_unit=true を追加すると、そのマクロへの引数変更とする（マクロの内部をサーチさせない）
+- feat: デバッグ：マクロ定義[macro]に属性 design_unit=true を追加すると、そのマクロへの引数変更とする（マクロの内部をサーチさせない）
 - fix: Promise.allSettled()がエラーになるので tsconfig.json に lib: ["es2020"] 追加
 - fix: SysApp.ts・SysNode.ts でライブラリ import を await import() 化
 - fix: ライブラリ更新
@@ -47,9 +51,9 @@
 * デバッグビューにレイヤ構造ビューを追加 ([f0fcee1](https://github.com/famibee/SKYNovel/commit/f0fcee10fc88d7420f91edc16cc86aa87e5f3d36))
 
 - feat: デバッグビューにレイヤ構造ビューを追加
-- feat: 文字レイヤもドラッグ移動・サイズ変更できるように
+- feat: デバッグ：文字レイヤもドラッグ移動・サイズ変更できるように
 - feat: デバッグ：ボタン長押しでスクリプトの該当箇所を開く
-- feat: 文字レイヤの[lay]にwidth・height属性追加、style設定に上書きできる
+- feat: 文字レイヤの[lay]にwidth・height属性追加、style設定に上書きできるように
 - fix: const.sn.lay.（レイヤ名）.（foreかback）.width、同.height の値が 1 なのを修正
 - fix: デバッグ：ボタンは半透明オレンジに変更
 

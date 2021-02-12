@@ -47,7 +47,7 @@ export type HArg = {
 	pic?	: string;
 	enabled?: boolean;
 	hint?	: string;
-	hint_tate?	: boolean;	// tooltips用
+	hint_tate?	: boolean;	// hint用
 	clickse?	: string;
 	enterse?	: string;
 	leavese?	: string;
@@ -152,6 +152,7 @@ export type HArg = {
 	':idx_tkn'?	: number;
 	':token'?	: string;
 	design_unit?: string;
+	design?		: boolean;
 }
 export interface ITag { (hArg: HArg): boolean; }
 export interface IHTag { [name: string]: ITag; }

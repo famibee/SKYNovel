@@ -193,13 +193,14 @@ export class LayerMng implements IGetFrm {
 		continue	: _=> {DesignCast.leaveMode();	return false;},
 		disconnect	: _=> {DesignCast.leaveMode();	return false;},
 		_enterDesign: _=> {
-			DesignCast.enterMode(this.curTxtlay, this.hPages);	return false;
+			DesignCast.enterMode('base', this.hPages);	return false;
+//			DesignCast.enterMode(this.curTxtlay, this.hPages);	return false;
 		},
 		_replaceToken	: (_, o)=> {
 			DesignCast.replaceToken(o, this.hPages);	return false;
 		},
 		_selectNode: (_, o)=> {
-			DesignCast.enterMode(o.node, this.hPages); return false;
+			DesignCast.enterMode(o.node, this.hPages);	return false;
 		},
 	}
 

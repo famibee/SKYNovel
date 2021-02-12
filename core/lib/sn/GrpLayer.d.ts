@@ -65,6 +65,7 @@ export declare class GrpLayer extends Layer {
     } & {
         sBkFn: string;
         sBkFace: string;
+        idc_hArg: HArg;
     };
     playback(hLay: any, aPrm: Promise<void>[]): void;
     drawDesignCast(gdc: IGenerateDesignCast): void;

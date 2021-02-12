@@ -1223,6 +1223,11 @@ export class ScriptIterator {
 			const cs = this.aCallStk[len -1];
 			fn = cs.fn;
 			idx = cs.idx;
+/*
+	// TODO: design_unitへの設定。マクロとしての引数とデフォルト値を指定したい
+
+	left=0 top=40 width=&const.sn.config.window.width height=&const.sn.config.window.height-40*2 pl=70 pt=30 pr=70 pb=70
+*/
 		}
 		else {
 			fn = this.scriptFn_;

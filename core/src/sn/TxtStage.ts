@@ -77,8 +77,8 @@ export class TxtStage extends Container {
 
 
 	private		htmTxt	= document.createElement('span');	// サンプリング元
-	private	readonly cntTxt		= new Container;			// サンプリング先
-	private	readonly grpDbgMasume= new Graphics;
+	private	readonly cntTxt			= new Container;		// サンプリング先
+	private	readonly grpDbgMasume	= new Graphics;
 
 	private	readonly	idc		= new TxtLayDesignCast(this.spLay, this);
 	private	readonly	idcCh	= new TxtLayPadDesignCast(this);
@@ -723,7 +723,7 @@ export class TxtStage extends Container {
 					const sp = new Sprite;
 					arg.key = `lnk=[${i}] `+ this.name;
 					this.spWork(sp, arg, add, rct, ease, cis ?? {});
-					arg.hint_tate ??= this.isTategaki;	// tooltips用
+					arg.hint_tate ??= this.isTategaki;	// hint用
 					const style_normal = v.elm.style.cssText;
 					const style_hover = arg.style_hover ?? '';
 					const style_clicked = arg.style_clicked ?? '';

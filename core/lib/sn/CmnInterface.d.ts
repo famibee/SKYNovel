@@ -126,6 +126,7 @@ export declare type HArg = {
     ':idx_tkn'?: number;
     ':token'?: string;
     design_unit?: string;
+    design?: boolean;
 };
 export interface ITag {
     (hArg: HArg): boolean;

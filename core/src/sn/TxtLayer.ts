@@ -816,7 +816,7 @@ export class TxtLayer extends Layer {
 	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
 		hArg.key = `btn=[${this.cntBtn.children.length}] `+ this.name_;
 		hArg[':id_tag'] = hArg.key.slice(0, -7);	// Design用
-		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// tooltips用
+		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// hint用
 		const btn = new Button(hArg, TxtLayer.evtMng, ()=> re(), ()=> this.canFocus());
 		btn.name = JSON.stringify(hArg).replace(/"/g, "'");// playback時に使用
 		this.cntBtn.addChild(btn);

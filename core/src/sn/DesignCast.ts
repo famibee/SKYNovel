@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {HArg, IPropParser} from './CmnInterface';
-import {uint, int, CmnLib} from './CmnLib';
+import {uint, int, CmnLib, argChk_Boolean} from './CmnLib';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 import {HPage} from './LayerMng';
@@ -312,6 +312,10 @@ export class TxtBtnDesignCast extends DesignCast {
 	constructor(private readonly btn: Button, readonly hArg: HArg, private readonly txt: Text) {
 		super('#e92');
 		this.hArg = hArg;
+		if (! argChk_Boolean(hArg, 'design', true)) {
+			this.setPos = ()=> {};
+			this.setSize = ()=> {};
+		}
 	}
 	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.txt.width, this.txt.height)}
 	getPosArg(left: number, top: number) {return {left, top,}}
