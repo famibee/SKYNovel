@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/famibee/SKYNovel/compare/v1.12.0...v1.12.1) (2021-02-16)
+
+
+### Bug Fixes
+
+* デバッグ用 openDevTools()が残っていたのを修正 ([3415837](https://github.com/famibee/SKYNovel/commit/34158373de7aab04ea91af534bc058d1d5ff243d))
+
 - fix: デバッグ用 openDevTools()が残っていたのを修正
 
 
