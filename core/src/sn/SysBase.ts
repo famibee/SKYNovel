@@ -14,7 +14,7 @@ import * as io from 'socket.io-client';
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
 
-	constructor(protected readonly hPlg: HPlugin = {}, protected readonly arg: HSysBaseArg) {
+	constructor(protected readonly hPlg: HPlugin = {}, protected arg: HSysBaseArg) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		fncPre?.init({
 			addTag: ()=> {},
@@ -283,9 +283,9 @@ top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
 	protected $path_userdata= '';
 	get path_userdata() {return this.$path_userdata}
 
-	readonly	savePic = (_fn: string, _data_url: string)=> {};
-	readonly	appendFile = (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException)=> void)=> {};
-	readonly	ensureFileSync = (_path: string)=> {};
+	async savePic(_fn: string, _data_url: string) {};
+	async appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException)=> void) {}
+	async ensureFileSync(_path: string) {}
 
 	// 既存のiframeのサイズと表示位置を調整
 	ofsLeft4frm	= 0;

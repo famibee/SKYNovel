@@ -322,10 +322,10 @@ export class LayerMng implements IGetFrm {
 		else this.getLayers(hArg.layer).forEach(v=> a.push(new Promise<void>(
 			re=> this.hPages[v][pg].snapshot(rnd, ()=> re())
 		)));
-		Promise.all(a).then(()=> {
+		Promise.all(a).then(async ()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
 			rnd.render(this.stage, renTx);
-			this.sys.savePic(
+			await this.sys.savePic(
 				this.cfg.searchPath(fn),
 				rnd.extract.base64(Sprite.from(renTx)),
 			);

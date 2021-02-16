@@ -187,6 +187,10 @@ export class Variable implements IVariable {
 
 			this.callHook = sys.callHook;
 			sys.addHook((type, o)=> this.hProcDbgRes[type]?.(type, o));
+
+			// 初回の初期化と、v1.11.0 まで未初期化変数があった件の対策
+			const tm = this.getVal('sys:sn.tagCh.msecWait', -1);
+			if (this.hTmp['const.sn.isFirstBoot'] || tm === -1) this.clearsysvar();
 		});
 	}
 	private	readonly	hProcDbgRes

@@ -290,26 +290,16 @@ export class SysWeb extends SysBase {
 	}
 
 
-	readonly	readFile = (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void)=> {
-		fetch(path)	//fetch(path, {mode: 'same-origin'})
-		.then(res=> {
-			if (! res.ok) throw Error(res.statusText);
-
-			return res.text().then(txt=> callback(null, Buffer.from(txt)));
-		})
-		.catch(e=> console.error('Error:', e));
-	};
-
-	readonly	savePic = (fn: string, data_url: string)=> {
+	async savePic(fn: string, data_url: string) {
 		const a = document.createElement('a');
 		a.href = data_url;
 		a.download = fn;
 		a.click();
 		if (CmnLib.debugLog) console.log('画像ファイルをダウンロードします');
-	};
+	}
 
 	private	readonly	hAppendFile: {[path: string]: string} = {};
-	readonly	appendFile = (path: string, data: any, _callback: (err: NodeJS.ErrnoException)=> void)=> {
+	async appendFile(path: string, data: any, _callback: (err: NodeJS.ErrnoException)=> void) {
 		const txt = (this.hAppendFile[path] ?? '') + data;
 		this.hAppendFile[path] = txt;
 
@@ -318,6 +308,6 @@ export class SysWeb extends SysBase {
 		a.href = URL.createObjectURL(blob);
 		a.download = path;
 		a.click();
-	};
+	}
 
 }

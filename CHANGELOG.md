@@ -1,3 +1,10 @@
+- feat: アプリ版：Electronウインドウ作成などを新設 SKYNovel.initRenderer() にラップするように（テンプレ更新：doc/app.js）
+- fix: （まだ準備中）webpack 5 へ更新・対応
+- fix: （まだ準備中）アプリ版：新セキュリティ機構 contextBridge / preload.js を使うように
+- fix: SysNodeテスト：小さな派生クラスを作ってテスト対象とするように
+- fix: 初回の初期化と、v1.11.0 まで未初期化変数があった件の対策
+
+
 # [1.11.0](https://github.com/famibee/SKYNovel/compare/v1.10.1...v1.11.0) (2021-02-12)
 
 

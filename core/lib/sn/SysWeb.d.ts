@@ -25,9 +25,8 @@ export declare class SysWeb extends SysBase {
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
     protected titleSub(txt: string): void;
-    readonly readFile: (path: string, callback: (err: NodeJS.ErrnoException | null, data: Buffer) => void) => void;
-    readonly savePic: (fn: string, data_url: string) => void;
+    savePic(fn: string, data_url: string): Promise<void>;
     private readonly hAppendFile;
-    readonly appendFile: (path: string, data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
+    appendFile(path: string, data: any, _callback: (err: NodeJS.ErrnoException) => void): Promise<void>;
 }
 //# sourceMappingURL=SysWeb.d.ts.map

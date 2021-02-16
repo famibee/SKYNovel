@@ -1,8 +1,9 @@
+/// <reference types="node" />
 import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
     protected readonly hPlg: HPlugin;
-    protected readonly arg: HSysBaseArg;
+    protected arg: HSysBaseArg;
     hFactoryCls: {
         [name: string]: ILayerFactory;
     };
@@ -65,9 +66,9 @@ export declare class SysBase implements ISysBase {
     get path_downloads(): string;
     protected $path_userdata: string;
     get path_userdata(): string;
-    readonly savePic: (_fn: string, _data_url: string) => void;
-    readonly appendFile: (_path: string, _data: any, _callback: (err: NodeJS.ErrnoException) => void) => void;
-    readonly ensureFileSync: (_path: string) => void;
+    savePic(_fn: string, _data_url: string): Promise<void>;
+    appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException) => void): Promise<void>;
+    ensureFileSync(_path: string): Promise<void>;
     ofsLeft4frm: number;
     ofsTop4frm: number;
     protected resizeFrames(): void;

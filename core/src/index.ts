@@ -29,4 +29,12 @@ export * from "./sn/TxtLayer";
 export * from "./sn/TxtStage";
 export * from "./sn/Variable";
 export * from "./app";
+export * from "./appMain";
 export * from "./web";
+
+import {HPROC} from "./preload";
+declare global {
+	interface Window {
+		to_app: HPROC;
+	}
+}

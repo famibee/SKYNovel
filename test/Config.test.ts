@@ -10,13 +10,22 @@ import assert = require('power-assert');
 import {Config} from '../core/src/sn/Config';
 import {SysNode} from '../core/src/sn/SysNode';
 
+//===== Test Class =====
+import {readFileSync, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
+export class SysTest extends SysNode {
+	protected	readFileSync = async (path: string)=> readFileSync(path, {encoding: 'utf8'});
+	protected	writeFileSync = async (path: string, data: Buffer, o?: object)=> writeFileSync(path, data, o);
+	appendFile = async (path: string, data: string | Buffer, callback: (err: NodeJS.ErrnoException)=> void) => appendFile(path, data, callback);
+	ensureFileSync = async (path: string)=> ensureFileSync(path);
+}
+//===== Test Class =====
+
 context('class Config', ()=>{
 	let	cfg	= null;
-	beforeEach(()=> {
-		cfg = new Config(new SysNode({}, {cur: 'test/', crypto: false, dip: ''}), ()=> {}, {
-			search	: ['mat'],
-		});
-	});
+	beforeEach(()=> new Promise<void>(re=> {
+		cfg = new Config(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}), ()=> re(), {search: ['mat']});
+	}));
+
 
 	describe('Tst', ()=> {
 		it('testsetSearchPath_0', ()=> {
