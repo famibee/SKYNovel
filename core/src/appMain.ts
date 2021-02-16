@@ -133,7 +133,7 @@ export class appMain {
 */	//== new ==
 				},
 			});
-/**/	bw.webContents.openDevTools();
+//	bw.webContents.openDevTools();
 			appMain.ins = new appMain(bw);
 			openDevTools = ()=> appMain.ins.openDevTools();
 			bw.loadFile(path_htm);

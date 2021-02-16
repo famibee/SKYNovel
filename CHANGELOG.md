@@ -1,3 +1,6 @@
+- fix: デバッグ用 openDevTools()が残っていたのを修正
+
+
 # [1.12.0](https://github.com/famibee/SKYNovel/compare/v1.11.0...v1.12.0) (2021-02-16)
 
 
