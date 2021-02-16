@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/famibee/SKYNovel/compare/v1.11.0...v1.12.0) (2021-02-16)
+
+
+### Features
+
+* Electronウインドウ作成等をinitRenderer() にラップするように ([71525d0](https://github.com/famibee/SKYNovel/commit/71525d0ed8193709d6d6d380ad416c05b46b5163))
+
 - feat: アプリ版：Electronウインドウ作成などを新設 SKYNovel.initRenderer() にラップするように（テンプレ更新：doc/app.js）
 - fix: （まだ準備中）webpack 5 へ更新・対応
 - fix: （まだ準備中）アプリ版：新セキュリティ機構 contextBridge / preload.js を使うように
