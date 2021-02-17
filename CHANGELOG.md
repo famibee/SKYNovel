@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/famibee/SKYNovel/compare/v1.12.1...v1.13.0) (2021-02-17)
+
+
+### Features
+
+* デバッグ：画像レイヤ・ボタンのキャストに画像ファイルをdropすると差し替えるように ([63ffe80](https://github.com/famibee/SKYNovel/commit/63ffe803e7dd9eac12616623c0a019b15a830af1))
+
 - feat: デバッグ：画像レイヤ・文字ボタン・画像ボタンのキャストに画像ファイルをdropすると差し替えるように
 - fix: カーソル・masumeが表示されなくなっていた件（v1.10.0 から）
 - fix: 文字ボタンに背景画像をロードした際、文字サイズが拡大される件（v1.10.0 から）
