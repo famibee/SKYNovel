@@ -43,7 +43,9 @@ export class Button extends Container {
 	}
 
 	private	idc: DesignCast;
-	constructor(readonly hArg: HArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, readonly canFocus: ()=> boolean) {
+	private	sp_b_pic: Sprite | null = null;
+	private	sp_pic: Sprite | null = null;
+	constructor(private readonly hArg: HArg, private readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 
 		this.name = JSON.stringify(hArg);
@@ -105,21 +107,11 @@ export class Button extends Container {
 				isStop = GrpLayer.csv2Sprites(
 					hArg.b_pic,
 					this,
-					sp=> {
-						this.setChildIndex(sp, 0);
-						sp.alpha = txt.alpha;
-						sp.setTransform(
-							txt.x, txt.y,
-							1, 1, txt.rotation, 0, 0,
-							(sp.width -txt.width) /2,
-							(sp.height -txt.height) /2,
-						);
-						this.idc.setSize(sp.width, sp.height);
-					},
+					sp=> this.loaded_b_pic(sp, txt),
 					isStop=> {
 						Layer.setBlendmode(this, hArg);
 						if (isStop) resolve();
-					}
+					},
 				);
 			}
 			txt.name = JSON.stringify(oName);
@@ -164,45 +156,88 @@ export class Button extends Container {
 		if (! GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
-			sp=> {
-				oName.alpha = sp.alpha = argChk_Num(hArg, 'alpha', sp.alpha);
-				(<PicBtnDesignCast>this.idc).setSp(sp);
-
-				const w3 = sp.width /3;
-				const h = sp.height;
-				const tx = sp.texture.baseTexture;
-				const txNormal = new Texture(tx, new Rectangle(0, 0, w3, h));
-				const txClicked = new Texture(tx, new Rectangle(w3, 0, w3, h));
-				const txHover = new Texture(tx, new Rectangle(w3 *2, 0, w3, h));
-				const normal = ()=> sp.texture = txNormal;
-				normal();
-				if (enabled) evtMng.button(hArg, this, normal, ()=> {
-					if (! canFocus()) return false;
-					sp.texture = txHover;
-					return true;
-				}, ()=> sp.texture = txClicked);
-					// 「画像ロード後」というタイミングで evtMng.button() を呼ぶと
-					// scrItr.scriptFn が変わってしまうので、LayerMng の button()
-					// で対応している
-
-				if ('width' in hArg) {
-					oName.width = uint(hArg.width);
-					this.scale.x *= oName.width /w3;
-				}
-				else oName.width = w3;
-				if ('height' in hArg) {
-					oName.height = uint(hArg.height);
-					this.scale.y *= oName.height /w3;
-				}
-				else oName.height = w3;
-				sp.name = JSON.stringify(oName);	// dump用
-
-				Button.procMasume4pic(this, sp, w3, h);
-			},
-			isStop=> {if (isStop) resolve()}
+			sp=> this.loaded_pic(sp, oName),
+			isStop=> {if (isStop) resolve()},
 		)) resolve();
 	}
 
 	drawDesignCast(gdc: IGenerateDesignCast) {gdc(this.idc);}
+
+	update_b_pic(fn: string, txt: Text) {
+		const oName = JSON.parse(txt.name);
+		if (this.sp_b_pic) this.removeChild(this.sp_b_pic);
+		this.hArg.b_pic = oName.b_pic = fn;
+		txt.name = JSON.stringify(oName);
+		if (! fn) return;
+
+		GrpLayer.csv2Sprites(
+			fn,
+			this,
+			sp=> this.loaded_b_pic(sp, txt),
+			()=> Layer.setBlendmode(this, this.hArg),
+		);
+	}
+	private	loaded_b_pic(sp: Sprite, txt: Text) {
+		this.sp_b_pic = sp;
+		this.setChildIndex(sp, 0);
+		sp.alpha = txt.alpha;
+		sp.setTransform(
+			txt.x, txt.y,
+			1, 1, txt.rotation, 0, 0,
+			(sp.width -txt.width) /2,
+			(sp.height -txt.height) /2,
+		);
+	}
+
+	update_pic(fn: string, sp: Sprite) {
+		const oName = JSON.parse(sp.name);
+		if (this.sp_pic) this.removeChild(this.sp_pic);
+		this.hArg.pic = oName.pic = fn;
+		sp.name = JSON.stringify(oName);
+		if (! fn) return;
+
+		GrpLayer.csv2Sprites(
+			fn,
+			this,
+			sp=> this.loaded_pic(sp, oName),
+			()=> Layer.setBlendmode(this, this.hArg),
+		);
+	}
+	private	loaded_pic(sp: Sprite, oName: any) {
+		this.sp_pic = sp;
+		oName.alpha = sp.alpha = argChk_Num(this.hArg, 'alpha', sp.alpha);
+		(<PicBtnDesignCast>this.idc).setSp(sp);
+
+		const w3 = sp.width /3;
+		const h = sp.height;
+		const tx = sp.texture.baseTexture;
+		const txNormal = new Texture(tx, new Rectangle(0, 0, w3, h));
+		const txClicked = new Texture(tx, new Rectangle(w3, 0, w3, h));
+		const txHover = new Texture(tx, new Rectangle(w3 *2, 0, w3, h));
+		const normal = ()=> sp.texture = txNormal;
+		normal();
+		if (oName.enabled) this.evtMng.button(this.hArg, this, normal, ()=> {
+			if (! this.canFocus()) return false;
+			sp.texture = txHover;
+			return true;
+		}, ()=> sp.texture = txClicked);
+			// 「画像ロード後」というタイミングで evtMng.button() を呼ぶと
+			// scrItr.scriptFn が変わってしまうので、LayerMng の button()
+			// で対応している
+
+		if ('width' in this.hArg) {
+			oName.width = uint(this.hArg.width);
+			this.scale.x *= oName.width /w3;
+		}
+		else oName.width = w3;
+		if ('height' in this.hArg) {
+			oName.height = uint(this.hArg.height);
+			this.scale.y *= oName.height /w3;
+		}
+		else oName.height = w3;
+		sp.name = JSON.stringify(oName);	// dump用
+
+		Button.procMasume4pic(this, sp, w3, h);
+	}
 
 }

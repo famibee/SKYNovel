@@ -212,6 +212,7 @@ export class ScriptIterator {
 	};
 	private cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, Config.EXT_SCRIPT);
 	private cnvSnPath4Dbg = (fn: string)=> this.sys.pathBaseCnvSnPath4Dbg + this.cnvSnPath(fn).replace('/crypto_prj/', '/prj/');
+	cnvPath4Dbg = (fn: string)=> this.sys.pathBaseCnvSnPath4Dbg + fn.replace('/crypto_prj/', '/prj/');
 	private	go_stepover(o: any) {
 		if (this.isIdxOverLast()) return;
 
@@ -360,8 +361,9 @@ export class ScriptIterator {
 		this.alzTagArg.go(g.args);
 		this.procDebugtag(tag_name);
 
-		if (this.alzTagArg.hPrm.cond) {
-			const cond = this.alzTagArg.hPrm.cond.val;
+		const hPrm = this.alzTagArg.hPrm;
+		if (hPrm.cond) {
+			const cond = hPrm.cond.val;
 			if (! cond || cond.charAt(0) ==='&') throw '属性condは「&」が不要です';
 			const p = this.prpPrs.parse(cond);
 			const ps = String(p);
@@ -376,14 +378,14 @@ export class ScriptIterator {
 			if (! this.lastHArg) throw '属性「*」はマクロのみ有効です';
 			hArg = {...hArg, ...this.lastHArg};
 		}
-		for (const arg_nm in this.alzTagArg.hPrm) {
-			let v = this.alzTagArg.hPrm[arg_nm].val;
+		for (const arg_nm in hPrm) {
+			let v = hPrm[arg_nm].val;
 			if (v && v.charAt(0) === '%') {
 				if (lenStk === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
 				const mac = this.lastHArg[v.slice(1)];
 				if (mac) {hArg[arg_nm] = mac; continue;}
 
-				v = this.alzTagArg.hPrm[arg_nm].def;
+				v = hPrm[arg_nm].def;
 				if (! v || v === 'null') continue;
 					// defのnull指定。%指定が無い場合、タグやマクロに属性を渡さない
 			}
@@ -391,7 +393,7 @@ export class ScriptIterator {
 			v = this.prpPrs.getValAmpersand(v ?? '');
 			if (v !== 'undefined') {hArg[arg_nm] = v; continue;}
 
-			const def = this.alzTagArg.hPrm[arg_nm].def;
+			const def = hPrm[arg_nm].def;
 			if (def === undefined) continue;
 			v = this.prpPrs.getValAmpersand(def);
 			if (v !== 'undefined') hArg[arg_nm] = v;
@@ -1223,11 +1225,6 @@ export class ScriptIterator {
 			const cs = this.aCallStk[len -1];
 			fn = cs.fn;
 			idx = cs.idx;
-/*
-	// TODO: design_unitへの設定。マクロとしての引数とデフォルト値を指定したい
-
-	left=0 top=40 width=&const.sn.config.window.width height=&const.sn.config.window.height-40*2 pl=70 pt=30 pr=70 pb=70
-*/
 		}
 		else {
 			fn = this.scriptFn_;

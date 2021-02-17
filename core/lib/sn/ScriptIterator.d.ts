@@ -35,6 +35,7 @@ export declare class ScriptIterator {
     private readonly hHook;
     private cnvSnPath;
     private cnvSnPath4Dbg;
+    cnvPath4Dbg: (fn: string) => string;
     private go_stepover;
     private go_stepout;
     private csDepth_macro_esc;

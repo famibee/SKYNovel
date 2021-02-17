@@ -70,7 +70,7 @@ export class GrpLayer extends Layer {
 		GrpLayer.fn2Video	= {};
 	}
 
-	private	readonly	idc	= new GrpLayDesignCast(this.spLay);
+	private	readonly	idc	= new GrpLayDesignCast(this.spLay, this);
 
 	private csvFn		= '';
 	private sBkFn		= '';

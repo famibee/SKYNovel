@@ -14,6 +14,7 @@ import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
 import {LayerMng, IGenerateDesignCast} from './LayerMng';
+import {DesignCast} from './DesignCast';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer} from 'pixi.js';
 
@@ -71,6 +72,8 @@ export class TxtLayer extends Layer {
 	display: inline-block;
 }
 `;	// 「sn_ch」と「sn_ch_in_〜」の中身が重複しているが、これは必須
+
+		font += DesignCast.class_def;	// DesignCast.ts 用クラスもついでにここで
 		TxtLayer.addStyle(font);
 
 		TxtLayer.ch_in_style({
@@ -207,7 +210,7 @@ export class TxtLayer extends Layer {
 	private b_pic			= '';	// 背景画像無し（＝単色塗り）
 
 	// 文字表示
-	private	txs		= new TxtStage(this.infTL, this.spLay, ()=> this.canFocus());
+	private	txs		= new TxtStage(this.infTL, this.spLay, ()=>this.canFocus());
 
 	private	rbSpl	= new RubySpliter;
 
@@ -215,6 +218,8 @@ export class TxtLayer extends Layer {
 
 	constructor() {
 		super();
+
+		this.spLay.addChild(this.txs);
 
 		this.rbSpl.init(this.putCh);
 

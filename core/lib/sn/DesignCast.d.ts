@@ -5,10 +5,19 @@ import { HPage } from './LayerMng';
 import { AnalyzeTagArg, HPRM } from './AnalyzeTagArg';
 import { TxtStage } from './TxtStage';
 import { Button } from './Button';
+import { GrpLayer } from './GrpLayer';
+import { Config } from './Config';
 import { Application, Rectangle, Text, Sprite } from 'pixi.js';
 export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;
+    private static divDesignRoot;
+    private static sys;
+    private static scrItr;
+    protected static prpPrs: IPropParser;
+    private static alzTagArg;
+    private static cfg;
+    static init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config): void;
     hArg: HArg;
     constructor(bg_col: string, isLay?: boolean);
     getRect(): Rectangle;
@@ -23,12 +32,6 @@ export declare class DesignCast {
     setOther(_hPrm: HPRM): void;
     child?: DesignCast;
     parent?: DesignCast;
-    private static divDesignRoot;
-    private static sys;
-    private static scrItr;
-    protected static prpPrs: IPropParser;
-    private static alzTagArg;
-    static init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg): void;
     private static readonly ID_DESIGNMODE;
     private static idDesignCast;
     private static id2gdc;
@@ -36,13 +39,15 @@ export declare class DesignCast {
     static leaveMode(): void;
     static cvsResizeDesign(): void;
     dspDesignCast(hPages: HPage): void;
+    static readonly class_def = "\n.sn_design_cast_border {\n\tline-height: 1.8;\n\tborder: dashed 5px #333;\n}\n";
     private tidDelay;
     private delayChgCast;
     static replaceToken(o: any, hPages: HPage): void;
 }
 export declare class GrpLayDesignCast extends DesignCast {
     private readonly spLay;
-    constructor(spLay: Sprite);
+    private readonly gl;
+    constructor(spLay: Sprite, gl: GrpLayer);
     private sp;
     setSp(sp: Sprite): void;
     getRect(): Rectangle;
@@ -56,6 +61,7 @@ export declare class GrpLayDesignCast extends DesignCast {
     };
     setPos(x: number, y: number): void;
     setSize(w: number, h: number): void;
+    setOther(hPrm: HPRM): void;
 }
 export declare class TxtLayDesignCast extends DesignCast {
     private readonly spLay;
@@ -106,6 +112,7 @@ export declare class TxtBtnDesignCast extends DesignCast {
     };
     setPos(x: number, y: number): void;
     setSize(w: number, h: number): void;
+    setOther(hPrm: HPRM): void;
 }
 export declare class PicBtnDesignCast extends DesignCast {
     private readonly btn;
@@ -124,5 +131,6 @@ export declare class PicBtnDesignCast extends DesignCast {
     };
     setPos(x: number, y: number): void;
     setSize(w: number, h: number): void;
+    setOther(hPrm: HPRM): void;
 }
 //# sourceMappingURL=DesignCast.d.ts.map

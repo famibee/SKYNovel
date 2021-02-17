@@ -34,7 +34,7 @@ export declare class LayerMng implements IGetFrm {
     private fncTicker;
     private readonly hProcDbgRes;
     private cvsResizeDesign;
-    getFrmDisabled(id: string): boolean;
+    getFrmDisabled: (id: string) => boolean;
     private grpCover;
     cover(visible: boolean, bg_color?: number): void;
     private evtMng;
@@ -54,6 +54,7 @@ export declare class LayerMng implements IGetFrm {
     private hPages;
     private aLayName;
     private curTxtlay;
+    private firstGrplay;
     private lay;
     private rebuildLayerRankInfo;
     private clear_lay;

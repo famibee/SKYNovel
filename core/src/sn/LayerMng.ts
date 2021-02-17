@@ -176,7 +176,7 @@ export class LayerMng implements IGetFrm {
 		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
 
 		if (sys.isDbg()) {
-			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg);
+			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg);
 			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();
 			sys.addHook((type, o)=> {
 				if (! this.hProcDbgRes[type]?.(type, o)) return;
@@ -193,8 +193,9 @@ export class LayerMng implements IGetFrm {
 		continue	: _=> {DesignCast.leaveMode();	return false;},
 		disconnect	: _=> {DesignCast.leaveMode();	return false;},
 		_enterDesign: _=> {
-			DesignCast.enterMode('base', this.hPages);	return false;
-//			DesignCast.enterMode(this.curTxtlay, this.hPages);	return false;
+		//	DesignCast.enterMode(this.curTxtlay, this.hPages);	return false;
+			DesignCast.enterMode(this.firstGrplay, this.hPages);return false;
+				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
 		_replaceToken	: (_, o)=> {
 			DesignCast.replaceToken(o, this.hPages);	return false;
@@ -207,7 +208,7 @@ export class LayerMng implements IGetFrm {
 	private	cvsResizeDesign() {}
 
 
-	getFrmDisabled(id: string): boolean {return this.frmMng.getFrmDisabled(id);}
+	getFrmDisabled = (id: string)=> this.frmMng.getFrmDisabled(id);
 
 	private grpCover : Graphics | null = null;
 	cover(visible: boolean, bg_color: number = 0x0) {
@@ -401,6 +402,10 @@ export class LayerMng implements IGetFrm {
 				'const.sn.layer.'+ (layer ?? this.curTxtlay) + '.enabled',
 				true);
 			break;
+
+		case 'grp':	if (this.firstGrplay) break;
+			this.firstGrplay = layer;
+			break;
 		}
 
 		this.scrItr.recodeDesign(hArg);	// hArg[':id_tag'] は new Pages 内で設定
@@ -410,6 +415,7 @@ export class LayerMng implements IGetFrm {
 	private hPages		: HPage		= {};	// しおりLoad時再読込
 	private aLayName	: string[]	= [];	// 最適化用
 	private curTxtlay	= '';
+	private firstGrplay	= '';
 
 	private lay(hArg: HArg): boolean {
 		// Trans

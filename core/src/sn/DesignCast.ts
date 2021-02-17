@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {HArg, IPropParser} from './CmnInterface';
-import {uint, int, CmnLib, argChk_Boolean} from './CmnLib';
+import {uint, int, CmnLib, argChk_Boolean, getFn} from './CmnLib';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 import {HPage} from './LayerMng';
@@ -15,13 +15,32 @@ import {AnalyzeTagArg, HPRM} from './AnalyzeTagArg';
 import {DebugMng} from './DebugMng';
 import {TxtStage} from './TxtStage';
 import {Button} from './Button';
+import {GrpLayer} from './GrpLayer';
+import {Config} from './Config';
 
 import {Application, Rectangle, Text, Sprite} from 'pixi.js';
 import interact from 'interactjs';
 
 export class DesignCast {
-	hArg	: HArg	= {};
+	private		static	divDesignRoot: HTMLDivElement;
+	private		static	sys			: SysBase;
+	private		static	scrItr		: ScriptIterator;
+	protected	static	prpPrs		: IPropParser;
+	private		static	alzTagArg	: AnalyzeTagArg;
+	private		static	cfg			: Config;
+	static	init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config) {
+		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${this.ID_DESIGNMODE}" style="width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+		DesignCast.divDesignRoot = document.getElementById(DesignCast.ID_DESIGNMODE) as HTMLDivElement;
 
+		DesignCast.sys = sys;
+		DesignCast.scrItr = scrItr;
+		DesignCast.prpPrs = prpPrs;
+		DesignCast.alzTagArg = alzTagArg;
+		DesignCast.cfg = cfg;
+	}
+
+
+	hArg	: HArg	= {};
 	constructor(readonly bg_col: string, readonly isLay = false) {}
 
 	getRect() {return Rectangle.EMPTY}
@@ -33,21 +52,6 @@ export class DesignCast {
 	child?	: DesignCast;
 	parent?	: DesignCast;
 
-
-	private		static	divDesignRoot: HTMLDivElement;
-	private		static	sys			: SysBase;
-	private		static	scrItr		: ScriptIterator;
-	protected	static	prpPrs		: IPropParser;
-	private		static	alzTagArg	: AnalyzeTagArg;
-	static	init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg) {
-		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${this.ID_DESIGNMODE}" style="width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
-		DesignCast.divDesignRoot = document.getElementById(DesignCast.ID_DESIGNMODE) as HTMLDivElement;
-
-		DesignCast.sys = sys;
-		DesignCast.scrItr = scrItr;
-		DesignCast.prpPrs = prpPrs;
-		DesignCast.alzTagArg = alzTagArg;
-	}
 
 	private	static	readonly	ID_DESIGNMODE = 'DesignMode';
 	private	static	idDesignCast	= 0;
@@ -159,13 +163,59 @@ background-color: ${this.bg_col}; opacity: 0.6; border-radius: 8px;
 			],
 		})
 		.on('hold', ()=> DesignCast.sys.send2Dbg('_focusScript', o));
+
 /*
+		.on('tap', e=> {
+console.log(`fn:DesignCast.ts line:162 tap btn:${e.button}`);
+//				case 0:	this.fire('click', e);	break;
+//				case 1:	this.fire('middleclick', e);	break;
+
+			e.preventDefault()
+		})
 		.on('doubletap', e=> {
 console.log(`fn:DesignCast.ts line:163 doubletap`);
 			e.preventDefault()
 		});
 */
+
+
+		// ドラッグ＆ドロップ関連
+		d.addEventListener('dragenter', ()=>
+			d.classList.add('sn_design_cast_border')
+		);
+		d.addEventListener('dragover', e=> {
+			e.stopPropagation();
+			e.preventDefault();
+			if (e.dataTransfer) e.dataTransfer.dropEffect = 'copy';
+		});
+		d.addEventListener('dragleave', ()=>
+			d.classList.remove('sn_design_cast_border')
+		);
+		d.addEventListener('drop', e=> {
+			e.stopPropagation();
+			e.preventDefault();
+			d.classList.remove('sn_design_cast_border');
+			const dt = e.dataTransfer;
+			if (! dt || dt.files.length == 0) return;	// VSCodeからは 0
+
+			try {
+				const f = dt.files[0];
+				DesignCast.sys.send2Dbg('_dropFile', {
+					':id_tag'	: id_tag,
+					fn	: getFn(f.name),
+					url	: DesignCast.scrItr.cnvPath4Dbg(
+						DesignCast.cfg.searchPath(f.name, Config.EXT_SPRITE)
+					),
+				});
+			} catch {}
+		});
 	}
+	static	readonly	class_def = `
+.sn_design_cast_border {
+	line-height: 1.8;
+	border: dashed 5px #333;
+}
+`;	// クラス追加は TxtLayer.ts でやってもらってる
 	// 遅延で遊びを作る
 	private tidDelay	:  NodeJS.Timer | null	= null;
 	private	delayChgCast(o: any, onSend: ()=> void) {
@@ -229,7 +279,7 @@ console.log(`fn:DesignCast.ts line:163 doubletap`);
 
 // 画像レイヤ
 export class GrpLayDesignCast extends DesignCast {
-	constructor(private readonly spLay: Sprite) {super('#29e', true);}
+	constructor(private readonly spLay: Sprite, private readonly gl: GrpLayer) {super('#29e', true);}
 
 	private	sp: Sprite;
 	setSp(sp: Sprite) {this.sp = sp}
@@ -239,7 +289,12 @@ export class GrpLayDesignCast extends DesignCast {
 	getSizeArg(width: number, height: number) {return {width, height}}
 	setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
 	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
-//	setOther(hPrm: HPRM) {this.child?.setOther(hPrm);}
+	setOther(hPrm: HPRM) {
+		if ('fn' in hPrm) {
+			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn?.val ?? '');
+			this.gl.lay({fn});
+		}
+	}
 }
 
 
@@ -292,14 +347,12 @@ export class TxtLayPadDesignCast extends DesignCast {
 		if ('pl' in hPrm || 'pt' in hPrm) {
 			const pl = int(DesignCast.prpPrs.getValAmpersand(hPrm.pl?.val ?? '0'));
 			const pt = int(DesignCast.prpPrs.getValAmpersand(hPrm.pt?.val ?? '0'));
-//console.log(`fn:DesignCast.ts line:277 == pl:${pl} pt:${pt}`);
 			this.setPos(pl, pt);
 			Object.assign(d.style, {left: `${pl}px`, top: `${pt}px`});
 		}
 		if ('pr' in hPrm || 'pb' in hPrm) {
 			const pr = int(DesignCast.prpPrs.getValAmpersand(hPrm.pr?.val ?? '0'));
 			const pb = int(DesignCast.prpPrs.getValAmpersand(hPrm.pb?.val ?? '0'));
-//console.log(`fn:DesignCast.ts line:298 == pr:${pr} pb:${pb}`);
 			this.ts.lay({pr, pb});
 			const rect = this.getRect();
 			Object.assign(d.style, {width: `${rect.width}px`, height: `${rect.height}px`,});
@@ -322,6 +375,12 @@ export class TxtBtnDesignCast extends DesignCast {
 	getSizeArg(w: number, h: number) {return {width: w, height: h,}}
 	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
 	setSize(w: number, h: number) {this.txt.width = w; this.txt.height = h;}
+	setOther(hPrm: HPRM) {
+		if ('b_pic' in hPrm) {
+			const b_pic = DesignCast.prpPrs.getValAmpersand(hPrm.b_pic?.val ?? '');
+			this.btn.update_b_pic(b_pic, this.txt);
+		}
+	}
 }
 
 // 文字レイヤ・画像ボタン
@@ -339,4 +398,10 @@ export class PicBtnDesignCast extends DesignCast {
 	getSizeArg(width: number, height: number) {return {width, height}}
 	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
 	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+	setOther(hPrm: HPRM) {
+		if ('pic' in hPrm) {
+			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic?.val ?? '');
+			this.btn.update_pic(pic, this.sp);
+		}
+	}
 }
