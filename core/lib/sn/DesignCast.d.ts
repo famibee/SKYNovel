@@ -7,7 +7,8 @@ import { TxtStage } from './TxtStage';
 import { Button } from './Button';
 import { GrpLayer } from './GrpLayer';
 import { Config } from './Config';
-import { Application, Rectangle, Text, Sprite } from 'pixi.js';
+import { Application, Rectangle, Text, Sprite, Point } from 'pixi.js';
+import Moveable from 'moveable';
 export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;
@@ -17,9 +18,14 @@ export declare class DesignCast {
     protected static prpPrs: IPropParser;
     private static alzTagArg;
     private static cfg;
-    static init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config): void;
-    hArg: HArg;
+    private static hPages;
+    static init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage): void;
+    static cvsResizeDesign(): void;
     constructor(bg_col: string, isLay?: boolean);
+    gethArg(): HArg;
+    protected hArg: HArg;
+    protected id_tag: string;
+    sethArg(hArg: HArg): void;
     getRect(): Rectangle;
     getPosArg(_x: number, _y: number): {
         [name: string]: any;
@@ -35,14 +41,22 @@ export declare class DesignCast {
     private static readonly ID_DESIGNMODE;
     private static idDesignCast;
     private static id2gdc;
-    static enterMode(node: string, hPages: HPage): void;
+    static enterMode(): void;
+    private static aDC;
     static leaveMode(): void;
-    static cvsResizeDesign(): void;
-    dspDesignCast(hPages: HPage): void;
-    static readonly class_def = "\n.sn_design_cast_border {\n\tline-height: 1.8;\n\tborder: dashed 5px #333;\n}\n";
-    private tidDelay;
-    private delayChgCast;
-    static replaceToken(o: any, hPages: HPage): void;
+    cvsResize(): void;
+    private cvsResizeBase;
+    private fncLay;
+    protected rect: Rectangle;
+    protected pivot: Point;
+    protected scale: Point;
+    protected rotation: number;
+    protected mov: Moveable | null;
+    protected d: HTMLDivElement | null;
+    private lx;
+    private ly;
+    dspDesignCast(): void;
+    static replaceToken(o: any): void;
 }
 export declare class GrpLayDesignCast extends DesignCast {
     private readonly spLay;
@@ -106,7 +120,7 @@ export declare class TxtBtnDesignCast extends DesignCast {
         left: number;
         top: number;
     };
-    getSizeArg(w: number, h: number): {
+    getSizeArg(width: number, height: number): {
         width: number;
         height: number;
     };

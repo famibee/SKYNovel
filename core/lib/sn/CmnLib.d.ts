@@ -13,6 +13,8 @@ export declare const hMemberCnt: {
     y: number;
 };
 export declare function cnvTweenArg(hArg: HArg, lay: any): {};
+export declare function initStyle(): void;
+export declare function addStyle(style: string): void;
 import { DisplayObject } from 'pixi.js';
 export interface IEvtMng {
     button(hArg: HArg, em: DisplayObject, normal: () => void, hover: () => boolean, clicked: () => void): void;

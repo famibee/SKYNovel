@@ -23,7 +23,7 @@ context('class AnalyzeTagArg', ()=>{
 		function isHashEmpty(h: object): boolean {
 				let c = 0, i;
 				for (i in h) ++c;
-				return c == 0;
+				return c === 0;
 			}
 		it('Arg1', ()=>{
 			alz.go("8");

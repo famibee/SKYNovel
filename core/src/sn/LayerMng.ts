@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt} from './CmnLib';
+import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
 import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser} from './CmnInterface';
 import {Pages} from './Pages';
@@ -41,13 +41,16 @@ export class LayerMng implements IGetFrm {
 		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		const fncResizeLay = ()=> {
 			if (! CmnLib.cvsResize(cvs)) return;
-			this.aLayName.forEach(layer=> {
-				const pg = this.hPages[layer];
-				pg.fore.cvsResize();
-				pg.back.cvsResize();
-			});
-			this.frmMng.cvsResize();
+
 			this.cvsResizeDesign();
+			if (this.modeLnSub) this.aLayName.forEach(
+				layer=> this.hPages[layer].fore.cvsResizeChildren()
+			);
+			else this.aLayName.forEach(
+				layer=> this.hPages[layer].fore.cvsResize()
+			);
+
+			this.frmMng.cvsResize();
 		};
 		if (CmnLib.isMobile) {
 			globalThis.addEventListener('orientationchange', fncResizeLay, {passive: true});
@@ -176,7 +179,7 @@ export class LayerMng implements IGetFrm {
 		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
 
 		if (sys.isDbg()) {
-			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg);
+			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, this.hPages);
 			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();
 			sys.addHook((type, o)=> {
 				if (! this.hProcDbgRes[type]?.(type, o)) return;
@@ -193,16 +196,28 @@ export class LayerMng implements IGetFrm {
 		continue	: _=> {DesignCast.leaveMode();	return false;},
 		disconnect	: _=> {DesignCast.leaveMode();	return false;},
 		_enterDesign: _=> {
-		//	DesignCast.enterMode(this.curTxtlay, this.hPages);	return false;
-			DesignCast.enterMode(this.firstGrplay, this.hPages);return false;
+		//	this.enterMode(this.curTxtlay);	return false;
+this.enterMode('mes/ボタン');	return false;
+//			this.enterMode(this.firstGrplay);	return false;
 				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
-		_replaceToken	: (_, o)=> {
-			DesignCast.replaceToken(o, this.hPages);	return false;
-		},
-		_selectNode: (_, o)=> {
-			DesignCast.enterMode(o.node, this.hPages);	return false;
-		},
+		_replaceToken	: (_, o)=> {DesignCast.replaceToken(o); return false;},
+		_selectNode: (_, o)=> {this.enterMode(o.node); return false;},
+	}
+	private	modeLn		= '';
+	private	modeLnSub	= '';
+	private enterMode(node: string) {
+		[this.modeLn, this.modeLnSub = ''] = node.split('/');
+		const lay = this.hPages[this.modeLn];
+		if (! lay) return;
+
+		DesignCast.enterMode();
+		if (this.modeLnSub) {
+			lay.fore.drawDesignCastChildren(gdc=> gdc.dspDesignCast());
+		}
+		else {
+			lay.fore.drawDesignCast(gdc=> gdc.dspDesignCast());
+		}
 	}
 
 	private	cvsResizeDesign() {}
@@ -350,7 +365,7 @@ export class LayerMng implements IGetFrm {
 					const res = await fetch(fn);
 					if (! res.ok) throw new Error('Network response was not ok.');
 
-					TxtLayer.addStyle(await res.text());
+					addStyle(await res.text());
 					if (join) this.main.resume();
 				})();
 				break;

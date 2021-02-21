@@ -98,11 +98,10 @@ export class FrameMng implements IGetFrm {
 				this.val.setVal_Nochk('tmp', frmnm +'.height', rct.height);
 				this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 
-				const win: Window = ifrm.contentWindow!;
+				const win = ifrm.contentWindow!;
 				this.evtMng.resvFlameEvent(win);
 
-				const repRes: Function = (win as any).sn_repRes;
-				if (repRes) repRes((i: HTMLImageElement)=> {
+				((win as any).sn_repRes)?.((i: HTMLImageElement)=> {
 					const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
 					const oUrl = this.hEncImgOUrl[src];
 					if (oUrl) {i.src = oUrl; return}
@@ -145,7 +144,7 @@ export class FrameMng implements IGetFrm {
 	private hDisabled	: {[id: string]: boolean}	= Object.create(null);
 	getFrmDisabled(id: string): boolean {return this.hDisabled[id]}
 	private	hAEncImg	: {[name: string]: HTMLImageElement[]}	= Object.create(null);
-	private	hEncImgOUrl	: {[name: string]: string}		= Object.create(null);
+	private	hEncImgOUrl	: {[name: string]: string}	= Object.create(null);
 	private rect(hArg: HArg): DOMRect {
 		const a = {...hArg};
 		const re = this.sys.resolution;

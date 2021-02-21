@@ -66,6 +66,24 @@ export function cnvTweenArg(hArg: HArg, lay: any): {} {
 }
 
 
+const	css_key4del	= '/* SKYNovel */';
+export function initStyle() {
+	const he = document.getElementsByTagName('head')[0];
+	const len = he.children.length;
+	for (let i=len -1; i>=0; --i) {
+		const v = he.children[i];
+		if (! (v instanceof HTMLStyleElement)) continue;
+		if (v.innerText.slice(0, 14) !== css_key4del) continue;
+		he.removeChild(v);
+	}
+}
+export function addStyle(style: string) {
+	const gs = document.createElement('style');
+	gs.innerHTML = css_key4del + style;
+	document.getElementsByTagName('head')[0].appendChild(gs);
+}
+
+
 
 // =============== EventMng
 import {DisplayObject} from 'pixi.js';

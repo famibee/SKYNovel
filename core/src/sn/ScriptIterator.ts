@@ -110,7 +110,7 @@ export class ScriptIterator {
 						const uc = token.charCodeAt(0);	// TokenTopUnicode
 						if (uc === 91) break;	// [ タグ開始
 						if (uc === 38) break;	// & 変数操作・変数表示
-						if (uc === 42 && token.length == 1) break;	// 単文字の *
+						if (uc === 42 && token.length === 1) break;	// 単文字の *
 						if (uc === 10) this.addLineNum(token.length);// \n 改行
 					}
 					this.sys.callHook('stopOnEntry', {});

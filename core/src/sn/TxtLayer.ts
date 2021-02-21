@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Layer} from './Layer';
-import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {TxtStage, IInfTxLay} from './TxtStage';
 import {Config} from './Config';
@@ -14,7 +14,6 @@ import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
 import {LayerMng, IGenerateDesignCast} from './LayerMng';
-import {DesignCast} from './DesignCast';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer} from 'pixi.js';
 
@@ -40,14 +39,7 @@ export class TxtLayer extends Layer {
 
 		// ギャラリーリロード用初期化
 		TxtStage.initChStyle();
-		const he = document.getElementsByTagName('head')[0];
-		const len = he.children.length;
-		for (let i=len -1; i>=0; --i) {
-			const v = he.children[i];
-			if (! (v instanceof HTMLStyleElement)) continue;
-			if (v.innerText.slice(0, 14) !== TxtLayer.css_key4del) continue;
-			he.removeChild(v);
-		}
+		initStyle();
 
 		let font = '';
 		cfg.matchPath('.+', Config.EXT_FONT).forEach(o=> {
@@ -73,8 +65,7 @@ export class TxtLayer extends Layer {
 }
 `;	// 「sn_ch」と「sn_ch_in_〜」の中身が重複しているが、これは必須
 
-		font += DesignCast.class_def;	// DesignCast.ts 用クラスもついでにここで
-		TxtLayer.addStyle(font);
+		addStyle(font);
 
 		TxtLayer.ch_in_style({
 			name	: 'default',
@@ -101,12 +92,6 @@ export class TxtLayer extends Layer {
 			ease	: 'ease-out',
 		});
 	}
-	private	static	readonly	css_key4del	= '/* SKYNovel */';
-	static addStyle(style: string) {
-		const gs = document.createElement('style');
-		gs.innerHTML = TxtLayer.css_key4del + style;
-		document.getElementsByTagName('head')[0].appendChild(gs);
-	}
 
 	// 文字出現演出
 	private	static	ch_in_style(hArg: HArg) {
@@ -114,7 +99,7 @@ export class TxtLayer extends Layer {
 		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
 		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const name = hArg.name;
-		TxtLayer.addStyle(`
+		addStyle(`
 .sn_ch_in_${name} {
 	position: relative;
 	display: inline-block;
@@ -139,7 +124,7 @@ export class TxtLayer extends Layer {
 		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
 		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const name = hArg.name;
-		TxtLayer.addStyle(`
+		addStyle(`
 .go_ch_out_${name} {
 	position: relative;
 	display: inline-block;
@@ -245,6 +230,7 @@ export class TxtLayer extends Layer {
 
 
 	cvsResize() {this.txs.cvsResize();}
+	cvsResizeChildren() {this.cntBtn.children.forEach(b=> (b as Button).cvsResize());}
 
 	lay(hArg: HArg) {
 		super.lay(hArg);

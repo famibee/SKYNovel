@@ -128,9 +128,8 @@ export class TxtStage extends Container {
 			if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
 			if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
 			if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
-
-			this.idc.hArg = hArg;
 		}
+		this.idc.sethArg(hArg);
 		this.lay_sub();
 
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
@@ -174,6 +173,9 @@ export class TxtStage extends Container {
 		s.left = (this.left *CmnLib.cvsScale) +'px';
 		s.top = (this.spLay.position.y *CmnLib.cvsScale) +'px';
 		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *CmnLib.cvsScale}, ${this.spLay.scale.y *CmnLib.cvsScale}`;
+
+		this.idc.cvsResize();
+		this.idcCh.cvsResize();
 	}
 	private left = 0;
 	private isTategaki = false;
@@ -1022,7 +1024,7 @@ export class TxtStage extends Container {
 		to.left = this.left;
 		to.name = this.name;
 		to.lay_sub();
-		to.idc.hArg = this.idc.hArg;
+		to.idc.sethArg(this.idc.gethArg());
 
 		to.ch_filter = this.ch_filter;
 		to.fi_easing = this.fi_easing;
@@ -1032,13 +1034,12 @@ export class TxtStage extends Container {
 	}
 
 
-	record() {
-		return {
+	record() {return {
 		infTL		: this.infTL,
 
 		cssText		: this.htmTxt.style.cssText,
 		left		: this.left,
-		idc_hArg	: this.idc.hArg,
+		idc_hArg	: this.idc.gethArg(),
 
 		ch_filter	: this.ch_filter,
 		fi_easing	: this.fi_easing,
@@ -1051,7 +1052,7 @@ export class TxtStage extends Container {
 		this.htmTxt.style.cssText = hLay.cssText;
 		this.left = hLay.left;
 		this.lay_sub();
-		this.idc.hArg	= hLay.idc_hArg;
+		this.idc.sethArg(hLay.idc_hArg);
 
 		this.ch_filter	= hLay.ch_filter;
 		this.fi_easing	= hLay.fi_easing;
@@ -1082,8 +1083,8 @@ export class TxtStage extends Container {
 	drawDesignCast(gdc: IGenerateDesignCast) {
 		gdc(this.idc);
 
-		const o = this.idc.hArg;
-		this.idcCh.hArg = {...o, ':id_dc': o[':id_tag'] +'_pad'};
+		const o = this.idc.gethArg();
+		this.idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
 		gdc(this.idcCh);
 	}
 

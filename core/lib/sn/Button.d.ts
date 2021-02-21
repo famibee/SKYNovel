@@ -17,6 +17,7 @@ export declare class Button extends Container {
     private sp_pic;
     constructor(hArg: HArg, evtMng: IEvtMng, resolve: () => void, canFocus: () => boolean);
     drawDesignCast(gdc: IGenerateDesignCast): void;
+    cvsResize(): void;
     update_b_pic(fn: string, txt: Text): void;
     private loaded_b_pic;
     update_pic(fn: string, sp: Sprite): void;

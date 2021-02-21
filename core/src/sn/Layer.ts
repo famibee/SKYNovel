@@ -168,6 +168,7 @@ export class Layer {
 	snapshot_end() {}
 
 	cvsResize() {}
+	cvsResizeChildren() {}
 
 	drawDesignCast(_gdc: IGenerateDesignCast) {}
 	drawDesignCastChildren(_gdc: IGenerateDesignCast) {}

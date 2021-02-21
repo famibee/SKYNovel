@@ -162,6 +162,7 @@ export class Button extends Container {
 	}
 
 	drawDesignCast(gdc: IGenerateDesignCast) {gdc(this.idc);}
+	cvsResize() {this.idc.cvsResize();}
 
 	update_b_pic(fn: string, txt: Text) {
 		const oName = JSON.parse(txt.name);

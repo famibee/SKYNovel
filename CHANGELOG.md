@@ -1,3 +1,7 @@
+- feat: デバッグ：キャストのGUIライブラリをdaybrush/moveableに変更
+- fix: デバッグ：キャストを画面拡大縮小に対応
+
+
 # [1.13.0](https://github.com/famibee/SKYNovel/compare/v1.12.1...v1.13.0) (2021-02-17)
 
 

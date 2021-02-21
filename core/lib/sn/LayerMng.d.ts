@@ -33,6 +33,9 @@ export declare class LayerMng implements IGetFrm {
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, alzTagArg: AnalyzeTagArg, prpPrs: IPropParser);
     private fncTicker;
     private readonly hProcDbgRes;
+    private modeLn;
+    private modeLnSub;
+    private enterMode;
     private cvsResizeDesign;
     getFrmDisabled: (id: string) => boolean;
     private grpCover;

@@ -11,8 +11,6 @@ export declare class TxtLayer extends Layer {
     private static recText;
     private static isPageFore;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void, isPageFore: (me: TxtLayer) => boolean): void;
-    private static readonly css_key4del;
-    static addStyle(style: string): void;
     private static ch_in_style;
     private static ch_out_style;
     private static main;
@@ -35,6 +33,7 @@ export declare class TxtLayer extends Layer {
     set name(nm: string);
     get name(): string;
     cvsResize(): void;
+    cvsResizeChildren(): void;
     lay(hArg: HArg): boolean;
     private set_ch_in;
     private ch_in_style;

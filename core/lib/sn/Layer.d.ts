@@ -46,6 +46,7 @@ export declare class Layer {
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
     cvsResize(): void;
+    cvsResizeChildren(): void;
     drawDesignCast(_gdc: IGenerateDesignCast): void;
     drawDesignCastChildren(_gdc: IGenerateDesignCast): void;
     dump(): string;

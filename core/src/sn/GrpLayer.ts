@@ -82,7 +82,7 @@ export class GrpLayer extends Layer {
 	private	laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
 		const fn = hArg.fn;
 		const face = hArg.face ?? '';
-		this.idc.hArg = hArg;
+		this.idc.sethArg(hArg);
 		if (! fn) {
 			super.lay(hArg);
 
@@ -359,14 +359,14 @@ export class GrpLayer extends Layer {
 	readonly record = ()=> Object.assign(super.record(), {
 		sBkFn		: this.sBkFn,
 		sBkFace		: this.sBkFace,
-		idc_hArg	: this.idc.hArg,
+		idc_hArg	: this.idc.gethArg(),
 	});
 	playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
 			this.sBkFn		= hLay.sBkFn;
 			this.sBkFace	= hLay.sBkFace;
-			this.idc.hArg	= hLay.idc_hArg;
+			this.idc.sethArg(hLay.idc_hArg);
 			return;
 		}
 
@@ -376,6 +376,8 @@ export class GrpLayer extends Layer {
 				// Layer.setXY()の後に再度移動
 		)));
 	}
+
+	cvsResize() {super.cvsResize(); this.idc.cvsResize();}
 
 	drawDesignCast(gdc: IGenerateDesignCast) {
 		if (! this.spLay.visible) return;
