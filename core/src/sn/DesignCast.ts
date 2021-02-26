@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {HArg, IPropParser} from './CmnInterface';
-import {uint, int, CmnLib, argChk_Boolean, argChk_Num, getFn, addStyle} from './CmnLib';
+import {uint, int, CmnLib, argChk_Boolean, argChk_Num, getFn, getExt, addStyle} from './CmnLib';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 import {HPage} from './LayerMng';
@@ -62,10 +62,15 @@ export class DesignCast {
 
 
 	constructor(readonly bg_col: string, readonly isLay = false) {}
+	destroy() {
+		this.div = null;
+		this.mov?.destroy();
+		this.mov = null;
+	}
 
 	gethArg(): HArg {return this.hArg}
-	protected hArg	: HArg	= {};
-	protected id_tag	= '';
+	protected	hArg	: HArg	= {};
+	protected	id_tag	= '';
 	sethArg(hArg: HArg): void {
 		if (! this.id_tag) this.id_tag = hArg[':id_tag'] ?? '';
 		this.hArg = hArg;
@@ -83,11 +88,11 @@ export class DesignCast {
 		: ()=> {};
 	}
 
-	getRect() {return Rectangle.EMPTY}
-	getPosArg(_x: number, _y: number): {[name: string]: any} {return {}};
-	getSizeArg(_x: number, _y: number): {[name: string]: any} {return {}};
-	setPos(_x: number, _y: number) {}
-	setSize(_w: number, _h: number) {}
+	protected	getRect() {return Rectangle.EMPTY}
+	protected	getPosArg(_x: number, _y: number): {[name: string]: any} {return {}};
+	protected	getSizeArg(_x: number, _y: number): {[name: string]: any} {return {}};
+	protected	setPos(_x: number, _y: number) {}
+	protected	setSize(_w: number, _h: number) {}
 	setOther(_hPrm: HPRM) {}
 	child?	: DesignCast;
 	parent?	: DesignCast;
@@ -106,11 +111,7 @@ export class DesignCast {
 	static	leaveMode() {
 		DesignCast.divDesignRoot.textContent = '';
 		DesignCast.divDesignRoot.style.display = 'none';
-		DesignCast.aDC.forEach(v=> {
-			v.d = null;
-			v.mov?.destroy();
-			v.mov = null;
-		});
+		DesignCast.aDC.forEach(v=> v.destroy());
 		DesignCast.aDC = [];
 	}
 
@@ -118,11 +119,11 @@ export class DesignCast {
 	cvsResize() {this.cvsResizeBase(); this.mov?.updateRect();}
 	private	cvsResizeBase() {
 		this.fncLay();
-		if (this.d) Object.assign(this.d.style, {
-			left: `${this.lx +CmnLib.cvsScale *this.rect.x}px`,
-			top: `${this.ly +CmnLib.cvsScale *this.rect.y}px`,
-			width: `${CmnLib.cvsScale *this.rect.width}px`,
-			height: `${CmnLib.cvsScale *this.rect.height}px`,
+		if (this.div) Object.assign(this.div.style, {
+			left: `${this.lx +this.rect.x *CmnLib.cvsScale}px`,
+			top: `${this.ly +this.rect.y *CmnLib.cvsScale}px`,
+			width: `${this.rect.width *CmnLib.cvsScale}px`,
+			height: `${this.rect.height *CmnLib.cvsScale}px`,
 			transformOrigin: `${this.pivot.x}px ${this.pivot.y}px`,
 			transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`,
 		});
@@ -132,24 +133,24 @@ export class DesignCast {
 	protected	rect	= Rectangle.EMPTY;
 	protected	pivot	= new Point(0, 0);
 	protected	scale	= new Point(1, 1);
-	protected	rotation= 0;
+	protected	rotation	= 0;
+	protected	oldFn = ()=> '';
 	protected	mov		: Moveable | null		= null;
-	protected	d		: HTMLDivElement | null = null;
-	private lx = 0;
-	private ly = 0;
+	protected	div		: HTMLDivElement | null = null;
+	protected	lx = 0;
+	protected	ly = 0;
+	protected	updTrOr = ()=> {};
+	protected	onDragStart() {}
 	dspDesignCast() {
 		const id_dc = this.hArg[':id_dc'] ?? this.id_tag;
 		DesignCast.id2gdc[id_dc] = this;
 
-		this.rect = this.getRect();
-
-//console.log(`fn:DesignCast.ts dspDesignCast() [${o.タグ名}] id_tag(${id_tag}) id_dc:(${id_dc}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);		// token:【${o[':token']}】
-
-		const d = this.d = document.createElement('div');
+		const d = this.div = document.createElement('div');
 		d.id = DesignCast.ID_DESIGNMODE +'_'+ ++DesignCast.idDesignCast;
 		d.classList.add('sn_design_cast');
 		d.dataset.id_dc = id_dc;
 		d.style.backgroundColor = `${this.bg_col}`;
+		this.rect = this.getRect();
 		this.cvsResizeBase();
 		(this.parent
 			? document.querySelector(
@@ -158,105 +159,63 @@ export class DesignCast {
 			: DesignCast.divDesignRoot
 		).appendChild(d);
 
-		let oldX_Plus_W = 0;	// 整数化時誤差対応
-		let oldY_Plus_H = 0;
-		let isResizeLeft = false;
-		let isResizetop = false;
-		let isResizeWidth = false;
-		let isResizeHeight = false;
-		const mov = this.mov = new Moveable(document.body, {
+//console.log(`fn:DesignCast.ts dspDesignCast() [${o.タグ名}] id_tag(${id_tag}) id_dc:(${id_dc}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);		// token:【${o[':token']}】
+		const f = {
+			aPos	: [0, 0],
+			roDeg	: this.rotation,
+			trOr	: `${this.pivot.x}px ${this.pivot.y}px`,
+			origin	: [0, 0],
+		};
+		this.updTrOr = ()=> f.trOr = `${this.pivot.x}px ${this.pivot.y}px`;
+		/*
+			// 長押し
+			let pressTimer: NodeJS.Timeout;
+			const cancelPress = ()=> clearTimeout(pressTimer);
+			d.addEventListener('mouseup', cancelPress);
+			d.addEventListener('mousedown', ()=> pressTimer = setTimeout(()=> {
+				DesignCast.sys.send2Dbg('_focusScript', this.hArg);
+			}, 1000));
+		*/
+		this.mov = new Moveable(document.body, {
 			target	: d,
-			// If the container is null, the position is fixed. (default: parentElement(document.body))
-//			container: document.body,
 			draggable	: true,
 			resizable	: true,
 			scalable	: true,
-//			rotatable	: true,
-/*
-			warpable: true,
-			// Enabling pinchable lets you use events that
-			// can be used in draggable, resizable, scalable, and rotateable.
-			pinchable: true, // ['resizable', 'scalable', 'rotatable']
-*/			// Resize, Scale Events at edges.
-/*			edge: false,
-			throttleDrag: 0,
-			throttleResize: 0,
-			throttleScale: 0,
-			throttleRotate: 0,
-*/
+			rotatable	: true,
+			originDraggable	: true,
+			snappable	: true,
 		})
-		// draggable
-		.on('drag', ({delta})=> {
-			this.rect.x += delta[0];
-			this.rect.y += delta[1];
-			this.cvsResizeBase();
-		/*
-			d.style.left = `${left}px`;	// これだと、replaceTokenでガクッとなる
-			d.style.top = `${top}px`;
-		*/
-		}).on('dragEnd', ()=> {
-		/*
-			const r = mov.getRect();	// これだと、replaceTokenでガクッとなる
-			fncLay();
-			this.rect.x = r.left /CmnLib.cvsScale -lx;
-			this.rect.y = r.top /CmnLib.cvsScale  -ly;
-		*/
-			const ix = int(this.rect.x), iy = int(this.rect.y);
+		.on('dragStart', ()=> {f.aPos = [0, 0]; this.onDragStart();})
+		.on('drag', e=> {
+			f.aPos = e.beforeTranslate;
+		//	if (f.aPos[0] !== 0 || f.aPos[1] !== 0) cancelPress();
+		})
+		.on('dragEnd', ()=> {
+			const [x, y] = f.aPos;
+			const ix = int(this.rect.x += x /CmnLib.cvsScale +this.pivot.x);
+			const iy = int(this.rect.y += y /CmnLib.cvsScale +this.pivot.y);
 			this.setPos(ix, iy);
 			DesignCast.sys.send2Dbg('_changeCast', {
 				...this.getPosArg(ix, iy),
 				':id_tag': this.id_tag,
 			});
 		})
-		// resizable
-		.on('resizeStart', ()=> {
-			const ix = int(this.rect.x), iy = int(this.rect.y);
-			const iw = uint(this.rect.width), ih = uint(this.rect.height);
-			isResizeLeft = false;
-			isResizetop = false;
-			oldX_Plus_W = ix + iw;
-			oldY_Plus_H = iy + ih;
-			isResizeWidth = false;	// wをノータッチ時にhがずれる対策
-			isResizeHeight = false;	// hをノータッチ時にwがずれる対策
-		})
-		.on('resize', ({width, height, direction, dist})=> {
-			if (direction[0] < 0) {
-				isResizeLeft = true;
-				d.style.left = `${this.lx +CmnLib.cvsScale *this.rect.x -dist[0]}px`;
-				isResizeWidth = true;
-			}
-			else if (direction[0] > 0) isResizeWidth = true;
-
-			if (direction[1] < 0) {
-				isResizetop = true;
-				d.style.top = `${this.ly +CmnLib.cvsScale *this.rect.y -dist[1]}px`;
-				isResizeHeight = true;
-			}
-			else if (direction[1] > 0) isResizeHeight = true;
-
-			d.style.width = `${width}px`;
-			d.style.height = `${height}px`;
+		.on('resizeStart', ()=> f.aPos = [0, 0])
+		.on('resize', e=> {
+			d.style.width = `${e.width}px`;
+			d.style.height = `${e.height}px`;
+			f.aPos = e.drag.beforeTranslate;
 		})
 		.on('resizeEnd', ()=> {
-			const r = mov.getRect()
-			this.fncLay();
-			if (isResizeWidth) this.rect.width  = r.width  /CmnLib.cvsScale;
-			if (isResizeHeight) this.rect.height = r.height /CmnLib.cvsScale;
+			const [x, y] = f.aPos;
+			const ix = int(this.rect.x += x /CmnLib.cvsScale +this.pivot.x);
+			const iy = int(this.rect.y += y /CmnLib.cvsScale +this.pivot.y);
+			this.setPos(ix, iy);
+
+			this.rect.width = parseFloat(d.style.width) /CmnLib.cvsScale;
+			this.rect.height = parseFloat(d.style.height) /CmnLib.cvsScale;
 			const iw = uint(this.rect.width), ih = uint(this.rect.height);
 			this.setSize(iw, ih);
-
-			let ix = 0, iy = 0;
-			if (isResizeLeft) {	// 整数化処理で誤差が大なのでこの対応
-				ix = oldX_Plus_W -iw;	// 右端基準で新横幅戻る
-				this.rect.x = ix;
-			}
-			else ix = int(this.rect.x);	// 変化なしにて初期値
-			if (isResizetop) {
-				iy = oldY_Plus_H -ih;	// 下端基準で新縦幅上がる
-				this.rect.y = iy;
-			}
-			else iy = int(this.rect.y);	// 変化なしにて初期値
-			this.setPos(ix, iy);
 
 			DesignCast.sys.send2Dbg('_changeCast', {
 				...this.getPosArg(ix, iy),
@@ -264,32 +223,42 @@ export class DesignCast {
 				':id_tag': this.id_tag,
 			});
 		})
-		// rotatable
-		.on('rotate', ({transform})=> {
-			d.style.transform = transform;
-		}).on('rotateEnd', ()=> {
+		.on('rotateStart', e=> e.set(f.roDeg))
+		.on('rotate', e=> f.roDeg = e.beforeRotate)
+		.on('rotateEnd', ()=> {
 			DesignCast.sys.send2Dbg('_changeCast', {
-				rotate: 0,
-//				rotate: this.mov	// TODO: 作りかけ
+				rotation: int(f.roDeg),
 				':id_tag': this.id_tag,
 			});
+		})
+		.on('dragOriginStart', ()=> f.aPos = [0, 0])
+		.on('dragOrigin', e=> {
+			f.trOr = e.transformOrigin;
+			f.origin = e.origin;
+		})
+		.on('dragOriginEnd', ()=> {
+			const px = this.pivot.x = f.origin[0] /CmnLib.cvsScale;
+			const py = this.pivot.y = f.origin[1] /CmnLib.cvsScale;
+			this.updTrOr();
+			this.setOther({});
+
+			const ix = int(this.rect.x +px);
+			const iy = int(this.rect.y +py);
+			this.setPos(ix, iy);
+
+			DesignCast.sys.send2Dbg('_changeCast', {
+				...this.getPosArg(ix, iy),
+				pivot_x: int(px),
+				pivot_y: int(py),
+				':id_tag': this.id_tag,
+			});
+		})
+		.on('render', ()=> {
+			const {aPos, roDeg, trOr} = f;
+			d.style.transformOrigin = trOr;
+			d.style.transform = `translate(${aPos[0]}px, ${aPos[1]}px) rotate(${roDeg}deg)`;
 		});
 		DesignCast.aDC.push(this);
-
-//		.on('hold', ()=> DesignCast.sys.send2Dbg('_focusScript', o));
-/*
-		.on('tap', e=> {
-console.log(`fn:DesignCast.ts line:162 tap btn:${e.button}`);
-//				case 0:	this.fire('click', e);	break;
-//				case 1:	this.fire('middleclick', e);	break;
-
-			e.preventDefault()
-		})
-		.on('doubletap', e=> {
-console.log(`fn:DesignCast.ts line:163 doubletap`);
-			e.preventDefault()
-		});
-*/
 
 
 		// ドラッグ＆ドロップ関連
@@ -307,16 +276,36 @@ console.log(`fn:DesignCast.ts line:163 doubletap`);
 			const dt = e.dataTransfer;
 			if (! dt || dt.files.length === 0) return;	// VSCodeからは 0
 
-			try {
-				const f = dt.files[0];
-				DesignCast.sys.send2Dbg('_dropFile', {
-					':id_tag': this.id_tag,
-					fn	: getFn(f.name),
-					url	: DesignCast.scrItr.cnvPath4Dbg(
+			const f = dt.files[0];
+			const o = {
+				':id_tag': this.id_tag,
+				fn		: getFn(f.name),
+				ext		: getExt(f.name),
+				url		: '',
+				buf		: new ArrayBuffer(0),
+				old_fn	: this.oldFn(),
+				old_url	: DesignCast.cfg.searchPath(this.oldFn(), Config.EXT_SPRITE),
+			};
+			f.arrayBuffer().then(buf=> {
+				o.buf = buf;
+				try {
+					o.url = DesignCast.scrItr.cnvPath4Dbg(
 						DesignCast.cfg.searchPath(f.name, Config.EXT_SPRITE)
-					),
-				});
-			} catch {}
+					);
+				} catch {}
+				DesignCast.sys.send2Dbg('_dropFile', o);
+			})
+			.catch(e=> console.error(`drop2dc %o`, e));
+		});
+
+		// ダブルクリックで定義先へジャンプ
+		d.addEventListener('dblclick', e=> {
+			e.preventDefault();
+			DesignCast.sys.send2Dbg('_focusScript', this.hArg);
+
+//console.log(`fn:DesignCast.ts line:162 tap btn:${e.button}`);
+//				case 0:	this.fire('click', e);	break;
+//				case 1:	this.fire('middleclick', e);	break;
 		});
 	}
 
@@ -332,7 +321,6 @@ console.log(`fn:DesignCast.ts line:163 doubletap`);
 		// 内部スクリプト更新
 		const token = o[':token'];
 		DesignCast.scrItr.replace(o[':idx_tkn'], token);
-//console.log(`fn:DesignCast.ts replaceToken id_tag(${id_tag}) ${gdc.type} o:%o`,o);
 
 		// 実ボタン・青四角も移動（Undoや手入力変更時）
 		const e = REG_TAG.exec(token);
@@ -342,13 +330,20 @@ console.log(`fn:DesignCast.ts line:163 doubletap`);
 
 		DesignCast.alzTagArg.go(g.args);
 		const p = DesignCast.alzTagArg.hPrm;
+
+		gdc.pivot.set(
+			Number(DesignCast.prpPrs.getValAmpersand(p.pivot_x?.val ?? '0')),
+			Number(DesignCast.prpPrs.getValAmpersand(p.pivot_y?.val ?? '0')),
+		);
+		gdc.updTrOr();
+
 		if ('left' in p || 'top' in p || 'x' in p || 'y' in p) {
 			const x = int(DesignCast.prpPrs.getValAmpersand(p.left?.val ?? p.x?.val ?? '0'));
 			const y = int(DesignCast.prpPrs.getValAmpersand(p.top?.val  ?? p.y?.val ?? '0'));
 			if (isNaN(x) || isNaN(y)) DebugMng.myTrace(`widthかheightが数値ではありません\n(fn:${o[':path'].slice(13)} ln:${o[':ln']})\n${token}`, 'F');
 
-			gdc.rect.x = x;
-			gdc.rect.y = y;
+			gdc.rect.x = x -gdc.pivot.x;
+			gdc.rect.y = y -gdc.pivot.y;
 			gdc.setPos(x, y);
 		}
 		if ('width' in p || 'height' in p) {
@@ -361,10 +356,6 @@ console.log(`fn:DesignCast.ts line:163 doubletap`);
 			gdc.setSize(w, h);
 		}
 
-		gdc.pivot.set(
-			Number(DesignCast.prpPrs.getValAmpersand(p.pivot_x?.val ?? '0')),
-			Number(DesignCast.prpPrs.getValAmpersand(p.pivot_y?.val ?? '0')),
-		);
 		gdc.scale.set(
 			Number(DesignCast.prpPrs.getValAmpersand(p.scale_x?.val ?? '1')),
 			Number(DesignCast.prpPrs.getValAmpersand(p.scale_y?.val ?? '1')),
@@ -383,11 +374,11 @@ export class GrpLayDesignCast extends DesignCast {
 	private	sp: Sprite;
 	setSp(sp: Sprite) {this.sp = sp}
 
-	getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp.width, this.sp.height)}
-	getPosArg(left: number, top: number) {return {left, top}}
-	getSizeArg(width: number, height: number) {return {width, height}}
-	setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
-	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+	protected	getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp.width, this.sp.height)}
+	protected	getPosArg(left: number, top: number) {return {left, top}}
+	protected	getSizeArg(width: number, height: number) {return {width, height}}
+	protected	setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
+	protected	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
 	setOther(hPrm: HPRM) {
 		if ('fn' in hPrm) {
 			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn?.val ?? '');
@@ -398,6 +389,7 @@ export class GrpLayDesignCast extends DesignCast {
 		this.spLay.scale	= this.scale;
 		this.spLay.angle	= this.rotation;	// angleにセット
 	}
+	protected	oldFn = ()=> this.hArg.fn ?? '';
 }
 
 // 文字レイヤ
@@ -405,17 +397,17 @@ export class TxtLayDesignCast extends DesignCast {
 	constructor(private readonly spLay: Sprite, private readonly ts: TxtStage) {
 		super('#29e', true);
 	}
-	getRect() {
+	protected	getRect() {
 		const it = this.ts.getInfTL();
 		return new Rectangle(this.spLay.x, this.spLay.y, it.$width, it.$height);
 	}
-	getPosArg(left: number, top: number) {return {left, top}}
-	getSizeArg(width: number, height: number) {return {width, height}}
-	setPos(x: number, y: number) {
+	protected	getPosArg(left: number, top: number) {return {left, top}}
+	protected	getSizeArg(width: number, height: number) {return {width, height}}
+	protected	setPos(x: number, y: number) {
 		this.spLay.position.set(x, y);
 		this.ts.lay(this.getPosArg(x, y));
 	}
-	setSize(w: number, h: number) {
+	protected	setSize(w: number, h: number) {
 		this.ts.lay(this.getSizeArg(w, h));
 	}
 	setOther(hPrm: HPRM) {
@@ -429,7 +421,7 @@ export class TxtLayDesignCast extends DesignCast {
 // 文字レイヤ・パディング
 export class TxtLayPadDesignCast extends DesignCast {
 	constructor(private readonly ts: TxtStage) {super('#9e2');}
-	getRect() {
+	protected	getRect() {
 		const it = this.ts.getInfTL();
 		return new Rectangle(
 			it.pad_left,
@@ -438,16 +430,16 @@ export class TxtLayPadDesignCast extends DesignCast {
 			it.$height -it.pad_top -it.pad_bottom,
 		);
 	}
-	getPosArg(pl: number, pt: number) {return {pl, pt}}
-	getSizeArg(w: number, h: number) {
+	protected	getPosArg(pl: number, pt: number) {return {pl, pt}}
+	protected	getSizeArg(w: number, h: number) {
 		const it = this.ts.getInfTL();
 		return {
 			pr: it.$width -it.pad_left -w,
 			pb: it.$height -it.pad_top -h,
 		}
 	}
-	setPos(pl: number, pt: number) {this.ts.lay(this.getPosArg(pl, pt));}
-	setSize(w: number, h: number) {this.ts.lay(this.getSizeArg(w, h));}
+	protected	setPos(pl: number, pt: number) {this.ts.lay(this.getPosArg(pl, pt));}
+	protected	setSize(w: number, h: number) {this.ts.lay(this.getSizeArg(w, h));}
 	setOther(hPrm: HPRM) {
 		const id_dc = this.hArg[':id_dc'] ?? this.id_tag;
 		const d = <HTMLDivElement>document.querySelector(`div[data-id_dc='${id_dc}']`);
@@ -467,67 +459,70 @@ export class TxtLayPadDesignCast extends DesignCast {
 	}
 }
 
-// 文字レイヤ・文字ボタン
-export class TxtBtnDesignCast extends DesignCast {
-	constructor(private readonly btn: Button, readonly hArg: HArg, private readonly txt: Text) {
+// 文字レイヤ・ボタン基本
+export class BtnDesignCast extends DesignCast {
+	constructor(protected readonly btn: Button, readonly hArg: HArg) {
 		super('#e92');
+		this.pivot.x	= argChk_Num(hArg, 'pivot_x', this.pivot.x);
+		this.pivot.y	= argChk_Num(hArg, 'pivot_y', this.pivot.y);
+		this.scale.x	= argChk_Num(hArg, 'scale_x', this.scale.x);
+		this.scale.y	= argChk_Num(hArg, 'scale_y', this.scale.y);
+		this.rotation	= argChk_Num(hArg, 'rotation', this.rotation);
+		this.sethArg(hArg);
+	}
+	protected	getPosArg(left: number, top: number) {return {left, top}}
+	protected	getSizeArg(width: number, height: number) {return {width, height}}
+	protected	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
+	setOther(_hPrm: HPRM) {
+		this.btn.pivot	= this.pivot;
+		this.btn.scale	= this.scale;
+		this.btn.angle	= this.rotation;	// angleにセット
+	}
+
+	protected	onDragStart() {
+		const aBtn = this.btn.parent.children.filter(b=> b !== this.btn);
+		Object.assign(this.mov, {
+			verticalGuidelines	: aBtn.map(b=> this.lx +b.x *CmnLib.cvsScale),
+			horizontalGuidelines: aBtn.map(b=> this.ly +b.y *CmnLib.cvsScale),
+		});
+	}
+}
+// 文字レイヤ・文字ボタン
+export class TxtBtnDesignCast extends BtnDesignCast {
+	constructor(btn: Button, hArg: HArg, private readonly txt: Text) {
+		super(btn, hArg);
 		if (! argChk_Boolean(hArg, 'design', true)) {	// hint用
 			this.setPos = ()=> {};
 			this.setSize = ()=> {};
 		}
-
-		this.pivot.x	= argChk_Num(hArg, 'pivot_x', this.pivot.x);
-		this.pivot.y	= argChk_Num(hArg, 'pivot_y', this.pivot.y);
-		this.scale.x	= argChk_Num(hArg, 'scale_x', this.scale.x);
-		this.scale.y	= argChk_Num(hArg, 'scale_y', this.scale.y);
-		this.rotation	= argChk_Num(hArg, 'rotation', this.rotation);
-		this.sethArg(hArg);
 	}
-	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.txt.width, this.txt.height)}
-	getPosArg(left: number, top: number) {return {left, top}}
-	getSizeArg(width: number, height: number) {return {width, height}}
-	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
-	setSize(w: number, h: number) {this.txt.width = w; this.txt.height = h;}
+	protected	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.txt.width, this.txt.height)}
+	protected	setSize(w: number, h: number) {this.txt.width = w; this.txt.height = h;}
 	setOther(hPrm: HPRM) {
+		super.setOther(hPrm);
 		if ('b_pic' in hPrm) {
 			const b_pic = DesignCast.prpPrs.getValAmpersand(hPrm.b_pic?.val ?? '');
 			this.btn.update_b_pic(b_pic, this.txt);
 		}
-
-		this.btn.pivot	= this.pivot;
-		this.btn.scale	= this.scale;
-		this.btn.angle	= this.rotation;	// angleにセット
 	}
+	protected	oldFn = ()=> this.hArg.b_pic ?? '';
 }
 
 // 文字レイヤ・画像ボタン
-export class PicBtnDesignCast extends DesignCast {
-	constructor(private readonly btn: Button, readonly hArg: HArg) {
-		super('#e92');
-		this.pivot.x	= argChk_Num(hArg, 'pivot_x', this.pivot.x);
-		this.pivot.y	= argChk_Num(hArg, 'pivot_y', this.pivot.y);
-		this.scale.x	= argChk_Num(hArg, 'scale_x', this.scale.x);
-		this.scale.y	= argChk_Num(hArg, 'scale_y', this.scale.y);
-		this.rotation	= argChk_Num(hArg, 'rotation', this.rotation);
-		this.sethArg(hArg);
-	}
+export class PicBtnDesignCast extends BtnDesignCast {
+	constructor(btn: Button, hArg: HArg) {super(btn, hArg);}
 
 	private	sp: Sprite;
 	setSp(sp: Sprite) {this.sp = sp}
 
-	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.sp.width, this.sp.height)}
-	getPosArg(left: number, top: number) {return {left, top}}
-	getSizeArg(width: number, height: number) {return {width, height}}
-	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
-	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+	protected	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.sp.width, this.sp.height)}
+	protected	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
 	setOther(hPrm: HPRM) {
+		super.setOther(hPrm);
 		if ('pic' in hPrm) {
 			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic?.val ?? '');
 			this.btn.update_pic(pic, this.sp);
 		}
-
-		this.btn.pivot	= this.pivot;
-		this.btn.scale	= this.scale;
-		this.btn.angle	= this.rotation;	// angleにセット
 	}
+	protected	oldFn = ()=> this.hArg.pic ?? '';
 }

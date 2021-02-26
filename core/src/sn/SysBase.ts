@@ -192,6 +192,8 @@ export class SysBase implements ISysBase {
 		stopOnStepIn		: ()=> this.toast('ステップイン'),
 		stopOnStepOut		: ()=> this.toast('ステップアウト'),
 		stopOnBackstep		: ()=> this.toast('一歩戻る'),
+
+		_addPath		: o=> this.cfg.addPath(o.fn, o.o),
 	};
 	protected toast(nm: string) {
 		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
@@ -203,12 +205,12 @@ export class SysBase implements ISysBase {
 		const img = document.createElement('img');
 		const td = SysBase.hToastDat[nm];
 		img.src = `data:image/svg+xml;base64,${td.dat}`;
-		const size = Math.min(CmnLib.stageW, CmnLib.stageH) /4;
+		const size = Math.min(CmnLib.stageW, CmnLib.stageH) /4 *CmnLib.cvsScale;
 		img.width = img.height = size;
 		img.style.cssText =
 `position: absolute;
-left: ${(CmnLib.stageW -size) /2 +size *(td.dx ?? 0)}px;
-top: ${(CmnLib.stageH -size) /2 +size *(td.dy ?? 0)}px;`;
+left: ${(CmnLib.stageW -size) /2 *CmnLib.cvsScale +size *(td.dx ?? 0)}px;
+top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 		img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
 		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
 		p.insertBefore(img, cvs);

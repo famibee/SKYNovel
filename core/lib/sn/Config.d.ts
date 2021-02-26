@@ -19,5 +19,6 @@ export declare class Config implements IConfig {
     private readonly regPath;
     searchPath(path: string, extptn?: string): string;
     matchPath(fnptn: string, extptn?: string): ReadonlyArray<IExts>;
+    addPath(fn: string, h_exts: IExts): void;
 }
 //# sourceMappingURL=Config.d.ts.map

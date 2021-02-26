@@ -34,14 +34,16 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 }
 
 export const hMemberCnt	= {
-	alpha		:0,
-	height		:0,
-	rotation	:0,
-	scale_x		:0,
-	scale_y		:0,
-	width		:0,
-	x			:0,
-	y			:0,
+	alpha		: 0,
+	height		: 0,
+	rotation	: 0,
+	scale_x		: 0,
+	scale_y		: 0,
+	pivot_x		: 0,
+	pivot_y		: 0,
+	width		: 0,
+	x			: 0,
+	y			: 0,
 };			// rotationX〜Z、scaleZ、zは設定すると
 			// 三次元方向の拡大縮小ルーチンが働き画像がぼやけるので
 			// backlayで設定しない方針

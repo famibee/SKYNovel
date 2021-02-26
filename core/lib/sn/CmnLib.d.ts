@@ -8,6 +8,8 @@ export declare const hMemberCnt: {
     rotation: number;
     scale_x: number;
     scale_y: number;
+    pivot_x: number;
+    pivot_y: number;
     width: number;
     x: number;
     y: number;

@@ -197,7 +197,7 @@ export class LayerMng implements IGetFrm {
 		disconnect	: _=> {DesignCast.leaveMode();	return false;},
 		_enterDesign: _=> {
 		//	this.enterMode(this.curTxtlay);	return false;
-this.enterMode('mes/ボタン');	return false;
+	this.enterMode('mes/ボタン');	return false;	// TODO; 仮なので戻す
 //			this.enterMode(this.firstGrplay);	return false;
 				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
@@ -215,9 +215,7 @@ this.enterMode('mes/ボタン');	return false;
 		if (this.modeLnSub) {
 			lay.fore.drawDesignCastChildren(gdc=> gdc.dspDesignCast());
 		}
-		else {
-			lay.fore.drawDesignCast(gdc=> gdc.dspDesignCast());
-		}
+		else lay.fore.drawDesignCast(gdc=> gdc.dspDesignCast());
 	}
 
 	private	cvsResizeDesign() {}

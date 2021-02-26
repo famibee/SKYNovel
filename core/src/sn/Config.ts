@@ -232,4 +232,12 @@ export class Config implements IConfig {
 		return aRet;
 	}
 
+	addPath(fn: string, h_exts: IExts) {
+		const o: any = {};
+		for (const ext in h_exts) {
+			o[ext] = (ext.charAt(0) === ':' ?`` :this.sys.cur) + h_exts[ext];
+		}
+		this.hPathFn2Exts[fn] = o;
+	}
+
 }

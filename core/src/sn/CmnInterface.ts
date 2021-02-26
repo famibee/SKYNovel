@@ -234,6 +234,7 @@ export interface IConfig {
 	oCfg: any;
 	getNs(): string;
 	searchPath(fn: string, extptn?: string): string;
+	addPath(fn: string, h_exts: IExts): void;
 }
 
 
