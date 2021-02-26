@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/famibee/SKYNovel/compare/v1.14.0...v1.15.0) (2021-02-26)
+
+
+### Features
+
+* デバッグ：キャストで回転・移動・回転中心も操作できるように ([d79eb8c](https://github.com/famibee/SKYNovel/commit/d79eb8cd00515904da21ccf8b81e9c02371d9fd9))
+
 - feat: デバッグ：キャストで回転も操作できるように
 - feat: デバッグ：キャストで移動・回転中心も操作できるように
 - feat: デバッグ：ボタンキャスト移動で他ボタンXYに近い場合はガイドラインを表示するように
