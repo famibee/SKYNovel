@@ -197,7 +197,8 @@ export class LayerMng implements IGetFrm {
 		disconnect	: _=> {DesignCast.leaveMode();	return false;},
 		_enterDesign: _=> {
 		//	this.enterMode(this.curTxtlay);	return false;
-	this.enterMode('mes/ボタン');	return false;	// TODO; 仮なので戻す
+			this.enterMode('mes/ボタン');	return false;	// TODO: 仮なので戻す
+//	return false;
 //			this.enterMode(this.firstGrplay);	return false;
 				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
