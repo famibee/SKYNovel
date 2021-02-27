@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/famibee/SKYNovel/compare/v1.15.0...v1.15.1) (2021-02-27)
+
+
+### Bug Fixes
+
+* デバッグ：キャスト移動などで現在位置をヒント表示 ([cbd5a11](https://github.com/famibee/SKYNovel/commit/cbd5a11c443dfde668b49c97086dc7a5ab3d8df4))
+
 - fix: デバッグ：キャスト移動などで現在位置をヒント表示
 - fix: デバッグ：スクリプトからのreplaceToken()で回転が反映されない件
 - fix: デバッグ：その他不具合修正
