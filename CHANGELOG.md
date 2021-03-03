@@ -1,3 +1,10 @@
+## [1.15.2](https://github.com/famibee/SKYNovel/compare/v1.15.1...v1.15.2) (2021-03-03)
+
+
+### Bug Fixes
+
+* デバッグ：キャスト操作時のヒント表示が画面外にはみ出ないように ([9e16a2b](https://github.com/famibee/SKYNovel/commit/9e16a2bb7135f122e40e606ad5283085f865399e))
+
 - fix: デバッグ：キャスト操作時のヒント表示が画面外にはみ出ないように
 - fix: デバッグ：パディングは回転できないように
 - fix: デバッグ：パディングのヒント表示は独自のモノに
