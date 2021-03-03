@@ -8,7 +8,7 @@ import { Button } from './Button';
 import { GrpLayer } from './GrpLayer';
 import { Config } from './Config';
 import { Application, Rectangle, Text, Sprite, Point } from 'pixi.js';
-import Moveable from 'moveable';
+import Moveable, { OnDrag, OnResize } from 'moveable';
 export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;
@@ -21,7 +21,7 @@ export declare class DesignCast {
     private static hPages;
     protected static divHint: HTMLDivElement;
     static init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage): void;
-    protected static setHint(clientX: number, clientY: number, txt: string): void;
+    protected static setHint(txt: string, x: number, y: number, dc: DesignCast): void;
     static cvsResizeDesign(): void;
     constructor(bg_col: string, isLay?: boolean);
     destroy(): void;
@@ -30,17 +30,18 @@ export declare class DesignCast {
     protected id_tag: string;
     sethArg(hArg: HArg): void;
     protected getRect(): Rectangle;
-    protected getPosArg(_x: number, _y: number): {
+    protected cnvPosArg(_x: number, _y: number): {
         [name: string]: any;
     };
-    protected getSizeArg(_x: number, _y: number): {
+    protected cnvSizeArg(_x: number, _y: number): {
         [name: string]: any;
     };
     protected setPos(_x: number, _y: number): void;
     protected setSize(_w: number, _h: number): void;
     setOther(_hPrm: HPRM): void;
-    child?: DesignCast;
-    parent?: DesignCast;
+    protected child?: DesignCast;
+    private parent?;
+    adopt(idcCh: DesignCast): void;
     private static readonly ID_DESIGNMODE;
     private static cntDesignCast;
     private static hId2dc;
@@ -60,7 +61,10 @@ export declare class DesignCast {
     protected rotation: number;
     protected oldFn: () => string;
     protected onDragStart(): void;
+    protected readonly rotatable: boolean;
     dspDesignCast(): void;
+    protected procDragHint(e: OnDrag, left: number, top: number): void;
+    protected procResizeHint(e: OnResize, left: number, top: number): void;
     static replaceToken(o: any): void;
 }
 export declare class GrpLayDesignCast extends DesignCast {
@@ -70,11 +74,11 @@ export declare class GrpLayDesignCast extends DesignCast {
     private sp;
     setSp(sp: Sprite): void;
     protected getRect(): Rectangle;
-    protected getPosArg(left: number, top: number): {
+    protected cnvPosArg(left: number, top: number): {
         left: number;
         top: number;
     };
-    protected getSizeArg(width: number, height: number): {
+    protected cnvSizeArg(width: number, height: number): {
         width: number;
         height: number;
     };
@@ -88,11 +92,11 @@ export declare class TxtLayDesignCast extends DesignCast {
     private readonly ts;
     constructor(spLay: Sprite, ts: TxtStage);
     protected getRect(): Rectangle;
-    protected getPosArg(left: number, top: number): {
+    protected cnvPosArg(left: number, top: number): {
         left: number;
         top: number;
     };
-    protected getSizeArg(width: number, height: number): {
+    protected cnvSizeArg(width: number, height: number): {
         width: number;
         height: number;
     };
@@ -103,28 +107,32 @@ export declare class TxtLayDesignCast extends DesignCast {
 export declare class TxtLayPadDesignCast extends DesignCast {
     private readonly ts;
     constructor(ts: TxtStage);
+    protected readonly rotatable = false;
     protected getRect(): Rectangle;
-    protected getPosArg(pl: number, pt: number): {
+    protected cnvPosArg(pl: number, pt: number): {
         pl: number;
         pt: number;
     };
-    protected getSizeArg(w: number, h: number): {
+    protected cnvSizeArg(w: number, h: number): {
         pr: number;
         pb: number;
     };
-    protected setPos(pl: number, pt: number): void;
+    protected setPos(x: number, y: number): void;
     protected setSize(w: number, h: number): void;
     setOther(hPrm: HPRM): void;
+    protected procDragHint(e: OnDrag, left: number, top: number): void;
+    protected procResizeHint(e: OnResize, left: number, top: number): void;
+    private procHint;
 }
 export declare class BtnDesignCast extends DesignCast {
     protected readonly btn: Button;
     readonly hArg: HArg;
     constructor(btn: Button, hArg: HArg);
-    protected getPosArg(left: number, top: number): {
+    protected cnvPosArg(left: number, top: number): {
         left: number;
         top: number;
     };
-    protected getSizeArg(width: number, height: number): {
+    protected cnvSizeArg(width: number, height: number): {
         width: number;
         height: number;
     };

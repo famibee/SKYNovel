@@ -97,8 +97,7 @@ export class TxtStage extends Container {
 		this.addChild(this.grpDbgMasume);
 		this.grpDbgMasume.name = 'grpDbgMasume';
 
-		this.idc.child = this.idcCh;
-		this.idcCh.parent = this.idc;
+		this.idc.adopt(this.idcCh);
 	}
 
 	lay(hArg: HArg) {
@@ -119,16 +118,12 @@ export class TxtStage extends Container {
 		}
 		else if ('alpha' in hArg) s.opacity = String(this.spLay.alpha);
 
-		if ('pl' in hArg || 'pr' in hArg || 'pt' in hArg || 'pb' in hArg
-		|| 'left'in hArg || 'top'in hArg || 'width'in hArg || 'height'in hArg
-		|| 'pos' in hArg) {
-			if ('width' in hArg) s.width = (hArg.width ?? '0') +'px';
-			if ('height' in hArg) s.height = (hArg.height ?? '0') +'px';
-			if ('pl' in hArg) s.paddingLeft = (hArg.pl ?? '0') +'px';
-			if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
-			if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
-			if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
-		}
+		if ('width' in hArg) s.width = (hArg.width ?? '0') +'px';
+		if ('height' in hArg) s.height = (hArg.height ?? '0') +'px';
+		if ('pl' in hArg) s.paddingLeft = (hArg.pl ?? '0') +'px';
+		if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
+		if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
+		if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
 		this.idc.sethArg(hArg);
 		this.lay_sub();
 

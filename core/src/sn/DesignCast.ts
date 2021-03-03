@@ -19,7 +19,7 @@ import {GrpLayer} from './GrpLayer';
 import {Config} from './Config';
 
 import {Application, Rectangle, Text, Sprite, Point} from 'pixi.js';
-import Moveable from 'moveable';
+import Moveable, {OnDrag, OnResize} from 'moveable';
 
 export class DesignCast {
 	private		static	divDesignRoot: HTMLDivElement;
@@ -56,9 +56,9 @@ export class DesignCast {
 }
 
 .sn_design_hint {
-	position: fixed;
-	top: 0;
+	position: absolute;
 	left: 0;
+	top: 0;
 	padding: 5px;
 	border-radius: 5px;
 	background: #333;
@@ -67,15 +67,19 @@ export class DesignCast {
 	font-weight: bold;
 	font-size: 12px;
 	display: none;
-	transform: translate(-100%, -100%);
 }
 `);
 		// :before	クロスカーソル.svg
 		// :after	トリミングアイコン.svg
 	}
-	protected	static	setHint(clientX: number, clientY: number, txt: string) {
+	protected	static	setHint(txt: string, x: number, y: number, dc: DesignCast) {
 		DesignCast.divHint.innerHTML = txt;
-		DesignCast.divHint.style.cssText = `display: block; transform: translate(${clientX}px, ${clientY - 10}px) translate(-100%, -100%);`;
+		const s = window.getComputedStyle(DesignCast.divHint);
+		const w = parseFloat(s.width);
+		const h = parseFloat(s.height);
+		DesignCast.divHint.style.cssText
+		= `display: block; left: ${Math.max(10, dc.lx +x -w)}px;
+		top: ${Math.max(10, dc.ly +y -h -10)}px;`;
 	}
 	static	cvsResizeDesign() {
 		const s = DesignCast.divDesignRoot.style;
@@ -104,7 +108,7 @@ export class DesignCast {
 		const layer = this.hArg.layer ?? '';
 		this.fncLay = (! this.parent && ! this.child && layer)
 		? ()=> {
-			const f = DesignCast.hPages[layer].fore;
+			const f = DesignCast.hPages[layer].fore;	// ボタン
 			this.lx = f.x *CmnLib.cvsScale;
 			this.ly = f.y *CmnLib.cvsScale;
 		}
@@ -112,13 +116,17 @@ export class DesignCast {
 	}
 
 	protected	getRect() {return Rectangle.EMPTY}
-	protected	getPosArg(_x: number, _y: number): {[name: string]: any} {return {}};
-	protected	getSizeArg(_x: number, _y: number): {[name: string]: any} {return {}};
+	protected	cnvPosArg(_x: number, _y: number): {[name: string]: any} {return {}};
+	protected	cnvSizeArg(_x: number, _y: number): {[name: string]: any} {return {}};
 	protected	setPos(_x: number, _y: number) {}
 	protected	setSize(_w: number, _h: number) {}
 	setOther(_hPrm: HPRM) {}
-	child?	: DesignCast;
-	parent?	: DesignCast;
+	protected	child?	: DesignCast;
+	private		parent?	: DesignCast;
+	adopt(idcCh: DesignCast) {	// 養子縁組
+		this.child = idcCh;
+		idcCh.parent = this;
+	}
 
 	private	static	readonly	ID_DESIGNMODE = 'DesignMode';
 	private	static	cntDesignCast	= 0;
@@ -164,6 +172,7 @@ export class DesignCast {
 	protected	rotation	= 0;
 	protected	oldFn = ()=> '';
 	protected	onDragStart() {}
+	protected	readonly	rotatable		: boolean	= true;
 	dspDesignCast() {
 		const id_dc = this.hArg[':id_dc'] ?? this.id_tag;
 		DesignCast.hId2dc[id_dc] = this;
@@ -190,7 +199,7 @@ export class DesignCast {
 			origin	: [0, 0],
 		};
 		/*
-			// 長押し
+			// 長押し（使うなら .on('drag')内部もコメントアウト）
 			let pressTimer: NodeJS.Timeout;
 			const cancelPress = ()=> clearTimeout(pressTimer);
 			d.addEventListener('mouseup', cancelPress);
@@ -209,6 +218,8 @@ export class DesignCast {
 				verticalGuidelines	: [],
 				horizontalGuidelines: [],
 			});
+			// readonlyな件を投げた
+			// https://github.com/daybrush/moveable/issues/391#issuecomment-788931248
 		};
 		const procEnd = (o: any)=> {
 			DesignCast.sys.send2Dbg('_changeCast', {
@@ -216,31 +227,54 @@ export class DesignCast {
 			});
 			DesignCast.divHint.style.display = 'none';
 		};
+		const resizeEnd = ()=> {
+			const [dx, dy] = tmp.aPos;
+			const ix = int(this.rect.x += dx /CmnLib.cvsScale +this.pivot.x);
+			const iy = int(this.rect.y += dy /CmnLib.cvsScale +this.pivot.y);
+			this.setPos(ix, iy);	// レスポンス改善のため replaceToken より先に
+
+			const iw = uint(this.rect.width), ih = uint(this.rect.height);
+			this.setSize(iw, ih);	// レスポンス改善のため replaceToken より先に
+
+			procEnd({
+				...this.cnvPosArg(ix, iy),
+				...this.cnvSizeArg(iw, ih),
+			});
+		};
 		this.mov = new Moveable(document.body, {
 			target	: d,
 			draggable	: true,
 			resizable	: true,
-			scalable	: true,
-			rotatable	: true,
-			originDraggable	: true,
+		//	scalable	: true,
+			rotatable	: this.rotatable,
+			originDraggable	: this.rotatable,
 			snappable	: true,
 		})
-		.on('dragStart', ()=> {procStart(); this.onDragStart();})
+		.on('dragStart', e=> {
+			procStart();
+			this.onDragStart();
+
+			if (this.child?.mov?.isInside(e.clientX, e.clientY)) {
+				// 子を優先、親を動かしたくないので無理矢理外す
+					// mov.dragEnd() が欲しいと要望は投げた
+					// https://github.com/daybrush/moveable/issues/391#issuecomment-788917763
+				Object.assign(this.mov, {target: null,});	// 親で外し
+				//this.child.mov.target = null;
+					// ここにできると書いてあるが、readonly
+					// https://daybrush.com/moveable/release/latest/doc/Moveable.html#target
+				return;
+			}
+		})
 		.on('drag', e=> {
-			const [x, y] = tmp.aPos = e.beforeTranslate;
-		//	if (x !== 0 || y !== 0) cancelPress();
-			DesignCast.setHint(
-				e.left,
-				e.top,
-`X: ${int(this.rect.x +x /CmnLib.cvsScale)}px<br/>
-Y: ${int(this.rect.y +y /CmnLib.cvsScale)}px`);
+			tmp.aPos = e.beforeTranslate;
+		//	const [dx, dy] = tmp.aPos;
+		//	if (dx !== 0 || dy !== 0) cancelPress();
+			this.procDragHint(e, e.left, e.top);
 		})
 		.on('dragEnd', ()=> {
-			const [x, y] = tmp.aPos;
-			const ix = int(this.rect.x += x /CmnLib.cvsScale +this.pivot.x);
-			const iy = int(this.rect.y += y /CmnLib.cvsScale +this.pivot.y);
-			this.setPos(ix, iy);	// レスポンス改善のため replaceToken より先に
-			procEnd(this.getPosArg(ix, iy));
+			resizeEnd();	// パディングで右・下が固定されサイズ変更されるのでサイズも
+
+			if (this.parent?.mov) Object.assign(this.parent.mov, {target: this.parent.div,});	// 子で戻す（親はイベント発生しなくしているので）
 		})
 		.on('resizeStart', procStart)
 		.on('resize', e=> {
@@ -248,33 +282,16 @@ Y: ${int(this.rect.y +y /CmnLib.cvsScale)}px`);
 			d.style.height = `${e.height}px`;
 			tmp.aPos = e.drag.beforeTranslate;
 
-			const w = this.rect.width = e.width /CmnLib.cvsScale;
-			const h = this.rect.height = e.height /CmnLib.cvsScale;
-			DesignCast.setHint(
-				e.drag.left,
-				e.drag.top,
-`W: ${int(w)}px<br/>
-H: ${int(h)}px`);
+			this.rect.width = e.width /CmnLib.cvsScale;
+			this.rect.height = e.height /CmnLib.cvsScale;
+			this.procResizeHint(e, e.drag.left, e.drag.top);
 		})
-		.on('resizeEnd', ()=> {
-			const [x, y] = tmp.aPos;
-			const ix = int(this.rect.x += x /CmnLib.cvsScale +this.pivot.x);
-			const iy = int(this.rect.y += y /CmnLib.cvsScale +this.pivot.y);
-			this.setPos(ix, iy);	// レスポンス改善のため replaceToken より先に
-
-			const iw = uint(this.rect.width), ih = uint(this.rect.height);
-			this.setSize(iw, ih);	// レスポンス改善のため replaceToken より先に
-
-			procEnd({
-				...this.getPosArg(ix, iy),
-				...this.getSizeArg(iw, ih),
-			});
-		})
+		.on('resizeEnd', resizeEnd)
 		.on('rotateStart', e=> {procStart(); e.set(tmp.roDeg);})
 		.on('rotate', e=> {
 			tmp.roDeg = e.beforeRotate;
 
-			DesignCast.setHint(e.drag.left, e.drag.top, int(tmp.roDeg) +'度');
+			DesignCast.setHint(int(tmp.roDeg) +'度', e.drag.left, e.drag.top, this);
 		})
 		.on('rotateEnd', ()=> {
 			this.rotation = tmp.roDeg;	// rotation反映
@@ -300,7 +317,7 @@ H: ${int(h)}px`);
 			this.setPos(ix, iy);	// レスポンス改善のため replaceToken より先に
 
 			procEnd({
-				...this.getPosArg(ix, iy),
+				...this.cnvPosArg(ix, iy),
 				pivot_x: int(px),
 				pivot_y: int(py),
 			});
@@ -359,6 +376,19 @@ H: ${int(h)}px`);
 //				case 0:	this.fire('click', e);	break;
 //				case 1:	this.fire('middleclick', e);	break;
 		});
+	}
+	protected	procDragHint(e: OnDrag, left: number, top: number) {
+		const [dx, dy] = e.beforeTranslate;
+		DesignCast.setHint(
+			`(${int(this.rect.x +dx /CmnLib.cvsScale)
+				}, ${int(this.rect.y +dy /CmnLib.cvsScale)})`,
+			left, top, this);
+	}
+	protected	procResizeHint(e: OnResize, left: number, top: number) {
+		DesignCast.setHint(
+			`(${int(e.drag.left)}, ${int(e.drag.top)})<br/>${
+				int(this.rect.width)} x ${int(this.rect.height)}`,
+			left, top, this);
 	}
 
 
@@ -448,13 +478,13 @@ export class GrpLayDesignCast extends DesignCast {
 	setSp(sp: Sprite) {this.sp = sp}
 
 	protected	getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp.width, this.sp.height)}
-	protected	getPosArg(left: number, top: number) {return {left, top}}
-	protected	getSizeArg(width: number, height: number) {return {width, height}}
+	protected	cnvPosArg(left: number, top: number) {return {left, top}}
+	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
 	protected	setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
 	protected	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
 	setOther(hPrm: HPRM) {
 		if ('fn' in hPrm) {
-			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn?.val ?? '');
+			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn.val ?? '');
 			this.gl.lay({fn});
 		}
 
@@ -474,14 +504,14 @@ export class TxtLayDesignCast extends DesignCast {
 		const it = this.ts.getInfTL();
 		return new Rectangle(this.spLay.x, this.spLay.y, it.$width, it.$height);
 	}
-	protected	getPosArg(left: number, top: number) {return {left, top}}
-	protected	getSizeArg(width: number, height: number) {return {width, height}}
+	protected	cnvPosArg(left: number, top: number) {return {left, top}}
+	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
 	protected	setPos(x: number, y: number) {
 		this.spLay.position.set(x, y);
-		this.ts.lay(this.getPosArg(x, y));
+		this.ts.lay(this.cnvPosArg(x, y));
 	}
 	protected	setSize(w: number, h: number) {
-		this.ts.lay(this.getSizeArg(w, h));
+		this.ts.lay(this.cnvSizeArg(w, h));
 	}
 	setOther(hPrm: HPRM) {
 		this.child?.setOther(hPrm);
@@ -494,6 +524,7 @@ export class TxtLayDesignCast extends DesignCast {
 // 文字レイヤ・パディング
 export class TxtLayPadDesignCast extends DesignCast {
 	constructor(private readonly ts: TxtStage) {super('#9e2');}
+	protected	readonly	rotatable	= false;
 	protected	getRect() {
 		const it = this.ts.getInfTL();
 		return new Rectangle(
@@ -503,33 +534,69 @@ export class TxtLayPadDesignCast extends DesignCast {
 			it.$height -it.pad_top -it.pad_bottom,
 		);
 	}
-	protected	getPosArg(pl: number, pt: number) {return {pl, pt}}
-	protected	getSizeArg(w: number, h: number) {
+	protected	cnvPosArg(pl: number, pt: number) {return {pl, pt}}
+	protected	cnvSizeArg(w: number, h: number) {
 		const it = this.ts.getInfTL();
 		return {
 			pr: it.$width -it.pad_left -w,
 			pb: it.$height -it.pad_top -h,
 		}
 	}
-	protected	setPos(pl: number, pt: number) {this.ts.lay(this.getPosArg(pl, pt));}
-	protected	setSize(w: number, h: number) {this.ts.lay(this.getSizeArg(w, h));}
+	protected	setPos(x: number, y: number) {this.ts.lay(this.cnvPosArg(x, y))}
+	protected	setSize(w:number, h: number) {this.ts.lay(this.cnvSizeArg(w,h))}
 	setOther(hPrm: HPRM) {
-		const id_dc = this.hArg[':id_dc'] ?? this.id_tag;
-		const d = <HTMLDivElement>document.querySelector(`div[data-id_dc='${id_dc}']`);
+		const it = this.ts.getInfTL();
 		if ('pl' in hPrm || 'pt' in hPrm) {
-			const pl = int(DesignCast.prpPrs.getValAmpersand(hPrm.pl?.val ?? '0'));
-			const pt = int(DesignCast.prpPrs.getValAmpersand(hPrm.pt?.val ?? '0'));
-			this.setPos(pl, pt);
-			Object.assign(d.style, {left: `${pl}px`, top: `${pt}px`});
+			this.setPos(
+				this.rect.x = parseFloat(DesignCast.prpPrs.getValAmpersand(
+					hPrm.pl?.val ?? `${it.pad_left}`)),
+				this.rect.y = parseFloat(DesignCast.prpPrs.getValAmpersand(
+					hPrm.pt?.val ?? `${it.pad_top}`)),
+			);
+			this.cvsResize();
 		}
 		if ('pr' in hPrm || 'pb' in hPrm) {
-			const pr = int(DesignCast.prpPrs.getValAmpersand(hPrm.pr?.val ?? '0'));
-			const pb = int(DesignCast.prpPrs.getValAmpersand(hPrm.pb?.val ?? '0'));
-			this.ts.lay({pr, pb});
+			this.ts.lay({
+				pr: parseFloat(DesignCast.prpPrs.getValAmpersand(
+					hPrm.pr?.val ?? `${it.pad_right}`)),
+				pb: parseFloat(DesignCast.prpPrs.getValAmpersand(
+					hPrm.pb?.val ?? `${it.pad_bottom}`)),
+			});
+
 			const rect = this.getRect();
-			Object.assign(d.style, {width: `${rect.width}px`, height: `${rect.height}px`,});
+			this.setSize(
+				this.rect.width = rect.width,
+				this.rect.height = rect.height,
+			);
+			this.cvsResize();
 		}
 	}
+
+	protected	procDragHint(e: OnDrag, left: number, top: number) {
+		const [dx, dy] = e.beforeTranslate;
+		this.procHint(left, top, dx, dy);
+	}
+	protected	procResizeHint(e: OnResize, left: number, top: number) {
+		const [dx, dy] = e.drag.beforeTranslate;
+		this.procHint(left, top, dx, dy);
+	}
+	private	procHint(left: number, top: number, dx: number, dy: number) {
+		const x = this.rect.x, y = this.rect.y;
+		const w = this.rect.width, h = this.rect.height;
+		const it = this.ts.getInfTL();
+		const pl = int(x +dx /CmnLib.cvsScale);
+		const pt = int(y +dy /CmnLib.cvsScale);
+		const pr = int(it.$width -pl -w);
+		const pb = int(it.$height -pt -h);
+		const sp = (re: number)=> '&nbsp;'.repeat(re);
+		DesignCast.setHint(
+			sp(5+5 +1) +`上幅=${pt}<br/>
+			左幅=${pl + sp(1+ 3+5 +1)}右幅=${pr}<br/>`+
+			sp(5) +`内側 ${int(w)} x ${int(h)}<br/>`+
+			sp(5+5) +`下幅=${pb}`,
+			left, top, this);
+	}
+
 }
 
 // 文字レイヤ・ボタン基本
@@ -543,8 +610,8 @@ export class BtnDesignCast extends DesignCast {
 		this.rotation	= argChk_Num(hArg, 'rotation', this.rotation);
 		this.sethArg(hArg);
 	}
-	protected	getPosArg(left: number, top: number) {return {left, top}}
-	protected	getSizeArg(width: number, height: number) {return {width, height}}
+	protected	cnvPosArg(left: number, top: number) {return {left, top}}
+	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
 	protected	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
 	setOther(_hPrm: HPRM) {
 		this.btn.pivot	= this.pivot;
@@ -574,7 +641,7 @@ export class TxtBtnDesignCast extends BtnDesignCast {
 	setOther(hPrm: HPRM) {
 		super.setOther(hPrm);
 		if ('b_pic' in hPrm) {
-			const b_pic = DesignCast.prpPrs.getValAmpersand(hPrm.b_pic?.val ?? '');
+			const b_pic = DesignCast.prpPrs.getValAmpersand(hPrm.b_pic.val??'');
 			this.btn.update_b_pic(b_pic, this.txt);
 		}
 	}
@@ -593,7 +660,7 @@ export class PicBtnDesignCast extends BtnDesignCast {
 	setOther(hPrm: HPRM) {
 		super.setOther(hPrm);
 		if ('pic' in hPrm) {
-			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic?.val ?? '');
+			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic.val ?? '');
 			this.btn.update_pic(pic, this.sp);
 		}
 	}
