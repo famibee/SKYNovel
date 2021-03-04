@@ -1,3 +1,10 @@
+## [1.15.3](https://github.com/famibee/SKYNovel/compare/v1.15.2...v1.15.3) (2021-03-04)
+
+
+### Bug Fixes
+
+* electron v12.0.0対応（contextIsolation: false） ([7227319](https://github.com/famibee/SKYNovel/commit/7227319e1fa98947a659f12dba166f93f70f35f3))
+
 - fix: electron v12.0.0対応（contextIsolation: false）
 - fix: ライブラリ更新、electron更新（11.3.0→12.0.0）など
 - fix: アプリ版でエラー。非デバッグ時にDesignCastの処理（レイヤのcvsResize系）が走ってた件
