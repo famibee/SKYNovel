@@ -59,9 +59,7 @@ export declare class SysBase implements ISysBase {
     protected enc: (data: string) => Promise<string>;
     protected stk: () => string;
     hash: (_data: string) => string;
-    protected readonly isApp: () => boolean;
-    protected readonly isPackaged: () => boolean;
-    isDbg: () => boolean;
+    protected readonly isApp: boolean;
     protected $path_downloads: string;
     get path_downloads(): string;
     protected $path_userdata: string;

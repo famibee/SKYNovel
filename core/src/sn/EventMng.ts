@@ -54,7 +54,7 @@ export class EventMng implements IEvtMng {
 		layMng.setEvtMng(this);
 		sys.setFire((KEY, e)=> this.fire(KEY, e));
 
-		if (sys.isDbg()) {
+		if (CmnLib.isDbg) {
 			const hHook	: {[type: string]: ()=> void}	= {
 				pause	: ()=> {
 					this.isDbgBreak = true;

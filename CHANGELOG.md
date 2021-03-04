@@ -1,3 +1,9 @@
+- fix: electron v12.0.0対応（contextIsolation: false）
+- fix: ライブラリ更新、electron更新（11.3.0→12.0.0）など
+- fix: アプリ版でエラー。非デバッグ時にDesignCastの処理（レイヤのcvsResize系）が走ってた件
+- fix: 内部的にsys.isDbg()ではなくCmnLib.isDbgへ変更
+
+
 ## [1.15.2](https://github.com/famibee/SKYNovel/compare/v1.15.1...v1.15.2) (2021-03-03)
 
 

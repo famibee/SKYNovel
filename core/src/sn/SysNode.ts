@@ -26,7 +26,7 @@ export class SysNode extends SysBase {
 		})();
 	}
 
-	protected readonly	isApp = ()=> true;
+	protected readonly	isApp = true;
 
 	async savePic(fn: string, data_url: string) {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);

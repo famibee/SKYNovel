@@ -33,7 +33,7 @@ const Store = require('electron-store');
 import {pack, extract} from 'tar-fs';
 
 const to_app: HPROC = {
-	getInfo		: ()=> {return {
+	getInfo		: async ()=> {return {
 		getAppPath	: app.getAppPath(),
 		isPackaged	: app.isPackaged,
 		downloads	: app.getPath('downloads'),
@@ -128,7 +128,8 @@ export class SysApp extends SysNode {
 
 		globalThis.addEventListener('DOMContentLoaded', async ()=> {
 			this.hInfo = await to_app.getInfo();
-			this.arg = {...arg, cur: this.hInfo.getAppPath.replace(/\\/g, '/') + (this.hInfo.isPackaged ?'/doc/' :'/')+ arg.cur};
+			CmnLib.isPackaged = this.hInfo.isPackaged;
+			this.arg = {...arg, cur: this.hInfo.getAppPath.replace(/\\/g, '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
 
 	//== old ==
 			this.readFileSync = to_app.readFileSync;
@@ -140,6 +141,9 @@ export class SysApp extends SysNode {
 			this.$path_downloads	= this.hInfo.downloads.replace(/\\/g, '/') +'/';
 
 //			ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
+
+			CmnLib.isDbg = Boolean(this.hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
+			if (CmnLib.isDbg) this.extPort = uint(this.hInfo.env['SKYNOVEL_PORT'] ?? '3776');
 
 			this.run();
 		}, {once: true, passive: true});
@@ -168,7 +172,7 @@ export class SysApp extends SysNode {
 	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
 	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		this.$path_userdata	= this.isDbg()
+		this.$path_userdata	= CmnLib.isDbg
 			? this.hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
 			: this.hInfo.userData.replace(/\\/g, '/') +'/';
 		(async()=> {
@@ -251,14 +255,6 @@ export class SysApp extends SysNode {
 	};
 	eraseBMFolder = async (place: number)=> {
 		await to_app.removeSync(`${this.$path_userdata}storage/${place}/`);
-	};
-
-	protected readonly	isPackaged = ()=> this.hInfo.isPackaged;
-	isDbg = ()=> {	// 配布版では無効
-		const ret = Boolean(this.hInfo.env['SKYNOVEL_DBG']) && ! this.isPackaged();
-		this.isDbg = ret ?()=> true :()=> false;
-		if (ret) this.extPort = uint(this.hInfo.env['SKYNOVEL_PORT'] ?? '3776');
-		return ret;
 	};
 
 	// アプリの終了

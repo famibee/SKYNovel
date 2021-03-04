@@ -103,15 +103,15 @@ export class SysBase implements ISysBase {
 		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
-		val.setVal_Nochk('tmp', 'const.sn.isApp', this.isApp());
-		val.setVal_Nochk('tmp', 'const.sn.isDbg', this.isDbg());
-		val.setVal_Nochk('tmp', 'const.sn.isPackaged', this.isPackaged());
+		val.setVal_Nochk('tmp', 'const.sn.isApp', ()=> this.isApp);
+		val.setVal_Nochk('tmp', 'const.sn.isDbg', ()=> CmnLib.isDbg);
+		val.setVal_Nochk('tmp', 'const.sn.isPackaged', ()=> CmnLib.isPackaged);
 
 		val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
 			// [import]時のチェック用
 		val.flush();
 
-		if (this.isDbg()) this.attach_debug(main);
+		if (CmnLib.isDbg) this.attach_debug(main);
 	}
 	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
 
@@ -277,9 +277,7 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 	protected stk = ()=> '';
 	hash = (_data: string)=> '';
 
-	protected readonly	isApp = ()=> false;
-	protected readonly	isPackaged = ()=> false;
-	isDbg = ()=> false;
+	protected readonly	isApp: boolean = false;
 	protected $path_downloads	= '';
 	get path_downloads() {return this.$path_downloads}
 	protected $path_userdata= '';

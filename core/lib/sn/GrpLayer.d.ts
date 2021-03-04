@@ -28,6 +28,8 @@ export declare class GrpLayer extends Layer {
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
     private readonly idc;
+    constructor();
+    private setSp;
     private csvFn;
     private sBkFn;
     private sBkFace;

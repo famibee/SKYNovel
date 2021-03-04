@@ -17,8 +17,6 @@ export declare class SysApp extends SysNode {
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
     copyBMFolder: (from: number, to: number) => Promise<void>;
     eraseBMFolder: (place: number) => Promise<void>;
-    protected readonly isPackaged: () => boolean;
-    isDbg: () => boolean;
     protected readonly close: () => boolean;
     protected readonly _export: ITag;
     protected readonly _import: ITag;

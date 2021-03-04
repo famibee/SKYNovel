@@ -71,6 +71,14 @@ export class GrpLayer extends Layer {
 	}
 
 	private	readonly	idc	= new GrpLayDesignCast(this.spLay, this);
+	constructor() {
+		super();
+		if (CmnLib.isDbg) {
+			this.setSp = sp=> this.idc.setSp(sp);
+			this.cvsResize = ()=> {super.cvsResize(); this.idc.cvsResize();}
+		}
+	}
+	private	setSp(_sp: Sprite) {}
 
 	private csvFn		= '';
 	private sBkFn		= '';
@@ -115,7 +123,7 @@ export class GrpLayer extends Layer {
 				Layer.setXY(sp, hArg, this.spLay, true);
 			//	if (hArg.page === 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
-				this.idc.setSp(sp);
+				this.setSp(sp);
 			},
 			isStop=> {
 				Layer.setBlendmode(this.spLay, hArg);
@@ -377,7 +385,7 @@ export class GrpLayer extends Layer {
 		)));
 	}
 
-	cvsResize() {super.cvsResize(); this.idc.cvsResize();}
+	cvsResize() {super.cvsResize();}
 
 	drawDesignCast(gdc: IGenerateDesignCast) {
 		if (! this.spLay.visible) return;

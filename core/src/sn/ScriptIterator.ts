@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {uint, argChk_Boolean, getFn} from './CmnLib';
+import {uint, argChk_Boolean, getFn, CmnLib} from './CmnLib';
 import {IHTag, IMain, IVariable, IMark, HArg, Script, IPropParser} from './CmnInterface';
 import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
@@ -92,7 +92,7 @@ export class ScriptIterator {
 
 		this.grm.setEscape(cfg.oCfg.init.escape);
 
-		if (sys.isDbg()) {
+		if (CmnLib.isDbg) {
 			sys.addHook((type, o)=> this.hHook[type]?.(o));
 			this.isBreak = this.isBreak_base;
 

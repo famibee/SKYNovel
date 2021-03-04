@@ -47,6 +47,8 @@ export declare class CmnLib {
     static hDip: {
         [name: string]: string;
     };
+    static isDbg: boolean;
+    static isPackaged: boolean;
     static isRetina: boolean;
     static isDarkMode: boolean;
     static retinaRate: number;

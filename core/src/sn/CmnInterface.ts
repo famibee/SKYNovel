@@ -178,13 +178,14 @@ export interface IPropParser {
 
 
 // =============== Plugin
+import {DisplayObject, RenderTexture} from 'pixi.js';
 export type IPluginInitArg = {
 	addTag(tag_name: string, tag_fnc: ITag): void;
 	addLayCls(cls: string, fnc: ILayerFactory): void;
 	searchPath(fn: string, extptn?: string): string;
 	getVal(arg_name: string, def?: number | string): object;
 	resume(fnc?: ()=> void): void;
-	render(dsp: PIXI.DisplayObject, renTx?: PIXI.RenderTexture, clear?: boolean): void;
+	render(dsp: DisplayObject, renTx?: RenderTexture, clear?: boolean): void;
 	setPre(fnc: (ext: string, data: string)=> Promise<string>): void;
 	setEnc(fnc: (data: string)=> Promise<string>): void;
 	getStK(fnc: ()=> string): void;

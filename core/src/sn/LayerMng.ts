@@ -178,7 +178,7 @@ export class LayerMng implements IGetFrm {
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
 
-		if (sys.isDbg()) {
+		if (CmnLib.isDbg) {
 			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, this.hPages);
 			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();
 			sys.addHook((type, o)=> {

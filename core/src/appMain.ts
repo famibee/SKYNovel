@@ -9,12 +9,13 @@ const {ipcMain, app, BrowserWindow, screen} = require('electron');
 import {existsSync, copySync, removeSync, ensureDirSync, createWriteStream, createReadStream, readFileSync, readFile, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 const Store = require('electron-store');
 import {pack, extract} from 'tar-fs';
+import {HINFO} from './preload';
 
 export class appMain {
 	private	readonly	dsp = screen.getPrimaryDisplay();
 	private	readonly	screenRX = this.dsp.size.width;
 	private	readonly	screenRY = this.dsp.size.height;
-	private	readonly	hInfo = {
+	private	readonly	hInfo	: HINFO = {
 		getAppPath	: app.getAppPath(),
 		isPackaged	: app.isPackaged,
 		downloads	: app.getPath('downloads'),
@@ -122,6 +123,7 @@ export class appMain {
 				webPreferences	: {
 	//== old ==
 					nodeIntegration: true,
+					contextIsolation: false,	// electron v12.0.0対応
 					enableRemoteModule: true,
 //					preload: '../lib/core/lib/preload.js',
 	//== old ==

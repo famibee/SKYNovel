@@ -70,7 +70,7 @@ export class SysWeb extends SysBase {
 			if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip.replace(/%2C/g, ','))};
 			if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
 
-			if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) this.isDbg = ()=> true;
+			if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) CmnLib.isDbg = true;
 			this.extPort = argChk_Num(CmnLib.hDip, 'port', this.extPort);
 
 			const cur = sp.get('cur');

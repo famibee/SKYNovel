@@ -10,7 +10,7 @@ import {WriteStream, ReadStream} from 'fs-extra';
 import {Pack, Extract} from 'tar-fs';
 
 export	type	HPROC	= {
-	getInfo		: ()=> HINFO;
+	getInfo		: ()=> Promise<HINFO>;
 
 	existsSync	: (path: string)=> Promise<boolean>;
 	copySync	: (path_from: string, path_to: string)=> void;

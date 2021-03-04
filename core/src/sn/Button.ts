@@ -7,7 +7,7 @@
 
 import {Container, Text, Rectangle, Texture, TextStyle, Sprite} from 'pixi.js';
 import {Graphics} from 'pixi.js';
-import {uint, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {uint, IEvtMng, argChk_Boolean, argChk_Num, CmnLib} from './CmnLib';
 import {HArg} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
@@ -48,6 +48,10 @@ export class Button extends Container {
 	constructor(private readonly hArg: HArg, private readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 
+		if (CmnLib.isDbg) {
+			this.drawDesignCast = gdc=> gdc(this.idc);
+			this.cvsResize = ()=> this.idc.cvsResize();
+		}
 		this.name = JSON.stringify(hArg);
 
 		let oName: any = {
@@ -161,8 +165,8 @@ export class Button extends Container {
 		)) resolve();
 	}
 
-	drawDesignCast(gdc: IGenerateDesignCast) {gdc(this.idc);}
-	cvsResize() {this.idc.cvsResize();}
+	drawDesignCast(_gdc: IGenerateDesignCast) {}
+	cvsResize() {}
 
 	update_b_pic(fn: string, txt: Text) {
 		const oName = JSON.parse(txt.name);

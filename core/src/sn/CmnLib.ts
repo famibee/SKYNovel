@@ -169,6 +169,8 @@ export class CmnLib {
 	static	isMac		= new RegExp('OS X').test(platform.os?.family ?? '');
 	static	isMobile	= ! new RegExp('(Windows|OS X)').test(platform.os?.family ?? '');
 	static	hDip		: {[name: string]: string}	= {};
+	static	isDbg		= false;
+	static	isPackaged	= false;
 
 	static	isRetina	= false;
 	static	isDarkMode	= false;
