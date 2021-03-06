@@ -1,6 +1,7 @@
 import { Script, HArg } from './CmnInterface';
 export declare const REG_TAG: RegExp;
-export declare const REG_TAG_NAME: RegExp;
+export declare function tagToken2Name_Args(token: string): [name: string, args: string];
+export declare function tagToken2Name(token: string): string;
 export declare function splitAmpersand(token: string): {
     name: string;
     text: string;

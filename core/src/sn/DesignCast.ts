@@ -10,7 +10,7 @@ import {uint, int, CmnLib, argChk_Boolean, argChk_Num, getFn, getExt, addStyle} 
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 import {HPage} from './LayerMng';
-import {REG_TAG} from './Grammar';
+import {tagToken2Name_Args} from './Grammar';
 import {AnalyzeTagArg, HPRM} from './AnalyzeTagArg';
 import {DebugMng} from './DebugMng';
 import {TxtStage} from './TxtStage';
@@ -405,12 +405,10 @@ export class DesignCast {
 		DesignCast.scrItr.replace(o[':idx_tkn'], token);
 
 		// 実ボタン・青四角も移動（Undoや手入力変更時）
-		const e = REG_TAG.exec(token);
-		const g = e?.groups;
-		if (! g) throw `_replaceToken タグ記述【${token}】異常です`;
+		const [_tag_name, args] = tagToken2Name_Args(token);
 		if (dc.child) dc.child.hArg[':token'] = dc.hArg[':token'];
 
-		DesignCast.alzTagArg.go(g.args);
+		DesignCast.alzTagArg.go(args);
 		const p = DesignCast.alzTagArg.hPrm;
 
 		// pivot (this)

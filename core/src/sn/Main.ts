@@ -8,7 +8,7 @@
 import {CmnLib, argChk_Boolean} from './CmnLib';
 import {IHTag, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
-import {REG_TAG_NAME, splitAmpersand} from './Grammar';
+import {tagToken2Name, splitAmpersand} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {PropParser} from './PropParser';
 import {DebugMng} from './DebugMng';
@@ -169,8 +169,7 @@ export class Main implements IMain {
 						const e = err as Error;
 					//	if (e is StackOverflowError) traceDbg(e.getStackTrace())
 						let mes = `タグ解析中例外 mes=${e.message}(${e.name})`;
-						const a_tag: any = REG_TAG_NAME.exec(token);
-						if (a_tag) mes = `[${a_tag.groups.name}]`+ mes;
+						mes = `[${tagToken2Name(token)}]`+ mes;
 						this.errScript(mes, false);
 					}
 					else this.errScript(String(err), false);
