@@ -1,3 +1,10 @@
+## [1.15.7](https://github.com/famibee/SKYNovel/compare/v1.15.6...v1.15.7) (2021-03-06)
+
+
+### Bug Fixes
+
+* Incomplete string escaping or encoding ([a63ad3e](https://github.com/famibee/SKYNovel/commit/a63ad3e92179ec081df7ef7a68af2a0a3841e103))
+
 - fix: Incomplete string escaping or encoding
 
 
