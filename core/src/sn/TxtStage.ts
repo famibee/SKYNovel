@@ -1089,9 +1089,9 @@ export class TxtStage extends Container {
 		const len = s.length;
 		for (let i=0; i<len; ++i) {
 			const key: any = s[i];
-			aStyle.push(`"${key}":"${s[key].replace(/(")/g, '\\$1')}"`);
+			aStyle.push(`"${key}":"${s[key].replace(/(["\\])/g, '\\$1')}"`);
 		}
-		return `"txt":"${this.htmTxt.textContent!.replace(/(")/g, '\\$1')
+		return `"txt":"${this.htmTxt.textContent!.replace(/(["\\])/g, '\\$1')
 		}", "style":{${aStyle.join(',')}}`;
 			// 4Debug。++カウンターし、dump表示させても良さげ
 	}

@@ -1,3 +1,6 @@
+- fix: Incomplete string escaping or encoding
+
+
 ## [1.15.6](https://github.com/famibee/SKYNovel/compare/v1.15.5...v1.15.6) (2021-03-06)
 
 
