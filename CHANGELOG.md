@@ -1,3 +1,6 @@
+- fix: 正規表現最適化2（AnalyzeTagArg・REG_TAGARG）
+
+
 ## [1.15.5](https://github.com/famibee/SKYNovel/compare/v1.15.4...v1.15.5) (2021-03-06)
 
 
