@@ -1,3 +1,10 @@
+## [1.15.5](https://github.com/famibee/SKYNovel/compare/v1.15.4...v1.15.5) (2021-03-06)
+
+
+### Bug Fixes
+
+* 正規表現最適化（AnalyzeTagArg・REG_TAGARG） ([cf1199e](https://github.com/famibee/SKYNovel/commit/cf1199ee266242200fff97b481d0656aafed99a4))
+
 - fix: 正規表現最適化（AnalyzeTagArg・REG_TAGARG）
 
 
