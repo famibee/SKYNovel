@@ -1,3 +1,6 @@
+- fix: 正規表現最適化
+
+
 ## [1.15.3](https://github.com/famibee/SKYNovel/compare/v1.15.2...v1.15.3) (2021-03-04)
 
 

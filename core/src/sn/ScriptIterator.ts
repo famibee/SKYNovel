@@ -9,7 +9,7 @@ import {uint, argChk_Boolean, getFn, CmnLib} from './CmnLib';
 import {IHTag, IMain, IVariable, IMark, HArg, Script, IPropParser} from './CmnInterface';
 import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
-import {Grammar, REG_TAG} from './Grammar';
+import {Grammar, REG_TAG, REG_TAG_NAME} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 
 import {EventMng} from './EventMng';
@@ -273,7 +273,7 @@ export class ScriptIterator {
 
 			default:
 			{	// 関数ブレークポイント
-				const e = REG_TAG.exec(token);
+				const e = REG_TAG_NAME.exec(token);
 				const tag_name = e?.groups?.name ?? '';
 				if (tag_name in ScriptIterator.hFuncBP) {
 					this.breakState = BreakState.break;
@@ -312,7 +312,7 @@ export class ScriptIterator {
 		const idx_n = this.breakState === BreakState.breaking ?1 :0;
 		const tkn0 = this.script.aToken[this.idxToken_ -1 +idx_n];
 
-		const e0 = REG_TAG.exec(tkn0);
+		const e0 = REG_TAG_NAME.exec(tkn0);
 		const tag_name0 = e0?.groups?.name ?? '';
 
 		const fn0 = this.cnvSnPath4Dbg(this.scriptFn_);
@@ -334,7 +334,7 @@ export class ScriptIterator {
 			const st = this.hScript[cs.fn];
 			const tkn = st.aToken[cs.idx -1];
 			const lc = this.cnvIdx2lineCol(st, cs.idx);	// -1不要
-			const e = REG_TAG.exec(tkn);
+			const e = REG_TAG_NAME.exec(tkn);
 			const tag_name = e?.groups?.name ?? '';
 			a.push({
 				fn: this.cnvSnPath4Dbg(cs.fn),

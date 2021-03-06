@@ -8,8 +8,9 @@
 import {Script, HArg} from './CmnInterface';
 import {RubySpliter} from './RubySpliter';
 
-export const	REG_TAG	= /\[(?<name>[^\s;\]]+)\s*(?<args>(?:[^"'#\]]+|(["'#]).*?\3)*?)]/;
-	// 47 match 959 step (1ms) https://regex101.com/r/TKk1Iz/4
+export const	REG_TAG	= /\[(?<name>[^\s;\]]+)(?<args>[^\]]*)]/;
+	// 47 match 426 step (~1ms) https://regex101.com/r/QKZW3v/1
+export const	REG_TAG_NAME	= /\[(?<name>[^\s;\]]+)/;
 
 export function	splitAmpersand(token: string): {
 		name: string;
