@@ -139,6 +139,12 @@ export class DesignCast {
 		DesignCast.hId2dc = {};
 	}
 	private	static	aDC: DesignCast[] = [];
+	static	allHide() {DesignCast.aDC.forEach(v=> v.visible = false);}
+	set visible(v: boolean) {
+		if (! this.div || ! this.mov) return;
+		this.div.style.display = v ?'inline' :'none';
+		this.mov.updateTarget();
+	}
 	static	leaveMode() {
 		DesignCast.divDesignRoot.textContent = '';
 		DesignCast.divDesignRoot.style.display = 'none';
@@ -172,8 +178,8 @@ export class DesignCast {
 	protected	rotation	= 0;
 	protected	oldFn = ()=> '';
 	protected	onDragStart() {}
-	protected	readonly	rotatable		: boolean	= true;
-	dspDesignCast() {
+	protected	readonly	rotatable	: boolean	= true;
+	make() {
 		const id_dc = this.hArg[':id_dc'] ?? this.id_tag;
 		DesignCast.hId2dc[id_dc] = this;
 
@@ -182,6 +188,7 @@ export class DesignCast {
 		d.classList.add('sn_design_cast');
 		d.dataset.id_dc = id_dc;
 		d.style.backgroundColor = `${this.bg_col}`;
+		d.style.display = 'none';
 		this.rect = this.getRect();
 		this.resizeDiv();
 		(this.parent

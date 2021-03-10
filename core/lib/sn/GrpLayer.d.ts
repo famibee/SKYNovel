@@ -5,7 +5,7 @@ import { Config } from './Config';
 import { SysBase } from './SysBase';
 import { Sprite, Container, Texture } from 'pixi.js';
 import { SoundMng } from './SoundMng';
-import { IGenerateDesignCast } from './LayerMng';
+import { IMakeDesignCast } from './LayerMng';
 export interface IFncCompSpr {
     (sp: Sprite): void;
 }
@@ -70,9 +70,9 @@ export declare class GrpLayer extends Layer {
         idc_hArg: HArg;
     };
     playback(hLay: any, aPrm: Promise<void>[]): void;
+    makeDesignCast(gdc: IMakeDesignCast): void;
     cvsResize(): void;
-    drawDesignCast(gdc: IGenerateDesignCast): void;
-    drawDesignCastChildren(_gdc: IGenerateDesignCast): void;
+    showDesignCast(): void;
     readonly dump: () => string;
 }
 export {};

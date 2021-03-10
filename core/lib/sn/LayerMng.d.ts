@@ -9,7 +9,7 @@ import { SoundMng } from './SoundMng';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { DesignCast } from './DesignCast';
 import { Application } from 'pixi.js';
-export interface IGenerateDesignCast {
+export interface IMakeDesignCast {
     (idc: DesignCast): void;
 }
 export interface HPage {
@@ -32,11 +32,11 @@ export declare class LayerMng implements IGetFrm {
     private readonly frmMng;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, alzTagArg: AnalyzeTagArg, prpPrs: IPropParser);
     private fncTicker;
+    private cvsResizeDesign;
     private readonly hProcDbgRes;
     private modeLn;
     private modeLnSub;
-    private enterMode;
-    private cvsResizeDesign;
+    private selectNode;
     getFrmDisabled: (id: string) => boolean;
     private grpCover;
     cover(visible: boolean, bg_color?: number): void;

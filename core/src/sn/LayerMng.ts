@@ -25,7 +25,7 @@ import {DesignCast} from './DesignCast';
 import {Tween, update, removeAll} from '@tweenjs/tween.js'
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 
-export interface IGenerateDesignCast { (idc	: DesignCast): void; };
+export interface IMakeDesignCast { (idc	: DesignCast): void; };
 
 export interface HPage {[name: string]: Pages};
 
@@ -188,6 +188,7 @@ export class LayerMng implements IGetFrm {
 		}
 	}
 	private fncTicker = ()=> update();
+	private	cvsResizeDesign() {}
 
 
 	private	readonly	hProcDbgRes
@@ -196,35 +197,37 @@ export class LayerMng implements IGetFrm {
 		continue	: _=> {DesignCast.leaveMode();	return false;},
 		disconnect	: _=> {DesignCast.leaveMode();	return false;},
 		_enterDesign: _=> {
-			this.enterMode(this.curTxtlay);	return false;
-		//	this.enterMode('mes/ボタン');	return false;	// Test用
-		//	this.enterMode(this.firstGrplay);	return false;
+			DesignCast.enterMode();
+			this.aLayName.forEach(layer=> {
+				const lay = this.hPages[layer].fore;
+				lay.makeDesignCastChildren(gdc=> gdc.make());
+				lay.makeDesignCast(gdc=> gdc.make());
+			});
+
+			this.selectNode(this.curTxtlay);	return false;
+		//	this.selectNode('mes/ボタン');	return false;	// Test用
+		//	this.selectNode(this.firstGrplay);	return false;
 				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
-		_replaceToken	: (_, o)=> {DesignCast.replaceToken(o); return false;},
-		_selectNode: (_, o)=> {this.enterMode(o.node); return false;},
+		_replaceToken: (_, o)=> {DesignCast.replaceToken(o); return false;},
+		_selectNode	: (_, o)=> {this.selectNode(o.node); return false;},
 	}
 	private	modeLn		= '';
 	private	modeLnSub	= '';
-	private enterMode(node: string) {
+	private selectNode(node: string) {
 		[this.modeLn, this.modeLnSub = ''] = node.split('/');
-		const lay = this.hPages[this.modeLn];
-		if (! lay) return;
+		const pages = this.hPages[this.modeLn];
+		if (! pages) return;
 
-		DesignCast.enterMode();
-		if (this.modeLnSub) {
-			lay.fore.drawDesignCastChildren(gdc=> gdc.dspDesignCast());
-		}
-		else lay.fore.drawDesignCast(gdc=> gdc.dspDesignCast());
+		DesignCast.allHide();
+		if (this.modeLnSub) pages.fore.showDesignCastChildren();
+		else pages.fore.showDesignCast();
 	}
-
-	private	cvsResizeDesign() {}
-
 
 	getFrmDisabled = (id: string)=> this.frmMng.getFrmDisabled(id);
 
 	private grpCover : Graphics | null = null;
-	cover(visible: boolean, bg_color: number = 0x0) {
+	cover(visible: boolean, bg_color = 0x0) {
 		if (this.grpCover) {
 			this.stage.removeChild(this.grpCover);
 			this.grpCover.destroy();

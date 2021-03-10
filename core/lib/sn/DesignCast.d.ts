@@ -47,6 +47,8 @@ export declare class DesignCast {
     private static hId2dc;
     static enterMode(): void;
     private static aDC;
+    static allHide(): void;
+    set visible(v: boolean);
     static leaveMode(): void;
     cvsResize(): void;
     private resizeDiv;
@@ -62,7 +64,7 @@ export declare class DesignCast {
     protected oldFn: () => string;
     protected onDragStart(): void;
     protected readonly rotatable: boolean;
-    dspDesignCast(): void;
+    make(): void;
     protected procDragHint(e: OnDrag, left: number, top: number): void;
     protected procResizeHint(e: OnResize, left: number, top: number): void;
     static replaceToken(o: any): void;

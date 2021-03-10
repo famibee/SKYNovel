@@ -1,6 +1,6 @@
 import { DisplayObject, Container, Sprite, Renderer } from 'pixi.js';
 import { HArg } from './CmnInterface';
-import { IGenerateDesignCast } from './LayerMng';
+import { IMakeDesignCast } from './LayerMng';
 export declare class Layer {
     layname: string;
     protected name_: string;
@@ -45,10 +45,12 @@ export declare class Layer {
     playback(hLay: any, _aPrm: Promise<void>[]): void;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
+    makeDesignCast(_gdc: IMakeDesignCast): void;
+    makeDesignCastChildren(_gdc: IMakeDesignCast): void;
+    showDesignCast(): void;
+    showDesignCastChildren(): void;
     cvsResize(): void;
     cvsResizeChildren(): void;
-    drawDesignCast(_gdc: IGenerateDesignCast): void;
-    drawDesignCastChildren(_gdc: IGenerateDesignCast): void;
     dump(): string;
     static setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp?: boolean, isButton?: boolean): void;
     static setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void;

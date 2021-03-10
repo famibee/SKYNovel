@@ -14,7 +14,7 @@ import {SysBase} from './SysBase';
 import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
-import {IGenerateDesignCast} from './LayerMng';
+import {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
 
 export interface IFncCompSpr { (sp: Sprite): void; };
@@ -385,16 +385,16 @@ export class GrpLayer extends Layer {
 		)));
 	}
 
-	cvsResize() {super.cvsResize();}
-
-	drawDesignCast(gdc: IGenerateDesignCast) {
+	makeDesignCast(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
 		gdc(this.idc);
 	}
-	drawDesignCastChildren(_gdc: IGenerateDesignCast) {
-		if (! this.spLay.visible) return;
-//		this.cntBtn.children.forEach(btn=> (btn as Button).drawDesignCast(gdc));
-	}
+	//makeDesignCastChildren(_gdc: IMakeDesignCast) {}
+
+	cvsResize() {super.cvsResize();}
+
+	showDesignCast() {this.idc.visible = true;}
+	//showDesignCastChildren() {}
 
 	readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;
 

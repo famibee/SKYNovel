@@ -1,7 +1,7 @@
 import { IEvtMng } from './CmnLib';
 import { HArg } from './CmnInterface';
 import { Config } from './Config';
-import { IGenerateDesignCast } from './LayerMng';
+import { IMakeDesignCast } from './LayerMng';
 import { Container, Sprite, Renderer } from 'pixi.js';
 export interface IInfTxLay {
     fontsize: number;
@@ -99,7 +99,8 @@ export declare class TxtStage extends Container {
     private sss;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
-    drawDesignCast(gdc: IGenerateDesignCast): void;
+    makeDesignCast(gdc: IMakeDesignCast): void;
+    showDesignCast(): void;
     dump(): string;
     destroy(): void;
 }

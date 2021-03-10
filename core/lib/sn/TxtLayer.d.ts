@@ -3,7 +3,7 @@ import { IEvtMng } from './CmnLib';
 import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
 import { IInfTxLay } from './TxtStage';
 import { Config } from './Config';
-import { IGenerateDesignCast } from './LayerMng';
+import { IMakeDesignCast } from './LayerMng';
 import { Renderer } from 'pixi.js';
 export declare class TxtLayer extends Layer {
     private static cfg;
@@ -115,8 +115,10 @@ export declare class TxtLayer extends Layer {
     playback(hLay: any, aPrm: Promise<void>[]): void;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
-    drawDesignCast(gdc: IGenerateDesignCast): void;
-    drawDesignCastChildren(gdc: IGenerateDesignCast): void;
+    makeDesignCast(gdc: IMakeDesignCast): void;
+    makeDesignCastChildren(gdc: IMakeDesignCast): void;
+    showDesignCast(): void;
+    showDesignCastChildren(): void;
     dump(): string;
 }
 //# sourceMappingURL=TxtLayer.d.ts.map

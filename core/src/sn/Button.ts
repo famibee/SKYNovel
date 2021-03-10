@@ -12,7 +12,7 @@ import {HArg} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
 import {Config} from './Config';
-import {IGenerateDesignCast} from './LayerMng';
+import {IMakeDesignCast} from './LayerMng';
 import {DesignCast, TxtBtnDesignCast, PicBtnDesignCast} from './DesignCast';
 
 export class Button extends Container {
@@ -49,7 +49,7 @@ export class Button extends Container {
 		super();
 
 		if (CmnLib.isDbg) {
-			this.drawDesignCast = gdc=> gdc(this.idc);
+			this.makeDesignCast = gdc=> gdc(this.idc);
 			this.cvsResize = ()=> this.idc.cvsResize();
 		}
 		this.name = JSON.stringify(hArg);
@@ -165,7 +165,8 @@ export class Button extends Container {
 		)) resolve();
 	}
 
-	drawDesignCast(_gdc: IGenerateDesignCast) {}
+	makeDesignCast(_gdc: IMakeDesignCast) {}
+	showDesignCast() {this.idc.visible = true;}
 	cvsResize() {}
 
 	update_b_pic(fn: string, txt: Text) {

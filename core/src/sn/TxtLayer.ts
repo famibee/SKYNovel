@@ -13,7 +13,7 @@ import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
-import {LayerMng, IGenerateDesignCast} from './LayerMng';
+import {LayerMng, IMakeDesignCast} from './LayerMng';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer} from 'pixi.js';
 
@@ -876,13 +876,18 @@ export class TxtLayer extends Layer {
 	}
 	snapshot_end() {this.txs.snapshot_end();}
 
-	drawDesignCast(gdc: IGenerateDesignCast) {
+	makeDesignCast(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
-		this.txs.drawDesignCast(gdc);
+		this.txs.makeDesignCast(gdc);
 	}
-	drawDesignCastChildren(gdc: IGenerateDesignCast) {
+	makeDesignCastChildren(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
-		this.cntBtn.children.forEach(btn=> (btn as Button).drawDesignCast(gdc));
+		this.cntBtn.children.forEach(btn=> (btn as Button).makeDesignCast(gdc));
+	}
+
+	showDesignCast() {this.txs.showDesignCast();}
+	showDesignCastChildren() {
+		this.cntBtn.children.forEach(btn=> (btn as Button).showDesignCast());
 	}
 
 	dump(): string {

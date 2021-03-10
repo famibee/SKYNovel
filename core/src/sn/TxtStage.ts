@@ -11,7 +11,7 @@ import {Config} from './Config';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
-import {IGenerateDesignCast} from './LayerMng';
+import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
@@ -1075,13 +1075,14 @@ export class TxtStage extends Container {
 		if (this.sss) {this.cntTxt.removeChild(this.sss); this.sss = null;}
 	}
 
-	drawDesignCast(gdc: IGenerateDesignCast) {
+	makeDesignCast(gdc: IMakeDesignCast) {
 		gdc(this.idc);
 
 		const o = this.idc.gethArg();
 		this.idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
 		gdc(this.idcCh);
 	}
+	showDesignCast() {this.idc.visible = true;}
 
 	dump(): string {
 		const aStyle: string[] = [];
