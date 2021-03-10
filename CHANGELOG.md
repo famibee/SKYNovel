@@ -1,3 +1,10 @@
+## [1.15.8](https://github.com/famibee/SKYNovel/compare/v1.15.7...v1.15.8) (2021-03-10)
+
+
+### Bug Fixes
+
+* デバッグ：レイヤ構造で選択されてないとリアルタイムプレビュー的動作をしない件 ([76ed4b6](https://github.com/famibee/SKYNovel/commit/76ed4b66297ec64cb1ce138c2de7704c6068d576))
+
 - fix: デバッグ：レイヤ構造で選択されてないとリアルタイムプレビュー的動作をしない件
 
 
