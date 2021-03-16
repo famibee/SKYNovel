@@ -482,7 +482,7 @@ export class GrpLayDesignCast extends DesignCast {
 	private	sp: Sprite;
 	setSp(sp: Sprite) {this.sp = sp}
 
-	protected	getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp.width, this.sp.height)}
+	protected	getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp?.width ?? 0, this.sp?.height ?? 0)}
 	protected	cnvPosArg(left: number, top: number) {return {left, top}}
 	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
 	protected	setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
