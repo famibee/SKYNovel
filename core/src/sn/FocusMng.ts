@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib} from './CmnLib';
-import {Container} from 'pixi.js';
+import {Container, utils} from 'pixi.js';
 
 interface IFocusBtn {
 	btn	: Container | HTMLElement;
@@ -26,7 +26,7 @@ export class FocusMng {
 		if (this.aBtn.findIndex(b=> b.btn === cmp) >= 0) return;
 		if (cmp instanceof Container) {
 			// フレーム部品に【 if (btn instanceof HTMLElement) 】が上手く使えない
-			cmp.on('pointerdown', ()=> {
+			(cmp as utils.EventEmitter).on('pointerdown', ()=> {
 				for (let i=this.aBtn.length -1; i>=0; --i) {
 					const b = this.aBtn[i];
 					if (b.btn === cmp) {this.idx = i; return;}

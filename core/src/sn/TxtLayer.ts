@@ -813,7 +813,7 @@ export class TxtLayer extends Layer {
 		this.cntBtn.addChild(btn);
 	});
 	canFocus(): boolean {
-		return this.spLay.interactiveChildren && this.spLay.visible
+		return (this.spLay.interactiveChildren ?? false) && this.spLay.visible
 			&& TxtLayer.isPageFore(this);
 	}
 
@@ -822,7 +822,7 @@ export class TxtLayer extends Layer {
 		super.clearLay(hArg);
 
 		this.clearText();
-		this.cntBtn.removeChildren().forEach(c=> c.removeAllListeners().destroy());	// removeAllListeners()はマウスオーバーイベントなど。クリックは別
+		this.cntBtn.removeChildren().forEach(c=> c.destroy());
 	}
 	readonly record = ()=> Object.assign(super.record(), {
 		enabled	: this.enabled,

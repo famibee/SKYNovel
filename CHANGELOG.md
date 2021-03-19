@@ -1,3 +1,6 @@
+- fix: pixi.js@6.0.0準備
+
+
 ## [1.15.9](https://github.com/famibee/SKYNovel/compare/v1.15.8...v1.15.9) (2021-03-16)
 
 

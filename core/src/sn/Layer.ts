@@ -163,6 +163,7 @@ export class Layer {
 
 	snapshot(rnd: Renderer, re: ()=> void) {
 		rnd.render(this.spLay, undefined, false);
+//		rnd.render(this.spLay, {clear: false});	// pixi.js@6.0.0
 		re();
 	}
 	snapshot_end() {}

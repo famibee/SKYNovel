@@ -15,7 +15,7 @@ import {Button} from './Button';
 import {FocusMng} from './FocusMng';
 
 import {Tween} from '@tweenjs/tween.js'
-import {Container, Application} from 'pixi.js';
+import {Container, Application, utils} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
@@ -91,7 +91,7 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', (e: any)=> this.fire('click', e));
+		if (CmnLib.isMobile) (appPixi.stage as utils.EventEmitter).on('pointerdown', (e: any)=> this.fire('click', e));
 		else this.elc.add(appPixi.stage, 'pointerdown', e=> {
 			switch (e.data.button) {
 				case 0:	this.fire('click', e);	break;
@@ -249,7 +249,7 @@ export class EventMng implements IEvtMng {
 		if (key === 'enter') {
 			const em = this.fcs.getFocus();
 			if (em && em instanceof Container) {
-				em.emit('pointerdown', new Event('pointerdown'));
+				(em as utils.EventEmitter).emit('pointerdown', new Event('pointerdown'));
 				return;
 			}
 		}
@@ -346,17 +346,18 @@ export class EventMng implements IEvtMng {
 		if (glb)
 			this.hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		else this.hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-		em.on('pointerdown', (e: any)=> this.fire(key, e));
+		const ee = em as utils.EventEmitter;
+		ee.on('pointerdown', (e: any)=> this.fire(key, e));
 
 		// マウスカーソルを載せるとヒントをツールチップス表示する
 		const onHint = hArg.hint ?()=> this.dispHint(hArg, em) :()=> {};
 		// マウスオーバーでの見た目変化
 		const nr = ()=> {normal(); this.hint.visible = false;};
 		const hv = ()=> {onHint(); return hover();};
-		em.on('pointerover', hv);
-		em.on('pointerout', ()=> {if (this.fcs.isFocus(em)) hv(); else nr()});
-		em.on('pointerdown', clicked);
-		em.on('pointerup', CmnLib.isMobile
+		ee.on('pointerover', hv);
+		ee.on('pointerout', ()=> {if (this.fcs.isFocus(em)) hv(); else nr()});
+		ee.on('pointerdown', clicked);
+		ee.on('pointerup', CmnLib.isMobile
 			? nr
 			: ()=> {if (this.fcs.isFocus(em)) hv(); else nr()}
 		);
@@ -366,7 +367,7 @@ export class EventMng implements IEvtMng {
 		// 音関係
 		if (hArg.clickse) {	//	clickse	クリック時に効果音
 			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);// 存在チェック
-			em.on('pointerdown', ()=> {
+			ee.on('pointerdown', ()=> {
 				const o: HArg = {fn: hArg.clickse, join: false};
 				if (hArg.clicksebuf) o.buf = hArg.clicksebuf;
 				this.hTag.playse(o);
@@ -374,7 +375,7 @@ export class EventMng implements IEvtMng {
 		}
 		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
 			this.cfg.searchPath(hArg.enterse, Config.EXT_SOUND);// 存在チェック
-			em.on('pointerover', ()=> {
+			ee.on('pointerover', ()=> {
 				const o: HArg = {fn: hArg.enterse, join: false};
 				if (hArg.entersebuf) o.buf = hArg.entersebuf;
 				this.hTag.playse(o);
@@ -382,7 +383,7 @@ export class EventMng implements IEvtMng {
 		}
 		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
 			this.cfg.searchPath(hArg.leavese, Config.EXT_SOUND);// 存在チェック
-			em.on('pointerout', ()=> {
+			ee.on('pointerout', ()=> {
 				const o: HArg = {fn: hArg.leavese, join: false};
 				if (hArg.leavesebuf) o.buf = hArg.leavesebuf;
 				this.hTag.playse(o);
@@ -395,7 +396,7 @@ export class EventMng implements IEvtMng {
 			if (glb)
 				this.hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
-			em.on('pointerover', (e: any)=> this.fire(k, e));
+			ee.on('pointerover', (e: any)=> this.fire(k, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
@@ -404,7 +405,7 @@ export class EventMng implements IEvtMng {
 			if (glb)
 				this.hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
 			else this.hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
-			em.on('pointerout', (e: any)=> this.fire(k, e));
+			ee.on('pointerout', (e: any)=> this.fire(k, e));
 		}
 
 		this.sndMng.loadAheadSnd(hArg);

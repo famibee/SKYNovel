@@ -81,6 +81,7 @@ export class SysBase implements ISysBase {
 			getVal: val.getVal,
 			resume: ()=> main.resume(),
 			render: (dsp: DisplayObject, renTx: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
+//			render: (dsp: DisplayObject, renderTexture: renTx, clear = false)=> this.appPixi.renderer.render(dsp, {renderTexture: renTx, clear: clear}),	// pixi.js@6.0.0
 			setPre: fnc=> this.pre = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,

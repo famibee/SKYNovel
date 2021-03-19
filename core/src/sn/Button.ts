@@ -170,7 +170,7 @@ export class Button extends Container {
 	cvsResize() {}
 
 	update_b_pic(fn: string, txt: Text) {
-		const oName = JSON.parse(txt.name);
+		const oName = JSON.parse(txt.name ?? '{}');
 		if (this.sp_b_pic) this.removeChild(this.sp_b_pic);
 		this.hArg.b_pic = oName.b_pic = fn;
 		txt.name = JSON.stringify(oName);
@@ -196,7 +196,7 @@ export class Button extends Container {
 	}
 
 	update_pic(fn: string, sp: Sprite) {
-		const oName = JSON.parse(sp.name);
+		const oName = JSON.parse(sp.name ?? '{}');
 		if (this.sp_pic) this.removeChild(this.sp_pic);
 		this.hArg.pic = oName.pic = fn;
 		sp.name = JSON.stringify(oName);

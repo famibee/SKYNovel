@@ -152,7 +152,7 @@ export class GrpLayer extends Layer {
 		}
 
 		const aComp: {fn: string, fnc: IFncCompSpr}[] = [];
-		const ldr = new Loader();
+		const ldr = new Loader;
 		csv.split(',').forEach((fn, i)=> {
 			if (! fn) throw 'face属性に空要素が含まれます';
 
@@ -206,6 +206,7 @@ export class GrpLayer extends Layer {
 		}
 		if (needLoad) {
 			ldr.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+//			ldr.pre((res, next)=> res.load().then(()=> {	// pixi.js@6.0.0
 				this.sys.pre(res.extension, res.data)
 				.then(r=> GrpLayer.preThen(r, res, next))
 				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
@@ -217,6 +218,7 @@ export class GrpLayer extends Layer {
 		return needLoad;
 	}
 	private static preThen = (_r: any, _res: LoaderResource, next: Function)=> next();
+//	private static preThen = (_r: any, _res: Resource, next: Function)=> next();	// pixi.js@6.0.0
 	private static preThen4Cripto(r: any, res: LoaderResource, next: Function): void {
 		res.data = r;
 		if (res.extension === 'bin') {
@@ -239,6 +241,7 @@ export class GrpLayer extends Layer {
 		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
 		(new Loader())
 		.pre((res2: LoaderResource, next2: Function)=> res2.load(()=> {
+//		.pre((res2, next2: Function)=> res2.load().then(()=> {	// pixi.js@6.0.0
 			this.sys.pre(res2.extension, res2.data)
 			.then(r=> {
 				res2.data = r;

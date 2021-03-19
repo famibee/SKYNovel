@@ -6,13 +6,11 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Tween, Easing} from '@tweenjs/tween.js'
-/**/import {Sprite} from 'pixi.js';
 
 
 // =============== Tween
 export interface ITwInf {
-	tw		: Tween<Sprite> | null;
-//	tw		: Tween | null;
+	tw		: Tween<any> | null;
 	resume	: boolean;
 	onEnd?	: ()=> void;
 }

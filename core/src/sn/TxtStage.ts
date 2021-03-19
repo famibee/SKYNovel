@@ -14,7 +14,7 @@ import {DebugMng} from './DebugMng';
 import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 
-import {Container, Texture, Sprite, Graphics, Rectangle, Renderer} from 'pixi.js';
+import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, utils} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
 export interface IInfTxLay {
@@ -528,7 +528,7 @@ export class TxtStage extends Container {
 			canvas.getContext('2d')!.drawImage(img, 0, 0);
 			canvas.toBlob(blob=> {
 				const url = URL.createObjectURL(blob);
-				Texture.from(url).once('update', (tx2: any)=> {
+				(Texture.from(url) as utils.EventEmitter).once('update', (tx2: any)=> {
 					fnc(tx2);
 					URL.revokeObjectURL(url);
 				});
@@ -1004,7 +1004,7 @@ export class TxtStage extends Container {
 
 		const end = ()=> {
 			old.parentElement!.removeChild(old);
-			this.cntTxt.removeChildren().forEach(c=> c.removeAllListeners().destroy());
+			this.cntTxt.removeChildren().forEach(c=> c.destroy());
 		};
 		if (sum_wait === 0) {this.htmTxt.textContent = ''; end();}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});

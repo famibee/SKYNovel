@@ -21,8 +21,8 @@ export class EventListenerCtn {	// リソースリーク対策
 			case 'update':
 			case 'error':
 			case 'dispose':
-				ed.on(type, fnc, ctx);
-				this.vctEvt.push(()=> ed.off(type, fnc, ctx));
+				(ed as utils.EventEmitter).on(type, fnc, ctx);
+				this.vctEvt.push(()=> (ed as utils.EventEmitter).off(type, fnc, ctx));
 				break;
 			}
 			return;

@@ -330,7 +330,10 @@ export class SoundMng {
 		}
 
 		(new Loader()).add(fn, url, {xhrType: 'arraybuffer'})
+//		(new Loader()).add({name: fn, url, })
+			// xhrType: 'arraybuffer'
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+//		.pre((res, next: Function)=> res.load().then(()=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));

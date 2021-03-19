@@ -493,8 +493,8 @@ export class GrpLayDesignCast extends DesignCast {
 			this.gl.lay({fn});
 		}
 
-		this.spLay.pivot	= this.pivot;
-		this.spLay.scale	= this.scale;
+		this.spLay.pivot.copyFrom(this.pivot);
+		this.spLay.scale.copyFrom(this.scale);
 		this.spLay.angle	= this.rotation;	// angleにセット
 	}
 	protected	oldFn = ()=> this.hArg.fn ?? '';
@@ -521,8 +521,8 @@ export class TxtLayDesignCast extends DesignCast {
 	setOther(hPrm: HPRM) {
 		this.child?.setOther(hPrm);
 
-		this.spLay.pivot	= this.pivot;
-		this.spLay.scale	= this.scale;
+		this.spLay.pivot.copyFrom(this.pivot);
+		this.spLay.scale.copyFrom(this.scale);
 		this.spLay.angle	= this.rotation;	// angleにセット
 	}
 }
@@ -619,8 +619,8 @@ export class BtnDesignCast extends DesignCast {
 	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
 	protected	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
 	setOther(_hPrm: HPRM) {
-		this.btn.pivot	= this.pivot;
-		this.btn.scale	= this.scale;
+		this.btn.pivot.copyFrom(this.pivot);
+		this.btn.scale.copyFrom(this.scale);
 		this.btn.angle	= this.rotation;	// angleにセット
 	}
 
