@@ -1,3 +1,10 @@
+## [1.15.10](https://github.com/famibee/SKYNovel/compare/v1.15.9...v1.15.10) (2021-03-19)
+
+
+### Bug Fixes
+
+* pixi.js@6.0.0準備 ([41605b4](https://github.com/famibee/SKYNovel/commit/41605b4b3879738f80f741d14ac38971f3aa008d))
+
 - fix: pixi.js@6.0.0準備
 
 
