@@ -66,6 +66,7 @@ export class FrameMng implements IGetFrm {
 		const ld = (new Loader())
 		.add(src, url, {xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
 		if (this.sys.crypto) {
+//			ld.pre((res, next: Function)=> res.load().then(()=> {	// pixi.js@6.0.0
 			ld.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 				this.sys.pre(res.extension, res.data)
 				.then(r=> {res.data = r; next();})
@@ -111,8 +112,12 @@ export class FrameMng implements IGetFrm {
 					this.hAEncImg[src] = [i];
 
 					const url2 = this.cfg.searchPath(src, Config.EXT_SPRITE);
-					const ld2 = (new Loader())
+					const ld2 = (new Loader)
+//					.add(src, url2);	// pixi.js@6.0.0
+						// , {xhrType: 'arraybuffer'}
+						// NOTE: xhrType
 					.add(src, url2, {xhrType: 'arraybuffer'});
+//					if (this.sys.crypto) ld2.pre((res, next: Function)=> res.load(()=> {	// pixi.js@6.0.0
 					if (this.sys.crypto) ld2.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 						this.sys.pre(res.extension, res.data)
 						.then(r=> {

@@ -265,10 +265,7 @@ export class DesignCast {
 				// 子を優先、親を動かしたくないので無理矢理外す
 					// mov.dragEnd() が欲しいと要望は投げた
 					// https://github.com/daybrush/moveable/issues/391#issuecomment-788917763
-				Object.assign(this.mov, {target: null,});	// 親で外し
-				//this.child.mov.target = null;
-					// ここにできると書いてあるが、readonly
-					// https://daybrush.com/moveable/release/latest/doc/Moveable.html#target
+				this.child.mov.target = null;
 				return;
 			}
 		})

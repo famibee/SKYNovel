@@ -325,15 +325,15 @@ export class LayerMng implements IGetFrm {
 		const pg = (hArg.page !== 'back') ?'fore' :'back';
 		if (this.tiTrans.tw) a.push(new Promise<void>(re=> {	// [trans]中
 			this.back.visible = true;
-			this.aBackTransAfter.forEach(lay=> rnd.render(lay, undefined, false));
 //			this.aBackTransAfter.forEach(lay=> rnd.render(lay, {clear: false}));	// pixi.js@6.0.0
+			this.aBackTransAfter.forEach(lay=> rnd.render(lay, undefined, false));
 			this.back.visible = false;
 			this.spTransBack.visible = true;
 
 			this.fore.filters = this.spTransFore.filters;
 			this.fore.visible = true;
-			rnd.render(this.fore, undefined, false);
 //			rnd.render(this.fore, {clear: false});	// pixi.js@6.0.0
+			rnd.render(this.fore, undefined, false);
 			this.fore.visible = false;
 			this.fore.filters = [];
 			re();
@@ -343,12 +343,12 @@ export class LayerMng implements IGetFrm {
 		)));
 		Promise.all(a).then(async ()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
-			rnd.render(this.stage, renTx);
 //			rnd.render(this.stage, {renderTexture: renTx});	// pixi.js@6.0.0
+			rnd.render(this.stage, renTx);
 			await this.sys.savePic(
 				this.cfg.searchPath(fn),
-				rnd.extract.base64(Sprite.from(renTx)),
 //				rnd.plugins.extract.base64(Sprite.from(renTx)),	// pixi.js@6.0.0
+				rnd.extract.base64(Sprite.from(renTx)),
 			);
 			if (! this.tiTrans.tw) this.getLayers(hArg.layer)
 			.forEach(v=> this.hPages[v][pg].snapshot_end());
@@ -563,23 +563,23 @@ void main(void) {
 			this.hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'].spLay
 		));
 		this.rtTransBack.resize(CmnLib.stageW, CmnLib.stageH);
-		this.appPixi.renderer.render(this.back, this.rtTransBack);	// clear
 //		this.appPixi.renderer.render(this.back, {renderTexture: this.rtTransBack});	// clear: true	// pixi.js@6.0.0
+		this.appPixi.renderer.render(this.back, this.rtTransBack);	// clear
 		this.rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
-		this.appPixi.renderer.render(this.fore, this.rtTransFore);	// clear
 //		this.appPixi.renderer.render(this.fore, {renderTexture: this.rtTransFore});	// clear: true	// pixi.js@6.0.0
+		this.appPixi.renderer.render(this.fore, this.rtTransFore);	// clear
 		const fncRender = ()=> {
 			this.back.visible = true;
 			this.aBackTransAfter.forEach(lay=> {
-				this.appPixi.renderer.render(lay, this.rtTransBack, false);
 //				this.appPixi.renderer.render(lay, {renderTexture: this.rtTransBack, clear: false});	// pixi.js@6.0.0
+				this.appPixi.renderer.render(lay, this.rtTransBack, false);
 			});
 			this.back.visible = false;
 			this.spTransBack.visible = true;
 
 			this.fore.visible = true;
-			this.appPixi.renderer.render(this.fore, this.rtTransFore);
 //			this.appPixi.renderer.render(this.fore, {renderTexture: this.rtTransFore});	// pixi.js@6.0.0
+			this.appPixi.renderer.render(this.fore, this.rtTransFore);
 			this.fore.visible = false;
 			this.spTransFore.visible = true;
 		};
@@ -718,8 +718,8 @@ void main(void) {
 		const fncRender = ()=> {
 			this.fore.visible = true;
 			aDo.forEach(lay=>
-				this.appPixi.renderer.render(lay, this.rtTransFore, false)
 //				this.appPixi.renderer.render(lay, {renderTexture: this.rtTransFore, clear: false})	// pixi.js@6.0.0
+				this.appPixi.renderer.render(lay, this.rtTransFore, false)
 			);
 			this.fore.visible = false;
 		};

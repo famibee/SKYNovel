@@ -217,8 +217,9 @@ export class GrpLayer extends Layer {
 
 		return needLoad;
 	}
+//	private static preThen = (_r: any, _res: any, next: Function)=> next();	// pixi.js@6.0.0
 	private static preThen = (_r: any, _res: LoaderResource, next: Function)=> next();
-//	private static preThen = (_r: any, _res: Resource, next: Function)=> next();	// pixi.js@6.0.0
+//	private static preThen4Cripto(r: any, res: any, next: Function): void {	// pixi.js@6.0.0
 	private static preThen4Cripto(r: any, res: LoaderResource, next: Function): void {
 		res.data = r;
 		if (res.extension === 'bin') {
@@ -239,9 +240,9 @@ export class GrpLayer extends Layer {
 
 		const fn = getFn(o.meta.image);
 		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
-		(new Loader())
-		.pre((res2: LoaderResource, next2: Function)=> res2.load(()=> {
+		(new Loader)
 //		.pre((res2, next2: Function)=> res2.load().then(()=> {	// pixi.js@6.0.0
+		.pre((res2: LoaderResource, next2: Function)=> res2.load(()=> {
 			this.sys.pre(res2.extension, res2.data)
 			.then(r=> {
 				res2.data = r;
@@ -270,6 +271,7 @@ export class GrpLayer extends Layer {
 		ctx?.drawImage(img, 0, 0);
 		return cvs.toDataURL(mime);
 	}
+//	private static mkSprite(fn: string, res: any): Sprite {	// pixi.js@6.0.0
 	private static mkSprite(fn: string, res: LoaderResource): Sprite {
 		//console.log(`fn:GrpLayer.ts line:153 fn:${fn} a:%O b:%O c:%O`, GrpLayer.hFn2ResAniSpr[fn], utils.TextureCache[fn], Loader.shared.resources[fn]);
 		if (fn in utils.TextureCache) return Sprite.from(fn);

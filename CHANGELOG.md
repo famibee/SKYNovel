@@ -1,3 +1,7 @@
+- fix(DesignCast.ts): 軽微な修正
+- fix: pixi.js@6.0.0準備2
+
+
 ## [1.15.10](https://github.com/famibee/SKYNovel/compare/v1.15.9...v1.15.10) (2021-03-19)
 
 

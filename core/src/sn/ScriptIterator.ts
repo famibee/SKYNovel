@@ -13,6 +13,7 @@ import {Grammar, tagToken2Name_Args, tagToken2Name} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 
 import {EventMng} from './EventMng';
+//import {Loader} from 'pixi.js';	// pixi.js@6.0.0
 import {Loader, LoaderResource} from 'pixi.js';
 import {LayerMng} from './LayerMng';
 import {DebugMng} from './DebugMng';
@@ -723,9 +724,9 @@ export class ScriptIterator {
 		const st = this.hScript[this.scriptFn_];
 		if (st) {this.script = st; this.analyzeInit(); return;}
 
-		(new Loader()).add(this.scriptFn_, full_path)
-		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+		(new Loader).add(this.scriptFn_, full_path)
 //		.pre((res, next: Function)=> res.load().then(()=> {	// pixi.js@6.0.0
+		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));

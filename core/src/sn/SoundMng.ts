@@ -12,6 +12,7 @@ import {Config} from './Config';
 import {SysBase} from './SysBase';
 
 import PSnd from 'pixi-sound';
+//import {Loader} from 'pixi.js';	// pixi.js@6.0.0
 import {Loader, LoaderResource} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
@@ -329,11 +330,12 @@ export class SoundMng {
 			return;
 		}
 
-		(new Loader()).add(fn, url, {xhrType: 'arraybuffer'})
-//		(new Loader()).add({name: fn, url, })
+//		(new Loader()).add({name: fn, url, })	// pixi.js@6.0.0
 			// xhrType: 'arraybuffer'
+				// NOTE: xhrType
+		(new Loader()).add(fn, url, {xhrType: 'arraybuffer'})
+//		.pre((res, next: Function)=> res.load().then(()=> {	// pixi.js@6.0.0
 		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
-//		.pre((res, next: Function)=> res.load().then(()=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
