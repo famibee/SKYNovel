@@ -1,3 +1,10 @@
+## [1.15.11](https://github.com/famibee/SKYNovel/compare/v1.15.10...v1.15.11) (2021-03-22)
+
+
+### Bug Fixes
+
+* **DesignCast.ts:** 軽微な修正 ([6d0ebc2](https://github.com/famibee/SKYNovel/commit/6d0ebc220fd3f2ae035fbb0e9dc8978e153f8894))
+
 - fix(DesignCast.ts): 軽微な修正
 - fix: pixi.js@6.0.0準備2
 
