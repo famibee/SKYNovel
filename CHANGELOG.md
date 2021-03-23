@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/famibee/SKYNovel/compare/v1.15.11...v1.16.0) (2021-03-23)
+
+
+### Features
+
+* **デバッグ:** [macro]にstepin属性追加。false指定でステップインしない ([f639080](https://github.com/famibee/SKYNovel/commit/f639080dc87bedcfe4f7c27f4c508ea1a8fc9718))
+
 - feat(デバッグ): [macro]にstepin属性追加。false指定でステップインしない
 - feat: mp:const.sn.macro.stepin追加、そのマクロ定義のstepin属性値を返す。省略時true
 - feat: 非公開変数 mp:const.sn.macro追加、[macro]属性のJSON文字列
