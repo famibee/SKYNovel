@@ -1082,7 +1082,7 @@ export class TxtStage extends Container {
 		this.idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
 		gdc(this.idcCh);
 	}
-	showDesignCast() {this.idc.visible = true;}
+	showDesignCast() {this.idc.visible = true; this.idcCh.visible = true;}
 
 	dump(): string {
 		const aStyle: string[] = [];

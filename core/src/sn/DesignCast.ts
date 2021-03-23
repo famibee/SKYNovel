@@ -215,7 +215,7 @@ export class DesignCast {
 			}, 1000));
 		*/
 		const procStart = ()=> {
-			tmp.aPos = [0, 0];
+			tmp.aPos = [NaN, NaN];
 			tmp.roDeg = this.rotation;
 			const dpx = this.pivot.x *CmnLib.cvsScale;
 			const dpy = this.pivot.y *CmnLib.cvsScale;
@@ -236,6 +236,8 @@ export class DesignCast {
 		};
 		const resizeEnd = ()=> {
 			const [dx, dy] = tmp.aPos;
+			if (isNaN(dx)) {DesignCast.divHint.style.display = 'none'; return;}
+
 			const ix = int(this.rect.x += dx /CmnLib.cvsScale +this.pivot.x);
 			const iy = int(this.rect.y += dy /CmnLib.cvsScale +this.pivot.y);
 			this.setPos(ix, iy);	// レスポンス改善のため replaceToken より先に
@@ -248,6 +250,7 @@ export class DesignCast {
 				...this.cnvSizeArg(iw, ih),
 			});
 		};
+		let heCh: any | undefined = undefined;
 		this.mov = new Moveable(document.body, {
 			target	: d,
 			draggable	: true,
@@ -261,12 +264,13 @@ export class DesignCast {
 			procStart();
 			this.onDragStart();
 
-			if (this.child?.mov?.isInside(e.clientX, e.clientY)) {
-				// 子を優先、親を動かしたくないので無理矢理外す
-					// mov.dragEnd() が欲しいと要望は投げた
-					// https://github.com/daybrush/moveable/issues/391#issuecomment-788917763
-				this.child.mov.target = null;
-				return;
+			const m = this.child?.mov;
+			if (m) {
+				heCh = m.target;
+				if (m.isInside(e.clientX, e.clientY)) m.target = undefined;
+					// 子を優先、親を動かしたくないので無理矢理外す
+						// mov.dragEnd() が欲しいと要望は投げた
+						// https://github.com/daybrush/moveable/issues/391#issuecomment-788917763
 			}
 		})
 		.on('drag', e=> {
@@ -278,7 +282,8 @@ export class DesignCast {
 		.on('dragEnd', ()=> {
 			resizeEnd();	// パディングで右・下が固定されサイズ変更されるのでサイズも
 
-			if (this.parent?.mov) Object.assign(this.parent.mov, {target: this.parent.div,});	// 子で戻す（親はイベント発生しなくしているので）
+			if (this.child?.mov) this.child.mov.target = heCh;
+			if (this.parent?.mov) this.parent.mov.target = this.parent.div;	// 子で戻す（親はイベント発生しなくしているので）
 		})
 		.on('resizeStart', procStart)
 		.on('resize', e=> {

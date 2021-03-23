@@ -207,7 +207,7 @@ export class LayerMng implements IGetFrm {
 			this.selectNode(this.curTxtlay);	return false;
 		//	this.selectNode('mes/ボタン');	return false;	// Test用
 		//	this.selectNode(this.firstGrplay);	return false;
-				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
+				// TODO: 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
 		_replaceToken: (_, o)=> {DesignCast.replaceToken(o); return false;},
 		_selectNode	: (_, o)=> {this.selectNode(o.node); return false;},
