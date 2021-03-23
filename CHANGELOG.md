@@ -1,3 +1,10 @@
+## [1.16.1](https://github.com/famibee/SKYNovel/compare/v1.16.0...v1.16.1) (2021-03-23)
+
+
+### Bug Fixes
+
+* デバッグ：パディングキャストが表示されない件 ([0f120f2](https://github.com/famibee/SKYNovel/commit/0f120f296661c12fa099b16e0663e9308340ee55))
+
 - fix: デバッグ：パディングキャストが表示されない件
 - fix: デバッグ：クリックだけでスクリプト変更する件
 
