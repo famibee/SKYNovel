@@ -1,3 +1,10 @@
+- feat(デバッグ): [macro]にstepin属性追加。false指定でステップインしない
+- feat: mp:const.sn.macro.stepin追加、そのマクロ定義のstepin属性値を返す。省略時true
+- feat: 非公開変数 mp:const.sn.macro追加、[macro]属性のJSON文字列
+- feat: 非公開変数 mp:const.sn.macro_name をconst.sn.macro.nameに変名
+- feat: 非公開変数 mp:const.sn.macro をスタック情報に含めデバッグに渡すように
+
+
 ## [1.15.11](https://github.com/famibee/SKYNovel/compare/v1.15.10...v1.15.11) (2021-03-22)
 
 

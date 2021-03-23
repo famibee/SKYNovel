@@ -307,7 +307,7 @@ export class ScriptIterator {
 		if (o?.hitCondition) --o.hitCondition;
 	}
 
-	private aStack(): {fn: string, ln: number, col: number, nm: string}[] {
+	private aStack(): {fn: string, ln: number, col: number, nm: string, ma: string}[] {
 		const idx_n = this.breakState === BreakState.breaking ?1 :0;
 		const tkn0 = this.script.aToken[this.idxToken_ -1 +idx_n];
 
@@ -316,11 +316,12 @@ export class ScriptIterator {
 		const nm = tag_name0 ?`[${tag_name0}]` :tkn0;
 //console.log(`fn:ScriptIterator.ts line:425 aStack breakState:${this.breakState} idx:${this.idxToken_ -1} idx_n:${idx_n} tkn0:${tkn0}: nm:${nm} tkn02:${this.script.aToken[this.idxToken_ -1]}: +tkn02:${this.script.aToken[this.idxToken_]}:`);
 //console.log(`fn:ScriptIterator.ts line:426    a:%o anum:%o`, this.script.aToken, this.script.aLNum);
-		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 0, nm: nm,}];
+		const ma = this.val.getVal('mp:const.sn.macro') ?? '{}';
+		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 0, nm: nm, ma: ma,}];
 
 		const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);// -1不要
 //console.log(`fn:ScriptIterator.ts line:430    ln:${lc0.ln} col:${lc0.col_s} col2:${this.script.aLNum[this.idxToken_ -1]}`);
-		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s, nm: nm,}];
+		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s, nm: nm, ma: ma}];
 		const len = this.aCallStk.length;
 		if (len === 0) return a;
 
@@ -334,10 +335,11 @@ export class ScriptIterator {
 
 			const tag_name = tagToken2Name(tkn);
 			a.push({
-				fn: this.cnvSnPath4Dbg(cs.fn),
-				ln: lc.ln,
-				col: lc.col_s,
-				nm: tag_name ?`[${tag_name}]` :tkn,
+				fn	: this.cnvSnPath4Dbg(cs.fn),
+				ln	: lc.ln,
+				col	: lc.col_s,
+				nm	: tag_name ?`[${tag_name}]` :tkn,
+				ma	: cs.csArg.hMp['const.sn.macro'] ?? '{}',
 			});
 		}
 
@@ -743,7 +745,7 @@ export class ScriptIterator {
 		this.main.stop();
 	}
 	private analyzeInit(): void {
-		const o = this.seekScript(this.script, Boolean(this.val.getVal('mp:const.sn.macro_name')), this.lineNum_, this.skipLabel, this.idxToken_);
+		const o = this.seekScript(this.script, Boolean(this.val.getVal('mp:const.sn.macro.name')), this.lineNum_, this.skipLabel, this.idxToken_);
 		this.idxToken_	= o.idx;
 		this.lineNum_	= o.lineNum;
 		this.runAnalyze();
@@ -1061,7 +1063,7 @@ export class ScriptIterator {
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
 			this.val.setMp(hArgM as any);
-			this.val.setVal_Nochk('mp', 'const.sn.macro_name', name);
+			this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify(hArg));
 			this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', this.scriptFn_);
 
 			this.lineNum_ = ln;

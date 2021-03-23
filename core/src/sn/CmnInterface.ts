@@ -143,6 +143,8 @@ export type HArg = {
 	join?	: boolean;
 	do_rec?	: boolean;
 
+	stepin?		: boolean;
+
 	':id_dc'?	: string;
 	':id_tag'?	: string;
 	':path'?	: string;
@@ -152,7 +154,6 @@ export type HArg = {
 	':idx_tkn'?	: number;
 	':token'?	: string;
 	design_unit?: string;
-	design?		: boolean;
 }
 export interface ITag { (hArg: HArg): boolean; }
 export interface IHTag { [name: string]: ITag; }
