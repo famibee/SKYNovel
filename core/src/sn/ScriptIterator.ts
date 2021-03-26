@@ -317,11 +317,11 @@ export class ScriptIterator {
 //console.log(`fn:ScriptIterator.ts line:425 aStack breakState:${this.breakState} idx:${this.idxToken_ -1} idx_n:${idx_n} tkn0:${tkn0}: nm:${nm} tkn02:${this.script.aToken[this.idxToken_ -1]}: +tkn02:${this.script.aToken[this.idxToken_]}:`);
 //console.log(`fn:ScriptIterator.ts line:426    a:%o anum:%o`, this.script.aToken, this.script.aLNum);
 		const ma = this.val.getVal('mp:const.sn.macro') ?? '{}';
-		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 0, nm: nm, ma: ma,}];
+		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 1, nm: nm, ma: ma,}];
 
 		const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);// -1不要
 //console.log(`fn:ScriptIterator.ts line:430    ln:${lc0.ln} col:${lc0.col_s} col2:${this.script.aLNum[this.idxToken_ -1]}`);
-		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s, nm: nm, ma: ma}];
+		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s +1, nm: nm, ma: ma}];
 		const len = this.aCallStk.length;
 		if (len === 0) return a;
 
@@ -337,7 +337,7 @@ export class ScriptIterator {
 			a.push({
 				fn	: this.cnvSnPath4Dbg(cs.fn),
 				ln	: lc.ln,
-				col	: lc.col_s,
+				col	: lc.col_s +1,
 				nm	: tag_name ?`[${tag_name}]` :tkn,
 				ma	: cs.csArg.hMp['const.sn.macro'] ?? '{}',
 			});
