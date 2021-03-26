@@ -1,3 +1,10 @@
+## [1.16.2](https://github.com/famibee/SKYNovel/compare/v1.16.1...v1.16.2) (2021-03-26)
+
+
+### Bug Fixes
+
+* コールスタックの列表示が1少なかったのを修正 ([33ef5e4](https://github.com/famibee/SKYNovel/commit/33ef5e42b0b97ef5d79a5004ce6e725f11b6c53a))
+
 - fix: コールスタックの列表示が1少なかったのを修正
 
 
