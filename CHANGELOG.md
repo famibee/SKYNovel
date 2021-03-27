@@ -1,3 +1,10 @@
+## [1.16.3](https://github.com/famibee/SKYNovel/compare/v1.16.2...v1.16.3) (2021-03-27)
+
+
+### Bug Fixes
+
+* （ギャラリーでは見えてるが）クリック待ち表示が見えない件 ([e5fb90b](https://github.com/famibee/SKYNovel/commit/e5fb90b481fb5915e560f710a003e2b37af5078a))
+
 - fix: （ギャラリーでは見えてるが）クリック待ち表示が見えない件
 - fix: new 系の記述の()を削除
 
