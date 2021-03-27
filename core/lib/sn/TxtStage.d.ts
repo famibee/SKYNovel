@@ -85,7 +85,7 @@ export declare class TxtStage extends Container {
     private fi_easing;
     private fo_easing;
     private clearText;
-    passBaton(): TxtStage;
+    reNew(): TxtStage;
     record(): {
         infTL: IInfTxLay;
         cssText: string;

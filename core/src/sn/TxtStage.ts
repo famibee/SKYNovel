@@ -1011,7 +1011,7 @@ export class TxtStage extends Container {
 
 		this.htmTxt = n;
 	}
-	passBaton(): TxtStage {
+	reNew(): TxtStage {
 		this.clearText();
 
 		const to = new TxtStage(this.infTL, this.spLay, ()=> this.canFocus());
@@ -1024,6 +1024,8 @@ export class TxtStage extends Container {
 		to.ch_filter = this.ch_filter;
 		to.fi_easing = this.fi_easing;
 		to.fo_easing = this.fo_easing;
+
+		this.destroy();
 
 		return to;
 	}

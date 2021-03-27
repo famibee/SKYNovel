@@ -196,7 +196,7 @@ context('class Config', ()=>{
 		});
 
 		it('test_searchPath_speedtest_0', ()=> {
-			const old_time = (new Date()).getTime();
+			const old_time = (new Date).getTime();
 			//for (let i=0; i<1000; ++i) {
 				assert.equal(cfg.searchPath("http://bbb"), "http://bbb");
 
@@ -208,11 +208,11 @@ context('class Config', ()=>{
 					assert.equal(s, "サーチパスに存在しないファイル【ccc】です");
 				}
 			//}
-			const time = (new Date()).getTime() - old_time;	// 実行後に測定
+			const time = (new Date).getTime() - old_time;	// 実行後に測定
 			//assert.fail("経過時間:" + time);		// 差
 		});
 		it('test_searchPath_speedtest_1', ()=> {
-			const old_time = (new Date()).getTime();
+			const old_time = (new Date).getTime();
 			//for (let i=0; i<1000; ++i) {
 				assert.equal(cfg.searchPath("update.png"),
 					`test/:dummy dir:/mat/update.png`);

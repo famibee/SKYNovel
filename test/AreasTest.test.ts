@@ -12,7 +12,7 @@ import {Areas} from '../core/src/sn/Areas';
 context('class AreasTest', ()=>{
 	let areas;
 	beforeEach(()=> {
-		areas = new Areas();
+		areas = new Areas;
 	});
 	describe('Tst', ()=> {
 		it('test_record_erase_0', ()=> {
@@ -101,7 +101,7 @@ context('class AreasTest', ()=>{
 			assert.equal(areas.count, 1);
 /*
 			import flash.utils.ByteArray;
-			const ba:ByteArray = new ByteArray();
+			const ba:ByteArray = new ByteArray;
 			ba.writeObject(areas);
 			ba.position = 0;
 			const o2:* = ba.readObject();

@@ -146,7 +146,7 @@ export class GrpLayer extends Layer {
 				fncAllComp(needLoad);
 			};
 			if (csv in utils.TextureCache) fnc();
-			else {needLoad = true; new Loader().add(csv, csv).load(fnc);}
+			else {needLoad = true; (new Loader).add(csv, csv).load(fnc);}
 
 			return needLoad;
 		}

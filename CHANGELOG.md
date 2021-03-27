@@ -1,3 +1,7 @@
+- fix: （ギャラリーでは見えてるが）クリック待ち表示が見えない件
+- fix: new 系の記述の()を削除
+
+
 ## [1.16.2](https://github.com/famibee/SKYNovel/compare/v1.16.1...v1.16.2) (2021-03-26)
 
 

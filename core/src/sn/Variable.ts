@@ -213,7 +213,7 @@ export class Variable implements IVariable {
 
 		this.hAreaKidoku = {};
 		for (const fn in this.data.kidoku) {
-			const areas = new Areas();
+			const areas = new Areas;
 			areas.hAreas = {...this.data.kidoku[fn]};
 			this.hAreaKidoku[fn] = areas;
 		}

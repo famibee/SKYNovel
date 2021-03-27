@@ -30,7 +30,7 @@ export class EventMng implements IEvtMng {
 		analog: false,
 		deadZone: 0.3,
 	});
-	private readonly	fcs		= new FocusMng();
+	private readonly	fcs		= new FocusMng;
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
 		//	イベント

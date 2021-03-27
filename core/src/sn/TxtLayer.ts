@@ -787,9 +787,7 @@ export class TxtLayer extends Layer {
 	}
 
 	clearText(): void {
-		const txs = this.txs;
-		this.txs = this.txs.passBaton();
-		txs.destroy();
+		this.spLay.addChild(this.txs = this.txs.reNew());
 
 		this.cumDelay = 0;
 		this.firstCh = true;

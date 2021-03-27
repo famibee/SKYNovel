@@ -130,13 +130,13 @@ context('class CmnLib', ()=>{
 
 /*
 		it('argChk_BlendmodeAndSet0', ()=> {
-			const sp:Sprite = new Sprite();
+			const sp:Sprite = new Sprit
 			sp.blendMode = 'add';
 			argChk_BlendmodeAndSet({}, sp);
 			assert.equal(sp.blendMode, 'add');
 		});
 		it('argChk_BlendmodeAndSet1', ()=> {
-			const sp:Sprite = new Sprite();
+			const sp:Sprite = new Sprite;
 			sp.blendMode = 'add';
 			argChk_BlendmodeAndSet({
 				'blendmode'	: 'normal'
@@ -144,7 +144,7 @@ context('class CmnLib', ()=>{
 			assert.equal(sp.blendMode, 'normal');
 		});
 		it('argChk_BlendmodeAndSet2', ()=> {
-			const sp:Sprite = new Sprite();
+			const sp:Sprite = new Sprite;
 			sp.blendMode = 'add';
 			argChk_BlendmodeAndSet({
 				'blendmode'	: 'difference'
@@ -152,7 +152,7 @@ context('class CmnLib', ()=>{
 			assert.equal(sp.blendMode, 'difference');
 		});
 		it('argChk_BlendmodeAndSet3', ()=> {
-			const sp:Sprite = new Sprite();
+			const sp:Sprite = new Sprite;
 			sp.blendMode = 'add';
 			argChk_BlendmodeAndSet({
 				'blendmode'	: 'overlay'
@@ -161,7 +161,7 @@ context('class CmnLib', ()=>{
 		});
 		it('argChk_BlendmodeAndSet10', ()=> {
 			try {
-				const sp:Sprite = new Sprite();
+				const sp:Sprite = new Sprit
 				sp.blendMode = 'add';
 				argChk_BlendmodeAndSet({
 					'blendmode'	: 'alpha'
@@ -174,7 +174,7 @@ context('class CmnLib', ()=>{
 		});
 		it('argChk_BlendmodeAndSet11', ()=> {
 			try {
-				const sp:Sprite = new Sprite();
+				const sp:Sprite = new Sprite;
 				sp.blendMode = 'add';
 				argChk_BlendmodeAndSet({
 					'blendmode'	: 'add_xxx'

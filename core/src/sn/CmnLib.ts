@@ -24,7 +24,7 @@ if (! ('toUint' in String.prototype)) {
 }
 
 export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''): string {
-	const now = new Date();
+	const now = new Date;
 	return now.getFullYear()
 		+ spl_dd+ String(100 +now.getMonth() +1).slice(1, 3)
 		+ spl_dd+ String(100 +now.getDate()).slice(1, 3)
