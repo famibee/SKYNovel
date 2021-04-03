@@ -103,6 +103,12 @@ export class ScriptIterator {
 				this.sys.send2Dbg('hi', {});
 			};
 			this.hHook.auth = o=> {
+				const hLineBP = o.hBreakpoint.hFn2hLineBP;
+				for (const fn in hLineBP) this.regBreakPoint(fn, hLineBP[fn]);
+
+				ScriptIterator.hFuncBP = {};
+				o.hBreakpoint.aFunc.forEach((v: any)=> ScriptIterator.hFuncBP[v.name] = 1);
+
 				if (o.stopOnEntry) {
 					while (true) {
 						let token = this.nextToken();
@@ -136,13 +142,17 @@ export class ScriptIterator {
 		if (cfg.oCfg.debug.tag) this.procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
 	}
 	firstWait = ()=> {};
+	private	regBreakPoint(fn: string, o: {[ln: number]: any}) {
+		ScriptIterator.hFn2hLineBP[this.cnvSnPath4Dbg(fn)] = o;
+	}
 
 	destroy() {this.isBreak = ()=> false;}
 
 	private	readonly hHook	: {[type: string]: (o: any)=> void}	= {
+		//auth: // constructorで
 		//launch:	// ここでは冒頭停止に間に合わないのでanalyzeInit()で
 		disconnect: ()=> {
-			ScriptIterator.hBrkP = {};
+			ScriptIterator.hFn2hLineBP = {};
 			ScriptIterator.hFuncBP = {};
 			this.isBreak = ()=> false;
 
@@ -152,7 +162,7 @@ export class ScriptIterator {
 		restart: ()=> this.isBreak = ()=> false,
 
 		// ブレークポイント登録
-		add_break: o=> ScriptIterator.hBrkP[this.cnvSnPath4Dbg(o.fn)] = o.o,
+		add_break: o=> this.regBreakPoint(o.fn, o.o),
 		data_break: o=> {
 			if (this.breakState !== BreakState.running) return;
 
@@ -245,7 +255,7 @@ export class ScriptIterator {
 	}
 
 	// reload 再生成 Main に受け渡すため static
-	private	static	hBrkP: {[fn: string]: {[ln: number]: any}} = {};
+	private	static	hFn2hLineBP: {[fn: string]: {[ln: number]: any}} = {};
 	private	static	hFuncBP: {[tag_name: string]: 1} = {};
 	private	breakState	= BreakState.running;
 		// https://raw.githubusercontent.com/famibee/SKYNovel-vscode-extension/master/res/img/breakState.svg
@@ -283,27 +293,29 @@ export class ScriptIterator {
 				}
 			}
 			{	// ブレークポイント
-				const bp = ScriptIterator.hBrkP[this.cnvSnPath4Dbg(this.scriptFn_)];
+				const bp = ScriptIterator.hFn2hLineBP[this.cnvSnPath4Dbg(this.scriptFn_)];
 				if (! bp) break;
-				const o: any = bp[this.lineNum_];
+				const o = bp[this.lineNum_];
 				if (! o) break;
 //console.log(`fn:ScriptIterator.ts line:145 👺 【bs:${this.breakState} idx:${this.idxToken_} ln:${this.lineNum_} tkn:${this.script.aToken[this.idxToken_ -1]}:】 o:%o`, o);
 				if (o.condition) {if (! this.prpPrs.parse(o.condition)) break;}
 				else if (('hitCondition' in o) && --o.hitCondition > 0) break;
-			}
 				const isBreak = this.breakState === BreakState.running;
 				this.breakState = BreakState.break;
-				this.main.setLoop(false, isBreak ?'ブレーク' :'ステップ実行');
+				this.main.setLoop(false, isBreak ?(
+					(o.condition ? '条件' :'ヒットカウント') +'ブレーク'
+					) :'ステップ実行');
 				const type = isBreak ?'stopOnBreakpoint' :'stopOnStep';
 				this.sys.callHook(type, {});	// sn全体へ通知
 				this.sys.send2Dbg(type, {});
+			}
 				return true;	// タグを実行せず、直前停止
 		}
 
 		return false;	// no break、タグを実行
 	}
 	private	subHitCondition() {	// step実行中でbreakしないがヒットカウントだけ減算
-		const o = ScriptIterator.hBrkP[getFn(this.scriptFn_)]?.[this.lineNum_];
+		const o = ScriptIterator.hFn2hLineBP[getFn(this.scriptFn_)]?.[this.lineNum_];
 		if (o?.hitCondition) --o.hitCondition;
 	}
 

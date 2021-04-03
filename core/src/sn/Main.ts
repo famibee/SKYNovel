@@ -110,10 +110,10 @@ export class Main implements IMain {
 		if (this.destroyed) return;	// destroy()連打対策
 		this.layMng.clearBreak();
 
-		//console.log('resume!');
+		///console.log('resume!');
 		this.fncNext = fnc;
 		this.resume = (fnc = this.runAnalyze)=> {
-			//console.log('resume!');
+			///console.log('resume!');
 			this.fncNext = fnc;
 		};
 		this.scrItr.noticeBreak(false);
@@ -134,14 +134,15 @@ export class Main implements IMain {
 		}
 	}
 	readonly stop = ()=> {
-		//console.log('stop!');
+		///console.log('stop!');
 		this.fncNext = ()=> {};
 		this.resume = this.fncresume;
 		this.scrItr.noticeBreak(true);
 	};
 
 	setLoop(isLoop: boolean, mes = '') {
-		this.isLoop = isLoop;
+		///console.log('setLoop:'+ (isLoop ?'resume!' :'stop!') +' mes:'+ mes);
+		if (this.isLoop = isLoop) this.resume(); else this.stop();
 		this.sys.setTitleInfo(mes ?` -- ${mes}中` :'');
 	}
 	private	isLoop = true;

@@ -14,6 +14,7 @@ export declare class Variable implements IVariable {
     private callHook;
     setSys(sys: ISysBase): void;
     private readonly hProcDbgRes;
+    private set_data_break;
     updateData(data: IData4Vari): void;
     private flush_;
     flush(): void;

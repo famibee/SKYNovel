@@ -162,6 +162,8 @@ export class SysBase implements ISysBase {
 		.on('disconnect', ()=> main.setLoop(true));
 			// reasonという引数で理由が分かる
 			// https://socket.io/docs/v3/client-socket-instance/
+
+		this.callHook = (type, o)=> this.aFncHook.forEach(fnc=> fnc(type, o));
 	}
 	protected	extPort = 3776;
 
@@ -236,7 +238,7 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 
 	private	aFncHook: IFncHook[]	= [];
 	addHook(fnc: IFncHook) {this.aFncHook.push(fnc);}
-	callHook: IFncHook = (type, o)=> this.aFncHook.forEach(fnc=> fnc(type, o));
+	callHook: IFncHook = (_type, _o)=> {};
 
 	send2Dbg: IFncHook = (type, o)=> {
 //console.log(`fn:SysBase.ts 新SND isBuf:${!(this.sk)} type:${type} o:${JSON.stringify(o)}`);

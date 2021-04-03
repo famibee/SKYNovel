@@ -185,7 +185,8 @@ export class Variable implements IVariable {
 			}
 			: ()=> sys.flush();
 
-			this.callHook = sys.callHook;
+			this.callHook = (type, o)=> sys.callHook(type, o);
+		//x	this.callHook = sys.callHook;
 			sys.addHook((type, o)=> this.hProcDbgRes[type]?.(type, o));
 
 			// 初回の初期化と、v1.11.0 まで未初期化変数があった件の対策
@@ -195,16 +196,20 @@ export class Variable implements IVariable {
 	}
 	private	readonly	hProcDbgRes
 	: {[type: string]: (type: string, o: any)=> void}	= {
+		auth: (_, o)=> this.set_data_break(o.hBreakpoint.aData),
 		var	: (_,o)=> this.sys.send2Dbg(o.ri, {v: this.hScopes[o.scope] ?? {}}),
 		set_var	: (_, o)=> {
 			try {this.setVal(o.nm, o.val); this.sys.send2Dbg(o.ri, {})} catch {}
 		},
 		set_data_break	: (_, o)=> {
-			Variable.hSetEvent = {};
-			if (Array.isArray(o.a)) o.a.forEach((v: any)=> Variable.hSetEvent[v.dataId] = 1);
+			this.set_data_break(o.a);
 			this.sys.send2Dbg(o.ri, {});
 		},
 		disconnect: _=> Variable.hSetEvent = {},
+	}
+	private	set_data_break(a: any[]) {	// o.a.length === 0 なら削除
+		Variable.hSetEvent = {};
+		a.forEach((v: any)=> Variable.hSetEvent[v.dataId] = 1);
 	}
 
 	updateData(data: IData4Vari): void {

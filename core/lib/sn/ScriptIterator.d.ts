@@ -31,6 +31,7 @@ export declare class ScriptIterator {
     private grm;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
     firstWait: () => void;
+    private regBreakPoint;
     destroy(): void;
     private readonly hHook;
     private cnvSnPath;
@@ -41,7 +42,7 @@ export declare class ScriptIterator {
     private csDepth_macro_esc;
     private get idxDx4Dbg();
     private isIdxOverLast;
-    private static hBrkP;
+    private static hFn2hLineBP;
     private static hFuncBP;
     private breakState;
     isBreak: (_token: string) => boolean;

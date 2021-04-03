@@ -116,7 +116,6 @@ export declare type HArg = {
     end_ms?: number;
     join?: boolean;
     do_rec?: boolean;
-    stepin?: boolean;
     ':id_dc'?: string;
     ':id_tag'?: string;
     ':path'?: string;
@@ -125,7 +124,7 @@ export declare type HArg = {
     ':col_e'?: number;
     ':idx_tkn'?: number;
     ':token'?: string;
-    design_unit?: string;
+    design_unit?: boolean;
 };
 export interface ITag {
     (hArg: HArg): boolean;

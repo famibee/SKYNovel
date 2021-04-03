@@ -143,8 +143,6 @@ export type HArg = {
 	join?	: boolean;
 	do_rec?	: boolean;
 
-	stepin?		: boolean;
-
 	':id_dc'?	: string;
 	':id_tag'?	: string;
 	':path'?	: string;
@@ -153,7 +151,10 @@ export type HArg = {
 	':col_e'?	: number;
 	':idx_tkn'?	: number;
 	':token'?	: string;
-	design_unit?: string;
+	design_unit?: boolean;	// デザインモードでこのマクロへの引数変更とするか（内部をサーチさせない）
+
+//	stepin?		: boolean;		// 拡張機能のみ使用：false指定でステップインしない
+//	nowarn_unused?	: boolean;	// 拡張機能のみ使用：未使用警告を出さない
 }
 export interface ITag { (hArg: HArg): boolean; }
 export interface IHTag { [name: string]: ITag; }
