@@ -1,3 +1,10 @@
+## [1.16.4](https://github.com/famibee/SKYNovel/compare/v1.16.3...v1.16.4) (2021-04-03)
+
+
+### Bug Fixes
+
+* ブレークポイントが効かなくなっていた件 ([0fa25c9](https://github.com/famibee/SKYNovel/commit/0fa25c951b17681d51759c573d45639eadb6826e))
+
 - fix: ブレークポイントが効かなくなっていた件
 - fix: ブレーク時、タイトルに条件ブレークかヒットカウントブレークか明示するように
 
