@@ -1,3 +1,6 @@
+- fix: 複数行タグで「|」を使う引数をコメントしてもできない件
+
+
 ## [1.16.5](https://github.com/famibee/SKYNovel/compare/v1.16.4...v1.16.5) (2021-04-10)
 
 

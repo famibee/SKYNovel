@@ -14,8 +14,8 @@ export interface HPRM {
 };
 
 export class AnalyzeTagArg {
-	// 70 match 2221 step(~1ms) PCRE2 https://regex101.com/r/u0LLa3/1
-	private	readonly	REG_TAGARG	= /(?<key>\w+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
+	// 72 match 2249 step(~2ms) PCRE2 https://regex101.com/r/yFUkWD/1
+	private	readonly	REG_TAGARG	= /;[^\n]*|(?<key>\w+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
 	// 【属性 = 値 | 省略値】の分析
 	go(args: string) {
 		this.$hPrm = {};

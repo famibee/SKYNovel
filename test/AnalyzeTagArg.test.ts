@@ -302,6 +302,40 @@ b='#{fcol}'|true;=====`);
 			assert.equal(alz.isKomeParam, false);
 		});
 
+		it('20210410_test_multiline_arg1', ()=> {
+			alz.go(
+`	;=====
+	layer=mes	;=====
+	b_pic=%b_pic|wafuu1	;=====`);
+			assert.equal(isHashEmpty(alz.hPrm), false);
+
+			assert.equal(alz.hPrm['layer'].val, `mes`);
+			assert.equal(alz.hPrm['layer'].def, undefined);
+			assert.equal(alz.hPrm['b_pic'].val, `%b_pic`);
+			assert.equal(alz.hPrm['b_pic'].def, `wafuu1`);
+			assert.equal(alz.hPrm['a'], undefined);
+
+			assert.equal(alz.isKomeParam, false);
+		});
+		it('20210410_test_multiline_arg2', ()=> {
+			alz.go(
+`	;=====
+	layer=mes	;=====
+	;	b_pic=%b_pic|wafuu1	;=====`);
+			assert.equal(isHashEmpty(alz.hPrm), false);
+
+			assert.equal(alz.hPrm['layer'].val, `mes`);
+			assert.equal(alz.hPrm['layer'].def, undefined);
+			assert.equal(alz.hPrm['b_pic'], undefined);
+			assert.equal(alz.hPrm['b_pic']?.val, undefined);
+				// これが取れてしまう不具合
+			assert.equal(alz.hPrm['b_pic']?.def, undefined);
+				// これが取れてしまう不具合
+			assert.equal(alz.hPrm['a'], undefined);
+
+			assert.equal(alz.isKomeParam, false);
+		});
+
 
 	});
 
