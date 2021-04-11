@@ -1,3 +1,10 @@
+## [1.16.6](https://github.com/famibee/SKYNovel/compare/v1.16.5...v1.16.6) (2021-04-11)
+
+
+### Bug Fixes
+
+* 複数行タグで「|」を使う引数をコメントしてもできない件 ([4bcd4e7](https://github.com/famibee/SKYNovel/commit/4bcd4e7695477b4afbf55b933c42c1ef0a12e855))
+
 - fix: 複数行タグで「|」を使う引数をコメントしてもできない件
 
 
