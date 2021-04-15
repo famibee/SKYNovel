@@ -1,3 +1,10 @@
+## [1.16.7](https://github.com/famibee/SKYNovel/compare/v1.16.6...v1.16.7) (2021-04-15)
+
+
+### Bug Fixes
+
+* デバッグ：パディングキャスト変更時にクリック待ち表示が追従してなかった件 ([af1598b](https://github.com/famibee/SKYNovel/commit/af1598b4fe6d7b340c8145a2148362d62ae6085e))
+
 - fix: デバッグ：パディングキャスト変更時にクリック待ち表示が追従してなかった件
 - fix: デバッグ：デザイン不変更のタグはデザイン定義先としないように
 
