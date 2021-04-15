@@ -99,6 +99,8 @@ export class DesignCast {
 	protected	hArg	: HArg	= {};
 	protected	id_tag	= '';
 	sethArg(hArg: HArg): void {
+		if (! this.includeDesignArg(hArg)) return;
+
 		if (! this.id_tag) this.id_tag = hArg[':id_tag'] ?? '';
 		this.hArg = hArg;
 
@@ -114,6 +116,25 @@ export class DesignCast {
 		}
 		: ()=> {};
 	}
+	includeDesignArg(hArg: HArg): boolean {
+		for (const name in hArg) if (name in this.hDesignArg) return true;
+		return false;
+	}
+	protected	hDesignArg: {[name: string]: 0}	= {
+		'rotation'	: 0,
+		'pivot_x'	: 0,
+		'pivot_y'	: 0,
+		'left'		: 0,
+		'center'	: 0,
+		'right'		: 0,
+		's_right'	: 0,
+		'top'		: 0,
+		'middle'	: 0,
+		'bottom'	: 0,
+		's_bottom'	: 0,
+		'width'		: 0,
+		'height'	: 0,
+	};
 
 	protected	getRect() {return Rectangle.EMPTY}
 	protected	cnvPosArg(_x: number, _y: number): {[name: string]: any} {return {}};
@@ -121,6 +142,7 @@ export class DesignCast {
 	protected	setPos(_x: number, _y: number) {}
 	protected	setSize(_w: number, _h: number) {}
 	setOther(_hPrm: HPRM) {}
+
 	protected	child?	: DesignCast;
 	private		parent?	: DesignCast;
 	adopt(idcCh: DesignCast) {	// 養子縁組
@@ -507,6 +529,28 @@ export class TxtLayDesignCast extends DesignCast {
 	constructor(private readonly spLay: Sprite, private readonly ts: TxtStage) {
 		super('#29e', true);
 	}
+
+	protected	hDesignArg: {[name: string]: 0}	= {
+		'rotation'	: 0,
+		'pivot_x'	: 0,
+		'pivot_y'	: 0,
+		'left'		: 0,
+		'center'	: 0,
+		'right'		: 0,
+		's_right'	: 0,
+		'top'		: 0,
+		'middle'	: 0,
+		'bottom'	: 0,
+		's_bottom'	: 0,
+		'width'		: 0,
+		'height'	: 0,
+
+		'pl'	: 0,
+		'pr'	: 0,
+		'pt'	: 0,
+		'pb'	: 0,
+	};
+
 	protected	getRect() {
 		const it = this.ts.getInfTL();
 		return new Rectangle(this.spLay.x, this.spLay.y, it.$width, it.$height);
@@ -550,7 +594,9 @@ export class TxtLayPadDesignCast extends DesignCast {
 		}
 	}
 	protected	setPos(x: number, y: number) {this.ts.lay(this.cnvPosArg(x, y))}
-	protected	setSize(w:number, h: number) {this.ts.lay(this.cnvSizeArg(w,h))}
+	protected	setSize(w:number, h: number) {
+		this.ts.lay({...this.cnvSizeArg(w, h), ':redraw': true});
+	}
 	setOther(hPrm: HPRM) {
 		const it = this.ts.getInfTL();
 		if ('pl' in hPrm || 'pt' in hPrm) {

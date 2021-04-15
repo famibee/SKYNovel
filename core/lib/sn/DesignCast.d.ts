@@ -29,6 +29,10 @@ export declare class DesignCast {
     protected hArg: HArg;
     protected id_tag: string;
     sethArg(hArg: HArg): void;
+    includeDesignArg(hArg: HArg): boolean;
+    protected hDesignArg: {
+        [name: string]: 0;
+    };
     protected getRect(): Rectangle;
     protected cnvPosArg(_x: number, _y: number): {
         [name: string]: any;
@@ -93,6 +97,9 @@ export declare class TxtLayDesignCast extends DesignCast {
     private readonly spLay;
     private readonly ts;
     constructor(spLay: Sprite, ts: TxtStage);
+    protected hDesignArg: {
+        [name: string]: 0;
+    };
     protected getRect(): Rectangle;
     protected cnvPosArg(left: number, top: number): {
         left: number;

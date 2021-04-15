@@ -124,8 +124,8 @@ export class TxtStage extends Container {
 		if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
 		if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
 		if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
-		this.idc.sethArg(hArg);
 		this.lay_sub();
+		this.idc.sethArg(hArg);
 
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 		this.left = this.spLay.position.x
@@ -136,6 +136,16 @@ export class TxtStage extends Container {
 		this.cvsResize();
 		s.display = this.spLay.visible ?'inline' :'none';
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
+
+		// パディングキャスト変更時・クリック待ち表示を追従させる（高速再描写）
+		if (':redraw' in hArg && this.lenHtmTxt > 0) {
+			const aSpan = [
+				this.htmTxt.innerHTML.replace(/(animation-delay: )\d+ms/g, '$10ms'),
+				`<span class='sn_ch' data-add='{"ch_in_style":"default"}'>　</span>`,
+			];
+			this.clearText();	// 消去
+			this.goTxt(aSpan);	// 高速 goTxt()
+		}
 	}
 	private lay_sub() {
 		const s = this.htmTxt.style;
