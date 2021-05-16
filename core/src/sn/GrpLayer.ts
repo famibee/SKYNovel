@@ -11,7 +11,7 @@ import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn, getExt} from '.
 import {HArg, IMain} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
-import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite} from 'pixi.js';
+import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, ILoaderResource, Resource} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
 import {IMakeDesignCast} from './LayerMng';
@@ -186,17 +186,16 @@ export class GrpLayer extends Layer {
 //			GrpLayer.ldrHFn[f.fn] = 1;
 
 			needLoad = true;
-			const path = GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE);
+			const url = GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE);
 			const xt = this.sys.crypto
-			? {xhrType: (path.slice(-5) === '.json')
+			? {xhrType: (url.slice(-5) === '.json')
 				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
 				: LoaderResource.XHR_RESPONSE_TYPE.BUFFER}
 			: {};
-
-			ldr.add(f.fn, path, xt);
+			ldr.add({...xt, name: f.fn, url});
 		});
 
-		const fncLoaded = (res: any)=> {
+		const fncLoaded = (res: {[key: string]: ILoaderResource | Texture<Resource>})=> {
 			for (const v of aComp) {
 				const sp = GrpLayer.mkSprite(v.fn, res);
 				parent?.addChild(sp);
@@ -205,22 +204,19 @@ export class GrpLayer extends Layer {
 			fncAllComp(needLoad);
 		}
 		if (needLoad) {
-			ldr.pre((res: LoaderResource, next: Function)=> res.load(()=> {
-//			ldr.pre((res, next)=> res.load().then(()=> {	// pixi.js@6.0.0
+			ldr.use((res, next)=> {
 				this.sys.pre(res.extension, res.data)
 				.then(r=> GrpLayer.preThen(r, res, next))
 				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
-			}))
-			.load((_ldr: any, hRes: any)=> fncLoaded(hRes));
+			})
+			.load((_ldr, hRes)=> fncLoaded(hRes));
 		}
 		else fncLoaded(utils.TextureCache);
 
 		return needLoad;
 	}
-//	private static preThen = (_r: any, _res: any, next: Function)=> next();	// pixi.js@6.0.0
-	private static preThen = (_r: any, _res: LoaderResource, next: Function)=> next();
-//	private static preThen4Cripto(r: any, res: any, next: Function): void {	// pixi.js@6.0.0
-	private static preThen4Cripto(r: any, res: LoaderResource, next: Function): void {
+	private static preThen = (_r: any, _res: any, next: Function)=> next();
+	private static preThen4Cripto(r: any, res: any, next: Function) {
 		res.data = r;
 		if (res.extension === 'bin') {
 			if (res.data instanceof HTMLImageElement) {
@@ -241,8 +237,7 @@ export class GrpLayer extends Layer {
 		const fn = getFn(o.meta.image);
 		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
 		(new Loader)
-//		.pre((res2, next2: Function)=> res2.load().then(()=> {	// pixi.js@6.0.0
-		.pre((res2: LoaderResource, next2: Function)=> res2.load(()=> {
+		.use((res2, next2)=> {
 			this.sys.pre(res2.extension, res2.data)
 			.then(r=> {
 				res2.data = r;
@@ -258,9 +253,10 @@ export class GrpLayer extends Layer {
 				}*/
 				next2();
 			})
-			.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res2.name} ${e}`, false));
-		}))
-		.add(fn, url, {xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
+			.catch(e=> this.main.errScript(`Graphic ロード失敗です preThen4Cripto fn:${res2.name} ${e}`, false));
+
+		})
+		.add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
 		.load(()=> next());
 	}
 	private static im2Base64(img: HTMLImageElement, mime: string) {
@@ -271,9 +267,8 @@ export class GrpLayer extends Layer {
 		ctx?.drawImage(img, 0, 0);
 		return cvs.toDataURL(mime);
 	}
-//	private static mkSprite(fn: string, res: any): Sprite {	// pixi.js@6.0.0
-	private static mkSprite(fn: string, res: LoaderResource): Sprite {
-		//console.log(`fn:GrpLayer.ts line:153 fn:${fn} a:%O b:%O c:%O`, GrpLayer.hFn2ResAniSpr[fn], utils.TextureCache[fn], Loader.shared.resources[fn]);
+	private static mkSprite(fn: string, res: {[key: string]: ILoaderResource | Texture<Resource>}): Sprite {
+		//console.log(`fn:GrpLayer.ts mkSprite fn:${fn} a:%O b:%O c:%O`, GrpLayer.hFn2ResAniSpr[fn], utils.TextureCache[fn], Loader.shared.resources[fn]);
 		if (fn in utils.TextureCache) return Sprite.from(fn);
 		const ras = GrpLayer.hFn2ResAniSpr[fn];
 		if (ras) {
@@ -283,6 +278,7 @@ export class GrpLayer extends Layer {
 			return asp;
 		}
 
+		//const r = res[fn];
 		const r = (res as any)[fn];
 		if (! r) return new Sprite;	// ロード中にリソース削除
 

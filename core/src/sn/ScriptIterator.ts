@@ -13,8 +13,7 @@ import {Grammar, tagToken2Name_Args, tagToken2Name} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 
 import {EventMng} from './EventMng';
-//import {Loader} from 'pixi.js';	// pixi.js@6.0.0
-import {Loader, LoaderResource} from 'pixi.js';
+import {Loader} from 'pixi.js';
 import {LayerMng} from './LayerMng';
 import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
@@ -221,8 +220,11 @@ export class ScriptIterator {
 			this.sys.send2Dbg('stopOnEntry', {});
 		},
 	};
-	private cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, Config.EXT_SCRIPT);
-	private cnvSnPath4Dbg = (fn: string)=> this.sys.pathBaseCnvSnPath4Dbg + this.cnvSnPath(fn).replace('/crypto_prj/', '/prj/');
+	private	readonly cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, Config.EXT_SCRIPT);
+	private	static	readonly	REG4CODE_FN	= /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/;	// https://regex101.com/r/Km54EK/1 141 steps (~0ms)
+	private	readonly cnvSnPath4Dbg = (fn: string)=>
+		(this.sys.pathBaseCnvSnPath4Dbg + this.cnvSnPath(fn))
+		.replace(ScriptIterator.REG4CODE_FN, `$1/prj/$2/${this.scriptFn_}$3`);
 	cnvPath4Dbg = (fn: string)=> this.sys.pathBaseCnvSnPath4Dbg + fn.replace('/crypto_prj/', '/prj/');
 	private	go_stepover(o: any) {
 		if (this.isIdxOverLast()) return;
@@ -326,13 +328,13 @@ export class ScriptIterator {
 		const fn0 = this.cnvSnPath4Dbg(this.scriptFn_);
 		const tag_name0 = tagToken2Name(tkn0);
 		const nm = tag_name0 ?`[${tag_name0}]` :tkn0;
-//console.log(`fn:ScriptIterator.ts line:425 aStack breakState:${this.breakState} idx:${this.idxToken_ -1} idx_n:${idx_n} tkn0:${tkn0}: nm:${nm} tkn02:${this.script.aToken[this.idxToken_ -1]}: +tkn02:${this.script.aToken[this.idxToken_]}:`);
-//console.log(`fn:ScriptIterator.ts line:426    a:%o anum:%o`, this.script.aToken, this.script.aLNum);
+//console.log(`fn:ScriptIterator.ts aStack breakState:${this.breakState} idx:${this.idxToken_ -1} idx_n:${idx_n} tkn0:${tkn0}: fn0:${fn0} nm:${nm} tkn02:${this.script.aToken[this.idxToken_ -1]}: +tkn02:${this.script.aToken[this.idxToken_]}:`);
+//console.log(`fn:ScriptIterator.ts     a:%o anum:%o`, this.script.aToken, this.script.aLNum);
 		const ma = this.val.getVal('mp:const.sn.macro') ?? '{}';
 		if (this.idxToken_ === 0) return [{fn: fn0, ln: 1, col: 1, nm: nm, ma: ma,}];
 
 		const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);// -1不要
-//console.log(`fn:ScriptIterator.ts line:430    ln:${lc0.ln} col:${lc0.col_s} col2:${this.script.aLNum[this.idxToken_ -1]}`);
+//console.log(`fn:ScriptIterator.ts     ln:${lc0.ln} col:${lc0.col_s} col2:${this.script.aLNum[this.idxToken_ -1]}`);
 		const a = [{fn: fn0, ln: lc0.ln, col: lc0.col_s +1, nm: nm, ma: ma}];
 		const len = this.aCallStk.length;
 		if (len === 0) return a;
@@ -738,14 +740,13 @@ export class ScriptIterator {
 		const st = this.hScript[this.scriptFn_];
 		if (st) {this.script = st; this.analyzeInit(); return;}
 
-		(new Loader).add(this.scriptFn_, full_path)
-//		.pre((res, next: Function)=> res.load().then(()=> {	// pixi.js@6.0.0
-		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+		(new Loader).add({name: this.scriptFn_, url: full_path})
+		.use((res, next)=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
-		}))
-		.load((_ldr: any, hRes: any)=> {
+		})
+		.load((_ldr, hRes)=> {
 			this.nextToken = this.nextToken_Proc;
 			this.lineNum_ = 1;
 

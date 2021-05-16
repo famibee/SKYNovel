@@ -3,7 +3,7 @@ import { IEvtMng } from './CmnLib';
 import { HArg, IMain } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
-import { Sprite, Container, Texture } from 'pixi.js';
+import { Sprite, Container, Texture, BLEND_MODES } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { IMakeDesignCast } from './LayerMng';
 export interface IFncCompSpr {
@@ -55,7 +55,7 @@ export declare class GrpLayer extends Layer {
         name: string;
         idx: number;
         alpha: number;
-        blendMode: number;
+        blendMode: BLEND_MODES;
         rotation: number;
         scale_x: number;
         scale_y: number;

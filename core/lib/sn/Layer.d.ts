@@ -1,4 +1,4 @@
-import { DisplayObject, Container, Sprite, Renderer } from 'pixi.js';
+import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer } from 'pixi.js';
 import { HArg } from './CmnInterface';
 import { IMakeDesignCast } from './LayerMng';
 export declare class Layer {
@@ -32,7 +32,7 @@ export declare class Layer {
         name: string;
         idx: number;
         alpha: number;
-        blendMode: number;
+        blendMode: BLEND_MODES;
         rotation: number;
         scale_x: number;
         scale_y: number;
@@ -43,7 +43,7 @@ export declare class Layer {
         visible: boolean;
     };
     playback(hLay: any, _aPrm: Promise<void>[]): void;
-    snapshot(rnd: Renderer, re: () => void): void;
+    snapshot(rnd: AbstractRenderer, re: () => void): void;
     snapshot_end(): void;
     makeDesignCast(_gdc: IMakeDesignCast): void;
     makeDesignCastChildren(_gdc: IMakeDesignCast): void;

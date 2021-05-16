@@ -64,15 +64,12 @@ export class FrameMng implements IGetFrm {
 
 		const url = this.cfg.searchPath(src, Config.EXT_HTML);
 		const ld = (new Loader())
-		.add(src, url, {xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
-		if (this.sys.crypto) {
-//			ld.pre((res, next: Function)=> res.load().then(()=> {	// pixi.js@6.0.0
-			ld.pre((res: LoaderResource, next: Function)=> res.load(()=> {
-				this.sys.pre(res.extension, res.data)
-				.then(r=> {res.data = r; next();})
-				.catch(e=> this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
-			}));
-		}
+		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
+		if (this.sys.crypto) ld.use((res, next)=> {
+			this.sys.pre(res.extension, res.data)
+			.then(r=> {res.data = r; next();})
+			.catch(e=> this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
+		});
 		ld.load((_ldr, hRes)=> {
 			const ifrm = document.getElementById(id) as HTMLIFrameElement;
 			this.hIfrm[id] = ifrm;
@@ -113,12 +110,8 @@ export class FrameMng implements IGetFrm {
 
 					const url2 = this.cfg.searchPath(src, Config.EXT_SPRITE);
 					const ld2 = (new Loader)
-//					.add(src, url2);	// pixi.js@6.0.0
-						// , {xhrType: 'arraybuffer'}
-						// NOTE: xhrType
-					.add(src, url2, {xhrType: 'arraybuffer'});
-//					if (this.sys.crypto) ld2.pre((res, next: Function)=> res.load(()=> {	// pixi.js@6.0.0
-					if (this.sys.crypto) ld2.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+					.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
+					if (this.sys.crypto) ld2.use((res, next)=> {
 						this.sys.pre(res.extension, res.data)
 						.then(r=> {
 							if (res.extension !== 'bin') {next(); return;}
@@ -129,7 +122,7 @@ export class FrameMng implements IGetFrm {
 							next();
 						})
 						.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
-					}));
+					})
 					ld2.load((_ldr: any, hRes: any)=> {
 						for (const s2 in hRes) {
 							const u2 = this.hEncImgOUrl[s2] = hRes[s2].data.src;

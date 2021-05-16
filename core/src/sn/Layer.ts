@@ -5,8 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-//import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, AbstractRenderer} from 'pixi.js';	// pixi.js@6.0.0
-import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, Renderer} from 'pixi.js';
+import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, AbstractRenderer} from 'pixi.js';
 import {CmnLib, int, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './CmnInterface';
 import {IMakeDesignCast} from './LayerMng';
@@ -162,10 +161,8 @@ export class Layer {
 		this.spLay.visible = hLay.visible;
 	}
 
-//	snapshot(rnd: AbstractRenderer, re: ()=> void) {	// pixi.js@6.0.0
-	snapshot(rnd: Renderer, re: ()=> void) {
-//		rnd.render(this.spLay, {clear: false});	// pixi.js@6.0.0
-		rnd.render(this.spLay, undefined, false);
+	snapshot(rnd: AbstractRenderer, re: ()=> void) {
+		rnd.render(this.spLay, {clear: false});
 		re();
 	}
 	snapshot_end() {}

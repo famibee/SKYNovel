@@ -11,8 +11,7 @@ import {IHTag, IVariable, IMain, HArg, INoticeChgVolume} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 
-import PSnd from 'pixi-sound';
-//import {Loader} from 'pixi.js';	// pixi.js@6.0.0
+import {sound, utils, Sound} from '@pixi/sound';
 import {Loader, LoaderResource} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
@@ -54,13 +53,13 @@ export class SoundMng {
 
 		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
-		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(PSnd.utils.supported));
+		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(utils.supported));
 	}
 
 	private evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
 	setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume) {
-		this.val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> setGlbVol(PSnd.volumeAll = Number(val)));
+		this.val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> setGlbVol(sound.volumeAll = Number(val)));
 		this.val.defValTrg('sys:sn.sound.movie_volume', (_name: string, val: any)=> setMovVol(Number(val)));
 
 		// 起動時初期値セット
@@ -198,7 +197,7 @@ export class SoundMng {
 		this.val.setVal_Nochk('save', nm +'ret_ms', ret_ms);
 		this.val.flush();
 
-		// pixi-sound用基本パラメータ
+		// @pixi/sound用基本パラメータ
 		const o: any = {
 			loop	: loop,
 			volume	: vol,
@@ -212,7 +211,7 @@ export class SoundMng {
 			},
 		};
 
-		// start_ms・end_ms機能→pixi-sound準備
+		// start_ms・end_ms機能→@pixi/sound準備
 		let sp_nm = '';
 		if (start_ms > 0 || end_ms < SoundMng.MAX_END_MS) {
 			sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
@@ -282,7 +281,7 @@ export class SoundMng {
 			}
 		}
 
-		const snd = PSnd.find(fn);	// バッファにあるか
+		const snd = sound.find(fn);	// バッファにあるか
 		this.hSndBuf[buf] = {
 			snd		: snd,
 			loop	: loop,
@@ -321,32 +320,28 @@ export class SoundMng {
 
 		return join;
 	}
-	private playseSub(fn: string, o: any, sp_nm: string): void {
+	private playseSub(fn: string, o: any, sp_nm: string) {
 		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
 		if (url.slice(-4) !== '.bin') {
 			o.url = url;
-			if (sp_nm) PSnd.Sound.from(o); else PSnd.add(fn, o);
+			if (sp_nm) Sound.from(o); else sound.add(fn, o);
 			return;
 		}
 
-//		(new Loader()).add({name: fn, url, })	// pixi.js@6.0.0
-			// xhrType: 'arraybuffer'
-				// NOTE: xhrType
-		(new Loader()).add(fn, url, {xhrType: 'arraybuffer'})
-//		.pre((res, next: Function)=> res.load().then(()=> {	// pixi.js@6.0.0
-		.pre((res: LoaderResource, next: Function)=> res.load(()=> {
+		(new Loader()).add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
+		.use((res, next)=> {
 			this.sys.pre(res.extension, res.data)
 			.then(r=> {res.data = r; next();})
 			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
-		}))
+		})
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;
-			if (sp_nm) PSnd.Sound.from(o); else PSnd.add(fn, o);
+			if (sp_nm) Sound.from(o); else sound.add(fn, o);
 		});
 	}
 	private initVol = ()=> {
-		PSnd.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
+		sound.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
 		this.initVol = ()=> {};
 	};
 
@@ -426,7 +421,7 @@ export class SoundMng {
 	// レスポンス向上のため音声ファイルを先読み
 	loadAheadSnd(hArg: HArg): void {
 		[hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn=> {
-			if (! fn || PSnd.exists(fn)) return;
+			if (! fn || sound.exists(fn)) return;
 
 			this.playseSub(fn, {preload: true, autoPlay: false}, '');
 		});

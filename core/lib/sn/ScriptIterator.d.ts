@@ -34,8 +34,9 @@ export declare class ScriptIterator {
     private regBreakPoint;
     destroy(): void;
     private readonly hHook;
-    private cnvSnPath;
-    private cnvSnPath4Dbg;
+    private readonly cnvSnPath;
+    private static readonly REG4CODE_FN;
+    private readonly cnvSnPath4Dbg;
     cnvPath4Dbg: (fn: string) => string;
     private go_stepover;
     private go_stepout;

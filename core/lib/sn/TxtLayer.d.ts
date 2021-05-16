@@ -73,8 +73,8 @@ export declare class TxtLayer extends Layer {
     clearText(): void;
     private page_text;
     get pageText(): string;
-    get enabled(): boolean;
-    set enabled(e: boolean);
+    get enabled(): boolean | undefined;
+    set enabled(e: boolean | undefined);
     readonly addButton: (hArg: HArg) => Promise<void>;
     canFocus(): boolean;
     clearLay(hArg: HArg): void;
@@ -82,7 +82,7 @@ export declare class TxtLayer extends Layer {
         name: string;
         idx: number;
         alpha: number;
-        blendMode: number;
+        blendMode: import("pixi.js").BLEND_MODES;
         rotation: number;
         scale_x: number;
         scale_y: number;
@@ -92,7 +92,7 @@ export declare class TxtLayer extends Layer {
         y: number;
         visible: boolean;
     } & {
-        enabled: boolean;
+        enabled: boolean | undefined;
         r_align: string;
         b_do: string | null;
         b_pic: string;

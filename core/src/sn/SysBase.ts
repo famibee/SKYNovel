@@ -80,8 +80,7 @@ export class SysBase implements ISysBase {
 			searchPath: (fn, extptn = '')=>	this.cfg.searchPath(fn, extptn),
 			getVal: val.getVal,
 			resume: ()=> main.resume(),
-//			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, {renderTexture, clear}),	// pixi.js@6.0.0
-			render: (dsp: DisplayObject, renTx: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, renTx, clear),
+			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, {renderTexture, clear}),
 			setPre: fnc=> this.pre = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
