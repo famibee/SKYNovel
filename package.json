@@ -33,7 +33,7 @@
 		"@types/parsimmon": "^1.10.6",
 		"@types/platform": "^1.3.3",
 		"@types/power-assert": "^1.5.3",
-		"@types/socket.io-client": "^1.4.36",
+		"@types/socket.io-client": "^3.0.0",
 		"@types/store": "^2.0.2",
 		"@types/tar-fs": "^2.0.0",
 		"@types/xml2js": "^0.4.8",

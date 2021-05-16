@@ -9,7 +9,7 @@ import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin
 import {CmnLib} from './CmnLib';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
-import * as io from 'socket.io-client';
+import {io, Socket} from 'socket.io-client';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
@@ -170,7 +170,7 @@ export class SysBase implements ISysBase {
 		this.sk?.disconnect();
 		this.sk = null;
 	}
-	private	sk: SocketIOClient.Socket | null = null;
+	private	sk: Socket | null = null;
 	private	readonly	hHook	: {[type: string]: (o: any)=> void}	= {
 		auth		: o=> {
 			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return;}
