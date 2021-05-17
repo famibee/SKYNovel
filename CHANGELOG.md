@@ -1,3 +1,16 @@
+## [1.16.8](https://github.com/famibee/SKYNovel/compare/v1.16.7...v1.16.8) (2021-05-17)
+
+
+### Bug Fixes
+
+* ライブラリ更新 ([16f03cc](https://github.com/famibee/SKYNovel/commit/16f03cc2ca667d915cc7c6fa8a26df67e8e3903e))
+* ライブラリ更新2 ([f8ad459](https://github.com/famibee/SKYNovel/commit/f8ad4599a84ad5c989349184ebdbc4abc8b6f298))
+
+
+### Performance Improvements
+
+* pixi.js 6、webpack 5 に更新（テンプレ更新必須） ([0b5090e](https://github.com/famibee/SKYNovel/commit/0b5090ed702715f9079bd850bd6ef700be766eff))
+
 - fix: ライブラリ更新2
 - fix: ライブラリ更新
 
