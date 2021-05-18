@@ -1,3 +1,10 @@
+# [1.17.0](https://github.com/famibee/SKYNovel/compare/v1.16.10...v1.17.0) (2021-05-18)
+
+
+### Features
+
+* BREAKING CHANGE: pixi.js 6、webpack 5 に更新 ([124eae4](https://github.com/famibee/SKYNovel/commit/124eae49c4a8f58fa8006cb18d213d44687040db))
+
 feat: BREAKING CHANGE: pixi.js 6、webpack 5 に更新
 
 
