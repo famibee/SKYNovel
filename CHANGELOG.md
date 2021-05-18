@@ -1,4 +1,4 @@
-- chore: BREAKING CHANGE: pixi.js 6、webpack 5 に更新（テンプレも更新必須）
+- BREAKING CHANGE: pixi.js 6、webpack 5 に更新（テンプレも更新必須）
 - fix: デバッグ：暗号化時、一時停止で暗号化スクリプトを見に行く件（ファイル名暗号化で発現したらしい）
 - memo: 既知の問題：
 	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
