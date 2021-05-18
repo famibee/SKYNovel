@@ -1,3 +1,10 @@
+- chore: BREAKING CHANGE: pixi.js 6、webpack 5 に更新（テンプレも更新必須）
+- fix: デバッグ：暗号化時、一時停止で暗号化スクリプトを見に行く件（ファイル名暗号化で発現したらしい）
+- memo: 既知の問題：
+	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
+	- 暗号化時、画像が出ない
+
+
 ## [1.16.9](https://github.com/famibee/SKYNovel/compare/v1.16.8...v1.16.9) (2021-05-18)
 
 
@@ -6,13 +13,6 @@
 * ライブラリ更新 ([3055eb5](https://github.com/famibee/SKYNovel/commit/3055eb5f91f004eb9264df98d87993190d85af61))
 
 - fix: ライブラリ更新
-
-
-- chore: BREAKING CHANGE: pixi.js 6、webpack 5 に更新（テンプレも更新必須）
-- fix: デバッグ：暗号化時、一時停止で暗号化スクリプトを見に行く件（ファイル名暗号化で発現したらしい）
-- memo: 既知の問題：
-	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
-	- 暗号化時、画像が出ない
 
 
 ## [1.16.8](https://github.com/famibee/SKYNovel/compare/v1.16.7...v1.16.8) (2021-05-17)
