@@ -1,3 +1,10 @@
+## [1.16.10](https://github.com/famibee/SKYNovel/compare/v1.16.9...v1.16.10) (2021-05-18)
+
+
+### Performance Improvements
+
+* BREAKING CHANGE: pixi.js 6、webpack 5 に更新 ([6f0ecfd](https://github.com/famibee/SKYNovel/commit/6f0ecfd037fc62d6dc1518cc4dc8fa3b0f834f8e))
+
 - BREAKING CHANGE: pixi.js 6、webpack 5 に更新（テンプレも更新必須）
 - fix: デバッグ：暗号化時、一時停止で暗号化スクリプトを見に行く件（ファイル名暗号化で発現したらしい）
 - memo: 既知の問題：
