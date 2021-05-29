@@ -1,3 +1,10 @@
+## [1.17.2](https://github.com/famibee/SKYNovel/compare/v1.17.1...v1.17.2) (2021-05-29)
+
+
+### Bug Fixes
+
+* ライブラリ更新 ([7f15277](https://github.com/famibee/SKYNovel/commit/7f15277f63711330fcb9e4d816fb7a4d1b5d0b90))
+
 - fix: ライブラリ更新
 - fix: HArgにギャラリーの3Dレイヤで使用する属性【camera_target?	: string;】を追加
 
