@@ -84,6 +84,7 @@ export declare type HArg = {
     dy?: number;
     key?: string;
     type?: string;
+    camera_target?: string;
     breakout?: Function;
     arg?: HArg;
     fnc?: (e: Event) => void;

@@ -102,6 +102,7 @@ export type HArg = {
 
 	key?	: string;
 	type?	: string;	// 3Dレイヤで使用
+	camera_target?	: string;
 
 	breakout?	: Function;
 	arg?	: HArg;
