@@ -10,7 +10,7 @@ import assert = require('power-assert');
 import {AnalyzeTagArg} from '../core/src/sn/AnalyzeTagArg';
 
 context('class AnalyzeTagArg', ()=>{
-	let alz;
+	let alz: AnalyzeTagArg;
 	beforeEach(()=> {
 		alz = new AnalyzeTagArg();
 	});

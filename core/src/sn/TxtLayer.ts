@@ -214,7 +214,7 @@ export class TxtLayer extends Layer {
 		const padding = 16 *CmnLib.retinaRate;	// 初期padding
 		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
-	destroy() {
+	override destroy() {
 		if (this.b_do) {this.spLay.removeChild(this.b_do).destroy(); this.b_do = null}
 
 		this.clearText();
@@ -225,14 +225,14 @@ export class TxtLayer extends Layer {
 
 		TxtLayer.rec = (tx: string)=> tx;
 	}
-	set name(nm: string) {this.name_ = nm; this.txs.name = nm;}
-	get name() {return this.name_;}	// getは継承しないらしい
+	override set name(nm: string) {this.name_ = nm; this.txs.name = nm;}
+	override get name() {return this.name_;}	// getは継承しないらしい
 
 
-	cvsResize() {this.txs.cvsResize();}
-	cvsResizeChildren() {this.cntBtn.children.forEach(b=> (b as Button).cvsResize());}
+	override cvsResize() {this.txs.cvsResize();}
+	override cvsResizeChildren() {this.cntBtn.children.forEach(b=> (b as Button).cvsResize());}
 
-	lay(hArg: HArg) {
+	override lay(hArg: HArg) {
 		super.lay(hArg);
 		Layer.setXY(this.spLay, hArg, this.spLay);
 
@@ -269,8 +269,8 @@ export class TxtLayer extends Layer {
 	private	ch_in_style		= '';
 	private	ch_in_join		= true;
 
-	get	width() {return this.txs.getWidth()}
-	get	height() {return this.txs.getHeight()}
+	override get	width() {return this.txs.getWidth()}
+	override get	height() {return this.txs.getHeight()}
 
 	private set_ch_out(hArg: HArg) {
 		const outs = hArg.out_style;
@@ -816,13 +816,13 @@ export class TxtLayer extends Layer {
 	}
 
 
-	clearLay(hArg: HArg): void {
+	override clearLay(hArg: HArg): void {
 		super.clearLay(hArg);
 
 		this.clearText();
 		this.cntBtn.removeChildren().forEach(c=> c.destroy());
 	}
-	readonly record = ()=> Object.assign(super.record(), {
+	override readonly record = ()=> Object.assign(super.record(), {
 		enabled	: this.enabled,
 		r_align	: this.r_align,
 
@@ -841,7 +841,7 @@ export class TxtLayer extends Layer {
 
 		btns	: this.cntBtn.children.map(btn=> btn.name),
 	});
-	playback(hLay: any, aPrm: Promise<void>[]): void {
+	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		this.enabled	= hLay.enabled;
 		this.r_align	= hLay.r_align;
@@ -868,27 +868,27 @@ export class TxtLayer extends Layer {
 		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replace(/'/g, '"')))));
 	}
 
-	snapshot(rnd: Renderer, re: ()=> void) {
+	override snapshot(rnd: Renderer, re: ()=> void) {
 		rnd.render(this.spLay, undefined, false);
 		this.txs.snapshot(rnd, re);
 	}
-	snapshot_end() {this.txs.snapshot_end();}
+	override snapshot_end() {this.txs.snapshot_end();}
 
-	makeDesignCast(gdc: IMakeDesignCast) {
+	override makeDesignCast(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
 		this.txs.makeDesignCast(gdc);
 	}
-	makeDesignCastChildren(gdc: IMakeDesignCast) {
+	override makeDesignCastChildren(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
 		this.cntBtn.children.forEach(btn=> (btn as Button).makeDesignCast(gdc));
 	}
 
-	showDesignCast() {this.txs.showDesignCast();}
-	showDesignCastChildren() {
+	override showDesignCast() {this.txs.showDesignCast();}
+	override showDesignCastChildren() {
 		this.cntBtn.children.forEach(btn=> (btn as Button).showDesignCast());
 	}
 
-	dump(): string {
+	override dump(): string {
 		this.putCh('', 'gotxt｜');	// バッファの文字を印字してしまう
 
 		return super.dump() +`, "enabled":"${this.enabled}", ${this.txs.dump()

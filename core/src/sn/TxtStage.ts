@@ -1109,7 +1109,7 @@ export class TxtStage extends Container {
 			// 4Debug。++カウンターし、dump表示させても良さげ
 	}
 
-	destroy() {
+	override destroy() {
 		TxtStage.delBreak();
 		this.htmTxt.parentElement!.removeChild(this.htmTxt);
 		this.removeChild(this.cntTxt);

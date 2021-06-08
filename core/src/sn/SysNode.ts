@@ -12,7 +12,7 @@ import {IFn2Path, IConfig} from './CmnInterface';
 export class SysNode extends SysBase {
 	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test
 
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig) {
+	override loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig) {
 		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
 		(async ()=> {
 			const fn = this.arg.cur +'path.json';
@@ -26,9 +26,9 @@ export class SysNode extends SysBase {
 		})();
 	}
 
-	protected readonly	isApp = true;
+	protected override readonly	isApp = true;
 
-	async savePic(fn: string, data_url: string) {
+	override async savePic(fn: string, data_url: string) {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
 		try {
 			await this.writeFileSync(fn, Buffer.from(bs64, 'base64'));

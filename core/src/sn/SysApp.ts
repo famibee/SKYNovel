@@ -166,12 +166,12 @@ export class SysApp extends SysNode {
 	ensureFileSync = to_app.ensureFileSync;
 */	//== new ==
 
-	protected 	$path_userdata	= '';
-	protected	$path_downloads	= '';
+	protected 	override $path_userdata	= '';
+	protected	override $path_downloads	= '';
 
-	protected readonly	normalize = (src: string, form: string)=> src.normalize(form);
+	protected override readonly	normalize = (src: string, form: string)=> src.normalize(form);
 
-	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+	override initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		this.$path_userdata	= CmnLib.isDbg
 			? this.hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
 			: this.hInfo.userData.replace(/\\/g, '/') +'/';
@@ -223,7 +223,7 @@ export class SysApp extends SysNode {
 
 
 	private main: Main;
-	protected async run() {
+	protected override async run() {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
 			this.main.destroy(ms_late);
@@ -234,7 +234,7 @@ export class SysApp extends SysNode {
 	}
 
 
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
 		super.init(hTag, appPixi, val, main);
 
 		if (this.cfg.oCfg.debug.devtool) to_app.openDevTools();
@@ -246,22 +246,22 @@ export class SysApp extends SysNode {
 	}
 
 
-	copyBMFolder = async (from: number, to: number)=> {
+	override copyBMFolder = async (from: number, to: number)=> {
 		const path_from = `${this.$path_userdata}storage/${from}/`;
 		const path_to = `${this.$path_userdata}storage/${to}/`;
 		if (! await to_app.existsSync(path_from)) return;	// 使ってない場合もある
 
 		await to_app.copySync(path_from, path_to);
 	};
-	eraseBMFolder = async (place: number)=> {
+	override eraseBMFolder = async (place: number)=> {
 		await to_app.removeSync(`${this.$path_userdata}storage/${place}/`);
 	};
 
 	// アプリの終了
-	protected readonly	close = ()=> {to_app.win_close(); return false;}
+	protected override readonly	close = ()=> {to_app.win_close(); return false;}
 
 	// プレイデータをエクスポート
-	protected readonly	_export: ITag = ()=> {
+	protected override readonly	_export: ITag = ()=> {
 		(async()=> {
 			const r = await to_app.tarFs_pack(this.$path_userdata +'storage/')
 			r.on('end', ()=> {
@@ -278,7 +278,7 @@ export class SysApp extends SysNode {
 	}
 
 	// プレイデータをインポート
-	protected readonly	_import: ITag = ()=> {
+	protected override readonly	_import: ITag = ()=> {
 		const flush = this.flush;
 		new Promise((rs, rj)=> {
 			const inp = document.createElement('input');
@@ -321,7 +321,7 @@ export class SysApp extends SysNode {
 	}
 
 	// ＵＲＬを開く
-	protected readonly	navigate_to: ITag = hArg=> {
+	protected override readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 
@@ -334,9 +334,9 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// タイトル指定
-	protected titleSub(title: string) {to_app.win_setTitle(title);}
+	protected override titleSub(title: string) {to_app.win_setTitle(title);}
 	// 全画面状態切替
-	protected readonly	tgl_full_scr: ITag = hArg=> {
+	protected override readonly	tgl_full_scr: ITag = hArg=> {
 		if (! hArg.key) {this.tgl_full_scr_sub(); return false;}
 
 		const key = hArg.key.toLowerCase();
@@ -389,7 +389,7 @@ export class SysApp extends SysNode {
 		this.resizeFrames();
 	}
 	// 更新チェック
-	protected readonly	update_check: ITag = hArg=> {
+	protected override readonly	update_check: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[update_check] urlは必須です';
 		if (url.slice(-1) !== '/') throw '[update_check] urlの最後は/です';
@@ -471,7 +471,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// アプリウインドウ設定
-	protected readonly	window: ITag = hArg=> {
+	protected override readonly	window: ITag = hArg=> {
 		(async()=> {
 			const x = argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
 			const y = argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));

@@ -506,12 +506,12 @@ export class GrpLayDesignCast extends DesignCast {
 	private	sp: Sprite;
 	setSp(sp: Sprite) {this.sp = sp}
 
-	protected	getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp?.width ?? 0, this.sp?.height ?? 0)}
-	protected	cnvPosArg(left: number, top: number) {return {left, top}}
-	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
-	protected	setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
-	protected	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
-	setOther(hPrm: HPRM) {
+	protected	override getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp?.width ?? 0, this.sp?.height ?? 0)}
+	protected	override cnvPosArg(left: number, top: number) {return {left, top}}
+	protected	override cnvSizeArg(width: number, height: number) {return {width, height}}
+	protected	override setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
+	protected	override setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+	override setOther(hPrm: HPRM) {
 		if ('fn' in hPrm) {
 			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn.val ?? '');
 			this.gl.lay({fn});
@@ -521,7 +521,7 @@ export class GrpLayDesignCast extends DesignCast {
 		this.spLay.scale.copyFrom(this.scale);
 		this.spLay.angle	= this.rotation;	// angleにセット
 	}
-	protected	oldFn = ()=> this.hArg.fn ?? '';
+	protected	override oldFn = ()=> this.hArg.fn ?? '';
 }
 
 // 文字レイヤ
@@ -530,7 +530,7 @@ export class TxtLayDesignCast extends DesignCast {
 		super('#29e', true);
 	}
 
-	protected	hDesignArg: {[name: string]: 0}	= {
+	protected	override hDesignArg: {[name: string]: 0}	= {
 		'rotation'	: 0,
 		'pivot_x'	: 0,
 		'pivot_y'	: 0,
@@ -551,20 +551,20 @@ export class TxtLayDesignCast extends DesignCast {
 		'pb'	: 0,
 	};
 
-	protected	getRect() {
+	protected	override getRect() {
 		const it = this.ts.getInfTL();
 		return new Rectangle(this.spLay.x, this.spLay.y, it.$width, it.$height);
 	}
-	protected	cnvPosArg(left: number, top: number) {return {left, top}}
-	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
-	protected	setPos(x: number, y: number) {
+	protected	override cnvPosArg(left: number, top: number) {return {left, top}}
+	protected	override cnvSizeArg(width: number, height: number) {return {width, height}}
+	protected	override setPos(x: number, y: number) {
 		this.spLay.position.set(x, y);
 		this.ts.lay(this.cnvPosArg(x, y));
 	}
-	protected	setSize(w: number, h: number) {
+	protected	override setSize(w: number, h: number) {
 		this.ts.lay(this.cnvSizeArg(w, h));
 	}
-	setOther(hPrm: HPRM) {
+	override setOther(hPrm: HPRM) {
 		this.child?.setOther(hPrm);
 
 		this.spLay.pivot.copyFrom(this.pivot);
@@ -575,8 +575,8 @@ export class TxtLayDesignCast extends DesignCast {
 // 文字レイヤ・パディング
 export class TxtLayPadDesignCast extends DesignCast {
 	constructor(private readonly ts: TxtStage) {super('#9e2');}
-	protected	readonly	rotatable	= false;
-	protected	getRect() {
+	protected	override readonly	rotatable	= false;
+	protected	override getRect() {
 		const it = this.ts.getInfTL();
 		return new Rectangle(
 			it.pad_left,
@@ -585,19 +585,19 @@ export class TxtLayPadDesignCast extends DesignCast {
 			it.$height -it.pad_top -it.pad_bottom,
 		);
 	}
-	protected	cnvPosArg(pl: number, pt: number) {return {pl, pt}}
-	protected	cnvSizeArg(w: number, h: number) {
+	protected	override cnvPosArg(pl: number, pt: number) {return {pl, pt}}
+	protected	override cnvSizeArg(w: number, h: number) {
 		const it = this.ts.getInfTL();
 		return {
 			pr: it.$width -it.pad_left -w,
 			pb: it.$height -it.pad_top -h,
 		}
 	}
-	protected	setPos(x: number, y: number) {this.ts.lay(this.cnvPosArg(x, y))}
-	protected	setSize(w:number, h: number) {
+	protected	override setPos(x: number, y: number) {this.ts.lay(this.cnvPosArg(x, y))}
+	protected	override setSize(w:number, h: number) {
 		this.ts.lay({...this.cnvSizeArg(w, h), ':redraw': true});
 	}
-	setOther(hPrm: HPRM) {
+	override setOther(hPrm: HPRM) {
 		const it = this.ts.getInfTL();
 		if ('pl' in hPrm || 'pt' in hPrm) {
 			this.setPos(
@@ -625,11 +625,11 @@ export class TxtLayPadDesignCast extends DesignCast {
 		}
 	}
 
-	protected	procDragHint(e: OnDrag, left: number, top: number) {
+	protected	override procDragHint(e: OnDrag, left: number, top: number) {
 		const [dx, dy] = e.beforeTranslate;
 		this.procHint(left, top, dx, dy);
 	}
-	protected	procResizeHint(e: OnResize, left: number, top: number) {
+	protected	override procResizeHint(e: OnResize, left: number, top: number) {
 		const [dx, dy] = e.drag.beforeTranslate;
 		this.procHint(left, top, dx, dy);
 	}
@@ -654,7 +654,7 @@ export class TxtLayPadDesignCast extends DesignCast {
 
 // 文字レイヤ・ボタン基本
 export class BtnDesignCast extends DesignCast {
-	constructor(protected readonly btn: Button, readonly hArg: HArg) {
+	constructor(protected readonly btn: Button, override readonly hArg: HArg) {
 		super('#e92');
 		this.pivot.x	= argChk_Num(hArg, 'pivot_x', this.pivot.x);
 		this.pivot.y	= argChk_Num(hArg, 'pivot_y', this.pivot.y);
@@ -663,16 +663,16 @@ export class BtnDesignCast extends DesignCast {
 		this.rotation	= argChk_Num(hArg, 'rotation', this.rotation);
 		this.sethArg(hArg);
 	}
-	protected	cnvPosArg(left: number, top: number) {return {left, top}}
-	protected	cnvSizeArg(width: number, height: number) {return {width, height}}
-	protected	setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
-	setOther(_hPrm: HPRM) {
+	protected	override cnvPosArg(left: number, top: number) {return {left, top}}
+	protected	override cnvSizeArg(width: number, height: number) {return {width, height}}
+	protected	override setPos(x: number, y: number) {this.btn.x = x; this.btn.y = y;}
+	override setOther(_hPrm: HPRM) {
 		this.btn.pivot.copyFrom(this.pivot);
 		this.btn.scale.copyFrom(this.scale);
 		this.btn.angle	= this.rotation;	// angleにセット
 	}
 
-	protected	onDragStart() {
+	protected	override onDragStart() {
 		const aBtn = this.btn.parent.children.filter(b=> b !== this.btn);
 		Object.assign(this.mov, {
 			verticalGuidelines	: aBtn.map(b=> this.lx +b.x *CmnLib.cvsScale),
@@ -689,16 +689,16 @@ export class TxtBtnDesignCast extends BtnDesignCast {
 			this.setSize = ()=> {};
 		}
 	}
-	protected	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.txt.width, this.txt.height)}
-	protected	setSize(w: number, h: number) {this.txt.width = w; this.txt.height = h;}
-	setOther(hPrm: HPRM) {
+	protected	override getRect() {return new Rectangle(this.btn.x, this.btn.y, this.txt.width, this.txt.height)}
+	protected	override setSize(w: number, h: number) {this.txt.width = w; this.txt.height = h;}
+	override setOther(hPrm: HPRM) {
 		super.setOther(hPrm);
 		if ('b_pic' in hPrm) {
 			const b_pic = DesignCast.prpPrs.getValAmpersand(hPrm.b_pic.val??'');
 			this.btn.update_b_pic(b_pic, this.txt);
 		}
 	}
-	protected	oldFn = ()=> this.hArg.b_pic ?? '';
+	protected	override oldFn = ()=> this.hArg.b_pic ?? '';
 }
 
 // 文字レイヤ・画像ボタン
@@ -708,14 +708,14 @@ export class PicBtnDesignCast extends BtnDesignCast {
 	private	sp: Sprite;
 	setSp(sp: Sprite) {this.sp = sp}
 
-	protected	getRect() {return new Rectangle(this.btn.x, this.btn.y, this.sp.width, this.sp.height)}
-	protected	setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
-	setOther(hPrm: HPRM) {
+	protected	override getRect() {return new Rectangle(this.btn.x, this.btn.y, this.sp.width, this.sp.height)}
+	protected	override setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+	override setOther(hPrm: HPRM) {
 		super.setOther(hPrm);
 		if ('pic' in hPrm) {
 			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic.val ?? '');
 			this.btn.update_pic(pic, this.sp);
 		}
 	}
-	protected	oldFn = ()=> this.hArg.pic ?? '';
+	protected	override oldFn = ()=> this.hArg.pic ?? '';
 }

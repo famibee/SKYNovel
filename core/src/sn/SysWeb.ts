@@ -106,7 +106,7 @@ export class SysWeb extends SysBase {
 		this.now_prj = this.arg.cur;
 		this.run();
 	}
-	protected	run = async ()=> {
+	protected	override run = async ()=> {
 		if (this.main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.main.destroy(ms_late);
@@ -123,7 +123,7 @@ export class SysWeb extends SysBase {
 	private main: Main | null;
 
 
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig) {
+	override loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig) {
 		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
 		(async ()=> {
 			const fn = this.arg.cur +'path.json';
@@ -140,7 +140,7 @@ export class SysWeb extends SysBase {
 		})();
 	}
 
-	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+	override initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// システム情報
 		const hn = document.location.hostname;
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
@@ -202,7 +202,7 @@ export class SysWeb extends SysBase {
 		})();
 	}
 
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
 		super.init(hTag, appPixi, val, main);
 
 		if (! this.cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
@@ -212,10 +212,10 @@ export class SysWeb extends SysBase {
 		}, {once: true, passive: true});
 	}
 
-	pathBaseCnvSnPath4Dbg = '${pathbase}/';
+	override pathBaseCnvSnPath4Dbg = '${pathbase}/';
 
 	// プレイデータをエクスポート
-	protected readonly	_export: ITag = ()=> {
+	protected override readonly	_export: ITag = ()=> {
 		const s = JSON.stringify({
 			'sys': this.data.sys,
 			'mark': this.data.mark,
@@ -237,7 +237,7 @@ export class SysWeb extends SysBase {
 	}
 
 	// プレイデータをインポート
-	protected readonly	_import: ITag = ()=> {
+	protected override readonly	_import: ITag = ()=> {
 		new Promise((rs, rj)=> {
 			const inp = document.createElement('input');
 			inp.type = 'file';
@@ -274,7 +274,7 @@ export class SysWeb extends SysBase {
 
 
 	// ＵＲＬを開く
-	protected readonly	navigate_to: ITag = hArg=> {
+	protected override readonly	navigate_to: ITag = hArg=> {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 	//	globalThis.open(url);		// 近年セキュリティ的に効かない
@@ -284,13 +284,13 @@ export class SysWeb extends SysBase {
 		return false;
 	}
 	// タイトル指定
-	protected titleSub(txt: string) {
+	protected override titleSub(txt: string) {
 		document.title = txt;
 		document.querySelectorAll('[data-title]').forEach(v=> v.textContent = txt);
 	}
 
 
-	async savePic(fn: string, data_url: string) {
+	override async savePic(fn: string, data_url: string) {
 		const a = document.createElement('a');
 		a.href = data_url;
 		a.download = fn;
@@ -299,7 +299,7 @@ export class SysWeb extends SysBase {
 	}
 
 	private	readonly	hAppendFile: {[path: string]: string} = {};
-	async appendFile(path: string, data: any, _callback: (err: NodeJS.ErrnoException)=> void) {
+	override async appendFile(path: string, data: any, _callback: (err: NodeJS.ErrnoException)=> void) {
 		const txt = (this.hAppendFile[path] ?? '') + data;
 		this.hAppendFile[path] = txt;
 

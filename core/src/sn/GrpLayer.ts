@@ -84,7 +84,7 @@ export class GrpLayer extends Layer {
 	private sBkFn		= '';
 	private sBkFace		= '';
 	static	hFn2ResAniSpr	: {[name: string]:	IResAniSpr} = {};
-	readonly	lay = (hArg: HArg)=> this.laySub(hArg, isStop=> {
+	override readonly	lay = (hArg: HArg)=> this.laySub(hArg, isStop=> {
 		if (isStop) GrpLayer.main.resume();
 	});
 	private	laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
@@ -358,19 +358,19 @@ export class GrpLayer extends Layer {
 	}
 	static	clearFace2Name(): void {GrpLayer.hFace = {};}
 
-	clearLay(hArg: HArg): void {
+	override clearLay(hArg: HArg): void {
 		super.clearLay(hArg);
 		for (const c of this.spLay.removeChildren()) c.destroy();
 		this.sBkFn	= '';
 		this.sBkFace= '';
 		this.csvFn	= '';
 	}
-	readonly record = ()=> Object.assign(super.record(), {
+	override readonly record = ()=> Object.assign(super.record(), {
 		sBkFn		: this.sBkFn,
 		sBkFace		: this.sBkFace,
 		idc_hArg	: this.idc.gethArg(),
 	});
-	playback(hLay: any, aPrm: Promise<void>[]): void {
+	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
 			this.sBkFn		= hLay.sBkFn;
@@ -386,17 +386,17 @@ export class GrpLayer extends Layer {
 		)));
 	}
 
-	makeDesignCast(gdc: IMakeDesignCast) {
+	override makeDesignCast(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
 		gdc(this.idc);
 	}
 	//makeDesignCastChildren(_gdc: IMakeDesignCast) {}
 
-	cvsResize() {super.cvsResize();}
+	override cvsResize() {super.cvsResize();}
 
-	showDesignCast() {this.idc.visible = true;}
+	override showDesignCast() {this.idc.visible = true;}
 	//showDesignCastChildren() {}
 
-	readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;
+	override readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;
 
 }
