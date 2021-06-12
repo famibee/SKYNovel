@@ -1,3 +1,11 @@
+## [1.17.4](https://github.com/famibee/SKYNovel/compare/v1.17.3...v1.17.4) (2021-06-12)
+
+
+### Bug Fixes
+
+* Github Action【Run npm test】でErrorになる対策 ([4bbab6c](https://github.com/famibee/SKYNovel/commit/4bbab6c8300dffbc668a4d00ef087a785dfc293f))
+* ギャラリーでビルドエラーになる対策 ([b673ecc](https://github.com/famibee/SKYNovel/commit/b673eccbedcb8793d36b46f28fa784b6d694f1ab))
+
 - fix: ギャラリーでビルドエラーになる対策
 - fix: ライブラリ更新
 - fix: Github Action【Run npm test】で「Error: Not supported」になるので mocha 8.4.0 に戻す
