@@ -1,5 +1,6 @@
 - fix: ギャラリーでビルドエラーになる対策
 - fix: ライブラリ更新
+- fix: Github Action【Run npm test】で「Error: Not supported」になるので mocha 8.4.0 に戻す
 
 - memo: 既知の問題：
 	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。

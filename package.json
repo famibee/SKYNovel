@@ -37,7 +37,7 @@
 		"@types/tar-fs": "^2.0.0",
 		"@types/xml2js": "^0.4.8",
 		"electron": "^13.1.2",
-		"mocha": "^9.0.0",
+		"mocha": "^8.4.0",
 		"power-assert": "^1.6.1",
 		"semantic-release": "^17.4.3",
 		"ts-loader": "^9.2.3",
