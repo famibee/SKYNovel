@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-const {ipcMain, app, BrowserWindow, screen} = require('electron');
+import {screen, app, BrowserWindow, ipcMain} from 'electron';
+	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
 import {existsSync, copySync, removeSync, ensureDirSync, createWriteStream, createReadStream, readFileSync, readFile, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 const Store = require('electron-store');
 import {pack, extract} from 'tar-fs';
@@ -27,7 +28,8 @@ export class appMain {
 	};
 
 	// console.log は【プロジェクト】のターミナルに出る
-	private	constructor(private readonly bw: Electron.BrowserWindow) {
+	private	constructor(private readonly bw: BrowserWindow) {
+//	private	constructor(private readonly bw: Electron.BrowserWindow) {
 		ipcMain.handle('getInfo', ()=> this.hInfo);
 
 		ipcMain.handle('existsSync', (_: any, fn: string)=> existsSync(fn));
@@ -108,7 +110,9 @@ export class appMain {
 
 
 	private	static	ins: appMain;
-	static	initRenderer(path_htm: string, o: object): Electron.BrowserWindow {
+	static	initRenderer(path_htm: string, o: object): BrowserWindow {
+//	static	initRenderer(path_htm: string, o: object): Electron.BrowserWindow {
+		// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】のでこの形に
 		let openDevTools = ()=> {};
 		let bw: Electron.BrowserWindow;
 		try {

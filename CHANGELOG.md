@@ -1,3 +1,13 @@
+- fix: ギャラリーでビルドエラーになる対策
+- fix: ライブラリ更新
+
+- memo: 既知の問題：
+	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
+	- 暗号化時、画像が出ない
+	- ts-node@10.0.0に更新すると test/AnalyzeTagArg.test.ts でエラーになる
+		- 【Cannot find name 'context'】ほか
+
+
 ## [1.17.3](https://github.com/famibee/SKYNovel/compare/v1.17.2...v1.17.3) (2021-06-08)
 
 
@@ -6,12 +16,6 @@
 * overrideキーワード追加 ([1b8f7fb](https://github.com/famibee/SKYNovel/commit/1b8f7fb13a0372970cf62641c987c8fc0ebfbb84))
 
 - fix: overrideキーワード追加
-
-- memo: 既知の問題：
-	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
-	- 暗号化時、画像が出ない
-	- ts-node@10.0.0に更新すると test/AnalyzeTagArg.test.ts でエラーになる
-		- 【Cannot find name 'context'】ほか
 
 
 ## [1.17.2](https://github.com/famibee/SKYNovel/compare/v1.17.1...v1.17.2) (2021-05-29)
