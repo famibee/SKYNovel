@@ -1,3 +1,12 @@
+- fix: ライブラリ更新
+
+- memo: 既知の問題：
+	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
+	- 暗号化時、画像が出ない
+	- ts-node@10.0.0に更新すると test/AnalyzeTagArg.test.ts でエラーになる
+		- 【Cannot find name 'context'】ほか
+
+
 ## [1.17.4](https://github.com/famibee/SKYNovel/compare/v1.17.3...v1.17.4) (2021-06-12)
 
 
@@ -9,12 +18,6 @@
 - fix: ギャラリーでビルドエラーになる対策
 - fix: ライブラリ更新
 - fix: Github Action【Run npm test】で「Error: Not supported」になるので mocha 8.4.0 に戻す
-
-- memo: 既知の問題：
-	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
-	- 暗号化時、画像が出ない
-	- ts-node@10.0.0に更新すると test/AnalyzeTagArg.test.ts でエラーになる
-		- 【Cannot find name 'context'】ほか
 
 
 ## [1.17.3](https://github.com/famibee/SKYNovel/compare/v1.17.2...v1.17.3) (2021-06-08)
