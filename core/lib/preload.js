@@ -26,7 +26,7 @@ eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexpo
   \***************************/
 /***/ ((module) => {
 
-module.exports = require("electron");;
+module.exports = require("electron");
 
 /***/ })
 
