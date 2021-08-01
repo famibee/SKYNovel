@@ -1,3 +1,17 @@
+- fix: ライブラリ更新
+- fix: tsconfig.json 更新　es2020 →【"target": "es2021",】
+
+
+- memo: 既知の問題：
+	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
+	- 暗号化時、画像が出ない
+	- ts-node@10.0.0に更新すると test/*.test.ts でエラーになる
+		- 【Cannot find name 'context'】ほか
+- memo: - fix: tsconfig.json で【"target": "es2021",】に
+	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
+	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
+
+
 ## [1.17.6](https://github.com/famibee/SKYNovel/compare/v1.17.5...v1.17.6) (2021-06-29)
 
 
@@ -6,13 +20,6 @@
 * ライブラリ更新 ([33c7ef5](https://github.com/famibee/SKYNovel/commit/33c7ef53343b5a5a92dbf9534cf5549a89b05b22))
 
 - fix: ライブラリ更新
-
-
-- memo: 既知の問題：
-	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
-	- 暗号化時、画像が出ない
-	- ts-node@10.0.0に更新すると test/AnalyzeTagArg.test.ts でエラーになる
-		- 【Cannot find name 'context'】ほか
 
 
 ## [1.17.5](https://github.com/famibee/SKYNovel/compare/v1.17.4...v1.17.5) (2021-06-20)

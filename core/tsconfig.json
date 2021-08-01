@@ -1,7 +1,7 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
-		"target": "es2020",
+		"target": "es2021",
 		"lib": ["es2020"],
 		"module": "commonjs",
 		"sourceMap": true,
