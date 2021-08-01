@@ -1,3 +1,10 @@
+## [1.17.7](https://github.com/famibee/SKYNovel/compare/v1.17.6...v1.17.7) (2021-08-01)
+
+
+### Bug Fixes
+
+* ライブラリ更新 ([cda8e1e](https://github.com/famibee/SKYNovel/commit/cda8e1e7ed1937d31cbeb6e78519f5afdfa788cb))
+
 - fix: ライブラリ更新
 - fix: tsconfig.json 更新　es2020 →【"target": "es2021",】
 
