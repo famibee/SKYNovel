@@ -332,7 +332,7 @@ export class SoundMng {
 		(new Loader()).add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
 		.use((res, next)=> {
 			this.sys.pre(res.extension, res.data)
-			.then(r=> {res.data = r; next();})
+			.then(r=> {res.data = r; next?.();})
 			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
 		})
 		.load((_ldr, hRes)=> {

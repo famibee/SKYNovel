@@ -67,7 +67,7 @@ export class FrameMng implements IGetFrm {
 		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
 		if (this.sys.crypto) ld.use((res, next)=> {
 			this.sys.pre(res.extension, res.data)
-			.then(r=> {res.data = r; next();})
+			.then(r=> {res.data = r; next?.();})
 			.catch(e=> this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
 		});
 		ld.load((_ldr, hRes)=> {
@@ -114,12 +114,12 @@ export class FrameMng implements IGetFrm {
 					if (this.sys.crypto) ld2.use((res, next)=> {
 						this.sys.pre(res.extension, res.data)
 						.then(r=> {
-							if (res.extension !== 'bin') {next(); return;}
+							if (res.extension !== 'bin') {next?.(); return;}
 							res.data = r;
 							if (res.data instanceof HTMLImageElement) {
 								res.type = LoaderResource.TYPE.IMAGE;
 							}
-							next();
+							next?.();
 						})
 						.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 					})

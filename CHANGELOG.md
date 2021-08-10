@@ -1,3 +1,22 @@
+- fix: ライブラリ更新
+- fix: pixi.js 6.1.0以降対応で、core/tsconfig.json に必須スイッチを追加
+	- 【"esModuleInterop": true】
+	- 【"allowSyntheticDefaultImports": true】
+	- https://github.com/pixijs/pixijs/issues/7685#issuecomment-895676265
+- fix: tsconfig.json 戻し　es2021 →【"target": "es2020",】
+- fix: Loader.use(fn: (res, next: ()=> {} | undefined))につき警告、next()をnext?.()に書き換え
+
+
+- memo: 既知の問題・作成中
+	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
+	- 暗号化時、画像が出ない
+	- ts-node@10.0.0に更新すると test/*.test.ts でエラーになる
+		- 【Cannot find name 'context'】ほか
+- memo: - fix: tsconfig.json で【"target": "es2021",】に
+	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
+	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
+
+
 ## [1.17.7](https://github.com/famibee/SKYNovel/compare/v1.17.6...v1.17.7) (2021-08-01)
 
 
@@ -7,16 +26,6 @@
 
 - fix: ライブラリ更新
 - fix: tsconfig.json 更新　es2020 →【"target": "es2021",】
-
-
-- memo: 既知の問題：
-	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
-	- 暗号化時、画像が出ない
-	- ts-node@10.0.0に更新すると test/*.test.ts でエラーになる
-		- 【Cannot find name 'context'】ほか
-- memo: - fix: tsconfig.json で【"target": "es2021",】に
-	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
-	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
 
 
 ## [1.17.6](https://github.com/famibee/SKYNovel/compare/v1.17.5...v1.17.6) (2021-06-29)

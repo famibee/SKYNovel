@@ -206,7 +206,7 @@ export class GrpLayer extends Layer {
 		if (needLoad) {
 			ldr.use((res, next)=> {
 				this.sys.pre(res.extension, res.data)
-				.then(r=> GrpLayer.preThen(r, res, next))
+				.then(r=> GrpLayer.preThen(r, res, ()=> next?.()))
 				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 			})
 			.load((_ldr, hRes)=> fncLoaded(hRes));
@@ -251,7 +251,7 @@ export class GrpLayer extends Layer {
 					res2.type = LoaderResource.TYPE.VIDEO;
 					o.meta.image = res2.data.src;
 				}*/
-				next2();
+				next2?.();
 			})
 			.catch(e=> this.main.errScript(`Graphic ロード失敗です preThen4Cripto fn:${res2.name} ${e}`, false));
 

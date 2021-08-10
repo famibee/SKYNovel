@@ -73,8 +73,8 @@ export declare class TxtLayer extends Layer {
     clearText(): void;
     private page_text;
     get pageText(): string;
-    get enabled(): boolean | undefined;
-    set enabled(e: boolean | undefined);
+    get enabled(): boolean;
+    set enabled(e: boolean);
     readonly addButton: (hArg: HArg) => Promise<void>;
     canFocus(): boolean;
     clearLay(hArg: HArg): void;
@@ -92,7 +92,7 @@ export declare class TxtLayer extends Layer {
         y: number;
         visible: boolean;
     } & {
-        enabled: boolean | undefined;
+        enabled: boolean;
         r_align: string;
         b_do: string | null;
         b_pic: string;

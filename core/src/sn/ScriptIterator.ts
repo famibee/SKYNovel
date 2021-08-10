@@ -743,7 +743,7 @@ export class ScriptIterator {
 		(new Loader).add({name: this.scriptFn_, url: full_path})
 		.use((res, next)=> {
 			this.sys.pre(res.extension, res.data)
-			.then(r=> {res.data = r; next();})
+			.then(r=> {res.data = r; next?.();})
 			.catch(e=> this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
 		})
 		.load((_ldr, hRes)=> {
