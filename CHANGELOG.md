@@ -1,3 +1,10 @@
+## [1.17.8](https://github.com/famibee/SKYNovel/compare/v1.17.7...v1.17.8) (2021-08-10)
+
+
+### Bug Fixes
+
+* ライブラリ更新（pixi.js 6.1.0以降対応） ([e8f389c](https://github.com/famibee/SKYNovel/commit/e8f389ceea5dcfc44e1334261be69274997ae5ea))
+
 - fix: ライブラリ更新
 - fix: pixi.js 6.1.0以降対応で、core/tsconfig.json に必須スイッチを追加
 	- 【"esModuleInterop": true】
