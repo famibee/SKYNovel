@@ -13,15 +13,15 @@ import {SysNode} from '../core/src/sn/SysNode';
 //===== Test Class =====
 import {readFileSync, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 export class SysTest extends SysNode {
-	protected	readFileSync = async (path: string)=> readFileSync(path, {encoding: 'utf8'});
-	protected	writeFileSync = async (path: string, data: Buffer, o?: object)=> writeFileSync(path, data, o);
-	appendFile = async (path: string, data: string | Buffer, callback: (err: NodeJS.ErrnoException)=> void) => appendFile(path, data, callback);
-	ensureFileSync = async (path: string)=> ensureFileSync(path);
+	protected	override readFileSync = async (path: string)=> readFileSync(path, {encoding: 'utf8'});
+	protected	override writeFileSync = async (path: string, data: Buffer, o?: object)=> writeFileSync(path, data, o);
+	override appendFile = async (path: string, data: string | Buffer, callback: (err: NodeJS.ErrnoException)=> void) => appendFile(path, data, callback);
+	override ensureFileSync = async (path: string)=> ensureFileSync(path);
 }
 //===== Test Class =====
 
 context('class Config', ()=>{
-	let	cfg	= null;
+	let	cfg: Config;
 	beforeEach(()=> new Promise<void>(re=> {
 		cfg = new Config(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}), ()=> re(), {search: ['mat']});
 	}));
@@ -110,11 +110,11 @@ context('class Config', ()=>{
 		});
 		it('testsetSearchPath_1_userFnTail', ()=> {
 			cfg.userFnTail = 'ex';
-			cfg.cnv_path = (path: string): string => {
+/*			cfg.cnv_path = (path: string): string => {
 				return path.replace(
 					/^app-storage:/
 				,	'app-storage')
-			};
+			};*/
 			/*	保留
 			assert.equal(cfg.searchPath("app-storage:/aaa.jpg"), "app-storage:/aaa.jpg");
 			assert.equal(cfg.searchPath("app-storage:/aaa.sn"), "app-storage:/aaa.sn");
@@ -196,7 +196,7 @@ context('class Config', ()=>{
 		});
 
 		it('test_searchPath_speedtest_0', ()=> {
-			const old_time = (new Date).getTime();
+//			const old_time = (new Date).getTime();
 			//for (let i=0; i<1000; ++i) {
 				assert.equal(cfg.searchPath("http://bbb"), "http://bbb");
 
@@ -208,11 +208,11 @@ context('class Config', ()=>{
 					assert.equal(s, "サーチパスに存在しないファイル【ccc】です");
 				}
 			//}
-			const time = (new Date).getTime() - old_time;	// 実行後に測定
+//			const time = (new Date).getTime() - old_time;	// 実行後に測定
 			//assert.fail("経過時間:" + time);		// 差
 		});
 		it('test_searchPath_speedtest_1', ()=> {
-			const old_time = (new Date).getTime();
+//			const old_time = (new Date).getTime();
 			//for (let i=0; i<1000; ++i) {
 				assert.equal(cfg.searchPath("update.png"),
 					`test/:dummy dir:/mat/update.png`);
@@ -235,11 +235,11 @@ context('class Config', ()=>{
 					assert.equal(s, "指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】");
 				}
 			//}
-			const time = (new Date()).getTime() - old_time;	// 実行後に測定
+//			const time = (new Date()).getTime() - old_time;	// 実行後に測定
 			//	assert.fail("経過時間:" + time);		// 差
 		});
 		it('test_searchPath_speedtest_2', ()=> {
-			const old_time = (new Date()).getTime();
+//			const old_time = (new Date()).getTime();
 			//for (let i=0; i<1000; ++i) {
 				try {
 					assert.equal(cfg.searchPath("update.ggg", "ggg"), "fff");
@@ -263,7 +263,7 @@ context('class Config', ()=>{
 					assert.equal(s, "指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。");
 				}
 			//}
-			const time = (new Date()).getTime() - old_time;	// 実行後に測定
+//			const time = (new Date()).getTime() - old_time;	// 実行後に測定
 			//assert.fail("経過時間:" + time);		// 差
 		});
 

@@ -19,7 +19,7 @@ export declare class Grammar {
     private regStrC2M4not;
     addC2M(a: string, b: string): void;
     private hC2M;
-    private REG_TOKEN_NOTXT;
+    REG_TOKEN_NOTXT: RegExp;
     replaceScr_C2M_And_let_ml: (scr: Script, start_idx?: number) => void;
 }
 //# sourceMappingURL=Grammar.d.ts.map

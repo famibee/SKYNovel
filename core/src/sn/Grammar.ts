@@ -126,7 +126,7 @@ export class Grammar {
 	}
 
 	private	hC2M	: {[char: string]: string};
-	private	REG_TOKEN_NOTXT	: RegExp;
+	REG_TOKEN_NOTXT	: RegExp;	// テスト用にpublic
 	replaceScr_C2M_And_let_ml = (scr: Script, start_idx = 0)=> {
 		if (! this.hC2M) return;
 

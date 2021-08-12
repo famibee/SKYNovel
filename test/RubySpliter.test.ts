@@ -11,12 +11,12 @@ import {RubySpliter} from '../core/src/sn/RubySpliter';
 import {IPutCh} from '../core/src/sn/CmnInterface';
 
 context('class RubySpliter', ()=>{
-	let	rbSpl	= null;
+	let	rbSpl	: RubySpliter;
 	let	retText	= '';
 	let	retRuby	= '';
 	beforeEach(()=> {
 		rbSpl = new RubySpliter();
-		rbSpl.init(putCh, null);
+		rbSpl.init(putCh);
 		RubySpliter.setEscape('');
 		retText	= '';
 		retRuby	= '';

@@ -71,7 +71,7 @@ export class RubySpliter {
 		}
 	}
 
-	private	putTxtRb(text: string, ruby: string) {
+	putTxtRb(text: string, ruby: string) {	// テスト用にpublic
 		const a: string[] = Array.from(text);
 		const len = a.length;
 		if (ruby.charAt(0) === '*' && ruby.length <= 2) {

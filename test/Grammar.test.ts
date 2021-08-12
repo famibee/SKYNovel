@@ -10,10 +10,10 @@ import assert = require('power-assert');
 import {Grammar, REG_TAG, splitAmpersand} from '../core/src/sn/Grammar';
 
 context('class Grammar & ScriptIterator', ()=>{
-	let	vctToken	: string[]	= null;
+	let	vctToken	: RegExpMatchArray | null	= null;
 	let	vctTokenLen				= 0;
 
-	let	grm;
+	let	grm: Grammar;
 
 	beforeEach(()=> {
 		grm = new Grammar;
@@ -26,8 +26,9 @@ context('class Grammar & ScriptIterator', ()=>{
 		it('testAnalyzeScript0', ()=> {
 			const sScr = "";
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 		//	compile	err	= Vector.<String>(sScr.toLocaleString().match(REG_TOKEN));
-			if (vctToken == null) return;
+			if (vctToken.length === null) return;
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 0);
@@ -36,6 +37,7 @@ context('class Grammar & ScriptIterator', ()=>{
 		it('testAnalyzeScript_str1', ()=> {
 			const sScr = "うひょー";
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 /*
 trace("len:"+ vctTokenLen);
@@ -48,6 +50,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_n1', ()=> {
 			const sScr = "\n";
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -56,6 +59,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_n8', ()=> {
 			const sScr = "\n\n\n\n\n\n\n\n";
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -64,6 +68,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_n3t2n5', ()=> {
 			const sScr = "\n\n\n\t\t\n\n\n\n\n";
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 3);
@@ -75,6 +80,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_ans', ()=> {
 			const sScr = '\t[add_lay layer=mes class=txt]\n\t[add_lay layer=upd class=grp]\n\t[lay layer="mes" visible=true b_alpha=0 r_size=12 r_align="121" layout=\'blockProgression="rl" lineHeight="36" paddingTop="15" paddingRight="15" fontSize="24" color="0xffffff"\']\n\n\t[title text="&tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename +\'  ver \'+ tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.version"]\n\n\t空気《え あ》小説《のべる》[r]\n\tばい　ふぁみべぇ[r]\n[r]\n\tクリックで更新確認[r]\n\tするよー[p][er]\n\n\t[lay layer=upd fn="update" visible=true left=86 top=86]\n[update_check url="http://ugainovel.ddo.jp/ans/ver.xml" config_fn="update.xml"]\n\t何かあれば[r]\n\t通知します。[r]\n[r][r][r][r]\n\t数秒経っても無反応なら更新はありません。\n*loop\n[l]\n[jump label=*loop]\n';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 58);
@@ -140,6 +146,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_tag_in_string', ()=> {
 			const sScr = '[lay layer="mes" chk_overrow=false over_ins_tag="[plc]"]\n';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 2);
@@ -149,6 +156,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug120904', ()=> {
 			const sScr = '; [hoge\n[s]\n[trace text="error"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 5);
@@ -161,6 +169,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug120904_2', ()=> {
 			const sScr = '; [hoge\n[s]\n[trace text="["]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 5);
@@ -173,6 +182,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug120904_3', ()=> {
 			const sScr = '; [hoge\n[s]\n[trace text="]"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 5);
@@ -185,6 +195,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug140108', ()=> {
 			const sScr = '[let name="sysse_ok1" text="BurstB_11"]\n\n\n; 立ち絵配置位置定数\n;	[lay pos=&pos.l	等として使用。\n;	組み込みで「c」という指定が出来る。例：pos=c、pos="c"\n[let name="pos.l" text="140"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 9);
@@ -201,6 +212,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug150603_0', ()=> {
 			const sScr = '[a][ab][あ][あい]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 4);
@@ -215,6 +227,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug150603_1', ()=> {
 			const sScr = '[あ]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -226,6 +239,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug150603_2', ()=> {
 			const sScr = '[あい]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -237,6 +251,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug150603_3', ()=> {
 			const sScr = '[あ a=0]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -248,6 +263,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('testAnalyzeScript_bug150603_4', ()=> {
 			const sScr = '[あい a=0]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -260,6 +276,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_0_cr', ()=> {
 			const sScr = '&text=1+2=int\n[tcy t="!!"] あ。/\nあ。/';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -291,6 +308,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_0_cr_spc', ()=> {
 			const sScr = '&text = 1 + 2 = int\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -310,6 +328,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_0_cr_spc_var', ()=> {
 			const sScr = '&text = hA[#ar$BB#]\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -329,6 +348,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_1_tab', ()=> {
 			const sScr = '&text=1+2=int\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -348,6 +368,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_1_tab_spc', ()=> {
 			const sScr = '&text = 1 + 2 = int\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -367,6 +388,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_1_tab_spc_var', ()=> {
 			const sScr = '&text = hA[#ar$BB#]\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -386,6 +408,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_2_spc', ()=> {
 			const sScr = '&text=1+2=int [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -397,6 +420,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_2_spc2', ()=> {
 			const sScr = '&text=1+2=int  [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -408,6 +432,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_3_comment', ()=> {
 			const sScr = '&text=1+2=int\t; [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -427,6 +452,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_3_comment2', ()=> {
 			const sScr = '&text=1+2=int\t\t; [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -446,6 +472,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_4_OperatorEq', ()=> {
 			const sScr = '&text=1+2 == null\t\t; [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -465,6 +492,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_expansion_4_OperatorNotEq', ()=> {
 			const sScr = '&text=1+2 != null\t\t; [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -484,6 +512,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_let_bug_20120321s_aira', ()=> {
 			const sScr = "&&'tex'+0 = 1+2\t[tcy t='!!']";
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -504,6 +533,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_0_cr', ()=> {
 			const sScr = '&test&\n[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -523,6 +553,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_0_cr_spc', ()=> {
 			const sScr = '&test cr spc&\n[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -542,6 +573,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_0_cr_spc_var', ()=> {
 			const sScr = '&test hA[#ar$BB#]&\n[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -561,6 +593,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_1_tab', ()=> {
 			const sScr = '&test&\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -580,6 +613,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_1_tab_spc', ()=> {
 			const sScr = '&test tab spc&\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -599,6 +633,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_1_tab_spc_var', ()=> {
 			const sScr = '&test hA[#ar$BB#]&\t[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -618,6 +653,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_2_spc', ()=> {
 			const sScr = '&test& [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -637,6 +673,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_2_spc2', ()=> {
 			const sScr = '&test&  [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -656,6 +693,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_2_comment', ()=> {
 			const sScr = '&test&\t; [tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -675,6 +713,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_miss_0', ()=> {
 			const sScr = '&te\nst&\n[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -702,6 +741,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_ch_expansion_miss_1', ()=> {
 			const sScr = '&te\n\tst&\n[tcy t="!!"]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -736,6 +776,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_char2macro_0', ()=> {
 			const sScr = '[tcy t="!!"] あ。/\nあ。/';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -760,6 +801,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_multiline_tag_nochg0', ()=> {
 			const sScr = '[r]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -768,6 +810,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 		it('test_multiline_tag_nochg1', ()=> {
 			const sScr = '[ch]';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -778,6 +821,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 `[r
 ]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -788,6 +832,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 `[ch
 ]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -798,6 +843,7 @@ for (let i=0; i<vctTokenLen; ++i) trace(i +"@"+ vctToken[i]);
 `[r
 a= 0]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -809,6 +855,7 @@ a= 0]`;
 ;===
 text=""]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -819,6 +866,7 @@ text=""]`;
 `[ch
 ]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -832,6 +880,7 @@ a= 0]ん[r]こ[ch
 ;===
 text=""]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 7);
@@ -856,6 +905,7 @@ text=""]`);
 	page=fore\t;===
 	text=""]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 2);
@@ -871,6 +921,7 @@ text=""]`);
 [s]
 [trace text="error"]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 5);
@@ -886,6 +937,7 @@ text=""]`);
 	page=fore\t;===
 	text="["]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 2);
@@ -901,6 +953,7 @@ text=""]`);
 	page=fore\t;===
 	text="]"]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 2);
@@ -920,6 +973,7 @@ text=""]`);
 ;	組み込みで「c」という指定が出来る。例：pos=c、pos="c"
 [let name="pos.l" text="140"]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 9);
@@ -952,6 +1006,7 @@ class=txt
 	[span]
 [s]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 20);
@@ -991,6 +1046,7 @@ class=txt
 `[lay
 style="&'color: '+ fcol +'; writing-mode: vertical-rl;'"]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 1);
@@ -1032,6 +1088,7 @@ a='2009';=====
 a='#{fcol}'|true;=====
 	]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 15);
@@ -1098,6 +1155,7 @@ void main(void) {
 }
 [endlet_ml]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -1132,6 +1190,7 @@ void main(void) {
 ]
 [endlet_ml]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -1164,6 +1223,7 @@ void main(void) {
 }
 [endlet_ml]`;
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 			let ch = "";
 
@@ -1227,8 +1287,7 @@ void main(void) {
 
 		it('test_mth_splitAmpersand_err0', ()=> {
 			try {
-				const o
-					= splitAmpersand("b=1=0=uint");
+				splitAmpersand("b=1=0=uint");
 				assert.fail("Error:ccc");
 			}
 			catch (s) {
@@ -1237,8 +1296,7 @@ void main(void) {
 		});
 		it('test_mth_splitAmpersand_err1', ()=> {
 			try {
-				const o
-					= splitAmpersand("text=&1+2=int");
+				splitAmpersand("text=&1+2=int");
 				assert.fail("Error:ccc");
 			}
 			catch (s) {
@@ -1250,6 +1308,7 @@ void main(void) {
 			grm.setEscape('\\');
 			const sScr = '\\&\\[\\;\\*\\｜\\《\\\\';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 7);
@@ -1265,6 +1324,7 @@ void main(void) {
 			grm.setEscape('¥');
 			const sScr = '¥&¥[¥;¥*¥｜¥《¥¥';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 7);
@@ -1280,6 +1340,7 @@ void main(void) {
 			grm.setEscape('\\');
 			const sScr = '\\｜｜　論語《ろんごに》\\｜　曰《いはく》';
 			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
 			vctTokenLen = vctToken.length;
 
 			assert.equal(vctTokenLen, 4);

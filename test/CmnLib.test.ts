@@ -10,8 +10,6 @@ import assert = require('power-assert');
 import {argChk_Boolean, argChk_Num} from '../core/src/sn/CmnLib';
 
 context('class CmnLib', ()=>{
-	let	vctToken	: string[]	= null;
-	let	vctTokenLen				= 0;
 /*	let target;
 	const jsdomify = require('jsdomify');
 	before(()=> {
@@ -19,8 +17,6 @@ context('class CmnLib', ()=>{
 		target = document.querySelector('#content');
 	});*/
 	beforeEach(()=> {
-		vctToken = null;
-		vctTokenLen= 0;
 	});
 /*	after(()=> {
 		jsdomify.destroy();

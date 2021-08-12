@@ -10,7 +10,7 @@ import assert = require('power-assert');
 import {Areas} from '../core/src/sn/Areas';
 
 context('class AreasTest', ()=>{
-	let areas;
+	let areas: Areas;
 	beforeEach(()=> {
 		areas = new Areas;
 	});

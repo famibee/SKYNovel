@@ -10,9 +10,10 @@ import assert = require('power-assert');
 import {PropParser} from '../core/src/sn/PropParser';
 
 import {IVariable, ISysBase, typeProcVal, ISetVal, IMark, IData4Vari} from '../core/src/sn/CmnInterface';
+import {Areas} from '../core/src/sn/Areas';
 
 class MyVal implements IVariable {
-	private hGetVal = {
+	private hGetVal: {[nm: string]: any} = {
 		"mp:fn"			: "うひひ",
 		"mp:lay"		: "もきゅ",
 		"mp:pos"		: "うひひ",
@@ -41,21 +42,25 @@ class MyVal implements IVariable {
 	flush(): void {};
 	setDoRecProc(_doRecProc: (doRec: boolean)=> void): void {}
 
-	getVal(arg_name: string): object {return this.hGetVal[arg_name];}
+	getVal(arg_name: string): any {return this.hGetVal[arg_name];}
 	setVal_Nochk = (_sc: string, _nm: string, _v: any, _ac?: boolean)=> {};
 
 	defTmp = (_name: string, _fnc: typeProcVal)=> {};
-	cloneMp = ()=> null;
+	cloneMp = ()=> {return {}};
 	setMp = ()=> {};
-	setMark = (_place: number, mark: IMark)=> {};
-	getMark = (_place: number)=> null;
-	cloneSave = ()=> null;
-	mark2save(mark: IMark) {};
+	setMark = (_place: number, _mark: IMark)=> {};
+	getMark = (_place: number)=> {return {
+		hSave	: {},
+		hPages	: {},
+		aIfStk	: [],
+	}};
+	cloneSave = ()=> {return {}};
+	mark2save(_mark: IMark) {};
 
 	loadScrWork = (_fn: string)=> {};
-	getAreaKidoku = (_fn: string)=> null;
+	getAreaKidoku = (_fn: string)=> new Areas;
 	saveKidoku(): void {};
-	updateData(data: IData4Vari): void {};
+	updateData(_data: IData4Vari): void {};
 
 	defValTrg(_name: string, _fnc: ISetVal): void {};
 
@@ -63,7 +68,7 @@ class MyVal implements IVariable {
 };
 
 context('class PropParser', ()=>{
-	let parser;
+	let parser: PropParser;
 	beforeEach(()=> {
 		parser = new PropParser(new MyVal);
 	});
@@ -74,7 +79,7 @@ context('class PropParser', ()=>{
 			for (let j=0; j<5; ++j) {
 				console.time('PropParser.getValName');
 //				for (let i=0; i<10000; ++i) {
-					const o = PropParser.getValName('hA["args"]["rrr"]');
+					PropParser.getValName('hA["args"]["rrr"]');
 //				}
 				console.timeEnd('PropParser.getValName');
 			}
@@ -954,58 +959,58 @@ PropParser.getValName: 0.016ms
 
 		it('_getValName0', ()=> {
 			const o = PropParser.getValName('mp:fn');
-			assert.equal(o['scope'], 'mp');
-			assert.equal(o['name'], 'fn');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'mp');
+			assert.equal(o?.name, 'fn');
+			assert.equal(o?.at, '');
 		});
 		it('_getValName1', ()=> {
 			const o = PropParser.getValName('fn');
-			assert.equal(o['scope'], 'tmp');
-			assert.equal(o['name'], 'fn');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'tmp');
+			assert.equal(o?.name, 'fn');
+			assert.equal(o?.at, '');
 		});
 		it('_getValName2', ()=> {
 			const o = PropParser.getValName('ぎょへー');
-			assert.equal(o['scope'], 'tmp');
-			assert.equal(o['name'], 'ぎょへー');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'tmp');
+			assert.equal(o?.name, 'ぎょへー');
+			assert.equal(o?.at, '');
 		});
 		it('_getValName3', ()=> {
 			const o = PropParser.getValName('hC.5reg');
-			assert.equal(o['scope'], 'tmp');
-			assert.equal(o['name'], 'hC.5reg');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'tmp');
+			assert.equal(o?.name, 'hC.5reg');
+			assert.equal(o?.at, '');
 		});
 		it('_getValName4', ()=> {
 			const o = PropParser.getValName('hA.秋冬.args');
-			assert.equal(o['scope'], 'tmp');
-			assert.equal(o['name'], 'hA.秋冬.args');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'tmp');
+			assert.equal(o?.name, 'hA.秋冬.args');
+			assert.equal(o?.at, '');
 		});
 		it('_getValName5', ()=> {
 			const o = PropParser.getValName('sys:_album.img.渡り廊下・桜昼');
-			assert.equal(o['scope'], 'sys');
-			assert.equal(o['name'], '_album.img.渡り廊下・桜昼');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'sys');
+			assert.equal(o?.name, '_album.img.渡り廊下・桜昼');
+			assert.equal(o?.at, '');
 		});
 
 		it('_getValName10', ()=> {
 			const o = PropParser.getValName("hA['args']");
-			assert.equal(o['scope'], 'tmp');
-			assert.equal(o['name'], 'hA.args');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'tmp');
+			assert.equal(o?.name, 'hA.args');
+			assert.equal(o?.at, '');
 		});
 		it('_getValName11', ()=> {
 			const o = PropParser.getValName('hA["args"]');
-			assert.equal(o['scope'], 'tmp');
-			assert.equal(o['name'], 'hA.args');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'tmp');
+			assert.equal(o?.name, 'hA.args');
+			assert.equal(o?.at, '');
 		});
 		it('_getValName12', ()=> {
 			const o = PropParser.getValName('hA["args"]["rrr"]');
-			assert.equal(o['scope'], 'tmp');
-			assert.equal(o['name'], 'hA.args.rrr');
-			assert.equal(o['at'], '');
+			assert.equal(o?.scope, 'tmp');
+			assert.equal(o?.name, 'hA.args.rrr');
+			assert.equal(o?.at, '');
 		});
 
 	// 不具合

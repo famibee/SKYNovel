@@ -14,7 +14,7 @@ import {SysNode} from '../core/src/sn/SysNode';
 import {IHTag} from '../core/src/sn/CmnInterface';
 
 context('class Variable', ()=>{
-	let	val	= null;
+	let	val	: Variable;
 	beforeEach(()=> {
 		const cfg = new Config(new SysNode({}, {cur: 'test/', crypto: false, dip: ''}), ()=> {}, {
 			search	: ["mat"],

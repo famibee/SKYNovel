@@ -2,10 +2,10 @@
 	"compileOnSave": true,
 	"compilerOptions": {
 		"target": "es2020",
-		"lib": ["es2020"],
+		"lib": ["es2020","DOM"],
 		"module": "commonjs",
 		"sourceMap": true,
-		"outDir": "lib/",
+		"outDir": "core/lib/",
 		"declaration": true,
 		"declarationMap": true,
 		"newLine": "LF",
@@ -32,6 +32,6 @@
 		"incremental": true			// 差分ビルド
 	},
 	"include": [
-		"src/**/*"
+		"core/src/**/*"
 	]
 }

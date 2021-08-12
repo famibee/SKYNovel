@@ -12,7 +12,7 @@ export declare class RubySpliter {
     private static REG_RUBY;
     static setEscape(ce: string): void;
     putTxt(text: string): void;
-    private putTxtRb;
+    putTxtRb(text: string, ruby: string): void;
     private static readonly REG_TAB_G;
 }
 //# sourceMappingURL=RubySpliter.d.ts.map

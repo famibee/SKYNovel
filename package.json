@@ -29,9 +29,10 @@
 		"@types/electron-json-storage": "^4.5.0",
 		"@types/fs-extra": "^9.0.12",
 		"@types/mocha": "^9.0.0",
-		"@types/node": "^16.4.13",
+		"@types/node": "^16.6.0",
 		"@types/parsimmon": "^1.10.6",
 		"@types/platform": "^1.3.4",
+		"@types/power-assert": "^1.5.4",
 		"@types/store": "^2.0.2",
 		"@types/tar-fs": "^2.0.1",
 		"@types/xml2js": "^0.4.9",
@@ -40,9 +41,9 @@
 		"power-assert": "^1.6.1",
 		"semantic-release": "^17.4.4",
 		"ts-loader": "^9.2.5",
-		"ts-node": "^9.1.1",
+		"ts-node": "^10.2.0",
 		"typescript": "^4.3.5",
-		"webpack": "^5.49.0",
+		"webpack": "^5.50.0",
 		"webpack-cli": "^4.7.2",
 		"webpack-dev-server": "^3.11.2"
 	},
@@ -62,7 +63,6 @@
 		"require": "ts-node/register",
 		"watch-extensions": "ts",
 		"spec": "test/*.test.ts",
-		"ignore": "['core/lib/*','*']",
 		"watch-files": "['test/*.test.ts','core/src/sn/*.ts','app.js']"
 	},
 	"keywords": [
