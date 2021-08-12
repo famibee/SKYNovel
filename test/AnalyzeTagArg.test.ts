@@ -327,10 +327,6 @@ b='#{fcol}'|true;=====`);
 			assert.equal(alz.hPrm['layer'].val, `mes`);
 			assert.equal(alz.hPrm['layer'].def, undefined);
 			assert.equal(alz.hPrm['b_pic'], undefined);
-			assert.equal(alz.hPrm['b_pic']?.val, undefined);
-				// これが取れてしまう不具合
-			assert.equal(alz.hPrm['b_pic']?.def, undefined);
-				// これが取れてしまう不具合
 			assert.equal(alz.hPrm['a'], undefined);
 
 			assert.equal(alz.isKomeParam, false);
