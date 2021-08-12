@@ -1,3 +1,10 @@
+## [1.17.9](https://github.com/famibee/SKYNovel/compare/v1.17.8...v1.17.9) (2021-08-12)
+
+
+### Bug Fixes
+
+* tsconfig.json をルートへ移動、テストコードが影響を受けるのでその対応 ([d6f1793](https://github.com/famibee/SKYNovel/commit/d6f1793ba71958fc26adb80b39d77f8c6c336ea6))
+
 - fix: tsconfig.json をルートへ移動、テストコードが影響を受けるのでその対応
 - fix: ライブラリ更新
 
