@@ -179,7 +179,7 @@
 
 
 <h2 id="howto_start" class="w-heading">SKYNovelのはじめかた</h2>
-<h4>すべてGUIによるインストールで、コマンドラインは触りません。</h4>
+<h4>すべてGUIによるインストールです。</h4>
 <p class="mb2 px1">
 
 	<ul type="disc">
@@ -230,7 +230,9 @@
 	<amp-img src="pic/inst_vscode15.jpg" width="506" height="393" alt=""></amp-img><br/>
 	<amp-img src="pic/inst_vscode16.png" width="507" height="393" alt=""></amp-img><br/>
 	インストールを完了し、起動できました。<br/>
-	<amp-img src="pic/inst_vscode17.png" width="839" height="488" alt="" layout="responsive"></amp-img><br/>
+	右下に【日本語言語パック】のインストールをうながす通知があるので、クリックして下さい。メニューなどGUIが日本語化されます。<br/>
+	VSCodeの最低限の設定は以上です。<br/>
+	<amp-img src="pic/inst_vscode17.png" width="2074" height="1558" alt="" layout="responsive"></amp-img><br/>
 
 </p>
 
@@ -240,13 +242,12 @@
 <p class="mb2 px1">
 
 	　左端の「Activity Bar」上から５つ目をクリックし、<br/>
-	検索窓に「SKYNovel」（大文字小文字関係なく）入力すると、<br/>
-	（恐らく）famibeeと書いてあるのが 一つだけ検索に引っかかるので「インストール」を押して下さい。それだけです。<br/>
-	<amp-img src="pic/inst_vscex0.jpg" width="308" height="270"></amp-img><br/>
+	検索窓に「skynovel」（大文字小文字関係なく）入力すると、<br/>
+	SKYNovel と書いてあるのが（恐らく）一つだけ検索に引っかかるので「インストール」を押して下さい。それだけです。<br/>
+	<amp-img src="pic/inst_vscex0.jpg" width="850" height="539"></amp-img><br/>
 
 	<br/>
-	　ついでに VSCode を日本語化する、<a href="https://marketplace.visualstudio.com/items?itemName=MS-CEINTL.vscode-language-pack-ja" target="_blank" rel="noopener">Japanese Language Pack for Visual Studio Code - Visual Studio Marketplace</a>拡張機能ぐらいは入れて置いた方が良いと思います。<br/>
-	　以降の説明では <a href="https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme" target="_blank" rel="noopener">Material Icon Theme - Visual Studio Marketplace</a> というのでアイコンもカラフルにしています。<br/>
+	　以降の説明では <a href="https://marketplace.visualstudio.com/items?itemName=PKief.material-icon-theme" target="_blank" rel="noopener">Material Icon Theme - Visual Studio Marketplace</a> という拡張機能もインストールし、アイコンもカラフルにしています。<br/>
 
 
 </p>
@@ -256,12 +257,29 @@
 <h4>Node.jsなどをインストールしていきます。</h4>
 <p class="mb2 px1">
 
-	左端の「Activity Bar」に拡張機能 SKYNovelの「丸に紙飛行機」マークが表示されているので、クリックして下さい。<br/>
-	<amp-img src="pic/inst_other0.jpg" width="135" height="396"></amp-img><br/>
+	正しく動作するか確認するため、小さなサンプルプロジェクトを開いてみましょう。<br/>
+	<a href="https://github.com/famibee/SKYNovel_sample/archive/master.zip" target="_blank">サンプルプロジェクトをダウンロードし、解凍・そのフォルダーを VSCode で開きます。<br/></a>
+	<amp-img src="pic/inst_other0.jpg" width="700" height="870"></amp-img><br/>
 
-	エラーっぽい表示がされています。同時に「SKYNovel開発環境　準備の手引き」というページが開かれていますので、あとはその指示に従ってインストールを続けて下さい。<br/>
-	<amp-img src="pic/inst_other1.jpg" width="368" height="169"></amp-img><br/>
-	（注意）「windows-build-tools」は Windows でのみ表示されます。<br/>
+	左端の「Activity Bar」に拡張機能 SKYNovelの「丸に紙飛行機」マークが表示されているので、クリックして下さい。<br/>
+	<amp-img src="pic/inst_other1.jpg" width="125" height="590"></amp-img><br/>
+
+	一番上に開発環境の状況が表示されています。エラーっぽい表示がされていますね。<br/>
+	環境設定がまだすこし残っているわけです。<br/>
+	<amp-img src="pic/inst_other2.jpg" width="585" height="400"></amp-img><br/>
+
+	同時に「SKYNovel開発環境　準備の手引き」というページが開かれていますので、あとはその指示に従ってインストールを続けて下さい。<br/>
+	<amp-img src="pic/inst_other3.jpg" width="672" height="358"></amp-img><br/>
+
+	すると……<br/>
+	エラーが消えました！<br/>
+	<amp-img src="pic/inst_other4.jpg" width="585" height="400"></amp-img><br/>
+
+	【起動：ブラウザ版】右にマウスカーソルを乗せると現われる、【再生ボタン】をクリック。<br/>
+	<amp-img src="pic/inst_other5.jpg" width="620" height="870"></amp-img><br/>
+
+	サンプルが起動します。何度かクリックすると少女がでて、まばたきします。<br/>
+	<amp-img src="pic/inst_other6.jpg" width="509" height="341"></amp-img><br/>
 
 
 </p>
@@ -293,7 +311,7 @@
 
 	<br/>
 	　どんなものか、お試しでやってみましょう。<br/>
-	　まずは、<a href="https://github.com/famibee/SKYNovel_hatsune/archive/master.zip" target="_blank" rel="noopener">横書きテンプレート プロジェクトの「初音館にて」</a>をダウンロードします。<br/>
+	　まずは、<a href="https://github.com/famibee/SKYNovel_hatsune/archive/master.zip" target="_blank">横書きテンプレート プロジェクトの「初音館にて」</a>をダウンロードします。<br/>
 	<amp-img src="pic/start_tmp1.png" width="238" height="59"></amp-img><br/>
 	　zipファイルを解凍すると、ゲームプロジェクトのフォルダが現われます。<br/>
 	<amp-img src="pic/start_tmp2.jpg" width="423" height="230"></amp-img><br/>
