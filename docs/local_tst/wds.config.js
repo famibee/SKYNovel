@@ -1,3 +1,5 @@
+// core/webpack.config.js に統合すると、
+// 直接関係ない大量のコンパイルを待つことになるので別個とする
 module.exports = {
 	entry: `./docs/local_tst/web4webpack.js`,
 	target: 'web',
@@ -8,10 +10,8 @@ module.exports = {
 	},
 
 	devServer: {
-		contentBase: './docs',
+		static: {directory: './docs'},
+		open: 'tag.htm#development=1',
 		port: 8083,
-		openPage: 'tag.htm#development=1',
-		watchContentBase: true,
-		open: true
 	},
 };

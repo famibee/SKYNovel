@@ -1,3 +1,14 @@
+- fix: ライブラリ更新（webpack-dev-server 4.0.0 対応）
+
+
+- memo: 既知の問題・作成中
+	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
+	- 暗号化時、画像が出ない
+- memo: - fix: tsconfig.json で【"target": "es2021",】に
+	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
+	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
+
+
 ## [1.17.10](https://github.com/famibee/SKYNovel/compare/v1.17.9...v1.17.10) (2021-08-15)
 
 
@@ -7,14 +18,6 @@
 
 - fix: 開発環境の準備マニュアルを更新
 - fix: ライブラリ更新
-
-
-- memo: 既知の問題・作成中
-	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
-	- 暗号化時、画像が出ない
-- memo: - fix: tsconfig.json で【"target": "es2021",】に
-	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
-	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
 
 
 ## [1.17.9](https://github.com/famibee/SKYNovel/compare/v1.17.8...v1.17.9) (2021-08-12)
