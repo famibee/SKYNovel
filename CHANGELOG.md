@@ -1,3 +1,10 @@
+## [1.17.11](https://github.com/famibee/SKYNovel/compare/v1.17.10...v1.17.11) (2021-08-19)
+
+
+### Bug Fixes
+
+* ライブラリ更新（webpack-dev-server 4.0.0 対応） ([af50850](https://github.com/famibee/SKYNovel/commit/af50850c875b9e608e493638e6fbcc372a4e8726))
+
 - fix: ライブラリ更新（webpack-dev-server 4.0.0 対応）
 
 
