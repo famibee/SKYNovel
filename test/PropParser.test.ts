@@ -38,7 +38,7 @@ class MyVal implements IVariable {
 //			"true ? tmp:sys:zero_s"	: "",	// どうなる、どうすべき
 	};
 
-	setSys(_sys: ISysBase): void {};
+	setSys(_sys: ISysBase): Promise<void> {return Promise.resolve()};
 	flush(): void {};
 	setDoRecProc(_doRecProc: (doRec: boolean)=> void): void {}
 

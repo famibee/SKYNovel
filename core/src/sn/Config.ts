@@ -50,7 +50,7 @@ export class Config implements IConfig {
 	};
 	userFnTail	= '';
 
-	private	hPathFn2Exts	: IFn2Path		= {};
+	private	hPathFn2Exts	: IFn2Path	= {};
 	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
 	static	readonly	EXT_SCRIPT	= 'sn|ssn';
@@ -58,74 +58,61 @@ export class Config implements IConfig {
 	static	readonly	EXT_SOUND	= 'mp3|m4a|ogg|aac|flac|wav';
 	static	readonly	EXT_HTML	= 'htm|html';
 
-	constructor(private readonly sys: SysBase, fncLoaded: ()=> void, oCfg4tst?: any) {
-		const load = (oCfg: any)=> {
-			// this.oCfg = {...this.oCfg, ...oCfg};	// 一階層目でコピーしてしまう
-			this.oCfg.save_ns = oCfg?.save_ns ?? this.oCfg.save_ns;
-
-			this.oCfg.coder = oCfg?.coder ?? this.oCfg.coder;
-
-			CmnLib.stageW = this.oCfg.window.width = Number(oCfg?.window?.width ?? this.oCfg.window.width);
-			CmnLib.stageH = this.oCfg.window.height = Number(oCfg?.window?.height ?? this.oCfg.window.height);
-
-			this.oCfg.book = {...this.oCfg.book, ...oCfg.book};
-
-			this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
-
-			this.oCfg.init = {...this.oCfg.init, ...oCfg.init};
-			if ('init' in oCfg)
-			for (const n in this.oCfg.init) {
-				const v = String(this.oCfg.init[n]);
-				if (v.charAt(0) === '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
-			}
-
-			this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};
-			CmnLib.debugLog = this.oCfg.debug.debugLog;
-
-			this.oCfg.debuger_token = oCfg.debuger_token;
-
-			// これが同期（App）非同期（Web、path.json）混在してるので、
-			// （Mainのメンバ変数に入れる→他のクラスに渡す都合により）
-			// 当クラスのコンストラクタとload()は分ける
-			sys.loadPathAndVal(this.hPathFn2Exts, async ()=> {
-				this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
-				this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
-
-				if (this.sys.crypto)
-				for (const nm in this.hPathFn2Exts) {
-					const o = this.hPathFn2Exts[nm];
-					for (const ext in o) {
-						if (ext.slice(-10) !== ':RIPEMD160') continue;
-						const hp = o[ext].slice(o[ext].lastIndexOf('/') +1);
-						const fn = o[ext.slice(0, -10)];
-						const res = await sys.fetch(fn);
-						const s = await res.text();
-						const hf = sys.hash(s);
-						if (hp !== hf) throw `ファイル改竄エラーです fn:${fn}`;
-					}
-				}
-
-				fncLoaded();
-			}, this);
-		};
-
-		if (oCfg4tst) {load(oCfg4tst); return;}
-
-		// テストで引っかかるのでPromise・async/awaitにしない
+	constructor(readonly sys: SysBase) {}
+	static	async	generate(sys: SysBase) {
+		const c = new Config(sys);
 		const fn = sys.cur +'prj.json';
-		sys.fetch(fn)
-		.then(res=> res.text())
-		.then(d=> sys.pre('json', d))
-		.then(s=> JSON.parse(s))
-		.then(load)
-		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
-		/*
-			(async ()=> {
-				const fn = sys.cur +'prj.json';
-				const res = await this.fetch(fn);
-				load(await res.json());
-			})();
-		*/
+		const src = await (await sys.fetch(fn)).text();
+		const oJs = JSON.parse(sys.decStr(fn, src));
+		await c.load(oJs);
+		return c;
+	}
+	async load(oCfg: any) {		// test用に public
+		// this.oCfg = {...this.oCfg, ...oCfg};	// 一階層目でコピーしてしまう
+		this.oCfg.save_ns = oCfg?.save_ns ?? this.oCfg.save_ns;
+
+		this.oCfg.coder = oCfg?.coder ?? this.oCfg.coder;
+
+		CmnLib.stageW = this.oCfg.window.width = Number(oCfg?.window?.width ?? this.oCfg.window.width);
+		CmnLib.stageH = this.oCfg.window.height = Number(oCfg?.window?.height ?? this.oCfg.window.height);
+
+		this.oCfg.book = {...this.oCfg.book, ...oCfg.book};
+
+		this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
+
+		this.oCfg.init = {...this.oCfg.init, ...oCfg.init};
+		if ('init' in oCfg)
+		for (const n in this.oCfg.init) {
+			const v = String(this.oCfg.init[n]);
+			if (v.charAt(0) === '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
+		}
+
+		this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};
+		CmnLib.debugLog = this.oCfg.debug.debugLog;
+
+		this.oCfg.debuger_token = oCfg.debuger_token;
+
+		// これが同期（App）非同期（Web、path.json）混在してるので、
+		// （Mainのメンバ変数に入れる→他のクラスに渡す都合により）
+		// 当クラスのコンストラクタとload()は分ける
+		await this.sys.loadPath(this.hPathFn2Exts, this);
+
+		this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
+		this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
+
+		if (this.sys.crypto)
+		for (const nm in this.hPathFn2Exts) {
+			const o = this.hPathFn2Exts[nm];
+			for (const ext in o) {
+				if (ext.slice(-10) !== ':RIPEMD160') continue;
+				const hp = o[ext].slice(o[ext].lastIndexOf('/') +1);
+				const fn = o[ext.slice(0, -10)];
+				const res = await this.sys.fetch(fn);
+				const src = await res.text();
+				const hf = this.sys.hash(src);
+				if (hp !== hf) throw `ファイル改竄エラーです fn:${fn}`;
+			}
+		}
 	}
 	private $existsBreakline = false;
 	get existsBreakline(): boolean {return this.$existsBreakline}
@@ -135,7 +122,7 @@ export class Config implements IConfig {
 	getNs() {return `skynovel.${this.oCfg.save_ns} - `;}
 
 	private	readonly	regPath = /([^\/\s]+)\.([^\d]\w+)/;
-			// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
+		// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
 	searchPath(path: string, extptn = ''): string {
 		if (! path) throw '[searchPath] fnが空です';
 		if (path.slice(0, 7) === 'http://') return path;

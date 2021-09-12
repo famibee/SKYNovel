@@ -7,10 +7,10 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
-import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari} from './CmnInterface';
+import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
 
-import {set, get} from 'store';
+const store = require('store');
 import {Application} from 'pixi.js';
 import 'devtools-detect';
 
@@ -22,61 +22,64 @@ export class SysWeb extends SysBase {
 		const a = arg.cur.split('/');
 		this.path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
 
-		globalThis.onload = ()=> {
-			// 全画面状態切替
-			const tgl_full_scr = ('requestFullscreen' in document.body)
-			? ()=> {
-				((this.isFullScr = ! Boolean(document.fullscreenElement))
-				? document.body.requestFullscreen()
-				: document.exitFullscreen())
-				.then(()=> this.resizeFramesWork())
-			}
-			: ()=> {
-				const doc: any = document;
-				((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
-				? doc.body.webkitRequestFullscreen()
-				: doc.webkitCancelFullScreen())
-				.then(()=> this.resizeFramesWork())
-			};
-			this.tgl_full_scr = (hArg: HArg)=> {
-				if (! hArg.key) {tgl_full_scr(); return false;}
+		globalThis.onload = async ()=> this.loaded(hPlg, arg);
+	}
+	protected override async loaded(hPlg: HPlugin, arg: HSysBaseArg) {
+		await super.loaded(hPlg, arg);
 
-				const key = hArg.key.toLowerCase();
-				document.addEventListener('keydown', (e: KeyboardEvent)=> {
-					const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-					+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-					+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-					+	e.key.toLowerCase();
-					if (key2 !== key) return;
-
-					e.stopPropagation();
-					tgl_full_scr();
-				}, {passive: true});
-
-				return false;
-			};
-
-			document.querySelectorAll('[data-prj]').forEach(v=> {
-				const elm = v.attributes.getNamedItem('data-prj');
-				if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
-			});
-			document.querySelectorAll('[data-reload]').forEach(v=>
-				v.addEventListener('click', ()=> this.run(), {passive: true})
-			);
-			if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
-
-			const sp = new URLSearchParams(location.search);
-			const dip = sp.get('dip');	// ディップスイッチ
-			if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip.replace(/%2C/g, ','))};
-			if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
-
-			if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) CmnLib.isDbg = true;
-			this.extPort = argChk_Num(CmnLib.hDip, 'port', this.extPort);
-
-			const cur = sp.get('cur');
-			if (cur) arg.cur = this.path_base + cur +'/';
-			this.run();
+		// 全画面状態切替
+		const tgl_full_scr = ('requestFullscreen' in document.body)
+		? ()=> {
+			((this.isFullScr = ! Boolean(document.fullscreenElement))
+			? document.body.requestFullscreen()
+			: document.exitFullscreen())
+			.then(()=> this.resizeFramesWork())
 		}
+		: ()=> {
+			const doc: any = document;
+			((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
+			? doc.body.webkitRequestFullscreen()
+			: doc.webkitCancelFullScreen())
+			.then(()=> this.resizeFramesWork())
+		};
+		this.tgl_full_scr = (hArg: HArg)=> {
+			if (! hArg.key) {tgl_full_scr(); return false;}
+
+			const key = hArg.key.toLowerCase();
+			document.addEventListener('keydown', (e: KeyboardEvent)=> {
+				const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+				+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+				+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
+				+	e.key.toLowerCase();
+				if (key2 !== key) return;
+
+				e.stopPropagation();
+				tgl_full_scr();
+			}, {passive: true});
+
+			return false;
+		};
+
+		document.querySelectorAll('[data-prj]').forEach(v=> {
+			const elm = v.attributes.getNamedItem('data-prj');
+			if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
+		});
+		document.querySelectorAll('[data-reload]').forEach(v=>
+			v.addEventListener('click', ()=> this.run(), {passive: true})
+		);
+		if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
+
+		const sp = new URLSearchParams(location.search);
+		const dip = sp.get('dip');	// ディップスイッチ
+		if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip.replace(/%2C/g, ','))};
+		if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
+
+		if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) CmnLib.isDbg = true;
+		this.extPort = argChk_Num(CmnLib.hDip, 'port', this.extPort);
+
+		const cur = sp.get('cur');
+		if (cur) arg.cur = this.path_base + cur +'/';
+		this.run();
 	}
 	private resizeFramesWork() {
 		const is_fs = this.isFullScr;	// この状態へ移行する
@@ -123,21 +126,19 @@ export class SysWeb extends SysBase {
 	private main: Main | null;
 
 
-	override loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig) {
-		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
-		(async ()=> {
-			const fn = this.arg.cur +'path.json';
-			const res = await fetch(fn);
-			if (! res.ok) throw Error(res.statusText);
+	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {
+		await super.loadPath(hPathFn2Exts, cfg);
 
-			const mes = await res.text();
-			const json = JSON.parse(await this.pre(fn, mes));
-			for (const nm in json) {
-				const h = hPathFn2Exts[nm] = json[nm];
-				for (const ext in h) if (ext !== ':cnt') h[ext] = this.arg.cur + h[ext];
-			}
-			fncLoaded();	// ここでnew Variable、clearsysvar()、次にinitVal()
-		})();
+		const fn = this.arg.cur +'path.json';
+		const res = await fetch(fn);
+		if (! res.ok) throw Error(res.statusText);
+
+		const src = await res.text();
+		const oJs = JSON.parse(this.decStr(fn, src));
+		for (const nm in oJs) {
+			const h = hPathFn2Exts[nm] = oJs[nm];
+			for (const ext in h) if (ext !== ':cnt') h[ext] = this.arg.cur + h[ext];
+		}
 	}
 
 	override initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
@@ -149,18 +150,18 @@ export class SysWeb extends SysBase {
 
 		const ns = this.cfg.getNs();
 		this.flush = this.crypto
-		? ()=> {
-			set(ns +'sys_', String(this.enc(JSON.stringify(this.data.sys))));
-			set(ns +'mark_', String(this.enc(JSON.stringify(this.data.mark))));
-			set(ns +'kidoku_', String(this.enc(JSON.stringify(this.data.kidoku))));
+		? async ()=> {
+			store.set(ns +'sys_', this.enc(JSON.stringify(this.data.sys)));
+			store.set(ns +'mark_', this.enc(JSON.stringify(this.data.mark)));
+			store.set(ns +'kidoku_',this.enc(JSON.stringify(this.data.kidoku)));
 		}
 		: ()=> {
-			set(ns +'sys', this.data.sys);
-			set(ns +'mark', this.data.mark);
-			set(ns +'kidoku', this.data.kidoku);
+			store.set(ns +'sys', this.data.sys);
+			store.set(ns +'mark', this.data.mark);
+			store.set(ns +'kidoku', this.data.kidoku);
 		};
 		const nm = ns +(this.arg.crypto ?'sys_' :'sys');
-		if (hTmp['const.sn.isFirstBoot'] = (get(nm) === undefined)) {
+		if (hTmp['const.sn.isFirstBoot'] = (store.get(nm) === undefined)) {
 			// データがない（初回起動）場合の処理
 			this.data.sys = data.sys;
 			this.data.mark = data.mark;
@@ -172,37 +173,29 @@ export class SysWeb extends SysBase {
 
 		// データがある場合の処理
 		if (! this.crypto) {
-			this.data.sys = get(ns +'sys');
-			this.data.mark = get(ns +'mark');
-			this.data.kidoku = get(ns +'kidoku');
+			this.data.sys = store.get(ns +'sys');
+			this.data.mark = store.get(ns +'mark');
+			this.data.kidoku = store.get(ns +'kidoku');
 			comp(this.data);
 			return;
 		}
 
-		(async ()=> {
-			let mes = '';
-			try {
-				mes = 'sys';	// tst sys
-				this.data.sys = JSON.parse(
-					await this.pre('json', get(ns +'sys_'))
-				);
-				mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
-				mes = 'mark';	// tst mark
-				this.data.mark = JSON.parse(
-					await this.pre('json', get(ns +'mark_'))
-				);
-				mes = 'kidoku';	// tst kidoku
-				this.data.kidoku = JSON.parse(
-					await this.pre('json', get(ns +'kidoku_'))
-				);
-			} catch (e) {
-				console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
-			}
-			comp(this.data);
-		})();
+		let mes = '';
+		try {
+			mes = 'sys';	// tst sys
+			this.data.sys = JSON.parse(this.decStr('json', store.get(ns +'sys_')));
+			mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+			mes = 'mark';	// tst mark
+			this.data.mark = JSON.parse(this.decStr('json', store.get(ns +'mark_')));
+			mes = 'kidoku';	// tst kidoku
+			this.data.kidoku = JSON.parse(this.decStr('json', store.get(ns +'kidoku_')));
+		} catch (e) {
+			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+		}
+		comp(this.data);
 	}
 
-	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		super.init(hTag, appPixi, val, main);
 
 		if (! this.cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
@@ -210,28 +203,31 @@ export class SysWeb extends SysBase {
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
 		}, {once: true, passive: true});
+		return [];
 	}
 
 	override pathBaseCnvSnPath4Dbg = '${pathbase}/';
 
 	// プレイデータをエクスポート
 	protected override readonly	_export: ITag = ()=> {
-		const s = JSON.stringify({
-			'sys': this.data.sys,
-			'mark': this.data.mark,
-			'kidoku': this.data.kidoku,
-		});
-		const s2 = this.crypto ?String(this.enc(s)) :s;
-		const blob = new Blob([s2], {'type':'text/json'});
+		(async ()=> {
+			const s = JSON.stringify({
+				'sys': this.data.sys,
+				'mark': this.data.mark,
+				'kidoku': this.data.kidoku,
+			});
+			const s2 = this.crypto ?await this.enc(s) :s;
+			const blob = new Blob([s2], {'type':'text/json'});
 
-		const a = document.createElement('a');
-		a.href = URL.createObjectURL(blob);
-		a.download = (this.crypto ?'' :'no_crypto_')
-			+ this.cfg.getNs() + getDateStr('-', '_', '') +'.swpd';
-		a.click();
+			const a = document.createElement('a');
+			a.href = URL.createObjectURL(blob);
+			a.download = (this.crypto ?'' :'no_crypto_')
+				+ this.cfg.getNs() + getDateStr('-', '_', '') +'.swpd';
+			a.click();
 
-		if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
-		setTimeout(()=> this.fire('sn:exported', new Event('click')), 10);
+			if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
+			setTimeout(()=> this.fire('sn:exported', new Event('click')), 10);
+		})();
 
 		return false;
 	}
@@ -251,7 +247,7 @@ export class SysWeb extends SysBase {
 			rd.onload = ()=> rs(rd.result);
 		}))
 		.then(async (s: string)=> {
-			const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
+			const o = JSON.parse(this.crypto ?this.decStr('json', s) :s);
 			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
 			if (o.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
 				console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);

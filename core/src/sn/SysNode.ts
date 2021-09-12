@@ -10,20 +10,16 @@ import {CmnLib} from './CmnLib';
 import {IFn2Path, IConfig} from './CmnInterface';
 
 export class SysNode extends SysBase {
-	protected readonly	normalize	= (src: string, _form: string)=> src;	// for test
+	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {
+		await super.loadPath(hPathFn2Exts, cfg);
 
-	override loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig) {
-		super.loadPathAndVal(hPathFn2Exts, fncLoaded, cfg);
-		(async ()=> {
-			const fn = this.arg.cur +'path.json';
-			const mes = await this.readFileSync(fn);
-			const json = JSON.parse(await this.pre('json', mes));
-			for (const nm in json) {
-				const h = hPathFn2Exts[nm] = json[nm];
-				for (const ext in h) if (ext !== ':cnt') h[ext] = this.arg.cur + h[ext];
-			}
-			fncLoaded();	// ここでnew Variable、clearsysvar()、次にinitVal()
-		})();
+		const fn = this.arg.cur +'path.json';
+		const src = await this.readFileSync(fn);
+		const oJs = JSON.parse(this.decStr(fn, src));
+		for (const nm in oJs) {
+			const h = hPathFn2Exts[nm] = oJs[nm];
+			for (const ext in h) if (ext !== ':cnt') h[ext] = this.arg.cur + h[ext];
+		}
 	}
 
 	protected override readonly	isApp = true;

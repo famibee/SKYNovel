@@ -44,55 +44,60 @@ export class Main implements IMain {
 	constructor(private readonly sys: SysBase) {
 		utils.skipHello();
 
-		this.cfg = new Config(sys, ()=> {
-			const hApp: any = {
-				width			: this.cfg.oCfg.window.width,
-				height			: this.cfg.oCfg.window.height,
-				backgroundColor	: this.cfg.oCfg.init.bg_color,
-			//	resolution		: sys.resolution,
-				resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
-				autoResize		: true,
-			};
-			const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
-			if (cvs) {
-				this.clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
-				this.clone_cvs.id = CmnLib.SN_ID;
-				hApp.view = cvs;
-			}
-			this.appPixi = new Application(hApp);
-			if (! cvs) {
-				document.body.appendChild(this.appPixi.view);
-				this.appPixi.view.id = CmnLib.SN_ID;
-			}
+		Config.generate(sys)
+		.then(c=> this.cfg = c)
+		.then(()=> this.init())
+		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
+	}
+	private async init() {
+		const hApp: any = {
+			width			: this.cfg.oCfg.window.width,
+			height			: this.cfg.oCfg.window.height,
+			backgroundColor	: this.cfg.oCfg.init.bg_color,
+		//	resolution		: sys.resolution,
+			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
+			autoResize		: true,
+		};
+		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
+		if (cvs) {
+			this.clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
+			this.clone_cvs.id = CmnLib.SN_ID;
+			hApp.view = cvs;
+		}
+		this.appPixi = new Application(hApp);
+		if (! cvs) {
+			document.body.appendChild(this.appPixi.view);
+			this.appPixi.view.id = CmnLib.SN_ID;
+		}
 
-			// 変数
-			this.val = new Variable(this.cfg, this.hTag);
-			this.prpPrs = new PropParser(this.val);
+		// 変数
+		this.val = new Variable(this.cfg, this.hTag);
+		this.prpPrs = new PropParser(this.val);
 
-			// システム（10/13）
-			sys.init(this.hTag, this.appPixi, this.val, this);	// 変数準備完了
-			this.hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
+		// システム（10/13）
+		await Promise.all(this.sys.init(this.hTag, this.appPixi,this.val,this));
+			// 変数準備完了
+		this.hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
 
-			// ＢＧＭ・効果音
-			this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, sys);
+		// ＢＧＭ・効果音
+		this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
 
-			// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-			this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs, this.sndMng, sys);
+		// 条件分岐、ラベル・ジャンプ、マクロ、しおり
+		this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
 
-			// デバッグ・その他
-			this.dbgMng = new DebugMng(sys, this.hTag, this.scrItr);
+		// デバッグ・その他
+		this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);
 
-			// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-			this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, sys, this.sndMng, this.alzTagArg, this.prpPrs);
+		// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
+		this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys, this.sndMng, this.alzTagArg, this.prpPrs);
 
-			// イベント
-			this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, sys);
+		// イベント
+		this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, this.sys);
 
-			this.appPixi.ticker.add(this.fncTicker);
-			this.resumeByJumpOrCall({fn: 'main'});
+		this.appPixi.ticker.add(this.fncTicker);
+		this.resumeByJumpOrCall({fn: 'main'});
 
-			this.inited = true;
-		});
+		this.inited = true;
 	}
 	private	readonly fncTicker = ()=> this.fncNext();	// thisの扱いによりメソッド代入はダメ
 

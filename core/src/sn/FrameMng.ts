@@ -66,9 +66,12 @@ export class FrameMng implements IGetFrm {
 		const ld = (new Loader())
 		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
 		if (this.sys.crypto) ld.use((res, next)=> {
-			this.sys.pre(res.extension, res.data)
-			.then(r=> {res.data = r; next?.();})
-			.catch(e=> this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false));
+			try {
+				res.data = this.sys.decStr(res.extension, res.data);
+			} catch (e) {
+				this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
+			}
+			next?.();
 		});
 		ld.load((_ldr, hRes)=> {
 			const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -112,11 +115,11 @@ export class FrameMng implements IGetFrm {
 					const ld2 = (new Loader)
 					.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
 					if (this.sys.crypto) ld2.use((res, next)=> {
-						this.sys.pre(res.extension, res.data)
+						this.sys.dec(res.extension, res.data)
 						.then(r=> {
 							if (res.extension !== 'bin') {next?.(); return;}
 							res.data = r;
-							if (res.data instanceof HTMLImageElement) {
+							if (r instanceof HTMLImageElement) {
 								res.type = LoaderResource.TYPE.IMAGE;
 							}
 							next?.();

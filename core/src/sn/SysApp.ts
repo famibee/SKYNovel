@@ -8,7 +8,7 @@
 import {SysNode} from './SysNode';
 import {SysBase} from './SysBase';
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, uint} from './CmnLib';
-import {ITag, IHTag, IVariable, IData4Vari, IMain} from './CmnInterface';
+import {ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
 import {Application} from 'pixi.js';
 import {createHash} from 'crypto';
@@ -126,27 +126,30 @@ export class SysApp extends SysNode {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, {...arg, cur: ''});
 
-		globalThis.addEventListener('DOMContentLoaded', async ()=> {
-			this.hInfo = await to_app.getInfo();
-			CmnLib.isPackaged = this.hInfo.isPackaged;
-			this.arg = {...arg, cur: this.hInfo.getAppPath.replace(/\\/g, '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
+		globalThis.addEventListener('DOMContentLoaded', async ()=> this.loaded(hPlg, arg), {once: true, passive: true});
+	}
+	protected override async loaded(hPlg: HPlugin, arg: HSysBaseArg) {
+		await super.loaded(hPlg, arg);
 
-	//== old ==
-			this.readFileSync = to_app.readFileSync;
-			this.writeFileSync = to_app.writeFileSync;
-			this.appendFile = to_app.appendFile;
-			this.ensureFileSync = to_app.ensureFileSync;
-	//== old ==
+		this.hInfo = await to_app.getInfo();
+		CmnLib.isPackaged = this.hInfo.isPackaged;
+		arg = {...arg, cur: this.hInfo.getAppPath.replace(/\\/g, '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
 
-			this.$path_downloads	= this.hInfo.downloads.replace(/\\/g, '/') +'/';
+//== old ==
+		this.readFileSync = to_app.readFileSync;
+		this.writeFileSync = to_app.writeFileSync;
+		this.appendFile = to_app.appendFile;
+		this.ensureFileSync = to_app.ensureFileSync;
+//== old ==
 
-//			ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
+		this.$path_downloads	= this.hInfo.downloads.replace(/\\/g, '/') +'/';
 
-			CmnLib.isDbg = Boolean(this.hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
-			if (CmnLib.isDbg) this.extPort = uint(this.hInfo.env['SKYNOVEL_PORT'] ?? '3776');
+//		ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
 
-			this.run();
-		}, {once: true, passive: true});
+		CmnLib.isDbg = Boolean(this.hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
+		if (CmnLib.isDbg) this.extPort = uint(this.hInfo.env['SKYNOVEL_PORT'] ?? '3776');
+
+		this.run();
 	}
 	private	hInfo:  HINFO = {
 		getAppPath	: '',
@@ -166,40 +169,10 @@ export class SysApp extends SysNode {
 	ensureFileSync = to_app.ensureFileSync;
 */	//== new ==
 
-	protected 	override $path_userdata	= '';
+	protected 	override $path_userdata		= '';
 	protected	override $path_downloads	= '';
 
-	protected override readonly	normalize = (src: string, form: string)=> src.normalize(form);
-
 	override initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
-		this.$path_userdata	= CmnLib.isDbg
-			? this.hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
-			: this.hInfo.userData.replace(/\\/g, '/') +'/';
-		(async()=> {
-			await to_app.Store({
-				cwd: this.$path_userdata +'storage',
-				name: this.arg.crypto ?'data_' :'data',
-				encryptionKey: this.arg.crypto ?this.stk() :undefined,
-			});
-			this.flush = ()=> to_app.flush(this.data);
-
-			if (hTmp['const.sn.isFirstBoot'] = await to_app.Store_isEmpty()) {
-				// データがない（初回起動）場合の処理
-				this.data.sys = data.sys;
-				this.data.mark = data.mark;
-				this.data.kidoku = data.kidoku;
-				await this.flush();	// 初期化なのでここのみ必要
-			}
-			else {
-				// データがある場合の処理
-				const store = await to_app.Store_get();
-				this.data.sys = store.sys;
-				this.data.mark = store.mark;
-				this.data.kidoku = store.kidoku;
-			}
-			comp(this.data);
-		})();
-
 		// システム情報
 		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
@@ -219,6 +192,35 @@ export class SysApp extends SysNode {
 			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true} :{});
 		}, {once: true, passive: true});
 */
+
+		this.$path_userdata	= CmnLib.isDbg
+			? this.hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
+			: this.hInfo.userData.replace(/\\/g, '/') +'/';
+
+		to_app.Store({
+			cwd: this.$path_userdata +'storage',
+			name: this.arg.crypto ?'data_' :'data',
+			encryptionKey: this.arg.crypto ?this.stk() :undefined,
+		});
+		this.flush = ()=> to_app.flush(this.data);
+
+		(async ()=> {
+			if (hTmp['const.sn.isFirstBoot'] = await to_app.Store_isEmpty()) {
+				// データがない（初回起動）場合の処理
+				this.data.sys = data.sys;
+				this.data.mark = data.mark;
+				this.data.kidoku = data.kidoku;
+				this.flush();	// 初期化なのでここのみ必要
+			}
+			else {
+				// データがある場合の処理
+				const store = await to_app.Store_get();
+				this.data.sys = store.sys;
+				this.data.mark = store.mark;
+				this.data.kidoku = store.kidoku;
+			}
+			comp(this.data);
+		})();
 	}
 
 
@@ -234,7 +236,7 @@ export class SysApp extends SysNode {
 	}
 
 
-	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		super.init(hTag, appPixi, val, main);
 
 		if (this.cfg.oCfg.debug.devtool) to_app.openDevTools();
@@ -243,6 +245,7 @@ export class SysApp extends SysNode {
 			main.destroy();
 		});
 		to_app.win_setContentSize(CmnLib.stageW, CmnLib.stageH);
+		return [];
 	}
 
 
@@ -297,7 +300,7 @@ export class SysApp extends SysNode {
 			.on('end', async ()=> {
 				const fn = this.$path_userdata +'storage/data.json'+ (this.crypto ?'_': '');
 				const s = await to_app.readFileSync(fn);
-				const o = JSON.parse(this.crypto ?await this.pre('json', s) :s);
+				const o = JSON.parse(this.crypto ? this.decStr('json', s) :s);
 				if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
 				if (o.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
 					console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);

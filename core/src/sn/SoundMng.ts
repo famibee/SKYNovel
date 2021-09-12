@@ -163,7 +163,7 @@ export class SoundMng {
 	private	static	readonly	MAX_END_MS	= 999000;
 	private playse(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
-		this.stopse({buf: buf});
+		this.stopse({buf});
 		const fn = hArg.fn;
 		if (! fn) throw '[playse] fnは必須です(buf='+ buf +')';
 
@@ -331,8 +331,8 @@ export class SoundMng {
 
 		(new Loader()).add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
 		.use((res, next)=> {
-			this.sys.pre(res.extension, res.data)
-			.then(r=> {res.data = r; next?.();})
+			this.sys.dec(res.extension, res.data)
+			.then(r=> {res.data = r; next?.()})
 			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
 		})
 		.load((_ldr, hRes)=> {
@@ -347,7 +347,7 @@ export class SoundMng {
 
 	// 全効果音再生の停止
 	private stop_allse() {
-		for (const buf in this.hSndBuf) this.stopse({buf: buf});
+		for (const buf in this.hSndBuf) this.stopse({buf});
 		this.hSndBuf = {};
 		return false;
 	}

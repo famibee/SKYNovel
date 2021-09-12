@@ -2,19 +2,20 @@
 import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
-    protected readonly hPlg: HPlugin;
+    readonly hPlg: HPlugin;
     protected arg: HSysBaseArg;
     hFactoryCls: {
         [name: string]: ILayerFactory;
     };
     constructor(hPlg: HPlugin, arg: HSysBaseArg);
+    protected loaded(hPlg: HPlugin, _arg: HSysBaseArg): Promise<void>;
     get cur(): string;
     get crypto(): boolean;
     fetch: (url: string) => Promise<Response>;
     resolution: number;
     reso4frame: number;
     protected cfg: IConfig;
-    loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: () => void, cfg: IConfig): void;
+    loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
     protected readonly data: {
         sys: {};
         mark: {};
@@ -25,7 +26,7 @@ export declare class SysBase implements ISysBase {
     protected run(): Promise<void>;
     protected val: IVariable;
     protected appPixi: Application;
-    init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): void;
+    init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     protected static readonly VALNM_CFG_NS = "const.sn.cfg.ns";
     private attach_debug;
     protected extPort: number;
@@ -55,8 +56,13 @@ export declare class SysBase implements ISysBase {
     protected readonly window: ITag;
     private info_title;
     setTitleInfo(txt: string): void;
-    pre: (_ext: string, data: string) => Promise<string>;
-    protected enc: (data: string) => Promise<string>;
+    private preFromPlg;
+    decStr(ext: string, d: string): string;
+    dec(ext: string, d: ArrayBuffer): Promise<string | ArrayBuffer | HTMLImageElement | HTMLVideoElement>;
+    private readonly hN2Ext;
+    private genImage;
+    private genVideo;
+    protected enc: (d: string) => string;
     protected stk: () => string;
     hash: (_data: string) => string;
     protected readonly isApp: boolean;

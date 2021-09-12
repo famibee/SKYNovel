@@ -16,6 +16,7 @@ export declare class Main implements IMain {
     private readonly alzTagArg;
     private inited;
     constructor(sys: SysBase);
+    private init;
     private readonly fncTicker;
     errScript(mes: string, isThrow?: boolean): void;
     private fncresume;

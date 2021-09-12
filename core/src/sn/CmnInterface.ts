@@ -182,6 +182,10 @@ export interface IPropParser {
 
 // =============== Plugin
 import {DisplayObject, RenderTexture} from 'pixi.js';
+export type PLUGIN_PRE_RET = {
+	ret		: string;
+	ext_num	: number;
+};
 export type IPluginInitArg = {
 	addTag(tag_name: string, tag_fnc: ITag): void;
 	addLayCls(cls: string, fnc: ILayerFactory): void;
@@ -189,13 +193,13 @@ export type IPluginInitArg = {
 	getVal(arg_name: string, def?: number | string): object;
 	resume(fnc?: ()=> void): void;
 	render(dsp: DisplayObject, renTx?: RenderTexture, clear?: boolean): void;
-	setPre(fnc: (ext: string, data: string)=> Promise<string>): void;
-	setEnc(fnc: (data: string)=> Promise<string>): void;
+	setDec(fnc: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET): void;
+	setEnc(fnc: (d: string)=> string): void;
 	getStK(fnc: ()=> string): void;
 	getHash(fnc: (data: string)=> string): void;
 }
 export interface IPlugin {
-	init(plgArg: IPluginInitArg): boolean;
+	init(plgArg: IPluginInitArg): Promise<void>;
 }
 export interface HPlugin {[name: string]: IPlugin;}
 
@@ -212,11 +216,13 @@ export type HSysBaseArg = {
 	dip		: string;
 }
 
+export type SYS_DEC_RET = HTMLImageElement | ArrayBuffer | HTMLVideoElement | string;
 export interface ISysBase {
-	loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: ()=> void, cfg: IConfig): void;
+	loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): void;
 	initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): void;
 	flush(): void;
-	pre(ext: string, data: string): Promise<string>;
+	decStr(ext: string, d: string): string;
+	dec(ext: string, ab: ArrayBuffer): Promise<SYS_DEC_RET>;
 
 	addHook(fnc: IFncHook): void;
 	callHook: IFncHook;

@@ -2,8 +2,7 @@
 import { SysBase } from "./SysBase";
 import { IFn2Path, IConfig } from './CmnInterface';
 export declare class SysNode extends SysBase {
-    protected readonly normalize: (src: string, _form: string) => string;
-    loadPathAndVal(hPathFn2Exts: IFn2Path, fncLoaded: () => void, cfg: IConfig): void;
+    loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
     protected readonly isApp = true;
     savePic(fn: string, data_url: string): Promise<void>;
     protected readFileSync(_path: string): Promise<string>;

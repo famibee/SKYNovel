@@ -1,3 +1,18 @@
+- feat: BREAKING CHANGE: 復号化処理、SKYNovel 側でオブジェクト生成するように
+- fix: BREAKING CHANGE: プラグインインタフェイス変更
+	- 拡張機能 v3.14.0 以上に更新し、暗号化しない→する切り替えするだけでよい
+	- fix: プラグイン init()は Promise式に
+	- fix: 暗号化関係の async setPre を setDec に
+- fix: コールバック記述を async/await 型にリファクタリング
+- fix: 復号化処理を重点見直し、タイトル画面が見えない・BGMが短くループするなど解消
+- fix: ライブラリ更新
+
+
+- memo: - fix: tsconfig.json で【"target": "es2021",】に
+	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
+	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
+
+
 ## [1.17.11](https://github.com/famibee/SKYNovel/compare/v1.17.10...v1.17.11) (2021-08-19)
 
 
@@ -6,14 +21,7 @@
 * ライブラリ更新（webpack-dev-server 4.0.0 対応） ([af50850](https://github.com/famibee/SKYNovel/commit/af50850c875b9e608e493638e6fbcc372a4e8726))
 
 - fix: ライブラリ更新（webpack-dev-server 4.0.0 対応）
-
-
-- memo: 既知の問題・作成中
-	- 暗号化時、BGMが短くループするようになってる？　効果音は正常っぽい。
-	- 暗号化時、画像が出ない
-- memo: - fix: tsconfig.json で【"target": "es2021",】に
-	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
-	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
+- docs: 拡張機能に新規追加された【テンプレートから始める】を反映
 
 
 ## [1.17.10](https://github.com/famibee/SKYNovel/compare/v1.17.9...v1.17.10) (2021-08-15)

@@ -1,7 +1,7 @@
 import { IConfig, IExts } from './CmnInterface';
 import { SysBase } from './SysBase';
 export declare class Config implements IConfig {
-    private readonly sys;
+    readonly sys: SysBase;
     oCfg: any;
     userFnTail: string;
     private hPathFn2Exts;
@@ -10,7 +10,9 @@ export declare class Config implements IConfig {
     static readonly EXT_FONT = "woff2|otf|ttf";
     static readonly EXT_SOUND = "mp3|m4a|ogg|aac|flac|wav";
     static readonly EXT_HTML = "htm|html";
-    constructor(sys: SysBase, fncLoaded: () => void, oCfg4tst?: any);
+    constructor(sys: SysBase);
+    static generate(sys: SysBase): Promise<Config>;
+    load(oCfg: any): Promise<void>;
     private $existsBreakline;
     get existsBreakline(): boolean;
     private $existsBreakpage;

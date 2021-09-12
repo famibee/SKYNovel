@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook} from './CmnInterface';
+import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
 import {CmnLib} from './CmnLib';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
@@ -14,16 +14,18 @@ import {io, Socket} from 'socket.io-client';
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
 
-	constructor(protected readonly hPlg: HPlugin = {}, protected arg: HSysBaseArg) {
+	constructor(readonly hPlg: HPlugin = {}, protected arg: HSysBaseArg) {}
+	protected async loaded(hPlg: HPlugin, _arg: HSysBaseArg) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
-		fncPre?.init({
+		delete hPlg.snsys_pre;
+		await fncPre?.init({
 			addTag: ()=> {},
 			addLayCls: ()=> {},
 			searchPath: ()=> '',
 			getVal: ()=> {return {}},
 			resume: ()=> {},
 			render: ()=> {},
-			setPre: fnc=> this.pre = fnc,
+			setDec: fnc=> this.preFromPlg = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
 			getHash: fnc=> this.hash = fnc,
@@ -37,7 +39,7 @@ export class SysBase implements ISysBase {
 	reso4frame	= 1;
 
 	protected	cfg	: IConfig;
-	loadPathAndVal(_hPathFn2Exts: IFn2Path, _fncLoaded: ()=> void, cfg: IConfig) {this.cfg = cfg;}
+	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg;}
 
 	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
 	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
@@ -49,7 +51,7 @@ export class SysBase implements ISysBase {
 
 	protected	val		: IVariable;
 	protected	appPixi	: Application;
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		this.val = val;
 		this.appPixi = appPixi;
 		let mes = '';
@@ -66,26 +68,6 @@ export class SysBase implements ISysBase {
 		} catch (e) {
 			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
 		}
-
-		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
-		for (const nm in this.hPlg) this.hPlg[nm].init({	// プラグイン初期化
-			addTag: (name: string, tag_fnc: ITag)=> {
-				if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
-				hTag[name] = tag_fnc;
-			},
-			addLayCls: (cls: string, fnc: ILayerFactory)=> {
-				if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
-				this.hFactoryCls[cls] = fnc;
-			},
-			searchPath: (fn, extptn = '')=>	this.cfg.searchPath(fn, extptn),
-			getVal: val.getVal,
-			resume: ()=> main.resume(),
-			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, {renderTexture, clear}),
-			setPre: fnc=> this.pre = fnc,
-			setEnc: fnc=> this.enc = fnc,
-			getStK: fnc=> this.stk = fnc,
-			getHash: fnc=> this.hash = fnc,
-		});
 
 		//	システム
 		hTag.close			= o=> this.close(o);	// アプリの終了
@@ -112,6 +94,29 @@ export class SysBase implements ISysBase {
 		val.flush();
 
 		if (CmnLib.isDbg) this.attach_debug(main);
+
+		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
+		// プラグイン初期化
+		const a: Promise<void>[] = [];
+		for (const nm in this.hPlg) a.push(this.hPlg[nm].init({
+			addTag: (name: string, tag_fnc: ITag)=> {
+				if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
+				hTag[name] = tag_fnc;
+			},
+			addLayCls: (cls: string, fnc: ILayerFactory)=> {
+				if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
+				this.hFactoryCls[cls] = fnc;
+			},
+			searchPath: (fn, extptn = '')=>	this.cfg.searchPath(fn, extptn),
+			getVal: val.getVal,
+			resume: ()=> main.resume(),
+			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, {renderTexture, clear}),
+			setDec: fnc=> this.preFromPlg = fnc,
+			setEnc: fnc=> this.enc = fnc,
+			getStK: fnc=> this.stk = fnc,
+			getHash: fnc=> this.hash = fnc,
+		}))
+		return a;
 	}
 	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
 
@@ -274,8 +279,51 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 		this.titleSub(this.main_title + this.info_title);
 	}
 
-	pre = async (_ext: string, data: string)=> data;
-	protected enc = async (data: string)=> data;
+
+	private	preFromPlg: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET = (_ext, d)=> {return {ret: d.toString(), ext_num: 0,}};
+
+	decStr(ext: string, d: string) {return this.preFromPlg(ext, d).ret;}
+	async dec(ext: string, d: ArrayBuffer) {
+		const {ret, ext_num} = this.preFromPlg(ext, d);
+		const fm = this.hN2Ext[ext_num];
+		return fm?.fnc ?await fm.fnc(new Blob([ret], {type: fm.mime})) :ret;
+	}
+	private	readonly hN2Ext: {[id: number]: {
+		ext	: string;
+		fnc	: {(bl: Blob): Promise<HTMLImageElement>}
+			| {(bl: Blob): Promise<ArrayBuffer>}
+			| {(bl: Blob): Promise<HTMLVideoElement>};
+		mime: string;
+	}} = {
+		1	: {ext: 'jpeg', fnc: bl=> this.genImage(bl), mime: 'image/jpeg'},
+		2	: {ext: 'png', fnc: bl=> this.genImage(bl), mime: 'image/png'},
+		3	: {ext: 'svg', fnc: bl=> this.genImage(bl), mime: 'image/svg+xml'},
+		4	: {ext: 'webp', fnc: bl=> this.genImage(bl), mime: 'image/webp'},
+		10	: {ext: 'mp3', fnc: bl=> bl.arrayBuffer(), mime: 'audio/mpeg'},
+		11	: {ext: 'm4a', fnc: bl=> bl.arrayBuffer(), mime: 'audio/aac'},
+		12	: {ext: 'ogg', fnc: bl=> bl.arrayBuffer(), mime: 'audio/ogg'},
+		13	: {ext: 'aac', fnc: bl=> bl.arrayBuffer(), mime: 'audio/aac'},
+		14	: {ext: 'flac', fnc: bl=> bl.arrayBuffer(), mime: 'audio/flac'},
+		15	: {ext: 'wav', fnc: bl=> bl.arrayBuffer(), mime: 'audio/wav'},
+		20	: {ext: 'mp4', fnc: bl=> this.genVideo(bl), mime: 'video/mp4'},
+		21	: {ext: 'webm', fnc: bl=> this.genVideo(bl), mime: 'video/webm'},
+		22	: {ext: 'ogv', fnc: bl=> this.genVideo(bl), mime: 'video/ogv'},
+	};
+	private	genImage = (bl: Blob): Promise<HTMLImageElement> => new Promise((rs, rj)=> {
+		const img = new Image;
+		img.onload = ()=> rs(img);
+		img.onerror = e=> rj(e);
+		img.src = URL.createObjectURL(bl);
+	});
+	private	genVideo = (bl: Blob): Promise<HTMLVideoElement> => new Promise((rs, rj)=> {
+		const v = document.createElement('video');
+	//	v.addEventListener('loadedmetadata', ()=> console.log(`loadedmetadata duration:${v.duration}`));
+		v.addEventListener('error', ()=> rj(v?.error?.message ?? ''));
+		v.addEventListener('canplay', ()=> rs(v));
+		v.src = URL.createObjectURL(bl);
+	});
+
+	protected enc = (d: string)=> d;
 	protected stk = ()=> '';
 	hash = (_data: string)=> '';
 

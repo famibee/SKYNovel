@@ -39,11 +39,11 @@ export declare class GrpLayer extends Layer {
     readonly lay: (hArg: HArg) => boolean;
     private laySub;
     static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
-    private static preThen;
-    private static preThen4Cripto;
-    private static im2Base64;
+    private static dec2cache;
+    private static sortAFrameName;
+    private static dec2cache4Cripto;
     private static mkSprite;
-    static fn2Video: {
+    static hFn2VElm: {
         [name: string]: HTMLVideoElement;
     };
     static wv(hArg: HArg): boolean;

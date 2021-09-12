@@ -22,9 +22,10 @@ export class SysTest extends SysNode {
 
 context('class Config', ()=>{
 	let	cfg: Config;
-	beforeEach(()=> new Promise<void>(re=> {
-		cfg = new Config(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}), ()=> re(), {search: ['mat']});
-	}));
+	beforeEach(async ()=> {
+		cfg = new Config(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}));
+		await cfg.load({search: ['mat']});
+	});
 
 
 	describe('Tst', ()=> {

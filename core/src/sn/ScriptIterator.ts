@@ -742,9 +742,12 @@ export class ScriptIterator {
 
 		(new Loader).add({name: this.scriptFn_, url: full_path})
 		.use((res, next)=> {
-			this.sys.pre(res.extension, res.data)
-			.then(r=> {res.data = r; next?.();})
-			.catch(e=> this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false));
+			try {
+				res.data = this.sys.decStr(res.extension, res.data);
+			} catch (e) {
+				this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false);
+			}
+			next?.();
 		})
 		.load((_ldr, hRes)=> {
 			this.nextToken = this.nextToken_Proc;

@@ -7,11 +7,11 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn, getExt} from './CmnLib';
-import {HArg, IMain} from './CmnInterface';
+import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib';
+import {HArg, IMain, SYS_DEC_RET} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
-import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, ILoaderResource, Resource} from 'pixi.js';
+import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
 import {IMakeDesignCast} from './LayerMng';
@@ -50,14 +50,14 @@ export class GrpLayer extends Layer {
 		GrpLayer.sys = sys;
 		const fnc = ()=> {
 			const vol = GrpLayer.glbVol * GrpLayer.movVol;
-			for (const fn in GrpLayer.fn2Video) GrpLayer.fn2Video[fn].volume = vol;
+			for (const fn in GrpLayer.hFn2VElm) GrpLayer.hFn2VElm[fn].volume = vol;
 		};
 		sndMng.setNoticeChgVolume(
 			vol=> {GrpLayer.glbVol = vol; fnc();},
 			vol=> {GrpLayer.movVol = vol; fnc();}
 		);
 
-		if (GrpLayer.sys.crypto) GrpLayer.preThen = GrpLayer.preThen4Cripto;
+		if (GrpLayer.sys.crypto) GrpLayer.dec2cache = GrpLayer.dec2cache4Cripto;
 	}
 	private static	evtMng	: IEvtMng;
 	static	setEvtMng(evtMng: IEvtMng) {GrpLayer.evtMng = evtMng;}
@@ -67,7 +67,7 @@ export class GrpLayer extends Layer {
 		GrpLayer.hFace	= {};
 		GrpLayer.hFn2ResAniSpr	= {};
 //		GrpLayer.ldrHFn	= {};
-		GrpLayer.fn2Video	= {};
+		GrpLayer.hFn2VElm	= {};
 	}
 
 	private	readonly	idc	= new GrpLayDesignCast(this.spLay, this);
@@ -168,7 +168,7 @@ export class GrpLayer extends Layer {
 				sp.y = f.dy;
 				sp.blendMode = f.blendmode;
 			};
-			aComp.push({fn: f.fn, fnc: fnc});
+			aComp.push({fn: f.fn, fnc});
 
 			if (f.fn in GrpLayer.hFn2ResAniSpr) return;
 			if (f.fn in utils.TextureCache) return;
@@ -195,9 +195,9 @@ export class GrpLayer extends Layer {
 			ldr.add({...xt, name: f.fn, url});
 		});
 
-		const fncLoaded = (res: {[key: string]: ILoaderResource | Texture<Resource>})=> {
+		const fncLoaded = (hRes: {[fn: string]: LoaderResource})=> {
 			for (const v of aComp) {
-				const sp = GrpLayer.mkSprite(v.fn, res);
+				const sp = GrpLayer.mkSprite(v.fn, hRes);
 				parent?.addChild(sp);
 				v.fnc(sp);
 			}
@@ -205,71 +205,109 @@ export class GrpLayer extends Layer {
 		}
 		if (needLoad) {
 			ldr.use((res, next)=> {
-				this.sys.pre(res.extension, res.data)
-				.then(r=> GrpLayer.preThen(r, res, ()=> next?.()))
+				this.sys.dec(res.extension, res.data)
+				.then(r=> GrpLayer.dec2cache(r, res, ()=> next?.()))
 				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 			})
 			.load((_ldr, hRes)=> fncLoaded(hRes));
 		}
-		else fncLoaded(utils.TextureCache);
+		else fncLoaded({});
 
 		return needLoad;
 	}
-	private static preThen = (_r: any, _res: any, next: Function)=> next();
-	private static preThen4Cripto(r: any, res: any, next: Function) {
+	private static dec2cache = (_r: SYS_DEC_RET, res: any, next: ()=> void)=> {
+		switch (res.type) {
+			case LoaderResource.TYPE.JSON:
+				// アニメ登録
+				const aFn: string[] = res.spritesheet._frameKeys;
+				GrpLayer.sortAFrameName(aFn);
+				GrpLayer.hFn2ResAniSpr[res.name] = {
+					aTex: aFn.map(fn=> Texture.from(fn)),
+					meta: res.data.meta,
+				};
+				break;
+
+			case LoaderResource.TYPE.VIDEO:
+				const hve = res.data as HTMLVideoElement;
+				hve.volume = GrpLayer.glbVol;
+				GrpLayer.hFn2VElm[res.name] = hve;
+		}
+		next();
+	}
+	private static sortAFrameName(aFn: string[]) {
+		const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
+		if (! a_base_name) return
+
+		const is = a_base_name[1].length;
+		const ie = -a_base_name[2].length -1;
+		aFn.sort((a, b)=>
+			(int(a.slice(is, ie)) > int(b.slice(is, ie))) ?1 :-1
+		);
+	}
+	private static dec2cache4Cripto(r: SYS_DEC_RET, res: any, next: ()=> void) {
 		res.data = r;
 		if (res.extension === 'bin') {
-			if (res.data instanceof HTMLImageElement) {
+			if (r instanceof HTMLImageElement) {
+				res.texture = Texture.fromLoader(r, res.url, res.name);
+				//Texture.addToCache(Texture.from(r), res.name);
+				// res.texture = Texture.from(r);
+					// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
 				res.type = LoaderResource.TYPE.IMAGE;
-				URL.revokeObjectURL(res.data.src);
+				URL.revokeObjectURL(r.src);
 			}
-			else if (res.data instanceof HTMLVideoElement) {
+			else if (r instanceof HTMLVideoElement) {
+				r.volume = GrpLayer.glbVol;
+				GrpLayer.hFn2VElm[res.name] = r;
+
 				res.type = LoaderResource.TYPE.VIDEO;
-				URL.revokeObjectURL(res.data.src);
+				URL.revokeObjectURL(r.src);
 			}
 		}
 		if (res.extension !== 'json') {next(); return;}
 
+		if (typeof r !== 'string') {next(); return;}
 		const o = res.data = JSON.parse(r);
 		res.type = LoaderResource.TYPE.JSON;
 		if (! o.meta?.image) {next(); return;}
-
 		const fn = getFn(o.meta.image);
 		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
 		(new Loader)
 		.use((res2, next2)=> {
-			this.sys.pre(res2.extension, res2.data)
-			.then(r=> {
-				res2.data = r;
-				if (res2.data instanceof HTMLImageElement) {
+			this.sys.dec(res2.extension, res2.data)
+			.then(r2=> {
+				res2.data = r2;
+				if (r2 instanceof HTMLImageElement) {
 					res2.type = LoaderResource.TYPE.IMAGE;
-					const mime = `image/${getExt(o.meta.image)}`;
-					o.meta.image = GrpLayer.im2Base64(res2.data, mime);
-					res2.data = o.meta.image;
+					URL.revokeObjectURL(r2.src);
 				}
-			/*	else if (res2.data instanceof HTMLVideoElement) {
-					res2.type = LoaderResource.TYPE.VIDEO;
-					o.meta.image = res2.data.src;
-				}*/
 				next2?.();
 			})
-			.catch(e=> this.main.errScript(`Graphic ロード失敗です preThen4Cripto fn:${res2.name} ${e}`, false));
-
+			.catch(e=> this.main.errScript(`Graphic ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
 		})
 		.add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
-		.load(()=> next());
+		.load((ldr, _hRes)=> {
+			// アニメ登録
+			for (const fn in ldr.resources) {
+				const bt = Texture.from(ldr.resources[fn].data).baseTexture;
+				const aFn: any[] = Object.values(o.frames);
+				GrpLayer.sortAFrameName(aFn);
+				GrpLayer.hFn2ResAniSpr[res.name] = {
+					aTex: aFn.map(f=> new Texture(
+						bt,
+						new Rectangle(
+							f.frame.x,
+							f.frame.y,
+							f.frame.w,
+							f.frame.h),
+					)),
+					meta: o.meta,
+				};
+			}
+
+			next();
+		});
 	}
-	private static im2Base64(img: HTMLImageElement, mime: string) {
-		const cvs = document.createElement('canvas');
-		cvs.width  = img.width;
-		cvs.height = img.height;
-		const ctx = cvs.getContext('2d');
-		ctx?.drawImage(img, 0, 0);
-		return cvs.toDataURL(mime);
-	}
-	private static mkSprite(fn: string, res: {[key: string]: ILoaderResource | Texture<Resource>}): Sprite {
-		//console.log(`fn:GrpLayer.ts mkSprite fn:${fn} a:%O b:%O c:%O`, GrpLayer.hFn2ResAniSpr[fn], utils.TextureCache[fn], Loader.shared.resources[fn]);
-		if (fn in utils.TextureCache) return Sprite.from(fn);
+	private static mkSprite(fn: string, hRes: {[fn: string]: LoaderResource}): Sprite {
 		const ras = GrpLayer.hFn2ResAniSpr[fn];
 		if (ras) {
 			const asp = new AnimatedSprite(ras.aTex);
@@ -277,50 +315,24 @@ export class GrpLayer extends Layer {
 			asp.play();
 			return asp;
 		}
+		if (fn in utils.TextureCache) return Sprite.from(fn);
+		if (fn in GrpLayer.hFn2VElm) return Sprite.from(GrpLayer.hFn2VElm[fn]);
 
-		//const r = res[fn];
-		const r = (res as any)[fn];
-		if (! r) return new Sprite;	// ロード中にリソース削除
-
-		switch (r.type) {
-			case LoaderResource.TYPE.JSON:	// アニメスプライト
-				const aFK: string[] = r.spritesheet._frameKeys;
-				const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFK[0]);
-				if (a_base_name) {
-					const is = a_base_name[1].length;
-					const ie = -a_base_name[2].length - 1;
-					aFK.sort((a, b)=>
-						(int(a.slice(is, ie)) > int(b.slice(is, ie))) ?1 :-1
-					);
-				}
-				const aTex: Texture[] = [];
-				aFK.forEach(v=> aTex.push(Texture.from(v)));
-				GrpLayer.hFn2ResAniSpr[r.name] = {aTex: aTex, meta: r.data.meta};
-				return GrpLayer.mkSprite(fn, res);
-
-			case LoaderResource.TYPE.VIDEO:
-				const hve = r.data as HTMLVideoElement;
-				hve.volume = GrpLayer.glbVol;
-				GrpLayer.fn2Video[fn] = hve;
-//				delete GrpLayer.ldrHFn[fn];	// 毎回来て欲しいのでキャッシュとしない
-				return Sprite.from(r.data);
-
-			default:	return new Sprite(r.texture);
-		}
+		return (fn in hRes) ?new Sprite(hRes[fn].texture) :new Sprite;
 	}
-	static fn2Video	: {[name: string]: HTMLVideoElement} = {};
+	static hFn2VElm	: {[name: string]: HTMLVideoElement} = {};
 	static wv(hArg: HArg) {
 		// 動画ファイル名指定でいいかなと。なぜなら「ループで再生しつつ」
 		// 同ファイル名の別の動画の再生は待ちたい、なんて状況は普通は無いだろうと
 		const fn = hArg.fn;
 		if (! fn) throw 'fnは必須です';
-		const hve = GrpLayer.fn2Video[fn];
+		const hve = GrpLayer.hFn2VElm[fn];
 		if (! hve || hve.loop) return false;
-		if (hve.ended) {delete GrpLayer.fn2Video[fn]; return false;}
+		if (hve.ended) {delete GrpLayer.hFn2VElm[fn]; return false;}
 
 		const fnc = ()=> {
 			hve.removeEventListener('ended', fnc);
-			delete GrpLayer.fn2Video[fn];
+			delete GrpLayer.hFn2VElm[fn];
 			this.main.resume();
 		};
 		hve.addEventListener('ended', fnc, {once: true, passive: true});

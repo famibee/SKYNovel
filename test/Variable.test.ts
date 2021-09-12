@@ -11,16 +11,18 @@ import {Variable} from '../core/src/sn/Variable';
 
 import {Config} from '../core/src/sn/Config';
 import {SysNode} from '../core/src/sn/SysNode';
-import {IHTag} from '../core/src/sn/CmnInterface';
+
+export class SysTest extends SysNode {
+	protected	override	async readFileSync(_path: string): Promise<string> {return '{}'};
+}
 
 context('class Variable', ()=>{
 	let	val	: Variable;
-	beforeEach(()=> {
-		const cfg = new Config(new SysNode({}, {cur: 'test/', crypto: false, dip: ''}), ()=> {}, {
-			search	: ["mat"],
-		});
-		const hTag: IHTag = {};
-		val = new Variable(cfg, hTag);
+	beforeEach(async ()=> {
+		const cfg = new Config(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}));
+		await cfg.load({search: ['mat']});
+
+		val = new Variable(cfg, {});
 	});
 
 	describe('Tst', ()=> {
