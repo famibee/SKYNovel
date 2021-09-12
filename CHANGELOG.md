@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/famibee/SKYNovel/compare/v1.17.11...v1.18.0) (2021-09-12)
+
+
+### Features
+
+* 復号化処理を重点見直し ([ff8c0c4](https://github.com/famibee/SKYNovel/commit/ff8c0c43d85e5f8cda17cbbec60b50b986b47d35))
+
 - feat: BREAKING CHANGE: 復号化処理、SKYNovel 側でオブジェクト生成するように
 - fix: BREAKING CHANGE: プラグインインタフェイス変更
 	- 拡張機能 v3.14.0 以上に更新し、暗号化しない→する切り替えするだけでよい
