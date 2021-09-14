@@ -5,7 +5,10 @@ const cfg = {
 	output: {
 		path: process.cwd(),
 		filename: '[name].js',
+//		library: 'SKYNovel',
+//		libraryExport: '',
 		libraryTarget: 'umd',
+		globalObject: 'this',
 	},
 };
 
@@ -27,10 +30,4 @@ module.exports = [{
 	entry: {app: ['./core/src/app'],},		// 「./」は必要
 	target: 'electron-renderer',
 	devtool: 'inline-source-map',
-/*	output: {
-		...cfg.output,
-//		libraryTarget: 'commonjs',
-//		libraryTarget: 'amd',
-//		globalObject: 'this',
-	},*/
 }];

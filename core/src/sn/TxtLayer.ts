@@ -528,9 +528,9 @@ export class TxtLayer extends Layer {
 					.replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
 					.replace(/class='sn_ch .+?'/g, `class='sn_ch'`)
 						// 不要情報削除
-					.replace(/class='offrec'/g, `style='display: none;'`)
+					.replaceAll(`class='offrec'`, `style='display: none;'`)
 						// 囲んだ領域は履歴で非表示
-					.replace(/`/g, '\\`')
+					.replaceAll('`', '\\`')
 						// JSON対策
 				);
 
@@ -807,7 +807,7 @@ export class TxtLayer extends Layer {
 		hArg[':id_tag'] = hArg.key.slice(0, -7);	// Design用
 		argChk_Boolean(hArg, 'hint_tate', this.txs.tategaki);	// hint用
 		const btn = new Button(hArg, TxtLayer.evtMng, ()=> re(), ()=> this.canFocus());
-		btn.name = JSON.stringify(hArg).replace(/"/g, "'");// playback時に使用
+		btn.name = JSON.stringify(hArg).replaceAll('"', "'");// playback時に使用
 		this.cntBtn.addChild(btn);
 	});
 	canFocus(): boolean {
@@ -865,7 +865,7 @@ export class TxtLayer extends Layer {
 		this.txs.playback(hLay.txs);
 
 		const aBtn: string[] = hLay.btns;
-		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replace(/'/g, '"')))));
+		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replaceAll(`'`, '"')))));
 	}
 
 	override snapshot(rnd: Renderer, re: ()=> void) {

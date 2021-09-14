@@ -71,7 +71,7 @@ export class SysWeb extends SysBase {
 
 		const sp = new URLSearchParams(location.search);
 		const dip = sp.get('dip');	// ディップスイッチ
-		if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip.replace(/%2C/g, ','))};
+		if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip.replaceAll(`%2C`, ','))};
 		if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
 
 		if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) CmnLib.isDbg = true;

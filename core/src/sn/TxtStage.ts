@@ -525,7 +525,7 @@ export class TxtStage extends Container {
 			}px" height="${this.infTL.$height
 			}px"><foreignObject x="0" y="0" width="100%" height="100%">${
 				new XMLSerializer().serializeToString(node)
-				.replace(/#/g, '%23').replace(/\n/g, '%0A')
+				.replaceAll('#', '%23').replaceAll('\n', '%0A')
 			}</foreignObject></svg>` // ? + new Date().getTime();
 			return new Promise(resolve=> img.onload = ()=> resolve(img));
 		})

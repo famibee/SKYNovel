@@ -125,16 +125,25 @@ export class appMain {
 			bw = new BrowserWindow({
 				...o,
 				webPreferences	: {
+					nativeWindowOpen: true,		// electron 14 以降のデフォルト
+
+					// XSS対策としてnodeモジュールをレンダラープロセスで使えなくする
 	//== old ==
-					nodeIntegration: true,
-					contextIsolation: false,	// electron v12.0.0対応
 					enableRemoteModule: true,
-//					preload: '../lib/core/lib/preload.js',
+	//				enableRemoteModule: false,
+					nodeIntegration: true,	// !
+//					nodeIntegration: false,
+
+					// レンダラープロセスに公開するAPIのファイル
+					contextIsolation: false,	// !
+//					contextIsolation: true,
 	//== old ==
 /*	//== new ==
-					nodeIntegration: false,
-					contextIsolation: true,
 					enableRemoteModule: false,
+					nodeIntegration: false,
+
+					// レンダラープロセスに公開するAPIのファイル
+					contextIsolation: true,
 //					preload: __dirname + '/core/lib/preload.js',
 */	//== new ==
 				},

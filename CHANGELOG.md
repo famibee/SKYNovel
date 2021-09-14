@@ -1,3 +1,11 @@
+- fix: tsconfig.json 更新　target, lib を es2021 に（Node.js は 16.9.0 以上必須）
+	- replaceAll()の使用
+
+
+- 既知の問題
+	- electron 14 に更新、アプリ版対応
+
+
 # [1.18.0](https://github.com/famibee/SKYNovel/compare/v1.17.11...v1.18.0) (2021-09-12)
 
 
@@ -13,11 +21,6 @@
 - fix: コールバック記述を async/await 型にリファクタリング
 - fix: 復号化処理を重点見直し、タイトル画面が見えない・BGMが短くループするなど解消
 - fix: ライブラリ更新
-
-
-- memo: - fix: tsconfig.json で【"target": "es2021",】に
-	- replaceAll()などは lib も es2021 にしないといけないが、現状TypeScriptが未サポート
-	- 正式仕様リリース！ JavaScriptの最新仕様ES2021で追加された新機能まとめ https://zenn.dev/tonkotsuboy_com/articles/es2021-whats-new
 
 
 ## [1.17.11](https://github.com/famibee/SKYNovel/compare/v1.17.10...v1.17.11) (2021-08-19)

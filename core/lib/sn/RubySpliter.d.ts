@@ -13,6 +13,5 @@ export declare class RubySpliter {
     static setEscape(ce: string): void;
     putTxt(text: string): void;
     putTxtRb(text: string, ruby: string): void;
-    private static readonly REG_TAB_G;
 }
 //# sourceMappingURL=RubySpliter.d.ts.map

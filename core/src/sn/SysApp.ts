@@ -124,7 +124,7 @@ function	delayWinPos() {
 
 export class SysApp extends SysNode {
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
-		super(hPlg, {...arg, cur: ''});
+		super(hPlg, arg);
 
 		globalThis.addEventListener('DOMContentLoaded', async ()=> this.loaded(hPlg, arg), {once: true, passive: true});
 	}
@@ -133,7 +133,7 @@ export class SysApp extends SysNode {
 
 		this.hInfo = await to_app.getInfo();
 		CmnLib.isPackaged = this.hInfo.isPackaged;
-		arg = {...arg, cur: this.hInfo.getAppPath.replace(/\\/g, '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
+		arg = {...arg, cur: this.hInfo.getAppPath.replaceAll('\\', '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
 
 //== old ==
 		this.readFileSync = to_app.readFileSync;
@@ -142,7 +142,7 @@ export class SysApp extends SysNode {
 		this.ensureFileSync = to_app.ensureFileSync;
 //== old ==
 
-		this.$path_downloads	= this.hInfo.downloads.replace(/\\/g, '/') +'/';
+		this.$path_downloads	= this.hInfo.downloads.replaceAll('\\', '/') +'/';
 
 //		ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
 
@@ -195,7 +195,7 @@ export class SysApp extends SysNode {
 
 		this.$path_userdata	= CmnLib.isDbg
 			? this.hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
-			: this.hInfo.userData.replace(/\\/g, '/') +'/';
+			: this.hInfo.userData.replaceAll('\\', '/') +'/';
 
 		to_app.Store({
 			cwd: this.$path_userdata +'storage',

@@ -870,7 +870,7 @@ void main(void) {
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', record);
-		tl.tagCh(txt.replace(/\[r]/g, '\n'));
+		tl.tagCh(txt.replaceAll('[r]', '\n'));
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
 		if (wait >= 0) this.cmdTxt(`add_close｜`, tl);
@@ -939,7 +939,7 @@ void main(void) {
 		const o = this.oLastPage;
 		if (pagebreak) {
 			if (o.text) {
-				o.text = String(o.text).replace(/<\/span><span class='sn_ch'>/g, '');
+				o.text = String(o.text).replaceAll(`<\/span><span class='sn_ch'>`, '');
 				if (this.aPageLog.push(o) > this.cfg.oCfg.log.max_len) this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
 			}
 			this.oLastPage = {text: ''};

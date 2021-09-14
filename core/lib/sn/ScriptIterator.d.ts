@@ -84,7 +84,6 @@ export declare class ScriptIterator {
     private dbgToken;
     private errOverScr;
     private readonly REG_NONAME_LABEL;
-    private readonly REG_LABEL_ESC;
     private readonly REG_TOKEN_MACRO_BEGIN;
     private readonly REG_TOKEN_MACRO_END;
     private readonly REG_TAG_LET_ML;

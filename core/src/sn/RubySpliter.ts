@@ -84,7 +84,7 @@ export class RubySpliter {
 
 		// 自動区切りを行わない
 		if (len === 1 || ruby.indexOf(' ') === -1) {
-			this.putCh(text, ruby.replace(RubySpliter.REG_TAB_G, ' '));
+			this.putCh(text, ruby.replaceAll('\t', ' '));
 			return;
 		}
 
@@ -95,10 +95,9 @@ export class RubySpliter {
 		for (let i=0; i<len_max; ++i) {
 			this.putCh(
 				(i < len) ? a[i] : '',
-				(i < lenR) ? aR[i].replace(RubySpliter.REG_TAB_G,' ') : ''
+				(i < lenR) ? aR[i].replaceAll('\t',' ') : ''
 			);
 		}
 	}
-	private	static	readonly	REG_TAB_G	= /\t/g;
 
 }

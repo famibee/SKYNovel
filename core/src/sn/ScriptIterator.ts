@@ -791,7 +791,6 @@ export class ScriptIterator {
 
 
 	private	readonly REG_NONAME_LABEL		= /(\*{2,})(.*)/;
-	private	readonly REG_LABEL_ESC			= /\*/g;
 	private	readonly REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
 	private	readonly REG_TOKEN_MACRO_END	= /\[endmacro[\s\]]/;
 	private	readonly REG_TAG_LET_ML			= /^\[let_ml\s/g;
@@ -858,7 +857,7 @@ export class ScriptIterator {
 
 		ln = 1;
 		const reLabel = new RegExp(
-			'^'+ skipLabel.replace(this.REG_LABEL_ESC, '\\*')
+			'^'+ skipLabel.replaceAll('*', '\\*')
 			+'(?:\\s|;|\\[|$)');
 		let in_let_ml = false;
 		for (let i=0; i<len; ++i) {
