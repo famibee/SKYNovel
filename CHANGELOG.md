@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/famibee/SKYNovel/compare/v1.18.0...v1.18.1) (2021-09-14)
+
+
+### Bug Fixes
+
+* tsconfig.json 更新 es2021、replaceAll()の使用 ([4831aee](https://github.com/famibee/SKYNovel/commit/4831aeee9495050fc31d6ebd4b2e3865c4d1a3a0))
+
 - fix: tsconfig.json 更新　target, lib を es2021 に（Node.js は 16.9.0 以上必須）
 	- replaceAll()の使用
 
