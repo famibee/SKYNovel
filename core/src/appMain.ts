@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {screen, app, BrowserWindow, ipcMain} from 'electron';
+import {screen, app, BrowserWindow, ipcMain, shell} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
 import {existsSync, copySync, removeSync, ensureDirSync, createWriteStream, createReadStream, readFileSync, readFile, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 const Store = require('electron-store');
@@ -51,6 +51,8 @@ export class appMain {
 		ipcMain.handle('win_setTitle', (_: any, title: string)=> bw.setTitle(title));
 		ipcMain.handle('win_setContentSize', (_: any, w: number, h: number)=> bw.setContentSize(w, h));
 		ipcMain.handle('win_setSize', (_: any, w: number, h: number)=> bw.setSize(w, h));
+
+		ipcMain.handle('navigate_to', (_: any, url: string)=> shell.openExternal(url));
 
 		ipcMain.handle('openDevTools', ()=> bw.webContents.openDevTools());
 		ipcMain.handle('win_ev_devtools_opened', (_: any, fnc: ()=> void)=> bw.webContents.on('devtools-opened', fnc));
@@ -128,24 +130,11 @@ export class appMain {
 					nativeWindowOpen: true,		// electron 14 以降のデフォルト
 
 					// XSS対策としてnodeモジュールをレンダラープロセスで使えなくする
-	//== old ==
-					enableRemoteModule: true,
-	//				enableRemoteModule: false,
-					nodeIntegration: true,	// !
-//					nodeIntegration: false,
-
-					// レンダラープロセスに公開するAPIのファイル
-					contextIsolation: false,	// !
-//					contextIsolation: true,
-	//== old ==
-/*	//== new ==
 					enableRemoteModule: false,
 					nodeIntegration: false,
-
 					// レンダラープロセスに公開するAPIのファイル
 					contextIsolation: true,
-//					preload: __dirname + '/core/lib/preload.js',
-*/	//== new ==
+					preload: `${__dirname}/core/lib/preload.js`,
 				},
 			});
 //	bw.webContents.openDevTools();

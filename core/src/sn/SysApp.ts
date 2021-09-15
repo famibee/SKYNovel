@@ -14,112 +14,7 @@ import {Application} from 'pixi.js';
 import {createHash} from 'crypto';
 
 import {HINFO} from '../preload';
-/*	//== new ==
 const {to_app} = window;
-*/	//== new ==
-
-
-	//== old ==
-import {remote} from 'electron';
-const app = remote.app;
-
-const dsp = remote.screen.getPrimaryDisplay();
-const screenRX = dsp.size.width;
-const screenRY = dsp.size.height;
-
-import {HPROC} from '../preload';
-import {existsSync, copySync, removeSync, ensureDirSync, ensureFileSync, createWriteStream, createReadStream, readFileSync, readFile, writeFileSync, appendFile} from 'fs-extra';
-const Store = require('electron-store');
-import {pack, extract} from 'tar-fs';
-
-const to_app: HPROC = {
-	getInfo		: async ()=> {return {
-		getAppPath	: app.getAppPath(),
-		isPackaged	: app.isPackaged,
-		downloads	: app.getPath('downloads'),
-		userData	: app.getPath('userData'),
-		getVersion	: String(app.getVersion()),
-		env			: process.env,
-		screenResolutionX	: screenRX,
-		screenResolutionY	: screenRY,
-	}},
-
-	existsSync	: async (path: string)=> existsSync(path),
-	copySync	: (path_from: string, path_to: string)=> copySync(path_from, path_to),
-	removeSync	: async (path: string)=> removeSync(path),
-	ensureDirSync	: async (path: string)=> ensureDirSync(path),
-	ensureFileSync	: async (path: string)=> ensureFileSync(path),
-	createWriteStream	: async (path: string)=> createWriteStream(path),
-	createReadStream	: async (path: string)=> createReadStream(path),
-	readFileSync: async (path: string)=> readFileSync(path, {encoding: 'utf8'}),
-	readFile	: (path: string, callback: (err: NodeJS.ErrnoException, data: Buffer)=> void)=> readFile(path, callback),
-	writeFileSync	: async (path: string, data: Buffer, o?: object)=> writeFileSync(path, data, o),
-	appendFile		: async (path: string, data: string, callback: (err: Error)=> void)=> appendFile(path, data, callback),
-
-	window	: (centering: boolean, x: number, y: number, w: number, h: number)=> window(centering, x, y, w, h),
-	isSimpleFullScreen	: async ()=> bw.isSimpleFullScreen(),
-	setSimpleFullScreen	: async (b: boolean)=> bw.setSimpleFullScreen(b),
-	win_close		: ()=> bw.close(),
-	win_setTitle	: (title: string)=> bw.setTitle(title),
-	win_setContentSize	: async (w: number, h: number)=> bw.setContentSize(w, h),
-	win_setSize			: async (w: number, h: number)=> bw.setSize(w, h),
-
-	openDevTools	: ()=> bw.webContents.openDevTools(),
-	win_ev_devtools_opened	: (fnc: ()=> void)=> bw.webContents.on('devtools-opened', fnc),
-
-	Store	: async (o: object)=> {st = new Store(o); return;},
-	flush	: async (o: object)=> {st.store = o; return;},
-	Store_isEmpty	: async ()=> st.size === 0,
-	Store_get	: async ()=> st.store,
-
-	tarFs_pack		: async (path: string)=> pack(path),
-	tarFs_extract	: async (path: string)=> extract(path),
-};
-
-let	st: any;
-
-
-let bw: Electron.BrowserWindow = remote.getCurrentWindow();
-function window(centering: boolean, x: number, y: number, w: number, h: number) {
-	if (centering) {
-		const s = bw.getPosition();
-		x = (screenRX - s[0]) *0.5;
-		y = (screenRY - s[1]) *0.5;
-	}
-	else {
-		if (x < 0) x = 0; else if (x > screenRX) x = 0;
-		if (y < 0) y = 0; else if (y > screenRY) y = 0;
-	}
-	bw.setPosition(x, y);
-	bw.setContentSize(w, h);
-		// 2019/07/06 Windowsでこれがないとどんどん縦に短くなる
-	const hz = bw.getContentSize()[1];
-	bw.setContentSize(w, h *2 -hz);
-		// 2019/07/14 setContentSize()したのにメニュー高さぶん勝手に削られた値にされる不具合ぽい動作への対応
-}
-
-bw.on('move', ()=> {
-	if (isMovingWin) return;
-	isMovingWin = true;
-	posMovingWin = bw.getPosition();
-	setTimeout(()=> delayWinPos(), 500);
-});
-
-let	isMovingWin		= false;
-let	posMovingWin	= [0, 0];
-function	delayWinPos() {
-	if (bw.isSimpleFullScreen()) return;
-
-	const p = bw.getPosition();
-	if (posMovingWin[0] !== p[0] || posMovingWin[1] !== p[1]) {
-		posMovingWin = p;
-		setTimeout(()=> delayWinPos(), 500);
-		return;
-	}
-	window(false, p[0], p[1], 0, 0);
-	isMovingWin = false;
-}
-	//== old ==
 
 
 export class SysApp extends SysNode {
@@ -133,16 +28,9 @@ export class SysApp extends SysNode {
 
 		this.hInfo = await to_app.getInfo();
 		CmnLib.isPackaged = this.hInfo.isPackaged;
-		arg = {...arg, cur: this.hInfo.getAppPath.replaceAll('\\', '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
+		this.arg = arg = {...arg, cur: this.hInfo.getAppPath.replaceAll('\\', '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
 
-//== old ==
-		this.readFileSync = to_app.readFileSync;
-		this.writeFileSync = to_app.writeFileSync;
-		this.appendFile = to_app.appendFile;
-		this.ensureFileSync = to_app.ensureFileSync;
-//== old ==
-
-		this.$path_downloads	= this.hInfo.downloads.replaceAll('\\', '/') +'/';
+		this.$path_downloads = this.hInfo.downloads.replaceAll('\\', '/') +'/';
 
 //		ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
 
@@ -162,12 +50,10 @@ export class SysApp extends SysNode {
 		screenResolutionY	: 0,
 	};
 
-/*	//== new ==
-	protected	readFileSync = to_app.readFileSync;
-	protected	writeFileSync = to_app.writeFileSync;
-	appendFile = to_app.appendFile;
-	ensureFileSync = to_app.ensureFileSync;
-*/	//== new ==
+	protected override	readFileSync = to_app.readFileSync;
+	protected override	writeFileSync = to_app.writeFileSync;
+	override	appendFile = to_app.appendFile;
+	override	ensureFileSync = to_app.ensureFileSync;
 
 	protected 	override $path_userdata		= '';
 	protected	override $path_downloads	= '';
@@ -328,11 +214,7 @@ export class SysApp extends SysNode {
 		const url = hArg.url;
 		if (! url) throw '[navigate_to] urlは必須です';
 
-		const fnc =	async ()=> {
-			const {shell} = await import('electron');
-			shell.openExternal(url);
-		}
-		fnc();
+		to_app.navigate_to(url);
 
 		return false;
 	}

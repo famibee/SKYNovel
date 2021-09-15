@@ -18,7 +18,7 @@ export class SysBase implements ISysBase {
 	protected async loaded(hPlg: HPlugin, _arg: HSysBaseArg) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		delete hPlg.snsys_pre;
-		await fncPre?.init({
+		return fncPre?.init({
 			addTag: ()=> {},
 			addLayCls: ()=> {},
 			searchPath: ()=> '',

@@ -32,6 +32,8 @@ export	type	HPROC	= {
 	win_setContentSize	: (w: number, h: number)=> Promise<void>;
 	win_setSize			: (w: number, h: number)=> Promise<void>;
 
+	navigate_to	: (url: string)=> void;
+
 	openDevTools	: ()=> void;
 	win_ev_devtools_opened	: (fnc: ()=> void)=> void;
 
@@ -92,10 +94,12 @@ export const	hProc	: HPROC	= {
 	win_close	: ()=> ipcRenderer.invoke('win_close').catch(fncE),
 	win_setTitle	: title=>
 		ipcRenderer.invoke('win_setTitle', title).catch(fncE),
-	win_setContentSize	: (w: number, h: number)=>
+	win_setContentSize	: (w, h)=>
 		ipcRenderer.invoke('win_setContentSize', w, h).catch(fncE),
-	win_setSize	: (w: number, h: number)=>
+	win_setSize	: (w, h)=>
 		ipcRenderer.invoke('win_setSize', w, h).catch(fncE),
+
+	navigate_to	: url=> ipcRenderer.invoke('navigate_to', url).catch(fncE),
 
 	openDevTools	: ()=> ipcRenderer.invoke('openDevTools').catch(fncE),
 	win_ev_devtools_opened	: fnc=>

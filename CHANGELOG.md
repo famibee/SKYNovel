@@ -1,3 +1,9 @@
+- fix: Electron 14 に更新、アプリ版対応
+
+- 既知の問題
+	- Winアプリでウインドウサイズが最小になる
+
+
 ## [1.18.1](https://github.com/famibee/SKYNovel/compare/v1.18.0...v1.18.1) (2021-09-14)
 
 
@@ -7,10 +13,6 @@
 
 - fix: tsconfig.json 更新　target, lib を es2021 に（Node.js は 16.9.0 以上必須）
 	- replaceAll()の使用
-
-
-- 既知の問題
-	- electron 14 に更新、アプリ版対応
 
 
 # [1.18.0](https://github.com/famibee/SKYNovel/compare/v1.17.11...v1.18.0) (2021-09-12)

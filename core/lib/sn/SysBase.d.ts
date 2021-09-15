@@ -58,7 +58,7 @@ export declare class SysBase implements ISysBase {
     setTitleInfo(txt: string): void;
     private preFromPlg;
     decStr(ext: string, d: string): string;
-    dec(ext: string, d: ArrayBuffer): Promise<string | HTMLImageElement | HTMLVideoElement | ArrayBuffer>;
+    dec(ext: string, d: ArrayBuffer): Promise<string | ArrayBuffer | HTMLImageElement | HTMLVideoElement>;
     private readonly hN2Ext;
     private genImage;
     private genVideo;
