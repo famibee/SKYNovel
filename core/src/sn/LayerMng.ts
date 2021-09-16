@@ -305,17 +305,20 @@ export class LayerMng implements IGetFrm {
 //	//	システム
 	// スナップショット
 	private snapshot(hArg: HArg) {
-		const fn = hArg.fn
+		const fn0 = hArg.fn
 		? hArg.fn.slice(0, 10) === 'userdata:/'
 			? hArg.fn
 			: `downloads:/${hArg.fn + getDateStr('-', '_', '', '_')}.png`
 		: `downloads:/snapshot${getDateStr('-', '_', '', '_')}.png`;
+		const fn = this.cfg.searchPath(fn0);
+		if (this.sys.canCapturePage(fn)) return false;
+
 		const ext = getExt(fn);
 		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
 		const rnd = autoDetectRenderer({
 			width: argChk_Num(hArg, 'width', CmnLib.stageW),
 			height: argChk_Num(hArg, 'height', CmnLib.stageH),
-			transparent: (b_color > 0x1000000) && (ext === 'png'),
+			backgroundAlpha: (b_color > 0x1000000) && (ext === 'png') ?0 :1,
 			antialias: argChk_Boolean(hArg, 'smoothing', false),
 			preserveDrawingBuffer: true,
 			backgroundColor: uint(b_color) & 0xFFFFFF,
@@ -343,7 +346,7 @@ export class LayerMng implements IGetFrm {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
 			rnd.render(this.stage, {renderTexture: renTx});
 			await this.sys.savePic(
-				this.cfg.searchPath(fn),
+				fn,
 				rnd.plugins.extract.base64(Sprite.from(renTx)),
 			);
 			if (! this.tiTrans.tw) this.getLayers(hArg.layer)

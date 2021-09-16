@@ -70,6 +70,7 @@ export declare class SysBase implements ISysBase {
     get path_downloads(): string;
     protected $path_userdata: string;
     get path_userdata(): string;
+    readonly canCapturePage: (_fn: string) => boolean;
     savePic(_fn: string, _data_url: string): Promise<void>;
     appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException) => void): Promise<void>;
     ensureFileSync(_path: string): Promise<void>;

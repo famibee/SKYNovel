@@ -1,3 +1,10 @@
+- fix: Winアプリでウインドウサイズが最小になる件
+- fix: アプリで画面保存は Electron の機能を使用するように
+
+- 既知の問題
+	- fix: 本文からタイトルに戻るとBGMが消える
+
+
 ## [1.18.2](https://github.com/famibee/SKYNovel/compare/v1.18.1...v1.18.2) (2021-09-15)
 
 
@@ -6,9 +13,6 @@
 * Electron 14 に更新、アプリ版対応 ([704c1d6](https://github.com/famibee/SKYNovel/commit/704c1d6f29da14b48caeb1ae2e73170272b05409))
 
 - fix: Electron 14 に更新、アプリ版対応
-
-- 既知の問題
-	- Winアプリでウインドウサイズが最小になる
 
 
 ## [1.18.1](https://github.com/famibee/SKYNovel/compare/v1.18.0...v1.18.1) (2021-09-14)

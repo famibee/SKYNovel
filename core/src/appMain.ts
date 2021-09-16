@@ -32,40 +32,50 @@ export class appMain {
 //	private	constructor(private readonly bw: Electron.BrowserWindow) {
 		ipcMain.handle('getInfo', ()=> this.hInfo);
 
-		ipcMain.handle('existsSync', (_: any, fn: string)=> existsSync(fn));
-		ipcMain.handle('copySync', (_: any, path_from: string, path_to: string)=> copySync(path_from, path_to));
-		ipcMain.handle('removeSync', (_: any, fn: string)=> removeSync(fn));
-		ipcMain.handle('ensureDirSync', (_: any, fn: string)=> ensureDirSync(fn));
-		ipcMain.handle('ensureFileSync', (_: any, fn: string)=> ensureFileSync(fn));
-		ipcMain.handle('createWriteStream', (_: any, path: string)=> createWriteStream(path));
-		ipcMain.handle('createReadStream', (_: any, path: string)=> createReadStream(path));
-		ipcMain.handle('readFileSync', (_: any, path: string)=> readFileSync(path, {encoding: 'utf8'}));
-		ipcMain.handle('readFile', (_: any, path: string, callback: (err: NodeJS.ErrnoException, data: Buffer)=> void)=>readFile(path, callback));
-		ipcMain.handle('writeFileSync', (_: any, path: string, data: Buffer, o: object)=> writeFileSync(path, data, o));
-		ipcMain.handle('appendFile', (_: any, path: string, data: string, callback: (err: Error)=> void)=> appendFile(path, data, callback));
+		ipcMain.handle('existsSync', (_, fn)=> existsSync(fn));
+		ipcMain.handle('copySync', (_, path_from, path_to)=> copySync(path_from, path_to));
+		ipcMain.handle('removeSync', (_, fn)=> removeSync(fn));
+		ipcMain.handle('ensureDirSync', (_, fn)=> ensureDirSync(fn));
+		ipcMain.handle('ensureFileSync', (_, fn)=> ensureFileSync(fn));
+		ipcMain.handle('createWriteStream', (_, path)=> createWriteStream(path));
+		ipcMain.handle('createReadStream', (_, path)=> createReadStream(path));
+		ipcMain.handle('readFileSync', (_, path)=> readFileSync(path, {encoding: 'utf8'}));
+		ipcMain.handle('readFile', (_, path, callback)=>readFile(path, callback));
+		ipcMain.handle('writeFileSync', (_, path, data, o)=> writeFileSync(path, data, o));
+		ipcMain.handle('appendFile', (_, path, data, callback)=> appendFile(path, data, callback));
 
-		ipcMain.handle('window', (_: any, centering: boolean, x: number, y: number, w: number, h: number)=> this.window(centering, x, y, w, h));
+		ipcMain.handle('window', (_, centering: boolean, x, y, w, h)=> this.window(centering, x, y, w, h));
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
-		ipcMain.handle('setSimpleFullScreen', (_: any, b: boolean)=> bw.setSimpleFullScreen(b));
+		ipcMain.handle('setSimpleFullScreen', (_, b)=> bw.setSimpleFullScreen(b));
 		ipcMain.handle('win_close', ()=> bw.close());
-		ipcMain.handle('win_setTitle', (_: any, title: string)=> bw.setTitle(title));
-		ipcMain.handle('win_setContentSize', (_: any, w: number, h: number)=> bw.setContentSize(w, h));
-		ipcMain.handle('win_setSize', (_: any, w: number, h: number)=> bw.setSize(w, h));
+		ipcMain.handle('win_setTitle', (_, title)=> bw.setTitle(title));
+		ipcMain.handle('win_setContentSize', (_, w, h)=> {
+			this.isMovingWin = true;
+			bw.setContentSize(w, h +appMain.menu_height);
+			this.isMovingWin = false;
+		});
+		ipcMain.handle('win_setSize', (_, w, h)=> {
+			this.isMovingWin = true;
+			bw.setSize(w, h);
+			this.isMovingWin = false;
+		});
 
-		ipcMain.handle('navigate_to', (_: any, url: string)=> shell.openExternal(url));
+		ipcMain.handle('capturePage', (_, fn)=> bw.webContents.capturePage()
+		.then(ni=> writeFileSync(fn, (fn.slice(-4) === '.png') ?ni.toPNG() :ni.toJPEG(80))));
+		ipcMain.handle('navigate_to', (_, url)=> shell.openExternal(url));
 
 		ipcMain.handle('openDevTools', ()=> bw.webContents.openDevTools());
-		ipcMain.handle('win_ev_devtools_opened', (_: any, fnc: ()=> void)=> bw.webContents.on('devtools-opened', fnc));
-		ipcMain.handle('tgl_full_scr_sub', (_: any, centering: boolean, x: number, y: number, w: number, h: number)=> this.window(centering, x, y, w, h));
+		ipcMain.handle('win_ev_devtools_opened', (_, fnc)=> bw.webContents.on('devtools-opened', fnc));
+		ipcMain.handle('tgl_full_scr_sub', (_, centering, x, y, w, h)=> this.window(centering, x, y, w, h));
 
 		let	st: any;
-		ipcMain.handle('Store', (_: any, o: object)=> {st = new Store(o); return;});	// return必要、Storeをcloneしてしまうので
-		ipcMain.handle('flush', (_: any, o: object)=> {st.store = o; return;});
+		ipcMain.handle('Store', (_, o)=> {st = new Store(o); return;});	// return必要、Storeをcloneしてしまうので
+		ipcMain.handle('flush', (_, o)=> {st.store = o; return;});
 		ipcMain.handle('Store_isEmpty', ()=> st.size === 0);
 		ipcMain.handle('Store_get', ()=> st.store);
 
-		ipcMain.handle('tarFs_pack', (_: any, path: string)=> pack(path));
-		ipcMain.handle('tarFs_extract', (_: any, path: string)=>extract(path));
+		ipcMain.handle('tarFs_pack', (_, path)=> pack(path));
+		ipcMain.handle('tarFs_extract', (_, path)=>extract(path));
 
 
 		bw.on('move', ()=> {
@@ -87,10 +97,11 @@ export class appMain {
 			return;
 		}
 		this.window(false, p[0], p[1], 0, 0);
-		this.isMovingWin = false;
+		//this.isMovingWin = false;	// this.window()内でやってるので
 	}
 
 	private	window(centering: boolean, x: number, y: number, w: number, h: number) {
+		this.isMovingWin = true;
 		if (centering) {
 			const s = this.bw.getPosition();
 			x = (this.screenRX - s[0]) *0.5;
@@ -106,6 +117,7 @@ export class appMain {
 		const hz = this.bw.getContentSize()[1];
 		this.bw.setContentSize(w, h *2 -hz);
 			// 2019/07/14 setContentSize()したのにメニュー高さぶん勝手に削られた値にされる不具合ぽい動作への対応
+		this.isMovingWin = false;
 	}
 
 	openDevTools() {this.bw.webContents.openDevTools();}
@@ -138,6 +150,14 @@ export class appMain {
 				},
 			});
 //	bw.webContents.openDevTools();
+
+			bw.setMenuBarVisibility(false);
+			const cs_no_menu_h = bw.getContentSize()[1];
+			bw.setMenuBarVisibility(true);
+			const cs_menu_h = bw.getContentSize()[1];
+			appMain.menu_height = cs_no_menu_h -cs_menu_h;
+				// win10 で 20 ぐらいに。macOSでは 0
+
 			appMain.ins = new appMain(bw);
 			openDevTools = ()=> appMain.ins.openDevTools();
 			bw.loadFile(path_htm);
@@ -150,6 +170,7 @@ export class appMain {
 
 		return bw;
 	}
+	private static	menu_height = 0;
 
 }
 

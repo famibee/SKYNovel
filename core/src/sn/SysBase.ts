@@ -333,6 +333,7 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 	protected $path_userdata= '';
 	get path_userdata() {return this.$path_userdata}
 
+	readonly	canCapturePage = (_fn: string)=> false;
 	async savePic(_fn: string, _data_url: string) {};
 	async appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException)=> void) {}
 	async ensureFileSync(_path: string) {}

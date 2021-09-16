@@ -131,6 +131,7 @@ export class SysApp extends SysNode {
 			main.destroy();
 		});
 		to_app.win_setContentSize(CmnLib.stageW, CmnLib.stageH);
+			// これがないとWinアプリ版で下部が短くなり背後が見える
 		return [];
 	}
 
@@ -151,7 +152,7 @@ export class SysApp extends SysNode {
 
 	// プレイデータをエクスポート
 	protected override readonly	_export: ITag = ()=> {
-		(async()=> {
+		(async ()=> {
 			const r = await to_app.tarFs_pack(this.$path_userdata +'storage/')
 			r.on('end', ()=> {
 				if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
@@ -197,7 +198,7 @@ export class SysApp extends SysNode {
 				this.data.mark = o.mark;
 				this.data.kidoku = o.kidoku;
 				this.flush = flush;
-				await this.flush();
+				this.flush();
 				this.val.updateData(o);
 
 				if (CmnLib.debugLog) console.log('プレイデータをインポートしました');
@@ -357,16 +358,19 @@ export class SysApp extends SysNode {
 	}
 	// アプリウインドウ設定
 	protected override readonly	window: ITag = hArg=> {
-		(async()=> {
-			const x = argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
-			const y = argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
-			await to_app.window(argChk_Boolean(hArg, 'centering', false), x, y, CmnLib.stageW, CmnLib.stageH);
-			this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
-			this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
-			await this.flush();
-		})();
+		const x = argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
+		const y = argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
+		to_app.window(argChk_Boolean(hArg, 'centering', false), x, y, CmnLib.stageW, CmnLib.stageH);
+		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
+		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
+		this.flush();
 
 		return false;
+	}
+
+	override readonly	canCapturePage = (fn: string)=> {
+		to_app.capturePage(fn);
+		return true;
 	}
 
 }

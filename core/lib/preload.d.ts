@@ -21,6 +21,7 @@ export declare type HPROC = {
     win_setTitle: (title: string) => void;
     win_setContentSize: (w: number, h: number) => Promise<void>;
     win_setSize: (w: number, h: number) => Promise<void>;
+    capturePage: (fn: string) => Promise<void>;
     navigate_to: (url: string) => void;
     openDevTools: () => void;
     win_ev_devtools_opened: (fnc: () => void) => void;

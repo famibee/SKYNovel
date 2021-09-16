@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { SysNode } from './SysNode';
 import { ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
 import { Application } from 'pixi.js';
@@ -30,5 +31,6 @@ export declare class SysApp extends SysNode {
     protected readonly tgl_full_scr_sub: () => Promise<void>;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
+    readonly canCapturePage: (fn: string) => boolean;
 }
 //# sourceMappingURL=SysApp.d.ts.map

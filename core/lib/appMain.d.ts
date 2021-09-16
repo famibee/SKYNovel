@@ -13,5 +13,6 @@ export declare class appMain {
     openDevTools(): void;
     private static ins;
     static initRenderer(path_htm: string, o: object): BrowserWindow;
+    private static menu_height;
 }
 //# sourceMappingURL=appMain.d.ts.map
