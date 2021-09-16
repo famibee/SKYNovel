@@ -1,3 +1,10 @@
+## [1.18.3](https://github.com/famibee/SKYNovel/compare/v1.18.2...v1.18.3) (2021-09-16)
+
+
+### Bug Fixes
+
+* Winアプリでウインドウサイズが最小になる件 ([a4acec3](https://github.com/famibee/SKYNovel/commit/a4acec3b57f82ba0088a9c8225bad0eb2f8f945f))
+
 - fix: Winアプリでウインドウサイズが最小になる件
 - fix: アプリで画面保存は Electron の機能を使用するように
 
