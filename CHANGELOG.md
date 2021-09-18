@@ -1,3 +1,9 @@
+- fix: 本文からタイトルに戻るとBGMが消える件
+- fix: [xchgbuf]で save: 変数も交換するように
+- fix: 不要な save:const.sn.loopPlaying ロードを削除
+- docs: 【開発者情報】音量周りの記述修正
+
+
 ## [1.18.3](https://github.com/famibee/SKYNovel/compare/v1.18.2...v1.18.3) (2021-09-16)
 
 
@@ -7,9 +13,6 @@
 
 - fix: Winアプリでウインドウサイズが最小になる件
 - fix: アプリで画面保存は Electron の機能を使用するように
-
-- 既知の問題
-	- fix: 本文からタイトルに戻るとBGMが消える
 
 
 ## [1.18.2](https://github.com/famibee/SKYNovel/compare/v1.18.1...v1.18.2) (2021-09-15)

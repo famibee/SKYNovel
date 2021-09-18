@@ -8,6 +8,7 @@ export declare class SoundMng {
     private readonly main;
     private readonly sys;
     private hSndBuf;
+    private hLP;
     constructor(cfg: Config, hTag: IHTag, val: IVariable, main: IMain, sys: SysBase);
     private evtMng;
     setEvtMng(evtMng: IEvtMng): void;

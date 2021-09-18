@@ -11,12 +11,13 @@ import {IHTag, IVariable, IMain, HArg, INoticeChgVolume} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 
-import {sound, utils, Sound} from '@pixi/sound';
+import {sound, utils, Sound, Options} from '@pixi/sound';
 import {Loader, LoaderResource} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
 interface ISndBuf {
-	snd		: any;
+	now_buf	: string;
+	snd		: Sound;
 	loop	: boolean;
 	start_ms: number;
 	end_ms	: number;
@@ -26,12 +27,12 @@ interface ISndBuf {
 	onend	: ()=> void;
 
 	twFade?		: Tween<{v: number}>;
-//	twFade?		: Tween;
 	resumeFade?	: boolean;
 };
 
 export class SoundMng {
-	private hSndBuf	: {[name: string]: ISndBuf} = {};
+	private hSndBuf	: {[buf: string]: ISndBuf}	= {};
+	private	hLP		: {[buf: string]: 0}		= {};
 
 	constructor(private readonly cfg: Config, hTag: IHTag, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase) {
 		hTag.volume		= o=> this.volume(o);		// 音量設定（独自拡張）
@@ -118,9 +119,7 @@ export class SoundMng {
 
 		if (argChk_Num(hArg, 'time', NaN) === 0) {
 			oSb.snd.volume = vol;
-			if (stop) {
-				if (buf === 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
-			}
+			if (stop) this.stopse(hArg);
 			return false;
 		}
 
@@ -133,17 +132,14 @@ export class SoundMng {
 		.easing(ease)
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
-		.onUpdate((o: any)=> {if (oSb.playing()) oSb.snd.volume = o.v;})
+		.onUpdate(o=> {if (oSb.playing()) oSb.snd.volume = o.v;})
 		.onComplete(()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-			const oSb2 = this.hSndBuf[buf];
+			const oSb2 = this.hSndBuf[hArg.buf = oSb.now_buf];
 			if (! oSb2?.twFade) return;
 
-			oSb2.twFade.stop();
 			delete oSb2.twFade;
-			if (stop) {
-				if (buf === 'BGM') this.stopbgm(hArg); else this.stopse(hArg);
-			}
+			if (stop) this.stopse(hArg);
 			if (oSb2.resumeFade) this.main.resume();
 		})
 		.start();
@@ -197,17 +193,42 @@ export class SoundMng {
 		this.val.setVal_Nochk('save', nm +'ret_ms', ret_ms);
 		this.val.flush();
 
+		const snd = sound.find(fn);	// バッファにあるか
+		const oSb: ISndBuf = this.hSndBuf[buf] = {
+			now_buf	: buf,
+			snd		: snd,
+			loop	: loop,
+			start_ms: start_ms,
+			end_ms	: end_ms,
+			ret_ms	: ret_ms,
+			resume	: false,
+			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
+			onend	: ()=> {
+				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
+				const oSb2 = this.hSndBuf[hArg.buf = oSb.now_buf];
+				if (! oSb2) return;
+
+				delete this.hSndBuf[hArg.buf];
+				oSb2.playing = ()=> false;
+				// NOTE: 【2018/06/25】cache=falseならここでunload()？
+				this.stopfadese(hArg);	// 止めた方が良いかなと
+				if (oSb2.resume) this.main.resume();
+			},
+		};
+
 		// @pixi/sound用基本パラメータ
-		const o: any = {
+		const o: Options = {
 			loop	: loop,
 			volume	: vol,
 			speed	: argChk_Num(hArg, 'speed', 1),
 			sprites	: {},
-			loaded	: (e: Error, snd: any)=> {
-				if (e) {this.main.errScript(`Sound ロード失敗です fn:${fn} ${e}`, false); return;}
+			loaded	: (e, snd)=> {
+				if (e) {this.main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return;}
+				if (! snd) return;
 
-				const oSb = this.hSndBuf[buf];
-				if (oSb) oSb.snd = snd;
+				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
+				const oSb2 = this.hSndBuf[oSb.now_buf];
+				if (oSb2) oSb2.snd = snd;
 			},
 		};
 
@@ -215,19 +236,22 @@ export class SoundMng {
 		let sp_nm = '';
 		if (start_ms > 0 || end_ms < SoundMng.MAX_END_MS) {
 			sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
-			const os = o.sprites[sp_nm] = {
+			const os = o.sprites![sp_nm] = {
 				start	: start_ms /1000,
 				end		: end_ms /1000,
 			};
 			o.preload = true;		// loaded発生用
 			const old = o.loaded;
-			o.loaded = (e: Error, snd: any)=> {
-				const d = snd.duration;
-				old(e, snd);
+			o.loaded = (e, snd2)=> {
+				if (e) {this.main.errScript(`Sound ロード失敗ですb fn:${fn} ${e}`, false); return;}
+				if (! snd2) return;
+
+				const d = snd2.duration;
+				old?.(e, snd2);
 				if (os.end < 0) {	// 負の値は末尾から
 					os.end += d;
-					snd.removeSprites(sp_nm);
-					snd.addSprites(sp_nm, os);
+					snd2.removeSprites(sp_nm);
+					snd2.addSprites(sp_nm, os);
 
 					if (os.start >= os.end) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
 					if (ret_ms >= os.end *1000) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
@@ -235,38 +259,37 @@ export class SoundMng {
 				if (os.start >= d) throw`[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 				if (end_ms !== SoundMng.MAX_END_MS && os.end >= d) throw`[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 
-				snd.play(sp_nm, o.complete);	// completeがundefinedでもいい
+				snd2.play(sp_nm, o.complete);	// completeがundefinedでもいい
 			};
 		}
 		else o.autoPlay = true;
 
 		// ループなし ... 再生完了イベント
-		if (! loop) o.complete = ()=> {
+		if (! loop) o.complete = ()=> this.hSndBuf[oSb.now_buf]?.onend();
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-			const oSb2 = this.hSndBuf[buf];
-			if (oSb2) {oSb2.playing = ()=> false; oSb2.onend();}
-		};
 		// ループあり ... ret_ms処理
 		else if (ret_ms !== 0) {
 			o.loop = false;	// 一周目はループなしとする
-			o.complete = (snd: any)=> {
+			o.complete = snd=> {
 				const d = snd.duration;
 				const sp_nm2 = `${fn};loop2;${end_ms};${ret_ms}`;
-				const o2: any = {	// oのコピーからやるとトラブルの元だった
+				const o2: Options = {	// oのコピーからやるとトラブルの元だった
 					preload	: true,		// loaded発生用
 					loop	: true,
 					volume	: vol,
 					speed	: o.speed,
 					sprites	: {},
-					loaded	: (_: Error, snd2: any)=> {
+					loaded	: (_, snd2)=> {
+						if (! snd2) return;
+
 						// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-						const oSb2 = this.hSndBuf[buf];
+						const oSb2 = this.hSndBuf[oSb.now_buf];
 						if (oSb2) oSb2.snd = snd2;
-						snd2.play(sp_nm2)
+						snd2.play(sp_nm2);
 					},
 				};
 
-				const o2s = o2.sprites[sp_nm2] = {
+				const o2s = o2.sprites![sp_nm2] = {
 					start	: ret_ms /1000,
 					end		: end_ms /1000,
 				};
@@ -281,46 +304,28 @@ export class SoundMng {
 			}
 		}
 
-		const snd = sound.find(fn);	// バッファにあるか
-		this.hSndBuf[buf] = {
-			snd		: snd,
-			loop	: loop,
-			start_ms: start_ms,
-			end_ms	: end_ms,
-			ret_ms	: ret_ms,
-			resume	: false,
-			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
-			onend	: ()=> {
-				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-				const oSb2 = this.hSndBuf[buf];
-				if (! oSb2) return;
-			//	if (CmnLib.isFirefox) oSb.playing = ()=> false;
-				//delete this.hSndBuf[buf];
-					// [xchgbuf]をされるかもしれないので、delete不可
-					// 【2018/06/25】cache=falseならここでunload()？
-				this.stopfadese(hArg);	// 止めた方が良いかなと
-				if (oSb2.resume) this.main.resume();
-			},
-		};
 		this.initVol();
 		if (snd) {
 			snd.volume = vol;	// 再生のたびに音量を戻す
 			if (sp_nm) this.playseSub(fn, o, sp_nm);
-			else if (snd.isPlayable) snd.play(o);
-			//else snd.autoPlay = true;	// NOTE: なくていい？
+			else if (snd.isPlayable) oSb.snd = Sound.from({
+				...o,
+				url		: snd.options.url,
+				source	: snd.options.source,
+			});
 			return false;
 		}
 
 		const join = argChk_Boolean(hArg, 'join', true);
 		if (join) {
 			const old = o.loaded;
-			o.loaded = (e: Error, snd: any)=> {this.main.resume(); old(e, snd)};
+			o.loaded = (e, snd)=> {this.main.resume(); old?.(e, snd)};
 		}
 		this.playseSub(fn, o, sp_nm);
 
 		return join;
 	}
-	private playseSub(fn: string, o: any, sp_nm: string) {
+	private playseSub(fn: string, o: Options, sp_nm: string) {
 		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
 		if (url.slice(-4) !== '.bin') {
@@ -341,7 +346,7 @@ export class SoundMng {
 		});
 	}
 	private initVol = ()=> {
-		sound.volumeAll =Number(this.val.getVal('sys:sn.sound.global_volume',1));
+		sound.volumeAll = Number(this.val.getVal('sys:sn.sound.global_volume', 1));
 		this.initVol = ()=> {};
 	};
 
@@ -383,7 +388,7 @@ export class SoundMng {
 	// 音声フェードの停止
 	private stopfadese(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
-		this.hSndBuf[buf]?.twFade?.end();	// stop()とend()は別
+		this.hSndBuf[buf]?.twFade?.stop().end();	// stop()とend()は別
 
 		return false;
 	}
@@ -398,9 +403,10 @@ export class SoundMng {
 
 		return oSb.resume = this.evtMng.waitEvent(
 			()=> {
+				hArg.buf = oSb.now_buf;
 				this.stopse(hArg);
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-				const oSb2 = this.hSndBuf[buf];
+				const oSb2 = this.hSndBuf[hArg.buf];
 				if (! oSb2?.playing() || oSb2.loop) return;
 				oSb2.onend();
 			},
@@ -411,9 +417,33 @@ export class SoundMng {
 
 	// 再生トラックの交換
 	private xchgbuf(hArg: HArg) {
-		const buf = hArg.buf ?? 'SE';
+		const buf1 = hArg.buf ?? 'SE';
 		const buf2 = hArg.buf2 ?? 'SE';
-		[this.hSndBuf[buf], this.hSndBuf[buf2]] = [this.hSndBuf[buf2], this.hSndBuf[buf]];
+		if (buf1 === buf2) return false;
+
+		const sb1 = this.hSndBuf[buf1];
+		if (sb1) sb1.now_buf = buf2;
+		const sb2 = this.hSndBuf[buf2];
+		if (sb2) sb2.now_buf = buf1;
+		[this.hSndBuf[buf1], this.hSndBuf[buf2]] = [sb2, sb1];
+
+		const n1 = 'const.sn.sound.'+ buf1 +'.';
+		const v1 = Number(this.val.getVal('save:'+ n1 +'volume'));
+		const f1 = Number(this.val.getVal('save:'+ n1 +'fn'));
+		const n2 = 'const.sn.sound.'+ buf2 +'.';
+		const v2 = Number(this.val.getVal('save:'+ n2 +'volume'));
+		const f2 = Number(this.val.getVal('save:'+ n2 +'fn'));
+		this.val.setVal_Nochk('save', n1 +'volume', v2);
+		this.val.setVal_Nochk('save', n2 +'volume', v1);
+		this.val.setVal_Nochk('save', n1 +'fn', f2);
+		this.val.setVal_Nochk('save', n2 +'fn', f1);
+
+		if (buf1 in this.hLP === buf2 in this.hLP) {	// 演算子の優先順位確認済み
+			if (buf1 in this.hLP) {delete this.hLP[buf1]; this.hLP[buf2] = 0;}
+			else				  {delete this.hLP[buf2]; this.hLP[buf1] = 0;}
+			this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.hLP));
+		}
+		this.val.flush();
 
 		return false;
 	}
@@ -429,13 +459,13 @@ export class SoundMng {
 
 	// しおりの読込（BGM状態復元）
 	playLoopFromSaveObj(): void {
-		const loopPlaying = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
+		const lp = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
 		this.val.flush();
-		if (loopPlaying === '{}') {this.stop_allse(); return;}
+		if (lp === '{}') {this.stop_allse(); return;}
 
 		const aFnc: {(): void}[] = [];
-		const hBuf = JSON.parse(loopPlaying);
-		for (const buf in hBuf) {
+		this.hLP = JSON.parse(lp);
+		for (const buf in this.hLP) {
 			const nm = 'save:const.sn.sound.'+ buf +'.';
 			const hArg = {
 				fn		: String(this.val.getVal(nm +'fn')),
@@ -458,15 +488,13 @@ export class SoundMng {
 	private addLoopPlay(buf: string, is_loop: Boolean): void {
 		if (! is_loop) {this.delLoopPlay(buf); return;}
 
-		const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
-		hBuf[buf] = 0;
-		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
+		this.hLP[buf] = 0;
+		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.hLP));
 		this.val.flush();
 	}
 	private delLoopPlay(buf: string): void {
-		const hBuf = JSON.parse(String(this.val.getVal('save:const.sn.loopPlaying', '{}')));
-		delete hBuf[buf];
-		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hBuf));
+		delete this.hLP[buf];
+		this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.hLP));
 		this.val.flush();
 	}
 

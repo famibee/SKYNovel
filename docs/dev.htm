@@ -657,6 +657,16 @@
 </td></tr>
 <tr><td>save:const.sn.autowc.time</td></tr>
 <tr><td>save:const.sn.mesLayer</td><td>''</td><td>String</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.htm#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
+<tr><td>save:const.sn.sound.【buf】.fn</td><td>''</td><td>ファイル名</td><td>
+	そのバッファの再生ファイル名<br/>
+	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
+</td></tr>
+<tr><td>save:const.sn.sound.【buf】.volume</td><td>1</td><td>0.0〜1.0</td><td>
+	サウンドバッファの目標音量<br/>
+	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数<br/>
+	<br/>
+	[volume]での volume属性や、「sys:const.sn.sound.【buf】.volume」は基準音量であり、別物である点に注意
+</td></tr>
 <tr><td>save:sn.doRecLog</td><td>false</td><td>Boolean</td><td>テキストを履歴に記録するか</td></tr>
 <tr><td>save:const.sn.sLog</td><td>''</td><td>String</td><td>
 	履歴テキスト<br/>
@@ -668,6 +678,23 @@
 <tr><td>save:const.sn.scriptIdx</td><td>0</td><td>Integer</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプトインデックス（行番号ではなく内部トークン単位）</td></tr>
 <tr><td>save:const.sn.layer.（文字レイヤ名）.enabled</td><td>true</td><td>Boolean</td><td>文字レイヤのenabled値</td></tr>
 </table>
+
+<br/>
+　音量関連変数が save: と sys: で似たような名前の変数があるので解説します。<br/>
+<br/>
+
+　・音量関連変数（値域は全て0.0〜1.0）<br/>
+　　・アプリ全体の基準音量：sys:sn.sound.global_volume<br/>
+　　・基準音量：sys:const.an.sound.（バッファ名）.volume【設定画面で設定する値】<br/>
+　　・目標音量：save:const.an.sound.（バッファ名）.volume【[playse]系で指定する値】<br/>
+<br/>
+　・実際の再生音量＝基準音量 x 目標音量 x アプリ全体の基準音量<br/>
+　　（[volume volume=0.2]、[playbgm volume=0.5]だと 0.2 x 0.5 x アプリ全体の基準音量）<br/>
+<br/>
+　・再生中に[volume]volume属性指定時：音量を計算しなおす。<br/>
+　　　アプリ全体の基準音量 = 1の時、<br/>
+　　（[volume volume=1.0][playse volume=0.5]（再生音量 1.0 x 0.5 = 0.5）で再生中、[volume volume=0.7]で再生音量が 0.7 x 0.5 = 0.35 になる）<br/>
+
 
 </p>
 <h2 id="reserve_value_sys" class="w-heading">システム変数(sys:)</h2>
@@ -694,7 +721,12 @@
 <tr><td>sys:const.sn.sound.BGM.volume</td><td rowspan="4">1</td><td rowspan="4">0.0〜1.0</td><td>BGMの基準音量（buf="BGM"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.sound.SE.volume</td><td>効果音の基準音量（buf="SE"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.sound.SYS.volume</td><td>システムの基準音量（buf="SYS"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
-<tr><td>sys:const.sn.sound.【buf】.volume</td><td>システムの基準音量（buf="【buf】"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数</td></tr>
+<tr><td>sys:const.sn.sound.【buf】.volume</td><td>
+	システムの基準音量（buf="【buf】"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>任意のbufの基準音量<br/>
+	[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>
+	<br/>
+	[playse][fadese]系での volume属性や、「save:const.sn.sound.【buf】.volume」は目標音量であり、別物である点に注意
+</td></tr>
 <tr><td>sys:sn.auto.msecLineWait</td><td>500</td><td>Integer</td><td>未読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
 <tr><td>sys:sn.auto.msecLineWait_Kidoku</td><td>500</td><td>Integer</td><td>既読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
 <tr><td>sys:sn.auto.msecPageWait</td><td>3500</td><td>Integer</td><td>未読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
@@ -705,7 +737,7 @@
 	'p' …… 改行待ち=しない、改ページ待ち=する<br/>
 	's' …… 改行待ち=しない、改ページ待ち=しない<br/>
 	（初期値="s"）</td></tr>
-<tr><td>sys:sn.sound.global_volume</td><td>1</td><td>0.0〜1.0</td><td>全体的な音量を設定する。バッファの実際の音量はバッファごとの「sys:const.sn.sound.【buf】.volume」x「全体的な音量」の値となる</td></tr>
+<tr><td>sys:sn.sound.global_volume</td><td>1</td><td>0.0〜1.0</td><td>全体的な音量を設定する。バッファの実際の音量は「sys:const.sn.sound.【buf】.volume」x「save:const.sn.sound.【buf】.volume」x「全体的な音量」の値となる</td></tr>
 <tr><td>sys:sn.sound.movie_volume</td><td>1</td><td>0.0〜1.0</td><td>ムービー音量を設定する。バッファの実際の音量はこの「ムービー音量」x「全体的な音量」の値となる</td></tr>
 <tr><td>sys:sn.tagCh.canskip</td><td>true</td><td>Boolean</td><td>テキストをクリックなどでスキップ可能か</td></tr>
 <tr><td>sys:sn.tagCh.doWait</td><td>true</td><td>Boolean</td><td>未読テキストにウェイトを掛けるか</td></tr>
