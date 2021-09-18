@@ -1,3 +1,10 @@
+## [1.18.4](https://github.com/famibee/SKYNovel/compare/v1.18.3...v1.18.4) (2021-09-18)
+
+
+### Bug Fixes
+
+* 本文からタイトルに戻るとBGMが消える件 ([e7f543c](https://github.com/famibee/SKYNovel/commit/e7f543cc411c99c8261bd22a727ed249d019d786))
+
 - fix: 本文からタイトルに戻るとBGMが消える件
 - fix: [xchgbuf]で save: 変数も交換するように
 - fix: 不要な save:const.sn.loopPlaying ロードを削除
