@@ -1,3 +1,10 @@
+## [1.18.5](https://github.com/famibee/SKYNovel/compare/v1.18.4...v1.18.5) (2021-09-20)
+
+
+### Bug Fixes
+
+* 暗号化サウンド再生エラーを修正 ([95d06e1](https://github.com/famibee/SKYNovel/commit/95d06e1759f4b1eb7429323b9e4d9277c3c7a53a))
+
 - fix: 暗号化サウンド再生エラーを修正
 
 
