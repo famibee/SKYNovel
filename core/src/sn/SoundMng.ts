@@ -300,19 +300,25 @@ export class SoundMng {
 				}
 				if (o2s.start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 
-				this.playseSub(fn, o2, sp_nm2);
+				this.playseSub(fn, o2);
 			}
 		}
 
 		this.initVol();
 		if (snd) {
 			snd.volume = vol;	// 再生のたびに音量を戻す
-			if (sp_nm) this.playseSub(fn, o, sp_nm);
-			else if (snd.isPlayable) oSb.snd = Sound.from({
-				...o,
-				url		: snd.options.url,
-				source	: snd.options.source,
-			});
+			if (sp_nm) this.playseSub(fn, o);
+			else if (snd.isPlayable) {
+				const ab = snd.options.source;
+				if (! (ab instanceof ArrayBuffer) || ab.byteLength === 0) {
+					this.playseSub(fn, o);
+				}
+				else oSb.snd = Sound.from({
+					...o,
+					url		: snd.options.url,
+					source	: snd.options.source,
+				});
+			}
 			return false;
 		}
 
@@ -321,16 +327,16 @@ export class SoundMng {
 			const old = o.loaded;
 			o.loaded = (e, snd)=> {this.main.resume(); old?.(e, snd)};
 		}
-		this.playseSub(fn, o, sp_nm);
+		this.playseSub(fn, o);
 
 		return join;
 	}
-	private playseSub(fn: string, o: Options, sp_nm: string) {
+	private playseSub(fn: string, o: Options) {
 		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
 		if (url.slice(-4) !== '.bin') {
 			o.url = url;
-			if (sp_nm) Sound.from(o); else sound.add(fn, o);
+			Sound.from(o);
 			return;
 		}
 
@@ -342,7 +348,7 @@ export class SoundMng {
 		})
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;
-			if (sp_nm) Sound.from(o); else sound.add(fn, o);
+			Sound.from(o);
 		});
 	}
 	private initVol = ()=> {
@@ -453,7 +459,7 @@ export class SoundMng {
 		[hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn=> {
 			if (! fn || sound.exists(fn)) return;
 
-			this.playseSub(fn, {preload: true, autoPlay: false}, '');
+			this.playseSub(fn, {preload: true, autoPlay: false});
 		});
 	}
 

@@ -1,3 +1,6 @@
+- fix: 暗号化サウンド再生エラーを修正
+
+
 ## [1.18.4](https://github.com/famibee/SKYNovel/compare/v1.18.3...v1.18.4) (2021-09-18)
 
 
