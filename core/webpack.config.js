@@ -1,9 +1,7 @@
-const isDev = process.env.NODE_ENV === 'development';
-
+// 変更後は「npm run webpack:dev」
 const cfg = {
 	resolve: {extensions: ['.ts', '.js'],},
 	module: {rules: [{test: /\.ts$/, loader: 'ts-loader'},],},
-	mode: isDev ?'development' :'production',
 	output: {
 		path: process.cwd(),
 		filename: '[name].js',
@@ -12,13 +10,17 @@ const cfg = {
 		libraryTarget: 'umd',
 		globalObject: 'this',
 	},
-	devtool: isDev ?'inline-source-map' :false,
+	devtool: process.env.NODE_ENV === 'development' ?'inline-source-map' :false,
 };
 
 module.exports = [{
 	...cfg,
 	entry: {web: ['./core/src/web'],},		// 「./」は必要
 	target: 'web',
+	performance: {	// NOTE: できればimport()化で分割
+		maxEntrypointSize: 1500 *1000,
+		maxAssetSize: 1500 *1000,
+	},
 },{
 	...cfg,		// 開発中、npm watch ですぐビルドしてほしいので二番手に
 	resolve: {extensions: ['.ts', '.js'], fallback: {
@@ -28,6 +30,10 @@ module.exports = [{
 	},},
 	entry: {app: ['./core/src/app'],},		// 「./」は必要
 	target: 'web',	// セキュリティ対策で 'electron-renderer' は使用しない
+	performance: {	// NOTE: できればimport()化で分割
+		maxEntrypointSize: 1500 *1000,
+		maxAssetSize: 1500 *1000,
+	},
 },{
 	...cfg,
 	entry: {appMain: ['./core/src/appMain'],},	// 「./」は必要
