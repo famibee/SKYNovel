@@ -1,3 +1,10 @@
+## [1.18.6](https://github.com/famibee/SKYNovel/compare/v1.18.5...v1.18.6) (2021-09-21)
+
+
+### Bug Fixes
+
+* Webデバッグ：Fetch API に corsを設定（デバッグモードが起動しない件対応） ([4ce8b6a](https://github.com/famibee/SKYNovel/commit/4ce8b6a3fa89a9d064ba74f9ef7a8efcccbf109e))
+
 - fix: Webデバッグ：Fetch API に cors を設定（デバッグモードが起動しない件対応）
 
 
