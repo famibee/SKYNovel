@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { SysNode } from './SysNode';
 import { ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
 import { Application } from 'pixi.js';

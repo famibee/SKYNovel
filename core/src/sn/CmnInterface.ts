@@ -199,7 +199,7 @@ export type IPluginInitArg = {
 	getHash(fnc: (data: string)=> string): void;
 }
 export interface IPlugin {
-	init(plgArg: IPluginInitArg): Promise<void>;
+	init(pia: IPluginInitArg): Promise<void>;
 }
 export interface HPlugin {[name: string]: IPlugin;}
 
