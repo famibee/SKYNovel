@@ -1,3 +1,10 @@
+## [1.18.8](https://github.com/famibee/SKYNovel/compare/v1.18.7...v1.18.8) (2021-09-30)
+
+
+### Bug Fixes
+
+* 文字列にエスケープシーケンス文法導入 ([12d2d98](https://github.com/famibee/SKYNovel/commit/12d2d9812322a4142bf743f34e0683686760a99c))
+
 - fix: 文字列にエスケープシーケンス文法導入
 	- クォーテーション（"や'）、ハッシュマーク（#）内にその文字を入れられる
 - docs:	【開発者情報】更新、エスケープシーケンスについて追記
