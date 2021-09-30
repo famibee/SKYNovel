@@ -73395,13 +73395,18 @@ class Grammar {
     setEscape(ce) {
         if (this.hC2M && (ce in this.hC2M))
             throw '[エスケープ文字] char【' + ce + '】が登録済みの括弧マクロまたは一文字マクロです';
+        const ces = ce ?? '\\';
         this.REG_TOKEN = new RegExp((ce ? `\\${ce}\\S|` : '') +
             '\\n+' +
             '|\\t+' +
             `|\\[let_ml\\s+[^\\]]+\\]` +
             `.+?` +
             `(?=\\[endlet_ml[\\]\\s])` +
-            `|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]` +
+            `|\\[(?:[^"'#;\\]]+|` + (ces
+            ? `(?:"(?:\\${ces}["'#\\n]|[^"])*"|` +
+                `'(?:\\${ces}["'#\\n]|[^'])*'|` +
+                `\\#(?:\\${ces}["'#\\n]|[^#])*\\#)`
+            : `(["'#]).*?\\1`) + `|;[^\\n]*)*?]` +
             '|;[^\\n]*' +
             '|&[^&\\n]+&' +
             '|&&?[^;\\n\\t&]+' +
@@ -75102,7 +75107,7 @@ class Main {
             this.appPixi.view.id = CmnLib_1.CmnLib.SN_ID;
         }
         this.val = new Variable_1.Variable(this.cfg, this.hTag);
-        this.prpPrs = new PropParser_1.PropParser(this.val);
+        this.prpPrs = new PropParser_1.PropParser(this.val, this.cfg.oCfg.init.escape ?? '\\');
         await Promise.all(this.sys.init(this.hTag, this.appPixi, this.val, this));
         this.hTag.title({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
         this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
@@ -75353,7 +75358,7 @@ exports.PropParser = void 0;
 const P = __importStar(__webpack_require__(/*! parsimmon */ "./node_modules/parsimmon/build/parsimmon.umd.min.js"));
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 class PropParser {
-    constructor(val) {
+    constructor(val, ce = '\\') {
         this.val = val;
         this.parser = null;
         this.hFnc = {
@@ -75471,9 +75476,7 @@ class PropParser {
             return P.alt.apply(null, ps);
         }
         function PREFIX(operatorsParser, nextParser) {
-            const parser = P.lazy(() => {
-                return P.seq(operatorsParser, parser).or(nextParser);
-            });
+            const parser = P.lazy(() => P.seq(operatorsParser, parser).or(nextParser));
             return parser;
         }
         function BINARY_RIGHT(operatorsParser, nextParser) {
@@ -75481,11 +75484,7 @@ class PropParser {
             return parser;
         }
         function BINARY_LEFT(operatorsParser, nextParser) {
-            return P.seqMap(nextParser, P.seq(operatorsParser, nextParser).many(), (first, rest) => {
-                return rest.reduce((acc, ch) => {
-                    return [ch[0], acc, ch[1]];
-                }, first);
-            });
+            return P.seqMap(nextParser, P.seq(operatorsParser, nextParser).many(), (first, rest) => rest.reduce((acc, ch) => [ch[0], acc, ch[1]], first));
         }
         const Num = P.alt(P.alt(P.regex(/-?(0|[1-9][0-9]*)\.[0-9]+/), P.regex(/0x[0-9a-fA-F]+/)).map(Number), P.alt(P.regex(/-?(0|[1-9][0-9]*)/)).map(n => (0, CmnLib_1.int)(n)))
             .map(str => ['!num!', str])
@@ -75496,8 +75495,8 @@ class PropParser {
             .map(b => ['!bool!', b === 'true'])
             .desc('boolean');
         const StringLiteral = P
-            .regex(/("|'|#).*?\1/)
-            .map(b => ['!str!', b.slice(1, -1)])
+            .regex(new RegExp(`(?:"(?:\\${ce}["'#\\n]|[^"])*"|'(?:\\${ce}["'#\\n]|[^'])*'|\\#(?:\\${ce}["'#\\n]|[^#])*\\#)`))
+            .map(b => ['!str!', b.slice(1, -1).replaceAll(ce, '')])
             .desc('string');
         const REG_BRACKETS = /\[[^\]]+\]/g;
         const VarLiteral = P

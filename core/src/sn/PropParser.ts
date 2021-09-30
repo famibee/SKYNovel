@@ -15,7 +15,7 @@ interface IHFncCalc { [key: string]: IFncCalc; }
 export class PropParser implements IPropParser {
 	private parser: any = null;
 
-	constructor(private readonly val: IVariable) {
+	constructor(private readonly val: IVariable, ce = '\\') {
 		function ope(a: (string | RegExp)[]) {
 			const ps: any = [];
 			a.forEach(v=> ps.push(
@@ -27,9 +27,7 @@ export class PropParser implements IPropParser {
 		}
 
 		function PREFIX(operatorsParser: any, nextParser: any) {
-			const parser: any = P.lazy(()=> {
-				return P.seq(operatorsParser, parser).or(nextParser);
-			});
+			const parser: any = P.lazy(()=> P.seq(operatorsParser, parser).or(nextParser));
 			return parser;
 		}
 
@@ -52,11 +50,7 @@ export class PropParser implements IPropParser {
 			return P.seqMap(
 				nextParser,
 				P.seq(operatorsParser, nextParser).many(),
-				(first, rest)=> {
-					return rest.reduce((acc, ch)=> {
-						return [ch[0], acc, ch[1]];
-					}, first);
-				}
+				(first, rest)=> rest.reduce((acc, ch)=> [ch[0], acc, ch[1]], first)
 			);
 		}
 
@@ -80,8 +74,10 @@ export class PropParser implements IPropParser {
 		.desc('boolean');
 
 		const StringLiteral = P
-		.regex(/("|'|#).*?\1/)
-		.map(b=> ['!str!', b.slice(1, -1)])
+		.regex(new RegExp(`(?:"(?:\\${ce}["'#\\n]|[^"])*"|'(?:\\${ce}["'#\\n]|[^'])*'|\\#(?:\\${ce}["'#\\n]|[^#])*\\#)`))
+			// https://regex101.com/r/Fs5wL3/1
+			// 15 matches (279 steps, 0.1ms) by PCRE2
+		.map(b=> ['!str!', b.slice(1, -1).replaceAll(ce, '')])
 		.desc('string');
 
 		const REG_BRACKETS = /\[[^\]]+\]/g;

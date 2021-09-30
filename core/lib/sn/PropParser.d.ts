@@ -2,7 +2,7 @@ import { IPropParser, IVariable } from './CmnInterface';
 export declare class PropParser implements IPropParser {
     private readonly val;
     private parser;
-    constructor(val: IVariable);
+    constructor(val: IVariable, ce?: string);
     parse(s: string): any;
     private calc;
     private hFnc;

@@ -72,7 +72,7 @@ export class Main implements IMain {
 
 		// 変数
 		this.val = new Variable(this.cfg, this.hTag);
-		this.prpPrs = new PropParser(this.val);
+		this.prpPrs = new PropParser(this.val, this.cfg.oCfg.init.escape ?? '\\');
 
 		// システム（10/13）
 		await Promise.all(this.sys.init(this.hTag, this.appPixi,this.val,this));

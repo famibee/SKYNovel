@@ -554,6 +554,12 @@ PropParser.getValName: 0.016ms
 		it('Str9', ()=> {	// 2018/07/12
 			assert.equal(parser.parse("' 05　'"), " 05　");
 		});
+		it('Str10', ()=> {	// 2021/09/29 エスケープシーケンス導入
+			assert.equal(parser.parse(`'\\''`), `'`);
+			assert.equal(parser.parse(`"\\""`), `"`);
+			assert.equal(parser.parse(`#\\##`), `#`);
+			assert.equal(parser.parse(`#\\\n#`), `\n`);
+		});
 
 	// 変数
 		it('Var0', ()=> {	// からまーぞふ、は未定義リテラル
@@ -933,9 +939,9 @@ PropParser.getValName: 0.016ms
 		it('EmbedPer29', ()=> {
 			assert.equal(parser.parse("'を$春夏/は'"), "を秋冬/は");
 		});
-		it('EmbedPer30', ()=> {
-			assert.equal(parser.parse("'を$春夏\\は'"), "を秋冬\\は");
-		});
+//		it('EmbedPer30', ()=> {	// エスケープシーケンス導入で不可に
+//			assert.equal(parser.parse("'を$春夏\\は'"), "を秋冬\\は");
+//		});
 
 
 		it('EmbedRuby0', ()=> {

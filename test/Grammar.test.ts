@@ -1350,6 +1350,28 @@ void main(void) {
 			assert.equal(vctToken[3], '　曰《いはく》');
 		});
 
+		it('testAnalyzeScript_tag_in_string_esc', ()=> {
+			grm.setEscape('\\');
+			const sScr = '[lay layer="mes" chk_overrow=false over_ins_tag="\\"\\\'\\#\\\n"]\n';
+			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 2);
+			assert.equal(vctToken[0], '[lay layer="mes" chk_overrow=false over_ins_tag="\\"\\\'\\#\\\n"]');
+			assert.equal(vctToken[1], "\n");
+		});
+		it('testAnalyzeScript_tag_in_string_esc¥', ()=> {
+			grm.setEscape('¥');
+			const sScr = '[lay layer="mes" chk_overrow=false over_ins_tag="¥"¥\'¥#¥\n"]\n';
+			vctToken = sScr.match(grm.REG_TOKEN);
+			if (vctToken === null) {assert('NULL'); return}
+			vctTokenLen = vctToken.length;
+
+			assert.equal(vctTokenLen, 2);
+			assert.equal(vctToken[0], '[lay layer="mes" chk_overrow=false over_ins_tag="¥"¥\'¥#¥\n"]');
+			assert.equal(vctToken[1], "\n");
+		});
 
 	});
 
