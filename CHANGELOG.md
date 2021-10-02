@@ -1,3 +1,10 @@
+## [1.18.9](https://github.com/famibee/SKYNovel/compare/v1.18.8...v1.18.9) (2021-10-02)
+
+
+### Bug Fixes
+
+* Safariで動かなかった件（正規表現・肯定後読み使用による） ([88c427f](https://github.com/famibee/SKYNovel/commit/88c427f3bebb4134ba19fae64268808b188fc19c))
+
 - fix: Safariで動かなかった件（正規表現・肯定後読み使用による）
 - fix: # のプライベートクラスフィールドを積極使用
 
