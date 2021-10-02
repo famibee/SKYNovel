@@ -25,7 +25,7 @@ export class SysBase implements ISysBase {
 			getVal: ()=> {return {}},
 			resume: ()=> {},
 			render: ()=> {},
-			setDec: fnc=> this.preFromPlg = fnc,
+			setDec: fnc=> this.#preFromPlg = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
 			getHash: fnc=> this.hash = fnc,
@@ -111,7 +111,7 @@ export class SysBase implements ISysBase {
 			getVal: val.getVal,
 			resume: ()=> main.resume(),
 			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, {renderTexture, clear}),
-			setDec: fnc=> this.preFromPlg = fnc,
+			setDec: fnc=> this.#preFromPlg = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
 			getHash: fnc=> this.hash = fnc,
@@ -122,7 +122,7 @@ export class SysBase implements ISysBase {
 
 
 	// デバッガ接続
-	private	attach_debug(main: IMain) {
+	attach_debug(main: IMain) {
 		this.attach_debug = ()=> {};
 
 		const gs = document.createElement('style');
@@ -155,10 +155,10 @@ export class SysBase implements ISysBase {
 		document.getElementsByTagName('head')[0].appendChild(gs);
 
 
-		this.addHook((type, o)=> this.hHook[type]?.(o));
+		this.addHook((type, o)=> this.#hHook[type]?.(o));
 
-		this.sk = io(`http://localhost:${this.extPort}`);
-		this.sk
+		this.#sk = io(`http://localhost:${this.extPort}`);
+		this.#sk
 		.on('data', (type: string, o: any)=> {
 //console.log(`fn:SysBase.ts RSV dbg -> sn type:${type} o:${JSON.stringify(o).slice(0, 150)}`);
 			this.callHook(type, o);
@@ -167,16 +167,16 @@ export class SysBase implements ISysBase {
 			// reasonという引数で理由が分かる
 			// https://socket.io/docs/v3/client-socket-instance/
 
-		this.callHook = (type, o)=> this.aFncHook.forEach(fnc=> fnc(type, o));
+		this.callHook = (type, o)=> this.#aFncHook.forEach(fnc=> fnc(type, o));
 	}
 	protected	extPort = 3776;
 
 	end() {
-		this.sk?.disconnect();
-		this.sk = null;
+		this.#sk?.disconnect();
+		this.#sk = null;
 	}
-	private	sk: Socket | null = null;
-	private	readonly	hHook	: {[type: string]: (o: any)=> void}	= {
+	#sk: Socket | null = null;
+	readonly	#hHook	: {[type: string]: (o: any)=> void}	= {
 		auth		: o=> {
 			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return;}
 
@@ -210,7 +210,7 @@ export class SysBase implements ISysBase {
 		p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v=> p.removeChild(v));
 
 		const img = document.createElement('img');
-		const td = SysBase.hToastDat[nm];
+		const td = SysBase.#hToastDat[nm];
 		img.src = `data:image/svg+xml;base64,${td.dat}`;
 		const size = Math.min(CmnLib.stageW, CmnLib.stageH) /4 *CmnLib.cvsScale;
 		img.width = img.height = size;
@@ -222,7 +222,7 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
 		p.insertBefore(img, cvs);
 	}
-	private	static	readonly	hToastDat
+	static	readonly	#hToastDat
 	: {[nm: string] :{dat: string, dx?: number, dy?: number, ease?: string}}	= {	// Thanks ICOOON MONO https://icooon-mono.com/ 、 https://vectr.com/ で 640x640化、ImageOptim経由、Base64エンコーダー https://lab.syncer.jp/Tool/Base64-encode/ 
 		'接続'	: {dx: -1, dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+'},
 		'切断'	: {dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMTkxLjUzIDIyMS4yNGMtNDUuNjggMC04NC4wMSAzMS4wNC05NS4zIDczLjE2LTYuNDEgMC0zOC40OSAwLTk2LjIzIDB2NTEuMjFoOTYuMjNjMTEuMyA0Mi4xMSA0OS42MyA3My4xNiA5NS4zIDczLjE2aDcxLjMzdi00OC4yNGg1My43OHYtMTAxLjA1aC01My43OHYtNDguMjRjLTQyLjggMC02Ni41NyAwLTcxLjMzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im00NDguNDcgMjIxLjIzYy00Ljc2IDAtMjguNTMgMC03MS4zMyAwdjE5Ny41M2g3MS4zM2M0NS42OCAwIDgzLjk5LTMxLjA0IDk1LjI5LTczLjE1aDk2LjI0di01MS4yMWgtOTYuMjRjLTMzLjA4LTQ4Ljc4LTY0Ljg0LTczLjE3LTk1LjI5LTczLjE3eiIvPjwvZGVmcz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0iI2RmNTY1NiIgeGxpbms6aHJlZj0iI2IiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjZGY1NjU2IiB4bGluazpocmVmPSIjYyIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2MiLz48L3N2Zz4='},
@@ -240,13 +240,13 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 	protected fire: IFire;
 	setFire(fire: IFire) {this.fire = fire}
 
-	private	aFncHook: IFncHook[]	= [];
-	addHook(fnc: IFncHook) {this.aFncHook.push(fnc);}
+	#aFncHook: IFncHook[]	= [];
+	addHook(fnc: IFncHook) {this.#aFncHook.push(fnc);}
 	callHook: IFncHook = (_type, _o)=> {};
 
 	send2Dbg: IFncHook = (type, o)=> {
 //console.log(`fn:SysBase.ts 新SND isBuf:${!(this.sk)} type:${type} o:${JSON.stringify(o)}`);
-		this.sk?.emit('data', type, o);
+		this.#sk?.emit('data', type, o);
 	}
 
 
@@ -262,60 +262,60 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 		const text = hArg.text;
 		if (! text) throw '[title] textは必須です';
 
-		this.main_title = text;
-		this.titleSub(this.main_title + this.info_title);
+		this.#main_title = text;
+		this.titleSub(this.#main_title + this.#info_title);
 
 		return false;
 	};
-		private main_title	= '';
+		#main_title	= '';
 		protected titleSub(_txt: string) {}
 	protected			tgl_full_scr	: ITag = ()=> false;
 	protected readonly	update_check	: ITag = ()=> false;
 	protected readonly	window			: ITag = ()=> false;
 
-	private info_title	= '';
+	#info_title	= '';
 	setTitleInfo(txt: string) {
-		this.info_title = txt;
-		this.titleSub(this.main_title + this.info_title);
+		this.#info_title = txt;
+		this.titleSub(this.#main_title + this.#info_title);
 	}
 
 
-	private	preFromPlg: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET = (_ext, d)=> {return {ret: d.toString(), ext_num: 0,}};
+	#preFromPlg: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET = (_ext, d)=> {return {ret: d.toString(), ext_num: 0,}};
 
-	decStr(ext: string, d: string) {return this.preFromPlg(ext, d).ret;}
+	decStr(ext: string, d: string) {return this.#preFromPlg(ext, d).ret;}
 	async dec(ext: string, d: ArrayBuffer) {
-		const {ret, ext_num} = this.preFromPlg(ext, d);
-		const fm = this.hN2Ext[ext_num];
+		const {ret, ext_num} = this.#preFromPlg(ext, d);
+		const fm = this.#hN2Ext[ext_num];
 		return fm?.fnc ?await fm.fnc(new Blob([ret], {type: fm.mime})) :ret;
 	}
-	private	readonly hN2Ext: {[id: number]: {
+	readonly #hN2Ext: {[id: number]: {
 		ext	: string;
 		fnc	: {(bl: Blob): Promise<HTMLImageElement>}
 			| {(bl: Blob): Promise<ArrayBuffer>}
 			| {(bl: Blob): Promise<HTMLVideoElement>};
 		mime: string;
 	}} = {
-		1	: {ext: 'jpeg', fnc: bl=> this.genImage(bl), mime: 'image/jpeg'},
-		2	: {ext: 'png', fnc: bl=> this.genImage(bl), mime: 'image/png'},
-		3	: {ext: 'svg', fnc: bl=> this.genImage(bl), mime: 'image/svg+xml'},
-		4	: {ext: 'webp', fnc: bl=> this.genImage(bl), mime: 'image/webp'},
+		1	: {ext: 'jpeg', fnc: bl=> this.#genImage(bl), mime: 'image/jpeg'},
+		2	: {ext: 'png', fnc: bl=> this.#genImage(bl), mime: 'image/png'},
+		3	: {ext: 'svg', fnc: bl=> this.#genImage(bl), mime: 'image/svg+xml'},
+		4	: {ext: 'webp', fnc: bl=> this.#genImage(bl), mime: 'image/webp'},
 		10	: {ext: 'mp3', fnc: bl=> bl.arrayBuffer(), mime: 'audio/mpeg'},
 		11	: {ext: 'm4a', fnc: bl=> bl.arrayBuffer(), mime: 'audio/aac'},
 		12	: {ext: 'ogg', fnc: bl=> bl.arrayBuffer(), mime: 'audio/ogg'},
 		13	: {ext: 'aac', fnc: bl=> bl.arrayBuffer(), mime: 'audio/aac'},
 		14	: {ext: 'flac', fnc: bl=> bl.arrayBuffer(), mime: 'audio/flac'},
 		15	: {ext: 'wav', fnc: bl=> bl.arrayBuffer(), mime: 'audio/wav'},
-		20	: {ext: 'mp4', fnc: bl=> this.genVideo(bl), mime: 'video/mp4'},
-		21	: {ext: 'webm', fnc: bl=> this.genVideo(bl), mime: 'video/webm'},
-		22	: {ext: 'ogv', fnc: bl=> this.genVideo(bl), mime: 'video/ogv'},
+		20	: {ext: 'mp4', fnc: bl=> this.#genVideo(bl), mime: 'video/mp4'},
+		21	: {ext: 'webm', fnc: bl=> this.#genVideo(bl), mime: 'video/webm'},
+		22	: {ext: 'ogv', fnc: bl=> this.#genVideo(bl), mime: 'video/ogv'},
 	};
-	private	genImage = (bl: Blob): Promise<HTMLImageElement> => new Promise((rs, rj)=> {
+	#genImage = (bl: Blob): Promise<HTMLImageElement> => new Promise((rs, rj)=> {
 		const img = new Image;
 		img.onload = ()=> rs(img);
 		img.onerror = e=> rj(e);
 		img.src = URL.createObjectURL(bl);
 	});
-	private	genVideo = (bl: Blob): Promise<HTMLVideoElement> => new Promise((rs, rj)=> {
+	#genVideo = (bl: Blob): Promise<HTMLVideoElement> => new Promise((rs, rj)=> {
 		const v = document.createElement('video');
 	//	v.addEventListener('loadedmetadata', ()=> console.log(`loadedmetadata duration:${v.duration}`));
 		v.addEventListener('error', ()=> rj(v?.error?.message ?? ''));

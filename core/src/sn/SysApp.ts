@@ -26,20 +26,20 @@ export class SysApp extends SysNode {
 	protected override async loaded(hPlg: HPlugin, arg: HSysBaseArg) {
 		await super.loaded(hPlg, arg);
 
-		this.hInfo = await to_app.getInfo();
-		CmnLib.isPackaged = this.hInfo.isPackaged;
-		this.arg = arg = {...arg, cur: this.hInfo.getAppPath.replaceAll('\\', '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
+		this.#hInfo = await to_app.getInfo();
+		CmnLib.isPackaged = this.#hInfo.isPackaged;
+		this.arg = arg = {...arg, cur: this.#hInfo.getAppPath.replaceAll('\\', '/') + (CmnLib.isPackaged ?'/doc/' :'/')+ arg.cur};
 
-		this.$path_downloads = this.hInfo.downloads.replaceAll('\\', '/') +'/';
+		this.$path_downloads = this.#hInfo.downloads.replaceAll('\\', '/') +'/';
 
 //		ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
 
-		CmnLib.isDbg = Boolean(this.hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
-		if (CmnLib.isDbg) this.extPort = uint(this.hInfo.env['SKYNOVEL_PORT'] ?? '3776');
+		CmnLib.isDbg = Boolean(this.#hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
+		if (CmnLib.isDbg) this.extPort = uint(this.#hInfo.env['SKYNOVEL_PORT'] ?? '3776');
 
 		this.run();
 	}
-	private	hInfo:  HINFO = {
+	#hInfo:  HINFO = {
 		getAppPath	: '',
 		isPackaged	: false,
 		downloads	: '',
@@ -63,9 +63,9 @@ export class SysApp extends SysNode {
 		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
 			// AIRNovel の const.flash.system.Capabilities.isDebugger
-		hTmp['const.sn.screenResolutionX'] = this.hInfo.screenResolutionX;
+		hTmp['const.sn.screenResolutionX'] = this.#hInfo.screenResolutionX;
 			// 画面の最大水平解像度
-		hTmp['const.sn.screenResolutionY'] = this.hInfo.screenResolutionY;
+		hTmp['const.sn.screenResolutionY'] = this.#hInfo.screenResolutionY;
 			// 画面の最大垂直解像度
 			// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
 			// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
@@ -80,8 +80,8 @@ export class SysApp extends SysNode {
 */
 
 		this.$path_userdata	= CmnLib.isDbg
-			? this.hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
-			: this.hInfo.userData.replaceAll('\\', '/') +'/';
+			? this.#hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
+			: this.#hInfo.userData.replaceAll('\\', '/') +'/';
 
 		to_app.Store({
 			cwd: this.$path_userdata +'storage',
@@ -110,15 +110,15 @@ export class SysApp extends SysNode {
 	}
 
 
-	private main: Main;
+	#main: Main;
 	protected override async run() {
-		if (this.main) {
+		if (this.#main) {
 			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
-			this.main.destroy(ms_late);
+			this.#main.destroy(ms_late);
 			await new Promise(r=> setTimeout(r, ms_late));
 		}
 
-		this.main = new Main(this);
+		this.#main = new Main(this);
 	}
 
 
@@ -251,8 +251,8 @@ export class SysApp extends SysNode {
 			this.reso4frame = 1;
 		}
 		else {
-			const w = this.hInfo.screenResolutionX;
-			const h = this.hInfo.screenResolutionY;
+			const w = this.#hInfo.screenResolutionX;
+			const h = this.#hInfo.screenResolutionY;
 			const ratioWidth  = w / CmnLib.stageW;
 			const ratioHeight = h / CmnLib.stageH;
 			const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
@@ -289,7 +289,7 @@ export class SysApp extends SysNode {
 			if (! mv) throw `[update_check] ファイル内にversionが見つかりません`;
 			const netver = mv[1];
 
-			const myver = this.hInfo.getVersion;
+			const myver = this.#hInfo.getVersion;
 			if (netver === myver) {
 				if (CmnLib.debugLog) console.log(`[update_check] バージョン更新なし ver:${myver}`);
 				return;
@@ -298,7 +298,7 @@ export class SysApp extends SysNode {
 
 			const o = {
 				title: 'アプリ更新',
-				icon: this.hInfo.getAppPath +'/app/icon.png',
+				icon: this.#hInfo.getAppPath +'/app/icon.png',
 				buttons: ['OK', 'Cancel'],
 				defaultId: 0,
 				cancelId: 1,
@@ -319,7 +319,7 @@ export class SysApp extends SysNode {
 
 			const res_dl = await this.fetch(url + fn);
 			if (! res_dl.ok) return;
-			const pathDL = this.hInfo.downloads +'/'+ fn;
+			const pathDL = this.#hInfo.downloads +'/'+ fn;
 			const rd_dl = async (res: Response)=> {
 				const reader = res!.body!.getReader();
 				const {Readable} = await import('stream');

@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, int} from './CmnLib';
-import {IConfig, IExts, IFn2Path} from './CmnInterface';
+import {IConfig, IExts, IFn2Path as #IFn2Path} from './CmnInterface';
 import {SysBase} from './SysBase';
 
 export class Config implements IConfig {
@@ -50,7 +50,7 @@ export class Config implements IConfig {
 	};
 	userFnTail	= '';
 
-	private	hPathFn2Exts	: IFn2Path	= {};
+	hPathFn2Exts	: #IFn2Path	= {};
 	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
 	static	readonly	EXT_SCRIPT	= 'sn|ssn';
@@ -97,8 +97,8 @@ export class Config implements IConfig {
 		// 当クラスのコンストラクタとload()は分ける
 		await this.sys.loadPath(this.hPathFn2Exts, this);
 
-		this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
-		this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
+		this.#existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
+		this.#existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
 
 		if (this.sys.crypto)
 		for (const nm in this.hPathFn2Exts) {
@@ -114,14 +114,14 @@ export class Config implements IConfig {
 			}
 		}
 	}
-	private $existsBreakline = false;
-	get existsBreakline(): boolean {return this.$existsBreakline}
-	private $existsBreakpage = false;
-	get existsBreakpage(): boolean {return this.$existsBreakpage}
+	#existsBreakline = false;
+	get existsBreakline(): boolean {return this.#existsBreakline}
+	#existsBreakpage = false;
+	get existsBreakpage(): boolean {return this.#existsBreakpage}
 
 	getNs() {return `skynovel.${this.oCfg.save_ns} - `;}
 
-	private	readonly	regPath = /([^\/\s]+)\.([^\d]\w+)/;
+	readonly	#REGPATH = /([^\/\s]+)\.([^\d]\w+)/;
 		// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
 	searchPath(path: string, extptn = ''): string {
 		if (! path) throw '[searchPath] fnが空です';
@@ -137,7 +137,7 @@ export class Config implements IConfig {
 			return fp;
 		}
 
-		const a = path.match(this.regPath);
+		const a = path.match(this.#REGPATH);
 		let fn = a ?a[1] :path;
 		const ext = a ?a[2] :'';
 		if (this.userFnTail) {

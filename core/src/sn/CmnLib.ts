@@ -146,12 +146,12 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 }
 
 
-const reg_fn	= /^[^\/\.]+$|[^\/]+(?=\.)/;
+const REG_FN	= /^[^\/\.]+$|[^\/]+(?=\.)/;
 	// https://regex101.com/r/8sltIm/1
-export	function getFn(p: string) {return (p.match(reg_fn) ?? [''])[0];}
-const reg_ext	= /(?<=\.)[^\.]+$/;
+export	function getFn(p: string) {return (p.match(REG_FN) ?? [''])[0];}
+const REG_EXT	= /\.([^\.]+)$/;
 	// https://regex101.com/r/IULqII/3
-export 	function getExt(p: string) {return (p.match(reg_ext) ?? [''])[0];}
+export 	function getExt(p: string) {return (p.match(REG_EXT) ?? [''])[1];}
 
 const platform = require('platform');
 

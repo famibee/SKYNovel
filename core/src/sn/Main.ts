@@ -22,84 +22,84 @@ import {SysBase} from './SysBase';
 import {Application, utils} from 'pixi.js';
 
 export class Main implements IMain {
-	private cfg			: Config;
+	#cfg			: Config;
 
-	private appPixi		: Application;
+	#appPixi		: Application;
 
-	private hTag		: IHTag		= Object.create(null);	// タグ処理辞書
+	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
-	private val			: Variable;
-	private prpPrs		: PropParser;
-	private sndMng		: SoundMng;
-	private	scrItr		: ScriptIterator;
-	private dbgMng		: DebugMng;
-	private layMng		: LayerMng;
-	private evtMng		: EventMng;
+	#val			: Variable;
+	#prpPrs		: PropParser;
+	#sndMng		: SoundMng;
+	#scrItr		: ScriptIterator;
+	#dbgMng		: DebugMng;
+	#layMng		: LayerMng;
+	#evtMng		: EventMng;
 
-	private fncNext		= ()=> {};
-	private	readonly	alzTagArg	= new AnalyzeTagArg;
+	#fncNext		= ()=> {};
+	readonly	#alzTagArg	= new AnalyzeTagArg;
 
 
-	private	inited = false;
+	#inited = false;
 	constructor(private readonly sys: SysBase) {
 		utils.skipHello();
 
 		Config.generate(sys)
-		.then(c=> this.cfg = c)
-		.then(()=> this.init())
+		.then(c=> this.#cfg = c)
+		.then(()=> this.#init())
 		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
 	}
-	private async init() {
+	async #init() {
 		const hApp: any = {
-			width			: this.cfg.oCfg.window.width,
-			height			: this.cfg.oCfg.window.height,
-			backgroundColor	: this.cfg.oCfg.init.bg_color,
+			width			: this.#cfg.oCfg.window.width,
+			height			: this.#cfg.oCfg.window.height,
+			backgroundColor	: this.#cfg.oCfg.init.bg_color,
 		//	resolution		: sys.resolution,
 			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
 			autoResize		: true,
 		};
 		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		if (cvs) {
-			this.clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
-			this.clone_cvs.id = CmnLib.SN_ID;
+			this.#clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
+			this.#clone_cvs.id = CmnLib.SN_ID;
 			hApp.view = cvs;
 		}
-		this.appPixi = new Application(hApp);
+		this.#appPixi = new Application(hApp);
 		if (! cvs) {
-			document.body.appendChild(this.appPixi.view);
-			this.appPixi.view.id = CmnLib.SN_ID;
+			document.body.appendChild(this.#appPixi.view);
+			this.#appPixi.view.id = CmnLib.SN_ID;
 		}
 
 		// 変数
-		this.val = new Variable(this.cfg, this.hTag);
-		this.prpPrs = new PropParser(this.val, this.cfg.oCfg.init.escape ?? '\\');
+		this.#val = new Variable(this.#cfg, this.#hTag);
+		this.#prpPrs = new PropParser(this.#val, this.#cfg.oCfg.init.escape ?? '\\');
 
 		// システム（10/13）
-		await Promise.all(this.sys.init(this.hTag, this.appPixi,this.val,this));
+		await Promise.all(this.sys.init(this.#hTag, this.#appPixi,this.#val,this));
 			// 変数準備完了
-		this.hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
+		this.#hTag.title({text: this.#cfg.oCfg.book.title || 'SKYNovel'});
 
 		// ＢＧＭ・効果音
-		this.sndMng = new SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
+		this.#sndMng = new SoundMng(this.#cfg, this.#hTag, this.#val, this, this.sys);
 
 		// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-		this.scrItr = new ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, ()=> this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
+		this.#scrItr = new ScriptIterator(this.#cfg, this.#hTag, this, this.#val, this.#alzTagArg, ()=> this.#runAnalyze(), this.#prpPrs, this.#sndMng, this.sys);
 
 		// デバッグ・その他
-		this.dbgMng = new DebugMng(this.sys, this.hTag, this.scrItr);
+		this.#dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
 
 		// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-		this.layMng = new LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys, this.sndMng, this.alzTagArg, this.prpPrs);
+		this.#layMng = new LayerMng(this.#cfg, this.#hTag, this.#appPixi, this.#val, this, this.#scrItr, this.sys, this.#sndMng, this.#alzTagArg, this.#prpPrs);
 
 		// イベント
-		this.evtMng = new EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, this.sys);
+		this.#evtMng = new EventMng(this.#cfg, this.#hTag, this.#appPixi, this, this.#layMng, this.#val, this.#sndMng, this.#scrItr, this.sys);
 
-		this.appPixi.ticker.add(this.fncTicker);
+		this.#appPixi.ticker.add(this.#fncTicker);
 		this.resumeByJumpOrCall({fn: 'main'});
 
-		this.inited = true;
+		this.#inited = true;
 	}
-	private	readonly fncTicker = ()=> this.fncNext();	// thisの扱いによりメソッド代入はダメ
+	readonly #fncTicker = ()=> this.#fncNext();	// thisの扱いによりメソッド代入はダメ
 
 	errScript(mes: string, isThrow = true) {
 		this.stop();
@@ -110,64 +110,64 @@ export class Main implements IMain {
 
 
 	// メイン処理（シナリオ解析）
-	private fncresume = (fnc = this.runAnalyze)=> {
+	#fncresume = (fnc = this.#runAnalyze)=> {
 		// スクリプトが動き出すとき、ブレイクマークは消去する
-		if (this.destroyed) return;	// destroy()連打対策
-		this.layMng.clearBreak();
+		if (this.#destroyed) return;	// destroy()連打対策
+		this.#layMng.clearBreak();
 
 		///console.log('resume!');
-		this.fncNext = fnc;
-		this.resume = (fnc = this.runAnalyze)=> {
+		this.#fncNext = fnc;
+		this.resume = (fnc = this.#runAnalyze)=> {
 			///console.log('resume!');
-			this.fncNext = fnc;
+			this.#fncNext = fnc;
 		};
-		this.scrItr.noticeBreak(false);
+		this.#scrItr.noticeBreak(false);
 	};
-	resume = this.fncresume;
+	resume = this.#fncresume;
 	resumeByJumpOrCall(hArg: HArg) {
 		if (hArg.url) {globalThis.open(hArg.url); return;}
 
-		this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
-		this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
+		this.#val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
+		this.#val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
 		if (argChk_Boolean(hArg, 'call', false)) {
-			this.scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
-			this.resume(()=> this.hTag.call(hArg));
+			this.#scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
+			this.resume(()=> this.#hTag.call(hArg));
 		}
 		else {
-			this.hTag.clear_event({});
-			this.resume(()=> this.hTag.jump(hArg));
+			this.#hTag.clear_event({});
+			this.resume(()=> this.#hTag.jump(hArg));
 		}
 	}
 	readonly stop = ()=> {
 		///console.log('stop!');
-		this.fncNext = ()=> {};
-		this.resume = this.fncresume;
-		this.scrItr.noticeBreak(true);
+		this.#fncNext = ()=> {};
+		this.resume = this.#fncresume;
+		this.#scrItr.noticeBreak(true);
 	};
 
 	setLoop(isLoop: boolean, mes = '') {
 		///console.log('setLoop:'+ (isLoop ?'resume!' :'stop!') +' mes:'+ mes);
-		if (this.isLoop = isLoop) this.resume(); else this.stop();
+		if (this.#isLoop = isLoop) this.resume(); else this.stop();
 		this.sys.setTitleInfo(mes ?` -- ${mes}中` :'');
 	}
-	private	isLoop = true;
-	private runAnalyze() {
-		while (this.isLoop) {
-			let token = this.scrItr.nextToken();
+	#isLoop = true;
+	#runAnalyze() {
+		while (this.#isLoop) {
+			let token = this.#scrItr.nextToken();
 			if (! token) break;	// 初期化前に終了した場合向け
 
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
 			// \t タブ
 			if (uc === 9) continue;
 			// \n 改行
-			if (uc === 10) {this.scrItr.addLineNum(token.length); continue;}
+			if (uc === 10) {this.#scrItr.addLineNum(token.length); continue;}
 			// [ タグ開始
 			if (uc === 91) {
-				if (this.scrItr.isBreak(token)) return;
+				if (this.#scrItr.isBreak(token)) return;
 				try {
 					const cl = (token.match(/\n/g) ?? []).length;
-					if (cl > 0) this.scrItr.addLineNum(cl);
-					if (this.scrItr.タグ解析(token)) {this.stop(); break;}
+					if (cl > 0) this.#scrItr.addLineNum(cl);
+					if (this.#scrItr.タグ解析(token)) {this.stop(); break;}
 					continue;
 				}
 				catch (err) {
@@ -187,16 +187,16 @@ export class Main implements IMain {
 				try {
 					if (token.slice(-1) !== '&') {//変数操作
 						// 変数計算
-						if (this.scrItr.isBreak(token)) return;
+						if (this.#scrItr.isBreak(token)) return;
 						const o = splitAmpersand(token.slice(1));
-						o.name = this.prpPrs.getValAmpersand(o.name);
-						o.text = String(this.prpPrs.parse(o.text));
-						this.hTag.let(o as any);
+						o.name = this.#prpPrs.getValAmpersand(o.name);
+						o.text = String(this.#prpPrs.parse(o.text));
+						this.#hTag.let(o as any);
 						continue;
 					}
 
 					if (token.charAt(1) === '&') throw new Error('「&表示&」書式では「&」指定が不要です');
-					token = String(this.prpPrs.parse( token.slice(1, -1) ));
+					token = String(this.#prpPrs.parse( token.slice(1, -1) ));
 				}
 				catch (err) {
 					this.errScript(
@@ -215,7 +215,7 @@ export class Main implements IMain {
 
 			// 文字表示
 			try {
-				const tl = this.layMng.getCurrentTxtlayForeNeedErr();
+				const tl = this.#layMng.getCurrentTxtlayForeNeedErr();
 				tl.tagCh(token);
 			}
 			catch (err) {
@@ -234,32 +234,32 @@ export class Main implements IMain {
 
 
 	async destroy(ms_late = 0) {
-		if (this.destroyed) return;
-		this.destroyed = true;
+		if (this.#destroyed) return;
+		this.#destroyed = true;
 
-		if (! this.inited) return;
+		if (! this.#inited) return;
 
 		this.stop();
-		this.isLoop = false;
+		this.#isLoop = false;
 
-		await this.layMng.before_destroy();
+		await this.#layMng.before_destroy();
 		if (ms_late > 0) await new Promise(r=> setTimeout(r, ms_late));
 
-		this.hTag = {};
-		this.evtMng.destroy();
-		this.scrItr.destroy();
-		this.layMng.destroy();
-		this.dbgMng.destroy();
-		this.appPixi.ticker.remove(this.fncTicker);
+		this.#hTag = {};
+		this.#evtMng.destroy();
+		this.#scrItr.destroy();
+		this.#layMng.destroy();
+		this.#dbgMng.destroy();
+		this.#appPixi.ticker.remove(this.#fncTicker);
 
-		if (this.clone_cvs && this.appPixi) {
-			this.appPixi.view.parentElement!.insertBefore(this.clone_cvs, this.appPixi.view);
+		if (this.#clone_cvs && this.#appPixi) {
+			this.#appPixi.view.parentElement!.insertBefore(this.#clone_cvs, this.#appPixi.view);
 		}
 		utils.clearTextureCache();
-		this.appPixi.destroy(true);
+		this.#appPixi.destroy(true);
 	}
-	private	destroyed = false;
-	readonly isDestroyed = ()=> this.destroyed;
-	private clone_cvs	: HTMLCanvasElement;
+	#destroyed = false;
+	readonly isDestroyed = ()=> this.#destroyed;
+	#clone_cvs	: HTMLCanvasElement;
 
 }

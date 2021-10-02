@@ -18,28 +18,28 @@ import {Loader, LoaderResource} from 'pixi.js';
 export class FrameMng implements IGetFrm {
 	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
 		//	HTMLフレーム
-		hTag.add_frame		= o=> this.add_frame(o);	// フレーム追加
-		hTag.let_frame		= o=> this.let_frame(o);	// フレーム変数を取得
-		hTag.set_frame		= o=> this.set_frame(o);	// フレーム変数に設定
-		hTag.frame			= o=> this.frame(o);		// フレームに設定
-		hTag.tsy_frame		= o=> this.tsy_frame(o);	// フレームをトゥイーン開始
+		hTag.add_frame		= o=> this.#add_frame(o);	// フレーム追加
+		hTag.let_frame		= o=> this.#let_frame(o);	// フレーム変数を取得
+		hTag.set_frame		= o=> this.#set_frame(o);	// フレーム変数に設定
+		hTag.frame			= o=> this.#frame(o);		// フレームに設定
+		hTag.tsy_frame		= o=> this.#tsy_frame(o);	// フレームをトゥイーン開始
 	}
 
-	private evtMng	: IEvtMng;
-	setEvtMng(evtMng: IEvtMng) {this.evtMng = evtMng;}
+	#evtMng	: IEvtMng;
+	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng;}
 
-	private	hIfrm	: {[id: string]: HTMLIFrameElement} = Object.create(null);
+	#hIfrm	: {[id: string]: HTMLIFrameElement} = Object.create(null);
 	destroy() {
-		for (const n in this.hIfrm) {
-			const f = this.hIfrm[n];
+		for (const n in this.#hIfrm) {
+			const f = this.#hIfrm[n];
 			f.parentElement!.removeChild(f);
 		}
-		this.hIfrm = Object.create(null);
+		this.#hIfrm = Object.create(null);
 	}
 
 	//	HTMLフレーム
 	// フレーム追加
-	private add_frame(hArg: HArg) {
+	#add_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const src = hArg.src;
@@ -53,7 +53,7 @@ export class FrameMng implements IGetFrm {
 		const r = argChk_Num(hArg, 'rotate', 0);
 		const v = argChk_Boolean(hArg, 'visible', true);
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
-		const rct = this.rect(hArg);
+		const rct = this.#rect(hArg);
 		const scl = this.sys.reso4frame *CmnLib.cvsScale;
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a
@@ -75,8 +75,8 @@ export class FrameMng implements IGetFrm {
 		});
 		ld.load((_ldr, hRes)=> {
 			const ifrm = document.getElementById(id) as HTMLIFrameElement;
-			this.hIfrm[id] = ifrm;
-			this.hDisabled[id] = false;
+			this.#hIfrm[id] = ifrm;
+			this.#hDisabled[id] = false;
 			ifrm.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
 			.replace('sn_repRes();', '')
 			.replace(
@@ -100,16 +100,16 @@ export class FrameMng implements IGetFrm {
 				this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
 
 				const win = ifrm.contentWindow!;
-				this.evtMng.resvFlameEvent(win);
+				this.#evtMng.resvFlameEvent(win);
 
 				((win as any).sn_repRes)?.((i: HTMLImageElement)=> {
 					const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
-					const oUrl = this.hEncImgOUrl[src];
+					const oUrl = this.#hEncImgOUrl[src];
 					if (oUrl) {i.src = oUrl; return}
 
-					const aImg = this.hAEncImg[src];
+					const aImg = this.#hAEncImg[src];
 					if (aImg) {aImg.push(i); return}
-					this.hAEncImg[src] = [i];
+					this.#hAEncImg[src] = [i];
 
 					const url2 = this.cfg.searchPath(src, Config.EXT_SPRITE);
 					const ld2 = (new Loader)
@@ -128,9 +128,9 @@ export class FrameMng implements IGetFrm {
 					})
 					ld2.load((_ldr: any, hRes: any)=> {
 						for (const s2 in hRes) {
-							const u2 = this.hEncImgOUrl[s2] = hRes[s2].data.src;
-							this.hAEncImg[s2].forEach(v=> v.src = u2);
-							delete this.hAEncImg[s2];
+							const u2 = this.#hEncImgOUrl[s2] = hRes[s2].data.src;
+							this.#hAEncImg[s2].forEach(v=> v.src = u2);
+							delete this.#hAEncImg[s2];
 						//	URL.revokeObjectURL(u2);// 画面遷移で毎回再生成するので
 						}
 					});
@@ -142,11 +142,11 @@ export class FrameMng implements IGetFrm {
 
 		return true;
 	}
-	private hDisabled	: {[id: string]: boolean}	= Object.create(null);
-	getFrmDisabled(id: string): boolean {return this.hDisabled[id]}
-	private	hAEncImg	: {[name: string]: HTMLImageElement[]}	= Object.create(null);
-	private	hEncImgOUrl	: {[name: string]: string}	= Object.create(null);
-	private rect(hArg: HArg): DOMRect {
+	#hDisabled	: {[id: string]: boolean}	= Object.create(null);
+	getFrmDisabled(id: string): boolean {return this.#hDisabled[id]}
+	#hAEncImg	: {[name: string]: HTMLImageElement[]}	= Object.create(null);
+	#hEncImgOUrl	: {[name: string]: string}	= Object.create(null);
+	#rect(hArg: HArg): DOMRect {
 		const a = {...hArg};
 		const re = this.sys.resolution;
 		return new DOMRect(
@@ -159,8 +159,8 @@ export class FrameMng implements IGetFrm {
 
 	cvsResize() {	// NOTE: フォントサイズはどう変更すべきか
 		const scale = this.sys.reso4frame *CmnLib.cvsScale;
-		for (const n in this.hIfrm) {
-			const f = this.hIfrm[n];
+		for (const n in this.#hIfrm) {
+			const f = this.#hIfrm[n];
 			const x = Number(this.val.getVal(`const.sn.frm.${n}.x`));
 			const y = Number(this.val.getVal(`const.sn.frm.${n}.y`));
 			const w = Number(this.val.getVal(`const.sn.frm.${n}.width`));
@@ -173,7 +173,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレーム変数を取得
-	private let_frame(hArg: HArg) {
+	#let_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -198,7 +198,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレーム変数に設定
-	private set_frame(hArg: HArg) {
+	#set_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -221,7 +221,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレームに設定
-	private frame(hArg: HArg) {
+	#frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -234,7 +234,7 @@ export class FrameMng implements IGetFrm {
 			ifrm.style.opacity = a;
 			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
 		}
-		const rct = this.rect(hArg);
+		const rct = this.#rect(hArg);
 		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		if ('x' in hArg || 'y' in hArg) {
 			ifrm.style.left = this.sys.ofsLeft4frm +rct.x *scale +'px';
@@ -266,7 +266,7 @@ export class FrameMng implements IGetFrm {
 		}
 		if ('b_color' in hArg) ifrm.style.backgroundColor = hArg.b_color!;
 		if ('disabled' in hArg) {
-			const d = this.hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
+			const d = this.#hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
 			const il: NodeListOf<HTMLInputElement | HTMLSelectElement> = ifrm.contentDocument!.body.querySelectorAll('input,select');
 			il.forEach(v=> v.disabled = d);
 		}
@@ -275,7 +275,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレームをトゥイーン開始
-	private tsy_frame(hArg: HArg) {
+	#tsy_frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
 		const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -308,7 +308,7 @@ export class FrameMng implements IGetFrm {
 			};
 		}
 		let fncXYSR = ()=> {};
-		const rct = this.rect(hArg2);
+		const rct = this.#rect(hArg2);
 		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		if ('x' in hArg || 'y' in hArg
 		|| 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {

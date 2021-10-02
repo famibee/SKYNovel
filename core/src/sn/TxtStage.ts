@@ -43,21 +43,21 @@ interface ISpTw {
 };
 
 export class TxtStage extends Container {
-	private	static	cfg		: Config;
-	private	static	cvs		: HTMLCanvasElement;
+	static	#cfg		: Config;
+	static	#cvs		: HTMLCanvasElement;
 	static	init(cfg: Config): void {
-		TxtStage.cfg = cfg;
-		TxtStage.cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
+		TxtStage.#cfg = cfg;
+		TxtStage.#cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 
-		TxtStage.reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
-		TxtStage.reg行末禁則	= /[［（｛〈「『【〔“〝]/;
-		TxtStage.reg分割禁止	= /[─‥…]/;
+		TxtStage.#reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
+		TxtStage.#reg行末禁則	= /[［（｛〈「『【〔“〝]/;
+		TxtStage.#reg分割禁止	= /[─‥…]/;
 	}
-	private	static	evtMng	: IEvtMng;
-	static setEvtMng(evtMng: IEvtMng) {TxtStage.evtMng = evtMng;}
+	static	#evtMng	: IEvtMng;
+	static setEvtMng(evtMng: IEvtMng) {TxtStage.#evtMng = evtMng;}
 
 	static	destroy() {
-		TxtStage.hWarning = {
+		TxtStage.#hWarning = {
 			backgroundColor	: 0,
 			borderBottomWidth: 0,
 			borderLeftWidth	: 0,
@@ -69,46 +69,46 @@ export class TxtStage extends Container {
 			marginTop		: 0,
 		};
 
-		TxtStage.hChInStyle		= Object.create(null);
-		TxtStage.hChOutStyle	= Object.create(null);
+		TxtStage.#hChInStyle		= Object.create(null);
+		TxtStage.#hChOutStyle	= Object.create(null);
 
-		TxtStage.cntBreak	= new Container;
+		TxtStage.#cntBreak	= new Container;
 	}
 
 
-	private		htmTxt	= document.createElement('span');	// サンプリング元
-	private	readonly cntTxt			= new Container;		// サンプリング先
-	private	readonly grpDbgMasume	= new Graphics;
+				#htmTxt	= document.createElement('span');	// サンプリング元
+	readonly	#cntTxt			= new Container;			// サンプリング先
+	readonly	#grpDbgMasume	= new Graphics;
 
-	private	readonly	idc		= new TxtLayDesignCast(this.spLay, this);
-	private	readonly	idcCh	= new TxtLayPadDesignCast(this);
+	readonly	#idc		= new TxtLayDesignCast(this.spLay, this);
+	readonly	#idcCh	= new TxtLayPadDesignCast(this);
 	getInfTL(): IInfTxLay {return this.infTL}
 
 
 	constructor(private infTL: IInfTxLay, private readonly spLay: Sprite, private readonly canFocus: ()=> boolean) {
 		super();
 
-		this.htmTxt.classList.add('sn_tx');
-		this.htmTxt.style.position = 'absolute';
-		TxtStage.cvs.parentElement!.appendChild(this.htmTxt);
+		this.#htmTxt.classList.add('sn_tx');
+		this.#htmTxt.style.position = 'absolute';
+		TxtStage.#cvs.parentElement!.appendChild(this.#htmTxt);
 
-		this.addChild(this.cntTxt);
+		this.addChild(this.#cntTxt);
 
-		this.addChild(this.grpDbgMasume);
-		this.grpDbgMasume.name = 'grpDbgMasume';
+		this.addChild(this.#grpDbgMasume);
+		this.#grpDbgMasume.name = 'grpDbgMasume';
 
-		this.idc.adopt(this.idcCh);
+		this.#idc.adopt(this.#idcCh);
 	}
 
 	lay(hArg: HArg) {
-		const s = this.htmTxt.style;
+		const s = this.#htmTxt.style;
 		if (hArg.style) {
 			const cln = document.createElement('span');
 			cln.style.cssText = hArg.style;
 			const len = cln.style.length;
 			for (let i=0; i<len; ++i) {
 				const key: any = cln.style[i];
-				if (key in TxtStage.hWarning) {
+				if (key in TxtStage.#hWarning) {
 					DebugMng.myTrace(`${key}は指定できません`, 'W');
 					continue;
 				}
@@ -124,12 +124,12 @@ export class TxtStage extends Container {
 		if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
 		if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
 		if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
-		this.lay_sub();
-		this.idc.sethArg(hArg);
+		this.#lay_sub();
+		this.#idc.sethArg(hArg);
 
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-		this.left = this.spLay.position.x
-			-(CmnLib.isSafari && !CmnLib.isMobile && this.isTategaki
+		this.#left = this.spLay.position.x
+			-(CmnLib.isSafari && !CmnLib.isMobile && this.#isTategaki
 				? this.infTL.pad_left +this.infTL.pad_right
 				: 0);
 		s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
@@ -138,17 +138,17 @@ export class TxtStage extends Container {
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 
 		// パディングキャスト変更時・クリック待ち表示を追従させる（高速再描写）
-		if (':redraw' in hArg && this.lenHtmTxt > 0) {
+		if (':redraw' in hArg && this.#lenHtmTxt > 0) {
 			const aSpan = [
-				this.htmTxt.innerHTML.replace(/(animation-delay: )\d+ms/g, '$10ms'),
+				this.#htmTxt.innerHTML.replace(/(animation-delay: )\d+ms/g, '$10ms'),
 				`<span class='sn_ch' data-add='{"ch_in_style":"default"}'>　</span>`,
 			];
-			this.clearText();	// 消去
+			this.#clearText();	// 消去
 			this.goTxt(aSpan);	// 高速 goTxt()
 		}
 	}
-	private lay_sub() {
-		const s = this.htmTxt.style;
+	#lay_sub() {
+		const s = this.#htmTxt.style;
 		const fs = parseFloat(s.fontSize || '0');
 		this.infTL.fontsize = fs;
 
@@ -160,13 +160,13 @@ export class TxtStage extends Container {
 		this.infTL.$height = parseFloat(s.height || '0');
 		this.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
-		this.isTategaki = (s.writingMode === 'vertical-rl');
+		this.#isTategaki = (s.writingMode === 'vertical-rl');
 
-		this.padTx4x = 0;
-		this.padTx4y = 0;
+		this.#padTx4x = 0;
+		this.#padTx4y = 0;
 
 		const lh = s.lineHeight ?? '0';
-		this.lh_half = this.isTategaki
+		this.#lh_half = this.#isTategaki
 			? 0
 			: (	(lh.slice(-2) === 'px')
 				? parseFloat(lh)
@@ -174,19 +174,19 @@ export class TxtStage extends Container {
 			// globalThis.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
 	}
 	cvsResize() {
-		const s = this.htmTxt.style;
-		s.left = (this.left *CmnLib.cvsScale) +'px';
+		const s = this.#htmTxt.style;
+		s.left = (this.#left *CmnLib.cvsScale) +'px';
 		s.top = (this.spLay.position.y *CmnLib.cvsScale) +'px';
 		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *CmnLib.cvsScale}, ${this.spLay.scale.y *CmnLib.cvsScale}`;
 
-		this.idc.cvsResize();
-		this.idcCh.cvsResize();
+		this.#idc.cvsResize();
+		this.#idcCh.cvsResize();
 	}
-	private left = 0;
-	private isTategaki = false;
-	get tategaki() {return this.isTategaki}
-	private padTx4x = 0;
-	private padTx4y = 0;
+	#left = 0;
+	#isTategaki = false;
+	get tategaki() {return this.#isTategaki}
+	#padTx4x = 0;
+	#padTx4y = 0;
 
 	getWidth() {return this.infTL.$width}
 	getHeight() {return this.infTL.$height}
@@ -194,10 +194,10 @@ export class TxtStage extends Container {
 	setSize(width: number, height: number) {
 		this.infTL.$width = width;
 		this.infTL.$height = height;
-		this.htmTxt.style.width = this.infTL.$width +'px';
-		this.htmTxt.style.height = this.infTL.$height +'px';
+		this.#htmTxt.style.width = this.infTL.$width +'px';
+		this.#htmTxt.style.height = this.infTL.$height +'px';
 	}
-	private static	hWarning = {
+	static	#hWarning = {
 		backgroundColor	: 0,
 		borderBottomWidth: 0,
 		borderLeftWidth	: 0,
@@ -210,7 +210,7 @@ export class TxtStage extends Container {
 	};
 
 
-	private htm2tx(fnc: (tx2: any)=> void, hidden = true) {
+	#htm2tx(fnc: (tx2: any)=> void, hidden = true) {
 		// tsayen/dom-to-image: Generates an image from a DOM node using HTML5 canvas https://github.com/tsayen/dom-to-image
 
 /*---*/
@@ -502,18 +502,18 @@ export class TxtStage extends Container {
 			this.styleHtmTxt.appendChild(document.createTextNode(css));
 */
 
-		Promise.resolve(this.htmTxt)
+		Promise.resolve(this.#htmTxt)
 		.then(node=> {	//console.log(`🍇 toSvg`);
 			const cln = node.cloneNode(true) as HTMLSpanElement;
 			cln.style.padding = '0px';		// ややこしいのでシンプルに
-			cln.style.paddingRight = this.padTx4x +'px';
-			cln.style.paddingTop = this.padTx4y +'px';
+			cln.style.paddingRight = this.#padTx4x +'px';
+			cln.style.paddingTop = this.#padTx4y +'px';
 			cln.style.left = '0px';
 			cln.style.top = '0px';
 			cln.style.width = (this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right) +'px';
 			cln.style.height = (this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom) +'px';
 			//console.log(cln.style.cssText);
-			this.htmTxt.hidden = hidden;
+			this.#htmTxt.hidden = hidden;
 			return cln;
 		})
 		.then(embedFonts)
@@ -547,20 +547,20 @@ export class TxtStage extends Container {
 		.catch(err=> DebugMng.myTrace(`goTxt() = ${err}`));
 	}
 
-	private ch_filter	: any[] | null;	// 文字にかけるフィルター
-	private aSpTw		: ISpTw[]	= [];
+	#ch_filter	: any[] | null;	// 文字にかけるフィルター
+	#aSpTw		: ISpTw[]	= [];
 
 
-	private aRect   : IChRect[]	= [];
-	private	lenHtmTxt = 0;
-	private	static	reg行頭禁則: RegExp;
-	private	static	reg行末禁則: RegExp;
-	private	static	reg分割禁止: RegExp;
+	#aRect   : IChRect[]	= [];
+	#lenHtmTxt = 0;
+	static	#reg行頭禁則: RegExp;
+	static	#reg行末禁則: RegExp;
+	static	#reg分割禁止: RegExp;
 	goTxt(aSpan: string[]) {
-		TxtStage.cntBreak.visible = false;
+		TxtStage.#cntBreak.visible = false;
 
-		const begin = this.aRect.length;
-		if (TxtStage.cfg.oCfg.debug.masume && begin === 0) {	// 初回
+		const begin = this.#aRect.length;
+		if (TxtStage.#cfg.oCfg.debug.masume && begin === 0) {	// 初回
 			if (CmnLib.debugLog) console.log(`🍌 masume ${
 				this.name} v:${this.visible} l:${this.x} t:${this.y
 				} a:${this.alpha} pl:${this.infTL.pad_left
@@ -568,39 +568,39 @@ export class TxtStage extends Container {
 				} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom
 				} w:${this.infTL.$width} h:${this.infTL.$height}`);
 
-			this.grpDbgMasume.clear();
-			this.grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
-			this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
-			this.grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
+			this.#grpDbgMasume.clear();
+			this.#grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
+			this.#grpDbgMasume.lineStyle(1, 0x33FF00, 1);
+			this.#grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
 				// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
-			this.grpDbgMasume.endFill();
+			this.#grpDbgMasume.endFill();
 
-			this.grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
-			this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
-			this.grpDbgMasume.drawRect(0, 0,
+			this.#grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
+			this.#grpDbgMasume.lineStyle(2, 0x0033FF, 1);
+			this.#grpDbgMasume.drawRect(0, 0,
 			this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right,
 			this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom);
-			this.grpDbgMasume.endFill();
+			this.#grpDbgMasume.endFill();
 		}
 
-		if (begin === 0) this.htmTxt.innerHTML = [...aSpan].join('');
-		else this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
-		this.lenHtmTxt = aSpan.length;
+		if (begin === 0) this.#htmTxt.innerHTML = [...aSpan].join('');
+		else this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join(''));
+		this.#lenHtmTxt = aSpan.length;
 
 		let len = 0;
 		let j = 2;	// 本来 1 だがひと文字目の行頭禁則文字を無視したいので
 	//	let j_start = 0;
 		do {
-			const e = this.aRect = this.getChRects(this.htmTxt);
+			const e = this.#aRect = this.#getChRects(this.#htmTxt);
 			len = e.length;
 			if (CmnLib.cvsScale !== 1) {
 				// Resizeを意識してDOM位置をPIXIに変換
 				// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響が大きい
 				const ox = CmnLib.ofsPadLeft_Dom2PIXI
-					+ parseFloat(this.htmTxt.style.left)
+					+ parseFloat(this.#htmTxt.style.left)
 						*(1- CmnLib.cvsScale);
 				const oy = CmnLib.ofsPadTop_Dom2PIXI
-					+ parseFloat(this.htmTxt.style.top)
+					+ parseFloat(this.#htmTxt.style.top)
 						*(1- CmnLib.cvsScale);
 				for (let i=0; i<len; ++i) {
 					const r = e[i].rect;
@@ -624,25 +624,25 @@ export class TxtStage extends Container {
 				sl_xy = -Infinity;	// 改行発生！
 
 				// 追い出し
-				if (TxtStage.reg分割禁止.test(e[j -1].ch)
+				if (TxtStage.#reg分割禁止.test(e[j -1].ch)
 				&& (e[j -1].ch === he.ch)) {
 	if (CmnLib.debugLog) console.log(`🎴追い出し（分割禁止）ch:${he.ch}`);
 					--j;
 				}
 				else {
-					if (TxtStage.reg行末禁則.test(e[j -1].ch)) {
+					if (TxtStage.#reg行末禁則.test(e[j -1].ch)) {
 	if (CmnLib.debugLog) console.log(`🎴追い出し（行末禁則）前ch:${e[j -1].ch}`);
 						--j;
 					}
-					else if (TxtStage.reg行頭禁則.test(he.ch)) {
+					else if (TxtStage.#reg行頭禁則.test(he.ch)) {
 	if (CmnLib.debugLog) console.log(`🎴追い出し（行頭禁則 A）前ch:${he.ch}`);
-						while (j > 0 && TxtStage.reg行頭禁則.test(e[--j].ch)) {
+						while (j > 0 && TxtStage.#reg行頭禁則.test(e[--j].ch)) {
 	if (CmnLib.debugLog) console.log(`🎴　　　　（行頭禁則 A）前ch:${e[j].ch}`);
 						}
 					}
 					else continue;	// 追い出しなし
 
-					while (j > 0 && TxtStage.reg行末禁則.test(e[j -1].ch)) {
+					while (j > 0 && TxtStage.#reg行末禁則.test(e[j -1].ch)) {
 	if (CmnLib.debugLog) console.log(`🎴追い出し（行末禁則 B）前ch:${e[j -1].ch}`);
 						--j;
 					}
@@ -679,32 +679,32 @@ export class TxtStage extends Container {
 		const fncMasumeLog = CmnLib.debugLog
 			? (v: IChRect, rct: Rectangle)=> console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
 			: ()=> {};
-		const fncMasume = (TxtStage.cfg.oCfg.debug.masume)
+		const fncMasume = (TxtStage.#cfg.oCfg.debug.masume)
 			? (v: IChRect, rct: Rectangle)=> {
 				fncMasumeLog(v, rct);
-				this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
-				this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
-				this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
-				this.grpDbgMasume.endFill();
+				this.#grpDbgMasume.beginFill(0x66CCFF, 0.5);
+				this.#grpDbgMasume.lineStyle(2, 0xFF3300, 1);
+				this.#grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
+				this.#grpDbgMasume.endFill();
 			}
 			: ()=> {};
-		const ease = CmnTween.ease(this.fi_easing);
+		const ease = CmnTween.ease(this.#fi_easing);
 
-		const bcr = this.htmTxt.getBoundingClientRect();
+		const bcr = this.#htmTxt.getBoundingClientRect();
 		const sx = bcr.left +globalThis.pageXOffset +this.infTL.pad_left;
 		const sy = bcr.top +globalThis.pageYOffset +this.infTL.pad_top;
 		for (let i=begin; i<len; ++i) {
-			const v = this.aRect[i];
+			const v = this.#aRect[i];
 			const rct = v.rect;
 			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
 			const add = JSON.parse(v.add ?? '{}');
-			const cis = TxtStage.hChInStyle[add.ch_in_style];
+			const cis = TxtStage.#hChInStyle[add.ch_in_style];
 			rct.x -= sx;
 			rct.y -= sy;
 			fncMasume(v, rct);
 			if (cis) {
 				// スマホでインライン画像アスペクト比が変わる対策
-				if (this.isTategaki) {
+				if (this.#isTategaki) {
 					rct.x += (rct.width -rct.height) /2;
 					rct.width = rct.height;
 				}
@@ -712,16 +712,16 @@ export class TxtStage extends Container {
 					rct.y += (rct.height -rct.width) /2;
 					rct.height = rct.width;
 				}
-				this.rctm = rct;	// !cis ならルビ
+				this.#rctm = rct;	// !cis ならルビ
 			}
 
 			switch (v.cmd) {
 				case 'grp':
 					const cnt = new Container;	// 親コンテナかまし、即spWork()
-					this.cntTxt.addChild(cnt);
+					this.#cntTxt.addChild(cnt);
 						// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 					GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
-						this.spWork(cnt, arg, add, rct, ease, cis ?? {});
+						this.#spWork(cnt, arg, add, rct, ease, cis ?? {});
 						if (! cnt.parent) cnt.removeChild(sp);
 					});
 					break;
@@ -729,13 +729,13 @@ export class TxtStage extends Container {
 				case 'link':
 					const sp = new Sprite;
 					arg.key = `lnk=[${i}] `+ this.name;
-					this.spWork(sp, arg, add, rct, ease, cis ?? {});
-					arg.hint_tate ??= this.isTategaki;	// hint用
+					this.#spWork(sp, arg, add, rct, ease, cis ?? {});
+					arg.hint_tate ??= this.#isTategaki;	// hint用
 					const style_normal = v.elm.style.cssText;
 					const style_hover = arg.style_hover ?? '';
 					const style_clicked = arg.style_clicked ?? '';
-					const isLinkHead = this.beforeHTMLElm !== v.elm;
-					TxtStage.evtMng.button(arg, sp,
+					const isLinkHead = this.#beforeHTMLElm !== v.elm;
+					TxtStage.#evtMng.button(arg, sp,
 						()=> v.elm.style.cssText = style_normal,
 						isLinkHead ?()=> {
 							if (! this.canFocus()) return false;
@@ -745,33 +745,33 @@ export class TxtStage extends Container {
 						: ()=> false,
 						()=> v.elm.style.cssText = style_clicked
 					);
-					this.beforeHTMLElm = v.elm;
-					this.cntTxt.addChild(sp);
+					this.#beforeHTMLElm = v.elm;
+					this.#cntTxt.addChild(sp);
 					break;
 			}
 		}
 		// クリック待ち用ダミー空白を削除
-		this.aRect.slice(0, -1);
-		--this.lenHtmTxt;
-		const clSpan = this.htmTxt.getElementsByTagName('span');
+		this.#aRect.slice(0, -1);
+		--this.#lenHtmTxt;
+		const clSpan = this.#htmTxt.getElementsByTagName('span');
 		const lenClSpan = clSpan.length;
-		if (lenClSpan > 0) this.htmTxt.removeChild(clSpan[lenClSpan -1]);
+		if (lenClSpan > 0) this.#htmTxt.removeChild(clSpan[lenClSpan -1]);
 			// this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');// だと this.aRect の DOM(.elm)を破壊してしまうので
 
 		// 文字出現演出・開始〜終了
-		const chs = this.htmTxt.querySelectorAll('span.sn_ch');
+		const chs = this.#htmTxt.querySelectorAll('span.sn_ch');
 		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
-		this.isChInIng = true;
-		this.fncEndChIn = ()=> {
-			this.isChInIng = false;
+		this.#isChInIng = true;
+		this.#fncEndChIn = ()=> {
+			this.#isChInIng = false;
 			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
-			TxtStage.cntBreak.position.set(this.rctm.x, this.rctm.y);
-			TxtStage.cntBreak.visible = true;
-			this.fncEndChIn = ()=> {};
+			TxtStage.#cntBreak.position.set(this.#rctm.x, this.#rctm.y);
+			TxtStage.#cntBreak.visible = true;
+			this.#fncEndChIn = ()=> {};
 		};
 		const len_chs = chs.length;
-		if (len_chs === 0) {this.fncEndChIn(); return;}
+		if (len_chs === 0) {this.#fncEndChIn(); return;}
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
 		let le = null;
@@ -780,19 +780,19 @@ export class TxtStage extends Container {
 			if (v.className === 'sn_ch') break;	// 表示済みのみ
 			const st = v.getAttribute('style');
 			if (! st) {le = v; break;}
-			const m = st.match(this.regDs);
+			const m = st.match(this.#REGDS);
 			const g = m?.groups;
 			if (! g || Number(g.ms) > 0) {le = v; break;}
 		}
-		if (! le) {this.fncEndChIn(); return;}
+		if (! le) {this.#fncEndChIn(); return;}
 
-		le.addEventListener('animationend', this.fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
+		le.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
-	private	beforeHTMLElm	: HTMLElement | null	= null;
-	private rctm = new Rectangle;
-	private readonly regDs = /animation\-duration: (?<ms>\d+)ms;/;
-	private	fncEndChIn	= ()=> {};
-	private spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
+	#beforeHTMLElm	: HTMLElement | null	= null;
+	#rctm = new Rectangle;
+	readonly #REGDS = /animation\-duration: (?<ms>\d+)ms;/;
+	#fncEndChIn	= ()=> {};
+	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
 		if (arg.x) rct.x = (arg.x.charAt(0) === '=')
 			? rct.x +parseInt(arg.x.slice(1))
@@ -823,36 +823,36 @@ export class TxtStage extends Container {
 				})
 				.start(),
 		};
-		this.aSpTw.push(st);
+		this.#aSpTw.push(st);
 	}
 
-	private	isChInIng	= false;
+	#isChInIng	= false;
 	skipChIn(): boolean {	// true is stay
-		let isLiveTw = this.isChInIng;
-		this.fncEndChIn();
-		this.aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); isLiveTw = true}});
+		let isLiveTw = this.#isChInIng;
+		this.#fncEndChIn();
+		this.#aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); isLiveTw = true}});
 			// Text Skip。stop() と end() は別！
-		this.aSpTw = [];
+		this.#aSpTw = [];
 		return isLiveTw;
 	}
 
-	private	static	hChInStyle	= Object.create(null);
-	private	static	readonly	REG_NG_CHSTYLE_NAME_CHR	= /[\s\.,]/;
+	static	#hChInStyle	= Object.create(null);
+	static	readonly	#REG_NG_CHSTYLE_NAME_CHR	= /[\s\.,]/;
 	static	initChStyle() {
-		TxtStage.hChInStyle = Object.create(null);
-		TxtStage.hChOutStyle = Object.create(null);
+		TxtStage.#hChInStyle = Object.create(null);
+		TxtStage.#hChOutStyle = Object.create(null);
 	}
-	static	getChInStyle(name: string) {return TxtStage.hChInStyle[name];}
+	static	getChInStyle(name: string) {return TxtStage.#hChInStyle[name];}
 	static	ch_in_style(hArg: HArg): any {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
-		TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-		if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
-		if (name in TxtStage.hChInStyle) throw `name【${name}】はすでにあります`;
+		TxtStage.#REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
+		if (name in TxtStage.#hChInStyle) throw `name【${name}】はすでにあります`;
 
 		const x = String(hArg.x ?? '=0');
 		const y = String(hArg.y ?? '=0');
-		return TxtStage.hChInStyle[name] = {
+		return TxtStage.#hChInStyle[name] = {
 			wait	: argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
 			alpha	: argChk_Num(hArg, 'alpha', 0),
 			x		: x,	// 初期x値
@@ -873,7 +873,7 @@ export class TxtStage extends Container {
 		};
 	}
 
-	private	static	hChOutStyle: {[nm: string]: {
+	static	#hChOutStyle: {[nm: string]: {
 		wait	: number;
 		alpha	: number;
 		x		: string;
@@ -886,17 +886,17 @@ export class TxtStage extends Container {
 		join	: boolean;
 		ease	: string;
 	}}	= Object.create(null);
-	static	getChOutStyle(name: string) {return TxtStage.hChOutStyle[name];}
+	static	getChOutStyle(name: string) {return TxtStage.#hChOutStyle[name];}
 	static	ch_out_style(hArg: HArg): any {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
-		TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-		if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
-		if (name in TxtStage.hChOutStyle) throw `name【${name}】はすでにあります`;
+		TxtStage.#REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
+		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
+		if (name in TxtStage.#hChOutStyle) throw `name【${name}】はすでにあります`;
 
 		const x = String(hArg.x ?? '=0');
 		const y = String(hArg.y ?? '=0');
-		return TxtStage.hChOutStyle[name] = {
+		return TxtStage.#hChOutStyle[name] = {
 			wait	: argChk_Num(hArg, 'wait', 500),	// アニメ・FI時間
 			alpha	: argChk_Num(hArg, 'alpha', 0),
 			x		: x,	// 初期x値
@@ -917,9 +917,9 @@ export class TxtStage extends Container {
 		};
 	}
 
-	private static	cntBreak	= new Container;
+	static	#cntBreak	= new Container;
 	dispBreak(pic: string) {
-		const cnt = TxtStage.cntBreak;
+		const cnt = TxtStage.#cntBreak;
 		cnt.visible = false;
 		this.addChild(cnt);	// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 		GrpLayer.csv2Sprites(pic, cnt, sp=> {
@@ -927,19 +927,19 @@ export class TxtStage extends Container {
 		});
 	}
 	static	delBreak() {
-		const cnt = TxtStage.cntBreak;
+		const cnt = TxtStage.#cntBreak;
 		if (cnt.parent) {
 			cnt.parent.removeChild(cnt);	// 他の文字Layerも想定
 			cnt.removeChildren();
 		}
-		TxtStage.cntBreak = new Container;
+		TxtStage.#cntBreak = new Container;
 	}
 
-	private lh_half		= 0;	// 「g」などで下が欠ける問題対策
-	private getChRects(elm: Node): IChRect[] {	// 注意）再帰関数
+	#lh_half		= 0;	// 「g」などで下が欠ける問題対策
+	#getChRects(elm: Node): IChRect[] {	// 注意）再帰関数
 		const ret: any = [];
 		if (elm.nodeType !== elm.TEXT_NODE) {
-			elm.childNodes.forEach(v=> ret.push(this.getChRects(v)));
+			elm.childNodes.forEach(v=> ret.push(this.#getChRects(v)));
 			return Array.prototype.concat.apply([], ret);	// 配列をフラットにする
 		}
 
@@ -963,7 +963,7 @@ export class TxtStage extends Container {
 					r.left +globalThis.pageXOffset,
 					r.top  +globalThis.pageYOffset,
 					r.width,
-					r.height +('gjqy'.includes(ch) ?this.lh_half :0)),
+					r.height +('gjqy'.includes(ch) ?this.#lh_half :0)),
 				elm	: pe,
 				cmd	: pe.getAttribute('data-cmd') ?? undefined,
 				arg	: pe.getAttribute('data-arg') ?? undefined,
@@ -978,19 +978,19 @@ export class TxtStage extends Container {
 		return ret;
 	}
 
-	private fi_easing	= 'Quadratic.Out';
-	private fo_easing	= 'Quadratic.Out';
-	private clearText() {
-		this.grpDbgMasume.clear();
-		this.aRect = [];
-		this.lenHtmTxt = 0;
+	#fi_easing	= 'Quadratic.Out';
+	#fo_easing	= 'Quadratic.Out';
+	#clearText() {
+		this.#grpDbgMasume.clear();
+		this.#aRect = [];
+		this.#lenHtmTxt = 0;
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.skipChIn();
-		const n = this.htmTxt.cloneNode(true) as HTMLSpanElement;
+		const n = this.#htmTxt.cloneNode(true) as HTMLSpanElement;
 		//this.htmTxt.innerHTML = '';		以下の方が早いらしい
 		n.textContent = '';
-		const old = this.htmTxt;
+		const old = this.#htmTxt;
 		old.parentElement!.insertBefore(n, old);
 
 		let sum_wait = 0;
@@ -1003,7 +1003,7 @@ export class TxtStage extends Container {
 			);
 			if (! add.ch_out_style) return;
 
-			const cos = TxtStage.hChOutStyle[add.ch_out_style];
+			const cos = TxtStage.#hChOutStyle[add.ch_out_style];
 			if (! cos) return;
 			if (cos.wait === 0) {elm.style.display = 'none'; return;}
 
@@ -1014,26 +1014,26 @@ export class TxtStage extends Container {
 
 		const end = ()=> {
 			old.parentElement!.removeChild(old);
-			this.cntTxt.removeChildren().forEach(c=> c.destroy());
+			this.#cntTxt.removeChildren().forEach(c=> c.destroy());
 		};
-		if (sum_wait === 0) {this.htmTxt.textContent = ''; end();}
+		if (sum_wait === 0) {this.#htmTxt.textContent = ''; end();}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
 
-		this.htmTxt = n;
+		this.#htmTxt = n;
 	}
 	reNew(): TxtStage {
-		this.clearText();
+		this.#clearText();
 
 		const to = new TxtStage(this.infTL, this.spLay, ()=> this.canFocus());
-		to.htmTxt.style.cssText = this.htmTxt.style.cssText;
-		to.left = this.left;
+		to.#htmTxt.style.cssText = this.#htmTxt.style.cssText;
+		to.#left = this.#left;
 		to.name = this.name;
-		to.lay_sub();
-		to.idc.sethArg(this.idc.gethArg());
+		to.#lay_sub();
+		to.#idc.sethArg(this.#idc.gethArg());
 
-		to.ch_filter = this.ch_filter;
-		to.fi_easing = this.fi_easing;
-		to.fo_easing = this.fo_easing;
+		to.#ch_filter = this.#ch_filter;
+		to.#fi_easing = this.#fi_easing;
+		to.#fo_easing = this.#fo_easing;
 
 		this.destroy();
 
@@ -1044,76 +1044,76 @@ export class TxtStage extends Container {
 	record() {return {
 		infTL		: this.infTL,
 
-		cssText		: this.htmTxt.style.cssText,
-		left		: this.left,
-		idc_hArg	: this.idc.gethArg(),
+		cssText		: this.#htmTxt.style.cssText,
+		left		: this.#left,
+		idc_hArg	: this.#idc.gethArg(),
 
-		ch_filter	: this.ch_filter,
-		fi_easing	: this.fi_easing,
-		fo_easing	: this.fo_easing,
+		ch_filter	: this.#ch_filter,
+		fi_easing	: this.#fi_easing,
+		fo_easing	: this.#fo_easing,
 	}};
 	playback(hLay: any) {
 		this.infTL	= hLay.infTL;
 		this.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
-		this.htmTxt.style.cssText = hLay.cssText;
-		this.left = hLay.left;
-		this.lay_sub();
-		this.idc.sethArg(hLay.idc_hArg);
+		this.#htmTxt.style.cssText = hLay.cssText;
+		this.#left = hLay.left;
+		this.#lay_sub();
+		this.#idc.sethArg(hLay.idc_hArg);
 
-		this.ch_filter	= hLay.ch_filter;
-		this.fi_easing	= hLay.fi_easing;
-		this.fo_easing	= hLay.fo_easing;
+		this.#ch_filter	= hLay.ch_filter;
+		this.#fi_easing	= hLay.fi_easing;
+		this.#fo_easing	= hLay.fo_easing;
 	}
 
-	private sss :Sprite | null = null;
+	#sss :Sprite | null = null;
 	snapshot(rnd: Renderer, re: ()=> void) {
-		this.htm2tx(tx=> {
-			this.sss = new Sprite(tx);	// Safariだけ文字影が映らない
-			if (this.isTategaki) {
-				this.sss.x += CmnLib.stageW -(this.left +this.infTL.$width)
+		this.#htm2tx(tx=> {
+			this.#sss = new Sprite(tx);	// Safariだけ文字影が映らない
+			if (this.#isTategaki) {
+				this.#sss.x += CmnLib.stageW -(this.#left +this.infTL.$width)
 				- ((CmnLib.isSafari && !CmnLib.isMobile)
 					? 0
 					: this.infTL.pad_left +this.infTL.pad_right);
 			}
-			this.sss.y -= this.padTx4y;
-			this.sss.texture.frame = new Rectangle(0, 0, this.infTL.$width -this.left, this.infTL.$height);	// これがないと画面サイズを超える
-			this.cntTxt.addChild(this.sss);
-			rnd.render(this.sss, undefined, false);
+			this.#sss.y -= this.#padTx4y;
+			this.#sss.texture.frame = new Rectangle(0, 0, this.infTL.$width -this.#left, this.infTL.$height);	// これがないと画面サイズを超える
+			this.#cntTxt.addChild(this.#sss);
+			rnd.render(this.#sss, undefined, false);
 			re();
 		}, false);
 	}
 	snapshot_end() {
-		if (this.sss) {this.cntTxt.removeChild(this.sss); this.sss = null;}
+		if (this.#sss) {this.#cntTxt.removeChild(this.#sss); this.#sss = null;}
 	}
 
 	makeDesignCast(gdc: IMakeDesignCast) {
-		gdc(this.idc);
+		gdc(this.#idc);
 
-		const o = this.idc.gethArg();
-		this.idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
-		gdc(this.idcCh);
+		const o = this.#idc.gethArg();
+		this.#idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
+		gdc(this.#idcCh);
 	}
-	showDesignCast() {this.idc.visible = true; this.idcCh.visible = true;}
+	showDesignCast() {this.#idc.visible = true; this.#idcCh.visible = true;}
 
 	dump(): string {
 		const aStyle: string[] = [];
-		const s = this.htmTxt.style;
+		const s = this.#htmTxt.style;
 		const len = s.length;
 		for (let i=0; i<len; ++i) {
 			const key: any = s[i];
 			aStyle.push(`"${key}":"${s[key].replace(/(["\\])/g, '\\$1')}"`);
 		}
-		return `"txt":"${this.htmTxt.textContent!.replace(/(["\\])/g, '\\$1')
+		return `"txt":"${this.#htmTxt.textContent!.replace(/(["\\])/g, '\\$1')
 		}", "style":{${aStyle.join(',')}}`;
 			// 4Debug。++カウンターし、dump表示させても良さげ
 	}
 
 	override destroy() {
 		TxtStage.delBreak();
-		this.htmTxt.parentElement!.removeChild(this.htmTxt);
-		this.removeChild(this.cntTxt);
-		this.removeChild(this.grpDbgMasume);
+		this.#htmTxt.parentElement!.removeChild(this.#htmTxt);
+		this.removeChild(this.#cntTxt);
+		this.removeChild(this.#grpDbgMasume);
 		super.destroy();
 	}
 }

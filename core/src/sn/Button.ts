@@ -17,12 +17,12 @@ import {DesignCast, TxtBtnDesignCast, PicBtnDesignCast} from './DesignCast';
 
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
-	private	static	procMasume4txt = (_me: Button, _txt: Text)=> {};
-	private	static	procMasume4pic = (_me: Button, _sp: Sprite, _w3: number, _h: number)=> {};
+	static	#procMasume4txt = (_me: Button, _txt: Text)=> {};
+	static	#procMasume4pic = (_me: Button, _sp: Sprite, _w3: number, _h: number)=> {};
 	static	init(cfg: Config) {
 		if (! cfg.oCfg.debug.masume) return;
 
-		Button.procMasume4txt = (me, txt)=> {
+		Button.#procMasume4txt = (me, txt)=> {
 			const grpDbgMasume = new Graphics;
 			grpDbgMasume.clear();
 			grpDbgMasume.beginFill(0x883388, 0.2);
@@ -31,7 +31,7 @@ export class Button extends Container {
 			grpDbgMasume.endFill();
 			me.addChild(grpDbgMasume);
 		};
-		Button.procMasume4pic = (me, sp, w3, h)=> {
+		Button.#procMasume4pic = (me, sp, w3, h)=> {
 			const grpDbgMasume = new Graphics;
 			grpDbgMasume.clear();
 			grpDbgMasume.beginFill(0x883388, 0.2);
@@ -42,15 +42,15 @@ export class Button extends Container {
 		};
 	}
 
-	private	idc: DesignCast;
-	private	sp_b_pic: Sprite | null = null;
-	private	sp_pic: Sprite | null = null;
+	#idc: DesignCast;
+	#sp_b_pic: Sprite | null = null;
+	#sp_pic: Sprite | null = null;
 	constructor(private readonly hArg: HArg, private readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 
 		if (CmnLib.isDbg) {
-			this.makeDesignCast = gdc=> gdc(this.idc);
-			this.cvsResize = ()=> this.idc.cvsResize();
+			this.makeDesignCast = gdc=> gdc(this.#idc);
+			this.cvsResize = ()=> this.#idc.cvsResize();
 		}
 		this.name = JSON.stringify(hArg);
 
@@ -103,7 +103,7 @@ export class Button extends Container {
 			oName.text = txt.text;
 			oName.width = txt.width;
 			oName.height = txt.height;
-			this.idc = new TxtBtnDesignCast(this, hArg, txt);
+			this.#idc = new TxtBtnDesignCast(this, hArg, txt);
 
 			let isStop = false;
 			if (hArg.b_pic) {
@@ -111,7 +111,7 @@ export class Button extends Container {
 				isStop = GrpLayer.csv2Sprites(
 					hArg.b_pic,
 					this,
-					sp=> this.loaded_b_pic(sp, txt),
+					sp=> this.#loaded_b_pic(sp, txt),
 					isStop=> {
 						Layer.setBlendmode(this, hArg);
 						if (isStop) resolve();
@@ -122,7 +122,7 @@ export class Button extends Container {
 
 			this.addChild(txt);
 			if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
-			Button.procMasume4txt(this, txt);
+			Button.#procMasume4txt(this, txt);
 			if (! enabled) {if (! isStop) resolve(); return;}
 
 			const style_hover = style.clone();
@@ -156,22 +156,22 @@ export class Button extends Container {
 		if (! hArg.pic) throw 'textまたはpic属性は必須です';
 		// 画像から生成
 		oName.type = 'pic';	// dump用
-		this.idc = new PicBtnDesignCast(this, hArg);
+		this.#idc = new PicBtnDesignCast(this, hArg);
 		if (! GrpLayer.csv2Sprites(
 			hArg.pic,
 			this,
-			sp=> this.loaded_pic(sp, oName),
+			sp=> this.#loaded_pic(sp, oName),
 			isStop=> {if (isStop) resolve()},
 		)) resolve();
 	}
 
 	makeDesignCast(_gdc: IMakeDesignCast) {}
-	showDesignCast() {this.idc.visible = true;}
+	showDesignCast() {this.#idc.visible = true;}
 	cvsResize() {}
 
 	update_b_pic(fn: string, txt: Text) {
 		const oName = JSON.parse(txt.name ?? '{}');
-		if (this.sp_b_pic) this.removeChild(this.sp_b_pic);
+		if (this.#sp_b_pic) this.removeChild(this.#sp_b_pic);
 		this.hArg.b_pic = oName.b_pic = fn;
 		txt.name = JSON.stringify(oName);
 		if (! fn) return;
@@ -179,12 +179,12 @@ export class Button extends Container {
 		GrpLayer.csv2Sprites(
 			fn,
 			this,
-			sp=> this.loaded_b_pic(sp, txt),
+			sp=> this.#loaded_b_pic(sp, txt),
 			()=> Layer.setBlendmode(this, this.hArg),
 		);
 	}
-	private	loaded_b_pic(sp: Sprite, txt: Text) {
-		this.sp_b_pic = sp;
+	#loaded_b_pic(sp: Sprite, txt: Text) {
+		this.#sp_b_pic = sp;
 		this.setChildIndex(sp, 0);
 		sp.alpha = txt.alpha;
 		sp.setTransform(
@@ -197,7 +197,7 @@ export class Button extends Container {
 
 	update_pic(fn: string, sp: Sprite) {
 		const oName = JSON.parse(sp.name ?? '{}');
-		if (this.sp_pic) this.removeChild(this.sp_pic);
+		if (this.#sp_pic) this.removeChild(this.#sp_pic);
 		this.hArg.pic = oName.pic = fn;
 		sp.name = JSON.stringify(oName);
 		if (! fn) return;
@@ -205,14 +205,14 @@ export class Button extends Container {
 		GrpLayer.csv2Sprites(
 			fn,
 			this,
-			sp=> this.loaded_pic(sp, oName),
+			sp=> this.#loaded_pic(sp, oName),
 			()=> Layer.setBlendmode(this, this.hArg),
 		);
 	}
-	private	loaded_pic(sp: Sprite, oName: any) {
-		this.sp_pic = sp;
+	#loaded_pic(sp: Sprite, oName: any) {
+		this.#sp_pic = sp;
 		oName.alpha = sp.alpha = argChk_Num(this.hArg, 'alpha', sp.alpha);
-		(<PicBtnDesignCast>this.idc).setSp(sp);
+		(<PicBtnDesignCast>this.#idc).setSp(sp);
 
 		const w3 = sp.width /3;
 		const h = sp.height;
@@ -243,7 +243,7 @@ export class Button extends Container {
 		else oName.height = w3;
 		sp.name = JSON.stringify(oName);	// dump用
 
-		Button.procMasume4pic(this, sp, w3, h);
+		Button.#procMasume4pic(this, sp, w3, h);
 	}
 
 }

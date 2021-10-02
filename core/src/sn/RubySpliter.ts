@@ -10,14 +10,14 @@ import {HArg, IPutCh} from './CmnInterface';
 export interface IAutoPage { (idx: number, str: string): void; }
 
 export class RubySpliter {
-	private static	sesame		= 'ヽ';
-	static	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.sesame = hArg.sesame;}
-	static	getSesame() {return RubySpliter.sesame;}
+	static	#sesame		= 'ヽ';
+	static	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.#sesame = hArg.sesame;}
+	static	getSesame() {return RubySpliter.#sesame;}
 
-	static	destroy() {RubySpliter.sesame = 'ヽ';}
+	static	destroy() {RubySpliter.#sesame = 'ヽ';}
 
-	private putCh	: IPutCh	= ()=> {};
-	init(putCh: IPutCh) {this.putCh = putCh;}
+	#putCh	: IPutCh	= ()=> {};
+	init(putCh: IPutCh) {this.#putCh = putCh;}
 
 /*
 		★Unicodeで「漢字」の正規表現 – ものかの http://tama-san.com/kanji-regex/
@@ -36,10 +36,10 @@ export class RubySpliter {
 		[⺀-⿟々〇〻㐀-鿿豈-﫿\u20000-\u2FFFF]			// ヽ--30FD が変に引っかかる。多分\u2000-\u2FFF解釈
 		\\u{20000}-\\u{2FFFF}	// 五桁だとエラー
 */
-	private static	REG_RUBY	: RegExp;
+	static	#REG_RUBY	: RegExp;
 	static	setEscape(ce: string) {
 		// 577 match 14303 step(~10ms) 	https://regex101.com/r/YmT3m1/2
-		RubySpliter.REG_RUBY = new RegExp(
+		RubySpliter.#REG_RUBY = new RegExp(
 			`${ce ?`(?<ce>\\${ce}\\S)|` :''}`+
 			`｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》`+
 			`|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])`+
@@ -56,7 +56,7 @@ export class RubySpliter {
 	putTxt(text: string) {
 		let e: any = null;
 		// 全ループリセットかかるので不要	.lastIndex = 0;	// /gなので必要
-		while (e = RubySpliter.REG_RUBY.exec(text)) {
+		while (e = RubySpliter.#REG_RUBY.exec(text)) {
 			const g = e?.groups;
 			if (! g) continue;
 			const ruby: string = g.ruby;
@@ -64,9 +64,9 @@ export class RubySpliter {
 
 			const kan_ruby: string = g.kan_ruby;
 			if (kan_ruby) {this.putTxtRb(g.kan, kan_ruby); continue;}
-			if (g.ce) {this.putCh(g.ce.slice(1), ''); continue}
+			if (g.ce) {this.#putCh(g.ce.slice(1), ''); continue}
 
-			(Array.from(g.txt ?? '')as string[]).forEach(v=> this.putCh(v, ''));
+			(Array.from(g.txt ?? '')as string[]).forEach(v=> this.#putCh(v, ''));
 				// txt.split('')や [...txt] はサロゲートペアで問題
 		}
 	}
@@ -77,14 +77,14 @@ export class RubySpliter {
 		if (ruby.charAt(0) === '*' && ruby.length <= 2) {
 			const rb_ses
 				= 'center｜'
-				+ ((ruby === '*') ? RubySpliter.sesame : ruby.charAt(1));
-			for (let i=0; i<len; ++i) this.putCh(a[i], rb_ses);
+				+ ((ruby === '*') ? RubySpliter.#sesame : ruby.charAt(1));
+			for (let i=0; i<len; ++i) this.#putCh(a[i], rb_ses);
 			return;
 		}
 
 		// 自動区切りを行わない
 		if (len === 1 || ruby.indexOf(' ') === -1) {
-			this.putCh(text, ruby.replaceAll('\t', ' '));
+			this.#putCh(text, ruby.replaceAll('\t', ' '));
 			return;
 		}
 
@@ -93,7 +93,7 @@ export class RubySpliter {
 		const lenR = aR.length;
 		const len_max = (lenR > len) ?lenR :len;
 		for (let i=0; i<len_max; ++i) {
-			this.putCh(
+			this.#putCh(
 				(i < len) ? a[i] : '',
 				(i < lenR) ? aR[i].replaceAll('\t',' ') : ''
 			);

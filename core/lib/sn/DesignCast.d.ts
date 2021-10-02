@@ -10,15 +10,10 @@ import { Config } from './Config';
 import { Application, Rectangle, Text, Sprite, Point } from 'pixi.js';
 import Moveable, { OnDrag, OnResize } from 'moveable';
 export declare class DesignCast {
+    #private;
     readonly bg_col: string;
     readonly isLay: boolean;
-    private static divDesignRoot;
-    private static sys;
-    private static scrItr;
     protected static prpPrs: IPropParser;
-    private static alzTagArg;
-    private static cfg;
-    private static hPages;
     protected static divHint: HTMLDivElement;
     static init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage): void;
     protected static setHint(txt: string, x: number, y: number, dc: DesignCast): void;
@@ -44,19 +39,12 @@ export declare class DesignCast {
     protected setSize(_w: number, _h: number): void;
     setOther(_hPrm: HPRM): void;
     protected child?: DesignCast;
-    private parent?;
     adopt(idcCh: DesignCast): void;
-    private static readonly ID_DESIGNMODE;
-    private static cntDesignCast;
-    private static hId2dc;
     static enterMode(): void;
-    private static aDC;
     static allHide(): void;
     set visible(v: boolean);
     static leaveMode(): void;
     cvsResize(): void;
-    private resizeDiv;
-    private fncLay;
     protected mov: Moveable | null;
     protected div: HTMLDivElement | null;
     protected lx: number;
@@ -74,10 +62,10 @@ export declare class DesignCast {
     static replaceToken(o: any): void;
 }
 export declare class GrpLayDesignCast extends DesignCast {
+    #private;
     private readonly spLay;
     private readonly gl;
     constructor(spLay: Sprite, gl: GrpLayer);
-    private sp;
     setSp(sp: Sprite): void;
     protected getRect(): Rectangle;
     protected cnvPosArg(left: number, top: number): {
@@ -114,6 +102,7 @@ export declare class TxtLayDesignCast extends DesignCast {
     setOther(hPrm: HPRM): void;
 }
 export declare class TxtLayPadDesignCast extends DesignCast {
+    #private;
     private readonly ts;
     constructor(ts: TxtStage);
     protected readonly rotatable = false;
@@ -131,7 +120,6 @@ export declare class TxtLayPadDesignCast extends DesignCast {
     setOther(hPrm: HPRM): void;
     protected procDragHint(e: OnDrag, left: number, top: number): void;
     protected procResizeHint(e: OnResize, left: number, top: number): void;
-    private procHint;
 }
 export declare class BtnDesignCast extends DesignCast {
     protected readonly btn: Button;
@@ -158,8 +146,8 @@ export declare class TxtBtnDesignCast extends BtnDesignCast {
     protected oldFn: () => string;
 }
 export declare class PicBtnDesignCast extends BtnDesignCast {
+    #private;
     constructor(btn: Button, hArg: HArg);
-    private sp;
     setSp(sp: Sprite): void;
     protected getRect(): Rectangle;
     protected setSize(w: number, h: number): void;

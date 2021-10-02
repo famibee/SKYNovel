@@ -2,6 +2,7 @@ import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer } from 
 import { HArg } from './CmnInterface';
 import { IMakeDesignCast } from './LayerMng';
 export declare class Layer {
+    #private;
     layname: string;
     protected name_: string;
     set name(nm: string);
@@ -25,7 +26,6 @@ export declare class Layer {
     lay(hArg: HArg): boolean;
     static setBlendmode(cnt: Container, hArg: HArg): void;
     static getBlendmodeNum(bm_name: string): number;
-    private static readonly hBlendmode;
     clearLay(hArg: HArg): void;
     copy(fromLayer: Layer, aPrm: Promise<void>[]): void;
     record(): {

@@ -15,12 +15,12 @@ import {Application} from 'pixi.js';
 import 'devtools-detect';
 
 export class SysWeb extends SysBase {
-	private	path_base	= '';
+	#path_base	= '';
 	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
 		super(hPlg, arg);
 
 		const a = arg.cur.split('/');
-		this.path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
+		this.#path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
 
 		globalThis.onload = async ()=> this.loaded(hPlg, arg);
 	}
@@ -30,17 +30,17 @@ export class SysWeb extends SysBase {
 		// 全画面状態切替
 		const tgl_full_scr = ('requestFullscreen' in document.body)
 		? ()=> {
-			((this.isFullScr = ! Boolean(document.fullscreenElement))
+			((this.#isFullScr = ! Boolean(document.fullscreenElement))
 			? document.body.requestFullscreen()
 			: document.exitFullscreen())
-			.then(()=> this.resizeFramesWork())
+			.then(()=> this.#resizeFramesWork())
 		}
 		: ()=> {
 			const doc: any = document;
-			((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
+			((this.#isFullScr = ! Boolean(doc.webkitFullscreenElement))
 			? doc.body.webkitRequestFullscreen()
 			: doc.webkitCancelFullScreen())
-			.then(()=> this.resizeFramesWork())
+			.then(()=> this.#resizeFramesWork())
 		};
 		this.tgl_full_scr = (hArg: HArg)=> {
 			if (! hArg.key) {tgl_full_scr(); return false;}
@@ -81,11 +81,11 @@ export class SysWeb extends SysBase {
 		this.extPort = argChk_Num(CmnLib.hDip, 'port', this.extPort);
 
 		const cur = sp.get('cur');
-		if (cur) arg.cur = this.path_base + cur +'/';
+		if (cur) arg.cur = this.#path_base + cur +'/';
 		this.run();
 	}
-	private resizeFramesWork() {
-		const is_fs = this.isFullScr;	// この状態へ移行する
+	#resizeFramesWork() {
+		const is_fs = this.#isFullScr;	// この状態へ移行する
 		//this.reso4frame = this.$isFullScr ?1 :screen.width /CmnLib.stageW;
 			// 全画面を使う
 
@@ -102,31 +102,31 @@ export class SysWeb extends SysBase {
 			: 0;
 		this.resizeFrames();
 	}
-	private isFullScr	= false;
+	#isFullScr	= false;
 
-	private now_prj		= ':';
+	#now_prj		= ':';
 	runSN(prj: string) {
-		this.arg.cur = this.path_base + prj +'/';
-		if (this.now_prj === this.arg.cur) return;
+		this.arg.cur = this.#path_base + prj +'/';
+		if (this.#now_prj === this.arg.cur) return;
 
-		this.now_prj = this.arg.cur;
+		this.#now_prj = this.arg.cur;
 		this.run();
 	}
 	protected	override run = async ()=> {
-		if (this.main) {
+		if (this.#main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
-			this.main.destroy(ms_late);
+			this.#main.destroy(ms_late);
 			await new Promise(r=> setTimeout(r, ms_late));
 		}
 
-		this.main = new Main(this);
+		this.#main = new Main(this);
 	}
 	stop() {
-		if (! this.main) return;
-		this.main.destroy();
-		this.main = null;
+		if (! this.#main) return;
+		this.#main.destroy();
+		this.#main = null;
 	}
-	private main: Main | null;
+	#main: Main | null;
 
 
 	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {
@@ -149,7 +149,7 @@ export class SysWeb extends SysBase {
 		const hn = document.location.hostname;
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
 
-		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr);
+		this.val.defTmp('const.sn.displayState', ()=> this.#isFullScr);
 
 		const ns = this.cfg.getNs();
 		this.flush = this.crypto
@@ -297,10 +297,10 @@ export class SysWeb extends SysBase {
 		if (CmnLib.debugLog) console.log('画像ファイルをダウンロードします');
 	}
 
-	private	readonly	hAppendFile: {[path: string]: string} = {};
+	readonly	#hAppendFile: {[path: string]: string} = {};
 	override async appendFile(path: string, data: any, _callback: (err: NodeJS.ErrnoException)=> void) {
-		const txt = (this.hAppendFile[path] ?? '') + data;
-		this.hAppendFile[path] = txt;
+		const txt = (this.#hAppendFile[path] ?? '') + data;
+		this.#hAppendFile[path] = txt;
 
 		const blob = new Blob([txt], {'type':'text/json'});
 		const a = document.createElement('a');

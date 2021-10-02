@@ -16,33 +16,18 @@ interface IResAniSpr {
     };
 }
 export declare class GrpLayer extends Layer {
-    private static readonly elc;
-    private static hFace;
-    private static main;
-    private static cfg;
-    private static sys;
-    private static glbVol;
-    private static movVol;
+    #private;
     static init(main: IMain, cfg: Config, sys: SysBase, sndMng: SoundMng): void;
-    private static evtMng;
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
-    private readonly idc;
     constructor();
     private setSp;
-    private csvFn;
-    private sBkFn;
-    private sBkFace;
     static hFn2ResAniSpr: {
         [name: string]: IResAniSpr;
     };
     readonly lay: (hArg: HArg) => boolean;
     private laySub;
     static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
-    private static dec2cache;
-    private static sortAFrameName;
-    private static dec2cache4Cripto;
-    private static mkSprite;
     static hFn2VElm: {
         [name: string]: HTMLVideoElement;
     };

@@ -15,35 +15,35 @@ interface IFocusBtn {
 };
 
 export class FocusMng {
-	private		aBtn	: IFocusBtn[]	= [];
-	private		idx		= -1;
+	#aBtn	: IFocusBtn[]	= [];
+	#idx					= -1;
 
-	destroy() {this.aBtn = []; this.idx = -1;}
+	destroy() {this.#aBtn = []; this.#idx = -1;}
 
 	add(cmp: Container | HTMLElement, on: ()=> boolean, off: ()=> void) {
 //console.log(`fn:FocusMng.ts line:62 ADD idx:${this.aBtn.length} local:${(cmp as HTMLElement).localName} type:${(cmp as HTMLInputElement).type} cmp:%o`, cmp);
 		// 重複チェック
-		if (this.aBtn.findIndex(b=> b.btn === cmp) >= 0) return;
+		if (this.#aBtn.findIndex(b=> b.btn === cmp) >= 0) return;
 		if (cmp instanceof Container) {
 			// フレーム部品に【 if (btn instanceof HTMLElement) 】が上手く使えない
 			(cmp as utils.EventEmitter).on('pointerdown', ()=> {
-				for (let i=this.aBtn.length -1; i>=0; --i) {
-					const b = this.aBtn[i];
-					if (b.btn === cmp) {this.idx = i; return;}
+				for (let i=this.#aBtn.length -1; i>=0; --i) {
+					const b = this.#aBtn[i];
+					if (b.btn === cmp) {this.#idx = i; return;}
 				}
-				this.idx = -1;
+				this.#idx = -1;
 			});
 
-			this.aBtn.push({btn: cmp, on: on, off: off});
+			this.#aBtn.push({btn: cmp, on: on, off: off});
 			return;
 		}
 
 		cmp.addEventListener('focus', ()=> {
-			for (let i=this.aBtn.length -1; i>=0; --i) {
-				const b = this.aBtn[i];
-				if (b.btn === cmp) {this.idx = i; return;}
+			for (let i=this.#aBtn.length -1; i>=0; --i) {
+				const b = this.#aBtn[i];
+				if (b.btn === cmp) {this.#idx = i; return;}
 			}
-			this.idx = -1;
+			this.#idx = -1;
 		});
 
 		let fnc = (_: KeyboardEvent)=> {};
@@ -59,7 +59,7 @@ export class FocusMng {
 			case '':
 				// ラジオボタン
 				if (cmp.querySelectorAll('input[type]').length > 0) {
-					fnc = e=> this.radio_next(cmp, e.key);
+					fnc = e=> this.#radio_next(cmp, e.key);
 					fnc4EnterSwitch = ()=> false;
 				}
 				break;
@@ -95,16 +95,16 @@ export class FocusMng {
 		// spanなどでもフォーカスを持つように
 		if (! cmp.hasAttribute('tabindex')) cmp.tabIndex = 0;
 
-		this.aBtn.push({btn: cmp, on: on, off: off});
+		this.#aBtn.push({btn: cmp, on: on, off: off});
 	}
 	remove(cmp: Container | HTMLElement) {
-		const idx = this.aBtn.findIndex(b=> b.btn === cmp);
+		const idx = this.#aBtn.findIndex(b=> b.btn === cmp);
 		if (idx < 0) return;
-		this.aBtn.splice(idx, 1);
-		if (this.aBtn.length === 0) this.idx = -1;
-		else if (idx <= this.idx) --this.idx;	// -1 でもOK
+		this.#aBtn.splice(idx, 1);
+		if (this.#aBtn.length === 0) this.#idx = -1;
+		else if (idx <= this.#idx) --this.#idx;	// -1 でもOK
 	}
-	private radio_next(elm: HTMLElement, key: string) {
+	#radio_next(elm: HTMLElement, key: string) {
 		const op = elm.querySelectorAll('input[type]');
 		const len = op.length;
 		for (let i=0; i<len; ++i) {
@@ -118,52 +118,52 @@ export class FocusMng {
 	}
 
 	isFocus(cmp: Container | HTMLElement) {
-		if (this.idx < 0) return false;	//  || this.aBtn.length === 0 は略できる
-		return this.aBtn[this.idx].btn === cmp;
+		if (this.#idx < 0) return false;	//  || this.aBtn.length === 0 は略できる
+		return this.#aBtn[this.#idx].btn === cmp;
 	}
 
 	prev() {
-		this.allOff();
-		const len = this.aBtn.length;
+		this.#allOff();
+		const len = this.#aBtn.length;
 		if (len === 0) return;
 
-		if (--this.idx < 0) this.idx = len -1;
+		if (--this.#idx < 0) this.#idx = len -1;
 		for (let i=len; i>=1; --i) {
-			const j = (this.idx +i) % len;
-			if (this.aBtn[j].on()) {this.idx = j; this.logFocus(j); return;}
+			const j = (this.#idx +i) % len;
+			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return;}
 		}
-		this.idx = -1;
+		this.#idx = -1;
 	}
 	next() {
-		this.allOff();
-		const len = this.aBtn.length;
+		this.#allOff();
+		const len = this.#aBtn.length;
 		if (len === 0) return;
 
-		if (++this.idx >= len) this.idx = 0;
+		if (++this.#idx >= len) this.#idx = 0;
 		for (let i=0; i<len; ++i) {
-			const j = (this.idx +i) % len;
-			if (this.aBtn[j].on()) {this.idx = j; this.logFocus(j); return;}
+			const j = (this.#idx +i) % len;
+			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return;}
 		}
-		this.idx = -1;
+		this.#idx = -1;
 	}
-	private	readonly	logFocus = CmnLib.debugLog
-		? (i: number)=> console.log(`👾 <FocusMng idx:${i} btn:%o`, this.aBtn[i].btn)
+	readonly	#logFocus = CmnLib.debugLog
+		? (i: number)=> console.log(`👾 <FocusMng idx:${i} btn:%o`, this.#aBtn[i].btn)
 		: ()=> {};
 	getFocus(): Container | HTMLElement | null {
-		if (this.idx < 0) return null;
+		if (this.#idx < 0) return null;
 
-		this.allOff();
-		if (this.idx >= this.aBtn.length) this.idx = 0;
-		const b = this.aBtn[this.idx];
+		this.#allOff();
+		if (this.#idx >= this.#aBtn.length) this.#idx = 0;
+		const b = this.#aBtn[this.#idx];
 		return b.on() ?b.btn : null;
 	}
 
-	blur() {this.allOff(); this.idx = -1; globalThis.focus();}
-	private	allOff() {
-		for (let i=this.aBtn.length -1; i>=0; --i) {
-			const b = this.aBtn[i];
+	blur() {this.#allOff(); this.#idx = -1; globalThis.focus();}
+	#allOff() {
+		for (let i=this.#aBtn.length -1; i>=0; --i) {
+			const b = this.#aBtn[i];
 			if (! (b.btn instanceof Container) || b.btn.parent) b.off();
-			else this.aBtn.splice(i, 1);
+			else this.#aBtn.splice(i, 1);
 		}
 	}
 

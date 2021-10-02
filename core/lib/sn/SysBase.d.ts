@@ -2,6 +2,7 @@
 import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {
+    #private;
     readonly hPlg: HPlugin;
     protected arg: HSysBaseArg;
     hFactoryCls: {
@@ -28,17 +29,13 @@ export declare class SysBase implements ISysBase {
     protected appPixi: Application;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     protected static readonly VALNM_CFG_NS = "const.sn.cfg.ns";
-    private attach_debug;
+    attach_debug(main: IMain): void;
     protected extPort: number;
     end(): void;
-    private sk;
-    private readonly hHook;
     protected toast(nm: string): void;
-    private static readonly hToastDat;
     pathBaseCnvSnPath4Dbg: string;
     protected fire: IFire;
     setFire(fire: IFire): void;
-    private aFncHook;
     addHook(fnc: IFncHook): void;
     callHook: IFncHook;
     send2Dbg: IFncHook;
@@ -49,19 +46,13 @@ export declare class SysBase implements ISysBase {
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
-    private main_title;
     protected titleSub(_txt: string): void;
     protected tgl_full_scr: ITag;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
-    private info_title;
     setTitleInfo(txt: string): void;
-    private preFromPlg;
     decStr(ext: string, d: string): string;
     dec(ext: string, d: ArrayBuffer): Promise<string | ArrayBuffer | HTMLImageElement | HTMLVideoElement>;
-    private readonly hN2Ext;
-    private genImage;
-    private genVideo;
     protected enc: (d: string) => string;
     protected stk: () => string;
     hash: (_data: string) => string;

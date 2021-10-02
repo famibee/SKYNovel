@@ -13,7 +13,7 @@ import {IVariable, ISysBase, typeProcVal, ISetVal, IMark, IData4Vari} from '../c
 import {Areas} from '../core/src/sn/Areas';
 
 class MyVal implements IVariable {
-	private hGetVal: {[nm: string]: any} = {
+	#hGetVal: {[nm: string]: any} = {
 		"mp:fn"			: "うひひ",
 		"mp:lay"		: "もきゅ",
 		"mp:pos"		: "うひひ",
@@ -42,7 +42,7 @@ class MyVal implements IVariable {
 	flush(): void {};
 	setDoRecProc(_doRecProc: (doRec: boolean)=> void): void {}
 
-	getVal(arg_name: string): any {return this.hGetVal[arg_name];}
+	getVal(arg_name: string): any {return this.#hGetVal[arg_name];}
 	setVal_Nochk = (_sc: string, _nm: string, _v: any, _ac?: boolean)=> {};
 
 	defTmp = (_name: string, _fnc: typeProcVal)=> {};

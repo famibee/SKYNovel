@@ -35,68 +35,68 @@ interface IResAniSpr {
 }
 
 export class GrpLayer extends Layer {
-	private static	readonly	elc		= new EventListenerCtn;
+	static	readonly	#elc		= new EventListenerCtn;
 
-	private static	hFace	: Ihface	= {};
+	static	#hFace	: Ihface	= {};
 
-	private static	main	: IMain;
-	private static	cfg		: Config;
-	private static	sys		: SysBase;
-	private static	glbVol	: number	= 1;
-	private static	movVol	: number	= 1;
+	static	#main	: IMain;
+	static	#cfg		: Config;
+	static	#sys		: SysBase;
+	static	#glbVol	: number	= 1;
+	static	#movVol	: number	= 1;
 	static	init(main: IMain, cfg: Config, sys: SysBase, sndMng: SoundMng): void {
-		GrpLayer.main = main;
-		GrpLayer.cfg = cfg;
-		GrpLayer.sys = sys;
+		GrpLayer.#main = main;
+		GrpLayer.#cfg = cfg;
+		GrpLayer.#sys = sys;
 		const fnc = ()=> {
-			const vol = GrpLayer.glbVol * GrpLayer.movVol;
+			const vol = GrpLayer.#glbVol * GrpLayer.#movVol;
 			for (const fn in GrpLayer.hFn2VElm) GrpLayer.hFn2VElm[fn].volume = vol;
 		};
 		sndMng.setNoticeChgVolume(
-			vol=> {GrpLayer.glbVol = vol; fnc();},
-			vol=> {GrpLayer.movVol = vol; fnc();}
+			vol=> {GrpLayer.#glbVol = vol; fnc();},
+			vol=> {GrpLayer.#movVol = vol; fnc();}
 		);
 
-		if (GrpLayer.sys.crypto) GrpLayer.dec2cache = GrpLayer.dec2cache4Cripto;
+		if (GrpLayer.#sys.crypto) GrpLayer.#dec2cache = GrpLayer.#dec2cache4Cripto;
 	}
-	private static	evtMng	: IEvtMng;
-	static	setEvtMng(evtMng: IEvtMng) {GrpLayer.evtMng = evtMng;}
+	static	#evtMng	: IEvtMng;
+	static	setEvtMng(evtMng: IEvtMng) {GrpLayer.#evtMng = evtMng;}
 	static	destroy() {
-		GrpLayer.elc.clear();
+		GrpLayer.#elc.clear();
 
-		GrpLayer.hFace	= {};
+		GrpLayer.#hFace	= {};
 		GrpLayer.hFn2ResAniSpr	= {};
 //		GrpLayer.ldrHFn	= {};
 		GrpLayer.hFn2VElm	= {};
 	}
 
-	private	readonly	idc	= new GrpLayDesignCast(this.spLay, this);
+	readonly	#idc	= new GrpLayDesignCast(this.spLay, this);
 	constructor() {
 		super();
 		if (CmnLib.isDbg) {
-			this.setSp = sp=> this.idc.setSp(sp);
-			this.cvsResize = ()=> {super.cvsResize(); this.idc.cvsResize();}
+			this.setSp = sp=> this.#idc.setSp(sp);
+			this.cvsResize = ()=> {super.cvsResize(); this.#idc.cvsResize();}
 		}
 	}
 	private	setSp(_sp: Sprite) {}
 
-	private csvFn		= '';
-	private sBkFn		= '';
-	private sBkFace		= '';
+	#csvFn		= '';
+	#sBkFn		= '';
+	#sBkFace		= '';
 	static	hFn2ResAniSpr	: {[name: string]:	IResAniSpr} = {};
 	override readonly	lay = (hArg: HArg)=> this.laySub(hArg, isStop=> {
-		if (isStop) GrpLayer.main.resume();
+		if (isStop) GrpLayer.#main.resume();
 	});
 	private	laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
 		const fn = hArg.fn;
 		const face = hArg.face ?? '';
-		this.idc.sethArg(hArg);
+		this.#idc.sethArg(hArg);
 		if (! fn) {
 			super.lay(hArg);
 
 			if (this.spLay.children.length > 0) this.setPos(hArg);
-			this.sBkFn = '';
-			this.csvFn = this.sBkFace = face;
+			this.#sBkFn = '';
+			this.#csvFn = this.#sBkFace = face;
 			resolve(false);
 			return false;
 		}
@@ -105,15 +105,15 @@ export class GrpLayer extends Layer {
 		const inFace = 'face' in hArg;
 
 		this.clearLay({filter: 'true'});
-		if (inFn) this.sBkFn = fn;	// clearLay()後に置く事
-		if (inFace) this.sBkFace = face;
+		if (inFn) this.#sBkFn = fn;	// clearLay()後に置く事
+		if (inFace) this.#sBkFace = face;
 		super.lay(hArg);
 
 		hArg.dx = 0;
 		hArg.dy = 0;
 
 		const ret = GrpLayer.csv2Sprites(
-			this.csvFn = fn + (face ? ','+ face : ''),
+			this.#csvFn = fn + (face ? ','+ face : ''),
 			this.spLay,
 			sp=> {
 				if ('width' in hArg || 'height' in hArg) {
@@ -134,7 +134,7 @@ export class GrpLayer extends Layer {
 		return ret;
 	}
 
-//	private	static ldrHFn: {[name: string]: 1} = {};
+//	static #ldrHFn: {[name: string]: 1} = {};
 	static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		// Data URI
 		let needLoad = false;
@@ -157,7 +157,7 @@ export class GrpLayer extends Layer {
 			if (! fn) throw 'face属性に空要素が含まれます';
 
 			// 差分絵を重ねる
-			const f = GrpLayer.hFace[fn] || {
+			const f = GrpLayer.#hFace[fn] || {
 				fn: fn,
 				dx: 0,
 				dy: 0,
@@ -186,8 +186,8 @@ export class GrpLayer extends Layer {
 //			GrpLayer.ldrHFn[f.fn] = 1;
 
 			needLoad = true;
-			const url = GrpLayer.cfg.searchPath(f.fn, Config.EXT_SPRITE);
-			const xt = this.sys.crypto
+			const url = GrpLayer.#cfg.searchPath(f.fn, Config.EXT_SPRITE);
+			const xt = this.#sys.crypto
 			? {xhrType: (url.slice(-5) === '.json')
 				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
 				: LoaderResource.XHR_RESPONSE_TYPE.BUFFER}
@@ -197,7 +197,7 @@ export class GrpLayer extends Layer {
 
 		const fncLoaded = (hRes: {[fn: string]: LoaderResource})=> {
 			for (const v of aComp) {
-				const sp = GrpLayer.mkSprite(v.fn, hRes);
+				const sp = GrpLayer.#mkSprite(v.fn, hRes);
 				parent?.addChild(sp);
 				v.fnc(sp);
 			}
@@ -205,9 +205,9 @@ export class GrpLayer extends Layer {
 		}
 		if (needLoad) {
 			ldr.use((res, next)=> {
-				this.sys.dec(res.extension, res.data)
-				.then(r=> GrpLayer.dec2cache(r, res, ()=> next?.()))
-				.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+				this.#sys.dec(res.extension, res.data)
+				.then(r=> GrpLayer.#dec2cache(r, res, ()=> next?.()))
+				.catch(e=> this.#main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
 			})
 			.load((_ldr, hRes)=> fncLoaded(hRes));
 		}
@@ -215,12 +215,12 @@ export class GrpLayer extends Layer {
 
 		return needLoad;
 	}
-	private static dec2cache = (_r: SYS_DEC_RET, res: any, next: ()=> void)=> {
+	static #dec2cache = (_r: SYS_DEC_RET, res: any, next: ()=> void)=> {
 		switch (res.type) {
 			case LoaderResource.TYPE.JSON:
 				// アニメ登録
 				const aFn: string[] = res.spritesheet._frameKeys;
-				GrpLayer.sortAFrameName(aFn);
+				GrpLayer.#sortAFrameName(aFn);
 				GrpLayer.hFn2ResAniSpr[res.name] = {
 					aTex: aFn.map(fn=> Texture.from(fn)),
 					meta: res.data.meta,
@@ -229,12 +229,12 @@ export class GrpLayer extends Layer {
 
 			case LoaderResource.TYPE.VIDEO:
 				const hve = res.data as HTMLVideoElement;
-				hve.volume = GrpLayer.glbVol;
+				hve.volume = GrpLayer.#glbVol;
 				GrpLayer.hFn2VElm[res.name] = hve;
 		}
 		next();
 	}
-	private static sortAFrameName(aFn: string[]) {
+	static #sortAFrameName(aFn: string[]) {
 		const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
 		if (! a_base_name) return
 
@@ -244,7 +244,7 @@ export class GrpLayer extends Layer {
 			(int(a.slice(is, ie)) > int(b.slice(is, ie))) ?1 :-1
 		);
 	}
-	private static dec2cache4Cripto(r: SYS_DEC_RET, res: any, next: ()=> void) {
+	static #dec2cache4Cripto(r: SYS_DEC_RET, res: any, next: ()=> void) {
 		res.data = r;
 		if (res.extension === 'bin') {
 			if (r instanceof HTMLImageElement) {
@@ -256,7 +256,7 @@ export class GrpLayer extends Layer {
 				URL.revokeObjectURL(r.src);
 			}
 			else if (r instanceof HTMLVideoElement) {
-				r.volume = GrpLayer.glbVol;
+				r.volume = GrpLayer.#glbVol;
 				GrpLayer.hFn2VElm[res.name] = r;
 
 				res.type = LoaderResource.TYPE.VIDEO;
@@ -270,10 +270,10 @@ export class GrpLayer extends Layer {
 		res.type = LoaderResource.TYPE.JSON;
 		if (! o.meta?.image) {next(); return;}
 		const fn = getFn(o.meta.image);
-		const url = GrpLayer.cfg.searchPath(fn, Config.EXT_SPRITE);
+		const url = GrpLayer.#cfg.searchPath(fn, Config.EXT_SPRITE);
 		(new Loader)
 		.use((res2, next2)=> {
-			this.sys.dec(res2.extension, res2.data)
+			this.#sys.dec(res2.extension, res2.data)
 			.then(r2=> {
 				res2.data = r2;
 				if (r2 instanceof HTMLImageElement) {
@@ -282,7 +282,7 @@ export class GrpLayer extends Layer {
 				}
 				next2?.();
 			})
-			.catch(e=> this.main.errScript(`Graphic ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
+			.catch(e=> this.#main.errScript(`Graphic ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
 		})
 		.add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
 		.load((ldr, _hRes)=> {
@@ -290,7 +290,7 @@ export class GrpLayer extends Layer {
 			for (const fn in ldr.resources) {
 				const bt = Texture.from(ldr.resources[fn].data).baseTexture;
 				const aFn: any[] = Object.values(o.frames);
-				GrpLayer.sortAFrameName(aFn);
+				GrpLayer.#sortAFrameName(aFn);
 				GrpLayer.hFn2ResAniSpr[res.name] = {
 					aTex: aFn.map(f=> new Texture(
 						bt,
@@ -307,7 +307,7 @@ export class GrpLayer extends Layer {
 			next();
 		});
 	}
-	private static mkSprite(fn: string, hRes: {[fn: string]: LoaderResource}): Sprite {
+	static #mkSprite(fn: string, hRes: {[fn: string]: LoaderResource}): Sprite {
 		const ras = GrpLayer.hFn2ResAniSpr[fn];
 		if (ras) {
 			const asp = new AnimatedSprite(ras.aTex);
@@ -333,11 +333,11 @@ export class GrpLayer extends Layer {
 		const fnc = ()=> {
 			hve.removeEventListener('ended', fnc);
 			delete GrpLayer.hFn2VElm[fn];
-			this.main.resume();
+			this.#main.resume();
 		};
 		hve.addEventListener('ended', fnc, {once: true, passive: true});
 
-		return GrpLayer.evtMng.waitEvent(
+		return GrpLayer.#evtMng.waitEvent(
 			()=> {hve.pause(); fnc();},
 			argChk_Boolean(hArg, 'canskip', true),
 			argChk_Boolean(hArg, 'global', false),
@@ -356,10 +356,10 @@ export class GrpLayer extends Layer {
 	static	add_face(hArg: HArg): boolean {
 		const name = hArg.name;
 		if (! name) throw 'nameは必須です';
-		if (name in GrpLayer.hFace) throw '一つのname（'+ name +'）に対して同じ画像を複数割り当てられません';
+		if (name in GrpLayer.#hFace) throw '一つのname（'+ name +'）に対して同じ画像を複数割り当てられません';
 
 		const fn = hArg.fn ?? name;
-		GrpLayer.hFace[name] = {
+		GrpLayer.#hFace[name] = {
 			fn: fn,
 			dx: argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,
 			dy: argChk_Num(hArg, 'dy', 0) * CmnLib.retinaRate,
@@ -368,26 +368,26 @@ export class GrpLayer extends Layer {
 
 		return false;
 	}
-	static	clearFace2Name(): void {GrpLayer.hFace = {};}
+	static	clearFace2Name(): void {GrpLayer.#hFace = {};}
 
 	override clearLay(hArg: HArg): void {
 		super.clearLay(hArg);
 		for (const c of this.spLay.removeChildren()) c.destroy();
-		this.sBkFn	= '';
-		this.sBkFace= '';
-		this.csvFn	= '';
+		this.#sBkFn	= '';
+		this.#sBkFace= '';
+		this.#csvFn	= '';
 	}
 	override readonly record = ()=> Object.assign(super.record(), {
-		sBkFn		: this.sBkFn,
-		sBkFace		: this.sBkFace,
-		idc_hArg	: this.idc.gethArg(),
+		sBkFn		: this.#sBkFn,
+		sBkFace		: this.#sBkFace,
+		idc_hArg	: this.#idc.gethArg(),
 	});
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
-			this.sBkFn		= hLay.sBkFn;
-			this.sBkFace	= hLay.sBkFace;
-			this.idc.sethArg(hLay.idc_hArg);
+			this.#sBkFn		= hLay.sBkFn;
+			this.#sBkFace	= hLay.sBkFace;
+			this.#idc.sethArg(hLay.idc_hArg);
 			return;
 		}
 
@@ -400,15 +400,15 @@ export class GrpLayer extends Layer {
 
 	override makeDesignCast(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
-		gdc(this.idc);
+		gdc(this.#idc);
 	}
 	//makeDesignCastChildren(_gdc: IMakeDesignCast) {}
 
 	override cvsResize() {super.cvsResize();}
 
-	override showDesignCast() {this.idc.visible = true;}
+	override showDesignCast() {this.#idc.visible = true;}
 	//showDesignCastChildren() {}
 
-	override readonly dump = ()=> super.dump() +`, "pic":"${this.csvFn}"`;
+	override readonly dump = ()=> super.dump() +`, "pic":"${this.#csvFn}"`;
 
 }

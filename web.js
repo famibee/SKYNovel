@@ -71803,47 +71803,60 @@ function clearAll() {
 /*!**************************************!*\
   !*** ./core/src/sn/AnalyzeTagArg.ts ***!
   \**************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
 
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _AnalyzeTagArg_REG_TAGARG, _AnalyzeTagArg_hPrm, _AnalyzeTagArg_isKomeParam;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.AnalyzeTagArg = void 0;
 ;
 ;
 class AnalyzeTagArg {
     constructor() {
-        this.REG_TAGARG = /;[^\n]*|(?<key>\w+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
-        this.$hPrm = {};
-        this.$isKomeParam = false;
+        _AnalyzeTagArg_REG_TAGARG.set(this, /;[^\n]*|(?<key>\w+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g);
+        _AnalyzeTagArg_hPrm.set(this, {});
+        _AnalyzeTagArg_isKomeParam.set(this, false);
     }
     go(args) {
-        this.$hPrm = {};
-        this.$isKomeParam = false;
+        __classPrivateFieldSet(this, _AnalyzeTagArg_hPrm, {}, "f");
+        __classPrivateFieldSet(this, _AnalyzeTagArg_isKomeParam, false, "f");
         if (!args)
             return;
         let e = null;
-        while (e = this.REG_TAGARG.exec(args)) {
+        while (e = __classPrivateFieldGet(this, _AnalyzeTagArg_REG_TAGARG, "f").exec(args)) {
             const g = e?.groups;
             if (!g)
                 continue;
             if (g.key)
-                this.$hPrm[g.key] = {
+                __classPrivateFieldGet(this, _AnalyzeTagArg_hPrm, "f")[g.key] = {
                     val: g.val ?? g.val2,
                     def: g.def ?? g.def2
                 };
             else if (g.literal) {
                 if (g.literal === '*')
-                    this.$isKomeParam = true;
+                    __classPrivateFieldSet(this, _AnalyzeTagArg_isKomeParam, true, "f");
                 else
-                    this.$hPrm[g.literal] = { val: '1' };
+                    __classPrivateFieldGet(this, _AnalyzeTagArg_hPrm, "f")[g.literal] = { val: '1' };
             }
         }
     }
-    get hPrm() { return this.$hPrm; }
-    get isKomeParam() { return this.$isKomeParam; }
+    get hPrm() { return __classPrivateFieldGet(this, _AnalyzeTagArg_hPrm, "f"); }
+    get isKomeParam() { return __classPrivateFieldGet(this, _AnalyzeTagArg_isKomeParam, "f"); }
 }
 exports.AnalyzeTagArg = AnalyzeTagArg;
+_AnalyzeTagArg_REG_TAGARG = new WeakMap(), _AnalyzeTagArg_hPrm = new WeakMap(), _AnalyzeTagArg_isKomeParam = new WeakMap();
 
 
 /***/ }),
@@ -71944,10 +71957,22 @@ exports.Areas = Areas;
 /*!*******************************!*\
   !*** ./core/src/sn/Button.ts ***!
   \*******************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _Button_instances, _a, _Button_procMasume4txt, _Button_procMasume4pic, _Button_idc, _Button_sp_b_pic, _Button_sp_pic, _Button_loaded_b_pic, _Button_loaded_pic;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Button = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
@@ -71963,11 +71988,13 @@ class Button extends pixi_js_1.Container {
         this.evtMng = evtMng;
         this.resolve = resolve;
         this.canFocus = canFocus;
-        this.sp_b_pic = null;
-        this.sp_pic = null;
+        _Button_instances.add(this);
+        _Button_idc.set(this, void 0);
+        _Button_sp_b_pic.set(this, null);
+        _Button_sp_pic.set(this, null);
         if (CmnLib_1.CmnLib.isDbg) {
-            this.makeDesignCast = gdc => gdc(this.idc);
-            this.cvsResize = () => this.idc.cvsResize();
+            this.makeDesignCast = gdc => gdc(__classPrivateFieldGet(this, _Button_idc, "f"));
+            this.cvsResize = () => __classPrivateFieldGet(this, _Button_idc, "f").cvsResize();
         }
         this.name = JSON.stringify(hArg);
         let oName = {
@@ -72014,11 +72041,11 @@ class Button extends pixi_js_1.Container {
             oName.text = txt.text;
             oName.width = txt.width;
             oName.height = txt.height;
-            this.idc = new DesignCast_1.TxtBtnDesignCast(this, hArg, txt);
+            __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.TxtBtnDesignCast(this, hArg, txt), "f");
             let isStop = false;
             if (hArg.b_pic) {
                 oName.b_pic = hArg.b_pic;
-                isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.b_pic, this, sp => this.loaded_b_pic(sp, txt), isStop => {
+                isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.b_pic, this, sp => __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_b_pic).call(this, sp, txt), isStop => {
                     Layer_1.Layer.setBlendmode(this, hArg);
                     if (isStop)
                         resolve();
@@ -72028,7 +72055,7 @@ class Button extends pixi_js_1.Container {
             this.addChild(txt);
             if (!hArg.b_pic)
                 Layer_1.Layer.setBlendmode(this, hArg);
-            Button.procMasume4txt(this, txt);
+            __classPrivateFieldGet(Button, _a, "f", _Button_procMasume4txt).call(Button, this, txt);
             if (!enabled) {
                 if (!isStop)
                     resolve();
@@ -72071,15 +72098,15 @@ class Button extends pixi_js_1.Container {
         if (!hArg.pic)
             throw 'textまたはpic属性は必須です';
         oName.type = 'pic';
-        this.idc = new DesignCast_1.PicBtnDesignCast(this, hArg);
-        if (!GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => this.loaded_pic(sp, oName), isStop => { if (isStop)
+        __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.PicBtnDesignCast(this, hArg), "f");
+        if (!GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_pic).call(this, sp, oName), isStop => { if (isStop)
             resolve(); }))
             resolve();
     }
     static init(cfg) {
         if (!cfg.oCfg.debug.masume)
             return;
-        Button.procMasume4txt = (me, txt) => {
+        __classPrivateFieldSet(Button, _a, (me, txt) => {
             const grpDbgMasume = new pixi_js_2.Graphics;
             grpDbgMasume.clear();
             grpDbgMasume.beginFill(0x883388, 0.2);
@@ -72087,8 +72114,8 @@ class Button extends pixi_js_1.Container {
             grpDbgMasume.drawRect(txt.x, txt.y, txt.width, txt.height);
             grpDbgMasume.endFill();
             me.addChild(grpDbgMasume);
-        };
-        Button.procMasume4pic = (me, sp, w3, h) => {
+        }, "f", _Button_procMasume4txt);
+        __classPrivateFieldSet(Button, _a, (me, sp, w3, h) => {
             const grpDbgMasume = new pixi_js_2.Graphics;
             grpDbgMasume.clear();
             grpDbgMasume.beginFill(0x883388, 0.2);
@@ -72096,76 +72123,75 @@ class Button extends pixi_js_1.Container {
             grpDbgMasume.drawRect(sp.x, sp.y, w3, h);
             grpDbgMasume.endFill();
             me.addChild(grpDbgMasume);
-        };
+        }, "f", _Button_procMasume4pic);
     }
     makeDesignCast(_gdc) { }
-    showDesignCast() { this.idc.visible = true; }
+    showDesignCast() { __classPrivateFieldGet(this, _Button_idc, "f").visible = true; }
     cvsResize() { }
     update_b_pic(fn, txt) {
         const oName = JSON.parse(txt.name ?? '{}');
-        if (this.sp_b_pic)
-            this.removeChild(this.sp_b_pic);
+        if (__classPrivateFieldGet(this, _Button_sp_b_pic, "f"))
+            this.removeChild(__classPrivateFieldGet(this, _Button_sp_b_pic, "f"));
         this.hArg.b_pic = oName.b_pic = fn;
         txt.name = JSON.stringify(oName);
         if (!fn)
             return;
-        GrpLayer_1.GrpLayer.csv2Sprites(fn, this, sp => this.loaded_b_pic(sp, txt), () => Layer_1.Layer.setBlendmode(this, this.hArg));
-    }
-    loaded_b_pic(sp, txt) {
-        this.sp_b_pic = sp;
-        this.setChildIndex(sp, 0);
-        sp.alpha = txt.alpha;
-        sp.setTransform(txt.x, txt.y, 1, 1, txt.rotation, 0, 0, (sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
+        GrpLayer_1.GrpLayer.csv2Sprites(fn, this, sp => __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_b_pic).call(this, sp, txt), () => Layer_1.Layer.setBlendmode(this, this.hArg));
     }
     update_pic(fn, sp) {
         const oName = JSON.parse(sp.name ?? '{}');
-        if (this.sp_pic)
-            this.removeChild(this.sp_pic);
+        if (__classPrivateFieldGet(this, _Button_sp_pic, "f"))
+            this.removeChild(__classPrivateFieldGet(this, _Button_sp_pic, "f"));
         this.hArg.pic = oName.pic = fn;
         sp.name = JSON.stringify(oName);
         if (!fn)
             return;
-        GrpLayer_1.GrpLayer.csv2Sprites(fn, this, sp => this.loaded_pic(sp, oName), () => Layer_1.Layer.setBlendmode(this, this.hArg));
-    }
-    loaded_pic(sp, oName) {
-        this.sp_pic = sp;
-        oName.alpha = sp.alpha = (0, CmnLib_1.argChk_Num)(this.hArg, 'alpha', sp.alpha);
-        this.idc.setSp(sp);
-        const w3 = sp.width / 3;
-        const h = sp.height;
-        const tx = sp.texture.baseTexture;
-        const txNormal = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(0, 0, w3, h));
-        const txClicked = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3, 0, w3, h));
-        const txHover = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3 * 2, 0, w3, h));
-        const normal = () => sp.texture = txNormal;
-        normal();
-        if (oName.enabled)
-            this.evtMng.button(this.hArg, this, normal, () => {
-                if (!this.canFocus())
-                    return false;
-                sp.texture = txHover;
-                return true;
-            }, () => sp.texture = txClicked);
-        if ('width' in this.hArg) {
-            oName.width = (0, CmnLib_1.uint)(this.hArg.width);
-            this.scale.x *= oName.width / w3;
-        }
-        else
-            oName.width = w3;
-        if ('height' in this.hArg) {
-            oName.height = (0, CmnLib_1.uint)(this.hArg.height);
-            this.scale.y *= oName.height / w3;
-        }
-        else
-            oName.height = w3;
-        sp.name = JSON.stringify(oName);
-        Button.procMasume4pic(this, sp, w3, h);
+        GrpLayer_1.GrpLayer.csv2Sprites(fn, this, sp => __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_pic).call(this, sp, oName), () => Layer_1.Layer.setBlendmode(this, this.hArg));
     }
 }
 exports.Button = Button;
+_a = Button, _Button_idc = new WeakMap(), _Button_sp_b_pic = new WeakMap(), _Button_sp_pic = new WeakMap(), _Button_instances = new WeakSet(), _Button_loaded_b_pic = function _Button_loaded_b_pic(sp, txt) {
+    __classPrivateFieldSet(this, _Button_sp_b_pic, sp, "f");
+    this.setChildIndex(sp, 0);
+    sp.alpha = txt.alpha;
+    sp.setTransform(txt.x, txt.y, 1, 1, txt.rotation, 0, 0, (sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
+}, _Button_loaded_pic = function _Button_loaded_pic(sp, oName) {
+    __classPrivateFieldSet(this, _Button_sp_pic, sp, "f");
+    oName.alpha = sp.alpha = (0, CmnLib_1.argChk_Num)(this.hArg, 'alpha', sp.alpha);
+    __classPrivateFieldGet(this, _Button_idc, "f").setSp(sp);
+    const w3 = sp.width / 3;
+    const h = sp.height;
+    const tx = sp.texture.baseTexture;
+    const txNormal = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(0, 0, w3, h));
+    const txClicked = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3, 0, w3, h));
+    const txHover = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3 * 2, 0, w3, h));
+    const normal = () => sp.texture = txNormal;
+    normal();
+    if (oName.enabled)
+        this.evtMng.button(this.hArg, this, normal, () => {
+            if (!this.canFocus())
+                return false;
+            sp.texture = txHover;
+            return true;
+        }, () => sp.texture = txClicked);
+    if ('width' in this.hArg) {
+        oName.width = (0, CmnLib_1.uint)(this.hArg.width);
+        this.scale.x *= oName.width / w3;
+    }
+    else
+        oName.width = w3;
+    if ('height' in this.hArg) {
+        oName.height = (0, CmnLib_1.uint)(this.hArg.height);
+        this.scale.y *= oName.height / w3;
+    }
+    else
+        oName.height = w3;
+    sp.name = JSON.stringify(oName);
+    __classPrivateFieldGet(Button, _a, "f", _Button_procMasume4pic).call(Button, this, sp, w3, h);
+};
 Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
-Button.procMasume4txt = (_me, _txt) => { };
-Button.procMasume4pic = (_me, _sp, _w3, _h) => { };
+_Button_procMasume4txt = { value: (_me, _txt) => { } };
+_Button_procMasume4pic = { value: (_me, _sp, _w3, _h) => { } };
 
 
 /***/ }),
@@ -72307,11 +72333,11 @@ function argChk_Boolean(hash, name, def) {
     return hash[name] = (v2 === 'false') ? false : Boolean(v2);
 }
 exports.argChk_Boolean = argChk_Boolean;
-const reg_fn = /^[^\/\.]+$|[^\/]+(?=\.)/;
-function getFn(p) { return (p.match(reg_fn) ?? [''])[0]; }
+const REG_FN = /^[^\/\.]+$|[^\/]+(?=\.)/;
+function getFn(p) { return (p.match(REG_FN) ?? [''])[0]; }
 exports.getFn = getFn;
-const reg_ext = /(?<=\.)[^\.]+$/;
-function getExt(p) { return (p.match(reg_ext) ?? [''])[0]; }
+const REG_EXT = /\.([^\.]+)$/;
+function getExt(p) { return (p.match(REG_EXT) ?? [''])[1]; }
 exports.getExt = getExt;
 const platform = __webpack_require__(/*! platform */ "./node_modules/platform/platform.js");
 class CmnLib {
@@ -72392,10 +72418,16 @@ CmnLib.SN_ID = 'skynovel';
 /*!*********************************!*\
   !*** ./core/src/sn/CmnTween.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _a, _CmnTween_hEase;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CmnTween = void 0;
 const tween_js_1 = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/dist/tween.esm.js");
@@ -72403,45 +72435,46 @@ class CmnTween {
     static ease(nm) {
         if (!nm)
             return k => tween_js_1.Easing.Linear.None(k);
-        if (!(nm in CmnTween.hEase))
+        if (!(nm in __classPrivateFieldGet(CmnTween, _a, "f", _CmnTween_hEase)))
             throw '異常なease指定です';
-        return CmnTween.hEase[nm];
+        return __classPrivateFieldGet(CmnTween, _a, "f", _CmnTween_hEase)[nm];
     }
 }
 exports.CmnTween = CmnTween;
-CmnTween.hEase = {
-    'Back.In': k => tween_js_1.Easing.Back.In(k),
-    'Back.InOut': k => tween_js_1.Easing.Back.InOut(k),
-    'Back.Out': k => tween_js_1.Easing.Back.Out(k),
-    'Bounce.In': k => tween_js_1.Easing.Bounce.In(k),
-    'Bounce.InOut': k => tween_js_1.Easing.Bounce.InOut(k),
-    'Bounce.Out': k => tween_js_1.Easing.Bounce.Out(k),
-    'Circular.In': k => tween_js_1.Easing.Circular.In(k),
-    'Circular.InOut': k => tween_js_1.Easing.Circular.InOut(k),
-    'Circular.Out': k => tween_js_1.Easing.Circular.Out(k),
-    'Cubic.In': k => tween_js_1.Easing.Cubic.In(k),
-    'Cubic.InOut': k => tween_js_1.Easing.Cubic.InOut(k),
-    'Cubic.Out': k => tween_js_1.Easing.Cubic.Out(k),
-    'Elastic.In': k => tween_js_1.Easing.Elastic.In(k),
-    'Elastic.InOut': k => tween_js_1.Easing.Elastic.InOut(k),
-    'Elastic.Out': k => tween_js_1.Easing.Elastic.Out(k),
-    'Exponential.In': k => tween_js_1.Easing.Exponential.In(k),
-    'Exponential.InOut': k => tween_js_1.Easing.Exponential.InOut(k),
-    'Exponential.Out': k => tween_js_1.Easing.Exponential.Out(k),
-    'Linear.None': k => tween_js_1.Easing.Linear.None(k),
-    'Quadratic.In': k => tween_js_1.Easing.Quadratic.In(k),
-    'Quadratic.InOut': k => tween_js_1.Easing.Quadratic.InOut(k),
-    'Quadratic.Out': k => tween_js_1.Easing.Quadratic.Out(k),
-    'Quartic.In': k => tween_js_1.Easing.Quartic.In(k),
-    'Quartic.InOut': k => tween_js_1.Easing.Quartic.InOut(k),
-    'Quartic.Out': k => tween_js_1.Easing.Quartic.Out(k),
-    'Quintic.In': k => tween_js_1.Easing.Quintic.In(k),
-    'Quintic.InOut': k => tween_js_1.Easing.Quintic.InOut(k),
-    'Quintic.Out': k => tween_js_1.Easing.Quintic.Out(k),
-    'Sinusoidal.In': k => tween_js_1.Easing.Sinusoidal.In(k),
-    'Sinusoidal.InOut': k => tween_js_1.Easing.Sinusoidal.InOut(k),
-    'Sinusoidal.Out': k => tween_js_1.Easing.Sinusoidal.Out(k),
-};
+_a = CmnTween;
+_CmnTween_hEase = { value: {
+        'Back.In': k => tween_js_1.Easing.Back.In(k),
+        'Back.InOut': k => tween_js_1.Easing.Back.InOut(k),
+        'Back.Out': k => tween_js_1.Easing.Back.Out(k),
+        'Bounce.In': k => tween_js_1.Easing.Bounce.In(k),
+        'Bounce.InOut': k => tween_js_1.Easing.Bounce.InOut(k),
+        'Bounce.Out': k => tween_js_1.Easing.Bounce.Out(k),
+        'Circular.In': k => tween_js_1.Easing.Circular.In(k),
+        'Circular.InOut': k => tween_js_1.Easing.Circular.InOut(k),
+        'Circular.Out': k => tween_js_1.Easing.Circular.Out(k),
+        'Cubic.In': k => tween_js_1.Easing.Cubic.In(k),
+        'Cubic.InOut': k => tween_js_1.Easing.Cubic.InOut(k),
+        'Cubic.Out': k => tween_js_1.Easing.Cubic.Out(k),
+        'Elastic.In': k => tween_js_1.Easing.Elastic.In(k),
+        'Elastic.InOut': k => tween_js_1.Easing.Elastic.InOut(k),
+        'Elastic.Out': k => tween_js_1.Easing.Elastic.Out(k),
+        'Exponential.In': k => tween_js_1.Easing.Exponential.In(k),
+        'Exponential.InOut': k => tween_js_1.Easing.Exponential.InOut(k),
+        'Exponential.Out': k => tween_js_1.Easing.Exponential.Out(k),
+        'Linear.None': k => tween_js_1.Easing.Linear.None(k),
+        'Quadratic.In': k => tween_js_1.Easing.Quadratic.In(k),
+        'Quadratic.InOut': k => tween_js_1.Easing.Quadratic.InOut(k),
+        'Quadratic.Out': k => tween_js_1.Easing.Quadratic.Out(k),
+        'Quartic.In': k => tween_js_1.Easing.Quartic.In(k),
+        'Quartic.InOut': k => tween_js_1.Easing.Quartic.InOut(k),
+        'Quartic.Out': k => tween_js_1.Easing.Quartic.Out(k),
+        'Quintic.In': k => tween_js_1.Easing.Quintic.In(k),
+        'Quintic.InOut': k => tween_js_1.Easing.Quintic.InOut(k),
+        'Quintic.Out': k => tween_js_1.Easing.Quintic.Out(k),
+        'Sinusoidal.In': k => tween_js_1.Easing.Sinusoidal.In(k),
+        'Sinusoidal.InOut': k => tween_js_1.Easing.Sinusoidal.InOut(k),
+        'Sinusoidal.Out': k => tween_js_1.Easing.Sinusoidal.Out(k),
+    } };
 
 
 /***/ }),
@@ -72450,10 +72483,22 @@ CmnTween.hEase = {
 /*!*******************************!*\
   !*** ./core/src/sn/Config.ts ***!
   \*******************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _Config_existsBreakline, _Config_existsBreakpage, _Config_REGPATH;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Config = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -72498,9 +72543,9 @@ class Config {
         };
         this.userFnTail = '';
         this.hPathFn2Exts = {};
-        this.$existsBreakline = false;
-        this.$existsBreakpage = false;
-        this.regPath = /([^\/\s]+)\.([^\d]\w+)/;
+        _Config_existsBreakline.set(this, false);
+        _Config_existsBreakpage.set(this, false);
+        _Config_REGPATH.set(this, /([^\/\s]+)\.([^\d]\w+)/);
     }
     static async generate(sys) {
         const c = new Config(sys);
@@ -72528,8 +72573,8 @@ class Config {
         CmnLib_1.CmnLib.debugLog = this.oCfg.debug.debugLog;
         this.oCfg.debuger_token = oCfg.debuger_token;
         await this.sys.loadPath(this.hPathFn2Exts, this);
-        this.$existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
-        this.$existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
+        __classPrivateFieldSet(this, _Config_existsBreakline, this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0, "f");
+        __classPrivateFieldSet(this, _Config_existsBreakpage, this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0, "f");
         if (this.sys.crypto)
             for (const nm in this.hPathFn2Exts) {
                 const o = this.hPathFn2Exts[nm];
@@ -72546,8 +72591,8 @@ class Config {
                 }
             }
     }
-    get existsBreakline() { return this.$existsBreakline; }
-    get existsBreakpage() { return this.$existsBreakpage; }
+    get existsBreakline() { return __classPrivateFieldGet(this, _Config_existsBreakline, "f"); }
+    get existsBreakpage() { return __classPrivateFieldGet(this, _Config_existsBreakpage, "f"); }
     getNs() { return `skynovel.${this.oCfg.save_ns} - `; }
     searchPath(path, extptn = '') {
         if (!path)
@@ -72564,7 +72609,7 @@ class Config {
             this.sys.ensureFileSync(fp);
             return fp;
         }
-        const a = path.match(this.regPath);
+        const a = path.match(__classPrivateFieldGet(this, _Config_REGPATH, "f"));
         let fn = a ? a[1] : path;
         const ext = a ? a[2] : '';
         if (this.userFnTail) {
@@ -72654,6 +72699,7 @@ class Config {
     }
 }
 exports.Config = Config;
+_Config_existsBreakline = new WeakMap(), _Config_existsBreakpage = new WeakMap(), _Config_REGPATH = new WeakMap();
 Config.EXT_SPRITE = 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 Config.EXT_SCRIPT = 'sn|ssn';
 Config.EXT_FONT = 'woff2|otf|ttf';
@@ -72667,10 +72713,22 @@ Config.EXT_HTML = 'htm|html';
 /*!*********************************!*\
   !*** ./core/src/sn/DebugMng.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _DebugMng_instances, _a, _DebugMng_scrItr, _DebugMng_hTag, _DebugMng_title, _DebugMng_spnDbg, _DebugMng_first, _DebugMng_log, _DebugMng_trace, _DebugMng_trace_beforeNew, _DebugMng_st_trace, _DebugMng_dspDbg;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DebugMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -72678,125 +72736,126 @@ const platform = __webpack_require__(/*! platform */ "./node_modules/platform/pl
 class DebugMng {
     constructor(sys, hTag, scrItr) {
         this.sys = sys;
-        this.first = true;
-        DebugMng.scrItr = scrItr;
-        DebugMng.hTag = hTag;
-        DebugMng.title = hTag.title;
-        DebugMng.myTrace = DebugMng.trace;
-        hTag.log = o => this.log(o);
-        hTag.trace = o => this.trace(o);
-        DebugMng.spnDbg = document.createElement('span');
-        DebugMng.spnDbg.hidden = true;
-        DebugMng.spnDbg.textContent = '';
-        DebugMng.spnDbg.style.cssText =
+        _DebugMng_instances.add(this);
+        _DebugMng_first.set(this, true);
+        __classPrivateFieldSet(DebugMng, _a, scrItr, "f", _DebugMng_scrItr);
+        __classPrivateFieldSet(DebugMng, _a, hTag, "f", _DebugMng_hTag);
+        __classPrivateFieldSet(DebugMng, _a, hTag.title, "f", _DebugMng_title);
+        DebugMng.myTrace = __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_st_trace);
+        hTag.log = o => __classPrivateFieldGet(this, _DebugMng_instances, "m", _DebugMng_log).call(this, o);
+        hTag.trace = o => __classPrivateFieldGet(this, _DebugMng_instances, "m", _DebugMng_trace).call(this, o);
+        __classPrivateFieldSet(DebugMng, _a, document.createElement('span'), "f", _DebugMng_spnDbg);
+        __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg).hidden = true;
+        __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg).textContent = '';
+        __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg).style.cssText =
             `	z-index: ${Number.MAX_SAFE_INTEGER};
 			position: absolute; left: 0; top: 0;
 			color: black;
 			background-color: rgba(255, 255, 255, 0.7);`;
-        document.body.appendChild(DebugMng.spnDbg);
+        document.body.appendChild(__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg));
     }
     destroy() {
-        DebugMng.title = () => false;
-        document.body.removeChild(DebugMng.spnDbg);
-        DebugMng.myTrace = DebugMng.trace_beforeNew;
-    }
-    log(hArg) {
-        let dat = '';
-        if (this.first) {
-            this.first = false;
-            dat = `== ${platform.description} ==\n`;
-        }
-        this.sys.appendFile(this.sys.path_downloads + 'log.txt', `${dat}--- ${(0, CmnLib_1.getDateStr)('-', '_', '')} [fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)
-            console.log(err); });
-        return false;
-    }
-    trace(hArg) {
-        DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
-        return false;
-    }
-    static trace_beforeNew(txt, lvl = 'E') {
-        let mes = `{${lvl}} ` + txt;
-        let sty = '';
-        switch (lvl) {
-            case 'D':
-                sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
-                break;
-            case 'W':
-                sty = 'color:#FF8800;';
-                break;
-            case 'F':
-                sty = 'color:#BB0000;';
-                break;
-            case 'ET': throw mes;
-            case 'E':
-                console.error('%c' + mes, 'color:#FF3300;');
-                return;
-            default:
-                sty = 'color:black;';
-                mes = ' ' + mes;
-        }
-        console.info('%c' + mes, sty);
-    }
-    static trace(txt, lvl = 'E') {
-        let mes = `{${lvl}} `;
-        if (DebugMng.scrItr && DebugMng.scrItr.lineNum > 0)
-            mes +=
-                `(fn:${DebugMng.scrItr.scriptFn} line:${DebugMng.scrItr.lineNum}) `;
-        mes += txt;
-        DebugMng.dspDbg(mes, lvl);
-        let sty = '';
-        switch (lvl) {
-            case 'D':
-                sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
-                break;
-            case 'W':
-                sty = 'color:#F80;';
-                break;
-            case 'F':
-                sty = 'color:#B00;';
-                break;
-            case 'ET':
-            case 'E':
-                DebugMng.title({ text: txt });
-                this.hTag.dump_lay({});
-                this.hTag.dump_val({});
-                DebugMng.scrItr.dumpErrForeLine();
-                this.hTag.dump_stack({});
-                if (lvl === 'ET')
-                    throw mes;
-                console.error('%c' + mes, 'color:#F30;');
-                return;
-            default:
-                sty = '';
-                mes = ' ' + mes;
-        }
-        console.info('%c' + mes, sty);
-    }
-    static dspDbg(mes, lvl) {
-        let sty = '';
-        switch (lvl) {
-            case 'D':
-                sty = 'color:#05A;';
-                break;
-            case 'W':
-                sty = 'color:#F80;';
-                break;
-            case 'F':
-                sty = 'color:#B00;';
-                break;
-            case 'ET':
-            case 'E':
-                sty = 'color:#F30;';
-                break;
-            default: sty = '';
-        }
-        DebugMng.spnDbg.innerHTML += `<span style='${sty}'>${mes}</span><br/>`;
-        DebugMng.spnDbg.hidden = false;
+        __classPrivateFieldSet(DebugMng, _a, () => false, "f", _DebugMng_title);
+        document.body.removeChild(__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg));
+        DebugMng.myTrace = __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_trace_beforeNew);
     }
     ;
 }
 exports.DebugMng = DebugMng;
-DebugMng.myTrace = DebugMng.trace_beforeNew;
+_a = DebugMng, _DebugMng_first = new WeakMap(), _DebugMng_instances = new WeakSet(), _DebugMng_log = function _DebugMng_log(hArg) {
+    let dat = '';
+    if (__classPrivateFieldGet(this, _DebugMng_first, "f")) {
+        __classPrivateFieldSet(this, _DebugMng_first, false, "f");
+        dat = `== ${platform.description} ==\n`;
+    }
+    this.sys.appendFile(this.sys.path_downloads + 'log.txt', `${dat}--- ${(0, CmnLib_1.getDateStr)('-', '_', '')} [fn:${__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).scriptFn} line:${__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).lineNum}] prj:${this.sys.cur}\n${hArg.text || `(text is ${hArg.text})`}\n`, err => { if (err)
+        console.log(err); });
+    return false;
+}, _DebugMng_trace = function _DebugMng_trace(hArg) {
+    DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
+    return false;
+}, _DebugMng_trace_beforeNew = function _DebugMng_trace_beforeNew(txt, lvl = 'E') {
+    let mes = `{${lvl}} ` + txt;
+    let sty = '';
+    switch (lvl) {
+        case 'D':
+            sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
+            break;
+        case 'W':
+            sty = 'color:#FF8800;';
+            break;
+        case 'F':
+            sty = 'color:#BB0000;';
+            break;
+        case 'ET': throw mes;
+        case 'E':
+            console.error('%c' + mes, 'color:#FF3300;');
+            return;
+        default:
+            sty = 'color:black;';
+            mes = ' ' + mes;
+    }
+    console.info('%c' + mes, sty);
+}, _DebugMng_st_trace = function _DebugMng_st_trace(txt, lvl = 'E') {
+    let mes = `{${lvl}} `;
+    if (__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr) && __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).lineNum > 0)
+        mes +=
+            `(fn:${__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).scriptFn} line:${__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).lineNum}) `;
+    mes += txt;
+    __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_dspDbg).call(DebugMng, mes, lvl);
+    let sty = '';
+    switch (lvl) {
+        case 'D':
+            sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
+            break;
+        case 'W':
+            sty = 'color:#F80;';
+            break;
+        case 'F':
+            sty = 'color:#B00;';
+            break;
+        case 'ET':
+        case 'E':
+            __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_title).call(DebugMng, { text: txt });
+            __classPrivateFieldGet(this, _a, "f", _DebugMng_hTag).dump_lay({});
+            __classPrivateFieldGet(this, _a, "f", _DebugMng_hTag).dump_val({});
+            __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).dumpErrForeLine();
+            __classPrivateFieldGet(this, _a, "f", _DebugMng_hTag).dump_stack({});
+            if (lvl === 'ET')
+                throw mes;
+            console.error('%c' + mes, 'color:#F30;');
+            return;
+        default:
+            sty = '';
+            mes = ' ' + mes;
+    }
+    console.info('%c' + mes, sty);
+}, _DebugMng_dspDbg = function _DebugMng_dspDbg(mes, lvl) {
+    let sty = '';
+    switch (lvl) {
+        case 'D':
+            sty = 'color:#05A;';
+            break;
+        case 'W':
+            sty = 'color:#F80;';
+            break;
+        case 'F':
+            sty = 'color:#B00;';
+            break;
+        case 'ET':
+        case 'E':
+            sty = 'color:#F30;';
+            break;
+        default: sty = '';
+    }
+    __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg).innerHTML += `<span style='${sty}'>${mes}</span><br/>`;
+    __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg).hidden = false;
+};
+_DebugMng_scrItr = { value: void 0 };
+_DebugMng_hTag = { value: void 0 };
+_DebugMng_title = { value: void 0 };
+_DebugMng_spnDbg = { value: void 0 };
+DebugMng.myTrace = __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_trace_beforeNew);
 
 
 /***/ }),
@@ -72809,9 +72868,21 @@ DebugMng.myTrace = DebugMng.trace_beforeNew;
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _DesignCast_instances, _a, _DesignCast_divDesignRoot, _DesignCast_sys, _DesignCast_scrItr, _DesignCast_alzTagArg, _DesignCast_cfg, _DesignCast_hPages, _DesignCast_parent, _DesignCast_ID_DESIGNMODE, _DesignCast_cntDesignCast, _DesignCast_hId2dc, _DesignCast_aDC, _DesignCast_resizeDiv, _DesignCast_fncLay, _GrpLayDesignCast_sp, _TxtLayPadDesignCast_instances, _TxtLayPadDesignCast_procHint, _PicBtnDesignCast_sp;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PicBtnDesignCast = exports.TxtBtnDesignCast = exports.BtnDesignCast = exports.TxtLayPadDesignCast = exports.TxtLayDesignCast = exports.GrpLayDesignCast = exports.DesignCast = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -72824,6 +72895,7 @@ class DesignCast {
     constructor(bg_col, isLay = false) {
         this.bg_col = bg_col;
         this.isLay = isLay;
+        _DesignCast_instances.add(this);
         this.hArg = {};
         this.id_tag = '';
         this.hDesignArg = {
@@ -72841,7 +72913,8 @@ class DesignCast {
             'width': 0,
             'height': 0,
         };
-        this.fncLay = () => { };
+        _DesignCast_parent.set(this, void 0);
+        _DesignCast_fncLay.set(this, () => { });
         this.mov = null;
         this.div = null;
         this.lx = 0;
@@ -72854,16 +72927,16 @@ class DesignCast {
         this.rotatable = true;
     }
     static init(appPixi, sys, scrItr, prpPrs, alzTagArg, cfg, hPages) {
-        appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.ID_DESIGNMODE}" style="width: ${CmnLib_1.CmnLib.stageW * CmnLib_1.CmnLib.cvsScale}px; height: ${CmnLib_1.CmnLib.stageH * CmnLib_1.CmnLib.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
-        DesignCast.divDesignRoot = document.getElementById(DesignCast.ID_DESIGNMODE);
+        appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)}" style="width: ${CmnLib_1.CmnLib.stageW * CmnLib_1.CmnLib.cvsScale}px; height: ${CmnLib_1.CmnLib.stageH * CmnLib_1.CmnLib.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+        __classPrivateFieldSet(DesignCast, _a, document.getElementById(__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)), "f", _DesignCast_divDesignRoot);
         DesignCast.divHint.classList.add('sn_design_hint');
         document.body.appendChild(DesignCast.divHint);
-        DesignCast.sys = sys;
-        DesignCast.scrItr = scrItr;
+        __classPrivateFieldSet(DesignCast, _a, sys, "f", _DesignCast_sys);
+        __classPrivateFieldSet(DesignCast, _a, scrItr, "f", _DesignCast_scrItr);
         DesignCast.prpPrs = prpPrs;
-        DesignCast.alzTagArg = alzTagArg;
-        DesignCast.cfg = cfg;
-        DesignCast.hPages = hPages;
+        __classPrivateFieldSet(DesignCast, _a, alzTagArg, "f", _DesignCast_alzTagArg);
+        __classPrivateFieldSet(DesignCast, _a, cfg, "f", _DesignCast_cfg);
+        __classPrivateFieldSet(DesignCast, _a, hPages, "f", _DesignCast_hPages);
         (0, CmnLib_1.addStyle)(`
 .sn_design_cast {
 	position: absolute; touch-action: none; user-select: none;
@@ -72900,7 +72973,7 @@ class DesignCast {
 		top: ${Math.max(10, dc.ly + y - h - 10)}px;`;
     }
     static cvsResizeDesign() {
-        const s = DesignCast.divDesignRoot.style;
+        const s = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot).style;
         s.width = `${CmnLib_1.CmnLib.stageW * CmnLib_1.CmnLib.cvsScale}px`;
         s.height = `${CmnLib_1.CmnLib.stageH * CmnLib_1.CmnLib.cvsScale}px`;
     }
@@ -72917,15 +72990,15 @@ class DesignCast {
             this.id_tag = hArg[':id_tag'] ?? '';
         this.hArg = hArg;
         const id_dc = hArg[':id_dc'] ?? this.id_tag;
-        DesignCast.hId2dc[id_dc] = this;
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_hId2dc)[id_dc] = this;
         const layer = this.hArg.layer ?? '';
-        this.fncLay = (!this.parent && !this.child && layer)
+        __classPrivateFieldSet(this, _DesignCast_fncLay, (!__classPrivateFieldGet(this, _DesignCast_parent, "f") && !this.child && layer)
             ? () => {
-                const f = DesignCast.hPages[layer].fore;
+                const f = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_hPages)[layer].fore;
                 this.lx = f.x * CmnLib_1.CmnLib.cvsScale;
                 this.ly = f.y * CmnLib_1.CmnLib.cvsScale;
             }
-            : () => { };
+            : () => { }, "f");
     }
     includeDesignArg(hArg) {
         for (const name in hArg)
@@ -72943,15 +73016,15 @@ class DesignCast {
     setOther(_hPrm) { }
     adopt(idcCh) {
         this.child = idcCh;
-        idcCh.parent = this;
+        __classPrivateFieldSet(idcCh, _DesignCast_parent, this, "f");
     }
     static enterMode() {
         DesignCast.leaveMode();
-        DesignCast.divDesignRoot.style.display = 'inline';
-        DesignCast.cntDesignCast = 0;
-        DesignCast.hId2dc = {};
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot).style.display = 'inline';
+        __classPrivateFieldSet(DesignCast, _a, 0, "f", _DesignCast_cntDesignCast);
+        __classPrivateFieldSet(DesignCast, _a, {}, "f", _DesignCast_hId2dc);
     }
-    static allHide() { DesignCast.aDC.forEach(v => v.visible = false); }
+    static allHide() { __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_aDC).forEach(v => v.visible = false); }
     set visible(v) {
         if (!this.div || !this.mov)
             return;
@@ -72959,39 +73032,28 @@ class DesignCast {
         this.mov.updateTarget();
     }
     static leaveMode() {
-        DesignCast.divDesignRoot.textContent = '';
-        DesignCast.divDesignRoot.style.display = 'none';
-        DesignCast.aDC.forEach(v => v.destroy());
-        DesignCast.aDC = [];
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot).textContent = '';
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot).style.display = 'none';
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_aDC).forEach(v => v.destroy());
+        __classPrivateFieldSet(DesignCast, _a, [], "f", _DesignCast_aDC);
     }
-    cvsResize() { this.resizeDiv(); this.mov?.updateTarget(); }
-    resizeDiv() {
-        this.fncLay();
-        if (this.div)
-            Object.assign(this.div.style, {
-                left: `${this.lx + this.rect.x * CmnLib_1.CmnLib.cvsScale}px`,
-                top: `${this.ly + this.rect.y * CmnLib_1.CmnLib.cvsScale}px`,
-                width: `${this.rect.width * CmnLib_1.CmnLib.cvsScale}px`,
-                height: `${this.rect.height * CmnLib_1.CmnLib.cvsScale}px`,
-                transformOrigin: `${this.pivot.x * CmnLib_1.CmnLib.cvsScale}px ${this.pivot.y * CmnLib_1.CmnLib.cvsScale}px`,
-                transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`,
-            });
-    }
+    cvsResize() { __classPrivateFieldGet(this, _DesignCast_instances, "m", _DesignCast_resizeDiv).call(this); this.mov?.updateTarget(); }
     onDragStart() { }
     make() {
+        var _b, _c;
         const id_dc = this.hArg[':id_dc'] ?? this.id_tag;
-        DesignCast.hId2dc[id_dc] = this;
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_hId2dc)[id_dc] = this;
         const d = this.div = document.createElement('div');
-        d.id = DesignCast.ID_DESIGNMODE + '_' + ++DesignCast.cntDesignCast;
+        d.id = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE) + '_' + __classPrivateFieldSet(_b = DesignCast, _a, (_c = __classPrivateFieldGet(_b, _a, "f", _DesignCast_cntDesignCast), ++_c), "f", _DesignCast_cntDesignCast);
         d.classList.add('sn_design_cast');
         d.dataset.id_dc = id_dc;
         d.style.backgroundColor = `${this.bg_col}`;
         d.style.display = 'none';
         this.rect = this.getRect();
-        this.resizeDiv();
-        (this.parent
-            ? document.querySelector(`[data-id_dc="${this.parent.id_tag}"]`) ?? DesignCast.divDesignRoot
-            : DesignCast.divDesignRoot).appendChild(d);
+        __classPrivateFieldGet(this, _DesignCast_instances, "m", _DesignCast_resizeDiv).call(this);
+        (__classPrivateFieldGet(this, _DesignCast_parent, "f")
+            ? document.querySelector(`[data-id_dc="${__classPrivateFieldGet(this, _DesignCast_parent, "f").id_tag}"]`) ?? __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot)
+            : __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot)).appendChild(d);
         const tmp = {
             aPos: [0, 0],
             roDeg: 0,
@@ -73011,7 +73073,7 @@ class DesignCast {
             });
         };
         const procEnd = (o) => {
-            DesignCast.sys.send2Dbg('_changeCast', {
+            __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_sys).send2Dbg('_changeCast', {
                 ...o, ':id_tag': this.id_tag,
             });
             DesignCast.divHint.style.display = 'none';
@@ -73059,8 +73121,8 @@ class DesignCast {
             resizeEnd();
             if (this.child?.mov)
                 this.child.mov.target = heCh;
-            if (this.parent?.mov)
-                this.parent.mov.target = this.parent.div;
+            if (__classPrivateFieldGet(this, _DesignCast_parent, "f")?.mov)
+                __classPrivateFieldGet(this, _DesignCast_parent, "f").mov.target = __classPrivateFieldGet(this, _DesignCast_parent, "f").div;
         })
             .on('resizeStart', procStart)
             .on('resize', e => {
@@ -73107,7 +73169,7 @@ class DesignCast {
             d.style.transformOrigin = trOrg;
             d.style.transform = `translate(${aPos[0]}px, ${aPos[1]}px) rotate(${roDeg}deg)`;
         });
-        DesignCast.aDC.push(this);
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_aDC).push(this);
         d.addEventListener('dragenter', () => d.classList.add('drag_border'));
         d.addEventListener('dragover', e => {
             e.stopPropagation();
@@ -73131,21 +73193,21 @@ class DesignCast {
                 url: '',
                 buf: new ArrayBuffer(0),
                 old_fn: this.oldFn(),
-                old_url: DesignCast.cfg.searchPath(this.oldFn(), Config_1.Config.EXT_SPRITE),
+                old_url: __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_cfg).searchPath(this.oldFn(), Config_1.Config.EXT_SPRITE),
             };
             f.arrayBuffer().then(buf => {
                 o.buf = buf;
                 try {
-                    o.url = DesignCast.scrItr.cnvPath4Dbg(DesignCast.cfg.searchPath(f.name, Config_1.Config.EXT_SPRITE));
+                    o.url = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_scrItr).cnvPath4Dbg(__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_cfg).searchPath(f.name, Config_1.Config.EXT_SPRITE));
                 }
                 catch { }
-                DesignCast.sys.send2Dbg('_dropFile', o);
+                __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_sys).send2Dbg('_dropFile', o);
             })
                 .catch(e => console.error(`drop2dc %o`, e));
         });
         d.addEventListener('dblclick', e => {
             e.preventDefault();
-            DesignCast.sys.send2Dbg('_focusScript', this.hArg);
+            __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_sys).send2Dbg('_focusScript', this.hArg);
         });
     }
     procDragHint(e, left, top) {
@@ -73158,17 +73220,17 @@ class DesignCast {
     static replaceToken(o) {
         const id_tag = o[':id_tag'];
         const id_dc = id_tag;
-        const dc = DesignCast.hId2dc[id_dc];
+        const dc = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_hId2dc)[id_dc];
         const d = document.querySelector(`div[data-id_dc='${id_dc}']`);
         if (!d || !dc)
             return;
         const token = o[':token'];
-        DesignCast.scrItr.replace(o[':idx_tkn'], token);
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_scrItr).replace(o[':idx_tkn'], token);
         const [_tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(token);
         if (dc.child)
             dc.child.hArg[':token'] = dc.hArg[':token'];
-        DesignCast.alzTagArg.go(args);
-        const p = DesignCast.alzTagArg.hPrm;
+        __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_alzTagArg).go(args);
+        const p = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_alzTagArg).hPrm;
         if ('pivot_x' in p || 'pivot_y' in p) {
             const px = Number(DesignCast.prpPrs.getValAmpersand(p.pivot_x.val ?? '0'));
             const py = Number(DesignCast.prpPrs.getValAmpersand(p.pivot_y.val ?? '0'));
@@ -73212,24 +73274,43 @@ class DesignCast {
     }
 }
 exports.DesignCast = DesignCast;
+_a = DesignCast, _DesignCast_parent = new WeakMap(), _DesignCast_fncLay = new WeakMap(), _DesignCast_instances = new WeakSet(), _DesignCast_resizeDiv = function _DesignCast_resizeDiv() {
+    __classPrivateFieldGet(this, _DesignCast_fncLay, "f").call(this);
+    if (this.div)
+        Object.assign(this.div.style, {
+            left: `${this.lx + this.rect.x * CmnLib_1.CmnLib.cvsScale}px`,
+            top: `${this.ly + this.rect.y * CmnLib_1.CmnLib.cvsScale}px`,
+            width: `${this.rect.width * CmnLib_1.CmnLib.cvsScale}px`,
+            height: `${this.rect.height * CmnLib_1.CmnLib.cvsScale}px`,
+            transformOrigin: `${this.pivot.x * CmnLib_1.CmnLib.cvsScale}px ${this.pivot.y * CmnLib_1.CmnLib.cvsScale}px`,
+            transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`,
+        });
+};
+_DesignCast_divDesignRoot = { value: void 0 };
+_DesignCast_sys = { value: void 0 };
+_DesignCast_scrItr = { value: void 0 };
+_DesignCast_alzTagArg = { value: void 0 };
+_DesignCast_cfg = { value: void 0 };
+_DesignCast_hPages = { value: void 0 };
 DesignCast.divHint = document.createElement('div');
-DesignCast.ID_DESIGNMODE = 'DesignMode';
-DesignCast.cntDesignCast = 0;
-DesignCast.hId2dc = {};
-DesignCast.aDC = [];
+_DesignCast_ID_DESIGNMODE = { value: 'DesignMode' };
+_DesignCast_cntDesignCast = { value: 0 };
+_DesignCast_hId2dc = { value: {} };
+_DesignCast_aDC = { value: [] };
 class GrpLayDesignCast extends DesignCast {
     constructor(spLay, gl) {
         super('#29e', true);
         this.spLay = spLay;
         this.gl = gl;
+        _GrpLayDesignCast_sp.set(this, void 0);
         this.oldFn = () => this.hArg.fn ?? '';
     }
-    setSp(sp) { this.sp = sp; }
-    getRect() { return new pixi_js_1.Rectangle(this.spLay.x, this.spLay.y, this.sp?.width ?? 0, this.sp?.height ?? 0); }
+    setSp(sp) { __classPrivateFieldSet(this, _GrpLayDesignCast_sp, sp, "f"); }
+    getRect() { return new pixi_js_1.Rectangle(this.spLay.x, this.spLay.y, __classPrivateFieldGet(this, _GrpLayDesignCast_sp, "f")?.width ?? 0, __classPrivateFieldGet(this, _GrpLayDesignCast_sp, "f")?.height ?? 0); }
     cnvPosArg(left, top) { return { left, top }; }
     cnvSizeArg(width, height) { return { width, height }; }
     setPos(x, y) { this.spLay.x = x; this.spLay.y = y; }
-    setSize(w, h) { this.sp.width = w; this.sp.height = h; }
+    setSize(w, h) { __classPrivateFieldGet(this, _GrpLayDesignCast_sp, "f").width = w; __classPrivateFieldGet(this, _GrpLayDesignCast_sp, "f").height = h; }
     setOther(hPrm) {
         if ('fn' in hPrm) {
             const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn.val ?? '');
@@ -73241,6 +73322,7 @@ class GrpLayDesignCast extends DesignCast {
     }
 }
 exports.GrpLayDesignCast = GrpLayDesignCast;
+_GrpLayDesignCast_sp = new WeakMap();
 class TxtLayDesignCast extends DesignCast {
     constructor(spLay, ts) {
         super('#29e', true);
@@ -73291,6 +73373,7 @@ class TxtLayPadDesignCast extends DesignCast {
     constructor(ts) {
         super('#9e2');
         this.ts = ts;
+        _TxtLayPadDesignCast_instances.add(this);
         this.rotatable = false;
     }
     getRect() {
@@ -73327,28 +73410,28 @@ class TxtLayPadDesignCast extends DesignCast {
     }
     procDragHint(e, left, top) {
         const [dx, dy] = e.beforeTranslate;
-        this.procHint(left, top, dx, dy);
+        __classPrivateFieldGet(this, _TxtLayPadDesignCast_instances, "m", _TxtLayPadDesignCast_procHint).call(this, left, top, dx, dy);
     }
     procResizeHint(e, left, top) {
         const [dx, dy] = e.drag.beforeTranslate;
-        this.procHint(left, top, dx, dy);
-    }
-    procHint(left, top, dx, dy) {
-        const x = this.rect.x, y = this.rect.y;
-        const w = this.rect.width, h = this.rect.height;
-        const it = this.ts.getInfTL();
-        const pl = (0, CmnLib_1.int)(x + dx / CmnLib_1.CmnLib.cvsScale);
-        const pt = (0, CmnLib_1.int)(y + dy / CmnLib_1.CmnLib.cvsScale);
-        const pr = (0, CmnLib_1.int)(it.$width - pl - w);
-        const pb = (0, CmnLib_1.int)(it.$height - pt - h);
-        const sp = (re) => '&nbsp;'.repeat(re);
-        DesignCast.setHint(sp(5 + 5 + 1) + `上幅=${pt}<br/>
-			左幅=${pl + sp(1 + 3 + 5 + 1)}右幅=${pr}<br/>` +
-            sp(5) + `内側 ${(0, CmnLib_1.int)(w)} x ${(0, CmnLib_1.int)(h)}<br/>` +
-            sp(5 + 5) + `下幅=${pb}`, left, top, this);
+        __classPrivateFieldGet(this, _TxtLayPadDesignCast_instances, "m", _TxtLayPadDesignCast_procHint).call(this, left, top, dx, dy);
     }
 }
 exports.TxtLayPadDesignCast = TxtLayPadDesignCast;
+_TxtLayPadDesignCast_instances = new WeakSet(), _TxtLayPadDesignCast_procHint = function _TxtLayPadDesignCast_procHint(left, top, dx, dy) {
+    const x = this.rect.x, y = this.rect.y;
+    const w = this.rect.width, h = this.rect.height;
+    const it = this.ts.getInfTL();
+    const pl = (0, CmnLib_1.int)(x + dx / CmnLib_1.CmnLib.cvsScale);
+    const pt = (0, CmnLib_1.int)(y + dy / CmnLib_1.CmnLib.cvsScale);
+    const pr = (0, CmnLib_1.int)(it.$width - pl - w);
+    const pb = (0, CmnLib_1.int)(it.$height - pt - h);
+    const sp = (re) => '&nbsp;'.repeat(re);
+    DesignCast.setHint(sp(5 + 5 + 1) + `上幅=${pt}<br/>
+			左幅=${pl + sp(1 + 3 + 5 + 1)}右幅=${pr}<br/>` +
+        sp(5) + `内側 ${(0, CmnLib_1.int)(w)} x ${(0, CmnLib_1.int)(h)}<br/>` +
+        sp(5 + 5) + `下幅=${pb}`, left, top, this);
+};
 class BtnDesignCast extends DesignCast {
     constructor(btn, hArg) {
         super('#e92');
@@ -73402,20 +73485,22 @@ exports.TxtBtnDesignCast = TxtBtnDesignCast;
 class PicBtnDesignCast extends BtnDesignCast {
     constructor(btn, hArg) {
         super(btn, hArg);
+        _PicBtnDesignCast_sp.set(this, void 0);
         this.oldFn = () => this.hArg.pic ?? '';
     }
-    setSp(sp) { this.sp = sp; }
-    getRect() { return new pixi_js_1.Rectangle(this.btn.x, this.btn.y, this.sp.width, this.sp.height); }
-    setSize(w, h) { this.sp.width = w; this.sp.height = h; }
+    setSp(sp) { __classPrivateFieldSet(this, _PicBtnDesignCast_sp, sp, "f"); }
+    getRect() { return new pixi_js_1.Rectangle(this.btn.x, this.btn.y, __classPrivateFieldGet(this, _PicBtnDesignCast_sp, "f").width, __classPrivateFieldGet(this, _PicBtnDesignCast_sp, "f").height); }
+    setSize(w, h) { __classPrivateFieldGet(this, _PicBtnDesignCast_sp, "f").width = w; __classPrivateFieldGet(this, _PicBtnDesignCast_sp, "f").height = h; }
     setOther(hPrm) {
         super.setOther(hPrm);
         if ('pic' in hPrm) {
             const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic.val ?? '');
-            this.btn.update_pic(pic, this.sp);
+            this.btn.update_pic(pic, __classPrivateFieldGet(this, _PicBtnDesignCast_sp, "f"));
         }
     }
 }
 exports.PicBtnDesignCast = PicBtnDesignCast;
+_PicBtnDesignCast_sp = new WeakMap();
 
 
 /***/ }),
@@ -73424,16 +73509,28 @@ exports.PicBtnDesignCast = PicBtnDesignCast;
 /*!*****************************************!*\
   !*** ./core/src/sn/EventListenerCtn.ts ***!
   \*****************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _EventListenerCtn_vctEvt;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventListenerCtn = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
 class EventListenerCtn {
     constructor() {
-        this.vctEvt = [];
+        _EventListenerCtn_vctEvt.set(this, []);
     }
     add(ed, type, fnc, ctx = {}) {
         if (ed instanceof pixi_js_1.BaseTexture) {
@@ -73443,25 +73540,26 @@ class EventListenerCtn {
                 case 'error':
                 case 'dispose':
                     ed.on(type, fnc, ctx);
-                    this.vctEvt.push(() => ed.off(type, fnc, ctx));
+                    __classPrivateFieldGet(this, _EventListenerCtn_vctEvt, "f").push(() => ed.off(type, fnc, ctx));
                     break;
             }
             return;
         }
         if (ed instanceof pixi_js_1.utils.EventEmitter) {
             ed.on(type, fnc, ctx);
-            this.vctEvt.push(() => ed.off(type, fnc, ctx));
+            __classPrivateFieldGet(this, _EventListenerCtn_vctEvt, "f").push(() => ed.off(type, fnc, ctx));
             return;
         }
         ed.addEventListener(type, fnc, ctx);
-        this.vctEvt.push(() => ed.removeEventListener(type, fnc, { capture: ctx.capture ?? false }));
+        __classPrivateFieldGet(this, _EventListenerCtn_vctEvt, "f").push(() => ed.removeEventListener(type, fnc, { capture: ctx.capture ?? false }));
     }
     clear() {
-        this.vctEvt.forEach(f => f());
-        this.vctEvt = [];
+        __classPrivateFieldGet(this, _EventListenerCtn_vctEvt, "f").forEach(f => f());
+        __classPrivateFieldSet(this, _EventListenerCtn_vctEvt, [], "f");
     }
 }
 exports.EventListenerCtn = EventListenerCtn;
+_EventListenerCtn_vctEvt = new WeakMap();
 
 
 /***/ }),
@@ -73470,10 +73568,22 @@ exports.EventListenerCtn = EventListenerCtn;
 /*!*********************************!*\
   !*** ./core/src/sn/EventMng.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _EventMng_instances, _EventMng_elc, _EventMng_hint, _EventMng_zxHint, _EventMng_zyHint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_unregisterClickEvts, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -73496,30 +73606,34 @@ class EventMng {
         this.sndMng = sndMng;
         this.scrItr = scrItr;
         this.sys = sys;
-        this.elc = new EventListenerCtn_1.EventListenerCtn;
-        this.gamepad = new GamepadListener({
+        _EventMng_instances.add(this);
+        _EventMng_elc.set(this, new EventListenerCtn_1.EventListenerCtn);
+        _EventMng_hint.set(this, void 0);
+        _EventMng_zxHint.set(this, void 0);
+        _EventMng_zyHint.set(this, void 0);
+        _EventMng_gamepad.set(this, new GamepadListener({
             analog: false,
             deadZone: 0.3,
-        });
-        this.fcs = new FocusMng_1.FocusMng;
-        this.resvFlameEvent4Wheel = (_win) => { };
-        this.wheeling = false;
-        this.extend_wheel = false;
-        this.hLocalEvt2Fnc = {};
-        this.hGlobalEvt2Fnc = {};
-        this.isDbgBreak = false;
-        this.isWait = false;
-        this.getEvt2Fnc = key => this.hLocalEvt2Fnc[key]
-            ?? this.hGlobalEvt2Fnc[key];
-        this.firstWait = () => {
-            this.firstWait = () => { };
+        }));
+        _EventMng_fcs.set(this, new FocusMng_1.FocusMng);
+        _EventMng_resvFlameEvent4Wheel.set(this, (_win) => { });
+        _EventMng_wheeling.set(this, false);
+        _EventMng_extend_wheel.set(this, false);
+        _EventMng_hLocalEvt2Fnc.set(this, {});
+        _EventMng_hGlobalEvt2Fnc.set(this, {});
+        _EventMng_isDbgBreak.set(this, false);
+        _EventMng_isWait.set(this, false);
+        _EventMng_getEvt2Fnc.set(this, key => __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[key]
+            ?? __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f")[key]);
+        _EventMng_firstWait.set(this, () => {
+            __classPrivateFieldSet(this, _EventMng_firstWait, () => { }, "f");
             this.scrItr.firstWait();
-        };
-        this.procWheel4wle = (_elc, _fnc) => { };
-        this.elcWLE = new EventListenerCtn_1.EventListenerCtn;
-        this.goTxt = () => this.layMng.goTxt();
-        this.fncCancelSkip = () => { };
-        this.hDownKeys = {
+        });
+        _EventMng_procWheel4wle.set(this, (_elc, _fnc) => { });
+        _EventMng_elcWLE.set(this, new EventListenerCtn_1.EventListenerCtn);
+        _EventMng_goTxt.set(this, () => this.layMng.goTxt());
+        _EventMng_fncCancelSkip.set(this, () => { });
+        _EventMng_hDownKeys.set(this, {
             'Alt': 0,
             'Meta': 0,
             'Control': 0,
@@ -73529,16 +73643,16 @@ class EventMng {
             'Escape': 0,
             ' ': 0,
             'GoBack': 0,
-        };
-        hTag.clear_event = o => this.clear_event(o);
-        hTag.event = o => this.event(o);
-        hTag.l = o => this.l(o);
-        hTag.p = o => this.p(o);
-        hTag.s = () => { this.waitEventBase(() => { }, false, true); return true; };
-        hTag.set_cancel_skip = () => this.set_cancel_skip();
+        });
+        hTag.clear_event = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_clear_event).call(this, o);
+        hTag.event = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_event).call(this, o);
+        hTag.l = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_l).call(this, o);
+        hTag.p = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_p).call(this, o);
+        hTag.s = () => { __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => { }, false, true); return true; };
+        hTag.set_cancel_skip = () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_set_cancel_skip).call(this);
         hTag.set_focus = o => this.set_focus(o);
-        hTag.wait = o => this.wait(o);
-        hTag.waitclick = () => this.waitclick();
+        hTag.wait = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_wait).call(this, o);
+        hTag.waitclick = () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitclick).call(this);
         sndMng.setEvtMng(this);
         scrItr.setOtherObj(this, layMng);
         TxtLayer_1.TxtLayer.setEvtMng(main, this);
@@ -73547,18 +73661,18 @@ class EventMng {
         if (CmnLib_1.CmnLib.isDbg) {
             const hHook = {
                 pause: () => {
-                    this.isDbgBreak = true;
-                    if (!this.isWait)
+                    __classPrivateFieldSet(this, _EventMng_isDbgBreak, true, "f");
+                    if (!__classPrivateFieldGet(this, _EventMng_isWait, "f"))
                         return;
                     const hArg = {};
                     this.scrItr.recodeDesign(hArg);
                     this.sys.callHook('_enterDesign', hArg);
                     this.sys.send2Dbg('_enterDesign', hArg);
                 },
-                stopOnBreakpoint: () => this.isDbgBreak = true,
-                stopOnDataBreakpoint: () => this.isDbgBreak = true,
-                continue: () => this.isDbgBreak = false,
-                disconnect: () => this.isDbgBreak = false,
+                stopOnBreakpoint: () => __classPrivateFieldSet(this, _EventMng_isDbgBreak, true, "f"),
+                stopOnDataBreakpoint: () => __classPrivateFieldSet(this, _EventMng_isDbgBreak, true, "f"),
+                continue: () => __classPrivateFieldSet(this, _EventMng_isDbgBreak, false, "f"),
+                disconnect: () => __classPrivateFieldSet(this, _EventMng_isDbgBreak, false, "f"),
             };
             hHook.attach =
                 hHook.stopOnEntry =
@@ -73573,17 +73687,17 @@ class EventMng {
             fnHint = cfg.searchPath('hint', Config_1.Config.EXT_SPRITE);
         }
         catch { }
-        this.hint = new Button_1.Button({ enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 * 0.7}px"}`, b_pic: fnHint, width: 80, design: false }, this, () => { }, () => false);
-        this.hint.visible = false;
-        appPixi.stage.addChild(this.hint);
-        const rctHint = this.hint.getBounds();
-        this.zxHint = this.hint.x - rctHint.x;
-        this.zyHint = this.hint.y - rctHint.y;
+        __classPrivateFieldSet(this, _EventMng_hint, new Button_1.Button({ enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 * 0.7}px"}`, b_pic: fnHint, width: 80, design: false }, this, () => { }, () => false), "f");
+        __classPrivateFieldGet(this, _EventMng_hint, "f").visible = false;
+        appPixi.stage.addChild(__classPrivateFieldGet(this, _EventMng_hint, "f"));
+        const rctHint = __classPrivateFieldGet(this, _EventMng_hint, "f").getBounds();
+        __classPrivateFieldSet(this, _EventMng_zxHint, __classPrivateFieldGet(this, _EventMng_hint, "f").x - rctHint.x, "f");
+        __classPrivateFieldSet(this, _EventMng_zyHint, __classPrivateFieldGet(this, _EventMng_hint, "f").y - rctHint.y, "f");
         appPixi.stage.interactive = true;
         if (CmnLib_1.CmnLib.isMobile)
             appPixi.stage.on('pointerdown', (e) => this.fire('click', e));
         else
-            this.elc.add(appPixi.stage, 'pointerdown', e => {
+            __classPrivateFieldGet(this, _EventMng_elc, "f").add(appPixi.stage, 'pointerdown', e => {
                 switch (e.data.button) {
                     case 0:
                         this.fire('click', e);
@@ -73593,8 +73707,8 @@ class EventMng {
                         break;
                 }
             });
-        this.elc.add(window, 'keydown', e => this.ev_keydown(e));
-        this.elc.add(appPixi.view, 'contextmenu', e => this.ev_contextmenu(e));
+        __classPrivateFieldGet(this, _EventMng_elc, "f").add(window, 'keydown', e => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_keydown).call(this, e));
+        __classPrivateFieldGet(this, _EventMng_elc, "f").add(appPixi.view, 'contextmenu', e => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_contextmenu).call(this, e));
         const fncMql = (mq) => {
             CmnLib_1.CmnLib.isDarkMode = mq.matches;
             val.setVal_Nochk('tmp', 'const.sn.isDarkMode', CmnLib_1.CmnLib.isDarkMode);
@@ -73606,20 +73720,20 @@ class EventMng {
             this.fire('sn:chgDarkMode', e);
         });
         if ('WheelEvent' in window) {
-            this.elc.add(appPixi.view, 'wheel', e => this.ev_wheel(e), { passive: true });
-            this.resvFlameEvent4Wheel = win => win.addEventListener('wheel', e => this.ev_wheel(e), { passive: true });
-            this.procWheel4wle = (elc, fnc) => elc.add(appPixi.view, 'wheel', e => {
+            __classPrivateFieldGet(this, _EventMng_elc, "f").add(appPixi.view, 'wheel', e => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_wheel).call(this, e), { passive: true });
+            __classPrivateFieldSet(this, _EventMng_resvFlameEvent4Wheel, win => win.addEventListener('wheel', e => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_wheel).call(this, e), { passive: true }), "f");
+            __classPrivateFieldSet(this, _EventMng_procWheel4wle, (elc, fnc) => elc.add(appPixi.view, 'wheel', e => {
                 if (e['isComposing'])
                     return;
                 if (e.deltaY <= 0)
                     return;
                 e.stopPropagation();
                 fnc();
-            });
+            }), "f");
         }
         if (CmnLib_1.CmnLib.debugLog) {
-            this.gamepad.on('gamepad:connected', (e) => console.log(`👺<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
-            this.gamepad.on('gamepad:disconnected', (e) => console.log(`👺<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+            __classPrivateFieldGet(this, _EventMng_gamepad, "f").on('gamepad:connected', (e) => console.log(`👺<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+            __classPrivateFieldGet(this, _EventMng_gamepad, "f").on('gamepad:disconnected', (e) => console.log(`👺<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
         }
         const aStick = [
             '', 'ArrowUp', '',
@@ -73627,7 +73741,7 @@ class EventMng {
             '', 'ArrowDown', '',
         ];
         const stick_xy = [0, 0];
-        this.gamepad.on('gamepad:axis', (e) => {
+        __classPrivateFieldGet(this, _EventMng_gamepad, "f").on('gamepad:axis', (e) => {
             if (!document.hasFocus() || e.detail.stick !== 0)
                 return;
             stick_xy[e.detail.axis] = e.detail.value;
@@ -73635,7 +73749,7 @@ class EventMng {
             const s2 = aStick[s];
             if (!s2)
                 return;
-            const cmp = this.fcs.getFocus();
+            const cmp = __classPrivateFieldGet(this, _EventMng_fcs, "f").getFocus();
             ((!cmp || cmp instanceof pixi_js_1.Container) ? globalThis : cmp)
                 .dispatchEvent(new KeyboardEvent('keydown', { key: s2, bubbles: true }));
             if (!cmp || cmp instanceof pixi_js_1.Container)
@@ -73643,100 +73757,56 @@ class EventMng {
             if (cmp.getAttribute('type') === 'range')
                 cmp.dispatchEvent(new InputEvent('input', { bubbles: true }));
         });
-        this.gamepad.on('gamepad:button', (e) => {
+        __classPrivateFieldGet(this, _EventMng_gamepad, "f").on('gamepad:button', (e) => {
             if (!document.hasFocus() || e.detail.value === 0)
                 return;
             if (e.detail.button % 2 === 0) {
-                const cmp = this.fcs.getFocus();
+                const cmp = __classPrivateFieldGet(this, _EventMng_fcs, "f").getFocus();
                 ((!cmp || cmp instanceof pixi_js_1.Container) ? globalThis : cmp)
                     .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
             }
             else
                 appPixi.view.dispatchEvent(new Event('contextmenu'));
         });
-        this.gamepad.start();
-        this.elc.add(window, 'keyup', (e) => {
+        __classPrivateFieldGet(this, _EventMng_gamepad, "f").start();
+        __classPrivateFieldGet(this, _EventMng_elc, "f").add(window, 'keyup', (e) => {
             if (e['isComposing'])
                 return;
-            if (e.key in this.hDownKeys)
-                this.hDownKeys[e.key] = 0;
+            if (e.key in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
+                __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")[e.key] = 0;
         });
-        val.defTmp('const.sn.key.alternate', () => this.hDownKeys['Alt'] > 0);
-        val.defTmp('const.sn.key.command', () => this.hDownKeys['Meta'] > 0);
-        val.defTmp('const.sn.key.control', () => this.hDownKeys['Control'] > 0);
-        val.defTmp('const.sn.key.end', () => this.hDownKeys['End'] > 0);
-        val.defTmp('const.sn.key.escape', () => this.hDownKeys['Escape'] > 0);
-        val.defTmp('const.sn.key.back', () => this.hDownKeys['GoBack'] > 0);
+        val.defTmp('const.sn.key.alternate', () => __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")['Alt'] > 0);
+        val.defTmp('const.sn.key.command', () => __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")['Meta'] > 0);
+        val.defTmp('const.sn.key.control', () => __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")['Control'] > 0);
+        val.defTmp('const.sn.key.end', () => __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")['End'] > 0);
+        val.defTmp('const.sn.key.escape', () => __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")['Escape'] > 0);
+        val.defTmp('const.sn.key.back', () => __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")['GoBack'] > 0);
     }
     resvFlameEvent(win) {
-        win.addEventListener('keydown', e => this.ev_keydown(e));
-        win.addEventListener('contextmenu', e => this.ev_contextmenu(e));
-        this.resvFlameEvent4Wheel(win);
-    }
-    ev_keydown(e) {
-        if (e['isComposing'])
-            return;
-        if (e.key in this.hDownKeys)
-            this.hDownKeys[e.key] = e.repeat ? 2 : 1;
-        const key = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
-            + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
-            + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
-            + e.key;
-        this.fire(key, e);
-    }
-    ev_contextmenu(e) {
-        const key = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
-            + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
-            + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
-            + 'rightclick';
-        this.fire(key, e);
-        e.preventDefault();
-    }
-    ev_wheel(e) {
-        if (e['isComposing'])
-            return;
-        if (this.wheeling) {
-            this.extend_wheel = true;
-            return;
-        }
-        this.wheeling = true;
-        this.ev_wheel_waitstop();
-        const key = (e.altKey ? 'alt+' : '')
-            + (e.ctrlKey ? 'ctrl+' : '')
-            + (e.shiftKey ? 'shift+' : '')
-            + (e.deltaY > 0 ? 'downwheel' : 'upwheel');
-        this.fire(key, e);
-    }
-    ev_wheel_waitstop() {
-        setTimeout(() => {
-            if (this.extend_wheel) {
-                this.extend_wheel = false;
-                this.ev_wheel_waitstop();
-                return;
-            }
-            this.wheeling = false;
-        }, 250);
+        win.addEventListener('keydown', e => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_keydown).call(this, e));
+        win.addEventListener('contextmenu', e => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_contextmenu).call(this, e));
+        __classPrivateFieldGet(this, _EventMng_resvFlameEvent4Wheel, "f").call(this, win);
     }
     destroy() {
-        this.fcs.destroy();
-        this.elc.clear();
+        __classPrivateFieldGet(this, _EventMng_fcs, "f").destroy();
+        __classPrivateFieldGet(this, _EventMng_elc, "f").clear();
     }
     fire(KEY, e) {
-        if (this.isDbgBreak)
+        if (__classPrivateFieldGet(this, _EventMng_isDbgBreak, "f"))
             return;
-        if (!this.isWait)
+        if (!__classPrivateFieldGet(this, _EventMng_isWait, "f"))
             return;
         const key = KEY.toLowerCase();
         if (CmnLib_1.CmnLib.debugLog)
             console.log(`👺 fire<(key:\`${key}\` type:${e.type} e:%o)`, { ...e });
         if (key === 'enter') {
-            const em = this.fcs.getFocus();
+            const em = __classPrivateFieldGet(this, _EventMng_fcs, "f").getFocus();
             if (em && em instanceof pixi_js_1.Container) {
                 em.emit('pointerdown', new Event('pointerdown'));
                 return;
             }
         }
-        const ke = this.getEvt2Fnc(key);
+        const ke = __classPrivateFieldGet(this, _EventMng_getEvt2Fnc, "f").call(this, key);
         if (!ke) {
             if (key.slice(0, 5) === 'swipe') {
                 const esw = e;
@@ -73749,52 +73819,30 @@ class EventMng {
         e.stopPropagation();
         if (key.slice(0, 4) !== 'dom=')
             this.layMng.clickTxtLay();
-        this.isWait = false;
+        __classPrivateFieldSet(this, _EventMng_isWait, false, "f");
         ke(e);
-        this.hint.visible = false;
+        __classPrivateFieldGet(this, _EventMng_hint, "f").visible = false;
     }
     popLocalEvts() {
-        const ret = this.hLocalEvt2Fnc;
-        this.hLocalEvt2Fnc = {};
+        const ret = __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f");
+        __classPrivateFieldSet(this, _EventMng_hLocalEvt2Fnc, {}, "f");
         return ret;
     }
-    pushLocalEvts(h) { this.hLocalEvt2Fnc = h; }
+    pushLocalEvts(h) { __classPrivateFieldSet(this, _EventMng_hLocalEvt2Fnc, h, "f"); }
     waitEvent(onFinish, canskip = true, global = false) {
         if (canskip && global)
             throw `canskipとglobalを同時にtrue指定できません`;
         if (this.val.getVal('tmp:sn.skip.enabled')) {
             if (!this.val.getVal('tmp:sn.skip.all')
                 && !this.scrItr.isNextKidoku)
-                this.fncCancelSkip();
+                __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
             else {
                 onFinish();
                 return false;
             }
         }
-        this.waitEventBase(onFinish, canskip, global);
+        __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, onFinish, canskip, global);
         return true;
-    }
-    waitEventBase(onFinish, canskip = true, global = true) {
-        this.goTxt();
-        this.val.saveKidoku();
-        if (canskip) {
-            this.hLocalEvt2Fnc['click'] = onFinish;
-            this.hLocalEvt2Fnc['enter'] = onFinish;
-            this.hLocalEvt2Fnc['arrowdown'] = onFinish;
-            this.hLocalEvt2Fnc['wheel.y>0'] = onFinish;
-        }
-        else {
-            delete this.hLocalEvt2Fnc['click'];
-            delete this.hLocalEvt2Fnc['enter'];
-            delete this.hLocalEvt2Fnc['arrowdown'];
-            delete this.hLocalEvt2Fnc['wheel.y>0'];
-        }
-        this.getEvt2Fnc = global
-            ? key => this.hLocalEvt2Fnc[key]
-                ?? this.hGlobalEvt2Fnc[key]
-            : key => this.hLocalEvt2Fnc[key];
-        this.isWait = true;
-        this.firstWait();
     }
     button(hArg, em, normal, hover, clicked) {
         if (!hArg.fn && !hArg.label)
@@ -73805,27 +73853,27 @@ class EventMng {
             hArg.fn = this.scrItr.scriptFn;
         const glb = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false);
         if (glb)
-            this.hGlobalEvt2Fnc[key] = () => this.main.resumeByJumpOrCall(hArg);
+            __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f")[key] = () => this.main.resumeByJumpOrCall(hArg);
         else
-            this.hLocalEvt2Fnc[key] = () => this.main.resumeByJumpOrCall(hArg);
+            __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[key] = () => this.main.resumeByJumpOrCall(hArg);
         const ee = em;
         ee.on('pointerdown', (e) => this.fire(key, e));
-        const onHint = hArg.hint ? () => this.dispHint(hArg, em) : () => { };
-        const nr = () => { normal(); this.hint.visible = false; };
+        const onHint = hArg.hint ? () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_dispHint).call(this, hArg, em) : () => { };
+        const nr = () => { normal(); __classPrivateFieldGet(this, _EventMng_hint, "f").visible = false; };
         const hv = () => { onHint(); return hover(); };
         ee.on('pointerover', hv);
-        ee.on('pointerout', () => { if (this.fcs.isFocus(em))
+        ee.on('pointerout', () => { if (__classPrivateFieldGet(this, _EventMng_fcs, "f").isFocus(em))
             hv();
         else
             nr(); });
         ee.on('pointerdown', clicked);
         ee.on('pointerup', CmnLib_1.CmnLib.isMobile
             ? nr
-            : () => { if (this.fcs.isFocus(em))
+            : () => { if (__classPrivateFieldGet(this, _EventMng_fcs, "f").isFocus(em))
                 hv();
             else
                 nr(); });
-        this.fcs.add(em, hv, nr);
+        __classPrivateFieldGet(this, _EventMng_fcs, "f").add(em, hv, nr);
         if (hArg.clickse) {
             this.cfg.searchPath(hArg.clickse, Config_1.Config.EXT_SOUND);
             ee.on('pointerdown', () => {
@@ -73857,55 +73905,30 @@ class EventMng {
             const k = key + hArg.onenter.toLowerCase();
             const o = { fn: hArg.fn, label: hArg.onenter, call: true, key: k };
             if (glb)
-                this.hGlobalEvt2Fnc[k] = () => this.main.resumeByJumpOrCall(o);
+                __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f")[k] = () => this.main.resumeByJumpOrCall(o);
             else
-                this.hLocalEvt2Fnc[k] = () => this.main.resumeByJumpOrCall(o);
+                __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[k] = () => this.main.resumeByJumpOrCall(o);
             ee.on('pointerover', (e) => this.fire(k, e));
         }
         if (hArg.onleave) {
             const k = key + hArg.onleave.toLowerCase();
             const o = { fn: hArg.fn, label: hArg.onleave, call: true, key: k };
             if (glb)
-                this.hGlobalEvt2Fnc[k] = () => this.main.resumeByJumpOrCall(o);
+                __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f")[k] = () => this.main.resumeByJumpOrCall(o);
             else
-                this.hLocalEvt2Fnc[k] = () => this.main.resumeByJumpOrCall(o);
+                __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[k] = () => this.main.resumeByJumpOrCall(o);
             ee.on('pointerout', (e) => this.fire(k, e));
         }
         this.sndMng.loadAheadSnd(hArg);
     }
-    dispHint(hArg, em) {
-        const h = this.hint;
-        const tx = h.children[1];
-        if (!tx)
-            return;
-        tx.text = hArg.hint;
-        const isBgTextBtn = em.name?.includes('"b_pic":');
-        const isPicBtn = em.name?.includes('"pic":');
-        const isLink = (hArg.タグ名 === 'link');
-        h.parent?.removeChild(h);
-        (isLink ? em.parent : em).addChild(h);
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', false))
-            h.setTransform(isPicBtn ? em.width / em.scale.x
-                : (isBgTextBtn ? (h.width - em.width) / 2 - this.zxHint : 0)
-                    + (isLink ? em.x : 0) + em.width, isPicBtn ? em.height / 2 / em.scale.y
-                : isBgTextBtn ? h.height / 2
-                    : ((isLink ? em.y : 0) + em.height / 2 + this.zyHint), 1, 1, 1.570796327, 0, 0, h.width / 2, h.height - this.zxHint * 2);
-        else
-            h.setTransform(isPicBtn ? (em.width - h.width + this.zxHint) / 2
-                : isBgTextBtn ? 0
-                    : (isLink ? em.x : 0) + (em.width - h.width) / 2, isPicBtn ? 0
-                : isBgTextBtn ? (h.height - em.height) / 2
-                    : isLink ? em.y : 0, 1, 1, 0, 0, 0, -this.zxHint / 2, h.height - 10);
-        h.visible = true;
-    }
     waitLimitedEvent(hArg, onFinish) {
-        this.goTxt();
+        __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
         this.val.saveKidoku();
-        const fnc = () => { this.elcWLE.clear(); onFinish(); };
+        const fnc = () => { __classPrivateFieldGet(this, _EventMng_elcWLE, "f").clear(); onFinish(); };
         if (this.val.getVal('tmp:sn.skip.enabled')) {
             if (!this.val.getVal('tmp:sn.skip.all')
                 && !this.scrItr.isNextKidoku)
-                this.fncCancelSkip();
+                __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
             else {
                 fnc();
                 return false;
@@ -73913,204 +73936,24 @@ class EventMng {
         }
         if (!(0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true))
             return true;
-        this.elcWLE.add(window, 'pointerdown', e => { e.stopPropagation(); fnc(); });
-        this.elcWLE.add(window, 'keydown', (e) => {
+        __classPrivateFieldGet(this, _EventMng_elcWLE, "f").add(window, 'pointerdown', e => { e.stopPropagation(); fnc(); });
+        __classPrivateFieldGet(this, _EventMng_elcWLE, "f").add(window, 'keydown', (e) => {
             if (e['isComposing'])
                 return;
             e.stopPropagation();
             fnc();
         });
-        this.procWheel4wle(this.elcWLE, fnc);
+        __classPrivateFieldGet(this, _EventMng_procWheel4wle, "f").call(this, __classPrivateFieldGet(this, _EventMng_elcWLE, "f"), fnc);
         return true;
-    }
-    clear_event(hArg) {
-        const glb = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false);
-        const h = glb ? this.hGlobalEvt2Fnc : this.hLocalEvt2Fnc;
-        for (const nm in h)
-            this.clear_eventer(nm, h[nm]);
-        if (glb)
-            this.hGlobalEvt2Fnc = {};
-        else
-            this.hLocalEvt2Fnc = {};
-        return false;
-    }
-    clear_eventer(KeY, e2f) {
-        if (KeY.slice(0, 4) !== 'dom=')
-            return;
-        this.getHtmlElmList(KeY).el.forEach(v => v.removeEventListener('click', e2f));
-    }
-    event(hArg) {
-        const KeY = hArg.key;
-        if (!KeY)
-            throw 'keyは必須です';
-        const key = KeY.toLowerCase();
-        const call = (0, CmnLib_1.argChk_Boolean)(hArg, 'call', false);
-        const h = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false)
-            ? this.hGlobalEvt2Fnc
-            : this.hLocalEvt2Fnc;
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'del', false)) {
-            if (hArg.fn || hArg.label || call)
-                throw 'fn/label/callとdelは同時指定できません';
-            this.clear_eventer(KeY, h[key]);
-            delete h[key];
-            return false;
-        }
-        hArg.fn ??= this.scrItr.scriptFn;
-        if (KeY.slice(0, 4) === 'dom=') {
-            const g = this.getHtmlElmList(KeY);
-            if (g.el.length === 0) {
-                if ((0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
-                    throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
-                return false;
-            }
-            let aEv = ['click', 'keydown'];
-            const inp = g.el[0];
-            switch (inp.type ?? '') {
-                case 'checkbox':
-                    aEv = ['input'];
-                    break;
-                case 'range':
-                    aEv = ['input'];
-                    break;
-                case 'text':
-                case 'textarea':
-                    aEv = ['input', 'change'];
-                    break;
-            }
-            aEv.forEach((v, i) => g.el.forEach(elm => {
-                this.elc.add(elm, v, e => {
-                    if (!this.isWait || this.layMng.getFrmDisabled(g.id))
-                        return;
-                    if (v === 'keydown' && e.key !== 'Enter')
-                        return;
-                    const d = elm.dataset;
-                    for (const n in d)
-                        if (d.hasOwnProperty(n))
-                            this.val.setVal_Nochk('tmp', `sn.event.domdata.${n}`, d[n]);
-                    this.fire(KeY, e);
-                });
-                if (i === 0)
-                    this.fcs.add(elm, () => {
-                        if (!this.canFocus(elm))
-                            return false;
-                        elm.focus();
-                        return true;
-                    }, () => { });
-            }));
-        }
-        h[key] = () => this.main.resumeByJumpOrCall(hArg);
-        return false;
-    }
-    canFocus(elm) {
-        if (elm.offsetParent === null)
-            return false;
-        let el = elm;
-        do {
-            const style = getComputedStyle(el);
-            if (style.display === 'none'
-                || el.dataset.focus === 'false'
-                || el?.disabled)
-                return false;
-            el = el.parentElement;
-        } while (el !== null);
-        return true;
-    }
-    getHtmlElmList(KeY) {
-        const idx = KeY.indexOf(':');
-        let sel = '';
-        if (idx >= 0) {
-            const id = KeY.slice(4, idx);
-            const frmnm = `const.sn.frm.${id}`;
-            if (!this.val.getVal(`tmp:${frmnm}`, 0))
-                throw `HTML【${id}】が読み込まれていません`;
-            const ifrm = document.getElementById(id);
-            const win = ifrm.contentWindow;
-            sel = KeY.slice(idx + 1);
-            return { el: win.document.querySelectorAll(sel), id: id, sel: sel };
-        }
-        sel = KeY.slice(4);
-        return { el: document.querySelectorAll(sel), id: '', sel: sel };
-    }
-    l(hArg) {
-        if (!this.val.getVal('tmp:sn.tagL.enabled')) {
-            this.goTxt();
-            return false;
-        }
-        if (this.val.getVal('tmp:sn.skip.enabled')) {
-            if (!this.val.getVal('tmp:sn.skip.all')
-                && !this.scrItr.isNextKidoku)
-                this.fncCancelSkip();
-            else if ('ps'.includes(String(this.val.getVal('sys:sn.skip.mode'))))
-                return false;
-        }
-        if (this.val.getVal('tmp:sn.auto.enabled'))
-            return this.wait({
-                time: Number(this.scrItr.isKidoku
-                    ? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
-                    : this.val.getVal('sys:sn.auto.msecLineWait'))
-            });
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true))
-            this.layMng.breakLine();
-        this.waitEventBase(() => this.main.resume());
-        return true;
-    }
-    p(hArg) {
-        if (this.val.getVal('tmp:sn.skip.enabled')) {
-            if (!this.val.getVal('tmp:sn.skip.all')
-                && !this.scrItr.isNextKidoku)
-                this.fncCancelSkip();
-            else if ('s' === String(this.val.getVal('sys:sn.skip.mode'))) {
-                this.goTxt();
-                return false;
-            }
-        }
-        if (this.val.getVal('tmp:sn.auto.enabled'))
-            return this.wait({
-                time: Number(this.scrItr.isKidoku
-                    ? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
-                    : this.val.getVal('sys:sn.auto.msecPageWait'))
-            });
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true))
-            this.layMng.breakPage();
-        this.waitEventBase(this.layMng.getCurrentTxtlayFore() && (0, CmnLib_1.argChk_Boolean)(hArg, 'er', false)
-            ? () => { this.hTag.er(hArg); this.main.resume(); }
-            : () => this.main.resume());
-        return true;
-    }
-    set_cancel_skip() {
-        this.fncCancelSkip = () => {
-            this.fncCancelSkip = () => { };
-            this.val.setVal_Nochk('tmp', 'sn.tagL.enabled', true);
-            this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);
-            this.val.setVal_Nochk('tmp', 'sn.auto.enabled', false);
-            this.layMng.setNormalWaitTxtLayer();
-        };
-        this.unregisterClickEvts();
-        return false;
-    }
-    unregisterClickEvts() {
-        const len = this.scrItr.lenCallStk;
-        for (let i = 0; i < len; ++i) {
-            const cs = this.scrItr.getCallStk(i);
-            if (!cs)
-                continue;
-            const hE1T = cs.hEvt1Time;
-            if (!hE1T)
-                continue;
-            delete hE1T['Click'];
-            delete hE1T['Enter'];
-            delete hE1T['ArrowDown'];
-            delete hE1T['wheel.y>0'];
-        }
     }
     set_focus(hArg) {
         const add = hArg.add;
         if (add?.slice(0, 4) === 'dom=') {
-            const g = this.getHtmlElmList(add);
+            const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, add);
             if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
                 throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
-            g.el.forEach(elm => this.fcs.add(elm, () => {
-                if (!this.canFocus(elm))
+            g.el.forEach(elm => __classPrivateFieldGet(this, _EventMng_fcs, "f").add(elm, () => {
+                if (!__classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_canFocus).call(this, elm))
                     return false;
                 elm.focus();
                 return true;
@@ -74119,10 +73962,10 @@ class EventMng {
         }
         const del = hArg.del;
         if (del?.slice(0, 4) === 'dom=') {
-            const g = this.getHtmlElmList(del);
+            const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, del);
             if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
                 throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
-            g.el.forEach(elm => this.fcs.remove(elm));
+            g.el.forEach(elm => __classPrivateFieldGet(this, _EventMng_fcs, "f").remove(elm));
             return false;
         }
         const to = hArg.to;
@@ -74130,50 +73973,305 @@ class EventMng {
             throw '[set_focus] add か to は必須です';
         switch (to) {
             case 'null':
-                this.fcs.blur();
+                __classPrivateFieldGet(this, _EventMng_fcs, "f").blur();
                 break;
             case 'next':
-                this.fcs.next();
+                __classPrivateFieldGet(this, _EventMng_fcs, "f").next();
                 break;
             case 'prev':
-                this.fcs.prev();
+                __classPrivateFieldGet(this, _EventMng_fcs, "f").prev();
                 break;
         }
         return false;
     }
-    wait(hArg) {
-        if (this.val.getVal('tmp:sn.skip.enabled')) {
-            if (!this.val.getVal('tmp:sn.skip.all')
-                && !this.scrItr.isNextKidoku)
-                this.fncCancelSkip();
-            else
-                return false;
-        }
-        const tw = new tween_js_1.Tween({})
-            .to({}, (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)))
-            .onComplete(() => { tw.stop(); this.main.resume(); })
-            .start();
-        return this.waitEvent(() => tw.end(), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
-    }
-    waitclick() {
-        if (this.val.getVal('tmp:sn.skip.enabled')) {
-            if (!this.val.getVal('tmp:sn.skip.all')
-                && !this.scrItr.isNextKidoku)
-                this.fncCancelSkip();
-            else
-                return false;
-        }
-        this.waitEventBase(() => this.main.resume());
-        return true;
-    }
     isSkipKeyDown() {
-        for (const v in this.hDownKeys)
-            if (this.hDownKeys[v] === 2)
+        for (const v in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
+            if (__classPrivateFieldGet(this, _EventMng_hDownKeys, "f")[v] === 2)
                 return true;
         return false;
     }
 }
 exports.EventMng = EventMng;
+_EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint = new WeakMap(), _EventMng_zyHint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
+    if (e['isComposing'])
+        return;
+    if (e.key in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
+        __classPrivateFieldGet(this, _EventMng_hDownKeys, "f")[e.key] = e.repeat ? 2 : 1;
+    const key = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
+        + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
+        + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
+        + e.key;
+    this.fire(key, e);
+}, _EventMng_ev_contextmenu = function _EventMng_ev_contextmenu(e) {
+    const key = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
+        + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
+        + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
+        + 'rightclick';
+    this.fire(key, e);
+    e.preventDefault();
+}, _EventMng_ev_wheel = function _EventMng_ev_wheel(e) {
+    if (e['isComposing'])
+        return;
+    if (__classPrivateFieldGet(this, _EventMng_wheeling, "f")) {
+        __classPrivateFieldSet(this, _EventMng_extend_wheel, true, "f");
+        return;
+    }
+    __classPrivateFieldSet(this, _EventMng_wheeling, true, "f");
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_wheel_waitstop).call(this);
+    const key = (e.altKey ? 'alt+' : '')
+        + (e.ctrlKey ? 'ctrl+' : '')
+        + (e.shiftKey ? 'shift+' : '')
+        + (e.deltaY > 0 ? 'downwheel' : 'upwheel');
+    this.fire(key, e);
+}, _EventMng_ev_wheel_waitstop = function _EventMng_ev_wheel_waitstop() {
+    setTimeout(() => {
+        if (__classPrivateFieldGet(this, _EventMng_extend_wheel, "f")) {
+            __classPrivateFieldSet(this, _EventMng_extend_wheel, false, "f");
+            __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_ev_wheel_waitstop).call(this);
+            return;
+        }
+        __classPrivateFieldSet(this, _EventMng_wheeling, false, "f");
+    }, 250);
+}, _EventMng_waitEventBase = function _EventMng_waitEventBase(onFinish, canskip = true, global = true) {
+    __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
+    this.val.saveKidoku();
+    if (canskip) {
+        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['click'] = onFinish;
+        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['enter'] = onFinish;
+        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['arrowdown'] = onFinish;
+        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['wheel.y>0'] = onFinish;
+    }
+    else {
+        delete __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['click'];
+        delete __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['enter'];
+        delete __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['arrowdown'];
+        delete __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['wheel.y>0'];
+    }
+    __classPrivateFieldSet(this, _EventMng_getEvt2Fnc, global
+        ? key => __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[key]
+            ?? __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f")[key]
+        : key => __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[key], "f");
+    __classPrivateFieldSet(this, _EventMng_isWait, true, "f");
+    __classPrivateFieldGet(this, _EventMng_firstWait, "f").call(this);
+}, _EventMng_dispHint = function _EventMng_dispHint(hArg, em) {
+    const h = __classPrivateFieldGet(this, _EventMng_hint, "f");
+    const tx = h.children[1];
+    if (!tx)
+        return;
+    tx.text = hArg.hint;
+    const isBgTextBtn = em.name?.includes('"b_pic":');
+    const isPicBtn = em.name?.includes('"pic":');
+    const isLink = (hArg.タグ名 === 'link');
+    h.parent?.removeChild(h);
+    (isLink ? em.parent : em).addChild(h);
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', false))
+        h.setTransform(isPicBtn ? em.width / em.scale.x
+            : (isBgTextBtn ? (h.width - em.width) / 2 - __classPrivateFieldGet(this, _EventMng_zxHint, "f") : 0)
+                + (isLink ? em.x : 0) + em.width, isPicBtn ? em.height / 2 / em.scale.y
+            : isBgTextBtn ? h.height / 2
+                : ((isLink ? em.y : 0) + em.height / 2 + __classPrivateFieldGet(this, _EventMng_zyHint, "f")), 1, 1, 1.570796327, 0, 0, h.width / 2, h.height - __classPrivateFieldGet(this, _EventMng_zxHint, "f") * 2);
+    else
+        h.setTransform(isPicBtn ? (em.width - h.width + __classPrivateFieldGet(this, _EventMng_zxHint, "f")) / 2
+            : isBgTextBtn ? 0
+                : (isLink ? em.x : 0) + (em.width - h.width) / 2, isPicBtn ? 0
+            : isBgTextBtn ? (h.height - em.height) / 2
+                : isLink ? em.y : 0, 1, 1, 0, 0, 0, -__classPrivateFieldGet(this, _EventMng_zxHint, "f") / 2, h.height - 10);
+    h.visible = true;
+}, _EventMng_clear_event = function _EventMng_clear_event(hArg) {
+    const glb = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false);
+    const h = glb ? __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f") : __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f");
+    for (const nm in h)
+        __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_clear_eventer).call(this, nm, h[nm]);
+    if (glb)
+        __classPrivateFieldSet(this, _EventMng_hGlobalEvt2Fnc, {}, "f");
+    else
+        __classPrivateFieldSet(this, _EventMng_hLocalEvt2Fnc, {}, "f");
+    return false;
+}, _EventMng_clear_eventer = function _EventMng_clear_eventer(KeY, e2f) {
+    if (KeY.slice(0, 4) !== 'dom=')
+        return;
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, KeY).el.forEach(v => v.removeEventListener('click', e2f));
+}, _EventMng_event = function _EventMng_event(hArg) {
+    const KeY = hArg.key;
+    if (!KeY)
+        throw 'keyは必須です';
+    const key = KeY.toLowerCase();
+    const call = (0, CmnLib_1.argChk_Boolean)(hArg, 'call', false);
+    const h = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false)
+        ? __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f")
+        : __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f");
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'del', false)) {
+        if (hArg.fn || hArg.label || call)
+            throw 'fn/label/callとdelは同時指定できません';
+        __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_clear_eventer).call(this, KeY, h[key]);
+        delete h[key];
+        return false;
+    }
+    hArg.fn ??= this.scrItr.scriptFn;
+    if (KeY.slice(0, 4) === 'dom=') {
+        const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, KeY);
+        if (g.el.length === 0) {
+            if ((0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
+                throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+            return false;
+        }
+        let aEv = ['click', 'keydown'];
+        const inp = g.el[0];
+        switch (inp.type ?? '') {
+            case 'checkbox':
+                aEv = ['input'];
+                break;
+            case 'range':
+                aEv = ['input'];
+                break;
+            case 'text':
+            case 'textarea':
+                aEv = ['input', 'change'];
+                break;
+        }
+        aEv.forEach((v, i) => g.el.forEach(elm => {
+            __classPrivateFieldGet(this, _EventMng_elc, "f").add(elm, v, e => {
+                if (!__classPrivateFieldGet(this, _EventMng_isWait, "f") || this.layMng.getFrmDisabled(g.id))
+                    return;
+                if (v === 'keydown' && e.key !== 'Enter')
+                    return;
+                const d = elm.dataset;
+                for (const n in d)
+                    if (d.hasOwnProperty(n))
+                        this.val.setVal_Nochk('tmp', `sn.event.domdata.${n}`, d[n]);
+                this.fire(KeY, e);
+            });
+            if (i === 0)
+                __classPrivateFieldGet(this, _EventMng_fcs, "f").add(elm, () => {
+                    if (!__classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_canFocus).call(this, elm))
+                        return false;
+                    elm.focus();
+                    return true;
+                }, () => { });
+        }));
+    }
+    h[key] = () => this.main.resumeByJumpOrCall(hArg);
+    return false;
+}, _EventMng_canFocus = function _EventMng_canFocus(elm) {
+    if (elm.offsetParent === null)
+        return false;
+    let el = elm;
+    do {
+        const style = getComputedStyle(el);
+        if (style.display === 'none'
+            || el.dataset.focus === 'false'
+            || el?.disabled)
+            return false;
+        el = el.parentElement;
+    } while (el !== null);
+    return true;
+}, _EventMng_getHtmlElmList = function _EventMng_getHtmlElmList(KeY) {
+    const idx = KeY.indexOf(':');
+    let sel = '';
+    if (idx >= 0) {
+        const id = KeY.slice(4, idx);
+        const frmnm = `const.sn.frm.${id}`;
+        if (!this.val.getVal(`tmp:${frmnm}`, 0))
+            throw `HTML【${id}】が読み込まれていません`;
+        const ifrm = document.getElementById(id);
+        const win = ifrm.contentWindow;
+        sel = KeY.slice(idx + 1);
+        return { el: win.document.querySelectorAll(sel), id: id, sel: sel };
+    }
+    sel = KeY.slice(4);
+    return { el: document.querySelectorAll(sel), id: '', sel: sel };
+}, _EventMng_l = function _EventMng_l(hArg) {
+    if (!this.val.getVal('tmp:sn.tagL.enabled')) {
+        __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
+        return false;
+    }
+    if (this.val.getVal('tmp:sn.skip.enabled')) {
+        if (!this.val.getVal('tmp:sn.skip.all')
+            && !this.scrItr.isNextKidoku)
+            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
+        else if ('ps'.includes(String(this.val.getVal('sys:sn.skip.mode'))))
+            return false;
+    }
+    if (this.val.getVal('tmp:sn.auto.enabled'))
+        return __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_wait).call(this, {
+            time: Number(this.scrItr.isKidoku
+                ? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
+                : this.val.getVal('sys:sn.auto.msecLineWait'))
+        });
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true))
+        this.layMng.breakLine();
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => this.main.resume());
+    return true;
+}, _EventMng_p = function _EventMng_p(hArg) {
+    if (this.val.getVal('tmp:sn.skip.enabled')) {
+        if (!this.val.getVal('tmp:sn.skip.all')
+            && !this.scrItr.isNextKidoku)
+            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
+        else if ('s' === String(this.val.getVal('sys:sn.skip.mode'))) {
+            __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
+            return false;
+        }
+    }
+    if (this.val.getVal('tmp:sn.auto.enabled'))
+        return __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_wait).call(this, {
+            time: Number(this.scrItr.isKidoku
+                ? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
+                : this.val.getVal('sys:sn.auto.msecPageWait'))
+        });
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true))
+        this.layMng.breakPage();
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, this.layMng.getCurrentTxtlayFore() && (0, CmnLib_1.argChk_Boolean)(hArg, 'er', false)
+        ? () => { this.hTag.er(hArg); this.main.resume(); }
+        : () => this.main.resume());
+    return true;
+}, _EventMng_set_cancel_skip = function _EventMng_set_cancel_skip() {
+    __classPrivateFieldSet(this, _EventMng_fncCancelSkip, () => {
+        __classPrivateFieldSet(this, _EventMng_fncCancelSkip, () => { }, "f");
+        this.val.setVal_Nochk('tmp', 'sn.tagL.enabled', true);
+        this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);
+        this.val.setVal_Nochk('tmp', 'sn.auto.enabled', false);
+        this.layMng.setNormalWaitTxtLayer();
+    }, "f");
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_unregisterClickEvts).call(this);
+    return false;
+}, _EventMng_unregisterClickEvts = function _EventMng_unregisterClickEvts() {
+    const len = this.scrItr.lenCallStk;
+    for (let i = 0; i < len; ++i) {
+        const cs = this.scrItr.getCallStk(i);
+        if (!cs)
+            continue;
+        const hE1T = cs.hEvt1Time;
+        if (!hE1T)
+            continue;
+        delete hE1T['Click'];
+        delete hE1T['Enter'];
+        delete hE1T['ArrowDown'];
+        delete hE1T['wheel.y>0'];
+    }
+}, _EventMng_wait = function _EventMng_wait(hArg) {
+    if (this.val.getVal('tmp:sn.skip.enabled')) {
+        if (!this.val.getVal('tmp:sn.skip.all')
+            && !this.scrItr.isNextKidoku)
+            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
+        else
+            return false;
+    }
+    const tw = new tween_js_1.Tween({})
+        .to({}, (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)))
+        .onComplete(() => { tw.stop(); this.main.resume(); })
+        .start();
+    return this.waitEvent(() => tw.end(), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
+}, _EventMng_waitclick = function _EventMng_waitclick() {
+    if (this.val.getVal('tmp:sn.skip.enabled')) {
+        if (!this.val.getVal('tmp:sn.skip.all')
+            && !this.scrItr.isNextKidoku)
+            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
+        else
+            return false;
+    }
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => this.main.resume());
+    return true;
+};
 
 
 /***/ }),
@@ -74182,10 +74280,22 @@ exports.EventMng = EventMng;
 /*!*********************************!*\
   !*** ./core/src/sn/FocusMng.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _FocusMng_instances, _FocusMng_aBtn, _FocusMng_idx, _FocusMng_radio_next, _FocusMng_logFocus, _FocusMng_allOff;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FocusMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -74193,39 +74303,40 @@ const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dis
 ;
 class FocusMng {
     constructor() {
-        this.aBtn = [];
-        this.idx = -1;
-        this.logFocus = CmnLib_1.CmnLib.debugLog
-            ? (i) => console.log(`👾 <FocusMng idx:${i} btn:%o`, this.aBtn[i].btn)
-            : () => { };
+        _FocusMng_instances.add(this);
+        _FocusMng_aBtn.set(this, []);
+        _FocusMng_idx.set(this, -1);
+        _FocusMng_logFocus.set(this, CmnLib_1.CmnLib.debugLog
+            ? (i) => console.log(`👾 <FocusMng idx:${i} btn:%o`, __classPrivateFieldGet(this, _FocusMng_aBtn, "f")[i].btn)
+            : () => { });
     }
-    destroy() { this.aBtn = []; this.idx = -1; }
+    destroy() { __classPrivateFieldSet(this, _FocusMng_aBtn, [], "f"); __classPrivateFieldSet(this, _FocusMng_idx, -1, "f"); }
     add(cmp, on, off) {
-        if (this.aBtn.findIndex(b => b.btn === cmp) >= 0)
+        if (__classPrivateFieldGet(this, _FocusMng_aBtn, "f").findIndex(b => b.btn === cmp) >= 0)
             return;
         if (cmp instanceof pixi_js_1.Container) {
             cmp.on('pointerdown', () => {
-                for (let i = this.aBtn.length - 1; i >= 0; --i) {
-                    const b = this.aBtn[i];
+                for (let i = __classPrivateFieldGet(this, _FocusMng_aBtn, "f").length - 1; i >= 0; --i) {
+                    const b = __classPrivateFieldGet(this, _FocusMng_aBtn, "f")[i];
                     if (b.btn === cmp) {
-                        this.idx = i;
+                        __classPrivateFieldSet(this, _FocusMng_idx, i, "f");
                         return;
                     }
                 }
-                this.idx = -1;
+                __classPrivateFieldSet(this, _FocusMng_idx, -1, "f");
             });
-            this.aBtn.push({ btn: cmp, on: on, off: off });
+            __classPrivateFieldGet(this, _FocusMng_aBtn, "f").push({ btn: cmp, on: on, off: off });
             return;
         }
         cmp.addEventListener('focus', () => {
-            for (let i = this.aBtn.length - 1; i >= 0; --i) {
-                const b = this.aBtn[i];
+            for (let i = __classPrivateFieldGet(this, _FocusMng_aBtn, "f").length - 1; i >= 0; --i) {
+                const b = __classPrivateFieldGet(this, _FocusMng_aBtn, "f")[i];
                 if (b.btn === cmp) {
-                    this.idx = i;
+                    __classPrivateFieldSet(this, _FocusMng_idx, i, "f");
                     return;
                 }
             }
-            this.idx = -1;
+            __classPrivateFieldSet(this, _FocusMng_idx, -1, "f");
         });
         let fnc = (_) => { };
         let fnc4EnterSwitch = (cmp.localName === 'button' || cmp.localName === 'a')
@@ -74238,7 +74349,7 @@ class FocusMng {
                 break;
             case '':
                 if (cmp.querySelectorAll('input[type]').length > 0) {
-                    fnc = e => this.radio_next(cmp, e.key);
+                    fnc = e => __classPrivateFieldGet(this, _FocusMng_instances, "m", _FocusMng_radio_next).call(this, cmp, e.key);
                     fnc4EnterSwitch = () => false;
                 }
                 break;
@@ -74279,88 +74390,90 @@ class FocusMng {
         }, { passive: true });
         if (!cmp.hasAttribute('tabindex'))
             cmp.tabIndex = 0;
-        this.aBtn.push({ btn: cmp, on: on, off: off });
+        __classPrivateFieldGet(this, _FocusMng_aBtn, "f").push({ btn: cmp, on: on, off: off });
     }
     remove(cmp) {
-        const idx = this.aBtn.findIndex(b => b.btn === cmp);
+        var _a;
+        const idx = __classPrivateFieldGet(this, _FocusMng_aBtn, "f").findIndex(b => b.btn === cmp);
         if (idx < 0)
             return;
-        this.aBtn.splice(idx, 1);
-        if (this.aBtn.length === 0)
-            this.idx = -1;
-        else if (idx <= this.idx)
-            --this.idx;
-    }
-    radio_next(elm, key) {
-        const op = elm.querySelectorAll('input[type]');
-        const len = op.length;
-        for (let i = 0; i < len; ++i) {
-            if (!op[i].checked)
-                continue;
-            op[(i + len + (key === 'ArrowUp' ? -1 : 1)) % len].checked = true;
-            break;
-        }
+        __classPrivateFieldGet(this, _FocusMng_aBtn, "f").splice(idx, 1);
+        if (__classPrivateFieldGet(this, _FocusMng_aBtn, "f").length === 0)
+            __classPrivateFieldSet(this, _FocusMng_idx, -1, "f");
+        else if (idx <= __classPrivateFieldGet(this, _FocusMng_idx, "f"))
+            __classPrivateFieldSet(this, _FocusMng_idx, (_a = __classPrivateFieldGet(this, _FocusMng_idx, "f"), --_a), "f");
     }
     isFocus(cmp) {
-        if (this.idx < 0)
+        if (__classPrivateFieldGet(this, _FocusMng_idx, "f") < 0)
             return false;
-        return this.aBtn[this.idx].btn === cmp;
+        return __classPrivateFieldGet(this, _FocusMng_aBtn, "f")[__classPrivateFieldGet(this, _FocusMng_idx, "f")].btn === cmp;
     }
     prev() {
-        this.allOff();
-        const len = this.aBtn.length;
+        var _a;
+        __classPrivateFieldGet(this, _FocusMng_instances, "m", _FocusMng_allOff).call(this);
+        const len = __classPrivateFieldGet(this, _FocusMng_aBtn, "f").length;
         if (len === 0)
             return;
-        if (--this.idx < 0)
-            this.idx = len - 1;
+        if (__classPrivateFieldSet(this, _FocusMng_idx, (_a = __classPrivateFieldGet(this, _FocusMng_idx, "f"), --_a), "f") < 0)
+            __classPrivateFieldSet(this, _FocusMng_idx, len - 1, "f");
         for (let i = len; i >= 1; --i) {
-            const j = (this.idx + i) % len;
-            if (this.aBtn[j].on()) {
-                this.idx = j;
-                this.logFocus(j);
+            const j = (__classPrivateFieldGet(this, _FocusMng_idx, "f") + i) % len;
+            if (__classPrivateFieldGet(this, _FocusMng_aBtn, "f")[j].on()) {
+                __classPrivateFieldSet(this, _FocusMng_idx, j, "f");
+                __classPrivateFieldGet(this, _FocusMng_logFocus, "f").call(this, j);
                 return;
             }
         }
-        this.idx = -1;
+        __classPrivateFieldSet(this, _FocusMng_idx, -1, "f");
     }
     next() {
-        this.allOff();
-        const len = this.aBtn.length;
+        var _a;
+        __classPrivateFieldGet(this, _FocusMng_instances, "m", _FocusMng_allOff).call(this);
+        const len = __classPrivateFieldGet(this, _FocusMng_aBtn, "f").length;
         if (len === 0)
             return;
-        if (++this.idx >= len)
-            this.idx = 0;
+        if (__classPrivateFieldSet(this, _FocusMng_idx, (_a = __classPrivateFieldGet(this, _FocusMng_idx, "f"), ++_a), "f") >= len)
+            __classPrivateFieldSet(this, _FocusMng_idx, 0, "f");
         for (let i = 0; i < len; ++i) {
-            const j = (this.idx + i) % len;
-            if (this.aBtn[j].on()) {
-                this.idx = j;
-                this.logFocus(j);
+            const j = (__classPrivateFieldGet(this, _FocusMng_idx, "f") + i) % len;
+            if (__classPrivateFieldGet(this, _FocusMng_aBtn, "f")[j].on()) {
+                __classPrivateFieldSet(this, _FocusMng_idx, j, "f");
+                __classPrivateFieldGet(this, _FocusMng_logFocus, "f").call(this, j);
                 return;
             }
         }
-        this.idx = -1;
+        __classPrivateFieldSet(this, _FocusMng_idx, -1, "f");
     }
     getFocus() {
-        if (this.idx < 0)
+        if (__classPrivateFieldGet(this, _FocusMng_idx, "f") < 0)
             return null;
-        this.allOff();
-        if (this.idx >= this.aBtn.length)
-            this.idx = 0;
-        const b = this.aBtn[this.idx];
+        __classPrivateFieldGet(this, _FocusMng_instances, "m", _FocusMng_allOff).call(this);
+        if (__classPrivateFieldGet(this, _FocusMng_idx, "f") >= __classPrivateFieldGet(this, _FocusMng_aBtn, "f").length)
+            __classPrivateFieldSet(this, _FocusMng_idx, 0, "f");
+        const b = __classPrivateFieldGet(this, _FocusMng_aBtn, "f")[__classPrivateFieldGet(this, _FocusMng_idx, "f")];
         return b.on() ? b.btn : null;
     }
-    blur() { this.allOff(); this.idx = -1; globalThis.focus(); }
-    allOff() {
-        for (let i = this.aBtn.length - 1; i >= 0; --i) {
-            const b = this.aBtn[i];
-            if (!(b.btn instanceof pixi_js_1.Container) || b.btn.parent)
-                b.off();
-            else
-                this.aBtn.splice(i, 1);
-        }
-    }
+    blur() { __classPrivateFieldGet(this, _FocusMng_instances, "m", _FocusMng_allOff).call(this); __classPrivateFieldSet(this, _FocusMng_idx, -1, "f"); globalThis.focus(); }
 }
 exports.FocusMng = FocusMng;
+_FocusMng_aBtn = new WeakMap(), _FocusMng_idx = new WeakMap(), _FocusMng_logFocus = new WeakMap(), _FocusMng_instances = new WeakSet(), _FocusMng_radio_next = function _FocusMng_radio_next(elm, key) {
+    const op = elm.querySelectorAll('input[type]');
+    const len = op.length;
+    for (let i = 0; i < len; ++i) {
+        if (!op[i].checked)
+            continue;
+        op[(i + len + (key === 'ArrowUp' ? -1 : 1)) % len].checked = true;
+        break;
+    }
+}, _FocusMng_allOff = function _FocusMng_allOff() {
+    for (let i = __classPrivateFieldGet(this, _FocusMng_aBtn, "f").length - 1; i >= 0; --i) {
+        const b = __classPrivateFieldGet(this, _FocusMng_aBtn, "f")[i];
+        if (!(b.btn instanceof pixi_js_1.Container) || b.btn.parent)
+            b.off();
+        else
+            __classPrivateFieldGet(this, _FocusMng_aBtn, "f").splice(i, 1);
+    }
+};
 
 
 /***/ }),
@@ -74369,10 +74482,22 @@ exports.FocusMng = FocusMng;
 /*!*********************************!*\
   !*** ./core/src/sn/FrameMng.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _FrameMng_instances, _FrameMng_evtMng, _FrameMng_hIfrm, _FrameMng_add_frame, _FrameMng_hDisabled, _FrameMng_hAEncImg, _FrameMng_hEncImgOUrl, _FrameMng_rect, _FrameMng_let_frame, _FrameMng_set_frame, _FrameMng_frame, _FrameMng_tsy_frame;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FrameMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -74388,133 +74513,31 @@ class FrameMng {
         this.main = main;
         this.sys = sys;
         this.hTwInf = hTwInf;
-        this.hIfrm = Object.create(null);
-        this.hDisabled = Object.create(null);
-        this.hAEncImg = Object.create(null);
-        this.hEncImgOUrl = Object.create(null);
-        hTag.add_frame = o => this.add_frame(o);
-        hTag.let_frame = o => this.let_frame(o);
-        hTag.set_frame = o => this.set_frame(o);
-        hTag.frame = o => this.frame(o);
-        hTag.tsy_frame = o => this.tsy_frame(o);
+        _FrameMng_instances.add(this);
+        _FrameMng_evtMng.set(this, void 0);
+        _FrameMng_hIfrm.set(this, Object.create(null));
+        _FrameMng_hDisabled.set(this, Object.create(null));
+        _FrameMng_hAEncImg.set(this, Object.create(null));
+        _FrameMng_hEncImgOUrl.set(this, Object.create(null));
+        hTag.add_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_add_frame).call(this, o);
+        hTag.let_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_let_frame).call(this, o);
+        hTag.set_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_set_frame).call(this, o);
+        hTag.frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_frame).call(this, o);
+        hTag.tsy_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_tsy_frame).call(this, o);
     }
-    setEvtMng(evtMng) { this.evtMng = evtMng; }
+    setEvtMng(evtMng) { __classPrivateFieldSet(this, _FrameMng_evtMng, evtMng, "f"); }
     destroy() {
-        for (const n in this.hIfrm) {
-            const f = this.hIfrm[n];
+        for (const n in __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")) {
+            const f = __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")[n];
             f.parentElement.removeChild(f);
         }
-        this.hIfrm = Object.create(null);
+        __classPrivateFieldSet(this, _FrameMng_hIfrm, Object.create(null), "f");
     }
-    add_frame(hArg) {
-        const id = hArg.id;
-        if (!id)
-            throw 'idは必須です';
-        const src = hArg.src;
-        if (!src)
-            throw 'srcは必須です';
-        const frmnm = `const.sn.frm.${id}`;
-        if (this.val.getVal(`tmp:${frmnm}`))
-            throw `frame【${id}】はすでにあります`;
-        const a = (0, CmnLib_1.argChk_Num)(hArg, 'alpha', 1);
-        const sx = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', 1);
-        const sy = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', 1);
-        const r = (0, CmnLib_1.argChk_Num)(hArg, 'rotate', 0);
-        const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
-        const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
-        const rct = this.rect(hArg);
-        const scl = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-        this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * scl}px; top: ${this.sys.ofsTop4frm + rct.y * scl}px; z-index: 1; ${b_color} border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width * scl}" height="${rct.height * scl}"></iframe>`);
-        const url = this.cfg.searchPath(src, Config_1.Config.EXT_HTML);
-        const ld = (new pixi_js_1.Loader())
-            .add({ name: src, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT });
-        if (this.sys.crypto)
-            ld.use((res, next) => {
-                try {
-                    res.data = this.sys.decStr(res.extension, res.data);
-                }
-                catch (e) {
-                    this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
-                }
-                next?.();
-            });
-        ld.load((_ldr, hRes) => {
-            const ifrm = document.getElementById(id);
-            this.hIfrm[id] = ifrm;
-            this.hDisabled[id] = false;
-            ifrm.srcdoc = String(hRes[src]?.data)
-                .replace('sn_repRes();', '')
-                .replace(/\s(?:src|href)=(["'])(\S+)\1/g, (v, p1, p2) => (p2.slice(0, 3) === '../')
-                ? this.sys.cur + p2.slice(4)
-                : v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') + 1)));
-            ifrm.onload = () => {
-                this.val.setVal_Nochk('tmp', frmnm, true);
-                this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
-                this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
-                this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
-                this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
-                this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
-                this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
-                this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
-                this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
-                this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
-                const win = ifrm.contentWindow;
-                this.evtMng.resvFlameEvent(win);
-                (win.sn_repRes)?.((i) => {
-                    const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
-                    const oUrl = this.hEncImgOUrl[src];
-                    if (oUrl) {
-                        i.src = oUrl;
-                        return;
-                    }
-                    const aImg = this.hAEncImg[src];
-                    if (aImg) {
-                        aImg.push(i);
-                        return;
-                    }
-                    this.hAEncImg[src] = [i];
-                    const url2 = this.cfg.searchPath(src, Config_1.Config.EXT_SPRITE);
-                    const ld2 = (new pixi_js_1.Loader)
-                        .add({ name: src, url: url2, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER, });
-                    if (this.sys.crypto)
-                        ld2.use((res, next) => {
-                            this.sys.dec(res.extension, res.data)
-                                .then(r => {
-                                if (res.extension !== 'bin') {
-                                    next?.();
-                                    return;
-                                }
-                                res.data = r;
-                                if (r instanceof HTMLImageElement) {
-                                    res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                                }
-                                next?.();
-                            })
-                                .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
-                        });
-                    ld2.load((_ldr, hRes) => {
-                        for (const s2 in hRes) {
-                            const u2 = this.hEncImgOUrl[s2] = hRes[s2].data.src;
-                            this.hAEncImg[s2].forEach(v => v.src = u2);
-                            delete this.hAEncImg[s2];
-                        }
-                    });
-                });
-                this.main.resume();
-            };
-        });
-        return true;
-    }
-    getFrmDisabled(id) { return this.hDisabled[id]; }
-    rect(hArg) {
-        const a = { ...hArg };
-        const re = this.sys.resolution;
-        return new DOMRect((0, CmnLib_1.argChk_Num)(a, 'x', 0) * re, (0, CmnLib_1.argChk_Num)(a, 'y', 0) * re, (0, CmnLib_1.argChk_Num)(a, 'width', CmnLib_1.CmnLib.stageW) * re, (0, CmnLib_1.argChk_Num)(a, 'height', CmnLib_1.CmnLib.stageH) * re);
-    }
+    getFrmDisabled(id) { return __classPrivateFieldGet(this, _FrameMng_hDisabled, "f")[id]; }
     cvsResize() {
         const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-        for (const n in this.hIfrm) {
-            const f = this.hIfrm[n];
+        for (const n in __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")) {
+            const f = __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")[n];
             const x = Number(this.val.getVal(`const.sn.frm.${n}.x`));
             const y = Number(this.val.getVal(`const.sn.frm.${n}.y`));
             const w = Number(this.val.getVal(`const.sn.frm.${n}.width`));
@@ -74525,209 +74548,308 @@ class FrameMng {
             f.height = String(h * scale);
         }
     }
-    let_frame(hArg) {
-        const id = hArg.id;
-        if (!id)
-            throw 'idは必須です';
+}
+exports.FrameMng = FrameMng;
+_FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDisabled = new WeakMap(), _FrameMng_hAEncImg = new WeakMap(), _FrameMng_hEncImgOUrl = new WeakMap(), _FrameMng_instances = new WeakSet(), _FrameMng_add_frame = function _FrameMng_add_frame(hArg) {
+    const id = hArg.id;
+    if (!id)
+        throw 'idは必須です';
+    const src = hArg.src;
+    if (!src)
+        throw 'srcは必須です';
+    const frmnm = `const.sn.frm.${id}`;
+    if (this.val.getVal(`tmp:${frmnm}`))
+        throw `frame【${id}】はすでにあります`;
+    const a = (0, CmnLib_1.argChk_Num)(hArg, 'alpha', 1);
+    const sx = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', 1);
+    const sy = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', 1);
+    const r = (0, CmnLib_1.argChk_Num)(hArg, 'rotate', 0);
+    const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
+    const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
+    const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg);
+    const scl = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
+    this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * scl}px; top: ${this.sys.ofsTop4frm + rct.y * scl}px; z-index: 1; ${b_color} border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width * scl}" height="${rct.height * scl}"></iframe>`);
+    const url = this.cfg.searchPath(src, Config_1.Config.EXT_HTML);
+    const ld = (new pixi_js_1.Loader())
+        .add({ name: src, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT });
+    if (this.sys.crypto)
+        ld.use((res, next) => {
+            try {
+                res.data = this.sys.decStr(res.extension, res.data);
+            }
+            catch (e) {
+                this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
+            }
+            next?.();
+        });
+    ld.load((_ldr, hRes) => {
         const ifrm = document.getElementById(id);
-        if (!ifrm)
-            throw `id【${id}】はフレームではありません`;
-        const frmnm = `const.sn.frm.${id}`;
-        if (!this.val.getVal(`tmp:${frmnm}`))
-            throw `frame【${id}】が読み込まれていません`;
-        const var_name = hArg.var_name;
-        if (!var_name)
-            throw 'var_nameは必須です';
-        const win = ifrm.contentWindow;
-        if (!win.hasOwnProperty(var_name))
-            throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
-        const v = win[var_name];
-        this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, (0, CmnLib_1.argChk_Boolean)(hArg, 'function', false) ? v() : v);
-        return false;
-    }
-    set_frame(hArg) {
-        const id = hArg.id;
-        if (!id)
-            throw 'idは必須です';
-        const ifrm = document.getElementById(id);
-        if (!ifrm)
-            throw `id【${id}】はフレームではありません`;
-        const frmnm = `const.sn.frm.${id}`;
-        if (!this.val.getVal(`tmp:${frmnm}`))
-            throw `frame【${id}】が読み込まれていません`;
-        const var_name = hArg.var_name;
-        if (!var_name)
-            throw 'var_nameは必須です';
-        const text = hArg.text;
-        if (!text)
-            throw 'textは必須です';
-        this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, text);
-        const win = ifrm.contentWindow;
-        win[var_name] = text;
-        return false;
-    }
-    frame(hArg) {
-        const id = hArg.id;
-        if (!id)
-            throw 'idは必須です';
-        const ifrm = document.getElementById(id);
-        if (!ifrm)
-            throw `id【${id}】はフレームではありません`;
-        const frmnm = `const.sn.frm.${id}`;
-        if (!this.val.getVal(`tmp:${frmnm}`))
-            throw `frame【${id}】が読み込まれていません`;
-        if ('alpha' in hArg) {
-            const a = String(hArg.alpha);
-            ifrm.style.opacity = a;
+        __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")[id] = ifrm;
+        __classPrivateFieldGet(this, _FrameMng_hDisabled, "f")[id] = false;
+        ifrm.srcdoc = String(hRes[src]?.data)
+            .replace('sn_repRes();', '')
+            .replace(/\s(?:src|href)=(["'])(\S+)\1/g, (v, p1, p2) => (p2.slice(0, 3) === '../')
+            ? this.sys.cur + p2.slice(4)
+            : v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') + 1)));
+        ifrm.onload = () => {
+            this.val.setVal_Nochk('tmp', frmnm, true);
             this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
-        }
-        const rct = this.rect(hArg);
-        const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-        if ('x' in hArg || 'y' in hArg) {
-            ifrm.style.left = this.sys.ofsLeft4frm + rct.x * scale + 'px';
-            ifrm.style.top = this.sys.ofsTop4frm + rct.y * scale + 'px';
             this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
             this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
-        }
-        if ('scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
-            const sx = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', 1);
-            const sy = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', 1);
-            const r = (0, CmnLib_1.argChk_Num)(hArg, 'rotate', 0);
-            ifrm.style.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
             this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
             this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
             this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
-        }
-        if ('width' in hArg) {
-            ifrm.width = String(rct.width * scale);
             this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
-        }
-        if ('height' in hArg) {
-            ifrm.height = String(rct.height * scale);
             this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
-        }
-        if ('visible' in hArg) {
-            const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
-            ifrm.style.display = v ? 'inline' : 'none';
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
-        }
-        if ('b_color' in hArg)
-            ifrm.style.backgroundColor = hArg.b_color;
-        if ('disabled' in hArg) {
-            const d = this.hDisabled[id] = (0, CmnLib_1.argChk_Boolean)(hArg, 'disabled', true);
-            const il = ifrm.contentDocument.body.querySelectorAll('input,select');
-            il.forEach(v => v.disabled = d);
-        }
-        return false;
+            const win = ifrm.contentWindow;
+            __classPrivateFieldGet(this, _FrameMng_evtMng, "f").resvFlameEvent(win);
+            (win.sn_repRes)?.((i) => {
+                const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
+                const oUrl = __classPrivateFieldGet(this, _FrameMng_hEncImgOUrl, "f")[src];
+                if (oUrl) {
+                    i.src = oUrl;
+                    return;
+                }
+                const aImg = __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[src];
+                if (aImg) {
+                    aImg.push(i);
+                    return;
+                }
+                __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[src] = [i];
+                const url2 = this.cfg.searchPath(src, Config_1.Config.EXT_SPRITE);
+                const ld2 = (new pixi_js_1.Loader)
+                    .add({ name: src, url: url2, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER, });
+                if (this.sys.crypto)
+                    ld2.use((res, next) => {
+                        this.sys.dec(res.extension, res.data)
+                            .then(r => {
+                            if (res.extension !== 'bin') {
+                                next?.();
+                                return;
+                            }
+                            res.data = r;
+                            if (r instanceof HTMLImageElement) {
+                                res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                            }
+                            next?.();
+                        })
+                            .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+                    });
+                ld2.load((_ldr, hRes) => {
+                    for (const s2 in hRes) {
+                        const u2 = __classPrivateFieldGet(this, _FrameMng_hEncImgOUrl, "f")[s2] = hRes[s2].data.src;
+                        __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[s2].forEach(v => v.src = u2);
+                        delete __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[s2];
+                    }
+                });
+            });
+            this.main.resume();
+        };
+    });
+    return true;
+}, _FrameMng_rect = function _FrameMng_rect(hArg) {
+    const a = { ...hArg };
+    const re = this.sys.resolution;
+    return new DOMRect((0, CmnLib_1.argChk_Num)(a, 'x', 0) * re, (0, CmnLib_1.argChk_Num)(a, 'y', 0) * re, (0, CmnLib_1.argChk_Num)(a, 'width', CmnLib_1.CmnLib.stageW) * re, (0, CmnLib_1.argChk_Num)(a, 'height', CmnLib_1.CmnLib.stageH) * re);
+}, _FrameMng_let_frame = function _FrameMng_let_frame(hArg) {
+    const id = hArg.id;
+    if (!id)
+        throw 'idは必須です';
+    const ifrm = document.getElementById(id);
+    if (!ifrm)
+        throw `id【${id}】はフレームではありません`;
+    const frmnm = `const.sn.frm.${id}`;
+    if (!this.val.getVal(`tmp:${frmnm}`))
+        throw `frame【${id}】が読み込まれていません`;
+    const var_name = hArg.var_name;
+    if (!var_name)
+        throw 'var_nameは必須です';
+    const win = ifrm.contentWindow;
+    if (!win.hasOwnProperty(var_name))
+        throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
+    const v = win[var_name];
+    this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, (0, CmnLib_1.argChk_Boolean)(hArg, 'function', false) ? v() : v);
+    return false;
+}, _FrameMng_set_frame = function _FrameMng_set_frame(hArg) {
+    const id = hArg.id;
+    if (!id)
+        throw 'idは必須です';
+    const ifrm = document.getElementById(id);
+    if (!ifrm)
+        throw `id【${id}】はフレームではありません`;
+    const frmnm = `const.sn.frm.${id}`;
+    if (!this.val.getVal(`tmp:${frmnm}`))
+        throw `frame【${id}】が読み込まれていません`;
+    const var_name = hArg.var_name;
+    if (!var_name)
+        throw 'var_nameは必須です';
+    const text = hArg.text;
+    if (!text)
+        throw 'textは必須です';
+    this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, text);
+    const win = ifrm.contentWindow;
+    win[var_name] = text;
+    return false;
+}, _FrameMng_frame = function _FrameMng_frame(hArg) {
+    const id = hArg.id;
+    if (!id)
+        throw 'idは必須です';
+    const ifrm = document.getElementById(id);
+    if (!ifrm)
+        throw `id【${id}】はフレームではありません`;
+    const frmnm = `const.sn.frm.${id}`;
+    if (!this.val.getVal(`tmp:${frmnm}`))
+        throw `frame【${id}】が読み込まれていません`;
+    if ('alpha' in hArg) {
+        const a = String(hArg.alpha);
+        ifrm.style.opacity = a;
+        this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
     }
-    tsy_frame(hArg) {
-        const id = hArg.id;
-        if (!id)
-            throw 'idは必須です';
-        const ifrm = document.getElementById(id);
-        if (!ifrm)
-            throw `id【${id}】はフレームではありません`;
-        const frmnm = `const.sn.frm.${id}`;
-        if (!this.val.getVal(`tmp:${frmnm}`, 0))
-            throw `frame【${id}】が読み込まれていません`;
-        const hNow = {};
-        if ('alpha' in hArg)
-            hNow.a = ifrm.style.opacity;
-        if ('x' in hArg || 'y' in hArg
-            || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
-            hNow.x = Number(this.val.getVal(`tmp:${frmnm}.x`));
-            hNow.y = Number(this.val.getVal(`tmp:${frmnm}.y`));
-            hNow.sx = Number(this.val.getVal(`tmp:${frmnm}.scale_x`));
-            hNow.sy = Number(this.val.getVal(`tmp:${frmnm}.scale_y`));
-            hNow.r = Number(this.val.getVal(`tmp:${frmnm}.rotate`));
-        }
-        if ('width' in hArg)
-            hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
-        if ('height' in hArg)
-            hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
-        const hArg2 = (0, CmnLib_1.cnvTweenArg)(hArg, hNow);
-        const hTo = {};
-        const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
-        let fncA = () => { };
-        if ('alpha' in hArg) {
-            hTo.a = (0, CmnLib_1.argChk_Num)(hArg2, 'alpha', 0);
-            fncA = () => {
-                ifrm.style.opacity = hNow.a;
-                this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
-            };
-        }
-        let fncXYSR = () => { };
-        const rct = this.rect(hArg2);
-        const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-        if ('x' in hArg || 'y' in hArg
-            || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
-            hTo.x = rct.x;
-            hTo.y = rct.y;
-            hTo.sx = (0, CmnLib_1.argChk_Num)(hArg2, 'scale_x', 1);
-            hTo.sy = (0, CmnLib_1.argChk_Num)(hArg2, 'scale_y', 1);
-            hTo.r = (0, CmnLib_1.argChk_Num)(hArg2, 'rotate', 0);
-            fncXYSR = () => {
-                ifrm.style.left = this.sys.ofsLeft4frm + hNow.x * scale + 'px';
-                ifrm.style.top = this.sys.ofsTop4frm + hNow.y * scale + 'px';
-                ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
-                this.val.setVal_Nochk('tmp', frmnm + '.x', hNow.x);
-                this.val.setVal_Nochk('tmp', frmnm + '.y', hNow.y);
-                this.val.setVal_Nochk('tmp', frmnm + '.scale_x', hNow.sx);
-                this.val.setVal_Nochk('tmp', frmnm + '.scale_y', hNow.sy);
-                this.val.setVal_Nochk('tmp', frmnm + '.rotate', hNow.r);
-            };
-        }
-        let fncW = () => { };
-        if ('width' in hArg) {
-            hTo.w = rct.width;
-            fncW = () => {
-                ifrm.width = hNow.w * scale + 'px';
-                this.val.setVal_Nochk('tmp', frmnm + '.width', hNow.w);
-            };
-        }
-        let fncH = () => { };
-        if ('height' in hArg) {
-            hTo.h = rct.height;
-            fncH = () => {
-                ifrm.height = hNow.h * scale + 'px';
-                this.val.setVal_Nochk('tmp', frmnm + '.height', hNow.h);
-            };
-        }
-        this.appPixi.stage.interactive = false;
-        const tw_nm = `frm\n${hArg.id}`;
-        const tw = new tween_js_1.Tween(hNow)
-            .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)
-            * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
-            .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
-            .easing(CmnTween_1.CmnTween.ease(hArg.ease))
-            .repeat(repeat === 0 ? Infinity : (repeat - 1))
-            .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
-            .onUpdate(() => { fncA(); fncXYSR(); fncW(); fncH(); })
-            .onComplete(() => {
-            this.appPixi.stage.interactive = true;
-            const ti = this.hTwInf[tw_nm];
-            if (!ti)
-                return;
-            delete this.hTwInf[tw_nm];
-            ti.tw?.stop();
-            if (ti.resume)
-                this.main.resume();
-            ti.onEnd?.();
-        });
-        if ('chain' in hArg) {
-            const twFrom = this.hTwInf[hArg.chain ?? ''];
-            if (!twFrom || !twFrom.tw)
-                throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
-            delete twFrom.onEnd;
-            twFrom.tw.chain(tw);
-        }
-        else
-            tw.start();
-        this.hTwInf[tw_nm] = { tw: tw, resume: false };
-        return false;
+    const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg);
+    const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
+    if ('x' in hArg || 'y' in hArg) {
+        ifrm.style.left = this.sys.ofsLeft4frm + rct.x * scale + 'px';
+        ifrm.style.top = this.sys.ofsTop4frm + rct.y * scale + 'px';
+        this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
+        this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
     }
-}
-exports.FrameMng = FrameMng;
+    if ('scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
+        const sx = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', 1);
+        const sy = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', 1);
+        const r = (0, CmnLib_1.argChk_Num)(hArg, 'rotate', 0);
+        ifrm.style.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
+        this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
+        this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
+        this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
+    }
+    if ('width' in hArg) {
+        ifrm.width = String(rct.width * scale);
+        this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
+    }
+    if ('height' in hArg) {
+        ifrm.height = String(rct.height * scale);
+        this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
+    }
+    if ('visible' in hArg) {
+        const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
+        ifrm.style.display = v ? 'inline' : 'none';
+        this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
+    }
+    if ('b_color' in hArg)
+        ifrm.style.backgroundColor = hArg.b_color;
+    if ('disabled' in hArg) {
+        const d = __classPrivateFieldGet(this, _FrameMng_hDisabled, "f")[id] = (0, CmnLib_1.argChk_Boolean)(hArg, 'disabled', true);
+        const il = ifrm.contentDocument.body.querySelectorAll('input,select');
+        il.forEach(v => v.disabled = d);
+    }
+    return false;
+}, _FrameMng_tsy_frame = function _FrameMng_tsy_frame(hArg) {
+    const id = hArg.id;
+    if (!id)
+        throw 'idは必須です';
+    const ifrm = document.getElementById(id);
+    if (!ifrm)
+        throw `id【${id}】はフレームではありません`;
+    const frmnm = `const.sn.frm.${id}`;
+    if (!this.val.getVal(`tmp:${frmnm}`, 0))
+        throw `frame【${id}】が読み込まれていません`;
+    const hNow = {};
+    if ('alpha' in hArg)
+        hNow.a = ifrm.style.opacity;
+    if ('x' in hArg || 'y' in hArg
+        || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
+        hNow.x = Number(this.val.getVal(`tmp:${frmnm}.x`));
+        hNow.y = Number(this.val.getVal(`tmp:${frmnm}.y`));
+        hNow.sx = Number(this.val.getVal(`tmp:${frmnm}.scale_x`));
+        hNow.sy = Number(this.val.getVal(`tmp:${frmnm}.scale_y`));
+        hNow.r = Number(this.val.getVal(`tmp:${frmnm}.rotate`));
+    }
+    if ('width' in hArg)
+        hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
+    if ('height' in hArg)
+        hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
+    const hArg2 = (0, CmnLib_1.cnvTweenArg)(hArg, hNow);
+    const hTo = {};
+    const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
+    let fncA = () => { };
+    if ('alpha' in hArg) {
+        hTo.a = (0, CmnLib_1.argChk_Num)(hArg2, 'alpha', 0);
+        fncA = () => {
+            ifrm.style.opacity = hNow.a;
+            this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
+        };
+    }
+    let fncXYSR = () => { };
+    const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg2);
+    const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
+    if ('x' in hArg || 'y' in hArg
+        || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
+        hTo.x = rct.x;
+        hTo.y = rct.y;
+        hTo.sx = (0, CmnLib_1.argChk_Num)(hArg2, 'scale_x', 1);
+        hTo.sy = (0, CmnLib_1.argChk_Num)(hArg2, 'scale_y', 1);
+        hTo.r = (0, CmnLib_1.argChk_Num)(hArg2, 'rotate', 0);
+        fncXYSR = () => {
+            ifrm.style.left = this.sys.ofsLeft4frm + hNow.x * scale + 'px';
+            ifrm.style.top = this.sys.ofsTop4frm + hNow.y * scale + 'px';
+            ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
+            this.val.setVal_Nochk('tmp', frmnm + '.x', hNow.x);
+            this.val.setVal_Nochk('tmp', frmnm + '.y', hNow.y);
+            this.val.setVal_Nochk('tmp', frmnm + '.scale_x', hNow.sx);
+            this.val.setVal_Nochk('tmp', frmnm + '.scale_y', hNow.sy);
+            this.val.setVal_Nochk('tmp', frmnm + '.rotate', hNow.r);
+        };
+    }
+    let fncW = () => { };
+    if ('width' in hArg) {
+        hTo.w = rct.width;
+        fncW = () => {
+            ifrm.width = hNow.w * scale + 'px';
+            this.val.setVal_Nochk('tmp', frmnm + '.width', hNow.w);
+        };
+    }
+    let fncH = () => { };
+    if ('height' in hArg) {
+        hTo.h = rct.height;
+        fncH = () => {
+            ifrm.height = hNow.h * scale + 'px';
+            this.val.setVal_Nochk('tmp', frmnm + '.height', hNow.h);
+        };
+    }
+    this.appPixi.stage.interactive = false;
+    const tw_nm = `frm\n${hArg.id}`;
+    const tw = new tween_js_1.Tween(hNow)
+        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)
+        * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
+        .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
+        .easing(CmnTween_1.CmnTween.ease(hArg.ease))
+        .repeat(repeat === 0 ? Infinity : (repeat - 1))
+        .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
+        .onUpdate(() => { fncA(); fncXYSR(); fncW(); fncH(); })
+        .onComplete(() => {
+        this.appPixi.stage.interactive = true;
+        const ti = this.hTwInf[tw_nm];
+        if (!ti)
+            return;
+        delete this.hTwInf[tw_nm];
+        ti.tw?.stop();
+        if (ti.resume)
+            this.main.resume();
+        ti.onEnd?.();
+    });
+    if ('chain' in hArg) {
+        const twFrom = this.hTwInf[hArg.chain ?? ''];
+        if (!twFrom || !twFrom.tw)
+            throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+        delete twFrom.onEnd;
+        twFrom.tw.chain(tw);
+    }
+    else
+        tw.start();
+    this.hTwInf[tw_nm] = { tw: tw, resume: false };
+    return false;
+};
 
 
 /***/ }),
@@ -74736,10 +74858,22 @@ exports.FrameMng = FrameMng;
 /*!********************************!*\
   !*** ./core/src/sn/Grammar.ts ***!
   \********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _Grammar_REG_CANTC2M, _Grammar_REGC2M, _Grammar_regStrC2M, _Grammar_regStrC2M4not, _Grammar_hC2M;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Grammar = exports.splitAmpersand = exports.tagToken2Name = exports.tagToken2Name_Args = exports.REG_TAG = void 0;
 const RubySpliter_1 = __webpack_require__(/*! ./RubySpliter */ "./core/src/sn/RubySpliter.ts");
@@ -74777,11 +74911,13 @@ function splitAmpersand(token) {
 exports.splitAmpersand = splitAmpersand;
 class Grammar {
     constructor() {
-        this.regC2M = new RegExp('');
-        this.regStrC2M = '';
-        this.regStrC2M4not = '';
+        _Grammar_REG_CANTC2M.set(this, void 0);
+        _Grammar_REGC2M.set(this, new RegExp(''));
+        _Grammar_regStrC2M.set(this, '');
+        _Grammar_regStrC2M4not.set(this, '');
+        _Grammar_hC2M.set(this, void 0);
         this.replaceScr_C2M_And_let_ml = (scr, start_idx = 0) => {
-            if (!this.hC2M)
+            if (!__classPrivateFieldGet(this, _Grammar_hC2M, "f"))
                 return;
             for (let i = scr.len - 1; i >= start_idx; --i) {
                 const token = scr.aToken[i];
@@ -74789,13 +74925,13 @@ class Grammar {
                 if (this.REG_TOKEN_NOTXT.test(token.charAt(0)))
                     continue;
                 const lnum = scr.aLNum[i];
-                const a = token.match(this.regC2M);
+                const a = token.match(__classPrivateFieldGet(this, _Grammar_REGC2M, "f"));
                 if (!a)
                     continue;
                 let del = 1;
                 for (let j = a.length - 1; j >= 0; --j) {
                     let ch = a[j];
-                    const macro = this.hC2M[ch.charAt(0)];
+                    const macro = __classPrivateFieldGet(this, _Grammar_hC2M, "f")[ch.charAt(0)];
                     if (macro) {
                         ch = macro + ((macro.slice(-1) === ']')
                             ? ''
@@ -74811,7 +74947,7 @@ class Grammar {
         this.setEscape('');
     }
     setEscape(ce) {
-        if (this.hC2M && (ce in this.hC2M))
+        if (__classPrivateFieldGet(this, _Grammar_hC2M, "f") && (ce in __classPrivateFieldGet(this, _Grammar_hC2M, "f")))
             throw '[エスケープ文字] char【' + ce + '】が登録済みの括弧マクロまたは一文字マクロです';
         const ces = ce ?? '\\';
         this.REG_TOKEN = new RegExp((ce ? `\\${ce}\\S|` : '') +
@@ -74831,7 +74967,7 @@ class Grammar {
             '|^\\*\\w+' +
             `|[^\\n\\t\\[;${ce ? `\\${ce}` : ''}]+`, 'gs');
         RubySpliter_1.RubySpliter.setEscape(ce);
-        this.REG_CANTC2M = new RegExp(`[\\w\\s;[\\]*=&｜《》${ce ? `\\${ce}` : ''}]`);
+        __classPrivateFieldSet(this, _Grammar_REG_CANTC2M, new RegExp(`[\\w\\s;[\\]*=&｜《》${ce ? `\\${ce}` : ''}]`), "f");
         this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ? `\\${ce}` : ''}]`);
     }
     bracket2macro(hArg, script, idxToken) {
@@ -74843,21 +74979,21 @@ class Grammar {
             throw '[bracket2macro] textは必須です';
         if (text.length !== 2)
             throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
-        this.hC2M ??= {};
+        __classPrivateFieldSet(this, _Grammar_hC2M, __classPrivateFieldGet(this, _Grammar_hC2M, "f") ?? {}, "f");
         const op = text.charAt(0);
         const cl = text.charAt(1);
-        if (op in this.hC2M)
+        if (op in __classPrivateFieldGet(this, _Grammar_hC2M, "f"))
             throw '[bracket2macro] text【' + op + '】が登録済みの括弧マクロまたは一文字マクロです';
-        if (cl in this.hC2M)
+        if (cl in __classPrivateFieldGet(this, _Grammar_hC2M, "f"))
             throw '[bracket2macro] text【' + cl + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(op))
+        __classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").lastIndex = 0;
+        if (__classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").test(op))
             throw '[bracket2macro] text【' + op + '】は括弧マクロに使用できない文字です';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(cl))
+        __classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").lastIndex = 0;
+        if (__classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").test(cl))
             throw '[bracket2macro] text【' + cl + '】は括弧マクロに使用できない文字です';
-        this.hC2M[cl] = '0';
-        this.hC2M[op] = `[${name} text=`;
+        __classPrivateFieldGet(this, _Grammar_hC2M, "f")[cl] = '0';
+        __classPrivateFieldGet(this, _Grammar_hC2M, "f")[op] = `[${name} text=`;
         this.addC2M(`\\${op}[^\\${cl}]*\\${cl}`, `\\${op}\\${cl}`);
         this.replaceScr_C2M_And_let_ml(script, idxToken);
     }
@@ -74865,28 +75001,29 @@ class Grammar {
         const char = hArg.char;
         if (!char)
             throw '[char2macro] charは必須です';
-        this.hC2M ??= {};
-        if (char in this.hC2M)
+        __classPrivateFieldSet(this, _Grammar_hC2M, __classPrivateFieldGet(this, _Grammar_hC2M, "f") ?? {}, "f");
+        if (char in __classPrivateFieldGet(this, _Grammar_hC2M, "f"))
             throw '[char2macro] char【' + char + '】が登録済みの括弧マクロまたは一文字マクロです';
-        this.REG_CANTC2M.lastIndex = 0;
-        if (this.REG_CANTC2M.test(char))
+        __classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").lastIndex = 0;
+        if (__classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").test(char))
             throw '[char2macro] char【' + char + '】は一文字マクロに使用できない文字です';
         const name = hArg.name;
         if (!name)
             throw '[char2macro] nameは必須です';
         if (!(name in hTag))
             throw `[char2macro] 未定義のタグ又はマクロ[${name}]です`;
-        this.hC2M[char] = `[${name}]`;
+        __classPrivateFieldGet(this, _Grammar_hC2M, "f")[char] = `[${name}]`;
         this.addC2M(`\\${char}`, `\\${char}`);
         this.replaceScr_C2M_And_let_ml(script, idxToken);
     }
     addC2M(a, b) {
-        this.regStrC2M += `${a}|`;
-        this.regStrC2M4not += `${b}`;
-        this.regC2M = new RegExp(`(${this.regStrC2M}[^${this.regStrC2M4not}]+)`, 'g');
+        __classPrivateFieldSet(this, _Grammar_regStrC2M, __classPrivateFieldGet(this, _Grammar_regStrC2M, "f") + `${a}|`, "f");
+        __classPrivateFieldSet(this, _Grammar_regStrC2M4not, __classPrivateFieldGet(this, _Grammar_regStrC2M4not, "f") + `${b}`, "f");
+        __classPrivateFieldSet(this, _Grammar_REGC2M, new RegExp(`(${__classPrivateFieldGet(this, _Grammar_regStrC2M, "f")}[^${__classPrivateFieldGet(this, _Grammar_regStrC2M4not, "f")}]+)`, 'g'), "f");
     }
 }
 exports.Grammar = Grammar;
+_Grammar_REG_CANTC2M = new WeakMap(), _Grammar_REGC2M = new WeakMap(), _Grammar_regStrC2M = new WeakMap(), _Grammar_regStrC2M4not = new WeakMap(), _Grammar_hC2M = new WeakMap();
 
 
 /***/ }),
@@ -74895,10 +75032,22 @@ exports.Grammar = Grammar;
 /*!*********************************!*\
   !*** ./core/src/sn/GrpLayer.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _a, _GrpLayer_elc, _GrpLayer_hFace, _GrpLayer_main, _GrpLayer_cfg, _GrpLayer_sys, _GrpLayer_glbVol, _GrpLayer_movVol, _GrpLayer_evtMng, _GrpLayer_idc, _GrpLayer_csvFn, _GrpLayer_sBkFn, _GrpLayer_sBkFace, _GrpLayer_dec2cache, _GrpLayer_sortAFrameName, _GrpLayer_dec2cache4Cripto, _GrpLayer_mkSprite;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GrpLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -74913,42 +75062,42 @@ const DesignCast_1 = __webpack_require__(/*! ./DesignCast */ "./core/src/sn/Desi
 class GrpLayer extends Layer_1.Layer {
     constructor() {
         super();
-        this.idc = new DesignCast_1.GrpLayDesignCast(this.spLay, this);
-        this.csvFn = '';
-        this.sBkFn = '';
-        this.sBkFace = '';
+        _GrpLayer_idc.set(this, new DesignCast_1.GrpLayDesignCast(this.spLay, this));
+        _GrpLayer_csvFn.set(this, '');
+        _GrpLayer_sBkFn.set(this, '');
+        _GrpLayer_sBkFace.set(this, '');
         this.lay = (hArg) => this.laySub(hArg, isStop => {
             if (isStop)
-                GrpLayer.main.resume();
+                __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_main).resume();
         });
         this.record = () => Object.assign(super.record(), {
-            sBkFn: this.sBkFn,
-            sBkFace: this.sBkFace,
-            idc_hArg: this.idc.gethArg(),
+            sBkFn: __classPrivateFieldGet(this, _GrpLayer_sBkFn, "f"),
+            sBkFace: __classPrivateFieldGet(this, _GrpLayer_sBkFace, "f"),
+            idc_hArg: __classPrivateFieldGet(this, _GrpLayer_idc, "f").gethArg(),
         });
-        this.dump = () => super.dump() + `, "pic":"${this.csvFn}"`;
+        this.dump = () => super.dump() + `, "pic":"${__classPrivateFieldGet(this, _GrpLayer_csvFn, "f")}"`;
         if (CmnLib_1.CmnLib.isDbg) {
-            this.setSp = sp => this.idc.setSp(sp);
-            this.cvsResize = () => { super.cvsResize(); this.idc.cvsResize(); };
+            this.setSp = sp => __classPrivateFieldGet(this, _GrpLayer_idc, "f").setSp(sp);
+            this.cvsResize = () => { super.cvsResize(); __classPrivateFieldGet(this, _GrpLayer_idc, "f").cvsResize(); };
         }
     }
     static init(main, cfg, sys, sndMng) {
-        GrpLayer.main = main;
-        GrpLayer.cfg = cfg;
-        GrpLayer.sys = sys;
+        __classPrivateFieldSet(GrpLayer, _a, main, "f", _GrpLayer_main);
+        __classPrivateFieldSet(GrpLayer, _a, cfg, "f", _GrpLayer_cfg);
+        __classPrivateFieldSet(GrpLayer, _a, sys, "f", _GrpLayer_sys);
         const fnc = () => {
-            const vol = GrpLayer.glbVol * GrpLayer.movVol;
+            const vol = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_glbVol) * __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_movVol);
             for (const fn in GrpLayer.hFn2VElm)
                 GrpLayer.hFn2VElm[fn].volume = vol;
         };
-        sndMng.setNoticeChgVolume(vol => { GrpLayer.glbVol = vol; fnc(); }, vol => { GrpLayer.movVol = vol; fnc(); });
-        if (GrpLayer.sys.crypto)
-            GrpLayer.dec2cache = GrpLayer.dec2cache4Cripto;
+        sndMng.setNoticeChgVolume(vol => { __classPrivateFieldSet(GrpLayer, _a, vol, "f", _GrpLayer_glbVol); fnc(); }, vol => { __classPrivateFieldSet(GrpLayer, _a, vol, "f", _GrpLayer_movVol); fnc(); });
+        if (__classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_sys).crypto)
+            __classPrivateFieldSet(GrpLayer, _a, __classPrivateFieldGet(GrpLayer, _a, "m", _GrpLayer_dec2cache4Cripto), "f", _GrpLayer_dec2cache);
     }
-    static setEvtMng(evtMng) { GrpLayer.evtMng = evtMng; }
+    static setEvtMng(evtMng) { __classPrivateFieldSet(GrpLayer, _a, evtMng, "f", _GrpLayer_evtMng); }
     static destroy() {
-        GrpLayer.elc.clear();
-        GrpLayer.hFace = {};
+        __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_elc).clear();
+        __classPrivateFieldSet(GrpLayer, _a, {}, "f", _GrpLayer_hFace);
         GrpLayer.hFn2ResAniSpr = {};
         GrpLayer.hFn2VElm = {};
     }
@@ -74956,13 +75105,13 @@ class GrpLayer extends Layer_1.Layer {
     laySub(hArg, resolve) {
         const fn = hArg.fn;
         const face = hArg.face ?? '';
-        this.idc.sethArg(hArg);
+        __classPrivateFieldGet(this, _GrpLayer_idc, "f").sethArg(hArg);
         if (!fn) {
             super.lay(hArg);
             if (this.spLay.children.length > 0)
                 this.setPos(hArg);
-            this.sBkFn = '';
-            this.csvFn = this.sBkFace = face;
+            __classPrivateFieldSet(this, _GrpLayer_sBkFn, '', "f");
+            __classPrivateFieldSet(this, _GrpLayer_csvFn, __classPrivateFieldSet(this, _GrpLayer_sBkFace, face, "f"), "f");
             resolve(false);
             return false;
         }
@@ -74970,13 +75119,13 @@ class GrpLayer extends Layer_1.Layer {
         const inFace = 'face' in hArg;
         this.clearLay({ filter: 'true' });
         if (inFn)
-            this.sBkFn = fn;
+            __classPrivateFieldSet(this, _GrpLayer_sBkFn, fn, "f");
         if (inFace)
-            this.sBkFace = face;
+            __classPrivateFieldSet(this, _GrpLayer_sBkFace, face, "f");
         super.lay(hArg);
         hArg.dx = 0;
         hArg.dy = 0;
-        const ret = GrpLayer.csv2Sprites(this.csvFn = fn + (face ? ',' + face : ''), this.spLay, sp => {
+        const ret = GrpLayer.csv2Sprites(__classPrivateFieldSet(this, _GrpLayer_csvFn, fn + (face ? ',' + face : ''), "f"), this.spLay, sp => {
             if ('width' in hArg || 'height' in hArg) {
                 sp.width = (0, CmnLib_1.argChk_Num)(hArg, 'width', 0);
                 sp.height = (0, CmnLib_1.argChk_Num)(hArg, 'height', 0);
@@ -75013,7 +75162,7 @@ class GrpLayer extends Layer_1.Layer {
         csv.split(',').forEach((fn, i) => {
             if (!fn)
                 throw 'face属性に空要素が含まれます';
-            const f = GrpLayer.hFace[fn] || {
+            const f = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_hFace)[fn] || {
                 fn: fn,
                 dx: 0,
                 dy: 0,
@@ -75032,8 +75181,8 @@ class GrpLayer extends Layer_1.Layer {
             if (f.fn in pixi_js_1.Loader.shared.resources)
                 return;
             needLoad = true;
-            const url = GrpLayer.cfg.searchPath(f.fn, Config_1.Config.EXT_SPRITE);
-            const xt = this.sys.crypto
+            const url = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_cfg).searchPath(f.fn, Config_1.Config.EXT_SPRITE);
+            const xt = __classPrivateFieldGet(this, _a, "f", _GrpLayer_sys).crypto
                 ? { xhrType: (url.slice(-5) === '.json')
                         ? pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT
                         : pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER }
@@ -75042,7 +75191,7 @@ class GrpLayer extends Layer_1.Layer {
         });
         const fncLoaded = (hRes) => {
             for (const v of aComp) {
-                const sp = GrpLayer.mkSprite(v.fn, hRes);
+                const sp = __classPrivateFieldGet(GrpLayer, _a, "m", _GrpLayer_mkSprite).call(GrpLayer, v.fn, hRes);
                 parent?.addChild(sp);
                 v.fnc(sp);
             }
@@ -75050,95 +75199,15 @@ class GrpLayer extends Layer_1.Layer {
         };
         if (needLoad) {
             ldr.use((res, next) => {
-                this.sys.dec(res.extension, res.data)
-                    .then(r => GrpLayer.dec2cache(r, res, () => next?.()))
-                    .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+                __classPrivateFieldGet(this, _a, "f", _GrpLayer_sys).dec(res.extension, res.data)
+                    .then(r => __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_dec2cache).call(GrpLayer, r, res, () => next?.()))
+                    .catch(e => __classPrivateFieldGet(this, _a, "f", _GrpLayer_main).errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
             })
                 .load((_ldr, hRes) => fncLoaded(hRes));
         }
         else
             fncLoaded({});
         return needLoad;
-    }
-    static sortAFrameName(aFn) {
-        const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
-        if (!a_base_name)
-            return;
-        const is = a_base_name[1].length;
-        const ie = -a_base_name[2].length - 1;
-        aFn.sort((a, b) => ((0, CmnLib_1.int)(a.slice(is, ie)) > (0, CmnLib_1.int)(b.slice(is, ie))) ? 1 : -1);
-    }
-    static dec2cache4Cripto(r, res, next) {
-        res.data = r;
-        if (res.extension === 'bin') {
-            if (r instanceof HTMLImageElement) {
-                res.texture = pixi_js_1.Texture.fromLoader(r, res.url, res.name);
-                res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                URL.revokeObjectURL(r.src);
-            }
-            else if (r instanceof HTMLVideoElement) {
-                r.volume = GrpLayer.glbVol;
-                GrpLayer.hFn2VElm[res.name] = r;
-                res.type = pixi_js_1.LoaderResource.TYPE.VIDEO;
-                URL.revokeObjectURL(r.src);
-            }
-        }
-        if (res.extension !== 'json') {
-            next();
-            return;
-        }
-        if (typeof r !== 'string') {
-            next();
-            return;
-        }
-        const o = res.data = JSON.parse(r);
-        res.type = pixi_js_1.LoaderResource.TYPE.JSON;
-        if (!o.meta?.image) {
-            next();
-            return;
-        }
-        const fn = (0, CmnLib_1.getFn)(o.meta.image);
-        const url = GrpLayer.cfg.searchPath(fn, Config_1.Config.EXT_SPRITE);
-        (new pixi_js_1.Loader)
-            .use((res2, next2) => {
-            this.sys.dec(res2.extension, res2.data)
-                .then(r2 => {
-                res2.data = r2;
-                if (r2 instanceof HTMLImageElement) {
-                    res2.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                    URL.revokeObjectURL(r2.src);
-                }
-                next2?.();
-            })
-                .catch(e => this.main.errScript(`Graphic ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
-        })
-            .add({ name: fn, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER })
-            .load((ldr, _hRes) => {
-            for (const fn in ldr.resources) {
-                const bt = pixi_js_1.Texture.from(ldr.resources[fn].data).baseTexture;
-                const aFn = Object.values(o.frames);
-                GrpLayer.sortAFrameName(aFn);
-                GrpLayer.hFn2ResAniSpr[res.name] = {
-                    aTex: aFn.map(f => new pixi_js_1.Texture(bt, new pixi_js_1.Rectangle(f.frame.x, f.frame.y, f.frame.w, f.frame.h))),
-                    meta: o.meta,
-                };
-            }
-            next();
-        });
-    }
-    static mkSprite(fn, hRes) {
-        const ras = GrpLayer.hFn2ResAniSpr[fn];
-        if (ras) {
-            const asp = new pixi_js_1.AnimatedSprite(ras.aTex);
-            asp.animationSpeed = ras.meta.animationSpeed ?? 1.0;
-            asp.play();
-            return asp;
-        }
-        if (fn in pixi_js_1.utils.TextureCache)
-            return pixi_js_1.Sprite.from(fn);
-        if (fn in GrpLayer.hFn2VElm)
-            return pixi_js_1.Sprite.from(GrpLayer.hFn2VElm[fn]);
-        return (fn in hRes) ? new pixi_js_1.Sprite(hRes[fn].texture) : new pixi_js_1.Sprite;
     }
     static wv(hArg) {
         const fn = hArg.fn;
@@ -75154,10 +75223,10 @@ class GrpLayer extends Layer_1.Layer {
         const fnc = () => {
             hve.removeEventListener('ended', fnc);
             delete GrpLayer.hFn2VElm[fn];
-            this.main.resume();
+            __classPrivateFieldGet(this, _a, "f", _GrpLayer_main).resume();
         };
         hve.addEventListener('ended', fnc, { once: true, passive: true });
-        return GrpLayer.evtMng.waitEvent(() => { hve.pause(); fnc(); }, (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
+        return __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_evtMng).waitEvent(() => { hve.pause(); fnc(); }, (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
     }
     setPos(hArg) {
         Layer_1.Layer.setXY((this.spLay.children.length === 0) ? this.spLay : this.spLay.children[0], hArg, this.spLay, true);
@@ -75166,10 +75235,10 @@ class GrpLayer extends Layer_1.Layer {
         const name = hArg.name;
         if (!name)
             throw 'nameは必須です';
-        if (name in GrpLayer.hFace)
+        if (name in __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_hFace))
             throw '一つのname（' + name + '）に対して同じ画像を複数割り当てられません';
         const fn = hArg.fn ?? name;
-        GrpLayer.hFace[name] = {
+        __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_hFace)[name] = {
             fn: fn,
             dx: (0, CmnLib_1.argChk_Num)(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,
             dy: (0, CmnLib_1.argChk_Num)(hArg, 'dy', 0) * CmnLib_1.CmnLib.retinaRate,
@@ -75177,21 +75246,21 @@ class GrpLayer extends Layer_1.Layer {
         };
         return false;
     }
-    static clearFace2Name() { GrpLayer.hFace = {}; }
+    static clearFace2Name() { __classPrivateFieldSet(GrpLayer, _a, {}, "f", _GrpLayer_hFace); }
     clearLay(hArg) {
         super.clearLay(hArg);
         for (const c of this.spLay.removeChildren())
             c.destroy();
-        this.sBkFn = '';
-        this.sBkFace = '';
-        this.csvFn = '';
+        __classPrivateFieldSet(this, _GrpLayer_sBkFn, '', "f");
+        __classPrivateFieldSet(this, _GrpLayer_sBkFace, '', "f");
+        __classPrivateFieldSet(this, _GrpLayer_csvFn, '', "f");
     }
     playback(hLay, aPrm) {
         super.playback(hLay, aPrm);
         if (hLay.sBkFn === '' && hLay.sBkFace === '') {
-            this.sBkFn = hLay.sBkFn;
-            this.sBkFace = hLay.sBkFace;
-            this.idc.sethArg(hLay.idc_hArg);
+            __classPrivateFieldSet(this, _GrpLayer_sBkFn, hLay.sBkFn, "f");
+            __classPrivateFieldSet(this, _GrpLayer_sBkFace, hLay.sBkFace, "f");
+            __classPrivateFieldGet(this, _GrpLayer_idc, "f").sethArg(hLay.idc_hArg);
             return;
         }
         aPrm.push(new Promise(re => this.laySub({ fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: hLay.blendMode, rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y }, _isStop => { this.spLay.position.set(hLay.x, hLay.y); re(); })));
@@ -75199,34 +75268,116 @@ class GrpLayer extends Layer_1.Layer {
     makeDesignCast(gdc) {
         if (!this.spLay.visible)
             return;
-        gdc(this.idc);
+        gdc(__classPrivateFieldGet(this, _GrpLayer_idc, "f"));
     }
     cvsResize() { super.cvsResize(); }
-    showDesignCast() { this.idc.visible = true; }
+    showDesignCast() { __classPrivateFieldGet(this, _GrpLayer_idc, "f").visible = true; }
 }
 exports.GrpLayer = GrpLayer;
-GrpLayer.elc = new EventListenerCtn_1.EventListenerCtn;
-GrpLayer.hFace = {};
-GrpLayer.glbVol = 1;
-GrpLayer.movVol = 1;
-GrpLayer.hFn2ResAniSpr = {};
-GrpLayer.dec2cache = (_r, res, next) => {
-    switch (res.type) {
-        case pixi_js_1.LoaderResource.TYPE.JSON:
-            const aFn = res.spritesheet._frameKeys;
-            GrpLayer.sortAFrameName(aFn);
-            GrpLayer.hFn2ResAniSpr[res.name] = {
-                aTex: aFn.map(fn => pixi_js_1.Texture.from(fn)),
-                meta: res.data.meta,
-            };
-            break;
-        case pixi_js_1.LoaderResource.TYPE.VIDEO:
-            const hve = res.data;
-            hve.volume = GrpLayer.glbVol;
-            GrpLayer.hFn2VElm[res.name] = hve;
+_a = GrpLayer, _GrpLayer_idc = new WeakMap(), _GrpLayer_csvFn = new WeakMap(), _GrpLayer_sBkFn = new WeakMap(), _GrpLayer_sBkFace = new WeakMap(), _GrpLayer_sortAFrameName = function _GrpLayer_sortAFrameName(aFn) {
+    const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
+    if (!a_base_name)
+        return;
+    const is = a_base_name[1].length;
+    const ie = -a_base_name[2].length - 1;
+    aFn.sort((a, b) => ((0, CmnLib_1.int)(a.slice(is, ie)) > (0, CmnLib_1.int)(b.slice(is, ie))) ? 1 : -1);
+}, _GrpLayer_dec2cache4Cripto = function _GrpLayer_dec2cache4Cripto(r, res, next) {
+    res.data = r;
+    if (res.extension === 'bin') {
+        if (r instanceof HTMLImageElement) {
+            res.texture = pixi_js_1.Texture.fromLoader(r, res.url, res.name);
+            res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+            URL.revokeObjectURL(r.src);
+        }
+        else if (r instanceof HTMLVideoElement) {
+            r.volume = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_glbVol);
+            GrpLayer.hFn2VElm[res.name] = r;
+            res.type = pixi_js_1.LoaderResource.TYPE.VIDEO;
+            URL.revokeObjectURL(r.src);
+        }
     }
-    next();
+    if (res.extension !== 'json') {
+        next();
+        return;
+    }
+    if (typeof r !== 'string') {
+        next();
+        return;
+    }
+    const o = res.data = JSON.parse(r);
+    res.type = pixi_js_1.LoaderResource.TYPE.JSON;
+    if (!o.meta?.image) {
+        next();
+        return;
+    }
+    const fn = (0, CmnLib_1.getFn)(o.meta.image);
+    const url = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_cfg).searchPath(fn, Config_1.Config.EXT_SPRITE);
+    (new pixi_js_1.Loader)
+        .use((res2, next2) => {
+        __classPrivateFieldGet(this, _a, "f", _GrpLayer_sys).dec(res2.extension, res2.data)
+            .then(r2 => {
+            res2.data = r2;
+            if (r2 instanceof HTMLImageElement) {
+                res2.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                URL.revokeObjectURL(r2.src);
+            }
+            next2?.();
+        })
+            .catch(e => __classPrivateFieldGet(this, _a, "f", _GrpLayer_main).errScript(`Graphic ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
+    })
+        .add({ name: fn, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER })
+        .load((ldr, _hRes) => {
+        for (const fn in ldr.resources) {
+            const bt = pixi_js_1.Texture.from(ldr.resources[fn].data).baseTexture;
+            const aFn = Object.values(o.frames);
+            __classPrivateFieldGet(GrpLayer, _a, "m", _GrpLayer_sortAFrameName).call(GrpLayer, aFn);
+            GrpLayer.hFn2ResAniSpr[res.name] = {
+                aTex: aFn.map(f => new pixi_js_1.Texture(bt, new pixi_js_1.Rectangle(f.frame.x, f.frame.y, f.frame.w, f.frame.h))),
+                meta: o.meta,
+            };
+        }
+        next();
+    });
+}, _GrpLayer_mkSprite = function _GrpLayer_mkSprite(fn, hRes) {
+    const ras = GrpLayer.hFn2ResAniSpr[fn];
+    if (ras) {
+        const asp = new pixi_js_1.AnimatedSprite(ras.aTex);
+        asp.animationSpeed = ras.meta.animationSpeed ?? 1.0;
+        asp.play();
+        return asp;
+    }
+    if (fn in pixi_js_1.utils.TextureCache)
+        return pixi_js_1.Sprite.from(fn);
+    if (fn in GrpLayer.hFn2VElm)
+        return pixi_js_1.Sprite.from(GrpLayer.hFn2VElm[fn]);
+    return (fn in hRes) ? new pixi_js_1.Sprite(hRes[fn].texture) : new pixi_js_1.Sprite;
 };
+_GrpLayer_elc = { value: new EventListenerCtn_1.EventListenerCtn };
+_GrpLayer_hFace = { value: {} };
+_GrpLayer_main = { value: void 0 };
+_GrpLayer_cfg = { value: void 0 };
+_GrpLayer_sys = { value: void 0 };
+_GrpLayer_glbVol = { value: 1 };
+_GrpLayer_movVol = { value: 1 };
+_GrpLayer_evtMng = { value: void 0 };
+GrpLayer.hFn2ResAniSpr = {};
+_GrpLayer_dec2cache = { value: (_r, res, next) => {
+        switch (res.type) {
+            case pixi_js_1.LoaderResource.TYPE.JSON:
+                const aFn = res.spritesheet._frameKeys;
+                __classPrivateFieldGet(GrpLayer, _a, "m", _GrpLayer_sortAFrameName).call(GrpLayer, aFn);
+                GrpLayer.hFn2ResAniSpr[res.name] = {
+                    aTex: aFn.map(fn => pixi_js_1.Texture.from(fn)),
+                    meta: res.data.meta,
+                };
+                break;
+            case pixi_js_1.LoaderResource.TYPE.VIDEO:
+                const hve = res.data;
+                hve.volume = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_glbVol);
+                GrpLayer.hFn2VElm[res.name] = hve;
+        }
+        next();
+    } };
 GrpLayer.hFn2VElm = {};
 
 
@@ -75236,10 +75387,16 @@ GrpLayer.hFn2VElm = {};
 /*!******************************!*\
   !*** ./core/src/sn/Layer.ts ***!
   \******************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _a, _Layer_hBlendmode;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Layer = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
@@ -75298,7 +75455,7 @@ class Layer {
     static getBlendmodeNum(bm_name) {
         if (!bm_name)
             return pixi_js_1.BLEND_MODES.NORMAL;
-        const bmn = Layer.hBlendmode[bm_name];
+        const bmn = __classPrivateFieldGet(Layer, _a, "f", _Layer_hBlendmode)[bm_name];
         if (bmn !== undefined)
             return bmn;
         throw `${bm_name} はサポートされない blendmode です`;
@@ -75476,12 +75633,13 @@ class Layer {
     }
 }
 exports.Layer = Layer;
-Layer.hBlendmode = {
-    'normal': pixi_js_1.BLEND_MODES.NORMAL,
-    'add': pixi_js_1.BLEND_MODES.ADD,
-    'multiply': pixi_js_1.BLEND_MODES.MULTIPLY,
-    'screen': pixi_js_1.BLEND_MODES.SCREEN,
-};
+_a = Layer;
+_Layer_hBlendmode = { value: {
+        'normal': pixi_js_1.BLEND_MODES.NORMAL,
+        'add': pixi_js_1.BLEND_MODES.ADD,
+        'multiply': pixi_js_1.BLEND_MODES.MULTIPLY,
+        'screen': pixi_js_1.BLEND_MODES.SCREEN,
+    } };
 
 
 /***/ }),
@@ -75490,10 +75648,22 @@ Layer.hBlendmode = {
 /*!*********************************!*\
   !*** ./core/src/sn/LayerMng.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _LayerMng_instances, _a, _LayerMng_stage, _LayerMng_fore, _LayerMng_back, _LayerMng_frmMng, _LayerMng_fncTicker, _LayerMng_hProcDbgRes, _LayerMng_modeLn, _LayerMng_modeLnSub, _LayerMng_selectNode, _LayerMng_grpCover, _LayerMng_evtMng, _LayerMng_foreachRedrawTxtLayBack, _LayerMng_cmdTxt, _LayerMng_snapshot, _LayerMng_loadplugin, _LayerMng_add_lay, _LayerMng_hPages, _LayerMng_aLayName, _LayerMng_curTxtlay, _LayerMng_firstGrplay, _LayerMng_lay, _LayerMng_rebuildLayerRankInfo, _LayerMng_clear_lay, _LayerMng_srcRuleTransFragment, _LayerMng_ufRuleTrans, _LayerMng_fltRule, _LayerMng_rtTransBack, _LayerMng_spTransBack, _LayerMng_rtTransFore, _LayerMng_spTransFore, _LayerMng_aBackTransAfter, _LayerMng_trans, _LayerMng_tiTrans, _LayerMng_getLayers, _LayerMng_foreachLayers, _LayerMng_sortLayers, _LayerMng_wt, _LayerMng_finish_trans, _LayerMng_quake, _LayerMng_hTwInf, _LayerMng_tsy, _LayerMng_wait_tsy, _LayerMng_stop_tsy, _LayerMng_pause_tsy, _LayerMng_resume_tsy, _LayerMng_msecChWait, _LayerMng_ch, _LayerMng_getTxtLayer, _LayerMng_$getTxtLayer, _LayerMng_current, _LayerMng_$current, _LayerMng_pgTxtlay, _LayerMng_fncChkTxtLay, _LayerMng_argChk_layer, _LayerMng_oLastPage, _LayerMng_aPageLog, _LayerMng_clear_text, _LayerMng_endlink, _LayerMng_er, _LayerMng_graph, _LayerMng_link, _LayerMng_r, _LayerMng_rec_r, _LayerMng_rec_ch, _LayerMng_reset_rec, _LayerMng_ruby2, _LayerMng_span, _LayerMng_tcy, _LayerMng_dump_lay, _LayerMng_enable_event, _LayerMng_button;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LayerMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -75522,39 +75692,43 @@ class LayerMng {
         this.sndMng = sndMng;
         this.alzTagArg = alzTagArg;
         this.prpPrs = prpPrs;
-        this.fore = new pixi_js_1.Container;
-        this.back = new pixi_js_1.Container;
-        this.fncTicker = () => (0, tween_js_1.update)();
-        this.hProcDbgRes = {
+        _LayerMng_instances.add(this);
+        _LayerMng_stage.set(this, void 0);
+        _LayerMng_fore.set(this, new pixi_js_1.Container);
+        _LayerMng_back.set(this, new pixi_js_1.Container);
+        _LayerMng_frmMng.set(this, void 0);
+        _LayerMng_fncTicker.set(this, () => (0, tween_js_1.update)());
+        _LayerMng_hProcDbgRes.set(this, {
             attach: _ => { DesignCast_1.DesignCast.leaveMode(); return false; },
             continue: _ => { DesignCast_1.DesignCast.leaveMode(); return false; },
             disconnect: _ => { DesignCast_1.DesignCast.leaveMode(); return false; },
             _enterDesign: _ => {
                 DesignCast_1.DesignCast.enterMode();
-                this.aLayName.forEach(layer => {
-                    const lay = this.hPages[layer].fore;
+                __classPrivateFieldGet(this, _LayerMng_aLayName, "f").forEach(layer => {
+                    const lay = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].fore;
                     lay.makeDesignCastChildren(gdc => gdc.make());
                     lay.makeDesignCast(gdc => gdc.make());
                 });
-                this.selectNode(this.curTxtlay);
+                __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_selectNode).call(this, __classPrivateFieldGet(this, _LayerMng_curTxtlay, "f"));
                 return false;
             },
             _replaceToken: (_, o) => { DesignCast_1.DesignCast.replaceToken(o); return false; },
-            _selectNode: (_, o) => { this.selectNode(o.node); return false; },
-        };
-        this.modeLn = '';
-        this.modeLnSub = '';
-        this.getFrmDisabled = (id) => this.frmMng.getFrmDisabled(id);
-        this.grpCover = null;
-        this.cmdTxt = (cmd, tl = this.getCurrentTxtlayForeNeedErr(), _record = true) => tl.tagCh('｜　《' + cmd + '》');
+            _selectNode: (_, o) => { __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_selectNode).call(this, o.node); return false; },
+        });
+        _LayerMng_modeLn.set(this, '');
+        _LayerMng_modeLnSub.set(this, '');
+        this.getFrmDisabled = (id) => __classPrivateFieldGet(this, _LayerMng_frmMng, "f").getFrmDisabled(id);
+        _LayerMng_grpCover.set(this, null);
+        _LayerMng_evtMng.set(this, void 0);
+        _LayerMng_cmdTxt.set(this, (cmd, tl = this.getCurrentTxtlayForeNeedErr(), _record = true) => tl.tagCh('｜　《' + cmd + '》'));
         this.goTxt = () => { };
         this.breakLine = () => { };
         this.breakPage = () => { };
-        this.hPages = {};
-        this.aLayName = [];
-        this.curTxtlay = '';
-        this.firstGrplay = '';
-        this.srcRuleTransFragment = `
+        _LayerMng_hPages.set(this, {});
+        _LayerMng_aLayName.set(this, []);
+        _LayerMng_curTxtlay.set(this, '');
+        _LayerMng_firstGrplay.set(this, '');
+        _LayerMng_srcRuleTransFragment.set(this, `
 precision mediump float;
 
 varying vec2 vTextureCoord;
@@ -75584,41 +75758,42 @@ void main(void) {
 	else {
 		gl_FragColor = (v >= 0.0)? fg : vec4(0);
 	}
-}`;
-        this.ufRuleTrans = {
+}`);
+        _LayerMng_ufRuleTrans.set(this, {
             rule: pixi_js_1.Texture.EMPTY,
             vague: 0.0,
             tick: 0.0,
-        };
-        this.fltRule = new pixi_js_1.Filter(undefined, this.srcRuleTransFragment, this.ufRuleTrans);
-        this.rtTransBack = pixi_js_1.RenderTexture.create({
+        });
+        _LayerMng_fltRule.set(this, new pixi_js_1.Filter(undefined, __classPrivateFieldGet(this, _LayerMng_srcRuleTransFragment, "f"), __classPrivateFieldGet(this, _LayerMng_ufRuleTrans, "f")));
+        _LayerMng_rtTransBack.set(this, pixi_js_1.RenderTexture.create({
             width: CmnLib_1.CmnLib.stageW,
             height: CmnLib_1.CmnLib.stageH,
-        });
-        this.spTransBack = new pixi_js_1.Sprite(this.rtTransBack);
-        this.rtTransFore = pixi_js_1.RenderTexture.create({
+        }));
+        _LayerMng_spTransBack.set(this, new pixi_js_1.Sprite(__classPrivateFieldGet(this, _LayerMng_rtTransBack, "f")));
+        _LayerMng_rtTransFore.set(this, pixi_js_1.RenderTexture.create({
             width: CmnLib_1.CmnLib.stageW,
             height: CmnLib_1.CmnLib.stageH,
-        });
-        this.spTransFore = new pixi_js_1.Sprite(this.rtTransFore);
-        this.aBackTransAfter = [];
-        this.tiTrans = { tw: null, resume: false };
-        this.hTwInf = {};
-        this.getTxtLayer = (_hArg) => { this.fncChkTxtLay(); throw 0; };
-        this.current = (_hArg) => { this.fncChkTxtLay(); throw 0; };
-        this.fncChkTxtLay = () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; };
-        this.oLastPage = { text: '' };
-        this.aPageLog = [];
+        }));
+        _LayerMng_spTransFore.set(this, new pixi_js_1.Sprite(__classPrivateFieldGet(this, _LayerMng_rtTransFore, "f")));
+        _LayerMng_aBackTransAfter.set(this, []);
+        _LayerMng_tiTrans.set(this, { tw: null, resume: false });
+        _LayerMng_hTwInf.set(this, {});
+        _LayerMng_getTxtLayer.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_fncChkTxtLay, "f").call(this); throw 0; });
+        _LayerMng_current.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_fncChkTxtLay, "f").call(this); throw 0; });
+        _LayerMng_pgTxtlay.set(this, void 0);
+        _LayerMng_fncChkTxtLay.set(this, () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; });
+        _LayerMng_oLastPage.set(this, { text: '' });
+        _LayerMng_aPageLog.set(this, []);
         const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
         const fncResizeLay = () => {
             if (!CmnLib_1.CmnLib.cvsResize(cvs))
                 return;
             this.cvsResizeDesign();
-            if (this.modeLnSub)
-                this.aLayName.forEach(layer => this.hPages[layer].fore.cvsResizeChildren());
+            if (__classPrivateFieldGet(this, _LayerMng_modeLnSub, "f"))
+                __classPrivateFieldGet(this, _LayerMng_aLayName, "f").forEach(layer => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].fore.cvsResizeChildren());
             else
-                this.aLayName.forEach(layer => this.hPages[layer].fore.cvsResize());
-            this.frmMng.cvsResize();
+                __classPrivateFieldGet(this, _LayerMng_aLayName, "f").forEach(layer => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].fore.cvsResize());
+            __classPrivateFieldGet(this, _LayerMng_frmMng, "f").cvsResize();
         };
         if (CmnLib_1.CmnLib.isMobile) {
             globalThis.addEventListener('orientationchange', fncResizeLay, { passive: true });
@@ -75632,154 +75807,133 @@ void main(void) {
             }, { passive: true });
         }
         CmnLib_1.CmnLib.cvsResize(cvs);
-        TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => this.hPages[me.layname].fore === me);
+        TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[me.layname].fore === me);
         GrpLayer_1.GrpLayer.init(main, cfg, sys, sndMng);
         Button_1.Button.init(cfg);
-        this.frmMng = new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.hTwInf);
+        __classPrivateFieldSet(this, _LayerMng_frmMng, new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")), "f");
         sys.hFactoryCls.grp = () => new GrpLayer_1.GrpLayer;
         sys.hFactoryCls.txt = () => new TxtLayer_1.TxtLayer;
-        hTag.loadplugin = o => this.loadplugin(o);
-        hTag.snapshot = o => this.snapshot(o);
-        hTag.add_lay = o => this.add_lay(o);
-        hTag.clear_lay = o => this.clear_lay(o);
-        hTag.finish_trans = () => this.finish_trans();
-        hTag.lay = o => this.lay(o);
-        hTag.trans = o => this.trans(o);
-        hTag.wt = o => this.wt(o);
-        hTag.quake = o => this.quake(o);
+        hTag.loadplugin = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_loadplugin).call(this, o);
+        hTag.snapshot = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_snapshot).call(this, o);
+        hTag.add_lay = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_add_lay).call(this, o);
+        hTag.clear_lay = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_clear_lay).call(this, o);
+        hTag.finish_trans = () => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_finish_trans).call(this);
+        hTag.lay = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_lay).call(this, o);
+        hTag.trans = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_trans).call(this, o);
+        hTag.wt = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_wt).call(this, o);
+        hTag.quake = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_quake).call(this, o);
         hTag.stop_quake = o => hTag.finish_trans(o);
         hTag.wq = o => hTag.wt(o);
-        hTag.pause_tsy = o => this.pause_tsy(o);
-        hTag.resume_tsy = o => this.resume_tsy(o);
-        hTag.stop_tsy = o => this.stop_tsy(o);
-        hTag.tsy = o => this.tsy(o);
-        hTag.wait_tsy = o => this.wait_tsy(o);
-        hTag.ch = o => this.ch(o);
-        hTag.clear_text = o => this.clear_text(o);
-        hTag.current = o => this.current(o);
-        hTag.endlink = o => this.endlink(o);
-        hTag.er = o => this.er(o);
-        hTag.graph = o => this.graph(o);
-        hTag.link = o => this.link(o);
-        hTag.r = o => this.r(o);
-        hTag.rec_ch = o => this.rec_ch(o);
-        hTag.rec_r = () => this.rec_r();
-        hTag.reset_rec = o => this.reset_rec(o);
-        hTag.ruby2 = o => this.ruby2(o);
-        hTag.span = o => this.span(o);
-        hTag.tcy = o => this.tcy(o);
+        hTag.pause_tsy = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_pause_tsy).call(this, o);
+        hTag.resume_tsy = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_resume_tsy).call(this, o);
+        hTag.stop_tsy = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_stop_tsy).call(this, o);
+        hTag.tsy = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_tsy).call(this, o);
+        hTag.wait_tsy = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_wait_tsy).call(this, o);
+        hTag.ch = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_ch).call(this, o);
+        hTag.clear_text = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_clear_text).call(this, o);
+        hTag.current = o => __classPrivateFieldGet(this, _LayerMng_current, "f").call(this, o);
+        hTag.endlink = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_endlink).call(this, o);
+        hTag.er = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_er).call(this, o);
+        hTag.graph = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_graph).call(this, o);
+        hTag.link = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_link).call(this, o);
+        hTag.r = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_r).call(this, o);
+        hTag.rec_ch = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_rec_ch).call(this, o);
+        hTag.rec_r = () => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_rec_r).call(this);
+        hTag.reset_rec = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_reset_rec).call(this, o);
+        hTag.ruby2 = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_ruby2).call(this, o);
+        hTag.span = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_span).call(this, o);
+        hTag.tcy = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_tcy).call(this, o);
         hTag.add_face = o => GrpLayer_1.GrpLayer.add_face(o);
         hTag.wv = o => GrpLayer_1.GrpLayer.wv(o);
-        hTag.dump_lay = o => this.dump_lay(o);
-        hTag.enable_event = o => this.enable_event(o);
-        hTag.button = o => this.button(o);
+        hTag.dump_lay = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_dump_lay).call(this, o);
+        hTag.enable_event = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_enable_event).call(this, o);
+        hTag.button = o => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_button).call(this, o);
         if (cfg.existsBreakline)
-            this.breakLine = () => this.cmdTxt('grp｜{"id":"break","pic":"breakline"}');
+            this.breakLine = () => __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'grp｜{"id":"break","pic":"breakline"}');
         if (cfg.existsBreakpage)
-            this.breakPage = () => this.cmdTxt('grp｜{"id":"break","pic":"breakpage"}');
+            this.breakPage = () => __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'grp｜{"id":"break","pic":"breakpage"}');
         const grp = new pixi_js_1.Graphics;
         grp.beginFill(cfg.oCfg.init.bg_color, 1);
         grp.lineStyle(0, cfg.oCfg.init.bg_color);
         grp.drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
         grp.endFill();
-        this.fore.addChild(grp.clone());
-        this.back.addChild(grp);
-        this.back.visible = false;
-        this.stage = this.appPixi.stage;
-        this.stage.addChild(this.back);
-        this.stage.addChild(this.fore);
-        this.stage.addChild(this.spTransBack);
-        this.stage.addChild(this.spTransFore);
-        this.appPixi.ticker.add(this.fncTicker);
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").addChild(grp.clone());
+        __classPrivateFieldGet(this, _LayerMng_back, "f").addChild(grp);
+        __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
+        __classPrivateFieldSet(this, _LayerMng_stage, this.appPixi.stage, "f");
+        __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild(__classPrivateFieldGet(this, _LayerMng_back, "f"));
+        __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild(__classPrivateFieldGet(this, _LayerMng_fore, "f"));
+        __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild(__classPrivateFieldGet(this, _LayerMng_spTransBack, "f"));
+        __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild(__classPrivateFieldGet(this, _LayerMng_spTransFore, "f"));
+        this.appPixi.ticker.add(__classPrivateFieldGet(this, _LayerMng_fncTicker, "f"));
         const fncTxt_b_alpha = (_name, val) => {
-            this.foreachRedrawTxtLayBack(Number(val));
+            __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_foreachRedrawTxtLayBack).call(this, Number(val));
         };
         fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
         val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
         const fncBtnFont = (_name, val) => Button_1.Button.fontFamily = val;
         fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button_1.Button.fontFamily));
         val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
-        val.defTmp('const.sn.log.json', () => JSON.stringify((this.oLastPage.text)
-            ? [...this.aPageLog, this.oLastPage]
-            : this.aPageLog));
+        val.defTmp('const.sn.log.json', () => JSON.stringify((__classPrivateFieldGet(this, _LayerMng_oLastPage, "f").text)
+            ? [...__classPrivateFieldGet(this, _LayerMng_aPageLog, "f"), __classPrivateFieldGet(this, _LayerMng_oLastPage, "f")]
+            : __classPrivateFieldGet(this, _LayerMng_aPageLog, "f")));
         val.defTmp('const.sn.last_page_text', () => this.getCurrentTxtlayFore()?.pageText ?? '');
         if (CmnLib_1.CmnLib.isDbg) {
-            DesignCast_1.DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, this.hPages);
+            DesignCast_1.DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, __classPrivateFieldGet(this, _LayerMng_hPages, "f"));
             this.cvsResizeDesign = () => DesignCast_1.DesignCast.cvsResizeDesign();
             sys.addHook((type, o) => {
-                if (!this.hProcDbgRes[type]?.(type, o))
+                if (!__classPrivateFieldGet(this, _LayerMng_hProcDbgRes, "f")[type]?.(type, o))
                     return;
-                delete this.hProcDbgRes[type];
+                delete __classPrivateFieldGet(this, _LayerMng_hProcDbgRes, "f")[type];
             });
         }
     }
     cvsResizeDesign() { }
-    selectNode(node) {
-        [this.modeLn, this.modeLnSub = ''] = node.split('/');
-        const pages = this.hPages[this.modeLn];
-        if (!pages)
-            return;
-        DesignCast_1.DesignCast.allHide();
-        if (this.modeLnSub)
-            pages.fore.showDesignCastChildren();
-        else
-            pages.fore.showDesignCast();
-    }
     cover(visible, bg_color = 0x0) {
-        if (this.grpCover) {
-            this.stage.removeChild(this.grpCover);
-            this.grpCover.destroy();
-            this.grpCover = null;
+        if (__classPrivateFieldGet(this, _LayerMng_grpCover, "f")) {
+            __classPrivateFieldGet(this, _LayerMng_stage, "f").removeChild(__classPrivateFieldGet(this, _LayerMng_grpCover, "f"));
+            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").destroy();
+            __classPrivateFieldSet(this, _LayerMng_grpCover, null, "f");
         }
         if (visible) {
-            this.grpCover = new pixi_js_1.Graphics;
-            this.grpCover.beginFill(bg_color);
-            this.grpCover.lineStyle(0, bg_color);
-            this.grpCover.drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-            this.grpCover.endFill();
-            this.stage.addChild(this.grpCover);
+            __classPrivateFieldSet(this, _LayerMng_grpCover, new pixi_js_1.Graphics, "f");
+            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").beginFill(bg_color);
+            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").lineStyle(0, bg_color);
+            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").endFill();
+            __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild(__classPrivateFieldGet(this, _LayerMng_grpCover, "f"));
         }
     }
     setEvtMng(evtMng) {
-        this.evtMng = evtMng;
-        this.frmMng.setEvtMng(evtMng);
+        __classPrivateFieldSet(this, _LayerMng_evtMng, evtMng, "f");
+        __classPrivateFieldGet(this, _LayerMng_frmMng, "f").setEvtMng(evtMng);
         GrpLayer_1.GrpLayer.setEvtMng(evtMng);
     }
-    before_destroy() { for (const pg in this.hPages)
-        this.hPages[pg].destroy(); }
+    before_destroy() { for (const pg in __classPrivateFieldGet(this, _LayerMng_hPages, "f"))
+        __classPrivateFieldGet(this, _LayerMng_hPages, "f")[pg].destroy(); }
     destroy() {
         GrpLayer_1.GrpLayer.destroy();
         RubySpliter_1.RubySpliter.destroy();
         TxtStage_1.TxtStage.destroy();
-        this.frmMng.destroy();
+        __classPrivateFieldGet(this, _LayerMng_frmMng, "f").destroy();
         (0, tween_js_1.removeAll)();
-        this.appPixi.ticker.remove(this.fncTicker);
-        LayerMng.$msecChWait = 10;
-    }
-    foreachRedrawTxtLayBack(g_alpha) {
-        this.getLayers().forEach(name => {
-            const pg = this.hPages[name];
-            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                return;
-            const pTxt = pg.fore;
-            pTxt.chgBackAlpha(g_alpha);
-            pg.back.chgBackAlpha(g_alpha);
-        });
+        this.appPixi.ticker.remove(__classPrivateFieldGet(this, _LayerMng_fncTicker, "f"));
+        __classPrivateFieldSet(LayerMng, _a, 10, "f", _LayerMng_msecChWait);
     }
     clearBreak() {
         if (!this.getCurrentTxtlayFore())
             return;
-        this.clearBreak = () => this.cmdTxt('del｜break');
+        this.clearBreak = () => __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'del｜break');
         this.clearBreak();
     }
     clickTxtLay() {
         if (!this.getCurrentTxtlayFore())
             return;
-        const vct = this.getLayers();
+        const vct = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this);
         const len = vct.length;
         for (let i = 0; i < len; ++i) {
             const name = vct[i];
-            const pg = this.hPages[name];
+            const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[name];
             if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
                 continue;
             const pTxt = pg.fore;
@@ -75787,621 +75941,38 @@ void main(void) {
                 break;
         }
     }
-    snapshot(hArg) {
-        const fn0 = hArg.fn
-            ? hArg.fn.slice(0, 10) === 'userdata:/'
-                ? hArg.fn
-                : `downloads:/${hArg.fn + (0, CmnLib_1.getDateStr)('-', '_', '', '_')}.png`
-            : `downloads:/snapshot${(0, CmnLib_1.getDateStr)('-', '_', '', '_')}.png`;
-        const fn = this.cfg.searchPath(fn0);
-        if (this.sys.canCapturePage(fn))
-            return false;
-        const ext = (0, CmnLib_1.getExt)(fn);
-        const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
-        const rnd = (0, pixi_js_1.autoDetectRenderer)({
-            width: (0, CmnLib_1.argChk_Num)(hArg, 'width', CmnLib_1.CmnLib.stageW),
-            height: (0, CmnLib_1.argChk_Num)(hArg, 'height', CmnLib_1.CmnLib.stageH),
-            backgroundAlpha: (b_color > 0x1000000) && (ext === 'png') ? 0 : 1,
-            antialias: (0, CmnLib_1.argChk_Boolean)(hArg, 'smoothing', false),
-            preserveDrawingBuffer: true,
-            backgroundColor: (0, CmnLib_1.uint)(b_color) & 0xFFFFFF,
-            autoDensity: true,
-        });
-        const a = [];
-        const pg = (hArg.page !== 'back') ? 'fore' : 'back';
-        if (this.tiTrans.tw)
-            a.push(new Promise(re => {
-                this.back.visible = true;
-                this.aBackTransAfter.forEach(lay => rnd.render(lay, { clear: false }));
-                this.back.visible = false;
-                this.spTransBack.visible = true;
-                this.fore.filters = this.spTransFore.filters;
-                this.fore.visible = true;
-                rnd.render(this.fore, { clear: false });
-                this.fore.visible = false;
-                this.fore.filters = [];
-                re();
-            }));
-        else
-            this.getLayers(hArg.layer).forEach(v => a.push(new Promise(re => this.hPages[v][pg].snapshot(rnd, () => re()))));
-        Promise.all(a).then(async () => {
-            const renTx = pixi_js_1.RenderTexture.create({ width: rnd.width, height: rnd.height, transform: true });
-            rnd.render(this.stage, { renderTexture: renTx });
-            await this.sys.savePic(fn, rnd.plugins.extract.base64(pixi_js_1.Sprite.from(renTx)));
-            if (!this.tiTrans.tw)
-                this.getLayers(hArg.layer)
-                    .forEach(v => this.hPages[v][pg].snapshot_end());
-            rnd.destroy(true);
-        });
-        return false;
-    }
-    loadplugin(hArg) {
-        const fn = hArg.fn;
-        if (!fn)
-            throw 'fnは必須です';
-        const join = (0, CmnLib_1.argChk_Boolean)(hArg, 'join', true);
-        switch ((0, CmnLib_1.getExt)(fn)) {
-            case 'css':
-                (async () => {
-                    const res = await fetch(fn);
-                    if (!res.ok)
-                        throw new Error('Network response was not ok.');
-                    (0, CmnLib_1.addStyle)(await res.text());
-                    if (join)
-                        this.main.resume();
-                })();
-                break;
-            default: throw 'サポートされない拡張子です';
-        }
-        return join;
-    }
-    add_lay(hArg) {
-        const layer = hArg.layer;
-        if (!layer)
-            throw 'layerは必須です';
-        if (layer.includes(','))
-            throw 'layer名に「,」は使えません';
-        if (layer in this.hPages)
-            throw `layer【${layer}】はすでにあります`;
-        const cls = hArg.class;
-        if (!cls)
-            throw 'clsは必須です';
-        const ret = { isWait: false };
-        this.hPages[layer] = new Pages_1.Pages(layer, cls, this.fore, this.back, hArg, this.sys, this.val, ret);
-        this.aLayName.push(layer);
-        switch (cls) {
-            case 'txt':
-                if (!this.curTxtlay) {
-                    this.fncChkTxtLay = () => { };
-                    this.getTxtLayer = this.$getTxtLayer;
-                    this.current = this.$current;
-                    this.hTag.current({ layer: layer });
-                    this.goTxt = () => {
-                        if (this.val.getVal('sn.skip.enabled')) {
-                            LayerMng.$msecChWait = 0;
-                        }
-                        else {
-                            this.setNormalWaitTxtLayer();
-                        }
-                        this.getLayers().forEach(name => {
-                            const pg = this.hPages[name];
-                            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                                return;
-                            this.cmdTxt('gotxt｜', pg.fore, false);
-                        });
-                    };
-                }
-                this.val.setVal_Nochk('save', 'const.sn.layer.' + (layer ?? this.curTxtlay) + '.enabled', true);
-                break;
-            case 'grp':
-                if (this.firstGrplay)
-                    break;
-                this.firstGrplay = layer;
-                break;
-        }
-        this.scrItr.recodeDesign(hArg);
-        return ret.isWait;
-    }
-    lay(hArg) {
-        const layer = this.argChk_layer(hArg);
-        const pg = this.hPages[layer];
-        const back = pg.back.spLay;
-        const fore = pg.fore.spLay;
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'float', false)) {
-            this.back.setChildIndex(back, this.back.children.length - 1);
-            this.fore.setChildIndex(fore, this.fore.children.length - 1);
-            this.rebuildLayerRankInfo();
-        }
-        else if (hArg.index) {
-            if ((0, CmnLib_1.argChk_Num)(hArg, 'index', 0)) {
-                this.back.setChildIndex(back, (0, CmnLib_1.uint)(hArg.index));
-                this.fore.setChildIndex(fore, (0, CmnLib_1.uint)(hArg.index));
-                this.rebuildLayerRankInfo();
-            }
-        }
-        else if (hArg.dive) {
-            const dive = hArg.dive;
-            let idx_dive = 0;
-            if (layer === dive)
-                throw '[lay] 属性 layerとdiveが同じ【' + dive + '】です';
-            const pg_dive = this.hPages[dive];
-            if (!pg_dive)
-                throw '[lay] 属性 dive【' + dive + '】が不正です。レイヤーがありません';
-            const back_dive = pg_dive.back;
-            const fore_dive = pg_dive.fore;
-            const idx_back_dive = this.back.getChildIndex(back_dive.spLay);
-            const idx_fore_dive = this.fore.getChildIndex(fore_dive.spLay);
-            idx_dive = (idx_back_dive < idx_fore_dive) ? idx_back_dive : idx_fore_dive;
-            if (idx_dive > this.back.getChildIndex(back))
-                --idx_dive;
-            this.fore.setChildIndex(fore, idx_dive);
-            this.back.setChildIndex(back, idx_dive);
-            this.rebuildLayerRankInfo();
-        }
-        hArg[':id_tag'] = pg.fore.name.slice(0, -7);
-        this.scrItr.recodeDesign(hArg);
-        return pg.lay(hArg);
-    }
-    rebuildLayerRankInfo() { this.aLayName = this.sortLayers(); }
-    clear_lay(hArg) {
-        this.foreachLayers(hArg, name => {
-            const pg = this.hPages[this.argChk_layer({ layer: name })];
-            if (hArg.page === 'both') {
-                pg.fore.clearLay(hArg);
-                pg.back.clearLay(hArg);
-            }
-            else {
-                pg.getPage(hArg).clearLay(hArg);
-            }
-        });
-        return false;
-    }
-    trans(hArg) {
-        this.finish_trans();
-        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
-        this.aBackTransAfter = [];
-        const hTarget = {};
-        this.getLayers(hArg.layer).forEach(v => hTarget[v] = true);
-        this.getLayers().forEach(lay_nm => this.aBackTransAfter.push(this.hPages[lay_nm][hTarget[lay_nm] ? 'back' : 'fore'].spLay));
-        this.rtTransBack.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        this.appPixi.renderer.render(this.back, { renderTexture: this.rtTransBack });
-        this.rtTransFore.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        this.appPixi.renderer.render(this.fore, { renderTexture: this.rtTransFore });
-        const fncRender = () => {
-            this.back.visible = true;
-            this.aBackTransAfter.forEach(lay => {
-                this.appPixi.renderer.render(lay, { renderTexture: this.rtTransBack, clear: false });
-            });
-            this.back.visible = false;
-            this.spTransBack.visible = true;
-            this.fore.visible = true;
-            this.appPixi.renderer.render(this.fore, { renderTexture: this.rtTransFore });
-            this.fore.visible = false;
-            this.spTransFore.visible = true;
-        };
-        this.spTransFore.alpha = 1;
-        const comp = () => {
-            if (this.appPixi.ticker)
-                this.appPixi.ticker.remove(fncRender);
-            [this.fore, this.back] = [this.back, this.fore];
-            const aPrm = [];
-            for (const lay_name in this.hPages) {
-                const pg = this.hPages[lay_name];
-                if (hTarget[lay_name]) {
-                    pg.transPage(aPrm);
-                    continue;
-                }
-                const idx = this.fore.getChildIndex(pg.back.spLay);
-                this.fore.removeChild(pg.back.spLay);
-                this.back.removeChild(pg.fore.spLay);
-                this.fore.addChildAt(pg.fore.spLay, idx);
-                this.back.addChildAt(pg.back.spLay, idx);
-            }
-            Promise.allSettled(aPrm);
-            this.fore.visible = true;
-            this.back.visible = false;
-            this.spTransBack.visible = false;
-            this.spTransFore.visible = false;
-            this.tiTrans.tw?.stop();
-            if (this.tiTrans.resume)
-                this.main.resume();
-            this.tiTrans = { tw: null, resume: false };
-        };
-        this.tiTrans = { tw: null, resume: false };
-        const time = (0, CmnLib_1.argChk_Num)(hArg, 'time', 0);
-        if (time === 0 || this.evtMng.isSkipKeyDown()) {
-            comp();
-            return false;
-        }
-        const is_glsl = 'glsl' in hArg;
-        if ((!is_glsl) && !('rule' in hArg)) {
-            this.spTransFore.filters = [];
-            this.tiTrans.tw = new tween_js_1.Tween(this.spTransFore)
-                .to({ alpha: 0 }, time)
-                .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
-                .easing(ease)
-                .onComplete(comp)
-                .start();
-            this.appPixi.ticker.add(fncRender);
-            return false;
-        }
-        const flt = is_glsl
-            ? new pixi_js_1.Filter(undefined, hArg.glsl, this.ufRuleTrans)
-            : this.fltRule;
-        flt.uniforms.vague = (0, CmnLib_1.argChk_Num)(hArg, 'vague', 0.04);
-        flt.uniforms.tick = 0;
-        this.tiTrans.tw = new tween_js_1.Tween(flt.uniforms)
-            .to({ tick: 1 }, time)
-            .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
-            .easing(ease)
-            .onComplete(comp);
-        this.spTransFore.filters = [flt];
-        if (is_glsl) {
-            this.tiTrans.tw.start();
-            this.appPixi.ticker.add(fncRender);
-            return false;
-        }
-        if (!hArg.rule)
-            throw 'ruleが指定されていません';
-        GrpLayer_1.GrpLayer.csv2Sprites(hArg.rule, null, sp => {
-            flt.uniforms.rule = sp.texture;
-            sp.destroy();
-            this.tiTrans.tw?.start();
-            this.appPixi.ticker.add(fncRender);
-        });
-        return false;
-    }
-    getLayers(layer = '') {
-        return (layer) ? layer.split(',') : this.aLayName;
-    }
-    foreachLayers(hArg, fnc) {
-        const vct = this.getLayers(hArg.layer);
-        vct.forEach(name => {
-            if (!name)
-                return;
-            const pg = this.hPages[name];
-            if (!pg)
-                throw '存在しないlayer【' + name + '】です';
-            fnc(name, pg);
-        });
-        return vct;
-    }
-    sortLayers(layers = '') {
-        return this.getLayers(layers)
-            .sort((a, b) => {
-            const ai = this.fore.getChildIndex(this.hPages[a].fore.spLay);
-            const bi = this.fore.getChildIndex(this.hPages[b].fore.spLay);
-            if (ai < bi)
-                return -1;
-            if (ai > bi)
-                return 1;
-            return 0;
-        });
-    }
-    wt(hArg) {
-        if (!this.tiTrans.tw)
-            return false;
-        this.tiTrans.resume = true;
-        return this.evtMng.waitLimitedEvent(hArg, () => this.finish_trans());
-    }
-    finish_trans() { this.tiTrans.tw?.end(); return false; }
-    quake(hArg) {
-        this.finish_trans();
-        if (this.val.getVal('tmp:sn.skip.enabled'))
-            return false;
-        if (this.evtMng.isSkipKeyDown())
-            return false;
-        const aDo = [];
-        this.getLayers(hArg.layer).forEach(lay_nm => {
-            aDo.push(this.hPages[lay_nm].fore.spLay);
-        });
-        this.rtTransFore.resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        const fncRender = () => {
-            this.fore.visible = true;
-            aDo.forEach(lay => this.appPixi.renderer.render(lay, { renderTexture: this.rtTransFore, clear: false }));
-            this.fore.visible = false;
-        };
-        this.spTransFore.visible = true;
-        this.spTransFore.alpha = 1;
-        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
-        const h = (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'hmax', 10));
-        const v = (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'vmax', 10));
-        const fncH = (h === 0)
-            ? () => { }
-            : () => this.spTransFore.x = Math.round(Math.random() * h * 2) - h;
-        const fncV = (v === 0)
-            ? () => { }
-            : () => this.spTransFore.y = Math.round(Math.random() * v * 2) - v;
-        this.spTransFore.filters = [];
-        const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
-        const tw = new tween_js_1.Tween(this.spTransFore)
-            .to({ x: 0, y: 0 }, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN))
-            .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
-            .easing(ease)
-            .onUpdate(() => { fncH(); fncV(); })
-            .repeat(repeat === 0 ? Infinity : (repeat - 1))
-            .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
-            .onComplete(() => {
-            this.appPixi.ticker?.remove(fncRender);
-            this.fore.visible = true;
-            this.spTransFore.visible = false;
-            this.spTransFore.x = 0;
-            this.spTransFore.y = 0;
-            this.tiTrans.tw?.stop();
-            if (this.tiTrans.resume)
-                this.main.resume();
-            this.tiTrans = { tw: null, resume: false };
-        })
-            .start();
-        this.tiTrans = { tw: tw, resume: false };
-        this.appPixi.ticker.add(fncRender);
-        return false;
-    }
-    tsy(hArg) {
-        if (!hArg.layer)
-            throw 'layerは必須です';
-        const layer = this.argChk_layer(hArg);
-        const foreLay = this.hPages[layer].fore;
-        const hTo = (0, CmnLib_1.cnvTweenArg)(hArg, foreLay);
-        const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
-        const tw_nm = hArg.name ?? hArg.layer;
-        const tw = new tween_js_1.Tween(foreLay)
-            .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)
-            * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
-            .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
-            .easing(CmnTween_1.CmnTween.ease(hArg.ease))
-            .repeat(repeat === 0 ? Infinity : (repeat - 1))
-            .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
-            .onComplete(() => {
-            const ti = this.hTwInf[tw_nm];
-            if (!ti)
-                return;
-            delete this.hTwInf[tw_nm];
-            ti.tw?.stop();
-            if (ti.resume)
-                this.main.resume();
-            ti.onEnd?.();
-        });
-        if ('chain' in hArg) {
-            const twFrom = this.hTwInf[hArg.chain ?? ''];
-            if (!twFrom?.tw)
-                throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
-            delete twFrom.onEnd;
-            twFrom.tw.chain(tw);
-        }
-        else
-            tw.start();
-        const arrive = (0, CmnLib_1.argChk_Boolean)(hArg, 'arrive', false);
-        const backlay = (0, CmnLib_1.argChk_Boolean)(hArg, 'backlay', false);
-        this.hTwInf[tw_nm] = { tw: tw, resume: false, onEnd: () => {
-                if (arrive)
-                    Object.assign(foreLay, hTo);
-                if (backlay) {
-                    const backCnt = this.hPages[layer].back.spLay;
-                    for (const nm in CmnLib_1.hMemberCnt)
-                        backCnt[nm] = foreLay[nm];
-                }
-            } };
-        return false;
-    }
-    wait_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        const ti = this.hTwInf[tw_nm];
-        if (!ti?.tw)
-            return false;
-        return ti.resume = this.evtMng.waitEvent(() => ti.tw?.end(), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
-    }
-    stop_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        this.hTwInf[tw_nm]?.tw?.end();
-        return false;
-    }
-    pause_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        this.hTwInf[tw_nm]?.tw?.pause();
-        return false;
-    }
-    resume_tsy(hArg) {
-        const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
-        if (!tw_nm)
-            throw 'トゥイーンが指定されていません';
-        this.hTwInf[tw_nm]?.tw?.resume();
-        return false;
-    }
-    static get msecChWait() { return LayerMng.$msecChWait; }
-    static set msecChWait(v) { LayerMng.$msecChWait = v; }
-    ch(hArg) {
-        const txt = hArg.text;
-        if (!txt)
-            throw 'textは必須です';
-        let wait = (0, CmnLib_1.argChk_Num)(hArg, 'wait', -1);
-        if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled'))
-            wait = 0;
-        hArg.wait = wait;
-        const tl = this.getTxtLayer(hArg);
-        delete hArg.text;
-        if (wait >= 0)
-            this.cmdTxt('add｜' + JSON.stringify(hArg), tl);
-        const record = (0, CmnLib_1.argChk_Boolean)(hArg, 'record', true);
-        const doRecLog = this.val.doRecLog();
-        if (!record)
-            this.val.setVal_Nochk('save', 'sn.doRecLog', record);
-        tl.tagCh(txt.replaceAll('[r]', '\n'));
-        if (!record)
-            this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
-        if (wait >= 0)
-            this.cmdTxt(`add_close｜`, tl);
-        return false;
-    }
-    $getTxtLayer(hArg) {
-        const layer = this.argChk_layer(hArg, this.curTxtlay);
-        const pg = this.hPages[layer];
-        const lay = pg.getPage(hArg);
-        if (!(lay instanceof TxtLayer_1.TxtLayer))
-            throw layer + 'はTxtLayerではありません';
-        const tf = lay;
-        return tf;
-    }
-    setNormalWaitTxtLayer() { LayerMng.$msecChWait = this.scrItr.normalWait; }
-    $current(hArg) {
-        const layer = hArg.layer;
-        if (!layer)
-            throw '[current] layerは必須です';
-        this.pgTxtlay = this.hPages[layer];
-        if (!(this.pgTxtlay.getPage(hArg) instanceof TxtLayer_1.TxtLayer))
-            throw `${layer}はTxtLayerではありません`;
-        this.recText('', true);
-        this.curTxtlay = layer;
-        this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
-        this.getLayers().forEach(name => {
-            const pg = this.hPages[name];
-            if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
-                return;
-            pg.fore.isCur =
-                pg.back.isCur = (name === layer);
-        });
-        return false;
-    }
+    static get msecChWait() { return __classPrivateFieldGet(LayerMng, _a, "f", _LayerMng_msecChWait); }
+    static set msecChWait(v) { __classPrivateFieldSet(LayerMng, _a, v, "f", _LayerMng_msecChWait); }
+    setNormalWaitTxtLayer() { __classPrivateFieldSet(LayerMng, _a, this.scrItr.normalWait, "f", _LayerMng_msecChWait); }
     getCurrentTxtlayForeNeedErr() {
-        this.fncChkTxtLay();
+        __classPrivateFieldGet(this, _LayerMng_fncChkTxtLay, "f").call(this);
         return this.getCurrentTxtlayFore();
     }
     getCurrentTxtlayFore() {
-        if (!this.pgTxtlay)
+        if (!__classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f"))
             return undefined;
-        return this.pgTxtlay.fore;
-    }
-    argChk_layer(hash, def = '') {
-        const v = hash.layer ?? def;
-        if (v.includes(','))
-            throw 'layer名に「,」は使えません';
-        if (!(v in this.hPages))
-            throw '属性 layer【' + v + '】が不正です。レイヤーがありません';
-        return hash.layer = v;
+        return __classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f").fore;
     }
     recText(txt, pagebreak = false) {
-        const o = this.oLastPage;
+        const o = __classPrivateFieldGet(this, _LayerMng_oLastPage, "f");
         if (pagebreak) {
             if (o.text) {
                 o.text = String(o.text).replaceAll(`<\/span><span class='sn_ch'>`, '');
-                if (this.aPageLog.push(o) > this.cfg.oCfg.log.max_len)
-                    this.aPageLog = this.aPageLog.slice(-this.cfg.oCfg.log.max_len);
+                if (__classPrivateFieldGet(this, _LayerMng_aPageLog, "f").push(o) > this.cfg.oCfg.log.max_len)
+                    __classPrivateFieldSet(this, _LayerMng_aPageLog, __classPrivateFieldGet(this, _LayerMng_aPageLog, "f").slice(-this.cfg.oCfg.log.max_len), "f");
             }
-            this.oLastPage = { text: '' };
+            __classPrivateFieldSet(this, _LayerMng_oLastPage, { text: '' }, "f");
             return;
         }
         o.text = txt.replace(/\\`/, '`');
         this.val.setVal_Nochk('save', 'const.sn.sLog', String(this.val.getVal('const.sn.log.json')));
     }
-    clear_text(hArg) {
-        const tf = this.getTxtLayer(hArg);
-        if (hArg.layer === this.curTxtlay && hArg.page === 'fore')
-            this.recText('', true);
-        tf.clearText();
-        return false;
-    }
-    endlink(hArg) { this.cmdTxt('endlink｜', this.getTxtLayer(hArg)); return false; }
-    er(hArg) {
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'rec_page_break', true))
-            this.recText('', true);
-        if (this.pgTxtlay) {
-            this.pgTxtlay.fore.clearLay(hArg);
-            this.pgTxtlay.back.clearLay(hArg);
-        }
-        return false;
-    }
-    graph(hArg) {
-        if (!hArg.pic)
-            throw '[graph] picは必須です';
-        hArg.text = '｜　《grp｜' + JSON.stringify(hArg) + '》';
-        return this.ch(hArg);
-    }
-    link(hArg) {
-        hArg.style ??= 'background-color: rgba(255,0,0,0.5);';
-        hArg.style_hover ??= 'background-color: rgba(255,0,0,0.9);';
-        hArg.style_clicked ??= hArg.style;
-        this.cmdTxt('link｜' + JSON.stringify(hArg), this.getTxtLayer(hArg));
-        return false;
-    }
-    r(hArg) { hArg.text = '\n'; return this.ch(hArg); }
-    rec_r() { this.recText('\n'); return false; }
     ;
-    rec_ch(hArg) {
-        this.oLastPage = hArg;
-        this.recText(hArg.text ?? '');
-        return false;
-    }
     ;
-    reset_rec(hArg) {
-        this.aPageLog = [];
-        this.oLastPage = { text: hArg.text ?? '' };
-        this.val.setVal_Nochk('save', 'const.sn.sLog', (hArg.text) ? `[{text:"${hArg.text}"}]` : '[]');
-        return false;
-    }
-    ruby2(hArg) {
-        const t = hArg.t;
-        if (!t)
-            throw '[ruby2] tは必須です';
-        const r = hArg.r;
-        if (!r)
-            throw '[ruby2] rは必須です';
-        hArg.text = '｜' + t + '《' + r + '》';
-        return this.ch(hArg);
-    }
-    span(hArg) {
-        this.cmdTxt('span｜' + JSON.stringify(hArg), this.getTxtLayer(hArg));
-        return false;
-    }
-    tcy(hArg) {
-        if (!hArg.t)
-            throw '[tcy] tは必須です';
-        hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + (hArg.r ?? '') + '》';
-        return this.ch(hArg);
-    }
-    dump_lay(hArg) {
-        console.group('🥟 [dump_lay]');
-        this.getLayers(hArg.layer).forEach(name => {
-            const pg = this.hPages[name];
-            try {
-                console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`, JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
-            }
-            catch (error) {
-                console.error(`dump_lay err:%o`, error);
-                console.error(`   back:${pg.back.dump()}`);
-                console.error(`   fore:${pg.fore.dump()}`);
-            }
-        });
-        console.groupEnd();
-        return false;
-    }
-    enable_event(hArg) {
-        const layer = this.argChk_layer(hArg, this.curTxtlay);
-        const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'enabled', true);
-        this.getTxtLayer(hArg).enabled = v;
-        this.val.setVal_Nochk('save', 'const.sn.layer.' + layer + '.enabled', v);
-        return false;
-    }
-    button(hArg) {
-        Pages_1.Pages.argChk_page(hArg, 'back');
-        hArg.clicksebuf ??= 'SYS';
-        hArg.entersebuf ??= 'SYS';
-        hArg.leavesebuf ??= 'SYS';
-        if (!hArg.fn)
-            hArg.fn = this.scrItr.scriptFn;
-        this.getTxtLayer(hArg).addButton(hArg);
-        this.scrItr.recodeDesign(hArg);
-        return false;
-    }
     record() {
         const o = {};
-        this.aLayName.forEach(layer => {
-            const pg = this.hPages[layer];
+        __classPrivateFieldGet(this, _LayerMng_aLayName, "f").forEach(layer => {
+            const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer];
             o[layer] = {
                 cls: pg.cls,
                 fore: pg.fore.record(),
@@ -76411,18 +75982,18 @@ void main(void) {
         return o;
     }
     playback($hPages, fncComp) {
-        this.aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
-        this.oLastPage = { text: '' };
+        __classPrivateFieldSet(this, _LayerMng_aPageLog, JSON.parse(String(this.val.getVal('save:const.sn.sLog'))), "f");
+        __classPrivateFieldSet(this, _LayerMng_oLastPage, { text: '' }, "f");
         const aPrm = [];
         const aSort = [];
         for (const layer in $hPages) {
             const $pg = $hPages[layer];
             aSort.push({ layer: layer, idx: $pg.fore.idx });
-            const pg = this.hPages[layer] ||= new Pages_1.Pages(layer, $pg.cls, this.fore, this.back, {}, this.sys, this.val, { isWait: false });
+            const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer] ||= new Pages_1.Pages(layer, $pg.cls, __classPrivateFieldGet(this, _LayerMng_fore, "f"), __classPrivateFieldGet(this, _LayerMng_back, "f"), {}, this.sys, this.val, { isWait: false });
             pg.fore.playback($pg.fore, aPrm);
             pg.back.playback($pg.back, aPrm);
         }
-        const len = this.fore.children.length;
+        const len = __classPrivateFieldGet(this, _LayerMng_fore, "f").children.length;
         Promise.allSettled(aPrm).then(() => {
             aSort.sort(function (a, b) {
                 if (a.idx < b.idx)
@@ -76432,12 +76003,12 @@ void main(void) {
                 return 0;
             });
             aSort.forEach(o => {
-                const pg = this.hPages[o.layer];
+                const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[o.layer];
                 if (!pg)
                     return;
                 const idx = len > o.idx ? o.idx : len - 1;
-                this.fore.setChildIndex(pg.fore.spLay, idx);
-                this.back.setChildIndex(pg.back.spLay, idx);
+                __classPrivateFieldGet(this, _LayerMng_fore, "f").setChildIndex(pg.fore.spLay, idx);
+                __classPrivateFieldGet(this, _LayerMng_back, "f").setChildIndex(pg.back.spLay, idx);
             });
             fncComp();
         })
@@ -76445,7 +76016,575 @@ void main(void) {
     }
 }
 exports.LayerMng = LayerMng;
-LayerMng.$msecChWait = 10;
+_a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), _LayerMng_back = new WeakMap(), _LayerMng_frmMng = new WeakMap(), _LayerMng_fncTicker = new WeakMap(), _LayerMng_hProcDbgRes = new WeakMap(), _LayerMng_modeLn = new WeakMap(), _LayerMng_modeLnSub = new WeakMap(), _LayerMng_grpCover = new WeakMap(), _LayerMng_evtMng = new WeakMap(), _LayerMng_cmdTxt = new WeakMap(), _LayerMng_hPages = new WeakMap(), _LayerMng_aLayName = new WeakMap(), _LayerMng_curTxtlay = new WeakMap(), _LayerMng_firstGrplay = new WeakMap(), _LayerMng_srcRuleTransFragment = new WeakMap(), _LayerMng_ufRuleTrans = new WeakMap(), _LayerMng_fltRule = new WeakMap(), _LayerMng_rtTransBack = new WeakMap(), _LayerMng_spTransBack = new WeakMap(), _LayerMng_rtTransFore = new WeakMap(), _LayerMng_spTransFore = new WeakMap(), _LayerMng_aBackTransAfter = new WeakMap(), _LayerMng_tiTrans = new WeakMap(), _LayerMng_hTwInf = new WeakMap(), _LayerMng_getTxtLayer = new WeakMap(), _LayerMng_current = new WeakMap(), _LayerMng_pgTxtlay = new WeakMap(), _LayerMng_fncChkTxtLay = new WeakMap(), _LayerMng_oLastPage = new WeakMap(), _LayerMng_aPageLog = new WeakMap(), _LayerMng_instances = new WeakSet(), _LayerMng_selectNode = function _LayerMng_selectNode(node) {
+    var _b, _c;
+    _b = this, _c = this, [({ set value(_a) { __classPrivateFieldSet(_b, _LayerMng_modeLn, _a, "f"); } }).value, ({ set value(_a) { __classPrivateFieldSet(_c, _LayerMng_modeLnSub, _a, "f"); } }).value = ''] = node.split('/');
+    const pages = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[__classPrivateFieldGet(this, _LayerMng_modeLn, "f")];
+    if (!pages)
+        return;
+    DesignCast_1.DesignCast.allHide();
+    if (__classPrivateFieldGet(this, _LayerMng_modeLnSub, "f"))
+        pages.fore.showDesignCastChildren();
+    else
+        pages.fore.showDesignCast();
+}, _LayerMng_foreachRedrawTxtLayBack = function _LayerMng_foreachRedrawTxtLayBack(g_alpha) {
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this).forEach(name => {
+        const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[name];
+        if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+            return;
+        const pTxt = pg.fore;
+        pTxt.chgBackAlpha(g_alpha);
+        pg.back.chgBackAlpha(g_alpha);
+    });
+}, _LayerMng_snapshot = function _LayerMng_snapshot(hArg) {
+    const fn0 = hArg.fn
+        ? hArg.fn.slice(0, 10) === 'userdata:/'
+            ? hArg.fn
+            : `downloads:/${hArg.fn + (0, CmnLib_1.getDateStr)('-', '_', '', '_')}.png`
+        : `downloads:/snapshot${(0, CmnLib_1.getDateStr)('-', '_', '', '_')}.png`;
+    const fn = this.cfg.searchPath(fn0);
+    if (this.sys.canCapturePage(fn))
+        return false;
+    const ext = (0, CmnLib_1.getExt)(fn);
+    const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
+    const rnd = (0, pixi_js_1.autoDetectRenderer)({
+        width: (0, CmnLib_1.argChk_Num)(hArg, 'width', CmnLib_1.CmnLib.stageW),
+        height: (0, CmnLib_1.argChk_Num)(hArg, 'height', CmnLib_1.CmnLib.stageH),
+        backgroundAlpha: (b_color > 0x1000000) && (ext === 'png') ? 0 : 1,
+        antialias: (0, CmnLib_1.argChk_Boolean)(hArg, 'smoothing', false),
+        preserveDrawingBuffer: true,
+        backgroundColor: (0, CmnLib_1.uint)(b_color) & 0xFFFFFF,
+        autoDensity: true,
+    });
+    const a = [];
+    const pg = (hArg.page !== 'back') ? 'fore' : 'back';
+    if (__classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw)
+        a.push(new Promise(re => {
+            __classPrivateFieldGet(this, _LayerMng_back, "f").visible = true;
+            __classPrivateFieldGet(this, _LayerMng_aBackTransAfter, "f").forEach(lay => rnd.render(lay, { clear: false }));
+            __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
+            __classPrivateFieldGet(this, _LayerMng_spTransBack, "f").visible = true;
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").filters = __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").filters;
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = true;
+            rnd.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { clear: false });
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = false;
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").filters = [];
+            re();
+        }));
+    else
+        __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(v => a.push(new Promise(re => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[v][pg].snapshot(rnd, () => re()))));
+    Promise.all(a).then(async () => {
+        const renTx = pixi_js_1.RenderTexture.create({ width: rnd.width, height: rnd.height, transform: true });
+        rnd.render(__classPrivateFieldGet(this, _LayerMng_stage, "f"), { renderTexture: renTx });
+        await this.sys.savePic(fn, rnd.plugins.extract.base64(pixi_js_1.Sprite.from(renTx)));
+        if (!__classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw)
+            __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer)
+                .forEach(v => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[v][pg].snapshot_end());
+        rnd.destroy(true);
+    });
+    return false;
+}, _LayerMng_loadplugin = function _LayerMng_loadplugin(hArg) {
+    const fn = hArg.fn;
+    if (!fn)
+        throw 'fnは必須です';
+    const join = (0, CmnLib_1.argChk_Boolean)(hArg, 'join', true);
+    switch ((0, CmnLib_1.getExt)(fn)) {
+        case 'css':
+            (async () => {
+                const res = await fetch(fn);
+                if (!res.ok)
+                    throw new Error('Network response was not ok.');
+                (0, CmnLib_1.addStyle)(await res.text());
+                if (join)
+                    this.main.resume();
+            })();
+            break;
+        default: throw 'サポートされない拡張子です';
+    }
+    return join;
+}, _LayerMng_add_lay = function _LayerMng_add_lay(hArg) {
+    const layer = hArg.layer;
+    if (!layer)
+        throw 'layerは必須です';
+    if (layer.includes(','))
+        throw 'layer名に「,」は使えません';
+    if (layer in __classPrivateFieldGet(this, _LayerMng_hPages, "f"))
+        throw `layer【${layer}】はすでにあります`;
+    const cls = hArg.class;
+    if (!cls)
+        throw 'clsは必須です';
+    const ret = { isWait: false };
+    __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer] = new Pages_1.Pages(layer, cls, __classPrivateFieldGet(this, _LayerMng_fore, "f"), __classPrivateFieldGet(this, _LayerMng_back, "f"), hArg, this.sys, this.val, ret);
+    __classPrivateFieldGet(this, _LayerMng_aLayName, "f").push(layer);
+    switch (cls) {
+        case 'txt':
+            if (!__classPrivateFieldGet(this, _LayerMng_curTxtlay, "f")) {
+                __classPrivateFieldSet(this, _LayerMng_fncChkTxtLay, () => { }, "f");
+                __classPrivateFieldSet(this, _LayerMng_getTxtLayer, __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_$getTxtLayer), "f");
+                __classPrivateFieldSet(this, _LayerMng_current, __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_$current), "f");
+                this.hTag.current({ layer: layer });
+                this.goTxt = () => {
+                    if (this.val.getVal('sn.skip.enabled')) {
+                        __classPrivateFieldSet(LayerMng, _a, 0, "f", _LayerMng_msecChWait);
+                    }
+                    else {
+                        this.setNormalWaitTxtLayer();
+                    }
+                    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this).forEach(name => {
+                        const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[name];
+                        if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+                            return;
+                        __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'gotxt｜', pg.fore, false);
+                    });
+                };
+            }
+            this.val.setVal_Nochk('save', 'const.sn.layer.' + (layer ?? __classPrivateFieldGet(this, _LayerMng_curTxtlay, "f")) + '.enabled', true);
+            break;
+        case 'grp':
+            if (__classPrivateFieldGet(this, _LayerMng_firstGrplay, "f"))
+                break;
+            __classPrivateFieldSet(this, _LayerMng_firstGrplay, layer, "f");
+            break;
+    }
+    this.scrItr.recodeDesign(hArg);
+    return ret.isWait;
+}, _LayerMng_lay = function _LayerMng_lay(hArg) {
+    const layer = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, hArg);
+    const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer];
+    const back = pg.back.spLay;
+    const fore = pg.fore.spLay;
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'float', false)) {
+        __classPrivateFieldGet(this, _LayerMng_back, "f").setChildIndex(back, __classPrivateFieldGet(this, _LayerMng_back, "f").children.length - 1);
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").setChildIndex(fore, __classPrivateFieldGet(this, _LayerMng_fore, "f").children.length - 1);
+        __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_rebuildLayerRankInfo).call(this);
+    }
+    else if (hArg.index) {
+        if ((0, CmnLib_1.argChk_Num)(hArg, 'index', 0)) {
+            __classPrivateFieldGet(this, _LayerMng_back, "f").setChildIndex(back, (0, CmnLib_1.uint)(hArg.index));
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").setChildIndex(fore, (0, CmnLib_1.uint)(hArg.index));
+            __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_rebuildLayerRankInfo).call(this);
+        }
+    }
+    else if (hArg.dive) {
+        const dive = hArg.dive;
+        let idx_dive = 0;
+        if (layer === dive)
+            throw '[lay] 属性 layerとdiveが同じ【' + dive + '】です';
+        const pg_dive = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[dive];
+        if (!pg_dive)
+            throw '[lay] 属性 dive【' + dive + '】が不正です。レイヤーがありません';
+        const back_dive = pg_dive.back;
+        const fore_dive = pg_dive.fore;
+        const idx_back_dive = __classPrivateFieldGet(this, _LayerMng_back, "f").getChildIndex(back_dive.spLay);
+        const idx_fore_dive = __classPrivateFieldGet(this, _LayerMng_fore, "f").getChildIndex(fore_dive.spLay);
+        idx_dive = (idx_back_dive < idx_fore_dive) ? idx_back_dive : idx_fore_dive;
+        if (idx_dive > __classPrivateFieldGet(this, _LayerMng_back, "f").getChildIndex(back))
+            --idx_dive;
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").setChildIndex(fore, idx_dive);
+        __classPrivateFieldGet(this, _LayerMng_back, "f").setChildIndex(back, idx_dive);
+        __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_rebuildLayerRankInfo).call(this);
+    }
+    hArg[':id_tag'] = pg.fore.name.slice(0, -7);
+    this.scrItr.recodeDesign(hArg);
+    return pg.lay(hArg);
+}, _LayerMng_rebuildLayerRankInfo = function _LayerMng_rebuildLayerRankInfo() { __classPrivateFieldSet(this, _LayerMng_aLayName, __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_sortLayers).call(this), "f"); }, _LayerMng_clear_lay = function _LayerMng_clear_lay(hArg) {
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_foreachLayers).call(this, hArg, name => {
+        const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[__classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, { layer: name })];
+        if (hArg.page === 'both') {
+            pg.fore.clearLay(hArg);
+            pg.back.clearLay(hArg);
+        }
+        else {
+            pg.getPage(hArg).clearLay(hArg);
+        }
+    });
+    return false;
+}, _LayerMng_trans = function _LayerMng_trans(hArg) {
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_finish_trans).call(this);
+    const ease = CmnTween_1.CmnTween.ease(hArg.ease);
+    __classPrivateFieldSet(this, _LayerMng_aBackTransAfter, [], "f");
+    const hTarget = {};
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(v => hTarget[v] = true);
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this).forEach(lay_nm => __classPrivateFieldGet(this, _LayerMng_aBackTransAfter, "f").push(__classPrivateFieldGet(this, _LayerMng_hPages, "f")[lay_nm][hTarget[lay_nm] ? 'back' : 'fore'].spLay));
+    __classPrivateFieldGet(this, _LayerMng_rtTransBack, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+    this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_back, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransBack, "f") });
+    __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+    this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
+    const fncRender = () => {
+        __classPrivateFieldGet(this, _LayerMng_back, "f").visible = true;
+        __classPrivateFieldGet(this, _LayerMng_aBackTransAfter, "f").forEach(lay => {
+            this.appPixi.renderer.render(lay, { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransBack, "f"), clear: false });
+        });
+        __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
+        __classPrivateFieldGet(this, _LayerMng_spTransBack, "f").visible = true;
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = true;
+        this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = false;
+        __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").visible = true;
+    };
+    __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").alpha = 1;
+    const comp = () => {
+        var _b, _c;
+        if (this.appPixi.ticker)
+            this.appPixi.ticker.remove(fncRender);
+        _b = this, _c = this, [({ set value(_a) { __classPrivateFieldSet(_b, _LayerMng_fore, _a, "f"); } }).value, ({ set value(_a) { __classPrivateFieldSet(_c, _LayerMng_back, _a, "f"); } }).value] = [__classPrivateFieldGet(this, _LayerMng_back, "f"), __classPrivateFieldGet(this, _LayerMng_fore, "f")];
+        const aPrm = [];
+        for (const lay_name in __classPrivateFieldGet(this, _LayerMng_hPages, "f")) {
+            const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[lay_name];
+            if (hTarget[lay_name]) {
+                pg.transPage(aPrm);
+                continue;
+            }
+            const idx = __classPrivateFieldGet(this, _LayerMng_fore, "f").getChildIndex(pg.back.spLay);
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").removeChild(pg.back.spLay);
+            __classPrivateFieldGet(this, _LayerMng_back, "f").removeChild(pg.fore.spLay);
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").addChildAt(pg.fore.spLay, idx);
+            __classPrivateFieldGet(this, _LayerMng_back, "f").addChildAt(pg.back.spLay, idx);
+        }
+        Promise.allSettled(aPrm);
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = true;
+        __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
+        __classPrivateFieldGet(this, _LayerMng_spTransBack, "f").visible = false;
+        __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").visible = false;
+        __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw?.stop();
+        if (__classPrivateFieldGet(this, _LayerMng_tiTrans, "f").resume)
+            this.main.resume();
+        __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: null, resume: false }, "f");
+    };
+    __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: null, resume: false }, "f");
+    const time = (0, CmnLib_1.argChk_Num)(hArg, 'time', 0);
+    if (time === 0 || __classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkipKeyDown()) {
+        comp();
+        return false;
+    }
+    const is_glsl = 'glsl' in hArg;
+    if ((!is_glsl) && !('rule' in hArg)) {
+        __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").filters = [];
+        __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw = new tween_js_1.Tween(__classPrivateFieldGet(this, _LayerMng_spTransFore, "f"))
+            .to({ alpha: 0 }, time)
+            .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
+            .easing(ease)
+            .onComplete(comp)
+            .start();
+        this.appPixi.ticker.add(fncRender);
+        return false;
+    }
+    const flt = is_glsl
+        ? new pixi_js_1.Filter(undefined, hArg.glsl, __classPrivateFieldGet(this, _LayerMng_ufRuleTrans, "f"))
+        : __classPrivateFieldGet(this, _LayerMng_fltRule, "f");
+    flt.uniforms.vague = (0, CmnLib_1.argChk_Num)(hArg, 'vague', 0.04);
+    flt.uniforms.tick = 0;
+    __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw = new tween_js_1.Tween(flt.uniforms)
+        .to({ tick: 1 }, time)
+        .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
+        .easing(ease)
+        .onComplete(comp);
+    __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").filters = [flt];
+    if (is_glsl) {
+        __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw.start();
+        this.appPixi.ticker.add(fncRender);
+        return false;
+    }
+    if (!hArg.rule)
+        throw 'ruleが指定されていません';
+    GrpLayer_1.GrpLayer.csv2Sprites(hArg.rule, null, sp => {
+        flt.uniforms.rule = sp.texture;
+        sp.destroy();
+        __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw?.start();
+        this.appPixi.ticker.add(fncRender);
+    });
+    return false;
+}, _LayerMng_getLayers = function _LayerMng_getLayers(layer = '') {
+    return (layer) ? layer.split(',') : __classPrivateFieldGet(this, _LayerMng_aLayName, "f");
+}, _LayerMng_foreachLayers = function _LayerMng_foreachLayers(hArg, fnc) {
+    const vct = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer);
+    vct.forEach(name => {
+        if (!name)
+            return;
+        const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[name];
+        if (!pg)
+            throw '存在しないlayer【' + name + '】です';
+        fnc(name, pg);
+    });
+    return vct;
+}, _LayerMng_sortLayers = function _LayerMng_sortLayers(layers = '') {
+    return __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, layers)
+        .sort((a, b) => {
+        const ai = __classPrivateFieldGet(this, _LayerMng_fore, "f").getChildIndex(__classPrivateFieldGet(this, _LayerMng_hPages, "f")[a].fore.spLay);
+        const bi = __classPrivateFieldGet(this, _LayerMng_fore, "f").getChildIndex(__classPrivateFieldGet(this, _LayerMng_hPages, "f")[b].fore.spLay);
+        if (ai < bi)
+            return -1;
+        if (ai > bi)
+            return 1;
+        return 0;
+    });
+}, _LayerMng_wt = function _LayerMng_wt(hArg) {
+    if (!__classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw)
+        return false;
+    __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").resume = true;
+    return __classPrivateFieldGet(this, _LayerMng_evtMng, "f").waitLimitedEvent(hArg, () => __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_finish_trans).call(this));
+}, _LayerMng_finish_trans = function _LayerMng_finish_trans() { __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw?.end(); return false; }, _LayerMng_quake = function _LayerMng_quake(hArg) {
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_finish_trans).call(this);
+    if (this.val.getVal('tmp:sn.skip.enabled'))
+        return false;
+    if (__classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkipKeyDown())
+        return false;
+    const aDo = [];
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(lay_nm => {
+        aDo.push(__classPrivateFieldGet(this, _LayerMng_hPages, "f")[lay_nm].fore.spLay);
+    });
+    __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+    const fncRender = () => {
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = true;
+        aDo.forEach(lay => this.appPixi.renderer.render(lay, { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f"), clear: false }));
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = false;
+    };
+    __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").visible = true;
+    __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").alpha = 1;
+    const ease = CmnTween_1.CmnTween.ease(hArg.ease);
+    const h = (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'hmax', 10));
+    const v = (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'vmax', 10));
+    const fncH = (h === 0)
+        ? () => { }
+        : () => __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").x = Math.round(Math.random() * h * 2) - h;
+    const fncV = (v === 0)
+        ? () => { }
+        : () => __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").y = Math.round(Math.random() * v * 2) - v;
+    __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").filters = [];
+    const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
+    const tw = new tween_js_1.Tween(__classPrivateFieldGet(this, _LayerMng_spTransFore, "f"))
+        .to({ x: 0, y: 0 }, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN))
+        .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
+        .easing(ease)
+        .onUpdate(() => { fncH(); fncV(); })
+        .repeat(repeat === 0 ? Infinity : (repeat - 1))
+        .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
+        .onComplete(() => {
+        this.appPixi.ticker?.remove(fncRender);
+        __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = true;
+        __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").visible = false;
+        __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").x = 0;
+        __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").y = 0;
+        __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw?.stop();
+        if (__classPrivateFieldGet(this, _LayerMng_tiTrans, "f").resume)
+            this.main.resume();
+        __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: null, resume: false }, "f");
+    })
+        .start();
+    __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: tw, resume: false }, "f");
+    this.appPixi.ticker.add(fncRender);
+    return false;
+}, _LayerMng_tsy = function _LayerMng_tsy(hArg) {
+    if (!hArg.layer)
+        throw 'layerは必須です';
+    const layer = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, hArg);
+    const foreLay = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].fore;
+    const hTo = (0, CmnLib_1.cnvTweenArg)(hArg, foreLay);
+    const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
+    const tw_nm = hArg.name ?? hArg.layer;
+    const tw = new tween_js_1.Tween(foreLay)
+        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)
+        * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
+        .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
+        .easing(CmnTween_1.CmnTween.ease(hArg.ease))
+        .repeat(repeat === 0 ? Infinity : (repeat - 1))
+        .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
+        .onComplete(() => {
+        const ti = __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm];
+        if (!ti)
+            return;
+        delete __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm];
+        ti.tw?.stop();
+        if (ti.resume)
+            this.main.resume();
+        ti.onEnd?.();
+    });
+    if ('chain' in hArg) {
+        const twFrom = __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[hArg.chain ?? ''];
+        if (!twFrom?.tw)
+            throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+        delete twFrom.onEnd;
+        twFrom.tw.chain(tw);
+    }
+    else
+        tw.start();
+    const arrive = (0, CmnLib_1.argChk_Boolean)(hArg, 'arrive', false);
+    const backlay = (0, CmnLib_1.argChk_Boolean)(hArg, 'backlay', false);
+    __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm] = { tw: tw, resume: false, onEnd: () => {
+            if (arrive)
+                Object.assign(foreLay, hTo);
+            if (backlay) {
+                const backCnt = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].back.spLay;
+                for (const nm in CmnLib_1.hMemberCnt)
+                    backCnt[nm] = foreLay[nm];
+            }
+        } };
+    return false;
+}, _LayerMng_wait_tsy = function _LayerMng_wait_tsy(hArg) {
+    const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
+    if (!tw_nm)
+        throw 'トゥイーンが指定されていません';
+    const ti = __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm];
+    if (!ti?.tw)
+        return false;
+    return ti.resume = __classPrivateFieldGet(this, _LayerMng_evtMng, "f").waitEvent(() => ti.tw?.end(), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
+}, _LayerMng_stop_tsy = function _LayerMng_stop_tsy(hArg) {
+    const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
+    if (!tw_nm)
+        throw 'トゥイーンが指定されていません';
+    __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm]?.tw?.end();
+    return false;
+}, _LayerMng_pause_tsy = function _LayerMng_pause_tsy(hArg) {
+    const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
+    if (!tw_nm)
+        throw 'トゥイーンが指定されていません';
+    __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm]?.tw?.pause();
+    return false;
+}, _LayerMng_resume_tsy = function _LayerMng_resume_tsy(hArg) {
+    const tw_nm = ('id' in hArg) ? `frm\n${hArg.id}` : (hArg.name ?? hArg.layer);
+    if (!tw_nm)
+        throw 'トゥイーンが指定されていません';
+    __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm]?.tw?.resume();
+    return false;
+}, _LayerMng_ch = function _LayerMng_ch(hArg) {
+    const txt = hArg.text;
+    if (!txt)
+        throw 'textは必須です';
+    let wait = (0, CmnLib_1.argChk_Num)(hArg, 'wait', -1);
+    if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled'))
+        wait = 0;
+    hArg.wait = wait;
+    const tl = __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg);
+    delete hArg.text;
+    if (wait >= 0)
+        __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'add｜' + JSON.stringify(hArg), tl);
+    const record = (0, CmnLib_1.argChk_Boolean)(hArg, 'record', true);
+    const doRecLog = this.val.doRecLog();
+    if (!record)
+        this.val.setVal_Nochk('save', 'sn.doRecLog', record);
+    tl.tagCh(txt.replaceAll('[r]', '\n'));
+    if (!record)
+        this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
+    if (wait >= 0)
+        __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, `add_close｜`, tl);
+    return false;
+}, _LayerMng_$getTxtLayer = function _LayerMng_$getTxtLayer(hArg) {
+    const layer = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, hArg, __classPrivateFieldGet(this, _LayerMng_curTxtlay, "f"));
+    const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer];
+    const lay = pg.getPage(hArg);
+    if (!(lay instanceof TxtLayer_1.TxtLayer))
+        throw layer + 'はTxtLayerではありません';
+    const tf = lay;
+    return tf;
+}, _LayerMng_$current = function _LayerMng_$current(hArg) {
+    const layer = hArg.layer;
+    if (!layer)
+        throw '[current] layerは必須です';
+    __classPrivateFieldSet(this, _LayerMng_pgTxtlay, __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer], "f");
+    if (!(__classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f").getPage(hArg) instanceof TxtLayer_1.TxtLayer))
+        throw `${layer}はTxtLayerではありません`;
+    this.recText('', true);
+    __classPrivateFieldSet(this, _LayerMng_curTxtlay, layer, "f");
+    this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this).forEach(name => {
+        const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[name];
+        if (!(pg.fore instanceof TxtLayer_1.TxtLayer))
+            return;
+        pg.fore.isCur =
+            pg.back.isCur = (name === layer);
+    });
+    return false;
+}, _LayerMng_argChk_layer = function _LayerMng_argChk_layer(hash, def = '') {
+    const v = hash.layer ?? def;
+    if (v.includes(','))
+        throw 'layer名に「,」は使えません';
+    if (!(v in __classPrivateFieldGet(this, _LayerMng_hPages, "f")))
+        throw '属性 layer【' + v + '】が不正です。レイヤーがありません';
+    return hash.layer = v;
+}, _LayerMng_clear_text = function _LayerMng_clear_text(hArg) {
+    const tf = __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg);
+    if (hArg.layer === __classPrivateFieldGet(this, _LayerMng_curTxtlay, "f") && hArg.page === 'fore')
+        this.recText('', true);
+    tf.clearText();
+    return false;
+}, _LayerMng_endlink = function _LayerMng_endlink(hArg) { __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'endlink｜', __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg)); return false; }, _LayerMng_er = function _LayerMng_er(hArg) {
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'rec_page_break', true))
+        this.recText('', true);
+    if (__classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f")) {
+        __classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f").fore.clearLay(hArg);
+        __classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f").back.clearLay(hArg);
+    }
+    return false;
+}, _LayerMng_graph = function _LayerMng_graph(hArg) {
+    if (!hArg.pic)
+        throw '[graph] picは必須です';
+    hArg.text = '｜　《grp｜' + JSON.stringify(hArg) + '》';
+    return __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_ch).call(this, hArg);
+}, _LayerMng_link = function _LayerMng_link(hArg) {
+    hArg.style ??= 'background-color: rgba(255,0,0,0.5);';
+    hArg.style_hover ??= 'background-color: rgba(255,0,0,0.9);';
+    hArg.style_clicked ??= hArg.style;
+    __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'link｜' + JSON.stringify(hArg), __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg));
+    return false;
+}, _LayerMng_r = function _LayerMng_r(hArg) { hArg.text = '\n'; return __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_ch).call(this, hArg); }, _LayerMng_rec_r = function _LayerMng_rec_r() { this.recText('\n'); return false; }, _LayerMng_rec_ch = function _LayerMng_rec_ch(hArg) {
+    __classPrivateFieldSet(this, _LayerMng_oLastPage, hArg, "f");
+    this.recText(hArg.text ?? '');
+    return false;
+}, _LayerMng_reset_rec = function _LayerMng_reset_rec(hArg) {
+    __classPrivateFieldSet(this, _LayerMng_aPageLog, [], "f");
+    __classPrivateFieldSet(this, _LayerMng_oLastPage, { text: hArg.text ?? '' }, "f");
+    this.val.setVal_Nochk('save', 'const.sn.sLog', (hArg.text) ? `[{text:"${hArg.text}"}]` : '[]');
+    return false;
+}, _LayerMng_ruby2 = function _LayerMng_ruby2(hArg) {
+    const t = hArg.t;
+    if (!t)
+        throw '[ruby2] tは必須です';
+    const r = hArg.r;
+    if (!r)
+        throw '[ruby2] rは必須です';
+    hArg.text = '｜' + t + '《' + r + '》';
+    return __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_ch).call(this, hArg);
+}, _LayerMng_span = function _LayerMng_span(hArg) {
+    __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'span｜' + JSON.stringify(hArg), __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg));
+    return false;
+}, _LayerMng_tcy = function _LayerMng_tcy(hArg) {
+    if (!hArg.t)
+        throw '[tcy] tは必須です';
+    hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + (hArg.r ?? '') + '》';
+    return __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_ch).call(this, hArg);
+}, _LayerMng_dump_lay = function _LayerMng_dump_lay(hArg) {
+    console.group('🥟 [dump_lay]');
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(name => {
+        const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[name];
+        try {
+            console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`, JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
+        }
+        catch (error) {
+            console.error(`dump_lay err:%o`, error);
+            console.error(`   back:${pg.back.dump()}`);
+            console.error(`   fore:${pg.fore.dump()}`);
+        }
+    });
+    console.groupEnd();
+    return false;
+}, _LayerMng_enable_event = function _LayerMng_enable_event(hArg) {
+    const layer = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, hArg, __classPrivateFieldGet(this, _LayerMng_curTxtlay, "f"));
+    const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'enabled', true);
+    __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg).enabled = v;
+    this.val.setVal_Nochk('save', 'const.sn.layer.' + layer + '.enabled', v);
+    return false;
+}, _LayerMng_button = function _LayerMng_button(hArg) {
+    Pages_1.Pages.argChk_page(hArg, 'back');
+    hArg.clicksebuf ??= 'SYS';
+    hArg.entersebuf ??= 'SYS';
+    hArg.leavesebuf ??= 'SYS';
+    if (!hArg.fn)
+        hArg.fn = this.scrItr.scriptFn;
+    __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg).addButton(hArg);
+    this.scrItr.recodeDesign(hArg);
+    return false;
+};
+_LayerMng_msecChWait = { value: 10 };
 
 
 /***/ }),
@@ -76454,10 +76593,22 @@ LayerMng.$msecChWait = 10;
 /*!*****************************!*\
   !*** ./core/src/sn/Main.ts ***!
   \*****************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _Main_instances, _Main_cfg, _Main_appPixi, _Main_hTag, _Main_val, _Main_prpPrs, _Main_sndMng, _Main_scrItr, _Main_dbgMng, _Main_layMng, _Main_evtMng, _Main_fncNext, _Main_alzTagArg, _Main_inited, _Main_init, _Main_fncTicker, _Main_fncresume, _Main_isLoop, _Main_runAnalyze, _Main_destroyed, _Main_clone_cvs;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Main = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -76475,67 +76626,46 @@ const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dis
 class Main {
     constructor(sys) {
         this.sys = sys;
-        this.hTag = Object.create(null);
-        this.fncNext = () => { };
-        this.alzTagArg = new AnalyzeTagArg_1.AnalyzeTagArg;
-        this.inited = false;
-        this.fncTicker = () => this.fncNext();
-        this.fncresume = (fnc = this.runAnalyze) => {
-            if (this.destroyed)
+        _Main_instances.add(this);
+        _Main_cfg.set(this, void 0);
+        _Main_appPixi.set(this, void 0);
+        _Main_hTag.set(this, Object.create(null));
+        _Main_val.set(this, void 0);
+        _Main_prpPrs.set(this, void 0);
+        _Main_sndMng.set(this, void 0);
+        _Main_scrItr.set(this, void 0);
+        _Main_dbgMng.set(this, void 0);
+        _Main_layMng.set(this, void 0);
+        _Main_evtMng.set(this, void 0);
+        _Main_fncNext.set(this, () => { });
+        _Main_alzTagArg.set(this, new AnalyzeTagArg_1.AnalyzeTagArg);
+        _Main_inited.set(this, false);
+        _Main_fncTicker.set(this, () => __classPrivateFieldGet(this, _Main_fncNext, "f").call(this));
+        _Main_fncresume.set(this, (fnc = __classPrivateFieldGet(this, _Main_instances, "m", _Main_runAnalyze)) => {
+            if (__classPrivateFieldGet(this, _Main_destroyed, "f"))
                 return;
-            this.layMng.clearBreak();
-            this.fncNext = fnc;
-            this.resume = (fnc = this.runAnalyze) => {
-                this.fncNext = fnc;
+            __classPrivateFieldGet(this, _Main_layMng, "f").clearBreak();
+            __classPrivateFieldSet(this, _Main_fncNext, fnc, "f");
+            this.resume = (fnc = __classPrivateFieldGet(this, _Main_instances, "m", _Main_runAnalyze)) => {
+                __classPrivateFieldSet(this, _Main_fncNext, fnc, "f");
             };
-            this.scrItr.noticeBreak(false);
-        };
-        this.resume = this.fncresume;
+            __classPrivateFieldGet(this, _Main_scrItr, "f").noticeBreak(false);
+        });
+        this.resume = __classPrivateFieldGet(this, _Main_fncresume, "f");
         this.stop = () => {
-            this.fncNext = () => { };
-            this.resume = this.fncresume;
-            this.scrItr.noticeBreak(true);
+            __classPrivateFieldSet(this, _Main_fncNext, () => { }, "f");
+            this.resume = __classPrivateFieldGet(this, _Main_fncresume, "f");
+            __classPrivateFieldGet(this, _Main_scrItr, "f").noticeBreak(true);
         };
-        this.isLoop = true;
-        this.destroyed = false;
-        this.isDestroyed = () => this.destroyed;
+        _Main_isLoop.set(this, true);
+        _Main_destroyed.set(this, false);
+        this.isDestroyed = () => __classPrivateFieldGet(this, _Main_destroyed, "f");
+        _Main_clone_cvs.set(this, void 0);
         pixi_js_1.utils.skipHello();
         Config_1.Config.generate(sys)
-            .then(c => this.cfg = c)
-            .then(() => this.init())
+            .then(c => __classPrivateFieldSet(this, _Main_cfg, c, "f"))
+            .then(() => __classPrivateFieldGet(this, _Main_instances, "m", _Main_init).call(this))
             .catch(e => console.error(`load err fn:prj.json e:%o`, e));
-    }
-    async init() {
-        const hApp = {
-            width: this.cfg.oCfg.window.width,
-            height: this.cfg.oCfg.window.height,
-            backgroundColor: this.cfg.oCfg.init.bg_color,
-            resolution: globalThis.devicePixelRatio ?? 1,
-            autoResize: true,
-        };
-        const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
-        if (cvs) {
-            this.clone_cvs = cvs.cloneNode(true);
-            this.clone_cvs.id = CmnLib_1.CmnLib.SN_ID;
-            hApp.view = cvs;
-        }
-        this.appPixi = new pixi_js_1.Application(hApp);
-        if (!cvs) {
-            document.body.appendChild(this.appPixi.view);
-            this.appPixi.view.id = CmnLib_1.CmnLib.SN_ID;
-        }
-        this.val = new Variable_1.Variable(this.cfg, this.hTag);
-        this.prpPrs = new PropParser_1.PropParser(this.val, this.cfg.oCfg.init.escape ?? '\\');
-        await Promise.all(this.sys.init(this.hTag, this.appPixi, this.val, this));
-        this.hTag.title({ text: this.cfg.oCfg.book.title || 'SKYNovel' });
-        this.sndMng = new SoundMng_1.SoundMng(this.cfg, this.hTag, this.val, this, this.sys);
-        this.scrItr = new ScriptIterator_1.ScriptIterator(this.cfg, this.hTag, this, this.val, this.alzTagArg, () => this.runAnalyze(), this.prpPrs, this.sndMng, this.sys);
-        this.dbgMng = new DebugMng_1.DebugMng(this.sys, this.hTag, this.scrItr);
-        this.layMng = new LayerMng_1.LayerMng(this.cfg, this.hTag, this.appPixi, this.val, this, this.scrItr, this.sys, this.sndMng, this.alzTagArg, this.prpPrs);
-        this.evtMng = new EventMng_1.EventMng(this.cfg, this.hTag, this.appPixi, this, this.layMng, this.val, this.sndMng, this.scrItr, this.sys);
-        this.appPixi.ticker.add(this.fncTicker);
-        this.resumeByJumpOrCall({ fn: 'main' });
-        this.inited = true;
     }
     errScript(mes, isThrow = true) {
         this.stop();
@@ -76550,124 +76680,155 @@ class Main {
             globalThis.open(hArg.url);
             return;
         }
-        this.val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
-        this.val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
+        __classPrivateFieldGet(this, _Main_val, "f").setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
+        __classPrivateFieldGet(this, _Main_val, "f").setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
         if ((0, CmnLib_1.argChk_Boolean)(hArg, 'call', false)) {
-            this.scrItr.subIdxToken();
-            this.resume(() => this.hTag.call(hArg));
+            __classPrivateFieldGet(this, _Main_scrItr, "f").subIdxToken();
+            this.resume(() => __classPrivateFieldGet(this, _Main_hTag, "f").call(hArg));
         }
         else {
-            this.hTag.clear_event({});
-            this.resume(() => this.hTag.jump(hArg));
+            __classPrivateFieldGet(this, _Main_hTag, "f").clear_event({});
+            this.resume(() => __classPrivateFieldGet(this, _Main_hTag, "f").jump(hArg));
         }
     }
     setLoop(isLoop, mes = '') {
-        if (this.isLoop = isLoop)
+        if (__classPrivateFieldSet(this, _Main_isLoop, isLoop, "f"))
             this.resume();
         else
             this.stop();
         this.sys.setTitleInfo(mes ? ` -- ${mes}中` : '');
     }
-    runAnalyze() {
-        while (this.isLoop) {
-            let token = this.scrItr.nextToken();
-            if (!token)
-                break;
-            const uc = token.charCodeAt(0);
-            if (uc === 9)
-                continue;
-            if (uc === 10) {
-                this.scrItr.addLineNum(token.length);
+    async destroy(ms_late = 0) {
+        if (__classPrivateFieldGet(this, _Main_destroyed, "f"))
+            return;
+        __classPrivateFieldSet(this, _Main_destroyed, true, "f");
+        if (!__classPrivateFieldGet(this, _Main_inited, "f"))
+            return;
+        this.stop();
+        __classPrivateFieldSet(this, _Main_isLoop, false, "f");
+        await __classPrivateFieldGet(this, _Main_layMng, "f").before_destroy();
+        if (ms_late > 0)
+            await new Promise(r => setTimeout(r, ms_late));
+        __classPrivateFieldSet(this, _Main_hTag, {}, "f");
+        __classPrivateFieldGet(this, _Main_evtMng, "f").destroy();
+        __classPrivateFieldGet(this, _Main_scrItr, "f").destroy();
+        __classPrivateFieldGet(this, _Main_layMng, "f").destroy();
+        __classPrivateFieldGet(this, _Main_dbgMng, "f").destroy();
+        __classPrivateFieldGet(this, _Main_appPixi, "f").ticker.remove(__classPrivateFieldGet(this, _Main_fncTicker, "f"));
+        if (__classPrivateFieldGet(this, _Main_clone_cvs, "f") && __classPrivateFieldGet(this, _Main_appPixi, "f")) {
+            __classPrivateFieldGet(this, _Main_appPixi, "f").view.parentElement.insertBefore(__classPrivateFieldGet(this, _Main_clone_cvs, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f").view);
+        }
+        pixi_js_1.utils.clearTextureCache();
+        __classPrivateFieldGet(this, _Main_appPixi, "f").destroy(true);
+    }
+}
+exports.Main = Main;
+_Main_cfg = new WeakMap(), _Main_appPixi = new WeakMap(), _Main_hTag = new WeakMap(), _Main_val = new WeakMap(), _Main_prpPrs = new WeakMap(), _Main_sndMng = new WeakMap(), _Main_scrItr = new WeakMap(), _Main_dbgMng = new WeakMap(), _Main_layMng = new WeakMap(), _Main_evtMng = new WeakMap(), _Main_fncNext = new WeakMap(), _Main_alzTagArg = new WeakMap(), _Main_inited = new WeakMap(), _Main_fncTicker = new WeakMap(), _Main_fncresume = new WeakMap(), _Main_isLoop = new WeakMap(), _Main_destroyed = new WeakMap(), _Main_clone_cvs = new WeakMap(), _Main_instances = new WeakSet(), _Main_init = async function _Main_init() {
+    const hApp = {
+        width: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.window.width,
+        height: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.window.height,
+        backgroundColor: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.init.bg_color,
+        resolution: globalThis.devicePixelRatio ?? 1,
+        autoResize: true,
+    };
+    const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
+    if (cvs) {
+        __classPrivateFieldSet(this, _Main_clone_cvs, cvs.cloneNode(true), "f");
+        __classPrivateFieldGet(this, _Main_clone_cvs, "f").id = CmnLib_1.CmnLib.SN_ID;
+        hApp.view = cvs;
+    }
+    __classPrivateFieldSet(this, _Main_appPixi, new pixi_js_1.Application(hApp), "f");
+    if (!cvs) {
+        document.body.appendChild(__classPrivateFieldGet(this, _Main_appPixi, "f").view);
+        __classPrivateFieldGet(this, _Main_appPixi, "f").view.id = CmnLib_1.CmnLib.SN_ID;
+    }
+    __classPrivateFieldSet(this, _Main_val, new Variable_1.Variable(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f")), "f");
+    __classPrivateFieldSet(this, _Main_prpPrs, new PropParser_1.PropParser(__classPrivateFieldGet(this, _Main_val, "f"), __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.init.escape ?? '\\'), "f");
+    await Promise.all(this.sys.init(__classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f"), __classPrivateFieldGet(this, _Main_val, "f"), this));
+    __classPrivateFieldGet(this, _Main_hTag, "f").title({ text: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.book.title || 'SKYNovel' });
+    __classPrivateFieldSet(this, _Main_sndMng, new SoundMng_1.SoundMng(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_val, "f"), this, this.sys), "f");
+    __classPrivateFieldSet(this, _Main_scrItr, new ScriptIterator_1.ScriptIterator(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f"), this, __classPrivateFieldGet(this, _Main_val, "f"), __classPrivateFieldGet(this, _Main_alzTagArg, "f"), () => __classPrivateFieldGet(this, _Main_instances, "m", _Main_runAnalyze).call(this), __classPrivateFieldGet(this, _Main_prpPrs, "f"), __classPrivateFieldGet(this, _Main_sndMng, "f"), this.sys), "f");
+    __classPrivateFieldSet(this, _Main_dbgMng, new DebugMng_1.DebugMng(this.sys, __classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_scrItr, "f")), "f");
+    __classPrivateFieldSet(this, _Main_layMng, new LayerMng_1.LayerMng(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f"), __classPrivateFieldGet(this, _Main_val, "f"), this, __classPrivateFieldGet(this, _Main_scrItr, "f"), this.sys, __classPrivateFieldGet(this, _Main_sndMng, "f"), __classPrivateFieldGet(this, _Main_alzTagArg, "f"), __classPrivateFieldGet(this, _Main_prpPrs, "f")), "f");
+    __classPrivateFieldSet(this, _Main_evtMng, new EventMng_1.EventMng(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f"), this, __classPrivateFieldGet(this, _Main_layMng, "f"), __classPrivateFieldGet(this, _Main_val, "f"), __classPrivateFieldGet(this, _Main_sndMng, "f"), __classPrivateFieldGet(this, _Main_scrItr, "f"), this.sys), "f");
+    __classPrivateFieldGet(this, _Main_appPixi, "f").ticker.add(__classPrivateFieldGet(this, _Main_fncTicker, "f"));
+    this.resumeByJumpOrCall({ fn: 'main' });
+    __classPrivateFieldSet(this, _Main_inited, true, "f");
+}, _Main_runAnalyze = function _Main_runAnalyze() {
+    while (__classPrivateFieldGet(this, _Main_isLoop, "f")) {
+        let token = __classPrivateFieldGet(this, _Main_scrItr, "f").nextToken();
+        if (!token)
+            break;
+        const uc = token.charCodeAt(0);
+        if (uc === 9)
+            continue;
+        if (uc === 10) {
+            __classPrivateFieldGet(this, _Main_scrItr, "f").addLineNum(token.length);
+            continue;
+        }
+        if (uc === 91) {
+            if (__classPrivateFieldGet(this, _Main_scrItr, "f").isBreak(token))
+                return;
+            try {
+                const cl = (token.match(/\n/g) ?? []).length;
+                if (cl > 0)
+                    __classPrivateFieldGet(this, _Main_scrItr, "f").addLineNum(cl);
+                if (__classPrivateFieldGet(this, _Main_scrItr, "f").タグ解析(token)) {
+                    this.stop();
+                    break;
+                }
                 continue;
             }
-            if (uc === 91) {
-                if (this.scrItr.isBreak(token))
-                    return;
-                try {
-                    const cl = (token.match(/\n/g) ?? []).length;
-                    if (cl > 0)
-                        this.scrItr.addLineNum(cl);
-                    if (this.scrItr.タグ解析(token)) {
-                        this.stop();
-                        break;
-                    }
+            catch (err) {
+                if (err instanceof Error) {
+                    const e = err;
+                    let mes = `タグ解析中例外 mes=${e.message}(${e.name})`;
+                    mes = `[${(0, Grammar_1.tagToken2Name)(token)}]` + mes;
+                    this.errScript(mes, false);
+                }
+                else
+                    this.errScript(String(err), false);
+                return;
+            }
+        }
+        if (uc === 38) {
+            try {
+                if (token.slice(-1) !== '&') {
+                    if (__classPrivateFieldGet(this, _Main_scrItr, "f").isBreak(token))
+                        return;
+                    const o = (0, Grammar_1.splitAmpersand)(token.slice(1));
+                    o.name = __classPrivateFieldGet(this, _Main_prpPrs, "f").getValAmpersand(o.name);
+                    o.text = String(__classPrivateFieldGet(this, _Main_prpPrs, "f").parse(o.text));
+                    __classPrivateFieldGet(this, _Main_hTag, "f").let(o);
                     continue;
                 }
-                catch (err) {
-                    if (err instanceof Error) {
-                        const e = err;
-                        let mes = `タグ解析中例外 mes=${e.message}(${e.name})`;
-                        mes = `[${(0, Grammar_1.tagToken2Name)(token)}]` + mes;
-                        this.errScript(mes, false);
-                    }
-                    else
-                        this.errScript(String(err), false);
-                    return;
-                }
-            }
-            if (uc === 38) {
-                try {
-                    if (token.slice(-1) !== '&') {
-                        if (this.scrItr.isBreak(token))
-                            return;
-                        const o = (0, Grammar_1.splitAmpersand)(token.slice(1));
-                        o.name = this.prpPrs.getValAmpersand(o.name);
-                        o.text = String(this.prpPrs.parse(o.text));
-                        this.hTag.let(o);
-                        continue;
-                    }
-                    if (token.charAt(1) === '&')
-                        throw new Error('「&表示&」書式では「&」指定が不要です');
-                    token = String(this.prpPrs.parse(token.slice(1, -1)));
-                }
-                catch (err) {
-                    this.errScript(err instanceof Error
-                        ? `& 変数操作・表示 mes=${err.message}(${err.name})`
-                        : err, false);
-                    return;
-                }
-            }
-            else if (uc === 59)
-                continue;
-            else if (uc === 42 && token.length > 1)
-                continue;
-            try {
-                const tl = this.layMng.getCurrentTxtlayForeNeedErr();
-                tl.tagCh(token);
+                if (token.charAt(1) === '&')
+                    throw new Error('「&表示&」書式では「&」指定が不要です');
+                token = String(__classPrivateFieldGet(this, _Main_prpPrs, "f").parse(token.slice(1, -1)));
             }
             catch (err) {
                 this.errScript(err instanceof Error
-                    ? `文字表示 mes=${err.message}(${err.name})`
+                    ? `& 変数操作・表示 mes=${err.message}(${err.name})`
                     : err, false);
                 return;
             }
         }
-    }
-    async destroy(ms_late = 0) {
-        if (this.destroyed)
-            return;
-        this.destroyed = true;
-        if (!this.inited)
-            return;
-        this.stop();
-        this.isLoop = false;
-        await this.layMng.before_destroy();
-        if (ms_late > 0)
-            await new Promise(r => setTimeout(r, ms_late));
-        this.hTag = {};
-        this.evtMng.destroy();
-        this.scrItr.destroy();
-        this.layMng.destroy();
-        this.dbgMng.destroy();
-        this.appPixi.ticker.remove(this.fncTicker);
-        if (this.clone_cvs && this.appPixi) {
-            this.appPixi.view.parentElement.insertBefore(this.clone_cvs, this.appPixi.view);
+        else if (uc === 59)
+            continue;
+        else if (uc === 42 && token.length > 1)
+            continue;
+        try {
+            const tl = __classPrivateFieldGet(this, _Main_layMng, "f").getCurrentTxtlayForeNeedErr();
+            tl.tagCh(token);
         }
-        pixi_js_1.utils.clearTextureCache();
-        this.appPixi.destroy(true);
+        catch (err) {
+            this.errScript(err instanceof Error
+                ? `文字表示 mes=${err.message}(${err.name})`
+                : err, false);
+            return;
+        }
     }
-}
-exports.Main = Main;
+};
 
 
 /***/ }),
@@ -76676,29 +76837,42 @@ exports.Main = Main;
 /*!******************************!*\
   !*** ./core/src/sn/Pages.ts ***!
   \******************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _Pages_pg;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Pages = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 class Pages {
     constructor(layer, cls_, fore, back, hArg, sys, val, ret) {
         this.cls_ = cls_;
+        _Pages_pg.set(this, void 0);
         this.lay = (hArg) => this.getPage(hArg).lay(hArg);
         this.getPage = (hArg) => (Pages.argChk_page(hArg, 'fore') !== 'back')
-            ? this.pg.fore
-            : this.pg.back;
+            ? __classPrivateFieldGet(this, _Pages_pg, "f").fore
+            : __classPrivateFieldGet(this, _Pages_pg, "f").back;
         const fncF = sys.hFactoryCls[cls_];
         if (!fncF)
             throw `属性 class【${cls_}】が不正です`;
-        this.pg = { fore: fncF(), back: fncF() };
-        this.pg.fore.layname =
-            this.pg.back.layname = layer;
+        __classPrivateFieldSet(this, _Pages_pg, { fore: fncF(), back: fncF() }, "f");
+        __classPrivateFieldGet(this, _Pages_pg, "f").fore.layname =
+            __classPrivateFieldGet(this, _Pages_pg, "f").back.layname = layer;
         const nm = hArg[':id_tag'] = `layer:${layer} cls:${cls_}`;
-        this.pg.fore.name = `${nm} page:A`;
-        this.pg.back.name = `${nm} page:B`;
+        __classPrivateFieldGet(this, _Pages_pg, "f").fore.name = `${nm} page:A`;
+        __classPrivateFieldGet(this, _Pages_pg, "f").back.name = `${nm} page:B`;
         fore.addChild(this.fore.spLay);
         back.addChild(this.back.spLay);
         (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
@@ -76706,22 +76880,22 @@ class Pages {
         ret.isWait = this.fore.lay(hArg) || this.back.lay(hArg);
         const valnm = `const.sn.lay.${layer}`;
         val.setVal_Nochk('tmp', valnm, true);
-        val.defTmp(valnm + '.fore.alpha', () => this.pg.fore.alpha);
-        val.defTmp(valnm + '.back.alpha', () => this.pg.back.alpha);
-        val.defTmp(valnm + '.fore.height', () => this.pg.fore.height);
-        val.defTmp(valnm + '.back.height', () => this.pg.back.height);
-        val.defTmp(valnm + '.fore.visible', () => this.pg.fore.spLay.visible);
-        val.defTmp(valnm + '.back.visible', () => this.pg.back.spLay.visible);
-        val.defTmp(valnm + '.fore.width', () => this.pg.fore.width);
-        val.defTmp(valnm + '.back.width', () => this.pg.back.width);
-        val.defTmp(valnm + '.fore.x', () => this.pg.fore.x);
-        val.defTmp(valnm + '.back.x', () => this.pg.back.x);
-        val.defTmp(valnm + '.fore.y', () => this.pg.fore.y);
-        val.defTmp(valnm + '.back.y', () => this.pg.back.y);
+        val.defTmp(valnm + '.fore.alpha', () => __classPrivateFieldGet(this, _Pages_pg, "f").fore.alpha);
+        val.defTmp(valnm + '.back.alpha', () => __classPrivateFieldGet(this, _Pages_pg, "f").back.alpha);
+        val.defTmp(valnm + '.fore.height', () => __classPrivateFieldGet(this, _Pages_pg, "f").fore.height);
+        val.defTmp(valnm + '.back.height', () => __classPrivateFieldGet(this, _Pages_pg, "f").back.height);
+        val.defTmp(valnm + '.fore.visible', () => __classPrivateFieldGet(this, _Pages_pg, "f").fore.spLay.visible);
+        val.defTmp(valnm + '.back.visible', () => __classPrivateFieldGet(this, _Pages_pg, "f").back.spLay.visible);
+        val.defTmp(valnm + '.fore.width', () => __classPrivateFieldGet(this, _Pages_pg, "f").fore.width);
+        val.defTmp(valnm + '.back.width', () => __classPrivateFieldGet(this, _Pages_pg, "f").back.width);
+        val.defTmp(valnm + '.fore.x', () => __classPrivateFieldGet(this, _Pages_pg, "f").fore.x);
+        val.defTmp(valnm + '.back.x', () => __classPrivateFieldGet(this, _Pages_pg, "f").back.x);
+        val.defTmp(valnm + '.fore.y', () => __classPrivateFieldGet(this, _Pages_pg, "f").fore.y);
+        val.defTmp(valnm + '.back.y', () => __classPrivateFieldGet(this, _Pages_pg, "f").back.y);
     }
     destroy() {
-        this.pg.fore.destroy();
-        this.pg.back.destroy();
+        __classPrivateFieldGet(this, _Pages_pg, "f").fore.destroy();
+        __classPrivateFieldGet(this, _Pages_pg, "f").back.destroy();
     }
     static argChk_page(hash, def) {
         const v = hash.page ?? def;
@@ -76732,14 +76906,15 @@ class Pages {
         throw Error('属性 page【' + v + '】が不正です');
     }
     get cls() { return this.cls_; }
-    get fore() { return this.pg.fore; }
-    get back() { return this.pg.back; }
+    get fore() { return __classPrivateFieldGet(this, _Pages_pg, "f").fore; }
+    get back() { return __classPrivateFieldGet(this, _Pages_pg, "f").back; }
     transPage(aPrm) {
-        [this.pg.back, this.pg.fore] = [this.pg.fore, this.pg.back];
-        this.pg.back.copy(this.pg.fore, aPrm);
+        [__classPrivateFieldGet(this, _Pages_pg, "f").back, __classPrivateFieldGet(this, _Pages_pg, "f").fore] = [__classPrivateFieldGet(this, _Pages_pg, "f").fore, __classPrivateFieldGet(this, _Pages_pg, "f").back];
+        __classPrivateFieldGet(this, _Pages_pg, "f").back.copy(__classPrivateFieldGet(this, _Pages_pg, "f").fore, aPrm);
     }
 }
 exports.Pages = Pages;
+_Pages_pg = new WeakMap();
 
 
 /***/ }),
@@ -76771,6 +76946,18 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _PropParser_instances, _a, _PropParser_parser, _PropParser_calc, _PropParser_hFnc, _PropParser_fncSub_ChkNum, _PropParser_REG_EMBEDVAR, _PropParser_procEmbedVar, _PropParser_REG_VAL, _PropParser_getValName_B2D;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PropParser = void 0;
 const P = __importStar(__webpack_require__(/*! parsimmon */ "./node_modules/parsimmon/build/parsimmon.umd.min.js"));
@@ -76778,90 +76965,91 @@ const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 class PropParser {
     constructor(val, ce = '\\') {
         this.val = val;
-        this.parser = null;
-        this.hFnc = {
+        _PropParser_instances.add(this);
+        _PropParser_parser.set(this, null);
+        _PropParser_hFnc.set(this, {
             '!num!': a => a.shift(),
-            '!str!': a => this.procEmbedVar(a.shift()),
+            '!str!': a => __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_procEmbedVar).call(this, a.shift()),
             '!bool!': a => a.shift(),
             '!': a => {
                 const b = a.shift();
                 return (b[0] === '!bool!')
                     ? !Boolean(b[1])
-                    : !(String(this.calc(b)) === 'true');
+                    : !(String(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, b)) === 'true');
             },
-            '~': a => ~Number(this.calc(a.shift())),
-            '**': a => Number(this.calc(a.shift())) **
-                Number(this.calc(a.shift())),
-            '*': a => Number(this.calc(a.shift())) *
-                Number(this.calc(a.shift())),
-            '/': a => Number(this.calc(a.shift())) /
-                Number(this.calc(a.shift())),
-            '¥': a => Math.floor(this.hFnc['/'](a)),
-            '%': a => Number(this.calc(a.shift())) %
-                Number(this.calc(a.shift())),
+            '~': a => ~Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '**': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) **
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '*': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) *
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '/': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) /
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '¥': a => Math.floor(__classPrivateFieldGet(this, _PropParser_hFnc, "f")['/'](a)),
+            '%': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) %
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
             '+': a => {
-                const b = this.calc(a.shift());
-                const c = this.calc(a.shift());
+                const b = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift());
+                const c = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift());
                 if (Object.prototype.toString.call(b) === '[object String]'
                     || Object.prototype.toString.call(c) === '[object String]') {
                     return String(b) + String(c);
                 }
                 return Number(b) + Number(c);
             },
-            '-': a => Number(this.calc(a.shift())) -
-                Number(this.calc(a.shift())),
-            'int': a => (0, CmnLib_1.int)(this.fncSub_ChkNum(a.shift())),
-            'parseInt': a => (0, CmnLib_1.int)(this.hFnc['Number'](a)),
+            '-': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) -
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            'int': a => (0, CmnLib_1.int)(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, a.shift())),
+            'parseInt': a => (0, CmnLib_1.int)(__classPrivateFieldGet(this, _PropParser_hFnc, "f")['Number'](a)),
             'Number': a => {
-                const b = this.calc(a.shift());
+                const b = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift());
                 if (Object.prototype.toString.call(b) !== '[object String]')
                     return Number(b);
-                return this.fncSub_ChkNum(this.parser.parse(String(b)).value);
+                return __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, __classPrivateFieldGet(this, _PropParser_parser, "f").parse(String(b)).value);
             },
-            'ceil': a => Math.ceil(this.fncSub_ChkNum(a.shift())),
-            'floor': a => Math.floor(this.fncSub_ChkNum(a.shift())),
-            'round': a => Math.round(this.fncSub_ChkNum(a.shift())),
-            '<<': a => Number(this.calc(a.shift())) <<
-                Number(this.calc(a.shift())),
-            '>>': a => Number(this.calc(a.shift())) >>
-                Number(this.calc(a.shift())),
-            '>>>': a => Number(this.calc(a.shift())) >>>
-                Number(this.calc(a.shift())),
-            '<': a => Number(this.calc(a.shift())) <
-                Number(this.calc(a.shift())),
-            '<=': a => Number(this.calc(a.shift())) <=
-                Number(this.calc(a.shift())),
-            '>': a => Number(this.calc(a.shift())) >
-                Number(this.calc(a.shift())),
-            '>=': a => Number(this.calc(a.shift())) >=
-                Number(this.calc(a.shift())),
+            'ceil': a => Math.ceil(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, a.shift())),
+            'floor': a => Math.floor(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, a.shift())),
+            'round': a => Math.round(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, a.shift())),
+            '<<': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) <<
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '>>': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) >>
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '>>>': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) >>>
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '<': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) <
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '<=': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) <=
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '>': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) >
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '>=': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) >=
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
             '==': a => {
-                const b = this.calc(a.shift());
-                const c = this.calc(a.shift());
+                const b = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift());
+                const c = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift());
                 if ((b == null) && (c == null) && (!b || !c))
                     return (b == c);
                 return String(b) === String(c);
             },
-            '!=': a => !this.hFnc['=='](a),
+            '!=': a => !__classPrivateFieldGet(this, _PropParser_hFnc, "f")['=='](a),
             '===': a => {
-                const b = this.calc(a.shift());
-                const c = this.calc(a.shift());
+                const b = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift());
+                const c = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift());
                 if (Object.prototype.toString.call(b) !=
                     Object.prototype.toString.call(c))
                     return false;
                 return String(b) === String(c);
             },
-            '!==': a => !this.hFnc['==='](a),
-            '&': a => Number(this.calc(a.shift())) &
-                Number(this.calc(a.shift())),
-            '^': a => Number(this.calc(a.shift())) ^
-                Number(this.calc(a.shift())),
-            '|': a => Number(this.calc(a.shift())) |
-                Number(this.calc(a.shift())),
-            '&&': a => (String(this.calc(a.shift())) === 'true') &&
-                (String(this.calc(a.shift())) === 'true'),
-            '||': a => (String(this.calc(a.shift())) === 'true') ||
-                (String(this.calc(a.shift())) === 'true'),
+            '!==': a => !__classPrivateFieldGet(this, _PropParser_hFnc, "f")['==='](a),
+            '&': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) &
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '^': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) ^
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '|': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) |
+                Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
+            '&&': a => (String(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) === 'true') &&
+                (String(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) === 'true'),
+            '||': a => (String(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) === 'true') ||
+                (String(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) === 'true'),
             '?': a => {
                 const b = a.shift();
                 let cond = false;
@@ -76869,7 +77057,7 @@ class PropParser {
                     cond = Boolean(b[1]);
                 }
                 else {
-                    const cond2 = String(this.calc(b));
+                    const cond2 = String(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, b));
                     cond = (cond2 !== 'true' && cond2 !== 'false')
                         ? ((0, CmnLib_1.int)(cond2) !== 0)
                         : (cond2 === 'true');
@@ -76877,11 +77065,11 @@ class PropParser {
                 const elm2 = a.shift();
                 if (elm2[0] !== ':')
                     throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
-                return this.calc(elm2[cond ? 1 : 2]);
+                return __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, elm2[cond ? 1 : 2]);
             },
             ':': () => { throw Error('(PropParser)三項演算子の文法エラーです。? が見つかりません'); },
-        };
-        this.REG_EMBEDVAR = /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
+        });
+        _PropParser_REG_EMBEDVAR.set(this, /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g);
         this.getValAmpersand = (val) => (val.charAt(0) === '&')
             ? String(this.parse(val.slice(1)))
             : val;
@@ -76938,7 +77126,7 @@ class PropParser {
         })
             .desc('string');
         const Basic = P.lazy(() => P
-            .string('(').then(this.parser).skip(P.string(')'))
+            .string('(').then(__classPrivateFieldGet(this, _PropParser_parser, "f")).skip(P.string(')'))
             .or(Num)
             .or(NullLiteral)
             .or(BooleanLiteral)
@@ -76962,74 +77150,71 @@ class PropParser {
             { type: BINARY_RIGHT, ops: ope(['?']) },
         ];
         const tableParser = table.reduce((acc, level) => level.type(level.ops, acc), Basic);
-        this.parser = tableParser.trim(P.optWhitespace);
+        __classPrivateFieldSet(this, _PropParser_parser, tableParser.trim(P.optWhitespace), "f");
     }
     parse(s) {
-        const p = this.parser.parse(s);
+        const p = __classPrivateFieldGet(this, _PropParser_parser, "f").parse(s);
         if (!p.status)
             throw Error('(PropParser)文法エラー【' + s + '】');
         const a = p.value;
         if (a[0] === '!str!')
-            return this.procEmbedVar(a[1]);
-        return this.calc(a);
-    }
-    calc(a) {
-        const elm = a.shift();
-        if (elm instanceof Array)
-            return this.calc(elm);
-        const fnc = this.hFnc[elm];
-        return (fnc) ? fnc(a) : Object(null);
-    }
-    fncSub_ChkNum(v) {
-        const b = this.calc(v);
-        if (Object.prototype.toString.call(b) !== '[object Number]')
-            throw Error('(PropParser)引数【' + b + '】が数値ではありません');
-        return Number(b);
-    }
-    procEmbedVar(b) {
-        if (b == null)
-            return b;
-        return String(b).replace(this.REG_EMBEDVAR, v => {
-            return (v.charAt(0) === '$')
-                ? this.val.getVal(v.slice(1))
-                : this.parse(v.slice(2, -1));
-        });
+            return __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_procEmbedVar).call(this, a[1]);
+        return __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a);
     }
     static getValName(arg_name) {
-        const e = this.REG_VAL.exec(arg_name.trim());
+        const e = __classPrivateFieldGet(this, _a, "f", _PropParser_REG_VAL).exec(arg_name.trim());
         const g = e?.groups;
         if (!g)
             return undefined;
         return {
             scope: g.scope || 'tmp',
-            name: PropParser.getValName_B2D(g.name),
+            name: __classPrivateFieldGet(PropParser, _a, "m", _PropParser_getValName_B2D).call(PropParser, g.name),
             at: g.at ?? '',
         };
     }
-    static getValName_B2D(str) {
-        let i = 0, e = 0;
-        while (true) {
-            i = str.indexOf('["');
-            if (i < 0) {
-                i = str.indexOf("['");
-                if (i < 0)
-                    break;
-                e = str.indexOf("']", i + 2);
-            }
-            else {
-                e = str.indexOf('"]', i + 2);
-            }
-            if (e < 0)
-                break;
-            str = str.slice(0, i) + '.' + str.slice(i + 2, e)
-                + str.slice(e + 2);
-            i = e - 2;
-        }
-        return str;
-    }
 }
 exports.PropParser = PropParser;
-PropParser.REG_VAL = /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
+_a = PropParser, _PropParser_parser = new WeakMap(), _PropParser_hFnc = new WeakMap(), _PropParser_REG_EMBEDVAR = new WeakMap(), _PropParser_instances = new WeakSet(), _PropParser_calc = function _PropParser_calc(a) {
+    const elm = a.shift();
+    if (elm instanceof Array)
+        return __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, elm);
+    const fnc = __classPrivateFieldGet(this, _PropParser_hFnc, "f")[elm];
+    return (fnc) ? fnc(a) : Object(null);
+}, _PropParser_fncSub_ChkNum = function _PropParser_fncSub_ChkNum(v) {
+    const b = __classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, v);
+    if (Object.prototype.toString.call(b) !== '[object Number]')
+        throw Error('(PropParser)引数【' + b + '】が数値ではありません');
+    return Number(b);
+}, _PropParser_procEmbedVar = function _PropParser_procEmbedVar(b) {
+    if (b == null)
+        return b;
+    return String(b).replace(__classPrivateFieldGet(this, _PropParser_REG_EMBEDVAR, "f"), v => {
+        return (v.charAt(0) === '$')
+            ? this.val.getVal(v.slice(1))
+            : this.parse(v.slice(2, -1));
+    });
+}, _PropParser_getValName_B2D = function _PropParser_getValName_B2D(str) {
+    let i = 0, e = 0;
+    while (true) {
+        i = str.indexOf('["');
+        if (i < 0) {
+            i = str.indexOf("['");
+            if (i < 0)
+                break;
+            e = str.indexOf("']", i + 2);
+        }
+        else {
+            e = str.indexOf('"]', i + 2);
+        }
+        if (e < 0)
+            break;
+        str = str.slice(0, i) + '.' + str.slice(i + 2, e)
+            + str.slice(e + 2);
+        i = e - 2;
+    }
+    return str;
+};
+_PropParser_REG_VAL = { value: /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/ };
 
 
 /***/ }),
@@ -77038,23 +77223,35 @@ PropParser.REG_VAL = /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
 /*!************************************!*\
   !*** ./core/src/sn/RubySpliter.ts ***!
   \************************************/
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
 
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _a, _RubySpliter_sesame, _RubySpliter_putCh, _RubySpliter_REG_RUBY;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RubySpliter = void 0;
 class RubySpliter {
     constructor() {
-        this.putCh = () => { };
+        _RubySpliter_putCh.set(this, () => { });
     }
     static setting(hArg) { if (hArg.sesame)
-        RubySpliter.sesame = hArg.sesame; }
-    static getSesame() { return RubySpliter.sesame; }
-    static destroy() { RubySpliter.sesame = 'ヽ'; }
-    init(putCh) { this.putCh = putCh; }
+        __classPrivateFieldSet(RubySpliter, _a, hArg.sesame, "f", _RubySpliter_sesame); }
+    static getSesame() { return __classPrivateFieldGet(RubySpliter, _a, "f", _RubySpliter_sesame); }
+    static destroy() { __classPrivateFieldSet(RubySpliter, _a, 'ヽ', "f", _RubySpliter_sesame); }
+    init(putCh) { __classPrivateFieldSet(this, _RubySpliter_putCh, putCh, "f"); }
     static setEscape(ce) {
-        RubySpliter.REG_RUBY = new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ''}` +
+        __classPrivateFieldSet(RubySpliter, _a, new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ''}` +
             `｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》` +
             `|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])` +
             `《(?<kan_ruby>[^》\\n]+)》)` +
@@ -77062,11 +77259,11 @@ class RubySpliter {
             `[\uD800-\uDBFF][\uDC00-\uDFFF]` +
             `|[^　｜《》]+(?=｜)` +
             `|[^　｜《》]*[ぁ-ヿ](?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)` +
-            `|.)`, 'gs');
+            `|.)`, 'gs'), "f", _RubySpliter_REG_RUBY);
     }
     putTxt(text) {
         let e = null;
-        while (e = RubySpliter.REG_RUBY.exec(text)) {
+        while (e = __classPrivateFieldGet(RubySpliter, _a, "f", _RubySpliter_REG_RUBY).exec(text)) {
             const g = e?.groups;
             if (!g)
                 continue;
@@ -77081,10 +77278,10 @@ class RubySpliter {
                 continue;
             }
             if (g.ce) {
-                this.putCh(g.ce.slice(1), '');
+                __classPrivateFieldGet(this, _RubySpliter_putCh, "f").call(this, g.ce.slice(1), '');
                 continue;
             }
-            Array.from(g.txt ?? '').forEach(v => this.putCh(v, ''));
+            Array.from(g.txt ?? '').forEach(v => __classPrivateFieldGet(this, _RubySpliter_putCh, "f").call(this, v, ''));
         }
     }
     putTxtRb(text, ruby) {
@@ -77092,25 +77289,27 @@ class RubySpliter {
         const len = a.length;
         if (ruby.charAt(0) === '*' && ruby.length <= 2) {
             const rb_ses = 'center｜'
-                + ((ruby === '*') ? RubySpliter.sesame : ruby.charAt(1));
+                + ((ruby === '*') ? __classPrivateFieldGet(RubySpliter, _a, "f", _RubySpliter_sesame) : ruby.charAt(1));
             for (let i = 0; i < len; ++i)
-                this.putCh(a[i], rb_ses);
+                __classPrivateFieldGet(this, _RubySpliter_putCh, "f").call(this, a[i], rb_ses);
             return;
         }
         if (len === 1 || ruby.indexOf(' ') === -1) {
-            this.putCh(text, ruby.replaceAll('\t', ' '));
+            __classPrivateFieldGet(this, _RubySpliter_putCh, "f").call(this, text, ruby.replaceAll('\t', ' '));
             return;
         }
         const aR = ruby.split(' ');
         const lenR = aR.length;
         const len_max = (lenR > len) ? lenR : len;
         for (let i = 0; i < len_max; ++i) {
-            this.putCh((i < len) ? a[i] : '', (i < lenR) ? aR[i].replaceAll('\t', ' ') : '');
+            __classPrivateFieldGet(this, _RubySpliter_putCh, "f").call(this, (i < len) ? a[i] : '', (i < lenR) ? aR[i].replaceAll('\t', ' ') : '');
         }
     }
 }
 exports.RubySpliter = RubySpliter;
-RubySpliter.sesame = 'ヽ';
+_a = RubySpliter, _RubySpliter_putCh = new WeakMap();
+_RubySpliter_sesame = { value: 'ヽ' };
+_RubySpliter_REG_RUBY = { value: void 0 };
 
 
 /***/ }),
@@ -77119,10 +77318,22 @@ RubySpliter.sesame = 'ヽ';
 /*!***************************************!*\
   !*** ./core/src/sn/ScriptIterator.ts ***!
   \***************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _ScriptIterator_instances, _a, _ScriptIterator_script, _ScriptIterator_scriptFn_, _ScriptIterator_idxToken_, _ScriptIterator_lineNum_, _ScriptIterator_aCallStk, _ScriptIterator_grm, _ScriptIterator_regBreakPoint, _ScriptIterator_hHook, _ScriptIterator_cnvSnPath, _ScriptIterator_REG4CODE_FN, _ScriptIterator_cnvSnPath4Dbg, _ScriptIterator_go_stepover, _ScriptIterator_go_stepout, _ScriptIterator_csDepth_macro_esc, _ScriptIterator_idxDx4Dbg_get, _ScriptIterator_isIdxOverLast, _ScriptIterator_hFn2hLineBP, _ScriptIterator_hFuncBP, _ScriptIterator_breakState, _ScriptIterator_isBreak_base, _ScriptIterator_subHitCondition, _ScriptIterator_aStack, _ScriptIterator_procDebugtag, _ScriptIterator_evtMng, _ScriptIterator_layMng, _ScriptIterator_let_ml, _ScriptIterator_dump_stack, _ScriptIterator_cnvIdx2lineCol, _ScriptIterator_dump_script, _ScriptIterator_fncSet, _ScriptIterator_fncBreak, _ScriptIterator_fnLastBreak, _ScriptIterator_hScrCache4Dump, _ScriptIterator_dumpErrLine, _ScriptIterator_aIfStk, _ScriptIterator_endif, _ScriptIterator_if, _ScriptIterator_call, _ScriptIterator_callSub, _ScriptIterator_jump, _ScriptIterator_pop_stack, _ScriptIterator_return, _ScriptIterator_resvToken, _ScriptIterator_clearResvToken, _ScriptIterator_skipLabel, _ScriptIterator_jumpWork, _ScriptIterator_nextToken_Proc, _ScriptIterator_dbgToken, _ScriptIterator_errOverScr, _ScriptIterator_REG_NONAME_LABEL, _ScriptIterator_REG_TOKEN_MACRO_BEGIN, _ScriptIterator_REG_TOKEN_MACRO_END, _ScriptIterator_REG_TAG_LET_ML, _ScriptIterator_REG_TAG_ENDLET_ML, _ScriptIterator_seekScript, _ScriptIterator_hScript, _ScriptIterator_resolveScript, _ScriptIterator_jump_light, _ScriptIterator_REG_WILDCARD, _ScriptIterator_REG_WILDCARD2, _ScriptIterator_replaceScript_Wildcard, _ScriptIterator_recordKidoku, _ScriptIterator_isKidoku_, _ScriptIterator_eraseKidoku, _ScriptIterator_bracket2macro, _ScriptIterator_char2macro, _ScriptIterator_macro, _ScriptIterator_strStepin, _ScriptIterator_REGSTEPIN, _ScriptIterator_load, _ScriptIterator_loadFromMark, _ScriptIterator_reload_script, _ScriptIterator_mark, _ScriptIterator_record_place, _ScriptIterator_save;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScriptIterator = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -77156,112 +77367,115 @@ class ScriptIterator {
         this.prpPrs = prpPrs;
         this.sndMng = sndMng;
         this.sys = sys;
-        this.script = { aToken: [''], len: 1, aLNum: [1] };
-        this.scriptFn_ = '';
-        this.idxToken_ = 0;
-        this.lineNum_ = 0;
-        this.addLineNum = (len) => this.lineNum_ += len;
-        this.aCallStk = [];
-        this.getCallStk = (idx) => this.aCallStk[idx].csArg;
-        this.grm = new Grammar_1.Grammar;
+        _ScriptIterator_instances.add(this);
+        _ScriptIterator_script.set(this, { aToken: [''], len: 1, aLNum: [1] });
+        _ScriptIterator_scriptFn_.set(this, '');
+        _ScriptIterator_idxToken_.set(this, 0);
+        _ScriptIterator_lineNum_.set(this, 0);
+        this.addLineNum = (len) => __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + len, "f");
+        _ScriptIterator_aCallStk.set(this, []);
+        this.getCallStk = (idx) => __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[idx].csArg;
+        _ScriptIterator_grm.set(this, new Grammar_1.Grammar);
         this.firstWait = () => { };
-        this.hHook = {
+        _ScriptIterator_hHook.set(this, {
             disconnect: () => {
-                ScriptIterator.hFn2hLineBP = {};
-                ScriptIterator.hFuncBP = {};
+                __classPrivateFieldSet(ScriptIterator, _a, {}, "f", _ScriptIterator_hFn2hLineBP);
+                __classPrivateFieldSet(ScriptIterator, _a, {}, "f", _ScriptIterator_hFuncBP);
                 this.isBreak = () => false;
-                this.hHook.continue({});
-                this.breakState = BreakState.running;
+                __classPrivateFieldGet(this, _ScriptIterator_hHook, "f").continue({});
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.running, "f");
             },
             restart: () => this.isBreak = () => false,
-            add_break: o => this.regBreakPoint(o.fn, o.o),
+            add_break: o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_regBreakPoint).call(this, o.fn, o.o),
             data_break: o => {
-                if (this.breakState !== BreakState.running)
+                if (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f") !== BreakState.running)
                     return;
-                this.breakState = BreakState.wait;
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.wait, "f");
                 this.main.setLoop(false, `変数 ${o.dataId}【${o.old_v}】→【${o.new_v}】データブレーク`);
                 this.sys.callHook('stopOnDataBreakpoint', {});
                 this.sys.send2Dbg('stopOnDataBreakpoint', {});
             },
             set_func_break: o => {
-                ScriptIterator.hFuncBP = {};
-                o.a.forEach((v) => ScriptIterator.hFuncBP[v.name] = 1);
+                __classPrivateFieldSet(ScriptIterator, _a, {}, "f", _ScriptIterator_hFuncBP);
+                o.a.forEach((v) => __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFuncBP)[v.name] = 1);
                 this.sys.send2Dbg(o.ri, {});
             },
-            stack: o => this.sys.send2Dbg(o.ri, { a: this.aStack() }),
+            stack: o => this.sys.send2Dbg(o.ri, { a: __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_aStack).call(this) }),
             eval: o => { this.sys.send2Dbg(o.ri, { v: this.prpPrs.parse(o.txt) }); },
             continue: () => {
-                if (this.isIdxOverLast())
+                if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
                     return;
-                this.idxToken_ -= this.idxDx4Dbg;
-                this.breakState = BreakState.breaking;
+                __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.breaking, "f");
                 this.main.setLoop(true);
                 this.main.resume();
             },
-            stepover: o => this.go_stepover(o),
+            stepover: o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_go_stepover).call(this, o),
             stepin: () => {
-                if (this.isIdxOverLast())
+                if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
                     return;
-                const tkn = this.script.aToken[this.idxToken_ - this.idxDx4Dbg];
-                this.sys.callHook(`stopOnStep${this.regStepin.test(tkn) ? 'In' : ''}`, {});
-                this.idxToken_ -= this.idxDx4Dbg;
-                this.breakState = this.breakState === BreakState.wait
+                const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
+                this.sys.callHook(`stopOnStep${__classPrivateFieldGet(this, _ScriptIterator_REGSTEPIN, "f").test(tkn) ? 'In' : ''}`, {});
+                __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.wait
                     ? BreakState.step
-                    : BreakState.stepping;
+                    : BreakState.stepping, "f");
                 this.main.setLoop(true);
                 this.main.resume();
             },
             stepout: o => {
-                if (this.isIdxOverLast())
+                if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
                     return;
                 if (this.lenCallStk > 0)
-                    this.go_stepout(true);
+                    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_go_stepout).call(this, true);
                 else
-                    this.go_stepover(o);
+                    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_go_stepover).call(this, o);
             },
             pause: () => {
-                this.breakState = BreakState.step;
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
                 this.main.setLoop(false, '一時停止');
                 this.sys.send2Dbg('stopOnStep', {});
             },
             stopOnEntry: () => {
-                this.breakState = BreakState.step;
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
                 this.main.setLoop(false, '一時停止');
                 this.sys.send2Dbg('stopOnEntry', {});
             },
-        };
-        this.cnvSnPath = (fn) => this.cfg.searchPath(fn, Config_1.Config.EXT_SCRIPT);
-        this.cnvSnPath4Dbg = (fn) => (this.sys.pathBaseCnvSnPath4Dbg + this.cnvSnPath(fn))
-            .replace(ScriptIterator.REG4CODE_FN, `$1/prj/$2/${this.scriptFn_}$3`);
+        });
+        _ScriptIterator_cnvSnPath.set(this, (fn) => this.cfg.searchPath(fn, Config_1.Config.EXT_SCRIPT));
+        _ScriptIterator_cnvSnPath4Dbg.set(this, (fn) => (this.sys.pathBaseCnvSnPath4Dbg + __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath, "f").call(this, fn))
+            .replace(__classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_REG4CODE_FN), `$1/prj/$2/${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}$3`));
         this.cnvPath4Dbg = (fn) => this.sys.pathBaseCnvSnPath4Dbg + fn.replace('/crypto_prj/', '/prj/');
-        this.csDepth_macro_esc = 0;
-        this.breakState = BreakState.running;
+        _ScriptIterator_csDepth_macro_esc.set(this, 0);
+        _ScriptIterator_breakState.set(this, BreakState.running);
         this.isBreak = (_token) => false;
-        this.procDebugtag = (_tag_name) => { };
-        this.fncSet = () => { };
-        this.fncBreak = () => { };
-        this.fnLastBreak = '';
-        this.hScrCache4Dump = {};
+        _ScriptIterator_procDebugtag.set(this, (_tag_name) => { });
+        _ScriptIterator_evtMng.set(this, void 0);
+        _ScriptIterator_layMng.set(this, void 0);
+        _ScriptIterator_fncSet.set(this, () => { });
+        _ScriptIterator_fncBreak.set(this, () => { });
+        _ScriptIterator_fnLastBreak.set(this, '');
+        _ScriptIterator_hScrCache4Dump.set(this, {});
         this.noticeBreak = (_goto) => { };
-        this.dumpErrLine = 5;
-        this.aIfStk = [-1];
-        this.resvToken = '';
-        this.skipLabel = '';
+        _ScriptIterator_dumpErrLine.set(this, 5);
+        _ScriptIterator_aIfStk.set(this, [-1]);
+        _ScriptIterator_resvToken.set(this, '');
+        _ScriptIterator_skipLabel.set(this, '');
         this.nextToken = () => '';
-        this.dbgToken = (_token) => { };
-        this.REG_NONAME_LABEL = /(\*{2,})(.*)/;
-        this.REG_TOKEN_MACRO_BEGIN = /\[macro\s/;
-        this.REG_TOKEN_MACRO_END = /\[endmacro[\s\]]/;
-        this.REG_TAG_LET_ML = /^\[let_ml\s/g;
-        this.REG_TAG_ENDLET_ML = /^\[endlet_ml\s*]/g;
-        this.hScript = Object.create(null);
-        this.REG_WILDCARD = /^\[(call|loadplugin)\s/;
-        this.REG_WILDCARD2 = /\bfn\s*=\s*[^\s\]]+/;
-        this.replaceScript_Wildcard = () => {
-            for (let i = this.script.len - 1; i >= 0; --i) {
-                const token = this.script.aToken[i];
-                this.REG_WILDCARD.lastIndex = 0;
-                if (!this.REG_WILDCARD.test(token))
+        _ScriptIterator_dbgToken.set(this, (_token) => { });
+        _ScriptIterator_REG_NONAME_LABEL.set(this, /(\*{2,})(.*)/);
+        _ScriptIterator_REG_TOKEN_MACRO_BEGIN.set(this, /\[macro\s/);
+        _ScriptIterator_REG_TOKEN_MACRO_END.set(this, /\[endmacro[\s\]]/);
+        _ScriptIterator_REG_TAG_LET_ML.set(this, /^\[let_ml\s/g);
+        _ScriptIterator_REG_TAG_ENDLET_ML.set(this, /^\[endlet_ml\s*]/g);
+        _ScriptIterator_hScript.set(this, Object.create(null));
+        _ScriptIterator_REG_WILDCARD.set(this, /^\[(call|loadplugin)\s/);
+        _ScriptIterator_REG_WILDCARD2.set(this, /\bfn\s*=\s*[^\s\]]+/);
+        _ScriptIterator_replaceScript_Wildcard.set(this, () => {
+            for (let i = __classPrivateFieldGet(this, _ScriptIterator_script, "f").len - 1; i >= 0; --i) {
+                const token = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[i];
+                __classPrivateFieldGet(this, _ScriptIterator_REG_WILDCARD, "f").lastIndex = 0;
+                if (!__classPrivateFieldGet(this, _ScriptIterator_REG_WILDCARD, "f").test(token))
                     continue;
                 const [tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(token);
                 this.alzTagArg.go(args);
@@ -77273,61 +77487,61 @@ class ScriptIterator {
                     continue;
                 const ext = (tag_name === 'loadplugin') ? 'css' : 'sn';
                 const a = this.cfg.matchPath('^' + fn.slice(0, -1) + '.*', ext);
-                this.script.aToken.splice(i, 1, '\t', '; ' + token);
-                this.script.aLNum.splice(i, 1, NaN, NaN);
+                __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken.splice(i, 1, '\t', '; ' + token);
+                __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum.splice(i, 1, NaN, NaN);
                 for (const v of a) {
-                    const nt = token.replace(this.REG_WILDCARD2, 'fn=' + decodeURIComponent((0, CmnLib_1.getFn)(v[ext])));
-                    this.script.aToken.splice(i, 0, nt);
-                    this.script.aLNum.splice(i, 0, NaN);
+                    const nt = token.replace(__classPrivateFieldGet(this, _ScriptIterator_REG_WILDCARD2, "f"), 'fn=' + decodeURIComponent((0, CmnLib_1.getFn)(v[ext])));
+                    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken.splice(i, 0, nt);
+                    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum.splice(i, 0, NaN);
                 }
             }
-            this.script.len = this.script.aToken.length;
-        };
-        this.isKidoku_ = false;
-        this.strStepin = 'call';
-        this.regStepin = /\[(call)\b/;
-        this.mark = {
+            __classPrivateFieldGet(this, _ScriptIterator_script, "f").len = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken.length;
+        });
+        _ScriptIterator_isKidoku_.set(this, false);
+        _ScriptIterator_strStepin.set(this, 'call');
+        _ScriptIterator_REGSTEPIN.set(this, /\[(call)\b/);
+        _ScriptIterator_mark.set(this, {
             hSave: {},
             hPages: {},
             aIfStk: [-1],
-        };
-        hTag.let_ml = o => this.let_ml(o);
-        hTag.dump_stack = () => this.dump_stack();
-        hTag.dump_script = o => this.dump_script(o);
+        });
+        hTag.let_ml = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_let_ml).call(this, o);
+        hTag.dump_stack = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_dump_stack).call(this);
+        hTag.dump_script = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_dump_script).call(this, o);
         hTag['else'] =
             hTag.elsif =
-                hTag.endif = () => this.endif();
-        hTag['if'] = o => this.if(o);
-        hTag.call = o => this.call(o);
-        hTag.jump = o => this.jump(o);
-        hTag.pop_stack = o => this.pop_stack(o);
-        hTag.return = () => this.return();
-        hTag.bracket2macro = o => this.bracket2macro(o);
-        hTag.char2macro = o => this.char2macro(o);
-        hTag.endmacro = () => this.return();
-        hTag.macro = o => this.macro(o);
-        hTag.load = o => this.load(o);
-        hTag.reload_script = o => this.reload_script(o);
-        hTag.record_place = () => this.record_place();
-        hTag.save = o => this.save(o);
+                hTag.endif = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_endif).call(this);
+        hTag['if'] = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_if).call(this, o);
+        hTag.call = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_call).call(this, o);
+        hTag.jump = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jump).call(this, o);
+        hTag.pop_stack = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_pop_stack).call(this, o);
+        hTag.return = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_return).call(this);
+        hTag.bracket2macro = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_bracket2macro).call(this, o);
+        hTag.char2macro = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_char2macro).call(this, o);
+        hTag.endmacro = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_return).call(this);
+        hTag.macro = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_macro).call(this, o);
+        hTag.load = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_load).call(this, o);
+        hTag.reload_script = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_reload_script).call(this, o);
+        hTag.record_place = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_record_place).call(this);
+        hTag.save = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_save).call(this, o);
         if (cfg.oCfg.debug.token)
-            this.dbgToken = token => console.log(`🌱 トークン fn:${this.scriptFn_} idxToken:${this.idxToken_} ln:${this.lineNum} token【${token}】`);
-        val.defTmp('const.sn.vctCallStk.length', () => this.aCallStk.length);
-        this.grm.setEscape(cfg.oCfg.init.escape);
+            __classPrivateFieldSet(this, _ScriptIterator_dbgToken, token => console.log(`🌱 トークン fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} idxToken:${__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")} ln:${this.lineNum} token【${token}】`), "f");
+        val.defTmp('const.sn.vctCallStk.length', () => __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length);
+        __classPrivateFieldGet(this, _ScriptIterator_grm, "f").setEscape(cfg.oCfg.init.escape);
         if (CmnLib_1.CmnLib.isDbg) {
-            sys.addHook((type, o) => this.hHook[type]?.(o));
-            this.isBreak = this.isBreak_base;
+            sys.addHook((type, o) => __classPrivateFieldGet(this, _ScriptIterator_hHook, "f")[type]?.(o));
+            this.isBreak = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isBreak_base);
             const fnc = this.analyzeInit;
             this.analyzeInit = () => {
                 this.analyzeInit = () => { };
                 this.sys.send2Dbg('hi', {});
             };
-            this.hHook.auth = o => {
+            __classPrivateFieldGet(this, _ScriptIterator_hHook, "f").auth = o => {
                 const hLineBP = o.hBreakpoint.hFn2hLineBP;
                 for (const fn in hLineBP)
-                    this.regBreakPoint(fn, hLineBP[fn]);
-                ScriptIterator.hFuncBP = {};
-                o.hBreakpoint.aFunc.forEach((v) => ScriptIterator.hFuncBP[v.name] = 1);
+                    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_regBreakPoint).call(this, fn, hLineBP[fn]);
+                __classPrivateFieldSet(ScriptIterator, _a, {}, "f", _ScriptIterator_hFuncBP);
+                o.hBreakpoint.aFunc.forEach((v) => __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFuncBP)[v.name] = 1);
                 if (o.stopOnEntry) {
                     while (true) {
                         let token = this.nextToken();
@@ -77359,156 +77573,26 @@ class ScriptIterator {
         else
             this.recodeDesign = () => { };
         if (cfg.oCfg.debug.tag)
-            this.procDebugtag = tag_name => console.log(`🌲 タグ解析 fn:${this.scriptFn_} lnum:${this.lineNum_} [${tag_name} %o]`, this.alzTagArg.hPrm);
+            __classPrivateFieldSet(this, _ScriptIterator_procDebugtag, tag_name => console.log(`🌲 タグ解析 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} lnum:${__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")} [${tag_name} %o]`, this.alzTagArg.hPrm), "f");
     }
-    get scriptFn() { return this.scriptFn_; }
+    get scriptFn() { return __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"); }
     ;
-    subIdxToken() { --this.idxToken_; }
+    subIdxToken() { var _b; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), --_b), "f"); }
     ;
-    get lineNum() { return this.lineNum_; }
-    get lenCallStk() { return this.aCallStk.length; }
+    get lineNum() { return __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f"); }
+    get lenCallStk() { return __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length; }
     ;
-    get lastHArg() { return this.aCallStk[this.lenCallStk - 1].csArg; }
+    get lastHArg() { return __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[this.lenCallStk - 1].csArg; }
     ;
-    regBreakPoint(fn, o) {
-        ScriptIterator.hFn2hLineBP[this.cnvSnPath4Dbg(fn)] = o;
-    }
     destroy() { this.isBreak = () => false; }
-    go_stepover(o) {
-        if (this.isIdxOverLast())
-            return;
-        const tkn = this.script.aToken[this.idxToken_ - this.idxDx4Dbg];
-        if (this.regStepin.test(tkn))
-            this.go_stepout(false);
-        else {
-            this.sys.callHook('stopOnStep', {});
-            this.hHook.stepin(o);
-        }
-    }
-    go_stepout(out) {
-        this.sys.callHook(`stopOnStep${out ? 'Out' : ''}`, {});
-        this.csDepth_macro_esc = this.lenCallStk - (out ? 1 : 0);
-        this.idxToken_ -= this.idxDx4Dbg;
-        this.breakState = out ? BreakState.stepout : BreakState.stepouting;
-        this.main.setLoop(true);
-        this.main.resume();
-    }
-    get idxDx4Dbg() {
-        return this.breakState === BreakState.break
-            || this.breakState === BreakState.step ? 1 : 0;
-    }
     ;
-    isIdxOverLast() {
-        if (this.idxToken_ < this.script.len)
-            return false;
-        this.sys.callHook('stopOnEntry', {});
-        this.main.setLoop(false, 'スクリプト終端です');
-        return true;
-    }
-    isBreak_base(token) {
-        switch (this.breakState) {
-            case BreakState.stepouting:
-                this.subHitCondition();
-                this.breakState = BreakState.stepout;
-                break;
-            case BreakState.stepout:
-                if (this.lenCallStk !== this.csDepth_macro_esc)
-                    break;
-                this.breakState = BreakState.step;
-                this.main.setLoop(false, 'ステップ実行');
-                this.sys.send2Dbg('stopOnStep', {});
-                return true;
-            case BreakState.stepping:
-                this.subHitCondition();
-                this.breakState = BreakState.step;
-                break;
-            case BreakState.step:
-                this.subHitCondition();
-                this.main.setLoop(false, 'ステップ実行');
-                this.sys.send2Dbg('stopOnStep', {});
-                return true;
-            case BreakState.breaking:
-                this.subHitCondition();
-                this.breakState = BreakState.running;
-                break;
-            default:
-                {
-                    if ((0, Grammar_1.tagToken2Name)(token) in ScriptIterator.hFuncBP) {
-                        this.breakState = BreakState.break;
-                        this.main.setLoop(false, `関数 ${token} ブレーク`);
-                        this.sys.callHook('stopOnBreakpoint', {});
-                        this.sys.send2Dbg('stopOnBreakpoint', {});
-                        return true;
-                    }
-                }
-                {
-                    const bp = ScriptIterator.hFn2hLineBP[this.cnvSnPath4Dbg(this.scriptFn_)];
-                    if (!bp)
-                        break;
-                    const o = bp[this.lineNum_];
-                    if (!o)
-                        break;
-                    if (o.condition) {
-                        if (!this.prpPrs.parse(o.condition))
-                            break;
-                    }
-                    else if (('hitCondition' in o) && --o.hitCondition > 0)
-                        break;
-                    const isBreak = this.breakState === BreakState.running;
-                    this.breakState = BreakState.break;
-                    this.main.setLoop(false, isBreak ? ((o.condition ? '条件' : 'ヒットカウント') + 'ブレーク') : 'ステップ実行');
-                    const type = isBreak ? 'stopOnBreakpoint' : 'stopOnStep';
-                    this.sys.callHook(type, {});
-                    this.sys.send2Dbg(type, {});
-                }
-                return true;
-        }
-        return false;
-    }
-    subHitCondition() {
-        const o = ScriptIterator.hFn2hLineBP[(0, CmnLib_1.getFn)(this.scriptFn_)]?.[this.lineNum_];
-        if (o?.hitCondition)
-            --o.hitCondition;
-    }
-    aStack() {
-        const idx_n = this.breakState === BreakState.breaking ? 1 : 0;
-        const tkn0 = this.script.aToken[this.idxToken_ - 1 + idx_n];
-        const fn0 = this.cnvSnPath4Dbg(this.scriptFn_);
-        const tag_name0 = (0, Grammar_1.tagToken2Name)(tkn0);
-        const nm = tag_name0 ? `[${tag_name0}]` : tkn0;
-        const ma = this.val.getVal('mp:const.sn.macro') ?? '{}';
-        if (this.idxToken_ === 0)
-            return [{ fn: fn0, ln: 1, col: 1, nm: nm, ma: ma, }];
-        const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);
-        const a = [{ fn: fn0, ln: lc0.ln, col: lc0.col_s + 1, nm: nm, ma: ma }];
-        const len = this.aCallStk.length;
-        if (len === 0)
-            return a;
-        for (let i = len - 1; i >= 0; --i) {
-            const cs = this.aCallStk[i];
-            if (!cs.csArg)
-                continue;
-            const st = this.hScript[cs.fn];
-            const tkn = st.aToken[cs.idx - 1];
-            const lc = this.cnvIdx2lineCol(st, cs.idx);
-            const tag_name = (0, Grammar_1.tagToken2Name)(tkn);
-            a.push({
-                fn: this.cnvSnPath4Dbg(cs.fn),
-                ln: lc.ln,
-                col: lc.col_s + 1,
-                nm: tag_name ? `[${tag_name}]` : tkn,
-                ma: cs.csArg.hMp['const.sn.macro'] ?? '{}',
-            });
-        }
-        return a;
-    }
     タグ解析(tagToken) {
         const [tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(tagToken);
         const tag_fnc = this.hTag[tag_name];
         if (!tag_fnc)
             throw `未定義のタグ【${tag_name}】です`;
         this.alzTagArg.go(args);
-        this.procDebugtag(tag_name);
+        __classPrivateFieldGet(this, _ScriptIterator_procDebugtag, "f").call(this, tag_name);
         const hPrm = this.alzTagArg.hPrm;
         if (hPrm.cond) {
             const cond = hPrm.cond.val;
@@ -77522,7 +77606,7 @@ class ScriptIterator {
                 return false;
         }
         let hArg = {};
-        const lenStk = this.aCallStk.length;
+        const lenStk = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
         if (this.alzTagArg.isKomeParam) {
             if (lenStk === 0)
                 throw '属性「*」はマクロのみ有効です';
@@ -77560,123 +77644,28 @@ class ScriptIterator {
         return tag_fnc(hArg);
     }
     setOtherObj(evtMng, layMng) {
-        this.evtMng = evtMng;
-        this.layMng = layMng;
-    }
-    let_ml(hArg) {
-        const name = hArg.name;
-        if (!name)
-            throw 'nameは必須です';
-        let ml = '';
-        const len = this.script.len;
-        for (; this.idxToken_ < len; ++this.idxToken_) {
-            ml = this.script.aToken[this.idxToken_];
-            if (ml !== '')
-                break;
-        }
-        hArg.text = ml;
-        hArg.cast = 'str';
-        this.hTag['let'](hArg);
-        this.idxToken_ += 2;
-        this.lineNum_ += (ml.match(/\n/g) ?? []).length;
-        return false;
-    }
-    dump_stack() {
-        if (this.idxToken_ === 0) {
-            console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.scriptFn_} line:${1} col:${0}`);
-            console.groupEnd();
-            return false;
-        }
-        const lc0 = this.cnvIdx2lineCol(this.script, this.idxToken_);
-        const now = `スクリプト現在地 fn:${this.scriptFn_} line:${lc0.ln} col:${lc0.col_s + 1}`;
-        console.group(`🥟 [dump_stack] ${now}`);
-        const len = this.aCallStk.length;
-        if (len > 0) {
-            console.info(now);
-            for (let i = len - 1; i >= 0; --i) {
-                const cs = this.aCallStk[i];
-                if (!cs.csArg)
-                    continue;
-                const csa = cs.csArg.hMp;
-                const from_macro_nm = csa ? csa['タグ名'] : null;
-                const call_nm = cs.csArg.タグ名;
-                const lc = this.cnvIdx2lineCol(this.hScript[cs.fn], cs.idx);
-                console.info(`${len - i}つ前のコール元 fn:${cs.fn} line:${lc.ln} col:${lc.col_s + 1}` + (from_macro_nm ? '（[' + from_macro_nm + ']マクロ内）' : ' ') +
-                    `で [${call_nm} ...]をコール`);
-            }
-        }
-        console.groupEnd();
-        return false;
-    }
-    cnvIdx2lineCol(st, idx) {
-        const ret = { ln: 1, col_s: 0, col_e: 0 };
-        if (!st)
-            return ret;
-        let i = idx - 1;
-        const lN = ret.ln = st.aLNum[i];
-        while (st.aLNum[i] === lN) {
-            if (st.aToken[i].charAt(0) !== '\n') {
-                const len = st.aToken[i].length;
-                if (ret.col_e > 0)
-                    ret.col_s += len;
-                ret.col_e += len;
-            }
-            if (--i < 0)
-                break;
-        }
-        return ret;
-    }
-    dump_script(hArg) {
-        const set_fnc = hArg.set_fnc;
-        if (!set_fnc)
-            throw 'set_fncは必須です';
-        this.fncSet = globalThis[set_fnc];
-        if (!this.fncSet) {
-            if ((0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
-                throw `HTML内に関数${set_fnc}が見つかりません`;
-            this.fncSet = () => { };
-            return false;
-        }
-        this.noticeBreak = (goto) => {
-            if (this.fnLastBreak !== this.scriptFn_) {
-                this.fnLastBreak = this.scriptFn_;
-                this.fncSet(this.hScrCache4Dump[this.scriptFn_]
-                    = this.hScrCache4Dump[this.scriptFn_]
-                        ?? this.script.aToken.join(''));
-            }
-            this.fncBreak(this.lineNum_, goto);
-        };
-        this.noticeBreak(true);
-        const break_fnc = hArg.break_fnc;
-        if (!break_fnc)
-            return false;
-        this.fncBreak = globalThis[break_fnc];
-        if (!this.fncBreak) {
-            if ((0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
-                throw `HTML内に関数${break_fnc}が見つかりません`;
-            this.fncBreak = () => { };
-        }
-        return false;
+        __classPrivateFieldSet(this, _ScriptIterator_evtMng, evtMng, "f");
+        __classPrivateFieldSet(this, _ScriptIterator_layMng, layMng, "f");
     }
     dumpErrForeLine() {
-        if (this.idxToken_ === 0) {
-            console.group(`🥟 Error line (from 0 rows before) fn:${this.scriptFn_}`);
+        if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") === 0) {
+            console.group(`🥟 Error line (from 0 rows before) fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}`);
             console.groupEnd();
             return;
         }
         let s = '';
-        for (let i = this.idxToken_ - 1; i >= 0; --i) {
-            s = this.script.aToken[i] + s;
-            if ((s.match(/\n/g) ?? []).length >= this.dumpErrLine)
+        for (let i = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - 1; i >= 0; --i) {
+            s = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[i] + s;
+            if ((s.match(/\n/g) ?? []).length >= __classPrivateFieldGet(this, _ScriptIterator_dumpErrLine, "f"))
                 break;
         }
-        const a = s.split('\n').slice(-this.dumpErrLine);
+        const a = s.split('\n').slice(-__classPrivateFieldGet(this, _ScriptIterator_dumpErrLine, "f"));
         const len = a.length;
-        console.group(`🥟 Error line (from ${len} rows before) fn:${this.scriptFn_}`);
-        const ln_txt_width = String(this.lineNum_).length;
-        const lc = this.cnvIdx2lineCol(this.script, this.idxToken_);
+        console.group(`🥟 Error line (from ${len} rows before) fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}`);
+        const ln_txt_width = String(__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")).length;
+        const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
         for (let i = 0; i < len; ++i) {
-            const ln = this.lineNum_ - len + i + 1;
+            const ln = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") - len + i + 1;
             const mes = `${String(ln).padStart(ln_txt_width, ' ')}: %c`;
             const e = a[i];
             const line = (e.length > 75) ? e.slice(0, 75) + '…' : e;
@@ -77687,394 +77676,23 @@ class ScriptIterator {
         }
         console.groupEnd();
     }
-    endif() {
-        if (this.aIfStk[0] === -1)
-            throw 'ifブロック内ではありません';
-        this.idxToken_ = this.aIfStk[0];
-        this.lineNum_ = this.script.aLNum[this.idxToken_ - 1];
-        this.aIfStk.shift();
-        return false;
-    }
-    if(hArg) {
-        const exp = hArg.exp;
-        if (!exp)
-            throw 'expは必須です';
-        if (exp.charAt(0) === '&')
-            throw '属性expは「&」が不要です';
-        let cntDepth = 0;
-        let idxGo = this.prpPrs.parse(exp) ? this.idxToken_ : -1;
-        for (; this.idxToken_ < this.script.len; ++this.idxToken_) {
-            if (!this.script.aLNum[this.idxToken_])
-                this.script.aLNum[this.idxToken_] = this.lineNum_;
-            const t = this.script.aToken[this.idxToken_];
-            if (!t)
-                continue;
-            const uc = t.charCodeAt(0);
-            if (uc === 10) {
-                this.addLineNum(t.length);
-                continue;
-            }
-            if (uc !== 91)
-                continue;
-            const [tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(t);
-            if (!(tag_name in this.hTag))
-                throw `未定義のタグ[${tag_name}]です`;
-            this.alzTagArg.go(args);
-            switch (tag_name) {
-                case 'if':
-                    ++cntDepth;
-                    break;
-                case 'elsif':
-                    if (cntDepth > 0)
-                        break;
-                    if (idxGo > -1)
-                        break;
-                    const e = this.alzTagArg.hPrm.exp.val ?? '';
-                    if (e.charAt(0) === '&')
-                        throw '属性expは「&」が不要です';
-                    if (this.prpPrs.parse(e))
-                        idxGo = this.idxToken_ + 1;
-                    break;
-                case 'else':
-                    if (cntDepth > 0)
-                        break;
-                    if (idxGo === -1)
-                        idxGo = this.idxToken_ + 1;
-                    break;
-                case 'endif':
-                    if (cntDepth > 0) {
-                        --cntDepth;
-                        break;
-                    }
-                    if (idxGo === -1) {
-                        ++this.idxToken_;
-                        this.script.aLNum[this.idxToken_] = this.lineNum_;
-                    }
-                    else {
-                        this.aIfStk.unshift(this.idxToken_ + 1);
-                        this.idxToken_ = idxGo;
-                        this.lineNum_ = this.script.aLNum[this.idxToken_];
-                    }
-                    return false;
-            }
-        }
-        throw '[endif]がないままスクリプト終端です';
-    }
-    call(hArg) {
-        if (!(0, CmnLib_1.argChk_Boolean)(hArg, 'count', false))
-            this.eraseKidoku();
-        const fn = hArg.fn;
-        if (fn)
-            this.cnvSnPath(fn);
-        this.callSub({ hEvt1Time: this.evtMng.popLocalEvts(), hMp: this.val.cloneMp() });
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear_local_event', false))
-            this.hTag.clear_event({});
-        this.jumpWork(fn, hArg.label);
-        return true;
-    }
-    callSub(csa) {
-        this.script.aLNum[this.idxToken_] = this.lineNum_;
-        if (!this.resvToken) {
-            csa.resvToken = '';
-            this.clearResvToken();
-        }
-        this.aCallStk.push(new CallStack_1.CallStack(this.scriptFn_, this.idxToken_, csa));
-        this.aIfStk.unshift(-1);
-    }
-    jump(hArg) {
-        if (!(0, CmnLib_1.argChk_Boolean)(hArg, 'count', true))
-            this.eraseKidoku();
-        this.aIfStk[0] = -1;
-        this.jumpWork(hArg.fn, hArg.label);
-        return true;
-    }
-    pop_stack(hArg) {
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear', false))
-            this.aCallStk = [];
-        else if (!this.aCallStk.pop())
-            throw '[pop_stack] スタックが空です';
-        this.clearResvToken();
-        this.aIfStk = [-1];
-        this.val.setMp({});
-        return false;
-    }
-    return() {
-        const cs = this.aCallStk.pop();
-        if (!cs)
-            throw '[return] スタックが空です';
-        const csArg = cs.csArg;
-        if (!csArg)
-            return false;
-        this.aIfStk.shift();
-        const hMp = csArg.hMp;
-        if (hMp)
-            this.val.setMp(hMp);
-        const after_token = csArg.resvToken;
-        if (after_token)
-            this.nextToken = () => {
-                this.clearResvToken();
-                return after_token;
-            };
-        else
-            this.clearResvToken();
-        if (csArg.hEvt1Time)
-            this.evtMng.pushLocalEvts(csArg.hEvt1Time);
-        if (cs.fn in this.hScript) {
-            this.jump_light(cs);
-            return false;
-        }
-        this.jumpWork(cs.fn, '', cs.idx);
-        return true;
-    }
-    clearResvToken() {
-        this.resvToken = '';
-        this.nextToken = this.nextToken_Proc;
-    }
-    jumpWork(fn = '', label = '', idx = 0) {
-        if (!fn && !label)
-            this.main.errScript('[jump系] fnまたはlabelは必須です');
-        if (label) {
-            if (label.charAt(0) !== '*')
-                this.main.errScript('[jump系] labelは*で始まります');
-            this.skipLabel = label;
-            if (this.skipLabel.slice(0, 2) !== '**')
-                this.idxToken_ = idx;
-        }
-        else {
-            this.skipLabel = '';
-            this.idxToken_ = idx;
-        }
-        if (!fn) {
-            this.analyzeInit();
-            return;
-        }
-        const full_path = this.cnvSnPath(fn);
-        if (fn === this.scriptFn_) {
-            this.analyzeInit();
-            return;
-        }
-        this.scriptFn_ = fn;
-        const st = this.hScript[this.scriptFn_];
-        if (st) {
-            this.script = st;
-            this.analyzeInit();
-            return;
-        }
-        (new pixi_js_1.Loader).add({ name: this.scriptFn_, url: full_path })
-            .use((res, next) => {
-            try {
-                res.data = this.sys.decStr(res.extension, res.data);
-            }
-            catch (e) {
-                this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false);
-            }
-            next?.();
-        })
-            .load((_ldr, hRes) => {
-            this.nextToken = this.nextToken_Proc;
-            this.lineNum_ = 1;
-            this.resolveScript(hRes[fn].data);
-            this.hTag.record_place({});
-            this.main.resume(() => this.analyzeInit());
-        });
-        this.main.stop();
-    }
     analyzeInit() {
-        const o = this.seekScript(this.script, Boolean(this.val.getVal('mp:const.sn.macro.name')), this.lineNum_, this.skipLabel, this.idxToken_);
-        this.idxToken_ = o.idx;
-        this.lineNum_ = o.lineNum;
+        const o = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_seekScript).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), Boolean(this.val.getVal('mp:const.sn.macro.name')), __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f"), __classPrivateFieldGet(this, _ScriptIterator_skipLabel, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+        __classPrivateFieldSet(this, _ScriptIterator_idxToken_, o.idx, "f");
+        __classPrivateFieldSet(this, _ScriptIterator_lineNum_, o.lineNum, "f");
         this.runAnalyze();
     }
-    nextToken_Proc() {
-        if (this.errOverScr())
-            return '';
-        this.recordKidoku();
-        if (!this.script.aLNum[this.idxToken_])
-            this.script.aLNum[this.idxToken_] = this.lineNum_;
-        const token = this.script.aToken[this.idxToken_];
-        this.dbgToken(token);
-        ++this.idxToken_;
-        return token;
-    }
-    errOverScr() {
-        if (this.idxToken_ < this.script.len)
-            return false;
-        this.main.errScript('スクリプト終端です');
-        return true;
-    }
-    seekScript(st, inMacro, ln, skipLabel, idxToken) {
-        const len = st.aToken.length;
-        if (!skipLabel) {
-            if (this.errOverScr())
-                return { idx: idxToken, lineNum: ln };
-            if (!st.aLNum[idxToken]) {
-                ln = 1;
-                for (let j = 0; j < idxToken; ++j) {
-                    if (!st.aLNum[j])
-                        st.aLNum[j] = ln;
-                    const tkn = st.aToken[j];
-                    if (tkn.charCodeAt(0) === 10)
-                        ln += tkn.length;
-                }
-                st.aLNum[idxToken] = ln;
-            }
-            else
-                ln = st.aLNum[idxToken];
-            return {
-                idx: idxToken,
-                lineNum: ln
-            };
-        }
-        st.aLNum[0] = 1;
-        const a_skipLabel = skipLabel.match(this.REG_NONAME_LABEL);
-        if (a_skipLabel) {
-            skipLabel = a_skipLabel[1];
-            let i = idxToken;
-            switch (a_skipLabel[2]) {
-                case 'before':
-                    while (st.aToken[--i] !== skipLabel) {
-                        if (i === 0)
-                            DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルbefore] '
-                                + ln + '行目以前で' + (inMacro ? 'マクロ内に' : '')
-                                + 'ラベル【' + skipLabel + '】がありません', 'ET');
-                        if (inMacro && st.aToken[i].search(this.REG_TOKEN_MACRO_BEGIN) > -1)
-                            DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルbefore] マクロ内にラベル【' + skipLabel + '】がありません', 'ET');
-                    }
-                    return {
-                        idx: i + 1,
-                        lineNum: st.aLNum[i]
-                    };
-                case 'after':
-                    while (st.aToken[++i] !== skipLabel) {
-                        if (i === len)
-                            DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルafter] '
-                                + ln + '行目以後でマクロ内にラベル【' + skipLabel + '】がありません', 'ET');
-                        if (st.aToken[i].search(this.REG_TOKEN_MACRO_END) > -1)
-                            DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルafter] '
-                                + ln + '行目以後でマクロ内にラベル【' + skipLabel + '】がありません', 'ET');
-                    }
-                    return {
-                        idx: i + 1,
-                        lineNum: st.aLNum[i]
-                    };
-                default:
-                    DebugMng_1.DebugMng.myTrace('[jump系] 無名ラベル指定【label=' + skipLabel + '】が間違っています', 'ET');
-            }
-        }
-        ln = 1;
-        const reLabel = new RegExp('^' + skipLabel.replaceAll('*', '\\*')
-            + '(?:\\s|;|\\[|$)');
-        let in_let_ml = false;
-        for (let i = 0; i < len; ++i) {
-            if (!st.aLNum[i])
-                st.aLNum[i] = ln;
-            const token = st.aToken[i];
-            const uc = token.charCodeAt(0);
-            if (uc !== 42) {
-                if (in_let_ml) {
-                    this.REG_TAG_ENDLET_ML.lastIndex = 0;
-                    if (this.REG_TAG_ENDLET_ML.test(token)) {
-                        in_let_ml = false;
-                        continue;
-                    }
-                    ln += (token.match(/\n/g) ?? []).length;
-                }
-                else {
-                    this.REG_TAG_LET_ML.lastIndex = 0;
-                    if (this.REG_TAG_LET_ML.test(token)) {
-                        in_let_ml = true;
-                        continue;
-                    }
-                    if (uc === 10)
-                        ln += token.length;
-                }
-                continue;
-            }
-            if (token.search(reLabel) > -1)
-                return {
-                    idx: i + 1,
-                    lineNum: ln
-                };
-        }
-        if (in_let_ml)
-            throw '[let_ml]の終端・[endlet_ml]がありません';
-        DebugMng_1.DebugMng.myTrace(`[jump系] ラベル【` + skipLabel + `】がありません`, 'ET');
-        throw 'Dummy';
-    }
-    resolveScript(txt) {
-        const v = txt
-            .replace(/(\r\n|\r)/g, '\n')
-            .match(this.grm.REG_TOKEN) ?? [];
-        for (let i = v.length - 1; i >= 0; --i) {
-            const e = v[i];
-            this.REG_TAG_LET_ML.lastIndex = 0;
-            if (this.REG_TAG_LET_ML.test(e)) {
-                const idx = e.indexOf(']') + 1;
-                if (idx === 0)
-                    throw '[let_ml]で閉じる【]】がありません';
-                const a = e.slice(0, idx);
-                const b = e.slice(idx);
-                v.splice(i, 1, a, b);
-            }
-        }
-        this.script = { aToken: v, len: v.length, aLNum: [] };
-        let mes = '';
-        try {
-            mes = 'ScriptIterator.replaceScriptChar2macro';
-            this.grm.replaceScr_C2M_And_let_ml(this.script);
-            mes = 'ScriptIterator.replaceScript_Wildcard';
-            this.replaceScript_Wildcard();
-        }
-        catch (err) {
-            if (err instanceof Error) {
-                const e = err;
-                mes += '例外 mes=' + e.message + '(' + e.name + ')';
-            }
-            else {
-                mes = err;
-            }
-            this.main.errScript(mes, false);
-        }
-        this.hScript[this.scriptFn_] = this.script;
-        this.val.loadScrWork(this.scriptFn_);
-    }
-    jump_light(cs) {
-        this.scriptFn_ = cs.fn;
-        this.idxToken_ = cs.idx;
-        const st = this.hScript[this.scriptFn_];
-        if (st)
-            this.script = st;
-        this.lineNum_ = this.script.aLNum[cs.idx];
-    }
-    recordKidoku() {
-        const areas = this.val.getAreaKidoku(this.scriptFn_);
-        if (!areas)
-            throw `recordKidoku fn:'${this.scriptFn_}' (areas === null)`;
-        if (this.aCallStk.length > 0) {
-            areas.record(this.idxToken_);
-            return;
-        }
-        this.isKidoku_ = areas.search(this.idxToken_);
-        this.val.setVal_Nochk('tmp', 'const.sn.isKidoku', this.isKidoku_);
-        if (this.isKidoku_)
-            return;
-        areas.record(this.idxToken_);
-    }
-    get isKidoku() { return this.isKidoku_; }
+    get isKidoku() { return __classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f"); }
     ;
-    eraseKidoku() {
-        this.val.getAreaKidoku(this.scriptFn_)?.erase(this.idxToken_);
-        this.isKidoku_ = false;
-    }
     get isNextKidoku() {
         let fn = this.scriptFn;
-        let idx = this.idxToken_;
-        let len = this.script.len;
-        if (this.aCallStk.length > 0) {
-            const cs = this.aCallStk[0];
+        let idx = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f");
+        let len = __classPrivateFieldGet(this, _ScriptIterator_script, "f").len;
+        if (__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length > 0) {
+            const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[0];
             fn = cs.fn;
             idx = cs.idx;
-            const st = this.hScript[fn];
+            const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[fn];
             if (st)
                 len = st.len;
         }
@@ -78086,7 +77704,7 @@ class ScriptIterator {
         return areas.search(idx);
     }
     get normalWait() {
-        return this.isKidoku_
+        return __classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f")
             ? (this.val.getVal('sys:sn.tagCh.doWait_Kidoku')
                 ? (0, CmnLib_1.uint)(this.val.getVal('sys:sn.tagCh.msecWait_Kidoku'))
                 : 0)
@@ -78094,167 +77712,732 @@ class ScriptIterator {
                 ? (0, CmnLib_1.uint)(this.val.getVal('sys:sn.tagCh.msecWait'))
                 : 0);
     }
-    bracket2macro(hArg) {
-        this.grm.bracket2macro(hArg, this.script, this.idxToken_);
-        return false;
-    }
-    char2macro(hArg) {
-        this.grm.char2macro(hArg, this.hTag, this.script, this.idxToken_);
-        return false;
-    }
-    macro(hArg) {
-        const name = hArg.name;
-        if (!name)
-            throw 'nameは必須です';
-        if (name in this.hTag)
-            throw `[${name}]はタグかすでに定義済みのマクロです`;
-        const ln = this.lineNum_;
-        const cs = new CallStack_1.CallStack(this.scriptFn_, this.idxToken_);
-        this.strStepin += '|' + name;
-        this.regStepin = new RegExp(`\\[(${this.strStepin})\\b`);
-        this.hTag[name] = hArgM => {
-            hArgM.design_unit = hArg.design_unit;
-            this.callSub({ ...hArgM, hMp: this.val.cloneMp() });
-            this.val.setMp(hArgM);
-            this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify(hArg));
-            this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', this.scriptFn_);
-            this.lineNum_ = ln;
-            this.jump_light(cs);
-            return false;
-        };
-        for (; this.idxToken_ < this.script.len; ++this.idxToken_) {
-            if (!this.script.aLNum[this.idxToken_])
-                this.script.aLNum[this.idxToken_] = this.lineNum_;
-            const token = this.script.aToken[this.idxToken_];
-            if (token.search(this.REG_TOKEN_MACRO_END) > -1) {
-                ++this.idxToken_;
-                return false;
-            }
-            const uc = token.charCodeAt(0);
-            if (uc === 10)
-                this.lineNum_ += token.length;
-            else if (uc === 91)
-                this.lineNum_ += (token.match(/\n/g) ?? []).length;
-        }
-        throw `マクロ[${name}]定義の終端・[endmacro]がありません`;
-    }
-    load(hArg) {
-        if (!('place' in hArg))
-            throw 'placeは必須です';
-        const place = Number(hArg.place);
-        if (('fn' in hArg) !== ('label' in hArg))
-            throw 'fnとlabelはセットで指定して下さい';
-        const mark = this.val.getMark(place);
-        if (!mark)
-            throw `place【${place}】は存在しません`;
-        return this.loadFromMark(hArg, mark);
-    }
-    loadFromMark(hArg, mark, reload_sound = true) {
-        this.layMng.cover(true);
-        this.hTag.clear_event({});
-        this.val.mark2save(mark);
-        this.val.setMp({});
-        this.layMng.recText('', true);
-        if (reload_sound)
-            this.sndMng.playLoopFromSaveObj();
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'do_rec', true))
-            this.mark = {
-                hSave: this.val.cloneSave(),
-                hPages: { ...mark.hPages },
-                aIfStk: [...mark.aIfStk],
-            };
-        const o = {
-            enabled: this.val.getVal('save:const.sn.autowc.enabled'),
-            text: String(this.val.getVal('save:const.sn.autowc.text')),
-            time: String(this.val.getVal('save:const.sn.autowc.time')),
-        };
-        this.hTag.autowc(o);
-        const fn = String(this.val.getVal('save:const.sn.scriptFn'));
-        const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
-        delete this.hScript[fn];
-        this.aIfStk = [...this.mark.aIfStk];
-        this.aCallStk = [];
-        this.layMng.playback(this.mark.hPages, 'label' in hArg
-            ? () => {
-                this.layMng.cover(false);
-                this.scriptFn_ = fn;
-                this.idxToken_ = idx;
-                this.hTag.call({ fn: hArg.fn, label: hArg.label });
-            }
-            : () => {
-                this.layMng.cover(false);
-                this.jumpWork(fn, '', idx);
-            });
-        return true;
-    }
-    reload_script(hArg) {
-        const mark = this.val.getMark(0);
-        delete this.hScript[(0, CmnLib_1.getFn)(mark.hSave['const.sn.scriptFn'])];
-        hArg.do_rec = false;
-        return this.loadFromMark(hArg, mark, false);
-    }
-    record_place() {
-        if (this.main.isDestroyed())
-            return false;
-        const len = this.aCallStk.length;
-        if (len === 0) {
-            this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
-            this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.idxToken_);
-        }
-        else {
-            this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.aCallStk[0].fn);
-            this.val.setVal_Nochk('save', 'const.sn.scriptIdx', this.aCallStk[0].idx);
-        }
-        this.mark = {
-            hSave: this.val.cloneSave(),
-            hPages: this.layMng.record(),
-            aIfStk: this.aIfStk.slice(len),
-        };
-        return false;
-    }
-    save(hArg) {
-        if (!('place' in hArg))
-            throw 'placeは必須です';
-        const place = Number(hArg.place);
-        delete hArg.タグ名;
-        delete hArg.place;
-        hArg.text = (hArg.text ?? '').replace(/^(<br\/>)+/, '');
-        this.mark.json = hArg;
-        this.val.setMark(place, this.mark);
-        const now_sp = Number(this.val.getVal('sys:const.sn.save.place'));
-        if (place === now_sp)
-            this.val.setVal_Nochk('sys', 'const.sn.save.place', now_sp + 1);
-        return false;
-    }
     recodeDesign(hArg) {
         let fn = '';
         let idx = 0;
-        const len = this.aCallStk.length;
+        const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
         if (hArg.design_unit && len > 0) {
-            const cs = this.aCallStk[len - 1];
+            const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[len - 1];
             fn = cs.fn;
             idx = cs.idx;
         }
         else {
-            fn = this.scriptFn_;
-            idx = this.idxToken_;
+            fn = __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f");
+            idx = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f");
         }
-        hArg[':path'] = this.cnvSnPath4Dbg(fn);
-        const lc = this.cnvIdx2lineCol(this.hScript[fn], idx);
+        hArg[':path'] = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, fn);
+        const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[fn], idx);
         hArg[':ln'] = lc.ln;
         hArg[':col_s'] = lc.col_s;
         hArg[':col_e'] = lc.col_e;
         const idx_1 = idx - 1;
         hArg[':idx_tkn'] = idx_1;
-        hArg[':token'] = this.hScript[fn].aToken[idx_1];
+        hArg[':token'] = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[fn].aToken[idx_1];
         this.sys.send2Dbg('_recodeDesign', hArg);
     }
-    replace(idx, val) { this.script.aToken[idx] = val; }
+    replace(idx, val) { __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[idx] = val; }
 }
 exports.ScriptIterator = ScriptIterator;
-ScriptIterator.REG4CODE_FN = /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/;
-ScriptIterator.hFn2hLineBP = {};
-ScriptIterator.hFuncBP = {};
+_a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scriptFn_ = new WeakMap(), _ScriptIterator_idxToken_ = new WeakMap(), _ScriptIterator_lineNum_ = new WeakMap(), _ScriptIterator_aCallStk = new WeakMap(), _ScriptIterator_grm = new WeakMap(), _ScriptIterator_hHook = new WeakMap(), _ScriptIterator_cnvSnPath = new WeakMap(), _ScriptIterator_cnvSnPath4Dbg = new WeakMap(), _ScriptIterator_csDepth_macro_esc = new WeakMap(), _ScriptIterator_breakState = new WeakMap(), _ScriptIterator_procDebugtag = new WeakMap(), _ScriptIterator_evtMng = new WeakMap(), _ScriptIterator_layMng = new WeakMap(), _ScriptIterator_fncSet = new WeakMap(), _ScriptIterator_fncBreak = new WeakMap(), _ScriptIterator_fnLastBreak = new WeakMap(), _ScriptIterator_hScrCache4Dump = new WeakMap(), _ScriptIterator_dumpErrLine = new WeakMap(), _ScriptIterator_aIfStk = new WeakMap(), _ScriptIterator_resvToken = new WeakMap(), _ScriptIterator_skipLabel = new WeakMap(), _ScriptIterator_dbgToken = new WeakMap(), _ScriptIterator_REG_NONAME_LABEL = new WeakMap(), _ScriptIterator_REG_TOKEN_MACRO_BEGIN = new WeakMap(), _ScriptIterator_REG_TOKEN_MACRO_END = new WeakMap(), _ScriptIterator_REG_TAG_LET_ML = new WeakMap(), _ScriptIterator_REG_TAG_ENDLET_ML = new WeakMap(), _ScriptIterator_hScript = new WeakMap(), _ScriptIterator_REG_WILDCARD = new WeakMap(), _ScriptIterator_REG_WILDCARD2 = new WeakMap(), _ScriptIterator_replaceScript_Wildcard = new WeakMap(), _ScriptIterator_isKidoku_ = new WeakMap(), _ScriptIterator_strStepin = new WeakMap(), _ScriptIterator_REGSTEPIN = new WeakMap(), _ScriptIterator_mark = new WeakMap(), _ScriptIterator_instances = new WeakSet(), _ScriptIterator_regBreakPoint = function _ScriptIterator_regBreakPoint(fn, o) {
+    __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[__classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, fn)] = o;
+}, _ScriptIterator_go_stepover = function _ScriptIterator_go_stepover(o) {
+    if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
+        return;
+    const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
+    if (__classPrivateFieldGet(this, _ScriptIterator_REGSTEPIN, "f").test(tkn))
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_go_stepout).call(this, false);
+    else {
+        this.sys.callHook('stopOnStep', {});
+        __classPrivateFieldGet(this, _ScriptIterator_hHook, "f").stepin(o);
+    }
+}, _ScriptIterator_go_stepout = function _ScriptIterator_go_stepout(out) {
+    this.sys.callHook(`stopOnStep${out ? 'Out' : ''}`, {});
+    __classPrivateFieldSet(this, _ScriptIterator_csDepth_macro_esc, this.lenCallStk - (out ? 1 : 0), "f");
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
+    __classPrivateFieldSet(this, _ScriptIterator_breakState, out ? BreakState.stepout : BreakState.stepouting, "f");
+    this.main.setLoop(true);
+    this.main.resume();
+}, _ScriptIterator_idxDx4Dbg_get = function _ScriptIterator_idxDx4Dbg_get() {
+    return __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.break
+        || __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.step ? 1 : 0;
+}, _ScriptIterator_isIdxOverLast = function _ScriptIterator_isIdxOverLast() {
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
+        return false;
+    this.sys.callHook('stopOnEntry', {});
+    this.main.setLoop(false, 'スクリプト終端です');
+    return true;
+}, _ScriptIterator_isBreak_base = function _ScriptIterator_isBreak_base(token) {
+    switch (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f")) {
+        case BreakState.stepouting:
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.stepout, "f");
+            break;
+        case BreakState.stepout:
+            if (this.lenCallStk !== __classPrivateFieldGet(this, _ScriptIterator_csDepth_macro_esc, "f"))
+                break;
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+            this.main.setLoop(false, 'ステップ実行');
+            this.sys.send2Dbg('stopOnStep', {});
+            return true;
+        case BreakState.stepping:
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+            break;
+        case BreakState.step:
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
+            this.main.setLoop(false, 'ステップ実行');
+            this.sys.send2Dbg('stopOnStep', {});
+            return true;
+        case BreakState.breaking:
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.running, "f");
+            break;
+        default:
+            {
+                if ((0, Grammar_1.tagToken2Name)(token) in __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFuncBP)) {
+                    __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.break, "f");
+                    this.main.setLoop(false, `関数 ${token} ブレーク`);
+                    this.sys.callHook('stopOnBreakpoint', {});
+                    this.sys.send2Dbg('stopOnBreakpoint', {});
+                    return true;
+                }
+            }
+            {
+                const bp = __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[__classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"))];
+                if (!bp)
+                    break;
+                const o = bp[__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")];
+                if (!o)
+                    break;
+                if (o.condition) {
+                    if (!this.prpPrs.parse(o.condition))
+                        break;
+                }
+                else if (('hitCondition' in o) && --o.hitCondition > 0)
+                    break;
+                const isBreak = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.running;
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.break, "f");
+                this.main.setLoop(false, isBreak ? ((o.condition ? '条件' : 'ヒットカウント') + 'ブレーク') : 'ステップ実行');
+                const type = isBreak ? 'stopOnBreakpoint' : 'stopOnStep';
+                this.sys.callHook(type, {});
+                this.sys.send2Dbg(type, {});
+            }
+            return true;
+    }
+    return false;
+}, _ScriptIterator_subHitCondition = function _ScriptIterator_subHitCondition() {
+    const o = __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[(0, CmnLib_1.getFn)(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"))]?.[__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")];
+    if (o?.hitCondition)
+        --o.hitCondition;
+}, _ScriptIterator_aStack = function _ScriptIterator_aStack() {
+    const idx_n = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.breaking ? 1 : 0;
+    const tkn0 = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - 1 + idx_n];
+    const fn0 = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
+    const tag_name0 = (0, Grammar_1.tagToken2Name)(tkn0);
+    const nm = tag_name0 ? `[${tag_name0}]` : tkn0;
+    const ma = this.val.getVal('mp:const.sn.macro') ?? '{}';
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") === 0)
+        return [{ fn: fn0, ln: 1, col: 1, nm: nm, ma: ma, }];
+    const lc0 = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    const a = [{ fn: fn0, ln: lc0.ln, col: lc0.col_s + 1, nm: nm, ma: ma }];
+    const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
+    if (len === 0)
+        return a;
+    for (let i = len - 1; i >= 0; --i) {
+        const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[i];
+        if (!cs.csArg)
+            continue;
+        const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[cs.fn];
+        const tkn = st.aToken[cs.idx - 1];
+        const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, st, cs.idx);
+        const tag_name = (0, Grammar_1.tagToken2Name)(tkn);
+        a.push({
+            fn: __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, cs.fn),
+            ln: lc.ln,
+            col: lc.col_s + 1,
+            nm: tag_name ? `[${tag_name}]` : tkn,
+            ma: cs.csArg.hMp['const.sn.macro'] ?? '{}',
+        });
+    }
+    return a;
+}, _ScriptIterator_let_ml = function _ScriptIterator_let_ml(hArg) {
+    var _b;
+    const name = hArg.name;
+    if (!name)
+        throw 'nameは必須です';
+    let ml = '';
+    const len = __classPrivateFieldGet(this, _ScriptIterator_script, "f").len;
+    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < len; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f")) {
+        ml = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
+        if (ml !== '')
+            break;
+    }
+    hArg.text = ml;
+    hArg.cast = 'str';
+    this.hTag['let'](hArg);
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 2, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + (ml.match(/\n/g) ?? []).length, "f");
+    return false;
+}, _ScriptIterator_dump_stack = function _ScriptIterator_dump_stack() {
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") === 0) {
+        console.group(`🥟 [dump_stack] スクリプト現在地 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} line:${1} col:${0}`);
+        console.groupEnd();
+        return false;
+    }
+    const lc0 = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    const now = `スクリプト現在地 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} line:${lc0.ln} col:${lc0.col_s + 1}`;
+    console.group(`🥟 [dump_stack] ${now}`);
+    const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
+    if (len > 0) {
+        console.info(now);
+        for (let i = len - 1; i >= 0; --i) {
+            const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[i];
+            if (!cs.csArg)
+                continue;
+            const csa = cs.csArg.hMp;
+            const from_macro_nm = csa ? csa['タグ名'] : null;
+            const call_nm = cs.csArg.タグ名;
+            const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[cs.fn], cs.idx);
+            console.info(`${len - i}つ前のコール元 fn:${cs.fn} line:${lc.ln} col:${lc.col_s + 1}` + (from_macro_nm ? '（[' + from_macro_nm + ']マクロ内）' : ' ') +
+                `で [${call_nm} ...]をコール`);
+        }
+    }
+    console.groupEnd();
+    return false;
+}, _ScriptIterator_cnvIdx2lineCol = function _ScriptIterator_cnvIdx2lineCol(st, idx) {
+    const ret = { ln: 1, col_s: 0, col_e: 0 };
+    if (!st)
+        return ret;
+    let i = idx - 1;
+    const lN = ret.ln = st.aLNum[i];
+    while (st.aLNum[i] === lN) {
+        if (st.aToken[i].charAt(0) !== '\n') {
+            const len = st.aToken[i].length;
+            if (ret.col_e > 0)
+                ret.col_s += len;
+            ret.col_e += len;
+        }
+        if (--i < 0)
+            break;
+    }
+    return ret;
+}, _ScriptIterator_dump_script = function _ScriptIterator_dump_script(hArg) {
+    const set_fnc = hArg.set_fnc;
+    if (!set_fnc)
+        throw 'set_fncは必須です';
+    __classPrivateFieldSet(this, _ScriptIterator_fncSet, globalThis[set_fnc], "f");
+    if (!__classPrivateFieldGet(this, _ScriptIterator_fncSet, "f")) {
+        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
+            throw `HTML内に関数${set_fnc}が見つかりません`;
+        __classPrivateFieldSet(this, _ScriptIterator_fncSet, () => { }, "f");
+        return false;
+    }
+    this.noticeBreak = (goto) => {
+        if (__classPrivateFieldGet(this, _ScriptIterator_fnLastBreak, "f") !== __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")) {
+            __classPrivateFieldSet(this, _ScriptIterator_fnLastBreak, __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), "f");
+            __classPrivateFieldGet(this, _ScriptIterator_fncSet, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_hScrCache4Dump, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")]
+                = __classPrivateFieldGet(this, _ScriptIterator_hScrCache4Dump, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")]
+                    ?? __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken.join(''));
+        }
+        __classPrivateFieldGet(this, _ScriptIterator_fncBreak, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f"), goto);
+    };
+    this.noticeBreak(true);
+    const break_fnc = hArg.break_fnc;
+    if (!break_fnc)
+        return false;
+    __classPrivateFieldSet(this, _ScriptIterator_fncBreak, globalThis[break_fnc], "f");
+    if (!__classPrivateFieldGet(this, _ScriptIterator_fncBreak, "f")) {
+        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
+            throw `HTML内に関数${break_fnc}が見つかりません`;
+        __classPrivateFieldSet(this, _ScriptIterator_fncBreak, () => { }, "f");
+    }
+    return false;
+}, _ScriptIterator_endif = function _ScriptIterator_endif() {
+    if (__classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f")[0] === -1)
+        throw 'ifブロック内ではありません';
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f")[0], "f");
+    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - 1], "f");
+    __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").shift();
+    return false;
+}, _ScriptIterator_if = function _ScriptIterator_if(hArg) {
+    var _b, _c;
+    const exp = hArg.exp;
+    if (!exp)
+        throw 'expは必須です';
+    if (exp.charAt(0) === '&')
+        throw '属性expは「&」が不要です';
+    let cntDepth = 0;
+    let idxGo = this.prpPrs.parse(exp) ? __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") : -1;
+    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f")) {
+        if (!__classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")])
+            __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+        const t = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
+        if (!t)
+            continue;
+        const uc = t.charCodeAt(0);
+        if (uc === 10) {
+            this.addLineNum(t.length);
+            continue;
+        }
+        if (uc !== 91)
+            continue;
+        const [tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(t);
+        if (!(tag_name in this.hTag))
+            throw `未定義のタグ[${tag_name}]です`;
+        this.alzTagArg.go(args);
+        switch (tag_name) {
+            case 'if':
+                ++cntDepth;
+                break;
+            case 'elsif':
+                if (cntDepth > 0)
+                    break;
+                if (idxGo > -1)
+                    break;
+                const e = this.alzTagArg.hPrm.exp.val ?? '';
+                if (e.charAt(0) === '&')
+                    throw '属性expは「&」が不要です';
+                if (this.prpPrs.parse(e))
+                    idxGo = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 1;
+                break;
+            case 'else':
+                if (cntDepth > 0)
+                    break;
+                if (idxGo === -1)
+                    idxGo = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 1;
+                break;
+            case 'endif':
+                if (cntDepth > 0) {
+                    --cntDepth;
+                    break;
+                }
+                if (idxGo === -1) {
+                    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_c = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_c), "f");
+                    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+                }
+                else {
+                    __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").unshift(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 1);
+                    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idxGo, "f");
+                    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")], "f");
+                }
+                return false;
+        }
+    }
+    throw '[endif]がないままスクリプト終端です';
+}, _ScriptIterator_call = function _ScriptIterator_call(hArg) {
+    if (!(0, CmnLib_1.argChk_Boolean)(hArg, 'count', false))
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_eraseKidoku).call(this);
+    const fn = hArg.fn;
+    if (fn)
+        __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath, "f").call(this, fn);
+    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { hEvt1Time: __classPrivateFieldGet(this, _ScriptIterator_evtMng, "f").popLocalEvts(), hMp: this.val.cloneMp() });
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear_local_event', false))
+        this.hTag.clear_event({});
+    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, fn, hArg.label);
+    return true;
+}, _ScriptIterator_callSub = function _ScriptIterator_callSub(csa) {
+    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+    if (!__classPrivateFieldGet(this, _ScriptIterator_resvToken, "f")) {
+        csa.resvToken = '';
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
+    }
+    __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").push(new CallStack_1.CallStack(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), csa));
+    __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").unshift(-1);
+}, _ScriptIterator_jump = function _ScriptIterator_jump(hArg) {
+    if (!(0, CmnLib_1.argChk_Boolean)(hArg, 'count', true))
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_eraseKidoku).call(this);
+    __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f")[0] = -1;
+    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, hArg.fn, hArg.label);
+    return true;
+}, _ScriptIterator_pop_stack = function _ScriptIterator_pop_stack(hArg) {
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear', false))
+        __classPrivateFieldSet(this, _ScriptIterator_aCallStk, [], "f");
+    else if (!__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").pop())
+        throw '[pop_stack] スタックが空です';
+    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
+    __classPrivateFieldSet(this, _ScriptIterator_aIfStk, [-1], "f");
+    this.val.setMp({});
+    return false;
+}, _ScriptIterator_return = function _ScriptIterator_return() {
+    const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").pop();
+    if (!cs)
+        throw '[return] スタックが空です';
+    const csArg = cs.csArg;
+    if (!csArg)
+        return false;
+    __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").shift();
+    const hMp = csArg.hMp;
+    if (hMp)
+        this.val.setMp(hMp);
+    const after_token = csArg.resvToken;
+    if (after_token)
+        this.nextToken = () => {
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
+            return after_token;
+        };
+    else
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
+    if (csArg.hEvt1Time)
+        __classPrivateFieldGet(this, _ScriptIterator_evtMng, "f").pushLocalEvts(csArg.hEvt1Time);
+    if (cs.fn in __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")) {
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jump_light).call(this, cs);
+        return false;
+    }
+    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, cs.fn, '', cs.idx);
+    return true;
+}, _ScriptIterator_clearResvToken = function _ScriptIterator_clearResvToken() {
+    __classPrivateFieldSet(this, _ScriptIterator_resvToken, '', "f");
+    this.nextToken = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nextToken_Proc);
+}, _ScriptIterator_jumpWork = function _ScriptIterator_jumpWork(fn = '', label = '', idx = 0) {
+    if (!fn && !label)
+        this.main.errScript('[jump系] fnまたはlabelは必須です');
+    if (label) {
+        if (label.charAt(0) !== '*')
+            this.main.errScript('[jump系] labelは*で始まります');
+        __classPrivateFieldSet(this, _ScriptIterator_skipLabel, label, "f");
+        if (__classPrivateFieldGet(this, _ScriptIterator_skipLabel, "f").slice(0, 2) !== '**')
+            __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idx, "f");
+    }
+    else {
+        __classPrivateFieldSet(this, _ScriptIterator_skipLabel, '', "f");
+        __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idx, "f");
+    }
+    if (!fn) {
+        this.analyzeInit();
+        return;
+    }
+    const full_path = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath, "f").call(this, fn);
+    if (fn === __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")) {
+        this.analyzeInit();
+        return;
+    }
+    __classPrivateFieldSet(this, _ScriptIterator_scriptFn_, fn, "f");
+    const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")];
+    if (st) {
+        __classPrivateFieldSet(this, _ScriptIterator_script, st, "f");
+        this.analyzeInit();
+        return;
+    }
+    (new pixi_js_1.Loader).add({ name: __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), url: full_path })
+        .use((res, next) => {
+        try {
+            res.data = this.sys.decStr(res.extension, res.data);
+        }
+        catch (e) {
+            this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false);
+        }
+        next?.();
+    })
+        .load((_ldr, hRes) => {
+        this.nextToken = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nextToken_Proc);
+        __classPrivateFieldSet(this, _ScriptIterator_lineNum_, 1, "f");
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_resolveScript).call(this, hRes[fn].data);
+        this.hTag.record_place({});
+        this.main.resume(() => this.analyzeInit());
+    });
+    this.main.stop();
+}, _ScriptIterator_nextToken_Proc = function _ScriptIterator_nextToken_Proc() {
+    var _b;
+    if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_errOverScr).call(this))
+        return '';
+    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_recordKidoku).call(this);
+    if (!__classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")])
+        __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+    const token = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
+    __classPrivateFieldGet(this, _ScriptIterator_dbgToken, "f").call(this, token);
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f");
+    return token;
+}, _ScriptIterator_errOverScr = function _ScriptIterator_errOverScr() {
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
+        return false;
+    this.main.errScript('スクリプト終端です');
+    return true;
+}, _ScriptIterator_seekScript = function _ScriptIterator_seekScript(st, inMacro, ln, skipLabel, idxToken) {
+    const len = st.aToken.length;
+    if (!skipLabel) {
+        if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_errOverScr).call(this))
+            return { idx: idxToken, lineNum: ln };
+        if (!st.aLNum[idxToken]) {
+            ln = 1;
+            for (let j = 0; j < idxToken; ++j) {
+                if (!st.aLNum[j])
+                    st.aLNum[j] = ln;
+                const tkn = st.aToken[j];
+                if (tkn.charCodeAt(0) === 10)
+                    ln += tkn.length;
+            }
+            st.aLNum[idxToken] = ln;
+        }
+        else
+            ln = st.aLNum[idxToken];
+        return {
+            idx: idxToken,
+            lineNum: ln
+        };
+    }
+    st.aLNum[0] = 1;
+    const a_skipLabel = skipLabel.match(__classPrivateFieldGet(this, _ScriptIterator_REG_NONAME_LABEL, "f"));
+    if (a_skipLabel) {
+        skipLabel = a_skipLabel[1];
+        let i = idxToken;
+        switch (a_skipLabel[2]) {
+            case 'before':
+                while (st.aToken[--i] !== skipLabel) {
+                    if (i === 0)
+                        DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルbefore] '
+                            + ln + '行目以前で' + (inMacro ? 'マクロ内に' : '')
+                            + 'ラベル【' + skipLabel + '】がありません', 'ET');
+                    if (inMacro && st.aToken[i].search(__classPrivateFieldGet(this, _ScriptIterator_REG_TOKEN_MACRO_BEGIN, "f")) > -1)
+                        DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルbefore] マクロ内にラベル【' + skipLabel + '】がありません', 'ET');
+                }
+                return {
+                    idx: i + 1,
+                    lineNum: st.aLNum[i]
+                };
+            case 'after':
+                while (st.aToken[++i] !== skipLabel) {
+                    if (i === len)
+                        DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルafter] '
+                            + ln + '行目以後でマクロ内にラベル【' + skipLabel + '】がありません', 'ET');
+                    if (st.aToken[i].search(__classPrivateFieldGet(this, _ScriptIterator_REG_TOKEN_MACRO_END, "f")) > -1)
+                        DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルafter] '
+                            + ln + '行目以後でマクロ内にラベル【' + skipLabel + '】がありません', 'ET');
+                }
+                return {
+                    idx: i + 1,
+                    lineNum: st.aLNum[i]
+                };
+            default:
+                DebugMng_1.DebugMng.myTrace('[jump系] 無名ラベル指定【label=' + skipLabel + '】が間違っています', 'ET');
+        }
+    }
+    ln = 1;
+    const reLabel = new RegExp('^' + skipLabel.replaceAll('*', '\\*')
+        + '(?:\\s|;|\\[|$)');
+    let in_let_ml = false;
+    for (let i = 0; i < len; ++i) {
+        if (!st.aLNum[i])
+            st.aLNum[i] = ln;
+        const token = st.aToken[i];
+        const uc = token.charCodeAt(0);
+        if (uc !== 42) {
+            if (in_let_ml) {
+                __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").lastIndex = 0;
+                if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").test(token)) {
+                    in_let_ml = false;
+                    continue;
+                }
+                ln += (token.match(/\n/g) ?? []).length;
+            }
+            else {
+                __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").lastIndex = 0;
+                if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").test(token)) {
+                    in_let_ml = true;
+                    continue;
+                }
+                if (uc === 10)
+                    ln += token.length;
+            }
+            continue;
+        }
+        if (token.search(reLabel) > -1)
+            return {
+                idx: i + 1,
+                lineNum: ln
+            };
+    }
+    if (in_let_ml)
+        throw '[let_ml]の終端・[endlet_ml]がありません';
+    DebugMng_1.DebugMng.myTrace(`[jump系] ラベル【` + skipLabel + `】がありません`, 'ET');
+    throw 'Dummy';
+}, _ScriptIterator_resolveScript = function _ScriptIterator_resolveScript(txt) {
+    const v = txt
+        .replace(/(\r\n|\r)/g, '\n')
+        .match(__classPrivateFieldGet(this, _ScriptIterator_grm, "f").REG_TOKEN) ?? [];
+    for (let i = v.length - 1; i >= 0; --i) {
+        const e = v[i];
+        __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").lastIndex = 0;
+        if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").test(e)) {
+            const idx = e.indexOf(']') + 1;
+            if (idx === 0)
+                throw '[let_ml]で閉じる【]】がありません';
+            const a = e.slice(0, idx);
+            const b = e.slice(idx);
+            v.splice(i, 1, a, b);
+        }
+    }
+    __classPrivateFieldSet(this, _ScriptIterator_script, { aToken: v, len: v.length, aLNum: [] }, "f");
+    let mes = '';
+    try {
+        mes = 'ScriptIterator.replaceScriptChar2macro';
+        __classPrivateFieldGet(this, _ScriptIterator_grm, "f").replaceScr_C2M_And_let_ml(__classPrivateFieldGet(this, _ScriptIterator_script, "f"));
+        mes = 'ScriptIterator.replaceScript_Wildcard';
+        __classPrivateFieldGet(this, _ScriptIterator_replaceScript_Wildcard, "f").call(this);
+    }
+    catch (err) {
+        if (err instanceof Error) {
+            const e = err;
+            mes += '例外 mes=' + e.message + '(' + e.name + ')';
+        }
+        else {
+            mes = err;
+        }
+        this.main.errScript(mes, false);
+    }
+    __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_script, "f");
+    this.val.loadScrWork(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
+}, _ScriptIterator_jump_light = function _ScriptIterator_jump_light(cs) {
+    __classPrivateFieldSet(this, _ScriptIterator_scriptFn_, cs.fn, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, cs.idx, "f");
+    const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")];
+    if (st)
+        __classPrivateFieldSet(this, _ScriptIterator_script, st, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[cs.idx], "f");
+}, _ScriptIterator_recordKidoku = function _ScriptIterator_recordKidoku() {
+    const areas = this.val.getAreaKidoku(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
+    if (!areas)
+        throw `recordKidoku fn:'${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}' (areas === null)`;
+    if (__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length > 0) {
+        areas.record(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+        return;
+    }
+    __classPrivateFieldSet(this, _ScriptIterator_isKidoku_, areas.search(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")), "f");
+    this.val.setVal_Nochk('tmp', 'const.sn.isKidoku', __classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f"));
+    if (__classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f"))
+        return;
+    areas.record(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+}, _ScriptIterator_eraseKidoku = function _ScriptIterator_eraseKidoku() {
+    this.val.getAreaKidoku(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"))?.erase(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    __classPrivateFieldSet(this, _ScriptIterator_isKidoku_, false, "f");
+}, _ScriptIterator_bracket2macro = function _ScriptIterator_bracket2macro(hArg) {
+    __classPrivateFieldGet(this, _ScriptIterator_grm, "f").bracket2macro(hArg, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    return false;
+}, _ScriptIterator_char2macro = function _ScriptIterator_char2macro(hArg) {
+    __classPrivateFieldGet(this, _ScriptIterator_grm, "f").char2macro(hArg, this.hTag, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    return false;
+}, _ScriptIterator_macro = function _ScriptIterator_macro(hArg) {
+    var _b, _c;
+    const name = hArg.name;
+    if (!name)
+        throw 'nameは必須です';
+    if (name in this.hTag)
+        throw `[${name}]はタグかすでに定義済みのマクロです`;
+    const ln = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+    const cs = new CallStack_1.CallStack(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    __classPrivateFieldSet(this, _ScriptIterator_strStepin, __classPrivateFieldGet(this, _ScriptIterator_strStepin, "f") + ('|' + name), "f");
+    __classPrivateFieldSet(this, _ScriptIterator_REGSTEPIN, new RegExp(`\\[(${__classPrivateFieldGet(this, _ScriptIterator_strStepin, "f")})\\b`), "f");
+    this.hTag[name] = hArgM => {
+        hArgM.design_unit = hArg.design_unit;
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { ...hArgM, hMp: this.val.cloneMp() });
+        this.val.setMp(hArgM);
+        this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify(hArg));
+        this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
+        __classPrivateFieldSet(this, _ScriptIterator_lineNum_, ln, "f");
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jump_light).call(this, cs);
+        return false;
+    };
+    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f")) {
+        if (!__classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")])
+            __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+        const token = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
+        if (token.search(__classPrivateFieldGet(this, _ScriptIterator_REG_TOKEN_MACRO_END, "f")) > -1) {
+            __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_c = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_c), "f");
+            return false;
+        }
+        const uc = token.charCodeAt(0);
+        if (uc === 10)
+            __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + token.length, "f");
+        else if (uc === 91)
+            __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + (token.match(/\n/g) ?? []).length, "f");
+    }
+    throw `マクロ[${name}]定義の終端・[endmacro]がありません`;
+}, _ScriptIterator_load = function _ScriptIterator_load(hArg) {
+    if (!('place' in hArg))
+        throw 'placeは必須です';
+    const place = Number(hArg.place);
+    if (('fn' in hArg) !== ('label' in hArg))
+        throw 'fnとlabelはセットで指定して下さい';
+    const mark = this.val.getMark(place);
+    if (!mark)
+        throw `place【${place}】は存在しません`;
+    return __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_loadFromMark).call(this, hArg, mark);
+}, _ScriptIterator_loadFromMark = function _ScriptIterator_loadFromMark(hArg, mark, reload_sound = true) {
+    __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(true);
+    this.hTag.clear_event({});
+    this.val.mark2save(mark);
+    this.val.setMp({});
+    __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").recText('', true);
+    if (reload_sound)
+        this.sndMng.playLoopFromSaveObj();
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'do_rec', true))
+        __classPrivateFieldSet(this, _ScriptIterator_mark, {
+            hSave: this.val.cloneSave(),
+            hPages: { ...mark.hPages },
+            aIfStk: [...mark.aIfStk],
+        }, "f");
+    const o = {
+        enabled: this.val.getVal('save:const.sn.autowc.enabled'),
+        text: String(this.val.getVal('save:const.sn.autowc.text')),
+        time: String(this.val.getVal('save:const.sn.autowc.time')),
+    };
+    this.hTag.autowc(o);
+    const fn = String(this.val.getVal('save:const.sn.scriptFn'));
+    const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
+    delete __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[fn];
+    __classPrivateFieldSet(this, _ScriptIterator_aIfStk, [...__classPrivateFieldGet(this, _ScriptIterator_mark, "f").aIfStk], "f");
+    __classPrivateFieldSet(this, _ScriptIterator_aCallStk, [], "f");
+    __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").playback(__classPrivateFieldGet(this, _ScriptIterator_mark, "f").hPages, 'label' in hArg
+        ? () => {
+            __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(false);
+            __classPrivateFieldSet(this, _ScriptIterator_scriptFn_, fn, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idx, "f");
+            this.hTag.call({ fn: hArg.fn, label: hArg.label });
+        }
+        : () => {
+            __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(false);
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, fn, '', idx);
+        });
+    return true;
+}, _ScriptIterator_reload_script = function _ScriptIterator_reload_script(hArg) {
+    const mark = this.val.getMark(0);
+    delete __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[(0, CmnLib_1.getFn)(mark.hSave['const.sn.scriptFn'])];
+    hArg.do_rec = false;
+    return __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_loadFromMark).call(this, hArg, mark, false);
+}, _ScriptIterator_record_place = function _ScriptIterator_record_place() {
+    if (this.main.isDestroyed())
+        return false;
+    const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
+    if (len === 0) {
+        this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
+        this.val.setVal_Nochk('save', 'const.sn.scriptIdx', __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    }
+    else {
+        this.val.setVal_Nochk('save', 'const.sn.scriptFn', __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[0].fn);
+        this.val.setVal_Nochk('save', 'const.sn.scriptIdx', __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[0].idx);
+    }
+    __classPrivateFieldSet(this, _ScriptIterator_mark, {
+        hSave: this.val.cloneSave(),
+        hPages: __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").record(),
+        aIfStk: __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").slice(len),
+    }, "f");
+    return false;
+}, _ScriptIterator_save = function _ScriptIterator_save(hArg) {
+    if (!('place' in hArg))
+        throw 'placeは必須です';
+    const place = Number(hArg.place);
+    delete hArg.タグ名;
+    delete hArg.place;
+    hArg.text = (hArg.text ?? '').replace(/^(<br\/>)+/, '');
+    __classPrivateFieldGet(this, _ScriptIterator_mark, "f").json = hArg;
+    this.val.setMark(place, __classPrivateFieldGet(this, _ScriptIterator_mark, "f"));
+    const now_sp = Number(this.val.getVal('sys:const.sn.save.place'));
+    if (place === now_sp)
+        this.val.setVal_Nochk('sys', 'const.sn.save.place', now_sp + 1);
+    return false;
+};
+_ScriptIterator_REG4CODE_FN = { value: /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/ };
+_ScriptIterator_hFn2hLineBP = { value: {} };
+_ScriptIterator_hFuncBP = { value: {} };
 
 
 /***/ }),
@@ -78263,10 +78446,22 @@ ScriptIterator.hFuncBP = {};
 /*!*********************************!*\
   !*** ./core/src/sn/SoundMng.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _SoundMng_instances, _a, _SoundMng_hSndBuf, _SoundMng_hLP, _SoundMng_evtMng, _SoundMng_volume, _SoundMng_getVol, _SoundMng_fadeoutbgm, _SoundMng_fadeoutse, _SoundMng_fadebgm, _SoundMng_fadese, _SoundMng_playbgm, _SoundMng_MAX_END_MS, _SoundMng_playse, _SoundMng_playseSub, _SoundMng_initVol, _SoundMng_stop_allse, _SoundMng_stopbgm, _SoundMng_stopse, _SoundMng_wb, _SoundMng_wf, _SoundMng_stopfadese, _SoundMng_wl, _SoundMng_ws, _SoundMng_xchgbuf, _SoundMng_addLoopPlay, _SoundMng_delLoopPlay;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SoundMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -78282,395 +78477,57 @@ class SoundMng {
         this.val = val;
         this.main = main;
         this.sys = sys;
-        this.hSndBuf = {};
-        this.hLP = {};
-        this.initVol = () => {
+        _SoundMng_instances.add(this);
+        _SoundMng_hSndBuf.set(this, {});
+        _SoundMng_hLP.set(this, {});
+        _SoundMng_evtMng.set(this, void 0);
+        _SoundMng_initVol.set(this, () => {
             sound_1.sound.volumeAll = Number(this.val.getVal('sys:sn.sound.global_volume', 1));
-            this.initVol = () => { };
-        };
-        hTag.volume = o => this.volume(o);
-        hTag.fadebgm = o => this.fadebgm(o);
-        hTag.fadeoutbgm = o => this.fadeoutbgm(o);
-        hTag.fadeoutse = o => this.fadeoutse(o);
-        hTag.fadese = o => this.fadese(o);
-        hTag.playbgm = o => this.playbgm(o);
-        hTag.playse = o => this.playse(o);
-        hTag.stop_allse = () => this.stop_allse();
-        hTag.stopbgm = o => this.stopbgm(o);
-        hTag.stopse = o => this.stopse(o);
-        hTag.wb = o => this.wb(o);
-        hTag.wf = o => this.wf(o);
-        hTag.stopfadese = o => this.stopfadese(o);
-        hTag.wl = o => this.wl(o);
-        hTag.ws = o => this.ws(o);
-        hTag.xchgbuf = o => this.xchgbuf(o);
+            __classPrivateFieldSet(this, _SoundMng_initVol, () => { }, "f");
+        });
+        hTag.volume = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_volume).call(this, o);
+        hTag.fadebgm = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadebgm).call(this, o);
+        hTag.fadeoutbgm = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadeoutbgm).call(this, o);
+        hTag.fadeoutse = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadeoutse).call(this, o);
+        hTag.fadese = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadese).call(this, o);
+        hTag.playbgm = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playbgm).call(this, o);
+        hTag.playse = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playse).call(this, o);
+        hTag.stop_allse = () => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stop_allse).call(this);
+        hTag.stopbgm = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopbgm).call(this, o);
+        hTag.stopse = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, o);
+        hTag.wb = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_wb).call(this, o);
+        hTag.wf = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_wf).call(this, o);
+        hTag.stopfadese = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, o);
+        hTag.wl = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_wl).call(this, o);
+        hTag.ws = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_ws).call(this, o);
+        hTag.xchgbuf = o => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_xchgbuf).call(this, o);
         this.val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
         val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(sound_1.utils.supported));
     }
-    setEvtMng(evtMng) { this.evtMng = evtMng; }
+    setEvtMng(evtMng) { __classPrivateFieldSet(this, _SoundMng_evtMng, evtMng, "f"); }
     setNoticeChgVolume(setGlbVol, setMovVol) {
         this.val.defValTrg('sys:sn.sound.global_volume', (_name, val) => setGlbVol(sound_1.sound.volumeAll = Number(val)));
         this.val.defValTrg('sys:sn.sound.movie_volume', (_name, val) => setMovVol(Number(val)));
         this.val.setVal_Nochk('sys', 'sn.sound.global_volume', this.val.getVal('sys:sn.sound.global_volume', 1));
         this.val.setVal_Nochk('sys', 'sn.sound.movie_volume', this.val.getVal('sys:sn.sound.movie_volume', 1));
     }
-    volume(hArg) {
-        const buf = hArg.buf ?? 'SE';
-        const bvn = 'const.sn.sound.' + buf + '.volume';
-        const arg_vol = this.getVol(hArg, 1);
-        if (Number(this.val.getVal('sys:' + bvn)) === arg_vol)
-            return false;
-        this.val.setVal_Nochk('sys', bvn, arg_vol);
-        this.val.flush();
-        hArg.time = 0;
-        hArg.volume = Number(this.val.getVal('save:' + bvn));
-        return this.fadese(hArg);
-    }
-    getVol(hArg, def) {
-        const vol = (0, CmnLib_1.argChk_Num)(hArg, 'volume', def);
-        if (vol < 0)
-            return 0;
-        if (vol > 1)
-            return 1;
-        return vol;
-    }
-    fadeoutbgm(hArg) { hArg.volume = 0; return this.fadebgm(hArg); }
-    fadeoutse(hArg) { hArg.volume = 0; return this.fadese(hArg); }
-    fadebgm(hArg) { hArg.buf = 'BGM'; return this.fadese(hArg); }
-    fadese(hArg) {
-        this.stopfadese(hArg);
-        const buf = hArg.buf ?? 'SE';
-        const oSb = this.hSndBuf[buf];
-        if (!oSb?.playing() || !oSb.snd)
-            return false;
-        const bvn = 'const.sn.sound.' + buf + '.volume';
-        const savevol = this.getVol(hArg, NaN);
-        this.val.setVal_Nochk('save', bvn, savevol);
-        const vol = savevol * Number(this.val.getVal('sys:' + bvn, 1));
-        const stop = (0, CmnLib_1.argChk_Boolean)(hArg, 'stop', (savevol === 0));
-        if (stop) {
-            this.delLoopPlay(buf);
-            this.val.setVal_Nochk('save', 'const.sn.sound.' + buf + '.fn', '');
-        }
-        this.val.flush();
-        if ((0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) === 0) {
-            oSb.snd.volume = vol;
-            if (stop)
-                this.stopse(hArg);
-            return false;
-        }
-        const ease = CmnTween_1.CmnTween.ease(hArg.ease);
-        const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
-        oSb.twFade = new tween_js_1.Tween({ v: oSb.snd.volume })
-            .to({ v: vol }, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN))
-            .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
-            .easing(ease)
-            .repeat(repeat === 0 ? Infinity : (repeat - 1))
-            .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
-            .onUpdate(o => { if (oSb.playing())
-            oSb.snd.volume = o.v; })
-            .onComplete(() => {
-            const oSb2 = this.hSndBuf[hArg.buf = oSb.now_buf];
-            if (!oSb2?.twFade)
-                return;
-            delete oSb2.twFade;
-            if (stop)
-                this.stopse(hArg);
-            if (oSb2.resumeFade)
-                this.main.resume();
-        })
-            .start();
-        return false;
-    }
-    playbgm(hArg) {
-        hArg.buf = 'BGM';
-        hArg.canskip = false;
-        (0, CmnLib_1.argChk_Boolean)(hArg, 'loop', true);
-        return this.playse(hArg);
-    }
-    playse(hArg) {
-        const buf = hArg.buf ?? 'SE';
-        this.stopse({ buf });
-        const fn = hArg.fn;
-        if (!fn)
-            throw '[playse] fnは必須です(buf=' + buf + ')';
-        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true)
-            && this.evtMng.isSkipKeyDown())
-            return false;
-        const loop = (0, CmnLib_1.argChk_Boolean)(hArg, 'loop', false);
-        this.addLoopPlay(buf, loop);
-        const nm = 'const.sn.sound.' + buf + '.';
-        this.val.setVal_Nochk('save', nm + 'fn', fn);
-        const savevol = this.getVol(hArg, 1);
-        this.val.setVal_Nochk('save', nm + 'volume', savevol);
-        const vol = savevol * Number(this.val.getVal('sys:' + nm + 'volume', 1));
-        const start_ms = (0, CmnLib_1.argChk_Num)(hArg, 'start_ms', 0);
-        const end_ms = (0, CmnLib_1.argChk_Num)(hArg, 'end_ms', SoundMng.MAX_END_MS);
-        const ret_ms = (0, CmnLib_1.argChk_Num)(hArg, 'ret_ms', 0);
-        if (start_ms < 0)
-            throw `[playse] start_ms:${start_ms} が負の値です`;
-        if (ret_ms < 0)
-            throw `[playse] ret_ms:${ret_ms} が負の値です`;
-        if (end_ms > 0) {
-            if (start_ms >= end_ms)
-                throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
-            if (ret_ms >= end_ms)
-                throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
-        }
-        this.val.setVal_Nochk('save', nm + 'start_ms', start_ms);
-        this.val.setVal_Nochk('save', nm + 'end_ms', end_ms);
-        this.val.setVal_Nochk('save', nm + 'ret_ms', ret_ms);
-        this.val.flush();
-        const snd = sound_1.sound.find(fn);
-        const oSb = this.hSndBuf[buf] = {
-            now_buf: buf,
-            snd: snd,
-            loop: loop,
-            start_ms: start_ms,
-            end_ms: end_ms,
-            ret_ms: ret_ms,
-            resume: false,
-            playing: () => true,
-            onend: () => {
-                const oSb2 = this.hSndBuf[hArg.buf = oSb.now_buf];
-                if (!oSb2)
-                    return;
-                delete this.hSndBuf[hArg.buf];
-                oSb2.playing = () => false;
-                this.stopfadese(hArg);
-                if (oSb2.resume)
-                    this.main.resume();
-            },
-        };
-        const o = {
-            loop: loop,
-            volume: vol,
-            speed: (0, CmnLib_1.argChk_Num)(hArg, 'speed', 1),
-            sprites: {},
-            loaded: (e, snd) => {
-                if (e) {
-                    this.main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false);
-                    return;
-                }
-                if (!snd)
-                    return;
-                const oSb2 = this.hSndBuf[oSb.now_buf];
-                if (oSb2)
-                    oSb2.snd = snd;
-            },
-        };
-        let sp_nm = '';
-        if (start_ms > 0 || end_ms < SoundMng.MAX_END_MS) {
-            sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
-            const os = o.sprites[sp_nm] = {
-                start: start_ms / 1000,
-                end: end_ms / 1000,
-            };
-            o.preload = true;
-            const old = o.loaded;
-            o.loaded = (e, snd2) => {
-                if (e) {
-                    this.main.errScript(`Sound ロード失敗ですb fn:${fn} ${e}`, false);
-                    return;
-                }
-                if (!snd2)
-                    return;
-                const d = snd2.duration;
-                old?.(e, snd2);
-                if (os.end < 0) {
-                    os.end += d;
-                    snd2.removeSprites(sp_nm);
-                    snd2.addSprites(sp_nm, os);
-                    if (os.start >= os.end)
-                        throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
-                    if (ret_ms >= os.end * 1000)
-                        throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
-                }
-                if (os.start >= d)
-                    throw `[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-                if (end_ms !== SoundMng.MAX_END_MS && os.end >= d)
-                    throw `[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-                snd2.play(sp_nm, o.complete);
-            };
-        }
-        else
-            o.autoPlay = true;
-        if (!loop)
-            o.complete = () => this.hSndBuf[oSb.now_buf]?.onend();
-        else if (ret_ms !== 0) {
-            o.loop = false;
-            o.complete = snd => {
-                const d = snd.duration;
-                const sp_nm2 = `${fn};loop2;${end_ms};${ret_ms}`;
-                const o2 = {
-                    preload: true,
-                    loop: true,
-                    volume: vol,
-                    speed: o.speed,
-                    sprites: {},
-                    loaded: (_, snd2) => {
-                        if (!snd2)
-                            return;
-                        const oSb2 = this.hSndBuf[oSb.now_buf];
-                        if (oSb2)
-                            oSb2.snd = snd2;
-                        snd2.play(sp_nm2);
-                    },
-                };
-                const o2s = o2.sprites[sp_nm2] = {
-                    start: ret_ms / 1000,
-                    end: end_ms / 1000,
-                };
-                if (o2s.end < 0) {
-                    o2s.end += d;
-                    snd.removeSprites(sp_nm2);
-                    snd.addSprites(sp_nm2, o2s);
-                }
-                if (o2s.start >= d)
-                    throw `[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-                this.playseSub(fn, o2);
-            };
-        }
-        this.initVol();
-        if (snd) {
-            snd.volume = vol;
-            if (sp_nm)
-                this.playseSub(fn, o);
-            else if (snd.isPlayable) {
-                const ab = snd.options.source;
-                if (!(ab instanceof ArrayBuffer) || ab.byteLength === 0) {
-                    this.playseSub(fn, o);
-                }
-                else
-                    oSb.snd = sound_1.Sound.from({
-                        ...o,
-                        url: snd.options.url,
-                        source: snd.options.source,
-                    });
-            }
-            return false;
-        }
-        const join = (0, CmnLib_1.argChk_Boolean)(hArg, 'join', true);
-        if (join) {
-            const old = o.loaded;
-            o.loaded = (e, snd) => { this.main.resume(); old?.(e, snd); };
-        }
-        this.playseSub(fn, o);
-        return join;
-    }
-    playseSub(fn, o) {
-        const url = this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND);
-        if (url.slice(-4) !== '.bin') {
-            o.url = url;
-            sound_1.Sound.from(o);
-            return;
-        }
-        (new pixi_js_1.Loader()).add({ name: fn, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER, })
-            .use((res, next) => {
-            this.sys.dec(res.extension, res.data)
-                .then(r => { res.data = r; next?.(); })
-                .catch(e => this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
-        })
-            .load((_ldr, hRes) => {
-            o.source = hRes[fn]?.data;
-            sound_1.Sound.from(o);
-        });
-    }
-    stop_allse() {
-        for (const buf in this.hSndBuf)
-            this.stopse({ buf });
-        this.hSndBuf = {};
-        return false;
-    }
-    stopbgm(hArg) { hArg.buf = 'BGM'; return this.stopse(hArg); }
-    stopse(hArg) {
-        const buf = hArg.buf ?? 'SE';
-        this.stopfadese(hArg);
-        this.delLoopPlay(buf);
-        this.hSndBuf[buf]?.snd?.stop();
-        return false;
-    }
-    wb(hArg) { hArg.buf = 'BGM'; return this.wf(hArg); }
-    wf(hArg) {
-        const buf = hArg.buf ?? 'SE';
-        const oSb = this.hSndBuf[buf];
-        if (!oSb?.twFade || !oSb.playing())
-            return false;
-        return oSb.resumeFade = this.evtMng.waitEvent(() => this.stopfadese(hArg), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
-    }
-    stopfadese(hArg) {
-        const buf = hArg.buf ?? 'SE';
-        this.hSndBuf[buf]?.twFade?.stop().end();
-        return false;
-    }
-    wl(hArg) { hArg.buf = 'BGM'; return this.ws(hArg); }
-    ws(hArg) {
-        const buf = hArg.buf ?? 'SE';
-        const oSb = this.hSndBuf[buf];
-        if (!oSb?.playing() || oSb.loop)
-            return false;
-        return oSb.resume = this.evtMng.waitEvent(() => {
-            hArg.buf = oSb.now_buf;
-            this.stopse(hArg);
-            const oSb2 = this.hSndBuf[hArg.buf];
-            if (!oSb2?.playing() || oSb2.loop)
-                return;
-            oSb2.onend();
-        }, (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', false), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
-    }
-    xchgbuf(hArg) {
-        const buf1 = hArg.buf ?? 'SE';
-        const buf2 = hArg.buf2 ?? 'SE';
-        if (buf1 === buf2)
-            return false;
-        const sb1 = this.hSndBuf[buf1];
-        if (sb1)
-            sb1.now_buf = buf2;
-        const sb2 = this.hSndBuf[buf2];
-        if (sb2)
-            sb2.now_buf = buf1;
-        [this.hSndBuf[buf1], this.hSndBuf[buf2]] = [sb2, sb1];
-        const n1 = 'const.sn.sound.' + buf1 + '.';
-        const v1 = Number(this.val.getVal('save:' + n1 + 'volume'));
-        const f1 = Number(this.val.getVal('save:' + n1 + 'fn'));
-        const n2 = 'const.sn.sound.' + buf2 + '.';
-        const v2 = Number(this.val.getVal('save:' + n2 + 'volume'));
-        const f2 = Number(this.val.getVal('save:' + n2 + 'fn'));
-        this.val.setVal_Nochk('save', n1 + 'volume', v2);
-        this.val.setVal_Nochk('save', n2 + 'volume', v1);
-        this.val.setVal_Nochk('save', n1 + 'fn', f2);
-        this.val.setVal_Nochk('save', n2 + 'fn', f1);
-        if (buf1 in this.hLP === buf2 in this.hLP) {
-            if (buf1 in this.hLP) {
-                delete this.hLP[buf1];
-                this.hLP[buf2] = 0;
-            }
-            else {
-                delete this.hLP[buf2];
-                this.hLP[buf1] = 0;
-            }
-            this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.hLP));
-        }
-        this.val.flush();
-        return false;
-    }
     loadAheadSnd(hArg) {
         [hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn => {
             if (!fn || sound_1.sound.exists(fn))
                 return;
-            this.playseSub(fn, { preload: true, autoPlay: false });
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, { preload: true, autoPlay: false });
         });
     }
     playLoopFromSaveObj() {
         const lp = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
         this.val.flush();
         if (lp === '{}') {
-            this.stop_allse();
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stop_allse).call(this);
             return;
         }
         const aFnc = [];
-        this.hLP = JSON.parse(lp);
-        for (const buf in this.hLP) {
+        __classPrivateFieldSet(this, _SoundMng_hLP, JSON.parse(lp), "f");
+        for (const buf in __classPrivateFieldGet(this, _SoundMng_hLP, "f")) {
             const nm = 'save:const.sn.sound.' + buf + '.';
             const hArg = {
                 fn: String(this.val.getVal(nm + 'fn')),
@@ -78684,31 +78541,352 @@ class SoundMng {
             };
             aFnc.push(() => {
                 if (hArg.buf === 'BGM')
-                    this.playbgm(hArg);
+                    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playbgm).call(this, hArg);
                 else
-                    this.playse(hArg);
+                    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playse).call(this, hArg);
             });
         }
-        this.stop_allse();
+        __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stop_allse).call(this);
         aFnc.forEach(f => f());
-    }
-    addLoopPlay(buf, is_loop) {
-        if (!is_loop) {
-            this.delLoopPlay(buf);
-            return;
-        }
-        this.hLP[buf] = 0;
-        this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.hLP));
-        this.val.flush();
-    }
-    delLoopPlay(buf) {
-        delete this.hLP[buf];
-        this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.hLP));
-        this.val.flush();
     }
 }
 exports.SoundMng = SoundMng;
-SoundMng.MAX_END_MS = 999000;
+_a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(), _SoundMng_evtMng = new WeakMap(), _SoundMng_initVol = new WeakMap(), _SoundMng_instances = new WeakSet(), _SoundMng_volume = function _SoundMng_volume(hArg) {
+    const buf = hArg.buf ?? 'SE';
+    const bvn = 'const.sn.sound.' + buf + '.volume';
+    const arg_vol = __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_getVol).call(this, hArg, 1);
+    if (Number(this.val.getVal('sys:' + bvn)) === arg_vol)
+        return false;
+    this.val.setVal_Nochk('sys', bvn, arg_vol);
+    this.val.flush();
+    hArg.time = 0;
+    hArg.volume = Number(this.val.getVal('save:' + bvn));
+    return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadese).call(this, hArg);
+}, _SoundMng_getVol = function _SoundMng_getVol(hArg, def) {
+    const vol = (0, CmnLib_1.argChk_Num)(hArg, 'volume', def);
+    if (vol < 0)
+        return 0;
+    if (vol > 1)
+        return 1;
+    return vol;
+}, _SoundMng_fadeoutbgm = function _SoundMng_fadeoutbgm(hArg) { hArg.volume = 0; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadebgm).call(this, hArg); }, _SoundMng_fadeoutse = function _SoundMng_fadeoutse(hArg) { hArg.volume = 0; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadese).call(this, hArg); }, _SoundMng_fadebgm = function _SoundMng_fadebgm(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadese).call(this, hArg); }, _SoundMng_fadese = function _SoundMng_fadese(hArg) {
+    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, hArg);
+    const buf = hArg.buf ?? 'SE';
+    const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
+    if (!oSb?.playing() || !oSb.snd)
+        return false;
+    const bvn = 'const.sn.sound.' + buf + '.volume';
+    const savevol = __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_getVol).call(this, hArg, NaN);
+    this.val.setVal_Nochk('save', bvn, savevol);
+    const vol = savevol * Number(this.val.getVal('sys:' + bvn, 1));
+    const stop = (0, CmnLib_1.argChk_Boolean)(hArg, 'stop', (savevol === 0));
+    if (stop) {
+        __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_delLoopPlay).call(this, buf);
+        this.val.setVal_Nochk('save', 'const.sn.sound.' + buf + '.fn', '');
+    }
+    this.val.flush();
+    if ((0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) === 0) {
+        oSb.snd.volume = vol;
+        if (stop)
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg);
+        return false;
+    }
+    const ease = CmnTween_1.CmnTween.ease(hArg.ease);
+    const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
+    oSb.twFade = new tween_js_1.Tween({ v: oSb.snd.volume })
+        .to({ v: vol }, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN))
+        .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
+        .easing(ease)
+        .repeat(repeat === 0 ? Infinity : (repeat - 1))
+        .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
+        .onUpdate(o => { if (oSb.playing())
+        oSb.snd.volume = o.v; })
+        .onComplete(() => {
+        const oSb2 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[hArg.buf = oSb.now_buf];
+        if (!oSb2?.twFade)
+            return;
+        delete oSb2.twFade;
+        if (stop)
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg);
+        if (oSb2.resumeFade)
+            this.main.resume();
+    })
+        .start();
+    return false;
+}, _SoundMng_playbgm = function _SoundMng_playbgm(hArg) {
+    hArg.buf = 'BGM';
+    hArg.canskip = false;
+    (0, CmnLib_1.argChk_Boolean)(hArg, 'loop', true);
+    return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playse).call(this, hArg);
+}, _SoundMng_playse = function _SoundMng_playse(hArg) {
+    const buf = hArg.buf ?? 'SE';
+    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, { buf });
+    const fn = hArg.fn;
+    if (!fn)
+        throw '[playse] fnは必須です(buf=' + buf + ')';
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true)
+        && __classPrivateFieldGet(this, _SoundMng_evtMng, "f").isSkipKeyDown())
+        return false;
+    const loop = (0, CmnLib_1.argChk_Boolean)(hArg, 'loop', false);
+    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_addLoopPlay).call(this, buf, loop);
+    const nm = 'const.sn.sound.' + buf + '.';
+    this.val.setVal_Nochk('save', nm + 'fn', fn);
+    const savevol = __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_getVol).call(this, hArg, 1);
+    this.val.setVal_Nochk('save', nm + 'volume', savevol);
+    const vol = savevol * Number(this.val.getVal('sys:' + nm + 'volume', 1));
+    const start_ms = (0, CmnLib_1.argChk_Num)(hArg, 'start_ms', 0);
+    const end_ms = (0, CmnLib_1.argChk_Num)(hArg, 'end_ms', __classPrivateFieldGet(SoundMng, _a, "f", _SoundMng_MAX_END_MS));
+    const ret_ms = (0, CmnLib_1.argChk_Num)(hArg, 'ret_ms', 0);
+    if (start_ms < 0)
+        throw `[playse] start_ms:${start_ms} が負の値です`;
+    if (ret_ms < 0)
+        throw `[playse] ret_ms:${ret_ms} が負の値です`;
+    if (end_ms > 0) {
+        if (start_ms >= end_ms)
+            throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
+        if (ret_ms >= end_ms)
+            throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
+    }
+    this.val.setVal_Nochk('save', nm + 'start_ms', start_ms);
+    this.val.setVal_Nochk('save', nm + 'end_ms', end_ms);
+    this.val.setVal_Nochk('save', nm + 'ret_ms', ret_ms);
+    this.val.flush();
+    const snd = sound_1.sound.find(fn);
+    const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf] = {
+        now_buf: buf,
+        snd: snd,
+        loop: loop,
+        start_ms: start_ms,
+        end_ms: end_ms,
+        ret_ms: ret_ms,
+        resume: false,
+        playing: () => true,
+        onend: () => {
+            const oSb2 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[hArg.buf = oSb.now_buf];
+            if (!oSb2)
+                return;
+            delete __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[hArg.buf];
+            oSb2.playing = () => false;
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, hArg);
+            if (oSb2.resume)
+                this.main.resume();
+        },
+    };
+    const o = {
+        loop: loop,
+        volume: vol,
+        speed: (0, CmnLib_1.argChk_Num)(hArg, 'speed', 1),
+        sprites: {},
+        loaded: (e, snd) => {
+            if (e) {
+                this.main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false);
+                return;
+            }
+            if (!snd)
+                return;
+            const oSb2 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[oSb.now_buf];
+            if (oSb2)
+                oSb2.snd = snd;
+        },
+    };
+    let sp_nm = '';
+    if (start_ms > 0 || end_ms < __classPrivateFieldGet(SoundMng, _a, "f", _SoundMng_MAX_END_MS)) {
+        sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
+        const os = o.sprites[sp_nm] = {
+            start: start_ms / 1000,
+            end: end_ms / 1000,
+        };
+        o.preload = true;
+        const old = o.loaded;
+        o.loaded = (e, snd2) => {
+            if (e) {
+                this.main.errScript(`Sound ロード失敗ですb fn:${fn} ${e}`, false);
+                return;
+            }
+            if (!snd2)
+                return;
+            const d = snd2.duration;
+            old?.(e, snd2);
+            if (os.end < 0) {
+                os.end += d;
+                snd2.removeSprites(sp_nm);
+                snd2.addSprites(sp_nm, os);
+                if (os.start >= os.end)
+                    throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
+                if (ret_ms >= os.end * 1000)
+                    throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end * 1000}) は異常値です`;
+            }
+            if (os.start >= d)
+                throw `[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+            if (end_ms !== __classPrivateFieldGet(SoundMng, _a, "f", _SoundMng_MAX_END_MS) && os.end >= d)
+                throw `[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+            snd2.play(sp_nm, o.complete);
+        };
+    }
+    else
+        o.autoPlay = true;
+    if (!loop)
+        o.complete = () => __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[oSb.now_buf]?.onend();
+    else if (ret_ms !== 0) {
+        o.loop = false;
+        o.complete = snd => {
+            const d = snd.duration;
+            const sp_nm2 = `${fn};loop2;${end_ms};${ret_ms}`;
+            const o2 = {
+                preload: true,
+                loop: true,
+                volume: vol,
+                speed: o.speed,
+                sprites: {},
+                loaded: (_, snd2) => {
+                    if (!snd2)
+                        return;
+                    const oSb2 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[oSb.now_buf];
+                    if (oSb2)
+                        oSb2.snd = snd2;
+                    snd2.play(sp_nm2);
+                },
+            };
+            const o2s = o2.sprites[sp_nm2] = {
+                start: ret_ms / 1000,
+                end: end_ms / 1000,
+            };
+            if (o2s.end < 0) {
+                o2s.end += d;
+                snd.removeSprites(sp_nm2);
+                snd.addSprites(sp_nm2, o2s);
+            }
+            if (o2s.start >= d)
+                throw `[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o2);
+        };
+    }
+    __classPrivateFieldGet(this, _SoundMng_initVol, "f").call(this);
+    if (snd) {
+        snd.volume = vol;
+        if (sp_nm)
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
+        else if (snd.isPlayable) {
+            const ab = snd.options.source;
+            if (!(ab instanceof ArrayBuffer) || ab.byteLength === 0) {
+                __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
+            }
+            else
+                oSb.snd = sound_1.Sound.from({
+                    ...o,
+                    url: snd.options.url,
+                    source: snd.options.source,
+                });
+        }
+        return false;
+    }
+    const join = (0, CmnLib_1.argChk_Boolean)(hArg, 'join', true);
+    if (join) {
+        const old = o.loaded;
+        o.loaded = (e, snd) => { this.main.resume(); old?.(e, snd); };
+    }
+    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
+    return join;
+}, _SoundMng_playseSub = function _SoundMng_playseSub(fn, o) {
+    const url = this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND);
+    if (url.slice(-4) !== '.bin') {
+        o.url = url;
+        sound_1.Sound.from(o);
+        return;
+    }
+    (new pixi_js_1.Loader()).add({ name: fn, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER, })
+        .use((res, next) => {
+        this.sys.dec(res.extension, res.data)
+            .then(r => { res.data = r; next?.(); })
+            .catch(e => this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
+    })
+        .load((_ldr, hRes) => {
+        o.source = hRes[fn]?.data;
+        sound_1.Sound.from(o);
+    });
+}, _SoundMng_stop_allse = function _SoundMng_stop_allse() {
+    for (const buf in __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f"))
+        __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, { buf });
+    __classPrivateFieldSet(this, _SoundMng_hSndBuf, {}, "f");
+    return false;
+}, _SoundMng_stopbgm = function _SoundMng_stopbgm(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg); }, _SoundMng_stopse = function _SoundMng_stopse(hArg) {
+    const buf = hArg.buf ?? 'SE';
+    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, hArg);
+    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_delLoopPlay).call(this, buf);
+    __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf]?.snd?.stop();
+    return false;
+}, _SoundMng_wb = function _SoundMng_wb(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_wf).call(this, hArg); }, _SoundMng_wf = function _SoundMng_wf(hArg) {
+    const buf = hArg.buf ?? 'SE';
+    const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
+    if (!oSb?.twFade || !oSb.playing())
+        return false;
+    return oSb.resumeFade = __classPrivateFieldGet(this, _SoundMng_evtMng, "f").waitEvent(() => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, hArg), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
+}, _SoundMng_stopfadese = function _SoundMng_stopfadese(hArg) {
+    const buf = hArg.buf ?? 'SE';
+    __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf]?.twFade?.stop().end();
+    return false;
+}, _SoundMng_wl = function _SoundMng_wl(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_ws).call(this, hArg); }, _SoundMng_ws = function _SoundMng_ws(hArg) {
+    const buf = hArg.buf ?? 'SE';
+    const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
+    if (!oSb?.playing() || oSb.loop)
+        return false;
+    return oSb.resume = __classPrivateFieldGet(this, _SoundMng_evtMng, "f").waitEvent(() => {
+        hArg.buf = oSb.now_buf;
+        __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg);
+        const oSb2 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[hArg.buf];
+        if (!oSb2?.playing() || oSb2.loop)
+            return;
+        oSb2.onend();
+    }, (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', false), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
+}, _SoundMng_xchgbuf = function _SoundMng_xchgbuf(hArg) {
+    const buf1 = hArg.buf ?? 'SE';
+    const buf2 = hArg.buf2 ?? 'SE';
+    if (buf1 === buf2)
+        return false;
+    const sb1 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf1];
+    if (sb1)
+        sb1.now_buf = buf2;
+    const sb2 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf2];
+    if (sb2)
+        sb2.now_buf = buf1;
+    [__classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf1], __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf2]] = [sb2, sb1];
+    const n1 = 'const.sn.sound.' + buf1 + '.';
+    const v1 = Number(this.val.getVal('save:' + n1 + 'volume'));
+    const f1 = Number(this.val.getVal('save:' + n1 + 'fn'));
+    const n2 = 'const.sn.sound.' + buf2 + '.';
+    const v2 = Number(this.val.getVal('save:' + n2 + 'volume'));
+    const f2 = Number(this.val.getVal('save:' + n2 + 'fn'));
+    this.val.setVal_Nochk('save', n1 + 'volume', v2);
+    this.val.setVal_Nochk('save', n2 + 'volume', v1);
+    this.val.setVal_Nochk('save', n1 + 'fn', f2);
+    this.val.setVal_Nochk('save', n2 + 'fn', f1);
+    if (buf1 in __classPrivateFieldGet(this, _SoundMng_hLP, "f") === buf2 in __classPrivateFieldGet(this, _SoundMng_hLP, "f")) {
+        if (buf1 in __classPrivateFieldGet(this, _SoundMng_hLP, "f")) {
+            delete __classPrivateFieldGet(this, _SoundMng_hLP, "f")[buf1];
+            __classPrivateFieldGet(this, _SoundMng_hLP, "f")[buf2] = 0;
+        }
+        else {
+            delete __classPrivateFieldGet(this, _SoundMng_hLP, "f")[buf2];
+            __classPrivateFieldGet(this, _SoundMng_hLP, "f")[buf1] = 0;
+        }
+        this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(__classPrivateFieldGet(this, _SoundMng_hLP, "f")));
+    }
+    this.val.flush();
+    return false;
+}, _SoundMng_addLoopPlay = function _SoundMng_addLoopPlay(buf, is_loop) {
+    if (!is_loop) {
+        __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_delLoopPlay).call(this, buf);
+        return;
+    }
+    __classPrivateFieldGet(this, _SoundMng_hLP, "f")[buf] = 0;
+    this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(__classPrivateFieldGet(this, _SoundMng_hLP, "f")));
+    this.val.flush();
+}, _SoundMng_delLoopPlay = function _SoundMng_delLoopPlay(buf) {
+    delete __classPrivateFieldGet(this, _SoundMng_hLP, "f")[buf];
+    this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(__classPrivateFieldGet(this, _SoundMng_hLP, "f")));
+    this.val.flush();
+};
+_SoundMng_MAX_END_MS = { value: 999000 };
 
 
 /***/ }),
@@ -78717,10 +78895,22 @@ SoundMng.MAX_END_MS = 999000;
 /*!********************************!*\
   !*** ./core/src/sn/SysBase.ts ***!
   \********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _a, _SysBase_sk, _SysBase_hHook, _SysBase_hToastDat, _SysBase_aFncHook, _SysBase_main_title, _SysBase_info_title, _SysBase_preFromPlg, _SysBase_hN2Ext, _SysBase_genImage, _SysBase_genVideo;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SysBase = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -78735,8 +78925,8 @@ class SysBase {
         this.reso4frame = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.extPort = 3776;
-        this.sk = null;
-        this.hHook = {
+        _SysBase_sk.set(this, null);
+        _SysBase_hHook.set(this, {
             auth: o => {
                 if (o.t !== this.cfg.oCfg.debuger_token) {
                     this.end();
@@ -78760,12 +78950,12 @@ class SysBase {
             stopOnStepOut: () => this.toast('ステップアウト'),
             stopOnBackstep: () => this.toast('一歩戻る'),
             _addPath: o => this.cfg.addPath(o.fn, o.o),
-        };
+        });
         this.pathBaseCnvSnPath4Dbg = '';
-        this.aFncHook = [];
+        _SysBase_aFncHook.set(this, []);
         this.callHook = (_type, _o) => { };
         this.send2Dbg = (type, o) => {
-            this.sk?.emit('data', type, o);
+            __classPrivateFieldGet(this, _SysBase_sk, "f")?.emit('data', type, o);
         };
         this.copyBMFolder = (_from, _to) => { };
         this.eraseBMFolder = (_place) => { };
@@ -78777,43 +78967,43 @@ class SysBase {
             const text = hArg.text;
             if (!text)
                 throw '[title] textは必須です';
-            this.main_title = text;
-            this.titleSub(this.main_title + this.info_title);
+            __classPrivateFieldSet(this, _SysBase_main_title, text, "f");
+            this.titleSub(__classPrivateFieldGet(this, _SysBase_main_title, "f") + __classPrivateFieldGet(this, _SysBase_info_title, "f"));
             return false;
         };
-        this.main_title = '';
+        _SysBase_main_title.set(this, '');
         this.tgl_full_scr = () => false;
         this.update_check = () => false;
         this.window = () => false;
-        this.info_title = '';
-        this.preFromPlg = (_ext, d) => { return { ret: d.toString(), ext_num: 0, }; };
-        this.hN2Ext = {
-            1: { ext: 'jpeg', fnc: bl => this.genImage(bl), mime: 'image/jpeg' },
-            2: { ext: 'png', fnc: bl => this.genImage(bl), mime: 'image/png' },
-            3: { ext: 'svg', fnc: bl => this.genImage(bl), mime: 'image/svg+xml' },
-            4: { ext: 'webp', fnc: bl => this.genImage(bl), mime: 'image/webp' },
+        _SysBase_info_title.set(this, '');
+        _SysBase_preFromPlg.set(this, (_ext, d) => { return { ret: d.toString(), ext_num: 0, }; });
+        _SysBase_hN2Ext.set(this, {
+            1: { ext: 'jpeg', fnc: bl => __classPrivateFieldGet(this, _SysBase_genImage, "f").call(this, bl), mime: 'image/jpeg' },
+            2: { ext: 'png', fnc: bl => __classPrivateFieldGet(this, _SysBase_genImage, "f").call(this, bl), mime: 'image/png' },
+            3: { ext: 'svg', fnc: bl => __classPrivateFieldGet(this, _SysBase_genImage, "f").call(this, bl), mime: 'image/svg+xml' },
+            4: { ext: 'webp', fnc: bl => __classPrivateFieldGet(this, _SysBase_genImage, "f").call(this, bl), mime: 'image/webp' },
             10: { ext: 'mp3', fnc: bl => bl.arrayBuffer(), mime: 'audio/mpeg' },
             11: { ext: 'm4a', fnc: bl => bl.arrayBuffer(), mime: 'audio/aac' },
             12: { ext: 'ogg', fnc: bl => bl.arrayBuffer(), mime: 'audio/ogg' },
             13: { ext: 'aac', fnc: bl => bl.arrayBuffer(), mime: 'audio/aac' },
             14: { ext: 'flac', fnc: bl => bl.arrayBuffer(), mime: 'audio/flac' },
             15: { ext: 'wav', fnc: bl => bl.arrayBuffer(), mime: 'audio/wav' },
-            20: { ext: 'mp4', fnc: bl => this.genVideo(bl), mime: 'video/mp4' },
-            21: { ext: 'webm', fnc: bl => this.genVideo(bl), mime: 'video/webm' },
-            22: { ext: 'ogv', fnc: bl => this.genVideo(bl), mime: 'video/ogv' },
-        };
-        this.genImage = (bl) => new Promise((rs, rj) => {
+            20: { ext: 'mp4', fnc: bl => __classPrivateFieldGet(this, _SysBase_genVideo, "f").call(this, bl), mime: 'video/mp4' },
+            21: { ext: 'webm', fnc: bl => __classPrivateFieldGet(this, _SysBase_genVideo, "f").call(this, bl), mime: 'video/webm' },
+            22: { ext: 'ogv', fnc: bl => __classPrivateFieldGet(this, _SysBase_genVideo, "f").call(this, bl), mime: 'video/ogv' },
+        });
+        _SysBase_genImage.set(this, (bl) => new Promise((rs, rj) => {
             const img = new Image;
             img.onload = () => rs(img);
             img.onerror = e => rj(e);
             img.src = URL.createObjectURL(bl);
-        });
-        this.genVideo = (bl) => new Promise((rs, rj) => {
+        }));
+        _SysBase_genVideo.set(this, (bl) => new Promise((rs, rj) => {
             const v = document.createElement('video');
             v.addEventListener('error', () => rj(v?.error?.message ?? ''));
             v.addEventListener('canplay', () => rs(v));
             v.src = URL.createObjectURL(bl);
-        });
+        }));
         this.enc = (d) => d;
         this.stk = () => '';
         this.hash = (_data) => '';
@@ -78834,7 +79024,7 @@ class SysBase {
             getVal: () => { return {}; },
             resume: () => { },
             render: () => { },
-            setDec: fnc => this.preFromPlg = fnc,
+            setDec: fnc => __classPrivateFieldSet(this, _SysBase_preFromPlg, fnc, "f"),
             setEnc: fnc => this.enc = fnc,
             getStK: fnc => this.stk = fnc,
             getHash: fnc => this.hash = fnc,
@@ -78893,7 +79083,7 @@ class SysBase {
                 getVal: val.getVal,
                 resume: () => main.resume(),
                 render: (dsp, renderTexture, clear = false) => this.appPixi.renderer.render(dsp, { renderTexture, clear }),
-                setDec: fnc => this.preFromPlg = fnc,
+                setDec: fnc => __classPrivateFieldSet(this, _SysBase_preFromPlg, fnc, "f"),
                 setEnc: fnc => this.enc = fnc,
                 getStK: fnc => this.stk = fnc,
                 getHash: fnc => this.hash = fnc,
@@ -78930,18 +79120,18 @@ class SysBase {
 100%{transform:	translate(0px,   0px);}
 }`;
         document.getElementsByTagName('head')[0].appendChild(gs);
-        this.addHook((type, o) => this.hHook[type]?.(o));
-        this.sk = (0, socket_io_client_1.io)(`http://localhost:${this.extPort}`);
-        this.sk
+        this.addHook((type, o) => __classPrivateFieldGet(this, _SysBase_hHook, "f")[type]?.(o));
+        __classPrivateFieldSet(this, _SysBase_sk, (0, socket_io_client_1.io)(`http://localhost:${this.extPort}`), "f");
+        __classPrivateFieldGet(this, _SysBase_sk, "f")
             .on('data', (type, o) => {
             this.callHook(type, o);
         })
             .on('disconnect', () => main.setLoop(true));
-        this.callHook = (type, o) => this.aFncHook.forEach(fnc => fnc(type, o));
+        this.callHook = (type, o) => __classPrivateFieldGet(this, _SysBase_aFncHook, "f").forEach(fnc => fnc(type, o));
     }
     end() {
-        this.sk?.disconnect();
-        this.sk = null;
+        __classPrivateFieldGet(this, _SysBase_sk, "f")?.disconnect();
+        __classPrivateFieldSet(this, _SysBase_sk, null, "f");
     }
     toast(nm) {
         const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
@@ -78950,7 +79140,7 @@ class SysBase {
         const p = cvs.parentNode;
         p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v => p.removeChild(v));
         const img = document.createElement('img');
-        const td = SysBase.hToastDat[nm];
+        const td = __classPrivateFieldGet(SysBase, _a, "f", _SysBase_hToastDat)[nm];
         img.src = `data:image/svg+xml;base64,${td.dat}`;
         const size = Math.min(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH) / 4 * CmnLib_1.CmnLib.cvsScale;
         img.width = img.height = size;
@@ -78964,16 +79154,16 @@ top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * CmnLib_1.CmnLib.cvsScale + size * (
         p.insertBefore(img, cvs);
     }
     setFire(fire) { this.fire = fire; }
-    addHook(fnc) { this.aFncHook.push(fnc); }
+    addHook(fnc) { __classPrivateFieldGet(this, _SysBase_aFncHook, "f").push(fnc); }
     titleSub(_txt) { }
     setTitleInfo(txt) {
-        this.info_title = txt;
-        this.titleSub(this.main_title + this.info_title);
+        __classPrivateFieldSet(this, _SysBase_info_title, txt, "f");
+        this.titleSub(__classPrivateFieldGet(this, _SysBase_main_title, "f") + __classPrivateFieldGet(this, _SysBase_info_title, "f"));
     }
-    decStr(ext, d) { return this.preFromPlg(ext, d).ret; }
+    decStr(ext, d) { return __classPrivateFieldGet(this, _SysBase_preFromPlg, "f").call(this, ext, d).ret; }
     async dec(ext, d) {
-        const { ret, ext_num } = this.preFromPlg(ext, d);
-        const fm = this.hN2Ext[ext_num];
+        const { ret, ext_num } = __classPrivateFieldGet(this, _SysBase_preFromPlg, "f").call(this, ext, d);
+        const fm = __classPrivateFieldGet(this, _SysBase_hN2Ext, "f")[ext_num];
         return fm?.fnc ? await fm.fnc(new Blob([ret], { type: fm.mime })) : ret;
     }
     get path_downloads() { return this.$path_downloads; }
@@ -79003,18 +79193,19 @@ top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * CmnLib_1.CmnLib.cvsScale + size * (
     }
 }
 exports.SysBase = SysBase;
+_a = SysBase, _SysBase_sk = new WeakMap(), _SysBase_hHook = new WeakMap(), _SysBase_aFncHook = new WeakMap(), _SysBase_main_title = new WeakMap(), _SysBase_info_title = new WeakMap(), _SysBase_preFromPlg = new WeakMap(), _SysBase_hN2Ext = new WeakMap(), _SysBase_genImage = new WeakMap(), _SysBase_genVideo = new WeakMap();
 SysBase.VALNM_CFG_NS = 'const.sn.cfg.ns';
-SysBase.hToastDat = {
-    '接続': { dx: -1, dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+' },
-    '切断': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMTkxLjUzIDIyMS4yNGMtNDUuNjggMC04NC4wMSAzMS4wNC05NS4zIDczLjE2LTYuNDEgMC0zOC40OSAwLTk2LjIzIDB2NTEuMjFoOTYuMjNjMTEuMyA0Mi4xMSA0OS42MyA3My4xNiA5NS4zIDczLjE2aDcxLjMzdi00OC4yNGg1My43OHYtMTAxLjA1aC01My43OHYtNDguMjRjLTQyLjggMC02Ni41NyAwLTcxLjMzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im00NDguNDcgMjIxLjIzYy00Ljc2IDAtMjguNTMgMC03MS4zMyAwdjE5Ny41M2g3MS4zM2M0NS42OCAwIDgzLjk5LTMxLjA0IDk1LjI5LTczLjE1aDk2LjI0di01MS4yMWgtOTYuMjRjLTMzLjA4LTQ4Ljc4LTY0Ljg0LTczLjE3LTk1LjI5LTczLjE3eiIvPjwvZGVmcz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0iI2RmNTY1NiIgeGxpbms6aHJlZj0iI2IiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjZGY1NjU2IiB4bGluazpocmVmPSIjYyIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2MiLz48L3N2Zz4=' },
-    '再生': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yNTguODMgMTExLjA1Yy0xLjI5Ljc5LTIuOTMuODMtNC4yNi4wNC0xLjI5LS43NC0yLjExLTIuMTItMi4xMS0zLjY3IDAtNy4xNiAwLTQyLjk3IDAtMTA3LjQzczAtMTAwLjI3IDAtMTA3LjQzYzAtMS41My44Mi0yLjkzIDIuMTEtMy42OCAxLjMzLS43NiAyLjk3LS43MiA0LjI2LjA0IDE4IDEwLjc1IDE2MiA5Ni43MSAxODAgMTA3LjQ2IDEuMjkuNzMgMi4wNSAyLjE0IDIuMDUgMy42MSAwIDEuNDktLjc2IDIuODgtMi4wNSAzLjYzLTM2IDIxLjQ5LTE2MiA5Ni42OS0xODAgMTA3LjQzeiIvPjwvZGVmcz48cGF0aCBkPSJtMTU0LjU3IDE3MC4xOWgzNDYuMTV2MzA3LjY5aC0zNDYuMTV6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=' },
-    '一時停止': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yMDAgMTAwdi0yMDBoODB2MjAwem0xNjAgMHYtMjAwaDgwdjIwMHoiLz48L2RlZnM+PHBhdGggZD0ibTE0Ny40OSAxODAuNDFoMzUyLjR2MjgyLjY5aC0zNTIuNHoiIGZpbGw9IiNmZmYiLz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjwvc3ZnPg==' },
-    '注意': { ease: 'sn_HopIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMzQzLjM0IDI5LjJjLTEwLjM3LTE3Ljk3LTM2LjMxLTE3Ljk3LTQ2LjY5IDAtMjkuMyA1MC43NS0yNjMuNyA0NTYuNzQtMjkzIDUwNy40OS0xMC4zNyAxNy45NyAyLjU5IDQwLjQ0IDIzLjM0IDQwLjQ0aDU4Ni4wMWMyMC43NSAwIDMzLjcyLTIyLjQ2IDIzLjM1LTQwLjQ0LTU4LjYtMTAxLjUtMjYzLjctNDU2Ljc0LTI5My4wMS01MDcuNDl6bS0yMy4zNCA0ODIuODNjLTE0LjUyIDAtMjYuMjktMi43MS0yNi4yOS02LjA2IDAtNC4yMSAwLTM3Ljg2IDAtNDIuMDcgMC0zLjM1IDExLjc3LTYuMDcgMjYuMjktNi4wN3MyNi4yOSAyLjcyIDI2LjI5IDYuMDd2NDIuMDdjLTcuODQgNC4wNC0xNi42MSA2LjA2LTI2LjI5IDYuMDZ6bTIxLjk5LTEwMy44NGMwIDUuNDMtOS44NSA5LjgzLTIxLjk5IDkuODMtMTIuMTUgMC0yMS45OS00LjQtMjEuOTktOS44MyAwLS4xMy4wNy0uMjUuMDgtLjM4LTEuMzctMTcuNTYtMTIuMy0xNTguMDYtMTMuNjctMTc1LjYyIDAtNS40MyAxNS45My05Ljg0IDM1LjU4LTkuODRzMzUuNTggNC40MSAzNS41OCA5Ljg0Yy0uOTEgMTEuNy01LjQ3IDcwLjI1LTEzLjY3IDE3NS42Mi4wNi4xNi4wOC4yOS4wOC4zOHoiLz48L2RlZnM+PHBhdGggZD0ibTI0MS4yOSAxOTEuNDRoMTQ1LjQ5djM1MS42NmgtMTQ1LjQ5eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iI2QyYmYzYSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
-    '一歩進む': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0zNzYuOTMgOTEuOTdjMC01My41MSAwLTgzLjI0IDAtODkuMTktLjE1LjE0LS4yNS4zNC0uNDQuNDUtMTYuMTEgOS42Mi0xNDQuOTUgODYuNTQtMTYxLjA2IDk2LjE1LTEuMTUuNjktMi42Mi43My0zLjgxLjAyLTEuMTUtLjY0LTEuODktMS44OS0xLjg5LTMuMjggMC02LjQxIDAtMzguNDQgMC05Ni4xMSAwLTU3LjY5IDAtODkuNzQgMC05Ni4xNSAwLTEuMzUuNzQtMi42MiAxLjg5LTMuMjkgMS4xOS0uNjggMi42Ni0uNjQgMy44MS4wNCAxNi4xMSA5LjYyIDE0NC45NSA4Ni41NCAxNjEuMDYgOTYuMTYuMTkuMS4yOS4zMS40NC40NSAwLTYuMTMgMC0zNi43NyAwLTkxLjkyaDUzLjMydjE4Ni42N3oiLz48L2RlZnM+PHBhdGggZD0ibTE0Ny40OSAxNTQuMmgzNTIuNHYzMDguOWgtMzUyLjR6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=' },
-    '一歩戻る': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem00MzAuMjcgOTYuMTRjMCAxLjM1LS43NCAyLjYyLTEuODkgMy4yOC0xLjE5LjY5LTIuNjYuNjUtMy44MS0uMDMtMTYuMTEtOS42Mi0xNDQuOTUtODYuNTQtMTYxLjA1LTk2LjE2LS4yLS4xLS4yOS0uMzEtLjQ1LS40NXY5MS45MmgtNTMuMzJ2LTE4Ni42N2g1My4zMnY4OS4xOWMuMTYtLjE0LjI1LS4zNC40NS0uNDUgMTYuMS05LjYyIDE0NC45NC04Ni41NCAxNjEuMDUtOTYuMTYgMS4xNS0uNjggMi42Mi0uNzIgMy44MS0uMDEgMS4xNS42NCAxLjg5IDEuODkgMS44OSAzLjI4djk2LjExeiIvPjwvZGVmcz48cGF0aCBkPSJtMTQ3LjQ5IDE1NC4yaDM1Mi40djMwOC45aC0zNTIuNHoiIGZpbGw9IiNmZmYiLz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjwvc3ZnPg==' },
-    'ステップイン': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMTkuOTljMCAxNzYuNzQgMTQzLjI3IDMyMC4wMSAzMjAuMDEgMzIwLjAxIDE3Ni43MiAwIDMxOS45OS0xNDMuMjcgMzE5Ljk5LTMyMC4wMSAwLTE3Ni43Mi0xNDMuMjctMzE5Ljk5LTMxOS45OS0zMTkuOTktMTc2Ljc0IDAtMzIwLjAxIDE0My4yNy0zMjAuMDEgMzE5Ljk5em0xNTMuMDUtMjkuNzIgNTUuMTItNTUuMTMgMTExLjg0IDExMS44MiAxMTEuODItMTExLjgyIDU1LjEyIDU1LjEyLTE2Ni45NCAxNjYuOTd6Ii8+PC9kZWZzPjxwYXRoIGQ9Im0xNDcuNDkgMTU0LjJoMzUyLjR2MzA4LjloLTM1Mi40eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iIzJlMmUyZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
-    'ステップアウト': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjAuMDFjMCAxNzYuNzIgMTQzLjI3IDMxOS45OSAzMTkuOTkgMzE5Ljk5IDE3Ni43NCAwIDMyMC4wMS0xNDMuMjcgMzIwLjAxLTMxOS45OSAwLTE3Ni43NC0xNDMuMjctMzIwLjAxLTMyMC4wMS0zMjAuMDEtMTc2LjcyIDAtMzE5Ljk5IDE0My4yNy0zMTkuOTkgMzIwLjAxem0zMTkuOTktMjYuOTgtMTExLjgyIDExMS44My01NS4xMi01NS4xMyAxNjYuOTQtMTY2Ljk2IDE2Ni45NiAxNjYuOTYtNTUuMTIgNTUuMTN6Ii8+PC9kZWZzPjxwYXRoIGQ9Im0xNDcuNDkgMTU0LjJoMzUyLjR2MzA4LjloLTM1Mi40eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iIzJlMmUyZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
-};
+_SysBase_hToastDat = { value: {
+        '接続': { dx: -1, dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+' },
+        '切断': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMTkxLjUzIDIyMS4yNGMtNDUuNjggMC04NC4wMSAzMS4wNC05NS4zIDczLjE2LTYuNDEgMC0zOC40OSAwLTk2LjIzIDB2NTEuMjFoOTYuMjNjMTEuMyA0Mi4xMSA0OS42MyA3My4xNiA5NS4zIDczLjE2aDcxLjMzdi00OC4yNGg1My43OHYtMTAxLjA1aC01My43OHYtNDguMjRjLTQyLjggMC02Ni41NyAwLTcxLjMzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im00NDguNDcgMjIxLjIzYy00Ljc2IDAtMjguNTMgMC03MS4zMyAwdjE5Ny41M2g3MS4zM2M0NS42OCAwIDgzLjk5LTMxLjA0IDk1LjI5LTczLjE1aDk2LjI0di01MS4yMWgtOTYuMjRjLTMzLjA4LTQ4Ljc4LTY0Ljg0LTczLjE3LTk1LjI5LTczLjE3eiIvPjwvZGVmcz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0iI2RmNTY1NiIgeGxpbms6aHJlZj0iI2IiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjZGY1NjU2IiB4bGluazpocmVmPSIjYyIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2MiLz48L3N2Zz4=' },
+        '再生': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yNTguODMgMTExLjA1Yy0xLjI5Ljc5LTIuOTMuODMtNC4yNi4wNC0xLjI5LS43NC0yLjExLTIuMTItMi4xMS0zLjY3IDAtNy4xNiAwLTQyLjk3IDAtMTA3LjQzczAtMTAwLjI3IDAtMTA3LjQzYzAtMS41My44Mi0yLjkzIDIuMTEtMy42OCAxLjMzLS43NiAyLjk3LS43MiA0LjI2LjA0IDE4IDEwLjc1IDE2MiA5Ni43MSAxODAgMTA3LjQ2IDEuMjkuNzMgMi4wNSAyLjE0IDIuMDUgMy42MSAwIDEuNDktLjc2IDIuODgtMi4wNSAzLjYzLTM2IDIxLjQ5LTE2MiA5Ni42OS0xODAgMTA3LjQzeiIvPjwvZGVmcz48cGF0aCBkPSJtMTU0LjU3IDE3MC4xOWgzNDYuMTV2MzA3LjY5aC0zNDYuMTV6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=' },
+        '一時停止': { dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yMDAgMTAwdi0yMDBoODB2MjAwem0xNjAgMHYtMjAwaDgwdjIwMHoiLz48L2RlZnM+PHBhdGggZD0ibTE0Ny40OSAxODAuNDFoMzUyLjR2MjgyLjY5aC0zNTIuNHoiIGZpbGw9IiNmZmYiLz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjwvc3ZnPg==' },
+        '注意': { ease: 'sn_HopIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMzQzLjM0IDI5LjJjLTEwLjM3LTE3Ljk3LTM2LjMxLTE3Ljk3LTQ2LjY5IDAtMjkuMyA1MC43NS0yNjMuNyA0NTYuNzQtMjkzIDUwNy40OS0xMC4zNyAxNy45NyAyLjU5IDQwLjQ0IDIzLjM0IDQwLjQ0aDU4Ni4wMWMyMC43NSAwIDMzLjcyLTIyLjQ2IDIzLjM1LTQwLjQ0LTU4LjYtMTAxLjUtMjYzLjctNDU2Ljc0LTI5My4wMS01MDcuNDl6bS0yMy4zNCA0ODIuODNjLTE0LjUyIDAtMjYuMjktMi43MS0yNi4yOS02LjA2IDAtNC4yMSAwLTM3Ljg2IDAtNDIuMDcgMC0zLjM1IDExLjc3LTYuMDcgMjYuMjktNi4wN3MyNi4yOSAyLjcyIDI2LjI5IDYuMDd2NDIuMDdjLTcuODQgNC4wNC0xNi42MSA2LjA2LTI2LjI5IDYuMDZ6bTIxLjk5LTEwMy44NGMwIDUuNDMtOS44NSA5LjgzLTIxLjk5IDkuODMtMTIuMTUgMC0yMS45OS00LjQtMjEuOTktOS44MyAwLS4xMy4wNy0uMjUuMDgtLjM4LTEuMzctMTcuNTYtMTIuMy0xNTguMDYtMTMuNjctMTc1LjYyIDAtNS40MyAxNS45My05Ljg0IDM1LjU4LTkuODRzMzUuNTggNC40MSAzNS41OCA5Ljg0Yy0uOTEgMTEuNy01LjQ3IDcwLjI1LTEzLjY3IDE3NS42Mi4wNi4xNi4wOC4yOS4wOC4zOHoiLz48L2RlZnM+PHBhdGggZD0ibTI0MS4yOSAxOTEuNDRoMTQ1LjQ5djM1MS42NmgtMTQ1LjQ5eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iI2QyYmYzYSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
+        '一歩進む': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0zNzYuOTMgOTEuOTdjMC01My41MSAwLTgzLjI0IDAtODkuMTktLjE1LjE0LS4yNS4zNC0uNDQuNDUtMTYuMTEgOS42Mi0xNDQuOTUgODYuNTQtMTYxLjA2IDk2LjE1LTEuMTUuNjktMi42Mi43My0zLjgxLjAyLTEuMTUtLjY0LTEuODktMS44OS0xLjg5LTMuMjggMC02LjQxIDAtMzguNDQgMC05Ni4xMSAwLTU3LjY5IDAtODkuNzQgMC05Ni4xNSAwLTEuMzUuNzQtMi42MiAxLjg5LTMuMjkgMS4xOS0uNjggMi42Ni0uNjQgMy44MS4wNCAxNi4xMSA5LjYyIDE0NC45NSA4Ni41NCAxNjEuMDYgOTYuMTYuMTkuMS4yOS4zMS40NC40NSAwLTYuMTMgMC0zNi43NyAwLTkxLjkyaDUzLjMydjE4Ni42N3oiLz48L2RlZnM+PHBhdGggZD0ibTE0Ny40OSAxNTQuMmgzNTIuNHYzMDguOWgtMzUyLjR6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=' },
+        '一歩戻る': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem00MzAuMjcgOTYuMTRjMCAxLjM1LS43NCAyLjYyLTEuODkgMy4yOC0xLjE5LjY5LTIuNjYuNjUtMy44MS0uMDMtMTYuMTEtOS42Mi0xNDQuOTUtODYuNTQtMTYxLjA1LTk2LjE2LS4yLS4xLS4yOS0uMzEtLjQ1LS40NXY5MS45MmgtNTMuMzJ2LTE4Ni42N2g1My4zMnY4OS4xOWMuMTYtLjE0LjI1LS4zNC40NS0uNDUgMTYuMS05LjYyIDE0NC45NC04Ni41NCAxNjEuMDUtOTYuMTYgMS4xNS0uNjggMi42Mi0uNzIgMy44MS0uMDEgMS4xNS42NCAxLjg5IDEuODkgMS44OSAzLjI4djk2LjExeiIvPjwvZGVmcz48cGF0aCBkPSJtMTQ3LjQ5IDE1NC4yaDM1Mi40djMwOC45aC0zNTIuNHoiIGZpbGw9IiNmZmYiLz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjwvc3ZnPg==' },
+        'ステップイン': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMTkuOTljMCAxNzYuNzQgMTQzLjI3IDMyMC4wMSAzMjAuMDEgMzIwLjAxIDE3Ni43MiAwIDMxOS45OS0xNDMuMjcgMzE5Ljk5LTMyMC4wMSAwLTE3Ni43Mi0xNDMuMjctMzE5Ljk5LTMxOS45OS0zMTkuOTktMTc2Ljc0IDAtMzIwLjAxIDE0My4yNy0zMjAuMDEgMzE5Ljk5em0xNTMuMDUtMjkuNzIgNTUuMTItNTUuMTMgMTExLjg0IDExMS44MiAxMTEuODItMTExLjgyIDU1LjEyIDU1LjEyLTE2Ni45NCAxNjYuOTd6Ii8+PC9kZWZzPjxwYXRoIGQ9Im0xNDcuNDkgMTU0LjJoMzUyLjR2MzA4LjloLTM1Mi40eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iIzJlMmUyZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
+        'ステップアウト': { ease: 'sn_BounceIn', dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjAuMDFjMCAxNzYuNzIgMTQzLjI3IDMxOS45OSAzMTkuOTkgMzE5Ljk5IDE3Ni43NCAwIDMyMC4wMS0xNDMuMjcgMzIwLjAxLTMxOS45OSAwLTE3Ni43NC0xNDMuMjctMzIwLjAxLTMyMC4wMS0zMjAuMDEtMTc2LjcyIDAtMzE5Ljk5IDE0My4yNy0zMTkuOTkgMzIwLjAxem0zMTkuOTktMjYuOTgtMTExLjgyIDExMS44My01NS4xMi01NS4xMyAxNjYuOTQtMTY2Ljk2IDE2Ni45NiAxNjYuOTYtNTUuMTIgNTUuMTN6Ii8+PC9kZWZzPjxwYXRoIGQ9Im0xNDcuNDkgMTU0LjJoMzUyLjR2MzA4LjloLTM1Mi40eiIgZmlsbD0iI2ZmZiIvPjx1c2UgZmlsbD0iIzJlMmUyZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNhIi8+PC9zdmc+' },
+    } };
 
 
 /***/ }),
@@ -79023,10 +79214,22 @@ SysBase.hToastDat = {
 /*!*******************************!*\
   !*** ./core/src/sn/SysWeb.ts ***!
   \*******************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _SysWeb_instances, _SysWeb_path_base, _SysWeb_resizeFramesWork, _SysWeb_isFullScr, _SysWeb_now_prj, _SysWeb_main, _SysWeb_hAppendFile;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SysWeb = void 0;
 const SysBase_1 = __webpack_require__(/*! ./SysBase */ "./core/src/sn/SysBase.ts");
@@ -79037,17 +79240,19 @@ __webpack_require__(/*! devtools-detect */ "./node_modules/devtools-detect/index
 class SysWeb extends SysBase_1.SysBase {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
         super(hPlg, arg);
-        this.path_base = '';
-        this.isFullScr = false;
-        this.now_prj = ':';
+        _SysWeb_instances.add(this);
+        _SysWeb_path_base.set(this, '');
+        _SysWeb_isFullScr.set(this, false);
+        _SysWeb_now_prj.set(this, ':');
         this.run = async () => {
-            if (this.main) {
+            if (__classPrivateFieldGet(this, _SysWeb_main, "f")) {
                 const ms_late = 10;
-                this.main.destroy(ms_late);
+                __classPrivateFieldGet(this, _SysWeb_main, "f").destroy(ms_late);
                 await new Promise(r => setTimeout(r, ms_late));
             }
-            this.main = new Main_1.Main(this);
+            __classPrivateFieldSet(this, _SysWeb_main, new Main_1.Main(this), "f");
         };
+        _SysWeb_main.set(this, void 0);
         this.pathBaseCnvSnPath4Dbg = '${pathbase}/';
         this._export = () => {
             (async () => {
@@ -79112,26 +79317,26 @@ class SysWeb extends SysBase_1.SysBase {
             globalThis.open(url, '_blank');
             return false;
         };
-        this.hAppendFile = {};
+        _SysWeb_hAppendFile.set(this, {});
         const a = arg.cur.split('/');
-        this.path_base = (a.length > 2) ? a.slice(0, -2).join('/') + '/' : '';
+        __classPrivateFieldSet(this, _SysWeb_path_base, (a.length > 2) ? a.slice(0, -2).join('/') + '/' : '', "f");
         globalThis.onload = async () => this.loaded(hPlg, arg);
     }
     async loaded(hPlg, arg) {
         await super.loaded(hPlg, arg);
         const tgl_full_scr = ('requestFullscreen' in document.body)
             ? () => {
-                ((this.isFullScr = !Boolean(document.fullscreenElement))
+                ((__classPrivateFieldSet(this, _SysWeb_isFullScr, !Boolean(document.fullscreenElement), "f"))
                     ? document.body.requestFullscreen()
                     : document.exitFullscreen())
-                    .then(() => this.resizeFramesWork());
+                    .then(() => __classPrivateFieldGet(this, _SysWeb_instances, "m", _SysWeb_resizeFramesWork).call(this));
             }
             : () => {
                 const doc = document;
-                ((this.isFullScr = !Boolean(doc.webkitFullscreenElement))
+                ((__classPrivateFieldSet(this, _SysWeb_isFullScr, !Boolean(doc.webkitFullscreenElement), "f"))
                     ? doc.body.webkitRequestFullscreen()
                     : doc.webkitCancelFullScreen())
-                    .then(() => this.resizeFramesWork());
+                    .then(() => __classPrivateFieldGet(this, _SysWeb_instances, "m", _SysWeb_resizeFramesWork).call(this));
             };
         this.tgl_full_scr = (hArg) => {
             if (!hArg.key) {
@@ -79172,35 +79377,21 @@ class SysWeb extends SysBase_1.SysBase {
         this.extPort = (0, CmnLib_1.argChk_Num)(CmnLib_1.CmnLib.hDip, 'port', this.extPort);
         const cur = sp.get('cur');
         if (cur)
-            arg.cur = this.path_base + cur + '/';
+            arg.cur = __classPrivateFieldGet(this, _SysWeb_path_base, "f") + cur + '/';
         this.run();
     }
-    resizeFramesWork() {
-        const is_fs = this.isFullScr;
-        const ratioWidth = screen.width / CmnLib_1.CmnLib.stageW;
-        const ratioHeight = screen.height / CmnLib_1.CmnLib.stageH;
-        const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
-        this.reso4frame = is_fs ? ratio : 1;
-        this.ofsLeft4frm = is_fs
-            ? (screen.width - CmnLib_1.CmnLib.stageW * this.reso4frame * CmnLib_1.CmnLib.cvsScale) / 2
-            : 0;
-        this.ofsTop4frm = is_fs
-            ? (screen.height - CmnLib_1.CmnLib.stageH * this.reso4frame * CmnLib_1.CmnLib.cvsScale) / 2
-            : 0;
-        this.resizeFrames();
-    }
     runSN(prj) {
-        this.arg.cur = this.path_base + prj + '/';
-        if (this.now_prj === this.arg.cur)
+        this.arg.cur = __classPrivateFieldGet(this, _SysWeb_path_base, "f") + prj + '/';
+        if (__classPrivateFieldGet(this, _SysWeb_now_prj, "f") === this.arg.cur)
             return;
-        this.now_prj = this.arg.cur;
+        __classPrivateFieldSet(this, _SysWeb_now_prj, this.arg.cur, "f");
         this.run();
     }
     stop() {
-        if (!this.main)
+        if (!__classPrivateFieldGet(this, _SysWeb_main, "f"))
             return;
-        this.main.destroy();
-        this.main = null;
+        __classPrivateFieldGet(this, _SysWeb_main, "f").destroy();
+        __classPrivateFieldSet(this, _SysWeb_main, null, "f");
     }
     async loadPath(hPathFn2Exts, cfg) {
         await super.loadPath(hPathFn2Exts, cfg);
@@ -79220,7 +79411,7 @@ class SysWeb extends SysBase_1.SysBase {
     initVal(data, hTmp, comp) {
         const hn = document.location.hostname;
         hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn === '127.0.0.1');
-        this.val.defTmp('const.sn.displayState', () => this.isFullScr);
+        this.val.defTmp('const.sn.displayState', () => __classPrivateFieldGet(this, _SysWeb_isFullScr, "f"));
         const ns = this.cfg.getNs();
         this.flush = this.crypto
             ? async () => {
@@ -79288,8 +79479,8 @@ class SysWeb extends SysBase_1.SysBase {
             console.log('画像ファイルをダウンロードします');
     }
     async appendFile(path, data, _callback) {
-        const txt = (this.hAppendFile[path] ?? '') + data;
-        this.hAppendFile[path] = txt;
+        const txt = (__classPrivateFieldGet(this, _SysWeb_hAppendFile, "f")[path] ?? '') + data;
+        __classPrivateFieldGet(this, _SysWeb_hAppendFile, "f")[path] = txt;
         const blob = new Blob([txt], { 'type': 'text/json' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -79298,6 +79489,20 @@ class SysWeb extends SysBase_1.SysBase {
     }
 }
 exports.SysWeb = SysWeb;
+_SysWeb_path_base = new WeakMap(), _SysWeb_isFullScr = new WeakMap(), _SysWeb_now_prj = new WeakMap(), _SysWeb_main = new WeakMap(), _SysWeb_hAppendFile = new WeakMap(), _SysWeb_instances = new WeakSet(), _SysWeb_resizeFramesWork = function _SysWeb_resizeFramesWork() {
+    const is_fs = __classPrivateFieldGet(this, _SysWeb_isFullScr, "f");
+    const ratioWidth = screen.width / CmnLib_1.CmnLib.stageW;
+    const ratioHeight = screen.height / CmnLib_1.CmnLib.stageH;
+    const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
+    this.reso4frame = is_fs ? ratio : 1;
+    this.ofsLeft4frm = is_fs
+        ? (screen.width - CmnLib_1.CmnLib.stageW * this.reso4frame * CmnLib_1.CmnLib.cvsScale) / 2
+        : 0;
+    this.ofsTop4frm = is_fs
+        ? (screen.height - CmnLib_1.CmnLib.stageH * this.reso4frame * CmnLib_1.CmnLib.cvsScale) / 2
+        : 0;
+    this.resizeFrames();
+};
 
 
 /***/ }),
@@ -79306,10 +79511,22 @@ exports.SysWeb = SysWeb;
 /*!*********************************!*\
   !*** ./core/src/sn/TxtLayer.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _TxtLayer_instances, _a, _TxtLayer_cfg, _TxtLayer_val, _TxtLayer_recText, _TxtLayer_isPageFore, _TxtLayer_ch_in_style, _TxtLayer_ch_out_style, _TxtLayer_main, _TxtLayer_evtMng, _TxtLayer_doAutoWc, _TxtLayer_hAutoWc, _TxtLayer_autowc, _TxtLayer_infTL, _TxtLayer_b_color, _TxtLayer_b_alpha, _TxtLayer_b_alpha_isfixed, _TxtLayer_b_do, _TxtLayer_b_pic, _TxtLayer_txs, _TxtLayer_rbSpl, _TxtLayer_cntBtn, _TxtLayer_set_ch_in, _TxtLayer_$ch_in_style, _TxtLayer_ch_in_join, _TxtLayer_set_ch_out, _TxtLayer_$ch_out_style, _TxtLayer_drawBack, _TxtLayer_setFfs, _TxtLayer_ffs, _TxtLayer_fncFFSStyle, _TxtLayer_fncFFSSpan, _TxtLayer_strNoFFS, _TxtLayer_regNoFFS, _TxtLayer_ruby_pd, _TxtLayer_r_align, _TxtLayer_mkStyle_r_align4ff, _TxtLayer_needGoTxt, _TxtLayer_putCh, _TxtLayer_tagCh_sub, _TxtLayer_cumDelay, _TxtLayer_firstCh, _TxtLayer_aSpan, _TxtLayer_aSpan_bk, _TxtLayer_aSpan_link, _TxtLayer_hSpanBk, _TxtLayer_beginSpan, _TxtLayer_autoCloseSpan, _TxtLayer_page_text;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -79324,7 +79541,8 @@ const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dis
 class TxtLayer extends Layer_1.Layer {
     constructor() {
         super();
-        this.infTL = {
+        _TxtLayer_instances.add(this);
+        _TxtLayer_infTL.set(this, {
             fontsize: 24,
             $width: 0,
             $height: 0,
@@ -79332,48 +79550,48 @@ class TxtLayer extends Layer_1.Layer {
             pad_right: 0,
             pad_top: 0,
             pad_bottom: 0,
-        };
-        this.b_color = 0x000000;
-        this.b_alpha = 0;
-        this.b_alpha_isfixed = false;
-        this.b_do = null;
-        this.b_pic = '';
-        this.txs = new TxtStage_1.TxtStage(this.infTL, this.spLay, () => this.canFocus());
-        this.rbSpl = new RubySpliter_1.RubySpliter;
-        this.cntBtn = new pixi_js_1.Container;
-        this.ch_in_style = '';
-        this.ch_in_join = true;
-        this.ch_out_style = '';
-        this.ffs = '';
-        this.fncFFSStyle = (_ch) => '';
-        this.fncFFSSpan = (ch) => ch;
-        this.strNoFFS = '';
-        this.regNoFFS = new RegExp('[　]');
+        });
+        _TxtLayer_b_color.set(this, 0x000000);
+        _TxtLayer_b_alpha.set(this, 0);
+        _TxtLayer_b_alpha_isfixed.set(this, false);
+        _TxtLayer_b_do.set(this, null);
+        _TxtLayer_b_pic.set(this, '');
+        _TxtLayer_txs.set(this, new TxtStage_1.TxtStage(__classPrivateFieldGet(this, _TxtLayer_infTL, "f"), this.spLay, () => this.canFocus()));
+        _TxtLayer_rbSpl.set(this, new RubySpliter_1.RubySpliter);
+        _TxtLayer_cntBtn.set(this, new pixi_js_1.Container);
+        _TxtLayer_$ch_in_style.set(this, '');
+        _TxtLayer_ch_in_join.set(this, true);
+        _TxtLayer_$ch_out_style.set(this, '');
+        _TxtLayer_ffs.set(this, '');
+        _TxtLayer_fncFFSStyle.set(this, (_ch) => '');
+        _TxtLayer_fncFFSSpan.set(this, (ch) => ch);
+        _TxtLayer_strNoFFS.set(this, '');
+        _TxtLayer_regNoFFS.set(this, new RegExp('[　]'));
         this.isCur = false;
-        this.ruby_pd = () => '';
-        this.r_align = '';
-        this.needGoTxt = false;
-        this.putCh = (ch, ruby) => {
-            if (TxtLayer.cfg.oCfg.debug.putCh)
+        _TxtLayer_ruby_pd.set(this, () => '');
+        _TxtLayer_r_align.set(this, '');
+        _TxtLayer_needGoTxt.set(this, false);
+        _TxtLayer_putCh.set(this, (ch, ruby) => {
+            if (__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_cfg).oCfg.debug.putCh)
                 console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
             const a_ruby = ruby.split('｜');
             let add_htm = '';
-            const isSkip = TxtLayer.evtMng.isSkipKeyDown();
+            const isSkip = __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_evtMng).isSkipKeyDown();
             switch (a_ruby.length) {
                 case 1:
-                    this.needGoTxt = true;
+                    __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
                     if (ch === '\n') {
-                        if (this.aSpan_bk) {
-                            add_htm = this.aSpan_bk.slice(-1)[0];
-                            this.autoCloseSpan();
-                            this.aSpan.push(TxtLayer.rec('<br/>'));
-                            this.aSpan.push(add_htm);
-                            this.aSpan_bk = this.aSpan;
-                            this.aSpan = [];
+                        if (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")) {
+                            add_htm = __classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f").slice(-1)[0];
+                            __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_autoCloseSpan).call(this);
+                            __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").push(TxtLayer.rec('<br/>'));
+                            __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").push(add_htm);
+                            __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, __classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), "f");
+                            __classPrivateFieldSet(this, _TxtLayer_aSpan, [], "f");
                             return;
                         }
-                        if (this.firstCh) {
-                            this.firstCh = false;
+                        if (__classPrivateFieldGet(this, _TxtLayer_firstCh, "f")) {
+                            __classPrivateFieldSet(this, _TxtLayer_firstCh, false, "f");
                             add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
                         }
                         else {
@@ -79381,12 +79599,12 @@ class TxtLayer extends Layer_1.Layer {
                         }
                         break;
                     }
-                    if (this.firstCh) {
-                        this.firstCh = false;
+                    if (__classPrivateFieldGet(this, _TxtLayer_firstCh, "f")) {
+                        __classPrivateFieldSet(this, _TxtLayer_firstCh, false, "f");
                         if (ruby === '')
                             ruby = '　';
                     }
-                    add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
+                    add_htm = __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_tagCh_sub).call(this, ch, ruby, isSkip, __classPrivateFieldGet(this, _TxtLayer_r_align, "f"));
                     break;
                 case 2:
                     switch (a_ruby[0]) {
@@ -79398,84 +79616,84 @@ class TxtLayer extends Layer_1.Layer {
                         case '121':
                         case 'even':
                         case '1ruby':
-                            this.firstCh = false;
-                            this.needGoTxt = true;
-                            add_htm = this.tagCh_sub(ch, a_ruby[1], isSkip, a_ruby[0]);
+                            __classPrivateFieldSet(this, _TxtLayer_firstCh, false, "f");
+                            __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
+                            add_htm = __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_tagCh_sub).call(this, ch, a_ruby[1], isSkip, a_ruby[0]);
                             break;
                         case 'gotxt':
                             {
-                                this.autoCloseSpan();
+                                __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_autoCloseSpan).call(this);
                                 if (this.isCur)
-                                    TxtLayer.recText(this.aSpan.join('')
+                                    __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_recText).call(TxtLayer, __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").join('')
                                         .replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
                                         .replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
                                         .replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
                                         .replace(/class='sn_ch .+?'/g, `class='sn_ch'`)
                                         .replaceAll(`class='offrec'`, `style='display: none;'`)
                                         .replaceAll('`', '\\`'));
-                                if (!this.needGoTxt)
+                                if (!__classPrivateFieldGet(this, _TxtLayer_needGoTxt, "f"))
                                     return;
-                                this.txs.goTxt([...this.aSpan, this.tagCh_sub('　', '', false, '')]);
-                                this.needGoTxt = false;
-                                this.cumDelay = 0;
+                                __classPrivateFieldGet(this, _TxtLayer_txs, "f").goTxt([...__classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_tagCh_sub).call(this, '　', '', false, '')]);
+                                __classPrivateFieldSet(this, _TxtLayer_needGoTxt, false, "f");
+                                __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
                                 return;
                             }
                         case 'add':
                             {
                                 const o = JSON.parse(a_ruby[1]);
                                 o.style ??= '';
-                                this.beginSpan(o);
-                                if (this.aSpan_bk)
-                                    this.autoCloseSpan();
+                                __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_beginSpan).call(this, o);
+                                if (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f"))
+                                    __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_autoCloseSpan).call(this);
                                 else {
                                     if (isSkip)
-                                        this.cumDelay = 0;
+                                        __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
                                     const wait = Number(o.wait ?? -1);
                                     const sn_ch = (wait === 0)
                                         ? ''
-                                        : ` sn_ch_in_${this.ch_in_style}`;
+                                        : ` sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}`;
                                     const ad = (wait < 0)
                                         ? ''
                                         : ` animation-duration: ${wait}ms;`;
-                                    this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
+                                    __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
                                 }
-                                this.aSpan_bk = this.aSpan;
-                                this.aSpan = [];
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, __classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), "f");
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan, [], "f");
                             }
                             return;
                         case 'add_close':
-                            this.autoCloseSpan();
+                            __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_autoCloseSpan).call(this);
                             return;
                         case 'grp':
-                            this.needGoTxt = true;
+                            __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
                             {
                                 if (isSkip)
-                                    this.cumDelay = 0;
-                                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + ',' : `{`) + `"delay": ${this.cumDelay}}`;
-                                if (this.ch_in_join)
-                                    this.cumDelay += (TxtLayer.doAutoWc) ? 0 : LayerMng_1.LayerMng.msecChWait;
+                                    __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
+                                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + ',' : `{`) + `"delay": ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}}`;
+                                if (__classPrivateFieldGet(this, _TxtLayer_ch_in_join, "f"))
+                                    __classPrivateFieldSet(this, _TxtLayer_cumDelay, __classPrivateFieldGet(this, _TxtLayer_cumDelay, "f") + ((__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc)) ? 0 : LayerMng_1.LayerMng.msecChWait), "f");
                                 const o = JSON.parse(arg);
                                 o.style ??= '';
                                 if (!('id' in o))
-                                    o.id = this.aSpan.length;
+                                    o.id = __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").length;
                                 if (o.id === 'break') {
-                                    this.txs.dispBreak(o.pic);
+                                    __classPrivateFieldGet(this, _TxtLayer_txs, "f").dispBreak(o.pic);
                                     return;
                                 }
                                 add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
                                 const wait = Number(o.wait ?? -1);
                                 const sn_ch = (wait === 0)
                                     ? ''
-                                    : ` sn_ch_in_${this.ch_in_style}`;
+                                    : ` sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}`;
                                 const ad = (wait < 0)
                                     ? ''
                                     : ` animation-duration: ${wait}ms;`;
-                                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>　</span>`;
-                                if (this.firstCh) {
-                                    this.firstCh = false;
+                                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>　</span>`;
+                                if (__classPrivateFieldGet(this, _TxtLayer_firstCh, "f")) {
+                                    __classPrivateFieldSet(this, _TxtLayer_firstCh, false, "f");
                                     add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
                                 }
-                                if (this.aSpan.slice(-1)[0] === add_htm)
+                                if (__classPrivateFieldGet(this, _TxtLayer_aSpan, "f").slice(-1)[0] === add_htm)
                                     return;
                             }
                             break;
@@ -79486,112 +79704,112 @@ class TxtLayer extends Layer_1.Layer {
                             TxtStage_1.TxtStage.delBreak();
                             return;
                         case 'span':
-                            this.autoCloseSpan();
-                            this.needGoTxt = true;
+                            __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_autoCloseSpan).call(this);
+                            __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
                             {
                                 const o = JSON.parse(a_ruby[1]);
-                                this.beginSpan(o);
+                                __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_beginSpan).call(this, o);
                                 if (!o.style)
                                     return;
                                 if (isSkip)
-                                    this.cumDelay = 0;
+                                    __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
                                 const wait = Number(o.wait ?? -1);
                                 const sn_ch = (wait === 0)
                                     ? ''
-                                    : ` sn_ch_in_${this.ch_in_style}`;
+                                    : ` sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}`;
                                 const ad = (wait < 0)
                                     ? ''
                                     : ` animation-duration: ${wait}ms;`;
-                                this.aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
-                                this.aSpan_bk = this.aSpan;
-                                this.aSpan = [];
+                                __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>`);
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, __classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), "f");
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan, [], "f");
                             }
                             return;
                         case 'link':
-                            this.autoCloseSpan();
-                            this.needGoTxt = true;
+                            __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_autoCloseSpan).call(this);
+                            __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
                             {
                                 const o = JSON.parse(a_ruby[1]);
                                 o.style ??= '';
-                                this.beginSpan(o);
+                                __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_beginSpan).call(this, o);
                                 if (isSkip)
-                                    this.cumDelay = 0;
+                                    __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
                                 const wait = Number(o.wait ?? -1);
                                 const sn_ch = (wait === 0)
                                     ? ''
-                                    : ` sn_ch_in_${this.ch_in_style}`;
+                                    : ` sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}`;
                                 const ad = (wait < 0)
                                     ? ''
                                     : ` animation-duration: ${wait}ms;`;
-                                this.aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
-                                this.aSpan.push(`<span${this.aSpan_link} class='sn_ch${sn_ch}' style='animation-delay: ${this.cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>`);
-                                this.aSpan_bk = this.aSpan;
-                                this.aSpan = [];
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan_link, ` data-cmd='link' data-arg='${a_ruby[1]}'`, "f");
+                                __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").push(`<span${__classPrivateFieldGet(this, _TxtLayer_aSpan_link, "f")} class='sn_ch${sn_ch}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>`);
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, __classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), "f");
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan, [], "f");
                             }
                             return;
                         case 'endlink':
-                            this.needGoTxt = true;
-                            if (this.aSpan_bk)
-                                this.aSpan = this.aSpan.map(v => v.replace(/ data-cmd='linkrsv'/, this.aSpan_link));
-                            this.autoCloseSpan();
+                            __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
+                            if (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f"))
+                                __classPrivateFieldSet(this, _TxtLayer_aSpan, __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").map(v => v.replace(/ data-cmd='linkrsv'/, __classPrivateFieldGet(this, _TxtLayer_aSpan_link, "f"))), "f");
+                            __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_autoCloseSpan).call(this);
                             return;
                         default:
-                            this.needGoTxt = true;
-                            add_htm = this.tagCh_sub(ch, ruby, isSkip, this.r_align);
+                            __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
+                            add_htm = __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_tagCh_sub).call(this, ch, ruby, isSkip, __classPrivateFieldGet(this, _TxtLayer_r_align, "f"));
                     }
                     break;
                 case 3:
-                    this.firstCh = false;
-                    this.needGoTxt = true;
+                    __classPrivateFieldSet(this, _TxtLayer_firstCh, false, "f");
+                    __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");
                     switch (a_ruby[0]) {
                         case 'tcy':
                             {
-                                if (TxtLayer.val.doRecLog())
-                                    this.page_text += ch
-                                        + (ruby ? `《${ruby}》` : '');
+                                if (__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).doRecLog())
+                                    __classPrivateFieldSet(this, _TxtLayer_page_text, __classPrivateFieldGet(this, _TxtLayer_page_text, "f") + (ch
+                                        + (ruby ? `《${ruby}》` : '')), "f");
                                 const tx = a_ruby[1];
                                 const id_tcy = (tx.length > 1)
-                                    ? (this.aSpan.length + 1)
+                                    ? (__classPrivateFieldGet(this, _TxtLayer_aSpan, "f").length + 1)
                                     : '';
                                 const rb = CmnLib_1.CmnLib.isSafari
                                     ? a_ruby[2].replace(/[A-Za-z0-9]/g, s => String.fromCharCode(s.charCodeAt(0) + 65248))
                                     : a_ruby[2];
                                 if (isSkip)
-                                    this.cumDelay = 0;
-                                const rs = this.mkStyle_r_align(tx, rb, this.r_align);
+                                    __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
+                                const rs = this.mkStyle_r_align(tx, rb, __classPrivateFieldGet(this, _TxtLayer_r_align, "f"));
                                 add_htm = rb
-                                    ? (this.aSpan_bk
+                                    ? (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
                                         ? (`<ruby><span data-tcy='${id_tcy}' style='
 								text-combine-upright: all;
 								-webkit-text-combine: horizontal;
-								${this.fncFFSStyle(tx)}
-							' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
+								${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
+							' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}' data-cmd='linkrsv'>${tx}</span>`
                                             + `<rt${rs}>${rb}</rt></ruby>`)
-                                        : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;'>`
+                                        : (`<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;'>`
                                             + `<ruby><span data-tcy='${id_tcy}' style='
 									text-combine-upright: all;
 									-webkit-text-combine: horizontal;
-									${this.fncFFSStyle(tx)}
-								' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`
+									${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
+								' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${tx}</span>`
                                             + `<rt${rs}>${rb}</rt></ruby>`
                                             + `</span>`))
-                                    : (this.aSpan_bk
+                                    : (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
                                         ? (`<span data-tcy='${id_tcy}' style='
 							text-combine-upright: all;
 							-webkit-text-combine: horizontal;
-							${this.fncFFSStyle(tx)}
-						' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`)
+							${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
+						' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}' data-cmd='linkrsv'>${tx}</span>`)
                                         : `<span data-tcy='${id_tcy}' style='
 							text-combine-upright: all;
 							-webkit-text-combine: horizontal;
-							animation-delay: ${this.cumDelay}ms;
+							animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;
 							height: 1em;
-							${this.fncFFSStyle(tx)}
-						' class='sn_ch sn_ch_in_${this.ch_in_style}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${tx}</span>`);
-                                if (this.ch_in_join)
-                                    this.cumDelay += (TxtLayer.doAutoWc)
-                                        ? TxtLayer.hAutoWc[ch.charAt(0)] ?? 0
-                                        : LayerMng_1.LayerMng.msecChWait;
+							${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
+						' class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${tx}</span>`);
+                                if (__classPrivateFieldGet(this, _TxtLayer_ch_in_join, "f"))
+                                    __classPrivateFieldSet(this, _TxtLayer_cumDelay, __classPrivateFieldGet(this, _TxtLayer_cumDelay, "f") + ((__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc))
+                                        ? __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_hAutoWc)[ch.charAt(0)] ?? 0
+                                        : LayerMng_1.LayerMng.msecChWait), "f");
                             }
                             break;
                         default:
@@ -79599,66 +79817,66 @@ class TxtLayer extends Layer_1.Layer {
                     }
                     break;
             }
-            this.aSpan.push(TxtLayer.rec(add_htm));
-        };
-        this.cumDelay = 0;
-        this.firstCh = true;
-        this.aSpan = [];
-        this.aSpan_bk = null;
-        this.aSpan_link = '';
-        this.hSpanBk = {
+            __classPrivateFieldGet(this, _TxtLayer_aSpan, "f").push(TxtLayer.rec(add_htm));
+        });
+        _TxtLayer_cumDelay.set(this, 0);
+        _TxtLayer_firstCh.set(this, true);
+        _TxtLayer_aSpan.set(this, []);
+        _TxtLayer_aSpan_bk.set(this, null);
+        _TxtLayer_aSpan_link.set(this, '');
+        _TxtLayer_hSpanBk.set(this, {
             ch_in_style: '',
             ch_out_style: '',
             r_align: '',
-        };
+        });
         this.click = () => {
             if (!this.spLay.interactiveChildren || !this.spLay.visible)
                 return true;
-            return this.txs.skipChIn();
+            return __classPrivateFieldGet(this, _TxtLayer_txs, "f").skipChIn();
         };
-        this.page_text = '';
+        _TxtLayer_page_text.set(this, '');
         this.addButton = (hArg) => new Promise(re => {
-            hArg.key = `btn=[${this.cntBtn.children.length}] ` + this.name_;
+            hArg.key = `btn=[${__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.length}] ` + this.name_;
             hArg[':id_tag'] = hArg.key.slice(0, -7);
-            (0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', this.txs.tategaki);
-            const btn = new Button_1.Button(hArg, TxtLayer.evtMng, () => re(), () => this.canFocus());
+            (0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', __classPrivateFieldGet(this, _TxtLayer_txs, "f").tategaki);
+            const btn = new Button_1.Button(hArg, __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_evtMng), () => re(), () => this.canFocus());
             btn.name = JSON.stringify(hArg).replaceAll('"', "'");
-            this.cntBtn.addChild(btn);
+            __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").addChild(btn);
         });
         this.record = () => Object.assign(super.record(), {
             enabled: this.enabled,
-            r_align: this.r_align,
-            b_do: (this.b_do === null)
+            r_align: __classPrivateFieldGet(this, _TxtLayer_r_align, "f"),
+            b_do: (__classPrivateFieldGet(this, _TxtLayer_b_do, "f") === null)
                 ? null
-                : (this.b_do instanceof pixi_js_1.Sprite ? 'Sprite' : 'Graphics'),
-            b_pic: this.b_pic,
-            b_color: this.b_color,
-            b_alpha: this.b_alpha,
-            b_alpha_isfixed: this.b_alpha_isfixed,
-            ffs: this.ffs,
-            txs: this.txs.record(),
-            strNoFFS: this.strNoFFS,
-            btns: this.cntBtn.children.map(btn => btn.name),
+                : (__classPrivateFieldGet(this, _TxtLayer_b_do, "f") instanceof pixi_js_1.Sprite ? 'Sprite' : 'Graphics'),
+            b_pic: __classPrivateFieldGet(this, _TxtLayer_b_pic, "f"),
+            b_color: __classPrivateFieldGet(this, _TxtLayer_b_color, "f"),
+            b_alpha: __classPrivateFieldGet(this, _TxtLayer_b_alpha, "f"),
+            b_alpha_isfixed: __classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f"),
+            ffs: __classPrivateFieldGet(this, _TxtLayer_ffs, "f"),
+            txs: __classPrivateFieldGet(this, _TxtLayer_txs, "f").record(),
+            strNoFFS: __classPrivateFieldGet(this, _TxtLayer_strNoFFS, "f"),
+            btns: __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.map(btn => btn.name),
         });
-        this.spLay.addChild(this.txs);
-        this.rbSpl.init(this.putCh);
-        this.spLay.addChild(this.cntBtn);
-        this.cntBtn.name = 'cntBtn';
+        this.spLay.addChild(__classPrivateFieldGet(this, _TxtLayer_txs, "f"));
+        __classPrivateFieldGet(this, _TxtLayer_rbSpl, "f").init(__classPrivateFieldGet(this, _TxtLayer_putCh, "f"));
+        this.spLay.addChild(__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f"));
+        __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").name = 'cntBtn';
         const padding = 16 * CmnLib_1.CmnLib.retinaRate;
         this.lay({ style: `width: ${CmnLib_1.CmnLib.stageW}px; height: ${CmnLib_1.CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true' });
     }
     static init(cfg, hTag, val, recText, isPageFore) {
-        TxtLayer.cfg = cfg;
+        __classPrivateFieldSet(TxtLayer, _a, cfg, "f", _TxtLayer_cfg);
         TxtStage_1.TxtStage.init(cfg);
-        TxtLayer.val = val;
-        TxtLayer.recText = recText;
-        TxtLayer.isPageFore = isPageFore;
+        __classPrivateFieldSet(TxtLayer, _a, val, "f", _TxtLayer_val);
+        __classPrivateFieldSet(TxtLayer, _a, recText, "f", _TxtLayer_recText);
+        __classPrivateFieldSet(TxtLayer, _a, isPageFore, "f", _TxtLayer_isPageFore);
         val.setDoRecProc(TxtLayer.chgDoRec);
-        hTag.autowc = o => TxtLayer.autowc(o);
+        hTag.autowc = o => __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_autowc).call(TxtLayer, o);
         const o = { enabled: 'false', text: '', time: '' };
         hTag.autowc(o);
-        hTag.ch_in_style = o => TxtLayer.ch_in_style(o);
-        hTag.ch_out_style = o => TxtLayer.ch_out_style(o);
+        hTag.ch_in_style = o => __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_ch_in_style).call(TxtLayer, o);
+        hTag.ch_out_style = o => __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_ch_out_style).call(TxtLayer, o);
         TxtStage_1.TxtStage.initChStyle();
         (0, CmnLib_1.initStyle)();
         let font = '';
@@ -79667,7 +79885,7 @@ class TxtLayer extends Layer_1.Layer {
                 font += `
 @font-face {
 	font-family: '${o[key]}';
-	src: url('${this.cfg.searchPath(o[key], Config_1.Config.EXT_FONT)}');
+	src: url('${__classPrivateFieldGet(this, _a, "f", _TxtLayer_cfg).searchPath(o[key], Config_1.Config.EXT_FONT)}');
 }
 `;
         });
@@ -79684,7 +79902,7 @@ class TxtLayer extends Layer_1.Layer {
 }
 `;
         (0, CmnLib_1.addStyle)(font);
-        TxtLayer.ch_in_style({
+        __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_ch_in_style).call(TxtLayer, {
             name: 'default',
             wait: 500,
             alpha: 0,
@@ -79696,7 +79914,7 @@ class TxtLayer extends Layer_1.Layer {
             join: true,
             ease: 'ease-out',
         });
-        TxtLayer.ch_out_style({
+        __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_ch_out_style).call(TxtLayer, {
             name: 'default',
             wait: 0,
             alpha: 0,
@@ -79709,233 +79927,73 @@ class TxtLayer extends Layer_1.Layer {
             ease: 'ease-out',
         });
     }
-    static ch_in_style(hArg) {
-        const o = TxtStage_1.TxtStage.ch_in_style(hArg);
-        const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
-        const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
-        const name = hArg.name;
-        (0, CmnLib_1.addStyle)(`
-.sn_ch_in_${name} {
-	position: relative;
-	display: inline-block;
-}
-.go_ch_in_${name} {
-	opacity: ${o.alpha};
-	position: relative;
-	display: inline-block;
-	animation: sn_ch_in_${name} ${o.wait}ms ${o.ease} 0s both;
-}
-@keyframes sn_ch_in_${name} {
-	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});}
-	to {opacity: 1; transform: none;}
-}
-`);
-        return false;
-    }
-    static ch_out_style(hArg) {
-        const o = TxtStage_1.TxtStage.ch_out_style(hArg);
-        const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
-        const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
-        const name = hArg.name;
-        (0, CmnLib_1.addStyle)(`
-.go_ch_out_${name} {
-	position: relative;
-	display: inline-block;
-	animation: go_ch_out_${name} ${o.wait}ms ${o.ease} 0s both;
-}
-@keyframes go_ch_out_${name} {
-	to {
-		opacity: ${o.alpha};
-		transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});
-	}
-`);
-        return false;
-    }
     static setEvtMng(main, evtMng) {
-        TxtLayer.main = main;
-        TxtLayer.evtMng = evtMng;
+        __classPrivateFieldSet(TxtLayer, _a, main, "f", _TxtLayer_main);
+        __classPrivateFieldSet(TxtLayer, _a, evtMng, "f", _TxtLayer_evtMng);
         TxtStage_1.TxtStage.setEvtMng(evtMng);
     }
-    static autowc(hArg) {
-        TxtLayer.doAutoWc = (0, CmnLib_1.argChk_Boolean)(hArg, 'enabled', TxtLayer.doAutoWc);
-        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.doAutoWc);
-        const ch = hArg.text;
-        if (('text' in hArg) !== ('time' in hArg))
-            throw '[autowc] textとtimeは同時指定必須です';
-        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.text', ch);
-        if (!ch) {
-            TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', '');
-            return false;
-        }
-        const len = ch.length;
-        if (TxtLayer.doAutoWc && len === 0)
-            throw '[autowc] enabled === false かつ text === "" は許されません';
-        const a = String(hArg.time).split(',');
-        if (a.length !== len)
-            throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
-        TxtLayer.hAutoWc = {};
-        a.forEach((v, i) => TxtLayer.hAutoWc[ch[i]] = (0, CmnLib_1.uint)(v));
-        TxtLayer.val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
-        return false;
-    }
     destroy() {
-        if (this.b_do) {
-            this.spLay.removeChild(this.b_do).destroy();
-            this.b_do = null;
+        if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
+            this.spLay.removeChild(__classPrivateFieldGet(this, _TxtLayer_b_do, "f")).destroy();
+            __classPrivateFieldSet(this, _TxtLayer_b_do, null, "f");
         }
         this.clearText();
-        this.txs.destroy();
-        TxtLayer.doAutoWc = false;
-        TxtLayer.hAutoWc = {};
+        __classPrivateFieldGet(this, _TxtLayer_txs, "f").destroy();
+        __classPrivateFieldSet(TxtLayer, _a, false, "f", _TxtLayer_doAutoWc);
+        __classPrivateFieldSet(TxtLayer, _a, {}, "f", _TxtLayer_hAutoWc);
         TxtLayer.rec = (tx) => tx;
     }
-    set name(nm) { this.name_ = nm; this.txs.name = nm; }
+    set name(nm) { this.name_ = nm; __classPrivateFieldGet(this, _TxtLayer_txs, "f").name = nm; }
     get name() { return this.name_; }
-    cvsResize() { this.txs.cvsResize(); }
-    cvsResizeChildren() { this.cntBtn.children.forEach(b => b.cvsResize()); }
+    cvsResize() { __classPrivateFieldGet(this, _TxtLayer_txs, "f").cvsResize(); }
+    cvsResizeChildren() { __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.forEach(b => b.cvsResize()); }
     lay(hArg) {
         super.lay(hArg);
         Layer_1.Layer.setXY(this.spLay, hArg, this.spLay);
         hArg[':id_tag'] = this.name_.slice(0, -7);
         RubySpliter_1.RubySpliter.setting(hArg);
-        this.setFfs(hArg);
-        this.txs.lay(hArg);
+        __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_setFfs).call(this, hArg);
+        __classPrivateFieldGet(this, _TxtLayer_txs, "f").lay(hArg);
         if ('r_align' in hArg)
-            this.r_align = hArg.r_align ?? '';
-        this.ruby_pd = CmnLib_1.CmnLib.isSafari
-            ? this.txs.tategaki
+            __classPrivateFieldSet(this, _TxtLayer_r_align, hArg.r_align ?? '', "f");
+        __classPrivateFieldSet(this, _TxtLayer_ruby_pd, CmnLib_1.CmnLib.isSafari
+            ? __classPrivateFieldGet(this, _TxtLayer_txs, "f").tategaki
                 ? (v, l) => `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
                 : (v, l) => `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
-            : this.txs.tategaki
+            : __classPrivateFieldGet(this, _TxtLayer_txs, "f").tategaki
                 ? v => `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
-                : v => `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
+                : v => `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`, "f");
         if (CmnLib_1.CmnLib.isFirefox)
-            this.mkStyle_r_align = this.mkStyle_r_align4ff;
+            this.mkStyle_r_align = __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_mkStyle_r_align4ff);
         if ('alpha' in hArg)
-            this.cntBtn.children.forEach(e => e.alpha = this.spLay.alpha);
-        this.set_ch_in(hArg);
-        this.set_ch_out(hArg);
-        return this.drawBack(hArg, isStop => { if (isStop)
-            TxtLayer.main.resume(); });
+            __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.forEach(e => e.alpha = this.spLay.alpha);
+        __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_in).call(this, hArg);
+        __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_out).call(this, hArg);
+        return __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_drawBack).call(this, hArg, isStop => { if (isStop)
+            __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_main).resume(); });
     }
-    set_ch_in(hArg) {
-        const ins = hArg.in_style;
-        if (!ins)
-            return;
-        const cis = TxtStage_1.TxtStage.getChInStyle(ins);
-        if (!cis)
-            throw `存在しないin_style【${ins}】です`;
-        this.ch_in_style = ins;
-        this.ch_in_join = cis.join;
-    }
-    get width() { return this.txs.getWidth(); }
-    get height() { return this.txs.getHeight(); }
-    set_ch_out(hArg) {
-        const outs = hArg.out_style;
-        if (!outs)
-            return;
-        const cos = TxtStage_1.TxtStage.getChOutStyle(outs);
-        if (!cos)
-            throw `存在しないout_style【${outs}】です`;
-        this.ch_out_style = outs;
-    }
-    drawBack(hArg, fncComp) {
-        if ('back_clear' in hArg) {
-            if ((0, CmnLib_1.argChk_Boolean)(hArg, 'back_clear', false)) {
-                this.b_color = 0x000000;
-                this.b_alpha = 0;
-                this.b_alpha_isfixed = false;
-                this.b_pic = '';
-            }
-            fncComp(false);
-            return false;
-        }
-        this.b_alpha = (0, CmnLib_1.argChk_Num)(hArg, 'b_alpha', this.b_alpha);
-        this.b_alpha_isfixed = (0, CmnLib_1.argChk_Boolean)(hArg, 'b_alpha_isfixed', this.b_alpha_isfixed);
-        const alpha = (this.b_alpha_isfixed
-            ? 1
-            : Number(TxtLayer.val.getVal('sys:TextLayer.Back.Alpha'))) * this.b_alpha;
-        if (hArg.b_pic) {
-            if (this.b_pic !== hArg.b_pic) {
-                this.b_pic = hArg.b_pic;
-                if (this.b_do) {
-                    this.spLay.removeChild(this.b_do);
-                    this.b_do.destroy();
-                }
-                return GrpLayer_1.GrpLayer.csv2Sprites(this.b_pic, this.spLay, sp => {
-                    this.b_do = sp;
-                    sp.name = 'back(pic)';
-                    sp.visible = (alpha > 0);
-                    sp.alpha = alpha;
-                    this.txs.setSize(sp.width, sp.height);
-                    this.spLay.setChildIndex(sp, 0);
-                    fncComp(true);
-                });
-            }
-        }
-        else if ('b_color' in hArg) {
-            this.b_color = parseInt(hArg.b_color || '0');
-            if (this.b_do) {
-                this.spLay.removeChild(this.b_do);
-                this.b_do.destroy();
-            }
-            this.b_pic = '';
-            const grp = this.b_do = new pixi_js_1.Graphics;
-            grp.name = 'back(color)';
-            grp.beginFill(this.b_color);
-            grp.lineStyle(undefined);
-            grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
-            grp.endFill();
-            this.spLay.addChildAt(grp, 0);
-        }
-        if (this.b_do) {
-            this.b_do.visible = (alpha > 0);
-            this.b_do.alpha = alpha;
-        }
-        fncComp(false);
-        return false;
-    }
+    get width() { return __classPrivateFieldGet(this, _TxtLayer_txs, "f").getWidth(); }
+    get height() { return __classPrivateFieldGet(this, _TxtLayer_txs, "f").getHeight(); }
     chgBackAlpha(g_alpha) {
-        const alpha = this.b_alpha_isfixed
-            ? this.b_alpha
-            : g_alpha * this.b_alpha;
-        if (this.b_do instanceof pixi_js_1.Graphics) {
-            if (this.b_do) {
-                this.spLay.removeChild(this.b_do);
-                this.b_do.destroy();
+        const alpha = __classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")
+            ? __classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")
+            : g_alpha * __classPrivateFieldGet(this, _TxtLayer_b_alpha, "f");
+        if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f") instanceof pixi_js_1.Graphics) {
+            if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
+                this.spLay.removeChild(__classPrivateFieldGet(this, _TxtLayer_b_do, "f"));
+                __classPrivateFieldGet(this, _TxtLayer_b_do, "f").destroy();
             }
-            const grp = this.b_do = new pixi_js_1.Graphics;
+            const grp = __classPrivateFieldSet(this, _TxtLayer_b_do, new pixi_js_1.Graphics, "f");
             grp.name = 'back(color)';
-            grp.beginFill(this.b_color);
+            grp.beginFill(__classPrivateFieldGet(this, _TxtLayer_b_color, "f"));
             grp.lineStyle(undefined);
-            grp.drawRect(0, 0, this.infTL.$width, this.infTL.$height);
+            grp.drawRect(0, 0, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height);
             grp.endFill();
             this.spLay.addChildAt(grp, 0);
         }
-        if (this.b_do) {
-            this.b_do.visible = (alpha > 0);
-            this.b_do.alpha = alpha;
-        }
-    }
-    setFfs(hArg) {
-        if ('noffs' in hArg) {
-            this.strNoFFS = hArg.noffs ?? '';
-            this.regNoFFS = new RegExp(`[　${this.strNoFFS}]`);
-        }
-        if (!('ffs' in hArg))
-            return;
-        this.ffs ??= '';
-        if (this.ffs === '') {
-            this.fncFFSStyle = () => '';
-            this.fncFFSSpan = ch => ch;
-        }
-        else {
-            this.fncFFSStyle = ch => this.regNoFFS.test(ch)
-                ? ''
-                : ` font-feature-settings: ${this.ffs};`;
-            this.fncFFSSpan = ch => this.regNoFFS.test(ch)
-                ? ch
-                : `<span style='font-feature-settings: ${this.ffs};'>${ch}</span>`;
+        if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
+            __classPrivateFieldGet(this, _TxtLayer_b_do, "f").visible = (alpha > 0);
+            __classPrivateFieldGet(this, _TxtLayer_b_do, "f").alpha = alpha;
         }
     }
     static chgDoRec(doRec) {
@@ -79952,16 +80010,16 @@ class TxtLayer extends Layer_1.Layer {
         let st = '';
         switch (r_align) {
             case 'justify':
-                st = this.ruby_pd('0', len);
+                st = __classPrivateFieldGet(this, _TxtLayer_ruby_pd, "f").call(this, '0', len);
                 break;
             case '121':
-                st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
+                st = __classPrivateFieldGet(this, _TxtLayer_ruby_pd, "f").call(this, `calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
                 break;
             case 'even':
-                st = this.ruby_pd(`calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
+                st = __classPrivateFieldGet(this, _TxtLayer_ruby_pd, "f").call(this, `calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
                 break;
             case '1ruby':
-                st = this.ruby_pd('1em', len);
+                st = __classPrivateFieldGet(this, _TxtLayer_ruby_pd, "f").call(this, '1em', len);
                 break;
             default:
                 st = `text-align: ${r_align};`;
@@ -79969,121 +80027,37 @@ class TxtLayer extends Layer_1.Layer {
         return ` style='${st}'`;
     }
     ;
-    mkStyle_r_align4ff(ch, rb, r_align) {
-        if (!r_align)
-            return '';
-        const len = ch.length * 2;
-        if (len - rb.length < 0)
-            return ` style='text-align: ${r_align};'`;
-        let st = '';
-        switch (r_align) {
-            case 'left':
-                st = `ruby-align: start;`;
-                break;
-            case 'center':
-                st = `ruby-align: center;`;
-                break;
-            case 'right':
-                st = `ruby-align: start;`;
-                break;
-            case 'justify':
-                st = `ruby-align: space-between;`;
-                break;
-            case '121':
-                st = `ruby-align: space-around;`;
-                break;
-            case 'even':
-                const ev = (len - rb.length) / (rb.length + 1);
-                st = `ruby-align: space-between; ` +
-                    (this.txs.tategaki
-                        ? `padding-top: ${ev}em; padding-bottom: ${ev}em;`
-                        : `padding-left: ${ev}em; padding-right: ${ev}em;`);
-                break;
-            case '1ruby':
-                st = `ruby-align: space-between; ` +
-                    (this.txs.tategaki
-                        ? `padding-top: 1em; padding-bottom: 1em;`
-                        : `padding-left: 1em; padding-right: 1em;`);
-                break;
-            default: st = `text-align: ${r_align};`;
-        }
-        return ` style='${st}'`;
-    }
-    tagCh(text) { this.rbSpl.putTxt(text); }
-    tagCh_sub(ch, ruby, isSkip, r_align) {
-        if (ch === ' ')
-            ch = '&nbsp;';
-        if (TxtLayer.val.doRecLog())
-            this.page_text += ch
-                + (ruby ? `《${ruby}》` : '');
-        let add_htm = '';
-        const rs = this.mkStyle_r_align(ch, ruby, r_align);
-        if (isSkip)
-            this.cumDelay = 0;
-        add_htm = ruby
-            ? (this.aSpan_bk
-                ? `<ruby style='${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-                : (`<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}'>`
-                    + `<ruby data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-                    + `</span>`))
-            : (this.aSpan_bk
-                ? this.fncFFSSpan(ch)
-                : `<span class='sn_ch sn_ch_in_${this.ch_in_style}' style='animation-delay: ${this.cumDelay}ms;${this.fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.ch_in_style}", "ch_out_style":"${this.ch_out_style}"}'>${ch}</span>`);
-        if (this.ch_in_join)
-            this.cumDelay += TxtLayer.doAutoWc
-                ? TxtLayer.hAutoWc[ch.charAt(0)] ?? 0
-                : LayerMng_1.LayerMng.msecChWait;
-        return add_htm;
-    }
-    beginSpan(o) {
-        this.hSpanBk.ch_in_style = this.ch_in_style;
-        this.set_ch_in(o);
-        this.hSpanBk.ch_out_style = this.ch_out_style;
-        this.set_ch_out(o);
-        this.hSpanBk.r_align = this.r_align;
-        if ('r_align' in o)
-            this.r_align = o.r_align;
-    }
-    autoCloseSpan() {
-        if (!this.aSpan_bk)
-            return;
-        this.aSpan_bk.push(this.aSpan, '</span>');
-        this.aSpan = Array.prototype.concat.apply([], this.aSpan_bk);
-        this.aSpan_bk = null;
-        this.set_ch_in({ in_style: this.hSpanBk.ch_in_style });
-        this.set_ch_out({ out_style: this.hSpanBk.ch_out_style });
-        this.r_align = this.hSpanBk.r_align;
-    }
+    tagCh(text) { __classPrivateFieldGet(this, _TxtLayer_rbSpl, "f").putTxt(text); }
     clearText() {
-        this.spLay.addChild(this.txs = this.txs.reNew());
-        this.cumDelay = 0;
-        this.firstCh = true;
-        this.aSpan = [];
-        this.aSpan_bk = null;
-        this.page_text = '';
-        TxtLayer.recText('', true);
+        this.spLay.addChild(__classPrivateFieldSet(this, _TxtLayer_txs, __classPrivateFieldGet(this, _TxtLayer_txs, "f").reNew(), "f"));
+        __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
+        __classPrivateFieldSet(this, _TxtLayer_firstCh, true, "f");
+        __classPrivateFieldSet(this, _TxtLayer_aSpan, [], "f");
+        __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, null, "f");
+        __classPrivateFieldSet(this, _TxtLayer_page_text, '', "f");
+        __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_recText).call(TxtLayer, '', true);
     }
-    get pageText() { return this.page_text.replace('《　》', ''); }
+    get pageText() { return __classPrivateFieldGet(this, _TxtLayer_page_text, "f").replace('《　》', ''); }
     get enabled() { return this.spLay.interactiveChildren; }
     set enabled(e) { this.spLay.interactiveChildren = e; }
     canFocus() {
         return (this.spLay.interactiveChildren ?? false) && this.spLay.visible
-            && TxtLayer.isPageFore(this);
+            && __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_isPageFore).call(TxtLayer, this);
     }
     clearLay(hArg) {
         super.clearLay(hArg);
         this.clearText();
-        this.cntBtn.removeChildren().forEach(c => c.destroy());
+        __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").removeChildren().forEach(c => c.destroy());
     }
     playback(hLay, aPrm) {
         super.playback(hLay, aPrm);
         this.enabled = hLay.enabled;
-        this.r_align = hLay.r_align;
+        __classPrivateFieldSet(this, _TxtLayer_r_align, hLay.r_align, "f");
         this.cvsResize();
-        this.b_alpha = hLay.b_alpha;
-        this.b_alpha_isfixed = hLay.b_alpha_isfixed;
+        __classPrivateFieldSet(this, _TxtLayer_b_alpha, hLay.b_alpha, "f");
+        __classPrivateFieldSet(this, _TxtLayer_b_alpha_isfixed, hLay.b_alpha_isfixed, "f");
         aPrm.push(new Promise(re => {
-            if (!this.drawBack((hLay.b_do)
+            if (!__classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_drawBack).call(this, (hLay.b_do)
                 ? (hLay.b_do === 'Sprite'
                     ? { b_pic: hLay.b_pic }
                     : { b_color: hLay.b_color })
@@ -80091,38 +80065,278 @@ class TxtLayer extends Layer_1.Layer {
                 re(); }))
                 re();
         }));
-        this.setFfs(hLay);
-        this.txs.playback(hLay.txs);
+        __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_setFfs).call(this, hLay);
+        __classPrivateFieldGet(this, _TxtLayer_txs, "f").playback(hLay.txs);
         const aBtn = hLay.btns;
         aPrm = aPrm.concat(aBtn.map(v => this.addButton(JSON.parse(v.replaceAll(`'`, '"')))));
     }
     snapshot(rnd, re) {
         rnd.render(this.spLay, undefined, false);
-        this.txs.snapshot(rnd, re);
+        __classPrivateFieldGet(this, _TxtLayer_txs, "f").snapshot(rnd, re);
     }
-    snapshot_end() { this.txs.snapshot_end(); }
+    snapshot_end() { __classPrivateFieldGet(this, _TxtLayer_txs, "f").snapshot_end(); }
     makeDesignCast(gdc) {
         if (!this.spLay.visible)
             return;
-        this.txs.makeDesignCast(gdc);
+        __classPrivateFieldGet(this, _TxtLayer_txs, "f").makeDesignCast(gdc);
     }
     makeDesignCastChildren(gdc) {
         if (!this.spLay.visible)
             return;
-        this.cntBtn.children.forEach(btn => btn.makeDesignCast(gdc));
+        __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.forEach(btn => btn.makeDesignCast(gdc));
     }
-    showDesignCast() { this.txs.showDesignCast(); }
+    showDesignCast() { __classPrivateFieldGet(this, _TxtLayer_txs, "f").showDesignCast(); }
     showDesignCastChildren() {
-        this.cntBtn.children.forEach(btn => btn.showDesignCast());
+        __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.forEach(btn => btn.showDesignCast());
     }
     dump() {
-        this.putCh('', 'gotxt｜');
-        return super.dump() + `, "enabled":"${this.enabled}", ${this.txs.dump()}, "b_pic":"${this.b_pic}", "b_color":"${this.b_color}", "b_alpha":${this.b_alpha}, "b_alpha_isfixed":"${this.b_alpha_isfixed}", "b_width":${this.infTL.$width}, "b_height":${this.infTL.$height}, "pixi_obj":[${this.spLay.children.map(e => `{"class":"${(e instanceof pixi_js_1.Sprite) ? 'Sprite' : ((e instanceof pixi_js_1.Graphics) ? 'Graphics' : ((e instanceof pixi_js_1.Container) ? 'Container' : '?'))}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')}], "button":[${this.cntBtn.children.map(d => d.children[0].name).join(',')}]`;
+        __classPrivateFieldGet(this, _TxtLayer_putCh, "f").call(this, '', 'gotxt｜');
+        return super.dump() + `, "enabled":"${this.enabled}", ${__classPrivateFieldGet(this, _TxtLayer_txs, "f").dump()}, "b_pic":"${__classPrivateFieldGet(this, _TxtLayer_b_pic, "f")}", "b_color":"${__classPrivateFieldGet(this, _TxtLayer_b_color, "f")}", "b_alpha":${__classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")}, "b_alpha_isfixed":"${__classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")}", "b_width":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width}, "b_height":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height}, "pixi_obj":[${this.spLay.children.map(e => `{"class":"${(e instanceof pixi_js_1.Sprite) ? 'Sprite' : ((e instanceof pixi_js_1.Graphics) ? 'Graphics' : ((e instanceof pixi_js_1.Container) ? 'Container' : '?'))}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')}], "button":[${__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.map(d => d.children[0].name).join(',')}]`;
     }
 }
 exports.TxtLayer = TxtLayer;
-TxtLayer.doAutoWc = false;
-TxtLayer.hAutoWc = {};
+_a = TxtLayer, _TxtLayer_infTL = new WeakMap(), _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMap(), _TxtLayer_b_alpha_isfixed = new WeakMap(), _TxtLayer_b_do = new WeakMap(), _TxtLayer_b_pic = new WeakMap(), _TxtLayer_txs = new WeakMap(), _TxtLayer_rbSpl = new WeakMap(), _TxtLayer_cntBtn = new WeakMap(), _TxtLayer_$ch_in_style = new WeakMap(), _TxtLayer_ch_in_join = new WeakMap(), _TxtLayer_$ch_out_style = new WeakMap(), _TxtLayer_ffs = new WeakMap(), _TxtLayer_fncFFSStyle = new WeakMap(), _TxtLayer_fncFFSSpan = new WeakMap(), _TxtLayer_strNoFFS = new WeakMap(), _TxtLayer_regNoFFS = new WeakMap(), _TxtLayer_ruby_pd = new WeakMap(), _TxtLayer_r_align = new WeakMap(), _TxtLayer_needGoTxt = new WeakMap(), _TxtLayer_putCh = new WeakMap(), _TxtLayer_cumDelay = new WeakMap(), _TxtLayer_firstCh = new WeakMap(), _TxtLayer_aSpan = new WeakMap(), _TxtLayer_aSpan_bk = new WeakMap(), _TxtLayer_aSpan_link = new WeakMap(), _TxtLayer_hSpanBk = new WeakMap(), _TxtLayer_page_text = new WeakMap(), _TxtLayer_instances = new WeakSet(), _TxtLayer_ch_in_style = function _TxtLayer_ch_in_style(hArg) {
+    const o = TxtStage_1.TxtStage.ch_in_style(hArg);
+    const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
+    const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
+    const name = hArg.name;
+    (0, CmnLib_1.addStyle)(`
+.sn_ch_in_${name} {
+	position: relative;
+	display: inline-block;
+}
+.go_ch_in_${name} {
+	opacity: ${o.alpha};
+	position: relative;
+	display: inline-block;
+	animation: sn_ch_in_${name} ${o.wait}ms ${o.ease} 0s both;
+}
+@keyframes sn_ch_in_${name} {
+	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});}
+	to {opacity: 1; transform: none;}
+}
+`);
+    return false;
+}, _TxtLayer_ch_out_style = function _TxtLayer_ch_out_style(hArg) {
+    const o = TxtStage_1.TxtStage.ch_out_style(hArg);
+    const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
+    const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
+    const name = hArg.name;
+    (0, CmnLib_1.addStyle)(`
+.go_ch_out_${name} {
+	position: relative;
+	display: inline-block;
+	animation: go_ch_out_${name} ${o.wait}ms ${o.ease} 0s both;
+}
+@keyframes go_ch_out_${name} {
+	to {
+		opacity: ${o.alpha};
+		transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});
+	}
+`);
+    return false;
+}, _TxtLayer_autowc = function _TxtLayer_autowc(hArg) {
+    __classPrivateFieldSet(TxtLayer, _a, (0, CmnLib_1.argChk_Boolean)(hArg, 'enabled', __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc)), "f", _TxtLayer_doAutoWc);
+    __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.enabled', __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc));
+    const ch = hArg.text;
+    if (('text' in hArg) !== ('time' in hArg))
+        throw '[autowc] textとtimeは同時指定必須です';
+    __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.text', ch);
+    if (!ch) {
+        __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.time', '');
+        return false;
+    }
+    const len = ch.length;
+    if (__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc) && len === 0)
+        throw '[autowc] enabled === false かつ text === "" は許されません';
+    const a = String(hArg.time).split(',');
+    if (a.length !== len)
+        throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
+    __classPrivateFieldSet(TxtLayer, _a, {}, "f", _TxtLayer_hAutoWc);
+    a.forEach((v, i) => __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_hAutoWc)[ch[i]] = (0, CmnLib_1.uint)(v));
+    __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
+    return false;
+}, _TxtLayer_set_ch_in = function _TxtLayer_set_ch_in(hArg) {
+    const ins = hArg.in_style;
+    if (!ins)
+        return;
+    const cis = TxtStage_1.TxtStage.getChInStyle(ins);
+    if (!cis)
+        throw `存在しないin_style【${ins}】です`;
+    __classPrivateFieldSet(this, _TxtLayer_$ch_in_style, ins, "f");
+    __classPrivateFieldSet(this, _TxtLayer_ch_in_join, cis.join, "f");
+}, _TxtLayer_set_ch_out = function _TxtLayer_set_ch_out(hArg) {
+    const outs = hArg.out_style;
+    if (!outs)
+        return;
+    const cos = TxtStage_1.TxtStage.getChOutStyle(outs);
+    if (!cos)
+        throw `存在しないout_style【${outs}】です`;
+    __classPrivateFieldSet(this, _TxtLayer_$ch_out_style, outs, "f");
+}, _TxtLayer_drawBack = function _TxtLayer_drawBack(hArg, fncComp) {
+    if ('back_clear' in hArg) {
+        if ((0, CmnLib_1.argChk_Boolean)(hArg, 'back_clear', false)) {
+            __classPrivateFieldSet(this, _TxtLayer_b_color, 0x000000, "f");
+            __classPrivateFieldSet(this, _TxtLayer_b_alpha, 0, "f");
+            __classPrivateFieldSet(this, _TxtLayer_b_alpha_isfixed, false, "f");
+            __classPrivateFieldSet(this, _TxtLayer_b_pic, '', "f");
+        }
+        fncComp(false);
+        return false;
+    }
+    __classPrivateFieldSet(this, _TxtLayer_b_alpha, (0, CmnLib_1.argChk_Num)(hArg, 'b_alpha', __classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")), "f");
+    __classPrivateFieldSet(this, _TxtLayer_b_alpha_isfixed, (0, CmnLib_1.argChk_Boolean)(hArg, 'b_alpha_isfixed', __classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")), "f");
+    const alpha = (__classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")
+        ? 1
+        : Number(__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).getVal('sys:TextLayer.Back.Alpha'))) * __classPrivateFieldGet(this, _TxtLayer_b_alpha, "f");
+    if (hArg.b_pic) {
+        if (__classPrivateFieldGet(this, _TxtLayer_b_pic, "f") !== hArg.b_pic) {
+            __classPrivateFieldSet(this, _TxtLayer_b_pic, hArg.b_pic, "f");
+            if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
+                this.spLay.removeChild(__classPrivateFieldGet(this, _TxtLayer_b_do, "f"));
+                __classPrivateFieldGet(this, _TxtLayer_b_do, "f").destroy();
+            }
+            return GrpLayer_1.GrpLayer.csv2Sprites(__classPrivateFieldGet(this, _TxtLayer_b_pic, "f"), this.spLay, sp => {
+                __classPrivateFieldSet(this, _TxtLayer_b_do, sp, "f");
+                sp.name = 'back(pic)';
+                sp.visible = (alpha > 0);
+                sp.alpha = alpha;
+                __classPrivateFieldGet(this, _TxtLayer_txs, "f").setSize(sp.width, sp.height);
+                this.spLay.setChildIndex(sp, 0);
+                fncComp(true);
+            });
+        }
+    }
+    else if ('b_color' in hArg) {
+        __classPrivateFieldSet(this, _TxtLayer_b_color, parseInt(hArg.b_color || '0'), "f");
+        if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
+            this.spLay.removeChild(__classPrivateFieldGet(this, _TxtLayer_b_do, "f"));
+            __classPrivateFieldGet(this, _TxtLayer_b_do, "f").destroy();
+        }
+        __classPrivateFieldSet(this, _TxtLayer_b_pic, '', "f");
+        const grp = __classPrivateFieldSet(this, _TxtLayer_b_do, new pixi_js_1.Graphics, "f");
+        grp.name = 'back(color)';
+        grp.beginFill(__classPrivateFieldGet(this, _TxtLayer_b_color, "f"));
+        grp.lineStyle(undefined);
+        grp.drawRect(0, 0, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height);
+        grp.endFill();
+        this.spLay.addChildAt(grp, 0);
+    }
+    if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
+        __classPrivateFieldGet(this, _TxtLayer_b_do, "f").visible = (alpha > 0);
+        __classPrivateFieldGet(this, _TxtLayer_b_do, "f").alpha = alpha;
+    }
+    fncComp(false);
+    return false;
+}, _TxtLayer_setFfs = function _TxtLayer_setFfs(hArg) {
+    if ('noffs' in hArg) {
+        __classPrivateFieldSet(this, _TxtLayer_strNoFFS, hArg.noffs ?? '', "f");
+        __classPrivateFieldSet(this, _TxtLayer_regNoFFS, new RegExp(`[　${__classPrivateFieldGet(this, _TxtLayer_strNoFFS, "f")}]`), "f");
+    }
+    if (!('ffs' in hArg))
+        return;
+    __classPrivateFieldSet(this, _TxtLayer_ffs, __classPrivateFieldGet(this, _TxtLayer_ffs, "f") ?? '', "f");
+    if (__classPrivateFieldGet(this, _TxtLayer_ffs, "f") === '') {
+        __classPrivateFieldSet(this, _TxtLayer_fncFFSStyle, () => '', "f");
+        __classPrivateFieldSet(this, _TxtLayer_fncFFSSpan, ch => ch, "f");
+    }
+    else {
+        __classPrivateFieldSet(this, _TxtLayer_fncFFSStyle, ch => __classPrivateFieldGet(this, _TxtLayer_regNoFFS, "f").test(ch)
+            ? ''
+            : ` font-feature-settings: ${__classPrivateFieldGet(this, _TxtLayer_ffs, "f")};`, "f");
+        __classPrivateFieldSet(this, _TxtLayer_fncFFSSpan, ch => __classPrivateFieldGet(this, _TxtLayer_regNoFFS, "f").test(ch)
+            ? ch
+            : `<span style='font-feature-settings: ${__classPrivateFieldGet(this, _TxtLayer_ffs, "f")};'>${ch}</span>`, "f");
+    }
+}, _TxtLayer_mkStyle_r_align4ff = function _TxtLayer_mkStyle_r_align4ff(ch, rb, r_align) {
+    if (!r_align)
+        return '';
+    const len = ch.length * 2;
+    if (len - rb.length < 0)
+        return ` style='text-align: ${r_align};'`;
+    let st = '';
+    switch (r_align) {
+        case 'left':
+            st = `ruby-align: start;`;
+            break;
+        case 'center':
+            st = `ruby-align: center;`;
+            break;
+        case 'right':
+            st = `ruby-align: start;`;
+            break;
+        case 'justify':
+            st = `ruby-align: space-between;`;
+            break;
+        case '121':
+            st = `ruby-align: space-around;`;
+            break;
+        case 'even':
+            const ev = (len - rb.length) / (rb.length + 1);
+            st = `ruby-align: space-between; ` +
+                (__classPrivateFieldGet(this, _TxtLayer_txs, "f").tategaki
+                    ? `padding-top: ${ev}em; padding-bottom: ${ev}em;`
+                    : `padding-left: ${ev}em; padding-right: ${ev}em;`);
+            break;
+        case '1ruby':
+            st = `ruby-align: space-between; ` +
+                (__classPrivateFieldGet(this, _TxtLayer_txs, "f").tategaki
+                    ? `padding-top: 1em; padding-bottom: 1em;`
+                    : `padding-left: 1em; padding-right: 1em;`);
+            break;
+        default: st = `text-align: ${r_align};`;
+    }
+    return ` style='${st}'`;
+}, _TxtLayer_tagCh_sub = function _TxtLayer_tagCh_sub(ch, ruby, isSkip, r_align) {
+    if (ch === ' ')
+        ch = '&nbsp;';
+    if (__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).doRecLog())
+        __classPrivateFieldSet(this, _TxtLayer_page_text, __classPrivateFieldGet(this, _TxtLayer_page_text, "f") + (ch
+            + (ruby ? `《${ruby}》` : '')), "f");
+    let add_htm = '';
+    const rs = this.mkStyle_r_align(ch, ruby, r_align);
+    if (isSkip)
+        __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
+    add_htm = ruby
+        ? (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
+            ? `<ruby style='${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+            : (`<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}'>`
+                + `<ruby data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+                + `</span>`))
+        : (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
+            ? __classPrivateFieldGet(this, _TxtLayer_fncFFSSpan, "f").call(this, ch)
+            : `<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${ch}</span>`);
+    if (__classPrivateFieldGet(this, _TxtLayer_ch_in_join, "f"))
+        __classPrivateFieldSet(this, _TxtLayer_cumDelay, __classPrivateFieldGet(this, _TxtLayer_cumDelay, "f") + (__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc)
+            ? __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_hAutoWc)[ch.charAt(0)] ?? 0
+            : LayerMng_1.LayerMng.msecChWait), "f");
+    return add_htm;
+}, _TxtLayer_beginSpan = function _TxtLayer_beginSpan(o) {
+    __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").ch_in_style = __classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f");
+    __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_in).call(this, o);
+    __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").ch_out_style = __classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f");
+    __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_out).call(this, o);
+    __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").r_align = __classPrivateFieldGet(this, _TxtLayer_r_align, "f");
+    if ('r_align' in o)
+        __classPrivateFieldSet(this, _TxtLayer_r_align, o.r_align, "f");
+}, _TxtLayer_autoCloseSpan = function _TxtLayer_autoCloseSpan() {
+    if (!__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f"))
+        return;
+    __classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f").push(__classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), '</span>');
+    __classPrivateFieldSet(this, _TxtLayer_aSpan, Array.prototype.concat.apply([], __classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")), "f");
+    __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, null, "f");
+    __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_in).call(this, { in_style: __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").ch_in_style });
+    __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_out).call(this, { out_style: __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").ch_out_style });
+    __classPrivateFieldSet(this, _TxtLayer_r_align, __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").r_align, "f");
+};
+_TxtLayer_cfg = { value: void 0 };
+_TxtLayer_val = { value: void 0 };
+_TxtLayer_recText = { value: void 0 };
+_TxtLayer_isPageFore = { value: void 0 };
+_TxtLayer_main = { value: void 0 };
+_TxtLayer_evtMng = { value: void 0 };
+_TxtLayer_doAutoWc = { value: false };
+_TxtLayer_hAutoWc = { value: {} };
 TxtLayer.rec = (tx) => tx;
 
 
@@ -80132,10 +80346,22 @@ TxtLayer.rec = (tx) => tx;
 /*!*********************************!*\
   !*** ./core/src/sn/TxtStage.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_cvs, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_rctm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtStage = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -80153,45 +80379,47 @@ class TxtStage extends pixi_js_1.Container {
         this.infTL = infTL;
         this.spLay = spLay;
         this.canFocus = canFocus;
-        this.htmTxt = document.createElement('span');
-        this.cntTxt = new pixi_js_1.Container;
-        this.grpDbgMasume = new pixi_js_1.Graphics;
-        this.idc = new DesignCast_1.TxtLayDesignCast(this.spLay, this);
-        this.idcCh = new DesignCast_1.TxtLayPadDesignCast(this);
-        this.left = 0;
-        this.isTategaki = false;
-        this.padTx4x = 0;
-        this.padTx4y = 0;
-        this.aSpTw = [];
-        this.aRect = [];
-        this.lenHtmTxt = 0;
-        this.beforeHTMLElm = null;
-        this.rctm = new pixi_js_1.Rectangle;
-        this.regDs = /animation\-duration: (?<ms>\d+)ms;/;
-        this.fncEndChIn = () => { };
-        this.isChInIng = false;
-        this.lh_half = 0;
-        this.fi_easing = 'Quadratic.Out';
-        this.fo_easing = 'Quadratic.Out';
-        this.sss = null;
-        this.htmTxt.classList.add('sn_tx');
-        this.htmTxt.style.position = 'absolute';
-        TxtStage.cvs.parentElement.appendChild(this.htmTxt);
-        this.addChild(this.cntTxt);
-        this.addChild(this.grpDbgMasume);
-        this.grpDbgMasume.name = 'grpDbgMasume';
-        this.idc.adopt(this.idcCh);
+        _TxtStage_instances.add(this);
+        _TxtStage_htmTxt.set(this, document.createElement('span'));
+        _TxtStage_cntTxt.set(this, new pixi_js_1.Container);
+        _TxtStage_grpDbgMasume.set(this, new pixi_js_1.Graphics);
+        _TxtStage_idc.set(this, new DesignCast_1.TxtLayDesignCast(this.spLay, this));
+        _TxtStage_idcCh.set(this, new DesignCast_1.TxtLayPadDesignCast(this));
+        _TxtStage_left.set(this, 0);
+        _TxtStage_isTategaki.set(this, false);
+        _TxtStage_padTx4x.set(this, 0);
+        _TxtStage_padTx4y.set(this, 0);
+        _TxtStage_ch_filter.set(this, void 0);
+        _TxtStage_aSpTw.set(this, []);
+        _TxtStage_aRect.set(this, []);
+        _TxtStage_lenHtmTxt.set(this, 0);
+        _TxtStage_beforeHTMLElm.set(this, null);
+        _TxtStage_rctm.set(this, new pixi_js_1.Rectangle);
+        _TxtStage_REGDS.set(this, /animation\-duration: (?<ms>\d+)ms;/);
+        _TxtStage_fncEndChIn.set(this, () => { });
+        _TxtStage_isChInIng.set(this, false);
+        _TxtStage_lh_half.set(this, 0);
+        _TxtStage_fi_easing.set(this, 'Quadratic.Out');
+        _TxtStage_fo_easing.set(this, 'Quadratic.Out');
+        _TxtStage_sss.set(this, null);
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").classList.add('sn_tx');
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.position = 'absolute';
+        __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cvs).parentElement.appendChild(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"));
+        this.addChild(__classPrivateFieldGet(this, _TxtStage_cntTxt, "f"));
+        this.addChild(__classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f"));
+        __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").name = 'grpDbgMasume';
+        __classPrivateFieldGet(this, _TxtStage_idc, "f").adopt(__classPrivateFieldGet(this, _TxtStage_idcCh, "f"));
     }
     static init(cfg) {
-        TxtStage.cfg = cfg;
-        TxtStage.cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
-        TxtStage.reg行頭禁則 = /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
-        TxtStage.reg行末禁則 = /[［（｛〈「『【〔“〝]/;
-        TxtStage.reg分割禁止 = /[─‥…]/;
+        __classPrivateFieldSet(TxtStage, _a, cfg, "f", _TxtStage_cfg);
+        __classPrivateFieldSet(TxtStage, _a, document.getElementById(CmnLib_1.CmnLib.SN_ID), "f", _TxtStage_cvs);
+        __classPrivateFieldSet(TxtStage, _a, /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/, "f", _TxtStage_reg行頭禁則);
+        __classPrivateFieldSet(TxtStage, _a, /[［（｛〈「『【〔“〝]/, "f", _TxtStage_reg行末禁則);
+        __classPrivateFieldSet(TxtStage, _a, /[─‥…]/, "f", _TxtStage_reg分割禁止);
     }
-    static setEvtMng(evtMng) { TxtStage.evtMng = evtMng; }
+    static setEvtMng(evtMng) { __classPrivateFieldSet(TxtStage, _a, evtMng, "f", _TxtStage_evtMng); }
     static destroy() {
-        TxtStage.hWarning = {
+        __classPrivateFieldSet(TxtStage, _a, {
             backgroundColor: 0,
             borderBottomWidth: 0,
             borderLeftWidth: 0,
@@ -80201,21 +80429,21 @@ class TxtStage extends pixi_js_1.Container {
             marginLeft: 0,
             marginRight: 0,
             marginTop: 0,
-        };
-        TxtStage.hChInStyle = Object.create(null);
-        TxtStage.hChOutStyle = Object.create(null);
-        TxtStage.cntBreak = new pixi_js_1.Container;
+        }, "f", _TxtStage_hWarning);
+        __classPrivateFieldSet(TxtStage, _a, Object.create(null), "f", _TxtStage_hChInStyle);
+        __classPrivateFieldSet(TxtStage, _a, Object.create(null), "f", _TxtStage_hChOutStyle);
+        __classPrivateFieldSet(TxtStage, _a, new pixi_js_1.Container, "f", _TxtStage_cntBreak);
     }
     getInfTL() { return this.infTL; }
     lay(hArg) {
-        const s = this.htmTxt.style;
+        const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
         if (hArg.style) {
             const cln = document.createElement('span');
             cln.style.cssText = hArg.style;
             const len = cln.style.length;
             for (let i = 0; i < len; ++i) {
                 const key = cln.style[i];
-                if (key in TxtStage.hWarning) {
+                if (key in __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hWarning)) {
                     DebugMng_1.DebugMng.myTrace(`${key}は指定できません`, 'W');
                     continue;
                 }
@@ -80238,326 +80466,75 @@ class TxtStage extends pixi_js_1.Container {
             s.paddingTop = (hArg.pt ?? '0') + 'px';
         if ('pb' in hArg)
             s.paddingBottom = (hArg.pb ?? '0') + 'px';
-        this.lay_sub();
-        this.idc.sethArg(hArg);
-        this.left = this.spLay.position.x
-            - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && this.isTategaki
+        __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_lay_sub).call(this);
+        __classPrivateFieldGet(this, _TxtStage_idc, "f").sethArg(hArg);
+        __classPrivateFieldSet(this, _TxtStage_left, this.spLay.position.x
+            - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && __classPrivateFieldGet(this, _TxtStage_isTategaki, "f")
                 ? this.infTL.pad_left + this.infTL.pad_right
-                : 0);
+                : 0), "f");
         s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
         this.cvsResize();
         s.display = this.spLay.visible ? 'inline' : 'none';
         s.textShadow = hArg.filter ?? s.textShadow ?? '';
-        if (':redraw' in hArg && this.lenHtmTxt > 0) {
+        if (':redraw' in hArg && __classPrivateFieldGet(this, _TxtStage_lenHtmTxt, "f") > 0) {
             const aSpan = [
-                this.htmTxt.innerHTML.replace(/(animation-delay: )\d+ms/g, '$10ms'),
+                __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").innerHTML.replace(/(animation-delay: )\d+ms/g, '$10ms'),
                 `<span class='sn_ch' data-add='{"ch_in_style":"default"}'>　</span>`,
             ];
-            this.clearText();
+            __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_clearText).call(this);
             this.goTxt(aSpan);
         }
     }
-    lay_sub() {
-        const s = this.htmTxt.style;
-        const fs = parseFloat(s.fontSize || '0');
-        this.infTL.fontsize = fs;
-        this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
-        this.infTL.pad_right = parseFloat(s.paddingRight || '0');
-        this.infTL.pad_top = parseFloat(s.paddingTop || '0');
-        this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
-        this.infTL.$width = parseFloat(s.width || '0');
-        this.infTL.$height = parseFloat(s.height || '0');
-        this.position.set(this.infTL.pad_left, this.infTL.pad_top);
-        this.isTategaki = (s.writingMode === 'vertical-rl');
-        this.padTx4x = 0;
-        this.padTx4y = 0;
-        const lh = s.lineHeight ?? '0';
-        this.lh_half = this.isTategaki
-            ? 0
-            : ((lh.slice(-2) === 'px')
-                ? parseFloat(lh)
-                : (fs * parseFloat(lh) - fs)) / 2;
-    }
     cvsResize() {
-        const s = this.htmTxt.style;
-        s.left = (this.left * CmnLib_1.CmnLib.cvsScale) + 'px';
+        const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
+        s.left = (__classPrivateFieldGet(this, _TxtStage_left, "f") * CmnLib_1.CmnLib.cvsScale) + 'px';
         s.top = (this.spLay.position.y * CmnLib_1.CmnLib.cvsScale) + 'px';
         s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * CmnLib_1.CmnLib.cvsScale}, ${this.spLay.scale.y * CmnLib_1.CmnLib.cvsScale}`;
-        this.idc.cvsResize();
-        this.idcCh.cvsResize();
+        __classPrivateFieldGet(this, _TxtStage_idc, "f").cvsResize();
+        __classPrivateFieldGet(this, _TxtStage_idcCh, "f").cvsResize();
     }
-    get tategaki() { return this.isTategaki; }
+    get tategaki() { return __classPrivateFieldGet(this, _TxtStage_isTategaki, "f"); }
     getWidth() { return this.infTL.$width; }
     getHeight() { return this.infTL.$height; }
     setSize(width, height) {
         this.infTL.$width = width;
         this.infTL.$height = height;
-        this.htmTxt.style.width = this.infTL.$width + 'px';
-        this.htmTxt.style.height = this.infTL.$height + 'px';
-    }
-    htm2tx(fnc, hidden = true) {
-        const util = {
-            escape: (str) => str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
-            mimeType: (url) => {
-                const extension = parseExtension(url).toLowerCase();
-                return mimes()[extension] || '';
-            },
-            dataAsUrl: dataAsUrl,
-            isDataUrl: isDataUrl,
-            resolveUrl: resolveUrl,
-            getAndEncode: getAndEncode,
-            asArray: (arrayLike) => {
-                const a = [];
-                const len = arrayLike.length;
-                for (let i = 0; i < len; ++i)
-                    a.push(arrayLike[i]);
-                return a;
-            },
-        };
-        function mimes() {
-            const WOFF = 'application/font-woff';
-            const JPEG = 'image/jpeg';
-            return {
-                'woff': WOFF,
-                'woff2': WOFF,
-                'ttf': 'application/font-truetype',
-                'eot': 'application/vnd.ms-fontobject',
-                'png': 'image/png',
-                'jpg': JPEG,
-                'jpeg': JPEG,
-                'gif': 'image/gif',
-                'tiff': 'image/tiff',
-                'svg': 'image/svg+xml'
-            };
-        }
-        const inliner = newInliner();
-        const fontFaces = newFontFaces();
-        function embedFonts(node) {
-            return fontFaces.resolveAll()
-                .then(cssText => {
-                const styleNode = document.createElement('style');
-                node.appendChild(styleNode);
-                styleNode.appendChild(document.createTextNode(cssText));
-                return node;
-            });
-        }
-        function parseExtension(url) {
-            const match = /\.([^\.\/]*?)$/g.exec(url);
-            return match?.[1] ?? '';
-        }
-        function isDataUrl(url) {
-            return url.search(/^(data:)/) !== -1;
-        }
-        function resolveUrl(url, baseUrl) {
-            const doc = document.implementation.createHTMLDocument();
-            const base = doc.createElement('base');
-            doc.head.appendChild(base);
-            const a = doc.createElement('a');
-            doc.body.appendChild(a);
-            base.href = baseUrl;
-            a.href = url;
-            return a.href;
-        }
-        function getAndEncode(url) {
-            let TIMEOUT = 30000;
-            return new Promise(function (resolve) {
-                const request = new XMLHttpRequest();
-                request.onreadystatechange = done;
-                request.ontimeout = timeout;
-                request.responseType = 'blob';
-                request.timeout = TIMEOUT;
-                request.open('GET', url, true);
-                request.send();
-                function done() {
-                    if (request.readyState !== 4)
-                        return;
-                    if (request.status !== 200) {
-                        fail('cannot fetch resource: ' + url + ', status: ' + request.status);
-                        return;
-                    }
-                    const encoder = new FileReader();
-                    encoder.onloadend = function () {
-                        const content = encoder.result.toString().split(/,/)[1];
-                        resolve(content);
-                    };
-                    encoder.readAsDataURL(request.response);
-                }
-                function timeout() {
-                    fail('timeout of ' + TIMEOUT + 'ms occured while fetching resource: ' + url);
-                }
-                function fail(message) {
-                    console.error(message);
-                    resolve('');
-                }
-            });
-        }
-        function dataAsUrl(content, type) {
-            return 'data:' + type + ';base64,' + content;
-        }
-        function newInliner() {
-            const URL_REGEX = /url\(['"]?([^'"]+?)['"]?\)/g;
-            return {
-                inlineAll: inlineAll,
-                shouldProcess: shouldProcess,
-            };
-            function shouldProcess(str) {
-                return str.search(URL_REGEX) !== -1;
-            }
-            function readUrls(str) {
-                const result = [];
-                let match;
-                while ((match = URL_REGEX.exec(str))) {
-                    result.push(match[1]);
-                }
-                return result.filter(function (url) {
-                    return !util.isDataUrl(url);
-                });
-            }
-            function inline(str, url, baseUrl, get) {
-                return Promise.resolve(url)
-                    .then(url => baseUrl ? util.resolveUrl(url, baseUrl) : url)
-                    .then(get || util.getAndEncode)
-                    .then(data => util.dataAsUrl(data, util.mimeType(url)))
-                    .then(dataUrl => str.replace(urlAsRegex(url), '$1' + dataUrl + '$3'));
-                function urlAsRegex(url) {
-                    return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
-                }
-            }
-            function inlineAll(str, baseUrl, get) {
-                if (nothingToInline())
-                    return Promise.resolve(str);
-                return Promise.resolve(str)
-                    .then(readUrls)
-                    .then(urls => {
-                    let done = Promise.resolve(str);
-                    for (const url of urls) {
-                        done = done.then(string => {
-                            return inline(string, url, baseUrl, get);
-                        });
-                    }
-                    return done;
-                });
-                function nothingToInline() {
-                    return !shouldProcess(str);
-                }
-            }
-        }
-        function newFontFaces() {
-            return {
-                resolveAll: resolveAll,
-                impl: { readAll: readAll }
-            };
-            function resolveAll() {
-                return readAll()
-                    .then(webFonts => Promise.all(webFonts.map((webFont) => webFont.resolve())))
-                    .then(cssStrings => cssStrings.join('\n'));
-            }
-            function readAll() {
-                return Promise.resolve(util.asArray(document.styleSheets))
-                    .then(getCssRules)
-                    .then(selectWebFontRules)
-                    .then(rules => rules.map(newWebFont));
-                function selectWebFontRules(cssRules) {
-                    return cssRules
-                        .filter((rule) => rule.type === CSSRule.FONT_FACE_RULE)
-                        .filter((rule) => inliner.shouldProcess(rule.style.getPropertyValue('src')));
-                }
-                function getCssRules(styleSheets) {
-                    const cssRules = [];
-                    for (const sheet of styleSheets) {
-                        try {
-                            if (sheet.href)
-                                continue;
-                            util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
-                        }
-                        catch (e) {
-                            console.error('Error while reading CSS rules from ' + sheet.href, e.toString());
-                        }
-                    }
-                    return cssRules;
-                }
-                function newWebFont(webFontRule) {
-                    return {
-                        resolve: function resolve() {
-                            const baseUrl = (webFontRule.parentStyleSheet || {}).href;
-                            return inliner.inlineAll(webFontRule.cssText, baseUrl);
-                        },
-                        src: function () {
-                            return webFontRule.style.getPropertyValue('src');
-                        }
-                    };
-                }
-            }
-        }
-        Promise.resolve(this.htmTxt)
-            .then(node => {
-            const cln = node.cloneNode(true);
-            cln.style.padding = '0px';
-            cln.style.paddingRight = this.padTx4x + 'px';
-            cln.style.paddingTop = this.padTx4y + 'px';
-            cln.style.left = '0px';
-            cln.style.top = '0px';
-            cln.style.width = (this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right) + 'px';
-            cln.style.height = (this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom) + 'px';
-            this.htmTxt.hidden = hidden;
-            return cln;
-        })
-            .then(embedFonts)
-            .then(node => {
-            node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
-            const img = new Image;
-            img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.infTL.$width}px" height="${this.infTL.$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node)
-                .replaceAll('#', '%23').replaceAll('\n', '%0A')}</foreignObject></svg>`;
-            return new Promise(resolve => img.onload = () => resolve(img));
-        })
-            .then(img => new Promise(resolve => setTimeout(() => resolve(img), 100)))
-            .then((img) => {
-            const canvas = document.createElement('canvas');
-            canvas.width = this.infTL.$width;
-            canvas.height = this.infTL.$height;
-            canvas.getContext('2d').drawImage(img, 0, 0);
-            canvas.toBlob(blob => {
-                const url = URL.createObjectURL(blob);
-                pixi_js_1.Texture.from(url).once('update', (tx2) => {
-                    fnc(tx2);
-                    URL.revokeObjectURL(url);
-                });
-            });
-        })
-            .catch(err => DebugMng_1.DebugMng.myTrace(`goTxt() = ${err}`));
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.width = this.infTL.$width + 'px';
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.height = this.infTL.$height + 'px';
     }
     goTxt(aSpan) {
-        TxtStage.cntBreak.visible = false;
-        const begin = this.aRect.length;
-        if (TxtStage.cfg.oCfg.debug.masume && begin === 0) {
+        var _b;
+        __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).visible = false;
+        const begin = __classPrivateFieldGet(this, _TxtStage_aRect, "f").length;
+        if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cfg).oCfg.debug.masume && begin === 0) {
             if (CmnLib_1.CmnLib.debugLog)
                 console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
-            this.grpDbgMasume.clear();
-            this.grpDbgMasume.beginFill(0x33FF00, 0.2);
-            this.grpDbgMasume.lineStyle(1, 0x33FF00, 1);
-            this.grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
-            this.grpDbgMasume.endFill();
-            this.grpDbgMasume.beginFill(0x0033FF, 0.2);
-            this.grpDbgMasume.lineStyle(2, 0x0033FF, 1);
-            this.grpDbgMasume.drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom);
-            this.grpDbgMasume.endFill();
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").clear();
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").beginFill(0x33FF00, 0.2);
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").lineStyle(1, 0x33FF00, 1);
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").endFill();
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").beginFill(0x0033FF, 0.2);
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").lineStyle(2, 0x0033FF, 1);
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom);
+            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").endFill();
         }
         if (begin === 0)
-            this.htmTxt.innerHTML = [...aSpan].join('');
+            __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").innerHTML = [...aSpan].join('');
         else
-            this.htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.lenHtmTxt).join(''));
-        this.lenHtmTxt = aSpan.length;
+            __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").insertAdjacentHTML('beforeend', aSpan.slice(__classPrivateFieldGet(this, _TxtStage_lenHtmTxt, "f")).join(''));
+        __classPrivateFieldSet(this, _TxtStage_lenHtmTxt, aSpan.length, "f");
         let len = 0;
         let j = 2;
         do {
-            const e = this.aRect = this.getChRects(this.htmTxt);
+            const e = __classPrivateFieldSet(this, _TxtStage_aRect, __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_getChRects).call(this, __classPrivateFieldGet(this, _TxtStage_htmTxt, "f")), "f");
             len = e.length;
             if (CmnLib_1.CmnLib.cvsScale !== 1) {
                 const ox = CmnLib_1.CmnLib.ofsPadLeft_Dom2PIXI
-                    + parseFloat(this.htmTxt.style.left)
+                    + parseFloat(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.left)
                         * (1 - CmnLib_1.CmnLib.cvsScale);
                 const oy = CmnLib_1.CmnLib.ofsPadTop_Dom2PIXI
-                    + parseFloat(this.htmTxt.style.top)
+                    + parseFloat(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.top)
                         * (1 - CmnLib_1.CmnLib.cvsScale);
                 for (let i = 0; i < len; ++i) {
                     const r = e[i].rect;
@@ -80582,29 +80559,29 @@ class TxtStage extends pixi_js_1.Container {
                     continue;
                 }
                 sl_xy = -Infinity;
-                if (TxtStage.reg分割禁止.test(e[j - 1].ch)
+                if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_reg分割禁止).test(e[j - 1].ch)
                     && (e[j - 1].ch === he.ch)) {
                     if (CmnLib_1.CmnLib.debugLog)
                         console.log(`🎴追い出し（分割禁止）ch:${he.ch}`);
                     --j;
                 }
                 else {
-                    if (TxtStage.reg行末禁則.test(e[j - 1].ch)) {
+                    if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_reg行末禁則).test(e[j - 1].ch)) {
                         if (CmnLib_1.CmnLib.debugLog)
                             console.log(`🎴追い出し（行末禁則）前ch:${e[j - 1].ch}`);
                         --j;
                     }
-                    else if (TxtStage.reg行頭禁則.test(he.ch)) {
+                    else if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_reg行頭禁則).test(he.ch)) {
                         if (CmnLib_1.CmnLib.debugLog)
                             console.log(`🎴追い出し（行頭禁則 A）前ch:${he.ch}`);
-                        while (j > 0 && TxtStage.reg行頭禁則.test(e[--j].ch)) {
+                        while (j > 0 && __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_reg行頭禁則).test(e[--j].ch)) {
                             if (CmnLib_1.CmnLib.debugLog)
                                 console.log(`🎴　　　　（行頭禁則 A）前ch:${e[j].ch}`);
                         }
                     }
                     else
                         continue;
-                    while (j > 0 && TxtStage.reg行末禁則.test(e[j - 1].ch)) {
+                    while (j > 0 && __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_reg行末禁則).test(e[j - 1].ch)) {
                         if (CmnLib_1.CmnLib.debugLog)
                             console.log(`🎴追い出し（行末禁則 B）前ch:${e[j - 1].ch}`);
                         --j;
@@ -80624,30 +80601,30 @@ class TxtStage extends pixi_js_1.Container {
         const fncMasumeLog = CmnLib_1.CmnLib.debugLog
             ? (v, rct) => console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
             : () => { };
-        const fncMasume = (TxtStage.cfg.oCfg.debug.masume)
+        const fncMasume = (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cfg).oCfg.debug.masume)
             ? (v, rct) => {
                 fncMasumeLog(v, rct);
-                this.grpDbgMasume.beginFill(0x66CCFF, 0.5);
-                this.grpDbgMasume.lineStyle(2, 0xFF3300, 1);
-                this.grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
-                this.grpDbgMasume.endFill();
+                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").beginFill(0x66CCFF, 0.5);
+                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").lineStyle(2, 0xFF3300, 1);
+                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").drawRect(rct.x, rct.y, rct.width, rct.height);
+                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").endFill();
             }
             : () => { };
-        const ease = CmnTween_1.CmnTween.ease(this.fi_easing);
-        const bcr = this.htmTxt.getBoundingClientRect();
+        const ease = CmnTween_1.CmnTween.ease(__classPrivateFieldGet(this, _TxtStage_fi_easing, "f"));
+        const bcr = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getBoundingClientRect();
         const sx = bcr.left + globalThis.pageXOffset + this.infTL.pad_left;
         const sy = bcr.top + globalThis.pageYOffset + this.infTL.pad_top;
         for (let i = begin; i < len; ++i) {
-            const v = this.aRect[i];
+            const v = __classPrivateFieldGet(this, _TxtStage_aRect, "f")[i];
             const rct = v.rect;
             const arg = JSON.parse(v.arg ?? '{"delay": 0}');
             const add = JSON.parse(v.add ?? '{}');
-            const cis = TxtStage.hChInStyle[add.ch_in_style];
+            const cis = __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChInStyle)[add.ch_in_style];
             rct.x -= sx;
             rct.y -= sy;
             fncMasume(v, rct);
             if (cis) {
-                if (this.isTategaki) {
+                if (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f")) {
                     rct.x += (rct.width - rct.height) / 2;
                     rct.width = rct.height;
                 }
@@ -80655,14 +80632,14 @@ class TxtStage extends pixi_js_1.Container {
                     rct.y += (rct.height - rct.width) / 2;
                     rct.height = rct.width;
                 }
-                this.rctm = rct;
+                __classPrivateFieldSet(this, _TxtStage_rctm, rct, "f");
             }
             switch (v.cmd) {
                 case 'grp':
                     const cnt = new pixi_js_1.Container;
-                    this.cntTxt.addChild(cnt);
+                    __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").addChild(cnt);
                     GrpLayer_1.GrpLayer.csv2Sprites(arg.pic, cnt, sp => {
-                        this.spWork(cnt, arg, add, rct, ease, cis ?? {});
+                        __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_spWork).call(this, cnt, arg, add, rct, ease, cis ?? {});
                         if (!cnt.parent)
                             cnt.removeChild(sp);
                     });
@@ -80670,43 +80647,43 @@ class TxtStage extends pixi_js_1.Container {
                 case 'link':
                     const sp = new pixi_js_1.Sprite;
                     arg.key = `lnk=[${i}] ` + this.name;
-                    this.spWork(sp, arg, add, rct, ease, cis ?? {});
-                    arg.hint_tate ??= this.isTategaki;
+                    __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_spWork).call(this, sp, arg, add, rct, ease, cis ?? {});
+                    arg.hint_tate ??= __classPrivateFieldGet(this, _TxtStage_isTategaki, "f");
                     const style_normal = v.elm.style.cssText;
                     const style_hover = arg.style_hover ?? '';
                     const style_clicked = arg.style_clicked ?? '';
-                    const isLinkHead = this.beforeHTMLElm !== v.elm;
-                    TxtStage.evtMng.button(arg, sp, () => v.elm.style.cssText = style_normal, isLinkHead ? () => {
+                    const isLinkHead = __classPrivateFieldGet(this, _TxtStage_beforeHTMLElm, "f") !== v.elm;
+                    __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_evtMng).button(arg, sp, () => v.elm.style.cssText = style_normal, isLinkHead ? () => {
                         if (!this.canFocus())
                             return false;
                         v.elm.style.cssText = style_hover;
                         return true;
                     }
                         : () => false, () => v.elm.style.cssText = style_clicked);
-                    this.beforeHTMLElm = v.elm;
-                    this.cntTxt.addChild(sp);
+                    __classPrivateFieldSet(this, _TxtStage_beforeHTMLElm, v.elm, "f");
+                    __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").addChild(sp);
                     break;
             }
         }
-        this.aRect.slice(0, -1);
-        --this.lenHtmTxt;
-        const clSpan = this.htmTxt.getElementsByTagName('span');
+        __classPrivateFieldGet(this, _TxtStage_aRect, "f").slice(0, -1);
+        __classPrivateFieldSet(this, _TxtStage_lenHtmTxt, (_b = __classPrivateFieldGet(this, _TxtStage_lenHtmTxt, "f"), --_b), "f");
+        const clSpan = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getElementsByTagName('span');
         const lenClSpan = clSpan.length;
         if (lenClSpan > 0)
-            this.htmTxt.removeChild(clSpan[lenClSpan - 1]);
-        const chs = this.htmTxt.querySelectorAll('span.sn_ch');
+            __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").removeChild(clSpan[lenClSpan - 1]);
+        const chs = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").querySelectorAll('span.sn_ch');
         chs.forEach(v => v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
-        this.isChInIng = true;
-        this.fncEndChIn = () => {
-            this.isChInIng = false;
+        __classPrivateFieldSet(this, _TxtStage_isChInIng, true, "f");
+        __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => {
+            __classPrivateFieldSet(this, _TxtStage_isChInIng, false, "f");
             chs.forEach(v => v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
-            TxtStage.cntBreak.position.set(this.rctm.x, this.rctm.y);
-            TxtStage.cntBreak.visible = true;
-            this.fncEndChIn = () => { };
-        };
+            __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(__classPrivateFieldGet(this, _TxtStage_rctm, "f").x, __classPrivateFieldGet(this, _TxtStage_rctm, "f").y);
+            __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).visible = true;
+            __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => { }, "f");
+        }, "f");
         const len_chs = chs.length;
         if (len_chs === 0) {
-            this.fncEndChIn();
+            __classPrivateFieldGet(this, _TxtStage_fncEndChIn, "f").call(this);
             return;
         }
         let le = null;
@@ -80719,7 +80696,7 @@ class TxtStage extends pixi_js_1.Container {
                 le = v;
                 break;
             }
-            const m = st.match(this.regDs);
+            const m = st.match(__classPrivateFieldGet(this, _TxtStage_REGDS, "f"));
             const g = m?.groups;
             if (!g || Number(g.ms) > 0) {
                 le = v;
@@ -80727,70 +80704,38 @@ class TxtStage extends pixi_js_1.Container {
             }
         }
         if (!le) {
-            this.fncEndChIn();
+            __classPrivateFieldGet(this, _TxtStage_fncEndChIn, "f").call(this);
             return;
         }
-        le.addEventListener('animationend', this.fncEndChIn, { once: true, passive: true });
-    }
-    spWork(sp, arg, add, rct, ease, cis) {
-        sp.alpha = 0;
-        if (arg.x)
-            rct.x = (arg.x.charAt(0) === '=')
-                ? rct.x + parseInt(arg.x.slice(1))
-                : parseInt(arg.x);
-        if (arg.y)
-            rct.y = (arg.y.charAt(0) === '=')
-                ? rct.y + parseInt(arg.y.slice(1))
-                : parseInt(arg.y);
-        if (arg.width)
-            rct.width = parseInt(arg.width);
-        if (arg.height)
-            rct.height = parseInt(arg.height);
-        if (arg.wait)
-            cis.wait = parseInt(arg.wait);
-        sp.width = rct.width;
-        sp.height = rct.height;
-        sp.position.set((cis.x.charAt(0) === '=') ? rct.x + sp.width * cis.nx : cis.nx, (cis.y.charAt(0) === '=') ? rct.y + sp.height * cis.ny : cis.ny);
-        const st = {
-            sp: sp,
-            tw: new tween_js_1.Tween(sp)
-                .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, angle: 0 }, cis.wait ?? 0)
-                .easing(ease)
-                .delay((add.wait ?? 0) + (arg.delay ?? 0))
-                .onComplete(() => {
-                st.tw = null;
-            })
-                .start(),
-        };
-        this.aSpTw.push(st);
+        le.addEventListener('animationend', __classPrivateFieldGet(this, _TxtStage_fncEndChIn, "f"), { once: true, passive: true });
     }
     skipChIn() {
-        let isLiveTw = this.isChInIng;
-        this.fncEndChIn();
-        this.aSpTw.forEach(st => { if (st.tw) {
+        let isLiveTw = __classPrivateFieldGet(this, _TxtStage_isChInIng, "f");
+        __classPrivateFieldGet(this, _TxtStage_fncEndChIn, "f").call(this);
+        __classPrivateFieldGet(this, _TxtStage_aSpTw, "f").forEach(st => { if (st.tw) {
             st.tw.stop().end();
             isLiveTw = true;
         } });
-        this.aSpTw = [];
+        __classPrivateFieldSet(this, _TxtStage_aSpTw, [], "f");
         return isLiveTw;
     }
     static initChStyle() {
-        TxtStage.hChInStyle = Object.create(null);
-        TxtStage.hChOutStyle = Object.create(null);
+        __classPrivateFieldSet(TxtStage, _a, Object.create(null), "f", _TxtStage_hChInStyle);
+        __classPrivateFieldSet(TxtStage, _a, Object.create(null), "f", _TxtStage_hChOutStyle);
     }
-    static getChInStyle(name) { return TxtStage.hChInStyle[name]; }
+    static getChInStyle(name) { return __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChInStyle)[name]; }
     static ch_in_style(hArg) {
         const name = hArg.name;
         if (!name)
             throw 'nameは必須です';
-        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
+        __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
+        if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_REG_NG_CHSTYLE_NAME_CHR).test(name))
             throw `name【${name}】に使えない文字が含まれます`;
-        if (name in TxtStage.hChInStyle)
+        if (name in __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChInStyle))
             throw `name【${name}】はすでにあります`;
         const x = String(hArg.x ?? '=0');
         const y = String(hArg.y ?? '=0');
-        return TxtStage.hChInStyle[name] = {
+        return __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChInStyle)[name] = {
             wait: (0, CmnLib_1.argChk_Num)(hArg, 'wait', 500),
             alpha: (0, CmnLib_1.argChk_Num)(hArg, 'alpha', 0),
             x: x,
@@ -80804,19 +80749,19 @@ class TxtStage extends pixi_js_1.Container {
             ease: hArg.ease ?? 'ease-out',
         };
     }
-    static getChOutStyle(name) { return TxtStage.hChOutStyle[name]; }
+    static getChOutStyle(name) { return __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChOutStyle)[name]; }
     static ch_out_style(hArg) {
         const name = hArg.name;
         if (!name)
             throw 'nameは必須です';
-        TxtStage.REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
-        if (TxtStage.REG_NG_CHSTYLE_NAME_CHR.test(name))
+        __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
+        if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_REG_NG_CHSTYLE_NAME_CHR).test(name))
             throw `name【${name}】に使えない文字が含まれます`;
-        if (name in TxtStage.hChOutStyle)
+        if (name in __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChOutStyle))
             throw `name【${name}】はすでにあります`;
         const x = String(hArg.x ?? '=0');
         const y = String(hArg.y ?? '=0');
-        return TxtStage.hChOutStyle[name] = {
+        return __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChOutStyle)[name] = {
             wait: (0, CmnLib_1.argChk_Num)(hArg, 'wait', 500),
             alpha: (0, CmnLib_1.argChk_Num)(hArg, 'alpha', 0),
             x: x,
@@ -80831,7 +80776,7 @@ class TxtStage extends pixi_js_1.Container {
         };
     }
     dispBreak(pic) {
-        const cnt = TxtStage.cntBreak;
+        const cnt = __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak);
         cnt.visible = false;
         this.addChild(cnt);
         GrpLayer_1.GrpLayer.csv2Sprites(pic, cnt, sp => {
@@ -80840,186 +80785,472 @@ class TxtStage extends pixi_js_1.Container {
         });
     }
     static delBreak() {
-        const cnt = TxtStage.cntBreak;
+        const cnt = __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak);
         if (cnt.parent) {
             cnt.parent.removeChild(cnt);
             cnt.removeChildren();
         }
-        TxtStage.cntBreak = new pixi_js_1.Container;
-    }
-    getChRects(elm) {
-        const ret = [];
-        if (elm.nodeType !== elm.TEXT_NODE) {
-            elm.childNodes.forEach(v => ret.push(this.getChRects(v)));
-            return Array.prototype.concat.apply([], ret);
-        }
-        const range = elm.ownerDocument.createRange();
-        range.selectNodeContents(elm);
-        let pos = 0;
-        const end = range.endOffset;
-        while (pos < end) {
-            range.setStart(elm, pos);
-            range.setEnd(elm, ++pos);
-            const r = range.getBoundingClientRect();
-            const pe = range.startContainer.parentElement;
-            if (!pe)
-                throw `fn:TxtStage.ts pe null`;
-            const ch = range.toString();
-            const cr = {
-                ch: ch,
-                rect: new pixi_js_1.Rectangle(r.left + globalThis.pageXOffset, r.top + globalThis.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? this.lh_half : 0)),
-                elm: pe,
-                cmd: pe.getAttribute('data-cmd') ?? undefined,
-                arg: pe.getAttribute('data-arg') ?? undefined,
-                add: pe.getAttribute('data-add') ?? undefined,
-                tcy: pe.getAttribute('data-tcy') ?? undefined,
-            };
-            ret.push(cr);
-        }
-        range.detach();
-        return ret;
-    }
-    clearText() {
-        this.grpDbgMasume.clear();
-        this.aRect = [];
-        this.lenHtmTxt = 0;
-        this.skipChIn();
-        const n = this.htmTxt.cloneNode(true);
-        n.textContent = '';
-        const old = this.htmTxt;
-        old.parentElement.insertBefore(n, old);
-        let sum_wait = 0;
-        old.querySelectorAll('span.sn_ch').forEach(elm => {
-            const add = JSON.parse(elm?.getAttribute('data-add') ??
-                elm?.children[0]?.getAttribute('data-add') ??
-                elm?.children[0]?.children[0]
-                    ?.getAttribute('data-add') ?? '{}');
-            if (!add.ch_out_style)
-                return;
-            const cos = TxtStage.hChOutStyle[add.ch_out_style];
-            if (!cos)
-                return;
-            if (cos.wait === 0) {
-                elm.style.display = 'none';
-                return;
-            }
-            sum_wait += cos.wait;
-            if (!cos.join)
-                elm.style.animationDelay = '0ms';
-            elm.classList.add(`go_ch_out_${add.ch_out_style}`);
-        });
-        const end = () => {
-            old.parentElement.removeChild(old);
-            this.cntTxt.removeChildren().forEach(c => c.destroy());
-        };
-        if (sum_wait === 0) {
-            this.htmTxt.textContent = '';
-            end();
-        }
-        else
-            old.lastElementChild?.addEventListener('animationend', end, { once: true, passive: true });
-        this.htmTxt = n;
+        __classPrivateFieldSet(TxtStage, _a, new pixi_js_1.Container, "f", _TxtStage_cntBreak);
     }
     reNew() {
-        this.clearText();
+        __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_clearText).call(this);
         const to = new TxtStage(this.infTL, this.spLay, () => this.canFocus());
-        to.htmTxt.style.cssText = this.htmTxt.style.cssText;
-        to.left = this.left;
+        __classPrivateFieldGet(to, _TxtStage_htmTxt, "f").style.cssText = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.cssText;
+        __classPrivateFieldSet(to, _TxtStage_left, __classPrivateFieldGet(this, _TxtStage_left, "f"), "f");
         to.name = this.name;
-        to.lay_sub();
-        to.idc.sethArg(this.idc.gethArg());
-        to.ch_filter = this.ch_filter;
-        to.fi_easing = this.fi_easing;
-        to.fo_easing = this.fo_easing;
+        __classPrivateFieldGet(to, _TxtStage_instances, "m", _TxtStage_lay_sub).call(to);
+        __classPrivateFieldGet(to, _TxtStage_idc, "f").sethArg(__classPrivateFieldGet(this, _TxtStage_idc, "f").gethArg());
+        __classPrivateFieldSet(to, _TxtStage_ch_filter, __classPrivateFieldGet(this, _TxtStage_ch_filter, "f"), "f");
+        __classPrivateFieldSet(to, _TxtStage_fi_easing, __classPrivateFieldGet(this, _TxtStage_fi_easing, "f"), "f");
+        __classPrivateFieldSet(to, _TxtStage_fo_easing, __classPrivateFieldGet(this, _TxtStage_fo_easing, "f"), "f");
         this.destroy();
         return to;
     }
     record() {
         return {
             infTL: this.infTL,
-            cssText: this.htmTxt.style.cssText,
-            left: this.left,
-            idc_hArg: this.idc.gethArg(),
-            ch_filter: this.ch_filter,
-            fi_easing: this.fi_easing,
-            fo_easing: this.fo_easing,
+            cssText: __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.cssText,
+            left: __classPrivateFieldGet(this, _TxtStage_left, "f"),
+            idc_hArg: __classPrivateFieldGet(this, _TxtStage_idc, "f").gethArg(),
+            ch_filter: __classPrivateFieldGet(this, _TxtStage_ch_filter, "f"),
+            fi_easing: __classPrivateFieldGet(this, _TxtStage_fi_easing, "f"),
+            fo_easing: __classPrivateFieldGet(this, _TxtStage_fo_easing, "f"),
         };
     }
     ;
     playback(hLay) {
         this.infTL = hLay.infTL;
         this.position.set(this.infTL.pad_left, this.infTL.pad_top);
-        this.htmTxt.style.cssText = hLay.cssText;
-        this.left = hLay.left;
-        this.lay_sub();
-        this.idc.sethArg(hLay.idc_hArg);
-        this.ch_filter = hLay.ch_filter;
-        this.fi_easing = hLay.fi_easing;
-        this.fo_easing = hLay.fo_easing;
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.cssText = hLay.cssText;
+        __classPrivateFieldSet(this, _TxtStage_left, hLay.left, "f");
+        __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_lay_sub).call(this);
+        __classPrivateFieldGet(this, _TxtStage_idc, "f").sethArg(hLay.idc_hArg);
+        __classPrivateFieldSet(this, _TxtStage_ch_filter, hLay.ch_filter, "f");
+        __classPrivateFieldSet(this, _TxtStage_fi_easing, hLay.fi_easing, "f");
+        __classPrivateFieldSet(this, _TxtStage_fo_easing, hLay.fo_easing, "f");
     }
     snapshot(rnd, re) {
-        this.htm2tx(tx => {
-            this.sss = new pixi_js_1.Sprite(tx);
-            if (this.isTategaki) {
-                this.sss.x += CmnLib_1.CmnLib.stageW - (this.left + this.infTL.$width)
+        __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_htm2tx).call(this, tx => {
+            __classPrivateFieldSet(this, _TxtStage_sss, new pixi_js_1.Sprite(tx), "f");
+            if (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f")) {
+                __classPrivateFieldGet(this, _TxtStage_sss, "f").x += CmnLib_1.CmnLib.stageW - (__classPrivateFieldGet(this, _TxtStage_left, "f") + this.infTL.$width)
                     - ((CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile)
                         ? 0
                         : this.infTL.pad_left + this.infTL.pad_right);
             }
-            this.sss.y -= this.padTx4y;
-            this.sss.texture.frame = new pixi_js_1.Rectangle(0, 0, this.infTL.$width - this.left, this.infTL.$height);
-            this.cntTxt.addChild(this.sss);
-            rnd.render(this.sss, undefined, false);
+            __classPrivateFieldGet(this, _TxtStage_sss, "f").y -= __classPrivateFieldGet(this, _TxtStage_padTx4y, "f");
+            __classPrivateFieldGet(this, _TxtStage_sss, "f").texture.frame = new pixi_js_1.Rectangle(0, 0, this.infTL.$width - __classPrivateFieldGet(this, _TxtStage_left, "f"), this.infTL.$height);
+            __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").addChild(__classPrivateFieldGet(this, _TxtStage_sss, "f"));
+            rnd.render(__classPrivateFieldGet(this, _TxtStage_sss, "f"), undefined, false);
             re();
         }, false);
     }
     snapshot_end() {
-        if (this.sss) {
-            this.cntTxt.removeChild(this.sss);
-            this.sss = null;
+        if (__classPrivateFieldGet(this, _TxtStage_sss, "f")) {
+            __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").removeChild(__classPrivateFieldGet(this, _TxtStage_sss, "f"));
+            __classPrivateFieldSet(this, _TxtStage_sss, null, "f");
         }
     }
     makeDesignCast(gdc) {
-        gdc(this.idc);
-        const o = this.idc.gethArg();
-        this.idcCh.sethArg({ ...o, ':id_dc': o[':id_tag'] + '_pad' });
-        gdc(this.idcCh);
+        gdc(__classPrivateFieldGet(this, _TxtStage_idc, "f"));
+        const o = __classPrivateFieldGet(this, _TxtStage_idc, "f").gethArg();
+        __classPrivateFieldGet(this, _TxtStage_idcCh, "f").sethArg({ ...o, ':id_dc': o[':id_tag'] + '_pad' });
+        gdc(__classPrivateFieldGet(this, _TxtStage_idcCh, "f"));
     }
-    showDesignCast() { this.idc.visible = true; this.idcCh.visible = true; }
+    showDesignCast() { __classPrivateFieldGet(this, _TxtStage_idc, "f").visible = true; __classPrivateFieldGet(this, _TxtStage_idcCh, "f").visible = true; }
     dump() {
         const aStyle = [];
-        const s = this.htmTxt.style;
+        const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
         const len = s.length;
         for (let i = 0; i < len; ++i) {
             const key = s[i];
             aStyle.push(`"${key}":"${s[key].replace(/(["\\])/g, '\\$1')}"`);
         }
-        return `"txt":"${this.htmTxt.textContent.replace(/(["\\])/g, '\\$1')}", "style":{${aStyle.join(',')}}`;
+        return `"txt":"${__classPrivateFieldGet(this, _TxtStage_htmTxt, "f").textContent.replace(/(["\\])/g, '\\$1')}", "style":{${aStyle.join(',')}}`;
     }
     destroy() {
         TxtStage.delBreak();
-        this.htmTxt.parentElement.removeChild(this.htmTxt);
-        this.removeChild(this.cntTxt);
-        this.removeChild(this.grpDbgMasume);
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").parentElement.removeChild(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"));
+        this.removeChild(__classPrivateFieldGet(this, _TxtStage_cntTxt, "f"));
+        this.removeChild(__classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f"));
         super.destroy();
     }
 }
 exports.TxtStage = TxtStage;
-TxtStage.hWarning = {
-    backgroundColor: 0,
-    borderBottomWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderTopWidth: 0,
-    marginBottom: 0,
-    marginLeft: 0,
-    marginRight: 0,
-    marginTop: 0,
+_a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(), _TxtStage_grpDbgMasume = new WeakMap(), _TxtStage_idc = new WeakMap(), _TxtStage_idcCh = new WeakMap(), _TxtStage_left = new WeakMap(), _TxtStage_isTategaki = new WeakMap(), _TxtStage_padTx4x = new WeakMap(), _TxtStage_padTx4y = new WeakMap(), _TxtStage_ch_filter = new WeakMap(), _TxtStage_aSpTw = new WeakMap(), _TxtStage_aRect = new WeakMap(), _TxtStage_lenHtmTxt = new WeakMap(), _TxtStage_beforeHTMLElm = new WeakMap(), _TxtStage_rctm = new WeakMap(), _TxtStage_REGDS = new WeakMap(), _TxtStage_fncEndChIn = new WeakMap(), _TxtStage_isChInIng = new WeakMap(), _TxtStage_lh_half = new WeakMap(), _TxtStage_fi_easing = new WeakMap(), _TxtStage_fo_easing = new WeakMap(), _TxtStage_sss = new WeakMap(), _TxtStage_instances = new WeakSet(), _TxtStage_lay_sub = function _TxtStage_lay_sub() {
+    const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
+    const fs = parseFloat(s.fontSize || '0');
+    this.infTL.fontsize = fs;
+    this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
+    this.infTL.pad_right = parseFloat(s.paddingRight || '0');
+    this.infTL.pad_top = parseFloat(s.paddingTop || '0');
+    this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
+    this.infTL.$width = parseFloat(s.width || '0');
+    this.infTL.$height = parseFloat(s.height || '0');
+    this.position.set(this.infTL.pad_left, this.infTL.pad_top);
+    __classPrivateFieldSet(this, _TxtStage_isTategaki, (s.writingMode === 'vertical-rl'), "f");
+    __classPrivateFieldSet(this, _TxtStage_padTx4x, 0, "f");
+    __classPrivateFieldSet(this, _TxtStage_padTx4y, 0, "f");
+    const lh = s.lineHeight ?? '0';
+    __classPrivateFieldSet(this, _TxtStage_lh_half, __classPrivateFieldGet(this, _TxtStage_isTategaki, "f")
+        ? 0
+        : ((lh.slice(-2) === 'px')
+            ? parseFloat(lh)
+            : (fs * parseFloat(lh) - fs)) / 2, "f");
+}, _TxtStage_htm2tx = function _TxtStage_htm2tx(fnc, hidden = true) {
+    const util = {
+        escape: (str) => str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
+        mimeType: (url) => {
+            const extension = parseExtension(url).toLowerCase();
+            return mimes()[extension] || '';
+        },
+        dataAsUrl: dataAsUrl,
+        isDataUrl: isDataUrl,
+        resolveUrl: resolveUrl,
+        getAndEncode: getAndEncode,
+        asArray: (arrayLike) => {
+            const a = [];
+            const len = arrayLike.length;
+            for (let i = 0; i < len; ++i)
+                a.push(arrayLike[i]);
+            return a;
+        },
+    };
+    function mimes() {
+        const WOFF = 'application/font-woff';
+        const JPEG = 'image/jpeg';
+        return {
+            'woff': WOFF,
+            'woff2': WOFF,
+            'ttf': 'application/font-truetype',
+            'eot': 'application/vnd.ms-fontobject',
+            'png': 'image/png',
+            'jpg': JPEG,
+            'jpeg': JPEG,
+            'gif': 'image/gif',
+            'tiff': 'image/tiff',
+            'svg': 'image/svg+xml'
+        };
+    }
+    const inliner = newInliner();
+    const fontFaces = newFontFaces();
+    function embedFonts(node) {
+        return fontFaces.resolveAll()
+            .then(cssText => {
+            const styleNode = document.createElement('style');
+            node.appendChild(styleNode);
+            styleNode.appendChild(document.createTextNode(cssText));
+            return node;
+        });
+    }
+    function parseExtension(url) {
+        const match = /\.([^\.\/]*?)$/g.exec(url);
+        return match?.[1] ?? '';
+    }
+    function isDataUrl(url) {
+        return url.search(/^(data:)/) !== -1;
+    }
+    function resolveUrl(url, baseUrl) {
+        const doc = document.implementation.createHTMLDocument();
+        const base = doc.createElement('base');
+        doc.head.appendChild(base);
+        const a = doc.createElement('a');
+        doc.body.appendChild(a);
+        base.href = baseUrl;
+        a.href = url;
+        return a.href;
+    }
+    function getAndEncode(url) {
+        let TIMEOUT = 30000;
+        return new Promise(function (resolve) {
+            const request = new XMLHttpRequest();
+            request.onreadystatechange = done;
+            request.ontimeout = timeout;
+            request.responseType = 'blob';
+            request.timeout = TIMEOUT;
+            request.open('GET', url, true);
+            request.send();
+            function done() {
+                if (request.readyState !== 4)
+                    return;
+                if (request.status !== 200) {
+                    fail('cannot fetch resource: ' + url + ', status: ' + request.status);
+                    return;
+                }
+                const encoder = new FileReader();
+                encoder.onloadend = function () {
+                    const content = encoder.result.toString().split(/,/)[1];
+                    resolve(content);
+                };
+                encoder.readAsDataURL(request.response);
+            }
+            function timeout() {
+                fail('timeout of ' + TIMEOUT + 'ms occured while fetching resource: ' + url);
+            }
+            function fail(message) {
+                console.error(message);
+                resolve('');
+            }
+        });
+    }
+    function dataAsUrl(content, type) {
+        return 'data:' + type + ';base64,' + content;
+    }
+    function newInliner() {
+        const URL_REGEX = /url\(['"]?([^'"]+?)['"]?\)/g;
+        return {
+            inlineAll: inlineAll,
+            shouldProcess: shouldProcess,
+        };
+        function shouldProcess(str) {
+            return str.search(URL_REGEX) !== -1;
+        }
+        function readUrls(str) {
+            const result = [];
+            let match;
+            while ((match = URL_REGEX.exec(str))) {
+                result.push(match[1]);
+            }
+            return result.filter(function (url) {
+                return !util.isDataUrl(url);
+            });
+        }
+        function inline(str, url, baseUrl, get) {
+            return Promise.resolve(url)
+                .then(url => baseUrl ? util.resolveUrl(url, baseUrl) : url)
+                .then(get || util.getAndEncode)
+                .then(data => util.dataAsUrl(data, util.mimeType(url)))
+                .then(dataUrl => str.replace(urlAsRegex(url), '$1' + dataUrl + '$3'));
+            function urlAsRegex(url) {
+                return new RegExp('(url\\([\'"]?)(' + util.escape(url) + ')([\'"]?\\))', 'g');
+            }
+        }
+        function inlineAll(str, baseUrl, get) {
+            if (nothingToInline())
+                return Promise.resolve(str);
+            return Promise.resolve(str)
+                .then(readUrls)
+                .then(urls => {
+                let done = Promise.resolve(str);
+                for (const url of urls) {
+                    done = done.then(string => {
+                        return inline(string, url, baseUrl, get);
+                    });
+                }
+                return done;
+            });
+            function nothingToInline() {
+                return !shouldProcess(str);
+            }
+        }
+    }
+    function newFontFaces() {
+        return {
+            resolveAll: resolveAll,
+            impl: { readAll: readAll }
+        };
+        function resolveAll() {
+            return readAll()
+                .then(webFonts => Promise.all(webFonts.map((webFont) => webFont.resolve())))
+                .then(cssStrings => cssStrings.join('\n'));
+        }
+        function readAll() {
+            return Promise.resolve(util.asArray(document.styleSheets))
+                .then(getCssRules)
+                .then(selectWebFontRules)
+                .then(rules => rules.map(newWebFont));
+            function selectWebFontRules(cssRules) {
+                return cssRules
+                    .filter((rule) => rule.type === CSSRule.FONT_FACE_RULE)
+                    .filter((rule) => inliner.shouldProcess(rule.style.getPropertyValue('src')));
+            }
+            function getCssRules(styleSheets) {
+                const cssRules = [];
+                for (const sheet of styleSheets) {
+                    try {
+                        if (sheet.href)
+                            continue;
+                        util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
+                    }
+                    catch (e) {
+                        console.error('Error while reading CSS rules from ' + sheet.href, e.toString());
+                    }
+                }
+                return cssRules;
+            }
+            function newWebFont(webFontRule) {
+                return {
+                    resolve: function resolve() {
+                        const baseUrl = (webFontRule.parentStyleSheet || {}).href;
+                        return inliner.inlineAll(webFontRule.cssText, baseUrl);
+                    },
+                    src: function () {
+                        return webFontRule.style.getPropertyValue('src');
+                    }
+                };
+            }
+        }
+    }
+    Promise.resolve(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"))
+        .then(node => {
+        const cln = node.cloneNode(true);
+        cln.style.padding = '0px';
+        cln.style.paddingRight = __classPrivateFieldGet(this, _TxtStage_padTx4x, "f") + 'px';
+        cln.style.paddingTop = __classPrivateFieldGet(this, _TxtStage_padTx4y, "f") + 'px';
+        cln.style.left = '0px';
+        cln.style.top = '0px';
+        cln.style.width = (this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right) + 'px';
+        cln.style.height = (this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom) + 'px';
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").hidden = hidden;
+        return cln;
+    })
+        .then(embedFonts)
+        .then(node => {
+        node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+        const img = new Image;
+        img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.infTL.$width}px" height="${this.infTL.$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node)
+            .replaceAll('#', '%23').replaceAll('\n', '%0A')}</foreignObject></svg>`;
+        return new Promise(resolve => img.onload = () => resolve(img));
+    })
+        .then(img => new Promise(resolve => setTimeout(() => resolve(img), 100)))
+        .then((img) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = this.infTL.$width;
+        canvas.height = this.infTL.$height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            pixi_js_1.Texture.from(url).once('update', (tx2) => {
+                fnc(tx2);
+                URL.revokeObjectURL(url);
+            });
+        });
+    })
+        .catch(err => DebugMng_1.DebugMng.myTrace(`goTxt() = ${err}`));
+}, _TxtStage_spWork = function _TxtStage_spWork(sp, arg, add, rct, ease, cis) {
+    sp.alpha = 0;
+    if (arg.x)
+        rct.x = (arg.x.charAt(0) === '=')
+            ? rct.x + parseInt(arg.x.slice(1))
+            : parseInt(arg.x);
+    if (arg.y)
+        rct.y = (arg.y.charAt(0) === '=')
+            ? rct.y + parseInt(arg.y.slice(1))
+            : parseInt(arg.y);
+    if (arg.width)
+        rct.width = parseInt(arg.width);
+    if (arg.height)
+        rct.height = parseInt(arg.height);
+    if (arg.wait)
+        cis.wait = parseInt(arg.wait);
+    sp.width = rct.width;
+    sp.height = rct.height;
+    sp.position.set((cis.x.charAt(0) === '=') ? rct.x + sp.width * cis.nx : cis.nx, (cis.y.charAt(0) === '=') ? rct.y + sp.height * cis.ny : cis.ny);
+    const st = {
+        sp: sp,
+        tw: new tween_js_1.Tween(sp)
+            .to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, angle: 0 }, cis.wait ?? 0)
+            .easing(ease)
+            .delay((add.wait ?? 0) + (arg.delay ?? 0))
+            .onComplete(() => {
+            st.tw = null;
+        })
+            .start(),
+    };
+    __classPrivateFieldGet(this, _TxtStage_aSpTw, "f").push(st);
+}, _TxtStage_getChRects = function _TxtStage_getChRects(elm) {
+    const ret = [];
+    if (elm.nodeType !== elm.TEXT_NODE) {
+        elm.childNodes.forEach(v => ret.push(__classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_getChRects).call(this, v)));
+        return Array.prototype.concat.apply([], ret);
+    }
+    const range = elm.ownerDocument.createRange();
+    range.selectNodeContents(elm);
+    let pos = 0;
+    const end = range.endOffset;
+    while (pos < end) {
+        range.setStart(elm, pos);
+        range.setEnd(elm, ++pos);
+        const r = range.getBoundingClientRect();
+        const pe = range.startContainer.parentElement;
+        if (!pe)
+            throw `fn:TxtStage.ts pe null`;
+        const ch = range.toString();
+        const cr = {
+            ch: ch,
+            rect: new pixi_js_1.Rectangle(r.left + globalThis.pageXOffset, r.top + globalThis.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? __classPrivateFieldGet(this, _TxtStage_lh_half, "f") : 0)),
+            elm: pe,
+            cmd: pe.getAttribute('data-cmd') ?? undefined,
+            arg: pe.getAttribute('data-arg') ?? undefined,
+            add: pe.getAttribute('data-add') ?? undefined,
+            tcy: pe.getAttribute('data-tcy') ?? undefined,
+        };
+        ret.push(cr);
+    }
+    range.detach();
+    return ret;
+}, _TxtStage_clearText = function _TxtStage_clearText() {
+    __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").clear();
+    __classPrivateFieldSet(this, _TxtStage_aRect, [], "f");
+    __classPrivateFieldSet(this, _TxtStage_lenHtmTxt, 0, "f");
+    this.skipChIn();
+    const n = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").cloneNode(true);
+    n.textContent = '';
+    const old = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f");
+    old.parentElement.insertBefore(n, old);
+    let sum_wait = 0;
+    old.querySelectorAll('span.sn_ch').forEach(elm => {
+        const add = JSON.parse(elm?.getAttribute('data-add') ??
+            elm?.children[0]?.getAttribute('data-add') ??
+            elm?.children[0]?.children[0]
+                ?.getAttribute('data-add') ?? '{}');
+        if (!add.ch_out_style)
+            return;
+        const cos = __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChOutStyle)[add.ch_out_style];
+        if (!cos)
+            return;
+        if (cos.wait === 0) {
+            elm.style.display = 'none';
+            return;
+        }
+        sum_wait += cos.wait;
+        if (!cos.join)
+            elm.style.animationDelay = '0ms';
+        elm.classList.add(`go_ch_out_${add.ch_out_style}`);
+    });
+    const end = () => {
+        old.parentElement.removeChild(old);
+        __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").removeChildren().forEach(c => c.destroy());
+    };
+    if (sum_wait === 0) {
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").textContent = '';
+        end();
+    }
+    else
+        old.lastElementChild?.addEventListener('animationend', end, { once: true, passive: true });
+    __classPrivateFieldSet(this, _TxtStage_htmTxt, n, "f");
 };
-TxtStage.hChInStyle = Object.create(null);
-TxtStage.REG_NG_CHSTYLE_NAME_CHR = /[\s\.,]/;
-TxtStage.hChOutStyle = Object.create(null);
-TxtStage.cntBreak = new pixi_js_1.Container;
+_TxtStage_cfg = { value: void 0 };
+_TxtStage_cvs = { value: void 0 };
+_TxtStage_evtMng = { value: void 0 };
+_TxtStage_hWarning = { value: {
+        backgroundColor: 0,
+        borderBottomWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderTopWidth: 0,
+        marginBottom: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        marginTop: 0,
+    } };
+_TxtStage_reg行頭禁則 = { value: void 0 };
+_TxtStage_reg行末禁則 = { value: void 0 };
+_TxtStage_reg分割禁止 = { value: void 0 };
+_TxtStage_hChInStyle = { value: Object.create(null) };
+_TxtStage_REG_NG_CHSTYLE_NAME_CHR = { value: /[\s\.,]/ };
+_TxtStage_hChOutStyle = { value: Object.create(null) };
+_TxtStage_cntBreak = { value: new pixi_js_1.Container };
 
 
 /***/ }),
@@ -81028,10 +81259,22 @@ TxtStage.cntBreak = new pixi_js_1.Container;
 /*!*********************************!*\
   !*** ./core/src/sn/Variable.ts ***!
   \*********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _Variable_instances, _a, _Variable_hScopes, _Variable_hSave, _Variable_hTmp, _Variable_sys, _Variable_data, _Variable_hSys, _Variable_hAreaKidoku, _Variable_callHook, _Variable_hProcDbgRes, _Variable_set_data_break, _Variable_flush, _Variable_doRecProc, _Variable_copybookmark, _Variable_erasebookmark, _Variable_let, _Variable_let_abs, _Variable_let_char_at, _Variable_let_index_of, _Variable_let_length, _Variable_let_replace, _Variable_let_round, _Variable_let_search, _Variable_let_substr, _Variable_clearsysvar, _Variable_clearvar, _Variable_setVal, _Variable_hSetEvent, _Variable_castAuto, _Variable_REG_NUMERICLITERAL, _Variable_dump_val, _Variable_doRecLog, _Variable_hValTrg, _Variable_runFirst_Bool_hSysVal_true, _Variable_runFirst_sys_an_tagCh_msecWait, _Variable_runFirst_sys_an_tagCh_msecWait_Kidoku, _Variable_runFirst_sys_an_auto_msecPageWait, _Variable_runFirst_sys_an_auto_msecLineWait, _Variable_runFirst_Bool_hSaveVal_true, _Variable_runFirst_Bool_hTmp_true, _Variable_runFirst_Bool_hTmp_false;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Variable = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -81041,32 +81284,36 @@ const platform = __webpack_require__(/*! platform */ "./node_modules/platform/pl
 class Variable {
     constructor(cfg, hTag) {
         this.cfg = cfg;
-        this.hScopes = { sys: {}, save: {}, tmp: {}, mp: {} };
-        this.hSave = this.hScopes.save;
-        this.hTmp = this.hScopes.tmp;
-        this.data = { sys: {}, mark: {}, kidoku: {} };
-        this.hAreaKidoku = {};
-        this.hProcDbgRes = {
-            auth: (_, o) => this.set_data_break(o.hBreakpoint.aData),
-            var: (_, o) => this.sys.send2Dbg(o.ri, { v: this.hScopes[o.scope] ?? {} }),
+        _Variable_instances.add(this);
+        _Variable_hScopes.set(this, { sys: {}, save: {}, tmp: {}, mp: {} });
+        _Variable_hSave.set(this, __classPrivateFieldGet(this, _Variable_hScopes, "f").save);
+        _Variable_hTmp.set(this, __classPrivateFieldGet(this, _Variable_hScopes, "f").tmp);
+        _Variable_sys.set(this, void 0);
+        _Variable_data.set(this, { sys: {}, mark: {}, kidoku: {} });
+        _Variable_hSys.set(this, void 0);
+        _Variable_hAreaKidoku.set(this, {});
+        _Variable_callHook.set(this, void 0);
+        _Variable_hProcDbgRes.set(this, {
+            auth: (_, o) => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_set_data_break).call(this, o.hBreakpoint.aData),
+            var: (_, o) => __classPrivateFieldGet(this, _Variable_sys, "f").send2Dbg(o.ri, { v: __classPrivateFieldGet(this, _Variable_hScopes, "f")[o.scope] ?? {} }),
             set_var: (_, o) => {
                 try {
-                    this.setVal(o.nm, o.val);
-                    this.sys.send2Dbg(o.ri, {});
+                    __classPrivateFieldGet(this, _Variable_setVal, "f").call(this, o.nm, o.val);
+                    __classPrivateFieldGet(this, _Variable_sys, "f").send2Dbg(o.ri, {});
                 }
                 catch { }
             },
             set_data_break: (_, o) => {
-                this.set_data_break(o.a);
-                this.sys.send2Dbg(o.ri, {});
+                __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_set_data_break).call(this, o.a);
+                __classPrivateFieldGet(this, _Variable_sys, "f").send2Dbg(o.ri, {});
             },
-            disconnect: _ => Variable.hSetEvent = {},
-        };
-        this.flush_ = () => { };
-        this.doRecProc = (_doRec) => { };
-        this.getMark = (place) => this.data.mark[place];
-        this.getAreaKidoku = (fn) => this.hAreaKidoku[fn];
-        this.setVal = (arg_name, val, autocast = true) => {
+            disconnect: _ => __classPrivateFieldSet(Variable, _a, {}, "f", _Variable_hSetEvent),
+        });
+        _Variable_flush.set(this, () => { });
+        _Variable_doRecProc.set(this, (_doRec) => { });
+        this.getMark = (place) => __classPrivateFieldGet(this, _Variable_data, "f").mark[place];
+        this.getAreaKidoku = (fn) => __classPrivateFieldGet(this, _Variable_hAreaKidoku, "f")[fn];
+        _Variable_setVal.set(this, (arg_name, val, autocast = true) => {
             if (!arg_name)
                 throw '[変数に値セット] nameは必須です';
             if (val == null)
@@ -81074,7 +81321,7 @@ class Variable {
             const o = PropParser_1.PropParser.getValName(arg_name);
             if (o === undefined)
                 throw '[変数参照] name(' + arg_name + ')が変数名として異常です';
-            const hScope = this.hScopes[o.scope];
+            const hScope = __classPrivateFieldGet(this, _Variable_hScopes, "f")[o.scope];
             if (!hScope)
                 throw '[変数に値セット] scopeが異常【' + o.scope + '】です';
             const nm = o['name'];
@@ -81082,14 +81329,14 @@ class Variable {
                 throw '[変数に値セット] 変数【' + nm + '】は書き換え不可です';
             }
             this.setVal_Nochk(o.scope, nm, val, autocast);
-        };
+        });
         this.getVal = (arg_name, def) => {
             if (!arg_name)
                 throw '[変数参照] nameは必須です';
             const o = PropParser_1.PropParser.getValName(arg_name);
             if (o === undefined)
                 throw '[変数参照] name(' + arg_name + ')が変数名として異常です';
-            const hScope = this.hScopes[o['scope']];
+            const hScope = __classPrivateFieldGet(this, _Variable_hScopes, "f")[o['scope']];
             if (!hScope)
                 throw '[変数参照] scopeが異常【' + o['scope'] + '】です';
             const val_name = o['name'];
@@ -81131,13 +81378,13 @@ class Variable {
             }
             if (val instanceof Function)
                 val = val();
-            return (o['at'] === '@str') ? val : this.castAuto(val);
+            return (o['at'] === '@str') ? val : __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_castAuto).call(this, val);
         };
-        this.REG_NUMERICLITERAL = /^-?[\d\.]+$/;
-        this.dump_val = () => {
+        _Variable_REG_NUMERICLITERAL.set(this, /^-?[\d\.]+$/);
+        _Variable_dump_val.set(this, () => {
             const val = { tmp: {}, sys: {}, save: {}, mp: {} };
             for (let scope in val) {
-                const hVal = this.hScopes[scope];
+                const hVal = __classPrivateFieldGet(this, _Variable_hScopes, "f")[scope];
                 const hRet = val[scope];
                 for (let key in hVal) {
                     const v = hVal[key];
@@ -81150,54 +81397,54 @@ class Variable {
             }
             console.info('🥟 [dump_val]', val);
             return false;
-        };
-        this.$doRecLog = false;
-        this.hValTrg = {
-            'sys:sn.tagCh.doWait': name => this.runFirst_Bool_hSysVal_true(name),
-            'sys:sn.tagCh.doWait_Kidoku': name => this.runFirst_Bool_hSysVal_true(name),
-            'sys:sn.tagCh.msecWait': name => this.runFirst_sys_an_tagCh_msecWait(name),
-            'sys:sn.tagCh.msecWait_Kidoku': name => this.runFirst_sys_an_tagCh_msecWait_Kidoku(name),
-            'sys:sn.tagCh.canskip': name => this.runFirst_Bool_hSysVal_true(name),
-            'sys:sn.auto.msecPageWait': name => this.runFirst_sys_an_auto_msecPageWait(name),
-            'sys:sn.auto.msecPageWait_Kidoku': name => this.runFirst_sys_an_auto_msecPageWait(name),
-            'sys:sn.auto.msecLineWait': name => this.runFirst_sys_an_auto_msecLineWait(name),
-            'sys:sn.auto.msecLineWait_Kidoku': name => this.runFirst_sys_an_auto_msecLineWait(name),
+        });
+        _Variable_doRecLog.set(this, false);
+        _Variable_hValTrg.set(this, {
+            'sys:sn.tagCh.doWait': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hSysVal_true).call(this, name),
+            'sys:sn.tagCh.doWait_Kidoku': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hSysVal_true).call(this, name),
+            'sys:sn.tagCh.msecWait': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_sys_an_tagCh_msecWait).call(this, name),
+            'sys:sn.tagCh.msecWait_Kidoku': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_sys_an_tagCh_msecWait_Kidoku).call(this, name),
+            'sys:sn.tagCh.canskip': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hSysVal_true).call(this, name),
+            'sys:sn.auto.msecPageWait': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_sys_an_auto_msecPageWait).call(this, name),
+            'sys:sn.auto.msecPageWait_Kidoku': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_sys_an_auto_msecPageWait).call(this, name),
+            'sys:sn.auto.msecLineWait': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_sys_an_auto_msecLineWait).call(this, name),
+            'sys:sn.auto.msecLineWait_Kidoku': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_sys_an_auto_msecLineWait).call(this, name),
             'save:sn.doRecLog': name => {
-                this.doRecProc(this.$doRecLog = this.runFirst_Bool_hSaveVal_true(name));
+                __classPrivateFieldGet(this, _Variable_doRecProc, "f").call(this, __classPrivateFieldSet(this, _Variable_doRecLog, __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hSaveVal_true).call(this, name), "f"));
             },
             'save:sn.userFnTail': (_name, val) => this.cfg.userFnTail = val,
-            'tmp:sn.tagL.enabled': name => this.runFirst_Bool_hTmp_true(name),
-            'tmp:sn.skip.all': name => this.runFirst_Bool_hTmp_false(name),
-            'tmp:sn.skip.enabled': name => this.runFirst_Bool_hTmp_false(name),
-            'tmp:sn.auto.enabled': name => this.runFirst_Bool_hTmp_false(name),
+            'tmp:sn.tagL.enabled': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hTmp_true).call(this, name),
+            'tmp:sn.skip.all': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hTmp_false).call(this, name),
+            'tmp:sn.skip.enabled': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hTmp_false).call(this, name),
+            'tmp:sn.auto.enabled': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hTmp_false).call(this, name),
             'tmp:flash.desktop.NativeApplication.nativeApplication.systemIdleMode': (() => {
             }),
             'tmp:sn.chkFontMode': () => {
-                if (this.hTmp['const.sn.onLauncher'])
+                if (__classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.onLauncher'])
                     return;
-                if (!this.hTmp['const.sn.isDebugger'])
+                if (!__classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.isDebugger'])
                     return;
             }
-        };
-        hTag.let = o => this.let(o);
-        hTag.let_abs = o => this.let_abs(o);
-        hTag.let_char_at = o => this.let_char_at(o);
-        hTag.let_index_of = o => this.let_index_of(o);
-        hTag.let_length = o => this.let_length(o);
-        hTag.let_replace = o => this.let_replace(o);
-        hTag.let_round = o => this.let_round(o);
-        hTag.let_search = o => this.let_search(o);
-        hTag.let_substr = o => this.let_substr(o);
-        hTag.clearsysvar = () => this.clearsysvar();
-        hTag.clearvar = () => this.clearvar();
-        hTag.dump_val = () => this.dump_val();
-        hTag.copybookmark = o => this.copybookmark(o);
-        hTag.erasebookmark = o => this.erasebookmark(o);
-        this.hSave['sn.userFnTail'] = '';
+        });
+        hTag.let = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, o);
+        hTag.let_abs = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_abs).call(this, o);
+        hTag.let_char_at = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_char_at).call(this, o);
+        hTag.let_index_of = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_index_of).call(this, o);
+        hTag.let_length = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_length).call(this, o);
+        hTag.let_replace = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_replace).call(this, o);
+        hTag.let_round = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_round).call(this, o);
+        hTag.let_search = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_search).call(this, o);
+        hTag.let_substr = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_substr).call(this, o);
+        hTag.clearsysvar = () => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_clearsysvar).call(this);
+        hTag.clearvar = () => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_clearvar).call(this);
+        hTag.dump_val = () => __classPrivateFieldGet(this, _Variable_dump_val, "f").call(this);
+        hTag.copybookmark = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_copybookmark).call(this, o);
+        hTag.erasebookmark = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_erasebookmark).call(this, o);
+        __classPrivateFieldGet(this, _Variable_hSave, "f")['sn.userFnTail'] = '';
         this.defTmp('const.sn.bookmark.json', () => {
             const a = [];
-            Object.keys(this.data.mark).sort().forEach(k => {
-                const o = { ...this.data.mark[k].json };
+            Object.keys(__classPrivateFieldGet(this, _Variable_data, "f").mark).sort().forEach(k => {
+                const o = { ...__classPrivateFieldGet(this, _Variable_data, "f").mark[k].json };
                 for (const key in o) {
                     const v = o[key];
                     if (typeof v !== 'string')
@@ -81211,343 +81458,321 @@ class Variable {
             });
             return JSON.stringify(a);
         });
-        this.hTmp['const.sn.isFirstBoot'] = true;
-        this.hTmp['sn.tagL.enabled'] = true;
-        this.hTmp['sn.skip.all'] = false;
-        this.hTmp['sn.skip.enabled'] = false;
-        this.hTmp['sn.auto.enabled'] = false;
-        this.hTmp['const.sn.last_page_text'] = '';
-        this.hTmp['const.sn.displayState'] = false;
-        this.hTmp['const.Date.getTime'] = () => (new Date).getTime();
-        this.hTmp['const.Date.getDateStr'] = () => (0, CmnLib_1.getDateStr)();
-        this.hTmp['const.sn.platform'] = JSON.stringify(platform);
-        this.clearsysvar();
-        this.clearvar();
-        this.hTmp['const.sn.config.window.width'] = cfg.oCfg.window.width;
-        this.hTmp['const.sn.config.window.height'] = cfg.oCfg.window.height;
-        this.hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
-        this.hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
-        this.hTmp['const.sn.Math.PI'] = Math.PI;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.isFirstBoot'] = true;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['sn.tagL.enabled'] = true;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['sn.skip.all'] = false;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['sn.skip.enabled'] = false;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['sn.auto.enabled'] = false;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.last_page_text'] = '';
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.displayState'] = false;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.Date.getTime'] = () => (new Date).getTime();
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.Date.getDateStr'] = () => (0, CmnLib_1.getDateStr)();
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.platform'] = JSON.stringify(platform);
+        __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_clearsysvar).call(this);
+        __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_clearvar).call(this);
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.config.window.width'] = cfg.oCfg.window.width;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.config.window.height'] = cfg.oCfg.window.height;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.config.book.title'] = cfg.oCfg.book.title;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.config.book.version'] = cfg.oCfg.book.version;
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.Math.PI'] = Math.PI;
         if (typeof window === 'undefined')
             return;
         const win = window;
         const ac = win['AudioContext'] ?? win['webkitAudioContext'];
-        this.hTmp['const.sn.needClick2Play'] = () => new ac().state === 'suspended';
+        __classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.needClick2Play'] = () => new ac().state === 'suspended';
     }
     setSys(sys) {
-        this.sys = sys;
-        sys.initVal(this.data, this.hTmp, data => {
+        __classPrivateFieldSet(this, _Variable_sys, sys, "f");
+        sys.initVal(__classPrivateFieldGet(this, _Variable_data, "f"), __classPrivateFieldGet(this, _Variable_hTmp, "f"), data => {
             this.updateData(data);
             sessionStorage.clear();
             const ns = this.cfg.getNs();
-            this.flush_ = (this.cfg.oCfg.debug.variable) ? () => {
+            __classPrivateFieldSet(this, _Variable_flush, (this.cfg.oCfg.debug.variable) ? () => {
                 const oSys = {};
-                Object.keys(this.hSys).forEach(k => {
-                    const v = this.hSys[k];
+                Object.keys(__classPrivateFieldGet(this, _Variable_hSys, "f")).forEach(k => {
+                    const v = __classPrivateFieldGet(this, _Variable_hSys, "f")[k];
                     oSys['sys:' + k] = (v instanceof Function) ? v() : v;
                 });
                 sessionStorage[ns + 'sys'] = JSON.stringify(oSys);
                 const oSave = {};
-                Object.keys(this.hSave).forEach(k => {
-                    const v = this.hSave[k];
+                Object.keys(__classPrivateFieldGet(this, _Variable_hSave, "f")).forEach(k => {
+                    const v = __classPrivateFieldGet(this, _Variable_hSave, "f")[k];
                     oSave['save:' + k] = (v instanceof Function) ? v() : v;
                 });
                 sessionStorage[ns + 'save'] = JSON.stringify(oSave);
                 const oTmp = {};
-                Object.keys(this.hTmp).forEach(k => {
-                    const v = this.hTmp[k];
+                Object.keys(__classPrivateFieldGet(this, _Variable_hTmp, "f")).forEach(k => {
+                    const v = __classPrivateFieldGet(this, _Variable_hTmp, "f")[k];
                     oTmp[k] = (v instanceof Function) ? v() : v;
                 });
                 sessionStorage[ns + 'tmp'] = JSON.stringify(oTmp);
                 const oMp = {};
-                Object.keys(this.hScopes.mp).forEach(k => {
-                    const v = this.hScopes.mp[k];
+                Object.keys(__classPrivateFieldGet(this, _Variable_hScopes, "f").mp).forEach(k => {
+                    const v = __classPrivateFieldGet(this, _Variable_hScopes, "f").mp[k];
                     oMp[k] = (v instanceof Function) ? v() : v;
                 });
                 sessionStorage[ns + 'mp'] = JSON.stringify(oMp);
                 const oMark = {};
-                Object.keys(this.data.mark).forEach(k => {
-                    const v = this.data.mark[k];
+                Object.keys(__classPrivateFieldGet(this, _Variable_data, "f").mark).forEach(k => {
+                    const v = __classPrivateFieldGet(this, _Variable_data, "f").mark[k];
                     oMark[k] = (v instanceof Function) ? v() : v;
                 });
                 sessionStorage[ns + 'mark'] = JSON.stringify(oMark);
                 const oKidoku = {};
-                Object.keys(this.data.kidoku).forEach(k => {
-                    const v = this.data.kidoku[k];
+                Object.keys(__classPrivateFieldGet(this, _Variable_data, "f").kidoku).forEach(k => {
+                    const v = __classPrivateFieldGet(this, _Variable_data, "f").kidoku[k];
                     oKidoku[k] = (v instanceof Function) ? v() : v;
                 });
                 sessionStorage[ns + 'kidoku'] = JSON.stringify(oKidoku);
                 sys.flush();
             }
-                : () => sys.flush();
-            this.callHook = (type, o) => sys.callHook(type, o);
-            sys.addHook((type, o) => this.hProcDbgRes[type]?.(type, o));
+                : () => sys.flush(), "f");
+            __classPrivateFieldSet(this, _Variable_callHook, (type, o) => sys.callHook(type, o), "f");
+            sys.addHook((type, o) => __classPrivateFieldGet(this, _Variable_hProcDbgRes, "f")[type]?.(type, o));
             const tm = this.getVal('sys:sn.tagCh.msecWait', -1);
-            if (this.hTmp['const.sn.isFirstBoot'] || tm === -1)
-                this.clearsysvar();
+            if (__classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.isFirstBoot'] || tm === -1)
+                __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_clearsysvar).call(this);
         });
     }
-    set_data_break(a) {
-        Variable.hSetEvent = {};
-        a.forEach((v) => Variable.hSetEvent[v.dataId] = 1);
-    }
     updateData(data) {
-        this.data = data;
-        this.hSys = this.hScopes.sys = this.data.sys;
-        this.hAreaKidoku = {};
-        for (const fn in this.data.kidoku) {
+        __classPrivateFieldSet(this, _Variable_data, data, "f");
+        __classPrivateFieldSet(this, _Variable_hSys, __classPrivateFieldGet(this, _Variable_hScopes, "f").sys = __classPrivateFieldGet(this, _Variable_data, "f").sys, "f");
+        __classPrivateFieldSet(this, _Variable_hAreaKidoku, {}, "f");
+        for (const fn in __classPrivateFieldGet(this, _Variable_data, "f").kidoku) {
             const areas = new Areas_1.Areas;
-            areas.hAreas = { ...this.data.kidoku[fn] };
-            this.hAreaKidoku[fn] = areas;
+            areas.hAreas = { ...__classPrivateFieldGet(this, _Variable_data, "f").kidoku[fn] };
+            __classPrivateFieldGet(this, _Variable_hAreaKidoku, "f")[fn] = areas;
         }
     }
-    flush() { this.flush_(); }
-    setDoRecProc(fnc) { this.doRecProc = fnc; }
-    defTmp(name, fnc) { this.hTmp[name] = fnc; }
+    flush() { __classPrivateFieldGet(this, _Variable_flush, "f").call(this); }
+    setDoRecProc(fnc) { __classPrivateFieldSet(this, _Variable_doRecProc, fnc, "f"); }
+    defTmp(name, fnc) { __classPrivateFieldGet(this, _Variable_hTmp, "f")[name] = fnc; }
     ;
-    cloneMp() { return { ...this.hScopes.mp }; }
-    setMp(mp) { this.hScopes.mp = mp; }
-    setMark(place, mark) { this.data.mark[place] = mark; this.flush(); }
-    cloneSave() { return { ...this.hScopes.save }; }
+    cloneMp() { return { ...__classPrivateFieldGet(this, _Variable_hScopes, "f").mp }; }
+    setMp(mp) { __classPrivateFieldGet(this, _Variable_hScopes, "f").mp = mp; }
+    setMark(place, mark) { __classPrivateFieldGet(this, _Variable_data, "f").mark[place] = mark; this.flush(); }
+    cloneSave() { return { ...__classPrivateFieldGet(this, _Variable_hScopes, "f").save }; }
     mark2save(mark) {
-        this.hSave = this.hScopes.save = { ...mark.hSave };
-        this.$doRecLog = this.hSave['sn.doRecLog'] ?? false;
+        __classPrivateFieldSet(this, _Variable_hSave, __classPrivateFieldGet(this, _Variable_hScopes, "f").save = { ...mark.hSave }, "f");
+        __classPrivateFieldSet(this, _Variable_doRecLog, __classPrivateFieldGet(this, _Variable_hSave, "f")['sn.doRecLog'] ?? false, "f");
     }
     loadScrWork(fn) {
-        if (!(fn in this.hAreaKidoku))
-            this.hAreaKidoku[fn] = new Areas_1.Areas;
+        if (!(fn in __classPrivateFieldGet(this, _Variable_hAreaKidoku, "f")))
+            __classPrivateFieldGet(this, _Variable_hAreaKidoku, "f")[fn] = new Areas_1.Areas;
     }
     saveKidoku() {
-        for (const fn in this.hAreaKidoku) {
-            this.data.kidoku[fn] = { ...this.hAreaKidoku[fn].hAreas };
+        for (const fn in __classPrivateFieldGet(this, _Variable_hAreaKidoku, "f")) {
+            __classPrivateFieldGet(this, _Variable_data, "f").kidoku[fn] = { ...__classPrivateFieldGet(this, _Variable_hAreaKidoku, "f")[fn].hAreas };
         }
         this.flush();
-    }
-    copybookmark(hArg) {
-        if (!('from' in hArg))
-            throw 'fromは必須です';
-        if (!('to' in hArg))
-            throw 'toは必須です';
-        const from = Number(hArg.from);
-        const to = Number(hArg.to);
-        if (from === to)
-            return false;
-        if (!(from in this.data.mark))
-            throw `from:${from} のセーブデータは存在しません`;
-        this.setMark(to, { ...this.data.mark[from] });
-        this.sys.copyBMFolder(from, to);
-        return false;
-    }
-    erasebookmark(hArg) {
-        const place = hArg.place;
-        if (!place)
-            throw 'placeは必須です';
-        delete this.data.mark[place];
-        this.flush();
-        this.sys.eraseBMFolder(place);
-        return false;
-    }
-    let(hArg) {
-        if (!hArg.name)
-            throw 'nameは必須です';
-        let autocast = true;
-        if (hArg.cast) {
-            switch (hArg.cast) {
-                case 'num':
-                    (0, CmnLib_1.argChk_Num)(hArg, 'text', NaN);
-                    break;
-                case 'int':
-                    hArg.text = String((0, CmnLib_1.int)((0, CmnLib_1.argChk_Num)(hArg, 'text', NaN)));
-                    break;
-                case 'uint':
-                    hArg.text = String((0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'text', NaN)));
-                    break;
-                case 'bool':
-                    (0, CmnLib_1.argChk_Boolean)(hArg, 'text', false);
-                    break;
-                case 'str':
-                    autocast = false;
-                    break;
-                default:
-                    throw 'cast【' + hArg.cast + '】は未定義です';
-            }
-        }
-        this.setVal(hArg.name, hArg.text, autocast);
-        return false;
-    }
-    let_abs(hArg) {
-        const n = (0, CmnLib_1.argChk_Num)(hArg, 'text', 0);
-        hArg.text = String((n < 0) ? -n : n);
-        this.let(hArg);
-        return false;
-    }
-    let_char_at(hArg) {
-        hArg.text = (hArg.text ?? '').charAt((0, CmnLib_1.argChk_Num)(hArg, 'pos', 0));
-        this.let(hArg);
-        return false;
-    }
-    let_index_of(hArg) {
-        const val = hArg.val;
-        if (!val)
-            throw 'valは必須です';
-        const start = (0, CmnLib_1.argChk_Num)(hArg, 'start', 0);
-        hArg.text = String((hArg.text ?? '').indexOf(val, start));
-        this.let(hArg);
-        return false;
-    }
-    let_length(hArg) {
-        hArg.text = String((hArg.text ?? '').length);
-        this.let(hArg);
-        return false;
-    }
-    let_replace(hArg) {
-        if (!hArg.reg)
-            throw 'regは必須です';
-        const flags = hArg.flags;
-        const reg = (!flags)
-            ? new RegExp(hArg.reg)
-            : new RegExp(hArg.reg, flags);
-        hArg.text = String(hArg.text ?? '').replace(reg, String(hArg.val));
-        this.let(hArg);
-        return false;
-    }
-    let_round(hArg) {
-        const n = (0, CmnLib_1.argChk_Num)(hArg, 'text', 0);
-        hArg.text = String(Math.round(n));
-        this.let(hArg);
-        return false;
-    }
-    let_search(hArg) {
-        if (!hArg.reg)
-            throw 'regは必須です';
-        const flags = hArg.flags;
-        const reg = (!flags)
-            ? new RegExp(hArg.reg)
-            : new RegExp(hArg.reg, flags);
-        hArg.text = String((hArg.text ?? '').search(reg));
-        this.let(hArg);
-        return false;
-    }
-    let_substr(hArg) {
-        const i = (0, CmnLib_1.argChk_Num)(hArg, 'pos', 0);
-        hArg.text = (hArg.len !== 'all')
-            ? (hArg.text ?? '').slice(i, i + (0, CmnLib_1.int)((0, CmnLib_1.argChk_Num)(hArg, 'len', 1)))
-            : (hArg.text ?? '').slice(i);
-        this.let(hArg);
-        return false;
-    }
-    clearsysvar() {
-        const sys = this.hSys = this.hScopes['sys'] = this.data.sys = {};
-        const is_nw = (typeof process !== 'undefined');
-        if (is_nw) {
-        }
-        else {
-            this.setVal_Nochk('sys', 'const.sn.window.x', 0);
-            this.setVal_Nochk('sys', 'const.sn.window.y', 0);
-        }
-        this.setVal_Nochk('sys', 'sn.tagCh.doWait', true);
-        this.setVal_Nochk('sys', 'sn.tagCh.doWait_Kidoku', true);
-        this.setVal_Nochk('sys', 'sn.tagCh.msecWait', this.cfg.oCfg.init.tagch_msecwait);
-        this.setVal_Nochk('sys', 'sn.tagCh.msecWait_Kidoku', this.cfg.oCfg.init.tagch_msecwait);
-        this.setVal_Nochk('sys', 'sn.tagCh.canskip', true);
-        this.setVal_Nochk('sys', 'sn.skip.mode', 's');
-        this.setVal_Nochk('sys', 'sn.auto.msecPageWait', (0, CmnLib_1.argChk_Num)(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
-        this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', (0, CmnLib_1.argChk_Num)(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
-        this.setVal_Nochk('sys', 'sn.auto.msecLineWait', 500);
-        this.setVal_Nochk('sys', 'sn.auto.msecLineWait_Kidoku', 500);
-        this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
-        this.setVal_Nochk('sys', 'const.sn.sound.SE.volume', 1);
-        this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);
-        for (const fn in this.data.kidoku) {
-            this.data.kidoku[fn].hAreas = {};
-            this.hAreaKidoku[fn].clear();
-        }
-        this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 0.5);
-        this.hScopes['mark'] = this.data.mark = {};
-        this.setVal_Nochk('sys', 'const.sn.save.place', 1);
-        this.flush();
-        return false;
-    }
-    clearvar() {
-        const mesLayer = this.hSave['const.sn.mesLayer'] ?? '';
-        const doRecLog = this.hSave['sn.doRecLog'] ?? false;
-        const sLog = this.hSave['const.sn.sLog'] ?? '';
-        this.hSave = this.hScopes.save = {};
-        this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
-        this.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
-        this.setVal_Nochk('save', 'const.sn.sLog', sLog);
-        return false;
     }
     setVal_Nochk(scope, nm, val, autocast = false) {
-        const hScope = this.hScopes[scope];
+        const hScope = __classPrivateFieldGet(this, _Variable_hScopes, "f")[scope];
         if (autocast)
-            val = this.castAuto(val);
+            val = __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_castAuto).call(this, val);
         const fullnm = scope + ':' + nm;
-        if (fullnm in Variable.hSetEvent) {
+        if (fullnm in __classPrivateFieldGet(Variable, _a, "f", _Variable_hSetEvent)) {
             const old_v = hScope[nm];
             const new_v = val;
             if (old_v != new_v)
-                this.callHook('data_break', {
+                __classPrivateFieldGet(this, _Variable_callHook, "f").call(this, 'data_break', {
                     dataId: fullnm,
                     old_v: old_v,
                     new_v: new_v,
                 });
         }
         hScope[nm] = val;
-        this.hValTrg[fullnm]?.(nm, val);
+        __classPrivateFieldGet(this, _Variable_hValTrg, "f")[fullnm]?.(nm, val);
     }
-    castAuto(val) {
-        const s_val = val;
-        if (s_val === 'true')
-            return true;
-        if (s_val === 'false')
-            return false;
-        if (s_val === 'null')
-            return null;
-        if (s_val === 'undefined')
-            return undefined;
-        this.REG_NUMERICLITERAL.lastIndex = 0;
-        if (this.REG_NUMERICLITERAL.test(s_val))
-            return parseFloat(s_val);
-        return val;
-    }
-    doRecLog() { return this.$doRecLog; }
-    defValTrg(name, fnc) { this.hValTrg[name] = fnc; }
-    runFirst_Bool_hSysVal_true(name) {
-        (0, CmnLib_1.argChk_Boolean)(this.hSys, name, true);
-    }
-    runFirst_sys_an_tagCh_msecWait(name) {
-        (0, CmnLib_1.argChk_Num)(this.hSys, name, 10);
-        if (this.hSys['sn.tagCh.doWait']) {
-        }
-    }
-    runFirst_sys_an_tagCh_msecWait_Kidoku(name) {
-        (0, CmnLib_1.argChk_Num)(this.hSys, name, (this.cfg.oCfg.init.tagch_msecwait === undefined)
-            ? 10
-            : this.cfg.oCfg.init.tagch_msecwait);
-        if (this.hSys['sn.tagCh.doWait_Kidoku']) {
-        }
-    }
-    runFirst_sys_an_auto_msecPageWait(name) {
-        (0, CmnLib_1.argChk_Num)(this.hSys, name, (this.cfg.oCfg.init.auto_msecpagewait === undefined)
-            ? 3500
-            : this.cfg.oCfg.init.auto_msecpagewait);
-    }
-    runFirst_sys_an_auto_msecLineWait(name) {
-        (0, CmnLib_1.argChk_Num)(this.hSys, name, 500);
-    }
-    runFirst_Bool_hSaveVal_true(name) {
-        return (0, CmnLib_1.argChk_Boolean)(this.hSave, name, true);
-    }
-    runFirst_Bool_hTmp_true(name) {
-        (0, CmnLib_1.argChk_Boolean)(this.hTmp, name, true);
-    }
-    runFirst_Bool_hTmp_false(name) {
-        (0, CmnLib_1.argChk_Boolean)(this.hTmp, name, false);
-    }
+    doRecLog() { return __classPrivateFieldGet(this, _Variable_doRecLog, "f"); }
+    defValTrg(name, fnc) { __classPrivateFieldGet(this, _Variable_hValTrg, "f")[name] = fnc; }
 }
 exports.Variable = Variable;
-Variable.hSetEvent = {};
+_a = Variable, _Variable_hScopes = new WeakMap(), _Variable_hSave = new WeakMap(), _Variable_hTmp = new WeakMap(), _Variable_sys = new WeakMap(), _Variable_data = new WeakMap(), _Variable_hSys = new WeakMap(), _Variable_hAreaKidoku = new WeakMap(), _Variable_callHook = new WeakMap(), _Variable_hProcDbgRes = new WeakMap(), _Variable_flush = new WeakMap(), _Variable_doRecProc = new WeakMap(), _Variable_setVal = new WeakMap(), _Variable_REG_NUMERICLITERAL = new WeakMap(), _Variable_dump_val = new WeakMap(), _Variable_doRecLog = new WeakMap(), _Variable_hValTrg = new WeakMap(), _Variable_instances = new WeakSet(), _Variable_set_data_break = function _Variable_set_data_break(a) {
+    __classPrivateFieldSet(Variable, _a, {}, "f", _Variable_hSetEvent);
+    a.forEach((v) => __classPrivateFieldGet(Variable, _a, "f", _Variable_hSetEvent)[v.dataId] = 1);
+}, _Variable_copybookmark = function _Variable_copybookmark(hArg) {
+    if (!('from' in hArg))
+        throw 'fromは必須です';
+    if (!('to' in hArg))
+        throw 'toは必須です';
+    const from = Number(hArg.from);
+    const to = Number(hArg.to);
+    if (from === to)
+        return false;
+    if (!(from in __classPrivateFieldGet(this, _Variable_data, "f").mark))
+        throw `from:${from} のセーブデータは存在しません`;
+    this.setMark(to, { ...__classPrivateFieldGet(this, _Variable_data, "f").mark[from] });
+    __classPrivateFieldGet(this, _Variable_sys, "f").copyBMFolder(from, to);
+    return false;
+}, _Variable_erasebookmark = function _Variable_erasebookmark(hArg) {
+    const place = hArg.place;
+    if (!place)
+        throw 'placeは必須です';
+    delete __classPrivateFieldGet(this, _Variable_data, "f").mark[place];
+    this.flush();
+    __classPrivateFieldGet(this, _Variable_sys, "f").eraseBMFolder(place);
+    return false;
+}, _Variable_let = function _Variable_let(hArg) {
+    if (!hArg.name)
+        throw 'nameは必須です';
+    let autocast = true;
+    if (hArg.cast) {
+        switch (hArg.cast) {
+            case 'num':
+                (0, CmnLib_1.argChk_Num)(hArg, 'text', NaN);
+                break;
+            case 'int':
+                hArg.text = String((0, CmnLib_1.int)((0, CmnLib_1.argChk_Num)(hArg, 'text', NaN)));
+                break;
+            case 'uint':
+                hArg.text = String((0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'text', NaN)));
+                break;
+            case 'bool':
+                (0, CmnLib_1.argChk_Boolean)(hArg, 'text', false);
+                break;
+            case 'str':
+                autocast = false;
+                break;
+            default:
+                throw 'cast【' + hArg.cast + '】は未定義です';
+        }
+    }
+    __classPrivateFieldGet(this, _Variable_setVal, "f").call(this, hArg.name, hArg.text, autocast);
+    return false;
+}, _Variable_let_abs = function _Variable_let_abs(hArg) {
+    const n = (0, CmnLib_1.argChk_Num)(hArg, 'text', 0);
+    hArg.text = String((n < 0) ? -n : n);
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_let_char_at = function _Variable_let_char_at(hArg) {
+    hArg.text = (hArg.text ?? '').charAt((0, CmnLib_1.argChk_Num)(hArg, 'pos', 0));
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_let_index_of = function _Variable_let_index_of(hArg) {
+    const val = hArg.val;
+    if (!val)
+        throw 'valは必須です';
+    const start = (0, CmnLib_1.argChk_Num)(hArg, 'start', 0);
+    hArg.text = String((hArg.text ?? '').indexOf(val, start));
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_let_length = function _Variable_let_length(hArg) {
+    hArg.text = String((hArg.text ?? '').length);
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_let_replace = function _Variable_let_replace(hArg) {
+    if (!hArg.reg)
+        throw 'regは必須です';
+    const flags = hArg.flags;
+    const reg = (!flags)
+        ? new RegExp(hArg.reg)
+        : new RegExp(hArg.reg, flags);
+    hArg.text = String(hArg.text ?? '').replace(reg, String(hArg.val));
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_let_round = function _Variable_let_round(hArg) {
+    const n = (0, CmnLib_1.argChk_Num)(hArg, 'text', 0);
+    hArg.text = String(Math.round(n));
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_let_search = function _Variable_let_search(hArg) {
+    if (!hArg.reg)
+        throw 'regは必須です';
+    const flags = hArg.flags;
+    const reg = (!flags)
+        ? new RegExp(hArg.reg)
+        : new RegExp(hArg.reg, flags);
+    hArg.text = String((hArg.text ?? '').search(reg));
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_let_substr = function _Variable_let_substr(hArg) {
+    const i = (0, CmnLib_1.argChk_Num)(hArg, 'pos', 0);
+    hArg.text = (hArg.len !== 'all')
+        ? (hArg.text ?? '').slice(i, i + (0, CmnLib_1.int)((0, CmnLib_1.argChk_Num)(hArg, 'len', 1)))
+        : (hArg.text ?? '').slice(i);
+    __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
+    return false;
+}, _Variable_clearsysvar = function _Variable_clearsysvar() {
+    const sys = __classPrivateFieldSet(this, _Variable_hSys, __classPrivateFieldGet(this, _Variable_hScopes, "f")['sys'] = __classPrivateFieldGet(this, _Variable_data, "f").sys = {}, "f");
+    const is_nw = (typeof process !== 'undefined');
+    if (is_nw) {
+    }
+    else {
+        this.setVal_Nochk('sys', 'const.sn.window.x', 0);
+        this.setVal_Nochk('sys', 'const.sn.window.y', 0);
+    }
+    this.setVal_Nochk('sys', 'sn.tagCh.doWait', true);
+    this.setVal_Nochk('sys', 'sn.tagCh.doWait_Kidoku', true);
+    this.setVal_Nochk('sys', 'sn.tagCh.msecWait', this.cfg.oCfg.init.tagch_msecwait);
+    this.setVal_Nochk('sys', 'sn.tagCh.msecWait_Kidoku', this.cfg.oCfg.init.tagch_msecwait);
+    this.setVal_Nochk('sys', 'sn.tagCh.canskip', true);
+    this.setVal_Nochk('sys', 'sn.skip.mode', 's');
+    this.setVal_Nochk('sys', 'sn.auto.msecPageWait', (0, CmnLib_1.argChk_Num)(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
+    this.setVal_Nochk('sys', 'sn.auto.msecPageWait_Kidoku', (0, CmnLib_1.argChk_Num)(sys, 'sn.auto.msecPageWait', this.cfg.oCfg.init.auto_msecpagewait ?? 3500));
+    this.setVal_Nochk('sys', 'sn.auto.msecLineWait', 500);
+    this.setVal_Nochk('sys', 'sn.auto.msecLineWait_Kidoku', 500);
+    this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
+    this.setVal_Nochk('sys', 'const.sn.sound.SE.volume', 1);
+    this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);
+    for (const fn in __classPrivateFieldGet(this, _Variable_data, "f").kidoku) {
+        __classPrivateFieldGet(this, _Variable_data, "f").kidoku[fn].hAreas = {};
+        __classPrivateFieldGet(this, _Variable_hAreaKidoku, "f")[fn].clear();
+    }
+    this.setVal_Nochk('sys', 'TextLayer.Back.Alpha', 0.5);
+    __classPrivateFieldGet(this, _Variable_hScopes, "f")['mark'] = __classPrivateFieldGet(this, _Variable_data, "f").mark = {};
+    this.setVal_Nochk('sys', 'const.sn.save.place', 1);
+    this.flush();
+    return false;
+}, _Variable_clearvar = function _Variable_clearvar() {
+    const mesLayer = __classPrivateFieldGet(this, _Variable_hSave, "f")['const.sn.mesLayer'] ?? '';
+    const doRecLog = __classPrivateFieldGet(this, _Variable_hSave, "f")['sn.doRecLog'] ?? false;
+    const sLog = __classPrivateFieldGet(this, _Variable_hSave, "f")['const.sn.sLog'] ?? '';
+    __classPrivateFieldSet(this, _Variable_hSave, __classPrivateFieldGet(this, _Variable_hScopes, "f").save = {}, "f");
+    this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
+    this.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
+    this.setVal_Nochk('save', 'const.sn.sLog', sLog);
+    return false;
+}, _Variable_castAuto = function _Variable_castAuto(val) {
+    const s_val = val;
+    if (s_val === 'true')
+        return true;
+    if (s_val === 'false')
+        return false;
+    if (s_val === 'null')
+        return null;
+    if (s_val === 'undefined')
+        return undefined;
+    __classPrivateFieldGet(this, _Variable_REG_NUMERICLITERAL, "f").lastIndex = 0;
+    if (__classPrivateFieldGet(this, _Variable_REG_NUMERICLITERAL, "f").test(s_val))
+        return parseFloat(s_val);
+    return val;
+}, _Variable_runFirst_Bool_hSysVal_true = function _Variable_runFirst_Bool_hSysVal_true(name) {
+    (0, CmnLib_1.argChk_Boolean)(__classPrivateFieldGet(this, _Variable_hSys, "f"), name, true);
+}, _Variable_runFirst_sys_an_tagCh_msecWait = function _Variable_runFirst_sys_an_tagCh_msecWait(name) {
+    (0, CmnLib_1.argChk_Num)(__classPrivateFieldGet(this, _Variable_hSys, "f"), name, 10);
+    if (__classPrivateFieldGet(this, _Variable_hSys, "f")['sn.tagCh.doWait']) {
+    }
+}, _Variable_runFirst_sys_an_tagCh_msecWait_Kidoku = function _Variable_runFirst_sys_an_tagCh_msecWait_Kidoku(name) {
+    (0, CmnLib_1.argChk_Num)(__classPrivateFieldGet(this, _Variable_hSys, "f"), name, (this.cfg.oCfg.init.tagch_msecwait === undefined)
+        ? 10
+        : this.cfg.oCfg.init.tagch_msecwait);
+    if (__classPrivateFieldGet(this, _Variable_hSys, "f")['sn.tagCh.doWait_Kidoku']) {
+    }
+}, _Variable_runFirst_sys_an_auto_msecPageWait = function _Variable_runFirst_sys_an_auto_msecPageWait(name) {
+    (0, CmnLib_1.argChk_Num)(__classPrivateFieldGet(this, _Variable_hSys, "f"), name, (this.cfg.oCfg.init.auto_msecpagewait === undefined)
+        ? 3500
+        : this.cfg.oCfg.init.auto_msecpagewait);
+}, _Variable_runFirst_sys_an_auto_msecLineWait = function _Variable_runFirst_sys_an_auto_msecLineWait(name) {
+    (0, CmnLib_1.argChk_Num)(__classPrivateFieldGet(this, _Variable_hSys, "f"), name, 500);
+}, _Variable_runFirst_Bool_hSaveVal_true = function _Variable_runFirst_Bool_hSaveVal_true(name) {
+    return (0, CmnLib_1.argChk_Boolean)(__classPrivateFieldGet(this, _Variable_hSave, "f"), name, true);
+}, _Variable_runFirst_Bool_hTmp_true = function _Variable_runFirst_Bool_hTmp_true(name) {
+    (0, CmnLib_1.argChk_Boolean)(__classPrivateFieldGet(this, _Variable_hTmp, "f"), name, true);
+}, _Variable_runFirst_Bool_hTmp_false = function _Variable_runFirst_Bool_hTmp_false(name) {
+    (0, CmnLib_1.argChk_Boolean)(__classPrivateFieldGet(this, _Variable_hTmp, "f"), name, false);
+};
+_Variable_hSetEvent = { value: {} };
 ;
 
 

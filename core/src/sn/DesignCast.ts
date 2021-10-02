@@ -22,27 +22,27 @@ import {Application, Rectangle, Text, Sprite, Point} from 'pixi.js';
 import Moveable, {OnDrag, OnResize} from 'moveable';
 
 export class DesignCast {
-	private		static	divDesignRoot: HTMLDivElement;
-	private		static	sys			: SysBase;
-	private		static	scrItr		: ScriptIterator;
+				static	#divDesignRoot: HTMLDivElement;
+				static	#sys		: SysBase;
+				static	#scrItr		: ScriptIterator;
 	protected	static	prpPrs		: IPropParser;
-	private		static	alzTagArg	: AnalyzeTagArg;
-	private		static	cfg			: Config;
-	private		static	hPages		: HPage;
+				static	#alzTagArg	: AnalyzeTagArg;
+				static	#cfg		: Config;
+				static	#hPages		: HPage;
 	protected	static	divHint		= document.createElement('div');
 	static	init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage) {
-		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.ID_DESIGNMODE}" style="width: ${CmnLib.stageW *CmnLib.cvsScale}px; height: ${CmnLib.stageH *CmnLib.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
-		DesignCast.divDesignRoot = document.getElementById(DesignCast.ID_DESIGNMODE) as HTMLDivElement;
+		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *CmnLib.cvsScale}px; height: ${CmnLib.stageH *CmnLib.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+		DesignCast.#divDesignRoot = document.getElementById(DesignCast.#ID_DESIGNMODE) as HTMLDivElement;
 
 		DesignCast.divHint.classList.add('sn_design_hint');
 		document.body.appendChild(DesignCast.divHint);
 
-		DesignCast.sys = sys;
-		DesignCast.scrItr = scrItr;
+		DesignCast.#sys = sys;
+		DesignCast.#scrItr = scrItr;
 		DesignCast.prpPrs = prpPrs;
-		DesignCast.alzTagArg = alzTagArg;
-		DesignCast.cfg = cfg;
-		DesignCast.hPages = hPages;
+		DesignCast.#alzTagArg = alzTagArg;
+		DesignCast.#cfg = cfg;
+		DesignCast.#hPages = hPages;
 
 		addStyle(`
 .sn_design_cast {
@@ -82,7 +82,7 @@ export class DesignCast {
 		top: ${Math.max(10, dc.ly +y -h -10)}px;`;
 	}
 	static	cvsResizeDesign() {
-		const s = DesignCast.divDesignRoot.style;
+		const s = DesignCast.#divDesignRoot.style;
 		s.width = `${CmnLib.stageW *CmnLib.cvsScale}px`;
 		s.height= `${CmnLib.stageH *CmnLib.cvsScale}px`;
 	}
@@ -105,12 +105,12 @@ export class DesignCast {
 		this.hArg = hArg;
 
 		const id_dc = hArg[':id_dc'] ?? this.id_tag;
-		DesignCast.hId2dc[id_dc] = this;
+		DesignCast.#hId2dc[id_dc] = this;
 
 		const layer = this.hArg.layer ?? '';
-		this.fncLay = (! this.parent && ! this.child && layer)
+		this.#fncLay = (! this.#parent && ! this.child && layer)
 		? ()=> {
-			const f = DesignCast.hPages[layer].fore;	// ボタン
+			const f = DesignCast.#hPages[layer].fore;	// ボタン
 			this.lx = f.x *CmnLib.cvsScale;
 			this.ly = f.y *CmnLib.cvsScale;
 		}
@@ -143,41 +143,41 @@ export class DesignCast {
 	protected	setSize(_w: number, _h: number) {}
 	setOther(_hPrm: HPRM) {}
 
-	protected	child?	: DesignCast;
-	private		parent?	: DesignCast;
+	protected	child?		: DesignCast;
+				#parent?	: DesignCast;
 	adopt(idcCh: DesignCast) {	// 養子縁組
 		this.child = idcCh;
-		idcCh.parent = this;
+		idcCh.#parent = this;
 	}
 
-	private	static	readonly	ID_DESIGNMODE = 'DesignMode';
-	private	static	cntDesignCast	= 0;
-	private	static	hId2dc: {[id_dc: string]: DesignCast}	= {};
+	static	readonly	#ID_DESIGNMODE = 'DesignMode';
+	static	#cntDesignCast	= 0;
+	static	#hId2dc: {[id_dc: string]: DesignCast}	= {};
 	static	enterMode() {
 		DesignCast.leaveMode();
-		DesignCast.divDesignRoot.style.display = 'inline';
+		DesignCast.#divDesignRoot.style.display = 'inline';
 
-		DesignCast.cntDesignCast = 0;
-		DesignCast.hId2dc = {};
+		DesignCast.#cntDesignCast = 0;
+		DesignCast.#hId2dc = {};
 	}
-	private	static	aDC: DesignCast[] = [];
-	static	allHide() {DesignCast.aDC.forEach(v=> v.visible = false);}
+	static	#aDC: DesignCast[] = [];
+	static	allHide() {DesignCast.#aDC.forEach(v=> v.visible = false);}
 	set visible(v: boolean) {
 		if (! this.div || ! this.mov) return;
 		this.div.style.display = v ?'inline' :'none';
 		this.mov.updateTarget();
 	}
 	static	leaveMode() {
-		DesignCast.divDesignRoot.textContent = '';
-		DesignCast.divDesignRoot.style.display = 'none';
-		DesignCast.aDC.forEach(v=> v.destroy());
-		DesignCast.aDC = [];
+		DesignCast.#divDesignRoot.textContent = '';
+		DesignCast.#divDesignRoot.style.display = 'none';
+		DesignCast.#aDC.forEach(v=> v.destroy());
+		DesignCast.#aDC = [];
 	}
 
 
-	cvsResize() {this.resizeDiv(); this.mov?.updateTarget();}	// divでmovを更新
-	private	resizeDiv() {
-		this.fncLay();
+	cvsResize() {this.#resizeDiv(); this.mov?.updateTarget();}	// divでmovを更新
+	#resizeDiv() {
+		this.#fncLay();
 		if (this.div) Object.assign(this.div.style, {
 			left: `${this.lx +this.rect.x *CmnLib.cvsScale}px`,
 			top: `${this.ly +this.rect.y *CmnLib.cvsScale}px`,
@@ -188,7 +188,7 @@ export class DesignCast {
 			transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`,
 		});
 	}
-	private fncLay = ()=> {};
+	#fncLay = ()=> {};
 
 	protected	mov		: Moveable | null		= null;
 	protected	div		: HTMLDivElement | null = null;
@@ -203,21 +203,21 @@ export class DesignCast {
 	protected	readonly	rotatable	: boolean	= true;
 	make() {
 		const id_dc = this.hArg[':id_dc'] ?? this.id_tag;
-		DesignCast.hId2dc[id_dc] = this;
+		DesignCast.#hId2dc[id_dc] = this;
 
 		const d = this.div = document.createElement('div');
-		d.id = DesignCast.ID_DESIGNMODE +'_'+ ++DesignCast.cntDesignCast;
+		d.id = DesignCast.#ID_DESIGNMODE +'_'+ ++DesignCast.#cntDesignCast;
 		d.classList.add('sn_design_cast');
 		d.dataset.id_dc = id_dc;
 		d.style.backgroundColor = `${this.bg_col}`;
 		d.style.display = 'none';
 		this.rect = this.getRect();
-		this.resizeDiv();
-		(this.parent
+		this.#resizeDiv();
+		(this.#parent
 			? document.querySelector(
-				`[data-id_dc="${this.parent.id_tag}"]`// 親なので
-				) ?? DesignCast.divDesignRoot
-			: DesignCast.divDesignRoot
+				`[data-id_dc="${this.#parent.id_tag}"]`// 親なので
+				) ?? DesignCast.#divDesignRoot
+			: DesignCast.#divDesignRoot
 		).appendChild(d);
 
 //console.log(`fn:DesignCast.ts dspDesignCast() [${o.タグ名}] id_tag(${id_tag}) id_dc:(${id_dc}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);		// token:【${o[':token']}】
@@ -251,7 +251,7 @@ export class DesignCast {
 			// https://github.com/daybrush/moveable/issues/391#issuecomment-788931248
 		};
 		const procEnd = (o: any)=> {
-			DesignCast.sys.send2Dbg('_changeCast', {
+			DesignCast.#sys.send2Dbg('_changeCast', {
 				...o, ':id_tag': this.id_tag,
 			});
 			DesignCast.divHint.style.display = 'none';
@@ -305,7 +305,7 @@ export class DesignCast {
 			resizeEnd();	// パディングで右・下が固定されサイズ変更されるのでサイズも
 
 			if (this.child?.mov) this.child.mov.target = heCh;
-			if (this.parent?.mov) this.parent.mov.target = this.parent.div;	// 子で戻す（親はイベント発生しなくしているので）
+			if (this.#parent?.mov) this.#parent.mov.target = this.#parent.div;	// 子で戻す（親はイベント発生しなくしているので）
 		})
 		.on('resizeStart', procStart)
 		.on('resize', e=> {
@@ -358,7 +358,7 @@ export class DesignCast {
 			d.style.transformOrigin = trOrg;
 			d.style.transform = `translate(${aPos[0]}px, ${aPos[1]}px) rotate(${roDeg}deg)`;
 		});
-		DesignCast.aDC.push(this);
+		DesignCast.#aDC.push(this);
 
 
 		// ドラッグ＆ドロップ関連
@@ -384,16 +384,16 @@ export class DesignCast {
 				url		: '',
 				buf		: new ArrayBuffer(0),
 				old_fn	: this.oldFn(),
-				old_url	: DesignCast.cfg.searchPath(this.oldFn(), Config.EXT_SPRITE),
+				old_url	: DesignCast.#cfg.searchPath(this.oldFn(), Config.EXT_SPRITE),
 			};
 			f.arrayBuffer().then(buf=> {
 				o.buf = buf;
 				try {
-					o.url = DesignCast.scrItr.cnvPath4Dbg(
-						DesignCast.cfg.searchPath(f.name, Config.EXT_SPRITE)
+					o.url = DesignCast.#scrItr.cnvPath4Dbg(
+						DesignCast.#cfg.searchPath(f.name, Config.EXT_SPRITE)
 					);
 				} catch {}
-				DesignCast.sys.send2Dbg('_dropFile', o);
+				DesignCast.#sys.send2Dbg('_dropFile', o);
 			})
 			.catch(e=> console.error(`drop2dc %o`, e));
 		});
@@ -401,7 +401,7 @@ export class DesignCast {
 		// ダブルクリックで定義先へジャンプ
 		d.addEventListener('dblclick', e=> {
 			e.preventDefault();
-			DesignCast.sys.send2Dbg('_focusScript', this.hArg);
+			DesignCast.#sys.send2Dbg('_focusScript', this.hArg);
 
 //console.log(`fn:DesignCast.ts line:162 tap btn:${e.button}`);
 //				case 0:	this.fire('click', e);	break;
@@ -426,21 +426,21 @@ export class DesignCast {
 	static replaceToken(o: any) {
 		const id_tag = o[':id_tag'];
 		const id_dc = id_tag;
-		const dc = DesignCast.hId2dc[id_dc];
+		const dc = DesignCast.#hId2dc[id_dc];
 		const d = <HTMLDivElement>document.querySelector(`div[data-id_dc='${id_dc}']`);
 		if (! d || ! dc) return;
 
 		// 青四角移動変更をスクリプト反映したレス（Undoや手変更でも呼ばれる）
 		// 内部スクリプト更新
 		const token = o[':token'];
-		DesignCast.scrItr.replace(o[':idx_tkn'], token);
+		DesignCast.#scrItr.replace(o[':idx_tkn'], token);
 
 		// 実ボタン・青四角も移動（Undoや手入力変更時）
 		const [_tag_name, args] = tagToken2Name_Args(token);
 		if (dc.child) dc.child.hArg[':token'] = dc.hArg[':token'];
 
-		DesignCast.alzTagArg.go(args);
-		const p = DesignCast.alzTagArg.hPrm;
+		DesignCast.#alzTagArg.go(args);
+		const p = DesignCast.#alzTagArg.hPrm;
 
 		// pivot (this)
 		if ('pivot_x' in p || 'pivot_y' in p) {
@@ -503,14 +503,14 @@ export class DesignCast {
 export class GrpLayDesignCast extends DesignCast {
 	constructor(private readonly spLay: Sprite, private readonly gl: GrpLayer) {super('#29e', true);}
 
-	private	sp: Sprite;
-	setSp(sp: Sprite) {this.sp = sp}
+	#sp: Sprite;
+	setSp(sp: Sprite) {this.#sp = sp}
 
-	protected	override getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.sp?.width ?? 0, this.sp?.height ?? 0)}
+	protected	override getRect() {return new Rectangle(this.spLay.x, this.spLay.y, this.#sp?.width ?? 0, this.#sp?.height ?? 0)}
 	protected	override cnvPosArg(left: number, top: number) {return {left, top}}
 	protected	override cnvSizeArg(width: number, height: number) {return {width, height}}
 	protected	override setPos(x: number, y: number) {this.spLay.x = x; this.spLay.y = y;}
-	protected	override setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+	protected	override setSize(w: number, h: number) {this.#sp.width = w; this.#sp.height = h;}
 	override setOther(hPrm: HPRM) {
 		if ('fn' in hPrm) {
 			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn.val ?? '');
@@ -627,13 +627,13 @@ export class TxtLayPadDesignCast extends DesignCast {
 
 	protected	override procDragHint(e: OnDrag, left: number, top: number) {
 		const [dx, dy] = e.beforeTranslate;
-		this.procHint(left, top, dx, dy);
+		this.#procHint(left, top, dx, dy);
 	}
 	protected	override procResizeHint(e: OnResize, left: number, top: number) {
 		const [dx, dy] = e.drag.beforeTranslate;
-		this.procHint(left, top, dx, dy);
+		this.#procHint(left, top, dx, dy);
 	}
-	private	procHint(left: number, top: number, dx: number, dy: number) {
+	#procHint(left: number, top: number, dx: number, dy: number) {
 		const x = this.rect.x, y = this.rect.y;
 		const w = this.rect.width, h = this.rect.height;
 		const it = this.ts.getInfTL();
@@ -705,16 +705,16 @@ export class TxtBtnDesignCast extends BtnDesignCast {
 export class PicBtnDesignCast extends BtnDesignCast {
 	constructor(btn: Button, hArg: HArg) {super(btn, hArg);}
 
-	private	sp: Sprite;
-	setSp(sp: Sprite) {this.sp = sp}
+	#sp: Sprite;
+	setSp(sp: Sprite) {this.#sp = sp}
 
-	protected	override getRect() {return new Rectangle(this.btn.x, this.btn.y, this.sp.width, this.sp.height)}
-	protected	override setSize(w: number, h: number) {this.sp.width = w; this.sp.height = h;}
+	protected	override getRect() {return new Rectangle(this.btn.x, this.btn.y, this.#sp.width, this.#sp.height)}
+	protected	override setSize(w: number, h: number) {this.#sp.width = w; this.#sp.height = h;}
 	override setOther(hPrm: HPRM) {
 		super.setOther(hPrm);
 		if ('pic' in hPrm) {
 			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic.val ?? '');
-			this.btn.update_pic(pic, this.sp);
+			this.btn.update_pic(pic, this.#sp);
 		}
 	}
 	protected	override oldFn = ()=> this.hArg.pic ?? '';

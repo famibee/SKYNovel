@@ -3,8 +3,8 @@ import { Layer } from './Layer';
 import { SysBase } from './SysBase';
 import { Container } from 'pixi.js';
 export declare class Pages {
+    #private;
     private readonly cls_;
-    private pg;
     constructor(layer: string, cls_: string, fore: Container, back: Container, hArg: HArg, sys: SysBase, val: IVariable, ret: {
         isWait: boolean;
     });

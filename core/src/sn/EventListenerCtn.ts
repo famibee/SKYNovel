@@ -12,7 +12,7 @@ type  IEmitter = BaseTexture
 	| Window | Document | Element;
 
 export class EventListenerCtn {	// リソースリーク対策
-	private vctEvt	: {(): void}[]	= [];
+	#vctEvt	: {(): void}[]	= [];
 
 	add(ed: IEmitter, type: string, fnc: (e: any)=> void, ctx: any = {}): void {
 		if (ed instanceof BaseTexture) {
@@ -22,23 +22,23 @@ export class EventListenerCtn {	// リソースリーク対策
 			case 'error':
 			case 'dispose':
 				(ed as utils.EventEmitter).on(type, fnc, ctx);
-				this.vctEvt.push(()=> (ed as utils.EventEmitter).off(type, fnc, ctx));
+				this.#vctEvt.push(()=> (ed as utils.EventEmitter).off(type, fnc, ctx));
 				break;
 			}
 			return;
 		}
 		if (ed instanceof utils.EventEmitter) {
 			ed.on(type, fnc, ctx);
-			this.vctEvt.push(()=> ed.off(type, fnc, ctx));
+			this.#vctEvt.push(()=> ed.off(type, fnc, ctx));
 			return;
 		}
 		ed.addEventListener(type, fnc, ctx);
-		this.vctEvt.push(()=> ed.removeEventListener(type, fnc, {capture: ctx.capture ?? false}));
+		this.#vctEvt.push(()=> ed.removeEventListener(type, fnc, {capture: ctx.capture ?? false}));
 	}
 
 	clear(): void {
-		this.vctEvt.forEach(f=> f());
-		this.vctEvt = [];
+		this.#vctEvt.forEach(f=> f());
+		this.#vctEvt = [];
 	}
 
 }

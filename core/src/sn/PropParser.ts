@@ -13,7 +13,7 @@ interface IFncCalc { (a: any[]): any;}
 interface IHFncCalc { [key: string]: IFncCalc; }
 
 export class PropParser implements IPropParser {
-	private parser: any = null;
+	#parser: any = null;
 
 	constructor(private readonly val: IVariable, ce = '\\') {
 		function ope(a: (string | RegExp)[]) {
@@ -105,7 +105,7 @@ export class PropParser implements IPropParser {
 		.desc('string');
 
 		const Basic = P.lazy(()=> P
-			.string('(').then(this.parser).skip(P.string(')'))
+			.string('(').then(this.#parser).skip(P.string(')'))
 			.or(Num)
 			.or(NullLiteral)
 			.or(BooleanLiteral)
@@ -141,30 +141,30 @@ export class PropParser implements IPropParser {
 			(acc, level)=> level.type(level.ops, acc),
 			Basic
 		);
-		this.parser = tableParser.trim(P.optWhitespace);
+		this.#parser = tableParser.trim(P.optWhitespace);
 	}
 
 	parse(s: string): any {
 		//console.log("🌱 Parsimmon'%s'", s);
-		const p = this.parser.parse(s);
+		const p = this.#parser.parse(s);
 		if (! p.status) throw Error('(PropParser)文法エラー【'+ s +'】');
 
 		const a = p.value;
-		if (a[0] === '!str!') return this.procEmbedVar(a[1]);
+		if (a[0] === '!str!') return this.#procEmbedVar(a[1]);
 
-		return this.calc(a);
+		return this.#calc(a);
 	}
-	private calc(a: any[]): object {
+	#calc(a: any[]): object {
 		//console.log('🌷 calc%O', a);
 		const elm = a.shift();
-		if (elm instanceof Array) return this.calc(elm);
+		if (elm instanceof Array) return this.#calc(elm);
 
-		const fnc = this.hFnc[elm];
+		const fnc = this.#hFnc[elm];
 		return (fnc) ?fnc(a) :Object(null);
 	}
-	private hFnc: IHFncCalc = {
+	#hFnc: IHFncCalc = {
 		'!num!': a=> a.shift(),
-		'!str!': a=> this.procEmbedVar(a.shift()),
+		'!str!': a=> this.#procEmbedVar(a.shift()),
 		'!bool!':a=> a.shift(),
 
 		// 論理 NOT
@@ -172,100 +172,100 @@ export class PropParser implements IPropParser {
 			const b = a.shift();
 			return (b[0] === '!bool!')
 				? ! Boolean( b[1] )
-				: ! (String(this.calc(b)) === 'true');
+				: ! (String(this.#calc(b)) === 'true');
 		},
 		// チルダ演算子（ビット反転）
-		'~':	a=> ~ Number(this.calc(a.shift())),
+		'~':	a=> ~ Number(this.#calc(a.shift())),
 
 		// 乗算、除算、剰余
-		'**':	a=> Number(this.calc(a.shift())) **
-					Number(this.calc(a.shift())),
-		'*':	a=> Number(this.calc(a.shift())) *
-					Number(this.calc(a.shift())),
-		'/':	a=> Number(this.calc(a.shift())) /
-					Number(this.calc(a.shift())),
-		'¥':	a=> Math.floor( this.hFnc['/'](a) ),
-		'%':	a=> Number(this.calc(a.shift())) %
-					Number(this.calc(a.shift())),
+		'**':	a=> Number(this.#calc(a.shift())) **
+					Number(this.#calc(a.shift())),
+		'*':	a=> Number(this.#calc(a.shift())) *
+					Number(this.#calc(a.shift())),
+		'/':	a=> Number(this.#calc(a.shift())) /
+					Number(this.#calc(a.shift())),
+		'¥':	a=> Math.floor( this.#hFnc['/'](a) ),
+		'%':	a=> Number(this.#calc(a.shift())) %
+					Number(this.#calc(a.shift())),
 
 		// 加算、減算、文字列の連結
 		'+':	a=> {
-			const b = this.calc(a.shift());
-			const c = this.calc(a.shift());
+			const b = this.#calc(a.shift());
+			const c = this.#calc(a.shift());
 			if (Object.prototype.toString.call(b) === '[object String]'
 			|| Object.prototype.toString.call(c) === '[object String]') {
 				return String(b) + String(c);
 			}
 			return Number(b) + Number(c);
 		},
-		'-':	a=> Number(this.calc(a.shift())) -
-					Number(this.calc(a.shift())),
+		'-':	a=> Number(this.#calc(a.shift())) -
+					Number(this.#calc(a.shift())),
 
 		// 関数
-		'int':		a=> int(this.fncSub_ChkNum(a.shift())),
-		'parseInt':	a=> int(this.hFnc['Number'](a)),
+		'int':		a=> int(this.#fncSub_ChkNum(a.shift())),
+		'parseInt':	a=> int(this.#hFnc['Number'](a)),
 		'Number':	a=> {
-			const b = this.calc(a.shift());
+			const b = this.#calc(a.shift());
 			if (Object.prototype.toString.call(b) !== '[object String]') return Number(b);
 
-			return this.fncSub_ChkNum(this.parser.parse(String(b)).value);
+			return this.#fncSub_ChkNum(this.#parser.parse(String(b)).value);
 		},
-		'ceil':		a=> Math.ceil( this.fncSub_ChkNum(a.shift()) ),
-		'floor':	a=> Math.floor( this.fncSub_ChkNum(a.shift()) ),
-		'round':	a=> Math.round( this.fncSub_ChkNum(a.shift()) ),
+		'ceil':		a=> Math.ceil( this.#fncSub_ChkNum(a.shift()) ),
+		'floor':	a=> Math.floor( this.#fncSub_ChkNum(a.shift()) ),
+		'round':	a=> Math.round( this.#fncSub_ChkNum(a.shift()) ),
 
 		// ビットシフト
-		'<<':	a=> Number(this.calc(a.shift())) <<
-					Number(this.calc(a.shift())),
-		'>>':	a=> Number(this.calc(a.shift())) >>
-					Number(this.calc(a.shift())),
-		'>>>':	a=> Number(this.calc(a.shift())) >>>
-					Number(this.calc(a.shift())),
+		'<<':	a=> Number(this.#calc(a.shift())) <<
+					Number(this.#calc(a.shift())),
+		'>>':	a=> Number(this.#calc(a.shift())) >>
+					Number(this.#calc(a.shift())),
+		'>>>':	a=> Number(this.#calc(a.shift())) >>>
+					Number(this.#calc(a.shift())),
 
 		// 等値、非等値、厳密等価、厳密非等価
-		'<':	a=> Number(this.calc(a.shift())) <
-					Number(this.calc(a.shift())),
-		'<=':	a=> Number(this.calc(a.shift())) <=
-					Number(this.calc(a.shift())),
-		'>':	a=> Number(this.calc(a.shift())) >
-					Number(this.calc(a.shift())),
-		'>=':	a=> Number(this.calc(a.shift())) >=
-					Number(this.calc(a.shift())),
+		'<':	a=> Number(this.#calc(a.shift())) <
+					Number(this.#calc(a.shift())),
+		'<=':	a=> Number(this.#calc(a.shift())) <=
+					Number(this.#calc(a.shift())),
+		'>':	a=> Number(this.#calc(a.shift())) >
+					Number(this.#calc(a.shift())),
+		'>=':	a=> Number(this.#calc(a.shift())) >=
+					Number(this.#calc(a.shift())),
 
 		// 小なり、以下、大なり、以上
 		'==':	a=> {
-			const b = this.calc(a.shift());
-			const c = this.calc(a.shift());
+			const b = this.#calc(a.shift());
+			const c = this.#calc(a.shift());
 			if ((b == null) && (c == null) && (!b || !c)) return (b == c);
 				// 一・二項目は undefined も適合。
 				// 三項目での falseは、""か 0か falseか undefinedか nullかも
 				// ここでは undefined == null でよい。（===では区別する）
 			return String(b) === String(c);
 		},
-		'!=':	a=> ! this.hFnc['=='](a),
+		'!=':	a=> ! this.#hFnc['=='](a),
 		'===':	a=> {
-			const b = this.calc(a.shift());
-			const c = this.calc(a.shift());
+			const b = this.#calc(a.shift());
+			const c = this.#calc(a.shift());
 			if (Object.prototype.toString.call(b) !=
 				Object.prototype.toString.call(c)) return false;
 
 			return String(b) === String(c);
 		},
-		'!==':	a=> ! this.hFnc['==='](a),
+		'!==':	a=> ! this.#hFnc['==='](a),
 
 		// ビット演算子
-		'&':	a=> Number(this.calc(a.shift())) &
-					Number(this.calc(a.shift())),
-		'^':	a=> Number(this.calc(a.shift())) ^
-					Number(this.calc(a.shift())),
-		'|':	a=> Number(this.calc(a.shift())) |
-					Number(this.calc(a.shift())),
+		'&':	a=> Number(this.#calc(a.shift())) &
+					Number(this.#calc(a.shift())),
+		'^':	a=> Number(this.#calc(a.shift())) ^
+					Number(this.#calc(a.shift())),
+		'|':	a=> Number(this.#calc(a.shift())) |
+					Number(this.#calc(a.shift())),
 
 		// 論理 AND,OR
-		'&&':	a=> (String(this.calc(a.shift())) === 'true') &&
-					(String(this.calc(a.shift())) === 'true'),
-		'||':	a=> (String(this.calc(a.shift())) === 'true') ||
-					(String(this.calc(a.shift())) === 'true'),
+		'&&':	a=> (String(this.#calc(a.shift())) === 'true') &&
+					(String(this.#calc(a.shift())) === 'true'),
+		'||':	a=> (String(this.#calc(a.shift())) === 'true') ||
+					(String(this.#calc(a.shift())) === 'true'),
 
 		// 条件
 		'?':	a=> {
@@ -275,7 +275,7 @@ export class PropParser implements IPropParser {
 				cond = Boolean( b[1] );
 			}
 			else {
-				const cond2 = String( this.calc(b) );
+				const cond2 = String( this.#calc(b) );
 				cond = (cond2 !== 'true' && cond2 !== 'false')
 					? (int(cond2) !== 0)
 					: (cond2 === 'true');
@@ -284,22 +284,22 @@ export class PropParser implements IPropParser {
 			const elm2 = a.shift();
 			if (elm2[0] !== ':') throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
 
-			return this.calc(elm2[cond ?1 :2]);
+			return this.#calc(elm2[cond ?1 :2]);
 		},
 		':':	()=> { throw Error('(PropParser)三項演算子の文法エラーです。? が見つかりません') },
 	}
-	private fncSub_ChkNum(v: any[]): number {
-		const b = this.calc(v);
+	#fncSub_ChkNum(v: any[]): number {
+		const b = this.#calc(v);
 		if (Object.prototype.toString.call(b) !== '[object Number]') throw Error('(PropParser)引数【'+ b +'】が数値ではありません');
 		return Number(b);
 	}
 
-	private	readonly REG_EMBEDVAR
+	readonly #REG_EMBEDVAR
 		= /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
-	private procEmbedVar(b: object): any {
+	#procEmbedVar(b: object): any {
 		if (b == null) return b;	// undefined も
 
-		return String(b).replace(this.REG_EMBEDVAR, v=> {
+		return String(b).replace(this.#REG_EMBEDVAR, v=> {
 			return (v.charAt(0) === '$')
 				? this.val.getVal(v.slice(1))
 				: this.parse(v.slice(2, -1));
@@ -312,12 +312,12 @@ export class PropParser implements IPropParser {
 		: val;
 
 
-	private	static	readonly	REG_VAL
+	static	readonly	#REG_VAL
 		= /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
 		// 522 match 18413 step(~10ms) https://regex101.com/r/tmCKuE/1
 			// →これは改良しようがない。いい意味で改善の余地なし
 	static	getValName(arg_name: string): {[name: string]: string} | undefined {
-		const e = this.REG_VAL.exec(arg_name.trim());
+		const e = this.#REG_VAL.exec(arg_name.trim());
 		const g = e?.groups;
 		if (! g) return undefined;
 
@@ -325,12 +325,12 @@ export class PropParser implements IPropParser {
 			scope	: g.scope || 'tmp',
 			//name	: (g.name || '')
 			//			.replace(REG_VALN_B2D, getValName_B2D)
-			name	: PropParser.getValName_B2D(g.name),
+			name	: PropParser.#getValName_B2D(g.name),
 			at		: g.at ?? '',
 		};
 	}
 
-	private static	getValName_B2D(str: string): string {
+	static	#getValName_B2D(str: string): string {
 		let i = 0, e = 0;
 		while (true) {
 			i = str.indexOf('["');

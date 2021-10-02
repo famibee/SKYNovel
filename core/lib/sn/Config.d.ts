@@ -1,10 +1,11 @@
-import { IConfig, IExts } from './CmnInterface';
+import { IConfig, IExts, IFn2Path as #IFn2Path } from './CmnInterface';
 import { SysBase } from './SysBase';
 export declare class Config implements IConfig {
+    #private;
     readonly sys: SysBase;
     oCfg: any;
     userFnTail: string;
-    private hPathFn2Exts;
+    hPathFn2Exts: #IFn2Path;
     static readonly EXT_SPRITE = "png|jpg|jpeg|json|svg|webp|mp4|webm";
     static readonly EXT_SCRIPT = "sn|ssn";
     static readonly EXT_FONT = "woff2|otf|ttf";
@@ -13,12 +14,9 @@ export declare class Config implements IConfig {
     constructor(sys: SysBase);
     static generate(sys: SysBase): Promise<Config>;
     load(oCfg: any): Promise<void>;
-    private $existsBreakline;
     get existsBreakline(): boolean;
-    private $existsBreakpage;
     get existsBreakpage(): boolean;
     getNs(): string;
-    private readonly regPath;
     searchPath(path: string, extptn?: string): string;
     matchPath(fnptn: string, extptn?: string): ReadonlyArray<IExts>;
     addPath(fn: string, h_exts: IExts): void;

@@ -1,7 +1,7 @@
 import { BaseTexture, utils } from "pixi.js";
 declare type IEmitter = BaseTexture | utils.EventEmitter | Window | Document | Element;
 export declare class EventListenerCtn {
-    private vctEvt;
+    #private;
     add(ed: IEmitter, type: string, fnc: (e: any) => void, ctx?: any): void;
     clear(): void;
 }

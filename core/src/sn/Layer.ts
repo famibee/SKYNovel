@@ -75,11 +75,11 @@ export class Layer {
 	static getBlendmodeNum(bm_name: string): number {
 		if (! bm_name) return BLEND_MODES.NORMAL;	// 省略時にデフォルトを返す
 
-		const bmn = Layer.hBlendmode[bm_name];
+		const bmn = Layer.#hBlendmode[bm_name];
 		if (bmn !== undefined) return bmn;
 		throw `${bm_name} はサポートされない blendmode です`;
 	}
-	private	static	readonly	hBlendmode: {[bm_name: string]: number} = {
+	static	readonly	#hBlendmode: {[bm_name: string]: number} = {
 		'normal'		: BLEND_MODES.NORMAL,
 		'add'			: BLEND_MODES.ADD,
 		'multiply'		: BLEND_MODES.MULTIPLY,

@@ -16,7 +16,7 @@ export interface ITwInf {
 }
 
 export class CmnTween {
-	private	static	readonly hEase: {[name: string]: (k: number)=> number}	= {
+	static	readonly #hEase: {[name: string]: (k: number)=> number}	= {
 		'Back.In'			: k=> Easing.Back.In(k),
 		'Back.InOut'		: k=> Easing.Back.InOut(k),
 		'Back.Out'			: k=> Easing.Back.Out(k),
@@ -51,9 +51,9 @@ export class CmnTween {
 	};
 	static	ease(nm: string | undefined): (k: number)=> number {
 		if (! nm) return k=> Easing.Linear.None(k);
-		if (! (nm in CmnTween.hEase)) throw '異常なease指定です';
+		if (! (nm in CmnTween.#hEase)) throw '異常なease指定です';
 
-		return CmnTween.hEase[nm];
+		return CmnTween.#hEase[nm];
 	}
 
 }

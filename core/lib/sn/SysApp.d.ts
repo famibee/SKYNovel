@@ -3,13 +3,13 @@ import { SysNode } from './SysNode';
 import { ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysApp extends SysNode {
+    #private;
     constructor(hPlg?: {}, arg?: {
         cur: string;
         crypto: boolean;
         dip: string;
     });
     protected loaded(hPlg: HPlugin, arg: HSysBaseArg): Promise<void>;
-    private hInfo;
     protected readFileSync: (path: string) => Promise<string>;
     protected writeFileSync: (path: string, data: Buffer, o?: object | undefined) => Promise<void>;
     appendFile: (path: string, data: string, callback: (err: Error) => void) => Promise<void>;
@@ -17,7 +17,6 @@ export declare class SysApp extends SysNode {
     protected $path_userdata: string;
     protected $path_downloads: string;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
-    private main;
     protected run(): Promise<void>;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     copyBMFolder: (from: number, to: number) => Promise<void>;

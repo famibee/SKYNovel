@@ -5,7 +5,7 @@ export interface ITwInf {
     onEnd?: () => void;
 }
 export declare class CmnTween {
-    private static readonly hEase;
+    #private;
     static ease(nm: string | undefined): (k: number) => number;
 }
 //# sourceMappingURL=CmnTween.d.ts.map
