@@ -1,3 +1,10 @@
+## [1.18.10](https://github.com/famibee/SKYNovel/compare/v1.18.9...v1.18.10) (2021-10-03)
+
+
+### Bug Fixes
+
+* ギャラリーのコンパイルでエラーになるのを修正 ([44d5180](https://github.com/famibee/SKYNovel/commit/44d5180fea7ab32dd4d3091e397eeddbfb0ddbd8))
+
 - fix: ギャラリーのコンパイルでエラーになるのを修正
 
 
