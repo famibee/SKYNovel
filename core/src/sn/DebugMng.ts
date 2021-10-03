@@ -48,7 +48,7 @@ export class DebugMng {
 		DebugMng.#title = ()=> false;
 		document.body.removeChild(DebugMng.#spnDbg);
 
-		DebugMng.myTrace = DebugMng.#trace_beforeNew;
+		DebugMng.myTrace = DebugMng.trace_beforeNew;
 	}
 
 	// ログ出力
@@ -77,7 +77,7 @@ export class DebugMng {
 		return false;
 	}
 
-	static #trace_beforeNew(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
+	static trace_beforeNew(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
 		let mes = `{${lvl}} `+ txt;
 		let sty = '';
 		switch (lvl) {
@@ -90,7 +90,7 @@ export class DebugMng {
 		}
 		console.info('%c'+ mes, sty);
 	}
-	static myTrace = DebugMng.#trace_beforeNew;
+	static myTrace = DebugMng.trace_beforeNew;
 	static #st_trace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
 		let mes = `{${lvl}} `;
 		if (DebugMng.#scrItr && DebugMng.#scrItr.lineNum > 0) mes +=

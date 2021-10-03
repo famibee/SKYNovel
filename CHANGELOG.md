@@ -1,3 +1,6 @@
+- fix: ギャラリーのコンパイルでエラーになるのを修正
+
+
 ## [1.18.9](https://github.com/famibee/SKYNovel/compare/v1.18.8...v1.18.9) (2021-10-02)
 
 
