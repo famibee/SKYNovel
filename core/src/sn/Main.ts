@@ -22,13 +22,13 @@ import {SysBase} from './SysBase';
 import {Application, utils} from 'pixi.js';
 
 export class Main implements IMain {
-	#cfg			: Config;
+	#cfg		: Config;
 
-	#appPixi		: Application;
+	#appPixi	: Application;
 
 	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
-	#val			: Variable;
+	#val		: Variable;
 	#prpPrs		: PropParser;
 	#sndMng		: SoundMng;
 	#scrItr		: ScriptIterator;
@@ -36,7 +36,7 @@ export class Main implements IMain {
 	#layMng		: LayerMng;
 	#evtMng		: EventMng;
 
-	#fncNext		= ()=> {};
+	#fncNext	= ()=> {};
 	readonly	#alzTagArg	= new AnalyzeTagArg;
 
 
@@ -74,7 +74,7 @@ export class Main implements IMain {
 		this.#val = new Variable(this.#cfg, this.#hTag);
 		this.#prpPrs = new PropParser(this.#val, this.#cfg.oCfg.init.escape ?? '\\');
 
-		// システム（10/13）
+		// システム（11/13）
 		await Promise.all(this.sys.init(this.#hTag, this.#appPixi,this.#val,this));
 			// 変数準備完了
 		this.#hTag.title({text: this.#cfg.oCfg.book.title || 'SKYNovel'});

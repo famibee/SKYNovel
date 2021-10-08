@@ -195,7 +195,7 @@ export class TxtLayer extends Layer {
 	#b_pic			= '';	// 背景画像無し（＝単色塗り）
 
 	// 文字表示
-	#txs		= new TxtStage(this.#infTL, this.spLay, ()=>this.canFocus());
+	#txs	= new TxtStage(this.#infTL, this.spLay, ()=>this.canFocus());
 
 	#rbSpl	= new RubySpliter;
 
@@ -266,7 +266,7 @@ export class TxtLayer extends Layer {
 		this.#$ch_in_style = ins;
 		this.#ch_in_join = cis.join;
 	}
-	#$ch_in_style		= '';
+	#$ch_in_style	= '';
 	#ch_in_join		= true;
 
 	override get	width() {return this.#txs.getWidth()}
@@ -395,7 +395,7 @@ export class TxtLayer extends Layer {
 	}
 	#ffs	= '';
 	#fncFFSStyle	= (_ch: string)=> '';
-	#fncFFSSpan	= (ch: string)=> ch;
+	#fncFFSSpan		= (ch: string)=> ch;
 	#strNoFFS	= '';
 	#regNoFFS	= new RegExp('[　]');
 	// Safariが全体に「font-feature-settings」した後、特定文字の「font-feature-settings: initial;」を受け付けてくれないのでわざわざ一つずつ指定
@@ -751,7 +751,7 @@ export class TxtLayer extends Layer {
 		return add_htm;
 	}
 	#cumDelay	= 0;
-	#firstCh		= true;
+	#firstCh	= true;
 	#aSpan		: string[]		= [];
 	#aSpan_bk	: any[] | null	= null;
 	#aSpan_link	= '';

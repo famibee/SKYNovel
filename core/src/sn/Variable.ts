@@ -472,7 +472,7 @@ export class Variable implements IVariable {
 	#clearvar() {
 		const mesLayer	= this.#hSave['const.sn.mesLayer'] ?? '';
 		const doRecLog	= this.#hSave['sn.doRecLog'] ?? false;
-		const sLog		= this.#hSave['const.sn.sLog'] ?? '';
+		const sLog		= this.#hSave['const.sn.sLog'] ?? '[]';
 
 		this.#hSave = this.#hScopes.save = {};
 

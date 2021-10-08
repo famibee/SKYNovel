@@ -173,8 +173,8 @@ export class LayerMng implements IGetFrm {
 
 		val.defTmp('const.sn.log.json', ()=> JSON.stringify(
 			(this.#oLastPage.text)
-				? [...this.#aPageLog, this.#oLastPage]
-				: this.#aPageLog
+				? [...this.#aTxtLog, this.#oLastPage]
+				: this.#aTxtLog
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
 
@@ -449,8 +449,8 @@ export class LayerMng implements IGetFrm {
 		}
 		else if (hArg.index) {
 			if (argChk_Num(hArg, 'index', 0)) {
-				this.#back.setChildIndex(back, uint(hArg.index));
-				this.#fore.setChildIndex(fore, uint(hArg.index));
+				this.#back.setChildIndex(back, hArg.index);
+				this.#fore.setChildIndex(fore, hArg.index);
 				this.#rebuildLayerRankInfo();
 			}
 		}
@@ -768,8 +768,9 @@ void main(void) {
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		const tw_nm = hArg.name ?? hArg.layer;
 		const tw = new Tween(foreLay)
-		.to(hTo, argChk_Num(hArg, 'time', NaN)
-			* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
+		.to(hTo, argChk_Num(hArg, 'time', NaN) * (
+			this.#evtMng.isSkipKeyDown()
+			|| Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(hArg.ease))
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
@@ -937,13 +938,13 @@ void main(void) {
 
 
 	#oLastPage	: HArg						= {text: ''};
-	#aPageLog	: {[name: string]: any}[]	= [];
+	#aTxtLog	: {[name: string]: any}[]	= [];
 	recText(txt: string, pagebreak = false) {
 		const o = this.#oLastPage;
 		if (pagebreak) {
 			if (o.text) {
 				o.text = String(o.text).replaceAll(`<\/span><span class='sn_ch'>`, '');
-				if (this.#aPageLog.push(o) > this.cfg.oCfg.log.max_len) this.#aPageLog = this.#aPageLog.slice(-this.cfg.oCfg.log.max_len);
+				if (this.#aTxtLog.push(o) > this.cfg.oCfg.log.max_len) this.#aTxtLog = this.#aTxtLog.slice(-this.cfg.oCfg.log.max_len);
 			}
 			this.#oLastPage = {text: ''};
 			return;
@@ -1013,7 +1014,7 @@ void main(void) {
 
 	// 履歴リセット
 	#reset_rec(hArg: HArg) {
-		this.#aPageLog = [];
+		this.#aTxtLog = [];
 		this.#oLastPage = {text: hArg.text ?? ''};
 		this.val.setVal_Nochk('save', 'const.sn.sLog', 
 			(hArg.text) ?`[{text:"${hArg.text}"}]` : '[]'
@@ -1110,7 +1111,7 @@ void main(void) {
 	}
 	playback($hPages: HIPage, fncComp: ()=> void): void {
 		// これを先に。save:const.sn.sLog がクリアされてしまう
-		this.#aPageLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
+		this.#aTxtLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
 		this.#oLastPage = {text: ''};
 
 		const aPrm: Promise<void>[] = [];

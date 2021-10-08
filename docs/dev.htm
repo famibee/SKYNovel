@@ -673,7 +673,7 @@
 	[volume]での volume属性や、「sys:const.sn.sound.【buf】.volume」は基準音量であり、別物である点に注意
 </td></tr>
 <tr><td>save:sn.doRecLog</td><td>false</td><td>Boolean</td><td>テキストを履歴に記録するか</td></tr>
-<tr><td>save:const.sn.sLog</td><td>''</td><td>String</td><td>
+<tr><td>save:const.sn.sLog</td><td>'[]'</td><td>String</td><td>
 	履歴テキスト<br/>
 	【2019/12/18】内容が const.sn.log.json と同様に。<br/>
 	→以前は、'\f'区切りの妙なフォーマットだった。
@@ -815,7 +815,7 @@
 </td></tr>
 <tr><td> <span style="text-decoration: line-through">const.sn.sLog</span>【2019/07/28変名】<br/>
 const.sn.log.json
-</td><td>"[{'txt':'}]"</td><td>左記JSON文字列</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
+</td><td>"[{'txt':''}]"</td><td>左記JSON文字列</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
 <tr><td>const.sn.sound.codecs</td><td>環境による</td><td>JSON文字列</td><td>
 	ゲーム実行環境がこのコーデックをサポートしているか。<br/>
 	flac、m4a、mp3、ogg、wav、webmなど

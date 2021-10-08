@@ -11,7 +11,7 @@ export type HArg = {
 
 	layer?	: string;	// レイヤ系
 	class?	: string;
-	index?	: string;
+	index?	: number;
 	dive?	: string;
 	page?	: string;
 	alpha?	: number;
@@ -143,6 +143,8 @@ export type HArg = {
 	end_ms?	: number;
 	join?	: boolean;
 	do_rec?	: boolean;
+
+	clear?	: boolean;
 
 	':id_dc'?	: string;
 	':id_tag'?	: string;

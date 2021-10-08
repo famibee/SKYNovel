@@ -43,8 +43,8 @@ interface ISpTw {
 };
 
 export class TxtStage extends Container {
-	static	#cfg		: Config;
-	static	#cvs		: HTMLCanvasElement;
+	static	#cfg	: Config;
+	static	#cvs	: HTMLCanvasElement;
 	static	init(cfg: Config): void {
 		TxtStage.#cfg = cfg;
 		TxtStage.#cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
@@ -80,7 +80,7 @@ export class TxtStage extends Container {
 	readonly	#cntTxt			= new Container;			// サンプリング先
 	readonly	#grpDbgMasume	= new Graphics;
 
-	readonly	#idc		= new TxtLayDesignCast(this.spLay, this);
+	readonly	#idc	= new TxtLayDesignCast(this.spLay, this);
 	readonly	#idcCh	= new TxtLayPadDesignCast(this);
 	getInfTL(): IInfTxLay {return this.infTL}
 
@@ -935,7 +935,7 @@ export class TxtStage extends Container {
 		TxtStage.#cntBreak = new Container;
 	}
 
-	#lh_half		= 0;	// 「g」などで下が欠ける問題対策
+	#lh_half	= 0;	// 「g」などで下が欠ける問題対策
 	#getChRects(elm: Node): IChRect[] {	// 注意）再帰関数
 		const ret: any = [];
 		if (elm.nodeType !== elm.TEXT_NODE) {

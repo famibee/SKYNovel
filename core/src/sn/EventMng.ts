@@ -23,9 +23,9 @@ const {GamepadListener} = require('gamepad.js');
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
-	readonly	#hint	: Button;
-	readonly	#zxHint	: number;
-	readonly	#zyHint	: number;
+	readonly	#hint		: Button;
+	readonly	#zxHint		: number;
+	readonly	#zyHint		: number;
 	readonly	#gamepad	= new GamepadListener({
 		analog: false,
 		deadZone: 0.3,
@@ -40,12 +40,14 @@ export class EventMng implements IEvtMng {
 		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
 		hTag.l				= o=> this.#l(o);			// 行末クリック待ち
 		hTag.p				= o=> this.#p(o);			// 改ページクリック待ち
-		hTag.s = ()=> {this.#waitEventBase(()=> {}, false, true); return true;};
-														// 停止する
-							// waitEventBase()したらreturn true;
+		hTag.s = ()=> {									// 停止する
+			this.scrItr.recodePage();
+			this.#waitEventBase(()=> {}, false, true);
+			return true;	// waitEventBase()したらreturn true;
+		};
 		hTag.set_cancel_skip= ()=> this.#set_cancel_skip();	// スキップ中断予約
 		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
-		hTag.wait			= o=> this.#wait(o);				// ウェイトを入れる
+		hTag.wait			= o=> this.#wait(o);		// ウェイトを入れる
 		hTag.waitclick		= ()=> this.#waitclick();	// クリックを待つ
 
 		sndMng.setEvtMng(this);
@@ -239,7 +241,7 @@ export class EventMng implements IEvtMng {
 
 	#hLocalEvt2Fnc	: IHEvt2Fnc = {};
 	#hGlobalEvt2Fnc	: IHEvt2Fnc = {};
-	#isDbgBreak = false;
+	#isDbgBreak		= false;
 	fire(KEY: string, e: Event) {
 		if (this.#isDbgBreak) return;
 		if (! this.#isWait) return;
@@ -272,7 +274,7 @@ export class EventMng implements IEvtMng {
 		this.#hint.visible = false;
 		//this.hLocalEvt2Fnc = {};	// Main.ts resumeByJumpOrCall()が担当
 	}
-	#isWait = false;
+	#isWait		= false;
 	#getEvt2Fnc	: (key: string)=> IEvt2Fnc
 		= key=> this.#hLocalEvt2Fnc[key]
 			?? this.#hGlobalEvt2Fnc[key];
@@ -286,6 +288,8 @@ export class EventMng implements IEvtMng {
 
 	waitEvent(onFinish: ()=> void, canskip = true, global = false): boolean {
 		if (canskip && global) throw `canskipとglobalを同時にtrue指定できません`;
+
+		this.scrItr.recodePage();
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
@@ -607,6 +611,7 @@ export class EventMng implements IEvtMng {
 
 	// 行末クリック待ち
 	#l(hArg: HArg) {
+		if (this.scrItr.skip4page) return false;
 		if (! this.val.getVal('tmp:sn.tagL.enabled')) {this.#goTxt(); return false;}
 
 		// 既読スキップ時
@@ -632,6 +637,8 @@ export class EventMng implements IEvtMng {
 
 	// 改ページクリック待ち
 	#p(hArg: HArg) {
+		this.scrItr.recodePage();
+
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
 			if (! this.val.getVal('tmp:sn.skip.all')
@@ -731,6 +738,8 @@ export class EventMng implements IEvtMng {
 
 	// ウェイトを入れる
 	#wait(hArg: HArg) {
+		if (this.scrItr.skip4page) return false;
+
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
 			if (! this.val.getVal('tmp:sn.skip.all')
@@ -752,6 +761,8 @@ export class EventMng implements IEvtMng {
 
 	// クリックを待つ
 	#waitclick(): boolean {
+		if (this.scrItr.skip4page) return false;
+
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
 			if (! this.val.getVal('tmp:sn.skip.all')
@@ -764,6 +775,7 @@ export class EventMng implements IEvtMng {
 	}
 
 	isSkipKeyDown(): boolean {
+		if (this.scrItr.skip4page) return true;
 		for (const v in this.#hDownKeys) if (this.#hDownKeys[v] === 2) return true;
 		return false;
 	}

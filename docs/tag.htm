@@ -237,6 +237,7 @@
 		<li class="mb1"><a href="#button">[button] ボタンを表示</a></li>
 		<li class="mb1"><a href="#call">[call] サブルーチンコール</a></li>
 		<li class="mb1"><a href="#jump">[jump] シナリオジャンプ</a></li>
+		<li class="mb1"><a href="#page">[page] ページ移動</a></li>
 		<li class="mb1"><a href="#pop_stack">[pop_stack] コールスタック破棄</a></li>
 		<li class="mb1"><a href="#return">[return] サブルーチンから戻る</a></li>
 	</ul>
@@ -1876,6 +1877,22 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 「**」とか「***」とかアスタリスクは二個以上の任意の数が使え、同じ数同士が対応するラベルとなります。
 が、上記例で見るとおりあんまり複雑に使うと可読性が下がってしまう気がしますので、局所的な用途に限ったほうが良さげです。
 </pre>
+
+</p>
+<h2 id="page" class="w-heading">[page]ページ移動</h2>
+<h4>[p]停止位置を一つ移動する</h4>
+<p class="mb2 px1">
+	[p]などの停止位置を「ページ」とみなし、戻ったり進んだりできる。<br/>
+	ページを進めても一度読んだ位置を再現できる。<br/>
+	save:sn.doRecLog の影響を受け、true の状態でのみ、[p][s]など（[l][waitclick]は対象外）で停止した際にそのページ状態の記録を行う。
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>clear</td><td rowspan="2">どちらかを指定</td><td>なにもしない</td><td>Boolean</td><td>trueでページ状態記録をクリアする</td></tr>
+<tr><td>to</td><td></td><td>prev または next</td><td>
+	prev：ひとつ前のページに戻る<br/>
+	next：ひとつ次のページに進める
+</td></tr>
+</table>
 
 </p>
 <h2 id="pop_stack" class="w-heading">[pop_stack]コールスタック破棄</h2>

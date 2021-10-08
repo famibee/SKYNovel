@@ -73649,7 +73649,11 @@ class EventMng {
         hTag.event = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_event).call(this, o);
         hTag.l = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_l).call(this, o);
         hTag.p = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_p).call(this, o);
-        hTag.s = () => { __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => { }, false, true); return true; };
+        hTag.s = () => {
+            this.scrItr.recodePage();
+            __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => { }, false, true);
+            return true;
+        };
         hTag.set_cancel_skip = () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_set_cancel_skip).call(this);
         hTag.set_focus = o => this.set_focus(o);
         hTag.wait = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_wait).call(this, o);
@@ -73833,6 +73837,7 @@ class EventMng {
     waitEvent(onFinish, canskip = true, global = false) {
         if (canskip && global)
             throw `canskipとglobalを同時にtrue指定できません`;
+        this.scrItr.recodePage();
         if (this.val.getVal('tmp:sn.skip.enabled')) {
             if (!this.val.getVal('tmp:sn.skip.all')
                 && !this.scrItr.isNextKidoku)
@@ -73986,6 +73991,8 @@ class EventMng {
         return false;
     }
     isSkipKeyDown() {
+        if (this.scrItr.skip4page)
+            return true;
         for (const v in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
             if (__classPrivateFieldGet(this, _EventMng_hDownKeys, "f")[v] === 2)
                 return true;
@@ -74182,6 +74189,8 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint 
     sel = KeY.slice(4);
     return { el: document.querySelectorAll(sel), id: '', sel: sel };
 }, _EventMng_l = function _EventMng_l(hArg) {
+    if (this.scrItr.skip4page)
+        return false;
     if (!this.val.getVal('tmp:sn.tagL.enabled')) {
         __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
         return false;
@@ -74204,6 +74213,7 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint 
     __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => this.main.resume());
     return true;
 }, _EventMng_p = function _EventMng_p(hArg) {
+    this.scrItr.recodePage();
     if (this.val.getVal('tmp:sn.skip.enabled')) {
         if (!this.val.getVal('tmp:sn.skip.all')
             && !this.scrItr.isNextKidoku)
@@ -74250,6 +74260,8 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint 
         delete hE1T['wheel.y>0'];
     }
 }, _EventMng_wait = function _EventMng_wait(hArg) {
+    if (this.scrItr.skip4page)
+        return false;
     if (this.val.getVal('tmp:sn.skip.enabled')) {
         if (!this.val.getVal('tmp:sn.skip.all')
             && !this.scrItr.isNextKidoku)
@@ -74263,6 +74275,8 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint 
         .start();
     return this.waitEvent(() => tw.end(), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
 }, _EventMng_waitclick = function _EventMng_waitclick() {
+    if (this.scrItr.skip4page)
+        return false;
     if (this.val.getVal('tmp:sn.skip.enabled')) {
         if (!this.val.getVal('tmp:sn.skip.all')
             && !this.scrItr.isNextKidoku)
@@ -75664,7 +75678,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _LayerMng_instances, _a, _LayerMng_stage, _LayerMng_fore, _LayerMng_back, _LayerMng_frmMng, _LayerMng_fncTicker, _LayerMng_hProcDbgRes, _LayerMng_modeLn, _LayerMng_modeLnSub, _LayerMng_selectNode, _LayerMng_grpCover, _LayerMng_evtMng, _LayerMng_foreachRedrawTxtLayBack, _LayerMng_cmdTxt, _LayerMng_snapshot, _LayerMng_loadplugin, _LayerMng_add_lay, _LayerMng_hPages, _LayerMng_aLayName, _LayerMng_curTxtlay, _LayerMng_firstGrplay, _LayerMng_lay, _LayerMng_rebuildLayerRankInfo, _LayerMng_clear_lay, _LayerMng_srcRuleTransFragment, _LayerMng_ufRuleTrans, _LayerMng_fltRule, _LayerMng_rtTransBack, _LayerMng_spTransBack, _LayerMng_rtTransFore, _LayerMng_spTransFore, _LayerMng_aBackTransAfter, _LayerMng_trans, _LayerMng_tiTrans, _LayerMng_getLayers, _LayerMng_foreachLayers, _LayerMng_sortLayers, _LayerMng_wt, _LayerMng_finish_trans, _LayerMng_quake, _LayerMng_hTwInf, _LayerMng_tsy, _LayerMng_wait_tsy, _LayerMng_stop_tsy, _LayerMng_pause_tsy, _LayerMng_resume_tsy, _LayerMng_msecChWait, _LayerMng_ch, _LayerMng_getTxtLayer, _LayerMng_$getTxtLayer, _LayerMng_current, _LayerMng_$current, _LayerMng_pgTxtlay, _LayerMng_fncChkTxtLay, _LayerMng_argChk_layer, _LayerMng_oLastPage, _LayerMng_aPageLog, _LayerMng_clear_text, _LayerMng_endlink, _LayerMng_er, _LayerMng_graph, _LayerMng_link, _LayerMng_r, _LayerMng_rec_r, _LayerMng_rec_ch, _LayerMng_reset_rec, _LayerMng_ruby2, _LayerMng_span, _LayerMng_tcy, _LayerMng_dump_lay, _LayerMng_enable_event, _LayerMng_button;
+var _LayerMng_instances, _a, _LayerMng_stage, _LayerMng_fore, _LayerMng_back, _LayerMng_frmMng, _LayerMng_fncTicker, _LayerMng_hProcDbgRes, _LayerMng_modeLn, _LayerMng_modeLnSub, _LayerMng_selectNode, _LayerMng_grpCover, _LayerMng_evtMng, _LayerMng_foreachRedrawTxtLayBack, _LayerMng_cmdTxt, _LayerMng_snapshot, _LayerMng_loadplugin, _LayerMng_add_lay, _LayerMng_hPages, _LayerMng_aLayName, _LayerMng_curTxtlay, _LayerMng_firstGrplay, _LayerMng_lay, _LayerMng_rebuildLayerRankInfo, _LayerMng_clear_lay, _LayerMng_srcRuleTransFragment, _LayerMng_ufRuleTrans, _LayerMng_fltRule, _LayerMng_rtTransBack, _LayerMng_spTransBack, _LayerMng_rtTransFore, _LayerMng_spTransFore, _LayerMng_aBackTransAfter, _LayerMng_trans, _LayerMng_tiTrans, _LayerMng_getLayers, _LayerMng_foreachLayers, _LayerMng_sortLayers, _LayerMng_wt, _LayerMng_finish_trans, _LayerMng_quake, _LayerMng_hTwInf, _LayerMng_tsy, _LayerMng_wait_tsy, _LayerMng_stop_tsy, _LayerMng_pause_tsy, _LayerMng_resume_tsy, _LayerMng_msecChWait, _LayerMng_ch, _LayerMng_getTxtLayer, _LayerMng_$getTxtLayer, _LayerMng_current, _LayerMng_$current, _LayerMng_pgTxtlay, _LayerMng_fncChkTxtLay, _LayerMng_argChk_layer, _LayerMng_oLastPage, _LayerMng_aTxtLog, _LayerMng_clear_text, _LayerMng_endlink, _LayerMng_er, _LayerMng_graph, _LayerMng_link, _LayerMng_r, _LayerMng_rec_r, _LayerMng_rec_ch, _LayerMng_reset_rec, _LayerMng_ruby2, _LayerMng_span, _LayerMng_tcy, _LayerMng_dump_lay, _LayerMng_enable_event, _LayerMng_button;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LayerMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -75784,7 +75798,7 @@ void main(void) {
         _LayerMng_pgTxtlay.set(this, void 0);
         _LayerMng_fncChkTxtLay.set(this, () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; });
         _LayerMng_oLastPage.set(this, { text: '' });
-        _LayerMng_aPageLog.set(this, []);
+        _LayerMng_aTxtLog.set(this, []);
         const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
         const fncResizeLay = () => {
             if (!CmnLib_1.CmnLib.cvsResize(cvs))
@@ -75876,8 +75890,8 @@ void main(void) {
         fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button_1.Button.fontFamily));
         val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
         val.defTmp('const.sn.log.json', () => JSON.stringify((__classPrivateFieldGet(this, _LayerMng_oLastPage, "f").text)
-            ? [...__classPrivateFieldGet(this, _LayerMng_aPageLog, "f"), __classPrivateFieldGet(this, _LayerMng_oLastPage, "f")]
-            : __classPrivateFieldGet(this, _LayerMng_aPageLog, "f")));
+            ? [...__classPrivateFieldGet(this, _LayerMng_aTxtLog, "f"), __classPrivateFieldGet(this, _LayerMng_oLastPage, "f")]
+            : __classPrivateFieldGet(this, _LayerMng_aTxtLog, "f")));
         val.defTmp('const.sn.last_page_text', () => this.getCurrentTxtlayFore()?.pageText ?? '');
         if (CmnLib_1.CmnLib.isDbg) {
             DesignCast_1.DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, __classPrivateFieldGet(this, _LayerMng_hPages, "f"));
@@ -75959,8 +75973,8 @@ void main(void) {
         if (pagebreak) {
             if (o.text) {
                 o.text = String(o.text).replaceAll(`<\/span><span class='sn_ch'>`, '');
-                if (__classPrivateFieldGet(this, _LayerMng_aPageLog, "f").push(o) > this.cfg.oCfg.log.max_len)
-                    __classPrivateFieldSet(this, _LayerMng_aPageLog, __classPrivateFieldGet(this, _LayerMng_aPageLog, "f").slice(-this.cfg.oCfg.log.max_len), "f");
+                if (__classPrivateFieldGet(this, _LayerMng_aTxtLog, "f").push(o) > this.cfg.oCfg.log.max_len)
+                    __classPrivateFieldSet(this, _LayerMng_aTxtLog, __classPrivateFieldGet(this, _LayerMng_aTxtLog, "f").slice(-this.cfg.oCfg.log.max_len), "f");
             }
             __classPrivateFieldSet(this, _LayerMng_oLastPage, { text: '' }, "f");
             return;
@@ -75983,7 +75997,7 @@ void main(void) {
         return o;
     }
     playback($hPages, fncComp) {
-        __classPrivateFieldSet(this, _LayerMng_aPageLog, JSON.parse(String(this.val.getVal('save:const.sn.sLog'))), "f");
+        __classPrivateFieldSet(this, _LayerMng_aTxtLog, JSON.parse(String(this.val.getVal('save:const.sn.sLog'))), "f");
         __classPrivateFieldSet(this, _LayerMng_oLastPage, { text: '' }, "f");
         const aPrm = [];
         const aSort = [];
@@ -76017,7 +76031,7 @@ void main(void) {
     }
 }
 exports.LayerMng = LayerMng;
-_a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), _LayerMng_back = new WeakMap(), _LayerMng_frmMng = new WeakMap(), _LayerMng_fncTicker = new WeakMap(), _LayerMng_hProcDbgRes = new WeakMap(), _LayerMng_modeLn = new WeakMap(), _LayerMng_modeLnSub = new WeakMap(), _LayerMng_grpCover = new WeakMap(), _LayerMng_evtMng = new WeakMap(), _LayerMng_cmdTxt = new WeakMap(), _LayerMng_hPages = new WeakMap(), _LayerMng_aLayName = new WeakMap(), _LayerMng_curTxtlay = new WeakMap(), _LayerMng_firstGrplay = new WeakMap(), _LayerMng_srcRuleTransFragment = new WeakMap(), _LayerMng_ufRuleTrans = new WeakMap(), _LayerMng_fltRule = new WeakMap(), _LayerMng_rtTransBack = new WeakMap(), _LayerMng_spTransBack = new WeakMap(), _LayerMng_rtTransFore = new WeakMap(), _LayerMng_spTransFore = new WeakMap(), _LayerMng_aBackTransAfter = new WeakMap(), _LayerMng_tiTrans = new WeakMap(), _LayerMng_hTwInf = new WeakMap(), _LayerMng_getTxtLayer = new WeakMap(), _LayerMng_current = new WeakMap(), _LayerMng_pgTxtlay = new WeakMap(), _LayerMng_fncChkTxtLay = new WeakMap(), _LayerMng_oLastPage = new WeakMap(), _LayerMng_aPageLog = new WeakMap(), _LayerMng_instances = new WeakSet(), _LayerMng_selectNode = function _LayerMng_selectNode(node) {
+_a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), _LayerMng_back = new WeakMap(), _LayerMng_frmMng = new WeakMap(), _LayerMng_fncTicker = new WeakMap(), _LayerMng_hProcDbgRes = new WeakMap(), _LayerMng_modeLn = new WeakMap(), _LayerMng_modeLnSub = new WeakMap(), _LayerMng_grpCover = new WeakMap(), _LayerMng_evtMng = new WeakMap(), _LayerMng_cmdTxt = new WeakMap(), _LayerMng_hPages = new WeakMap(), _LayerMng_aLayName = new WeakMap(), _LayerMng_curTxtlay = new WeakMap(), _LayerMng_firstGrplay = new WeakMap(), _LayerMng_srcRuleTransFragment = new WeakMap(), _LayerMng_ufRuleTrans = new WeakMap(), _LayerMng_fltRule = new WeakMap(), _LayerMng_rtTransBack = new WeakMap(), _LayerMng_spTransBack = new WeakMap(), _LayerMng_rtTransFore = new WeakMap(), _LayerMng_spTransFore = new WeakMap(), _LayerMng_aBackTransAfter = new WeakMap(), _LayerMng_tiTrans = new WeakMap(), _LayerMng_hTwInf = new WeakMap(), _LayerMng_getTxtLayer = new WeakMap(), _LayerMng_current = new WeakMap(), _LayerMng_pgTxtlay = new WeakMap(), _LayerMng_fncChkTxtLay = new WeakMap(), _LayerMng_oLastPage = new WeakMap(), _LayerMng_aTxtLog = new WeakMap(), _LayerMng_instances = new WeakSet(), _LayerMng_selectNode = function _LayerMng_selectNode(node) {
     var _b, _c;
     _b = this, _c = this, [({ set value(_a) { __classPrivateFieldSet(_b, _LayerMng_modeLn, _a, "f"); } }).value, ({ set value(_a) { __classPrivateFieldSet(_c, _LayerMng_modeLnSub, _a, "f"); } }).value = ''] = node.split('/');
     const pages = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[__classPrivateFieldGet(this, _LayerMng_modeLn, "f")];
@@ -76161,8 +76175,8 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     }
     else if (hArg.index) {
         if ((0, CmnLib_1.argChk_Num)(hArg, 'index', 0)) {
-            __classPrivateFieldGet(this, _LayerMng_back, "f").setChildIndex(back, (0, CmnLib_1.uint)(hArg.index));
-            __classPrivateFieldGet(this, _LayerMng_fore, "f").setChildIndex(fore, (0, CmnLib_1.uint)(hArg.index));
+            __classPrivateFieldGet(this, _LayerMng_back, "f").setChildIndex(back, hArg.index);
+            __classPrivateFieldGet(this, _LayerMng_fore, "f").setChildIndex(fore, hArg.index);
             __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_rebuildLayerRankInfo).call(this);
         }
     }
@@ -76384,8 +76398,8 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
     const tw_nm = hArg.name ?? hArg.layer;
     const tw = new tween_js_1.Tween(foreLay)
-        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)
-        * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
+        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) * (__classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkipKeyDown()
+        || Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
         .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
         .easing(CmnTween_1.CmnTween.ease(hArg.ease))
         .repeat(repeat === 0 ? Infinity : (repeat - 1))
@@ -76532,7 +76546,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     this.recText(hArg.text ?? '');
     return false;
 }, _LayerMng_reset_rec = function _LayerMng_reset_rec(hArg) {
-    __classPrivateFieldSet(this, _LayerMng_aPageLog, [], "f");
+    __classPrivateFieldSet(this, _LayerMng_aTxtLog, [], "f");
     __classPrivateFieldSet(this, _LayerMng_oLastPage, { text: hArg.text ?? '' }, "f");
     this.val.setVal_Nochk('save', 'const.sn.sLog', (hArg.text) ? `[{text:"${hArg.text}"}]` : '[]');
     return false;
@@ -77334,7 +77348,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _ScriptIterator_instances, _a, _ScriptIterator_script, _ScriptIterator_scriptFn_, _ScriptIterator_idxToken_, _ScriptIterator_lineNum_, _ScriptIterator_aCallStk, _ScriptIterator_grm, _ScriptIterator_regBreakPoint, _ScriptIterator_hHook, _ScriptIterator_cnvSnPath, _ScriptIterator_REG4CODE_FN, _ScriptIterator_cnvSnPath4Dbg, _ScriptIterator_go_stepover, _ScriptIterator_go_stepout, _ScriptIterator_csDepth_macro_esc, _ScriptIterator_idxDx4Dbg_get, _ScriptIterator_isIdxOverLast, _ScriptIterator_hFn2hLineBP, _ScriptIterator_hFuncBP, _ScriptIterator_breakState, _ScriptIterator_isBreak_base, _ScriptIterator_subHitCondition, _ScriptIterator_aStack, _ScriptIterator_procDebugtag, _ScriptIterator_evtMng, _ScriptIterator_layMng, _ScriptIterator_let_ml, _ScriptIterator_dump_stack, _ScriptIterator_cnvIdx2lineCol, _ScriptIterator_dump_script, _ScriptIterator_fncSet, _ScriptIterator_fncBreak, _ScriptIterator_fnLastBreak, _ScriptIterator_hScrCache4Dump, _ScriptIterator_dumpErrLine, _ScriptIterator_aIfStk, _ScriptIterator_endif, _ScriptIterator_if, _ScriptIterator_call, _ScriptIterator_callSub, _ScriptIterator_jump, _ScriptIterator_pop_stack, _ScriptIterator_return, _ScriptIterator_resvToken, _ScriptIterator_clearResvToken, _ScriptIterator_skipLabel, _ScriptIterator_jumpWork, _ScriptIterator_nextToken_Proc, _ScriptIterator_dbgToken, _ScriptIterator_errOverScr, _ScriptIterator_REG_NONAME_LABEL, _ScriptIterator_REG_TOKEN_MACRO_BEGIN, _ScriptIterator_REG_TOKEN_MACRO_END, _ScriptIterator_REG_TAG_LET_ML, _ScriptIterator_REG_TAG_ENDLET_ML, _ScriptIterator_seekScript, _ScriptIterator_hScript, _ScriptIterator_resolveScript, _ScriptIterator_jump_light, _ScriptIterator_REG_WILDCARD, _ScriptIterator_REG_WILDCARD2, _ScriptIterator_replaceScript_Wildcard, _ScriptIterator_recordKidoku, _ScriptIterator_isKidoku_, _ScriptIterator_eraseKidoku, _ScriptIterator_bracket2macro, _ScriptIterator_char2macro, _ScriptIterator_macro, _ScriptIterator_strStepin, _ScriptIterator_REGSTEPIN, _ScriptIterator_load, _ScriptIterator_loadFromMark, _ScriptIterator_reload_script, _ScriptIterator_mark, _ScriptIterator_record_place, _ScriptIterator_save;
+var _ScriptIterator_instances, _a, _ScriptIterator_script, _ScriptIterator_scriptFn, _ScriptIterator_idxToken, _ScriptIterator_lineNum, _ScriptIterator_aCallStk, _ScriptIterator_grm, _ScriptIterator_regBreakPoint, _ScriptIterator_hHook, _ScriptIterator_cnvSnPath, _ScriptIterator_REG4CODE_FN, _ScriptIterator_cnvSnPath4Dbg, _ScriptIterator_go_stepover, _ScriptIterator_go_stepout, _ScriptIterator_csDepth_macro_esc, _ScriptIterator_idxDx4Dbg_get, _ScriptIterator_isIdxOverLast, _ScriptIterator_hFn2hLineBP, _ScriptIterator_hFuncBP, _ScriptIterator_breakState, _ScriptIterator_isBreak_base, _ScriptIterator_subHitCondition, _ScriptIterator_aStack, _ScriptIterator_procDebugtag, _ScriptIterator_evtMng, _ScriptIterator_layMng, _ScriptIterator_let_ml, _ScriptIterator_dump_stack, _ScriptIterator_cnvIdx2lineCol, _ScriptIterator_dump_script, _ScriptIterator_fncSet, _ScriptIterator_fncBreak, _ScriptIterator_fnLastBreak, _ScriptIterator_hScrCache4Dump, _ScriptIterator_dumpErrLine, _ScriptIterator_aIfStk, _ScriptIterator_endif, _ScriptIterator_if, _ScriptIterator_call, _ScriptIterator_callSub, _ScriptIterator_jump, _ScriptIterator_page, _ScriptIterator_pop_stack, _ScriptIterator_return, _ScriptIterator_resvToken, _ScriptIterator_clearResvToken, _ScriptIterator_skipLabel, _ScriptIterator_jumpWork, _ScriptIterator_nextToken_Proc, _ScriptIterator_dbgToken, _ScriptIterator_errOverScr, _ScriptIterator_REG_NONAME_LABEL, _ScriptIterator_REG_TOKEN_MACRO_BEGIN, _ScriptIterator_REG_TOKEN_MACRO_END, _ScriptIterator_REG_TAG_LET_ML, _ScriptIterator_REG_TAG_ENDLET_ML, _ScriptIterator_seekScript, _ScriptIterator_hScript, _ScriptIterator_resolveScript, _ScriptIterator_jump_light, _ScriptIterator_REG_WILDCARD, _ScriptIterator_REG_WILDCARD2, _ScriptIterator_replaceScript_Wildcard, _ScriptIterator_recordKidoku, _ScriptIterator_isKidoku, _ScriptIterator_eraseKidoku, _ScriptIterator_bracket2macro, _ScriptIterator_char2macro, _ScriptIterator_macro, _ScriptIterator_strStepin, _ScriptIterator_REGSTEPIN, _ScriptIterator_load, _ScriptIterator_loadFromMark, _ScriptIterator_skip4page, _ScriptIterator_reload_script, _ScriptIterator_mark, _ScriptIterator_record_place, _ScriptIterator_nowScrIdx, _ScriptIterator_save, _ScriptIterator_aPageLog, _ScriptIterator_posAPageLog;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ScriptIterator = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -77343,6 +77357,7 @@ const CallStack_1 = __webpack_require__(/*! ./CallStack */ "./core/src/sn/CallSt
 const Grammar_1 = __webpack_require__(/*! ./Grammar */ "./core/src/sn/Grammar.ts");
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
 const DebugMng_1 = __webpack_require__(/*! ./DebugMng */ "./core/src/sn/DebugMng.ts");
+;
 ;
 ;
 var BreakState;
@@ -77370,10 +77385,10 @@ class ScriptIterator {
         this.sys = sys;
         _ScriptIterator_instances.add(this);
         _ScriptIterator_script.set(this, { aToken: [''], len: 1, aLNum: [1] });
-        _ScriptIterator_scriptFn_.set(this, '');
-        _ScriptIterator_idxToken_.set(this, 0);
-        _ScriptIterator_lineNum_.set(this, 0);
-        this.addLineNum = (len) => __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + len, "f");
+        _ScriptIterator_scriptFn.set(this, '');
+        _ScriptIterator_idxToken.set(this, 0);
+        _ScriptIterator_lineNum.set(this, 0);
+        this.addLineNum = (len) => __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") + len, "f");
         _ScriptIterator_aCallStk.set(this, []);
         this.getCallStk = (idx) => __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[idx].csArg;
         _ScriptIterator_grm.set(this, new Grammar_1.Grammar);
@@ -77406,7 +77421,7 @@ class ScriptIterator {
             continue: () => {
                 if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
                     return;
-                __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
+                __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
                 __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.breaking, "f");
                 this.main.setLoop(true);
                 this.main.resume();
@@ -77415,9 +77430,9 @@ class ScriptIterator {
             stepin: () => {
                 if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
                     return;
-                const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
+                const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
                 this.sys.callHook(`stopOnStep${__classPrivateFieldGet(this, _ScriptIterator_REGSTEPIN, "f").test(tkn) ? 'In' : ''}`, {});
-                __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
+                __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
                 __classPrivateFieldSet(this, _ScriptIterator_breakState, __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.wait
                     ? BreakState.step
                     : BreakState.stepping, "f");
@@ -77445,7 +77460,7 @@ class ScriptIterator {
         });
         _ScriptIterator_cnvSnPath.set(this, (fn) => this.cfg.searchPath(fn, Config_1.Config.EXT_SCRIPT));
         _ScriptIterator_cnvSnPath4Dbg.set(this, (fn) => (this.sys.pathBaseCnvSnPath4Dbg + __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath, "f").call(this, fn))
-            .replace(__classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_REG4CODE_FN), `$1/prj/$2/${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}$3`));
+            .replace(__classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_REG4CODE_FN), `$1/prj/$2/${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")}$3`));
         this.cnvPath4Dbg = (fn) => this.sys.pathBaseCnvSnPath4Dbg + fn.replace('/crypto_prj/', '/prj/');
         _ScriptIterator_csDepth_macro_esc.set(this, 0);
         _ScriptIterator_breakState.set(this, BreakState.running);
@@ -77498,14 +77513,17 @@ class ScriptIterator {
             }
             __classPrivateFieldGet(this, _ScriptIterator_script, "f").len = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken.length;
         });
-        _ScriptIterator_isKidoku_.set(this, false);
+        _ScriptIterator_isKidoku.set(this, false);
         _ScriptIterator_strStepin.set(this, 'call');
         _ScriptIterator_REGSTEPIN.set(this, /\[(call)\b/);
+        _ScriptIterator_skip4page.set(this, false);
         _ScriptIterator_mark.set(this, {
             hSave: {},
             hPages: {},
             aIfStk: [-1],
         });
+        _ScriptIterator_aPageLog.set(this, []);
+        _ScriptIterator_posAPageLog.set(this, -1);
         hTag.let_ml = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_let_ml).call(this, o);
         hTag.dump_stack = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_dump_stack).call(this);
         hTag.dump_script = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_dump_script).call(this, o);
@@ -77515,6 +77533,7 @@ class ScriptIterator {
         hTag['if'] = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_if).call(this, o);
         hTag.call = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_call).call(this, o);
         hTag.jump = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jump).call(this, o);
+        hTag.page = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_page).call(this, o);
         hTag.pop_stack = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_pop_stack).call(this, o);
         hTag.return = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_return).call(this);
         hTag.bracket2macro = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_bracket2macro).call(this, o);
@@ -77526,7 +77545,7 @@ class ScriptIterator {
         hTag.record_place = () => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_record_place).call(this);
         hTag.save = o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_save).call(this, o);
         if (cfg.oCfg.debug.token)
-            __classPrivateFieldSet(this, _ScriptIterator_dbgToken, token => console.log(`🌱 トークン fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} idxToken:${__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")} ln:${this.lineNum} token【${token}】`), "f");
+            __classPrivateFieldSet(this, _ScriptIterator_dbgToken, token => console.log(`🌱 トークン fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")} idxToken:${__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")} ln:${__classPrivateFieldGet(this, _ScriptIterator_lineNum, "f")} token【${token}】`), "f");
         val.defTmp('const.sn.vctCallStk.length', () => __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length);
         __classPrivateFieldGet(this, _ScriptIterator_grm, "f").setEscape(cfg.oCfg.init.escape);
         if (CmnLib_1.CmnLib.isDbg) {
@@ -77545,18 +77564,18 @@ class ScriptIterator {
                 o.hBreakpoint.aFunc.forEach((v) => __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFuncBP)[v.name] = 1);
                 if (o.stopOnEntry) {
                     while (true) {
-                        let token = this.nextToken();
-                        if (!token)
+                        let tkn = this.nextToken();
+                        if (!tkn)
                             break;
-                        const uc = token.charCodeAt(0);
+                        const uc = tkn.charCodeAt(0);
                         if (uc === 91)
                             break;
                         if (uc === 38)
                             break;
-                        if (uc === 42 && token.length === 1)
+                        if (uc === 42 && tkn.length === 1)
                             break;
                         if (uc === 10)
-                            this.addLineNum(token.length);
+                            __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") + tkn.length, "f");
                     }
                     this.sys.callHook('stopOnEntry', {});
                     this.analyzeInit = fnc;
@@ -77574,13 +77593,13 @@ class ScriptIterator {
         else
             this.recodeDesign = () => { };
         if (cfg.oCfg.debug.tag)
-            __classPrivateFieldSet(this, _ScriptIterator_procDebugtag, tag_name => console.log(`🌲 タグ解析 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} lnum:${__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")} [${tag_name} %o]`, this.alzTagArg.hPrm), "f");
+            __classPrivateFieldSet(this, _ScriptIterator_procDebugtag, tag_name => console.log(`🌲 タグ解析 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")} lnum:${__classPrivateFieldGet(this, _ScriptIterator_lineNum, "f")} [${tag_name} %o]`, this.alzTagArg.hPrm), "f");
     }
-    get scriptFn() { return __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"); }
+    get scriptFn() { return __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"); }
     ;
-    subIdxToken() { var _b; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), --_b), "f"); }
+    subIdxToken() { var _b; __classPrivateFieldSet(this, _ScriptIterator_idxToken, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), --_b), "f"); }
     ;
-    get lineNum() { return __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f"); }
+    get lineNum() { return __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f"); }
     get lenCallStk() { return __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length; }
     ;
     get lastHArg() { return __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[this.lenCallStk - 1].csArg; }
@@ -77649,24 +77668,24 @@ class ScriptIterator {
         __classPrivateFieldSet(this, _ScriptIterator_layMng, layMng, "f");
     }
     dumpErrForeLine() {
-        if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") === 0) {
-            console.group(`🥟 Error line (from 0 rows before) fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}`);
+        if (__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") === 0) {
+            console.group(`🥟 Error line (from 0 rows before) fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")}`);
             console.groupEnd();
             return;
         }
         let s = '';
-        for (let i = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - 1; i >= 0; --i) {
+        for (let i = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - 1; i >= 0; --i) {
             s = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[i] + s;
             if ((s.match(/\n/g) ?? []).length >= __classPrivateFieldGet(this, _ScriptIterator_dumpErrLine, "f"))
                 break;
         }
         const a = s.split('\n').slice(-__classPrivateFieldGet(this, _ScriptIterator_dumpErrLine, "f"));
         const len = a.length;
-        console.group(`🥟 Error line (from ${len} rows before) fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}`);
-        const ln_txt_width = String(__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")).length;
-        const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+        console.group(`🥟 Error line (from ${len} rows before) fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")}`);
+        const ln_txt_width = String(__classPrivateFieldGet(this, _ScriptIterator_lineNum, "f")).length;
+        const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
         for (let i = 0; i < len; ++i) {
-            const ln = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") - len + i + 1;
+            const ln = __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") - len + i + 1;
             const mes = `${String(ln).padStart(ln_txt_width, ' ')}: %c`;
             const e = a[i];
             const line = (e.length > 75) ? e.slice(0, 75) + '…' : e;
@@ -77678,16 +77697,16 @@ class ScriptIterator {
         console.groupEnd();
     }
     analyzeInit() {
-        const o = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_seekScript).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), Boolean(this.val.getVal('mp:const.sn.macro.name')), __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f"), __classPrivateFieldGet(this, _ScriptIterator_skipLabel, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
-        __classPrivateFieldSet(this, _ScriptIterator_idxToken_, o.idx, "f");
-        __classPrivateFieldSet(this, _ScriptIterator_lineNum_, o.lineNum, "f");
+        const o = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_seekScript).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), Boolean(this.val.getVal('mp:const.sn.macro.name')), __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f"), __classPrivateFieldGet(this, _ScriptIterator_skipLabel, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
+        __classPrivateFieldSet(this, _ScriptIterator_idxToken, o.idx, "f");
+        __classPrivateFieldSet(this, _ScriptIterator_lineNum, o.ln, "f");
         this.runAnalyze();
     }
-    get isKidoku() { return __classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f"); }
+    get isKidoku() { return __classPrivateFieldGet(this, _ScriptIterator_isKidoku, "f"); }
     ;
     get isNextKidoku() {
-        let fn = this.scriptFn;
-        let idx = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f");
+        let fn = __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f");
+        let idx = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f");
         let len = __classPrivateFieldGet(this, _ScriptIterator_script, "f").len;
         if (__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length > 0) {
             const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[0];
@@ -77705,13 +77724,19 @@ class ScriptIterator {
         return areas.search(idx);
     }
     get normalWait() {
-        return __classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f")
+        return __classPrivateFieldGet(this, _ScriptIterator_isKidoku, "f")
             ? (this.val.getVal('sys:sn.tagCh.doWait_Kidoku')
                 ? (0, CmnLib_1.uint)(this.val.getVal('sys:sn.tagCh.msecWait_Kidoku'))
                 : 0)
             : (this.val.getVal('sys:sn.tagCh.doWait')
                 ? (0, CmnLib_1.uint)(this.val.getVal('sys:sn.tagCh.msecWait'))
                 : 0);
+    }
+    get skip4page() { return __classPrivateFieldGet(this, _ScriptIterator_skip4page, "f"); }
+    recodePage() {
+        __classPrivateFieldSet(this, _ScriptIterator_skip4page, false, "f");
+        if (!this.val.getVal('save:sn.doRecLog'))
+            return;
     }
     recodeDesign(hArg) {
         let fn = '';
@@ -77723,8 +77748,8 @@ class ScriptIterator {
             idx = cs.idx;
         }
         else {
-            fn = __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f");
-            idx = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f");
+            fn = __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f");
+            idx = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f");
         }
         hArg[':path'] = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, fn);
         const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[fn], idx);
@@ -77739,12 +77764,12 @@ class ScriptIterator {
     replace(idx, val) { __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[idx] = val; }
 }
 exports.ScriptIterator = ScriptIterator;
-_a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scriptFn_ = new WeakMap(), _ScriptIterator_idxToken_ = new WeakMap(), _ScriptIterator_lineNum_ = new WeakMap(), _ScriptIterator_aCallStk = new WeakMap(), _ScriptIterator_grm = new WeakMap(), _ScriptIterator_hHook = new WeakMap(), _ScriptIterator_cnvSnPath = new WeakMap(), _ScriptIterator_cnvSnPath4Dbg = new WeakMap(), _ScriptIterator_csDepth_macro_esc = new WeakMap(), _ScriptIterator_breakState = new WeakMap(), _ScriptIterator_procDebugtag = new WeakMap(), _ScriptIterator_evtMng = new WeakMap(), _ScriptIterator_layMng = new WeakMap(), _ScriptIterator_fncSet = new WeakMap(), _ScriptIterator_fncBreak = new WeakMap(), _ScriptIterator_fnLastBreak = new WeakMap(), _ScriptIterator_hScrCache4Dump = new WeakMap(), _ScriptIterator_dumpErrLine = new WeakMap(), _ScriptIterator_aIfStk = new WeakMap(), _ScriptIterator_resvToken = new WeakMap(), _ScriptIterator_skipLabel = new WeakMap(), _ScriptIterator_dbgToken = new WeakMap(), _ScriptIterator_REG_NONAME_LABEL = new WeakMap(), _ScriptIterator_REG_TOKEN_MACRO_BEGIN = new WeakMap(), _ScriptIterator_REG_TOKEN_MACRO_END = new WeakMap(), _ScriptIterator_REG_TAG_LET_ML = new WeakMap(), _ScriptIterator_REG_TAG_ENDLET_ML = new WeakMap(), _ScriptIterator_hScript = new WeakMap(), _ScriptIterator_REG_WILDCARD = new WeakMap(), _ScriptIterator_REG_WILDCARD2 = new WeakMap(), _ScriptIterator_replaceScript_Wildcard = new WeakMap(), _ScriptIterator_isKidoku_ = new WeakMap(), _ScriptIterator_strStepin = new WeakMap(), _ScriptIterator_REGSTEPIN = new WeakMap(), _ScriptIterator_mark = new WeakMap(), _ScriptIterator_instances = new WeakSet(), _ScriptIterator_regBreakPoint = function _ScriptIterator_regBreakPoint(fn, o) {
+_a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scriptFn = new WeakMap(), _ScriptIterator_idxToken = new WeakMap(), _ScriptIterator_lineNum = new WeakMap(), _ScriptIterator_aCallStk = new WeakMap(), _ScriptIterator_grm = new WeakMap(), _ScriptIterator_hHook = new WeakMap(), _ScriptIterator_cnvSnPath = new WeakMap(), _ScriptIterator_cnvSnPath4Dbg = new WeakMap(), _ScriptIterator_csDepth_macro_esc = new WeakMap(), _ScriptIterator_breakState = new WeakMap(), _ScriptIterator_procDebugtag = new WeakMap(), _ScriptIterator_evtMng = new WeakMap(), _ScriptIterator_layMng = new WeakMap(), _ScriptIterator_fncSet = new WeakMap(), _ScriptIterator_fncBreak = new WeakMap(), _ScriptIterator_fnLastBreak = new WeakMap(), _ScriptIterator_hScrCache4Dump = new WeakMap(), _ScriptIterator_dumpErrLine = new WeakMap(), _ScriptIterator_aIfStk = new WeakMap(), _ScriptIterator_resvToken = new WeakMap(), _ScriptIterator_skipLabel = new WeakMap(), _ScriptIterator_dbgToken = new WeakMap(), _ScriptIterator_REG_NONAME_LABEL = new WeakMap(), _ScriptIterator_REG_TOKEN_MACRO_BEGIN = new WeakMap(), _ScriptIterator_REG_TOKEN_MACRO_END = new WeakMap(), _ScriptIterator_REG_TAG_LET_ML = new WeakMap(), _ScriptIterator_REG_TAG_ENDLET_ML = new WeakMap(), _ScriptIterator_hScript = new WeakMap(), _ScriptIterator_REG_WILDCARD = new WeakMap(), _ScriptIterator_REG_WILDCARD2 = new WeakMap(), _ScriptIterator_replaceScript_Wildcard = new WeakMap(), _ScriptIterator_isKidoku = new WeakMap(), _ScriptIterator_strStepin = new WeakMap(), _ScriptIterator_REGSTEPIN = new WeakMap(), _ScriptIterator_skip4page = new WeakMap(), _ScriptIterator_mark = new WeakMap(), _ScriptIterator_aPageLog = new WeakMap(), _ScriptIterator_posAPageLog = new WeakMap(), _ScriptIterator_instances = new WeakSet(), _ScriptIterator_regBreakPoint = function _ScriptIterator_regBreakPoint(fn, o) {
     __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[__classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, fn)] = o;
 }, _ScriptIterator_go_stepover = function _ScriptIterator_go_stepover(o) {
     if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
         return;
-    const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
+    const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
     if (__classPrivateFieldGet(this, _ScriptIterator_REGSTEPIN, "f").test(tkn))
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_go_stepout).call(this, false);
     else {
@@ -77754,7 +77779,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
 }, _ScriptIterator_go_stepout = function _ScriptIterator_go_stepout(out) {
     this.sys.callHook(`stopOnStep${out ? 'Out' : ''}`, {});
     __classPrivateFieldSet(this, _ScriptIterator_csDepth_macro_esc, this.lenCallStk - (out ? 1 : 0), "f");
-    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
     __classPrivateFieldSet(this, _ScriptIterator_breakState, out ? BreakState.stepout : BreakState.stepouting, "f");
     this.main.setLoop(true);
     this.main.resume();
@@ -77762,7 +77787,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     return __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.break
         || __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.step ? 1 : 0;
 }, _ScriptIterator_isIdxOverLast = function _ScriptIterator_isIdxOverLast() {
-    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
         return false;
     this.sys.callHook('stopOnEntry', {});
     this.main.setLoop(false, 'スクリプト終端です');
@@ -77804,10 +77829,10 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
                 }
             }
             {
-                const bp = __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[__classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"))];
+                const bp = __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[__classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"))];
                 if (!bp)
                     break;
-                const o = bp[__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")];
+                const o = bp[__classPrivateFieldGet(this, _ScriptIterator_lineNum, "f")];
                 if (!o)
                     break;
                 if (o.condition) {
@@ -77827,19 +77852,19 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     }
     return false;
 }, _ScriptIterator_subHitCondition = function _ScriptIterator_subHitCondition() {
-    const o = __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[(0, CmnLib_1.getFn)(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"))]?.[__classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f")];
+    const o = __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFn2hLineBP)[(0, CmnLib_1.getFn)(__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"))]?.[__classPrivateFieldGet(this, _ScriptIterator_lineNum, "f")];
     if (o?.hitCondition)
         --o.hitCondition;
 }, _ScriptIterator_aStack = function _ScriptIterator_aStack() {
     const idx_n = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.breaking ? 1 : 0;
-    const tkn0 = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - 1 + idx_n];
-    const fn0 = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
+    const tkn0 = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - 1 + idx_n];
+    const fn0 = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"));
     const tag_name0 = (0, Grammar_1.tagToken2Name)(tkn0);
     const nm = tag_name0 ? `[${tag_name0}]` : tkn0;
     const ma = this.val.getVal('mp:const.sn.macro') ?? '{}';
-    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") === 0)
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") === 0)
         return [{ fn: fn0, ln: 1, col: 1, nm: nm, ma: ma, }];
-    const lc0 = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    const lc0 = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
     const a = [{ fn: fn0, ln: lc0.ln, col: lc0.col_s + 1, nm: nm, ma: ma }];
     const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
     if (len === 0)
@@ -77868,25 +77893,25 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         throw 'nameは必須です';
     let ml = '';
     const len = __classPrivateFieldGet(this, _ScriptIterator_script, "f").len;
-    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < len; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f")) {
-        ml = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
+    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") < len; __classPrivateFieldSet(this, _ScriptIterator_idxToken, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), ++_b), "f")) {
+        ml = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")];
         if (ml !== '')
             break;
     }
     hArg.text = ml;
     hArg.cast = 'str';
     this.hTag['let'](hArg);
-    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 2, "f");
-    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + (ml.match(/\n/g) ?? []).length, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") + 2, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") + (ml.match(/\n/g) ?? []).length, "f");
     return false;
 }, _ScriptIterator_dump_stack = function _ScriptIterator_dump_stack() {
-    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") === 0) {
-        console.group(`🥟 [dump_stack] スクリプト現在地 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} line:${1} col:${0}`);
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") === 0) {
+        console.group(`🥟 [dump_stack] スクリプト現在地 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")} line:${1} col:${0}`);
         console.groupEnd();
         return false;
     }
-    const lc0 = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
-    const now = `スクリプト現在地 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")} line:${lc0.ln} col:${lc0.col_s + 1}`;
+    const lc0 = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
+    const now = `スクリプト現在地 fn:${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")} line:${lc0.ln} col:${lc0.col_s + 1}`;
     console.group(`🥟 [dump_stack] ${now}`);
     const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
     if (len > 0) {
@@ -77934,13 +77959,13 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         return false;
     }
     this.noticeBreak = (goto) => {
-        if (__classPrivateFieldGet(this, _ScriptIterator_fnLastBreak, "f") !== __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")) {
-            __classPrivateFieldSet(this, _ScriptIterator_fnLastBreak, __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), "f");
-            __classPrivateFieldGet(this, _ScriptIterator_fncSet, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_hScrCache4Dump, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")]
-                = __classPrivateFieldGet(this, _ScriptIterator_hScrCache4Dump, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")]
+        if (__classPrivateFieldGet(this, _ScriptIterator_fnLastBreak, "f") !== __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")) {
+            __classPrivateFieldSet(this, _ScriptIterator_fnLastBreak, __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"), "f");
+            __classPrivateFieldGet(this, _ScriptIterator_fncSet, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_hScrCache4Dump, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")]
+                = __classPrivateFieldGet(this, _ScriptIterator_hScrCache4Dump, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")]
                     ?? __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken.join(''));
         }
-        __classPrivateFieldGet(this, _ScriptIterator_fncBreak, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f"), goto);
+        __classPrivateFieldGet(this, _ScriptIterator_fncBreak, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f"), goto);
     };
     this.noticeBreak(true);
     const break_fnc = hArg.break_fnc;
@@ -77956,8 +77981,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
 }, _ScriptIterator_endif = function _ScriptIterator_endif() {
     if (__classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f")[0] === -1)
         throw 'ifブロック内ではありません';
-    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f")[0], "f");
-    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") - 1], "f");
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f")[0], "f");
     __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").shift();
     return false;
 }, _ScriptIterator_if = function _ScriptIterator_if(hArg) {
@@ -77968,21 +77992,24 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     if (exp.charAt(0) === '&')
         throw '属性expは「&」が不要です';
     let cntDepth = 0;
-    let idxGo = this.prpPrs.parse(exp) ? __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") : -1;
-    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f")) {
-        if (!__classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")])
-            __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
-        const t = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
-        if (!t)
+    let idxGo = this.prpPrs.parse(exp) ? __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") : -1;
+    const lnIf = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")];
+    let zLn = __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") - (lnIf || 0);
+    const len = __classPrivateFieldGet(this, _ScriptIterator_script, "f").len;
+    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") < len; __classPrivateFieldSet(this, _ScriptIterator_idxToken, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), ++_b), "f")) {
+        const ln = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")];
+        __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")] = (ln || 0) + zLn;
+        const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")];
+        if (!tkn)
             continue;
-        const uc = t.charCodeAt(0);
+        const uc = tkn.charCodeAt(0);
         if (uc === 10) {
-            this.addLineNum(t.length);
+            __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") + tkn.length, "f");
             continue;
         }
         if (uc !== 91)
             continue;
-        const [tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(t);
+        const [tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(tkn);
         if (!(tag_name in this.hTag))
             throw `未定義のタグ[${tag_name}]です`;
         this.alzTagArg.go(args);
@@ -77999,13 +78026,13 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
                 if (e.charAt(0) === '&')
                     throw '属性expは「&」が不要です';
                 if (this.prpPrs.parse(e))
-                    idxGo = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 1;
+                    idxGo = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") + 1;
                 break;
             case 'else':
                 if (cntDepth > 0)
                     break;
                 if (idxGo === -1)
-                    idxGo = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 1;
+                    idxGo = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") + 1;
                 break;
             case 'endif':
                 if (cntDepth > 0) {
@@ -78013,13 +78040,13 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
                     break;
                 }
                 if (idxGo === -1) {
-                    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_c = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_c), "f");
-                    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+                    __classPrivateFieldSet(this, _ScriptIterator_idxToken, (_c = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), ++_c), "f");
+                    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")] += zLn;
                 }
                 else {
-                    __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").unshift(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") + 1);
-                    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idxGo, "f");
-                    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")], "f");
+                    __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").unshift(__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") + 1);
+                    __classPrivateFieldSet(this, _ScriptIterator_idxToken, idxGo, "f");
+                    __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")], "f");
                 }
                 return false;
         }
@@ -78037,12 +78064,12 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, fn, hArg.label);
     return true;
 }, _ScriptIterator_callSub = function _ScriptIterator_callSub(csa) {
-    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
+    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f");
     if (!__classPrivateFieldGet(this, _ScriptIterator_resvToken, "f")) {
         csa.resvToken = '';
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
     }
-    __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").push(new CallStack_1.CallStack(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), csa));
+    __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").push(new CallStack_1.CallStack(__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), csa));
     __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").unshift(-1);
 }, _ScriptIterator_jump = function _ScriptIterator_jump(hArg) {
     if (!(0, CmnLib_1.argChk_Boolean)(hArg, 'count', true))
@@ -78050,6 +78077,35 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f")[0] = -1;
     __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, hArg.fn, hArg.label);
     return true;
+}, _ScriptIterator_page = function _ScriptIterator_page(hArg) {
+    var _b, _c;
+    if (__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f") === -1)
+        return false;
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear', false)) {
+        __classPrivateFieldSet(this, _ScriptIterator_aPageLog, [], "f");
+        __classPrivateFieldSet(this, _ScriptIterator_posAPageLog, -1, "f");
+        return false;
+    }
+    const to = hArg.to;
+    if (!to)
+        throw 'clearかtoは必須です';
+    switch (to) {
+        case 'prev':
+            if (__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f") > 0)
+                __classPrivateFieldSet(this, _ScriptIterator_posAPageLog, (_b = __classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f"), --_b), "f");
+            break;
+        case 'next':
+            const len = __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f").length;
+            if (__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f") < len - 1)
+                __classPrivateFieldSet(this, _ScriptIterator_posAPageLog, (_c = __classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f"), ++_c), "f");
+            break;
+        default: throw `属性to「${to}」は異常です`;
+    }
+    const o = __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f")[__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f")];
+    const { fn, idx } = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nowScrIdx).call(this);
+    if (o.key === idx + ':' + fn)
+        return false;
+    return __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_loadFromMark).call(this, { index: o.ret, do_rec: false, }, o.mark);
 }, _ScriptIterator_pop_stack = function _ScriptIterator_pop_stack(hArg) {
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear', false))
         __classPrivateFieldSet(this, _ScriptIterator_aCallStk, [], "f");
@@ -78097,29 +78153,29 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
             this.main.errScript('[jump系] labelは*で始まります');
         __classPrivateFieldSet(this, _ScriptIterator_skipLabel, label, "f");
         if (__classPrivateFieldGet(this, _ScriptIterator_skipLabel, "f").slice(0, 2) !== '**')
-            __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idx, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_idxToken, idx, "f");
     }
     else {
         __classPrivateFieldSet(this, _ScriptIterator_skipLabel, '', "f");
-        __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idx, "f");
+        __classPrivateFieldSet(this, _ScriptIterator_idxToken, idx, "f");
     }
     if (!fn) {
         this.analyzeInit();
         return;
     }
     const full_path = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath, "f").call(this, fn);
-    if (fn === __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")) {
+    if (fn === __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")) {
         this.analyzeInit();
         return;
     }
-    __classPrivateFieldSet(this, _ScriptIterator_scriptFn_, fn, "f");
-    const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")];
+    __classPrivateFieldSet(this, _ScriptIterator_scriptFn, fn, "f");
+    const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")];
     if (st) {
         __classPrivateFieldSet(this, _ScriptIterator_script, st, "f");
         this.analyzeInit();
         return;
     }
-    (new pixi_js_1.Loader).add({ name: __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), url: full_path })
+    (new pixi_js_1.Loader).add({ name: __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"), url: full_path })
         .use((res, next) => {
         try {
             res.data = this.sys.decStr(res.extension, res.data);
@@ -78131,7 +78187,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     })
         .load((_ldr, hRes) => {
         this.nextToken = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nextToken_Proc);
-        __classPrivateFieldSet(this, _ScriptIterator_lineNum_, 1, "f");
+        __classPrivateFieldSet(this, _ScriptIterator_lineNum, 1, "f");
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_resolveScript).call(this, hRes[fn].data);
         this.hTag.record_place({});
         this.main.resume(() => this.analyzeInit());
@@ -78142,45 +78198,42 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_errOverScr).call(this))
         return '';
     __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_recordKidoku).call(this);
-    if (!__classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")])
-        __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
-    const token = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
+    __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")] ||= __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f");
+    const token = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")];
     __classPrivateFieldGet(this, _ScriptIterator_dbgToken, "f").call(this, token);
-    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f");
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), ++_b), "f");
     return token;
 }, _ScriptIterator_errOverScr = function _ScriptIterator_errOverScr() {
-    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
+    if (__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
         return false;
     this.main.errScript('スクリプト終端です');
     return true;
-}, _ScriptIterator_seekScript = function _ScriptIterator_seekScript(st, inMacro, ln, skipLabel, idxToken) {
+}, _ScriptIterator_seekScript = function _ScriptIterator_seekScript(st, inMacro, ln, skipLabel, idx) {
     const len = st.aToken.length;
     if (!skipLabel) {
         if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_errOverScr).call(this))
-            return { idx: idxToken, lineNum: ln };
-        if (!st.aLNum[idxToken]) {
+            return { idx, ln };
+        if (!st.aLNum[idx]) {
             ln = 1;
-            for (let j = 0; j < idxToken; ++j) {
-                if (!st.aLNum[j])
-                    st.aLNum[j] = ln;
+            for (let j = 0; j < idx; ++j) {
+                st.aLNum[j] ||= ln;
                 const tkn = st.aToken[j];
                 if (tkn.charCodeAt(0) === 10)
                     ln += tkn.length;
+                else
+                    ln += (tkn.match(/\n/g) ?? []).length;
             }
-            st.aLNum[idxToken] = ln;
+            st.aLNum[idx] = ln;
         }
         else
-            ln = st.aLNum[idxToken];
-        return {
-            idx: idxToken,
-            lineNum: ln
-        };
+            ln = st.aLNum[idx];
+        return { idx, ln };
     }
     st.aLNum[0] = 1;
     const a_skipLabel = skipLabel.match(__classPrivateFieldGet(this, _ScriptIterator_REG_NONAME_LABEL, "f"));
     if (a_skipLabel) {
         skipLabel = a_skipLabel[1];
-        let i = idxToken;
+        let i = idx;
         switch (a_skipLabel[2]) {
             case 'before':
                 while (st.aToken[--i] !== skipLabel) {
@@ -78191,10 +78244,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
                     if (inMacro && st.aToken[i].search(__classPrivateFieldGet(this, _ScriptIterator_REG_TOKEN_MACRO_BEGIN, "f")) > -1)
                         DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルbefore] マクロ内にラベル【' + skipLabel + '】がありません', 'ET');
                 }
-                return {
-                    idx: i + 1,
-                    lineNum: st.aLNum[i]
-                };
+                return { idx: i + 1, ln: st.aLNum[i] };
             case 'after':
                 while (st.aToken[++i] !== skipLabel) {
                     if (i === len)
@@ -78204,52 +78254,45 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
                         DebugMng_1.DebugMng.myTrace('[jump系 無名ラベルafter] '
                             + ln + '行目以後でマクロ内にラベル【' + skipLabel + '】がありません', 'ET');
                 }
-                return {
-                    idx: i + 1,
-                    lineNum: st.aLNum[i]
-                };
+                return { idx: i + 1, ln: st.aLNum[i] };
             default:
                 DebugMng_1.DebugMng.myTrace('[jump系] 無名ラベル指定【label=' + skipLabel + '】が間違っています', 'ET');
         }
     }
     ln = 1;
-    const reLabel = new RegExp('^' + skipLabel.replaceAll('*', '\\*')
-        + '(?:\\s|;|\\[|$)');
+    const reLabel = new RegExp('^' + skipLabel.replaceAll('*', '\\*') + '(?:\\s|;|\\[|$)');
     let in_let_ml = false;
     for (let i = 0; i < len; ++i) {
-        if (!st.aLNum[i])
-            st.aLNum[i] = ln;
-        const token = st.aToken[i];
-        const uc = token.charCodeAt(0);
-        if (uc !== 42) {
-            if (in_let_ml) {
-                __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").lastIndex = 0;
-                if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").test(token)) {
-                    in_let_ml = false;
-                    continue;
-                }
-                ln += (token.match(/\n/g) ?? []).length;
-            }
-            else {
-                __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").lastIndex = 0;
-                if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").test(token)) {
-                    in_let_ml = true;
-                    continue;
-                }
-                if (uc === 10)
-                    ln += token.length;
-            }
+        st.aLNum[i] ||= ln;
+        const tkn = st.aToken[i];
+        const uc = tkn.charCodeAt(0);
+        if (uc === 10) {
+            ln += tkn.length;
             continue;
         }
-        if (token.search(reLabel) > -1)
-            return {
-                idx: i + 1,
-                lineNum: ln
-            };
+        if (uc === 42) {
+            if (tkn.search(reLabel) > -1)
+                return { idx: i + 1, ln };
+            continue;
+        }
+        if (uc !== 91)
+            continue;
+        ln += (tkn.match(/\n/g) ?? []).length;
+        if (in_let_ml) {
+            __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").lastIndex = 0;
+            if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").test(tkn))
+                in_let_ml = false;
+        }
+        else {
+            __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").lastIndex = 0;
+            if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").test(tkn))
+                in_let_ml = true;
+        }
+        continue;
     }
     if (in_let_ml)
         throw '[let_ml]の終端・[endlet_ml]がありません';
-    DebugMng_1.DebugMng.myTrace(`[jump系] ラベル【` + skipLabel + `】がありません`, 'ET');
+    DebugMng_1.DebugMng.myTrace(`[jump系] ラベル【${skipLabel}】がありません`, 'ET');
     throw 'Dummy';
 }, _ScriptIterator_resolveScript = function _ScriptIterator_resolveScript(txt) {
     const v = txt
@@ -78278,43 +78321,43 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     catch (err) {
         if (err instanceof Error) {
             const e = err;
-            mes += '例外 mes=' + e.message + '(' + e.name + ')';
+            mes += `例外 mes=${e.message}(${e.name})`;
         }
         else {
             mes = err;
         }
         this.main.errScript(mes, false);
     }
-    __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_script, "f");
-    this.val.loadScrWork(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
+    __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")] = __classPrivateFieldGet(this, _ScriptIterator_script, "f");
+    this.val.loadScrWork(__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"));
 }, _ScriptIterator_jump_light = function _ScriptIterator_jump_light(cs) {
-    __classPrivateFieldSet(this, _ScriptIterator_scriptFn_, cs.fn, "f");
-    __classPrivateFieldSet(this, _ScriptIterator_idxToken_, cs.idx, "f");
-    const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")];
+    __classPrivateFieldSet(this, _ScriptIterator_scriptFn, cs.fn, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_idxToken, cs.idx, "f");
+    const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")];
     if (st)
         __classPrivateFieldSet(this, _ScriptIterator_script, st, "f");
-    __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[cs.idx], "f");
+    __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[cs.idx], "f");
 }, _ScriptIterator_recordKidoku = function _ScriptIterator_recordKidoku() {
-    const areas = this.val.getAreaKidoku(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
+    const areas = this.val.getAreaKidoku(__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"));
     if (!areas)
-        throw `recordKidoku fn:'${__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f")}' (areas === null)`;
+        throw `recordKidoku fn:'${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")}' (areas === null)`;
     if (__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length > 0) {
-        areas.record(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+        areas.record(__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
         return;
     }
-    __classPrivateFieldSet(this, _ScriptIterator_isKidoku_, areas.search(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")), "f");
-    this.val.setVal_Nochk('tmp', 'const.sn.isKidoku', __classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f"));
-    if (__classPrivateFieldGet(this, _ScriptIterator_isKidoku_, "f"))
+    __classPrivateFieldSet(this, _ScriptIterator_isKidoku, areas.search(__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")), "f");
+    this.val.setVal_Nochk('tmp', 'const.sn.isKidoku', __classPrivateFieldGet(this, _ScriptIterator_isKidoku, "f"));
+    if (__classPrivateFieldGet(this, _ScriptIterator_isKidoku, "f"))
         return;
-    areas.record(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    areas.record(__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
 }, _ScriptIterator_eraseKidoku = function _ScriptIterator_eraseKidoku() {
-    this.val.getAreaKidoku(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"))?.erase(__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
-    __classPrivateFieldSet(this, _ScriptIterator_isKidoku_, false, "f");
+    this.val.getAreaKidoku(__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"))?.erase(__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
+    __classPrivateFieldSet(this, _ScriptIterator_isKidoku, false, "f");
 }, _ScriptIterator_bracket2macro = function _ScriptIterator_bracket2macro(hArg) {
-    __classPrivateFieldGet(this, _ScriptIterator_grm, "f").bracket2macro(hArg, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    __classPrivateFieldGet(this, _ScriptIterator_grm, "f").bracket2macro(hArg, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
     return false;
 }, _ScriptIterator_char2macro = function _ScriptIterator_char2macro(hArg) {
-    __classPrivateFieldGet(this, _ScriptIterator_grm, "f").char2macro(hArg, this.hTag, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    __classPrivateFieldGet(this, _ScriptIterator_grm, "f").char2macro(hArg, this.hTag, __classPrivateFieldGet(this, _ScriptIterator_script, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
     return false;
 }, _ScriptIterator_macro = function _ScriptIterator_macro(hArg) {
     var _b, _c;
@@ -78323,8 +78366,8 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         throw 'nameは必須です';
     if (name in this.hTag)
         throw `[${name}]はタグかすでに定義済みのマクロです`;
-    const ln = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
-    const cs = new CallStack_1.CallStack(__classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
+    const ln = __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f");
+    const cs = new CallStack_1.CallStack(__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"));
     __classPrivateFieldSet(this, _ScriptIterator_strStepin, __classPrivateFieldGet(this, _ScriptIterator_strStepin, "f") + ('|' + name), "f");
     __classPrivateFieldSet(this, _ScriptIterator_REGSTEPIN, new RegExp(`\\[(${__classPrivateFieldGet(this, _ScriptIterator_strStepin, "f")})\\b`), "f");
     this.hTag[name] = hArgM => {
@@ -78332,24 +78375,23 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { ...hArgM, hMp: this.val.cloneMp() });
         this.val.setMp(hArgM);
         this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify(hArg));
-        this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', __classPrivateFieldGet(this, _ScriptIterator_scriptFn_, "f"));
-        __classPrivateFieldSet(this, _ScriptIterator_lineNum_, ln, "f");
+        this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"));
+        __classPrivateFieldSet(this, _ScriptIterator_lineNum, ln, "f");
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jump_light).call(this, cs);
         return false;
     };
-    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len; __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_b), "f")) {
-        if (!__classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")])
-            __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f");
-        const token = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f")];
+    for (; __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len; __classPrivateFieldSet(this, _ScriptIterator_idxToken, (_b = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), ++_b), "f")) {
+        __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")] ||= __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f");
+        const token = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")];
         if (token.search(__classPrivateFieldGet(this, _ScriptIterator_REG_TOKEN_MACRO_END, "f")) > -1) {
-            __classPrivateFieldSet(this, _ScriptIterator_idxToken_, (_c = __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"), ++_c), "f");
+            __classPrivateFieldSet(this, _ScriptIterator_idxToken, (_c = __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), ++_c), "f");
             return false;
         }
         const uc = token.charCodeAt(0);
         if (uc === 10)
-            __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + token.length, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") + token.length, "f");
         else if (uc === 91)
-            __classPrivateFieldSet(this, _ScriptIterator_lineNum_, __classPrivateFieldGet(this, _ScriptIterator_lineNum_, "f") + (token.match(/\n/g) ?? []).length, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_lineNum, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f") + (token.match(/\n/g) ?? []).length, "f");
     }
     throw `マクロ[${name}]定義の終端・[endmacro]がありません`;
 }, _ScriptIterator_load = function _ScriptIterator_load(hArg) {
@@ -78378,20 +78420,28 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         }, "f");
     const o = {
         enabled: this.val.getVal('save:const.sn.autowc.enabled'),
-        text: String(this.val.getVal('save:const.sn.autowc.text')),
-        time: String(this.val.getVal('save:const.sn.autowc.time')),
+        text: this.val.getVal('save:const.sn.autowc.text'),
+        time: Number(this.val.getVal('save:const.sn.autowc.time')),
     };
     this.hTag.autowc(o);
     const fn = String(this.val.getVal('save:const.sn.scriptFn'));
     const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
-    delete __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[fn];
     __classPrivateFieldSet(this, _ScriptIterator_aIfStk, [...__classPrivateFieldGet(this, _ScriptIterator_mark, "f").aIfStk], "f");
     __classPrivateFieldSet(this, _ScriptIterator_aCallStk, [], "f");
+    if ('index' in hArg) {
+        __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").playback(__classPrivateFieldGet(this, _ScriptIterator_mark, "f").hPages, () => {
+            __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(false);
+            __classPrivateFieldSet(this, _ScriptIterator_skip4page, true, "f");
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, fn, '', hArg.index ?? idx);
+        });
+        return true;
+    }
+    delete __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[fn];
     __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").playback(__classPrivateFieldGet(this, _ScriptIterator_mark, "f").hPages, 'label' in hArg
         ? () => {
             __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(false);
-            __classPrivateFieldSet(this, _ScriptIterator_scriptFn_, fn, "f");
-            __classPrivateFieldSet(this, _ScriptIterator_idxToken_, idx, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_scriptFn, fn, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_idxToken, idx, "f");
             this.hTag.call({ fn: hArg.fn, label: hArg.label });
         }
         : () => {
@@ -78407,21 +78457,27 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
 }, _ScriptIterator_record_place = function _ScriptIterator_record_place() {
     if (this.main.isDestroyed())
         return false;
-    const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
-    if (len === 0) {
-        this.val.setVal_Nochk('save', 'const.sn.scriptFn', this.scriptFn);
-        this.val.setVal_Nochk('save', 'const.sn.scriptIdx', __classPrivateFieldGet(this, _ScriptIterator_idxToken_, "f"));
-    }
-    else {
-        this.val.setVal_Nochk('save', 'const.sn.scriptFn', __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[0].fn);
-        this.val.setVal_Nochk('save', 'const.sn.scriptIdx', __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[0].idx);
-    }
+    const { fn, idx } = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nowScrIdx).call(this);
+    this.val.setVal_Nochk('save', 'const.sn.scriptFn', fn);
+    this.val.setVal_Nochk('save', 'const.sn.scriptIdx', idx);
     __classPrivateFieldSet(this, _ScriptIterator_mark, {
         hSave: this.val.cloneSave(),
         hPages: __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").record(),
-        aIfStk: __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").slice(len),
+        aIfStk: __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").slice(__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length),
     }, "f");
     return false;
+}, _ScriptIterator_nowScrIdx = function _ScriptIterator_nowScrIdx() {
+    const len = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
+    if (len === 0)
+        return {
+            fn: __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"),
+            idx: __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"),
+        };
+    const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[len - 1];
+    return {
+        fn: cs.fn,
+        idx: cs.idx,
+    };
 }, _ScriptIterator_save = function _ScriptIterator_save(hArg) {
     if (!('place' in hArg))
         throw 'placeは必須です';
@@ -81728,7 +81784,7 @@ _a = Variable, _Variable_hScopes = new WeakMap(), _Variable_hSave = new WeakMap(
 }, _Variable_clearvar = function _Variable_clearvar() {
     const mesLayer = __classPrivateFieldGet(this, _Variable_hSave, "f")['const.sn.mesLayer'] ?? '';
     const doRecLog = __classPrivateFieldGet(this, _Variable_hSave, "f")['sn.doRecLog'] ?? false;
-    const sLog = __classPrivateFieldGet(this, _Variable_hSave, "f")['const.sn.sLog'] ?? '';
+    const sLog = __classPrivateFieldGet(this, _Variable_hSave, "f")['const.sn.sLog'] ?? '[]';
     __classPrivateFieldSet(this, _Variable_hSave, __classPrivateFieldGet(this, _Variable_hScopes, "f").save = {}, "f");
     this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
     this.setVal_Nochk('save', 'sn.doRecLog', doRecLog);

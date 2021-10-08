@@ -2,7 +2,7 @@ export declare type HArg = {
     タグ名?: string;
     layer?: string;
     class?: string;
-    index?: string;
+    index?: number;
     dive?: string;
     page?: string;
     alpha?: number;
@@ -117,6 +117,7 @@ export declare type HArg = {
     end_ms?: number;
     join?: boolean;
     do_rec?: boolean;
+    clear?: boolean;
     ':id_dc'?: string;
     ':id_tag'?: string;
     ':path'?: string;

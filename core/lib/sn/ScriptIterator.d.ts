@@ -38,6 +38,8 @@ export declare class ScriptIterator {
     get isKidoku(): boolean;
     get isNextKidoku(): boolean;
     get normalWait(): number;
+    get skip4page(): boolean;
+    recodePage(): void;
     recodeDesign(hArg: HArg): void;
     replace(idx: number, val: string): void;
 }

@@ -77,7 +77,7 @@ export class SysBase implements ISysBase {
 	//	hTag.loadplugin		// LayerMng.ts内で定義	// cssの読み込み
 //		hTag.mouse			= o=> this.mouse(o);	// マウスの設定
 		hTag.navigate_to	= o=> this.navigate_to(o);	// ＵＲＬを開く
-//		hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
+	//	hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
 	//	hTag.snapshot		// LayerMng.ts内で定義	// スナップショット
 		hTag.title			= o=> this.title(o);	// タイトル指定
 		hTag.toggle_full_screen = o=> this.tgl_full_scr(o);	// 全画面状態切替
