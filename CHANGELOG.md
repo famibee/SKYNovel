@@ -1,3 +1,10 @@
+## [1.18.11](https://github.com/famibee/SKYNovel/compare/v1.18.10...v1.18.11) (2021-10-08)
+
+
+### Bug Fixes
+
+* [if]ブロック内で行番号が狂う件 ([35e182f](https://github.com/famibee/SKYNovel/commit/35e182f6aa0e813aed8278ee68f78e2e46922638))
+
 - fix: [if]ブロック内で行番号が狂う件
 - fix: [if]ブロック内で複数行タグを使用した際、中の行番号が狂う件
 - fix: save:const.sn.sLog の初期値を '[]' に
