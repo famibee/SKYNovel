@@ -1,3 +1,10 @@
+# [1.19.0](https://github.com/famibee/SKYNovel/compare/v1.18.11...v1.19.0) (2021-10-09)
+
+
+### Features
+
+* タグ[page]追加。本やWeb漫画のように、既読ページを前後移動できる機能 ([ab6c328](https://github.com/famibee/SKYNovel/commit/ab6c3281f6a5ac1913a7dd5490d3d3740bf72963))
+
 - feat: タグ[page]追加。本やWeb漫画のように、既読ページを前後移動できる機能
 	- （レイヤの .page とページ移動の [page] の言葉混乱注意）
 	- [p][s]など（[l][waitclick]は対象外）停止位置を記録し、前後できる
