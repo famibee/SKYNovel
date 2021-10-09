@@ -32,8 +32,9 @@ interface IPageLog {
 	key		: string,
 	fn		: string,
 	idx		: number,
-	ret		: number,
-	mark	: IMark,
+	retFn	: string,
+	retIdx	: number,
+	retMark	: IMark,
 };
 
 enum BreakState {running, wait, break, breaking, step, stepping, stepouting, stepout};
@@ -713,16 +714,15 @@ export class ScriptIterator {
 		}
 		const o = this.#aPageLog[this.#posAPageLog];
 		const {fn, idx} = this.#nowScrIdx();
-//console.log(`fn:ScriptIterator.ts #page to:${to} fn:${fn} idx:${idx} idxNow:${this.#posAPageLog} o.key:${o.key}`);
+//console.log(`fn:ScriptIterator.ts #page to:${to} key=${o.key} retFn:${o.retFn} retIdx:${o.retIdx} pos:${this.#posAPageLog}`);
 		if (o.key === idx +':'+ fn) return false;
 /*
 	const st = this.#hScript[o.fn];
 	const tkn = st.aToken[o.idx];
 	const lc = this.#cnvIdx2lineCol(st, o.idx +1);	// -1不要
-console.log(`fn:ScriptIterator.ts             p.fn:${o.fn} p.ret:${o.ret} - ln:${lc.ln} col:${lc.col_s +1} -- token:${tkn}`);
-// t:%o i:%o`, this.#script.aToken.slice(0, 60), this.#script.aLNum.slice(0, 60));
-*//**/
-		return this.#loadFromMark({index: o.ret, do_rec: false,}, o.mark);
+console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.col_s +1} -- token:${tkn}`);
+*/
+		return this.#loadFromMark({fn: o.retFn, index: o.retIdx,}, o.retMark);
 	}
 
 	// コールスタック破棄
@@ -824,6 +824,7 @@ console.log(`fn:ScriptIterator.ts             p.fn:${o.fn} p.ret:${o.ret} - ln:$
 
 		// トークンの行番号更新
 		this.#script.aLNum[this.#idxToken] ||= this.#lineNum;
+			// NaN、undefined は falsy
 		const token = this.#script.aToken[this.#idxToken];
 		this.#dbgToken(token);
 		++this.#idxToken;
@@ -853,7 +854,7 @@ console.log(`fn:ScriptIterator.ts             p.fn:${o.fn} p.ret:${o.ret} - ln:$
 				ln = 1;
 				for (let j=0; j<idx; ++j) {
 					// 走査ついでにトークンの行番号も更新
-					st.aLNum[j] ||= ln;
+					st.aLNum[j] ||= ln;	// NaN、undefined は falsy
 
 					const tkn = st.aToken[j];
 					if (tkn.charCodeAt(0) === 10) ln += tkn.length;	// \n 改行
@@ -903,7 +904,7 @@ console.log(`fn:ScriptIterator.ts             p.fn:${o.fn} p.ret:${o.ret} - ln:$
 		let in_let_ml = false;
 		for (let i=0; i<len; ++i) {
 			// 走査ついでにトークンの行番号も更新
-			st.aLNum[i] ||= ln;
+			st.aLNum[i] ||= ln;	// NaN、undefined は falsy
 
 			const tkn = st.aToken[i];
 			const uc = tkn.charCodeAt(0);	// TokenTopUnicode
@@ -1124,6 +1125,7 @@ console.log(`fn:ScriptIterator.ts             p.fn:${o.fn} p.ret:${o.ret} - ln:$
 		for (; this.#idxToken < this.#script.len; ++this.#idxToken) {
 			// トークンの行番号更新
 			this.#script.aLNum[this.#idxToken] ||= this.#lineNum;
+				// NaN、undefined は falsy
 
 			const token = this.#script.aToken[this.#idxToken];
 			if (token.search(this.#REG_TOKEN_MACRO_END) > -1) {
@@ -1179,12 +1181,12 @@ console.log(`fn:ScriptIterator.ts             p.fn:${o.fn} p.ret:${o.ret} - ln:$
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 		this.#aIfStk = [...this.#mark.aIfStk];
 		this.#aCallStk = [];
-		if ('index' in hArg) {	// 基本は #page 用
-//console.log(`fn:ScriptIterator.ts line:1181 fn:${fn} idx:${idx} .idx:${hArg.index}`);
+		if ('index' in hArg) {	// #page 用
+//console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${hArg.fn ?? fn} idx:${hArg.index ?? idx}`);
 			this.#layMng.playback(this.#mark.hPages, ()=> {
 				this.#layMng.cover(false);
 				this.#skip4page = true;
-				this.#jumpWork(fn, '', hArg.index ?? idx);
+				this.#jumpWork(hArg.fn ?? fn, '', hArg.index ?? idx);
 			});
 			return true;
 		}
@@ -1277,26 +1279,30 @@ console.log(`fn:ScriptIterator.ts             p.fn:${o.fn} p.ret:${o.ret} - ln:$
 	recodePage() {
 		this.#skip4page = false;
 		if (! this.val.getVal('save:sn.doRecLog')) return;
-/*
+
 		const {fn, idx} = this.#nowScrIdx();
 		const i = idx -1;
 		const key = i +':'+ fn;
-		const p = this.#aPageLog.findIndex(p=> p.key === key);
-		if (p > -1) {this.#posAPageLog = p; return;}
+		const iPl = this.#aPageLog.findIndex(p=> p.key === key);
+		if (iPl > -1) {this.#posAPageLog = iPl; return;}
 
-		const o: IPageLog = {key, fn, idx: i, ret: this.#posAPageLog < 0
-			? 0
-			: (this.#aPageLog[this.#posAPageLog].idx +1),
-			mark: {...this.#mark},
-		};
+		const o: IPageLog = {key, fn, idx: i,
+			retFn: fn, retIdx: 0, retMark: {...this.#mark},};
+		if (this.#posAPageLog >= 0) {
+			const pl = this.#aPageLog[this.#posAPageLog];
+			o.retFn = pl.fn;
+			o.retIdx = pl.idx +1;
+		}
+
 		if (++this.#posAPageLog === this.#aPageLog.length) this.#aPageLog.push(o);
 		else this.#aPageLog[this.#posAPageLog] = o;
-*//*
+/*
 	const st = this.#hScript[fn];
 	const tkn = st.aToken[i];
 	const lc = this.#cnvIdx2lineCol(st, idx);	// -1不要
-console.log(`fn:ScriptIterator.ts recodePage == fn:${fn} i:${i} o.idx:${o.idx} pos:${this.#posAPageLog} key:${key} = ln:${lc.ln} col:${lc.col_s +1} == token:${tkn} p:%o`, p);
+console.log(`fn:ScriptIterator.ts recodePage == key=${key} retFn:${o.retFn} retIdx:${o.retIdx} pos:${this.#posAPageLog} = \x1b[45mln:${lc.ln}\x1b[49m col:${lc.col_s +1} == token:${tkn}`);
 */
+		// NOTE: 【Node.js】 コンソール(CLI)出力に色や装飾をつける方法 https://note.affi-sapo-sv.com/nodejs-console-color-output.php
 	}
 
 

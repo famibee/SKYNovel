@@ -1120,7 +1120,7 @@ void main(void) {
 			const $pg = $hPages[layer];
 			aSort.push({layer: layer, idx: $pg.fore.idx});
 
-			const pg = this.#hPages[layer] ||= new Pages(layer, $pg.cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
+			const pg = this.#hPages[layer] ??= new Pages(layer, $pg.cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
 			pg.fore.playback($pg.fore, aPrm);
 			pg.back.playback($pg.back, aPrm);
 		}

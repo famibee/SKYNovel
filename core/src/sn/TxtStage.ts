@@ -1053,7 +1053,7 @@ export class TxtStage extends Container {
 		fo_easing	: this.#fo_easing,
 	}};
 	playback(hLay: any) {
-		this.infTL	= hLay.infTL;
+		this.infTL = hLay.infTL;
 		this.position.set(this.infTL.pad_left, this.infTL.pad_top);
 
 		this.#htmTxt.style.cssText = hLay.cssText;

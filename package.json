@@ -36,7 +36,7 @@
 		"@types/store": "^2.0.2",
 		"@types/tar-fs": "^2.0.1",
 		"@types/xml2js": "^0.4.9",
-		"electron": "^15.1.1",
+		"electron": "^15.1.2",
 		"mocha": "^9.1.2",
 		"power-assert": "^1.6.1",
 		"rimraf": "^3.0.2",
@@ -44,7 +44,7 @@
 		"ts-loader": "^9.2.6",
 		"ts-node": "^10.2.1",
 		"typescript": "^4.4.3",
-		"webpack": "^5.58.0",
+		"webpack": "^5.58.1",
 		"webpack-cli": "^4.9.0",
 		"webpack-dev-server": "^4.3.1"
 	},

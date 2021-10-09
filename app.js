@@ -74586,7 +74586,7 @@ void main(void) {
         for (const layer in $hPages) {
             const $pg = $hPages[layer];
             aSort.push({ layer: layer, idx: $pg.fore.idx });
-            const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer] ||= new Pages_1.Pages(layer, $pg.cls, __classPrivateFieldGet(this, _LayerMng_fore, "f"), __classPrivateFieldGet(this, _LayerMng_back, "f"), {}, this.sys, this.val, { isWait: false });
+            const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer] ??= new Pages_1.Pages(layer, $pg.cls, __classPrivateFieldGet(this, _LayerMng_fore, "f"), __classPrivateFieldGet(this, _LayerMng_back, "f"), {}, this.sys, this.val, { isWait: false });
             pg.fore.playback($pg.fore, aPrm);
             pg.back.playback($pg.back, aPrm);
         }
@@ -76316,9 +76316,29 @@ class ScriptIterator {
     }
     get skip4page() { return __classPrivateFieldGet(this, _ScriptIterator_skip4page, "f"); }
     recodePage() {
+        var _b;
         __classPrivateFieldSet(this, _ScriptIterator_skip4page, false, "f");
         if (!this.val.getVal('save:sn.doRecLog'))
             return;
+        const { fn, idx } = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nowScrIdx).call(this);
+        const i = idx - 1;
+        const key = i + ':' + fn;
+        const iPl = __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f").findIndex(p => p.key === key);
+        if (iPl > -1) {
+            __classPrivateFieldSet(this, _ScriptIterator_posAPageLog, iPl, "f");
+            return;
+        }
+        const o = { key, fn, idx: i,
+            retFn: fn, retIdx: 0, retMark: { ...__classPrivateFieldGet(this, _ScriptIterator_mark, "f") }, };
+        if (__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f") >= 0) {
+            const pl = __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f")[__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f")];
+            o.retFn = pl.fn;
+            o.retIdx = pl.idx + 1;
+        }
+        if (__classPrivateFieldSet(this, _ScriptIterator_posAPageLog, (_b = __classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f"), ++_b), "f") === __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f").length)
+            __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f").push(o);
+        else
+            __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f")[__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f")] = o;
     }
     recodeDesign(hArg) {
         let fn = '';
@@ -76687,7 +76707,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     const { fn, idx } = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nowScrIdx).call(this);
     if (o.key === idx + ':' + fn)
         return false;
-    return __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_loadFromMark).call(this, { index: o.ret, do_rec: false, }, o.mark);
+    return __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_loadFromMark).call(this, { fn: o.retFn, index: o.retIdx, }, o.retMark);
 }, _ScriptIterator_pop_stack = function _ScriptIterator_pop_stack(hArg) {
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear', false))
         __classPrivateFieldSet(this, _ScriptIterator_aCallStk, [], "f");
@@ -77014,7 +77034,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").playback(__classPrivateFieldGet(this, _ScriptIterator_mark, "f").hPages, () => {
             __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(false);
             __classPrivateFieldSet(this, _ScriptIterator_skip4page, true, "f");
-            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, fn, '', hArg.index ?? idx);
+            __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, hArg.fn ?? fn, '', hArg.index ?? idx);
         });
         return true;
     }

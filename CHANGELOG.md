@@ -1,3 +1,14 @@
+- feat: タグ[page]追加。本やWeb漫画のように、既読ページを前後移動できる機能
+	- （レイヤの .page とページ移動の [page] の言葉混乱注意）
+	- [p][s]など（[l][waitclick]は対象外）停止位置を記録し、前後できる
+	- ここでの【ページ】とは、【スクリプト先頭から一つめの[p]まで】、
+		【[p]の次トークン（文字やタグなど）から次の[p]まで】、を指す。
+	- &save:sn.doRecLog = true 状態でのみ停止位置を記録する。
+	- save変数も復元する。
+		- 前述二項の理由により、冒頭ページに &save:sn.doRecLog = true と [record_place]が必須。
+		- （save変数復元で &save:sn.doRecLog = false になるケースがある）
+
+
 ## [1.18.11](https://github.com/famibee/SKYNovel/compare/v1.18.10...v1.18.11) (2021-10-08)
 
 

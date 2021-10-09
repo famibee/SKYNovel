@@ -1882,9 +1882,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h2 id="page" class="w-heading">[page]ページ移動</h2>
 <h4>[p]停止位置を一つ移動する</h4>
 <p class="mb2 px1">
-	[p]などの停止位置を「ページ」とみなし、戻ったり進んだりできる。<br/>
-	ページを進めても一度読んだ位置を再現できる。<br/>
-	save:sn.doRecLog の影響を受け、true の状態でのみ、[p][s]など（[l][waitclick]は対象外）で停止した際にそのページ状態の記録を行う。
+	[p]などの停止位置を「ページ」とみなし、既読ページを戻ったり進んだりできる。<br/>
+	（レイヤの .page とページ移動の [page] の言葉混乱注意）<br/>
+	・save:sn.doRecLog の影響を受け、true の状態でのみ、[p][s]など（[l][waitclick]は対象外）で停止した際にそのページ状態の記録を行う。<br/>
+	・save変数も復元する。<br/>
+	　　・前述二項の理由により、冒頭ページに &save:sn.doRecLog = true と [record_place]が必須。<br/>
+	　　　（save変数復元で &save:sn.doRecLog = false になるケースがある）<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>clear</td><td rowspan="2">どちらかを指定</td><td>なにもしない</td><td>Boolean</td><td>trueでページ状態記録をクリアする</td></tr>
