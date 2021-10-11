@@ -73643,7 +73643,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _a, _GrpLayer_elc, _GrpLayer_hFace, _GrpLayer_main, _GrpLayer_cfg, _GrpLayer_sys, _GrpLayer_glbVol, _GrpLayer_movVol, _GrpLayer_evtMng, _GrpLayer_idc, _GrpLayer_csvFn, _GrpLayer_sBkFn, _GrpLayer_sBkFace, _GrpLayer_dec2cache, _GrpLayer_sortAFrameName, _GrpLayer_dec2cache4Cripto, _GrpLayer_mkSprite;
+var _a, _GrpLayer_elc, _GrpLayer_hFace, _GrpLayer_main, _GrpLayer_cfg, _GrpLayer_sys, _GrpLayer_glbVol, _GrpLayer_movVol, _GrpLayer_evtMng, _GrpLayer_idc, _GrpLayer_csvFn, _GrpLayer_sBkFn, _GrpLayer_sBkFace, _GrpLayer_width, _GrpLayer_height, _GrpLayer_dec2cache, _GrpLayer_sortAFrameName, _GrpLayer_dec2cache4Cripto, _GrpLayer_mkSprite;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GrpLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -73666,6 +73666,8 @@ class GrpLayer extends Layer_1.Layer {
             if (isStop)
                 __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_main).resume();
         });
+        _GrpLayer_width.set(this, 0);
+        _GrpLayer_height.set(this, 0);
         this.record = () => Object.assign(super.record(), {
             sBkFn: __classPrivateFieldGet(this, _GrpLayer_sBkFn, "f"),
             sBkFace: __classPrivateFieldGet(this, _GrpLayer_sBkFace, "f"),
@@ -73726,6 +73728,8 @@ class GrpLayer extends Layer_1.Layer {
                 sp.width = (0, CmnLib_1.argChk_Num)(hArg, 'width', 0);
                 sp.height = (0, CmnLib_1.argChk_Num)(hArg, 'height', 0);
             }
+            __classPrivateFieldSet(this, _GrpLayer_width, sp.width, "f");
+            __classPrivateFieldSet(this, _GrpLayer_height, sp.height, "f");
             Layer_1.Layer.setXY(sp, hArg, this.spLay, true);
             this.setSp(sp);
         }, isStop => {
@@ -73736,6 +73740,8 @@ class GrpLayer extends Layer_1.Layer {
             resolve(false);
         return ret;
     }
+    get width() { return __classPrivateFieldGet(this, _GrpLayer_width, "f"); }
+    get height() { return __classPrivateFieldGet(this, _GrpLayer_height, "f"); }
     static csv2Sprites(csv, parent, fncFirstComp, fncAllComp = () => { }) {
         let needLoad = false;
         if (csv.slice(0, 5) === 'data:') {
@@ -73870,7 +73876,7 @@ class GrpLayer extends Layer_1.Layer {
     showDesignCast() { __classPrivateFieldGet(this, _GrpLayer_idc, "f").visible = true; }
 }
 exports.GrpLayer = GrpLayer;
-_a = GrpLayer, _GrpLayer_idc = new WeakMap(), _GrpLayer_csvFn = new WeakMap(), _GrpLayer_sBkFn = new WeakMap(), _GrpLayer_sBkFace = new WeakMap(), _GrpLayer_sortAFrameName = function _GrpLayer_sortAFrameName(aFn) {
+_a = GrpLayer, _GrpLayer_idc = new WeakMap(), _GrpLayer_csvFn = new WeakMap(), _GrpLayer_sBkFn = new WeakMap(), _GrpLayer_sBkFace = new WeakMap(), _GrpLayer_width = new WeakMap(), _GrpLayer_height = new WeakMap(), _GrpLayer_sortAFrameName = function _GrpLayer_sortAFrameName(aFn) {
     const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
     if (!a_base_name)
         return;

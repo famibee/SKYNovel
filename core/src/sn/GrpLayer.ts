@@ -35,15 +35,15 @@ interface IResAniSpr {
 }
 
 export class GrpLayer extends Layer {
-	static	readonly	#elc		= new EventListenerCtn;
+	static	readonly	#elc	= new EventListenerCtn;
 
 	static	#hFace	: Ihface	= {};
 
 	static	#main	: IMain;
-	static	#cfg		: Config;
-	static	#sys		: SysBase;
-	static	#glbVol	: number	= 1;
-	static	#movVol	: number	= 1;
+	static	#cfg	: Config;
+	static	#sys	: SysBase;
+	static	#glbVol	= 1;
+	static	#movVol	= 1;
 	static	init(main: IMain, cfg: Config, sys: SysBase, sndMng: SoundMng): void {
 		GrpLayer.#main = main;
 		GrpLayer.#cfg = cfg;
@@ -120,6 +120,8 @@ export class GrpLayer extends Layer {
 					sp.width = argChk_Num(hArg, 'width', 0);
 					sp.height = argChk_Num(hArg, 'height', 0);
 				}
+				this.#width = sp.width;
+				this.#height = sp.height;
 				Layer.setXY(sp, hArg, this.spLay, true);
 			//	if (hArg.page === 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
@@ -133,6 +135,10 @@ export class GrpLayer extends Layer {
 		if (! ret) resolve(false);
 		return ret;
 	}
+	#width = 0;
+	#height = 0;
+	override	get	width() {return this.#width}
+	override	get	height() {return this.#height}
 
 //	static #ldrHFn: {[name: string]: 1} = {};
 	static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {

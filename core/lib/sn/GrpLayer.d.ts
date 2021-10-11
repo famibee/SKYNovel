@@ -27,6 +27,8 @@ export declare class GrpLayer extends Layer {
     };
     readonly lay: (hArg: HArg) => boolean;
     private laySub;
+    get width(): number;
+    get height(): number;
     static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
     static hFn2VElm: {
         [name: string]: HTMLVideoElement;
