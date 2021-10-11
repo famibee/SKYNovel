@@ -1,3 +1,10 @@
+## [1.19.2](https://github.com/famibee/SKYNovel/compare/v1.19.1...v1.19.2) (2021-10-11)
+
+
+### Bug Fixes
+
+* 画像レイヤの width, height の値異常を修正 ([6864c54](https://github.com/famibee/SKYNovel/commit/6864c54079b2a320ff06eb7cbe39db7b21d96442))
+
 - fix: 画像レイヤの const.sn.lay[lay].fore.width, height の値異常を修正
 
 
