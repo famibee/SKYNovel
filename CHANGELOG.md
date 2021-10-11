@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/famibee/SKYNovel/compare/v1.19.0...v1.19.1) (2021-10-11)
+
+
+### Bug Fixes
+
+* タグ[page]移動時、[tsy]処理を止めるように ([89b26d8](https://github.com/famibee/SKYNovel/commit/89b26d8e8c3c04edc823fed006ec170b84e7452c))
+
 - fix: タグ[page]移動時、[tsy]処理を止めるように
 - fix: [wait][wv][wait_tsy][wf][ws]では[page]用の停止位置を記録しないように
 - fix: アプリ版、ウインドウを少し移動すると不具合
