@@ -1884,7 +1884,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 	[p]などの停止位置を「ページ」とみなし、既読ページを戻ったり進んだりできる。<br/>
 	（レイヤの .page とページ移動の [page] の言葉混乱注意）<br/>
-	・save:sn.doRecLog の影響を受け、true の状態でのみ、[p][s]など（[l][waitclick]は対象外）で停止した際にそのページ状態の記録を行う。<br/>
+	・save:sn.doRecLog の影響を受け、true の状態でのみ、[p][s]など。（[l][waitclick][wait][wv][wait_tsy][wf][ws]は対象外）で停止した際にそのページ状態の記録を行う。<br/>
 	・save変数も復元する。<br/>
 	　　・前述二項の理由により、冒頭ページに &save:sn.doRecLog = true と [record_place]が必須。<br/>
 	　　　（save変数復元で &save:sn.doRecLog = false になるケースがある）<br/>

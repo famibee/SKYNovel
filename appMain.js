@@ -23580,6 +23580,8 @@ _a = appMain, _appMain_dsp = new WeakMap(), _appMain_screenRX = new WeakMap(), _
     }
     __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, false, p[0], p[1], 0, 0);
 }, _appMain_window = function _appMain_window(centering, x, y, w, h) {
+    if (__classPrivateFieldGet(this, _appMain_isMovingWin, "f"))
+        return;
     __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
     if (centering) {
         const s = this.bw.getPosition();

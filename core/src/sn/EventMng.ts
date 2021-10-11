@@ -288,14 +288,14 @@ export class EventMng implements IEvtMng {
 
 	waitEvent(onFinish: ()=> void, canskip = true, global = false): boolean {
 		if (canskip && global) throw `canskipとglobalを同時にtrue指定できません`;
-
-		this.scrItr.recodePage();
+		//this.scrItr.recodePage();	// [wait][wv][wait_tsy][wf][ws]ではやらない
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all')
-			&& ! this.scrItr.isNextKidoku) this.#fncCancelSkip();	// 未読で停止
-			else {onFinish(); return false;}	// 既読スキップ
+			if (this.val.getVal('tmp:sn.skip.all')	// 既読スキップ
+			|| this.scrItr.isNextKidoku) {onFinish(); return false;}
+
+			this.#fncCancelSkip();	// 未読で停止
 		}
 
 		this.#waitEventBase(onFinish, canskip, global);
@@ -490,6 +490,7 @@ export class EventMng implements IEvtMng {
 		const h = glb ?this.#hGlobalEvt2Fnc :this.#hLocalEvt2Fnc;
 		for (const nm in h) this.#clear_eventer(nm, h[nm]);
 		if (glb) this.#hGlobalEvt2Fnc = {}; else this.#hLocalEvt2Fnc = {};
+		this.#isWait = false;	// ScriptIterator からコールされた時用
 
 		return false;
 	}

@@ -72419,15 +72419,13 @@ class EventMng {
     waitEvent(onFinish, canskip = true, global = false) {
         if (canskip && global)
             throw `canskipとglobalを同時にtrue指定できません`;
-        this.scrItr.recodePage();
         if (this.val.getVal('tmp:sn.skip.enabled')) {
-            if (!this.val.getVal('tmp:sn.skip.all')
-                && !this.scrItr.isNextKidoku)
-                __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
-            else {
+            if (this.val.getVal('tmp:sn.skip.all')
+                || this.scrItr.isNextKidoku) {
                 onFinish();
                 return false;
             }
+            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
         }
         __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, onFinish, canskip, global);
         return true;
@@ -72676,6 +72674,7 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint 
         __classPrivateFieldSet(this, _EventMng_hGlobalEvt2Fnc, {}, "f");
     else
         __classPrivateFieldSet(this, _EventMng_hLocalEvt2Fnc, {}, "f");
+    __classPrivateFieldSet(this, _EventMng_isWait, false, "f");
     return false;
 }, _EventMng_clear_eventer = function _EventMng_clear_eventer(KeY, e2f) {
     if (KeY.slice(0, 4) !== 'dom=')
@@ -74513,10 +74512,11 @@ void main(void) {
         RubySpliter_1.RubySpliter.destroy();
         TxtStage_1.TxtStage.destroy();
         __classPrivateFieldGet(this, _LayerMng_frmMng, "f").destroy();
-        (0, tween_js_1.removeAll)();
+        this.stopAllTw();
         this.appPixi.ticker.remove(__classPrivateFieldGet(this, _LayerMng_fncTicker, "f"));
         __classPrivateFieldSet(LayerMng, _a, 10, "f", _LayerMng_msecChWait);
     }
+    stopAllTw() { __classPrivateFieldSet(this, _LayerMng_hTwInf, {}, "f"); (0, tween_js_1.removeAll)(); }
     clearBreak() {
         if (!this.getCurrentTxtlayFore())
             return;
@@ -77007,7 +77007,6 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         throw `place【${place}】は存在しません`;
     return __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_loadFromMark).call(this, hArg, mark);
 }, _ScriptIterator_loadFromMark = function _ScriptIterator_loadFromMark(hArg, mark, reload_sound = true) {
-    __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(true);
     this.hTag.clear_event({});
     this.val.mark2save(mark);
     this.val.setMp({});
@@ -77030,6 +77029,8 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
     __classPrivateFieldSet(this, _ScriptIterator_aIfStk, [...__classPrivateFieldGet(this, _ScriptIterator_mark, "f").aIfStk], "f");
     __classPrivateFieldSet(this, _ScriptIterator_aCallStk, [], "f");
+    __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(true);
+    __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").stopAllTw();
     if ('index' in hArg) {
         __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").playback(__classPrivateFieldGet(this, _ScriptIterator_mark, "f").hPages, () => {
             __classPrivateFieldGet(this, _ScriptIterator_layMng, "f").cover(false);
@@ -77464,6 +77465,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
         sound_1.Sound.from(o);
     });
 }, _SoundMng_stop_allse = function _SoundMng_stop_allse() {
+    sound_1.sound.removeAll();
     for (const buf in __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f"))
         __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, { buf });
     __classPrivateFieldSet(this, _SoundMng_hSndBuf, {}, "f");

@@ -258,10 +258,12 @@ export class LayerMng implements IGetFrm {
 
 		this.#frmMng.destroy();
 
-		removeAll();
+		this.stopAllTw();
 		this.appPixi.ticker.remove(this.#fncTicker);
 		LayerMng.#msecChWait = 10;
 	}
+	// トゥイーン全停止
+	stopAllTw() {this.#hTwInf = {}; removeAll();}
 
 
 	// 既存の全文字レイヤの実際のバック不透明度、を再計算
@@ -758,7 +760,7 @@ void main(void) {
 
 
 	// トゥイーン開始
-	#hTwInf	: {[name: string]: ITwInf}	= {};
+	#hTwInf	: {[tw_nm: string]: ITwInf}	= {};
 	#tsy(hArg: HArg) {
 		if (! hArg.layer) throw 'layerは必須です';
 

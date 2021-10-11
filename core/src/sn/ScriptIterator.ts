@@ -1156,7 +1156,6 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		return this.#loadFromMark(hArg, mark);
 	}
 	#loadFromMark(hArg: HArg, mark: IMark, reload_sound = true) {
-		this.#layMng.cover(true);
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
 		this.val.setMp({});
@@ -1181,6 +1180,9 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 		this.#aIfStk = [...this.#mark.aIfStk];
 		this.#aCallStk = [];
+
+		this.#layMng.cover(true);
+		this.#layMng.stopAllTw();
 		if ('index' in hArg) {	// #page 用
 //console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${hArg.fn ?? fn} idx:${hArg.index ?? idx}`);
 			this.#layMng.playback(this.#mark.hPages, ()=> {
@@ -1190,8 +1192,8 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			});
 			return true;
 		}
-		delete this.#hScript[fn];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
 
+		delete this.#hScript[fn];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
 		this.#layMng.playback(this.#mark.hPages, 'label' in hArg
 			? ()=> {
 				this.#layMng.cover(false);

@@ -101,6 +101,7 @@ export class appMain {
 	}
 
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
+		if (this.#isMovingWin) return;
 		this.#isMovingWin = true;
 		if (centering) {
 			const s = this.bw.getPosition();

@@ -34,6 +34,7 @@ export declare class LayerMng implements IGetFrm {
     setEvtMng(evtMng: IEvtMng): void;
     before_destroy(): void;
     destroy(): void;
+    stopAllTw(): void;
     goTxt: () => void;
     breakLine: () => void;
     breakPage: () => void;
