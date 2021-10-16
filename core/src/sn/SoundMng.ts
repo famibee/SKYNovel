@@ -310,13 +310,12 @@ export class SoundMng {
 			if (sp_nm) this.#playseSub(fn, o);
 			else if (snd.isPlayable) {
 				const ab = snd.options.source;
-				if (! (ab instanceof ArrayBuffer) || ab.byteLength === 0) {
-					this.#playseSub(fn, o);
-				}
+				if (! (ab instanceof ArrayBuffer)
+					|| ab.byteLength === 0) snd.play(o);
 				else oSb.snd = Sound.from({
 					...o,
 					url		: snd.options.url,
-					source	: snd.options.source,
+					source	: ab,
 				});
 			}
 			return false;
@@ -325,7 +324,7 @@ export class SoundMng {
 		const join = argChk_Boolean(hArg, 'join', true);
 		if (join) {
 			const old = o.loaded;
-			o.loaded = (e, snd)=> {this.main.resume(); old?.(e, snd)};
+			o.loaded = (e, snd)=> {old?.(e, snd); this.main.resume()};
 		}
 		this.#playseSub(fn, o);
 
@@ -336,7 +335,8 @@ export class SoundMng {
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
 		if (url.slice(-4) !== '.bin') {
 			o.url = url;
-			Sound.from(o);
+			const snd = Sound.from(o);
+			if (! o.loop) sound.add(fn, snd);	// キャッシュする
 			return;
 		}
 
@@ -348,7 +348,8 @@ export class SoundMng {
 		})
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;
-			Sound.from(o);
+			const snd = Sound.from(o);
+			if (! o.loop) sound.add(fn, snd);	// キャッシュする
 		});
 	}
 	#initVol = ()=> {
@@ -356,14 +357,15 @@ export class SoundMng {
 		this.#initVol = ()=> {};
 	};
 
+	clearCache() {sound.removeAll();}
+
 	// 全効果音再生の停止
 	#stop_allse() {
-//		sound.pauseAll();
-//		sound.stopAll();
-		sound.removeAll();	// NOTE: 連打でも残る。なにかオブジェクトが残っている
-
 		for (const buf in this.#hSndBuf) this.#stopse({buf});
 		this.#hSndBuf = {};
+
+		sound.stopAll();
+
 		return false;
 	}
 	// BGM 演奏の停止（loadから使うのでマクロ化禁止）

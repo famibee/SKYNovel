@@ -11,6 +11,7 @@ export declare class SoundMng {
     constructor(cfg: Config, hTag: IHTag, val: IVariable, main: IMain, sys: SysBase);
     setEvtMng(evtMng: IEvtMng): void;
     setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume): void;
+    clearCache(): void;
     loadAheadSnd(hArg: HArg): void;
     playLoopFromSaveObj(): void;
 }

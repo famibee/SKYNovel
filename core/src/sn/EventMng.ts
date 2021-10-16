@@ -656,10 +656,12 @@ export class EventMng implements IEvtMng {
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage();
 
+		const fnc = ()=> {this.sndMng.clearCache(); this.main.resume()};
 		this.#waitEventBase(
-			this.layMng.getCurrentTxtlayFore() && argChk_Boolean(hArg, 'er', false)
-				? ()=> {this.hTag.er(hArg); this.main.resume();}
-				: ()=> this.main.resume(),
+			this.layMng.getCurrentTxtlayFore()
+			&& argChk_Boolean(hArg, 'er', false)
+				? ()=> {this.hTag.er(hArg); fnc();}
+				: fnc,
 		);
 		return true;	// waitEventBase()したらreturn true;
 	}

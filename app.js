@@ -70091,9 +70091,11 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint 
         });
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true))
         this.layMng.breakPage();
-    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, this.layMng.getCurrentTxtlayFore() && (0, CmnLib_1.argChk_Boolean)(hArg, 'er', false)
-        ? () => { this.hTag.er(hArg); this.main.resume(); }
-        : () => this.main.resume());
+    const fnc = () => { this.sndMng.clearCache(); this.main.resume(); };
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, this.layMng.getCurrentTxtlayFore()
+        && (0, CmnLib_1.argChk_Boolean)(hArg, 'er', false)
+        ? () => { this.hTag.er(hArg); fnc(); }
+        : fnc);
     return true;
 }, _EventMng_set_cancel_skip = function _EventMng_set_cancel_skip() {
     __classPrivateFieldSet(this, _EventMng_fncCancelSkip, () => {
@@ -74456,6 +74458,7 @@ class SoundMng {
         this.val.setVal_Nochk('sys', 'sn.sound.global_volume', this.val.getVal('sys:sn.sound.global_volume', 1));
         this.val.setVal_Nochk('sys', 'sn.sound.movie_volume', this.val.getVal('sys:sn.sound.movie_volume', 1));
     }
+    clearCache() { sound_1.sound.removeAll(); }
     loadAheadSnd(hArg) {
         [hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn => {
             if (!fn || sound_1.sound.exists(fn))
@@ -74713,14 +74716,14 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
             __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
         else if (snd.isPlayable) {
             const ab = snd.options.source;
-            if (!(ab instanceof ArrayBuffer) || ab.byteLength === 0) {
-                __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
-            }
+            if (!(ab instanceof ArrayBuffer)
+                || ab.byteLength === 0)
+                snd.play(o);
             else
                 oSb.snd = sound_1.Sound.from({
                     ...o,
                     url: snd.options.url,
-                    source: snd.options.source,
+                    source: ab,
                 });
         }
         return false;
@@ -74728,7 +74731,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     const join = (0, CmnLib_1.argChk_Boolean)(hArg, 'join', true);
     if (join) {
         const old = o.loaded;
-        o.loaded = (e, snd) => { this.main.resume(); old?.(e, snd); };
+        o.loaded = (e, snd) => { old?.(e, snd); this.main.resume(); };
     }
     __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
     return join;
@@ -74736,7 +74739,9 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     const url = this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND);
     if (url.slice(-4) !== '.bin') {
         o.url = url;
-        sound_1.Sound.from(o);
+        const snd = sound_1.Sound.from(o);
+        if (!o.loop)
+            sound_1.sound.add(fn, snd);
         return;
     }
     (new pixi_js_1.Loader()).add({ name: fn, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER, })
@@ -74747,13 +74752,15 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     })
         .load((_ldr, hRes) => {
         o.source = hRes[fn]?.data;
-        sound_1.Sound.from(o);
+        const snd = sound_1.Sound.from(o);
+        if (!o.loop)
+            sound_1.sound.add(fn, snd);
     });
 }, _SoundMng_stop_allse = function _SoundMng_stop_allse() {
-    sound_1.sound.removeAll();
     for (const buf in __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f"))
         __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, { buf });
     __classPrivateFieldSet(this, _SoundMng_hSndBuf, {}, "f");
+    sound_1.sound.stopAll();
     return false;
 }, _SoundMng_stopbgm = function _SoundMng_stopbgm(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg); }, _SoundMng_stopse = function _SoundMng_stopse(hArg) {
     const buf = hArg.buf ?? 'SE';
