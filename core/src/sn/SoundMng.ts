@@ -358,6 +358,8 @@ export class SoundMng {
 
 	// 全効果音再生の停止
 	#stop_allse() {
+//		sound.pauseAll();
+//		sound.stopAll();
 		sound.removeAll();	// NOTE: 連打でも残る。なにかオブジェクトが残っている
 
 		for (const buf in this.#hSndBuf) this.#stopse({buf});
