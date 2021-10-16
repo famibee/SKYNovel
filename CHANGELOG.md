@@ -1,3 +1,10 @@
+## [1.19.4](https://github.com/famibee/SKYNovel/compare/v1.19.3...v1.19.4) (2021-10-16)
+
+
+### Bug Fixes
+
+* 音声ファイルにキャッシュが利いてなかった件 ([19237ff](https://github.com/famibee/SKYNovel/commit/19237ff0395122e0dd6b98b7697aa84bb7a206b5))
+
 - fix: 音声ファイルにキャッシュが利いてなかった件
 - fix: ループしない音声をキャッシュするように
 - fix: [p]停止からの復帰で音声キャッシュをクリアするように
