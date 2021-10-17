@@ -1,3 +1,6 @@
+- fix: タグ[page]移動時、ページが変わらない場合はなにもしないように
+
+
 ## [1.19.4](https://github.com/famibee/SKYNovel/compare/v1.19.3...v1.19.4) (2021-10-16)
 
 

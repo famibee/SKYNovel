@@ -700,6 +700,7 @@ export class ScriptIterator {
 
 		const to = hArg.to;
 		if (! to) throw 'clearかtoは必須です';
+		const oldPos = this.#posAPageLog;
 		switch (to) {
 			case 'prev':
 				if (this.#posAPageLog > 0) --this.#posAPageLog;
@@ -712,6 +713,8 @@ export class ScriptIterator {
 
 			default:	throw `属性to「${to}」は異常です`;
 		}
+		if (oldPos === this.#posAPageLog) return false;
+
 		const o = this.#aPageLog[this.#posAPageLog];
 		const {fn, idx} = this.#nowScrIdx();
 //console.log(`fn:ScriptIterator.ts #page to:${to} key=${o.key} retFn:${o.retFn} retIdx:${o.retIdx} pos:${this.#posAPageLog}`);

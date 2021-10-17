@@ -73978,6 +73978,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     const to = hArg.to;
     if (!to)
         throw 'clearかtoは必須です';
+    const oldPos = __classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f");
     switch (to) {
         case 'prev':
             if (__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f") > 0)
@@ -73990,6 +73991,8 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
             break;
         default: throw `属性to「${to}」は異常です`;
     }
+    if (oldPos === __classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f"))
+        return false;
     const o = __classPrivateFieldGet(this, _ScriptIterator_aPageLog, "f")[__classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f")];
     const { fn, idx } = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_nowScrIdx).call(this);
     if (o.key === idx + ':' + fn)
@@ -81101,9 +81104,6 @@ Object.assign(lookup, {
     io: lookup,
     connect: lookup,
 });
-if (true) {
-    module.exports = lookup;
-}
 /**
  * Protocol version.
  *
@@ -81111,6 +81111,8 @@ if (true) {
  */
 var socket_io_parser_1 = __webpack_require__(/*! socket.io-parser */ "./node_modules/socket.io-parser/build/cjs/index.js");
 Object.defineProperty(exports, "protocol", ({ enumerable: true, get: function () { return socket_io_parser_1.protocol; } }));
+
+module.exports = lookup;
 
 
 /***/ }),
