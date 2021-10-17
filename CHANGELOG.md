@@ -1,3 +1,10 @@
+## [1.19.5](https://github.com/famibee/SKYNovel/compare/v1.19.4...v1.19.5) (2021-10-17)
+
+
+### Bug Fixes
+
+* タグ[page]移動時、ページが変わらない場合はなにもしないように ([462db60](https://github.com/famibee/SKYNovel/commit/462db6048d2b3c08cda77f599bfa399ff08fd7d9))
+
 - fix: タグ[page]移動時、ページが変わらない場合はなにもしないように
 
 
