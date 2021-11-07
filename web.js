@@ -2599,8 +2599,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/accessibility - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/accessibility - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -2883,8 +2883,10 @@ var AccessibilityManager = /** @class */ (function () {
             displayObject.renderId = this.renderId;
         }
         var children = displayObject.children;
-        for (var i = 0; i < children.length; i++) {
-            this.updateAccessibleObjects(children[i]);
+        if (children) {
+            for (var i = 0; i < children.length; i++) {
+                this.updateAccessibleObjects(children[i]);
+            }
         }
     };
     /**
@@ -3163,8 +3165,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/app - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/app - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -3460,8 +3462,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /*!
- * @pixi/compressed-textures - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/compressed-textures - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/compressed-textures is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -4722,8 +4724,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "WRAP_MODES": () => (/* binding */ WRAP_MODES)
 /* harmony export */ });
 /*!
- * @pixi/constants - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/constants - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5104,6 +5106,7 @@ var ALPHA_MODES;
     ALPHA_MODES[ALPHA_MODES["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+    ALPHA_MODES[ALPHA_MODES["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
 })(ALPHA_MODES || (ALPHA_MODES = {}));
 /**
  * Configure whether filter textures are cleared after binding.
@@ -5334,8 +5337,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_ticker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/ticker */ "./node_modules/@pixi/ticker/dist/esm/ticker.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/core - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/core - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -7111,7 +7114,7 @@ var SVGResource = /** @class */ (function (_super) {
                 resolve(_this);
             };
             // Convert SVG inline string to data-uri
-            if ((/^\<svg/).test(_this.svg.trim())) {
+            if (SVGResource.SVG_XML.test(_this.svg.trim())) {
                 if (!btoa) {
                     throw new Error('Your browser doesn\'t support base64 conversions.');
                 }
@@ -8325,6 +8328,14 @@ var Texture = /** @class */ (function (_super) {
         if (isFrame) {
             cacheId = source;
         }
+        else if (source instanceof BaseTexture) {
+            if (!source.cacheId) {
+                var prefix = (options && options.pixiIdPrefix) || 'pixiid';
+                source.cacheId = prefix + "-" + (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_2__.uid)();
+                BaseTexture.addToCache(source, source.cacheId);
+            }
+            cacheId = source.cacheId;
+        }
         else {
             if (!source._pixiId) {
                 var prefix = (options && options.pixiIdPrefix) || 'pixiid';
@@ -8337,13 +8348,17 @@ var Texture = /** @class */ (function (_super) {
         if (isFrame && strict && !texture) {
             throw new Error("The cacheId \"" + cacheId + "\" does not exist in TextureCache.");
         }
-        if (!texture) {
+        if (!texture && !(source instanceof BaseTexture)) {
             if (!options.resolution) {
                 options.resolution = (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_2__.getResolutionOfUrl)(source);
             }
             texture = new Texture(new BaseTexture(source, options));
             texture.baseTexture.cacheId = cacheId;
             BaseTexture.addToCache(texture.baseTexture, cacheId);
+            Texture.addToCache(texture, cacheId);
+        }
+        else if (!texture && (source instanceof BaseTexture)) {
+            texture = new Texture(source);
             Texture.addToCache(texture, cacheId);
         }
         // lets assume its a base texture!
@@ -8649,37 +8664,18 @@ removeAllHandlers(Texture.WHITE.baseTexture);
  * renderer.render(sprite, {renderTexture});  // Renders to center of RenderTexture
  * ```
  *
- * @class
- * @extends PIXI.Texture
  * @memberof PIXI
  */
 var RenderTexture = /** @class */ (function (_super) {
     __extends(RenderTexture, _super);
     /**
-     * @param {PIXI.BaseRenderTexture} baseRenderTexture - The base texture object that this texture uses
-     * @param {PIXI.Rectangle} [frame] - The rectangle frame of the texture to show
+     * @param baseRenderTexture - The base texture object that this texture uses.
+     * @param frame - The rectangle frame of the texture to show.
      */
     function RenderTexture(baseRenderTexture, frame) {
         var _this = _super.call(this, baseRenderTexture, frame) || this;
-        /**
-         * This will let the renderer know if the texture is valid. If it's not then it cannot be rendered.
-         *
-         * @member {boolean}
-         */
         _this.valid = true;
-        /**
-         * Stores `sourceFrame` when this texture is inside current filter stack.
-         * You can read it inside filters.
-         *
-         * @readonly
-         * @member {PIXI.Rectangle}
-         */
         _this.filterFrame = null;
-        /**
-         * The key for pooled texture of FilterSystem
-         * @protected
-         * @member {string}
-         */
         _this.filterPoolKey = null;
         _this.updateUvs();
         return _this;
@@ -8687,7 +8683,7 @@ var RenderTexture = /** @class */ (function (_super) {
     Object.defineProperty(RenderTexture.prototype, "framebuffer", {
         /**
          * Shortcut to `this.baseTexture.framebuffer`, saves baseTexture cast.
-         * @member {PIXI.Framebuffer}
+         *
          * @readonly
          */
         get: function () {
@@ -8700,7 +8696,6 @@ var RenderTexture = /** @class */ (function (_super) {
         /**
          * Shortcut to `this.framebuffer.multisample`.
          *
-         * @member {PIXI.MSAA_QUALITY}
          * @default PIXI.MSAA_QUALITY.NONE
          */
         get: function () {
@@ -8715,9 +8710,9 @@ var RenderTexture = /** @class */ (function (_super) {
     /**
      * Resizes the RenderTexture.
      *
-     * @param {number} desiredWidth - The desired width to resize to.
-     * @param {number} desiredHeight - The desired height to resize to.
-     * @param {boolean} [resizeBaseTexture=true] - Should the baseTexture.width and height values be resized as well?
+     * @param desiredWidth - The desired width to resize to.
+     * @param desiredHeight - The desired height to resize to.
+     * @param resizeBaseTexture - Should the baseTexture.width and height values be resized as well?
      */
     RenderTexture.prototype.resize = function (desiredWidth, desiredHeight, resizeBaseTexture) {
         if (resizeBaseTexture === void 0) { resizeBaseTexture = true; }
@@ -8736,7 +8731,7 @@ var RenderTexture = /** @class */ (function (_super) {
     /**
      * Changes the resolution of baseTexture, but does not change framebuffer size.
      *
-     * @param {number} resolution - The new resolution to apply to RenderTexture
+     * @param resolution - The new resolution to apply to RenderTexture
      */
     RenderTexture.prototype.setResolution = function (resolution) {
         var baseTexture = this.baseTexture;
@@ -8771,44 +8766,33 @@ var RenderTexture = /** @class */ (function (_super) {
 }(Texture));
 
 /**
- * Experimental!
+ * Texture pool, used by FilterSystem and plugins.
  *
- * Texture pool, used by FilterSystem and plugins
  * Stores collection of temporary pow2 or screen-sized renderTextures
  *
  * If you use custom RenderTexturePool for your filters, you can use methods
  * `getFilterTexture` and `returnFilterTexture` same as in
  *
- * @class
  * @memberof PIXI
  */
 var RenderTexturePool = /** @class */ (function () {
     /**
-     * @param {object} [textureOptions] - options that will be passed to BaseRenderTexture constructor
+     * @param textureOptions - options that will be passed to BaseRenderTexture constructor
      * @param {PIXI.SCALE_MODES} [textureOptions.scaleMode] - See {@link PIXI.SCALE_MODES} for possible values.
      */
     function RenderTexturePool(textureOptions) {
         this.texturePool = {};
         this.textureOptions = textureOptions || {};
-        /**
-         * Allow renderTextures of the same size as screen, not just pow2
-         *
-         * Automatically sets to true after `setScreenSize`
-         *
-         * @member {boolean}
-         * @default false
-         */
         this.enableFullScreen = false;
         this._pixelsWidth = 0;
         this._pixelsHeight = 0;
     }
     /**
-     * creates of texture with params that were specified in pool constructor
+     * Creates texture with params that were specified in pool constructor.
      *
-     * @param {number} realWidth - width of texture in pixels
-     * @param {number} realHeight - height of texture in pixels
-     * @param {PIXI.MSAA_QUALITY} [multisample=PIXI.MSAA_QUALITY.NONE] - number of samples of the framebuffer
-     * @returns {RenderTexture}
+     * @param realWidth - Width of texture in pixels.
+     * @param realHeight - Height of texture in pixels.
+     * @param multisample - Number of samples of the framebuffer.
      */
     RenderTexturePool.prototype.createTexture = function (realWidth, realHeight, multisample) {
         if (multisample === void 0) { multisample = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MSAA_QUALITY.NONE; }
@@ -8823,12 +8807,11 @@ var RenderTexturePool = /** @class */ (function () {
     /**
      * Gets a Power-of-Two render texture or fullScreen texture
      *
-     * @protected
-     * @param {number} minWidth - The minimum width of the render texture.
-     * @param {number} minHeight - The minimum height of the render texture.
-     * @param {number} [resolution=1] - The resolution of the render texture.
-     * @param {PIXI.MSAA_QUALITY} [multisample=PIXI.MSAA_QUALITY.NONE] - Number of samples of the render texture.
-     * @return {PIXI.RenderTexture} The new render texture.
+     * @param minWidth - The minimum width of the render texture.
+     * @param minHeight - The minimum height of the render texture.
+     * @param resolution - The resolution of the render texture.
+     * @param multisample - Number of samples of the render texture.
+     * @return The new render texture.
      */
     RenderTexturePool.prototype.getOptimalTexture = function (minWidth, minHeight, resolution, multisample) {
         if (resolution === void 0) { resolution = 1; }
@@ -8863,11 +8846,11 @@ var RenderTexturePool = /** @class */ (function () {
      *
      * `getFilterTexture(input, 0.5)` or `getFilterTexture(0.5, input)`
      *
-     * @param {PIXI.RenderTexture} input - renderTexture from which size and resolution will be copied
-     * @param {number} [resolution] - override resolution of the renderTexture
+     * @param input - renderTexture from which size and resolution will be copied
+     * @param resolution - override resolution of the renderTexture
      *  It overrides, it does not multiply
-     * @param {PIXI.MSAA_QUALITY} [multisample=PIXI.MSAA_QUALITY.NONE] - number of samples of the renderTexture
-     * @returns {PIXI.RenderTexture}
+     * @param multisample - number of samples of the renderTexture
+     * @returns
      */
     RenderTexturePool.prototype.getFilterTexture = function (input, resolution, multisample) {
         var filterTexture = this.getOptimalTexture(input.width, input.height, resolution || input.resolution, multisample || _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MSAA_QUALITY.NONE);
@@ -8876,7 +8859,8 @@ var RenderTexturePool = /** @class */ (function () {
     };
     /**
      * Place a render texture back into the pool.
-     * @param {PIXI.RenderTexture} renderTexture - The renderTexture to free
+     *
+     * @param renderTexture - The renderTexture to free
      */
     RenderTexturePool.prototype.returnTexture = function (renderTexture) {
         var key = renderTexture.filterPoolKey;
@@ -8884,16 +8868,17 @@ var RenderTexturePool = /** @class */ (function () {
         this.texturePool[key].push(renderTexture);
     };
     /**
-     * Alias for returnTexture, to be compliant with FilterSystem interface
-     * @param {PIXI.RenderTexture} renderTexture - The renderTexture to free
+     * Alias for returnTexture, to be compliant with FilterSystem interface.
+     *
+     * @param renderTexture - The renderTexture to free
      */
     RenderTexturePool.prototype.returnFilterTexture = function (renderTexture) {
         this.returnTexture(renderTexture);
     };
     /**
-     * Clears the pool
+     * Clears the pool.
      *
-     * @param {boolean} [destroyTextures=true] - destroy all stored textures
+     * @param destroyTextures - Destroy all stored textures.
      */
     RenderTexturePool.prototype.clear = function (destroyTextures) {
         destroyTextures = destroyTextures !== false;
@@ -8915,7 +8900,7 @@ var RenderTexturePool = /** @class */ (function () {
      *
      * Size is measured in pixels, `renderer.view` can be passed here, not `renderer.screen`
      *
-     * @param {PIXI.ISize} size - Initial size of screen
+     * @param size - Initial size of screen.
      */
     RenderTexturePool.prototype.setScreenSize = function (size) {
         if (size.width === this._pixelsWidth
@@ -8941,8 +8926,7 @@ var RenderTexturePool = /** @class */ (function () {
     /**
      * Key that is used to store fullscreen renderTextures in a pool
      *
-     * @static
-     * @const {number}
+     * @constant
      */
     RenderTexturePool.SCREEN_KEY = -1;
     return RenderTexturePool;
@@ -8964,7 +8948,7 @@ var Attribute = /** @class */ (function () {
      * @param {Number} [size=0] - the size of the attribute. If you have 2 floats per vertex (eg position x and y) this would be 2.
      * @param {Boolean} [normalized=false] - should the data be normalized.
      * @param {PIXI.TYPES} [type=PIXI.TYPES.FLOAT] - what type of number is the attribute. Check {@link PIXI.TYPES} to see the ones available
-     * @param {Number} [stride=0] - How far apart (in floats) the start of each value is. (used for interleaving data)
+     * @param {Number} [stride=0] - How far apart, in bytes, the start of each value is. (used for interleaving data)
      * @param {Number} [start=0] - How far into the array to start reading values (used for interleaving data)
      */
     function Attribute(buffer, size, normalized, type, stride, start, instance) {
@@ -8993,7 +8977,7 @@ var Attribute = /** @class */ (function () {
      * @param {Number} [size=0] - the size of the attribute. If you have 2 floats per vertex (eg position x and y) this would be 2
      * @param {Boolean} [normalized=false] - should the data be normalized.
      * @param {PIXI.TYPES} [type=PIXI.TYPES.FLOAT] - what type of number is the attribute. Check {@link PIXI.TYPES} to see the ones available
-     * @param {Number} [stride=0] - How far apart (in floats) the start of each value is. (used for interleaving data)
+     * @param {Number} [stride=0] - How far apart, in bytes, the start of each value is. (used for interleaving data)
      *
      * @returns {PIXI.Attribute} A new {@link PIXI.Attribute} based on the information provided
      */
@@ -9206,7 +9190,7 @@ var Geometry = /** @class */ (function () {
     * @param {Number} [size=0] - the size of the attribute. If you have 2 floats per vertex (eg position x and y) this would be 2
     * @param {Boolean} [normalized=false] - should the data be normalized.
     * @param {PIXI.TYPES} [type=PIXI.TYPES.FLOAT] - what type of number is the attribute. Check {PIXI.TYPES} to see the ones available
-    * @param {Number} [stride] - How far apart (in floats) the start of each value is. (used for interleaving data)
+    * @param {Number} [stride] - How far apart, in bytes, the start of each value is. (used for interleaving data)
     * @param {Number} [start] - How far into the array to start reading values (used for interleaving data)
     * @param {boolean} [instance=false] - Instancing flag
     *
@@ -10225,20 +10209,13 @@ var FilterSystem = /** @class */ (function () {
  * Base for a common object renderer that can be used as a
  * system renderer plugin.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var ObjectRenderer = /** @class */ (function () {
     /**
-     * @param {PIXI.Renderer} renderer - The renderer this manager works for.
+     * @param renderer - The renderer this manager works for.
      */
     function ObjectRenderer(renderer) {
-        /**
-         * The renderer this manager works for.
-         *
-         * @member {PIXI.Renderer}
-         */
         this.renderer = renderer;
     }
     /**
@@ -10286,33 +10263,21 @@ var ObjectRenderer = /** @class */ (function () {
 /**
  * System plugin to the renderer to manage batching.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var BatchSystem = /** @class */ (function () {
     /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
+     * @param renderer - The renderer this System works for.
      */
     function BatchSystem(renderer) {
         this.renderer = renderer;
-        /**
-         * An empty renderer.
-         *
-         * @member {PIXI.ObjectRenderer}
-         */
         this.emptyRenderer = new ObjectRenderer(renderer);
-        /**
-         * The currently active ObjectRenderer.
-         *
-         * @member {PIXI.ObjectRenderer}
-         */
         this.currentRenderer = this.emptyRenderer;
     }
     /**
      * Changes the current renderer to the one given in parameter
      *
-     * @param {PIXI.ObjectRenderer} objectRenderer - The object renderer to use.
+     * @param objectRenderer - The object renderer to use.
      */
     BatchSystem.prototype.setObjectRenderer = function (objectRenderer) {
         if (this.currentRenderer === objectRenderer) {
@@ -10339,8 +10304,8 @@ var BatchSystem = /** @class */ (function () {
      * Handy function for batch renderers: copies bound textures in first maxTextures locations to array
      * sets actual _batchLocation for them
      *
-     * @param {PIXI.BaseTexture[]} arr - arr copy destination
-     * @param {number} maxTextures - number of copied elements
+     * @param arr - arr copy destination
+     * @param maxTextures - number of copied elements
      */
     BatchSystem.prototype.copyBoundTextures = function (arr, maxTextures) {
         var boundTextures = this.renderer.texture.boundTextures;
@@ -10356,10 +10321,10 @@ var BatchSystem = /** @class */ (function () {
      * All textures in texArray should have `_batchEnabled = _batchId`,
      * and their count should be less than `maxTextures`.
      *
-     * @param {PIXI.BatchTextureArray} texArray - textures to bound
-     * @param {PIXI.BaseTexture[]} boundTextures - current state of bound textures
-     * @param {number} batchId - marker for _batchEnabled param of textures in texArray
-     * @param {number} maxTextures - number of texture locations to manipulate
+     * @param texArray - textures to bound
+     * @param boundTextures - current state of bound textures
+     * @param batchId - marker for _batchEnabled param of textures in texArray
+     * @param maxTextures - number of texture locations to manipulate
      */
     BatchSystem.prototype.boundArray = function (texArray, boundTextures, batchId, maxTextures) {
         var elements = texArray.elements, ids = texArray.ids, count = texArray.count;
@@ -10399,41 +10364,14 @@ var CONTEXT_UID_COUNTER = 0;
 /**
  * System plugin to the renderer to manage the context.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var ContextSystem = /** @class */ (function () {
-    /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
-     */
+    /** @param renderer - The renderer this System works for. */
     function ContextSystem(renderer) {
         this.renderer = renderer;
-        /**
-         * Either 1 or 2 to reflect the WebGL version being used
-         * @member {number}
-         * @readonly
-         */
         this.webGLVersion = 1;
-        /**
-         * Extensions being used
-         * @member {object}
-         * @readonly
-         * @property {WEBGL_draw_buffers} drawBuffers - WebGL v1 extension
-         * @property {WEBGL_depth_texture} depthTexture - WebGL v1 extension
-         * @property {OES_texture_float} floatTexture - WebGL v1 extension
-         * @property {WEBGL_lose_context} loseContext - WebGL v1 extension
-         * @property {OES_vertex_array_object} vertexArrayObject - WebGL v1 extension
-         * @property {EXT_texture_filter_anisotropic} anisotropicFiltering - WebGL v1 and v2 extension
-         */
         this.extensions = {};
-        /**
-         * Features supported by current context
-         * @member {object}
-         * @private
-         * @readonly
-         * @property {boolean} uint32Indices - Supports of 32-bit indices buffer
-         */
         this.supports = {
             uint32Indices: false,
         };
@@ -10446,7 +10384,7 @@ var ContextSystem = /** @class */ (function () {
     Object.defineProperty(ContextSystem.prototype, "isLost", {
         /**
          * `true` if the context is lost
-         * @member {boolean}
+         *
          * @readonly
          */
         get: function () {
@@ -10456,8 +10394,9 @@ var ContextSystem = /** @class */ (function () {
         configurable: true
     });
     /**
-     * Handle the context change event
-     * @param {WebGLRenderingContext} gl - new webgl context
+     * Handles the context change event.
+     *
+     * @param {WebGLRenderingContext} gl - New WebGL context.
      */
     ContextSystem.prototype.contextChange = function (gl) {
         this.gl = gl;
@@ -10469,7 +10408,7 @@ var ContextSystem = /** @class */ (function () {
         }
     };
     /**
-     * Initialize the context
+     * Initializes the context.
      *
      * @protected
      * @param {WebGLRenderingContext} gl - WebGL context
@@ -10495,8 +10434,8 @@ var ContextSystem = /** @class */ (function () {
     /**
      * Helper class to create a WebGL Context
      *
-     * @param {HTMLCanvasElement} canvas - the canvas element that we will get the context from
-     * @param {object} options - An options object that gets passed in to the canvas element containing the
+     * @param canvas - the canvas element that we will get the context from
+     * @param options - An options object that gets passed in to the canvas element containing the
      *    context attributes
      * @see https://developer.mozilla.org/en/docs/Web/API/HTMLCanvasElement/getContext
      * @return {WebGLRenderingContext} the WebGL context
@@ -10522,11 +10461,7 @@ var ContextSystem = /** @class */ (function () {
         this.getExtensions();
         return this.gl;
     };
-    /**
-     * Auto-populate the extensions
-     *
-     * @protected
-     */
+    /** Auto-populate the {@link PIXI.ContextSystem.extensions extensions}. */
     ContextSystem.prototype.getExtensions = function () {
         // time to set up default extensions that Pixi uses.
         var gl = this.gl;
@@ -10568,17 +10503,12 @@ var ContextSystem = /** @class */ (function () {
     /**
      * Handles a lost webgl context
      *
-     * @protected
      * @param {WebGLContextEvent} event - The context lost event.
      */
     ContextSystem.prototype.handleContextLost = function (event) {
         event.preventDefault();
     };
-    /**
-     * Handles a restored webgl context
-     *
-     * @protected
-     */
+    /** Handles a restored webgl context. */
     ContextSystem.prototype.handleContextRestored = function () {
         this.renderer.runners.contextChange.emit(this.gl);
     };
@@ -10593,21 +10523,16 @@ var ContextSystem = /** @class */ (function () {
             this.extensions.loseContext.loseContext();
         }
     };
-    /**
-     * Handle the post-render runner event
-     *
-     * @protected
-     */
+    /** Handle the post-render runner event. */
     ContextSystem.prototype.postrender = function () {
         if (this.renderer.renderingToScreen) {
             this.gl.flush();
         }
     };
     /**
-     * Validate context
+     * Validate context.
      *
-     * @protected
-     * @param {WebGLRenderingContext} gl - Render context
+     * @param {WebGLRenderingContext} gl - Render context.
      */
     ContextSystem.prototype.validateContext = function (gl) {
         var attributes = gl.getContextAttributes();
@@ -11622,11 +11547,10 @@ var GeometrySystem = /** @class */ (function () {
 }());
 
 /**
- * Component for masked elements
+ * Component for masked elements.
  *
- * Holds mask mode and temporary data about current mask
+ * Holds mask mode and temporary data about current mask.
  *
- * @class
  * @memberof PIXI
  */
 var MaskData = /** @class */ (function () {
@@ -11637,73 +11561,47 @@ var MaskData = /** @class */ (function () {
      */
     function MaskData(maskObject) {
         if (maskObject === void 0) { maskObject = null; }
-        /**
-         * Mask type
-         * @member {PIXI.MASK_TYPES}
-         */
         this.type = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.NONE;
-        /**
-         * Whether we know the mask type beforehand
-         * @member {boolean}
-         * @default true
-         */
         this.autoDetect = true;
-        /**
-         * Which element we use to mask
-         * @member {PIXI.DisplayObject}
-         */
         this.maskObject = maskObject || null;
-        /**
-         * Whether it belongs to MaskSystem pool
-         * @member {boolean}
-         */
         this.pooled = false;
-        /**
-         * Indicator of the type
-         * @member {boolean}
-         */
         this.isMaskData = true;
-        /**
-         * Resolution of the sprite mask filter.
-         * If set to `null` or `0`, the resolution of the current render target is used.
-         * @member {number}
-         */
         this.resolution = null;
-        /**
-         * Number of samples of the sprite mask filter.
-         * If set to `null`, the sample count of the current render target is used.
-         * @member {PIXI.MSAA_QUALITY}
-         * @default {PIXI.settings.FILTER_MULTISAMPLE}
-         */
         this.multisample = _pixi_settings__WEBPACK_IMPORTED_MODULE_0__.settings.FILTER_MULTISAMPLE;
-        /**
-         * Stencil counter above the mask in stack
-         * @member {number}
-         * @private
-         */
+        this.enabled = true;
+        this._filters = null;
         this._stencilCounter = 0;
-        /**
-         * Scissor counter above the mask in stack
-         * @member {number}
-         * @private
-         */
         this._scissorCounter = 0;
-        /**
-         * Scissor operation above the mask in stack.
-         * Null if _scissorCounter is zero, rectangle instance if positive.
-         * @member {PIXI.Rectangle}
-         */
         this._scissorRect = null;
-        /**
-         * Targeted element. Temporary variable set by MaskSystem
-         * @member {PIXI.DisplayObject}
-         * @private
-         */
+        this._scissorRectLocal = null;
         this._target = null;
     }
-    /**
-     * resets the mask data after popMask()
-     */
+    Object.defineProperty(MaskData.prototype, "filter", {
+        /**
+         * The sprite mask filter.
+         * If set to `null`, the default sprite mask filter is used.
+         * @default null
+         */
+        get: function () {
+            return this._filters ? this._filters[0] : null;
+        },
+        set: function (value) {
+            if (value) {
+                if (this._filters) {
+                    this._filters[0] = value;
+                }
+                else {
+                    this._filters = [value];
+                }
+            }
+            else {
+                this._filters = null;
+            }
+        },
+        enumerable: false,
+        configurable: true
+    });
+    /** Resets the mask data after popMask(). */
     MaskData.prototype.reset = function () {
         if (this.pooled) {
             this.maskObject = null;
@@ -11711,11 +11609,9 @@ var MaskData = /** @class */ (function () {
             this.autoDetect = true;
         }
         this._target = null;
+        this._scissorRectLocal = null;
     };
-    /**
-     * copies counters from maskData above, called from pushMask()
-     * @param {PIXI.MaskData|null} maskAbove
-     */
+    /** Copies counters from maskData above, called from pushMask(). */
     MaskData.prototype.copyCountersOrReset = function (maskAbove) {
         if (maskAbove) {
             this._stencilCounter = maskAbove._stencilCounter;
@@ -12116,28 +12012,29 @@ var uniformParsers = [
         },
     } ];
 
-// cv = CachedValue
-// v = value
+// cu = Cached value's uniform data field
+// cv = Cached value
+// v = value to upload
 // ud = uniformData
 // uv = uniformValue
 // l = location
 var GLSL_TO_SINGLE_SETTERS_CACHED = {
-    float: "\n    if(cv !== v)\n    {\n        cv.v = v;\n        gl.uniform1f(location, v)\n    }",
-    vec2: "\n    if(cv[0] !== v[0] || cv[1] !== v[1])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        gl.uniform2f(location, v[0], v[1])\n    }",
-    vec3: "\n    if(cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n\n        gl.uniform3f(location, v[0], v[1], v[2])\n    }",
-    vec4: 'gl.uniform4f(location, v[0], v[1], v[2], v[3])',
-    int: 'gl.uniform1i(location, v)',
-    ivec2: 'gl.uniform2i(location, v[0], v[1])',
-    ivec3: 'gl.uniform3i(location, v[0], v[1], v[2])',
-    ivec4: 'gl.uniform4i(location, v[0], v[1], v[2], v[3])',
-    uint: 'gl.uniform1ui(location, v)',
-    uvec2: 'gl.uniform2ui(location, v[0], v[1])',
-    uvec3: 'gl.uniform3ui(location, v[0], v[1], v[2])',
-    uvec4: 'gl.uniform4ui(location, v[0], v[1], v[2], v[3])',
-    bool: "\n    if(cv !== v)\n    {\n        cv.v = v;\n        gl.uniform1i(location, v)\n    }",
-    bvec2: 'gl.uniform2i(location, v[0], v[1])',
-    bvec3: 'gl.uniform3i(location, v[0], v[1], v[2])',
-    bvec4: 'gl.uniform4i(location, v[0], v[1], v[2], v[3])',
+    float: "\n    if (cv !== v)\n    {\n        cu.value = v;\n        gl.uniform1f(location, v);\n    }",
+    vec2: "\n    if (cv[0] !== v[0] || cv[1] !== v[1])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n\n        gl.uniform2f(location, v[0], v[1])\n    }",
+    vec3: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n\n        gl.uniform3f(location, v[0], v[1], v[2])\n    }",
+    vec4: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2] || cv[3] !== v[3])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n        cv[3] = v[3];\n\n        gl.uniform4f(location, v[0], v[1], v[2], v[3]);\n    }",
+    int: "\n    if (cv !== v)\n    {\n        cu.value = v;\n\n        gl.uniform1i(location, v);\n    }",
+    ivec2: "\n    if (cv[0] !== v[0] || cv[1] !== v[1])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n\n        gl.uniform2i(location, v[0], v[1]);\n    }",
+    ivec3: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n\n        gl.uniform3i(location, v[0], v[1], v[2]);\n    }",
+    ivec4: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2] || cv[3] !== v[3])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n        cv[3] = v[3];\n\n        gl.uniform4i(location, v[0], v[1], v[2], v[3]);\n    }",
+    uint: "\n    if (cv !== v)\n    {\n        cu.value = v;\n\n        gl.uniform1ui(location, v);\n    }",
+    uvec2: "\n    if (cv[0] !== v[0] || cv[1] !== v[1])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n\n        gl.uniform2ui(location, v[0], v[1]);\n    }",
+    uvec3: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n\n        gl.uniform3ui(location, v[0], v[1], v[2]);\n    }",
+    uvec4: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2] || cv[3] !== v[3])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n        cv[3] = v[3];\n\n        gl.uniform4ui(location, v[0], v[1], v[2], v[3]);\n    }",
+    bool: "\n    if (cv !== v)\n    {\n        cu.value = v;\n        gl.uniform1i(location, v);\n    }",
+    bvec2: "\n    if (cv[0] != v[0] || cv[1] != v[1])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n\n        gl.uniform2i(location, v[0], v[1]);\n    }",
+    bvec3: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n\n        gl.uniform3i(location, v[0], v[1], v[2]);\n    }",
+    bvec4: "\n    if (cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2] || cv[3] !== v[3])\n    {\n        cv[0] = v[0];\n        cv[1] = v[1];\n        cv[2] = v[2];\n        cv[3] = v[3];\n\n        gl.uniform4i(location, v[0], v[1], v[2], v[3]);\n    }",
     mat2: 'gl.uniformMatrix2fv(location, false, v)',
     mat3: 'gl.uniformMatrix3fv(location, false, v)',
     mat4: 'gl.uniformMatrix4fv(location, false, v)',
@@ -12170,11 +12067,12 @@ var GLSL_TO_ARRAY_SETTERS = {
     sampler2DArray: 'gl.uniform1iv(location, v)',
 };
 function generateUniformsSync(group, uniformData) {
-    var funcFragments = ["\n        var v = null;\n        var cv = null\n        var t = 0;\n        var gl = renderer.gl\n    "];
+    var _a;
+    var funcFragments = ["\n        var v = null;\n        var cv = null;\n        var cu = null;\n        var t = 0;\n        var gl = renderer.gl;\n    "];
     for (var i in group.uniforms) {
         var data = uniformData[i];
         if (!data) {
-            if (group.uniforms[i].group) {
+            if ((_a = group.uniforms[i]) === null || _a === void 0 ? void 0 : _a.group) {
                 if (group.uniforms[i].ubo) {
                     funcFragments.push("\n                        renderer.shader.syncUniformBufferGroup(uv." + i + ", '" + i + "');\n                    ");
                 }
@@ -12196,7 +12094,7 @@ function generateUniformsSync(group, uniformData) {
         if (!parsed) {
             var templateType = (data.size === 1) ? GLSL_TO_SINGLE_SETTERS_CACHED : GLSL_TO_ARRAY_SETTERS;
             var template = templateType[data.type].replace('location', "ud[\"" + i + "\"].location");
-            funcFragments.push("\n            cv = ud[\"" + i + "\"].value;\n            v = uv[\"" + i + "\"];\n            " + template + ";");
+            funcFragments.push("\n            cu = ud[\"" + i + "\"];\n            cv = cu.value;\n            v = uv[\"" + i + "\"];\n            " + template + ";");
         }
     }
     /*
@@ -12283,29 +12181,18 @@ var nameCache = {};
 /**
  * Helper class to create a shader program.
  *
- * @class
  * @memberof PIXI
  */
 var Program = /** @class */ (function () {
     /**
-     * @param {string} [vertexSrc] - The source of the vertex shader.
-     * @param {string} [fragmentSrc] - The source of the fragment shader.
-     * @param {string} [name] - Name for shader
+     * @param vertexSrc - The source of the vertex shader.
+     * @param fragmentSrc - The source of the fragment shader.
+     * @param name - Name for shader
      */
     function Program(vertexSrc, fragmentSrc, name) {
         if (name === void 0) { name = 'pixi-shader'; }
         this.id = UID$3++;
-        /**
-         * The vertex shader.
-         *
-         * @member {string}
-         */
         this.vertexSrc = vertexSrc || Program.defaultVertexSrc;
-        /**
-         * The fragment shader.
-         *
-         * @member {string}
-         */
         this.fragmentSrc = fragmentSrc || Program.defaultFragmentSrc;
         this.vertexSrc = this.vertexSrc.trim();
         this.fragmentSrc = this.fragmentSrc.trim();
@@ -12330,11 +12217,9 @@ var Program = /** @class */ (function () {
     }
     Object.defineProperty(Program, "defaultVertexSrc", {
         /**
-         * The default vertex shader source
+         * The default vertex shader source.
          *
-         * @static
          * @constant
-         * @member {string}
          */
         get: function () {
             return defaultVertex;
@@ -12344,11 +12229,9 @@ var Program = /** @class */ (function () {
     });
     Object.defineProperty(Program, "defaultFragmentSrc", {
         /**
-         * The default fragment shader source
+         * The default fragment shader source.
          *
-         * @static
          * @constant
-         * @member {string}
          */
         get: function () {
             return defaultFragment;
@@ -12357,14 +12240,14 @@ var Program = /** @class */ (function () {
         configurable: true
     });
     /**
-     * A short hand function to create a program based of a vertex and fragment shader
-     * this method will also check to see if there is a cached program.
+     * A short hand function to create a program based of a vertex and fragment shader.
      *
-     * @param {string} [vertexSrc] - The source of the vertex shader.
-     * @param {string} [fragmentSrc] - The source of the fragment shader.
-     * @param {string} [name=pixi-shader] - Name for shader
+     * This method will also check to see if there is a cached program.
      *
-     * @returns {PIXI.Program} an shiny new Pixi shader!
+     * @param vertexSrc - The source of the vertex shader.
+     * @param fragmentSrc - The source of the fragment shader.
+     * @param name - Name for shader
+     * @returns A shiny new PixiJS shader program!
      */
     Program.from = function (vertexSrc, fragmentSrc, name) {
         var key = vertexSrc + fragmentSrc;
@@ -12378,27 +12261,21 @@ var Program = /** @class */ (function () {
 }());
 
 /**
- * A helper class for shaders
+ * A helper class for shaders.
  *
- * @class
  * @memberof PIXI
  */
 var Shader = /** @class */ (function () {
     /**
-     * @param {PIXI.Program} [program] - The program the shader will use.
-     * @param {object} [uniforms] - Custom uniforms to use to augment the built-in ones.
+     * @param program - The program the shader will use.
+     * @param uniforms - Custom uniforms to use to augment the built-in ones.
      */
     function Shader(program, uniforms) {
         /**
-         * used internally to bind uniform buffer objects
+         * Used internally to bind uniform buffer objects.
          * @ignore
          */
         this.uniformBindCount = 0;
-        /**
-         * Program that the shader uses
-         *
-         * @member {PIXI.Program}
-         */
         this.program = program;
         // lets see whats been passed in
         // uniforms should be converted to a uniform group
@@ -12436,9 +12313,9 @@ var Shader = /** @class */ (function () {
     };
     Object.defineProperty(Shader.prototype, "uniforms", {
         /**
-         * Shader uniform values, shortcut for `uniformGroup.uniforms`
+         * Shader uniform values, shortcut for `uniformGroup.uniforms`.
+         *
          * @readonly
-         * @member {object}
          */
         get: function () {
             return this.uniformGroup.uniforms;
@@ -12447,13 +12324,12 @@ var Shader = /** @class */ (function () {
         configurable: true
     });
     /**
-     * A short hand function to create a shader based of a vertex and fragment shader
+     * A short hand function to create a shader based of a vertex and fragment shader.
      *
-     * @param {string} [vertexSrc] - The source of the vertex shader.
-     * @param {string} [fragmentSrc] - The source of the fragment shader.
-     * @param {object} [uniforms] - Custom uniforms to use to augment the built-in ones.
-     *
-     * @returns {PIXI.Shader} an shiny new Pixi shader!
+     * @param vertexSrc - The source of the vertex shader.
+     * @param fragmentSrc - The source of the fragment shader.
+     * @param uniforms - Custom uniforms to use to augment the built-in ones.
+     * @returns A shiny new PixiJS shader!
      */
     Shader.from = function (vertexSrc, fragmentSrc, uniforms) {
         var program = Program.from(vertexSrc, fragmentSrc);
@@ -12470,12 +12346,11 @@ var DEPTH_TEST = 3;
 var WINDING = 4;
 var DEPTH_MASK = 5;
 /**
- * This is a WebGL state, and is is passed The WebGL StateManager.
+ * This is a WebGL state, and is is passed to {@link PIXI.StateSystem}.
  *
  * Each mesh rendered may require WebGL to be in a different state.
  * For example you may want different blend mode or to enable polygon offsets
  *
- * @class
  * @memberof PIXI
  */
 var State = /** @class */ (function () {
@@ -12489,9 +12364,9 @@ var State = /** @class */ (function () {
     }
     Object.defineProperty(State.prototype, "blend", {
         /**
-         * Activates blending of the computed fragment color values
+         * Activates blending of the computed fragment color values.
          *
-         * @member {boolean}
+         * @default true
          */
         get: function () {
             return !!(this.data & (1 << BLEND));
@@ -12508,7 +12383,6 @@ var State = /** @class */ (function () {
         /**
          * Activates adding an offset to depth values of polygon's fragments
          *
-         * @member {boolean}
          * @default false
          */
         get: function () {
@@ -12526,7 +12400,6 @@ var State = /** @class */ (function () {
         /**
          * Activates culling of polygons.
          *
-         * @member {boolean}
          * @default false
          */
         get: function () {
@@ -12544,7 +12417,6 @@ var State = /** @class */ (function () {
         /**
          * Activates depth comparisons and updates to the depth buffer.
          *
-         * @member {boolean}
          * @default false
          */
         get: function () {
@@ -12562,7 +12434,6 @@ var State = /** @class */ (function () {
         /**
          * Enables or disables writing to the depth buffer.
          *
-         * @member {boolean}
          * @default true
          */
         get: function () {
@@ -12579,7 +12450,7 @@ var State = /** @class */ (function () {
     Object.defineProperty(State.prototype, "clockwiseFrontFace", {
         /**
          * Specifies whether or not front or back-facing polygons can be culled.
-         * @member {boolean}
+         *
          * @default false
          */
         get: function () {
@@ -12598,9 +12469,7 @@ var State = /** @class */ (function () {
          * The blend mode to be applied when this state is set. Apply a value of `PIXI.BLEND_MODES.NORMAL` to reset the blend mode.
          * Setting this mode to anything other than NO_BLEND will automatically switch blending on.
          *
-         * @member {number}
          * @default PIXI.BLEND_MODES.NORMAL
-         * @see PIXI.BLEND_MODES
          */
         get: function () {
             return this._blendMode;
@@ -12616,7 +12485,6 @@ var State = /** @class */ (function () {
         /**
          * The polygon offset. Setting this property to anything other than 0 will automatically enable polygon offset fill.
          *
-         * @member {number}
          * @default 0
          */
         get: function () {
@@ -13125,13 +12993,18 @@ var TextureMatrix = /** @class */ (function () {
 var SpriteMaskFilter = /** @class */ (function (_super) {
     __extends(SpriteMaskFilter, _super);
     /**
-     * @param {PIXI.Sprite} sprite - the target sprite
+     * @ignore
      */
-    function SpriteMaskFilter(sprite) {
+    function SpriteMaskFilter(vertexSrc, fragmentSrc, uniforms) {
         var _this = this;
-        var maskMatrix = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Matrix();
-        _this = _super.call(this, vertex, fragment) || this;
-        sprite.renderable = false;
+        var sprite = null;
+        if (typeof vertexSrc !== 'string' && fragmentSrc === undefined && uniforms === undefined) {
+            sprite = vertexSrc;
+            vertexSrc = undefined;
+            fragmentSrc = undefined;
+            uniforms = undefined;
+        }
+        _this = _super.call(this, vertexSrc || vertex, fragmentSrc || fragment, uniforms) || this;
         /**
          * Sprite mask
          * @member {PIXI.Sprite}
@@ -13141,9 +13014,22 @@ var SpriteMaskFilter = /** @class */ (function (_super) {
          * Mask matrix
          * @member {PIXI.Matrix}
          */
-        _this.maskMatrix = maskMatrix;
+        _this.maskMatrix = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Matrix();
         return _this;
     }
+    Object.defineProperty(SpriteMaskFilter.prototype, "maskSprite", {
+        get: function () {
+            return this._maskSprite;
+        },
+        set: function (value) {
+            this._maskSprite = value;
+            if (this._maskSprite) {
+                this._maskSprite.renderable = false;
+            }
+        },
+        enumerable: false,
+        configurable: true
+    });
     /**
      * Applies the filter
      *
@@ -13153,7 +13039,7 @@ var SpriteMaskFilter = /** @class */ (function (_super) {
      * @param {PIXI.CLEAR_MODES} clearMode - Should the output be cleared before rendering to it.
      */
     SpriteMaskFilter.prototype.apply = function (filterManager, input, output, clearMode) {
-        var maskSprite = this.maskSprite;
+        var maskSprite = this._maskSprite;
         var tex = maskSprite._texture;
         if (!tex.valid) {
             return;
@@ -13198,48 +13084,24 @@ var SpriteMaskFilter = /** @class */ (function (_super) {
  * stack stores the currently applied masks in order. Each {@link PIXI.BaseRenderTexture} holds its own mask stack, i.e.
  * when you switch render-textures, the old masks only applied when you switch back to rendering to the old render-target.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var MaskSystem = /** @class */ (function () {
     /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
+     * @param renderer - The renderer this System works for.
      */
     function MaskSystem(renderer) {
         this.renderer = renderer;
-        /**
-         * Enable scissor masking.
-         *
-         * @member {boolean}
-         * @readonly
-         */
         this.enableScissor = true;
-        /**
-         * Pool of used sprite mask filters
-         * @member {PIXI.SpriteMaskFilter[]}
-         * @readonly
-         */
         this.alphaMaskPool = [];
-        /**
-         * Pool of mask data
-         * @member {PIXI.MaskData[]}
-         * @readonly
-         */
         this.maskDataPool = [];
         this.maskStack = [];
-        /**
-         * Current index of alpha mask pool
-         * @member {number}
-         * @default 0
-         * @readonly
-         */
         this.alphaMaskIndex = 0;
     }
     /**
      * Changes the mask stack that is used by this System.
      *
-     * @param {PIXI.MaskData[]} maskStack - The mask stack
+     * @param maskStack - The mask stack
      */
     MaskSystem.prototype.setMaskStack = function (maskStack) {
         this.maskStack = maskStack;
@@ -13262,25 +13124,31 @@ var MaskSystem = /** @class */ (function () {
             d.maskObject = maskDataOrTarget;
             maskData = d;
         }
+        var maskAbove = this.maskStack.length !== 0 ? this.maskStack[this.maskStack.length - 1] : null;
+        maskData.copyCountersOrReset(maskAbove);
         if (maskData.autoDetect) {
             this.detect(maskData);
         }
-        maskData.copyCountersOrReset(this.maskStack[this.maskStack.length - 1]);
         maskData._target = target;
-        switch (maskData.type) {
-            case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SCISSOR:
-                this.maskStack.push(maskData);
-                this.renderer.scissor.push(maskData);
-                break;
-            case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.STENCIL:
-                this.maskStack.push(maskData);
-                this.renderer.stencil.push(maskData);
-                break;
-            case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE:
-                maskData.copyCountersOrReset(null);
-                this.pushSpriteMask(maskData);
-                this.maskStack.push(maskData);
-                break;
+        if (maskData.type !== _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE) {
+            this.maskStack.push(maskData);
+        }
+        if (maskData.enabled) {
+            switch (maskData.type) {
+                case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SCISSOR:
+                    this.renderer.scissor.push(maskData);
+                    break;
+                case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.STENCIL:
+                    this.renderer.stencil.push(maskData);
+                    break;
+                case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE:
+                    maskData.copyCountersOrReset(null);
+                    this.pushSpriteMask(maskData);
+                    break;
+            }
+        }
+        if (maskData.type === _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE) {
+            this.maskStack.push(maskData);
         }
     };
     /**
@@ -13296,64 +13164,58 @@ var MaskSystem = /** @class */ (function () {
             // TODO: add an assert when we have it
             return;
         }
-        switch (maskData.type) {
-            case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SCISSOR:
-                this.renderer.scissor.pop();
-                break;
-            case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.STENCIL:
-                this.renderer.stencil.pop(maskData.maskObject);
-                break;
-            case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE:
-                this.popSpriteMask();
-                break;
+        if (maskData.enabled) {
+            switch (maskData.type) {
+                case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SCISSOR:
+                    this.renderer.scissor.pop();
+                    break;
+                case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.STENCIL:
+                    this.renderer.stencil.pop(maskData.maskObject);
+                    break;
+                case _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE:
+                    this.popSpriteMask(maskData);
+                    break;
+            }
         }
         maskData.reset();
         if (maskData.pooled) {
             this.maskDataPool.push(maskData);
         }
+        if (this.maskStack.length !== 0) {
+            var maskCurrent = this.maskStack[this.maskStack.length - 1];
+            if (maskCurrent.type === _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE && maskCurrent._filters) {
+                maskCurrent._filters[0].maskSprite = maskCurrent.maskObject;
+            }
+        }
     };
-    /**
-     * Sets type of MaskData based on its maskObject
-     * @param {PIXI.MaskData} maskData
-     */
+    /** Sets type of MaskData based on its maskObject. */
     MaskSystem.prototype.detect = function (maskData) {
         var maskObject = maskData.maskObject;
         if (maskObject.isSprite) {
             maskData.type = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SPRITE;
-            return;
         }
-        maskData.type = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.STENCIL;
-        // detect scissor in graphics
-        if (this.enableScissor
-            && maskObject.isFastRect
-            && maskObject.isFastRect()) {
-            var matrix = maskObject.worldTransform;
-            // TODO: move the check to the matrix itself
-            // we are checking that its orthogonal and x rotation is 0 90 180 or 270
-            var rotX = Math.atan2(matrix.b, matrix.a);
-            var rotXY = Math.atan2(matrix.d, matrix.c);
-            // use the nearest degree to 0.01
-            rotX = Math.round(rotX * (180 / Math.PI) * 100);
-            rotXY = Math.round(rotXY * (180 / Math.PI) * 100) - rotX;
-            rotX = ((rotX % 9000) + 9000) % 9000;
-            rotXY = ((rotXY % 18000) + 18000) % 18000;
-            if (rotX === 0 && rotXY === 9000) {
-                maskData.type = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SCISSOR;
-            }
+        else if (this.enableScissor && this.renderer.scissor.testScissor(maskData)) {
+            maskData.type = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.SCISSOR;
+        }
+        else {
+            maskData.type = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.MASK_TYPES.STENCIL;
         }
     };
     /**
      * Applies the Mask and adds it to the current filter stack.
      *
-     * @param {PIXI.MaskData} maskData - Sprite to be used as the mask
+     * @param maskData - Sprite to be used as the mask.
      */
     MaskSystem.prototype.pushSpriteMask = function (maskData) {
         var _a, _b;
         var maskObject = maskData.maskObject;
         var target = maskData._target;
-        var alphaMaskFilter = this.alphaMaskPool[this.alphaMaskIndex];
+        var alphaMaskFilter = maskData._filters;
         if (!alphaMaskFilter) {
-            alphaMaskFilter = this.alphaMaskPool[this.alphaMaskIndex] = [new SpriteMaskFilter(maskObject)];
+            alphaMaskFilter = this.alphaMaskPool[this.alphaMaskIndex];
+            if (!alphaMaskFilter) {
+                alphaMaskFilter = this.alphaMaskPool[this.alphaMaskIndex] = [new SpriteMaskFilter()];
+            }
         }
         var renderer = this.renderer;
         var renderTextureSystem = renderer.renderTexture;
@@ -13375,18 +13237,25 @@ var MaskSystem = /** @class */ (function () {
         target.filterArea = maskObject.getBounds(true);
         renderer.filter.push(target, alphaMaskFilter);
         target.filterArea = stashFilterArea;
-        this.alphaMaskIndex++;
+        if (!maskData._filters) {
+            this.alphaMaskIndex++;
+        }
     };
     /**
      * Removes the last filter from the filter stack and doesn't return it.
+     *
+     * @param maskData - Sprite to be used as the mask.
      */
-    MaskSystem.prototype.popSpriteMask = function () {
+    MaskSystem.prototype.popSpriteMask = function (maskData) {
         this.renderer.filter.pop();
-        this.alphaMaskIndex--;
+        if (maskData._filters) {
+            maskData._filters[0].maskSprite = null;
+        }
+        else {
+            this.alphaMaskIndex--;
+            this.alphaMaskPool[this.alphaMaskIndex][0].maskSprite = null;
+        }
     };
-    /**
-     * @ignore
-     */
     MaskSystem.prototype.destroy = function () {
         this.renderer = null;
     };
@@ -13396,32 +13265,18 @@ var MaskSystem = /** @class */ (function () {
 /**
  * System plugin to the renderer to manage specific types of masking operations.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var AbstractMaskSystem = /** @class */ (function () {
     /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
+     * @param renderer - The renderer this System works for.
      */
     function AbstractMaskSystem(renderer) {
         this.renderer = renderer;
-        /**
-         * The mask stack
-         * @member {PIXI.MaskData[]}
-         */
         this.maskStack = [];
-        /**
-         * Constant for gl.enable
-         * @member {number}
-         * @private
-         */
         this.glConst = 0;
     }
-    /**
-     * gets count of masks of certain type
-     * @returns {number}
-     */
+    /** Gets count of masks of certain type. */
     AbstractMaskSystem.prototype.getStackLength = function () {
         return this.maskStack.length;
     };
@@ -13452,10 +13307,7 @@ var AbstractMaskSystem = /** @class */ (function () {
     AbstractMaskSystem.prototype._useCurrent = function () {
         // OVERWRITE;
     };
-    /**
-     * Destroys the mask stack.
-     *
-     */
+    /** Destroys the mask stack. */
     AbstractMaskSystem.prototype.destroy = function () {
         this.renderer = null;
         this.maskStack = null;
@@ -13463,6 +13315,7 @@ var AbstractMaskSystem = /** @class */ (function () {
     return AbstractMaskSystem;
 }());
 
+var tempMatrix$1 = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Matrix();
 /**
  * System plugin to the renderer to manage scissor masking.
  *
@@ -13470,8 +13323,6 @@ var AbstractMaskSystem = /** @class */ (function () {
  * viewport's space; however, the mask's rectangle is projected from world-space to viewport space automatically
  * by this system.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var ScissorSystem = /** @class */ (function (_super) {
@@ -13492,26 +13343,91 @@ var ScissorSystem = /** @class */ (function (_super) {
         return 0;
     };
     /**
+     * evaluates _boundsTransformed, _scissorRect for MaskData
+     * @param maskData
+     */
+    ScissorSystem.prototype.calcScissorRect = function (maskData) {
+        if (maskData._scissorRectLocal) {
+            return;
+        }
+        var prevData = maskData._scissorRect;
+        var maskObject = maskData.maskObject;
+        var renderer = this.renderer;
+        var renderTextureSystem = renderer.renderTexture;
+        maskObject.renderable = true;
+        var rect = maskObject.getBounds();
+        this.roundFrameToPixels(rect, renderTextureSystem.current ? renderTextureSystem.current.resolution : renderer.resolution, renderTextureSystem.sourceFrame, renderTextureSystem.destinationFrame, renderer.projection.transform);
+        maskObject.renderable = false;
+        if (prevData) {
+            rect.fit(prevData);
+        }
+        maskData._scissorRectLocal = rect;
+    };
+    ScissorSystem.isMatrixRotated = function (matrix) {
+        if (!matrix) {
+            return false;
+        }
+        var a = matrix.a, b = matrix.b, c = matrix.c, d = matrix.d;
+        // Skip if skew/rotation present in matrix, except for multiple of 90° rotation. If rotation
+        // is a multiple of 90°, then either pair of (b,c) or (a,d) will be (0,0).
+        return ((Math.abs(b) > 1e-4 || Math.abs(c) > 1e-4)
+            && (Math.abs(a) > 1e-4 || Math.abs(d) > 1e-4));
+    };
+    /**
+     * Test, whether the object can be scissor mask with current renderer projection.
+     * Calls "calcScissorRect()" if its true.
+     * @param maskData mask data
+     * @returns whether Whether the object can be scissor mask
+     */
+    ScissorSystem.prototype.testScissor = function (maskData) {
+        var maskObject = maskData.maskObject;
+        if (!maskObject.isFastRect || !maskObject.isFastRect()) {
+            return false;
+        }
+        if (ScissorSystem.isMatrixRotated(maskObject.worldTransform)) {
+            return false;
+        }
+        if (ScissorSystem.isMatrixRotated(this.renderer.projection.transform)) {
+            return false;
+        }
+        this.calcScissorRect(maskData);
+        var rect = maskData._scissorRectLocal;
+        return rect.width > 0 && rect.height > 0;
+    };
+    ScissorSystem.prototype.roundFrameToPixels = function (frame, resolution, bindingSourceFrame, bindingDestinationFrame, transform) {
+        if (ScissorSystem.isMatrixRotated(transform)) {
+            return;
+        }
+        transform = transform ? tempMatrix$1.copyFrom(transform) : tempMatrix$1.identity();
+        // Get forward transform from world space to screen space
+        transform
+            .translate(-bindingSourceFrame.x, -bindingSourceFrame.y)
+            .scale(bindingDestinationFrame.width / bindingSourceFrame.width, bindingDestinationFrame.height / bindingSourceFrame.height)
+            .translate(bindingDestinationFrame.x, bindingDestinationFrame.y);
+        // Convert frame to screen space
+        this.renderer.filter.transformAABB(transform, frame);
+        frame.fit(bindingDestinationFrame);
+        frame.x = Math.round(frame.x * resolution);
+        frame.y = Math.round(frame.y * resolution);
+        frame.width = Math.round(frame.width * resolution);
+        frame.height = Math.round(frame.height * resolution);
+    };
+    /**
      * Applies the Mask and adds it to the current stencil stack.
      *
      * @author alvin
-     * @param {PIXI.MaskData} maskData - The mask data
+     * @param maskData - The mask data.
      */
     ScissorSystem.prototype.push = function (maskData) {
-        var maskObject = maskData.maskObject;
-        maskObject.renderable = true;
-        var prevData = maskData._scissorRect;
-        var bounds = maskObject.getBounds(true);
-        var gl = this.renderer.gl;
-        maskObject.renderable = false;
-        if (prevData) {
-            bounds.fit(prevData);
+        if (!maskData._scissorRectLocal) {
+            this.calcScissorRect(maskData);
         }
-        else {
+        var gl = this.renderer.gl;
+        if (!maskData._scissorRect) {
             gl.enable(gl.SCISSOR_TEST);
         }
         maskData._scissorCounter++;
-        maskData._scissorRect = bounds;
+        maskData._scissorRect = maskData._scissorRectLocal;
         this._useCurrent();
     };
     /**
@@ -13535,28 +13451,15 @@ var ScissorSystem = /** @class */ (function (_super) {
      */
     ScissorSystem.prototype._useCurrent = function () {
         var rect = this.maskStack[this.maskStack.length - 1]._scissorRect;
-        var rt = this.renderer.renderTexture.current;
-        var _a = this.renderer.projection, transform = _a.transform, sourceFrame = _a.sourceFrame, destinationFrame = _a.destinationFrame;
-        var resolution = rt ? rt.resolution : this.renderer.resolution;
-        var sx = destinationFrame.width / sourceFrame.width;
-        var sy = destinationFrame.height / sourceFrame.height;
-        var x = (((rect.x - sourceFrame.x) * sx) + destinationFrame.x) * resolution;
-        var y = (((rect.y - sourceFrame.y) * sy) + destinationFrame.y) * resolution;
-        var width = rect.width * sx * resolution;
-        var height = rect.height * sy * resolution;
-        if (transform) {
-            x += transform.tx * resolution;
-            y += transform.ty * resolution;
+        var y;
+        if (this.renderer.renderTexture.current) {
+            y = rect.y;
         }
-        if (!rt) {
+        else {
             // flipY. In future we'll have it over renderTextures as an option
-            y = this.renderer.height - height - y;
+            y = this.renderer.height - rect.height - rect.y;
         }
-        x = Math.round(x);
-        y = Math.round(y);
-        width = Math.round(width);
-        height = Math.round(height);
-        this.renderer.gl.scissor(x, y, width, height);
+        this.renderer.gl.scissor(rect.x, y, rect.width, rect.height);
     };
     return ScissorSystem;
 }(AbstractMaskSystem));
@@ -13564,14 +13467,12 @@ var ScissorSystem = /** @class */ (function (_super) {
 /**
  * System plugin to the renderer to manage stencils (used for masks).
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var StencilSystem = /** @class */ (function (_super) {
     __extends(StencilSystem, _super);
     /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
+     * @param renderer - The renderer this System works for.
      */
     function StencilSystem(renderer) {
         var _this = _super.call(this, renderer) || this;
@@ -13588,7 +13489,7 @@ var StencilSystem = /** @class */ (function (_super) {
     /**
      * Applies the Mask and adds it to the current stencil stack.
      *
-     * @param {PIXI.MaskData} maskData - The mask data
+     * @param maskData - The mask data
      */
     StencilSystem.prototype.push = function (maskData) {
         var maskObject = maskData.maskObject;
@@ -13653,76 +13554,16 @@ var StencilSystem = /** @class */ (function (_super) {
  * The `projectionMatrix` is a global uniform provided to all shaders. It is used to transform points in world space to
  * normalized device coordinates.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var ProjectionSystem = /** @class */ (function () {
-    /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
-     */
+    /** @param renderer - The renderer this System works for. */
     function ProjectionSystem(renderer) {
         this.renderer = renderer;
-        /**
-         * The destination frame used to calculate the current projection matrix.
-         *
-         * The destination frame is the rectangle in the render-target into which contents are rendered. If rendering
-         * to the screen, the origin is on the top-left. If rendering to a framebuffer, the origin is on the
-         * bottom-left. This "flipping" phenomenon is because of WebGL convention for (shader) texture coordinates, where
-         * the bottom-left corner is (0,0). It allows display-objects to map their (0,0) position in local-space (top-left)
-         * to (0,0) in texture space (bottom-left). In other words, a sprite's top-left corner actually renders the
-         * texture's bottom-left corner. You will also notice this when using a tool like SpectorJS to view your textures
-         * at runtime.
-         *
-         * The destination frame's dimensions (width,height) should be equal to the source frame. This is because,
-         * otherwise, the contents will be scaled to fill the destination frame. Similarly, the destination frame's (x,y)
-         * coordinates are (0,0) unless you know what you're doing.
-         *
-         *
-         * @member {PIXI.Rectangle}
-         * @readonly
-         */
         this.destinationFrame = null;
-        /**
-         * The source frame used to calculate the current projection matrix.
-         *
-         * The source frame is the rectangle in world space containing the contents to be rendered.
-         *
-         * @member {PIXI.Rectangle}
-         * @readonly
-         */
         this.sourceFrame = null;
-        /**
-         * Default destination frame
-         *
-         * This is not used internally. It is not advised to use this feature specifically unless you know what
-         * you're doing. The `update` method will default to this frame if you do not pass the destination frame.
-         *
-         * @member {PIXI.Rectangle}
-         * @readonly
-         */
         this.defaultFrame = null;
-        /**
-         * Projection matrix
-         *
-         * This matrix can be used to transform points from world space to normalized device coordinates, and is calculated
-         * from the sourceFrame → destinationFrame mapping provided.
-         *
-         * The renderer's `globalUniforms` keeps a reference to this, and so it is available for all shaders to use as a
-         * uniform.
-         *
-         * @member {PIXI.Matrix}
-         * @readonly
-         */
         this.projectionMatrix = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Matrix();
-        /**
-         * A transform to be appended to the projection matrix.
-         *
-         * This can be used to transform points in world-space one last time before they are outputted by the shader. You can
-         * use to rotate the whole scene, for example. Remember to clear it once you've rendered everything.
-         *
-         * @member {PIXI.Matrix}
-         */
         this.transform = null;
     }
     /**
@@ -13734,13 +13575,12 @@ var ProjectionSystem = /** @class */ (function () {
      * NOTE-2: {@link RenderTextureSystem#bind} updates the projection-matrix when you bind a render-texture. It is expected
      * that you dirty the current bindings when calling this manually.
      *
-     * @param {PIXI.Rectangle} destinationFrame - The rectangle in the render-target to render the contents
-     *  into. If rendering to the canvas, the origin is on the top-left; if rendering to a render-texture, the origin
-     *  is on the bottom-left.
-     * @param {PIXI.Rectangle} sourceFrame - The rectangle in world space that contains the contents being rendered.
-     * @param {Number} resolution - The resolution of the render-target, which is the ratio of world-space (or CSS) pixels
-     *  to physical pixels.
-     * @param {boolean} root - Whether the render-target is the screen. This is required because rendering to textures
+     * @param destinationFrame - The rectangle in the render-target to render the contents into. If rendering to the canvas,
+     *  the origin is on the top-left; if rendering to a render-texture, the origin is on the bottom-left.
+     * @param sourceFrame - The rectangle in world space that contains the contents being rendered.
+     * @param resolution - The resolution of the render-target, which is the ratio of
+     *  world-space (or CSS) pixels to physical pixels.
+     * @param root - Whether the render-target is the screen. This is required because rendering to textures
      *  is y-flipped (i.e. upside down relative to the screen).
      */
     ProjectionSystem.prototype.update = function (destinationFrame, sourceFrame, resolution, root) {
@@ -13763,10 +13603,10 @@ var ProjectionSystem = /** @class */ (function () {
     /**
      * Calculates the `projectionMatrix` to map points inside `sourceFrame` to inside `destinationFrame`.
      *
-     * @param {PIXI.Rectangle} destinationFrame - The destination frame in the render-target.
-     * @param {PIXI.Rectangle} sourceFrame - The source frame in world space.
-     * @param {Number} resolution - The render-target's resolution, i.e. ratio of CSS to physical pixels.
-     * @param {boolean} root - Whether rendering into the screen. Otherwise, if rendering to a framebuffer, the projection
+     * @param destinationFrame - The destination frame in the render-target.
+     * @param sourceFrame - The source frame in world space.
+     * @param resolution - The render-target's resolution, i.e. ratio of CSS to physical pixels.
+     * @param root - Whether rendering into the screen. Otherwise, if rendering to a framebuffer, the projection
      *  is y-flipped.
      */
     ProjectionSystem.prototype.calculateProjection = function (_destinationFrame, sourceFrame, _resolution, root) {
@@ -13779,16 +13619,13 @@ var ProjectionSystem = /** @class */ (function () {
         pm.ty = -sign - (sourceFrame.y * pm.d);
     };
     /**
-     * Sets the transform of the active render target to the given matrix
+     * Sets the transform of the active render target to the given matrix.
      *
-     * @param {PIXI.Matrix} matrix - The transformation matrix
+     * @param matrix - The transformation matrix
      */
     ProjectionSystem.prototype.setTransform = function (_matrix) {
         // this._activeRenderTarget.transform = matrix;
     };
-    /**
-     * @ignore
-     */
     ProjectionSystem.prototype.destroy = function () {
         this.renderer = null;
     };
@@ -13816,69 +13653,27 @@ var tempRect2 = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Rectangle();
  * | destinationFrame       | The rectangle in the render-target (canvas or texture) into which contents should be rendered | If rendering to the canvas, this is in screen space and the origin is on the top-left. If rendering to a render-texture, this is in its base-texture's space with the origin on the bottom-left.  |
  * | viewportFrame          | The framebuffer viewport corresponding to the destination-frame  | **Window Coordinates**: The origin is always on the bottom-left. |
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var RenderTextureSystem = /** @class */ (function () {
     /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
+     * @param renderer - The renderer this System works for.
      */
     function RenderTextureSystem(renderer) {
         this.renderer = renderer;
-        /**
-         * The clear background color as rgba
-         * @member {number[]}
-         */
         this.clearColor = renderer._backgroundColorRgba;
-        // TODO move this property somewhere else!
-        /**
-         * List of masks for the StencilSystem
-         * @member {PIXI.Graphics[]}
-         * @readonly
-         */
         this.defaultMaskStack = [];
-        // empty render texture?
-        /**
-         * Render texture
-         * @member {PIXI.RenderTexture}
-         * @readonly
-         */
         this.current = null;
-        /**
-         * The source frame for the render-target's projection mapping.
-         *
-         * See {@link PIXI.ProjectionSystem#sourceFrame} for more details.
-         *
-         * @member {PIXI.Rectangle}
-         * @readonly
-         */
         this.sourceFrame = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Rectangle();
-        /**
-         * The destination frame for the render-target's projection mapping.
-         *
-         * See {@link PIXI.Projection#destinationFrame} for more details.
-         *
-         * @member {PIXI.Rectangle}
-         * @readonly
-         */
         this.destinationFrame = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Rectangle();
-        /**
-         * The viewport frame for the render-target's viewport binding. This is equal to the destination-frame
-         * for render-textures, while it is y-flipped when rendering to the screen (i.e. its origin is always on
-         * the bottom-left).
-         *
-         * @member {PIXI.Rectangle}
-         * @readonly
-         */
         this.viewportFrame = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Rectangle();
     }
     /**
-     * Bind the current render texture
+     * Bind the current render texture.
      *
-     * @param {PIXI.RenderTexture} [renderTexture] - RenderTexture to bind, by default its `null`, the screen
-     * @param {PIXI.Rectangle} [sourceFrame] - part of screen that is mapped to the renderTexture
-     * @param {PIXI.Rectangle} [destinationFrame] - part of renderTexture, by default it has the same size as sourceFrame
+     * @param renderTexture - RenderTexture to bind, by default its `null` - the screen.
+     * @param sourceFrame - Part of world that is mapped to the renderTexture.
+     * @param destinationFrame - Part of renderTexture, by default it has the same size as sourceFrame.
      */
     RenderTextureSystem.prototype.bind = function (renderTexture, sourceFrame, destinationFrame) {
         if (renderTexture === void 0) { renderTexture = null; }
@@ -13938,12 +13733,11 @@ var RenderTextureSystem = /** @class */ (function () {
         this.destinationFrame.copyFrom(destinationFrame);
     };
     /**
-     * Erases the render texture and fills the drawing area with a colour
+     * Erases the render texture and fills the drawing area with a colour.
      *
-     * @param {number[]} [clearColor] - The color as rgba, default to use the renderer backgroundColor
-     * @param {PIXI.BUFFER_BITS} [mask=BUFFER_BITS.COLOR | BUFFER_BITS.DEPTH] - Bitwise OR of masks
+     * @param clearColor - The color as rgba, default to use the renderer backgroundColor
+     * @param [mask=BUFFER_BITS.COLOR | BUFFER_BITS.DEPTH] - Bitwise OR of masks
      *  that indicate the buffers to be cleared, by default COLOR and DEPTH buffers.
-     * @return {PIXI.Renderer} Returns itself.
      */
     RenderTextureSystem.prototype.clear = function (clearColor, mask) {
         if (this.current) {
@@ -13975,15 +13769,10 @@ var RenderTextureSystem = /** @class */ (function () {
         // resize the root only!
         this.bind(null);
     };
-    /**
-     * Resets renderTexture state
-     */
+    /** Resets render-texture state. */
     RenderTextureSystem.prototype.reset = function () {
         this.bind(null);
     };
-    /**
-     * @ignore
-     */
     RenderTextureSystem.prototype.destroy = function () {
         this.renderer = null;
     };
@@ -14211,7 +14000,7 @@ function getAttributeData(program, gl) {
             type: type,
             name: attribData.name,
             size: mapSize(type),
-            location: i,
+            location: gl.getAttribLocation(program, attribData.name),
         };
         attributes[attribData.name] = data;
     }
@@ -14265,13 +14054,18 @@ function generateProgram(gl, program) {
     }
     program.attributeData = getAttributeData(webGLProgram, gl);
     program.uniformData = getUniformData(webGLProgram, gl);
-    var keys = Object.keys(program.attributeData);
-    keys.sort(function (a, b) { return (a > b) ? 1 : -1; }); // eslint-disable-line no-confusing-arrow
-    for (var i = 0; i < keys.length; i++) {
-        program.attributeData[keys[i]].location = i;
-        gl.bindAttribLocation(webGLProgram, i, keys[i]);
+    // GLSL 1.00: bind attributes sorted by name in ascending order
+    // GLSL 3.00: don't change the attribute locations that where chosen by the compiler
+    //            or assigned by the layout specifier in the shader source code
+    if (!(/^[ \t]*#[ \t]*version[ \t]+300[ \t]+es[ \t]*$/m).test(program.vertexSrc)) {
+        var keys = Object.keys(program.attributeData);
+        keys.sort(function (a, b) { return (a > b) ? 1 : -1; }); // eslint-disable-line no-confusing-arrow
+        for (var i = 0; i < keys.length; i++) {
+            program.attributeData[keys[i]].location = i;
+            gl.bindAttribLocation(webGLProgram, i, keys[i]);
+        }
+        gl.linkProgram(webGLProgram);
     }
-    gl.linkProgram(webGLProgram);
     gl.deleteShader(glVertShader);
     gl.deleteShader(glFragShader);
     var uniformData = {};
@@ -14292,32 +14086,18 @@ var defaultSyncData = { textureCount: 0, uboCount: 0 };
 /**
  * System plugin to the renderer to manage shaders.
  *
- * @class
  * @memberof PIXI
- * @extends PIXI.System
  */
 var ShaderSystem = /** @class */ (function () {
-    /**
-     * @param {PIXI.Renderer} renderer - The renderer this System works for.
-     */
+    /** @param renderer - The renderer this System works for. */
     function ShaderSystem(renderer) {
         this.destroyed = false;
         this.renderer = renderer;
         // Validation check that this environment support `new Function`
         this.systemCheck();
-        /**
-         * The current WebGL rendering context
-         *
-         * @member {WebGLRenderingContext}
-         */
         this.gl = null;
         this.shader = null;
         this.program = null;
-        /**
-         * Cache to holds the generated functions. Stored against UniformObjects unique signature
-         * @type {Object}
-         * @private
-         */
         this.cache = {};
         this._uboCache = {};
         this.id = UID$4++;
@@ -14339,11 +14119,11 @@ var ShaderSystem = /** @class */ (function () {
         this.reset();
     };
     /**
-     * Changes the current shader to the one given in parameter
+     * Changes the current shader to the one given in parameter.
      *
-     * @param {PIXI.Shader} shader - the new shader
-     * @param {boolean} [dontSync] - false if the shader should automatically sync its uniforms.
-     * @returns {PIXI.GLProgram} the glProgram that belongs to the shader.
+     * @param shader - the new shader
+     * @param dontSync - false if the shader should automatically sync its uniforms.
+     * @returns the glProgram that belongs to the shader.
      */
     ShaderSystem.prototype.bind = function (shader, dontSync) {
         shader.uniforms.globals = this.renderer.globalUniforms;
@@ -14365,7 +14145,7 @@ var ShaderSystem = /** @class */ (function () {
     /**
      * Uploads the uniforms values to the currently bound shader.
      *
-     * @param {object} uniforms - the uniforms values that be applied to the current shader
+     * @param uniforms - the uniforms values that be applied to the current shader
      */
     ShaderSystem.prototype.setUniforms = function (uniforms) {
         var shader = this.shader.program;
@@ -14374,8 +14154,8 @@ var ShaderSystem = /** @class */ (function () {
     };
     /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
     /**
+     * Syncs uniforms on the group
      *
-     * syncs uniforms on the group
      * @param group - the uniform group to sync
      * @param syncData - this is data that is passed to the sync function and any nested sync functions
      */
@@ -14387,10 +14167,7 @@ var ShaderSystem = /** @class */ (function () {
         }
     };
     /**
-     * Overrideable by the @pixi/unsafe-eval package to use static
-     * syncUniforms instead.
-     *
-     * @private
+     * Overrideable by the @pixi/unsafe-eval package to use static syncUniforms instead.
      */
     ShaderSystem.prototype.syncUniforms = function (group, glProgram, syncData) {
         var syncFunc = group.syncUniforms[this.shader.program.id] || this.createSyncGroups(group);
@@ -14454,10 +14231,9 @@ var ShaderSystem = /** @class */ (function () {
     /**
      * Takes a uniform group and data and generates a unique signature for them.
      *
-     * @param {PIXI.UniformGroup} group - the uniform group to get signature of
-     * @param {Object} uniformData - uniform information generated by the shader
-     * @returns {String} Unique signature of the uniform group
-     * @private
+     * @param group - The uniform group to get signature of
+     * @param uniformData - Uniform information generated by the shader
+     * @returns Unique signature of the uniform group
      */
     ShaderSystem.prototype.getSignature = function (group, uniformData, preFix) {
         var uniforms = group.uniforms;
@@ -14472,9 +14248,10 @@ var ShaderSystem = /** @class */ (function () {
     };
     /**
      * Returns the underlying GLShade rof the currently bound shader.
+     *
      * This can be handy for when you to have a little more control over the setting of your uniforms.
      *
-     * @return {PIXI.GLProgram} the glProgram for the currently bound Shader for this context
+     * @return The glProgram for the currently bound Shader for this context
      */
     ShaderSystem.prototype.getGlProgram = function () {
         if (this.shader) {
@@ -14485,9 +14262,8 @@ var ShaderSystem = /** @class */ (function () {
     /**
      * Generates a glProgram version of the Shader provided.
      *
-     * @private
-     * @param {PIXI.Shader} shader - the shader that the glProgram will be based on.
-     * @return {PIXI.GLProgram} A shiny new glProgram!
+     * @param shader - The shader that the glProgram will be based on.
+     * @return A shiny new glProgram!
      */
     ShaderSystem.prototype.generateProgram = function (shader) {
         var gl = this.gl;
@@ -14496,16 +14272,12 @@ var ShaderSystem = /** @class */ (function () {
         program.glPrograms[this.renderer.CONTEXT_UID] = glProgram;
         return glProgram;
     };
-    /**
-     * Resets ShaderSystem state, does not affect WebGL state
-     */
+    /** Resets ShaderSystem state, does not affect WebGL state. */
     ShaderSystem.prototype.reset = function () {
         this.program = null;
         this.shader = null;
     };
-    /**
-     * Destroys this System and removes all its textures
-     */
+    /** Destroys this System and removes all its textures. */
     ShaderSystem.prototype.destroy = function () {
         this.renderer = null;
         // TODO implement destroy method for ShaderSystem
@@ -14573,67 +14345,24 @@ var DEPTH_MASK$1 = 5;
 /**
  * System plugin to the renderer to manage WebGL state machines.
  *
- * @class
- * @extends PIXI.System
  * @memberof PIXI
  */
 var StateSystem = /** @class */ (function () {
     function StateSystem() {
-        /**
-         * GL context
-         * @member {WebGLRenderingContext}
-         * @readonly
-         */
         this.gl = null;
-        /**
-         * State ID
-         * @member {number}
-         * @readonly
-         */
         this.stateId = 0;
-        /**
-         * Polygon offset
-         * @member {number}
-         * @readonly
-         */
         this.polygonOffset = 0;
-        /**
-         * Blend mode
-         * @member {number}
-         * @default PIXI.BLEND_MODES.NONE
-         * @readonly
-         */
         this.blendMode = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.BLEND_MODES.NONE;
-        /**
-         * Whether current blend equation is different
-         * @member {boolean}
-         * @protected
-         */
         this._blendEq = false;
-        /**
-         * Collection of calls
-         * @member {function[]}
-         * @readonly
-         */
-        this.map = [];
         // map functions for when we set state..
+        this.map = [];
         this.map[BLEND$1] = this.setBlend;
         this.map[OFFSET$1] = this.setOffset;
         this.map[CULLING$1] = this.setCullFace;
         this.map[DEPTH_TEST$1] = this.setDepthTest;
         this.map[WINDING$1] = this.setFrontFace;
         this.map[DEPTH_MASK$1] = this.setDepthMask;
-        /**
-         * Collection of check calls
-         * @member {function[]}
-         * @readonly
-         */
         this.checks = [];
-        /**
-         * Default WebGL State
-         * @member {PIXI.State}
-         * @readonly
-         */
         this.defaultState = new State();
         this.defaultState.blend = true;
     }
@@ -14673,7 +14402,7 @@ var StateSystem = /** @class */ (function () {
         }
     };
     /**
-     * Sets the state, when previous state is unknown
+     * Sets the state, when previous state is unknown.
      *
      * @param {*} state - The state to set
      */
@@ -14688,18 +14417,18 @@ var StateSystem = /** @class */ (function () {
         this.stateId = state.data;
     };
     /**
-     * Enables or disabled blending.
+     * Sets whether to enable or disable blending.
      *
-     * @param {boolean} value - Turn on or off webgl blending.
+     * @param value - Turn on or off WebGl blending.
      */
     StateSystem.prototype.setBlend = function (value) {
         this.updateCheck(StateSystem.checkBlendMode, value);
         this.gl[value ? 'enable' : 'disable'](this.gl.BLEND);
     };
     /**
-     * Enables or disable polygon offset fill
+     * Sets whether to enable or disable polygon offset fill.
      *
-     * @param {boolean} value - Turn on or off webgl polygon offset testing.
+     * @param value - Turn on or off webgl polygon offset testing.
      */
     StateSystem.prototype.setOffset = function (value) {
         this.updateCheck(StateSystem.checkPolygonOffset, value);
@@ -14708,7 +14437,7 @@ var StateSystem = /** @class */ (function () {
     /**
      * Sets whether to enable or disable depth test.
      *
-     * @param {boolean} value - Turn on or off webgl depth testing.
+     * @param value - Turn on or off webgl depth testing.
      */
     StateSystem.prototype.setDepthTest = function (value) {
         this.gl[value ? 'enable' : 'disable'](this.gl.DEPTH_TEST);
@@ -14716,7 +14445,7 @@ var StateSystem = /** @class */ (function () {
     /**
      * Sets whether to enable or disable depth mask.
      *
-     * @param {boolean} value - Turn on or off webgl depth mask.
+     * @param value - Turn on or off webgl depth mask.
      */
     StateSystem.prototype.setDepthMask = function (value) {
         this.gl.depthMask(value);
@@ -14774,9 +14503,7 @@ var StateSystem = /** @class */ (function () {
         this.gl.polygonOffset(value, scale);
     };
     // used
-    /**
-     * Resets all the logic and disables the vaos
-     */
+    /** Resets all the logic and disables the VAOs. */
     StateSystem.prototype.reset = function () {
         this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, false);
         this.forceState(this.defaultState);
@@ -14785,13 +14512,14 @@ var StateSystem = /** @class */ (function () {
         this.setBlendMode(0);
     };
     /**
-     * checks to see which updates should be checked based on which settings have been activated.
+     * Checks to see which updates should be checked based on which settings have been activated.
+     *
      * For example, if blend is enabled then we should check the blend modes each time the state is changed
      * or if polygon fill is activated then we need to check if the polygon offset changes.
      * The idea is that we only check what we have too.
      *
-     * @param {Function} func - the checking function to add or remove
-     * @param {boolean} value - should the check function be added or removed.
+     * @param func - the checking function to add or remove
+     * @param value - should the check function be added or removed.
      */
     StateSystem.prototype.updateCheck = function (func, value) {
         var index = this.checks.indexOf(func);
@@ -14805,10 +14533,8 @@ var StateSystem = /** @class */ (function () {
     /**
      * A private little wrapper function that we call to check the blend mode.
      *
-     * @static
-     * @private
-     * @param {PIXI.StateSystem} System - the System to perform the state check on
-     * @param {PIXI.State} state - the state that the blendMode will pulled from
+     * @param System - the System to perform the state check on
+     * @param state - the state that the blendMode will pulled from
      */
     StateSystem.checkBlendMode = function (system, state) {
         system.setBlendMode(state.blendMode);
@@ -14816,10 +14542,8 @@ var StateSystem = /** @class */ (function () {
     /**
      * A private little wrapper function that we call to check the polygon offset.
      *
-     * @static
-     * @private
-     * @param {PIXI.StateSystem} System - the System to perform the state check on
-     * @param {PIXI.State} state - the state that the blendMode will pulled from
+     * @param System - the System to perform the state check on
+     * @param state - the state that the blendMode will pulled from
      */
     StateSystem.checkPolygonOffset = function (system, state) {
         system.setPolygonOffset(1, state.polygonOffset);
@@ -15485,7 +15209,7 @@ var _systems = {
     TextureSystem: TextureSystem
 };
 
-var tempMatrix$1 = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Matrix();
+var tempMatrix$2 = new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Matrix();
 /**
  * The AbstractRenderer is the base for a PixiJS Renderer. It is extended by the {@link PIXI.CanvasRenderer}
  * and {@link PIXI.Renderer} which can be used for rendering a PixiJS scene.
@@ -15719,12 +15443,12 @@ var AbstractRenderer = /** @class */ (function (_super) {
         if (region.height === 0)
             { region.height = 1; }
         var renderTexture = RenderTexture.create(__assign({ width: region.width, height: region.height }, textureOptions));
-        tempMatrix$1.tx = -region.x;
-        tempMatrix$1.ty = -region.y;
+        tempMatrix$2.tx = -region.x;
+        tempMatrix$2.ty = -region.y;
         this.render(displayObject, {
             renderTexture: renderTexture,
             clear: false,
-            transform: tempMatrix$1,
+            transform: tempMatrix$2,
             skipUpdateTransform: !!displayObject.parent
         });
         return renderTexture;
@@ -15981,9 +15705,7 @@ var BufferSystem = /** @class */ (function () {
  *
  * The breadth of the API surface provided by the renderer is contained within these systems.
  *
- * @class
  * @memberof PIXI
- * @extends PIXI.AbstractRenderer
  */
 var Renderer = /** @class */ (function (_super) {
     __extends(Renderer, _super);
@@ -16011,36 +15733,13 @@ var Renderer = /** @class */ (function (_super) {
      * @param {string} [options.powerPreference] - Parameter passed to WebGL context, set to "high-performance"
      *  for devices with dual graphics card.
      * @param {object} [options.context] - If WebGL context already exists, all parameters must be taken from it.
-     * @public
      */
     function Renderer(options) {
         var _this = _super.call(this, _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.RENDERER_TYPE.WEBGL, options) || this;
         // the options will have been modified here in the super constructor with pixi's default settings..
         options = _this.options;
-        /**
-         * WebGL context, set by the contextSystem (this.context)
-         *
-         * @readonly
-         * @member {WebGLRenderingContext}
-         */
         _this.gl = null;
         _this.CONTEXT_UID = 0;
-        /**
-         * Internal signal instances of **runner**, these
-         * are assigned to each system created.
-         * @see PIXI.Runner
-         * @name runners
-         * @private
-         * @type {object}
-         * @readonly
-         * @property {PIXI.Runner} destroy - Destroy runner
-         * @property {PIXI.Runner} contextChange - Context change runner
-         * @property {PIXI.Runner} reset - Reset runner
-         * @property {PIXI.Runner} update - Update runner
-         * @property {PIXI.Runner} postrender - Post-render runner
-         * @property {PIXI.Runner} prerender - Pre-render runner
-         * @property {PIXI.Runner} resize - Resize runner
-         */
         _this.runners = {
             destroy: new _pixi_runner__WEBPACK_IMPORTED_MODULE_3__.Runner('destroy'),
             contextChange: new _pixi_runner__WEBPACK_IMPORTED_MODULE_3__.Runner('contextChange'),
@@ -16051,124 +15750,25 @@ var Renderer = /** @class */ (function (_super) {
             resize: new _pixi_runner__WEBPACK_IMPORTED_MODULE_3__.Runner('resize'),
         };
         _this.runners.contextChange.add(_this);
-        /**
-         * Global uniforms
-         * @member {PIXI.UniformGroup}
-         */
         _this.globalUniforms = new UniformGroup({
             projectionMatrix: new _pixi_math__WEBPACK_IMPORTED_MODULE_5__.Matrix(),
         }, true);
-        /**
-         * Mask system instance
-         * @member {PIXI.MaskSystem} mask
-         * @memberof PIXI.Renderer#
-         * @readonly
-         */
         _this.addSystem(MaskSystem, 'mask')
-            /**
-             * Context system instance
-             * @member {PIXI.ContextSystem} context
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(ContextSystem, 'context')
-            /**
-             * State system instance
-             * @member {PIXI.StateSystem} state
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(StateSystem, 'state')
-            /**
-             * Shader system instance
-             * @member {PIXI.ShaderSystem} shader
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(ShaderSystem, 'shader')
-            /**
-             * Texture system instance
-             * @member {PIXI.TextureSystem} texture
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(TextureSystem, 'texture')
-            /**
-             * Geometry system instance
-             * @member {PIXI.systems.BufferSystem} buffer
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(BufferSystem, 'buffer')
-            /**
-             * Geometry system instance
-             * @member {PIXI.systems.GeometrySystem} geometry
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(GeometrySystem, 'geometry')
-            /**
-             * Framebuffer system instance
-             * @member {PIXI.FramebufferSystem} framebuffer
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(FramebufferSystem, 'framebuffer')
-            /**
-             * Scissor system instance
-             * @member {PIXI.ScissorSystem} scissor
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(ScissorSystem, 'scissor')
-            /**
-             * Stencil system instance
-             * @member {PIXI.StencilSystem} stencil
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(StencilSystem, 'stencil')
-            /**
-             * Projection system instance
-             * @member {PIXI.ProjectionSystem} projection
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(ProjectionSystem, 'projection')
-            /**
-             * Texture garbage collector system instance
-             * @member {PIXI.TextureGCSystem} textureGC
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(TextureGCSystem, 'textureGC')
-            /**
-             * Filter system instance
-             * @member {PIXI.FilterSystem} filter
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(FilterSystem, 'filter')
-            /**
-             * RenderTexture system instance
-             * @member {PIXI.RenderTextureSystem} renderTexture
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(RenderTextureSystem, 'renderTexture')
-            /**
-             * Batch system instance
-             * @member {PIXI.BatchSystem} batch
-             * @memberof PIXI.Renderer#
-             * @readonly
-             */
             .addSystem(BatchSystem, 'batch');
         _this.initPlugins(Renderer.__plugins);
-        /**
-         * The number of msaa samples of the canvas.
-         * @member {PIXI.MSAA_QUALITY}
-         * @readonly
-         */
         _this.multisample = undefined;
         /*
          * The options passed in to create a new WebGL context.
@@ -16186,12 +15786,6 @@ var Renderer = /** @class */ (function (_super) {
                 powerPreference: _this.options.powerPreference,
             });
         }
-        /**
-         * Flag if we are rendering to the screen vs renderTexture
-         * @member {boolean}
-         * @readonly
-         * @default true
-         */
         _this.renderingToScreen = true;
         (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_2__.sayHello)(_this.context.webGLVersion === 2 ? 'WebGL 2' : 'WebGL 1');
         _this.resize(_this.options.width, _this.options.height);
@@ -16201,7 +15795,7 @@ var Renderer = /** @class */ (function (_super) {
      * Create renderer if WebGL is available. Overrideable
      * by the **@pixi/canvas-renderer** package to allow fallback.
      * throws error if WebGL is not available.
-     * @static
+     *
      * @private
      */
     Renderer.create = function (options) {
@@ -16245,7 +15839,7 @@ var Renderer = /** @class */ (function (_super) {
      *        will use a static `name` property on the class itself. This
      *        name will be assigned as s property on the Renderer so make
      *        sure it doesn't collide with properties on Renderer.
-     * @return {PIXI.Renderer} Return instance of renderer
+     * @return Return instance of renderer
      */
     Renderer.prototype.addSystem = function (ClassRef, name) {
         var system = new ClassRef(this);
@@ -16358,15 +15952,13 @@ var Renderer = /** @class */ (function (_super) {
     /**
      * Resets the WebGL state so you can render things however you fancy!
      *
-     * @return {PIXI.Renderer} Returns itself.
+     * @return Returns itself.
      */
     Renderer.prototype.reset = function () {
         this.runners.reset.emit();
         return this;
     };
-    /**
-     * Clear the frame buffer
-     */
+    /** Clear the frame buffer. */
     Renderer.prototype.clear = function () {
         this.renderTexture.bind();
         this.renderTexture.clear();
@@ -16404,7 +15996,6 @@ var Renderer = /** @class */ (function (_super) {
     /**
      * Adds a plugin to the renderer.
      *
-     * @method
      * @param pluginName - The name of the plugin.
      * @param ctor - The constructor function or class for the plugin.
      */
@@ -16494,7 +16085,6 @@ var System = /** @class */ (function () {
  * Used by the batcher to draw batches.
  * Each one of these contains all information required to draw a bound geometry.
  *
- * @class
  * @memberof PIXI
  */
 var BatchDrawCall = /** @class */ (function () {
@@ -16504,10 +16094,6 @@ var BatchDrawCall = /** @class */ (function () {
         this.type = _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.DRAW_MODES.TRIANGLES;
         this.start = 0;
         this.size = 0;
-        /**
-         * data for uniforms or custom webgl state
-         * @member {object}
-         */
         this.data = null;
     }
     return BatchDrawCall;
@@ -16517,25 +16103,12 @@ var BatchDrawCall = /** @class */ (function () {
  * Used by the batcher to build texture batches.
  * Holds list of textures and their respective locations.
  *
- * @class
  * @memberof PIXI
  */
 var BatchTextureArray = /** @class */ (function () {
     function BatchTextureArray() {
-        /**
-         * inside textures array
-         * @member {PIXI.BaseTexture[]}
-         */
         this.elements = [];
-        /**
-         * Respective locations for textures
-         * @member {number[]}
-         */
         this.ids = [];
-        /**
-         * number of filled elements
-         * @member {number}
-         */
         this.count = 0;
     }
     BatchTextureArray.prototype.clear = function () {
@@ -16708,10 +16281,7 @@ var ViewableBuffer = /** @class */ (function () {
  * batches. It uploads multiple textures to the GPU to
  * reduce to the number of draw calls.
  *
- * @class
- * @protected
  * @memberof PIXI
- * @extends PIXI.ObjectRenderer
  */
 var AbstractBatchRenderer = /** @class */ (function (_super) {
     __extends(AbstractBatchRenderer, _super);
@@ -16723,181 +16293,22 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
      */
     function AbstractBatchRenderer(renderer) {
         var _this = _super.call(this, renderer) || this;
-        /**
-         * This is used to generate a shader that can
-         * color each vertex based on a `aTextureId`
-         * attribute that points to an texture in `uSampler`.
-         *
-         * This enables the objects with different textures
-         * to be drawn in the same draw call.
-         *
-         * You can customize your shader by creating your
-         * custom shader generator.
-         *
-         * @member {PIXI.BatchShaderGenerator}
-         * @protected
-         */
         _this.shaderGenerator = null;
-        /**
-         * The class that represents the geometry of objects
-         * that are going to be batched with this.
-         *
-         * @member {object}
-         * @default PIXI.BatchGeometry
-         * @protected
-         */
         _this.geometryClass = null;
-        /**
-         * Size of data being buffered per vertex in the
-         * attribute buffers (in floats). By default, the
-         * batch-renderer plugin uses 6:
-         *
-         * | aVertexPosition | 2 |
-         * |-----------------|---|
-         * | aTextureCoords  | 2 |
-         * | aColor          | 1 |
-         * | aTextureId      | 1 |
-         *
-         * @member {number}
-         * @readonly
-         */
         _this.vertexSize = null;
-        /**
-         * The WebGL state in which this renderer will work.
-         *
-         * @member {PIXI.State}
-         * @readonly
-         */
         _this.state = State.for2d();
-        /**
-         * The number of bufferable objects before a flush
-         * occurs automatically.
-         *
-         * @member {number}
-         * @default settings.SPRITE_BATCH_SIZE * 4
-         */
         _this.size = _pixi_settings__WEBPACK_IMPORTED_MODULE_0__.settings.SPRITE_BATCH_SIZE * 4;
-        /**
-         * Total count of all vertices used by the currently
-         * buffered objects.
-         *
-         * @member {number}
-         * @private
-         */
         _this._vertexCount = 0;
-        /**
-         * Total count of all indices used by the currently
-         * buffered objects.
-         *
-         * @member {number}
-         * @private
-         */
         _this._indexCount = 0;
-        /**
-         * Buffer of objects that are yet to be rendered.
-         *
-         * @member {PIXI.DisplayObject[]}
-         * @private
-         */
         _this._bufferedElements = [];
-        /**
-         * Data for texture batch builder, helps to save a bit of CPU on a pass.
-         * @type {PIXI.BaseTexture[]}
-         * @private
-         */
         _this._bufferedTextures = [];
-        /**
-         * Number of elements that are buffered and are
-         * waiting to be flushed.
-         *
-         * @member {number}
-         * @private
-         */
         _this._bufferSize = 0;
-        /**
-         * This shader is generated by `this.shaderGenerator`.
-         *
-         * It is generated specifically to handle the required
-         * number of textures being batched together.
-         *
-         * @member {PIXI.Shader}
-         * @protected
-         */
         _this._shader = null;
-        /**
-         * Pool of `this.geometryClass` geometry objects
-         * that store buffers. They are used to pass data
-         * to the shader on each draw call.
-         *
-         * These are never re-allocated again, unless a
-         * context change occurs; however, the pool may
-         * be expanded if required.
-         *
-         * @member {PIXI.Geometry[]}
-         * @private
-         * @see PIXI.AbstractBatchRenderer.contextChange
-         */
         _this._packedGeometries = [];
-        /**
-         * Size of `this._packedGeometries`. It can be expanded
-         * if more than `this._packedGeometryPoolSize` flushes
-         * occur in a single frame.
-         *
-         * @member {number}
-         * @private
-         */
         _this._packedGeometryPoolSize = 2;
-        /**
-         * A flush may occur multiple times in a single
-         * frame. On iOS devices or when
-         * `settings.CAN_UPLOAD_SAME_BUFFER` is false, the
-         * batch renderer does not upload data to the same
-         * `WebGLBuffer` for performance reasons.
-         *
-         * This is the index into `packedGeometries` that points to
-         * geometry holding the most recent buffers.
-         *
-         * @member {number}
-         * @private
-         */
         _this._flushId = 0;
-        /**
-         * Pool of `ViewableBuffer` objects that are sorted in
-         * order of increasing size. The flush method uses
-         * the buffer with the least size above the amount
-         * it requires. These are used for passing attributes.
-         *
-         * The first buffer has a size of 8; each subsequent
-         * buffer has double capacity of its previous.
-         *
-         * @member {PIXI.ViewableBuffer[]}
-         * @private
-         * @see PIXI.AbstractBatchRenderer#getAttributeBuffer
-         */
         _this._aBuffers = {};
-        /**
-         * Pool of `Uint16Array` objects that are sorted in
-         * order of increasing size. The flush method uses
-         * the buffer with the least size above the amount
-         * it requires. These are used for passing indices.
-         *
-         * The first buffer has a size of 12; each subsequent
-         * buffer has double capacity of its previous.
-         *
-         * @member {Uint16Array[]}
-         * @private
-         * @see PIXI.AbstractBatchRenderer#getIndexBuffer
-         */
         _this._iBuffers = {};
-        /**
-         * Maximum number of textures that can be uploaded to
-         * the GPU under the current context. It is initialized
-         * properly in `this.contextChange`.
-         *
-         * @member {number}
-         * @see PIXI.AbstractBatchRenderer#contextChange
-         * @readonly
-         */
         _this.MAX_TEXTURES = 1;
         _this.renderer.on('prerender', _this.onPrerender, _this);
         renderer.runners.contextChange.add(_this);
@@ -16912,8 +16323,7 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
     /**
      * Handles the `contextChange` signal.
      *
-     * It calculates `this.MAX_TEXTURES` and allocating the
-     * packed-geometry object pool.
+     * It calculates `this.MAX_TEXTURES` and allocating the packed-geometry object pool.
      */
     AbstractBatchRenderer.prototype.contextChange = function () {
         var gl = this.renderer.gl;
@@ -16935,9 +16345,7 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
         }
         this.initFlushBuffers();
     };
-    /**
-     * Makes sure that static and dynamic flush pooled objects have correct dimensions
-     */
+    /** Makes sure that static and dynamic flush pooled objects have correct dimensions. */
     AbstractBatchRenderer.prototype.initFlushBuffers = function () {
         var _drawCallPool = AbstractBatchRenderer._drawCallPool, _textureArrayPool = AbstractBatchRenderer._textureArrayPool;
         // max draw calls
@@ -16957,15 +16365,13 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
     /**
      * Handles the `prerender` signal.
      *
-     * It ensures that flushes start from the first geometry
-     * object again.
+     * It ensures that flushes start from the first geometry object again.
      */
     AbstractBatchRenderer.prototype.onPrerender = function () {
         this._flushId = 0;
     };
     /**
-     * Buffers the "batchable" object. It need not be rendered
-     * immediately.
+     * Buffers the "batchable" object. It need not be rendered immediately.
      *
      * @param {PIXI.DisplayObject} element - the element to render when
      *    using this renderer
@@ -17022,13 +16428,7 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
         }
         BaseTexture._globalBatch = TICK;
     };
-    /**
-     * Populating drawcalls for rendering
-     *
-     * @param {PIXI.BatchTextureArray} texArray
-     * @param {number} start
-     * @param {number} finish
-     */
+    /** Populating drawcalls for rendering */
     AbstractBatchRenderer.prototype.buildDrawCalls = function (texArray, start, finish) {
         var _a = this, elements = _a._bufferedElements, _attributeBuffer = _a._attributeBuffer, _indexBuffer = _a._indexBuffer, vertexSize = _a.vertexSize;
         var drawCalls = AbstractBatchRenderer._drawCallPool;
@@ -17063,11 +16463,7 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
         this._aIndex = aIndex;
         this._iIndex = iIndex;
     };
-    /**
-     * Bind textures for current rendering
-     *
-     * @param {PIXI.BatchTextureArray} texArray
-     */
+    /** Bind textures for current rendering */
     AbstractBatchRenderer.prototype.bindAndClearTexArray = function (texArray) {
         var textureSystem = this.renderer.texture;
         for (var j = 0; j < texArray.count; j++) {
@@ -17114,9 +16510,7 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
             gl.drawElements(type, size, gl.UNSIGNED_SHORT, start * 2);
         }
     };
-    /**
-     * Renders the content _now_ and empties the current batch.
-     */
+    /** Renders the content _now_ and empties the current batch. */
     AbstractBatchRenderer.prototype.flush = function () {
         if (this._vertexCount === 0) {
             return;
@@ -17134,9 +16528,7 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
         this._vertexCount = 0;
         this._indexCount = 0;
     };
-    /**
-     * Starts a new sprite batch.
-     */
+    /** Starts a new sprite batch. */
     AbstractBatchRenderer.prototype.start = function () {
         this.renderer.state.set(this.state);
         this.renderer.texture.ensureSamplerType(this.MAX_TEXTURES);
@@ -17146,15 +16538,11 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
             this.renderer.geometry.bind(this._packedGeometries[this._flushId]);
         }
     };
-    /**
-     * Stops and flushes the current batch.
-     */
+    /** Stops and flushes the current batch. */
     AbstractBatchRenderer.prototype.stop = function () {
         this.flush();
     };
-    /**
-     * Destroys this `AbstractBatchRenderer`. It cannot be used again.
-     */
+    /** Destroys this `AbstractBatchRenderer`. It cannot be used again. */
     AbstractBatchRenderer.prototype.destroy = function () {
         for (var i = 0; i < this._packedGeometryPoolSize; i++) {
             if (this._packedGeometries[i]) {
@@ -17174,12 +16562,10 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
         _super.prototype.destroy.call(this);
     };
     /**
-     * Fetches an attribute buffer from `this._aBuffers` that
-     * can hold atleast `size` floats.
+     * Fetches an attribute buffer from `this._aBuffers` that can hold atleast `size` floats.
      *
-     * @param {number} size - minimum capacity required
-     * @return {ViewableBuffer} - buffer than can hold atleast `size` floats
-     * @private
+     * @param size - minimum capacity required
+     * @return - buffer than can hold atleast `size` floats
      */
     AbstractBatchRenderer.prototype.getAttributeBuffer = function (size) {
         // 8 vertices is enough for 2 quads
@@ -17199,10 +16585,8 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
      * Fetches an index buffer from `this._iBuffers` that can
      * have at least `size` capacity.
      *
-     * @param {number} size - minimum required capacity
-     * @return {Uint16Array} - buffer that can fit `size`
-     *    indices.
-     * @private
+     * @param size - minimum required capacity
+     * @return - buffer that can fit `size` indices.
      */
     AbstractBatchRenderer.prototype.getIndexBuffer = function (size) {
         // 12 indices is enough for 2 quads
@@ -17226,11 +16610,11 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
      * `indicies`. It also uses the "tint" of the base-texture, if
      * present.
      *
-     * @param {PIXI.Sprite} element - element being rendered
-     * @param {PIXI.ViewableBuffer} attributeBuffer - attribute buffer.
-     * @param {Uint16Array} indexBuffer - index buffer
-     * @param {number} aIndex - number of floats already in the attribute buffer
-     * @param {number} iIndex - number of indices already in `indexBuffer`
+     * @param {PIXI.DisplayObject} element - element being rendered
+     * @param attributeBuffer - attribute buffer.
+     * @param indexBuffer - index buffer
+     * @param aIndex - number of floats already in the attribute buffer
+     * @param iIndex - number of indices already in `indexBuffer`
      */
     AbstractBatchRenderer.prototype.packInterleavedGeometry = function (element, attributeBuffer, indexBuffer, aIndex, iIndex) {
         var uint32View = attributeBuffer.uint32View, float32View = attributeBuffer.float32View;
@@ -17264,7 +16648,6 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
      * These are never re-allocated again.
      * Shared between all batch renderers because it can be only one "flush" working at the moment.
      *
-     * @static
      * @member {PIXI.BatchDrawCall[]}
      */
     AbstractBatchRenderer._drawCallPool = [];
@@ -17275,7 +16658,6 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
      * These are never re-allocated again.
      * Shared between all batch renderers because it can be only one "flush" working at the moment.
      *
-     * @static
      * @member {PIXI.BatchTextureArray[]}
      */
     AbstractBatchRenderer._textureArrayPool = [];
@@ -17285,26 +16667,15 @@ var AbstractBatchRenderer = /** @class */ (function (_super) {
 /**
  * Helper that generates batching multi-texture shader. Use it with your new BatchRenderer
  *
- * @class
  * @memberof PIXI
  */
 var BatchShaderGenerator = /** @class */ (function () {
     /**
-     * @param {string} vertexSrc - Vertex shader
-     * @param {string} fragTemplate - Fragment shader template
+     * @param vertexSrc - Vertex shader
+     * @param fragTemplate - Fragment shader template
      */
     function BatchShaderGenerator(vertexSrc, fragTemplate) {
-        /**
-         * Reference to the vertex shader source.
-         *
-         * @member {string}
-         */
         this.vertexSrc = vertexSrc;
-        /**
-         * Reference to the fragment shader template. Must contain "%count%" and "%forloop%".
-         *
-         * @member {string}
-         */
         this.fragTemplate = fragTemplate;
         this.programCache = {};
         this.defaultGroupCache = {};
@@ -17359,7 +16730,6 @@ var BatchShaderGenerator = /** @class */ (function () {
 /**
  * Geometry used to batch standard PIXI content (e.g. Mesh, Sprite, Graphics objects).
  *
- * @class
  * @memberof PIXI
  */
 var BatchGeometry = /** @class */ (function (_super) {
@@ -17371,19 +16741,7 @@ var BatchGeometry = /** @class */ (function (_super) {
     function BatchGeometry(_static) {
         if (_static === void 0) { _static = false; }
         var _this = _super.call(this) || this;
-        /**
-         * Buffer used for position, color, texture IDs
-         *
-         * @member {PIXI.Buffer}
-         * @protected
-         */
         _this._buffer = new Buffer(null, _static, false);
-        /**
-         * Index buffer data
-         *
-         * @member {PIXI.Buffer}
-         * @protected
-         */
         _this._indexBuffer = new Buffer(null, _static, true);
         _this.addAttribute('aVertexPosition', _this._buffer, 2, false, _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.TYPES.FLOAT)
             .addAttribute('aTextureCoord', _this._buffer, 2, false, _pixi_constants__WEBPACK_IMPORTED_MODULE_1__.TYPES.FLOAT)
@@ -17399,11 +16757,7 @@ var defaultVertex$3 = "precision highp float;\nattribute vec2 aVertexPosition;\n
 
 var defaultFragment$2 = "varying vec2 vTextureCoord;\nvarying vec4 vColor;\nvarying float vTextureId;\nuniform sampler2D uSamplers[%count%];\n\nvoid main(void){\n    vec4 color;\n    %forloop%\n    gl_FragColor = color * vColor;\n}\n";
 
-/**
- * @class
- * @memberof PIXI
- * @hideconstructor
- */
+/** @memberof PIXI */
 var BatchPluginFactory = /** @class */ (function () {
     function BatchPluginFactory() {
     }
@@ -17428,7 +16782,6 @@ var BatchPluginFactory = /** @class */ (function () {
      * const sprite = new PIXI.Sprite();
      * sprite.pluginName = 'invert';
      *
-     * @static
      * @param {object} [options]
      * @param {string} [options.vertex=PIXI.BatchPluginFactory.defaultVertexSrc] - Vertex shader source
      * @param {string} [options.fragment=PIXI.BatchPluginFactory.defaultFragmentTemplate] - Fragment shader template
@@ -17459,9 +16812,7 @@ var BatchPluginFactory = /** @class */ (function () {
         /**
          * The default vertex shader source
          *
-         * @static
-         * @type {string}
-         * @constant
+         * @readonly
          */
         get: function () {
             return defaultVertex$3;
@@ -17473,9 +16824,7 @@ var BatchPluginFactory = /** @class */ (function () {
         /**
          * The default fragment shader source
          *
-         * @static
-         * @type {string}
-         * @constant
+         * @readonly
          */
         get: function () {
             return defaultFragment$2;
@@ -17550,8 +16899,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/display - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/display - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18013,7 +17362,7 @@ function __extends(d, b) {
  * | {@link PIXI.AnimatedSprite}     | Draws an animation of multiple images                                 |
  * | {@link PIXI.Mesh}               | Provides a lower-level API for drawing meshes with custom data        |
  * | {@link PIXI.NineSlicePlane}     | Mesh-related                                                          |
- * | {@link PIXI.SimpleMesh}         | v4-compatibile mesh                                                   |
+ * | {@link PIXI.SimpleMesh}         | v4-compatible mesh                                                    |
  * | {@link PIXI.SimplePlane}        | Mesh-related                                                          |
  * | {@link PIXI.SimpleRope}         | Mesh-related                                                          |
  *
@@ -18312,6 +17661,13 @@ var DisplayObject = /** @class */ (function (_super) {
          * @protected
          */
         _this._mask = null;
+        /**
+         * The number of times this object is used as a mask by another object.
+         *
+         * @member {number}
+         * @private
+         */
+        _this._maskRefCount = 0;
         /**
          * If the object has been destroyed via destroy(). If true, it should not be used.
          *
@@ -18614,7 +17970,7 @@ var DisplayObject = /** @class */ (function (_super) {
         this.transform = null;
         this.parent = null;
         this._bounds = null;
-        this._mask = null;
+        this.mask = null;
         this.filters = null;
         this.filterArea = null;
         this.hitArea = null;
@@ -18888,16 +18244,25 @@ var DisplayObject = /** @class */ (function (_super) {
             return this._mask;
         },
         set: function (value) {
+            if (this._mask === value) {
+                return;
+            }
             if (this._mask) {
                 var maskObject = (this._mask.maskObject || this._mask);
-                maskObject.renderable = true;
-                maskObject.isMask = false;
+                maskObject._maskRefCount--;
+                if (maskObject._maskRefCount === 0) {
+                    maskObject.renderable = true;
+                    maskObject.isMask = false;
+                }
             }
             this._mask = value;
             if (this._mask) {
                 var maskObject = (this._mask.maskObject || this._mask);
-                maskObject.renderable = false;
-                maskObject.isMask = true;
+                if (maskObject._maskRefCount === 0) {
+                    maskObject.renderable = false;
+                    maskObject.isMask = true;
+                }
+                maskObject._maskRefCount++;
             }
         },
         enumerable: false,
@@ -18925,6 +18290,521 @@ var TemporaryDisplayObject = /** @class */ (function (_super) {
  * @method displayObjectUpdateTransform
  */
 DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
+
+/*!
+ * @pixi/constants - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
+ *
+ * @pixi/constants is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+/**
+ * Different types of environments for WebGL.
+ *
+ * @static
+ * @memberof PIXI
+ * @name ENV
+ * @enum {number}
+ * @property {number} WEBGL_LEGACY - Used for older v1 WebGL devices. PixiJS will aim to ensure compatibility
+ *  with older / less advanced devices. If you experience unexplained flickering prefer this environment.
+ * @property {number} WEBGL - Version 1 of WebGL
+ * @property {number} WEBGL2 - Version 2 of WebGL
+ */
+var ENV;
+(function (ENV) {
+    ENV[ENV["WEBGL_LEGACY"] = 0] = "WEBGL_LEGACY";
+    ENV[ENV["WEBGL"] = 1] = "WEBGL";
+    ENV[ENV["WEBGL2"] = 2] = "WEBGL2";
+})(ENV || (ENV = {}));
+/**
+ * Constant to identify the Renderer Type.
+ *
+ * @static
+ * @memberof PIXI
+ * @name RENDERER_TYPE
+ * @enum {number}
+ * @property {number} UNKNOWN - Unknown render type.
+ * @property {number} WEBGL - WebGL render type.
+ * @property {number} CANVAS - Canvas render type.
+ */
+var RENDERER_TYPE;
+(function (RENDERER_TYPE) {
+    RENDERER_TYPE[RENDERER_TYPE["UNKNOWN"] = 0] = "UNKNOWN";
+    RENDERER_TYPE[RENDERER_TYPE["WEBGL"] = 1] = "WEBGL";
+    RENDERER_TYPE[RENDERER_TYPE["CANVAS"] = 2] = "CANVAS";
+})(RENDERER_TYPE || (RENDERER_TYPE = {}));
+/**
+ * Bitwise OR of masks that indicate the buffers to be cleared.
+ *
+ * @static
+ * @memberof PIXI
+ * @name BUFFER_BITS
+ * @enum {number}
+ * @property {number} COLOR - Indicates the buffers currently enabled for color writing.
+ * @property {number} DEPTH - Indicates the depth buffer.
+ * @property {number} STENCIL - Indicates the stencil buffer.
+ */
+var BUFFER_BITS;
+(function (BUFFER_BITS) {
+    BUFFER_BITS[BUFFER_BITS["COLOR"] = 16384] = "COLOR";
+    BUFFER_BITS[BUFFER_BITS["DEPTH"] = 256] = "DEPTH";
+    BUFFER_BITS[BUFFER_BITS["STENCIL"] = 1024] = "STENCIL";
+})(BUFFER_BITS || (BUFFER_BITS = {}));
+/**
+ * Various blend modes supported by PIXI.
+ *
+ * IMPORTANT - The WebGL renderer only supports the NORMAL, ADD, MULTIPLY and SCREEN blend modes.
+ * Anything else will silently act like NORMAL.
+ *
+ * @memberof PIXI
+ * @name BLEND_MODES
+ * @enum {number}
+ * @property {number} NORMAL
+ * @property {number} ADD
+ * @property {number} MULTIPLY
+ * @property {number} SCREEN
+ * @property {number} OVERLAY
+ * @property {number} DARKEN
+ * @property {number} LIGHTEN
+ * @property {number} COLOR_DODGE
+ * @property {number} COLOR_BURN
+ * @property {number} HARD_LIGHT
+ * @property {number} SOFT_LIGHT
+ * @property {number} DIFFERENCE
+ * @property {number} EXCLUSION
+ * @property {number} HUE
+ * @property {number} SATURATION
+ * @property {number} COLOR
+ * @property {number} LUMINOSITY
+ * @property {number} NORMAL_NPM
+ * @property {number} ADD_NPM
+ * @property {number} SCREEN_NPM
+ * @property {number} NONE
+ * @property {number} SRC_IN
+ * @property {number} SRC_OUT
+ * @property {number} SRC_ATOP
+ * @property {number} DST_OVER
+ * @property {number} DST_IN
+ * @property {number} DST_OUT
+ * @property {number} DST_ATOP
+ * @property {number} SUBTRACT
+ * @property {number} SRC_OVER
+ * @property {number} ERASE
+ * @property {number} XOR
+ */
+var BLEND_MODES;
+(function (BLEND_MODES) {
+    BLEND_MODES[BLEND_MODES["NORMAL"] = 0] = "NORMAL";
+    BLEND_MODES[BLEND_MODES["ADD"] = 1] = "ADD";
+    BLEND_MODES[BLEND_MODES["MULTIPLY"] = 2] = "MULTIPLY";
+    BLEND_MODES[BLEND_MODES["SCREEN"] = 3] = "SCREEN";
+    BLEND_MODES[BLEND_MODES["OVERLAY"] = 4] = "OVERLAY";
+    BLEND_MODES[BLEND_MODES["DARKEN"] = 5] = "DARKEN";
+    BLEND_MODES[BLEND_MODES["LIGHTEN"] = 6] = "LIGHTEN";
+    BLEND_MODES[BLEND_MODES["COLOR_DODGE"] = 7] = "COLOR_DODGE";
+    BLEND_MODES[BLEND_MODES["COLOR_BURN"] = 8] = "COLOR_BURN";
+    BLEND_MODES[BLEND_MODES["HARD_LIGHT"] = 9] = "HARD_LIGHT";
+    BLEND_MODES[BLEND_MODES["SOFT_LIGHT"] = 10] = "SOFT_LIGHT";
+    BLEND_MODES[BLEND_MODES["DIFFERENCE"] = 11] = "DIFFERENCE";
+    BLEND_MODES[BLEND_MODES["EXCLUSION"] = 12] = "EXCLUSION";
+    BLEND_MODES[BLEND_MODES["HUE"] = 13] = "HUE";
+    BLEND_MODES[BLEND_MODES["SATURATION"] = 14] = "SATURATION";
+    BLEND_MODES[BLEND_MODES["COLOR"] = 15] = "COLOR";
+    BLEND_MODES[BLEND_MODES["LUMINOSITY"] = 16] = "LUMINOSITY";
+    BLEND_MODES[BLEND_MODES["NORMAL_NPM"] = 17] = "NORMAL_NPM";
+    BLEND_MODES[BLEND_MODES["ADD_NPM"] = 18] = "ADD_NPM";
+    BLEND_MODES[BLEND_MODES["SCREEN_NPM"] = 19] = "SCREEN_NPM";
+    BLEND_MODES[BLEND_MODES["NONE"] = 20] = "NONE";
+    BLEND_MODES[BLEND_MODES["SRC_OVER"] = 0] = "SRC_OVER";
+    BLEND_MODES[BLEND_MODES["SRC_IN"] = 21] = "SRC_IN";
+    BLEND_MODES[BLEND_MODES["SRC_OUT"] = 22] = "SRC_OUT";
+    BLEND_MODES[BLEND_MODES["SRC_ATOP"] = 23] = "SRC_ATOP";
+    BLEND_MODES[BLEND_MODES["DST_OVER"] = 24] = "DST_OVER";
+    BLEND_MODES[BLEND_MODES["DST_IN"] = 25] = "DST_IN";
+    BLEND_MODES[BLEND_MODES["DST_OUT"] = 26] = "DST_OUT";
+    BLEND_MODES[BLEND_MODES["DST_ATOP"] = 27] = "DST_ATOP";
+    BLEND_MODES[BLEND_MODES["ERASE"] = 26] = "ERASE";
+    BLEND_MODES[BLEND_MODES["SUBTRACT"] = 28] = "SUBTRACT";
+    BLEND_MODES[BLEND_MODES["XOR"] = 29] = "XOR";
+})(BLEND_MODES || (BLEND_MODES = {}));
+/**
+ * Various webgl draw modes. These can be used to specify which GL drawMode to use
+ * under certain situations and renderers.
+ *
+ * @memberof PIXI
+ * @static
+ * @name DRAW_MODES
+ * @enum {number}
+ * @property {number} POINTS
+ * @property {number} LINES
+ * @property {number} LINE_LOOP
+ * @property {number} LINE_STRIP
+ * @property {number} TRIANGLES
+ * @property {number} TRIANGLE_STRIP
+ * @property {number} TRIANGLE_FAN
+ */
+var DRAW_MODES;
+(function (DRAW_MODES) {
+    DRAW_MODES[DRAW_MODES["POINTS"] = 0] = "POINTS";
+    DRAW_MODES[DRAW_MODES["LINES"] = 1] = "LINES";
+    DRAW_MODES[DRAW_MODES["LINE_LOOP"] = 2] = "LINE_LOOP";
+    DRAW_MODES[DRAW_MODES["LINE_STRIP"] = 3] = "LINE_STRIP";
+    DRAW_MODES[DRAW_MODES["TRIANGLES"] = 4] = "TRIANGLES";
+    DRAW_MODES[DRAW_MODES["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
+    DRAW_MODES[DRAW_MODES["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+})(DRAW_MODES || (DRAW_MODES = {}));
+/**
+ * Various GL texture/resources formats.
+ *
+ * @memberof PIXI
+ * @static
+ * @name FORMATS
+ * @enum {number}
+ * @property {number} RGBA=6408
+ * @property {number} RGB=6407
+ * @property {number} RG=33319
+ * @property {number} RED=6403
+ * @property {number} RGBA_INTEGER=36249
+ * @property {number} RGB_INTEGER=36248
+ * @property {number} RG_INTEGER=33320
+ * @property {number} RED_INTEGER=36244
+ * @property {number} ALPHA=6406
+ * @property {number} LUMINANCE=6409
+ * @property {number} LUMINANCE_ALPHA=6410
+ * @property {number} DEPTH_COMPONENT=6402
+ * @property {number} DEPTH_STENCIL=34041
+ */
+var FORMATS;
+(function (FORMATS) {
+    FORMATS[FORMATS["RGBA"] = 6408] = "RGBA";
+    FORMATS[FORMATS["RGB"] = 6407] = "RGB";
+    FORMATS[FORMATS["RG"] = 33319] = "RG";
+    FORMATS[FORMATS["RED"] = 6403] = "RED";
+    FORMATS[FORMATS["RGBA_INTEGER"] = 36249] = "RGBA_INTEGER";
+    FORMATS[FORMATS["RGB_INTEGER"] = 36248] = "RGB_INTEGER";
+    FORMATS[FORMATS["RG_INTEGER"] = 33320] = "RG_INTEGER";
+    FORMATS[FORMATS["RED_INTEGER"] = 36244] = "RED_INTEGER";
+    FORMATS[FORMATS["ALPHA"] = 6406] = "ALPHA";
+    FORMATS[FORMATS["LUMINANCE"] = 6409] = "LUMINANCE";
+    FORMATS[FORMATS["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+    FORMATS[FORMATS["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+    FORMATS[FORMATS["DEPTH_STENCIL"] = 34041] = "DEPTH_STENCIL";
+})(FORMATS || (FORMATS = {}));
+/**
+ * Various GL target types.
+ *
+ * @memberof PIXI
+ * @static
+ * @name TARGETS
+ * @enum {number}
+ * @property {number} TEXTURE_2D=3553
+ * @property {number} TEXTURE_CUBE_MAP=34067
+ * @property {number} TEXTURE_2D_ARRAY=35866
+ * @property {number} TEXTURE_CUBE_MAP_POSITIVE_X=34069
+ * @property {number} TEXTURE_CUBE_MAP_NEGATIVE_X=34070
+ * @property {number} TEXTURE_CUBE_MAP_POSITIVE_Y=34071
+ * @property {number} TEXTURE_CUBE_MAP_NEGATIVE_Y=34072
+ * @property {number} TEXTURE_CUBE_MAP_POSITIVE_Z=34073
+ * @property {number} TEXTURE_CUBE_MAP_NEGATIVE_Z=34074
+ */
+var TARGETS;
+(function (TARGETS) {
+    TARGETS[TARGETS["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
+    TARGETS[TARGETS["TEXTURE_CUBE_MAP"] = 34067] = "TEXTURE_CUBE_MAP";
+    TARGETS[TARGETS["TEXTURE_2D_ARRAY"] = 35866] = "TEXTURE_2D_ARRAY";
+    TARGETS[TARGETS["TEXTURE_CUBE_MAP_POSITIVE_X"] = 34069] = "TEXTURE_CUBE_MAP_POSITIVE_X";
+    TARGETS[TARGETS["TEXTURE_CUBE_MAP_NEGATIVE_X"] = 34070] = "TEXTURE_CUBE_MAP_NEGATIVE_X";
+    TARGETS[TARGETS["TEXTURE_CUBE_MAP_POSITIVE_Y"] = 34071] = "TEXTURE_CUBE_MAP_POSITIVE_Y";
+    TARGETS[TARGETS["TEXTURE_CUBE_MAP_NEGATIVE_Y"] = 34072] = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
+    TARGETS[TARGETS["TEXTURE_CUBE_MAP_POSITIVE_Z"] = 34073] = "TEXTURE_CUBE_MAP_POSITIVE_Z";
+    TARGETS[TARGETS["TEXTURE_CUBE_MAP_NEGATIVE_Z"] = 34074] = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
+})(TARGETS || (TARGETS = {}));
+/**
+ * Various GL data format types.
+ *
+ * @memberof PIXI
+ * @static
+ * @name TYPES
+ * @enum {number}
+ * @property {number} UNSIGNED_BYTE=5121
+ * @property {number} UNSIGNED_SHORT=5123
+ * @property {number} UNSIGNED_SHORT_5_6_5=33635
+ * @property {number} UNSIGNED_SHORT_4_4_4_4=32819
+ * @property {number} UNSIGNED_SHORT_5_5_5_1=32820
+ * @property {number} UNSIGNED_INT=5125
+ * @property {number} UNSIGNED_INT_10F_11F_11F_REV=35899
+ * @property {number} UNSIGNED_INT_2_10_10_10_REV=33640
+ * @property {number} UNSIGNED_INT_24_8=34042
+ * @property {number} UNSIGNED_INT_5_9_9_9_REV=35902
+ * @property {number} BYTE=5120
+ * @property {number} SHORT=5122
+ * @property {number} INT=5124
+ * @property {number} FLOAT=5126
+ * @property {number} FLOAT_32_UNSIGNED_INT_24_8_REV=36269
+ * @property {number} HALF_FLOAT=36193
+ */
+var TYPES;
+(function (TYPES) {
+    TYPES[TYPES["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+    TYPES[TYPES["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
+    TYPES[TYPES["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
+    TYPES[TYPES["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
+    TYPES[TYPES["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
+    TYPES[TYPES["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
+    TYPES[TYPES["UNSIGNED_INT_10F_11F_11F_REV"] = 35899] = "UNSIGNED_INT_10F_11F_11F_REV";
+    TYPES[TYPES["UNSIGNED_INT_2_10_10_10_REV"] = 33640] = "UNSIGNED_INT_2_10_10_10_REV";
+    TYPES[TYPES["UNSIGNED_INT_24_8"] = 34042] = "UNSIGNED_INT_24_8";
+    TYPES[TYPES["UNSIGNED_INT_5_9_9_9_REV"] = 35902] = "UNSIGNED_INT_5_9_9_9_REV";
+    TYPES[TYPES["BYTE"] = 5120] = "BYTE";
+    TYPES[TYPES["SHORT"] = 5122] = "SHORT";
+    TYPES[TYPES["INT"] = 5124] = "INT";
+    TYPES[TYPES["FLOAT"] = 5126] = "FLOAT";
+    TYPES[TYPES["FLOAT_32_UNSIGNED_INT_24_8_REV"] = 36269] = "FLOAT_32_UNSIGNED_INT_24_8_REV";
+    TYPES[TYPES["HALF_FLOAT"] = 36193] = "HALF_FLOAT";
+})(TYPES || (TYPES = {}));
+/**
+ * Various sampler types. Correspond to `sampler`, `isampler`, `usampler` GLSL types respectively.
+ * WebGL1 works only with FLOAT.
+ *
+ * @memberof PIXI
+ * @static
+ * @name SAMPLER_TYPES
+ * @enum {number}
+ * @property {number} FLOAT=0
+ * @property {number} INT=1
+ * @property {number} UINT=2
+ */
+var SAMPLER_TYPES;
+(function (SAMPLER_TYPES) {
+    SAMPLER_TYPES[SAMPLER_TYPES["FLOAT"] = 0] = "FLOAT";
+    SAMPLER_TYPES[SAMPLER_TYPES["INT"] = 1] = "INT";
+    SAMPLER_TYPES[SAMPLER_TYPES["UINT"] = 2] = "UINT";
+})(SAMPLER_TYPES || (SAMPLER_TYPES = {}));
+/**
+ * The scale modes that are supported by pixi.
+ *
+ * The {@link PIXI.settings.SCALE_MODE} scale mode affects the default scaling mode of future operations.
+ * It can be re-assigned to either LINEAR or NEAREST, depending upon suitability.
+ *
+ * @memberof PIXI
+ * @static
+ * @name SCALE_MODES
+ * @enum {number}
+ * @property {number} LINEAR Smooth scaling
+ * @property {number} NEAREST Pixelating scaling
+ */
+var SCALE_MODES;
+(function (SCALE_MODES) {
+    SCALE_MODES[SCALE_MODES["NEAREST"] = 0] = "NEAREST";
+    SCALE_MODES[SCALE_MODES["LINEAR"] = 1] = "LINEAR";
+})(SCALE_MODES || (SCALE_MODES = {}));
+/**
+ * The wrap modes that are supported by pixi.
+ *
+ * The {@link PIXI.settings.WRAP_MODE} wrap mode affects the default wrapping mode of future operations.
+ * It can be re-assigned to either CLAMP or REPEAT, depending upon suitability.
+ * If the texture is non power of two then clamp will be used regardless as WebGL can
+ * only use REPEAT if the texture is po2.
+ *
+ * This property only affects WebGL.
+ *
+ * @name WRAP_MODES
+ * @memberof PIXI
+ * @static
+ * @enum {number}
+ * @property {number} CLAMP - The textures uvs are clamped
+ * @property {number} REPEAT - The texture uvs tile and repeat
+ * @property {number} MIRRORED_REPEAT - The texture uvs tile and repeat with mirroring
+ */
+var WRAP_MODES;
+(function (WRAP_MODES) {
+    WRAP_MODES[WRAP_MODES["CLAMP"] = 33071] = "CLAMP";
+    WRAP_MODES[WRAP_MODES["REPEAT"] = 10497] = "REPEAT";
+    WRAP_MODES[WRAP_MODES["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
+})(WRAP_MODES || (WRAP_MODES = {}));
+/**
+ * Mipmap filtering modes that are supported by pixi.
+ *
+ * The {@link PIXI.settings.MIPMAP_TEXTURES} affects default texture filtering.
+ * Mipmaps are generated for a baseTexture if its `mipmap` field is `ON`,
+ * or its `POW2` and texture dimensions are powers of 2.
+ * Due to platform restriction, `ON` option will work like `POW2` for webgl-1.
+ *
+ * This property only affects WebGL.
+ *
+ * @name MIPMAP_MODES
+ * @memberof PIXI
+ * @static
+ * @enum {number}
+ * @property {number} OFF - No mipmaps
+ * @property {number} POW2 - Generate mipmaps if texture dimensions are pow2
+ * @property {number} ON - Always generate mipmaps
+ * @property {number} ON_MANUAL - Use mipmaps, but do not auto-generate them; this is used with a resource
+ *   that supports buffering each level-of-detail.
+ */
+var MIPMAP_MODES;
+(function (MIPMAP_MODES) {
+    MIPMAP_MODES[MIPMAP_MODES["OFF"] = 0] = "OFF";
+    MIPMAP_MODES[MIPMAP_MODES["POW2"] = 1] = "POW2";
+    MIPMAP_MODES[MIPMAP_MODES["ON"] = 2] = "ON";
+    MIPMAP_MODES[MIPMAP_MODES["ON_MANUAL"] = 3] = "ON_MANUAL";
+})(MIPMAP_MODES || (MIPMAP_MODES = {}));
+/**
+ * How to treat textures with premultiplied alpha
+ *
+ * @name ALPHA_MODES
+ * @memberof PIXI
+ * @static
+ * @enum {number}
+ * @property {number} NO_PREMULTIPLIED_ALPHA - Source is not premultiplied, leave it like that.
+ *  Option for compressed and data textures that are created from typed arrays.
+ * @property {number} PREMULTIPLY_ON_UPLOAD - Source is not premultiplied, premultiply on upload.
+ *  Default option, used for all loaded images.
+ * @property {number} PREMULTIPLIED_ALPHA - Source is already premultiplied
+ *  Example: spine atlases with `_pma` suffix.
+ * @property {number} NPM - Alias for NO_PREMULTIPLIED_ALPHA.
+ * @property {number} UNPACK - Default option, alias for PREMULTIPLY_ON_UPLOAD.
+ * @property {number} PMA - Alias for PREMULTIPLIED_ALPHA.
+ */
+var ALPHA_MODES;
+(function (ALPHA_MODES) {
+    ALPHA_MODES[ALPHA_MODES["NPM"] = 0] = "NPM";
+    ALPHA_MODES[ALPHA_MODES["UNPACK"] = 1] = "UNPACK";
+    ALPHA_MODES[ALPHA_MODES["PMA"] = 2] = "PMA";
+    ALPHA_MODES[ALPHA_MODES["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
+    ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
+    ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+    ALPHA_MODES[ALPHA_MODES["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
+})(ALPHA_MODES || (ALPHA_MODES = {}));
+/**
+ * Configure whether filter textures are cleared after binding.
+ *
+ * Filter textures need not be cleared if the filter does not use pixel blending. {@link CLEAR_MODES.BLIT} will detect
+ * this and skip clearing as an optimization.
+ *
+ * @name CLEAR_MODES
+ * @memberof PIXI
+ * @static
+ * @enum {number}
+ * @property {number} BLEND - Do not clear the filter texture. The filter's output will blend on top of the output texture.
+ * @property {number} CLEAR - Always clear the filter texture.
+ * @property {number} BLIT - Clear only if {@link FilterSystem.forceClear} is set or if the filter uses pixel blending.
+ * @property {number} NO - Alias for BLEND, same as `false` in earlier versions
+ * @property {number} YES - Alias for CLEAR, same as `true` in earlier versions
+ * @property {number} AUTO - Alias for BLIT
+ */
+var CLEAR_MODES;
+(function (CLEAR_MODES) {
+    CLEAR_MODES[CLEAR_MODES["NO"] = 0] = "NO";
+    CLEAR_MODES[CLEAR_MODES["YES"] = 1] = "YES";
+    CLEAR_MODES[CLEAR_MODES["AUTO"] = 2] = "AUTO";
+    CLEAR_MODES[CLEAR_MODES["BLEND"] = 0] = "BLEND";
+    CLEAR_MODES[CLEAR_MODES["CLEAR"] = 1] = "CLEAR";
+    CLEAR_MODES[CLEAR_MODES["BLIT"] = 2] = "BLIT";
+})(CLEAR_MODES || (CLEAR_MODES = {}));
+/**
+ * The gc modes that are supported by pixi.
+ *
+ * The {@link PIXI.settings.GC_MODE} Garbage Collection mode for PixiJS textures is AUTO
+ * If set to GC_MODE, the renderer will occasionally check textures usage. If they are not
+ * used for a specified period of time they will be removed from the GPU. They will of course
+ * be uploaded again when they are required. This is a silent behind the scenes process that
+ * should ensure that the GPU does not  get filled up.
+ *
+ * Handy for mobile devices!
+ * This property only affects WebGL.
+ *
+ * @name GC_MODES
+ * @enum {number}
+ * @static
+ * @memberof PIXI
+ * @property {number} AUTO - Garbage collection will happen periodically automatically
+ * @property {number} MANUAL - Garbage collection will need to be called manually
+ */
+var GC_MODES;
+(function (GC_MODES) {
+    GC_MODES[GC_MODES["AUTO"] = 0] = "AUTO";
+    GC_MODES[GC_MODES["MANUAL"] = 1] = "MANUAL";
+})(GC_MODES || (GC_MODES = {}));
+/**
+ * Constants that specify float precision in shaders.
+ *
+ * @name PRECISION
+ * @memberof PIXI
+ * @constant
+ * @static
+ * @enum {string}
+ * @property {string} LOW='lowp'
+ * @property {string} MEDIUM='mediump'
+ * @property {string} HIGH='highp'
+ */
+var PRECISION;
+(function (PRECISION) {
+    PRECISION["LOW"] = "lowp";
+    PRECISION["MEDIUM"] = "mediump";
+    PRECISION["HIGH"] = "highp";
+})(PRECISION || (PRECISION = {}));
+/**
+ * Constants for mask implementations.
+ * We use `type` suffix because it leads to very different behaviours
+ *
+ * @name MASK_TYPES
+ * @memberof PIXI
+ * @static
+ * @enum {number}
+ * @property {number} NONE - Mask is ignored
+ * @property {number} SCISSOR - Scissor mask, rectangle on screen, cheap
+ * @property {number} STENCIL - Stencil mask, 1-bit, medium, works only if renderer supports stencil
+ * @property {number} SPRITE - Mask that uses SpriteMaskFilter, uses temporary RenderTexture
+ */
+var MASK_TYPES;
+(function (MASK_TYPES) {
+    MASK_TYPES[MASK_TYPES["NONE"] = 0] = "NONE";
+    MASK_TYPES[MASK_TYPES["SCISSOR"] = 1] = "SCISSOR";
+    MASK_TYPES[MASK_TYPES["STENCIL"] = 2] = "STENCIL";
+    MASK_TYPES[MASK_TYPES["SPRITE"] = 3] = "SPRITE";
+})(MASK_TYPES || (MASK_TYPES = {}));
+/**
+ * Constants for multi-sampling antialiasing.
+ *
+ * @see PIXI.Framebuffer#multisample
+ *
+ * @name MSAA_QUALITY
+ * @memberof PIXI
+ * @static
+ * @enum {number}
+ * @property {number} NONE - No multisampling for this renderTexture
+ * @property {number} LOW - Try 2 samples
+ * @property {number} MEDIUM - Try 4 samples
+ * @property {number} HIGH - Try 8 samples
+ */
+var MSAA_QUALITY;
+(function (MSAA_QUALITY) {
+    MSAA_QUALITY[MSAA_QUALITY["NONE"] = 0] = "NONE";
+    MSAA_QUALITY[MSAA_QUALITY["LOW"] = 2] = "LOW";
+    MSAA_QUALITY[MSAA_QUALITY["MEDIUM"] = 4] = "MEDIUM";
+    MSAA_QUALITY[MSAA_QUALITY["HIGH"] = 8] = "HIGH";
+})(MSAA_QUALITY || (MSAA_QUALITY = {}));
+/**
+ * Constants for various buffer types in Pixi
+ *
+ * @see PIXI.BUFFER_TYPE
+ *
+ * @name BUFFER_TYPE
+ * @memberof PIXI
+ * @static
+ * @enum {number}
+ * @property {number} ELEMENT_ARRAY_BUFFER - buffer type for using as an index buffer
+ * @property {number} ARRAY_BUFFER - buffer type for using attribute data
+ * @property {number} UNIFORM_BUFFER - the buffer type is for uniform buffer objects
+ */
+var BUFFER_TYPE;
+(function (BUFFER_TYPE) {
+    BUFFER_TYPE[BUFFER_TYPE["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
+    BUFFER_TYPE[BUFFER_TYPE["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
+    // NOT YET SUPPORTED
+    BUFFER_TYPE[BUFFER_TYPE["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
+})(BUFFER_TYPE || (BUFFER_TYPE = {}));
 
 function sortChildren(a, b) {
     if (a.zIndex === b.zIndex) {
@@ -19393,7 +19273,6 @@ var Container = /** @class */ (function (_super) {
      * @param {PIXI.Renderer} renderer - The renderer
      */
     Container.prototype.renderAdvanced = function (renderer) {
-        renderer.batch.flush();
         var filters = this.filters;
         var mask = this._mask;
         // push filter first as we need to ensure the stencil buffer is correct for any masking
@@ -19407,9 +19286,15 @@ var Container = /** @class */ (function (_super) {
                     this._enabledFilters.push(filters[i]);
                 }
             }
-            if (this._enabledFilters.length) {
-                renderer.filter.push(this, this._enabledFilters);
-            }
+        }
+        var flush = (filters && this._enabledFilters && this._enabledFilters.length)
+            || (mask && (!mask.isMaskData
+                || (mask.enabled && (mask.autoDetect || mask.type !== MASK_TYPES.NONE))));
+        if (flush) {
+            renderer.batch.flush();
+        }
+        if (filters && this._enabledFilters && this._enabledFilters.length) {
+            renderer.filter.push(this, this._enabledFilters);
         }
         if (mask) {
             renderer.mask.push(this, this._mask);
@@ -19420,7 +19305,9 @@ var Container = /** @class */ (function (_super) {
         for (var i = 0, j = this.children.length; i < j; i++) {
             this.children[i].render(renderer);
         }
-        renderer.batch.flush();
+        if (flush) {
+            renderer.batch.flush();
+        }
         if (mask) {
             renderer.mask.pop(this);
         }
@@ -19537,8 +19424,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/extract - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/extract - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19766,8 +19653,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-alpha - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/filter-alpha - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19818,14 +19705,12 @@ var fragment = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nunif
  *
  * 2. To use clipping in display coordinates, assign a filterArea to the same container that has this filter.
  *
- * @class
- * @extends PIXI.Filter
  * @memberof PIXI.filters
  */
 var AlphaFilter = /** @class */ (function (_super) {
     __extends(AlphaFilter, _super);
     /**
-     * @param {number} [alpha=1] - Amount of alpha from 0 to 1, where 0 is transparent
+     * @param alpha - Amount of alpha from 0 to 1, where 0 is transparent
      */
     function AlphaFilter(alpha) {
         if (alpha === void 0) { alpha = 1.0; }
@@ -19837,7 +19722,6 @@ var AlphaFilter = /** @class */ (function (_super) {
         /**
          * Coefficient for alpha multiplication
          *
-         * @member {number}
          * @default 1
          */
         get: function () {
@@ -19873,8 +19757,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * @pixi/filter-blur - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/filter-blur - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19973,8 +19857,8 @@ function generateBlurFragSource(kernelSize) {
 }
 
 /*!
- * @pixi/constants - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/constants - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20355,6 +20239,7 @@ var ALPHA_MODES;
     ALPHA_MODES[ALPHA_MODES["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+    ALPHA_MODES[ALPHA_MODES["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
 })(ALPHA_MODES || (ALPHA_MODES = {}));
 /**
  * Configure whether filter textures are cleared after binding.
@@ -20618,17 +20503,15 @@ var BlurFilterPass = /** @class */ (function (_super) {
  *
  * The strength of the blur can be set for the x-axis and y-axis separately.
  *
- * @class
- * @extends PIXI.Filter
  * @memberof PIXI.filters
  */
 var BlurFilter = /** @class */ (function (_super) {
     __extends(BlurFilter, _super);
     /**
-     * @param {number} [strength=8] - The strength of the blur filter.
-     * @param {number} [quality=4] - The quality of the blur filter.
-     * @param {number} [resolution=PIXI.settings.FILTER_RESOLUTION] - The resolution of the blur filter.
-     * @param {number} [kernelSize=5] - The kernelSize of the blur filter.Options: 5, 7, 9, 11, 13, 15.
+     * @param strength - The strength of the blur filter.
+     * @param quality - The quality of the blur filter.
+     * @param [resolution=PIXI.settings.FILTER_RESOLUTION] - The resolution of the blur filter.
+     * @param kernelSize - The kernelSize of the blur filter.Options: 5, 7, 9, 11, 13, 15.
      */
     function BlurFilter(strength, quality, resolution, kernelSize) {
         if (strength === void 0) { strength = 8; }
@@ -20647,10 +20530,10 @@ var BlurFilter = /** @class */ (function (_super) {
     /**
      * Applies the filter.
      *
-     * @param {PIXI.FilterSystem} filterManager - The manager.
-     * @param {PIXI.RenderTexture} input - The input target.
-     * @param {PIXI.RenderTexture} output - The output target.
-     * @param {PIXI.CLEAR_MODES} clearMode - How to clear
+     * @param filterManager - The manager.
+     * @param input - The input target.
+     * @param output - The output target.
+     * @param clearMode - How to clear
      */
     BlurFilter.prototype.apply = function (filterManager, input, output, clearMode) {
         var xStrength = Math.abs(this.blurXFilter.strength);
@@ -20680,7 +20563,6 @@ var BlurFilter = /** @class */ (function (_super) {
         /**
          * Sets the strength of both the blurX and blurY properties simultaneously
          *
-         * @member {number}
          * @default 2
          */
         get: function () {
@@ -20697,7 +20579,6 @@ var BlurFilter = /** @class */ (function (_super) {
         /**
          * Sets the number of passes for blur. More passes means higher quality bluring.
          *
-         * @member {number}
          * @default 1
          */
         get: function () {
@@ -20713,7 +20594,6 @@ var BlurFilter = /** @class */ (function (_super) {
         /**
          * Sets the strength of the blurX property
          *
-         * @member {number}
          * @default 2
          */
         get: function () {
@@ -20730,7 +20610,6 @@ var BlurFilter = /** @class */ (function (_super) {
         /**
          * Sets the strength of the blurY property
          *
-         * @member {number}
          * @default 2
          */
         get: function () {
@@ -20747,7 +20626,6 @@ var BlurFilter = /** @class */ (function (_super) {
         /**
          * Sets the blendmode of the filter
          *
-         * @member {number}
          * @default PIXI.BLEND_MODES.NORMAL
          */
         get: function () {
@@ -20763,7 +20641,6 @@ var BlurFilter = /** @class */ (function (_super) {
         /**
          * If set to true the edge of the target will be clamped
          *
-         * @member {boolean}
          * @default false
          */
         get: function () {
@@ -20798,8 +20675,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-color-matrix - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/filter-color-matrix - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21367,8 +21244,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/filter-displacement - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/filter-displacement - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21518,8 +21395,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-fxaa - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/filter-fxaa - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21598,8 +21475,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-noise - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/filter-noise - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21729,8 +21606,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /*!
- * @pixi/graphics - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/graphics - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -23865,8 +23742,6 @@ var Graphics = /** @class */ (function (_super) {
         /**
          * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
          * Can be shared between multiple Graphics objects.
-         *
-         * @member {PIXI.Shader}
          */
         _this.shader = null;
         /** Renderer plugin for batching */
@@ -23908,7 +23783,7 @@ var Graphics = /** @class */ (function (_super) {
          * @member {PIXI.Matrix}
          */
         _this._matrix = null;
-        /**  Current hole mode is enabled. */
+        /** Current hole mode is enabled. */
         _this._holeMode = false;
         /**
          * Represents the WebGL state the Graphics required to render, excludes shader and geometry. E.g.,
@@ -24759,7 +24634,6 @@ var Graphics = /** @class */ (function (_super) {
      *
      * @static
      * @private
-     * @member {PIXI.Point}
      */
     Graphics._TEMP_POINT = new _pixi_math__WEBPACK_IMPORTED_MODULE_1__.Point();
     return Graphics;
@@ -24806,8 +24680,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/interaction - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/interaction - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27070,8 +26944,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/loaders - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/loaders - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29119,8 +28993,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "groupD8": () => (/* binding */ groupD8)
 /* harmony export */ });
 /*!
- * @pixi/math - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/math - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29420,48 +29294,27 @@ var Rectangle = /** @class */ (function () {
 /**
  * The Circle object is used to help draw graphics and can also be used to specify a hit area for displayObjects.
  *
- * @class
  * @memberof PIXI
  */
 var Circle = /** @class */ (function () {
     /**
-     * @param {number} [x=0] - The X coordinate of the center of this circle
-     * @param {number} [y=0] - The Y coordinate of the center of this circle
-     * @param {number} [radius=0] - The radius of the circle
+     * @param x - The X coordinate of the center of this circle
+     * @param y - The Y coordinate of the center of this circle
+     * @param radius - The radius of the circle
      */
     function Circle(x, y, radius) {
         if (x === void 0) { x = 0; }
         if (y === void 0) { y = 0; }
         if (radius === void 0) { radius = 0; }
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.x = x;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.y = y;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.radius = radius;
-        /**
-         * The type of the object, mainly used to avoid `instanceof` checks
-         *
-         * @member {number}
-         * @readOnly
-         * @default PIXI.SHAPES.CIRC
-         * @see PIXI.SHAPES
-         */
         this.type = SHAPES.CIRC;
     }
     /**
      * Creates a clone of this Circle instance
      *
-     * @return {PIXI.Circle} a copy of the Circle
+     * @return A copy of the Circle
      */
     Circle.prototype.clone = function () {
         return new Circle(this.x, this.y, this.radius);
@@ -29469,9 +29322,9 @@ var Circle = /** @class */ (function () {
     /**
      * Checks whether the x and y coordinates given are contained within this circle
      *
-     * @param {number} x - The X coordinate of the point to test
-     * @param {number} y - The Y coordinate of the point to test
-     * @return {boolean} Whether the x/y coordinates are within this Circle
+     * @param x - The X coordinate of the point to test
+     * @param y - The Y coordinate of the point to test
+     * @return Whether the x/y coordinates are within this Circle
      */
     Circle.prototype.contains = function (x, y) {
         if (this.radius <= 0) {
@@ -29487,7 +29340,7 @@ var Circle = /** @class */ (function () {
     /**
     * Returns the framing rectangle of the circle as a Rectangle object
     *
-    * @return {PIXI.Rectangle} the framing rectangle
+    * @return The framing rectangle
     */
     Circle.prototype.getBounds = function () {
         return new Rectangle(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
@@ -29501,55 +29354,30 @@ var Circle = /** @class */ (function () {
 /**
  * The Ellipse object is used to help draw graphics and can also be used to specify a hit area for displayObjects.
  *
- * @class
  * @memberof PIXI
  */
 var Ellipse = /** @class */ (function () {
     /**
-     * @param {number} [x=0] - The X coordinate of the center of this ellipse
-     * @param {number} [y=0] - The Y coordinate of the center of this ellipse
-     * @param {number} [halfWidth=0] - The half width of this ellipse
-     * @param {number} [halfHeight=0] - The half height of this ellipse
+     * @param x - The X coordinate of the center of this ellipse
+     * @param y - The Y coordinate of the center of this ellipse
+     * @param halfWidth - The half width of this ellipse
+     * @param halfHeight - The half height of this ellipse
      */
     function Ellipse(x, y, halfWidth, halfHeight) {
         if (x === void 0) { x = 0; }
         if (y === void 0) { y = 0; }
         if (halfWidth === void 0) { halfWidth = 0; }
         if (halfHeight === void 0) { halfHeight = 0; }
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.x = x;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.y = y;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.width = halfWidth;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.height = halfHeight;
-        /**
-         * The type of the object, mainly used to avoid `instanceof` checks
-         *
-         * @member {number}
-         * @readOnly
-         * @default PIXI.SHAPES.ELIP
-         * @see PIXI.SHAPES
-         */
         this.type = SHAPES.ELIP;
     }
     /**
      * Creates a clone of this Ellipse instance
      *
-     * @return {PIXI.Ellipse} a copy of the ellipse
+     * @return {PIXI.Ellipse} A copy of the ellipse
      */
     Ellipse.prototype.clone = function () {
         return new Ellipse(this.x, this.y, this.width, this.height);
@@ -29557,9 +29385,9 @@ var Ellipse = /** @class */ (function () {
     /**
      * Checks whether the x and y coordinates given are contained within this ellipse
      *
-     * @param {number} x - The X coordinate of the point to test
-     * @param {number} y - The Y coordinate of the point to test
-     * @return {boolean} Whether the x/y coords are within this ellipse
+     * @param x - The X coordinate of the point to test
+     * @param y - The Y coordinate of the point to test
+     * @return Whether the x/y coords are within this ellipse
      */
     Ellipse.prototype.contains = function (x, y) {
         if (this.width <= 0 || this.height <= 0) {
@@ -29575,7 +29403,7 @@ var Ellipse = /** @class */ (function () {
     /**
      * Returns the framing rectangle of the ellipse as a Rectangle object
      *
-     * @return {PIXI.Rectangle} the framing rectangle
+     * @return The framing rectangle
      */
     Ellipse.prototype.getBounds = function () {
         return new Rectangle(this.x - this.width, this.y - this.height, this.width, this.height);
@@ -29876,9 +29704,7 @@ var Point = /** @class */ (function () {
  *
  * An `ObservablePoint` is a point that triggers a callback when the point's position is changed.
  *
- * @class
  * @memberof PIXI
- * @implements IPoint
  */
 var ObservablePoint = /** @class */ (function () {
     /**
@@ -29967,9 +29793,7 @@ var ObservablePoint = /** @class */ (function () {
         return "[@pixi/math:ObservablePoint x=" + 0 + " y=" + 0 + " scope=" + this.scope + "]";
     };
     Object.defineProperty(ObservablePoint.prototype, "x", {
-        /** Position of the observable point on the x axis
-         * @type {number}
-         */
+        /** Position of the observable point on the x axis. */
         get: function () {
             return this._x;
         },
@@ -29983,9 +29807,7 @@ var ObservablePoint = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(ObservablePoint.prototype, "y", {
-        /** Position of the observable point on the y axis
-         * @type {number}
-         */
+        /** Position of the observable point on the y axis. */
         get: function () {
             return this._y;
         },
@@ -30010,17 +29832,17 @@ var ObservablePoint = /** @class */ (function () {
  * | b | d | ty|
  * | 0 | 0 | 1 |
  * ```
- * @class
+ *
  * @memberof PIXI
  */
 var Matrix = /** @class */ (function () {
     /**
-     * @param {number} [a=1] - x scale
-     * @param {number} [b=0] - y skew
-     * @param {number} [c=0] - x skew
-     * @param {number} [d=1] - y scale
-     * @param {number} [tx=0] - x translation
-     * @param {number} [ty=0] - y translation
+     * @param a - x scale
+     * @param b - y skew
+     * @param c - x skew
+     * @param d - y scale
+     * @param tx - x translation
+     * @param ty - y translation
      */
     function Matrix(a, b, c, d, tx, ty) {
         if (a === void 0) { a = 1; }
@@ -30030,35 +29852,11 @@ var Matrix = /** @class */ (function () {
         if (tx === void 0) { tx = 0; }
         if (ty === void 0) { ty = 0; }
         this.array = null;
-        /**
-         * @member {number}
-         * @default 1
-         */
         this.a = a;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.b = b;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.c = c;
-        /**
-         * @member {number}
-         * @default 1
-         */
         this.d = d;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.tx = tx;
-        /**
-         * @member {number}
-         * @default 0
-         */
         this.ty = ty;
     }
     /**
@@ -30071,7 +29869,7 @@ var Matrix = /** @class */ (function () {
      * tx = array[2]
      * ty = array[5]
      *
-     * @param {number[]} array - The array that the matrix will be populated from.
+     * @param array - The array that the matrix will be populated from.
      */
     Matrix.prototype.fromArray = function (array) {
         this.a = array[0];
@@ -30082,16 +29880,15 @@ var Matrix = /** @class */ (function () {
         this.ty = array[5];
     };
     /**
-     * sets the matrix properties
+     * Sets the matrix properties.
      *
-     * @param {number} a - Matrix component
-     * @param {number} b - Matrix component
-     * @param {number} c - Matrix component
-     * @param {number} d - Matrix component
-     * @param {number} tx - Matrix component
-     * @param {number} ty - Matrix component
-     *
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @param a - Matrix component
+     * @param b - Matrix component
+     * @param c - Matrix component
+     * @param d - Matrix component
+     * @param tx - Matrix component
+     * @param ty - Matrix component
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.set = function (a, b, c, d, tx, ty) {
         this.a = a;
@@ -30105,9 +29902,9 @@ var Matrix = /** @class */ (function () {
     /**
      * Creates an array from the current Matrix object.
      *
-     * @param {boolean} transpose - Whether we need to transpose the matrix or not
-     * @param {Float32Array} [out=new Float32Array(9)] - If provided the array will be assigned to out
-     * @return {number[]} the newly created array which contains the matrix
+     * @param transpose - Whether we need to transpose the matrix or not
+     * @param [out=new Float32Array(9)] - If provided the array will be assigned to out
+     * @return The newly created array which contains the matrix
      */
     Matrix.prototype.toArray = function (transpose, out) {
         if (!this.array) {
@@ -30142,7 +29939,7 @@ var Matrix = /** @class */ (function () {
      * Get a new position with the current transformation applied.
      * Can be used to go from a child's coordinate space to the world coordinate space. (e.g. rendering)
      *
-     * @param {PIXI.IPointData} pos - The origin
+     * @param pos - The origin
      * @param {PIXI.Point} [newPos] - The point that the new position is assigned to (allowed to be same as input)
      * @return {PIXI.Point} The new point, transformed through this matrix
      */
@@ -30158,7 +29955,7 @@ var Matrix = /** @class */ (function () {
      * Get a new position with the inverse of the current transformation applied.
      * Can be used to go from the world coordinate space to a child's coordinate space. (e.g. input)
      *
-     * @param {PIXI.IPointData} pos - The origin
+     * @param pos - The origin
      * @param {PIXI.Point} [newPos] - The point that the new position is assigned to (allowed to be same as input)
      * @return {PIXI.Point} The new point, inverse-transformed through this matrix
      */
@@ -30174,9 +29971,9 @@ var Matrix = /** @class */ (function () {
     /**
      * Translates the matrix on the x and y.
      *
-     * @param {number} x - How much to translate x by
-     * @param {number} y - How much to translate y by
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @param x - How much to translate x by
+     * @param y - How much to translate y by
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.translate = function (x, y) {
         this.tx += x;
@@ -30186,9 +29983,9 @@ var Matrix = /** @class */ (function () {
     /**
      * Applies a scale transformation to the matrix.
      *
-     * @param {number} x - The amount to scale horizontally
-     * @param {number} y - The amount to scale vertically
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @param x - The amount to scale horizontally
+     * @param y - The amount to scale vertically
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.scale = function (x, y) {
         this.a *= x;
@@ -30202,8 +29999,8 @@ var Matrix = /** @class */ (function () {
     /**
      * Applies a rotation transformation to the matrix.
      *
-     * @param {number} angle - The angle in radians.
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @param angle - The angle in radians.
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.rotate = function (angle) {
         var cos = Math.cos(angle);
@@ -30222,8 +30019,8 @@ var Matrix = /** @class */ (function () {
     /**
      * Appends the given Matrix to this Matrix.
      *
-     * @param {PIXI.Matrix} matrix - The matrix to append.
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @param matrix - The matrix to append.
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.append = function (matrix) {
         var a1 = this.a;
@@ -30241,16 +30038,16 @@ var Matrix = /** @class */ (function () {
     /**
      * Sets the matrix based on all the available properties
      *
-     * @param {number} x - Position on the x axis
-     * @param {number} y - Position on the y axis
-     * @param {number} pivotX - Pivot on the x axis
-     * @param {number} pivotY - Pivot on the y axis
-     * @param {number} scaleX - Scale on the x axis
-     * @param {number} scaleY - Scale on the y axis
-     * @param {number} rotation - Rotation in radians
-     * @param {number} skewX - Skew on the x axis
-     * @param {number} skewY - Skew on the y axis
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @param x - Position on the x axis
+     * @param y - Position on the y axis
+     * @param pivotX - Pivot on the x axis
+     * @param pivotY - Pivot on the y axis
+     * @param scaleX - Scale on the x axis
+     * @param scaleY - Scale on the y axis
+     * @param rotation - Rotation in radians
+     * @param skewX - Skew on the x axis
+     * @param skewY - Skew on the y axis
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.setTransform = function (x, y, pivotX, pivotY, scaleX, scaleY, rotation, skewX, skewY) {
         this.a = Math.cos(rotation + skewY) * scaleX;
@@ -30264,8 +30061,8 @@ var Matrix = /** @class */ (function () {
     /**
      * Prepends the given Matrix to this Matrix.
      *
-     * @param {PIXI.Matrix} matrix - The matrix to prepend
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @param matrix - The matrix to prepend
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.prepend = function (matrix) {
         var tx1 = this.tx;
@@ -30284,8 +30081,8 @@ var Matrix = /** @class */ (function () {
     /**
      * Decomposes the matrix (x, y, scaleX, scaleY, and rotation) and sets the properties on to a transform.
      *
-     * @param {PIXI.Transform} transform - The transform to apply the properties to.
-     * @return {PIXI.Transform} The transform with the newly applied properties
+     * @param transform - The transform to apply the properties to.
+     * @return The transform with the newly applied properties
      */
     Matrix.prototype.decompose = function (transform) {
         // sort out rotation / skew..
@@ -30317,7 +30114,7 @@ var Matrix = /** @class */ (function () {
     /**
      * Inverts this matrix
      *
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.invert = function () {
         var a1 = this.a;
@@ -30337,7 +30134,7 @@ var Matrix = /** @class */ (function () {
     /**
      * Resets this Matrix to an identity (default) matrix.
      *
-     * @return {PIXI.Matrix} This matrix. Good for chaining method calls.
+     * @return This matrix. Good for chaining method calls.
      */
     Matrix.prototype.identity = function () {
         this.a = 1;
@@ -30351,7 +30148,7 @@ var Matrix = /** @class */ (function () {
     /**
      * Creates a new Matrix object with the same values as this one.
      *
-     * @return {PIXI.Matrix} A copy of this matrix. Good for chaining method calls.
+     * @return A copy of this matrix. Good for chaining method calls.
      */
     Matrix.prototype.clone = function () {
         var matrix = new Matrix();
@@ -30366,8 +30163,8 @@ var Matrix = /** @class */ (function () {
     /**
      * Changes the values of the given matrix to be the same as the ones in this matrix
      *
-     * @param {PIXI.Matrix} matrix - The matrix to copy to.
-     * @return {PIXI.Matrix} The matrix given in parameter with its values updated.
+     * @param matrix - The matrix to copy to.
+     * @return The matrix given in parameter with its values updated.
      */
     Matrix.prototype.copyTo = function (matrix) {
         matrix.a = this.a;
@@ -30400,9 +30197,7 @@ var Matrix = /** @class */ (function () {
         /**
          * A default (identity) matrix
          *
-         * @static
-         * @const
-         * @member {PIXI.Matrix}
+         * @readonly
          */
         get: function () {
             return new Matrix();
@@ -30414,9 +30209,7 @@ var Matrix = /** @class */ (function () {
         /**
          * A temp matrix
          *
-         * @static
-         * @const
-         * @member {PIXI.Matrix}
+         * @readonly
          */
         get: function () {
             return new Matrix();
@@ -30767,132 +30560,33 @@ var groupD8 = {
 };
 
 /**
- * Transform that takes care about its versions
+ * Transform that takes care about its versions.
  *
- * @class
  * @memberof PIXI
  */
 var Transform = /** @class */ (function () {
     function Transform() {
-        /**
-         * The world transformation matrix.
-         *
-         * @member {PIXI.Matrix}
-         */
         this.worldTransform = new Matrix();
-        /**
-         * The local transformation matrix.
-         *
-         * @member {PIXI.Matrix}
-         */
         this.localTransform = new Matrix();
-        /**
-         * The coordinate of the object relative to the local coordinates of the parent.
-         *
-         * @member {PIXI.ObservablePoint}
-         */
         this.position = new ObservablePoint(this.onChange, this, 0, 0);
-        /**
-         * The scale factor of the object.
-         *
-         * @member {PIXI.ObservablePoint}
-         */
         this.scale = new ObservablePoint(this.onChange, this, 1, 1);
-        /**
-         * The pivot point of the displayObject that it rotates around.
-         *
-         * @member {PIXI.ObservablePoint}
-         */
         this.pivot = new ObservablePoint(this.onChange, this, 0, 0);
-        /**
-         * The skew amount, on the x and y axis.
-         *
-         * @member {PIXI.ObservablePoint}
-         */
         this.skew = new ObservablePoint(this.updateSkew, this, 0, 0);
-        /**
-         * The rotation amount.
-         *
-         * @protected
-         * @member {number}
-         */
         this._rotation = 0;
-        /**
-         * The X-coordinate value of the normalized local X axis,
-         * the first column of the local transformation matrix without a scale.
-         *
-         * @protected
-         * @member {number}
-         */
         this._cx = 1;
-        /**
-         * The Y-coordinate value of the normalized local X axis,
-         * the first column of the local transformation matrix without a scale.
-         *
-         * @protected
-         * @member {number}
-         */
         this._sx = 0;
-        /**
-         * The X-coordinate value of the normalized local Y axis,
-         * the second column of the local transformation matrix without a scale.
-         *
-         * @protected
-         * @member {number}
-         */
         this._cy = 0;
-        /**
-         * The Y-coordinate value of the normalized local Y axis,
-         * the second column of the local transformation matrix without a scale.
-         *
-         * @protected
-         * @member {number}
-         */
         this._sy = 1;
-        /**
-         * The locally unique ID of the local transform.
-         *
-         * @protected
-         * @member {number}
-         */
         this._localID = 0;
-        /**
-         * The locally unique ID of the local transform
-         * used to calculate the current local transformation matrix.
-         *
-         * @protected
-         * @member {number}
-         */
         this._currentLocalID = 0;
-        /**
-         * The locally unique ID of the world transform.
-         *
-         * @protected
-         * @member {number}
-         */
         this._worldID = 0;
-        /**
-         * The locally unique ID of the parent's world transform
-         * used to calculate the current world transformation matrix.
-         *
-         * @protected
-         * @member {number}
-         */
         this._parentID = 0;
     }
-    /**
-     * Called when a value changes.
-     *
-     * @protected
-     */
+    /** Called when a value changes. */
     Transform.prototype.onChange = function () {
         this._localID++;
     };
-    /**
-     * Called when the skew or the rotation changes.
-     *
-     * @protected
-     */
+    /** Called when the skew or the rotation changes. */
     Transform.prototype.updateSkew = function () {
         this._cx = Math.cos(this._rotation + this.skew.y);
         this._sx = Math.sin(this._rotation + this.skew.y);
@@ -30908,9 +30602,7 @@ var Transform = /** @class */ (function () {
             + ("skew=(" + this.skew.x + ", " + this.skew.y + ") ")
             + "]";
     };
-    /**
-     * Updates the local transformation matrix.
-     */
+    /** Updates the local transformation matrix. */
     Transform.prototype.updateLocalTransform = function () {
         var lt = this.localTransform;
         if (this._localID !== this._currentLocalID) {
@@ -30929,7 +30621,7 @@ var Transform = /** @class */ (function () {
     /**
      * Updates the local and the world transformation matrices.
      *
-     * @param {PIXI.Transform} parentTransform - The parent transform
+     * @param parentTransform - The parent transform
      */
     Transform.prototype.updateTransform = function (parentTransform) {
         var lt = this.localTransform;
@@ -30963,18 +30655,14 @@ var Transform = /** @class */ (function () {
     /**
      * Decomposes a matrix and sets the transforms properties based on it.
      *
-     * @param {PIXI.Matrix} matrix - The matrix to decompose
+     * @param matrix - The matrix to decompose
      */
     Transform.prototype.setFromMatrix = function (matrix) {
         matrix.decompose(this);
         this._localID++;
     };
     Object.defineProperty(Transform.prototype, "rotation", {
-        /**
-         * The rotation of the object in radians.
-         *
-         * @member {number}
-         */
+        /** The rotation of the object in radians. */
         get: function () {
             return this._rotation;
         },
@@ -30987,13 +30675,7 @@ var Transform = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    /**
-     * A default (identity) transform
-     *
-     * @static
-     * @constant
-     * @member {PIXI.Transform}
-     */
+    /** A default (identity) transform. */
     Transform.IDENTITY = new Transform();
     return Transform;
 }());
@@ -31024,8 +30706,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/mesh-extras - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/mesh-extras - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31317,17 +30999,14 @@ var RopeGeometry = /** @class */ (function (_super) {
  * let rope = new PIXI.SimpleRope(PIXI.Texture.from("snake.png"), points);
  *  ```
  *
- * @class
- * @extends PIXI.Mesh
  * @memberof PIXI
- *
  */
 var SimpleRope = /** @class */ (function (_super) {
     __extends(SimpleRope, _super);
     /**
-     * @param {PIXI.Texture} texture - The texture to use on the rope.
-     * @param {PIXI.Point[]} points - An array of {@link PIXI.Point} objects to construct this rope.
-     * @param {number} [textureScale=0] - Optional. Positive values scale rope texture
+     * @param texture - The texture to use on the rope.
+     * @param points - An array of {@link PIXI.Point} objects to construct this rope.
+     * @param {number} textureScale - Optional. Positive values scale rope texture
      * keeping its aspect ratio. You can reduce alpha channel artifacts by providing a larger texture
      * and downsampling here. If set to zero, texture will be stretched instead.
      */
@@ -31370,17 +31049,14 @@ var SimpleRope = /** @class */ (function (_super) {
  * let SimplePlane = new PIXI.SimplePlane(PIXI.Texture.from("snake.png"), points);
  *  ```
  *
- * @class
- * @extends PIXI.Mesh
  * @memberof PIXI
- *
  */
 var SimplePlane = /** @class */ (function (_super) {
     __extends(SimplePlane, _super);
     /**
-     * @param {PIXI.Texture} texture - The texture to use on the SimplePlane.
-     * @param {number} verticesX - The number of vertices in the x-axis
-     * @param {number} verticesY - The number of vertices in the y-axis
+     * @param texture - The texture to use on the SimplePlane.
+     * @param verticesX - The number of vertices in the x-axis
+     * @param verticesY - The number of vertices in the y-axis
      */
     function SimplePlane(texture, verticesX, verticesY) {
         var _this = this;
@@ -31446,18 +31122,16 @@ var SimplePlane = /** @class */ (function (_super) {
  * The Simple Mesh class mimics Mesh in PixiJS v4, providing easy-to-use constructor arguments.
  * For more robust customization, use {@link PIXI.Mesh}.
  *
- * @class
- * @extends PIXI.Mesh
  * @memberof PIXI
  */
 var SimpleMesh = /** @class */ (function (_super) {
     __extends(SimpleMesh, _super);
     /**
-     * @param {PIXI.Texture} [texture=Texture.EMPTY] - The texture to use
+     * @param texture - The texture to use
      * @param {Float32Array} [vertices] - if you want to specify the vertices
      * @param {Float32Array} [uvs] - if you want to specify the uvs
      * @param {Uint16Array} [indices] - if you want to specify the indices
-     * @param {number} [drawMode] - the drawMode, can be any of the Mesh.DRAW_MODES consts
+     * @param drawMode - the drawMode, can be any of the Mesh.DRAW_MODES consts
      */
     function SimpleMesh(texture, vertices, uvs, indices, drawMode) {
         if (texture === void 0) { texture = _pixi_core__WEBPACK_IMPORTED_MODULE_2__.Texture.EMPTY; }
@@ -31466,17 +31140,13 @@ var SimpleMesh = /** @class */ (function (_super) {
         geometry.getBuffer('aVertexPosition').static = false;
         var meshMaterial = new _pixi_mesh__WEBPACK_IMPORTED_MODULE_0__.MeshMaterial(texture);
         _this = _super.call(this, geometry, meshMaterial, null, drawMode) || this;
-        /**
-         * upload vertices buffer each frame
-         * @member {boolean}
-         */
         _this.autoUpdate = true;
         return _this;
     }
     Object.defineProperty(SimpleMesh.prototype, "vertices", {
         /**
          * Collection of vertices data.
-         * @member {Float32Array}
+         * @type {Float32Array}
          */
         get: function () {
             return this.geometry.getBuffer('aVertexPosition').data;
@@ -31523,15 +31193,12 @@ var DEFAULT_BORDER_SIZE = 10;
  *     area 5 will be stretched both horizontally and vertically
  * </pre>
  *
- * @class
- * @extends PIXI.SimplePlane
  * @memberof PIXI
- *
  */
 var NineSlicePlane = /** @class */ (function (_super) {
     __extends(NineSlicePlane, _super);
     /**
-     * @param {PIXI.Texture} texture - The texture to use on the NineSlicePlane.
+     * @param texture - The texture to use on the NineSlicePlane.
      * @param {number} [leftWidth=10] - size of the left vertical bar (A)
      * @param {number} [topHeight=10] - size of the top horizontal bar (C)
      * @param {number} [rightWidth=10] - size of the right vertical bar (B)
@@ -31545,47 +31212,13 @@ var NineSlicePlane = /** @class */ (function (_super) {
         var _this = _super.call(this, _pixi_core__WEBPACK_IMPORTED_MODULE_2__.Texture.WHITE, 4, 4) || this;
         _this._origWidth = texture.orig.width;
         _this._origHeight = texture.orig.height;
-        /**
-         * The width of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane
-         *
-         * @member {number}
-         * @override
-         */
+        /** The width of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane. */
         _this._width = _this._origWidth;
-        /**
-         * The height of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane
-         *
-         * @member {number}
-         * @override
-         */
+        /** The height of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane. */
         _this._height = _this._origHeight;
-        /**
-         * The width of the left column (a)
-         *
-         * @member {number}
-         * @private
-         */
         _this._leftWidth = leftWidth;
-        /**
-         * The width of the right column (b)
-         *
-         * @member {number}
-         * @private
-         */
         _this._rightWidth = rightWidth;
-        /**
-         * The height of the top row (c)
-         *
-         * @member {number}
-         * @private
-         */
         _this._topHeight = topHeight;
-        /**
-         * The height of the bottom row (d)
-         *
-         * @member {number}
-         * @private
-         */
         _this._bottomHeight = bottomHeight;
         // lets call the setter to ensure all necessary updates are performed
         _this.texture = texture;
@@ -31605,10 +31238,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    /**
-     * Updates the horizontal vertices.
-     *
-     */
+    /** Updates the horizontal vertices. */
     NineSlicePlane.prototype.updateHorizontalVertices = function () {
         var vertices = this.vertices;
         var scale = this._getMinScale();
@@ -31616,10 +31246,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         vertices[17] = vertices[19] = vertices[21] = vertices[23] = this._height - (this._bottomHeight * scale);
         vertices[25] = vertices[27] = vertices[29] = vertices[31] = this._height;
     };
-    /**
-     * Updates the vertical vertices.
-     *
-     */
+    /** Updates the vertical vertices. */
     NineSlicePlane.prototype.updateVerticalVertices = function () {
         var vertices = this.vertices;
         var scale = this._getMinScale();
@@ -31630,8 +31257,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
     /**
      * Returns the smaller of a set of vertical and horizontal scale of nine slice corners.
      *
-     * @return {number} Smaller number of vertical and horizontal scale.
-     * @private
+     * @return Smaller number of vertical and horizontal scale.
      */
     NineSlicePlane.prototype._getMinScale = function () {
         var w = this._leftWidth + this._rightWidth;
@@ -31642,11 +31268,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         return scale;
     };
     Object.defineProperty(NineSlicePlane.prototype, "width", {
-        /**
-         * The width of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane
-         *
-         * @member {number}
-         */
+        /** The width of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane. */
         get: function () {
             return this._width;
         },
@@ -31658,11 +31280,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(NineSlicePlane.prototype, "height", {
-        /**
-         * The height of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane
-         *
-         * @member {number}
-         */
+        /** The height of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane. */
         get: function () {
             return this._height;
         },
@@ -31674,11 +31292,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(NineSlicePlane.prototype, "leftWidth", {
-        /**
-         * The width of the left column
-         *
-         * @member {number}
-         */
+        /** The width of the left column. */
         get: function () {
             return this._leftWidth;
         },
@@ -31690,11 +31304,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(NineSlicePlane.prototype, "rightWidth", {
-        /**
-         * The width of the right column
-         *
-         * @member {number}
-         */
+        /** The width of the right column. */
         get: function () {
             return this._rightWidth;
         },
@@ -31706,11 +31316,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(NineSlicePlane.prototype, "topHeight", {
-        /**
-         * The height of the top row
-         *
-         * @member {number}
-         */
+        /** The height of the top row. */
         get: function () {
             return this._topHeight;
         },
@@ -31722,11 +31328,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(NineSlicePlane.prototype, "bottomHeight", {
-        /**
-         * The height of the bottom row
-         *
-         * @member {number}
-         */
+        /** The height of the bottom row. */
         get: function () {
             return this._bottomHeight;
         },
@@ -31737,9 +31339,7 @@ var NineSlicePlane = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    /**
-     * Refreshes NineSlicePlane coords. All of them.
-     */
+    /** Refreshes NineSlicePlane coords. All of them. */
     NineSlicePlane.prototype._refresh = function () {
         var texture = this.texture;
         var uvs = this.geometry.buffers[1].data;
@@ -31790,8 +31390,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/mesh - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/mesh - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31919,15 +31519,7 @@ var Mesh = /** @class */ (function (_super) {
     function Mesh(geometry, shader, state, drawMode) {
         if (drawMode === void 0) { drawMode = _pixi_constants__WEBPACK_IMPORTED_MODULE_2__.DRAW_MODES.TRIANGLES; }
         var _this = _super.call(this) || this;
-        /**
-         * Includes vertex positions, face indices, normals, colors, UVs, and
-         * custom attributes within buffers, reducing the cost of passing all
-         * this data to the GPU. Can be shared between multiple Mesh objects.
-         * @member {PIXI.Geometry}
-         * @readonly
-         */
         _this.geometry = geometry;
-        geometry.refCount++;
         /**
          * Represents the vertex and fragment shaders that processes the geometry and runs on the GPU.
          * Can be shared between multiple Mesh objects.
@@ -32000,6 +31592,35 @@ var Mesh = /** @class */ (function (_super) {
         _this.batchUvs = null;
         return _this;
     }
+    Object.defineProperty(Mesh.prototype, "geometry", {
+        /**
+         * Includes vertex positions, face indices, normals, colors, UVs, and
+         * custom attributes within buffers, reducing the cost of passing all
+         * this data to the GPU. Can be shared between multiple Mesh objects.
+         * @member {PIXI.Geometry}
+         */
+        get: function () {
+            return this._geometry;
+        },
+        set: function (value) {
+            if (this._geometry === value) {
+                return;
+            }
+            if (this._geometry) {
+                this._geometry.refCount--;
+                if (this._geometry.refCount === 0) {
+                    this._geometry.dispose();
+                }
+            }
+            this._geometry = value;
+            if (this._geometry) {
+                this._geometry.refCount++;
+            }
+            this.vertexDirty = -1;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Object.defineProperty(Mesh.prototype, "uvBuffer", {
         /**
          * To change mesh uv's, change its uvBuffer data and increment its _updateID.
@@ -32282,10 +31903,6 @@ var Mesh = /** @class */ (function (_super) {
      */
     Mesh.prototype.destroy = function (options) {
         _super.prototype.destroy.call(this, options);
-        this.geometry.refCount--;
-        if (this.geometry.refCount === 0) {
-            this.geometry.dispose();
-        }
         if (this._cachedTexture) {
             this._cachedTexture.destroy();
             this._cachedTexture = null;
@@ -32533,8 +32150,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * @pixi/mixin-cache-as-bitmap - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/mixin-cache-as-bitmap - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -32547,8 +32164,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /*!
- * @pixi/constants - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/constants - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -32929,6 +32546,7 @@ var ALPHA_MODES;
     ALPHA_MODES[ALPHA_MODES["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+    ALPHA_MODES[ALPHA_MODES["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
 })(ALPHA_MODES || (ALPHA_MODES = {}));
 /**
  * Configure whether filter textures are cleared after binding.
@@ -33452,8 +33070,8 @@ _pixi_display__WEBPACK_IMPORTED_MODULE_2__.DisplayObject.prototype._cacheAsBitma
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /*!
- * @pixi/mixin-get-child-by-name - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/mixin-get-child-by-name - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -33514,8 +33132,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/mixin-get-global-position - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/mixin-get-global-position - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -33569,8 +33187,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/particle-container - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/particle-container - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/particle-container is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -34394,8 +34012,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(object_assign__WEBPACK_IMPORTED_MODULE_1__);
 /*!
- * @pixi/polyfill - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/polyfill - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -34531,8 +34149,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_text__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/text */ "./node_modules/@pixi/text/dist/esm/text.js");
 /*!
- * @pixi/prepare - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/prepare - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -34588,36 +34206,24 @@ function __extends(d, b) {
  * CountLimiter limits the number of items handled by a {@link PIXI.BasePrepare} to a specified
  * number of items per frame.
  *
- * @class
  * @memberof PIXI
  */
 var CountLimiter = /** @class */ (function () {
     /**
-     * @param {number} maxItemsPerFrame - The maximum number of items that can be prepared each frame.
+     * @param maxItemsPerFrame - The maximum number of items that can be prepared each frame.
      */
     function CountLimiter(maxItemsPerFrame) {
-        /**
-         * The maximum number of items that can be prepared each frame.
-         * @type {number}
-         * @private
-         */
         this.maxItemsPerFrame = maxItemsPerFrame;
-        /**
-         * The number of items that can be prepared in the current frame.
-         * @type {number}
-         * @private
-         */
         this.itemsLeft = 0;
     }
-    /**
-     * Resets any counting properties to start fresh on a new frame.
-     */
+    /** Resets any counting properties to start fresh on a new frame. */
     CountLimiter.prototype.beginFrame = function () {
         this.itemsLeft = this.maxItemsPerFrame;
     };
     /**
      * Checks to see if another item can be uploaded. This should only be called once per item.
-     * @return {boolean} If the item is allowed to be uploaded.
+     *
+     * @return If the item is allowed to be uploaded.
      */
     CountLimiter.prototype.allowedToUpload = function () {
         return this.itemsLeft-- > 0;
@@ -34629,9 +34235,9 @@ var CountLimiter = /** @class */ (function () {
  * Built-in hook to find multiple textures from objects like AnimatedSprites.
  *
  * @private
- * @param {PIXI.DisplayObject} item - Display object to check
- * @param {Array<*>} queue - Collection of items to upload
- * @return {boolean} if a PIXI.Texture object was found.
+ * @param item - Display object to check
+ * @param queue - Collection of items to upload
+ * @return If a PIXI.Texture object was found.
  */
 function findMultipleBaseTextures(item, queue) {
     var result = false;
@@ -34653,9 +34259,9 @@ function findMultipleBaseTextures(item, queue) {
  * Built-in hook to find BaseTextures from Texture.
  *
  * @private
- * @param {PIXI.Texture} item - Display object to check
- * @param {Array<*>} queue - Collection of items to upload
- * @return {boolean} if a PIXI.Texture object was found.
+ * @param item - Display object to check
+ * @param queue - Collection of items to upload
+ * @return If a PIXI.Texture object was found.
  */
 function findBaseTexture(item, queue) {
     if (item.baseTexture instanceof _pixi_core__WEBPACK_IMPORTED_MODULE_1__.BaseTexture) {
@@ -34671,9 +34277,9 @@ function findBaseTexture(item, queue) {
  * Built-in hook to find textures from objects.
  *
  * @private
- * @param {PIXI.DisplayObject} item - Display object to check
- * @param {Array<*>} queue - Collection of items to upload
- * @return {boolean} if a PIXI.Texture object was found.
+ * @param item - Display object to check
+ * @param queue - Collection of items to upload
+ * @return If a PIXI.Texture object was found.
  */
 function findTexture(item, queue) {
     if (item._texture && item._texture instanceof _pixi_core__WEBPACK_IMPORTED_MODULE_1__.Texture) {
@@ -34689,9 +34295,9 @@ function findTexture(item, queue) {
  * Built-in hook to draw PIXI.Text to its texture.
  *
  * @private
- * @param {PIXI.AbstractRenderer|PIXI.BasePrepare} helper - Not used by this upload handler
- * @param {PIXI.DisplayObject} item - Item to check
- * @return {boolean} If item was uploaded.
+ * @param helper - Not used by this upload handler
+ * @param item - Item to check
+ * @return If item was uploaded.
  */
 function drawText(_helper, item) {
     if (item instanceof _pixi_text__WEBPACK_IMPORTED_MODULE_5__.Text) {
@@ -34705,9 +34311,9 @@ function drawText(_helper, item) {
  * Built-in hook to calculate a text style for a PIXI.Text object.
  *
  * @private
- * @param {PIXI.AbstractRenderer|PIXI.BasePrepare} helper - Not used by this upload handler
- * @param {PIXI.DisplayObject} item - Item to check
- * @return {boolean} If item was uploaded.
+ * @param helper - Not used by this upload handler
+ * @param item - Item to check
+ * @return If item was uploaded.
  */
 function calculateTextStyle(_helper, item) {
     if (item instanceof _pixi_text__WEBPACK_IMPORTED_MODULE_5__.TextStyle) {
@@ -34721,9 +34327,9 @@ function calculateTextStyle(_helper, item) {
  * Built-in hook to find Text objects.
  *
  * @private
- * @param {PIXI.DisplayObject} item - Display object to check
- * @param {Array<*>} queue - Collection of items to upload
- * @return {boolean} if a PIXI.Text object was found.
+ * @param item - Display object to check
+ * @param queue - Collection of items to upload
+ * @return if a PIXI.Text object was found.
  */
 function findText(item, queue) {
     if (item instanceof _pixi_text__WEBPACK_IMPORTED_MODULE_5__.Text) {
@@ -34748,9 +34354,9 @@ function findText(item, queue) {
  * Built-in hook to find TextStyle objects.
  *
  * @private
- * @param {PIXI.TextStyle} item - Display object to check
- * @param {Array<*>} queue - Collection of items to upload
- * @return {boolean} if a PIXI.TextStyle object was found.
+ * @param item - Display object to check
+ * @param queue - Collection of items to upload
+ * @return If a PIXI.TextStyle object was found.
  */
 function findTextStyle(item, queue) {
     if (item instanceof _pixi_text__WEBPACK_IMPORTED_MODULE_5__.TextStyle) {
@@ -34781,7 +34387,6 @@ function findTextStyle(item, queue) {
  * })
  *
  * @abstract
- * @class
  * @memberof PIXI
  */
 var BasePrepare = /** @class */ (function () {
@@ -34790,59 +34395,14 @@ var BasePrepare = /** @class */ (function () {
      */
     function BasePrepare(renderer) {
         var _this = this;
-        /**
-         * The limiter to be used to control how quickly items are prepared.
-         * @type {PIXI.CountLimiter|PIXI.TimeLimiter}
-         */
         this.limiter = new CountLimiter(_pixi_settings__WEBPACK_IMPORTED_MODULE_0__.settings.UPLOADS_PER_FRAME);
-        /**
-         * Reference to the renderer.
-         * @type {PIXI.AbstractRenderer}
-         * @protected
-         */
         this.renderer = renderer;
-        /**
-         * The only real difference between CanvasPrepare and Prepare is what they pass
-         * to upload hooks. That different parameter is stored here.
-         * @type {object}
-         * @protected
-         */
         this.uploadHookHelper = null;
-        /**
-         * Collection of items to uploads at once.
-         * @type {Array<*>}
-         * @private
-         */
         this.queue = [];
-        /**
-         * Collection of additional hooks for finding assets.
-         * @type {Array<Function>}
-         * @private
-         */
         this.addHooks = [];
-        /**
-         * Collection of additional hooks for processing assets.
-         * @type {Array<Function>}
-         * @private
-         */
         this.uploadHooks = [];
-        /**
-         * Callback to call after completed.
-         * @type {Array<Function>}
-         * @private
-         */
         this.completes = [];
-        /**
-         * If prepare is ticking (running).
-         * @type {boolean}
-         * @private
-         */
         this.ticking = false;
-        /**
-         * 'bound' call for prepareItems().
-         * @type {Function}
-         * @private
-         */
         this.delayedTick = function () {
             // unlikely, but in case we were destroyed between tick() and delayedTick()
             if (!_this.queue) {
@@ -34944,7 +34504,7 @@ var BasePrepare = /** @class */ (function () {
      *
      * @param {Function} addHook - Function call that takes two parameters: `item:*, queue:Array`
      *          function must return `true` if it was able to add item to the queue.
-     * @return {this} Instance of plugin for chaining.
+     * @return Instance of plugin for chaining.
      */
     BasePrepare.prototype.registerFindHook = function (addHook) {
         if (addHook) {
@@ -34957,7 +34517,7 @@ var BasePrepare = /** @class */ (function () {
      *
      * @param {Function} uploadHook - Function call that takes two parameters: `prepare:CanvasPrepare, item:*` and
      *          function must return `true` if it was able to handle upload of item.
-     * @return {this} Instance of plugin for chaining.
+     * @return Instance of plugin for chaining.
      */
     BasePrepare.prototype.registerUploadHook = function (uploadHook) {
         if (uploadHook) {
@@ -34970,7 +34530,7 @@ var BasePrepare = /** @class */ (function () {
      *
      * @param {PIXI.DisplayObject|PIXI.Container|PIXI.BaseTexture|PIXI.Texture|PIXI.Graphics|PIXI.Text|*} item - Object to
      *        add to the queue
-     * @return {this} Instance of plugin for chaining.
+     * @return Instance of plugin for chaining.
      */
     BasePrepare.prototype.add = function (item) {
         // Add additional hooks for finding elements on special
@@ -34988,10 +34548,7 @@ var BasePrepare = /** @class */ (function () {
         }
         return this;
     };
-    /**
-     * Destroys the plugin, don't use after this.
-     *
-     */
+    /** Destroys the plugin, don't use after this. */
     BasePrepare.prototype.destroy = function () {
         if (this.ticking) {
             _pixi_ticker__WEBPACK_IMPORTED_MODULE_3__.Ticker.system.remove(this.tick, this);
@@ -35012,9 +34569,9 @@ var BasePrepare = /** @class */ (function () {
  * Built-in hook to upload PIXI.Texture objects to the GPU.
  *
  * @private
- * @param {PIXI.Renderer} renderer - instance of the webgl renderer
- * @param {PIXI.BaseTexture} item - Item to check
- * @return {boolean} If item was uploaded.
+ * @param renderer - instance of the webgl renderer
+ * @param item - Item to check
+ * @return If item was uploaded.
  */
 function uploadBaseTextures(renderer, item) {
     if (item instanceof _pixi_core__WEBPACK_IMPORTED_MODULE_1__.BaseTexture) {
@@ -35032,9 +34589,9 @@ function uploadBaseTextures(renderer, item) {
  * Built-in hook to upload PIXI.Graphics to the GPU.
  *
  * @private
- * @param {PIXI.Renderer} renderer - instance of the webgl renderer
- * @param {PIXI.DisplayObject} item - Item to check
- * @return {boolean} If item was uploaded.
+ * @param renderer - instance of the webgl renderer
+ * @param item - Item to check
+ * @return If item was uploaded.
  */
 function uploadGraphics(renderer, item) {
     if (!(item instanceof _pixi_graphics__WEBPACK_IMPORTED_MODULE_2__.Graphics)) {
@@ -35062,9 +34619,9 @@ function uploadGraphics(renderer, item) {
  * Built-in hook to find graphics.
  *
  * @private
- * @param {PIXI.DisplayObject} item - Display object to check
- * @param {Array<*>} queue - Collection of items to upload
- * @return {boolean} if a PIXI.Graphics object was found.
+ * @param item - Display object to check
+ * @param queue - Collection of items to upload
+ * @return if a PIXI.Graphics object was found.
  */
 function findGraphics(item, queue) {
     if (item instanceof _pixi_graphics__WEBPACK_IMPORTED_MODULE_2__.Graphics) {
@@ -35100,8 +34657,7 @@ function findGraphics(item, queue) {
  *     app.start();
  * });
  *
- * @class
- * @extends PIXI.BasePrepare
+ *
  * @memberof PIXI
  */
 var Prepare = /** @class */ (function (_super) {
@@ -35180,8 +34736,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Runner": () => (/* binding */ Runner)
 /* harmony export */ });
 /*!
- * @pixi/runner - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/runner - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -35228,12 +34784,12 @@ __webpack_require__.r(__webpack_exports__);
  *
  * myGame.update.emit(time);
  * ```
- * @class
+ *
  * @memberof PIXI
  */
 var Runner = /** @class */ (function () {
     /**
-     *  @param {string} name - the function name that will be executed on the listeners added to this Runner.
+     * @param name - The function name that will be executed on the listeners added to this Runner.
      */
     function Runner(name) {
         this.items = [];
@@ -35242,8 +34798,8 @@ var Runner = /** @class */ (function () {
     }
     /**
      * Dispatch/Broadcast Runner to all listeners added to the queue.
-     * @param {...any} params - optional parameters to pass to each listener
-     * @return {PIXI.Runner}
+     *
+     * @param {...any} params - (optional) parameters to pass to each listener
      */
     Runner.prototype.emit = function (a0, a1, a2, a3, a4, a5, a6, a7) {
         if (arguments.length > 8) {
@@ -35283,7 +34839,6 @@ var Runner = /** @class */ (function () {
      * The scope used will be the object itself.
      *
      * @param {any} item - The object that will be listening.
-     * @return {PIXI.Runner}
      */
     Runner.prototype.add = function (item) {
         if (item[this._name]) {
@@ -35295,8 +34850,8 @@ var Runner = /** @class */ (function () {
     };
     /**
      * Remove a single listener from the dispatch queue.
+     *
      * @param {any} item - The listener that you would like to remove.
-     * @return {PIXI.Runner}
      */
     Runner.prototype.remove = function (item) {
         var index = this.items.indexOf(item);
@@ -35308,23 +34863,19 @@ var Runner = /** @class */ (function () {
     };
     /**
      * Check to see if the listener is already in the Runner
+     *
      * @param {any} item - The listener that you would like to check.
      */
     Runner.prototype.contains = function (item) {
         return this.items.indexOf(item) !== -1;
     };
-    /**
-     * Remove all listeners from the Runner
-     * @return {PIXI.Runner}
-     */
+    /** Remove all listeners from the Runner */
     Runner.prototype.removeAll = function () {
         this.ensureNonAliasedItems();
         this.items.length = 0;
         return this;
     };
-    /**
-     * Remove all references, don't use after this.
-     */
+    /** Remove all references, don't use after this. */
     Runner.prototype.destroy = function () {
         this.removeAll();
         this.items = null;
@@ -35334,7 +34885,6 @@ var Runner = /** @class */ (function () {
         /**
          * `true` if there are no this Runner contains no listeners
          *
-         * @member {boolean}
          * @readonly
          */
         get: function () {
@@ -35347,7 +34897,6 @@ var Runner = /** @class */ (function () {
         /**
          * The name of the runner.
          *
-         * @member {string}
          * @readonly
          */
         get: function () {
@@ -35395,8 +34944,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var ismobilejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ismobilejs */ "./node_modules/ismobilejs/esm/index.js");
 /*!
- * @pixi/settings - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/settings - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -35459,8 +35008,8 @@ function canUploadSameBuffer() {
 }
 
 /*!
- * @pixi/constants - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/constants - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -35841,6 +35390,7 @@ var ALPHA_MODES;
     ALPHA_MODES[ALPHA_MODES["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
     ALPHA_MODES[ALPHA_MODES["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+    ALPHA_MODES[ALPHA_MODES["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
 })(ALPHA_MODES || (ALPHA_MODES = {}));
 /**
  * Configure whether filter textures are cleared after binding.
@@ -36258,8 +35808,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_sprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/sprite */ "./node_modules/@pixi/sprite/dist/esm/sprite.js");
 /* harmony import */ var _pixi_ticker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/ticker */ "./node_modules/@pixi/ticker/dist/esm/ticker.js");
 /*!
- * @pixi/sprite-animated - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/sprite-animated - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -36326,126 +35876,35 @@ function __extends(d, b) {
  * }
  * ```
  *
- * @class
- * @extends PIXI.Sprite
  * @memberof PIXI
  */
 var AnimatedSprite = /** @class */ (function (_super) {
     __extends(AnimatedSprite, _super);
     /**
-     * @param {PIXI.Texture[]|PIXI.AnimatedSprite.FrameObject[]} textures - An array of {@link PIXI.Texture} or frame
+     * @param textures - An array of {@link PIXI.Texture} or frame
      *  objects that make up the animation.
      * @param {boolean} [autoUpdate=true] - Whether to use PIXI.Ticker.shared to auto update animation time.
      */
     function AnimatedSprite(textures, autoUpdate) {
         if (autoUpdate === void 0) { autoUpdate = true; }
         var _this = _super.call(this, textures[0] instanceof _pixi_core__WEBPACK_IMPORTED_MODULE_0__.Texture ? textures[0] : textures[0].texture) || this;
-        /**
-         * @type {PIXI.Texture[]}
-         * @private
-         */
         _this._textures = null;
-        /**
-         * @type {number[]}
-         * @private
-         */
         _this._durations = null;
-        /**
-         * `true` uses PIXI.Ticker.shared to auto update animation time.
-         *
-         * @type {boolean}
-         * @default true
-         * @private
-         */
         _this._autoUpdate = autoUpdate;
-        /**
-         * `true` if the instance is currently connected to PIXI.Ticker.shared to auto update animation time.
-         *
-         * @type {boolean}
-         * @default false
-         * @private
-         */
         _this._isConnectedToTicker = false;
-        /**
-         * The speed that the AnimatedSprite will play at. Higher is faster, lower is slower.
-         *
-         * @member {number}
-         * @default 1
-         */
         _this.animationSpeed = 1;
-        /**
-         * Whether or not the animate sprite repeats after playing.
-         *
-         * @member {boolean}
-         * @default true
-         */
         _this.loop = true;
-        /**
-         * Update anchor to [Texture's defaultAnchor]{@link PIXI.Texture#defaultAnchor} when frame changes.
-         *
-         * Useful with [sprite sheet animations]{@link PIXI.Spritesheet#animations} created with tools.
-         * Changing anchor for each frame allows to pin sprite origin to certain moving feature
-         * of the frame (e.g. left foot).
-         *
-         * Note: Enabling this will override any previously set `anchor` on each frame change.
-         *
-         * @member {boolean}
-         * @default false
-         */
         _this.updateAnchor = false;
-        /**
-         * User-assigned function to call when an AnimatedSprite finishes playing.
-         *
-         * @example
-         * animation.onComplete = function () {
-         *   // finished!
-         * };
-         * @member {Function}
-         */
         _this.onComplete = null;
-        /**
-         * User-assigned function to call when an AnimatedSprite changes which texture is being rendered.
-         *
-         * @example
-         * animation.onFrameChange = function () {
-         *   // updated!
-         * };
-         * @member {Function}
-         */
         _this.onFrameChange = null;
-        /**
-         * User-assigned function to call when `loop` is true, and an AnimatedSprite is played and
-         * loops around to start again.
-         *
-         * @example
-         * animation.onLoop = function () {
-         *   // looped!
-         * };
-         * @member {Function}
-         */
         _this.onLoop = null;
-        /**
-         * Elapsed time since animation has been started, used internally to display current texture.
-         *
-         * @member {number}
-         * @private
-         */
         _this._currentTime = 0;
         _this._playing = false;
-        /**
-         * The texture index that was displayed last time
-         *
-         * @member {number}
-         * @private
-         */
         _this._previousFrame = null;
         _this.textures = textures;
         return _this;
     }
-    /**
-     * Stops the AnimatedSprite.
-     *
-     */
+    /** Stops the AnimatedSprite. */
     AnimatedSprite.prototype.stop = function () {
         if (!this._playing) {
             return;
@@ -36456,10 +35915,7 @@ var AnimatedSprite = /** @class */ (function (_super) {
             this._isConnectedToTicker = false;
         }
     };
-    /**
-     * Plays the AnimatedSprite.
-     *
-     */
+    /** Plays the AnimatedSprite. */
     AnimatedSprite.prototype.play = function () {
         if (this._playing) {
             return;
@@ -36473,7 +35929,7 @@ var AnimatedSprite = /** @class */ (function (_super) {
     /**
      * Stops the AnimatedSprite and goes to a specific frame.
      *
-     * @param {number} frameNumber - Frame index to stop at.
+     * @param frameNumber - Frame index to stop at.
      */
     AnimatedSprite.prototype.gotoAndStop = function (frameNumber) {
         this.stop();
@@ -36486,7 +35942,7 @@ var AnimatedSprite = /** @class */ (function (_super) {
     /**
      * Goes to a specific frame and begins playing the AnimatedSprite.
      *
-     * @param {number} frameNumber - Frame index to start at.
+     * @param frameNumber - Frame index to start at.
      */
     AnimatedSprite.prototype.gotoAndPlay = function (frameNumber) {
         var previousFrame = this.currentFrame;
@@ -36499,7 +35955,7 @@ var AnimatedSprite = /** @class */ (function (_super) {
     /**
      * Updates the object transform for rendering.
      *
-     * @param {number} deltaTime - Time since last tick.
+     * @param deltaTime - Time since last tick.
      */
     AnimatedSprite.prototype.update = function (deltaTime) {
         if (!this._playing) {
@@ -36549,11 +36005,7 @@ var AnimatedSprite = /** @class */ (function (_super) {
             this.updateTexture();
         }
     };
-    /**
-     * Updates the displayed texture to match the current frame index.
-     *
-     * @private
-     */
+    /** Updates the displayed texture to match the current frame index. */
     AnimatedSprite.prototype.updateTexture = function () {
         var currentFrame = this.currentFrame;
         if (this._previousFrame === currentFrame) {
@@ -36592,9 +36044,8 @@ var AnimatedSprite = /** @class */ (function (_super) {
     /**
      * A short hand way of creating an AnimatedSprite from an array of frame ids.
      *
-     * @static
-     * @param {string[]} frames - The array of frames ids the AnimatedSprite will use as its texture frames.
-     * @return {PIXI.AnimatedSprite} The new animated sprite with the specified frames.
+     * @param frames - The array of frames ids the AnimatedSprite will use as its texture frames.
+     * @return - The new animated sprite with the specified frames.
      */
     AnimatedSprite.fromFrames = function (frames) {
         var textures = [];
@@ -36606,9 +36057,8 @@ var AnimatedSprite = /** @class */ (function (_super) {
     /**
      * A short hand way of creating an AnimatedSprite from an array of image ids.
      *
-     * @static
-     * @param {string[]} images - The array of image urls the AnimatedSprite will use as its texture frames.
-     * @return {PIXI.AnimatedSprite} The new animate sprite with the specified images as frames.
+     * @param images - The array of image urls the AnimatedSprite will use as its texture frames.
+     * @return The new animate sprite with the specified images as frames.
      */
     AnimatedSprite.fromImages = function (images) {
         var textures = [];
@@ -36623,7 +36073,6 @@ var AnimatedSprite = /** @class */ (function (_super) {
          * assigned to the AnimatedSprite.
          *
          * @readonly
-         * @member {number}
          * @default 0
          */
         get: function () {
@@ -36633,11 +36082,7 @@ var AnimatedSprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(AnimatedSprite.prototype, "textures", {
-        /**
-         * The array of textures used for this AnimatedSprite.
-         *
-         * @member {PIXI.Texture[]}
-         */
+        /** The array of textures used for this AnimatedSprite. */
         get: function () {
             return this._textures;
         },
@@ -36663,11 +36108,10 @@ var AnimatedSprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(AnimatedSprite.prototype, "currentFrame", {
         /**
-        * The AnimatedSprites current frame index.
-        *
-        * @member {number}
-        * @readonly
-        */
+         * The AnimatedSprites current frame index.
+         *
+         * @readonly
+         */
         get: function () {
             var currentFrame = Math.floor(this._currentTime) % this._textures.length;
             if (currentFrame < 0) {
@@ -36682,7 +36126,6 @@ var AnimatedSprite = /** @class */ (function (_super) {
         /**
          * Indicates if the AnimatedSprite is currently playing.
          *
-         * @member {boolean}
          * @readonly
          */
         get: function () {
@@ -36692,11 +36135,7 @@ var AnimatedSprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(AnimatedSprite.prototype, "autoUpdate", {
-        /**
-         * Whether to use PIXI.Ticker.shared to auto update animation time
-         *
-         * @member {boolean}
-         */
+        /** Whether to use PIXI.Ticker.shared to auto update animation time. */
         get: function () {
             return this._autoUpdate;
         },
@@ -36718,13 +36157,6 @@ var AnimatedSprite = /** @class */ (function (_super) {
     });
     return AnimatedSprite;
 }(_pixi_sprite__WEBPACK_IMPORTED_MODULE_1__.Sprite));
-/**
- * @memberof PIXI.AnimatedSprite
- * @typedef {object} FrameObject
- * @type {object}
- * @property {PIXI.Texture} texture - The {@link PIXI.Texture} of the frame
- * @property {number} time - the duration of the frame in ms
- */
 
 
 //# sourceMappingURL=sprite-animated.js.map
@@ -36750,8 +36182,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/sprite-tiling - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/sprite-tiling - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -36795,65 +36227,32 @@ var tempPoint = new _pixi_math__WEBPACK_IMPORTED_MODULE_1__.Point();
 /**
  * A tiling sprite is a fast way of rendering a tiling image.
  *
- * @class
- * @extends PIXI.Sprite
  * @memberof PIXI
  */
 var TilingSprite = /** @class */ (function (_super) {
     __extends(TilingSprite, _super);
     /**
-     * @param {PIXI.Texture} texture - the texture of the tiling sprite
-     * @param {number} [width=100] - the width of the tiling sprite
-     * @param {number} [height=100] - the height of the tiling sprite
+     * @param texture - The texture of the tiling sprite.
+     * @param width - The width of the tiling sprite.
+     * @param height - The height of the tiling sprite.
      */
     function TilingSprite(texture, width, height) {
         if (width === void 0) { width = 100; }
         if (height === void 0) { height = 100; }
         var _this = _super.call(this, texture) || this;
-        /**
-         * Tile transform
-         *
-         * @member {PIXI.Transform}
-         */
         _this.tileTransform = new _pixi_math__WEBPACK_IMPORTED_MODULE_1__.Transform();
-        /**
-         * The with of the tiling sprite
-         *
-         * @member {number}
-         * @private
-         */
+        // The width of the tiling sprite
         _this._width = width;
-        /**
-         * The height of the tiling sprite
-         *
-         * @member {number}
-         * @private
-         */
+        // The height of the tiling sprite
         _this._height = height;
-        /**
-         * matrix that is applied to UV to get the coords in Texture normalized space to coords in BaseTexture space
-         *
-         * @member {PIXI.TextureMatrix}
-         */
         _this.uvMatrix = _this.texture.uvMatrix || new _pixi_core__WEBPACK_IMPORTED_MODULE_0__.TextureMatrix(texture);
         /**
          * Plugin that is responsible for rendering this element.
          * Allows to customize the rendering process without overriding '_render' method.
          *
-         * @member {string}
          * @default 'tilingSprite'
          */
         _this.pluginName = 'tilingSprite';
-        /**
-         * Flags whether the tiling pattern should originate from the origin instead of the top-left corner in
-         * local space.
-         *
-         * This will make the texture coordinates assigned to each vertex dependent on the value of the anchor. Without
-         * this, the top-left corner always gets the (0, 0) texture coordinate.
-         *
-         * @member {boolean}
-         * @default false
-         */
         _this.uvRespectAnchor = false;
         return _this;
     }
@@ -36876,11 +36275,7 @@ var TilingSprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(TilingSprite.prototype, "tileScale", {
-        /**
-         * The scaling of the image that is being tiled
-         *
-         * @member {PIXI.ObservablePoint}
-         */
+        /** The scaling of the image that is being tiled. */
         get: function () {
             return this.tileTransform.scale;
         },
@@ -36891,11 +36286,7 @@ var TilingSprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(TilingSprite.prototype, "tilePosition", {
-        /**
-         * The offset of the image that is being tiled
-         *
-         * @member {PIXI.ObservablePoint}
-         */
+        /** The offset of the image that is being tiled. */
         get: function () {
             return this.tileTransform.position;
         },
@@ -36917,8 +36308,7 @@ var TilingSprite = /** @class */ (function (_super) {
     /**
      * Renders the object using the WebGL renderer
      *
-     * @protected
-     * @param {PIXI.Renderer} renderer - The renderer
+     * @param renderer - The renderer
      */
     TilingSprite.prototype._render = function (renderer) {
         // tweak our texture temporarily..
@@ -36931,11 +36321,7 @@ var TilingSprite = /** @class */ (function (_super) {
         renderer.batch.setObjectRenderer(renderer.plugins[this.pluginName]);
         renderer.plugins[this.pluginName].render(this);
     };
-    /**
-     * Updates the bounds of the tiling sprite.
-     *
-     * @protected
-     */
+    /** Updates the bounds of the tiling sprite. */
     TilingSprite.prototype._calculateBounds = function () {
         var minX = this._width * -this._anchor._x;
         var minY = this._height * -this._anchor._y;
@@ -36946,8 +36332,8 @@ var TilingSprite = /** @class */ (function (_super) {
     /**
      * Gets the local bounds of the sprite object.
      *
-     * @param {PIXI.Rectangle} [rect] - Optional output rectangle.
-     * @return {PIXI.Rectangle} The bounds.
+     * @param rect - Optional output rectangle.
+     * @return The bounds.
      */
     TilingSprite.prototype.getLocalBounds = function (rect) {
         // we can do a fast local bounds if the sprite has no children!
@@ -36969,8 +36355,8 @@ var TilingSprite = /** @class */ (function (_super) {
     /**
      * Checks if a point is inside this tiling sprite.
      *
-     * @param {PIXI.IPointData} point - the point to check
-     * @return {boolean} Whether or not the sprite contains the point.
+     * @param point - The point to check.
+     * @return Whether or not the sprite contains the point.
      */
     TilingSprite.prototype.containsPoint = function (point) {
         this.worldTransform.applyInverse(point, tempPoint);
@@ -37018,11 +36404,7 @@ var TilingSprite = /** @class */ (function (_super) {
         return new TilingSprite(texture, options.width, options.height);
     };
     Object.defineProperty(TilingSprite.prototype, "width", {
-        /**
-         * The width of the sprite, setting this will actually modify the scale to achieve the value set
-         *
-         * @member {number}
-         */
+        /** The width of the sprite, setting this will actually modify the scale to achieve the value set. */
         get: function () {
             return this._width;
         },
@@ -37033,11 +36415,7 @@ var TilingSprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(TilingSprite.prototype, "height", {
-        /**
-         * The height of the TilingSprite, setting this will actually modify the scale to achieve the value set
-         *
-         * @member {number}
-         */
+        /** The height of the TilingSprite, setting this will actually modify the scale to achieve the value set. */
         get: function () {
             return this._height;
         },
@@ -37050,11 +36428,15 @@ var TilingSprite = /** @class */ (function (_super) {
     return TilingSprite;
 }(_pixi_sprite__WEBPACK_IMPORTED_MODULE_2__.Sprite));
 
-var vertex = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\nuniform mat3 translationMatrix;\nuniform mat3 uTransform;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = (uTransform * vec3(aTextureCoord, 1.0)).xy;\n}\n";
+var fragmentSimpleSrc = "#version 100\n#define SHADER_NAME Tiling-Sprite-Simple-100\n\nprecision lowp float;\n\nvarying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\n\nvoid main(void)\n{\n    vec4 texSample = texture2D(uSampler, vTextureCoord);\n    gl_FragColor = texSample * uColor;\n}\n";
 
-var fragment = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\nuniform mat3 uMapCoord;\nuniform vec4 uClampFrame;\nuniform vec2 uClampOffset;\n\nvoid main(void)\n{\n    vec2 coord = vTextureCoord + ceil(uClampOffset - vTextureCoord);\n    coord = (uMapCoord * vec3(coord, 1.0)).xy;\n    coord = clamp(coord, uClampFrame.xy, uClampFrame.zw);\n\n    vec4 texSample = texture2D(uSampler, coord);\n    gl_FragColor = texSample * uColor;\n}\n";
+var gl1VertexSrc = "#version 100\n#define SHADER_NAME Tiling-Sprite-100\n\nprecision lowp float;\n\nattribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\nuniform mat3 translationMatrix;\nuniform mat3 uTransform;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = (uTransform * vec3(aTextureCoord, 1.0)).xy;\n}\n";
 
-var fragmentSimple = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\n\nvoid main(void)\n{\n    vec4 sample = texture2D(uSampler, vTextureCoord);\n    gl_FragColor = sample * uColor;\n}\n";
+var gl1FragmentSrc = "#version 100\n#ifdef GL_EXT_shader_texture_lod\n    #extension GL_EXT_shader_texture_lod : enable\n#endif\n#define SHADER_NAME Tiling-Sprite-100\n\nprecision lowp float;\n\nvarying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\nuniform mat3 uMapCoord;\nuniform vec4 uClampFrame;\nuniform vec2 uClampOffset;\n\nvoid main(void)\n{\n    vec2 coord = vTextureCoord + ceil(uClampOffset - vTextureCoord);\n    coord = (uMapCoord * vec3(coord, 1.0)).xy;\n    vec2 unclamped = coord;\n    coord = clamp(coord, uClampFrame.xy, uClampFrame.zw);\n\n    #ifdef GL_EXT_shader_texture_lod\n        vec4 texSample = unclamped == coord\n            ? texture2D(uSampler, coord) \n            : texture2DLodEXT(uSampler, coord, 0);\n    #else\n        vec4 texSample = texture2D(uSampler, coord);\n    #endif\n\n    gl_FragColor = texSample * uColor;\n}\n";
+
+var gl2VertexSrc = "#version 300 es\n#define SHADER_NAME Tiling-Sprite-300\n\nprecision lowp float;\n\nin vec2 aVertexPosition;\nin vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\nuniform mat3 translationMatrix;\nuniform mat3 uTransform;\n\nout vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = (uTransform * vec3(aTextureCoord, 1.0)).xy;\n}\n";
+
+var gl2FragmentSrc = "#version 300 es\n#define SHADER_NAME Tiling-Sprite-100\n\nprecision lowp float;\n\nin vec2 vTextureCoord;\n\nout vec4 fragmentColor;\n\nuniform sampler2D uSampler;\nuniform vec4 uColor;\nuniform mat3 uMapCoord;\nuniform vec4 uClampFrame;\nuniform vec2 uClampOffset;\n\nvoid main(void)\n{\n    vec2 coord = vTextureCoord + ceil(uClampOffset - vTextureCoord);\n    coord = (uMapCoord * vec3(coord, 1.0)).xy;\n    vec2 unclamped = coord;\n    coord = clamp(coord, uClampFrame.xy, uClampFrame.zw);\n\n    vec4 texSample = texture(uSampler, coord, unclamped == coord ? 0.0f : -32.0f);// lod-bias very negative to force lod 0\n\n    fragmentColor = texSample * uColor;\n}\n";
 
 var tempMat = new _pixi_math__WEBPACK_IMPORTED_MODULE_1__.Matrix();
 /**
@@ -37073,9 +36455,8 @@ var TilingSpriteRenderer = /** @class */ (function (_super) {
      */
     function TilingSpriteRenderer(renderer) {
         var _this = _super.call(this, renderer) || this;
-        var uniforms = { globals: _this.renderer.globalUniforms };
-        _this.shader = _pixi_core__WEBPACK_IMPORTED_MODULE_0__.Shader.from(vertex, fragment, uniforms);
-        _this.simpleShader = _pixi_core__WEBPACK_IMPORTED_MODULE_0__.Shader.from(vertex, fragmentSimple, uniforms);
+        // WebGL version is not available during initialization!
+        renderer.runners.contextChange.add(_this);
         _this.quad = new _pixi_core__WEBPACK_IMPORTED_MODULE_0__.QuadUv();
         /**
          * The WebGL state in which this renderer will work.
@@ -37087,7 +36468,17 @@ var TilingSpriteRenderer = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     *
+     * Creates shaders when context is initialized.
+     */
+    TilingSpriteRenderer.prototype.contextChange = function () {
+        var renderer = this.renderer;
+        var uniforms = { globals: renderer.globalUniforms };
+        this.simpleShader = _pixi_core__WEBPACK_IMPORTED_MODULE_0__.Shader.from(gl1VertexSrc, fragmentSimpleSrc, uniforms);
+        this.shader = renderer.context.webGLVersion > 1
+            ? _pixi_core__WEBPACK_IMPORTED_MODULE_0__.Shader.from(gl2VertexSrc, gl2FragmentSrc, uniforms)
+            : _pixi_core__WEBPACK_IMPORTED_MODULE_0__.Shader.from(gl1VertexSrc, gl1FragmentSrc, uniforms);
+    };
+    /**
      * @param {PIXI.TilingSprite} ts - tilingSprite to be rendered
      */
     TilingSpriteRenderer.prototype.render = function (ts) {
@@ -37180,8 +36571,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/sprite - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/sprite - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -37246,114 +36637,26 @@ var indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
  * }
  * ```
  *
- * @class
- * @extends PIXI.Container
  * @memberof PIXI
  */
 var Sprite = /** @class */ (function (_super) {
     __extends(Sprite, _super);
-    /**
-     * @param {PIXI.Texture} [texture] - The texture for this sprite.
-     */
+    /** @param texture - The texture for this sprite. */
     function Sprite(texture) {
         var _this = _super.call(this) || this;
-        /**
-         * The anchor point defines the normalized coordinates
-         * in the texture that map to the position of this
-         * sprite.
-         *
-         * By default, this is `(0,0)` (or `texture.defaultAnchor`
-         * if you have modified that), which means the position
-         * `(x,y)` of this `Sprite` will be the top-left corner.
-         *
-         * Note: Updating `texture.defaultAnchor` after
-         * constructing a `Sprite` does _not_ update its anchor.
-         *
-         * {@link https://docs.cocos2d-x.org/cocos2d-x/en/sprites/manipulation.html}
-         *
-         * @default `texture.defaultAnchor`
-         * @member {PIXI.ObservablePoint}
-         * @private
-         */
         _this._anchor = new _pixi_math__WEBPACK_IMPORTED_MODULE_3__.ObservablePoint(_this._onAnchorUpdate, _this, (texture ? texture.defaultAnchor.x : 0), (texture ? texture.defaultAnchor.y : 0));
-        /**
-         * The texture that the sprite is using
-         *
-         * @private
-         * @member {PIXI.Texture}
-         */
         _this._texture = null;
-        /**
-         * The width of the sprite (this is initially set by the texture)
-         *
-         * @protected
-         * @member {number}
-         */
         _this._width = 0;
-        /**
-         * The height of the sprite (this is initially set by the texture)
-         *
-         * @protected
-         * @member {number}
-         */
         _this._height = 0;
-        /**
-         * The tint applied to the sprite. This is a hex value. A value of 0xFFFFFF will remove any tint effect.
-         *
-         * @private
-         * @member {number}
-         * @default 0xFFFFFF
-         */
         _this._tint = null;
-        /**
-         * The tint applied to the sprite. This is a RGB value. A value of 0xFFFFFF will remove any tint effect.
-         *
-         * @private
-         * @member {number}
-         * @default 16777215
-         */
         _this._tintRGB = null;
         _this.tint = 0xFFFFFF;
-        /**
-         * The blend mode to be applied to the sprite. Apply a value of `PIXI.BLEND_MODES.NORMAL` to reset the blend mode.
-         *
-         * @member {number}
-         * @default PIXI.BLEND_MODES.NORMAL
-         * @see PIXI.BLEND_MODES
-         */
         _this.blendMode = _pixi_constants__WEBPACK_IMPORTED_MODULE_0__.BLEND_MODES.NORMAL;
-        /**
-         * Cached tint value so we can tell when the tint is changed.
-         * Value is used for 2d CanvasRenderer.
-         *
-         * @protected
-         * @member {number}
-         * @default 0xFFFFFF
-         */
         _this._cachedTint = 0xFFFFFF;
-        /**
-         * this is used to store the uvs data of the sprite, assigned at the same time
-         * as the vertexData in calculateVertices()
-         *
-         * @private
-         * @member {Float32Array}
-         */
         _this.uvs = null;
         // call texture setter
         _this.texture = texture || _pixi_core__WEBPACK_IMPORTED_MODULE_1__.Texture.EMPTY;
-        /**
-         * this is used to store the vertex data of the sprite (basically a quad)
-         *
-         * @private
-         * @member {Float32Array}
-         */
         _this.vertexData = new Float32Array(8);
-        /**
-         * This is used to calculate the bounds of the object IF it is a trimmed sprite
-         *
-         * @private
-         * @member {Float32Array}
-         */
         _this.vertexTrimmedData = null;
         _this._transformID = -1;
         _this._textureID = -1;
@@ -37362,33 +36665,16 @@ var Sprite = /** @class */ (function (_super) {
         // Batchable stuff..
         // TODO could make this a mixin?
         _this.indices = indices;
-        /**
-         * Plugin that is responsible for rendering this element.
-         * Allows to customize the rendering process without overriding '_render' & '_renderCanvas' methods.
-         *
-         * @member {string}
-         * @default 'batch'
-         */
         _this.pluginName = 'batch';
         /**
-         * used to fast check if a sprite is.. a sprite!
+         * Used to fast check if a sprite is.. a sprite!
          * @member {boolean}
          */
         _this.isSprite = true;
-        /**
-         * Internal roundPixels field
-         *
-         * @member {boolean}
-         * @private
-         */
         _this._roundPixels = _pixi_settings__WEBPACK_IMPORTED_MODULE_4__.settings.ROUND_PIXELS;
         return _this;
     }
-    /**
-     * When the texture is updated, this event will fire to update the scale and frame
-     *
-     * @protected
-     */
+    /** When the texture is updated, this event will fire to update the scale and frame. */
     Sprite.prototype._onTextureUpdate = function () {
         this._textureID = -1;
         this._textureTrimmedID = -1;
@@ -37401,18 +36687,12 @@ var Sprite = /** @class */ (function (_super) {
             this.scale.y = (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_5__.sign)(this.scale.y) * this._height / this._texture.orig.height;
         }
     };
-    /**
-     * Called when the anchor position updates.
-     *
-     * @private
-     */
+    /** Called when the anchor position updates. */
     Sprite.prototype._onAnchorUpdate = function () {
         this._transformID = -1;
         this._transformTrimmedID = -1;
     };
-    /**
-     * calculates worldTransform * vertices, store it in vertexData
-     */
+    /** Calculates worldTransform * vertices, store it in vertexData. */
     Sprite.prototype.calculateVertices = function () {
         var texture = this._texture;
         if (this._transformID === this.transform._worldID && this._textureID === texture._updateID) {
@@ -37474,8 +36754,9 @@ var Sprite = /** @class */ (function (_super) {
         }
     };
     /**
-     * calculates worldTransform * vertices for a non texture with a trim. store it in vertexTrimmedData
-     * This is used to ensure that the true width and height of a trimmed texture is respected
+     * Calculates worldTransform * vertices for a non texture with a trim. store it in vertexTrimmedData.
+     *
+     * This is used to ensure that the true width and height of a trimmed texture is respected.
      */
     Sprite.prototype.calculateTrimmedVertices = function () {
         if (!this.vertexTrimmedData) {
@@ -37517,22 +36798,17 @@ var Sprite = /** @class */ (function (_super) {
         vertexData[7] = (d * h0) + (b * w1) + ty;
     };
     /**
-    *
-    * Renders the object using the WebGL renderer
-    *
-    * @protected
-    * @param {PIXI.Renderer} renderer - The webgl renderer to use.
-    */
+     *
+     * Renders the object using the WebGL renderer
+     *
+     * @param renderer - The webgl renderer to use.
+     */
     Sprite.prototype._render = function (renderer) {
         this.calculateVertices();
         renderer.batch.setObjectRenderer(renderer.plugins[this.pluginName]);
         renderer.plugins[this.pluginName].render(this);
     };
-    /**
-     * Updates the bounds of the sprite.
-     *
-     * @protected
-     */
+    /** Updates the bounds of the sprite. */
     Sprite.prototype._calculateBounds = function () {
         var trim = this._texture.trim;
         var orig = this._texture.orig;
@@ -37551,8 +36827,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Gets the local bounds of the sprite object.
      *
-     * @param {PIXI.Rectangle} [rect] - Optional output rectangle.
-     * @return {PIXI.Rectangle} The bounds.
+     * @param rect - Optional output rectangle.
+     * @return The bounds.
      */
     Sprite.prototype.getLocalBounds = function (rect) {
         // we can do a fast local bounds if the sprite has no children!
@@ -37574,8 +36850,8 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Tests if a point is inside this sprite
      *
-     * @param {PIXI.IPointData} point - the point to test
-     * @return {boolean} the result of the test
+     * @param point - the point to test
+     * @return The result of the test
      */
     Sprite.prototype.containsPoint = function (point) {
         this.worldTransform.applyInverse(point, tempPoint);
@@ -37592,14 +36868,14 @@ var Sprite = /** @class */ (function (_super) {
         return false;
     };
     /**
-     * Destroys this sprite and optionally its texture and children
+     * Destroys this sprite and optionally its texture and children.
      *
-     * @param {object|boolean} [options] - Options parameter. A boolean will act as if all options
+     * @param options - Options parameter. A boolean will act as if all options
      *  have been set to that value
-     * @param {boolean} [options.children=false] - if set to true, all the children will have their destroy
+     * @param [options.children=false] - if set to true, all the children will have their destroy
      *      method called as well. 'options' will be passed on to those calls.
-     * @param {boolean} [options.texture=false] - Should it destroy the current texture of the sprite as well
-     * @param {boolean} [options.baseTexture=false] - Should it destroy the base texture of the sprite as well
+     * @param [options.texture=false] - Should it destroy the current texture of the sprite as well
+     * @param [options.baseTexture=false] - Should it destroy the base texture of the sprite as well
      */
     Sprite.prototype.destroy = function (options) {
         _super.prototype.destroy.call(this, options);
@@ -37617,10 +36893,9 @@ var Sprite = /** @class */ (function (_super) {
      * Helper function that creates a new sprite based on the source you provide.
      * The source can be - frame id, image url, video url, canvas element, video element, base texture
      *
-     * @static
      * @param {string|PIXI.Texture|HTMLCanvasElement|HTMLVideoElement} source - Source to create texture from
      * @param {object} [options] - See {@link PIXI.BaseTexture}'s constructor for options.
-     * @return {PIXI.Sprite} The newly created sprite
+     * @return The newly created sprite
      */
     Sprite.from = function (source, options) {
         var texture = (source instanceof _pixi_core__WEBPACK_IMPORTED_MODULE_1__.Texture)
@@ -37634,11 +36909,12 @@ var Sprite = /** @class */ (function (_super) {
         },
         /**
          * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
+         *
          * Advantages can include sharper image quality (like text) and faster rendering on canvas.
          * The main disadvantage is movement of objects may appear less smooth.
-         * To set the global default, change {@link PIXI.settings.ROUND_PIXELS}
          *
-         * @member {boolean}
+         * To set the global default, change {@link PIXI.settings.ROUND_PIXELS}.
+         *
          * @default false
          */
         set: function (value) {
@@ -37651,11 +36927,7 @@ var Sprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Sprite.prototype, "width", {
-        /**
-         * The width of the sprite, setting this will actually modify the scale to achieve the value set
-         *
-         * @member {number}
-         */
+        /** The width of the sprite, setting this will actually modify the scale to achieve the value set. */
         get: function () {
             return Math.abs(this.scale.x) * this._texture.orig.width;
         },
@@ -37668,11 +36940,7 @@ var Sprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Sprite.prototype, "height", {
-        /**
-         * The height of the sprite, setting this will actually modify the scale to achieve the value set
-         *
-         * @member {number}
-         */
+        /** The height of the sprite, setting this will actually modify the scale to achieve the value set. */
         get: function () {
             return Math.abs(this.scale.y) * this._texture.orig.height;
         },
@@ -37700,8 +36968,6 @@ var Sprite = /** @class */ (function (_super) {
          * @example
          * const sprite = new PIXI.Sprite(texture);
          * sprite.anchor.set(0.5); // This will set the origin to center. (0.5) is same as (0.5, 0.5).
-         *
-         * @member {PIXI.ObservablePoint}
          */
         get: function () {
             return this._anchor;
@@ -37715,9 +36981,9 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "tint", {
         /**
          * The tint applied to the sprite. This is a hex value.
+         *
          * A value of 0xFFFFFF will remove any tint effect.
          *
-         * @member {number}
          * @default 0xFFFFFF
          */
         get: function () {
@@ -37731,11 +36997,7 @@ var Sprite = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Sprite.prototype, "texture", {
-        /**
-         * The texture that the sprite is using
-         *
-         * @member {PIXI.Texture}
-         */
+        /** The texture that the sprite is using. */
         get: function () {
             return this._texture;
         },
@@ -37789,8 +37051,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /* harmony import */ var _pixi_loaders__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/loaders */ "./node_modules/@pixi/loaders/dist/esm/loaders.js");
 /*!
- * @pixi/spritesheet - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/spritesheet - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -37821,93 +37083,37 @@ __webpack_require__.r(__webpack_exports__);
  * Default anchor points (see {@link PIXI.Texture#defaultAnchor}) and grouping of animation sprites are currently only
  * supported by TexturePacker.
  *
- * @class
  * @memberof PIXI
  */
 var Spritesheet = /** @class */ (function () {
     /**
-     * @param {PIXI.BaseTexture|PIXI.Texture} baseTexture - Reference to the source BaseTexture object.
+     * @param baseTexture - Reference to the source BaseTexture object.
      * @param {Object} data - Spritesheet image data.
-     * @param {string} [resolutionFilename] - The filename to consider when determining
+     * @param resolutionFilename - The filename to consider when determining
      *        the resolution of the spritesheet. If not provided, the imageUrl will
      *        be used on the BaseTexture.
      */
     function Spritesheet(texture, data, resolutionFilename) {
         if (resolutionFilename === void 0) { resolutionFilename = null; }
-        /**
-         * Reference to original source image from the Loader. This reference is retained so we
-         * can destroy the Texture later on. It is never used internally.
-         * @type {PIXI.Texture}
-         * @private
-         */
         this._texture = texture instanceof _pixi_core__WEBPACK_IMPORTED_MODULE_1__.Texture ? texture : null;
-        /**
-         * Reference to ths source texture.
-         * @type {PIXI.BaseTexture}
-         */
         this.baseTexture = texture instanceof _pixi_core__WEBPACK_IMPORTED_MODULE_1__.BaseTexture ? texture : this._texture.baseTexture;
-        /**
-         * A map containing all textures of the sprite sheet.
-         * Can be used to create a {@link PIXI.Sprite|Sprite}:
-         * ```js
-         * new PIXI.Sprite(sheet.textures["image.png"]);
-         * ```
-         * @member {Object}
-         */
         this.textures = {};
-        /**
-         * A map containing the textures for each animation.
-         * Can be used to create an {@link PIXI.AnimatedSprite|AnimatedSprite}:
-         * ```js
-         * new PIXI.AnimatedSprite(sheet.animations["anim_name"])
-         * ```
-         * @member {Object}
-         */
         this.animations = {};
-        /**
-         * Reference to the original JSON data.
-         * @type {Object}
-         */
         this.data = data;
         var resource = this.baseTexture.resource;
-        /**
-         * The resolution of the spritesheet.
-         * @type {number}
-         */
         this.resolution = this._updateResolution(resolutionFilename || (resource ? resource.url : null));
-        /**
-         * Map of spritesheet frames.
-         * @type {Object}
-         * @private
-         */
         this._frames = this.data.frames;
-        /**
-         * Collection of frame names.
-         * @type {string[]}
-         * @private
-         */
         this._frameKeys = Object.keys(this._frames);
-        /**
-         * Current batch index being processed.
-         * @type {number}
-         * @private
-         */
         this._batchIndex = 0;
-        /**
-         * Callback when parse is completed.
-         * @type {Function}
-         * @private
-         */
         this._callback = null;
     }
     /**
      * Generate the resolution from the filename or fallback
      * to the meta.scale field of the JSON data.
      *
-     * @private
-     * @param {string} resolutionFilename - The filename to use for resolving
+     * @param resolutionFilename - The filename to use for resolving
      *        the default resolution.
-     * @return {number} Resolution to use for spritesheet.
+     * @return Resolution to use for spritesheet.
      */
     Spritesheet.prototype._updateResolution = function (resolutionFilename) {
         if (resolutionFilename === void 0) { resolutionFilename = null; }
@@ -37947,8 +37153,7 @@ var Spritesheet = /** @class */ (function () {
     /**
      * Process a batch of frames
      *
-     * @private
-     * @param {number} initialFrameIndex - The index of frame to start.
+     * @param initialFrameIndex - The index of frame to start.
      */
     Spritesheet.prototype._processFrames = function (initialFrameIndex) {
         var frameIndex = initialFrameIndex;
@@ -37980,11 +37185,7 @@ var Spritesheet = /** @class */ (function () {
             frameIndex++;
         }
     };
-    /**
-     * Parse animations config
-     *
-     * @private
-     */
+    /** Parse animations config. */
     Spritesheet.prototype._processAnimations = function () {
         var animations = this.data.animations || {};
         for (var animName in animations) {
@@ -37995,22 +37196,14 @@ var Spritesheet = /** @class */ (function () {
             }
         }
     };
-    /**
-     * The parse has completed.
-     *
-     * @private
-     */
+    /** The parse has completed. */
     Spritesheet.prototype._parseComplete = function () {
         var callback = this._callback;
         this._callback = null;
         this._batchIndex = 0;
         callback.call(this, this.textures);
     };
-    /**
-     * Begin the next batch of textures.
-     *
-     * @private
-     */
+    /** Begin the next batch of textures. */
     Spritesheet.prototype._nextBatch = function () {
         var _this = this;
         this._processFrames(this._batchIndex * Spritesheet.BATCH_SIZE);
@@ -38047,12 +37240,7 @@ var Spritesheet = /** @class */ (function () {
         this._texture = null;
         this.baseTexture = null;
     };
-    /**
-     * The maximum number of Textures to build per process.
-     *
-     * @type {number}
-     * @default 1000
-     */
+    /** The maximum number of Textures to build per process. */
     Spritesheet.BATCH_SIZE = 1000;
     return Spritesheet;
 }());
@@ -38089,18 +37277,17 @@ var Spritesheet = /** @class */ (function () {
  *   loader.resources.myatlas_image; // atlas Image resource
  * });
  *
- * @class
  * @memberof PIXI
- * @implements PIXI.ILoaderPlugin
  */
 var SpritesheetLoader = /** @class */ (function () {
     function SpritesheetLoader() {
     }
     /**
      * Called after a resource is loaded.
+     *
      * @see PIXI.Loader.loaderMiddleware
-     * @param {PIXI.LoaderResource} resource
-     * @param {function} next
+     * @param resource
+     * @param next
      */
     SpritesheetLoader.use = function (resource, next) {
         var _a, _b;
@@ -38167,8 +37354,9 @@ var SpritesheetLoader = /** @class */ (function () {
     };
     /**
      * Get the spritesheets root path
-     * @param {PIXI.LoaderResource} resource - Resource to check path
-     * @param {string} baseUrl - Base root url
+     *
+     * @param resource - Resource to check path
+     * @param baseUrl - Base root url
      */
     SpritesheetLoader.getResourcePath = function (resource, baseUrl) {
         // Prepend url path unless the resource image is a data url
@@ -38206,15 +37394,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /* harmony import */ var _pixi_text__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/text */ "./node_modules/@pixi/text/dist/esm/text.js");
-/* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
-/* harmony import */ var _pixi_loaders__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @pixi/loaders */ "./node_modules/@pixi/loaders/dist/esm/loaders.js");
+/* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
+/* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
+/* harmony import */ var _pixi_loaders__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @pixi/loaders */ "./node_modules/@pixi/loaders/dist/esm/loaders.js");
 /*!
- * @pixi/text-bitmap - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/text-bitmap - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
+
 
 
 
@@ -38287,6 +37477,7 @@ var BitmapFontData = /** @class */ (function () {
          * @readOnly
          */
         this.kerning = [];
+        this.distanceField = [];
     }
     return BitmapFontData;
 }());
@@ -38367,6 +37558,7 @@ var TextFormat = /** @class */ (function () {
             chars: [],
             kerning: [],
             kernings: [],
+            distanceField: [],
         };
         for (var i in items) {
             // Extract item name
@@ -38418,6 +37610,10 @@ var TextFormat = /** @class */ (function () {
             second: parseInt(kerning.second, 10),
             amount: parseInt(kerning.amount, 10),
         }); });
+        rawData.distanceField.forEach(function (df) { return font.distanceField.push({
+            distanceRange: parseInt(df.distanceRange, 10),
+            fieldType: df.fieldType,
+        }); });
         return font;
     };
     return TextFormat;
@@ -38460,6 +37656,7 @@ var XMLFormat = /** @class */ (function () {
         var page = xml.getElementsByTagName('page');
         var char = xml.getElementsByTagName('char');
         var kerning = xml.getElementsByTagName('kerning');
+        var distanceField = xml.getElementsByTagName('distanceField');
         for (var i = 0; i < info.length; i++) {
             data.info.push({
                 face: info[i].getAttribute('face'),
@@ -38496,6 +37693,12 @@ var XMLFormat = /** @class */ (function () {
                 first: parseInt(kerning[i].getAttribute('first'), 10),
                 second: parseInt(kerning[i].getAttribute('second'), 10),
                 amount: parseInt(kerning[i].getAttribute('amount'), 10),
+            });
+        }
+        for (var i = 0; i < distanceField.length; i++) {
+            data.distanceField.push({
+                fieldType: distanceField[i].getAttribute('fieldType'),
+                distanceRange: parseInt(distanceField[i].getAttribute('distanceRange'), 10),
             });
         }
         return data;
@@ -38719,6 +37922,14 @@ function drawGlyph(canvas, context, metrics, x, y, resolution, style) {
 }
 
 /**
+ * Ponyfill for IE because it doesn't support `Array.from`
+ * @private
+ */
+function splitTextToCharacters(text) {
+    return Array.from ? Array.from(text) : text.split('');
+}
+
+/**
  * Processes the passed character set data and returns a flattened array of all the characters.
  *
  * Ignored because not directly exposed.
@@ -38752,7 +37963,7 @@ function resolveCharacters(chars) {
         }
         // Handle a character set string
         else {
-            result.push.apply(result, item.split(''));
+            result.push.apply(result, splitTextToCharacters(item));
         }
     }
     if (result.length === 0) {
@@ -38762,73 +37973,55 @@ function resolveCharacters(chars) {
 }
 
 /**
+ * Ponyfill for IE because it doesn't support `codePointAt`
+ * @private
+ */
+function extractCharCode(str) {
+    return str.codePointAt ? str.codePointAt(0) : str.charCodeAt(0);
+}
+
+/**
  * BitmapFont represents a typeface available for use with the BitmapText class. Use the `install`
  * method for adding a font to be used.
  *
- * @class
  * @memberof PIXI
  */
 var BitmapFont = /** @class */ (function () {
     /**
-     * @param {PIXI.BitmapFontData} data
-     * @param {PIXI.Texture[]|Object.<string, PIXI.Texture>} textures
-     * @param {boolean} ownsTextures - Setting to `true` will destroy page textures
+     * @param data
+     * @param textures
+     * @param ownsTextures - Setting to `true` will destroy page textures
      *        when the font is uninstalled.
      */
     function BitmapFont(data, textures, ownsTextures) {
+        var _a, _b;
         var info = data.info[0];
         var common = data.common[0];
         var page = data.page[0];
+        var distanceField = data.distanceField[0];
         var res = (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_3__.getResolutionOfUrl)(page.file);
         var pageTextures = {};
         this._ownsTextures = ownsTextures;
-        /**
-         * The name of the font face.
-         *
-         * @member {string}
-         * @readonly
-         */
         this.font = info.face;
-        /**
-         * The size of the font face in pixels.
-         *
-         * @member {number}
-         * @readonly
-         */
         this.size = info.size;
-        /**
-         * The line-height of the font face in pixels.
-         *
-         * @member {number}
-         * @readonly
-         */
         this.lineHeight = common.lineHeight / res;
-        /**
-         * The map of characters by character code.
-         *
-         * @member {object}
-         * @readonly
-         */
         this.chars = {};
-        /**
-         * The map of base page textures (i.e., sheets of glyphs).
-         *
-         * @member {object}
-         * @readonly
-         * @private
-         */
         this.pageTextures = pageTextures;
         // Convert the input Texture, Textures or object
         // into a page Texture lookup by "id"
         for (var i = 0; i < data.page.length; i++) {
-            var _a = data.page[i], id = _a.id, file = _a.file;
+            var _c = data.page[i], id = _c.id, file = _c.file;
             pageTextures[id] = textures instanceof Array
                 ? textures[i] : textures[file];
+            // only MSDF and SDF fonts need no-premultiplied-alpha
+            if ((distanceField === null || distanceField === void 0 ? void 0 : distanceField.fieldType) && distanceField.fieldType !== 'none') {
+                pageTextures[id].baseTexture.alphaMode = _pixi_constants__WEBPACK_IMPORTED_MODULE_6__.ALPHA_MODES.NO_PREMULTIPLIED_ALPHA;
+            }
         }
         // parse letters
         for (var i = 0; i < data.char.length; i++) {
-            var _b = data.char[i], id = _b.id, page_1 = _b.page;
-            var _c = data.char[i], x = _c.x, y = _c.y, width = _c.width, height = _c.height, xoffset = _c.xoffset, yoffset = _c.yoffset, xadvance = _c.xadvance;
+            var _d = data.char[i], id = _d.id, page_1 = _d.page;
+            var _e = data.char[i], x = _e.x, y = _e.y, width = _e.width, height = _e.height, xoffset = _e.xoffset, yoffset = _e.yoffset, xadvance = _e.xadvance;
             x /= res;
             y /= res;
             width /= res;
@@ -38848,7 +38041,7 @@ var BitmapFont = /** @class */ (function () {
         }
         // parse kernings
         for (var i = 0; i < data.kerning.length; i++) {
-            var _d = data.kerning[i], first = _d.first, second = _d.second, amount = _d.amount;
+            var _f = data.kerning[i], first = _f.first, second = _f.second, amount = _f.amount;
             first /= res;
             second /= res;
             amount /= res;
@@ -38856,10 +38049,11 @@ var BitmapFont = /** @class */ (function () {
                 this.chars[second].kerning[first] = amount;
             }
         }
+        // Store distance field information
+        this.distanceFieldRange = distanceField === null || distanceField === void 0 ? void 0 : distanceField.distanceRange;
+        this.distanceFieldType = (_b = (_a = distanceField === null || distanceField === void 0 ? void 0 : distanceField.fieldType) === null || _a === void 0 ? void 0 : _a.toLowerCase()) !== null && _b !== void 0 ? _b : 'none';
     }
-    /**
-     * Remove references to created glyph textures.
-     */
+    /** Remove references to created glyph textures. */
     BitmapFont.prototype.destroy = function () {
         for (var id in this.chars) {
             this.chars[id].texture.destroy();
@@ -38878,12 +38072,10 @@ var BitmapFont = /** @class */ (function () {
     /**
      * Register a new bitmap font.
      *
-     * @static
-     * @param {XMLDocument|string|PIXI.BitmapFontData} data - The
+     * @param data - The
      *        characters map that could be provided as xml or raw string.
-     * @param {Object.<string, PIXI.Texture>|PIXI.Texture|PIXI.Texture[]}
-     *        textures - List of textures for each page.
-     * @param managedTexture - Set to `true` to destroy page textures
+     * @param textures - List of textures for each page.
+     * @param ownsTextures - Set to `true` to destroy page textures
      *        when the font is uninstalled. By default fonts created with
      *        `BitmapFont.from` or from the `BitmapFontLoader` are `true`.
      * @return {PIXI.BitmapFont} Result font object with font, size, lineHeight
@@ -38912,7 +38104,6 @@ var BitmapFont = /** @class */ (function () {
     /**
      * Remove bitmap font by name.
      *
-     * @static
      * @param name - Name of the font to uninstall.
      */
     BitmapFont.uninstall = function (name) {
@@ -38945,9 +38136,9 @@ var BitmapFont = /** @class */ (function () {
      * - {@link PIXI.TextStyle#strokeThickness|strokeThickness}
      * - {@link PIXI.TextStyle#textBaseline|textBaseline}
      *
-     * @param {string} name - The name of the custom font to use with BitmapText.
-     * @param {object|PIXI.TextStyle} [style] - Style options to render with BitmapFont.
-     * @param {PIXI.IBitmapFontOptions} [options] - Setup options for font or name of the font.
+     * @param name - The name of the custom font to use with BitmapText.
+     * @param style - Style options to render with BitmapFont.
+     * @param options - Setup options for font or name of the font.
      * @param {string|string[]|string[][]} [options.chars=PIXI.BitmapFont.ALPHANUMERIC] - characters included
      *      in the font set. You can also use ranges. For example, `[['a', 'z'], ['A', 'Z'], "!@#$%^&*()~{}[] "]`.
      *      Don't forget to include spaces ' ' in your character set!
@@ -38955,8 +38146,7 @@ var BitmapFont = /** @class */ (function () {
      * @param {number} [options.textureWidth=512] - Optional width of atlas, smaller values to reduce memory.
      * @param {number} [options.textureHeight=512] - Optional height of atlas, smaller values to reduce memory.
      * @param {number} [options.padding=4] - Padding between glyphs on texture atlas.
-     * @return {PIXI.BitmapFont} Font generated by style options.
-     * @static
+     * @return Font generated by style options.
      * @example
      * PIXI.BitmapFont.from("TitleFont", {
      *     fontFamily: "Arial",
@@ -39038,7 +38228,7 @@ var BitmapFont = /** @class */ (function () {
             }
             drawGlyph(canvas, context, metrics, positionX, positionY, resolution, style);
             // Unique (numeric) ID mapping to this glyph
-            var id = metrics.text.charCodeAt(0);
+            var id = extractCharCode(metrics.text);
             // Create a texture holding just the glyph
             fontData.char.push({
                 id: id,
@@ -39068,8 +38258,8 @@ var BitmapFont = /** @class */ (function () {
                 var amount = total - (c1 + c2);
                 if (amount) {
                     fontData.kerning.push({
-                        first: first.charCodeAt(0),
-                        second: second.charCodeAt(0),
+                        first: extractCharCode(first),
+                        second: extractCharCode(second),
                         amount: amount,
                     });
                 }
@@ -39085,33 +38275,29 @@ var BitmapFont = /** @class */ (function () {
     };
     /**
      * This character set includes all the letters in the alphabet (both lower- and upper- case).
-     * @readonly
-     * @static
-     * @member {string[][]}
+     *
+     * @type {string[][]}
      * @example
      * BitmapFont.from("ExampleFont", style, { chars: BitmapFont.ALPHA })
      */
     BitmapFont.ALPHA = [['a', 'z'], ['A', 'Z'], ' '];
     /**
      * This character set includes all decimal digits (from 0 to 9).
-     * @readonly
-     * @static
-     * @member {string[][]}
+     *
+     * @type {string[][]}
      * @example
      * BitmapFont.from("ExampleFont", style, { chars: BitmapFont.NUMERIC })
      */
     BitmapFont.NUMERIC = [['0', '9']];
     /**
      * This character set is the union of `BitmapFont.ALPHA` and `BitmapFont.NUMERIC`.
-     * @readonly
-     * @static
-     * @member {string[][]}
+     *
+     * @type {string[][]}
      */
     BitmapFont.ALPHANUMERIC = [['a', 'z'], ['A', 'Z'], ['0', '9'], ' '];
     /**
      * This character set consists of all the ASCII table.
-     * @readonly
-     * @static
+     *
      * @member {string[][]}
      * @see http://www.asciitable.com/
      */
@@ -39119,9 +38305,6 @@ var BitmapFont = /** @class */ (function () {
     /**
      * Collection of default options when using `BitmapFont.from`.
      *
-     * @readonly
-     * @static
-     * @member {PIXI.IBitmapFontOptions}
      * @property {number} resolution=1
      * @property {number} textureWidth=512
      * @property {number} textureHeight=512
@@ -39135,27 +38318,18 @@ var BitmapFont = /** @class */ (function () {
         padding: 4,
         chars: BitmapFont.ALPHANUMERIC,
     };
-    /**
-     * Collection of available/installed fonts.
-     *
-     * @readonly
-     * @static
-     * @member {Object.<string, PIXI.BitmapFont>}
-     */
+    /** Collection of available/installed fonts. */
     BitmapFont.available = {};
     return BitmapFont;
 }());
-/**
- * @memberof PIXI
- * @interface IBitmapFontOptions
- * @property {string | string[] | string[][]} [chars=PIXI.BitmapFont.ALPHANUMERIC] - the character set to generate
- * @property {number} [resolution=1] - the resolution for rendering
- * @property {number} [padding=4] - the padding between glyphs in the atlas
- * @property {number} [textureWidth=512] - the width of the texture atlas
- * @property {number} [textureHeight=512] - the height of the texture atlas
- */
 
-var pageMeshDataPool = [];
+var msdfFrag = "// Pixi texture info\r\nvarying vec2 vTextureCoord;\r\nuniform sampler2D uSampler;\r\n\r\n// Tint\r\nuniform vec4 uColor;\r\n\r\n// on 2D applications fwidth is screenScale / glyphAtlasScale * distanceFieldRange\r\nuniform float uFWidth;\r\n\r\nvoid main(void) {\r\n\r\n  // To stack MSDF and SDF we need a non-pre-multiplied-alpha texture.\r\n  vec4 texColor = texture2D(uSampler, vTextureCoord);\r\n\r\n  // MSDF\r\n  float median = texColor.r + texColor.g + texColor.b -\r\n                  min(texColor.r, min(texColor.g, texColor.b)) -\r\n                  max(texColor.r, max(texColor.g, texColor.b));\r\n  // SDF\r\n  median = min(median, texColor.a);\r\n\r\n  float screenPxDistance = uFWidth * (median - 0.5);\r\n  float alpha = clamp(screenPxDistance + 0.5, 0.0, 1.0);\r\n\r\n  // NPM Textures, NPM outputs\r\n  gl_FragColor = vec4(uColor.rgb, uColor.a * alpha);\r\n\r\n}\r\n";
+
+var msdfVert = "// Mesh material default fragment\r\nattribute vec2 aVertexPosition;\r\nattribute vec2 aTextureCoord;\r\n\r\nuniform mat3 projectionMatrix;\r\nuniform mat3 translationMatrix;\r\nuniform mat3 uTextureMatrix;\r\n\r\nvarying vec2 vTextureCoord;\r\n\r\nvoid main(void)\r\n{\r\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\r\n\r\n    vTextureCoord = (uTextureMatrix * vec3(aTextureCoord, 1.0)).xy;\r\n}\r\n";
+
+// If we ever need more than two pools, please make a Dict or something better.
+var pageMeshDataDefaultPageMeshData = [];
+var pageMeshDataMSDFPageMeshData = [];
 var charRenderDataPool = [];
 /**
  * A BitmapText object will create a line or multiple lines of text using bitmap font.
@@ -39170,6 +38344,10 @@ var charRenderDataPool = [];
  * PixiJS can auto-generate fonts on-the-fly using BitmapFont or use fnt files provided by:
  * http://www.angelcode.com/products/bmfont/ for Windows or
  * http://www.bmglyph.com/ for Mac.
+ *
+ * You can also use SDF, MSDF and MTSDF BitmapFonts for vector-like scaling appearance provided by:
+ * https://github.com/soimy/msdf-bmfont-xml for SDF and MSDF fnt files or
+ * https://github.com/Chlumsky/msdf-atlas-gen for SDF, MSDF and MTSDF json files
  *
  * A BitmapText can only be created when the font is loaded.
  *
@@ -39329,8 +38507,10 @@ var BitmapText = /** @class */ (function (_super) {
         var lineWidths = [];
         var lineSpaces = [];
         var text = this._text.replace(/(?:\r\n|\r)/g, '\n') || ' ';
-        var textLength = text.length;
+        var charsInput = splitTextToCharacters(text);
         var maxWidth = this._maxWidth * data.size / this._fontSize;
+        var pageMeshDataPool = data.distanceFieldType === 'none'
+            ? pageMeshDataDefaultPageMeshData : pageMeshDataMSDFPageMeshData;
         var prevCharCode = null;
         var lastLineWidth = 0;
         var maxLineWidth = 0;
@@ -39340,9 +38520,9 @@ var BitmapText = /** @class */ (function (_super) {
         var spacesRemoved = 0;
         var maxLineHeight = 0;
         var spaceCount = 0;
-        for (var i = 0; i < textLength; i++) {
-            var charCode = text.charCodeAt(i);
-            var char = text.charAt(i);
+        for (var i = 0; i < charsInput.length; i++) {
+            var char = charsInput[i];
+            var charCode = extractCharCode(char);
             if ((/(?:\s)/).test(char)) {
                 lastBreakPos = i;
                 lastBreakWidth = lastLineWidth;
@@ -39400,7 +38580,7 @@ var BitmapText = /** @class */ (function (_super) {
                 spaceCount = 0;
             }
         }
-        var lastChar = text.charAt(text.length - 1);
+        var lastChar = charsInput[charsInput.length - 1];
         if (lastChar !== '\r' && lastChar !== '\n') {
             if ((/(?:\s)/).test(lastChar)) {
                 lastLineWidth = lastBreakWidth;
@@ -39437,8 +38617,18 @@ var BitmapText = /** @class */ (function (_super) {
                 var pageMeshData = pageMeshDataPool.pop();
                 if (!pageMeshData) {
                     var geometry = new _pixi_mesh__WEBPACK_IMPORTED_MODULE_2__.MeshGeometry();
-                    var material = new _pixi_mesh__WEBPACK_IMPORTED_MODULE_2__.MeshMaterial(_pixi_core__WEBPACK_IMPORTED_MODULE_4__.Texture.EMPTY);
+                    var material = void 0;
+                    var meshBlendMode = void 0;
+                    if (data.distanceFieldType === 'none') {
+                        material = new _pixi_mesh__WEBPACK_IMPORTED_MODULE_2__.MeshMaterial(_pixi_core__WEBPACK_IMPORTED_MODULE_4__.Texture.EMPTY);
+                        meshBlendMode = _pixi_constants__WEBPACK_IMPORTED_MODULE_6__.BLEND_MODES.NORMAL;
+                    }
+                    else {
+                        material = new _pixi_mesh__WEBPACK_IMPORTED_MODULE_2__.MeshMaterial(_pixi_core__WEBPACK_IMPORTED_MODULE_4__.Texture.EMPTY, { program: _pixi_core__WEBPACK_IMPORTED_MODULE_4__.Program.from(msdfVert, msdfFrag), uniforms: { uFWidth: 0 } });
+                        meshBlendMode = _pixi_constants__WEBPACK_IMPORTED_MODULE_6__.BLEND_MODES.NORMAL_NPM;
+                    }
                     var mesh = new _pixi_mesh__WEBPACK_IMPORTED_MODULE_2__.Mesh(geometry, material);
+                    mesh.blendMode = meshBlendMode;
                     pageMeshData = {
                         index: 0,
                         indexCount: 0,
@@ -39584,6 +38774,23 @@ var BitmapText = /** @class */ (function (_super) {
     BitmapText.prototype.updateTransform = function () {
         this.validate();
         this.containerUpdateTransform();
+    };
+    BitmapText.prototype._render = function (renderer) {
+        // Update the uniform
+        var _a = BitmapFont.available[this._fontName], distanceFieldRange = _a.distanceFieldRange, distanceFieldType = _a.distanceFieldType, size = _a.size;
+        if (distanceFieldType !== 'none') {
+            // Inject the shader code with the correct value
+            var _b = this.worldTransform, a = _b.a, b = _b.b, c = _b.c, d = _b.d;
+            var dx = Math.sqrt((a * a) + (b * b));
+            var dy = Math.sqrt((c * c) + (d * d));
+            var worldScale = (Math.abs(dx) + Math.abs(dy)) / 2;
+            var fontScale = this._fontSize / size;
+            for (var _i = 0, _c = this._activePagesMeshData; _i < _c.length; _i++) {
+                var mesh = _c[_i];
+                mesh.mesh.shader.uniforms.uFWidth = worldScale * distanceFieldRange * fontScale * renderer.resolution;
+            }
+        }
+        _super.prototype._render.call(this, renderer);
     };
     /**
      * Validates text before calling parent's getLocalBounds
@@ -39853,7 +39060,7 @@ var BitmapText = /** @class */ (function (_super) {
         letterSpacing: 0,
     };
     return BitmapText;
-}(_pixi_display__WEBPACK_IMPORTED_MODULE_6__.Container));
+}(_pixi_display__WEBPACK_IMPORTED_MODULE_7__.Container));
 
 /**
  * {@link PIXI.Loader Loader} middleware for loading
@@ -39871,7 +39078,7 @@ var BitmapFontLoader = /** @class */ (function () {
      * @see PIXI.Loader.registerPlugin
      */
     BitmapFontLoader.add = function () {
-        _pixi_loaders__WEBPACK_IMPORTED_MODULE_7__.LoaderResource.setExtensionXhrType('fnt', _pixi_loaders__WEBPACK_IMPORTED_MODULE_7__.LoaderResource.XHR_RESPONSE_TYPE.TEXT);
+        _pixi_loaders__WEBPACK_IMPORTED_MODULE_8__.LoaderResource.setExtensionXhrType('fnt', _pixi_loaders__WEBPACK_IMPORTED_MODULE_8__.LoaderResource.XHR_RESPONSE_TYPE.TEXT);
     };
     /**
      * Called after a resource is loaded.
@@ -39924,7 +39131,7 @@ var BitmapFontLoader = /** @class */ (function () {
                 // Standard loading options for images
                 var options = {
                     crossOrigin: resource.crossOrigin,
-                    loadType: _pixi_loaders__WEBPACK_IMPORTED_MODULE_7__.LoaderResource.LOAD_TYPE.IMAGE,
+                    loadType: _pixi_loaders__WEBPACK_IMPORTED_MODULE_8__.LoaderResource.LOAD_TYPE.IMAGE,
                     metadata: Object.assign({ pageFile: pageFile }, resource.metadata.imageMetadata),
                     parentResource: resource,
                 };
@@ -40009,8 +39216,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/text - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/text - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -40113,7 +39320,6 @@ var genericFontFamilies = [
  *
  * A tool can be used to generate a text style [here](https://pixijs.io/pixi-text-style).
  *
- * @class
  * @memberof PIXI
  */
 var TextStyle = /** @class */ (function () {
@@ -40174,16 +39380,14 @@ var TextStyle = /** @class */ (function () {
      * Creates a new TextStyle object with the same values as this one.
      * Note that the only the properties of the object are cloned.
      *
-     * @return {PIXI.TextStyle} New cloned TextStyle object
+     * @return New cloned TextStyle object
      */
     TextStyle.prototype.clone = function () {
         var clonedProperties = {};
         deepCopyProperties(clonedProperties, this, defaultStyle);
         return new TextStyle(clonedProperties);
     };
-    /**
-     * Resets all properties to the defaults specified in TextStyle.prototype._default
-     */
+    /** Resets all properties to the defaults specified in TextStyle.prototype._default */
     TextStyle.prototype.reset = function () {
         deepCopyProperties(this, defaultStyle, defaultStyle);
     };
@@ -40206,11 +39410,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "breakWords", {
-        /**
-         * Indicates if lines can be wrapped within words, it needs wordWrap to be set to true
-         *
-         * @member {boolean}
-         */
+        /** Indicates if lines can be wrapped within words, it needs wordWrap to be set to true. */
         get: function () {
             return this._breakWords;
         },
@@ -40224,11 +39424,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "dropShadow", {
-        /**
-         * Set a drop shadow for the text
-         *
-         * @member {boolean}
-         */
+        /** Set a drop shadow for the text. */
         get: function () {
             return this._dropShadow;
         },
@@ -40242,11 +39438,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "dropShadowAlpha", {
-        /**
-         * Set alpha for the drop shadow
-         *
-         * @member {number}
-         */
+        /** Set alpha for the drop shadow. */
         get: function () {
             return this._dropShadowAlpha;
         },
@@ -40260,11 +39452,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "dropShadowAngle", {
-        /**
-         * Set a angle of the drop shadow
-         *
-         * @member {number}
-         */
+        /** Set a angle of the drop shadow. */
         get: function () {
             return this._dropShadowAngle;
         },
@@ -40278,11 +39466,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "dropShadowBlur", {
-        /**
-         * Set a shadow blur radius
-         *
-         * @member {number}
-         */
+        /** Set a shadow blur radius. */
         get: function () {
             return this._dropShadowBlur;
         },
@@ -40296,11 +39480,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "dropShadowColor", {
-        /**
-         * A fill style to be used on the dropshadow e.g 'red', '#00FF00'
-         *
-         * @member {string|number}
-         */
+        /** A fill style to be used on the dropshadow e.g 'red', '#00FF00'. */
         get: function () {
             return this._dropShadowColor;
         },
@@ -40315,11 +39495,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "dropShadowDistance", {
-        /**
-         * Set a distance of the drop shadow
-         *
-         * @member {number}
-         */
+        /** Set a distance of the drop shadow. */
         get: function () {
             return this._dropShadowDistance;
         },
@@ -40335,6 +39511,7 @@ var TextStyle = /** @class */ (function () {
     Object.defineProperty(TextStyle.prototype, "fill", {
         /**
          * A canvas fillstyle that will be used on the text e.g 'red', '#00FF00'.
+         *
          * Can be an array to create a gradient eg ['#000000','#FFFFFF']
          * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle|MDN}
          *
@@ -40361,9 +39538,8 @@ var TextStyle = /** @class */ (function () {
     Object.defineProperty(TextStyle.prototype, "fillGradientType", {
         /**
          * If fill is an array of colours to create a gradient, this can change the type/direction of the gradient.
-         * See {@link PIXI.TEXT_GRADIENT}
          *
-         * @member {number}
+         * @see PIXI.TEXT_GRADIENT
          */
         get: function () {
             return this._fillGradientType;
@@ -40381,8 +39557,6 @@ var TextStyle = /** @class */ (function () {
         /**
          * If fill is an array of colours to create a gradient, this array can set the stop points
          * (numbers between 0 and 1) for the color, overriding the default behaviour of evenly spacing them.
-         *
-         * @member {number[]}
          */
         get: function () {
             return this._fillGradientStops;
@@ -40397,11 +39571,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "fontFamily", {
-        /**
-         * The font family
-         *
-         * @member {string|string[]}
-         */
+        /** The font family. */
         get: function () {
             return this._fontFamily;
         },
@@ -40418,8 +39588,6 @@ var TextStyle = /** @class */ (function () {
         /**
          * The font size
          * (as a number it converts to px, but as a string, equivalents are '26px','20pt','160%' or '1.6em')
-         *
-         * @member {number|string}
          */
         get: function () {
             return this._fontSize;
@@ -40491,11 +39659,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "letterSpacing", {
-        /**
-         * The amount of spacing between letters, default is 0
-         *
-         * @member {number}
-         */
+        /** The amount of spacing between letters, default is 0. */
         get: function () {
             return this._letterSpacing;
         },
@@ -40509,11 +39673,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "lineHeight", {
-        /**
-         * The line height, a number that represents the vertical space that a letter uses
-         *
-         * @member {number}
-         */
+        /** The line height, a number that represents the vertical space that a letter uses. */
         get: function () {
             return this._lineHeight;
         },
@@ -40527,11 +39687,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "leading", {
-        /**
-         * The space between lines
-         *
-         * @member {number}
-         */
+        /** The space between lines. */
         get: function () {
             return this._leading;
         },
@@ -40565,10 +39721,9 @@ var TextStyle = /** @class */ (function () {
     });
     Object.defineProperty(TextStyle.prototype, "miterLimit", {
         /**
-         * The miter limit to use when using the 'miter' lineJoin mode
-         * This can reduce or increase the spikiness of rendered text.
+         * The miter limit to use when using the 'miter' lineJoin mode.
          *
-         * @member {number}
+         * This can reduce or increase the spikiness of rendered text.
          */
         get: function () {
             return this._miterLimit;
@@ -40586,8 +39741,6 @@ var TextStyle = /** @class */ (function () {
         /**
          * Occasionally some fonts are cropped. Adding some padding will prevent this from happening
          * by adding padding to all sides of the text.
-         *
-         * @member {number}
          */
         get: function () {
             return this._padding;
@@ -40605,8 +39758,6 @@ var TextStyle = /** @class */ (function () {
         /**
          * A canvas fillstyle that will be used on the text stroke
          * e.g 'blue', '#FCFF00'
-         *
-         * @member {string|number}
          */
         get: function () {
             return this._stroke;
@@ -40627,9 +39778,8 @@ var TextStyle = /** @class */ (function () {
     Object.defineProperty(TextStyle.prototype, "strokeThickness", {
         /**
          * A number that represents the thickness of the stroke.
-         * Default is 0 (no stroke)
          *
-         * @member {number}
+         * @default 0
          */
         get: function () {
             return this._strokeThickness;
@@ -40662,11 +39812,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "trim", {
-        /**
-         * Trim transparent borders
-         *
-         * @member {boolean}
-         */
+        /** Trim transparent borders. */
         get: function () {
             return this._trim;
         },
@@ -40705,11 +39851,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "wordWrap", {
-        /**
-         * Indicates if word wrap should be used
-         *
-         * @member {boolean}
-         */
+        /** Indicates if word wrap should be used. */
         get: function () {
             return this._wordWrap;
         },
@@ -40723,11 +39865,7 @@ var TextStyle = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(TextStyle.prototype, "wordWrapWidth", {
-        /**
-         * The width at which text will wrap, it needs wordWrap to be set to true
-         *
-         * @member {number}
-         */
+        /** The width at which text will wrap, it needs wordWrap to be set to true. */
         get: function () {
             return this._wordWrapWidth;
         },
@@ -40743,7 +39881,7 @@ var TextStyle = /** @class */ (function () {
     /**
      * Generates a font style string to use for `TextMetrics.measureFont()`.
      *
-     * @return {string} Font style string, for passing to `TextMetrics.measureFont()`
+     * @return Font style string, for passing to `TextMetrics.measureFont()`
      */
     TextStyle.prototype.toFontString = function () {
         // build canvas api font setting from individual components. Convert a numeric this.fontSize to px
@@ -40770,8 +39908,8 @@ var TextStyle = /** @class */ (function () {
 /**
  * Utility function to convert hexadecimal colors to strings, and simply return the color if it's a string.
  * @private
- * @param {string|number} color
- * @return {string} The color as a string.
+ * @param color
+ * @return The color as a string.
  */
 function getSingleColor(color) {
     if (typeof color === 'number') {
@@ -40799,9 +39937,9 @@ function getColor(color) {
  * Utility function to convert hexadecimal colors to strings, and simply return the color if it's a string.
  * This version can also convert array of colors
  * @private
- * @param {Array} array1 - First array to compare
- * @param {Array} array2 - Second array to compare
- * @return {boolean} Do the arrays contain the same values in the same order
+ * @param array1 - First array to compare
+ * @param array2 - Second array to compare
+ * @return Do the arrays contain the same values in the same order
  */
 function areArraysEqual(array1, array2) {
     if (!Array.isArray(array1) || !Array.isArray(array2)) {
@@ -40820,9 +39958,9 @@ function areArraysEqual(array1, array2) {
 /**
  * Utility function to ensure that object properties are copied by value, and not by reference
  * @private
- * @param {Object} target - Target object to copy properties into
- * @param {Object} source - Source object for the properties to copy
- * @param {string} propertyObj - Object containing properties names we want to loop over
+ * @param target - Target object to copy properties into
+ * @param source - Source object for the properties to copy
+ * @param propertyObj - Object containing properties names we want to loop over
  */
 function deepCopyProperties(target, source, propertyObj) {
     for (var prop in propertyObj) {
@@ -40843,85 +39981,39 @@ function deepCopyProperties(target, source, propertyObj) {
  * let textMetrics = PIXI.TextMetrics.measureText('Your text', style)
  * ```
  *
- * @class
  * @memberof PIXI
  */
 var TextMetrics = /** @class */ (function () {
     /**
-     * @param {string} text - the text that was measured
-     * @param {PIXI.TextStyle} style - the style that was measured
-     * @param {number} width - the measured width of the text
-     * @param {number} height - the measured height of the text
-     * @param {string[]} lines - an array of the lines of text broken by new lines and wrapping if specified in style
-     * @param {number[]} lineWidths - an array of the line widths for each line matched to `lines`
-     * @param {number} lineHeight - the measured line height for this style
-     * @param {number} maxLineWidth - the maximum line width for all measured lines
-     * @param {Object} fontProperties - the font properties object from TextMetrics.measureFont
+     * @param text - the text that was measured
+     * @param style - the style that was measured
+     * @param width - the measured width of the text
+     * @param height - the measured height of the text
+     * @param lines - an array of the lines of text broken by new lines and wrapping if specified in style
+     * @param lineWidths - an array of the line widths for each line matched to `lines`
+     * @param lineHeight - the measured line height for this style
+     * @param maxLineWidth - the maximum line width for all measured lines
+     * @param {PIXI.IFontMetrics} fontProperties - the font properties object from TextMetrics.measureFont
      */
     function TextMetrics(text, style, width, height, lines, lineWidths, lineHeight, maxLineWidth, fontProperties) {
-        /**
-         * The text that was measured
-         *
-         * @member {string}
-         */
         this.text = text;
-        /**
-         * The style that was measured
-         *
-         * @member {PIXI.TextStyle}
-         */
         this.style = style;
-        /**
-         * The measured width of the text
-         *
-         * @member {number}
-         */
         this.width = width;
-        /**
-         * The measured height of the text
-         *
-         * @member {number}
-         */
         this.height = height;
-        /**
-         * An array of lines of the text broken by new lines and wrapping is specified in style
-         *
-         * @member {string[]}
-         */
         this.lines = lines;
-        /**
-         * An array of the line widths for each line matched to `lines`
-         *
-         * @member {number[]}
-         */
         this.lineWidths = lineWidths;
-        /**
-         * The measured line height for this style
-         *
-         * @member {number}
-         */
         this.lineHeight = lineHeight;
-        /**
-         * The maximum line width for all measured lines
-         *
-         * @member {number}
-         */
         this.maxLineWidth = maxLineWidth;
-        /**
-         * The font properties object from TextMetrics.measureFont
-         *
-         * @member {PIXI.IFontMetrics}
-         */
         this.fontProperties = fontProperties;
     }
     /**
      * Measures the supplied string of text and returns a Rectangle.
      *
-     * @param {string} text - the text to measure.
-     * @param {PIXI.TextStyle} style - the text style to use for measuring
-     * @param {boolean} [wordWrap] - optional override for if word-wrap should be applied to the text.
-     * @param {HTMLCanvasElement} [canvas] - optional specification of the canvas to use for measuring.
-     * @return {PIXI.TextMetrics} measured width and height of the text.
+     * @param text - The text to measure.
+     * @param style - The text style to use for measuring
+     * @param wordWrap - Override for if word-wrap should be applied to the text.
+     * @param canvas - optional specification of the canvas to use for measuring.
+     * @return Measured width and height of the text.
      */
     TextMetrics.measureText = function (text, style, wordWrap, canvas) {
         if (canvas === void 0) { canvas = TextMetrics._canvas; }
@@ -40961,11 +40053,10 @@ var TextMetrics = /** @class */ (function () {
      * Applies newlines to a string to have it optimally fit into the horizontal
      * bounds set by the Text object's wordWrapWidth property.
      *
-     * @private
-     * @param {string} text - String to apply word wrapping to
-     * @param {PIXI.TextStyle} style - the style to use when wrapping
-     * @param {HTMLCanvasElement} [canvas] - optional specification of the canvas to use for measuring.
-     * @return {string} New string with new lines applied where required
+     * @param text - String to apply word wrapping to
+     * @param style - the style to use when wrapping
+     * @param canvas - optional specification of the canvas to use for measuring.
+     * @return New string with new lines applied where required
      */
     TextMetrics.wordWrap = function (text, style, canvas) {
         if (canvas === void 0) { canvas = TextMetrics._canvas; }
@@ -41103,13 +40194,11 @@ var TextMetrics = /** @class */ (function () {
         return lines;
     };
     /**
-     * Convienience function for logging each line added during the wordWrap
-     * method
+     * Convienience function for logging each line added during the wordWrap method.
      *
-     * @private
-     * @param  {string}   line        - The line of text to add
-     * @param  {boolean}  newLine     - Add new line character to end
-     * @return {string}  A formatted line
+     * @param line    - The line of text to add
+     * @param newLine - Add new line character to end
+     * @return A formatted line
      */
     TextMetrics.addLine = function (line, newLine) {
         if (newLine === void 0) { newLine = true; }
@@ -41120,12 +40209,11 @@ var TextMetrics = /** @class */ (function () {
     /**
      * Gets & sets the widths of calculated characters in a cache object
      *
-     * @private
-     * @param  {string}                    key            - The key
-     * @param  {number}                    letterSpacing  - The letter spacing
-     * @param  {object}                    cache          - The cache
-     * @param  {CanvasRenderingContext2D}  context        - The canvas context
-     * @return {number}                    The from cache.
+     * @param key            - The key
+     * @param letterSpacing  - The letter spacing
+     * @param cache          - The cache
+     * @param context        - The canvas context
+     * @return The from cache.
      */
     TextMetrics.getFromCache = function (key, letterSpacing, cache, context) {
         var width = cache[key];
@@ -41137,31 +40225,28 @@ var TextMetrics = /** @class */ (function () {
         return width;
     };
     /**
-     * Determines whether we should collapse breaking spaces
+     * Determines whether we should collapse breaking spaces.
      *
-     * @private
-     * @param  {string}   whiteSpace - The TextStyle property whiteSpace
-     * @return {boolean}  should collapse
+     * @param whiteSpace - The TextStyle property whiteSpace
+     * @return Should collapse
      */
     TextMetrics.collapseSpaces = function (whiteSpace) {
         return (whiteSpace === 'normal' || whiteSpace === 'pre-line');
     };
     /**
-     * Determines whether we should collapse newLine chars
+     * Determines whether we should collapse newLine chars.
      *
-     * @private
-     * @param  {string}   whiteSpace - The white space
-     * @return {boolean}  should collapse
+     * @param whiteSpace - The white space
+     * @return  should collapse
      */
     TextMetrics.collapseNewlines = function (whiteSpace) {
         return (whiteSpace === 'normal');
     };
     /**
-     * trims breaking whitespaces from string
+     * Trims breaking whitespaces from string.
      *
-     * @private
-     * @param  {string}  text - The text
-     * @return {string}  trimmed string
+     * @param  text - The text
+     * @return Trimmed string
      */
     TextMetrics.trimRight = function (text) {
         if (typeof text !== 'string') {
@@ -41179,9 +40264,8 @@ var TextMetrics = /** @class */ (function () {
     /**
      * Determines if char is a newline.
      *
-     * @private
-     * @param  {string}  char - The character
-     * @return {boolean}  True if newline, False otherwise.
+     * @param  char - The character
+     * @return True if newline, False otherwise.
      */
     TextMetrics.isNewline = function (char) {
         if (typeof char !== 'string') {
@@ -41196,9 +40280,9 @@ var TextMetrics = /** @class */ (function () {
      * For example certain characters in CJK langs or numbers.
      * It must return a boolean.
      *
-     * @param  {string}  char     - The character
-     * @param  {string}  [nextChar] - The next character
-     * @return {boolean}  True if whitespace, False otherwise.
+     * @param char     - The character
+     * @param [nextChar] - The next character
+     * @return True if whitespace, False otherwise.
      */
     TextMetrics.isBreakingSpace = function (char, _nextChar) {
         if (typeof char !== 'string') {
@@ -41209,9 +40293,8 @@ var TextMetrics = /** @class */ (function () {
     /**
      * Splits a string into words, breaking-spaces and newLine characters
      *
-     * @private
-     * @param  {string}  text - The text
-     * @return {string[]}  A tokenized array
+     * @param  text - The text
+     * @return  A tokenized array
      */
     TextMetrics.tokenize = function (text) {
         var tokens = [];
@@ -41244,9 +40327,9 @@ var TextMetrics = /** @class */ (function () {
      * Examples are if the token is CJK or numbers.
      * It must return a boolean.
      *
-     * @param  {string}  token       - The token
-     * @param  {boolean}  breakWords - The style attr break words
-     * @return {boolean} whether to break word or not
+     * @param  token       - The token
+     * @param  breakWords - The style attr break words
+     * @return Whether to break word or not
      */
     TextMetrics.canBreakWords = function (_token, breakWords) {
         return breakWords;
@@ -41259,12 +40342,12 @@ var TextMetrics = /** @class */ (function () {
      * For example certain characters in CJK langs or numbers.
      * It must return a boolean.
      *
-     * @param  {string}  char        - The character
-     * @param  {string}  nextChar    - The next character
-     * @param  {string}  token       - The token/word the characters are from
-     * @param  {number}  index       - The index in the token of the char
-     * @param  {boolean}  breakWords - The style attr break words
-     * @return {boolean} whether to break word or not
+     * @param  char        - The character
+     * @param  nextChar    - The next character
+     * @param  token       - The token/word the characters are from
+     * @param  index       - The index in the token of the char
+     * @param  breakWords - The style attr break words
+     * @return whether to break word or not
      */
     TextMetrics.canBreakChars = function (_char, _nextChar, _token, _index, _breakWords) {
         return true;
@@ -41280,8 +40363,8 @@ var TextMetrics = /** @class */ (function () {
      * // Correctly splits emojis, eg "🤪🤪" will result in two element array, each with one emoji.
      * TextMetrics.wordWrapSplit = (token) => [...token];
      *
-     * @param  {string}  token - The token to split
-     * @return {string[]} The characters of the token
+     * @param  token - The token to split
+     * @return The characters of the token
      */
     TextMetrics.wordWrapSplit = function (token) {
         return token.split('');
@@ -41289,9 +40372,8 @@ var TextMetrics = /** @class */ (function () {
     /**
      * Calculates the ascent, descent and fontSize of a given font-style
      *
-     * @static
-     * @param {string} font - String representing the style of the font
-     * @return {PIXI.IFontMetrics} Font properties object
+     * @param font - String representing the style of the font
+     * @return Font properties object
      */
     TextMetrics.measureFont = function (font) {
         // as this method is used for preparing assets, don't recalculate things if we don't need to
@@ -41366,7 +40448,6 @@ var TextMetrics = /** @class */ (function () {
     /**
      * Clear font metrics in metrics cache.
      *
-     * @static
      * @param {string} [font] - font name. If font name not set then clear cache for all fonts.
      */
     TextMetrics.clearMetrics = function (font) {
@@ -41517,6 +40598,11 @@ var defaultDestroyOptions = {
     children: false,
     baseTexture: true,
 };
+// Checking that we can use moddern canvas2D api
+// https://developer.chrome.com/origintrials/#/view_trial/3585991203293757441
+// note: this is unstable API, Chrome less 94 use a `textLetterSpacing`, newest use a letterSpacing
+// eslint-disable-next-line max-len
+var supportLetterSpacing = 'letterSpacing' in CanvasRenderingContext2D.prototype || 'textLetterSpacing' in CanvasRenderingContext2D.prototype;
 /**
  * A Text Object will create a line or multiple lines of text.
  *
@@ -41538,16 +40624,14 @@ var defaultDestroyOptions = {
  * let text = new PIXI.Text('This is a PixiJS text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
  * ```
  *
- * @class
- * @extends PIXI.Sprite
  * @memberof PIXI
  */
 var Text = /** @class */ (function (_super) {
     __extends(Text, _super);
     /**
-     * @param {string} text - The string that you would like the text to display
+     * @param text - The string that you would like the text to display
      * @param {object|PIXI.TextStyle} [style] - The style parameters
-     * @param {HTMLCanvasElement} [canvas] - The canvas element for drawing text
+     * @param canvas - The canvas element for drawing text
      */
     function Text(text, style, canvas) {
         var _this = this;
@@ -41562,62 +40646,14 @@ var Text = /** @class */ (function (_super) {
         texture.orig = new _pixi_math__WEBPACK_IMPORTED_MODULE_3__.Rectangle();
         texture.trim = new _pixi_math__WEBPACK_IMPORTED_MODULE_3__.Rectangle();
         _this = _super.call(this, texture) || this;
-        /**
-         * Keep track if this Text object created it's own canvas
-         * element (`true`) or uses the constructor argument (`false`).
-         * Used to workaround a GC issues with Safari < 13 when
-         * destroying Text. See `destroy` for more info.
-         *
-         * @member {boolean}
-         * @private
-         */
         _this._ownCanvas = ownCanvas;
-        /**
-         * The canvas element that everything is drawn to
-         *
-         * @member {HTMLCanvasElement}
-         */
         _this.canvas = canvas;
-        /**
-         * The canvas 2d context that everything is drawn with
-         * @member {CanvasRenderingContext2D}
-         */
         _this.context = _this.canvas.getContext('2d');
-        /**
-         * The resolution / device pixel ratio of the canvas.
-         * This is set to automatically match the renderer resolution by default, but can be overridden by setting manually.
-         * @member {number}
-         * @default PIXI.settings.RESOLUTION
-         */
         _this._resolution = _pixi_settings__WEBPACK_IMPORTED_MODULE_2__.settings.RESOLUTION;
         _this._autoResolution = true;
-        /**
-         * Private tracker for the current text.
-         *
-         * @member {string}
-         * @private
-         */
         _this._text = null;
-        /**
-         * Private tracker for the current style.
-         *
-         * @member {object}
-         * @private
-         */
         _this._style = null;
-        /**
-         * Private listener to track style changes.
-         *
-         * @member {Function}
-         * @private
-         */
         _this._styleListener = null;
-        /**
-         * Private tracker for the current font.
-         *
-         * @member {string}
-         * @private
-         */
         _this._font = '';
         _this.text = text;
         _this.style = style;
@@ -41626,11 +40662,12 @@ var Text = /** @class */ (function (_super) {
     }
     /**
      * Renders text to its canvas, and updates its texture.
+     *
      * By default this is used internally to ensure the texture is correct before rendering,
      * but it can be used called externally, for example from this class to 'pre-generate' the texture from a piece of text,
      * and then shared across multiple Sprites.
      *
-     * @param {boolean} respectDirty - Whether to abort updating the text if the Text isn't dirty and the function is called.
+     * @param respectDirty - Whether to abort updating the text if the Text isn't dirty and the function is called.
      */
     Text.prototype.updateText = function (respectDirty) {
         var style = this._style;
@@ -41733,19 +40770,23 @@ var Text = /** @class */ (function (_super) {
     };
     /**
      * Render the text with letter-spacing.
-     * @param {string} text - The text to draw
-     * @param {number} x - Horizontal position to draw the text
-     * @param {number} y - Vertical position to draw the text
-     * @param {boolean} [isStroke=false] - Is this drawing for the outside stroke of the
+     *
+     * @param text - The text to draw
+     * @param x - Horizontal position to draw the text
+     * @param y - Vertical position to draw the text
+     * @param isStroke - Is this drawing for the outside stroke of the
      *  text? If not, it's for the inside fill
-     * @private
      */
     Text.prototype.drawLetterSpacing = function (text, x, y, isStroke) {
         if (isStroke === void 0) { isStroke = false; }
         var style = this._style;
         // letterSpacing of 0 means normal
         var letterSpacing = style.letterSpacing;
-        if (letterSpacing === 0) {
+        if (letterSpacing === 0 || supportLetterSpacing) {
+            if (supportLetterSpacing) {
+                this.context.letterSpacing = letterSpacing;
+                this.context.textLetterSpacing = letterSpacing;
+            }
             if (isStroke) {
                 this.context.strokeText(text, x, y);
             }
@@ -41777,11 +40818,7 @@ var Text = /** @class */ (function (_super) {
             previousWidth = currentWidth;
         }
     };
-    /**
-     * Updates texture size based on canvas size
-     *
-     * @private
-     */
+    /** Updates texture size based on canvas size. */
     Text.prototype.updateTexture = function () {
         var canvas = this.canvas;
         if (this._style.trim) {
@@ -41813,8 +40850,7 @@ var Text = /** @class */ (function (_super) {
     /**
      * Renders the object using the WebGL renderer
      *
-     * @protected
-     * @param {PIXI.Renderer} renderer - The renderer
+     * @param renderer - The renderer
      */
     Text.prototype._render = function (renderer) {
         if (this._autoResolution && this._resolution !== renderer.resolution) {
@@ -41827,17 +40863,14 @@ var Text = /** @class */ (function (_super) {
     /**
      * Gets the local bounds of the text object.
      *
-     * @param {PIXI.Rectangle} rect - The output rectangle.
-     * @return {PIXI.Rectangle} The bounds.
+     * @param rect - The output rectangle.
+     * @return The bounds.
      */
     Text.prototype.getLocalBounds = function (rect) {
         this.updateText(true);
         return _super.prototype.getLocalBounds.call(this, rect);
     };
-    /**
-     * calculates the bounds of the Text as a rectangle. The bounds calculation takes the worldTransform into account.
-     * @protected
-     */
+    /** Calculates the bounds of the Text as a rectangle. The bounds calculation takes the worldTransform into account. */
     Text.prototype._calculateBounds = function () {
         this.updateText(true);
         this.calculateVertices();
@@ -41847,10 +40880,9 @@ var Text = /** @class */ (function (_super) {
     /**
      * Generates the fill style. Can automatically generate a gradient based on the fill style being an array
      *
-     * @private
-     * @param {object} style - The style.
-     * @param {string[]} lines - The lines of text.
-     * @return {string|number|CanvasGradient} The fill style
+     * @param style - The style.
+     * @param lines - The lines of text.
+     * @return The fill style
      */
     Text.prototype._generateFillStyle = function (style, lines, metrics) {
         // TODO: Can't have different types for getter and setter. The getter shouldn't have the number type as
@@ -41952,10 +40984,11 @@ var Text = /** @class */ (function (_super) {
     };
     /**
      * Destroys this text object.
+     *
      * Note* Unlike a Sprite, a Text object will automatically destroy its baseTexture and texture as
      * the majority of the time the texture will not be shared with any other Sprites.
      *
-     * @param {object|boolean} [options] - Options parameter. A boolean will act as if all options
+     * @param options - Options parameter. A boolean will act as if all options
      *  have been set to that value
      * @param {boolean} [options.children=false] - if set to true, all the children will have their
      *  destroy method called as well. 'options' will be passed on to those calls.
@@ -41979,11 +41012,7 @@ var Text = /** @class */ (function (_super) {
         this._style = null;
     };
     Object.defineProperty(Text.prototype, "width", {
-        /**
-         * The width of the Text, setting this will actually modify the scale to achieve the value set
-         *
-         * @member {number}
-         */
+        /** The width of the Text, setting this will actually modify the scale to achieve the value set. */
         get: function () {
             this.updateText(true);
             return Math.abs(this.scale.x) * this._texture.orig.width;
@@ -41998,11 +41027,7 @@ var Text = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Text.prototype, "height", {
-        /**
-         * The height of the Text, setting this will actually modify the scale to achieve the value set
-         *
-         * @member {number}
-         */
+        /** The height of the Text, setting this will actually modify the scale to achieve the value set. */
         get: function () {
             this.updateText(true);
             return Math.abs(this.scale.y) * this._texture.orig.height;
@@ -42018,10 +41043,9 @@ var Text = /** @class */ (function (_super) {
     });
     Object.defineProperty(Text.prototype, "style", {
         /**
-         * Set the style of the text. Set up an event listener to listen for changes on the style
-         * object and mark the text as dirty.
+         * Set the style of the text.
          *
-         * @member {object|PIXI.TextStyle}
+         * Set up an event listener to listen for changes on the style object and mark the text as dirty.
          */
         get: function () {
             // TODO: Can't have different types for getter and setter. The getter shouldn't have the ITextStyle
@@ -42044,11 +41068,7 @@ var Text = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Text.prototype, "text", {
-        /**
-         * Set the copy for the text object. To split a line you can use '\n'.
-         *
-         * @member {string}
-         */
+        /** Set the copy for the text object. To split a line you can use '\n'. */
         get: function () {
             return this._text;
         },
@@ -42066,8 +41086,9 @@ var Text = /** @class */ (function (_super) {
     Object.defineProperty(Text.prototype, "resolution", {
         /**
          * The resolution / device pixel ratio of the canvas.
+         *
          * This is set to automatically match the renderer resolution by default, but can be overridden by setting manually.
-         * @member {number}
+         *
          * @default 1
          */
         get: function () {
@@ -42089,11 +41110,6 @@ var Text = /** @class */ (function (_super) {
      * make sure the first baseline is offset by the `lineHeight` value if it is greater than `fontSize`.
      * A value of `false` will use the legacy behavior and not change the baseline of the first line.
      * In the next major release, we'll enable this by default.
-     *
-     * @static
-     * @memberof PIXI.Text
-     * @member {boolean} nextLineHeightBehavior
-     * @default false
      */
     Text.nextLineHeightBehavior = false;
     return Text;
@@ -42120,8 +41136,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * @pixi/ticker - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/ticker - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -42925,8 +41941,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! url */ "./node_modules/url/url.js");
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /*!
- * @pixi/utils - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * @pixi/utils - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -42990,7 +42006,7 @@ _pixi_settings__WEBPACK_IMPORTED_MODULE_0__.settings.RETINA_PREFIX = /@([0-9\.]+
 _pixi_settings__WEBPACK_IMPORTED_MODULE_0__.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
 
 var saidHello = false;
-var VERSION = '6.1.3';
+var VERSION = '6.2.0';
 /**
  * Skips the hello message of renderers that are created after this is run.
  *
@@ -51041,8 +50057,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_text__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @pixi/text */ "./node_modules/@pixi/text/dist/esm/text.js");
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * pixi.js - v6.1.3
- * Compiled Mon, 13 Sep 2021 15:29:31 UTC
+ * pixi.js - v6.2.0
+ * Compiled Mon, 01 Nov 2021 16:52:10 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -51123,7 +50139,7 @@ _pixi_app__WEBPACK_IMPORTED_MODULE_4__.Application.registerPlugin(_pixi_loaders_
  * @name VERSION
  * @type {string}
  */
-var VERSION = '6.1.3';
+var VERSION = '6.2.0';
 /**
  * @namespace PIXI
  */
@@ -71724,7 +70740,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _FrameMng_instances, _FrameMng_evtMng, _FrameMng_hIfrm, _FrameMng_add_frame, _FrameMng_hDisabled, _FrameMng_hAEncImg, _FrameMng_hEncImgOUrl, _FrameMng_rect, _FrameMng_let_frame, _FrameMng_set_frame, _FrameMng_frame, _FrameMng_tsy_frame;
+var _FrameMng_instances, _FrameMng_evtMng, _FrameMng_hIfrm, _FrameMng_add_frame, _FrameMng_hDisabled, _FrameMng_hAEncImg, _FrameMng_hEncImgOUrl, _FrameMng_rect, _FrameMng_let_frame, _FrameMng_set_frame, _FrameMng_zIdx, _FrameMng_frame, _FrameMng_tsy_frame;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FrameMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -71746,6 +70762,7 @@ class FrameMng {
         _FrameMng_hDisabled.set(this, Object.create(null));
         _FrameMng_hAEncImg.set(this, Object.create(null));
         _FrameMng_hEncImgOUrl.set(this, Object.create(null));
+        _FrameMng_zIdx.set(this, 1);
         hTag.add_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_add_frame).call(this, o);
         hTag.let_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_let_frame).call(this, o);
         hTag.set_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_set_frame).call(this, o);
@@ -71777,7 +70794,7 @@ class FrameMng {
     }
 }
 exports.FrameMng = FrameMng;
-_FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDisabled = new WeakMap(), _FrameMng_hAEncImg = new WeakMap(), _FrameMng_hEncImgOUrl = new WeakMap(), _FrameMng_instances = new WeakSet(), _FrameMng_add_frame = function _FrameMng_add_frame(hArg) {
+_FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDisabled = new WeakMap(), _FrameMng_hAEncImg = new WeakMap(), _FrameMng_hEncImgOUrl = new WeakMap(), _FrameMng_zIdx = new WeakMap(), _FrameMng_instances = new WeakSet(), _FrameMng_add_frame = function _FrameMng_add_frame(hArg) {
     const id = hArg.id;
     if (!id)
         throw 'idは必須です';
@@ -71919,6 +70936,7 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     win[var_name] = text;
     return false;
 }, _FrameMng_frame = function _FrameMng_frame(hArg) {
+    var _a, _b;
     const id = hArg.id;
     if (!id)
         throw 'idは必須です';
@@ -71928,6 +70946,14 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     const frmnm = `const.sn.frm.${id}`;
     if (!this.val.getVal(`tmp:${frmnm}`))
         throw `frame【${id}】が読み込まれていません`;
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'float', false)) {
+        ifrm.style.zIndex = String(__classPrivateFieldSet(this, _FrameMng_zIdx, (_a = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_a), "f"));
+    }
+    else if (hArg.index) {
+        ifrm.style.zIndex = String((0, CmnLib_1.argChk_Num)(hArg, 'index', 0));
+    }
+    else if (hArg.dive)
+        ifrm.style.zIndex = '-' + String(__classPrivateFieldSet(this, _FrameMng_zIdx, (_b = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_b), "f"));
     if ('alpha' in hArg) {
         const a = String(hArg.alpha);
         ifrm.style.opacity = a;

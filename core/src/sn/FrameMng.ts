@@ -221,6 +221,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレームに設定
+	#zIdx = 1;
 	#frame(hArg: HArg) {
 		const id = hArg.id;
 		if (! id) throw 'idは必須です';
@@ -228,6 +229,14 @@ export class FrameMng implements IGetFrm {
 		if (! ifrm) throw `id【${id}】はフレームではありません`;
 		const frmnm = `const.sn.frm.${id}`;
 		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
+
+		if (argChk_Boolean(hArg, 'float', false)) {
+			ifrm.style.zIndex = String(++this.#zIdx);
+		}
+		else if (hArg.index) {
+			ifrm.style.zIndex = String(argChk_Num(hArg, 'index', 0));
+		}
+		else if (hArg.dive) ifrm.style.zIndex = '-'+ String(++this.#zIdx);
 
 		if ('alpha' in hArg) {
 			const a = String(hArg.alpha);

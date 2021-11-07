@@ -518,7 +518,7 @@
 <tr><td>pivot_y</td><td></td><td>0.0</td><td>正負の実数値</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
 <tr><td>float</td><td></td><td>何もしない</td><td>Boolean</td><td>true：レイヤを最前面に移動する。</td></tr>
 <tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>レイヤをindexで指定したインデックスに移動する。<br/>0がもっとも背後。レイヤを重ねるたびに1加算したindexになる</td></tr>
-<tr><td>dive</td><td></td><td>何もしない</td><td>レイヤ名</td><td>レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる。<br/>「plg:プラグイン名」と記述する事でプラグインも指定できる。</td></tr>
+<tr><td>dive</td><td></td><td>何もしない</td><td>レイヤ名</td><td>レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる。</td></tr>
 </table>
 
 </p>
@@ -1236,6 +1236,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 <tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
 <tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>float</td><td></td><td>何もしない</td><td>Boolean</td><td>true：フレームを最前面に移動する。</td></tr>
+<tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>フレームをindexで指定したインデックスに移動する。<br/>0がもっとも背後。フレームを重ねるたびに1加算したindexになる</td></tr>
+<tr><td>dive</td><td></td><td>何もしない</td><td>フレーム名</td><td>フレームをdiveで指定したフレームのすぐ後ろに潜り込ませる。</td></tr>
 <tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
 <tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
 <tr><td>disabled</td><td></td><td>false</td><td>Boolean</td><td>trueでスライダーなど操作不可・[event]の【dom=系】イベント無効、falseで可能</td></tr>
