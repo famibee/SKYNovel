@@ -1,3 +1,10 @@
+# [1.20.0](https://github.com/famibee/SKYNovel/compare/v1.19.6...v1.20.0) (2021-11-07)
+
+
+### Features
+
+* [frame]に float、index、dive属性を追加 ([6c9b068](https://github.com/famibee/SKYNovel/commit/6c9b068b690c862273230a00be5bce69f1330ecd))
+
 - feat: [frame]に float、index、dive属性を追加
 - fix: ライブラリ更新
 
