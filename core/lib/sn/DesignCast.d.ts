@@ -14,6 +14,7 @@ export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;
     protected static prpPrs: IPropParser;
+    protected static hPages: HPage;
     protected static divHint: HTMLDivElement;
     static init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage): void;
     protected static setHint(txt: string, x: number, y: number, dc: DesignCast): void;
@@ -25,7 +26,7 @@ export declare class DesignCast {
     protected id_tag: string;
     sethArg(hArg: HArg): void;
     includeDesignArg(hArg: HArg): boolean;
-    protected hDesignArg: {
+    protected readonly hDesignArg: {
         [name: string]: 0;
     };
     protected getRect(): Rectangle;
@@ -39,12 +40,14 @@ export declare class DesignCast {
     protected setSize(_w: number, _h: number): void;
     setOther(_hPrm: HPRM): void;
     protected child?: DesignCast;
+    protected parent?: DesignCast;
     adopt(idcCh: DesignCast): void;
     static enterMode(): void;
     static allHide(): void;
     set visible(v: boolean);
     static leaveMode(): void;
     cvsResize(): void;
+    protected fncLay: () => void;
     protected mov: Moveable | null;
     protected div: HTMLDivElement | null;
     protected lx: number;
@@ -85,7 +88,7 @@ export declare class TxtLayDesignCast extends DesignCast {
     private readonly spLay;
     private readonly ts;
     constructor(spLay: Sprite, ts: TxtStage);
-    protected hDesignArg: {
+    protected readonly hDesignArg: {
         [name: string]: 0;
     };
     protected getRect(): Rectangle;
@@ -125,6 +128,7 @@ export declare class BtnDesignCast extends DesignCast {
     protected readonly btn: Button;
     readonly hArg: HArg;
     constructor(btn: Button, hArg: HArg);
+    sethArg(hArg: HArg): void;
     protected cnvPosArg(left: number, top: number): {
         left: number;
         top: number;

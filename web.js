@@ -69110,7 +69110,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _DesignCast_instances, _a, _DesignCast_divDesignRoot, _DesignCast_sys, _DesignCast_scrItr, _DesignCast_alzTagArg, _DesignCast_cfg, _DesignCast_hPages, _DesignCast_parent, _DesignCast_ID_DESIGNMODE, _DesignCast_cntDesignCast, _DesignCast_hId2dc, _DesignCast_aDC, _DesignCast_resizeDiv, _DesignCast_fncLay, _GrpLayDesignCast_sp, _TxtLayPadDesignCast_instances, _TxtLayPadDesignCast_procHint, _PicBtnDesignCast_sp;
+var _DesignCast_instances, _a, _DesignCast_divDesignRoot, _DesignCast_sys, _DesignCast_scrItr, _DesignCast_alzTagArg, _DesignCast_cfg, _DesignCast_ID_DESIGNMODE, _DesignCast_cntDesignCast, _DesignCast_hId2dc, _DesignCast_aDC, _DesignCast_resizeDiv, _GrpLayDesignCast_sp, _TxtLayPadDesignCast_instances, _TxtLayPadDesignCast_procHint, _PicBtnDesignCast_sp;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PicBtnDesignCast = exports.TxtBtnDesignCast = exports.BtnDesignCast = exports.TxtLayPadDesignCast = exports.TxtLayDesignCast = exports.GrpLayDesignCast = exports.DesignCast = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -69141,8 +69141,7 @@ class DesignCast {
             'width': 0,
             'height': 0,
         };
-        _DesignCast_parent.set(this, void 0);
-        _DesignCast_fncLay.set(this, () => { });
+        this.fncLay = () => { };
         this.mov = null;
         this.div = null;
         this.lx = 0;
@@ -69164,7 +69163,7 @@ class DesignCast {
         DesignCast.prpPrs = prpPrs;
         __classPrivateFieldSet(DesignCast, _a, alzTagArg, "f", _DesignCast_alzTagArg);
         __classPrivateFieldSet(DesignCast, _a, cfg, "f", _DesignCast_cfg);
-        __classPrivateFieldSet(DesignCast, _a, hPages, "f", _DesignCast_hPages);
+        DesignCast.hPages = hPages;
         (0, CmnLib_1.addStyle)(`
 .sn_design_cast {
 	position: absolute; touch-action: none; user-select: none;
@@ -69219,14 +69218,6 @@ class DesignCast {
         this.hArg = hArg;
         const id_dc = hArg[':id_dc'] ?? this.id_tag;
         __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_hId2dc)[id_dc] = this;
-        const layer = this.hArg.layer ?? '';
-        __classPrivateFieldSet(this, _DesignCast_fncLay, (!__classPrivateFieldGet(this, _DesignCast_parent, "f") && !this.child && layer)
-            ? () => {
-                const f = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_hPages)[layer].fore;
-                this.lx = f.x * CmnLib_1.CmnLib.cvsScale;
-                this.ly = f.y * CmnLib_1.CmnLib.cvsScale;
-            }
-            : () => { }, "f");
     }
     includeDesignArg(hArg) {
         for (const name in hArg)
@@ -69244,7 +69235,7 @@ class DesignCast {
     setOther(_hPrm) { }
     adopt(idcCh) {
         this.child = idcCh;
-        __classPrivateFieldSet(idcCh, _DesignCast_parent, this, "f");
+        idcCh.parent = this;
     }
     static enterMode() {
         DesignCast.leaveMode();
@@ -69279,8 +69270,8 @@ class DesignCast {
         d.style.display = 'none';
         this.rect = this.getRect();
         __classPrivateFieldGet(this, _DesignCast_instances, "m", _DesignCast_resizeDiv).call(this);
-        (__classPrivateFieldGet(this, _DesignCast_parent, "f")
-            ? document.querySelector(`[data-id_dc="${__classPrivateFieldGet(this, _DesignCast_parent, "f").id_tag}"]`) ?? __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot)
+        (this.parent
+            ? document.querySelector(`[data-id_dc="${this.parent.id_tag}"]`) ?? __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot)
             : __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot)).appendChild(d);
         const tmp = {
             aPos: [0, 0],
@@ -69349,8 +69340,8 @@ class DesignCast {
             resizeEnd();
             if (this.child?.mov)
                 this.child.mov.target = heCh;
-            if (__classPrivateFieldGet(this, _DesignCast_parent, "f")?.mov)
-                __classPrivateFieldGet(this, _DesignCast_parent, "f").mov.target = __classPrivateFieldGet(this, _DesignCast_parent, "f").div;
+            if (this.parent?.mov)
+                this.parent.mov.target = this.parent.div;
         })
             .on('resizeStart', procStart)
             .on('resize', e => {
@@ -69502,8 +69493,8 @@ class DesignCast {
     }
 }
 exports.DesignCast = DesignCast;
-_a = DesignCast, _DesignCast_parent = new WeakMap(), _DesignCast_fncLay = new WeakMap(), _DesignCast_instances = new WeakSet(), _DesignCast_resizeDiv = function _DesignCast_resizeDiv() {
-    __classPrivateFieldGet(this, _DesignCast_fncLay, "f").call(this);
+_a = DesignCast, _DesignCast_instances = new WeakSet(), _DesignCast_resizeDiv = function _DesignCast_resizeDiv() {
+    this.fncLay();
     if (this.div)
         Object.assign(this.div.style, {
             left: `${this.lx + this.rect.x * CmnLib_1.CmnLib.cvsScale}px`,
@@ -69519,7 +69510,6 @@ _DesignCast_sys = { value: void 0 };
 _DesignCast_scrItr = { value: void 0 };
 _DesignCast_alzTagArg = { value: void 0 };
 _DesignCast_cfg = { value: void 0 };
-_DesignCast_hPages = { value: void 0 };
 DesignCast.divHint = document.createElement('div');
 _DesignCast_ID_DESIGNMODE = { value: 'DesignMode' };
 _DesignCast_cntDesignCast = { value: 0 };
@@ -69671,6 +69661,17 @@ class BtnDesignCast extends DesignCast {
         this.scale.y = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', this.scale.y);
         this.rotation = (0, CmnLib_1.argChk_Num)(hArg, 'rotation', this.rotation);
         this.sethArg(hArg);
+    }
+    sethArg(hArg) {
+        super.sethArg(hArg);
+        const layer = this.hArg.layer ?? '';
+        this.fncLay = (!this.parent && !this.child && layer)
+            ? () => {
+                const f = DesignCast.hPages[layer].fore;
+                this.lx = f.x * CmnLib_1.CmnLib.cvsScale;
+                this.ly = f.y * CmnLib_1.CmnLib.cvsScale;
+            }
+            : () => { };
     }
     cnvPosArg(left, top) { return { left, top }; }
     cnvSizeArg(width, height) { return { width, height }; }

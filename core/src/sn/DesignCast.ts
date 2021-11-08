@@ -28,7 +28,7 @@ export class DesignCast {
 	protected	static	prpPrs		: IPropParser;
 				static	#alzTagArg	: AnalyzeTagArg;
 				static	#cfg		: Config;
-				static	#hPages		: HPage;
+	protected	static	hPages		: HPage;
 	protected	static	divHint		= document.createElement('div');
 	static	init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage) {
 		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *CmnLib.cvsScale}px; height: ${CmnLib.stageH *CmnLib.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
@@ -42,7 +42,7 @@ export class DesignCast {
 		DesignCast.prpPrs = prpPrs;
 		DesignCast.#alzTagArg = alzTagArg;
 		DesignCast.#cfg = cfg;
-		DesignCast.#hPages = hPages;
+		DesignCast.hPages = hPages;
 
 		addStyle(`
 .sn_design_cast {
@@ -106,21 +106,12 @@ export class DesignCast {
 
 		const id_dc = hArg[':id_dc'] ?? this.id_tag;
 		DesignCast.#hId2dc[id_dc] = this;
-
-		const layer = this.hArg.layer ?? '';
-		this.#fncLay = (! this.#parent && ! this.child && layer)
-		? ()=> {
-			const f = DesignCast.#hPages[layer].fore;	// ボタン
-			this.lx = f.x *CmnLib.cvsScale;
-			this.ly = f.y *CmnLib.cvsScale;
-		}
-		: ()=> {};
 	}
 	includeDesignArg(hArg: HArg): boolean {
 		for (const name in hArg) if (name in this.hDesignArg) return true;
 		return false;
 	}
-	protected	hDesignArg: {[name: string]: 0}	= {
+	protected	readonly	hDesignArg: {[name: string]: 0}	= {
 		'rotation'	: 0,
 		'pivot_x'	: 0,
 		'pivot_y'	: 0,
@@ -144,10 +135,10 @@ export class DesignCast {
 	setOther(_hPrm: HPRM) {}
 
 	protected	child?		: DesignCast;
-				#parent?	: DesignCast;
+	protected	parent?		: DesignCast;
 	adopt(idcCh: DesignCast) {	// 養子縁組
 		this.child = idcCh;
-		idcCh.#parent = this;
+		idcCh.parent = this;
 	}
 
 	static	readonly	#ID_DESIGNMODE = 'DesignMode';
@@ -177,7 +168,8 @@ export class DesignCast {
 
 	cvsResize() {this.#resizeDiv(); this.mov?.updateTarget();}	// divでmovを更新
 	#resizeDiv() {
-		this.#fncLay();
+		this.fncLay();
+//console.log(`fn:DesignCast.ts line:182 id_tag:【${this.id_tag}】== -- == #resizeDiv lay:${this.hArg.layer ?? ''} lx:${this.lx} rct.x:${this.rect.x} ly:${this.ly} rct.y:${this.rect.y}`);
 		if (this.div) Object.assign(this.div.style, {
 			left: `${this.lx +this.rect.x *CmnLib.cvsScale}px`,
 			top: `${this.ly +this.rect.y *CmnLib.cvsScale}px`,
@@ -188,7 +180,7 @@ export class DesignCast {
 			transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`,
 		});
 	}
-	#fncLay = ()=> {};
+	protected	fncLay = ()=> {};
 
 	protected	mov		: Moveable | null		= null;
 	protected	div		: HTMLDivElement | null = null;
@@ -213,14 +205,14 @@ export class DesignCast {
 		d.style.display = 'none';
 		this.rect = this.getRect();
 		this.#resizeDiv();
-		(this.#parent
+		(this.parent
 			? document.querySelector(
-				`[data-id_dc="${this.#parent.id_tag}"]`// 親なので
+				`[data-id_dc="${this.parent.id_tag}"]`// 親なので
 				) ?? DesignCast.#divDesignRoot
 			: DesignCast.#divDesignRoot
 		).appendChild(d);
 
-//console.log(`fn:DesignCast.ts dspDesignCast() [${o.タグ名}] id_tag(${id_tag}) id_dc:(${id_dc}) fn:${o[':path']} ln:${o[':ln']} col_s:${o[':col_s']} col_e:${o[':col_e']} idx_tkn:${o[':idx_tkn']} x:${rect.x} y:${rect.y} w:${rect.width} h:${rect.height} o:%o`, o);		// token:【${o[':token']}】
+//console.log(`fn:DesignCast.ts dspDesignCast() [${this.hArg.タグ名}] id_tag(${this.id_tag}) id_dc:(${id_dc}) fn:$this.hArg':path']} ln:${this.hArg[':ln']} col_s:${this.hArg[':col_s']} col_e:${this.hArg[':col_e']} idx_tkn:${this.hArg[':idx_tkn']} x:${this.rect.x} y:${this.rect.y} w:${this.rect.width} h:${this.rect.height} o:%o`, this.hArg);		// token:【${this.hArg[':token']}】
 		const tmp = {	// movがdivを操作する際の雑用。スケールはHTML DOM
 			aPos	: [0, 0],
 			roDeg	: 0,
@@ -305,7 +297,7 @@ export class DesignCast {
 			resizeEnd();	// パディングで右・下が固定されサイズ変更されるのでサイズも
 
 			if (this.child?.mov) this.child.mov.target = heCh;
-			if (this.#parent?.mov) this.#parent.mov.target = this.#parent.div;	// 子で戻す（親はイベント発生しなくしているので）
+			if (this.parent?.mov) this.parent.mov.target = this.parent.div;	// 子で戻す（親はイベント発生しなくしているので）
 		})
 		.on('resizeStart', procStart)
 		.on('resize', e=> {
@@ -530,7 +522,7 @@ export class TxtLayDesignCast extends DesignCast {
 		super('#29e', true);
 	}
 
-	protected	override hDesignArg: {[name: string]: 0}	= {
+	protected	override readonly	hDesignArg: {[name: string]: 0}	= {
 		'rotation'	: 0,
 		'pivot_x'	: 0,
 		'pivot_y'	: 0,
@@ -662,6 +654,18 @@ export class BtnDesignCast extends DesignCast {
 		this.scale.y	= argChk_Num(hArg, 'scale_y', this.scale.y);
 		this.rotation	= argChk_Num(hArg, 'rotation', this.rotation);
 		this.sethArg(hArg);
+	}
+	override sethArg(hArg: HArg): void {
+		super.sethArg(hArg);
+
+		const layer = this.hArg.layer ?? '';
+		this.fncLay = (! this.parent && ! this.child && layer)
+		? ()=> {
+			const f = DesignCast.hPages[layer].fore;
+			this.lx = f.x *CmnLib.cvsScale;
+			this.ly = f.y *CmnLib.cvsScale;
+		}
+		: ()=> {};
 	}
 	protected	override cnvPosArg(left: number, top: number) {return {left, top}}
 	protected	override cnvSizeArg(width: number, height: number) {return {width, height}}
