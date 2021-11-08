@@ -1,3 +1,10 @@
+## [1.20.1](https://github.com/famibee/SKYNovel/compare/v1.20.0...v1.20.1) (2021-11-08)
+
+
+### Bug Fixes
+
+* 画像レイヤのデザインキャストがずれて表示されるのを修正 ([4c2013e](https://github.com/famibee/SKYNovel/commit/4c2013e2b5d11f38346e6328ccd9462446d68b91))
+
 - fix: 画像レイヤのデザインキャストがずれて表示されるのを修正
 
 
