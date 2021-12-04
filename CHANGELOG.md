@@ -1,3 +1,10 @@
+# [1.21.0](https://github.com/famibee/SKYNovel/compare/v1.20.1...v1.21.0) (2021-12-04)
+
+
+### Features
+
+* [button][link]に hintの幅を指定できる hint_width 属性追加 ([38e14f5](https://github.com/famibee/SKYNovel/commit/38e14f52de5b113cbce5d5c96b864f3e880260de))
+
 - feat: [button][link]に hintの幅を指定できる hint_width 属性追加
 - fix: 背景あり文字ボタンのhintが右にずれる件
 - fix: 縦書き時にhintが表示されない件
