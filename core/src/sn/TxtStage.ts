@@ -537,6 +537,7 @@ export class TxtStage extends Container {
 			canvas.height = this.infTL.$height;
 			canvas.getContext('2d')!.drawImage(img, 0, 0);
 			canvas.toBlob(blob=> {
+				if (! blob) return;
 				const url = URL.createObjectURL(blob);
 				(Texture.from(url) as utils.EventEmitter).once('update', (tx2: any)=> {
 					fnc(tx2);
@@ -560,30 +561,32 @@ export class TxtStage extends Container {
 		TxtStage.#cntBreak.visible = false;
 
 		const begin = this.#aRect.length;
-		if (TxtStage.#cfg.oCfg.debug.masume && begin === 0) {	// 初回
-			if (CmnLib.debugLog) console.log(`🍌 masume ${
-				this.name} v:${this.visible} l:${this.x} t:${this.y
-				} a:${this.alpha} pl:${this.infTL.pad_left
-				} pr:${this.infTL.pad_right
-				} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom
-				} w:${this.infTL.$width} h:${this.infTL.$height}`);
+		if (begin === 0) {	// 初回
+			if (TxtStage.#cfg.oCfg.debug.masume) {
+				if (CmnLib.debugLog) console.log(`🍌 masume ${
+					this.name} v:${this.visible} l:${this.x} t:${this.y
+					} a:${this.alpha} pl:${this.infTL.pad_left
+					} pr:${this.infTL.pad_right
+					} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom
+					} w:${this.infTL.$width} h:${this.infTL.$height}`);
 
-			this.#grpDbgMasume.clear();
-			this.#grpDbgMasume.beginFill(0x33FF00, 0.2);	// 文字レイヤ
-			this.#grpDbgMasume.lineStyle(1, 0x33FF00, 1);
-			this.#grpDbgMasume.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
-				// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
-			this.#grpDbgMasume.endFill();
+				this.#grpDbgMasume.clear()
+				.beginFill(0x33FF00, 0.2)	// 文字レイヤ
+				.lineStyle(1, 0x33FF00, 1)
+				.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height)
+					// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
+				.endFill()
 
-			this.#grpDbgMasume.beginFill(0x0033FF, 0.2);	// cntInsidePadding
-			this.#grpDbgMasume.lineStyle(2, 0x0033FF, 1);
-			this.#grpDbgMasume.drawRect(0, 0,
-			this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right,
-			this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom);
-			this.#grpDbgMasume.endFill();
+				.beginFill(0x0033FF, 0.2)	// cntInsidePadding
+				.lineStyle(2, 0x0033FF, 1)
+				.drawRect(0, 0,
+				this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right,
+				this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom)
+				.endFill();
+			}
+
+			this.#htmTxt.innerHTML = [...aSpan].join('');
 		}
-
-		if (begin === 0) this.#htmTxt.innerHTML = [...aSpan].join('');
 		else this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join(''));
 		this.#lenHtmTxt = aSpan.length;
 
@@ -682,17 +685,18 @@ export class TxtStage extends Container {
 		const fncMasume = (TxtStage.#cfg.oCfg.debug.masume)
 			? (v: IChRect, rct: Rectangle)=> {
 				fncMasumeLog(v, rct);
-				this.#grpDbgMasume.beginFill(0x66CCFF, 0.5);
-				this.#grpDbgMasume.lineStyle(2, 0xFF3300, 1);
-				this.#grpDbgMasume.drawRect(rct.x, rct.y, rct.width, rct.height);
-				this.#grpDbgMasume.endFill();
+				this.#grpDbgMasume
+				.beginFill(0x66CCFF, 0.5)
+				.lineStyle(2, 0xFF3300, 1)
+				.drawRect(rct.x, rct.y, rct.width, rct.height)
+				.endFill();
 			}
 			: ()=> {};
 		const ease = CmnTween.ease(this.#fi_easing);
 
 		const bcr = this.#htmTxt.getBoundingClientRect();
-		const sx = bcr.left +globalThis.pageXOffset +this.infTL.pad_left;
-		const sy = bcr.top +globalThis.pageYOffset +this.infTL.pad_top;
+		const sx = bcr.left +globalThis.scrollX +this.infTL.pad_left;
+		const sy = bcr.top +globalThis.scrollY +this.infTL.pad_top;
 		for (let i=begin; i<len; ++i) {
 			const v = this.#aRect[i];
 			const rct = v.rect;
@@ -734,10 +738,10 @@ export class TxtStage extends Container {
 					const style_normal = v.elm.style.cssText;
 					const style_hover = arg.style_hover ?? '';
 					const style_clicked = arg.style_clicked ?? '';
-					const isLinkHead = this.#beforeHTMLElm !== v.elm;
 					TxtStage.#evtMng.button(arg, sp,
 						()=> v.elm.style.cssText = style_normal,
-						isLinkHead ?()=> {
+						this.#beforeHTMLElm !== v.elm	// isLinkHead
+						? ()=> {
 							if (! this.canFocus()) return false;
 							v.elm.style.cssText = style_hover;
 							return true;
@@ -960,8 +964,8 @@ export class TxtStage extends Container {
 			const cr :IChRect = {
 				ch	: ch,
 				rect: new Rectangle(
-					r.left +globalThis.pageXOffset,
-					r.top  +globalThis.pageYOffset,
+					r.left +globalThis.scrollX,
+					r.top  +globalThis.scrollY,
 					r.width,
 					r.height +('gjqy'.includes(ch) ?this.#lh_half :0)),
 				elm	: pe,
@@ -1012,9 +1016,13 @@ export class TxtStage extends Container {
 			elm.classList.add(`go_ch_out_${add.ch_out_style}`);
 		});
 
+		TxtStage.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
 		const end = ()=> {
 			old.parentElement!.removeChild(old);
-			this.#cntTxt.removeChildren().forEach(c=> c.destroy());
+			this.#cntTxt.removeChildren().forEach(c=> {
+				if (c instanceof Container) TxtStage.#evtMng.unButton(c);
+				c.destroy();
+			});
 		};
 		if (sum_wait === 0) {this.#htmTxt.textContent = ''; end();}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});

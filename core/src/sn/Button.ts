@@ -5,8 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Container, Text, Rectangle, Texture, TextStyle, Sprite} from 'pixi.js';
-import {Graphics} from 'pixi.js';
+import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics, IDestroyOptions} from 'pixi.js';
 import {uint, IEvtMng, argChk_Boolean, argChk_Num, CmnLib} from './CmnLib';
 import {HArg} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
@@ -22,29 +21,30 @@ export class Button extends Container {
 	static	init(cfg: Config) {
 		if (! cfg.oCfg.debug.masume) return;
 
-		Button.#procMasume4txt = (me, txt)=> {
-			const grpDbgMasume = new Graphics;
-			grpDbgMasume.clear();
-			grpDbgMasume.beginFill(0x883388, 0.2);
-			grpDbgMasume.lineStyle(1, 0x883388, 1);
-			grpDbgMasume.drawRect(txt.x, txt.y, txt.width, txt.height);
-			grpDbgMasume.endFill();
-			me.addChild(grpDbgMasume);
-		};
-		Button.#procMasume4pic = (me, sp, w3, h)=> {
-			const grpDbgMasume = new Graphics;
-			grpDbgMasume.clear();
-			grpDbgMasume.beginFill(0x883388, 0.2);
-			grpDbgMasume.lineStyle(1, 0x883388, 1);
-			grpDbgMasume.drawRect(sp.x, sp.y, w3, h);
-			grpDbgMasume.endFill();
-			me.addChild(grpDbgMasume);
-		};
+		Button.#procMasume4txt = (me, txt)=> me.addChild(
+			(new Graphics)
+			.beginFill(0x883388, 0.2)
+			.lineStyle(1, 0x883388, 1)
+			.drawRect(txt.x, txt.y, txt.width, txt.height)
+			.endFill()
+		);
+		Button.#procMasume4pic = (me, sp, w3, h)=> me.addChild(
+			(new Graphics)
+			.beginFill(0x883388, 0.2)
+			.lineStyle(1, 0x883388, 1)
+			.drawRect(sp.x, sp.y, w3, h)
+			.endFill()
+		);
 	}
 
-	#idc: DesignCast;
-	#sp_b_pic: Sprite | null = null;
-	#sp_pic: Sprite | null = null;
+	setText(_text: string) {}
+	getBtnBounds = ()=> this.#rctBtnTxt;
+		// 文字ボタンは背景画像を含まない位置指定なので、その当たり判定用
+	#rctBtnTxt	= new Rectangle;
+
+	#idc		: DesignCast;
+	#sp_b_pic	: Sprite | null = null;
+	#sp_pic		: Sprite | null = null;
 	constructor(private readonly hArg: HArg, private readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 
@@ -52,7 +52,6 @@ export class Button extends Container {
 			this.makeDesignCast = gdc=> gdc(this.#idc);
 			this.cvsResize = ()=> this.#idc.cvsResize();
 		}
-		this.name = JSON.stringify(hArg);
 
 		let oName: any = {
 			x: this.x = uint(hArg.left ?? 0),
@@ -64,105 +63,131 @@ export class Button extends Container {
 			pivot_y: this.pivot.y = argChk_Num(hArg, 'pivot_y', this.pivot.y),
 			scale_x: this.scale.x = argChk_Num(hArg, 'scale_x', this.scale.x),
 			scale_y: this.scale.y = argChk_Num(hArg, 'scale_y', this.scale.y),
+			width: 0, height: 0,
 		};
 		const enabled = oName.enabled = argChk_Boolean(hArg, 'enabled', true);
+		this.getBtnBounds = ()=> {
+			this.#rctBtnTxt.x = oName.x;
+			this.#rctBtnTxt.y = oName.y;
+			return this.#rctBtnTxt;
+		};
 
-		// 文字列から生成
-		if ('text' in hArg) {
-			const height = argChk_Num(hArg, 'height', 30);
-			const style = new TextStyle({
-				align: 'center',
-				dropShadow: true,
-				dropShadowAlpha: 0.7,
-			//	dropShadowColor: 'white',	// pixi.js v5.0.3 で色名前が使えない
-				dropShadowColor: '#ffffff',
-				dropShadowBlur: 7,
-				dropShadowDistance: 0,
-				fill: 'black',
-				fontFamily: Button.fontFamily,
-				fontSize: height,
-				padding: 5,
-			});
-			if (hArg.style) try {
-				const o = JSON.parse(hArg.style);
-				for (const nm in o) (style as any)[nm] = o[nm];
-			//	style = {...style, ...JSON.parse(hArg.style)};	// 上手くいかない
-			} catch (e) {
-				throw new Error(`[button] style指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-			}
-
-			const txt = new Text(hArg.text ?? '', style);
-			txt.alpha = argChk_Num(hArg, 'alpha', txt.alpha);	// 上にまとめない
-			txt.width = argChk_Num(hArg, 'width', 100);
-			txt.height = height;
-			hArg.height = height;
-
-			oName.type = 'text';	// dump用
-			oName = {...oName, ...style};
-			oName.alpha = txt.alpha;
-			oName.text = txt.text;
-			oName.width = txt.width;
-			oName.height = txt.height;
-			this.#idc = new TxtBtnDesignCast(this, hArg, txt);
-
-			let isStop = false;
-			if (hArg.b_pic) {
-				oName.b_pic = hArg.b_pic;
-				isStop = GrpLayer.csv2Sprites(
-					hArg.b_pic,
-					this,
-					sp=> this.#loaded_b_pic(sp, txt),
-					isStop=> {
-						Layer.setBlendmode(this, hArg);
-						if (isStop) resolve();
-					},
-				);
-			}
-			txt.name = JSON.stringify(oName);
-
-			this.addChild(txt);
-			if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
-			Button.#procMasume4txt(this, txt);
-			if (! enabled) {if (! isStop) resolve(); return;}
-
-			const style_hover = style.clone();
-			if (hArg.style_hover) try {
-				const o = JSON.parse(hArg.style_hover);
-				for (const nm in o) (style_hover as any)[nm] = o[nm];
-			} catch (e) {
-				throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-			}
-			else style_hover.fill = 'white';
-
-			const style_clicked = style_hover.clone();
-			if (hArg.style_clicked) try {
-				const o = JSON.parse(hArg.style_clicked);
-				for (const nm in o) (style_clicked as any)[nm] = o[nm];
-			} catch (e) {
-				throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-			}
-			else style_clicked.dropShadow = false;
-
-			evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
-				if (! canFocus()) return false;
-				txt.style = style_hover;
-				return true;
-			}, ()=> txt.style = style_clicked);
-
-			if (! isStop) resolve();
+		// == 画像から生成
+		if (hArg.pic) {
+			oName.type = 'pic';	// dump用
+			this.#idc = new PicBtnDesignCast(this, hArg);
+	
+			if (! GrpLayer.csv2Sprites(
+				hArg.pic,
+				this,
+				sp=> {
+					this.#loaded_pic(sp, oName);
+					this.#rctBtnTxt.width = sp.width   * oName.scale_x;
+					this.#rctBtnTxt.height = sp.height * oName.scale_y;
+				},
+				isStop=> {if (isStop) resolve()},
+			)) resolve();
 			return;
 		}
+		if (! hArg.text) throw 'textまたはpic属性は必須です';
 
-		if (! hArg.pic) throw 'textまたはpic属性は必須です';
-		// 画像から生成
-		oName.type = 'pic';	// dump用
-		this.#idc = new PicBtnDesignCast(this, hArg);
-		if (! GrpLayer.csv2Sprites(
-			hArg.pic,
-			this,
-			sp=> this.#loaded_pic(sp, oName),
-			isStop=> {if (isStop) resolve()},
-		)) resolve();
+		// == 文字列から生成
+		const height = argChk_Num(hArg, 'height', 30);
+		const style = new TextStyle({
+			align: 'center',
+			dropShadow: true,
+			dropShadowAlpha: 0.7,
+		//	dropShadowColor: 'white',	// pixi.js v5.0.3 で色名前が使えない
+			dropShadowColor: '#ffffff',
+			dropShadowBlur: 7,
+			dropShadowDistance: 0,
+			fill: 'black',
+			fontFamily: Button.fontFamily,
+			fontSize: height,
+			padding: 5,
+		});
+		if (hArg.style) try {
+			const o = JSON.parse(hArg.style);
+			for (const nm in o) (style as any)[nm] = o[nm];
+		//	style = {...style, ...JSON.parse(hArg.style)};	// 上手くいかない
+		} catch (e) {
+			throw new Error(`[button] style指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+		}
+
+		const txt = new Text(hArg.text ?? '', style);
+		txt.alpha = argChk_Num(hArg, 'alpha', txt.alpha);	// 上にまとめない
+		txt.width = argChk_Num(hArg, 'width', 100);
+		txt.height = hArg.height = height;
+		this.setText = text=> txt.text = text;
+
+		oName.type = 'text';	// dump用
+		oName = {...oName, ...style};
+		oName.alpha = txt.alpha;
+		oName.text = txt.text;
+		oName.width = txt.width;
+		oName.height = txt.height;
+		this.#idc = new TxtBtnDesignCast(this, hArg, txt);
+
+		let isStop = false;
+		if (hArg.b_pic) {
+			oName.b_pic = hArg.b_pic;
+			isStop = GrpLayer.csv2Sprites(
+				hArg.b_pic,
+				this,
+				sp=> {
+					this.#loaded_b_pic(sp, txt);
+					oName.width = this.width;
+					oName.height = this.height;
+				},
+				isStop=> {
+					Layer.setBlendmode(this, hArg);
+					if (isStop) resolve();
+				},
+			);
+		}
+		txt.name = JSON.stringify(oName);
+
+		this.addChild(txt);
+		this.#rctBtnTxt.width = txt.width;	// addChild()後に取得すること
+		this.#rctBtnTxt.height = txt.height;
+	//x	this.#rctBtnTxt = txt.getBounds();	// 上手くいかない
+		oName.width = this.width;
+		oName.height = this.height;
+
+		if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
+		Button.#procMasume4txt(this, txt);
+		if (! enabled) {if (! isStop) resolve(); return;}
+
+		const style_hover = style.clone();
+		if (hArg.style_hover) try {
+			const o = JSON.parse(hArg.style_hover);
+			for (const nm in o) (style_hover as any)[nm] = o[nm];
+		} catch (e) {
+			throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+		}
+		else style_hover.fill = 'white';
+
+		const style_clicked = style_hover.clone();
+		if (hArg.style_clicked) try {
+			const o = JSON.parse(hArg.style_clicked);
+			for (const nm in o) (style_clicked as any)[nm] = o[nm];
+		} catch (e) {
+			throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+		}
+		else style_clicked.dropShadow = false;
+
+		evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
+			if (! canFocus()) return false;
+			txt.style = style_hover;
+			return true;
+		}, ()=> txt.style = style_clicked);
+
+		if (! isStop) resolve();
+	}
+
+	override	destroy(_options?: IDestroyOptions | boolean): void {
+		this.evtMng.unButton(this);
+		super.destroy();
 	}
 
 	makeDesignCast(_gdc: IMakeDesignCast) {}
@@ -193,6 +218,8 @@ export class Button extends Container {
 			(sp.width -txt.width) /2,
 			(sp.height -txt.height) /2,
 		);
+
+		sp.name = txt.name;
 	}
 
 	update_pic(fn: string, sp: Sprite) {

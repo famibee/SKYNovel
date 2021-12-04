@@ -15,7 +15,7 @@ import {Button} from './Button';
 import {FocusMng} from './FocusMng';
 
 import {Tween} from '@tweenjs/tween.js'
-import {Container, Application, utils} from 'pixi.js';
+import {Container, Application, utils, Graphics, Rectangle} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
@@ -24,8 +24,11 @@ const {GamepadListener} = require('gamepad.js');
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
 	readonly	#hint		: Button;
-	readonly	#zxHint		: number;
-	readonly	#zyHint		: number;
+	readonly	#WIDTH_HINT_PIC	= 100;
+	readonly	#hint_txt_w	: number;
+	readonly	#h_padl		: number;	// hintの文字と左端との幅
+	readonly	#g_hint		= new Graphics;	// Hint 表示確認用
+
 	readonly	#gamepad	= new GamepadListener({
 		analog: false,
 		deadZone: 0.3,
@@ -84,12 +87,13 @@ export class EventMng implements IEvtMng {
 
 		let fnHint = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyBAMAAABYG2ONAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGuGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjAtMDgtMTlUMDM6MDk6MjUrMDk6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmFjZTQwNzA5LThlNDEtNDViNi1hMzBmLTk0NTVhYzU5MDAyYSIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQwMzowOToyNSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3Mzg4MzYwLWJjMjctNDRkZi1hMTYwLTk5N2M4ODNmYTA0ZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMjo0NTozNiswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMzo1MjoyOSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPC9yZGY6U2VxPiA8L3htcE1NOkhpc3Rvcnk+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+WWAYXwAAACdQTFRF////PDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlCOA6SAAAAA10Uk5TACB/MID/EJBA8NCwYDCdv6cAAABoSURBVHgBYxicYBQIKZEIlJmMSQWGTKS7a8RpGdUyqmVUy6iWUS3y7zGBAlwai+wnrOZwTA2FgBnE220F0RFlQLwWtq1gLdtI8SI7SEc4acFyMjQ08gBpgWzlAEKkgayoBJJj7AAuCQAm1kUjHh83WgAAAABJRU5ErkJggg==';
 		try {fnHint = cfg.searchPath('hint', Config.EXT_SPRITE);} catch {}
-		this.#hint = new Button({enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 *0.7}px"}`, b_pic: fnHint, width: 80, design: false}, this, ()=> {}, ()=> false);
+		this.#hint = new Button({enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 *0.7}px"}`, b_pic: fnHint, width: 80, design: false,}, this, ()=> {}, ()=> false);
 		this.#hint.visible = false;
 		appPixi.stage.addChild(this.#hint);
-		const rctHint = this.#hint.getBounds();
-		this.#zxHint = this.#hint.x -rctHint.x;
-		this.#zyHint = this.#hint.y -rctHint.y;
+		this.#hint_txt_w = this.#hint.getBtnBounds().width;
+		this.#h_padl = (this.#hint.width -this.#hint_txt_w) /2;
+		if (this.cfg.oCfg.debug.masume) appPixi.stage.addChild(this.#g_hint);
+		else this.#dispHint_masume = ()=> {};
 
 
 		appPixi.stage.interactive = true;
@@ -237,6 +241,7 @@ export class EventMng implements IEvtMng {
 	destroy() {
 		this.#fcs.destroy();
 		this.#elc.clear();
+		this.#hint.parent?.removeChild(this.#hint);
 	}
 
 	#hLocalEvt2Fnc	: IHEvt2Fnc = {};
@@ -339,34 +344,41 @@ export class EventMng implements IEvtMng {
 		this.scrItr.firstWait();
 	};
 
-	button(hArg: HArg, em: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
+	// ボタンごとdestroyされると乗っかってるHintごとdestroyされるので回避用
+	escapeHint() {this.#hint.parent?.removeChild(this.#hint);}
+
+	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn);}
+	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
 
 		// クリックイベント
-		em.interactive = em.buttonMode = true;
+		ctnBtn.interactive = ctnBtn.buttonMode = true;
 		const key = hArg.key?.toLowerCase() ?? ' ';
 		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
 		const glb = argChk_Boolean(hArg, 'global', false);
 		if (glb)
 			this.#hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		else this.#hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-		const ee = em as utils.EventEmitter;
+		const ee = ctnBtn as utils.EventEmitter;
 		ee.on('pointerdown', (e: any)=> this.fire(key, e));
 
 		// マウスカーソルを載せるとヒントをツールチップス表示する
-		const onHint = hArg.hint ?()=> this.#dispHint(hArg, em) :()=> {};
+		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
 		// マウスオーバーでの見た目変化
-		const nr = ()=> {normal(); this.#hint.visible = false;};
+//==========
+//		const nr = ()=> {normal(); this.#hint.visible = false;};
+		const nr = ()=> {normal();};
+//==========
 		const hv = ()=> {onHint(); return hover();};
 		ee.on('pointerover', hv);
-		ee.on('pointerout', ()=> {if (this.#fcs.isFocus(em)) hv(); else nr()});
+		ee.on('pointerout', ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()});
 		ee.on('pointerdown', clicked);
 		ee.on('pointerup', CmnLib.isMobile
 			? nr
-			: ()=> {if (this.#fcs.isFocus(em)) hv(); else nr()}
+			: ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()}
 		);
 		// フォーカス処理対象として登録
-		this.#fcs.add(em, hv, nr);
+		this.#fcs.add(ctnBtn, hv, nr);
 
 		// 音関係
 		if (hArg.clickse) {	//	clickse	クリック時に効果音
@@ -414,43 +426,62 @@ export class EventMng implements IEvtMng {
 
 		this.sndMng.loadAheadSnd(hArg);
 	}
-	#dispHint(hArg: HArg, em: Container) {
-		const h = this.#hint;
-		const tx = h.children[1] as any;
-		if (! tx) return;
-		tx.text = hArg.hint;
-
-		const isBgTextBtn = em.name?.includes('"b_pic":');
-		const isPicBtn = em.name?.includes('"pic":');
+	#dispHint(hArg: HArg, ctnBtn: Container) {
+		const rctBtn = ctnBtn instanceof Button
+			? ctnBtn.getBtnBounds()
+			: ctnBtn.getBounds();
 		const isLink = (hArg.タグ名 === 'link');
-		h.parent?.removeChild(h);
-		(isLink ?em.parent :em).addChild(h);
+		if (! isLink) {
+			const cpp = ctnBtn.parent.parent;
+			rctBtn.x += cpp.x;	// レイヤ位置を加算
+			rctBtn.y += cpp.y;
+		}
+		this.#hint.setText(hArg.hint ?? '');
+		const hint_width = argChk_Num(hArg, 'hint_width', this.#WIDTH_HINT_PIC);
+		const scale_x = hint_width /this.#WIDTH_HINT_PIC;
+		this.#hint.setTransform(
+			rctBtn.x, rctBtn.y, scale_x, 1, ctnBtn.rotation, 0, 0,
+			isLink	// pivotなので正負がイメージと逆
+				? -(this.#h_padl -(hint_width -rctBtn.width)/2 /scale_x)
+					// hint_width /scale_x		// hint横幅
+					// rctBtn.width /scale_x	// 親文字幅
+				: -(rctBtn.width /scale_x -this.#hint_txt_w)/2,
+			this.#hint.height
+		);
+		this.#hint.visible = true;
+
+		this.#dispHint_masume(hArg, ctnBtn, rctBtn, isLink, hint_width);
+	}
+	readonly	#dispHint_masume = (hArg: HArg, ctnBtn: Container, rctBtn: Rectangle, isLink: boolean, hint_width: number)=> {
+//console.log(`fn:EventMng.ts == hint_width:${hint_width} this.#hint(${this.#hint.x}, ${this.#hint.y}, ${this.#hint.width}, ${this.#hint.height}) rctBtn(${rctBtn.x}, ${rctBtn.y}, ${rctBtn.width}, ${rctBtn.height})`);
+
+		// === Button/Link 表示確認用
+		this.#g_hint.zIndex = 1000;
+		this.#g_hint.x = rctBtn.x;
+		this.#g_hint.y = rctBtn.y;
+	//x	this.#g_hint.x = this.#g_hint.y = 0;
+		this.#g_hint.angle = ctnBtn.angle;
+		const p = (isLink ?ctnBtn.parent :ctnBtn).scale;
 			// 文字リンクのクリック用Spriteだと、
 			// scale.x = 文字サイズという謎動作なので
-		if (argChk_Boolean(hArg, 'hint_tate', false)) h.setTransform(
-			isPicBtn ? em.width / em.scale.x
-				: (isBgTextBtn ? (h.width - em.width) / 2 - this.#zxHint : 0)
-				+ (isLink ? em.x : 0) + em.width,
-			isPicBtn ? em.height / 2 / em.scale.y
-				: isBgTextBtn ? h.height / 2
-					: ((isLink ? em.y : 0) + em.height / 2 + this.#zyHint),
-			1, 1, 1.570796327 /* 90 *(Math.PI /180) */, 0, 0,
-			h.width / 2,
-			h.height - this.#zxHint * 2
-		);
-		else h.setTransform(
-			isPicBtn ? (em.width - h.width + this.#zxHint) / 2
-				: isBgTextBtn ? 0
-					: (isLink ? em.x : 0) + (em.width - h.width) / 2,
-			isPicBtn ? 0
-				: isBgTextBtn ? (h.height - em.height) / 2
-					: isLink ? em.y : 0,
-			1, 1, 0, 0, 0,
-			-this.#zxHint / 2,
-			h.height - 10
-		);
-		//	console.log(`fn:EventMng.ts line:382 h.x:${h.x} h.y:${h.y} h.w:${h.width} h.h:${h.height} em.x:${em.x} em.y:${em.y} em.w:${em.width} em.h:${em.height}`);
-		h.visible = true;
+		const isBtnPic = (hArg.タグ名 === 'button') && (hArg.pic);
+		this.#g_hint.clear()
+		.beginFill(0x33FF00, 0.2)
+		.lineStyle(1, 0x33FF00, 1)
+	//x	.drawRect(rctBtn.x, rctBtn.y, rctBtn.width, rctBtn.height)
+		.drawRect(0, 0, rctBtn.width, rctBtn.height)
+		.endFill()
+
+		// === Hint 表示確認用
+		.beginFill(0x0033FF, 0.2)
+		.lineStyle(2, 0x0033FF, 1)
+		.drawRect(
+			(rctBtn.width -hint_width) /2,
+			-this.#hint.height,
+			hint_width *(isBtnPic ?1 :p.x),
+			this.#hint.height *(isBtnPic ?1 :p.y)
+		)
+		.endFill()
 	}
 
 

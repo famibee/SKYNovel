@@ -46030,7 +46030,7 @@ function setup(env) {
 
 	/**
 	* Selects a color for a debug namespace
-	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @param {String} namespace The namespace string for the debug instance to be colored
 	* @return {Number|String} An ANSI color code for the given namespace
 	* @api private
 	*/
@@ -47336,7 +47336,7 @@ name: framework-utils
 license: MIT
 author: Daybrush
 repository: git+https://github.com/daybrush/framework-utils.git
-version: 0.3.4
+version: 1.1.0
 */
 function prefixNames(prefix) {
   var classNames = [];
@@ -47352,7 +47352,7 @@ function prefixNames(prefix) {
   }).join(" ");
 }
 function prefixCSS(prefix, css) {
-  return css.replace(/([^}{]*){/mg, function (_, selector) {
+  return css.replace(/([^}{]*){/gm, function (_, selector) {
     return selector.replace(/\.([^{,\s\d.]+)/g, "." + prefix + "$1") + "{";
   });
 }
@@ -47389,7 +47389,7 @@ function withMethods(methods, duplicate) {
     methods.forEach(function (name) {
       var methodName = duplicate[name] || name;
 
-      if (prototype[methodName]) {
+      if (methodName in prototype) {
         return;
       }
 
@@ -47449,7 +47449,7 @@ name: gesto
 license: MIT
 author: Daybrush
 repository: git+https://github.com/daybrush/gesture.git
-version: 1.4.0
+version: 1.5.0
 */
 
 
@@ -47852,10 +47852,16 @@ function (_super) {
       var result = _this.moveClients(clients, e, false);
 
       if (_this.pinchFlag || result.deltaX || result.deltaY) {
-        _this.emit("drag", __assign({}, result, {
+        var dragResult = _this.emit("drag", __assign({}, result, {
           isScroll: !!isScroll,
           inputEvent: e
         }));
+
+        if (dragResult === false) {
+          _this.stop();
+
+          return;
+        }
       }
 
       if (_this.pinchFlag) {
@@ -47951,11 +47957,22 @@ function (_super) {
     return _this;
   }
   /**
-   * The total moved distance
+   * Stop Gesto's drag events.
    */
 
 
   var __proto = Gesto.prototype;
+
+  __proto.stop = function () {
+    this.isDrag = false;
+    this.flag = false;
+    this.clientStores = [];
+    this.datas = {};
+  };
+  /**
+   * The total moved distance
+   */
+
 
   __proto.getMovement = function (clients) {
     return this.getCurrentStore().getMovement(clients) + this.clientStores.slice(1).reduce(function (prev, cur) {
@@ -48413,7 +48430,7 @@ name: moveable
 license: MIT
 author: Daybrush
 repository: git+https://github.com/daybrush/moveable.git
-version: 0.26.0
+version: 0.27.2
 */
 
 
@@ -52027,7 +52044,7 @@ name: react-compat-css-styled
 license: MIT
 author: Daybrush
 repository: git+https://github.com/daybrush/css-styled.git
-version: 1.0.6
+version: 1.0.8
 */
 
 
@@ -52039,7 +52056,7 @@ name: react-css-styled
 license: MIT
 author: Daybrush
 repository: https://github.com/daybrush/css-styled/tree/master/packages/react-css-styled
-version: 1.0.2
+version: 1.0.3
 */
 
 /*! *****************************************************************************
@@ -52224,8 +52241,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _daybrush_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @daybrush/utils */ "./node_modules/@daybrush/utils/dist/utils.esm.js");
 /* harmony import */ var _scena_matrix__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @scena/matrix */ "./node_modules/@scena/matrix/dist/matrix.esm.js");
 /* harmony import */ var css_to_mat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! css-to-mat */ "./node_modules/css-to-mat/dist/css-to-mat.esm.js");
-/* harmony import */ var overlap_area__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! overlap-area */ "./node_modules/overlap-area/dist/overlap-area.esm.js");
 /* harmony import */ var _egjs_children_differ__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @egjs/children-differ */ "./node_modules/@egjs/children-differ/dist/children-differ.esm.js");
+/* harmony import */ var overlap_area__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! overlap-area */ "./node_modules/overlap-area/dist/overlap-area.esm.js");
 /* harmony import */ var _scena_dragscroll__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @scena/dragscroll */ "./node_modules/@scena/dragscroll/dist/dragscroll.esm.js");
 /* harmony import */ var react_simple_compat__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-simple-compat */ "./node_modules/react-simple-compat/dist/compat.esm.js");
 /* harmony import */ var gesto__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gesto */ "./node_modules/gesto/dist/gesto.esm.js");
@@ -52236,7 +52253,7 @@ name: react-compat-moveable
 license: MIT
 author: Daybrush
 repository: https://github.com/daybrush/moveable/blob/master/packages/react-compat-moveable
-version: 0.14.0
+version: 0.15.2
 */
 
 
@@ -52256,7 +52273,7 @@ name: react-moveable
 license: MIT
 author: Daybrush
 repository: https://github.com/daybrush/moveable/blob/master/packages/react-moveable
-version: 0.29.0
+version: 0.30.3
 */
 
 /*! *****************************************************************************
@@ -52369,7 +52386,10 @@ function getCursorCSS(degree) {
 var agent = (0,_egjs_agent__WEBPACK_IMPORTED_MODULE_0__["default"])();
 var IS_WEBKIT = agent.browser.webkit;
 var IS_WEBKIT605 = IS_WEBKIT && function () {
-  var res = /applewebkit\/([^\s]+)/g.exec(navigator.userAgent.toLowerCase());
+  var navi = typeof window === "undefined" ? {
+    userAgent: ""
+  } : window.navigator;
+  var res = /applewebkit\/([^\s]+)/g.exec(navi.userAgent.toLowerCase());
   return res ? parseFloat(res[1]) < 605 : false;
 }();
 var PREFIX = "moveable-";
@@ -52565,10 +52585,11 @@ function convert3DMatrixes(matrixes) {
     }
   });
 }
-function getMatrixStackInfo(target, container) {
+function getMatrixStackInfo(target, container, checkContainer) {
   var el = target;
   var matrixes = [];
-  var isEnd = target === container;
+  var requestEnd = !checkContainer && target === container;
+  var isEnd = requestEnd;
   var is3d = false;
   var n = 3;
   var transformOrigin;
@@ -52584,6 +52605,7 @@ function getMatrixStackInfo(target, container) {
   // }
 
   while (el && !isEnd) {
+    isEnd = requestEnd;
     var style = getComputedStyle(el);
     var position = style.position;
     var isFixed = position === "fixed";
@@ -52595,6 +52617,10 @@ function getMatrixStackInfo(target, container) {
       is3d = true;
       n = 4;
       convert3DMatrixes(matrixes);
+
+      if (targetMatrix) {
+        targetMatrix = (0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.convertDimension)(targetMatrix, 3, 4);
+      }
     }
 
     if (is3d && length === 9) {
@@ -52637,7 +52663,7 @@ function getMatrixStackInfo(target, container) {
     if (IS_WEBKIT && hasOffset && !isSVG && isStatic && (position === "relative" || position === "static")) {
       offsetLeft -= offsetParent.offsetLeft;
       offsetTop -= offsetParent.offsetTop;
-      isEnd = isEnd || isOffsetEnd;
+      requestEnd = requestEnd || isOffsetEnd;
     }
 
     var parentClientLeft = 0;
@@ -52692,7 +52718,11 @@ function getMatrixStackInfo(target, container) {
       break;
     } else {
       el = offsetParent;
-      isEnd = isOffsetEnd;
+      requestEnd = isOffsetEnd;
+    }
+
+    if (!checkContainer || el === document.body) {
+      isEnd = requestEnd;
     }
   }
 
@@ -52816,7 +52846,7 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
       offsetContainer = _a.offsetContainer; // prevMatrix
 
 
-  var _b = getMatrixStackInfo(offsetContainer, rootContainer),
+  var _b = getMatrixStackInfo(offsetContainer, rootContainer, true),
       rootMatrixes = _b.matrixes,
       isRoot3d = _b.is3d; // prevRootMatrix
   // if (rootContainer === document.body) {
@@ -53483,18 +53513,6 @@ function maxOffset() {
 
   args.sort(function (a, b) {
     return Math.abs(b) - Math.abs(a);
-  });
-  return args[0];
-}
-function minOffset() {
-  var args = [];
-
-  for (var _i = 0; _i < arguments.length; _i++) {
-    args[_i] = arguments[_i];
-  }
-
-  args.sort(function (a, b) {
-    return Math.abs(a) - Math.abs(b);
   });
   return args[0];
 }
@@ -54594,100 +54612,207 @@ function getAbsolutePosition(moveable, direction) {
   return getPosByDirection(getAbsolutePosesByState(moveable.state), direction);
 }
 
-function calculateContainerPos(rootMatrix, containerRect, n) {
-  var clientPos = calculatePosition(rootMatrix, [containerRect.clientLeft, containerRect.clientTop], n);
-  return [containerRect.left + clientPos[0], containerRect.top + clientPos[1]];
+var VERTICAL_NAMES = ["left", "right", "center"];
+var HORIZONTAL_NAMES = ["top", "bottom", "middle"];
+var VERTICAL_NAMES_MAP = {
+  start: "left",
+  end: "right",
+  center: "center"
+};
+var HORIZONTAL_NAMES_MAP = {
+  start: "top",
+  end: "bottom",
+  center: "middle"
+};
+function hasGuidelines(moveable, ableName) {
+  var _a = moveable.props,
+      snappable = _a.snappable,
+      bounds = _a.bounds,
+      innerBounds = _a.innerBounds,
+      verticalGuidelines = _a.verticalGuidelines,
+      horizontalGuidelines = _a.horizontalGuidelines,
+      snapGridWidth = _a.snapGridWidth,
+      snapGridHeight = _a.snapGridHeight,
+      _b = moveable.state,
+      guidelines = _b.guidelines,
+      enableSnap = _b.enableSnap;
+
+  if (!snappable || !enableSnap || ableName && snappable !== true && snappable.indexOf(ableName) < 0) {
+    return false;
+  }
+
+  if (snapGridWidth || snapGridHeight || bounds || innerBounds || guidelines && guidelines.length || verticalGuidelines && verticalGuidelines.length || horizontalGuidelines && horizontalGuidelines.length) {
+    return true;
+  }
+
+  return false;
 }
-function getGapGuidelines(guidelines, type, snapThreshold, index, _a, _b) {
-  var start = _a[0],
-      end = _a[1];
-  var otherStart = _b[0],
-      otherEnd = _b[1];
-  var totalGuidelines = [];
-  var otherIndex = index ? 0 : 1;
-  var otherType = type === "vertical" ? "horizontal" : "vertical";
-  var elementGuidelines = groupBy(guidelines.filter(function (_a) {
-    var guidelineType = _a.type;
-    return guidelineType === type;
-  }), function (_a) {
-    var element = _a.element;
-    return element;
-  }).map(function (group) {
-    return group[0];
-  }).filter(function (_a) {
-    var pos = _a.pos,
-        sizes = _a.sizes;
-    return pos[otherIndex] <= otherEnd && otherStart <= pos[otherIndex] + sizes[otherIndex];
+function getSnapDirections(snapDirections) {
+  if (snapDirections === false) {
+    return {};
+  } else if (snapDirections === true || !snapDirections) {
+    return {
+      left: true,
+      right: true,
+      top: true,
+      bottom: true
+    };
+  }
+
+  return snapDirections;
+}
+function mapSnapDirectionPoses(snapDirections, snapPoses) {
+  var nextSnapDirections = getSnapDirections(snapDirections);
+  var nextSnapPoses = {};
+
+  for (var name in nextSnapDirections) {
+    if (name in snapPoses && nextSnapDirections[name]) {
+      nextSnapPoses[name] = snapPoses[name];
+    }
+  }
+
+  return nextSnapPoses;
+}
+function splitSnapDirectionPoses(snapDirections, snapPoses) {
+  var nextSnapPoses = mapSnapDirectionPoses(snapDirections, snapPoses);
+  var horizontalNames = HORIZONTAL_NAMES.filter(function (name) {
+    return name in nextSnapPoses;
   });
-  elementGuidelines.forEach(function (guideline1) {
-    var elementStart = guideline1.pos[index];
-    var elementEnd = elementStart + guideline1.sizes[index];
-    elementGuidelines.forEach(function (guideline2) {
-      var guideline2Pos = guideline2.pos,
-          guideline2Sizes = guideline2.sizes,
-          guideline2Element = guideline2.element,
-          guidline2ClassName = guideline2.className;
-      var targetStart = guideline2Pos[index];
-      var targetEnd = targetStart + guideline2Sizes[index];
-      var pos = 0;
+  var verticalNames = VERTICAL_NAMES.filter(function (name) {
+    return name in nextSnapPoses;
+  });
+  return {
+    horizontal: horizontalNames.map(function (name) {
+      return nextSnapPoses[name];
+    }),
+    vertical: verticalNames.map(function (name) {
+      return nextSnapPoses[name];
+    })
+  };
+}
+function getGapGuidelines(moveable, targetRect, snapThreshold) {
+  var elementRects = moveable.state.elementRects;
+  var gapGuidelines = [];
+  [["vertical", VERTICAL_NAMES_MAP, HORIZONTAL_NAMES_MAP], ["horizontal", HORIZONTAL_NAMES_MAP, VERTICAL_NAMES_MAP]].forEach(function (_a) {
+    var type = _a[0],
+        mainNames = _a[1],
+        sideNames = _a[2];
+    var targetStart = targetRect[mainNames.start];
+    var targetEnd = targetRect[mainNames.end];
+    var targetCenter = targetRect[mainNames.center];
+    var targetStart2 = targetRect[sideNames.start];
+    var targetEnd2 = targetRect[sideNames.end]; // element : moveable
+
+    function getDist(elementRect) {
+      var rect = elementRect.rect;
+
+      if (rect[mainNames.end] < targetStart + snapThreshold) {
+        return targetStart - rect[mainNames.end];
+      } else if (targetEnd - snapThreshold < rect[mainNames.start]) {
+        return rect[mainNames.start] - targetEnd;
+      } else {
+        return -1;
+      }
+    }
+
+    var nextElementRects = elementRects.filter(function (elementRect) {
+      var rect = elementRect.rect;
+
+      if (rect[sideNames.start] > targetEnd2 || rect[sideNames.end] < targetStart2) {
+        return false;
+      }
+
+      return getDist(elementRect) > 0;
+    }).sort(function (a, b) {
+      return getDist(a) - getDist(b);
+    });
+    var groups = [];
+    nextElementRects.forEach(function (snapRect1) {
+      nextElementRects.forEach(function (snapRect2) {
+        if (snapRect1 === snapRect2) {
+          return;
+        }
+
+        var rect1 = snapRect1.rect;
+        var rect2 = snapRect2.rect;
+        var rect1Start = rect1[sideNames.start];
+        var rect1End = rect1[sideNames.end];
+        var rect2Start = rect2[sideNames.start];
+        var rect2End = rect2[sideNames.end];
+
+        if (rect1Start > rect2End || rect2Start > rect1End) {
+          return;
+        }
+
+        groups.push([snapRect1, snapRect2]);
+      });
+    });
+    groups.forEach(function (_a) {
+      var snapRect1 = _a[0],
+          snapRect2 = _a[1];
+      var rect1 = snapRect1.rect;
+      var rect2 = snapRect2.rect;
+      var rect1Start = rect1[mainNames.start];
+      var rect1End = rect1[mainNames.end];
+      var rect2Start = rect2[mainNames.start];
+      var rect2End = rect2[mainNames.end];
       var gap = 0;
-      var canSnap = true;
+      var pos = 0;
+      var isStart = false;
+      var isCenter = false;
+      var isEnd = false;
 
-      if (elementEnd <= targetStart) {
-        // gap -
-        gap = elementEnd - targetStart;
-        pos = targetEnd - gap;
+      if (rect1End <= targetStart && targetEnd <= rect2Start) {
+        // (l)element1(r) : (l)target(r) : (l)element2(r)
+        isCenter = true;
+        gap = (rect2Start - rect1End - (targetEnd - targetStart)) / 2;
+        pos = rect1End + gap + (targetEnd - targetStart) / 2;
 
-        if (start < pos - snapThreshold) {
-          canSnap = false;
-        } // element target moveable
+        if (Math.abs(pos - targetCenter) > snapThreshold) {
+          return;
+        }
+      } else if (rect1End < rect2Start && rect2End < targetStart + snapThreshold) {
+        // (l)element1(r) : (l)element2(r) : (l)target
+        isStart = true;
+        gap = rect2Start - rect1End;
+        pos = rect2End + gap;
 
-      } else if (targetEnd <= elementStart) {
-        // gap +
-        gap = elementStart - targetEnd;
-        pos = targetStart - gap;
+        if (Math.abs(pos - targetStart) > snapThreshold) {
+          return;
+        }
+      } else if (rect1End < rect2Start && targetEnd - snapThreshold < rect1Start) {
+        // target(r) : (l)element1(r) : (l)element2(r)
+        isEnd = true;
+        gap = rect2Start - rect1End;
+        pos = rect1Start - gap;
 
-        if (end > pos + snapThreshold) {
-          canSnap = false;
-        } // moveable target element
-
+        if (Math.abs(pos - targetEnd) > snapThreshold) {
+          return;
+        }
       } else {
         return;
       }
 
-      if (canSnap) {
-        totalGuidelines.push({
-          pos: otherType === "vertical" ? [pos, guideline2Pos[1]] : [guideline2Pos[0], pos],
-          element: guideline2Element,
-          sizes: guideline2Sizes,
-          size: 0,
-          type: otherType,
-          gap: gap,
-          className: guidline2ClassName,
-          gapGuidelines: elementGuidelines
-        });
+      if (!gap) {
+        return;
       }
 
-      if (elementEnd <= start && end <= targetStart) {
-        // elementEnd   moveable   target
-        var centerPos = (targetStart + elementEnd - (end - start)) / 2;
-
-        if ((0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(start - (centerPos - snapThreshold), 0.1) >= 0) {
-          totalGuidelines.push({
-            pos: otherType === "vertical" ? [centerPos, guideline2Pos[1]] : [guideline2Pos[0], centerPos],
-            className: guidline2ClassName,
-            element: guideline2Element,
-            sizes: guideline2Sizes,
-            size: 0,
-            type: otherType,
-            gap: elementEnd - start,
-            gapGuidelines: elementGuidelines
-          });
-        }
-      }
+      gapGuidelines.push({
+        type: type,
+        pos: type === "vertical" ? [pos, 0] : [0, pos],
+        element: snapRect2.element,
+        size: 0,
+        className: snapRect2.className,
+        isStart: isStart,
+        isCenter: isCenter,
+        isEnd: isEnd,
+        gap: gap,
+        hide: true,
+        gapRects: [snapRect1, snapRect2]
+      });
     });
   });
-  return totalGuidelines;
+  return gapGuidelines;
 }
 function getDefaultGuidelines(horizontalGuidelines, verticalGuidelines, width, height, clientLeft, clientTop, snapOffset) {
   if (clientLeft === void 0) {
@@ -54730,15 +54855,16 @@ function getDefaultGuidelines(horizontalGuidelines, verticalGuidelines, width, h
   });
   return guidelines;
 }
-function calculateElementGuidelines(moveable, values) {
-  var guidelines = [];
-
+function calculateContainerPos(rootMatrix, containerRect, n) {
+  var clientPos = calculatePosition(rootMatrix, [containerRect.clientLeft, containerRect.clientTop], n);
+  return [containerRect.left + clientPos[0], containerRect.top + clientPos[1]];
+}
+function getSnapElementRects(moveable, values) {
   if (!values.length) {
-    return guidelines;
+    return [];
   }
 
   var state = moveable.state;
-  var snapCenter = moveable.props.snapCenter;
   var containerClientRect = state.containerClientRect,
       _a = state.targetClientRect,
       clientTop = _a.top,
@@ -54763,14 +54889,8 @@ function calculateElementGuidelines(moveable, values) {
       distLeft = _d[0],
       distTop = _d[1];
 
-  values.forEach(function (value) {
-    var element = value.element,
-        topValue = value.top,
-        leftValue = value.left,
-        rightValue = value.right,
-        bottomValue = value.bottom,
-        className = value.className;
-    var rect = element.getBoundingClientRect();
+  return values.map(function (value) {
+    var rect = value.element.getBoundingClientRect();
     var left = rect.left - containerLeft;
     var top = rect.top - containerTop;
     var bottom = top + rect.height;
@@ -54784,101 +54904,32 @@ function calculateElementGuidelines(moveable, values) {
         elementRight = _b[0],
         elementBottom = _b[1];
 
-    var width = elementRight - elementLeft;
-    var height = elementBottom - elementTop;
-    var sizes = [width, height]; //top
-
-    if (topValue !== false) {
-      guidelines.push({
-        type: "vertical",
-        element: element,
-        pos: [(0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(elementLeft + distLeft, 0.1), elementTop],
-        size: height,
-        sizes: sizes,
-        className: className
-      });
-    } // bottom
-
-
-    if (bottomValue !== false) {
-      guidelines.push({
-        type: "vertical",
-        element: element,
-        pos: [(0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(elementRight + distLeft, 0.1), elementTop],
-        size: height,
-        sizes: sizes,
-        className: className
-      });
-    } // left
-
-
-    if (leftValue !== false) {
-      guidelines.push({
-        type: "horizontal",
-        element: element,
-        pos: [elementLeft, (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(elementTop + distTop, 0.1)],
-        size: width,
-        sizes: sizes,
-        className: className
-      });
-    } // right
-
-
-    if (rightValue !== false) {
-      guidelines.push({
-        type: "horizontal",
-        element: element,
-        pos: [elementLeft, (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(elementBottom + distTop, 0.1)],
-        size: width,
-        sizes: sizes,
-        className: className
-      });
-    }
-
-    if (snapCenter) {
-      guidelines.push({
-        type: "vertical",
-        element: element,
-        pos: [(0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)((elementLeft + elementRight) / 2 + distLeft, 0.1), elementTop],
-        size: height,
-        sizes: sizes,
-        center: true,
-        className: className
-      });
-      guidelines.push({
-        type: "horizontal",
-        element: element,
-        pos: [elementLeft, (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)((elementTop + elementBottom) / 2 + distTop, 0.1)],
-        size: width,
-        sizes: sizes,
-        center: true,
-        className: className
-      });
-    }
+    return __assign(__assign({}, value), {
+      rect: {
+        left: elementLeft + distLeft,
+        right: elementRight + distLeft,
+        top: elementTop + distTop,
+        bottom: elementBottom + distTop,
+        center: (elementLeft + elementRight) / 2 + distLeft,
+        middle: (elementTop + elementBottom) / 2 + distTop
+      }
+    });
   });
-  return guidelines;
 }
-function getElementGuidelines(moveable, isRefresh, prevGuidelines) {
-  if (prevGuidelines === void 0) {
-    prevGuidelines = [];
-  }
-
-  var guidelines = [];
+function getElementGuidelines(moveable) {
   var state = moveable.state;
-
-  if (isRefresh && state.guidelines && state.guidelines.length) {
-    return guidelines;
-  }
-
   var _a = moveable.props.elementGuidelines,
       elementGuidelines = _a === void 0 ? [] : _a;
 
   if (!elementGuidelines.length) {
-    return guidelines;
+    state.elementRects = [];
+    return [];
   }
 
-  var prevValues = state.elementGuidelineValues || [];
-  var nextValues = elementGuidelines.map(function (el) {
+  var prevValues = (state.elementRects || []).filter(function (snapRect) {
+    return !snapRect.refresh;
+  });
+  var nextElementGuidelines = elementGuidelines.map(function (el) {
     if ((0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.isObject)(el) && "element" in el) {
       return el;
     }
@@ -54889,32 +54940,90 @@ function getElementGuidelines(moveable, isRefresh, prevGuidelines) {
   }).filter(function (value) {
     return value.element;
   });
-  state.elementGuidelineValues = nextValues;
 
   var _b = (0,_egjs_children_differ__WEBPACK_IMPORTED_MODULE_6__.diff)(prevValues.map(function (v) {
     return v.element;
-  }), nextValues.map(function (v) {
+  }), nextElementGuidelines.map(function (v) {
     return v.element;
   })),
-      added = _b.added,
-      removed = _b.removed;
+      maintained = _b.maintained,
+      added = _b.added;
 
-  var removedElements = removed.map(function (index) {
-    return prevValues[index].element;
+  var nextValues = [];
+  maintained.forEach(function (_a) {
+    var prevIndex = _a[0],
+        nextIndex = _a[1];
+    nextValues[nextIndex] = prevValues[prevIndex];
   });
-  var addedGuidelines = calculateElementGuidelines(moveable, added.map(function (index) {
-    return nextValues[index];
-  }).filter(function (value) {
-    return value.refresh && isRefresh || !value.refresh && !isRefresh;
-  }));
-  return __spreadArrays(prevGuidelines.filter(function (guideline) {
-    return removedElements.indexOf(guideline.element) === -1;
-  }), addedGuidelines);
+  getSnapElementRects(moveable, added.map(function (index) {
+    return nextElementGuidelines[index];
+  })).map(function (rect, i) {
+    nextValues[added[i]] = rect;
+  });
+  state.elementRects = nextValues;
+  var elementSnapDirections = getSnapDirections(moveable.props.elementSnapDirections);
+  var nextGuidelines = [];
+  nextValues.forEach(function (snapRect) {
+    var element = snapRect.element,
+        _a = snapRect.top,
+        topValue = _a === void 0 ? elementSnapDirections.top : _a,
+        _b = snapRect.left,
+        leftValue = _b === void 0 ? elementSnapDirections.left : _b,
+        _c = snapRect.right,
+        rightValue = _c === void 0 ? elementSnapDirections.right : _c,
+        _d = snapRect.bottom,
+        bottomValue = _d === void 0 ? elementSnapDirections.bottom : _d,
+        _e = snapRect.center,
+        centerValue = _e === void 0 ? elementSnapDirections.center : _e,
+        _f = snapRect.middle,
+        middleValue = _f === void 0 ? elementSnapDirections.middle : _f,
+        className = snapRect.className,
+        rect = snapRect.rect;
+
+    var _g = splitSnapDirectionPoses({
+      top: topValue,
+      right: rightValue,
+      left: leftValue,
+      bottom: bottomValue,
+      center: centerValue,
+      middle: middleValue
+    }, rect),
+        horizontal = _g.horizontal,
+        vertical = _g.vertical;
+
+    var rectTop = rect.top;
+    var rectLeft = rect.left;
+    var width = rect.right - rectLeft;
+    var height = rect.bottom - rectTop;
+    var sizes = [width, height];
+    vertical.forEach(function (pos) {
+      nextGuidelines.push({
+        type: "vertical",
+        element: element,
+        pos: [(0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(pos, 0.1), rectTop],
+        size: height,
+        sizes: sizes,
+        className: className,
+        elementRect: snapRect
+      });
+    });
+    horizontal.forEach(function (pos) {
+      nextGuidelines.push({
+        type: "horizontal",
+        element: element,
+        pos: [rectLeft, (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(pos, 0.1)],
+        size: width,
+        sizes: sizes,
+        className: className,
+        elementRect: snapRect
+      });
+    });
+  });
+  return nextGuidelines;
 }
 function getTotalGuidelines(moveable) {
   var _a = moveable.state,
       snapOffset = _a.snapOffset,
-      staticGuidelines = _a.staticGuidelines,
       _b = _a.containerClientRect,
       overflow = _b.overflow,
       containerHeight = _b.scrollHeight,
@@ -54924,39 +55033,39 @@ function getTotalGuidelines(moveable) {
       clientLeft = _b.clientLeft,
       clientTop = _b.clientTop;
   var _c = moveable.props,
-      _d = _c.snapHorizontal,
-      snapHorizontal = _d === void 0 ? true : _d,
-      _e = _c.snapVertical,
-      snapVertical = _e === void 0 ? true : _e,
-      _f = _c.snapGap,
-      snapGap = _f === void 0 ? true : _f,
+      _d = _c.snapGap,
+      snapGap = _d === void 0 ? true : _d,
       verticalGuidelines = _c.verticalGuidelines,
       horizontalGuidelines = _c.horizontalGuidelines,
-      _g = _c.snapThreshold,
-      snapThreshold = _g === void 0 ? 5 : _g,
-      _h = _c.snapGridWidth,
-      snapGridWidth = _h === void 0 ? 0 : _h,
-      _j = _c.snapGridHeight,
-      snapGridHeight = _j === void 0 ? 0 : _j;
+      _e = _c.snapThreshold,
+      snapThreshold = _e === void 0 ? 5 : _e,
+      _f = _c.snapGridWidth,
+      snapGridWidth = _f === void 0 ? 0 : _f,
+      _g = _c.snapGridHeight,
+      snapGridHeight = _g === void 0 ? 0 : _g;
+  var elementGuidelines = getElementGuidelines(moveable);
 
-  var totalGuidelines = __spreadArrays(staticGuidelines, getElementGuidelines(moveable, true));
+  var totalGuidelines = __spreadArrays(elementGuidelines);
 
   if (snapGap) {
-    var _k = getRect(getAbsolutePosesByState(moveable.state)),
-        top = _k.top,
-        left = _k.left,
-        bottom = _k.bottom,
-        right = _k.right;
+    var _h = getRect(getAbsolutePosesByState(moveable.state)),
+        top = _h.top,
+        left = _h.left,
+        bottom = _h.bottom,
+        right = _h.right;
 
-    var elementGuidelines = staticGuidelines.filter(function (_a) {
-      var element = _a.element;
-      return element;
-    });
-    totalGuidelines.push.apply(totalGuidelines, __spreadArrays(getGapGuidelines(elementGuidelines, "horizontal", snapThreshold, 0, [left, right], [top, bottom]), getGapGuidelines(elementGuidelines, "vertical", snapThreshold, 1, [top, bottom], [left, right])));
+    totalGuidelines.push.apply(totalGuidelines, getGapGuidelines(moveable, {
+      top: top,
+      left: left,
+      bottom: bottom,
+      right: right,
+      center: (left + right) / 2,
+      middle: (top + bottom) / 2
+    }, snapThreshold));
   }
 
   totalGuidelines.push.apply(totalGuidelines, getGridGuidelines(snapGridWidth, snapGridHeight, overflow ? containerWidth : containerClientWidth, overflow ? containerHeight : containerClientHeight, clientLeft, clientTop));
-  totalGuidelines.push.apply(totalGuidelines, getDefaultGuidelines(snapHorizontal && horizontalGuidelines || false, snapVertical && verticalGuidelines || false, overflow ? containerWidth : containerClientWidth, overflow ? containerHeight : containerClientHeight, clientLeft, clientTop, snapOffset));
+  totalGuidelines.push.apply(totalGuidelines, getDefaultGuidelines(horizontalGuidelines || false, verticalGuidelines || false, overflow ? containerWidth : containerClientWidth, overflow ? containerHeight : containerClientHeight, clientLeft, clientTop, snapOffset));
   return totalGuidelines;
 }
 function getGridGuidelines(snapGridWidth, snapGridHeight, containerWidth, containerHeight, clientLeft, clientTop) {
@@ -54994,21 +55103,16 @@ function getGridGuidelines(snapGridWidth, snapGridHeight, containerWidth, contai
 
   return guidelines;
 }
-function checkMoveableSnapPoses(moveable, posesX, posesY, snapCenter, customSnapThreshold) {
+
+function checkMoveableSnapPoses(moveable, posesX, posesY, customSnapThreshold) {
   var props = moveable.props;
-  var _a = props.snapElement,
-      snapElement = _a === void 0 ? true : _a;
   var snapThreshold = selectValue(customSnapThreshold, props.snapThreshold, 5);
-  return checkSnapPoses(moveable.state.guidelines, posesX, posesY, {
-    snapThreshold: snapThreshold,
-    snapCenter: snapCenter,
-    snapElement: snapElement
-  });
+  return checkSnapPoses(moveable.state.guidelines, posesX, posesY, snapThreshold);
 }
-function checkSnapPoses(guidelines, posesX, posesY, options) {
+function checkSnapPoses(guidelines, posesX, posesY, snapThreshold) {
   return {
-    vertical: checkSnap(guidelines, "vertical", posesX, options),
-    horizontal: checkSnap(guidelines, "horizontal", posesY, options)
+    vertical: checkSnap(guidelines, "vertical", posesX, snapThreshold),
+    horizontal: checkSnap(guidelines, "horizontal", posesY, snapThreshold)
   };
 }
 function checkSnapKeepRatio(moveable, startPos, endPos) {
@@ -55114,28 +55218,9 @@ function checkSnapKeepRatio(moveable, startPos, endPos) {
     horizontal: horizontalInfo
   };
 }
-function checkSnaps(moveable, rect, isCenter, customSnapThreshold) {
-  var snapCenter = moveable.props.snapCenter;
-  var isSnapCenter = snapCenter && isCenter;
-  var verticalNames = ["left", "right"];
-  var horizontalNames = ["top", "bottom"];
-
-  if (isSnapCenter) {
-    verticalNames.push("center");
-    horizontalNames.push("middle");
-  }
-
-  verticalNames = verticalNames.filter(function (name) {
-    return name in rect;
-  });
-  horizontalNames = horizontalNames.filter(function (name) {
-    return name in rect;
-  });
-  return checkMoveableSnapPoses(moveable, verticalNames.map(function (name) {
-    return rect[name];
-  }), horizontalNames.map(function (name) {
-    return rect[name];
-  }), isSnapCenter, customSnapThreshold);
+function checkSnaps(moveable, rect, customSnapThreshold) {
+  var poses = splitSnapDirectionPoses(moveable.props.snapDirections, rect);
+  return checkMoveableSnapPoses(moveable, poses.vertical, poses.horizontal, customSnapThreshold);
 }
 function getNearestSnapGuidelineInfo(snapInfo) {
   var isSnap = snapInfo.isSnap;
@@ -55164,13 +55249,7 @@ function getNearestSnapGuidelineInfo(snapInfo) {
   };
 }
 
-function checkSnap(guidelines, targetType, targetPoses, _a) {
-  var _b = _a === void 0 ? {} : _a,
-      _c = _b.snapThreshold,
-      snapThreshold = _c === void 0 ? 5 : _c,
-      snapElement = _b.snapElement,
-      snapCenter = _b.snapCenter;
-
+function checkSnap(guidelines, targetType, targetPoses, snapThreshold) {
   if (!guidelines || !guidelines.length) {
     return {
       isSnap: false,
@@ -55193,11 +55272,9 @@ function checkSnap(guidelines, targetType, targetPoses, _a) {
     }).filter(function (_a) {
       var guideline = _a.guideline,
           dist = _a.dist;
-      var type = guideline.type,
-          center = guideline.center,
-          element = guideline.element;
+      var type = guideline.type;
 
-      if (!snapElement && element || !snapCenter && center || type !== targetType || dist > snapThreshold) {
+      if (type !== targetType || dist > snapThreshold) {
         return false;
       }
 
@@ -55255,7 +55332,7 @@ function getSnapInfosByDirection(moveable, poses, snapDirection) {
     return pos[0];
   }), nextPoses.map(function (pos) {
     return pos[1];
-  }), true, 1);
+  }), 1);
 }
 function checkSnapBoundPriority(a, b) {
   var aDist = Math.abs(a.offset);
@@ -55305,6 +55382,38 @@ function getNearOffsetInfo(offsets, index) {
       offset: bOffset
     });
   })[0];
+}
+function getCheckSnapDirections(direction, keepRatio) {
+  var directions = [];
+  var fixedDirection = [-direction[0], -direction[1]];
+
+  if (direction[0] && direction[1]) {
+    directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]]);
+
+    if (keepRatio) {
+      // pass two direction condition
+      directions.push([fixedDirection, direction]);
+    }
+  } else if (direction[0]) {
+    // vertcal
+    if (keepRatio) {
+      directions.push([fixedDirection, [fixedDirection[0], -1]], [fixedDirection, [fixedDirection[0], 1]], [fixedDirection, [direction[0], -1]], [fixedDirection, direction], [fixedDirection, [direction[0], 1]]);
+    } else {
+      directions.push([[fixedDirection[0], -1], [direction[0], -1]], [[fixedDirection[0], 0], [direction[0], 0]], [[fixedDirection[0], 1], [direction[0], 1]]);
+    }
+  } else if (direction[1]) {
+    // horizontal
+    if (keepRatio) {
+      directions.push([fixedDirection, [-1, fixedDirection[1]]], [fixedDirection, [1, fixedDirection[1]]], [fixedDirection, [-1, direction[1]]], [fixedDirection, [1, direction[1]]], [fixedDirection, direction]);
+    } else {
+      directions.push([[-1, fixedDirection[1]], [-1, direction[1]]], [[0, fixedDirection[1]], [0, direction[1]]], [[1, fixedDirection[1]], [1, direction[1]]]);
+    }
+  } else {
+    // [0, 0] to all direction
+    directions.push([fixedDirection, [1, 0]], [fixedDirection, [-1, 0]], [fixedDirection, [0, -1]], [fixedDirection, [0, 1]], [[1, 0], [1, -1]], [[1, 0], [1, 1]], [[0, 1], [1, 1]], [[0, 1], [-1, 1]], [[-1, 0], [-1, -1]], [[-1, 0], [-1, 1]], [[0, -1], [1, -1]], [[0, -1], [-1, -1]]);
+  }
+
+  return directions;
 }
 
 function isStartLine(dot, line) {
@@ -56083,55 +56192,6 @@ function checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation) {
   return result;
 }
 
-var DIRECTION_NAMES = {
-  horizontal: ["left", "top", "width", "Y", "X"],
-  vertical: ["top", "left", "height", "X", "Y"]
-};
-function groupByElementGuidelines(guidelines, clientPos, size, index) {
-  var groupInfos = [];
-  var group = groupBy(guidelines.filter(function (_a) {
-    var element = _a.element,
-        gap = _a.gap;
-    return element && !gap;
-  }), function (_a) {
-    var element = _a.element,
-        pos = _a.pos;
-    var elementPos = pos[index];
-    var sign = Math.min(0, elementPos - clientPos) < 0 ? -1 : 1;
-    var groupKey = sign + "_" + pos[index ? 0 : 1];
-    var groupInfo = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.find)(groupInfos, function (_a) {
-      var groupElement = _a[0],
-          groupPos = _a[1];
-      return element === groupElement && elementPos === groupPos;
-    });
-
-    if (groupInfo) {
-      return groupInfo[2];
-    }
-
-    groupInfos.push([element, elementPos, groupKey]);
-    return groupKey;
-  });
-  group.forEach(function (elementGuidelines) {
-    elementGuidelines.sort(function (a, b) {
-      var result = getElementGuidelineDist(a.pos[index], a.size, clientPos, size).size - getElementGuidelineDist(b.pos[index], a.size, clientPos, size).size;
-      return result || a.pos[index ? 0 : 1] - b.pos[index ? 0 : 1];
-    });
-  });
-  return group;
-}
-function getElementGuidelineDist(elementPos, elementSize, targetPos, targetSize) {
-  // relativePos < 0  => element(l)  ---  (r)target
-  // relativePos > 0  => target(l)   ---  (r)element
-  var relativePos = elementPos - targetPos;
-  var startPos = relativePos < 0 ? relativePos + elementSize : targetSize;
-  var endPos = relativePos < 0 ? 0 : relativePos;
-  var size = endPos - startPos;
-  return {
-    size: size,
-    pos: startPos
-  };
-}
 function renderGuideline(info, React) {
   var _a;
 
@@ -56142,12 +56202,12 @@ function renderGuideline(info, React) {
       zoom = info.zoom,
       key = info.key;
   var isHorizontal = direction === "horizontal";
-  var scaleDirection = isHorizontal ? "Y" : "X"; // const scaleDirection2 = isHorizontal ? "Y" : "X";
+  var scaleType = isHorizontal ? "Y" : "X"; // const scaleType2 = isHorizontal ? "Y" : "X";
 
   return React.createElement("div", {
     key: key,
     className: classNames.join(" "),
-    style: (_a = {}, _a[isHorizontal ? "width" : "height"] = "" + size, _a.transform = "translate(" + pos[0] + ", " + pos[1] + ") translate" + scaleDirection + "(-50%) scale" + scaleDirection + "(" + zoom + ")", _a)
+    style: (_a = {}, _a[isHorizontal ? "width" : "height"] = "" + size, _a.transform = "translate(" + pos[0] + ", " + pos[1] + ") translate" + scaleType + "(-50%) scale" + scaleType + "(" + zoom + ")", _a)
   });
 }
 function renderInnerGuideline(info, React) {
@@ -56160,55 +56220,6 @@ function renderInnerGuideline(info, React) {
       return (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(v, 0.1) + "px";
     })
   }), React);
-}
-function renderElementGroups(moveable, direction, groups, minPos, clientPos, clientSize, targetPos, snapThreshold, snapDigit, index, snapDistFormat, React) {
-  var _a = moveable.props,
-      zoom = _a.zoom,
-      _b = _a.isDisplaySnapDigit,
-      isDisplaySnapDigit = _b === void 0 ? true : _b;
-  var _c = DIRECTION_NAMES[direction],
-      posName1 = _c[0],
-      posName2 = _c[1],
-      sizeName = _c[2],
-      scaleDirection = _c[4];
-  return flat(groups.map(function (elementGuidelines, i) {
-    var isFirstRenderSize = true;
-    return elementGuidelines.map(function (_a, j) {
-      var _b;
-
-      var pos = _a.pos,
-          size = _a.size;
-
-      var _c = getElementGuidelineDist(pos[index], size, clientPos, clientSize),
-          linePos = _c.pos,
-          lineSize = _c.size;
-
-      if (lineSize < snapThreshold) {
-        return null;
-      }
-
-      var isRenderSize = isFirstRenderSize;
-      isFirstRenderSize = false;
-      var snapSize = isDisplaySnapDigit && isRenderSize ? parseFloat(lineSize.toFixed(snapDigit)) : 0;
-      return React.createElement("div", {
-        key: direction + "LinkGuideline" + i + "-" + j,
-        className: prefix("guideline-group", direction),
-        style: (_b = {}, _b[posName1] = minPos + linePos + "px", _b[posName2] = -targetPos + pos[index ? 0 : 1] + "px", _b[sizeName] = lineSize + "px", _b)
-      }, renderInnerGuideline({
-        direction: direction,
-        classNames: [prefix("dashed")],
-        size: "100%",
-        posValue: [0, 0],
-        sizeValue: lineSize,
-        zoom: zoom
-      }, React), React.createElement("div", {
-        className: prefix("size-value"),
-        style: {
-          transform: "translate" + scaleDirection + "(-50%) scale(" + zoom + ")"
-        }
-      }, snapSize > 0 ? snapDistFormat(snapSize) : ""));
-    });
-  }));
 }
 function renderSnapPoses(moveable, direction, snapPoses, minPos, targetPos, size, index, React) {
   var zoom = moveable.props.zoom;
@@ -56228,209 +56239,311 @@ function renderSnapPoses(moveable, direction, snapPoses, minPos, targetPos, size
     }, React);
   });
 }
-function filterElementInnerGuidelines(moveable, guidelines, index, targetPos, clientPos, targetSizes) {
-  var isDisplayInnerSnapDigit = moveable.props.isDisplayInnerSnapDigit;
-  var otherIndex = index ? 0 : 1;
-  var targetContentPos = targetPos[index];
-  var targetContentSize = targetSizes[index];
-  var gapGuidelines = [];
-  var nextGuidelines = guidelines.filter(function (guideline) {
-    var element = guideline.element,
-        pos = guideline.pos,
-        size = guideline.size;
+function renderGuidelines(moveable, type, guidelines, targetPos, targetRect, React) {
+  var _a = moveable.props,
+      zoom = _a.zoom,
+      isDisplayInnerSnapDigit = _a.isDisplayInnerSnapDigit;
+  var mainNames = type === "horizontal" ? VERTICAL_NAMES_MAP : HORIZONTAL_NAMES_MAP;
+  var targetStart = targetRect[mainNames.start];
+  var targetEnd = targetRect[mainNames.end];
+  return guidelines.filter(function (_a) {
+    var hide = _a.hide,
+        elementRect = _a.elementRect;
 
-    if (isDisplayInnerSnapDigit && element && pos[index] < targetContentPos && targetContentPos + targetContentSize < pos[index] + size) {
-      var contentPos = pos[index] - targetContentPos;
-      var inlinePos = pos[otherIndex] - targetPos[otherIndex];
-      gapGuidelines.push(__assign(__assign({}, guideline), {
-        inner: true,
-        gap: contentPos,
-        renderPos: index ? [inlinePos, contentPos] : [contentPos, inlinePos]
-      }));
-      gapGuidelines.push(__assign(__assign({}, guideline), {
-        inner: true,
-        gap: pos[index] + size - targetContentPos - targetContentSize,
-        renderPos: index ? [inlinePos, targetContentSize] : [targetContentSize, inlinePos]
-      }));
+    if (hide) {
       return false;
     }
 
-    return true;
-  });
-  nextGuidelines = nextGuidelines.filter(function (guideline1) {
-    var element1 = guideline1.element,
-        pos1 = guideline1.pos,
-        size1 = guideline1.size;
-    var contentPos1 = pos1[index];
+    if (isDisplayInnerSnapDigit && elementRect) {
+      // inner
+      var rect = elementRect.rect;
 
-    if (!element1) {
-      return true;
+      if (rect[mainNames.start] <= targetStart && targetEnd <= rect[mainNames.end]) {
+        return false;
+      }
     }
 
-    return nextGuidelines.every(function (guideline2) {
-      var element2 = guideline2.element,
-          pos2 = guideline2.pos,
-          size2 = guideline2.size;
-      var contentPos2 = pos2[index];
-
-      if (!element2 || guideline1 === guideline2) {
-        return true;
-      }
-
-      return contentPos1 + size1 <= contentPos2 || contentPos2 + size2 <= contentPos1 || contentPos1 < contentPos2 && contentPos2 + size2 < contentPos1 + size1;
-    });
-  });
-  var groups = groupByElementGuidelines(nextGuidelines, clientPos[index], targetContentSize, index);
-  gapGuidelines = gapGuidelines.filter(function (guideline) {
-    var gap = guideline.gap;
-    var inlinePos = guideline.pos[otherIndex];
-    return groups.every(function (group) {
-      return group.every(function (groupGuideline) {
-        var groupPos = groupGuideline.pos;
-        var renderPos = -targetContentPos + groupPos[index];
-
-        if (groupPos[otherIndex] !== inlinePos) {
-          return true;
-        }
-
-        if (gap < 0 && renderPos < 0) {
-          return false;
-        }
-
-        if (gap > 0 && renderPos > targetSizes[index]) {
-          return false;
-        }
-
-        return true;
-      });
-    });
-  });
-  return {
-    guidelines: nextGuidelines,
-    groups: groups,
-    gapGuidelines: gapGuidelines
-  };
-}
-function renderGuidelines(moveable, direction, guidelines, targetPos, React) {
-  var zoom = moveable.props.zoom;
-  return guidelines.filter(function (_a) {
-    var hide = _a.hide;
-    return !hide;
+    return true;
   }).map(function (guideline, i) {
     var pos = guideline.pos,
         size = guideline.size,
         element = guideline.element;
     var renderPos = [-targetPos[0] + pos[0], -targetPos[1] + pos[1]];
     return renderInnerGuideline({
-      key: direction + "Guideline" + i,
+      key: type + "-default-guideline-" + i,
       classNames: element ? [prefix("bold")] : [],
-      direction: direction,
+      direction: type,
       posValue: renderPos,
       sizeValue: size,
       zoom: zoom
     }, React);
   });
 }
-function renderGapGuidelines(moveable, direction, gapGuidelines, snapDistFormat, React) {
-  var _a = moveable.props,
-      _b = _a.snapDigit,
-      snapDigit = _b === void 0 ? 0 : _b,
-      _c = _a.isDisplaySnapDigit,
-      isDisplaySnapDigit = _c === void 0 ? true : _c,
-      zoom = _a.zoom;
-  var scaleDirection = direction === "horizontal" ? "X" : "Y";
-  var sizeName = direction === "horizontal" ? "width" : "height";
-  return gapGuidelines.map(function (_a, i) {
-    var _b;
+function renderDigitLine(moveable, type, lineType, index, gap, renderPos, className, React) {
+  var _a;
 
-    var renderPos = _a.renderPos,
-        gap = _a.gap,
-        className = _a.className,
-        inner = _a.inner;
-    var absGap = Math.abs(gap);
-    var snapSize = isDisplaySnapDigit ? parseFloat(absGap.toFixed(snapDigit)) : 0;
-    return React.createElement("div", {
-      key: direction + "GapGuideline" + i,
-      className: prefix("guideline-group", direction),
-      style: (_b = {
-        left: renderPos[0] + "px",
-        top: renderPos[1] + "px"
-      }, _b[sizeName] = absGap + "px", _b)
-    }, renderInnerGuideline({
-      direction: direction,
-      classNames: [prefix(inner ? "dashed" : "gap"), className],
-      size: "100%",
-      posValue: [0, 0],
-      sizeValue: absGap,
-      zoom: zoom
-    }, React), React.createElement("div", {
-      className: prefix("size-value", "gap"),
-      style: {
-        transform: "translate" + scaleDirection + "(-50%) scale(" + zoom + ")"
+  var _b = moveable.props,
+      _c = _b.snapDigit,
+      snapDigit = _c === void 0 ? 0 : _c,
+      _d = _b.isDisplaySnapDigit,
+      isDisplaySnapDigit = _d === void 0 ? true : _d,
+      _e = _b.snapDistFormat,
+      snapDistFormat = _e === void 0 ? function (v) {
+    return v;
+  } : _e,
+      zoom = _b.zoom;
+  var scaleType = type === "horizontal" ? "X" : "Y";
+  var sizeName = type === "vertical" ? "height" : "width";
+  var absGap = Math.abs(gap);
+  var snapSize = isDisplaySnapDigit ? parseFloat(absGap.toFixed(snapDigit)) : 0;
+  return React.createElement("div", {
+    key: type + "-" + lineType + "-guideline-" + index,
+    className: prefix("guideline-group", type),
+    style: (_a = {
+      left: renderPos[0] + "px",
+      top: renderPos[1] + "px"
+    }, _a[sizeName] = absGap + "px", _a)
+  }, renderInnerGuideline({
+    direction: type,
+    classNames: [prefix(lineType), className],
+    size: "100%",
+    posValue: [0, 0],
+    sizeValue: absGap,
+    zoom: zoom
+  }, React), React.createElement("div", {
+    className: prefix("size-value", "gap"),
+    style: {
+      transform: "translate" + scaleType + "(-50%) scale(" + zoom + ")"
+    }
+  }, snapSize > 0 ? snapDistFormat(snapSize) : ""));
+}
+function groupByElementGuidelines(type, guidelines, targetRect, isDisplayInnerSnapDigit) {
+  var index = type === "vertical" ? 0 : 1;
+  var otherIndex = type === "vertical" ? 1 : 0;
+  var names = index ? VERTICAL_NAMES_MAP : HORIZONTAL_NAMES_MAP;
+  var targetStart = targetRect[names.start];
+  var targetEnd = targetRect[names.end];
+  return groupBy(guidelines, function (guideline) {
+    return guideline.pos[index];
+  }).map(function (nextGuidelines) {
+    var start = [];
+    var end = [];
+    var inner = [];
+    nextGuidelines.forEach(function (guideline) {
+      var _a, _b;
+
+      var element = guideline.element;
+      var rect = guideline.elementRect.rect;
+
+      if (rect[names.end] < targetStart) {
+        start.push(guideline);
+      } else if (targetEnd < rect[names.start]) {
+        end.push(guideline);
+      } else if (rect[names.start] <= targetStart && targetEnd <= rect[names.end] && isDisplayInnerSnapDigit) {
+        var pos = guideline.pos;
+        var elementRect1 = {
+          element: element,
+          rect: __assign(__assign({}, rect), (_a = {}, _a[names.end] = rect[names.start], _a))
+        };
+        var elementRect2 = {
+          element: element,
+          rect: __assign(__assign({}, rect), (_b = {}, _b[names.start] = rect[names.end], _b))
+        };
+        var nextPos1 = [0, 0];
+        var nextPos2 = [0, 0];
+        nextPos1[index] = pos[index];
+        nextPos1[otherIndex] = pos[otherIndex];
+        nextPos2[index] = pos[index];
+        nextPos2[otherIndex] = pos[otherIndex] + guideline.size;
+        start.push({
+          type: type,
+          pos: nextPos1,
+          size: 0,
+          elementRect: elementRect1
+        });
+        end.push({
+          type: type,
+          pos: nextPos2,
+          size: 0,
+          elementRect: elementRect2
+        }); // inner.push(guideline);
       }
-    }, snapSize > 0 ? snapDistFormat(snapSize) : ""));
+    });
+    start.sort(function (a, b) {
+      return b.pos[otherIndex] - a.pos[otherIndex];
+    });
+    end.sort(function (a, b) {
+      return a.pos[otherIndex] - b.pos[otherIndex];
+    });
+    return {
+      total: nextGuidelines,
+      start: start,
+      end: end,
+      inner: inner
+    };
   });
 }
+function renderDashedGuidelines(moveable, guidelines, targetPos, targetRect, React) {
+  var isDisplayInnerSnapDigit = moveable.props.isDisplayInnerSnapDigit;
+  var rendered = [];
+  ["vertical", "horizontal"].forEach(function (type) {
+    var nextGuidelines = guidelines.filter(function (guideline) {
+      return guideline.type === type;
+    });
+    var index = type === "vertical" ? 1 : 0;
+    var otherIndex = index ? 0 : 1;
+    var groups = groupByElementGuidelines(type, nextGuidelines, targetRect, isDisplayInnerSnapDigit);
+    var mainNames = index ? HORIZONTAL_NAMES_MAP : VERTICAL_NAMES_MAP;
+    var sideNames = index ? VERTICAL_NAMES_MAP : HORIZONTAL_NAMES_MAP;
+    var targetStart = targetRect[mainNames.start];
+    var targetEnd = targetRect[mainNames.end];
+    groups.forEach(function (_a) {
+      var total = _a.total,
+          start = _a.start,
+          end = _a.end,
+          inner = _a.inner;
+      var sidePos = targetPos[otherIndex] + total[0].pos[otherIndex] - targetRect[sideNames.start];
+      var prevRect = targetRect;
+      start.forEach(function (guideline) {
+        var nextRect = guideline.elementRect.rect;
+        var size = prevRect[mainNames.start] - nextRect[mainNames.end];
 
-function snapStart(moveable) {
-  var state = moveable.state;
+        if (size > 0) {
+          var renderPos = [0, 0];
+          renderPos[index] = targetPos[index] + prevRect[mainNames.start] - targetStart - size;
+          renderPos[otherIndex] = sidePos;
+          rendered.push(renderDigitLine(moveable, type, "dashed", rendered.length, size, renderPos, guideline.className, React));
+        }
 
-  if (state.guidelines && state.guidelines.length) {
-    return;
-  }
+        prevRect = nextRect;
+      });
+      prevRect = targetRect;
+      end.forEach(function (guideline) {
+        var nextRect = guideline.elementRect.rect;
+        var size = nextRect[mainNames.start] - prevRect[mainNames.end];
 
-  var container = moveable.state.container;
-  var snapContainer = moveable.props.snapContainer || container;
-  var containerClientRect = state.containerClientRect;
-  var snapOffset = {
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0
-  };
+        if (size > 0) {
+          var renderPos = [0, 0];
+          renderPos[index] = targetPos[index] + prevRect[mainNames.end] - targetStart;
+          renderPos[otherIndex] = sidePos;
+          rendered.push(renderDigitLine(moveable, type, "dashed", rendered.length, size, renderPos, guideline.className, React));
+        }
 
-  if (container !== snapContainer) {
-    var snapContainerTarget = getRefTarget(snapContainer, true);
-
-    if (snapContainerTarget) {
-      var snapContainerRect = getClientRect(snapContainerTarget);
-      var offset1 = getDragDistByState(state, [snapContainerRect.left - containerClientRect.left, snapContainerRect.top - containerClientRect.top]);
-      var offset2 = getDragDistByState(state, [snapContainerRect.right - containerClientRect.right, snapContainerRect.bottom - containerClientRect.bottom]);
-      snapOffset.left = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset1[0], 0.1);
-      snapOffset.top = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset1[1], 0.1);
-      snapOffset.right = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset2[0], 0.1);
-      snapOffset.bottom = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset2[1], 0.1);
-    }
-  }
-
-  state.snapOffset = snapOffset;
-  state.elementGuidelineValues = [];
-  state.staticGuidelines = getElementGuidelines(moveable, false);
-  state.guidelines = getTotalGuidelines(moveable);
-  state.enableSnap = true;
+        prevRect = nextRect;
+      });
+      inner.forEach(function (guideline) {
+        var nextRect = guideline.elementRect.rect;
+        var size1 = targetStart - nextRect[mainNames.start];
+        var size2 = nextRect[mainNames.end] - targetEnd;
+        var renderPos1 = [0, 0];
+        var renderPos2 = [0, 0];
+        renderPos1[index] = targetPos[index] - size1;
+        renderPos1[otherIndex] = sidePos;
+        renderPos2[index] = targetPos[index] + targetEnd - targetStart;
+        renderPos2[otherIndex] = sidePos;
+        rendered.push(renderDigitLine(moveable, type, "dashed", rendered.length, size1, renderPos1, guideline.className, React));
+        rendered.push(renderDigitLine(moveable, type, "dashed", rendered.length, size2, renderPos2, guideline.className, React));
+      });
+    });
+  });
+  return rendered;
 }
-function hasGuidelines(moveable, ableName) {
-  var _a = moveable.props,
-      snappable = _a.snappable,
-      bounds = _a.bounds,
-      innerBounds = _a.innerBounds,
-      verticalGuidelines = _a.verticalGuidelines,
-      horizontalGuidelines = _a.horizontalGuidelines,
-      snapGridWidth = _a.snapGridWidth,
-      snapGridHeight = _a.snapGridHeight,
-      _b = moveable.state,
-      guidelines = _b.guidelines,
-      enableSnap = _b.enableSnap;
+function renderGapGuidelines(moveable, guidelines, targetPos, targetRect, React) {
+  var rendered = [];
+  ["horizontal", "vertical"].forEach(function (type) {
+    var nextGuidelines = guidelines.filter(function (guideline) {
+      return guideline.type === type;
+    });
+    var index = type === "vertical" ? 0 : 1;
+    var otherIndex = index ? 0 : 1;
+    var mainNames = index ? HORIZONTAL_NAMES_MAP : VERTICAL_NAMES_MAP;
+    var sideNames = index ? VERTICAL_NAMES_MAP : HORIZONTAL_NAMES_MAP;
+    var targetStart = targetRect[mainNames.start];
+    var targetEnd = targetRect[mainNames.end];
+    var targetSideStart = targetRect[sideNames.start];
+    var targetSideEnd = targetRect[sideNames.end];
+    nextGuidelines.forEach(function (_a) {
+      var gap = _a.gap,
+          gapRects = _a.gapRects,
+          className = _a.className;
+      var sideStartPos = Math.max.apply(Math, __spreadArrays([targetSideStart], gapRects.map(function (_a) {
+        var rect = _a.rect;
+        return rect[sideNames.start];
+      })));
+      var sideEndPos = Math.min.apply(Math, __spreadArrays([targetSideEnd], gapRects.map(function (_a) {
+        var rect = _a.rect;
+        return rect[sideNames.end];
+      })));
+      var sideCenterPos = (sideStartPos + sideEndPos) / 2;
 
-  if (!snappable || !enableSnap || ableName && snappable !== true && snappable.indexOf(ableName) < 0) {
-    return false;
+      if (sideStartPos === sideEndPos || sideCenterPos === (targetSideStart + targetSideEnd) / 2) {
+        return;
+      }
+
+      gapRects.forEach(function (_a) {
+        var rect = _a.rect;
+        var renderPos = [targetPos[0], targetPos[1]];
+
+        if (rect[mainNames.end] < targetStart) {
+          renderPos[index] += rect[mainNames.end] - targetStart;
+        } else if (targetEnd < rect[mainNames.start]) {
+          renderPos[index] += rect[mainNames.start] - targetStart - gap;
+        } else {
+          return;
+        }
+
+        renderPos[otherIndex] += sideCenterPos - targetSideStart;
+        rendered.push(renderDigitLine(moveable, index ? "vertical" : "horizontal", "gap", rendered.length, gap, renderPos, className, React));
+      });
+    });
+  });
+  return rendered;
+}
+
+function solveEquation(pos1, pos2, snapOffset, isVertical) {
+  var dx = pos2[0] - pos1[0];
+  var dy = pos2[1] - pos1[1];
+
+  if (Math.abs(dx) < _daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.TINY_NUM) {
+    dx = 0;
   }
 
-  if (snapGridWidth || snapGridHeight || bounds || innerBounds || guidelines && guidelines.length || verticalGuidelines && verticalGuidelines.length || horizontalGuidelines && horizontalGuidelines.length) {
-    return true;
+  if (Math.abs(dy) < _daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.TINY_NUM) {
+    dy = 0;
   }
 
-  return false;
+  if (!dx) {
+    // y = 0 * x + b
+    // only horizontal
+    if (!isVertical) {
+      return [0, snapOffset];
+    }
+
+    return [0, 0];
+  }
+
+  if (!dy) {
+    // only vertical
+    if (isVertical) {
+      return [snapOffset, 0];
+    }
+
+    return [0, 0];
+  } // y = ax + b
+
+
+  var a = dy / dx;
+  var b = pos1[1] - a * pos1[0];
+
+  if (isVertical) {
+    // y = a * x + b
+    var y = a * (pos2[0] + snapOffset) + b;
+    return [snapOffset, y - pos2[1]];
+  } else {
+    // x = (y - b) / a
+    var x = (pos2[1] + snapOffset - b) / a;
+    return [x - pos2[0], snapOffset];
+  }
 }
 
 function solveNextOffset(pos1, pos2, offset, isVertical, datas) {
@@ -56462,10 +56575,318 @@ function solveNextOffset(pos1, pos2, offset, isVertical, datas) {
   };
 }
 
-function getNextFixedPoses(matrix, width, height, fixedPos, direction, is3d) {
-  var nextPoses = calculatePoses(matrix, width, height, is3d ? 4 : 3);
-  var nextPos = getPosByReverseDirection(nextPoses, direction);
-  return getAbsolutePoses(nextPoses, (0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)(fixedPos, nextPos));
+function getSnapBound(boundInfo, snapInfo) {
+  if (boundInfo.isBound) {
+    return boundInfo.offset;
+  } else if (snapInfo.isSnap) {
+    return getNearestSnapGuidelineInfo(snapInfo).offset;
+  }
+
+  return 0;
+}
+
+function checkThrottleDragRotate(throttleDragRotate, _a, _b, _c, _d) {
+  var distX = _a[0],
+      distY = _a[1];
+  var isVerticalBound = _b[0],
+      isHorizontalBound = _b[1];
+  var isVerticalSnap = _c[0],
+      isHorizontalSnap = _c[1];
+  var verticalOffset = _d[0],
+      horizontalOffset = _d[1];
+  var offsetX = -verticalOffset;
+  var offsetY = -horizontalOffset;
+
+  if (throttleDragRotate && distX && distY) {
+    offsetX = 0;
+    offsetY = 0;
+    var adjustPoses = [];
+
+    if (isVerticalBound && isHorizontalBound) {
+      adjustPoses.push([0, horizontalOffset], [verticalOffset, 0]);
+    } else if (isVerticalBound) {
+      adjustPoses.push([verticalOffset, 0]);
+    } else if (isHorizontalBound) {
+      adjustPoses.push([0, horizontalOffset]);
+    } else if (isVerticalSnap && isHorizontalSnap) {
+      adjustPoses.push([0, horizontalOffset], [verticalOffset, 0]);
+    } else if (isVerticalSnap) {
+      adjustPoses.push([verticalOffset, 0]);
+    } else if (isHorizontalSnap) {
+      adjustPoses.push([0, horizontalOffset]);
+    }
+
+    if (adjustPoses.length) {
+      adjustPoses.sort(function (a, b) {
+        return getDistSize((0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)([distX, distY], a)) - getDistSize((0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)([distX, distY], b));
+      });
+      var adjustPos = adjustPoses[0];
+
+      if (adjustPos[0] && Math.abs(distX) > _daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.TINY_NUM) {
+        offsetX = -adjustPos[0];
+        offsetY = distY * Math.abs(distX + offsetX) / Math.abs(distX) - distY;
+      } else if (adjustPos[1] && Math.abs(distY) > _daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.TINY_NUM) {
+        var prevDistY = distY;
+        offsetY = -adjustPos[1];
+        offsetX = distX * Math.abs(distY + offsetY) / Math.abs(prevDistY) - distX;
+      }
+
+      if (throttleDragRotate && isHorizontalBound && isVerticalBound) {
+        if (Math.abs(offsetX) > _daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.TINY_NUM && Math.abs(offsetX) < Math.abs(verticalOffset)) {
+          var scale = Math.abs(verticalOffset) / Math.abs(offsetX);
+          offsetX *= scale;
+          offsetY *= scale;
+        } else if (Math.abs(offsetY) > _daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.TINY_NUM && Math.abs(offsetY) < Math.abs(horizontalOffset)) {
+          var scale = Math.abs(horizontalOffset) / Math.abs(offsetY);
+          offsetX *= scale;
+          offsetY *= scale;
+        } else {
+          offsetX = maxOffset(-verticalOffset, offsetX);
+          offsetY = maxOffset(-horizontalOffset, offsetY);
+        }
+      }
+    }
+  } else {
+    offsetX = distX || isVerticalBound ? -verticalOffset : 0;
+    offsetY = distY || isHorizontalBound ? -horizontalOffset : 0;
+  }
+
+  return [offsetX, offsetY];
+}
+function checkSnapBoundsDrag(moveable, distX, distY, throttleDragRotate, isRequest, datas) {
+  if (!hasGuidelines(moveable, "draggable")) {
+    return [{
+      isSnap: false,
+      isBound: false,
+      offset: 0
+    }, {
+      isSnap: false,
+      isBound: false,
+      offset: 0
+    }];
+  }
+
+  var poses = getAbsolutePoses(datas.absolutePoses, [distX, distY]);
+
+  var _a = getRect(poses),
+      left = _a.left,
+      right = _a.right,
+      top = _a.top,
+      bottom = _a.bottom;
+
+  var boundPoses = {
+    horizontal: poses.map(function (pos) {
+      return pos[1];
+    }),
+    vertical: poses.map(function (pos) {
+      return pos[0];
+    })
+  };
+  var snapDirections = getSnapDirections(moveable.props.snapDirections);
+  var snapPoses = splitSnapDirectionPoses(snapDirections, {
+    left: left,
+    right: right,
+    top: top,
+    bottom: bottom,
+    center: (left + right) / 2,
+    middle: (top + bottom) / 2
+  });
+
+  var _b = checkMoveableSnapBounds(moveable, isRequest, snapPoses, boundPoses),
+      verticalSnapBoundInfo = _b.vertical,
+      horizontalSnapBoundInfo = _b.horizontal;
+
+  var _c = getInnerBoundDragInfo(moveable, poses, datas),
+      verticalInnerBoundInfo = _c.vertical,
+      horizontalInnerBoundInfo = _c.horizontal;
+
+  var isVerticalSnap = verticalSnapBoundInfo.isSnap;
+  var isHorizontalSnap = horizontalSnapBoundInfo.isSnap;
+  var isVerticalBound = verticalSnapBoundInfo.isBound || verticalInnerBoundInfo.isBound;
+  var isHorizontalBound = horizontalSnapBoundInfo.isBound || horizontalInnerBoundInfo.isBound;
+  var verticalOffset = maxOffset(verticalSnapBoundInfo.offset, verticalInnerBoundInfo.offset);
+  var horizontalOffset = maxOffset(horizontalSnapBoundInfo.offset, horizontalInnerBoundInfo.offset);
+
+  var _d = checkThrottleDragRotate(throttleDragRotate, [distX, distY], [isVerticalBound, isHorizontalBound], [isVerticalSnap, isHorizontalSnap], [verticalOffset, horizontalOffset]),
+      offsetX = _d[0],
+      offsetY = _d[1];
+
+  return [{
+    isBound: isVerticalBound,
+    isSnap: isVerticalSnap,
+    offset: offsetX
+  }, {
+    isBound: isHorizontalBound,
+    isSnap: isHorizontalSnap,
+    offset: offsetY
+  }];
+}
+function checkMoveableSnapBounds(moveable, isRequest, poses, boundPoses) {
+  if (boundPoses === void 0) {
+    boundPoses = poses;
+  }
+
+  var _a = checkBoundPoses(getBounds(moveable), boundPoses.vertical, boundPoses.horizontal),
+      horizontalBoundInfos = _a.horizontal,
+      verticalBoundInfos = _a.vertical;
+
+  var _b = isRequest ? {
+    horizontal: {
+      isSnap: false,
+      index: -1
+    },
+    vertical: {
+      isSnap: false,
+      index: -1
+    }
+  } : checkMoveableSnapPoses(moveable, poses.vertical, poses.horizontal),
+      horizontalSnapInfo = _b.horizontal,
+      verticalSnapInfo = _b.vertical;
+
+  var horizontalOffset = getSnapBound(horizontalBoundInfos[0], horizontalSnapInfo);
+  var verticalOffset = getSnapBound(verticalBoundInfos[0], verticalSnapInfo);
+  var horizontalDist = Math.abs(horizontalOffset);
+  var verticalDist = Math.abs(verticalOffset);
+  return {
+    horizontal: {
+      isBound: horizontalBoundInfos[0].isBound,
+      isSnap: horizontalSnapInfo.isSnap,
+      snapIndex: horizontalSnapInfo.index,
+      offset: horizontalOffset,
+      dist: horizontalDist,
+      bounds: horizontalBoundInfos,
+      snap: horizontalSnapInfo
+    },
+    vertical: {
+      isBound: verticalBoundInfos[0].isBound,
+      isSnap: verticalSnapInfo.isSnap,
+      snapIndex: verticalSnapInfo.index,
+      offset: verticalOffset,
+      dist: verticalDist,
+      bounds: verticalBoundInfos,
+      snap: verticalSnapInfo
+    }
+  };
+}
+function checkSnapBounds(guideines, bounds, posesX, posesY, snapThreshold) {
+  var _a = checkBoundPoses(bounds, posesX, posesY),
+      horizontalBoundInfos = _a.horizontal,
+      verticalBoundInfos = _a.vertical; // options.isRequest ? {
+  //     horizontal: { isSnap: false, index: -1 } as SnapInfo,
+  //     vertical: { isSnap: false, index: -1 } as SnapInfo,
+  // } :
+
+
+  var _b = checkSnapPoses(guideines, posesX, posesY, snapThreshold),
+      horizontalSnapInfo = _b.horizontal,
+      verticalSnapInfo = _b.vertical;
+
+  var horizontalOffset = getSnapBound(horizontalBoundInfos[0], horizontalSnapInfo);
+  var verticalOffset = getSnapBound(verticalBoundInfos[0], verticalSnapInfo);
+  var horizontalDist = Math.abs(horizontalOffset);
+  var verticalDist = Math.abs(verticalOffset);
+  return {
+    horizontal: {
+      isBound: horizontalBoundInfos[0].isBound,
+      isSnap: horizontalSnapInfo.isSnap,
+      snapIndex: horizontalSnapInfo.index,
+      offset: horizontalOffset,
+      dist: horizontalDist,
+      bounds: horizontalBoundInfos,
+      snap: horizontalSnapInfo
+    },
+    vertical: {
+      isBound: verticalBoundInfos[0].isBound,
+      isSnap: verticalSnapInfo.isSnap,
+      snapIndex: verticalSnapInfo.index,
+      offset: verticalOffset,
+      dist: verticalDist,
+      bounds: verticalBoundInfos,
+      snap: verticalSnapInfo
+    }
+  };
+}
+
+function checkSnapRightLine(startPos, endPos, snapBoundInfo, keepRatio) {
+  var rad = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.getRad)(startPos, endPos) / Math.PI * 180;
+  var _a = snapBoundInfo.vertical,
+      isVerticalBound = _a.isBound,
+      isVerticalSnap = _a.isSnap,
+      verticalDist = _a.dist,
+      _b = snapBoundInfo.horizontal,
+      isHorizontalBound = _b.isBound,
+      isHorizontalSnap = _b.isSnap,
+      horizontalDist = _b.dist;
+  var rad180 = rad % 180;
+  var isHorizontalLine = rad180 < 3 || rad180 > 177;
+  var isVerticalLine = rad180 > 87 && rad180 < 93;
+
+  if (horizontalDist < verticalDist) {
+    if (isVerticalBound || isVerticalSnap && !isVerticalLine && (!keepRatio || !isHorizontalLine)) {
+      return "vertical";
+    }
+  }
+
+  if (isHorizontalBound || isHorizontalSnap && !isHorizontalLine && (!keepRatio || !isVerticalLine)) {
+    return "horizontal";
+  }
+
+  return "";
+}
+
+function getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas) {
+  return directions.map(function (_a) {
+    var startDirection = _a[0],
+        endDirection = _a[1];
+    var otherStartPos = getPosByDirection(poses, startDirection);
+    var otherEndPos = getPosByDirection(poses, endDirection);
+    var snapBoundInfo = keepRatio ? checkSnapBoundsKeepRatio(moveable, otherStartPos, otherEndPos, isRequest) : checkMoveableSnapBounds(moveable, isRequest, {
+      vertical: [otherEndPos[0]],
+      horizontal: [otherEndPos[1]]
+    });
+    var _b = snapBoundInfo.horizontal,
+        // dist: otherHorizontalDist,
+    otherHorizontalOffset = _b.offset,
+        isOtherHorizontalBound = _b.isBound,
+        isOtherHorizontalSnap = _b.isSnap,
+        _c = snapBoundInfo.vertical,
+        // dist: otherVerticalDist,
+    otherVerticalOffset = _c.offset,
+        isOtherVerticalBound = _c.isBound,
+        isOtherVerticalSnap = _c.isSnap;
+    var multiple = (0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)(endDirection, startDirection);
+
+    if (!otherVerticalOffset && !otherHorizontalOffset) {
+      return {
+        isBound: isOtherVerticalBound || isOtherHorizontalBound,
+        isSnap: isOtherVerticalSnap || isOtherHorizontalSnap,
+        sign: multiple,
+        offset: [0, 0]
+      };
+    }
+
+    var snapLine = checkSnapRightLine(otherStartPos, otherEndPos, snapBoundInfo, keepRatio);
+
+    if (!snapLine) {
+      return {
+        sign: multiple,
+        isBound: false,
+        isSnap: false,
+        offset: [0, 0]
+      };
+    }
+
+    var isVertical = snapLine === "vertical";
+    var sizeOffset = solveNextOffset(otherStartPos, otherEndPos, -(isVertical ? otherVerticalOffset : otherHorizontalOffset), isVertical, datas).offset.map(function (size, i) {
+      return size * (multiple[i] ? 2 / multiple[i] : 0);
+    });
+    return {
+      sign: multiple,
+      isBound: isVertical ? isOtherVerticalBound : isOtherHorizontalBound,
+      isSnap: isVertical ? isOtherVerticalSnap : isOtherHorizontalSnap,
+      offset: sizeOffset
+    };
+  });
 }
 
 function getSnapBoundOffset(boundInfo, snapInfo) {
@@ -56473,16 +56894,6 @@ function getSnapBoundOffset(boundInfo, snapInfo) {
     return boundInfo.offset;
   } else if (snapInfo.isSnap) {
     return snapInfo.offset;
-  }
-
-  return 0;
-}
-
-function getSnapBound(boundInfo, snapInfo) {
-  if (boundInfo.isBound) {
-    return boundInfo.offset;
-  } else if (snapInfo.isSnap) {
-    return getNearestSnapGuidelineInfo(snapInfo).offset;
   }
 
   return 0;
@@ -56520,108 +56931,6 @@ function checkSnapBoundsKeepRatio(moveable, startPos, endPos, isRequest) {
       isSnap: verticalSnapInfo.isSnap,
       offset: verticalOffset,
       dist: verticalDist
-    }
-  };
-}
-function checkMoveableSnapBounds(moveable, isRequest, poses, boundPoses) {
-  if (boundPoses === void 0) {
-    boundPoses = poses;
-  }
-
-  var _a = checkBoundPoses(getBounds(moveable), boundPoses.map(function (pos) {
-    return pos[0];
-  }), boundPoses.map(function (pos) {
-    return pos[1];
-  })),
-      horizontalBoundInfos = _a.horizontal,
-      verticalBoundInfos = _a.vertical;
-
-  var _b = isRequest ? {
-    horizontal: {
-      isSnap: false,
-      index: -1
-    },
-    vertical: {
-      isSnap: false,
-      index: -1
-    }
-  } : checkMoveableSnapPoses(moveable, poses.map(function (pos) {
-    return pos[0];
-  }), poses.map(function (pos) {
-    return pos[1];
-  }), moveable.props.snapCenter),
-      horizontalSnapInfo = _b.horizontal,
-      verticalSnapInfo = _b.vertical;
-
-  var horizontalOffset = getSnapBound(horizontalBoundInfos[0], horizontalSnapInfo);
-  var verticalOffset = getSnapBound(verticalBoundInfos[0], verticalSnapInfo);
-  var horizontalDist = Math.abs(horizontalOffset);
-  var verticalDist = Math.abs(verticalOffset);
-  return {
-    horizontal: {
-      isBound: horizontalBoundInfos[0].isBound,
-      isSnap: horizontalSnapInfo.isSnap,
-      snapIndex: horizontalSnapInfo.index,
-      offset: horizontalOffset,
-      dist: horizontalDist,
-      bounds: horizontalBoundInfos,
-      snap: horizontalSnapInfo
-    },
-    vertical: {
-      isBound: verticalBoundInfos[0].isBound,
-      isSnap: verticalSnapInfo.isSnap,
-      snapIndex: verticalSnapInfo.index,
-      offset: verticalOffset,
-      dist: verticalDist,
-      bounds: verticalBoundInfos,
-      snap: verticalSnapInfo
-    }
-  };
-}
-function checkSnapBounds(guideines, bounds, posesX, posesY, options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var _a = checkBoundPoses(bounds, posesX, posesY),
-      horizontalBoundInfos = _a.horizontal,
-      verticalBoundInfos = _a.vertical;
-
-  var _b = options.isRequest ? {
-    horizontal: {
-      isSnap: false,
-      index: -1
-    },
-    vertical: {
-      isSnap: false,
-      index: -1
-    }
-  } : checkSnapPoses(guideines, posesX, posesY, options),
-      horizontalSnapInfo = _b.horizontal,
-      verticalSnapInfo = _b.vertical;
-
-  var horizontalOffset = getSnapBound(horizontalBoundInfos[0], horizontalSnapInfo);
-  var verticalOffset = getSnapBound(verticalBoundInfos[0], verticalSnapInfo);
-  var horizontalDist = Math.abs(horizontalOffset);
-  var verticalDist = Math.abs(verticalOffset);
-  return {
-    horizontal: {
-      isBound: horizontalBoundInfos[0].isBound,
-      isSnap: horizontalSnapInfo.isSnap,
-      snapIndex: horizontalSnapInfo.index,
-      offset: horizontalOffset,
-      dist: horizontalDist,
-      bounds: horizontalBoundInfos,
-      snap: horizontalSnapInfo
-    },
-    vertical: {
-      isBound: verticalBoundInfos[0].isBound,
-      isSnap: verticalSnapInfo.isSnap,
-      snapIndex: verticalSnapInfo.index,
-      offset: verticalOffset,
-      dist: verticalDist,
-      bounds: verticalBoundInfos,
-      snap: verticalSnapInfo
     }
   };
 }
@@ -56691,116 +57000,46 @@ function checkMaxBounds(moveable, poses, direction, fixedPosition, datas) {
   };
 }
 
-function checkSnapRightLine(startPos, endPos, snapBoundInfo, keepRatio) {
-  var rad = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.getRad)(startPos, endPos) / Math.PI * 180;
-  var _a = snapBoundInfo.vertical,
-      isVerticalBound = _a.isBound,
-      isVerticalSnap = _a.isSnap,
-      verticalDist = _a.dist,
-      _b = snapBoundInfo.horizontal,
-      isHorizontalBound = _b.isBound,
-      isHorizontalSnap = _b.isSnap,
-      horizontalDist = _b.dist;
-  var rad180 = rad % 180;
-  var isHorizontalLine = rad180 < 3 || rad180 > 177;
-  var isVerticalLine = rad180 > 87 && rad180 < 93;
+function snapStart(moveable) {
+  var state = moveable.state;
 
-  if (horizontalDist < verticalDist) {
-    if (isVerticalBound || isVerticalSnap && !isVerticalLine && (!keepRatio || !isHorizontalLine)) {
-      return "vertical";
+  if (state.guidelines && state.guidelines.length) {
+    return;
+  }
+
+  var container = moveable.state.container;
+  var snapContainer = moveable.props.snapContainer || container;
+  var containerClientRect = state.containerClientRect;
+  var snapOffset = {
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0
+  };
+
+  if (container !== snapContainer) {
+    var snapContainerTarget = getRefTarget(snapContainer, true);
+
+    if (snapContainerTarget) {
+      var snapContainerRect = getClientRect(snapContainerTarget);
+      var offset1 = getDragDistByState(state, [snapContainerRect.left - containerClientRect.left, snapContainerRect.top - containerClientRect.top]);
+      var offset2 = getDragDistByState(state, [snapContainerRect.right - containerClientRect.right, snapContainerRect.bottom - containerClientRect.bottom]);
+      snapOffset.left = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset1[0], 0.1);
+      snapOffset.top = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset1[1], 0.1);
+      snapOffset.right = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset2[0], 0.1);
+      snapOffset.bottom = (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(offset2[1], 0.1);
     }
   }
 
-  if (isHorizontalBound || isHorizontalSnap && !isHorizontalLine && (!keepRatio || !isVerticalLine)) {
-    return "horizontal";
-  }
-
-  return "";
+  state.snapOffset = snapOffset;
+  state.guidelines = getTotalGuidelines(moveable);
+  state.enableSnap = true;
 }
 
-function getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas) {
-  return directions.map(function (_a) {
-    var startDirection = _a[0],
-        endDirection = _a[1];
-    var otherStartPos = getPosByDirection(poses, startDirection);
-    var otherEndPos = getPosByDirection(poses, endDirection);
-    var snapBoundInfo = keepRatio ? checkSnapBoundsKeepRatio(moveable, otherStartPos, otherEndPos, isRequest) : checkMoveableSnapBounds(moveable, isRequest, [otherEndPos]);
-    var _b = snapBoundInfo.horizontal,
-        // dist: otherHorizontalDist,
-    otherHorizontalOffset = _b.offset,
-        isOtherHorizontalBound = _b.isBound,
-        isOtherHorizontalSnap = _b.isSnap,
-        _c = snapBoundInfo.vertical,
-        // dist: otherVerticalDist,
-    otherVerticalOffset = _c.offset,
-        isOtherVerticalBound = _c.isBound,
-        isOtherVerticalSnap = _c.isSnap;
-    var multiple = (0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)(endDirection, startDirection);
-
-    if (!otherVerticalOffset && !otherHorizontalOffset) {
-      return {
-        isBound: isOtherVerticalBound || isOtherHorizontalBound,
-        isSnap: isOtherVerticalSnap || isOtherHorizontalSnap,
-        sign: multiple,
-        offset: [0, 0]
-      };
-    }
-
-    var snapLine = checkSnapRightLine(otherStartPos, otherEndPos, snapBoundInfo, keepRatio);
-
-    if (!snapLine) {
-      return {
-        sign: multiple,
-        isBound: false,
-        isSnap: false,
-        offset: [0, 0]
-      };
-    }
-
-    var isVertical = snapLine === "vertical";
-    var sizeOffset = solveNextOffset(otherStartPos, otherEndPos, -(isVertical ? otherVerticalOffset : otherHorizontalOffset), isVertical, datas).offset.map(function (size, i) {
-      return size * (multiple[i] ? 2 / multiple[i] : 0);
-    });
-    return {
-      sign: multiple,
-      isBound: isVertical ? isOtherVerticalBound : isOtherHorizontalBound,
-      isSnap: isVertical ? isOtherVerticalSnap : isOtherHorizontalSnap,
-      offset: sizeOffset
-    };
-  });
-}
-
-function getCheckSnapDirections(direction, keepRatio) {
-  var directions = [];
-  var fixedDirection = [-direction[0], -direction[1]];
-
-  if (direction[0] && direction[1]) {
-    directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]]);
-
-    if (keepRatio) {
-      // pass two direction condition
-      directions.push([fixedDirection, direction]);
-    }
-  } else if (direction[0]) {
-    // vertcal
-    if (keepRatio) {
-      directions.push([fixedDirection, [fixedDirection[0], -1]], [fixedDirection, [fixedDirection[0], 1]], [fixedDirection, [direction[0], -1]], [fixedDirection, direction], [fixedDirection, [direction[0], 1]]);
-    } else {
-      directions.push([[fixedDirection[0], -1], [direction[0], -1]], [[fixedDirection[0], 0], [direction[0], 0]], [[fixedDirection[0], 1], [direction[0], 1]]);
-    }
-  } else if (direction[1]) {
-    // horizontal
-    if (keepRatio) {
-      directions.push([fixedDirection, [-1, fixedDirection[1]]], [fixedDirection, [1, fixedDirection[1]]], [fixedDirection, [-1, direction[1]]], [fixedDirection, [1, direction[1]]], [fixedDirection, direction]);
-    } else {
-      directions.push([[-1, fixedDirection[1]], [-1, direction[1]]], [[0, fixedDirection[1]], [0, direction[1]]], [[1, fixedDirection[1]], [1, direction[1]]]);
-    }
-  } else {
-    // [0, 0] to all direction
-    directions.push([fixedDirection, [1, 0]], [fixedDirection, [-1, 0]], [fixedDirection, [0, -1]], [fixedDirection, [0, 1]], [[1, 0], [1, -1]], [[1, 0], [1, 1]], [[0, 1], [1, 1]], [[0, 1], [-1, 1]], [[-1, 0], [-1, -1]], [[-1, 0], [-1, 1]], [[0, -1], [1, -1]], [[0, -1], [-1, -1]]);
-  }
-
-  return directions;
+function getNextFixedPoses(matrix, width, height, fixedPos, direction, is3d) {
+  var nextPoses = calculatePoses(matrix, width, height, is3d ? 4 : 3);
+  var nextPos = getPosByReverseDirection(nextPoses, direction);
+  return getAbsolutePoses(nextPoses, (0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)(fixedPos, nextPos));
 }
 function getSizeOffsetInfo(moveable, poses, direction, keepRatio, isRequest, datas) {
   var directions = getCheckSnapDirections(direction, keepRatio);
@@ -56824,7 +57063,10 @@ function getSizeOffsetInfo(moveable, poses, direction, keepRatio, isRequest, dat
 function recheckSizeByTwoDirection(moveable, poses, width, height, maxWidth, maxHeight, direction, isRequest, datas) {
   var snapPos = getPosByDirection(poses, direction);
 
-  var _a = checkMoveableSnapBounds(moveable, isRequest, [snapPos]),
+  var _a = checkMoveableSnapBounds(moveable, isRequest, {
+    vertical: [snapPos[0]],
+    horizontal: [snapPos[1]]
+  }),
       horizontalOffset = _a.horizontal.offset,
       verticalOffset = _a.vertical.offset;
 
@@ -56969,178 +57211,8 @@ function checkSnapScale(moveable, scale, direction, isRequest, datas) {
   }, width, height, direction, fixedPosition, isRequest, datas);
   return [sizeDist[0] / width, sizeDist[1] / height];
 }
-function solveEquation(pos1, pos2, snapOffset, isVertical) {
-  var dx = pos2[0] - pos1[0];
-  var dy = pos2[1] - pos1[1];
-
-  if (Math.abs(dx) < TINY_NUM) {
-    dx = 0;
-  }
-
-  if (Math.abs(dy) < TINY_NUM) {
-    dy = 0;
-  }
-
-  if (!dx) {
-    // y = 0 * x + b
-    // only horizontal
-    if (!isVertical) {
-      return [0, snapOffset];
-    }
-
-    return [0, 0];
-  }
-
-  if (!dy) {
-    // only vertical
-    if (isVertical) {
-      return [snapOffset, 0];
-    }
-
-    return [0, 0];
-  } // y = ax + b
-
-
-  var a = dy / dx;
-  var b = pos1[1] - a * pos1[0];
-
-  if (isVertical) {
-    // y = a * x + b
-    var y = a * (pos2[0] + snapOffset) + b;
-    return [snapOffset, y - pos2[1]];
-  } else {
-    // x = (y - b) / a
-    var x = (pos2[1] + snapOffset - b) / a;
-    return [x - pos2[0], snapOffset];
-  }
-}
 function startCheckSnapDrag(moveable, datas) {
   datas.absolutePoses = getAbsolutePosesByState(moveable.state);
-}
-function checkThrottleDragRotate(throttleDragRotate, _a, _b, _c, _d) {
-  var distX = _a[0],
-      distY = _a[1];
-  var isVerticalBound = _b[0],
-      isHorizontalBound = _b[1];
-  var isVerticalSnap = _c[0],
-      isHorizontalSnap = _c[1];
-  var verticalOffset = _d[0],
-      horizontalOffset = _d[1];
-  var offsetX = -verticalOffset;
-  var offsetY = -horizontalOffset;
-
-  if (throttleDragRotate && distX && distY) {
-    offsetX = 0;
-    offsetY = 0;
-    var adjustPoses = [];
-
-    if (isVerticalBound && isHorizontalBound) {
-      adjustPoses.push([0, horizontalOffset], [verticalOffset, 0]);
-    } else if (isVerticalBound) {
-      adjustPoses.push([verticalOffset, 0]);
-    } else if (isHorizontalBound) {
-      adjustPoses.push([0, horizontalOffset]);
-    } else if (isVerticalSnap && isHorizontalSnap) {
-      adjustPoses.push([0, horizontalOffset], [verticalOffset, 0]);
-    } else if (isVerticalSnap) {
-      adjustPoses.push([verticalOffset, 0]);
-    } else if (isHorizontalSnap) {
-      adjustPoses.push([0, horizontalOffset]);
-    }
-
-    if (adjustPoses.length) {
-      adjustPoses.sort(function (a, b) {
-        return getDistSize((0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)([distX, distY], a)) - getDistSize((0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)([distX, distY], b));
-      });
-      var adjustPos = adjustPoses[0];
-
-      if (adjustPos[0] && Math.abs(distX) > TINY_NUM) {
-        offsetX = -adjustPos[0];
-        offsetY = distY * Math.abs(distX + offsetX) / Math.abs(distX) - distY;
-      } else if (adjustPos[1] && Math.abs(distY) > TINY_NUM) {
-        var prevDistY = distY;
-        offsetY = -adjustPos[1];
-        offsetX = distX * Math.abs(distY + offsetY) / Math.abs(prevDistY) - distX;
-      }
-
-      if (throttleDragRotate && isHorizontalBound && isVerticalBound) {
-        if (Math.abs(offsetX) > TINY_NUM && Math.abs(offsetX) < Math.abs(verticalOffset)) {
-          var scale = Math.abs(verticalOffset) / Math.abs(offsetX);
-          offsetX *= scale;
-          offsetY *= scale;
-        } else if (Math.abs(offsetY) > TINY_NUM && Math.abs(offsetY) < Math.abs(horizontalOffset)) {
-          var scale = Math.abs(horizontalOffset) / Math.abs(offsetY);
-          offsetX *= scale;
-          offsetY *= scale;
-        } else {
-          offsetX = maxOffset(-verticalOffset, offsetX);
-          offsetY = maxOffset(-horizontalOffset, offsetY);
-        }
-      }
-    }
-  } else {
-    offsetX = distX || isVerticalBound ? -verticalOffset : 0;
-    offsetY = distY || isHorizontalBound ? -horizontalOffset : 0;
-  }
-
-  return [offsetX, offsetY];
-}
-function checkSnapDrag(moveable, distX, distY, throttleDragRotate, isRequest, datas) {
-  if (!hasGuidelines(moveable, "draggable")) {
-    return [{
-      isSnap: false,
-      isBound: false,
-      offset: 0
-    }, {
-      isSnap: false,
-      isBound: false,
-      offset: 0
-    }];
-  }
-
-  var poses = getAbsolutePoses(datas.absolutePoses, [distX, distY]);
-
-  var _a = getRect(poses),
-      left = _a.left,
-      right = _a.right,
-      top = _a.top,
-      bottom = _a.bottom;
-
-  var snapCenter = moveable.props.snapCenter;
-  var snapPoses = [[left, top], [right, top], [left, bottom], [right, bottom]];
-
-  if (snapCenter) {
-    snapPoses.push([(left + right) / 2, (top + bottom) / 2]);
-  }
-
-  var _b = checkMoveableSnapBounds(moveable, isRequest, snapPoses, poses),
-      verticalSnapBoundInfo = _b.vertical,
-      horizontalSnapBoundInfo = _b.horizontal;
-
-  var _c = getInnerBoundDragInfo(moveable, poses, datas),
-      verticalInnerBoundInfo = _c.vertical,
-      horizontalInnerBoundInfo = _c.horizontal;
-
-  var isVerticalSnap = verticalSnapBoundInfo.isSnap;
-  var isHorizontalSnap = horizontalSnapBoundInfo.isSnap;
-  var isVerticalBound = verticalSnapBoundInfo.isBound || verticalInnerBoundInfo.isBound;
-  var isHorizontalBound = horizontalSnapBoundInfo.isBound || horizontalInnerBoundInfo.isBound;
-  var verticalOffset = maxOffset(verticalSnapBoundInfo.offset, verticalInnerBoundInfo.offset);
-  var horizontalOffset = maxOffset(horizontalSnapBoundInfo.offset, horizontalInnerBoundInfo.offset);
-
-  var _d = checkThrottleDragRotate(throttleDragRotate, [distX, distY], [isVerticalBound, isHorizontalBound], [isVerticalSnap, isHorizontalSnap], [verticalOffset, horizontalOffset]),
-      offsetX = _d[0],
-      offsetY = _d[1];
-
-  return [{
-    isBound: isVerticalBound,
-    isSnap: isVerticalSnap,
-    offset: offsetX
-  }, {
-    isBound: isHorizontalBound,
-    isSnap: isHorizontalSnap,
-    offset: offsetY
-  }];
 }
 
 function getSnapGuidelines(posInfos) {
@@ -57157,101 +57229,6 @@ function getSnapGuidelines(posInfos) {
     });
   });
   return guidelines;
-}
-
-function getGapGuidelinesToStart(guidelines, index, targetPos, targetSizes, guidelinePos, gap, otherPos) {
-  var absGap = Math.abs(gap);
-  var start = guidelinePos[index] + (gap > 0 ? targetSizes[0] : 0);
-  return guidelines.filter(function (_a) {
-    var gapPos = _a.pos;
-    return gapPos[index] <= targetPos[index];
-  }).sort(function (_a, _b) {
-    var aPos = _a.pos;
-    var bPos = _b.pos;
-    return bPos[index] - aPos[index];
-  }).filter(function (_a) {
-    var gapPos = _a.pos,
-        gapSizes = _a.sizes;
-    var nextPos = gapPos[index];
-
-    if ((0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(nextPos + gapSizes[index], FLOAT_POINT_NUM) === (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(start - absGap, FLOAT_POINT_NUM)) {
-      start = nextPos;
-      return true;
-    }
-
-    return false;
-  }).map(function (gapGuideline) {
-    var renderPos = -targetPos[index] + gapGuideline.pos[index] + gapGuideline.sizes[index];
-    return __assign(__assign({}, gapGuideline), {
-      gap: gap,
-      renderPos: index ? [otherPos, renderPos] : [renderPos, otherPos]
-    });
-  });
-}
-
-function getGapGuidelinesToEnd(guidelines, index, targetPos, targetSizes, guidelinePos, gap, otherPos) {
-  var absGap = Math.abs(gap);
-  var start = guidelinePos[index] + (gap < 0 ? targetSizes[index] : 0);
-  return guidelines.filter(function (_a) {
-    var gapPos = _a.pos;
-    return gapPos[index] > targetPos[index];
-  }).sort(function (_a, _b) {
-    var aPos = _a.pos;
-    var bPos = _b.pos;
-    return aPos[index] - bPos[index];
-  }).filter(function (_a) {
-    var gapPos = _a.pos,
-        gapSizes = _a.sizes;
-    var nextPos = gapPos[index];
-
-    if ((0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(nextPos, FLOAT_POINT_NUM) === (0,_daybrush_utils__WEBPACK_IMPORTED_MODULE_2__.throttle)(start + absGap, FLOAT_POINT_NUM)) {
-      start = nextPos + gapSizes[index];
-      return true;
-    }
-
-    return false;
-  }).map(function (gapGuideline) {
-    var renderPos = -targetPos[index] + gapGuideline.pos[index] - absGap;
-    return __assign(__assign({}, gapGuideline), {
-      gap: gap,
-      renderPos: index ? [otherPos, renderPos] : [renderPos, otherPos]
-    });
-  });
-}
-
-function getGapGuidelines$1(guidelines, type, targetPos, targetSizes) {
-  var elementGuidelines = guidelines.filter(function (_a) {
-    var element = _a.element,
-        gap = _a.gap,
-        guidelineType = _a.type;
-    return element && gap && guidelineType === type;
-  });
-
-  var _a = type === "vertical" ? [0, 1] : [1, 0],
-      index = _a[0],
-      otherIndex = _a[1];
-
-  return flat(elementGuidelines.map(function (guideline) {
-    var pos = guideline.pos;
-    var gap = guideline.gap;
-    var gapGuidelines = guideline.gapGuidelines;
-    var sizes = guideline.sizes;
-    var offset = minOffset(pos[otherIndex] + sizes[otherIndex] - targetPos[otherIndex], pos[otherIndex] - targetPos[otherIndex] - targetSizes[otherIndex]);
-    var minSize = Math.min(sizes[otherIndex], targetSizes[otherIndex]);
-
-    if (offset > 0 && offset > minSize) {
-      offset = (offset - minSize / 2) * 2;
-    } else if (offset < 0 && offset < -minSize) {
-      offset = (offset + minSize / 2) * 2;
-    }
-
-    if (offset === 0) {
-      return [];
-    }
-
-    var otherPos = (offset > 0 ? 0 : targetSizes[otherIndex]) + offset / 2;
-    return __spreadArrays(getGapGuidelinesToStart(gapGuidelines, index, targetPos, targetSizes, pos, gap, otherPos), getGapGuidelinesToEnd(gapGuidelines, index, targetPos, targetSizes, pos, gap, otherPos));
-  }));
 }
 
 function addBoundGuidelines(moveable, verticalPoses, horizontalPoses, verticalSnapPoses, horizontalSnapPoses, externalBounds) {
@@ -57321,10 +57298,8 @@ var Snappable = {
   props: {
     snappable: [Boolean, Array],
     snapContainer: Object,
-    snapCenter: Boolean,
-    snapHorizontal: Boolean,
-    snapVertical: Boolean,
-    snapElement: Boolean,
+    snapDirections: [Boolean, Object],
+    elementSnapDirections: [Boolean, Object],
     snapGap: Boolean,
     snapGridWidth: Number,
     snapGridHeight: Number,
@@ -57351,36 +57326,15 @@ var Snappable = {
         pos2 = state.pos2,
         pos3 = state.pos3,
         pos4 = state.pos4,
-        snapRenderInfo = state.snapRenderInfo,
-        targetClientRect = state.targetClientRect,
-        containerClientRect = state.containerClientRect,
-        is3d = state.is3d,
-        rootMatrix = state.rootMatrix;
+        snapRenderInfo = state.snapRenderInfo;
 
     if (!snapRenderInfo || !hasGuidelines(moveable, "")) {
       return [];
     }
 
-    state.staticGuidelines = getElementGuidelines(moveable, false, state.staticGuidelines);
     state.guidelines = getTotalGuidelines(moveable);
-    var n = is3d ? 4 : 3;
     var minLeft = Math.min(pos1[0], pos2[0], pos3[0], pos4[0]);
     var minTop = Math.min(pos1[1], pos2[1], pos3[1], pos4[1]);
-    var containerPos = calculateContainerPos(rootMatrix, containerClientRect, n);
-
-    var _a = calculateInversePosition(rootMatrix, [targetClientRect.left - containerPos[0], targetClientRect.top - containerPos[1]], n),
-        clientLeft = _a[0],
-        clientTop = _a[1];
-
-    var _b = moveable.props,
-        _c = _b.snapThreshold,
-        snapThreshold = _c === void 0 ? 5 : _c,
-        _d = _b.snapDigit,
-        snapDigit = _d === void 0 ? 0 : _d,
-        _e = _b.snapDistFormat,
-        snapDistFormat = _e === void 0 ? function (v) {
-      return v;
-    } : _e;
     var externalPoses = snapRenderInfo.externalPoses || [];
     var poses = getAbsolutePosesByState(moveable.state);
     var verticalSnapPoses = [];
@@ -57389,14 +57343,22 @@ var Snappable = {
     var horizontalGuidelines = [];
     var snapInfos = [];
 
-    var _f = getRect(poses),
-        width = _f.width,
-        height = _f.height,
-        top = _f.top,
-        left = _f.left,
-        bottom = _f.bottom,
-        right = _f.right;
+    var _a = getRect(poses),
+        width = _a.width,
+        height = _a.height,
+        top = _a.top,
+        left = _a.left,
+        bottom = _a.bottom,
+        right = _a.right;
 
+    var targetRect = {
+      left: left,
+      right: right,
+      top: top,
+      bottom: bottom,
+      center: (left + right) / 2,
+      middle: (top + bottom) / 2
+    };
     var hasExternalPoses = externalPoses.length > 0;
     var externalRect = hasExternalPoses ? getRect(externalPoses) : {};
 
@@ -57413,7 +57375,7 @@ var Snappable = {
           rect.center = (rect.left + rect.right) / 2;
         }
 
-        snapInfos.push(checkSnaps(moveable, rect, true, 1));
+        snapInfos.push(checkSnaps(moveable, rect, 1));
       }
 
       if (hasExternalPoses) {
@@ -57422,7 +57384,7 @@ var Snappable = {
           externalRect.center = (externalRect.left + externalRect.right) / 2;
         }
 
-        snapInfos.push(checkSnaps(moveable, externalRect, true, 1));
+        snapInfos.push(checkSnaps(moveable, externalRect, 1));
       }
 
       snapInfos.forEach(function (snapInfo) {
@@ -57463,37 +57425,23 @@ var Snappable = {
       addBoundGuidelines(moveable, [externalRect.left, externalRect.right], [externalRect.top, externalRect.bottom], verticalSnapPoses, horizontalSnapPoses, snapRenderInfo.externalBounds);
     }
 
-    var gapHorizontalGuidelines = getGapGuidelines$1(verticalGuidelines, "vertical", [targetLeft, targetTop], [width, height]);
-    var gapVerticalGuidelines = getGapGuidelines$1(horizontalGuidelines, "horizontal", [targetLeft, targetTop], [width, height]);
-
     var allGuidelines = __spreadArrays(verticalGuidelines, horizontalGuidelines);
 
+    var elementGuidelines = allGuidelines.filter(function (guideline) {
+      return guideline.element && !guideline.gapRects;
+    });
+    var gapGuidelines = allGuidelines.filter(function (guideline) {
+      return guideline.gapRects;
+    });
     triggerEvent(moveable, "onSnap", {
       guidelines: allGuidelines.filter(function (_a) {
         var element = _a.element;
         return !element;
       }),
-      elements: groupBy(allGuidelines.filter(function (_a) {
-        var element = _a.element;
-        return element;
-      }), function (_a) {
-        var element = _a.element;
-        return element;
-      }),
-      gaps: __spreadArrays(gapVerticalGuidelines, gapHorizontalGuidelines)
+      elements: elementGuidelines,
+      gaps: gapGuidelines
     }, true);
-
-    var _g = filterElementInnerGuidelines(moveable, horizontalGuidelines, 0, [targetLeft, targetTop], [clientLeft, clientTop], [width, height]),
-        nextHorizontalGuidelines = _g.guidelines,
-        elementHorizontalGroups = _g.groups,
-        innerGapHorizontalGuidelines = _g.gapGuidelines;
-
-    var _h = filterElementInnerGuidelines(moveable, verticalGuidelines, 1, [targetLeft, targetTop], [clientLeft, clientTop], [width, height]),
-        nextVerticalGuidelines = _h.guidelines,
-        elementVerticalGroups = _h.groups,
-        innerGapVerticalGuidelines = _h.gapGuidelines;
-
-    return __spreadArrays(renderGapGuidelines(moveable, "vertical", __spreadArrays(gapVerticalGuidelines, innerGapVerticalGuidelines), snapDistFormat, React), renderGapGuidelines(moveable, "horizontal", __spreadArrays(gapHorizontalGuidelines, innerGapHorizontalGuidelines), snapDistFormat, React), renderElementGroups(moveable, "horizontal", elementHorizontalGroups, minLeft, clientLeft, width, targetTop, snapThreshold, snapDigit, 0, snapDistFormat, React), renderElementGroups(moveable, "vertical", elementVerticalGroups, minTop, clientTop, height, targetLeft, snapThreshold, snapDigit, 1, snapDistFormat, React), renderGuidelines(moveable, "horizontal", nextHorizontalGuidelines, [targetLeft, targetTop], React), renderGuidelines(moveable, "vertical", nextVerticalGuidelines, [targetLeft, targetTop], React), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React));
+    return __spreadArrays(renderDashedGuidelines(moveable, elementGuidelines, [minLeft, minTop], targetRect, React), renderGapGuidelines(moveable, gapGuidelines, [minLeft, minTop], targetRect, React), renderGuidelines(moveable, "horizontal", horizontalGuidelines, [targetLeft, targetTop], targetRect, React), renderGuidelines(moveable, "vertical", verticalGuidelines, [targetLeft, targetTop], targetRect, React), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React));
   },
   dragStart: function (moveable, e) {
     moveable.state.snapRenderInfo = {
@@ -57505,7 +57453,6 @@ var Snappable = {
   },
   drag: function (moveable) {
     var state = moveable.state;
-    state.staticGuidelines = getElementGuidelines(moveable, false, state.staticGuidelines);
     state.guidelines = getTotalGuidelines(moveable);
   },
   pinchStart: function (moveable) {
@@ -57555,14 +57502,15 @@ var Snappable = {
   unset: function (moveable) {
     var state = moveable.state;
     state.enableSnap = false;
-    state.staticGuidelines = [];
     state.guidelines = [];
     state.snapRenderInfo = null;
+    state.elementRects = [];
   }
 };
 /**
  * Whether or not target can be snapped to the guideline. (default: false)
  * @name Moveable.Snappable#snappable
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57574,6 +57522,7 @@ var Snappable = {
 /**
  *  A snap container that is the basis for snap, bounds, and innerBounds. (default: null = container)
  * @name Moveable.Snappable#snapContainer
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57583,53 +57532,39 @@ var Snappable = {
  */
 
 /**
- * When you drag, make the snap in the center of the target. (default: false)
- * @name Moveable.Snappable#snapCenter
+ * You can specify the directions to snap to the target. (default: { left: true, top: true, right: true, bottom: true })
+ * @name Moveable.Snappable#snapDirections
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
  * const moveable = new Moveable(document.body, {
  *   snappable: true,
+ *   snapDirections: true,
  * });
- *
- * moveable.snapCenter = true;
+ * // snap center
+ * moveable.snapDirections = { left: true, top: true, right: true, bottom: true, center: true, middle: true };
  */
 
 /**
- * When you drag, make the snap in the vertical guidelines. (default: true)
- * @name Moveable.Snappable#snapVertical
+ * You can specify the snap directions of elements. (default: { left: true, top: true, right: true, bottom: true })
+ * @name Moveable.Snappable#elementSnapDirections
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
  * const moveable = new Moveable(document.body, {
  *   snappable: true,
- *   snapVertical: true,
- *   snapHorizontal: true,
- *   snapElement: true,
+ *   elementSnapDirections: true,
  * });
- *
- * moveable.snapVertical = false;
- */
-
-/**
- * When you drag, make the snap in the horizontal guidelines. (default: true)
- * @name Moveable.Snappable#snapHorizontal
- * @example
- * import Moveable from "moveable";
- *
- * const moveable = new Moveable(document.body, {
- *   snappable: true,
- *   snapVertical: true,
- *   snapHorizontal: true,
- *   snapElement: true,
- * });
- *
- * moveable.snapHorizontal = false;
+ * // snap center
+ * moveable.elementSnapDirections = { left: true, top: true, right: true, bottom: true, center: true, middle: true };
  */
 
 /**
  * When you drag, make the gap snap in the element guidelines. (default: true)
  * @name Moveable.Snappable#snapGap
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57645,24 +57580,9 @@ var Snappable = {
  */
 
 /**
- * When you drag, make the snap in the element guidelines. (default: true)
- * @name Moveable.Snappable#snapElement
- * @example
- * import Moveable from "moveable";
- *
- * const moveable = new Moveable(document.body, {
- *   snappable: true,
- *   snapVertical: true,
- *   snapHorizontal: true,
- *   snapElement: true,
- * });
- *
- * moveable.snapElement = false;
- */
-
-/**
  * Distance value that can snap to guidelines. (default: 5)
  * @name Moveable.Snappable#snapThreshold
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57674,6 +57594,7 @@ var Snappable = {
 /**
  * Add guidelines in the horizontal direction. (default: [])
  * @name Moveable.Snappable#horizontalGuidelines
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57685,6 +57606,7 @@ var Snappable = {
 /**
  * Add guidelines in the vertical direction. (default: [])
  * @name Moveable.Snappable#verticalGuidelines
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57696,6 +57618,7 @@ var Snappable = {
 /**
  * Add guidelines for the element. (default: [])
  * @name Moveable.Snappable#elementGuidelines
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57709,6 +57632,7 @@ var Snappable = {
 /**
  * You can set up boundaries. (default: null)
  * @name Moveable.Snappable#bounds
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57720,6 +57644,7 @@ var Snappable = {
 /**
  * You can set up inner boundaries. (default: null)
  * @name Moveable.Snappable#innerBounds
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57731,6 +57656,7 @@ var Snappable = {
 /**
  * snap distance digits (default: 0)
  * @name Moveable.Snappable#snapDigit
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57742,6 +57668,7 @@ var Snappable = {
 /**
  * If width size is greater than 0, you can vertical snap to the grid. (default: 0)
  * @name Moveable.Snappable#snapGridWidth
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57753,6 +57680,7 @@ var Snappable = {
 /**
  * If height size is greater than 0, you can horizontal snap to the grid. (default: 0)
  * @name Moveable.Snappable#snapGridHeight
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57764,6 +57692,7 @@ var Snappable = {
 /**
  * Whether to show snap distance (default: true)
  * @name Moveable.Snappable#isDisplaySnapDigit
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57775,6 +57704,7 @@ var Snappable = {
 /**
  * Whether to show element inner snap distance (default: false)
  * @name Moveable.Snappable#isDisplayInnerSnapDigit
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57786,6 +57716,7 @@ var Snappable = {
 /**
  * You can set the text format of the distance shown in the guidelines. (default: self)
  * @name Moveable.Snappable#snapDistFormat
+ * @see {@link https://daybrush.com/moveable/release/latest/doc/Moveable.Snappable.html#.SnappableOptions}
  * @example
  * import Moveable from "moveable";
  *
@@ -57890,6 +57821,8 @@ var Draggable = {
     datas.prevDist = [0, 0];
     datas.prevBeforeDist = [0, 0];
     datas.isDrag = false;
+    datas.deltaOffset = [0, 0];
+    datas.distOffset = [0, 0];
     var params = fillParams(moveable, e, __assign({
       set: function (translate) {
         datas.startValue = translate;
@@ -57911,6 +57844,10 @@ var Draggable = {
     return datas.isDrag ? params : false;
   },
   drag: function (moveable, e) {
+    if (!e) {
+      return;
+    }
+
     resolveTransformEvent(e, "translate");
     var datas = e.datas,
         parentEvent = e.parentEvent,
@@ -57922,12 +57859,15 @@ var Draggable = {
     var isDrag = datas.isDrag,
         prevDist = datas.prevDist,
         prevBeforeDist = datas.prevBeforeDist,
-        startValue = datas.startValue;
+        startValue = datas.startValue,
+        distOffset = datas.distOffset;
 
     if (!isDrag) {
       return;
     }
 
+    distX += distOffset[0];
+    distY += distOffset[1];
     var props = moveable.props;
     var parentMoveable = props.parentMoveable;
     var throttleDrag = parentEvent ? 0 : props.throttleDrag || 0;
@@ -57947,7 +57887,7 @@ var Draggable = {
     }
 
     if (!isPinch && !parentEvent && !parentFlag && (!throttleDragRotate || distX || distY)) {
-      var _a = checkSnapDrag(moveable, distX, distY, throttleDragRotate, isRequest, datas),
+      var _a = checkSnapBoundsDrag(moveable, distX, distY, throttleDragRotate, isRequest, datas),
           verticalInfo = _a[0],
           horizontalInfo = _a[1];
 
@@ -57962,10 +57902,6 @@ var Draggable = {
       distY += horizontalOffset;
     }
 
-    datas.passDeltaX = distX - (datas.passDistX || 0);
-    datas.passDeltaY = distY - (datas.passDistY || 0);
-    datas.passDistX = distX;
-    datas.passDistY = distY;
     var beforeTranslate = (0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.plus)(getBeforeDragDist({
       datas: datas,
       distX: distX,
@@ -57988,6 +57924,12 @@ var Draggable = {
     var beforeDelta = (0,_scena_matrix__WEBPACK_IMPORTED_MODULE_3__.minus)(beforeDist, prevBeforeDist);
     datas.prevDist = dist;
     datas.prevBeforeDist = beforeDist;
+    datas.passDelta = delta; //distX - (datas.passDistX || 0);
+    // datas.passDeltaY = distY - (datas.passDistY || 0);
+
+    datas.passDist = dist; //distX;
+    // datas.passDistY = distY;
+
     var left = datas.left + beforeDist[0];
     var top = datas.top + beforeDist[1];
     var right = datas.right - beforeDist[0];
@@ -58024,6 +57966,21 @@ var Draggable = {
     });
     !parentEvent && triggerEvent(moveable, "onDrag", params);
     return params;
+  },
+  dragAfter: function (moveable, e) {
+    var datas = e.datas;
+    var _a = e.datas,
+        deltaOffset = _a.deltaOffset,
+        distOffset = _a.distOffset;
+
+    if (deltaOffset[0] || deltaOffset[1]) {
+      datas.deltaOffset = [0, 0];
+      distOffset[0] += deltaOffset[0];
+      distOffset[1] += deltaOffset[1];
+      return this.drag(moveable, e);
+    }
+
+    return false;
   },
   dragEnd: function (moveable, e) {
     var parentEvent = e.parentEvent,
@@ -58069,10 +58026,8 @@ var Draggable = {
     }
 
     var params = this.drag(moveable, e);
-    var _a = e.datas,
-        passDeltaX = _a.passDeltaX,
-        passDeltaY = _a.passDeltaY;
-    var events = triggerChildGesto(moveable, this, "drag", [passDeltaX, passDeltaY], e, false);
+    var passDelta = e.datas.passDelta;
+    var events = triggerChildGesto(moveable, this, "drag", passDelta, e, false);
 
     if (!params) {
       return;
@@ -60628,9 +60583,14 @@ var Warpable = {
         selectedPoses.push([(selectedPoses[0][0] + selectedPoses[1][0]) / 2, (selectedPoses[0][1] + selectedPoses[1][1]) / 2]);
       }
 
-      var _a = checkMoveableSnapBounds(moveable, isRequest, selectedPoses.map(function (pos) {
-        return [pos[0] + distX, pos[1] + distY];
-      })),
+      var _a = checkMoveableSnapBounds(moveable, isRequest, {
+        horizontal: selectedPoses.map(function (pos) {
+          return pos[1] + distY;
+        }),
+        vertical: selectedPoses.map(function (pos) {
+          return pos[0] + distX;
+        })
+      }),
           horizontalSnapInfo = _a.horizontal,
           verticalSnapInfo = _a.vertical;
 
@@ -61249,6 +61209,7 @@ var Default = {
     checkInput: Boolean,
     cspNonce: String,
     translateZ: Number,
+    hideDefaultLines: Boolean,
     props: Object
   },
   events: {}
@@ -62342,20 +62303,28 @@ var Clippable = {
       });
     }
 
+    var boundDelta = [0, 0];
+
     var _loop_1 = function (i) {
       var _a = checkSnapBounds(guidelines, props.clipTargetBounds && {
         left: 0,
         top: 0,
         right: width,
         bottom: height
-      }, guideXPoses, guideYPoses, {
-        snapThreshold: 5
-      }),
+      }, guideXPoses, guideYPoses, 5),
           horizontalSnapInfo = _a.horizontal,
           verticalSnapInfo = _a.vertical;
 
       var snapOffsetY = horizontalSnapInfo.offset;
       var snapOffsetX = verticalSnapInfo.offset;
+
+      if (horizontalSnapInfo.isBound) {
+        boundDelta[1] += snapOffsetY;
+      }
+
+      if (verticalSnapInfo.isBound) {
+        boundDelta[0] += snapOffsetX;
+      }
 
       if ((isEllipse || isCircle) && dists[0][0] === 0 && dists[0][1] === 0) {
         var guideRect = getRect(nextPoses);
@@ -62427,9 +62396,12 @@ var Clippable = {
       top: 0,
       right: width,
       bottom: height
-    }, guideXPoses, guideYPoses, {
-      snapThreshold: 1
-    });
+    }, guideXPoses, guideYPoses, 1);
+
+    if (originalDatas.draggable) {
+      originalDatas.draggable.deltaOffset = boundDelta;
+    }
+
     triggerEvent(moveable, "onClip", fillParams(moveable, e, {
       clipEventType: "changed",
       clipType: clipType,
@@ -63813,7 +63785,7 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   } // const isGroup = eventAffix.indexOf("Group") > -1;
 
 
-  var ables = __spreadArrays([BeforeRenderable], moveable[ableType].slice(), [Renderable]);
+  var ables = __spreadArrays([BeforeRenderable], moveable[ableType], [Renderable]);
 
   if (isRequest) {
     var requestAble_1 = e.requestAble;
@@ -64010,7 +63982,6 @@ function (_super) {
 
     _this.state = __assign({
       container: null,
-      target: null,
       gesto: null,
       renderPoses: [[0, 0], [0, 0], [0, 0], [0, 0]],
       disableNativeEvent: false
@@ -64039,8 +64010,7 @@ function (_super) {
   __proto.render = function () {
     var props = this.props;
     var state = this.state;
-    var edge = props.edge,
-        parentPosition = props.parentPosition,
+    var parentPosition = props.parentPosition,
         className = props.className,
         propsTarget = props.target,
         zoom = props.zoom,
@@ -64061,15 +64031,11 @@ function (_super) {
     var left = state.left,
         top = state.top,
         stateTarget = state.target,
-        direction = state.direction,
-        renderPoses = state.renderPoses;
+        direction = state.direction;
     var groupTargets = props.targets;
     var isDisplay = (groupTargets && groupTargets.length || propsTarget) && stateTarget;
     var isDragging = this.isDragging();
     var ableAttributes = {};
-    var Renderer = {
-      createElement: react_simple_compat__WEBPACK_IMPORTED_MODULE_9__.createElement
-    };
     this.getEnabledAbles().forEach(function (able) {
       ableAttributes["data-able-" + able.name.toLowerCase()] = true;
     });
@@ -64087,7 +64053,7 @@ function (_super) {
         "--zoom": zoom,
         "--zoompx": zoom + "px"
       }
-    }), this.renderAbles(), renderLine(Renderer, edge ? "n" : "", renderPoses[0], renderPoses[1], zoom, 0), renderLine(Renderer, edge ? "e" : "", renderPoses[1], renderPoses[3], zoom, 1), renderLine(Renderer, edge ? "w" : "", renderPoses[0], renderPoses[2], zoom, 2), renderLine(Renderer, edge ? "s" : "", renderPoses[2], renderPoses[3], zoom, 3));
+    }), this.renderAbles(), this._renderLines());
   };
 
   __proto.componentDidMount = function () {
@@ -64749,6 +64715,23 @@ function (_super) {
     this.targetGesto && (this.targetGesto.options.checkInput = this.props.checkInput);
   };
 
+  __proto._renderLines = function () {
+    var props = this.props;
+    var edge = props.edge,
+        zoom = props.zoom,
+        hideDefaultLines = props.hideDefaultLines;
+
+    if (hideDefaultLines) {
+      return [];
+    }
+
+    var renderPoses = this.state.renderPoses;
+    var Renderer = {
+      createElement: react_simple_compat__WEBPACK_IMPORTED_MODULE_9__.createElement
+    };
+    return [renderLine(Renderer, edge ? "n" : "", renderPoses[0], renderPoses[1], zoom, 0), renderLine(Renderer, edge ? "e" : "", renderPoses[1], renderPoses[3], zoom, 1), renderLine(Renderer, edge ? "w" : "", renderPoses[0], renderPoses[2], zoom, 2), renderLine(Renderer, edge ? "s" : "", renderPoses[2], renderPoses[3], zoom, 3)];
+  };
+
   MoveableManager.defaultProps = {
     target: null,
     dragTarget: null,
@@ -64772,6 +64755,7 @@ function (_super) {
     pinchOutside: true,
     checkInput: false,
     groupable: false,
+    hideDefaultLines: false,
     cspNonce: "",
     translateZ: 0,
     cssStyled: null,
@@ -64987,6 +64971,10 @@ var Clickable = makeAble("clickable", {
     var target = moveable.state.target;
     var inputEvent = e.inputEvent;
     var inputTarget = e.inputTarget;
+
+    if (!e.isDrag) {
+      this.unset(moveable);
+    }
 
     if (!inputEvent || !inputTarget || e.isDrag || moveable.isMoveableElement(inputTarget) // External event duplicate target or dragAreaElement
     ) {
@@ -65722,7 +65710,7 @@ name: react-simple-compat
 license: MIT
 author: Daybrush
 repository: git+https://github.com/daybrush/react-simple-compat.git
-version: 1.2.1
+version: 1.2.2
 */
 
 
@@ -66386,11 +66374,12 @@ function (_super) {
   };
 
   __proto._setState = function (nextState) {
-    if (!nextState) {
+    var base = this.base;
+
+    if (!base || !nextState) {
       return;
     }
 
-    var base = this.base;
     base.state = nextState;
   };
 
@@ -66851,11 +66840,10 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _Button_instances, _a, _Button_procMasume4txt, _Button_procMasume4pic, _Button_idc, _Button_sp_b_pic, _Button_sp_pic, _Button_loaded_b_pic, _Button_loaded_pic;
+var _Button_instances, _a, _Button_procMasume4txt, _Button_procMasume4pic, _Button_rctBtnTxt, _Button_idc, _Button_sp_b_pic, _Button_sp_pic, _Button_loaded_b_pic, _Button_loaded_pic;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Button = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
-const pixi_js_2 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const GrpLayer_1 = __webpack_require__(/*! ./GrpLayer */ "./core/src/sn/GrpLayer.ts");
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -66868,6 +66856,8 @@ class Button extends pixi_js_1.Container {
         this.resolve = resolve;
         this.canFocus = canFocus;
         _Button_instances.add(this);
+        this.getBtnBounds = () => __classPrivateFieldGet(this, _Button_rctBtnTxt, "f");
+        _Button_rctBtnTxt.set(this, new pixi_js_1.Rectangle);
         _Button_idc.set(this, void 0);
         _Button_sp_b_pic.set(this, null);
         _Button_sp_pic.set(this, null);
@@ -66875,7 +66865,6 @@ class Button extends pixi_js_1.Container {
             this.makeDesignCast = gdc => gdc(__classPrivateFieldGet(this, _Button_idc, "f"));
             this.cvsResize = () => __classPrivateFieldGet(this, _Button_idc, "f").cvsResize();
         }
-        this.name = JSON.stringify(hArg);
         let oName = {
             x: this.x = (0, CmnLib_1.uint)(hArg.left ?? 0),
             y: this.y = (0, CmnLib_1.uint)(hArg.top ?? 0),
@@ -66884,125 +66873,140 @@ class Button extends pixi_js_1.Container {
             pivot_y: this.pivot.y = (0, CmnLib_1.argChk_Num)(hArg, 'pivot_y', this.pivot.y),
             scale_x: this.scale.x = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', this.scale.x),
             scale_y: this.scale.y = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', this.scale.y),
+            width: 0, height: 0,
         };
         const enabled = oName.enabled = (0, CmnLib_1.argChk_Boolean)(hArg, 'enabled', true);
-        if ('text' in hArg) {
-            const height = (0, CmnLib_1.argChk_Num)(hArg, 'height', 30);
-            const style = new pixi_js_1.TextStyle({
-                align: 'center',
-                dropShadow: true,
-                dropShadowAlpha: 0.7,
-                dropShadowColor: '#ffffff',
-                dropShadowBlur: 7,
-                dropShadowDistance: 0,
-                fill: 'black',
-                fontFamily: Button.fontFamily,
-                fontSize: height,
-                padding: 5,
-            });
-            if (hArg.style)
-                try {
-                    const o = JSON.parse(hArg.style);
-                    for (const nm in o)
-                        style[nm] = o[nm];
-                }
-                catch (e) {
-                    throw new Error(`[button] style指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-                }
-            const txt = new pixi_js_1.Text(hArg.text ?? '', style);
-            txt.alpha = (0, CmnLib_1.argChk_Num)(hArg, 'alpha', txt.alpha);
-            txt.width = (0, CmnLib_1.argChk_Num)(hArg, 'width', 100);
-            txt.height = height;
-            hArg.height = height;
-            oName.type = 'text';
-            oName = { ...oName, ...style };
-            oName.alpha = txt.alpha;
-            oName.text = txt.text;
-            oName.width = txt.width;
-            oName.height = txt.height;
-            __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.TxtBtnDesignCast(this, hArg, txt), "f");
-            let isStop = false;
-            if (hArg.b_pic) {
-                oName.b_pic = hArg.b_pic;
-                isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.b_pic, this, sp => __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_b_pic).call(this, sp, txt), isStop => {
-                    Layer_1.Layer.setBlendmode(this, hArg);
-                    if (isStop)
-                        resolve();
-                });
+        this.getBtnBounds = () => {
+            __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").x = oName.x;
+            __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").y = oName.y;
+            return __classPrivateFieldGet(this, _Button_rctBtnTxt, "f");
+        };
+        if (hArg.pic) {
+            oName.type = 'pic';
+            __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.PicBtnDesignCast(this, hArg), "f");
+            if (!GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => {
+                __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_pic).call(this, sp, oName);
+                __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").width = sp.width * oName.scale_x;
+                __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").height = sp.height * oName.scale_y;
+            }, isStop => { if (isStop)
+                resolve(); }))
+                resolve();
+            return;
+        }
+        if (!hArg.text)
+            throw 'textまたはpic属性は必須です';
+        const height = (0, CmnLib_1.argChk_Num)(hArg, 'height', 30);
+        const style = new pixi_js_1.TextStyle({
+            align: 'center',
+            dropShadow: true,
+            dropShadowAlpha: 0.7,
+            dropShadowColor: '#ffffff',
+            dropShadowBlur: 7,
+            dropShadowDistance: 0,
+            fill: 'black',
+            fontFamily: Button.fontFamily,
+            fontSize: height,
+            padding: 5,
+        });
+        if (hArg.style)
+            try {
+                const o = JSON.parse(hArg.style);
+                for (const nm in o)
+                    style[nm] = o[nm];
             }
-            txt.name = JSON.stringify(oName);
-            this.addChild(txt);
-            if (!hArg.b_pic)
+            catch (e) {
+                throw new Error(`[button] style指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+            }
+        const txt = new pixi_js_1.Text(hArg.text ?? '', style);
+        txt.alpha = (0, CmnLib_1.argChk_Num)(hArg, 'alpha', txt.alpha);
+        txt.width = (0, CmnLib_1.argChk_Num)(hArg, 'width', 100);
+        txt.height = hArg.height = height;
+        this.setText = text => txt.text = text;
+        oName.type = 'text';
+        oName = { ...oName, ...style };
+        oName.alpha = txt.alpha;
+        oName.text = txt.text;
+        oName.width = txt.width;
+        oName.height = txt.height;
+        __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.TxtBtnDesignCast(this, hArg, txt), "f");
+        let isStop = false;
+        if (hArg.b_pic) {
+            oName.b_pic = hArg.b_pic;
+            isStop = GrpLayer_1.GrpLayer.csv2Sprites(hArg.b_pic, this, sp => {
+                __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_b_pic).call(this, sp, txt);
+                oName.width = this.width;
+                oName.height = this.height;
+            }, isStop => {
                 Layer_1.Layer.setBlendmode(this, hArg);
-            __classPrivateFieldGet(Button, _a, "f", _Button_procMasume4txt).call(Button, this, txt);
-            if (!enabled) {
-                if (!isStop)
+                if (isStop)
                     resolve();
-                return;
-            }
-            const style_hover = style.clone();
-            if (hArg.style_hover)
-                try {
-                    const o = JSON.parse(hArg.style_hover);
-                    for (const nm in o)
-                        style_hover[nm] = o[nm];
-                }
-                catch (e) {
-                    throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-                }
-            else
-                style_hover.fill = 'white';
-            const style_clicked = style_hover.clone();
-            if (hArg.style_clicked)
-                try {
-                    const o = JSON.parse(hArg.style_clicked);
-                    for (const nm in o)
-                        style_clicked[nm] = o[nm];
-                }
-                catch (e) {
-                    throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
-                }
-            else
-                style_clicked.dropShadow = false;
-            evtMng.button(hArg, this, () => txt.style = style, () => {
-                if (!canFocus())
-                    return false;
-                txt.style = style_hover;
-                return true;
-            }, () => txt.style = style_clicked);
+            });
+        }
+        txt.name = JSON.stringify(oName);
+        this.addChild(txt);
+        __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").width = txt.width;
+        __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").height = txt.height;
+        oName.width = this.width;
+        oName.height = this.height;
+        if (!hArg.b_pic)
+            Layer_1.Layer.setBlendmode(this, hArg);
+        __classPrivateFieldGet(Button, _a, "f", _Button_procMasume4txt).call(Button, this, txt);
+        if (!enabled) {
             if (!isStop)
                 resolve();
             return;
         }
-        if (!hArg.pic)
-            throw 'textまたはpic属性は必須です';
-        oName.type = 'pic';
-        __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.PicBtnDesignCast(this, hArg), "f");
-        if (!GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_pic).call(this, sp, oName), isStop => { if (isStop)
-            resolve(); }))
+        const style_hover = style.clone();
+        if (hArg.style_hover)
+            try {
+                const o = JSON.parse(hArg.style_hover);
+                for (const nm in o)
+                    style_hover[nm] = o[nm];
+            }
+            catch (e) {
+                throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+            }
+        else
+            style_hover.fill = 'white';
+        const style_clicked = style_hover.clone();
+        if (hArg.style_clicked)
+            try {
+                const o = JSON.parse(hArg.style_clicked);
+                for (const nm in o)
+                    style_clicked[nm] = o[nm];
+            }
+            catch (e) {
+                throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+            }
+        else
+            style_clicked.dropShadow = false;
+        evtMng.button(hArg, this, () => txt.style = style, () => {
+            if (!canFocus())
+                return false;
+            txt.style = style_hover;
+            return true;
+        }, () => txt.style = style_clicked);
+        if (!isStop)
             resolve();
     }
     static init(cfg) {
         if (!cfg.oCfg.debug.masume)
             return;
-        __classPrivateFieldSet(Button, _a, (me, txt) => {
-            const grpDbgMasume = new pixi_js_2.Graphics;
-            grpDbgMasume.clear();
-            grpDbgMasume.beginFill(0x883388, 0.2);
-            grpDbgMasume.lineStyle(1, 0x883388, 1);
-            grpDbgMasume.drawRect(txt.x, txt.y, txt.width, txt.height);
-            grpDbgMasume.endFill();
-            me.addChild(grpDbgMasume);
-        }, "f", _Button_procMasume4txt);
-        __classPrivateFieldSet(Button, _a, (me, sp, w3, h) => {
-            const grpDbgMasume = new pixi_js_2.Graphics;
-            grpDbgMasume.clear();
-            grpDbgMasume.beginFill(0x883388, 0.2);
-            grpDbgMasume.lineStyle(1, 0x883388, 1);
-            grpDbgMasume.drawRect(sp.x, sp.y, w3, h);
-            grpDbgMasume.endFill();
-            me.addChild(grpDbgMasume);
-        }, "f", _Button_procMasume4pic);
+        __classPrivateFieldSet(Button, _a, (me, txt) => me.addChild((new pixi_js_1.Graphics)
+            .beginFill(0x883388, 0.2)
+            .lineStyle(1, 0x883388, 1)
+            .drawRect(txt.x, txt.y, txt.width, txt.height)
+            .endFill()), "f", _Button_procMasume4txt);
+        __classPrivateFieldSet(Button, _a, (me, sp, w3, h) => me.addChild((new pixi_js_1.Graphics)
+            .beginFill(0x883388, 0.2)
+            .lineStyle(1, 0x883388, 1)
+            .drawRect(sp.x, sp.y, w3, h)
+            .endFill()), "f", _Button_procMasume4pic);
+    }
+    setText(_text) { }
+    destroy(_options) {
+        this.evtMng.unButton(this);
+        super.destroy();
     }
     makeDesignCast(_gdc) { }
     showDesignCast() { __classPrivateFieldGet(this, _Button_idc, "f").visible = true; }
@@ -67029,11 +67033,12 @@ class Button extends pixi_js_1.Container {
     }
 }
 exports.Button = Button;
-_a = Button, _Button_idc = new WeakMap(), _Button_sp_b_pic = new WeakMap(), _Button_sp_pic = new WeakMap(), _Button_instances = new WeakSet(), _Button_loaded_b_pic = function _Button_loaded_b_pic(sp, txt) {
+_a = Button, _Button_rctBtnTxt = new WeakMap(), _Button_idc = new WeakMap(), _Button_sp_b_pic = new WeakMap(), _Button_sp_pic = new WeakMap(), _Button_instances = new WeakSet(), _Button_loaded_b_pic = function _Button_loaded_b_pic(sp, txt) {
     __classPrivateFieldSet(this, _Button_sp_b_pic, sp, "f");
     this.setChildIndex(sp, 0);
     sp.alpha = txt.alpha;
     sp.setTransform(txt.x, txt.y, 1, 1, txt.rotation, 0, 0, (sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
+    sp.name = txt.name;
 }, _Button_loaded_pic = function _Button_loaded_pic(sp, oName) {
     __classPrivateFieldSet(this, _Button_sp_pic, sp, "f");
     oName.alpha = sp.alpha = (0, CmnLib_1.argChk_Num)(this.hArg, 'alpha', sp.alpha);
@@ -68464,7 +68469,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _EventMng_instances, _EventMng_elc, _EventMng_hint, _EventMng_zxHint, _EventMng_zyHint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_unregisterClickEvts, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
+var _EventMng_instances, _EventMng_elc, _EventMng_hint, _EventMng_WIDTH_HINT_PIC, _EventMng_hint_txt_w, _EventMng_h_padl, _EventMng_g_hint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_dispHint_masume, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_unregisterClickEvts, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -68490,8 +68495,10 @@ class EventMng {
         _EventMng_instances.add(this);
         _EventMng_elc.set(this, new EventListenerCtn_1.EventListenerCtn);
         _EventMng_hint.set(this, void 0);
-        _EventMng_zxHint.set(this, void 0);
-        _EventMng_zyHint.set(this, void 0);
+        _EventMng_WIDTH_HINT_PIC.set(this, 100);
+        _EventMng_hint_txt_w.set(this, void 0);
+        _EventMng_h_padl.set(this, void 0);
+        _EventMng_g_hint.set(this, new pixi_js_1.Graphics);
         _EventMng_gamepad.set(this, new GamepadListener({
             analog: false,
             deadZone: 0.3,
@@ -68509,6 +68516,23 @@ class EventMng {
         _EventMng_firstWait.set(this, () => {
             __classPrivateFieldSet(this, _EventMng_firstWait, () => { }, "f");
             this.scrItr.firstWait();
+        });
+        _EventMng_dispHint_masume.set(this, (hArg, ctnBtn, rctBtn, isLink, hint_width) => {
+            __classPrivateFieldGet(this, _EventMng_g_hint, "f").zIndex = 1000;
+            __classPrivateFieldGet(this, _EventMng_g_hint, "f").x = rctBtn.x;
+            __classPrivateFieldGet(this, _EventMng_g_hint, "f").y = rctBtn.y;
+            __classPrivateFieldGet(this, _EventMng_g_hint, "f").angle = ctnBtn.angle;
+            const p = (isLink ? ctnBtn.parent : ctnBtn).scale;
+            const isBtnPic = (hArg.タグ名 === 'button') && (hArg.pic);
+            __classPrivateFieldGet(this, _EventMng_g_hint, "f").clear()
+                .beginFill(0x33FF00, 0.2)
+                .lineStyle(1, 0x33FF00, 1)
+                .drawRect(0, 0, rctBtn.width, rctBtn.height)
+                .endFill()
+                .beginFill(0x0033FF, 0.2)
+                .lineStyle(2, 0x0033FF, 1)
+                .drawRect((rctBtn.width - hint_width) / 2, -__classPrivateFieldGet(this, _EventMng_hint, "f").height, hint_width * (isBtnPic ? 1 : p.x), __classPrivateFieldGet(this, _EventMng_hint, "f").height * (isBtnPic ? 1 : p.y))
+                .endFill();
         });
         _EventMng_procWheel4wle.set(this, (_elc, _fnc) => { });
         _EventMng_elcWLE.set(this, new EventListenerCtn_1.EventListenerCtn);
@@ -68572,12 +68596,15 @@ class EventMng {
             fnHint = cfg.searchPath('hint', Config_1.Config.EXT_SPRITE);
         }
         catch { }
-        __classPrivateFieldSet(this, _EventMng_hint, new Button_1.Button({ enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 * 0.7}px"}`, b_pic: fnHint, width: 80, design: false }, this, () => { }, () => false), "f");
+        __classPrivateFieldSet(this, _EventMng_hint, new Button_1.Button({ enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 * 0.7}px"}`, b_pic: fnHint, width: 80, design: false, }, this, () => { }, () => false), "f");
         __classPrivateFieldGet(this, _EventMng_hint, "f").visible = false;
         appPixi.stage.addChild(__classPrivateFieldGet(this, _EventMng_hint, "f"));
-        const rctHint = __classPrivateFieldGet(this, _EventMng_hint, "f").getBounds();
-        __classPrivateFieldSet(this, _EventMng_zxHint, __classPrivateFieldGet(this, _EventMng_hint, "f").x - rctHint.x, "f");
-        __classPrivateFieldSet(this, _EventMng_zyHint, __classPrivateFieldGet(this, _EventMng_hint, "f").y - rctHint.y, "f");
+        __classPrivateFieldSet(this, _EventMng_hint_txt_w, __classPrivateFieldGet(this, _EventMng_hint, "f").getBtnBounds().width, "f");
+        __classPrivateFieldSet(this, _EventMng_h_padl, (__classPrivateFieldGet(this, _EventMng_hint, "f").width - __classPrivateFieldGet(this, _EventMng_hint_txt_w, "f")) / 2, "f");
+        if (this.cfg.oCfg.debug.masume)
+            appPixi.stage.addChild(__classPrivateFieldGet(this, _EventMng_g_hint, "f"));
+        else
+            __classPrivateFieldSet(this, _EventMng_dispHint_masume, () => { }, "f");
         appPixi.stage.interactive = true;
         if (CmnLib_1.CmnLib.isMobile)
             appPixi.stage.on('pointerdown', (e) => this.fire('click', e));
@@ -68675,6 +68702,7 @@ class EventMng {
     destroy() {
         __classPrivateFieldGet(this, _EventMng_fcs, "f").destroy();
         __classPrivateFieldGet(this, _EventMng_elc, "f").clear();
+        __classPrivateFieldGet(this, _EventMng_hint, "f").parent?.removeChild(__classPrivateFieldGet(this, _EventMng_hint, "f"));
     }
     fire(KEY, e) {
         if (__classPrivateFieldGet(this, _EventMng_isDbgBreak, "f"))
@@ -68728,10 +68756,12 @@ class EventMng {
         __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, onFinish, canskip, global);
         return true;
     }
-    button(hArg, em, normal, hover, clicked) {
+    escapeHint() { __classPrivateFieldGet(this, _EventMng_hint, "f").parent?.removeChild(__classPrivateFieldGet(this, _EventMng_hint, "f")); }
+    unButton(ctnBtn) { __classPrivateFieldGet(this, _EventMng_fcs, "f").remove(ctnBtn); }
+    button(hArg, ctnBtn, normal, hover, clicked) {
         if (!hArg.fn && !hArg.label)
             this.main.errScript('fnまたはlabelは必須です');
-        em.interactive = em.buttonMode = true;
+        ctnBtn.interactive = ctnBtn.buttonMode = true;
         const key = hArg.key?.toLowerCase() ?? ' ';
         if (!hArg.fn)
             hArg.fn = this.scrItr.scriptFn;
@@ -68740,24 +68770,24 @@ class EventMng {
             __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f")[key] = () => this.main.resumeByJumpOrCall(hArg);
         else
             __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[key] = () => this.main.resumeByJumpOrCall(hArg);
-        const ee = em;
+        const ee = ctnBtn;
         ee.on('pointerdown', (e) => this.fire(key, e));
-        const onHint = hArg.hint ? () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_dispHint).call(this, hArg, em) : () => { };
-        const nr = () => { normal(); __classPrivateFieldGet(this, _EventMng_hint, "f").visible = false; };
+        const onHint = hArg.hint ? () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_dispHint).call(this, hArg, ctnBtn) : () => { };
+        const nr = () => { normal(); };
         const hv = () => { onHint(); return hover(); };
         ee.on('pointerover', hv);
-        ee.on('pointerout', () => { if (__classPrivateFieldGet(this, _EventMng_fcs, "f").isFocus(em))
+        ee.on('pointerout', () => { if (__classPrivateFieldGet(this, _EventMng_fcs, "f").isFocus(ctnBtn))
             hv();
         else
             nr(); });
         ee.on('pointerdown', clicked);
         ee.on('pointerup', CmnLib_1.CmnLib.isMobile
             ? nr
-            : () => { if (__classPrivateFieldGet(this, _EventMng_fcs, "f").isFocus(em))
+            : () => { if (__classPrivateFieldGet(this, _EventMng_fcs, "f").isFocus(ctnBtn))
                 hv();
             else
                 nr(); });
-        __classPrivateFieldGet(this, _EventMng_fcs, "f").add(em, hv, nr);
+        __classPrivateFieldGet(this, _EventMng_fcs, "f").add(ctnBtn, hv, nr);
         if (hArg.clickse) {
             this.cfg.searchPath(hArg.clickse, Config_1.Config.EXT_SOUND);
             ee.on('pointerdown', () => {
@@ -68878,7 +68908,7 @@ class EventMng {
     }
 }
 exports.EventMng = EventMng;
-_EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint = new WeakMap(), _EventMng_zyHint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
+_EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_WIDTH_HINT_PIC = new WeakMap(), _EventMng_hint_txt_w = new WeakMap(), _EventMng_h_padl = new WeakMap(), _EventMng_g_hint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_dispHint_masume = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
     if (e['isComposing'])
         return;
     if (e.key in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
@@ -68939,30 +68969,24 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_zxHint 
         : key => __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[key], "f");
     __classPrivateFieldSet(this, _EventMng_isWait, true, "f");
     __classPrivateFieldGet(this, _EventMng_firstWait, "f").call(this);
-}, _EventMng_dispHint = function _EventMng_dispHint(hArg, em) {
-    const h = __classPrivateFieldGet(this, _EventMng_hint, "f");
-    const tx = h.children[1];
-    if (!tx)
-        return;
-    tx.text = hArg.hint;
-    const isBgTextBtn = em.name?.includes('"b_pic":');
-    const isPicBtn = em.name?.includes('"pic":');
+}, _EventMng_dispHint = function _EventMng_dispHint(hArg, ctnBtn) {
+    const rctBtn = ctnBtn instanceof Button_1.Button
+        ? ctnBtn.getBtnBounds()
+        : ctnBtn.getBounds();
     const isLink = (hArg.タグ名 === 'link');
-    h.parent?.removeChild(h);
-    (isLink ? em.parent : em).addChild(h);
-    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', false))
-        h.setTransform(isPicBtn ? em.width / em.scale.x
-            : (isBgTextBtn ? (h.width - em.width) / 2 - __classPrivateFieldGet(this, _EventMng_zxHint, "f") : 0)
-                + (isLink ? em.x : 0) + em.width, isPicBtn ? em.height / 2 / em.scale.y
-            : isBgTextBtn ? h.height / 2
-                : ((isLink ? em.y : 0) + em.height / 2 + __classPrivateFieldGet(this, _EventMng_zyHint, "f")), 1, 1, 1.570796327, 0, 0, h.width / 2, h.height - __classPrivateFieldGet(this, _EventMng_zxHint, "f") * 2);
-    else
-        h.setTransform(isPicBtn ? (em.width - h.width + __classPrivateFieldGet(this, _EventMng_zxHint, "f")) / 2
-            : isBgTextBtn ? 0
-                : (isLink ? em.x : 0) + (em.width - h.width) / 2, isPicBtn ? 0
-            : isBgTextBtn ? (h.height - em.height) / 2
-                : isLink ? em.y : 0, 1, 1, 0, 0, 0, -__classPrivateFieldGet(this, _EventMng_zxHint, "f") / 2, h.height - 10);
-    h.visible = true;
+    if (!isLink) {
+        const cpp = ctnBtn.parent.parent;
+        rctBtn.x += cpp.x;
+        rctBtn.y += cpp.y;
+    }
+    __classPrivateFieldGet(this, _EventMng_hint, "f").setText(hArg.hint ?? '');
+    const hint_width = (0, CmnLib_1.argChk_Num)(hArg, 'hint_width', __classPrivateFieldGet(this, _EventMng_WIDTH_HINT_PIC, "f"));
+    const scale_x = hint_width / __classPrivateFieldGet(this, _EventMng_WIDTH_HINT_PIC, "f");
+    __classPrivateFieldGet(this, _EventMng_hint, "f").setTransform(rctBtn.x, rctBtn.y, scale_x, 1, ctnBtn.rotation, 0, 0, isLink
+        ? -(__classPrivateFieldGet(this, _EventMng_h_padl, "f") - (hint_width - rctBtn.width) / 2 / scale_x)
+        : -(rctBtn.width / scale_x - __classPrivateFieldGet(this, _EventMng_hint_txt_w, "f")) / 2, __classPrivateFieldGet(this, _EventMng_hint, "f").height);
+    __classPrivateFieldGet(this, _EventMng_hint, "f").visible = true;
+    __classPrivateFieldGet(this, _EventMng_dispHint_masume, "f").call(this, hArg, ctnBtn, rctBtn, isLink, hint_width);
 }, _EventMng_clear_event = function _EventMng_clear_event(hArg) {
     const glb = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false);
     const h = glb ? __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f") : __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f");
@@ -70765,10 +70789,11 @@ void main(void) {
         if (cfg.existsBreakpage)
             this.breakPage = () => __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'grp｜{"id":"break","pic":"breakpage"}');
         const grp = new pixi_js_1.Graphics;
-        grp.beginFill(cfg.oCfg.init.bg_color, 1);
-        grp.lineStyle(0, cfg.oCfg.init.bg_color);
-        grp.drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-        grp.endFill();
+        grp
+            .beginFill(cfg.oCfg.init.bg_color, 1)
+            .lineStyle(0, cfg.oCfg.init.bg_color)
+            .drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH)
+            .endFill();
         __classPrivateFieldGet(this, _LayerMng_fore, "f").addChild(grp.clone());
         __classPrivateFieldGet(this, _LayerMng_back, "f").addChild(grp);
         __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
@@ -70807,14 +70832,12 @@ void main(void) {
             __classPrivateFieldGet(this, _LayerMng_grpCover, "f").destroy();
             __classPrivateFieldSet(this, _LayerMng_grpCover, null, "f");
         }
-        if (visible) {
-            __classPrivateFieldSet(this, _LayerMng_grpCover, new pixi_js_1.Graphics, "f");
-            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").beginFill(bg_color);
-            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").lineStyle(0, bg_color);
-            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-            __classPrivateFieldGet(this, _LayerMng_grpCover, "f").endFill();
-            __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild(__classPrivateFieldGet(this, _LayerMng_grpCover, "f"));
-        }
+        if (visible)
+            __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild((__classPrivateFieldSet(this, _LayerMng_grpCover, new pixi_js_1.Graphics, "f"))
+                .beginFill(bg_color)
+                .lineStyle(0, bg_color)
+                .drawRect(0, 0, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH)
+                .endFill());
     }
     setEvtMng(evtMng) {
         __classPrivateFieldSet(this, _LayerMng_evtMng, evtMng, "f");
@@ -75189,7 +75212,7 @@ class TxtLayer extends Layer_1.Layer {
     }
     dump() {
         __classPrivateFieldGet(this, _TxtLayer_putCh, "f").call(this, '', 'gotxt｜');
-        return super.dump() + `, "enabled":"${this.enabled}", ${__classPrivateFieldGet(this, _TxtLayer_txs, "f").dump()}, "b_pic":"${__classPrivateFieldGet(this, _TxtLayer_b_pic, "f")}", "b_color":"${__classPrivateFieldGet(this, _TxtLayer_b_color, "f")}", "b_alpha":${__classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")}, "b_alpha_isfixed":"${__classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")}", "b_width":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width}, "b_height":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height}, "pixi_obj":[${this.spLay.children.map(e => `{"class":"${(e instanceof pixi_js_1.Sprite) ? 'Sprite' : ((e instanceof pixi_js_1.Graphics) ? 'Graphics' : ((e instanceof pixi_js_1.Container) ? 'Container' : '?'))}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')}], "button":[${__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.map(d => d.children[0].name).join(',')}]`;
+        return super.dump() + `, "enabled":"${this.enabled}", ${__classPrivateFieldGet(this, _TxtLayer_txs, "f").dump()}, "b_pic":"${__classPrivateFieldGet(this, _TxtLayer_b_pic, "f")}", "b_color":"${__classPrivateFieldGet(this, _TxtLayer_b_color, "f")}", "b_alpha":${__classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")}, "b_alpha_isfixed":"${__classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")}", "b_width":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width}, "b_height":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height}, "pixi_obj":[${this.spLay.children.map(e => `{"class":"${(e instanceof pixi_js_1.Sprite) ? 'Sprite' : ((e instanceof pixi_js_1.Graphics) ? 'Graphics' : ((e instanceof pixi_js_1.Container) ? 'Container' : '?'))}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')}], "button":[${__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.map(d => d.children[0].name ?? '{}').join(',')}]`;
     }
 }
 exports.TxtLayer = TxtLayer;
@@ -75604,21 +75627,22 @@ class TxtStage extends pixi_js_1.Container {
         var _b;
         __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).visible = false;
         const begin = __classPrivateFieldGet(this, _TxtStage_aRect, "f").length;
-        if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cfg).oCfg.debug.masume && begin === 0) {
-            if (CmnLib_1.CmnLib.debugLog)
-                console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").clear();
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").beginFill(0x33FF00, 0.2);
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").lineStyle(1, 0x33FF00, 1);
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height);
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").endFill();
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").beginFill(0x0033FF, 0.2);
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").lineStyle(2, 0x0033FF, 1);
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom);
-            __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").endFill();
-        }
-        if (begin === 0)
+        if (begin === 0) {
+            if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cfg).oCfg.debug.masume) {
+                if (CmnLib_1.CmnLib.debugLog)
+                    console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
+                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").clear()
+                    .beginFill(0x33FF00, 0.2)
+                    .lineStyle(1, 0x33FF00, 1)
+                    .drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height)
+                    .endFill()
+                    .beginFill(0x0033FF, 0.2)
+                    .lineStyle(2, 0x0033FF, 1)
+                    .drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom)
+                    .endFill();
+            }
             __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").innerHTML = [...aSpan].join('');
+        }
         else
             __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").insertAdjacentHTML('beforeend', aSpan.slice(__classPrivateFieldGet(this, _TxtStage_lenHtmTxt, "f")).join(''));
         __classPrivateFieldSet(this, _TxtStage_lenHtmTxt, aSpan.length, "f");
@@ -75702,16 +75726,17 @@ class TxtStage extends pixi_js_1.Container {
         const fncMasume = (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cfg).oCfg.debug.masume)
             ? (v, rct) => {
                 fncMasumeLog(v, rct);
-                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").beginFill(0x66CCFF, 0.5);
-                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").lineStyle(2, 0xFF3300, 1);
-                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").drawRect(rct.x, rct.y, rct.width, rct.height);
-                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").endFill();
+                __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f")
+                    .beginFill(0x66CCFF, 0.5)
+                    .lineStyle(2, 0xFF3300, 1)
+                    .drawRect(rct.x, rct.y, rct.width, rct.height)
+                    .endFill();
             }
             : () => { };
         const ease = CmnTween_1.CmnTween.ease(__classPrivateFieldGet(this, _TxtStage_fi_easing, "f"));
         const bcr = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getBoundingClientRect();
-        const sx = bcr.left + globalThis.pageXOffset + this.infTL.pad_left;
-        const sy = bcr.top + globalThis.pageYOffset + this.infTL.pad_top;
+        const sx = bcr.left + globalThis.scrollX + this.infTL.pad_left;
+        const sy = bcr.top + globalThis.scrollY + this.infTL.pad_top;
         for (let i = begin; i < len; ++i) {
             const v = __classPrivateFieldGet(this, _TxtStage_aRect, "f")[i];
             const rct = v.rect;
@@ -75750,13 +75775,13 @@ class TxtStage extends pixi_js_1.Container {
                     const style_normal = v.elm.style.cssText;
                     const style_hover = arg.style_hover ?? '';
                     const style_clicked = arg.style_clicked ?? '';
-                    const isLinkHead = __classPrivateFieldGet(this, _TxtStage_beforeHTMLElm, "f") !== v.elm;
-                    __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_evtMng).button(arg, sp, () => v.elm.style.cssText = style_normal, isLinkHead ? () => {
-                        if (!this.canFocus())
-                            return false;
-                        v.elm.style.cssText = style_hover;
-                        return true;
-                    }
+                    __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_evtMng).button(arg, sp, () => v.elm.style.cssText = style_normal, __classPrivateFieldGet(this, _TxtStage_beforeHTMLElm, "f") !== v.elm
+                        ? () => {
+                            if (!this.canFocus())
+                                return false;
+                            v.elm.style.cssText = style_hover;
+                            return true;
+                        }
                         : () => false, () => v.elm.style.cssText = style_clicked);
                     __classPrivateFieldSet(this, _TxtStage_beforeHTMLElm, v.elm, "f");
                     __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").addChild(sp);
@@ -76217,6 +76242,8 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
         canvas.height = this.infTL.$height;
         canvas.getContext('2d').drawImage(img, 0, 0);
         canvas.toBlob(blob => {
+            if (!blob)
+                return;
             const url = URL.createObjectURL(blob);
             pixi_js_1.Texture.from(url).once('update', (tx2) => {
                 fnc(tx2);
@@ -76276,7 +76303,7 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
         const ch = range.toString();
         const cr = {
             ch: ch,
-            rect: new pixi_js_1.Rectangle(r.left + globalThis.pageXOffset, r.top + globalThis.pageYOffset, r.width, r.height + ('gjqy'.includes(ch) ? __classPrivateFieldGet(this, _TxtStage_lh_half, "f") : 0)),
+            rect: new pixi_js_1.Rectangle(r.left + globalThis.scrollX, r.top + globalThis.scrollY, r.width, r.height + ('gjqy'.includes(ch) ? __classPrivateFieldGet(this, _TxtStage_lh_half, "f") : 0)),
             elm: pe,
             cmd: pe.getAttribute('data-cmd') ?? undefined,
             arg: pe.getAttribute('data-arg') ?? undefined,
@@ -76316,9 +76343,14 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
             elm.style.animationDelay = '0ms';
         elm.classList.add(`go_ch_out_${add.ch_out_style}`);
     });
+    __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_evtMng).escapeHint();
     const end = () => {
         old.parentElement.removeChild(old);
-        __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").removeChildren().forEach(c => c.destroy());
+        __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").removeChildren().forEach(c => {
+            if (c instanceof pixi_js_1.Container)
+                __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_evtMng).unButton(c);
+            c.destroy();
+        });
     };
     if (sum_wait === 0) {
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").textContent = '';
@@ -80460,13 +80492,7 @@ class Manager extends component_emitter_1.Emitter {
         debug("disconnect");
         this.skipReconnect = true;
         this._reconnecting = false;
-        if ("opening" === this._readyState) {
-            // `onclose` will not fire because
-            // an open event never happened
-            this.cleanup();
-        }
-        this.backoff.reset();
-        this._readyState = "closed";
+        this.onclose("forced close");
         if (this.engine)
             this.engine.close();
     }
@@ -80484,7 +80510,7 @@ class Manager extends component_emitter_1.Emitter {
      * @private
      */
     onclose(reason) {
-        debug("onclose");
+        debug("closed due to %s", reason);
         this.cleanup();
         this.backoff.reset();
         this._readyState = "closed";
@@ -80707,9 +80733,11 @@ class Socket extends component_emitter_1.Emitter {
         packet.options.compress = this.flags.compress !== false;
         // event ack callback
         if ("function" === typeof args[args.length - 1]) {
-            debug("emitting packet with ack id %d", this.ids);
-            this.acks[this.ids] = args.pop();
-            packet.id = this.ids++;
+            const id = this.ids++;
+            debug("emitting packet with ack id %d", id);
+            const ack = args.pop();
+            this._registerAckCallback(id, ack);
+            packet.id = id;
         }
         const isTransportWritable = this.io.engine &&
             this.io.engine.transport &&
@@ -80726,6 +80754,33 @@ class Socket extends component_emitter_1.Emitter {
         }
         this.flags = {};
         return this;
+    }
+    /**
+     * @private
+     */
+    _registerAckCallback(id, ack) {
+        const timeout = this.flags.timeout;
+        if (timeout === undefined) {
+            this.acks[id] = ack;
+            return;
+        }
+        // @ts-ignore
+        const timer = this.io.setTimeoutFn(() => {
+            delete this.acks[id];
+            for (let i = 0; i < this.sendBuffer.length; i++) {
+                if (this.sendBuffer[i].id === id) {
+                    debug("removing packet with ack id %d from the buffer", id);
+                    this.sendBuffer.splice(i, 1);
+                }
+            }
+            debug("event with ack id %d has timed out after %d ms", id, timeout);
+            ack.call(this, new Error("operation has timed out"));
+        }, timeout);
+        this.acks[id] = (...args) => {
+            // @ts-ignore
+            this.io.clearTimeoutFn(timer);
+            ack.apply(this, [null, ...args]);
+        };
     }
     /**
      * Sends a packet.
@@ -80813,6 +80868,7 @@ class Socket extends component_emitter_1.Emitter {
                 this.ondisconnect();
                 break;
             case socket_io_parser_1.PacketType.CONNECT_ERROR:
+                this.destroy();
                 const err = new Error(packet.data.message);
                 // @ts-ignore
                 err.data = packet.data.data;
@@ -80984,6 +81040,25 @@ class Socket extends component_emitter_1.Emitter {
      */
     get volatile() {
         this.flags.volatile = true;
+        return this;
+    }
+    /**
+     * Sets a modifier for a subsequent event emission that the callback will be called with an error when the
+     * given number of milliseconds have elapsed without an acknowledgement from the server:
+     *
+     * ```
+     * socket.timeout(5000).emit("my-event", (err) => {
+     *   if (err) {
+     *     // the server did not acknowledge the event in the given delay
+     *   }
+     * });
+     * ```
+     *
+     * @returns self
+     * @public
+     */
+    timeout(timeout) {
+        this.flags.timeout = timeout;
         return this;
     }
     /**

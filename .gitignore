@@ -3,3 +3,5 @@
 
 # Node.js Tools
 /node_modules/
+
+*.LICENSE.txt

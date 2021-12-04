@@ -820,6 +820,7 @@ export class TxtLayer extends Layer {
 		super.clearLay(hArg);
 
 		this.clearText();
+		// 上で呼ばれる this.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
 		this.#cntBtn.removeChildren().forEach(c=> c.destroy());
 	}
 	override readonly record = ()=> Object.assign(super.record(), {
@@ -904,7 +905,7 @@ export class TxtLayer extends Layer {
 				)
 			}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')
 		}], "button":[${
-			this.#cntBtn.children.map(d=> (d as Sprite).children[0].name).join(',')
+			this.#cntBtn.children.map(d=> (d as Container).children[0].name ?? '{}').join(',')
 		}]`;
 	}
 

@@ -24,7 +24,9 @@ export declare class EventMng implements IEvtMng {
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;
     waitEvent(onFinish: () => void, canskip?: boolean, global?: boolean): boolean;
-    button(hArg: HArg, em: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
+    escapeHint(): void;
+    unButton(ctnBtn: Container): void;
+    button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;
     protected set_focus(hArg: HArg): boolean;
     isSkipKeyDown(): boolean;

@@ -137,10 +137,11 @@ export class LayerMng implements IGetFrm {
 		if (cfg.existsBreakpage) this.breakPage = ()=> this.#cmdTxt('grp｜{"id":"break","pic":"breakpage"}');
 
 		const grp = new Graphics;
-		grp.beginFill(cfg.oCfg.init.bg_color, 1);	// イベントを受け取るためにも塗る
-		grp.lineStyle(0, cfg.oCfg.init.bg_color);
-		grp.drawRect(0, 0, CmnLib.stageW, CmnLib.stageH);
-		grp.endFill();
+		grp
+		.beginFill(cfg.oCfg.init.bg_color, 1)	// イベントを受け取るためにも塗る
+		.lineStyle(0, cfg.oCfg.init.bg_color)
+		.drawRect(0, 0, CmnLib.stageW, CmnLib.stageH)
+		.endFill();
 		this.#fore.addChild(grp.clone());
 		this.#back.addChild(grp);
 		this.#back.visible = false;
@@ -233,14 +234,13 @@ export class LayerMng implements IGetFrm {
 			this.#grpCover.destroy();
 			this.#grpCover = null;
 		}
-		if (visible) {
-			this.#grpCover = new Graphics;
-			this.#grpCover.beginFill(bg_color);
-			this.#grpCover.lineStyle(0, bg_color);
-			this.#grpCover.drawRect(0, 0, CmnLib.stageW, CmnLib.stageH);
-			this.#grpCover.endFill();
-			this.#stage.addChild(this.#grpCover);
-		}
+		if (visible) this.#stage.addChild(
+			(this.#grpCover = new Graphics)
+			.beginFill(bg_color)
+			.lineStyle(0, bg_color)
+			.drawRect(0, 0, CmnLib.stageW, CmnLib.stageH)
+			.endFill()
+		);
 	}
 
 	#evtMng	: IEvtMng;

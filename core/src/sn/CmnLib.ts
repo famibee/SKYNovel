@@ -88,9 +88,11 @@ export function addStyle(style: string) {
 
 
 // =============== EventMng
-import {DisplayObject} from 'pixi.js';
+import {Container} from 'pixi.js';
 export interface IEvtMng {
-	button(hArg: HArg, em: DisplayObject, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
+	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
+	unButton(em: Container): void;
+	escapeHint(): void;
 	isSkipKeyDown(): boolean;
 	waitEvent(fnc: ()=> void, canskip?: boolean, global?: boolean): boolean;
 	popLocalEvts(): IHEvt2Fnc;
