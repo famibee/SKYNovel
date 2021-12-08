@@ -1,3 +1,11 @@
+- feat: hintをHTML canvas要素で表示するように
+- feat: hint_color属性でhint文字色を指定可能に（'white', '#FF0000'）
+- feat: hint_font属性追加、hint文字サイズとフォントを指定する
+- fix: hint_tate属性が無効になっていたのを再サポート
+- fix: hint_tate属性省略時は、文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）をデフォルトとする事を明記
+- fix: 前更新から hint消ししてなかった件
+
+
 # [1.21.0](https://github.com/famibee/SKYNovel/compare/v1.20.1...v1.21.0) (2021-12-04)
 
 

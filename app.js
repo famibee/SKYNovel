@@ -68469,7 +68469,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _EventMng_instances, _EventMng_elc, _EventMng_hint, _EventMng_WIDTH_HINT_PIC, _EventMng_hint_txt_w, _EventMng_h_padl, _EventMng_g_hint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_dispHint_masume, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_unregisterClickEvts, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
+var _EventMng_instances, _EventMng_elc, _EventMng_cvsHint, _EventMng_picHint_w, _EventMng_picHint_h, _EventMng_padHint, _EventMng_grpHint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_dispHint_masume, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_unregisterClickEvts, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -68480,6 +68480,7 @@ const FocusMng_1 = __webpack_require__(/*! ./FocusMng */ "./core/src/sn/FocusMng
 const tween_js_1 = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/dist/tween.esm.js");
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
 const Config_1 = __webpack_require__(/*! ./Config */ "./core/src/sn/Config.ts");
+const GrpLayer_1 = __webpack_require__(/*! ./GrpLayer */ "./core/src/sn/GrpLayer.ts");
 const { GamepadListener } = __webpack_require__(/*! gamepad.js */ "./node_modules/gamepad.js/gamepad.js");
 class EventMng {
     constructor(cfg, hTag, appPixi, main, layMng, val, sndMng, scrItr, sys) {
@@ -68494,11 +68495,12 @@ class EventMng {
         this.sys = sys;
         _EventMng_instances.add(this);
         _EventMng_elc.set(this, new EventListenerCtn_1.EventListenerCtn);
-        _EventMng_hint.set(this, void 0);
-        _EventMng_WIDTH_HINT_PIC.set(this, 100);
-        _EventMng_hint_txt_w.set(this, void 0);
-        _EventMng_h_padl.set(this, void 0);
-        _EventMng_g_hint.set(this, new pixi_js_1.Graphics);
+        _EventMng_cvsHint.set(this, document.createElement('canvas'));
+        _EventMng_picHint_w.set(this, 100);
+        _EventMng_picHint_h.set(this, 50);
+        _EventMng_padHint.set(this, void 0);
+        _EventMng_grpHint.set(this, new pixi_js_1.Graphics);
+        this.setTxtHint = (_txt, _fillStyle, _hint_font) => { };
         _EventMng_gamepad.set(this, new GamepadListener({
             analog: false,
             deadZone: 0.3,
@@ -68517,22 +68519,25 @@ class EventMng {
             __classPrivateFieldSet(this, _EventMng_firstWait, () => { }, "f");
             this.scrItr.firstWait();
         });
-        _EventMng_dispHint_masume.set(this, (hArg, ctnBtn, rctBtn, isLink, hint_width) => {
-            __classPrivateFieldGet(this, _EventMng_g_hint, "f").zIndex = 1000;
-            __classPrivateFieldGet(this, _EventMng_g_hint, "f").x = rctBtn.x;
-            __classPrivateFieldGet(this, _EventMng_g_hint, "f").y = rctBtn.y;
-            __classPrivateFieldGet(this, _EventMng_g_hint, "f").angle = ctnBtn.angle;
+        _EventMng_dispHint_masume.set(this, (hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate) => {
+            __classPrivateFieldGet(this, _EventMng_grpHint, "f").zIndex = 1000;
+            __classPrivateFieldGet(this, _EventMng_grpHint, "f").x = rctBtn.x;
+            __classPrivateFieldGet(this, _EventMng_grpHint, "f").y = rctBtn.y;
+            __classPrivateFieldGet(this, _EventMng_grpHint, "f").rotation = ctnBtn.rotation;
             const p = (isLink ? ctnBtn.parent : ctnBtn).scale;
             const isBtnPic = (hArg.タグ名 === 'button') && (hArg.pic);
-            __classPrivateFieldGet(this, _EventMng_g_hint, "f").clear()
+            __classPrivateFieldGet(this, _EventMng_grpHint, "f").clear()
                 .beginFill(0x33FF00, 0.2)
                 .lineStyle(1, 0x33FF00, 1)
                 .drawRect(0, 0, rctBtn.width, rctBtn.height)
                 .endFill()
                 .beginFill(0x0033FF, 0.2)
-                .lineStyle(2, 0x0033FF, 1)
-                .drawRect((rctBtn.width - hint_width) / 2, -__classPrivateFieldGet(this, _EventMng_hint, "f").height, hint_width * (isBtnPic ? 1 : p.x), __classPrivateFieldGet(this, _EventMng_hint, "f").height * (isBtnPic ? 1 : p.y))
-                .endFill();
+                .lineStyle(2, 0x0033FF, 1);
+            if (hint_tate)
+                __classPrivateFieldGet(this, _EventMng_grpHint, "f").drawRect(isLink ? rctBtn.height : rctBtn.width, ((isLink ? rctBtn.width : rctBtn.height) - hint_width) / 2, __classPrivateFieldGet(this, _EventMng_picHint_h, "f") * (isBtnPic ? 1 : p.x), hint_width * (isBtnPic ? 1 : p.y));
+            else
+                __classPrivateFieldGet(this, _EventMng_grpHint, "f").drawRect((rctBtn.width - hint_width) / 2, -__classPrivateFieldGet(this, _EventMng_picHint_h, "f"), hint_width * (isBtnPic ? 1 : p.x), __classPrivateFieldGet(this, _EventMng_picHint_h, "f") * (isBtnPic ? 1 : p.y));
+            __classPrivateFieldGet(this, _EventMng_grpHint, "f").endFill();
         });
         _EventMng_procWheel4wle.set(this, (_elc, _fnc) => { });
         _EventMng_elcWLE.set(this, new EventListenerCtn_1.EventListenerCtn);
@@ -68592,17 +68597,50 @@ class EventMng {
             sys.addHook(type => hHook[type]?.());
         }
         let fnHint = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyBAMAAABYG2ONAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGuGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjAtMDgtMTlUMDM6MDk6MjUrMDk6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmFjZTQwNzA5LThlNDEtNDViNi1hMzBmLTk0NTVhYzU5MDAyYSIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQwMzowOToyNSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3Mzg4MzYwLWJjMjctNDRkZi1hMTYwLTk5N2M4ODNmYTA0ZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMjo0NTozNiswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMzo1MjoyOSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPC9yZGY6U2VxPiA8L3htcE1NOkhpc3Rvcnk+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+WWAYXwAAACdQTFRF////PDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlCOA6SAAAAA10Uk5TACB/MID/EJBA8NCwYDCdv6cAAABoSURBVHgBYxicYBQIKZEIlJmMSQWGTKS7a8RpGdUyqmVUy6iWUS3y7zGBAlwai+wnrOZwTA2FgBnE220F0RFlQLwWtq1gLdtI8SI7SEc4acFyMjQ08gBpgWzlAEKkgayoBJJj7AAuCQAm1kUjHh83WgAAAABJRU5ErkJggg==';
+        let isCustomHint = false;
         try {
             fnHint = cfg.searchPath('hint', Config_1.Config.EXT_SPRITE);
+            isCustomHint = true;
         }
         catch { }
-        __classPrivateFieldSet(this, _EventMng_hint, new Button_1.Button({ enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 * 0.7}px"}`, b_pic: fnHint, width: 80, design: false, }, this, () => { }, () => false), "f");
-        __classPrivateFieldGet(this, _EventMng_hint, "f").visible = false;
-        appPixi.stage.addChild(__classPrivateFieldGet(this, _EventMng_hint, "f"));
-        __classPrivateFieldSet(this, _EventMng_hint_txt_w, __classPrivateFieldGet(this, _EventMng_hint, "f").getBtnBounds().width, "f");
-        __classPrivateFieldSet(this, _EventMng_h_padl, (__classPrivateFieldGet(this, _EventMng_hint, "f").width - __classPrivateFieldGet(this, _EventMng_hint_txt_w, "f")) / 2, "f");
+        const ctx = __classPrivateFieldGet(this, _EventMng_cvsHint, "f").getContext('2d');
+        if (ctx) {
+            const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
+            __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = true;
+            cvs.parentElement.appendChild(__classPrivateFieldGet(this, _EventMng_cvsHint, "f"));
+            const s = __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style;
+            s.position = 'absolute';
+            s.left = s.top = '0';
+            s.zIndex = '10000';
+            s.pointerEvents = 'none';
+            s.userSelect = 'none';
+            __classPrivateFieldSet(this, _EventMng_padHint, 10, "f");
+            const img = new Image;
+            const initHint = () => {
+                __classPrivateFieldGet(this, _EventMng_cvsHint, "f").width = __classPrivateFieldSet(this, _EventMng_picHint_w, img.width, "f");
+                __classPrivateFieldGet(this, _EventMng_cvsHint, "f").height = __classPrivateFieldSet(this, _EventMng_picHint_h, img.height, "f");
+                this.setTxtHint('行方向の変更', 'white', '22px Arial');
+            };
+            this.setTxtHint = (txt, fillStyle, hint_font) => {
+                ctx.clearRect(0, 0, __classPrivateFieldGet(this, _EventMng_cvsHint, "f").width, __classPrivateFieldGet(this, _EventMng_cvsHint, "f").height);
+                ctx.drawImage(img, 0, 0);
+                ctx.textBaseline = 'top';
+                ctx.font = hint_font;
+                ctx.fillStyle = fillStyle;
+                ctx.fillText(txt, __classPrivateFieldGet(this, _EventMng_padHint, "f"), 16, __classPrivateFieldGet(this, _EventMng_picHint_w, "f") - __classPrivateFieldGet(this, _EventMng_padHint, "f") * 2);
+            };
+            if (isCustomHint)
+                GrpLayer_1.GrpLayer.loadPic2Img('hint', img, i => {
+                    if (img === i)
+                        initHint();
+                });
+            else {
+                img.src = fnHint;
+                img.onload = initHint;
+            }
+        }
         if (this.cfg.oCfg.debug.masume)
-            appPixi.stage.addChild(__classPrivateFieldGet(this, _EventMng_g_hint, "f"));
+            appPixi.stage.addChild(__classPrivateFieldGet(this, _EventMng_grpHint, "f"));
         else
             __classPrivateFieldSet(this, _EventMng_dispHint_masume, () => { }, "f");
         appPixi.stage.interactive = true;
@@ -68702,7 +68740,7 @@ class EventMng {
     destroy() {
         __classPrivateFieldGet(this, _EventMng_fcs, "f").destroy();
         __classPrivateFieldGet(this, _EventMng_elc, "f").clear();
-        __classPrivateFieldGet(this, _EventMng_hint, "f").parent?.removeChild(__classPrivateFieldGet(this, _EventMng_hint, "f"));
+        __classPrivateFieldGet(this, _EventMng_cvsHint, "f")?.parentElement.removeChild(__classPrivateFieldGet(this, _EventMng_cvsHint, "f"));
     }
     fire(KEY, e) {
         if (__classPrivateFieldGet(this, _EventMng_isDbgBreak, "f"))
@@ -68734,7 +68772,7 @@ class EventMng {
             this.layMng.clickTxtLay();
         __classPrivateFieldSet(this, _EventMng_isWait, false, "f");
         ke(e);
-        __classPrivateFieldGet(this, _EventMng_hint, "f").visible = false;
+        __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = true;
     }
     popLocalEvts() {
         const ret = __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f");
@@ -68756,7 +68794,6 @@ class EventMng {
         __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, onFinish, canskip, global);
         return true;
     }
-    escapeHint() { __classPrivateFieldGet(this, _EventMng_hint, "f").parent?.removeChild(__classPrivateFieldGet(this, _EventMng_hint, "f")); }
     unButton(ctnBtn) { __classPrivateFieldGet(this, _EventMng_fcs, "f").remove(ctnBtn); }
     button(hArg, ctnBtn, normal, hover, clicked) {
         if (!hArg.fn && !hArg.label)
@@ -68773,7 +68810,7 @@ class EventMng {
         const ee = ctnBtn;
         ee.on('pointerdown', (e) => this.fire(key, e));
         const onHint = hArg.hint ? () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_dispHint).call(this, hArg, ctnBtn) : () => { };
-        const nr = () => { normal(); };
+        const nr = () => { normal(); __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = true; };
         const hv = () => { onHint(); return hover(); };
         ee.on('pointerover', hv);
         ee.on('pointerout', () => { if (__classPrivateFieldGet(this, _EventMng_fcs, "f").isFocus(ctnBtn))
@@ -68908,7 +68945,7 @@ class EventMng {
     }
 }
 exports.EventMng = EventMng;
-_EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_WIDTH_HINT_PIC = new WeakMap(), _EventMng_hint_txt_w = new WeakMap(), _EventMng_h_padl = new WeakMap(), _EventMng_g_hint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_dispHint_masume = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
+_EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picHint_w = new WeakMap(), _EventMng_picHint_h = new WeakMap(), _EventMng_padHint = new WeakMap(), _EventMng_grpHint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_dispHint_masume = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
     if (e['isComposing'])
         return;
     if (e.key in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
@@ -68979,14 +69016,16 @@ _EventMng_elc = new WeakMap(), _EventMng_hint = new WeakMap(), _EventMng_WIDTH_H
         rctBtn.x += cpp.x;
         rctBtn.y += cpp.y;
     }
-    __classPrivateFieldGet(this, _EventMng_hint, "f").setText(hArg.hint ?? '');
-    const hint_width = (0, CmnLib_1.argChk_Num)(hArg, 'hint_width', __classPrivateFieldGet(this, _EventMng_WIDTH_HINT_PIC, "f"));
-    const scale_x = hint_width / __classPrivateFieldGet(this, _EventMng_WIDTH_HINT_PIC, "f");
-    __classPrivateFieldGet(this, _EventMng_hint, "f").setTransform(rctBtn.x, rctBtn.y, scale_x, 1, ctnBtn.rotation, 0, 0, isLink
-        ? -(__classPrivateFieldGet(this, _EventMng_h_padl, "f") - (hint_width - rctBtn.width) / 2 / scale_x)
-        : -(rctBtn.width / scale_x - __classPrivateFieldGet(this, _EventMng_hint_txt_w, "f")) / 2, __classPrivateFieldGet(this, _EventMng_hint, "f").height);
-    __classPrivateFieldGet(this, _EventMng_hint, "f").visible = true;
-    __classPrivateFieldGet(this, _EventMng_dispHint_masume, "f").call(this, hArg, ctnBtn, rctBtn, isLink, hint_width);
+    this.setTxtHint(hArg.hint ?? '', hArg.hint_color ?? 'white', hArg.hint_font ?? '22px Arial');
+    const hint_width = (0, CmnLib_1.argChk_Num)(hArg, 'hint_width', __classPrivateFieldGet(this, _EventMng_picHint_w, "f"));
+    const scale_x = hint_width / __classPrivateFieldGet(this, _EventMng_picHint_w, "f");
+    const hint_tate = (0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', false);
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.left = `${rctBtn.x}px`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.top = `${rctBtn.y}px`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transformOrigin = 'top left';
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x}, 1) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __classPrivateFieldGet(this, _EventMng_picHint_h, "f")}px)`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = false;
+    __classPrivateFieldGet(this, _EventMng_dispHint_masume, "f").call(this, hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
 }, _EventMng_clear_event = function _EventMng_clear_event(hArg) {
     const glb = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false);
     const h = glb ? __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f") : __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f");
@@ -69417,12 +69456,13 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _FrameMng_instances, _FrameMng_evtMng, _FrameMng_hIfrm, _FrameMng_add_frame, _FrameMng_hDisabled, _FrameMng_hAEncImg, _FrameMng_hEncImgOUrl, _FrameMng_rect, _FrameMng_let_frame, _FrameMng_set_frame, _FrameMng_zIdx, _FrameMng_frame, _FrameMng_tsy_frame;
+var _FrameMng_instances, _FrameMng_evtMng, _FrameMng_hIfrm, _FrameMng_add_frame, _FrameMng_hDisabled, _FrameMng_rect, _FrameMng_let_frame, _FrameMng_set_frame, _FrameMng_zIdx, _FrameMng_frame, _FrameMng_tsy_frame;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FrameMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const CmnTween_1 = __webpack_require__(/*! ./CmnTween */ "./core/src/sn/CmnTween.ts");
 const Config_1 = __webpack_require__(/*! ./Config */ "./core/src/sn/Config.ts");
+const GrpLayer_1 = __webpack_require__(/*! ./GrpLayer */ "./core/src/sn/GrpLayer.ts");
 const tween_js_1 = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/@tweenjs/tween.js/dist/tween.esm.js");
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
 class FrameMng {
@@ -69436,9 +69476,7 @@ class FrameMng {
         _FrameMng_instances.add(this);
         _FrameMng_evtMng.set(this, void 0);
         _FrameMng_hIfrm.set(this, Object.create(null));
-        _FrameMng_hDisabled.set(this, Object.create(null));
-        _FrameMng_hAEncImg.set(this, Object.create(null));
-        _FrameMng_hEncImgOUrl.set(this, Object.create(null));
+        _FrameMng_hDisabled.set(this, {});
         _FrameMng_zIdx.set(this, 1);
         hTag.add_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_add_frame).call(this, o);
         hTag.let_frame = o => __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_let_frame).call(this, o);
@@ -69471,7 +69509,7 @@ class FrameMng {
     }
 }
 exports.FrameMng = FrameMng;
-_FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDisabled = new WeakMap(), _FrameMng_hAEncImg = new WeakMap(), _FrameMng_hEncImgOUrl = new WeakMap(), _FrameMng_zIdx = new WeakMap(), _FrameMng_instances = new WeakSet(), _FrameMng_add_frame = function _FrameMng_add_frame(hArg) {
+_FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDisabled = new WeakMap(), _FrameMng_zIdx = new WeakMap(), _FrameMng_instances = new WeakSet(), _FrameMng_add_frame = function _FrameMng_add_frame(hArg) {
     const id = hArg.id;
     if (!id)
         throw 'idは必須です';
@@ -69525,46 +69563,7 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
             this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
             const win = ifrm.contentWindow;
             __classPrivateFieldGet(this, _FrameMng_evtMng, "f").resvFlameEvent(win);
-            (win.sn_repRes)?.((i) => {
-                const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
-                const oUrl = __classPrivateFieldGet(this, _FrameMng_hEncImgOUrl, "f")[src];
-                if (oUrl) {
-                    i.src = oUrl;
-                    return;
-                }
-                const aImg = __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[src];
-                if (aImg) {
-                    aImg.push(i);
-                    return;
-                }
-                __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[src] = [i];
-                const url2 = this.cfg.searchPath(src, Config_1.Config.EXT_SPRITE);
-                const ld2 = (new pixi_js_1.Loader)
-                    .add({ name: src, url: url2, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER, });
-                if (this.sys.crypto)
-                    ld2.use((res, next) => {
-                        this.sys.dec(res.extension, res.data)
-                            .then(r => {
-                            if (res.extension !== 'bin') {
-                                next?.();
-                                return;
-                            }
-                            res.data = r;
-                            if (r instanceof HTMLImageElement) {
-                                res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
-                            }
-                            next?.();
-                        })
-                            .catch(e => this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
-                    });
-                ld2.load((_ldr, hRes) => {
-                    for (const s2 in hRes) {
-                        const u2 = __classPrivateFieldGet(this, _FrameMng_hEncImgOUrl, "f")[s2] = hRes[s2].data.src;
-                        __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[s2].forEach(v => v.src = u2);
-                        delete __classPrivateFieldGet(this, _FrameMng_hAEncImg, "f")[s2];
-                    }
-                });
-            });
+            (win.sn_repRes)?.((img) => GrpLayer_1.GrpLayer.loadPic2Img((img.dataset.src ?? '').replace(/(.+\/|\..+)/g, ''), img));
             this.main.resume();
         };
     });
@@ -69977,7 +69976,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _a, _GrpLayer_elc, _GrpLayer_hFace, _GrpLayer_main, _GrpLayer_cfg, _GrpLayer_sys, _GrpLayer_glbVol, _GrpLayer_movVol, _GrpLayer_evtMng, _GrpLayer_idc, _GrpLayer_csvFn, _GrpLayer_sBkFn, _GrpLayer_sBkFace, _GrpLayer_width, _GrpLayer_height, _GrpLayer_dec2cache, _GrpLayer_sortAFrameName, _GrpLayer_dec2cache4Cripto, _GrpLayer_mkSprite;
+var _a, _GrpLayer_elc, _GrpLayer_hFace, _GrpLayer_main, _GrpLayer_cfg, _GrpLayer_sys, _GrpLayer_glbVol, _GrpLayer_movVol, _GrpLayer_evtMng, _GrpLayer_idc, _GrpLayer_csvFn, _GrpLayer_sBkFn, _GrpLayer_sBkFace, _GrpLayer_width, _GrpLayer_height, _GrpLayer_dec2cache, _GrpLayer_sortAFrameName, _GrpLayer_dec2cache4Cripto, _GrpLayer_mkSprite, _GrpLayer_hAEncImg, _GrpLayer_hEncImgOUrl;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GrpLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -70164,6 +70163,49 @@ class GrpLayer extends Layer_1.Layer {
         hve.addEventListener('ended', fnc, { once: true, passive: true });
         return __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_evtMng).waitEvent(() => { hve.pause(); fnc(); }, (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
     }
+    static loadPic2Img(src, img, onload) {
+        const oUrl = __classPrivateFieldGet(this, _a, "f", _GrpLayer_hEncImgOUrl)[src];
+        if (oUrl) {
+            img.src = oUrl;
+            return;
+        }
+        const aImg = __classPrivateFieldGet(this, _a, "f", _GrpLayer_hAEncImg)[src];
+        if (aImg) {
+            aImg.push(img);
+            return;
+        }
+        __classPrivateFieldGet(this, _a, "f", _GrpLayer_hAEncImg)[src] = [img];
+        const url2 = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_cfg).searchPath(src, Config_1.Config.EXT_SPRITE);
+        const ld2 = (new pixi_js_1.Loader)
+            .add({ name: src, url: url2, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.BUFFER, });
+        if (__classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_sys).crypto)
+            ld2.use((res, next) => {
+                __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_sys).dec(res.extension, res.data)
+                    .then(r => {
+                    if (res.extension !== 'bin') {
+                        next?.();
+                        return;
+                    }
+                    res.data = r;
+                    if (r instanceof HTMLImageElement) {
+                        res.type = pixi_js_1.LoaderResource.TYPE.IMAGE;
+                    }
+                    next?.();
+                })
+                    .catch(e => __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_main).errScript(`GrpLayer loadPic ロード失敗です fn:${res.name} ${e}`, false));
+            });
+        ld2.load((_ldr, hRes) => {
+            for (const s2 in hRes) {
+                const u2 = __classPrivateFieldGet(this, _a, "f", _GrpLayer_hEncImgOUrl)[s2] = hRes[s2].data.src;
+                __classPrivateFieldGet(this, _a, "f", _GrpLayer_hAEncImg)[s2].forEach(i => {
+                    i.src = u2;
+                    if (onload)
+                        i.onload = () => onload(i);
+                });
+                delete __classPrivateFieldGet(this, _a, "f", _GrpLayer_hAEncImg)[s2];
+            }
+        });
+    }
     setPos(hArg) {
         Layer_1.Layer.setXY((this.spLay.children.length === 0) ? this.spLay : this.spLay.children[0], hArg, this.spLay, true);
     }
@@ -70315,6 +70357,8 @@ _GrpLayer_dec2cache = { value: (_r, res, next) => {
         next();
     } };
 GrpLayer.hFn2VElm = {};
+_GrpLayer_hAEncImg = { value: {} };
+_GrpLayer_hEncImgOUrl = { value: {} };
 
 
 /***/ }),
@@ -76343,7 +76387,6 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
             elm.style.animationDelay = '0ms';
         elm.classList.add(`go_ch_out_${add.ch_out_style}`);
     });
-    __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_evtMng).escapeHint();
     const end = () => {
         old.parentElement.removeChild(old);
         __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").removeChildren().forEach(c => {

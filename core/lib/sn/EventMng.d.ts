@@ -17,6 +17,7 @@ export declare class EventMng implements IEvtMng {
     private readonly sndMng;
     private readonly scrItr;
     readonly sys: SysBase;
+    setTxtHint: (_txt: string, _fillStyle: string, _hint_font: string) => void;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator, sys: SysBase);
     resvFlameEvent(win: Window): void;
     destroy(): void;
@@ -24,7 +25,6 @@ export declare class EventMng implements IEvtMng {
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(h: IHEvt2Fnc): void;
     waitEvent(onFinish: () => void, canskip?: boolean, global?: boolean): boolean;
-    escapeHint(): void;
     unButton(ctnBtn: Container): void;
     button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;

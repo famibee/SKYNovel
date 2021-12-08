@@ -34,6 +34,7 @@ export declare class GrpLayer extends Layer {
         [name: string]: HTMLVideoElement;
     };
     static wv(hArg: HArg): boolean;
+    static loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement) => void): void;
     setPos(hArg: HArg): void;
     static add_face(hArg: HArg): boolean;
     static clearFace2Name(): void;

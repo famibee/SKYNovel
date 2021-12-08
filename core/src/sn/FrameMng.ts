@@ -11,6 +11,7 @@ import {IHTag, IVariable, IMain, HArg, IGetFrm} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 import {Config} from './Config';
+import {GrpLayer} from './GrpLayer';
 
 import {Tween} from '@tweenjs/tween.js'
 import {Loader, LoaderResource} from 'pixi.js';
@@ -101,40 +102,10 @@ export class FrameMng implements IGetFrm {
 
 				const win = ifrm.contentWindow!;
 				this.#evtMng.resvFlameEvent(win);
-
-				((win as any).sn_repRes)?.((i: HTMLImageElement)=> {
-					const src = (i.dataset.src ?? '').replace(/(.+\/|\..+)/g, '');
-					const oUrl = this.#hEncImgOUrl[src];
-					if (oUrl) {i.src = oUrl; return}
-
-					const aImg = this.#hAEncImg[src];
-					if (aImg) {aImg.push(i); return}
-					this.#hAEncImg[src] = [i];
-
-					const url2 = this.cfg.searchPath(src, Config.EXT_SPRITE);
-					const ld2 = (new Loader)
-					.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
-					if (this.sys.crypto) ld2.use((res, next)=> {
-						this.sys.dec(res.extension, res.data)
-						.then(r=> {
-							if (res.extension !== 'bin') {next?.(); return;}
-							res.data = r;
-							if (r instanceof HTMLImageElement) {
-								res.type = LoaderResource.TYPE.IMAGE;
-							}
-							next?.();
-						})
-						.catch(e=> this.main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
-					})
-					ld2.load((_ldr: any, hRes: any)=> {
-						for (const s2 in hRes) {
-							const u2 = this.#hEncImgOUrl[s2] = hRes[s2].data.src;
-							this.#hAEncImg[s2].forEach(v=> v.src = u2);
-							delete this.#hAEncImg[s2];
-						//	URL.revokeObjectURL(u2);// 画面遷移で毎回再生成するので
-						}
-					});
-				});
+				((win as any).sn_repRes)?.((img: HTMLImageElement)=>
+				GrpLayer.loadPic2Img(
+					(img.dataset.src ?? '').replace(/(.+\/|\..+)/g, ''), img
+				));
 
 				this.main.resume();
 			};
@@ -142,10 +113,8 @@ export class FrameMng implements IGetFrm {
 
 		return true;
 	}
-	#hDisabled	: {[id: string]: boolean}	= Object.create(null);
+	#hDisabled	: {[id: string]: boolean}	= {};
 	getFrmDisabled(id: string): boolean {return this.#hDisabled[id]}
-	#hAEncImg	: {[name: string]: HTMLImageElement[]}	= Object.create(null);
-	#hEncImgOUrl	: {[name: string]: string}	= Object.create(null);
 	#rect(hArg: HArg): DOMRect {
 		const a = {...hArg};
 		const re = this.sys.resolution;

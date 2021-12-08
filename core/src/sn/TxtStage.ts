@@ -1016,7 +1016,6 @@ export class TxtStage extends Container {
 			elm.classList.add(`go_ch_out_${add.ch_out_style}`);
 		});
 
-		TxtStage.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
 		const end = ()=> {
 			old.parentElement!.removeChild(old);
 			this.#cntTxt.removeChildren().forEach(c=> {

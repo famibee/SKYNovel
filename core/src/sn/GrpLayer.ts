@@ -82,7 +82,7 @@ export class GrpLayer extends Layer {
 
 	#csvFn		= '';
 	#sBkFn		= '';
-	#sBkFace		= '';
+	#sBkFace	= '';
 	static	hFn2ResAniSpr	: {[name: string]:	IResAniSpr} = {};
 	override readonly	lay = (hArg: HArg)=> this.laySub(hArg, isStop=> {
 		if (isStop) GrpLayer.#main.resume();
@@ -135,8 +135,8 @@ export class GrpLayer extends Layer {
 		if (! ret) resolve(false);
 		return ret;
 	}
-	#width = 0;
-	#height = 0;
+	#width	= 0;
+	#height	= 0;
 	override	get	width() {return this.#width}
 	override	get	height() {return this.#height}
 
@@ -349,6 +349,46 @@ export class GrpLayer extends Layer {
 			argChk_Boolean(hArg, 'global', false),
 		);
 	}
+
+
+	static	loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement)=> void) {
+		const oUrl = this.#hEncImgOUrl[src];
+		if (oUrl) {img.src = oUrl; return}
+
+		const aImg = this.#hAEncImg[src];
+		if (aImg) {aImg.push(img); return}
+		this.#hAEncImg[src] = [img];
+
+		const url2 = GrpLayer.#cfg.searchPath(src, Config.EXT_SPRITE);
+		const ld2 = (new Loader)
+		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
+		if (GrpLayer.#sys.crypto) ld2.use((res, next)=> {
+			GrpLayer.#sys.dec(res.extension, res.data)
+			.then(r=> {
+				if (res.extension !== 'bin') {next?.(); return;}
+				res.data = r;
+				if (r instanceof HTMLImageElement) {
+					res.type = LoaderResource.TYPE.IMAGE;
+				}
+				next?.();
+			})
+			.catch(e=> GrpLayer.#main.errScript(`GrpLayer loadPic ロード失敗です fn:${res.name} ${e}`, false));
+		})
+		ld2.load((_ldr, hRes)=> {
+			for (const s2 in hRes) {
+				const u2 = this.#hEncImgOUrl[s2] = hRes[s2].data.src;
+				this.#hAEncImg[s2].forEach(i=> {
+					i.src = u2;
+					if (onload) i.onload = ()=> onload(i);
+				});
+				delete this.#hAEncImg[s2];
+			//	URL.revokeObjectURL(u2);// 画面遷移で毎回再生成するので
+			}
+		});
+	}
+	static	#hAEncImg		: {[name: string]: HTMLImageElement[]}	= {};
+	static	#hEncImgOUrl	: {[name: string]: string}				= {};
+
 
 	setPos(hArg: HArg): void {
 		Layer.setXY(

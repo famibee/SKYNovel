@@ -36,6 +36,8 @@ export declare type HArg = {
     enabled?: boolean;
     hint?: string;
     hint_tate?: boolean;
+    hint_color?: string;
+    hint_font?: string;
     clickse?: string;
     enterse?: string;
     leavese?: string;

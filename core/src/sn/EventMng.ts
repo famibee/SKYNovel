@@ -19,15 +19,17 @@ import {Container, Application, utils, Graphics, Rectangle} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
+import {GrpLayer} from './GrpLayer';
 const {GamepadListener} = require('gamepad.js');
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
-	readonly	#hint		: Button;
-	readonly	#WIDTH_HINT_PIC	= 100;
-	readonly	#hint_txt_w	: number;
-	readonly	#h_padl		: number;	// hintの文字と左端との幅
-	readonly	#g_hint		= new Graphics;	// Hint 表示確認用
+	readonly	#cvsHint	= document.createElement('canvas');
+				#picHint_w	= 100;
+				#picHint_h	= 50;
+	readonly	#padHint	: number;	// hintの文字と左端との幅
+	readonly	#grpHint	= new Graphics;	// Hint 表示確認用
+	setTxtHint = (_txt: string, _fillStyle: string, _hint_font: string)=> {};
 
 	readonly	#gamepad	= new GamepadListener({
 		analog: false,
@@ -86,13 +88,45 @@ export class EventMng implements IEvtMng {
 		}
 
 		let fnHint = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAyBAMAAABYG2ONAAAACXBIWXMAAAsTAAALEwEAmpwYAAAGuGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDYwLCAyMDIwLzA1LzEyLTE2OjA0OjE3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjEuMiAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjAtMDgtMTlUMDM6MDk6MjUrMDk6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIwLTA4LTE5VDIzOjUyOjI5KzA5OjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDphY2U0MDcwOS04ZTQxLTQ1YjYtYTMwZi05NDU1YWM1OTAwMmEiPiA8eG1wTU06SGlzdG9yeT4gPHJkZjpTZXE+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjcmVhdGVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmFjZTQwNzA5LThlNDEtNDViNi1hMzBmLTk0NTVhYzU5MDAyYSIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQwMzowOToyNSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3Mzg4MzYwLWJjMjctNDRkZi1hMTYwLTk5N2M4ODNmYTA0ZCIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMjo0NTozNiswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOjI5ZjM1YWNlLTc0NzMtNGI3My05OGJjLWQ1OTk4ZDk5MjQzNiIgc3RFdnQ6d2hlbj0iMjAyMC0wOC0xOVQyMzo1MjoyOSswOTowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKE1hY2ludG9zaCkiIHN0RXZ0OmNoYW5nZWQ9Ii8iLz4gPC9yZGY6U2VxPiA8L3htcE1NOkhpc3Rvcnk+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+WWAYXwAAACdQTFRF////PDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlPDIlCOA6SAAAAA10Uk5TACB/MID/EJBA8NCwYDCdv6cAAABoSURBVHgBYxicYBQIKZEIlJmMSQWGTKS7a8RpGdUyqmVUy6iWUS3y7zGBAlwai+wnrOZwTA2FgBnE220F0RFlQLwWtq1gLdtI8SI7SEc4acFyMjQ08gBpgWzlAEKkgayoBJJj7AAuCQAm1kUjHh83WgAAAABJRU5ErkJggg==';
-		try {fnHint = cfg.searchPath('hint', Config.EXT_SPRITE);} catch {}
-		this.#hint = new Button({enabled: false, text: 'hint', style: `{"fill": "white", "fontSize": "${30 *0.7}px"}`, b_pic: fnHint, width: 80, design: false,}, this, ()=> {}, ()=> false);
-		this.#hint.visible = false;
-		appPixi.stage.addChild(this.#hint);
-		this.#hint_txt_w = this.#hint.getBtnBounds().width;
-		this.#h_padl = (this.#hint.width -this.#hint_txt_w) /2;
-		if (this.cfg.oCfg.debug.masume) appPixi.stage.addChild(this.#g_hint);
+		let isCustomHint = false;
+		try {
+			fnHint = cfg.searchPath('hint', Config.EXT_SPRITE);
+			isCustomHint = true;
+		} catch {}
+		const ctx = this.#cvsHint.getContext('2d');
+		if (ctx) {
+			const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
+			this.#cvsHint.hidden = true;
+			cvs.parentElement!.appendChild(this.#cvsHint);
+			const s = this.#cvsHint.style;
+			s.position = 'absolute';
+			s.left = s.top = '0';
+			s.zIndex = '10000';
+			s.pointerEvents = 'none';
+			s.userSelect = 'none';
+			this.#padHint = 10;
+
+			const img = new Image;
+			const initHint = ()=> {
+				this.#cvsHint.width = this.#picHint_w = img.width;
+				this.#cvsHint.height= this.#picHint_h = img.height;
+				this.setTxtHint('行方向の変更', 'white', '22px Arial');
+			};
+			this.setTxtHint = (txt, fillStyle, hint_font)=> {
+				ctx.clearRect(0, 0, this.#cvsHint.width, this.#cvsHint.height);
+				ctx.drawImage(img, 0, 0);
+				ctx.textBaseline = 'top';
+				ctx.font = hint_font;
+			//	ctx.textAlign = 'center';
+				ctx.fillStyle = fillStyle;
+				ctx.fillText(txt, this.#padHint, 16, this.#picHint_w -this.#padHint *2);
+			};
+			if (isCustomHint) GrpLayer.loadPic2Img('hint', img, i=> {
+				if (img === i) initHint();
+			});
+			else {img.src = fnHint; img.onload = initHint;}
+		}
+		if (this.cfg.oCfg.debug.masume) appPixi.stage.addChild(this.#grpHint);
 		else this.#dispHint_masume = ()=> {};
 
 
@@ -241,7 +275,7 @@ export class EventMng implements IEvtMng {
 	destroy() {
 		this.#fcs.destroy();
 		this.#elc.clear();
-		this.#hint.parent?.removeChild(this.#hint);
+		this.#cvsHint?.parentElement!.removeChild(this.#cvsHint);
 	}
 
 	#hLocalEvt2Fnc	: IHEvt2Fnc = {};
@@ -276,7 +310,7 @@ export class EventMng implements IEvtMng {
 
 		this.#isWait = false;
 		ke(e);
-		this.#hint.visible = false;
+		this.#cvsHint.hidden = true;
 		//this.hLocalEvt2Fnc = {};	// Main.ts resumeByJumpOrCall()が担当
 	}
 	#isWait		= false;
@@ -344,9 +378,6 @@ export class EventMng implements IEvtMng {
 		this.scrItr.firstWait();
 	};
 
-	// ボタンごとdestroyされると乗っかってるHintごとdestroyされるので回避用
-	escapeHint() {this.#hint.parent?.removeChild(this.#hint);}
-
 	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn);}
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
@@ -365,10 +396,7 @@ export class EventMng implements IEvtMng {
 		// マウスカーソルを載せるとヒントをツールチップス表示する
 		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
 		// マウスオーバーでの見た目変化
-//==========
-//		const nr = ()=> {normal(); this.#hint.visible = false;};
-		const nr = ()=> {normal();};
-//==========
+		const nr = ()=> {normal(); this.#cvsHint.hidden = true;};
 		const hv = ()=> {onHint(); return hover();};
 		ee.on('pointerover', hv);
 		ee.on('pointerout', ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()});
@@ -436,36 +464,38 @@ export class EventMng implements IEvtMng {
 			rctBtn.x += cpp.x;	// レイヤ位置を加算
 			rctBtn.y += cpp.y;
 		}
-		this.#hint.setText(hArg.hint ?? '');
-		const hint_width = argChk_Num(hArg, 'hint_width', this.#WIDTH_HINT_PIC);
-		const scale_x = hint_width /this.#WIDTH_HINT_PIC;
-		this.#hint.setTransform(
-			rctBtn.x, rctBtn.y, scale_x, 1, ctnBtn.rotation, 0, 0,
-			isLink	// pivotなので正負がイメージと逆
-				? -(this.#h_padl -(hint_width -rctBtn.width)/2 /scale_x)
-					// hint_width /scale_x		// hint横幅
-					// rctBtn.width /scale_x	// 親文字幅
-				: -(rctBtn.width /scale_x -this.#hint_txt_w)/2,
-			this.#hint.height
-		);
-		this.#hint.visible = true;
+		this.setTxtHint(hArg.hint ?? '', hArg.hint_color ?? 'white', hArg.hint_font ?? '22px Arial');
+		const hint_width = argChk_Num(hArg, 'hint_width', this.#picHint_w);
+		const scale_x = hint_width /this.#picHint_w;
+		const hint_tate = argChk_Boolean(hArg, 'hint_tate', false);
 
-		this.#dispHint_masume(hArg, ctnBtn, rctBtn, isLink, hint_width);
+		this.#cvsHint.style.left = `${rctBtn.x}px`;
+		this.#cvsHint.style.top = `${rctBtn.y}px`;
+		this.#cvsHint.style.transformOrigin = 'top left';
+		this.#cvsHint.style.transform = `rotateZ(${
+			ctnBtn.rotation +(hint_tate ?Math.PI *90 /180 :0)
+		}rad) scale(${scale_x}, 1) translate(${
+			((hint_tate ?rctBtn.height :rctBtn.width) -hint_width)/2 /scale_x
+		}px, ${
+			(hint_tate ?-rctBtn.width :0) -this.#picHint_h}px)`;
+		this.#cvsHint.hidden = false;
+
+		this.#dispHint_masume(hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
 	}
-	readonly	#dispHint_masume = (hArg: HArg, ctnBtn: Container, rctBtn: Rectangle, isLink: boolean, hint_width: number)=> {
-//console.log(`fn:EventMng.ts == hint_width:${hint_width} this.#hint(${this.#hint.x}, ${this.#hint.y}, ${this.#hint.width}, ${this.#hint.height}) rctBtn(${rctBtn.x}, ${rctBtn.y}, ${rctBtn.width}, ${rctBtn.height})`);
+	readonly	#dispHint_masume = (hArg: HArg, ctnBtn: Container, rctBtn: Rectangle, isLink: boolean, hint_width: number, hint_tate: boolean)=> {
+//console.log(`fn:EventMng.ts == hint_tate:${hint_tate} pic(w:${hint_width}, h:${this.#heightHintPic50}) #cvsHint(${this.#cvsHint.style.left}, ${this.#cvsHint.style.top}, ${this.#cvsHint.width}, ${this.#cvsHint.height}) rctBtn(${rctBtn.x}, ${rctBtn.y}, ${rctBtn.width}, ${rctBtn.height})`);
 
 		// === Button/Link 表示確認用
-		this.#g_hint.zIndex = 1000;
-		this.#g_hint.x = rctBtn.x;
-		this.#g_hint.y = rctBtn.y;
+		this.#grpHint.zIndex = 1000;
+		this.#grpHint.x = rctBtn.x;
+		this.#grpHint.y = rctBtn.y;
 	//x	this.#g_hint.x = this.#g_hint.y = 0;
-		this.#g_hint.angle = ctnBtn.angle;
+		this.#grpHint.rotation = ctnBtn.rotation;
 		const p = (isLink ?ctnBtn.parent :ctnBtn).scale;
 			// 文字リンクのクリック用Spriteだと、
 			// scale.x = 文字サイズという謎動作なので
 		const isBtnPic = (hArg.タグ名 === 'button') && (hArg.pic);
-		this.#g_hint.clear()
+		this.#grpHint.clear()
 		.beginFill(0x33FF00, 0.2)
 		.lineStyle(1, 0x33FF00, 1)
 	//x	.drawRect(rctBtn.x, rctBtn.y, rctBtn.width, rctBtn.height)
@@ -474,14 +504,20 @@ export class EventMng implements IEvtMng {
 
 		// === Hint 表示確認用
 		.beginFill(0x0033FF, 0.2)
-		.lineStyle(2, 0x0033FF, 1)
-		.drawRect(
+		.lineStyle(2, 0x0033FF, 1);
+		if (hint_tate) this.#grpHint.drawRect(
+			isLink ?rctBtn.height :rctBtn.width,
+			((isLink ?rctBtn.width :rctBtn.height) -hint_width) /2,
+			this.#picHint_h *(isBtnPic ?1 :p.x),
+			hint_width *(isBtnPic ?1 :p.y),
+		);
+		else this.#grpHint.drawRect(
 			(rctBtn.width -hint_width) /2,
-			-this.#hint.height,
+			-this.#picHint_h,
 			hint_width *(isBtnPic ?1 :p.x),
-			this.#hint.height *(isBtnPic ?1 :p.y)
-		)
-		.endFill()
+			this.#picHint_h *(isBtnPic ?1 :p.y),
+		);
+		this.#grpHint.endFill();
 	}
 
 
