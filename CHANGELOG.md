@@ -1,3 +1,10 @@
+# [1.22.0](https://github.com/famibee/SKYNovel/compare/v1.21.0...v1.22.0) (2021-12-08)
+
+
+### Features
+
+* hintをHTML canvas要素で表示するように ([7f840bf](https://github.com/famibee/SKYNovel/commit/7f840bfc95566623f5f794f951f6ec29905577ee))
+
 - feat: hintをHTML canvas要素で表示するように
 - feat: hint_color属性でhint文字色を指定可能に（'white', '#FF0000'）
 - feat: hint_font属性追加、hint文字サイズとフォントを指定する
