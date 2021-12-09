@@ -26,6 +26,7 @@ export interface IEvtMng {
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(a: IHEvt2Fnc): void;
     waitLimitedEvent(hArg: HArg, fnc: () => void): boolean;
+    cvsResize(): void;
     resvFlameEvent(win: Window): void;
 }
 export declare function argChk_Num(hash: any, name: string, def: number): number;

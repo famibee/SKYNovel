@@ -51,6 +51,7 @@ export class LayerMng implements IGetFrm {
 			);
 
 			this.#frmMng.cvsResize();
+			this.#evtMng.cvsResize();
 		};
 		if (CmnLib.isMobile) {
 			globalThis.addEventListener('orientationchange', fncResizeLay, {passive: true});

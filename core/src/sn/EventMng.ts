@@ -51,7 +51,7 @@ export class EventMng implements IEvtMng {
 			return true;	// waitEventBase()したらreturn true;
 		};
 		hTag.set_cancel_skip= ()=> this.#set_cancel_skip();	// スキップ中断予約
-		hTag.set_focus		= o=> this.set_focus(o);	// フォーカス移動
+		hTag.set_focus		= o=> this.#set_focus(o);	// フォーカス移動
 		hTag.wait			= o=> this.#wait(o);		// ウェイトを入れる
 		hTag.waitclick		= ()=> this.#waitclick();	// クリックを待つ
 
@@ -460,7 +460,10 @@ export class EventMng implements IEvtMng {
 
 		this.sndMng.loadAheadSnd(hArg);
 	}
-	#dispHint(hArg: HArg, ctnBtn: Container) {
+	#dispHint(hArg: HArg, ctnBtn: Container, masume = true) {
+		this.#dispHint_hArg = hArg;
+		this.#dispHint_ctnBtn = ctnBtn;
+
 		const rctBtn = ctnBtn instanceof Button
 			? ctnBtn.getBtnBounds()
 			: ctnBtn.getBounds();
@@ -475,18 +478,26 @@ export class EventMng implements IEvtMng {
 		const scale_x = hint_width /this.#picHint_w;
 		const hint_tate = argChk_Boolean(hArg, 'hint_tate', false);
 
-		this.#cvsHint.style.left = `${rctBtn.x}px`;
-		this.#cvsHint.style.top = `${rctBtn.y}px`;
+		const scale = this.sys.reso4frame *CmnLib.cvsScale;
+		this.#cvsHint.style.left= `${this.sys.ofsLeft4frm+rctBtn.x *scale}px`;
+		this.#cvsHint.style.top = `${this.sys.ofsTop4frm +rctBtn.y *scale}px`;
 		this.#cvsHint.style.transformOrigin = 'top left';
 		this.#cvsHint.style.transform = `rotateZ(${
 			ctnBtn.rotation +(hint_tate ?Math.PI *90 /180 :0)
-		}rad) scale(${scale_x}, 1) translate(${
+		}rad) scale(${scale_x *scale}, ${scale}) translate(${
 			((hint_tate ?rctBtn.height :rctBtn.width) -hint_width)/2 /scale_x
 		}px, ${
-			(hint_tate ?-rctBtn.width :0) -this.#picHint_h}px)`;
+			(hint_tate ?-rctBtn.width :0) -this.#picHint_h
+		}px)`;
 		this.#cvsHint.hidden = false;
 
-		this.#dispHint_masume(hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
+		if (masume) this.#dispHint_masume(hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
+	}
+	#dispHint_hArg	: HArg;
+	#dispHint_ctnBtn: Container;
+	cvsResize() {
+		if (this.#cvsHint.hidden) return;
+		this.#dispHint(this.#dispHint_hArg, this.#dispHint_ctnBtn, false);
 	}
 	readonly	#dispHint_masume = (hArg: HArg, ctnBtn: Container, rctBtn: Rectangle, isLink: boolean, hint_width: number, hint_tate: boolean)=> {
 //console.log(`fn:EventMng.ts == hint_tate:${hint_tate} pic(w:${hint_width}, h:${this.#heightHintPic50}) #cvsHint(${this.#cvsHint.style.left}, ${this.#cvsHint.style.top}, ${this.#cvsHint.width}, ${this.#cvsHint.height}) rctBtn(${rctBtn.x}, ${rctBtn.y}, ${rctBtn.width}, ${rctBtn.height})`);
@@ -774,7 +785,7 @@ export class EventMng implements IEvtMng {
 
 
 	// フォーカス移動
-	protected set_focus(hArg: HArg) {
+	#set_focus(hArg: HArg) {
 		const add = hArg.add;
 		if (add?.slice(0, 4) === 'dom=') {
 			const g = this.#getHtmlElmList(add);

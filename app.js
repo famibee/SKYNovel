@@ -68475,7 +68475,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _EventMng_instances, _EventMng_elc, _EventMng_cvsHint, _EventMng_picHint_w, _EventMng_picHint_h, _EventMng_padHint, _EventMng_grpHint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_dispHint_masume, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_unregisterClickEvts, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
+var _EventMng_instances, _EventMng_elc, _EventMng_cvsHint, _EventMng_picHint_w, _EventMng_picHint_h, _EventMng_padHint, _EventMng_grpHint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_dispHint_hArg, _EventMng_dispHint_ctnBtn, _EventMng_dispHint_masume, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_unregisterClickEvts, _EventMng_set_focus, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -68525,6 +68525,8 @@ class EventMng {
             __classPrivateFieldSet(this, _EventMng_firstWait, () => { }, "f");
             this.scrItr.firstWait();
         });
+        _EventMng_dispHint_hArg.set(this, void 0);
+        _EventMng_dispHint_ctnBtn.set(this, void 0);
         _EventMng_dispHint_masume.set(this, (hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate) => {
             __classPrivateFieldGet(this, _EventMng_grpHint, "f").zIndex = 1000;
             __classPrivateFieldGet(this, _EventMng_grpHint, "f").x = rctBtn.x;
@@ -68570,7 +68572,7 @@ class EventMng {
             return true;
         };
         hTag.set_cancel_skip = () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_set_cancel_skip).call(this);
-        hTag.set_focus = o => this.set_focus(o);
+        hTag.set_focus = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_set_focus).call(this, o);
         hTag.wait = o => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_wait).call(this, o);
         hTag.waitclick = () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitclick).call(this);
         sndMng.setEvtMng(this);
@@ -68878,6 +68880,11 @@ class EventMng {
         }
         this.sndMng.loadAheadSnd(hArg);
     }
+    cvsResize() {
+        if (__classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden)
+            return;
+        __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_dispHint).call(this, __classPrivateFieldGet(this, _EventMng_dispHint_hArg, "f"), __classPrivateFieldGet(this, _EventMng_dispHint_ctnBtn, "f"), false);
+    }
     waitLimitedEvent(hArg, onFinish) {
         __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
         this.val.saveKidoku();
@@ -68903,44 +68910,6 @@ class EventMng {
         __classPrivateFieldGet(this, _EventMng_procWheel4wle, "f").call(this, __classPrivateFieldGet(this, _EventMng_elcWLE, "f"), fnc);
         return true;
     }
-    set_focus(hArg) {
-        const add = hArg.add;
-        if (add?.slice(0, 4) === 'dom=') {
-            const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, add);
-            if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
-                throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
-            g.el.forEach(elm => __classPrivateFieldGet(this, _EventMng_fcs, "f").add(elm, () => {
-                if (!__classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_canFocus).call(this, elm))
-                    return false;
-                elm.focus();
-                return true;
-            }, () => { }));
-            return false;
-        }
-        const del = hArg.del;
-        if (del?.slice(0, 4) === 'dom=') {
-            const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, del);
-            if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
-                throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
-            g.el.forEach(elm => __classPrivateFieldGet(this, _EventMng_fcs, "f").remove(elm));
-            return false;
-        }
-        const to = hArg.to;
-        if (!to)
-            throw '[set_focus] add か to は必須です';
-        switch (to) {
-            case 'null':
-                __classPrivateFieldGet(this, _EventMng_fcs, "f").blur();
-                break;
-            case 'next':
-                __classPrivateFieldGet(this, _EventMng_fcs, "f").next();
-                break;
-            case 'prev':
-                __classPrivateFieldGet(this, _EventMng_fcs, "f").prev();
-                break;
-        }
-        return false;
-    }
     isSkipKeyDown() {
         if (this.scrItr.skip4page)
             return true;
@@ -68951,7 +68920,7 @@ class EventMng {
     }
 }
 exports.EventMng = EventMng;
-_EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picHint_w = new WeakMap(), _EventMng_picHint_h = new WeakMap(), _EventMng_padHint = new WeakMap(), _EventMng_grpHint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_dispHint_masume = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
+_EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picHint_w = new WeakMap(), _EventMng_picHint_h = new WeakMap(), _EventMng_padHint = new WeakMap(), _EventMng_grpHint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_dispHint_hArg = new WeakMap(), _EventMng_dispHint_ctnBtn = new WeakMap(), _EventMng_dispHint_masume = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
     if (e['isComposing'])
         return;
     if (e.key in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
@@ -69018,7 +68987,9 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
         o.global = Object.keys(__classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f"));
         console.log(`🎍 wait event... %o`, o);
     }
-}, _EventMng_dispHint = function _EventMng_dispHint(hArg, ctnBtn) {
+}, _EventMng_dispHint = function _EventMng_dispHint(hArg, ctnBtn, masume = true) {
+    __classPrivateFieldSet(this, _EventMng_dispHint_hArg, hArg, "f");
+    __classPrivateFieldSet(this, _EventMng_dispHint_ctnBtn, ctnBtn, "f");
     const rctBtn = ctnBtn instanceof Button_1.Button
         ? ctnBtn.getBtnBounds()
         : ctnBtn.getBounds();
@@ -69032,12 +69003,14 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     const hint_width = (0, CmnLib_1.argChk_Num)(hArg, 'hint_width', __classPrivateFieldGet(this, _EventMng_picHint_w, "f"));
     const scale_x = hint_width / __classPrivateFieldGet(this, _EventMng_picHint_w, "f");
     const hint_tate = (0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', false);
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.left = `${rctBtn.x}px`;
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.top = `${rctBtn.y}px`;
+    const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.left = `${this.sys.ofsLeft4frm + rctBtn.x * scale}px`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.top = `${this.sys.ofsTop4frm + rctBtn.y * scale}px`;
     __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transformOrigin = 'top left';
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x}, 1) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __classPrivateFieldGet(this, _EventMng_picHint_h, "f")}px)`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x * scale}, ${scale}) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __classPrivateFieldGet(this, _EventMng_picHint_h, "f")}px)`;
     __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = false;
-    __classPrivateFieldGet(this, _EventMng_dispHint_masume, "f").call(this, hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
+    if (masume)
+        __classPrivateFieldGet(this, _EventMng_dispHint_masume, "f").call(this, hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
 }, _EventMng_clear_event = function _EventMng_clear_event(hArg) {
     const glb = (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false);
     const h = glb ? __classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f") : __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f");
@@ -69215,6 +69188,43 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
         delete hE1T['ArrowDown'];
         delete hE1T['wheel.y>0'];
     }
+}, _EventMng_set_focus = function _EventMng_set_focus(hArg) {
+    const add = hArg.add;
+    if (add?.slice(0, 4) === 'dom=') {
+        const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, add);
+        if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
+            throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+        g.el.forEach(elm => __classPrivateFieldGet(this, _EventMng_fcs, "f").add(elm, () => {
+            if (!__classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_canFocus).call(this, elm))
+                return false;
+            elm.focus();
+            return true;
+        }, () => { }));
+        return false;
+    }
+    const del = hArg.del;
+    if (del?.slice(0, 4) === 'dom=') {
+        const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, del);
+        if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
+            throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+        g.el.forEach(elm => __classPrivateFieldGet(this, _EventMng_fcs, "f").remove(elm));
+        return false;
+    }
+    const to = hArg.to;
+    if (!to)
+        throw '[set_focus] add か to は必須です';
+    switch (to) {
+        case 'null':
+            __classPrivateFieldGet(this, _EventMng_fcs, "f").blur();
+            break;
+        case 'next':
+            __classPrivateFieldGet(this, _EventMng_fcs, "f").next();
+            break;
+        case 'prev':
+            __classPrivateFieldGet(this, _EventMng_fcs, "f").prev();
+            break;
+    }
+    return false;
 }, _EventMng_wait = function _EventMng_wait(hArg) {
     if (this.scrItr.skip4page)
         return false;
@@ -70786,6 +70796,7 @@ void main(void) {
             else
                 __classPrivateFieldGet(this, _LayerMng_aLayName, "f").forEach(layer => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].fore.cvsResize());
             __classPrivateFieldGet(this, _LayerMng_frmMng, "f").cvsResize();
+            __classPrivateFieldGet(this, _LayerMng_evtMng, "f").cvsResize();
         };
         if (CmnLib_1.CmnLib.isMobile) {
             globalThis.addEventListener('orientationchange', fncResizeLay, { passive: true });
