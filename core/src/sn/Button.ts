@@ -77,7 +77,7 @@ export class Button extends Container {
 			oName.type = 'pic';	// dump用
 			this.#idc = new PicBtnDesignCast(this, hArg);
 
-			if (enabled) this.evtMng.button(this.hArg, this, this.#normal, this.#hover, this.#clicked);
+			if (enabled) this.evtMng.button(this.hArg, this, ()=> this.#normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
 
 			if (! GrpLayer.csv2Sprites(
 				hArg.pic,

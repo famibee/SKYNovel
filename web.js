@@ -68236,7 +68236,7 @@ class Button extends pixi_js_1.Container {
             oName.type = 'pic';
             __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.PicBtnDesignCast(this, hArg), "f");
             if (enabled)
-                this.evtMng.button(this.hArg, this, __classPrivateFieldGet(this, _Button_normal, "f"), __classPrivateFieldGet(this, _Button_hover, "f"), __classPrivateFieldGet(this, _Button_clicked, "f"));
+                this.evtMng.button(this.hArg, this, () => __classPrivateFieldGet(this, _Button_normal, "f").call(this), () => __classPrivateFieldGet(this, _Button_hover, "f").call(this), () => __classPrivateFieldGet(this, _Button_clicked, "f").call(this));
             if (!GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => {
                 __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_pic).call(this, sp, oName);
                 __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").width = sp.width * oName.scale_x;

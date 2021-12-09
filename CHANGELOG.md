@@ -1,3 +1,6 @@
+- fix: 画像ボタンで、マウスホバー・クリック時の表示変化しない件
+
+
 ## [1.22.1](https://github.com/famibee/SKYNovel/compare/v1.22.0...v1.22.1) (2021-12-09)
 
 
