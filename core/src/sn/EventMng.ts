@@ -299,7 +299,7 @@ export class EventMng implements IEvtMng {
 		if (! ke) {
 			if (key.slice(0, 5) === 'swipe') {	// スマホ用疑似スワイプスクロール
 				const esw: any = e;
-				globalThis.scrollBy(-(esw.deltaX ?? 0), -(esw.deltaY ?? 0));
+				globalThis.scrollBy(-esw.deltaX ?? 0, -esw.deltaY ?? 0);
 			}
 			return;
 		}
@@ -372,6 +372,12 @@ export class EventMng implements IEvtMng {
 
 		this.#isWait = true;		// 予約イベントの発生待ち
 		this.#firstWait();
+		if (CmnLib.debugLog) {
+			const o = Object.create(null);
+			o.local = Object.keys(this.#hLocalEvt2Fnc);
+			o.global= Object.keys(this.#hGlobalEvt2Fnc);
+			console.log(`🎍 wait event... %o`, o);
+		}
 	}
 	#firstWait = ()=> {
 		this.#firstWait = ()=> {};

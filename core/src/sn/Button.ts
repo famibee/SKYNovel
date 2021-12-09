@@ -76,7 +76,9 @@ export class Button extends Container {
 		if (hArg.pic) {
 			oName.type = 'pic';	// dump用
 			this.#idc = new PicBtnDesignCast(this, hArg);
-	
+
+			if (enabled) this.evtMng.button(this.hArg, this, this.#normal, this.#hover, this.#clicked);
+
 			if (! GrpLayer.csv2Sprites(
 				hArg.pic,
 				this,
@@ -236,6 +238,9 @@ export class Button extends Container {
 			()=> Layer.setBlendmode(this, this.hArg),
 		);
 	}
+	#normal		: ()=> void		= ()=> {};
+	#hover		: ()=> boolean	= ()=> false;
+	#clicked	: ()=> void		= ()=> {};
 	#loaded_pic(sp: Sprite, oName: any) {
 		this.#sp_pic = sp;
 		oName.alpha = sp.alpha = argChk_Num(this.hArg, 'alpha', sp.alpha);
@@ -249,14 +254,14 @@ export class Button extends Container {
 		const txHover = new Texture(tx, new Rectangle(w3 *2, 0, w3, h));
 		const normal = ()=> sp.texture = txNormal;
 		normal();
-		if (oName.enabled) this.evtMng.button(this.hArg, this, normal, ()=> {
+
+		this.#normal	= normal;
+		this.#hover		= ()=> {
 			if (! this.canFocus()) return false;
 			sp.texture = txHover;
 			return true;
-		}, ()=> sp.texture = txClicked);
-			// 「画像ロード後」というタイミングで evtMng.button() を呼ぶと
-			// scrItr.scriptFn が変わってしまうので、LayerMng の button()
-			// で対応している
+		};
+		this.#clicked	= ()=> sp.texture = txClicked;
 
 		if ('width' in this.hArg) {
 			oName.width = uint(this.hArg.width);

@@ -68188,7 +68188,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _Button_instances, _a, _Button_procMasume4txt, _Button_procMasume4pic, _Button_rctBtnTxt, _Button_idc, _Button_sp_b_pic, _Button_sp_pic, _Button_loaded_b_pic, _Button_loaded_pic;
+var _Button_instances, _a, _Button_procMasume4txt, _Button_procMasume4pic, _Button_rctBtnTxt, _Button_idc, _Button_sp_b_pic, _Button_sp_pic, _Button_loaded_b_pic, _Button_normal, _Button_hover, _Button_clicked, _Button_loaded_pic;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Button = void 0;
 const pixi_js_1 = __webpack_require__(/*! pixi.js */ "./node_modules/pixi.js/dist/esm/pixi.js");
@@ -68209,6 +68209,9 @@ class Button extends pixi_js_1.Container {
         _Button_idc.set(this, void 0);
         _Button_sp_b_pic.set(this, null);
         _Button_sp_pic.set(this, null);
+        _Button_normal.set(this, () => { });
+        _Button_hover.set(this, () => false);
+        _Button_clicked.set(this, () => { });
         if (CmnLib_1.CmnLib.isDbg) {
             this.makeDesignCast = gdc => gdc(__classPrivateFieldGet(this, _Button_idc, "f"));
             this.cvsResize = () => __classPrivateFieldGet(this, _Button_idc, "f").cvsResize();
@@ -68232,6 +68235,8 @@ class Button extends pixi_js_1.Container {
         if (hArg.pic) {
             oName.type = 'pic';
             __classPrivateFieldSet(this, _Button_idc, new DesignCast_1.PicBtnDesignCast(this, hArg), "f");
+            if (enabled)
+                this.evtMng.button(this.hArg, this, __classPrivateFieldGet(this, _Button_normal, "f"), __classPrivateFieldGet(this, _Button_hover, "f"), __classPrivateFieldGet(this, _Button_clicked, "f"));
             if (!GrpLayer_1.GrpLayer.csv2Sprites(hArg.pic, this, sp => {
                 __classPrivateFieldGet(this, _Button_instances, "m", _Button_loaded_pic).call(this, sp, oName);
                 __classPrivateFieldGet(this, _Button_rctBtnTxt, "f").width = sp.width * oName.scale_x;
@@ -68381,7 +68386,7 @@ class Button extends pixi_js_1.Container {
     }
 }
 exports.Button = Button;
-_a = Button, _Button_rctBtnTxt = new WeakMap(), _Button_idc = new WeakMap(), _Button_sp_b_pic = new WeakMap(), _Button_sp_pic = new WeakMap(), _Button_instances = new WeakSet(), _Button_loaded_b_pic = function _Button_loaded_b_pic(sp, txt) {
+_a = Button, _Button_rctBtnTxt = new WeakMap(), _Button_idc = new WeakMap(), _Button_sp_b_pic = new WeakMap(), _Button_sp_pic = new WeakMap(), _Button_normal = new WeakMap(), _Button_hover = new WeakMap(), _Button_clicked = new WeakMap(), _Button_instances = new WeakSet(), _Button_loaded_b_pic = function _Button_loaded_b_pic(sp, txt) {
     __classPrivateFieldSet(this, _Button_sp_b_pic, sp, "f");
     this.setChildIndex(sp, 0);
     sp.alpha = txt.alpha;
@@ -68399,13 +68404,14 @@ _a = Button, _Button_rctBtnTxt = new WeakMap(), _Button_idc = new WeakMap(), _Bu
     const txHover = new pixi_js_1.Texture(tx, new pixi_js_1.Rectangle(w3 * 2, 0, w3, h));
     const normal = () => sp.texture = txNormal;
     normal();
-    if (oName.enabled)
-        this.evtMng.button(this.hArg, this, normal, () => {
-            if (!this.canFocus())
-                return false;
-            sp.texture = txHover;
-            return true;
-        }, () => sp.texture = txClicked);
+    __classPrivateFieldSet(this, _Button_normal, normal, "f");
+    __classPrivateFieldSet(this, _Button_hover, () => {
+        if (!this.canFocus())
+            return false;
+        sp.texture = txHover;
+        return true;
+    }, "f");
+    __classPrivateFieldSet(this, _Button_clicked, () => sp.texture = txClicked, "f");
     if ('width' in this.hArg) {
         oName.width = (0, CmnLib_1.uint)(this.hArg.width);
         this.scale.x *= oName.width / w3;
@@ -70109,7 +70115,7 @@ class EventMng {
         if (!ke) {
             if (key.slice(0, 5) === 'swipe') {
                 const esw = e;
-                globalThis.scrollBy(-(esw.deltaX ?? 0), -(esw.deltaY ?? 0));
+                globalThis.scrollBy(-esw.deltaX ?? 0, -esw.deltaY ?? 0);
             }
             return;
         }
@@ -70354,6 +70360,12 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
         : key => __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")[key], "f");
     __classPrivateFieldSet(this, _EventMng_isWait, true, "f");
     __classPrivateFieldGet(this, _EventMng_firstWait, "f").call(this);
+    if (CmnLib_1.CmnLib.debugLog) {
+        const o = Object.create(null);
+        o.local = Object.keys(__classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f"));
+        o.global = Object.keys(__classPrivateFieldGet(this, _EventMng_hGlobalEvt2Fnc, "f"));
+        console.log(`🎍 wait event... %o`, o);
+    }
 }, _EventMng_dispHint = function _EventMng_dispHint(hArg, ctnBtn) {
     const rctBtn = ctnBtn instanceof Button_1.Button
         ? ctnBtn.getBtnBounds()
