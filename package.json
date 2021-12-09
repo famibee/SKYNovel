@@ -1,6 +1,6 @@
 {
 	"name": "@famibee/skynovel",
-	"version": "1.22.2",
+	"version": "1.22.3",
 	"description": "webgl novelgame framework",
 	"main": "core/web.js",
 	"types": "core/lib/index.d.ts",

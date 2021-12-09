@@ -1,3 +1,10 @@
+## [1.22.3](https://github.com/famibee/SKYNovel/compare/v1.22.2...v1.22.3) (2021-12-09)
+
+
+### Bug Fixes
+
+* ツールチップ、画面全体の拡大縮小に対応 ([7311ebe](https://github.com/famibee/SKYNovel/commit/7311ebebb7f60f3a510912e3f147584b57f8ef80))
+
 - fix: ツールチップ、画面全体の拡大縮小に対応
 
 
