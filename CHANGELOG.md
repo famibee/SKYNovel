@@ -1,3 +1,10 @@
+## [1.22.2](https://github.com/famibee/SKYNovel/compare/v1.22.1...v1.22.2) (2021-12-09)
+
+
+### Bug Fixes
+
+* 画像ボタンで、マウスホバー・クリック時の表示変化しない件 ([f30f11c](https://github.com/famibee/SKYNovel/commit/f30f11c3678730ae9e433384a2bf0a05e30e5dd6))
+
 - fix: 画像ボタンで、マウスホバー・クリック時の表示変化しない件
 
 
