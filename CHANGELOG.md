@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/famibee/SKYNovel/compare/v1.22.0...v1.22.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* 画像ボタンで、イベント予約が画像ロード後まで遅延する件 ([e7f9f97](https://github.com/famibee/SKYNovel/commit/e7f9f97f113d967328282684df57d8159366c7aa))
+
 - fix: 画像ボタンで、イベント予約が画像ロード後まで遅延する件
 - fix: デバッグスイッチ debugLog=true 時にイベント待ちした際、予約済みイベント名をコンソールに表示するように
 
