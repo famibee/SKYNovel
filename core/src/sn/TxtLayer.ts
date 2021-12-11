@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Layer} from './Layer';
-import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle} from './CmnLib';
+import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {TxtStage, IInfTxLay} from './TxtStage';
 import {Config} from './Config';
@@ -320,7 +320,7 @@ export class TxtLayer extends Layer {
 			}
 		}
 		else if ('b_color' in hArg) {
-			this.#b_color = parseInt(hArg.b_color || '0');
+			this.#b_color = argChk_Color(hArg, 'b_color', 0x000000);
 			if (this.#b_do) {
 				this.spLay.removeChild(this.#b_do);
 				this.#b_do.destroy();

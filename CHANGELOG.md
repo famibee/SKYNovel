@@ -1,3 +1,10 @@
+- feat: 文字レイヤのb_color属性などに色名前を使えるように
+	- 文字レイヤのb_color属性
+	- [snapshot]のb_color属性
+	- doc/prj/prj.json の init.bg_color
+- fix: 文字レイヤ背景色の b_colorで「#ffffff」形式の指定が出来なかったのを修正
+
+
 ## [1.22.3](https://github.com/famibee/SKYNovel/compare/v1.22.2...v1.22.3) (2021-12-09)
 
 

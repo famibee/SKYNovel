@@ -148,6 +148,26 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 }
 
 
+export function parseColor(v: string): number {
+	if (v.charAt(0) === '#') return parseInt(v.slice(1), 16);
+	const n = Number(v);
+	if (! isNaN(n)) return n;	// 0, 0xffffff
+
+	if (v === 'black') return 0;
+	CmnLib.cc4ColorName.fillStyle = v;
+	const cc = CmnLib.cc4ColorName.fillStyle;
+	if (cc === '#000000') throw `色名前 ${v} が異常です`;
+
+	return parseInt(cc.slice(1), 16);
+}
+export	function argChk_Color(hash: any, name: string, def: number): number {
+	const v = hash[name];
+	if (! v) return hash[name] = def;
+
+	return hash[name] = parseColor(String(v));
+}
+
+
 const REG_FN	= /^[^\/\.]+$|[^\/]+(?=\.)/;
 	// https://regex101.com/r/8sltIm/1
 export	function getFn(p: string) {return (p.match(REG_FN) ?? [''])[0];}
@@ -179,6 +199,7 @@ export class CmnLib {
 	static	retinaRate	= 1;
 
 	static	readonly	SN_ID	= 'skynovel';
+	static	cc4ColorName: CanvasRenderingContext2D;
 
 	static cvsResize(cvs: HTMLCanvasElement): boolean {
 		const bk_cw = CmnLib.cvsWidth;

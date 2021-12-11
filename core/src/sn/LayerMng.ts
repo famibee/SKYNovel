@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle} from './CmnLib';
+import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
 import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser} from './CmnInterface';
 import {Pages} from './Pages';
@@ -317,14 +317,14 @@ export class LayerMng implements IGetFrm {
 		if (this.sys.canCapturePage(fn)) return false;
 
 		const ext = getExt(fn);
-		const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
+		const b_color = argChk_Color(hArg, 'b_color', this.cfg.oCfg.init.bg_color);
 		const rnd = autoDetectRenderer({
 			width: argChk_Num(hArg, 'width', CmnLib.stageW),
 			height: argChk_Num(hArg, 'height', CmnLib.stageH),
 			backgroundAlpha: (b_color > 0x1000000) && (ext === 'png') ?0 :1,
 			antialias: argChk_Boolean(hArg, 'smoothing', false),
 			preserveDrawingBuffer: true,
-			backgroundColor: uint(b_color) & 0xFFFFFF,
+			backgroundColor: b_color & 0xFFFFFF,
 			autoDensity: true,
 		});
 		const a = [];

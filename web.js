@@ -68253,7 +68253,7 @@ class Button extends pixi_js_1.Container {
             align: 'center',
             dropShadow: true,
             dropShadowAlpha: 0.7,
-            dropShadowColor: '#ffffff',
+            dropShadowColor: 'white',
             dropShadowBlur: 7,
             dropShadowDistance: 0,
             fill: 'black',
@@ -68469,7 +68469,7 @@ exports.CallStack = CallStack;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CmnLib = exports.getExt = exports.getFn = exports.argChk_Boolean = exports.argChk_Num = exports.addStyle = exports.initStyle = exports.cnvTweenArg = exports.hMemberCnt = exports.getDateStr = exports.uint = exports.int = void 0;
+exports.CmnLib = exports.getExt = exports.getFn = exports.argChk_Color = exports.parseColor = exports.argChk_Boolean = exports.argChk_Num = exports.addStyle = exports.initStyle = exports.cnvTweenArg = exports.hMemberCnt = exports.getDateStr = exports.uint = exports.int = void 0;
 function int(o) { return parseInt(String(o), 10); }
 exports.int = int;
 function uint(o) {
@@ -68571,6 +68571,28 @@ function argChk_Boolean(hash, name, def) {
     return hash[name] = (v2 === 'false') ? false : Boolean(v2);
 }
 exports.argChk_Boolean = argChk_Boolean;
+function parseColor(v) {
+    if (v.charAt(0) === '#')
+        return parseInt(v.slice(1), 16);
+    const n = Number(v);
+    if (!isNaN(n))
+        return n;
+    if (v === 'black')
+        return 0;
+    CmnLib.cc4ColorName.fillStyle = v;
+    const cc = CmnLib.cc4ColorName.fillStyle;
+    if (cc === '#000000')
+        throw `色名前 ${v} が異常です`;
+    return parseInt(cc.slice(1), 16);
+}
+exports.parseColor = parseColor;
+function argChk_Color(hash, name, def) {
+    const v = hash[name];
+    if (!v)
+        return hash[name] = def;
+    return hash[name] = parseColor(String(v));
+}
+exports.argChk_Color = argChk_Color;
 const REG_FN = /^[^\/\.]+$|[^\/]+(?=\.)/;
 function getFn(p) { return (p.match(REG_FN) ?? [''])[0]; }
 exports.getFn = getFn;
@@ -68804,7 +68826,9 @@ class Config {
         if ('init' in oCfg)
             for (const n in this.oCfg.init) {
                 const v = String(this.oCfg.init[n]);
-                if (v.charAt(0) === '#')
+                if (n === 'bg_color')
+                    this.oCfg.init[n] = (0, CmnLib_1.parseColor)(v);
+                else
                     this.oCfg.init[n] = parseInt(v.slice(1), 16);
             }
         this.oCfg.debug = { ...this.oCfg.debug, ...oCfg.debug };
@@ -72397,14 +72421,14 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     if (this.sys.canCapturePage(fn))
         return false;
     const ext = (0, CmnLib_1.getExt)(fn);
-    const b_color = hArg.b_color ?? this.cfg.oCfg.init.bg_color;
+    const b_color = (0, CmnLib_1.argChk_Color)(hArg, 'b_color', this.cfg.oCfg.init.bg_color);
     const rnd = (0, pixi_js_1.autoDetectRenderer)({
         width: (0, CmnLib_1.argChk_Num)(hArg, 'width', CmnLib_1.CmnLib.stageW),
         height: (0, CmnLib_1.argChk_Num)(hArg, 'height', CmnLib_1.CmnLib.stageH),
         backgroundAlpha: (b_color > 0x1000000) && (ext === 'png') ? 0 : 1,
         antialias: (0, CmnLib_1.argChk_Boolean)(hArg, 'smoothing', false),
         preserveDrawingBuffer: true,
-        backgroundColor: (0, CmnLib_1.uint)(b_color) & 0xFFFFFF,
+        backgroundColor: b_color & 0xFFFFFF,
         autoDensity: true,
     });
     const a = [];
@@ -73075,10 +73099,15 @@ class Main {
 }
 exports.Main = Main;
 _Main_cfg = new WeakMap(), _Main_appPixi = new WeakMap(), _Main_hTag = new WeakMap(), _Main_val = new WeakMap(), _Main_prpPrs = new WeakMap(), _Main_sndMng = new WeakMap(), _Main_scrItr = new WeakMap(), _Main_dbgMng = new WeakMap(), _Main_layMng = new WeakMap(), _Main_evtMng = new WeakMap(), _Main_fncNext = new WeakMap(), _Main_alzTagArg = new WeakMap(), _Main_inited = new WeakMap(), _Main_fncTicker = new WeakMap(), _Main_fncresume = new WeakMap(), _Main_isLoop = new WeakMap(), _Main_destroyed = new WeakMap(), _Main_clone_cvs = new WeakMap(), _Main_instances = new WeakSet(), _Main_init = async function _Main_init() {
+    const cc = document.createElement('canvas')?.getContext('2d');
+    if (!cc)
+        throw 'argChk_Color err';
+    CmnLib_1.CmnLib.cc4ColorName = cc;
     const hApp = {
         width: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.window.width,
         height: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.window.height,
-        backgroundColor: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.init.bg_color,
+        backgroundColor: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.init.bg_color =
+            (0, CmnLib_1.parseColor)(String(__classPrivateFieldGet(this, _Main_cfg, "f").oCfg.init.bg_color)),
         resolution: globalThis.devicePixelRatio ?? 1,
         autoResize: true,
     };
@@ -76631,7 +76660,7 @@ _a = TxtLayer, _TxtLayer_infTL = new WeakMap(), _TxtLayer_b_color = new WeakMap(
         }
     }
     else if ('b_color' in hArg) {
-        __classPrivateFieldSet(this, _TxtLayer_b_color, parseInt(hArg.b_color || '0'), "f");
+        __classPrivateFieldSet(this, _TxtLayer_b_color, (0, CmnLib_1.argChk_Color)(hArg, 'b_color', 0x000000), "f");
         if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
             this.spLay.removeChild(__classPrivateFieldGet(this, _TxtLayer_b_do, "f"));
             __classPrivateFieldGet(this, _TxtLayer_b_do, "f").destroy();

@@ -31,6 +31,8 @@ export interface IEvtMng {
 }
 export declare function argChk_Num(hash: any, name: string, def: number): number;
 export declare function argChk_Boolean(hash: any, name: string, def: boolean): boolean;
+export declare function parseColor(v: string): number;
+export declare function argChk_Color(hash: any, name: string, def: number): number;
 export declare function getFn(p: string): string;
 export declare function getExt(p: string): string;
 export declare class CmnLib {
@@ -55,6 +57,7 @@ export declare class CmnLib {
     static isDarkMode: boolean;
     static retinaRate: number;
     static readonly SN_ID = "skynovel";
+    static cc4ColorName: CanvasRenderingContext2D;
     static cvsResize(cvs: HTMLCanvasElement): boolean;
 }
 //# sourceMappingURL=CmnLib.d.ts.map

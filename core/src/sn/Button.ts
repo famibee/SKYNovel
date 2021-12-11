@@ -99,8 +99,7 @@ export class Button extends Container {
 			align: 'center',
 			dropShadow: true,
 			dropShadowAlpha: 0.7,
-		//	dropShadowColor: 'white',	// pixi.js v5.0.3 で色名前が使えない
-			dropShadowColor: '#ffffff',
+			dropShadowColor: 'white',
 			dropShadowBlur: 7,
 			dropShadowDistance: 0,
 			fill: 'black',

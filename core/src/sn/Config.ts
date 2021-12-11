@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, int} from './CmnLib';
+import {CmnLib, int, parseColor} from './CmnLib';
 import {IConfig, IExts, IFn2Path as #IFn2Path} from './CmnInterface';
 import {SysBase} from './SysBase';
 
@@ -84,7 +84,8 @@ export class Config implements IConfig {
 		if ('init' in oCfg)
 		for (const n in this.oCfg.init) {
 			const v = String(this.oCfg.init[n]);
-			if (v.charAt(0) === '#') this.oCfg.init[n] = parseInt(v.slice(1), 16);
+			if (n === 'bg_color') this.oCfg.init[n] = parseColor(v);
+			else this.oCfg.init[n] = parseInt(v.slice(1), 16);
 		}
 
 		this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, argChk_Boolean} from './CmnLib';
+import {CmnLib, argChk_Boolean, parseColor} from './CmnLib';
 import {IHTag, IMain, HArg} from './CmnInterface';
 import {Config} from './Config';
 import {tagToken2Name, splitAmpersand} from './Grammar';
@@ -19,7 +19,7 @@ import {EventMng} from './EventMng';
 import {ScriptIterator} from './ScriptIterator';
 
 import {SysBase} from './SysBase';
-import {Application, utils} from 'pixi.js';
+import {Application, IApplicationOptions, utils} from 'pixi.js';
 
 export class Main implements IMain {
 	#cfg		: Config;
@@ -50,10 +50,14 @@ export class Main implements IMain {
 		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
 	}
 	async #init() {
-		const hApp: any = {
+		const cc = document.createElement('canvas')?.getContext('2d');
+		if (! cc) throw 'argChk_Color err';
+		CmnLib.cc4ColorName = cc;
+		const hApp: IApplicationOptions = {
 			width			: this.#cfg.oCfg.window.width,
 			height			: this.#cfg.oCfg.window.height,
-			backgroundColor	: this.#cfg.oCfg.init.bg_color,
+			backgroundColor	: this.#cfg.oCfg.init.bg_color =
+							parseColor(String(this.#cfg.oCfg.init.bg_color)),
 		//	resolution		: sys.resolution,
 			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
 			autoResize		: true,
