@@ -1,3 +1,10 @@
+# [1.23.0](https://github.com/famibee/SKYNovel/compare/v1.22.3...v1.23.0) (2021-12-11)
+
+
+### Features
+
+* 文字レイヤのb_color属性などに色名前を使えるように ([f8f50b0](https://github.com/famibee/SKYNovel/commit/f8f50b0210b99aaf17cd0ca4db1879b6adcf8d32))
+
 - feat: 文字レイヤのb_color属性などに色名前を使えるように
 	- 文字レイヤのb_color属性
 	- [snapshot]のb_color属性
