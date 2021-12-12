@@ -1,3 +1,10 @@
+## [1.23.1](https://github.com/famibee/SKYNovel/compare/v1.23.0...v1.23.1) (2021-12-12)
+
+
+### Bug Fixes
+
+* 文字レイヤサイズが[trans]などで正しくコピーされない件 ([925d84e](https://github.com/famibee/SKYNovel/commit/925d84efad4dcd13e826287fc8cd19a3eceea9c3))
+
 - fix: 文字レイヤサイズが[trans]などで正しくコピーされない件
 - docs: 文字レイヤ b_left、b_top、b_width、b_height 属性についての記述を削除
 	- （SKYNovelには存在しない・高級な文字レイヤ背景は b_pic でやってもらう）
