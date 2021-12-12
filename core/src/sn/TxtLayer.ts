@@ -8,7 +8,7 @@
 import {Layer} from './Layer';
 import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
-import {TxtStage, IInfTxLay} from './TxtStage';
+import {TxtStage} from './TxtStage';
 import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
@@ -177,16 +177,6 @@ export class TxtLayer extends Layer {
 	}
 
 
-	#infTL :IInfTxLay = {
-		fontsize	: 24,
-		$width		: 0,	// レイヤサイズであり、背景色（画像）サイズ
-		$height		: 0,
-		pad_left	: 0,	// paddingLeft（レイヤサイズの内側のスペーサー）
-		pad_right	: 0,	// paddingRight
-		pad_top		: 0,	// paddingTop
-		pad_bottom	: 0,	// paddingBottom
-	}
-
 	// バック
 	#b_color			= 0x000000;
 	#b_alpha			= 0;
@@ -195,7 +185,7 @@ export class TxtLayer extends Layer {
 	#b_pic			= '';	// 背景画像無し（＝単色塗り）
 
 	// 文字表示
-	#txs	= new TxtStage(this.#infTL, this.spLay, ()=>this.canFocus());
+	#txs	= new TxtStage(this.spLay, ()=>this.canFocus());
 
 	#rbSpl	= new RubySpliter;
 
@@ -243,12 +233,12 @@ export class TxtLayer extends Layer {
 
 		if ('r_align' in hArg) this.#r_align = hArg.r_align ?? '';
 		this.#ruby_pd = CmnLib.isSafari
-			? this.#txs.tategaki		// Safariでは親文字幅 l は疑似値
-				? (v, l)=> `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
-				: (v, l)=> `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
-			: this.#txs.tategaki
-				? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
-				: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
+		? this.#txs.tategaki		// Safariでは親文字幅 l は疑似値
+			? (v, l)=> `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
+			: (v, l)=> `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
+		: this.#txs.tategaki
+			? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
+			: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
 		if (CmnLib.isFirefox) this.mkStyle_r_align = this.#mkStyle_r_align4ff;
 
 		if ('alpha' in hArg) this.#cntBtn.children.forEach(e=> e.alpha = this.spLay.alpha);
@@ -269,8 +259,8 @@ export class TxtLayer extends Layer {
 	#$ch_in_style	= '';
 	#ch_in_join		= true;
 
-	override get	width() {return this.#txs.getWidth()}
-	override get	height() {return this.#txs.getHeight()}
+	override get	width() {return this.#txs.getWidth}
+	override get	height() {return this.#txs.getHeight}
 
 	#set_ch_out(hArg: HArg) {
 		const outs = hArg.out_style;
@@ -326,13 +316,13 @@ export class TxtLayer extends Layer {
 				this.#b_do.destroy();
 			}
 			this.#b_pic = '';	// 忘れずクリア
-			const grp = this.#b_do = new Graphics;
-			grp.name = 'back(color)';
-			grp.beginFill(this.#b_color);
-			grp.lineStyle(undefined);
-			grp.drawRect(0, 0, this.#infTL.$width, this.#infTL.$height);
-			grp.endFill();
-			this.spLay.addChildAt(grp, 0);
+			this.spLay.addChildAt(
+				(this.#b_do = new Graphics)
+				.beginFill(this.#b_color)
+				.lineStyle(undefined)
+				.drawRect(0, 0, this.#txs.getWidth, this.#txs.getHeight)
+				.endFill(), 0);
+			this.#b_do.name = 'back(color)';
 			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
 
@@ -355,13 +345,13 @@ export class TxtLayer extends Layer {
 				this.spLay.removeChild(this.#b_do);
 				this.#b_do.destroy();
 			}
-			const grp = this.#b_do = new Graphics;
-			grp.name = 'back(color)';
-			grp.beginFill(this.#b_color);
-			grp.lineStyle(undefined);
-			grp.drawRect(0, 0, this.#infTL.$width, this.#infTL.$height);
-			grp.endFill();
-			this.spLay.addChildAt(grp, 0);
+			this.spLay.addChildAt(
+				(this.#b_do = new Graphics)
+				.beginFill(this.#b_color)
+				.lineStyle(undefined)
+				.drawRect(0, 0, this.#txs.getWidth, this.#txs.getHeight)
+				.endFill(), 0);
+			this.#b_do.name = 'back(color)';
 			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
 		if (this.#b_do) {
@@ -823,7 +813,7 @@ export class TxtLayer extends Layer {
 		// 上で呼ばれる this.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
 		this.#cntBtn.removeChildren().forEach(c=> c.destroy());
 	}
-	override readonly record = ()=> Object.assign(super.record(), {
+	override readonly record = ()=> Object.assign(<any>super.record(), {
 		enabled	: this.enabled,
 		r_align	: this.#r_align,
 
@@ -848,7 +838,9 @@ export class TxtLayer extends Layer {
 		this.#r_align	= hLay.r_align;
 		this.cvsResize();
 
-		// バック
+		this.#setFfs(hLay);
+		this.#txs.playback(hLay.txs);
+		// 文字背景サイズは TxtStage を参照するのでこの順で
 		this.#b_alpha			= hLay.b_alpha;
 		this.#b_alpha_isfixed	= hLay.b_alpha_isfixed;
 		aPrm.push(new Promise<void>(re=> {
@@ -861,9 +853,6 @@ export class TxtLayer extends Layer {
 				isStop=> {if (isStop) re()}
 			)) re();
 		}));
-
-		this.#setFfs(hLay);
-		this.#txs.playback(hLay.txs);
 
 		const aBtn: string[] = hLay.btns;
 		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replaceAll(`'`, '"')))));
@@ -895,7 +884,7 @@ export class TxtLayer extends Layer {
 		return super.dump() +`, "enabled":"${this.enabled}", ${this.#txs.dump()
 		}, "b_pic":"${this.#b_pic}", "b_color":"${this.#b_color
 		}", "b_alpha":${this.#b_alpha}, "b_alpha_isfixed":"${this.#b_alpha_isfixed
-		}", "b_width":${this.#infTL.$width}, "b_height":${this.#infTL.$height
+		}", "width":${this.#txs.getWidth}, "height":${this.#txs.getHeight
 		}, "pixi_obj":[${
 			this.spLay.children.map(e=> `{"class":"${
 				(e instanceof Sprite) ?'Sprite' :(

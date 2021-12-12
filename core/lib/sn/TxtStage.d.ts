@@ -3,7 +3,7 @@ import { HArg } from './CmnInterface';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { Container, Sprite, Renderer } from 'pixi.js';
-export interface IInfTxLay {
+interface IInfTxLay {
     fontsize: number;
     $width: number;
     $height: number;
@@ -14,19 +14,18 @@ export interface IInfTxLay {
 }
 export declare class TxtStage extends Container {
     #private;
-    private infTL;
     private readonly spLay;
     private readonly canFocus;
     static init(cfg: Config): void;
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
-    getInfTL(): IInfTxLay;
-    constructor(infTL: IInfTxLay, spLay: Sprite, canFocus: () => boolean);
+    constructor(spLay: Sprite, canFocus: () => boolean);
     lay(hArg: HArg): void;
     cvsResize(): void;
     get tategaki(): boolean;
-    getWidth(): number;
-    getHeight(): number;
+    get infTL(): IInfTxLay;
+    get getWidth(): number;
+    get getHeight(): number;
     setSize(width: number, height: number): void;
     goTxt(aSpan: string[]): void;
     skipChIn(): boolean;
@@ -67,4 +66,5 @@ export declare class TxtStage extends Container {
     dump(): string;
     destroy(): void;
 }
+export {};
 //# sourceMappingURL=TxtStage.d.ts.map

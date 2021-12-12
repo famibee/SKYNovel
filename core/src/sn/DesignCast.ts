@@ -544,7 +544,7 @@ export class TxtLayDesignCast extends DesignCast {
 	};
 
 	protected	override getRect() {
-		const it = this.ts.getInfTL();
+		const it = this.ts.infTL;
 		return new Rectangle(this.spLay.x, this.spLay.y, it.$width, it.$height);
 	}
 	protected	override cnvPosArg(left: number, top: number) {return {left, top}}
@@ -569,7 +569,7 @@ export class TxtLayPadDesignCast extends DesignCast {
 	constructor(private readonly ts: TxtStage) {super('#9e2');}
 	protected	override readonly	rotatable	= false;
 	protected	override getRect() {
-		const it = this.ts.getInfTL();
+		const it = this.ts.infTL;
 		return new Rectangle(
 			it.pad_left,
 			it.pad_top,
@@ -579,7 +579,7 @@ export class TxtLayPadDesignCast extends DesignCast {
 	}
 	protected	override cnvPosArg(pl: number, pt: number) {return {pl, pt}}
 	protected	override cnvSizeArg(w: number, h: number) {
-		const it = this.ts.getInfTL();
+		const it = this.ts.infTL;
 		return {
 			pr: it.$width -it.pad_left -w,
 			pb: it.$height -it.pad_top -h,
@@ -590,7 +590,7 @@ export class TxtLayPadDesignCast extends DesignCast {
 		this.ts.lay({...this.cnvSizeArg(w, h), ':redraw': true});
 	}
 	override setOther(hPrm: HPRM) {
-		const it = this.ts.getInfTL();
+		const it = this.ts.infTL;
 		if ('pl' in hPrm || 'pt' in hPrm) {
 			this.setPos(
 				this.rect.x = parseFloat(DesignCast.prpPrs.getValAmpersand(
@@ -628,7 +628,7 @@ export class TxtLayPadDesignCast extends DesignCast {
 	#procHint(left: number, top: number, dx: number, dy: number) {
 		const x = this.rect.x, y = this.rect.y;
 		const w = this.rect.width, h = this.rect.height;
-		const it = this.ts.getInfTL();
+		const it = this.ts.infTL;
 		const pl = int(x +dx /CmnLib.cvsScale);
 		const pt = int(y +dy /CmnLib.cvsScale);
 		const pr = int(it.$width -pl -w);

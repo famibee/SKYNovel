@@ -17,7 +17,7 @@ import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, utils} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
-export interface IInfTxLay {
+interface IInfTxLay {
 	fontsize	: number;
 	$width		: number;	// レイヤサイズであり、背景色（画像）サイズ
 	$height		: number;
@@ -82,10 +82,18 @@ export class TxtStage extends Container {
 
 	readonly	#idc	= new TxtLayDesignCast(this.spLay, this);
 	readonly	#idcCh	= new TxtLayPadDesignCast(this);
-	getInfTL(): IInfTxLay {return this.infTL}
+	#infTL :IInfTxLay = {
+		fontsize	: 24,
+		$width		: 0,	// レイヤサイズであり、背景色（画像）サイズ
+		$height		: 0,
+		pad_left	: 0,	// paddingLeft（レイヤサイズの内側のスペーサー）
+		pad_right	: 0,	// paddingRight
+		pad_top		: 0,	// paddingTop
+		pad_bottom	: 0,	// paddingBottom
+	}
 
 
-	constructor(private infTL: IInfTxLay, private readonly spLay: Sprite, private readonly canFocus: ()=> boolean) {
+	constructor(private readonly spLay: Sprite, private readonly canFocus: ()=> boolean) {
 		super();
 
 		this.#htmTxt.classList.add('sn_tx');
@@ -130,7 +138,7 @@ export class TxtStage extends Container {
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 		this.#left = this.spLay.position.x
 			-(CmnLib.isSafari && !CmnLib.isMobile && this.#isTategaki
-				? this.infTL.pad_left +this.infTL.pad_right
+				? this.#infTL.pad_left +this.#infTL.pad_right
 				: 0);
 		s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
 		this.cvsResize();
@@ -150,15 +158,15 @@ export class TxtStage extends Container {
 	#lay_sub() {
 		const s = this.#htmTxt.style;
 		const fs = parseFloat(s.fontSize || '0');
-		this.infTL.fontsize = fs;
+		this.#infTL.fontsize = fs;
 
-		this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
-		this.infTL.pad_right = parseFloat(s.paddingRight || '0');
-		this.infTL.pad_top = parseFloat(s.paddingTop || '0');
-		this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
-		this.infTL.$width = parseFloat(s.width || '0');
-		this.infTL.$height = parseFloat(s.height || '0');
-		this.position.set(this.infTL.pad_left, this.infTL.pad_top);
+		this.#infTL.pad_left = parseFloat(s.paddingLeft || '0');
+		this.#infTL.pad_right = parseFloat(s.paddingRight || '0');
+		this.#infTL.pad_top = parseFloat(s.paddingTop || '0');
+		this.#infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
+		this.#infTL.$width = parseFloat(s.width || '0');
+		this.#infTL.$height = parseFloat(s.height || '0');
+		this.position.set(this.#infTL.pad_left, this.#infTL.pad_top);
 
 		this.#isTategaki = (s.writingMode === 'vertical-rl');
 
@@ -188,14 +196,15 @@ export class TxtStage extends Container {
 	#padTx4x = 0;
 	#padTx4y = 0;
 
-	getWidth() {return this.infTL.$width}
-	getHeight() {return this.infTL.$height}
+	get	infTL(): IInfTxLay {return this.#infTL}
+	get	getWidth() {return this.#infTL.$width}
+	get	getHeight() {return this.#infTL.$height}
 
 	setSize(width: number, height: number) {
-		this.infTL.$width = width;
-		this.infTL.$height = height;
-		this.#htmTxt.style.width = this.infTL.$width +'px';
-		this.#htmTxt.style.height = this.infTL.$height +'px';
+		this.#infTL.$width = width;
+		this.#infTL.$height = height;
+		this.#htmTxt.style.width = this.#infTL.$width +'px';
+		this.#htmTxt.style.height = this.#infTL.$height +'px';
 	}
 	static	#hWarning = {
 		backgroundColor	: 0,
@@ -510,8 +519,8 @@ export class TxtStage extends Container {
 			cln.style.paddingTop = this.#padTx4y +'px';
 			cln.style.left = '0px';
 			cln.style.top = '0px';
-			cln.style.width = (this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right) +'px';
-			cln.style.height = (this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom) +'px';
+			cln.style.width = (this.#infTL.$width -this.#infTL.pad_left -this.#infTL.pad_right) +'px';
+			cln.style.height = (this.#infTL.$height -this.#infTL.pad_top -this.#infTL.pad_bottom) +'px';
 			//console.log(cln.style.cssText);
 			this.#htmTxt.hidden = hidden;
 			return cln;
@@ -521,8 +530,8 @@ export class TxtStage extends Container {
 			node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
 			const img = new Image;
 			//img.crossOrigin = 'Anonymous';	//--いまのとこ不要
-			img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.infTL.$width
-			}px" height="${this.infTL.$height
+			img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.#infTL.$width
+			}px" height="${this.#infTL.$height
 			}px"><foreignObject x="0" y="0" width="100%" height="100%">${
 				new XMLSerializer().serializeToString(node)
 				.replaceAll('#', '%23').replaceAll('\n', '%0A')
@@ -533,8 +542,8 @@ export class TxtStage extends Container {
 		// 無くすとSafariでテクスチャ取れない場合があった
 		.then((img: any)=> {	//console.log(`🍉 toPng`);
 			const canvas = document.createElement('canvas');
-			canvas.width = this.infTL.$width;
-			canvas.height = this.infTL.$height;
+			canvas.width = this.#infTL.$width;
+			canvas.height = this.#infTL.$height;
 			canvas.getContext('2d')!.drawImage(img, 0, 0);
 			canvas.toBlob(blob=> {
 				if (! blob) return;
@@ -565,23 +574,23 @@ export class TxtStage extends Container {
 			if (TxtStage.#cfg.oCfg.debug.masume) {
 				if (CmnLib.debugLog) console.log(`🍌 masume ${
 					this.name} v:${this.visible} l:${this.x} t:${this.y
-					} a:${this.alpha} pl:${this.infTL.pad_left
-					} pr:${this.infTL.pad_right
-					} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom
-					} w:${this.infTL.$width} h:${this.infTL.$height}`);
+					} a:${this.alpha} pl:${this.#infTL.pad_left
+					} pr:${this.#infTL.pad_right
+					} pt:${this.#infTL.pad_top} pb:${this.#infTL.pad_bottom
+					} w:${this.#infTL.$width} h:${this.#infTL.$height}`);
 
 				this.#grpDbgMasume.clear()
 				.beginFill(0x33FF00, 0.2)	// 文字レイヤ
 				.lineStyle(1, 0x33FF00, 1)
-				.drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height)
+				.drawRect(-this.#infTL.pad_left, -this.#infTL.pad_top, this.#infTL.$width, this.#infTL.$height)
 					// 親の親の cntInsidePadding が padding ぶん水平移動してるので引く。
 				.endFill()
 
 				.beginFill(0x0033FF, 0.2)	// cntInsidePadding
 				.lineStyle(2, 0x0033FF, 1)
 				.drawRect(0, 0,
-				this.infTL.$width -this.infTL.pad_left -this.infTL.pad_right,
-				this.infTL.$height -this.infTL.pad_top -this.infTL.pad_bottom)
+				this.#infTL.$width -this.#infTL.pad_left -this.#infTL.pad_right,
+				this.#infTL.$height -this.#infTL.pad_top -this.#infTL.pad_bottom)
 				.endFill();
 			}
 
@@ -695,8 +704,8 @@ export class TxtStage extends Container {
 		const ease = CmnTween.ease(this.#fi_easing);
 
 		const bcr = this.#htmTxt.getBoundingClientRect();
-		const sx = bcr.left +globalThis.scrollX +this.infTL.pad_left;
-		const sy = bcr.top +globalThis.scrollY +this.infTL.pad_top;
+		const sx = bcr.left +globalThis.scrollX +this.#infTL.pad_left;
+		const sy = bcr.top +globalThis.scrollY +this.#infTL.pad_top;
 		for (let i=begin; i<len; ++i) {
 			const v = this.#aRect[i];
 			const rct = v.rect;
@@ -1031,7 +1040,8 @@ export class TxtStage extends Container {
 	reNew(): TxtStage {
 		this.#clearText();
 
-		const to = new TxtStage(this.infTL, this.spLay, ()=> this.canFocus());
+		const to = new TxtStage(this.spLay, ()=> this.canFocus());
+		to.#infTL = this.#infTL;
 		to.#htmTxt.style.cssText = this.#htmTxt.style.cssText;
 		to.#left = this.#left;
 		to.name = this.name;
@@ -1049,7 +1059,7 @@ export class TxtStage extends Container {
 
 
 	record() {return {
-		infTL		: this.infTL,
+		infTL		: this.#infTL,
 
 		cssText		: this.#htmTxt.style.cssText,
 		left		: this.#left,
@@ -1060,8 +1070,8 @@ export class TxtStage extends Container {
 		fo_easing	: this.#fo_easing,
 	}};
 	playback(hLay: any) {
-		this.infTL = hLay.infTL;
-		this.position.set(this.infTL.pad_left, this.infTL.pad_top);
+		this.#infTL = hLay.infTL;
+		this.position.set(this.#infTL.pad_left, this.#infTL.pad_top);
 
 		this.#htmTxt.style.cssText = hLay.cssText;
 		this.#left = hLay.left;
@@ -1078,13 +1088,13 @@ export class TxtStage extends Container {
 		this.#htm2tx(tx=> {
 			this.#sss = new Sprite(tx);	// Safariだけ文字影が映らない
 			if (this.#isTategaki) {
-				this.#sss.x += CmnLib.stageW -(this.#left +this.infTL.$width)
+				this.#sss.x += CmnLib.stageW -(this.#left +this.#infTL.$width)
 				- ((CmnLib.isSafari && !CmnLib.isMobile)
 					? 0
-					: this.infTL.pad_left +this.infTL.pad_right);
+					: this.#infTL.pad_left +this.#infTL.pad_right);
 			}
 			this.#sss.y -= this.#padTx4y;
-			this.#sss.texture.frame = new Rectangle(0, 0, this.infTL.$width -this.#left, this.infTL.$height);	// これがないと画面サイズを超える
+			this.#sss.texture.frame = new Rectangle(0, 0, this.#infTL.$width -this.#left, this.#infTL.$height);	// これがないと画面サイズを超える
 			this.#cntTxt.addChild(this.#sss);
 			rnd.render(this.#sss, undefined, false);
 			re();

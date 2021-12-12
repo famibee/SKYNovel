@@ -69602,7 +69602,7 @@ class TxtLayDesignCast extends DesignCast {
         };
     }
     getRect() {
-        const it = this.ts.getInfTL();
+        const it = this.ts.infTL;
         return new pixi_js_1.Rectangle(this.spLay.x, this.spLay.y, it.$width, it.$height);
     }
     cnvPosArg(left, top) { return { left, top }; }
@@ -69630,12 +69630,12 @@ class TxtLayPadDesignCast extends DesignCast {
         this.rotatable = false;
     }
     getRect() {
-        const it = this.ts.getInfTL();
+        const it = this.ts.infTL;
         return new pixi_js_1.Rectangle(it.pad_left, it.pad_top, it.$width - it.pad_left - it.pad_right, it.$height - it.pad_top - it.pad_bottom);
     }
     cnvPosArg(pl, pt) { return { pl, pt }; }
     cnvSizeArg(w, h) {
-        const it = this.ts.getInfTL();
+        const it = this.ts.infTL;
         return {
             pr: it.$width - it.pad_left - w,
             pb: it.$height - it.pad_top - h,
@@ -69646,7 +69646,7 @@ class TxtLayPadDesignCast extends DesignCast {
         this.ts.lay({ ...this.cnvSizeArg(w, h), ':redraw': true });
     }
     setOther(hPrm) {
-        const it = this.ts.getInfTL();
+        const it = this.ts.infTL;
         if ('pl' in hPrm || 'pt' in hPrm) {
             this.setPos(this.rect.x = parseFloat(DesignCast.prpPrs.getValAmpersand(hPrm.pl?.val ?? `${it.pad_left}`)), this.rect.y = parseFloat(DesignCast.prpPrs.getValAmpersand(hPrm.pt?.val ?? `${it.pad_top}`)));
             this.cvsResize();
@@ -69674,7 +69674,7 @@ exports.TxtLayPadDesignCast = TxtLayPadDesignCast;
 _TxtLayPadDesignCast_instances = new WeakSet(), _TxtLayPadDesignCast_procHint = function _TxtLayPadDesignCast_procHint(left, top, dx, dy) {
     const x = this.rect.x, y = this.rect.y;
     const w = this.rect.width, h = this.rect.height;
-    const it = this.ts.getInfTL();
+    const it = this.ts.infTL;
     const pl = (0, CmnLib_1.int)(x + dx / CmnLib_1.CmnLib.cvsScale);
     const pt = (0, CmnLib_1.int)(y + dy / CmnLib_1.CmnLib.cvsScale);
     const pr = (0, CmnLib_1.int)(it.$width - pl - w);
@@ -75978,7 +75978,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _TxtLayer_instances, _a, _TxtLayer_cfg, _TxtLayer_val, _TxtLayer_recText, _TxtLayer_isPageFore, _TxtLayer_ch_in_style, _TxtLayer_ch_out_style, _TxtLayer_main, _TxtLayer_evtMng, _TxtLayer_doAutoWc, _TxtLayer_hAutoWc, _TxtLayer_autowc, _TxtLayer_infTL, _TxtLayer_b_color, _TxtLayer_b_alpha, _TxtLayer_b_alpha_isfixed, _TxtLayer_b_do, _TxtLayer_b_pic, _TxtLayer_txs, _TxtLayer_rbSpl, _TxtLayer_cntBtn, _TxtLayer_set_ch_in, _TxtLayer_$ch_in_style, _TxtLayer_ch_in_join, _TxtLayer_set_ch_out, _TxtLayer_$ch_out_style, _TxtLayer_drawBack, _TxtLayer_setFfs, _TxtLayer_ffs, _TxtLayer_fncFFSStyle, _TxtLayer_fncFFSSpan, _TxtLayer_strNoFFS, _TxtLayer_regNoFFS, _TxtLayer_ruby_pd, _TxtLayer_r_align, _TxtLayer_mkStyle_r_align4ff, _TxtLayer_needGoTxt, _TxtLayer_putCh, _TxtLayer_tagCh_sub, _TxtLayer_cumDelay, _TxtLayer_firstCh, _TxtLayer_aSpan, _TxtLayer_aSpan_bk, _TxtLayer_aSpan_link, _TxtLayer_hSpanBk, _TxtLayer_beginSpan, _TxtLayer_autoCloseSpan, _TxtLayer_page_text;
+var _TxtLayer_instances, _a, _TxtLayer_cfg, _TxtLayer_val, _TxtLayer_recText, _TxtLayer_isPageFore, _TxtLayer_ch_in_style, _TxtLayer_ch_out_style, _TxtLayer_main, _TxtLayer_evtMng, _TxtLayer_doAutoWc, _TxtLayer_hAutoWc, _TxtLayer_autowc, _TxtLayer_b_color, _TxtLayer_b_alpha, _TxtLayer_b_alpha_isfixed, _TxtLayer_b_do, _TxtLayer_b_pic, _TxtLayer_txs, _TxtLayer_rbSpl, _TxtLayer_cntBtn, _TxtLayer_set_ch_in, _TxtLayer_$ch_in_style, _TxtLayer_ch_in_join, _TxtLayer_set_ch_out, _TxtLayer_$ch_out_style, _TxtLayer_drawBack, _TxtLayer_setFfs, _TxtLayer_ffs, _TxtLayer_fncFFSStyle, _TxtLayer_fncFFSSpan, _TxtLayer_strNoFFS, _TxtLayer_regNoFFS, _TxtLayer_ruby_pd, _TxtLayer_r_align, _TxtLayer_mkStyle_r_align4ff, _TxtLayer_needGoTxt, _TxtLayer_putCh, _TxtLayer_tagCh_sub, _TxtLayer_cumDelay, _TxtLayer_firstCh, _TxtLayer_aSpan, _TxtLayer_aSpan_bk, _TxtLayer_aSpan_link, _TxtLayer_hSpanBk, _TxtLayer_beginSpan, _TxtLayer_autoCloseSpan, _TxtLayer_page_text;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -75994,21 +75994,12 @@ class TxtLayer extends Layer_1.Layer {
     constructor() {
         super();
         _TxtLayer_instances.add(this);
-        _TxtLayer_infTL.set(this, {
-            fontsize: 24,
-            $width: 0,
-            $height: 0,
-            pad_left: 0,
-            pad_right: 0,
-            pad_top: 0,
-            pad_bottom: 0,
-        });
         _TxtLayer_b_color.set(this, 0x000000);
         _TxtLayer_b_alpha.set(this, 0);
         _TxtLayer_b_alpha_isfixed.set(this, false);
         _TxtLayer_b_do.set(this, null);
         _TxtLayer_b_pic.set(this, '');
-        _TxtLayer_txs.set(this, new TxtStage_1.TxtStage(__classPrivateFieldGet(this, _TxtLayer_infTL, "f"), this.spLay, () => this.canFocus()));
+        _TxtLayer_txs.set(this, new TxtStage_1.TxtStage(this.spLay, () => this.canFocus()));
         _TxtLayer_rbSpl.set(this, new RubySpliter_1.RubySpliter);
         _TxtLayer_cntBtn.set(this, new pixi_js_1.Container);
         _TxtLayer_$ch_in_style.set(this, '');
@@ -76424,8 +76415,8 @@ class TxtLayer extends Layer_1.Layer {
         return __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_drawBack).call(this, hArg, isStop => { if (isStop)
             __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_main).resume(); });
     }
-    get width() { return __classPrivateFieldGet(this, _TxtLayer_txs, "f").getWidth(); }
-    get height() { return __classPrivateFieldGet(this, _TxtLayer_txs, "f").getHeight(); }
+    get width() { return __classPrivateFieldGet(this, _TxtLayer_txs, "f").getWidth; }
+    get height() { return __classPrivateFieldGet(this, _TxtLayer_txs, "f").getHeight; }
     chgBackAlpha(g_alpha) {
         const alpha = __classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")
             ? __classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")
@@ -76435,13 +76426,12 @@ class TxtLayer extends Layer_1.Layer {
                 this.spLay.removeChild(__classPrivateFieldGet(this, _TxtLayer_b_do, "f"));
                 __classPrivateFieldGet(this, _TxtLayer_b_do, "f").destroy();
             }
-            const grp = __classPrivateFieldSet(this, _TxtLayer_b_do, new pixi_js_1.Graphics, "f");
-            grp.name = 'back(color)';
-            grp.beginFill(__classPrivateFieldGet(this, _TxtLayer_b_color, "f"));
-            grp.lineStyle(undefined);
-            grp.drawRect(0, 0, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height);
-            grp.endFill();
-            this.spLay.addChildAt(grp, 0);
+            this.spLay.addChildAt((__classPrivateFieldSet(this, _TxtLayer_b_do, new pixi_js_1.Graphics, "f"))
+                .beginFill(__classPrivateFieldGet(this, _TxtLayer_b_color, "f"))
+                .lineStyle(undefined)
+                .drawRect(0, 0, __classPrivateFieldGet(this, _TxtLayer_txs, "f").getWidth, __classPrivateFieldGet(this, _TxtLayer_txs, "f").getHeight)
+                .endFill(), 0);
+            __classPrivateFieldGet(this, _TxtLayer_b_do, "f").name = 'back(color)';
         }
         if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
             __classPrivateFieldGet(this, _TxtLayer_b_do, "f").visible = (alpha > 0);
@@ -76506,6 +76496,8 @@ class TxtLayer extends Layer_1.Layer {
         this.enabled = hLay.enabled;
         __classPrivateFieldSet(this, _TxtLayer_r_align, hLay.r_align, "f");
         this.cvsResize();
+        __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_setFfs).call(this, hLay);
+        __classPrivateFieldGet(this, _TxtLayer_txs, "f").playback(hLay.txs);
         __classPrivateFieldSet(this, _TxtLayer_b_alpha, hLay.b_alpha, "f");
         __classPrivateFieldSet(this, _TxtLayer_b_alpha_isfixed, hLay.b_alpha_isfixed, "f");
         aPrm.push(new Promise(re => {
@@ -76517,8 +76509,6 @@ class TxtLayer extends Layer_1.Layer {
                 re(); }))
                 re();
         }));
-        __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_setFfs).call(this, hLay);
-        __classPrivateFieldGet(this, _TxtLayer_txs, "f").playback(hLay.txs);
         const aBtn = hLay.btns;
         aPrm = aPrm.concat(aBtn.map(v => this.addButton(JSON.parse(v.replaceAll(`'`, '"')))));
     }
@@ -76543,11 +76533,11 @@ class TxtLayer extends Layer_1.Layer {
     }
     dump() {
         __classPrivateFieldGet(this, _TxtLayer_putCh, "f").call(this, '', 'gotxt｜');
-        return super.dump() + `, "enabled":"${this.enabled}", ${__classPrivateFieldGet(this, _TxtLayer_txs, "f").dump()}, "b_pic":"${__classPrivateFieldGet(this, _TxtLayer_b_pic, "f")}", "b_color":"${__classPrivateFieldGet(this, _TxtLayer_b_color, "f")}", "b_alpha":${__classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")}, "b_alpha_isfixed":"${__classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")}", "b_width":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width}, "b_height":${__classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height}, "pixi_obj":[${this.spLay.children.map(e => `{"class":"${(e instanceof pixi_js_1.Sprite) ? 'Sprite' : ((e instanceof pixi_js_1.Graphics) ? 'Graphics' : ((e instanceof pixi_js_1.Container) ? 'Container' : '?'))}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')}], "button":[${__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.map(d => d.children[0].name ?? '{}').join(',')}]`;
+        return super.dump() + `, "enabled":"${this.enabled}", ${__classPrivateFieldGet(this, _TxtLayer_txs, "f").dump()}, "b_pic":"${__classPrivateFieldGet(this, _TxtLayer_b_pic, "f")}", "b_color":"${__classPrivateFieldGet(this, _TxtLayer_b_color, "f")}", "b_alpha":${__classPrivateFieldGet(this, _TxtLayer_b_alpha, "f")}, "b_alpha_isfixed":"${__classPrivateFieldGet(this, _TxtLayer_b_alpha_isfixed, "f")}", "width":${__classPrivateFieldGet(this, _TxtLayer_txs, "f").getWidth}, "height":${__classPrivateFieldGet(this, _TxtLayer_txs, "f").getHeight}, "pixi_obj":[${this.spLay.children.map(e => `{"class":"${(e instanceof pixi_js_1.Sprite) ? 'Sprite' : ((e instanceof pixi_js_1.Graphics) ? 'Graphics' : ((e instanceof pixi_js_1.Container) ? 'Container' : '?'))}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')}], "button":[${__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").children.map(d => d.children[0].name ?? '{}').join(',')}]`;
     }
 }
 exports.TxtLayer = TxtLayer;
-_a = TxtLayer, _TxtLayer_infTL = new WeakMap(), _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMap(), _TxtLayer_b_alpha_isfixed = new WeakMap(), _TxtLayer_b_do = new WeakMap(), _TxtLayer_b_pic = new WeakMap(), _TxtLayer_txs = new WeakMap(), _TxtLayer_rbSpl = new WeakMap(), _TxtLayer_cntBtn = new WeakMap(), _TxtLayer_$ch_in_style = new WeakMap(), _TxtLayer_ch_in_join = new WeakMap(), _TxtLayer_$ch_out_style = new WeakMap(), _TxtLayer_ffs = new WeakMap(), _TxtLayer_fncFFSStyle = new WeakMap(), _TxtLayer_fncFFSSpan = new WeakMap(), _TxtLayer_strNoFFS = new WeakMap(), _TxtLayer_regNoFFS = new WeakMap(), _TxtLayer_ruby_pd = new WeakMap(), _TxtLayer_r_align = new WeakMap(), _TxtLayer_needGoTxt = new WeakMap(), _TxtLayer_putCh = new WeakMap(), _TxtLayer_cumDelay = new WeakMap(), _TxtLayer_firstCh = new WeakMap(), _TxtLayer_aSpan = new WeakMap(), _TxtLayer_aSpan_bk = new WeakMap(), _TxtLayer_aSpan_link = new WeakMap(), _TxtLayer_hSpanBk = new WeakMap(), _TxtLayer_page_text = new WeakMap(), _TxtLayer_instances = new WeakSet(), _TxtLayer_ch_in_style = function _TxtLayer_ch_in_style(hArg) {
+_a = TxtLayer, _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMap(), _TxtLayer_b_alpha_isfixed = new WeakMap(), _TxtLayer_b_do = new WeakMap(), _TxtLayer_b_pic = new WeakMap(), _TxtLayer_txs = new WeakMap(), _TxtLayer_rbSpl = new WeakMap(), _TxtLayer_cntBtn = new WeakMap(), _TxtLayer_$ch_in_style = new WeakMap(), _TxtLayer_ch_in_join = new WeakMap(), _TxtLayer_$ch_out_style = new WeakMap(), _TxtLayer_ffs = new WeakMap(), _TxtLayer_fncFFSStyle = new WeakMap(), _TxtLayer_fncFFSSpan = new WeakMap(), _TxtLayer_strNoFFS = new WeakMap(), _TxtLayer_regNoFFS = new WeakMap(), _TxtLayer_ruby_pd = new WeakMap(), _TxtLayer_r_align = new WeakMap(), _TxtLayer_needGoTxt = new WeakMap(), _TxtLayer_putCh = new WeakMap(), _TxtLayer_cumDelay = new WeakMap(), _TxtLayer_firstCh = new WeakMap(), _TxtLayer_aSpan = new WeakMap(), _TxtLayer_aSpan_bk = new WeakMap(), _TxtLayer_aSpan_link = new WeakMap(), _TxtLayer_hSpanBk = new WeakMap(), _TxtLayer_page_text = new WeakMap(), _TxtLayer_instances = new WeakSet(), _TxtLayer_ch_in_style = function _TxtLayer_ch_in_style(hArg) {
     const o = TxtStage_1.TxtStage.ch_in_style(hArg);
     const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
     const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
@@ -76666,13 +76656,12 @@ _a = TxtLayer, _TxtLayer_infTL = new WeakMap(), _TxtLayer_b_color = new WeakMap(
             __classPrivateFieldGet(this, _TxtLayer_b_do, "f").destroy();
         }
         __classPrivateFieldSet(this, _TxtLayer_b_pic, '', "f");
-        const grp = __classPrivateFieldSet(this, _TxtLayer_b_do, new pixi_js_1.Graphics, "f");
-        grp.name = 'back(color)';
-        grp.beginFill(__classPrivateFieldGet(this, _TxtLayer_b_color, "f"));
-        grp.lineStyle(undefined);
-        grp.drawRect(0, 0, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$width, __classPrivateFieldGet(this, _TxtLayer_infTL, "f").$height);
-        grp.endFill();
-        this.spLay.addChildAt(grp, 0);
+        this.spLay.addChildAt((__classPrivateFieldSet(this, _TxtLayer_b_do, new pixi_js_1.Graphics, "f"))
+            .beginFill(__classPrivateFieldGet(this, _TxtLayer_b_color, "f"))
+            .lineStyle(undefined)
+            .drawRect(0, 0, __classPrivateFieldGet(this, _TxtLayer_txs, "f").getWidth, __classPrivateFieldGet(this, _TxtLayer_txs, "f").getHeight)
+            .endFill(), 0);
+        __classPrivateFieldGet(this, _TxtLayer_b_do, "f").name = 'back(color)';
     }
     if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
         __classPrivateFieldGet(this, _TxtLayer_b_do, "f").visible = (alpha > 0);
@@ -76813,7 +76802,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_cvs, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_rctm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
+var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_cvs, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_infTL, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_rctm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtStage = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -76826,9 +76815,8 @@ const tween_js_1 = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
-    constructor(infTL, spLay, canFocus) {
+    constructor(spLay, canFocus) {
         super();
-        this.infTL = infTL;
         this.spLay = spLay;
         this.canFocus = canFocus;
         _TxtStage_instances.add(this);
@@ -76837,6 +76825,15 @@ class TxtStage extends pixi_js_1.Container {
         _TxtStage_grpDbgMasume.set(this, new pixi_js_1.Graphics);
         _TxtStage_idc.set(this, new DesignCast_1.TxtLayDesignCast(this.spLay, this));
         _TxtStage_idcCh.set(this, new DesignCast_1.TxtLayPadDesignCast(this));
+        _TxtStage_infTL.set(this, {
+            fontsize: 24,
+            $width: 0,
+            $height: 0,
+            pad_left: 0,
+            pad_right: 0,
+            pad_top: 0,
+            pad_bottom: 0,
+        });
         _TxtStage_left.set(this, 0);
         _TxtStage_isTategaki.set(this, false);
         _TxtStage_padTx4x.set(this, 0);
@@ -76886,7 +76883,6 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldSet(TxtStage, _a, Object.create(null), "f", _TxtStage_hChOutStyle);
         __classPrivateFieldSet(TxtStage, _a, new pixi_js_1.Container, "f", _TxtStage_cntBreak);
     }
-    getInfTL() { return this.infTL; }
     lay(hArg) {
         const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
         if (hArg.style) {
@@ -76922,7 +76918,7 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldGet(this, _TxtStage_idc, "f").sethArg(hArg);
         __classPrivateFieldSet(this, _TxtStage_left, this.spLay.position.x
             - (CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile && __classPrivateFieldGet(this, _TxtStage_isTategaki, "f")
-                ? this.infTL.pad_left + this.infTL.pad_right
+                ? __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_right
                 : 0), "f");
         s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
         this.cvsResize();
@@ -76946,13 +76942,14 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldGet(this, _TxtStage_idcCh, "f").cvsResize();
     }
     get tategaki() { return __classPrivateFieldGet(this, _TxtStage_isTategaki, "f"); }
-    getWidth() { return this.infTL.$width; }
-    getHeight() { return this.infTL.$height; }
+    get infTL() { return __classPrivateFieldGet(this, _TxtStage_infTL, "f"); }
+    get getWidth() { return __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width; }
+    get getHeight() { return __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height; }
     setSize(width, height) {
-        this.infTL.$width = width;
-        this.infTL.$height = height;
-        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.width = this.infTL.$width + 'px';
-        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.height = this.infTL.$height + 'px';
+        __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width = width;
+        __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height = height;
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.width = __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width + 'px';
+        __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.height = __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height + 'px';
     }
     goTxt(aSpan) {
         var _b;
@@ -76961,15 +76958,15 @@ class TxtStage extends pixi_js_1.Container {
         if (begin === 0) {
             if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cfg).oCfg.debug.masume) {
                 if (CmnLib_1.CmnLib.debugLog)
-                    console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${this.infTL.pad_left} pr:${this.infTL.pad_right} pt:${this.infTL.pad_top} pb:${this.infTL.pad_bottom} w:${this.infTL.$width} h:${this.infTL.$height}`);
+                    console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left} pr:${__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_right} pt:${__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top} pb:${__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_bottom} w:${__classPrivateFieldGet(this, _TxtStage_infTL, "f").$width} h:${__classPrivateFieldGet(this, _TxtStage_infTL, "f").$height}`);
                 __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").clear()
                     .beginFill(0x33FF00, 0.2)
                     .lineStyle(1, 0x33FF00, 1)
-                    .drawRect(-this.infTL.pad_left, -this.infTL.pad_top, this.infTL.$width, this.infTL.$height)
+                    .drawRect(-__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left, -__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top, __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width, __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height)
                     .endFill()
                     .beginFill(0x0033FF, 0.2)
                     .lineStyle(2, 0x0033FF, 1)
-                    .drawRect(0, 0, this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right, this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom)
+                    .drawRect(0, 0, __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_right, __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_bottom)
                     .endFill();
             }
             __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").innerHTML = [...aSpan].join('');
@@ -77066,8 +77063,8 @@ class TxtStage extends pixi_js_1.Container {
             : () => { };
         const ease = CmnTween_1.CmnTween.ease(__classPrivateFieldGet(this, _TxtStage_fi_easing, "f"));
         const bcr = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getBoundingClientRect();
-        const sx = bcr.left + globalThis.scrollX + this.infTL.pad_left;
-        const sy = bcr.top + globalThis.scrollY + this.infTL.pad_top;
+        const sx = bcr.left + globalThis.scrollX + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left;
+        const sy = bcr.top + globalThis.scrollY + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top;
         for (let i = begin; i < len; ++i) {
             const v = __classPrivateFieldGet(this, _TxtStage_aRect, "f")[i];
             const rct = v.rect;
@@ -77248,7 +77245,8 @@ class TxtStage extends pixi_js_1.Container {
     }
     reNew() {
         __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_clearText).call(this);
-        const to = new TxtStage(this.infTL, this.spLay, () => this.canFocus());
+        const to = new TxtStage(this.spLay, () => this.canFocus());
+        __classPrivateFieldSet(to, _TxtStage_infTL, __classPrivateFieldGet(this, _TxtStage_infTL, "f"), "f");
         __classPrivateFieldGet(to, _TxtStage_htmTxt, "f").style.cssText = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.cssText;
         __classPrivateFieldSet(to, _TxtStage_left, __classPrivateFieldGet(this, _TxtStage_left, "f"), "f");
         to.name = this.name;
@@ -77262,7 +77260,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     record() {
         return {
-            infTL: this.infTL,
+            infTL: __classPrivateFieldGet(this, _TxtStage_infTL, "f"),
             cssText: __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.cssText,
             left: __classPrivateFieldGet(this, _TxtStage_left, "f"),
             idc_hArg: __classPrivateFieldGet(this, _TxtStage_idc, "f").gethArg(),
@@ -77273,8 +77271,8 @@ class TxtStage extends pixi_js_1.Container {
     }
     ;
     playback(hLay) {
-        this.infTL = hLay.infTL;
-        this.position.set(this.infTL.pad_left, this.infTL.pad_top);
+        __classPrivateFieldSet(this, _TxtStage_infTL, hLay.infTL, "f");
+        this.position.set(__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left, __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top);
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.cssText = hLay.cssText;
         __classPrivateFieldSet(this, _TxtStage_left, hLay.left, "f");
         __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_lay_sub).call(this);
@@ -77287,13 +77285,13 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_htm2tx).call(this, tx => {
             __classPrivateFieldSet(this, _TxtStage_sss, new pixi_js_1.Sprite(tx), "f");
             if (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f")) {
-                __classPrivateFieldGet(this, _TxtStage_sss, "f").x += CmnLib_1.CmnLib.stageW - (__classPrivateFieldGet(this, _TxtStage_left, "f") + this.infTL.$width)
+                __classPrivateFieldGet(this, _TxtStage_sss, "f").x += CmnLib_1.CmnLib.stageW - (__classPrivateFieldGet(this, _TxtStage_left, "f") + __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width)
                     - ((CmnLib_1.CmnLib.isSafari && !CmnLib_1.CmnLib.isMobile)
                         ? 0
-                        : this.infTL.pad_left + this.infTL.pad_right);
+                        : __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_right);
             }
             __classPrivateFieldGet(this, _TxtStage_sss, "f").y -= __classPrivateFieldGet(this, _TxtStage_padTx4y, "f");
-            __classPrivateFieldGet(this, _TxtStage_sss, "f").texture.frame = new pixi_js_1.Rectangle(0, 0, this.infTL.$width - __classPrivateFieldGet(this, _TxtStage_left, "f"), this.infTL.$height);
+            __classPrivateFieldGet(this, _TxtStage_sss, "f").texture.frame = new pixi_js_1.Rectangle(0, 0, __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width - __classPrivateFieldGet(this, _TxtStage_left, "f"), __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height);
             __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").addChild(__classPrivateFieldGet(this, _TxtStage_sss, "f"));
             rnd.render(__classPrivateFieldGet(this, _TxtStage_sss, "f"), undefined, false);
             re();
@@ -77331,17 +77329,17 @@ class TxtStage extends pixi_js_1.Container {
     }
 }
 exports.TxtStage = TxtStage;
-_a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(), _TxtStage_grpDbgMasume = new WeakMap(), _TxtStage_idc = new WeakMap(), _TxtStage_idcCh = new WeakMap(), _TxtStage_left = new WeakMap(), _TxtStage_isTategaki = new WeakMap(), _TxtStage_padTx4x = new WeakMap(), _TxtStage_padTx4y = new WeakMap(), _TxtStage_ch_filter = new WeakMap(), _TxtStage_aSpTw = new WeakMap(), _TxtStage_aRect = new WeakMap(), _TxtStage_lenHtmTxt = new WeakMap(), _TxtStage_beforeHTMLElm = new WeakMap(), _TxtStage_rctm = new WeakMap(), _TxtStage_REGDS = new WeakMap(), _TxtStage_fncEndChIn = new WeakMap(), _TxtStage_isChInIng = new WeakMap(), _TxtStage_lh_half = new WeakMap(), _TxtStage_fi_easing = new WeakMap(), _TxtStage_fo_easing = new WeakMap(), _TxtStage_sss = new WeakMap(), _TxtStage_instances = new WeakSet(), _TxtStage_lay_sub = function _TxtStage_lay_sub() {
+_a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(), _TxtStage_grpDbgMasume = new WeakMap(), _TxtStage_idc = new WeakMap(), _TxtStage_idcCh = new WeakMap(), _TxtStage_infTL = new WeakMap(), _TxtStage_left = new WeakMap(), _TxtStage_isTategaki = new WeakMap(), _TxtStage_padTx4x = new WeakMap(), _TxtStage_padTx4y = new WeakMap(), _TxtStage_ch_filter = new WeakMap(), _TxtStage_aSpTw = new WeakMap(), _TxtStage_aRect = new WeakMap(), _TxtStage_lenHtmTxt = new WeakMap(), _TxtStage_beforeHTMLElm = new WeakMap(), _TxtStage_rctm = new WeakMap(), _TxtStage_REGDS = new WeakMap(), _TxtStage_fncEndChIn = new WeakMap(), _TxtStage_isChInIng = new WeakMap(), _TxtStage_lh_half = new WeakMap(), _TxtStage_fi_easing = new WeakMap(), _TxtStage_fo_easing = new WeakMap(), _TxtStage_sss = new WeakMap(), _TxtStage_instances = new WeakSet(), _TxtStage_lay_sub = function _TxtStage_lay_sub() {
     const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
     const fs = parseFloat(s.fontSize || '0');
-    this.infTL.fontsize = fs;
-    this.infTL.pad_left = parseFloat(s.paddingLeft || '0');
-    this.infTL.pad_right = parseFloat(s.paddingRight || '0');
-    this.infTL.pad_top = parseFloat(s.paddingTop || '0');
-    this.infTL.pad_bottom = parseFloat(s.paddingBottom || '0');
-    this.infTL.$width = parseFloat(s.width || '0');
-    this.infTL.$height = parseFloat(s.height || '0');
-    this.position.set(this.infTL.pad_left, this.infTL.pad_top);
+    __classPrivateFieldGet(this, _TxtStage_infTL, "f").fontsize = fs;
+    __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left = parseFloat(s.paddingLeft || '0');
+    __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_right = parseFloat(s.paddingRight || '0');
+    __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top = parseFloat(s.paddingTop || '0');
+    __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_bottom = parseFloat(s.paddingBottom || '0');
+    __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width = parseFloat(s.width || '0');
+    __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height = parseFloat(s.height || '0');
+    this.position.set(__classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left, __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top);
     __classPrivateFieldSet(this, _TxtStage_isTategaki, (s.writingMode === 'vertical-rl'), "f");
     __classPrivateFieldSet(this, _TxtStage_padTx4x, 0, "f");
     __classPrivateFieldSet(this, _TxtStage_padTx4y, 0, "f");
@@ -77553,8 +77551,8 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
         cln.style.paddingTop = __classPrivateFieldGet(this, _TxtStage_padTx4y, "f") + 'px';
         cln.style.left = '0px';
         cln.style.top = '0px';
-        cln.style.width = (this.infTL.$width - this.infTL.pad_left - this.infTL.pad_right) + 'px';
-        cln.style.height = (this.infTL.$height - this.infTL.pad_top - this.infTL.pad_bottom) + 'px';
+        cln.style.width = (__classPrivateFieldGet(this, _TxtStage_infTL, "f").$width - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_right) + 'px';
+        cln.style.height = (__classPrivateFieldGet(this, _TxtStage_infTL, "f").$height - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top - __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_bottom) + 'px';
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").hidden = hidden;
         return cln;
     })
@@ -77562,15 +77560,15 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
         .then(node => {
         node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
         const img = new Image;
-        img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.infTL.$width}px" height="${this.infTL.$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node)
+        img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${__classPrivateFieldGet(this, _TxtStage_infTL, "f").$width}px" height="${__classPrivateFieldGet(this, _TxtStage_infTL, "f").$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node)
             .replaceAll('#', '%23').replaceAll('\n', '%0A')}</foreignObject></svg>`;
         return new Promise(resolve => img.onload = () => resolve(img));
     })
         .then(img => new Promise(resolve => setTimeout(() => resolve(img), 100)))
         .then((img) => {
         const canvas = document.createElement('canvas');
-        canvas.width = this.infTL.$width;
-        canvas.height = this.infTL.$height;
+        canvas.width = __classPrivateFieldGet(this, _TxtStage_infTL, "f").$width;
+        canvas.height = __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height;
         canvas.getContext('2d').drawImage(img, 0, 0);
         canvas.toBlob(blob => {
             if (!blob)

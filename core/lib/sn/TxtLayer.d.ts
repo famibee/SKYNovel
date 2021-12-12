@@ -1,7 +1,6 @@
 import { Layer } from './Layer';
 import { IEvtMng } from './CmnLib';
 import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
-import { IInfTxLay } from './TxtStage';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { Renderer } from 'pixi.js';
@@ -32,40 +31,7 @@ export declare class TxtLayer extends Layer {
     readonly addButton: (hArg: HArg) => Promise<void>;
     canFocus(): boolean;
     clearLay(hArg: HArg): void;
-    readonly record: () => {
-        name: string;
-        idx: number;
-        alpha: number;
-        blendMode: import("pixi.js").BLEND_MODES;
-        rotation: number;
-        scale_x: number;
-        scale_y: number;
-        pivot_x: number;
-        pivot_y: number;
-        x: number;
-        y: number;
-        visible: boolean;
-    } & {
-        enabled: boolean;
-        r_align: string;
-        b_do: string | null;
-        b_pic: string;
-        b_color: number;
-        b_alpha: number;
-        b_alpha_isfixed: boolean;
-        ffs: string;
-        txs: {
-            infTL: IInfTxLay;
-            cssText: string;
-            left: number;
-            idc_hArg: HArg;
-            ch_filter: any[] | null;
-            fi_easing: string;
-            fo_easing: string;
-        };
-        strNoFFS: string;
-        btns: string[];
-    };
+    readonly record: () => any;
     playback(hLay: any, aPrm: Promise<void>[]): void;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;

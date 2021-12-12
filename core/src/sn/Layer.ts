@@ -11,11 +11,11 @@ import {HArg} from './CmnInterface';
 import {IMakeDesignCast} from './LayerMng';
 
 export class Layer {
-	layname		= '';
-	protected		name_	= '';
+				layname	= '';
+	protected	name_	= '';
 	set name(nm) {this.name_ = nm;}
 	get name() {return this.name_;}
-	readonly	spLay		= new Sprite(Texture.EMPTY);
+	readonly	spLay	= new Sprite(Texture.EMPTY);
 
 	// tsy用
 	get	alpha() {return this.spLay.alpha}

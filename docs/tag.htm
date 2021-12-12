@@ -473,7 +473,7 @@
 <p class="mb2 px1">
 
 <p>alpha、blendMode、rotation、scaleX、scaleYを初期値にする<br/>
-	※背景や背景画像はクリアしません（b_left、b_top、b_width、b_height、b_color、b_alpha）
+	※背景や背景画像はクリアしません（b_color、b_alpha、b_alpha_isfixed）
 	　クリアしたい場合は、[lay back_clear=true]</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（半角カンマ区切りで複数レイヤを指定可能）</td><td></td></tr>
@@ -574,12 +574,12 @@
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>※文字表示中の場合はすべてのスタイルが変更される</td></tr>
 <tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
 <tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
-<tr><td>b_width</td><td></td><td>(↑と同じ)</td><td>矩形表示縦横ピクセル数</td><td>テキスト背後の矩形表示縦横サイズ。<br/>初期値はそれぞれ（画面横幅 - b_left *2）（画面縦幅 - b_top *2）</td></tr>
-<tr><td>b_height</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
+<tr><td><s>b_width</s></td><td></td><td><s>(↑と同じ)</s></td><td><s>矩形表示縦横ピクセル数</s></td><td><s>テキスト背後の矩形表示縦横サイズ。<br/>初期値はそれぞれ（画面横幅 - b_left *2）（画面縦幅 - b_top *2）</s></td></tr>
+<tr><td><s>b_height</s></td><td></td><td><s>(↑と同じ)</s></td><td><s>(↑と同じ)</s></td><td><s>(↑と同じ)</s></td></tr>
 <tr><td>b_color</td><td></td><td>(↑と同じ)</td><td>色指定。0x000000など</td><td>テキスト背後の矩形色。初期値は 0x000000（黒）</td></tr>
 <tr><td>b_alpha</td><td></td><td>(↑と同じ)</td><td>実数：0.0（透明）〜1.0（不透過）</td><td>テキスト背後の矩形不透明度。<br/>表示しない場合は0を指定。初期値は 0</td></tr>
 <tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>Boolean</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
-<tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_top、b_left、b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
+<tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
 <tr><td>back_clear</td><td></td><td>現在値</td><td>Boolean</td><td>true：背景をクリアする</td></tr>
 <tr><td>ffs</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>
 	CSS の文字詰め font-feature-settingsでの「"pwid"」「"palt"」など指定できる。<br/>
