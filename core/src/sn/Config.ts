@@ -81,12 +81,7 @@ export class Config implements IConfig {
 		this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
 
 		this.oCfg.init = {...this.oCfg.init, ...oCfg.init};
-		if ('init' in oCfg)
-		for (const n in this.oCfg.init) {
-			const v = String(this.oCfg.init[n]);
-			if (n === 'bg_color') this.oCfg.init[n] = parseColor(v);
-			else this.oCfg.init[n] = parseInt(v.slice(1), 16);
-		}
+		this.oCfg.init.bg_color = parseColor(String(this.oCfg.init.bg_color));
 
 		this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};
 		CmnLib.debugLog = this.oCfg.debug.debugLog;

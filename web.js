@@ -68823,14 +68823,7 @@ class Config {
         this.oCfg.book = { ...this.oCfg.book, ...oCfg.book };
         this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
         this.oCfg.init = { ...this.oCfg.init, ...oCfg.init };
-        if ('init' in oCfg)
-            for (const n in this.oCfg.init) {
-                const v = String(this.oCfg.init[n]);
-                if (n === 'bg_color')
-                    this.oCfg.init[n] = (0, CmnLib_1.parseColor)(v);
-                else
-                    this.oCfg.init[n] = parseInt(v.slice(1), 16);
-            }
+        this.oCfg.init.bg_color = (0, CmnLib_1.parseColor)(String(this.oCfg.init.bg_color));
         this.oCfg.debug = { ...this.oCfg.debug, ...oCfg.debug };
         CmnLib_1.CmnLib.debugLog = this.oCfg.debug.debugLog;
         this.oCfg.debuger_token = oCfg.debuger_token;

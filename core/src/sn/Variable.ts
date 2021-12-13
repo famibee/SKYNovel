@@ -126,11 +126,11 @@ export class Variable implements IVariable {
 	}
 
 
-	#sys		: ISysBase;
+	#sys	: ISysBase;
 	#data	: IData4Vari	= {sys:{}, mark:{}, kidoku:{}};
 	#hSys	: any;
 	#hAreaKidoku	: {[name: string]: Areas}	= {};
-	#callHook: IFncHook;
+	#callHook		: IFncHook;
 	setSys(sys: ISysBase) {
 		this.#sys = sys;
 		sys.initVal(this.#data, this.#hTmp, data=> {
