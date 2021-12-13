@@ -1,3 +1,10 @@
+## [1.23.2](https://github.com/famibee/SKYNovel/compare/v1.23.1...v1.23.2) (2021-12-13)
+
+
+### Bug Fixes
+
+* 通常文字表示待ち・既読文字表示待ちなどが0になる不具合（直前のデグレード） ([cdae513](https://github.com/famibee/SKYNovel/commit/cdae513f56342a63c0b1559b93206d605a9f2273))
+
 - fix: 通常文字表示待ち・既読文字表示待ちなどが0になる不具合（1.23.0のデグレード）
 
 
