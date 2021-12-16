@@ -1,3 +1,10 @@
+# [1.24.0](https://github.com/famibee/SKYNovel/compare/v1.23.2...v1.24.0) (2021-12-16)
+
+
+### Features
+
+* isNaN()演算子サポート ([33883dd](https://github.com/famibee/SKYNovel/commit/33883dd5241a0a2548649a2a1d13a1b464f241fd))
+
 - feat: isNaN()演算子サポート
 	- > https://www.ikkitang1211.site/entry/defer-null-undefined
 	- > JavaScriptの仕様として、 toNumber(null) は 0 / toNumber(undefined) は NaN とするという取り決めがある
