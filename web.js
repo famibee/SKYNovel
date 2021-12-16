@@ -73382,6 +73382,7 @@ class PropParser {
             'ceil': a => Math.ceil(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, a.shift())),
             'floor': a => Math.floor(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, a.shift())),
             'round': a => Math.round(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_fncSub_ChkNum).call(this, a.shift())),
+            'isNaN': a => isNaN(Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift()))),
             '<<': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) <<
                 Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())),
             '>>': a => Number(__classPrivateFieldGet(this, _PropParser_instances, "m", _PropParser_calc).call(this, a.shift())) >>

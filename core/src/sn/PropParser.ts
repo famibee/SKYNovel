@@ -213,6 +213,7 @@ export class PropParser implements IPropParser {
 		'ceil':		a=> Math.ceil( this.#fncSub_ChkNum(a.shift()) ),
 		'floor':	a=> Math.floor( this.#fncSub_ChkNum(a.shift()) ),
 		'round':	a=> Math.round( this.#fncSub_ChkNum(a.shift()) ),
+		'isNaN':	a=> isNaN(Number( this.#calc(a.shift()) )),
 
 		// ビットシフト
 		'<<':	a=> Number(this.#calc(a.shift())) <<

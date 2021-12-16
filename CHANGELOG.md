@@ -1,3 +1,9 @@
+- feat: isNaN()演算子サポート
+	- > https://www.ikkitang1211.site/entry/defer-null-undefined
+	- > JavaScriptの仕様として、 toNumber(null) は 0 / toNumber(undefined) は NaN とするという取り決めがある
+		- NaN が判定できると数値 undefined 判定の取りこぼししなくなる
+
+
 ## [1.23.2](https://github.com/famibee/SKYNovel/compare/v1.23.1...v1.23.2) (2021-12-13)
 
 

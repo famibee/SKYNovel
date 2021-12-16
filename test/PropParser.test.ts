@@ -33,6 +33,7 @@ class MyVal implements IVariable {
 		"tmp:one_s"		: "1",
 		"tmp:null_n"	: null,
 		"tmp:null_s"	: "null",
+		"tmp:nan"		: NaN,
 		"sys:_album.img.渡り廊下・桜昼"	: true,
 		"、〇〰〽ぁヿ㐂一豈！￥"			: true,
 //			"true ? tmp:sys:zero_s"	: "",	// どうなる、どうすべき
@@ -292,6 +293,23 @@ PropParser.getValName: 0.016ms
 			assert.equal(parser.parse("round( 3.49)"), "3");
 			assert.equal(parser.parse("round(-3.5)"), "-3");
 			assert.equal(parser.parse("round(-3.51)"), "-4");
+		});
+		it('Num_NaN0', ()=> {
+			assert.equal(parser.parse('1 + undefined'), NaN);
+			assert.equal(parser.parse('"#{1 + undefined}"'), 'NaN');
+				// 1 + undefined は NaN
+				// https://www.ikkitang1211.site/entry/defer-null-undefined
+				// JavaScriptの仕様として、 toNumber(null) は 0 / toNumber(undefined) は NaN とするという取り決めがある
+					// NaN が判定できると数値 undefined 判定の取りこぼししなくなる
+		});
+		it('Num_NaN1', ()=> {
+			assert.equal(parser.parse('isNaN(1 + undefined)'), true);
+		});
+		it('Num_NaN2', ()=> {
+			assert.equal(parser.parse('! isNaN(1 + undefined)'), false);
+		});
+		it('Num_NaN3', ()=> {
+			assert.equal(parser.parse('isNaN(tmp:nan)'), true);
 		});
 
 		// 比較
