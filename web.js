@@ -72818,14 +72818,14 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     const txt = hArg.text;
     if (!txt)
         throw 'textは必須です';
-    let wait = (0, CmnLib_1.argChk_Num)(hArg, 'wait', -1);
-    if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled'))
-        wait = 0;
-    hArg.wait = wait;
     const tl = __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg);
     delete hArg.text;
-    if (wait >= 0)
-        __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'add｜' + JSON.stringify(hArg), tl);
+    if ('wait' in hArg) {
+        (0, CmnLib_1.argChk_Num)(hArg, 'wait', NaN);
+        if (this.val.getVal('tmp:sn.skip.enabled'))
+            hArg.wait = 0;
+    }
+    __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'add｜' + JSON.stringify(hArg), tl);
     const record = (0, CmnLib_1.argChk_Boolean)(hArg, 'record', true);
     const doRecLog = this.val.doRecLog();
     if (!record)
@@ -72833,8 +72833,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     tl.tagCh(txt.replaceAll('[r]', '\n'));
     if (!record)
         this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
-    if (wait >= 0)
-        __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, `add_close｜`, tl);
+    __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, `add_close｜`, tl);
     return false;
 }, _LayerMng_$getTxtLayer = function _LayerMng_$getTxtLayer(hArg) {
     const layer = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, hArg, __classPrivateFieldGet(this, _LayerMng_curTxtlay, "f"));
@@ -76214,43 +76213,32 @@ class TxtLayer extends Layer_1.Layer {
                                 if (isSkip)
                                     __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
                                 const rs = this.mkStyle_r_align(tx, rb, __classPrivateFieldGet(this, _TxtLayer_r_align, "f"));
+                                const da = ` data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'`;
+                                const st = `<span data-tcy='${id_tcy}' style='
+text-combine-upright: all;
+-webkit-text-combine: horizontal;
+${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
                                 add_htm = rb
                                     ? (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
-                                        ? (`<ruby><span data-tcy='${id_tcy}' style='
-								text-combine-upright: all;
-								-webkit-text-combine: horizontal;
-								${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
-							' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}' data-cmd='linkrsv'>${tx}</span>`
-                                            + `<rt${rs}>${rb}</rt></ruby>`)
-                                        : (`<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;'>`
-                                            + `<ruby><span data-tcy='${id_tcy}' style='
-									text-combine-upright: all;
-									-webkit-text-combine: horizontal;
-									${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
-								' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${tx}</span>`
-                                            + `<rt${rs}>${rb}</rt></ruby>`
-                                            + `</span>`))
+                                        ? `<ruby>${st}'${da} data-cmd='linkrsv'>${tx}</span>
+							<rt${rs}>${rb}</rt></ruby>`
+                                        : `<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;'>
+							<ruby>${st}'${da}>${tx}</span>
+							<rt${rs}>${rb}</rt></ruby>
+						</span>`)
                                     : (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
-                                        ? (`<span data-tcy='${id_tcy}' style='
-							text-combine-upright: all;
-							-webkit-text-combine: horizontal;
-							${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
-						' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}' data-cmd='linkrsv'>${tx}</span>`)
-                                        : `<span data-tcy='${id_tcy}' style='
-							text-combine-upright: all;
-							-webkit-text-combine: horizontal;
+                                        ? `${st}'${da} data-cmd='linkrsv'>${tx}</span>`
+                                        : `${st}
 							animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;
 							height: 1em;
-							${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}
-						' class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${tx}</span>`);
+						' class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}'${da}>${tx}</span>`);
                                 if (__classPrivateFieldGet(this, _TxtLayer_ch_in_join, "f"))
                                     __classPrivateFieldSet(this, _TxtLayer_cumDelay, __classPrivateFieldGet(this, _TxtLayer_cumDelay, "f") + ((__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc))
                                         ? __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_hAutoWc)[ch.charAt(0)] ?? 0
                                         : LayerMng_1.LayerMng.msecChWait), "f");
                             }
                             break;
-                        default:
-                            throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
+                        default: throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
                     }
                     break;
             }
@@ -76732,15 +76720,16 @@ _a = TxtLayer, _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMa
     const rs = this.mkStyle_r_align(ch, ruby, r_align);
     if (isSkip)
         __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
+    const da = ` data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'`;
     add_htm = ruby
         ? (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
-            ? `<ruby style='${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-            : (`<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}'>`
-                + `<ruby data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-                + `</span>`))
+            ? `<ruby style='${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}'${da} data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+            : `<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}'>
+					<ruby${da}>${ch}<rt${rs}>${ruby}</rt></ruby>
+				</span>`)
         : (__classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")
             ? __classPrivateFieldGet(this, _TxtLayer_fncFFSSpan, "f").call(this, ch)
-            : `<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}' data-add='{"ch_in_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}", "ch_out_style":"${__classPrivateFieldGet(this, _TxtLayer_$ch_out_style, "f")}"}'>${ch}</span>`);
+            : `<span class='sn_ch sn_ch_in_${__classPrivateFieldGet(this, _TxtLayer_$ch_in_style, "f")}' style='animation-delay: ${__classPrivateFieldGet(this, _TxtLayer_cumDelay, "f")}ms;${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, ch)}'${da}>${ch}</span>`);
     if (__classPrivateFieldGet(this, _TxtLayer_ch_in_join, "f"))
         __classPrivateFieldSet(this, _TxtLayer_cumDelay, __classPrivateFieldGet(this, _TxtLayer_cumDelay, "f") + (__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc)
             ? __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_hAutoWc)[ch.charAt(0)] ?? 0
@@ -76998,11 +76987,12 @@ class TxtStage extends pixi_js_1.Container {
                 if (he.elm.outerHTML.slice(0, 3) === '<rt')
                     continue;
                 const xy = this.tategaki ? he.rect.y : he.rect.x;
-                if (sl_xy < xy) {
+                if (sl_xy <= xy) {
                     sl_xy = xy;
                     continue;
                 }
                 sl_xy = -Infinity;
+                const oldJ = j;
                 if (__classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_reg分割禁止).test(e[j - 1].ch)
                     && (e[j - 1].ch === he.ch)) {
                     if (CmnLib_1.CmnLib.debugLog)
@@ -77038,6 +77028,8 @@ class TxtStage extends pixi_js_1.Container {
                 else
                     pal.parentElement.insertBefore(br, pal);
                 j += 2;
+                if (j < oldJ)
+                    j = oldJ;
                 len = -1;
                 break;
             }

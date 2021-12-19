@@ -662,8 +662,6 @@ export class TxtLayer extends Layer {
 				if (TxtLayer.#val.doRecLog()) this.#page_text += ch
 				+(ruby ?`《${ruby}》` :'');
 
-				// text-combine-upright: all;			縦中横
-				// -webkit-text-combine: horizontal;	縦中横(Safari)
 				const tx = a_ruby[1];
 				const id_tcy = (tx.length > 1)
 					? (this.#aSpan.length +1)	// 0にならないよう +1
@@ -675,43 +673,34 @@ export class TxtLayer extends Layer {
 					: a_ruby[2];
 				if (isSkip) this.#cumDelay = 0;
 				const rs = this.mkStyle_r_align(tx, rb, this.#r_align);
+				const da = ` data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
+				const st = `<span data-tcy='${id_tcy}' style='
+text-combine-upright: all;
+-webkit-text-combine: horizontal;
+${this.#fncFFSStyle(tx)}`;
+				// text-combine-upright: all;			縦中横
+				// -webkit-text-combine: horizontal;	縦中横(Safari)
 				add_htm = rb
 					? (this.#aSpan_bk
-						? (`<ruby><span data-tcy='${id_tcy}' style='
-								text-combine-upright: all;
-								-webkit-text-combine: horizontal;
-								${this.#fncFFSStyle(tx)}
-							' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`
-							+`<rt${rs}>${rb}</rt></ruby>`)
-						: (`<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='animation-delay: ${this.#cumDelay}ms;'>`
-							+`<ruby><span data-tcy='${id_tcy}' style='
-									text-combine-upright: all;
-									-webkit-text-combine: horizontal;
-									${this.#fncFFSStyle(tx)}
-								' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>${tx}</span>`
-								+`<rt${rs}>${rb}</rt></ruby>`
-						+`</span>`))
+						? `<ruby>${st}'${da} data-cmd='linkrsv'>${tx}</span>
+							<rt${rs}>${rb}</rt></ruby>`
+						: `<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='animation-delay: ${this.#cumDelay}ms;'>
+							<ruby>${st}'${da}>${tx}</span>
+							<rt${rs}>${rb}</rt></ruby>
+						</span>`)
 					: (this.#aSpan_bk
-						? (`<span data-tcy='${id_tcy}' style='
-							text-combine-upright: all;
-							-webkit-text-combine: horizontal;
-							${this.#fncFFSStyle(tx)}
-						' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}' data-cmd='linkrsv'>${tx}</span>`)
-						: `<span data-tcy='${id_tcy}' style='
-							text-combine-upright: all;
-							-webkit-text-combine: horizontal;
+						? `${st}'${da} data-cmd='linkrsv'>${tx}</span>`
+						: `${st}
 							animation-delay: ${this.#cumDelay}ms;
 							height: 1em;
-							${this.#fncFFSStyle(tx)}
-						' class='sn_ch sn_ch_in_${this.#$ch_in_style}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>${tx}</span>`);
+						' class='sn_ch sn_ch_in_${this.#$ch_in_style}'${da}>${tx}</span>`);
 				if (this.#ch_in_join) this.#cumDelay += (TxtLayer.#doAutoWc)
 					? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
 					: LayerMng.msecChWait;
 			}
 				break;
 
-			default:
-				throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
+			default:	throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
 			}
 			break;
 		}
@@ -725,15 +714,16 @@ export class TxtLayer extends Layer {
 		let add_htm = '';
 		const rs = this.mkStyle_r_align(ch, ruby, r_align);
 		if (isSkip) this.#cumDelay = 0;
+		const da = ` data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
 		add_htm = ruby
 			? (this.#aSpan_bk
-				? `<ruby style='${this.#fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}' data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-				: (`<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='animation-delay: ${this.#cumDelay}ms;${this.#fncFFSStyle(ch)}'>`
-					+`<ruby data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>${ch}<rt${rs}>${ruby}</rt></ruby>`
-				+`</span>`))
+				? `<ruby style='${this.#fncFFSStyle(ch)}'${da} data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>`
+				: `<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='animation-delay: ${this.#cumDelay}ms;${this.#fncFFSStyle(ch)}'>
+					<ruby${da}>${ch}<rt${rs}>${ruby}</rt></ruby>
+				</span>`)
 			: (this.#aSpan_bk
 				? this.#fncFFSSpan(ch)
-				: `<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='animation-delay: ${this.#cumDelay}ms;${this.#fncFFSStyle(ch)}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>${ch}</span>`);
+				: `<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='animation-delay: ${this.#cumDelay}ms;${this.#fncFFSStyle(ch)}'${da}>${ch}</span>`);
 		if (this.#ch_in_join) this.#cumDelay += TxtLayer.#doAutoWc
 			? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
 			: LayerMng.msecChWait;

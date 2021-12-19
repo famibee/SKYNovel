@@ -1,3 +1,7 @@
+- fix: [tcy]（縦中横）を使うとフリーズする場合がある件
+- fix: [ch]で wait属性を指定しないと、他のstyle指定などが無効になる件
+
+
 # [1.24.0](https://github.com/famibee/SKYNovel/compare/v1.23.2...v1.24.0) (2021-12-16)
 
 

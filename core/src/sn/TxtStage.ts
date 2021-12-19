@@ -69,7 +69,7 @@ export class TxtStage extends Container {
 			marginTop		: 0,
 		};
 
-		TxtStage.#hChInStyle		= Object.create(null);
+		TxtStage.#hChInStyle	= Object.create(null);
 		TxtStage.#hChOutStyle	= Object.create(null);
 
 		TxtStage.#cntBreak	= new Container;
@@ -626,15 +626,19 @@ export class TxtStage extends Container {
 			}
 			if (len < 2) break;
 
+			// 禁則処理判定ループ
 			let sl_xy = -Infinity;
 			for (; j<len; ++j) {
 				const he = e[j];
 				if (he.elm.outerHTML.slice(0, 3) === '<rt') continue;
 
 				const xy = this.tategaki ?he.rect.y :he.rect.x;
-				if (sl_xy < xy) {sl_xy = xy; continue;}
+//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy} xy:${xy} he.ch:${he.ch}: he:%o`, he);
+				if (sl_xy <= xy) {sl_xy = xy; continue;}
+					// 【sl_xy < xy】では[tcy]二文字目を誤判定する
 				sl_xy = -Infinity;	// 改行発生！
 
+				const oldJ = j;
 				// 追い出し
 				if (TxtStage.#reg分割禁止.test(e[j -1].ch)
 				&& (e[j -1].ch === he.ch)) {
@@ -682,6 +686,7 @@ export class TxtStage extends Container {
 				j_start = j;
 */
 				j += 2;
+				if (j < oldJ) j = oldJ;	// 永久ループ防御
 				len = -1;	// doループ先頭に戻る
 				break;
 			}

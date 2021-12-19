@@ -866,13 +866,13 @@ void main(void) {
 		const txt = hArg.text;
 		if (! txt) throw 'textは必須です';
 
-		let wait = argChk_Num(hArg, 'wait', -1);
-		if (wait > 0 && this.val.getVal('tmp:sn.skip.enabled')) wait = 0;
-		hArg.wait = wait;
-
 		const tl = this.#getTxtLayer(hArg);
 		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
-		if (wait >= 0) this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);
+		if ('wait' in hArg) {
+			argChk_Num(hArg, 'wait', NaN);
+			if (this.val.getVal('tmp:sn.skip.enabled')) hArg.wait = 0;
+		}
+		this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);
 
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
@@ -880,7 +880,7 @@ void main(void) {
 		tl.tagCh(txt.replaceAll('[r]', '\n'));
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
-		if (wait >= 0) this.#cmdTxt(`add_close｜`, tl);
+		this.#cmdTxt(`add_close｜`, tl);
 
 		return false;
 	}
