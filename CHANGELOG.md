@@ -1,3 +1,10 @@
+## [1.24.1](https://github.com/famibee/SKYNovel/compare/v1.24.0...v1.24.1) (2021-12-19)
+
+
+### Bug Fixes
+
+* [tcy]（縦中横）を使うとフリーズする場合がある件 ([4419df4](https://github.com/famibee/SKYNovel/commit/4419df48599026460985ad5b5b27ee981fe26683))
+
 - fix: [tcy]（縦中横）を使うとフリーズする場合がある件
 - fix: [ch]で wait属性を指定しないと、他のstyle指定などが無効になる件
 
