@@ -1,3 +1,10 @@
+## [1.24.2](https://github.com/famibee/SKYNovel/compare/v1.24.1...v1.24.2) (2021-12-22)
+
+
+### Bug Fixes
+
+* 行末ではないのに【〝】や【『】など行末禁則文字で改行してしまう件 ([da7b39e](https://github.com/famibee/SKYNovel/commit/da7b39e475e92ee42b54af2137ac42bd5364341d))
+
 - fix: 行末ではないのに【〝】や【『】など行末禁則文字で改行してしまう件
 
 
