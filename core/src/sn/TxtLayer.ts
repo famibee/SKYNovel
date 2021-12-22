@@ -470,21 +470,19 @@ export class TxtLayer extends Layer {
 					add_htm = this.#aSpan_bk.slice(-1)[0];
 					this.#autoCloseSpan();
 					this.#aSpan.push(TxtLayer.rec('<br/>'));
-					this.#aSpan.push(add_htm);	// ここでaSpan末尾に追加しないと続かない
+					this.#aSpan.push(add_htm);	// ここで末尾に追加しないと続かない
 					this.#aSpan_bk = this.#aSpan;
 					this.#aSpan = [];
 					return;	// breakではない
 				}
-				if (this.#firstCh) {	// １文字目にルビが無い場合は不可視ルビで、行揃え
+				if (this.#firstCh) {// １文字目にルビが無い場合、不可視ルビで行揃え
 					this.#firstCh = false;
 					add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
 				}
-				else {
-					add_htm = '<br/>';
-				}
+				else add_htm = '<br/>';
 				break;
 			}
-			if (this.#firstCh) {	// １文字目にルビが無い場合は見えないルビで、行揃え
+			if (this.#firstCh) {	// １文字目にルビが無い場合、不可視ルビで行揃え
 				this.#firstCh = false;
 				if (ruby === '') ruby = '　';
 			}
@@ -492,8 +490,7 @@ export class TxtLayer extends Layer {
 			break;
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
-			switch (a_ruby[0]) {
-			// ルビ揃え指定と同時シリーズ
+			switch (a_ruby[0]) {	// ルビ揃え指定と同時シリーズ
 			case 'start':	// 初期値
 			case 'left':	//（肩付き）先頭親文字から、ルビ間は密着
 			case 'center':	//（中付き）センター合わせ、〃
@@ -579,7 +576,7 @@ export class TxtLayer extends Layer {
 					? ''
 					: ` animation-duration: ${wait}ms;`
 				add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${this.#cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>　</span>`;
-				if (this.#firstCh) {	// １文字目にルビが無い場合は不可視ルビで、行揃え
+				if (this.#firstCh) {	// １文字目にルビが無い場合、不可視ルビで行揃え
 					this.#firstCh = false;
 					add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
 				}
@@ -849,7 +846,7 @@ ${this.#fncFFSStyle(tx)}`;
 	}
 
 	override snapshot(rnd: Renderer, re: ()=> void) {
-		rnd.render(this.spLay, undefined, false);
+		rnd.render(this.spLay, {clear: false});
 		this.#txs.snapshot(rnd, re);
 	}
 	override snapshot_end() {this.#txs.snapshot_end();}

@@ -594,9 +594,11 @@ export class TxtStage extends Container {
 				.endFill();
 			}
 
-			this.#htmTxt.innerHTML = [...aSpan].join('');
+			this.#htmTxt.innerHTML = [...aSpan].join('').replaceAll(/[\n\t]/g, '');
 		}
-		else this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join(''));
+		else this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join('').replaceAll(/[\n\t]/g, ''));
+			// 後の禁則処理判定で誤判定するので、innerHTML 時にムダな改行やタブは削除
+			// [r]は<br/>になってるので問題なし
 		this.#lenHtmTxt = aSpan.length;
 
 		let len = 0;
@@ -633,37 +635,39 @@ export class TxtStage extends Container {
 				if (he.elm.outerHTML.slice(0, 3) === '<rt') continue;
 
 				const xy = this.tategaki ?he.rect.y :he.rect.x;
-//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy} xy:${xy} he.ch:${he.ch}: he:%o`, he);
+//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${he.ch}: he:%o`, he);
 				if (sl_xy <= xy) {sl_xy = xy; continue;}
 					// 【sl_xy < xy】では[tcy]二文字目を誤判定する
 				sl_xy = -Infinity;	// 改行発生！
 
+//console.log(`=== 改行発生！`);
 				const oldJ = j;
 				// 追い出し
 				if (TxtStage.#reg分割禁止.test(e[j -1].ch)
 				&& (e[j -1].ch === he.ch)) {
-	if (CmnLib.debugLog) console.log(`🎴追い出し（分割禁止）ch:${he.ch}`);
+//console.log(`🎴追い出し（分割禁止）ch:${he.ch}`);
 					--j;
 				}
 				else {
 					if (TxtStage.#reg行末禁則.test(e[j -1].ch)) {
-	if (CmnLib.debugLog) console.log(`🎴追い出し（行末禁則）前ch:${e[j -1].ch}`);
+//console.log(`🎴追い出し（行末禁則）前ch:${e[j -1].ch}`);
 						--j;
 					}
 					else if (TxtStage.#reg行頭禁則.test(he.ch)) {
-	if (CmnLib.debugLog) console.log(`🎴追い出し（行頭禁則 A）前ch:${he.ch}`);
+//console.log(`🎴追い出し（行頭禁則 A）前ch:${he.ch}`);
 						while (j > 0 && TxtStage.#reg行頭禁則.test(e[--j].ch)) {
-	if (CmnLib.debugLog) console.log(`🎴　　　　（行頭禁則 A）前ch:${e[j].ch}`);
+//console.log(`🎴　　　　（行頭禁則 A）前ch:${e[j].ch}`);
 						}
 					}
 					else continue;	// 追い出しなし
 
 					while (j > 0 && TxtStage.#reg行末禁則.test(e[j -1].ch)) {
-	if (CmnLib.debugLog) console.log(`🎴追い出し（行末禁則 B）前ch:${e[j -1].ch}`);
+//console.log(`🎴追い出し（行末禁則 B）前ch:${e[j -1].ch}`);
 						--j;
 					}
 				}
 				const pal = e[j].elm.parentElement!;
+			//	const br = document.createElement('span'); br.innerHTML = '＠';
 				const br = document.createElement('br');
 				if (pal.classList.contains('sn_tx')) pal.insertBefore(br, e[j].elm);
 				else pal.parentElement!.insertBefore(br, pal);
