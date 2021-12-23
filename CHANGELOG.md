@@ -1,3 +1,10 @@
+# [1.25.0](https://github.com/famibee/SKYNovel/compare/v1.24.2...v1.25.0) (2021-12-23)
+
+
+### Features
+
+* 文字レイヤ：クリック待ちマークの固定表示切替・表示位置を指定できる属性追加 ([0fbd99c](https://github.com/famibee/SKYNovel/commit/0fbd99cd902b595cf20e65db01c546fad0b3f91e))
+
 - feat: 文字レイヤ：クリック待ちマークの固定表示切替・表示位置を指定できる属性追加
 	- break_fixed、break_fixed_left、break_fixed_top
 - fix: ルビ文字などが行末になった際に行幅が広がりすぎる件
