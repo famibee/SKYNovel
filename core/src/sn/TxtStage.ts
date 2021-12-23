@@ -145,6 +145,10 @@ export class TxtStage extends Container {
 		s.display = this.spLay.visible ?'inline' :'none';
 		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 
+		this.#break_fixed = argChk_Boolean(hArg, 'break_fixed', this.#break_fixed);
+		this.#break_fixed_left= argChk_Num(hArg, 'break_fixed_left', this.#break_fixed_left);
+		this.#break_fixed_top	= argChk_Num(hArg, 'break_fixed_top', this.#break_fixed_top);
+
 		// パディングキャスト変更時・クリック待ち表示を追従させる（高速再描写）
 		if (':redraw' in hArg && this.#lenHtmTxt > 0) {
 			const aSpan = [
@@ -155,6 +159,9 @@ export class TxtStage extends Container {
 			this.goTxt(aSpan);	// 高速 goTxt()
 		}
 	}
+	#break_fixed		= false;
+	#break_fixed_left	= 0;
+	#break_fixed_top	= 0;
 	#lay_sub() {
 		const s = this.#htmTxt.style;
 		const fs = parseFloat(s.fontSize || '0');
@@ -670,7 +677,13 @@ export class TxtStage extends Container {
 			//	const br = document.createElement('span'); br.innerHTML = '＠';
 				const br = document.createElement('br');
 				if (pal.classList.contains('sn_tx')) pal.insertBefore(br, e[j].elm);
-				else pal.parentElement!.insertBefore(br, pal);
+				else {
+					const ppal = pal.parentElement!;
+					if (ppal.classList.contains('sn_ch')) {
+						ppal.parentElement!.insertBefore(br, ppal);
+					}
+					else ppal.insertBefore(br, pal);
+				}
 
 				// TODO: 追い出し＋前行を均等割付
 /*				//=== 前行を<span>で囲むサンプル
@@ -715,6 +728,7 @@ export class TxtStage extends Container {
 		const bcr = this.#htmTxt.getBoundingClientRect();
 		const sx = bcr.left +globalThis.scrollX +this.#infTL.pad_left;
 		const sy = bcr.top +globalThis.scrollY +this.#infTL.pad_top;
+		let rctLastCh = new Rectangle;
 		for (let i=begin; i<len; ++i) {
 			const v = this.#aRect[i];
 			const rct = v.rect;
@@ -734,7 +748,7 @@ export class TxtStage extends Container {
 					rct.y += (rct.height -rct.width) /2;
 					rct.height = rct.width;
 				}
-				this.#rctm = rct;	// !cis ならルビ
+				rctLastCh = rct;	// !cis はルビ
 			}
 
 			switch (v.cmd) {
@@ -772,13 +786,6 @@ export class TxtStage extends Container {
 					break;
 			}
 		}
-		// クリック待ち用ダミー空白を削除
-		this.#aRect.slice(0, -1);
-		--this.#lenHtmTxt;
-		const clSpan = this.#htmTxt.getElementsByTagName('span');
-		const lenClSpan = clSpan.length;
-		if (lenClSpan > 0) this.#htmTxt.removeChild(clSpan[lenClSpan -1]);
-			// this.htmTxt.innerHTML = this.htmTxt.innerHTML.replace(/<span [^>]+>　<\/span>$/, '');// だと this.aRect の DOM(.elm)を破壊してしまうので
 
 		// 文字出現演出・開始〜終了
 		const chs = this.#htmTxt.querySelectorAll('span.sn_ch');
@@ -788,7 +795,14 @@ export class TxtStage extends Container {
 		this.#fncEndChIn = ()=> {
 			this.#isChInIng = false;
 			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
-			TxtStage.#cntBreak.position.set(this.#rctm.x, this.#rctm.y);
+			if (this.#break_fixed) TxtStage.#cntBreak.position.set(
+				this.#break_fixed_left,
+				this.#break_fixed_top,
+			);
+			else TxtStage.#cntBreak.position.set(
+				rctLastCh.x +(this.#isTategaki ?0 :rctLastCh.width),
+				rctLastCh.y +(this.#isTategaki ?rctLastCh.height :0),
+			);
 			TxtStage.#cntBreak.visible = true;
 			this.#fncEndChIn = ()=> {};
 		};
@@ -811,7 +825,6 @@ export class TxtStage extends Container {
 		le.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
 	#beforeHTMLElm	: HTMLElement | null	= null;
-	#rctm = new Rectangle;
 	readonly #REGDS = /animation\-duration: (?<ms>\d+)ms;/;
 	#fncEndChIn	= ()=> {};
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
@@ -1061,6 +1074,10 @@ export class TxtStage extends Container {
 		to.#fi_easing = this.#fi_easing;
 		to.#fo_easing = this.#fo_easing;
 
+		to.#break_fixed		= this.#break_fixed;
+		to.#break_fixed_left= this.#break_fixed_left;
+		to.#break_fixed_top	= this.#break_fixed_top;
+
 		this.destroy();
 
 		return to;
@@ -1077,6 +1094,10 @@ export class TxtStage extends Container {
 		ch_filter	: this.#ch_filter,
 		fi_easing	: this.#fi_easing,
 		fo_easing	: this.#fo_easing,
+
+		break_fixed		: this.#break_fixed,
+		break_fixed_left: this.#break_fixed_left,
+		break_fixed_top	: this.#break_fixed_top,
 	}};
 	playback(hLay: any) {
 		this.#infTL = hLay.infTL;
@@ -1090,6 +1111,10 @@ export class TxtStage extends Container {
 		this.#ch_filter	= hLay.ch_filter;
 		this.#fi_easing	= hLay.fi_easing;
 		this.#fo_easing	= hLay.fo_easing;
+
+		this.#break_fixed		= hLay.break_fixed ?? false;
+		this.#break_fixed_left	= hLay.break_fixed_left?? 0;
+		this.#break_fixed_top	= hLay.break_fixed_top ?? 0;
 	}
 
 	#sss :Sprite | null = null;

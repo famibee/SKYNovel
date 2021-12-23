@@ -57,6 +57,9 @@ export declare class TxtStage extends Container {
         ch_filter: any[] | null;
         fi_easing: string;
         fo_easing: string;
+        break_fixed: boolean;
+        break_fixed_left: number;
+        break_fixed_top: number;
     };
     playback(hLay: any): void;
     snapshot(rnd: Renderer, re: () => void): void;

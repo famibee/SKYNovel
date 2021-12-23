@@ -581,6 +581,12 @@
 <tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>Boolean</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
 <tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
 <tr><td>back_clear</td><td></td><td>現在値</td><td>Boolean</td><td>true：背景をクリアする</td></tr>
+<tr><td>break_fixed</td><td rowspan="3"></td><td rowspan="3">現在値</td><td>Boolean</td><td>
+	true：クリック待ちマークを固定位置に表示<br/>
+	false：最後に表示した文字の次、改行せずぶら下げ位置に表示
+</td></tr>
+<tr><td>break_fixed_left</td><td rowspan="2">Integer</td><td rowspan="2">クリック待ちマークの表示位置を指定する</td></tr>
+<tr><td>break_fixed_top</td></tr>
 <tr><td>ffs</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>
 	CSS の文字詰め font-feature-settingsでの「"pwid"」「"palt"」など指定できる。<br/>
 	（styleで指定してはいけない）<br/>

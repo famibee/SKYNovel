@@ -522,9 +522,7 @@ export class TxtLayer extends Layer {
 				);
 
 				if (! this.#needGoTxt) return;	// breakではない
-				this.#txs.goTxt(	// クリック待ち用ダミー空白を追加
-					[...this.#aSpan, this.#tagCh_sub('　', '', false, '')]
-				);
+				this.#txs.goTxt(this.#aSpan);
 				this.#needGoTxt = false;
 				this.#cumDelay = 0;
 				return;	// breakではない

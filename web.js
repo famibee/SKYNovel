@@ -75154,7 +75154,7 @@ class TxtLayer extends Layer_1.Layer {
                                         .replaceAll('`', '\\`'));
                                 if (!__classPrivateFieldGet(this, _TxtLayer_needGoTxt, "f"))
                                     return;
-                                __classPrivateFieldGet(this, _TxtLayer_txs, "f").goTxt([...__classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_tagCh_sub).call(this, '　', '', false, '')]);
+                                __classPrivateFieldGet(this, _TxtLayer_txs, "f").goTxt(__classPrivateFieldGet(this, _TxtLayer_aSpan, "f"));
                                 __classPrivateFieldSet(this, _TxtLayer_needGoTxt, false, "f");
                                 __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
                                 return;
@@ -75870,7 +75870,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_cvs, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_infTL, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_rctm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
+var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_cvs, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_infTL, _TxtStage_break_fixed, _TxtStage_break_fixed_left, _TxtStage_break_fixed_top, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtStage = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -75902,6 +75902,9 @@ class TxtStage extends pixi_js_1.Container {
             pad_top: 0,
             pad_bottom: 0,
         });
+        _TxtStage_break_fixed.set(this, false);
+        _TxtStage_break_fixed_left.set(this, 0);
+        _TxtStage_break_fixed_top.set(this, 0);
         _TxtStage_left.set(this, 0);
         _TxtStage_isTategaki.set(this, false);
         _TxtStage_padTx4x.set(this, 0);
@@ -75911,7 +75914,6 @@ class TxtStage extends pixi_js_1.Container {
         _TxtStage_aRect.set(this, []);
         _TxtStage_lenHtmTxt.set(this, 0);
         _TxtStage_beforeHTMLElm.set(this, null);
-        _TxtStage_rctm.set(this, new pixi_js_1.Rectangle);
         _TxtStage_REGDS.set(this, /animation\-duration: (?<ms>\d+)ms;/);
         _TxtStage_fncEndChIn.set(this, () => { });
         _TxtStage_isChInIng.set(this, false);
@@ -75992,6 +75994,9 @@ class TxtStage extends pixi_js_1.Container {
         this.cvsResize();
         s.display = this.spLay.visible ? 'inline' : 'none';
         s.textShadow = hArg.filter ?? s.textShadow ?? '';
+        __classPrivateFieldSet(this, _TxtStage_break_fixed, (0, CmnLib_1.argChk_Boolean)(hArg, 'break_fixed', __classPrivateFieldGet(this, _TxtStage_break_fixed, "f")), "f");
+        __classPrivateFieldSet(this, _TxtStage_break_fixed_left, (0, CmnLib_1.argChk_Num)(hArg, 'break_fixed_left', __classPrivateFieldGet(this, _TxtStage_break_fixed_left, "f")), "f");
+        __classPrivateFieldSet(this, _TxtStage_break_fixed_top, (0, CmnLib_1.argChk_Num)(hArg, 'break_fixed_top', __classPrivateFieldGet(this, _TxtStage_break_fixed_top, "f")), "f");
         if (':redraw' in hArg && __classPrivateFieldGet(this, _TxtStage_lenHtmTxt, "f") > 0) {
             const aSpan = [
                 __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").innerHTML.replace(/(animation-delay: )\d+ms/g, '$10ms'),
@@ -76020,7 +76025,6 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.height = __classPrivateFieldGet(this, _TxtStage_infTL, "f").$height + 'px';
     }
     goTxt(aSpan) {
-        var _b;
         __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).visible = false;
         const begin = __classPrivateFieldGet(this, _TxtStage_aRect, "f").length;
         if (begin === 0) {
@@ -76100,8 +76104,14 @@ class TxtStage extends pixi_js_1.Container {
                 const br = document.createElement('br');
                 if (pal.classList.contains('sn_tx'))
                     pal.insertBefore(br, e[j].elm);
-                else
-                    pal.parentElement.insertBefore(br, pal);
+                else {
+                    const ppal = pal.parentElement;
+                    if (ppal.classList.contains('sn_ch')) {
+                        ppal.parentElement.insertBefore(br, ppal);
+                    }
+                    else
+                        ppal.insertBefore(br, pal);
+                }
                 j += 2;
                 if (j < oldJ)
                     j = oldJ;
@@ -76126,6 +76136,7 @@ class TxtStage extends pixi_js_1.Container {
         const bcr = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getBoundingClientRect();
         const sx = bcr.left + globalThis.scrollX + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left;
         const sy = bcr.top + globalThis.scrollY + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top;
+        let rctLastCh = new pixi_js_1.Rectangle;
         for (let i = begin; i < len; ++i) {
             const v = __classPrivateFieldGet(this, _TxtStage_aRect, "f")[i];
             const rct = v.rect;
@@ -76144,7 +76155,7 @@ class TxtStage extends pixi_js_1.Container {
                     rct.y += (rct.height - rct.width) / 2;
                     rct.height = rct.width;
                 }
-                __classPrivateFieldSet(this, _TxtStage_rctm, rct, "f");
+                rctLastCh = rct;
             }
             switch (v.cmd) {
                 case 'grp':
@@ -76177,19 +76188,16 @@ class TxtStage extends pixi_js_1.Container {
                     break;
             }
         }
-        __classPrivateFieldGet(this, _TxtStage_aRect, "f").slice(0, -1);
-        __classPrivateFieldSet(this, _TxtStage_lenHtmTxt, (_b = __classPrivateFieldGet(this, _TxtStage_lenHtmTxt, "f"), --_b), "f");
-        const clSpan = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getElementsByTagName('span');
-        const lenClSpan = clSpan.length;
-        if (lenClSpan > 0)
-            __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").removeChild(clSpan[lenClSpan - 1]);
         const chs = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").querySelectorAll('span.sn_ch');
         chs.forEach(v => v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
         __classPrivateFieldSet(this, _TxtStage_isChInIng, true, "f");
         __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => {
             __classPrivateFieldSet(this, _TxtStage_isChInIng, false, "f");
             chs.forEach(v => v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
-            __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(__classPrivateFieldGet(this, _TxtStage_rctm, "f").x, __classPrivateFieldGet(this, _TxtStage_rctm, "f").y);
+            if (__classPrivateFieldGet(this, _TxtStage_break_fixed, "f"))
+                __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(__classPrivateFieldGet(this, _TxtStage_break_fixed_left, "f"), __classPrivateFieldGet(this, _TxtStage_break_fixed_top, "f"));
+            else
+                __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(rctLastCh.x + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? 0 : rctLastCh.width), rctLastCh.y + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? rctLastCh.height : 0));
             __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).visible = true;
             __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => { }, "f");
         }, "f");
@@ -76316,6 +76324,9 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldSet(to, _TxtStage_ch_filter, __classPrivateFieldGet(this, _TxtStage_ch_filter, "f"), "f");
         __classPrivateFieldSet(to, _TxtStage_fi_easing, __classPrivateFieldGet(this, _TxtStage_fi_easing, "f"), "f");
         __classPrivateFieldSet(to, _TxtStage_fo_easing, __classPrivateFieldGet(this, _TxtStage_fo_easing, "f"), "f");
+        __classPrivateFieldSet(to, _TxtStage_break_fixed, __classPrivateFieldGet(this, _TxtStage_break_fixed, "f"), "f");
+        __classPrivateFieldSet(to, _TxtStage_break_fixed_left, __classPrivateFieldGet(this, _TxtStage_break_fixed_left, "f"), "f");
+        __classPrivateFieldSet(to, _TxtStage_break_fixed_top, __classPrivateFieldGet(this, _TxtStage_break_fixed_top, "f"), "f");
         this.destroy();
         return to;
     }
@@ -76328,6 +76339,9 @@ class TxtStage extends pixi_js_1.Container {
             ch_filter: __classPrivateFieldGet(this, _TxtStage_ch_filter, "f"),
             fi_easing: __classPrivateFieldGet(this, _TxtStage_fi_easing, "f"),
             fo_easing: __classPrivateFieldGet(this, _TxtStage_fo_easing, "f"),
+            break_fixed: __classPrivateFieldGet(this, _TxtStage_break_fixed, "f"),
+            break_fixed_left: __classPrivateFieldGet(this, _TxtStage_break_fixed_left, "f"),
+            break_fixed_top: __classPrivateFieldGet(this, _TxtStage_break_fixed_top, "f"),
         };
     }
     ;
@@ -76341,6 +76355,9 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldSet(this, _TxtStage_ch_filter, hLay.ch_filter, "f");
         __classPrivateFieldSet(this, _TxtStage_fi_easing, hLay.fi_easing, "f");
         __classPrivateFieldSet(this, _TxtStage_fo_easing, hLay.fo_easing, "f");
+        __classPrivateFieldSet(this, _TxtStage_break_fixed, hLay.break_fixed ?? false, "f");
+        __classPrivateFieldSet(this, _TxtStage_break_fixed_left, hLay.break_fixed_left ?? 0, "f");
+        __classPrivateFieldSet(this, _TxtStage_break_fixed_top, hLay.break_fixed_top ?? 0, "f");
     }
     snapshot(rnd, re) {
         __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_htm2tx).call(this, tx => {
@@ -76390,7 +76407,7 @@ class TxtStage extends pixi_js_1.Container {
     }
 }
 exports.TxtStage = TxtStage;
-_a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(), _TxtStage_grpDbgMasume = new WeakMap(), _TxtStage_idc = new WeakMap(), _TxtStage_idcCh = new WeakMap(), _TxtStage_infTL = new WeakMap(), _TxtStage_left = new WeakMap(), _TxtStage_isTategaki = new WeakMap(), _TxtStage_padTx4x = new WeakMap(), _TxtStage_padTx4y = new WeakMap(), _TxtStage_ch_filter = new WeakMap(), _TxtStage_aSpTw = new WeakMap(), _TxtStage_aRect = new WeakMap(), _TxtStage_lenHtmTxt = new WeakMap(), _TxtStage_beforeHTMLElm = new WeakMap(), _TxtStage_rctm = new WeakMap(), _TxtStage_REGDS = new WeakMap(), _TxtStage_fncEndChIn = new WeakMap(), _TxtStage_isChInIng = new WeakMap(), _TxtStage_lh_half = new WeakMap(), _TxtStage_fi_easing = new WeakMap(), _TxtStage_fo_easing = new WeakMap(), _TxtStage_sss = new WeakMap(), _TxtStage_instances = new WeakSet(), _TxtStage_lay_sub = function _TxtStage_lay_sub() {
+_a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(), _TxtStage_grpDbgMasume = new WeakMap(), _TxtStage_idc = new WeakMap(), _TxtStage_idcCh = new WeakMap(), _TxtStage_infTL = new WeakMap(), _TxtStage_break_fixed = new WeakMap(), _TxtStage_break_fixed_left = new WeakMap(), _TxtStage_break_fixed_top = new WeakMap(), _TxtStage_left = new WeakMap(), _TxtStage_isTategaki = new WeakMap(), _TxtStage_padTx4x = new WeakMap(), _TxtStage_padTx4y = new WeakMap(), _TxtStage_ch_filter = new WeakMap(), _TxtStage_aSpTw = new WeakMap(), _TxtStage_aRect = new WeakMap(), _TxtStage_lenHtmTxt = new WeakMap(), _TxtStage_beforeHTMLElm = new WeakMap(), _TxtStage_REGDS = new WeakMap(), _TxtStage_fncEndChIn = new WeakMap(), _TxtStage_isChInIng = new WeakMap(), _TxtStage_lh_half = new WeakMap(), _TxtStage_fi_easing = new WeakMap(), _TxtStage_fo_easing = new WeakMap(), _TxtStage_sss = new WeakMap(), _TxtStage_instances = new WeakSet(), _TxtStage_lay_sub = function _TxtStage_lay_sub() {
     const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
     const fs = parseFloat(s.fontSize || '0');
     __classPrivateFieldGet(this, _TxtStage_infTL, "f").fontsize = fs;
