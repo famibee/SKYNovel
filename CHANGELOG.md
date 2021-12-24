@@ -1,3 +1,10 @@
+## [1.25.2](https://github.com/famibee/SKYNovel/compare/v1.25.1...v1.25.2) (2021-12-24)
+
+
+### Bug Fixes
+
+* 引数の省略時デフォルト値が空文字の場合、引数が渡されない件（a=%b|'' など） ([25f2a91](https://github.com/famibee/SKYNovel/commit/25f2a914d3c98e3a15014b3f0495b09fa6089d35))
+
 - fix: 引数の省略時デフォルト値が空文字の場合、引数が渡されない件（a=%b|'' など）
 - fix: 前回更新でややムダな処理があったのを改善
 - fix: タグ名・resvTokenなど、内部使用属性名を同名属性指定により壊されない対策
