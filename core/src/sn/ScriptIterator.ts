@@ -43,17 +43,17 @@ export class ScriptIterator {
 	#script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
 
 	#scriptFn	= '';
-	get scriptFn(): string {return this.#scriptFn;};
+	get scriptFn() {return this.#scriptFn;};
 	#idxToken	= 0;
-	subIdxToken(): void {--this.#idxToken;};
+	subIdxToken() {--this.#idxToken;};
 	#lineNum	= 0;
-	get lineNum(): number {return this.#lineNum;}
+	get lineNum() {return this.#lineNum;}
 	readonly addLineNum	= (len: number)=> this.#lineNum += len;
 
 
 	#aCallStk	: CallStack[]	= [];
-	get lenCallStk(): number {return this.#aCallStk.length;};
-	get lastHArg(): any {return this.#aCallStk[this.lenCallStk -1].csArg;};
+			get lenCallStk() {return this.#aCallStk.length;};
+	private get lastCSArg() {return this.#aCallStk[this.lenCallStk -1].csArg;};
 	readonly getCallStk = (idx: number)=> this.#aCallStk[idx].csArg;
 
 	#grm	= new Grammar;
@@ -350,8 +350,6 @@ export class ScriptIterator {
 
 		for (let i=len -1; i>=0; --i) {
 			const cs = this.#aCallStk[i];
-			if (! cs.csArg) continue;
-
 			const st = this.#hScript[cs.fn];
 			const tkn = st.aToken[cs.idx -1];
 			const lc = this.#cnvIdx2lineCol(st, cs.idx);	// -1不要
@@ -362,7 +360,7 @@ export class ScriptIterator {
 				ln	: lc.ln,
 				col	: lc.col_s +1,
 				nm	: tag_name ?`[${tag_name}]` :tkn,
-				ma	: cs.csArg.hMp['const.sn.macro'] ?? '{}',
+				ma	: cs.csArg[':hMp']['const.sn.macro'] ?? '{}',
 			});
 		}
 
@@ -382,42 +380,42 @@ export class ScriptIterator {
 		const hPrm = this.alzTagArg.hPrm;
 		if (hPrm.cond) {
 			const cond = hPrm.cond.val;
-			if (! cond || cond.charAt(0) ==='&') throw '属性condは「&」が不要です';
+			if (! cond || cond.charAt(0) === '&') throw '属性condは「&」が不要です';
 			const p = this.prpPrs.parse(cond);
 			const ps = String(p);
 			if (ps === 'null' || ps === 'undefined') return false;
 			if (! p) return false;
 		}
 
-		let hArg: any = {};
+		let hArg: HArg | ICallStackArg = {':タグ名': tag_name};
 		const lenStk = this.#aCallStk.length;
 		if (this.alzTagArg.isKomeParam) {
 			if (lenStk === 0) throw '属性「*」はマクロのみ有効です';
-			if (! this.lastHArg) throw '属性「*」はマクロのみ有効です';
-			hArg = {...hArg, ...this.lastHArg};
+			hArg = {...hArg, ...this.lastCSArg};
 		}
+		// valやdefの値について。null はありえない。'null'や'undefined' はありえる。
+		// 省略時以外で undefined はない。a=undefined と書いても 'undefined' になる
 		for (const arg_nm in hPrm) {
 			let v = hPrm[arg_nm].val;
-			if (v && v.charAt(0) === '%') {
+			if (v?.charAt(0) === '%') {
 				if (lenStk === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
-				const mac = this.lastHArg[v.slice(1)];
-				if (mac) {hArg[arg_nm] = mac; continue;}
+				const mac = (<any>this.lastCSArg)[v.slice(1)];
+				if (mac) {(<any>hArg)[arg_nm] = mac; continue;}
 
 				v = hPrm[arg_nm].def;
-				if (! v || v === 'null') continue;
-					// defのnull指定。%指定が無い場合、タグやマクロに属性を渡さない
+				if (v === undefined || v === 'null') continue;
+					// defの'null'指定。%変数が無い場合、タグやマクロに属性を渡さない
 			}
 
 			v = this.prpPrs.getValAmpersand(v ?? '');
-			if (v !== 'undefined') {hArg[arg_nm] = v; continue;}
+			if (v !== 'undefined') {(<any>hArg)[arg_nm] = v; continue;}
 
 			const def = hPrm[arg_nm].def;
 			if (def === undefined) continue;
 			v = this.prpPrs.getValAmpersand(def);
-			if (v !== 'undefined') hArg[arg_nm] = v;
+			if (v !== 'undefined') (<any>hArg)[arg_nm] = v;
 				// 存在しない値の場合、属性を渡さない
 		}
-		hArg.タグ名 = tag_name;
 
 		return tag_fnc(hArg);
 	}
@@ -470,11 +468,9 @@ export class ScriptIterator {
 			console.info(now);
 			for (let i=len -1; i>=0; --i) {
 				const cs = this.#aCallStk[i];
-				if (! cs.csArg) continue;
-
-				const csa = cs.csArg.hMp;
-				const from_macro_nm = csa ?csa['タグ名'] :null;
-				const call_nm = cs.csArg.タグ名;
+				const csa = cs.csArg[':hMp'];
+				const from_macro_nm = csa ?csa[':タグ名'] :null;
+				const call_nm = cs.csArg[':タグ名'] ?? '';
 				const lc = this.#cnvIdx2lineCol(this.#hScript[cs.fn], cs.idx);
 				console.info(
 					`${len -i}つ前のコール元 fn:${cs.fn} line:${lc.ln
@@ -665,7 +661,7 @@ export class ScriptIterator {
 
 		const fn = hArg.fn;
 		if (fn) this.#cnvSnPath(fn);	// chk only
-		this.#callSub({hEvt1Time: this.#evtMng.popLocalEvts(), hMp: this.val.cloneMp()});
+		this.#callSub({':hEvt1Time': this.#evtMng.popLocalEvts(), ':hMp': this.val.cloneMp()});
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.#jumpWork(fn, hArg.label);
@@ -674,7 +670,7 @@ export class ScriptIterator {
 	}
 	#callSub(csa: ICallStackArg) {
 		this.#script.aLNum[this.#idxToken] = this.#lineNum;	// 戻ったときの行番号
-		if (! this.#resvToken) {csa.resvToken = ''; this.#clearResvToken();}
+		if (! this.#resvToken) {csa[':resvToken'] = ''; this.#clearResvToken();}
 		this.#aCallStk.push(new CallStack(this.#scriptFn, this.#idxToken, csa));
 		this.#aIfStk.unshift(-1);	// 最初に要素を追加
 	}
@@ -744,19 +740,18 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		const cs = this.#aCallStk.pop();
 		if (! cs) throw '[return] スタックが空です';
 		const csArg = cs.csArg;
-		if (! csArg) return false;
 		this.#aIfStk.shift();	// 最初の要素を取り除く
 
-		const hMp = csArg.hMp;	// マクロからの復帰の場合にmp:値も復帰
+		const hMp = csArg[':hMp'];	// マクロからの復帰の場合にmp:値も復帰
 		if (hMp) this.val.setMp(hMp);
 
-		const after_token = csArg.resvToken;
+		const after_token = csArg[':resvToken'];
 		if (after_token) this.nextToken = ()=> {
 			this.#clearResvToken();
 			return after_token;
 		}
 		else this.#clearResvToken();
-		if (csArg.hEvt1Time) this.#evtMng.pushLocalEvts(csArg.hEvt1Time);
+		if (csArg[':hEvt1Time']) this.#evtMng.pushLocalEvts(csArg[':hEvt1Time']);
 
 		if (cs.fn in this.#hScript) {this.#jump_light(cs); return false;}
 		this.#jumpWork(cs.fn, '', cs.idx);	// 確実にスクリプトロードなので
@@ -1111,7 +1106,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		this.#REGSTEPIN = new RegExp(`\\[(${this.#strStepin})\\b`);
 		this.hTag[name] = hArgM=> {
 			hArgM.design_unit = hArg.design_unit;
-			this.#callSub({...hArgM, hMp: this.val.cloneMp()} as any);
+			this.#callSub({...hArgM, ':hMp': this.val.cloneMp()} as any);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
@@ -1266,7 +1261,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		if (! ('place' in hArg)) throw 'placeは必須です';
 		const place = Number(hArg.place);
 
-		delete hArg.タグ名;
+		delete hArg[':タグ名'];
 		delete hArg.place;
 		hArg.text = (hArg.text ?? '').replace(/^(<br\/>)+/, '');
 		this.#mark.json = hArg;

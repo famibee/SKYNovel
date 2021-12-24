@@ -1,5 +1,5 @@
 export declare type HArg = {
-    タグ名?: string;
+    ':タグ名'?: string;
     layer?: string;
     class?: string;
     index?: number;

@@ -7,7 +7,7 @@
 
 // =============== Global
 export type HArg = {
-	タグ名?	: string;
+	':タグ名'?	: string;
 
 	layer?	: string;	// レイヤ系
 	class?	: string;
@@ -148,6 +148,7 @@ export type HArg = {
 
 	clear?	: boolean;
 
+	// デザインモード
 	':id_dc'?	: string;
 	':id_tag'?	: string;
 	':path'?	: string;

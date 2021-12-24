@@ -212,7 +212,7 @@ export class DesignCast {
 			: DesignCast.#divDesignRoot
 		).appendChild(d);
 
-//console.log(`fn:DesignCast.ts dspDesignCast() [${this.hArg.タグ名}] id_tag(${this.id_tag}) id_dc:(${id_dc}) fn:$this.hArg':path']} ln:${this.hArg[':ln']} col_s:${this.hArg[':col_s']} col_e:${this.hArg[':col_e']} idx_tkn:${this.hArg[':idx_tkn']} x:${this.rect.x} y:${this.rect.y} w:${this.rect.width} h:${this.rect.height} o:%o`, this.hArg);		// token:【${this.hArg[':token']}】
+//console.log(`fn:DesignCast.ts dspDesignCast() [${this.hArg[':タグ名']}] id_tag(${this.id_tag}) id_dc:(${id_dc}) fn:$this.hArg':path']} ln:${this.hArg[':ln']} col_s:${this.hArg[':col_s']} col_e:${this.hArg[':col_e']} idx_tkn:${this.hArg[':idx_tkn']} x:${this.rect.x} y:${this.rect.y} w:${this.rect.width} h:${this.rect.height} o:%o`, this.hArg);		// token:【${this.hArg[':token']}】
 		const tmp = {	// movがdivを操作する際の雑用。スケールはHTML DOM
 			aPos	: [0, 0],
 			roDeg	: 0,

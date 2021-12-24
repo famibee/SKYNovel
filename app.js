@@ -66183,15 +66183,15 @@ _Button_procMasume4pic = { value: (_me, _sp, _w3, _h) => { } };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CallStack = void 0;
 class CallStack {
-    constructor($fn = '', $idx = 0, $hArg = null) {
+    constructor($fn = '', $idx = 0, $csArg = { ':hEvt1Time': {}, ':hMp': {} }) {
         this.$fn = $fn;
         this.$idx = $idx;
-        this.$hArg = $hArg;
-        this.toString = () => `[fn:${this.$fn}, idx:${this.$idx}, hArg:${this.$hArg}]`;
+        this.$csArg = $csArg;
+        this.toString = () => `[fn:${this.$fn}, idx:${this.$idx}, csArg:${this.$csArg}]`;
     }
     get fn() { return this.$fn; }
     get idx() { return this.$idx; }
-    get csArg() { return this.$hArg; }
+    get csArg() { return this.$csArg; }
 }
 exports.CallStack = CallStack;
 
@@ -66287,7 +66287,7 @@ function argChk_Num(hash, name, def) {
     const v = hash[name];
     if (!(name in hash)) {
         if (isNaN(def))
-            throw `[${hash.タグ名}]属性 ${name} は必須です`;
+            throw `[${hash[':タグ名']}]属性 ${name} は必須です`;
         hash[name] = def;
         return def;
     }
@@ -66295,7 +66295,7 @@ function argChk_Num(hash, name, def) {
         ? parseInt(v)
         : parseFloat(v);
     if (isNaN(n))
-        throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
+        throw `[${hash[':タグ名']}]属性 ${name} の値【${v}】が数値ではありません`;
     return hash[name] = n;
 }
 exports.argChk_Num = argChk_Num;
@@ -67636,7 +67636,7 @@ class EventMng {
             __classPrivateFieldGet(this, _EventMng_grpHint, "f").y = rctBtn.y;
             __classPrivateFieldGet(this, _EventMng_grpHint, "f").rotation = ctnBtn.rotation;
             const p = (isLink ? ctnBtn.parent : ctnBtn).scale;
-            const isBtnPic = (hArg.タグ名 === 'button') && (hArg.pic);
+            const isBtnPic = (hArg[':タグ名'] === 'button') && (hArg.pic);
             __classPrivateFieldGet(this, _EventMng_grpHint, "f").clear()
                 .beginFill(0x33FF00, 0.2)
                 .lineStyle(1, 0x33FF00, 1)
@@ -68096,7 +68096,7 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     const rctBtn = ctnBtn instanceof Button_1.Button
         ? ctnBtn.getBtnBounds()
         : ctnBtn.getBounds();
-    const isLink = (hArg.タグ名 === 'link');
+    const isLink = (hArg[':タグ名'] === 'link');
     if (!isLink) {
         const cpp = ctnBtn.parent.parent;
         rctBtn.x += cpp.x;
@@ -68283,7 +68283,7 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
         const cs = this.scrItr.getCallStk(i);
         if (!cs)
             continue;
-        const hE1T = cs.hEvt1Time;
+        const hE1T = cs[':hEvt1Time'];
         if (!hE1T)
             continue;
         delete hE1T['Click'];
@@ -71698,7 +71698,7 @@ class ScriptIterator {
     get lineNum() { return __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f"); }
     get lenCallStk() { return __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length; }
     ;
-    get lastHArg() { return __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[this.lenCallStk - 1].csArg; }
+    get lastCSArg() { return __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[this.lenCallStk - 1].csArg; }
     ;
     destroy() { this.isBreak = () => false; }
     ;
@@ -71721,27 +71721,25 @@ class ScriptIterator {
             if (!p)
                 return false;
         }
-        let hArg = {};
+        let hArg = { ':タグ名': tag_name };
         const lenStk = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length;
         if (this.alzTagArg.isKomeParam) {
             if (lenStk === 0)
                 throw '属性「*」はマクロのみ有効です';
-            if (!this.lastHArg)
-                throw '属性「*」はマクロのみ有効です';
-            hArg = { ...hArg, ...this.lastHArg };
+            hArg = { ...hArg, ...this.lastCSArg };
         }
         for (const arg_nm in hPrm) {
             let v = hPrm[arg_nm].val;
-            if (v && v.charAt(0) === '%') {
+            if (v?.charAt(0) === '%') {
                 if (lenStk === 0)
                     throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
-                const mac = this.lastHArg[v.slice(1)];
+                const mac = this.lastCSArg[v.slice(1)];
                 if (mac) {
                     hArg[arg_nm] = mac;
                     continue;
                 }
                 v = hPrm[arg_nm].def;
-                if (!v || v === 'null')
+                if (v === undefined || v === 'null')
                     continue;
             }
             v = this.prpPrs.getValAmpersand(v ?? '');
@@ -71756,7 +71754,6 @@ class ScriptIterator {
             if (v !== 'undefined')
                 hArg[arg_nm] = v;
         }
-        hArg.タグ名 = tag_name;
         return tag_fnc(hArg);
     }
     setOtherObj(evtMng, layMng) {
@@ -71987,8 +71984,6 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         return a;
     for (let i = len - 1; i >= 0; --i) {
         const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[i];
-        if (!cs.csArg)
-            continue;
         const st = __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[cs.fn];
         const tkn = st.aToken[cs.idx - 1];
         const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, st, cs.idx);
@@ -71998,7 +71993,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
             ln: lc.ln,
             col: lc.col_s + 1,
             nm: tag_name ? `[${tag_name}]` : tkn,
-            ma: cs.csArg.hMp['const.sn.macro'] ?? '{}',
+            ma: cs.csArg[':hMp']['const.sn.macro'] ?? '{}',
         });
     }
     return a;
@@ -72034,11 +72029,9 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         console.info(now);
         for (let i = len - 1; i >= 0; --i) {
             const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[i];
-            if (!cs.csArg)
-                continue;
-            const csa = cs.csArg.hMp;
-            const from_macro_nm = csa ? csa['タグ名'] : null;
-            const call_nm = cs.csArg.タグ名;
+            const csa = cs.csArg[':hMp'];
+            const from_macro_nm = csa ? csa[':タグ名'] : null;
+            const call_nm = cs.csArg[':タグ名'] ?? '';
             const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[cs.fn], cs.idx);
             console.info(`${len - i}つ前のコール元 fn:${cs.fn} line:${lc.ln} col:${lc.col_s + 1}` + (from_macro_nm ? '（[' + from_macro_nm + ']マクロ内）' : ' ') +
                 `で [${call_nm} ...]をコール`);
@@ -72174,7 +72167,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     const fn = hArg.fn;
     if (fn)
         __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath, "f").call(this, fn);
-    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { hEvt1Time: __classPrivateFieldGet(this, _ScriptIterator_evtMng, "f").popLocalEvts(), hMp: this.val.cloneMp() });
+    __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { ':hEvt1Time': __classPrivateFieldGet(this, _ScriptIterator_evtMng, "f").popLocalEvts(), ':hMp': this.val.cloneMp() });
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'clear_local_event', false))
         this.hTag.clear_event({});
     __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jumpWork).call(this, fn, hArg.label);
@@ -72182,7 +72175,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
 }, _ScriptIterator_callSub = function _ScriptIterator_callSub(csa) {
     __classPrivateFieldGet(this, _ScriptIterator_script, "f").aLNum[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f")] = __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f");
     if (!__classPrivateFieldGet(this, _ScriptIterator_resvToken, "f")) {
-        csa.resvToken = '';
+        csa[':resvToken'] = '';
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
     }
     __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").push(new CallStack_1.CallStack(__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"), __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f"), csa));
@@ -72239,13 +72232,11 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     if (!cs)
         throw '[return] スタックが空です';
     const csArg = cs.csArg;
-    if (!csArg)
-        return false;
     __classPrivateFieldGet(this, _ScriptIterator_aIfStk, "f").shift();
-    const hMp = csArg.hMp;
+    const hMp = csArg[':hMp'];
     if (hMp)
         this.val.setMp(hMp);
-    const after_token = csArg.resvToken;
+    const after_token = csArg[':resvToken'];
     if (after_token)
         this.nextToken = () => {
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
@@ -72253,8 +72244,8 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         };
     else
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_clearResvToken).call(this);
-    if (csArg.hEvt1Time)
-        __classPrivateFieldGet(this, _ScriptIterator_evtMng, "f").pushLocalEvts(csArg.hEvt1Time);
+    if (csArg[':hEvt1Time'])
+        __classPrivateFieldGet(this, _ScriptIterator_evtMng, "f").pushLocalEvts(csArg[':hEvt1Time']);
     if (cs.fn in __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")) {
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_jump_light).call(this, cs);
         return false;
@@ -72491,7 +72482,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     __classPrivateFieldSet(this, _ScriptIterator_REGSTEPIN, new RegExp(`\\[(${__classPrivateFieldGet(this, _ScriptIterator_strStepin, "f")})\\b`), "f");
     this.hTag[name] = hArgM => {
         hArgM.design_unit = hArg.design_unit;
-        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { ...hArgM, hMp: this.val.cloneMp() });
+        __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { ...hArgM, ':hMp': this.val.cloneMp() });
         this.val.setMp(hArgM);
         this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify(hArg));
         this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"));
@@ -72602,7 +72593,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     if (!('place' in hArg))
         throw 'placeは必須です';
     const place = Number(hArg.place);
-    delete hArg.タグ名;
+    delete hArg[':タグ名'];
     delete hArg.place;
     hArg.text = (hArg.text ?? '').replace(/^(<br\/>)+/, '');
     __classPrivateFieldGet(this, _ScriptIterator_mark, "f").json = hArg;
@@ -74901,12 +74892,7 @@ class TxtStage extends pixi_js_1.Container {
         const bcr = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getBoundingClientRect();
         const sx = bcr.left + globalThis.scrollX + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left;
         const sy = bcr.top + globalThis.scrollY + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top;
-        const moveBreak = __classPrivateFieldGet(this, _TxtStage_break_fixed, "f")
-            ? _r => { }
-            : r => {
-                __classPrivateFieldSet(this, _TxtStage_break_fixed_left, r.x + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? 0 : r.width), "f");
-                __classPrivateFieldSet(this, _TxtStage_break_fixed_top, r.y + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? r.height : 0), "f");
-            };
+        let rctLastCh = new pixi_js_1.Rectangle;
         for (let i = begin; i < len; ++i) {
             const v = __classPrivateFieldGet(this, _TxtStage_aRect, "f")[i];
             const rct = v.rect;
@@ -74925,7 +74911,7 @@ class TxtStage extends pixi_js_1.Container {
                     rct.y += (rct.height - rct.width) / 2;
                     rct.height = rct.width;
                 }
-                moveBreak(rct);
+                rctLastCh = rct;
             }
             switch (v.cmd) {
                 case 'grp':
@@ -74964,6 +74950,12 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => {
             __classPrivateFieldSet(this, _TxtStage_isChInIng, false, "f");
             chs.forEach(v => v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
+            if (begin !== len) {
+                __classPrivateFieldSet(this, _TxtStage_break_fixed_left, rctLastCh.x
+                    + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? 0 : rctLastCh.width), "f");
+                __classPrivateFieldSet(this, _TxtStage_break_fixed_top, rctLastCh.y
+                    + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? rctLastCh.height : 0), "f");
+            }
             __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(__classPrivateFieldGet(this, _TxtStage_break_fixed_left, "f"), __classPrivateFieldGet(this, _TxtStage_break_fixed_top, "f"));
             __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).visible = true;
             __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => { }, "f");

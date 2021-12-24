@@ -1,3 +1,9 @@
+- fix: 引数の省略時デフォルト値が空文字の場合、引数が渡されない件（a=%b|'' など）
+- fix: 前回更新でややムダな処理があったのを改善
+- fix: タグ名・resvTokenなど、内部使用属性名を同名属性指定により壊されない対策
+- fix: AnalyzeTagArg テスト追記
+
+
 ## [1.25.1](https://github.com/famibee/SKYNovel/compare/v1.25.0...v1.25.1) (2021-12-24)
 
 

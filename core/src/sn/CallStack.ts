@@ -8,18 +8,18 @@
 import {IHEvt2Fnc, IValMp} from './CmnInterface';
 
 export interface ICallStackArg {
-	resvToken?	: string;
-	hEvt1Time	: IHEvt2Fnc;
-	hMp			: IValMp;
-	タグ名?		: string;
+	':resvToken'?	: string;		// call元のtoken
+	':hEvt1Time'	: IHEvt2Fnc;	// call元のローカル予約イベント
+	':hMp'			: IValMp;		// call元のmp:
+	':タグ名'?		: string;
 }
 
 export class CallStack {
-	constructor(private readonly $fn = '', private readonly $idx = 0, private readonly $hArg: ICallStackArg | null = null) {}
+	constructor(private readonly $fn = '', private readonly $idx = 0, private readonly $csArg: ICallStackArg = {':hEvt1Time': {}, ':hMp': {}}) {}
 
 	get fn() {return this.$fn}
 	get idx() {return this.$idx}
-	get csArg() {return this.$hArg}
-	readonly	toString = ()=> `[fn:${this.$fn}, idx:${this.$idx}, hArg:${this.$hArg}]`;
+	get csArg() {return this.$csArg}
+	readonly	toString = ()=> `[fn:${this.$fn}, idx:${this.$idx}, csArg:${this.$csArg}]`;
 
 }

@@ -467,7 +467,7 @@ export class EventMng implements IEvtMng {
 		const rctBtn = ctnBtn instanceof Button
 			? ctnBtn.getBtnBounds()
 			: ctnBtn.getBounds();
-		const isLink = (hArg.タグ名 === 'link');
+		const isLink = (hArg[':タグ名'] === 'link');
 		if (! isLink) {
 			const cpp = ctnBtn.parent.parent;
 			rctBtn.x += cpp.x;	// レイヤ位置を加算
@@ -511,7 +511,7 @@ export class EventMng implements IEvtMng {
 		const p = (isLink ?ctnBtn.parent :ctnBtn).scale;
 			// 文字リンクのクリック用Spriteだと、
 			// scale.x = 文字サイズという謎動作なので
-		const isBtnPic = (hArg.タグ名 === 'button') && (hArg.pic);
+		const isBtnPic = (hArg[':タグ名'] === 'button') && (hArg.pic);
 		this.#grpHint.clear()
 		.beginFill(0x33FF00, 0.2)
 		.lineStyle(1, 0x33FF00, 1)
@@ -773,7 +773,7 @@ export class EventMng implements IEvtMng {
 		for (let i=0; i<len; ++i) {
 			const cs = this.scrItr.getCallStk(i);
 			if (! cs) continue;
-			const hE1T = cs.hEvt1Time;
+			const hE1T = cs[':hEvt1Time'];
 			if (! hE1T) continue;
 
 			delete hE1T['Click'];

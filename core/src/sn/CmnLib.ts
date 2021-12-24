@@ -105,7 +105,7 @@ export interface IEvtMng {
 export	function argChk_Num(hash: any, name: string, def: number): number {
 	const v = hash[name];
 	if (! (name in hash)) {
-		if (isNaN(def)) throw `[${hash.タグ名}]属性 ${name} は必須です`;
+		if (isNaN(def)) throw `[${hash[':タグ名']}]属性 ${name} は必須です`;
 
 		hash[name] = def;
 		return def;
@@ -114,7 +114,7 @@ export	function argChk_Num(hash: any, name: string, def: number): number {
 	const n = (String(v).slice(0, 2) === '0x')
 		? parseInt(v)
 		: parseFloat(v);
-	if (isNaN(n)) throw `[${hash.タグ名}]属性 ${name} の値【${v}】が数値ではありません`;
+	if (isNaN(n)) throw `[${hash[':タグ名']}]属性 ${name} の値【${v}】が数値ではありません`;
 
 	return hash[name] = n;
 }

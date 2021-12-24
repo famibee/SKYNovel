@@ -728,12 +728,7 @@ export class TxtStage extends Container {
 		const bcr = this.#htmTxt.getBoundingClientRect();
 		const sx = bcr.left +globalThis.scrollX +this.#infTL.pad_left;
 		const sy = bcr.top +globalThis.scrollY +this.#infTL.pad_top;
-		const moveBreak: (r: Rectangle)=> void = this.#break_fixed
-			? _r=> {}
-			: r=> {
-				this.#break_fixed_left = r.x +(this.#isTategaki ?0 :r.width);
-				this.#break_fixed_top = r.y +(this.#isTategaki ?r.height :0);
-			};
+		let rctLastCh = new Rectangle;
 		for (let i=begin; i<len; ++i) {
 			const v = this.#aRect[i];
 			const rct = v.rect;
@@ -753,7 +748,7 @@ export class TxtStage extends Container {
 					rct.y += (rct.height -rct.width) /2;
 					rct.height = rct.width;
 				}
-				moveBreak(rct);
+				rctLastCh = rct;
 			}
 
 			switch (v.cmd) {
@@ -800,6 +795,12 @@ export class TxtStage extends Container {
 		this.#fncEndChIn = ()=> {
 			this.#isChInIng = false;
 			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
+			if (begin !== len) {	// === は右クリック戻りで起こる
+				this.#break_fixed_left = rctLastCh.x
+					+(this.#isTategaki ?0 :rctLastCh.width);
+				this.#break_fixed_top = rctLastCh.y
+					+(this.#isTategaki ?rctLastCh.height :0);
+			}
 			TxtStage.#cntBreak.position.set(
 				this.#break_fixed_left,
 				this.#break_fixed_top,

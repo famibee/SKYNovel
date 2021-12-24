@@ -20,9 +20,9 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(isHashEmpty(alz.hPrm), true);
 			assert.equal(alz.isKomeParam, false);
 		});
-		function isHashEmpty(h: object): boolean {
-				let c = 0, i;
-				for (i in h) ++c;
+			function isHashEmpty(h: object): boolean {
+				let c = 0;
+				for (let _i in h) ++c;
 				return c === 0;
 			}
 		it('Arg1', ()=>{
@@ -87,6 +87,57 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.hPrm['a'].def, undefined);
 			assert.equal(alz.isKomeParam, false);
 		});
+			it('Arg45_empty', ()=> {
+				alz.go("a=''");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "");
+				assert.equal(alz.hPrm['a'].def, undefined);
+				assert.equal(alz.isKomeParam, false);
+			});
+			it('Arg45_str_null', ()=> {
+				alz.go("a='null'");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "null");
+				assert.equal(alz.hPrm['a'].def, undefined);
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "null"
+				assert.notEqual(alz.hPrm['a'].val, null);
+				assert.notEqual(alz.hPrm['a'].val, undefined);
+			});
+			it('Arg45_null', ()=> {
+				alz.go("a=null");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "null");
+				assert.equal(alz.hPrm['a'].def, undefined);
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "null"
+				assert.notEqual(alz.hPrm['a'].val, null);
+				assert.notEqual(alz.hPrm['a'].val, undefined);
+			});
+			it('Arg45_str_undefined', ()=> {
+				alz.go("a='undefined'");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "undefined");
+				assert.equal(alz.hPrm['a'].def, undefined);
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "undefined"
+				assert.notEqual(alz.hPrm['a'].val, null);
+				assert.notEqual(alz.hPrm['a'].val, undefined);
+			});
+			it('Arg45_undefined', ()=> {
+				alz.go("a=undefined");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "undefined");
+				assert.equal(alz.hPrm['a'].def, undefined);
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "undefined"
+				assert.notEqual(alz.hPrm['a'].val, null);
+				assert.notEqual(alz.hPrm['a'].val, undefined);
+			});
 		it('Arg46', ()=> {
 			alz.go('a="2009"');
 			assert.equal(isHashEmpty(alz.hPrm), false);
@@ -134,6 +185,57 @@ context('class AnalyzeTagArg', ()=>{
 			assert.equal(alz.hPrm['a'].def, "うひょー");
 			assert.equal(alz.isKomeParam, false);
 		});
+			it('Arg62_empty', ()=> {
+				alz.go("a=%bar|''");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "%bar");
+				assert.equal(alz.hPrm['a'].def, "");
+				assert.equal(alz.isKomeParam, false);
+			});
+			it('Arg62_str_null', ()=> {
+				alz.go("a=%bar|'null'");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "%bar");
+				assert.equal(alz.hPrm['a'].def, "null");
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "null"
+				assert.notEqual(alz.hPrm['a'].def, null);
+				assert.notEqual(alz.hPrm['a'].def, undefined);
+			});
+			it('Arg62_null', ()=> {
+				alz.go("a=%bar|null");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "%bar");
+				assert.equal(alz.hPrm['a'].def, "null");
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "null"
+				assert.notEqual(alz.hPrm['a'].def, null);
+				assert.notEqual(alz.hPrm['a'].def, undefined);
+			});
+			it('Arg62_str_undefined', ()=> {
+				alz.go("a=%bar|'undefined'");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "%bar");
+				assert.equal(alz.hPrm['a'].def, "undefined");
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "undefined"
+				assert.notEqual(alz.hPrm['a'].def, null);
+				assert.notEqual(alz.hPrm['a'].def, undefined);
+			});
+			it('Arg62_undefined', ()=> {
+				alz.go("a=%bar|undefined");
+				assert.equal(isHashEmpty(alz.hPrm), false);
+				assert.equal(alz.hPrm['a'].val, "%bar");
+				assert.equal(alz.hPrm['a'].def, "undefined");
+				assert.equal(alz.isKomeParam, false);
+
+				// あくまで文字の "undefined"
+				assert.notEqual(alz.hPrm['a'].def, null);
+				assert.notEqual(alz.hPrm['a'].def, undefined);
+			});
 		it('Arg63', ()=> {
 			alz.go("a=%bar|'う ひょー'");
 			assert.equal(isHashEmpty(alz.hPrm), false);

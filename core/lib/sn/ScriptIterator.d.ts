@@ -22,8 +22,8 @@ export declare class ScriptIterator {
     get lineNum(): number;
     readonly addLineNum: (len: number) => number;
     get lenCallStk(): number;
-    get lastHArg(): any;
-    readonly getCallStk: (idx: number) => ICallStackArg | null;
+    private get lastCSArg();
+    readonly getCallStk: (idx: number) => ICallStackArg;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
     firstWait: () => void;
     destroy(): void;
