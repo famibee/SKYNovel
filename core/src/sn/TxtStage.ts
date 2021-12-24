@@ -728,7 +728,12 @@ export class TxtStage extends Container {
 		const bcr = this.#htmTxt.getBoundingClientRect();
 		const sx = bcr.left +globalThis.scrollX +this.#infTL.pad_left;
 		const sy = bcr.top +globalThis.scrollY +this.#infTL.pad_top;
-		let rctLastCh = new Rectangle;
+		const moveBreak: (r: Rectangle)=> void = this.#break_fixed
+			? _r=> {}
+			: r=> {
+				this.#break_fixed_left = r.x +(this.#isTategaki ?0 :r.width);
+				this.#break_fixed_top = r.y +(this.#isTategaki ?r.height :0);
+			};
 		for (let i=begin; i<len; ++i) {
 			const v = this.#aRect[i];
 			const rct = v.rect;
@@ -738,7 +743,7 @@ export class TxtStage extends Container {
 			rct.x -= sx;
 			rct.y -= sy;
 			fncMasume(v, rct);
-			if (cis) {
+			if (cis) {	// !cis はルビ
 				// スマホでインライン画像アスペクト比が変わる対策
 				if (this.#isTategaki) {
 					rct.x += (rct.width -rct.height) /2;
@@ -748,7 +753,7 @@ export class TxtStage extends Container {
 					rct.y += (rct.height -rct.width) /2;
 					rct.height = rct.width;
 				}
-				rctLastCh = rct;	// !cis はルビ
+				moveBreak(rct);
 			}
 
 			switch (v.cmd) {
@@ -795,13 +800,9 @@ export class TxtStage extends Container {
 		this.#fncEndChIn = ()=> {
 			this.#isChInIng = false;
 			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
-			if (this.#break_fixed) TxtStage.#cntBreak.position.set(
+			TxtStage.#cntBreak.position.set(
 				this.#break_fixed_left,
 				this.#break_fixed_top,
-			);
-			else TxtStage.#cntBreak.position.set(
-				rctLastCh.x +(this.#isTategaki ?0 :rctLastCh.width),
-				rctLastCh.y +(this.#isTategaki ?rctLastCh.height :0),
 			);
 			TxtStage.#cntBreak.visible = true;
 			this.#fncEndChIn = ()=> {};

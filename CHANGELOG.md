@@ -1,3 +1,6 @@
+- fix: 右クリックから戻りでクリック待ちが左上へ移動する件
+
+
 # [1.25.0](https://github.com/famibee/SKYNovel/compare/v1.24.2...v1.25.0) (2021-12-23)
 
 

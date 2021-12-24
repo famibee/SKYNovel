@@ -76136,7 +76136,12 @@ class TxtStage extends pixi_js_1.Container {
         const bcr = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").getBoundingClientRect();
         const sx = bcr.left + globalThis.scrollX + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_left;
         const sy = bcr.top + globalThis.scrollY + __classPrivateFieldGet(this, _TxtStage_infTL, "f").pad_top;
-        let rctLastCh = new pixi_js_1.Rectangle;
+        const moveBreak = __classPrivateFieldGet(this, _TxtStage_break_fixed, "f")
+            ? _r => { }
+            : r => {
+                __classPrivateFieldSet(this, _TxtStage_break_fixed_left, r.x + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? 0 : r.width), "f");
+                __classPrivateFieldSet(this, _TxtStage_break_fixed_top, r.y + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? r.height : 0), "f");
+            };
         for (let i = begin; i < len; ++i) {
             const v = __classPrivateFieldGet(this, _TxtStage_aRect, "f")[i];
             const rct = v.rect;
@@ -76155,7 +76160,7 @@ class TxtStage extends pixi_js_1.Container {
                     rct.y += (rct.height - rct.width) / 2;
                     rct.height = rct.width;
                 }
-                rctLastCh = rct;
+                moveBreak(rct);
             }
             switch (v.cmd) {
                 case 'grp':
@@ -76194,10 +76199,7 @@ class TxtStage extends pixi_js_1.Container {
         __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => {
             __classPrivateFieldSet(this, _TxtStage_isChInIng, false, "f");
             chs.forEach(v => v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
-            if (__classPrivateFieldGet(this, _TxtStage_break_fixed, "f"))
-                __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(__classPrivateFieldGet(this, _TxtStage_break_fixed_left, "f"), __classPrivateFieldGet(this, _TxtStage_break_fixed_top, "f"));
-            else
-                __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(rctLastCh.x + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? 0 : rctLastCh.width), rctLastCh.y + (__classPrivateFieldGet(this, _TxtStage_isTategaki, "f") ? rctLastCh.height : 0));
+            __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).position.set(__classPrivateFieldGet(this, _TxtStage_break_fixed_left, "f"), __classPrivateFieldGet(this, _TxtStage_break_fixed_top, "f"));
             __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cntBreak).visible = true;
             __classPrivateFieldSet(this, _TxtStage_fncEndChIn, () => { }, "f");
         }, "f");
