@@ -764,23 +764,9 @@ export class EventMng implements IEvtMng {
 			this.layMng.setNormalWaitTxtLayer();
 		};
 
-		this.#unregisterClickEvts();
+		this.scrItr.unregisterClickEvts();
 
 		return false;
-	}
-	#unregisterClickEvts() {
-		const len = this.scrItr.lenCallStk;
-		for (let i=0; i<len; ++i) {
-			const cs = this.scrItr.getCallStk(i);
-			if (! cs) continue;
-			const hE1T = cs[':hEvt1Time'];
-			if (! hE1T) continue;
-
-			delete hE1T['Click'];
-			delete hE1T['Enter'];
-			delete hE1T['ArrowDown'];
-			delete hE1T['wheel.y>0'];
-		}
 	}
 
 

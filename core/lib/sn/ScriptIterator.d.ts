@@ -1,6 +1,5 @@
 import { IHTag, IMain, IVariable, HArg, IPropParser } from './CmnInterface';
 import { Config } from './Config';
-import { ICallStackArg } from './CallStack';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { EventMng } from './EventMng';
 import { LayerMng } from './LayerMng';
@@ -21,13 +20,11 @@ export declare class ScriptIterator {
     subIdxToken(): void;
     get lineNum(): number;
     readonly addLineNum: (len: number) => number;
-    get lenCallStk(): number;
-    private get lastCSArg();
-    readonly getCallStk: (idx: number) => ICallStackArg;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
     firstWait: () => void;
     destroy(): void;
     cnvPath4Dbg: (fn: string) => string;
+    unregisterClickEvts(): void;
     isBreak: (_token: string) => boolean;
     タグ解析(tagToken: string): boolean;
     setOtherObj(evtMng: EventMng, layMng: LayerMng): void;

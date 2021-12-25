@@ -51,10 +51,7 @@ export class ScriptIterator {
 	readonly addLineNum	= (len: number)=> this.#lineNum += len;
 
 
-	#aCallStk	: CallStack[]	= [];
-			get lenCallStk() {return this.#aCallStk.length;};
-	private get lastCSArg() {return this.#aCallStk[this.lenCallStk -1].csArg;};
-	readonly getCallStk = (idx: number)=> this.#aCallStk[idx].csArg;
+	#aCallStk	: CallStack[]	= [];	// FILOバッファ（push/pop）
 
 	#grm	= new Grammar;
 
@@ -96,7 +93,7 @@ export class ScriptIterator {
 		hTag.save			= o=> this.#save(o);			// しおりの保存
 
 
-		if (cfg.oCfg.debug.token) this.#dbgToken = token=> console.log(`🌱 トークン fn:${this.#scriptFn} idxToken:${this.#idxToken} ln:${this.#lineNum} token【${token}】`);
+		if (cfg.oCfg.debug.token) this.#dbgToken = token=> console.log(`🌱 トークン fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} token【${token}】`);
 
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.#aCallStk.length);
 
@@ -147,7 +144,7 @@ export class ScriptIterator {
 			}
 		}
 		else this.recodeDesign = ()=> {};
-		if (cfg.oCfg.debug.tag) this.#procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.#scriptFn} lnum:${this.#lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
+		if (cfg.oCfg.debug.tag) this.#procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
 	}
 	firstWait = ()=> {};
 	#regBreakPoint(fn: string, o: {[ln: number]: any}) {
@@ -215,7 +212,7 @@ export class ScriptIterator {
 		stepout: o=> {
 			if (this.#isIdxOverLast()) return;
 
-			if (this.lenCallStk > 0) this.#go_stepout(true);
+			if (this.#aCallStk.length > 0) this.#go_stepout(true);
 			else this.#go_stepover(o);
 		},
 		pause: ()=> {
@@ -247,7 +244,7 @@ export class ScriptIterator {
 	}
 	#go_stepout(out: boolean) {
 		this.sys.callHook(`stopOnStep${out ?'Out' :''}`, {});	// sn全体へ通知
-		this.#csDepth_macro_esc = this.lenCallStk -(out ?1 :0);
+		this.#csDepth_macro_esc = this.#aCallStk.length -(out ?1 :0);
 		this.#idxToken -= this.#idxDx4Dbg;
 		this.#breakState = out ?BreakState.stepout :BreakState.stepouting;
 		this.main.setLoop(true);
@@ -265,6 +262,16 @@ export class ScriptIterator {
 		return true;
 	}
 
+	unregisterClickEvts() {
+		this.#aCallStk.forEach(cs=> {
+			const hE1T = cs.csArg[':hEvt1Time'];
+			delete hE1T['Click'];
+			delete hE1T['Enter'];
+			delete hE1T['ArrowDown'];
+			delete hE1T['wheel.y>0'];
+		});
+	}
+
 	// reload 再生成 Main に受け渡すため static
 	static	#hFn2hLineBP: {[fn: string]: {[ln: number]: any}} = {};
 	static	#hFuncBP: {[tag_name: string]: 1} = {};
@@ -276,7 +283,7 @@ export class ScriptIterator {
 			case BreakState.stepouting:	this.#subHitCondition();
 				this.#breakState = BreakState.stepout;	break;
 			case BreakState.stepout:
-				if (this.lenCallStk !== this.#csDepth_macro_esc) break;
+				if (this.#aCallStk.length !== this.#csDepth_macro_esc) break;
 
 				this.#breakState = BreakState.step;
 				this.main.setLoop(false, 'ステップ実行');
@@ -387,19 +394,20 @@ export class ScriptIterator {
 			if (! p) return false;
 		}
 
-		let hArg: HArg | ICallStackArg = {':タグ名': tag_name};
-		const lenStk = this.#aCallStk.length;
+		let hArg: HArg | ICallStackArg = {};
+		const len = this.#aCallStk.length;
 		if (this.alzTagArg.isKomeParam) {
-			if (lenStk === 0) throw '属性「*」はマクロのみ有効です';
-			hArg = {...hArg, ...this.lastCSArg};
+			if (len === 0) throw '属性「*」はマクロのみ有効です';
+			hArg = {...this.#aCallStk[this.#aCallStk.length -1].csArg};
 		}
+		hArg[':タグ名'] = tag_name;
 		// valやdefの値について。null はありえない。'null'や'undefined' はありえる。
 		// 省略時以外で undefined はない。a=undefined と書いても 'undefined' になる
 		for (const arg_nm in hPrm) {
 			let v = hPrm[arg_nm].val;
 			if (v?.charAt(0) === '%') {
-				if (lenStk === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
-				const mac = (<any>this.lastCSArg)[v.slice(1)];
+				if (len === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
+				const mac = (<any>this.#aCallStk[this.#aCallStk.length -1].csArg)[v.slice(1)];
 				if (mac) {(<any>hArg)[arg_nm] = mac; continue;}
 
 				v = hPrm[arg_nm].def;
@@ -468,8 +476,8 @@ export class ScriptIterator {
 			console.info(now);
 			for (let i=len -1; i>=0; --i) {
 				const cs = this.#aCallStk[i];
-				const csa = cs.csArg[':hMp'];
-				const from_macro_nm = csa ?csa[':タグ名'] :null;
+				const hMp = cs.csArg[':hMp'];
+				const from_macro_nm = hMp ?hMp[':タグ名'] :null;
 				const call_nm = cs.csArg[':タグ名'] ?? '';
 				const lc = this.#cnvIdx2lineCol(this.#hScript[cs.fn], cs.idx);
 				console.info(
@@ -582,7 +590,7 @@ export class ScriptIterator {
 
 
 //	// 条件分岐
-	#aIfStk	: number[]	= [-1];
+	#aIfStk	: number[]	= [-1];	// FIFOバッファ（push/unshift）
 	#endif() {
 		if (this.#aIfStk[0] === -1) throw 'ifブロック内ではありません';
 
@@ -739,19 +747,19 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 	#return() {
 		const cs = this.#aCallStk.pop();
 		if (! cs) throw '[return] スタックが空です';
-		const csArg = cs.csArg;
+		const csa = cs.csArg;
 		this.#aIfStk.shift();	// 最初の要素を取り除く
 
-		const hMp = csArg[':hMp'];	// マクロからの復帰の場合にmp:値も復帰
+		const hMp = csa[':hMp'];	// マクロからの復帰の場合にmp:値も復帰
 		if (hMp) this.val.setMp(hMp);
 
-		const after_token = csArg[':resvToken'];
+		const after_token = csa[':resvToken'];
 		if (after_token) this.nextToken = ()=> {
 			this.#clearResvToken();
 			return after_token;
 		}
 		else this.#clearResvToken();
-		if (csArg[':hEvt1Time']) this.#evtMng.pushLocalEvts(csArg[':hEvt1Time']);
+		if (csa[':hEvt1Time']) this.#evtMng.pushLocalEvts(csa[':hEvt1Time']);
 
 		if (cs.fn in this.#hScript) {this.#jump_light(cs); return false;}
 		this.#jumpWork(cs.fn, '', cs.idx);	// 確実にスクリプトロードなので
@@ -1249,7 +1257,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			idx	: this.#idxToken,
 		};
 
-		const cs = this.#aCallStk[len - 1];
+		const cs = this.#aCallStk[0];
 		return {
 			fn	: cs.fn,
 			idx	: cs.idx,
@@ -1313,7 +1321,7 @@ console.log(`fn:ScriptIterator.ts recodePage == key=${key} retFn:${o.retFn} retI
 		const len = this.#aCallStk.length;
 		if (hArg.design_unit && len > 0) {
 			// デザインモードでこのマクロへの引数変更とするか（内部をサーチさせない）
-			const cs = this.#aCallStk[len -1];
+			const cs = this.#aCallStk[0];
 			fn = cs.fn;
 			idx = cs.idx;
 		}
