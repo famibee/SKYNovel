@@ -1,3 +1,10 @@
+## [1.25.3](https://github.com/famibee/SKYNovel/compare/v1.25.2...v1.25.3) (2021-12-25)
+
+
+### Bug Fixes
+
+* 本文冒頭でリジューム（load＆save）するとエラーになる件 ([1f3f978](https://github.com/famibee/SKYNovel/commit/1f3f978b81c85b97fc4988a21599a57cae6e4de3))
+
 - fix: 本文冒頭でリジューム（load＆save）するとエラーになる件
 - docs: [event]にcall属性記述が抜けていたのを修正
 
