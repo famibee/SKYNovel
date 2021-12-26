@@ -72366,6 +72366,14 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     for (let i = 0; i < len; ++i) {
         st.aLNum[i] ||= ln;
         const tkn = st.aToken[i];
+        if (in_let_ml) {
+            __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").lastIndex = 0;
+            if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").test(tkn))
+                in_let_ml = false;
+            else
+                ln += (tkn.match(/\n/g) ?? []).length;
+            continue;
+        }
         const uc = tkn.charCodeAt(0);
         if (uc === 10) {
             ln += tkn.length;
@@ -72379,17 +72387,9 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         if (uc !== 91)
             continue;
         ln += (tkn.match(/\n/g) ?? []).length;
-        if (in_let_ml) {
-            __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").lastIndex = 0;
-            if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_ENDLET_ML, "f").test(tkn))
-                in_let_ml = false;
-        }
-        else {
-            __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").lastIndex = 0;
-            if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").test(tkn))
-                in_let_ml = true;
-        }
-        continue;
+        __classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").lastIndex = 0;
+        if (__classPrivateFieldGet(this, _ScriptIterator_REG_TAG_LET_ML, "f").test(tkn))
+            in_let_ml = true;
     }
     if (in_let_ml)
         throw '[let_ml]の終端・[endlet_ml]がありません';

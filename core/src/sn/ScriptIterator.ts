@@ -612,7 +612,7 @@ export class ScriptIterator {
 		const len = this.#script.len;
 		for (; this.#idxToken<len; ++this.#idxToken) {
 			const ln = this.#script.aLNum[this.#idxToken];
-			this.#script.aLNum[this.#idxToken] = (ln || 0)+ zLn;	// ??ではなく
+			this.#script.aLNum[this.#idxToken] = (ln || 0)+ zLn; // ??はNaN不可
 			const tkn = this.#script.aToken[this.#idxToken];
 			//console.log(`[if]トークン fn:${this.#scriptFn} lnum:${this.#lineNum} idx:${this.#idxToken} realLn:${this.#script.aLNum[this.#idxToken]} idxGo:${idxGo} cntDepth:${cntDepth} token<${tkn}>`);
 			if (! tkn) continue;
@@ -829,8 +829,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		this.#recordKidoku();
 
 		// トークンの行番号更新
-		this.#script.aLNum[this.#idxToken] ||= this.#lineNum;
-			// NaN、undefined は falsy
+		this.#script.aLNum[this.#idxToken] ||= this.#lineNum;	// ??はNaN不可
 		const token = this.#script.aToken[this.#idxToken];
 		this.#dbgToken(token);
 		++this.#idxToken;
@@ -860,7 +859,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 				ln = 1;
 				for (let j=0; j<idx; ++j) {
 					// 走査ついでにトークンの行番号も更新
-					st.aLNum[j] ||= ln;	// NaN、undefined は falsy
+					st.aLNum[j] ||= ln;	// ??はNaN不可
 
 					const tkn = st.aToken[j];
 					if (tkn.charCodeAt(0) === 10) ln += tkn.length;	// \n 改行
@@ -910,9 +909,16 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		let in_let_ml = false;
 		for (let i=0; i<len; ++i) {
 			// 走査ついでにトークンの行番号も更新
-			st.aLNum[i] ||= ln;	// NaN、undefined は falsy
+			st.aLNum[i] ||= ln;	// ??はNaN不可
 
 			const tkn = st.aToken[i];
+			if (in_let_ml) {
+				this.#REG_TAG_ENDLET_ML.lastIndex = 0;
+				if (this.#REG_TAG_ENDLET_ML.test(tkn)) in_let_ml = false;
+				else ln += (tkn.match(/\n/g) ?? []).length;
+				continue;
+			}
+
 			const uc = tkn.charCodeAt(0);	// TokenTopUnicode
 			if (uc === 10) {ln += tkn.length; continue;}	// \n 改行
 			if (uc === 42) {	// 42 = *
@@ -922,15 +928,8 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			if (uc !== 91) continue;	// [ タグ開始
 
 			ln += (tkn.match(/\n/g) ?? []).length;
-			if (in_let_ml) {
-				this.#REG_TAG_ENDLET_ML.lastIndex = 0;
-				if (this.#REG_TAG_ENDLET_ML.test(tkn)) in_let_ml = false;
-			}
-			else {
-				this.#REG_TAG_LET_ML.lastIndex = 0;
-				if (this.#REG_TAG_LET_ML.test(tkn)) in_let_ml = true;
-			}
-			continue;
+			this.#REG_TAG_LET_ML.lastIndex = 0;
+			if (this.#REG_TAG_LET_ML.test(tkn)) in_let_ml = true;
 		}
 		if (in_let_ml) throw '[let_ml]の終端・[endlet_ml]がありません';
 
@@ -1130,8 +1129,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 		for (; this.#idxToken < this.#script.len; ++this.#idxToken) {
 			// トークンの行番号更新
-			this.#script.aLNum[this.#idxToken] ||= this.#lineNum;
-				// NaN、undefined は falsy
+			this.#script.aLNum[this.#idxToken] ||= this.#lineNum; // ??はNaN不可
 
 			const token = this.#script.aToken[this.#idxToken];
 			if (token.search(this.#REG_TOKEN_MACRO_END) > -1) {

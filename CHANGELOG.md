@@ -1,3 +1,6 @@
+- fix: ラベルジャンプ処理内で[let_ml][endlet_ml]ブロック以降の行番号が狂う件
+
+
 ## [1.25.3](https://github.com/famibee/SKYNovel/compare/v1.25.2...v1.25.3) (2021-12-25)
 
 
