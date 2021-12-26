@@ -1,3 +1,10 @@
+## [1.25.4](https://github.com/famibee/SKYNovel/compare/v1.25.3...v1.25.4) (2021-12-26)
+
+
+### Bug Fixes
+
+* ラベルジャンプ処理内で[let_ml][endlet_ml]ブロック以降の行番号が狂う件 ([92aff23](https://github.com/famibee/SKYNovel/commit/92aff2394630f4d3001b1c5db519b20410dffb0e))
+
 - fix: ラベルジャンプ処理内で[let_ml][endlet_ml]ブロック以降の行番号が狂う件
 
 
