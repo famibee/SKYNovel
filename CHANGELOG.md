@@ -1,3 +1,10 @@
+## [1.25.5](https://github.com/famibee/SKYNovel/compare/v1.25.4...v1.25.5) (2021-12-26)
+
+
+### Bug Fixes
+
+* 自動読みとスキップ関係修正 ([155f660](https://github.com/famibee/SKYNovel/commit/155f6609068abf9234c8ce1fb2e59ebe8168dcb4))
+
 - fix: [set_cancel_skip]でエラーになる場合がある件
 - fix: 自動読みなどがクリックですぐに止まらない件
 - fix: 自動読み中クリックでクリック待ち状態に移行するように
