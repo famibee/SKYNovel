@@ -326,8 +326,9 @@ export class FrameMng implements IGetFrm {
 		this.appPixi.stage.interactive = false;
 		const tw_nm = `frm\n${hArg.id}`;
 		const tw = new Tween(hNow)
-		.to(hTo, argChk_Num(hArg, 'time', NaN)
-			* (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
+		.to(hTo, argChk_Num(hArg, 'time', NaN) * (
+			Boolean(this.val.getVal('tmp:sn.skip.enabled')
+			|| this.#evtMng.isSkippingByKeyDown()) ?0 :1))
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(hArg.ease))
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので

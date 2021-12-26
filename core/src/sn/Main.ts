@@ -219,7 +219,7 @@ export class Main implements IMain {
 
 			// 文字表示
 			try {
-				const tl = this.#layMng.getCurrentTxtlayForeNeedErr();
+				const tl = this.#layMng.currentTxtlayForeNeedErr;
 				tl.tagCh(token);
 			}
 			catch (err) {

@@ -461,7 +461,7 @@ export class TxtLayer extends Layer {
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
-		const isSkip = TxtLayer.#evtMng.isSkipKeyDown();
+		const isSkip = TxtLayer.#evtMng.isSkippingByKeyDown();
 		switch (a_ruby.length) {
 		case 1:		// 字or春《はる》
 			this.#needGoTxt = true;

@@ -42,9 +42,9 @@ export declare class LayerMng implements IGetFrm {
     clickTxtLay(): void;
     static get msecChWait(): number;
     static set msecChWait(v: number);
-    setNormalWaitTxtLayer(): void;
-    getCurrentTxtlayForeNeedErr(): TxtLayer;
-    getCurrentTxtlayFore(): TxtLayer | undefined;
+    setNormalChWait(): void;
+    get currentTxtlayForeNeedErr(): TxtLayer;
+    get currentTxtlayFore(): TxtLayer | undefined;
     recText(txt: string, pagebreak?: boolean): void;
     record(): any;
     playback($hPages: HIPage, fncComp: () => void): void;

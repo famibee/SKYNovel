@@ -165,7 +165,7 @@ export class SoundMng {
 
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
 		if (argChk_Boolean(hArg, 'canskip', true)
-			&& this.#evtMng.isSkipKeyDown()) return false;
+			&& this.#evtMng.isSkippingByKeyDown()) return false;
 
 		const loop = argChk_Boolean(hArg, 'loop', false);
 		this.#addLoopPlay(buf, loop);

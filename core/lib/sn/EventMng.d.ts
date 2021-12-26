@@ -29,6 +29,6 @@ export declare class EventMng implements IEvtMng {
     button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     cvsResize(): void;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;
-    isSkipKeyDown(): boolean;
+    isSkippingByKeyDown(): boolean;
 }
 //# sourceMappingURL=EventMng.d.ts.map

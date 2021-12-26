@@ -21,7 +21,7 @@ import { Container } from 'pixi.js';
 export interface IEvtMng {
     button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     unButton(em: Container): void;
-    isSkipKeyDown(): boolean;
+    isSkippingByKeyDown(): boolean;
     waitEvent(fnc: () => void, canskip?: boolean, global?: boolean): boolean;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(a: IHEvt2Fnc): void;

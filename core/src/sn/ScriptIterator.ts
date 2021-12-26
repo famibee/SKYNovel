@@ -262,16 +262,6 @@ export class ScriptIterator {
 		return true;
 	}
 
-	unregisterClickEvts() {
-		this.#aCallStk.forEach(cs=> {
-			const hE1T = cs.csArg[':hEvt1Time'];
-			delete hE1T['Click'];
-			delete hE1T['Enter'];
-			delete hE1T['ArrowDown'];
-			delete hE1T['wheel.y>0'];
-		});
-	}
-
 	// reload 再生成 Main に受け渡すため static
 	static	#hFn2hLineBP: {[fn: string]: {[ln: number]: any}} = {};
 	static	#hFuncBP: {[tag_name: string]: 1} = {};

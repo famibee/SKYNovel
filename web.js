@@ -68926,7 +68926,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _EventMng_instances, _EventMng_elc, _EventMng_cvsHint, _EventMng_picHint_w, _EventMng_picHint_h, _EventMng_padHint, _EventMng_grpHint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_dispHint_hArg, _EventMng_dispHint_ctnBtn, _EventMng_dispHint_masume, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_fncCancelSkip, _EventMng_set_cancel_skip, _EventMng_set_focus, _EventMng_wait, _EventMng_waitclick, _EventMng_hDownKeys;
+var _EventMng_instances, _EventMng_elc, _EventMng_cvsHint, _EventMng_picHint_w, _EventMng_picHint_h, _EventMng_padHint, _EventMng_grpHint, _EventMng_gamepad, _EventMng_fcs, _EventMng_resvFlameEvent4Wheel, _EventMng_ev_keydown, _EventMng_ev_contextmenu, _EventMng_ev_wheel, _EventMng_wheeling, _EventMng_extend_wheel, _EventMng_ev_wheel_waitstop, _EventMng_hLocalEvt2Fnc, _EventMng_hGlobalEvt2Fnc, _EventMng_isDbgBreak, _EventMng_isWait, _EventMng_getEvt2Fnc, _EventMng_waitEventBase, _EventMng_firstWait, _EventMng_dispHint, _EventMng_dispHint_hArg, _EventMng_dispHint_ctnBtn, _EventMng_dispHint_masume, _EventMng_procWheel4wle, _EventMng_elcWLE, _EventMng_clear_event, _EventMng_clear_eventer, _EventMng_event, _EventMng_canFocus, _EventMng_getHtmlElmList, _EventMng_goTxt, _EventMng_l, _EventMng_p, _EventMng_stopSkip, _EventMng_set_cancel_skip, _EventMng_set_focus, _EventMng_wait, _EventMng_cancelWait, _EventMng_waitclick, _EventMng_hDownKeys;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EventMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -69001,7 +69001,8 @@ class EventMng {
         _EventMng_procWheel4wle.set(this, (_elc, _fnc) => { });
         _EventMng_elcWLE.set(this, new EventListenerCtn_1.EventListenerCtn);
         _EventMng_goTxt.set(this, () => this.layMng.goTxt());
-        _EventMng_fncCancelSkip.set(this, () => { });
+        _EventMng_stopSkip.set(this, () => false);
+        _EventMng_cancelWait.set(this, () => { });
         _EventMng_hDownKeys.set(this, {
             'Alt': 0,
             'Meta': 0,
@@ -69202,26 +69203,23 @@ class EventMng {
         __classPrivateFieldGet(this, _EventMng_cvsHint, "f")?.parentElement.removeChild(__classPrivateFieldGet(this, _EventMng_cvsHint, "f"));
     }
     fire(KEY, e) {
-        if (__classPrivateFieldGet(this, _EventMng_isDbgBreak, "f"))
-            return;
-        if (!__classPrivateFieldGet(this, _EventMng_isWait, "f"))
+        if (__classPrivateFieldGet(this, _EventMng_stopSkip, "f").call(this)
+            || !__classPrivateFieldGet(this, _EventMng_isWait, "f") || __classPrivateFieldGet(this, _EventMng_isDbgBreak, "f"))
             return;
         const key = KEY.toLowerCase();
         if (CmnLib_1.CmnLib.debugLog)
             console.log(`👺 fire<(key:\`${key}\` type:${e.type} e:%o)`, { ...e });
         if (key === 'enter') {
             const em = __classPrivateFieldGet(this, _EventMng_fcs, "f").getFocus();
-            if (em && em instanceof pixi_js_1.Container) {
+            if (em instanceof pixi_js_1.Container) {
                 em.emit('pointerdown', new Event('pointerdown'));
                 return;
             }
         }
         const ke = __classPrivateFieldGet(this, _EventMng_getEvt2Fnc, "f").call(this, key);
         if (!ke) {
-            if (key.slice(0, 5) === 'swipe') {
-                const esw = e;
-                globalThis.scrollBy(-esw.deltaX ?? 0, -esw.deltaY ?? 0);
-            }
+            if (key.slice(0, 5) === 'swipe')
+                globalThis.scrollBy(-e.deltaX ?? 0, -e.deltaY ?? 0);
             return;
         }
         if (key.slice(-5) !== 'wheel')
@@ -69243,12 +69241,12 @@ class EventMng {
         if (canskip && global)
             throw `canskipとglobalを同時にtrue指定できません`;
         if (this.val.getVal('tmp:sn.skip.enabled')) {
-            if (this.val.getVal('tmp:sn.skip.all')
-                || this.scrItr.isNextKidoku) {
+            if (this.val.getVal('tmp:sn.skip.all') ||
+                this.scrItr.isNextKidoku) {
                 onFinish();
                 return false;
             }
-            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
+            __classPrivateFieldGet(this, _EventMng_stopSkip, "f").call(this);
         }
         __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, onFinish, canskip, global);
         return true;
@@ -69341,9 +69339,9 @@ class EventMng {
         this.val.saveKidoku();
         const fnc = () => { __classPrivateFieldGet(this, _EventMng_elcWLE, "f").clear(); onFinish(); };
         if (this.val.getVal('tmp:sn.skip.enabled')) {
-            if (!this.val.getVal('tmp:sn.skip.all')
-                && !this.scrItr.isNextKidoku)
-                __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
+            if (!this.val.getVal('tmp:sn.skip.all') &&
+                !this.scrItr.isNextKidoku)
+                __classPrivateFieldGet(this, _EventMng_stopSkip, "f").call(this);
             else {
                 fnc();
                 return false;
@@ -69361,17 +69359,17 @@ class EventMng {
         __classPrivateFieldGet(this, _EventMng_procWheel4wle, "f").call(this, __classPrivateFieldGet(this, _EventMng_elcWLE, "f"), fnc);
         return true;
     }
-    isSkipKeyDown() {
+    isSkippingByKeyDown() {
         if (this.scrItr.skip4page)
             return true;
-        for (const v in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
-            if (__classPrivateFieldGet(this, _EventMng_hDownKeys, "f")[v] === 2)
+        for (const k in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
+            if (__classPrivateFieldGet(this, _EventMng_hDownKeys, "f")[k] === 2)
                 return true;
         return false;
     }
 }
 exports.EventMng = EventMng;
-_EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picHint_w = new WeakMap(), _EventMng_picHint_h = new WeakMap(), _EventMng_padHint = new WeakMap(), _EventMng_grpHint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_dispHint_hArg = new WeakMap(), _EventMng_dispHint_ctnBtn = new WeakMap(), _EventMng_dispHint_masume = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_fncCancelSkip = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
+_EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picHint_w = new WeakMap(), _EventMng_picHint_h = new WeakMap(), _EventMng_padHint = new WeakMap(), _EventMng_grpHint = new WeakMap(), _EventMng_gamepad = new WeakMap(), _EventMng_fcs = new WeakMap(), _EventMng_resvFlameEvent4Wheel = new WeakMap(), _EventMng_wheeling = new WeakMap(), _EventMng_extend_wheel = new WeakMap(), _EventMng_hLocalEvt2Fnc = new WeakMap(), _EventMng_hGlobalEvt2Fnc = new WeakMap(), _EventMng_isDbgBreak = new WeakMap(), _EventMng_isWait = new WeakMap(), _EventMng_getEvt2Fnc = new WeakMap(), _EventMng_firstWait = new WeakMap(), _EventMng_dispHint_hArg = new WeakMap(), _EventMng_dispHint_ctnBtn = new WeakMap(), _EventMng_dispHint_masume = new WeakMap(), _EventMng_procWheel4wle = new WeakMap(), _EventMng_elcWLE = new WeakMap(), _EventMng_goTxt = new WeakMap(), _EventMng_stopSkip = new WeakMap(), _EventMng_cancelWait = new WeakMap(), _EventMng_hDownKeys = new WeakMap(), _EventMng_instances = new WeakSet(), _EventMng_ev_keydown = function _EventMng_ev_keydown(e) {
     if (e['isComposing'])
         return;
     if (e.key in __classPrivateFieldGet(this, _EventMng_hDownKeys, "f"))
@@ -69415,10 +69413,10 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
     this.val.saveKidoku();
     if (canskip) {
-        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['click'] = onFinish;
-        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['enter'] = onFinish;
-        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['arrowdown'] = onFinish;
-        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['wheel.y>0'] = onFinish;
+        __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['click'] =
+            __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['enter'] =
+                __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['arrowdown'] =
+                    __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['wheel.y>0'] = onFinish;
     }
     else {
         delete __classPrivateFieldGet(this, _EventMng_hLocalEvt2Fnc, "f")['click'];
@@ -69574,10 +69572,10 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
         return false;
     }
     if (this.val.getVal('tmp:sn.skip.enabled')) {
-        if (!this.val.getVal('tmp:sn.skip.all')
-            && !this.scrItr.isNextKidoku)
-            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
-        else if ('ps'.includes(String(this.val.getVal('sys:sn.skip.mode'))))
+        if (!this.val.getVal('tmp:sn.skip.all') &&
+            !this.scrItr.isNextKidoku)
+            __classPrivateFieldGet(this, _EventMng_stopSkip, "f").call(this);
+        else if ('ps'.includes(this.val.getVal('sys:sn.skip.mode')))
             return false;
     }
     if (this.val.getVal('tmp:sn.auto.enabled'))
@@ -69593,10 +69591,10 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
 }, _EventMng_p = function _EventMng_p(hArg) {
     this.scrItr.recodePage();
     if (this.val.getVal('tmp:sn.skip.enabled')) {
-        if (!this.val.getVal('tmp:sn.skip.all')
-            && !this.scrItr.isNextKidoku)
-            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
-        else if ('s' === String(this.val.getVal('sys:sn.skip.mode'))) {
+        if (!this.val.getVal('tmp:sn.skip.all') &&
+            !this.scrItr.isNextKidoku)
+            __classPrivateFieldGet(this, _EventMng_stopSkip, "f").call(this);
+        else if ('s' == this.val.getVal('sys:sn.skip.mode')) {
             __classPrivateFieldGet(this, _EventMng_goTxt, "f").call(this);
             return false;
         }
@@ -69610,20 +69608,21 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true))
         this.layMng.breakPage();
     const fnc = () => { this.sndMng.clearCache(); this.main.resume(); };
-    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, this.layMng.getCurrentTxtlayFore()
-        && (0, CmnLib_1.argChk_Boolean)(hArg, 'er', false)
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, (0, CmnLib_1.argChk_Boolean)(hArg, 'er', false)
+        && this.layMng.currentTxtlayFore
         ? () => { this.hTag.er(hArg); fnc(); }
         : fnc);
     return true;
 }, _EventMng_set_cancel_skip = function _EventMng_set_cancel_skip() {
-    __classPrivateFieldSet(this, _EventMng_fncCancelSkip, () => {
-        __classPrivateFieldSet(this, _EventMng_fncCancelSkip, () => { }, "f");
+    __classPrivateFieldSet(this, _EventMng_stopSkip, () => {
+        __classPrivateFieldSet(this, _EventMng_stopSkip, () => false, "f");
         this.val.setVal_Nochk('tmp', 'sn.tagL.enabled', true);
         this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);
         this.val.setVal_Nochk('tmp', 'sn.auto.enabled', false);
-        this.layMng.setNormalWaitTxtLayer();
+        this.layMng.setNormalChWait();
+        __classPrivateFieldGet(this, _EventMng_cancelWait, "f").call(this);
+        return true;
     }, "f");
-    this.scrItr.unregisterClickEvts();
     return false;
 }, _EventMng_set_focus = function _EventMng_set_focus(hArg) {
     const add = hArg.add;
@@ -69666,28 +69665,32 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     if (this.scrItr.skip4page)
         return false;
     if (this.val.getVal('tmp:sn.skip.enabled')) {
-        if (!this.val.getVal('tmp:sn.skip.all')
-            && !this.scrItr.isNextKidoku)
-            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
-        else
-            return false;
+        if (!this.val.getVal('tmp:sn.skip.all') &&
+            !this.scrItr.isNextKidoku)
+            __classPrivateFieldGet(this, _EventMng_stopSkip, "f").call(this);
+        return false;
     }
+    if (this.val.getVal('tmp:sn.auto.enabled'))
+        __classPrivateFieldSet(this, _EventMng_cancelWait, () => {
+            this.scrItr.subIdxToken();
+            tw.end();
+        }, "f");
     const tw = new tween_js_1.Tween({})
         .to({}, (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)))
-        .onComplete(() => { tw.stop(); this.main.resume(); })
+        .onComplete(() => {
+        __classPrivateFieldSet(this, _EventMng_cancelWait, () => { }, "f");
+        tw.stop();
+        this.main.resume();
+    })
         .start();
     return this.waitEvent(() => tw.end(), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
 }, _EventMng_waitclick = function _EventMng_waitclick() {
     if (this.scrItr.skip4page)
         return false;
-    if (this.val.getVal('tmp:sn.skip.enabled')) {
-        if (!this.val.getVal('tmp:sn.skip.all')
-            && !this.scrItr.isNextKidoku)
-            __classPrivateFieldGet(this, _EventMng_fncCancelSkip, "f").call(this);
-        else
-            return false;
-    }
-    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => this.main.resume());
+    const fnc = () => { __classPrivateFieldSet(this, _EventMng_cancelWait, () => { }, "f"); this.main.resume(); };
+    if (this.val.getVal('tmp:sn.auto.enabled'))
+        __classPrivateFieldSet(this, _EventMng_cancelWait, fnc, "f");
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, fnc);
     return true;
 };
 
@@ -70208,8 +70211,8 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     this.appPixi.stage.interactive = false;
     const tw_nm = `frm\n${hArg.id}`;
     const tw = new tween_js_1.Tween(hNow)
-        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN)
-        * (Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
+        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) * (Boolean(this.val.getVal('tmp:sn.skip.enabled')
+        || __classPrivateFieldGet(this, _FrameMng_evtMng, "f").isSkippingByKeyDown()) ? 0 : 1))
         .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
         .easing(CmnTween_1.CmnTween.ease(hArg.ease))
         .repeat(repeat === 0 ? Infinity : (repeat - 1))
@@ -71102,7 +71105,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _LayerMng_instances, _a, _LayerMng_stage, _LayerMng_fore, _LayerMng_back, _LayerMng_frmMng, _LayerMng_fncTicker, _LayerMng_hProcDbgRes, _LayerMng_modeLn, _LayerMng_modeLnSub, _LayerMng_selectNode, _LayerMng_grpCover, _LayerMng_evtMng, _LayerMng_foreachRedrawTxtLayBack, _LayerMng_cmdTxt, _LayerMng_snapshot, _LayerMng_loadplugin, _LayerMng_add_lay, _LayerMng_hPages, _LayerMng_aLayName, _LayerMng_curTxtlay, _LayerMng_firstGrplay, _LayerMng_lay, _LayerMng_rebuildLayerRankInfo, _LayerMng_clear_lay, _LayerMng_srcRuleTransFragment, _LayerMng_ufRuleTrans, _LayerMng_fltRule, _LayerMng_rtTransBack, _LayerMng_spTransBack, _LayerMng_rtTransFore, _LayerMng_spTransFore, _LayerMng_aBackTransAfter, _LayerMng_trans, _LayerMng_tiTrans, _LayerMng_getLayers, _LayerMng_foreachLayers, _LayerMng_sortLayers, _LayerMng_wt, _LayerMng_finish_trans, _LayerMng_quake, _LayerMng_hTwInf, _LayerMng_tsy, _LayerMng_wait_tsy, _LayerMng_stop_tsy, _LayerMng_pause_tsy, _LayerMng_resume_tsy, _LayerMng_msecChWait, _LayerMng_ch, _LayerMng_getTxtLayer, _LayerMng_$getTxtLayer, _LayerMng_current, _LayerMng_$current, _LayerMng_pgTxtlay, _LayerMng_fncChkTxtLay, _LayerMng_argChk_layer, _LayerMng_oLastPage, _LayerMng_aTxtLog, _LayerMng_clear_text, _LayerMng_endlink, _LayerMng_er, _LayerMng_graph, _LayerMng_link, _LayerMng_r, _LayerMng_rec_r, _LayerMng_rec_ch, _LayerMng_reset_rec, _LayerMng_ruby2, _LayerMng_span, _LayerMng_tcy, _LayerMng_dump_lay, _LayerMng_enable_event, _LayerMng_button;
+var _LayerMng_instances, _a, _LayerMng_stage, _LayerMng_fore, _LayerMng_back, _LayerMng_frmMng, _LayerMng_fncTicker, _LayerMng_hProcDbgRes, _LayerMng_modeLn, _LayerMng_modeLnSub, _LayerMng_selectNode, _LayerMng_grpCover, _LayerMng_evtMng, _LayerMng_foreachRedrawTxtLayBack, _LayerMng_cmdTxt, _LayerMng_snapshot, _LayerMng_loadplugin, _LayerMng_add_lay, _LayerMng_hPages, _LayerMng_aLayName, _LayerMng_curTxtlay, _LayerMng_firstGrplay, _LayerMng_lay, _LayerMng_rebuildLayerRankInfo, _LayerMng_clear_lay, _LayerMng_srcRuleTransFragment, _LayerMng_ufRuleTrans, _LayerMng_fltRule, _LayerMng_rtTransBack, _LayerMng_spTransBack, _LayerMng_rtTransFore, _LayerMng_spTransFore, _LayerMng_aBackTransAfter, _LayerMng_trans, _LayerMng_tiTrans, _LayerMng_getLayers, _LayerMng_foreachLayers, _LayerMng_sortLayers, _LayerMng_wt, _LayerMng_finish_trans, _LayerMng_quake, _LayerMng_hTwInf, _LayerMng_tsy, _LayerMng_wait_tsy, _LayerMng_stop_tsy, _LayerMng_pause_tsy, _LayerMng_resume_tsy, _LayerMng_msecChWait, _LayerMng_ch, _LayerMng_getTxtLayer, _LayerMng_$getTxtLayer, _LayerMng_current, _LayerMng_$current, _LayerMng_pgTxtlay, _LayerMng_chkTxtLay, _LayerMng_argChk_layer, _LayerMng_oLastPage, _LayerMng_aTxtLog, _LayerMng_clear_text, _LayerMng_endlink, _LayerMng_er, _LayerMng_graph, _LayerMng_link, _LayerMng_r, _LayerMng_rec_r, _LayerMng_rec_ch, _LayerMng_reset_rec, _LayerMng_ruby2, _LayerMng_span, _LayerMng_tcy, _LayerMng_dump_lay, _LayerMng_enable_event, _LayerMng_button;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.LayerMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -71159,7 +71162,7 @@ class LayerMng {
         this.getFrmDisabled = (id) => __classPrivateFieldGet(this, _LayerMng_frmMng, "f").getFrmDisabled(id);
         _LayerMng_grpCover.set(this, null);
         _LayerMng_evtMng.set(this, void 0);
-        _LayerMng_cmdTxt.set(this, (cmd, tl = this.getCurrentTxtlayForeNeedErr(), _record = true) => tl.tagCh('｜　《' + cmd + '》'));
+        _LayerMng_cmdTxt.set(this, (cmd, tl = this.currentTxtlayForeNeedErr, _record = true) => tl.tagCh('｜　《' + cmd + '》'));
         this.goTxt = () => { };
         this.breakLine = () => { };
         this.breakPage = () => { };
@@ -71217,10 +71220,10 @@ void main(void) {
         _LayerMng_aBackTransAfter.set(this, []);
         _LayerMng_tiTrans.set(this, { tw: null, resume: false });
         _LayerMng_hTwInf.set(this, {});
-        _LayerMng_getTxtLayer.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_fncChkTxtLay, "f").call(this); throw 0; });
-        _LayerMng_current.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_fncChkTxtLay, "f").call(this); throw 0; });
+        _LayerMng_getTxtLayer.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_chkTxtLay, "f").call(this); throw 0; });
+        _LayerMng_current.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_chkTxtLay, "f").call(this); throw 0; });
         _LayerMng_pgTxtlay.set(this, void 0);
-        _LayerMng_fncChkTxtLay.set(this, () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; });
+        _LayerMng_chkTxtLay.set(this, () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; });
         _LayerMng_oLastPage.set(this, { text: '' });
         _LayerMng_aTxtLog.set(this, []);
         const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
@@ -71318,7 +71321,7 @@ void main(void) {
         val.defTmp('const.sn.log.json', () => JSON.stringify((__classPrivateFieldGet(this, _LayerMng_oLastPage, "f").text)
             ? [...__classPrivateFieldGet(this, _LayerMng_aTxtLog, "f"), __classPrivateFieldGet(this, _LayerMng_oLastPage, "f")]
             : __classPrivateFieldGet(this, _LayerMng_aTxtLog, "f")));
-        val.defTmp('const.sn.last_page_text', () => this.getCurrentTxtlayFore()?.pageText ?? '');
+        val.defTmp('const.sn.last_page_text', () => this.currentTxtlayFore?.pageText ?? '');
         if (CmnLib_1.CmnLib.isDbg) {
             DesignCast_1.DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, __classPrivateFieldGet(this, _LayerMng_hPages, "f"));
             this.cvsResizeDesign = () => DesignCast_1.DesignCast.cvsResizeDesign();
@@ -71361,13 +71364,13 @@ void main(void) {
     }
     stopAllTw() { __classPrivateFieldSet(this, _LayerMng_hTwInf, {}, "f"); (0, tween_js_1.removeAll)(); }
     clearBreak() {
-        if (!this.getCurrentTxtlayFore())
+        if (!this.currentTxtlayFore)
             return;
         this.clearBreak = () => __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'del｜break');
         this.clearBreak();
     }
     clickTxtLay() {
-        if (!this.getCurrentTxtlayFore())
+        if (!this.currentTxtlayFore)
             return;
         const vct = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this);
         const len = vct.length;
@@ -71383,12 +71386,12 @@ void main(void) {
     }
     static get msecChWait() { return __classPrivateFieldGet(LayerMng, _a, "f", _LayerMng_msecChWait); }
     static set msecChWait(v) { __classPrivateFieldSet(LayerMng, _a, v, "f", _LayerMng_msecChWait); }
-    setNormalWaitTxtLayer() { __classPrivateFieldSet(LayerMng, _a, this.scrItr.normalWait, "f", _LayerMng_msecChWait); }
-    getCurrentTxtlayForeNeedErr() {
-        __classPrivateFieldGet(this, _LayerMng_fncChkTxtLay, "f").call(this);
-        return this.getCurrentTxtlayFore();
+    setNormalChWait() { __classPrivateFieldSet(LayerMng, _a, this.scrItr.normalWait, "f", _LayerMng_msecChWait); }
+    get currentTxtlayForeNeedErr() {
+        __classPrivateFieldGet(this, _LayerMng_chkTxtLay, "f").call(this);
+        return this.currentTxtlayFore;
     }
-    getCurrentTxtlayFore() {
+    get currentTxtlayFore() {
         if (!__classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f"))
             return undefined;
         return __classPrivateFieldGet(this, _LayerMng_pgTxtlay, "f").fore;
@@ -71456,7 +71459,7 @@ void main(void) {
     }
 }
 exports.LayerMng = LayerMng;
-_a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), _LayerMng_back = new WeakMap(), _LayerMng_frmMng = new WeakMap(), _LayerMng_fncTicker = new WeakMap(), _LayerMng_hProcDbgRes = new WeakMap(), _LayerMng_modeLn = new WeakMap(), _LayerMng_modeLnSub = new WeakMap(), _LayerMng_grpCover = new WeakMap(), _LayerMng_evtMng = new WeakMap(), _LayerMng_cmdTxt = new WeakMap(), _LayerMng_hPages = new WeakMap(), _LayerMng_aLayName = new WeakMap(), _LayerMng_curTxtlay = new WeakMap(), _LayerMng_firstGrplay = new WeakMap(), _LayerMng_srcRuleTransFragment = new WeakMap(), _LayerMng_ufRuleTrans = new WeakMap(), _LayerMng_fltRule = new WeakMap(), _LayerMng_rtTransBack = new WeakMap(), _LayerMng_spTransBack = new WeakMap(), _LayerMng_rtTransFore = new WeakMap(), _LayerMng_spTransFore = new WeakMap(), _LayerMng_aBackTransAfter = new WeakMap(), _LayerMng_tiTrans = new WeakMap(), _LayerMng_hTwInf = new WeakMap(), _LayerMng_getTxtLayer = new WeakMap(), _LayerMng_current = new WeakMap(), _LayerMng_pgTxtlay = new WeakMap(), _LayerMng_fncChkTxtLay = new WeakMap(), _LayerMng_oLastPage = new WeakMap(), _LayerMng_aTxtLog = new WeakMap(), _LayerMng_instances = new WeakSet(), _LayerMng_selectNode = function _LayerMng_selectNode(node) {
+_a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), _LayerMng_back = new WeakMap(), _LayerMng_frmMng = new WeakMap(), _LayerMng_fncTicker = new WeakMap(), _LayerMng_hProcDbgRes = new WeakMap(), _LayerMng_modeLn = new WeakMap(), _LayerMng_modeLnSub = new WeakMap(), _LayerMng_grpCover = new WeakMap(), _LayerMng_evtMng = new WeakMap(), _LayerMng_cmdTxt = new WeakMap(), _LayerMng_hPages = new WeakMap(), _LayerMng_aLayName = new WeakMap(), _LayerMng_curTxtlay = new WeakMap(), _LayerMng_firstGrplay = new WeakMap(), _LayerMng_srcRuleTransFragment = new WeakMap(), _LayerMng_ufRuleTrans = new WeakMap(), _LayerMng_fltRule = new WeakMap(), _LayerMng_rtTransBack = new WeakMap(), _LayerMng_spTransBack = new WeakMap(), _LayerMng_rtTransFore = new WeakMap(), _LayerMng_spTransFore = new WeakMap(), _LayerMng_aBackTransAfter = new WeakMap(), _LayerMng_tiTrans = new WeakMap(), _LayerMng_hTwInf = new WeakMap(), _LayerMng_getTxtLayer = new WeakMap(), _LayerMng_current = new WeakMap(), _LayerMng_pgTxtlay = new WeakMap(), _LayerMng_chkTxtLay = new WeakMap(), _LayerMng_oLastPage = new WeakMap(), _LayerMng_aTxtLog = new WeakMap(), _LayerMng_instances = new WeakSet(), _LayerMng_selectNode = function _LayerMng_selectNode(node) {
     var _b, _c;
     _b = this, _c = this, [({ set value(_a) { __classPrivateFieldSet(_b, _LayerMng_modeLn, _a, "f"); } }).value, ({ set value(_a) { __classPrivateFieldSet(_c, _LayerMng_modeLnSub, _a, "f"); } }).value = ''] = node.split('/');
     const pages = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[__classPrivateFieldGet(this, _LayerMng_modeLn, "f")];
@@ -71559,7 +71562,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     switch (cls) {
         case 'txt':
             if (!__classPrivateFieldGet(this, _LayerMng_curTxtlay, "f")) {
-                __classPrivateFieldSet(this, _LayerMng_fncChkTxtLay, () => { }, "f");
+                __classPrivateFieldSet(this, _LayerMng_chkTxtLay, () => { }, "f");
                 __classPrivateFieldSet(this, _LayerMng_getTxtLayer, __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_$getTxtLayer), "f");
                 __classPrivateFieldSet(this, _LayerMng_current, __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_$current), "f");
                 this.hTag.current({ layer: layer });
@@ -71568,7 +71571,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
                         __classPrivateFieldSet(LayerMng, _a, 0, "f", _LayerMng_msecChWait);
                     }
                     else {
-                        this.setNormalWaitTxtLayer();
+                        this.setNormalChWait();
                     }
                     __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this).forEach(name => {
                         const pg = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[name];
@@ -71693,7 +71696,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     };
     __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: null, resume: false }, "f");
     const time = (0, CmnLib_1.argChk_Num)(hArg, 'time', 0);
-    if (time === 0 || __classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkipKeyDown()) {
+    if (time === 0 || __classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkippingByKeyDown()) {
         comp();
         return false;
     }
@@ -71767,7 +71770,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_finish_trans).call(this);
     if (this.val.getVal('tmp:sn.skip.enabled'))
         return false;
-    if (__classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkipKeyDown())
+    if (__classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkippingByKeyDown())
         return false;
     const aDo = [];
     __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(lay_nm => {
@@ -71823,8 +71826,8 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
     const tw_nm = hArg.name ?? hArg.layer;
     const tw = new tween_js_1.Tween(foreLay)
-        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) * (__classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkipKeyDown()
-        || Boolean(this.val.getVal('tmp:sn.skip.enabled')) ? 0 : 1))
+        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) * (Boolean(this.val.getVal('tmp:sn.skip.enabled')
+        || __classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkippingByKeyDown()) ? 0 : 1))
         .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
         .easing(CmnTween_1.CmnTween.ease(hArg.ease))
         .repeat(repeat === 0 ? Infinity : (repeat - 1))
@@ -71892,11 +71895,10 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         throw 'textは必須です';
     const tl = __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg);
     delete hArg.text;
-    if ('wait' in hArg) {
+    if (this.val.getVal('tmp:sn.skip.enabled'))
+        hArg.wait = 0;
+    else if ('wait' in hArg)
         (0, CmnLib_1.argChk_Num)(hArg, 'wait', NaN);
-        if (this.val.getVal('tmp:sn.skip.enabled'))
-            hArg.wait = 0;
-    }
     __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'add｜' + JSON.stringify(hArg), tl);
     const record = (0, CmnLib_1.argChk_Boolean)(hArg, 'record', true);
     const doRecLog = this.val.doRecLog();
@@ -72262,7 +72264,7 @@ _Main_cfg = new WeakMap(), _Main_appPixi = new WeakMap(), _Main_hTag = new WeakM
         else if (uc === 42 && token.length > 1)
             continue;
         try {
-            const tl = __classPrivateFieldGet(this, _Main_layMng, "f").getCurrentTxtlayForeNeedErr();
+            const tl = __classPrivateFieldGet(this, _Main_layMng, "f").currentTxtlayForeNeedErr;
             tl.tagCh(token);
         }
         catch (err) {
@@ -73031,15 +73033,6 @@ class ScriptIterator {
     get lineNum() { return __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f"); }
     destroy() { this.isBreak = () => false; }
     ;
-    unregisterClickEvts() {
-        __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").forEach(cs => {
-            const hE1T = cs.csArg[':hEvt1Time'];
-            delete hE1T['Click'];
-            delete hE1T['Enter'];
-            delete hE1T['ArrowDown'];
-            delete hE1T['wheel.y>0'];
-        });
-    }
     タグ解析(tagToken) {
         const [tag_name, args] = (0, Grammar_1.tagToken2Name_Args)(tagToken);
         const tag_fnc = this.hTag[tag_name];
@@ -74133,7 +74126,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     if (!fn)
         throw '[playse] fnは必須です(buf=' + buf + ')';
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true)
-        && __classPrivateFieldGet(this, _SoundMng_evtMng, "f").isSkipKeyDown())
+        && __classPrivateFieldGet(this, _SoundMng_evtMng, "f").isSkippingByKeyDown())
         return false;
     const loop = (0, CmnLib_1.argChk_Boolean)(hArg, 'loop', false);
     __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_addLoopPlay).call(this, buf, loop);
@@ -75080,7 +75073,7 @@ class TxtLayer extends Layer_1.Layer {
                 console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
             const a_ruby = ruby.split('｜');
             let add_htm = '';
-            const isSkip = __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_evtMng).isSkipKeyDown();
+            const isSkip = __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_evtMng).isSkippingByKeyDown();
             switch (a_ruby.length) {
                 case 1:
                     __classPrivateFieldSet(this, _TxtLayer_needGoTxt, true, "f");

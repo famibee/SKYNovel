@@ -24,7 +24,6 @@ export declare class ScriptIterator {
     firstWait: () => void;
     destroy(): void;
     cnvPath4Dbg: (fn: string) => string;
-    unregisterClickEvts(): void;
     isBreak: (_token: string) => boolean;
     タグ解析(tagToken: string): boolean;
     setOtherObj(evtMng: EventMng, layMng: LayerMng): void;

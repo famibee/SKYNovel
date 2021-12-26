@@ -178,7 +178,7 @@ export class LayerMng implements IGetFrm {
 				? [...this.#aTxtLog, this.#oLastPage]
 				: this.#aTxtLog
 		));
-		val.defTmp('const.sn.last_page_text', ()=> this.getCurrentTxtlayFore()?.pageText ?? '');
+		val.defTmp('const.sn.last_page_text', ()=> this.currentTxtlayFore?.pageText ?? '');
 
 		if (CmnLib.isDbg) {
 			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, this.#hPages);
@@ -279,19 +279,19 @@ export class LayerMng implements IGetFrm {
 	}
 
 
-	#cmdTxt = (cmd: string, tl = this.getCurrentTxtlayForeNeedErr(), _record = true)=> tl.tagCh('｜　《'+ cmd +'》');
+	#cmdTxt = (cmd: string, tl = this.currentTxtlayForeNeedErr, _record = true)=> tl.tagCh('｜　《'+ cmd +'》');
 	goTxt = ()=> {};
 	breakLine = ()=> {};
 	breakPage = ()=> {};
 	clearBreak() {
-		if (! this.getCurrentTxtlayFore()) return;
+		if (! this.currentTxtlayFore) return;
 
 		this.clearBreak = ()=> this.#cmdTxt('del｜break');
 		this.clearBreak();
 	}
 
 	clickTxtLay() {
-		if (! this.getCurrentTxtlayFore()) return;
+		if (! this.currentTxtlayFore) return;
 
 		const vct = this.#getLayers();
 		const len = vct.length;
@@ -400,7 +400,7 @@ export class LayerMng implements IGetFrm {
 		switch (cls) {
 		case 'txt':
 			if (! this.#curTxtlay) {
-				this.#fncChkTxtLay = ()=> {};
+				this.#chkTxtLay = ()=> {};
 				this.#getTxtLayer = this.#$getTxtLayer;
 				this.#current = this.#$current;
 				this.hTag.current({layer: layer});	// hPages更新後でないと呼べない
@@ -409,7 +409,7 @@ export class LayerMng implements IGetFrm {
 						LayerMng.#msecChWait = 0;
 					}
 					else {
-						this.setNormalWaitTxtLayer();
+						this.setNormalChWait();
 					}
 					this.#getLayers().forEach(name=> {
 						const pg = this.#hPages[name];
@@ -617,7 +617,7 @@ void main(void) {
 		const time = argChk_Num(hArg, 'time', 0);
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
-		if (time === 0 || this.#evtMng.isSkipKeyDown()) {comp(); return false;}
+		if (time === 0 || this.#evtMng.isSkippingByKeyDown()) {comp(); return false;}
 
 		// クロスフェード
 		const is_glsl = 'glsl' in hArg;
@@ -705,7 +705,7 @@ void main(void) {
 	#quake(hArg: HArg) {
 		this.#finish_trans();
 		if (this.val.getVal('tmp:sn.skip.enabled')) return false;
-		if (this.#evtMng.isSkipKeyDown()) return false;
+		if (this.#evtMng.isSkippingByKeyDown()) return false;
 
 		const aDo: DisplayObject[] = [];
 		this.#getLayers(hArg.layer).forEach(lay_nm=> {
@@ -772,8 +772,8 @@ void main(void) {
 		const tw_nm = hArg.name ?? hArg.layer;
 		const tw = new Tween(foreLay)
 		.to(hTo, argChk_Num(hArg, 'time', NaN) * (
-			this.#evtMng.isSkipKeyDown()
-			|| Boolean(this.val.getVal('tmp:sn.skip.enabled')) ?0 :1))
+			Boolean(this.val.getVal('tmp:sn.skip.enabled')
+			|| this.#evtMng.isSkippingByKeyDown()) ?0 :1))
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(hArg.ease))
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
@@ -868,10 +868,8 @@ void main(void) {
 
 		const tl = this.#getTxtLayer(hArg);
 		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
-		if ('wait' in hArg) {
-			argChk_Num(hArg, 'wait', NaN);
-			if (this.val.getVal('tmp:sn.skip.enabled')) hArg.wait = 0;
-		}
+		if (this.val.getVal('tmp:sn.skip.enabled')) hArg.wait = 0;
+		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 		this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);
 
 		const record = argChk_Boolean(hArg, 'record', true);
@@ -885,7 +883,7 @@ void main(void) {
 		return false;
 	}
 
-	#getTxtLayer = (_hArg: HArg): TxtLayer=> {this.#fncChkTxtLay(); throw 0};
+	#getTxtLayer = (_hArg: HArg): TxtLayer=> {this.#chkTxtLay(); throw 0};
 	#$getTxtLayer(hArg: HArg): TxtLayer {
 		const layer = this.#argChk_layer(hArg, this.#curTxtlay);
 		const pg = this.#hPages[layer];
@@ -895,11 +893,11 @@ void main(void) {
 
 		return tf;
 	}
-	setNormalWaitTxtLayer(): void {LayerMng.#msecChWait = this.scrItr.normalWait}
+	setNormalChWait(): void {LayerMng.#msecChWait = this.scrItr.normalWait}
 
 
 	// 操作対象のメッセージレイヤの指定
-	#current = (_hArg: HArg): boolean=> {this.#fncChkTxtLay(); throw 0};
+	#current = (_hArg: HArg): boolean=> {this.#chkTxtLay(); throw 0};
 	#$current(hArg: HArg) {
 		const layer = hArg.layer;
 		if (! layer) throw '[current] layerは必須です';
@@ -919,17 +917,17 @@ void main(void) {
 
 		return false;
 	}
-	getCurrentTxtlayForeNeedErr(): TxtLayer {
-		this.#fncChkTxtLay();
-		return this.getCurrentTxtlayFore()!;
+	get currentTxtlayForeNeedErr(): TxtLayer {
+		this.#chkTxtLay();
+		return this.currentTxtlayFore!;
 	}
-	getCurrentTxtlayFore(): TxtLayer | undefined {
+	get currentTxtlayFore(): TxtLayer | undefined {
 		if (! this.#pgTxtlay) return undefined;
 
 		return this.#pgTxtlay.fore as TxtLayer;
 	}
 	#pgTxtlay: Pages;	// カレントテキストレイヤ
-	#fncChkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'};
+	#chkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'};
 
 	#argChk_layer(hash: any, def = ''): string {
 		const v = hash.layer ?? def;
