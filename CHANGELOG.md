@@ -1,3 +1,10 @@
+## [1.25.6](https://github.com/famibee/SKYNovel/compare/v1.25.5...v1.25.6) (2021-12-27)
+
+
+### Bug Fixes
+
+* [waitclick]にスキップや自動読み到達時は自動キャンセル。クリック二回必要になる ([af113cb](https://github.com/famibee/SKYNovel/commit/af113cb786b2523fcc312fab9b61477d3434258e))
+
 - fix: [waitclick]にスキップや自動読み到達時は自動キャンセル。クリック二回必要になるので
 
 
