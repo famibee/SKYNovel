@@ -851,12 +851,11 @@ export class EventMng implements IEvtMng {
 		if (this.scrItr.skip4page) return false;
 
 		// 吉里吉里仕様【スキップできない】記述から、スキップや自動読みさせない
+		// それらは自動キャンセル。クリック二回必要になるので
+		if (this.val.getVal('tmp:sn.skip.enabled')
+		||	this.val.getVal('tmp:sn.auto.enabled')) this.#stopSkip();
 
-		const fnc = ()=> {this.#cancelWait = ()=> {}; this.main.resume();};
-		if (this.val.getVal('tmp:sn.auto.enabled')) this.#cancelWait = fnc;
-			// [waitclick]をやり直さず次へ
-
-		this.#waitEventBase(fnc);
+		this.#waitEventBase(()=> this.main.resume());
 		return true;	// waitEventBase()したらreturn true;
 	}
 

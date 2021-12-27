@@ -68339,10 +68339,10 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
 }, _EventMng_waitclick = function _EventMng_waitclick() {
     if (this.scrItr.skip4page)
         return false;
-    const fnc = () => { __classPrivateFieldSet(this, _EventMng_cancelWait, () => { }, "f"); this.main.resume(); };
-    if (this.val.getVal('tmp:sn.auto.enabled'))
-        __classPrivateFieldSet(this, _EventMng_cancelWait, fnc, "f");
-    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, fnc);
+    if (this.val.getVal('tmp:sn.skip.enabled')
+        || this.val.getVal('tmp:sn.auto.enabled'))
+        __classPrivateFieldGet(this, _EventMng_stopSkip, "f").call(this);
+    __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitEventBase).call(this, () => this.main.resume());
     return true;
 };
 
