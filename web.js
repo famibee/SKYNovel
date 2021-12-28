@@ -68069,7 +68069,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _DebugMng_instances, _a, _DebugMng_scrItr, _DebugMng_hTag, _DebugMng_title, _DebugMng_spnDbg, _DebugMng_first, _DebugMng_log, _DebugMng_trace, _DebugMng_st_trace, _DebugMng_dspDbg;
+var _DebugMng_instances, _a, _DebugMng_scrItr, _DebugMng_hTag, _DebugMng_title, _DebugMng_spnDbg, _DebugMng_first, _DebugMng_log, _DebugMng_trace, _DebugMng_trace_beforeNew, _DebugMng_st_trace, _DebugMng_dspDbg;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DebugMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -68098,30 +68098,7 @@ class DebugMng {
     destroy() {
         __classPrivateFieldSet(DebugMng, _a, () => false, "f", _DebugMng_title);
         document.body.removeChild(__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg));
-        DebugMng.myTrace = DebugMng.trace_beforeNew;
-    }
-    static trace_beforeNew(txt, lvl = 'E') {
-        let mes = `{${lvl}} ` + txt;
-        let sty = '';
-        switch (lvl) {
-            case 'D':
-                sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
-                break;
-            case 'W':
-                sty = 'color:#FF8800;';
-                break;
-            case 'F':
-                sty = 'color:#BB0000;';
-                break;
-            case 'ET': throw mes;
-            case 'E':
-                console.error('%c' + mes, 'color:#FF3300;');
-                return;
-            default:
-                sty = 'color:black;';
-                mes = ' ' + mes;
-        }
-        console.info('%c' + mes, sty);
+        DebugMng.myTrace = __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_trace_beforeNew);
     }
     ;
 }
@@ -68138,6 +68115,28 @@ _a = DebugMng, _DebugMng_first = new WeakMap(), _DebugMng_instances = new WeakSe
 }, _DebugMng_trace = function _DebugMng_trace(hArg) {
     DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
     return false;
+}, _DebugMng_trace_beforeNew = function _DebugMng_trace_beforeNew(txt, lvl = 'E') {
+    let mes = `{${lvl}} ` + txt;
+    let sty = '';
+    switch (lvl) {
+        case 'D':
+            sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
+            break;
+        case 'W':
+            sty = 'color:#FF8800;';
+            break;
+        case 'F':
+            sty = 'color:#BB0000;';
+            break;
+        case 'ET': throw mes;
+        case 'E':
+            console.error('%c' + mes, 'color:#FF3300;');
+            return;
+        default:
+            sty = 'color:black;';
+            mes = ' ' + mes;
+    }
+    console.info('%c' + mes, sty);
 }, _DebugMng_st_trace = function _DebugMng_st_trace(txt, lvl = 'E') {
     let mes = `{${lvl}} `;
     if (__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr) && __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).lineNum > 0)
@@ -68197,7 +68196,7 @@ _DebugMng_scrItr = { value: void 0 };
 _DebugMng_hTag = { value: void 0 };
 _DebugMng_title = { value: void 0 };
 _DebugMng_spnDbg = { value: void 0 };
-DebugMng.myTrace = DebugMng.trace_beforeNew;
+DebugMng.myTrace = __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_trace_beforeNew);
 
 
 /***/ }),

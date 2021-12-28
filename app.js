@@ -66721,7 +66721,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _DebugMng_instances, _a, _DebugMng_scrItr, _DebugMng_hTag, _DebugMng_title, _DebugMng_spnDbg, _DebugMng_first, _DebugMng_log, _DebugMng_trace, _DebugMng_st_trace, _DebugMng_dspDbg;
+var _DebugMng_instances, _a, _DebugMng_scrItr, _DebugMng_hTag, _DebugMng_title, _DebugMng_spnDbg, _DebugMng_first, _DebugMng_log, _DebugMng_trace, _DebugMng_trace_beforeNew, _DebugMng_st_trace, _DebugMng_dspDbg;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DebugMng = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -66750,30 +66750,7 @@ class DebugMng {
     destroy() {
         __classPrivateFieldSet(DebugMng, _a, () => false, "f", _DebugMng_title);
         document.body.removeChild(__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_spnDbg));
-        DebugMng.myTrace = DebugMng.trace_beforeNew;
-    }
-    static trace_beforeNew(txt, lvl = 'E') {
-        let mes = `{${lvl}} ` + txt;
-        let sty = '';
-        switch (lvl) {
-            case 'D':
-                sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
-                break;
-            case 'W':
-                sty = 'color:#FF8800;';
-                break;
-            case 'F':
-                sty = 'color:#BB0000;';
-                break;
-            case 'ET': throw mes;
-            case 'E':
-                console.error('%c' + mes, 'color:#FF3300;');
-                return;
-            default:
-                sty = 'color:black;';
-                mes = ' ' + mes;
-        }
-        console.info('%c' + mes, sty);
+        DebugMng.myTrace = __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_trace_beforeNew);
     }
     ;
 }
@@ -66790,6 +66767,28 @@ _a = DebugMng, _DebugMng_first = new WeakMap(), _DebugMng_instances = new WeakSe
 }, _DebugMng_trace = function _DebugMng_trace(hArg) {
     DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
     return false;
+}, _DebugMng_trace_beforeNew = function _DebugMng_trace_beforeNew(txt, lvl = 'E') {
+    let mes = `{${lvl}} ` + txt;
+    let sty = '';
+    switch (lvl) {
+        case 'D':
+            sty = `color:#${CmnLib_1.CmnLib.isDarkMode ? '49F' : '05A'};`;
+            break;
+        case 'W':
+            sty = 'color:#FF8800;';
+            break;
+        case 'F':
+            sty = 'color:#BB0000;';
+            break;
+        case 'ET': throw mes;
+        case 'E':
+            console.error('%c' + mes, 'color:#FF3300;');
+            return;
+        default:
+            sty = 'color:black;';
+            mes = ' ' + mes;
+    }
+    console.info('%c' + mes, sty);
 }, _DebugMng_st_trace = function _DebugMng_st_trace(txt, lvl = 'E') {
     let mes = `{${lvl}} `;
     if (__classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr) && __classPrivateFieldGet(DebugMng, _a, "f", _DebugMng_scrItr).lineNum > 0)
@@ -66849,7 +66848,7 @@ _DebugMng_scrItr = { value: void 0 };
 _DebugMng_hTag = { value: void 0 };
 _DebugMng_title = { value: void 0 };
 _DebugMng_spnDbg = { value: void 0 };
-DebugMng.myTrace = DebugMng.trace_beforeNew;
+DebugMng.myTrace = __classPrivateFieldGet(DebugMng, _a, "m", _DebugMng_trace_beforeNew);
 
 
 /***/ }),
@@ -73057,25 +73056,6 @@ _SoundMng_MAX_END_MS = { value: 999000 };
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
     if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
@@ -73094,7 +73074,7 @@ const SysNode_1 = __webpack_require__(/*! ./SysNode */ "./core/src/sn/SysNode.ts
 const SysBase_1 = __webpack_require__(/*! ./SysBase */ "./core/src/sn/SysBase.ts");
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
 const Main_1 = __webpack_require__(/*! ./Main */ "./core/src/sn/Main.ts");
-const crypto_1 = __webpack_require__(/*! crypto */ "?056f");
+const DebugMng_1 = __webpack_require__(/*! ./DebugMng */ "./core/src/sn/DebugMng.ts");
 const { to_app } = window;
 class SysApp extends SysNode_1.SysNode {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
@@ -73246,82 +73226,63 @@ class SysApp extends SysNode_1.SysNode {
                 throw '[update_check] urlは必須です';
             if (url.slice(-1) !== '/')
                 throw '[update_check] urlの最後は/です';
+            if (CmnLib_1.CmnLib.debugLog)
+                DebugMng_1.DebugMng.myTrace(`[update_check] url=${url}`, 'D');
             (async () => {
                 const res = await this.fetch(url + `latest${CmnLib_1.CmnLib.isMac ? '-mac' : ''}.yml`);
-                if (!res.ok)
-                    return;
-                if (CmnLib_1.CmnLib.debugLog)
-                    console.log(`[update_check] ymlを取得しました url=${url}`);
-                const txt = await res.text();
-                const mv = /version: (.+)/.exec(txt);
-                if (!mv)
-                    throw `[update_check] ファイル内にversionが見つかりません`;
-                const netver = mv[1];
-                const myver = __classPrivateFieldGet(this, _SysApp_hInfo, "f").getVersion;
-                if (netver === myver) {
+                if (!res.ok) {
                     if (CmnLib_1.CmnLib.debugLog)
-                        console.log(`[update_check] バージョン更新なし ver:${myver}`);
+                        DebugMng_1.DebugMng.myTrace(`[update_check] [update_check] .ymlが見つかりません`);
                     return;
                 }
                 if (CmnLib_1.CmnLib.debugLog)
-                    console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
-                const o = {
-                    title: 'アプリ更新',
-                    icon: __classPrivateFieldGet(this, _SysApp_hInfo, "f").getAppPath + '/app/icon.png',
-                    buttons: ['OK', 'Cancel'],
-                    defaultId: 0,
-                    cancelId: 1,
-                    message: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
-                    detail: `現在ver ${myver}\n新規ver ${netver}`,
-                };
+                    DebugMng_1.DebugMng.myTrace(`[update_check] .ymlを取得しました`, 'D');
+                const txtYml = await res.text();
+                const mv = /version: (.+)/.exec(txtYml);
+                if (!mv)
+                    throw `[update_check] .yml に version が見つかりません`;
+                const netver = mv[1];
+                const appver = __classPrivateFieldGet(this, _SysApp_hInfo, "f").getVersion;
                 if (CmnLib_1.CmnLib.debugLog)
-                    console.log(`[update_check] アプリダウンロード開始`);
-                const mp = /path: (.+)/.exec(txt);
-                if (!mp)
-                    throw `[update_check] ファイル内にpathが見つかりません`;
-                const fn = mp[1];
-                const mc = /sha512: (.+)/.exec(txt);
-                if (!mc)
-                    throw `[update_check] ファイル内にsha512が見つかりません`;
-                const sha = mc[1];
-                const res_dl = await this.fetch(url + fn);
-                if (!res_dl.ok)
-                    return;
-                const pathDL = __classPrivateFieldGet(this, _SysApp_hInfo, "f").downloads + '/' + fn;
-                const rd_dl = async (res) => {
-                    const reader = res.body.getReader();
-                    const { Readable } = await Promise.resolve().then(() => __importStar(__webpack_require__(/*! stream */ "?1f4d")));
-                    const rdb = new Readable();
-                    rdb._read = async () => {
-                        const { done, value } = await reader.read();
-                        if (done) {
-                            rdb.push(null);
-                            return;
-                        }
-                        rdb.push(Buffer.from(value));
-                    };
-                    return rdb;
-                };
-                const pipe_dl = await rd_dl(res_dl);
-                pipe_dl.on('end', () => {
+                    DebugMng_1.DebugMng.myTrace(`[update_check] 現在ver=${appver} 新規ver=${netver}`, 'D');
+                if (netver === appver) {
                     if (CmnLib_1.CmnLib.debugLog)
-                        console.log(`[update_check] アプリダウンロード完了`);
-                    to_app.readFile(pathDL, async (err, data) => {
-                        if (err)
-                            throw err;
-                        const h = (0, crypto_1.createHash)('SHA512');
-                        h.update(data);
-                        const hash = String(h.digest('base64'));
-                        const isOk = sha === hash;
-                        if (CmnLib_1.CmnLib.debugLog)
-                            console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
-                        if (!isOk)
-                            await to_app.removeSync(pathDL);
-                        o.buttons.pop();
-                        o.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました` + (isOk ? '' : 'が、破損しています。\n開発元に連絡してください');
-                    });
-                });
-                pipe_dl.pipe(await to_app.createWriteStream(pathDL));
+                        DebugMng_1.DebugMng.myTrace(`[update_check] バージョン更新なし`, 'I');
+                    return;
+                }
+                if (CmnLib_1.CmnLib.debugLog)
+                    DebugMng_1.DebugMng.myTrace(`[update_check] アプリダウンロード開始`, 'D');
+                const mp = /path: (.+)/.exec(txtYml);
+                if (!mp)
+                    throw `[update_check] .yml に path が見つかりません`;
+                const path = mp[1];
+                if (CmnLib_1.CmnLib.debugLog)
+                    DebugMng_1.DebugMng.myTrace(`[update_check] path=${path}`, 'D');
+                const mc = /sha512: (.+)/.exec(txtYml);
+                if (!mc)
+                    throw `[update_check] .yml に sha512 が見つかりません`;
+                const sha = mc[1];
+                if (CmnLib_1.CmnLib.debugLog)
+                    DebugMng_1.DebugMng.myTrace(`[update_check] sha=${sha}=`, 'D');
+                const res_dl = await this.fetch(url + path);
+                if (!res_dl.ok) {
+                    if (CmnLib_1.CmnLib.debugLog)
+                        DebugMng_1.DebugMng.myTrace(`[update_check] アプリファイルが見つかりません url=${url + path}`);
+                    return;
+                }
+                const pathDL = __classPrivateFieldGet(this, _SysApp_hInfo, "f").downloads + '/' + path;
+                if (CmnLib_1.CmnLib.debugLog)
+                    DebugMng_1.DebugMng.myTrace(`[update_check] pathDL=${pathDL}`, 'D');
+                const b = await res_dl.blob();
+                const url2 = URL.createObjectURL(b);
+                const a = document.createElement('a');
+                document.body.appendChild(a);
+                a.download = path;
+                a.href = url2;
+                a.click();
+                a.remove();
+                if (CmnLib_1.CmnLib.debugLog)
+                    DebugMng_1.DebugMng.myTrace(`アプリファイルを保存しました`, 'D');
             })();
             return false;
         };
@@ -77433,26 +77394,6 @@ yeast.encode = encode;
 yeast.decode = decode;
 module.exports = yeast;
 
-
-/***/ }),
-
-/***/ "?056f":
-/*!************************!*\
-  !*** crypto (ignored) ***!
-  \************************/
-/***/ (() => {
-
-/* (ignored) */
-
-/***/ }),
-
-/***/ "?1f4d":
-/*!************************!*\
-  !*** stream (ignored) ***!
-  \************************/
-/***/ (() => {
-
-/* (ignored) */
 
 /***/ }),
 

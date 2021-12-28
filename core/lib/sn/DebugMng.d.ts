@@ -6,7 +6,6 @@ export declare class DebugMng {
     private readonly sys;
     constructor(sys: SysBase, hTag: IHTag, scrItr: ScriptIterator);
     destroy(): void;
-    static trace_beforeNew(txt: string, lvl?: 'D' | 'W' | 'F' | 'E' | 'I' | 'ET'): void;
-    static myTrace: typeof DebugMng.trace_beforeNew;
+    static myTrace: typeof DebugMng.__#68@#trace_beforeNew;
 }
 //# sourceMappingURL=DebugMng.d.ts.map

@@ -10,8 +10,10 @@ import {SysBase} from './SysBase';
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, uint} from './CmnLib';
 import {ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
+import {DebugMng} from './DebugMng';
+
 import {Application} from 'pixi.js';
-import {createHash} from 'crypto';
+//import {createHash} from 'crypto';
 
 import {HINFO} from '../preload';
 const {to_app} = window;
@@ -279,23 +281,101 @@ export class SysApp extends SysNode {
 		const url = hArg.url;
 		if (! url) throw '[update_check] urlは必須です';
 		if (url.slice(-1) !== '/') throw '[update_check] urlの最後は/です';
+		if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] url=${url}`, 'D');
 
 		(async ()=> {
+			// バージョン更新チェック
 			const res = await this.fetch(url +`latest${CmnLib.isMac ?'-mac' :''}.yml`);
-			if (! res.ok) return;
-			if (CmnLib.debugLog) console.log(`[update_check] ymlを取得しました url=${url}`);
-			const txt = await res.text();
-			const mv = /version: (.+)/.exec(txt);
-			if (! mv) throw `[update_check] ファイル内にversionが見つかりません`;
-			const netver = mv[1];
-
-			const myver = this.#hInfo.getVersion;
-			if (netver === myver) {
-				if (CmnLib.debugLog) console.log(`[update_check] バージョン更新なし ver:${myver}`);
+			if (! res.ok) {
+				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] [update_check] .ymlが見つかりません`);
 				return;
 			}
-			if (CmnLib.debugLog) console.log(`[update_check] 現在ver=${myver} 新規ver=${netver}`);
+			if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] .ymlを取得しました`, 'D');
+			const txtYml = await res.text();
+			const mv = /version: (.+)/.exec(txtYml);
+			if (! mv) throw `[update_check] .yml に version が見つかりません`;
+			const netver = mv[1];
 
+			const appver = this.#hInfo.getVersion;
+			if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] 現在ver=${appver} 新規ver=${netver}`, 'D');
+			if (netver === appver) {
+				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] バージョン更新なし`, 'I');
+				return;
+			}
+
+			// アプリダウンロード
+			if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] アプリダウンロード開始`, 'D');
+			const mp = /path: (.+)/.exec(txtYml);
+			if (! mp) throw `[update_check] .yml に path が見つかりません`;
+			const path = mp[1];
+			if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] path=${path}`, 'D');
+
+			const mc = /sha512: (.+)/.exec(txtYml);
+			if (! mc) throw `[update_check] .yml に sha512 が見つかりません`;
+			const sha = mc[1];
+			if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] sha=${sha}=`, 'D');
+
+			const res_dl = await this.fetch(url + path);
+			if (! res_dl.ok) {
+				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] アプリファイルが見つかりません url=${url + path}`);
+				return;
+			}
+			const pathDL = this.#hInfo.downloads +'/'+ path;
+			if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] pathDL=${pathDL}`, 'D');
+
+// 仮作成
+			const b = await res_dl.blob();
+
+			const url2 = URL.createObjectURL(b);
+			const a = document.createElement('a');
+			document.body.appendChild(a);
+			a.download = path;
+			a.href = url2;
+			a.click();
+			a.remove();
+/*
+			setTimeout(()=> {
+				URL.revokeObjectURL(url2);
+			}, 1E4);
+*/
+
+
+/*
+			try {
+console.log(`fn:SysApp.ts line:328 `);
+//				const r = res_dl.body;
+				const r = res_dl.body?.getReader();
+console.log(`fn:SysApp.ts line:330 r:%o`, r);
+				if (r) {
+					const ws = await to_app.createWriteStream(pathDL);
+					r.pipeTo(ws);
+/ *
+					r.on('end', ()=> {
+						if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
+						this.fire('sn:exported', new Event('click'));
+					});
+					r.pipe(await to_app.createWriteStream(
+						this.$path_downloads + (this.crypto ?'' :'no_crypto_')
+						+ this.cfg.getNs() + getDateStr('-', '_', '') +'.spd'
+					));
+* /
+				}
+*/
+
+
+/*
+				const ab = await res_dl.arrayBuffer();
+console.log(`fn:SysApp.ts line:343 `);
+				await this.writeFileSync(pathDL, Buffer.from(ab));
+console.log(`fn:SysApp.ts line:345 `);
+*/
+
+				if (CmnLib.debugLog) DebugMng.myTrace(`アプリファイルを保存しました`, 'D');
+//			} catch (e) {throw e;}
+
+//console.log(`fn:SysApp.ts line:340 `);
+
+/*
 			const o = {
 				title: 'アプリ更新',
 				icon: this.#hInfo.getAppPath +'/app/icon.png',
@@ -303,37 +383,34 @@ export class SysApp extends SysNode {
 				defaultId: 0,
 				cancelId: 1,
 				message: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
-				detail: `現在ver ${myver}\n新規ver ${netver}`,
+				detail: `現在ver ${appver}\n新規ver ${netver}`,
 			};
 //			const di = await remote.dialog.showMessageBox(o as any);// iconのせい
 //			if (di.response > 0) return;
-
-			if (CmnLib.debugLog) console.log(`[update_check] アプリダウンロード開始`);
-			const mp = /path: (.+)/.exec(txt);
-			if (! mp) throw `[update_check] ファイル内にpathが見つかりません`;
-			const fn = mp[1];
-
-			const mc = /sha512: (.+)/.exec(txt);
-			if (! mc) throw `[update_check] ファイル内にsha512が見つかりません`;
-			const sha = mc[1];
-
-			const res_dl = await this.fetch(url + fn);
-			if (! res_dl.ok) return;
-			const pathDL = this.#hInfo.downloads +'/'+ fn;
+*/
+/*
 			const rd_dl = async (res: Response)=> {
-				const reader = res!.body!.getReader();
+DebugMng.myTrace(`fn:SysApp.ts line:337 `, 'I');
+console.log(`fn:SysApp.ts line:340 res:%o`, res);
+				const reader = res.body!.getReader();
+console.log(`fn:SysApp.ts line:342 `);
 				const {Readable} = await import('stream');
+console.log(`fn:SysApp.ts line:344 `);
 				const rdb = new Readable();
+console.log(`fn:SysApp.ts line:346 `);
 				rdb._read = async ()=> {
+console.log(`fn:SysApp.ts line:349 `);
 					const {done, value} = await reader.read();
+console.log(`fn:SysApp.ts line:351 `);
 					if (done) {rdb.push(null); return;}
 					rdb.push(Buffer.from(value!));
 				};
+console.log(`fn:SysApp.ts line:356 `);
 				return rdb;
 			}
 			const pipe_dl = await rd_dl(res_dl);
 			pipe_dl.on('end', ()=> {
-				if (CmnLib.debugLog) console.log(`[update_check] アプリダウンロード完了`);
+				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] アプリダウンロード完了`, 'D');
 
 				to_app.readFile(pathDL, async (err: any, data: any)=> {
 					if (err) throw err;
@@ -343,15 +420,16 @@ export class SysApp extends SysNode {
 					const hash = String(h.digest('base64'));
 
 					const isOk = sha === hash;
-					if (CmnLib.debugLog) console.log(`[update_check] SHA512 Checksum:${isOk}`, sha, hash);
+					if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] SHA512 Checksum:${isOk} sha:${sha} hash:${hash}`, 'D');
 					if (! isOk) await to_app.removeSync(pathDL);
 
 					o.buttons.pop();
 					o.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました`+ (isOk ?'' :'が、破損しています。\n開発元に連絡してください');
 //					remote.dialog.showMessageBox(o as any);	// iconのせい
 				});
-			});
-			pipe_dl.pipe(await to_app.createWriteStream(pathDL));
+			})
+			.pipe(await to_app.createWriteStream(pathDL));
+*/
 		})();
 
 		return false;
