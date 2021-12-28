@@ -1,3 +1,10 @@
+## [1.25.7](https://github.com/famibee/SKYNovel/compare/v1.25.6...v1.25.7) (2021-12-28)
+
+
+### Bug Fixes
+
+* [update_check]アップデート機能が動作不良だったので、暫定修正 ([31e1f6d](https://github.com/famibee/SKYNovel/commit/31e1f6d9d16f12b657b3a7a317f712c3599a470f))
+
 - fix: [update_check]アップデート機能が動作不良だったので、暫定修正
 
 
