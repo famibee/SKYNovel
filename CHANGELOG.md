@@ -1,3 +1,10 @@
+## [1.25.8](https://github.com/famibee/SKYNovel/compare/v1.25.7...v1.25.8) (2022-01-08)
+
+
+### Bug Fixes
+
+* 上げなおし：21年末時点版（ライブラリは更新） ([3f47a05](https://github.com/famibee/SKYNovel/commit/3f47a05fa9acd6121192b323950e647935ef56c6))
+
 - fix: Windowsのみ：全画面から戻ると、一拍置いて極小画面サイズになる件
 - fix: [fade]系にスキップ時処理を追記
 - fix: 非パッケージだと versionが Electronの値になる件対応
