@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -50,14 +50,8 @@ export class Variable implements IVariable {
 			const a: object[] = [];
 			Object.keys(this.#data.mark).sort().forEach(k=> {
 				const o = {...this.#data.mark[k].json};
-				for (const key in o) {
-					const v = o[key];
-					if (typeof v !== 'string') continue;
-					if (v.slice(0, 10) !== 'userdata:/') continue;
-					o[key] = cfg.searchPath(v);
-				}
 				o.place = k;
-				a.push(o);
+				a.push(o);	// パスを searchPath() で展開してはいけない
 			});
 			return JSON.stringify(a);
 		});

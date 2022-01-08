@@ -1,3 +1,11 @@
+- fix: Windowsのみ：全画面から戻ると、一拍置いて極小画面サイズになる件
+- fix: [fade]系にスキップ時処理を追記
+- fix: 非パッケージだと versionが Electronの値になる件対応
+- fix: const.sn.bookmark.json の値を実際のパスに置換しないように
+- fix: [add_frame]での内部画像パス置換処理を修正
+- fix: ライブラリ更新
+
+
 ## [1.25.7](https://github.com/famibee/SKYNovel/compare/v1.25.6...v1.25.7) (2021-12-28)
 
 

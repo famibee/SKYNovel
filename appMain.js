@@ -17203,8 +17203,10 @@ function patch (fs) {
     return function (target, options) {
       var stats = options ? orig.call(fs, target, options)
         : orig.call(fs, target)
-      if (stats.uid < 0) stats.uid += 0x100000000
-      if (stats.gid < 0) stats.gid += 0x100000000
+      if (stats) {
+        if (stats.uid < 0) stats.uid += 0x100000000
+        if (stats.gid < 0) stats.gid += 0x100000000
+      }
       return stats;
     }
   }
@@ -23476,7 +23478,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _appMain_instances, _a, _appMain_dsp, _appMain_screenRX, _appMain_screenRY, _appMain_hInfo, _appMain_isMovingWin, _appMain_posMovingWin, _appMain_delayWinPos, _appMain_window, _appMain_ins, _appMain_menu_height;
+var _appMain_instances, _a, _appMain_dsp, _appMain_screenRX, _appMain_screenRY, _appMain_hInfo, _appMain_skipDelayWinPos, _appMain_isMovingWin, _appMain_rctMovingWin, _appMain_delayWinPos, _appMain_window, _appMain_ins, _appMain_menu_height;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.appMain = void 0;
 const electron_1 = __webpack_require__(/*! electron */ "electron");
@@ -23484,7 +23486,7 @@ const fs_extra_1 = __webpack_require__(/*! fs-extra */ "./node_modules/fs-extra/
 const Store = __webpack_require__(/*! electron-store */ "./node_modules/electron-store/index.js");
 const tar_fs_1 = __webpack_require__(/*! tar-fs */ "./node_modules/tar-fs/index.js");
 class appMain {
-    constructor(bw) {
+    constructor(bw, version) {
         this.bw = bw;
         _appMain_instances.add(this);
         _appMain_dsp.set(this, electron_1.screen.getPrimaryDisplay());
@@ -23495,13 +23497,15 @@ class appMain {
             isPackaged: electron_1.app.isPackaged,
             downloads: electron_1.app.getPath('downloads'),
             userData: electron_1.app.getPath('userData'),
-            getVersion: String(electron_1.app.getVersion()),
+            getVersion: '',
             env: { ...process.env },
             screenResolutionX: __classPrivateFieldGet(this, _appMain_screenRX, "f"),
             screenResolutionY: __classPrivateFieldGet(this, _appMain_screenRY, "f"),
         });
+        _appMain_skipDelayWinPos.set(this, false);
         _appMain_isMovingWin.set(this, false);
-        _appMain_posMovingWin.set(this, [0, 0]);
+        _appMain_rctMovingWin.set(this, void 0);
+        __classPrivateFieldGet(this, _appMain_hInfo, "f").getVersion = version;
         electron_1.ipcMain.handle('getInfo', () => __classPrivateFieldGet(this, _appMain_hInfo, "f"));
         electron_1.ipcMain.handle('existsSync', (_, fn) => (0, fs_extra_1.existsSync)(fn));
         electron_1.ipcMain.handle('copySync', (_, path_from, path_to) => (0, fs_extra_1.copySync)(path_from, path_to));
@@ -23516,7 +23520,16 @@ class appMain {
         electron_1.ipcMain.handle('appendFile', (_, path, data, callback) => (0, fs_extra_1.appendFile)(path, data, callback));
         electron_1.ipcMain.handle('window', (_, centering, x, y, w, h) => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, centering, x, y, w, h));
         electron_1.ipcMain.handle('isSimpleFullScreen', () => bw.isSimpleFullScreen());
-        electron_1.ipcMain.handle('setSimpleFullScreen', (_, b) => bw.setSimpleFullScreen(b));
+        electron_1.ipcMain.handle('setSimpleFullScreen', (_, b, w, h) => {
+            bw.setSimpleFullScreen(b);
+            const rct = this.bw.getBounds();
+            rct.width = w;
+            rct.height = h;
+            __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
+            __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, false, rct.x, rct.y, rct.width, rct.height);
+            __classPrivateFieldSet(this, _appMain_rctMovingWin, rct, "f");
+            __classPrivateFieldSet(this, _appMain_skipDelayWinPos, true, "f");
+        });
         electron_1.ipcMain.handle('win_close', () => bw.close());
         electron_1.ipcMain.handle('win_setTitle', (_, title) => bw.setTitle(title));
         electron_1.ipcMain.handle('win_setContentSize', (_, w, h) => {
@@ -23546,12 +23559,12 @@ class appMain {
             if (__classPrivateFieldGet(this, _appMain_isMovingWin, "f"))
                 return;
             __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
-            __classPrivateFieldSet(this, _appMain_posMovingWin, bw.getPosition(), "f");
+            __classPrivateFieldSet(this, _appMain_rctMovingWin, bw.getBounds(), "f");
             setTimeout(() => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_delayWinPos).call(this), 500);
         });
     }
     openDevTools() { this.bw.webContents.openDevTools(); }
-    static initRenderer(path_htm, o) {
+    static initRenderer(path_htm, version, o) {
         let openDevTools = () => { };
         let bw;
         try {
@@ -23572,7 +23585,7 @@ class appMain {
             bw.setMenuBarVisibility(true);
             const cs_menu_h = bw.getContentSize()[1];
             __classPrivateFieldSet(appMain, _a, cs_no_menu_h - cs_menu_h, "f", _appMain_menu_height);
-            __classPrivateFieldSet(appMain, _a, new appMain(bw), "f", _appMain_ins);
+            __classPrivateFieldSet(appMain, _a, new appMain(bw, version), "f", _appMain_ins);
             openDevTools = () => __classPrivateFieldGet(appMain, _a, "f", _appMain_ins).openDevTools();
             bw.loadFile(path_htm);
         }
@@ -23585,16 +23598,18 @@ class appMain {
     }
 }
 exports.appMain = appMain;
-_a = appMain, _appMain_dsp = new WeakMap(), _appMain_screenRX = new WeakMap(), _appMain_screenRY = new WeakMap(), _appMain_hInfo = new WeakMap(), _appMain_isMovingWin = new WeakMap(), _appMain_posMovingWin = new WeakMap(), _appMain_instances = new WeakSet(), _appMain_delayWinPos = function _appMain_delayWinPos() {
-    if (this.bw.isSimpleFullScreen())
+_a = appMain, _appMain_dsp = new WeakMap(), _appMain_screenRX = new WeakMap(), _appMain_screenRY = new WeakMap(), _appMain_hInfo = new WeakMap(), _appMain_skipDelayWinPos = new WeakMap(), _appMain_isMovingWin = new WeakMap(), _appMain_rctMovingWin = new WeakMap(), _appMain_instances = new WeakSet(), _appMain_delayWinPos = function _appMain_delayWinPos() {
+    const rct = this.bw.getBounds();
+    if (__classPrivateFieldGet(this, _appMain_skipDelayWinPos, "f")) {
+        __classPrivateFieldSet(this, _appMain_skipDelayWinPos, false, "f");
         return;
-    const p = this.bw.getPosition();
-    if (__classPrivateFieldGet(this, _appMain_posMovingWin, "f")[0] !== p[0] || __classPrivateFieldGet(this, _appMain_posMovingWin, "f")[1] !== p[1]) {
-        __classPrivateFieldSet(this, _appMain_posMovingWin, p, "f");
+    }
+    if (__classPrivateFieldGet(this, _appMain_rctMovingWin, "f").x !== rct.x || __classPrivateFieldGet(this, _appMain_rctMovingWin, "f").y !== rct.y) {
+        __classPrivateFieldSet(this, _appMain_rctMovingWin, rct, "f");
         setTimeout(() => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_delayWinPos).call(this), 500);
         return;
     }
-    __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, false, p[0], p[1], 0, 0);
+    __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, false, rct.x, rct.y, rct.width, rct.height);
 }, _appMain_window = function _appMain_window(centering, x, y, w, h) {
     if (__classPrivateFieldGet(this, _appMain_isMovingWin, "f"))
         return;

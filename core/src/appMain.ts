@@ -1,11 +1,11 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2021-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2021-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {screen, app, BrowserWindow, ipcMain, shell} from 'electron';
+import {screen, app, BrowserWindow, ipcMain, shell, Rectangle} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
 import {existsSync, copySync, removeSync, ensureDirSync, createWriteStream, createReadStream, readFileSync, readFile, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 const Store = require('electron-store');
@@ -21,15 +21,16 @@ export class appMain {
 		isPackaged	: app.isPackaged,
 		downloads	: app.getPath('downloads'),
 		userData	: app.getPath('userData'),
-		getVersion	: String(app.getVersion()),
+		getVersion	: '',
 		env			: {...process.env},
 		screenResolutionX	: this.#screenRX,
 		screenResolutionY	: this.#screenRY,
 	};
 
 	// console.log は【プロジェクト】のターミナルに出る
-	private	constructor(private readonly bw: BrowserWindow) {
-//	private	constructor(private readonly bw: Electron.BrowserWindow) {
+	private	constructor(private readonly bw: BrowserWindow, version: string) {
+//	private	constructor(private readonly bw: Electron.BrowserWindow, version: string) {
+		this.#hInfo.getVersion = version;
 		ipcMain.handle('getInfo', ()=> this.#hInfo);
 
 		ipcMain.handle('existsSync', (_, fn)=> existsSync(fn));
@@ -46,15 +47,30 @@ export class appMain {
 
 		ipcMain.handle('window', (_, centering: boolean, x, y, w, h)=> this.#window(centering, x, y, w, h));
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
-		ipcMain.handle('setSimpleFullScreen', (_, b)=> bw.setSimpleFullScreen(b));
+		ipcMain.handle('setSimpleFullScreen', (_, b, w, h)=> {
+			bw.setSimpleFullScreen(b);
+			const rct = this.bw.getBounds();
+//			const was = screen.getPrimaryDisplay().workAreaSize;
+
+//console.log(`== FullScreen b:%o #isMovingWin:${this.#isMovingWin} (%o %o %o %o) (%o %o) scr(%o %o)`, b, rct.x, rct.y, rct.width, rct.height, w, h, was.width, was.height);
+			rct.width = w;
+			rct.height = h;
+			this.#isMovingWin = false;
+			this.#window(false, rct.x, rct.y, rct.width, rct.height);
+			this.#rctMovingWin = rct;
+			this.#skipDelayWinPos = true;
+//console.log(`== FullScreen END`);
+		});
 		ipcMain.handle('win_close', ()=> bw.close());
 		ipcMain.handle('win_setTitle', (_, title)=> bw.setTitle(title));
 		ipcMain.handle('win_setContentSize', (_, w, h)=> {
+//console.log(`win_setContentSize w:%o, h:%o`, w, h);
 			this.#isMovingWin = true;
 			bw.setContentSize(w, h +appMain.#menu_height);
 			this.#isMovingWin = false;
 		});
 		ipcMain.handle('win_setSize', (_, w, h)=> {
+//console.log(`win_setSize w:%o, h:%o`, w, h);
 			this.#isMovingWin = true;
 			bw.setSize(w, h);
 			this.#isMovingWin = false;
@@ -79,28 +95,41 @@ export class appMain {
 
 
 		bw.on('move', ()=> {
+//const rct = this.bw.getBounds();
+//console.log(`on move skip:${this.#isMovingWin}  %o %o %o %o`, rct.x, rct.y, rct.width, rct.height);
+
+//			if (this.bw.isSimpleFullScreen()) return;
 			if (this.#isMovingWin) return;
 			this.#isMovingWin = true;
-			this.#posMovingWin = bw.getPosition();
+			this.#rctMovingWin = bw.getBounds();
 			setTimeout(()=> this.#delayWinPos(), 500);
 		});
+/*
+		bw.on('enter-full-screen', ()=> {
+const rct = this.bw.getBounds();
+console.log(`fn:appMain.ts line:107 enter-full-screen  %o %o %o %o`, rct.x, rct.y, rct.width, rct.height);
+		});
+*/
 	}
-	#isMovingWin	= false;
-	#posMovingWin	= [0, 0];
+	#skipDelayWinPos	= false;
+	#isMovingWin		= false;
+	#rctMovingWin		: Rectangle;
 	#delayWinPos() {
-		if (this.bw.isSimpleFullScreen()) return;
-
-		const p = this.bw.getPosition();
-		if (this.#posMovingWin[0] !== p[0] || this.#posMovingWin[1] !== p[1]) {
-			this.#posMovingWin = p;
+		const rct = this.bw.getBounds();
+//console.log(`#delayWinPos skip:${this.#skipDelayWinPos} isSimpleFullScreen:${this.bw.isSimpleFullScreen()} this.#isMovingWin:${this.#isMovingWin}  (%o %o %o %o) (%o %o %o %o)`, rct.x, rct.y, rct.width, rct.height, this.#rctMovingWin.x, this.#rctMovingWin.y, this.#rctMovingWin.width, this.#rctMovingWin.height);
+		if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return;}
+		if (this.#rctMovingWin.x !== rct.x || this.#rctMovingWin.y !== rct.y) {
+			this.#rctMovingWin = rct;
 			setTimeout(()=> this.#delayWinPos(), 500);
 			return;
 		}
-		this.#window(false, p[0], p[1], 0, 0);
-		//this.isMovingWin = false;	// this.window()内でやってるので
+
+		this.#window(false, rct.x, rct.y, rct.width, rct.height);
+		//this.#isMovingWin = false;	// this.window()内でやってるので
 	}
 
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
+//console.log(`#window skip:${this.#isMovingWin} c:${centering} (%o %o %o %o)`, x, y, w, h);
 		if (this.#isMovingWin) return;
 		this.#isMovingWin = true;
 		if (centering) {
@@ -125,8 +154,8 @@ export class appMain {
 
 
 	static	#ins: appMain;
-	static	initRenderer(path_htm: string, o: object): BrowserWindow {
-//	static	initRenderer(path_htm: string, o: object): Electron.BrowserWindow {
+	static	initRenderer(path_htm: string, version: string, o: object): BrowserWindow {
+//	static	initRenderer(path_htm: string, version: string, o: object): Electron.BrowserWindow {
 		// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】のでこの形に
 		let openDevTools = ()=> {};
 		let bw: Electron.BrowserWindow;
@@ -159,7 +188,7 @@ export class appMain {
 			appMain.#menu_height = cs_no_menu_h -cs_menu_h;
 				// win10 で 20 ぐらいに。macOSでは 0
 
-			appMain.#ins = new appMain(bw);
+			appMain.#ins = new appMain(bw, version);
 			openDevTools = ()=> appMain.#ins.openDevTools();
 			bw.loadFile(path_htm);
 		}

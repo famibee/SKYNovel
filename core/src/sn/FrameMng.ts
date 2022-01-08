@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -103,9 +103,7 @@ export class FrameMng implements IGetFrm {
 				const win = ifrm.contentWindow!;
 				this.#evtMng.resvFlameEvent(win);
 				((win as any).sn_repRes)?.((img: HTMLImageElement)=>
-				GrpLayer.loadPic2Img(
-					(img.dataset.src ?? '').replace(/(.+\/|\..+)/g, ''), img
-				));
+				GrpLayer.loadPic2Img((img.dataset.src ?? ''), img));
 
 				this.main.resume();
 			};

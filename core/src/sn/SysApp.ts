@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -241,14 +241,13 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	protected readonly	tgl_full_scr_sub = async ()=> {
+		const st = this.appPixi.view.style;
 		if (await to_app.isSimpleFullScreen()) {
-			await to_app.setSimpleFullScreen(false);	// これはこの位置
-			await to_app.win_setSize(CmnLib.stageW, CmnLib.stageH);
-			this.appPixi.view.style.width  = CmnLib.stageW +'px';
-			this.appPixi.view.style.height = CmnLib.stageH +'px';
-			this.appPixi.view.style.marginLeft = '0px';
-			this.appPixi.view.style.marginTop  = '0px';
-			this.window({});
+			await to_app.setSimpleFullScreen(false, CmnLib.stageW, CmnLib.stageH);
+			st.width  = CmnLib.stageW +'px';
+			st.height = CmnLib.stageH +'px';
+			st.marginLeft = '0px';
+			st.marginTop  = '0px';
 
 			this.reso4frame = 1;
 		}
@@ -258,19 +257,19 @@ export class SysApp extends SysNode {
 			const ratioWidth  = w / CmnLib.stageW;
 			const ratioHeight = h / CmnLib.stageH;
 			const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
-			await to_app.win_setSize(CmnLib.stageW * ratio, CmnLib.stageH * ratio);
-			this.appPixi.view.style.width  = (CmnLib.stageW * ratio) +'px';
-			this.appPixi.view.style.height = (CmnLib.stageH * ratio) +'px';
+			await to_app.setSimpleFullScreen(true, screen.width, screen.height);
+//			await to_app.setSimpleFullScreen(true, CmnLib.stageW * ratio, CmnLib.stageH * ratio);
+
+			st.width  = (CmnLib.stageW * ratio) +'px';
+			st.height = (CmnLib.stageH * ratio) +'px';
 			if (ratioWidth < ratioHeight) {	// 左に寄る対策
-				this.appPixi.view.style.marginTop = (h -CmnLib.stageH *ratio) /2 +'px';
+				st.marginTop  = (h -CmnLib.stageH *ratio) /2 +'px';
 			}
-			else {
-				this.appPixi.view.style.marginLeft= (w -CmnLib.stageW *ratio) /2 +'px';
-			}
-			await to_app.setSimpleFullScreen(true);	// これはこの位置
+			else st.marginLeft= (w -CmnLib.stageW *ratio) /2 +'px';
 
 			await to_app.win_setContentSize(screen.width, screen.height);
 				// これがないとWinアプリ版で下部が短くなり背後が見える
+
 			const cr = this.appPixi.view.getBoundingClientRect();
 			this.reso4frame = cr.width / CmnLib.stageW;
 		}

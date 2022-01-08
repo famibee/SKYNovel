@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2021-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2021-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -26,7 +26,7 @@ export	type	HPROC	= {
 
 	window	: (centering: boolean, x: number, y: number, w: number, h: number)=> void;
 	isSimpleFullScreen	: ()=> Promise<boolean>;
-	setSimpleFullScreen	: (b: boolean)=> Promise<void>;
+	setSimpleFullScreen	: (b: boolean, w: number, h: number)=> Promise<void>;
 	win_close		: ()=> void;
 	win_setTitle	: (title: string)=> void;
 	win_setContentSize	: (w: number, h: number)=> Promise<void>;
@@ -90,8 +90,8 @@ export const	hProc	: HPROC	= {
 		ipcRenderer.invoke('window', centering, x, y, w, h).catch(fncE),
 	isSimpleFullScreen	: ()=>
 		ipcRenderer.invoke('isSimpleFullScreen').catch(fncE),
-	setSimpleFullScreen	: b=>
-		ipcRenderer.invoke('setSimpleFullScreen', b).catch(fncE),
+	setSimpleFullScreen	: (b, w, h)=>
+		ipcRenderer.invoke('setSimpleFullScreen', b, w, h).catch(fncE),
 	win_close	: ()=> ipcRenderer.invoke('win_close').catch(fncE),
 	win_setTitle	: title=>
 		ipcRenderer.invoke('win_setTitle', title).catch(fncE),

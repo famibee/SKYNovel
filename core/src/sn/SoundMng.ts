@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -117,7 +117,11 @@ export class SoundMng {
 		}
 		this.val.flush();
 
-		if (argChk_Num(hArg, 'time', NaN) === 0) {
+		const time = argChk_Num(hArg, 'time', NaN);
+		const delay = argChk_Num(hArg, 'delay', 0);
+		if ((time === 0 && delay === 0)
+		|| this.val.getVal('tmp:sn.skip.enabled')
+		|| this.#evtMng.isSkippingByKeyDown()) {
 			oSb.snd.volume = vol;
 			if (stop) this.#stopse(hArg);
 			return false;
@@ -127,8 +131,8 @@ export class SoundMng {
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume, vol);
 		oSb.twFade = new Tween({v: oSb.snd.volume})
-		.to({v: vol}, argChk_Num(hArg, 'time', NaN))
-		.delay(argChk_Num(hArg, 'delay', 0))
+		.to({v: vol}, time)
+		.delay(delay)
 		.easing(ease)
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))

@@ -1,11 +1,11 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, uint, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg, IHTag, IVariable, IMain, IEvt2Fnc, IHEvt2Fnc} from './CmnInterface';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
@@ -816,6 +816,7 @@ export class EventMng implements IEvtMng {
 
 	// ウェイトを入れる
 	#wait(hArg: HArg) {
+		const time = argChk_Num(hArg, 'time', NaN);// skip時でもエラーは出したげたい
 		if (this.scrItr.skip4page) return false;
 
 		// 既読スキップ時
@@ -831,7 +832,7 @@ export class EventMng implements IEvtMng {
 		};
 
 		const tw = new Tween({})
-		.to({}, uint(argChk_Num(hArg, 'time', NaN)))
+		.to({}, time)
 		.onComplete(()=> {
 			this.#cancelWait = ()=> {};
 			tw.stop(); this.main.resume();

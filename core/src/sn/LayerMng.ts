@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2021 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -704,6 +704,8 @@ void main(void) {
 	// 画面を揺らす
 	#quake(hArg: HArg) {
 		this.#finish_trans();
+		const time = argChk_Num(hArg, 'time', NaN);
+		if (time === 0) return false;	// skip時でもエラーは出したげたい
 		if (this.val.getVal('tmp:sn.skip.enabled')) return false;
 		if (this.#evtMng.isSkippingByKeyDown()) return false;
 
@@ -735,7 +737,7 @@ void main(void) {
 		this.#spTransFore.filters = [];
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		const tw = new Tween(this.#spTransFore)
-		.to({x: 0, y: 0}, argChk_Num(hArg, 'time', NaN))
+		.to({x: 0, y: 0}, time)
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(ease)
 		.onUpdate(()=> {fncH(); fncV();})
