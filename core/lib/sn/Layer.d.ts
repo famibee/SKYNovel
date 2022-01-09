@@ -26,6 +26,7 @@ export declare class Layer {
     lay(hArg: HArg): boolean;
     static setBlendmode(cnt: Container, hArg: HArg): void;
     static getBlendmodeNum(bm_name: string): number;
+    get containMovement(): boolean;
     clearLay(hArg: HArg): void;
     copy(fromLayer: Layer, aPrm: Promise<void>[]): void;
     record(): {

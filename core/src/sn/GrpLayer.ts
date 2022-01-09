@@ -416,6 +416,16 @@ export class GrpLayer extends Layer {
 	}
 	static	clearFace2Name(): void {GrpLayer.#hFace = {};}
 
+	// アニメ・動画を含むか
+	override get containMovement(): boolean {
+		if (this.#csvFn === '') return false;
+
+		const c = this.spLay.children;
+		return this.#csvFn.split(',').some(
+			(fn, i)=> c[i] instanceof AnimatedSprite || GrpLayer.hFn2VElm[fn]
+		);
+	}
+
 	override clearLay(hArg: HArg): void {
 		super.clearLay(hArg);
 		for (const c of this.spLay.removeChildren()) c.destroy();

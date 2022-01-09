@@ -1,3 +1,6 @@
+- fix: 動画やアニメスプライトを含まないレイヤのみのページの[trans]は処理を削減するように
+
+
 ## [1.25.8](https://github.com/famibee/SKYNovel/compare/v1.25.7...v1.25.8) (2022-01-08)
 
 

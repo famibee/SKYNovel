@@ -38,6 +38,7 @@ export declare class GrpLayer extends Layer {
     setPos(hArg: HArg): void;
     static add_face(hArg: HArg): boolean;
     static clearFace2Name(): void;
+    get containMovement(): boolean;
     clearLay(hArg: HArg): void;
     readonly record: () => {
         name: string;

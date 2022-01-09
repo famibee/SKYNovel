@@ -117,6 +117,8 @@ export class Layer {
 */
 	}
 
+	// アニメ・動画があるか
+	get containMovement(): boolean {return false;}
 
 	clearLay(hArg: HArg): void {
 		this.spLay.alpha = 1;

@@ -69338,6 +69338,12 @@ class GrpLayer extends Layer_1.Layer {
         return false;
     }
     static clearFace2Name() { __classPrivateFieldSet(GrpLayer, _a, {}, "f", _GrpLayer_hFace); }
+    get containMovement() {
+        if (__classPrivateFieldGet(this, _GrpLayer_csvFn, "f") === '')
+            return false;
+        const c = this.spLay.children;
+        return __classPrivateFieldGet(this, _GrpLayer_csvFn, "f").split(',').some((fn, i) => c[i] instanceof pixi_js_1.AnimatedSprite || GrpLayer.hFn2VElm[fn]);
+    }
     clearLay(hArg) {
         super.clearLay(hArg);
         for (const c of this.spLay.removeChildren())
@@ -69553,6 +69559,7 @@ class Layer {
             return bmn;
         throw `${bm_name} はサポートされない blendmode です`;
     }
+    get containMovement() { return false; }
     clearLay(hArg) {
         this.spLay.alpha = 1;
         this.spLay.blendMode = pixi_js_1.BLEND_MODES.NORMAL;
@@ -70298,22 +70305,45 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     const ease = CmnTween_1.CmnTween.ease(hArg.ease);
     __classPrivateFieldSet(this, _LayerMng_aBackTransAfter, [], "f");
     const hTarget = {};
-    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(v => hTarget[v] = true);
-    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this).forEach(lay_nm => __classPrivateFieldGet(this, _LayerMng_aBackTransAfter, "f").push(__classPrivateFieldGet(this, _LayerMng_hPages, "f")[lay_nm][hTarget[lay_nm] ? 'back' : 'fore'].spLay));
+    const aFore = [];
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(lay_nm => {
+        hTarget[lay_nm] = true;
+        aFore.push(__classPrivateFieldGet(this, _LayerMng_hPages, "f")[lay_nm].fore);
+    });
+    const aBack = [];
+    __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this).forEach(lay_nm => {
+        const lay = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[lay_nm][hTarget[lay_nm] ? 'back' : 'fore'];
+        __classPrivateFieldGet(this, _LayerMng_aBackTransAfter, "f").push(lay.spLay);
+        aBack.push(lay);
+    });
     __classPrivateFieldGet(this, _LayerMng_rtTransBack, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
     this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_back, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransBack, "f") });
-    __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-    this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
-    const fncRender = () => {
+    let fncRenderBack = () => {
         __classPrivateFieldGet(this, _LayerMng_back, "f").visible = true;
-        __classPrivateFieldGet(this, _LayerMng_aBackTransAfter, "f").forEach(lay => {
-            this.appPixi.renderer.render(lay, { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransBack, "f"), clear: false });
+        __classPrivateFieldGet(this, _LayerMng_aBackTransAfter, "f").forEach(spLay => {
+            this.appPixi.renderer.render(spLay, { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransBack, "f"), clear: false });
         });
         __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
-        __classPrivateFieldGet(this, _LayerMng_spTransBack, "f").visible = true;
+    };
+    if (!aBack.some(lay => lay.containMovement)) {
+        fncRenderBack();
+        fncRenderBack = () => { };
+    }
+    __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+    this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
+    let fncRenderFore = () => {
         __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = true;
         this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
         __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = false;
+    };
+    if (!aFore.some(lay => lay.containMovement)) {
+        fncRenderFore();
+        fncRenderFore = () => { };
+    }
+    const fncRender = () => {
+        fncRenderBack();
+        __classPrivateFieldGet(this, _LayerMng_spTransBack, "f").visible = true;
+        fncRenderFore();
         __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").visible = true;
     };
     __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").alpha = 1;

@@ -9,6 +9,7 @@ import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boole
 import {CmnTween, ITwInf} from './CmnTween';
 import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser} from './CmnInterface';
 import {Pages} from './Pages';
+import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
 import {TxtLayer} from './TxtLayer';
 import {RubySpliter} from './RubySpliter';
@@ -560,25 +561,42 @@ void main(void) {
 		const ease = CmnTween.ease(hArg.ease);
 		this.#aBackTransAfter = [];
 		const hTarget: {[ley_nm: string]: boolean} = {};
-		this.#getLayers(hArg.layer).forEach(v=> hTarget[v] = true);
-		this.#getLayers().forEach(lay_nm=> this.#aBackTransAfter.push(
-			this.#hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'].spLay
-		));
+		const aFore: Layer[] = [];
+		this.#getLayers(hArg.layer).forEach(lay_nm=> {
+			hTarget[lay_nm] = true;
+			aFore.push(this.#hPages[lay_nm].fore);
+		});
+		const aBack: Layer[] = [];
+		this.#getLayers().forEach(lay_nm=> {
+			const lay = this.#hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'];
+			this.#aBackTransAfter.push(lay.spLay);
+			aBack.push(lay);
+		});
 		this.#rtTransBack.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.#back, {renderTexture: this.#rtTransBack});	// clear: true
-		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
-		this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});	// clear: true
-		const fncRender = ()=> {
+
+		let fncRenderBack = ()=> {
 			this.#back.visible = true;
-			this.#aBackTransAfter.forEach(lay=> {
-				this.appPixi.renderer.render(lay, {renderTexture: this.#rtTransBack, clear: false});
+			this.#aBackTransAfter.forEach(spLay=> {
+				this.appPixi.renderer.render(spLay, {renderTexture: this.#rtTransBack, clear: false});
 			});
 			this.#back.visible = false;
-			this.#spTransBack.visible = true;
+		};
+		if (! aBack.some(lay=> lay.containMovement)) {fncRenderBack(); fncRenderBack = ()=> {};}	// 動きがないなら最初に一度
 
+		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
+		this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});	// clear: true
+		let fncRenderFore = ()=> {
 			this.#fore.visible = true;
 			this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});
 			this.#fore.visible = false;
+		};
+		if (! aFore.some(lay=> lay.containMovement)) {fncRenderFore(); fncRenderFore = ()=> {};}	// 動きがないなら最初に一度
+		const fncRender = ()=> {
+			fncRenderBack();
+			this.#spTransBack.visible = true;
+
+			fncRenderFore();
 			this.#spTransFore.visible = true;
 		};
 		// visibleはfncRender()に任せる。でないとちらつく
