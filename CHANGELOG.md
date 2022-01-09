@@ -1,3 +1,10 @@
+## [1.25.10](https://github.com/famibee/SKYNovel/compare/v1.25.9...v1.25.10) (2022-01-09)
+
+
+### Bug Fixes
+
+* 前更新で[trans]がちらつくようになったのを修正 ([75b83d6](https://github.com/famibee/SKYNovel/commit/75b83d68a474c674e7070a1e82668f63997a6e68))
+
 - fix: 前更新で[trans]がちらつくようになったのを修正
 
 
