@@ -582,7 +582,11 @@ void main(void) {
 			});
 			this.#back.visible = false;
 		};
-		if (! aBack.some(lay=> lay.containMovement)) {fncRenderBack(); fncRenderBack = ()=> {};}	// 動きがないなら最初に一度
+		if (! aBack.some(lay=> lay.containMovement)) fncRenderBack = ()=> {
+			let oldFnc = fncRenderBack;
+			fncRenderBack = ()=> {};
+			oldFnc();	// 動きがないなら最初に一度
+		};
 
 		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});	// clear: true
@@ -591,7 +595,11 @@ void main(void) {
 			this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});
 			this.#fore.visible = false;
 		};
-		if (! aFore.some(lay=> lay.containMovement)) {fncRenderFore(); fncRenderFore = ()=> {};}	// 動きがないなら最初に一度
+		if (! aFore.some(lay=> lay.containMovement)) fncRenderFore = ()=> {
+			let oldFnc = fncRenderFore;
+			fncRenderFore = ()=> {};
+			oldFnc();	// 動きがないなら最初に一度
+		};
 		const fncRender = ()=> {
 			fncRenderBack();
 			this.#spTransBack.visible = true;

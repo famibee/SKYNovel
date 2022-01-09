@@ -1,3 +1,6 @@
+- fix: 前更新で[trans]がちらつくようになったのを修正
+
+
 ## [1.25.9](https://github.com/famibee/SKYNovel/compare/v1.25.8...v1.25.9) (2022-01-09)
 
 

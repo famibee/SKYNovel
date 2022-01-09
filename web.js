@@ -71673,10 +71673,12 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         });
         __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
     };
-    if (!aBack.some(lay => lay.containMovement)) {
-        fncRenderBack();
-        fncRenderBack = () => { };
-    }
+    if (!aBack.some(lay => lay.containMovement))
+        fncRenderBack = () => {
+            let oldFnc = fncRenderBack;
+            fncRenderBack = () => { };
+            oldFnc();
+        };
     __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
     this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
     let fncRenderFore = () => {
@@ -71684,10 +71686,12 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
         __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = false;
     };
-    if (!aFore.some(lay => lay.containMovement)) {
-        fncRenderFore();
-        fncRenderFore = () => { };
-    }
+    if (!aFore.some(lay => lay.containMovement))
+        fncRenderFore = () => {
+            let oldFnc = fncRenderFore;
+            fncRenderFore = () => { };
+            oldFnc();
+        };
     const fncRender = () => {
         fncRenderBack();
         __classPrivateFieldGet(this, _LayerMng_spTransBack, "f").visible = true;
