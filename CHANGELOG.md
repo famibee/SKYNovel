@@ -1,3 +1,10 @@
+## [1.25.9](https://github.com/famibee/SKYNovel/compare/v1.25.8...v1.25.9) (2022-01-09)
+
+
+### Bug Fixes
+
+* 動画やアニメスプライトを含まないレイヤのみのページの[trans]は処理を削減するように ([1e76a6f](https://github.com/famibee/SKYNovel/commit/1e76a6f900e3305abd292fcc4481323ee6978984))
+
 - fix: 動画やアニメスプライトを含まないレイヤのみのページの[trans]は処理を削減するように
 
 
