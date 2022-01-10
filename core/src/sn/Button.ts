@@ -43,8 +43,8 @@ export class Button extends Container {
 	#rctBtnTxt	= new Rectangle;
 
 	#idc		: DesignCast;
-	#sp_b_pic	: Sprite | null = null;
-	#sp_pic		: Sprite | null = null;
+	#sp_b_pic	: Sprite | undefined = undefined;
+	#sp_pic		: Sprite | undefined = undefined;
 	constructor(private readonly hArg: HArg, private readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 

@@ -11,7 +11,7 @@ import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib'
 import {HArg, IMain, SYS_DEC_RET} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
-import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle} from 'pixi.js';
+import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle, RenderTexture, Application} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
 import {IMakeDesignCast} from './LayerMng';
@@ -41,12 +41,14 @@ export class GrpLayer extends Layer {
 
 	static	#main	: IMain;
 	static	#cfg	: Config;
+	static	#appPixi: Application;
 	static	#sys	: SysBase;
 	static	#glbVol	= 1;
 	static	#movVol	= 1;
-	static	init(main: IMain, cfg: Config, sys: SysBase, sndMng: SoundMng): void {
+	static	init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng): void {
 		GrpLayer.#main = main;
 		GrpLayer.#cfg = cfg;
+		GrpLayer.#appPixi = appPixi;
 		GrpLayer.#sys = sys;
 		const fnc = ()=> {
 			const vol = GrpLayer.#glbVol * GrpLayer.#movVol;
@@ -141,7 +143,7 @@ export class GrpLayer extends Layer {
 	override	get	height() {return this.#height}
 
 //	static #ldrHFn: {[name: string]: 1} = {};
-	static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
+	static csv2Sprites(csv: string, parent: Container | undefined, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void = ()=> {}): boolean {
 		// Data URI
 		let needLoad = false;
 		if (csv.slice(0, 5) === 'data:') {
@@ -204,6 +206,7 @@ export class GrpLayer extends Layer {
 		const fncLoaded = (hRes: {[fn: string]: LoaderResource})=> {
 			for (const v of aComp) {
 				const sp = GrpLayer.#mkSprite(v.fn, hRes);
+				/**/sp.name = v.fn;
 				parent?.addChild(sp);
 				v.fnc(sp);
 			}
@@ -351,6 +354,46 @@ export class GrpLayer extends Layer {
 	}
 
 
+	override	renderStart() {
+		this.#rtTsy = RenderTexture.create({
+			width	: CmnLib.stageW,
+			height	: CmnLib.stageH,
+		});
+		this.#spTsy = new Sprite(this.#rtTsy);
+		this.#spTsy.visible = false;
+		this.spLay.addChildAt(this.#spTsy, 0);
+		this.#spTsy.position.set(-this.spLay.x, -this.spLay.y);
+
+		let fncRenderFore = ()=> {
+			const a = this.spLay.alpha;
+			this.spLay.alpha = 1;
+			this.spLay.children.forEach(s=> s.visible = true);
+			this.#spTsy.visible = false;
+			GrpLayer.#appPixi.renderer.render(this.spLay, {renderTexture: this.#rtTsy});	// clear: true
+			this.spLay.alpha = a;
+			this.spLay.children.forEach(s=> s.visible = false);
+		}
+		if (! this.containMovement) {
+			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
+			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc();};
+		}
+		this.#fncRender = ()=> {
+			fncRenderFore();
+			this.#spTsy.visible = true;
+		};
+		GrpLayer.#appPixi.ticker.add(this.#fncRender);
+	}
+	#rtTsy	: RenderTexture;
+	#spTsy	: Sprite;
+	#fncRender = ()=> {};
+	override	renderEnd() {
+		GrpLayer.#appPixi.ticker.remove(this.#fncRender);
+		this.spLay.removeChild(this.#spTsy);
+		this.spLay.children.forEach(s=> s.visible = true);
+		this.#spTsy.destroy(true);
+	}
+
+
 	static	loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement)=> void) {
 		const oUrl = this.#hEncImgOUrl[src];
 		if (oUrl) {img.src = oUrl; return}
@@ -406,7 +449,7 @@ export class GrpLayer extends Layer {
 
 		const fn = hArg.fn ?? name;
 		GrpLayer.#hFace[name] = {
-			fn: fn,
+			fn,
 			dx: argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,
 			dy: argChk_Num(hArg, 'dy', 0) * CmnLib.retinaRate,
 			blendmode: Layer.getBlendmodeNum(hArg.blendmode || '')

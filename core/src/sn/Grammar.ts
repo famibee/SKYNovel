@@ -28,7 +28,7 @@ export function	tagToken2Name(token: string): string {
 export function	splitAmpersand(token: string): {
 		name: string;
 		text: string;
-		cast: string | null;
+		cast: string | undefined;
 } {	// テスト用にpublic
 	const equa = token.replaceAll('==', '＝').replaceAll('!=', '≠').split('=');
 		// != を弾けないので中途半端ではある
@@ -38,7 +38,7 @@ export function	splitAmpersand(token: string): {
 	return {
 		name: equa[0].replaceAll('＝', '==').replaceAll('≠', '!='),
 		text: equa[1].replaceAll('＝', '==').replaceAll('≠', '!='),
-		cast: ((cnt_equa === 3) ?equa[2].trim() :null)
+		cast: ((cnt_equa === 3) ?equa[2].trim() :undefined)
 	};
 }
 

@@ -127,13 +127,12 @@ export class SoundMng {
 			return false;
 		}
 
-		const ease = CmnTween.ease(hArg.ease);
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume, vol);
 		oSb.twFade = new Tween({v: oSb.snd.volume})
 		.to({v: vol}, time)
 		.delay(delay)
-		.easing(ease)
+		.easing(CmnTween.ease(hArg.ease))
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onUpdate(o=> {if (oSb.playing()) oSb.snd.volume = o.v;})

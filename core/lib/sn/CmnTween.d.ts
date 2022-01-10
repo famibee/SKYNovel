@@ -1,6 +1,6 @@
 import { Tween } from '@tweenjs/tween.js';
 export interface ITwInf {
-    tw: Tween<any> | null;
+    tw: Tween<any> | undefined;
     resume: boolean;
     onEnd?: () => void;
 }

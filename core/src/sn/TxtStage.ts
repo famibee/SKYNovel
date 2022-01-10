@@ -38,8 +38,7 @@ interface IChRect {
 }
 interface ISpTw {
 	sp	: Container;
-	tw	: Tween<Container> | null;
-//	tw	: Tween | null;
+	tw	: Tween<Container> | undefined;
 };
 
 export class TxtStage extends Container {
@@ -564,7 +563,7 @@ export class TxtStage extends Container {
 		.catch(err=> DebugMng.myTrace(`goTxt() = ${err}`));
 	}
 
-	#ch_filter	: any[] | null;	// 文字にかけるフィルター
+	#ch_filter	: any[] | undefined = undefined;	// 文字にかけるフィルター
 	#aSpTw		: ISpTw[]	= [];
 
 
@@ -812,7 +811,7 @@ export class TxtStage extends Container {
 		if (len_chs === 0) {this.#fncEndChIn(); return;}
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
-		let le = null;
+		let le = undefined;
 		for (let i=len_chs -1; i>=0; --i) {
 			const v = chs[i];
 			if (v.className === 'sn_ch') break;	// 表示済みのみ
@@ -826,7 +825,7 @@ export class TxtStage extends Container {
 
 		le.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
-	#beforeHTMLElm	: HTMLElement | null	= null;
+	#beforeHTMLElm	: HTMLElement | undefined	= undefined;
 	readonly #REGDS = /animation\-duration: (?<ms>\d+)ms;/;
 	#fncEndChIn	= ()=> {};
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
@@ -853,7 +852,7 @@ export class TxtStage extends Container {
 				.easing(ease)
 				.delay((add.wait ?? 0) +(arg.delay ?? 0))
 				.onComplete(()=> {
-					st.tw = null;
+					st.tw = undefined;
 					//(略)	if (rct.width === 0 || rct.height === 0) return;
 					//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
 					//　これを有効にすると[snapshot]で文字が出ない
@@ -1119,7 +1118,7 @@ export class TxtStage extends Container {
 		this.#break_fixed_top	= hLay.break_fixed_top ?? 0;
 	}
 
-	#sss :Sprite | null = null;
+	#sss :Sprite | undefined = undefined;
 	snapshot(rnd: Renderer, re: ()=> void) {
 		this.#htm2tx(tx=> {
 			this.#sss = new Sprite(tx);	// Safariだけ文字影が映らない
@@ -1137,7 +1136,7 @@ export class TxtStage extends Container {
 		}, false);
 	}
 	snapshot_end() {
-		if (this.#sss) {this.#cntTxt.removeChild(this.#sss); this.#sss = null;}
+		if (this.#sss) {this.#cntTxt.removeChild(this.#sss); this.#sss = undefined;}
 	}
 
 	makeDesignCast(gdc: IMakeDesignCast) {

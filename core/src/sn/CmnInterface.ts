@@ -21,6 +21,7 @@ export type HArg = {
 	scale_x?: number;
 	scale_y?: number;
 	visible?: boolean;
+	blendmode?	: string;
 
 	left?	: number;
 	top?	: number;
@@ -40,6 +41,8 @@ export type HArg = {
 	time?	: number;
 	rule?	: string;
 	glsl?	: string;
+	render?	: boolean;
+
 	pos?	: string;
 	text?	: string;
 	wait?	: number;
@@ -58,6 +61,7 @@ export type HArg = {
 	leavesebuf?	: string;
 	onenter?	: string;
 	onleave?	: string;
+
 	t?	: string;
 	r?	: string;
 	exp?	: string;
@@ -78,7 +82,6 @@ export type HArg = {
 	call?	: boolean;
 	global?	: boolean;
 	name?	: string;
-	blendmode?	: string;
 	clear_local_event?	: string;
 
 	style?			: string;
@@ -89,7 +92,7 @@ export type HArg = {
 	b_height?	: string;
 	b_color?	: string;
 	b_alpha?	: number;
-	b_alpha_isfixed?	: string;
+	b_alpha_isfixed?	: boolean;
 	b_pic?		: string;
 	back_clear?	: string;
 

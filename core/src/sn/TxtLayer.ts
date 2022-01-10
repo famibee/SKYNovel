@@ -181,7 +181,7 @@ export class TxtLayer extends Layer {
 	#b_color			= 0x000000;
 	#b_alpha			= 0;
 	#b_alpha_isfixed	= false;
-	#b_do			: DisplayObject | null	= null;
+	#b_do			: DisplayObject | undefined	= undefined;
 	#b_pic			= '';	// 背景画像無し（＝単色塗り）
 
 	// 文字表示
@@ -205,7 +205,7 @@ export class TxtLayer extends Layer {
 		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
 	override destroy() {
-		if (this.#b_do) {this.spLay.removeChild(this.#b_do).destroy(); this.#b_do = null}
+		if (this.#b_do) {this.spLay.removeChild(this.#b_do).destroy(); this.#b_do = undefined;}
 
 		this.clearText();
 		this.#txs.destroy();
@@ -728,7 +728,7 @@ ${this.#fncFFSStyle(tx)}`;
 	#cumDelay	= 0;
 	#firstCh	= true;
 	#aSpan		: string[]		= [];
-	#aSpan_bk	: any[] | null	= null;
+	#aSpan_bk	: any[] | undefined	= undefined;
 	#aSpan_link	= '';
 
 	#hSpanBk = {
@@ -749,7 +749,7 @@ ${this.#fncFFSStyle(tx)}`;
 
 		this.#aSpan_bk.push(this.#aSpan, '</span>')
 		this.#aSpan = Array.prototype.concat.apply([], this.#aSpan_bk);
-		this.#aSpan_bk = null;
+		this.#aSpan_bk = undefined;
 
 		this.#set_ch_in({in_style: this.#hSpanBk.ch_in_style});
 		this.#set_ch_out({out_style: this.#hSpanBk.ch_out_style});
@@ -767,7 +767,7 @@ ${this.#fncFFSStyle(tx)}`;
 		this.#cumDelay = 0;
 		this.#firstCh = true;
 		this.#aSpan = [];
-		this.#aSpan_bk = null;
+		this.#aSpan_bk = undefined;
 		this.#page_text = '';
 		TxtLayer.#recText('', true);
 	}
@@ -803,8 +803,8 @@ ${this.#fncFFSStyle(tx)}`;
 		r_align	: this.#r_align,
 
 		// バック
-		b_do	: (this.#b_do === null)
-					? null
+		b_do	: (this.#b_do === undefined)
+					? undefined
 					: (this.#b_do instanceof Sprite ?'Sprite' :'Graphics'),
 		b_pic	: this.#b_pic,
 		b_color	: this.#b_color,

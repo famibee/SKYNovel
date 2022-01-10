@@ -67,7 +67,7 @@ export class LayerMng implements IGetFrm {
 		CmnLib.cvsResize(cvs);
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt), (me: TxtLayer)=> this.#hPages[me.layname].fore === me);
-		GrpLayer.init(main, cfg, sys, sndMng);
+		GrpLayer.init(main, cfg, appPixi, sys, sndMng);
 		Button.init(cfg);
 
 		this.#frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.#hTwInf);
@@ -229,12 +229,12 @@ export class LayerMng implements IGetFrm {
 
 	getFrmDisabled = (id: string)=> this.#frmMng.getFrmDisabled(id);
 
-	#grpCover : Graphics | null = null;
+	#grpCover : Graphics | undefined = undefined;
 	cover(visible: boolean, bg_color = 0x0) {
 		if (this.#grpCover) {
 			this.#stage.removeChild(this.#grpCover);
 			this.#grpCover.destroy();
-			this.#grpCover = null;
+			this.#grpCover = undefined;
 		}
 		if (visible) this.#stage.addChild(
 			(this.#grpCover = new Graphics)
@@ -547,8 +547,8 @@ void main(void) {
 	#spTransBack = new Sprite(this.#rtTransBack);
 
 	#rtTransFore = RenderTexture.create({
-		width: CmnLib.stageW,
-		height: CmnLib.stageH,
+		width	: CmnLib.stageW,
+		height	: CmnLib.stageH,
 	});
 	#spTransFore = new Sprite(this.#rtTransFore);
 
@@ -582,11 +582,10 @@ void main(void) {
 			});
 			this.#back.visible = false;
 		};
-		if (! aBack.some(lay=> lay.containMovement)) fncRenderBack = ()=> {
-			let oldFnc = fncRenderBack;
-			fncRenderBack = ()=> {};
-			oldFnc();	// 動きがないなら最初に一度
-		};
+		if (! aBack.some(lay=> lay.containMovement)) {
+			let oldFnc = fncRenderBack;	// 動きがないなら最初に一度
+			fncRenderBack = ()=> {fncRenderBack = ()=> {}; oldFnc();};
+		}
 
 		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});	// clear: true
@@ -595,11 +594,10 @@ void main(void) {
 			this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});
 			this.#fore.visible = false;
 		};
-		if (! aFore.some(lay=> lay.containMovement)) fncRenderFore = ()=> {
-			let oldFnc = fncRenderFore;
-			fncRenderFore = ()=> {};
-			oldFnc();	// 動きがないなら最初に一度
-		};
+		if (! aFore.some(lay=> lay.containMovement)) {
+			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
+			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc();};
+		}
 		const fncRender = ()=> {
 			fncRenderBack();
 			this.#spTransBack.visible = true;
@@ -637,9 +635,9 @@ void main(void) {
 			this.#spTransFore.visible = false;
 			this.#tiTrans.tw?.stop();
 			if (this.#tiTrans.resume) this.main.resume();
-			this.#tiTrans = {tw: null, resume: false};
+			this.#tiTrans = {tw: undefined, resume: false};
 		};
-		this.#tiTrans = {tw: null, resume: false};
+		this.#tiTrans = {tw: undefined, resume: false};
 		const time = argChk_Num(hArg, 'time', 0);
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
@@ -678,7 +676,7 @@ void main(void) {
 		}
 
 		if (! hArg.rule) throw 'ruleが指定されていません';
-		GrpLayer.csv2Sprites(hArg.rule, null, sp=> {
+		GrpLayer.csv2Sprites(hArg.rule, undefined, sp=> {
 			flt.uniforms.rule = sp.texture;
 			sp.destroy();
 			this.#tiTrans.tw?.start();
@@ -686,7 +684,7 @@ void main(void) {
 		});
 		return false;
 	}
-	#tiTrans : ITwInf = {tw: null, resume: false};
+	#tiTrans : ITwInf = {tw: undefined, resume: false};
 
 	#getLayers(layer = ''): string[] {
 		return (layer)? layer.split(',') : this.#aLayName;
@@ -751,7 +749,6 @@ void main(void) {
 		this.#spTransFore.visible = true;
 		this.#spTransFore.alpha = 1;
 
-		const ease = CmnTween.ease(hArg.ease);
 		const h = uint(argChk_Num(hArg, 'hmax', 10));
 		const v = uint(argChk_Num(hArg, 'vmax', 10));
 		const fncH = (h === 0)
@@ -765,7 +762,7 @@ void main(void) {
 		const tw = new Tween(this.#spTransFore)
 		.to({x: 0, y: 0}, time)
 		.delay(argChk_Num(hArg, 'delay', 0))
-		.easing(ease)
+		.easing(CmnTween.ease(hArg.ease))
 		.onUpdate(()=> {fncH(); fncV();})
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
@@ -778,10 +775,10 @@ void main(void) {
 			this.#spTransFore.y = 0;
 			this.#tiTrans.tw?.stop();
 			if (this.#tiTrans.resume) this.main.resume();
-			this.#tiTrans = {tw: null, resume: false};
+			this.#tiTrans = {tw: undefined, resume: false};
 		})
 		.start();
-		this.#tiTrans = {tw: tw, resume: false};
+		this.#tiTrans = {tw, resume: false};
 		this.appPixi.ticker.add(fncRender);
 
 		return false;
@@ -794,23 +791,30 @@ void main(void) {
 		if (! hArg.layer) throw 'layerは必須です';
 
 		const layer = this.#argChk_layer(hArg);
-		const foreLay: any = this.#hPages[layer].fore;
+		let foreLay: Layer = this.#hPages[layer].fore;
+
+		let finishBlendLayer = ()=> {};
+		const isSkip = this.#evtMng.isSkippingByKeyDown();
+		if (! isSkip && 'render' in hArg) {
+			foreLay.renderStart();
+			finishBlendLayer = ()=> foreLay.renderEnd();
+		}
 		const hTo = cnvTweenArg(hArg, foreLay);
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		const tw_nm = hArg.name ?? hArg.layer;
 		const tw = new Tween(foreLay)
 		.to(hTo, argChk_Num(hArg, 'time', NaN) * (
-			Boolean(this.val.getVal('tmp:sn.skip.enabled')
-			|| this.#evtMng.isSkippingByKeyDown()) ?0 :1))
+			Boolean(this.val.getVal('tmp:sn.skip.enabled') || isSkip) ?0 :1))
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(hArg.ease))
-		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.repeat(repeat === 0 ?Infinity :(repeat -1))// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onComplete(()=> {
 			// この辺は FrameMng.ts tsy_frame()と同様なので、変更時は相互に合わせること
 			const ti = this.#hTwInf[tw_nm];
 			if (! ti) return;
 
+			finishBlendLayer();
 			delete this.#hTwInf[tw_nm];
 			ti.tw?.stop();
 			if (ti.resume) this.main.resume();
@@ -827,11 +831,11 @@ void main(void) {
 
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		this.#hTwInf[tw_nm] = {tw: tw, resume: false, onEnd: ()=> {
+		this.#hTwInf[tw_nm] = {tw, resume: false, onEnd: ()=> {
 			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
 				const backCnt: any = this.#hPages[layer].back.spLay;
-				for (const nm in hMemberCnt) backCnt[nm] = foreLay[nm];
+				for (const nm in hMemberCnt) backCnt[nm] = (<any>foreLay)[nm];
 			}
 		}}
 //		hArg[':id'] = pg.fore.name.slice(0, -7);

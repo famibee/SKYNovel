@@ -124,9 +124,9 @@ export class SysWeb extends SysBase {
 	stop() {
 		if (! this.#main) return;
 		this.#main.destroy();
-		this.#main = null;
+		this.#main = undefined;
 	}
-	#main: Main | null;
+	#main: Main | undefined = undefined;
 
 
 	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {

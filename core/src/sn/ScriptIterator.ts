@@ -467,7 +467,7 @@ export class ScriptIterator {
 			for (let i=len -1; i>=0; --i) {
 				const cs = this.#aCallStk[i];
 				const hMp = cs.csArg[':hMp'];
-				const from_macro_nm = hMp ?hMp[':タグ名'] :null;
+				const from_macro_nm = hMp ?hMp[':タグ名'] :undefined;
 				const call_nm = cs.csArg[':タグ名'] ?? '';
 				const lc = this.#cnvIdx2lineCol(this.#hScript[cs.fn], cs.idx);
 				console.info(

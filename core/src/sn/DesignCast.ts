@@ -90,9 +90,9 @@ export class DesignCast {
 
 	constructor(readonly bg_col: string, readonly isLay = false) {}
 	destroy() {
-		this.div = null;
+		this.div = undefined;
 		this.mov?.destroy();
-		this.mov = null;
+		this.mov = undefined;
 	}
 
 	gethArg(): HArg {return this.hArg}
@@ -182,8 +182,8 @@ export class DesignCast {
 	}
 	protected	fncLay = ()=> {};
 
-	protected	mov		: Moveable | null		= null;
-	protected	div		: HTMLDivElement | null = null;
+	protected	mov		: Moveable | undefined		= undefined;
+	protected	div		: HTMLDivElement | undefined = undefined;
 	protected	lx = 0;	// これ以後の this変数スケールは SKYNovel スクリプト値
 	protected	ly = 0;
 	protected	rect	= Rectangle.EMPTY;	// cvsResizeBaseやhint座標など計算用

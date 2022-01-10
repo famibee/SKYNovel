@@ -54,7 +54,7 @@ export declare class TxtStage extends Container {
         cssText: string;
         left: number;
         idc_hArg: HArg;
-        ch_filter: any[] | null;
+        ch_filter: any[] | undefined;
         fi_easing: string;
         fo_easing: string;
         break_fixed: boolean;

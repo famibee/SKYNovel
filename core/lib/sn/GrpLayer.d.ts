@@ -3,7 +3,7 @@ import { IEvtMng } from './CmnLib';
 import { HArg, IMain } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
-import { Sprite, Container, Texture, BLEND_MODES } from 'pixi.js';
+import { Sprite, Container, Texture, BLEND_MODES, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { IMakeDesignCast } from './LayerMng';
 export interface IFncCompSpr {
@@ -17,7 +17,7 @@ interface IResAniSpr {
 }
 export declare class GrpLayer extends Layer {
     #private;
-    static init(main: IMain, cfg: Config, sys: SysBase, sndMng: SoundMng): void;
+    static init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng): void;
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
     constructor();
@@ -29,11 +29,13 @@ export declare class GrpLayer extends Layer {
     private laySub;
     get width(): number;
     get height(): number;
-    static csv2Sprites(csv: string, parent: Container | null, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
+    static csv2Sprites(csv: string, parent: Container | undefined, fncFirstComp: IFncCompSpr, fncAllComp?: (isStop: boolean) => void): boolean;
     static hFn2VElm: {
         [name: string]: HTMLVideoElement;
     };
     static wv(hArg: HArg): boolean;
+    renderStart(): void;
+    renderEnd(): void;
     static loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement) => void): void;
     setPos(hArg: HArg): void;
     static add_face(hArg: HArg): boolean;

@@ -65943,8 +65943,8 @@ class Button extends pixi_js_1.Container {
         this.getBtnBounds = () => __classPrivateFieldGet(this, _Button_rctBtnTxt, "f");
         _Button_rctBtnTxt.set(this, new pixi_js_1.Rectangle);
         _Button_idc.set(this, void 0);
-        _Button_sp_b_pic.set(this, null);
-        _Button_sp_pic.set(this, null);
+        _Button_sp_b_pic.set(this, undefined);
+        _Button_sp_pic.set(this, undefined);
         _Button_normal.set(this, () => { });
         _Button_hover.set(this, () => false);
         _Button_clicked.set(this, () => { });
@@ -66906,8 +66906,8 @@ class DesignCast {
             'height': 0,
         };
         this.fncLay = () => { };
-        this.mov = null;
-        this.div = null;
+        this.mov = undefined;
+        this.div = undefined;
         this.lx = 0;
         this.ly = 0;
         this.rect = pixi_js_1.Rectangle.EMPTY;
@@ -66969,9 +66969,9 @@ class DesignCast {
         s.height = `${CmnLib_1.CmnLib.stageH * CmnLib_1.CmnLib.cvsScale}px`;
     }
     destroy() {
-        this.div = null;
+        this.div = undefined;
         this.mov?.destroy();
-        this.mov = null;
+        this.mov = undefined;
     }
     gethArg() { return this.hArg; }
     sethArg(hArg) {
@@ -68518,12 +68518,12 @@ class FocusMng {
     }
     getFocus() {
         if (__classPrivateFieldGet(this, _FocusMng_idx, "f") < 0)
-            return null;
+            return undefined;
         __classPrivateFieldGet(this, _FocusMng_instances, "m", _FocusMng_allOff).call(this);
         if (__classPrivateFieldGet(this, _FocusMng_idx, "f") >= __classPrivateFieldGet(this, _FocusMng_aBtn, "f").length)
             __classPrivateFieldSet(this, _FocusMng_idx, 0, "f");
         const b = __classPrivateFieldGet(this, _FocusMng_aBtn, "f")[__classPrivateFieldGet(this, _FocusMng_idx, "f")];
-        return b.on() ? b.btn : null;
+        return b.on() ? b.btn : undefined;
     }
     blur() { __classPrivateFieldGet(this, _FocusMng_instances, "m", _FocusMng_allOff).call(this); __classPrivateFieldSet(this, _FocusMng_idx, -1, "f"); globalThis.focus(); }
 }
@@ -68947,7 +68947,7 @@ function splitAmpersand(token) {
     return {
         name: equa[0].replaceAll('＝', '==').replaceAll('≠', '!='),
         text: equa[1].replaceAll('＝', '==').replaceAll('≠', '!='),
-        cast: ((cnt_equa === 3) ? equa[2].trim() : null)
+        cast: ((cnt_equa === 3) ? equa[2].trim() : undefined)
     };
 }
 exports.splitAmpersand = splitAmpersand;
@@ -69089,7 +69089,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _a, _GrpLayer_elc, _GrpLayer_hFace, _GrpLayer_main, _GrpLayer_cfg, _GrpLayer_sys, _GrpLayer_glbVol, _GrpLayer_movVol, _GrpLayer_evtMng, _GrpLayer_idc, _GrpLayer_csvFn, _GrpLayer_sBkFn, _GrpLayer_sBkFace, _GrpLayer_width, _GrpLayer_height, _GrpLayer_dec2cache, _GrpLayer_sortAFrameName, _GrpLayer_dec2cache4Cripto, _GrpLayer_mkSprite, _GrpLayer_hAEncImg, _GrpLayer_hEncImgOUrl;
+var _a, _GrpLayer_elc, _GrpLayer_hFace, _GrpLayer_main, _GrpLayer_cfg, _GrpLayer_appPixi, _GrpLayer_sys, _GrpLayer_glbVol, _GrpLayer_movVol, _GrpLayer_evtMng, _GrpLayer_idc, _GrpLayer_csvFn, _GrpLayer_sBkFn, _GrpLayer_sBkFace, _GrpLayer_width, _GrpLayer_height, _GrpLayer_dec2cache, _GrpLayer_sortAFrameName, _GrpLayer_dec2cache4Cripto, _GrpLayer_mkSprite, _GrpLayer_rtTsy, _GrpLayer_spTsy, _GrpLayer_fncRender, _GrpLayer_hAEncImg, _GrpLayer_hEncImgOUrl;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.GrpLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -69114,6 +69114,9 @@ class GrpLayer extends Layer_1.Layer {
         });
         _GrpLayer_width.set(this, 0);
         _GrpLayer_height.set(this, 0);
+        _GrpLayer_rtTsy.set(this, void 0);
+        _GrpLayer_spTsy.set(this, void 0);
+        _GrpLayer_fncRender.set(this, () => { });
         this.record = () => Object.assign(super.record(), {
             sBkFn: __classPrivateFieldGet(this, _GrpLayer_sBkFn, "f"),
             sBkFace: __classPrivateFieldGet(this, _GrpLayer_sBkFace, "f"),
@@ -69125,9 +69128,10 @@ class GrpLayer extends Layer_1.Layer {
             this.cvsResize = () => { super.cvsResize(); __classPrivateFieldGet(this, _GrpLayer_idc, "f").cvsResize(); };
         }
     }
-    static init(main, cfg, sys, sndMng) {
+    static init(main, cfg, appPixi, sys, sndMng) {
         __classPrivateFieldSet(GrpLayer, _a, main, "f", _GrpLayer_main);
         __classPrivateFieldSet(GrpLayer, _a, cfg, "f", _GrpLayer_cfg);
+        __classPrivateFieldSet(GrpLayer, _a, appPixi, "f", _GrpLayer_appPixi);
         __classPrivateFieldSet(GrpLayer, _a, sys, "f", _GrpLayer_sys);
         const fnc = () => {
             const vol = __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_glbVol) * __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_movVol);
@@ -69240,6 +69244,7 @@ class GrpLayer extends Layer_1.Layer {
         const fncLoaded = (hRes) => {
             for (const v of aComp) {
                 const sp = __classPrivateFieldGet(GrpLayer, _a, "m", _GrpLayer_mkSprite).call(GrpLayer, v.fn, hRes);
+                sp.name = v.fn;
                 parent?.addChild(sp);
                 v.fnc(sp);
             }
@@ -69275,6 +69280,40 @@ class GrpLayer extends Layer_1.Layer {
         };
         hve.addEventListener('ended', fnc, { once: true, passive: true });
         return __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_evtMng).waitEvent(() => { hve.pause(); fnc(); }, (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
+    }
+    renderStart() {
+        __classPrivateFieldSet(this, _GrpLayer_rtTsy, pixi_js_1.RenderTexture.create({
+            width: CmnLib_1.CmnLib.stageW,
+            height: CmnLib_1.CmnLib.stageH,
+        }), "f");
+        __classPrivateFieldSet(this, _GrpLayer_spTsy, new pixi_js_1.Sprite(__classPrivateFieldGet(this, _GrpLayer_rtTsy, "f")), "f");
+        __classPrivateFieldGet(this, _GrpLayer_spTsy, "f").visible = false;
+        this.spLay.addChildAt(__classPrivateFieldGet(this, _GrpLayer_spTsy, "f"), 0);
+        __classPrivateFieldGet(this, _GrpLayer_spTsy, "f").position.set(-this.spLay.x, -this.spLay.y);
+        let fncRenderFore = () => {
+            const a = this.spLay.alpha;
+            this.spLay.alpha = 1;
+            this.spLay.children.forEach(s => s.visible = true);
+            __classPrivateFieldGet(this, _GrpLayer_spTsy, "f").visible = false;
+            __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_appPixi).renderer.render(this.spLay, { renderTexture: __classPrivateFieldGet(this, _GrpLayer_rtTsy, "f") });
+            this.spLay.alpha = a;
+            this.spLay.children.forEach(s => s.visible = false);
+        };
+        if (!this.containMovement) {
+            let oldFnc = fncRenderFore;
+            fncRenderFore = () => { fncRenderFore = () => { }; oldFnc(); };
+        }
+        __classPrivateFieldSet(this, _GrpLayer_fncRender, () => {
+            fncRenderFore();
+            __classPrivateFieldGet(this, _GrpLayer_spTsy, "f").visible = true;
+        }, "f");
+        __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_appPixi).ticker.add(__classPrivateFieldGet(this, _GrpLayer_fncRender, "f"));
+    }
+    renderEnd() {
+        __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_appPixi).ticker.remove(__classPrivateFieldGet(this, _GrpLayer_fncRender, "f"));
+        this.spLay.removeChild(__classPrivateFieldGet(this, _GrpLayer_spTsy, "f"));
+        this.spLay.children.forEach(s => s.visible = true);
+        __classPrivateFieldGet(this, _GrpLayer_spTsy, "f").destroy(true);
     }
     static loadPic2Img(src, img, onload) {
         const oUrl = __classPrivateFieldGet(this, _a, "f", _GrpLayer_hEncImgOUrl)[src];
@@ -69330,7 +69369,7 @@ class GrpLayer extends Layer_1.Layer {
             throw '一つのname（' + name + '）に対して同じ画像を複数割り当てられません';
         const fn = hArg.fn ?? name;
         __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_hFace)[name] = {
-            fn: fn,
+            fn,
             dx: (0, CmnLib_1.argChk_Num)(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,
             dy: (0, CmnLib_1.argChk_Num)(hArg, 'dy', 0) * CmnLib_1.CmnLib.retinaRate,
             blendmode: Layer_1.Layer.getBlendmodeNum(hArg.blendmode || '')
@@ -69371,7 +69410,7 @@ class GrpLayer extends Layer_1.Layer {
     showDesignCast() { __classPrivateFieldGet(this, _GrpLayer_idc, "f").visible = true; }
 }
 exports.GrpLayer = GrpLayer;
-_a = GrpLayer, _GrpLayer_idc = new WeakMap(), _GrpLayer_csvFn = new WeakMap(), _GrpLayer_sBkFn = new WeakMap(), _GrpLayer_sBkFace = new WeakMap(), _GrpLayer_width = new WeakMap(), _GrpLayer_height = new WeakMap(), _GrpLayer_sortAFrameName = function _GrpLayer_sortAFrameName(aFn) {
+_a = GrpLayer, _GrpLayer_idc = new WeakMap(), _GrpLayer_csvFn = new WeakMap(), _GrpLayer_sBkFn = new WeakMap(), _GrpLayer_sBkFace = new WeakMap(), _GrpLayer_width = new WeakMap(), _GrpLayer_height = new WeakMap(), _GrpLayer_rtTsy = new WeakMap(), _GrpLayer_spTsy = new WeakMap(), _GrpLayer_fncRender = new WeakMap(), _GrpLayer_sortAFrameName = function _GrpLayer_sortAFrameName(aFn) {
     const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
     if (!a_base_name)
         return;
@@ -69453,6 +69492,7 @@ _GrpLayer_elc = { value: new EventListenerCtn_1.EventListenerCtn };
 _GrpLayer_hFace = { value: {} };
 _GrpLayer_main = { value: void 0 };
 _GrpLayer_cfg = { value: void 0 };
+_GrpLayer_appPixi = { value: void 0 };
 _GrpLayer_sys = { value: void 0 };
 _GrpLayer_glbVol = { value: 1 };
 _GrpLayer_movVol = { value: 1 };
@@ -69560,6 +69600,8 @@ class Layer {
         throw `${bm_name} はサポートされない blendmode です`;
     }
     get containMovement() { return false; }
+    renderStart() { }
+    renderEnd() { }
     clearLay(hArg) {
         this.spLay.alpha = 1;
         this.spLay.blendMode = pixi_js_1.BLEND_MODES.NORMAL;
@@ -69697,10 +69739,10 @@ class Layer {
     static setXYByPos(base, pos, ret) {
         if (pos === 'stay')
             return;
-        if (base === null)
-            throw 'setXYByPos base === null';
-        if (ret === null)
-            throw 'setXYByPos result === null';
+        if (base === undefined)
+            throw 'setXYByPos base === undefined';
+        if (ret === undefined)
+            throw 'setXYByPos result === undefined';
         const rct_base = base.getBounds();
         const r_absclX = (ret.scale.x < 0) ? -ret.scale.x : ret.scale.x;
         const b_width = (r_absclX === 1) ? rct_base.width : rct_base.width * r_absclX;
@@ -69818,7 +69860,7 @@ class LayerMng {
         _LayerMng_modeLn.set(this, '');
         _LayerMng_modeLnSub.set(this, '');
         this.getFrmDisabled = (id) => __classPrivateFieldGet(this, _LayerMng_frmMng, "f").getFrmDisabled(id);
-        _LayerMng_grpCover.set(this, null);
+        _LayerMng_grpCover.set(this, undefined);
         _LayerMng_evtMng.set(this, void 0);
         _LayerMng_cmdTxt.set(this, (cmd, tl = this.currentTxtlayForeNeedErr, _record = true) => tl.tagCh('｜　《' + cmd + '》'));
         this.goTxt = () => { };
@@ -69876,7 +69918,7 @@ void main(void) {
         }));
         _LayerMng_spTransFore.set(this, new pixi_js_1.Sprite(__classPrivateFieldGet(this, _LayerMng_rtTransFore, "f")));
         _LayerMng_aBackTransAfter.set(this, []);
-        _LayerMng_tiTrans.set(this, { tw: null, resume: false });
+        _LayerMng_tiTrans.set(this, { tw: undefined, resume: false });
         _LayerMng_hTwInf.set(this, {});
         _LayerMng_getTxtLayer.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_chkTxtLay, "f").call(this); throw 0; });
         _LayerMng_current.set(this, (_hArg) => { __classPrivateFieldGet(this, _LayerMng_chkTxtLay, "f").call(this); throw 0; });
@@ -69909,7 +69951,7 @@ void main(void) {
         }
         CmnLib_1.CmnLib.cvsResize(cvs);
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[me.layname].fore === me);
-        GrpLayer_1.GrpLayer.init(main, cfg, sys, sndMng);
+        GrpLayer_1.GrpLayer.init(main, cfg, appPixi, sys, sndMng);
         Button_1.Button.init(cfg);
         __classPrivateFieldSet(this, _LayerMng_frmMng, new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")), "f");
         sys.hFactoryCls.grp = () => new GrpLayer_1.GrpLayer;
@@ -69995,7 +70037,7 @@ void main(void) {
         if (__classPrivateFieldGet(this, _LayerMng_grpCover, "f")) {
             __classPrivateFieldGet(this, _LayerMng_stage, "f").removeChild(__classPrivateFieldGet(this, _LayerMng_grpCover, "f"));
             __classPrivateFieldGet(this, _LayerMng_grpCover, "f").destroy();
-            __classPrivateFieldSet(this, _LayerMng_grpCover, null, "f");
+            __classPrivateFieldSet(this, _LayerMng_grpCover, undefined, "f");
         }
         if (visible)
             __classPrivateFieldGet(this, _LayerMng_stage, "f").addChild((__classPrivateFieldSet(this, _LayerMng_grpCover, new pixi_js_1.Graphics, "f"))
@@ -70325,12 +70367,10 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         });
         __classPrivateFieldGet(this, _LayerMng_back, "f").visible = false;
     };
-    if (!aBack.some(lay => lay.containMovement))
-        fncRenderBack = () => {
-            let oldFnc = fncRenderBack;
-            fncRenderBack = () => { };
-            oldFnc();
-        };
+    if (!aBack.some(lay => lay.containMovement)) {
+        let oldFnc = fncRenderBack;
+        fncRenderBack = () => { fncRenderBack = () => { }; oldFnc(); };
+    }
     __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f").resize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
     this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
     let fncRenderFore = () => {
@@ -70338,12 +70378,10 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         this.appPixi.renderer.render(__classPrivateFieldGet(this, _LayerMng_fore, "f"), { renderTexture: __classPrivateFieldGet(this, _LayerMng_rtTransFore, "f") });
         __classPrivateFieldGet(this, _LayerMng_fore, "f").visible = false;
     };
-    if (!aFore.some(lay => lay.containMovement))
-        fncRenderFore = () => {
-            let oldFnc = fncRenderFore;
-            fncRenderFore = () => { };
-            oldFnc();
-        };
+    if (!aFore.some(lay => lay.containMovement)) {
+        let oldFnc = fncRenderFore;
+        fncRenderFore = () => { fncRenderFore = () => { }; oldFnc(); };
+    }
     const fncRender = () => {
         fncRenderBack();
         __classPrivateFieldGet(this, _LayerMng_spTransBack, "f").visible = true;
@@ -70377,9 +70415,9 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw?.stop();
         if (__classPrivateFieldGet(this, _LayerMng_tiTrans, "f").resume)
             this.main.resume();
-        __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: null, resume: false }, "f");
+        __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: undefined, resume: false }, "f");
     };
-    __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: null, resume: false }, "f");
+    __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: undefined, resume: false }, "f");
     const time = (0, CmnLib_1.argChk_Num)(hArg, 'time', 0);
     if (time === 0 || __classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkippingByKeyDown()) {
         comp();
@@ -70415,7 +70453,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     }
     if (!hArg.rule)
         throw 'ruleが指定されていません';
-    GrpLayer_1.GrpLayer.csv2Sprites(hArg.rule, null, sp => {
+    GrpLayer_1.GrpLayer.csv2Sprites(hArg.rule, undefined, sp => {
         flt.uniforms.rule = sp.texture;
         sp.destroy();
         __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw?.start();
@@ -70472,7 +70510,6 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     };
     __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").visible = true;
     __classPrivateFieldGet(this, _LayerMng_spTransFore, "f").alpha = 1;
-    const ease = CmnTween_1.CmnTween.ease(hArg.ease);
     const h = (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'hmax', 10));
     const v = (0, CmnLib_1.uint)((0, CmnLib_1.argChk_Num)(hArg, 'vmax', 10));
     const fncH = (h === 0)
@@ -70486,7 +70523,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     const tw = new tween_js_1.Tween(__classPrivateFieldGet(this, _LayerMng_spTransFore, "f"))
         .to({ x: 0, y: 0 }, time)
         .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
-        .easing(ease)
+        .easing(CmnTween_1.CmnTween.ease(hArg.ease))
         .onUpdate(() => { fncH(); fncV(); })
         .repeat(repeat === 0 ? Infinity : (repeat - 1))
         .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
@@ -70499,23 +70536,28 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         __classPrivateFieldGet(this, _LayerMng_tiTrans, "f").tw?.stop();
         if (__classPrivateFieldGet(this, _LayerMng_tiTrans, "f").resume)
             this.main.resume();
-        __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: null, resume: false }, "f");
+        __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: undefined, resume: false }, "f");
     })
         .start();
-    __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw: tw, resume: false }, "f");
+    __classPrivateFieldSet(this, _LayerMng_tiTrans, { tw, resume: false }, "f");
     this.appPixi.ticker.add(fncRender);
     return false;
 }, _LayerMng_tsy = function _LayerMng_tsy(hArg) {
     if (!hArg.layer)
         throw 'layerは必須です';
     const layer = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, hArg);
-    const foreLay = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].fore;
+    let foreLay = __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer].fore;
+    let finishBlendLayer = () => { };
+    const isSkip = __classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkippingByKeyDown();
+    if (!isSkip && 'render' in hArg) {
+        foreLay.renderStart();
+        finishBlendLayer = () => foreLay.renderEnd();
+    }
     const hTo = (0, CmnLib_1.cnvTweenArg)(hArg, foreLay);
     const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
     const tw_nm = hArg.name ?? hArg.layer;
     const tw = new tween_js_1.Tween(foreLay)
-        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) * (Boolean(this.val.getVal('tmp:sn.skip.enabled')
-        || __classPrivateFieldGet(this, _LayerMng_evtMng, "f").isSkippingByKeyDown()) ? 0 : 1))
+        .to(hTo, (0, CmnLib_1.argChk_Num)(hArg, 'time', NaN) * (Boolean(this.val.getVal('tmp:sn.skip.enabled') || isSkip) ? 0 : 1))
         .delay((0, CmnLib_1.argChk_Num)(hArg, 'delay', 0))
         .easing(CmnTween_1.CmnTween.ease(hArg.ease))
         .repeat(repeat === 0 ? Infinity : (repeat - 1))
@@ -70524,6 +70566,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         const ti = __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm];
         if (!ti)
             return;
+        finishBlendLayer();
         delete __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm];
         ti.tw?.stop();
         if (ti.resume)
@@ -70541,7 +70584,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         tw.start();
     const arrive = (0, CmnLib_1.argChk_Boolean)(hArg, 'arrive', false);
     const backlay = (0, CmnLib_1.argChk_Boolean)(hArg, 'backlay', false);
-    __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm] = { tw: tw, resume: false, onEnd: () => {
+    __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm] = { tw, resume: false, onEnd: () => {
             if (arrive)
                 Object.assign(foreLay, hTo);
             if (backlay) {
@@ -72050,7 +72093,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         for (let i = len - 1; i >= 0; --i) {
             const cs = __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f")[i];
             const hMp = cs.csArg[':hMp'];
-            const from_macro_nm = hMp ? hMp[':タグ名'] : null;
+            const from_macro_nm = hMp ? hMp[':タグ名'] : undefined;
             const call_nm = cs.csArg[':タグ名'] ?? '';
             const lc = __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_cnvIdx2lineCol).call(this, __classPrivateFieldGet(this, _ScriptIterator_hScript, "f")[cs.fn], cs.idx);
             console.info(`${len - i}つ前のコール元 fn:${cs.fn} line:${lc.ln} col:${lc.col_s + 1}` + (from_macro_nm ? '（[' + from_macro_nm + ']マクロ内）' : ' ') +
@@ -72784,12 +72827,11 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
             __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg);
         return false;
     }
-    const ease = CmnTween_1.CmnTween.ease(hArg.ease);
     const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
     oSb.twFade = new tween_js_1.Tween({ v: oSb.snd.volume })
         .to({ v: vol }, time)
         .delay(delay)
-        .easing(ease)
+        .easing(CmnTween_1.CmnTween.ease(hArg.ease))
         .repeat(repeat === 0 ? Infinity : (repeat - 1))
         .yoyo((0, CmnLib_1.argChk_Boolean)(hArg, 'yoyo', false))
         .onUpdate(o => { if (oSb.playing())
@@ -73442,7 +73484,7 @@ class SysBase {
         this.reso4frame = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
         this.extPort = 3776;
-        _SysBase_sk.set(this, null);
+        _SysBase_sk.set(this, undefined);
         _SysBase_hHook.set(this, {
             auth: o => {
                 if (o.t !== this.cfg.oCfg.debuger_token) {
@@ -73648,7 +73690,7 @@ class SysBase {
     }
     end() {
         __classPrivateFieldGet(this, _SysBase_sk, "f")?.disconnect();
-        __classPrivateFieldSet(this, _SysBase_sk, null, "f");
+        __classPrivateFieldSet(this, _SysBase_sk, undefined, "f");
     }
     toast(nm) {
         const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
@@ -73815,7 +73857,7 @@ class TxtLayer extends Layer_1.Layer {
         _TxtLayer_b_color.set(this, 0x000000);
         _TxtLayer_b_alpha.set(this, 0);
         _TxtLayer_b_alpha_isfixed.set(this, false);
-        _TxtLayer_b_do.set(this, null);
+        _TxtLayer_b_do.set(this, undefined);
         _TxtLayer_b_pic.set(this, '');
         _TxtLayer_txs.set(this, new TxtStage_1.TxtStage(this.spLay, () => this.canFocus()));
         _TxtLayer_rbSpl.set(this, new RubySpliter_1.RubySpliter);
@@ -74071,7 +74113,7 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
         _TxtLayer_cumDelay.set(this, 0);
         _TxtLayer_firstCh.set(this, true);
         _TxtLayer_aSpan.set(this, []);
-        _TxtLayer_aSpan_bk.set(this, null);
+        _TxtLayer_aSpan_bk.set(this, undefined);
         _TxtLayer_aSpan_link.set(this, '');
         _TxtLayer_hSpanBk.set(this, {
             ch_in_style: '',
@@ -74095,8 +74137,8 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
         this.record = () => Object.assign(super.record(), {
             enabled: this.enabled,
             r_align: __classPrivateFieldGet(this, _TxtLayer_r_align, "f"),
-            b_do: (__classPrivateFieldGet(this, _TxtLayer_b_do, "f") === null)
-                ? null
+            b_do: (__classPrivateFieldGet(this, _TxtLayer_b_do, "f") === undefined)
+                ? undefined
                 : (__classPrivateFieldGet(this, _TxtLayer_b_do, "f") instanceof pixi_js_1.Sprite ? 'Sprite' : 'Graphics'),
             b_pic: __classPrivateFieldGet(this, _TxtLayer_b_pic, "f"),
             b_color: __classPrivateFieldGet(this, _TxtLayer_b_color, "f"),
@@ -74184,7 +74226,7 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
     destroy() {
         if (__classPrivateFieldGet(this, _TxtLayer_b_do, "f")) {
             this.spLay.removeChild(__classPrivateFieldGet(this, _TxtLayer_b_do, "f")).destroy();
-            __classPrivateFieldSet(this, _TxtLayer_b_do, null, "f");
+            __classPrivateFieldSet(this, _TxtLayer_b_do, undefined, "f");
         }
         this.clearText();
         __classPrivateFieldGet(this, _TxtLayer_txs, "f").destroy();
@@ -74281,7 +74323,7 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
         __classPrivateFieldSet(this, _TxtLayer_cumDelay, 0, "f");
         __classPrivateFieldSet(this, _TxtLayer_firstCh, true, "f");
         __classPrivateFieldSet(this, _TxtLayer_aSpan, [], "f");
-        __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, null, "f");
+        __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, undefined, "f");
         __classPrivateFieldSet(this, _TxtLayer_page_text, '', "f");
         __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_recText).call(TxtLayer, '', true);
     }
@@ -74572,7 +74614,7 @@ _a = TxtLayer, _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMa
         return;
     __classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f").push(__classPrivateFieldGet(this, _TxtLayer_aSpan, "f"), '</span>');
     __classPrivateFieldSet(this, _TxtLayer_aSpan, Array.prototype.concat.apply([], __classPrivateFieldGet(this, _TxtLayer_aSpan_bk, "f")), "f");
-    __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, null, "f");
+    __classPrivateFieldSet(this, _TxtLayer_aSpan_bk, undefined, "f");
     __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_in).call(this, { in_style: __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").ch_in_style });
     __classPrivateFieldGet(this, _TxtLayer_instances, "m", _TxtLayer_set_ch_out).call(this, { out_style: __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").ch_out_style });
     __classPrivateFieldSet(this, _TxtLayer_r_align, __classPrivateFieldGet(this, _TxtLayer_hSpanBk, "f").r_align, "f");
@@ -74648,18 +74690,18 @@ class TxtStage extends pixi_js_1.Container {
         _TxtStage_isTategaki.set(this, false);
         _TxtStage_padTx4x.set(this, 0);
         _TxtStage_padTx4y.set(this, 0);
-        _TxtStage_ch_filter.set(this, void 0);
+        _TxtStage_ch_filter.set(this, undefined);
         _TxtStage_aSpTw.set(this, []);
         _TxtStage_aRect.set(this, []);
         _TxtStage_lenHtmTxt.set(this, 0);
-        _TxtStage_beforeHTMLElm.set(this, null);
+        _TxtStage_beforeHTMLElm.set(this, undefined);
         _TxtStage_REGDS.set(this, /animation\-duration: (?<ms>\d+)ms;/);
         _TxtStage_fncEndChIn.set(this, () => { });
         _TxtStage_isChInIng.set(this, false);
         _TxtStage_lh_half.set(this, 0);
         _TxtStage_fi_easing.set(this, 'Quadratic.Out');
         _TxtStage_fo_easing.set(this, 'Quadratic.Out');
-        _TxtStage_sss.set(this, null);
+        _TxtStage_sss.set(this, undefined);
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").classList.add('sn_tx');
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.position = 'absolute';
         __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cvs).parentElement.appendChild(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"));
@@ -74948,7 +74990,7 @@ class TxtStage extends pixi_js_1.Container {
             __classPrivateFieldGet(this, _TxtStage_fncEndChIn, "f").call(this);
             return;
         }
-        let le = null;
+        let le = undefined;
         for (let i = len_chs - 1; i >= 0; --i) {
             const v = chs[i];
             if (v.className === 'sn_ch')
@@ -75120,7 +75162,7 @@ class TxtStage extends pixi_js_1.Container {
     snapshot_end() {
         if (__classPrivateFieldGet(this, _TxtStage_sss, "f")) {
             __classPrivateFieldGet(this, _TxtStage_cntTxt, "f").removeChild(__classPrivateFieldGet(this, _TxtStage_sss, "f"));
-            __classPrivateFieldSet(this, _TxtStage_sss, null, "f");
+            __classPrivateFieldSet(this, _TxtStage_sss, undefined, "f");
         }
     }
     makeDesignCast(gdc) {
@@ -75427,7 +75469,7 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
             .easing(ease)
             .delay((add.wait ?? 0) + (arg.delay ?? 0))
             .onComplete(() => {
-            st.tw = null;
+            st.tw = undefined;
         })
             .start(),
     };

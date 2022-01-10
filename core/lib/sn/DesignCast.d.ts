@@ -48,8 +48,8 @@ export declare class DesignCast {
     static leaveMode(): void;
     cvsResize(): void;
     protected fncLay: () => void;
-    protected mov: Moveable | null;
-    protected div: HTMLDivElement | null;
+    protected mov: Moveable | undefined;
+    protected div: HTMLDivElement | undefined;
     protected lx: number;
     protected ly: number;
     protected rect: Rectangle;

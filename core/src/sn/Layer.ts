@@ -120,6 +120,9 @@ export class Layer {
 	// アニメ・動画があるか
 	get containMovement(): boolean {return false;}
 
+	renderStart() {}
+	renderEnd() {}
+
 	clearLay(hArg: HArg): void {
 		this.spLay.alpha = 1;
 		this.spLay.blendMode = BLEND_MODES.NORMAL;
@@ -265,8 +268,8 @@ export class Layer {
 
 	static	setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void {
 		if (pos === 'stay') return;
-		if (base === null) throw 'setXYByPos base === null';
-		if (ret === null) throw 'setXYByPos result === null';
+		if (base === undefined) throw 'setXYByPos base === undefined';
+		if (ret === undefined) throw 'setXYByPos result === undefined';
 
 		const rct_base = base.getBounds();
 		const r_absclX = (ret.scale.x < 0)? -ret.scale.x : ret.scale.x;

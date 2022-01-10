@@ -5,7 +5,7 @@ export declare function tagToken2Name(token: string): string;
 export declare function splitAmpersand(token: string): {
     name: string;
     text: string;
-    cast: string | null;
+    cast: string | undefined;
 };
 export declare class Grammar {
     #private;

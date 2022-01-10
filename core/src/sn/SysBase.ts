@@ -173,9 +173,9 @@ export class SysBase implements ISysBase {
 
 	end() {
 		this.#sk?.disconnect();
-		this.#sk = null;
+		this.#sk = undefined;
 	}
-	#sk: Socket | null = null;
+	#sk: Socket | undefined = undefined;
 	readonly	#hHook	: {[type: string]: (o: any)=> void}	= {
 		auth		: o=> {
 			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return;}
