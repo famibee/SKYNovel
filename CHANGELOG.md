@@ -1,3 +1,10 @@
+# [1.26.0](https://github.com/famibee/SKYNovel/compare/v1.25.10...v1.26.0) (2022-01-10)
+
+
+### Features
+
+* [tsy]にrender属性追加（半透明時に差分境界が見える件対応） ([0608345](https://github.com/famibee/SKYNovel/commit/060834572a621feafbf4df6c18b071041ca80ecd))
+
 - feat: [tsy]にrender属性追加。trueを指定すると[trans]のように絵を合成してから不透明度を適用するように（半透明時に差分境界が見えなくなる）
 - fix: nullではなくなるべくundefinedを使用するように（TypeScriptチームに倣い）
 
