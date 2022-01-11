@@ -5,7 +5,7 @@
 
 * [update_check]DLでアーキテクチャ（x32、x64など）別の対応が可能に ([b8e569f](https://github.com/famibee/SKYNovel/commit/b8e569febb418f69c58879cab036d370fa66a3f1))
 
-- feat: [update_check]のアプリダウンロードでアーキテクチャ（x32、x64など）別の対応が可能に
+- feat: [update_check]のアプリダウンロードでアーキテクチャ（ia32、x64など）別の対応が可能に
 	- 拡張機能により生成された _index.json ファイルを使用
 	- 旧版の .yml ファイルもしばらく対応する
 - feat: アプリ実行時に OSや CPU アーキテクチャに対応するファイルが見つからない場合、同じOSのファイルをすべてダウンロードさせる

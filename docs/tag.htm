@@ -2196,14 +2196,95 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	アプリの最新バージョンをネットで確認する。（アプリ版でのみ動作）<br/>
 	処理は非同期に行われ、更新があった時のみ更新確認ウインドウが表示される。<br/>
 	ダウンロードフォルダにアプリパッケージの dmg（インストーラー exe）をダウンロードする。<br/>
-	開発中はデバッグスイッチ debugLog を有効にすると処理状況やエラーメッセージなども見られて便利です<br/>
+	<br/>
+	開発中はデバッグスイッチ devtool・debugLog を有効にすると処理状況やエラーメッセージなども見られて便利です<br/>
+	<amp-img src="pic/updchk_setting2.png" width="664" height="584" layout="responsive"></amp-img>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>url</td><td>y</td><td></td><td>String</td><td>latest(-mac).ymlや、dmg(exe)を置いたWebサーバーのフォルダURLを指定する。終端は「/」をつけること。</td></tr>
 </table>
 
 	Webサーバーの準備方法を説明します。<br/>
-	基本的に二つのファイルをアップロードするだけです。<br/>
+	現在二つの形式をサポートしていますが、前者の新しい方に移行して下さい。<br/>
+
+	<h3>【新】_index.json 方式</h3>
+	CPU アーキテクチャ違いにも対応し、latest.yml などを手変更する必要がなくなりました。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_build.png" width="500" height="1094" layout="responsive"></amp-img>
+	　OSや CPU アーキテクチャごとの配布形式生成を押して、それぞれを生成します。<br/>
+	（各社のビジネス上の都合により、同じOSでも違う形式があります。どちらも生成してアップデート機能も準備してあげればよいと思います）<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_finder1.png" width="1640" height="920" layout="responsive"></amp-img>
+	　exeやdmgが build/package/ フォルダに生成されますが、いっしょに build/package/update フォルダが新たに生成され、「新しいアップデート機能」に必要なファイルがまとめられています。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_finder2.png" width="1692" height="144" layout="responsive"></amp-img>
+	　_index.json は OS 違いや CPU アーキテクチャ違いでも一つのファイルです。<br/>
+	　他はファイル名を暗号化したアプリファイル（OS + Arch + 乱数文字列）です。<br/>
+	（内容に変更なくても、生成するたびに乱数文字列とファイル名は変わります）<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_web_srv0.png" width="1144" height="746" layout="responsive"></amp-img>
+	　build/package/update フォルダ内のファイルすべてを Webサーバーにアップロードします。<br/>
+	　<a href="https://github.com/famibee/SKYNovel_sample" target="_blank">シンプルなサンプル</a>では <a href="https://github.com/famibee/SKYNovel_sample/tree/master/update_tst" target="_blank">Github にアップロード</a>しています。<br/>
+	　例えば <a href="https://raw.githubusercontent.com/famibee/SKYNovel_sample/master/update_tst/_index.json" target="_blank">_index.json はブラウザからも見える状態</a>です。念のため確認しておきましょう。<br/>
+<blockquote><p>Githubの制限でファイルサイズの最大は 100MB 以内のため、<br/>
+Mac は 空の dmg にしています。<br/>
+Winは収まっているので実物です。<br/>
+Linuxは 100MB 越えなので上げられていません。</p></blockquote>
+
+
+	<amp-img src="pic/updchk_main_sn.png" width="1066" height="582" layout="responsive"></amp-img>
+	　シンプルサンプルのテンプレからなにか新規プロジェクトを生成してみましょう。<br/>
+	　スクリプト冒頭で [update_check] を呼んでいます。URLは _index.json などをアップした URL です。<br/>
+	　ご自身で使用する際はご自身で用意した Webサーバーの URL に変更するわけです。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_mac_dl1.png" width="520" height="506" layout="responsive"></amp-img>
+	　そのままアプリ版を実行しても何も起こりませんが、<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_setting1.png" width="748" height="494" layout="responsive"></amp-img>
+	　アプリのバージョンを「1.0.0」以外に変更してから終了 → アプリ版を実行すると、アプリの更新をうながすダイアログが表示されます。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_win_dl1.png" width="545" height="278" layout="responsive"></amp-img>
+	　Windows でも OS に即したダイアログ表示です。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_mac_dl3.png" width="520" height="506" layout="responsive"></amp-img>
+	　ダウンロードフォルダに配布形式ファイルがダウンロードされます。<br/>
+	　ia32 なら ia32、x64 なら x64。実行した旧アプリと同じ CPU アーキテクチャの新アプリファイルが選ばれます。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_win_dl2.png" width="545" height="278" layout="responsive"></amp-img>
+	　Windows ではこんな感じです。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_win_dl3.png" width="530" height="315" layout="responsive"></amp-img>
+	　ダウンロードフォルダに新しいインストーラーなど配布形式ファイルがダウンロードされます。<br/>
+	<br/>
+
+	<amp-img src="pic/updchk_mac_dl2.png" width="520" height="568" layout="responsive"></amp-img>
+	　ただし旧アプリが x64 なのにサーバー上にない場合、とりあえず同じ OS のすべての CPU アーキテクチャのファイルをダウンロードします。<br/>
+	　どちらかで配布して、あとで CPU アーキテクチャ別のアップデートという形が可能なわけです。<br/>
+	（上の画像は加工してあるのでちょっと変な表示です。「CPU = x64」が見つからないといいながら、2 個のファイルの内の一つが x64 ファイルです）<br/>
+	<br/>
+	<br/>
+
+	　まとめると、<br/>
+1．OSや CPU アーキテクチャごとの配布形式を生成する。<br/>
+2．build/package/update フォルダ内のファイルすべてを Webサーバーにアップロード。<br/>
+3．アプリ版で [update_check] を呼ぶ。<br/>
+	　だけです。<br/>
+	　CPU アーキテクチャ違いにも対応し、latest.yml などを手変更する必要がなくなりました。<br/>
+	<br/>
+
+
+	<h3>【旧】.yml 方式</h3>
+	基本的に二つのファイルを変更し、アップロードするだけです。<br/>
 	・OS X<br/>
 	　1.【exe作成】で build/ 下に「〜.dmg」と「latest-mac.yml」などが生成される。<br/>
 	　2.「latest-mac.yml」を開き、書いてあるファイル名に合わせるように「〜.dmg」ファイル名を変える。（サーバーにアップしてから変えても良さげ）<br/>
