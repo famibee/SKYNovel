@@ -72873,14 +72873,14 @@ const DebugMng_1 = __webpack_require__(/*! ./DebugMng */ "./core/src/sn/DebugMng
 ;
 var BreakState;
 (function (BreakState) {
-    BreakState[BreakState["running"] = 0] = "running";
-    BreakState[BreakState["wait"] = 1] = "wait";
-    BreakState[BreakState["break"] = 2] = "break";
-    BreakState[BreakState["breaking"] = 3] = "breaking";
-    BreakState[BreakState["step"] = 4] = "step";
-    BreakState[BreakState["stepping"] = 5] = "stepping";
-    BreakState[BreakState["stepouting"] = 6] = "stepouting";
-    BreakState[BreakState["stepout"] = 7] = "stepout";
+    BreakState[BreakState["Running"] = 0] = "Running";
+    BreakState[BreakState["Wait"] = 1] = "Wait";
+    BreakState[BreakState["Break"] = 2] = "Break";
+    BreakState[BreakState["Breaking"] = 3] = "Breaking";
+    BreakState[BreakState["Step"] = 4] = "Step";
+    BreakState[BreakState["Stepping"] = 5] = "Stepping";
+    BreakState[BreakState["StepOuting"] = 6] = "StepOuting";
+    BreakState[BreakState["StepOut"] = 7] = "StepOut";
 })(BreakState || (BreakState = {}));
 ;
 class ScriptIterator {
@@ -72909,14 +72909,14 @@ class ScriptIterator {
                 __classPrivateFieldSet(ScriptIterator, _a, {}, "f", _ScriptIterator_hFuncBP);
                 this.isBreak = () => false;
                 __classPrivateFieldGet(this, _ScriptIterator_hHook, "f").continue({});
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.running, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Running, "f");
             },
             restart: () => this.isBreak = () => false,
             add_break: o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_regBreakPoint).call(this, o.fn, o.o),
             data_break: o => {
-                if (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f") !== BreakState.running)
+                if (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f") !== BreakState.Running)
                     return;
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.wait, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Wait, "f");
                 this.main.setLoop(false, `変数 ${o.dataId}【${o.old_v}】→【${o.new_v}】データブレーク`);
                 this.sys.callHook('stopOnDataBreakpoint', {});
                 this.sys.send2Dbg('stopOnDataBreakpoint', {});
@@ -72932,7 +72932,7 @@ class ScriptIterator {
                 if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
                     return;
                 __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.breaking, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Breaking, "f");
                 this.main.setLoop(true);
                 this.main.resume();
             },
@@ -72943,9 +72943,9 @@ class ScriptIterator {
                 const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
                 this.sys.callHook(`stopOnStep${__classPrivateFieldGet(this, _ScriptIterator_REGSTEPIN, "f").test(tkn) ? 'In' : ''}`, {});
                 __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.wait
-                    ? BreakState.step
-                    : BreakState.stepping, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Wait
+                    ? BreakState.Step
+                    : BreakState.Stepping, "f");
                 this.main.setLoop(true);
                 this.main.resume();
             },
@@ -72958,12 +72958,12 @@ class ScriptIterator {
                     __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_go_stepover).call(this, o);
             },
             pause: () => {
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
                 this.main.setLoop(false, '一時停止');
                 this.sys.send2Dbg('stopOnStep', {});
             },
             stopOnEntry: () => {
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
                 this.main.setLoop(false, '一時停止');
                 this.sys.send2Dbg('stopOnEntry', {});
             },
@@ -72973,7 +72973,7 @@ class ScriptIterator {
             .replace(__classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_REG4CODE_FN), `$1/prj/$2/${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")}$3`));
         this.cnvPath4Dbg = (fn) => this.sys.pathBaseCnvSnPath4Dbg + fn.replace('/crypto_prj/', '/prj/');
         _ScriptIterator_csDepth_macro_esc.set(this, 0);
-        _ScriptIterator_breakState.set(this, BreakState.running);
+        _ScriptIterator_breakState.set(this, BreakState.Running);
         this.isBreak = (_token) => false;
         _ScriptIterator_procDebugtag.set(this, (_tag_name) => { });
         _ScriptIterator_evtMng.set(this, void 0);
@@ -73304,12 +73304,12 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     this.sys.callHook(`stopOnStep${out ? 'Out' : ''}`, {});
     __classPrivateFieldSet(this, _ScriptIterator_csDepth_macro_esc, __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length - (out ? 1 : 0), "f");
     __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
-    __classPrivateFieldSet(this, _ScriptIterator_breakState, out ? BreakState.stepout : BreakState.stepouting, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_breakState, out ? BreakState.StepOut : BreakState.StepOuting, "f");
     this.main.setLoop(true);
     this.main.resume();
 }, _ScriptIterator_idxDx4Dbg_get = function _ScriptIterator_idxDx4Dbg_get() {
-    return __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.break
-        || __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.step ? 1 : 0;
+    return __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Break
+        || __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Step ? 1 : 0;
 }, _ScriptIterator_isIdxOverLast = function _ScriptIterator_isIdxOverLast() {
     if (__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
         return false;
@@ -73318,34 +73318,34 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     return true;
 }, _ScriptIterator_isBreak_base = function _ScriptIterator_isBreak_base(token) {
     switch (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f")) {
-        case BreakState.stepouting:
+        case BreakState.StepOuting:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.stepout, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.StepOut, "f");
             break;
-        case BreakState.stepout:
+        case BreakState.StepOut:
             if (__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length !== __classPrivateFieldGet(this, _ScriptIterator_csDepth_macro_esc, "f"))
                 break;
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
             this.main.setLoop(false, 'ステップ実行');
             this.sys.send2Dbg('stopOnStep', {});
             return true;
-        case BreakState.stepping:
+        case BreakState.Stepping:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
             break;
-        case BreakState.step:
+        case BreakState.Step:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
             this.main.setLoop(false, 'ステップ実行');
             this.sys.send2Dbg('stopOnStep', {});
             return true;
-        case BreakState.breaking:
+        case BreakState.Breaking:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.running, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Running, "f");
             break;
         default:
             {
                 if ((0, Grammar_1.tagToken2Name)(token) in __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFuncBP)) {
-                    __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.break, "f");
+                    __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Break, "f");
                     this.main.setLoop(false, `関数 ${token} ブレーク`);
                     this.sys.callHook('stopOnBreakpoint', {});
                     this.sys.send2Dbg('stopOnBreakpoint', {});
@@ -73365,8 +73365,8 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
                 }
                 else if (('hitCondition' in o) && --o.hitCondition > 0)
                     break;
-                const isBreak = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.running;
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.break, "f");
+                const isBreak = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Running;
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Break, "f");
                 this.main.setLoop(false, isBreak ? ((o.condition ? '条件' : 'ヒットカウント') + 'ブレーク') : 'ステップ実行');
                 const type = isBreak ? 'stopOnBreakpoint' : 'stopOnStep';
                 this.sys.callHook(type, {});
@@ -73380,7 +73380,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     if (o?.hitCondition)
         --o.hitCondition;
 }, _ScriptIterator_aStack = function _ScriptIterator_aStack() {
-    const idx_n = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.breaking ? 1 : 0;
+    const idx_n = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Breaking ? 1 : 0;
     const tkn0 = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - 1 + idx_n];
     const fn0 = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"));
     const tag_name0 = (0, Grammar_1.tagToken2Name)(tkn0);

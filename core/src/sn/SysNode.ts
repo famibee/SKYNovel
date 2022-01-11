@@ -33,6 +33,6 @@ export class SysNode extends SysBase {
 	};
 
 	protected	async readFileSync(_path: string): Promise<string> {return ''};
-	protected	async writeFileSync(_path: string, _data: Buffer, _o?: object) {}
+	protected	async writeFileSync(_path: string, _data: string | NodeJS.ArrayBufferView, _o?: object) {}
 
 }

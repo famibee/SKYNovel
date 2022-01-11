@@ -6,6 +6,6 @@ export declare class SysNode extends SysBase {
     protected readonly isApp = true;
     savePic(fn: string, data_url: string): Promise<void>;
     protected readFileSync(_path: string): Promise<string>;
-    protected writeFileSync(_path: string, _data: Buffer, _o?: object): Promise<void>;
+    protected writeFileSync(_path: string, _data: string | NodeJS.ArrayBufferView, _o?: object): Promise<void>;
 }
 //# sourceMappingURL=SysNode.d.ts.map

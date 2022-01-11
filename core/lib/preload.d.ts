@@ -12,7 +12,7 @@ export declare type HPROC = {
     createReadStream: (path: string) => Promise<ReadStream>;
     readFileSync: (path: string) => Promise<string>;
     readFile: (path: string, callback: (err: NodeJS.ErrnoException, data: Buffer) => void) => void;
-    writeFileSync: (path: string, data: Buffer, o?: object) => Promise<void>;
+    writeFileSync: (path: string, data: string | NodeJS.ArrayBufferView, o?: object) => Promise<void>;
     appendFile: (path: string, data: string, callback: (err: Error) => void) => Promise<void>;
     window: (centering: boolean, x: number, y: number, w: number, h: number) => void;
     isSimpleFullScreen: () => Promise<boolean>;
@@ -21,6 +21,7 @@ export declare type HPROC = {
     win_setTitle: (title: string) => void;
     win_setContentSize: (w: number, h: number) => Promise<void>;
     win_setSize: (w: number, h: number) => Promise<void>;
+    showMessageBox: (o: Electron.MessageBoxOptions) => Promise<Electron.MessageBoxReturnValue>;
     capturePage: (fn: string) => Promise<void>;
     navigate_to: (url: string) => void;
     openDevTools: () => void;
@@ -41,6 +42,8 @@ export declare type HINFO = {
     env: {
         [name: string]: any;
     };
+    platform: string;
+    arch: string;
     screenResolutionX: number;
     screenResolutionY: number;
 };

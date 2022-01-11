@@ -71525,14 +71525,14 @@ const DebugMng_1 = __webpack_require__(/*! ./DebugMng */ "./core/src/sn/DebugMng
 ;
 var BreakState;
 (function (BreakState) {
-    BreakState[BreakState["running"] = 0] = "running";
-    BreakState[BreakState["wait"] = 1] = "wait";
-    BreakState[BreakState["break"] = 2] = "break";
-    BreakState[BreakState["breaking"] = 3] = "breaking";
-    BreakState[BreakState["step"] = 4] = "step";
-    BreakState[BreakState["stepping"] = 5] = "stepping";
-    BreakState[BreakState["stepouting"] = 6] = "stepouting";
-    BreakState[BreakState["stepout"] = 7] = "stepout";
+    BreakState[BreakState["Running"] = 0] = "Running";
+    BreakState[BreakState["Wait"] = 1] = "Wait";
+    BreakState[BreakState["Break"] = 2] = "Break";
+    BreakState[BreakState["Breaking"] = 3] = "Breaking";
+    BreakState[BreakState["Step"] = 4] = "Step";
+    BreakState[BreakState["Stepping"] = 5] = "Stepping";
+    BreakState[BreakState["StepOuting"] = 6] = "StepOuting";
+    BreakState[BreakState["StepOut"] = 7] = "StepOut";
 })(BreakState || (BreakState = {}));
 ;
 class ScriptIterator {
@@ -71561,14 +71561,14 @@ class ScriptIterator {
                 __classPrivateFieldSet(ScriptIterator, _a, {}, "f", _ScriptIterator_hFuncBP);
                 this.isBreak = () => false;
                 __classPrivateFieldGet(this, _ScriptIterator_hHook, "f").continue({});
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.running, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Running, "f");
             },
             restart: () => this.isBreak = () => false,
             add_break: o => __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_regBreakPoint).call(this, o.fn, o.o),
             data_break: o => {
-                if (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f") !== BreakState.running)
+                if (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f") !== BreakState.Running)
                     return;
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.wait, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Wait, "f");
                 this.main.setLoop(false, `変数 ${o.dataId}【${o.old_v}】→【${o.new_v}】データブレーク`);
                 this.sys.callHook('stopOnDataBreakpoint', {});
                 this.sys.send2Dbg('stopOnDataBreakpoint', {});
@@ -71584,7 +71584,7 @@ class ScriptIterator {
                 if (__classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_isIdxOverLast).call(this))
                     return;
                 __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.breaking, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Breaking, "f");
                 this.main.setLoop(true);
                 this.main.resume();
             },
@@ -71595,9 +71595,9 @@ class ScriptIterator {
                 const tkn = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get)];
                 this.sys.callHook(`stopOnStep${__classPrivateFieldGet(this, _ScriptIterator_REGSTEPIN, "f").test(tkn) ? 'In' : ''}`, {});
                 __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.wait
-                    ? BreakState.step
-                    : BreakState.stepping, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Wait
+                    ? BreakState.Step
+                    : BreakState.Stepping, "f");
                 this.main.setLoop(true);
                 this.main.resume();
             },
@@ -71610,12 +71610,12 @@ class ScriptIterator {
                     __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_go_stepover).call(this, o);
             },
             pause: () => {
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
                 this.main.setLoop(false, '一時停止');
                 this.sys.send2Dbg('stopOnStep', {});
             },
             stopOnEntry: () => {
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
                 this.main.setLoop(false, '一時停止');
                 this.sys.send2Dbg('stopOnEntry', {});
             },
@@ -71625,7 +71625,7 @@ class ScriptIterator {
             .replace(__classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_REG4CODE_FN), `$1/prj/$2/${__classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f")}$3`));
         this.cnvPath4Dbg = (fn) => this.sys.pathBaseCnvSnPath4Dbg + fn.replace('/crypto_prj/', '/prj/');
         _ScriptIterator_csDepth_macro_esc.set(this, 0);
-        _ScriptIterator_breakState.set(this, BreakState.running);
+        _ScriptIterator_breakState.set(this, BreakState.Running);
         this.isBreak = (_token) => false;
         _ScriptIterator_procDebugtag.set(this, (_tag_name) => { });
         _ScriptIterator_evtMng.set(this, void 0);
@@ -71956,12 +71956,12 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     this.sys.callHook(`stopOnStep${out ? 'Out' : ''}`, {});
     __classPrivateFieldSet(this, _ScriptIterator_csDepth_macro_esc, __classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length - (out ? 1 : 0), "f");
     __classPrivateFieldSet(this, _ScriptIterator_idxToken, __classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - __classPrivateFieldGet(this, _ScriptIterator_instances, "a", _ScriptIterator_idxDx4Dbg_get), "f");
-    __classPrivateFieldSet(this, _ScriptIterator_breakState, out ? BreakState.stepout : BreakState.stepouting, "f");
+    __classPrivateFieldSet(this, _ScriptIterator_breakState, out ? BreakState.StepOut : BreakState.StepOuting, "f");
     this.main.setLoop(true);
     this.main.resume();
 }, _ScriptIterator_idxDx4Dbg_get = function _ScriptIterator_idxDx4Dbg_get() {
-    return __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.break
-        || __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.step ? 1 : 0;
+    return __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Break
+        || __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Step ? 1 : 0;
 }, _ScriptIterator_isIdxOverLast = function _ScriptIterator_isIdxOverLast() {
     if (__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") < __classPrivateFieldGet(this, _ScriptIterator_script, "f").len)
         return false;
@@ -71970,34 +71970,34 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     return true;
 }, _ScriptIterator_isBreak_base = function _ScriptIterator_isBreak_base(token) {
     switch (__classPrivateFieldGet(this, _ScriptIterator_breakState, "f")) {
-        case BreakState.stepouting:
+        case BreakState.StepOuting:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.stepout, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.StepOut, "f");
             break;
-        case BreakState.stepout:
+        case BreakState.StepOut:
             if (__classPrivateFieldGet(this, _ScriptIterator_aCallStk, "f").length !== __classPrivateFieldGet(this, _ScriptIterator_csDepth_macro_esc, "f"))
                 break;
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
             this.main.setLoop(false, 'ステップ実行');
             this.sys.send2Dbg('stopOnStep', {});
             return true;
-        case BreakState.stepping:
+        case BreakState.Stepping:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.step, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Step, "f");
             break;
-        case BreakState.step:
+        case BreakState.Step:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
             this.main.setLoop(false, 'ステップ実行');
             this.sys.send2Dbg('stopOnStep', {});
             return true;
-        case BreakState.breaking:
+        case BreakState.Breaking:
             __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_subHitCondition).call(this);
-            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.running, "f");
+            __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Running, "f");
             break;
         default:
             {
                 if ((0, Grammar_1.tagToken2Name)(token) in __classPrivateFieldGet(ScriptIterator, _a, "f", _ScriptIterator_hFuncBP)) {
-                    __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.break, "f");
+                    __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Break, "f");
                     this.main.setLoop(false, `関数 ${token} ブレーク`);
                     this.sys.callHook('stopOnBreakpoint', {});
                     this.sys.send2Dbg('stopOnBreakpoint', {});
@@ -72017,8 +72017,8 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
                 }
                 else if (('hitCondition' in o) && --o.hitCondition > 0)
                     break;
-                const isBreak = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.running;
-                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.break, "f");
+                const isBreak = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Running;
+                __classPrivateFieldSet(this, _ScriptIterator_breakState, BreakState.Break, "f");
                 this.main.setLoop(false, isBreak ? ((o.condition ? '条件' : 'ヒットカウント') + 'ブレーク') : 'ステップ実行');
                 const type = isBreak ? 'stopOnBreakpoint' : 'stopOnStep';
                 this.sys.callHook(type, {});
@@ -72032,7 +72032,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     if (o?.hitCondition)
         --o.hitCondition;
 }, _ScriptIterator_aStack = function _ScriptIterator_aStack() {
-    const idx_n = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.breaking ? 1 : 0;
+    const idx_n = __classPrivateFieldGet(this, _ScriptIterator_breakState, "f") === BreakState.Breaking ? 1 : 0;
     const tkn0 = __classPrivateFieldGet(this, _ScriptIterator_script, "f").aToken[__classPrivateFieldGet(this, _ScriptIterator_idxToken, "f") - 1 + idx_n];
     const fn0 = __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath4Dbg, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_scriptFn, "f"));
     const tag_name0 = (0, Grammar_1.tagToken2Name)(tkn0);
@@ -73150,7 +73150,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _SysApp_hInfo, _SysApp_main;
+var _SysApp_instances, _SysApp_hInfo, _SysApp_main, _SysApp_dl_app;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SysApp = void 0;
 const SysNode_1 = __webpack_require__(/*! ./SysNode */ "./core/src/sn/SysNode.ts");
@@ -73162,6 +73162,7 @@ const { to_app } = window;
 class SysApp extends SysNode_1.SysNode {
     constructor(hPlg = {}, arg = { cur: 'prj/', crypto: false, dip: '' }) {
         super(hPlg, arg);
+        _SysApp_instances.add(this);
         _SysApp_hInfo.set(this, {
             getAppPath: '',
             isPackaged: false,
@@ -73169,6 +73170,8 @@ class SysApp extends SysNode_1.SysNode {
             userData: '',
             getVersion: '',
             env: {},
+            platform: '',
+            arch: '',
             screenResolutionX: 0,
             screenResolutionY: 0,
         });
@@ -73309,19 +73312,31 @@ class SysApp extends SysNode_1.SysNode {
             if (CmnLib_1.CmnLib.debugLog)
                 DebugMng_1.DebugMng.myTrace(`[update_check] url=${url}`, 'D');
             (async () => {
-                const res = await this.fetch(url + `latest${CmnLib_1.CmnLib.isMac ? '-mac' : ''}.yml`);
-                if (!res.ok) {
+                let oIdx = {};
+                let sYml = '';
+                let netver = '';
+                const resIdxJS = await this.fetch(url + '_index.json');
+                if (resIdxJS.ok) {
                     if (CmnLib_1.CmnLib.debugLog)
-                        DebugMng_1.DebugMng.myTrace(`[update_check] [update_check] .ymlが見つかりません`);
-                    return;
+                        DebugMng_1.DebugMng.myTrace(`[update_check] _index.jsonを取得しました`, 'D');
+                    oIdx = await resIdxJS.json();
+                    netver = oIdx.version;
                 }
-                if (CmnLib_1.CmnLib.debugLog)
-                    DebugMng_1.DebugMng.myTrace(`[update_check] .ymlを取得しました`, 'D');
-                const txtYml = await res.text();
-                const mv = /version: (.+)/.exec(txtYml);
-                if (!mv)
-                    throw `[update_check] .yml に version が見つかりません`;
-                const netver = mv[1];
+                else {
+                    const resYml = await this.fetch(url + `latest${CmnLib_1.CmnLib.isMac ? '-mac' : ''}.yml`);
+                    if (!resYml.ok) {
+                        if (CmnLib_1.CmnLib.debugLog)
+                            DebugMng_1.DebugMng.myTrace(`[update_check] [update_check] .ymlが見つかりません`);
+                        return;
+                    }
+                    if (CmnLib_1.CmnLib.debugLog)
+                        DebugMng_1.DebugMng.myTrace(`[update_check] .ymlを取得しました`, 'D');
+                    sYml = await resYml.text();
+                    const mv = /version: (.+)/.exec(sYml);
+                    if (!mv)
+                        throw `[update_check] .yml に version が見つかりません`;
+                    netver = mv[1];
+                }
                 const appver = __classPrivateFieldGet(this, _SysApp_hInfo, "f").getVersion;
                 if (CmnLib_1.CmnLib.debugLog)
                     DebugMng_1.DebugMng.myTrace(`[update_check] 現在ver=${appver} 新規ver=${netver}`, 'D');
@@ -73330,39 +73345,65 @@ class SysApp extends SysNode_1.SysNode {
                         DebugMng_1.DebugMng.myTrace(`[update_check] バージョン更新なし`, 'I');
                     return;
                 }
+                const mbo = {
+                    title: 'アプリ更新',
+                    icon: (__classPrivateFieldGet(this, _SysApp_hInfo, "f").getAppPath + '/app/icon.png'),
+                    buttons: ['OK', 'Cancel'],
+                    defaultId: 0,
+                    cancelId: 1,
+                    message: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
+                    detail: `現在 NOW ver ${appver}\n新規 NEW ver ${netver}`,
+                };
+                const di = await to_app.showMessageBox(mbo);
+                if (di.response > 0)
+                    return;
                 if (CmnLib_1.CmnLib.debugLog)
                     DebugMng_1.DebugMng.myTrace(`[update_check] アプリダウンロード開始`, 'D');
-                const mp = /path: (.+)/.exec(txtYml);
-                if (!mp)
-                    throw `[update_check] .yml に path が見つかりません`;
-                const path = mp[1];
-                if (CmnLib_1.CmnLib.debugLog)
-                    DebugMng_1.DebugMng.myTrace(`[update_check] path=${path}`, 'D');
-                const mc = /sha512: (.+)/.exec(txtYml);
-                if (!mc)
-                    throw `[update_check] .yml に sha512 が見つかりません`;
-                const sha = mc[1];
-                if (CmnLib_1.CmnLib.debugLog)
-                    DebugMng_1.DebugMng.myTrace(`[update_check] sha=${sha}=`, 'D');
-                const res_dl = await this.fetch(url + path);
-                if (!res_dl.ok) {
-                    if (CmnLib_1.CmnLib.debugLog)
-                        DebugMng_1.DebugMng.myTrace(`[update_check] アプリファイルが見つかりません url=${url + path}`);
-                    return;
+                if (resIdxJS.ok) {
+                    const key = __classPrivateFieldGet(this, _SysApp_hInfo, "f").platform + '_' + __classPrivateFieldGet(this, _SysApp_hInfo, "f").arch;
+                    let pa = oIdx[key];
+                    if (pa)
+                        await __classPrivateFieldGet(this, _SysApp_instances, "m", _SysApp_dl_app).call(this, url, key + '-' + pa.cn, pa.path);
+                    else {
+                        let d = '';
+                        const aApp = [];
+                        const regOldSameKey = new RegExp('^' + __classPrivateFieldGet(this, _SysApp_hInfo, "f").platform + '_');
+                        for (const k in oIdx) {
+                            if (!regOldSameKey.test(k))
+                                continue;
+                            const ap = oIdx[k];
+                            d += '\n- ' + ap.path;
+                            aApp.push({ url, urlApp: k + '-' + ap.cn, fn: String(ap.path) });
+                        }
+                        mbo.message = `CPU = ${__classPrivateFieldGet(this, _SysApp_hInfo, "f").arch}\nに対応するファイルが見つかりません。同じOSのファイルをすべてダウンロードしますか？`;
+                        mbo.detail = aApp.length + ' 個ファイルがあります' + d;
+                        const di = await to_app.showMessageBox(mbo);
+                        if (di.response > 0)
+                            return;
+                        await Promise.all(aApp.map(ap => __classPrivateFieldGet(this, _SysApp_instances, "m", _SysApp_dl_app).call(this, ap.url, ap.urlApp, ap.fn)));
+                    }
                 }
-                const pathDL = __classPrivateFieldGet(this, _SysApp_hInfo, "f").downloads + '/' + path;
-                if (CmnLib_1.CmnLib.debugLog)
-                    DebugMng_1.DebugMng.myTrace(`[update_check] pathDL=${pathDL}`, 'D');
-                const b = await res_dl.blob();
-                const url2 = URL.createObjectURL(b);
-                const a = document.createElement('a');
-                document.body.appendChild(a);
-                a.download = path;
-                a.href = url2;
-                a.click();
-                a.remove();
+                else {
+                    const mp = /path: (.+)/.exec(sYml);
+                    if (!mp)
+                        throw `[update_check] path が見つかりません`;
+                    const path = mp[1];
+                    if (CmnLib_1.CmnLib.debugLog)
+                        DebugMng_1.DebugMng.myTrace(`[update_check] path=${path}`, 'D');
+                    const mc = /sha512: (.+)/.exec(sYml);
+                    if (!mc)
+                        throw `[update_check] sha512 が見つかりません`;
+                    const sha = mc[1];
+                    if (CmnLib_1.CmnLib.debugLog)
+                        DebugMng_1.DebugMng.myTrace(`[update_check] sha=${sha}=`, 'D');
+                    const mm = /(.+)(\.\w+)/.exec(path) ?? ['', '', ''];
+                    await __classPrivateFieldGet(this, _SysApp_instances, "m", _SysApp_dl_app).call(this, url, mm[1] + '-' + __classPrivateFieldGet(this, _SysApp_hInfo, "f").arch + mm[2], path);
+                }
                 if (CmnLib_1.CmnLib.debugLog)
                     DebugMng_1.DebugMng.myTrace(`アプリファイルを保存しました`, 'D');
+                mbo.buttons.pop();
+                mbo.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを\nダウンロードしました`;
+                to_app.showMessageBox(mbo);
             })();
             return false;
         };
@@ -73445,7 +73486,21 @@ class SysApp extends SysNode_1.SysNode {
     titleSub(title) { to_app.win_setTitle(title); }
 }
 exports.SysApp = SysApp;
-_SysApp_hInfo = new WeakMap(), _SysApp_main = new WeakMap();
+_SysApp_hInfo = new WeakMap(), _SysApp_main = new WeakMap(), _SysApp_instances = new WeakSet(), _SysApp_dl_app = async function _SysApp_dl_app(url, urlApp, fn) {
+    if (CmnLib_1.CmnLib.debugLog)
+        DebugMng_1.DebugMng.myTrace(`[update_check] アプリファイルDL試行... url=${url + urlApp}`, 'D');
+    const res = await this.fetch(url + urlApp);
+    if (!res.ok) {
+        if (CmnLib_1.CmnLib.debugLog)
+            DebugMng_1.DebugMng.myTrace(`[update_check] アプリファイルが見つかりません url=${url + fn}`);
+        return;
+    }
+    const pathDL = __classPrivateFieldGet(this, _SysApp_hInfo, "f").downloads + '/' + fn;
+    if (CmnLib_1.CmnLib.debugLog)
+        DebugMng_1.DebugMng.myTrace(`[update_check] pathDL=${pathDL}`, 'D');
+    const ab = await res.arrayBuffer();
+    await this.writeFileSync(pathDL, new DataView(ab));
+};
 
 
 /***/ }),

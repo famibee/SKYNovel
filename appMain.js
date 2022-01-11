@@ -23499,6 +23499,8 @@ class appMain {
             userData: electron_1.app.getPath('userData'),
             getVersion: '',
             env: { ...process.env },
+            platform: process.platform,
+            arch: process.arch,
             screenResolutionX: __classPrivateFieldGet(this, _appMain_screenRX, "f"),
             screenResolutionY: __classPrivateFieldGet(this, _appMain_screenRY, "f"),
         });
@@ -23542,6 +23544,7 @@ class appMain {
             bw.setSize(w, h);
             __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
         });
+        electron_1.ipcMain.handle('showMessageBox', (_, o) => electron_1.dialog.showMessageBox(o));
         electron_1.ipcMain.handle('capturePage', (_, fn) => bw.webContents.capturePage()
             .then(ni => (0, fs_extra_1.writeFileSync)(fn, (fn.slice(-4) === '.png') ? ni.toPNG() : ni.toJPEG(80))));
         electron_1.ipcMain.handle('navigate_to', (_, url) => electron_1.shell.openExternal(url));

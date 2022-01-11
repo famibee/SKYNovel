@@ -33,6 +33,7 @@ exports.hProc = {
     win_setTitle: title => ipcRenderer.invoke('win_setTitle', title).catch(fncE),
     win_setContentSize: (w, h) => ipcRenderer.invoke('win_setContentSize', w, h).catch(fncE),
     win_setSize: (w, h) => ipcRenderer.invoke('win_setSize', w, h).catch(fncE),
+    showMessageBox: o => ipcRenderer.invoke('showMessageBox', o).catch(fncE),
     capturePage: fn => ipcRenderer.invoke('capturePage', fn).catch(fncE),
     navigate_to: url => ipcRenderer.invoke('navigate_to', url).catch(fncE),
     openDevTools: () => ipcRenderer.invoke('openDevTools').catch(fncE),

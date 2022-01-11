@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {screen, app, BrowserWindow, ipcMain, shell, Rectangle} from 'electron';
+import {screen, app, BrowserWindow, ipcMain, shell, Rectangle, dialog} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
 import {existsSync, copySync, removeSync, ensureDirSync, createWriteStream, createReadStream, readFileSync, readFile, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 const Store = require('electron-store');
@@ -23,6 +23,8 @@ export class appMain {
 		userData	: app.getPath('userData'),
 		getVersion	: '',
 		env			: {...process.env},
+		platform	: process.platform,
+		arch		: process.arch,
 		screenResolutionX	: this.#screenRX,
 		screenResolutionY	: this.#screenRY,
 	};
@@ -75,6 +77,8 @@ export class appMain {
 			bw.setSize(w, h);
 			this.#isMovingWin = false;
 		});
+
+		ipcMain.handle('showMessageBox', (_, o)=> dialog.showMessageBox(o));
 
 		ipcMain.handle('capturePage', (_, fn)=> bw.webContents.capturePage()
 		.then(ni=> writeFileSync(fn, (fn.slice(-4) === '.png') ?ni.toPNG() :ni.toJPEG(80))));

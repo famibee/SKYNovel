@@ -37,7 +37,7 @@ interface IPageLog {
 	retMark	: IMark,
 };
 
-enum BreakState {running, wait, break, breaking, step, stepping, stepouting, stepout};
+enum BreakState {Running, Wait, Break, Breaking, Step, Stepping, StepOuting, StepOut};
 
 export class ScriptIterator {
 	#script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
@@ -162,16 +162,16 @@ export class ScriptIterator {
 			this.isBreak = ()=> false;
 
 			this.#hHook.continue({});
-			this.#breakState = BreakState.running;
+			this.#breakState = BreakState.Running;
 		},
 		restart: ()=> this.isBreak = ()=> false,
 
 		// ブレークポイント登録
 		add_break: o=> this.#regBreakPoint(o.fn, o.o),
 		data_break: o=> {
-			if (this.#breakState !== BreakState.running) return;
+			if (this.#breakState !== BreakState.Running) return;
 
-			this.#breakState = BreakState.wait;
+			this.#breakState = BreakState.Wait;
 			this.main.setLoop(false, `変数 ${o.dataId}【${o.old_v}】→【${o.new_v}】データブレーク`);
 			this.sys.callHook('stopOnDataBreakpoint', {});	// sn全体へ通知
 			this.sys.send2Dbg('stopOnDataBreakpoint', {});
@@ -191,7 +191,7 @@ export class ScriptIterator {
 			if (this.#isIdxOverLast()) return;
 
 			this.#idxToken -= this.#idxDx4Dbg;
-			this.#breakState = BreakState.breaking;
+			this.#breakState = BreakState.Breaking;
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
@@ -203,9 +203,9 @@ export class ScriptIterator {
 			this.sys.callHook(`stopOnStep${this.#REGSTEPIN.test(tkn) ?'In' :''}`, {});	// sn全体へ通知
 
 			this.#idxToken -= this.#idxDx4Dbg;
-			this.#breakState = this.#breakState === BreakState.wait
-				? BreakState.step
-				: BreakState.stepping;
+			this.#breakState = this.#breakState === BreakState.Wait
+				? BreakState.Step
+				: BreakState.Stepping;
 			this.main.setLoop(true);
 			this.main.resume();	// jumpループ後などで停止している場合があるので
 		},
@@ -216,12 +216,12 @@ export class ScriptIterator {
 			else this.#go_stepover(o);
 		},
 		pause: ()=> {
-			this.#breakState = BreakState.step;
+			this.#breakState = BreakState.Step;
 			this.main.setLoop(false, '一時停止');
 			this.sys.send2Dbg('stopOnStep', {});
 		},
 		stopOnEntry: ()=> {
-			this.#breakState = BreakState.step;
+			this.#breakState = BreakState.Step;
 			this.main.setLoop(false, '一時停止');
 			this.sys.send2Dbg('stopOnEntry', {});
 		},
@@ -246,14 +246,14 @@ export class ScriptIterator {
 		this.sys.callHook(`stopOnStep${out ?'Out' :''}`, {});	// sn全体へ通知
 		this.#csDepth_macro_esc = this.#aCallStk.length -(out ?1 :0);
 		this.#idxToken -= this.#idxDx4Dbg;
-		this.#breakState = out ?BreakState.stepout :BreakState.stepouting;
+		this.#breakState = out ?BreakState.StepOut :BreakState.StepOuting;
 		this.main.setLoop(true);
 		this.main.resume();	// jumpループ後などで停止している場合があるので
 	}
 	#csDepth_macro_esc	= 0;
 	get #idxDx4Dbg() {
-		return this.#breakState === BreakState.break
-			|| this.#breakState === BreakState.step ?1 :0
+		return this.#breakState === BreakState.Break
+			|| this.#breakState === BreakState.Step ?1 :0
 	};
 	#isIdxOverLast(): boolean {
 		if (this.#idxToken < this.#script.len) return false;
@@ -265,35 +265,35 @@ export class ScriptIterator {
 	// reload 再生成 Main に受け渡すため static
 	static	#hFn2hLineBP: {[fn: string]: {[ln: number]: any}} = {};
 	static	#hFuncBP: {[tag_name: string]: 1} = {};
-	#breakState	= BreakState.running;
+	#breakState	= BreakState.Running;
 		// https://raw.githubusercontent.com/famibee/SKYNovel-vscode-extension/master/res/img/breakState.svg
 	isBreak = (_token: string)=> false;
 	#isBreak_base(token: string): boolean {
 		switch (this.#breakState) {
-			case BreakState.stepouting:	this.#subHitCondition();
-				this.#breakState = BreakState.stepout;	break;
-			case BreakState.stepout:
+			case BreakState.StepOuting:	this.#subHitCondition();
+				this.#breakState = BreakState.StepOut;	break;
+			case BreakState.StepOut:
 				if (this.#aCallStk.length !== this.#csDepth_macro_esc) break;
 
-				this.#breakState = BreakState.step;
+				this.#breakState = BreakState.Step;
 				this.main.setLoop(false, 'ステップ実行');
 				this.sys.send2Dbg('stopOnStep', {});
 				return true;	// タグを実行せず、直前停止
 
-			case BreakState.stepping:	this.#subHitCondition();
-				this.#breakState = BreakState.step;	break;
-			case BreakState.step:		this.#subHitCondition();
+			case BreakState.Stepping:	this.#subHitCondition();
+				this.#breakState = BreakState.Step;	break;
+			case BreakState.Step:		this.#subHitCondition();
 				this.main.setLoop(false, 'ステップ実行');
 				this.sys.send2Dbg('stopOnStep', {});
 				return true;	// タグを実行せず、直前停止
 
-			case BreakState.breaking:	this.#subHitCondition();
-				this.#breakState = BreakState.running;	break;
+			case BreakState.Breaking:	this.#subHitCondition();
+				this.#breakState = BreakState.Running;	break;
 
 			default:
 			{	// 関数ブレークポイント
 				if (tagToken2Name(token) in ScriptIterator.#hFuncBP) {
-					this.#breakState = BreakState.break;
+					this.#breakState = BreakState.Break;
 					this.main.setLoop(false, `関数 ${token} ブレーク`);
 					this.sys.callHook('stopOnBreakpoint', {});	// sn全体へ通知
 					this.sys.send2Dbg('stopOnBreakpoint', {});
@@ -308,8 +308,8 @@ export class ScriptIterator {
 //console.log(`fn:ScriptIterator.ts line:145 👺 【bs:${this.#breakState} idx:${this.#idxToken} ln:${this.#lineNum} tkn:${this.#script.aToken[this.#idxToken -1]}:】 o:%o`, o);
 				if (o.condition) {if (! this.prpPrs.parse(o.condition)) break;}
 				else if (('hitCondition' in o) && --o.hitCondition > 0) break;
-				const isBreak = this.#breakState === BreakState.running;
-				this.#breakState = BreakState.break;
+				const isBreak = this.#breakState === BreakState.Running;
+				this.#breakState = BreakState.Break;
 				this.main.setLoop(false, isBreak ?(
 					(o.condition ? '条件' :'ヒットカウント') +'ブレーク'
 					) :'ステップ実行');
@@ -328,7 +328,7 @@ export class ScriptIterator {
 	}
 
 	#aStack(): {fn: string, ln: number, col: number, nm: string, ma: string}[] {
-		const idx_n = this.#breakState === BreakState.breaking ?1 :0;
+		const idx_n = this.#breakState === BreakState.Breaking ?1 :0;
 		const tkn0 = this.#script.aToken[this.#idxToken -1 +idx_n];
 
 		const fn0 = this.#cnvSnPath4Dbg(this.#scriptFn);

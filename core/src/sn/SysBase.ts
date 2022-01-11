@@ -330,7 +330,7 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 	protected readonly	isApp: boolean = false;
 	protected $path_downloads	= '';
 	get path_downloads() {return this.$path_downloads}
-	protected $path_userdata= '';
+	protected $path_userdata	= '';
 	get path_userdata() {return this.$path_userdata}
 
 	readonly	canCapturePage = (_fn: string)=> false;
