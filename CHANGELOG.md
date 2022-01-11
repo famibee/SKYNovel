@@ -1,3 +1,10 @@
+# [1.27.0](https://github.com/famibee/SKYNovel/compare/v1.26.0...v1.27.0) (2022-01-11)
+
+
+### Features
+
+* [update_check]DLでアーキテクチャ（x32、x64など）別の対応が可能に ([b8e569f](https://github.com/famibee/SKYNovel/commit/b8e569febb418f69c58879cab036d370fa66a3f1))
+
 - feat: [update_check]のアプリダウンロードでアーキテクチャ（x32、x64など）別の対応が可能に
 	- 拡張機能により生成された _index.json ファイルを使用
 	- 旧版の .yml ファイルもしばらく対応する
