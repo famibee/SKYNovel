@@ -164,7 +164,7 @@ export class SoundMng {
 		const buf = hArg.buf ?? 'SE';
 		this.#stopse({buf});
 		const fn = hArg.fn;
-		if (! fn) throw '[playse] fnは必須です(buf='+ buf +')';
+		if (! fn) throw `[playse] fnは必須です buf:${buf}`;
 
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
 		if (argChk_Boolean(hArg, 'canskip', true)
@@ -197,13 +197,13 @@ export class SoundMng {
 		this.val.flush();
 
 		const snd = sound.find(fn);	// バッファにあるか
-		const oSb: ISndBuf = this.#hSndBuf[buf] = {
+		const oSb = this.#hSndBuf[buf] = {
 			now_buf	: buf,
-			snd		: snd,
-			loop	: loop,
-			start_ms: start_ms,
-			end_ms	: end_ms,
-			ret_ms	: ret_ms,
+			snd,
+			loop,
+			start_ms,
+			end_ms,
+			ret_ms,
 			resume	: false,
 			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
 			onend	: ()=> {
@@ -221,7 +221,7 @@ export class SoundMng {
 
 		// @pixi/sound用基本パラメータ
 		const o: Options = {
-			loop	: loop,
+			loop,
 			volume	: vol,
 			speed	: argChk_Num(hArg, 'speed', 1),
 			sprites	: {},
@@ -303,14 +303,14 @@ export class SoundMng {
 				}
 				if (o2s.start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 
-				this.#playseSub(fn, o2);
+				this.#playseSub(buf, fn, o2);
 			}
 		}
 
 		this.#initVol();
 		if (snd) {
 			snd.volume = vol;	// 再生のたびに音量を戻す
-			if (sp_nm) this.#playseSub(fn, o);
+			if (sp_nm) this.#playseSub(buf, fn, o);
 			else if (snd.isPlayable) {
 				const ab = snd.options.source;
 				if (! (ab instanceof ArrayBuffer)
@@ -329,16 +329,17 @@ export class SoundMng {
 			const old = o.loaded;
 			o.loaded = (e, snd)=> {old?.(e, snd); this.main.resume()};
 		}
-		this.#playseSub(fn, o);
+		this.#playseSub(buf, fn, o);
 
 		return join;
 	}
-	#playseSub(fn: string, o: Options) {
+	#playseSub(buf: string, fn: string, o: Options) {
 		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
 		if (url.slice(-4) !== '.bin') {
 			o.url = url;
 			const snd = Sound.from(o);
+			if (buf) this.#hSndBuf[buf].snd = snd;
 			if (! o.loop) sound.add(fn, snd);	// キャッシュする
 			return;
 		}
@@ -352,6 +353,7 @@ export class SoundMng {
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;
 			const snd = Sound.from(o);
+			if (buf) this.#hSndBuf[buf].snd = snd;
 			if (! o.loop) sound.add(fn, snd);	// キャッシュする
 		});
 	}
@@ -376,10 +378,10 @@ export class SoundMng {
 	// 効果音再生の停止
 	#stopse(hArg: HArg) {
 		const buf = hArg.buf ?? 'SE';
-		this.#stopfadese(hArg);
 		this.#delLoopPlay(buf);
 
-		this.#hSndBuf[buf]?.snd?.stop();
+		const oSb = this.#hSndBuf[buf];
+		if (oSb) {oSb.snd?.stop(); oSb.onend();}
 
 		return false;
 	}
@@ -454,7 +456,7 @@ export class SoundMng {
 		this.val.setVal_Nochk('save', n2 +'fn', f1);
 
 		if (buf1 in this.#hLP === buf2 in this.#hLP) {	// 演算子の優先順位確認済み
-			if (buf1 in this.#hLP) {delete this.#hLP[buf1]; this.#hLP[buf2] = 0;}
+			if (buf1 in this.#hLP){delete this.#hLP[buf1]; this.#hLP[buf2] = 0;}
 			else				  {delete this.#hLP[buf2]; this.#hLP[buf1] = 0;}
 			this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.#hLP));
 		}
@@ -468,7 +470,7 @@ export class SoundMng {
 		[hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn=> {
 			if (! fn || sound.exists(fn)) return;
 
-			this.#playseSub(fn, {preload: true, autoPlay: false});
+			this.#playseSub('', fn, {preload: true, autoPlay: false});
 		});
 	}
 

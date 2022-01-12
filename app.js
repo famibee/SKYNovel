@@ -72747,7 +72747,7 @@ class SoundMng {
         [hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn => {
             if (!fn || sound_1.sound.exists(fn))
                 return;
-            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, { preload: true, autoPlay: false });
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, '', fn, { preload: true, autoPlay: false });
         });
     }
     playLoopFromSaveObj() {
@@ -72858,7 +72858,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, { buf });
     const fn = hArg.fn;
     if (!fn)
-        throw '[playse] fnは必須です(buf=' + buf + ')';
+        throw `[playse] fnは必須です buf:${buf}`;
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true)
         && __classPrivateFieldGet(this, _SoundMng_evtMng, "f").isSkippingByKeyDown())
         return false;
@@ -72889,11 +72889,11 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     const snd = sound_1.sound.find(fn);
     const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf] = {
         now_buf: buf,
-        snd: snd,
-        loop: loop,
-        start_ms: start_ms,
-        end_ms: end_ms,
-        ret_ms: ret_ms,
+        snd,
+        loop,
+        start_ms,
+        end_ms,
+        ret_ms,
         resume: false,
         playing: () => true,
         onend: () => {
@@ -72908,7 +72908,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
         },
     };
     const o = {
-        loop: loop,
+        loop,
         volume: vol,
         speed: (0, CmnLib_1.argChk_Num)(hArg, 'speed', 1),
         sprites: {},
@@ -72993,14 +72993,14 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
             }
             if (o2s.start >= d)
                 throw `[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o2);
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, buf, fn, o2);
         };
     }
     __classPrivateFieldGet(this, _SoundMng_initVol, "f").call(this);
     if (snd) {
         snd.volume = vol;
         if (sp_nm)
-            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
+            __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, buf, fn, o);
         else if (snd.isPlayable) {
             const ab = snd.options.source;
             if (!(ab instanceof ArrayBuffer)
@@ -73020,13 +73020,15 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
         const old = o.loaded;
         o.loaded = (e, snd) => { old?.(e, snd); this.main.resume(); };
     }
-    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, fn, o);
+    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playseSub).call(this, buf, fn, o);
     return join;
-}, _SoundMng_playseSub = function _SoundMng_playseSub(fn, o) {
+}, _SoundMng_playseSub = function _SoundMng_playseSub(buf, fn, o) {
     const url = this.cfg.searchPath(fn, Config_1.Config.EXT_SOUND);
     if (url.slice(-4) !== '.bin') {
         o.url = url;
         const snd = sound_1.Sound.from(o);
+        if (buf)
+            __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf].snd = snd;
         if (!o.loop)
             sound_1.sound.add(fn, snd);
         return;
@@ -73040,6 +73042,8 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
         .load((_ldr, hRes) => {
         o.source = hRes[fn]?.data;
         const snd = sound_1.Sound.from(o);
+        if (buf)
+            __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf].snd = snd;
         if (!o.loop)
             sound_1.sound.add(fn, snd);
     });
@@ -73051,9 +73055,12 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     return false;
 }, _SoundMng_stopbgm = function _SoundMng_stopbgm(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg); }, _SoundMng_stopse = function _SoundMng_stopse(hArg) {
     const buf = hArg.buf ?? 'SE';
-    __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, hArg);
     __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_delLoopPlay).call(this, buf);
-    __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf]?.snd?.stop();
+    const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
+    if (oSb) {
+        oSb.snd?.stop();
+        oSb.onend();
+    }
     return false;
 }, _SoundMng_wb = function _SoundMng_wb(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_wf).call(this, hArg); }, _SoundMng_wf = function _SoundMng_wf(hArg) {
     const buf = hArg.buf ?? 'SE';
