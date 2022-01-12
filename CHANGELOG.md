@@ -1,3 +1,10 @@
+## [1.27.1](https://github.com/famibee/SKYNovel/compare/v1.27.0...v1.27.1) (2022-01-12)
+
+
+### Bug Fixes
+
+* [playse][stopse][fadeoutse]にてObjの扱いでエラーになる件 ([ed92d0b](https://github.com/famibee/SKYNovel/commit/ed92d0b82942f3fbaf0c9da338b76d21a29339d8))
+
 - fix: [playse][stopse][fadeoutse]にてオブジェクトの扱いによりエラーになる場合に対応
 
 
