@@ -71564,7 +71564,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         }));
     else
         __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_getLayers).call(this, hArg.layer).forEach(v => a.push(new Promise(re => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[v][pg].snapshot(rnd, () => re()))));
-    Promise.all(a).then(async () => {
+    Promise.allSettled(a).then(async () => {
         const renTx = pixi_js_1.RenderTexture.create({ width: rnd.width, height: rnd.height, transform: true });
         rnd.render(__classPrivateFieldGet(this, _LayerMng_stage, "f"), { renderTexture: renTx });
         await this.sys.savePic(fn, rnd.plugins.extract.base64(pixi_js_1.Sprite.from(renTx)));
@@ -71978,7 +71978,6 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         hArg.wait = 0;
     else if ('wait' in hArg)
         (0, CmnLib_1.argChk_Num)(hArg, 'wait', NaN);
-    __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, 'add｜' + JSON.stringify(hArg), tl);
     const record = (0, CmnLib_1.argChk_Boolean)(hArg, 'record', true);
     const doRecLog = this.val.doRecLog();
     if (!record)
@@ -71986,7 +71985,6 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     tl.tagCh(txt.replaceAll('[r]', '\n'));
     if (!record)
         this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
-    __classPrivateFieldGet(this, _LayerMng_cmdTxt, "f").call(this, `add_close｜`, tl);
     return false;
 }, _LayerMng_$getTxtLayer = function _LayerMng_$getTxtLayer(hArg) {
     const layer = __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_argChk_layer).call(this, hArg, __classPrivateFieldGet(this, _LayerMng_curTxtlay, "f"));
@@ -72070,7 +72068,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
 }, _LayerMng_tcy = function _LayerMng_tcy(hArg) {
     if (!hArg.t)
         throw '[tcy] tは必須です';
-    hArg.text = '｜　｜《tcy｜' + hArg.t + '｜' + (hArg.r ?? '') + '》';
+    hArg.text = '｜　《tcy｜' + hArg.t + '｜' + (hArg.r ?? '') + '》';
     return __classPrivateFieldGet(this, _LayerMng_instances, "m", _LayerMng_ch).call(this, hArg);
 }, _LayerMng_dump_lay = function _LayerMng_dump_lay(hArg) {
     console.group('🥟 [dump_lay]');
@@ -72269,7 +72267,7 @@ _Main_cfg = new WeakMap(), _Main_appPixi = new WeakMap(), _Main_hTag = new WeakM
     }
     __classPrivateFieldSet(this, _Main_val, new Variable_1.Variable(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f")), "f");
     __classPrivateFieldSet(this, _Main_prpPrs, new PropParser_1.PropParser(__classPrivateFieldGet(this, _Main_val, "f"), __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.init.escape ?? '\\'), "f");
-    await Promise.all(this.sys.init(__classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f"), __classPrivateFieldGet(this, _Main_val, "f"), this));
+    await Promise.allSettled(this.sys.init(__classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f"), __classPrivateFieldGet(this, _Main_val, "f"), this));
     __classPrivateFieldGet(this, _Main_hTag, "f").title({ text: __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.book.title || 'SKYNovel' });
     __classPrivateFieldSet(this, _Main_sndMng, new SoundMng_1.SoundMng(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f"), __classPrivateFieldGet(this, _Main_val, "f"), this, this.sys), "f");
     __classPrivateFieldSet(this, _Main_scrItr, new ScriptIterator_1.ScriptIterator(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f"), this, __classPrivateFieldGet(this, _Main_val, "f"), __classPrivateFieldGet(this, _Main_alzTagArg, "f"), () => __classPrivateFieldGet(this, _Main_instances, "m", _Main_runAnalyze).call(this), __classPrivateFieldGet(this, _Main_prpPrs, "f"), __classPrivateFieldGet(this, _Main_sndMng, "f"), this.sys), "f");
@@ -76648,7 +76646,7 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
         };
         function resolveAll() {
             return readAll()
-                .then(webFonts => Promise.all(webFonts.map((webFont) => webFont.resolve())))
+                .then(webFonts => Promise.allSettled(webFonts.map((webFont) => webFont.resolve())))
                 .then(cssStrings => cssStrings.join('\n'));
         }
         function readAll() {

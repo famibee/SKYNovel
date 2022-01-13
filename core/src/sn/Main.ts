@@ -79,7 +79,7 @@ export class Main implements IMain {
 		this.#prpPrs = new PropParser(this.#val, this.#cfg.oCfg.init.escape ?? '\\');
 
 		// システム（11/13）
-		await Promise.all(this.sys.init(this.#hTag, this.#appPixi, this.#val,this));
+		await Promise.allSettled(this.sys.init(this.#hTag, this.#appPixi, this.#val,this));
 			// 変数準備完了
 		this.#hTag.title({text: this.#cfg.oCfg.book.title || 'SKYNovel'});
 

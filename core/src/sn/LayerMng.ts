@@ -346,7 +346,7 @@ export class LayerMng implements IGetFrm {
 		else this.#getLayers(hArg.layer).forEach(v=> a.push(new Promise<void>(
 			re=> this.#hPages[v][pg].snapshot(rnd, ()=> re())
 		)));
-		Promise.all(a).then(async ()=> {
+		Promise.allSettled(a).then(async ()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
 			rnd.render(this.#stage, {renderTexture: renTx});
 			await this.sys.savePic(
@@ -890,9 +890,9 @@ void main(void) {
 
 
 //	// 文字・文字レイヤ
-	static	#msecChWait		= 10;
-	static get msecChWait() {return LayerMng.#msecChWait;}
-	static set msecChWait(v) {LayerMng.#msecChWait = v;}
+	static		#msecChWait		= 10;
+	static get	msecChWait() {return LayerMng.#msecChWait;}
+	static set	msecChWait(v) {LayerMng.#msecChWait = v;}
 	// 文字を追加する
 	#ch(hArg: HArg) {
 		const txt = hArg.text;
@@ -902,7 +902,8 @@ void main(void) {
 		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
 		if (this.val.getVal('tmp:sn.skip.enabled')) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
-		this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);
+
+		//（未使用 22/1/13） this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);
 
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
@@ -910,7 +911,7 @@ void main(void) {
 		tl.tagCh(txt.replaceAll('[r]', '\n'));
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
-		this.#cmdTxt(`add_close｜`, tl);
+		//（未使用 22/1/13） this.#cmdTxt(`add_close｜`, tl);
 
 		return false;
 	}
@@ -958,7 +959,7 @@ void main(void) {
 
 		return this.#pgTxtlay.fore as TxtLayer;
 	}
-	#pgTxtlay: Pages;	// カレントテキストレイヤ
+	#pgTxtlay	: Pages;	// カレントテキストレイヤ
 	#chkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'};
 
 	#argChk_layer(hash: any, def = ''): string {
@@ -1077,7 +1078,7 @@ void main(void) {
 	// tcy縦中横を表示する
 	#tcy(hArg: HArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
-		hArg.text = '｜　｜《tcy｜'+ hArg.t +'｜'+ (hArg.r ?? '') +'》';
+		hArg.text = '｜　《tcy｜'+ hArg.t +'｜'+ (hArg.r ?? '') +'》';
 		return this.#ch(hArg);
 	}
 

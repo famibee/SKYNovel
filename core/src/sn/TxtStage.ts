@@ -436,7 +436,7 @@ export class TxtStage extends Container {
 
 			function resolveAll() {
 				return readAll()
-				.then(webFonts=> Promise.all(
+				.then(webFonts=> Promise.allSettled(
 					webFonts.map((webFont: any)=> webFont.resolve())
 				))
 				.then(cssStrings=> cssStrings.join('\n'));

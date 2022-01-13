@@ -1,3 +1,7 @@
+- fix: [r]を挟むと[span]色変更がキャンセルされる件
+- fix: [tcy]で[tcy t='Day 1']と半角を入れると表示が変になる件
+- fix: （問題ないか確認しつつ）Promise.all を Promise.allSettled に
+
 ## [1.27.1](https://github.com/famibee/SKYNovel/compare/v1.27.0...v1.27.1) (2022-01-12)
 
 

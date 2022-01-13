@@ -351,7 +351,7 @@ export class SysApp extends SysNode {
 					const di = await to_app.showMessageBox(mbo);
 					if (di.response > 0) return;
 
-					await Promise.all(aApp.map(ap=> this.#dl_app(ap.url, ap.urlApp, ap.fn)));
+					await Promise.allSettled(aApp.map(ap=> this.#dl_app(ap.url, ap.urlApp, ap.fn)));
 				}
 			}
 			else {
