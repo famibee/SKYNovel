@@ -1,3 +1,10 @@
+## [1.27.2](https://github.com/famibee/SKYNovel/compare/v1.27.1...v1.27.2) (2022-01-13)
+
+
+### Bug Fixes
+
+* [r]を挟むと[span]色変更がキャンセルされる件 ([88224d3](https://github.com/famibee/SKYNovel/commit/88224d3f5c59a0d1501fc94b125fdad6e004a3e5))
+
 - fix: [r]を挟むと[span]色変更がキャンセルされる件
 - fix: [tcy]で[tcy t='Day 1']と半角を入れると表示が変になる件
 - fix: （問題ないか確認しつつ）Promise.all を Promise.allSettled に
