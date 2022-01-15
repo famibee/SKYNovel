@@ -1,3 +1,10 @@
+## [1.27.3](https://github.com/famibee/SKYNovel/compare/v1.27.2...v1.27.3) (2022-01-15)
+
+
+### Bug Fixes
+
+* ウインドウ位置が保存されない件 ([95f0786](https://github.com/famibee/SKYNovel/commit/95f0786e10a0ba4cc28c46f85e2ce5dd9a1359ad))
+
 - fix: ウインドウ位置が保存されない件
 
 
