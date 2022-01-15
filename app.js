@@ -73453,7 +73453,9 @@ class SysApp extends SysNode_1.SysNode {
         });
         this.flush = () => to_app.flush(this.data);
         (async () => {
-            if (hTmp['const.sn.isFirstBoot'] = await to_app.Store_isEmpty()) {
+            const first = hTmp['const.sn.isFirstBoot']
+                = await to_app.Store_isEmpty();
+            if (first) {
                 this.data.sys = data.sys;
                 this.data.mark = data.mark;
                 this.data.kidoku = data.kidoku;
@@ -73465,6 +73467,14 @@ class SysApp extends SysNode_1.SysNode {
                 this.data.mark = store.mark;
                 this.data.kidoku = store.kidoku;
             }
+            const x = this.data.sys['const.sn.nativeWindow.x'] ?? 0;
+            const y = this.data.sys['const.sn.nativeWindow.y'] ?? 0;
+            to_app.window(first, x, y, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            to_app.on('save_win_pos', (_e, x, y) => {
+                this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
+                this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
+                this.flush();
+            });
             comp(this.data);
         })();
     }

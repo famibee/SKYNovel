@@ -75002,7 +75002,7 @@ class SysWeb extends SysBase_1.SysBase {
         }
     }
     initVal(data, hTmp, comp) {
-        const hn = document.location.hostname;
+        const hn = encodeURIComponent(document.location.hostname);
         hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn === '127.0.0.1');
         this.val.defTmp('const.sn.displayState', () => __classPrivateFieldGet(this, _SysWeb_isFullScr, "f"));
         const ns = this.cfg.getNs();

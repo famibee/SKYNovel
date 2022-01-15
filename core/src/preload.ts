@@ -47,6 +47,9 @@ export	type	HPROC	= {
 
 	tarFs_pack		: (path: string)=> Promise<Pack>;
 	tarFs_extract	: (path: string)=> Promise<Extract>;
+
+	// メイン → レンダラー
+	on: (channel: string, callback: Function) => void;
 };
 
 export	type	HINFO	= {
@@ -120,6 +123,13 @@ export const	hProc	: HPROC	= {
 
 	tarFs_pack	: path=> ipcRenderer.invoke('tarFs_pack', path).catch(fncE),
 	tarFs_extract: path=> ipcRenderer.invoke('tarFs_extract', path).catch(fncE),
+
+
+	// メイン → レンダラー
+	on	: (ch, cb)=> {switch (ch) {
+		case 'save_win_pos':
+			ipcRenderer.on(ch, (e, x, y)=> cb(e, x, y));	break;
+	}},
 
 };
 contextBridge.exposeInMainWorld('to_app', hProc);

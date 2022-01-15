@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { SysNode } from './SysNode';
 import { ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
 import { Application } from 'pixi.js';
@@ -22,8 +21,8 @@ export declare class SysApp extends SysNode {
     copyBMFolder: (from: number, to: number) => Promise<void>;
     eraseBMFolder: (place: number) => Promise<void>;
     protected readonly close: () => boolean;
-    protected readonly _export: ITag;
-    protected readonly _import: ITag;
+    protected readonly _export: () => boolean;
+    protected readonly _import: () => boolean;
     protected readonly navigate_to: ITag;
     protected titleSub(title: string): void;
     protected readonly tgl_full_scr: ITag;

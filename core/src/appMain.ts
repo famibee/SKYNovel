@@ -128,14 +128,13 @@ console.log(`fn:appMain.ts line:107 enter-full-screen  %o %o %o %o`, rct.x, rct.
 			return;
 		}
 
+		this.#isMovingWin = false;
 		this.#window(false, rct.x, rct.y, rct.width, rct.height);
-		//this.#isMovingWin = false;	// this.window()内でやってるので
 	}
 
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
 //console.log(`#window skip:${this.#isMovingWin} c:${centering} (%o %o %o %o)`, x, y, w, h);
 		if (this.#isMovingWin) return;
-		this.#isMovingWin = true;
 		if (centering) {
 			const s = this.bw.getPosition();
 			x = (this.#screenRX - s[0]) *0.5;
@@ -151,7 +150,8 @@ console.log(`fn:appMain.ts line:107 enter-full-screen  %o %o %o %o`, rct.x, rct.
 		const hz = this.bw.getContentSize()[1];
 		this.bw.setContentSize(w, h *2 -hz);
 			// 2019/07/14 setContentSize()したのにメニュー高さぶん勝手に削られた値にされる不具合ぽい動作への対応
-		this.#isMovingWin = false;
+
+		this.bw.webContents.send('save_win_pos', x, y);
 	}
 
 	openDevTools() {this.bw.webContents.openDevTools();}

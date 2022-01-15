@@ -32,6 +32,7 @@ export declare type HPROC = {
     Store_get: () => Promise<any>;
     tarFs_pack: (path: string) => Promise<Pack>;
     tarFs_extract: (path: string) => Promise<Extract>;
+    on: (channel: string, callback: Function) => void;
 };
 export declare type HINFO = {
     getAppPath: string;

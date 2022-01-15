@@ -44,6 +44,13 @@ exports.hProc = {
     Store_get: () => ipcRenderer.invoke('Store_get').catch(fncE),
     tarFs_pack: path => ipcRenderer.invoke('tarFs_pack', path).catch(fncE),
     tarFs_extract: path => ipcRenderer.invoke('tarFs_extract', path).catch(fncE),
+    on: (ch, cb) => {
+        switch (ch) {
+            case 'save_win_pos':
+                ipcRenderer.on(ch, (e, x, y) => cb(e, x, y));
+                break;
+        }
+    },
 };
 contextBridge.exposeInMainWorld('to_app', exports.hProc);
 

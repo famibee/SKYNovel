@@ -146,7 +146,7 @@ export class SysWeb extends SysBase {
 
 	override initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// システム情報
-		const hn = document.location.hostname;
+		const hn = encodeURIComponent(document.location.hostname);
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
 
 		this.val.defTmp('const.sn.displayState', ()=> this.#isFullScr);

@@ -23612,11 +23612,11 @@ _a = appMain, _appMain_dsp = new WeakMap(), _appMain_screenRX = new WeakMap(), _
         setTimeout(() => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_delayWinPos).call(this), 500);
         return;
     }
+    __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
     __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, false, rct.x, rct.y, rct.width, rct.height);
 }, _appMain_window = function _appMain_window(centering, x, y, w, h) {
     if (__classPrivateFieldGet(this, _appMain_isMovingWin, "f"))
         return;
-    __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
     if (centering) {
         const s = this.bw.getPosition();
         x = (__classPrivateFieldGet(this, _appMain_screenRX, "f") - s[0]) * 0.5;
@@ -23636,7 +23636,7 @@ _a = appMain, _appMain_dsp = new WeakMap(), _appMain_screenRX = new WeakMap(), _
     this.bw.setContentSize(w, h);
     const hz = this.bw.getContentSize()[1];
     this.bw.setContentSize(w, h * 2 - hz);
-    __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
+    this.bw.webContents.send('save_win_pos', x, y);
 };
 _appMain_ins = { value: void 0 };
 _appMain_menu_height = { value: 0 };

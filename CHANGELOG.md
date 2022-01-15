@@ -1,3 +1,6 @@
+- fix: ウインドウ位置が保存されない件
+
+
 ## [1.27.2](https://github.com/famibee/SKYNovel/compare/v1.27.1...v1.27.2) (2022-01-13)
 
 

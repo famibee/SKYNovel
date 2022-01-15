@@ -16,6 +16,7 @@ import {Application} from 'pixi.js';
 //import {createHash} from 'crypto';
 
 import {HINFO} from '../preload';
+import {IpcRendererEvent} from 'electron/renderer';
 const {to_app} = window;
 
 
@@ -95,7 +96,9 @@ export class SysApp extends SysNode {
 		this.flush = ()=> to_app.flush(this.data);
 
 		(async ()=> {
-			if (hTmp['const.sn.isFirstBoot'] = await to_app.Store_isEmpty()) {
+			const first = hTmp['const.sn.isFirstBoot']
+			= await to_app.Store_isEmpty();
+			if (first) {
 				// データがない（初回起動）場合の処理
 				this.data.sys = data.sys;
 				this.data.mark = data.mark;
@@ -109,6 +112,21 @@ export class SysApp extends SysNode {
 				this.data.mark = store.mark;
 				this.data.kidoku = store.kidoku;
 			}
+
+			// ウインドウ位置
+			const x = (<any>this.data.sys)['const.sn.nativeWindow.x'] ?? 0;
+			const y = (<any>this.data.sys)['const.sn.nativeWindow.y'] ?? 0;
+			//x	const x = Number(this.val.getVal('sys:const.sn.nativeWindow.x'
+			//x	const y = Number(this.val.getVal('sys:const.sn.nativeWindow.y'
+				// ここではまだ使えない
+			to_app.window(first, x, y, CmnLib.stageW, CmnLib.stageH);
+			
+			to_app.on('save_win_pos', (_e: IpcRendererEvent, x: number, y: number)=> {
+				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
+				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
+				this.flush();
+			});
+
 			comp(this.data);
 		})();
 	}
@@ -155,7 +173,7 @@ export class SysApp extends SysNode {
 	protected override readonly	close = ()=> {to_app.win_close(); return false;}
 
 	// プレイデータをエクスポート
-	protected override readonly	_export: ITag = ()=> {
+	protected override readonly	_export = ()=> {
 		(async ()=> {
 			const r = await to_app.tarFs_pack(this.$path_userdata +'storage/')
 			r.on('end', ()=> {
@@ -172,7 +190,7 @@ export class SysApp extends SysNode {
 	}
 
 	// プレイデータをインポート
-	protected override readonly	_import: ITag = ()=> {
+	protected override readonly	_import = ()=> {
 		const flush = this.flush;
 		new Promise((rs, rj)=> {
 			const inp = document.createElement('input');
