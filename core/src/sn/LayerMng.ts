@@ -77,12 +77,12 @@ export class LayerMng implements IGetFrm {
 		//	システム
 		hTag.loadplugin		= o=> this.#loadplugin(o);	// プラグインの読み込み
 		//hTag.set_focus	// EventMng.tsで定義	 	// フォーカス移動
-		hTag.snapshot		= o=> this.#snapshot(o);		// スナップショット
+		hTag.snapshot		= o=> this.#snapshot(o);	// スナップショット
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.#add_lay(o);		// レイヤを追加する
 		hTag.clear_lay		= o=> this.#clear_lay(o);	// レイヤ設定の消去
-		hTag.finish_trans	= ()=> this.#finish_trans();	// トランス強制終了
+		hTag.finish_trans	= ()=> this.#finish_trans();// トランス強制終了
 		hTag.lay			= o=> this.#lay(o);			// レイヤ設定
 		hTag.trans			= o=> this.#trans(o);		// ページ裏表を交換
 		hTag.wt				= o=> this.#wt(o);			// トランス終了待ち
@@ -93,9 +93,9 @@ export class LayerMng implements IGetFrm {
 
 		hTag.pause_tsy		= o=> this.#pause_tsy(o);	// 一時停止
 		hTag.resume_tsy		= o=> this.#resume_tsy(o);	// 一時停止再開
-		hTag.stop_tsy		= o=> this.#stop_tsy(o);		// トゥイーン中断
+		hTag.stop_tsy		= o=> this.#stop_tsy(o);	// トゥイーン中断
 		hTag.tsy			= o=> this.#tsy(o);			// トゥイーン開始
-		hTag.wait_tsy		= o=> this.#wait_tsy(o);		// トゥイーン終了待ち
+		hTag.wait_tsy		= o=> this.#wait_tsy(o);	// トゥイーン終了待ち
 
 		//	文字・文字レイヤ
 	//	hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
@@ -108,7 +108,7 @@ export class LayerMng implements IGetFrm {
 		hTag.endlink		= o=> this.#endlink(o);		// ハイパーリンクの終了
 		hTag.er				= o=> this.#er(o);			// ページ両面の文字消去
 		hTag.graph			= o=> this.#graph(o);		// インライン画像表示
-		hTag.link			= o=> this.#link(o);			// ハイパーリンク
+		hTag.link			= o=> this.#link(o);		// ハイパーリンク
 		hTag.r				= o=> this.#r(o);			// 改行
 		hTag.rec_ch			= o=> this.#rec_ch(o);		// 履歴書き込み
 		hTag.rec_r			= ()=> this.#rec_r();		// 履歴改行
@@ -116,7 +116,7 @@ export class LayerMng implements IGetFrm {
 		//hTag.ruby			= o=> this.ruby(o);			// 直前一文字のルビ（廃止
 			// タグでは無く、「｜＠《》」というスクリプト書き換えで良い
 		hTag.ruby2			= o=> this.#ruby2(o);		// 文字列と複数ルビの追加
-		hTag.span			= o=> this.#span(o);			// インラインスタイル設定
+		hTag.span			= o=> this.#span(o);		// インラインスタイル設定
 		hTag.tcy			= o=> this.#tcy(o);			// 縦中横を表示する
 
 		//	画像・画像レイヤ
@@ -126,10 +126,10 @@ export class LayerMng implements IGetFrm {
 		hTag.wv				= o=> GrpLayer.wv(o);		// ムービー再生終了待ち
 
 		//	デバッグ・その他
-		hTag.dump_lay		= o=> this.#dump_lay(o);		// レイヤのダンプ
+		hTag.dump_lay		= o=> this.#dump_lay(o);	// レイヤのダンプ
 
 		//	イベント
-		hTag.enable_event	= o=> this.#enable_event(o);	// イベント有無の切替
+		hTag.enable_event	= o=> this.#enable_event(o);// イベント有無の切替
 
 		//	ラベル・ジャンプ
 		hTag.button			= o=> this.#button(o);		// ボタンを表示

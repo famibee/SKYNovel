@@ -282,10 +282,10 @@ export class SysApp extends SysNode {
 
 			st.width  = (CmnLib.stageW * ratio) +'px';
 			st.height = (CmnLib.stageH * ratio) +'px';
-			if (ratioWidth < ratioHeight) {	// 左に寄る対策
-				st.marginTop  = (h -CmnLib.stageH *ratio) /2 +'px';
+			if (ratioWidth >= ratioHeight) {	// 左に寄る対策
+				st.marginLeft = (w -CmnLib.stageW *ratio) /2 +'px';
 			}
-			else st.marginLeft= (w -CmnLib.stageW *ratio) /2 +'px';
+			else st.marginTop = (h -CmnLib.stageH *ratio) /2 +'px';
 
 			await to_app.win_setContentSize(screen.width, screen.height);
 				// これがないとWinアプリ版で下部が短くなり背後が見える
