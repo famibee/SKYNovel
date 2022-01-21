@@ -1,3 +1,10 @@
+## [1.27.5](https://github.com/famibee/SKYNovel/compare/v1.27.4...v1.27.5) (2022-01-21)
+
+
+### Bug Fixes
+
+* アプリ版で全画面時にフレームサイズが大きすぎる件、リファクタリング ([37d0a33](https://github.com/famibee/SKYNovel/commit/37d0a330dff7a90bd92f8d678165249367e35528))
+
 - fix: アプリ版で全画面時にフレームサイズが大きすぎる件
 - fix: ブラウザ版で全画面時にセンタリングするように
 	- テンプレの doc/web.htm も変更（cssで「canvas」→「canvas#skynovel」）
