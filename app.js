@@ -66379,9 +66379,17 @@ class CmnLib {
         if (cvs.parentElement) {
             const ps = cvs.parentElement.style;
             ps.position = 'relative';
+            ps.width = `${CmnLib.cvsWidth}px`;
+            ps.height = `${CmnLib.cvsHeight}px`;
             const s = cvs.style;
-            ps.width = s.width = `${CmnLib.cvsWidth}px`;
-            ps.height = s.height = `${CmnLib.cvsHeight}px`;
+            if (CmnLib.isFullScr) {
+                s.width = '';
+                s.height = '';
+            }
+            else {
+                s.width = ps.width;
+                s.height = ps.height;
+            }
         }
         return bk_cw !== CmnLib.cvsWidth || bk_ch !== CmnLib.cvsHeight;
     }
@@ -66406,6 +66414,7 @@ CmnLib.isRetina = false;
 CmnLib.isDarkMode = false;
 CmnLib.retinaRate = 1;
 CmnLib.SN_ID = 'skynovel';
+CmnLib.isFullScr = false;
 
 
 /***/ }),
@@ -67715,9 +67724,8 @@ class EventMng {
         catch { }
         const ctx = __classPrivateFieldGet(this, _EventMng_cvsHint, "f").getContext('2d');
         if (ctx) {
-            const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
             __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = true;
-            cvs.parentElement.appendChild(__classPrivateFieldGet(this, _EventMng_cvsHint, "f"));
+            appPixi.view.parentElement.appendChild(__classPrivateFieldGet(this, _EventMng_cvsHint, "f"));
             const s = __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style;
             s.position = 'absolute';
             s.left = s.top = '0';
@@ -68275,7 +68283,7 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     }, "f");
     return false;
 }, _EventMng_set_focus = function _EventMng_set_focus(hArg) {
-    const add = hArg.add;
+    const { add, del, to } = hArg;
     if (add?.slice(0, 4) === 'dom=') {
         const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, add);
         if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
@@ -68288,7 +68296,6 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
         }, () => { }));
         return false;
     }
-    const del = hArg.del;
     if (del?.slice(0, 4) === 'dom=') {
         const g = __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_getHtmlElmList).call(this, del);
         if (g.el.length === 0 && (0, CmnLib_1.argChk_Boolean)(hArg, 'need_err', true))
@@ -68296,7 +68303,6 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
         g.el.forEach(elm => __classPrivateFieldGet(this, _EventMng_fcs, "f").remove(elm));
         return false;
     }
-    const to = hArg.to;
     if (!to)
         throw '[set_focus] add か to は必須です';
     switch (to) {
@@ -68608,12 +68614,13 @@ class FrameMng {
     getFrmDisabled(id) { return __classPrivateFieldGet(this, _FrameMng_hDisabled, "f")[id]; }
     cvsResize() {
         const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-        for (const n in __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")) {
-            const f = __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")[n];
-            const x = Number(this.val.getVal(`const.sn.frm.${n}.x`));
-            const y = Number(this.val.getVal(`const.sn.frm.${n}.y`));
-            const w = Number(this.val.getVal(`const.sn.frm.${n}.width`));
-            const h = Number(this.val.getVal(`const.sn.frm.${n}.height`));
+        for (const id in __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")) {
+            const f = __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")[id];
+            const vn = 'const.sn.frm.' + id;
+            const x = Number(this.val.getVal(vn + '.x'));
+            const y = Number(this.val.getVal(vn + '.y'));
+            const w = Number(this.val.getVal(vn + '.width'));
+            const h = Number(this.val.getVal(vn + '.height'));
             f.style.left = this.sys.ofsLeft4frm + x * scale + 'px';
             f.style.top = this.sys.ofsTop4frm + y * scale + 'px';
             f.width = String(w * scale);
@@ -68623,14 +68630,13 @@ class FrameMng {
 }
 exports.FrameMng = FrameMng;
 _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDisabled = new WeakMap(), _FrameMng_zIdx = new WeakMap(), _FrameMng_instances = new WeakSet(), _FrameMng_add_frame = function _FrameMng_add_frame(hArg) {
-    const id = hArg.id;
+    const { id, src } = hArg;
     if (!id)
         throw 'idは必須です';
-    const src = hArg.src;
     if (!src)
         throw 'srcは必須です';
-    const frmnm = `const.sn.frm.${id}`;
-    if (this.val.getVal(`tmp:${frmnm}`))
+    const vn = 'const.sn.frm.' + id;
+    if (this.val.getVal(`tmp:${vn}`))
         throw `frame【${id}】はすでにあります`;
     const a = (0, CmnLib_1.argChk_Num)(hArg, 'alpha', 1);
     const sx = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', 1);
@@ -68664,16 +68670,16 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
             ? this.sys.cur + p2.slice(4)
             : v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') + 1)));
         ifrm.onload = () => {
-            this.val.setVal_Nochk('tmp', frmnm, true);
-            this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
-            this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
-            this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
-            this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
-            this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
-            this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
-            this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
-            this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
-            this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
+            this.val.setVal_Nochk('tmp', vn, true);
+            this.val.setVal_Nochk('tmp', vn + '.alpha', a);
+            this.val.setVal_Nochk('tmp', vn + '.x', rct.x);
+            this.val.setVal_Nochk('tmp', vn + '.y', rct.y);
+            this.val.setVal_Nochk('tmp', vn + '.scale_x', sx);
+            this.val.setVal_Nochk('tmp', vn + '.scale_y', sy);
+            this.val.setVal_Nochk('tmp', vn + '.rotate', r);
+            this.val.setVal_Nochk('tmp', vn + '.width', rct.width);
+            this.val.setVal_Nochk('tmp', vn + '.height', rct.height);
+            this.val.setVal_Nochk('tmp', vn + '.visible', v);
             const win = ifrm.contentWindow;
             __classPrivateFieldGet(this, _FrameMng_evtMng, "f").resvFlameEvent(win);
             (win.sn_repRes)?.((img) => GrpLayer_1.GrpLayer.loadPic2Img((img.dataset.src ?? ''), img));
@@ -68686,131 +68692,126 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     const re = this.sys.resolution;
     return new DOMRect((0, CmnLib_1.argChk_Num)(a, 'x', 0) * re, (0, CmnLib_1.argChk_Num)(a, 'y', 0) * re, (0, CmnLib_1.argChk_Num)(a, 'width', CmnLib_1.CmnLib.stageW) * re, (0, CmnLib_1.argChk_Num)(a, 'height', CmnLib_1.CmnLib.stageH) * re);
 }, _FrameMng_let_frame = function _FrameMng_let_frame(hArg) {
-    const id = hArg.id;
+    const { id, var_name } = hArg;
     if (!id)
         throw 'idは必須です';
-    const ifrm = document.getElementById(id);
-    if (!ifrm)
+    const f = document.getElementById(id);
+    if (!f)
         throw `id【${id}】はフレームではありません`;
-    const frmnm = `const.sn.frm.${id}`;
-    if (!this.val.getVal(`tmp:${frmnm}`))
+    const vn = 'const.sn.frm.' + id;
+    if (!this.val.getVal(`tmp:${vn}`))
         throw `frame【${id}】が読み込まれていません`;
-    const var_name = hArg.var_name;
     if (!var_name)
         throw 'var_nameは必須です';
-    const win = ifrm.contentWindow;
+    const win = f.contentWindow;
     if (!win.hasOwnProperty(var_name))
         throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
     const v = win[var_name];
-    this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, (0, CmnLib_1.argChk_Boolean)(hArg, 'function', false) ? v() : v);
+    this.val.setVal_Nochk('tmp', vn + '.' + var_name, (0, CmnLib_1.argChk_Boolean)(hArg, 'function', false) ? v() : v);
     return false;
 }, _FrameMng_set_frame = function _FrameMng_set_frame(hArg) {
-    const id = hArg.id;
+    const { id, var_name, text } = hArg;
     if (!id)
         throw 'idは必須です';
-    const ifrm = document.getElementById(id);
-    if (!ifrm)
+    const f = document.getElementById(id);
+    if (!f)
         throw `id【${id}】はフレームではありません`;
-    const frmnm = `const.sn.frm.${id}`;
-    if (!this.val.getVal(`tmp:${frmnm}`))
+    const vn = 'const.sn.frm.' + id;
+    if (!this.val.getVal(`tmp:${vn}`))
         throw `frame【${id}】が読み込まれていません`;
-    const var_name = hArg.var_name;
     if (!var_name)
         throw 'var_nameは必須です';
-    const text = hArg.text;
     if (!text)
         throw 'textは必須です';
-    this.val.setVal_Nochk('tmp', frmnm + '.' + var_name, text);
-    const win = ifrm.contentWindow;
+    this.val.setVal_Nochk('tmp', vn + '.' + var_name, text);
+    const win = f.contentWindow;
     win[var_name] = text;
     return false;
 }, _FrameMng_frame = function _FrameMng_frame(hArg) {
     var _a, _b;
-    const id = hArg.id;
+    const { id } = hArg;
     if (!id)
         throw 'idは必須です';
-    const ifrm = document.getElementById(id);
-    if (!ifrm)
+    const f = document.getElementById(id);
+    if (!f)
         throw `id【${id}】はフレームではありません`;
-    const frmnm = `const.sn.frm.${id}`;
-    if (!this.val.getVal(`tmp:${frmnm}`))
+    const vn = 'const.sn.frm.' + id;
+    if (!this.val.getVal('tmp:' + vn))
         throw `frame【${id}】が読み込まれていません`;
-    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'float', false)) {
-        ifrm.style.zIndex = String(__classPrivateFieldSet(this, _FrameMng_zIdx, (_a = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_a), "f"));
-    }
-    else if (hArg.index) {
-        ifrm.style.zIndex = String((0, CmnLib_1.argChk_Num)(hArg, 'index', 0));
-    }
+    const s = f.style;
+    if ((0, CmnLib_1.argChk_Boolean)(hArg, 'float', false))
+        s.zIndex = `${__classPrivateFieldSet(this, _FrameMng_zIdx, (_a = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_a), "f")}`;
+    else if (hArg.index)
+        s.zIndex = `${(0, CmnLib_1.argChk_Num)(hArg, 'index', 0)}`;
     else if (hArg.dive)
-        ifrm.style.zIndex = '-' + String(__classPrivateFieldSet(this, _FrameMng_zIdx, (_b = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_b), "f"));
+        s.zIndex = `-${__classPrivateFieldSet(this, _FrameMng_zIdx, (_b = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_b), "f")}`;
     if ('alpha' in hArg) {
-        const a = String(hArg.alpha);
-        ifrm.style.opacity = a;
-        this.val.setVal_Nochk('tmp', frmnm + '.alpha', a);
+        const a = s.opacity = String(hArg.alpha);
+        this.val.setVal_Nochk('tmp', vn + '.alpha', a);
     }
     const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg);
     const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
     if ('x' in hArg || 'y' in hArg) {
-        ifrm.style.left = this.sys.ofsLeft4frm + rct.x * scale + 'px';
-        ifrm.style.top = this.sys.ofsTop4frm + rct.y * scale + 'px';
-        this.val.setVal_Nochk('tmp', frmnm + '.x', rct.x);
-        this.val.setVal_Nochk('tmp', frmnm + '.y', rct.y);
+        s.left = `${this.sys.ofsLeft4frm + rct.x * scale}px`;
+        s.top = `${this.sys.ofsTop4frm + rct.y * scale}px`;
+        this.val.setVal_Nochk('tmp', vn + '.x', rct.x);
+        this.val.setVal_Nochk('tmp', vn + '.y', rct.y);
     }
     if ('scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
         const sx = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', 1);
         const sy = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', 1);
         const r = (0, CmnLib_1.argChk_Num)(hArg, 'rotate', 0);
-        ifrm.style.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
-        this.val.setVal_Nochk('tmp', frmnm + '.scale_x', sx);
-        this.val.setVal_Nochk('tmp', frmnm + '.scale_y', sy);
-        this.val.setVal_Nochk('tmp', frmnm + '.rotate', r);
+        s.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
+        this.val.setVal_Nochk('tmp', vn + '.scale_x', sx);
+        this.val.setVal_Nochk('tmp', vn + '.scale_y', sy);
+        this.val.setVal_Nochk('tmp', vn + '.rotate', r);
     }
     if ('width' in hArg) {
-        ifrm.width = String(rct.width * scale);
-        this.val.setVal_Nochk('tmp', frmnm + '.width', rct.width);
+        f.width = String(rct.width * scale);
+        this.val.setVal_Nochk('tmp', vn + '.width', rct.width);
     }
     if ('height' in hArg) {
-        ifrm.height = String(rct.height * scale);
-        this.val.setVal_Nochk('tmp', frmnm + '.height', rct.height);
+        f.height = String(rct.height * scale);
+        this.val.setVal_Nochk('tmp', vn + '.height', rct.height);
     }
     if ('visible' in hArg) {
         const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
-        ifrm.style.display = v ? 'inline' : 'none';
-        this.val.setVal_Nochk('tmp', frmnm + '.visible', v);
+        s.display = v ? 'inline' : 'none';
+        this.val.setVal_Nochk('tmp', vn + '.visible', v);
     }
     if ('b_color' in hArg)
-        ifrm.style.backgroundColor = hArg.b_color;
+        s.backgroundColor = hArg.b_color;
     if ('disabled' in hArg) {
         const d = __classPrivateFieldGet(this, _FrameMng_hDisabled, "f")[id] = (0, CmnLib_1.argChk_Boolean)(hArg, 'disabled', true);
-        const il = ifrm.contentDocument.body.querySelectorAll('input,select');
+        const il = f.contentDocument.body.querySelectorAll('input,select');
         il.forEach(v => v.disabled = d);
     }
     return false;
 }, _FrameMng_tsy_frame = function _FrameMng_tsy_frame(hArg) {
-    const id = hArg.id;
+    const { id } = hArg;
     if (!id)
         throw 'idは必須です';
-    const ifrm = document.getElementById(id);
-    if (!ifrm)
+    const f = document.getElementById(id);
+    if (!f)
         throw `id【${id}】はフレームではありません`;
-    const frmnm = `const.sn.frm.${id}`;
-    if (!this.val.getVal(`tmp:${frmnm}`, 0))
+    const vn = `const.sn.frm.` + id;
+    if (!this.val.getVal(`tmp:${vn}`, 0))
         throw `frame【${id}】が読み込まれていません`;
     const hNow = {};
     if ('alpha' in hArg)
-        hNow.a = ifrm.style.opacity;
+        hNow.a = f.style.opacity;
     if ('x' in hArg || 'y' in hArg
         || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
-        hNow.x = Number(this.val.getVal(`tmp:${frmnm}.x`));
-        hNow.y = Number(this.val.getVal(`tmp:${frmnm}.y`));
-        hNow.sx = Number(this.val.getVal(`tmp:${frmnm}.scale_x`));
-        hNow.sy = Number(this.val.getVal(`tmp:${frmnm}.scale_y`));
-        hNow.r = Number(this.val.getVal(`tmp:${frmnm}.rotate`));
+        hNow.x = Number(this.val.getVal(`tmp:${vn}.x`));
+        hNow.y = Number(this.val.getVal(`tmp:${vn}.y`));
+        hNow.sx = Number(this.val.getVal(`tmp:${vn}.scale_x`));
+        hNow.sy = Number(this.val.getVal(`tmp:${vn}.scale_y`));
+        hNow.r = Number(this.val.getVal(`tmp:${vn}.rotate`));
     }
     if ('width' in hArg)
-        hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
+        hNow.w = this.val.getVal(`tmp:${vn}.width`);
     if ('height' in hArg)
-        hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
+        hNow.h = this.val.getVal(`tmp:${vn}.height`);
     const hArg2 = (0, CmnLib_1.cnvTweenArg)(hArg, hNow);
     const hTo = {};
     const repeat = (0, CmnLib_1.argChk_Num)(hArg, 'repeat', 1);
@@ -68818,7 +68819,7 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     if ('alpha' in hArg) {
         hTo.a = (0, CmnLib_1.argChk_Num)(hArg2, 'alpha', 0);
         fncA = () => {
-            ifrm.style.opacity = hNow.a;
+            f.style.opacity = hNow.a;
             this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
         };
     }
@@ -68833,30 +68834,30 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
         hTo.sy = (0, CmnLib_1.argChk_Num)(hArg2, 'scale_y', 1);
         hTo.r = (0, CmnLib_1.argChk_Num)(hArg2, 'rotate', 0);
         fncXYSR = () => {
-            ifrm.style.left = this.sys.ofsLeft4frm + hNow.x * scale + 'px';
-            ifrm.style.top = this.sys.ofsTop4frm + hNow.y * scale + 'px';
-            ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
-            this.val.setVal_Nochk('tmp', frmnm + '.x', hNow.x);
-            this.val.setVal_Nochk('tmp', frmnm + '.y', hNow.y);
-            this.val.setVal_Nochk('tmp', frmnm + '.scale_x', hNow.sx);
-            this.val.setVal_Nochk('tmp', frmnm + '.scale_y', hNow.sy);
-            this.val.setVal_Nochk('tmp', frmnm + '.rotate', hNow.r);
+            f.style.left = this.sys.ofsLeft4frm + hNow.x * scale + 'px';
+            f.style.top = this.sys.ofsTop4frm + hNow.y * scale + 'px';
+            f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
+            this.val.setVal_Nochk('tmp', vn + '.x', hNow.x);
+            this.val.setVal_Nochk('tmp', vn + '.y', hNow.y);
+            this.val.setVal_Nochk('tmp', vn + '.scale_x', hNow.sx);
+            this.val.setVal_Nochk('tmp', vn + '.scale_y', hNow.sy);
+            this.val.setVal_Nochk('tmp', vn + '.rotate', hNow.r);
         };
     }
     let fncW = () => { };
     if ('width' in hArg) {
         hTo.w = rct.width;
         fncW = () => {
-            ifrm.width = hNow.w * scale + 'px';
-            this.val.setVal_Nochk('tmp', frmnm + '.width', hNow.w);
+            f.width = hNow.w * scale + 'px';
+            this.val.setVal_Nochk('tmp', vn + '.width', hNow.w);
         };
     }
     let fncH = () => { };
     if ('height' in hArg) {
         hTo.h = rct.height;
         fncH = () => {
-            ifrm.height = hNow.h * scale + 'px';
-            this.val.setVal_Nochk('tmp', frmnm + '.height', hNow.h);
+            f.height = hNow.h * scale + 'px';
+            this.val.setVal_Nochk('tmp', vn + '.height', hNow.h);
         };
     }
     this.appPixi.stage.interactive = false;
@@ -69013,10 +69014,9 @@ class Grammar {
         this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ? `\\${ce}` : ''}]`);
     }
     bracket2macro(hArg, script, idxToken) {
-        const name = hArg.name;
+        const { name, text } = hArg;
         if (!name)
             throw '[bracket2macro] nameは必須です';
-        const text = hArg.text;
         if (!text)
             throw '[bracket2macro] textは必須です';
         if (text.length !== 2)
@@ -69040,7 +69040,7 @@ class Grammar {
         this.replaceScr_C2M_And_let_ml(script, idxToken);
     }
     char2macro(hArg, hTag, script, idxToken) {
-        const char = hArg.char;
+        const { char, name } = hArg;
         if (!char)
             throw '[char2macro] charは必須です';
         __classPrivateFieldSet(this, _Grammar_hC2M, __classPrivateFieldGet(this, _Grammar_hC2M, "f") ?? {}, "f");
@@ -69049,7 +69049,6 @@ class Grammar {
         __classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").lastIndex = 0;
         if (__classPrivateFieldGet(this, _Grammar_REG_CANTC2M, "f").test(char))
             throw '[char2macro] char【' + char + '】は一文字マクロに使用できない文字です';
-        const name = hArg.name;
         if (!name)
             throw '[char2macro] nameは必須です';
         if (!(name in hTag))
@@ -69151,8 +69150,7 @@ class GrpLayer extends Layer_1.Layer {
     }
     setSp(_sp) { }
     laySub(hArg, resolve) {
-        const fn = hArg.fn;
-        const face = hArg.face ?? '';
+        const { fn, face = '' } = hArg;
         __classPrivateFieldGet(this, _GrpLayer_idc, "f").sethArg(hArg);
         if (!fn) {
             super.lay(hArg);
@@ -69263,7 +69261,7 @@ class GrpLayer extends Layer_1.Layer {
         return needLoad;
     }
     static wv(hArg) {
-        const fn = hArg.fn;
+        const { fn } = hArg;
         if (!fn)
             throw 'fnは必須です';
         const hve = GrpLayer.hFn2VElm[fn];
@@ -69362,12 +69360,12 @@ class GrpLayer extends Layer_1.Layer {
         Layer_1.Layer.setXY((this.spLay.children.length === 0) ? this.spLay : this.spLay.children[0], hArg, this.spLay, true);
     }
     static add_face(hArg) {
-        const name = hArg.name;
+        const { name } = hArg;
         if (!name)
             throw 'nameは必須です';
         if (name in __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_hFace))
             throw '一つのname（' + name + '）に対して同じ画像を複数割り当てられません';
-        const fn = hArg.fn ?? name;
+        const { fn = name } = hArg;
         __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_hFace)[name] = {
             fn,
             dx: (0, CmnLib_1.argChk_Num)(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,
@@ -69578,10 +69576,10 @@ class Layer {
         return false;
     }
     static setBlendmode(cnt, hArg) {
-        const bm_name = hArg.blendmode;
-        if (!bm_name)
+        const { blendmode } = hArg;
+        if (!blendmode)
             return;
-        const bmn = Layer.getBlendmodeNum(bm_name);
+        const bmn = Layer.getBlendmodeNum(blendmode);
         const sp = cnt;
         if (sp)
             sp.blendMode = bmn;
@@ -69926,9 +69924,8 @@ void main(void) {
         _LayerMng_chkTxtLay.set(this, () => { throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'; });
         _LayerMng_oLastPage.set(this, { text: '' });
         _LayerMng_aTxtLog.set(this, []);
-        const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
         const fncResizeLay = () => {
-            if (!CmnLib_1.CmnLib.cvsResize(cvs))
+            if (!CmnLib_1.CmnLib.cvsResize(appPixi.view))
                 return;
             this.cvsResizeDesign();
             if (__classPrivateFieldGet(this, _LayerMng_modeLnSub, "f"))
@@ -69949,7 +69946,7 @@ void main(void) {
                 tid = setTimeout(() => { tid = 0; fncResizeLay(); }, 500);
             }, { passive: true });
         }
-        CmnLib_1.CmnLib.cvsResize(cvs);
+        CmnLib_1.CmnLib.cvsResize(appPixi.view);
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[me.layname].fore === me);
         GrpLayer_1.GrpLayer.init(main, cfg, appPixi, sys, sndMng);
         Button_1.Button.init(cfg);
@@ -70227,7 +70224,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     });
     return false;
 }, _LayerMng_loadplugin = function _LayerMng_loadplugin(hArg) {
-    const fn = hArg.fn;
+    const { fn } = hArg;
     if (!fn)
         throw 'fnは必須です';
     const join = (0, CmnLib_1.argChk_Boolean)(hArg, 'join', true);
@@ -70246,14 +70243,13 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     }
     return join;
 }, _LayerMng_add_lay = function _LayerMng_add_lay(hArg) {
-    const layer = hArg.layer;
+    const { layer, class: cls } = hArg;
     if (!layer)
         throw 'layerは必須です';
     if (layer.includes(','))
         throw 'layer名に「,」は使えません';
     if (layer in __classPrivateFieldGet(this, _LayerMng_hPages, "f"))
         throw `layer【${layer}】はすでにあります`;
-    const cls = hArg.class;
     if (!cls)
         throw 'clsは必須です';
     const ret = { isWait: false };
@@ -70309,7 +70305,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
         }
     }
     else if (hArg.dive) {
-        const dive = hArg.dive;
+        const { dive } = hArg;
         let idx_dive = 0;
         if (layer === dive)
             throw '[lay] 属性 layerとdiveが同じ【' + dive + '】です';
@@ -70621,8 +70617,8 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")[tw_nm]?.tw?.resume();
     return false;
 }, _LayerMng_ch = function _LayerMng_ch(hArg) {
-    const txt = hArg.text;
-    if (!txt)
+    const { text } = hArg;
+    if (!text)
         throw 'textは必須です';
     const tl = __classPrivateFieldGet(this, _LayerMng_getTxtLayer, "f").call(this, hArg);
     delete hArg.text;
@@ -70634,7 +70630,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     const doRecLog = this.val.doRecLog();
     if (!record)
         this.val.setVal_Nochk('save', 'sn.doRecLog', record);
-    tl.tagCh(txt.replaceAll('[r]', '\n'));
+    tl.tagCh(text.replaceAll('[r]', '\n'));
     if (!record)
         this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
     return false;
@@ -70647,7 +70643,7 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     const tf = lay;
     return tf;
 }, _LayerMng_$current = function _LayerMng_$current(hArg) {
-    const layer = hArg.layer;
+    const { layer } = hArg;
     if (!layer)
         throw '[current] layerは必須です';
     __classPrivateFieldSet(this, _LayerMng_pgTxtlay, __classPrivateFieldGet(this, _LayerMng_hPages, "f")[layer], "f");
@@ -70706,10 +70702,9 @@ _a = LayerMng, _LayerMng_stage = new WeakMap(), _LayerMng_fore = new WeakMap(), 
     this.val.setVal_Nochk('save', 'const.sn.sLog', (hArg.text) ? `[{text:"${hArg.text}"}]` : '[]');
     return false;
 }, _LayerMng_ruby2 = function _LayerMng_ruby2(hArg) {
-    const t = hArg.t;
+    const { t, r } = hArg;
     if (!t)
         throw '[ruby2] tは必須です';
-    const r = hArg.r;
     if (!r)
         throw '[ruby2] rは必須です';
     hArg.text = '｜' + t + '《' + r + '》';
@@ -72060,7 +72055,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     return a;
 }, _ScriptIterator_let_ml = function _ScriptIterator_let_ml(hArg) {
     var _b;
-    const name = hArg.name;
+    const { name } = hArg;
     if (!name)
         throw 'nameは必須です';
     let ml = '';
@@ -72118,7 +72113,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     }
     return ret;
 }, _ScriptIterator_dump_script = function _ScriptIterator_dump_script(hArg) {
-    const set_fnc = hArg.set_fnc;
+    const { set_fnc, break_fnc } = hArg;
     if (!set_fnc)
         throw 'set_fncは必須です';
     __classPrivateFieldSet(this, _ScriptIterator_fncSet, globalThis[set_fnc], "f");
@@ -72138,7 +72133,6 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         __classPrivateFieldGet(this, _ScriptIterator_fncBreak, "f").call(this, __classPrivateFieldGet(this, _ScriptIterator_lineNum, "f"), goto);
     };
     this.noticeBreak(true);
-    const break_fnc = hArg.break_fnc;
     if (!break_fnc)
         return false;
     __classPrivateFieldSet(this, _ScriptIterator_fncBreak, globalThis[break_fnc], "f");
@@ -72156,7 +72150,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     return false;
 }, _ScriptIterator_if = function _ScriptIterator_if(hArg) {
     var _b, _c;
-    const exp = hArg.exp;
+    const { exp } = hArg;
     if (!exp)
         throw 'expは必須です';
     if (exp.charAt(0) === '&')
@@ -72225,7 +72219,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
 }, _ScriptIterator_call = function _ScriptIterator_call(hArg) {
     if (!(0, CmnLib_1.argChk_Boolean)(hArg, 'count', false))
         __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_eraseKidoku).call(this);
-    const fn = hArg.fn;
+    const { fn } = hArg;
     if (fn)
         __classPrivateFieldGet(this, _ScriptIterator_cnvSnPath, "f").call(this, fn);
     __classPrivateFieldGet(this, _ScriptIterator_instances, "m", _ScriptIterator_callSub).call(this, { ':hEvt1Time': __classPrivateFieldGet(this, _ScriptIterator_evtMng, "f").popLocalEvts(), ':hMp': this.val.cloneMp() });
@@ -72256,7 +72250,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
         __classPrivateFieldSet(this, _ScriptIterator_posAPageLog, -1, "f");
         return false;
     }
-    const to = hArg.to;
+    const { to } = hArg;
     if (!to)
         throw 'clearかtoは必須です';
     const oldPos = __classPrivateFieldGet(this, _ScriptIterator_posAPageLog, "f");
@@ -72532,7 +72526,7 @@ _a = ScriptIterator, _ScriptIterator_script = new WeakMap(), _ScriptIterator_scr
     return false;
 }, _ScriptIterator_macro = function _ScriptIterator_macro(hArg) {
     var _b, _c;
-    const name = hArg.name;
+    const { name } = hArg;
     if (!name)
         throw 'nameは必須です';
     if (name in this.hTag)
@@ -72782,7 +72776,7 @@ class SoundMng {
 }
 exports.SoundMng = SoundMng;
 _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(), _SoundMng_evtMng = new WeakMap(), _SoundMng_initVol = new WeakMap(), _SoundMng_instances = new WeakSet(), _SoundMng_volume = function _SoundMng_volume(hArg) {
-    const buf = hArg.buf ?? 'SE';
+    const { buf = 'SE' } = hArg;
     const bvn = 'const.sn.sound.' + buf + '.volume';
     const arg_vol = __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_getVol).call(this, hArg, 1);
     if (Number(this.val.getVal('sys:' + bvn)) === arg_vol)
@@ -72801,7 +72795,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     return vol;
 }, _SoundMng_fadeoutbgm = function _SoundMng_fadeoutbgm(hArg) { hArg.volume = 0; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadebgm).call(this, hArg); }, _SoundMng_fadeoutse = function _SoundMng_fadeoutse(hArg) { hArg.volume = 0; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadese).call(this, hArg); }, _SoundMng_fadebgm = function _SoundMng_fadebgm(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_fadese).call(this, hArg); }, _SoundMng_fadese = function _SoundMng_fadese(hArg) {
     __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, hArg);
-    const buf = hArg.buf ?? 'SE';
+    const { buf = 'SE' } = hArg;
     const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
     if (!oSb?.playing() || !oSb.snd)
         return false;
@@ -72852,9 +72846,8 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     (0, CmnLib_1.argChk_Boolean)(hArg, 'loop', true);
     return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_playse).call(this, hArg);
 }, _SoundMng_playse = function _SoundMng_playse(hArg) {
-    const buf = hArg.buf ?? 'SE';
+    const { buf = 'SE', fn } = hArg;
     __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, { buf });
-    const fn = hArg.fn;
     if (!fn)
         throw `[playse] fnは必須です buf:${buf}`;
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true)
@@ -73052,7 +73045,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     sound_1.sound.stopAll();
     return false;
 }, _SoundMng_stopbgm = function _SoundMng_stopbgm(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopse).call(this, hArg); }, _SoundMng_stopse = function _SoundMng_stopse(hArg) {
-    const buf = hArg.buf ?? 'SE';
+    const { buf = 'SE' } = hArg;
     __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_delLoopPlay).call(this, buf);
     const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
     if (oSb) {
@@ -73061,17 +73054,17 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
     }
     return false;
 }, _SoundMng_wb = function _SoundMng_wb(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_wf).call(this, hArg); }, _SoundMng_wf = function _SoundMng_wf(hArg) {
-    const buf = hArg.buf ?? 'SE';
+    const { buf = 'SE' } = hArg;
     const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
     if (!oSb?.twFade || !oSb.playing())
         return false;
     return oSb.resumeFade = __classPrivateFieldGet(this, _SoundMng_evtMng, "f").waitEvent(() => __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_stopfadese).call(this, hArg), (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', true), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
 }, _SoundMng_stopfadese = function _SoundMng_stopfadese(hArg) {
-    const buf = hArg.buf ?? 'SE';
+    const { buf = 'SE' } = hArg;
     __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf]?.twFade?.stop().end();
     return false;
 }, _SoundMng_wl = function _SoundMng_wl(hArg) { hArg.buf = 'BGM'; return __classPrivateFieldGet(this, _SoundMng_instances, "m", _SoundMng_ws).call(this, hArg); }, _SoundMng_ws = function _SoundMng_ws(hArg) {
-    const buf = hArg.buf ?? 'SE';
+    const { buf = 'SE' } = hArg;
     const oSb = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf];
     if (!oSb?.playing() || oSb.loop)
         return false;
@@ -73084,8 +73077,7 @@ _a = SoundMng, _SoundMng_hSndBuf = new WeakMap(), _SoundMng_hLP = new WeakMap(),
         oSb2.onend();
     }, (0, CmnLib_1.argChk_Boolean)(hArg, 'canskip', false), (0, CmnLib_1.argChk_Boolean)(hArg, 'global', false));
 }, _SoundMng_xchgbuf = function _SoundMng_xchgbuf(hArg) {
-    const buf1 = hArg.buf ?? 'SE';
-    const buf2 = hArg.buf2 ?? 'SE';
+    const { buf: buf1 = 'SE', buf2 = 'SE' } = hArg;
     if (buf1 === buf2)
         return false;
     const sb1 = __classPrivateFieldGet(this, _SoundMng_hSndBuf, "f")[buf1];
@@ -73254,7 +73246,7 @@ class SysApp extends SysNode_1.SysNode {
             return false;
         };
         this.navigate_to = hArg => {
-            const url = hArg.url;
+            const { url } = hArg;
             if (!url)
                 throw '[navigate_to] urlは必須です';
             to_app.navigate_to(url);
@@ -73279,29 +73271,12 @@ class SysApp extends SysNode_1.SysNode {
             return false;
         };
         this.tgl_full_scr_sub = async () => {
-            const st = this.appPixi.view.style;
             if (await to_app.isSimpleFullScreen()) {
                 await to_app.setSimpleFullScreen(false, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-                st.width = CmnLib_1.CmnLib.stageW + 'px';
-                st.height = CmnLib_1.CmnLib.stageH + 'px';
-                st.marginLeft = '0px';
-                st.marginTop = '0px';
                 this.reso4frame = 1;
             }
             else {
-                const w = __classPrivateFieldGet(this, _SysApp_hInfo, "f").screenResolutionX;
-                const h = __classPrivateFieldGet(this, _SysApp_hInfo, "f").screenResolutionY;
-                const ratioWidth = w / CmnLib_1.CmnLib.stageW;
-                const ratioHeight = h / CmnLib_1.CmnLib.stageH;
-                const ratio = (ratioWidth < ratioHeight) ? ratioWidth : ratioHeight;
                 await to_app.setSimpleFullScreen(true, screen.width, screen.height);
-                st.width = (CmnLib_1.CmnLib.stageW * ratio) + 'px';
-                st.height = (CmnLib_1.CmnLib.stageH * ratio) + 'px';
-                if (ratioWidth >= ratioHeight) {
-                    st.marginLeft = (w - CmnLib_1.CmnLib.stageW * ratio) / 2 + 'px';
-                }
-                else
-                    st.marginTop = (h - CmnLib_1.CmnLib.stageH * ratio) / 2 + 'px';
                 await to_app.win_setContentSize(screen.width, screen.height);
                 const cr = this.appPixi.view.getBoundingClientRect();
                 this.reso4frame = cr.width / CmnLib_1.CmnLib.stageW;
@@ -73309,7 +73284,7 @@ class SysApp extends SysNode_1.SysNode {
             this.resizeFrames();
         };
         this.update_check = hArg => {
-            const url = hArg.url;
+            const { url } = hArg;
             if (!url)
                 throw '[update_check] urlは必須です';
             if (url.slice(-1) !== '/')
@@ -73593,7 +73568,7 @@ class SysBase {
         this._import = () => false;
         this.navigate_to = () => false;
         this.title = hArg => {
-            const text = hArg.text;
+            const { text } = hArg;
             if (!text)
                 throw '[title] textは必須です';
             __classPrivateFieldSet(this, _SysBase_main_title, text, "f");
@@ -73763,10 +73738,7 @@ class SysBase {
         __classPrivateFieldSet(this, _SysBase_sk, undefined, "f");
     }
     toast(nm) {
-        const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
-        if (!cvs)
-            return;
-        const p = cvs.parentNode;
+        const p = this.appPixi.view.parentNode;
         p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v => p.removeChild(v));
         const img = document.createElement('img');
         const td = __classPrivateFieldGet(SysBase, _a, "f", _SysBase_hToastDat)[nm];
@@ -73780,7 +73752,7 @@ top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * CmnLib_1.CmnLib.cvsScale + size * (
         img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
         if (!td.ease)
             img.addEventListener('animationend', () => p.removeChild(img), { once: true, passive: true });
-        p.insertBefore(img, cvs);
+        p.insertBefore(img, this.appPixi.view);
     }
     setFire(fire) { this.fire = fire; }
     addHook(fnc) { __classPrivateFieldGet(this, _SysBase_aFncHook, "f").push(fnc); }
@@ -73803,20 +73775,18 @@ top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * CmnLib_1.CmnLib.cvsScale + size * (
     async ensureFileSync(_path) { }
     resizeFrames() {
         const cr = this.appPixi.view.getBoundingClientRect();
-        const a = document.getElementsByTagName('iframe');
-        const len = a.length;
+        const l = this.ofsLeft4frm + cr.left;
+        const t = this.ofsTop4frm + cr.top;
+        const c = document.getElementsByTagName('iframe');
+        const len = c.length;
         for (let i = 0; i < len; ++i) {
-            const it = a[i];
-            const frmnm = `const.sn.frm.${it.id}`;
-            it.style.left = this.ofsLeft4frm + cr.left
-                + Number(this.val.getVal(`tmp:${frmnm}.x`)) * this.reso4frame
-                + 'px';
-            it.style.top = this.ofsTop4frm + cr.top
-                + Number(this.val.getVal(`tmp:${frmnm}.y`)) * this.reso4frame
-                + 'px';
-            it.width = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
+            const f = c[i];
+            const tvn = 'tmp:const.sn.frm.' + f.id;
+            f.style.left = `${l + Number(this.val.getVal(tvn + '.x')) * this.reso4frame}px`;
+            f.style.top = `${t + Number(this.val.getVal(tvn + '.y')) * this.reso4frame}px`;
+            f.width = String(Number(this.val.getVal(tvn + '.width'))
                 * this.reso4frame);
-            it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
+            f.height = String(Number(this.val.getVal(tvn + '.height'))
                 * this.reso4frame);
         }
     }
@@ -74459,7 +74429,7 @@ _a = TxtLayer, _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMa
     const o = TxtStage_1.TxtStage.ch_in_style(hArg);
     const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
     const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
-    const name = hArg.name;
+    const { name } = hArg;
     (0, CmnLib_1.addStyle)(`
 .sn_ch_in_${name} {
 	position: relative;
@@ -74481,7 +74451,7 @@ _a = TxtLayer, _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMa
     const o = TxtStage_1.TxtStage.ch_out_style(hArg);
     const x = (o.x.charAt(0) === '=') ? `${o.nx * 100}%` : `${o.nx}px`;
     const y = (o.y.charAt(0) === '=') ? `${o.ny * 100}%` : `${o.ny}px`;
-    const name = hArg.name;
+    const { name } = hArg;
     (0, CmnLib_1.addStyle)(`
 .go_ch_out_${name} {
 	position: relative;
@@ -74498,41 +74468,41 @@ _a = TxtLayer, _TxtLayer_b_color = new WeakMap(), _TxtLayer_b_alpha = new WeakMa
 }, _TxtLayer_autowc = function _TxtLayer_autowc(hArg) {
     __classPrivateFieldSet(TxtLayer, _a, (0, CmnLib_1.argChk_Boolean)(hArg, 'enabled', __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc)), "f", _TxtLayer_doAutoWc);
     __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.enabled', __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc));
-    const ch = hArg.text;
+    const { text } = hArg;
     if (('text' in hArg) !== ('time' in hArg))
         throw '[autowc] textとtimeは同時指定必須です';
-    __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.text', ch);
-    if (!ch) {
+    __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.text', text);
+    if (!text) {
         __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.time', '');
         return false;
     }
-    const len = ch.length;
+    const len = text.length;
     if (__classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_doAutoWc) && len === 0)
         throw '[autowc] enabled === false かつ text === "" は許されません';
     const a = String(hArg.time).split(',');
     if (a.length !== len)
         throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
     __classPrivateFieldSet(TxtLayer, _a, {}, "f", _TxtLayer_hAutoWc);
-    a.forEach((v, i) => __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_hAutoWc)[ch[i]] = (0, CmnLib_1.uint)(v));
+    a.forEach((v, i) => __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_hAutoWc)[text[i]] = (0, CmnLib_1.uint)(v));
     __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_val).setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
     return false;
 }, _TxtLayer_set_ch_in = function _TxtLayer_set_ch_in(hArg) {
-    const ins = hArg.in_style;
-    if (!ins)
+    const { in_style } = hArg;
+    if (!in_style)
         return;
-    const cis = TxtStage_1.TxtStage.getChInStyle(ins);
+    const cis = TxtStage_1.TxtStage.getChInStyle(in_style);
     if (!cis)
-        throw `存在しないin_style【${ins}】です`;
-    __classPrivateFieldSet(this, _TxtLayer_$ch_in_style, ins, "f");
+        throw `存在しないin_style【${in_style}】です`;
+    __classPrivateFieldSet(this, _TxtLayer_$ch_in_style, in_style, "f");
     __classPrivateFieldSet(this, _TxtLayer_ch_in_join, cis.join, "f");
 }, _TxtLayer_set_ch_out = function _TxtLayer_set_ch_out(hArg) {
-    const outs = hArg.out_style;
-    if (!outs)
+    const { out_style } = hArg;
+    if (!out_style)
         return;
-    const cos = TxtStage_1.TxtStage.getChOutStyle(outs);
+    const cos = TxtStage_1.TxtStage.getChOutStyle(out_style);
     if (!cos)
-        throw `存在しないout_style【${outs}】です`;
-    __classPrivateFieldSet(this, _TxtLayer_$ch_out_style, outs, "f");
+        throw `存在しないout_style【${out_style}】です`;
+    __classPrivateFieldSet(this, _TxtLayer_$ch_out_style, out_style, "f");
 }, _TxtLayer_drawBack = function _TxtLayer_drawBack(hArg, fncComp) {
     if ('back_clear' in hArg) {
         if ((0, CmnLib_1.argChk_Boolean)(hArg, 'back_clear', false)) {
@@ -74721,7 +74691,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_cvs, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_infTL, _TxtStage_break_fixed, _TxtStage_break_fixed_left, _TxtStage_break_fixed_top, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
+var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_parSn, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_infTL, _TxtStage_break_fixed, _TxtStage_break_fixed_left, _TxtStage_break_fixed_top, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtStage = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -74774,7 +74744,7 @@ class TxtStage extends pixi_js_1.Container {
         _TxtStage_sss.set(this, undefined);
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").classList.add('sn_tx');
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.position = 'absolute';
-        __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_cvs).parentElement.appendChild(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"));
+        __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_parSn).appendChild(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"));
         this.addChild(__classPrivateFieldGet(this, _TxtStage_cntTxt, "f"));
         this.addChild(__classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f"));
         __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").name = 'grpDbgMasume';
@@ -74782,7 +74752,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     static init(cfg) {
         __classPrivateFieldSet(TxtStage, _a, cfg, "f", _TxtStage_cfg);
-        __classPrivateFieldSet(TxtStage, _a, document.getElementById(CmnLib_1.CmnLib.SN_ID), "f", _TxtStage_cvs);
+        __classPrivateFieldSet(TxtStage, _a, document.getElementById(CmnLib_1.CmnLib.SN_ID).parentElement, "f", _TxtStage_parSn);
         __classPrivateFieldSet(TxtStage, _a, /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/, "f", _TxtStage_reg行頭禁則);
         __classPrivateFieldSet(TxtStage, _a, /[［（｛〈「『【〔“〝]/, "f", _TxtStage_reg行末禁則);
         __classPrivateFieldSet(TxtStage, _a, /[─‥…]/, "f", _TxtStage_reg分割禁止);
@@ -75099,7 +75069,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     static getChInStyle(name) { return __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChInStyle)[name]; }
     static ch_in_style(hArg) {
-        const name = hArg.name;
+        const { name } = hArg;
         if (!name)
             throw 'nameは必須です';
         __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
@@ -75125,7 +75095,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     static getChOutStyle(name) { return __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_hChOutStyle)[name]; }
     static ch_out_style(hArg) {
-        const name = hArg.name;
+        const { name } = hArg;
         if (!name)
             throw 'nameは必須です';
         __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
@@ -75621,7 +75591,7 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
     __classPrivateFieldSet(this, _TxtStage_htmTxt, n, "f");
 };
 _TxtStage_cfg = { value: void 0 };
-_TxtStage_cvs = { value: void 0 };
+_TxtStage_parSn = { value: void 0 };
 _TxtStage_evtMng = { value: void 0 };
 _TxtStage_hWarning = { value: {
         backgroundColor: 0,
@@ -75988,7 +75958,7 @@ _a = Variable, _Variable_hScopes = new WeakMap(), _Variable_hSave = new WeakMap(
     __classPrivateFieldGet(this, _Variable_sys, "f").copyBMFolder(from, to);
     return false;
 }, _Variable_erasebookmark = function _Variable_erasebookmark(hArg) {
-    const place = hArg.place;
+    const { place } = hArg;
     if (!place)
         throw 'placeは必須です';
     delete __classPrivateFieldGet(this, _Variable_data, "f").mark[place];
@@ -76032,7 +76002,7 @@ _a = Variable, _Variable_hScopes = new WeakMap(), _Variable_hSave = new WeakMap(
     __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, hArg);
     return false;
 }, _Variable_let_index_of = function _Variable_let_index_of(hArg) {
-    const val = hArg.val;
+    const { val } = hArg;
     if (!val)
         throw 'valは必須です';
     const start = (0, CmnLib_1.argChk_Num)(hArg, 'start', 0);
@@ -76046,7 +76016,7 @@ _a = Variable, _Variable_hScopes = new WeakMap(), _Variable_hSave = new WeakMap(
 }, _Variable_let_replace = function _Variable_let_replace(hArg) {
     if (!hArg.reg)
         throw 'regは必須です';
-    const flags = hArg.flags;
+    const { flags } = hArg;
     const reg = (!flags)
         ? new RegExp(hArg.reg)
         : new RegExp(hArg.reg, flags);
@@ -76061,7 +76031,7 @@ _a = Variable, _Variable_hScopes = new WeakMap(), _Variable_hSave = new WeakMap(
 }, _Variable_let_search = function _Variable_let_search(hArg) {
     if (!hArg.reg)
         throw 'regは必須です';
-    const flags = hArg.flags;
+    const { flags } = hArg;
     const reg = (!flags)
         ? new RegExp(hArg.reg)
         : new RegExp(hArg.reg, flags);

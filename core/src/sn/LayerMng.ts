@@ -39,9 +39,8 @@ export class LayerMng implements IGetFrm {
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転の対応
-		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 		const fncResizeLay = ()=> {
-			if (! CmnLib.cvsResize(cvs)) return;
+			if (! CmnLib.cvsResize(appPixi.view)) return;
 
 			this.cvsResizeDesign();
 			if (this.#modeLnSub) this.#aLayName.forEach(
@@ -64,7 +63,7 @@ export class LayerMng implements IGetFrm {
 				tid = setTimeout(()=> {tid = 0; fncResizeLay();}, 500);
 			}, {passive: true});
 		}
-		CmnLib.cvsResize(cvs);
+		CmnLib.cvsResize(appPixi.view);
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt), (me: TxtLayer)=> this.#hPages[me.layname].fore === me);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng);
@@ -363,7 +362,7 @@ export class LayerMng implements IGetFrm {
 
 	// プラグインの読み込み
 	#loadplugin(hArg: HArg) {
-		const fn = hArg.fn;
+		const {fn} = hArg;
 		if (! fn) throw 'fnは必須です';
 		const join = argChk_Boolean(hArg, 'join', true);
 
@@ -388,11 +387,10 @@ export class LayerMng implements IGetFrm {
 //	//	レイヤ共通
 	// レイヤを追加する
 	#add_lay(hArg: HArg) {
-		const layer = hArg.layer;
+		const {layer, class: cls} = hArg;
 		if (! layer) throw 'layerは必須です';
 		if (layer.includes(',')) throw 'layer名に「,」は使えません';
 		if (layer in this.#hPages) throw `layer【${layer}】はすでにあります`;
-		const cls = hArg.class;
 		if (! cls) throw 'clsは必須です';
 
 		const ret = {isWait: false}
@@ -459,7 +457,7 @@ export class LayerMng implements IGetFrm {
 			}
 		}
 		else if (hArg.dive) {
-			const dive = hArg.dive;
+			const {dive} = hArg;
 			let idx_dive = 0;
 			if (layer === dive) throw '[lay] 属性 layerとdiveが同じ【'+ dive +'】です';
 
@@ -895,8 +893,8 @@ void main(void) {
 	static set	msecChWait(v) {LayerMng.#msecChWait = v;}
 	// 文字を追加する
 	#ch(hArg: HArg) {
-		const txt = hArg.text;
-		if (! txt) throw 'textは必須です';
+		const {text} = hArg;
+		if (! text) throw 'textは必須です';
 
 		const tl = this.#getTxtLayer(hArg);
 		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
@@ -908,7 +906,7 @@ void main(void) {
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', record);
-		tl.tagCh(txt.replaceAll('[r]', '\n'));
+		tl.tagCh(text.replaceAll('[r]', '\n'));
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
 		//（未使用 22/1/13） this.#cmdTxt(`add_close｜`, tl);
@@ -932,7 +930,7 @@ void main(void) {
 	// 操作対象のメッセージレイヤの指定
 	#current = (_hArg: HArg): boolean=> {this.#chkTxtLay(); throw 0};
 	#$current(hArg: HArg) {
-		const layer = hArg.layer;
+		const {layer} = hArg;
 		if (! layer) throw '[current] layerは必須です';
 
 		this.#pgTxtlay = this.#hPages[layer];
@@ -1059,9 +1057,8 @@ void main(void) {
 
 	// 文字列と複数ルビの追加
 	#ruby2(hArg: HArg) {
-		const t = hArg.t;
+		const {t, r} = hArg;
 		if (! t) throw '[ruby2] tは必須です';
-		const r = hArg.r;
 		if (! r) throw '[ruby2] rは必須です';
 
 		hArg.text = '｜'+ t +'《'+ r +'》';

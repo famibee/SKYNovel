@@ -30,14 +30,14 @@ export class SysWeb extends SysBase {
 		// 全画面状態切替
 		const tgl_full_scr = ('requestFullscreen' in document.body)
 		? ()=> {
-			((this.#isFullScr = ! Boolean(document.fullscreenElement))
+			((CmnLib.isFullScr = ! Boolean(document.fullscreenElement))
 			? document.body.requestFullscreen()
 			: document.exitFullscreen())
 			.then(()=> this.#resizeFramesWork())
 		}
 		: ()=> {
-			const doc: any = document;
-			((this.#isFullScr = ! Boolean(doc.webkitFullscreenElement))
+			const doc: any = document;	// Safariなど
+			((CmnLib.isFullScr = ! Boolean(doc.webkitFullscreenElement))
 			? doc.body.webkitRequestFullscreen()
 			: doc.webkitCancelFullScreen())
 			.then(()=> this.#resizeFramesWork())
@@ -85,26 +85,22 @@ export class SysWeb extends SysBase {
 		this.run();
 	}
 	#resizeFramesWork() {
-		const is_fs = this.#isFullScr;	// この状態へ移行する
-		//this.reso4frame = this.$isFullScr ?1 :screen.width /CmnLib.stageW;
-			// 全画面を使う
-
-		const ratioWidth  = screen.width  / CmnLib.stageW;
-		const ratioHeight = screen.height / CmnLib.stageH;
-		const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
-		this.reso4frame = is_fs ?ratio :1;
+		// CmnLib.isFullScr の状態へ移行する
+		const rw = screen.width  / CmnLib.stageW;
+		const rh = screen.height / CmnLib.stageH;
+		const ratio = (rw < rh) ?rw :rh;
+		this.reso4frame = CmnLib.isFullScr ?ratio :1;
 			// document.body.clientWidth が時々正しい値を返さないのでscreen.widthで
-		this.ofsLeft4frm = is_fs
+		this.ofsLeft4frm = CmnLib.isFullScr
 			? (screen.width -CmnLib.stageW *this.reso4frame *CmnLib.cvsScale) /2
 			: 0;
-		this.ofsTop4frm  = is_fs
+		this.ofsTop4frm  = CmnLib.isFullScr
 			? (screen.height-CmnLib.stageH *this.reso4frame *CmnLib.cvsScale) /2
 			: 0;
 		this.resizeFrames();
 	}
-	#isFullScr	= false;
 
-	#now_prj		= ':';
+	#now_prj	= ':';
 	runSN(prj: string) {
 		this.arg.cur = this.#path_base + prj +'/';
 		if (this.#now_prj === this.arg.cur) return;
@@ -149,7 +145,7 @@ export class SysWeb extends SysBase {
 		const hn = encodeURIComponent(document.location.hostname);
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
 
-		this.val.defTmp('const.sn.displayState', ()=> this.#isFullScr);
+		this.val.defTmp('const.sn.displayState', ()=> CmnLib.isFullScr);
 
 		const ns = this.cfg.getNs();
 		this.flush = this.crypto
@@ -274,7 +270,7 @@ export class SysWeb extends SysBase {
 
 	// ＵＲＬを開く
 	protected override readonly	navigate_to: ITag = hArg=> {
-		const url = hArg.url;
+		const {url} = hArg;
 		if (! url) throw '[navigate_to] urlは必須です';
 	//	globalThis.open(url);		// 近年セキュリティ的に効かない
 		globalThis.open(url, '_blank');		// 効くがポップアップブロック

@@ -77,9 +77,8 @@ export class Grammar {
 
 	// 括弧マクロの定義
 	bracket2macro(hArg: HArg, script: Script, idxToken: number) {
-		const name = hArg.name;
+		const {name, text} = hArg;
 		if (! name) throw '[bracket2macro] nameは必須です';
-		const text = hArg.text;
 		if (! text) throw '[bracket2macro] textは必須です';
 		if (text.length !== 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
 
@@ -102,14 +101,13 @@ export class Grammar {
 	}
 	// 一文字マクロの定義
 	char2macro(hArg: HArg, hTag: HArg, script: Script, idxToken: number) {
-		const char = hArg.char;
+		const {char, name} = hArg;
 		if (! char) throw '[char2macro] charは必須です';
 		this.#hC2M ??= {};
 		if (char in this.#hC2M) throw '[char2macro] char【'+ char +'】が登録済みの括弧マクロまたは一文字マクロです';
 		this.#REG_CANTC2M.lastIndex = 0;
 		if (this.#REG_CANTC2M.test(char)) throw '[char2macro] char【'+ char +'】は一文字マクロに使用できない文字です';
 
-		const name = hArg.name;
 		if (! name) throw '[char2macro] nameは必須です';
 		if (! (name in hTag)) throw `[char2macro] 未定義のタグ又はマクロ[${name}]です`;
 

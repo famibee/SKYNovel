@@ -43,10 +43,10 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	static	#cfg	: Config;
-	static	#cvs	: HTMLCanvasElement;
+	static	#parSn	: HTMLElement;
 	static	init(cfg: Config): void {
 		TxtStage.#cfg = cfg;
-		TxtStage.#cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
+		TxtStage.#parSn = document.getElementById(CmnLib.SN_ID)!.parentElement!;
 
 		TxtStage.#reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
 		TxtStage.#reg行末禁則	= /[［（｛〈「『【〔“〝]/;
@@ -97,7 +97,7 @@ export class TxtStage extends Container {
 
 		this.#htmTxt.classList.add('sn_tx');
 		this.#htmTxt.style.position = 'absolute';
-		TxtStage.#cvs.parentElement!.appendChild(this.#htmTxt);
+		TxtStage.#parSn.appendChild(this.#htmTxt);
 
 		this.addChild(this.#cntTxt);
 
@@ -880,7 +880,7 @@ export class TxtStage extends Container {
 	}
 	static	getChInStyle(name: string) {return TxtStage.#hChInStyle[name];}
 	static	ch_in_style(hArg: HArg): any {
-		const name = hArg.name;
+		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		TxtStage.#REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
 		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
@@ -924,7 +924,7 @@ export class TxtStage extends Container {
 	}}	= Object.create(null);
 	static	getChOutStyle(name: string) {return TxtStage.#hChOutStyle[name];}
 	static	ch_out_style(hArg: HArg): any {
-		const name = hArg.name;
+		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		TxtStage.#REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
 		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;

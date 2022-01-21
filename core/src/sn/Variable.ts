@@ -267,7 +267,7 @@ export class Variable implements IVariable {
 
 	// しおりの消去
 	#erasebookmark(hArg: HArg) {
-		const place = hArg.place;
+		const {place} = hArg;
 		if (! place) throw 'placeは必須です';
 
 		delete this.#data.mark[place];
@@ -335,7 +335,7 @@ export class Variable implements IVariable {
 
 	// 文字列で検索
 	#let_index_of(hArg: HArg) {
-		const val = hArg.val;
+		const {val} = hArg;
 		if (! val) throw 'valは必須です';
 		const start = argChk_Num(hArg, 'start', 0);
 
@@ -357,7 +357,7 @@ export class Variable implements IVariable {
 	#let_replace(hArg: HArg) {
 		if (! hArg.reg) throw 'regは必須です';
 
-		const flags = hArg.flags;
+		const {flags} = hArg;
 		const reg = (! flags)
 			? new RegExp(hArg.reg)
 			: new RegExp(hArg.reg, flags);
@@ -380,7 +380,7 @@ export class Variable implements IVariable {
 	#let_search(hArg: HArg) {
 		if (! hArg.reg) throw 'regは必須です';
 
-		const flags = hArg.flags;
+		const {flags} = hArg;
 		const reg = (! flags)
 			? new RegExp(hArg.reg)
 			: new RegExp(hArg.reg, flags);

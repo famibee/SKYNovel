@@ -44,10 +44,10 @@ export declare class CmnLib {
     static cvsHeight: number;
     static cvsScale: number;
     static debugLog: boolean;
-    static isSafari: boolean;
-    static isFirefox: boolean;
-    static isMac: boolean;
-    static isMobile: boolean;
+    static readonly isSafari: boolean;
+    static readonly isFirefox: boolean;
+    static readonly isMac: boolean;
+    static readonly isMobile: boolean;
     static hDip: {
         [name: string]: string;
     };
@@ -58,6 +58,7 @@ export declare class CmnLib {
     static retinaRate: number;
     static readonly SN_ID = "skynovel";
     static cc4ColorName: CanvasRenderingContext2D;
+    static isFullScr: boolean;
     static cvsResize(cvs: HTMLCanvasElement): boolean;
 }
 //# sourceMappingURL=CmnLib.d.ts.map

@@ -203,10 +203,7 @@ export class SysBase implements ISysBase {
 		_addPath		: o=> this.cfg.addPath(o.fn, o.o),
 	};
 	protected toast(nm: string) {
-		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
-		if (! cvs) return;
-
-		const p = cvs.parentNode!;
+		const p = this.appPixi.view.parentNode!;
 		p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v=> p.removeChild(v));
 
 		const img = document.createElement('img');
@@ -220,7 +217,7 @@ left: ${(CmnLib.stageW -size) /2 *CmnLib.cvsScale +size *(td.dx ?? 0)}px;
 top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 		img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
 		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
-		p.insertBefore(img, cvs);
+		p.insertBefore(img, this.appPixi.view);
 	}
 	static	readonly	#hToastDat
 	: {[nm: string] :{dat: string, dx?: number, dy?: number, ease?: string}}	= {	// Thanks ICOOON MONO https://icooon-mono.com/ 、 https://vectr.com/ で 640x640化、ImageOptim経由、Base64エンコーダー https://lab.syncer.jp/Tool/Base64-encode/ 
@@ -259,7 +256,7 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 	protected readonly	_import			: ITag = ()=> false;
 	protected readonly	navigate_to		: ITag = ()=> false;
 	protected readonly	title			: ITag = hArg=> {
-		const text = hArg.text;
+		const {text} = hArg;
 		if (! text) throw '[title] textは必須です';
 
 		this.#main_title = text;
@@ -343,20 +340,22 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 	ofsTop4frm	= 0;
 	protected	resizeFrames() {
 		const cr = this.appPixi.view.getBoundingClientRect();
-		const a = document.getElementsByTagName('iframe');
-		const len = a.length;
+		const l = this.ofsLeft4frm +cr.left;
+		const t = this.ofsTop4frm  +cr.top;
+		const c = document.getElementsByTagName('iframe');
+		const len = c.length;
 		for (let i=0; i<len; ++i) {
-			const it = a[i];
-			const frmnm = `const.sn.frm.${it.id}`;
-			it.style.left = this.ofsLeft4frm +cr.left
-				+ Number(this.val.getVal(`tmp:${frmnm}.x`)) *this.reso4frame
-				+'px';
-			it.style.top  = this.ofsTop4frm +cr.top
-				+ Number(this.val.getVal(`tmp:${frmnm}.y`)) *this.reso4frame
-				+'px';
-			it.width  = String(Number(this.val.getVal(`tmp:${frmnm}.width`))
+			const f = c[i];
+			const tvn = 'tmp:const.sn.frm.'+ f.id;
+			f.style.left = `${
+				l + Number(this.val.getVal(tvn +'.x')) *this.reso4frame
+			}px`;
+			f.style.top  = `${
+				t + Number(this.val.getVal(tvn +'.y')) *this.reso4frame
+			}px`;
+			f.width  = String(Number(this.val.getVal(tvn +'.width'))
 				*this.reso4frame);
-			it.height = String(Number(this.val.getVal(`tmp:${frmnm}.height`))
+			f.height = String(Number(this.val.getVal(tvn +'.height'))
 				*this.reso4frame);
 		}
 	}

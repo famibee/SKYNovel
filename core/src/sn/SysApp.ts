@@ -234,7 +234,7 @@ export class SysApp extends SysNode {
 
 	// ＵＲＬを開く
 	protected override readonly	navigate_to: ITag = hArg=> {
-		const url = hArg.url;
+		const {url} = hArg;
 		if (! url) throw '[navigate_to] urlは必須です';
 
 		to_app.navigate_to(url);
@@ -261,32 +261,13 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	protected readonly	tgl_full_scr_sub = async ()=> {
-		const st = this.appPixi.view.style;
 		if (await to_app.isSimpleFullScreen()) {
 			await to_app.setSimpleFullScreen(false, CmnLib.stageW, CmnLib.stageH);
-			st.width  = CmnLib.stageW +'px';
-			st.height = CmnLib.stageH +'px';
-			st.marginLeft = '0px';
-			st.marginTop  = '0px';
 
 			this.reso4frame = 1;
 		}
 		else {
-			const w = this.#hInfo.screenResolutionX;
-			const h = this.#hInfo.screenResolutionY;
-			const ratioWidth  = w / CmnLib.stageW;
-			const ratioHeight = h / CmnLib.stageH;
-			const ratio = (ratioWidth < ratioHeight) ?ratioWidth :ratioHeight;
 			await to_app.setSimpleFullScreen(true, screen.width, screen.height);
-//			await to_app.setSimpleFullScreen(true, CmnLib.stageW * ratio, CmnLib.stageH * ratio);
-
-			st.width  = (CmnLib.stageW * ratio) +'px';
-			st.height = (CmnLib.stageH * ratio) +'px';
-			if (ratioWidth >= ratioHeight) {	// 左に寄る対策
-				st.marginLeft = (w -CmnLib.stageW *ratio) /2 +'px';
-			}
-			else st.marginTop = (h -CmnLib.stageH *ratio) /2 +'px';
-
 			await to_app.win_setContentSize(screen.width, screen.height);
 				// これがないとWinアプリ版で下部が短くなり背後が見える
 
@@ -297,7 +278,7 @@ export class SysApp extends SysNode {
 	}
 	// 更新チェック
 	protected override readonly	update_check: ITag = hArg=> {
-		const url = hArg.url;
+		const {url} = hArg;
 		if (! url) throw '[update_check] urlは必須です';
 		if (url.slice(-1) !== '/') throw '[update_check] urlの最後は/です';
 		if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] url=${url}`, 'D');

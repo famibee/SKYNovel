@@ -98,7 +98,7 @@ export class TxtLayer extends Layer {
 		const o = TxtStage.ch_in_style(hArg);
 		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
 		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
-		const name = hArg.name;
+		const {name} = hArg;
 		addStyle(`
 .sn_ch_in_${name} {
 	position: relative;
@@ -123,7 +123,7 @@ export class TxtLayer extends Layer {
 		const o = TxtStage.ch_out_style(hArg);
 		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
 		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
-		const name = hArg.name;
+		const {name} = hArg;
 		addStyle(`
 .go_ch_out_${name} {
 	position: relative;
@@ -156,21 +156,21 @@ export class TxtLayer extends Layer {
 		TxtLayer.#doAutoWc = argChk_Boolean(hArg, 'enabled', TxtLayer.#doAutoWc);
 		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.#doAutoWc);
 
-		const ch = hArg.text;
+		const {text} = hArg;
 		if (('text' in hArg) !== ('time' in hArg)) throw '[autowc] textとtimeは同時指定必須です';
-		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.text', ch);
-		if (! ch) {
+		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.text', text);
+		if (! text) {
 			TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.time', '');
 			return false;
 		}
 
-		const len = ch.length;
+		const len = text.length;
 		if (TxtLayer.#doAutoWc && len === 0) throw '[autowc] enabled === false かつ text === "" は許されません';
 
 		const a = String(hArg.time).split(',');
 		if (a.length !== len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
 		TxtLayer.#hAutoWc = {};	// 毎回クリアを仕様とする
-		a.forEach((v, i)=> TxtLayer.#hAutoWc[ch[i]] = uint(v));
+		a.forEach((v, i)=> TxtLayer.#hAutoWc[text[i]] = uint(v));
 		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
 
 		return false;
@@ -249,11 +249,11 @@ export class TxtLayer extends Layer {
 		return this.#drawBack(hArg, isStop=> {if (isStop) TxtLayer.#main.resume()});
 	}
 	#set_ch_in(hArg: HArg) {
-		const ins = hArg.in_style;
-		if (! ins) return;
-		const cis = TxtStage.getChInStyle(ins);
-		if (! cis) throw `存在しないin_style【${ins}】です`;
-		this.#$ch_in_style = ins;
+		const {in_style} = hArg;
+		if (! in_style) return;
+		const cis = TxtStage.getChInStyle(in_style);
+		if (! cis) throw `存在しないin_style【${in_style}】です`;
+		this.#$ch_in_style = in_style;
 		this.#ch_in_join = cis.join;
 	}
 	#$ch_in_style	= '';
@@ -263,11 +263,11 @@ export class TxtLayer extends Layer {
 	override get	height() {return this.#txs.getHeight}
 
 	#set_ch_out(hArg: HArg) {
-		const outs = hArg.out_style;
-		if (! outs) return;
-		const cos = TxtStage.getChOutStyle(outs);
-		if (! cos) throw `存在しないout_style【${outs}】です`;
-		this.#$ch_out_style = outs;
+		const {out_style} = hArg;
+		if (! out_style) return;
+		const cos = TxtStage.getChOutStyle(out_style);
+		if (! cos) throw `存在しないout_style【${out_style}】です`;
+		this.#$ch_out_style = out_style;
 	}
 	#$ch_out_style	= '';
 

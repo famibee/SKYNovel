@@ -186,10 +186,10 @@ export class CmnLib {
 	static	cvsHeight	= 0;
 	static	cvsScale	= 1;
 	static	debugLog	= false;
-	static	isSafari	= platform.name === 'Safari';
-	static	isFirefox	= platform.name === 'Firefox';
-	static	isMac		= new RegExp('OS X').test(platform.os?.family ?? '');
-	static	isMobile	= ! new RegExp('(Windows|OS X)').test(platform.os?.family ?? '');
+	static	readonly	isSafari	= platform.name === 'Safari';
+	static	readonly	isFirefox	= platform.name === 'Firefox';
+	static	readonly	isMac		= new RegExp('OS X').test(platform.os?.family ?? '');
+	static	readonly	isMobile	= ! new RegExp('(Windows|OS X)').test(platform.os?.family ?? '');
 	static	hDip		: {[name: string]: string}	= {};
 	static	isDbg		= false;
 	static	isPackaged	= false;
@@ -201,6 +201,7 @@ export class CmnLib {
 	static	readonly	SN_ID	= 'skynovel';
 	static	cc4ColorName: CanvasRenderingContext2D;
 
+	static	isFullScr	= false;
 	static cvsResize(cvs: HTMLCanvasElement): boolean {
 		const bk_cw = CmnLib.cvsWidth;
 		const bk_ch = CmnLib.cvsHeight;
@@ -250,9 +251,18 @@ export class CmnLib {
 		if (cvs.parentElement) {
 			const ps = cvs.parentElement.style;
 			ps.position = 'relative';
+			ps.width = `${CmnLib.cvsWidth}px`;
+			ps.height= `${CmnLib.cvsHeight}px`;
+
 			const s = cvs.style;
-			ps.width = s.width = `${CmnLib.cvsWidth}px`;
-			ps.height= s.height= `${CmnLib.cvsHeight}px`;
+			if (CmnLib.isFullScr) {
+				s.width = '';	// クリアしないとセンタリングしないので
+				s.height = '';
+			}
+			else {
+				s.width = ps.width;
+				s.height= ps.height;
+			}
 		}
 
 		return bk_cw !== CmnLib.cvsWidth || bk_ch !== CmnLib.cvsHeight;

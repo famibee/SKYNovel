@@ -430,7 +430,7 @@ export class ScriptIterator {
 //	//	変数操作
 	// インラインテキスト代入
 	#let_ml(hArg: HArg) {
-		const name = hArg.name;
+		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 
 		let ml = '';
@@ -504,8 +504,8 @@ export class ScriptIterator {
 
 	// 外部へスクリプトを表示
 	#dump_script(hArg: HArg) {
-		const set_fnc = hArg.set_fnc;	// スクリプトを返すコールバック
-		if (! set_fnc) throw 'set_fncは必須です';
+		const {set_fnc, break_fnc} = hArg;
+		if (! set_fnc) throw 'set_fncは必須です';	// スクリプトを返すコールバック
 
 		this.#fncSet = (globalThis as any)[set_fnc];
 		if (! this.#fncSet) {
@@ -527,8 +527,7 @@ export class ScriptIterator {
 		};
 		this.noticeBreak(true);	// 一度目のthis.fncBreak()はスルー（まだ読んでないし）
 
-		const break_fnc = hArg.break_fnc;	// Break通知コールバック
-		if (! break_fnc) return false;
+		if (! break_fnc) return false;	// Break通知コールバック
 
 		this.#fncBreak = (globalThis as any)[break_fnc];
 		if (! this.#fncBreak) {
@@ -591,7 +590,7 @@ export class ScriptIterator {
 	}
 	#if(hArg: HArg) {
 		//console.log('if idxToken:'+ this.#idxToken);
-		const exp = hArg.exp;
+		const {exp} = hArg;
 		if (! exp) throw 'expは必須です';
 		if (exp.charAt(0) === '&') throw '属性expは「&」が不要です';
 
@@ -657,7 +656,7 @@ export class ScriptIterator {
 	#call(hArg: HArg) {
 		if (! argChk_Boolean(hArg, 'count', false)) this.#eraseKidoku();
 
-		const fn = hArg.fn;
+		const {fn} = hArg;
 		if (fn) this.#cnvSnPath(fn);	// chk only
 		this.#callSub({':hEvt1Time': this.#evtMng.popLocalEvts(), ':hMp': this.val.cloneMp()});
 
@@ -692,7 +691,7 @@ export class ScriptIterator {
 			return false;
 		}
 
-		const to = hArg.to;
+		const {to} = hArg;
 		if (! to) throw 'clearかtoは必須です';
 		const oldPos = this.#posAPageLog;
 		switch (to) {
@@ -1093,7 +1092,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 	// マクロ定義の開始
 	#macro(hArg: HArg) {
-		const name = hArg.name;
+		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		if (name in this.hTag) throw `[${name}]はタグかすでに定義済みのマクロです`;
 

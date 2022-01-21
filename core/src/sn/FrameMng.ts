@@ -41,12 +41,11 @@ export class FrameMng implements IGetFrm {
 	//	HTMLフレーム
 	// フレーム追加
 	#add_frame(hArg: HArg) {
-		const id = hArg.id;
+		const {id, src} = hArg;
 		if (! id) throw 'idは必須です';
-		const src = hArg.src;
 		if (! src) throw 'srcは必須です';
-		const frmnm = `const.sn.frm.${id}`;
-		if (this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】はすでにあります`;
+		const vn = 'const.sn.frm.'+ id;
+		if (this.val.getVal(`tmp:${vn}`)) throw `frame【${id}】はすでにあります`;
 
 		const a = argChk_Num(hArg, 'alpha', 1);
 		const sx = argChk_Num(hArg, 'scale_x', 1);
@@ -89,16 +88,16 @@ export class FrameMng implements IGetFrm {
 			// 一度変数に入れてここで設定するのはFirefox対応。ifrm.onloadが二度呼ばれる！
 			ifrm.onload = ()=> {
 				// 組み込み変数
-				this.val.setVal_Nochk('tmp', frmnm, true);
-				this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
-				this.val.setVal_Nochk('tmp', frmnm +'.x', rct.x);
-				this.val.setVal_Nochk('tmp', frmnm +'.y', rct.y);
-				this.val.setVal_Nochk('tmp', frmnm +'.scale_x', sx);
-				this.val.setVal_Nochk('tmp', frmnm +'.scale_y', sy);
-				this.val.setVal_Nochk('tmp', frmnm +'.rotate', r);
-				this.val.setVal_Nochk('tmp', frmnm +'.width', rct.width);
-				this.val.setVal_Nochk('tmp', frmnm +'.height', rct.height);
-				this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
+				this.val.setVal_Nochk('tmp', vn, true);
+				this.val.setVal_Nochk('tmp', vn +'.alpha', a);
+				this.val.setVal_Nochk('tmp', vn +'.x', rct.x);
+				this.val.setVal_Nochk('tmp', vn +'.y', rct.y);
+				this.val.setVal_Nochk('tmp', vn +'.scale_x', sx);
+				this.val.setVal_Nochk('tmp', vn +'.scale_y', sy);
+				this.val.setVal_Nochk('tmp', vn +'.rotate', r);
+				this.val.setVal_Nochk('tmp', vn +'.width', rct.width);
+				this.val.setVal_Nochk('tmp', vn +'.height', rct.height);
+				this.val.setVal_Nochk('tmp', vn +'.visible', v);
 
 				const win = ifrm.contentWindow!;
 				this.#evtMng.resvFlameEvent(win);
@@ -126,12 +125,13 @@ export class FrameMng implements IGetFrm {
 
 	cvsResize() {	// NOTE: フォントサイズはどう変更すべきか
 		const scale = this.sys.reso4frame *CmnLib.cvsScale;
-		for (const n in this.#hIfrm) {
-			const f = this.#hIfrm[n];
-			const x = Number(this.val.getVal(`const.sn.frm.${n}.x`));
-			const y = Number(this.val.getVal(`const.sn.frm.${n}.y`));
-			const w = Number(this.val.getVal(`const.sn.frm.${n}.width`));
-			const h = Number(this.val.getVal(`const.sn.frm.${n}.height`));
+		for (const id in this.#hIfrm) {
+			const f = this.#hIfrm[id];
+			const vn = 'const.sn.frm.'+ id;
+			const x = Number(this.val.getVal(vn +'.x'));
+			const y = Number(this.val.getVal(vn +'.y'));
+			const w = Number(this.val.getVal(vn +'.width'));
+			const h = Number(this.val.getVal(vn +'.height'));
 			f.style.left = this.sys.ofsLeft4frm +x *scale +'px';
 			f.style.top  = this.sys.ofsTop4frm  +y *scale +'px';
 			f.width = String(w *scale);
@@ -141,23 +141,22 @@ export class FrameMng implements IGetFrm {
 
 	// フレーム変数を取得
 	#let_frame(hArg: HArg) {
-		const id = hArg.id;
+		const {id, var_name} = hArg;
 		if (! id) throw 'idは必須です';
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		if (! ifrm) throw `id【${id}】はフレームではありません`;
-		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
-		const var_name = hArg.var_name;
+		const f = document.getElementById(id) as HTMLIFrameElement;
+		if (! f) throw `id【${id}】はフレームではありません`;
+		const vn = 'const.sn.frm.'+ id;
+		if (! this.val.getVal(`tmp:${vn}`)) throw `frame【${id}】が読み込まれていません`;
 		if (! var_name) throw 'var_nameは必須です';
 
-		const win: Window = ifrm.contentWindow!;
+		const win: Window = f.contentWindow!;
 		if (! win.hasOwnProperty(var_name)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
 		const v = (win as any)[var_name];
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
 			'tmp',
-			frmnm +'.'+ var_name,
+			vn +'.'+ var_name,
 			argChk_Boolean(hArg, 'function', false) ?v() :v
 		);
 
@@ -166,22 +165,20 @@ export class FrameMng implements IGetFrm {
 
 	// フレーム変数に設定
 	#set_frame(hArg: HArg) {
-		const id = hArg.id;
+		const {id, var_name, text} = hArg;
 		if (! id) throw 'idは必須です';
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		if (! ifrm) throw `id【${id}】はフレームではありません`;
-		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
-		const var_name = hArg.var_name;
+		const f = document.getElementById(id) as HTMLIFrameElement;
+		if (! f) throw `id【${id}】はフレームではありません`;
+		const vn = 'const.sn.frm.'+ id;
+		if (! this.val.getVal(`tmp:${vn}`)) throw `frame【${id}】が読み込まれていません`;
 		if (! var_name) throw 'var_nameは必須です';
-		const text = hArg.text;
 		if (! text) throw 'textは必須です';
 
 		// -> 組み込み変数
-		this.val.setVal_Nochk('tmp', frmnm +'.'+ var_name, text);
+		this.val.setVal_Nochk('tmp', vn +'.'+ var_name, text);
 
 		// -> var変数に設定
-		const win: any = ifrm.contentWindow!;
+		const win: any = f.contentWindow!;
 		win[var_name] = text;
 
 		return false;
@@ -190,60 +187,56 @@ export class FrameMng implements IGetFrm {
 	// フレームに設定
 	#zIdx = 1;
 	#frame(hArg: HArg) {
-		const id = hArg.id;
+		const {id} = hArg;
 		if (! id) throw 'idは必須です';
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		if (! ifrm) throw `id【${id}】はフレームではありません`;
-		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`)) throw `frame【${id}】が読み込まれていません`;
+		const f = document.getElementById(id) as HTMLIFrameElement;
+		if (! f) throw `id【${id}】はフレームではありません`;
+		const vn = 'const.sn.frm.'+ id;
+		if (! this.val.getVal('tmp:'+ vn)) throw `frame【${id}】が読み込まれていません`;
 
-		if (argChk_Boolean(hArg, 'float', false)) {
-			ifrm.style.zIndex = String(++this.#zIdx);
-		}
-		else if (hArg.index) {
-			ifrm.style.zIndex = String(argChk_Num(hArg, 'index', 0));
-		}
-		else if (hArg.dive) ifrm.style.zIndex = '-'+ String(++this.#zIdx);
+		const s = f.style;
+		if (argChk_Boolean(hArg, 'float', false)) s.zIndex = `${++this.#zIdx}`;
+		else if (hArg.index) s.zIndex = `${argChk_Num(hArg, 'index', 0)}`;
+		else if (hArg.dive) s.zIndex = `-${++this.#zIdx}`;
 
 		if ('alpha' in hArg) {
-			const a = String(hArg.alpha);
-			ifrm.style.opacity = a;
-			this.val.setVal_Nochk('tmp', frmnm +'.alpha', a);
+			const a = s.opacity = String(hArg.alpha);
+			this.val.setVal_Nochk('tmp', vn +'.alpha', a);
 		}
 		const rct = this.#rect(hArg);
 		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		if ('x' in hArg || 'y' in hArg) {
-			ifrm.style.left = this.sys.ofsLeft4frm +rct.x *scale +'px';
-			ifrm.style.top  = this.sys.ofsTop4frm  +rct.y *scale +'px';
-			this.val.setVal_Nochk('tmp', frmnm +'.x', rct.x);
-			this.val.setVal_Nochk('tmp', frmnm +'.y', rct.y);
+			s.left = `${this.sys.ofsLeft4frm +rct.x *scale}px`;
+			s.top  = `${this.sys.ofsTop4frm  +rct.y *scale}px`;
+			this.val.setVal_Nochk('tmp', vn +'.x', rct.x);
+			this.val.setVal_Nochk('tmp', vn +'.y', rct.y);
 		}
 		if ('scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
 			const sx = argChk_Num(hArg, 'scale_x', 1);
 			const sy = argChk_Num(hArg, 'scale_y', 1);
 			const r = argChk_Num(hArg, 'rotate', 0);
-			ifrm.style.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
-			this.val.setVal_Nochk('tmp', frmnm +'.scale_x', sx);
-			this.val.setVal_Nochk('tmp', frmnm +'.scale_y', sy);
-			this.val.setVal_Nochk('tmp', frmnm +'.rotate', r);
+			s.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
+			this.val.setVal_Nochk('tmp', vn +'.scale_x', sx);
+			this.val.setVal_Nochk('tmp', vn +'.scale_y', sy);
+			this.val.setVal_Nochk('tmp', vn +'.rotate', r);
 		}
 		if ('width' in hArg) {
-			ifrm.width = String(rct.width *scale);
-			this.val.setVal_Nochk('tmp', frmnm +'.width', rct.width);
+			f.width = String(rct.width *scale);
+			this.val.setVal_Nochk('tmp', vn +'.width', rct.width);
 		}
 		if ('height' in hArg) {
-			ifrm.height = String(rct.height *scale);
-			this.val.setVal_Nochk('tmp', frmnm +'.height', rct.height);
+			f.height = String(rct.height *scale);
+			this.val.setVal_Nochk('tmp', vn +'.height', rct.height);
 		}
 		if ('visible' in hArg) {
 			const v = argChk_Boolean(hArg, 'visible', true);
-			ifrm.style.display = v ?'inline' :'none';
-			this.val.setVal_Nochk('tmp', frmnm +'.visible', v);
+			s.display = v ?'inline' :'none';
+			this.val.setVal_Nochk('tmp', vn +'.visible', v);
 		}
-		if ('b_color' in hArg) ifrm.style.backgroundColor = hArg.b_color!;
+		if ('b_color' in hArg) s.backgroundColor = hArg.b_color!;
 		if ('disabled' in hArg) {
 			const d = this.#hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
-			const il: NodeListOf<HTMLInputElement | HTMLSelectElement> = ifrm.contentDocument!.body.querySelectorAll('input,select');
+			const il: NodeListOf<HTMLInputElement | HTMLSelectElement> = f.contentDocument!.body.querySelectorAll('input,select');
 			il.forEach(v=> v.disabled = d);
 		}
 
@@ -252,25 +245,25 @@ export class FrameMng implements IGetFrm {
 
 	// フレームをトゥイーン開始
 	#tsy_frame(hArg: HArg) {
-		const id = hArg.id;
+		const {id} = hArg;
 		if (! id) throw 'idは必須です';
-		const ifrm = document.getElementById(id) as HTMLIFrameElement;
-		if (! ifrm) throw `id【${id}】はフレームではありません`;
-		const frmnm = `const.sn.frm.${id}`;
-		if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `frame【${id}】が読み込まれていません`;
+		const f = document.getElementById(id) as HTMLIFrameElement;
+		if (! f) throw `id【${id}】はフレームではありません`;
+		const vn = `const.sn.frm.`+ id;
+		if (! this.val.getVal(`tmp:${vn}`, 0)) throw `frame【${id}】が読み込まれていません`;
 
 		const hNow: any = {};
-		if ('alpha' in hArg) hNow.a = ifrm.style.opacity;
+		if ('alpha' in hArg) hNow.a = f.style.opacity;
 		if ('x' in hArg || 'y' in hArg
 		|| 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
-			hNow.x = Number(this.val.getVal(`tmp:${frmnm}.x`));
-			hNow.y = Number(this.val.getVal(`tmp:${frmnm}.y`));
-			hNow.sx = Number(this.val.getVal(`tmp:${frmnm}.scale_x`));
-			hNow.sy = Number(this.val.getVal(`tmp:${frmnm}.scale_y`));
-			hNow.r = Number(this.val.getVal(`tmp:${frmnm}.rotate`));
+			hNow.x = Number(this.val.getVal(`tmp:${vn}.x`));
+			hNow.y = Number(this.val.getVal(`tmp:${vn}.y`));
+			hNow.sx = Number(this.val.getVal(`tmp:${vn}.scale_x`));
+			hNow.sy = Number(this.val.getVal(`tmp:${vn}.scale_y`));
+			hNow.r = Number(this.val.getVal(`tmp:${vn}.rotate`));
 		}
-		if ('width' in hArg) hNow.w = this.val.getVal(`tmp:${frmnm}.width`);
-		if ('height' in hArg) hNow.h = this.val.getVal(`tmp:${frmnm}.height`);
+		if ('width' in hArg) hNow.w = this.val.getVal(`tmp:${vn}.width`);
+		if ('height' in hArg) hNow.h = this.val.getVal(`tmp:${vn}.height`);
 		const hArg2 = cnvTweenArg(hArg, hNow);
 
 		const hTo: any = {};
@@ -279,7 +272,7 @@ export class FrameMng implements IGetFrm {
 		if ('alpha' in hArg) {
 			hTo.a = argChk_Num(hArg2, 'alpha', 0);
 			fncA = ()=> {
-				ifrm.style.opacity = hNow.a;
+				f.style.opacity = hNow.a;
 				this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
 			};
 		}
@@ -294,30 +287,30 @@ export class FrameMng implements IGetFrm {
 			hTo.sy = argChk_Num(hArg2, 'scale_y', 1);
 			hTo.r = argChk_Num(hArg2, 'rotate', 0);
 			fncXYSR = ()=> {
-				ifrm.style.left = this.sys.ofsLeft4frm +hNow.x *scale +'px';
-				ifrm.style.top  = this.sys.ofsTop4frm  +hNow.y *scale +'px';
-				ifrm.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
-				this.val.setVal_Nochk('tmp', frmnm +'.x', hNow.x);
-				this.val.setVal_Nochk('tmp', frmnm +'.y', hNow.y);
-				this.val.setVal_Nochk('tmp', frmnm +'.scale_x', hNow.sx);
-				this.val.setVal_Nochk('tmp', frmnm +'.scale_y', hNow.sy);
-				this.val.setVal_Nochk('tmp', frmnm +'.rotate', hNow.r);
+				f.style.left = this.sys.ofsLeft4frm +hNow.x *scale +'px';
+				f.style.top  = this.sys.ofsTop4frm  +hNow.y *scale +'px';
+				f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
+				this.val.setVal_Nochk('tmp', vn +'.x', hNow.x);
+				this.val.setVal_Nochk('tmp', vn +'.y', hNow.y);
+				this.val.setVal_Nochk('tmp', vn +'.scale_x', hNow.sx);
+				this.val.setVal_Nochk('tmp', vn +'.scale_y', hNow.sy);
+				this.val.setVal_Nochk('tmp', vn +'.rotate', hNow.r);
 			};
 		}
 		let fncW = ()=> {};
 		if ('width' in hArg) {
 			hTo.w = rct.width;
 			fncW = ()=> {
-				ifrm.width = hNow.w *scale +'px';
-				this.val.setVal_Nochk('tmp', frmnm +'.width', hNow.w);
+				f.width = hNow.w *scale +'px';
+				this.val.setVal_Nochk('tmp', vn +'.width', hNow.w);
 			};
 		}
 		let fncH = ()=> {};
 		if ('height' in hArg) {
 			hTo.h = rct.height;
 			fncH = ()=> {
-				ifrm.height = hNow.h *scale +'px';
-				this.val.setVal_Nochk('tmp', frmnm +'.height', hNow.h);
+				f.height = hNow.h *scale +'px';
+				this.val.setVal_Nochk('tmp', vn +'.height', hNow.h);
 			};
 		}
 

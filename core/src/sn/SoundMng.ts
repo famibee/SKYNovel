@@ -70,7 +70,7 @@ export class SoundMng {
 
 	// 音量設定（独自拡張）
 	#volume(hArg: HArg) {
-		const buf = hArg.buf ?? 'SE';
+		const {buf = 'SE'} = hArg;
 		const bvn = 'const.sn.sound.'+ buf +'.volume';
 		const arg_vol = this.#getVol(hArg, 1);
 		if (Number(this.val.getVal('sys:'+ bvn)) === arg_vol) return false;
@@ -100,7 +100,7 @@ export class SoundMng {
 	#fadese(hArg: HArg) {
 		this.#stopfadese(hArg);
 
-		const buf = hArg.buf ?? 'SE';
+		const {buf = 'SE'} = hArg;
 		const oSb = this.#hSndBuf[buf];
 		if (! oSb?.playing() || ! oSb.snd) return false;
 
@@ -161,9 +161,8 @@ export class SoundMng {
 	// 効果音の再生
 	static	readonly	#MAX_END_MS	= 999000;
 	#playse(hArg: HArg) {
-		const buf = hArg.buf ?? 'SE';
+		const {buf = 'SE', fn} = hArg;
 		this.#stopse({buf});
-		const fn = hArg.fn;
 		if (! fn) throw `[playse] fnは必須です buf:${buf}`;
 
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
@@ -377,7 +376,7 @@ export class SoundMng {
 	#stopbgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#stopse(hArg);}
 	// 効果音再生の停止
 	#stopse(hArg: HArg) {
-		const buf = hArg.buf ?? 'SE';
+		const {buf = 'SE'} = hArg;
 		this.#delLoopPlay(buf);
 
 		const oSb = this.#hSndBuf[buf];
@@ -391,7 +390,7 @@ export class SoundMng {
 
 	// 効果音フェードの終了待ち
 	#wf(hArg: HArg) {
-		const buf = hArg.buf ?? 'SE';
+		const {buf = 'SE'} = hArg;
 		const oSb = this.#hSndBuf[buf];
 		if (! oSb?.twFade || ! oSb.playing()) return false;
 
@@ -404,7 +403,7 @@ export class SoundMng {
 
 	// 音声フェードの停止
 	#stopfadese(hArg: HArg) {
-		const buf = hArg.buf ?? 'SE';
+		const {buf = 'SE'} = hArg;
 		this.#hSndBuf[buf]?.twFade?.stop().end();	// stop()とend()は別
 
 		return false;
@@ -414,7 +413,7 @@ export class SoundMng {
 	#wl(hArg: HArg) {hArg.buf = 'BGM'; return this.#ws(hArg);}
 	// 効果音再生の終了待ち
 	#ws(hArg: HArg) {
-		const buf = hArg.buf ?? 'SE';
+		const {buf = 'SE'} = hArg;
 		const oSb = this.#hSndBuf[buf];
 		if (! oSb?.playing() || oSb.loop) return false;
 
@@ -434,8 +433,7 @@ export class SoundMng {
 
 	// 再生トラックの交換
 	#xchgbuf(hArg: HArg) {
-		const buf1 = hArg.buf ?? 'SE';
-		const buf2 = hArg.buf2 ?? 'SE';
+		const {buf: buf1 = 'SE', buf2 = 'SE'} = hArg;
 		if (buf1 === buf2) return false;
 
 		const sb1 = this.#hSndBuf[buf1];

@@ -95,9 +95,8 @@ export class EventMng implements IEvtMng {
 		} catch {}
 		const ctx = this.#cvsHint.getContext('2d');
 		if (ctx) {
-			const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
 			this.#cvsHint.hidden = true;
-			cvs.parentElement!.appendChild(this.#cvsHint);
+			appPixi.view.parentElement!.appendChild(this.#cvsHint);
 			const s = this.#cvsHint.style;
 			s.position = 'absolute';
 			s.left = s.top = '0';
@@ -777,7 +776,7 @@ export class EventMng implements IEvtMng {
 
 	// フォーカス移動
 	#set_focus(hArg: HArg) {
-		const add = hArg.add;
+		const {add, del, to} = hArg;
 		if (add?.slice(0, 4) === 'dom=') {
 			const g = this.#getHtmlElmList(add);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
@@ -794,7 +793,6 @@ export class EventMng implements IEvtMng {
 			return false;
 		}
 
-		const del = hArg.del;
 		if (del?.slice(0, 4) === 'dom=') {
 			const g = this.#getHtmlElmList(del);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
@@ -803,9 +801,7 @@ export class EventMng implements IEvtMng {
 			return false;
 		}
 
-		const to = hArg.to;
 		if (! to) throw '[set_focus] add か to は必須です';
-
 		switch (to) {
 			case 'null':	this.#fcs.blur();	break;
 			case 'next':	this.#fcs.next();	break;

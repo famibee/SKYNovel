@@ -90,8 +90,7 @@ export class GrpLayer extends Layer {
 		if (isStop) GrpLayer.#main.resume();
 	});
 	private	laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
-		const fn = hArg.fn;
-		const face = hArg.face ?? '';
+		const {fn, face = ''} = hArg;
 		this.#idc.sethArg(hArg);
 		if (! fn) {
 			super.lay(hArg);
@@ -333,7 +332,7 @@ export class GrpLayer extends Layer {
 	static wv(hArg: HArg) {
 		// 動画ファイル名指定でいいかなと。なぜなら「ループで再生しつつ」
 		// 同ファイル名の別の動画の再生は待ちたい、なんて状況は普通は無いだろうと
-		const fn = hArg.fn;
+		const {fn} = hArg;
 		if (! fn) throw 'fnは必須です';
 		const hve = GrpLayer.hFn2VElm[fn];
 		if (! hve || hve.loop) return false;
@@ -443,11 +442,11 @@ export class GrpLayer extends Layer {
 	}
 
 	static	add_face(hArg: HArg): boolean {
-		const name = hArg.name;
+		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		if (name in GrpLayer.#hFace) throw '一つのname（'+ name +'）に対して同じ画像を複数割り当てられません';
 
-		const fn = hArg.fn ?? name;
+		const {fn = name} = hArg;
 		GrpLayer.#hFace[name] = {
 			fn,
 			dx: argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,

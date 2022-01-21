@@ -60,10 +60,10 @@ export class Layer {
 	}
 
 	static	setBlendmode(cnt: Container, hArg: HArg) {
-		const bm_name = hArg.blendmode;		// 省略時になにもしない
-		if (! bm_name) return;
+		const {blendmode} = hArg;
+		if (! blendmode) return;	// 省略時になにもしない
 
-		const bmn = Layer.getBlendmodeNum(bm_name);
+		const bmn = Layer.getBlendmodeNum(blendmode);
 		const sp = cnt as Sprite;
 		if (sp) sp.blendMode = bmn;
 		cnt.children.forEach(c=> {
