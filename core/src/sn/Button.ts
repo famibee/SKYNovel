@@ -84,7 +84,7 @@ export class Button extends Container {
 				this,
 				sp=> {
 					this.#loaded_pic(sp, oName);
-					this.#rctBtnTxt.width = sp.width   * oName.scale_x;
+					this.#rctBtnTxt.width  = sp.width  * oName.scale_x;
 					this.#rctBtnTxt.height = sp.height * oName.scale_y;
 				},
 				isStop=> {if (isStop) resolve()},
@@ -96,16 +96,16 @@ export class Button extends Container {
 		// == 文字列から生成
 		const height = argChk_Num(hArg, 'height', 30);
 		const style = new TextStyle({
-			align: 'center',
-			dropShadow: true,
-			dropShadowAlpha: 0.7,
-			dropShadowColor: 'white',
-			dropShadowBlur: 7,
-			dropShadowDistance: 0,
-			fill: 'black',
-			fontFamily: Button.fontFamily,
-			fontSize: height,
-			padding: 5,
+			align		: 'center',
+			dropShadow	: true,
+			dropShadowAlpha	: 0.7,
+			dropShadowColor	: 'white',
+			dropShadowBlur	: 7,
+			dropShadowDistance	: 0,
+			fill		: 'black',
+			fontFamily	: Button.fontFamily,
+			fontSize	: height,
+			padding		: 5,
 		});
 		if (hArg.style) try {
 			const o = JSON.parse(hArg.style);

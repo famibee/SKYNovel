@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
-import {CmnLib} from './CmnLib';
+import {argChk_Boolean, CmnLib} from './CmnLib';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 import {io, Socket} from 'socket.io-client';
@@ -36,7 +36,6 @@ export class SysBase implements ISysBase {
 	fetch = (url: string)=> fetch(url);
 
 	resolution	= 1;
-	reso4frame	= 1;
 
 	protected	cfg	: IConfig;
 	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg;}
@@ -89,6 +88,8 @@ export class SysBase implements ISysBase {
 		val.setVal_Nochk('tmp', 'const.sn.isDbg', ()=> CmnLib.isDbg);
 		val.setVal_Nochk('tmp', 'const.sn.isPackaged', ()=> CmnLib.isPackaged);
 
+		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr);
+
 		val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
 			// [import]時のチェック用
 		val.flush();
@@ -119,6 +120,92 @@ export class SysBase implements ISysBase {
 		return a;
 	}
 	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
+
+
+	#cvsWidth	= 0;
+	#cvsHeight	= 0;
+	#cvsScale	= 1;
+	#ofsLeft4frm = 0;
+	#ofsTop4frm  = 0;
+	#ofsPadLeft_Dom2PIXI	= 0;
+	#ofsPadTop_Dom2PIXI		= 0;
+	get	cvsScale(): number {return this.#cvsScale;};
+	get	ofsLeft4frm(): number {return this.#ofsLeft4frm;};
+	get	ofsTop4frm(): number {return this.#ofsTop4frm;};
+	get	ofsPadLeft_Dom2PIXI(): number {return this.#ofsPadLeft_Dom2PIXI;};
+	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI;};
+	protected	isFullScr	= false;
+	cvsResize(): boolean {
+		const bk_cw = this.#cvsWidth;
+		const bk_ch = this.#cvsHeight;
+		let w = globalThis.innerWidth;
+		let h = globalThis.innerHeight;
+
+		const {angle=0} = screen.orientation;
+		const lp = angle % 180 === 0 ?'p' :'l';	// 4Safari
+		if (CmnLib.isMobile && ((lp === 'p' && w > h) || (lp === 'l' && w < h))) [w, h] = [h, w];
+
+		const cvs = this.appPixi.view;
+		if (argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
+			CmnLib.stageW > w ||
+			CmnLib.stageH > h
+		) {
+			if (CmnLib.stageW /CmnLib.stageH <= w /h) {
+				this.#cvsHeight = h;
+				this.#cvsWidth = CmnLib.stageW /CmnLib.stageH *h;
+			}
+			else {
+				this.#cvsWidth = w;
+				this.#cvsHeight = CmnLib.stageH /CmnLib.stageW	*w;
+			}
+			this.#cvsScale = this.#cvsWidth /CmnLib.stageW;
+
+			const cr = cvs.getBoundingClientRect();
+			this.#ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
+				? (globalThis.innerWidth  -this.#cvsWidth) /2
+				: cr.left
+			) *(1- this.#cvsScale);
+			this.#ofsPadTop_Dom2PIXI = (CmnLib.isMobile
+				? (globalThis.innerHeight -this.#cvsHeight) /2
+				: cr.top
+			) *(1- this.#cvsScale);
+				// [left] /this.#cvsScale -[left]
+				// PaddingLeft を DOMで引いてPIXIで足すイメージ
+		}
+		else {
+			this.#cvsWidth = CmnLib.stageW;
+			this.#cvsHeight = CmnLib.stageH;
+			this.#cvsScale = 1;
+			this.#ofsPadLeft_Dom2PIXI	= 0;
+			this.#ofsPadTop_Dom2PIXI	= 0;
+		}
+		if (cvs.parentElement) {
+			const ps = cvs.parentElement.style;
+			ps.position = 'relative';
+			ps.width = `${this.#cvsWidth}px`;
+			ps.height= `${this.#cvsHeight}px`;
+
+			const s = cvs.style;
+			if (this.isFullScr) {
+				s.width = '';	// クリアしないとセンタリングしないので
+				s.height = '';
+			}
+			else {
+				s.width = ps.width;
+				s.height= ps.height;
+			}
+		}
+		if (this.isFullScr) {
+			this.#ofsLeft4frm = (w -this.#cvsWidth) /2;
+			this.#ofsTop4frm  = (h -this.#cvsHeight)/2;
+		}
+		else {
+			this.#ofsLeft4frm = 0;
+			this.#ofsTop4frm  = 0;
+		}
+
+		return bk_cw !== this.#cvsWidth || bk_ch !== this.#cvsHeight;
+	}
 
 
 	// デバッガ接続
@@ -203,18 +290,18 @@ export class SysBase implements ISysBase {
 		_addPath		: o=> this.cfg.addPath(o.fn, o.o),
 	};
 	protected toast(nm: string) {
-		const p = this.appPixi.view.parentNode!;
+		const p = document.body;
 		p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v=> p.removeChild(v));
 
 		const img = document.createElement('img');
 		const td = SysBase.#hToastDat[nm];
 		img.src = `data:image/svg+xml;base64,${td.dat}`;
-		const size = Math.min(CmnLib.stageW, CmnLib.stageH) /4 *CmnLib.cvsScale;
+		const size = Math.min(CmnLib.stageW, CmnLib.stageH) /4 *this.#cvsScale;
 		img.width = img.height = size;
 		img.style.cssText =
 `position: absolute;
-left: ${(CmnLib.stageW -size) /2 *CmnLib.cvsScale +size *(td.dx ?? 0)}px;
-top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
+left: ${(CmnLib.stageW -size) /2 *this.#cvsScale +size *(td.dx ?? 0)}px;
+top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
 		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
 		p.insertBefore(img, this.appPixi.view);
@@ -334,30 +421,5 @@ top: ${(CmnLib.stageH -size) /2 *CmnLib.cvsScale +size *(td.dy ?? 0)}px;`;
 	async savePic(_fn: string, _data_url: string) {};
 	async appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException)=> void) {}
 	async ensureFileSync(_path: string) {}
-
-	// 既存のiframeのサイズと表示位置を調整
-	ofsLeft4frm	= 0;
-	ofsTop4frm	= 0;
-	protected	resizeFrames() {
-		const cr = this.appPixi.view.getBoundingClientRect();
-		const l = this.ofsLeft4frm +cr.left;
-		const t = this.ofsTop4frm  +cr.top;
-		const c = document.getElementsByTagName('iframe');
-		const len = c.length;
-		for (let i=0; i<len; ++i) {
-			const f = c[i];
-			const tvn = 'tmp:const.sn.frm.'+ f.id;
-			f.style.left = `${
-				l + Number(this.val.getVal(tvn +'.x')) *this.reso4frame
-			}px`;
-			f.style.top  = `${
-				t + Number(this.val.getVal(tvn +'.y')) *this.reso4frame
-			}px`;
-			f.width  = String(Number(this.val.getVal(tvn +'.width'))
-				*this.reso4frame);
-			f.height = String(Number(this.val.getVal(tvn +'.height'))
-				*this.reso4frame);
-		}
-	}
 
 }

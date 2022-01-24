@@ -29,18 +29,14 @@ export class SysWeb extends SysBase {
 
 		// 全画面状態切替
 		const tgl_full_scr = ('requestFullscreen' in document.body)
-		? ()=> {
-			((CmnLib.isFullScr = ! Boolean(document.fullscreenElement))
+		? ()=> ((this.isFullScr = ! Boolean(document.fullscreenElement))
 			? document.body.requestFullscreen()
 			: document.exitFullscreen())
-			.then(()=> this.#resizeFramesWork())
-		}
 		: ()=> {
 			const doc: any = document;	// Safariなど
-			((CmnLib.isFullScr = ! Boolean(doc.webkitFullscreenElement))
+			((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
 			? doc.body.webkitRequestFullscreen()
-			: doc.webkitCancelFullScreen())
-			.then(()=> this.#resizeFramesWork())
+			: doc.webkitCancelFullScreen());
 		};
 		this.tgl_full_scr = (hArg: HArg)=> {
 			if (! hArg.key) {tgl_full_scr(); return false;}
@@ -83,21 +79,6 @@ export class SysWeb extends SysBase {
 		const cur = sp.get('cur');
 		if (cur) arg.cur = this.#path_base + cur +'/';
 		this.run();
-	}
-	#resizeFramesWork() {
-		// CmnLib.isFullScr の状態へ移行する
-		const rw = screen.width  / CmnLib.stageW;
-		const rh = screen.height / CmnLib.stageH;
-		const ratio = (rw < rh) ?rw :rh;
-		this.reso4frame = CmnLib.isFullScr ?ratio :1;
-			// document.body.clientWidth が時々正しい値を返さないのでscreen.widthで
-		this.ofsLeft4frm = CmnLib.isFullScr
-			? (screen.width -CmnLib.stageW *this.reso4frame *CmnLib.cvsScale) /2
-			: 0;
-		this.ofsTop4frm  = CmnLib.isFullScr
-			? (screen.height-CmnLib.stageH *this.reso4frame *CmnLib.cvsScale) /2
-			: 0;
-		this.resizeFrames();
 	}
 
 	#now_prj	= ':';
@@ -144,8 +125,6 @@ export class SysWeb extends SysBase {
 		// システム情報
 		const hn = encodeURIComponent(document.location.hostname);
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
-
-		this.val.defTmp('const.sn.displayState', ()=> CmnLib.isFullScr);
 
 		const ns = this.cfg.getNs();
 		this.flush = this.crypto

@@ -224,7 +224,7 @@ export class Layer {
 		}
 		ret.x = int( ((ret.scale.x < 0)
 			? x +(isButton ?b_width/3 :b_width)
-			: x) * CmnLib.retinaRate );
+			: x) );
 
 		// 縦位置計算
 		let y = ret.y;	// AIRNovelでは 0
@@ -247,8 +247,7 @@ export class Layer {
 			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
 			y = CmnLib.stageH - y - b_height;
 		}
-		ret.y = int( ((ret.scale.y < 0) ?y +b_height :y)
-			* CmnLib.retinaRate );
+		ret.y = int( ((ret.scale.y < 0) ?y +b_height :y) );
 
 		if (isGrp) {	// これを上の方に持っていってはいけない。
 						// iPhone6など中途半端な画面サイズの際に
@@ -281,7 +280,7 @@ export class Layer {
 		if (! pos || pos === 'c') {c = CmnLib.stageW *0.5;}
 		else if (pos === 'r') {c = CmnLib.stageW - b_width *0.5;}
 		else if (pos === 'l') {c = b_width *0.5;}
-		else {c = int(pos) *CmnLib.retinaRate;}
+		else {c = int(pos);}
 
 		ret.x = int(c -b_width *0.5);
 		ret.y = CmnLib.stageH -b_height;

@@ -176,15 +176,9 @@ const REG_EXT	= /\.([^\.]+)$/;
 export 	function getExt(p: string) {return (p.match(REG_EXT) ?? [''])[1];}
 
 const platform = require('platform');
-
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
-	static	ofsPadLeft_Dom2PIXI	= 0;
-	static	ofsPadTop_Dom2PIXI	= 0;
-	static	cvsWidth	= 0;
-	static	cvsHeight	= 0;
-	static	cvsScale	= 1;
 	static	debugLog	= false;
 	static	readonly	isSafari	= platform.name === 'Safari';
 	static	readonly	isFirefox	= platform.name === 'Firefox';
@@ -194,78 +188,8 @@ export class CmnLib {
 	static	isDbg		= false;
 	static	isPackaged	= false;
 
-	static	isRetina	= false;
 	static	isDarkMode	= false;
-	static	retinaRate	= 1;
 
-	static	readonly	SN_ID	= 'skynovel';
 	static	cc4ColorName: CanvasRenderingContext2D;
-
-	static	isFullScr	= false;
-	static cvsResize(cvs: HTMLCanvasElement): boolean {
-		const bk_cw = CmnLib.cvsWidth;
-		const bk_ch = CmnLib.cvsHeight;
-		let w = globalThis.innerWidth;
-		let h = globalThis.innerHeight;
-
-		const angle = screen.orientation?.angle ?? 0;
-		const lp = angle % 180 === 0 ?'p' :'l';	// 4Safari
-		if (CmnLib.isMobile &&
-			((lp === 'p' && w > h) || (lp === 'l' && w < h))
-			) [w, h] = [h, w];
-		if (argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
-			CmnLib.stageW > w ||
-			CmnLib.stageH > h
-		) {
-			if (CmnLib.stageW /CmnLib.stageH <= w /h) {
-				CmnLib.cvsHeight = h;
-				CmnLib.cvsWidth = CmnLib.stageW /CmnLib.stageH *h;
-			}
-			else {
-				CmnLib.cvsWidth = w;
-				CmnLib.cvsHeight = CmnLib.stageH /CmnLib.stageW	*w;
-			}
-			CmnLib.cvsScale = CmnLib.cvsWidth /CmnLib.stageW;
-
-			const cr = cvs.getBoundingClientRect();
-			CmnLib.ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
-				? (globalThis.innerWidth  -CmnLib.cvsWidth) /2
-				: cr.left
-			)
-			*(1- CmnLib.cvsScale);
-			CmnLib.ofsPadTop_Dom2PIXI = (CmnLib.isMobile
-				? (globalThis.innerHeight -CmnLib.cvsHeight) /2
-				: cr.top
-			)
-			*(1- CmnLib.cvsScale);
-				// [left] /CmnLib.cvsScale -[left]
-					// PaddingLeft を DOMで引いてPIXIで足すイメージ
-		}
-		else {
-			CmnLib.cvsWidth = CmnLib.stageW;
-			CmnLib.cvsHeight = CmnLib.stageH;
-			CmnLib.cvsScale = 1;
-			CmnLib.ofsPadLeft_Dom2PIXI	= 0;
-			CmnLib.ofsPadTop_Dom2PIXI	= 0;
-		}
-		if (cvs.parentElement) {
-			const ps = cvs.parentElement.style;
-			ps.position = 'relative';
-			ps.width = `${CmnLib.cvsWidth}px`;
-			ps.height= `${CmnLib.cvsHeight}px`;
-
-			const s = cvs.style;
-			if (CmnLib.isFullScr) {
-				s.width = '';	// クリアしないとセンタリングしないので
-				s.height = '';
-			}
-			else {
-				s.width = ps.width;
-				s.height= ps.height;
-			}
-		}
-
-		return bk_cw !== CmnLib.cvsWidth || bk_ch !== CmnLib.cvsHeight;
-	}
 
 }

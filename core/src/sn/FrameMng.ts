@@ -41,26 +41,21 @@ export class FrameMng implements IGetFrm {
 	//	HTMLフレーム
 	// フレーム追加
 	#add_frame(hArg: HArg) {
-		const {id, src} = hArg;
+		const {id, src, alpha: a=1, scale_x: sx=1, scale_y: sy=1, rotate: r=0,} = hArg;
 		if (! id) throw 'idは必須です';
 		if (! src) throw 'srcは必須です';
 		const vn = 'const.sn.frm.'+ id;
 		if (this.val.getVal(`tmp:${vn}`)) throw `frame【${id}】はすでにあります`;
 
-		const a = argChk_Num(hArg, 'alpha', 1);
-		const sx = argChk_Num(hArg, 'scale_x', 1);
-		const sy = argChk_Num(hArg, 'scale_y', 1);
-		const r = argChk_Num(hArg, 'rotate', 0);
 		const v = argChk_Boolean(hArg, 'visible', true);
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.#rect(hArg);
-		const scl = this.sys.reso4frame *CmnLib.cvsScale;
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a
-		}; position: absolute; left:${this.sys.ofsLeft4frm +rct.x *scl
-		}px; top: ${this.sys.ofsTop4frm +rct.y *scl}px; z-index: 1; ${b_color
+		}; position: absolute; left:${this.sys.ofsLeft4frm +rct.x *this.sys.cvsScale
+		}px; top: ${this.sys.ofsTop4frm +rct.y *this.sys.cvsScale}px; z-index: 1; ${b_color
 		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
-		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *scl}" height="${rct.height *scl}"></iframe>`);
+		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *this.sys.cvsScale}" height="${rct.height *this.sys.cvsScale}"></iframe>`);
 
 		const url = this.cfg.searchPath(src, Config.EXT_HTML);
 		const ld = (new Loader())
@@ -124,7 +119,6 @@ export class FrameMng implements IGetFrm {
 	}
 
 	cvsResize() {	// NOTE: フォントサイズはどう変更すべきか
-		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		for (const id in this.#hIfrm) {
 			const f = this.#hIfrm[id];
 			const vn = 'const.sn.frm.'+ id;
@@ -132,10 +126,10 @@ export class FrameMng implements IGetFrm {
 			const y = Number(this.val.getVal(vn +'.y'));
 			const w = Number(this.val.getVal(vn +'.width'));
 			const h = Number(this.val.getVal(vn +'.height'));
-			f.style.left = this.sys.ofsLeft4frm +x *scale +'px';
-			f.style.top  = this.sys.ofsTop4frm  +y *scale +'px';
-			f.width = String(w *scale);
-			f.height = String(h *scale);
+			f.style.left = `${this.sys.ofsLeft4frm +x *this.sys.cvsScale}px`;
+			f.style.top  = `${this.sys.ofsTop4frm  +y *this.sys.cvsScale}px`;
+			f.width = String(w *this.sys.cvsScale);
+			f.height = String(h *this.sys.cvsScale);
 		}
 	}
 
@@ -196,7 +190,7 @@ export class FrameMng implements IGetFrm {
 
 		const s = f.style;
 		if (argChk_Boolean(hArg, 'float', false)) s.zIndex = `${++this.#zIdx}`;
-		else if (hArg.index) s.zIndex = `${argChk_Num(hArg, 'index', 0)}`;
+		else if ('index' in hArg) s.zIndex = `${argChk_Num(hArg, 'index', 0)}`;
 		else if (hArg.dive) s.zIndex = `-${++this.#zIdx}`;
 
 		if ('alpha' in hArg) {
@@ -204,10 +198,9 @@ export class FrameMng implements IGetFrm {
 			this.val.setVal_Nochk('tmp', vn +'.alpha', a);
 		}
 		const rct = this.#rect(hArg);
-		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		if ('x' in hArg || 'y' in hArg) {
-			s.left = `${this.sys.ofsLeft4frm +rct.x *scale}px`;
-			s.top  = `${this.sys.ofsTop4frm  +rct.y *scale}px`;
+			s.left = `${this.sys.ofsLeft4frm +rct.x *this.sys.cvsScale}px`;
+			s.top  = `${this.sys.ofsTop4frm  +rct.y *this.sys.cvsScale}px`;
 			this.val.setVal_Nochk('tmp', vn +'.x', rct.x);
 			this.val.setVal_Nochk('tmp', vn +'.y', rct.y);
 		}
@@ -221,11 +214,11 @@ export class FrameMng implements IGetFrm {
 			this.val.setVal_Nochk('tmp', vn +'.rotate', r);
 		}
 		if ('width' in hArg) {
-			f.width = String(rct.width *scale);
+			f.width = String(rct.width *this.sys.cvsScale);
 			this.val.setVal_Nochk('tmp', vn +'.width', rct.width);
 		}
 		if ('height' in hArg) {
-			f.height = String(rct.height *scale);
+			f.height = String(rct.height *this.sys.cvsScale);
 			this.val.setVal_Nochk('tmp', vn +'.height', rct.height);
 		}
 		if ('visible' in hArg) {
@@ -278,7 +271,6 @@ export class FrameMng implements IGetFrm {
 		}
 		let fncXYSR = ()=> {};
 		const rct = this.#rect(hArg2);
-		const scale = this.sys.reso4frame *CmnLib.cvsScale;
 		if ('x' in hArg || 'y' in hArg
 		|| 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
 			hTo.x = rct.x;
@@ -287,8 +279,8 @@ export class FrameMng implements IGetFrm {
 			hTo.sy = argChk_Num(hArg2, 'scale_y', 1);
 			hTo.r = argChk_Num(hArg2, 'rotate', 0);
 			fncXYSR = ()=> {
-				f.style.left = this.sys.ofsLeft4frm +hNow.x *scale +'px';
-				f.style.top  = this.sys.ofsTop4frm  +hNow.y *scale +'px';
+				f.style.left = this.sys.ofsLeft4frm +hNow.x *this.sys.cvsScale +'px';
+				f.style.top  = this.sys.ofsTop4frm  +hNow.y *this.sys.cvsScale +'px';
 				f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
 				this.val.setVal_Nochk('tmp', vn +'.x', hNow.x);
 				this.val.setVal_Nochk('tmp', vn +'.y', hNow.y);
@@ -301,7 +293,7 @@ export class FrameMng implements IGetFrm {
 		if ('width' in hArg) {
 			hTo.w = rct.width;
 			fncW = ()=> {
-				f.width = hNow.w *scale +'px';
+				f.width = hNow.w *this.sys.cvsScale +'px';
 				this.val.setVal_Nochk('tmp', vn +'.width', hNow.w);
 			};
 		}
@@ -309,7 +301,7 @@ export class FrameMng implements IGetFrm {
 		if ('height' in hArg) {
 			hTo.h = rct.height;
 			fncH = ()=> {
-				f.height = hNow.h *scale +'px';
+				f.height = hNow.h *this.sys.cvsScale +'px';
 				this.val.setVal_Nochk('tmp', vn +'.height', hNow.h);
 			};
 		}

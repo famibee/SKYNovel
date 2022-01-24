@@ -75,21 +75,12 @@ export class SysApp extends SysNode {
 			// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
 			// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
 
-		this.val.defTmp('const.sn.displayState', async ()=> await to_app.isSimpleFullScreen());
-
-/*
-		globalThis.addEventListener('resize', ()=> {
-			// NOTE: 2019/07/14 Windowsでこのように遅らせないと正しい縦幅にならない
-			this.window((hTmp['const.sn.isFirstBoot']) ?{centering: true} :{});
-		}, {once: true, passive: true});
-*/
-
 		this.$path_userdata	= CmnLib.isDbg
 			? this.#hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
 			: this.#hInfo.userData.replaceAll('\\', '/') +'/';
 
 		to_app.Store({
-			cwd: this.$path_userdata +'storage',
+			cwd	: this.$path_userdata +'storage',
 			name: this.arg.crypto ?'data_' :'data',
 			encryptionKey: this.arg.crypto ?this.stk() :undefined,
 		});
@@ -263,18 +254,14 @@ export class SysApp extends SysNode {
 	protected readonly	tgl_full_scr_sub = async ()=> {
 		if (await to_app.isSimpleFullScreen()) {
 			await to_app.setSimpleFullScreen(false, CmnLib.stageW, CmnLib.stageH);
-
-			this.reso4frame = 1;
+			this.isFullScr = false;
 		}
 		else {
 			await to_app.setSimpleFullScreen(true, screen.width, screen.height);
 			await to_app.win_setContentSize(screen.width, screen.height);
 				// これがないとWinアプリ版で下部が短くなり背後が見える
-
-			const cr = this.appPixi.view.getBoundingClientRect();
-			this.reso4frame = cr.width / CmnLib.stageW;
+			this.isFullScr = true;
 		}
-		this.resizeFrames();
 	}
 	// 更新チェック
 	protected override readonly	update_check: ITag = hArg=> {

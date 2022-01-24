@@ -1,3 +1,19 @@
+- fix: ブラウザ版で全画面時にフレームサイズが小さいままな件
+- fix: 全画面だとヒントが見えない（たぶん画面外に出てる……？）
+- fix: レイヤは画面リサイズ・スマホ回転時処理でフレームは全画面・ウインドウモード切り替え処理のみだったので、前者に統一
+- fix: リファクタリング
+- 既知の問題
+	- ブラウザ版のみ全画面だとボタンの当たり判定が妙に広い
+		- 中央から左のボタンは左に、右のボタンは右に広い
+		- 本文で右端近いボタンは当たり判定の left も右にずれている
+		- 当たり判定の上下幅は問題ない
+		- アプリ版は問題ない
+			- F12 DevTools を表示しているときだけ発生？
+		- DevTools を消すと問題ないので、保留とする。
+	- サンプル作ったら pixi.js 自体の問題なので報告した
+		In full screen display, the hitArea collision detection is slightly longer to the left and right. · Issue #8132 · pixijs/pixijs https://github.com/pixijs/pixijs/issues/8132
+
+
 ## [1.27.5](https://github.com/famibee/SKYNovel/compare/v1.27.4...v1.27.5) (2022-01-21)
 
 

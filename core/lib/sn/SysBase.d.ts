@@ -14,7 +14,6 @@ export declare class SysBase implements ISysBase {
     get crypto(): boolean;
     fetch: (url: string) => Promise<Response>;
     resolution: number;
-    reso4frame: number;
     protected cfg: IConfig;
     loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
     protected readonly data: {
@@ -29,6 +28,13 @@ export declare class SysBase implements ISysBase {
     protected appPixi: Application;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     protected static readonly VALNM_CFG_NS = "const.sn.cfg.ns";
+    get cvsScale(): number;
+    get ofsLeft4frm(): number;
+    get ofsTop4frm(): number;
+    get ofsPadLeft_Dom2PIXI(): number;
+    get ofsPadTop_Dom2PIXI(): number;
+    protected isFullScr: boolean;
+    cvsResize(): boolean;
     attach_debug(main: IMain): void;
     protected extPort: number;
     end(): void;
@@ -65,8 +71,5 @@ export declare class SysBase implements ISysBase {
     savePic(_fn: string, _data_url: string): Promise<void>;
     appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException) => void): Promise<void>;
     ensureFileSync(_path: string): Promise<void>;
-    ofsLeft4frm: number;
-    ofsTop4frm: number;
-    protected resizeFrames(): void;
 }
 //# sourceMappingURL=SysBase.d.ts.map

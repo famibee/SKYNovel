@@ -13,6 +13,7 @@ import {GrpLayer} from './GrpLayer';
 import {DebugMng} from './DebugMng';
 import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
+import {SysBase} from './SysBase';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, utils} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
@@ -43,10 +44,8 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	static	#cfg	: Config;
-	static	#parSn	: HTMLElement;
 	static	init(cfg: Config): void {
 		TxtStage.#cfg = cfg;
-		TxtStage.#parSn = document.getElementById(CmnLib.SN_ID)!.parentElement!;
 
 		TxtStage.#reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
 		TxtStage.#reg行末禁則	= /[［（｛〈「『【〔“〝]/;
@@ -92,12 +91,12 @@ export class TxtStage extends Container {
 	}
 
 
-	constructor(private readonly spLay: Sprite, private readonly canFocus: ()=> boolean) {
+	constructor(private readonly spLay: Sprite, private readonly canFocus: ()=> boolean, private readonly sys: SysBase) {
 		super();
 
 		this.#htmTxt.classList.add('sn_tx');
 		this.#htmTxt.style.position = 'absolute';
-		TxtStage.#parSn.appendChild(this.#htmTxt);
+		document.body.appendChild(this.#htmTxt);
 
 		this.addChild(this.#cntTxt);
 
@@ -189,9 +188,9 @@ export class TxtStage extends Container {
 	}
 	cvsResize() {
 		const s = this.#htmTxt.style;
-		s.left = (this.#left *CmnLib.cvsScale) +'px';
-		s.top = (this.spLay.position.y *CmnLib.cvsScale) +'px';
-		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *CmnLib.cvsScale}, ${this.spLay.scale.y *CmnLib.cvsScale}`;
+		s.left = `${this.sys.ofsLeft4frm +this.#left *this.sys.cvsScale}px`;
+		s.top = `${this.sys.ofsTop4frm +this.spLay.position.y *this.sys.cvsScale}px`;
+		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *this.sys.cvsScale}, ${this.spLay.scale.y *this.sys.cvsScale})`;
 
 		this.#idc.cvsResize();
 		this.#idcCh.cvsResize();
@@ -613,23 +612,23 @@ export class TxtStage extends Container {
 		do {
 			const e = this.#aRect = this.#getChRects(this.#htmTxt);
 			len = e.length;
-			if (CmnLib.cvsScale !== 1) {
+			if (this.sys.cvsScale !== 1) {
 				// Resizeを意識してDOM位置をPIXIに変換
 				// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響が大きい
-				const ox = CmnLib.ofsPadLeft_Dom2PIXI
+				const ox = this.sys.ofsPadLeft_Dom2PIXI
 					+ parseFloat(this.#htmTxt.style.left)
-						*(1- CmnLib.cvsScale);
-				const oy = CmnLib.ofsPadTop_Dom2PIXI
+						*(1- this.sys.cvsScale);
+				const oy = this.sys.ofsPadTop_Dom2PIXI
 					+ parseFloat(this.#htmTxt.style.top)
-						*(1- CmnLib.cvsScale);
+						*(1- this.sys.cvsScale);
 				for (let i=0; i<len; ++i) {
 					const r = e[i].rect;
 					r.x -= ox;
 					r.y -= oy;	// 次行と前後関係固定で
-					r.x /= CmnLib.cvsScale;
-					r.y /= CmnLib.cvsScale;
-					r.width  /= CmnLib.cvsScale;
-					r.height /= CmnLib.cvsScale;
+					r.x /= this.sys.cvsScale;
+					r.y /= this.sys.cvsScale;
+					r.width  /= this.sys.cvsScale;
+					r.height /= this.sys.cvsScale;
 				}
 			}
 			if (len < 2) break;
@@ -1063,7 +1062,7 @@ export class TxtStage extends Container {
 	reNew(): TxtStage {
 		this.#clearText();
 
-		const to = new TxtStage(this.spLay, ()=> this.canFocus());
+		const to = new TxtStage(this.spLay, ()=> this.canFocus(), this.sys);
 		to.#infTL = this.#infTL;
 		to.#htmTxt.style.cssText = this.#htmTxt.style.cssText;
 		to.#left = this.#left;

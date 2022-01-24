@@ -3,11 +3,12 @@ import { IEvtMng } from './CmnLib';
 import { IVariable, IHTag, HArg, IMain } from './CmnInterface';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
+import { SysBase } from './SysBase';
 import { Renderer } from 'pixi.js';
 export declare class TxtLayer extends Layer {
     #private;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string) => void, isPageFore: (me: TxtLayer) => boolean): void;
-    static setEvtMng(main: IMain, evtMng: IEvtMng): void;
+    static setEvtMng(main: IMain, evtMng: IEvtMng, sys: SysBase): void;
     constructor();
     destroy(): void;
     set name(nm: string);

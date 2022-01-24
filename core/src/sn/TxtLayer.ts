@@ -14,6 +14,7 @@ import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
 import {LayerMng, IMakeDesignCast} from './LayerMng';
+import {SysBase} from './SysBase';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer} from 'pixi.js';
 
@@ -143,9 +144,11 @@ export class TxtLayer extends Layer {
 
 	static	#main	: IMain;
 	static	#evtMng	: IEvtMng;
-	static setEvtMng(main: IMain, evtMng: IEvtMng) {
+	static	#sys	: SysBase;
+	static setEvtMng(main: IMain, evtMng: IEvtMng, sys: SysBase) {
 		TxtLayer.#main = main;
 		TxtLayer.#evtMng = evtMng;
+		TxtLayer.#sys = sys;
 		TxtStage.setEvtMng(evtMng);
 	}
 
@@ -185,7 +188,7 @@ export class TxtLayer extends Layer {
 	#b_pic			= '';	// 背景画像無し（＝単色塗り）
 
 	// 文字表示
-	#txs	= new TxtStage(this.spLay, ()=>this.canFocus());
+	#txs	= new TxtStage(this.spLay, ()=> this.canFocus(), TxtLayer.#sys);
 
 	#rbSpl	= new RubySpliter;
 
@@ -201,7 +204,7 @@ export class TxtLayer extends Layer {
 		this.spLay.addChild(this.#cntBtn);	// ボタンはpaddingの影響を受けない
 		this.#cntBtn.name = 'cntBtn';
 
-		const padding = 16 *CmnLib.retinaRate;	// 初期padding
+		const padding = 16;	// 初期padding
 		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
 	override destroy() {

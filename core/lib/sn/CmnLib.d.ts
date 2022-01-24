@@ -38,11 +38,6 @@ export declare function getExt(p: string): string;
 export declare class CmnLib {
     static stageW: number;
     static stageH: number;
-    static ofsPadLeft_Dom2PIXI: number;
-    static ofsPadTop_Dom2PIXI: number;
-    static cvsWidth: number;
-    static cvsHeight: number;
-    static cvsScale: number;
     static debugLog: boolean;
     static readonly isSafari: boolean;
     static readonly isFirefox: boolean;
@@ -53,12 +48,7 @@ export declare class CmnLib {
     };
     static isDbg: boolean;
     static isPackaged: boolean;
-    static isRetina: boolean;
     static isDarkMode: boolean;
-    static retinaRate: number;
-    static readonly SN_ID = "skynovel";
     static cc4ColorName: CanvasRenderingContext2D;
-    static isFullScr: boolean;
-    static cvsResize(cvs: HTMLCanvasElement): boolean;
 }
 //# sourceMappingURL=CmnLib.d.ts.map

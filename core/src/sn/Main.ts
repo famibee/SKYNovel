@@ -49,6 +49,7 @@ export class Main implements IMain {
 		.then(()=> this.#init())
 		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
 	}
+	readonly	#SN_ID	= 'skynovel';
 	async #init() {
 		const cc = document.createElement('canvas')?.getContext('2d');
 		if (! cc) throw 'argChk_Color err';
@@ -62,16 +63,16 @@ export class Main implements IMain {
 			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
 			autoResize		: true,
 		};
-		const cvs = document.getElementById(CmnLib.SN_ID) as HTMLCanvasElement;
+		const cvs = document.getElementById(this.#SN_ID) as HTMLCanvasElement;
 		if (cvs) {
 			this.#clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
-			this.#clone_cvs.id = CmnLib.SN_ID;
+			this.#clone_cvs.id = this.#SN_ID;
 			hApp.view = cvs;
 		}
 		this.#appPixi = new Application(hApp);
 		if (! cvs) {
 			document.body.appendChild(this.#appPixi.view);
-			this.#appPixi.view.id = CmnLib.SN_ID;
+			this.#appPixi.view.id = this.#SN_ID;
 		}
 
 		// 変数
@@ -257,7 +258,7 @@ export class Main implements IMain {
 		this.#appPixi.ticker.remove(this.#fncTicker);
 
 		if (this.#clone_cvs && this.#appPixi) {
-			this.#appPixi.view.parentElement!.insertBefore(this.#clone_cvs, this.#appPixi.view);
+			document.body.insertBefore(this.#clone_cvs, this.#appPixi.view);
 		}
 		utils.clearTextureCache();
 		this.#appPixi.destroy(true);

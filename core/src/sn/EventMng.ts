@@ -57,7 +57,7 @@ export class EventMng implements IEvtMng {
 
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
-		TxtLayer.setEvtMng(main, this);
+		TxtLayer.setEvtMng(main, this, sys);
 		layMng.setEvtMng(this);
 		sys.setFire((KEY, e)=> this.fire(KEY, e));
 
@@ -96,7 +96,7 @@ export class EventMng implements IEvtMng {
 		const ctx = this.#cvsHint.getContext('2d');
 		if (ctx) {
 			this.#cvsHint.hidden = true;
-			appPixi.view.parentElement!.appendChild(this.#cvsHint);
+			document.body.appendChild(this.#cvsHint);
 			const s = this.#cvsHint.style;
 			s.position = 'absolute';
 			s.left = s.top = '0';
@@ -478,13 +478,12 @@ export class EventMng implements IEvtMng {
 		const scale_x = hint_width /this.#picHint_w;
 		const hint_tate = argChk_Boolean(hArg, 'hint_tate', false);
 
-		const scale = this.sys.reso4frame *CmnLib.cvsScale;
-		this.#cvsHint.style.left= `${this.sys.ofsLeft4frm+rctBtn.x *scale}px`;
-		this.#cvsHint.style.top = `${this.sys.ofsTop4frm +rctBtn.y *scale}px`;
+		this.#cvsHint.style.left= `${this.sys.ofsLeft4frm+rctBtn.x *this.sys.cvsScale}px`;
+		this.#cvsHint.style.top = `${this.sys.ofsTop4frm +rctBtn.y *this.sys.cvsScale}px`;
 		this.#cvsHint.style.transformOrigin = 'top left';
 		this.#cvsHint.style.transform = `rotateZ(${
 			ctnBtn.rotation +(hint_tate ?Math.PI *90 /180 :0)
-		}rad) scale(${scale_x *scale}, ${scale}) translate(${
+		}rad) scale(${scale_x *this.sys.cvsScale}, ${this.sys.cvsScale}) translate(${
 			((hint_tate ?rctBtn.height :rctBtn.width) -hint_width)/2 /scale_x
 		}px, ${
 			(hint_tate ?-rctBtn.width :0) -this.#picHint_h

@@ -66337,71 +66337,10 @@ function getExt(p) { return (p.match(REG_EXT) ?? [''])[1]; }
 exports.getExt = getExt;
 const platform = __webpack_require__(/*! platform */ "./node_modules/platform/platform.js");
 class CmnLib {
-    static cvsResize(cvs) {
-        const bk_cw = CmnLib.cvsWidth;
-        const bk_ch = CmnLib.cvsHeight;
-        let w = globalThis.innerWidth;
-        let h = globalThis.innerHeight;
-        const angle = screen.orientation?.angle ?? 0;
-        const lp = angle % 180 === 0 ? 'p' : 'l';
-        if (CmnLib.isMobile &&
-            ((lp === 'p' && w > h) || (lp === 'l' && w < h)))
-            [w, h] = [h, w];
-        if (argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
-            CmnLib.stageW > w ||
-            CmnLib.stageH > h) {
-            if (CmnLib.stageW / CmnLib.stageH <= w / h) {
-                CmnLib.cvsHeight = h;
-                CmnLib.cvsWidth = CmnLib.stageW / CmnLib.stageH * h;
-            }
-            else {
-                CmnLib.cvsWidth = w;
-                CmnLib.cvsHeight = CmnLib.stageH / CmnLib.stageW * w;
-            }
-            CmnLib.cvsScale = CmnLib.cvsWidth / CmnLib.stageW;
-            const cr = cvs.getBoundingClientRect();
-            CmnLib.ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
-                ? (globalThis.innerWidth - CmnLib.cvsWidth) / 2
-                : cr.left)
-                * (1 - CmnLib.cvsScale);
-            CmnLib.ofsPadTop_Dom2PIXI = (CmnLib.isMobile
-                ? (globalThis.innerHeight - CmnLib.cvsHeight) / 2
-                : cr.top)
-                * (1 - CmnLib.cvsScale);
-        }
-        else {
-            CmnLib.cvsWidth = CmnLib.stageW;
-            CmnLib.cvsHeight = CmnLib.stageH;
-            CmnLib.cvsScale = 1;
-            CmnLib.ofsPadLeft_Dom2PIXI = 0;
-            CmnLib.ofsPadTop_Dom2PIXI = 0;
-        }
-        if (cvs.parentElement) {
-            const ps = cvs.parentElement.style;
-            ps.position = 'relative';
-            ps.width = `${CmnLib.cvsWidth}px`;
-            ps.height = `${CmnLib.cvsHeight}px`;
-            const s = cvs.style;
-            if (CmnLib.isFullScr) {
-                s.width = '';
-                s.height = '';
-            }
-            else {
-                s.width = ps.width;
-                s.height = ps.height;
-            }
-        }
-        return bk_cw !== CmnLib.cvsWidth || bk_ch !== CmnLib.cvsHeight;
-    }
 }
 exports.CmnLib = CmnLib;
 CmnLib.stageW = 0;
 CmnLib.stageH = 0;
-CmnLib.ofsPadLeft_Dom2PIXI = 0;
-CmnLib.ofsPadTop_Dom2PIXI = 0;
-CmnLib.cvsWidth = 0;
-CmnLib.cvsHeight = 0;
-CmnLib.cvsScale = 1;
 CmnLib.debugLog = false;
 CmnLib.isSafari = platform.name === 'Safari';
 CmnLib.isFirefox = platform.name === 'Firefox';
@@ -66410,11 +66349,7 @@ CmnLib.isMobile = !new RegExp('(Windows|OS X)').test(platform.os?.family ?? '');
 CmnLib.hDip = {};
 CmnLib.isDbg = false;
 CmnLib.isPackaged = false;
-CmnLib.isRetina = false;
 CmnLib.isDarkMode = false;
-CmnLib.retinaRate = 1;
-CmnLib.SN_ID = 'skynovel';
-CmnLib.isFullScr = false;
 
 
 /***/ }),
@@ -66883,7 +66818,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _DesignCast_instances, _a, _DesignCast_divDesignRoot, _DesignCast_sys, _DesignCast_scrItr, _DesignCast_alzTagArg, _DesignCast_cfg, _DesignCast_ID_DESIGNMODE, _DesignCast_cntDesignCast, _DesignCast_hId2dc, _DesignCast_aDC, _DesignCast_resizeDiv, _GrpLayDesignCast_sp, _TxtLayPadDesignCast_instances, _TxtLayPadDesignCast_procHint, _PicBtnDesignCast_sp;
+var _DesignCast_instances, _a, _DesignCast_divDesignRoot, _DesignCast_scrItr, _DesignCast_alzTagArg, _DesignCast_cfg, _DesignCast_ID_DESIGNMODE, _DesignCast_cntDesignCast, _DesignCast_hId2dc, _DesignCast_aDC, _DesignCast_resizeDiv, _GrpLayDesignCast_sp, _TxtLayPadDesignCast_instances, _TxtLayPadDesignCast_procHint, _PicBtnDesignCast_sp;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PicBtnDesignCast = exports.TxtBtnDesignCast = exports.BtnDesignCast = exports.TxtLayPadDesignCast = exports.TxtLayDesignCast = exports.GrpLayDesignCast = exports.DesignCast = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -66927,11 +66862,11 @@ class DesignCast {
         this.rotatable = true;
     }
     static init(appPixi, sys, scrItr, prpPrs, alzTagArg, cfg, hPages) {
-        appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)}" style="width: ${CmnLib_1.CmnLib.stageW * CmnLib_1.CmnLib.cvsScale}px; height: ${CmnLib_1.CmnLib.stageH * CmnLib_1.CmnLib.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+        appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)}" style="width: ${CmnLib_1.CmnLib.stageW * sys.cvsScale}px; height: ${CmnLib_1.CmnLib.stageH * sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
         __classPrivateFieldSet(DesignCast, _a, document.getElementById(__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)), "f", _DesignCast_divDesignRoot);
         DesignCast.divHint.classList.add('sn_design_hint');
         document.body.appendChild(DesignCast.divHint);
-        __classPrivateFieldSet(DesignCast, _a, sys, "f", _DesignCast_sys);
+        DesignCast.sys = sys;
         __classPrivateFieldSet(DesignCast, _a, scrItr, "f", _DesignCast_scrItr);
         DesignCast.prpPrs = prpPrs;
         __classPrivateFieldSet(DesignCast, _a, alzTagArg, "f", _DesignCast_alzTagArg);
@@ -66974,8 +66909,8 @@ class DesignCast {
     }
     static cvsResizeDesign() {
         const s = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_divDesignRoot).style;
-        s.width = `${CmnLib_1.CmnLib.stageW * CmnLib_1.CmnLib.cvsScale}px`;
-        s.height = `${CmnLib_1.CmnLib.stageH * CmnLib_1.CmnLib.cvsScale}px`;
+        s.width = `${CmnLib_1.CmnLib.stageW * DesignCast.sys.cvsScale}px`;
+        s.height = `${CmnLib_1.CmnLib.stageH * DesignCast.sys.cvsScale}px`;
     }
     destroy() {
         this.div = undefined;
@@ -67055,8 +66990,8 @@ class DesignCast {
         const procStart = () => {
             tmp.aPos = [NaN, NaN];
             tmp.roDeg = this.rotation;
-            const dpx = this.pivot.x * CmnLib_1.CmnLib.cvsScale;
-            const dpy = this.pivot.y * CmnLib_1.CmnLib.cvsScale;
+            const dpx = this.pivot.x * DesignCast.sys.cvsScale;
+            const dpy = this.pivot.y * DesignCast.sys.cvsScale;
             tmp.trOrg = `${dpx}px ${dpy}px`;
             tmp.origin = [dpx, dpy];
             Object.assign(this.mov, {
@@ -67065,7 +67000,7 @@ class DesignCast {
             });
         };
         const procEnd = (o) => {
-            __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_sys).send2Dbg('_changeCast', {
+            DesignCast.sys.send2Dbg('_changeCast', {
                 ...o, ':id_tag': this.id_tag,
             });
             DesignCast.divHint.style.display = 'none';
@@ -67076,8 +67011,8 @@ class DesignCast {
                 DesignCast.divHint.style.display = 'none';
                 return;
             }
-            const ix = (0, CmnLib_1.int)(this.rect.x += dx / CmnLib_1.CmnLib.cvsScale + this.pivot.x);
-            const iy = (0, CmnLib_1.int)(this.rect.y += dy / CmnLib_1.CmnLib.cvsScale + this.pivot.y);
+            const ix = (0, CmnLib_1.int)(this.rect.x += dx / DesignCast.sys.cvsScale + this.pivot.x);
+            const iy = (0, CmnLib_1.int)(this.rect.y += dy / DesignCast.sys.cvsScale + this.pivot.y);
             this.setPos(ix, iy);
             const iw = (0, CmnLib_1.uint)(this.rect.width), ih = (0, CmnLib_1.uint)(this.rect.height);
             this.setSize(iw, ih);
@@ -67121,8 +67056,8 @@ class DesignCast {
             d.style.width = `${e.width}px`;
             d.style.height = `${e.height}px`;
             tmp.aPos = e.drag.beforeTranslate;
-            this.rect.width = e.width / CmnLib_1.CmnLib.cvsScale;
-            this.rect.height = e.height / CmnLib_1.CmnLib.cvsScale;
+            this.rect.width = e.width / DesignCast.sys.cvsScale;
+            this.rect.height = e.height / DesignCast.sys.cvsScale;
             this.procResizeHint(e, e.drag.left, e.drag.top);
         })
             .on('resizeEnd', resizeEnd)
@@ -67144,8 +67079,8 @@ class DesignCast {
             .on('dragOriginEnd', () => {
             const [dpx, dpy] = tmp.origin;
             tmp.trOrg = `${dpx}px ${dpy}px`;
-            const px = this.pivot.x = dpx / CmnLib_1.CmnLib.cvsScale;
-            const py = this.pivot.y = dpy / CmnLib_1.CmnLib.cvsScale;
+            const px = this.pivot.x = dpx / DesignCast.sys.cvsScale;
+            const py = this.pivot.y = dpy / DesignCast.sys.cvsScale;
             this.setOther({});
             const ix = (0, CmnLib_1.int)(this.rect.x + px);
             const iy = (0, CmnLib_1.int)(this.rect.y + py);
@@ -67193,18 +67128,18 @@ class DesignCast {
                     o.url = __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_scrItr).cnvPath4Dbg(__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_cfg).searchPath(f.name, Config_1.Config.EXT_SPRITE));
                 }
                 catch { }
-                __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_sys).send2Dbg('_dropFile', o);
+                DesignCast.sys.send2Dbg('_dropFile', o);
             })
                 .catch(e => console.error(`drop2dc %o`, e));
         });
         d.addEventListener('dblclick', e => {
             e.preventDefault();
-            __classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_sys).send2Dbg('_focusScript', this.hArg);
+            DesignCast.sys.send2Dbg('_focusScript', this.hArg);
         });
     }
     procDragHint(e, left, top) {
         const [dx, dy] = e.beforeTranslate;
-        DesignCast.setHint(`(${(0, CmnLib_1.int)(this.rect.x + dx / CmnLib_1.CmnLib.cvsScale)}, ${(0, CmnLib_1.int)(this.rect.y + dy / CmnLib_1.CmnLib.cvsScale)})`, left, top, this);
+        DesignCast.setHint(`(${(0, CmnLib_1.int)(this.rect.x + dx / DesignCast.sys.cvsScale)}, ${(0, CmnLib_1.int)(this.rect.y + dy / DesignCast.sys.cvsScale)})`, left, top, this);
     }
     procResizeHint(e, left, top) {
         DesignCast.setHint(`(${(0, CmnLib_1.int)(e.drag.left)}, ${(0, CmnLib_1.int)(e.drag.top)})<br/>${(0, CmnLib_1.int)(this.rect.width)} x ${(0, CmnLib_1.int)(this.rect.height)}`, left, top, this);
@@ -67270,16 +67205,15 @@ _a = DesignCast, _DesignCast_instances = new WeakSet(), _DesignCast_resizeDiv = 
     this.fncLay();
     if (this.div)
         Object.assign(this.div.style, {
-            left: `${this.lx + this.rect.x * CmnLib_1.CmnLib.cvsScale}px`,
-            top: `${this.ly + this.rect.y * CmnLib_1.CmnLib.cvsScale}px`,
-            width: `${this.rect.width * CmnLib_1.CmnLib.cvsScale}px`,
-            height: `${this.rect.height * CmnLib_1.CmnLib.cvsScale}px`,
-            transformOrigin: `${this.pivot.x * CmnLib_1.CmnLib.cvsScale}px ${this.pivot.y * CmnLib_1.CmnLib.cvsScale}px`,
+            left: `${this.lx + this.rect.x * DesignCast.sys.cvsScale}px`,
+            top: `${this.ly + this.rect.y * DesignCast.sys.cvsScale}px`,
+            width: `${this.rect.width * DesignCast.sys.cvsScale}px`,
+            height: `${this.rect.height * DesignCast.sys.cvsScale}px`,
+            transformOrigin: `${this.pivot.x * DesignCast.sys.cvsScale}px ${this.pivot.y * DesignCast.sys.cvsScale}px`,
             transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`,
         });
 };
 _DesignCast_divDesignRoot = { value: void 0 };
-_DesignCast_sys = { value: void 0 };
 _DesignCast_scrItr = { value: void 0 };
 _DesignCast_alzTagArg = { value: void 0 };
 _DesignCast_cfg = { value: void 0 };
@@ -67413,8 +67347,8 @@ _TxtLayPadDesignCast_instances = new WeakSet(), _TxtLayPadDesignCast_procHint = 
     const x = this.rect.x, y = this.rect.y;
     const w = this.rect.width, h = this.rect.height;
     const it = this.ts.infTL;
-    const pl = (0, CmnLib_1.int)(x + dx / CmnLib_1.CmnLib.cvsScale);
-    const pt = (0, CmnLib_1.int)(y + dy / CmnLib_1.CmnLib.cvsScale);
+    const pl = (0, CmnLib_1.int)(x + dx / DesignCast.sys.cvsScale);
+    const pt = (0, CmnLib_1.int)(y + dy / DesignCast.sys.cvsScale);
     const pr = (0, CmnLib_1.int)(it.$width - pl - w);
     const pb = (0, CmnLib_1.int)(it.$height - pt - h);
     const sp = (re) => '&nbsp;'.repeat(re);
@@ -67441,8 +67375,8 @@ class BtnDesignCast extends DesignCast {
         this.fncLay = (!this.parent && !this.child && layer)
             ? () => {
                 const f = DesignCast.hPages[layer].fore;
-                this.lx = f.x * CmnLib_1.CmnLib.cvsScale;
-                this.ly = f.y * CmnLib_1.CmnLib.cvsScale;
+                this.lx = f.x * DesignCast.sys.cvsScale;
+                this.ly = f.y * DesignCast.sys.cvsScale;
             }
             : () => { };
     }
@@ -67457,8 +67391,8 @@ class BtnDesignCast extends DesignCast {
     onDragStart() {
         const aBtn = this.btn.parent.children.filter(b => b !== this.btn);
         Object.assign(this.mov, {
-            verticalGuidelines: aBtn.map(b => this.lx + b.x * CmnLib_1.CmnLib.cvsScale),
-            horizontalGuidelines: aBtn.map(b => this.ly + b.y * CmnLib_1.CmnLib.cvsScale),
+            verticalGuidelines: aBtn.map(b => this.lx + b.x * DesignCast.sys.cvsScale),
+            horizontalGuidelines: aBtn.map(b => this.ly + b.y * DesignCast.sys.cvsScale),
         });
     }
 }
@@ -67688,7 +67622,7 @@ class EventMng {
         hTag.waitclick = () => __classPrivateFieldGet(this, _EventMng_instances, "m", _EventMng_waitclick).call(this);
         sndMng.setEvtMng(this);
         scrItr.setOtherObj(this, layMng);
-        TxtLayer_1.TxtLayer.setEvtMng(main, this);
+        TxtLayer_1.TxtLayer.setEvtMng(main, this, sys);
         layMng.setEvtMng(this);
         sys.setFire((KEY, e) => this.fire(KEY, e));
         if (CmnLib_1.CmnLib.isDbg) {
@@ -67725,7 +67659,7 @@ class EventMng {
         const ctx = __classPrivateFieldGet(this, _EventMng_cvsHint, "f").getContext('2d');
         if (ctx) {
             __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = true;
-            appPixi.view.parentElement.appendChild(__classPrivateFieldGet(this, _EventMng_cvsHint, "f"));
+            document.body.appendChild(__classPrivateFieldGet(this, _EventMng_cvsHint, "f"));
             const s = __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style;
             s.position = 'absolute';
             s.left = s.top = '0';
@@ -68110,11 +68044,10 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     const hint_width = (0, CmnLib_1.argChk_Num)(hArg, 'hint_width', __classPrivateFieldGet(this, _EventMng_picHint_w, "f"));
     const scale_x = hint_width / __classPrivateFieldGet(this, _EventMng_picHint_w, "f");
     const hint_tate = (0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', false);
-    const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.left = `${this.sys.ofsLeft4frm + rctBtn.x * scale}px`;
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.top = `${this.sys.ofsTop4frm + rctBtn.y * scale}px`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.left = `${this.sys.ofsLeft4frm + rctBtn.x * this.sys.cvsScale}px`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.top = `${this.sys.ofsTop4frm + rctBtn.y * this.sys.cvsScale}px`;
     __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transformOrigin = 'top left';
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x * scale}, ${scale}) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __classPrivateFieldGet(this, _EventMng_picHint_h, "f")}px)`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x * this.sys.cvsScale}, ${this.sys.cvsScale}) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __classPrivateFieldGet(this, _EventMng_picHint_h, "f")}px)`;
     __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = false;
     if (masume)
         __classPrivateFieldGet(this, _EventMng_dispHint_masume, "f").call(this, hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
@@ -68613,7 +68546,6 @@ class FrameMng {
     }
     getFrmDisabled(id) { return __classPrivateFieldGet(this, _FrameMng_hDisabled, "f")[id]; }
     cvsResize() {
-        const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
         for (const id in __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")) {
             const f = __classPrivateFieldGet(this, _FrameMng_hIfrm, "f")[id];
             const vn = 'const.sn.frm.' + id;
@@ -68621,16 +68553,16 @@ class FrameMng {
             const y = Number(this.val.getVal(vn + '.y'));
             const w = Number(this.val.getVal(vn + '.width'));
             const h = Number(this.val.getVal(vn + '.height'));
-            f.style.left = this.sys.ofsLeft4frm + x * scale + 'px';
-            f.style.top = this.sys.ofsTop4frm + y * scale + 'px';
-            f.width = String(w * scale);
-            f.height = String(h * scale);
+            f.style.left = `${this.sys.ofsLeft4frm + x * this.sys.cvsScale}px`;
+            f.style.top = `${this.sys.ofsTop4frm + y * this.sys.cvsScale}px`;
+            f.width = String(w * this.sys.cvsScale);
+            f.height = String(h * this.sys.cvsScale);
         }
     }
 }
 exports.FrameMng = FrameMng;
 _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDisabled = new WeakMap(), _FrameMng_zIdx = new WeakMap(), _FrameMng_instances = new WeakSet(), _FrameMng_add_frame = function _FrameMng_add_frame(hArg) {
-    const { id, src } = hArg;
+    const { id, src, alpha: a = 1, scale_x: sx = 1, scale_y: sy = 1, rotate: r = 0, } = hArg;
     if (!id)
         throw 'idは必須です';
     if (!src)
@@ -68638,15 +68570,10 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     const vn = 'const.sn.frm.' + id;
     if (this.val.getVal(`tmp:${vn}`))
         throw `frame【${id}】はすでにあります`;
-    const a = (0, CmnLib_1.argChk_Num)(hArg, 'alpha', 1);
-    const sx = (0, CmnLib_1.argChk_Num)(hArg, 'scale_x', 1);
-    const sy = (0, CmnLib_1.argChk_Num)(hArg, 'scale_y', 1);
-    const r = (0, CmnLib_1.argChk_Num)(hArg, 'rotate', 0);
     const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
     const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
     const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg);
-    const scl = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
-    this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * scl}px; top: ${this.sys.ofsTop4frm + rct.y * scl}px; z-index: 1; ${b_color} border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width * scl}" height="${rct.height * scl}"></iframe>`);
+    this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * this.sys.cvsScale}px; top: ${this.sys.ofsTop4frm + rct.y * this.sys.cvsScale}px; z-index: 1; ${b_color} border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width * this.sys.cvsScale}" height="${rct.height * this.sys.cvsScale}"></iframe>`);
     const url = this.cfg.searchPath(src, Config_1.Config.EXT_HTML);
     const ld = (new pixi_js_1.Loader())
         .add({ name: src, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT });
@@ -68741,7 +68668,7 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     const s = f.style;
     if ((0, CmnLib_1.argChk_Boolean)(hArg, 'float', false))
         s.zIndex = `${__classPrivateFieldSet(this, _FrameMng_zIdx, (_a = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_a), "f")}`;
-    else if (hArg.index)
+    else if ('index' in hArg)
         s.zIndex = `${(0, CmnLib_1.argChk_Num)(hArg, 'index', 0)}`;
     else if (hArg.dive)
         s.zIndex = `-${__classPrivateFieldSet(this, _FrameMng_zIdx, (_b = __classPrivateFieldGet(this, _FrameMng_zIdx, "f"), ++_b), "f")}`;
@@ -68750,10 +68677,9 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
         this.val.setVal_Nochk('tmp', vn + '.alpha', a);
     }
     const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg);
-    const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
     if ('x' in hArg || 'y' in hArg) {
-        s.left = `${this.sys.ofsLeft4frm + rct.x * scale}px`;
-        s.top = `${this.sys.ofsTop4frm + rct.y * scale}px`;
+        s.left = `${this.sys.ofsLeft4frm + rct.x * this.sys.cvsScale}px`;
+        s.top = `${this.sys.ofsTop4frm + rct.y * this.sys.cvsScale}px`;
         this.val.setVal_Nochk('tmp', vn + '.x', rct.x);
         this.val.setVal_Nochk('tmp', vn + '.y', rct.y);
     }
@@ -68767,11 +68693,11 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
         this.val.setVal_Nochk('tmp', vn + '.rotate', r);
     }
     if ('width' in hArg) {
-        f.width = String(rct.width * scale);
+        f.width = String(rct.width * this.sys.cvsScale);
         this.val.setVal_Nochk('tmp', vn + '.width', rct.width);
     }
     if ('height' in hArg) {
-        f.height = String(rct.height * scale);
+        f.height = String(rct.height * this.sys.cvsScale);
         this.val.setVal_Nochk('tmp', vn + '.height', rct.height);
     }
     if ('visible' in hArg) {
@@ -68825,7 +68751,6 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     }
     let fncXYSR = () => { };
     const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg2);
-    const scale = this.sys.reso4frame * CmnLib_1.CmnLib.cvsScale;
     if ('x' in hArg || 'y' in hArg
         || 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
         hTo.x = rct.x;
@@ -68834,8 +68759,8 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
         hTo.sy = (0, CmnLib_1.argChk_Num)(hArg2, 'scale_y', 1);
         hTo.r = (0, CmnLib_1.argChk_Num)(hArg2, 'rotate', 0);
         fncXYSR = () => {
-            f.style.left = this.sys.ofsLeft4frm + hNow.x * scale + 'px';
-            f.style.top = this.sys.ofsTop4frm + hNow.y * scale + 'px';
+            f.style.left = this.sys.ofsLeft4frm + hNow.x * this.sys.cvsScale + 'px';
+            f.style.top = this.sys.ofsTop4frm + hNow.y * this.sys.cvsScale + 'px';
             f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
             this.val.setVal_Nochk('tmp', vn + '.x', hNow.x);
             this.val.setVal_Nochk('tmp', vn + '.y', hNow.y);
@@ -68848,7 +68773,7 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     if ('width' in hArg) {
         hTo.w = rct.width;
         fncW = () => {
-            f.width = hNow.w * scale + 'px';
+            f.width = hNow.w * this.sys.cvsScale + 'px';
             this.val.setVal_Nochk('tmp', vn + '.width', hNow.w);
         };
     }
@@ -68856,7 +68781,7 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     if ('height' in hArg) {
         hTo.h = rct.height;
         fncH = () => {
-            f.height = hNow.h * scale + 'px';
+            f.height = hNow.h * this.sys.cvsScale + 'px';
             this.val.setVal_Nochk('tmp', vn + '.height', hNow.h);
         };
     }
@@ -69368,8 +69293,8 @@ class GrpLayer extends Layer_1.Layer {
         const { fn = name } = hArg;
         __classPrivateFieldGet(GrpLayer, _a, "f", _GrpLayer_hFace)[name] = {
             fn,
-            dx: (0, CmnLib_1.argChk_Num)(hArg, 'dx', 0) * CmnLib_1.CmnLib.retinaRate,
-            dy: (0, CmnLib_1.argChk_Num)(hArg, 'dy', 0) * CmnLib_1.CmnLib.retinaRate,
+            dx: (0, CmnLib_1.argChk_Num)(hArg, 'dx', 0),
+            dy: (0, CmnLib_1.argChk_Num)(hArg, 'dy', 0),
             blendmode: Layer_1.Layer.getBlendmodeNum(hArg.blendmode || '')
         };
         return false;
@@ -69694,7 +69619,7 @@ class Layer {
         }
         ret.x = (0, CmnLib_1.int)(((ret.scale.x < 0)
             ? x + (isButton ? b_width / 3 : b_width)
-            : x) * CmnLib_1.CmnLib.retinaRate);
+            : x));
         let y = ret.y;
         if ('top' in hArg) {
             y = (0, CmnLib_1.argChk_Num)(hArg, 'top', 0);
@@ -69719,8 +69644,7 @@ class Layer {
                 y *= CmnLib_1.CmnLib.stageH;
             y = CmnLib_1.CmnLib.stageH - y - b_height;
         }
-        ret.y = (0, CmnLib_1.int)(((ret.scale.y < 0) ? y + b_height : y)
-            * CmnLib_1.CmnLib.retinaRate);
+        ret.y = (0, CmnLib_1.int)(((ret.scale.y < 0) ? y + b_height : y));
         if (isGrp) {
             if (!('left' in hArg)
                 && !('center' in hArg)
@@ -69757,7 +69681,7 @@ class Layer {
             c = b_width * 0.5;
         }
         else {
-            c = (0, CmnLib_1.int)(pos) * CmnLib_1.CmnLib.retinaRate;
+            c = (0, CmnLib_1.int)(pos);
         }
         ret.x = (0, CmnLib_1.int)(c - b_width * 0.5);
         ret.y = CmnLib_1.CmnLib.stageH - b_height;
@@ -69925,7 +69849,7 @@ void main(void) {
         _LayerMng_oLastPage.set(this, { text: '' });
         _LayerMng_aTxtLog.set(this, []);
         const fncResizeLay = () => {
-            if (!CmnLib_1.CmnLib.cvsResize(appPixi.view))
+            if (!sys.cvsResize())
                 return;
             this.cvsResizeDesign();
             if (__classPrivateFieldGet(this, _LayerMng_modeLnSub, "f"))
@@ -69939,14 +69863,14 @@ void main(void) {
             globalThis.addEventListener('orientationchange', fncResizeLay, { passive: true });
         }
         else {
-            let tid = 0;
+            let tid = undefined;
             globalThis.addEventListener('resize', () => {
                 if (tid)
                     return;
-                tid = setTimeout(() => { tid = 0; fncResizeLay(); }, 500);
+                tid = setTimeout(() => { tid = undefined; fncResizeLay(); }, 1000 / 60 * 10);
             }, { passive: true });
         }
-        CmnLib_1.CmnLib.cvsResize(appPixi.view);
+        sys.cvsResize();
         TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[me.layname].fore === me);
         GrpLayer_1.GrpLayer.init(main, cfg, appPixi, sys, sndMng);
         Button_1.Button.init(cfg);
@@ -70773,7 +70697,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Main_instances, _Main_cfg, _Main_appPixi, _Main_hTag, _Main_val, _Main_prpPrs, _Main_sndMng, _Main_scrItr, _Main_dbgMng, _Main_layMng, _Main_evtMng, _Main_fncNext, _Main_alzTagArg, _Main_inited, _Main_init, _Main_fncTicker, _Main_fncresume, _Main_isLoop, _Main_runAnalyze, _Main_destroyed, _Main_clone_cvs;
+var _Main_instances, _Main_cfg, _Main_appPixi, _Main_hTag, _Main_val, _Main_prpPrs, _Main_sndMng, _Main_scrItr, _Main_dbgMng, _Main_layMng, _Main_evtMng, _Main_fncNext, _Main_alzTagArg, _Main_inited, _Main_SN_ID, _Main_init, _Main_fncTicker, _Main_fncresume, _Main_isLoop, _Main_runAnalyze, _Main_destroyed, _Main_clone_cvs;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Main = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -70805,6 +70729,7 @@ class Main {
         _Main_fncNext.set(this, () => { });
         _Main_alzTagArg.set(this, new AnalyzeTagArg_1.AnalyzeTagArg);
         _Main_inited.set(this, false);
+        _Main_SN_ID.set(this, 'skynovel');
         _Main_fncTicker.set(this, () => __classPrivateFieldGet(this, _Main_fncNext, "f").call(this));
         _Main_fncresume.set(this, (fnc = __classPrivateFieldGet(this, _Main_instances, "m", _Main_runAnalyze)) => {
             if (__classPrivateFieldGet(this, _Main_destroyed, "f"))
@@ -70881,14 +70806,14 @@ class Main {
         __classPrivateFieldGet(this, _Main_dbgMng, "f").destroy();
         __classPrivateFieldGet(this, _Main_appPixi, "f").ticker.remove(__classPrivateFieldGet(this, _Main_fncTicker, "f"));
         if (__classPrivateFieldGet(this, _Main_clone_cvs, "f") && __classPrivateFieldGet(this, _Main_appPixi, "f")) {
-            __classPrivateFieldGet(this, _Main_appPixi, "f").view.parentElement.insertBefore(__classPrivateFieldGet(this, _Main_clone_cvs, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f").view);
+            document.body.insertBefore(__classPrivateFieldGet(this, _Main_clone_cvs, "f"), __classPrivateFieldGet(this, _Main_appPixi, "f").view);
         }
         pixi_js_1.utils.clearTextureCache();
         __classPrivateFieldGet(this, _Main_appPixi, "f").destroy(true);
     }
 }
 exports.Main = Main;
-_Main_cfg = new WeakMap(), _Main_appPixi = new WeakMap(), _Main_hTag = new WeakMap(), _Main_val = new WeakMap(), _Main_prpPrs = new WeakMap(), _Main_sndMng = new WeakMap(), _Main_scrItr = new WeakMap(), _Main_dbgMng = new WeakMap(), _Main_layMng = new WeakMap(), _Main_evtMng = new WeakMap(), _Main_fncNext = new WeakMap(), _Main_alzTagArg = new WeakMap(), _Main_inited = new WeakMap(), _Main_fncTicker = new WeakMap(), _Main_fncresume = new WeakMap(), _Main_isLoop = new WeakMap(), _Main_destroyed = new WeakMap(), _Main_clone_cvs = new WeakMap(), _Main_instances = new WeakSet(), _Main_init = async function _Main_init() {
+_Main_cfg = new WeakMap(), _Main_appPixi = new WeakMap(), _Main_hTag = new WeakMap(), _Main_val = new WeakMap(), _Main_prpPrs = new WeakMap(), _Main_sndMng = new WeakMap(), _Main_scrItr = new WeakMap(), _Main_dbgMng = new WeakMap(), _Main_layMng = new WeakMap(), _Main_evtMng = new WeakMap(), _Main_fncNext = new WeakMap(), _Main_alzTagArg = new WeakMap(), _Main_inited = new WeakMap(), _Main_SN_ID = new WeakMap(), _Main_fncTicker = new WeakMap(), _Main_fncresume = new WeakMap(), _Main_isLoop = new WeakMap(), _Main_destroyed = new WeakMap(), _Main_clone_cvs = new WeakMap(), _Main_instances = new WeakSet(), _Main_init = async function _Main_init() {
     const cc = document.createElement('canvas')?.getContext('2d');
     if (!cc)
         throw 'argChk_Color err';
@@ -70901,16 +70826,16 @@ _Main_cfg = new WeakMap(), _Main_appPixi = new WeakMap(), _Main_hTag = new WeakM
         resolution: globalThis.devicePixelRatio ?? 1,
         autoResize: true,
     };
-    const cvs = document.getElementById(CmnLib_1.CmnLib.SN_ID);
+    const cvs = document.getElementById(__classPrivateFieldGet(this, _Main_SN_ID, "f"));
     if (cvs) {
         __classPrivateFieldSet(this, _Main_clone_cvs, cvs.cloneNode(true), "f");
-        __classPrivateFieldGet(this, _Main_clone_cvs, "f").id = CmnLib_1.CmnLib.SN_ID;
+        __classPrivateFieldGet(this, _Main_clone_cvs, "f").id = __classPrivateFieldGet(this, _Main_SN_ID, "f");
         hApp.view = cvs;
     }
     __classPrivateFieldSet(this, _Main_appPixi, new pixi_js_1.Application(hApp), "f");
     if (!cvs) {
         document.body.appendChild(__classPrivateFieldGet(this, _Main_appPixi, "f").view);
-        __classPrivateFieldGet(this, _Main_appPixi, "f").view.id = CmnLib_1.CmnLib.SN_ID;
+        __classPrivateFieldGet(this, _Main_appPixi, "f").view.id = __classPrivateFieldGet(this, _Main_SN_ID, "f");
     }
     __classPrivateFieldSet(this, _Main_val, new Variable_1.Variable(__classPrivateFieldGet(this, _Main_cfg, "f"), __classPrivateFieldGet(this, _Main_hTag, "f")), "f");
     __classPrivateFieldSet(this, _Main_prpPrs, new PropParser_1.PropParser(__classPrivateFieldGet(this, _Main_val, "f"), __classPrivateFieldGet(this, _Main_cfg, "f").oCfg.init.escape ?? '\\'), "f");
@@ -73273,15 +73198,13 @@ class SysApp extends SysNode_1.SysNode {
         this.tgl_full_scr_sub = async () => {
             if (await to_app.isSimpleFullScreen()) {
                 await to_app.setSimpleFullScreen(false, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-                this.reso4frame = 1;
+                this.isFullScr = false;
             }
             else {
                 await to_app.setSimpleFullScreen(true, screen.width, screen.height);
                 await to_app.win_setContentSize(screen.width, screen.height);
-                const cr = this.appPixi.view.getBoundingClientRect();
-                this.reso4frame = cr.width / CmnLib_1.CmnLib.stageW;
+                this.isFullScr = true;
             }
-            this.resizeFrames();
         };
         this.update_check = hArg => {
             const { url } = hArg;
@@ -73417,7 +73340,6 @@ class SysApp extends SysNode_1.SysNode {
         hTmp['const.sn.isDebugger'] = false;
         hTmp['const.sn.screenResolutionX'] = __classPrivateFieldGet(this, _SysApp_hInfo, "f").screenResolutionX;
         hTmp['const.sn.screenResolutionY'] = __classPrivateFieldGet(this, _SysApp_hInfo, "f").screenResolutionY;
-        this.val.defTmp('const.sn.displayState', async () => await to_app.isSimpleFullScreen());
         this.$path_userdata = CmnLib_1.CmnLib.isDbg
             ? __classPrivateFieldGet(this, _SysApp_hInfo, "f").getAppPath.slice(0, -3) + '.vscode/'
             : __classPrivateFieldGet(this, _SysApp_hInfo, "f").userData.replaceAll('\\', '/') + '/';
@@ -73514,7 +73436,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _a, _SysBase_sk, _SysBase_hHook, _SysBase_hToastDat, _SysBase_aFncHook, _SysBase_main_title, _SysBase_info_title, _SysBase_preFromPlg, _SysBase_hN2Ext, _SysBase_genImage, _SysBase_genVideo;
+var _a, _SysBase_cvsWidth, _SysBase_cvsHeight, _SysBase_cvsScale, _SysBase_ofsLeft4frm, _SysBase_ofsTop4frm, _SysBase_ofsPadLeft_Dom2PIXI, _SysBase_ofsPadTop_Dom2PIXI, _SysBase_sk, _SysBase_hHook, _SysBase_hToastDat, _SysBase_aFncHook, _SysBase_main_title, _SysBase_info_title, _SysBase_preFromPlg, _SysBase_hN2Ext, _SysBase_genImage, _SysBase_genVideo;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SysBase = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -73526,8 +73448,15 @@ class SysBase {
         this.hFactoryCls = {};
         this.fetch = (url) => fetch(url);
         this.resolution = 1;
-        this.reso4frame = 1;
         this.data = { sys: {}, mark: {}, kidoku: {} };
+        _SysBase_cvsWidth.set(this, 0);
+        _SysBase_cvsHeight.set(this, 0);
+        _SysBase_cvsScale.set(this, 1);
+        _SysBase_ofsLeft4frm.set(this, 0);
+        _SysBase_ofsTop4frm.set(this, 0);
+        _SysBase_ofsPadLeft_Dom2PIXI.set(this, 0);
+        _SysBase_ofsPadTop_Dom2PIXI.set(this, 0);
+        this.isFullScr = false;
         this.extPort = 3776;
         _SysBase_sk.set(this, undefined);
         _SysBase_hHook.set(this, {
@@ -73615,8 +73544,6 @@ class SysBase {
         this.$path_downloads = '';
         this.$path_userdata = '';
         this.canCapturePage = (_fn) => false;
-        this.ofsLeft4frm = 0;
-        this.ofsTop4frm = 0;
     }
     async loaded(hPlg, _arg) {
         const fncPre = hPlg.snsys_pre;
@@ -73665,6 +73592,7 @@ class SysBase {
         val.setVal_Nochk('tmp', 'const.sn.isApp', () => this.isApp);
         val.setVal_Nochk('tmp', 'const.sn.isDbg', () => CmnLib_1.CmnLib.isDbg);
         val.setVal_Nochk('tmp', 'const.sn.isPackaged', () => CmnLib_1.CmnLib.isPackaged);
+        this.val.defTmp('const.sn.displayState', () => this.isFullScr);
         val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
         val.flush();
         if (CmnLib_1.CmnLib.isDbg)
@@ -73693,6 +73621,78 @@ class SysBase {
                 getHash: fnc => this.hash = fnc,
             }));
         return a;
+    }
+    get cvsScale() { return __classPrivateFieldGet(this, _SysBase_cvsScale, "f"); }
+    ;
+    get ofsLeft4frm() { return __classPrivateFieldGet(this, _SysBase_ofsLeft4frm, "f"); }
+    ;
+    get ofsTop4frm() { return __classPrivateFieldGet(this, _SysBase_ofsTop4frm, "f"); }
+    ;
+    get ofsPadLeft_Dom2PIXI() { return __classPrivateFieldGet(this, _SysBase_ofsPadLeft_Dom2PIXI, "f"); }
+    ;
+    get ofsPadTop_Dom2PIXI() { return __classPrivateFieldGet(this, _SysBase_ofsPadTop_Dom2PIXI, "f"); }
+    ;
+    cvsResize() {
+        const bk_cw = __classPrivateFieldGet(this, _SysBase_cvsWidth, "f");
+        const bk_ch = __classPrivateFieldGet(this, _SysBase_cvsHeight, "f");
+        let w = globalThis.innerWidth;
+        let h = globalThis.innerHeight;
+        const { angle = 0 } = screen.orientation;
+        const lp = angle % 180 === 0 ? 'p' : 'l';
+        if (CmnLib_1.CmnLib.isMobile && ((lp === 'p' && w > h) || (lp === 'l' && w < h)))
+            [w, h] = [h, w];
+        const cvs = this.appPixi.view;
+        if ((0, CmnLib_1.argChk_Boolean)(CmnLib_1.CmnLib.hDip, 'expanding', true) ||
+            CmnLib_1.CmnLib.stageW > w ||
+            CmnLib_1.CmnLib.stageH > h) {
+            if (CmnLib_1.CmnLib.stageW / CmnLib_1.CmnLib.stageH <= w / h) {
+                __classPrivateFieldSet(this, _SysBase_cvsHeight, h, "f");
+                __classPrivateFieldSet(this, _SysBase_cvsWidth, CmnLib_1.CmnLib.stageW / CmnLib_1.CmnLib.stageH * h, "f");
+            }
+            else {
+                __classPrivateFieldSet(this, _SysBase_cvsWidth, w, "f");
+                __classPrivateFieldSet(this, _SysBase_cvsHeight, CmnLib_1.CmnLib.stageH / CmnLib_1.CmnLib.stageW * w, "f");
+            }
+            __classPrivateFieldSet(this, _SysBase_cvsScale, __classPrivateFieldGet(this, _SysBase_cvsWidth, "f") / CmnLib_1.CmnLib.stageW, "f");
+            const cr = cvs.getBoundingClientRect();
+            __classPrivateFieldSet(this, _SysBase_ofsPadLeft_Dom2PIXI, (CmnLib_1.CmnLib.isMobile
+                ? (globalThis.innerWidth - __classPrivateFieldGet(this, _SysBase_cvsWidth, "f")) / 2
+                : cr.left) * (1 - __classPrivateFieldGet(this, _SysBase_cvsScale, "f")), "f");
+            __classPrivateFieldSet(this, _SysBase_ofsPadTop_Dom2PIXI, (CmnLib_1.CmnLib.isMobile
+                ? (globalThis.innerHeight - __classPrivateFieldGet(this, _SysBase_cvsHeight, "f")) / 2
+                : cr.top) * (1 - __classPrivateFieldGet(this, _SysBase_cvsScale, "f")), "f");
+        }
+        else {
+            __classPrivateFieldSet(this, _SysBase_cvsWidth, CmnLib_1.CmnLib.stageW, "f");
+            __classPrivateFieldSet(this, _SysBase_cvsHeight, CmnLib_1.CmnLib.stageH, "f");
+            __classPrivateFieldSet(this, _SysBase_cvsScale, 1, "f");
+            __classPrivateFieldSet(this, _SysBase_ofsPadLeft_Dom2PIXI, 0, "f");
+            __classPrivateFieldSet(this, _SysBase_ofsPadTop_Dom2PIXI, 0, "f");
+        }
+        if (cvs.parentElement) {
+            const ps = cvs.parentElement.style;
+            ps.position = 'relative';
+            ps.width = `${__classPrivateFieldGet(this, _SysBase_cvsWidth, "f")}px`;
+            ps.height = `${__classPrivateFieldGet(this, _SysBase_cvsHeight, "f")}px`;
+            const s = cvs.style;
+            if (this.isFullScr) {
+                s.width = '';
+                s.height = '';
+            }
+            else {
+                s.width = ps.width;
+                s.height = ps.height;
+            }
+        }
+        if (this.isFullScr) {
+            __classPrivateFieldSet(this, _SysBase_ofsLeft4frm, (w - __classPrivateFieldGet(this, _SysBase_cvsWidth, "f")) / 2, "f");
+            __classPrivateFieldSet(this, _SysBase_ofsTop4frm, (h - __classPrivateFieldGet(this, _SysBase_cvsHeight, "f")) / 2, "f");
+        }
+        else {
+            __classPrivateFieldSet(this, _SysBase_ofsLeft4frm, 0, "f");
+            __classPrivateFieldSet(this, _SysBase_ofsTop4frm, 0, "f");
+        }
+        return bk_cw !== __classPrivateFieldGet(this, _SysBase_cvsWidth, "f") || bk_ch !== __classPrivateFieldGet(this, _SysBase_cvsHeight, "f");
     }
     attach_debug(main) {
         this.attach_debug = () => { };
@@ -73738,17 +73738,17 @@ class SysBase {
         __classPrivateFieldSet(this, _SysBase_sk, undefined, "f");
     }
     toast(nm) {
-        const p = this.appPixi.view.parentNode;
+        const p = document.body;
         p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v => p.removeChild(v));
         const img = document.createElement('img');
         const td = __classPrivateFieldGet(SysBase, _a, "f", _SysBase_hToastDat)[nm];
         img.src = `data:image/svg+xml;base64,${td.dat}`;
-        const size = Math.min(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH) / 4 * CmnLib_1.CmnLib.cvsScale;
+        const size = Math.min(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH) / 4 * __classPrivateFieldGet(this, _SysBase_cvsScale, "f");
         img.width = img.height = size;
         img.style.cssText =
             `position: absolute;
-left: ${(CmnLib_1.CmnLib.stageW - size) / 2 * CmnLib_1.CmnLib.cvsScale + size * (td.dx ?? 0)}px;
-top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * CmnLib_1.CmnLib.cvsScale + size * (td.dy ?? 0)}px;`;
+left: ${(CmnLib_1.CmnLib.stageW - size) / 2 * __classPrivateFieldGet(this, _SysBase_cvsScale, "f") + size * (td.dx ?? 0)}px;
+top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * __classPrivateFieldGet(this, _SysBase_cvsScale, "f") + size * (td.dy ?? 0)}px;`;
         img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
         if (!td.ease)
             img.addEventListener('animationend', () => p.removeChild(img), { once: true, passive: true });
@@ -73773,26 +73773,9 @@ top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * CmnLib_1.CmnLib.cvsScale + size * (
     ;
     async appendFile(_path, _data, _callback) { }
     async ensureFileSync(_path) { }
-    resizeFrames() {
-        const cr = this.appPixi.view.getBoundingClientRect();
-        const l = this.ofsLeft4frm + cr.left;
-        const t = this.ofsTop4frm + cr.top;
-        const c = document.getElementsByTagName('iframe');
-        const len = c.length;
-        for (let i = 0; i < len; ++i) {
-            const f = c[i];
-            const tvn = 'tmp:const.sn.frm.' + f.id;
-            f.style.left = `${l + Number(this.val.getVal(tvn + '.x')) * this.reso4frame}px`;
-            f.style.top = `${t + Number(this.val.getVal(tvn + '.y')) * this.reso4frame}px`;
-            f.width = String(Number(this.val.getVal(tvn + '.width'))
-                * this.reso4frame);
-            f.height = String(Number(this.val.getVal(tvn + '.height'))
-                * this.reso4frame);
-        }
-    }
 }
 exports.SysBase = SysBase;
-_a = SysBase, _SysBase_sk = new WeakMap(), _SysBase_hHook = new WeakMap(), _SysBase_aFncHook = new WeakMap(), _SysBase_main_title = new WeakMap(), _SysBase_info_title = new WeakMap(), _SysBase_preFromPlg = new WeakMap(), _SysBase_hN2Ext = new WeakMap(), _SysBase_genImage = new WeakMap(), _SysBase_genVideo = new WeakMap();
+_a = SysBase, _SysBase_cvsWidth = new WeakMap(), _SysBase_cvsHeight = new WeakMap(), _SysBase_cvsScale = new WeakMap(), _SysBase_ofsLeft4frm = new WeakMap(), _SysBase_ofsTop4frm = new WeakMap(), _SysBase_ofsPadLeft_Dom2PIXI = new WeakMap(), _SysBase_ofsPadTop_Dom2PIXI = new WeakMap(), _SysBase_sk = new WeakMap(), _SysBase_hHook = new WeakMap(), _SysBase_aFncHook = new WeakMap(), _SysBase_main_title = new WeakMap(), _SysBase_info_title = new WeakMap(), _SysBase_preFromPlg = new WeakMap(), _SysBase_hN2Ext = new WeakMap(), _SysBase_genImage = new WeakMap(), _SysBase_genVideo = new WeakMap();
 SysBase.VALNM_CFG_NS = 'const.sn.cfg.ns';
 _SysBase_hToastDat = { value: {
         '接続': { dx: -1, dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+' },
@@ -73878,7 +73861,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _TxtLayer_instances, _a, _TxtLayer_cfg, _TxtLayer_val, _TxtLayer_recText, _TxtLayer_isPageFore, _TxtLayer_ch_in_style, _TxtLayer_ch_out_style, _TxtLayer_main, _TxtLayer_evtMng, _TxtLayer_doAutoWc, _TxtLayer_hAutoWc, _TxtLayer_autowc, _TxtLayer_b_color, _TxtLayer_b_alpha, _TxtLayer_b_alpha_isfixed, _TxtLayer_b_do, _TxtLayer_b_pic, _TxtLayer_txs, _TxtLayer_rbSpl, _TxtLayer_cntBtn, _TxtLayer_set_ch_in, _TxtLayer_$ch_in_style, _TxtLayer_ch_in_join, _TxtLayer_set_ch_out, _TxtLayer_$ch_out_style, _TxtLayer_drawBack, _TxtLayer_setFfs, _TxtLayer_ffs, _TxtLayer_fncFFSStyle, _TxtLayer_fncFFSSpan, _TxtLayer_strNoFFS, _TxtLayer_regNoFFS, _TxtLayer_ruby_pd, _TxtLayer_r_align, _TxtLayer_mkStyle_r_align4ff, _TxtLayer_needGoTxt, _TxtLayer_putCh, _TxtLayer_tagCh_sub, _TxtLayer_cumDelay, _TxtLayer_firstCh, _TxtLayer_aSpan, _TxtLayer_aSpan_bk, _TxtLayer_aSpan_link, _TxtLayer_hSpanBk, _TxtLayer_beginSpan, _TxtLayer_autoCloseSpan, _TxtLayer_page_text;
+var _TxtLayer_instances, _a, _TxtLayer_cfg, _TxtLayer_val, _TxtLayer_recText, _TxtLayer_isPageFore, _TxtLayer_ch_in_style, _TxtLayer_ch_out_style, _TxtLayer_main, _TxtLayer_evtMng, _TxtLayer_sys, _TxtLayer_doAutoWc, _TxtLayer_hAutoWc, _TxtLayer_autowc, _TxtLayer_b_color, _TxtLayer_b_alpha, _TxtLayer_b_alpha_isfixed, _TxtLayer_b_do, _TxtLayer_b_pic, _TxtLayer_txs, _TxtLayer_rbSpl, _TxtLayer_cntBtn, _TxtLayer_set_ch_in, _TxtLayer_$ch_in_style, _TxtLayer_ch_in_join, _TxtLayer_set_ch_out, _TxtLayer_$ch_out_style, _TxtLayer_drawBack, _TxtLayer_setFfs, _TxtLayer_ffs, _TxtLayer_fncFFSStyle, _TxtLayer_fncFFSSpan, _TxtLayer_strNoFFS, _TxtLayer_regNoFFS, _TxtLayer_ruby_pd, _TxtLayer_r_align, _TxtLayer_mkStyle_r_align4ff, _TxtLayer_needGoTxt, _TxtLayer_putCh, _TxtLayer_tagCh_sub, _TxtLayer_cumDelay, _TxtLayer_firstCh, _TxtLayer_aSpan, _TxtLayer_aSpan_bk, _TxtLayer_aSpan_link, _TxtLayer_hSpanBk, _TxtLayer_beginSpan, _TxtLayer_autoCloseSpan, _TxtLayer_page_text;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtLayer = void 0;
 const Layer_1 = __webpack_require__(/*! ./Layer */ "./core/src/sn/Layer.ts");
@@ -73899,7 +73882,7 @@ class TxtLayer extends Layer_1.Layer {
         _TxtLayer_b_alpha_isfixed.set(this, false);
         _TxtLayer_b_do.set(this, undefined);
         _TxtLayer_b_pic.set(this, '');
-        _TxtLayer_txs.set(this, new TxtStage_1.TxtStage(this.spLay, () => this.canFocus()));
+        _TxtLayer_txs.set(this, new TxtStage_1.TxtStage(this.spLay, () => this.canFocus(), __classPrivateFieldGet(TxtLayer, _a, "f", _TxtLayer_sys)));
         _TxtLayer_rbSpl.set(this, new RubySpliter_1.RubySpliter);
         _TxtLayer_cntBtn.set(this, new pixi_js_1.Container);
         _TxtLayer_$ch_in_style.set(this, '');
@@ -74193,7 +74176,7 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
         __classPrivateFieldGet(this, _TxtLayer_rbSpl, "f").init(__classPrivateFieldGet(this, _TxtLayer_putCh, "f"));
         this.spLay.addChild(__classPrivateFieldGet(this, _TxtLayer_cntBtn, "f"));
         __classPrivateFieldGet(this, _TxtLayer_cntBtn, "f").name = 'cntBtn';
-        const padding = 16 * CmnLib_1.CmnLib.retinaRate;
+        const padding = 16;
         this.lay({ style: `width: ${CmnLib_1.CmnLib.stageW}px; height: ${CmnLib_1.CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true' });
     }
     static init(cfg, hTag, val, recText, isPageFore) {
@@ -74258,9 +74241,10 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
             ease: 'ease-out',
         });
     }
-    static setEvtMng(main, evtMng) {
+    static setEvtMng(main, evtMng, sys) {
         __classPrivateFieldSet(TxtLayer, _a, main, "f", _TxtLayer_main);
         __classPrivateFieldSet(TxtLayer, _a, evtMng, "f", _TxtLayer_evtMng);
+        __classPrivateFieldSet(TxtLayer, _a, sys, "f", _TxtLayer_sys);
         TxtStage_1.TxtStage.setEvtMng(evtMng);
     }
     destroy() {
@@ -74665,6 +74649,7 @@ _TxtLayer_recText = { value: void 0 };
 _TxtLayer_isPageFore = { value: void 0 };
 _TxtLayer_main = { value: void 0 };
 _TxtLayer_evtMng = { value: void 0 };
+_TxtLayer_sys = { value: void 0 };
 _TxtLayer_doAutoWc = { value: false };
 _TxtLayer_hAutoWc = { value: {} };
 TxtLayer.rec = (tx) => tx;
@@ -74691,7 +74676,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_parSn, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_infTL, _TxtStage_break_fixed, _TxtStage_break_fixed_left, _TxtStage_break_fixed_top, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
+var _TxtStage_instances, _a, _TxtStage_cfg, _TxtStage_evtMng, _TxtStage_htmTxt, _TxtStage_cntTxt, _TxtStage_grpDbgMasume, _TxtStage_idc, _TxtStage_idcCh, _TxtStage_infTL, _TxtStage_break_fixed, _TxtStage_break_fixed_left, _TxtStage_break_fixed_top, _TxtStage_lay_sub, _TxtStage_left, _TxtStage_isTategaki, _TxtStage_padTx4x, _TxtStage_padTx4y, _TxtStage_hWarning, _TxtStage_htm2tx, _TxtStage_ch_filter, _TxtStage_aSpTw, _TxtStage_aRect, _TxtStage_lenHtmTxt, _TxtStage_reg行頭禁則, _TxtStage_reg行末禁則, _TxtStage_reg分割禁止, _TxtStage_beforeHTMLElm, _TxtStage_REGDS, _TxtStage_fncEndChIn, _TxtStage_spWork, _TxtStage_isChInIng, _TxtStage_hChInStyle, _TxtStage_REG_NG_CHSTYLE_NAME_CHR, _TxtStage_hChOutStyle, _TxtStage_cntBreak, _TxtStage_lh_half, _TxtStage_getChRects, _TxtStage_fi_easing, _TxtStage_fo_easing, _TxtStage_clearText, _TxtStage_sss;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.TxtStage = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -74704,10 +74689,11 @@ const tween_js_1 = __webpack_require__(/*! @tweenjs/tween.js */ "./node_modules/
 ;
 ;
 class TxtStage extends pixi_js_1.Container {
-    constructor(spLay, canFocus) {
+    constructor(spLay, canFocus, sys) {
         super();
         this.spLay = spLay;
         this.canFocus = canFocus;
+        this.sys = sys;
         _TxtStage_instances.add(this);
         _TxtStage_htmTxt.set(this, document.createElement('span'));
         _TxtStage_cntTxt.set(this, new pixi_js_1.Container);
@@ -74744,7 +74730,7 @@ class TxtStage extends pixi_js_1.Container {
         _TxtStage_sss.set(this, undefined);
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").classList.add('sn_tx');
         __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.position = 'absolute';
-        __classPrivateFieldGet(TxtStage, _a, "f", _TxtStage_parSn).appendChild(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"));
+        document.body.appendChild(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f"));
         this.addChild(__classPrivateFieldGet(this, _TxtStage_cntTxt, "f"));
         this.addChild(__classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f"));
         __classPrivateFieldGet(this, _TxtStage_grpDbgMasume, "f").name = 'grpDbgMasume';
@@ -74752,7 +74738,6 @@ class TxtStage extends pixi_js_1.Container {
     }
     static init(cfg) {
         __classPrivateFieldSet(TxtStage, _a, cfg, "f", _TxtStage_cfg);
-        __classPrivateFieldSet(TxtStage, _a, document.getElementById(CmnLib_1.CmnLib.SN_ID).parentElement, "f", _TxtStage_parSn);
         __classPrivateFieldSet(TxtStage, _a, /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/, "f", _TxtStage_reg行頭禁則);
         __classPrivateFieldSet(TxtStage, _a, /[［（｛〈「『【〔“〝]/, "f", _TxtStage_reg行末禁則);
         __classPrivateFieldSet(TxtStage, _a, /[─‥…]/, "f", _TxtStage_reg分割禁止);
@@ -74829,9 +74814,9 @@ class TxtStage extends pixi_js_1.Container {
     }
     cvsResize() {
         const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
-        s.left = (__classPrivateFieldGet(this, _TxtStage_left, "f") * CmnLib_1.CmnLib.cvsScale) + 'px';
-        s.top = (this.spLay.position.y * CmnLib_1.CmnLib.cvsScale) + 'px';
-        s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * CmnLib_1.CmnLib.cvsScale}, ${this.spLay.scale.y * CmnLib_1.CmnLib.cvsScale}`;
+        s.left = `${this.sys.ofsLeft4frm + __classPrivateFieldGet(this, _TxtStage_left, "f") * this.sys.cvsScale}px`;
+        s.top = `${this.sys.ofsTop4frm + this.spLay.position.y * this.sys.cvsScale}px`;
+        s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * this.sys.cvsScale}, ${this.spLay.scale.y * this.sys.cvsScale})`;
         __classPrivateFieldGet(this, _TxtStage_idc, "f").cvsResize();
         __classPrivateFieldGet(this, _TxtStage_idcCh, "f").cvsResize();
     }
@@ -74872,21 +74857,21 @@ class TxtStage extends pixi_js_1.Container {
         do {
             const e = __classPrivateFieldSet(this, _TxtStage_aRect, __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_getChRects).call(this, __classPrivateFieldGet(this, _TxtStage_htmTxt, "f")), "f");
             len = e.length;
-            if (CmnLib_1.CmnLib.cvsScale !== 1) {
-                const ox = CmnLib_1.CmnLib.ofsPadLeft_Dom2PIXI
+            if (this.sys.cvsScale !== 1) {
+                const ox = this.sys.ofsPadLeft_Dom2PIXI
                     + parseFloat(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.left)
-                        * (1 - CmnLib_1.CmnLib.cvsScale);
-                const oy = CmnLib_1.CmnLib.ofsPadTop_Dom2PIXI
+                        * (1 - this.sys.cvsScale);
+                const oy = this.sys.ofsPadTop_Dom2PIXI
                     + parseFloat(__classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.top)
-                        * (1 - CmnLib_1.CmnLib.cvsScale);
+                        * (1 - this.sys.cvsScale);
                 for (let i = 0; i < len; ++i) {
                     const r = e[i].rect;
                     r.x -= ox;
                     r.y -= oy;
-                    r.x /= CmnLib_1.CmnLib.cvsScale;
-                    r.y /= CmnLib_1.CmnLib.cvsScale;
-                    r.width /= CmnLib_1.CmnLib.cvsScale;
-                    r.height /= CmnLib_1.CmnLib.cvsScale;
+                    r.x /= this.sys.cvsScale;
+                    r.y /= this.sys.cvsScale;
+                    r.width /= this.sys.cvsScale;
+                    r.height /= this.sys.cvsScale;
                 }
             }
             if (len < 2)
@@ -75138,7 +75123,7 @@ class TxtStage extends pixi_js_1.Container {
     }
     reNew() {
         __classPrivateFieldGet(this, _TxtStage_instances, "m", _TxtStage_clearText).call(this);
-        const to = new TxtStage(this.spLay, () => this.canFocus());
+        const to = new TxtStage(this.spLay, () => this.canFocus(), this.sys);
         __classPrivateFieldSet(to, _TxtStage_infTL, __classPrivateFieldGet(this, _TxtStage_infTL, "f"), "f");
         __classPrivateFieldGet(to, _TxtStage_htmTxt, "f").style.cssText = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style.cssText;
         __classPrivateFieldSet(to, _TxtStage_left, __classPrivateFieldGet(this, _TxtStage_left, "f"), "f");
@@ -75591,7 +75576,6 @@ _a = TxtStage, _TxtStage_htmTxt = new WeakMap(), _TxtStage_cntTxt = new WeakMap(
     __classPrivateFieldSet(this, _TxtStage_htmTxt, n, "f");
 };
 _TxtStage_cfg = { value: void 0 };
-_TxtStage_parSn = { value: void 0 };
 _TxtStage_evtMng = { value: void 0 };
 _TxtStage_hWarning = { value: {
         backgroundColor: 0,

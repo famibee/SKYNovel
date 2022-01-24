@@ -2,6 +2,7 @@ import { IEvtMng } from './CmnLib';
 import { HArg } from './CmnInterface';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
+import { SysBase } from './SysBase';
 import { Container, Sprite, Renderer } from 'pixi.js';
 interface IInfTxLay {
     fontsize: number;
@@ -16,10 +17,11 @@ export declare class TxtStage extends Container {
     #private;
     private readonly spLay;
     private readonly canFocus;
+    private readonly sys;
     static init(cfg: Config): void;
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
-    constructor(spLay: Sprite, canFocus: () => boolean);
+    constructor(spLay: Sprite, canFocus: () => boolean, sys: SysBase);
     lay(hArg: HArg): void;
     cvsResize(): void;
     get tategaki(): boolean;

@@ -23,7 +23,7 @@ import Moveable, {OnDrag, OnResize} from 'moveable';
 
 export class DesignCast {
 				static	#divDesignRoot: HTMLDivElement;
-				static	#sys		: SysBase;
+	protected	static	sys		: SysBase;
 				static	#scrItr		: ScriptIterator;
 	protected	static	prpPrs		: IPropParser;
 				static	#alzTagArg	: AnalyzeTagArg;
@@ -31,13 +31,13 @@ export class DesignCast {
 	protected	static	hPages		: HPage;
 	protected	static	divHint		= document.createElement('div');
 	static	init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage) {
-		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *CmnLib.cvsScale}px; height: ${CmnLib.stageH *CmnLib.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *sys.cvsScale}px; height: ${CmnLib.stageH *sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
 		DesignCast.#divDesignRoot = document.getElementById(DesignCast.#ID_DESIGNMODE) as HTMLDivElement;
 
 		DesignCast.divHint.classList.add('sn_design_hint');
 		document.body.appendChild(DesignCast.divHint);
 
-		DesignCast.#sys = sys;
+		DesignCast.sys = sys;
 		DesignCast.#scrItr = scrItr;
 		DesignCast.prpPrs = prpPrs;
 		DesignCast.#alzTagArg = alzTagArg;
@@ -83,8 +83,8 @@ export class DesignCast {
 	}
 	static	cvsResizeDesign() {
 		const s = DesignCast.#divDesignRoot.style;
-		s.width = `${CmnLib.stageW *CmnLib.cvsScale}px`;
-		s.height= `${CmnLib.stageH *CmnLib.cvsScale}px`;
+		s.width = `${CmnLib.stageW *DesignCast.sys.cvsScale}px`;
+		s.height= `${CmnLib.stageH *DesignCast.sys.cvsScale}px`;
 	}
 
 
@@ -171,12 +171,12 @@ export class DesignCast {
 		this.fncLay();
 //console.log(`fn:DesignCast.ts line:182 id_tag:【${this.id_tag}】== -- == #resizeDiv lay:${this.hArg.layer ?? ''} lx:${this.lx} rct.x:${this.rect.x} ly:${this.ly} rct.y:${this.rect.y}`);
 		if (this.div) Object.assign(this.div.style, {
-			left: `${this.lx +this.rect.x *CmnLib.cvsScale}px`,
-			top: `${this.ly +this.rect.y *CmnLib.cvsScale}px`,
-			width: `${this.rect.width *CmnLib.cvsScale}px`,
-			height: `${this.rect.height *CmnLib.cvsScale}px`,
-			transformOrigin: `${this.pivot.x *CmnLib.cvsScale}px ${
-				this.pivot.y *CmnLib.cvsScale}px`,
+			left: `${this.lx +this.rect.x *DesignCast.sys.cvsScale}px`,
+			top: `${this.ly +this.rect.y *DesignCast.sys.cvsScale}px`,
+			width: `${this.rect.width *DesignCast.sys.cvsScale}px`,
+			height: `${this.rect.height *DesignCast.sys.cvsScale}px`,
+			transformOrigin: `${this.pivot.x *DesignCast.sys.cvsScale}px ${
+				this.pivot.y *DesignCast.sys.cvsScale}px`,
 			transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`,
 		});
 	}
@@ -231,8 +231,8 @@ export class DesignCast {
 		const procStart = ()=> {
 			tmp.aPos = [NaN, NaN];
 			tmp.roDeg = this.rotation;
-			const dpx = this.pivot.x *CmnLib.cvsScale;
-			const dpy = this.pivot.y *CmnLib.cvsScale;
+			const dpx = this.pivot.x *DesignCast.sys.cvsScale;
+			const dpy = this.pivot.y *DesignCast.sys.cvsScale;
 			tmp.trOrg = `${dpx}px ${dpy}px`;
 			tmp.origin = [dpx, dpy];
 			Object.assign(this.mov, {
@@ -243,7 +243,7 @@ export class DesignCast {
 			// https://github.com/daybrush/moveable/issues/391#issuecomment-788931248
 		};
 		const procEnd = (o: any)=> {
-			DesignCast.#sys.send2Dbg('_changeCast', {
+			DesignCast.sys.send2Dbg('_changeCast', {
 				...o, ':id_tag': this.id_tag,
 			});
 			DesignCast.divHint.style.display = 'none';
@@ -252,8 +252,8 @@ export class DesignCast {
 			const [dx, dy] = tmp.aPos;
 			if (isNaN(dx)) {DesignCast.divHint.style.display = 'none'; return;}
 
-			const ix = int(this.rect.x += dx /CmnLib.cvsScale +this.pivot.x);
-			const iy = int(this.rect.y += dy /CmnLib.cvsScale +this.pivot.y);
+			const ix = int(this.rect.x += dx /DesignCast.sys.cvsScale +this.pivot.x);
+			const iy = int(this.rect.y += dy /DesignCast.sys.cvsScale +this.pivot.y);
 			this.setPos(ix, iy);	// レスポンス改善のため replaceToken より先に
 
 			const iw = uint(this.rect.width), ih = uint(this.rect.height);
@@ -305,8 +305,8 @@ export class DesignCast {
 			d.style.height = `${e.height}px`;
 			tmp.aPos = e.drag.beforeTranslate;
 
-			this.rect.width = e.width /CmnLib.cvsScale;
-			this.rect.height = e.height /CmnLib.cvsScale;
+			this.rect.width = e.width /DesignCast.sys.cvsScale;
+			this.rect.height = e.height /DesignCast.sys.cvsScale;
 			this.procResizeHint(e, e.drag.left, e.drag.top);
 		})
 		.on('resizeEnd', resizeEnd)
@@ -331,8 +331,8 @@ export class DesignCast {
 			const [dpx, dpy] = tmp.origin;
 			tmp.trOrg = `${dpx}px ${dpy}px`;
 
-			const px = this.pivot.x = dpx /CmnLib.cvsScale;
-			const py = this.pivot.y = dpy /CmnLib.cvsScale;
+			const px = this.pivot.x = dpx /DesignCast.sys.cvsScale;
+			const py = this.pivot.y = dpy /DesignCast.sys.cvsScale;
 			this.setOther({});	// レスポンス改善のため replaceToken より先に
 
 			const ix = int(this.rect.x +px);
@@ -385,7 +385,7 @@ export class DesignCast {
 						DesignCast.#cfg.searchPath(f.name, Config.EXT_SPRITE)
 					);
 				} catch {}
-				DesignCast.#sys.send2Dbg('_dropFile', o);
+				DesignCast.sys.send2Dbg('_dropFile', o);
 			})
 			.catch(e=> console.error(`drop2dc %o`, e));
 		});
@@ -393,7 +393,7 @@ export class DesignCast {
 		// ダブルクリックで定義先へジャンプ
 		d.addEventListener('dblclick', e=> {
 			e.preventDefault();
-			DesignCast.#sys.send2Dbg('_focusScript', this.hArg);
+			DesignCast.sys.send2Dbg('_focusScript', this.hArg);
 
 //console.log(`fn:DesignCast.ts line:162 tap btn:${e.button}`);
 //				case 0:	this.fire('click', e);	break;
@@ -403,8 +403,8 @@ export class DesignCast {
 	protected	procDragHint(e: OnDrag, left: number, top: number) {
 		const [dx, dy] = e.beforeTranslate;
 		DesignCast.setHint(
-			`(${int(this.rect.x +dx /CmnLib.cvsScale)
-				}, ${int(this.rect.y +dy /CmnLib.cvsScale)})`,
+			`(${int(this.rect.x +dx /DesignCast.sys.cvsScale)
+				}, ${int(this.rect.y +dy /DesignCast.sys.cvsScale)})`,
 			left, top, this);
 	}
 	protected	procResizeHint(e: OnResize, left: number, top: number) {
@@ -629,8 +629,8 @@ export class TxtLayPadDesignCast extends DesignCast {
 		const x = this.rect.x, y = this.rect.y;
 		const w = this.rect.width, h = this.rect.height;
 		const it = this.ts.infTL;
-		const pl = int(x +dx /CmnLib.cvsScale);
-		const pt = int(y +dy /CmnLib.cvsScale);
+		const pl = int(x +dx /DesignCast.sys.cvsScale);
+		const pt = int(y +dy /DesignCast.sys.cvsScale);
 		const pr = int(it.$width -pl -w);
 		const pb = int(it.$height -pt -h);
 		const sp = (re: number)=> '&nbsp;'.repeat(re);
@@ -662,8 +662,8 @@ export class BtnDesignCast extends DesignCast {
 		this.fncLay = (! this.parent && ! this.child && layer)
 		? ()=> {
 			const f = DesignCast.hPages[layer].fore;
-			this.lx = f.x *CmnLib.cvsScale;
-			this.ly = f.y *CmnLib.cvsScale;
+			this.lx = f.x *DesignCast.sys.cvsScale;
+			this.ly = f.y *DesignCast.sys.cvsScale;
 		}
 		: ()=> {};
 	}
@@ -679,8 +679,8 @@ export class BtnDesignCast extends DesignCast {
 	protected	override onDragStart() {
 		const aBtn = this.btn.parent.children.filter(b=> b !== this.btn);
 		Object.assign(this.mov, {
-			verticalGuidelines	: aBtn.map(b=> this.lx +b.x *CmnLib.cvsScale),
-			horizontalGuidelines: aBtn.map(b=> this.ly +b.y *CmnLib.cvsScale),
+			verticalGuidelines	: aBtn.map(b=> this.lx +b.x *DesignCast.sys.cvsScale),
+			horizontalGuidelines: aBtn.map(b=> this.ly +b.y *DesignCast.sys.cvsScale),
 		});
 	}
 }

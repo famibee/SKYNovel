@@ -38,9 +38,9 @@ export class LayerMng implements IGetFrm {
 	readonly	#frmMng	: FrameMng;
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
-		// レスポンシブや回転の対応
+		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
 		const fncResizeLay = ()=> {
-			if (! CmnLib.cvsResize(appPixi.view)) return;
+			if (! sys.cvsResize()) return;
 
 			this.cvsResizeDesign();
 			if (this.#modeLnSub) this.#aLayName.forEach(
@@ -57,13 +57,13 @@ export class LayerMng implements IGetFrm {
 			globalThis.addEventListener('orientationchange', fncResizeLay, {passive: true});
 		}
 		else {
-			let tid: any = 0;
+			let tid: NodeJS.Timeout | undefined = undefined;
 			globalThis.addEventListener('resize', ()=> {
 				if (tid) return;
-				tid = setTimeout(()=> {tid = 0; fncResizeLay();}, 500);
+				tid = setTimeout(()=> {tid = undefined; fncResizeLay();}, 1000 /60 *10);
 			}, {passive: true});
 		}
-		CmnLib.cvsResize(appPixi.view);
+		sys.cvsResize();
 
 		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt), (me: TxtLayer)=> this.#hPages[me.layname].fore === me);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng);

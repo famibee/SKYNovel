@@ -449,8 +449,8 @@ export class GrpLayer extends Layer {
 		const {fn = name} = hArg;
 		GrpLayer.#hFace[name] = {
 			fn,
-			dx: argChk_Num(hArg, 'dx', 0) * CmnLib.retinaRate,
-			dy: argChk_Num(hArg, 'dy', 0) * CmnLib.retinaRate,
+			dx: argChk_Num(hArg, 'dx', 0),
+			dy: argChk_Num(hArg, 'dy', 0),
 			blendmode: Layer.getBlendmodeNum(hArg.blendmode || '')
 		};
 

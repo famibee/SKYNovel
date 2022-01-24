@@ -13,6 +13,7 @@ export declare class DesignCast {
     #private;
     readonly bg_col: string;
     readonly isLay: boolean;
+    protected static sys: SysBase;
     protected static prpPrs: IPropParser;
     protected static hPages: HPage;
     protected static divHint: HTMLDivElement;
