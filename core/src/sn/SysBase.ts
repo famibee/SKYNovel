@@ -140,16 +140,15 @@ export class SysBase implements ISysBase {
 		const bk_ch = this.#cvsHeight;
 		let w = globalThis.innerWidth;
 		let h = globalThis.innerHeight;
-
 		const {angle=0} = screen.orientation;
 		const lp = angle % 180 === 0 ?'p' :'l';	// 4Safari
 		if (CmnLib.isMobile && ((lp === 'p' && w > h) || (lp === 'l' && w < h))) [w, h] = [h, w];
 
 		const cvs = this.appPixi.view;
-		if (argChk_Boolean(CmnLib.hDip, 'expanding', true) ||
-			CmnLib.stageW > w ||
-			CmnLib.stageH > h
-		) {
+		const cr = cvs.getBoundingClientRect();
+		if (this.isFullScr || argChk_Boolean(CmnLib.hDip, 'expanding', true)
+		||	CmnLib.stageW > w
+		||	CmnLib.stageH > h) {
 			if (CmnLib.stageW /CmnLib.stageH <= w /h) {
 				this.#cvsHeight = h;
 				this.#cvsWidth = CmnLib.stageW /CmnLib.stageH *h;
@@ -160,7 +159,6 @@ export class SysBase implements ISysBase {
 			}
 			this.#cvsScale = this.#cvsWidth /CmnLib.stageW;
 
-			const cr = cvs.getBoundingClientRect();
 			this.#ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
 				? (globalThis.innerWidth  -this.#cvsWidth) /2
 				: cr.left
@@ -179,29 +177,25 @@ export class SysBase implements ISysBase {
 			this.#ofsPadLeft_Dom2PIXI	= 0;
 			this.#ofsPadTop_Dom2PIXI	= 0;
 		}
-		if (cvs.parentElement) {
-			const ps = cvs.parentElement.style;
+
+		const ps = cvs.parentElement!.style;
+		if (cvs.parentElement === document.body) {	// ギャラリー的な物は弾く
 			ps.position = 'relative';
 			ps.width = `${this.#cvsWidth}px`;
 			ps.height= `${this.#cvsHeight}px`;
-
-			const s = cvs.style;
-			if (this.isFullScr) {
-				s.width = '';	// クリアしないとセンタリングしないので
-				s.height = '';
-			}
-			else {
-				s.width = ps.width;
-				s.height= ps.height;
-			}
 		}
-		if (this.isFullScr) {
-			this.#ofsLeft4frm = (w -this.#cvsWidth) /2;
-			this.#ofsTop4frm  = (h -this.#cvsHeight)/2;
-		}
+		const s = cvs.style;
+		if (this.isFullScr) s.width = s.height = '';	// センタリングに必須
 		else {
-			this.#ofsLeft4frm = 0;
-			this.#ofsTop4frm  = 0;
+			s.width = ps.width;
+			s.height= ps.height;
+		}
+
+		this.#ofsLeft4frm = cr.left;
+		this.#ofsTop4frm  = cr.top;
+		if (this.isFullScr) {
+			this.#ofsLeft4frm += (w -this.#cvsWidth) /2;
+			this.#ofsTop4frm  += (h -this.#cvsHeight)/2;
 		}
 
 		return bk_cw !== this.#cvsWidth || bk_ch !== this.#cvsHeight;

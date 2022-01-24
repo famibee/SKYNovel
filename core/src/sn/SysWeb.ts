@@ -27,35 +27,6 @@ export class SysWeb extends SysBase {
 	protected override async loaded(hPlg: HPlugin, arg: HSysBaseArg) {
 		await super.loaded(hPlg, arg);
 
-		// 全画面状態切替
-		const tgl_full_scr = ('requestFullscreen' in document.body)
-		? ()=> ((this.isFullScr = ! Boolean(document.fullscreenElement))
-			? document.body.requestFullscreen()
-			: document.exitFullscreen())
-		: ()=> {
-			const doc: any = document;	// Safariなど
-			((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
-			? doc.body.webkitRequestFullscreen()
-			: doc.webkitCancelFullScreen());
-		};
-		this.tgl_full_scr = (hArg: HArg)=> {
-			if (! hArg.key) {tgl_full_scr(); return false;}
-
-			const key = hArg.key.toLowerCase();
-			document.addEventListener('keydown', (e: KeyboardEvent)=> {
-				const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-				+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-				+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-				+	e.key.toLowerCase();
-				if (key2 !== key) return;
-
-				e.stopPropagation();
-				tgl_full_scr();
-			}, {passive: true});
-
-			return false;
-		};
-
 		document.querySelectorAll('[data-prj]').forEach(v=> {
 			const elm = v.attributes.getNamedItem('data-prj');
 			if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
@@ -175,6 +146,36 @@ export class SysWeb extends SysBase {
 
 	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		super.init(hTag, appPixi, val, main);
+
+		// 全画面状態切替
+		const pCvs: any = appPixi.view.parentElement!;
+		const tgl_full_scr = ('requestFullscreen' in document.body)
+		? ()=> ((this.isFullScr = ! Boolean(document.fullscreenElement))
+			? pCvs.requestFullscreen()
+			: document.exitFullscreen())
+		: ()=> {
+			const doc: any = document;	// Safariなど
+			((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
+			? pCvs.webkitRequestFullscreen()
+			: doc.webkitCancelFullScreen());
+		};
+		this.tgl_full_scr = (hArg: HArg)=> {
+			if (! hArg.key) {tgl_full_scr(); return false;}
+
+			const key = hArg.key.toLowerCase();
+			document.addEventListener('keydown', (e: KeyboardEvent)=> {
+				const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+				+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+				+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
+				+	e.key.toLowerCase();
+				if (key2 !== key) return;
+
+				e.stopPropagation();
+				tgl_full_scr();
+			}, {passive: true});
+
+			return false;
+		};
 
 		if (! this.cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
 			if (! e.detail.isOpen) return;

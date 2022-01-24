@@ -3,7 +3,7 @@ import { HArg } from './CmnInterface';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
-import { Container, Sprite, Renderer } from 'pixi.js';
+import { Container, Sprite, Renderer, Application } from 'pixi.js';
 interface IInfTxLay {
     fontsize: number;
     $width: number;
@@ -18,7 +18,7 @@ export declare class TxtStage extends Container {
     private readonly spLay;
     private readonly canFocus;
     private readonly sys;
-    static init(cfg: Config): void;
+    static init(cfg: Config, appPixi: Application): void;
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
     constructor(spLay: Sprite, canFocus: () => boolean, sys: SysBase);

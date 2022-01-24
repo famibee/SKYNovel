@@ -96,7 +96,7 @@ export class EventMng implements IEvtMng {
 		const ctx = this.#cvsHint.getContext('2d');
 		if (ctx) {
 			this.#cvsHint.hidden = true;
-			document.body.appendChild(this.#cvsHint);
+			appPixi.view.parentElement!.appendChild(this.#cvsHint);
 			const s = this.#cvsHint.style;
 			s.position = 'absolute';
 			s.left = s.top = '0';

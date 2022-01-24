@@ -35,7 +35,7 @@ export class DesignCast {
 		DesignCast.#divDesignRoot = document.getElementById(DesignCast.#ID_DESIGNMODE) as HTMLDivElement;
 
 		DesignCast.divHint.classList.add('sn_design_hint');
-		document.body.appendChild(DesignCast.divHint);
+		appPixi.view.parentElement!.appendChild(DesignCast.divHint);
 
 		DesignCast.sys = sys;
 		DesignCast.#scrItr = scrItr;

@@ -15,7 +15,7 @@ import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 import {SysBase} from './SysBase';
 
-import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, utils} from 'pixi.js';
+import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, utils, Application} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
 interface IInfTxLay {
@@ -44,8 +44,10 @@ interface ISpTw {
 
 export class TxtStage extends Container {
 	static	#cfg	: Config;
-	static	init(cfg: Config): void {
+	static	#appPixi: Application;
+	static	init(cfg: Config, appPixi: Application): void {
 		TxtStage.#cfg = cfg;
+		TxtStage.#appPixi = appPixi;
 
 		TxtStage.#reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
 		TxtStage.#reg行末禁則	= /[［（｛〈「『【〔“〝]/;
@@ -96,7 +98,7 @@ export class TxtStage extends Container {
 
 		this.#htmTxt.classList.add('sn_tx');
 		this.#htmTxt.style.position = 'absolute';
-		document.body.appendChild(this.#htmTxt);
+		TxtStage.#appPixi.view.parentElement!.appendChild(this.#htmTxt);
 
 		this.addChild(this.#cntTxt);
 

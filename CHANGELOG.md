@@ -1,3 +1,6 @@
+- fix: ギャラリーなど SKYNovel がページの一要素の場合で全画面表示が崩れる件
+
+
 ## [1.27.6](https://github.com/famibee/SKYNovel/compare/v1.27.5...v1.27.6) (2022-01-24)
 
 

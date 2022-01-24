@@ -16,16 +16,16 @@ import {Button} from './Button';
 import {LayerMng, IMakeDesignCast} from './LayerMng';
 import {SysBase} from './SysBase';
 
-import {Sprite, DisplayObject, Graphics, Container, Renderer} from 'pixi.js';
+import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
 
 export class TxtLayer extends Layer {
 	static	#cfg		: Config;
 	static	#val		: IVariable;
 	static	#recText	: (txt: string, pagebreak?: boolean)=> void;
 	static	#isPageFore	: (me: TxtLayer)=> boolean;
-	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void, isPageFore: (me: TxtLayer)=> boolean): void {
+	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void, isPageFore: (me: TxtLayer)=> boolean, appPixi: Application): void {
 		TxtLayer.#cfg = cfg;
-		TxtStage.init(cfg);
+		TxtStage.init(cfg, appPixi);
 		TxtLayer.#val = val;
 		TxtLayer.#recText = recText;
 		TxtLayer.#isPageFore = isPageFore;
