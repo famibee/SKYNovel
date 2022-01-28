@@ -1,3 +1,10 @@
+## [1.27.8](https://github.com/famibee/SKYNovel/compare/v1.27.7...v1.27.8) (2022-01-28)
+
+
+### Bug Fixes
+
+* ブラウザ版で全画面から ESCで戻ると画像が大きいままな件 ([bb41a02](https://github.com/famibee/SKYNovel/commit/bb41a02899b1c53aae330eba80f9b127c9336c7e))
+
 - fix: ブラウザ版で全画面から ESCで戻ると画像が大きいままな件
 - fix: アプリ版の全画面モードで表示サイズがおかしい件（v1.27.6でデグレード）
 - fix: リファクタリング
