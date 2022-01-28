@@ -52,8 +52,8 @@ export class FrameMng implements IGetFrm {
 		const rct = this.#rect(hArg);
 		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a
-		}; position: absolute; left:${this.sys.ofsLeft4frm +rct.x *this.sys.cvsScale
-		}px; top: ${this.sys.ofsTop4frm +rct.y *this.sys.cvsScale}px; z-index: 1; ${b_color
+		}; position: absolute; left:${this.sys.ofsLeft4elm +rct.x *this.sys.cvsScale
+		}px; top: ${this.sys.ofsTop4elm +rct.y *this.sys.cvsScale}px; z-index: 1; ${b_color
 		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
 		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *this.sys.cvsScale}" height="${rct.height *this.sys.cvsScale}"></iframe>`);
 
@@ -126,8 +126,8 @@ export class FrameMng implements IGetFrm {
 			const y = Number(this.val.getVal(vn +'.y'));
 			const w = Number(this.val.getVal(vn +'.width'));
 			const h = Number(this.val.getVal(vn +'.height'));
-			f.style.left = `${this.sys.ofsLeft4frm +x *this.sys.cvsScale}px`;
-			f.style.top  = `${this.sys.ofsTop4frm  +y *this.sys.cvsScale}px`;
+			f.style.left = `${this.sys.ofsLeft4elm +x *this.sys.cvsScale}px`;
+			f.style.top  = `${this.sys.ofsTop4elm  +y *this.sys.cvsScale}px`;
 			f.width = String(w *this.sys.cvsScale);
 			f.height = String(h *this.sys.cvsScale);
 		}
@@ -199,8 +199,8 @@ export class FrameMng implements IGetFrm {
 		}
 		const rct = this.#rect(hArg);
 		if ('x' in hArg || 'y' in hArg) {
-			s.left = `${this.sys.ofsLeft4frm +rct.x *this.sys.cvsScale}px`;
-			s.top  = `${this.sys.ofsTop4frm  +rct.y *this.sys.cvsScale}px`;
+			s.left = `${this.sys.ofsLeft4elm +rct.x *this.sys.cvsScale}px`;
+			s.top  = `${this.sys.ofsTop4elm  +rct.y *this.sys.cvsScale}px`;
 			this.val.setVal_Nochk('tmp', vn +'.x', rct.x);
 			this.val.setVal_Nochk('tmp', vn +'.y', rct.y);
 		}
@@ -279,8 +279,8 @@ export class FrameMng implements IGetFrm {
 			hTo.sy = argChk_Num(hArg2, 'scale_y', 1);
 			hTo.r = argChk_Num(hArg2, 'rotate', 0);
 			fncXYSR = ()=> {
-				f.style.left = this.sys.ofsLeft4frm +hNow.x *this.sys.cvsScale +'px';
-				f.style.top  = this.sys.ofsTop4frm  +hNow.y *this.sys.cvsScale +'px';
+				f.style.left = this.sys.ofsLeft4elm +hNow.x *this.sys.cvsScale +'px';
+				f.style.top  = this.sys.ofsTop4elm  +hNow.y *this.sys.cvsScale +'px';
 				f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
 				this.val.setVal_Nochk('tmp', vn +'.x', hNow.x);
 				this.val.setVal_Nochk('tmp', vn +'.y', hNow.y);

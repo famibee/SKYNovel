@@ -20,7 +20,6 @@ export declare type HPROC = {
     win_close: () => void;
     win_setTitle: (title: string) => void;
     win_setContentSize: (w: number, h: number) => Promise<void>;
-    win_setSize: (w: number, h: number) => Promise<void>;
     showMessageBox: (o: Electron.MessageBoxOptions) => Promise<Electron.MessageBoxReturnValue>;
     capturePage: (fn: string) => Promise<void>;
     navigate_to: (url: string) => void;

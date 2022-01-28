@@ -190,8 +190,8 @@ export class TxtStage extends Container {
 	}
 	cvsResize() {
 		const s = this.#htmTxt.style;
-		s.left = `${this.sys.ofsLeft4frm +this.#left *this.sys.cvsScale}px`;
-		s.top = `${this.sys.ofsTop4frm +this.spLay.position.y *this.sys.cvsScale}px`;
+		s.left = `${this.sys.ofsLeft4elm +this.#left *this.sys.cvsScale}px`;
+		s.top = `${this.sys.ofsTop4elm +this.spLay.position.y *this.sys.cvsScale}px`;
 		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *this.sys.cvsScale}, ${this.spLay.scale.y *this.sys.cvsScale})`;
 
 		this.#idc.cvsResize();

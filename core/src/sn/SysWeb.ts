@@ -7,7 +7,7 @@
 
 import { SysBase } from "./SysBase";
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
-import {IConfig, IHTag, IVariable, IMain, HArg, ITag, IFn2Path, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
+import {IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
 
 const store = require('store');
@@ -149,33 +149,21 @@ export class SysWeb extends SysBase {
 
 		// 全画面状態切替
 		const pCvs: any = appPixi.view.parentElement!;
-		const tgl_full_scr = ('requestFullscreen' in document.body)
-		? ()=> ((this.isFullScr = ! Boolean(document.fullscreenElement))
-			? pCvs.requestFullscreen()
-			: document.exitFullscreen())
-		: ()=> {
+		if ('requestFullscreen' in document.body) {
+			this.tglFlscr_sub = ()=> this.isFullScr
+				? document.exitFullscreen()
+				: pCvs.requestFullscreen();
+
+			document.addEventListener('fullscreenchange', ()=> this.isFullScr = Boolean(document.fullscreenElement));	// Escの場合もあるので
+		}
+		else {
 			const doc: any = document;	// Safariなど
-			((this.isFullScr = ! Boolean(doc.webkitFullscreenElement))
-			? pCvs.webkitRequestFullscreen()
-			: doc.webkitCancelFullScreen());
-		};
-		this.tgl_full_scr = (hArg: HArg)=> {
-			if (! hArg.key) {tgl_full_scr(); return false;}
+			this.tglFlscr_sub = ()=> this.isFullScr
+				? doc.webkitCancelFullScreen()
+				: pCvs.webkitRequestFullscreen();
 
-			const key = hArg.key.toLowerCase();
-			document.addEventListener('keydown', (e: KeyboardEvent)=> {
-				const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-				+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-				+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-				+	e.key.toLowerCase();
-				if (key2 !== key) return;
-
-				e.stopPropagation();
-				tgl_full_scr();
-			}, {passive: true});
-
-			return false;
-		};
+			document.addEventListener('fullscreenchange', ()=> this.isFullScr = Boolean(doc.webkitFullscreenElement));	// Escの場合もあるので
+		}
 
 		if (! this.cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
 			if (! e.detail.isOpen) return;

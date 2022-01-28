@@ -23,7 +23,7 @@ import Moveable, {OnDrag, OnResize} from 'moveable';
 
 export class DesignCast {
 				static	#divDesignRoot: HTMLDivElement;
-	protected	static	sys		: SysBase;
+	protected	static	sys			: SysBase;
 				static	#scrItr		: ScriptIterator;
 	protected	static	prpPrs		: IPropParser;
 				static	#alzTagArg	: AnalyzeTagArg;
@@ -31,7 +31,7 @@ export class DesignCast {
 	protected	static	hPages		: HPage;
 	protected	static	divHint		= document.createElement('div');
 	static	init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage) {
-		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *sys.cvsScale}px; height: ${CmnLib.stageH *sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *DesignCast.sys.cvsScale}px; height: ${CmnLib.stageH *sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
 		DesignCast.#divDesignRoot = document.getElementById(DesignCast.#ID_DESIGNMODE) as HTMLDivElement;
 
 		DesignCast.divHint.classList.add('sn_design_hint');

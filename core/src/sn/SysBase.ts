@@ -79,7 +79,7 @@ export class SysBase implements ISysBase {
 	//	hTag.set_focus		// LayerMng.ts内で定義	// フォーカス移動
 	//	hTag.snapshot		// LayerMng.ts内で定義	// スナップショット
 		hTag.title			= o=> this.title(o);	// タイトル指定
-		hTag.toggle_full_screen = o=> this.tgl_full_scr(o);	// 全画面状態切替
+		hTag.toggle_full_screen = o=> this.#tglFlscr(o);	// 全画面状態切替
 //		hTag.unzip			= o=> this.unzip(o);	// ネット素材取得
 		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
@@ -125,13 +125,15 @@ export class SysBase implements ISysBase {
 	#cvsWidth	= 0;
 	#cvsHeight	= 0;
 	#cvsScale	= 1;
-	#ofsLeft4frm = 0;
-	#ofsTop4frm  = 0;
+	#ofsLeft4elm = 0;
+	#ofsTop4elm  = 0;
 	#ofsPadLeft_Dom2PIXI	= 0;
 	#ofsPadTop_Dom2PIXI		= 0;
+	get	cvsWidth(): number {return this.#cvsWidth;};
+	get	cvsHeight(): number {return this.#cvsHeight;};
 	get	cvsScale(): number {return this.#cvsScale;};
-	get	ofsLeft4frm(): number {return this.#ofsLeft4frm;};
-	get	ofsTop4frm(): number {return this.#ofsTop4frm;};
+	get	ofsLeft4elm(): number {return this.#ofsLeft4elm;};
+	get	ofsTop4elm(): number {return this.#ofsTop4elm;};
 	get	ofsPadLeft_Dom2PIXI(): number {return this.#ofsPadLeft_Dom2PIXI;};
 	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI;};
 	protected	isFullScr	= false;
@@ -146,16 +148,16 @@ export class SysBase implements ISysBase {
 
 		const cvs = this.appPixi.view;
 		const cr = cvs.getBoundingClientRect();
-		if (this.isFullScr || argChk_Boolean(CmnLib.hDip, 'expanding', true)
+		if (argChk_Boolean(CmnLib.hDip, 'expanding', true)
 		||	CmnLib.stageW > w
 		||	CmnLib.stageH > h) {
 			if (CmnLib.stageW /CmnLib.stageH <= w /h) {
 				this.#cvsHeight = h;
-				this.#cvsWidth = CmnLib.stageW /CmnLib.stageH *h;
+				this.#cvsWidth  = CmnLib.stageW /CmnLib.stageH *h;
 			}
 			else {
-				this.#cvsWidth = w;
-				this.#cvsHeight = CmnLib.stageH /CmnLib.stageW	*w;
+				this.#cvsWidth  = w;
+				this.#cvsHeight = CmnLib.stageH /CmnLib.stageW *w;
 			}
 			this.#cvsScale = this.#cvsWidth /CmnLib.stageW;
 
@@ -163,7 +165,7 @@ export class SysBase implements ISysBase {
 				? (globalThis.innerWidth  -this.#cvsWidth) /2
 				: cr.left
 			) *(1- this.#cvsScale);
-			this.#ofsPadTop_Dom2PIXI = (CmnLib.isMobile
+			this.#ofsPadTop_Dom2PIXI  = (CmnLib.isMobile
 				? (globalThis.innerHeight -this.#cvsHeight) /2
 				: cr.top
 			) *(1- this.#cvsScale);
@@ -185,17 +187,19 @@ export class SysBase implements ISysBase {
 			ps.height= `${this.#cvsHeight}px`;
 		}
 		const s = cvs.style;
-		if (this.isFullScr) s.width = s.height = '';	// センタリングに必須
+		if (! this.isApp && this.isFullScr) {
+			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
+		}
 		else {
 			s.width = ps.width;
 			s.height= ps.height;
 		}
 
-		this.#ofsLeft4frm = cr.left;
-		this.#ofsTop4frm  = cr.top;
+		this.#ofsLeft4elm = cr.left;
+		this.#ofsTop4elm  = cr.top;
 		if (this.isFullScr) {
-			this.#ofsLeft4frm += (w -this.#cvsWidth) /2;
-			this.#ofsTop4frm  += (h -this.#cvsHeight)/2;
+			this.#ofsLeft4elm += (w -this.#cvsWidth) /2;
+			this.#ofsTop4elm  += (h -this.#cvsHeight)/2;
 		}
 
 		return bk_cw !== this.#cvsWidth || bk_ch !== this.#cvsHeight;
@@ -347,7 +351,26 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	};
 		#main_title	= '';
 		protected titleSub(_txt: string) {}
-	protected			tgl_full_scr	: ITag = ()=> false;
+
+	#tglFlscr	: ITag = hArg=> {
+		if (! hArg.key) {this.tglFlscr_sub(); return false;}
+
+		const key = hArg.key.toLowerCase();
+		document.addEventListener('keydown', (e: KeyboardEvent)=> {
+			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
+			+	e.key.toLowerCase();
+			if (key2 !== key) return;
+
+			e.stopPropagation();
+			this.tglFlscr_sub();
+		}, {passive: true});
+
+		return false;
+	};
+		protected	tglFlscr_sub() {}
+
 	protected readonly	update_check	: ITag = ()=> false;
 	protected readonly	window			: ITag = ()=> false;
 

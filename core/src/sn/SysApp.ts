@@ -234,35 +234,15 @@ export class SysApp extends SysNode {
 	}
 	// タイトル指定
 	protected override titleSub(title: string) {to_app.win_setTitle(title);}
+
 	// 全画面状態切替
-	protected override readonly	tgl_full_scr: ITag = hArg=> {
-		if (! hArg.key) {this.tgl_full_scr_sub(); return false;}
+	protected override readonly	tglFlscr_sub =
+	()=> this.isFullScr = ! to_app.isSimpleFullScreen()
+	.then(fs=> {
+		if (fs) to_app.setSimpleFullScreen(false, CmnLib.stageW, CmnLib.stageH);
+		else to_app.setSimpleFullScreen(true, screen.width, screen.height);
+	});
 
-		const key = hArg.key.toLowerCase();
-		document.addEventListener('keydown', (e: KeyboardEvent)=> {
-			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-			+	e.key.toLowerCase();
-			if (key2 !== key) return;
-
-			e.stopPropagation();
-			this.tgl_full_scr_sub();
-		}, {passive: true});
-		return false;
-	}
-	protected readonly	tgl_full_scr_sub = async ()=> {
-		if (await to_app.isSimpleFullScreen()) {
-			await to_app.setSimpleFullScreen(false, CmnLib.stageW, CmnLib.stageH);
-			this.isFullScr = false;
-		}
-		else {
-			await to_app.setSimpleFullScreen(true, screen.width, screen.height);
-			await to_app.win_setContentSize(screen.width, screen.height);
-				// これがないとWinアプリ版で下部が短くなり背後が見える
-			this.isFullScr = true;
-		}
-	}
 	// 更新チェック
 	protected override readonly	update_check: ITag = hArg=> {
 		const {url} = hArg;

@@ -65,7 +65,7 @@ export class LayerMng implements IGetFrm {
 		}
 		sys.cvsResize();
 
-		TxtLayer.init(cfg, hTag, val, (txt: string)=> this.recText(txt), (me: TxtLayer)=> this.#hPages[me.layname].fore === me, appPixi);
+		TxtLayer.init(cfg, hTag, val, txt=> this.recText(txt), (me: TxtLayer)=> this.#hPages[me.layname].fore === me, appPixi);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng);
 		Button.init(cfg);
 

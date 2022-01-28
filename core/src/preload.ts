@@ -30,7 +30,6 @@ export	type	HPROC	= {
 	win_close		: ()=> void;
 	win_setTitle	: (title: string)=> void;
 	win_setContentSize	: (w: number, h: number)=> Promise<void>;
-	win_setSize			: (w: number, h: number)=> Promise<void>;
 
 	showMessageBox	: (o: Electron.MessageBoxOptions)=> Promise<Electron.MessageBoxReturnValue>;
 
@@ -104,8 +103,6 @@ export const	hProc	: HPROC	= {
 		ipcRenderer.invoke('win_setTitle', title).catch(fncE),
 	win_setContentSize	: (w, h)=>
 		ipcRenderer.invoke('win_setContentSize', w, h).catch(fncE),
-	win_setSize	: (w, h)=>
-		ipcRenderer.invoke('win_setSize', w, h).catch(fncE),
 
 	showMessageBox	: o=> ipcRenderer.invoke('showMessageBox', o).catch(fncE),
 

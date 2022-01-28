@@ -28,9 +28,11 @@ export declare class SysBase implements ISysBase {
     protected appPixi: Application;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     protected static readonly VALNM_CFG_NS = "const.sn.cfg.ns";
+    get cvsWidth(): number;
+    get cvsHeight(): number;
     get cvsScale(): number;
-    get ofsLeft4frm(): number;
-    get ofsTop4frm(): number;
+    get ofsLeft4elm(): number;
+    get ofsTop4elm(): number;
     get ofsPadLeft_Dom2PIXI(): number;
     get ofsPadTop_Dom2PIXI(): number;
     protected isFullScr: boolean;
@@ -53,7 +55,7 @@ export declare class SysBase implements ISysBase {
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
     protected titleSub(_txt: string): void;
-    protected tgl_full_scr: ITag;
+    protected tglFlscr_sub(): void;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
     setTitleInfo(txt: string): void;

@@ -2599,8 +2599,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/accessibility - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/accessibility - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -3165,8 +3165,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/app - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/app - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -3462,8 +3462,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /*!
- * @pixi/compressed-textures - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/compressed-textures - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/compressed-textures is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -4724,8 +4724,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "WRAP_MODES": () => (/* binding */ WRAP_MODES)
 /* harmony export */ });
 /*!
- * @pixi/constants - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/constants - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5337,8 +5337,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_ticker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/ticker */ "./node_modules/@pixi/ticker/dist/esm/ticker.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/core - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/core - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -9730,6 +9730,9 @@ var FilterSystem = /** @class */ (function () {
         rect.height = y1 - y0;
     };
     FilterSystem.prototype.roundFrame = function (frame, resolution, bindingSourceFrame, bindingDestinationFrame, transform) {
+        if (frame.width <= 0 || frame.height <= 0 || bindingSourceFrame.width <= 0 || bindingSourceFrame.height <= 0) {
+            return;
+        }
         if (transform) {
             var a = transform.a, b = transform.b, c = transform.c, d = transform.d;
             // Skip if skew/rotation present in matrix, except for multiple of 90° rotation. If rotation
@@ -16371,8 +16374,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/display - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/display - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -17764,8 +17767,8 @@ var TemporaryDisplayObject = /** @class */ (function (_super) {
 DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
 
 /*!
- * @pixi/constants - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/constants - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18896,8 +18899,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/extract - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/extract - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19125,8 +19128,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-alpha - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/filter-alpha - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19229,8 +19232,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * @pixi/filter-blur - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/filter-blur - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19329,8 +19332,8 @@ function generateBlurFragSource(kernelSize) {
 }
 
 /*!
- * @pixi/constants - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/constants - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20147,8 +20150,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-color-matrix - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/filter-color-matrix - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20708,8 +20711,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/filter-displacement - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/filter-displacement - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20853,8 +20856,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-fxaa - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/filter-fxaa - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20930,8 +20933,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/filter-noise - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/filter-noise - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21054,8 +21057,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /*!
- * @pixi/graphics - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/graphics - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -23781,6 +23784,7 @@ var Graphics = /** @class */ (function (_super) {
         var data = this._geometry.graphicsData;
         return data.length === 1
             && data[0].shape.type === _pixi_math__WEBPACK_IMPORTED_MODULE_1__.SHAPES.RECT
+            && !data[0].matrix
             && !data[0].holes.length
             && !(data[0].lineStyle.visible && data[0].lineStyle.width);
     };
@@ -24128,8 +24132,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/interaction - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/interaction - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26392,8 +26396,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/loaders - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/loaders - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27776,8 +27780,8 @@ var rgxExtractUrlHash = /(#[\w-]+)?$/;
  *
  * ```js
  * const loader = PIXI.Loader.shared; // PixiJS exposes a premade instance for you to use.
- * //or
- * const loader = new PIXI.Loader(); // you can also create your own if you want
+ * // or
+ * const loader = new PIXI.Loader(); // You can also create your own if you want
  *
  * const sprites = {};
  *
@@ -27815,7 +27819,6 @@ var rgxExtractUrlHash = /(#[\w-]+)?$/;
  * loader.onComplete.add(() => {}); // called once when the queued resources all load.
  * ```
  *
- * @class Loader
  * @memberof PIXI
  */
 var Loader = /** @class */ (function () {
@@ -27827,6 +27830,35 @@ var Loader = /** @class */ (function () {
         var _this = this;
         if (baseUrl === void 0) { baseUrl = ''; }
         if (concurrency === void 0) { concurrency = 10; }
+        /**
+         * The progress percent of the loader going through the queue.
+         */
+        this.progress = 0;
+        /**
+         * Loading state of the loader, true if it is currently loading resources.
+         */
+        this.loading = false;
+        /**
+         * A querystring to append to every URL added to the loader.
+         *
+         * This should be a valid query string *without* the question-mark (`?`). The loader will
+         * also *not* escape values for you. Make sure to escape your parameters with
+         * [`encodeURIComponent`](https://mdn.io/encodeURIComponent) before assigning this property.
+         *
+         * @example
+         * const loader = new Loader();
+         *
+         * loader.defaultQueryString = 'user=me&password=secret';
+         *
+         * // This will request 'image.png?user=me&password=secret'
+         * loader.add('image.png').load();
+         *
+         * loader.reset();
+         *
+         * // This will request 'image.png?v=1&user=me&password=secret'
+         * loader.add('iamge.png?v=1').load();
+         */
+        this.defaultQueryString = '';
         /**
          * The middleware to run before loading each resource.
          */
@@ -27842,23 +27874,15 @@ var Loader = /** @class */ (function () {
         /**
          * The `_loadResource` function bound with this object context.
          *
-         * @private
-         * @member {function}
-         * @param {PIXI.LoaderResource} r - The resource to load
-         * @param {Function} d - The dequeue function
-         * @return {undefined}
+         * @param r - The resource to load
+         * @param d - The dequeue function
          */
         this._boundLoadResource = function (r, d) { return _this._loadResource(r, d); };
         /**
          * All the resources for this loader keyed by name.
-         *
-         * @member {object<string, PIXI.LoaderResource>}
          */
         this.resources = {};
         this.baseUrl = baseUrl;
-        this.progress = 0;
-        this.loading = false;
-        this.defaultQueryString = '';
         this._beforeMiddleware = [];
         this._afterMiddleware = [];
         this._resourcesParsing = [];
@@ -27885,12 +27909,13 @@ var Loader = /** @class */ (function () {
     }
     /**
      * Same as add, params have strict order
+     *
      * @private
      * @param name - The name of the resource to load.
      * @param url - The url for this resource, relative to the baseUrl of this loader.
      * @param options - The options for the load.
      * @param callback - Function to call when this specific resource completes loading.
-     * @return {this} Returns itself.
+     * @return The loader itself.
      */
     Loader.prototype._add = function (name, url, options, callback) {
         // if loading already you can only add resources that have a parent.
@@ -27936,7 +27961,7 @@ var Loader = /** @class */ (function () {
      * resource is loaded.
      *
      * @param fn - The middleware function to register.
-     * @return Returns itself.
+     * @return The loader itself.
      */
     Loader.prototype.pre = function (fn) {
         this._beforeMiddleware.push(fn);
@@ -27947,7 +27972,7 @@ var Loader = /** @class */ (function () {
      * resource is loaded.
      *
      * @param fn - The middleware function to register.
-     * @return Returns itself.
+     * @return The loader itself.
      */
     Loader.prototype.use = function (fn) {
         this._afterMiddleware.push(fn);
@@ -27956,7 +27981,7 @@ var Loader = /** @class */ (function () {
     /**
      * Resets the queue of the loader to prepare for a new load.
      *
-     * @return Returns itself.
+     * @return The loader itself.
      */
     Loader.prototype.reset = function () {
         this.progress = 0;
@@ -27978,8 +28003,8 @@ var Loader = /** @class */ (function () {
     };
     /**
      * Starts loading the queued resources.
-     * @param [cb] - Optional callback that will be bound to the `complete` event.
-     * @return Returns itself.
+     * @param cb - Optional callback that will be bound to the `complete` event.
+     * @return The loader itself.
      */
     Loader.prototype.load = function (cb) {
         // register complete callback if they pass one
@@ -28012,13 +28037,11 @@ var Loader = /** @class */ (function () {
         /**
          * The number of resources to load concurrently.
          *
-         * @member {number}
          * @default 10
          */
         get: function () {
             return this._queue.concurrency;
         },
-        // eslint-disable-next-line require-jsdoc
         set: function (concurrency) {
             this._queue.concurrency = concurrency;
         },
@@ -28063,9 +28086,8 @@ var Loader = /** @class */ (function () {
     /**
      * Loads a single resource.
      *
-     * @private
-     * @param {PIXI.LoaderResource} resource - The resource to load.
-     * @param {function} dequeue - The function to call when we need to dequeue this item.
+     * @param resource - The resource to load.
+     * @param dequeue - The function to call when we need to dequeue this item.
      */
     Loader.prototype._loadResource = function (resource, dequeue) {
         var _this = this;
@@ -28214,7 +28236,6 @@ Loader.prototype.add = function add(name, url, options, callback) {
  * import {AppLoaderPlugin} from '@pixi/loaders';
  * import {Application} from '@pixi/app';
  * Application.registerPlugin(AppLoaderPlugin);
- * @class
  * @memberof PIXI
  */
 var AppLoaderPlugin = /** @class */ (function () {
@@ -28222,19 +28243,13 @@ var AppLoaderPlugin = /** @class */ (function () {
     }
     /**
      * Called on application constructor
-     * @param {object} options
+     *
      * @private
      */
     AppLoaderPlugin.init = function (options) {
         options = Object.assign({
             sharedLoader: false,
         }, options);
-        /**
-         * Loader instance to help with asset loading.
-         * @memberof PIXI.Application#
-         * @type {PIXI.Loader}
-         * @readonly
-         */
         this.loader = options.sharedLoader ? Loader.shared : new Loader();
     };
     /**
@@ -28441,8 +28456,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "groupD8": () => (/* binding */ groupD8)
 /* harmony export */ });
 /*!
- * @pixi/math - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/math - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30086,8 +30101,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /*!
- * @pixi/mesh-extras - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/mesh-extras - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30770,8 +30785,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/mesh - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/mesh - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31445,8 +31460,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * @pixi/mixin-cache-as-bitmap - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/mixin-cache-as-bitmap - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31459,8 +31474,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /*!
- * @pixi/constants - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/constants - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -32365,8 +32380,8 @@ _pixi_display__WEBPACK_IMPORTED_MODULE_2__.DisplayObject.prototype._cacheAsBitma
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /*!
- * @pixi/mixin-get-child-by-name - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/mixin-get-child-by-name - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -32427,8 +32442,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/mixin-get-global-position - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/mixin-get-global-position - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -32482,8 +32497,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/core */ "./node_modules/@pixi/core/dist/esm/core.js");
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /*!
- * @pixi/particle-container - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/particle-container - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/particle-container is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -32546,16 +32561,14 @@ function __extends(d, b) {
  *
  * And here you have a hundred sprites that will be rendered at the speed of light.
  *
- * @class
- * @extends PIXI.Container
  * @memberof PIXI
  */
 var ParticleContainer = /** @class */ (function (_super) {
     __extends(ParticleContainer, _super);
     /**
-     * @param {number} [maxSize=1500] - The maximum number of particles that can be rendered by the container.
+     * @param maxSize - The maximum number of particles that can be rendered by the container.
      *  Affects size of allocated buffers.
-     * @param {object} [properties] - The properties of children that should be uploaded to the gpu and applied.
+     * @param properties - The properties of children that should be uploaded to the gpu and applied.
      * @param {boolean} [properties.vertices=false] - When true, vertices be uploaded and applied.
      *                  if sprite's ` scale/anchor/trim/frame/orig` is dynamic, please set `true`.
      * @param {boolean} [properties.position=true] - When true, position be uploaded and applied.
@@ -32578,86 +32591,18 @@ var ParticleContainer = /** @class */ (function (_super) {
         if (batchSize > maxBatchSize) {
             batchSize = maxBatchSize;
         }
-        /**
-         * Set properties to be dynamic (true) / static (false)
-         *
-         * @member {boolean[]}
-         * @private
-         */
         _this._properties = [false, true, false, false, false];
-        /**
-         * @member {number}
-         * @private
-         */
         _this._maxSize = maxSize;
-        /**
-         * @member {number}
-         * @private
-         */
         _this._batchSize = batchSize;
-        /**
-         * @member {Array<PIXI.Buffer>}
-         * @private
-         */
         _this._buffers = null;
-        /**
-         * for every batch stores _updateID corresponding to the last change in that batch
-         * @member {number[]}
-         * @private
-         */
         _this._bufferUpdateIDs = [];
-        /**
-         * when child inserted, removed or changes position this number goes up
-         * @member {number[]}
-         * @private
-         */
         _this._updateID = 0;
-        /**
-         * @member {boolean}
-         *
-         */
         _this.interactiveChildren = false;
-        /**
-         * The blend mode to be applied to the sprite. Apply a value of `PIXI.BLEND_MODES.NORMAL`
-         * to reset the blend mode.
-         *
-         * @member {number}
-         * @default PIXI.BLEND_MODES.NORMAL
-         * @see PIXI.BLEND_MODES
-         */
         _this.blendMode = _pixi_constants__WEBPACK_IMPORTED_MODULE_0__.BLEND_MODES.NORMAL;
-        /**
-         * If true, container allocates more batches in case there are more than `maxSize` particles.
-         * @member {boolean}
-         * @default false
-         */
         _this.autoResize = autoResize;
-        /**
-         * If true PixiJS will Math.floor() x/y values when rendering, stopping pixel interpolation.
-         * Advantages can include sharper image quality (like text) and faster rendering on canvas.
-         * The main disadvantage is movement of objects may appear less smooth.
-         * Default to true here as performance is usually the priority for particles.
-         *
-         * @member {boolean}
-         * @default true
-         */
         _this.roundPixels = true;
-        /**
-         * The texture used to render the children.
-         *
-         * @readonly
-         * @member {PIXI.BaseTexture}
-         */
         _this.baseTexture = null;
         _this.setProperties(properties);
-        /**
-         * The tint applied to the container.
-         * This is a hex value. A value of 0xFFFFFF will remove any tint effect.
-         *
-         * @private
-         * @member {number}
-         * @default 0xFFFFFF
-         */
         _this._tint = 0;
         _this.tintRgb = new Float32Array(4);
         _this.tint = 0xFFFFFF;
@@ -32666,7 +32611,7 @@ var ParticleContainer = /** @class */ (function (_super) {
     /**
      * Sets the private properties array to dynamic / static based on the passed properties object
      *
-     * @param {object} properties - The properties to be uploaded
+     * @param properties - The properties to be uploaded
      */
     ParticleContainer.prototype.setProperties = function (properties) {
         if (properties) {
@@ -32679,11 +32624,6 @@ var ParticleContainer = /** @class */ (function (_super) {
                 ? !!properties.tint || !!properties.alpha : this._properties[4];
         }
     };
-    /**
-     * Updates the object transform for rendering
-     *
-     * @private
-     */
     ParticleContainer.prototype.updateTransform = function () {
         // TODO don't need to!
         this.displayObjectUpdateTransform();
@@ -32692,8 +32632,8 @@ var ParticleContainer = /** @class */ (function (_super) {
         /**
          * The tint applied to the container. This is a hex value.
          * A value of 0xFFFFFF will remove any tint effect.
-         ** IMPORTANT: This is a WebGL only feature and will be ignored by the canvas renderer.
-         * @member {number}
+         * IMPORTANT: This is a WebGL only feature and will be ignored by the canvas renderer.
+         *
          * @default 0xFFFFFF
          */
         get: function () {
@@ -32707,10 +32647,9 @@ var ParticleContainer = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Renders the container using the WebGL renderer
+     * Renders the container using the WebGL renderer.
      *
-     * @private
-     * @param {PIXI.Renderer} renderer - The webgl renderer
+     * @param renderer - The WebGL renderer.
      */
     ParticleContainer.prototype.render = function (renderer) {
         var _this = this;
@@ -32729,8 +32668,7 @@ var ParticleContainer = /** @class */ (function (_super) {
     /**
      * Set the flag that static data should be updated to true
      *
-     * @private
-     * @param {number} smallestChildIndex - The smallest child index
+     * @param smallestChildIndex - The smallest child index.
      */
     ParticleContainer.prototype.onChildrenChange = function (smallestChildIndex) {
         var bufferIndex = Math.floor(smallestChildIndex / this._batchSize);
@@ -32750,7 +32688,7 @@ var ParticleContainer = /** @class */ (function (_super) {
     /**
      * Destroys the container
      *
-     * @param {object|boolean} [options] - Options parameter. A boolean will act as if all options
+     * @param options - Options parameter. A boolean will act as if all options
      *  have been set to that value
      * @param {boolean} [options.children=false] - if set to true, all the children will have their
      *  destroy method called as well. 'options' will be passed on to those calls.
@@ -32783,13 +32721,11 @@ var ParticleContainer = /** @class */ (function (_super) {
 /**
  * The particle buffer manages the static and dynamic buffers for a particle container.
  *
- * @class
  * @private
  * @memberof PIXI
  */
 var ParticleBuffer = /** @class */ (function () {
     /**
-     * @private
      * @param {object} properties - The properties to upload.
      * @param {boolean[]} dynamicPropertyFlags - Flags for which properties are dynamic.
      * @param {number} size - The size of the batch.
@@ -32797,26 +32733,8 @@ var ParticleBuffer = /** @class */ (function () {
     function ParticleBuffer(properties, dynamicPropertyFlags, size) {
         this.geometry = new _pixi_core__WEBPACK_IMPORTED_MODULE_3__.Geometry();
         this.indexBuffer = null;
-        /**
-         * The number of particles the buffer can hold
-         *
-         * @private
-         * @member {number}
-         */
         this.size = size;
-        /**
-         * A list of the properties that are dynamic.
-         *
-         * @private
-         * @member {object[]}
-         */
         this.dynamicProperties = [];
-        /**
-         * A list of the properties that are static.
-         *
-         * @private
-         * @member {object[]}
-         */
         this.staticProperties = [];
         for (var i = 0; i < properties.length; ++i) {
             var property = properties[i];
@@ -32847,20 +32765,10 @@ var ParticleBuffer = /** @class */ (function () {
         this._updateID = 0;
         this.initBuffers();
     }
-    /**
-     * Sets up the renderer context and necessary buffers.
-     *
-     * @private
-     */
+    /** Sets up the renderer context and necessary buffers. */
     ParticleBuffer.prototype.initBuffers = function () {
         var geometry = this.geometry;
         var dynamicOffset = 0;
-        /**
-         * Holds the indices of the geometry (quads) to draw
-         *
-         * @member {Uint16Array}
-         * @private
-         */
         this.indexBuffer = new _pixi_core__WEBPACK_IMPORTED_MODULE_3__.Buffer((0,_pixi_utils__WEBPACK_IMPORTED_MODULE_2__.createIndicesForQuads)(this.size), true, true);
         geometry.addIndex(this.indexBuffer);
         this.dynamicStride = 0;
@@ -32899,10 +32807,9 @@ var ParticleBuffer = /** @class */ (function () {
     /**
      * Uploads the dynamic properties.
      *
-     * @private
-     * @param {PIXI.DisplayObject[]} children - The children to upload.
-     * @param {number} startIndex - The index to start at.
-     * @param {number} amount - The number to upload.
+     * @param children - The children to upload.
+     * @param startIndex - The index to start at.
+     * @param amount - The number to upload.
      */
     ParticleBuffer.prototype.uploadDynamic = function (children, startIndex, amount) {
         for (var i = 0; i < this.dynamicProperties.length; i++) {
@@ -32914,10 +32821,9 @@ var ParticleBuffer = /** @class */ (function () {
     /**
      * Uploads the static properties.
      *
-     * @private
-     * @param {PIXI.DisplayObject[]} children - The children to upload.
-     * @param {number} startIndex - The index to start at.
-     * @param {number} amount - The number to upload.
+     * @param children - The children to upload.
+     * @param startIndex - The index to start at.
+     * @param amount - The number to upload.
      */
     ParticleBuffer.prototype.uploadStatic = function (children, startIndex, amount) {
         for (var i = 0; i < this.staticProperties.length; i++) {
@@ -32926,11 +32832,7 @@ var ParticleBuffer = /** @class */ (function () {
         }
         this.staticBuffer._updateID++;
     };
-    /**
-     * Destroys the ParticleBuffer.
-     *
-     * @private
-     */
+    /** Destroys the ParticleBuffer. */
     ParticleBuffer.prototype.destroy = function () {
         this.indexBuffer = null;
         this.dynamicProperties = null;
@@ -32965,13 +32867,12 @@ var vertex = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\nat
 /**
  * Renderer for Particles that is designer for speed over feature set.
  *
- * @class
  * @memberof PIXI
  */
 var ParticleRenderer = /** @class */ (function (_super) {
     __extends(ParticleRenderer, _super);
     /**
-     * @param {PIXI.Renderer} renderer - The renderer this sprite batch works for.
+     * @param renderer - The renderer this sprite batch works for.
      */
     function ParticleRenderer(renderer) {
         var _this = _super.call(this, renderer) || this;
@@ -32980,11 +32881,6 @@ var ParticleRenderer = /** @class */ (function (_super) {
         // and max number of element in the index buffer is 16384 * 6 = 98304
         // Creating a full index buffer, overhead is 98304 * 2 = 196Ko
         // let numIndices = 98304;
-        /**
-         * The default shader that is used if a sprite doesn't have a more specific one.
-         *
-         * @member {PIXI.Shader}
-         */
         _this.shader = null;
         _this.properties = null;
         _this.tempMatrix = new _pixi_math__WEBPACK_IMPORTED_MODULE_4__.Matrix();
@@ -33026,19 +32922,13 @@ var ParticleRenderer = /** @class */ (function (_super) {
                 offset: 0,
             } ];
         _this.shader = _pixi_core__WEBPACK_IMPORTED_MODULE_3__.Shader.from(vertex, fragment, {});
-        /**
-         * The WebGL state in which this renderer will work.
-         *
-         * @member {PIXI.State}
-         * @readonly
-         */
         _this.state = _pixi_core__WEBPACK_IMPORTED_MODULE_3__.State.for2d();
         return _this;
     }
     /**
      * Renders the particle container object.
      *
-     * @param {PIXI.ParticleContainer} container - The container to render using this ParticleRenderer
+     * @param container - The container to render using this ParticleRenderer.
      */
     ParticleRenderer.prototype.render = function (container) {
         var children = container.children;
@@ -33093,11 +32983,10 @@ var ParticleRenderer = /** @class */ (function (_super) {
         }
     };
     /**
-     * Creates one particle buffer for each child in the container we want to render and updates internal properties
+     * Creates one particle buffer for each child in the container we want to render and updates internal properties.
      *
-     * @param {PIXI.ParticleContainer} container - The container to render using this ParticleRenderer
-     * @return {PIXI.ParticleBuffer[]} The buffers
-     * @private
+     * @param container - The container to render using this ParticleRenderer
+     * @return - The buffers
      */
     ParticleRenderer.prototype.generateBuffers = function (container) {
         var buffers = [];
@@ -33110,11 +32999,10 @@ var ParticleRenderer = /** @class */ (function (_super) {
         return buffers;
     };
     /**
-     * Creates one more particle buffer, because container has autoResize feature
+     * Creates one more particle buffer, because container has autoResize feature.
      *
-     * @param {PIXI.ParticleContainer} container - The container to render using this ParticleRenderer
-     * @return {PIXI.ParticleBuffer} generated buffer
-     * @private
+     * @param container - The container to render using this ParticleRenderer
+     * @return - The generated buffer
      */
     ParticleRenderer.prototype._generateOneMoreBuffer = function (container) {
         var batchSize = container._batchSize;
@@ -33124,12 +33012,12 @@ var ParticleRenderer = /** @class */ (function (_super) {
     /**
      * Uploads the vertices.
      *
-     * @param {PIXI.DisplayObject[]} children - the array of display objects to render
-     * @param {number} startIndex - the index to start from in the children array
-     * @param {number} amount - the amount of children that will have their vertices uploaded
-     * @param {number[]} array - The vertices to upload.
-     * @param {number} stride - Stride to use for iteration.
-     * @param {number} offset - Offset to start at.
+     * @param children - the array of display objects to render
+     * @param startIndex - the index to start from in the children array
+     * @param amount - the amount of children that will have their vertices uploaded
+     * @param array - The vertices to upload.
+     * @param stride - Stride to use for iteration.
+     * @param offset - Offset to start at.
      */
     ParticleRenderer.prototype.uploadVertices = function (children, startIndex, amount, array, stride, offset) {
         var w0 = 0;
@@ -33171,12 +33059,12 @@ var ParticleRenderer = /** @class */ (function (_super) {
     /**
      * Uploads the position.
      *
-     * @param {PIXI.DisplayObject[]} children - the array of display objects to render
-     * @param {number} startIndex - the index to start from in the children array
-     * @param {number} amount - the amount of children that will have their positions uploaded
-     * @param {number[]} array - The vertices to upload.
-     * @param {number} stride - Stride to use for iteration.
-     * @param {number} offset - Offset to start at.
+     * @param children - the array of display objects to render
+     * @param startIndex - the index to start from in the children array
+     * @param amount - the amount of children that will have their positions uploaded
+     * @param array - The vertices to upload.
+     * @param stride - Stride to use for iteration.
+     * @param offset - Offset to start at.
      */
     ParticleRenderer.prototype.uploadPosition = function (children, startIndex, amount, array, stride, offset) {
         for (var i = 0; i < amount; i++) {
@@ -33195,12 +33083,12 @@ var ParticleRenderer = /** @class */ (function (_super) {
     /**
      * Uploads the rotation.
      *
-     * @param {PIXI.DisplayObject[]} children - the array of display objects to render
-     * @param {number} startIndex - the index to start from in the children array
-     * @param {number} amount - the amount of children that will have their rotation uploaded
-     * @param {number[]} array - The vertices to upload.
-     * @param {number} stride - Stride to use for iteration.
-     * @param {number} offset - Offset to start at.
+     * @param children - the array of display objects to render
+     * @param startIndex - the index to start from in the children array
+     * @param amount - the amount of children that will have their rotation uploaded
+     * @param array - The vertices to upload.
+     * @param stride - Stride to use for iteration.
+     * @param offset - Offset to start at.
      */
     ParticleRenderer.prototype.uploadRotation = function (children, startIndex, amount, array, stride, offset) {
         for (var i = 0; i < amount; i++) {
@@ -33213,14 +33101,14 @@ var ParticleRenderer = /** @class */ (function (_super) {
         }
     };
     /**
-     * Uploads the Uvs
+     * Uploads the UVs.
      *
-     * @param {PIXI.DisplayObject[]} children - the array of display objects to render
-     * @param {number} startIndex - the index to start from in the children array
-     * @param {number} amount - the amount of children that will have their rotation uploaded
-     * @param {number[]} array - The vertices to upload.
-     * @param {number} stride - Stride to use for iteration.
-     * @param {number} offset - Offset to start at.
+     * @param children - the array of display objects to render
+     * @param startIndex - the index to start from in the children array
+     * @param amount - the amount of children that will have their rotation uploaded
+     * @param array - The vertices to upload.
+     * @param stride - Stride to use for iteration.
+     * @param offset - Offset to start at.
      */
     ParticleRenderer.prototype.uploadUvs = function (children, startIndex, amount, array, stride, offset) {
         for (var i = 0; i < amount; ++i) {
@@ -33253,12 +33141,12 @@ var ParticleRenderer = /** @class */ (function (_super) {
     /**
      * Uploads the tint.
      *
-     * @param {PIXI.DisplayObject[]} children - the array of display objects to render
-     * @param {number} startIndex - the index to start from in the children array
-     * @param {number} amount - the amount of children that will have their rotation uploaded
-     * @param {number[]} array - The vertices to upload.
-     * @param {number} stride - Stride to use for iteration.
-     * @param {number} offset - Offset to start at.
+     * @param children - the array of display objects to render
+     * @param startIndex - the index to start from in the children array
+     * @param amount - the amount of children that will have their rotation uploaded
+     * @param array - The vertices to upload.
+     * @param stride - Stride to use for iteration.
+     * @param offset - Offset to start at.
      */
     ParticleRenderer.prototype.uploadTint = function (children, startIndex, amount, array, stride, offset) {
         for (var i = 0; i < amount; ++i) {
@@ -33275,9 +33163,7 @@ var ParticleRenderer = /** @class */ (function (_super) {
             offset += stride * 4;
         }
     };
-    /**
-     * Destroys the ParticleRenderer.
-     */
+    /** Destroys the ParticleRenderer. */
     ParticleRenderer.prototype.destroy = function () {
         _super.prototype.destroy.call(this);
         if (this.shader) {
@@ -33307,8 +33193,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! object-assign */ "./node_modules/object-assign/index.js");
 /* harmony import */ var object_assign__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(object_assign__WEBPACK_IMPORTED_MODULE_1__);
 /*!
- * @pixi/polyfill - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/polyfill - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -33444,8 +33330,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_text__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/text */ "./node_modules/@pixi/text/dist/esm/text.js");
 /*!
- * @pixi/prepare - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/prepare - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -34017,8 +33903,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Runner": () => (/* binding */ Runner)
 /* harmony export */ });
 /*!
- * @pixi/runner - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/runner - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -34225,8 +34111,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var ismobilejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ismobilejs */ "./node_modules/ismobilejs/esm/index.js");
 /*!
- * @pixi/settings - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/settings - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -34289,8 +34175,8 @@ function canUploadSameBuffer() {
 }
 
 /*!
- * @pixi/constants - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/constants - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -35089,8 +34975,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_sprite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @pixi/sprite */ "./node_modules/@pixi/sprite/dist/esm/sprite.js");
 /* harmony import */ var _pixi_ticker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/ticker */ "./node_modules/@pixi/ticker/dist/esm/ticker.js");
 /*!
- * @pixi/sprite-animated - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/sprite-animated - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -35463,8 +35349,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/sprite-tiling - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/sprite-tiling - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -35852,8 +35738,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/sprite - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/sprite - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -36114,17 +36000,20 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.getLocalBounds = function (rect) {
         // we can do a fast local bounds if the sprite has no children!
         if (this.children.length === 0) {
-            this._bounds.minX = this._texture.orig.width * -this._anchor._x;
-            this._bounds.minY = this._texture.orig.height * -this._anchor._y;
-            this._bounds.maxX = this._texture.orig.width * (1 - this._anchor._x);
-            this._bounds.maxY = this._texture.orig.height * (1 - this._anchor._y);
+            if (!this._localBounds) {
+                this._localBounds = new _pixi_display__WEBPACK_IMPORTED_MODULE_2__.Bounds();
+            }
+            this._localBounds.minX = this._texture.orig.width * -this._anchor._x;
+            this._localBounds.minY = this._texture.orig.height * -this._anchor._y;
+            this._localBounds.maxX = this._texture.orig.width * (1 - this._anchor._x);
+            this._localBounds.maxY = this._texture.orig.height * (1 - this._anchor._y);
             if (!rect) {
                 if (!this._localBoundsRect) {
                     this._localBoundsRect = new _pixi_math__WEBPACK_IMPORTED_MODULE_3__.Rectangle();
                 }
                 rect = this._localBoundsRect;
             }
-            return this._bounds.getRectangle(rect);
+            return this._localBounds.getRectangle(rect);
         }
         return _super.prototype.getLocalBounds.call(this, rect);
     };
@@ -36332,8 +36221,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /* harmony import */ var _pixi_loaders__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/loaders */ "./node_modules/@pixi/loaders/dist/esm/loaders.js");
 /*!
- * @pixi/spritesheet - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/spritesheet - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -36679,8 +36568,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_display__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @pixi/display */ "./node_modules/@pixi/display/dist/esm/display.js");
 /* harmony import */ var _pixi_loaders__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @pixi/loaders */ "./node_modules/@pixi/loaders/dist/esm/loaders.js");
 /*!
- * @pixi/text-bitmap - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/text-bitmap - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -37105,13 +36994,15 @@ function drawGlyph(canvas, context, metrics, x, y, resolution, style) {
     // set canvas text styles
     context.fillStyle = generateFillStyle(canvas, context, style, resolution, [char], metrics);
     context.strokeStyle = style.stroke;
-    var dropShadowColor = style.dropShadowColor;
-    var rgb = (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_3__.hex2rgb)(typeof dropShadowColor === 'number' ? dropShadowColor : (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_3__.string2hex)(dropShadowColor));
     if (style.dropShadow) {
+        var dropShadowColor = style.dropShadowColor;
+        var rgb = (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_3__.hex2rgb)(typeof dropShadowColor === 'number' ? dropShadowColor : (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_3__.string2hex)(dropShadowColor));
+        var dropShadowBlur = style.dropShadowBlur * resolution;
+        var dropShadowDistance = style.dropShadowDistance * resolution;
         context.shadowColor = "rgba(" + rgb[0] * 255 + "," + rgb[1] * 255 + "," + rgb[2] * 255 + "," + style.dropShadowAlpha + ")";
-        context.shadowBlur = style.dropShadowBlur;
-        context.shadowOffsetX = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
-        context.shadowOffsetY = Math.sin(style.dropShadowAngle) * style.dropShadowDistance;
+        context.shadowBlur = dropShadowBlur;
+        context.shadowOffsetX = Math.cos(style.dropShadowAngle) * dropShadowDistance;
+        context.shadowOffsetY = Math.sin(style.dropShadowAngle) * dropShadowDistance;
     }
     else {
         context.shadowColor = 'black';
@@ -38301,8 +38192,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_math__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @pixi/math */ "./node_modules/@pixi/math/dist/esm/math.js");
 /* harmony import */ var _pixi_utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/utils */ "./node_modules/@pixi/utils/dist/esm/utils.js");
 /*!
- * @pixi/text - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/text - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -39806,10 +39697,12 @@ var Text = /** @class */ (function (_super) {
                 context.strokeStyle = 'black';
                 var dropShadowColor = style.dropShadowColor;
                 var rgb = (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_4__.hex2rgb)(typeof dropShadowColor === 'number' ? dropShadowColor : (0,_pixi_utils__WEBPACK_IMPORTED_MODULE_4__.string2hex)(dropShadowColor));
+                var dropShadowBlur = style.dropShadowBlur * this._resolution;
+                var dropShadowDistance = style.dropShadowDistance * this._resolution;
                 context.shadowColor = "rgba(" + rgb[0] * 255 + "," + rgb[1] * 255 + "," + rgb[2] * 255 + "," + style.dropShadowAlpha + ")";
-                context.shadowBlur = style.dropShadowBlur;
-                context.shadowOffsetX = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
-                context.shadowOffsetY = (Math.sin(style.dropShadowAngle) * style.dropShadowDistance) + dsOffsetShadow;
+                context.shadowBlur = dropShadowBlur;
+                context.shadowOffsetX = Math.cos(style.dropShadowAngle) * dropShadowDistance;
+                context.shadowOffsetY = (Math.sin(style.dropShadowAngle) * dropShadowDistance) + dsOffsetShadow;
             }
             else {
                 // set canvas text styles
@@ -39899,7 +39792,11 @@ var Text = /** @class */ (function (_super) {
             else {
                 this.context.fillText(currentChar, currentPosition, y);
             }
-            currentWidth = this.context.measureText(text.substring(i + 1)).width;
+            var textStr = '';
+            for (var j = i + 1; j < stringArray.length; ++j) {
+                textStr += stringArray[j];
+            }
+            currentWidth = this.context.measureText(textStr).width;
             currentPosition += previousWidth - currentWidth + letterSpacing;
             previousWidth = currentWidth;
         }
@@ -40222,8 +40119,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * @pixi/ticker - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/ticker - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -40435,7 +40332,7 @@ var Ticker = /** @class */ (function () {
         this._maxElapsedMS = 100;
         /**
          * Internal value managed by minFPS property setter and getter.
-         * This is the maximum allowed milliseconds between updates.
+         * This is the minimum allowed milliseconds between updates.
          */
         this._minElapsedMS = 0;
         /** If enabled, deleting is disabled.*/
@@ -41027,8 +40924,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var url__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! url */ "./node_modules/url/url.js");
 /* harmony import */ var _pixi_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @pixi/constants */ "./node_modules/@pixi/constants/dist/esm/constants.js");
 /*!
- * @pixi/utils - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * @pixi/utils - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -41092,7 +40989,7 @@ _pixi_settings__WEBPACK_IMPORTED_MODULE_0__.settings.RETINA_PREFIX = /@([0-9\.]+
 _pixi_settings__WEBPACK_IMPORTED_MODULE_0__.settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
 
 var saidHello = false;
-var VERSION = '6.2.1';
+var VERSION = '6.2.2';
 /**
  * Skips the hello message of renderers that are created after this is run.
  *
@@ -49158,8 +49055,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pixi_text__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @pixi/text */ "./node_modules/@pixi/text/dist/esm/text.js");
 /* harmony import */ var _pixi_settings__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @pixi/settings */ "./node_modules/@pixi/settings/dist/esm/settings.js");
 /*!
- * pixi.js - v6.2.1
- * Compiled Tue, 21 Dec 2021 19:56:15 UTC
+ * pixi.js - v6.2.2
+ * Compiled Wed, 26 Jan 2022 16:23:27 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -49240,7 +49137,7 @@ _pixi_app__WEBPACK_IMPORTED_MODULE_4__.Application.registerPlugin(_pixi_loaders_
  * @name VERSION
  * @type {string}
  */
-var VERSION = '6.2.1';
+var VERSION = '6.2.2';
 /**
  * @namespace PIXI
  */
@@ -66862,7 +66759,7 @@ class DesignCast {
         this.rotatable = true;
     }
     static init(appPixi, sys, scrItr, prpPrs, alzTagArg, cfg, hPages) {
-        appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)}" style="width: ${CmnLib_1.CmnLib.stageW * sys.cvsScale}px; height: ${CmnLib_1.CmnLib.stageH * sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+        appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)}" style="width: ${CmnLib_1.CmnLib.stageW * DesignCast.sys.cvsScale}px; height: ${CmnLib_1.CmnLib.stageH * sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
         __classPrivateFieldSet(DesignCast, _a, document.getElementById(__classPrivateFieldGet(DesignCast, _a, "f", _DesignCast_ID_DESIGNMODE)), "f", _DesignCast_divDesignRoot);
         DesignCast.divHint.classList.add('sn_design_hint');
         appPixi.view.parentElement.appendChild(DesignCast.divHint);
@@ -68044,8 +67941,8 @@ _EventMng_elc = new WeakMap(), _EventMng_cvsHint = new WeakMap(), _EventMng_picH
     const hint_width = (0, CmnLib_1.argChk_Num)(hArg, 'hint_width', __classPrivateFieldGet(this, _EventMng_picHint_w, "f"));
     const scale_x = hint_width / __classPrivateFieldGet(this, _EventMng_picHint_w, "f");
     const hint_tate = (0, CmnLib_1.argChk_Boolean)(hArg, 'hint_tate', false);
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.left = `${this.sys.ofsLeft4frm + rctBtn.x * this.sys.cvsScale}px`;
-    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.top = `${this.sys.ofsTop4frm + rctBtn.y * this.sys.cvsScale}px`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.left = `${this.sys.ofsLeft4elm + rctBtn.x * this.sys.cvsScale}px`;
+    __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.top = `${this.sys.ofsTop4elm + rctBtn.y * this.sys.cvsScale}px`;
     __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transformOrigin = 'top left';
     __classPrivateFieldGet(this, _EventMng_cvsHint, "f").style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x * this.sys.cvsScale}, ${this.sys.cvsScale}) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __classPrivateFieldGet(this, _EventMng_picHint_h, "f")}px)`;
     __classPrivateFieldGet(this, _EventMng_cvsHint, "f").hidden = false;
@@ -68553,8 +68450,8 @@ class FrameMng {
             const y = Number(this.val.getVal(vn + '.y'));
             const w = Number(this.val.getVal(vn + '.width'));
             const h = Number(this.val.getVal(vn + '.height'));
-            f.style.left = `${this.sys.ofsLeft4frm + x * this.sys.cvsScale}px`;
-            f.style.top = `${this.sys.ofsTop4frm + y * this.sys.cvsScale}px`;
+            f.style.left = `${this.sys.ofsLeft4elm + x * this.sys.cvsScale}px`;
+            f.style.top = `${this.sys.ofsTop4elm + y * this.sys.cvsScale}px`;
             f.width = String(w * this.sys.cvsScale);
             f.height = String(h * this.sys.cvsScale);
         }
@@ -68573,7 +68470,7 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     const v = (0, CmnLib_1.argChk_Boolean)(hArg, 'visible', true);
     const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : '';
     const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg);
-    this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4frm + rct.x * this.sys.cvsScale}px; top: ${this.sys.ofsTop4frm + rct.y * this.sys.cvsScale}px; z-index: 1; ${b_color} border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width * this.sys.cvsScale}" height="${rct.height * this.sys.cvsScale}"></iframe>`);
+    this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a}; position: absolute; left:${this.sys.ofsLeft4elm + rct.x * this.sys.cvsScale}px; top: ${this.sys.ofsTop4elm + rct.y * this.sys.cvsScale}px; z-index: 1; ${b_color} border: 0px; overflow: hidden; display: ${v ? 'inline' : 'none'}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width * this.sys.cvsScale}" height="${rct.height * this.sys.cvsScale}"></iframe>`);
     const url = this.cfg.searchPath(src, Config_1.Config.EXT_HTML);
     const ld = (new pixi_js_1.Loader())
         .add({ name: src, url, xhrType: pixi_js_1.LoaderResource.XHR_RESPONSE_TYPE.TEXT });
@@ -68678,8 +68575,8 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
     }
     const rct = __classPrivateFieldGet(this, _FrameMng_instances, "m", _FrameMng_rect).call(this, hArg);
     if ('x' in hArg || 'y' in hArg) {
-        s.left = `${this.sys.ofsLeft4frm + rct.x * this.sys.cvsScale}px`;
-        s.top = `${this.sys.ofsTop4frm + rct.y * this.sys.cvsScale}px`;
+        s.left = `${this.sys.ofsLeft4elm + rct.x * this.sys.cvsScale}px`;
+        s.top = `${this.sys.ofsTop4elm + rct.y * this.sys.cvsScale}px`;
         this.val.setVal_Nochk('tmp', vn + '.x', rct.x);
         this.val.setVal_Nochk('tmp', vn + '.y', rct.y);
     }
@@ -68759,8 +68656,8 @@ _FrameMng_evtMng = new WeakMap(), _FrameMng_hIfrm = new WeakMap(), _FrameMng_hDi
         hTo.sy = (0, CmnLib_1.argChk_Num)(hArg2, 'scale_y', 1);
         hTo.r = (0, CmnLib_1.argChk_Num)(hArg2, 'rotate', 0);
         fncXYSR = () => {
-            f.style.left = this.sys.ofsLeft4frm + hNow.x * this.sys.cvsScale + 'px';
-            f.style.top = this.sys.ofsTop4frm + hNow.y * this.sys.cvsScale + 'px';
+            f.style.left = this.sys.ofsLeft4elm + hNow.x * this.sys.cvsScale + 'px';
+            f.style.top = this.sys.ofsTop4elm + hNow.y * this.sys.cvsScale + 'px';
             f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
             this.val.setVal_Nochk('tmp', vn + '.x', hNow.x);
             this.val.setVal_Nochk('tmp', vn + '.y', hNow.y);
@@ -69871,7 +69768,7 @@ void main(void) {
             }, { passive: true });
         }
         sys.cvsResize();
-        TxtLayer_1.TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[me.layname].fore === me, appPixi);
+        TxtLayer_1.TxtLayer.init(cfg, hTag, val, txt => this.recText(txt), (me) => __classPrivateFieldGet(this, _LayerMng_hPages, "f")[me.layname].fore === me, appPixi);
         GrpLayer_1.GrpLayer.init(main, cfg, appPixi, sys, sndMng);
         Button_1.Button.init(cfg);
         __classPrivateFieldSet(this, _LayerMng_frmMng, new FrameMng_1.FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, __classPrivateFieldGet(this, _LayerMng_hTwInf, "f")), "f");
@@ -73177,35 +73074,13 @@ class SysApp extends SysNode_1.SysNode {
             to_app.navigate_to(url);
             return false;
         };
-        this.tgl_full_scr = hArg => {
-            if (!hArg.key) {
-                this.tgl_full_scr_sub();
-                return false;
-            }
-            const key = hArg.key.toLowerCase();
-            document.addEventListener('keydown', (e) => {
-                const key2 = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
-                    + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
-                    + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
-                    + e.key.toLowerCase();
-                if (key2 !== key)
-                    return;
-                e.stopPropagation();
-                this.tgl_full_scr_sub();
-            }, { passive: true });
-            return false;
-        };
-        this.tgl_full_scr_sub = async () => {
-            if (await to_app.isSimpleFullScreen()) {
-                await to_app.setSimpleFullScreen(false, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-                this.isFullScr = false;
-            }
-            else {
-                await to_app.setSimpleFullScreen(true, screen.width, screen.height);
-                await to_app.win_setContentSize(screen.width, screen.height);
-                this.isFullScr = true;
-            }
-        };
+        this.tglFlscr_sub = () => this.isFullScr = !to_app.isSimpleFullScreen()
+            .then(fs => {
+            if (fs)
+                to_app.setSimpleFullScreen(false, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
+            else
+                to_app.setSimpleFullScreen(true, screen.width, screen.height);
+        });
         this.update_check = hArg => {
             const { url } = hArg;
             if (!url)
@@ -73436,7 +73311,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _a, _SysBase_cvsWidth, _SysBase_cvsHeight, _SysBase_cvsScale, _SysBase_ofsLeft4frm, _SysBase_ofsTop4frm, _SysBase_ofsPadLeft_Dom2PIXI, _SysBase_ofsPadTop_Dom2PIXI, _SysBase_sk, _SysBase_hHook, _SysBase_hToastDat, _SysBase_aFncHook, _SysBase_main_title, _SysBase_info_title, _SysBase_preFromPlg, _SysBase_hN2Ext, _SysBase_genImage, _SysBase_genVideo;
+var _a, _SysBase_cvsWidth, _SysBase_cvsHeight, _SysBase_cvsScale, _SysBase_ofsLeft4elm, _SysBase_ofsTop4elm, _SysBase_ofsPadLeft_Dom2PIXI, _SysBase_ofsPadTop_Dom2PIXI, _SysBase_sk, _SysBase_hHook, _SysBase_hToastDat, _SysBase_aFncHook, _SysBase_main_title, _SysBase_tglFlscr, _SysBase_info_title, _SysBase_preFromPlg, _SysBase_hN2Ext, _SysBase_genImage, _SysBase_genVideo;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.SysBase = void 0;
 const CmnLib_1 = __webpack_require__(/*! ./CmnLib */ "./core/src/sn/CmnLib.ts");
@@ -73452,8 +73327,8 @@ class SysBase {
         _SysBase_cvsWidth.set(this, 0);
         _SysBase_cvsHeight.set(this, 0);
         _SysBase_cvsScale.set(this, 1);
-        _SysBase_ofsLeft4frm.set(this, 0);
-        _SysBase_ofsTop4frm.set(this, 0);
+        _SysBase_ofsLeft4elm.set(this, 0);
+        _SysBase_ofsTop4elm.set(this, 0);
         _SysBase_ofsPadLeft_Dom2PIXI.set(this, 0);
         _SysBase_ofsPadTop_Dom2PIXI.set(this, 0);
         this.isFullScr = false;
@@ -73505,7 +73380,24 @@ class SysBase {
             return false;
         };
         _SysBase_main_title.set(this, '');
-        this.tgl_full_scr = () => false;
+        _SysBase_tglFlscr.set(this, hArg => {
+            if (!hArg.key) {
+                this.tglFlscr_sub();
+                return false;
+            }
+            const key = hArg.key.toLowerCase();
+            document.addEventListener('keydown', (e) => {
+                const key2 = (e.altKey ? (e.key === 'Alt' ? '' : 'alt+') : '')
+                    + (e.ctrlKey ? (e.key === 'Control' ? '' : 'ctrl+') : '')
+                    + (e.shiftKey ? (e.key === 'Shift' ? '' : 'shift+') : '')
+                    + e.key.toLowerCase();
+                if (key2 !== key)
+                    return;
+                e.stopPropagation();
+                this.tglFlscr_sub();
+            }, { passive: true });
+            return false;
+        });
         this.update_check = () => false;
         this.window = () => false;
         _SysBase_info_title.set(this, '');
@@ -73586,7 +73478,7 @@ class SysBase {
         hTag.import = o => this._import(o);
         hTag.navigate_to = o => this.navigate_to(o);
         hTag.title = o => this.title(o);
-        hTag.toggle_full_screen = o => this.tgl_full_scr(o);
+        hTag.toggle_full_screen = o => __classPrivateFieldGet(this, _SysBase_tglFlscr, "f").call(this, o);
         hTag.update_check = o => this.update_check(o);
         hTag.window = o => this.window(o);
         val.setVal_Nochk('tmp', 'const.sn.isApp', () => this.isApp);
@@ -73622,11 +73514,15 @@ class SysBase {
             }));
         return a;
     }
+    get cvsWidth() { return __classPrivateFieldGet(this, _SysBase_cvsWidth, "f"); }
+    ;
+    get cvsHeight() { return __classPrivateFieldGet(this, _SysBase_cvsHeight, "f"); }
+    ;
     get cvsScale() { return __classPrivateFieldGet(this, _SysBase_cvsScale, "f"); }
     ;
-    get ofsLeft4frm() { return __classPrivateFieldGet(this, _SysBase_ofsLeft4frm, "f"); }
+    get ofsLeft4elm() { return __classPrivateFieldGet(this, _SysBase_ofsLeft4elm, "f"); }
     ;
-    get ofsTop4frm() { return __classPrivateFieldGet(this, _SysBase_ofsTop4frm, "f"); }
+    get ofsTop4elm() { return __classPrivateFieldGet(this, _SysBase_ofsTop4elm, "f"); }
     ;
     get ofsPadLeft_Dom2PIXI() { return __classPrivateFieldGet(this, _SysBase_ofsPadLeft_Dom2PIXI, "f"); }
     ;
@@ -73643,7 +73539,7 @@ class SysBase {
             [w, h] = [h, w];
         const cvs = this.appPixi.view;
         const cr = cvs.getBoundingClientRect();
-        if (this.isFullScr || (0, CmnLib_1.argChk_Boolean)(CmnLib_1.CmnLib.hDip, 'expanding', true)
+        if ((0, CmnLib_1.argChk_Boolean)(CmnLib_1.CmnLib.hDip, 'expanding', true)
             || CmnLib_1.CmnLib.stageW > w
             || CmnLib_1.CmnLib.stageH > h) {
             if (CmnLib_1.CmnLib.stageW / CmnLib_1.CmnLib.stageH <= w / h) {
@@ -73676,17 +73572,18 @@ class SysBase {
             ps.height = `${__classPrivateFieldGet(this, _SysBase_cvsHeight, "f")}px`;
         }
         const s = cvs.style;
-        if (this.isFullScr)
+        if (!this.isApp && this.isFullScr) {
             s.width = s.height = '';
+        }
         else {
             s.width = ps.width;
             s.height = ps.height;
         }
-        __classPrivateFieldSet(this, _SysBase_ofsLeft4frm, cr.left, "f");
-        __classPrivateFieldSet(this, _SysBase_ofsTop4frm, cr.top, "f");
+        __classPrivateFieldSet(this, _SysBase_ofsLeft4elm, cr.left, "f");
+        __classPrivateFieldSet(this, _SysBase_ofsTop4elm, cr.top, "f");
         if (this.isFullScr) {
-            __classPrivateFieldSet(this, _SysBase_ofsLeft4frm, __classPrivateFieldGet(this, _SysBase_ofsLeft4frm, "f") + (w - __classPrivateFieldGet(this, _SysBase_cvsWidth, "f")) / 2, "f");
-            __classPrivateFieldSet(this, _SysBase_ofsTop4frm, __classPrivateFieldGet(this, _SysBase_ofsTop4frm, "f") + (h - __classPrivateFieldGet(this, _SysBase_cvsHeight, "f")) / 2, "f");
+            __classPrivateFieldSet(this, _SysBase_ofsLeft4elm, __classPrivateFieldGet(this, _SysBase_ofsLeft4elm, "f") + (w - __classPrivateFieldGet(this, _SysBase_cvsWidth, "f")) / 2, "f");
+            __classPrivateFieldSet(this, _SysBase_ofsTop4elm, __classPrivateFieldGet(this, _SysBase_ofsTop4elm, "f") + (h - __classPrivateFieldGet(this, _SysBase_cvsHeight, "f")) / 2, "f");
         }
         return bk_cw !== __classPrivateFieldGet(this, _SysBase_cvsWidth, "f") || bk_ch !== __classPrivateFieldGet(this, _SysBase_cvsHeight, "f");
     }
@@ -73753,6 +73650,7 @@ top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * __classPrivateFieldGet(this, _SysBa
     setFire(fire) { this.fire = fire; }
     addHook(fnc) { __classPrivateFieldGet(this, _SysBase_aFncHook, "f").push(fnc); }
     titleSub(_txt) { }
+    tglFlscr_sub() { }
     setTitleInfo(txt) {
         __classPrivateFieldSet(this, _SysBase_info_title, txt, "f");
         this.titleSub(__classPrivateFieldGet(this, _SysBase_main_title, "f") + __classPrivateFieldGet(this, _SysBase_info_title, "f"));
@@ -73771,7 +73669,7 @@ top: ${(CmnLib_1.CmnLib.stageH - size) / 2 * __classPrivateFieldGet(this, _SysBa
     async ensureFileSync(_path) { }
 }
 exports.SysBase = SysBase;
-_a = SysBase, _SysBase_cvsWidth = new WeakMap(), _SysBase_cvsHeight = new WeakMap(), _SysBase_cvsScale = new WeakMap(), _SysBase_ofsLeft4frm = new WeakMap(), _SysBase_ofsTop4frm = new WeakMap(), _SysBase_ofsPadLeft_Dom2PIXI = new WeakMap(), _SysBase_ofsPadTop_Dom2PIXI = new WeakMap(), _SysBase_sk = new WeakMap(), _SysBase_hHook = new WeakMap(), _SysBase_aFncHook = new WeakMap(), _SysBase_main_title = new WeakMap(), _SysBase_info_title = new WeakMap(), _SysBase_preFromPlg = new WeakMap(), _SysBase_hN2Ext = new WeakMap(), _SysBase_genImage = new WeakMap(), _SysBase_genVideo = new WeakMap();
+_a = SysBase, _SysBase_cvsWidth = new WeakMap(), _SysBase_cvsHeight = new WeakMap(), _SysBase_cvsScale = new WeakMap(), _SysBase_ofsLeft4elm = new WeakMap(), _SysBase_ofsTop4elm = new WeakMap(), _SysBase_ofsPadLeft_Dom2PIXI = new WeakMap(), _SysBase_ofsPadTop_Dom2PIXI = new WeakMap(), _SysBase_sk = new WeakMap(), _SysBase_hHook = new WeakMap(), _SysBase_aFncHook = new WeakMap(), _SysBase_main_title = new WeakMap(), _SysBase_tglFlscr = new WeakMap(), _SysBase_info_title = new WeakMap(), _SysBase_preFromPlg = new WeakMap(), _SysBase_hN2Ext = new WeakMap(), _SysBase_genImage = new WeakMap(), _SysBase_genVideo = new WeakMap();
 SysBase.VALNM_CFG_NS = 'const.sn.cfg.ns';
 _SysBase_hToastDat = { value: {
         '接続': { dx: -1, dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+' },
@@ -74811,8 +74709,8 @@ class TxtStage extends pixi_js_1.Container {
     }
     cvsResize() {
         const s = __classPrivateFieldGet(this, _TxtStage_htmTxt, "f").style;
-        s.left = `${this.sys.ofsLeft4frm + __classPrivateFieldGet(this, _TxtStage_left, "f") * this.sys.cvsScale}px`;
-        s.top = `${this.sys.ofsTop4frm + this.spLay.position.y * this.sys.cvsScale}px`;
+        s.left = `${this.sys.ofsLeft4elm + __classPrivateFieldGet(this, _TxtStage_left, "f") * this.sys.cvsScale}px`;
+        s.top = `${this.sys.ofsTop4elm + this.spLay.position.y * this.sys.cvsScale}px`;
         s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * this.sys.cvsScale}, ${this.spLay.scale.y * this.sys.cvsScale})`;
         __classPrivateFieldGet(this, _TxtStage_idc, "f").cvsResize();
         __classPrivateFieldGet(this, _TxtStage_idcCh, "f").cvsResize();

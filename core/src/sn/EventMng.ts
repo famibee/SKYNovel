@@ -478,8 +478,8 @@ export class EventMng implements IEvtMng {
 		const scale_x = hint_width /this.#picHint_w;
 		const hint_tate = argChk_Boolean(hArg, 'hint_tate', false);
 
-		this.#cvsHint.style.left= `${this.sys.ofsLeft4frm+rctBtn.x *this.sys.cvsScale}px`;
-		this.#cvsHint.style.top = `${this.sys.ofsTop4frm +rctBtn.y *this.sys.cvsScale}px`;
+		this.#cvsHint.style.left= `${this.sys.ofsLeft4elm+rctBtn.x *this.sys.cvsScale}px`;
+		this.#cvsHint.style.top = `${this.sys.ofsTop4elm +rctBtn.y *this.sys.cvsScale}px`;
 		this.#cvsHint.style.transformOrigin = 'top left';
 		this.#cvsHint.style.transform = `rotateZ(${
 			ctnBtn.rotation +(hint_tate ?Math.PI *90 /180 :0)

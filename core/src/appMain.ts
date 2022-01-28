@@ -47,20 +47,25 @@ export class appMain {
 		ipcMain.handle('writeFileSync', (_, path, data, o)=> writeFileSync(path, data, o));
 		ipcMain.handle('appendFile', (_, path, data, callback)=> appendFile(path, data, callback));
 
-		ipcMain.handle('window', (_, centering: boolean, x, y, w, h)=> this.#window(centering, x, y, w, h));
+		ipcMain.handle('window', (_, centering, x, y, w, h)=> this.#window(centering, x, y, w, h));
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
 		ipcMain.handle('setSimpleFullScreen', (_, b, w, h)=> {
 			bw.setSimpleFullScreen(b);
 			const rct = this.bw.getBounds();
 //			const was = screen.getPrimaryDisplay().workAreaSize;
 
-//console.log(`== FullScreen b:%o #isMovingWin:${this.#isMovingWin} (%o %o %o %o) (%o %o) scr(%o %o)`, b, rct.x, rct.y, rct.width, rct.height, w, h, was.width, was.height);
+//console.log(`== FullScreen b:%o (%o %o %o %o) (%o %o) scr(%o %o)`, b, rct.x, rct.y, rct.width, rct.height, w, h, was.width, was.height);
 			rct.width = w;
 			rct.height = h;
 			this.#isMovingWin = false;
 			this.#window(false, rct.x, rct.y, rct.width, rct.height);
 			this.#rctMovingWin = rct;
 			this.#skipDelayWinPos = true;
+
+			bw.setContentSize(w, h);
+				// これがないとアプリ版で下部が短くなり背後が見える
+				// TODO: 確認
+
 //console.log(`== FullScreen END`);
 		});
 		ipcMain.handle('win_close', ()=> bw.close());
@@ -69,12 +74,6 @@ export class appMain {
 //console.log(`win_setContentSize w:%o, h:%o`, w, h);
 			this.#isMovingWin = true;
 			bw.setContentSize(w, h +appMain.#menu_height);
-			this.#isMovingWin = false;
-		});
-		ipcMain.handle('win_setSize', (_, w, h)=> {
-//console.log(`win_setSize w:%o, h:%o`, w, h);
-			this.#isMovingWin = true;
-			bw.setSize(w, h);
 			this.#isMovingWin = false;
 		});
 
@@ -97,26 +96,17 @@ export class appMain {
 		ipcMain.handle('tarFs_pack', (_, path)=> pack(path));
 		ipcMain.handle('tarFs_extract', (_, path)=>extract(path));
 
-
-		bw.on('move', ()=> {
-//const rct = this.bw.getBounds();
-//console.log(`on move skip:${this.#isMovingWin}  %o %o %o %o`, rct.x, rct.y, rct.width, rct.height);
-
-//			if (this.bw.isSimpleFullScreen()) return;
-			if (this.#isMovingWin) return;
-			this.#isMovingWin = true;
-			this.#rctMovingWin = bw.getBounds();
-			setTimeout(()=> this.#delayWinPos(), 500);
-		});
-/*
-		bw.on('enter-full-screen', ()=> {
-const rct = this.bw.getBounds();
-console.log(`fn:appMain.ts line:107 enter-full-screen  %o %o %o %o`, rct.x, rct.y, rct.width, rct.height);
-		});
-*/
+		bw.on('move', ()=> this.#onMove());
 	}
-	#skipDelayWinPos	= false;
-	#isMovingWin		= false;
+	#tid: NodeJS.Timeout | undefined = undefined;
+	#onMove() {
+		if (this.#tid) return;
+		if (this.#isMovingWin) return;
+
+		this.#isMovingWin = true;
+		this.#rctMovingWin = this.bw.getBounds();
+		this.#tid = setTimeout(()=> this.#delayWinPos(), 500);
+	}
 	#rctMovingWin		: Rectangle;
 	#delayWinPos() {
 		const rct = this.bw.getBounds();
@@ -131,18 +121,20 @@ console.log(`fn:appMain.ts line:107 enter-full-screen  %o %o %o %o`, rct.x, rct.
 		this.#isMovingWin = false;
 		this.#window(false, rct.x, rct.y, rct.width, rct.height);
 	}
+	#skipDelayWinPos	= false;
+	#isMovingWin		= false;
 
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
-//console.log(`#window skip:${this.#isMovingWin} c:${centering} (%o %o %o %o)`, x, y, w, h);
+//console.log(`#window isMovingWin:${this.#isMovingWin} (${x}, ${y}, ${w}, ${h})`);
 		if (this.#isMovingWin) return;
 		if (centering) {
-			const s = this.bw.getPosition();
-			x = (this.#screenRX - s[0]) *0.5;
-			y = (this.#screenRY - s[1]) *0.5;
+			[x, y] = this.bw.getPosition();
+			x = (this.#screenRX - x) *0.5;
+			y = (this.#screenRY - y) *0.5;
 		}
 		else {
-			if (x < 0) x = 0; else if (x > this.#screenRX) x = 0;
-			if (y < 0) y = 0; else if (y > this.#screenRY) y = 0;
+			if (x < 0 || x > this.#screenRX) x = 0;
+			if (y < 0 || y > this.#screenRY) y = 0;
 		}
 		this.bw.setPosition(x, y);
 		this.bw.setContentSize(w, h);
