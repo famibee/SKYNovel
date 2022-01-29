@@ -51,8 +51,6 @@ export class SysApp extends SysNode {
 		env			: {},
 		platform	: '',
 		arch		: '',
-		screenResolutionX	: 0,
-		screenResolutionY	: 0,
 	};
 
 	protected override	readFileSync = to_app.readFileSync;
@@ -68,9 +66,9 @@ export class SysApp extends SysNode {
 		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
 			// AIRNovel の const.flash.system.Capabilities.isDebugger
-		hTmp['const.sn.screenResolutionX'] = this.#hInfo.screenResolutionX;
+		hTmp['const.sn.screenResolutionX'] = screen.width;
 			// 画面の最大水平解像度
-		hTmp['const.sn.screenResolutionY'] = this.#hInfo.screenResolutionY;
+		hTmp['const.sn.screenResolutionY'] = screen.height;
 			// 画面の最大垂直解像度
 			// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
 			// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
@@ -143,8 +141,6 @@ export class SysApp extends SysNode {
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
 		});
-		to_app.win_setContentSize(CmnLib.stageW, CmnLib.stageH);
-			// これがないとWinアプリ版で下部が短くなり背後が見える
 		return [];
 	}
 

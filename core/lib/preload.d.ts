@@ -19,7 +19,6 @@ export declare type HPROC = {
     setSimpleFullScreen: (b: boolean, w: number, h: number) => Promise<void>;
     win_close: () => void;
     win_setTitle: (title: string) => void;
-    win_setContentSize: (w: number, h: number) => Promise<void>;
     showMessageBox: (o: Electron.MessageBoxOptions) => Promise<Electron.MessageBoxReturnValue>;
     capturePage: (fn: string) => Promise<void>;
     navigate_to: (url: string) => void;
@@ -44,8 +43,6 @@ export declare type HINFO = {
     };
     platform: string;
     arch: string;
-    screenResolutionX: number;
-    screenResolutionY: number;
 };
 export declare const hProc: HPROC;
 //# sourceMappingURL=preload.d.ts.map

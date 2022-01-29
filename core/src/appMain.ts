@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {screen, app, BrowserWindow, ipcMain, shell, Rectangle, dialog} from 'electron';
+import {screen, app, BrowserWindow, ipcMain, shell, dialog} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
 import {existsSync, copySync, removeSync, ensureDirSync, createWriteStream, createReadStream, readFileSync, readFile, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 const Store = require('electron-store');
@@ -13,9 +13,9 @@ import {pack, extract} from 'tar-fs';
 import {HINFO} from './preload';
 
 export class appMain {
-	readonly	#dsp = screen.getPrimaryDisplay();
-	readonly	#screenRX = this.#dsp.size.width;
-	readonly	#screenRY = this.#dsp.size.height;
+	readonly	#dspSize = screen.getPrimaryDisplay().size;
+	readonly	#screenRX = this.#dspSize.width;
+	readonly	#screenRY = this.#dspSize.height;
 	readonly	#hInfo	: HINFO = {
 		getAppPath	: app.getAppPath(),
 		isPackaged	: app.isPackaged,
@@ -25,13 +25,13 @@ export class appMain {
 		env			: {...process.env},
 		platform	: process.platform,
 		arch		: process.arch,
-		screenResolutionX	: this.#screenRX,
-		screenResolutionY	: this.#screenRY,
 	};
+	#winX	= 0;
+	#winY	= 0;
+	#stageW = 0;
+	#stageH = 0;
 
-	// console.log は【プロジェクト】のターミナルに出る
 	private	constructor(private readonly bw: BrowserWindow, version: string) {
-//	private	constructor(private readonly bw: Electron.BrowserWindow, version: string) {
 		this.#hInfo.getVersion = version;
 		ipcMain.handle('getInfo', ()=> this.#hInfo);
 
@@ -50,32 +50,22 @@ export class appMain {
 		ipcMain.handle('window', (_, centering, x, y, w, h)=> this.#window(centering, x, y, w, h));
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
 		ipcMain.handle('setSimpleFullScreen', (_, b, w, h)=> {
+			this.#isMovingWin = true;
 			bw.setSimpleFullScreen(b);
-			const rct = this.bw.getBounds();
-//			const was = screen.getPrimaryDisplay().workAreaSize;
-
-//console.log(`== FullScreen b:%o (%o %o %o %o) (%o %o) scr(%o %o)`, b, rct.x, rct.y, rct.width, rct.height, w, h, was.width, was.height);
-			rct.width = w;
-			rct.height = h;
+			if (b) {
+				this.bw.setPosition(0, 0);
+				this.bw.setContentSize(w, h);
+				//this.bw.setBounds({x: 0, y: 0, width: w, height: h});	// コレは最大化
+			}
+			else {
+				this.bw.setPosition(this.#winX, this.#winY);
+				this.bw.setContentSize(w, h +appMain.#menu_height);	// メニュー高さぶん足す
+			}
 			this.#isMovingWin = false;
-			this.#window(false, rct.x, rct.y, rct.width, rct.height);
-			this.#rctMovingWin = rct;
-			this.#skipDelayWinPos = true;
-
-			bw.setContentSize(w, h);
-				// これがないとアプリ版で下部が短くなり背後が見える
-				// TODO: 確認
-
-//console.log(`== FullScreen END`);
 		});
 		ipcMain.handle('win_close', ()=> bw.close());
 		ipcMain.handle('win_setTitle', (_, title)=> bw.setTitle(title));
-		ipcMain.handle('win_setContentSize', (_, w, h)=> {
-//console.log(`win_setContentSize w:%o, h:%o`, w, h);
-			this.#isMovingWin = true;
-			bw.setContentSize(w, h +appMain.#menu_height);
-			this.#isMovingWin = false;
-		});
+		// console.log は【プロジェクト】のターミナルに出る
 
 		ipcMain.handle('showMessageBox', (_, o)=> dialog.showMessageBox(o));
 
@@ -85,7 +75,6 @@ export class appMain {
 
 		ipcMain.handle('openDevTools', ()=> bw.webContents.openDevTools());
 		ipcMain.handle('win_ev_devtools_opened', (_, fnc)=> bw.webContents.on('devtools-opened', fnc));
-		ipcMain.handle('tgl_full_scr_sub', (_, centering, x, y, w, h)=> this.#window(centering, x, y, w, h));
 
 		let	st: any;
 		ipcMain.handle('Store', (_, o)=> {st = new Store(o); return;});	// return必要、Storeをcloneしてしまうので
@@ -94,32 +83,27 @@ export class appMain {
 		ipcMain.handle('Store_get', ()=> st.store);
 
 		ipcMain.handle('tarFs_pack', (_, path)=> pack(path));
-		ipcMain.handle('tarFs_extract', (_, path)=>extract(path));
+		ipcMain.handle('tarFs_extract', (_, path)=> extract(path));
 
 		bw.on('move', ()=> this.#onMove());
 	}
 	#tid: NodeJS.Timeout | undefined = undefined;
 	#onMove() {
 		if (this.#tid) return;
+
 		if (this.#isMovingWin) return;
-
 		this.#isMovingWin = true;
-		this.#rctMovingWin = this.bw.getBounds();
-		this.#tid = setTimeout(()=> this.#delayWinPos(), 500);
-	}
-	#rctMovingWin		: Rectangle;
-	#delayWinPos() {
-		const rct = this.bw.getBounds();
-//console.log(`#delayWinPos skip:${this.#skipDelayWinPos} isSimpleFullScreen:${this.bw.isSimpleFullScreen()} this.#isMovingWin:${this.#isMovingWin}  (%o %o %o %o) (%o %o %o %o)`, rct.x, rct.y, rct.width, rct.height, this.#rctMovingWin.x, this.#rctMovingWin.y, this.#rctMovingWin.width, this.#rctMovingWin.height);
-		if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return;}
-		if (this.#rctMovingWin.x !== rct.x || this.#rctMovingWin.y !== rct.y) {
-			this.#rctMovingWin = rct;
-			setTimeout(()=> this.#delayWinPos(), 500);
-			return;
-		}
 
-		this.#isMovingWin = false;
-		this.#window(false, rct.x, rct.y, rct.width, rct.height);
+		const {x, y} = this.bw.getBounds();
+		this.#tid = setTimeout(()=> {
+			this.#tid = undefined;
+			if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return;}
+
+			this.#isMovingWin = false;
+			const rct = this.bw.getBounds();
+			if (x !== rct.x || y !== rct.y) {this.#onMove(); return;}
+			this.#window(false, rct.x, rct.y, this.#stageW, this.#stageH);
+		}, 1000 /60 *10);
 	}
 	#skipDelayWinPos	= false;
 	#isMovingWin		= false;
@@ -127,6 +111,8 @@ export class appMain {
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
 //console.log(`#window isMovingWin:${this.#isMovingWin} (${x}, ${y}, ${w}, ${h})`);
 		if (this.#isMovingWin) return;
+		this.#isMovingWin = true;
+
 		if (centering) {
 			[x, y] = this.bw.getPosition();
 			x = (this.#screenRX - x) *0.5;
@@ -136,14 +122,19 @@ export class appMain {
 			if (x < 0 || x > this.#screenRX) x = 0;
 			if (y < 0 || y > this.#screenRY) y = 0;
 		}
-		this.bw.setPosition(x, y);
-		this.bw.setContentSize(w, h);
-			// 2019/07/06 Windowsでこれがないとどんどん縦に短くなる
-		const hz = this.bw.getContentSize()[1];
-		this.bw.setContentSize(w, h *2 -hz);
-			// 2019/07/14 setContentSize()したのにメニュー高さぶん勝手に削られた値にされる不具合ぽい動作への対応
+		if (this.#winX !== x || this.#winY !== y) {
+			this.#winX = x;
+			this.#winY = y;
+			this.bw.webContents.send('save_win_pos', x, y);
+			this.bw.setPosition(x, y);
+		}
 
-		this.bw.webContents.send('save_win_pos', x, y);
+		this.#stageW = w;
+		this.#stageH = h;
+		this.bw.setContentSize(w, h +appMain.#menu_height);	// メニュー高さぶん足す
+			// Sizeは変更時のみの送信、をするとどんどん小さくなるので注意
+
+		this.#isMovingWin = false;
 	}
 
 	openDevTools() {this.bw.webContents.openDevTools();}
@@ -151,10 +142,9 @@ export class appMain {
 
 	static	#ins: appMain;
 	static	initRenderer(path_htm: string, version: string, o: object): BrowserWindow {
-//	static	initRenderer(path_htm: string, version: string, o: object): Electron.BrowserWindow {
 		// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】のでこの形に
 		let openDevTools = ()=> {};
-		let bw: Electron.BrowserWindow;
+		let bw: BrowserWindow;
 		try {
 			Store.initRenderer();
 
@@ -165,14 +155,14 @@ export class appMain {
 			bw = new BrowserWindow({
 				...o,
 				webPreferences	: {
-					nativeWindowOpen: true,		// electron 14 以降のデフォルト
+					nativeWindowOpen	: true,	// electron 14 以降のデフォルト
 
 					// XSS対策としてnodeモジュールをレンダラープロセスで使えなくする
-					enableRemoteModule: false,
-					nodeIntegration: false,
+					enableRemoteModule	: false,
+					nodeIntegration		: false,
 					// レンダラープロセスに公開するAPIのファイル
-					contextIsolation: true,
-					preload: `${__dirname}/core/lib/preload.js`,
+					contextIsolation	: true,
+					preload				: `${__dirname}/core/lib/preload.js`,
 				},
 			});
 //	bw.webContents.openDevTools();

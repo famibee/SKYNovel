@@ -72991,8 +72991,6 @@ class SysApp extends SysNode_1.SysNode {
             env: {},
             platform: '',
             arch: '',
-            screenResolutionX: 0,
-            screenResolutionY: 0,
         });
         this.readFileSync = to_app.readFileSync;
         this.writeFileSync = to_app.writeFileSync;
@@ -73213,8 +73211,8 @@ class SysApp extends SysNode_1.SysNode {
     }
     initVal(data, hTmp, comp) {
         hTmp['const.sn.isDebugger'] = false;
-        hTmp['const.sn.screenResolutionX'] = __classPrivateFieldGet(this, _SysApp_hInfo, "f").screenResolutionX;
-        hTmp['const.sn.screenResolutionY'] = __classPrivateFieldGet(this, _SysApp_hInfo, "f").screenResolutionY;
+        hTmp['const.sn.screenResolutionX'] = screen.width;
+        hTmp['const.sn.screenResolutionY'] = screen.height;
         this.$path_userdata = CmnLib_1.CmnLib.isDbg
             ? __classPrivateFieldGet(this, _SysApp_hInfo, "f").getAppPath.slice(0, -3) + '.vscode/'
             : __classPrivateFieldGet(this, _SysApp_hInfo, "f").userData.replaceAll('\\', '/') + '/';
@@ -73267,7 +73265,6 @@ class SysApp extends SysNode_1.SysNode {
                 console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
                 main.destroy();
             });
-        to_app.win_setContentSize(CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
         return [];
     }
     titleSub(title) { to_app.win_setTitle(title); }

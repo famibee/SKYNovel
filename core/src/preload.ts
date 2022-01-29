@@ -29,7 +29,6 @@ export	type	HPROC	= {
 	setSimpleFullScreen	: (b: boolean, w: number, h: number)=> Promise<void>;
 	win_close		: ()=> void;
 	win_setTitle	: (title: string)=> void;
-	win_setContentSize	: (w: number, h: number)=> Promise<void>;
 
 	showMessageBox	: (o: Electron.MessageBoxOptions)=> Promise<Electron.MessageBoxReturnValue>;
 
@@ -60,8 +59,6 @@ export	type	HINFO	= {
 	env			: {[name: string]: any};
 	platform	: string;
 	arch		: string;
-	screenResolutionX	: number;
-	screenResolutionY	: number;
 }
 
 const fncE = console.error;
@@ -101,8 +98,6 @@ export const	hProc	: HPROC	= {
 	win_close	: ()=> ipcRenderer.invoke('win_close').catch(fncE),
 	win_setTitle	: title=>
 		ipcRenderer.invoke('win_setTitle', title).catch(fncE),
-	win_setContentSize	: (w, h)=>
-		ipcRenderer.invoke('win_setContentSize', w, h).catch(fncE),
 
 	showMessageBox	: o=> ipcRenderer.invoke('showMessageBox', o).catch(fncE),
 
