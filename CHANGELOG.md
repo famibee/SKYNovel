@@ -1,3 +1,10 @@
+## [1.27.9](https://github.com/famibee/SKYNovel/compare/v1.27.8...v1.27.9) (2022-01-29)
+
+
+### Bug Fixes
+
+* Winアプリ版で位置を動かすたびに下に広く右に少し広くなる件 ([68fec29](https://github.com/famibee/SKYNovel/commit/68fec29778836517e2032f50af53c02a74c8fe44))
+
 - fix: Winアプリ版で位置を動かすたびに下に広く右に少し広くなる件
 - fix: 全画面切り替え機能、内部をブラッシュアップ
 - 既知の問題
