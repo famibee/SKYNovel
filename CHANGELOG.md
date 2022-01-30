@@ -1,3 +1,10 @@
+# [1.28.0](https://github.com/famibee/SKYNovel/compare/v1.27.9...v1.28.0) (2022-01-30)
+
+
+### Features
+
+* アプリメニューから予約イベントを発生できる機能（key名の指定のみ） ([40995e1](https://github.com/famibee/SKYNovel/commit/40995e101227818554f8125f34c79d4751430f98))
+
 - feat: アプリメニューから予約イベントを発生できる機能（key名の指定のみ）
 - fix: Winアプリ版の全画面モードで全画面にならず、左上に張り付き、拡大もされない
 - 既知の問題
