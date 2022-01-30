@@ -13,7 +13,6 @@ import {Main} from './Main';
 import {DebugMng} from './DebugMng';
 
 import {Application} from 'pixi.js';
-//import {createHash} from 'crypto';
 
 import {HINFO} from '../preload';
 import {IpcRendererEvent} from 'electron/renderer';
@@ -53,8 +52,8 @@ export class SysApp extends SysNode {
 		arch		: '',
 	};
 
-	protected override	readFileSync = to_app.readFileSync;
-	protected override	writeFileSync = to_app.writeFileSync;
+	protected override	readFileSync	= to_app.readFileSync;
+	protected override	writeFileSync	= to_app.writeFileSync;
 	override	appendFile		= to_app.appendFile;
 	override	ensureFileSync	= to_app.ensureFileSync;
 
@@ -136,6 +135,10 @@ export class SysApp extends SysNode {
 	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		super.init(hTag, appPixi, val, main);
 
+		const e = new Event('click');
+		to_app.on('fire', (_e: IpcRendererEvent, KEY: string)=> main.fire(KEY, e));
+		//to_app.on('call', (_e: IpcRendererEvent, fn: string, label: string)=> main.resumeByJumpOrCall({fn, label}));	// 実験・保留コード。セキュリティ懸念
+
 		if (this.cfg.oCfg.debug.devtool) to_app.openDevTools();
 		else to_app.win_ev_devtools_opened(()=> {
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
@@ -145,14 +148,14 @@ export class SysApp extends SysNode {
 	}
 
 
-	override copyBMFolder = async (from: number, to: number)=> {
+	override copyBMFolder	= async (from: number, to: number)=> {
 		const path_from = `${this.$path_userdata}storage/${from}/`;
 		const path_to = `${this.$path_userdata}storage/${to}/`;
 		if (! await to_app.existsSync(path_from)) return;	// 使ってない場合もある
 
-		await to_app.copySync(path_from, path_to);
+		to_app.copySync(path_from, path_to);
 	};
-	override eraseBMFolder = async (place: number)=> {
+	override eraseBMFolder	= async (place: number)=> {
 		await to_app.removeSync(`${this.$path_userdata}storage/${place}/`);
 	};
 
@@ -232,12 +235,10 @@ export class SysApp extends SysNode {
 	protected override titleSub(title: string) {to_app.win_setTitle(title);}
 
 	// 全画面状態切替
-	protected override readonly	tglFlscr_sub =
-	()=> this.isFullScr = ! to_app.isSimpleFullScreen()
-	.then(fs=> {
-		if (fs) to_app.setSimpleFullScreen(false, CmnLib.stageW, CmnLib.stageH);
-		else to_app.setSimpleFullScreen(true, screen.width, screen.height);
-	});
+	protected override readonly	tglFlscr_sub = async ()=>
+	to_app.setSimpleFullScreen(
+		this.isFullScr = ! await to_app.isSimpleFullScreen()
+	);
 
 	// 更新チェック
 	protected override readonly	update_check: ITag = hArg=> {

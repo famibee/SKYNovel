@@ -70685,6 +70685,7 @@ class Main {
             this.stop();
         this.sys.setTitleInfo(mes ? ` -- ${mes}中` : '');
     }
+    fire(KEY, e) { __classPrivateFieldGet(this, _Main_evtMng, "f").fire(KEY, e); }
     async destroy(ms_late = 0) {
         if (__classPrivateFieldGet(this, _Main_destroyed, "f"))
             return;
@@ -73004,7 +73005,7 @@ class SysApp extends SysNode_1.SysNode {
             const path_to = `${this.$path_userdata}storage/${to}/`;
             if (!await to_app.existsSync(path_from))
                 return;
-            await to_app.copySync(path_from, path_to);
+            to_app.copySync(path_from, path_to);
         };
         this.eraseBMFolder = async (place) => {
             await to_app.removeSync(`${this.$path_userdata}storage/${place}/`);
@@ -73072,13 +73073,7 @@ class SysApp extends SysNode_1.SysNode {
             to_app.navigate_to(url);
             return false;
         };
-        this.tglFlscr_sub = () => this.isFullScr = !to_app.isSimpleFullScreen()
-            .then(fs => {
-            if (fs)
-                to_app.setSimpleFullScreen(false, CmnLib_1.CmnLib.stageW, CmnLib_1.CmnLib.stageH);
-            else
-                to_app.setSimpleFullScreen(true, screen.width, screen.height);
-        });
+        this.tglFlscr_sub = async () => to_app.setSimpleFullScreen(this.isFullScr = !await to_app.isSimpleFullScreen());
         this.update_check = hArg => {
             const { url } = hArg;
             if (!url)
@@ -73258,6 +73253,8 @@ class SysApp extends SysNode_1.SysNode {
     }
     init(hTag, appPixi, val, main) {
         super.init(hTag, appPixi, val, main);
+        const e = new Event('click');
+        to_app.on('fire', (_e, KEY) => main.fire(KEY, e));
         if (this.cfg.oCfg.debug.devtool)
             to_app.openDevTools();
         else

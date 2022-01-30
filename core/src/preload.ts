@@ -26,7 +26,7 @@ export	type	HPROC	= {
 
 	window	: (centering: boolean, x: number, y: number, w: number, h: number)=> void;
 	isSimpleFullScreen	: ()=> Promise<boolean>;
-	setSimpleFullScreen	: (b: boolean, w: number, h: number)=> Promise<void>;
+	setSimpleFullScreen	: (b: boolean)=> Promise<void>;
 	win_close		: ()=> void;
 	win_setTitle	: (title: string)=> void;
 
@@ -88,13 +88,6 @@ export const	hProc	: HPROC	= {
 	appendFile		: (path, data, callback)=>
 		ipcRenderer.invoke('appendFile', path, data, callback).catch(fncE),
 
-
-	window	: (centering, x, y, w, h)=>
-		ipcRenderer.invoke('window', centering, x, y, w, h).catch(fncE),
-	isSimpleFullScreen	: ()=>
-		ipcRenderer.invoke('isSimpleFullScreen').catch(fncE),
-	setSimpleFullScreen	: (b, w, h)=>
-		ipcRenderer.invoke('setSimpleFullScreen', b, w, h).catch(fncE),
 	win_close	: ()=> ipcRenderer.invoke('win_close').catch(fncE),
 	win_setTitle	: title=>
 		ipcRenderer.invoke('win_setTitle', title).catch(fncE),
@@ -116,11 +109,22 @@ export const	hProc	: HPROC	= {
 	tarFs_pack	: path=> ipcRenderer.invoke('tarFs_pack', path).catch(fncE),
 	tarFs_extract: path=> ipcRenderer.invoke('tarFs_extract', path).catch(fncE),
 
+	isSimpleFullScreen	: ()=>
+		ipcRenderer.invoke('isSimpleFullScreen').catch(fncE),
+	setSimpleFullScreen	: (b)=>
+		ipcRenderer.invoke('setSimpleFullScreen', b).catch(fncE),
+	window	: (centering, x, y, w, h)=>
+		ipcRenderer.invoke('window', centering, x, y, w, h).catch(fncE),
+
 
 	// メイン → レンダラー
 	on	: (ch, cb)=> {switch (ch) {
 		case 'save_win_pos':
 			ipcRenderer.on(ch, (e, x, y)=> cb(e, x, y));	break;
+		case 'fire':
+			ipcRenderer.on(ch, (e, KEY)=> cb(e, KEY));	break;
+		//case 'call':	// 実験・保留コード。セキュリティ懸念
+		//	ipcRenderer.on(ch, (e, fn, label)=> cb(e, fn, label));	break;
 	}},
 
 };

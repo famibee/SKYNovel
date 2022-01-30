@@ -237,6 +237,8 @@ export class Main implements IMain {
 //		if (CmnLib.debugLog) console.log('🍵 waiting...');
 	}
 
+	fire(KEY: string, e: Event) {this.#evtMng.fire(KEY, e)}
+
 
 	async destroy(ms_late = 0) {
 		if (this.#destroyed) return;

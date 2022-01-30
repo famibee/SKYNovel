@@ -23537,21 +23537,6 @@ class appMain {
         electron_1.ipcMain.handle('readFile', (_, path, callback) => (0, fs_extra_1.readFile)(path, callback));
         electron_1.ipcMain.handle('writeFileSync', (_, path, data, o) => (0, fs_extra_1.writeFileSync)(path, data, o));
         electron_1.ipcMain.handle('appendFile', (_, path, data, callback) => (0, fs_extra_1.appendFile)(path, data, callback));
-        electron_1.ipcMain.handle('window', (_, centering, x, y, w, h) => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, centering, x, y, w, h));
-        electron_1.ipcMain.handle('isSimpleFullScreen', () => bw.isSimpleFullScreen());
-        electron_1.ipcMain.handle('setSimpleFullScreen', (_, b, w, h) => {
-            __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
-            bw.setSimpleFullScreen(b);
-            if (b) {
-                this.bw.setPosition(0, 0);
-                this.bw.setContentSize(w, h);
-            }
-            else {
-                this.bw.setPosition(__classPrivateFieldGet(this, _appMain_winX, "f"), __classPrivateFieldGet(this, _appMain_winY, "f"));
-                this.bw.setContentSize(w, h + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
-            }
-            __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
-        });
         electron_1.ipcMain.handle('win_close', () => bw.close());
         electron_1.ipcMain.handle('win_setTitle', (_, title) => bw.setTitle(title));
         electron_1.ipcMain.handle('showMessageBox', (_, o) => electron_1.dialog.showMessageBox(o));
@@ -23567,6 +23552,26 @@ class appMain {
         electron_1.ipcMain.handle('Store_get', () => st.store);
         electron_1.ipcMain.handle('tarFs_pack', (_, path) => (0, tar_fs_1.pack)(path));
         electron_1.ipcMain.handle('tarFs_extract', (_, path) => (0, tar_fs_1.extract)(path));
+        electron_1.ipcMain.handle('isSimpleFullScreen', () => bw.isSimpleFullScreen());
+        electron_1.ipcMain.handle('setSimpleFullScreen', (_, b) => {
+            __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
+            bw.setSimpleFullScreen(b);
+            if (!b) {
+                this.bw.setPosition(__classPrivateFieldGet(this, _appMain_winX, "f"), __classPrivateFieldGet(this, _appMain_winY, "f"));
+                this.bw.setContentSize(__classPrivateFieldGet(this, _appMain_stageW, "f"), __classPrivateFieldGet(this, _appMain_stageH, "f") + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
+            }
+            __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
+        });
+        if (process.platform === 'win32') {
+            bw.on('enter-full-screen', () => {
+                bw.setContentSize(__classPrivateFieldGet(this, _appMain_screenRX, "f"), __classPrivateFieldGet(this, _appMain_screenRY, "f") - __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
+            });
+            bw.on('leave-full-screen', () => {
+                this.bw.setPosition(__classPrivateFieldGet(this, _appMain_winX, "f"), __classPrivateFieldGet(this, _appMain_winY, "f"));
+                this.bw.setContentSize(__classPrivateFieldGet(this, _appMain_stageW, "f"), __classPrivateFieldGet(this, _appMain_stageH, "f") + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
+            });
+        }
+        electron_1.ipcMain.handle('window', (_, centering, x, y, w, h) => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, centering, x, y, w, h));
         bw.on('move', () => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_onMove).call(this));
     }
     openDevTools() { this.bw.webContents.openDevTools(); }
@@ -23629,6 +23634,8 @@ _a = appMain, _appMain_dspSize = new WeakMap(), _appMain_screenRX = new WeakMap(
     if (__classPrivateFieldGet(this, _appMain_isMovingWin, "f"))
         return;
     __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
+    if (this.bw.isSimpleFullScreen())
+        return;
     if (centering) {
         [x, y] = this.bw.getPosition();
         x = (__classPrivateFieldGet(this, _appMain_screenRX, "f") - x) * 0.5;

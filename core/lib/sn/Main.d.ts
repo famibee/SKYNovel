@@ -9,6 +9,7 @@ export declare class Main implements IMain {
     resumeByJumpOrCall(hArg: HArg): void;
     readonly stop: () => void;
     setLoop(isLoop: boolean, mes?: string): void;
+    fire(KEY: string, e: Event): void;
     destroy(ms_late?: number): Promise<void>;
     readonly isDestroyed: () => boolean;
 }

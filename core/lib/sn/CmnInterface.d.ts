@@ -218,6 +218,7 @@ export interface IMain {
     resumeByJumpOrCall(hArg: HArg): void;
     stop(): void;
     setLoop(v: boolean, mes?: string): void;
+    fire(KEY: string, e: Event): void;
     isDestroyed(): boolean;
     destroy(ms_late?: number): void;
 }

@@ -26,7 +26,7 @@ export declare class SysApp extends SysNode {
     protected readonly _import: () => boolean;
     protected readonly navigate_to: ITag;
     protected titleSub(title: string): void;
-    protected readonly tglFlscr_sub: () => boolean;
+    protected readonly tglFlscr_sub: () => Promise<void>;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
     readonly canCapturePage: (fn: string) => boolean;

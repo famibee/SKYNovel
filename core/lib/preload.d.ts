@@ -16,7 +16,7 @@ export declare type HPROC = {
     appendFile: (path: string, data: string, callback: (err: Error) => void) => Promise<void>;
     window: (centering: boolean, x: number, y: number, w: number, h: number) => void;
     isSimpleFullScreen: () => Promise<boolean>;
-    setSimpleFullScreen: (b: boolean, w: number, h: number) => Promise<void>;
+    setSimpleFullScreen: (b: boolean) => Promise<void>;
     win_close: () => void;
     win_setTitle: (title: string) => void;
     showMessageBox: (o: Electron.MessageBoxOptions) => Promise<Electron.MessageBoxReturnValue>;

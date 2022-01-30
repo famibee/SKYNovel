@@ -72033,6 +72033,7 @@ class Main {
             this.stop();
         this.sys.setTitleInfo(mes ? ` -- ${mes}中` : '');
     }
+    fire(KEY, e) { __classPrivateFieldGet(this, _Main_evtMng, "f").fire(KEY, e); }
     async destroy(ms_late = 0) {
         if (__classPrivateFieldGet(this, _Main_destroyed, "f"))
             return;

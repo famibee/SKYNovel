@@ -47,22 +47,6 @@ export class appMain {
 		ipcMain.handle('writeFileSync', (_, path, data, o)=> writeFileSync(path, data, o));
 		ipcMain.handle('appendFile', (_, path, data, callback)=> appendFile(path, data, callback));
 
-		ipcMain.handle('window', (_, centering, x, y, w, h)=> this.#window(centering, x, y, w, h));
-		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
-		ipcMain.handle('setSimpleFullScreen', (_, b, w, h)=> {
-			this.#isMovingWin = true;
-			bw.setSimpleFullScreen(b);
-			if (b) {
-				this.bw.setPosition(0, 0);
-				this.bw.setContentSize(w, h);
-				//this.bw.setBounds({x: 0, y: 0, width: w, height: h});	// コレは最大化
-			}
-			else {
-				this.bw.setPosition(this.#winX, this.#winY);
-				this.bw.setContentSize(w, h +appMain.#menu_height);	// メニュー高さぶん足す
-			}
-			this.#isMovingWin = false;
-		});
 		ipcMain.handle('win_close', ()=> bw.close());
 		ipcMain.handle('win_setTitle', (_, title)=> bw.setTitle(title));
 		// console.log は【プロジェクト】のターミナルに出る
@@ -85,10 +69,36 @@ export class appMain {
 		ipcMain.handle('tarFs_pack', (_, path)=> pack(path));
 		ipcMain.handle('tarFs_extract', (_, path)=> extract(path));
 
+		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
+		ipcMain.handle('setSimpleFullScreen', (_, b)=> {
+			this.#isMovingWin = true;
+			bw.setSimpleFullScreen(b);
+			if (! b) {
+				this.bw.setPosition(this.#winX, this.#winY);
+				this.bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
+			}
+			this.#isMovingWin = false;
+		});
+		if (process.platform === 'win32') {
+			// winでのみ必要な処理なので、winでのみ処理させる
+			// 以下のイベントは winで必ず、macでは「Command + Control + F」でのみ発生
+			bw.on('enter-full-screen', ()=> {
+				//this.#isMovingWin = true;	// 効かない
+				bw.setContentSize(this.#screenRX, this.#screenRY -appMain.#menu_height);	// メニュー高さぶん引く
+				//this.#isMovingWin = false;
+			});
+			bw.on('leave-full-screen', ()=> {
+				this.bw.setPosition(this.#winX, this.#winY);
+				this.bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
+			});
+		}
+
+		ipcMain.handle('window', (_, centering, x, y, w, h)=> this.#window(centering, x, y, w, h));
 		bw.on('move', ()=> this.#onMove());
 	}
 	#tid: NodeJS.Timeout | undefined = undefined;
 	#onMove() {
+//console.log(`fn:appMain.ts #onMove #isMovingWin:${this.#isMovingWin}`);
 		if (this.#tid) return;
 
 		if (this.#isMovingWin) return;
@@ -109,9 +119,12 @@ export class appMain {
 	#isMovingWin		= false;
 
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
-//console.log(`#window isMovingWin:${this.#isMovingWin} (${x}, ${y}, ${w}, ${h})`);
+//console.log(`#window isFS:${this.bw.isSimpleFullScreen()} isMovingWin:${this.#isMovingWin} (${x}, ${y}, ${w}, ${h})`);
 		if (this.#isMovingWin) return;
 		this.#isMovingWin = true;
+		if (this.bw.isSimpleFullScreen()) return;
+			// 全画面時に無効にする意味合いと、
+			// winでのみ全画面移行時に【setContentSize】から発生
 
 		if (centering) {
 			[x, y] = this.bw.getPosition();
