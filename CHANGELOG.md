@@ -1,3 +1,10 @@
+## [1.28.1](https://github.com/famibee/SKYNovel/compare/v1.28.0...v1.28.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* Winアプリ版：全画面モードで左端に寄る ([976a637](https://github.com/famibee/SKYNovel/commit/976a637205c118d66ac68695f85ea4c7879826b0))
+
 - fix: Winアプリ版：全画面モードで左端に寄る
 - fix: Macアプリ版：全画面モードから戻ると右端に余白、縦方向にも狭い
 - 既知の問題
