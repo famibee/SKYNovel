@@ -37,7 +37,7 @@ export class SysBase implements ISysBase {
 
 	resolution	= 1;
 
-	protected	cfg	: IConfig;
+	protected	cfg: IConfig;
 	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg;}
 
 	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
@@ -187,13 +187,8 @@ export class SysBase implements ISysBase {
 			ps.height= `${this.#cvsHeight}px`;
 		}
 		const s = cvs.style;
-		if (! this.isApp && this.isFullScr) {
-			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
-		}
-		else {
-			s.width = ps.width;
-			s.height= ps.height;
-		}
+		s.width = ps.width;
+		s.height= ps.height;
 
 		this.#ofsLeft4elm = cr.left;
 		this.#ofsTop4elm  = cr.top;
@@ -261,7 +256,7 @@ export class SysBase implements ISysBase {
 		this.#sk = undefined;
 	}
 	#sk: Socket | undefined = undefined;
-	readonly	#hHook	: {[type: string]: (o: any)=> void}	= {
+	readonly	#hHook: {[type: string]: (o: any)=> void}	= {
 		auth		: o=> {
 			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return;}
 
@@ -352,7 +347,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		#main_title	= '';
 		protected titleSub(_txt: string) {}
 
-	#tglFlscr	: ITag = hArg=> {
+	#tglFlscr: ITag = hArg=> {
 		if (! hArg.key) {this.tglFlscr_sub(); return false;}
 
 		const key = hArg.key.toLowerCase();

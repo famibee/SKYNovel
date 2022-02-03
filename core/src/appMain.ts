@@ -30,6 +30,7 @@ export class appMain {
 	#winY	= 0;
 	#stageW = 0;
 	#stageH = 0;
+	#isWin	= process.platform === 'win32';
 
 	private	constructor(private readonly bw: BrowserWindow, version: string) {
 		this.#hInfo.getVersion = version;
@@ -70,16 +71,16 @@ export class appMain {
 		ipcMain.handle('tarFs_extract', (_, path)=> extract(path));
 
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
-		ipcMain.handle('setSimpleFullScreen', (_, b)=> {
-			this.#isMovingWin = true;
-			bw.setSimpleFullScreen(b);
-			if (! b) {
-				this.bw.setPosition(this.#winX, this.#winY);
-				this.bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
-			}
-			this.#isMovingWin = false;
-		});
-		if (process.platform === 'win32') {
+		if (this.#isWin) {
+			ipcMain.handle('setSimpleFullScreen', (_, b)=> {
+				this.#isMovingWin = true;
+				bw.setSimpleFullScreen(b);	// これだけで #onMove 発生
+				if (! b) {
+					bw.setPosition(this.#winX, this.#winY);
+					bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
+				}
+				this.#isMovingWin = false;
+			});
 			// winでのみ必要な処理なので、winでのみ処理させる
 			// 以下のイベントは winで必ず、macでは「Command + Control + F」でのみ発生
 			bw.on('enter-full-screen', ()=> {
@@ -88,10 +89,14 @@ export class appMain {
 				//this.#isMovingWin = false;
 			});
 			bw.on('leave-full-screen', ()=> {
-				this.bw.setPosition(this.#winX, this.#winY);
-				this.bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
+				bw.setPosition(this.#winX, this.#winY);
+				bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
 			});
 		}
+		else ipcMain.handle('setSimpleFullScreen', (_, b)=> {
+			bw.setSimpleFullScreen(b);
+			if (! b) bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
+		});
 
 		ipcMain.handle('window', (_, centering, x, y, w, h)=> this.#window(centering, x, y, w, h));
 		bw.on('move', ()=> this.#onMove());
@@ -167,6 +172,9 @@ export class appMain {
 
 			bw = new BrowserWindow({
 				...o,
+				fullscreenable	: true,
+				maximizable		: false,// Macで最大化ボタンでフルスクリーンにしない
+			//	useContentSize	: true,
 				webPreferences	: {
 					nativeWindowOpen	: true,	// electron 14 以降のデフォルト
 
@@ -178,7 +186,6 @@ export class appMain {
 					preload				: `${__dirname}/core/lib/preload.js`,
 				},
 			});
-//	bw.webContents.openDevTools();
 
 			bw.setMenuBarVisibility(false);
 			const cs_no_menu_h = bw.getContentSize()[1];

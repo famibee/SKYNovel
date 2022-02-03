@@ -148,6 +148,26 @@ export class SysApp extends SysNode {
 	}
 
 
+	override	cvsResize(): boolean {
+		const ret =	super.cvsResize();
+		if (CmnLib.isMac) return ret;
+
+		const s = this.appPixi.view.style;
+		if (this.isFullScr) {
+			s.left = `${this.ofsLeft4elm}px`;
+			s.top  = `${this.ofsTop4elm}px`;
+			s.position = 'fixed';
+		}
+		else {
+			s.left = '';
+			s.top  = '';
+			s.position = 'relative';
+		}
+
+		return ret;
+	}
+
+
 	override copyBMFolder	= async (from: number, to: number)=> {
 		const path_from = `${this.$path_userdata}storage/${from}/`;
 		const path_to = `${this.$path_userdata}storage/${to}/`;

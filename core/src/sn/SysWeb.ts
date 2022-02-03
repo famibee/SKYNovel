@@ -173,6 +173,17 @@ export class SysWeb extends SysBase {
 		return [];
 	}
 
+
+	override	cvsResize(): boolean {
+		const ret =	super.cvsResize();
+		if (this.isFullScr) {
+			const s = this.appPixi.view.style;
+			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
+		}
+		return ret;
+	}
+
+
 	override pathBaseCnvSnPath4Dbg = '${pathbase}/';
 
 	// プレイデータをエクスポート

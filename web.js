@@ -74579,13 +74579,8 @@ class SysBase {
             ps.height = `${__classPrivateFieldGet(this, _SysBase_cvsHeight, "f")}px`;
         }
         const s = cvs.style;
-        if (!this.isApp && this.isFullScr) {
-            s.width = s.height = '';
-        }
-        else {
-            s.width = ps.width;
-            s.height = ps.height;
-        }
+        s.width = ps.width;
+        s.height = ps.height;
         __classPrivateFieldSet(this, _SysBase_ofsLeft4elm, cr.left, "f");
         __classPrivateFieldSet(this, _SysBase_ofsTop4elm, cr.top, "f");
         if (this.isFullScr) {
@@ -74927,6 +74922,14 @@ class SysWeb extends SysBase_1.SysBase {
                 main.destroy();
             }, { once: true, passive: true });
         return [];
+    }
+    cvsResize() {
+        const ret = super.cvsResize();
+        if (this.isFullScr) {
+            const s = this.appPixi.view.style;
+            s.width = s.height = '';
+        }
+        return ret;
     }
     titleSub(txt) {
         document.title = txt;

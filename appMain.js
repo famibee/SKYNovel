@@ -23493,7 +23493,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _appMain_instances, _a, _appMain_dspSize, _appMain_screenRX, _appMain_screenRY, _appMain_hInfo, _appMain_winX, _appMain_winY, _appMain_stageW, _appMain_stageH, _appMain_tid, _appMain_onMove, _appMain_skipDelayWinPos, _appMain_isMovingWin, _appMain_window, _appMain_ins, _appMain_menu_height;
+var _appMain_instances, _a, _appMain_dspSize, _appMain_screenRX, _appMain_screenRY, _appMain_hInfo, _appMain_winX, _appMain_winY, _appMain_stageW, _appMain_stageH, _appMain_isWin, _appMain_tid, _appMain_onMove, _appMain_skipDelayWinPos, _appMain_isMovingWin, _appMain_window, _appMain_ins, _appMain_menu_height;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.appMain = void 0;
 const electron_1 = __webpack_require__(/*! electron */ "electron");
@@ -23521,6 +23521,7 @@ class appMain {
         _appMain_winY.set(this, 0);
         _appMain_stageW.set(this, 0);
         _appMain_stageH.set(this, 0);
+        _appMain_isWin.set(this, process.platform === 'win32');
         _appMain_tid.set(this, undefined);
         _appMain_skipDelayWinPos.set(this, false);
         _appMain_isMovingWin.set(this, false);
@@ -23553,24 +23554,30 @@ class appMain {
         electron_1.ipcMain.handle('tarFs_pack', (_, path) => (0, tar_fs_1.pack)(path));
         electron_1.ipcMain.handle('tarFs_extract', (_, path) => (0, tar_fs_1.extract)(path));
         electron_1.ipcMain.handle('isSimpleFullScreen', () => bw.isSimpleFullScreen());
-        electron_1.ipcMain.handle('setSimpleFullScreen', (_, b) => {
-            __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
-            bw.setSimpleFullScreen(b);
-            if (!b) {
-                this.bw.setPosition(__classPrivateFieldGet(this, _appMain_winX, "f"), __classPrivateFieldGet(this, _appMain_winY, "f"));
-                this.bw.setContentSize(__classPrivateFieldGet(this, _appMain_stageW, "f"), __classPrivateFieldGet(this, _appMain_stageH, "f") + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
-            }
-            __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
-        });
-        if (process.platform === 'win32') {
+        if (__classPrivateFieldGet(this, _appMain_isWin, "f")) {
+            electron_1.ipcMain.handle('setSimpleFullScreen', (_, b) => {
+                __classPrivateFieldSet(this, _appMain_isMovingWin, true, "f");
+                bw.setSimpleFullScreen(b);
+                if (!b) {
+                    bw.setPosition(__classPrivateFieldGet(this, _appMain_winX, "f"), __classPrivateFieldGet(this, _appMain_winY, "f"));
+                    bw.setContentSize(__classPrivateFieldGet(this, _appMain_stageW, "f"), __classPrivateFieldGet(this, _appMain_stageH, "f") + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
+                }
+                __classPrivateFieldSet(this, _appMain_isMovingWin, false, "f");
+            });
             bw.on('enter-full-screen', () => {
                 bw.setContentSize(__classPrivateFieldGet(this, _appMain_screenRX, "f"), __classPrivateFieldGet(this, _appMain_screenRY, "f") - __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
             });
             bw.on('leave-full-screen', () => {
-                this.bw.setPosition(__classPrivateFieldGet(this, _appMain_winX, "f"), __classPrivateFieldGet(this, _appMain_winY, "f"));
-                this.bw.setContentSize(__classPrivateFieldGet(this, _appMain_stageW, "f"), __classPrivateFieldGet(this, _appMain_stageH, "f") + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
+                bw.setPosition(__classPrivateFieldGet(this, _appMain_winX, "f"), __classPrivateFieldGet(this, _appMain_winY, "f"));
+                bw.setContentSize(__classPrivateFieldGet(this, _appMain_stageW, "f"), __classPrivateFieldGet(this, _appMain_stageH, "f") + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
             });
         }
+        else
+            electron_1.ipcMain.handle('setSimpleFullScreen', (_, b) => {
+                bw.setSimpleFullScreen(b);
+                if (!b)
+                    bw.setContentSize(__classPrivateFieldGet(this, _appMain_stageW, "f"), __classPrivateFieldGet(this, _appMain_stageH, "f") + __classPrivateFieldGet(appMain, _a, "f", _appMain_menu_height));
+            });
         electron_1.ipcMain.handle('window', (_, centering, x, y, w, h) => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_window).call(this, centering, x, y, w, h));
         bw.on('move', () => __classPrivateFieldGet(this, _appMain_instances, "m", _appMain_onMove).call(this));
     }
@@ -23583,6 +23590,8 @@ class appMain {
             process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
             bw = new electron_1.BrowserWindow({
                 ...o,
+                fullscreenable: true,
+                maximizable: false,
                 webPreferences: {
                     nativeWindowOpen: true,
                     enableRemoteModule: false,
@@ -23609,7 +23618,7 @@ class appMain {
     }
 }
 exports.appMain = appMain;
-_a = appMain, _appMain_dspSize = new WeakMap(), _appMain_screenRX = new WeakMap(), _appMain_screenRY = new WeakMap(), _appMain_hInfo = new WeakMap(), _appMain_winX = new WeakMap(), _appMain_winY = new WeakMap(), _appMain_stageW = new WeakMap(), _appMain_stageH = new WeakMap(), _appMain_tid = new WeakMap(), _appMain_skipDelayWinPos = new WeakMap(), _appMain_isMovingWin = new WeakMap(), _appMain_instances = new WeakSet(), _appMain_onMove = function _appMain_onMove() {
+_a = appMain, _appMain_dspSize = new WeakMap(), _appMain_screenRX = new WeakMap(), _appMain_screenRY = new WeakMap(), _appMain_hInfo = new WeakMap(), _appMain_winX = new WeakMap(), _appMain_winY = new WeakMap(), _appMain_stageW = new WeakMap(), _appMain_stageH = new WeakMap(), _appMain_isWin = new WeakMap(), _appMain_tid = new WeakMap(), _appMain_skipDelayWinPos = new WeakMap(), _appMain_isMovingWin = new WeakMap(), _appMain_instances = new WeakSet(), _appMain_onMove = function _appMain_onMove() {
     if (__classPrivateFieldGet(this, _appMain_tid, "f"))
         return;
     if (__classPrivateFieldGet(this, _appMain_isMovingWin, "f"))

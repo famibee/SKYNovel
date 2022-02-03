@@ -73264,6 +73264,23 @@ class SysApp extends SysNode_1.SysNode {
             });
         return [];
     }
+    cvsResize() {
+        const ret = super.cvsResize();
+        if (CmnLib_1.CmnLib.isMac)
+            return ret;
+        const s = this.appPixi.view.style;
+        if (this.isFullScr) {
+            s.left = `${this.ofsLeft4elm}px`;
+            s.top = `${this.ofsTop4elm}px`;
+            s.position = 'fixed';
+        }
+        else {
+            s.left = '';
+            s.top = '';
+            s.position = 'relative';
+        }
+        return ret;
+    }
     titleSub(title) { to_app.win_setTitle(title); }
 }
 exports.SysApp = SysApp;
@@ -73566,13 +73583,8 @@ class SysBase {
             ps.height = `${__classPrivateFieldGet(this, _SysBase_cvsHeight, "f")}px`;
         }
         const s = cvs.style;
-        if (!this.isApp && this.isFullScr) {
-            s.width = s.height = '';
-        }
-        else {
-            s.width = ps.width;
-            s.height = ps.height;
-        }
+        s.width = ps.width;
+        s.height = ps.height;
         __classPrivateFieldSet(this, _SysBase_ofsLeft4elm, cr.left, "f");
         __classPrivateFieldSet(this, _SysBase_ofsTop4elm, cr.top, "f");
         if (this.isFullScr) {
