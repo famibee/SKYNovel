@@ -70,7 +70,7 @@ export class appMain {
 		ipcMain.handle('tarFs_pack', (_, path)=> pack(path));
 		ipcMain.handle('tarFs_extract', (_, path)=> extract(path));
 
-		ipcMain.handle('isSimpleFullScreen', ()=> bw.isSimpleFullScreen());
+		ipcMain.handle('isSimpleFullScreen', ()=> bw.simpleFullScreen);
 		if (this.#isWin) {
 			ipcMain.handle('setSimpleFullScreen', (_, b)=> {
 				this.#isMovingWin = true;
@@ -89,8 +89,7 @@ export class appMain {
 				//this.#isMovingWin = false;
 			});
 			bw.on('leave-full-screen', ()=> {
-				bw.setPosition(this.#winX, this.#winY);
-				bw.setContentSize(this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
+				this.#window(false, this.#winX, this.#winY, this.#stageW, this.#stageH +appMain.#menu_height);	// メニュー高さぶん足す
 			});
 		}
 		else ipcMain.handle('setSimpleFullScreen', (_, b)=> {
@@ -124,10 +123,10 @@ export class appMain {
 	#isMovingWin		= false;
 
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
-//console.log(`#window isFS:${this.bw.isSimpleFullScreen()} isMovingWin:${this.#isMovingWin} (${x}, ${y}, ${w}, ${h})`);
+//console.log(`#window isFS:${this.bw.simpleFullScreen} isMovingWin:${this.#isMovingWin} (${x}, ${y}, ${w}, ${h})`);
 		if (this.#isMovingWin) return;
 		this.#isMovingWin = true;
-		if (this.bw.isSimpleFullScreen()) return;
+		if (this.bw.simpleFullScreen) return;
 			// 全画面時に無効にする意味合いと、
 			// winでのみ全画面移行時に【setContentSize】から発生
 
@@ -174,7 +173,6 @@ export class appMain {
 				...o,
 				fullscreenable	: true,
 				maximizable		: false,// Macで最大化ボタンでフルスクリーンにしない
-			//	useContentSize	: true,
 				webPreferences	: {
 					nativeWindowOpen	: true,	// electron 14 以降のデフォルト
 
