@@ -1,3 +1,10 @@
+## [1.28.2](https://github.com/famibee/SKYNovel/compare/v1.28.1...v1.28.2) (2022-02-04)
+
+
+### Bug Fixes
+
+* Winアプリ版：全画面モードから戻ると右端に余白、縦方向にも狭い ([280f7c6](https://github.com/famibee/SKYNovel/commit/280f7c6ae3008a8c904448ce201bd4eede52ef05))
+
 - fix: Winアプリ版：全画面モードから戻ると右端に余白、縦方向にも狭い
 - 既知の問題
 	- Winアプリ版：メニューやF11キーだと全画面モードで左端に寄る
