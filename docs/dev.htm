@@ -990,8 +990,15 @@ const.sn.log.json
 
 </p>
 <h2 id="save_path" class="w-heading">セーブデータの保存場所</h2>
-<h4>暗号化機能について解説していきます。</h4>
 <p class="mb2 px1">
+	<h3>A)ブラウザ版（通常実行）</h3>
+	<h4>OSに関わらず、ブラウザのローカルストレージに保存されます。</h4>
+	<p class="mb2 px1">
+		Chrome なら [Application]タブ - [Storage] - [Local Storage]下で、[プロジェクト名]と同じ[Key]の三つ（kidoku・mark・sys）です。<br/>
+		<amp-img src="pic/save_path_web.jpg" width="500" height="328" layout="responsive"></amp-img>
+	</p>
+
+	<h3>B)アプリ版（通常実行）</h3>
 	<h4>1.Macの場合は下記のPathにファイルが保存されます。</h4>
 	<p class="mb2 px1">
 		/Users/&lt;ユーザー名&gt;/Library/Application Support/&lt;アプリ名&gt;/storage/data.json
@@ -1004,11 +1011,19 @@ const.sn.log.json
 	<p class="mb2 px1">
 		~/.config/&lt;アプリ名&gt;/storage/data.json
 	</p>
+	<p class="mb2 px1">
+		<amp-img src="pic/save_path_app.jpg" width="500" height="326" layout="responsive"></amp-img>
+	</p>
 
+	<h3>C)ブラウザ版・アプリ版（デバッグ実行）</h3>
+	<h4>OSに関わらず、下記のPathにファイルが保存されます。</h4>
+	<p class="mb2 px1">
+		【プロジェクトフォルダ】/.vscode/storage/<br/>
+		<amp-img src="pic/save_path_dbg.png" width="500" height="342" layout="responsive"></amp-img>
+	</p>
 
 </p>
 <h2 id="on_browser" class="w-heading">ブラウザ版の公開方法</h2>
-<h4>暗号化機能について解説していきます。</h4>
 <p class="mb2 px1">
 	<h4>1.必要なもの、以下の三つのみです。</h4>
 	<p class="mb2 px1">
