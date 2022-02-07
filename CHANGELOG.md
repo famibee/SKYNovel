@@ -1,3 +1,6 @@
+- docs: 【セーブデータの保存場所】にデバッグ実行時などを追記
+
+
 ## [1.28.2](https://github.com/famibee/SKYNovel/compare/v1.28.1...v1.28.2) (2022-02-04)
 
 
