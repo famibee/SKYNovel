@@ -1,3 +1,10 @@
+## [1.28.3](https://github.com/famibee/SKYNovel/compare/v1.28.2...v1.28.3) (2022-02-08)
+
+
+### Bug Fixes
+
+* Safari / Firefox / Edge 動作確認と修正 ([f8caacf](https://github.com/famibee/SKYNovel/commit/f8caacfcf6b3825b624c3c868a63d54b0f893d85))
+
 - fix: Safari / Firefox / Edge 動作確認と修正
 - fix: Safari で TypeError になる件
 - fix: ギャラリーで画面サイズ・全画面によってはテキストがずれる・サイズが合わない件
