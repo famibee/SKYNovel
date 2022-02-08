@@ -148,9 +148,9 @@ export class SysApp extends SysNode {
 	}
 
 
-	override	cvsResize(): boolean {
-		const ret =	super.cvsResize();
-		if (CmnLib.isMac) return ret;
+	override cvsResize() {
+		super.cvsResize();
+		if (CmnLib.isMac) return;
 
 		const s = this.appPixi.view.style;
 		if (this.isFullScr) {
@@ -163,8 +163,6 @@ export class SysApp extends SysNode {
 			s.top  = '';
 			s.position = 'relative';
 		}
-
-		return ret;
 	}
 
 

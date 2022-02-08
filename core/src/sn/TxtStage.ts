@@ -136,10 +136,10 @@ export class TxtStage extends Container {
 		this.#idc.sethArg(hArg);
 
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-		this.#left = this.spLay.position.x
-			-(CmnLib.isSafari && !CmnLib.isMobile && this.#isTategaki
-				? this.#infTL.pad_left +this.#infTL.pad_right
-				: 0);
+		this.#left = this.spLay.position.x;
+			//-(CmnLib.isSafari && !CmnLib.isMobile && this.#isTategaki
+			//	? this.#infTL.pad_left +this.#infTL.pad_right
+			//	: 0);	// 無効化 2022/02/09
 		s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
 		this.cvsResize();
 		s.display = this.spLay.visible ?'inline' :'none';
@@ -1125,9 +1125,9 @@ export class TxtStage extends Container {
 			this.#sss = new Sprite(tx);	// Safariだけ文字影が映らない
 			if (this.#isTategaki) {
 				this.#sss.x += CmnLib.stageW -(this.#left +this.#infTL.$width)
-				- ((CmnLib.isSafari && !CmnLib.isMobile)
-					? 0
-					: this.#infTL.pad_left +this.#infTL.pad_right);
+				//- ((CmnLib.isSafari && !CmnLib.isMobile)	// 無効化 2022/02/09
+				//	? 0
+				//	: this.#infTL.pad_left +this.#infTL.pad_right);
 			}
 			this.#sss.y -= this.#padTx4y;
 			this.#sss.texture.frame = new Rectangle(0, 0, this.#infTL.$width -this.#left, this.#infTL.$height);	// これがないと画面サイズを超える

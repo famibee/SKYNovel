@@ -137,18 +137,27 @@ export class SysBase implements ISysBase {
 	get	ofsPadLeft_Dom2PIXI(): number {return this.#ofsPadLeft_Dom2PIXI;};
 	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI;};
 	protected	isFullScr	= false;
-	cvsResize(): boolean {
-		const bk_cw = this.#cvsWidth;
-		const bk_ch = this.#cvsHeight;
+	cvsResize() {
 		let w = globalThis.innerWidth;
 		let h = globalThis.innerHeight;
-		const {angle=0} = screen.orientation;
-		const lp = angle % 180 === 0 ?'p' :'l';	// 4Safari
-		if (CmnLib.isMobile && ((lp === 'p' && w > h) || (lp === 'l' && w < h))) [w, h] = [h, w];
-
 		const cvs = this.appPixi.view;
+		const isGallery = cvs.parentElement !== document.body;
+		if (isGallery) {
+			const st = globalThis.getComputedStyle(cvs);
+			w = parseFloat(st.width);
+			h = parseFloat(st.height);
+		}
+		if (CmnLib.isMobile) {
+			const angle = screen.orientation?.angle ?? 0;
+				// const {angle=0} = screen.orientation;
+				// この記法は、Safari で以下のエラーになる
+				// TypeError: Right side of assignment cannot be destructured
+			const isP = angle % 180 === 0;	// 4Safari
+			if (isP && w > h || ! isP && w < h) [w, h] = [h, w];
+		}
+
 		const cr = cvs.getBoundingClientRect();
-		if (argChk_Boolean(CmnLib.hDip, 'expanding', true)
+		if (argChk_Boolean(CmnLib.hDip, 'expanding', true) || isGallery
 		||	CmnLib.stageW > w
 		||	CmnLib.stageH > h) {
 			if (CmnLib.stageW /CmnLib.stageH <= w /h) {
@@ -161,16 +170,23 @@ export class SysBase implements ISysBase {
 			}
 			this.#cvsScale = this.#cvsWidth /CmnLib.stageW;
 
-			this.#ofsPadLeft_Dom2PIXI = (CmnLib.isMobile
-				? (globalThis.innerWidth  -this.#cvsWidth) /2
-				: cr.left
-			) *(1- this.#cvsScale);
-			this.#ofsPadTop_Dom2PIXI  = (CmnLib.isMobile
-				? (globalThis.innerHeight -this.#cvsHeight) /2
-				: cr.top
-			) *(1- this.#cvsScale);
-				// [left] /this.#cvsScale -[left]
-				// PaddingLeft を DOMで引いてPIXIで足すイメージ
+			if (isGallery) {
+				this.#ofsPadLeft_Dom2PIXI	= 0;
+				this.#ofsPadTop_Dom2PIXI	= 0;
+			}
+			else {
+				const sc = 1 -this.#cvsScale;
+				if (CmnLib.isMobile) {
+					this.#ofsPadLeft_Dom2PIXI = (w -this.#cvsWidth) /2 *sc;
+					this.#ofsPadTop_Dom2PIXI  = (h -this.#cvsHeight)/2 *sc;
+				}
+				else {
+					this.#ofsPadLeft_Dom2PIXI = cr.left*sc;
+					this.#ofsPadTop_Dom2PIXI  = cr.top *sc;
+				}
+					// [left] /this.#cvsScale -[left]
+					// PaddingLeft を DOMで引いてPIXIで足すイメージ
+			}
 		}
 		else {
 			this.#cvsWidth = CmnLib.stageW;
@@ -181,7 +197,7 @@ export class SysBase implements ISysBase {
 		}
 
 		const ps = cvs.parentElement!.style;
-		if (cvs.parentElement === document.body) {	// ギャラリー的な物は弾く
+		if (! isGallery) {
 			ps.position = 'relative';
 			ps.width = `${this.#cvsWidth}px`;
 			ps.height= `${this.#cvsHeight}px`;
@@ -196,8 +212,6 @@ export class SysBase implements ISysBase {
 			this.#ofsLeft4elm += (w -this.#cvsWidth) /2;
 			this.#ofsTop4elm  += (h -this.#cvsHeight)/2;
 		}
-
-		return bk_cw !== this.#cvsWidth || bk_ch !== this.#cvsHeight;
 	}
 
 

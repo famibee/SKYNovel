@@ -1,3 +1,7 @@
+- fix: Safari / Firefox / Edge 動作確認と修正
+- fix: Safari で TypeError になる件
+- fix: ギャラリーで画面サイズ・全画面によってはテキストがずれる・サイズが合わない件
+- fix: ギャラリーでSafariのみ左にずれる件
 - docs: 【セーブデータの保存場所】にデバッグ実行時などを追記
 
 

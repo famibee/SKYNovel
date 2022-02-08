@@ -174,13 +174,12 @@ export class SysWeb extends SysBase {
 	}
 
 
-	override	cvsResize(): boolean {
-		const ret =	super.cvsResize();
+	override cvsResize() {
+		super.cvsResize();
 		if (this.isFullScr) {
 			const s = this.appPixi.view.style;
 			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
 		}
-		return ret;
 	}
 
 

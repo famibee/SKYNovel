@@ -36,7 +36,7 @@ export declare class SysBase implements ISysBase {
     get ofsPadLeft_Dom2PIXI(): number;
     get ofsPadTop_Dom2PIXI(): number;
     protected isFullScr: boolean;
-    cvsResize(): boolean;
+    cvsResize(): void;
     attach_debug(main: IMain): void;
     protected extPort: number;
     end(): void;

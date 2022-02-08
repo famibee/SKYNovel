@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { SysNode } from './SysNode';
 import { ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
 import { Application } from 'pixi.js';
@@ -18,7 +19,7 @@ export declare class SysApp extends SysNode {
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
     protected run(): Promise<void>;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
-    cvsResize(): boolean;
+    cvsResize(): void;
     copyBMFolder: (from: number, to: number) => Promise<void>;
     eraseBMFolder: (place: number) => Promise<void>;
     protected readonly close: () => boolean;
