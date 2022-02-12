@@ -1,3 +1,10 @@
+## [1.28.4](https://github.com/famibee/SKYNovel/compare/v1.28.3...v1.28.4) (2022-02-12)
+
+
+### Bug Fixes
+
+* 拡張子 woff ファイルを扱ってなかった件 ([b06faf3](https://github.com/famibee/SKYNovel/commit/b06faf36203c6b49fa9d8fd1444bb4588b7d4453))
+
 - fix: 拡張子 woff ファイルを扱ってなかった件
 - fix: テキストレイヤの破棄処理修正
 - fix: AIRNovelにあったフォントチェック機能（未作成）を正式に削除（組み込み変数 sn.chkFontMode）、役割を拡張機能へ
