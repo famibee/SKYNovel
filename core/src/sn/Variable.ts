@@ -657,14 +657,6 @@ export class Variable implements IVariable {
 			//	NativeApplication.nativeApplication.systemIdleMode = val;
 			}
 		),
-		'tmp:sn.chkFontMode'
-		: ()=> {
-			if (this.#hTmp['const.sn.onLauncher']) return;
-			if (! this.#hTmp['const.sn.isDebugger']) return;
-
-			// TODO: sn.chkFontMode、テンプレにも
-			//	Hyphenation.chkFontMode = argChk_Boolean(this.hTmp, name, true)
-		}
 	};
 	defValTrg(name: string, fnc: ISetVal) {this.#hValTrg[name] = fnc;}
 	#runFirst_Bool_hSysVal_true(name: string): void {

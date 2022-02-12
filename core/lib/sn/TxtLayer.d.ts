@@ -11,6 +11,7 @@ export declare class TxtLayer extends Layer {
     static setEvtMng(main: IMain, evtMng: IEvtMng, sys: SysBase): void;
     constructor();
     destroy(): void;
+    static destroy(): void;
     set name(nm: string);
     get name(): string;
     cvsResize(): void;

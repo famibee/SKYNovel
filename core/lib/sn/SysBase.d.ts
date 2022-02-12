@@ -60,7 +60,7 @@ export declare class SysBase implements ISysBase {
     protected readonly window: ITag;
     setTitleInfo(txt: string): void;
     decStr(ext: string, d: string): string;
-    dec(ext: string, d: ArrayBuffer): Promise<string | ArrayBuffer | HTMLImageElement | HTMLVideoElement>;
+    dec(ext: string, d: ArrayBuffer): Promise<string | HTMLImageElement | HTMLVideoElement | ArrayBuffer>;
     protected enc: (d: string) => string;
     protected stk: () => string;
     hash: (_data: string) => string;

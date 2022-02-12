@@ -66534,7 +66534,7 @@ exports.Config = Config;
 _Config_existsBreakline = new WeakMap(), _Config_existsBreakpage = new WeakMap(), _Config_REGPATH = new WeakMap();
 Config.EXT_SPRITE = 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 Config.EXT_SCRIPT = 'sn|ssn';
-Config.EXT_FONT = 'woff2|otf|ttf';
+Config.EXT_FONT = 'woff2|woff|otf|ttf';
 Config.EXT_SOUND = 'mp3|m4a|ogg|aac|flac|wav';
 Config.EXT_HTML = 'htm|html';
 
@@ -69874,6 +69874,7 @@ void main(void) {
         GrpLayer_1.GrpLayer.destroy();
         RubySpliter_1.RubySpliter.destroy();
         TxtStage_1.TxtStage.destroy();
+        TxtLayer_1.TxtLayer.destroy();
         __classPrivateFieldGet(this, _LayerMng_frmMng, "f").destroy();
         this.stopAllTw();
         this.appPixi.ticker.remove(__classPrivateFieldGet(this, _LayerMng_fncTicker, "f"));
@@ -74099,8 +74100,7 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
         __classPrivateFieldSet(TxtLayer, _a, isPageFore, "f", _TxtLayer_isPageFore);
         val.setDoRecProc(TxtLayer.chgDoRec);
         hTag.autowc = o => __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_autowc).call(TxtLayer, o);
-        const o = { enabled: 'false', text: '', time: '' };
-        hTag.autowc(o);
+        hTag.autowc({ enabled: false, text: '', time: 0 });
         hTag.ch_in_style = o => __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_ch_in_style).call(TxtLayer, o);
         hTag.ch_out_style = o => __classPrivateFieldGet(TxtLayer, _a, "m", _TxtLayer_ch_out_style).call(TxtLayer, o);
         TxtStage_1.TxtStage.initChStyle();
@@ -74166,6 +74166,8 @@ ${__classPrivateFieldGet(this, _TxtLayer_fncFFSStyle, "f").call(this, tx)}`;
         }
         this.clearText();
         __classPrivateFieldGet(this, _TxtLayer_txs, "f").destroy();
+    }
+    static destroy() {
         __classPrivateFieldSet(TxtLayer, _a, false, "f", _TxtLayer_doAutoWc);
         __classPrivateFieldSet(TxtLayer, _a, {}, "f", _TxtLayer_hAutoWc);
         TxtLayer.rec = (tx) => tx;
@@ -75671,12 +75673,6 @@ class Variable {
             'tmp:sn.auto.enabled': name => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_runFirst_Bool_hTmp_false).call(this, name),
             'tmp:flash.desktop.NativeApplication.nativeApplication.systemIdleMode': (() => {
             }),
-            'tmp:sn.chkFontMode': () => {
-                if (__classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.onLauncher'])
-                    return;
-                if (!__classPrivateFieldGet(this, _Variable_hTmp, "f")['const.sn.isDebugger'])
-                    return;
-            }
         });
         hTag.let = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let).call(this, o);
         hTag.let_abs = o => __classPrivateFieldGet(this, _Variable_instances, "m", _Variable_let_abs).call(this, o);

@@ -33,8 +33,7 @@ export class TxtLayer extends Layer {
 		val.setDoRecProc(TxtLayer.chgDoRec);
 
 		hTag.autowc			= o=> TxtLayer.#autowc(o);	// 文字を追加する
-		const o: any = {enabled: 'false', text: '', time: ''};
-		hTag.autowc(o);
+		hTag.autowc({enabled: false, text: '', time: 0});
 		hTag.ch_in_style	= o=> TxtLayer.#ch_in_style(o);	// 文字出現演出
 		hTag.ch_out_style	= o=> TxtLayer.#ch_out_style(o);	// 文字消去演出
 
@@ -212,7 +211,8 @@ export class TxtLayer extends Layer {
 
 		this.clearText();
 		this.#txs.destroy();
-
+	}
+	static	destroy() {
 		TxtLayer.#doAutoWc = false;
 		TxtLayer.#hAutoWc = {};
 

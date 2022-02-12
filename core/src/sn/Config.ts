@@ -54,7 +54,7 @@ export class Config implements IConfig {
 	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm';
 		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
 	static	readonly	EXT_SCRIPT	= 'sn|ssn';
-	static	readonly	EXT_FONT	= 'woff2|otf|ttf';
+	static	readonly	EXT_FONT	= 'woff2|woff|otf|ttf';
 	static	readonly	EXT_SOUND	= 'mp3|m4a|ogg|aac|flac|wav';
 	static	readonly	EXT_HTML	= 'htm|html';
 
