@@ -7,8 +7,6 @@
 
 [![Build Status](https://app.travis-ci.com/famibee/SKYNovel.svg?branch=master)](https://app.travis-ci.com/famibee/SKYNovel)
 [![Maintainability](https://api.codeclimate.com/v1/badges/228e91311459ce3f7e10/maintainability)](https://codeclimate.com/github/famibee/SKYNovel/maintainability)
-[![dependencies](https://david-dm.org/famibee/SKYNovel/status.svg)](https://david-dm.org/famibee/SKYNovel)
-[![dependencies](https://david-dm.org/famibee/SKYNovel/dev-status.svg)](https://david-dm.org/famibee/SKYNovel?type=dev)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/famibee/skynovel)
 ![GitHub Release Date](https://img.shields.io/github/release-date/famibee/skynovel)
 ![Release package](https://github.com/famibee/SKYNovel/workflows/Release%20package/badge.svg)
@@ -23,7 +21,7 @@ WebGL NovelGame framework by PixiJS
 ## description（説明）
 
 - コンセプトスライド（機能ギャラリー内に含めました）
-- [開発者向け情報 Information for developers](https://famibee.github.io/SKYNovel/dev.htm)
+- [開発者向け情報 Information for developers](https://famibee.github.io/SKYNovel/dev.html)
 
 ## example
 
@@ -37,9 +35,9 @@ WebGL NovelGame framework by PixiJS
 
 (making...)
 
-- [タグリファレンス](https://famibee.github.io/SKYNovel/tag.htm)
-- [マクロ・プラグイン](https://famibee.github.io/SKYNovel/macro_plg.htm)
-- [開発者向け情報](https://famibee.github.io/SKYNovel/dev.htm)
+- [タグリファレンス](https://famibee.github.io/SKYNovel/tag.html)
+- [マクロ・プラグイン](https://famibee.github.io/SKYNovel/macro_plg.html)
+- [開発者向け情報](https://famibee.github.io/SKYNovel/dev.html)
 	- [組み込み変数](https://famibee.github.io/SKYNovel/dev.htm#reserve_value_save)
 
 ---

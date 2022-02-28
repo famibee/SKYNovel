@@ -1,3 +1,16 @@
+- feat: BREAKING CHANGE: アプリ版[export][import]データ .spd をzip圧縮に変更
+	- よって後方互換性なし
+- fix: アプリ版[export][import]でエラーになる件
+- chore: ビルドツールを vite に変更
+- chore: テストツールを esbuild-jest（と Jest 拡張機能）に変更。vitest は見送り
+- chore: 一般的なライブラリを参考に、ビルド設定やフォルダ構造などを変更
+	- .npmignore より package.json filesフィールドを活用
+	- srcフォルダをルートへ移動、coreフォルダを廃止
+	- 生成物を新規 distフォルダへ
+	- package.json exportsフィールド追加・サブパスを指定
+- docs: vite が検出しないのでタグリファレンスなどの URL を.htm から .html に変更
+
+
 ## [1.28.4](https://github.com/famibee/SKYNovel/compare/v1.28.3...v1.28.4) (2022-02-12)
 
 

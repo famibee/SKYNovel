@@ -2,17 +2,27 @@
 	"name": "@famibee/skynovel",
 	"version": "1.28.4",
 	"description": "webgl novelgame framework",
-	"main": "core/web.js",
-	"types": "core/lib/index.d.ts",
 	"author": "miyazawa famibee",
 	"publisher": "famibee",
 	"license": "MIT",
+	"main": "dist/web.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"/dist"
+	],
+	"exports": {
+		".": "./dist/web.js",
+		"./web": "./dist/web.js",
+		"./app": "./dist/app.js",
+		"./appMain": "./dist/appMain.js"
+	},
 	"dependencies": {
 		"@pixi/sound": "^4.2.0",
 		"@tweenjs/tween.js": "^18.6.4",
+		"adm-zip": "^0.5.9",
 		"devtools-detect": "^4.0.0",
 		"electron-store": "^8.0.1",
-		"fs-extra": "^10.0.0",
+		"fs-extra": "^10.0.1",
 		"gamepad.js": "^1.0.4",
 		"moveable": "^0.27.3",
 		"parsimmon": "^1.18.1",
@@ -20,51 +30,44 @@
 		"platform": "^1.3.6",
 		"socket.io-client": "^4.4.1",
 		"store": "^2.0.12",
-		"tar-fs": "^2.1.1",
 		"xml2js": "^0.4.23"
 	},
 	"devDependencies": {
 		"@semantic-release/changelog": "^6.0.1",
 		"@semantic-release/git": "^10.0.1",
+		"@types/adm-zip": "^0.4.34",
 		"@types/electron-json-storage": "^4.5.0",
 		"@types/fs-extra": "^9.0.13",
-		"@types/mocha": "^9.1.0",
-		"@types/node": "^17.0.17",
+		"@types/jest": "^27.4.1",
+		"@types/node": "^17.0.21",
+		"@types/offscreencanvas": "^2019.6.4",
 		"@types/parsimmon": "^1.10.6",
 		"@types/platform": "^1.3.4",
-		"@types/power-assert": "^1.5.8",
 		"@types/store": "^2.0.2",
-		"@types/tar-fs": "^2.0.1",
 		"@types/xml2js": "^0.4.9",
-		"electron": "^17.0.0",
-		"mocha": "^9.2.0",
-		"power-assert": "^1.6.1",
+		"electron": "^17.1.0",
+		"esbuild-jest": "^0.5.0",
+		"jest": "^27.5.1",
 		"rimraf": "^3.0.2",
 		"semantic-release": "^19.0.2",
 		"ts-loader": "^9.2.6",
-		"ts-node": "^10.5.0",
 		"typescript": "^4.5.5",
-		"webpack": "^5.68.0",
-		"webpack-cli": "^4.9.2",
-		"webpack-dev-server": "^4.7.4"
+		"vite": "^2.8.4",
+		"vite-plugin-dts": "^0.9.9"
 	},
 	"scripts": {
-		"build": "npm run wp && npm run test",
-		"watch": "npm run wp:w & npm run test:w",
-		"wp": "webpack --mode production --config ./core/webpack.config.js",
-		"wp:w": "webpack --mode development --config ./core/webpack.config.js --watch",
-		"npm_check_updates": "ncu -u --target minor && npm update && npm run build && ncu -g",
-		"test": "mocha --package package.json",
-		"test:w": "mocha --package package.json --watch",
-		"rebuild": "rimraf package-lock.json && rimraf node_modules && npm cache clear --force && npm i && npm run build && npm run watch",
-		"semantic-release": "semantic-release",
-		"docs": "webpack-cli serve --config ./docs/local_tst/wds.config.js"
+		"build": "node ./src/build.js",
+		"watch": "node ./src/build.js --watch",
+		"npm_check_updates": "ncu -u --target minor && npm update && npm run watch && ncu -g",
+		"test": "jest",
+		"docs": "vite docs/ --open /tag.html",
+		"rebuild": "rimraf package-lock.json && rimraf node_modules && npm cache clear --force && npm i && npm run watch",
+		"semantic-release": "semantic-release"
 	},
-	"mocha": {
-		"require": "ts-node/register",
-		"watch-extensions": "ts",
-		"spec": "test/*.test.ts",
-		"watch-files": "['test/*.test.ts','core/src/sn/*.ts','app.js']"
+	"jest": {
+		"transform": {
+			"^.+\\.tsx?$": "esbuild-jest"
+		}
 	},
 	"keywords": [
 		"novelgame",

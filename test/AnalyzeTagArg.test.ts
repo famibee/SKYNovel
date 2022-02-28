@@ -1,440 +1,432 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
+Copyright (c) 2018-2022 Famibee (famibee.blog38.fc2.com)
 
-	This software is released under the MIT License.
-	http://opensource.org/licenses/mit-license.php
+This software is released under the MIT License.
+http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import assert = require('power-assert');
+import {AnalyzeTagArg} from '../src/sn/AnalyzeTagArg';
 
-import {AnalyzeTagArg} from '../core/src/sn/AnalyzeTagArg';
+let alz: AnalyzeTagArg;
+beforeEach(()=> {
+	alz = new AnalyzeTagArg();
+});
+	function isHashEmpty(h: object): boolean {
+		let c = 0;
+		for (let _i in h) ++c;
+		return c === 0;
+	}
 
-context('class AnalyzeTagArg', ()=>{
-	let alz: AnalyzeTagArg;
-	beforeEach(()=> {
-		alz = new AnalyzeTagArg();
+it('Arg0',()=> {
+	alz.go("");
+	expect(isHashEmpty(alz.hPrm)).toBe(true);
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg1',()=> {
+	alz.go("8");
+	expect(alz.hPrm['8'].val).toBeTruthy();
+	expect(alz.hPrm['8'].def).toBeUndefined();
+});
+
+
+it('Arg20',()=> {
+	alz.go("*");
+	expect(isHashEmpty(alz.hPrm)).toBe(true);
+	expect(alz.isKomeParam).toBe(true);
+});
+it('Arg21',()=> {
+	alz.go("* ");
+	expect(isHashEmpty(alz.hPrm)).toBe(true);
+	expect(alz.isKomeParam).toBe(true);
+});
+
+
+it('Arg40',()=> {
+	alz.go("a=3");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("3");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg41',()=> {
+	alz.go("a =3");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("3");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg42',()=> {
+	alz.go("a= 3");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("3");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg43',()=> {
+	alz.go("a = 3");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("3");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+/*it('Arg44',()=> {
+	"sys:a=4.5");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm["sys:a"].val).toBe("4.5");
+	expect(alz.hPrm["sys:a"].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});*/
+
+it('Arg45',()=> {
+	alz.go("a='2009'");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("2009");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+	it('Arg45_empty',()=> {
+		alz.go("a=''");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("");
+		expect(alz.hPrm['a'].def).toBeUndefined();
+		expect(alz.isKomeParam).toBe(false);
 	});
-	describe('Tst', ()=> {
-		it('Arg0', ()=> {
-			alz.go("");
-			assert.equal(isHashEmpty(alz.hPrm), true);
-			assert.equal(alz.isKomeParam, false);
-		});
-			function isHashEmpty(h: object): boolean {
-				let c = 0;
-				for (let _i in h) ++c;
-				return c === 0;
-			}
-		it('Arg1', ()=>{
-			alz.go("8");
-			assert.equal(alz.hPrm['8'].val, true);
-			assert.equal(alz.hPrm['8'].def, undefined);
-		});
+	it('Arg45_str_null',()=> {
+		alz.go("a='null'");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("null");
+		expect(alz.hPrm['a'].def).toBeUndefined();
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "null"
+		expect(alz.hPrm['a'].val).not.toBeNull();
+		expect(alz.hPrm['a'].val).toBeDefined();
+	});
+	it('Arg45_null',()=> {
+		alz.go("a=null");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("null");
+		expect(alz.hPrm['a'].def).toBeUndefined();
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "null"
+		expect(alz.hPrm['a'].val).not.toBeNull();
+		expect(alz.hPrm['a'].val).toBeDefined();
+	});
+	it('Arg45_str_undefined',()=> {
+		alz.go("a='undefined'");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("undefined");
+		expect(alz.hPrm['a'].def).toBeUndefined();
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "undefined"
+		expect(alz.hPrm['a'].val).not.toBeNull();
+		expect(alz.hPrm['a'].val).toBeDefined();
+	});
+	it('Arg45_undefined',()=> {
+		alz.go("a=undefined");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("undefined");
+		expect(alz.hPrm['a'].def).toBeUndefined();
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "undefined"
+		expect(alz.hPrm['a'].val).not.toBeNull();
+		expect(alz.hPrm['a'].val).toBeDefined();
+	});
+it('Arg46',()=> {
+	alz.go('a="2009"');
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("2009");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg47',()=> {
+	alz.go("a=#2009#");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("2009");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+
+it('Arg50',()=> {
+	alz.go(' name="_submenu.png" visible=false');
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['name'].val).toBe("_submenu.png");
+	expect(alz.hPrm['name'].def).toBeUndefined();
+	expect(alz.hPrm['visible'].val).toBe("false");
+	expect(alz.hPrm['visible'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
 
 
-		it('Arg20', ()=> {
-			alz.go("*");
-			assert.equal(isHashEmpty(alz.hPrm), true);
-			assert.equal(alz.isKomeParam, true);
-		});
-		it('Arg21', ()=> {
-			alz.go("* ");
-			assert.equal(isHashEmpty(alz.hPrm), true);
-			assert.equal(alz.isKomeParam, true);
-		});
+it('Arg60',()=> {
+	alz.go("a=%bar");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("%bar");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg61',()=> {
+	alz.go("a=%bar|ref");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("%bar");
+	expect(alz.hPrm['a'].def).toBe("ref");
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg62',()=> {
+	alz.go("a=%bar|'うひょー'");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("%bar");
+	expect(alz.hPrm['a'].def).toBe("うひょー");
+	expect(alz.isKomeParam).toBe(false);
+});
+	it('Arg62_empty',()=> {
+		alz.go("a=%bar|''");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("%bar");
+		expect(alz.hPrm['a'].def).toBe("");
+		expect(alz.isKomeParam).toBe(false);
+	});
+	it('Arg62_str_null',()=> {
+		alz.go("a=%bar|'null'");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("%bar");
+		expect(alz.hPrm['a'].def).toBe("null");
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "null"
+		expect(alz.hPrm['a'].def).not.toBeNull();
+		expect(alz.hPrm['a'].def).toBeDefined();
+	});
+	it('Arg62_null',()=> {
+		alz.go("a=%bar|null");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("%bar");
+		expect(alz.hPrm['a'].def).toBe("null");
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "null"
+		expect(alz.hPrm['a'].def).not.toBeNull();
+		expect(alz.hPrm['a'].def).toBeDefined();
+	});
+	it('Arg62_str_undefined',()=> {
+		alz.go("a=%bar|'undefined'");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("%bar");
+		expect(alz.hPrm['a'].def).toBe("undefined");
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "undefined"
+		expect(alz.hPrm['a'].def).not.toBeNull();
+		expect(alz.hPrm['a'].def).toBeDefined();
+	});
+	it('Arg62_undefined',()=> {
+		alz.go("a=%bar|undefined");
+		expect(isHashEmpty(alz.hPrm)).toBe(false);
+		expect(alz.hPrm['a'].val).toBe("%bar");
+		expect(alz.hPrm['a'].def).toBe("undefined");
+		expect(alz.isKomeParam).toBe(false);
+
+		// あくまで文字の "undefined"
+		expect(alz.hPrm['a'].def).not.toBeNull();
+		expect(alz.hPrm['a'].def).toBeDefined();
+	});
+it('Arg63',()=> {
+	alz.go("a=%bar|'う ひょー'");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("%bar");
+	expect(alz.hPrm['a'].def).toBe("う ひょー");
+	expect(alz.isKomeParam).toBe(false);
+});
+
+it('Arg44_bug0',()=> {
+	alz.go("text=&sys:_album.img.渡り廊下・桜昼");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm["text"].val).toBe("&sys:_album.img.渡り廊下・桜昼");
+	expect(alz.hPrm["text"].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg44_bug1',()=> {
+	alz.go('* x=0 y=1 pic="渡り廊下・桜昼" cond=sys:_album.img.渡り廊下・桜昼');
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['x'].val).toBe("0");
+	expect(alz.hPrm['x'].def).toBeUndefined();
+	expect(alz.hPrm['y'].val).toBe("1");
+	expect(alz.hPrm['y'].def).toBeUndefined();
+	expect(alz.hPrm['pic'].val).toBe("渡り廊下・桜昼");
+	expect(alz.hPrm['pic'].def).toBeUndefined();
+	expect(alz.hPrm['cond'].val).toBe("sys:_album.img.渡り廊下・桜昼");
+	expect(alz.hPrm['cond'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(true);
+});
+it('Arg50_bug0',()=> {
+	alz.go('text=&-const.sn.config.window.width');
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['text'].val).toBe("&-const.sn.config.window.width");
+	expect(alz.hPrm['text'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
 
 
-		it('Arg40', ()=> {
-			alz.go("a=3");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "3");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg41', ()=> {
-			alz.go("a =3");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "3");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg42', ()=> {
-			alz.go("a= 3");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "3");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg43', ()=> {
-			alz.go("a = 3");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "3");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-	/*	it('Arg44', ()=> {
-			"sys:a=4.5");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm["sys:a"].val, "4.5");
-			assert.equal(alz.hPrm["sys:a"].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});*/
+it('Arg80',()=> {
+	alz.go("a=3 b='1327' ");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['a'].val).toBe("3");
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.hPrm['b'].val).toBe("1327");
+	expect(alz.hPrm['b'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg81',()=> {
+	alz.go('name="fcol" text=%fcol|&0x000000');
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['name'].val).toBe("fcol");
+	expect(alz.hPrm['name'].def).toBeUndefined();
+	expect(alz.hPrm['text'].val).toBe("%fcol");
+	expect(alz.hPrm['text'].def).toBe("&0x000000");
+	expect(alz.isKomeParam).toBe(false);
+});
+it('Arg82',()=> {
+	alz.go('* layer="me s" page=%page|back visible=%visible|"tr ue" b_left=&l b_top=0 b_width=&w b_height=&const.flash.display.Stage.stageHeight b_color=%b_color|"0xffffff" b_alpha=%b_alpha|&sys:TextLayer.Back.Alpha r_size=12 max_col=25 bura_col=2 max_row=7');
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
 
-		it('Arg45', ()=> {
-			alz.go("a='2009'");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "2009");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-			it('Arg45_empty', ()=> {
-				alz.go("a=''");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "");
-				assert.equal(alz.hPrm['a'].def, undefined);
-				assert.equal(alz.isKomeParam, false);
-			});
-			it('Arg45_str_null', ()=> {
-				alz.go("a='null'");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "null");
-				assert.equal(alz.hPrm['a'].def, undefined);
-				assert.equal(alz.isKomeParam, false);
+	expect(alz.hPrm['layer'].val).toBe("me s");
+	expect(alz.hPrm['layer'].def).toBeUndefined();
+	expect(alz.hPrm['page'].val).toBe("%page");
+	expect(alz.hPrm['page'].def).toBe("back");
+	expect(alz.hPrm['visible'].val).toBe("%visible");
+	expect(alz.hPrm['visible'].def).toBe("tr ue");
 
-				// あくまで文字の "null"
-				assert.notEqual(alz.hPrm['a'].val, null);
-				assert.notEqual(alz.hPrm['a'].val, undefined);
-			});
-			it('Arg45_null', ()=> {
-				alz.go("a=null");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "null");
-				assert.equal(alz.hPrm['a'].def, undefined);
-				assert.equal(alz.isKomeParam, false);
+	expect(alz.hPrm['b_left'].val).toBe("&l");
+	expect(alz.hPrm['b_left'].def).toBeUndefined();
+	expect(alz.hPrm['b_top'].val).toBe("0");
+	expect(alz.hPrm['b_top'].def).toBeUndefined();
+	expect(alz.hPrm['b_width'].val).toBe("&w");
+	expect(alz.hPrm['b_width'].def).toBeUndefined();
+	expect(alz.hPrm['b_height'].val).toBe("&const.flash.display.Stage.stageHeight");
+	expect(alz.hPrm['b_height'].def).toBeUndefined();
 
-				// あくまで文字の "null"
-				assert.notEqual(alz.hPrm['a'].val, null);
-				assert.notEqual(alz.hPrm['a'].val, undefined);
-			});
-			it('Arg45_str_undefined', ()=> {
-				alz.go("a='undefined'");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "undefined");
-				assert.equal(alz.hPrm['a'].def, undefined);
-				assert.equal(alz.isKomeParam, false);
+	expect(alz.hPrm['b_color'].val).toBe("%b_color");
+	expect(alz.hPrm['b_color'].def).toBe("0xffffff");
+	expect(alz.hPrm['b_alpha'].val).toBe("%b_alpha");
+	expect(alz.hPrm['b_alpha'].def).toBe("&sys:TextLayer.Back.Alpha");
 
-				// あくまで文字の "undefined"
-				assert.notEqual(alz.hPrm['a'].val, null);
-				assert.notEqual(alz.hPrm['a'].val, undefined);
-			});
-			it('Arg45_undefined', ()=> {
-				alz.go("a=undefined");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "undefined");
-				assert.equal(alz.hPrm['a'].def, undefined);
-				assert.equal(alz.isKomeParam, false);
+	expect(alz.hPrm['r_size'].val).toBe("12");
+	expect(alz.hPrm['r_size'].def).toBeUndefined();
+	expect(alz.hPrm['max_col'].val).toBe("25");
+	expect(alz.hPrm['max_col'].def).toBeUndefined();
+	expect(alz.hPrm['bura_col'].val).toBe("2");
+	expect(alz.hPrm['bura_col'].def).toBeUndefined();
+	expect(alz.hPrm['max_row'].val).toBe("7");
+	expect(alz.hPrm['max_row'].def).toBeUndefined();
 
-				// あくまで文字の "undefined"
-				assert.notEqual(alz.hPrm['a'].val, null);
-				assert.notEqual(alz.hPrm['a'].val, undefined);
-			});
-		it('Arg46', ()=> {
-			alz.go('a="2009"');
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "2009");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg47', ()=> {
-			alz.go("a=#2009#");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "2009");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-
-		it('Arg50', ()=> {
-			alz.go(' name="_submenu.png" visible=false');
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['name'].val, "_submenu.png");
-			assert.equal(alz.hPrm['name'].def, undefined);
-			assert.equal(alz.hPrm['visible'].val, "false");
-			assert.equal(alz.hPrm['visible'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
+	expect(alz.isKomeParam).toBe(true);
+});
+it('Arg83',()=> {
+	alz.go("layout=#&'" + 'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"' + "'#");
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+	expect(alz.hPrm['layout'].val).toBe("&'" + 'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"' + "'");
+	expect(alz.hPrm['layout'].def).toBeUndefined();
+	expect(alz.isKomeParam).toBe(false);
+});
 
 
-		it('Arg60', ()=> {
-			alz.go("a=%bar");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "%bar");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg61', ()=> {
-			alz.go("a=%bar|ref");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "%bar");
-			assert.equal(alz.hPrm['a'].def, "ref");
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg62', ()=> {
-			alz.go("a=%bar|'うひょー'");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "%bar");
-			assert.equal(alz.hPrm['a'].def, "うひょー");
-			assert.equal(alz.isKomeParam, false);
-		});
-			it('Arg62_empty', ()=> {
-				alz.go("a=%bar|''");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "%bar");
-				assert.equal(alz.hPrm['a'].def, "");
-				assert.equal(alz.isKomeParam, false);
-			});
-			it('Arg62_str_null', ()=> {
-				alz.go("a=%bar|'null'");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "%bar");
-				assert.equal(alz.hPrm['a'].def, "null");
-				assert.equal(alz.isKomeParam, false);
-
-				// あくまで文字の "null"
-				assert.notEqual(alz.hPrm['a'].def, null);
-				assert.notEqual(alz.hPrm['a'].def, undefined);
-			});
-			it('Arg62_null', ()=> {
-				alz.go("a=%bar|null");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "%bar");
-				assert.equal(alz.hPrm['a'].def, "null");
-				assert.equal(alz.isKomeParam, false);
-
-				// あくまで文字の "null"
-				assert.notEqual(alz.hPrm['a'].def, null);
-				assert.notEqual(alz.hPrm['a'].def, undefined);
-			});
-			it('Arg62_str_undefined', ()=> {
-				alz.go("a=%bar|'undefined'");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "%bar");
-				assert.equal(alz.hPrm['a'].def, "undefined");
-				assert.equal(alz.isKomeParam, false);
-
-				// あくまで文字の "undefined"
-				assert.notEqual(alz.hPrm['a'].def, null);
-				assert.notEqual(alz.hPrm['a'].def, undefined);
-			});
-			it('Arg62_undefined', ()=> {
-				alz.go("a=%bar|undefined");
-				assert.equal(isHashEmpty(alz.hPrm), false);
-				assert.equal(alz.hPrm['a'].val, "%bar");
-				assert.equal(alz.hPrm['a'].def, "undefined");
-				assert.equal(alz.isKomeParam, false);
-
-				// あくまで文字の "undefined"
-				assert.notEqual(alz.hPrm['a'].def, null);
-				assert.notEqual(alz.hPrm['a'].def, undefined);
-			});
-		it('Arg63', ()=> {
-			alz.go("a=%bar|'う ひょー'");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "%bar");
-			assert.equal(alz.hPrm['a'].def, "う ひょー");
-			assert.equal(alz.isKomeParam, false);
-		});
-
-		it('Arg44_bug0', ()=> {
-			alz.go("text=&sys:_album.img.渡り廊下・桜昼");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm["text"].val, "&sys:_album.img.渡り廊下・桜昼");
-			assert.equal(alz.hPrm["text"].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg44_bug1', ()=> {
-			alz.go('* x=0 y=1 pic="渡り廊下・桜昼" cond=sys:_album.img.渡り廊下・桜昼');
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['x'].val, "0");
-			assert.equal(alz.hPrm['x'].def, undefined);
-			assert.equal(alz.hPrm['y'].val, "1");
-			assert.equal(alz.hPrm['y'].def, undefined);
-			assert.equal(alz.hPrm['pic'].val, "渡り廊下・桜昼");
-			assert.equal(alz.hPrm['pic'].def, undefined);
-			assert.equal(alz.hPrm['cond'].val, "sys:_album.img.渡り廊下・桜昼");
-			assert.equal(alz.hPrm['cond'].def, undefined);
-			assert.equal(alz.isKomeParam, true);
-		});
-		it('Arg50_bug0', ()=> {
-			alz.go('text=&-const.sn.config.window.width');
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['text'].val, "&-const.sn.config.window.width");
-			assert.equal(alz.hPrm['text'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-
-
-		it('Arg80', ()=> {
-			alz.go("a=3 b='1327' ");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['a'].val, "3");
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.hPrm['b'].val, "1327");
-			assert.equal(alz.hPrm['b'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg81', ()=> {
-			alz.go('name="fcol" text=%fcol|&0x000000');
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['name'].val, "fcol");
-			assert.equal(alz.hPrm['name'].def, undefined);
-			assert.equal(alz.hPrm['text'].val, "%fcol");
-			assert.equal(alz.hPrm['text'].def, "&0x000000");
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('Arg82', ()=> {
-			alz.go('* layer="me s" page=%page|back visible=%visible|"tr ue" b_left=&l b_top=0 b_width=&w b_height=&const.flash.display.Stage.stageHeight b_color=%b_color|"0xffffff" b_alpha=%b_alpha|&sys:TextLayer.Back.Alpha r_size=12 max_col=25 bura_col=2 max_row=7');
-			assert.equal(isHashEmpty(alz.hPrm), false);
-
-			assert.equal(alz.hPrm['layer'].val, "me s");
-			assert.equal(alz.hPrm['layer'].def, undefined);
-			assert.equal(alz.hPrm['page'].val, "%page");
-			assert.equal(alz.hPrm['page'].def, "back");
-			assert.equal(alz.hPrm['visible'].val, "%visible");
-			assert.equal(alz.hPrm['visible'].def, "tr ue");
-
-			assert.equal(alz.hPrm['b_left'].val, "&l");
-			assert.equal(alz.hPrm['b_left'].def, undefined);
-			assert.equal(alz.hPrm['b_top'].val, "0");
-			assert.equal(alz.hPrm['b_top'].def, undefined);
-			assert.equal(alz.hPrm['b_width'].val, "&w");
-			assert.equal(alz.hPrm['b_width'].def, undefined);
-			assert.equal(alz.hPrm['b_height'].val, "&const.flash.display.Stage.stageHeight");
-			assert.equal(alz.hPrm['b_height'].def, undefined);
-
-			assert.equal(alz.hPrm['b_color'].val, "%b_color");
-			assert.equal(alz.hPrm['b_color'].def, "0xffffff");
-			assert.equal(alz.hPrm['b_alpha'].val, "%b_alpha");
-			assert.equal(alz.hPrm['b_alpha'].def, "&sys:TextLayer.Back.Alpha");
-
-			assert.equal(alz.hPrm['r_size'].val, "12");
-			assert.equal(alz.hPrm['r_size'].def, undefined);
-			assert.equal(alz.hPrm['max_col'].val, "25");
-			assert.equal(alz.hPrm['max_col'].def, undefined);
-			assert.equal(alz.hPrm['bura_col'].val, "2");
-			assert.equal(alz.hPrm['bura_col'].def, undefined);
-			assert.equal(alz.hPrm['max_row'].val, "7");
-			assert.equal(alz.hPrm['max_row'].def, undefined);
-
-			assert.equal(alz.isKomeParam, true);
-		});
-		it('Arg83', ()=> {
-			alz.go("layout=#&'" + 'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"' + "'#");
-			assert.equal(isHashEmpty(alz.hPrm), false);
-			assert.equal(alz.hPrm['layout'].val, "&'" + 'lineHeight="36" justificationRule="space" columnGap="0" paddingLeft="$pl" paddingTop="$pt" paddingRight="$pr" paddingBottom="$pb" verticalAlign="inherit" blockProgression="rl" lineBreak="explicit" fontLookup="embeddedCFF" renderingMode="cff" fontSize="24" locale="ja" kerning="off" trackingRight="0" color="$fcol" whiteSpaceCollapse="preserve"' + "'");
-			assert.equal(alz.hPrm['layout'].def, undefined);
-			assert.equal(alz.isKomeParam, false);
-		});
-
-
-		it('20200416_test_multiline_arg0', ()=> {
-			alz.go(
+it('20200416_test_multiline_arg0',()=> {
+	alz.go(
 `	page=fore	;===
-	text="]"
+text="]"
 
-	layer=mes
+layer=mes
 class=txt
-		abc
-		def	;=====
-		ghi;=====
-		jkl
-	=
-		'color="0xaaaaaa"'
+abc
+def	;=====
+ghi;=====
+jkl
+=
+'color="0xaaaaaa"'
 ;`);
-			assert.equal(isHashEmpty(alz.hPrm), false);
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
 
-			assert.equal(alz.hPrm['layer'].val, `mes`);
-			assert.equal(alz.hPrm['layer'].def, undefined);
-			assert.equal(alz.hPrm['page'].val, 'fore');
-			assert.equal(alz.hPrm['page'].def, undefined);
-			assert.equal(alz.hPrm['text'].val, `]`);
-			assert.equal(alz.hPrm['text'].def, undefined);
-			assert.equal(alz.hPrm['class'].val, `txt`);
-			assert.equal(alz.hPrm['class'].def, undefined);
-			assert.equal(alz.hPrm['abc'].val, true);
-			assert.equal(alz.hPrm['abc'].def, undefined);
-			assert.equal(alz.hPrm['def'].val, true);
-			assert.equal(alz.hPrm['def'].def, undefined);
-			assert.equal(alz.hPrm['ghi'].val, true);
-			assert.equal(alz.hPrm['ghi'].def, undefined);
-			assert.equal(alz.hPrm['jkl'].val, `color="0xaaaaaa"`);
-			assert.equal(alz.hPrm['jkl'].def, undefined);
+	expect(alz.hPrm['layer'].val).toBe(`mes`);
+	expect(alz.hPrm['layer'].def).toBeUndefined();
+	expect(alz.hPrm['page'].val).toBe('fore');
+	expect(alz.hPrm['page'].def).toBeUndefined();
+	expect(alz.hPrm['text'].val).toBe(`]`);
+	expect(alz.hPrm['text'].def).toBeUndefined();
+	expect(alz.hPrm['class'].val).toBe(`txt`);
+	expect(alz.hPrm['class'].def).toBeUndefined();
+	expect(alz.hPrm['abc'].val).toBeTruthy();
+	expect(alz.hPrm['abc'].def).toBeUndefined();
+	expect(alz.hPrm['def'].val).toBeTruthy();
+	expect(alz.hPrm['def'].def).toBeUndefined();
+	expect(alz.hPrm['ghi'].val).toBeTruthy();
+	expect(alz.hPrm['ghi'].def).toBeUndefined();
+	expect(alz.hPrm['jkl'].val).toBe(`color="0xaaaaaa"`);
+	expect(alz.hPrm['jkl'].def).toBeUndefined();
 
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('20200416_test_multiline_arg1', ()=> {
-			alz.go(
+	expect(alz.isKomeParam).toBe(false);
+});
+it('20200416_test_multiline_arg1',()=> {
+	alz.go(
 `	;=====
-	layer=mes	;=====
+layer=mes	;=====
 class=txt	;======
-	;=====
-		layout;=====
-	=	;"""""
+;=====
+layout;=====
+=	;"""""
 'color="0xaaaaaa"'	;=====
 text=%fcol|&0x000000;=====
 txt=%fcol|'&0x000000';=====
 a='2009';=====
 b='#{fcol}'|true;=====`);
-			assert.equal(isHashEmpty(alz.hPrm), false);
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
 
-			assert.equal(alz.hPrm['layer'].val, `mes`);
-			assert.equal(alz.hPrm['layer'].def, undefined);
-			assert.equal(alz.hPrm['class'].val, `txt`);
-			assert.equal(alz.hPrm['class'].def, undefined);
-			assert.equal(alz.hPrm['layout'].val, `color="0xaaaaaa"`);
-			assert.equal(alz.hPrm['layout'].def, undefined);
-			assert.equal(alz.hPrm['text'].val, `%fcol`);
-			assert.equal(alz.hPrm['text'].def, `&0x000000`);
-			assert.equal(alz.hPrm['txt'].val, `%fcol`);
-			assert.equal(alz.hPrm['txt'].def, `&0x000000`);
-			assert.equal(alz.hPrm['a'].val, `2009`);
-			assert.equal(alz.hPrm['a'].def, undefined);
-			assert.equal(alz.hPrm['b'].val, `#{fcol}`);
-			assert.equal(alz.hPrm['b'].def, `true`);
+	expect(alz.hPrm['layer'].val).toBe(`mes`);
+	expect(alz.hPrm['layer'].def).toBeUndefined();
+	expect(alz.hPrm['class'].val).toBe(`txt`);
+	expect(alz.hPrm['class'].def).toBeUndefined();
+	expect(alz.hPrm['layout'].val).toBe(`color="0xaaaaaa"`);
+	expect(alz.hPrm['layout'].def).toBeUndefined();
+	expect(alz.hPrm['text'].val).toBe(`%fcol`);
+	expect(alz.hPrm['text'].def).toBe(`&0x000000`);
+	expect(alz.hPrm['txt'].val).toBe(`%fcol`);
+	expect(alz.hPrm['txt'].def).toBe(`&0x000000`);
+	expect(alz.hPrm['a'].val).toBe(`2009`);
+	expect(alz.hPrm['a'].def).toBeUndefined();
+	expect(alz.hPrm['b'].val).toBe(`#{fcol}`);
+	expect(alz.hPrm['b'].def).toBe(`true`);
 
-			assert.equal(alz.isKomeParam, false);
-		});
+	expect(alz.isKomeParam).toBe(false);
+});
 
-		it('20210410_test_multiline_arg1', ()=> {
-			alz.go(
+it('20210410_test_multiline_arg1',()=> {
+	alz.go(
 `	;=====
-	layer=mes	;=====
-	b_pic=%b_pic|wafuu1	;=====`);
-			assert.equal(isHashEmpty(alz.hPrm), false);
+layer=mes	;=====
+b_pic=%b_pic|wafuu1	;=====`);
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
 
-			assert.equal(alz.hPrm['layer'].val, `mes`);
-			assert.equal(alz.hPrm['layer'].def, undefined);
-			assert.equal(alz.hPrm['b_pic'].val, `%b_pic`);
-			assert.equal(alz.hPrm['b_pic'].def, `wafuu1`);
-			assert.equal(alz.hPrm['a'], undefined);
+	expect(alz.hPrm['layer'].val).toBe(`mes`);
+	expect(alz.hPrm['layer'].def).toBeUndefined();
+	expect(alz.hPrm['b_pic'].val).toBe(`%b_pic`);
+	expect(alz.hPrm['b_pic'].def).toBe(`wafuu1`);
+	expect(alz.hPrm['a']).toBeUndefined();
 
-			assert.equal(alz.isKomeParam, false);
-		});
-		it('20210410_test_multiline_arg2', ()=> {
-			alz.go(
+	expect(alz.isKomeParam).toBe(false);
+});
+it('20210410_test_multiline_arg2',()=> {
+	alz.go(
 `	;=====
-	layer=mes	;=====
-	;	b_pic=%b_pic|wafuu1	;=====`);
-			assert.equal(isHashEmpty(alz.hPrm), false);
+layer=mes	;=====
+;	b_pic=%b_pic|wafuu1	;=====`);
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
 
-			assert.equal(alz.hPrm['layer'].val, `mes`);
-			assert.equal(alz.hPrm['layer'].def, undefined);
-			assert.equal(alz.hPrm['b_pic'], undefined);
-			assert.equal(alz.hPrm['a'], undefined);
+	expect(alz.hPrm['layer'].val).toBe(`mes`);
+	expect(alz.hPrm['layer'].def).toBeUndefined();
+	expect(alz.hPrm['b_pic']).toBeUndefined();
+	expect(alz.hPrm['a']).toBeUndefined();
 
-			assert.equal(alz.isKomeParam, false);
-		});
-
-
-	});
-
+	expect(alz.isKomeParam).toBe(false);
 });
