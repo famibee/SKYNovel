@@ -1,3 +1,10 @@
+# [1.29.0](https://github.com/famibee/SKYNovel/compare/v1.28.4...v1.29.0) (2022-02-28)
+
+
+### Features
+
+* BREAKING CHANGE: アプリ版[export] .spd をzip圧縮に変更 ([cb694f4](https://github.com/famibee/SKYNovel/commit/cb694f49db9fd1bfe85229656ffebbb3e037f269))
+
 - feat: BREAKING CHANGE: アプリ版[export][import]データ .spd をzip圧縮に変更
 	- よって後方互換性なし
 - fix: アプリ版[export][import]でエラーになる件
