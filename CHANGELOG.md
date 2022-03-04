@@ -1,3 +1,10 @@
+## [1.29.1](https://github.com/famibee/SKYNovel/compare/v1.29.0...v1.29.1) (2022-03-04)
+
+
+### Bug Fixes
+
+* 文字レイヤに禁則処理文字を変更できる属性追加。対象文字を列挙した文字列を指定 ([c48b386](https://github.com/famibee/SKYNovel/commit/c48b3860e9380356ebe9319d04a78e521e4028a7))
+
 - fix: 文字レイヤに禁則処理文字を変更できる属性追加。対象文字を列挙した文字列を指定
 	- kinsoku_sol（行頭禁則）
 	- kinsoku_eol（行末禁則）
