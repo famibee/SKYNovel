@@ -610,6 +610,24 @@
 	<amp-img src="pic/r_align.png" width="864" height="275" layout="responsive"></amp-img>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>kinsoku_sol</td><td></td><td>何もしない</td><td>String</td><td>
+	行頭禁則の禁則処理文字を変更できる。対象文字を列挙した文字列を指定。<br/>
+	デフォルト値は以下の通り。<br/>
+、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々
+</td></tr>
+<tr><td>kinsoku_eol</td><td></td><td>何もしない</td><td>String</td><td>
+	行末禁則の禁則処理文字を変更できる。対象文字を列挙した文字列を指定。<br/>
+	デフォルト値は以下の通り。<br/>
+［（｛〈「『【〔“〝
+</td></tr>
+<tr><td>kinsoku_dns</td><td></td><td>何もしない</td><td>String</td><td>
+	分割禁止の禁則処理文字を変更できる。対象文字を列挙した文字列を指定。<br/>
+	デフォルト値は以下の通り。<br/>
+─‥…
+</td></tr>
+</table>
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
 <tr><td>draggable</td><td></td><td>false</td><td>Boolean</td><td>true：テキスト背後の矩形をドラッグできる</td></tr>

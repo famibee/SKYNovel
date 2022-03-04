@@ -3,7 +3,7 @@ const watch = aCmd.includes('--watch');
 
 const {build} = require('vite');
 const dts = require('vite-plugin-dts');
-const path = require('path');
+const {resolve} = require('path');
 const {builtinModules} = require('module');
 
 const oDts = {
@@ -17,7 +17,7 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: path.resolve(__dirname, 'web.ts'),
+				entry	: resolve(__dirname, 'web.ts'),
 				fileName: _=> 'web.js',
 				formats	: ['es'],
 			},
@@ -35,7 +35,7 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: path.resolve(__dirname, 'app.ts'),
+				entry	: resolve(__dirname, 'app.ts'),
 				fileName: _=> 'app.js',
 				formats	: ['es'],
 			},
@@ -56,7 +56,7 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: path.resolve(__dirname, 'appMain.ts'),
+				entry	: resolve(__dirname, 'appMain.ts'),
 				fileName: _=> 'appMain.js',
 				formats	: ['cjs'],
 			},
@@ -79,7 +79,7 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: path.resolve(__dirname, 'preload.ts'),
+				entry	: resolve(__dirname, 'preload.ts'),
 				fileName: _=> 'preload.js',
 				formats	: ['cjs'],
 			},

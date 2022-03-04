@@ -132,6 +132,15 @@ export class TxtStage extends Container {
 		if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
 		if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
 		if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
+		if ('kinsoku_sol' in hArg) TxtStage.#reg行頭禁則 = new RegExp(`[${
+			hArg.kinsoku_sol
+		}]`);
+		if ('kinsoku_eol' in hArg) TxtStage.#reg行末禁則 = new RegExp(`[${
+			hArg.kinsoku_eol
+		}]`);
+		if ('kinsoku_dns' in hArg) TxtStage.#reg分割禁止 = new RegExp(`[${
+			hArg.kinsoku_dns
+		}]`);
 		this.#lay_sub();
 		this.#idc.sethArg(hArg);
 

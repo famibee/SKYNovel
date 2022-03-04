@@ -2301,16 +2301,15 @@ class BinaryReconstructor {
     this.buffers = [];
   }
 }
-var parser = /* @__PURE__ */ Object.freeze({
+var parser = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  [Symbol.toStringTag]: "Module",
   protocol,
   get PacketType() {
     return PacketType;
   },
   Encoder,
   Decoder
-});
+}, Symbol.toStringTag, { value: "Module" }));
 function on(obj, ev, fn) {
   obj.on(ev, fn);
   return function subDestroy() {
@@ -46494,6 +46493,12 @@ const _TxtStage = class extends Container {
       s2.paddingTop = ((_e = hArg.pt) != null ? _e : "0") + "px";
     if ("pb" in hArg)
       s2.paddingBottom = ((_f = hArg.pb) != null ? _f : "0") + "px";
+    if ("kinsoku_sol" in hArg)
+      __privateSet(_TxtStage, _reg\u884C\u982D\u7981\u5247, new RegExp(`[${hArg.kinsoku_sol}]`));
+    if ("kinsoku_eol" in hArg)
+      __privateSet(_TxtStage, _reg\u884C\u672B\u7981\u5247, new RegExp(`[${hArg.kinsoku_eol}]`));
+    if ("kinsoku_dns" in hArg)
+      __privateSet(_TxtStage, _reg\u5206\u5272\u7981\u6B62, new RegExp(`[${hArg.kinsoku_dns}]`));
     __privateMethod(this, _lay_sub, lay_sub_fn).call(this);
     __privateGet(this, _idc2).sethArg(hArg);
     __privateSet(this, _left, this.spLay.position.x);

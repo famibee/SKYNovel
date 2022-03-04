@@ -1,3 +1,9 @@
+- fix: 文字レイヤに禁則処理文字を変更できる属性追加。対象文字を列挙した文字列を指定
+	- kinsoku_sol（行頭禁則）
+	- kinsoku_eol（行末禁則）
+	- kinsoku_dns（分割禁止）
+
+
 # [1.29.0](https://github.com/famibee/SKYNovel/compare/v1.28.4...v1.29.0) (2022-02-28)
 
 
