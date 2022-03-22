@@ -1,3 +1,10 @@
+## [1.29.2](https://github.com/famibee/SKYNovel/compare/v1.29.1...v1.29.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* 必要最小限の import形式に変更 ([06b486a](https://github.com/famibee/SKYNovel/commit/06b486a7095b229ad2ddbbf58cb71f5a14b4b331))
+
 - fix: 必要最小限の import形式に変更
 - chore: src/build.js を src/build.ts に
 
