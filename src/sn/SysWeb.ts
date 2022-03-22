@@ -5,12 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { SysBase } from "./SysBase";
+import {SysBase} from "./SysBase";
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
 
-const store = require('store');
+import store from 'store';
 import {Application} from 'pixi.js';
 import 'devtools-detect';
 

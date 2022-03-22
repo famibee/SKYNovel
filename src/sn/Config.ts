@@ -10,7 +10,7 @@ import {IConfig, IExts, IFn2Path} from './CmnInterface';
 import {SysBase} from './SysBase';
 
 export class Config implements IConfig {
-	oCfg: any = {
+	oCfg = {
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
 		coder		: {len: 0x360},
 			// 画像や音声ファイルを前からなんバイト暗号化するか

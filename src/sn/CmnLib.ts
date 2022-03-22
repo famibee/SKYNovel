@@ -175,15 +175,15 @@ const REG_EXT	= /\.([^\.]+)$/;
 	// https://regex101.com/r/IULqII/3
 export 	function getExt(p: string) {return (p.match(REG_EXT) ?? [''])[1];}
 
-import platform from 'platform';
+import {name, os} from 'platform';
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
 	static	debugLog	= false;
-	static	readonly	isSafari	= platform.name === 'Safari';
-	static	readonly	isFirefox	= platform.name === 'Firefox';
-	static	readonly	isMac		= new RegExp('OS X').test(platform.os?.family ?? '');
-	static	readonly	isMobile	= ! new RegExp('(Windows|OS X)').test(platform.os?.family ?? '');
+	static	readonly	isSafari	= name === 'Safari';
+	static	readonly	isFirefox	= name === 'Firefox';
+	static	readonly	isMac		= new RegExp('OS X').test(os?.family ?? '');
+	static	readonly	isMobile	= ! new RegExp('(Windows|OS X)').test(os?.family ?? '');
 	static	hDip		: {[name: string]: string}	= {};
 	static	isDbg		= false;
 	static	isPackaged	= false;

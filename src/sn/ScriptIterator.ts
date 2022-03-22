@@ -266,7 +266,7 @@ export class ScriptIterator {
 	static	#hFn2hLineBP: {[fn: string]: {[ln: number]: any}} = {};
 	static	#hFuncBP: {[tag_name: string]: 1} = {};
 	#breakState	= BreakState.Running;
-		// https://raw.githubusercontent.com/famibee/SKYNovel-vscode-extension/master/res/img/breakState.svg
+		// https://raw.githubusercontent.com/famibee/SKYNovel-vscode-extension/master/src/doc/BreakStateSMD.pu
 	isBreak = (_token: string)=> false;
 	#isBreak_base(token: string): boolean {
 		switch (this.#breakState) {

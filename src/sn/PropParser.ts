@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import * as P from 'parsimmon';
+import {alt, lazy, of, optWhitespace, regex, seq, seqMap, string} from 'parsimmon';
 import {int} from './CmnLib';
 import {IPropParser, IVariable} from './CmnInterface';
 
@@ -20,26 +20,26 @@ export class PropParser implements IPropParser {
 			const ps: any = [];
 			a.forEach(v=> ps.push(
 				((v instanceof RegExp)
-					? P.regex(v as RegExp)
-					: P.string(v as string))
-				.trim(P.optWhitespace)));
-			return P.alt.apply(null, ps);
+					? regex(v as RegExp)
+					: string(v as string))
+				.trim(optWhitespace)));
+			return alt.apply(null, ps);
 		}
 
 		function PREFIX(operatorsParser: any, nextParser: any) {
-			const parser: any = P.lazy(()=> P.seq(operatorsParser, parser).or(nextParser));
+			const parser: any = lazy(()=> seq(operatorsParser, parser).or(nextParser));
 			return parser;
 		}
 
 		// right. (e.g. 1^2^3 is 1^(2^3) not (1^2)^3)
 		function BINARY_RIGHT(operatorsParser: any, nextParser: any) {
-			let parser = P.lazy(
+			let parser = lazy(
 				()=> nextParser.chain(
-					(next: any)=> P.seq(
+					(next: any)=> seq(
 						operatorsParser,
-						P.of(next),
+						of(next),
 						parser
-					).or(P.of(next))
+					).or(of(next))
 				)
 			);
 			return parser;
@@ -47,42 +47,40 @@ export class PropParser implements IPropParser {
 
 		// left. (e.g. 1-2-3 is (1-2)-3 not 1-(2-3))
 		function BINARY_LEFT(operatorsParser: any, nextParser: any) {
-			return P.seqMap(
+			return seqMap(
 				nextParser,
-				P.seq(operatorsParser, nextParser).many(),
+				seq(operatorsParser, nextParser).many(),
 				(first, rest)=> rest.reduce((acc, ch)=> [ch[0], acc, ch[1]], first)
 			);
 		}
 
-		const Num = P.alt(
-			P.alt(
-				P.regex(/-?(0|[1-9][0-9]*)\.[0-9]+/),
-				P.regex(/0x[0-9a-fA-F]+/)
+		const Num = alt(
+			alt(
+				regex(/-?(0|[1-9][0-9]*)\.[0-9]+/),
+				regex(/0x[0-9a-fA-F]+/)
 			).map(Number),
-			P.alt(
-				P.regex(/-?(0|[1-9][0-9]*)/)
+			alt(
+				regex(/-?(0|[1-9][0-9]*)/)
 			).map(n=> int(n))
 		)
 		.map(str=> ['!num!', str])
 		.desc('number');
 
-		const NullLiteral = P.string('null')
+		const NullLiteral = string('null')
 		.map(()=> ['!str!', null]);
 
-		const BooleanLiteral = P.regex(/(true|false)/)
+		const BooleanLiteral = regex(/(true|false)/)
 		.map(b=> ['!bool!', b === 'true'])
 		.desc('boolean');
 
-		const StringLiteral = P
-		.regex(new RegExp(`(?:"(?:\\${ce}["'#\\n]|[^"])*"|'(?:\\${ce}["'#\\n]|[^'])*'|\\#(?:\\${ce}["'#\\n]|[^#])*\\#)`))
+		const StringLiteral = regex(new RegExp(`(?:"(?:\\${ce}["'#\\n]|[^"])*"|'(?:\\${ce}["'#\\n]|[^'])*'|\\#(?:\\${ce}["'#\\n]|[^#])*\\#)`))
 			// https://regex101.com/r/Fs5wL3/1
 			// 15 matches (279 steps, 0.1ms) by PCRE2
 		.map(b=> ['!str!', b.slice(1, -1).replaceAll(ce, '')])
 		.desc('string');
 
 		const REG_BRACKETS = /\[[^\]]+\]/g;
-		const VarLiteral = P
-		.regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/)
+		const VarLiteral = regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/)
 		.map(b=> {
 			//console.log('   👺 VarLiteral:0 b:%O:', b);
 			const s = String(b).replace(REG_BRACKETS, v=>
@@ -104,8 +102,8 @@ export class PropParser implements IPropParser {
 		})
 		.desc('string');
 
-		const Basic = P.lazy(()=> P
-			.string('(').then(this.#parser).skip(P.string(')'))
+		const Basic = lazy(()=> 
+			string('(').then(this.#parser).skip(string(')'))
 			.or(Num)
 			.or(NullLiteral)
 			.or(BooleanLiteral)
@@ -141,7 +139,7 @@ export class PropParser implements IPropParser {
 			(acc, level)=> level.type(level.ops, acc),
 			Basic
 		);
-		this.#parser = tableParser.trim(P.optWhitespace);
+		this.#parser = tableParser.trim(optWhitespace);
 	}
 
 	parse(s: string): any {

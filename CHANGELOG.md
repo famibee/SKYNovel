@@ -1,3 +1,7 @@
+- fix: 必要最小限の import形式に変更
+- chore: src/build.js を src/build.ts に
+
+
 ## [1.29.1](https://github.com/famibee/SKYNovel/compare/v1.29.0...v1.29.1) (2022-03-04)
 
 

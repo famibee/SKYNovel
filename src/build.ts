@@ -1,13 +1,20 @@
-const [, , ...aCmd] = process.argv;
-const watch = aCmd.includes('--watch');
+/* ***** BEGIN LICENSE BLOCK *****
+	Copyright (c) 2022-2022 Famibee (famibee.blog38.fc2.com)
 
-const {build} = require('vite');
-const dts = require('vite-plugin-dts');
-const {resolve} = require('path');
-const {builtinModules} = require('module');
+	This software is released under the MIT License.
+	http://opensource.org/licenses/mit-license.php
+** ***** END LICENSE BLOCK ***** */
+
+const [, , ...aCmd] = process.argv;
+const watch = aCmd.includes('--watch') ?{} :null;
+
+import {build} from 'vite';
+import dts from 'vite-plugin-dts';
+import {resolve} from 'path';
+import {builtinModules} from 'module';
 
 const oDts = {
-	beforeWriteFile: pathOut=> {
+	beforeWriteFile: (pathOut: string)=> {
 		return {filePath: pathOut.replace('/src/', '/')};
 	},
 };
@@ -17,14 +24,14 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: resolve(__dirname, 'web.ts'),
+				entry	: resolve(__dirname, 'web'),
 				fileName: _=> 'web.js',
 				formats	: ['es'],
 			},
-		//	treeShaking	: true,		// 省略可
 			sourcemap	: true,
 			emptyOutDir	: false,
-	//		minify	: true,
+	//		minify		: 'terser',
+			reportCompressedSize	: false,
 			watch,
 		},
 		plugins: [dts(oDts)],
@@ -35,14 +42,14 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: resolve(__dirname, 'app.ts'),
+				entry	: resolve(__dirname, 'app'),
 				fileName: _=> 'app.js',
 				formats	: ['es'],
 			},
-		//	treeShaking	: true,		// 省略可
 			sourcemap	: true,
 			emptyOutDir	: false,
-	//		minify	: true,
+	//		minify		: 'terser',
+			reportCompressedSize	: false,
 			watch,
 			rollupOptions: {
 				external: [
@@ -56,14 +63,14 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: resolve(__dirname, 'appMain.ts'),
+				entry	: resolve(__dirname, 'appMain'),
 				fileName: _=> 'appMain.js',
 				formats	: ['cjs'],
 			},
-		//	treeShaking	: true,		// 省略可
 			sourcemap	: true,
 			emptyOutDir	: false,
-	//		minify	: true,
+	//		minify		: 'terser',
+			reportCompressedSize	: false,
 			watch,
 			rollupOptions: {
 				external: [
@@ -79,14 +86,14 @@ Promise.allSettled([
 	build({
 		build: {
 			lib: {
-				entry	: resolve(__dirname, 'preload.ts'),
+				entry	: resolve(__dirname, 'preload'),
 				fileName: _=> 'preload.js',
 				formats	: ['cjs'],
 			},
-		//	treeShaking	: true,		// 省略可
 			sourcemap	: true,
 			emptyOutDir	: false,
-	//		minify	: true,
+	//		minify		: 'terser',
+			reportCompressedSize	: false,
 			watch,
 			rollupOptions: {
 				external: [

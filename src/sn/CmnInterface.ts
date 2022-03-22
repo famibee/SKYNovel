@@ -248,11 +248,47 @@ export interface IFncHook {(type: string, o: any): void};
 
 
 // =============== Config
+export type T_CFG = {
+	book	: {
+		title		: string,	// 作品タイトル
+		creator		: string,	// 著作者
+		cre_url		: string,	// 連絡先URL
+		publisher	: string,	// 出版者
+		pub_url		: string,	// 出版社URL
+		detail		: string,	// 内容紹介
+		version		: string,	// version
+	},
+	save_ns		: string,
+	window	: {		// アプリケーションウインドウサイズ
+		width	: number,
+		height	: number,
+	},
+	log		: {max_len: number},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
+	init	: {
+		bg_color			: number,	// 背景色
+		tagch_msecwait		: number,	// 通常文字表示待ち時間（未読／既読）
+		auto_msecpagewait	: number,	// 自動文字表示、行待ち時間（未読／既読）
+		escape				: string,	// エスケープ文字
+	},
+	debug	: {	// デバッグ情報
+		devtool		: boolean,
+		token		: boolean,
+		tag			: boolean,
+		putCh		: boolean,
+		debugLog	: boolean,
+		baseTx		: boolean,
+		masume		: boolean,	// テキストレイヤ：ガイドマス目を表示するか
+		variable	: boolean,
+	},
+	code	: {[fold_nm: string]: boolean,},	// 暗号化しないフォルダ
+	debuger_token	: string,	// デバッガとの接続トークン
+}
+
 export interface IExts { [ext: string]: string; };
 export interface IFn2Path { [fn: string]: IExts; };
 
 export interface IConfig {
-	oCfg: any;
+	oCfg: T_CFG;
 	getNs(): string;
 	searchPath(fn: string, extptn?: string): string;
 	addPath(fn: string, h_exts: IExts): void;

@@ -17,36 +17,36 @@ var __spreadValues = (a2, b2) => {
   return a2;
 };
 var __spreadProps = (a2, b2) => __defProps(a2, __getOwnPropDescs(b2));
-var __accessCheck = (obj, member, msg) => {
+var __accessCheck2 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet = (obj, member, getter) => {
-  __accessCheck(obj, member, "read from private field");
+var __privateGet2 = (obj, member, getter) => {
+  __accessCheck2(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd = (obj, member, value) => {
+var __privateAdd2 = (obj, member, value) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 };
-var __privateSet = (obj, member, value, setter) => {
-  __accessCheck(obj, member, "write to private field");
+var __privateSet2 = (obj, member, value, setter) => {
+  __accessCheck2(obj, member, "write to private field");
   setter ? setter.call(obj, value) : member.set(obj, value);
   return value;
 };
-var __privateWrapper = (obj, member, setter, getter) => {
+var __privateWrapper2 = (obj, member, setter, getter) => {
   return {
     set _(value) {
-      __privateSet(obj, member, value, setter);
+      __privateSet2(obj, member, value, setter);
     },
     get _() {
-      return __privateGet(obj, member, getter);
+      return __privateGet2(obj, member, getter);
     }
   };
 };
-var __privateMethod = (obj, member, method) => {
-  __accessCheck(obj, member, "access private method");
+var __privateMethod2 = (obj, member, method) => {
+  __accessCheck2(obj, member, "access private method");
   return method;
 };
 var _a2, _b2, _c2, _d, _sesame, _putCh2, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _beforeHTMLElm, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _evtMng4, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng5, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _cvsHint, _picHint_w, _picHint_h, _padHint, _grpHint, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _dispHint, dispHint_fn, _dispHint_hArg, _dispHint_ctnBtn, _dispHint_masume, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng6, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg3, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng7, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _path_base, _now_prj, _main2, _hAppendFile;
@@ -105,7 +105,7 @@ var platform$1 = { exports: {} };
       os = format2(os.replace(/ ce$/i, " CE").replace(/\bhpw/i, "web").replace(/\bMacintosh\b/, "Mac OS").replace(/_PowerPC\b/i, " OS").replace(/\b(OS X) [^ \d]+/i, "$1").replace(/\bMac (OS X)\b/, "$1").replace(/\/(\d)/, " $1").replace(/_/g, ".").replace(/(?: BePC|[ .]*fc[ \d.]+)$/i, "").replace(/\bx86\.64\b/gi, "x86_64").replace(/\b(Windows Phone) OS\b/, "$1").replace(/\b(Chrome OS \w+) [\d.]+\b/, "$1").split(" on ")[0]);
       return os;
     }
-    function each(object, callback) {
+    function each2(object, callback) {
       var index = -1, length2 = object ? object.length : 0;
       if (typeof length2 == "number" && length2 > -1 && length2 <= maxSafeInteger) {
         while (++index < length2) {
@@ -116,7 +116,7 @@ var platform$1 = { exports: {} };
       }
     }
     function format2(string) {
-      string = trim(string);
+      string = trim2(string);
       return /^(?:webOS|i(?:OS|P))/.test(string) ? string : capitalize(string);
     }
     function forOwn(object, callback) {
@@ -138,12 +138,12 @@ var platform$1 = { exports: {} };
     }
     function reduce(array, callback) {
       var accumulator = null;
-      each(array, function(value, index) {
+      each2(array, function(value, index) {
         accumulator = callback(accumulator, value, index, array);
       });
       return accumulator;
     }
-    function trim(string) {
+    function trim2(string) {
       return String(string).replace(/^ +| +$/g, "");
     }
     function parse2(ua) {
@@ -162,7 +162,7 @@ var platform$1 = { exports: {} };
       var rhino = java && getClassOf(context2.environment) == enviroClass;
       var alpha = java ? "a" : "\u03B1";
       var beta = java ? "b" : "\u03B2";
-      var doc = context2.document || {};
+      var doc2 = context2.document || {};
       var opera = context2.operamini || context2.opera;
       var operaClass = reOpera.test(operaClass = isCustomContext && opera ? opera["[[Class]]"] : getClassOf(opera)) ? operaClass : opera = null;
       var data;
@@ -183,7 +183,7 @@ var platform$1 = { exports: {} };
         "KHTML",
         "Gecko"
       ]);
-      var name = getName([
+      var name2 = getName([
         "Adobe AIR",
         "Arora",
         "Avant Browser",
@@ -371,7 +371,7 @@ var platform$1 = { exports: {} };
       }
       layout && (layout = [layout]);
       if (/\bAndroid\b/.test(os) && !product && (data = /\bAndroid[^;]*;(.*?)(?:Build|\) AppleWebKit)\b/i.exec(ua))) {
-        product = trim(data[1]).replace(/^[a-z]{2}-[a-z]{2};\s*/i, "") || null;
+        product = trim2(data[1]).replace(/^[a-z]{2}-[a-z]{2};\s*/i, "") || null;
       }
       if (manufacturer && !product) {
         product = getProduct([manufacturer]);
@@ -384,22 +384,22 @@ var platform$1 = { exports: {} };
       if (/\bSimulator\b/i.test(ua)) {
         product = (product ? product + " " : "") + "Simulator";
       }
-      if (name == "Opera Mini" && /\bOPiOS\b/.test(ua)) {
+      if (name2 == "Opera Mini" && /\bOPiOS\b/.test(ua)) {
         description.push("running in Turbo/Uncompressed mode");
       }
-      if (name == "IE" && /\blike iPhone OS\b/.test(ua)) {
+      if (name2 == "IE" && /\blike iPhone OS\b/.test(ua)) {
         data = parse2(ua.replace(/like iPhone OS/, ""));
         manufacturer = data.manufacturer;
         product = data.product;
       } else if (/^iP/.test(product)) {
-        name || (name = "Safari");
+        name2 || (name2 = "Safari");
         os = "iOS" + ((data = / OS ([\d_]+)/i.exec(ua)) ? " " + data[1].replace(/_/g, ".") : "");
-      } else if (name == "Konqueror" && /^Linux\b/i.test(os)) {
+      } else if (name2 == "Konqueror" && /^Linux\b/i.test(os)) {
         os = "Kubuntu";
-      } else if (manufacturer && manufacturer != "Google" && (/Chrome/.test(name) && !/\bMobile Safari\b/i.test(ua) || /\bVita\b/.test(product)) || /\bAndroid\b/.test(os) && /^Chrome/.test(name) && /\bVersion\//i.test(ua)) {
-        name = "Android Browser";
+      } else if (manufacturer && manufacturer != "Google" && (/Chrome/.test(name2) && !/\bMobile Safari\b/i.test(ua) || /\bVita\b/.test(product)) || /\bAndroid\b/.test(os) && /^Chrome/.test(name2) && /\bVersion\//i.test(ua)) {
+        name2 = "Android Browser";
         os = /\bAndroid\b/.test(os) ? os : "Android";
-      } else if (name == "Silk") {
+      } else if (name2 == "Silk") {
         if (!/\bMobi/i.test(ua)) {
           os = "Android";
           description.unshift("desktop mode");
@@ -407,48 +407,48 @@ var platform$1 = { exports: {} };
         if (/Accelerated *= *true/i.test(ua)) {
           description.unshift("accelerated");
         }
-      } else if (name == "UC Browser" && /\bUCWEB\b/.test(ua)) {
+      } else if (name2 == "UC Browser" && /\bUCWEB\b/.test(ua)) {
         description.push("speed mode");
-      } else if (name == "PaleMoon" && (data = /\bFirefox\/([\d.]+)\b/.exec(ua))) {
+      } else if (name2 == "PaleMoon" && (data = /\bFirefox\/([\d.]+)\b/.exec(ua))) {
         description.push("identifying as Firefox " + data[1]);
-      } else if (name == "Firefox" && (data = /\b(Mobile|Tablet|TV)\b/i.exec(ua))) {
+      } else if (name2 == "Firefox" && (data = /\b(Mobile|Tablet|TV)\b/i.exec(ua))) {
         os || (os = "Firefox OS");
         product || (product = data[1]);
-      } else if (!name || (data = !/\bMinefield\b/i.test(ua) && /\b(?:Firefox|Safari)\b/.exec(name))) {
-        if (name && !product && /[\/,]|^[^(]+?\)/.test(ua.slice(ua.indexOf(data + "/") + 8))) {
-          name = null;
+      } else if (!name2 || (data = !/\bMinefield\b/i.test(ua) && /\b(?:Firefox|Safari)\b/.exec(name2))) {
+        if (name2 && !product && /[\/,]|^[^(]+?\)/.test(ua.slice(ua.indexOf(data + "/") + 8))) {
+          name2 = null;
         }
         if ((data = product || manufacturer || os) && (product || manufacturer || /\b(?:Android|Symbian OS|Tablet OS|webOS)\b/.test(os))) {
-          name = /[a-z]+(?: Hat)?/i.exec(/\bAndroid\b/.test(os) ? os : data) + " Browser";
+          name2 = /[a-z]+(?: Hat)?/i.exec(/\bAndroid\b/.test(os) ? os : data) + " Browser";
         }
-      } else if (name == "Electron" && (data = (/\bChrome\/([\d.]+)\b/.exec(ua) || 0)[1])) {
+      } else if (name2 == "Electron" && (data = (/\bChrome\/([\d.]+)\b/.exec(ua) || 0)[1])) {
         description.push("Chromium " + data);
       }
       if (!version2) {
         version2 = getVersion([
           "(?:Cloud9|CriOS|CrMo|Edge|Edg|EdgA|EdgiOS|FxiOS|HeadlessChrome|IEMobile|Iron|Opera ?Mini|OPiOS|OPR|Raven|SamsungBrowser|Silk(?!/[\\d.]+$)|UCBrowser|YaBrowser)",
           "Version",
-          qualify(name),
+          qualify(name2),
           "(?:Firefox|Minefield|NetFront)"
         ]);
       }
-      if (data = layout == "iCab" && parseFloat(version2) > 3 && "WebKit" || /\bOpera\b/.test(name) && (/\bOPR\b/.test(ua) ? "Blink" : "Presto") || /\b(?:Midori|Nook|Safari)\b/i.test(ua) && !/^(?:Trident|EdgeHTML)$/.test(layout) && "WebKit" || !layout && /\bMSIE\b/i.test(ua) && (os == "Mac OS" ? "Tasman" : "Trident") || layout == "WebKit" && /\bPlayStation\b(?! Vita\b)/i.test(name) && "NetFront") {
+      if (data = layout == "iCab" && parseFloat(version2) > 3 && "WebKit" || /\bOpera\b/.test(name2) && (/\bOPR\b/.test(ua) ? "Blink" : "Presto") || /\b(?:Midori|Nook|Safari)\b/i.test(ua) && !/^(?:Trident|EdgeHTML)$/.test(layout) && "WebKit" || !layout && /\bMSIE\b/i.test(ua) && (os == "Mac OS" ? "Tasman" : "Trident") || layout == "WebKit" && /\bPlayStation\b(?! Vita\b)/i.test(name2) && "NetFront") {
         layout = [data];
       }
-      if (name == "IE" && (data = (/; *(?:XBLWP|ZuneWP)(\d+)/i.exec(ua) || 0)[1])) {
-        name += " Mobile";
+      if (name2 == "IE" && (data = (/; *(?:XBLWP|ZuneWP)(\d+)/i.exec(ua) || 0)[1])) {
+        name2 += " Mobile";
         os = "Windows Phone " + (/\+$/.test(data) ? data : data + ".x");
         description.unshift("desktop mode");
       } else if (/\bWPDesktop\b/i.test(ua)) {
-        name = "IE Mobile";
+        name2 = "IE Mobile";
         os = "Windows Phone 8.x";
         description.unshift("desktop mode");
         version2 || (version2 = (/\brv:([\d.]+)/.exec(ua) || 0)[1]);
-      } else if (name != "IE" && layout == "Trident" && (data = /\brv:([\d.]+)/.exec(ua))) {
-        if (name) {
-          description.push("identifying as " + name + (version2 ? " " + version2 : ""));
+      } else if (name2 != "IE" && layout == "Trident" && (data = /\brv:([\d.]+)/.exec(ua))) {
+        if (name2) {
+          description.push("identifying as " + name2 + (version2 ? " " + version2 : ""));
         }
-        name = "IE";
+        name2 = "IE";
         version2 = data[1];
       }
       if (useFeatures) {
@@ -461,30 +461,30 @@ var platform$1 = { exports: {} };
           if (rhino) {
             try {
               version2 = context2.require("ringo/engine").version.join(".");
-              name = "RingoJS";
+              name2 = "RingoJS";
             } catch (e) {
               if ((data = context2.system) && data.global.system == context2.system) {
-                name = "Narwhal";
+                name2 = "Narwhal";
                 os || (os = data[0].os || null);
               }
             }
-            if (!name) {
-              name = "Rhino";
+            if (!name2) {
+              name2 = "Rhino";
             }
           } else if (typeof context2.process == "object" && !context2.process.browser && (data = context2.process)) {
             if (typeof data.versions == "object") {
               if (typeof data.versions.electron == "string") {
                 description.push("Node " + data.versions.node);
-                name = "Electron";
+                name2 = "Electron";
                 version2 = data.versions.electron;
               } else if (typeof data.versions.nw == "string") {
                 description.push("Chromium " + version2, "Node " + data.versions.node);
-                name = "NW.js";
+                name2 = "NW.js";
                 version2 = data.versions.nw;
               }
             }
-            if (!name) {
-              name = "Node.js";
+            if (!name2) {
+              name2 = "Node.js";
               arch = data.arch;
               os = data.platform;
               version2 = /[\d.]+/.exec(data.version);
@@ -492,22 +492,22 @@ var platform$1 = { exports: {} };
             }
           }
         } else if (getClassOf(data = context2.runtime) == airRuntimeClass) {
-          name = "Adobe AIR";
+          name2 = "Adobe AIR";
           os = data.flash.system.Capabilities.os;
         } else if (getClassOf(data = context2.phantom) == phantomClass) {
-          name = "PhantomJS";
+          name2 = "PhantomJS";
           version2 = (data = data.version || null) && data.major + "." + data.minor + "." + data.patch;
-        } else if (typeof doc.documentMode == "number" && (data = /\bTrident\/(\d+)/i.exec(ua))) {
-          version2 = [version2, doc.documentMode];
+        } else if (typeof doc2.documentMode == "number" && (data = /\bTrident\/(\d+)/i.exec(ua))) {
+          version2 = [version2, doc2.documentMode];
           if ((data = +data[1] + 4) != version2[1]) {
             description.push("IE " + version2[1] + " mode");
             layout && (layout[1] = "");
             version2[1] = data;
           }
-          version2 = name == "IE" ? String(version2[1].toFixed(1)) : version2[0];
-        } else if (typeof doc.documentMode == "number" && /^(?:Chrome|Firefox)\b/.test(name)) {
-          description.push("masking as " + name + " " + version2);
-          name = "IE";
+          version2 = name2 == "IE" ? String(version2[1].toFixed(1)) : version2[0];
+        } else if (typeof doc2.documentMode == "number" && /^(?:Chrome|Firefox)\b/.test(name2)) {
+          description.push("masking as " + name2 + " " + version2);
+          name2 = "IE";
           version2 = "11.0";
           layout = ["Trident"];
           os = "Windows";
@@ -518,9 +518,9 @@ var platform$1 = { exports: {} };
         prerelease = /b/i.test(data) ? "beta" : "alpha";
         version2 = version2.replace(RegExp(data + "\\+?$"), "") + (prerelease == "beta" ? beta : alpha) + (/\d+\+?/.exec(data) || "");
       }
-      if (name == "Fennec" || name == "Firefox" && /\b(?:Android|Firefox OS|KaiOS)\b/.test(os)) {
-        name = "Firefox Mobile";
-      } else if (name == "Maxthon" && version2) {
+      if (name2 == "Fennec" || name2 == "Firefox" && /\b(?:Android|Firefox OS|KaiOS)\b/.test(os)) {
+        name2 = "Firefox Mobile";
+      } else if (name2 == "Maxthon" && version2) {
         version2 = version2.replace(/\.[\d.]+/, ".x");
       } else if (/\bXbox\b/i.test(product)) {
         if (product == "Xbox 360") {
@@ -529,9 +529,9 @@ var platform$1 = { exports: {} };
         if (product == "Xbox 360" && /\bIEMobile\b/.test(ua)) {
           description.unshift("mobile mode");
         }
-      } else if ((/^(?:Chrome|IE|Opera)$/.test(name) || name && !product && !/Browser|Mobi/.test(name)) && (os == "Windows CE" || /Mobi/i.test(ua))) {
-        name += " Mobile";
-      } else if (name == "IE" && useFeatures) {
+      } else if ((/^(?:Chrome|IE|Opera)$/.test(name2) || name2 && !product && !/Browser|Mobi/.test(name2)) && (os == "Windows CE" || /Mobi/i.test(ua))) {
+        name2 += " Mobile";
+      } else if (name2 == "IE" && useFeatures) {
         try {
           if (context2.external === null) {
             description.unshift("platform preview");
@@ -543,9 +543,9 @@ var platform$1 = { exports: {} };
         data = [data, /BB10/.test(ua)];
         os = (data[1] ? (product = null, manufacturer = "BlackBerry") : "Device Software") + " " + data[0];
         version2 = null;
-      } else if (this != forOwn && product != "Wii" && (useFeatures && opera || /Opera/.test(name) && /\b(?:MSIE|Firefox)\b/i.test(ua) || name == "Firefox" && /\bOS X (?:\d+\.){2,}/.test(os) || name == "IE" && (os && !/^Win/.test(os) && version2 > 5.5 || /\bWindows XP\b/.test(os) && version2 > 8 || version2 == 8 && !/\bTrident\b/.test(ua))) && !reOpera.test(data = parse2.call(forOwn, ua.replace(reOpera, "") + ";")) && data.name) {
+      } else if (this != forOwn && product != "Wii" && (useFeatures && opera || /Opera/.test(name2) && /\b(?:MSIE|Firefox)\b/i.test(ua) || name2 == "Firefox" && /\bOS X (?:\d+\.){2,}/.test(os) || name2 == "IE" && (os && !/^Win/.test(os) && version2 > 5.5 || /\bWindows XP\b/.test(os) && version2 > 8 || version2 == 8 && !/\bTrident\b/.test(ua))) && !reOpera.test(data = parse2.call(forOwn, ua.replace(reOpera, "") + ";")) && data.name) {
         data = "ing as " + data.name + ((data = data.version) ? " " + data : "");
-        if (reOpera.test(name)) {
+        if (reOpera.test(name2)) {
           if (/\bIE\b/.test(data) && os == "Mac OS") {
             os = null;
           }
@@ -553,9 +553,9 @@ var platform$1 = { exports: {} };
         } else {
           data = "mask" + data;
           if (operaClass) {
-            name = format2(operaClass.replace(/([a-z])([A-Z])/g, "$1 $2"));
+            name2 = format2(operaClass.replace(/([a-z])([A-Z])/g, "$1 $2"));
           } else {
-            name = "Opera";
+            name2 = "Opera";
           }
           if (/\bIE\b/.test(data)) {
             os = null;
@@ -569,8 +569,8 @@ var platform$1 = { exports: {} };
       }
       if (data = (/\bAppleWebKit\/([\d.]+\+?)/i.exec(ua) || 0)[1]) {
         data = [parseFloat(data.replace(/\.(\d)$/, ".0$1")), data];
-        if (name == "Safari" && data[1].slice(-1) == "+") {
-          name = "WebKit Nightly";
+        if (name2 == "Safari" && data[1].slice(-1) == "+") {
+          name2 = "WebKit Nightly";
           prerelease = "alpha";
           version2 = data[1].slice(0, -1);
         } else if (version2 == data[1] || version2 == (data[2] = (/\bSafari\/([\d.]+\+?)/i.exec(ua) || 0)[1])) {
@@ -588,25 +588,25 @@ var platform$1 = { exports: {} };
           data = data[1] || (data = data[0], data < 530 ? 1 : data < 532 ? 2 : data < 532.05 ? 3 : data < 533 ? 4 : data < 534.03 ? 5 : data < 534.07 ? 6 : data < 534.1 ? 7 : data < 534.13 ? 8 : data < 534.16 ? 9 : data < 534.24 ? 10 : data < 534.3 ? 11 : data < 535.01 ? 12 : data < 535.02 ? "13+" : data < 535.07 ? 15 : data < 535.11 ? 16 : data < 535.19 ? 17 : data < 536.05 ? 18 : data < 536.1 ? 19 : data < 537.01 ? 20 : data < 537.11 ? "21+" : data < 537.13 ? 23 : data < 537.18 ? 24 : data < 537.24 ? 25 : data < 537.36 ? 26 : layout != "Blink" ? "27" : "28");
         }
         layout && (layout[1] += " " + (data += typeof data == "number" ? ".x" : /[.+]/.test(data) ? "" : "+"));
-        if (name == "Safari" && (!version2 || parseInt(version2) > 45)) {
+        if (name2 == "Safari" && (!version2 || parseInt(version2) > 45)) {
           version2 = data;
-        } else if (name == "Chrome" && /\bHeadlessChrome/i.test(ua)) {
+        } else if (name2 == "Chrome" && /\bHeadlessChrome/i.test(ua)) {
           description.unshift("headless");
         }
       }
-      if (name == "Opera" && (data = /\bzbov|zvav$/.exec(os))) {
-        name += " ";
+      if (name2 == "Opera" && (data = /\bzbov|zvav$/.exec(os))) {
+        name2 += " ";
         description.unshift("desktop mode");
         if (data == "zvav") {
-          name += "Mini";
+          name2 += "Mini";
           version2 = null;
         } else {
-          name += "Mobile";
+          name2 += "Mobile";
         }
         os = os.replace(RegExp(" *" + data + "$"), "");
-      } else if (name == "Safari" && /\bChrome\b/.exec(layout && layout[1])) {
+      } else if (name2 == "Safari" && /\bChrome\b/.exec(layout && layout[1])) {
         description.unshift("desktop mode");
-        name = "Chrome Mobile";
+        name2 = "Chrome Mobile";
         version2 = null;
         if (/\bOS X\b/.test(os)) {
           manufacturer = "Apple";
@@ -614,16 +614,16 @@ var platform$1 = { exports: {} };
         } else {
           os = null;
         }
-      } else if (/\bSRWare Iron\b/.test(name) && !version2) {
+      } else if (/\bSRWare Iron\b/.test(name2) && !version2) {
         version2 = getVersion("Chrome");
       }
       if (version2 && version2.indexOf(data = /[\d.]+$/.exec(os)) == 0 && ua.indexOf("/" + data + "-") > -1) {
-        os = trim(os.replace(data, ""));
+        os = trim2(os.replace(data, ""));
       }
-      if (os && os.indexOf(name) != -1 && !RegExp(name + " OS").test(os)) {
-        os = os.replace(RegExp(" *" + qualify(name) + " *"), "");
+      if (os && os.indexOf(name2) != -1 && !RegExp(name2 + " OS").test(os)) {
+        os = os.replace(RegExp(" *" + qualify(name2) + " *"), "");
       }
-      if (layout && !/\b(?:Avant|Nook)\b/.test(name) && (/Browser|Lunascape|Maxthon/.test(name) || name != "Safari" && /^iOS/.test(os) && /\bSafari\b/.test(layout[1]) || /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|SRWare Iron|Vivaldi|Web)/.test(name) && layout[1])) {
+      if (layout && !/\b(?:Avant|Nook)\b/.test(name2) && (/Browser|Lunascape|Maxthon/.test(name2) || name2 != "Safari" && /^iOS/.test(os) && /\bSafari\b/.test(layout[1]) || /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|SRWare Iron|Vivaldi|Web)/.test(name2) && layout[1])) {
         (data = layout[layout.length - 1]) && description.push(data);
       }
       if (description.length) {
@@ -653,10 +653,10 @@ var platform$1 = { exports: {} };
           os.architecture = 64;
           os.family = os.family.replace(RegExp(" *" + data), "");
         }
-        if (name && (/\bWOW64\b/i.test(ua) || useFeatures && /\w(?:86|32)$/.test(nav.cpuClass || nav.platform) && !/\bWin64; x64\b/i.test(ua))) {
+        if (name2 && (/\bWOW64\b/i.test(ua) || useFeatures && /\w(?:86|32)$/.test(nav.cpuClass || nav.platform) && !/\bWin64; x64\b/i.test(ua))) {
           description.unshift("32-bit");
         }
-      } else if (os && /^OS X/.test(os.family) && name == "Chrome" && parseFloat(version2) >= 39) {
+      } else if (os && /^OS X/.test(os.family) && name2 == "Chrome" && parseFloat(version2) >= 39) {
         os.architecture = 64;
       }
       ua || (ua = null);
@@ -664,11 +664,11 @@ var platform$1 = { exports: {} };
       platform3.description = ua;
       platform3.layout = layout && layout[0];
       platform3.manufacturer = manufacturer;
-      platform3.name = name;
+      platform3.name = name2;
       platform3.prerelease = prerelease;
       platform3.product = product;
       platform3.ua = ua;
-      platform3.version = name && version2;
+      platform3.version = name2 && version2;
       platform3.os = os || {
         "architecture": null,
         "family": null,
@@ -683,9 +683,9 @@ var platform$1 = { exports: {} };
         description.unshift(version2);
       }
       if (platform3.name) {
-        description.unshift(name);
+        description.unshift(name2);
       }
-      if (os && name && !(os == String(os).split(" ")[0] && (os == name.split(" ")[0] || product))) {
+      if (os && name2 && !(os == String(os).split(" ")[0] && (os == name2.split(" ")[0] || product))) {
         description.push(product ? "(" + os + ")" : "on " + os);
       }
       if (description.length) {
@@ -771,27 +771,27 @@ function addStyle(style) {
   gs.innerHTML = css_key4del + style;
   document.getElementsByTagName("head")[0].appendChild(gs);
 }
-function argChk_Num(hash2, name, def) {
-  const v2 = hash2[name];
-  if (!(name in hash2)) {
+function argChk_Num(hash2, name2, def) {
+  const v2 = hash2[name2];
+  if (!(name2 in hash2)) {
     if (isNaN(def))
-      throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name} \u306F\u5FC5\u9808\u3067\u3059`;
-    hash2[name] = def;
+      throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name2} \u306F\u5FC5\u9808\u3067\u3059`;
+    hash2[name2] = def;
     return def;
   }
   const n = String(v2).slice(0, 2) === "0x" ? parseInt(v2) : parseFloat(v2);
   if (isNaN(n))
-    throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name} \u306E\u5024\u3010${v2}\u3011\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093`;
-  return hash2[name] = n;
+    throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name2} \u306E\u5024\u3010${v2}\u3011\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093`;
+  return hash2[name2] = n;
 }
-function argChk_Boolean(hash2, name, def) {
-  if (!(name in hash2))
-    return hash2[name] = def;
-  const v2 = hash2[name];
+function argChk_Boolean(hash2, name2, def) {
+  if (!(name2 in hash2))
+    return hash2[name2] = def;
+  const v2 = hash2[name2];
   if (v2 === null)
     return false;
   const v22 = String(v2);
-  return hash2[name] = v22 === "false" ? false : Boolean(v22);
+  return hash2[name2] = v22 === "false" ? false : Boolean(v22);
 }
 function parseColor(v2) {
   if (v2.charAt(0) === "#")
@@ -807,31 +807,31 @@ function parseColor(v2) {
     throw `\u8272\u540D\u524D ${v2} \u304C\u7570\u5E38\u3067\u3059`;
   return parseInt(cc.slice(1), 16);
 }
-function argChk_Color(hash2, name, def) {
-  const v2 = hash2[name];
+function argChk_Color(hash2, name2, def) {
+  const v2 = hash2[name2];
   if (!v2)
-    return hash2[name] = def;
-  return hash2[name] = parseColor(String(v2));
+    return hash2[name2] = def;
+  return hash2[name2] = parseColor(String(v2));
 }
 const REG_FN = /^[^\/\.]+$|[^\/]+(?=\.)/;
-function getFn(p) {
+function getFn(p2) {
   var _a3;
-  return ((_a3 = p.match(REG_FN)) != null ? _a3 : [""])[0];
+  return ((_a3 = p2.match(REG_FN)) != null ? _a3 : [""])[0];
 }
 const REG_EXT = /\.([^\.]+)$/;
-function getExt(p) {
+function getExt(p2) {
   var _a3;
-  return ((_a3 = p.match(REG_EXT)) != null ? _a3 : [""])[1];
+  return ((_a3 = p2.match(REG_EXT)) != null ? _a3 : [""])[1];
 }
 class CmnLib {
 }
 CmnLib.stageW = 0;
 CmnLib.stageH = 0;
 CmnLib.debugLog = false;
-CmnLib.isSafari = platform.name === "Safari";
-CmnLib.isFirefox = platform.name === "Firefox";
-CmnLib.isMac = new RegExp("OS X").test((_b2 = (_a2 = platform.os) == null ? void 0 : _a2.family) != null ? _b2 : "");
-CmnLib.isMobile = !new RegExp("(Windows|OS X)").test((_d = (_c2 = platform.os) == null ? void 0 : _c2.family) != null ? _d : "");
+CmnLib.isSafari = platform$1.exports.name === "Safari";
+CmnLib.isFirefox = platform$1.exports.name === "Firefox";
+CmnLib.isMac = new RegExp("OS X").test((_b2 = (_a2 = platform$1.exports.os) == null ? void 0 : _a2.family) != null ? _b2 : "");
+CmnLib.isMobile = !new RegExp("(Windows|OS X)").test((_d = (_c2 = platform$1.exports.os) == null ? void 0 : _c2.family) != null ? _d : "");
 CmnLib.hDip = {};
 CmnLib.isDbg = false;
 CmnLib.isPackaged = false;
@@ -853,12 +853,12 @@ var parts = [
   "query",
   "anchor"
 ];
-var parseuri = function parseuri2(str) {
-  var src = str, b2 = str.indexOf("["), e = str.indexOf("]");
+var parseuri = function parseuri2(str2) {
+  var src = str2, b2 = str2.indexOf("["), e = str2.indexOf("]");
   if (b2 != -1 && e != -1) {
-    str = str.substring(0, b2) + str.substring(b2, e).replace(/:/g, ";") + str.substring(e, str.length);
+    str2 = str2.substring(0, b2) + str2.substring(b2, e).replace(/:/g, ";") + str2.substring(e, str2.length);
   }
-  var m2 = re.exec(str || ""), uri = {}, i2 = 14;
+  var m2 = re.exec(str2 || ""), uri = {}, i2 = 14;
   while (i2--) {
     uri[parts[i2]] = m2[i2] || "";
   }
@@ -1098,7 +1098,7 @@ for (var i$1 = 0; i$1 < chars.length; i$1++) {
   lookup$1[chars.charCodeAt(i$1)] = i$1;
 }
 var decode$2 = function(base64) {
-  var bufferLength = base64.length * 0.75, len = base64.length, i2, p = 0, encoded1, encoded2, encoded3, encoded4;
+  var bufferLength = base64.length * 0.75, len = base64.length, i2, p2 = 0, encoded1, encoded2, encoded3, encoded4;
   if (base64[base64.length - 1] === "=") {
     bufferLength--;
     if (base64[base64.length - 2] === "=") {
@@ -1111,9 +1111,9 @@ var decode$2 = function(base64) {
     encoded2 = lookup$1[base64.charCodeAt(i2 + 1)];
     encoded3 = lookup$1[base64.charCodeAt(i2 + 2)];
     encoded4 = lookup$1[base64.charCodeAt(i2 + 3)];
-    bytes[p++] = encoded1 << 2 | encoded2 >> 4;
-    bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
-    bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
+    bytes[p2++] = encoded1 << 2 | encoded2 >> 4;
+    bytes[p2++] = (encoded2 & 15) << 4 | encoded3 >> 2;
+    bytes[p2++] = (encoded3 & 3) << 6 | encoded4 & 63;
   }
   return arraybuffer;
 };
@@ -1249,10 +1249,10 @@ function encode$1(num) {
   } while (num > 0);
   return encoded;
 }
-function decode$1(str) {
+function decode$1(str2) {
   var decoded = 0;
-  for (i = 0; i < str.length; i++) {
-    decoded = decoded * length + map$2[str.charAt(i)];
+  for (i = 0; i < str2.length; i++) {
+    decoded = decoded * length + map$2[str2.charAt(i)];
   }
   return decoded;
 }
@@ -1269,15 +1269,15 @@ yeast.decode = decode$1;
 var yeast_1 = yeast;
 var parseqs = {};
 parseqs.encode = function(obj) {
-  var str = "";
+  var str2 = "";
   for (var i2 in obj) {
     if (obj.hasOwnProperty(i2)) {
-      if (str.length)
-        str += "&";
-      str += encodeURIComponent(i2) + "=" + encodeURIComponent(obj[i2]);
+      if (str2.length)
+        str2 += "&";
+      str2 += encodeURIComponent(i2) + "=" + encodeURIComponent(obj[i2]);
     }
   }
-  return str;
+  return str2;
 };
 parseqs.decode = function(qs) {
   var qry = {};
@@ -1725,20 +1725,20 @@ class Socket$1 extends Emitter_1 {
     }
     this.open();
   }
-  createTransport(name) {
+  createTransport(name2) {
     const query = clone(this.opts.query);
     query.EIO = protocol$1;
-    query.transport = name;
+    query.transport = name2;
     if (this.id)
       query.sid = this.id;
-    const opts = Object.assign({}, this.opts.transportOptions[name], this.opts, {
+    const opts = Object.assign({}, this.opts.transportOptions[name2], this.opts, {
       query,
       socket: this,
       hostname: this.hostname,
       secure: this.secure,
       port: this.port
     });
-    return new transports[name](opts);
+    return new transports[name2](opts);
   }
   open() {
     let transport;
@@ -1772,8 +1772,8 @@ class Socket$1 extends Emitter_1 {
       this.onClose("transport close");
     });
   }
-  probe(name) {
-    let transport = this.createTransport(name);
+  probe(name2) {
+    let transport = this.createTransport(name2);
     let failed = false;
     Socket$1.priorWebsocketSuccess = false;
     const onTransportOpen = () => {
@@ -2144,20 +2144,20 @@ class Encoder {
     return [this.encodeAsString(obj)];
   }
   encodeAsString(obj) {
-    let str = "" + obj.type;
+    let str2 = "" + obj.type;
     if (obj.type === PacketType.BINARY_EVENT || obj.type === PacketType.BINARY_ACK) {
-      str += obj.attachments + "-";
+      str2 += obj.attachments + "-";
     }
     if (obj.nsp && obj.nsp !== "/") {
-      str += obj.nsp + ",";
+      str2 += obj.nsp + ",";
     }
     if (obj.id != null) {
-      str += obj.id;
+      str2 += obj.id;
     }
     if (obj.data != null) {
-      str += JSON.stringify(obj.data);
+      str2 += JSON.stringify(obj.data);
     }
-    return str;
+    return str2;
   }
   encodeAsBinary(obj) {
     const deconstruction = deconstructPacket(obj);
@@ -2197,60 +2197,60 @@ class Decoder extends Emitter_1 {
       throw new Error("Unknown type: " + obj);
     }
   }
-  decodeString(str) {
+  decodeString(str2) {
     let i2 = 0;
-    const p = {
-      type: Number(str.charAt(0))
+    const p2 = {
+      type: Number(str2.charAt(0))
     };
-    if (PacketType[p.type] === void 0) {
-      throw new Error("unknown packet type " + p.type);
+    if (PacketType[p2.type] === void 0) {
+      throw new Error("unknown packet type " + p2.type);
     }
-    if (p.type === PacketType.BINARY_EVENT || p.type === PacketType.BINARY_ACK) {
+    if (p2.type === PacketType.BINARY_EVENT || p2.type === PacketType.BINARY_ACK) {
       const start = i2 + 1;
-      while (str.charAt(++i2) !== "-" && i2 != str.length) {
+      while (str2.charAt(++i2) !== "-" && i2 != str2.length) {
       }
-      const buf = str.substring(start, i2);
-      if (buf != Number(buf) || str.charAt(i2) !== "-") {
+      const buf = str2.substring(start, i2);
+      if (buf != Number(buf) || str2.charAt(i2) !== "-") {
         throw new Error("Illegal attachments");
       }
-      p.attachments = Number(buf);
+      p2.attachments = Number(buf);
     }
-    if (str.charAt(i2 + 1) === "/") {
+    if (str2.charAt(i2 + 1) === "/") {
       const start = i2 + 1;
       while (++i2) {
-        const c2 = str.charAt(i2);
+        const c2 = str2.charAt(i2);
         if (c2 === ",")
           break;
-        if (i2 === str.length)
+        if (i2 === str2.length)
           break;
       }
-      p.nsp = str.substring(start, i2);
+      p2.nsp = str2.substring(start, i2);
     } else {
-      p.nsp = "/";
+      p2.nsp = "/";
     }
-    const next = str.charAt(i2 + 1);
+    const next = str2.charAt(i2 + 1);
     if (next !== "" && Number(next) == next) {
       const start = i2 + 1;
       while (++i2) {
-        const c2 = str.charAt(i2);
+        const c2 = str2.charAt(i2);
         if (c2 == null || Number(c2) != c2) {
           --i2;
           break;
         }
-        if (i2 === str.length)
+        if (i2 === str2.length)
           break;
       }
-      p.id = Number(str.substring(start, i2 + 1));
+      p2.id = Number(str2.substring(start, i2 + 1));
     }
-    if (str.charAt(++i2)) {
-      const payload = tryParse(str.substr(i2));
-      if (Decoder.isPayloadValid(p.type, payload)) {
-        p.data = payload;
+    if (str2.charAt(++i2)) {
+      const payload = tryParse(str2.substr(i2));
+      if (Decoder.isPayloadValid(p2.type, payload)) {
+        p2.data = payload;
       } else {
         throw new Error("invalid payload");
       }
     }
-    return p;
+    return p2;
   }
   static isPayloadValid(type, payload) {
     switch (type) {
@@ -2274,9 +2274,9 @@ class Decoder extends Emitter_1 {
     }
   }
 }
-function tryParse(str) {
+function tryParse(str2) {
   try {
-    return JSON.parse(str);
+    return JSON.parse(str2);
   } catch (e) {
     return false;
   }
@@ -2983,10 +2983,10 @@ const _SysBase = class {
     this._import = () => false;
     this.navigate_to = () => false;
     this.title = (hArg) => {
-      const { text } = hArg;
-      if (!text)
+      const { text: text2 } = hArg;
+      if (!text2)
         throw "[title] text\u306F\u5FC5\u9808\u3067\u3059";
-      __privateSet$6(this, _main_title, text);
+      __privateSet$6(this, _main_title, text2);
       this.titleSub(__privateGet$6(this, _main_title) + __privateGet$6(this, _info_title));
       return false;
     };
@@ -3120,10 +3120,10 @@ const _SysBase = class {
     const a2 = [];
     for (const nm in this.hPlg)
       a2.push(this.hPlg[nm].init({
-        addTag: (name, tag_fnc) => {
-          if (hTag[name])
-            throw `\u3059\u3067\u306B\u5B9A\u7FA9\u6E08\u307F\u306E\u30BF\u30B0[${name}]\u3067\u3059`;
-          hTag[name] = tag_fnc;
+        addTag: (name2, tag_fnc) => {
+          if (hTag[name2])
+            throw `\u3059\u3067\u306B\u5B9A\u7FA9\u6E08\u307F\u306E\u30BF\u30B0[${name2}]\u3067\u3059`;
+          hTag[name2] = tag_fnc;
         },
         addLayCls: (cls, fnc) => {
           if (this.hFactoryCls[cls])
@@ -3273,8 +3273,8 @@ const _SysBase = class {
   }
   toast(nm) {
     var _a3, _b3, _c3;
-    const p = document.body;
-    p.querySelectorAll(".sn_BounceIn, .sn_HopIn").forEach((v2) => p.removeChild(v2));
+    const p2 = document.body;
+    p2.querySelectorAll(".sn_BounceIn, .sn_HopIn").forEach((v2) => p2.removeChild(v2));
     const img = document.createElement("img");
     const td = __privateGet$6(_SysBase, _hToastDat)[nm];
     img.src = `data:image/svg+xml;base64,${td.dat}`;
@@ -3285,8 +3285,8 @@ left: ${(CmnLib.stageW - size) / 2 * __privateGet$6(this, _cvsScale) + size * ((
 top: ${(CmnLib.stageH - size) / 2 * __privateGet$6(this, _cvsScale) + size * ((_b3 = td.dy) != null ? _b3 : 0)}px;`;
     img.classList.add("sn_toast", (_c3 = td.ease) != null ? _c3 : "sn_BounceInOut");
     if (!td.ease)
-      img.addEventListener("animationend", () => p.removeChild(img), { once: true, passive: true });
-    p.insertBefore(img, this.appPixi.view);
+      img.addEventListener("animationend", () => p2.removeChild(img), { once: true, passive: true });
+    p2.insertBefore(img, this.appPixi.view);
   }
   setFire(fire) {
     this.fire = fire;
@@ -3579,29 +3579,29 @@ Config.EXT_SOUND = "mp3|m4a|ogg|aac|flac|wav";
 Config.EXT_HTML = "htm|html";
 const _RubySpliter = class {
   constructor() {
-    __privateAdd(this, _putCh2, () => {
+    __privateAdd2(this, _putCh2, () => {
     });
   }
   static setting(hArg) {
     if (hArg.sesame)
-      __privateSet(_RubySpliter, _sesame, hArg.sesame);
+      __privateSet2(_RubySpliter, _sesame, hArg.sesame);
   }
   static getSesame() {
-    return __privateGet(_RubySpliter, _sesame);
+    return __privateGet2(_RubySpliter, _sesame);
   }
   static destroy() {
-    __privateSet(_RubySpliter, _sesame, "\u30FD");
+    __privateSet2(_RubySpliter, _sesame, "\u30FD");
   }
   init(putCh) {
-    __privateSet(this, _putCh2, putCh);
+    __privateSet2(this, _putCh2, putCh);
   }
   static setEscape(ce) {
-    __privateSet(_RubySpliter, _REG_RUBY, new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ""}\uFF5C(?<str>[^\u300A\\n]+)\u300A(?<ruby>[^\u300B\\n]+)\u300B|(?:(?<kan>[\u2E80-\u2FDF\u3005\u3007\u303B\u3400-\u9FFF\u8C48-\uFAFF]+[\u3041-\u30FF]*|[^\u3000\uFF5C\u300A\u300B\\n])\u300A(?<kan_ruby>[^\u300B\\n]+)\u300B)|(?<txt>[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\u3000\uFF5C\u300A\u300B]+(?=\uFF5C)|[^\u3000\uFF5C\u300A\u300B]*[\u3041-\u30FF](?=[\u2E80-\u2FDF\u3005\u3007\u303B\u3400-\u9FFF\u8C48-\uFAFF]+\u300A)|.)`, "gs"));
+    __privateSet2(_RubySpliter, _REG_RUBY, new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ""}\uFF5C(?<str>[^\u300A\\n]+)\u300A(?<ruby>[^\u300B\\n]+)\u300B|(?:(?<kan>[\u2E80-\u2FDF\u3005\u3007\u303B\u3400-\u9FFF\u8C48-\uFAFF]+[\u3041-\u30FF]*|[^\u3000\uFF5C\u300A\u300B\\n])\u300A(?<kan_ruby>[^\u300B\\n]+)\u300B)|(?<txt>[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\u3000\uFF5C\u300A\u300B]+(?=\uFF5C)|[^\u3000\uFF5C\u300A\u300B]*[\u3041-\u30FF](?=[\u2E80-\u2FDF\u3005\u3007\u303B\u3400-\u9FFF\u8C48-\uFAFF]+\u300A)|.)`, "gs"));
   }
-  putTxt(text) {
+  putTxt(text2) {
     var _a3;
     let e = null;
-    while (e = __privateGet(_RubySpliter, _REG_RUBY).exec(text)) {
+    while (e = __privateGet2(_RubySpliter, _REG_RUBY).exec(text2)) {
       const g2 = e == null ? void 0 : e.groups;
       if (!g2)
         continue;
@@ -3616,30 +3616,30 @@ const _RubySpliter = class {
         continue;
       }
       if (g2.ce) {
-        __privateGet(this, _putCh2).call(this, g2.ce.slice(1), "");
+        __privateGet2(this, _putCh2).call(this, g2.ce.slice(1), "");
         continue;
       }
-      Array.from((_a3 = g2.txt) != null ? _a3 : "").forEach((v2) => __privateGet(this, _putCh2).call(this, v2, ""));
+      Array.from((_a3 = g2.txt) != null ? _a3 : "").forEach((v2) => __privateGet2(this, _putCh2).call(this, v2, ""));
     }
   }
-  putTxtRb(text, ruby) {
-    const a2 = Array.from(text);
+  putTxtRb(text2, ruby) {
+    const a2 = Array.from(text2);
     const len = a2.length;
     if (ruby.charAt(0) === "*" && ruby.length <= 2) {
-      const rb_ses = "center\uFF5C" + (ruby === "*" ? __privateGet(_RubySpliter, _sesame) : ruby.charAt(1));
+      const rb_ses = "center\uFF5C" + (ruby === "*" ? __privateGet2(_RubySpliter, _sesame) : ruby.charAt(1));
       for (let i2 = 0; i2 < len; ++i2)
-        __privateGet(this, _putCh2).call(this, a2[i2], rb_ses);
+        __privateGet2(this, _putCh2).call(this, a2[i2], rb_ses);
       return;
     }
     if (len === 1 || ruby.indexOf(" ") === -1) {
-      __privateGet(this, _putCh2).call(this, text, ruby.replaceAll("	", " "));
+      __privateGet2(this, _putCh2).call(this, text2, ruby.replaceAll("	", " "));
       return;
     }
     const aR = ruby.split(" ");
     const lenR = aR.length;
     const len_max = lenR > len ? lenR : len;
     for (let i2 = 0; i2 < len_max; ++i2) {
-      __privateGet(this, _putCh2).call(this, i2 < len ? a2[i2] : "", i2 < lenR ? aR[i2].replaceAll("	", " ") : "");
+      __privateGet2(this, _putCh2).call(this, i2 < len ? a2[i2] : "", i2 < lenR ? aR[i2].replaceAll("	", " ") : "");
     }
   }
 };
@@ -3647,8 +3647,8 @@ let RubySpliter = _RubySpliter;
 _sesame = new WeakMap();
 _putCh2 = new WeakMap();
 _REG_RUBY = new WeakMap();
-__privateAdd(RubySpliter, _sesame, "\u30FD");
-__privateAdd(RubySpliter, _REG_RUBY, void 0);
+__privateAdd2(RubySpliter, _sesame, "\u30FD");
+__privateAdd2(RubySpliter, _REG_RUBY, void 0);
 const REG_TAG = /(?<name>[^\s;\]]+)/;
 function tagToken2Name_Args(token) {
   const e = REG_TAG.exec(token.slice(1, -1));
@@ -3680,16 +3680,16 @@ function splitAmpersand(token) {
 }
 class Grammar {
   constructor() {
-    __privateAdd(this, _REG_CANTC2M, void 0);
-    __privateAdd(this, _REGC2M, void 0);
-    __privateAdd(this, _regStrC2M, void 0);
-    __privateAdd(this, _regStrC2M4not, void 0);
-    __privateAdd(this, _hC2M, void 0);
-    __privateSet(this, _REGC2M, new RegExp(""));
-    __privateSet(this, _regStrC2M, "");
-    __privateSet(this, _regStrC2M4not, "");
+    __privateAdd2(this, _REG_CANTC2M, void 0);
+    __privateAdd2(this, _REGC2M, void 0);
+    __privateAdd2(this, _regStrC2M, void 0);
+    __privateAdd2(this, _regStrC2M4not, void 0);
+    __privateAdd2(this, _hC2M, void 0);
+    __privateSet2(this, _REGC2M, new RegExp(""));
+    __privateSet2(this, _regStrC2M, "");
+    __privateSet2(this, _regStrC2M4not, "");
     this.replaceScr_C2M_And_let_ml = (scr, start_idx = 0) => {
-      if (!__privateGet(this, _hC2M))
+      if (!__privateGet2(this, _hC2M))
         return;
       for (let i2 = scr.len - 1; i2 >= start_idx; --i2) {
         const token = scr.aToken[i2];
@@ -3697,13 +3697,13 @@ class Grammar {
         if (this.REG_TOKEN_NOTXT.test(token.charAt(0)))
           continue;
         const lnum = scr.aLNum[i2];
-        const a2 = token.match(__privateGet(this, _REGC2M));
+        const a2 = token.match(__privateGet2(this, _REGC2M));
         if (!a2)
           continue;
         let del = 1;
         for (let j2 = a2.length - 1; j2 >= 0; --j2) {
           let ch = a2[j2];
-          const macro = __privateGet(this, _hC2M)[ch.charAt(0)];
+          const macro = __privateGet2(this, _hC2M)[ch.charAt(0)];
           if (macro) {
             ch = macro + (macro.slice(-1) === "]" ? "" : `'${ch.slice(1, -1)}']`);
           }
@@ -3717,12 +3717,12 @@ class Grammar {
     this.setEscape("");
   }
   setEscape(ce) {
-    if (__privateGet(this, _hC2M) && ce in __privateGet(this, _hC2M))
+    if (__privateGet2(this, _hC2M) && ce in __privateGet2(this, _hC2M))
       throw "[\u30A8\u30B9\u30B1\u30FC\u30D7\u6587\u5B57] char\u3010" + ce + "\u3011\u304C\u767B\u9332\u6E08\u307F\u306E\u62EC\u5F27\u30DE\u30AF\u30ED\u307E\u305F\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u3067\u3059";
     const ces = ce != null ? ce : "\\";
     this.REG_TOKEN = new RegExp((ce ? `\\${ce}\\S|` : "") + `\\n+|\\t+|\\[let_ml\\s+[^\\]]+\\].+?(?=\\[endlet_ml[\\]\\s])|\\[(?:[^"'#;\\]]+|` + (ces ? `(?:"(?:\\${ces}["'#\\n]|[^"])*"|'(?:\\${ces}["'#\\n]|[^'])*'|\\#(?:\\${ces}["'#\\n]|[^#])*\\#)` : `(["'#]).*?\\1`) + `|;[^\\n]*)*?]|;[^\\n]*|&[^&\\n]+&|&&?[^;\\n\\t&]+|^\\*\\w+|[^\\n\\t\\[;${ce ? `\\${ce}` : ""}]+`, "gs");
     RubySpliter.setEscape(ce);
-    __privateSet(this, _REG_CANTC2M, new RegExp(`[\\w\\s;[\\]*=&\uFF5C\u300A\u300B${ce ? `\\${ce}` : ""}]`));
+    __privateSet2(this, _REG_CANTC2M, new RegExp(`[\\w\\s;[\\]*=&\uFF5C\u300A\u300B${ce ? `\\${ce}` : ""}]`));
     this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ? `\\${ce}` : ""}]`);
   }
   matchToken(txt) {
@@ -3731,54 +3731,54 @@ class Grammar {
   }
   bracket2macro(hArg, script, idxToken) {
     var _a3;
-    const { name, text } = hArg;
-    if (!name)
+    const { name: name2, text: text2 } = hArg;
+    if (!name2)
       throw "[bracket2macro] name\u306F\u5FC5\u9808\u3067\u3059";
-    if (!text)
+    if (!text2)
       throw "[bracket2macro] text\u306F\u5FC5\u9808\u3067\u3059";
-    if (text.length !== 2)
+    if (text2.length !== 2)
       throw "[bracket2macro] text\u306F\u62EC\u5F27\u306E\u524D\u5F8C\u3092\u793A\u3059\u4E8C\u6587\u5B57\u3092\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044";
-    (_a3 = __privateGet(this, _hC2M)) != null ? _a3 : __privateSet(this, _hC2M, {});
-    const op = text.charAt(0);
-    const cl = text.charAt(1);
-    if (op in __privateGet(this, _hC2M))
+    (_a3 = __privateGet2(this, _hC2M)) != null ? _a3 : __privateSet2(this, _hC2M, {});
+    const op = text2.charAt(0);
+    const cl = text2.charAt(1);
+    if (op in __privateGet2(this, _hC2M))
       throw "[bracket2macro] text\u3010" + op + "\u3011\u304C\u767B\u9332\u6E08\u307F\u306E\u62EC\u5F27\u30DE\u30AF\u30ED\u307E\u305F\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u3067\u3059";
-    if (cl in __privateGet(this, _hC2M))
+    if (cl in __privateGet2(this, _hC2M))
       throw "[bracket2macro] text\u3010" + cl + "\u3011\u304C\u767B\u9332\u6E08\u307F\u306E\u62EC\u5F27\u30DE\u30AF\u30ED\u307E\u305F\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u3067\u3059";
-    __privateGet(this, _REG_CANTC2M).lastIndex = 0;
-    if (__privateGet(this, _REG_CANTC2M).test(op))
+    __privateGet2(this, _REG_CANTC2M).lastIndex = 0;
+    if (__privateGet2(this, _REG_CANTC2M).test(op))
       throw "[bracket2macro] text\u3010" + op + "\u3011\u306F\u62EC\u5F27\u30DE\u30AF\u30ED\u306B\u4F7F\u7528\u3067\u304D\u306A\u3044\u6587\u5B57\u3067\u3059";
-    __privateGet(this, _REG_CANTC2M).lastIndex = 0;
-    if (__privateGet(this, _REG_CANTC2M).test(cl))
+    __privateGet2(this, _REG_CANTC2M).lastIndex = 0;
+    if (__privateGet2(this, _REG_CANTC2M).test(cl))
       throw "[bracket2macro] text\u3010" + cl + "\u3011\u306F\u62EC\u5F27\u30DE\u30AF\u30ED\u306B\u4F7F\u7528\u3067\u304D\u306A\u3044\u6587\u5B57\u3067\u3059";
-    __privateGet(this, _hC2M)[cl] = "0";
-    __privateGet(this, _hC2M)[op] = `[${name} text=`;
+    __privateGet2(this, _hC2M)[cl] = "0";
+    __privateGet2(this, _hC2M)[op] = `[${name2} text=`;
     this.addC2M(`\\${op}[^\\${cl}]*\\${cl}`, `\\${op}\\${cl}`);
     this.replaceScr_C2M_And_let_ml(script, idxToken);
   }
   char2macro(hArg, hTag, script, idxToken) {
     var _a3;
-    const { char, name } = hArg;
+    const { char, name: name2 } = hArg;
     if (!char)
       throw "[char2macro] char\u306F\u5FC5\u9808\u3067\u3059";
-    (_a3 = __privateGet(this, _hC2M)) != null ? _a3 : __privateSet(this, _hC2M, {});
-    if (char in __privateGet(this, _hC2M))
+    (_a3 = __privateGet2(this, _hC2M)) != null ? _a3 : __privateSet2(this, _hC2M, {});
+    if (char in __privateGet2(this, _hC2M))
       throw "[char2macro] char\u3010" + char + "\u3011\u304C\u767B\u9332\u6E08\u307F\u306E\u62EC\u5F27\u30DE\u30AF\u30ED\u307E\u305F\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u3067\u3059";
-    __privateGet(this, _REG_CANTC2M).lastIndex = 0;
-    if (__privateGet(this, _REG_CANTC2M).test(char))
+    __privateGet2(this, _REG_CANTC2M).lastIndex = 0;
+    if (__privateGet2(this, _REG_CANTC2M).test(char))
       throw "[char2macro] char\u3010" + char + "\u3011\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u306B\u4F7F\u7528\u3067\u304D\u306A\u3044\u6587\u5B57\u3067\u3059";
-    if (!name)
+    if (!name2)
       throw "[char2macro] name\u306F\u5FC5\u9808\u3067\u3059";
-    if (!(name in hTag))
-      throw `[char2macro] \u672A\u5B9A\u7FA9\u306E\u30BF\u30B0\u53C8\u306F\u30DE\u30AF\u30ED[${name}]\u3067\u3059`;
-    __privateGet(this, _hC2M)[char] = `[${name}]`;
+    if (!(name2 in hTag))
+      throw `[char2macro] \u672A\u5B9A\u7FA9\u306E\u30BF\u30B0\u53C8\u306F\u30DE\u30AF\u30ED[${name2}]\u3067\u3059`;
+    __privateGet2(this, _hC2M)[char] = `[${name2}]`;
     this.addC2M(`\\${char}`, `\\${char}`);
     this.replaceScr_C2M_And_let_ml(script, idxToken);
   }
   addC2M(a2, b2) {
-    __privateSet(this, _regStrC2M, __privateGet(this, _regStrC2M) + `${a2}|`);
-    __privateSet(this, _regStrC2M4not, __privateGet(this, _regStrC2M4not) + `${b2}`);
-    __privateSet(this, _REGC2M, new RegExp(`(${__privateGet(this, _regStrC2M)}[^${__privateGet(this, _regStrC2M4not)}]+)`, "g"));
+    __privateSet2(this, _regStrC2M, __privateGet2(this, _regStrC2M) + `${a2}|`);
+    __privateSet2(this, _regStrC2M4not, __privateGet2(this, _regStrC2M4not) + `${b2}`);
+    __privateSet2(this, _REGC2M, new RegExp(`(${__privateGet2(this, _regStrC2M)}[^${__privateGet2(this, _regStrC2M4not)}]+)`, "g"));
   }
 }
 _REG_CANTC2M = new WeakMap();
@@ -3788,39 +3788,39 @@ _regStrC2M4not = new WeakMap();
 _hC2M = new WeakMap();
 class AnalyzeTagArg {
   constructor() {
-    __privateAdd(this, _REG_TAGARG, /;[^\n]*|(?<key>\w+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g);
-    __privateAdd(this, _hPrm, {});
-    __privateAdd(this, _isKomeParam, false);
+    __privateAdd2(this, _REG_TAGARG, /;[^\n]*|(?<key>\w+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g);
+    __privateAdd2(this, _hPrm, {});
+    __privateAdd2(this, _isKomeParam, false);
   }
   go(args) {
     var _a3, _b3;
-    __privateSet(this, _hPrm, {});
-    __privateSet(this, _isKomeParam, false);
+    __privateSet2(this, _hPrm, {});
+    __privateSet2(this, _isKomeParam, false);
     if (!args)
       return;
     let e = null;
-    while (e = __privateGet(this, _REG_TAGARG).exec(args)) {
+    while (e = __privateGet2(this, _REG_TAGARG).exec(args)) {
       const g2 = e == null ? void 0 : e.groups;
       if (!g2)
         continue;
       if (g2.key)
-        __privateGet(this, _hPrm)[g2.key] = {
+        __privateGet2(this, _hPrm)[g2.key] = {
           val: (_a3 = g2.val) != null ? _a3 : g2.val2,
           def: (_b3 = g2.def) != null ? _b3 : g2.def2
         };
       else if (g2.literal) {
         if (g2.literal === "*")
-          __privateSet(this, _isKomeParam, true);
+          __privateSet2(this, _isKomeParam, true);
         else
-          __privateGet(this, _hPrm)[g2.literal] = { val: "1" };
+          __privateGet2(this, _hPrm)[g2.literal] = { val: "1" };
       }
     }
   }
   get hPrm() {
-    return __privateGet(this, _hPrm);
+    return __privateGet2(this, _hPrm);
   }
   get isKomeParam() {
-    return __privateGet(this, _isKomeParam);
+    return __privateGet2(this, _isKomeParam);
   }
 }
 _REG_TAGARG = new WeakMap();
@@ -3915,7 +3915,7 @@ var parsimmon_umd_min = { exports: {} };
           throw new Error(o2 + " bit range requested exceeds 48 bit (6 byte) Number max.");
         return new e(function(t3, r4) {
           var e2 = u3 + r4;
-          return e2 > t3.length ? x(r4, u3.toString() + " bytes") : b2(e2, i2(function(n3, t4) {
+          return e2 > t3.length ? x2(r4, u3.toString() + " bytes") : b2(e2, i2(function(n3, t4) {
             var r5 = f2(t4, n3.buf);
             return { coll: n3.coll.concat(r5.v), buf: r5.buf };
           }, { coll: [], buf: t3.slice(r4, e2) }, n2).coll);
@@ -3923,31 +3923,31 @@ var parsimmon_umd_min = { exports: {} };
       }
       function h2(n2, t2) {
         return new e(function(r3, e2) {
-          return s2(), e2 + t2 > r3.length ? x(e2, t2 + " bytes for " + n2) : b2(e2 + t2, r3.slice(e2, e2 + t2));
+          return s2(), e2 + t2 > r3.length ? x2(e2, t2 + " bytes for " + n2) : b2(e2 + t2, r3.slice(e2, e2 + t2));
         });
       }
-      function p(n2, t2) {
+      function p2(n2, t2) {
         if (typeof (r3 = t2) != "number" || Math.floor(r3) !== r3 || t2 < 0 || t2 > 6)
           throw new Error(n2 + " requires integer length in range [0, 6].");
         var r3;
       }
       function d2(n2) {
-        return p("uintBE", n2), h2("uintBE(" + n2 + ")", n2).map(function(t2) {
+        return p2("uintBE", n2), h2("uintBE(" + n2 + ")", n2).map(function(t2) {
           return t2.readUIntBE(0, n2);
         });
       }
       function v2(n2) {
-        return p("uintLE", n2), h2("uintLE(" + n2 + ")", n2).map(function(t2) {
+        return p2("uintLE", n2), h2("uintLE(" + n2 + ")", n2).map(function(t2) {
           return t2.readUIntLE(0, n2);
         });
       }
       function g2(n2) {
-        return p("intBE", n2), h2("intBE(" + n2 + ")", n2).map(function(t2) {
+        return p2("intBE", n2), h2("intBE(" + n2 + ")", n2).map(function(t2) {
           return t2.readIntBE(0, n2);
         });
       }
       function m2(n2) {
-        return p("intLE", n2), h2("intLE(" + n2 + ")", n2).map(function(t2) {
+        return p2("intLE", n2), h2("intLE(" + n2 + ")", n2).map(function(t2) {
           return t2.readIntLE(0, n2);
         });
       }
@@ -3963,7 +3963,7 @@ var parsimmon_umd_min = { exports: {} };
       function b2(n2, t2) {
         return { status: true, index: n2, value: t2, furthest: -1, expected: [] };
       }
-      function x(n2, t2) {
+      function x2(n2, t2) {
         return E2(t2) || (t2 = [t2]), { status: false, index: -1, value: null, furthest: n2, expected: t2 };
       }
       function B(n2, t2) {
@@ -4044,7 +4044,7 @@ var parsimmon_umd_min = { exports: {} };
         if (s3 === n2.length)
           return "Got the end of the input";
         if (w2(n2)) {
-          var h3 = s3 - s3 % I2, p2 = s3 - h3, d3 = W(h3, F2, M + I2, n2.length), v3 = a2(function(n3) {
+          var h3 = s3 - s3 % I2, p3 = s3 - h3, d3 = W(h3, F2, M + I2, n2.length), v3 = a2(function(n3) {
             return a2(function(n4) {
               return U(n4.toString(16), 2, "0");
             }, n3);
@@ -4058,7 +4058,7 @@ var parsimmon_umd_min = { exports: {} };
           }(n2.slice(d3.from, d3.to).toJSON().data, I2));
           o2 = function(n3) {
             return n3.from === 0 && n3.to === 1 ? { from: n3.from, to: n3.to } : { from: n3.from / I2, to: Math.floor(n3.to / I2) };
-          }(d3), e2 = h3 / I2, r3 = 3 * p2, p2 >= 4 && (r3 += 1), l3 = 2, u3 = a2(function(n3) {
+          }(d3), e2 = h3 / I2, r3 = 3 * p3, p3 >= 4 && (r3 += 1), l3 = 2, u3 = a2(function(n3) {
             return n3.length <= 4 ? n3.join(" ") : n3.slice(0, 4).join(" ") + "  " + n3.slice(4).join(" ");
           }, v3), (f3 = (8 * (o2.to > 0 ? o2.to - 1 : o2.to)).toString(16).length) < 2 && (f3 = 2);
         } else {
@@ -4125,7 +4125,7 @@ var parsimmon_umd_min = { exports: {} };
         var t2 = "'" + n2 + "'";
         return e(function(r3, e2) {
           var u3 = e2 + n2.length, o2 = r3.slice(e2, u3);
-          return o2 === n2 ? b2(u3, o2) : x(e2, t2);
+          return o2 === n2 ? b2(u3, o2) : x2(e2, t2);
         });
       }
       function Q(n2, t2) {
@@ -4148,9 +4148,9 @@ var parsimmon_umd_min = { exports: {} };
               var i3 = o2[0], a3 = o2[t2];
               return b2(e2 + i3.length, a3);
             }
-            return x(e2, "valid match group (0 to " + o2.length + ") in " + u3);
+            return x2(e2, "valid match group (0 to " + o2.length + ") in " + u3);
           }
-          return x(e2, u3);
+          return x2(e2, u3);
         });
       }
       function X(n2) {
@@ -4160,7 +4160,7 @@ var parsimmon_umd_min = { exports: {} };
       }
       function Y(n2) {
         return e(function(t2, r3) {
-          return x(r3, n2);
+          return x2(r3, n2);
         });
       }
       function Z(n2) {
@@ -4178,13 +4178,13 @@ var parsimmon_umd_min = { exports: {} };
       function $(n2) {
         return _2(n2), e(function(t2, r3) {
           var e2 = n2._(t2, r3), u3 = t2.slice(r3, e2.index);
-          return e2.status ? x(r3, 'not "' + u3 + '"') : b2(r3, null);
+          return e2.status ? x2(r3, 'not "' + u3 + '"') : b2(r3, null);
         });
       }
       function nn(n2) {
         return k(n2), e(function(t2, r3) {
           var e2 = L(t2, r3);
-          return r3 < t2.length && n2(e2) ? b2(r3 + 1, e2) : x(r3, "a character/byte matching " + n2);
+          return r3 < t2.length && n2(e2) ? b2(r3 + 1, e2) : x2(r3, "a character/byte matching " + n2);
         });
       }
       function tn(n2, t2) {
@@ -4333,11 +4333,11 @@ var parsimmon_umd_min = { exports: {} };
       var en = e(function(n2, t2) {
         return b2(t2, S2(n2, t2));
       }), un = e(function(n2, t2) {
-        return t2 >= n2.length ? x(t2, "any character/byte") : b2(t2 + 1, L(n2, t2));
+        return t2 >= n2.length ? x2(t2, "any character/byte") : b2(t2 + 1, L(n2, t2));
       }), on2 = e(function(n2, t2) {
         return b2(n2.length, n2.slice(t2));
       }), an = e(function(n2, t2) {
-        return t2 < n2.length ? x(t2, "EOF") : b2(t2, null);
+        return t2 < n2.length ? x2(t2, "EOF") : b2(t2, null);
       }), fn = Q(/[0-9]/).desc("a digit"), cn = Q(/[0-9]*/).desc("optional digits"), sn = Q(/[a-z]/i).desc("a letter"), ln = Q(/[a-z]*/i).desc("optional letters"), hn = Q(/\s*/).desc("optional whitespace"), pn = Q(/\s+/).desc("whitespace"), dn = K("\r"), vn = K("\n"), gn = K("\r\n"), mn = T2(gn, vn, dn).desc("newline"), yn = T2(mn, an);
       e.all = on2, e.alt = T2, e.any = un, e.cr = dn, e.createLanguage = function(n2) {
         var t2 = {};
@@ -4349,8 +4349,8 @@ var parsimmon_umd_min = { exports: {} };
           }(r3);
         return t2;
       }, e.crlf = gn, e.custom = function(n2) {
-        return e(n2(b2, x));
-      }, e.digit = fn, e.digits = cn, e.empty = rn, e.end = yn, e.eof = an, e.fail = Y, e.formatError = N, e.index = en, e.isParser = y2, e.lazy = tn, e.letter = sn, e.letters = ln, e.lf = vn, e.lookahead = Z, e.makeFailure = x, e.makeSuccess = b2, e.newline = mn, e.noneOf = function(n2) {
+        return e(n2(b2, x2));
+      }, e.digit = fn, e.digits = cn, e.empty = rn, e.end = yn, e.eof = an, e.fail = Y, e.formatError = N, e.index = en, e.isParser = y2, e.lazy = tn, e.letter = sn, e.letters = ln, e.lf = vn, e.lookahead = Z, e.makeFailure = x2, e.makeSuccess = b2, e.newline = mn, e.noneOf = function(n2) {
         return nn(function(t2) {
           return n2.indexOf(t2) < 0;
         }).desc("none of '" + n2 + "'");
@@ -4428,7 +4428,7 @@ var parsimmon_umd_min = { exports: {} };
         var t2 = (n2 > 15 ? "0x" : "0x0") + n2.toString(16);
         return e(function(r3, e2) {
           var u3 = L(r3, e2);
-          return u3 === n2 ? b2(e2 + 1, u3) : x(e2, t2);
+          return u3 === n2 ? b2(e2 + 1, u3) : x2(e2, t2);
         });
       }, buffer: function(n2) {
         return h2("buffer", n2).map(function(n3) {
@@ -4452,96 +4452,96 @@ var parsimmon_umd_min = { exports: {} };
 })(parsimmon_umd_min);
 const _PropParser = class {
   constructor(val, ce = "\\") {
-    __privateAdd(this, _calc);
-    __privateAdd(this, _fncSub_ChkNum);
-    __privateAdd(this, _procEmbedVar);
-    __privateAdd(this, _parser, void 0);
-    __privateAdd(this, _hFnc, void 0);
-    __privateAdd(this, _REG_EMBEDVAR, void 0);
+    __privateAdd2(this, _calc);
+    __privateAdd2(this, _fncSub_ChkNum);
+    __privateAdd2(this, _procEmbedVar);
+    __privateAdd2(this, _parser, void 0);
+    __privateAdd2(this, _hFnc, void 0);
+    __privateAdd2(this, _REG_EMBEDVAR, void 0);
     this.val = val;
-    __privateSet(this, _parser, null);
-    __privateSet(this, _hFnc, {
+    __privateSet2(this, _parser, null);
+    __privateSet2(this, _hFnc, {
       "!num!": (a2) => a2.shift(),
-      "!str!": (a2) => __privateMethod(this, _procEmbedVar, procEmbedVar_fn).call(this, a2.shift()),
+      "!str!": (a2) => __privateMethod2(this, _procEmbedVar, procEmbedVar_fn).call(this, a2.shift()),
       "!bool!": (a2) => a2.shift(),
       "!": (a2) => {
         const b2 = a2.shift();
-        return b2[0] === "!bool!" ? !Boolean(b2[1]) : !(String(__privateMethod(this, _calc, calc_fn).call(this, b2)) === "true");
+        return b2[0] === "!bool!" ? !Boolean(b2[1]) : !(String(__privateMethod2(this, _calc, calc_fn).call(this, b2)) === "true");
       },
-      "~": (a2) => ~Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "**": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) ** Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "*": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) * Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "/": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) / Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "\xA5": (a2) => Math.floor(__privateGet(this, _hFnc)["/"](a2)),
-      "%": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) % Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
+      "~": (a2) => ~Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "**": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) ** Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "*": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) * Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "/": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) / Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "\xA5": (a2) => Math.floor(__privateGet2(this, _hFnc)["/"](a2)),
+      "%": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) % Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
       "+": (a2) => {
-        const b2 = __privateMethod(this, _calc, calc_fn).call(this, a2.shift());
-        const c2 = __privateMethod(this, _calc, calc_fn).call(this, a2.shift());
+        const b2 = __privateMethod2(this, _calc, calc_fn).call(this, a2.shift());
+        const c2 = __privateMethod2(this, _calc, calc_fn).call(this, a2.shift());
         if (Object.prototype.toString.call(b2) === "[object String]" || Object.prototype.toString.call(c2) === "[object String]") {
           return String(b2) + String(c2);
         }
         return Number(b2) + Number(c2);
       },
-      "-": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) - Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "int": (a2) => int(__privateMethod(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
-      "parseInt": (a2) => int(__privateGet(this, _hFnc)["Number"](a2)),
+      "-": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) - Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "int": (a2) => int(__privateMethod2(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
+      "parseInt": (a2) => int(__privateGet2(this, _hFnc)["Number"](a2)),
       "Number": (a2) => {
-        const b2 = __privateMethod(this, _calc, calc_fn).call(this, a2.shift());
+        const b2 = __privateMethod2(this, _calc, calc_fn).call(this, a2.shift());
         if (Object.prototype.toString.call(b2) !== "[object String]")
           return Number(b2);
-        return __privateMethod(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, __privateGet(this, _parser).parse(String(b2)).value);
+        return __privateMethod2(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, __privateGet2(this, _parser).parse(String(b2)).value);
       },
-      "ceil": (a2) => Math.ceil(__privateMethod(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
-      "floor": (a2) => Math.floor(__privateMethod(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
-      "round": (a2) => Math.round(__privateMethod(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
-      "isNaN": (a2) => isNaN(Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift()))),
-      "<<": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) << Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      ">>": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) >> Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      ">>>": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) >>> Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "<": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) < Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "<=": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) <= Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      ">": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) > Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      ">=": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) >= Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
+      "ceil": (a2) => Math.ceil(__privateMethod2(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
+      "floor": (a2) => Math.floor(__privateMethod2(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
+      "round": (a2) => Math.round(__privateMethod2(this, _fncSub_ChkNum, fncSub_ChkNum_fn).call(this, a2.shift())),
+      "isNaN": (a2) => isNaN(Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift()))),
+      "<<": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) << Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      ">>": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) >> Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      ">>>": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) >>> Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "<": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) < Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "<=": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) <= Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      ">": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) > Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      ">=": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) >= Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
       "==": (a2) => {
-        const b2 = __privateMethod(this, _calc, calc_fn).call(this, a2.shift());
-        const c2 = __privateMethod(this, _calc, calc_fn).call(this, a2.shift());
+        const b2 = __privateMethod2(this, _calc, calc_fn).call(this, a2.shift());
+        const c2 = __privateMethod2(this, _calc, calc_fn).call(this, a2.shift());
         if (b2 == null && c2 == null && (!b2 || !c2))
           return b2 == c2;
         return String(b2) === String(c2);
       },
-      "!=": (a2) => !__privateGet(this, _hFnc)["=="](a2),
+      "!=": (a2) => !__privateGet2(this, _hFnc)["=="](a2),
       "===": (a2) => {
-        const b2 = __privateMethod(this, _calc, calc_fn).call(this, a2.shift());
-        const c2 = __privateMethod(this, _calc, calc_fn).call(this, a2.shift());
+        const b2 = __privateMethod2(this, _calc, calc_fn).call(this, a2.shift());
+        const c2 = __privateMethod2(this, _calc, calc_fn).call(this, a2.shift());
         if (Object.prototype.toString.call(b2) != Object.prototype.toString.call(c2))
           return false;
         return String(b2) === String(c2);
       },
-      "!==": (a2) => !__privateGet(this, _hFnc)["==="](a2),
-      "&": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) & Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "^": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) ^ Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "|": (a2) => Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) | Number(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())),
-      "&&": (a2) => String(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) === "true" && String(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) === "true",
-      "||": (a2) => String(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) === "true" || String(__privateMethod(this, _calc, calc_fn).call(this, a2.shift())) === "true",
+      "!==": (a2) => !__privateGet2(this, _hFnc)["==="](a2),
+      "&": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) & Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "^": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) ^ Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "|": (a2) => Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) | Number(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())),
+      "&&": (a2) => String(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) === "true" && String(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) === "true",
+      "||": (a2) => String(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) === "true" || String(__privateMethod2(this, _calc, calc_fn).call(this, a2.shift())) === "true",
       "?": (a2) => {
         const b2 = a2.shift();
         let cond = false;
         if (b2[0] === "!bool!") {
           cond = Boolean(b2[1]);
         } else {
-          const cond2 = String(__privateMethod(this, _calc, calc_fn).call(this, b2));
+          const cond2 = String(__privateMethod2(this, _calc, calc_fn).call(this, b2));
           cond = cond2 !== "true" && cond2 !== "false" ? int(cond2) !== 0 : cond2 === "true";
         }
         const elm2 = a2.shift();
         if (elm2[0] !== ":")
           throw Error("(PropParser)\u4E09\u9805\u6F14\u7B97\u5B50\u306E\u6587\u6CD5\u30A8\u30E9\u30FC\u3067\u3059\u3002: \u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093");
-        return __privateMethod(this, _calc, calc_fn).call(this, elm2[cond ? 1 : 2]);
+        return __privateMethod2(this, _calc, calc_fn).call(this, elm2[cond ? 1 : 2]);
       },
       ":": () => {
         throw Error("(PropParser)\u4E09\u9805\u6F14\u7B97\u5B50\u306E\u6587\u6CD5\u30A8\u30E9\u30FC\u3067\u3059\u3002? \u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093");
       }
     });
-    __privateSet(this, _REG_EMBEDVAR, /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g);
+    __privateSet2(this, _REG_EMBEDVAR, /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g);
     this.getValAmpersand = (val2) => val2.charAt(0) === "&" ? String(this.parse(val2.slice(1))) : val2;
     function ope(a2) {
       const ps = [];
@@ -4559,7 +4559,7 @@ const _PropParser = class {
     function BINARY_LEFT(operatorsParser, nextParser) {
       return parsimmon_umd_min.exports.seqMap(nextParser, parsimmon_umd_min.exports.seq(operatorsParser, nextParser).many(), (first, rest) => rest.reduce((acc, ch) => [ch[0], acc, ch[1]], first));
     }
-    const Num = parsimmon_umd_min.exports.alt(parsimmon_umd_min.exports.alt(parsimmon_umd_min.exports.regex(/-?(0|[1-9][0-9]*)\.[0-9]+/), parsimmon_umd_min.exports.regex(/0x[0-9a-fA-F]+/)).map(Number), parsimmon_umd_min.exports.alt(parsimmon_umd_min.exports.regex(/-?(0|[1-9][0-9]*)/)).map((n) => int(n))).map((str) => ["!num!", str]).desc("number");
+    const Num = parsimmon_umd_min.exports.alt(parsimmon_umd_min.exports.alt(parsimmon_umd_min.exports.regex(/-?(0|[1-9][0-9]*)\.[0-9]+/), parsimmon_umd_min.exports.regex(/0x[0-9a-fA-F]+/)).map(Number), parsimmon_umd_min.exports.alt(parsimmon_umd_min.exports.regex(/-?(0|[1-9][0-9]*)/)).map((n) => int(n))).map((str2) => ["!num!", str2]).desc("number");
     const NullLiteral = parsimmon_umd_min.exports.string("null").map(() => ["!str!", null]);
     const BooleanLiteral = parsimmon_umd_min.exports.regex(/(true|false)/).map((b2) => ["!bool!", b2 === "true"]).desc("boolean");
     const StringLiteral = parsimmon_umd_min.exports.regex(new RegExp(`(?:"(?:\\${ce}["'#\\n]|[^"])*"|'(?:\\${ce}["'#\\n]|[^'])*'|\\#(?:\\${ce}["'#\\n]|[^#])*\\#)`)).map((b2) => ["!str!", b2.slice(1, -1).replaceAll(ce, "")]).desc("string");
@@ -4579,7 +4579,7 @@ const _PropParser = class {
         return ["!bool!", val2];
       return Object.prototype.toString.call(val2) === "[object String]" ? ["!str!", String(val2)] : ["!num!", Number(val2)];
     }).desc("string");
-    const Basic = parsimmon_umd_min.exports.lazy(() => parsimmon_umd_min.exports.string("(").then(__privateGet(this, _parser)).skip(parsimmon_umd_min.exports.string(")")).or(Num).or(NullLiteral).or(BooleanLiteral).or(StringLiteral).or(VarLiteral));
+    const Basic = parsimmon_umd_min.exports.lazy(() => parsimmon_umd_min.exports.string("(").then(__privateGet2(this, _parser)).skip(parsimmon_umd_min.exports.string(")")).or(Num).or(NullLiteral).or(BooleanLiteral).or(StringLiteral).or(VarLiteral));
     const table = [
       { type: PREFIX2, ops: ope([/[A-Za-z_][A-Za-z0-9_]*(?=\()/]) },
       { type: PREFIX2, ops: ope([/(!(?!=)|~)/]) },
@@ -4598,26 +4598,26 @@ const _PropParser = class {
       { type: BINARY_RIGHT, ops: ope(["?"]) }
     ];
     const tableParser = table.reduce((acc, level) => level.type(level.ops, acc), Basic);
-    __privateSet(this, _parser, tableParser.trim(parsimmon_umd_min.exports.optWhitespace));
+    __privateSet2(this, _parser, tableParser.trim(parsimmon_umd_min.exports.optWhitespace));
   }
   parse(s2) {
-    const p = __privateGet(this, _parser).parse(s2);
-    if (!p.status)
+    const p2 = __privateGet2(this, _parser).parse(s2);
+    if (!p2.status)
       throw Error("(PropParser)\u6587\u6CD5\u30A8\u30E9\u30FC\u3010" + s2 + "\u3011");
-    const a2 = p.value;
+    const a2 = p2.value;
     if (a2[0] === "!str!")
-      return __privateMethod(this, _procEmbedVar, procEmbedVar_fn).call(this, a2[1]);
-    return __privateMethod(this, _calc, calc_fn).call(this, a2);
+      return __privateMethod2(this, _procEmbedVar, procEmbedVar_fn).call(this, a2[1]);
+    return __privateMethod2(this, _calc, calc_fn).call(this, a2);
   }
   static getValName(arg_name) {
     var _a3, _b3;
-    const e = __privateGet(this, _REG_VAL).exec(arg_name.trim());
+    const e = __privateGet2(this, _REG_VAL).exec(arg_name.trim());
     const g2 = e == null ? void 0 : e.groups;
     if (!g2)
       return void 0;
     return {
       scope: g2.scope || "tmp",
-      name: __privateMethod(_a3 = _PropParser, _getValName_B2D, getValName_B2D_fn).call(_a3, g2.name),
+      name: __privateMethod2(_a3 = _PropParser, _getValName_B2D, getValName_B2D_fn).call(_a3, g2.name),
       at: (_b3 = g2.at) != null ? _b3 : ""
     };
   }
@@ -4628,14 +4628,14 @@ _calc = new WeakSet();
 calc_fn = function(a2) {
   const elm = a2.shift();
   if (elm instanceof Array)
-    return __privateMethod(this, _calc, calc_fn).call(this, elm);
-  const fnc = __privateGet(this, _hFnc)[elm];
+    return __privateMethod2(this, _calc, calc_fn).call(this, elm);
+  const fnc = __privateGet2(this, _hFnc)[elm];
   return fnc ? fnc(a2) : Object(null);
 };
 _hFnc = new WeakMap();
 _fncSub_ChkNum = new WeakSet();
 fncSub_ChkNum_fn = function(v2) {
-  const b2 = __privateMethod(this, _calc, calc_fn).call(this, v2);
+  const b2 = __privateMethod2(this, _calc, calc_fn).call(this, v2);
   if (Object.prototype.toString.call(b2) !== "[object Number]")
     throw Error("(PropParser)\u5F15\u6570\u3010" + b2 + "\u3011\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093");
   return Number(b2);
@@ -4645,33 +4645,33 @@ _procEmbedVar = new WeakSet();
 procEmbedVar_fn = function(b2) {
   if (b2 == null)
     return b2;
-  return String(b2).replace(__privateGet(this, _REG_EMBEDVAR), (v2) => {
+  return String(b2).replace(__privateGet2(this, _REG_EMBEDVAR), (v2) => {
     return v2.charAt(0) === "$" ? this.val.getVal(v2.slice(1)) : this.parse(v2.slice(2, -1));
   });
 };
 _REG_VAL = new WeakMap();
 _getValName_B2D = new WeakSet();
-getValName_B2D_fn = function(str) {
+getValName_B2D_fn = function(str2) {
   let i2 = 0, e = 0;
   while (true) {
-    i2 = str.indexOf('["');
+    i2 = str2.indexOf('["');
     if (i2 < 0) {
-      i2 = str.indexOf("['");
+      i2 = str2.indexOf("['");
       if (i2 < 0)
         break;
-      e = str.indexOf("']", i2 + 2);
+      e = str2.indexOf("']", i2 + 2);
     } else {
-      e = str.indexOf('"]', i2 + 2);
+      e = str2.indexOf('"]', i2 + 2);
     }
     if (e < 0)
       break;
-    str = str.slice(0, i2) + "." + str.slice(i2 + 2, e) + str.slice(e + 2);
+    str2 = str2.slice(0, i2) + "." + str2.slice(i2 + 2, e) + str2.slice(e + 2);
     i2 = e - 2;
   }
-  return str;
+  return str2;
 };
-__privateAdd(PropParser, _getValName_B2D);
-__privateAdd(PropParser, _REG_VAL, /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/);
+__privateAdd2(PropParser, _getValName_B2D);
+__privateAdd2(PropParser, _REG_VAL, /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/);
 var __accessCheck$4 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -4907,8 +4907,8 @@ class Areas {
     const aBegin = [];
     for (const begin in this.hAreas)
       aBegin.push(parseInt(begin));
-    aBegin.sort(function(x, y2) {
-      return x - y2;
+    aBegin.sort(function(x2, y2) {
+      return x2 - y2;
     });
     aBegin.forEach((v2) => {
       ret += "," + v2 + (v2 === this.hAreas[v2]) ? "" : "~" + this.hAreas[v2];
@@ -4920,78 +4920,78 @@ class Areas {
 }
 const _Variable = class {
   constructor(cfg, hTag) {
-    __privateAdd(this, _set_data_break);
-    __privateAdd(this, _copybookmark);
-    __privateAdd(this, _erasebookmark);
-    __privateAdd(this, _let);
-    __privateAdd(this, _let_abs);
-    __privateAdd(this, _let_char_at);
-    __privateAdd(this, _let_index_of);
-    __privateAdd(this, _let_length);
-    __privateAdd(this, _let_replace);
-    __privateAdd(this, _let_round);
-    __privateAdd(this, _let_search);
-    __privateAdd(this, _let_substr);
-    __privateAdd(this, _clearsysvar);
-    __privateAdd(this, _clearvar);
-    __privateAdd(this, _castAuto);
-    __privateAdd(this, _runFirst_Bool_hSysVal_true);
-    __privateAdd(this, _runFirst_sys_an_tagCh_msecWait);
-    __privateAdd(this, _runFirst_sys_an_tagCh_msecWait_Kidoku);
-    __privateAdd(this, _runFirst_sys_an_auto_msecPageWait);
-    __privateAdd(this, _runFirst_sys_an_auto_msecLineWait);
-    __privateAdd(this, _runFirst_Bool_hSaveVal_true);
-    __privateAdd(this, _runFirst_Bool_hTmp_true);
-    __privateAdd(this, _runFirst_Bool_hTmp_false);
-    __privateAdd(this, _hScopes, void 0);
-    __privateAdd(this, _hSave, void 0);
-    __privateAdd(this, _hTmp, void 0);
-    __privateAdd(this, _sys2, void 0);
-    __privateAdd(this, _data, void 0);
-    __privateAdd(this, _hSys, void 0);
-    __privateAdd(this, _hAreaKidoku, void 0);
-    __privateAdd(this, _callHook, void 0);
-    __privateAdd(this, _hProcDbgRes, void 0);
-    __privateAdd(this, _flush, void 0);
-    __privateAdd(this, _doRecProc, void 0);
-    __privateAdd(this, _setVal, void 0);
-    __privateAdd(this, _REG_NUMERICLITERAL, void 0);
-    __privateAdd(this, _dump_val, void 0);
-    __privateAdd(this, _doRecLog, void 0);
-    __privateAdd(this, _hValTrg, void 0);
+    __privateAdd2(this, _set_data_break);
+    __privateAdd2(this, _copybookmark);
+    __privateAdd2(this, _erasebookmark);
+    __privateAdd2(this, _let);
+    __privateAdd2(this, _let_abs);
+    __privateAdd2(this, _let_char_at);
+    __privateAdd2(this, _let_index_of);
+    __privateAdd2(this, _let_length);
+    __privateAdd2(this, _let_replace);
+    __privateAdd2(this, _let_round);
+    __privateAdd2(this, _let_search);
+    __privateAdd2(this, _let_substr);
+    __privateAdd2(this, _clearsysvar);
+    __privateAdd2(this, _clearvar);
+    __privateAdd2(this, _castAuto);
+    __privateAdd2(this, _runFirst_Bool_hSysVal_true);
+    __privateAdd2(this, _runFirst_sys_an_tagCh_msecWait);
+    __privateAdd2(this, _runFirst_sys_an_tagCh_msecWait_Kidoku);
+    __privateAdd2(this, _runFirst_sys_an_auto_msecPageWait);
+    __privateAdd2(this, _runFirst_sys_an_auto_msecLineWait);
+    __privateAdd2(this, _runFirst_Bool_hSaveVal_true);
+    __privateAdd2(this, _runFirst_Bool_hTmp_true);
+    __privateAdd2(this, _runFirst_Bool_hTmp_false);
+    __privateAdd2(this, _hScopes, void 0);
+    __privateAdd2(this, _hSave, void 0);
+    __privateAdd2(this, _hTmp, void 0);
+    __privateAdd2(this, _sys2, void 0);
+    __privateAdd2(this, _data, void 0);
+    __privateAdd2(this, _hSys, void 0);
+    __privateAdd2(this, _hAreaKidoku, void 0);
+    __privateAdd2(this, _callHook, void 0);
+    __privateAdd2(this, _hProcDbgRes, void 0);
+    __privateAdd2(this, _flush, void 0);
+    __privateAdd2(this, _doRecProc, void 0);
+    __privateAdd2(this, _setVal, void 0);
+    __privateAdd2(this, _REG_NUMERICLITERAL, void 0);
+    __privateAdd2(this, _dump_val, void 0);
+    __privateAdd2(this, _doRecLog, void 0);
+    __privateAdd2(this, _hValTrg, void 0);
     var _a3;
     this.cfg = cfg;
-    __privateSet(this, _hScopes, { sys: {}, save: {}, tmp: {}, mp: {} });
-    __privateSet(this, _hSave, __privateGet(this, _hScopes).save);
-    __privateSet(this, _hTmp, __privateGet(this, _hScopes).tmp);
-    __privateSet(this, _data, { sys: {}, mark: {}, kidoku: {} });
-    __privateSet(this, _hAreaKidoku, {});
-    __privateSet(this, _hProcDbgRes, {
-      auth: (_2, o) => __privateMethod(this, _set_data_break, set_data_break_fn).call(this, o.hBreakpoint.aData),
+    __privateSet2(this, _hScopes, { sys: {}, save: {}, tmp: {}, mp: {} });
+    __privateSet2(this, _hSave, __privateGet2(this, _hScopes).save);
+    __privateSet2(this, _hTmp, __privateGet2(this, _hScopes).tmp);
+    __privateSet2(this, _data, { sys: {}, mark: {}, kidoku: {} });
+    __privateSet2(this, _hAreaKidoku, {});
+    __privateSet2(this, _hProcDbgRes, {
+      auth: (_2, o) => __privateMethod2(this, _set_data_break, set_data_break_fn).call(this, o.hBreakpoint.aData),
       var: (_2, o) => {
         var _a4;
-        return __privateGet(this, _sys2).send2Dbg(o.ri, { v: (_a4 = __privateGet(this, _hScopes)[o.scope]) != null ? _a4 : {} });
+        return __privateGet2(this, _sys2).send2Dbg(o.ri, { v: (_a4 = __privateGet2(this, _hScopes)[o.scope]) != null ? _a4 : {} });
       },
       set_var: (_2, o) => {
         try {
-          __privateGet(this, _setVal).call(this, o.nm, o.val);
-          __privateGet(this, _sys2).send2Dbg(o.ri, {});
+          __privateGet2(this, _setVal).call(this, o.nm, o.val);
+          __privateGet2(this, _sys2).send2Dbg(o.ri, {});
         } catch {
         }
       },
       set_data_break: (_2, o) => {
-        __privateMethod(this, _set_data_break, set_data_break_fn).call(this, o.a);
-        __privateGet(this, _sys2).send2Dbg(o.ri, {});
+        __privateMethod2(this, _set_data_break, set_data_break_fn).call(this, o.a);
+        __privateGet2(this, _sys2).send2Dbg(o.ri, {});
       },
-      disconnect: (_2) => __privateSet(_Variable, _hSetEvent, {})
+      disconnect: (_2) => __privateSet2(_Variable, _hSetEvent, {})
     });
-    __privateSet(this, _flush, () => {
+    __privateSet2(this, _flush, () => {
     });
-    __privateSet(this, _doRecProc, (_doRec) => {
+    __privateSet2(this, _doRecProc, (_doRec) => {
     });
-    this.getMark = (place) => __privateGet(this, _data).mark[place];
-    this.getAreaKidoku = (fn) => __privateGet(this, _hAreaKidoku)[fn];
-    __privateSet(this, _setVal, (arg_name, val, autocast = true) => {
+    this.getMark = (place) => __privateGet2(this, _data).mark[place];
+    this.getAreaKidoku = (fn) => __privateGet2(this, _hAreaKidoku)[fn];
+    __privateSet2(this, _setVal, (arg_name, val, autocast = true) => {
       if (!arg_name)
         throw "[\u5909\u6570\u306B\u5024\u30BB\u30C3\u30C8] name\u306F\u5FC5\u9808\u3067\u3059";
       if (val == null)
@@ -4999,7 +4999,7 @@ const _Variable = class {
       const o = PropParser.getValName(arg_name);
       if (o === void 0)
         throw "[\u5909\u6570\u53C2\u7167] name(" + arg_name + ")\u304C\u5909\u6570\u540D\u3068\u3057\u3066\u7570\u5E38\u3067\u3059";
-      const hScope = __privateGet(this, _hScopes)[o.scope];
+      const hScope = __privateGet2(this, _hScopes)[o.scope];
       if (!hScope)
         throw "[\u5909\u6570\u306B\u5024\u30BB\u30C3\u30C8] scope\u304C\u7570\u5E38\u3010" + o.scope + "\u3011\u3067\u3059";
       const nm = o["name"];
@@ -5014,7 +5014,7 @@ const _Variable = class {
       const o = PropParser.getValName(arg_name);
       if (o === void 0)
         throw "[\u5909\u6570\u53C2\u7167] name(" + arg_name + ")\u304C\u5909\u6570\u540D\u3068\u3057\u3066\u7570\u5E38\u3067\u3059";
-      const hScope = __privateGet(this, _hScopes)[o["scope"]];
+      const hScope = __privateGet2(this, _hScopes)[o["scope"]];
       if (!hScope)
         throw "[\u5909\u6570\u53C2\u7167] scope\u304C\u7570\u5E38\u3010" + o["scope"] + "\u3011\u3067\u3059";
       const val_name = o["name"];
@@ -5055,13 +5055,13 @@ const _Variable = class {
       }
       if (val instanceof Function)
         val = val();
-      return o["at"] === "@str" ? val : __privateMethod(this, _castAuto, castAuto_fn).call(this, val);
+      return o["at"] === "@str" ? val : __privateMethod2(this, _castAuto, castAuto_fn).call(this, val);
     };
-    __privateSet(this, _REG_NUMERICLITERAL, /^-?[\d\.]+$/);
-    __privateSet(this, _dump_val, () => {
+    __privateSet2(this, _REG_NUMERICLITERAL, /^-?[\d\.]+$/);
+    __privateSet2(this, _dump_val, () => {
       const val = { tmp: {}, sys: {}, save: {}, mp: {} };
       for (let scope in val) {
-        const hVal = __privateGet(this, _hScopes)[scope];
+        const hVal = __privateGet2(this, _hScopes)[scope];
         const hRet = val[scope];
         for (let key in hVal) {
           const v2 = hVal[key];
@@ -5074,201 +5074,201 @@ const _Variable = class {
       console.info("\u{1F95F} [dump_val]", val);
       return false;
     });
-    __privateSet(this, _doRecLog, false);
-    __privateSet(this, _hValTrg, {
-      "sys:sn.tagCh.doWait": (name) => __privateMethod(this, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn).call(this, name),
-      "sys:sn.tagCh.doWait_Kidoku": (name) => __privateMethod(this, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn).call(this, name),
-      "sys:sn.tagCh.msecWait": (name) => __privateMethod(this, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn).call(this, name),
-      "sys:sn.tagCh.msecWait_Kidoku": (name) => __privateMethod(this, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn).call(this, name),
-      "sys:sn.tagCh.canskip": (name) => __privateMethod(this, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn).call(this, name),
-      "sys:sn.auto.msecPageWait": (name) => __privateMethod(this, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn).call(this, name),
-      "sys:sn.auto.msecPageWait_Kidoku": (name) => __privateMethod(this, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn).call(this, name),
-      "sys:sn.auto.msecLineWait": (name) => __privateMethod(this, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn).call(this, name),
-      "sys:sn.auto.msecLineWait_Kidoku": (name) => __privateMethod(this, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn).call(this, name),
-      "save:sn.doRecLog": (name) => {
-        __privateGet(this, _doRecProc).call(this, __privateSet(this, _doRecLog, __privateMethod(this, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn).call(this, name)));
+    __privateSet2(this, _doRecLog, false);
+    __privateSet2(this, _hValTrg, {
+      "sys:sn.tagCh.doWait": (name2) => __privateMethod2(this, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn).call(this, name2),
+      "sys:sn.tagCh.doWait_Kidoku": (name2) => __privateMethod2(this, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn).call(this, name2),
+      "sys:sn.tagCh.msecWait": (name2) => __privateMethod2(this, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn).call(this, name2),
+      "sys:sn.tagCh.msecWait_Kidoku": (name2) => __privateMethod2(this, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn).call(this, name2),
+      "sys:sn.tagCh.canskip": (name2) => __privateMethod2(this, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn).call(this, name2),
+      "sys:sn.auto.msecPageWait": (name2) => __privateMethod2(this, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn).call(this, name2),
+      "sys:sn.auto.msecPageWait_Kidoku": (name2) => __privateMethod2(this, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn).call(this, name2),
+      "sys:sn.auto.msecLineWait": (name2) => __privateMethod2(this, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn).call(this, name2),
+      "sys:sn.auto.msecLineWait_Kidoku": (name2) => __privateMethod2(this, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn).call(this, name2),
+      "save:sn.doRecLog": (name2) => {
+        __privateGet2(this, _doRecProc).call(this, __privateSet2(this, _doRecLog, __privateMethod2(this, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn).call(this, name2)));
       },
       "save:sn.userFnTail": (_name, val) => this.cfg.userFnTail = val,
-      "tmp:sn.tagL.enabled": (name) => __privateMethod(this, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn).call(this, name),
-      "tmp:sn.skip.all": (name) => __privateMethod(this, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn).call(this, name),
-      "tmp:sn.skip.enabled": (name) => __privateMethod(this, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn).call(this, name),
-      "tmp:sn.auto.enabled": (name) => __privateMethod(this, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn).call(this, name),
+      "tmp:sn.tagL.enabled": (name2) => __privateMethod2(this, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn).call(this, name2),
+      "tmp:sn.skip.all": (name2) => __privateMethod2(this, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn).call(this, name2),
+      "tmp:sn.skip.enabled": (name2) => __privateMethod2(this, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn).call(this, name2),
+      "tmp:sn.auto.enabled": (name2) => __privateMethod2(this, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn).call(this, name2),
       "tmp:flash.desktop.NativeApplication.nativeApplication.systemIdleMode": () => {
       }
     });
-    hTag.let = (o) => __privateMethod(this, _let, let_fn).call(this, o);
-    hTag.let_abs = (o) => __privateMethod(this, _let_abs, let_abs_fn).call(this, o);
-    hTag.let_char_at = (o) => __privateMethod(this, _let_char_at, let_char_at_fn).call(this, o);
-    hTag.let_index_of = (o) => __privateMethod(this, _let_index_of, let_index_of_fn).call(this, o);
-    hTag.let_length = (o) => __privateMethod(this, _let_length, let_length_fn).call(this, o);
-    hTag.let_replace = (o) => __privateMethod(this, _let_replace, let_replace_fn).call(this, o);
-    hTag.let_round = (o) => __privateMethod(this, _let_round, let_round_fn).call(this, o);
-    hTag.let_search = (o) => __privateMethod(this, _let_search, let_search_fn).call(this, o);
-    hTag.let_substr = (o) => __privateMethod(this, _let_substr, let_substr_fn).call(this, o);
-    hTag.clearsysvar = () => __privateMethod(this, _clearsysvar, clearsysvar_fn).call(this);
-    hTag.clearvar = () => __privateMethod(this, _clearvar, clearvar_fn).call(this);
-    hTag.dump_val = () => __privateGet(this, _dump_val).call(this);
-    hTag.copybookmark = (o) => __privateMethod(this, _copybookmark, copybookmark_fn).call(this, o);
-    hTag.erasebookmark = (o) => __privateMethod(this, _erasebookmark, erasebookmark_fn).call(this, o);
-    __privateGet(this, _hSave)["sn.userFnTail"] = "";
+    hTag.let = (o) => __privateMethod2(this, _let, let_fn).call(this, o);
+    hTag.let_abs = (o) => __privateMethod2(this, _let_abs, let_abs_fn).call(this, o);
+    hTag.let_char_at = (o) => __privateMethod2(this, _let_char_at, let_char_at_fn).call(this, o);
+    hTag.let_index_of = (o) => __privateMethod2(this, _let_index_of, let_index_of_fn).call(this, o);
+    hTag.let_length = (o) => __privateMethod2(this, _let_length, let_length_fn).call(this, o);
+    hTag.let_replace = (o) => __privateMethod2(this, _let_replace, let_replace_fn).call(this, o);
+    hTag.let_round = (o) => __privateMethod2(this, _let_round, let_round_fn).call(this, o);
+    hTag.let_search = (o) => __privateMethod2(this, _let_search, let_search_fn).call(this, o);
+    hTag.let_substr = (o) => __privateMethod2(this, _let_substr, let_substr_fn).call(this, o);
+    hTag.clearsysvar = () => __privateMethod2(this, _clearsysvar, clearsysvar_fn).call(this);
+    hTag.clearvar = () => __privateMethod2(this, _clearvar, clearvar_fn).call(this);
+    hTag.dump_val = () => __privateGet2(this, _dump_val).call(this);
+    hTag.copybookmark = (o) => __privateMethod2(this, _copybookmark, copybookmark_fn).call(this, o);
+    hTag.erasebookmark = (o) => __privateMethod2(this, _erasebookmark, erasebookmark_fn).call(this, o);
+    __privateGet2(this, _hSave)["sn.userFnTail"] = "";
     this.defTmp("const.sn.bookmark.json", () => {
       const a2 = [];
-      Object.keys(__privateGet(this, _data).mark).sort().forEach((k) => {
-        const o = __spreadValues({}, __privateGet(this, _data).mark[k].json);
+      Object.keys(__privateGet2(this, _data).mark).sort().forEach((k) => {
+        const o = __spreadValues({}, __privateGet2(this, _data).mark[k].json);
         o.place = k;
         a2.push(o);
       });
       return JSON.stringify(a2);
     });
-    __privateGet(this, _hTmp)["const.sn.isFirstBoot"] = true;
-    __privateGet(this, _hTmp)["sn.tagL.enabled"] = true;
-    __privateGet(this, _hTmp)["sn.skip.all"] = false;
-    __privateGet(this, _hTmp)["sn.skip.enabled"] = false;
-    __privateGet(this, _hTmp)["sn.auto.enabled"] = false;
-    __privateGet(this, _hTmp)["const.sn.last_page_text"] = "";
-    __privateGet(this, _hTmp)["const.sn.displayState"] = false;
-    __privateGet(this, _hTmp)["const.Date.getTime"] = () => new Date().getTime();
-    __privateGet(this, _hTmp)["const.Date.getDateStr"] = () => getDateStr();
-    __privateGet(this, _hTmp)["const.sn.platform"] = JSON.stringify(platform);
-    __privateMethod(this, _clearsysvar, clearsysvar_fn).call(this);
-    __privateMethod(this, _clearvar, clearvar_fn).call(this);
-    __privateGet(this, _hTmp)["const.sn.config.window.width"] = cfg.oCfg.window.width;
-    __privateGet(this, _hTmp)["const.sn.config.window.height"] = cfg.oCfg.window.height;
-    __privateGet(this, _hTmp)["const.sn.config.book.title"] = cfg.oCfg.book.title;
-    __privateGet(this, _hTmp)["const.sn.config.book.version"] = cfg.oCfg.book.version;
-    __privateGet(this, _hTmp)["const.sn.Math.PI"] = Math.PI;
+    __privateGet2(this, _hTmp)["const.sn.isFirstBoot"] = true;
+    __privateGet2(this, _hTmp)["sn.tagL.enabled"] = true;
+    __privateGet2(this, _hTmp)["sn.skip.all"] = false;
+    __privateGet2(this, _hTmp)["sn.skip.enabled"] = false;
+    __privateGet2(this, _hTmp)["sn.auto.enabled"] = false;
+    __privateGet2(this, _hTmp)["const.sn.last_page_text"] = "";
+    __privateGet2(this, _hTmp)["const.sn.displayState"] = false;
+    __privateGet2(this, _hTmp)["const.Date.getTime"] = () => new Date().getTime();
+    __privateGet2(this, _hTmp)["const.Date.getDateStr"] = () => getDateStr();
+    __privateGet2(this, _hTmp)["const.sn.platform"] = JSON.stringify(platform);
+    __privateMethod2(this, _clearsysvar, clearsysvar_fn).call(this);
+    __privateMethod2(this, _clearvar, clearvar_fn).call(this);
+    __privateGet2(this, _hTmp)["const.sn.config.window.width"] = cfg.oCfg.window.width;
+    __privateGet2(this, _hTmp)["const.sn.config.window.height"] = cfg.oCfg.window.height;
+    __privateGet2(this, _hTmp)["const.sn.config.book.title"] = cfg.oCfg.book.title;
+    __privateGet2(this, _hTmp)["const.sn.config.book.version"] = cfg.oCfg.book.version;
+    __privateGet2(this, _hTmp)["const.sn.Math.PI"] = Math.PI;
     if (typeof window === "undefined")
       return;
     const win = window;
     const ac = (_a3 = win["AudioContext"]) != null ? _a3 : win["webkitAudioContext"];
-    __privateGet(this, _hTmp)["const.sn.needClick2Play"] = () => new ac().state === "suspended";
+    __privateGet2(this, _hTmp)["const.sn.needClick2Play"] = () => new ac().state === "suspended";
   }
   setSys(sys) {
-    __privateSet(this, _sys2, sys);
-    sys.initVal(__privateGet(this, _data), __privateGet(this, _hTmp), (data) => {
+    __privateSet2(this, _sys2, sys);
+    sys.initVal(__privateGet2(this, _data), __privateGet2(this, _hTmp), (data) => {
       this.updateData(data);
       sessionStorage.clear();
       const ns = this.cfg.getNs();
-      __privateSet(this, _flush, this.cfg.oCfg.debug.variable ? () => {
+      __privateSet2(this, _flush, this.cfg.oCfg.debug.variable ? () => {
         const oSys = {};
-        Object.keys(__privateGet(this, _hSys)).forEach((k) => {
-          const v2 = __privateGet(this, _hSys)[k];
+        Object.keys(__privateGet2(this, _hSys)).forEach((k) => {
+          const v2 = __privateGet2(this, _hSys)[k];
           oSys["sys:" + k] = v2 instanceof Function ? v2() : v2;
         });
         sessionStorage[ns + "sys"] = JSON.stringify(oSys);
         const oSave = {};
-        Object.keys(__privateGet(this, _hSave)).forEach((k) => {
-          const v2 = __privateGet(this, _hSave)[k];
+        Object.keys(__privateGet2(this, _hSave)).forEach((k) => {
+          const v2 = __privateGet2(this, _hSave)[k];
           oSave["save:" + k] = v2 instanceof Function ? v2() : v2;
         });
         sessionStorage[ns + "save"] = JSON.stringify(oSave);
         const oTmp = {};
-        Object.keys(__privateGet(this, _hTmp)).forEach((k) => {
-          const v2 = __privateGet(this, _hTmp)[k];
+        Object.keys(__privateGet2(this, _hTmp)).forEach((k) => {
+          const v2 = __privateGet2(this, _hTmp)[k];
           oTmp[k] = v2 instanceof Function ? v2() : v2;
         });
         sessionStorage[ns + "tmp"] = JSON.stringify(oTmp);
         const oMp = {};
-        Object.keys(__privateGet(this, _hScopes).mp).forEach((k) => {
-          const v2 = __privateGet(this, _hScopes).mp[k];
+        Object.keys(__privateGet2(this, _hScopes).mp).forEach((k) => {
+          const v2 = __privateGet2(this, _hScopes).mp[k];
           oMp[k] = v2 instanceof Function ? v2() : v2;
         });
         sessionStorage[ns + "mp"] = JSON.stringify(oMp);
         const oMark = {};
-        Object.keys(__privateGet(this, _data).mark).forEach((k) => {
-          const v2 = __privateGet(this, _data).mark[k];
+        Object.keys(__privateGet2(this, _data).mark).forEach((k) => {
+          const v2 = __privateGet2(this, _data).mark[k];
           oMark[k] = v2 instanceof Function ? v2() : v2;
         });
         sessionStorage[ns + "mark"] = JSON.stringify(oMark);
         const oKidoku = {};
-        Object.keys(__privateGet(this, _data).kidoku).forEach((k) => {
-          const v2 = __privateGet(this, _data).kidoku[k];
+        Object.keys(__privateGet2(this, _data).kidoku).forEach((k) => {
+          const v2 = __privateGet2(this, _data).kidoku[k];
           oKidoku[k] = v2 instanceof Function ? v2() : v2;
         });
         sessionStorage[ns + "kidoku"] = JSON.stringify(oKidoku);
         sys.flush();
       } : () => sys.flush());
-      __privateSet(this, _callHook, (type, o) => sys.callHook(type, o));
+      __privateSet2(this, _callHook, (type, o) => sys.callHook(type, o));
       sys.addHook((type, o) => {
         var _a3, _b3;
-        return (_b3 = (_a3 = __privateGet(this, _hProcDbgRes))[type]) == null ? void 0 : _b3.call(_a3, type, o);
+        return (_b3 = (_a3 = __privateGet2(this, _hProcDbgRes))[type]) == null ? void 0 : _b3.call(_a3, type, o);
       });
       const tm = this.getVal("sys:sn.tagCh.msecWait", -1);
-      if (__privateGet(this, _hTmp)["const.sn.isFirstBoot"] || tm === -1)
-        __privateMethod(this, _clearsysvar, clearsysvar_fn).call(this);
+      if (__privateGet2(this, _hTmp)["const.sn.isFirstBoot"] || tm === -1)
+        __privateMethod2(this, _clearsysvar, clearsysvar_fn).call(this);
     });
   }
   updateData(data) {
-    __privateSet(this, _data, data);
-    __privateSet(this, _hSys, __privateGet(this, _hScopes).sys = __privateGet(this, _data).sys);
-    __privateSet(this, _hAreaKidoku, {});
-    for (const fn in __privateGet(this, _data).kidoku) {
+    __privateSet2(this, _data, data);
+    __privateSet2(this, _hSys, __privateGet2(this, _hScopes).sys = __privateGet2(this, _data).sys);
+    __privateSet2(this, _hAreaKidoku, {});
+    for (const fn in __privateGet2(this, _data).kidoku) {
       const areas = new Areas();
-      areas.hAreas = __spreadValues({}, __privateGet(this, _data).kidoku[fn]);
-      __privateGet(this, _hAreaKidoku)[fn] = areas;
+      areas.hAreas = __spreadValues({}, __privateGet2(this, _data).kidoku[fn]);
+      __privateGet2(this, _hAreaKidoku)[fn] = areas;
     }
   }
   flush() {
-    __privateGet(this, _flush).call(this);
+    __privateGet2(this, _flush).call(this);
   }
   setDoRecProc(fnc) {
-    __privateSet(this, _doRecProc, fnc);
+    __privateSet2(this, _doRecProc, fnc);
   }
-  defTmp(name, fnc) {
-    __privateGet(this, _hTmp)[name] = fnc;
+  defTmp(name2, fnc) {
+    __privateGet2(this, _hTmp)[name2] = fnc;
   }
   cloneMp() {
-    return __spreadValues({}, __privateGet(this, _hScopes).mp);
+    return __spreadValues({}, __privateGet2(this, _hScopes).mp);
   }
   setMp(mp) {
-    __privateGet(this, _hScopes).mp = mp;
+    __privateGet2(this, _hScopes).mp = mp;
   }
   setMark(place, mark) {
-    __privateGet(this, _data).mark[place] = mark;
+    __privateGet2(this, _data).mark[place] = mark;
     this.flush();
   }
   cloneSave() {
-    return __spreadValues({}, __privateGet(this, _hScopes).save);
+    return __spreadValues({}, __privateGet2(this, _hScopes).save);
   }
   mark2save(mark) {
     var _a3;
-    __privateSet(this, _hSave, __privateGet(this, _hScopes).save = __spreadValues({}, mark.hSave));
-    __privateSet(this, _doRecLog, (_a3 = __privateGet(this, _hSave)["sn.doRecLog"]) != null ? _a3 : false);
+    __privateSet2(this, _hSave, __privateGet2(this, _hScopes).save = __spreadValues({}, mark.hSave));
+    __privateSet2(this, _doRecLog, (_a3 = __privateGet2(this, _hSave)["sn.doRecLog"]) != null ? _a3 : false);
   }
   loadScrWork(fn) {
-    if (!(fn in __privateGet(this, _hAreaKidoku)))
-      __privateGet(this, _hAreaKidoku)[fn] = new Areas();
+    if (!(fn in __privateGet2(this, _hAreaKidoku)))
+      __privateGet2(this, _hAreaKidoku)[fn] = new Areas();
   }
   saveKidoku() {
-    for (const fn in __privateGet(this, _hAreaKidoku)) {
-      __privateGet(this, _data).kidoku[fn] = __spreadValues({}, __privateGet(this, _hAreaKidoku)[fn].hAreas);
+    for (const fn in __privateGet2(this, _hAreaKidoku)) {
+      __privateGet2(this, _data).kidoku[fn] = __spreadValues({}, __privateGet2(this, _hAreaKidoku)[fn].hAreas);
     }
     this.flush();
   }
   setVal_Nochk(scope, nm, val, autocast = false) {
     var _a3, _b3;
-    const hScope = __privateGet(this, _hScopes)[scope];
+    const hScope = __privateGet2(this, _hScopes)[scope];
     if (autocast)
-      val = __privateMethod(this, _castAuto, castAuto_fn).call(this, val);
+      val = __privateMethod2(this, _castAuto, castAuto_fn).call(this, val);
     const fullnm = scope + ":" + nm;
-    if (fullnm in __privateGet(_Variable, _hSetEvent)) {
+    if (fullnm in __privateGet2(_Variable, _hSetEvent)) {
       const old_v = hScope[nm];
       const new_v = val;
       if (old_v != new_v)
-        __privateGet(this, _callHook).call(this, "data_break", {
+        __privateGet2(this, _callHook).call(this, "data_break", {
           dataId: fullnm,
           old_v,
           new_v
         });
     }
     hScope[nm] = val;
-    (_b3 = (_a3 = __privateGet(this, _hValTrg))[fullnm]) == null ? void 0 : _b3.call(_a3, nm, val);
+    (_b3 = (_a3 = __privateGet2(this, _hValTrg))[fullnm]) == null ? void 0 : _b3.call(_a3, nm, val);
   }
   doRecLog() {
-    return __privateGet(this, _doRecLog);
+    return __privateGet2(this, _doRecLog);
   }
-  defValTrg(name, fnc) {
-    __privateGet(this, _hValTrg)[name] = fnc;
+  defValTrg(name2, fnc) {
+    __privateGet2(this, _hValTrg)[name2] = fnc;
   }
 };
 let Variable = _Variable;
@@ -5283,8 +5283,8 @@ _callHook = new WeakMap();
 _hProcDbgRes = new WeakMap();
 _set_data_break = new WeakSet();
 set_data_break_fn = function(a2) {
-  __privateSet(_Variable, _hSetEvent, {});
-  a2.forEach((v2) => __privateGet(_Variable, _hSetEvent)[v2.dataId] = 1);
+  __privateSet2(_Variable, _hSetEvent, {});
+  a2.forEach((v2) => __privateGet2(_Variable, _hSetEvent)[v2.dataId] = 1);
 };
 _flush = new WeakMap();
 _doRecProc = new WeakMap();
@@ -5298,10 +5298,10 @@ copybookmark_fn = function(hArg) {
   const to = Number(hArg.to);
   if (from === to)
     return false;
-  if (!(from in __privateGet(this, _data).mark))
+  if (!(from in __privateGet2(this, _data).mark))
     throw `from:${from} \u306E\u30BB\u30FC\u30D6\u30C7\u30FC\u30BF\u306F\u5B58\u5728\u3057\u307E\u305B\u3093`;
-  this.setMark(to, __spreadValues({}, __privateGet(this, _data).mark[from]));
-  __privateGet(this, _sys2).copyBMFolder(from, to);
+  this.setMark(to, __spreadValues({}, __privateGet2(this, _data).mark[from]));
+  __privateGet2(this, _sys2).copyBMFolder(from, to);
   return false;
 };
 _erasebookmark = new WeakSet();
@@ -5309,9 +5309,9 @@ erasebookmark_fn = function(hArg) {
   const { place } = hArg;
   if (!place)
     throw "place\u306F\u5FC5\u9808\u3067\u3059";
-  delete __privateGet(this, _data).mark[place];
+  delete __privateGet2(this, _data).mark[place];
   this.flush();
-  __privateGet(this, _sys2).eraseBMFolder(place);
+  __privateGet2(this, _sys2).eraseBMFolder(place);
   return false;
 };
 _let = new WeakSet();
@@ -5340,21 +5340,21 @@ let_fn = function(hArg) {
         throw "cast\u3010" + hArg.cast + "\u3011\u306F\u672A\u5B9A\u7FA9\u3067\u3059";
     }
   }
-  __privateGet(this, _setVal).call(this, hArg.name, hArg.text, autocast);
+  __privateGet2(this, _setVal).call(this, hArg.name, hArg.text, autocast);
   return false;
 };
 _let_abs = new WeakSet();
 let_abs_fn = function(hArg) {
   const n = argChk_Num(hArg, "text", 0);
   hArg.text = String(n < 0 ? -n : n);
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _let_char_at = new WeakSet();
 let_char_at_fn = function(hArg) {
   var _a3;
   hArg.text = ((_a3 = hArg.text) != null ? _a3 : "").charAt(argChk_Num(hArg, "pos", 0));
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _let_index_of = new WeakSet();
@@ -5365,14 +5365,14 @@ let_index_of_fn = function(hArg) {
     throw "val\u306F\u5FC5\u9808\u3067\u3059";
   const start = argChk_Num(hArg, "start", 0);
   hArg.text = String(((_a3 = hArg.text) != null ? _a3 : "").indexOf(val, start));
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _let_length = new WeakSet();
 let_length_fn = function(hArg) {
   var _a3;
   hArg.text = String(((_a3 = hArg.text) != null ? _a3 : "").length);
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _let_replace = new WeakSet();
@@ -5383,14 +5383,14 @@ let_replace_fn = function(hArg) {
   const { flags } = hArg;
   const reg = !flags ? new RegExp(hArg.reg) : new RegExp(hArg.reg, flags);
   hArg.text = String((_a3 = hArg.text) != null ? _a3 : "").replace(reg, String(hArg.val));
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _let_round = new WeakSet();
 let_round_fn = function(hArg) {
   const n = argChk_Num(hArg, "text", 0);
   hArg.text = String(Math.round(n));
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _let_search = new WeakSet();
@@ -5401,7 +5401,7 @@ let_search_fn = function(hArg) {
   const { flags } = hArg;
   const reg = !flags ? new RegExp(hArg.reg) : new RegExp(hArg.reg, flags);
   hArg.text = String(((_a3 = hArg.text) != null ? _a3 : "").search(reg));
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _let_substr = new WeakSet();
@@ -5409,13 +5409,13 @@ let_substr_fn = function(hArg) {
   var _a3, _b3;
   const i2 = argChk_Num(hArg, "pos", 0);
   hArg.text = hArg.len !== "all" ? ((_a3 = hArg.text) != null ? _a3 : "").slice(i2, i2 + int(argChk_Num(hArg, "len", 1))) : ((_b3 = hArg.text) != null ? _b3 : "").slice(i2);
-  __privateMethod(this, _let, let_fn).call(this, hArg);
+  __privateMethod2(this, _let, let_fn).call(this, hArg);
   return false;
 };
 _clearsysvar = new WeakSet();
 clearsysvar_fn = function() {
   var _a3, _b3;
-  const sys = __privateSet(this, _hSys, __privateGet(this, _hScopes)["sys"] = __privateGet(this, _data).sys = {});
+  const sys = __privateSet2(this, _hSys, __privateGet2(this, _hScopes)["sys"] = __privateGet2(this, _data).sys = {});
   const is_nw = typeof process !== "undefined";
   if (is_nw)
     ;
@@ -5436,12 +5436,12 @@ clearsysvar_fn = function() {
   this.setVal_Nochk("sys", "const.sn.sound.BGM.volume", 1);
   this.setVal_Nochk("sys", "const.sn.sound.SE.volume", 1);
   this.setVal_Nochk("sys", "const.sn.sound.SYS.volume", 1);
-  for (const fn in __privateGet(this, _data).kidoku) {
-    __privateGet(this, _data).kidoku[fn].hAreas = {};
-    __privateGet(this, _hAreaKidoku)[fn].clear();
+  for (const fn in __privateGet2(this, _data).kidoku) {
+    __privateGet2(this, _data).kidoku[fn].hAreas = {};
+    __privateGet2(this, _hAreaKidoku)[fn].clear();
   }
   this.setVal_Nochk("sys", "TextLayer.Back.Alpha", 0.5);
-  __privateGet(this, _hScopes)["mark"] = __privateGet(this, _data).mark = {};
+  __privateGet2(this, _hScopes)["mark"] = __privateGet2(this, _data).mark = {};
   this.setVal_Nochk("sys", "const.sn.save.place", 1);
   this.flush();
   return false;
@@ -5449,10 +5449,10 @@ clearsysvar_fn = function() {
 _clearvar = new WeakSet();
 clearvar_fn = function() {
   var _a3, _b3, _c3;
-  const mesLayer = (_a3 = __privateGet(this, _hSave)["const.sn.mesLayer"]) != null ? _a3 : "";
-  const doRecLog = (_b3 = __privateGet(this, _hSave)["sn.doRecLog"]) != null ? _b3 : false;
-  const sLog = (_c3 = __privateGet(this, _hSave)["const.sn.sLog"]) != null ? _c3 : "[]";
-  __privateSet(this, _hSave, __privateGet(this, _hScopes).save = {});
+  const mesLayer = (_a3 = __privateGet2(this, _hSave)["const.sn.mesLayer"]) != null ? _a3 : "";
+  const doRecLog = (_b3 = __privateGet2(this, _hSave)["sn.doRecLog"]) != null ? _b3 : false;
+  const sLog = (_c3 = __privateGet2(this, _hSave)["const.sn.sLog"]) != null ? _c3 : "[]";
+  __privateSet2(this, _hSave, __privateGet2(this, _hScopes).save = {});
   this.setVal_Nochk("save", "const.sn.mesLayer", mesLayer);
   this.setVal_Nochk("save", "sn.doRecLog", doRecLog);
   this.setVal_Nochk("save", "const.sn.sLog", sLog);
@@ -5471,8 +5471,8 @@ castAuto_fn = function(val) {
     return null;
   if (s_val === "undefined")
     return void 0;
-  __privateGet(this, _REG_NUMERICLITERAL).lastIndex = 0;
-  if (__privateGet(this, _REG_NUMERICLITERAL).test(s_val))
+  __privateGet2(this, _REG_NUMERICLITERAL).lastIndex = 0;
+  if (__privateGet2(this, _REG_NUMERICLITERAL).test(s_val))
     return parseFloat(s_val);
   return val;
 };
@@ -5481,42 +5481,42 @@ _dump_val = new WeakMap();
 _doRecLog = new WeakMap();
 _hValTrg = new WeakMap();
 _runFirst_Bool_hSysVal_true = new WeakSet();
-runFirst_Bool_hSysVal_true_fn = function(name) {
-  argChk_Boolean(__privateGet(this, _hSys), name, true);
+runFirst_Bool_hSysVal_true_fn = function(name2) {
+  argChk_Boolean(__privateGet2(this, _hSys), name2, true);
 };
 _runFirst_sys_an_tagCh_msecWait = new WeakSet();
-runFirst_sys_an_tagCh_msecWait_fn = function(name) {
-  argChk_Num(__privateGet(this, _hSys), name, 10);
-  if (__privateGet(this, _hSys)["sn.tagCh.doWait"])
+runFirst_sys_an_tagCh_msecWait_fn = function(name2) {
+  argChk_Num(__privateGet2(this, _hSys), name2, 10);
+  if (__privateGet2(this, _hSys)["sn.tagCh.doWait"])
     ;
 };
 _runFirst_sys_an_tagCh_msecWait_Kidoku = new WeakSet();
-runFirst_sys_an_tagCh_msecWait_Kidoku_fn = function(name) {
-  argChk_Num(__privateGet(this, _hSys), name, this.cfg.oCfg.init.tagch_msecwait === void 0 ? 10 : this.cfg.oCfg.init.tagch_msecwait);
-  if (__privateGet(this, _hSys)["sn.tagCh.doWait_Kidoku"])
+runFirst_sys_an_tagCh_msecWait_Kidoku_fn = function(name2) {
+  argChk_Num(__privateGet2(this, _hSys), name2, this.cfg.oCfg.init.tagch_msecwait === void 0 ? 10 : this.cfg.oCfg.init.tagch_msecwait);
+  if (__privateGet2(this, _hSys)["sn.tagCh.doWait_Kidoku"])
     ;
 };
 _runFirst_sys_an_auto_msecPageWait = new WeakSet();
-runFirst_sys_an_auto_msecPageWait_fn = function(name) {
-  argChk_Num(__privateGet(this, _hSys), name, this.cfg.oCfg.init.auto_msecpagewait === void 0 ? 3500 : this.cfg.oCfg.init.auto_msecpagewait);
+runFirst_sys_an_auto_msecPageWait_fn = function(name2) {
+  argChk_Num(__privateGet2(this, _hSys), name2, this.cfg.oCfg.init.auto_msecpagewait === void 0 ? 3500 : this.cfg.oCfg.init.auto_msecpagewait);
 };
 _runFirst_sys_an_auto_msecLineWait = new WeakSet();
-runFirst_sys_an_auto_msecLineWait_fn = function(name) {
-  argChk_Num(__privateGet(this, _hSys), name, 500);
+runFirst_sys_an_auto_msecLineWait_fn = function(name2) {
+  argChk_Num(__privateGet2(this, _hSys), name2, 500);
 };
 _runFirst_Bool_hSaveVal_true = new WeakSet();
-runFirst_Bool_hSaveVal_true_fn = function(name) {
-  return argChk_Boolean(__privateGet(this, _hSave), name, true);
+runFirst_Bool_hSaveVal_true_fn = function(name2) {
+  return argChk_Boolean(__privateGet2(this, _hSave), name2, true);
 };
 _runFirst_Bool_hTmp_true = new WeakSet();
-runFirst_Bool_hTmp_true_fn = function(name) {
-  argChk_Boolean(__privateGet(this, _hTmp), name, true);
+runFirst_Bool_hTmp_true_fn = function(name2) {
+  argChk_Boolean(__privateGet2(this, _hTmp), name2, true);
 };
 _runFirst_Bool_hTmp_false = new WeakSet();
-runFirst_Bool_hTmp_false_fn = function(name) {
-  argChk_Boolean(__privateGet(this, _hTmp), name, false);
+runFirst_Bool_hTmp_false_fn = function(name2) {
+  argChk_Boolean(__privateGet2(this, _hTmp), name2, false);
 };
-__privateAdd(Variable, _hSetEvent, {});
+__privateAdd2(Variable, _hSetEvent, {});
 var Easing = {
   Linear: {
     None: function(amount) {
@@ -6192,14 +6192,14 @@ const _CmnTween = class {
   static ease(nm) {
     if (!nm)
       return (k) => Easing.Linear.None(k);
-    if (!(nm in __privateGet(_CmnTween, _hEase)))
+    if (!(nm in __privateGet2(_CmnTween, _hEase)))
       throw "\u7570\u5E38\u306Aease\u6307\u5B9A\u3067\u3059";
-    return __privateGet(_CmnTween, _hEase)[nm];
+    return __privateGet2(_CmnTween, _hEase)[nm];
   }
 };
 let CmnTween = _CmnTween;
 _hEase = new WeakMap();
-__privateAdd(CmnTween, _hEase, {
+__privateAdd2(CmnTween, _hEase, {
   "Back.In": (k) => Easing.Back.In(k),
   "Back.InOut": (k) => Easing.Back.InOut(k),
   "Back.Out": (k) => Easing.Back.Out(k),
@@ -6814,12 +6814,12 @@ var eventemitter3 = { exports: {} };
     this._eventsCount = 0;
   }
   EventEmitter2.prototype.eventNames = function eventNames() {
-    var names = [], events, name;
+    var names = [], events, name2;
     if (this._eventsCount === 0)
       return names;
-    for (name in events = this._events) {
-      if (has.call(events, name))
-        names.push(prefix2 ? name.slice(1) : name);
+    for (name2 in events = this._events) {
+      if (has.call(events, name2))
+        names.push(prefix2 ? name2.slice(1) : name2);
     }
     if (Object.getOwnPropertySymbols) {
       return names.concat(Object.getOwnPropertySymbols(events));
@@ -6961,21 +6961,21 @@ function earcut(data, holeIndices, dim) {
   var hasHoles = holeIndices && holeIndices.length, outerLen = hasHoles ? holeIndices[0] * dim : data.length, outerNode = linkedList(data, 0, outerLen, dim, true), triangles = [];
   if (!outerNode || outerNode.next === outerNode.prev)
     return triangles;
-  var minX, minY, maxX, maxY, x, y2, invSize;
+  var minX, minY, maxX, maxY, x2, y2, invSize;
   if (hasHoles)
     outerNode = eliminateHoles(data, holeIndices, outerNode, dim);
   if (data.length > 80 * dim) {
     minX = maxX = data[0];
     minY = maxY = data[1];
     for (var i2 = dim; i2 < outerLen; i2 += dim) {
-      x = data[i2];
+      x2 = data[i2];
       y2 = data[i2 + 1];
-      if (x < minX)
-        minX = x;
+      if (x2 < minX)
+        minX = x2;
       if (y2 < minY)
         minY = y2;
-      if (x > maxX)
-        maxX = x;
+      if (x2 > maxX)
+        maxX = x2;
       if (y2 > maxY)
         maxY = y2;
     }
@@ -7005,19 +7005,19 @@ function filterPoints(start, end) {
     return start;
   if (!end)
     end = start;
-  var p = start, again;
+  var p2 = start, again;
   do {
     again = false;
-    if (!p.steiner && (equals$1(p, p.next) || area(p.prev, p, p.next) === 0)) {
-      removeNode(p);
-      p = end = p.prev;
-      if (p === p.next)
+    if (!p2.steiner && (equals$1(p2, p2.next) || area(p2.prev, p2, p2.next) === 0)) {
+      removeNode(p2);
+      p2 = end = p2.prev;
+      if (p2 === p2.next)
         break;
       again = true;
     } else {
-      p = p.next;
+      p2 = p2.next;
     }
-  } while (again || p !== end);
+  } while (again || p2 !== end);
   return end;
 }
 function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
@@ -7056,11 +7056,11 @@ function isEar(ear) {
   var a2 = ear.prev, b2 = ear, c2 = ear.next;
   if (area(a2, b2, c2) >= 0)
     return false;
-  var p = ear.next.next;
-  while (p !== ear.prev) {
-    if (pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, p.x, p.y) && area(p.prev, p, p.next) >= 0)
+  var p2 = ear.next.next;
+  while (p2 !== ear.prev) {
+    if (pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, p2.x, p2.y) && area(p2.prev, p2, p2.next) >= 0)
       return false;
-    p = p.next;
+    p2 = p2.next;
   }
   return true;
 }
@@ -7070,19 +7070,19 @@ function isEarHashed(ear, minX, minY, invSize) {
     return false;
   var minTX = a2.x < b2.x ? a2.x < c2.x ? a2.x : c2.x : b2.x < c2.x ? b2.x : c2.x, minTY = a2.y < b2.y ? a2.y < c2.y ? a2.y : c2.y : b2.y < c2.y ? b2.y : c2.y, maxTX = a2.x > b2.x ? a2.x > c2.x ? a2.x : c2.x : b2.x > c2.x ? b2.x : c2.x, maxTY = a2.y > b2.y ? a2.y > c2.y ? a2.y : c2.y : b2.y > c2.y ? b2.y : c2.y;
   var minZ = zOrder(minTX, minTY, minX, minY, invSize), maxZ = zOrder(maxTX, maxTY, minX, minY, invSize);
-  var p = ear.prevZ, n = ear.nextZ;
-  while (p && p.z >= minZ && n && n.z <= maxZ) {
-    if (p !== ear.prev && p !== ear.next && pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, p.x, p.y) && area(p.prev, p, p.next) >= 0)
+  var p2 = ear.prevZ, n = ear.nextZ;
+  while (p2 && p2.z >= minZ && n && n.z <= maxZ) {
+    if (p2 !== ear.prev && p2 !== ear.next && pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, p2.x, p2.y) && area(p2.prev, p2, p2.next) >= 0)
       return false;
-    p = p.prevZ;
+    p2 = p2.prevZ;
     if (n !== ear.prev && n !== ear.next && pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)
       return false;
     n = n.nextZ;
   }
-  while (p && p.z >= minZ) {
-    if (p !== ear.prev && p !== ear.next && pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, p.x, p.y) && area(p.prev, p, p.next) >= 0)
+  while (p2 && p2.z >= minZ) {
+    if (p2 !== ear.prev && p2 !== ear.next && pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, p2.x, p2.y) && area(p2.prev, p2, p2.next) >= 0)
       return false;
-    p = p.prevZ;
+    p2 = p2.prevZ;
   }
   while (n && n.z <= maxZ) {
     if (n !== ear.prev && n !== ear.next && pointInTriangle(a2.x, a2.y, b2.x, b2.y, c2.x, c2.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)
@@ -7092,20 +7092,20 @@ function isEarHashed(ear, minX, minY, invSize) {
   return true;
 }
 function cureLocalIntersections(start, triangles, dim) {
-  var p = start;
+  var p2 = start;
   do {
-    var a2 = p.prev, b2 = p.next.next;
-    if (!equals$1(a2, b2) && intersects(a2, p, p.next, b2) && locallyInside(a2, b2) && locallyInside(b2, a2)) {
+    var a2 = p2.prev, b2 = p2.next.next;
+    if (!equals$1(a2, b2) && intersects(a2, p2, p2.next, b2) && locallyInside(a2, b2) && locallyInside(b2, a2)) {
       triangles.push(a2.i / dim);
-      triangles.push(p.i / dim);
+      triangles.push(p2.i / dim);
       triangles.push(b2.i / dim);
-      removeNode(p);
-      removeNode(p.next);
-      p = start = b2;
+      removeNode(p2);
+      removeNode(p2.next);
+      p2 = start = b2;
     }
-    p = p.next;
-  } while (p !== start);
-  return filterPoints(p);
+    p2 = p2.next;
+  } while (p2 !== start);
+  return filterPoints(p2);
 }
 function splitEarcut(start, triangles, dim, minX, minY, invSize) {
   var a2 = start;
@@ -7156,67 +7156,67 @@ function eliminateHole(hole, outerNode) {
   return outerNode === bridge ? filteredBridge : outerNode;
 }
 function findHoleBridge(hole, outerNode) {
-  var p = outerNode, hx = hole.x, hy = hole.y, qx = -Infinity, m2;
+  var p2 = outerNode, hx = hole.x, hy = hole.y, qx = -Infinity, m2;
   do {
-    if (hy <= p.y && hy >= p.next.y && p.next.y !== p.y) {
-      var x = p.x + (hy - p.y) * (p.next.x - p.x) / (p.next.y - p.y);
-      if (x <= hx && x > qx) {
-        qx = x;
-        if (x === hx) {
-          if (hy === p.y)
-            return p;
-          if (hy === p.next.y)
-            return p.next;
+    if (hy <= p2.y && hy >= p2.next.y && p2.next.y !== p2.y) {
+      var x2 = p2.x + (hy - p2.y) * (p2.next.x - p2.x) / (p2.next.y - p2.y);
+      if (x2 <= hx && x2 > qx) {
+        qx = x2;
+        if (x2 === hx) {
+          if (hy === p2.y)
+            return p2;
+          if (hy === p2.next.y)
+            return p2.next;
         }
-        m2 = p.x < p.next.x ? p : p.next;
+        m2 = p2.x < p2.next.x ? p2 : p2.next;
       }
     }
-    p = p.next;
-  } while (p !== outerNode);
+    p2 = p2.next;
+  } while (p2 !== outerNode);
   if (!m2)
     return null;
   if (hx === qx)
     return m2;
   var stop = m2, mx = m2.x, my = m2.y, tanMin = Infinity, tan2;
-  p = m2;
+  p2 = m2;
   do {
-    if (hx >= p.x && p.x >= mx && hx !== p.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p.x, p.y)) {
-      tan2 = Math.abs(hy - p.y) / (hx - p.x);
-      if (locallyInside(p, hole) && (tan2 < tanMin || tan2 === tanMin && (p.x > m2.x || p.x === m2.x && sectorContainsSector(m2, p)))) {
-        m2 = p;
+    if (hx >= p2.x && p2.x >= mx && hx !== p2.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p2.x, p2.y)) {
+      tan2 = Math.abs(hy - p2.y) / (hx - p2.x);
+      if (locallyInside(p2, hole) && (tan2 < tanMin || tan2 === tanMin && (p2.x > m2.x || p2.x === m2.x && sectorContainsSector(m2, p2)))) {
+        m2 = p2;
         tanMin = tan2;
       }
     }
-    p = p.next;
-  } while (p !== stop);
+    p2 = p2.next;
+  } while (p2 !== stop);
   return m2;
 }
-function sectorContainsSector(m2, p) {
-  return area(m2.prev, m2, p.prev) < 0 && area(p.next, m2, m2.next) < 0;
+function sectorContainsSector(m2, p2) {
+  return area(m2.prev, m2, p2.prev) < 0 && area(p2.next, m2, m2.next) < 0;
 }
 function indexCurve(start, minX, minY, invSize) {
-  var p = start;
+  var p2 = start;
   do {
-    if (p.z === null)
-      p.z = zOrder(p.x, p.y, minX, minY, invSize);
-    p.prevZ = p.prev;
-    p.nextZ = p.next;
-    p = p.next;
-  } while (p !== start);
-  p.prevZ.nextZ = null;
-  p.prevZ = null;
-  sortLinked(p);
+    if (p2.z === null)
+      p2.z = zOrder(p2.x, p2.y, minX, minY, invSize);
+    p2.prevZ = p2.prev;
+    p2.nextZ = p2.next;
+    p2 = p2.next;
+  } while (p2 !== start);
+  p2.prevZ.nextZ = null;
+  p2.prevZ = null;
+  sortLinked(p2);
 }
 function sortLinked(list) {
-  var i2, p, q, e, tail, numMerges, pSize, qSize, inSize = 1;
+  var i2, p2, q, e, tail, numMerges, pSize, qSize, inSize = 1;
   do {
-    p = list;
+    p2 = list;
     list = null;
     tail = null;
     numMerges = 0;
-    while (p) {
+    while (p2) {
       numMerges++;
-      q = p;
+      q = p2;
       pSize = 0;
       for (i2 = 0; i2 < inSize; i2++) {
         pSize++;
@@ -7226,9 +7226,9 @@ function sortLinked(list) {
       }
       qSize = inSize;
       while (pSize > 0 || qSize > 0 && q) {
-        if (pSize !== 0 && (qSize === 0 || !q || p.z <= q.z)) {
-          e = p;
-          p = p.nextZ;
+        if (pSize !== 0 && (qSize === 0 || !q || p2.z <= q.z)) {
+          e = p2;
+          p2 = p2.nextZ;
           pSize--;
         } else {
           e = q;
@@ -7242,33 +7242,33 @@ function sortLinked(list) {
         e.prevZ = tail;
         tail = e;
       }
-      p = q;
+      p2 = q;
     }
     tail.nextZ = null;
     inSize *= 2;
   } while (numMerges > 1);
   return list;
 }
-function zOrder(x, y2, minX, minY, invSize) {
-  x = 32767 * (x - minX) * invSize;
+function zOrder(x2, y2, minX, minY, invSize) {
+  x2 = 32767 * (x2 - minX) * invSize;
   y2 = 32767 * (y2 - minY) * invSize;
-  x = (x | x << 8) & 16711935;
-  x = (x | x << 4) & 252645135;
-  x = (x | x << 2) & 858993459;
-  x = (x | x << 1) & 1431655765;
+  x2 = (x2 | x2 << 8) & 16711935;
+  x2 = (x2 | x2 << 4) & 252645135;
+  x2 = (x2 | x2 << 2) & 858993459;
+  x2 = (x2 | x2 << 1) & 1431655765;
   y2 = (y2 | y2 << 8) & 16711935;
   y2 = (y2 | y2 << 4) & 252645135;
   y2 = (y2 | y2 << 2) & 858993459;
   y2 = (y2 | y2 << 1) & 1431655765;
-  return x | y2 << 1;
+  return x2 | y2 << 1;
 }
 function getLeftmost(start) {
-  var p = start, leftmost = start;
+  var p2 = start, leftmost = start;
   do {
-    if (p.x < leftmost.x || p.x === leftmost.x && p.y < leftmost.y)
-      leftmost = p;
-    p = p.next;
-  } while (p !== start);
+    if (p2.x < leftmost.x || p2.x === leftmost.x && p2.y < leftmost.y)
+      leftmost = p2;
+    p2 = p2.next;
+  } while (p2 !== start);
   return leftmost;
 }
 function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
@@ -7277,8 +7277,8 @@ function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
 function isValidDiagonal(a2, b2) {
   return a2.next.i !== b2.i && a2.prev.i !== b2.i && !intersectsPolygon(a2, b2) && (locallyInside(a2, b2) && locallyInside(b2, a2) && middleInside(a2, b2) && (area(a2.prev, a2, b2.prev) || area(a2, b2.prev, b2)) || equals$1(a2, b2) && area(a2.prev, a2, a2.next) > 0 && area(b2.prev, b2, b2.next) > 0);
 }
-function area(p, q, r2) {
-  return (q.y - p.y) * (r2.x - q.x) - (q.x - p.x) * (r2.y - q.y);
+function area(p2, q, r2) {
+  return (q.y - p2.y) * (r2.x - q.x) - (q.x - p2.x) * (r2.y - q.y);
 }
 function equals$1(p1, p2) {
   return p1.x === p2.x && p1.y === p2.y;
@@ -7300,31 +7300,31 @@ function intersects(p1, q1, p2, q2) {
     return true;
   return false;
 }
-function onSegment(p, q, r2) {
-  return q.x <= Math.max(p.x, r2.x) && q.x >= Math.min(p.x, r2.x) && q.y <= Math.max(p.y, r2.y) && q.y >= Math.min(p.y, r2.y);
+function onSegment(p2, q, r2) {
+  return q.x <= Math.max(p2.x, r2.x) && q.x >= Math.min(p2.x, r2.x) && q.y <= Math.max(p2.y, r2.y) && q.y >= Math.min(p2.y, r2.y);
 }
 function sign$1(num) {
   return num > 0 ? 1 : num < 0 ? -1 : 0;
 }
 function intersectsPolygon(a2, b2) {
-  var p = a2;
+  var p2 = a2;
   do {
-    if (p.i !== a2.i && p.next.i !== a2.i && p.i !== b2.i && p.next.i !== b2.i && intersects(p, p.next, a2, b2))
+    if (p2.i !== a2.i && p2.next.i !== a2.i && p2.i !== b2.i && p2.next.i !== b2.i && intersects(p2, p2.next, a2, b2))
       return true;
-    p = p.next;
-  } while (p !== a2);
+    p2 = p2.next;
+  } while (p2 !== a2);
   return false;
 }
 function locallyInside(a2, b2) {
   return area(a2.prev, a2, a2.next) < 0 ? area(a2, b2, a2.next) >= 0 && area(a2, a2.prev, b2) >= 0 : area(a2, b2, a2.prev) < 0 || area(a2, a2.next, b2) < 0;
 }
 function middleInside(a2, b2) {
-  var p = a2, inside = false, px = (a2.x + b2.x) / 2, py = (a2.y + b2.y) / 2;
+  var p2 = a2, inside = false, px = (a2.x + b2.x) / 2, py = (a2.y + b2.y) / 2;
   do {
-    if (p.y > py !== p.next.y > py && p.next.y !== p.y && px < (p.next.x - p.x) * (py - p.y) / (p.next.y - p.y) + p.x)
+    if (p2.y > py !== p2.next.y > py && p2.next.y !== p2.y && px < (p2.next.x - p2.x) * (py - p2.y) / (p2.next.y - p2.y) + p2.x)
       inside = !inside;
-    p = p.next;
-  } while (p !== a2);
+    p2 = p2.next;
+  } while (p2 !== a2);
   return inside;
 }
 function splitPolygon(a2, b2) {
@@ -7339,30 +7339,30 @@ function splitPolygon(a2, b2) {
   b22.prev = bp;
   return b22;
 }
-function insertNode(i2, x, y2, last) {
-  var p = new Node$1(i2, x, y2);
+function insertNode(i2, x2, y2, last) {
+  var p2 = new Node$1(i2, x2, y2);
   if (!last) {
-    p.prev = p;
-    p.next = p;
+    p2.prev = p2;
+    p2.next = p2;
   } else {
-    p.next = last.next;
-    p.prev = last;
-    last.next.prev = p;
-    last.next = p;
+    p2.next = last.next;
+    p2.prev = last;
+    last.next.prev = p2;
+    last.next = p2;
   }
-  return p;
+  return p2;
 }
-function removeNode(p) {
-  p.next.prev = p.prev;
-  p.prev.next = p.next;
-  if (p.prevZ)
-    p.prevZ.nextZ = p.nextZ;
-  if (p.nextZ)
-    p.nextZ.prevZ = p.prevZ;
+function removeNode(p2) {
+  p2.next.prev = p2.prev;
+  p2.prev.next = p2.next;
+  if (p2.prevZ)
+    p2.prevZ.nextZ = p2.nextZ;
+  if (p2.nextZ)
+    p2.nextZ.prevZ = p2.prevZ;
 }
-function Node$1(i2, x, y2) {
+function Node$1(i2, x2, y2) {
   this.i = i2;
-  this.x = x;
+  this.x = x2;
   this.y = y2;
   this.prev = null;
   this.next = null;
@@ -7640,7 +7640,7 @@ var punycode$1 = { exports: {} };
     }
   })(commonjsGlobal);
 })(punycode$1, punycode$1.exports);
-var util$1 = {
+var util$8 = {
   isString: function(arg) {
     return typeof arg === "string";
   },
@@ -7676,12 +7676,12 @@ var decode = function(qs, sep, eq, options) {
     len = maxKeys;
   }
   for (var i2 = 0; i2 < len; ++i2) {
-    var x = qs[i2].replace(regexp, "%20"), idx = x.indexOf(eq), kstr, vstr, k, v2;
+    var x2 = qs[i2].replace(regexp, "%20"), idx = x2.indexOf(eq), kstr, vstr, k, v2;
     if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
+      kstr = x2.substr(0, idx);
+      vstr = x2.substr(idx + 1);
     } else {
-      kstr = x;
+      kstr = x2;
       vstr = "";
     }
     k = decodeURIComponent(kstr);
@@ -7708,7 +7708,7 @@ var stringifyPrimitive = function(v2) {
       return "";
   }
 };
-var encode = function(obj, sep, eq, name) {
+var encode = function(obj, sep, eq, name2) {
   sep = sep || "&";
   eq = eq || "=";
   if (obj === null) {
@@ -7726,14 +7726,14 @@ var encode = function(obj, sep, eq, name) {
       }
     }).join(sep);
   }
-  if (!name)
+  if (!name2)
     return "";
-  return encodeURIComponent(stringifyPrimitive(name)) + eq + encodeURIComponent(stringifyPrimitive(obj));
+  return encodeURIComponent(stringifyPrimitive(name2)) + eq + encodeURIComponent(stringifyPrimitive(obj));
 };
 querystring$1.decode = querystring$1.parse = decode;
 querystring$1.encode = querystring$1.stringify = encode;
 var punycode = punycode$1.exports;
-var util = util$1;
+var util$7 = util$8;
 var parse$1 = urlParse;
 var resolve$1 = urlResolve;
 var format = urlFormat;
@@ -7770,14 +7770,14 @@ var protocolPattern = /^([a-z0-9.+-]+:)/i, portPattern = /:[0-9]*$/, simplePathP
   "file:": true
 }, querystring = querystring$1;
 function urlParse(url2, parseQueryString, slashesDenoteHost) {
-  if (url2 && util.isObject(url2) && url2 instanceof Url$1)
+  if (url2 && util$7.isObject(url2) && url2 instanceof Url$1)
     return url2;
   var u2 = new Url$1();
   u2.parse(url2, parseQueryString, slashesDenoteHost);
   return u2;
 }
 Url$1.prototype.parse = function(url2, parseQueryString, slashesDenoteHost) {
-  if (!util.isString(url2)) {
+  if (!util$7.isString(url2)) {
     throw new TypeError("Parameter 'url' must be a string, not " + typeof url2);
   }
   var queryIndex = url2.indexOf("?"), splitter = queryIndex !== -1 && queryIndex < url2.indexOf("#") ? "?" : "#", uSplit = url2.split(splitter), slashRegex = /\\/g;
@@ -7890,9 +7890,9 @@ Url$1.prototype.parse = function(url2, parseQueryString, slashesDenoteHost) {
     if (!ipv6Hostname) {
       this.hostname = punycode.toASCII(this.hostname);
     }
-    var p = this.port ? ":" + this.port : "";
+    var p2 = this.port ? ":" + this.port : "";
     var h2 = this.hostname || "";
-    this.host = h2 + p;
+    this.host = h2 + p2;
     this.href += this.host;
     if (ipv6Hostname) {
       this.hostname = this.hostname.substr(1, this.hostname.length - 2);
@@ -7936,15 +7936,15 @@ Url$1.prototype.parse = function(url2, parseQueryString, slashesDenoteHost) {
     this.pathname = "/";
   }
   if (this.pathname || this.search) {
-    var p = this.pathname || "";
+    var p2 = this.pathname || "";
     var s2 = this.search || "";
-    this.path = p + s2;
+    this.path = p2 + s2;
   }
   this.href = this.format();
   return this;
 };
 function urlFormat(obj) {
-  if (util.isString(obj))
+  if (util$7.isString(obj))
     obj = urlParse(obj);
   if (!(obj instanceof Url$1))
     return Url$1.prototype.format.call(obj);
@@ -7966,7 +7966,7 @@ Url$1.prototype.format = function() {
       host += ":" + this.port;
     }
   }
-  if (this.query && util.isObject(this.query) && Object.keys(this.query).length) {
+  if (this.query && util$7.isObject(this.query) && Object.keys(this.query).length) {
     query = querystring.stringify(this.query);
   }
   var search = this.search || query && "?" + query || "";
@@ -7996,7 +7996,7 @@ Url$1.prototype.resolve = function(relative) {
   return this.resolveObject(urlParse(relative, false, true)).format();
 };
 Url$1.prototype.resolveObject = function(relative) {
-  if (util.isString(relative)) {
+  if (util$7.isString(relative)) {
     var rel = new Url$1();
     rel.parse(relative, false, true);
     relative = rel;
@@ -8059,9 +8059,9 @@ Url$1.prototype.resolveObject = function(relative) {
     result.hostname = relative.hostname || relative.host;
     result.port = relative.port;
     if (result.pathname || result.search) {
-      var p = result.pathname || "";
+      var p2 = result.pathname || "";
       var s2 = result.search || "";
-      result.path = p + s2;
+      result.path = p2 + s2;
     }
     result.slashes = result.slashes || relative.slashes;
     result.href = result.format();
@@ -8104,7 +8104,7 @@ Url$1.prototype.resolveObject = function(relative) {
     srcPath = srcPath.concat(relPath);
     result.search = relative.search;
     result.query = relative.query;
-  } else if (!util.isNullOrUndefined(relative.search)) {
+  } else if (!util$7.isNullOrUndefined(relative.search)) {
     if (psychotic) {
       result.hostname = result.host = srcPath.shift();
       var authInHost = result.host && result.host.indexOf("@") > 0 ? result.host.split("@") : false;
@@ -8115,7 +8115,7 @@ Url$1.prototype.resolveObject = function(relative) {
     }
     result.search = relative.search;
     result.query = relative.query;
-    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+    if (!util$7.isNull(result.pathname) || !util$7.isNull(result.search)) {
       result.path = (result.pathname ? result.pathname : "") + (result.search ? result.search : "");
     }
     result.href = result.format();
@@ -8176,7 +8176,7 @@ Url$1.prototype.resolveObject = function(relative) {
   } else {
     result.pathname = srcPath.join("/");
   }
-  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
+  if (!util$7.isNull(result.pathname) || !util$7.isNull(result.search)) {
     result.path = (result.pathname ? result.pathname : "") + (result.search ? result.search : "");
   }
   result.auth = relative.auth || result.auth;
@@ -8835,24 +8835,24 @@ function trimCanvas(canvas2) {
   };
   var data = null;
   var i2;
-  var x;
+  var x2;
   var y2;
   for (i2 = 0; i2 < len; i2 += 4) {
     if (pixels[i2 + 3] !== 0) {
-      x = i2 / 4 % width;
+      x2 = i2 / 4 % width;
       y2 = ~~(i2 / 4 / width);
       if (bound.top === null) {
         bound.top = y2;
       }
       if (bound.left === null) {
-        bound.left = x;
-      } else if (x < bound.left) {
-        bound.left = x;
+        bound.left = x2;
+      } else if (x2 < bound.left) {
+        bound.left = x2;
       }
       if (bound.right === null) {
-        bound.right = x + 1;
-      } else if (bound.right < x) {
-        bound.right = x + 1;
+        bound.right = x2 + 1;
+      } else if (bound.right < x2) {
+        bound.right = x2 + 1;
       }
       if (bound.bottom === null) {
         bound.bottom = y2;
@@ -8907,19 +8907,19 @@ function getResolutionOfUrl(url2, defaultValue2) {
  * http://www.opensource.org/licenses/mit-license
  */
 var Runner = function() {
-  function Runner2(name) {
+  function Runner2(name2) {
     this.items = [];
-    this._name = name;
+    this._name = name2;
     this._aliasCount = 0;
   }
   Runner2.prototype.emit = function(a0, a1, a2, a3, a4, a5, a6, a7) {
     if (arguments.length > 8) {
       throw new Error("max arguments reached");
     }
-    var _a3 = this, name = _a3.name, items = _a3.items;
+    var _a3 = this, name2 = _a3.name, items = _a3.items;
     this._aliasCount++;
     for (var i2 = 0, len = items.length; i2 < len; i2++) {
-      items[i2][name](a0, a1, a2, a3, a4, a5, a6, a7);
+      items[i2][name2](a0, a1, a2, a3, a4, a5, a6, a7);
     }
     if (items === this.items) {
       this._aliasCount--;
@@ -9357,9 +9357,9 @@ var SHAPES;
   SHAPES2[SHAPES2["RREC"] = 4] = "RREC";
 })(SHAPES || (SHAPES = {}));
 var Rectangle = function() {
-  function Rectangle2(x, y2, width, height) {
-    if (x === void 0) {
-      x = 0;
+  function Rectangle2(x2, y2, width, height) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
@@ -9370,7 +9370,7 @@ var Rectangle = function() {
     if (height === void 0) {
       height = 0;
     }
-    this.x = Number(x);
+    this.x = Number(x2);
     this.y = Number(y2);
     this.width = Number(width);
     this.height = Number(height);
@@ -9428,11 +9428,11 @@ var Rectangle = function() {
     rectangle.height = this.height;
     return rectangle;
   };
-  Rectangle2.prototype.contains = function(x, y2) {
+  Rectangle2.prototype.contains = function(x2, y2) {
     if (this.width <= 0 || this.height <= 0) {
       return false;
     }
-    if (x >= this.x && x < this.x + this.width) {
+    if (x2 >= this.x && x2 < this.x + this.width) {
       if (y2 >= this.y && y2 < this.y + this.height) {
         return true;
       }
@@ -9495,9 +9495,9 @@ var Rectangle = function() {
   return Rectangle2;
 }();
 var Circle = function() {
-  function Circle2(x, y2, radius) {
-    if (x === void 0) {
-      x = 0;
+  function Circle2(x2, y2, radius) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
@@ -9505,7 +9505,7 @@ var Circle = function() {
     if (radius === void 0) {
       radius = 0;
     }
-    this.x = x;
+    this.x = x2;
     this.y = y2;
     this.radius = radius;
     this.type = SHAPES.CIRC;
@@ -9513,12 +9513,12 @@ var Circle = function() {
   Circle2.prototype.clone = function() {
     return new Circle2(this.x, this.y, this.radius);
   };
-  Circle2.prototype.contains = function(x, y2) {
+  Circle2.prototype.contains = function(x2, y2) {
     if (this.radius <= 0) {
       return false;
     }
     var r2 = this.radius * this.radius;
-    var dx = this.x - x;
+    var dx = this.x - x2;
     var dy = this.y - y2;
     dx *= dx;
     dy *= dy;
@@ -9533,9 +9533,9 @@ var Circle = function() {
   return Circle2;
 }();
 var Ellipse = function() {
-  function Ellipse2(x, y2, halfWidth, halfHeight) {
-    if (x === void 0) {
-      x = 0;
+  function Ellipse2(x2, y2, halfWidth, halfHeight) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
@@ -9546,7 +9546,7 @@ var Ellipse = function() {
     if (halfHeight === void 0) {
       halfHeight = 0;
     }
-    this.x = x;
+    this.x = x2;
     this.y = y2;
     this.width = halfWidth;
     this.height = halfHeight;
@@ -9555,11 +9555,11 @@ var Ellipse = function() {
   Ellipse2.prototype.clone = function() {
     return new Ellipse2(this.x, this.y, this.width, this.height);
   };
-  Ellipse2.prototype.contains = function(x, y2) {
+  Ellipse2.prototype.contains = function(x2, y2) {
     if (this.width <= 0 || this.height <= 0) {
       return false;
     }
-    var normx = (x - this.x) / this.width;
+    var normx = (x2 - this.x) / this.width;
     var normy = (y2 - this.y) / this.height;
     normx *= normx;
     normy *= normy;
@@ -9582,11 +9582,11 @@ var Polygon = function() {
     }
     var flat2 = Array.isArray(points[0]) ? points[0] : points;
     if (typeof flat2[0] !== "number") {
-      var p = [];
+      var p2 = [];
       for (var i2 = 0, il = flat2.length; i2 < il; i2++) {
-        p.push(flat2[i2].x, flat2[i2].y);
+        p2.push(flat2[i2].x, flat2[i2].y);
       }
-      flat2 = p;
+      flat2 = p2;
     }
     this.points = flat2;
     this.type = SHAPES.POLY;
@@ -9598,7 +9598,7 @@ var Polygon = function() {
     polygon.closeStroke = this.closeStroke;
     return polygon;
   };
-  Polygon2.prototype.contains = function(x, y2) {
+  Polygon2.prototype.contains = function(x2, y2) {
     var inside = false;
     var length2 = this.points.length / 2;
     for (var i2 = 0, j2 = length2 - 1; i2 < length2; j2 = i2++) {
@@ -9606,7 +9606,7 @@ var Polygon = function() {
       var yi = this.points[i2 * 2 + 1];
       var xj = this.points[j2 * 2];
       var yj = this.points[j2 * 2 + 1];
-      var intersect = yi > y2 !== yj > y2 && x < (xj - xi) * ((y2 - yi) / (yj - yi)) + xi;
+      var intersect = yi > y2 !== yj > y2 && x2 < (xj - xi) * ((y2 - yi) / (yj - yi)) + xi;
       if (intersect) {
         inside = !inside;
       }
@@ -9621,9 +9621,9 @@ var Polygon = function() {
   return Polygon2;
 }();
 var RoundedRectangle = function() {
-  function RoundedRectangle2(x, y2, width, height, radius) {
-    if (x === void 0) {
-      x = 0;
+  function RoundedRectangle2(x2, y2, width, height, radius) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
@@ -9637,7 +9637,7 @@ var RoundedRectangle = function() {
     if (radius === void 0) {
       radius = 20;
     }
-    this.x = x;
+    this.x = x2;
     this.y = y2;
     this.width = width;
     this.height = height;
@@ -9647,23 +9647,23 @@ var RoundedRectangle = function() {
   RoundedRectangle2.prototype.clone = function() {
     return new RoundedRectangle2(this.x, this.y, this.width, this.height, this.radius);
   };
-  RoundedRectangle2.prototype.contains = function(x, y2) {
+  RoundedRectangle2.prototype.contains = function(x2, y2) {
     if (this.width <= 0 || this.height <= 0) {
       return false;
     }
-    if (x >= this.x && x <= this.x + this.width) {
+    if (x2 >= this.x && x2 <= this.x + this.width) {
       if (y2 >= this.y && y2 <= this.y + this.height) {
         var radius = Math.max(0, Math.min(this.radius, Math.min(this.width, this.height) / 2));
-        if (y2 >= this.y + radius && y2 <= this.y + this.height - radius || x >= this.x + radius && x <= this.x + this.width - radius) {
+        if (y2 >= this.y + radius && y2 <= this.y + this.height - radius || x2 >= this.x + radius && x2 <= this.x + this.width - radius) {
           return true;
         }
-        var dx = x - (this.x + radius);
+        var dx = x2 - (this.x + radius);
         var dy = y2 - (this.y + radius);
         var radius2 = radius * radius;
         if (dx * dx + dy * dy <= radius2) {
           return true;
         }
-        dx = x - (this.x + this.width - radius);
+        dx = x2 - (this.x + this.width - radius);
         if (dx * dx + dy * dy <= radius2) {
           return true;
         }
@@ -9671,7 +9671,7 @@ var RoundedRectangle = function() {
         if (dx * dx + dy * dy <= radius2) {
           return true;
         }
-        dx = x - (this.x + radius);
+        dx = x2 - (this.x + radius);
         if (dx * dx + dy * dy <= radius2) {
           return true;
         }
@@ -9685,40 +9685,40 @@ var RoundedRectangle = function() {
   return RoundedRectangle2;
 }();
 var Point = function() {
-  function Point2(x, y2) {
-    if (x === void 0) {
-      x = 0;
+  function Point2(x2, y2) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
     }
     this.x = 0;
     this.y = 0;
-    this.x = x;
+    this.x = x2;
     this.y = y2;
   }
   Point2.prototype.clone = function() {
     return new Point2(this.x, this.y);
   };
-  Point2.prototype.copyFrom = function(p) {
-    this.set(p.x, p.y);
+  Point2.prototype.copyFrom = function(p2) {
+    this.set(p2.x, p2.y);
     return this;
   };
-  Point2.prototype.copyTo = function(p) {
-    p.set(this.x, this.y);
-    return p;
+  Point2.prototype.copyTo = function(p2) {
+    p2.set(this.x, this.y);
+    return p2;
   };
-  Point2.prototype.equals = function(p) {
-    return p.x === this.x && p.y === this.y;
+  Point2.prototype.equals = function(p2) {
+    return p2.x === this.x && p2.y === this.y;
   };
-  Point2.prototype.set = function(x, y2) {
-    if (x === void 0) {
-      x = 0;
+  Point2.prototype.set = function(x2, y2) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
-      y2 = x;
+      y2 = x2;
     }
-    this.x = x;
+    this.x = x2;
     this.y = y2;
     return this;
   };
@@ -9728,14 +9728,14 @@ var Point = function() {
   return Point2;
 }();
 var ObservablePoint = function() {
-  function ObservablePoint2(cb, scope, x, y2) {
-    if (x === void 0) {
-      x = 0;
+  function ObservablePoint2(cb, scope, x2, y2) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
     }
-    this._x = x;
+    this._x = x2;
     this._y = y2;
     this.cb = cb;
     this.scope = scope;
@@ -9749,34 +9749,34 @@ var ObservablePoint = function() {
     }
     return new ObservablePoint2(cb, scope, this._x, this._y);
   };
-  ObservablePoint2.prototype.set = function(x, y2) {
-    if (x === void 0) {
-      x = 0;
+  ObservablePoint2.prototype.set = function(x2, y2) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
-      y2 = x;
+      y2 = x2;
     }
-    if (this._x !== x || this._y !== y2) {
-      this._x = x;
+    if (this._x !== x2 || this._y !== y2) {
+      this._x = x2;
       this._y = y2;
       this.cb.call(this.scope);
     }
     return this;
   };
-  ObservablePoint2.prototype.copyFrom = function(p) {
-    if (this._x !== p.x || this._y !== p.y) {
-      this._x = p.x;
-      this._y = p.y;
+  ObservablePoint2.prototype.copyFrom = function(p2) {
+    if (this._x !== p2.x || this._y !== p2.y) {
+      this._x = p2.x;
+      this._y = p2.y;
       this.cb.call(this.scope);
     }
     return this;
   };
-  ObservablePoint2.prototype.copyTo = function(p) {
-    p.set(this._x, this._y);
-    return p;
+  ObservablePoint2.prototype.copyTo = function(p2) {
+    p2.set(this._x, this._y);
+    return p2;
   };
-  ObservablePoint2.prototype.equals = function(p) {
-    return p.x === this._x && p.y === this._y;
+  ObservablePoint2.prototype.equals = function(p2) {
+    return p2.x === this._x && p2.y === this._y;
   };
   ObservablePoint2.prototype.toString = function() {
     return "[@pixi/math:ObservablePoint x=" + 0 + " y=" + 0 + " scope=" + this.scope + "]";
@@ -9884,32 +9884,32 @@ var Matrix = function() {
   };
   Matrix2.prototype.apply = function(pos, newPos) {
     newPos = newPos || new Point();
-    var x = pos.x;
+    var x2 = pos.x;
     var y2 = pos.y;
-    newPos.x = this.a * x + this.c * y2 + this.tx;
-    newPos.y = this.b * x + this.d * y2 + this.ty;
+    newPos.x = this.a * x2 + this.c * y2 + this.tx;
+    newPos.y = this.b * x2 + this.d * y2 + this.ty;
     return newPos;
   };
   Matrix2.prototype.applyInverse = function(pos, newPos) {
     newPos = newPos || new Point();
     var id = 1 / (this.a * this.d + this.c * -this.b);
-    var x = pos.x;
+    var x2 = pos.x;
     var y2 = pos.y;
-    newPos.x = this.d * id * x + -this.c * id * y2 + (this.ty * this.c - this.tx * this.d) * id;
-    newPos.y = this.a * id * y2 + -this.b * id * x + (-this.ty * this.a + this.tx * this.b) * id;
+    newPos.x = this.d * id * x2 + -this.c * id * y2 + (this.ty * this.c - this.tx * this.d) * id;
+    newPos.y = this.a * id * y2 + -this.b * id * x2 + (-this.ty * this.a + this.tx * this.b) * id;
     return newPos;
   };
-  Matrix2.prototype.translate = function(x, y2) {
-    this.tx += x;
+  Matrix2.prototype.translate = function(x2, y2) {
+    this.tx += x2;
     this.ty += y2;
     return this;
   };
-  Matrix2.prototype.scale = function(x, y2) {
-    this.a *= x;
+  Matrix2.prototype.scale = function(x2, y2) {
+    this.a *= x2;
     this.d *= y2;
-    this.c *= x;
+    this.c *= x2;
     this.b *= y2;
-    this.tx *= x;
+    this.tx *= x2;
     this.ty *= y2;
     return this;
   };
@@ -9940,12 +9940,12 @@ var Matrix = function() {
     this.ty = matrix.tx * b1 + matrix.ty * d1 + this.ty;
     return this;
   };
-  Matrix2.prototype.setTransform = function(x, y2, pivotX, pivotY, scaleX, scaleY, rotation, skewX, skewY) {
+  Matrix2.prototype.setTransform = function(x2, y2, pivotX, pivotY, scaleX, scaleY, rotation, skewX, skewY) {
     this.a = Math.cos(rotation + skewY) * scaleX;
     this.b = Math.sin(rotation + skewY) * scaleX;
     this.c = -Math.sin(rotation - skewX) * scaleY;
     this.d = Math.cos(rotation - skewX) * scaleY;
-    this.tx = x - (pivotX * this.a + pivotY * this.c);
+    this.tx = x2 - (pivotX * this.a + pivotY * this.c);
     this.ty = y2 - (pivotX * this.b + pivotY * this.d);
     return this;
   };
@@ -10301,9 +10301,9 @@ var extendStatics$q = function(d2, b2) {
   extendStatics$q = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -10316,32 +10316,32 @@ function __extends$q(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var __assign$7 = function() {
-  __assign$7 = Object.assign || function __assign2(t) {
+var __assign$8 = function() {
+  __assign$8 = Object.assign || function __assign2(t) {
     var arguments$1 = arguments;
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments$1[i2];
-      for (var p in s2) {
-        if (Object.prototype.hasOwnProperty.call(s2, p)) {
-          t[p] = s2[p];
+      for (var p2 in s2) {
+        if (Object.prototype.hasOwnProperty.call(s2, p2)) {
+          t[p2] = s2[p2];
         }
       }
     }
     return t;
   };
-  return __assign$7.apply(this, arguments);
+  return __assign$8.apply(this, arguments);
 };
 function __rest$3(s2, e) {
   var t = {};
-  for (var p in s2) {
-    if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0) {
-      t[p] = s2[p];
+  for (var p2 in s2) {
+    if (Object.prototype.hasOwnProperty.call(s2, p2) && e.indexOf(p2) < 0) {
+      t[p2] = s2[p2];
     }
   }
   if (s2 != null && typeof Object.getOwnPropertySymbols === "function") {
-    for (var i2 = 0, p = Object.getOwnPropertySymbols(s2); i2 < p.length; i2++) {
-      if (e.indexOf(p[i2]) < 0) {
-        t[p[i2]] = s2[p[i2]];
+    for (var i2 = 0, p2 = Object.getOwnPropertySymbols(s2); i2 < p2.length; i2++) {
+      if (e.indexOf(p2[i2]) < 0) {
+        t[p2[i2]] = s2[p2[i2]];
       }
     }
   }
@@ -11668,7 +11668,7 @@ var TextureUvs = function() {
 var DEFAULT_UVS = new TextureUvs();
 var Texture = function(_super) {
   __extends$q(Texture2, _super);
-  function Texture2(baseTexture, frame, orig, trim, rotate2, anchor) {
+  function Texture2(baseTexture, frame, orig, trim2, rotate2, anchor) {
     var _this = _super.call(this) || this;
     _this.noFrame = false;
     if (!frame) {
@@ -11680,7 +11680,7 @@ var Texture = function(_super) {
     }
     _this.baseTexture = baseTexture;
     _this._frame = frame;
-    _this.trim = trim;
+    _this.trim = trim2;
     _this.valid = false;
     _this._uvs = DEFAULT_UVS;
     _this.uvMatrix = null;
@@ -11821,7 +11821,7 @@ var Texture = function(_super) {
   Texture2.fromBuffer = function(buffer, width, height, options) {
     return new Texture2(BaseTexture.fromBuffer(buffer, width, height, options));
   };
-  Texture2.fromLoader = function(source, imageUrl, name, options) {
+  Texture2.fromLoader = function(source, imageUrl, name2, options) {
     var baseTexture = new BaseTexture(source, Object.assign({
       scaleMode: settings.SCALE_MODE,
       resolution: getResolutionOfUrl(imageUrl)
@@ -11831,12 +11831,12 @@ var Texture = function(_super) {
       resource.url = imageUrl;
     }
     var texture = new Texture2(baseTexture);
-    if (!name) {
-      name = imageUrl;
+    if (!name2) {
+      name2 = imageUrl;
     }
-    BaseTexture.addToCache(texture.baseTexture, name);
-    Texture2.addToCache(texture, name);
-    if (name !== imageUrl) {
+    BaseTexture.addToCache(texture.baseTexture, name2);
+    Texture2.addToCache(texture, name2);
+    if (name2 !== imageUrl) {
       BaseTexture.addToCache(texture.baseTexture, imageUrl);
       Texture2.addToCache(texture, imageUrl);
     }
@@ -11896,12 +11896,12 @@ var Texture = function(_super) {
     set: function(frame) {
       this._frame = frame;
       this.noFrame = false;
-      var x = frame.x, y2 = frame.y, width = frame.width, height = frame.height;
-      var xNotFit = x + width > this.baseTexture.width;
+      var x2 = frame.x, y2 = frame.y, width = frame.width, height = frame.height;
+      var xNotFit = x2 + width > this.baseTexture.width;
       var yNotFit = y2 + height > this.baseTexture.height;
       if (xNotFit || yNotFit) {
         var relationship = xNotFit && yNotFit ? "and" : "or";
-        var errorX = "X: " + x + " + " + width + " = " + (x + width) + " > " + this.baseTexture.width;
+        var errorX = "X: " + x2 + " + " + width + " = " + (x2 + width) + " > " + this.baseTexture.width;
         var errorY = "Y: " + y2 + " + " + height + " = " + (y2 + height) + " > " + this.baseTexture.height;
         throw new Error("Texture Error: frame does not fit inside the base Texture dimensions: " + (errorX + " " + relationship + " " + errorY));
       }
@@ -12219,7 +12219,7 @@ var Buffer$1 = function() {
   };
   return Buffer2;
 }();
-var map = {
+var map$1 = {
   Float32Array,
   Uint32Array,
   Int32Array,
@@ -12241,7 +12241,7 @@ function interleaveTypedArrays(arrays, sizes) {
     var array = arrays[i2];
     var type = getBufferType(array);
     if (!views[type]) {
-      views[type] = new map[type](buffer);
+      views[type] = new map$1[type](buffer);
     }
     out = views[type];
     for (var j2 = 0; j2 < array.length; j2++) {
@@ -12255,7 +12255,7 @@ function interleaveTypedArrays(arrays, sizes) {
 }
 var byteSizeMap = { 5126: 4, 5123: 2, 5121: 1 };
 var UID$1 = 0;
-var map$1 = {
+var map$1$1 = {
   Float32Array,
   Uint32Array,
   Int32Array,
@@ -12412,7 +12412,7 @@ var Geometry = function() {
       }
     }
     for (var i2 = 0; i2 < geometry.buffers.length; i2++) {
-      arrays[i2] = new map$1[getBufferType(geometry.buffers[i2].data)](sizes[i2]);
+      arrays[i2] = new map$1$1[getBufferType(geometry.buffers[i2].data)](sizes[i2]);
       geometryOut.buffers[i2] = new Buffer$1(arrays[i2]);
     }
     for (var i2 = 0; i2 < geometries.length; i2++) {
@@ -12503,25 +12503,25 @@ var QuadUv = function(_super) {
     return _this;
   }
   QuadUv2.prototype.map = function(targetTextureFrame, destinationFrame) {
-    var x = 0;
+    var x2 = 0;
     var y2 = 0;
-    this.uvs[0] = x;
+    this.uvs[0] = x2;
     this.uvs[1] = y2;
-    this.uvs[2] = x + destinationFrame.width / targetTextureFrame.width;
+    this.uvs[2] = x2 + destinationFrame.width / targetTextureFrame.width;
     this.uvs[3] = y2;
-    this.uvs[4] = x + destinationFrame.width / targetTextureFrame.width;
+    this.uvs[4] = x2 + destinationFrame.width / targetTextureFrame.width;
     this.uvs[5] = y2 + destinationFrame.height / targetTextureFrame.height;
-    this.uvs[6] = x;
+    this.uvs[6] = x2;
     this.uvs[7] = y2 + destinationFrame.height / targetTextureFrame.height;
-    x = destinationFrame.x;
+    x2 = destinationFrame.x;
     y2 = destinationFrame.y;
-    this.vertices[0] = x;
+    this.vertices[0] = x2;
     this.vertices[1] = y2;
-    this.vertices[2] = x + destinationFrame.width;
+    this.vertices[2] = x2 + destinationFrame.width;
     this.vertices[3] = y2;
-    this.vertices[4] = x + destinationFrame.width;
+    this.vertices[4] = x2 + destinationFrame.width;
     this.vertices[5] = y2 + destinationFrame.height;
-    this.vertices[6] = x;
+    this.vertices[6] = x2;
     this.vertices[7] = y2 + destinationFrame.height;
     this.invalidate();
     return this;
@@ -12562,9 +12562,9 @@ var UniformGroup = function() {
       this.buffer.update();
     }
   };
-  UniformGroup2.prototype.add = function(name, uniforms, _static) {
+  UniformGroup2.prototype.add = function(name2, uniforms, _static) {
     if (!this.ubo) {
-      this.uniforms[name] = new UniformGroup2(uniforms, _static);
+      this.uniforms[name2] = new UniformGroup2(uniforms, _static);
     } else {
       throw new Error("[UniformGroup] uniform groups in ubo mode cannot be modified, or have uniform groups nested in them");
     }
@@ -13178,18 +13178,18 @@ var FramebufferSystem = function() {
       }
     }
   };
-  FramebufferSystem2.prototype.setViewport = function(x, y2, width, height) {
+  FramebufferSystem2.prototype.setViewport = function(x2, y2, width, height) {
     var v2 = this.viewport;
-    x = Math.round(x);
+    x2 = Math.round(x2);
     y2 = Math.round(y2);
     width = Math.round(width);
     height = Math.round(height);
-    if (v2.width !== width || v2.height !== height || v2.x !== x || v2.y !== y2) {
-      v2.x = x;
+    if (v2.width !== width || v2.height !== height || v2.x !== x2 || v2.y !== y2) {
+      v2.x = x2;
       v2.y = y2;
       v2.width = width;
       v2.height = height;
-      this.gl.viewport(x, y2, width, height);
+      this.gl.viewport(x2, y2, width, height);
     }
   };
   Object.defineProperty(FramebufferSystem2.prototype, "size", {
@@ -13659,9 +13659,9 @@ var GeometrySystem = function() {
     delete geometry.glVertexArrayObjects[this.CONTEXT_UID];
   };
   GeometrySystem2.prototype.disposeAll = function(contextLost) {
-    var all = Object.keys(this.managedGeometries);
-    for (var i2 = 0; i2 < all.length; i2++) {
-      this.disposeGeometry(this.managedGeometries[all[i2]], contextLost);
+    var all2 = Object.keys(this.managedGeometries);
+    for (var i2 = 0; i2 < all2.length; i2++) {
+      this.disposeGeometry(this.managedGeometries[all2[i2]], contextLost);
     }
   };
   GeometrySystem2.prototype.activateVao = function(geometry, program) {
@@ -14038,65 +14038,65 @@ var uniformParsers = [
     test: function(data) {
       return data.type === "float" && data.size === 1;
     },
-    code: function(name) {
-      return '\n            if(uv["' + name + '"] !== ud["' + name + '"].value)\n            {\n                ud["' + name + '"].value = uv["' + name + '"]\n                gl.uniform1f(ud["' + name + '"].location, uv["' + name + '"])\n            }\n            ';
+    code: function(name2) {
+      return '\n            if(uv["' + name2 + '"] !== ud["' + name2 + '"].value)\n            {\n                ud["' + name2 + '"].value = uv["' + name2 + '"]\n                gl.uniform1f(ud["' + name2 + '"].location, uv["' + name2 + '"])\n            }\n            ';
     }
   },
   {
     test: function(data) {
       return (data.type === "sampler2D" || data.type === "samplerCube" || data.type === "sampler2DArray") && data.size === 1 && !data.isArray;
     },
-    code: function(name) {
-      return 't = syncData.textureCount++;\n\n            renderer.texture.bind(uv["' + name + '"], t);\n\n            if(ud["' + name + '"].value !== t)\n            {\n                ud["' + name + '"].value = t;\n                gl.uniform1i(ud["' + name + '"].location, t);\n; // eslint-disable-line max-len\n            }';
+    code: function(name2) {
+      return 't = syncData.textureCount++;\n\n            renderer.texture.bind(uv["' + name2 + '"], t);\n\n            if(ud["' + name2 + '"].value !== t)\n            {\n                ud["' + name2 + '"].value = t;\n                gl.uniform1i(ud["' + name2 + '"].location, t);\n; // eslint-disable-line max-len\n            }';
     }
   },
   {
     test: function(data, uniform) {
       return data.type === "mat3" && data.size === 1 && uniform.a !== void 0;
     },
-    code: function(name) {
-      return '\n            gl.uniformMatrix3fv(ud["' + name + '"].location, false, uv["' + name + '"].toArray(true));\n            ';
+    code: function(name2) {
+      return '\n            gl.uniformMatrix3fv(ud["' + name2 + '"].location, false, uv["' + name2 + '"].toArray(true));\n            ';
     },
-    codeUbo: function(name) {
-      return "\n                var " + name + "_matrix = uv." + name + ".toArray(true);\n\n                data[offset] = " + name + "_matrix[0];\n                data[offset+1] = " + name + "_matrix[1];\n                data[offset+2] = " + name + "_matrix[2];\n        \n                data[offset + 4] = " + name + "_matrix[3];\n                data[offset + 5] = " + name + "_matrix[4];\n                data[offset + 6] = " + name + "_matrix[5];\n        \n                data[offset + 8] = " + name + "_matrix[6];\n                data[offset + 9] = " + name + "_matrix[7];\n                data[offset + 10] = " + name + "_matrix[8];\n            ";
+    codeUbo: function(name2) {
+      return "\n                var " + name2 + "_matrix = uv." + name2 + ".toArray(true);\n\n                data[offset] = " + name2 + "_matrix[0];\n                data[offset+1] = " + name2 + "_matrix[1];\n                data[offset+2] = " + name2 + "_matrix[2];\n        \n                data[offset + 4] = " + name2 + "_matrix[3];\n                data[offset + 5] = " + name2 + "_matrix[4];\n                data[offset + 6] = " + name2 + "_matrix[5];\n        \n                data[offset + 8] = " + name2 + "_matrix[6];\n                data[offset + 9] = " + name2 + "_matrix[7];\n                data[offset + 10] = " + name2 + "_matrix[8];\n            ";
     }
   },
   {
     test: function(data, uniform) {
       return data.type === "vec2" && data.size === 1 && uniform.x !== void 0;
     },
-    code: function(name) {
-      return '\n                cv = ud["' + name + '"].value;\n                v = uv["' + name + '"];\n\n                if(cv[0] !== v.x || cv[1] !== v.y)\n                {\n                    cv[0] = v.x;\n                    cv[1] = v.y;\n                    gl.uniform2f(ud["' + name + '"].location, v.x, v.y);\n                }';
+    code: function(name2) {
+      return '\n                cv = ud["' + name2 + '"].value;\n                v = uv["' + name2 + '"];\n\n                if(cv[0] !== v.x || cv[1] !== v.y)\n                {\n                    cv[0] = v.x;\n                    cv[1] = v.y;\n                    gl.uniform2f(ud["' + name2 + '"].location, v.x, v.y);\n                }';
     },
-    codeUbo: function(name) {
-      return "\n                v = uv." + name + ";\n\n                data[offset] = v.x;\n                data[offset+1] = v.y;\n            ";
+    codeUbo: function(name2) {
+      return "\n                v = uv." + name2 + ";\n\n                data[offset] = v.x;\n                data[offset+1] = v.y;\n            ";
     }
   },
   {
     test: function(data) {
       return data.type === "vec2" && data.size === 1;
     },
-    code: function(name) {
-      return '\n                cv = ud["' + name + '"].value;\n                v = uv["' + name + '"];\n\n                if(cv[0] !== v[0] || cv[1] !== v[1])\n                {\n                    cv[0] = v[0];\n                    cv[1] = v[1];\n                    gl.uniform2f(ud["' + name + '"].location, v[0], v[1]);\n                }\n            ';
+    code: function(name2) {
+      return '\n                cv = ud["' + name2 + '"].value;\n                v = uv["' + name2 + '"];\n\n                if(cv[0] !== v[0] || cv[1] !== v[1])\n                {\n                    cv[0] = v[0];\n                    cv[1] = v[1];\n                    gl.uniform2f(ud["' + name2 + '"].location, v[0], v[1]);\n                }\n            ';
     }
   },
   {
     test: function(data, uniform) {
       return data.type === "vec4" && data.size === 1 && uniform.width !== void 0;
     },
-    code: function(name) {
-      return '\n                cv = ud["' + name + '"].value;\n                v = uv["' + name + '"];\n\n                if(cv[0] !== v.x || cv[1] !== v.y || cv[2] !== v.width || cv[3] !== v.height)\n                {\n                    cv[0] = v.x;\n                    cv[1] = v.y;\n                    cv[2] = v.width;\n                    cv[3] = v.height;\n                    gl.uniform4f(ud["' + name + '"].location, v.x, v.y, v.width, v.height)\n                }';
+    code: function(name2) {
+      return '\n                cv = ud["' + name2 + '"].value;\n                v = uv["' + name2 + '"];\n\n                if(cv[0] !== v.x || cv[1] !== v.y || cv[2] !== v.width || cv[3] !== v.height)\n                {\n                    cv[0] = v.x;\n                    cv[1] = v.y;\n                    cv[2] = v.width;\n                    cv[3] = v.height;\n                    gl.uniform4f(ud["' + name2 + '"].location, v.x, v.y, v.width, v.height)\n                }';
     },
-    codeUbo: function(name) {
-      return "\n                    v = uv." + name + ";\n\n                    data[offset] = v.x;\n                    data[offset+1] = v.y;\n                    data[offset+2] = v.width;\n                    data[offset+3] = v.height;\n                ";
+    codeUbo: function(name2) {
+      return "\n                    v = uv." + name2 + ";\n\n                    data[offset] = v.x;\n                    data[offset+1] = v.y;\n                    data[offset+2] = v.width;\n                    data[offset+3] = v.height;\n                ";
     }
   },
   {
     test: function(data) {
       return data.type === "vec4" && data.size === 1;
     },
-    code: function(name) {
-      return '\n                cv = ud["' + name + '"].value;\n                v = uv["' + name + '"];\n\n                if(cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2] || cv[3] !== v[3])\n                {\n                    cv[0] = v[0];\n                    cv[1] = v[1];\n                    cv[2] = v[2];\n                    cv[3] = v[3];\n\n                    gl.uniform4f(ud["' + name + '"].location, v[0], v[1], v[2], v[3])\n                }';
+    code: function(name2) {
+      return '\n                cv = ud["' + name2 + '"].value;\n                v = uv["' + name2 + '"];\n\n                if(cv[0] !== v[0] || cv[1] !== v[1] || cv[2] !== v[2] || cv[3] !== v[3])\n                {\n                    cv[0] = v[0];\n                    cv[1] = v[1];\n                    cv[2] = v[2];\n                    cv[3] = v[3];\n\n                    gl.uniform4f(ud["' + name2 + '"].location, v[0], v[1], v[2], v[3])\n                }';
     }
   }
 ];
@@ -14235,9 +14235,9 @@ var defaultVertex = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoo
 var UID$3 = 0;
 var nameCache = {};
 var Program = function() {
-  function Program2(vertexSrc, fragmentSrc, name) {
-    if (name === void 0) {
-      name = "pixi-shader";
+  function Program2(vertexSrc, fragmentSrc, name2) {
+    if (name2 === void 0) {
+      name2 = "pixi-shader";
     }
     this.id = UID$3++;
     this.vertexSrc = vertexSrc || Program2.defaultVertexSrc;
@@ -14245,15 +14245,15 @@ var Program = function() {
     this.vertexSrc = this.vertexSrc.trim();
     this.fragmentSrc = this.fragmentSrc.trim();
     if (this.vertexSrc.substring(0, 8) !== "#version") {
-      name = name.replace(/\s+/g, "-");
-      if (nameCache[name]) {
-        nameCache[name]++;
-        name += "-" + nameCache[name];
+      name2 = name2.replace(/\s+/g, "-");
+      if (nameCache[name2]) {
+        nameCache[name2]++;
+        name2 += "-" + nameCache[name2];
       } else {
-        nameCache[name] = 1;
+        nameCache[name2] = 1;
       }
-      this.vertexSrc = "#define SHADER_NAME " + name + "\n" + this.vertexSrc;
-      this.fragmentSrc = "#define SHADER_NAME " + name + "\n" + this.fragmentSrc;
+      this.vertexSrc = "#define SHADER_NAME " + name2 + "\n" + this.vertexSrc;
+      this.fragmentSrc = "#define SHADER_NAME " + name2 + "\n" + this.fragmentSrc;
       this.vertexSrc = setPrecision(this.vertexSrc, settings.PRECISION_VERTEX, PRECISION$3.HIGH);
       this.fragmentSrc = setPrecision(this.fragmentSrc, settings.PRECISION_FRAGMENT, getMaxFragmentPrecision());
     }
@@ -14274,11 +14274,11 @@ var Program = function() {
     enumerable: false,
     configurable: true
   });
-  Program2.from = function(vertexSrc, fragmentSrc, name) {
+  Program2.from = function(vertexSrc, fragmentSrc, name2) {
     var key = vertexSrc + fragmentSrc;
     var program = ProgramCache[key];
     if (!program) {
-      ProgramCache[key] = program = new Program2(vertexSrc, fragmentSrc, name);
+      ProgramCache[key] = program = new Program2(vertexSrc, fragmentSrc, name2);
     }
     return program;
   };
@@ -14298,14 +14298,14 @@ var Shader = function() {
       this.uniformGroup = new UniformGroup({});
     }
   }
-  Shader2.prototype.checkUniformExists = function(name, group) {
-    if (group.uniforms[name]) {
+  Shader2.prototype.checkUniformExists = function(name2, group) {
+    if (group.uniforms[name2]) {
       return true;
     }
     for (var i2 in group.uniforms) {
       var uniform = group.uniforms[i2];
       if (uniform.group) {
-        if (this.checkUniformExists(name, uniform)) {
+        if (this.checkUniformExists(name2, uniform)) {
           return true;
         }
       }
@@ -14534,10 +14534,10 @@ var TextureMatrix = function() {
     }
     var mat = this.mapCoord;
     for (var i2 = 0; i2 < uvs.length; i2 += 2) {
-      var x = uvs[i2];
+      var x2 = uvs[i2];
       var y2 = uvs[i2 + 1];
-      out[i2] = x * mat.a + y2 * mat.c + mat.tx;
-      out[i2 + 1] = x * mat.b + y2 * mat.d + mat.ty;
+      out[i2] = x2 * mat.a + y2 * mat.c + mat.tx;
+      out[i2 + 1] = x2 * mat.b + y2 * mat.d + mat.ty;
     }
     return out;
   };
@@ -14554,9 +14554,9 @@ var TextureMatrix = function() {
     var uvs = tex._uvs;
     this.mapCoord.set(uvs.x1 - uvs.x0, uvs.y1 - uvs.y0, uvs.x3 - uvs.x0, uvs.y3 - uvs.y0, uvs.x0, uvs.y0);
     var orig = tex.orig;
-    var trim = tex.trim;
-    if (trim) {
-      tempMat$1.set(orig.width / trim.width, 0, 0, orig.height / trim.height, -trim.x / trim.width, -trim.y / trim.height);
+    var trim2 = tex.trim;
+    if (trim2) {
+      tempMat$1.set(orig.width / trim2.width, 0, 0, orig.height / trim2.height, -trim2.x / trim2.width, -trim2.y / trim2.height);
       this.mapCoord.append(tempMat$1);
     }
     var texBase = tex.baseTexture;
@@ -15062,13 +15062,13 @@ var RenderTextureSystem = function() {
     var baseFrame = this.current ? this.current.baseTexture : this.renderer.screen;
     var clearMask = destinationFrame.width !== baseFrame.width || destinationFrame.height !== baseFrame.height;
     if (clearMask) {
-      var _a3 = this.viewportFrame, x = _a3.x, y2 = _a3.y, width = _a3.width, height = _a3.height;
-      x = Math.round(x);
+      var _a3 = this.viewportFrame, x2 = _a3.x, y2 = _a3.y, width = _a3.width, height = _a3.height;
+      x2 = Math.round(x2);
       y2 = Math.round(y2);
       width = Math.round(width);
       height = Math.round(height);
       this.renderer.gl.enable(this.renderer.gl.SCISSOR_TEST);
-      this.renderer.gl.scissor(x, y2, width, height);
+      this.renderer.gl.scissor(x2, y2, width, height);
     }
     this.renderer.framebuffer.clear(clearColor[0], clearColor[1], clearColor[2], clearColor[3], mask);
     if (clearMask) {
@@ -15179,7 +15179,7 @@ function generateUniformBufferSync(group, uniformData) {
   for (var i2 = 0; i2 < uboElements.length; i2++) {
     var uboElement = uboElements[i2];
     var uniform = group.uniforms[uboElement.data.name];
-    var name = uboElement.data.name;
+    var name2 = uboElement.data.name;
     var parsed = false;
     for (var j2 = 0; j2 < uniformParsers.length; j2++) {
       var uniformParser = uniformParsers[j2];
@@ -15195,10 +15195,10 @@ function generateUniformBufferSync(group, uniformData) {
         var rowSize = Math.max(GLSL_TO_STD40_SIZE[uboElement.data.type] / 16, 1);
         var elementSize = size_1 / rowSize;
         var remainder = (4 - elementSize % 4) % 4;
-        funcFragments.push("\n                cv = ud." + name + ".value;\n                v = uv." + name + ";\n                offset = " + uboElement.offset / 4 + ";\n\n                t = 0;\n\n                for(var i=0; i < " + uboElement.data.size * rowSize + "; i++)\n                {\n                    for(var j = 0; j < " + elementSize + "; j++)\n                    {\n                        data[offset++] = v[t++];\n                    }\n                    offset += " + remainder + ";\n                }\n\n                ");
+        funcFragments.push("\n                cv = ud." + name2 + ".value;\n                v = uv." + name2 + ";\n                offset = " + uboElement.offset / 4 + ";\n\n                t = 0;\n\n                for(var i=0; i < " + uboElement.data.size * rowSize + "; i++)\n                {\n                    for(var j = 0; j < " + elementSize + "; j++)\n                    {\n                        data[offset++] = v[t++];\n                    }\n                    offset += " + remainder + ";\n                }\n\n                ");
       } else {
         var template = UBO_TO_SINGLE_SETTERS[uboElement.data.type];
-        funcFragments.push("\n                cv = ud." + name + ".value;\n                v = uv." + name + ";\n                offset = " + uboElement.offset / 4 + ";\n                " + template + ";\n                ");
+        funcFragments.push("\n                cv = ud." + name2 + ".value;\n                v = uv." + name2 + ";\n                offset = " + uboElement.offset / 4 + ";\n                " + template + ";\n                ");
       }
     }
   }
@@ -15249,11 +15249,11 @@ function getUniformData(program, gl) {
   var totalUniforms = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
   for (var i2 = 0; i2 < totalUniforms; i2++) {
     var uniformData = gl.getActiveUniform(program, i2);
-    var name = uniformData.name.replace(/\[.*?\]$/, "");
+    var name2 = uniformData.name.replace(/\[.*?\]$/, "");
     var isArray2 = !!uniformData.name.match(/\[.*?\]$/);
     var type = mapType(gl, uniformData.type);
-    uniforms[name] = {
-      name,
+    uniforms[name2] = {
+      name: name2,
       index: i2,
       type,
       size: uniformData.size,
@@ -15362,21 +15362,21 @@ var ShaderSystem = function() {
     group.syncUniforms[this.shader.program.id] = this.cache[id];
     return group.syncUniforms[this.shader.program.id];
   };
-  ShaderSystem2.prototype.syncUniformBufferGroup = function(group, name) {
+  ShaderSystem2.prototype.syncUniformBufferGroup = function(group, name2) {
     var glProgram = this.getGlProgram();
     if (!group.static || group.dirtyId !== 0 || !glProgram.uniformGroups[group.id]) {
       group.dirtyId = 0;
-      var syncFunc = glProgram.uniformGroups[group.id] || this.createSyncBufferGroup(group, glProgram, name);
+      var syncFunc = glProgram.uniformGroups[group.id] || this.createSyncBufferGroup(group, glProgram, name2);
       group.buffer.update();
       syncFunc(glProgram.uniformData, group.uniforms, this.renderer, defaultSyncData, group.buffer);
     }
-    this.renderer.buffer.bindBufferBase(group.buffer, glProgram.uniformBufferBindings[name]);
+    this.renderer.buffer.bindBufferBase(group.buffer, glProgram.uniformBufferBindings[name2]);
   };
-  ShaderSystem2.prototype.createSyncBufferGroup = function(group, glProgram, name) {
+  ShaderSystem2.prototype.createSyncBufferGroup = function(group, glProgram, name2) {
     var gl = this.renderer.gl;
     this.renderer.buffer.bind(group.buffer);
-    var uniformBlockIndex = this.gl.getUniformBlockIndex(glProgram.program, name);
-    glProgram.uniformBufferBindings[name] = this.shader.uniformBindCount;
+    var uniformBlockIndex = this.gl.getUniformBlockIndex(glProgram.program, name2);
+    glProgram.uniformBufferBindings[name2] = this.shader.uniformBindCount;
     gl.uniformBlockBinding(glProgram.program, uniformBlockIndex, this.shader.uniformBindCount);
     this.shader.uniformBindCount++;
     var id = this.getSignature(group, this.shader.program.uniformData, "ubo");
@@ -15988,7 +15988,7 @@ var AbstractRenderer = function(_super) {
     if (region.height === 0) {
       region.height = 1;
     }
-    var renderTexture = RenderTexture.create(__assign$7({ width: region.width, height: region.height }, textureOptions));
+    var renderTexture = RenderTexture.create(__assign$8({ width: region.width, height: region.height }, textureOptions));
     tempMatrix$2.tx = -region.x;
     tempMatrix$2.ty = -region.y;
     this.render(displayObject, {
@@ -16117,9 +16117,9 @@ var BufferSystem = function() {
     delete buffer._glBuffers[this.CONTEXT_UID];
   };
   BufferSystem2.prototype.disposeAll = function(contextLost) {
-    var all = Object.keys(this.managedBuffers);
-    for (var i2 = 0; i2 < all.length; i2++) {
-      this.dispose(this.managedBuffers[all[i2]], contextLost);
+    var all2 = Object.keys(this.managedBuffers);
+    for (var i2 = 0; i2 < all2.length; i2++) {
+      this.dispose(this.managedBuffers[all2[i2]], contextLost);
     }
   };
   BufferSystem2.prototype.createGLBuffer = function(buffer) {
@@ -16201,12 +16201,12 @@ var Renderer = function(_super) {
       this.multisample = MSAA_QUALITY$3.NONE;
     }
   };
-  Renderer2.prototype.addSystem = function(ClassRef, name) {
+  Renderer2.prototype.addSystem = function(ClassRef, name2) {
     var system = new ClassRef(this);
-    if (this[name]) {
-      throw new Error('Whoops! The name "' + name + '" is already in use');
+    if (this[name2]) {
+      throw new Error('Whoops! The name "' + name2 + '" is already in use');
     }
-    this[name] = system;
+    this[name2] = system;
     for (var i2 in this.runners) {
       this.runners[i2].add(system);
     }
@@ -16821,11 +16821,11 @@ var BatchPluginFactory = function() {
 }();
 var BatchRenderer = BatchPluginFactory.create();
 var resources = {};
-var _loop_1 = function(name) {
-  Object.defineProperty(resources, name, {
+var _loop_1 = function(name2) {
+  Object.defineProperty(resources, name2, {
     get: function() {
-      deprecation("6.0.0", "PIXI.systems." + name + " has moved to PIXI." + name);
-      return _resources[name];
+      deprecation("6.0.0", "PIXI.systems." + name2 + " has moved to PIXI." + name2);
+      return _resources[name2];
     }
   });
 };
@@ -16833,11 +16833,11 @@ for (var name in _resources) {
   _loop_1(name);
 }
 var systems = {};
-var _loop_2 = function(name) {
-  Object.defineProperty(systems, name, {
+var _loop_2 = function(name2) {
+  Object.defineProperty(systems, name2, {
     get: function() {
-      deprecation("6.0.0", "PIXI.resources." + name + " has moved to PIXI." + name);
-      return _systems[name];
+      deprecation("6.0.0", "PIXI.resources." + name2 + " has moved to PIXI." + name2);
+      return _systems[name2];
     }
   });
 };
@@ -16983,7 +16983,7 @@ var Signal = function() {
   };
   return Signal2;
 }();
-function parseUri(str, opts) {
+function parseUri(str2, opts) {
   opts = opts || {};
   var o = {
     key: ["source", "protocol", "authority", "userInfo", "user", "password", "host", "port", "relative", "path", "directory", "file", "query", "anchor"],
@@ -16996,7 +16996,7 @@ function parseUri(str, opts) {
       loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
     }
   };
-  var m2 = o.parser[opts.strictMode ? "strict" : "loose"].exec(str);
+  var m2 = o.parser[opts.strictMode ? "strict" : "loose"].exec(str2);
   var uri = {};
   var i2 = 14;
   while (i2--) {
@@ -17032,7 +17032,7 @@ function reqType(xhr) {
   return xhr.toString().replace("object ", "");
 }
 var LoaderResource = function() {
-  function LoaderResource2(name, url2, options) {
+  function LoaderResource2(name2, url2, options) {
     this._dequeue = _noop;
     this._onLoadBinding = null;
     this._elementTimer = 0;
@@ -17044,13 +17044,13 @@ var LoaderResource = function() {
     this._boundXhrOnTimeout = null;
     this._boundXhrOnAbort = null;
     this._boundXhrOnLoad = null;
-    if (typeof name !== "string" || typeof url2 !== "string") {
+    if (typeof name2 !== "string" || typeof url2 !== "string") {
       throw new Error("Both name and url are required for constructing a resource.");
     }
     options = options || {};
     this._flags = 0;
     this._setFlag(LoaderResource2.STATUS_FLAGS.DATA_URL, url2.indexOf("data:") === 0);
-    this.name = name;
+    this.name = name2;
     this.url = url2;
     this.extension = this._getExtension();
     this.data = null;
@@ -17338,12 +17338,12 @@ var LoaderResource = function() {
   };
   LoaderResource2.prototype._xhrOnLoad = function() {
     var xhr = this.xhr;
-    var text = "";
+    var text2 = "";
     var status = typeof xhr.status === "undefined" ? STATUS_OK : xhr.status;
     if (xhr.responseType === "" || xhr.responseType === "text" || typeof xhr.responseType === "undefined") {
-      text = xhr.responseText;
+      text2 = xhr.responseText;
     }
-    if (status === STATUS_NONE && (text.length > 0 || xhr.responseType === LoaderResource2.XHR_RESPONSE_TYPE.BUFFER)) {
+    if (status === STATUS_NONE && (text2.length > 0 || xhr.responseType === LoaderResource2.XHR_RESPONSE_TYPE.BUFFER)) {
       status = STATUS_OK;
     } else if (status === STATUS_IE_BUG_EMPTY) {
       status = STATUS_EMPTY;
@@ -17351,11 +17351,11 @@ var LoaderResource = function() {
     var statusType = status / 100 | 0;
     if (statusType === STATUS_TYPE_OK) {
       if (this.xhrType === LoaderResource2.XHR_RESPONSE_TYPE.TEXT) {
-        this.data = text;
+        this.data = text2;
         this.type = LoaderResource2.TYPE.TEXT;
       } else if (this.xhrType === LoaderResource2.XHR_RESPONSE_TYPE.JSON) {
         try {
-          this.data = JSON.parse(text);
+          this.data = JSON.parse(text2);
           this.type = LoaderResource2.TYPE.JSON;
         } catch (e) {
           this.abort("Error trying to parse loaded json: " + e);
@@ -17365,10 +17365,10 @@ var LoaderResource = function() {
         try {
           if (self.DOMParser) {
             var domparser = new DOMParser();
-            this.data = domparser.parseFromString(text, "text/xml");
+            this.data = domparser.parseFromString(text2, "text/xml");
           } else {
             var div = document.createElement("div");
-            div.innerHTML = text;
+            div.innerHTML = text2;
             this.data = div;
           }
           this.type = LoaderResource2.TYPE.XML;
@@ -17377,7 +17377,7 @@ var LoaderResource = function() {
           return;
         }
       } else {
-        this.data = xhr.response || text;
+        this.data = xhr.response || text2;
       }
     } else {
       this.abort("[" + xhr.status + "] " + xhr.statusText + ": " + xhr.responseURL);
@@ -17728,17 +17728,17 @@ var Loader = function() {
     }
     this._protected = false;
   }
-  Loader2.prototype._add = function(name, url2, options, callback) {
+  Loader2.prototype._add = function(name2, url2, options, callback) {
     if (this.loading && (!options || !options.parentResource)) {
       throw new Error("Cannot add resources while the loader is running.");
     }
-    if (this.resources[name]) {
-      throw new Error('Resource named "' + name + '" already exists.');
+    if (this.resources[name2]) {
+      throw new Error('Resource named "' + name2 + '" already exists.');
     }
     url2 = this._prepareUrl(url2);
-    this.resources[name] = new LoaderResource(name, url2, options);
+    this.resources[name2] = new LoaderResource(name2, url2, options);
     if (typeof callback === "function") {
-      this.resources[name].onAfterMiddleware.once(callback);
+      this.resources[name2].onAfterMiddleware.once(callback);
     }
     if (this.loading) {
       var parent = options.parentResource;
@@ -17750,14 +17750,14 @@ var Loader = function() {
       }
       var fullChunk = parent.progressChunk * (incompleteChildren.length + 1);
       var eachChunk = fullChunk / (incompleteChildren.length + 2);
-      parent.children.push(this.resources[name]);
+      parent.children.push(this.resources[name2]);
       parent.progressChunk = eachChunk;
       for (var i2 = 0; i2 < incompleteChildren.length; ++i2) {
         incompleteChildren[i2].progressChunk = eachChunk;
       }
-      this.resources[name].progressChunk = eachChunk;
+      this.resources[name2].progressChunk = eachChunk;
     }
-    this._queue.push(this.resources[name]);
+    this._queue.push(this.resources[name2]);
     return this;
   };
   Loader2.prototype.pre = function(fn) {
@@ -17914,23 +17914,23 @@ var Loader = function() {
   Loader2._plugins = [];
   return Loader2;
 }();
-Loader.prototype.add = function add(name, url2, options, callback) {
-  if (Array.isArray(name)) {
-    for (var i2 = 0; i2 < name.length; ++i2) {
-      this.add(name[i2]);
+Loader.prototype.add = function add2(name2, url2, options, callback) {
+  if (Array.isArray(name2)) {
+    for (var i2 = 0; i2 < name2.length; ++i2) {
+      this.add(name2[i2]);
     }
     return this;
   }
-  if (typeof name === "object") {
-    options = name;
+  if (typeof name2 === "object") {
+    options = name2;
     callback = url2 || options.callback || options.onComplete;
     url2 = options.url;
-    name = options.name || options.key || options.url;
+    name2 = options.name || options.key || options.url;
   }
   if (typeof url2 !== "string") {
     callback = options;
     options = url2;
-    url2 = name;
+    url2 = name2;
   }
   if (typeof url2 !== "string") {
     throw new Error("No url passed to add resource to loader.");
@@ -17939,7 +17939,7 @@ Loader.prototype.add = function add(name, url2, options, callback) {
     callback = options;
     options = null;
   }
-  return this._add(name, url2, options, callback);
+  return this._add(name2, url2, options, callback);
 };
 var AppLoaderPlugin = function() {
   function AppLoaderPlugin2() {
@@ -17967,8 +17967,8 @@ var TextureLoader = function() {
   };
   TextureLoader2.use = function(resource, next) {
     if (resource.data && (resource.type === LoaderResource.TYPE.IMAGE || resource.extension === "svg")) {
-      var data = resource.data, url2 = resource.url, name = resource.name, metadata = resource.metadata;
-      Texture.fromLoader(data, url2, name, metadata).then(function(texture) {
+      var data = resource.data, url2 = resource.url, name2 = resource.name, metadata = resource.metadata;
+      Texture.fromLoader(data, url2, name2, metadata).then(function(texture) {
         resource.texture = texture;
         next();
       }).catch(next);
@@ -18361,8 +18361,8 @@ var _ = function() {
     this._paused = false;
     var a2 = this._media.nodes.cloneBufferSource(), c2 = a2.source, l2 = a2.gain;
     this._source = c2, this._gain = l2, this._speed = o, this._volume = r2, this._loop = !!i2, this._muted = s2, this._filters = u2, this.refresh();
-    var p = this._source.buffer.duration;
-    this._duration = p, this._end = n, this._lastUpdate = this._now(), this._elapsed = e2, this._source.onended = this._onComplete.bind(this), this._loop ? (this._source.loopEnd = n, this._source.loopStart = e2, this._source.start(0, e2)) : n ? this._source.start(0, e2, n - e2) : this._source.start(0, e2), this.emit("start"), this._update(true), this.enableTicker(true);
+    var p2 = this._source.buffer.duration;
+    this._duration = p2, this._end = n, this._lastUpdate = this._now(), this._elapsed = e2, this._source.onended = this._onComplete.bind(this), this._loop ? (this._source.loopEnd = n, this._source.loopStart = e2, this._source.start(0, e2)) : n ? this._source.start(0, e2, n - e2) : this._source.start(0, e2), this.emit("start"), this._update(true), this.enableTicker(true);
   }, e.prototype.enableTicker = function(t2) {
     Ticker.shared.remove(this._updateListener, this), t2 && Ticker.shared.add(this._updateListener, this);
   }, Object.defineProperty(e.prototype, "progress", { get: function() {
@@ -18796,11 +18796,11 @@ var _ = function() {
   }, t;
 }();
 ({ __proto__: null, Filter: S, EqualizerFilter: function(t) {
-  function e(n, o, i2, r2, u2, a2, c2, l2, p, h2) {
-    n === void 0 && (n = 0), o === void 0 && (o = 0), i2 === void 0 && (i2 = 0), r2 === void 0 && (r2 = 0), u2 === void 0 && (u2 = 0), a2 === void 0 && (a2 = 0), c2 === void 0 && (c2 = 0), l2 === void 0 && (l2 = 0), p === void 0 && (p = 0), h2 === void 0 && (h2 = 0);
+  function e(n, o, i2, r2, u2, a2, c2, l2, p2, h2) {
+    n === void 0 && (n = 0), o === void 0 && (o = 0), i2 === void 0 && (i2 = 0), r2 === void 0 && (r2 = 0), u2 === void 0 && (u2 = 0), a2 === void 0 && (a2 = 0), c2 === void 0 && (c2 = 0), l2 === void 0 && (l2 = 0), p2 === void 0 && (p2 = 0), h2 === void 0 && (h2 = 0);
     var f2 = this;
     if (!s().useLegacy) {
-      var d2 = [{ f: e.F32, type: "lowshelf", gain: n }, { f: e.F64, type: "peaking", gain: o }, { f: e.F125, type: "peaking", gain: i2 }, { f: e.F250, type: "peaking", gain: r2 }, { f: e.F500, type: "peaking", gain: u2 }, { f: e.F1K, type: "peaking", gain: a2 }, { f: e.F2K, type: "peaking", gain: c2 }, { f: e.F4K, type: "peaking", gain: l2 }, { f: e.F8K, type: "peaking", gain: p }, { f: e.F16K, type: "highshelf", gain: h2 }].map(function(t2) {
+      var d2 = [{ f: e.F32, type: "lowshelf", gain: n }, { f: e.F64, type: "peaking", gain: o }, { f: e.F125, type: "peaking", gain: i2 }, { f: e.F250, type: "peaking", gain: r2 }, { f: e.F500, type: "peaking", gain: u2 }, { f: e.F1K, type: "peaking", gain: a2 }, { f: e.F2K, type: "peaking", gain: c2 }, { f: e.F4K, type: "peaking", gain: l2 }, { f: e.F8K, type: "peaking", gain: p2 }, { f: e.F16K, type: "highshelf", gain: h2 }].map(function(t2) {
         var e2 = s().context.audioContext.createBiquadFilter();
         return e2.type = t2.type, v.setParamValue(e2.Q, 1), e2.frequency.value = t2.f, v.setParamValue(e2.gain, t2.gain), e2;
       });
@@ -18989,12 +18989,12 @@ var G = { __proto__: null, playOnce: function(t, e) {
     return o;
   var r2 = t.media, s2 = n.getContext("2d");
   s2.fillStyle = e.fill;
-  for (var u2 = r2.buffer.getChannelData(0), a2 = Math.ceil(u2.length / e.width), l2 = e.height / 2, p = 0; p < e.width; p++) {
+  for (var u2 = r2.buffer.getChannelData(0), a2 = Math.ceil(u2.length / e.width), l2 = e.height / 2, p2 = 0; p2 < e.width; p2++) {
     for (var h2 = 1, f2 = -1, d2 = 0; d2 < a2; d2++) {
-      var _2 = u2[p * a2 + d2];
+      var _2 = u2[p2 * a2 + d2];
       _2 < h2 && (h2 = _2), _2 > f2 && (f2 = _2);
     }
-    s2.fillRect(p, (1 + h2) * l2, 1, Math.max(1, (f2 - h2) * l2));
+    s2.fillRect(p2, (1 + h2) * l2, 1, Math.max(1, (f2 - h2) * l2));
   }
   return o;
 }, resolveUrl: d, sineTone: function(t, e) {
@@ -19059,13 +19059,12 @@ function allSettled(arr) {
   });
 }
 var setTimeoutFunc = setTimeout;
-var setImmediateFunc = typeof setImmediate !== "undefined" ? setImmediate : null;
-function isArray$1(x) {
-  return Boolean(x && typeof x.length !== "undefined");
+function isArray$1(x2) {
+  return Boolean(x2 && typeof x2.length !== "undefined");
 }
 function noop() {
 }
-function bind(fn, thisArg) {
+function bind$2(fn, thisArg) {
   return function() {
     fn.apply(thisArg, arguments);
   };
@@ -19118,7 +19117,7 @@ function resolve(self2, newValue) {
         finale(self2);
         return;
       } else if (typeof then === "function") {
-        doResolve(bind(then, newValue), self2);
+        doResolve(bind$2(then, newValue), self2);
         return;
       }
     }
@@ -19239,8 +19238,8 @@ Promise$1.race = function(arr) {
     }
   });
 };
-Promise$1._immediateFn = typeof setImmediateFunc === "function" && function(fn) {
-  setImmediateFunc(fn);
+Promise$1._immediateFn = typeof setImmediate === "function" && function(fn) {
+  setImmediate(fn);
 } || function(fn) {
   setTimeoutFunc(fn, 0);
 };
@@ -19375,12 +19374,12 @@ if (!self.cancelAnimationFrame) {
   };
 }
 if (!Math.sign) {
-  Math.sign = function mathSign(x) {
-    x = Number(x);
-    if (x === 0 || isNaN(x)) {
-      return x;
+  Math.sign = function mathSign(x2) {
+    x2 = Number(x2);
+    if (x2 === 0 || isNaN(x2)) {
+      return x2;
     }
-    return x > 0 ? 1 : -1;
+    return x2 > 0 ? 1 : -1;
   };
 }
 if (!Number.isInteger) {
@@ -19451,10 +19450,10 @@ var Bounds = function() {
   };
   Bounds2.prototype.addPointMatrix = function(matrix, point) {
     var a2 = matrix.a, b2 = matrix.b, c2 = matrix.c, d2 = matrix.d, tx = matrix.tx, ty = matrix.ty;
-    var x = a2 * point.x + c2 * point.y + tx;
+    var x2 = a2 * point.x + c2 * point.y + tx;
     var y2 = b2 * point.x + d2 * point.y + ty;
-    this.minX = Math.min(this.minX, x);
-    this.maxX = Math.max(this.maxX, x);
+    this.minX = Math.min(this.minX, x2);
+    this.maxX = Math.max(this.maxX, x2);
     this.minY = Math.min(this.minY, y2);
     this.maxY = Math.max(this.maxY, y2);
   };
@@ -19463,29 +19462,29 @@ var Bounds = function() {
     var minY = this.minY;
     var maxX = this.maxX;
     var maxY = this.maxY;
-    var x = vertices[0];
+    var x2 = vertices[0];
     var y2 = vertices[1];
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
-    x = vertices[2];
+    x2 = vertices[2];
     y2 = vertices[3];
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
-    x = vertices[4];
+    x2 = vertices[4];
     y2 = vertices[5];
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
-    x = vertices[6];
+    x2 = vertices[6];
     y2 = vertices[7];
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
     this.minX = minX;
     this.minY = minY;
@@ -19506,29 +19505,29 @@ var Bounds = function() {
     var minY = this.minY;
     var maxX = this.maxX;
     var maxY = this.maxY;
-    var x = a2 * x0 + c2 * y0 + tx;
+    var x2 = a2 * x0 + c2 * y0 + tx;
     var y2 = b2 * x0 + d2 * y0 + ty;
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
-    x = a2 * x1 + c2 * y0 + tx;
+    x2 = a2 * x1 + c2 * y0 + tx;
     y2 = b2 * x1 + d2 * y0 + ty;
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
-    x = a2 * x0 + c2 * y1 + tx;
+    x2 = a2 * x0 + c2 * y1 + tx;
     y2 = b2 * x0 + d2 * y1 + ty;
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
-    x = a2 * x1 + c2 * y1 + tx;
+    x2 = a2 * x1 + c2 * y1 + tx;
     y2 = b2 * x1 + d2 * y1 + ty;
-    minX = x < minX ? x : minX;
+    minX = x2 < minX ? x2 : minX;
     minY = y2 < minY ? y2 : minY;
-    maxX = x > maxX ? x : maxX;
+    maxX = x2 > maxX ? x2 : maxX;
     maxY = y2 > maxY ? y2 : maxY;
     this.minX = minX;
     this.minY = minY;
@@ -19541,11 +19540,11 @@ var Bounds = function() {
     var maxX = this.maxX;
     var maxY = this.maxY;
     for (var i2 = beginOffset; i2 < endOffset; i2 += 2) {
-      var x = vertexData[i2];
+      var x2 = vertexData[i2];
       var y2 = vertexData[i2 + 1];
-      minX = x < minX ? x : minX;
+      minX = x2 < minX ? x2 : minX;
       minY = y2 < minY ? y2 : minY;
-      maxX = x > maxX ? x : maxX;
+      maxX = x2 > maxX ? x2 : maxX;
       maxY = y2 > maxY ? y2 : maxY;
     }
     this.minX = minX;
@@ -19576,10 +19575,10 @@ var Bounds = function() {
     for (var i2 = beginOffset; i2 < endOffset; i2 += 2) {
       var rawX = vertices[i2];
       var rawY = vertices[i2 + 1];
-      var x = a2 * rawX + c2 * rawY + tx;
+      var x2 = a2 * rawX + c2 * rawY + tx;
       var y2 = d2 * rawY + b2 * rawX + ty;
-      minX = Math.min(minX, x - padX);
-      maxX = Math.max(maxX, x + padX);
+      minX = Math.min(minX, x2 - padX);
+      maxX = Math.max(maxX, x2 + padX);
       minY = Math.min(minY, y2 - padY);
       maxY = Math.max(maxY, y2 + padY);
     }
@@ -19677,9 +19676,9 @@ var extendStatics$p = function(d2, b2) {
   extendStatics$p = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -19833,9 +19832,9 @@ var DisplayObject = function(_super) {
     container.addChild(this);
     return container;
   };
-  DisplayObject2.prototype.setTransform = function(x, y2, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY) {
-    if (x === void 0) {
-      x = 0;
+  DisplayObject2.prototype.setTransform = function(x2, y2, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
@@ -19861,7 +19860,7 @@ var DisplayObject = function(_super) {
     if (pivotY === void 0) {
       pivotY = 0;
     }
-    this.position.x = x;
+    this.position.x = x2;
     this.position.y = y2;
     this.scale.x = !scaleX ? 1 : scaleX;
     this.scale.y = !scaleY ? 1 : scaleY;
@@ -20977,9 +20976,9 @@ var extendStatics$o = function(d2, b2) {
   extendStatics$o = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -21438,7 +21437,7 @@ var InteractionManager = function(_super) {
   InteractionManager2.prototype.delayDispatchEvent = function(displayObject, eventString, eventData) {
     this.delayedEvents.push({ displayObject, eventString, eventData });
   };
-  InteractionManager2.prototype.mapPositionToPoint = function(point, x, y2) {
+  InteractionManager2.prototype.mapPositionToPoint = function(point, x2, y2) {
     var rect;
     if (!this.interactionDOMElement.parentElement) {
       rect = {
@@ -21453,7 +21452,7 @@ var InteractionManager = function(_super) {
       rect = this.interactionDOMElement.getBoundingClientRect();
     }
     var resolutionMultiplier = 1 / this.resolution;
-    point.x = (x - rect.left) * (this.interactionDOMElement.width / rect.width) * resolutionMultiplier;
+    point.x = (x2 - rect.left) * (this.interactionDOMElement.width / rect.width) * resolutionMultiplier;
     point.y = (y2 - rect.top) * (this.interactionDOMElement.height / rect.height) * resolutionMultiplier;
   };
   InteractionManager2.prototype.processInteractive = function(interactionEvent, displayObject, func, hitTest) {
@@ -21918,9 +21917,9 @@ var Application = function() {
   });
   Application2.prototype.destroy = function(removeView, stageOptions) {
     var _this = this;
-    var plugins = Application2._plugins.slice(0);
-    plugins.reverse();
-    plugins.forEach(function(plugin) {
+    var plugins2 = Application2._plugins.slice(0);
+    plugins2.reverse();
+    plugins2.forEach(function(plugin) {
       plugin.destroy.call(_this);
     });
     this.stage.destroy(stageOptions);
@@ -22177,9 +22176,9 @@ var extendStatics$n = function(d2, b2) {
   extendStatics$n = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -22981,9 +22980,9 @@ var extendStatics$m = function(d2, b2) {
   extendStatics$m = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -23308,13 +23307,13 @@ var ParticleRenderer = function(_super) {
       var texture = sprite._texture;
       var sx = sprite.scale.x;
       var sy = sprite.scale.y;
-      var trim = texture.trim;
+      var trim2 = texture.trim;
       var orig = texture.orig;
-      if (trim) {
-        w1 = trim.x - sprite.anchor.x * orig.width;
-        w0 = w1 + trim.width;
-        h1 = trim.y - sprite.anchor.y * orig.height;
-        h0 = h1 + trim.height;
+      if (trim2) {
+        w1 = trim2.x - sprite.anchor.x * orig.width;
+        w0 = w1 + trim2.width;
+        h1 = trim2.y - sprite.anchor.y * orig.height;
+        h0 = h1 + trim2.height;
       } else {
         w0 = orig.width * (1 - sprite.anchor.x);
         w1 = orig.width * -sprite.anchor.x;
@@ -23495,9 +23494,9 @@ var extendStatics$l = function(d2, b2) {
   extendStatics$l = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -23546,7 +23545,7 @@ var buildCircle = {
   build: function(graphicsData) {
     var circleData = graphicsData.shape;
     var points = graphicsData.points;
-    var x = circleData.x;
+    var x2 = circleData.x;
     var y2 = circleData.y;
     var width;
     var height;
@@ -23566,7 +23565,7 @@ var buildCircle = {
     totalSegs /= 2.3;
     var seg = Math.PI * 2 / totalSegs;
     for (var i2 = 0; i2 < totalSegs - 0.5; i2++) {
-      points.push(x + Math.sin(-seg * i2) * width, y2 + Math.cos(-seg * i2) * height);
+      points.push(x2 + Math.sin(-seg * i2) * width, y2 + Math.cos(-seg * i2) * height);
     }
     points.push(points[0], points[1]);
   },
@@ -23578,9 +23577,9 @@ var buildCircle = {
     var center = vertPos;
     var circle = graphicsData.shape;
     var matrix = graphicsData.matrix;
-    var x = circle.x;
+    var x2 = circle.x;
     var y2 = circle.y;
-    verts.push(graphicsData.matrix ? matrix.a * x + matrix.c * y2 + matrix.tx : x, graphicsData.matrix ? matrix.b * x + matrix.d * y2 + matrix.ty : y2);
+    verts.push(graphicsData.matrix ? matrix.a * x2 + matrix.c * y2 + matrix.tx : x2, graphicsData.matrix ? matrix.b * x2 + matrix.d * y2 + matrix.ty : y2);
     for (var i2 = 0; i2 < points.length; i2 += 2) {
       verts.push(points[i2], points[i2 + 1]);
       indices2.push(vertPos++, center, vertPos);
@@ -23590,13 +23589,13 @@ var buildCircle = {
 var buildRectangle = {
   build: function(graphicsData) {
     var rectData = graphicsData.shape;
-    var x = rectData.x;
+    var x2 = rectData.x;
     var y2 = rectData.y;
     var width = rectData.width;
     var height = rectData.height;
     var points = graphicsData.points;
     points.length = 0;
-    points.push(x, y2, x + width, y2, x + width, y2 + height, x, y2 + height);
+    points.push(x2, y2, x2 + width, y2, x2 + width, y2 + height, x2, y2 + height);
   },
   triangulate: function(graphicsData, graphicsGeometry) {
     var points = graphicsData.points;
@@ -23620,7 +23619,7 @@ function quadraticBezierCurve(fromX, fromY, cpX, cpY, toX, toY, out) {
   var ya = 0;
   var xb = 0;
   var yb = 0;
-  var x = 0;
+  var x2 = 0;
   var y2 = 0;
   for (var i2 = 0, j2 = 0; i2 <= n; ++i2) {
     j2 = i2 / n;
@@ -23628,12 +23627,12 @@ function quadraticBezierCurve(fromX, fromY, cpX, cpY, toX, toY, out) {
     ya = getPt(fromY, cpY, j2);
     xb = getPt(cpX, toX, j2);
     yb = getPt(cpY, toY, j2);
-    x = getPt(xa, xb, j2);
+    x2 = getPt(xa, xb, j2);
     y2 = getPt(ya, yb, j2);
-    if (i2 === 0 && points[points.length - 2] === x && points[points.length - 1] === y2) {
+    if (i2 === 0 && points[points.length - 2] === x2 && points[points.length - 1] === y2) {
       continue;
     }
-    points.push(x, y2);
+    points.push(x2, y2);
   }
   return points;
 }
@@ -23641,19 +23640,19 @@ var buildRoundedRectangle = {
   build: function(graphicsData) {
     var rrectData = graphicsData.shape;
     var points = graphicsData.points;
-    var x = rrectData.x;
+    var x2 = rrectData.x;
     var y2 = rrectData.y;
     var width = rrectData.width;
     var height = rrectData.height;
     var radius = Math.max(0, Math.min(rrectData.radius, Math.min(width, height) / 2));
     points.length = 0;
     if (!radius) {
-      points.push(x, y2, x + width, y2, x + width, y2 + height, x, y2 + height);
+      points.push(x2, y2, x2 + width, y2, x2 + width, y2 + height, x2, y2 + height);
     } else {
-      quadraticBezierCurve(x, y2 + radius, x, y2, x + radius, y2, points);
-      quadraticBezierCurve(x + width - radius, y2, x + width, y2, x + width, y2 + radius, points);
-      quadraticBezierCurve(x + width, y2 + height - radius, x + width, y2 + height, x + width - radius, y2 + height, points);
-      quadraticBezierCurve(x + radius, y2 + height, x, y2 + height, x, y2 + height - radius, points);
+      quadraticBezierCurve(x2, y2 + radius, x2, y2, x2 + radius, y2, points);
+      quadraticBezierCurve(x2 + width - radius, y2, x2 + width, y2, x2 + width, y2 + radius, points);
+      quadraticBezierCurve(x2 + width, y2 + height - radius, x2 + width, y2 + height, x2 + width - radius, y2 + height, points);
+      quadraticBezierCurve(x2 + radius, y2 + height, x2, y2 + height, x2, y2 + height - radius, points);
     }
   },
   triangulate: function(graphicsData, graphicsGeometry) {
@@ -23672,10 +23671,10 @@ var buildRoundedRectangle = {
     }
   }
 };
-function square(x, y2, nx, ny, innerWeight, outerWeight, clockwise, verts) {
-  var ix = x - nx * innerWeight;
+function square(x2, y2, nx, ny, innerWeight, outerWeight, clockwise, verts) {
+  var ix = x2 - nx * innerWeight;
   var iy = y2 - ny * innerWeight;
-  var ox = x + nx * outerWeight;
+  var ox = x2 + nx * outerWeight;
   var oy = y2 + ny * outerWeight;
   var exx;
   var eyy;
@@ -24030,7 +24029,7 @@ var BezierUtils = function() {
     var nt = 0;
     var nt2 = 0;
     var nt3 = 0;
-    var x = 0;
+    var x2 = 0;
     var y2 = 0;
     var dx = 0;
     var dy = 0;
@@ -24043,11 +24042,11 @@ var BezierUtils = function() {
       nt = 1 - t;
       nt2 = nt * nt;
       nt3 = nt2 * nt;
-      x = nt3 * fromX + 3 * nt2 * t * cpX + 3 * nt * t2 * cpX2 + t3 * toX;
+      x2 = nt3 * fromX + 3 * nt2 * t * cpX + 3 * nt * t2 * cpX2 + t3 * toX;
       y2 = nt3 * fromY + 3 * nt2 * t * cpY + 3 * nt * t2 * cpY2 + t3 * toY;
-      dx = prevX - x;
+      dx = prevX - x2;
       dy = prevY - y2;
-      prevX = x;
+      prevX = x2;
       prevY = y2;
       result += Math.sqrt(dx * dx + dy * dy);
     }
@@ -24547,14 +24546,14 @@ var GraphicsGeometry = function(_super) {
     var glPoints = new ArrayBuffer(verts.length * 3 * 4);
     var f32 = new Float32Array(glPoints);
     var u32 = new Uint32Array(glPoints);
-    var p = 0;
+    var p2 = 0;
     for (var i2 = 0; i2 < verts.length / 2; i2++) {
-      f32[p++] = verts[i2 * 2];
-      f32[p++] = verts[i2 * 2 + 1];
-      f32[p++] = uvs[i2 * 2];
-      f32[p++] = uvs[i2 * 2 + 1];
-      u32[p++] = colors[i2];
-      f32[p++] = textureIds[i2];
+      f32[p2++] = verts[i2 * 2];
+      f32[p2++] = verts[i2 * 2 + 1];
+      f32[p2++] = uvs[i2 * 2];
+      f32[p2++] = uvs[i2 * 2 + 1];
+      u32[p2++] = colors[i2];
+      f32[p2++] = textureIds[i2];
     }
     this._buffer.update(glPoints);
     this._indexBuffer.update(this.indicesUint16);
@@ -24638,10 +24637,10 @@ var GraphicsGeometry = function(_super) {
   };
   GraphicsGeometry2.prototype.transformPoints = function(points, matrix) {
     for (var i2 = 0; i2 < points.length / 2; i2++) {
-      var x = points[i2 * 2];
+      var x2 = points[i2 * 2];
       var y2 = points[i2 * 2 + 1];
-      points[i2 * 2] = matrix.a * x + matrix.c * y2 + matrix.tx;
-      points[i2 * 2 + 1] = matrix.b * x + matrix.d * y2 + matrix.ty;
+      points[i2 * 2] = matrix.a * x2 + matrix.c * y2 + matrix.tx;
+      points[i2 * 2 + 1] = matrix.b * x2 + matrix.d * y2 + matrix.ty;
     }
   };
   GraphicsGeometry2.prototype.addColors = function(colors, color, alpha, size, offset) {
@@ -24672,15 +24671,15 @@ var GraphicsGeometry = function(_super) {
     var uvsStart = uvs.length;
     var frame = texture.frame;
     while (index < size) {
-      var x = verts[(start + index) * 2];
+      var x2 = verts[(start + index) * 2];
       var y2 = verts[(start + index) * 2 + 1];
       if (matrix) {
-        var nx = matrix.a * x + matrix.c * y2 + matrix.tx;
-        y2 = matrix.b * x + matrix.d * y2 + matrix.ty;
-        x = nx;
+        var nx = matrix.a * x2 + matrix.c * y2 + matrix.tx;
+        y2 = matrix.b * x2 + matrix.d * y2 + matrix.ty;
+        x2 = nx;
       }
       index++;
-      uvs.push(x / frame.width, y2 / frame.height);
+      uvs.push(x2 / frame.width, y2 / frame.height);
     }
     var baseTexture = texture.baseTexture;
     if (frame.width < baseTexture.width || frame.height < baseTexture.height) {
@@ -24895,37 +24894,37 @@ var Graphics = function(_super) {
       }
     }
   };
-  Graphics2.prototype.moveTo = function(x, y2) {
+  Graphics2.prototype.moveTo = function(x2, y2) {
     this.startPoly();
-    this.currentPath.points[0] = x;
+    this.currentPath.points[0] = x2;
     this.currentPath.points[1] = y2;
     return this;
   };
-  Graphics2.prototype.lineTo = function(x, y2) {
+  Graphics2.prototype.lineTo = function(x2, y2) {
     if (!this.currentPath) {
       this.moveTo(0, 0);
     }
     var points = this.currentPath.points;
     var fromX = points[points.length - 2];
     var fromY = points[points.length - 1];
-    if (fromX !== x || fromY !== y2) {
-      points.push(x, y2);
+    if (fromX !== x2 || fromY !== y2) {
+      points.push(x2, y2);
     }
     return this;
   };
-  Graphics2.prototype._initCurve = function(x, y2) {
-    if (x === void 0) {
-      x = 0;
+  Graphics2.prototype._initCurve = function(x2, y2) {
+    if (x2 === void 0) {
+      x2 = 0;
     }
     if (y2 === void 0) {
       y2 = 0;
     }
     if (this.currentPath) {
       if (this.currentPath.points.length === 0) {
-        this.currentPath.points = [x, y2];
+        this.currentPath.points = [x2, y2];
       }
     } else {
-      this.moveTo(x, y2);
+      this.moveTo(x2, y2);
     }
   };
   Graphics2.prototype.quadraticCurveTo = function(cpX, cpY, toX, toY) {
@@ -25023,17 +25022,17 @@ var Graphics = function(_super) {
     this._fillStyle.reset();
     return this;
   };
-  Graphics2.prototype.drawRect = function(x, y2, width, height) {
-    return this.drawShape(new Rectangle(x, y2, width, height));
+  Graphics2.prototype.drawRect = function(x2, y2, width, height) {
+    return this.drawShape(new Rectangle(x2, y2, width, height));
   };
-  Graphics2.prototype.drawRoundedRect = function(x, y2, width, height, radius) {
-    return this.drawShape(new RoundedRectangle(x, y2, width, height, radius));
+  Graphics2.prototype.drawRoundedRect = function(x2, y2, width, height, radius) {
+    return this.drawShape(new RoundedRectangle(x2, y2, width, height, radius));
   };
-  Graphics2.prototype.drawCircle = function(x, y2, radius) {
-    return this.drawShape(new Circle(x, y2, radius));
+  Graphics2.prototype.drawCircle = function(x2, y2, radius) {
+    return this.drawShape(new Circle(x2, y2, radius));
   };
-  Graphics2.prototype.drawEllipse = function(x, y2, width, height) {
-    return this.drawShape(new Ellipse(x, y2, width, height));
+  Graphics2.prototype.drawEllipse = function(x2, y2, width, height) {
+    return this.drawShape(new Ellipse(x2, y2, width, height));
   };
   Graphics2.prototype.drawPolygon = function() {
     var arguments$1 = arguments;
@@ -25230,10 +25229,10 @@ var Graphics = function(_super) {
     var vertexData = this.vertexData;
     var count = 0;
     for (var i2 = 0; i2 < data.length; i2 += 2) {
-      var x = data[i2];
+      var x2 = data[i2];
       var y2 = data[i2 + 1];
-      vertexData[count++] = a2 * x + c2 * y2 + tx;
-      vertexData[count++] = d2 * y2 + b2 * x + ty;
+      vertexData[count++] = a2 * x2 + c2 * y2 + tx;
+      vertexData[count++] = d2 * y2 + b2 * x2 + ty;
     }
   };
   Graphics2.prototype.closePath = function() {
@@ -25304,9 +25303,9 @@ var extendStatics$k = function(d2, b2) {
   extendStatics$k = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -25381,18 +25380,18 @@ var Sprite = function(_super) {
     var tx = wt.tx;
     var ty = wt.ty;
     var vertexData = this.vertexData;
-    var trim = texture.trim;
+    var trim2 = texture.trim;
     var orig = texture.orig;
     var anchor = this._anchor;
     var w0 = 0;
     var w1 = 0;
     var h0 = 0;
     var h1 = 0;
-    if (trim) {
-      w1 = trim.x - anchor._x * orig.width;
-      w0 = w1 + trim.width;
-      h1 = trim.y - anchor._y * orig.height;
-      h0 = h1 + trim.height;
+    if (trim2) {
+      w1 = trim2.x - anchor._x * orig.width;
+      w0 = w1 + trim2.width;
+      h1 = trim2.y - anchor._y * orig.height;
+      h0 = h1 + trim2.height;
     } else {
       w1 = -anchor._x * orig.width;
       w0 = w1 + orig.width;
@@ -25452,9 +25451,9 @@ var Sprite = function(_super) {
     renderer.plugins[this.pluginName].render(this);
   };
   Sprite2.prototype._calculateBounds = function() {
-    var trim = this._texture.trim;
+    var trim2 = this._texture.trim;
     var orig = this._texture.orig;
-    if (!trim || trim.width === orig.width && trim.height === orig.height) {
+    if (!trim2 || trim2.width === orig.width && trim2.height === orig.height) {
       this.calculateVertices();
       this._bounds.addQuad(this.vertexData);
     } else {
@@ -25621,9 +25620,9 @@ var extendStatics$j = function(d2, b2) {
   extendStatics$j = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -26026,9 +26025,9 @@ var TextStyle = function() {
     get: function() {
       return this._trim;
     },
-    set: function(trim) {
-      if (this._trim !== trim) {
-        this._trim = trim;
+    set: function(trim2) {
+      if (this._trim !== trim2) {
+        this._trim = trim2;
         this.styleID++;
       }
     },
@@ -26135,8 +26134,8 @@ function deepCopyProperties(target, source, propertyObj) {
   }
 }
 var TextMetrics = function() {
-  function TextMetrics2(text, style, width, height, lines, lineWidths, lineHeight, maxLineWidth, fontProperties) {
-    this.text = text;
+  function TextMetrics2(text2, style, width, height, lines, lineWidths, lineHeight, maxLineWidth, fontProperties) {
+    this.text = text2;
     this.style = style;
     this.width = width;
     this.height = height;
@@ -26146,7 +26145,7 @@ var TextMetrics = function() {
     this.maxLineWidth = maxLineWidth;
     this.fontProperties = fontProperties;
   }
-  TextMetrics2.measureText = function(text, style, wordWrap, canvas2) {
+  TextMetrics2.measureText = function(text2, style, wordWrap, canvas2) {
     if (canvas2 === void 0) {
       canvas2 = TextMetrics2._canvas;
     }
@@ -26159,7 +26158,7 @@ var TextMetrics = function() {
     }
     var context2 = canvas2.getContext("2d");
     context2.font = font;
-    var outputText = wordWrap ? TextMetrics2.wordWrap(text, style, canvas2) : text;
+    var outputText = wordWrap ? TextMetrics2.wordWrap(text2, style, canvas2) : text2;
     var lines = outputText.split(/(?:\r\n|\r|\n)/);
     var lineWidths = new Array(lines.length);
     var maxLineWidth = 0;
@@ -26177,9 +26176,9 @@ var TextMetrics = function() {
     if (style.dropShadow) {
       height += style.dropShadowDistance;
     }
-    return new TextMetrics2(text, style, width, height, lines, lineWidths, lineHeight + style.leading, maxLineWidth, fontProperties);
+    return new TextMetrics2(text2, style, width, height, lines, lineWidths, lineHeight + style.leading, maxLineWidth, fontProperties);
   };
-  TextMetrics2.wordWrap = function(text, style, canvas2) {
+  TextMetrics2.wordWrap = function(text2, style, canvas2) {
     if (canvas2 === void 0) {
       canvas2 = TextMetrics2._canvas;
     }
@@ -26193,7 +26192,7 @@ var TextMetrics = function() {
     var collapseNewlines = TextMetrics2.collapseNewlines(whiteSpace);
     var canPrependSpaces = !collapseSpaces;
     var wordWrapWidth = style.wordWrapWidth + letterSpacing;
-    var tokens = TextMetrics2.tokenize(text);
+    var tokens = TextMetrics2.tokenize(text2);
     for (var i2 = 0; i2 < tokens.length; i2++) {
       var token = tokens[i2];
       if (TextMetrics2.isNewline(token)) {
@@ -26297,18 +26296,18 @@ var TextMetrics = function() {
   TextMetrics2.collapseNewlines = function(whiteSpace) {
     return whiteSpace === "normal";
   };
-  TextMetrics2.trimRight = function(text) {
-    if (typeof text !== "string") {
+  TextMetrics2.trimRight = function(text2) {
+    if (typeof text2 !== "string") {
       return "";
     }
-    for (var i2 = text.length - 1; i2 >= 0; i2--) {
-      var char = text[i2];
+    for (var i2 = text2.length - 1; i2 >= 0; i2--) {
+      var char = text2[i2];
       if (!TextMetrics2.isBreakingSpace(char)) {
         break;
       }
-      text = text.slice(0, -1);
+      text2 = text2.slice(0, -1);
     }
-    return text;
+    return text2;
   };
   TextMetrics2.isNewline = function(char) {
     if (typeof char !== "string") {
@@ -26322,15 +26321,15 @@ var TextMetrics = function() {
     }
     return TextMetrics2._breakingSpaces.indexOf(char.charCodeAt(0)) >= 0;
   };
-  TextMetrics2.tokenize = function(text) {
+  TextMetrics2.tokenize = function(text2) {
     var tokens = [];
     var token = "";
-    if (typeof text !== "string") {
+    if (typeof text2 !== "string") {
       return tokens;
     }
-    for (var i2 = 0; i2 < text.length; i2++) {
-      var char = text[i2];
-      var nextChar = text[i2 + 1];
+    for (var i2 = 0; i2 < text2.length; i2++) {
+      var char = text2[i2];
+      var nextChar = text2[i2 + 1];
       if (TextMetrics2.isBreakingSpace(char, nextChar) || TextMetrics2.isNewline(char)) {
         if (token !== "") {
           tokens.push(token);
@@ -26479,7 +26478,7 @@ var defaultDestroyOptions = {
 };
 var Text = function(_super) {
   __extends$j(Text2, _super);
-  function Text2(text, style, canvas2) {
+  function Text2(text2, style, canvas2) {
     var _this = this;
     var ownCanvas = false;
     if (!canvas2) {
@@ -26501,7 +26500,7 @@ var Text = function(_super) {
     _this._style = null;
     _this._styleListener = null;
     _this._font = "";
-    _this.text = text;
+    _this.text = text2;
     _this.style = style;
     _this.localStyleID = -1;
     return _this;
@@ -26582,7 +26581,7 @@ var Text = function(_super) {
     }
     this.updateTexture();
   };
-  Text2.prototype.drawLetterSpacing = function(text, x, y2, isStroke) {
+  Text2.prototype.drawLetterSpacing = function(text2, x2, y2, isStroke) {
     if (isStroke === void 0) {
       isStroke = false;
     }
@@ -26595,15 +26594,15 @@ var Text = function(_super) {
         this.context.textLetterSpacing = letterSpacing;
       }
       if (isStroke) {
-        this.context.strokeText(text, x, y2);
+        this.context.strokeText(text2, x2, y2);
       } else {
-        this.context.fillText(text, x, y2);
+        this.context.fillText(text2, x2, y2);
       }
       return;
     }
-    var currentPosition = x;
-    var stringArray = Array.from ? Array.from(text) : text.split("");
-    var previousWidth = this.context.measureText(text).width;
+    var currentPosition = x2;
+    var stringArray = Array.from ? Array.from(text2) : text2.split("");
+    var previousWidth = this.context.measureText(text2).width;
     var currentWidth = 0;
     for (var i2 = 0; i2 < stringArray.length; ++i2) {
       var currentChar = stringArray[i2];
@@ -26796,12 +26795,12 @@ var Text = function(_super) {
     get: function() {
       return this._text;
     },
-    set: function(text) {
-      text = String(text === null || text === void 0 ? "" : text);
-      if (this._text === text) {
+    set: function(text2) {
+      text2 = String(text2 === null || text2 === void 0 ? "" : text2);
+      if (this._text === text2) {
         return;
       }
-      this._text = text;
+      this._text = text2;
       this.dirty = true;
     },
     enumerable: false,
@@ -26851,9 +26850,9 @@ var extendStatics$i = function(d2, b2) {
   extendStatics$i = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -27176,7 +27175,7 @@ var Spritesheet = function() {
       var rect = data.frame;
       if (rect) {
         var frame = null;
-        var trim = null;
+        var trim2 = null;
         var sourceSize = data.trimmed !== false && data.sourceSize ? data.sourceSize : data.frame;
         var orig = new Rectangle(0, 0, Math.floor(sourceSize.w) / this.resolution, Math.floor(sourceSize.h) / this.resolution);
         if (data.rotated) {
@@ -27185,9 +27184,9 @@ var Spritesheet = function() {
           frame = new Rectangle(Math.floor(rect.x) / this.resolution, Math.floor(rect.y) / this.resolution, Math.floor(rect.w) / this.resolution, Math.floor(rect.h) / this.resolution);
         }
         if (data.trimmed !== false && data.spriteSourceSize) {
-          trim = new Rectangle(Math.floor(data.spriteSourceSize.x) / this.resolution, Math.floor(data.spriteSourceSize.y) / this.resolution, Math.floor(rect.w) / this.resolution, Math.floor(rect.h) / this.resolution);
+          trim2 = new Rectangle(Math.floor(data.spriteSourceSize.x) / this.resolution, Math.floor(data.spriteSourceSize.y) / this.resolution, Math.floor(rect.w) / this.resolution, Math.floor(rect.h) / this.resolution);
         }
-        this.textures[i2] = new Texture(this.baseTexture, frame, orig, trim, data.rotated ? 2 : 0, data.anchor);
+        this.textures[i2] = new Texture(this.baseTexture, frame, orig, trim2, data.rotated ? 2 : 0, data.anchor);
         Texture.addToCache(this.textures[i2], i2);
       }
       frameIndex++;
@@ -27334,9 +27333,9 @@ var extendStatics$h = function(d2, b2) {
   extendStatics$h = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -27584,9 +27583,9 @@ var extendStatics$g = function(d2, b2) {
   extendStatics$g = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -27795,10 +27794,10 @@ var Mesh = function(_super) {
     var ty = wt.ty;
     var vertexData = this.vertexData;
     for (var i2 = 0; i2 < vertexData.length / 2; i2++) {
-      var x = vertices[i2 * 2];
+      var x2 = vertices[i2 * 2];
       var y2 = vertices[i2 * 2 + 1];
-      vertexData[i2 * 2] = a2 * x + c2 * y2 + tx;
-      vertexData[i2 * 2 + 1] = b2 * x + d2 * y2 + ty;
+      vertexData[i2 * 2] = a2 * x2 + c2 * y2 + tx;
+      vertexData[i2 * 2 + 1] = b2 * x2 + d2 * y2 + ty;
     }
     if (this._roundPixels) {
       var resolution = settings.RESOLUTION;
@@ -27995,9 +27994,9 @@ var extendStatics$f = function(d2, b2) {
   extendStatics$f = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -28040,7 +28039,7 @@ var TextFormat = function() {
       distanceField: []
     };
     for (var i2 in items) {
-      var name = items[i2].match(/^[a-z]+/gm)[0];
+      var name2 = items[i2].match(/^[a-z]+/gm)[0];
       var attributeList = items[i2].match(/[a-zA-Z]+=([^\s"']+|"([^"]*)")/gm);
       var itemData = {};
       for (var i_1 in attributeList) {
@@ -28051,7 +28050,7 @@ var TextFormat = function() {
         var value = isNaN(floatValue) ? strValue : floatValue;
         itemData[key] = value;
       }
-      rawData[name].push(itemData);
+      rawData[name2].push(itemData);
     }
     var font = new BitmapFontData();
     rawData.info.forEach(function(info) {
@@ -28254,10 +28253,10 @@ function generateFillStyle(canvas2, context2, style, resolution, lines, metrics)
   }
   return gradient;
 }
-function drawGlyph(canvas2, context2, metrics, x, y2, resolution, style) {
+function drawGlyph(canvas2, context2, metrics, x2, y2, resolution, style) {
   var char = metrics.text;
   var fontProperties = metrics.fontProperties;
-  context2.translate(x, y2);
+  context2.translate(x2, y2);
   context2.scale(resolution, resolution);
   var tx = style.strokeThickness / 2;
   var ty = -(style.strokeThickness / 2);
@@ -28292,8 +28291,8 @@ function drawGlyph(canvas2, context2, metrics, x, y2, resolution, style) {
   context2.setTransform(1, 0, 0, 1, 0, 0);
   context2.fillStyle = "rgba(0, 0, 0, 0)";
 }
-function splitTextToCharacters(text) {
-  return Array.from ? Array.from(text) : text.split("");
+function splitTextToCharacters(text2) {
+  return Array.from ? Array.from(text2) : text2.split("");
 }
 function resolveCharacters(chars2) {
   if (typeof chars2 === "string") {
@@ -28323,8 +28322,8 @@ function resolveCharacters(chars2) {
   }
   return result;
 }
-function extractCharCode(str) {
-  return str.codePointAt ? str.codePointAt(0) : str.charCodeAt(0);
+function extractCharCode(str2) {
+  return str2.codePointAt ? str2.codePointAt(0) : str2.charCodeAt(0);
 }
 var BitmapFont = function() {
   function BitmapFont2(data, textures, ownsTextures) {
@@ -28350,15 +28349,15 @@ var BitmapFont = function() {
     }
     for (var i2 = 0; i2 < data.char.length; i2++) {
       var _d2 = data.char[i2], id = _d2.id, page_1 = _d2.page;
-      var _e = data.char[i2], x = _e.x, y2 = _e.y, width = _e.width, height = _e.height, xoffset = _e.xoffset, yoffset = _e.yoffset, xadvance = _e.xadvance;
-      x /= res;
+      var _e = data.char[i2], x2 = _e.x, y2 = _e.y, width = _e.width, height = _e.height, xoffset = _e.xoffset, yoffset = _e.yoffset, xadvance = _e.xadvance;
+      x2 /= res;
       y2 /= res;
       width /= res;
       height /= res;
       xoffset /= res;
       yoffset /= res;
       xadvance /= res;
-      var rect = new Rectangle(x + pageTextures[page_1].frame.x / res, y2 + pageTextures[page_1].frame.y / res, width, height);
+      var rect = new Rectangle(x2 + pageTextures[page_1].frame.x / res, y2 + pageTextures[page_1].frame.y / res, width, height);
       this.chars[id] = {
         xOffset: xoffset,
         yOffset: yoffset,
@@ -28412,16 +28411,16 @@ var BitmapFont = function() {
     BitmapFont2.available[font.font] = font;
     return font;
   };
-  BitmapFont2.uninstall = function(name) {
-    var font = BitmapFont2.available[name];
+  BitmapFont2.uninstall = function(name2) {
+    var font = BitmapFont2.available[name2];
     if (!font) {
-      throw new Error("No font found named '" + name + "'");
+      throw new Error("No font found named '" + name2 + "'");
     }
     font.destroy();
-    delete BitmapFont2.available[name];
+    delete BitmapFont2.available[name2];
   };
-  BitmapFont2.from = function(name, textStyle, options) {
-    if (!name) {
+  BitmapFont2.from = function(name2, textStyle, options) {
+    if (!name2) {
       throw new Error("[BitmapFont] Property `name` is required.");
     }
     var _a3 = Object.assign({}, BitmapFont2.defaultOptions, options), chars2 = _a3.chars, padding = _a3.padding, resolution = _a3.resolution, textureWidth = _a3.textureWidth, textureHeight = _a3.textureHeight;
@@ -28516,10 +28515,10 @@ var BitmapFont = function() {
       }
     }
     var font = new BitmapFont2(fontData, textures, true);
-    if (BitmapFont2.available[name] !== void 0) {
-      BitmapFont2.uninstall(name);
+    if (BitmapFont2.available[name2] !== void 0) {
+      BitmapFont2.uninstall(name2);
     }
-    BitmapFont2.available[name] = font;
+    BitmapFont2.available[name2] = font;
     return font;
   };
   BitmapFont2.ALPHA = [["a", "z"], ["A", "Z"], " "];
@@ -28543,7 +28542,7 @@ var pageMeshDataMSDFPageMeshData = [];
 var charRenderDataPool = [];
 (function(_super) {
   __extends$f(BitmapText, _super);
-  function BitmapText(text, style) {
+  function BitmapText(text2, style) {
     if (style === void 0) {
       style = {};
     }
@@ -28560,7 +28559,7 @@ var charRenderDataPool = [];
     _this._tint = tint;
     _this._fontName = fontName;
     _this._fontSize = fontSize || BitmapFont.available[fontName].size;
-    _this._text = text;
+    _this._text = text2;
     _this._maxWidth = maxWidth;
     _this._maxLineHeight = 0;
     _this._letterSpacing = letterSpacing;
@@ -28580,8 +28579,8 @@ var charRenderDataPool = [];
     var chars2 = [];
     var lineWidths = [];
     var lineSpaces = [];
-    var text = this._text.replace(/(?:\r\n|\r)/g, "\n") || " ";
-    var charsInput = splitTextToCharacters(text);
+    var text2 = this._text.replace(/(?:\r\n|\r)/g, "\n") || " ";
+    var charsInput = splitTextToCharacters(text2);
     var maxWidth = this._maxWidth * data.size / this._fontSize;
     var pageMeshDataPool = data.distanceFieldType === "none" ? pageMeshDataDefaultPageMeshData : pageMeshDataMSDFPageMeshData;
     var prevCharCode = null;
@@ -28927,12 +28926,12 @@ var charRenderDataPool = [];
     get: function() {
       return this._text;
     },
-    set: function(text) {
-      text = String(text === null || text === void 0 ? "" : text);
-      if (this._text === text) {
+    set: function(text2) {
+      text2 = String(text2 === null || text2 === void 0 ? "" : text2);
+      if (this._text === text2) {
         return;
       }
-      this._text = text;
+      this._text = text2;
       this.dirty = true;
     },
     enumerable: false,
@@ -29046,8 +29045,8 @@ var BitmapFontLoader = function() {
       var pageFile = data.page[i2].file;
       var url2 = baseUrl + pageFile;
       var exists = false;
-      for (var name in this.resources) {
-        var bitmapResource = this.resources[name];
+      for (var name2 in this.resources) {
+        var bitmapResource = this.resources[name2];
         if (bitmapResource.url === url2) {
           bitmapResource.metadata.pageFile = pageFile;
           if (bitmapResource.texture) {
@@ -29124,9 +29123,9 @@ var extendStatics$e = function(d2, b2) {
   extendStatics$e = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -29187,9 +29186,9 @@ var extendStatics$d = function(d2, b2) {
   extendStatics$d = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -29203,12 +29202,12 @@ function __extends$d(d2, b2) {
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
 var vertTemplate = "\n    attribute vec2 aVertexPosition;\n\n    uniform mat3 projectionMatrix;\n\n    uniform float strength;\n\n    varying vec2 vBlurTexCoords[%size%];\n\n    uniform vec4 inputSize;\n    uniform vec4 outputFrame;\n\n    vec4 filterVertexPosition( void )\n    {\n        vec2 position = aVertexPosition * max(outputFrame.zw, vec2(0.)) + outputFrame.xy;\n\n        return vec4((projectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);\n    }\n\n    vec2 filterTextureCoord( void )\n    {\n        return aVertexPosition * (outputFrame.zw * inputSize.zw);\n    }\n\n    void main(void)\n    {\n        gl_Position = filterVertexPosition();\n\n        vec2 textureCoord = filterTextureCoord();\n        %blur%\n    }";
-function generateBlurVertSource(kernelSize, x) {
+function generateBlurVertSource(kernelSize, x2) {
   var halfLength = Math.ceil(kernelSize / 2);
   var vertSource = vertTemplate;
   var blurLoop = "";
   var template;
-  if (x) {
+  if (x2) {
     template = "vBlurTexCoords[%index%] =  textureCoord + vec2(%sampleIndex% * strength, 0.0);";
   } else {
     template = "vBlurTexCoords[%index%] =  textureCoord + vec2(0.0, %sampleIndex% * strength);";
@@ -29677,9 +29676,9 @@ var extendStatics$c = function(d2, b2) {
   extendStatics$c = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -29942,22 +29941,22 @@ var ColorMatrixFilter = function(_super) {
     if (amount === void 0) {
       amount = 0;
     }
-    var x = amount * 2 / 3 + 1;
-    var y2 = (x - 1) * -0.5;
+    var x2 = amount * 2 / 3 + 1;
+    var y2 = (x2 - 1) * -0.5;
     var matrix = [
-      x,
+      x2,
       y2,
       y2,
       0,
       0,
       y2,
-      x,
+      x2,
       y2,
       0,
       0,
       y2,
       y2,
-      x,
+      x2,
       0,
       0,
       0,
@@ -30355,9 +30354,9 @@ var extendStatics$b = function(d2, b2) {
   extendStatics$b = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -30444,9 +30443,9 @@ var extendStatics$a = function(d2, b2) {
   extendStatics$a = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -30614,9 +30613,9 @@ var extendStatics$9 = function(d2, b2) {
   extendStatics$9 = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -31115,9 +31114,9 @@ DisplayObject.prototype._cacheAsBitmapDestroy = function _cacheAsBitmapDestroy(o
  * http://www.opensource.org/licenses/mit-license
  */
 DisplayObject.prototype.name = null;
-Container.prototype.getChildByName = function getChildByName(name, deep) {
+Container.prototype.getChildByName = function getChildByName(name2, deep) {
   for (var i2 = 0, j2 = this.children.length; i2 < j2; i2++) {
-    if (this.children[i2].name === name) {
+    if (this.children[i2].name === name2) {
       return this.children[i2];
     }
   }
@@ -31127,7 +31126,7 @@ Container.prototype.getChildByName = function getChildByName(name, deep) {
       if (!child.getChildByName) {
         continue;
       }
-      var target = this.children[i2].getChildByName(name, true);
+      var target = this.children[i2].getChildByName(name2, true);
       if (target) {
         return target;
       }
@@ -31182,9 +31181,9 @@ var extendStatics$8 = function(d2, b2) {
   extendStatics$8 = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -31230,10 +31229,10 @@ var PlaneGeometry = function(_super) {
     var sizeX = this.width / segmentsX;
     var sizeY = this.height / segmentsY;
     for (var i2 = 0; i2 < total; i2++) {
-      var x = i2 % this.segWidth;
+      var x2 = i2 % this.segWidth;
       var y2 = i2 / this.segWidth | 0;
-      verts.push(x * sizeX, y2 * sizeY);
-      uvs.push(x / segmentsX, y2 / segmentsY);
+      verts.push(x2 * sizeX, y2 * sizeY);
+      uvs.push(x2 / segmentsX, y2 / segmentsY);
     }
     var totalSub = segmentsX * segmentsY;
     for (var i2 = 0; i2 < totalSub; i2++) {
@@ -31664,9 +31663,9 @@ var extendStatics$7 = function(d2, b2) {
   extendStatics$7 = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3) {
-      if (b3.hasOwnProperty(p)) {
-        d3[p] = b3[p];
+    for (var p2 in b3) {
+      if (b3.hasOwnProperty(p2)) {
+        d3[p2] = b3[p2];
       }
     }
   };
@@ -31913,59 +31912,59 @@ Application.registerPlugin(TickerPlugin);
 Application.registerPlugin(AppLoaderPlugin);
 const _SoundMng = class {
   constructor(cfg, hTag, val, main2, sys) {
-    __privateAdd(this, _volume);
-    __privateAdd(this, _getVol);
-    __privateAdd(this, _fadeoutbgm);
-    __privateAdd(this, _fadeoutse);
-    __privateAdd(this, _fadebgm);
-    __privateAdd(this, _fadese);
-    __privateAdd(this, _playbgm);
-    __privateAdd(this, _playse);
-    __privateAdd(this, _playseSub);
-    __privateAdd(this, _stop_allse);
-    __privateAdd(this, _stopbgm);
-    __privateAdd(this, _stopse);
-    __privateAdd(this, _wb);
-    __privateAdd(this, _wf);
-    __privateAdd(this, _stopfadese);
-    __privateAdd(this, _wl);
-    __privateAdd(this, _ws);
-    __privateAdd(this, _xchgbuf);
-    __privateAdd(this, _addLoopPlay);
-    __privateAdd(this, _delLoopPlay);
-    __privateAdd(this, _hSndBuf, {});
-    __privateAdd(this, _hLP, {});
-    __privateAdd(this, _evtMng2, void 0);
-    __privateAdd(this, _initVol, () => {
+    __privateAdd2(this, _volume);
+    __privateAdd2(this, _getVol);
+    __privateAdd2(this, _fadeoutbgm);
+    __privateAdd2(this, _fadeoutse);
+    __privateAdd2(this, _fadebgm);
+    __privateAdd2(this, _fadese);
+    __privateAdd2(this, _playbgm);
+    __privateAdd2(this, _playse);
+    __privateAdd2(this, _playseSub);
+    __privateAdd2(this, _stop_allse);
+    __privateAdd2(this, _stopbgm);
+    __privateAdd2(this, _stopse);
+    __privateAdd2(this, _wb);
+    __privateAdd2(this, _wf);
+    __privateAdd2(this, _stopfadese);
+    __privateAdd2(this, _wl);
+    __privateAdd2(this, _ws);
+    __privateAdd2(this, _xchgbuf);
+    __privateAdd2(this, _addLoopPlay);
+    __privateAdd2(this, _delLoopPlay);
+    __privateAdd2(this, _hSndBuf, {});
+    __privateAdd2(this, _hLP, {});
+    __privateAdd2(this, _evtMng2, void 0);
+    __privateAdd2(this, _initVol, () => {
       I.volumeAll = Number(this.val.getVal("sys:sn.sound.global_volume", 1));
-      __privateSet(this, _initVol, () => {
+      __privateSet2(this, _initVol, () => {
       });
     });
     this.cfg = cfg;
     this.val = val;
     this.main = main2;
     this.sys = sys;
-    hTag.volume = (o) => __privateMethod(this, _volume, volume_fn).call(this, o);
-    hTag.fadebgm = (o) => __privateMethod(this, _fadebgm, fadebgm_fn).call(this, o);
-    hTag.fadeoutbgm = (o) => __privateMethod(this, _fadeoutbgm, fadeoutbgm_fn).call(this, o);
-    hTag.fadeoutse = (o) => __privateMethod(this, _fadeoutse, fadeoutse_fn).call(this, o);
-    hTag.fadese = (o) => __privateMethod(this, _fadese, fadese_fn).call(this, o);
-    hTag.playbgm = (o) => __privateMethod(this, _playbgm, playbgm_fn).call(this, o);
-    hTag.playse = (o) => __privateMethod(this, _playse, playse_fn).call(this, o);
-    hTag.stop_allse = () => __privateMethod(this, _stop_allse, stop_allse_fn).call(this);
-    hTag.stopbgm = (o) => __privateMethod(this, _stopbgm, stopbgm_fn).call(this, o);
-    hTag.stopse = (o) => __privateMethod(this, _stopse, stopse_fn).call(this, o);
-    hTag.wb = (o) => __privateMethod(this, _wb, wb_fn).call(this, o);
-    hTag.wf = (o) => __privateMethod(this, _wf, wf_fn).call(this, o);
-    hTag.stopfadese = (o) => __privateMethod(this, _stopfadese, stopfadese_fn).call(this, o);
-    hTag.wl = (o) => __privateMethod(this, _wl, wl_fn).call(this, o);
-    hTag.ws = (o) => __privateMethod(this, _ws, ws_fn).call(this, o);
-    hTag.xchgbuf = (o) => __privateMethod(this, _xchgbuf, xchgbuf_fn).call(this, o);
+    hTag.volume = (o) => __privateMethod2(this, _volume, volume_fn).call(this, o);
+    hTag.fadebgm = (o) => __privateMethod2(this, _fadebgm, fadebgm_fn).call(this, o);
+    hTag.fadeoutbgm = (o) => __privateMethod2(this, _fadeoutbgm, fadeoutbgm_fn).call(this, o);
+    hTag.fadeoutse = (o) => __privateMethod2(this, _fadeoutse, fadeoutse_fn).call(this, o);
+    hTag.fadese = (o) => __privateMethod2(this, _fadese, fadese_fn).call(this, o);
+    hTag.playbgm = (o) => __privateMethod2(this, _playbgm, playbgm_fn).call(this, o);
+    hTag.playse = (o) => __privateMethod2(this, _playse, playse_fn).call(this, o);
+    hTag.stop_allse = () => __privateMethod2(this, _stop_allse, stop_allse_fn).call(this);
+    hTag.stopbgm = (o) => __privateMethod2(this, _stopbgm, stopbgm_fn).call(this, o);
+    hTag.stopse = (o) => __privateMethod2(this, _stopse, stopse_fn).call(this, o);
+    hTag.wb = (o) => __privateMethod2(this, _wb, wb_fn).call(this, o);
+    hTag.wf = (o) => __privateMethod2(this, _wf, wf_fn).call(this, o);
+    hTag.stopfadese = (o) => __privateMethod2(this, _stopfadese, stopfadese_fn).call(this, o);
+    hTag.wl = (o) => __privateMethod2(this, _wl, wl_fn).call(this, o);
+    hTag.ws = (o) => __privateMethod2(this, _ws, ws_fn).call(this, o);
+    hTag.xchgbuf = (o) => __privateMethod2(this, _xchgbuf, xchgbuf_fn).call(this, o);
     this.val.setVal_Nochk("save", "const.sn.loopPlaying", "{}");
     val.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(G.supported));
   }
   setEvtMng(evtMng) {
-    __privateSet(this, _evtMng2, evtMng);
+    __privateSet2(this, _evtMng2, evtMng);
   }
   setNoticeChgVolume(setGlbVol, setMovVol) {
     this.val.defValTrg("sys:sn.sound.global_volume", (_name, val) => setGlbVol(I.volumeAll = Number(val)));
@@ -31980,19 +31979,19 @@ const _SoundMng = class {
     [hArg.clickse, hArg.enterse, hArg.leavese].forEach((fn) => {
       if (!fn || I.exists(fn))
         return;
-      __privateMethod(this, _playseSub, playseSub_fn).call(this, "", fn, { preload: true, autoPlay: false });
+      __privateMethod2(this, _playseSub, playseSub_fn).call(this, "", fn, { preload: true, autoPlay: false });
     });
   }
   playLoopFromSaveObj() {
     const lp = String(this.val.getVal("save:const.sn.loopPlaying", "{}"));
     this.val.flush();
     if (lp === "{}") {
-      __privateMethod(this, _stop_allse, stop_allse_fn).call(this);
+      __privateMethod2(this, _stop_allse, stop_allse_fn).call(this);
       return;
     }
     const aFnc = [];
-    __privateSet(this, _hLP, JSON.parse(lp));
-    for (const buf in __privateGet(this, _hLP)) {
+    __privateSet2(this, _hLP, JSON.parse(lp));
+    for (const buf in __privateGet2(this, _hLP)) {
       const nm = "save:const.sn.sound." + buf + ".";
       const hArg = {
         fn: String(this.val.getVal(nm + "fn")),
@@ -32006,12 +32005,12 @@ const _SoundMng = class {
       };
       aFnc.push(() => {
         if (hArg.buf === "BGM")
-          __privateMethod(this, _playbgm, playbgm_fn).call(this, hArg);
+          __privateMethod2(this, _playbgm, playbgm_fn).call(this, hArg);
         else
-          __privateMethod(this, _playse, playse_fn).call(this, hArg);
+          __privateMethod2(this, _playse, playse_fn).call(this, hArg);
       });
     }
-    __privateMethod(this, _stop_allse, stop_allse_fn).call(this);
+    __privateMethod2(this, _stop_allse, stop_allse_fn).call(this);
     aFnc.forEach((f2) => f2());
   }
 };
@@ -32023,14 +32022,14 @@ _volume = new WeakSet();
 volume_fn = function(hArg) {
   const { buf = "SE" } = hArg;
   const bvn = "const.sn.sound." + buf + ".volume";
-  const arg_vol = __privateMethod(this, _getVol, getVol_fn).call(this, hArg, 1);
+  const arg_vol = __privateMethod2(this, _getVol, getVol_fn).call(this, hArg, 1);
   if (Number(this.val.getVal("sys:" + bvn)) === arg_vol)
     return false;
   this.val.setVal_Nochk("sys", bvn, arg_vol);
   this.val.flush();
   hArg.time = 0;
   hArg.volume = Number(this.val.getVal("save:" + bvn));
-  return __privateMethod(this, _fadese, fadese_fn).call(this, hArg);
+  return __privateMethod2(this, _fadese, fadese_fn).call(this, hArg);
 };
 _getVol = new WeakSet();
 getVol_fn = function(hArg, def) {
@@ -32044,41 +32043,41 @@ getVol_fn = function(hArg, def) {
 _fadeoutbgm = new WeakSet();
 fadeoutbgm_fn = function(hArg) {
   hArg.volume = 0;
-  return __privateMethod(this, _fadebgm, fadebgm_fn).call(this, hArg);
+  return __privateMethod2(this, _fadebgm, fadebgm_fn).call(this, hArg);
 };
 _fadeoutse = new WeakSet();
 fadeoutse_fn = function(hArg) {
   hArg.volume = 0;
-  return __privateMethod(this, _fadese, fadese_fn).call(this, hArg);
+  return __privateMethod2(this, _fadese, fadese_fn).call(this, hArg);
 };
 _fadebgm = new WeakSet();
 fadebgm_fn = function(hArg) {
   hArg.buf = "BGM";
-  return __privateMethod(this, _fadese, fadese_fn).call(this, hArg);
+  return __privateMethod2(this, _fadese, fadese_fn).call(this, hArg);
 };
 _fadese = new WeakSet();
 fadese_fn = function(hArg) {
-  __privateMethod(this, _stopfadese, stopfadese_fn).call(this, hArg);
+  __privateMethod2(this, _stopfadese, stopfadese_fn).call(this, hArg);
   const { buf = "SE" } = hArg;
-  const oSb = __privateGet(this, _hSndBuf)[buf];
+  const oSb = __privateGet2(this, _hSndBuf)[buf];
   if (!(oSb == null ? void 0 : oSb.playing()) || !oSb.snd)
     return false;
   const bvn = "const.sn.sound." + buf + ".volume";
-  const savevol = __privateMethod(this, _getVol, getVol_fn).call(this, hArg, NaN);
+  const savevol = __privateMethod2(this, _getVol, getVol_fn).call(this, hArg, NaN);
   this.val.setVal_Nochk("save", bvn, savevol);
   const vol = savevol * Number(this.val.getVal("sys:" + bvn, 1));
   const stop = argChk_Boolean(hArg, "stop", savevol === 0);
   if (stop) {
-    __privateMethod(this, _delLoopPlay, delLoopPlay_fn).call(this, buf);
+    __privateMethod2(this, _delLoopPlay, delLoopPlay_fn).call(this, buf);
     this.val.setVal_Nochk("save", "const.sn.sound." + buf + ".fn", "");
   }
   this.val.flush();
   const time = argChk_Num(hArg, "time", NaN);
   const delay = argChk_Num(hArg, "delay", 0);
-  if (time === 0 && delay === 0 || this.val.getVal("tmp:sn.skip.enabled") || __privateGet(this, _evtMng2).isSkippingByKeyDown()) {
+  if (time === 0 && delay === 0 || this.val.getVal("tmp:sn.skip.enabled") || __privateGet2(this, _evtMng2).isSkippingByKeyDown()) {
     oSb.snd.volume = vol;
     if (stop)
-      __privateMethod(this, _stopse, stopse_fn).call(this, hArg);
+      __privateMethod2(this, _stopse, stopse_fn).call(this, hArg);
     return false;
   }
   const repeat = argChk_Num(hArg, "repeat", 1);
@@ -32086,12 +32085,12 @@ fadese_fn = function(hArg) {
     if (oSb.playing())
       oSb.snd.volume = o.v;
   }).onComplete(() => {
-    const oSb2 = __privateGet(this, _hSndBuf)[hArg.buf = oSb.now_buf];
+    const oSb2 = __privateGet2(this, _hSndBuf)[hArg.buf = oSb.now_buf];
     if (!(oSb2 == null ? void 0 : oSb2.twFade))
       return;
     delete oSb2.twFade;
     if (stop)
-      __privateMethod(this, _stopse, stopse_fn).call(this, hArg);
+      __privateMethod2(this, _stopse, stopse_fn).call(this, hArg);
     if (oSb2.resumeFade)
       this.main.resume();
   }).start();
@@ -32102,26 +32101,26 @@ playbgm_fn = function(hArg) {
   hArg.buf = "BGM";
   hArg.canskip = false;
   argChk_Boolean(hArg, "loop", true);
-  return __privateMethod(this, _playse, playse_fn).call(this, hArg);
+  return __privateMethod2(this, _playse, playse_fn).call(this, hArg);
 };
 _MAX_END_MS = new WeakMap();
 _playse = new WeakSet();
 playse_fn = function(hArg) {
   const { buf = "SE", fn } = hArg;
-  __privateMethod(this, _stopse, stopse_fn).call(this, { buf });
+  __privateMethod2(this, _stopse, stopse_fn).call(this, { buf });
   if (!fn)
     throw `[playse] fn\u306F\u5FC5\u9808\u3067\u3059 buf:${buf}`;
-  if (argChk_Boolean(hArg, "canskip", true) && __privateGet(this, _evtMng2).isSkippingByKeyDown())
+  if (argChk_Boolean(hArg, "canskip", true) && __privateGet2(this, _evtMng2).isSkippingByKeyDown())
     return false;
   const loop = argChk_Boolean(hArg, "loop", false);
-  __privateMethod(this, _addLoopPlay, addLoopPlay_fn).call(this, buf, loop);
+  __privateMethod2(this, _addLoopPlay, addLoopPlay_fn).call(this, buf, loop);
   const nm = "const.sn.sound." + buf + ".";
   this.val.setVal_Nochk("save", nm + "fn", fn);
-  const savevol = __privateMethod(this, _getVol, getVol_fn).call(this, hArg, 1);
+  const savevol = __privateMethod2(this, _getVol, getVol_fn).call(this, hArg, 1);
   this.val.setVal_Nochk("save", nm + "volume", savevol);
   const vol = savevol * Number(this.val.getVal("sys:" + nm + "volume", 1));
   const start_ms = argChk_Num(hArg, "start_ms", 0);
-  const end_ms = argChk_Num(hArg, "end_ms", __privateGet(_SoundMng, _MAX_END_MS));
+  const end_ms = argChk_Num(hArg, "end_ms", __privateGet2(_SoundMng, _MAX_END_MS));
   const ret_ms = argChk_Num(hArg, "ret_ms", 0);
   if (start_ms < 0)
     throw `[playse] start_ms:${start_ms} \u304C\u8CA0\u306E\u5024\u3067\u3059`;
@@ -32138,7 +32137,7 @@ playse_fn = function(hArg) {
   this.val.setVal_Nochk("save", nm + "ret_ms", ret_ms);
   this.val.flush();
   const snd = I.find(fn);
-  const oSb = __privateGet(this, _hSndBuf)[buf] = {
+  const oSb = __privateGet2(this, _hSndBuf)[buf] = {
     now_buf: buf,
     snd,
     loop,
@@ -32148,12 +32147,12 @@ playse_fn = function(hArg) {
     resume: false,
     playing: () => true,
     onend: () => {
-      const oSb2 = __privateGet(this, _hSndBuf)[hArg.buf = oSb.now_buf];
+      const oSb2 = __privateGet2(this, _hSndBuf)[hArg.buf = oSb.now_buf];
       if (!oSb2)
         return;
-      delete __privateGet(this, _hSndBuf)[hArg.buf];
+      delete __privateGet2(this, _hSndBuf)[hArg.buf];
       oSb2.playing = () => false;
-      __privateMethod(this, _stopfadese, stopfadese_fn).call(this, hArg);
+      __privateMethod2(this, _stopfadese, stopfadese_fn).call(this, hArg);
       if (oSb2.resume)
         this.main.resume();
     }
@@ -32170,13 +32169,13 @@ playse_fn = function(hArg) {
       }
       if (!snd2)
         return;
-      const oSb2 = __privateGet(this, _hSndBuf)[oSb.now_buf];
+      const oSb2 = __privateGet2(this, _hSndBuf)[oSb.now_buf];
       if (oSb2)
         oSb2.snd = snd2;
     }
   };
   let sp_nm = "";
-  if (start_ms > 0 || end_ms < __privateGet(_SoundMng, _MAX_END_MS)) {
+  if (start_ms > 0 || end_ms < __privateGet2(_SoundMng, _MAX_END_MS)) {
     sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
     const os = o.sprites[sp_nm] = {
       start: start_ms / 1e3,
@@ -32204,7 +32203,7 @@ playse_fn = function(hArg) {
       }
       if (os.start >= d2)
         throw `[playse] start_ms:${start_ms} >= \u97F3\u58F0\u30D5\u30A1\u30A4\u30EB\u518D\u751F\u6642\u9593:${d2} \u306F\u7570\u5E38\u5024\u3067\u3059`;
-      if (end_ms !== __privateGet(_SoundMng, _MAX_END_MS) && os.end >= d2)
+      if (end_ms !== __privateGet2(_SoundMng, _MAX_END_MS) && os.end >= d2)
         throw `[playse] end_ms:${end_ms} >= \u97F3\u58F0\u30D5\u30A1\u30A4\u30EB\u518D\u751F\u6642\u9593:${d2} \u306F\u7570\u5E38\u5024\u3067\u3059`;
       snd2.play(sp_nm, o.complete);
     };
@@ -32213,7 +32212,7 @@ playse_fn = function(hArg) {
   if (!loop)
     o.complete = () => {
       var _a3;
-      return (_a3 = __privateGet(this, _hSndBuf)[oSb.now_buf]) == null ? void 0 : _a3.onend();
+      return (_a3 = __privateGet2(this, _hSndBuf)[oSb.now_buf]) == null ? void 0 : _a3.onend();
     };
   else if (ret_ms !== 0) {
     o.loop = false;
@@ -32229,7 +32228,7 @@ playse_fn = function(hArg) {
         loaded: (_2, snd22) => {
           if (!snd22)
             return;
-          const oSb2 = __privateGet(this, _hSndBuf)[oSb.now_buf];
+          const oSb2 = __privateGet2(this, _hSndBuf)[oSb.now_buf];
           if (oSb2)
             oSb2.snd = snd22;
           snd22.play(sp_nm2);
@@ -32246,14 +32245,14 @@ playse_fn = function(hArg) {
       }
       if (o2s.start >= d2)
         throw `[playse] ret_ms:${ret_ms} >= \u97F3\u58F0\u30D5\u30A1\u30A4\u30EB\u518D\u751F\u6642\u9593:${d2} \u306F\u7570\u5E38\u5024\u3067\u3059`;
-      __privateMethod(this, _playseSub, playseSub_fn).call(this, buf, fn, o2);
+      __privateMethod2(this, _playseSub, playseSub_fn).call(this, buf, fn, o2);
     };
   }
-  __privateGet(this, _initVol).call(this);
+  __privateGet2(this, _initVol).call(this);
   if (snd) {
     snd.volume = vol;
     if (sp_nm)
-      __privateMethod(this, _playseSub, playseSub_fn).call(this, buf, fn, o);
+      __privateMethod2(this, _playseSub, playseSub_fn).call(this, buf, fn, o);
     else if (snd.isPlayable) {
       const ab = snd.options.source;
       if (!(ab instanceof ArrayBuffer) || ab.byteLength === 0)
@@ -32274,7 +32273,7 @@ playse_fn = function(hArg) {
       this.main.resume();
     };
   }
-  __privateMethod(this, _playseSub, playseSub_fn).call(this, buf, fn, o);
+  __privateMethod2(this, _playseSub, playseSub_fn).call(this, buf, fn, o);
   return join;
 };
 _playseSub = new WeakSet();
@@ -32284,7 +32283,7 @@ playseSub_fn = function(buf, fn, o) {
     o.url = url2;
     const snd = A.from(o);
     if (buf)
-      __privateGet(this, _hSndBuf)[buf].snd = snd;
+      __privateGet2(this, _hSndBuf)[buf].snd = snd;
     if (!o.loop)
       I.add(fn, snd);
     return;
@@ -32299,7 +32298,7 @@ playseSub_fn = function(buf, fn, o) {
     o.source = (_a3 = hRes[fn]) == null ? void 0 : _a3.data;
     const snd = A.from(o);
     if (buf)
-      __privateGet(this, _hSndBuf)[buf].snd = snd;
+      __privateGet2(this, _hSndBuf)[buf].snd = snd;
     if (!o.loop)
       I.add(fn, snd);
   });
@@ -32307,23 +32306,23 @@ playseSub_fn = function(buf, fn, o) {
 _initVol = new WeakMap();
 _stop_allse = new WeakSet();
 stop_allse_fn = function() {
-  for (const buf in __privateGet(this, _hSndBuf))
-    __privateMethod(this, _stopse, stopse_fn).call(this, { buf });
-  __privateSet(this, _hSndBuf, {});
+  for (const buf in __privateGet2(this, _hSndBuf))
+    __privateMethod2(this, _stopse, stopse_fn).call(this, { buf });
+  __privateSet2(this, _hSndBuf, {});
   I.stopAll();
   return false;
 };
 _stopbgm = new WeakSet();
 stopbgm_fn = function(hArg) {
   hArg.buf = "BGM";
-  return __privateMethod(this, _stopse, stopse_fn).call(this, hArg);
+  return __privateMethod2(this, _stopse, stopse_fn).call(this, hArg);
 };
 _stopse = new WeakSet();
 stopse_fn = function(hArg) {
   var _a3;
   const { buf = "SE" } = hArg;
-  __privateMethod(this, _delLoopPlay, delLoopPlay_fn).call(this, buf);
-  const oSb = __privateGet(this, _hSndBuf)[buf];
+  __privateMethod2(this, _delLoopPlay, delLoopPlay_fn).call(this, buf);
+  const oSb = __privateGet2(this, _hSndBuf)[buf];
   if (oSb) {
     (_a3 = oSb.snd) == null ? void 0 : _a3.stop();
     oSb.onend();
@@ -32333,38 +32332,38 @@ stopse_fn = function(hArg) {
 _wb = new WeakSet();
 wb_fn = function(hArg) {
   hArg.buf = "BGM";
-  return __privateMethod(this, _wf, wf_fn).call(this, hArg);
+  return __privateMethod2(this, _wf, wf_fn).call(this, hArg);
 };
 _wf = new WeakSet();
 wf_fn = function(hArg) {
   const { buf = "SE" } = hArg;
-  const oSb = __privateGet(this, _hSndBuf)[buf];
+  const oSb = __privateGet2(this, _hSndBuf)[buf];
   if (!(oSb == null ? void 0 : oSb.twFade) || !oSb.playing())
     return false;
-  return oSb.resumeFade = __privateGet(this, _evtMng2).waitEvent(() => __privateMethod(this, _stopfadese, stopfadese_fn).call(this, hArg), argChk_Boolean(hArg, "canskip", true), argChk_Boolean(hArg, "global", false));
+  return oSb.resumeFade = __privateGet2(this, _evtMng2).waitEvent(() => __privateMethod2(this, _stopfadese, stopfadese_fn).call(this, hArg), argChk_Boolean(hArg, "canskip", true), argChk_Boolean(hArg, "global", false));
 };
 _stopfadese = new WeakSet();
 stopfadese_fn = function(hArg) {
   var _a3, _b3;
   const { buf = "SE" } = hArg;
-  (_b3 = (_a3 = __privateGet(this, _hSndBuf)[buf]) == null ? void 0 : _a3.twFade) == null ? void 0 : _b3.stop().end();
+  (_b3 = (_a3 = __privateGet2(this, _hSndBuf)[buf]) == null ? void 0 : _a3.twFade) == null ? void 0 : _b3.stop().end();
   return false;
 };
 _wl = new WeakSet();
 wl_fn = function(hArg) {
   hArg.buf = "BGM";
-  return __privateMethod(this, _ws, ws_fn).call(this, hArg);
+  return __privateMethod2(this, _ws, ws_fn).call(this, hArg);
 };
 _ws = new WeakSet();
 ws_fn = function(hArg) {
   const { buf = "SE" } = hArg;
-  const oSb = __privateGet(this, _hSndBuf)[buf];
+  const oSb = __privateGet2(this, _hSndBuf)[buf];
   if (!(oSb == null ? void 0 : oSb.playing()) || oSb.loop)
     return false;
-  return oSb.resume = __privateGet(this, _evtMng2).waitEvent(() => {
+  return oSb.resume = __privateGet2(this, _evtMng2).waitEvent(() => {
     hArg.buf = oSb.now_buf;
-    __privateMethod(this, _stopse, stopse_fn).call(this, hArg);
-    const oSb2 = __privateGet(this, _hSndBuf)[hArg.buf];
+    __privateMethod2(this, _stopse, stopse_fn).call(this, hArg);
+    const oSb2 = __privateGet2(this, _hSndBuf)[hArg.buf];
     if (!(oSb2 == null ? void 0 : oSb2.playing()) || oSb2.loop)
       return;
     oSb2.onend();
@@ -32375,13 +32374,13 @@ xchgbuf_fn = function(hArg) {
   const { buf: buf1 = "SE", buf2 = "SE" } = hArg;
   if (buf1 === buf2)
     return false;
-  const sb1 = __privateGet(this, _hSndBuf)[buf1];
+  const sb1 = __privateGet2(this, _hSndBuf)[buf1];
   if (sb1)
     sb1.now_buf = buf2;
-  const sb2 = __privateGet(this, _hSndBuf)[buf2];
+  const sb2 = __privateGet2(this, _hSndBuf)[buf2];
   if (sb2)
     sb2.now_buf = buf1;
-  [__privateGet(this, _hSndBuf)[buf1], __privateGet(this, _hSndBuf)[buf2]] = [sb2, sb1];
+  [__privateGet2(this, _hSndBuf)[buf1], __privateGet2(this, _hSndBuf)[buf2]] = [sb2, sb1];
   const n1 = "const.sn.sound." + buf1 + ".";
   const v1 = Number(this.val.getVal("save:" + n1 + "volume"));
   const f1 = Number(this.val.getVal("save:" + n1 + "fn"));
@@ -32392,15 +32391,15 @@ xchgbuf_fn = function(hArg) {
   this.val.setVal_Nochk("save", n2 + "volume", v1);
   this.val.setVal_Nochk("save", n1 + "fn", f2);
   this.val.setVal_Nochk("save", n2 + "fn", f1);
-  if (buf1 in __privateGet(this, _hLP) === buf2 in __privateGet(this, _hLP)) {
-    if (buf1 in __privateGet(this, _hLP)) {
-      delete __privateGet(this, _hLP)[buf1];
-      __privateGet(this, _hLP)[buf2] = 0;
+  if (buf1 in __privateGet2(this, _hLP) === buf2 in __privateGet2(this, _hLP)) {
+    if (buf1 in __privateGet2(this, _hLP)) {
+      delete __privateGet2(this, _hLP)[buf1];
+      __privateGet2(this, _hLP)[buf2] = 0;
     } else {
-      delete __privateGet(this, _hLP)[buf2];
-      __privateGet(this, _hLP)[buf1] = 0;
+      delete __privateGet2(this, _hLP)[buf2];
+      __privateGet2(this, _hLP)[buf1] = 0;
     }
-    this.val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(__privateGet(this, _hLP)));
+    this.val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(__privateGet2(this, _hLP)));
   }
   this.val.flush();
   return false;
@@ -32408,34 +32407,34 @@ xchgbuf_fn = function(hArg) {
 _addLoopPlay = new WeakSet();
 addLoopPlay_fn = function(buf, is_loop) {
   if (!is_loop) {
-    __privateMethod(this, _delLoopPlay, delLoopPlay_fn).call(this, buf);
+    __privateMethod2(this, _delLoopPlay, delLoopPlay_fn).call(this, buf);
     return;
   }
-  __privateGet(this, _hLP)[buf] = 0;
-  this.val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(__privateGet(this, _hLP)));
+  __privateGet2(this, _hLP)[buf] = 0;
+  this.val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(__privateGet2(this, _hLP)));
   this.val.flush();
 };
 _delLoopPlay = new WeakSet();
 delLoopPlay_fn = function(buf) {
-  delete __privateGet(this, _hLP)[buf];
-  this.val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(__privateGet(this, _hLP)));
+  delete __privateGet2(this, _hLP)[buf];
+  this.val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(__privateGet2(this, _hLP)));
   this.val.flush();
 };
-__privateAdd(SoundMng, _MAX_END_MS, 999e3);
+__privateAdd2(SoundMng, _MAX_END_MS, 999e3);
 const _Pages = class {
   constructor(layer, cls_, fore, back, hArg, sys, val, ret) {
-    __privateAdd(this, _pg, void 0);
+    __privateAdd2(this, _pg, void 0);
     this.cls_ = cls_;
     this.lay = (hArg2) => this.getPage(hArg2).lay(hArg2);
-    this.getPage = (hArg2) => _Pages.argChk_page(hArg2, "fore") !== "back" ? __privateGet(this, _pg).fore : __privateGet(this, _pg).back;
+    this.getPage = (hArg2) => _Pages.argChk_page(hArg2, "fore") !== "back" ? __privateGet2(this, _pg).fore : __privateGet2(this, _pg).back;
     const fncF = sys.hFactoryCls[cls_];
     if (!fncF)
       throw `\u5C5E\u6027 class\u3010${cls_}\u3011\u304C\u4E0D\u6B63\u3067\u3059`;
-    __privateSet(this, _pg, { fore: fncF(), back: fncF() });
-    __privateGet(this, _pg).fore.layname = __privateGet(this, _pg).back.layname = layer;
+    __privateSet2(this, _pg, { fore: fncF(), back: fncF() });
+    __privateGet2(this, _pg).fore.layname = __privateGet2(this, _pg).back.layname = layer;
     const nm = hArg[":id_tag"] = `layer:${layer} cls:${cls_}`;
-    __privateGet(this, _pg).fore.name = `${nm} page:A`;
-    __privateGet(this, _pg).back.name = `${nm} page:B`;
+    __privateGet2(this, _pg).fore.name = `${nm} page:A`;
+    __privateGet2(this, _pg).back.name = `${nm} page:B`;
     fore.addChild(this.fore.spLay);
     back.addChild(this.back.spLay);
     argChk_Boolean(hArg, "visible", true);
@@ -32443,22 +32442,22 @@ const _Pages = class {
     ret.isWait = this.fore.lay(hArg) || this.back.lay(hArg);
     const valnm = `const.sn.lay.${layer}`;
     val.setVal_Nochk("tmp", valnm, true);
-    val.defTmp(valnm + ".fore.alpha", () => __privateGet(this, _pg).fore.alpha);
-    val.defTmp(valnm + ".back.alpha", () => __privateGet(this, _pg).back.alpha);
-    val.defTmp(valnm + ".fore.height", () => __privateGet(this, _pg).fore.height);
-    val.defTmp(valnm + ".back.height", () => __privateGet(this, _pg).back.height);
-    val.defTmp(valnm + ".fore.visible", () => __privateGet(this, _pg).fore.spLay.visible);
-    val.defTmp(valnm + ".back.visible", () => __privateGet(this, _pg).back.spLay.visible);
-    val.defTmp(valnm + ".fore.width", () => __privateGet(this, _pg).fore.width);
-    val.defTmp(valnm + ".back.width", () => __privateGet(this, _pg).back.width);
-    val.defTmp(valnm + ".fore.x", () => __privateGet(this, _pg).fore.x);
-    val.defTmp(valnm + ".back.x", () => __privateGet(this, _pg).back.x);
-    val.defTmp(valnm + ".fore.y", () => __privateGet(this, _pg).fore.y);
-    val.defTmp(valnm + ".back.y", () => __privateGet(this, _pg).back.y);
+    val.defTmp(valnm + ".fore.alpha", () => __privateGet2(this, _pg).fore.alpha);
+    val.defTmp(valnm + ".back.alpha", () => __privateGet2(this, _pg).back.alpha);
+    val.defTmp(valnm + ".fore.height", () => __privateGet2(this, _pg).fore.height);
+    val.defTmp(valnm + ".back.height", () => __privateGet2(this, _pg).back.height);
+    val.defTmp(valnm + ".fore.visible", () => __privateGet2(this, _pg).fore.spLay.visible);
+    val.defTmp(valnm + ".back.visible", () => __privateGet2(this, _pg).back.spLay.visible);
+    val.defTmp(valnm + ".fore.width", () => __privateGet2(this, _pg).fore.width);
+    val.defTmp(valnm + ".back.width", () => __privateGet2(this, _pg).back.width);
+    val.defTmp(valnm + ".fore.x", () => __privateGet2(this, _pg).fore.x);
+    val.defTmp(valnm + ".back.x", () => __privateGet2(this, _pg).back.x);
+    val.defTmp(valnm + ".fore.y", () => __privateGet2(this, _pg).fore.y);
+    val.defTmp(valnm + ".back.y", () => __privateGet2(this, _pg).back.y);
   }
   destroy() {
-    __privateGet(this, _pg).fore.destroy();
-    __privateGet(this, _pg).back.destroy();
+    __privateGet2(this, _pg).fore.destroy();
+    __privateGet2(this, _pg).back.destroy();
   }
   static argChk_page(hash2, def) {
     var _a3;
@@ -32473,14 +32472,14 @@ const _Pages = class {
     return this.cls_;
   }
   get fore() {
-    return __privateGet(this, _pg).fore;
+    return __privateGet2(this, _pg).fore;
   }
   get back() {
-    return __privateGet(this, _pg).back;
+    return __privateGet2(this, _pg).back;
   }
   transPage(aPrm) {
-    [__privateGet(this, _pg).back, __privateGet(this, _pg).fore] = [__privateGet(this, _pg).fore, __privateGet(this, _pg).back];
-    __privateGet(this, _pg).back.copy(__privateGet(this, _pg).fore, aPrm);
+    [__privateGet2(this, _pg).back, __privateGet2(this, _pg).fore] = [__privateGet2(this, _pg).fore, __privateGet2(this, _pg).back];
+    __privateGet2(this, _pg).back.copy(__privateGet2(this, _pg).fore, aPrm);
   }
 };
 let Pages = _Pages;
@@ -32572,7 +32571,7 @@ const _Layer = class {
   static getBlendmodeNum(bm_name) {
     if (!bm_name)
       return BLEND_MODES$3.NORMAL;
-    const bmn = __privateGet(_Layer, _hBlendmode)[bm_name];
+    const bmn = __privateGet2(_Layer, _hBlendmode)[bm_name];
     if (bmn !== void 0)
       return bmn;
     throw `${bm_name} \u306F\u30B5\u30DD\u30FC\u30C8\u3055\u308C\u306A\u3044 blendmode \u3067\u3059`;
@@ -32656,28 +32655,28 @@ const _Layer = class {
     const b_width = r_absclX === 1 ? rct_base.width : rct_base.width * r_absclX;
     const r_absclY = ret.scale.y < 0 ? -ret.scale.y : ret.scale.y;
     const b_height = r_absclY === 1 ? rct_base.height : rct_base.height * r_absclY;
-    let x = ret.x;
+    let x2 = ret.x;
     if ("left" in hArg) {
-      x = argChk_Num(hArg, "left", 0);
-      if (x > -1 && x < 1)
-        x *= CmnLib.stageW;
+      x2 = argChk_Num(hArg, "left", 0);
+      if (x2 > -1 && x2 < 1)
+        x2 *= CmnLib.stageW;
     } else if ("center" in hArg) {
-      x = argChk_Num(hArg, "center", 0);
-      if (x > -1 && x < 1)
-        x *= CmnLib.stageW;
-      x = x - (isButton ? b_width / 3 : b_width) / 2;
+      x2 = argChk_Num(hArg, "center", 0);
+      if (x2 > -1 && x2 < 1)
+        x2 *= CmnLib.stageW;
+      x2 = x2 - (isButton ? b_width / 3 : b_width) / 2;
     } else if ("right" in hArg) {
-      x = argChk_Num(hArg, "right", 0);
-      if (x > -1 && x < 1)
-        x *= CmnLib.stageW;
-      x = x - (isButton ? b_width / 3 : b_width);
+      x2 = argChk_Num(hArg, "right", 0);
+      if (x2 > -1 && x2 < 1)
+        x2 *= CmnLib.stageW;
+      x2 = x2 - (isButton ? b_width / 3 : b_width);
     } else if ("s_right" in hArg) {
-      x = argChk_Num(hArg, "s_right", 0);
-      if (x > -1 && x < 1)
-        x *= CmnLib.stageW;
-      x = CmnLib.stageW - x - (isButton ? b_width / 3 : b_width);
+      x2 = argChk_Num(hArg, "s_right", 0);
+      if (x2 > -1 && x2 < 1)
+        x2 *= CmnLib.stageW;
+      x2 = CmnLib.stageW - x2 - (isButton ? b_width / 3 : b_width);
     }
-    ret.x = int(ret.scale.x < 0 ? x + (isButton ? b_width / 3 : b_width) : x);
+    ret.x = int(ret.scale.x < 0 ? x2 + (isButton ? b_width / 3 : b_width) : x2);
     let y2 = ret.y;
     if ("top" in hArg) {
       y2 = argChk_Num(hArg, "top", 0);
@@ -32743,7 +32742,7 @@ const _Layer = class {
 };
 let Layer = _Layer;
 _hBlendmode = new WeakMap();
-__privateAdd(Layer, _hBlendmode, {
+__privateAdd2(Layer, _hBlendmode, {
   "normal": BLEND_MODES$3.NORMAL,
   "add": BLEND_MODES$3.ADD,
   "multiply": BLEND_MODES$3.MULTIPLY,
@@ -32751,7 +32750,7 @@ __privateAdd(Layer, _hBlendmode, {
 });
 class EventListenerCtn {
   constructor() {
-    __privateAdd(this, _vctEvt, []);
+    __privateAdd2(this, _vctEvt, []);
   }
   add(ed, type, fnc, ctx = {}) {
     if (ed instanceof BaseTexture) {
@@ -32761,25 +32760,25 @@ class EventListenerCtn {
         case "error":
         case "dispose":
           ed.on(type, fnc, ctx);
-          __privateGet(this, _vctEvt).push(() => ed.off(type, fnc, ctx));
+          __privateGet2(this, _vctEvt).push(() => ed.off(type, fnc, ctx));
           break;
       }
       return;
     }
     if (ed instanceof EventEmitter$3) {
       ed.on(type, fnc, ctx);
-      __privateGet(this, _vctEvt).push(() => ed.off(type, fnc, ctx));
+      __privateGet2(this, _vctEvt).push(() => ed.off(type, fnc, ctx));
       return;
     }
     ed.addEventListener(type, fnc, ctx);
-    __privateGet(this, _vctEvt).push(() => {
+    __privateGet2(this, _vctEvt).push(() => {
       var _a3;
       return ed.removeEventListener(type, fnc, { capture: (_a3 = ctx.capture) != null ? _a3 : false });
     });
   }
   clear() {
-    __privateGet(this, _vctEvt).forEach((f2) => f2());
-    __privateSet(this, _vctEvt, []);
+    __privateGet2(this, _vctEvt).forEach((f2) => f2());
+    __privateSet2(this, _vctEvt, []);
   }
 }
 _vctEvt = new WeakMap();
@@ -32789,8 +32788,8 @@ function prefixNames(prefix2) {
     classNames[_i - 1] = arguments[_i];
   }
   return classNames.map(function(className) {
-    return className.split(" ").map(function(name) {
-      return name ? "" + prefix2 + name : "";
+    return className.split(" ").map(function(name2) {
+      return name2 ? "" + prefix2 + name2 : "";
     }).join(" ");
   }).join(" ");
 }
@@ -32799,14 +32798,14 @@ function prefixCSS(prefix2, css) {
     return selector.replace(/\.([^{,\s\d.]+)/g, "." + prefix2 + "$1") + "{";
   });
 }
-function ref(target, name) {
+function ref(target, name2) {
   return function(e) {
-    e && (target[name] = e);
+    e && (target[name2] = e);
   };
 }
-function refs(target, name, i2) {
+function refs(target, name2, i2) {
   return function(e) {
-    e && (target[name][i2] = e);
+    e && (target[name2][i2] = e);
   };
 }
 function Properties(properties, action) {
@@ -32822,8 +32821,8 @@ function withMethods(methods, duplicate) {
     duplicate = {};
   }
   return function(prototype, propertyName) {
-    methods.forEach(function(name) {
-      var methodName = duplicate[name] || name;
+    methods.forEach(function(name2) {
+      var methodName = duplicate[name2] || name2;
       if (methodName in prototype) {
         return;
       }
@@ -32833,7 +32832,7 @@ function withMethods(methods, duplicate) {
         for (var _i = 0; _i < arguments.length; _i++) {
           args[_i] = arguments[_i];
         }
-        var result = (_a3 = this[propertyName])[name].apply(_a3, args);
+        var result = (_a3 = this[propertyName])[name2].apply(_a3, args);
         if (result === this[propertyName]) {
           return this;
         } else {
@@ -33056,6 +33055,7 @@ var OBJECT = "object";
 var STRING = "string";
 var NUMBER = "number";
 var UNDEFINED = "undefined";
+var IS_WINDOW = typeof window !== UNDEFINED;
 var OPEN_CLOSED_CHARACTERS = [{
   open: "(",
   close: ")"
@@ -33123,7 +33123,7 @@ function dot(a1, a2, b1, b2) {
 function isUndefined(value) {
   return typeof value === UNDEFINED;
 }
-function isObject(value) {
+function isObject$2(value) {
   return value && typeof value === OBJECT;
 }
 function isArray(value) {
@@ -33135,7 +33135,7 @@ function isString(value) {
 function isNumber(value) {
   return typeof value === NUMBER;
 }
-function isFunction(value) {
+function isFunction$2(value) {
   return typeof value === FUNCTION;
 }
 function isEqualSeparator(character, separator) {
@@ -33190,7 +33190,7 @@ function findClose(closeCharacter, texts, index, length2, openCloseCharacters) {
   }
   return -1;
 }
-function splitText(text, splitOptions) {
+function splitText(text2, splitOptions) {
   var _a3 = isString(splitOptions) ? {
     separator: splitOptions
   } : splitOptions, _b3 = _a3.separator, separator = _b3 === void 0 ? "," : _b3, isSeparateFirst = _a3.isSeparateFirst, isSeparateOnlyOpenClose = _a3.isSeparateOnlyOpenClose, _c3 = _a3.isSeparateOpenClose, isSeparateOpenClose = _c3 === void 0 ? isSeparateOnlyOpenClose : _c3, _d2 = _a3.openCloseCharacters, openCloseCharacters = _d2 === void 0 ? OPEN_CLOSED_CHARACTERS : _d2;
@@ -33203,7 +33203,7 @@ function splitText(text, splitOptions) {
   }).join("|");
   var regexText = "(\\s*" + separator + "\\s*|" + openClosedText + "|\\s+)";
   var regex = new RegExp(regexText, "g");
-  var texts = text.split(regex).filter(Boolean);
+  var texts = text2.split(regex).filter(Boolean);
   var length2 = texts.length;
   var values = [];
   var tempValues = [];
@@ -33267,14 +33267,14 @@ function splitText(text, splitOptions) {
   }
   return values;
 }
-function splitSpace(text) {
-  return splitText(text, "");
+function splitSpace(text2) {
+  return splitText(text2, "");
 }
-function splitComma(text) {
-  return splitText(text, ",");
+function splitComma(text2) {
+  return splitText(text2, ",");
 }
-function splitBracket(text) {
-  var matches = /([^(]*)\(([\s\S]*)\)([\s\S]*)/g.exec(text);
+function splitBracket(text2) {
+  var matches = /([^(]*)\(([\s\S]*)\)([\s\S]*)/g.exec(text2);
   if (!matches || matches.length < 4) {
     return {};
   } else {
@@ -33285,8 +33285,8 @@ function splitBracket(text) {
     };
   }
 }
-function splitUnit(text) {
-  var matches = /^([^\d|e|\-|\+]*)((?:\d|\.|-|e-|e\+)+)(\S*)$/g.exec(text);
+function splitUnit(text2) {
+  var matches = /^([^\d|e|\-|\+]*)((?:\d|\.|-|e-|e\+)+)(\S*)$/g.exec(text2);
   if (!matches) {
     return {
       prefix: "",
@@ -33303,16 +33303,16 @@ function splitUnit(text) {
     value: parseFloat(value)
   };
 }
-function camelize(str) {
-  return str.replace(/[\s-_]([a-z])/g, function(all, letter) {
+function camelize(str2) {
+  return str2.replace(/[\s-_]([a-z])/g, function(all2, letter) {
     return letter.toUpperCase();
   });
 }
-function decamelize(str, separator) {
+function decamelize(str2, separator) {
   if (separator === void 0) {
     separator = "-";
   }
-  return str.replace(/([a-z])([A-Z])/g, function(all, letter, letter2) {
+  return str2.replace(/([a-z])([A-Z])/g, function(all2, letter, letter2) {
     return "" + letter + separator + letter2.toLowerCase();
   });
 }
@@ -33335,22 +33335,39 @@ function find$1(arr, callback, defalutValue) {
   var index = findIndex(arr, callback);
   return index > -1 ? arr[index] : defalutValue;
 }
+var requestAnimationFrame$1 = /* @__PURE__ */ function() {
+  var firstTime = now();
+  var raf = IS_WINDOW && (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame);
+  return raf ? raf.bind(window) : function(callback) {
+    var currTime = now();
+    var id = window.setTimeout(function() {
+      callback(currTime - firstTime);
+    }, 1e3 / 60);
+    return id;
+  };
+}();
+var cancelAnimationFrame$1 = /* @__PURE__ */ function() {
+  var caf = IS_WINDOW && (window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame);
+  return caf ? caf.bind(window) : function(handle2) {
+    clearTimeout(handle2);
+  };
+}();
 function getKeys(obj) {
   if (Object.keys) {
     return Object.keys(obj);
   }
   var keys = [];
-  for (var name in keys) {
-    keys.push(name);
+  for (var name2 in keys) {
+    keys.push(name2);
   }
   return keys;
 }
 function convertUnitSize(pos, size) {
   var _a3 = splitUnit(pos), value = _a3.value, unit = _a3.unit;
-  if (isObject(size)) {
+  if (isObject$2(size)) {
     var sizeFunction = size[unit];
     if (sizeFunction) {
-      if (isFunction(sizeFunction)) {
+      if (isFunction$2(sizeFunction)) {
         return sizeFunction(value);
       } else if (DEFAULT_UNIT_PRESETS[unit]) {
         return DEFAULT_UNIT_PRESETS[unit](value, sizeFunction);
@@ -33489,9 +33506,9 @@ var extendStatics$6 = function(d2, b2) {
   } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3)
-      if (b3.hasOwnProperty(p))
-        d3[p] = b3[p];
+    for (var p2 in b3)
+      if (b3.hasOwnProperty(p2))
+        d3[p2] = b3[p2];
   };
   return extendStatics$6(d2, b2);
 };
@@ -33502,31 +33519,31 @@ function __extends$6(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var __assign$6 = function() {
-  __assign$6 = Object.assign || function __assign2(t) {
+var __assign$7 = function() {
+  __assign$7 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p))
-          t[p] = s2[p];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
     }
     return t;
   };
-  return __assign$6.apply(this, arguments);
+  return __assign$7.apply(this, arguments);
 };
 function __rest$2(s2, e) {
   var t = {};
-  for (var p in s2)
-    if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
-      t[p] = s2[p];
+  for (var p2 in s2)
+    if (Object.prototype.hasOwnProperty.call(s2, p2) && e.indexOf(p2) < 0)
+      t[p2] = s2[p2];
   if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i2 = 0, p = Object.getOwnPropertySymbols(s2); i2 < p.length; i2++) {
-      if (e.indexOf(p[i2]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i2]))
-        t[p[i2]] = s2[p[i2]];
+    for (var i2 = 0, p2 = Object.getOwnPropertySymbols(s2); i2 < p2.length; i2++) {
+      if (e.indexOf(p2[i2]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p2[i2]))
+        t[p2[i2]] = s2[p2[i2]];
     }
   return t;
 }
-function __spreadArrays$4() {
+function __spreadArrays$3() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -33560,19 +33577,19 @@ function diffObject(a2, b2) {
   var removed = {};
   var changed = {};
   result.added.forEach(function(index) {
-    var name = keys2[index];
-    added[name] = b2[name];
+    var name2 = keys2[index];
+    added[name2] = b2[name2];
   });
   result.removed.forEach(function(index) {
-    var name = keys1[index];
-    removed[name] = a2[name];
+    var name2 = keys1[index];
+    removed[name2] = a2[name2];
   });
   result.maintained.forEach(function(_a3) {
     var index = _a3[0];
-    var name = keys1[index];
-    var values = [a2[name], b2[name]];
-    if (a2[name] !== b2[name]) {
-      changed[name] = values;
+    var name2 = keys1[index];
+    var values = [a2[name2], b2[name2]];
+    if (a2[name2] !== b2[name2]) {
+      changed[name2] = values;
     }
   });
   return {
@@ -33619,9 +33636,9 @@ function fillProps(props, defaultProps) {
   if (!defaultProps) {
     return props;
   }
-  for (var name in defaultProps) {
-    if (isUndefined(props[name])) {
-      props[name] = defaultProps[name];
+  for (var name2 in defaultProps) {
+    if (isUndefined(props[name2])) {
+      props[name2] = defaultProps[name2];
     }
   }
   return props;
@@ -33636,7 +33653,7 @@ function createElement(type, props) {
     type,
     key,
     ref: ref2,
-    props: __assign$6(__assign$6({}, otherProps), {
+    props: __assign$7(__assign$7({}, otherProps), {
       children: flat$1(children).filter(function(child) {
         return child != null && child !== false;
       })
@@ -33693,68 +33710,68 @@ var Provider = /* @__PURE__ */ function() {
 }();
 function diffAttributes(attrs1, attrs2, el) {
   var _a3 = diffObject(attrs1, attrs2), added = _a3.added, removed = _a3.removed, changed = _a3.changed;
-  for (var name in added) {
-    el.setAttribute(name, added[name]);
+  for (var name2 in added) {
+    el.setAttribute(name2, added[name2]);
   }
-  for (var name in changed) {
-    el.setAttribute(name, changed[name][1]);
+  for (var name2 in changed) {
+    el.setAttribute(name2, changed[name2][1]);
   }
-  for (var name in removed) {
-    el.removeAttribute(name);
+  for (var name2 in removed) {
+    el.removeAttribute(name2);
   }
 }
 function diffEvents(events1, events2, provier) {
   var _a3 = diffObject(events1, events2), added = _a3.added, removed = _a3.removed, changed = _a3.changed;
-  for (var name in removed) {
-    provier.removeEventListener(name);
+  for (var name2 in removed) {
+    provier.removeEventListener(name2);
   }
-  for (var name in added) {
-    provier.addEventListener(name, added[name]);
+  for (var name2 in added) {
+    provier.addEventListener(name2, added[name2]);
   }
-  for (var name in changed) {
-    provier.removeEventListener(name);
-    provier.addEventListener(name, changed[name][1]);
+  for (var name2 in changed) {
+    provier.removeEventListener(name2);
+    provier.addEventListener(name2, changed[name2][1]);
   }
-  for (var name in removed) {
-    provier.removeEventListener(name);
+  for (var name2 in removed) {
+    provier.removeEventListener(name2);
   }
 }
 function diffStyle(style1, style2, el) {
   var style = el.style;
   var _a3 = diffObject(style1, style2), added = _a3.added, removed = _a3.removed, changed = _a3.changed;
   for (var beforeName in added) {
-    var name = decamelize(beforeName, "-");
+    var name2 = decamelize(beforeName, "-");
     if (style.setProperty) {
-      style.setProperty(name, added[beforeName]);
+      style.setProperty(name2, added[beforeName]);
     } else {
-      style[name] = added[beforeName];
+      style[name2] = added[beforeName];
     }
   }
   for (var beforeName in changed) {
-    var name = decamelize(beforeName, "-");
+    var name2 = decamelize(beforeName, "-");
     if (style.setProperty) {
-      style.setProperty(name, changed[beforeName][1]);
+      style.setProperty(name2, changed[beforeName][1]);
     } else {
-      style[name] = changed[beforeName][1];
+      style[name2] = changed[beforeName][1];
     }
   }
   for (var beforeName in removed) {
-    var name = decamelize(beforeName, "-");
+    var name2 = decamelize(beforeName, "-");
     if (style.removeProperty) {
-      style.removeProperty(name);
+      style.removeProperty(name2);
     } else {
-      style[name] = "";
+      style[name2] = "";
     }
   }
 }
 function splitProps(props) {
   var attributes = {};
   var events = {};
-  for (var name in props) {
-    if (name.indexOf("on") === 0) {
-      events[name.replace("on", "").toLowerCase()] = props[name];
+  for (var name2 in props) {
+    if (name2.indexOf("on") === 0) {
+      events[name2.replace("on", "").toLowerCase()] = props[name2];
     } else {
-      attributes[name] = props[name];
+      attributes[name2] = props[name2];
     }
   }
   return {
@@ -33797,18 +33814,18 @@ var ElementProvider = /* @__PURE__ */ function(_super) {
     return _this;
   }
   var __proto = ElementProvider2.prototype;
-  __proto.addEventListener = function(name, callback) {
+  __proto.addEventListener = function(name2, callback) {
     var events = this.events;
-    events[name] = function(e) {
+    events[name2] = function(e) {
       e.nativeEvent = e;
       callback(e);
     };
-    this.base.addEventListener(name, events[name]);
+    this.base.addEventListener(name2, events[name2]);
   };
-  __proto.removeEventListener = function(name) {
+  __proto.removeEventListener = function(name2) {
     var events = this.events;
-    this.base.removeEventListener(name, events[name]);
-    delete events[name];
+    this.base.removeEventListener(name2, events[name2]);
+    delete events[name2];
   };
   __proto._should = function(nextProps) {
     return isDiff(this.props, nextProps);
@@ -33849,8 +33866,8 @@ var ElementProvider = /* @__PURE__ */ function(_super) {
   __proto._unmount = function() {
     var events = this.events;
     var base = this.base;
-    for (var name in events) {
-      base.removeEventListener(name, events[name]);
+    for (var name2 in events) {
+      base.removeEventListener(name2, events[name2]);
     }
     this._providers.forEach(function(provider) {
       provider._unmount();
@@ -34005,7 +34022,7 @@ var Component = /* @__PURE__ */ function() {
     }
     clearTimeout(this.$_timer);
     this.$_timer = 0;
-    this.$_state = __assign$6(__assign$6({}, this.$_state), state);
+    this.$_state = __assign$7(__assign$7({}, this.$_state), state);
     if (!isForceUpdate) {
       this.$_timer = setTimeout(function() {
         _this.$_timer = 0;
@@ -34028,7 +34045,7 @@ var Component = /* @__PURE__ */ function() {
   __proto.$_setState = function(callback, isForceUpdate) {
     var hooks = [];
     var provider = this.$_provider;
-    var isUpdate = renderProviders(provider.container, [provider], [provider.original], hooks, __assign$6(__assign$6({}, this.state), this.$_state), isForceUpdate);
+    var isUpdate = renderProviders(provider.container, [provider], [provider.original], hooks, __assign$7(__assign$7({}, this.state), this.$_state), isForceUpdate);
     if (isUpdate) {
       if (callback) {
         hooks.push(callback);
@@ -34088,11 +34105,11 @@ function getNextSibiling(provider, childProvider) {
   return null;
 }
 function diffProviders(containerProvider, providers, children) {
-  var childrenKeys = children.map(function(p) {
-    return isString(p) ? null : p.key;
+  var childrenKeys = children.map(function(p2) {
+    return isString(p2) ? null : p2.key;
   });
-  var keys1 = fillKeys(providers.map(function(p) {
-    return p.key;
+  var keys1 = fillKeys(providers.map(function(p2) {
+    return p2.key;
   }));
   var keys2 = fillKeys(childrenKeys);
   var result = diff$1(keys1, keys2, function(key) {
@@ -34128,7 +34145,7 @@ function diffProviders(containerProvider, providers, children) {
     childProvider.index = to;
     return false;
   });
-  return __spreadArrays$4(result.added, changed.map(function(_a3) {
+  return __spreadArrays$3(result.added, changed.map(function(_a3) {
     _a3[0];
     var to = _a3[1];
     return to;
@@ -34212,9 +34229,9 @@ function getUserAgent(agent2) {
   }
   return userAgent.toLowerCase();
 }
-function execRegExp(pattern, text) {
+function execRegExp(pattern, text2) {
   try {
-    return new RegExp(pattern, "g").exec(text);
+    return new RegExp(pattern, "g").exec(text2);
   } catch (e) {
     return null;
   }
@@ -34231,8 +34248,8 @@ function findVersion(versionTest, userAgent) {
   var result = execRegExp("(" + versionTest + ")((?:\\/|\\s|:)([0-9|\\.|_]+))", userAgent);
   return result ? result[3] : "";
 }
-function convertVersion(text) {
-  return text.replace(/_/g, ".");
+function convertVersion(text2) {
+  return text2.replace(/_/g, ".");
 }
 function findPreset(presets, userAgent) {
   var userPreset = null;
@@ -34490,31 +34507,31 @@ function agent$1(userAgent) {
     return parseUserAgent(userAgent);
   }
 }
-function add2(matrix, inverseMatrix, startIndex, fromIndex, n, k) {
+function add(matrix, inverseMatrix, startIndex, fromIndex, n, k) {
   for (var i2 = 0; i2 < n; ++i2) {
-    var x = startIndex + i2 * n;
+    var x2 = startIndex + i2 * n;
     var fromX = fromIndex + i2 * n;
-    matrix[x] += matrix[fromX] * k;
-    inverseMatrix[x] += inverseMatrix[fromX] * k;
+    matrix[x2] += matrix[fromX] * k;
+    inverseMatrix[x2] += inverseMatrix[fromX] * k;
   }
 }
 function swap(matrix, inverseMatrix, startIndex, fromIndex, n) {
   for (var i2 = 0; i2 < n; ++i2) {
-    var x = startIndex + i2 * n;
+    var x2 = startIndex + i2 * n;
     var fromX = fromIndex + i2 * n;
-    var v2 = matrix[x];
-    var iv = inverseMatrix[x];
-    matrix[x] = matrix[fromX];
+    var v2 = matrix[x2];
+    var iv = inverseMatrix[x2];
+    matrix[x2] = matrix[fromX];
     matrix[fromX] = v2;
-    inverseMatrix[x] = inverseMatrix[fromX];
+    inverseMatrix[x2] = inverseMatrix[fromX];
     inverseMatrix[fromX] = iv;
   }
 }
 function divide(matrix, inverseMatrix, startIndex, n, k) {
   for (var i2 = 0; i2 < n; ++i2) {
-    var x = startIndex + i2 * n;
-    matrix[x] /= k;
-    inverseMatrix[x] /= k;
+    var x2 = startIndex + i2 * n;
+    matrix[x2] /= k;
+    inverseMatrix[x2] /= k;
   }
 }
 function ignoreDimension(matrix, m2, n) {
@@ -34556,7 +34573,7 @@ function invert(matrix, n) {
       if (!throttle(target, TINY_NUM$1) || i2 === j2) {
         continue;
       }
-      add2(newMatrix, inverseMatrix, targetStartIndex, i2, n, -target);
+      add(newMatrix, inverseMatrix, targetStartIndex, i2, n, -target);
     }
   }
   return inverseMatrix;
@@ -34796,60 +34813,60 @@ function toMat(matrixInfos) {
 function parse(transform) {
   var transforms = isArray(transform) ? transform : splitSpace(transform);
   return transforms.map(function(t) {
-    var _a3 = splitBracket(t), name = _a3.prefix, value = _a3.value;
+    var _a3 = splitBracket(t), name2 = _a3.prefix, value = _a3.value;
     var matrixFunction = null;
-    var functionName = name;
+    var functionName = name2;
     var functionValue = "";
-    if (name === "translate" || name === "translateX" || name === "translate3d") {
+    if (name2 === "translate" || name2 === "translateX" || name2 === "translate3d") {
       var _b3 = splitComma(value).map(function(v2) {
         return parseFloat(v2);
       }), posX = _b3[0], _c3 = _b3[1], posY = _c3 === void 0 ? 0 : _c3, _d2 = _b3[2], posZ = _d2 === void 0 ? 0 : _d2;
       matrixFunction = translate3d;
       functionValue = [posX, posY, posZ];
-    } else if (name === "translateY") {
+    } else if (name2 === "translateY") {
       var posY = parseFloat(value);
       matrixFunction = translate3d;
       functionValue = [0, posY, 0];
-    } else if (name === "translateZ") {
+    } else if (name2 === "translateZ") {
       var posZ = parseFloat(value);
       matrixFunction = translate3d;
       functionValue = [0, 0, posZ];
-    } else if (name === "scale" || name === "scale3d") {
+    } else if (name2 === "scale" || name2 === "scale3d") {
       var _e = splitComma(value).map(function(v2) {
         return parseFloat(v2);
       }), sx = _e[0], _f = _e[1], sy = _f === void 0 ? sx : _f, _g = _e[2], sz = _g === void 0 ? 1 : _g;
       matrixFunction = scale3d;
       functionValue = [sx, sy, sz];
-    } else if (name === "scaleX") {
+    } else if (name2 === "scaleX") {
       var sx = parseFloat(value);
       matrixFunction = scale3d;
       functionValue = [sx, 1, 1];
-    } else if (name === "scaleY") {
+    } else if (name2 === "scaleY") {
       var sy = parseFloat(value);
       matrixFunction = scale3d;
       functionValue = [1, sy, 1];
-    } else if (name === "scaleZ") {
+    } else if (name2 === "scaleZ") {
       var sz = parseFloat(value);
       matrixFunction = scale3d;
       functionValue = [1, 1, sz];
-    } else if (name === "rotate" || name === "rotateZ" || name === "rotateX" || name === "rotateY") {
+    } else if (name2 === "rotate" || name2 === "rotateZ" || name2 === "rotateX" || name2 === "rotateY") {
       var _h = splitUnit(value), unit = _h.unit, unitValue = _h.value;
       var rad = unit === "rad" ? unitValue : unitValue * Math.PI / 180;
-      if (name === "rotate" || name === "rotateZ") {
+      if (name2 === "rotate" || name2 === "rotateZ") {
         functionName = "rotateZ";
         matrixFunction = rotateZ3d;
-      } else if (name === "rotateX") {
+      } else if (name2 === "rotateX") {
         matrixFunction = rotateX3d;
-      } else if (name === "rotateY") {
+      } else if (name2 === "rotateY") {
         matrixFunction = rotateY3d;
       }
       functionValue = rad;
-    } else if (name === "matrix3d") {
+    } else if (name2 === "matrix3d") {
       matrixFunction = matrix3d;
       functionValue = splitComma(value).map(function(v2) {
         return parseFloat(v2);
       });
-    } else if (name === "matrix") {
+    } else if (name2 === "matrix") {
       var m2 = splitComma(value).map(function(v2) {
         return parseFloat(v2);
       });
@@ -34859,7 +34876,7 @@ function parse(transform) {
       functionName = "";
     }
     return {
-      name,
+      name: name2,
       functionName,
       value,
       matrixFunction,
@@ -34887,9 +34904,9 @@ var extendStatics$5 = function(d2, b2) {
   } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3)
-      if (b3.hasOwnProperty(p))
-        d3[p] = b3[p];
+    for (var p2 in b3)
+      if (b3.hasOwnProperty(p2))
+        d3[p2] = b3[p2];
   };
   return extendStatics$5(d2, b2);
 };
@@ -34934,7 +34951,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-function __spreadArrays$3() {
+function __spreadArrays$2() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -34975,10 +34992,10 @@ function getMinMaxs(points) {
   };
 }
 function isInside(pos, points, excludeLine) {
-  var x = pos[0], y2 = pos[1];
+  var x2 = pos[0], y2 = pos[1];
   var _a3 = getMinMaxs(points), minX = _a3.minX, minY = _a3.minY, maxX = _a3.maxX, maxY = _a3.maxY;
   var xLine = [[minX, y2], [maxX, y2]];
-  var yLine = [[x, minY], [x, maxY]];
+  var yLine = [[x2, minY], [x2, maxY]];
   var xLinearConstants = getLinearConstants(xLine[0], xLine[1]);
   var yLinearConstants = getLinearConstants(yLine[0], yLine[1]);
   var lines = convertLines(points);
@@ -34991,7 +35008,7 @@ function isInside(pos, points, excludeLine) {
     if (xPoints.length === 1 ? line[0][1] !== y2 : true) {
       intersectionXPoints.push.apply(intersectionXPoints, xPoints);
     }
-    if (yPoints.length === 1 ? line[0][0] !== x : true) {
+    if (yPoints.length === 1 ? line[0][0] !== x2 : true) {
       intersectionYPoints.push.apply(intersectionYPoints, yPoints);
     }
     if (!linearConstants[0]) {
@@ -35002,18 +35019,18 @@ function isInside(pos, points, excludeLine) {
     }
   });
   if (!excludeLine) {
-    if (findIndex(intersectionXPoints, function(p) {
-      return p[0] === x;
-    }) > -1 || findIndex(intersectionYPoints, function(p) {
-      return p[1] === y2;
+    if (findIndex(intersectionXPoints, function(p2) {
+      return p2[0] === x2;
+    }) > -1 || findIndex(intersectionYPoints, function(p2) {
+      return p2[1] === y2;
     }) > -1) {
       return true;
     }
   }
-  if (intersectionXPoints.filter(function(p) {
-    return p[0] > x;
-  }).length % 2 && intersectionYPoints.filter(function(p) {
-    return p[1] > y2;
+  if (intersectionXPoints.filter(function(p2) {
+    return p2[0] > x2;
+  }).length % 2 && intersectionYPoints.filter(function(p2) {
+    return p2[1] > y2;
   }).length % 2) {
     return true;
   }
@@ -35060,24 +35077,24 @@ function getIntersectionPointsByConstants(linearConstants1, linearConstants2) {
     }
   } else if (a1 === 0) {
     var y3 = -c1 / b1;
-    var x = -(b2 * y3 + c2) / a2;
-    return [[x, y3]];
+    var x3 = -(b2 * y3 + c2) / a2;
+    return [[x3, y3]];
   } else if (a2 === 0) {
     var y3 = -c2 / b2;
-    var x = -(b1 * y3 + c1) / a1;
-    return [[x, y3]];
+    var x3 = -(b1 * y3 + c1) / a1;
+    return [[x3, y3]];
   } else if (b1 === 0) {
-    var x = -c1 / a1;
-    var y3 = -(a2 * x + c2) / b2;
-    return [[x, y3]];
+    var x3 = -c1 / a1;
+    var y3 = -(a2 * x3 + c2) / b2;
+    return [[x3, y3]];
   } else if (b2 === 0) {
-    var x = -c2 / a2;
-    var y3 = -(a1 * x + c1) / b1;
-    return [[x, y3]];
+    var x3 = -c2 / a2;
+    var y3 = -(a1 * x3 + c1) / b1;
+    return [[x3, y3]];
   } else {
-    var x = (b1 * c2 - b2 * c1) / (b2 * a1 - b1 * a2);
-    var y3 = -(a1 * x + c1) / b1;
-    return [[x, y3]];
+    var x3 = (b1 * c2 - b2 * c1) / (b2 * a1 - b1 * a2);
+    var y3 = -(a1 * x3 + c1) / b1;
+    return [[x3, y3]];
   }
 }
 function getPointsOnLines(points, lines) {
@@ -35087,8 +35104,8 @@ function getPointsOnLines(points, lines) {
     });
   });
   if (points.length === 2) {
-    var _a3 = points[0], x = _a3[0], y2 = _a3[1];
-    if (x === points[1][0]) {
+    var _a3 = points[0], x2 = _a3[0], y2 = _a3[1];
+    if (x2 === points[1][0]) {
       var top = Math.max.apply(Math, minMaxs.map(function(minMax) {
         return minMax[1][0];
       }));
@@ -35098,7 +35115,7 @@ function getPointsOnLines(points, lines) {
       if (top > bottom) {
         return [];
       }
-      return [[x, top], [x, bottom]];
+      return [[x2, top], [x2, bottom]];
     } else if (y2 === points[1][1]) {
       var left = Math.max.apply(Math, minMaxs.map(function(minMax) {
         return minMax[0][0];
@@ -35119,7 +35136,7 @@ function getPointsOnLines(points, lines) {
   });
 }
 function convertLines(points) {
-  return __spreadArrays$3(points.slice(1), [points[0]]).map(function(point, i2) {
+  return __spreadArrays$2(points.slice(1), [points[0]]).map(function(point, i2) {
     return [points[i2], point];
   });
 }
@@ -35242,19 +35259,19 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-var __assign$5 = function() {
-  __assign$5 = Object.assign || function __assign2(t) {
+var __assign$6 = function() {
+  __assign$6 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p))
-          t[p] = s2[p];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
     }
     return t;
   };
-  return __assign$5.apply(this, arguments);
+  return __assign$6.apply(this, arguments);
 };
-function __spreadArrays$2() {
+function __spreadArrays$1() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -35268,9 +35285,9 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
   }
   var __proto = EventEmitter2.prototype;
   __proto.on = function(eventName, listener) {
-    if (isObject(eventName)) {
-      for (var name in eventName) {
-        this.on(name, eventName[name]);
+    if (isObject$2(eventName)) {
+      for (var name2 in eventName) {
+        this.on(name2, eventName[name2]);
       }
     } else {
       this._addEvent(eventName, listener, {});
@@ -35280,9 +35297,9 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
   __proto.off = function(eventName, listener) {
     if (!eventName) {
       this._events = {};
-    } else if (isObject(eventName)) {
-      for (var name in eventName) {
-        this.off(name);
+    } else if (isObject$2(eventName)) {
+      for (var name2 in eventName) {
+        this.off(name2);
       }
     } else if (!listener) {
       this._events[eventName] = [];
@@ -35327,7 +35344,7 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
       isStop = true;
     };
     param.currentTarget = this;
-    __spreadArrays$2(events).forEach(function(info) {
+    __spreadArrays$1(events).forEach(function(info) {
       info.listener(param);
       if (info.once) {
         _this.off(eventName, info.listener);
@@ -35345,7 +35362,7 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
     var events = this._events;
     events[eventName] = events[eventName] || [];
     var listeners = events[eventName];
-    listeners.push(__assign$5({
+    listeners.push(__assign$6({
       listener
     }, options));
   };
@@ -35372,9 +35389,9 @@ var extendStatics$4 = function(d2, b2) {
   } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3)
-      if (b3.hasOwnProperty(p))
-        d3[p] = b3[p];
+    for (var p2 in b3)
+      if (b3.hasOwnProperty(p2))
+        d3[p2] = b3[p2];
   };
   return extendStatics$4(d2, b2);
 };
@@ -35385,6 +35402,18 @@ function __extends$4(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
+var __assign$5 = function() {
+  __assign$5 = Object.assign || function __assign2(t) {
+    for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
+      s2 = arguments[i2];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
+    }
+    return t;
+  };
+  return __assign$5.apply(this, arguments);
+};
 function getDefaultScrollPosition$1(e) {
   var container = e.container;
   if (container === document.body) {
@@ -35396,10 +35425,12 @@ var DragScroll = /* @__PURE__ */ function(_super) {
   __extends$4(DragScroll2, _super);
   function DragScroll2() {
     var _this = _super !== null && _super.apply(this, arguments) || this;
-    _this.startRect = null;
-    _this.startPos = [];
-    _this.prevTime = 0;
-    _this.timer = 0;
+    _this._startRect = null;
+    _this._startPos = [];
+    _this._prevTime = 0;
+    _this._timer = 0;
+    _this._prevScrollPos = [0, 0];
+    _this._isWait = false;
     return _this;
   }
   var __proto = DragScroll2.prototype;
@@ -35419,83 +35450,115 @@ var DragScroll = /* @__PURE__ */ function(_super) {
       width = rect.width;
       height = rect.height;
     }
-    this.startPos = [e.clientX, e.clientY];
-    this.startRect = {
+    this._startPos = [e.clientX, e.clientY];
+    this._startRect = {
       top,
       left,
       width,
       height
     };
+    this._prevScrollPos = this._getScrollPosition([0, 0], options);
   };
   __proto.drag = function(e, options) {
-    var _this = this;
     var clientX = e.clientX, clientY = e.clientY;
-    var container = options.container, _a3 = options.threshold, threshold2 = _a3 === void 0 ? 0 : _a3, _b3 = options.throttleTime, throttleTime = _b3 === void 0 ? 0 : _b3, _c3 = options.getScrollPosition, getScrollPosition = _c3 === void 0 ? getDefaultScrollPosition$1 : _c3;
-    var _d2 = this, startRect = _d2.startRect, startPos = _d2.startPos;
-    var nowTime = now();
-    var distTime = Math.max(throttleTime + this.prevTime - nowTime, 0);
+    var _a3 = options.threshold, threshold2 = _a3 === void 0 ? 0 : _a3;
+    var _b3 = this, _startRect = _b3._startRect, _startPos = _b3._startPos;
     var direction = [0, 0];
-    if (startRect.top > clientY - threshold2) {
-      if (startPos[1] > startRect.top || clientY < startPos[1]) {
+    if (_startRect.top > clientY - threshold2) {
+      if (_startPos[1] > _startRect.top || clientY < _startPos[1]) {
         direction[1] = -1;
       }
-    } else if (startRect.top + startRect.height < clientY + threshold2) {
-      if (startPos[1] < startRect.top + startRect.height || clientY > startPos[1]) {
+    } else if (_startRect.top + _startRect.height < clientY + threshold2) {
+      if (_startPos[1] < _startRect.top + _startRect.height || clientY > _startPos[1]) {
         direction[1] = 1;
       }
     }
-    if (startRect.left > clientX - threshold2) {
-      if (startPos[0] > startRect.left || clientX < startPos[0]) {
+    if (_startRect.left > clientX - threshold2) {
+      if (_startPos[0] > _startRect.left || clientX < _startPos[0]) {
         direction[0] = -1;
       }
-    } else if (startRect.left + startRect.width < clientX + threshold2) {
-      if (startPos[0] < startRect.left + startRect.width || clientX > startPos[0]) {
+    } else if (_startRect.left + _startRect.width < clientX + threshold2) {
+      if (_startPos[0] < _startRect.left + _startRect.width || clientX > _startPos[0]) {
         direction[0] = 1;
       }
     }
-    clearTimeout(this.timer);
+    clearTimeout(this._timer);
     if (!direction[0] && !direction[1]) {
       return false;
     }
-    if (distTime > 0) {
-      this.timer = window.setTimeout(function() {
-        _this.drag(e, options);
-      }, distTime);
+    return this._continueDrag(__assign$5(__assign$5({}, options), {
+      direction,
+      inputEvent: e,
+      isDrag: true
+    }));
+  };
+  __proto.checkScroll = function(options) {
+    var _this = this;
+    if (this._isWait) {
       return false;
     }
-    this.prevTime = nowTime;
-    var prevPos = getScrollPosition({
-      container,
-      direction
-    });
-    this.trigger("scroll", {
-      container,
-      direction,
-      inputEvent: e
-    });
-    var nextPos = getScrollPosition({
-      container,
-      direction
-    });
-    var offsetX = nextPos[0] - prevPos[0];
-    var offsetY = nextPos[1] - prevPos[1];
+    var _a3 = options.prevScrollPos, prevScrollPos = _a3 === void 0 ? this._prevScrollPos : _a3, direction = options.direction, _b3 = options.throttleTime, throttleTime = _b3 === void 0 ? 0 : _b3, inputEvent = options.inputEvent, isDrag = options.isDrag;
+    var nextScrollPos = this._getScrollPosition(direction || [0, 0], options);
+    var offsetX = nextScrollPos[0] - prevScrollPos[0];
+    var offsetY = nextScrollPos[1] - prevScrollPos[1];
+    var nextDirection = direction || [offsetX ? Math.abs(offsetX) / offsetX : 0, offsetY ? Math.abs(offsetY) / offsetY : 0];
+    this._prevScrollPos = nextScrollPos;
     if (!offsetX && !offsetY) {
       return false;
     }
     this.trigger("move", {
-      offsetX: direction[0] ? offsetX : 0,
-      offsetY: direction[1] ? offsetY : 0,
-      inputEvent: e
+      offsetX: nextDirection[0] ? offsetX : 0,
+      offsetY: nextDirection[1] ? offsetY : 0,
+      inputEvent
     });
-    if (throttleTime) {
-      this.timer = window.setTimeout(function() {
-        _this.drag(e, options);
+    if (throttleTime && isDrag) {
+      this._timer = window.setTimeout(function() {
+        _this._continueDrag(options);
       }, throttleTime);
     }
     return true;
   };
   __proto.dragEnd = function() {
-    clearTimeout(this.timer);
+    clearTimeout(this._timer);
+  };
+  __proto._getScrollPosition = function(direction, options) {
+    var container = options.container, _a3 = options.getScrollPosition, getScrollPosition = _a3 === void 0 ? getDefaultScrollPosition$1 : _a3;
+    return getScrollPosition({
+      container,
+      direction
+    });
+  };
+  __proto._continueDrag = function(options) {
+    var _this = this;
+    var container = options.container, direction = options.direction, throttleTime = options.throttleTime, useScroll = options.useScroll, isDrag = options.isDrag, inputEvent = options.inputEvent;
+    if (isDrag && this._isWait) {
+      return;
+    }
+    var nowTime = now();
+    var distTime = Math.max(throttleTime + this._prevTime - nowTime, 0);
+    if (distTime > 0) {
+      this._timer = window.setTimeout(function() {
+        _this._continueDrag(options);
+      }, distTime);
+      return false;
+    }
+    this._prevTime = nowTime;
+    var prevScrollPos = this._getScrollPosition(direction, options);
+    this._prevScrollPos = prevScrollPos;
+    if (isDrag) {
+      this._isWait = true;
+    }
+    this.trigger("scroll", {
+      container,
+      direction,
+      inputEvent
+    });
+    this._isWait = false;
+    return useScroll || this.checkScroll(__assign$5(__assign$5({}, options), {
+      prevScrollPos,
+      direction,
+      inputEvent
+    }));
   };
   return DragScroll2;
 }(EventEmitter$2);
@@ -35520,9 +35583,9 @@ var extendStatics$3 = function(d2, b2) {
   } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3)
-      if (b3.hasOwnProperty(p))
-        d3[p] = b3[p];
+    for (var p2 in b3)
+      if (b3.hasOwnProperty(p2))
+        d3[p2] = b3[p2];
   };
   return extendStatics$3(d2, b2);
 };
@@ -35537,9 +35600,9 @@ var __assign$4 = function() {
   __assign$4 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p))
-          t[p] = s2[p];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
     }
     return t;
   };
@@ -35637,16 +35700,6 @@ var ClientStore = /* @__PURE__ */ function() {
     this.length = clients.length;
   }
   var __proto = ClientStore2.prototype;
-  __proto.addClients = function(clients) {
-    if (clients === void 0) {
-      clients = this.prevClients;
-    }
-    var position = this.getPosition(clients);
-    var deltaX = position.deltaX, deltaY = position.deltaY;
-    this.movement += Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    this.prevClients = clients;
-    return position;
-  };
   __proto.getAngle = function(clients) {
     if (clients === void 0) {
       clients = this.prevClients;
@@ -35659,8 +35712,15 @@ var ClientStore = /* @__PURE__ */ function() {
     }
     return getRotatiion(clients) - getRotatiion(this.startClients);
   };
-  __proto.getPosition = function(clients) {
-    return getPosition(clients || this.prevClients, this.prevClients, this.startClients);
+  __proto.getPosition = function(clients, isAdd) {
+    if (clients === void 0) {
+      clients = this.prevClients;
+    }
+    var position = getPosition(clients || this.prevClients, this.prevClients, this.startClients);
+    var deltaX = position.deltaX, deltaY = position.deltaY;
+    this.movement += Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    this.prevClients = clients;
+    return position;
   };
   __proto.getPositions = function(clients) {
     if (clients === void 0) {
@@ -35699,10 +35759,6 @@ var ClientStore = /* @__PURE__ */ function() {
       client.clientX -= deltaX;
       client.clientY -= deltaY;
     });
-    this.prevClients.forEach(function(client) {
-      client.clientX -= deltaX;
-      client.clientY -= deltaY;
-    });
   };
   return ClientStore2;
 }();
@@ -35726,6 +35782,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
     _this.targets = [];
     _this.prevTime = 0;
     _this.doubleFlag = false;
+    _this._dragFlag = false;
     _this.onDragStart = function(e, isTrusted) {
       if (isTrusted === void 0) {
         isTrusted = true;
@@ -35758,6 +35815,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
         _this.clientStores = [new ClientStore(getEventClients(e))];
         _this.flag = true;
         _this.isDrag = false;
+        _this._dragFlag = true;
         _this.datas = {};
         if (preventRightClick && (e.which === 3 || e.button === 2)) {
           _this.initDrag();
@@ -35769,7 +35827,14 @@ var Gesto = /* @__PURE__ */ function(_super) {
           inputEvent: e,
           isTrusted,
           isDouble: _this.doubleFlag
-        }, _this.getCurrentStore().getPosition()));
+        }, _this.getCurrentStore().getPosition(), {
+          preventDefault: function() {
+            e.preventDefault();
+          },
+          preventDrag: function() {
+            _this._dragFlag = false;
+          }
+        }));
         if (result === false) {
           _this.initDrag();
         }
@@ -35805,20 +35870,22 @@ var Gesto = /* @__PURE__ */ function(_super) {
       }
       var clients = getEventClients(e);
       var result = _this.moveClients(clients, e, false);
-      if (_this.pinchFlag || result.deltaX || result.deltaY) {
-        var dragResult = _this.emit("drag", __assign$4({}, result, {
-          isScroll: !!isScroll,
-          inputEvent: e
-        }));
-        if (dragResult === false) {
-          _this.stop();
-          return;
+      if (_this._dragFlag) {
+        if (_this.pinchFlag || result.deltaX || result.deltaY) {
+          var dragResult = _this.emit("drag", __assign$4({}, result, {
+            isScroll: !!isScroll,
+            inputEvent: e
+          }));
+          if (dragResult === false) {
+            _this.stop();
+            return;
+          }
+        }
+        if (_this.pinchFlag) {
+          _this.onPinch(e, clients);
         }
       }
-      if (_this.pinchFlag) {
-        _this.onPinch(e, clients);
-      }
-      _this.getCurrentStore().addClients(clients);
+      _this.getCurrentStore().getPosition(clients, true);
     };
     _this.onDragEnd = function(e) {
       if (!_this.flag) {
@@ -35829,7 +35896,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
         removeEvent(container2, "touchstart", _this.onDragStart);
       }
       _this.flag = false;
-      var position = _this.getCurrentStore().getPosition();
+      var position = _this._getPosition();
       var currentTime = now();
       var isDouble = !_this.isDrag && _this.doubleFlag;
       _this.prevTime = _this.isDrag || isDouble ? 0 : currentTime;
@@ -35925,8 +35992,8 @@ var Gesto = /* @__PURE__ */ function(_super) {
   };
   __proto.move = function(_a3, inputEvent) {
     var deltaX = _a3[0], deltaY = _a3[1];
-    var store2 = this.getCurrentStore();
-    var nextClients = store2.prevClients;
+    var store = this.getCurrentStore();
+    var nextClients = store.prevClients;
     return this.moveClients(nextClients.map(function(_a4) {
       var clientX = _a4.clientX, clientY = _a4.clientY;
       return {
@@ -35942,10 +36009,21 @@ var Gesto = /* @__PURE__ */ function(_super) {
   };
   __proto.setEventDatas = function(datas) {
     var currentDatas = this.datas;
-    for (var name in datas) {
-      currentDatas[name] = datas[name];
+    for (var name2 in datas) {
+      currentDatas[name2] = datas[name2];
     }
     return this;
+  };
+  __proto.getCurrentEvent = function(inputEvent) {
+    return __assign$4({
+      datas: this.datas
+    }, this._getPosition(), {
+      movement: this.getMovement(),
+      isDrag: this.isDrag,
+      isPinch: this.isPinch,
+      isScroll: false,
+      inputEvent
+    });
   };
   __proto.getEventDatas = function() {
     return this.datas;
@@ -35979,14 +36057,14 @@ var Gesto = /* @__PURE__ */ function(_super) {
     if (this.isDrag && this.getMovement() > pinchThreshold) {
       return;
     }
-    var store2 = new ClientStore(getEventClients(e));
+    var store = new ClientStore(getEventClients(e));
     this.pinchFlag = true;
-    this.clientStores.splice(0, 0, store2);
+    this.clientStores.splice(0, 0, store);
     var result = this.emit("pinchStart", __assign$4({
       datas: this.datas,
-      angle: store2.getAngle(),
+      angle: store.getAngle(),
       touches: this.getCurrentStore().getPositions()
-    }, store2.getPosition(), {
+    }, store.getPosition(), {
       inputEvent: e
     }));
     if (result === false) {
@@ -35997,17 +36075,17 @@ var Gesto = /* @__PURE__ */ function(_super) {
     if (!this.flag || !this.pinchFlag || clients.length < 2) {
       return;
     }
-    var store2 = this.getCurrentStore();
+    var store = this.getCurrentStore();
     this.isPinch = true;
     this.emit("pinch", __assign$4({
       datas: this.datas,
       movement: this.getMovement(clients),
-      angle: store2.getAngle(clients),
-      rotation: store2.getRotation(clients),
-      touches: store2.getPositions(clients),
-      scale: store2.getScale(clients),
-      distance: store2.getDistance(clients)
-    }, store2.getPosition(clients), {
+      angle: store.getAngle(clients),
+      rotation: store.getRotation(clients),
+      touches: store.getPositions(clients),
+      scale: store.getScale(clients),
+      distance: store.getDistance(clients)
+    }, store.getPosition(clients), {
       inputEvent: e
     }));
   };
@@ -36018,12 +36096,12 @@ var Gesto = /* @__PURE__ */ function(_super) {
     var isPinch = this.isPinch;
     this.isPinch = false;
     this.pinchFlag = false;
-    var store2 = this.getCurrentStore();
+    var store = this.getCurrentStore();
     this.emit("pinchEnd", __assign$4({
       datas: this.datas,
       isPinch,
-      touches: store2.getPositions()
-    }, store2.getPosition(), {
+      touches: store.getPositions()
+    }, store.getPosition(), {
       inputEvent: e
     }));
     this.isPinch = false;
@@ -36040,9 +36118,10 @@ var Gesto = /* @__PURE__ */ function(_super) {
     return this.clientStores[0];
   };
   __proto.moveClients = function(clients, inputEvent, isAdd) {
-    var store2 = this.getCurrentStore();
-    var position = store2[isAdd ? "addClients" : "getPosition"](clients);
-    this.isDrag = true;
+    var position = this._getPosition(clients, isAdd);
+    if (position.deltaX || position.deltaY) {
+      this.isDrag = true;
+    }
     return __assign$4({
       datas: this.datas
     }, position, {
@@ -36053,19 +36132,33 @@ var Gesto = /* @__PURE__ */ function(_super) {
       inputEvent
     });
   };
+  __proto._getPosition = function(clients, isAdd) {
+    var store = this.getCurrentStore();
+    var position = store.getPosition(clients, isAdd);
+    var _a3 = this.clientStores.slice(1).reduce(function(prev2, cur) {
+      var storePosition = cur.getPosition();
+      prev2.distX += storePosition.distX;
+      prev2.distY += storePosition.distY;
+      return prev2;
+    }, position), distX = _a3.distX, distY = _a3.distY;
+    return __assign$4({}, position, {
+      distX,
+      distY
+    });
+  };
   return Gesto2;
 }(EventEmitter$2);
 var Gesto$1 = Gesto;
-function hash(str) {
-  var hash2 = 5381, i2 = str.length;
+function hash(str2) {
+  var hash2 = 5381, i2 = str2.length;
   while (i2) {
-    hash2 = hash2 * 33 ^ str.charCodeAt(--i2);
+    hash2 = hash2 * 33 ^ str2.charCodeAt(--i2);
   }
   return hash2 >>> 0;
 }
 var stringHash = hash;
-function getHash(str) {
-  return stringHash(str).toString(36);
+function getHash(str2) {
+  return stringHash(str2).toString(36);
 }
 function getShadowRoot(parentElement) {
   if (parentElement && parentElement.getRootNode) {
@@ -36170,9 +36263,9 @@ var extendStatics$2 = function(d2, b2) {
   } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3)
-      if (b3.hasOwnProperty(p))
-        d3[p] = b3[p];
+    for (var p2 in b3)
+      if (b3.hasOwnProperty(p2))
+        d3[p2] = b3[p2];
   };
   return extendStatics$2(d2, b2);
 };
@@ -36187,9 +36280,9 @@ var __assign$3 = function() {
   __assign$3 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p))
-          t[p] = s2[p];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
     }
     return t;
   };
@@ -36197,13 +36290,13 @@ var __assign$3 = function() {
 };
 function __rest$1(s2, e) {
   var t = {};
-  for (var p in s2)
-    if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
-      t[p] = s2[p];
+  for (var p2 in s2)
+    if (Object.prototype.hasOwnProperty.call(s2, p2) && e.indexOf(p2) < 0)
+      t[p2] = s2[p2];
   if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i2 = 0, p = Object.getOwnPropertySymbols(s2); i2 < p.length; i2++) {
-      if (e.indexOf(p[i2]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i2]))
-        t[p[i2]] = s2[p[i2]];
+    for (var i2 = 0, p2 = Object.getOwnPropertySymbols(s2); i2 < p2.length; i2++) {
+      if (e.indexOf(p2[i2]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p2[i2]))
+        t[p2[i2]] = s2[p2[i2]];
     }
   return t;
 }
@@ -36281,13 +36374,15 @@ var extendStatics$1 = function(d2, b2) {
   } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3)
-      if (b3.hasOwnProperty(p))
-        d3[p] = b3[p];
+    for (var p2 in b3)
+      if (Object.prototype.hasOwnProperty.call(b3, p2))
+        d3[p2] = b3[p2];
   };
   return extendStatics$1(d2, b2);
 };
 function __extends$1(d2, b2) {
+  if (typeof b2 !== "function" && b2 !== null)
+    throw new TypeError("Class extends value " + String(b2) + " is not a constructor or null");
   extendStatics$1(d2, b2);
   function __() {
     this.constructor = d2;
@@ -36298,9 +36393,9 @@ var __assign$2 = function() {
   __assign$2 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p))
-          t[p] = s2[p];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
     }
     return t;
   };
@@ -36308,13 +36403,13 @@ var __assign$2 = function() {
 };
 function __rest(s2, e) {
   var t = {};
-  for (var p in s2)
-    if (Object.prototype.hasOwnProperty.call(s2, p) && e.indexOf(p) < 0)
-      t[p] = s2[p];
+  for (var p2 in s2)
+    if (Object.prototype.hasOwnProperty.call(s2, p2) && e.indexOf(p2) < 0)
+      t[p2] = s2[p2];
   if (s2 != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i2 = 0, p = Object.getOwnPropertySymbols(s2); i2 < p.length; i2++) {
-      if (e.indexOf(p[i2]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p[i2]))
-        t[p[i2]] = s2[p[i2]];
+    for (var i2 = 0, p2 = Object.getOwnPropertySymbols(s2); i2 < p2.length; i2++) {
+      if (e.indexOf(p2[i2]) < 0 && Object.prototype.propertyIsEnumerable.call(s2, p2[i2]))
+        t[p2[i2]] = s2[p2[i2]];
     }
   return t;
 }
@@ -36328,20 +36423,23 @@ function __decorate$1(decorators, target, key, desc) {
         r2 = (c2 < 3 ? d2(r2) : c2 > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c2 > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 }
-function __spreadArrays$1() {
-  for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
-    s2 += arguments[i2].length;
-  for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
-    for (var a2 = arguments[i2], j2 = 0, jl = a2.length; j2 < jl; j2++, k++)
-      r2[k] = a2[j2];
-  return r2;
+function __spreadArray(to, from, pack) {
+  if (pack || arguments.length === 2)
+    for (var i2 = 0, l2 = from.length, ar; i2 < l2; i2++) {
+      if (ar || !(i2 in from)) {
+        if (!ar)
+          ar = Array.prototype.slice.call(from, 0, i2);
+        ar[i2] = from[i2];
+      }
+    }
+  return to.concat(ar || Array.prototype.slice.call(from));
 }
-function makeAble(name, able) {
+function makeAble(name2, able) {
   var _a3;
   return __assign$2({
     events: {},
-    props: (_a3 = {}, _a3[name] = Boolean, _a3),
-    name
+    props: (_a3 = {}, _a3[name2] = Boolean, _a3),
+    name: name2
   }, able);
 }
 function getSVGCursor(scale, degree) {
@@ -36349,7 +36447,6 @@ function getSVGCursor(scale, degree) {
 }
 function getCursorCSS(degree) {
   var x1 = getSVGCursor(1, degree);
-  var x2 = getSVGCursor(2, degree);
   var degree45 = Math.round(degree / 45) * 45 % 180;
   var defaultCursor = "ns-resize";
   if (degree45 === 135) {
@@ -36359,7 +36456,7 @@ function getCursorCSS(degree) {
   } else if (degree45 === 90) {
     defaultCursor = "ew-resize";
   }
-  return "cursor:" + defaultCursor + ";cursor: url('" + x1 + "') 16 16, " + defaultCursor + ";cursor: -webkit-image-set(url('" + x1 + "') 1x, url('" + x2 + "') 2x) 16 16, " + defaultCursor + ";";
+  return "cursor:" + defaultCursor + ";cursor: url('" + x1 + "') 16 16, " + defaultCursor + ";";
 }
 var agent = agent$1();
 var IS_WEBKIT = agent.browser.webkit;
@@ -36401,7 +36498,7 @@ var DIRECTION_ROTATIONS = {
   sw: 225,
   se: 135
 };
-var MOVEABLE_METHODS = ["isMoveableElement", "updateRect", "updateTarget", "destroy", "dragStart", "isInside", "hitTest", "setState", "getRect", "request", "isDragging", "getManager"];
+var MOVEABLE_METHODS = ["isMoveableElement", "updateRect", "updateTarget", "destroy", "dragStart", "isInside", "hitTest", "setState", "getRect", "request", "isDragging", "getManager", "forceUpdate"];
 function multiply2(pos1, pos2) {
   return [pos1[0] * pos2[0], pos1[1] * pos2[1]];
 }
@@ -36410,13 +36507,13 @@ function prefix() {
   for (var _i = 0; _i < arguments.length; _i++) {
     classNames[_i] = arguments[_i];
   }
-  return prefixNames.apply(void 0, __spreadArrays$1([PREFIX], classNames));
+  return prefixNames.apply(void 0, __spreadArray([PREFIX], classNames));
 }
 function getTransformMatrix(transform) {
   if (!transform || transform === "none") {
     return [1, 0, 0, 1, 0, 0];
   }
-  if (isObject(transform)) {
+  if (isObject$2(transform)) {
     return transform;
   }
   var value = splitBracket(transform).value;
@@ -36705,11 +36802,12 @@ function calculateElementInfo(target, container, rootContainer, isAbsolute3d) {
   }, allResult);
 }
 function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
+  var _a3;
   if (rootContainer === void 0) {
     rootContainer = container;
   }
-  var _a3 = getMatrixStackInfo(target, container), matrixes = _a3.matrixes, is3d = _a3.is3d, prevTargetMatrix = _a3.targetMatrix, transformOrigin = _a3.transformOrigin, targetOrigin = _a3.targetOrigin, offsetContainer = _a3.offsetContainer;
-  var _b3 = getMatrixStackInfo(offsetContainer, rootContainer, true), rootMatrixes = _b3.matrixes, isRoot3d = _b3.is3d;
+  var _b3 = getMatrixStackInfo(target, container), matrixes = _b3.matrixes, is3d = _b3.is3d, prevTargetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin, targetOrigin = _b3.targetOrigin, offsetContainer = _b3.offsetContainer;
+  var _c3 = getMatrixStackInfo(offsetContainer, rootContainer, true), rootMatrixes = _c3.matrixes, isRoot3d = _c3.is3d;
   var isNext3d = isAbsolute3d || isRoot3d || is3d;
   var n = isNext3d ? 4 : 3;
   var isSVGGraphicElement = target.tagName.toLowerCase() !== "svg" && "ownerSVGElement" in target;
@@ -36719,8 +36817,6 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
   var beforeMatrix = createIdentityMatrix(n);
   var offsetMatrix = createIdentityMatrix(n);
   var length2 = matrixes.length;
-  var originalRootContainer = rootContainer || document.body;
-  var endContainer = getOffsetInfo(originalRootContainer, originalRootContainer, true).offsetParent;
   rootMatrixes.reverse();
   matrixes.reverse();
   if (!is3d && isNext3d) {
@@ -36733,6 +36829,11 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
   rootMatrixes.forEach(function(info) {
     rootMatrix = multiply(rootMatrix, info.matrix, n);
   });
+  var originalRootContainer = rootContainer || document.body;
+  var endContainer = ((_a3 = rootMatrixes[0]) === null || _a3 === void 0 ? void 0 : _a3.target) || getOffsetInfo(originalRootContainer, originalRootContainer, true).offsetParent;
+  var rootMatrixBeforeOffset = rootMatrixes.slice(1).reduce(function(matrix, info) {
+    return multiply(matrix, info.matrix, n);
+  }, createIdentityMatrix(n));
   matrixes.forEach(function(info, i2) {
     if (length2 - 2 === i2) {
       beforeMatrix = allMatrix.slice();
@@ -36742,7 +36843,7 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
     }
     if (!info.matrix) {
       var nextInfo = matrixes[i2 + 1];
-      var offset = getSVGOffset(info, nextInfo, endContainer, n, multiply(rootMatrix, allMatrix, n));
+      var offset = getSVGOffset(info, nextInfo, endContainer, n, multiply(rootMatrixBeforeOffset, allMatrix, n));
       info.matrix = createOriginMatrix(offset, n);
     }
     allMatrix = multiply(allMatrix, info.matrix, n);
@@ -36905,8 +37006,8 @@ function getSVGOffset(offsetInfo, targetInfo, container, n, beforeMatrix) {
     rectOrigin[0] -= distLeft;
     rectOrigin[1] -= distTop;
   }
-  return offset.map(function(p) {
-    return Math.round(p);
+  return offset.map(function(p2) {
+    return Math.round(p2);
   });
 }
 function calculateMoveablePosition(matrix, origin, width, height) {
@@ -36968,14 +37069,14 @@ function getControlTransform(rotation, zoom) {
     poses[_i - 2] = arguments[_i];
   }
   var length2 = poses.length;
-  var x = poses.reduce(function(prev2, pos) {
+  var x2 = poses.reduce(function(prev2, pos) {
     return prev2 + pos[0];
   }, 0) / length2;
   var y2 = poses.reduce(function(prev2, pos) {
     return prev2 + pos[1];
   }, 0) / length2;
   return {
-    transform: "translateZ(0px) translate(" + x + "px, " + y2 + "px) rotate(" + rotation + "rad) scale(" + zoom + ")"
+    transform: "translateZ(0px) translate(" + x2 + "px, " + y2 + "px) rotate(" + rotation + "rad) scale(" + zoom + ")"
   };
 }
 function getCSSSize(target) {
@@ -37123,11 +37224,10 @@ function getAbsolutePosesByState(_a3) {
 function roundSign(num) {
   return Math.round(num % 1 === -0.5 ? num - 1 : num);
 }
-function unset(self2, name) {
-  if (self2[name]) {
-    self2[name].unset();
-    self2[name] = null;
-  }
+function unset(self2, name2) {
+  var _a3;
+  (_a3 = self2[name2]) === null || _a3 === void 0 ? void 0 : _a3.unset();
+  self2[name2] = null;
 }
 function fillParams(moveable, e, params) {
   var datas = e.datas;
@@ -37170,8 +37270,8 @@ function fillEndParams(moveable, e, params) {
     datas: datas.datas
   });
 }
-function triggerEvent(moveable, name, params, isManager) {
-  return moveable.triggerEvent(name, params, isManager);
+function triggerEvent(moveable, name2, params, isManager) {
+  return moveable.triggerEvent(name2, params, isManager);
 }
 function getComputedStyle$1(el, pseudoElt) {
   return window.getComputedStyle(el, pseudoElt);
@@ -37180,8 +37280,8 @@ function filterAbles(ables, methods, triggerAblesSimultaneously) {
   var enabledAbles = {};
   var ableGroups = {};
   return ables.filter(function(able) {
-    var name = able.name;
-    if (enabledAbles[name] || !methods.some(function(method) {
+    var name2 = able.name;
+    if (enabledAbles[name2] || !methods.some(function(method) {
       return able[method];
     })) {
       return false;
@@ -37192,7 +37292,7 @@ function filterAbles(ables, methods, triggerAblesSimultaneously) {
       }
       ableGroups[able.ableGroup] = true;
     }
-    enabledAbles[name] = true;
+    enabledAbles[name2] = true;
     return true;
   });
 }
@@ -37339,8 +37439,8 @@ function directionCondition(moveable, e) {
 }
 function invertObject(obj) {
   var nextObj = {};
-  for (var name in obj) {
-    nextObj[obj[name]] = name;
+  for (var name2 in obj) {
+    nextObj[obj[name2]] = name2;
   }
   return nextObj;
 }
@@ -37381,7 +37481,7 @@ function getTransform(transforms, index) {
   };
 }
 function isArrayFormat(arr) {
-  if (!arr || !isObject(arr)) {
+  if (!arr || !isObject$2(arr)) {
     return false;
   }
   return isArray(arr) || "length" in arr;
@@ -37396,7 +37496,7 @@ function getRefTarget(target, isSelector) {
     }
     return target;
   }
-  if (isFunction(target)) {
+  if (isFunction$2(target)) {
     return target();
   }
   if ("current" in target) {
@@ -37411,7 +37511,7 @@ function getRefTargets(targets, isSelector) {
   var userTargets = isArrayFormat(targets) ? [].slice.call(targets) : [targets];
   return userTargets.reduce(function(prev2, target) {
     if (isString(target) && isSelector) {
-      return __spreadArrays$1(prev2, [].slice.call(document.querySelectorAll(target)));
+      return __spreadArray(__spreadArray([], prev2), [].slice.call(document.querySelectorAll(target)));
     }
     prev2.push(getRefTarget(target, isSelector));
     return prev2;
@@ -37653,7 +37753,7 @@ var CustomGesto = /* @__PURE__ */ function() {
   };
   return CustomGesto2;
 }();
-function fillChildEvents(moveable, name, e) {
+function fillChildEvents(moveable, name2, e) {
   var datas = e.originalDatas;
   datas.groupable = datas.groupable || {};
   var groupableDatas = datas.groupable;
@@ -37661,9 +37761,9 @@ function fillChildEvents(moveable, name, e) {
   var childDatas = groupableDatas.childDatas;
   return moveable.moveables.map(function(_2, i2) {
     childDatas[i2] = childDatas[i2] || {};
-    childDatas[i2][name] = childDatas[i2][name] || {};
+    childDatas[i2][name2] = childDatas[i2][name2] || {};
     return __assign$2(__assign$2({}, e), {
-      datas: childDatas[i2][name],
+      datas: childDatas[i2][name2],
       originalDatas: childDatas[i2]
     });
   });
@@ -37762,9 +37862,15 @@ function resolveTransformEvent(event, functionName) {
   var index = datas.transformIndex;
   var nextTransforms = originalDatas.nextTransforms;
   var nextTransformAppendedIndexes = originalDatas.nextTransformAppendedIndexes;
-  var nextIndex = index === -1 ? nextTransforms.length : index + nextTransformAppendedIndexes.filter(function(i2) {
-    return i2 < index;
-  }).length;
+  var nextIndex = 0;
+  if (index === -1) {
+    nextIndex = nextTransforms.length;
+    datas.transformIndex = nextIndex;
+  } else {
+    nextIndex = index + nextTransformAppendedIndexes.filter(function(i2) {
+      return i2 < index;
+    }).length;
+  }
   var result = getTransform(nextTransforms, nextIndex);
   var targetFunction = result.targetFunction;
   var matFunctionName = functionName === "rotate" ? "rotateZ" : functionName;
@@ -37781,7 +37887,7 @@ function resolveTransformEvent(event, functionName) {
     datas.isAppendTransform = false;
   } else {
     datas.isAppendTransform = true;
-    originalDatas.nextTransformAppendedIndexes = __spreadArrays$1(nextTransformAppendedIndexes, [nextIndex]);
+    originalDatas.nextTransformAppendedIndexes = __spreadArray(__spreadArray([], nextTransformAppendedIndexes), [nextIndex]);
   }
 }
 function convertTransformFormat(datas, value, dist) {
@@ -37948,6 +38054,10 @@ function fillOriginalTransform(e, transform) {
   var originalDatas = e.originalDatas.beforeRenderable;
   originalDatas.nextTransforms = splitSpace(transform);
 }
+function getNextTransformText(e) {
+  var originalDatas = e.originalDatas.beforeRenderable;
+  return originalDatas.nextTransforms.join(" ");
+}
 function fillTransformEvent(moveable, nextTransform, delta, isPinch, e) {
   fillOriginalTransform(e, nextTransform);
   return {
@@ -38038,27 +38148,27 @@ function getSnapDirections(snapDirections) {
 function mapSnapDirectionPoses(snapDirections, snapPoses) {
   var nextSnapDirections = getSnapDirections(snapDirections);
   var nextSnapPoses = {};
-  for (var name in nextSnapDirections) {
-    if (name in snapPoses && nextSnapDirections[name]) {
-      nextSnapPoses[name] = snapPoses[name];
+  for (var name2 in nextSnapDirections) {
+    if (name2 in snapPoses && nextSnapDirections[name2]) {
+      nextSnapPoses[name2] = snapPoses[name2];
     }
   }
   return nextSnapPoses;
 }
 function splitSnapDirectionPoses(snapDirections, snapPoses) {
   var nextSnapPoses = mapSnapDirectionPoses(snapDirections, snapPoses);
-  var horizontalNames = HORIZONTAL_NAMES.filter(function(name) {
-    return name in nextSnapPoses;
+  var horizontalNames = HORIZONTAL_NAMES.filter(function(name2) {
+    return name2 in nextSnapPoses;
   });
-  var verticalNames = VERTICAL_NAMES.filter(function(name) {
-    return name in nextSnapPoses;
+  var verticalNames = VERTICAL_NAMES.filter(function(name2) {
+    return name2 in nextSnapPoses;
   });
   return {
-    horizontal: horizontalNames.map(function(name) {
-      return nextSnapPoses[name];
+    horizontal: horizontalNames.map(function(name2) {
+      return nextSnapPoses[name2];
     }),
-    vertical: verticalNames.map(function(name) {
-      return nextSnapPoses[name];
+    vertical: verticalNames.map(function(name2) {
+      return nextSnapPoses[name2];
     })
   };
 }
@@ -38117,36 +38227,36 @@ function getGapGuidelines(moveable, targetRect, snapThreshold) {
       var rect1End = rect1[mainNames.end];
       var rect2Start = rect2[mainNames.start];
       var rect2End = rect2[mainNames.end];
-      var gap = 0;
+      var gap2 = 0;
       var pos = 0;
       var isStart = false;
       var isCenter = false;
       var isEnd = false;
       if (rect1End <= targetStart && targetEnd <= rect2Start) {
         isCenter = true;
-        gap = (rect2Start - rect1End - (targetEnd - targetStart)) / 2;
-        pos = rect1End + gap + (targetEnd - targetStart) / 2;
+        gap2 = (rect2Start - rect1End - (targetEnd - targetStart)) / 2;
+        pos = rect1End + gap2 + (targetEnd - targetStart) / 2;
         if (Math.abs(pos - targetCenter) > snapThreshold) {
           return;
         }
       } else if (rect1End < rect2Start && rect2End < targetStart + snapThreshold) {
         isStart = true;
-        gap = rect2Start - rect1End;
-        pos = rect2End + gap;
+        gap2 = rect2Start - rect1End;
+        pos = rect2End + gap2;
         if (Math.abs(pos - targetStart) > snapThreshold) {
           return;
         }
       } else if (rect1End < rect2Start && targetEnd - snapThreshold < rect1Start) {
         isEnd = true;
-        gap = rect2Start - rect1End;
-        pos = rect1Start - gap;
+        gap2 = rect2Start - rect1End;
+        pos = rect1Start - gap2;
         if (Math.abs(pos - targetEnd) > snapThreshold) {
           return;
         }
       } else {
         return;
       }
-      if (!gap) {
+      if (!gap2) {
         return;
       }
       gapGuidelines.push({
@@ -38158,7 +38268,7 @@ function getGapGuidelines(moveable, targetRect, snapThreshold) {
         isStart,
         isCenter,
         isEnd,
-        gap,
+        gap: gap2,
         hide: true,
         gapRects: [snapRect1, snapRect2]
       });
@@ -38249,7 +38359,7 @@ function getElementGuidelines(moveable) {
     return !snapRect.refresh;
   });
   var nextElementGuidelines = elementGuidelines.map(function(el) {
-    if (isObject(el) && "element" in el) {
+    if (isObject$2(el) && "element" in el) {
       return el;
     }
     return {
@@ -38320,7 +38430,7 @@ function getTotalGuidelines(moveable) {
   var _a3 = moveable.state, snapOffset = _a3.snapOffset, _b3 = _a3.containerClientRect, overflow = _b3.overflow, containerHeight = _b3.scrollHeight, containerWidth = _b3.scrollWidth, containerClientHeight = _b3.clientHeight, containerClientWidth = _b3.clientWidth, clientLeft = _b3.clientLeft, clientTop = _b3.clientTop;
   var _c3 = moveable.props, _d2 = _c3.snapGap, snapGap = _d2 === void 0 ? true : _d2, verticalGuidelines = _c3.verticalGuidelines, horizontalGuidelines = _c3.horizontalGuidelines, _e = _c3.snapThreshold, snapThreshold = _e === void 0 ? 5 : _e, _f = _c3.snapGridWidth, snapGridWidth = _f === void 0 ? 0 : _f, _g = _c3.snapGridHeight, snapGridHeight = _g === void 0 ? 0 : _g;
   var elementGuidelines = getElementGuidelines(moveable);
-  var totalGuidelines = __spreadArrays$1(elementGuidelines);
+  var totalGuidelines = __spreadArray([], elementGuidelines);
   if (snapGap) {
     var _h = getRect(getAbsolutePosesByState(moveable.state)), top = _h.top, left = _h.left, bottom = _h.bottom, right = _h.right;
     totalGuidelines.push.apply(totalGuidelines, getGapGuidelines(moveable, {
@@ -38432,21 +38542,21 @@ function checkSnapKeepRatio(moveable, startPos, endPos) {
     var a2 = dy / dx;
     var b2 = endPos[1] - a2 * endX;
     var y2 = 0;
-    var x = 0;
+    var x2 = 0;
     var isSnap = false;
     if (isVerticalSnap) {
-      x = verticalPos;
-      y2 = a2 * x + b2;
+      x2 = verticalPos;
+      y2 = a2 * x2 + b2;
       isSnap = true;
     } else if (isHorizontalSnap) {
       y2 = horizontalPos;
-      x = (y2 - b2) / a2;
+      x2 = (y2 - b2) / a2;
       isSnap = true;
     }
     if (isSnap) {
       verticalInfo.isSnap = true;
-      verticalInfo.pos = x;
-      verticalInfo.offset = endX - x;
+      verticalInfo.pos = x2;
+      verticalInfo.offset = endX - x2;
       horizontalInfo.isSnap = true;
       horizontalInfo.pos = y2;
       horizontalInfo.offset = endY - y2;
@@ -38778,8 +38888,8 @@ function checkLineBoundCollision(line, boundLine, isStart, threshold2, isRender)
         offset: 0
       };
     } else if (dy1) {
-      var x = (boundDot1[1] - dot1[1]) / (dy1 / dx1) + dot1[0];
-      return checkInnerBoundDot(x, boundDot1[0], boundDot2[0], isStart, threshold2);
+      var x2 = (boundDot1[1] - dot1[1]) / (dy1 / dx1) + dot1[0];
+      return checkInnerBoundDot(x2, boundDot1[0], boundDot2[0], isStart, threshold2);
     } else {
       var offset = boundDot1[1] - dot1[1];
       var isBound = Math.abs(offset) <= (threshold2 || 0);
@@ -38850,14 +38960,14 @@ function getInnerBoundDragInfo(moveable, poses, datas) {
 }
 function getCheckSnapLineDirections(direction, keepRatio) {
   var lineDirections = [];
-  var x = direction[0];
+  var x2 = direction[0];
   var y2 = direction[1];
-  if (x && y2) {
-    lineDirections.push([[0, y2 * 2], direction, [-x, y2]], [[x * 2, 0], direction, [x, -y2]]);
-  } else if (x) {
-    lineDirections.push([[x * 2, 0], [x, 1], [x, -1]]);
+  if (x2 && y2) {
+    lineDirections.push([[0, y2 * 2], direction, [-x2, y2]], [[x2 * 2, 0], direction, [x2, -y2]]);
+  } else if (x2) {
+    lineDirections.push([[x2 * 2, 0], [x2, 1], [x2, -1]]);
     if (keepRatio) {
-      lineDirections.push([[0, -1], [x, -1], [-x, -1]], [[0, 1], [x, 1], [-x, 1]]);
+      lineDirections.push([[0, -1], [x2, -1], [-x2, -1]], [[0, 1], [x2, 1], [-x2, 1]]);
     }
   } else if (y2) {
     lineDirections.push([[0, y2 * 2], [1, y2], [-1, y2]]);
@@ -38879,7 +38989,7 @@ function isBoundRotate(relativePoses, boundDots, center, rad) {
   var nextPoses = rad ? relativePoses.map(function(pos) {
     return rotate(pos, rad);
   }) : relativePoses;
-  var dots = __spreadArrays$1([center], boundDots);
+  var dots = __spreadArray([center], boundDots);
   return [[nextPoses[0], nextPoses[1]], [nextPoses[1], nextPoses[3]], [nextPoses[3], nextPoses[2]], [nextPoses[2], nextPoses[0]]].some(function(line) {
     return !isSameStartLine(dots, line);
   });
@@ -39094,15 +39204,15 @@ function checkBoundKeepRatio(moveable, startPos, endPos) {
     var a2 = dy / dx;
     var b2 = endPos[1] - a2 * endX;
     var y2 = 0;
-    var x = 0;
+    var x2 = 0;
     var isBound = false;
     if (isRight && right <= endX) {
       y2 = a2 * right + b2;
-      x = right;
+      x2 = right;
       isBound = true;
     } else if (!isRight && endX <= left) {
       y2 = a2 * left + b2;
-      x = left;
+      x2 = left;
       isBound = true;
     }
     if (isBound) {
@@ -39113,18 +39223,18 @@ function checkBoundKeepRatio(moveable, startPos, endPos) {
     if (!isBound) {
       if (isBottom && bottom <= endY) {
         y2 = bottom;
-        x = (y2 - b2) / a2;
+        x2 = (y2 - b2) / a2;
         isBound = true;
       } else if (!isBottom && endY <= top) {
         y2 = top;
-        x = (y2 - b2) / a2;
+        x2 = (y2 - b2) / a2;
         isBound = true;
       }
     }
     if (isBound) {
       verticalInfo.isBound = true;
-      verticalInfo.pos = x;
-      verticalInfo.offset = endX - x;
+      verticalInfo.pos = x2;
+      verticalInfo.offset = endX - x2;
       horizontalInfo.isBound = true;
       horizontalInfo.pos = y2;
       horizontalInfo.offset = endY - y2;
@@ -39231,7 +39341,7 @@ function renderGuideline(info, React) {
 }
 function renderInnerGuideline(info, React) {
   return renderGuideline(__assign$2(__assign$2({}, info), {
-    classNames: __spreadArrays$1([prefix("line", "guideline", info.direction)], info.classNames).filter(function(className) {
+    classNames: __spreadArray([prefix("line", "guideline", info.direction)], info.classNames).filter(function(className) {
       return className;
     }),
     size: info.size || info.sizeValue + "px",
@@ -39287,14 +39397,14 @@ function renderGuidelines(moveable, type, guidelines, targetPos, targetRect, Rea
     }, React);
   });
 }
-function renderDigitLine(moveable, type, lineType, index, gap, renderPos, className, React) {
+function renderDigitLine(moveable, type, lineType, index, gap2, renderPos, className, React) {
   var _a3;
   var _b3 = moveable.props, _c3 = _b3.snapDigit, snapDigit = _c3 === void 0 ? 0 : _c3, _d2 = _b3.isDisplaySnapDigit, isDisplaySnapDigit = _d2 === void 0 ? true : _d2, _e = _b3.snapDistFormat, snapDistFormat = _e === void 0 ? function(v2) {
     return v2;
   } : _e, zoom = _b3.zoom;
   var scaleType = type === "horizontal" ? "X" : "Y";
   var sizeName = type === "vertical" ? "height" : "width";
-  var absGap = Math.abs(gap);
+  var absGap = Math.abs(gap2);
   var snapSize = isDisplaySnapDigit ? parseFloat(absGap.toFixed(snapDigit)) : 0;
   return React.createElement("div", {
     key: type + "-" + lineType + "-guideline-" + index,
@@ -39454,12 +39564,12 @@ function renderGapGuidelines(moveable, guidelines, targetPos, targetRect, React)
     var targetSideStart = targetRect[sideNames.start];
     var targetSideEnd = targetRect[sideNames.end];
     nextGuidelines.forEach(function(_a3) {
-      var gap = _a3.gap, gapRects = _a3.gapRects, className = _a3.className;
-      var sideStartPos = Math.max.apply(Math, __spreadArrays$1([targetSideStart], gapRects.map(function(_a4) {
+      var gap2 = _a3.gap, gapRects = _a3.gapRects, className = _a3.className;
+      var sideStartPos = Math.max.apply(Math, __spreadArray([targetSideStart], gapRects.map(function(_a4) {
         var rect = _a4.rect;
         return rect[sideNames.start];
       })));
-      var sideEndPos = Math.min.apply(Math, __spreadArrays$1([targetSideEnd], gapRects.map(function(_a4) {
+      var sideEndPos = Math.min.apply(Math, __spreadArray([targetSideEnd], gapRects.map(function(_a4) {
         var rect = _a4.rect;
         return rect[sideNames.end];
       })));
@@ -39473,12 +39583,12 @@ function renderGapGuidelines(moveable, guidelines, targetPos, targetRect, React)
         if (rect[mainNames.end] < targetStart) {
           renderPos[index] += rect[mainNames.end] - targetStart;
         } else if (targetEnd < rect[mainNames.start]) {
-          renderPos[index] += rect[mainNames.start] - targetStart - gap;
+          renderPos[index] += rect[mainNames.start] - targetStart - gap2;
         } else {
           return;
         }
         renderPos[otherIndex] += sideCenterPos - targetSideStart;
-        rendered.push(renderDigitLine(moveable, index ? "vertical" : "horizontal", "gap", rendered.length, gap, renderPos, className, React));
+        rendered.push(renderDigitLine(moveable, index ? "vertical" : "horizontal", "gap", rendered.length, gap2, renderPos, className, React));
       });
     });
   });
@@ -39511,8 +39621,8 @@ function solveEquation(pos1, pos2, snapOffset, isVertical) {
     var y2 = a2 * (pos2[0] + snapOffset) + b2;
     return [snapOffset, y2 - pos2[1]];
   } else {
-    var x = (pos2[1] + snapOffset - b2) / a2;
-    return [x - pos2[0], snapOffset];
+    var x2 = (pos2[1] + snapOffset - b2) / a2;
+    return [x2 - pos2[0], snapOffset];
   }
 }
 function solveNextOffset(pos1, pos2, offset, isVertical, datas) {
@@ -39893,7 +40003,7 @@ function getNextFixedPoses(matrix, width, height, fixedPos, direction, is3d) {
 function getSizeOffsetInfo(moveable, poses, direction, keepRatio, isRequest, datas) {
   var directions = getCheckSnapDirections(direction, keepRatio);
   var lines = getCheckInnerBoundLines(poses, direction, keepRatio);
-  var offsets = __spreadArrays$1(getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas), getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas));
+  var offsets = __spreadArray(__spreadArray([], getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas)), getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas));
   var widthOffsetInfo = getNearOffsetInfo(offsets, 0);
   var heightOffsetInfo = getNearOffsetInfo(offsets, 1);
   return {
@@ -39964,8 +40074,8 @@ function checkSizeDist(moveable, getNextPoses, width, height, direction, fixedPo
   if (direction[0] && direction[1]) {
     var _b3 = checkMaxBounds(moveable, poses, direction, fixedPosition, datas), maxWidth = _b3.maxWidth, maxHeight = _b3.maxHeight;
     var _c3 = recheckSizeByTwoDirection(moveable, getNextPoses(widthOffset, heightOffset).map(function(pos) {
-      return pos.map(function(p) {
-        return throttle(p, FLOAT_POINT_NUM);
+      return pos.map(function(p2) {
+        return throttle(p2, FLOAT_POINT_NUM);
       });
     }), width + widthOffset, height + heightOffset, maxWidth, maxHeight, direction, isRequest, datas), nextWidthOffset = _c3[0], nextHeightOffset = _c3[1];
     widthOffset += nextWidthOffset;
@@ -39985,7 +40095,7 @@ function checkSnapRotate(moveable, rect, origin, rotation) {
   var nextPoses = prevPoses.map(function(pos) {
     return rotate(pos, rad);
   });
-  var result = __spreadArrays$1(checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation), checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation));
+  var result = __spreadArray(__spreadArray([], checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation)), checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation));
   result.sort(function(a2, b2) {
     return Math.abs(a2 - rotation) - Math.abs(b2 - rotation);
   });
@@ -40077,6 +40187,7 @@ function addBoundGuidelines(moveable, verticalPoses, horizontalPoses, verticalSn
 }
 var Snappable = {
   name: "snappable",
+  dragRelation: "strong",
   props: {
     snappable: [Boolean, Array],
     snapContainer: Object,
@@ -40180,7 +40291,7 @@ var Snappable = {
     if (hasExternalPoses) {
       addBoundGuidelines(moveable, [externalRect.left, externalRect.right], [externalRect.top, externalRect.bottom], verticalSnapPoses, horizontalSnapPoses, snapRenderInfo.externalBounds);
     }
-    var allGuidelines = __spreadArrays$1(verticalGuidelines, horizontalGuidelines);
+    var allGuidelines = __spreadArray(__spreadArray([], verticalGuidelines), horizontalGuidelines);
     var elementGuidelines = allGuidelines.filter(function(guideline) {
       return guideline.element && !guideline.gapRects;
     });
@@ -40195,7 +40306,7 @@ var Snappable = {
       elements: elementGuidelines,
       gaps: gapGuidelines
     }, true);
-    return __spreadArrays$1(renderDashedGuidelines(moveable, elementGuidelines, [minLeft, minTop], targetRect, React), renderGapGuidelines(moveable, gapGuidelines, [minLeft, minTop], targetRect, React), renderGuidelines(moveable, "horizontal", horizontalGuidelines, [targetLeft, targetTop], targetRect, React), renderGuidelines(moveable, "vertical", verticalGuidelines, [targetLeft, targetTop], targetRect, React), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React));
+    return __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], renderDashedGuidelines(moveable, elementGuidelines, [minLeft, minTop], targetRect, React)), renderGapGuidelines(moveable, gapGuidelines, [minLeft, minTop], targetRect, React)), renderGuidelines(moveable, "horizontal", horizontalGuidelines, [targetLeft, targetTop], targetRect, React)), renderGuidelines(moveable, "vertical", verticalGuidelines, [targetLeft, targetTop], targetRect, React)), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React)), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React));
   },
   dragStart: function(moveable, e) {
     moveable.state.snapRenderInfo = {
@@ -40403,6 +40514,7 @@ var Draggable = {
     var right = datas.right - beforeDist[0];
     var bottom = datas.bottom - beforeDist[1];
     var nextTransform = convertTransformFormat(datas, "translate(" + translate[0] + "px, " + translate[1] + "px)", "translate(" + dist[0] + "px, " + dist[1] + "px)");
+    fillOriginalTransform(e, nextTransform);
     moveable.state.dragInfo.dist = parentEvent ? [0, 0] : dist;
     if (!parentEvent && !parentMoveable && delta.every(function(num) {
       return !num;
@@ -40436,22 +40548,23 @@ var Draggable = {
     var _a3 = e.datas, deltaOffset = _a3.deltaOffset, distOffset = _a3.distOffset;
     if (deltaOffset[0] || deltaOffset[1]) {
       datas.deltaOffset = [0, 0];
-      distOffset[0] += deltaOffset[0];
-      distOffset[1] += deltaOffset[1];
+      distOffset[0] = deltaOffset[0];
+      distOffset[1] = deltaOffset[1];
       return this.drag(moveable, e);
     }
     return false;
   },
   dragEnd: function(moveable, e) {
-    var parentEvent = e.parentEvent, datas = e.datas, isDrag = e.isDrag;
+    var parentEvent = e.parentEvent, datas = e.datas;
     moveable.state.gesto = null;
     moveable.state.dragInfo = null;
     if (!datas.isDrag) {
       return;
     }
     datas.isDrag = false;
-    !parentEvent && triggerEvent(moveable, "onDragEnd", fillEndParams(moveable, e, {}));
-    return isDrag;
+    var param = fillEndParams(moveable, e, {});
+    !parentEvent && triggerEvent(moveable, "onDragEnd", param);
+    return param;
   },
   dragGroupStart: function(moveable, e) {
     var datas = e.datas, clientX = e.clientX, clientY = e.clientY;
@@ -40492,9 +40605,10 @@ var Draggable = {
       return;
     }
     this.dragEnd(moveable, e);
-    triggerChildGesto(moveable, this, "dragEnd", [0, 0], e, false);
+    var events = triggerChildGesto(moveable, this, "dragEnd", [0, 0], e, false);
     triggerEvent(moveable, "onDragGroupEnd", fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     }));
     return isDrag;
   },
@@ -40543,7 +40657,7 @@ function renderDirectionControls(moveable, defaultDirections, React, additionalC
   if (additionalClassName === void 0) {
     additionalClassName = "";
   }
-  var _a3 = moveable.state, renderPoses = _a3.renderPoses, radRotation = _a3.rotation, direction = _a3.direction;
+  var _a3 = moveable.state, renderPoses = _a3.renderPoses, rotationRad = _a3.rotation, direction = _a3.direction;
   var _b3 = moveable.props, _c3 = _b3.renderDirections, directions = _c3 === void 0 ? defaultDirections : _c3, zoom = _b3.zoom;
   var directionMap = {};
   if (!directions) {
@@ -40551,7 +40665,7 @@ function renderDirectionControls(moveable, defaultDirections, React, additionalC
   }
   var sign2 = direction > 0 ? 1 : -1;
   var renderDirections = directions === true ? DIRECTIONS : directions;
-  var degRotation = radRotation / Math.PI * 180;
+  var degRotation = rotationRad / Math.PI * 180;
   renderDirections.forEach(function(dir) {
     directionMap[dir] = true;
   });
@@ -40566,7 +40680,7 @@ function renderDirectionControls(moveable, defaultDirections, React, additionalC
       "data-rotation": directionRotation,
       "data-direction": dir,
       key: "direction-" + dir,
-      style: getControlTransform.apply(void 0, __spreadArrays$1([radRotation, zoom], indexes.map(function(index) {
+      style: getControlTransform.apply(void 0, __spreadArray([rotationRad, zoom], indexes.map(function(index) {
         return renderPoses[index];
       })))
     });
@@ -40581,7 +40695,7 @@ function renderLine(React, direction, pos1, pos2, zoom, key) {
   var rotation = direction ? throttle(rad / Math.PI * 180, 15) % 180 : -1;
   return React.createElement("div", {
     key: "line" + key,
-    className: prefix.apply(void 0, __spreadArrays$1(["line", "direction", direction], classNames)),
+    className: prefix.apply(void 0, __spreadArray(["line", "direction", direction], classNames)),
     "data-rotation": rotation,
     "data-line-index": key,
     "data-direction": direction,
@@ -40851,13 +40965,14 @@ var Rotatable = {
     return params;
   },
   dragControlEnd: function(moveable, e) {
-    var datas = e.datas, isDrag = e.isDrag;
+    var datas = e.datas;
     if (!datas.isRotate) {
-      return false;
+      return;
     }
     datas.isRotate = false;
-    triggerEvent(moveable, "onRotateEnd", fillEndParams(moveable, e, {}));
-    return isDrag;
+    var params = fillEndParams(moveable, e, {});
+    triggerEvent(moveable, "onRotateEnd", params);
+    return params;
   },
   dragGroupControlCondition: dragControlCondition,
   dragGroupControlStart: function(moveable, e) {
@@ -40924,9 +41039,10 @@ var Rotatable = {
       return;
     }
     this.dragControlEnd(moveable, e);
-    triggerChildAbles(moveable, this, "dragControlEnd", e);
+    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
     var nextParams = fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     });
     triggerEvent(moveable, "onRotateGroupEnd", nextParams);
     return isDrag;
@@ -41140,7 +41256,7 @@ var Resizable = {
           distHeight = Math.sin(ratioRad) * distSize;
         }
       } else if (!keepRatio) {
-        var nextDirection = __spreadArrays$1(direction);
+        var nextDirection = __spreadArray([], direction);
         if (!startOffsetWidth) {
           if (dist[0] < 0) {
             nextDirection[0] = -1;
@@ -41269,19 +41385,18 @@ var Resizable = {
       datas.prevHeight += errorHeight;
     }
     if (isErrorWidth || isErrorHeight) {
-      this.dragControl(moveable, e);
-      return true;
+      return this.dragControl(moveable, e);
     }
   },
   dragControlEnd: function(moveable, e) {
-    var datas = e.datas, isDrag = e.isDrag;
+    var datas = e.datas;
     if (!datas.isResize) {
-      return false;
+      return;
     }
     datas.isResize = false;
     var params = fillEndParams(moveable, e, {});
     triggerEvent(moveable, "onResizeEnd", params);
-    return isDrag;
+    return params;
   },
   dragGroupControlCondition: directionCondition,
   dragGroupControlStart: function(moveable, e) {
@@ -41353,9 +41468,10 @@ var Resizable = {
       return;
     }
     this.dragControlEnd(moveable, e);
-    triggerChildAbles(moveable, this, "dragControlEnd", e);
+    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
     var nextParams = fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     });
     triggerEvent(moveable, "onResizeGroupEnd", nextParams);
     return isDrag;
@@ -41712,9 +41828,10 @@ var Scalable = {
       return;
     }
     this.dragControlEnd(moveable, e);
-    triggerChildAbles(moveable, this, "dragControlEnd", e);
+    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
     var nextParams = fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     });
     triggerEvent(moveable, "onScaleGroupEnd", nextParams);
     return isDrag;
@@ -41794,7 +41911,7 @@ var Warpable = {
     var linePosTo2 = getMiddleLinePos(pos4, pos3);
     var linePosTo3 = getMiddleLinePos(pos2, pos4);
     var linePosTo4 = getMiddleLinePos(pos4, pos2);
-    return __spreadArrays$1([React.createElement("div", {
+    return __spreadArray([React.createElement("div", {
       className: prefix("line"),
       key: "middeLine1",
       style: getLineStyle(linePosFrom1, linePosTo1, zoom)
@@ -41835,12 +41952,12 @@ var Warpable = {
     datas.direction = direction;
     datas.left = left;
     datas.top = top;
-    datas.poses = [[0, 0], [width, 0], [0, height], [width, height]].map(function(p) {
-      return minus(p, transformOrigin);
+    datas.poses = [[0, 0], [width, 0], [0, height], [width, height]].map(function(p2) {
+      return minus(p2, transformOrigin);
     });
     datas.nextPoses = datas.poses.map(function(_a3) {
-      var x = _a3[0], y2 = _a3[1];
-      return calculate(datas.warpTargetMatrix, [x, y2, 0, 1], 4);
+      var x2 = _a3[0], y2 = _a3[1];
+      return calculate(datas.warpTargetMatrix, [x2, y2, 0, 1], 4);
     });
     datas.startValue = createIdentityMatrix(4);
     datas.prevMatrix = createIdentityMatrix(4);
@@ -42081,7 +42198,7 @@ var DragArea = {
   enableNativeEvent: function(moveable) {
     var state = moveable.state;
     if (state.disableNativeEvent) {
-      requestAnimationFrame(function() {
+      requestAnimationFrame$1(function() {
         state.disableNativeEvent = false;
       });
     }
@@ -42115,6 +42232,7 @@ var Scrollable = {
     onScroll: "scroll",
     onScrollGroup: "scrollGroup"
   },
+  dragRelation: "strong",
   dragStart: function(moveable, e) {
     var props = moveable.props;
     var _a3 = props.scrollContainer, scrollContainer = _a3 === void 0 ? moveable.getContainer() : _a3;
@@ -42218,6 +42336,7 @@ var Default = {
     container: Object,
     portalContainer: Object,
     rootContainer: Object,
+    useResizeObserver: Boolean,
     zoom: Number,
     transformOrigin: Array,
     edge: Boolean,
@@ -42378,7 +42497,7 @@ function getRadiusValues(values, width, height, left, top, minCounts) {
   _d2 = calculateRatio([verticalPoses[1], verticalPoses[2]], height), verticalPoses[1] = _d2[0], verticalPoses[2] = _d2[1];
   var nextHorizontalPoses = horizontalPoses.slice(0, Math.max(minCounts[0], horizontalValues.length));
   var nextVerticalPoses = verticalPoses.slice(0, Math.max(minCounts[1], verticalValues.length));
-  return __spreadArrays$1(nextHorizontalPoses.map(function(pos, i2) {
+  return __spreadArray(__spreadArray([], nextHorizontalPoses.map(function(pos, i2) {
     var direction = RADIUS_DIRECTIONS[i2];
     return {
       horizontal: HORIZONTAL_RADIUS_DIRECTIONS[i2],
@@ -42388,7 +42507,7 @@ function getRadiusValues(values, width, height, left, top, minCounts) {
       raw: horizontalRawPoses[i2],
       direction
     };
-  }), nextVerticalPoses.map(function(pos, i2) {
+  })), nextVerticalPoses.map(function(pos, i2) {
     var direction = RADIUS_DIRECTIONS[i2];
     return {
       horizontal: 0,
@@ -42431,20 +42550,20 @@ function addRadiusPos(controlPoses, poses, startIndex, horizontalIndex, vertical
     var radiusX = HORIZONTAL_RADIUS_DIRECTIONS[horizontalIndex] === 1 ? distX - left : right - distX;
     for (var i2 = horizontalRange[1]; i2 <= horizontalIndex; ++i2) {
       var y2 = VERTICAL_RADIUS_DIRECTIONS[i2] === 1 ? top : bottom;
-      var x = 0;
+      var x2 = 0;
       if (horizontalIndex === i2) {
-        x = distX;
+        x2 = distX;
       } else if (i2 === 0) {
-        x = left + radiusX;
+        x2 = left + radiusX;
       } else if (HORIZONTAL_RADIUS_DIRECTIONS[i2] === -1) {
-        x = right - (poses[startIndex][0] - left);
+        x2 = right - (poses[startIndex][0] - left);
       }
       controlPoses.splice(startIndex + i2, 0, {
         horizontal: HORIZONTAL_RADIUS_DIRECTIONS[i2],
         vertical: 0,
-        pos: [x, y2]
+        pos: [x2, y2]
       });
-      poses.splice(startIndex + i2, 0, [x, y2]);
+      poses.splice(startIndex + i2, 0, [x2, y2]);
       if (i2 === 0) {
         break;
       }
@@ -42462,7 +42581,7 @@ function addRadiusPos(controlPoses, poses, startIndex, horizontalIndex, vertical
     }
     var startVerticalIndex = verticalRange[0];
     for (var i2 = verticalRange[1]; i2 <= verticalIndex; ++i2) {
-      var x = HORIZONTAL_RADIUS_DIRECTIONS[i2] === 1 ? left : right;
+      var x2 = HORIZONTAL_RADIUS_DIRECTIONS[i2] === 1 ? left : right;
       var y2 = 0;
       if (verticalIndex === i2) {
         y2 = distY;
@@ -42476,9 +42595,9 @@ function addRadiusPos(controlPoses, poses, startIndex, horizontalIndex, vertical
       controlPoses.push({
         horizontal: 0,
         vertical: VERTICAL_RADIUS_DIRECTIONS[i2],
-        pos: [x, y2]
+        pos: [x2, y2]
       });
-      poses.push([x, y2]);
+      poses.push([x2, y2]);
       if (i2 === 0) {
         break;
       }
@@ -42533,7 +42652,7 @@ function getClipStyles(moveable, clipPath, poses) {
     });
     if (poses.length > 8) {
       var _c3 = minus(poses[4], poses[0]), subWidth = _c3[0], subHeight = _c3[1];
-      clipStyles.push.apply(clipStyles, __spreadArrays$1(["round"], getRadiusStyles(poses.slice(8), clipPoses.slice(8), clipRelative, subWidth, subHeight, left, top, right, bottom).styles));
+      clipStyles.push.apply(clipStyles, __spreadArray(["round"], getRadiusStyles(poses.slice(8), clipPoses.slice(8), clipRelative, subWidth, subHeight, left, top, right, bottom).styles));
     }
     return clipStyles;
   } else if (isCircle || clipType === "ellipse") {
@@ -42549,13 +42668,13 @@ function getRectPoses(top, right, bottom, left) {
   var ys = [top, (top + bottom) / 2, bottom];
   return CLIP_RECT_DIRECTIONS.map(function(_a3) {
     var dirx = _a3[0], diry = _a3[1], dir = _a3[2];
-    var x = xs[dirx + 1];
+    var x2 = xs[dirx + 1];
     var y2 = ys[diry + 1];
     return {
       vertical: Math.abs(diry),
       horizontal: Math.abs(dirx),
       direction: dir,
-      pos: [x, y2]
+      pos: [x2, y2]
     };
   });
 }
@@ -42612,7 +42731,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
       radiusY_1 = convertUnitSize(yRadius, height);
     }
     var centerPos_1 = [convertUnitSize(xPos, width), convertUnitSize(yPos, height)];
-    var poses = __spreadArrays$1([{
+    var poses = __spreadArray([{
       vertical: 1,
       horizontal: 1,
       pos: centerPos_1,
@@ -42651,7 +42770,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
     var nextRight = width - right;
     var nextBottom = height - bottom;
     var radiusPoses = getRadiusValues(radiusValues, nextRight - left, nextBottom - top, left, top);
-    var poses = __spreadArrays$1(getRectPoses(top, nextRight, nextBottom, left), radiusPoses);
+    var poses = __spreadArray(__spreadArray([], getRectPoses(top, nextRight, nextBottom, left)), radiusPoses);
     return {
       type: "inset",
       clipText,
@@ -42770,7 +42889,7 @@ var Clippable = {
   css: [".control.clip-control {\n    background: #6d6;\n    cursor: pointer;\n}\n.control.clip-control.clip-radius {\n    background: #d66;\n}\n.line.clip-line {\n    background: #6e6;\n    cursor: move;\n    z-index: 1;\n}\n.clip-area {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n.clip-ellipse {\n    position: absolute;\n    cursor: move;\n    border: 1px solid #6d6;\n    border: var(--zoompx) solid #6d6;\n    border-radius: 50%;\n    transform-origin: 0px 0px;\n}", ":host {\n    --bounds-color: #d66;\n}", ".guideline {\n    pointer-events: none;\n    z-index: 2;\n}", ".line.guideline.bounds {\n    background: #d66;\n    background: var(--bounds-color);\n}"],
   render: function(moveable, React) {
     var _a3 = moveable.props, customClipPath = _a3.customClipPath, defaultClipPath = _a3.defaultClipPath, clipArea = _a3.clipArea, zoom = _a3.zoom;
-    var _b3 = moveable.state, target = _b3.target, width = _b3.width, height = _b3.height, allMatrix = _b3.allMatrix, is3d = _b3.is3d, left = _b3.left, top = _b3.top, pos1 = _b3.pos1, pos2 = _b3.pos2, pos3 = _b3.pos3, pos4 = _b3.pos4, clipPathState = _b3.clipPathState, snapBoundInfos = _b3.snapBoundInfos;
+    var _b3 = moveable.state, target = _b3.target, width = _b3.width, height = _b3.height, allMatrix = _b3.allMatrix, is3d = _b3.is3d, left = _b3.left, top = _b3.top, pos1 = _b3.pos1, pos2 = _b3.pos2, pos3 = _b3.pos3, pos4 = _b3.pos4, clipPathState = _b3.clipPathState, snapBoundInfos = _b3.snapBoundInfos, rotationRad = _b3.rotation;
     if (!target) {
       return [];
     }
@@ -42813,7 +42932,7 @@ var Clippable = {
         className: prefix("control", "clip-control", "snap-control"),
         "data-clip-index": i3,
         style: {
-          transform: "translate(" + pos[0] + "px, " + pos[1] + "px) scale(" + zoom + ")"
+          transform: "translate(" + pos[0] + "px, " + pos[1] + "px) rotate(" + rotationRad + "rad) scale(" + zoom + ")"
         }
       });
     });
@@ -42824,7 +42943,7 @@ var Clippable = {
           className: prefix("control", "clip-control", "clip-radius", "snap-control"),
           "data-clip-index": 8 + i3,
           style: {
-            transform: "translate(" + pos[0] + "px, " + pos[1] + "px) scale(" + zoom + ")"
+            transform: "translate(" + pos[0] + "px, " + pos[1] + "px) rotate(" + rotationRad + "rad) scale(" + zoom + ")"
           }
         });
       }));
@@ -42862,7 +42981,7 @@ var Clippable = {
       }));
     }
     if (clipArea) {
-      var _d2 = getRect(__spreadArrays$1([pos1, pos2, pos3, pos4], poses)), allWidth = _d2.width, allHeight = _d2.height, allLeft_1 = _d2.left, allTop_1 = _d2.top;
+      var _d2 = getRect(__spreadArray([pos1, pos2, pos3, pos4], poses)), allWidth = _d2.width, allHeight = _d2.height, allLeft_1 = _d2.left, allTop_1 = _d2.top;
       if (isPolygon || isRect || isInset) {
         var areaPoses = isInset ? poses.slice(0, 8) : poses;
         controls.push(React.createElement("div", {
@@ -42901,7 +43020,7 @@ var Clippable = {
         }
       });
     }
-    return __spreadArrays$1(controls, lines);
+    return __spreadArray(__spreadArray([], controls), lines);
   },
   dragControlCondition: function(moveable, e) {
     return e.inputEvent && (e.inputEvent.target.getAttribute("class") || "").indexOf("clip") > -1;
@@ -42925,7 +43044,7 @@ var Clippable = {
     var _a3 = moveable.props, defaultClipPath = _a3.defaultClipPath, customClipPath = _a3.customClipPath;
     var target = state.target, width = state.width, height = state.height;
     var inputTarget = e.inputEvent ? e.inputEvent.target : null;
-    var className = inputTarget ? inputTarget.getAttribute("class") : "";
+    var className = inputTarget && inputTarget.getAttribute("class") || "";
     var datas = e.datas;
     var clipPath = getClipPath(target, width, height, defaultClipPath || "inset", customClipPath);
     if (!clipPath) {
@@ -42943,7 +43062,7 @@ var Clippable = {
       datas.isClipStart = false;
       return false;
     }
-    datas.isControl = className.indexOf("clip-control") > -1;
+    datas.isControl = className && className.indexOf("clip-control") > -1;
     datas.isLine = className.indexOf("clip-line") > -1;
     datas.isArea = className.indexOf("clip-area") > -1 || className.indexOf("clip-ellipse") > -1;
     datas.index = inputTarget ? parseInt(inputTarget.getAttribute("data-clip-index"), 10) : -1;
@@ -42954,16 +43073,16 @@ var Clippable = {
     return true;
   },
   dragControl: function(moveable, e) {
+    var _a3;
     var datas = e.datas, originalDatas = e.originalDatas;
     if (!datas.isClipStart) {
       return false;
     }
-    var draggableData = originalDatas && originalDatas.draggable || {};
-    var _a3 = datas, isControl = _a3.isControl, isLine = _a3.isLine, isArea = _a3.isArea, index = _a3.index, clipPath = _a3.clipPath;
+    var _b3 = datas, isControl = _b3.isControl, isLine = _b3.isLine, isArea = _b3.isArea, index = _b3.index, clipPath = _b3.clipPath;
     if (!clipPath) {
       return false;
     }
-    var _b3 = draggableData.isDrag ? draggableData.prevDist : getDragDist(e), distX = _b3[0], distY = _b3[1];
+    var _c3 = getDragDist(e), distX = _c3[0], distY = _c3[1];
     var props = moveable.props;
     var state = moveable.state;
     var width = state.width, height = state.height;
@@ -42982,7 +43101,7 @@ var Clippable = {
       return [0, 0];
     });
     if (isControl && !isAll) {
-      var _c3 = clipPoses[index], horizontal = _c3.horizontal, vertical = _c3.vertical;
+      var _d2 = clipPoses[index], horizontal = _d2.horizontal, vertical = _d2.vertical;
       var dist = [distX * Math.abs(horizontal), distY * Math.abs(vertical)];
       dists = moveControlPos(clipPoses, index, dist, isRect);
     } else if (isAll) {
@@ -42993,7 +43112,7 @@ var Clippable = {
     var nextPoses = poses.map(function(pos, i3) {
       return plus(pos, dists[i3]);
     });
-    var guidePoses = __spreadArrays$1(nextPoses);
+    var guidePoses = __spreadArray([], nextPoses);
     state.snapBoundInfos = null;
     var isCircle = clipPath.type === "circle";
     var isEllipse = clipPath.type === "ellipse";
@@ -43050,12 +43169,12 @@ var Clippable = {
     }
     var boundDelta = [0, 0];
     var _loop_12 = function(i3) {
-      var _a4 = checkSnapBounds(guidelines, props.clipTargetBounds && {
+      var _e = checkSnapBounds(guidelines, props.clipTargetBounds && {
         left: 0,
         top: 0,
         right: width,
         bottom: height
-      }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _a4.horizontal, verticalSnapInfo = _a4.vertical;
+      }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _e.horizontal, verticalSnapInfo = _e.vertical;
       var snapOffsetY = horizontalSnapInfo.offset;
       var snapOffsetX = verticalSnapInfo.offset;
       if (horizontalSnapInfo.isBound) {
@@ -43128,6 +43247,9 @@ var Clippable = {
       bottom: height
     }, guideXPoses, guideYPoses, 1);
     if (originalDatas.draggable) {
+      var is3d = state.is3d, allMatrix = state.allMatrix;
+      var n = is3d ? 4 : 3;
+      _a3 = multiply(allMatrix, [boundDelta[0], boundDelta[1], 0, 0], n), boundDelta[0] = _a3[0], boundDelta[1] = _a3[1];
       originalDatas.draggable.deltaOffset = boundDelta;
     }
     triggerEvent(moveable, "onClip", fillParams(moveable, e, {
@@ -43542,6 +43664,10 @@ var Roundable = {
     moveable.state.borderRadiusState = "";
   }
 };
+function isIdentityMatrix(matrix, is3d) {
+  var value = is3d ? "matrix3d(" + createIdentityMatrix(4) : "matrix(" + createIdentityMatrix(3) + ")";
+  return matrix === value || matrix === "matrix(1,0,0,1,0,0)";
+}
 var BeforeRenderable = {
   isPinch: true,
   name: "beforeRenderable",
@@ -43554,13 +43680,15 @@ var BeforeRenderable = {
     onBeforeRenderGroup: "beforeRenderGroup",
     onBeforeRenderGroupEnd: "beforeRenderGroupEnd"
   },
+  dragRelation: "weak",
   setTransform: function(moveable, e) {
     var _a3 = moveable.state, is3d = _a3.is3d, target = _a3.target, targetMatrix = _a3.targetMatrix;
     var transform = target === null || target === void 0 ? void 0 : target.style.transform;
     var cssMatrix = is3d ? "matrix3d(" + targetMatrix.join(",") + ")" : "matrix(" + convertMatrixtoCSS(targetMatrix, true) + ")";
-    e.datas.startTransforms = !transform || transform === "none" ? [cssMatrix] : splitSpace(transform);
+    var startTransform = !transform || transform === "none" ? cssMatrix : transform;
+    e.datas.startTransforms = isIdentityMatrix(startTransform, is3d) ? [] : splitSpace(startTransform);
   },
-  resetTransform: function(moveable, e) {
+  resetTransform: function(e) {
     e.datas.nextTransforms = e.datas.startTransforms;
     e.datas.nextTransformAppendedIndexes = [];
   },
@@ -43582,7 +43710,7 @@ var BeforeRenderable = {
     triggerEvent(moveable, "onBeforeRenderStart", this.fillDragStartParams(moveable, e));
   },
   drag: function(moveable, e) {
-    this.resetTransform(moveable, e);
+    this.resetTransform(e);
     triggerEvent(moveable, "onBeforeRender", fillParams(moveable, e, {
       isPinch: !!e.isPinch
     }));
@@ -43618,7 +43746,7 @@ var BeforeRenderable = {
     var moveables = moveable.moveables;
     var params = events.map(function(childEvent, i2) {
       var childMoveable = moveables[i2];
-      _this.resetTransform(childMoveable, childEvent);
+      _this.resetTransform(childEvent);
       return _this.fillDragParams(childMoveable, childEvent);
     });
     triggerEvent(moveable, "onBeforeRenderGroup", fillParams(moveable, e, {
@@ -43665,21 +43793,22 @@ var Renderable = {
     onRenderGroup: "renderGroup",
     onRenderGroupEnd: "renderGroupEnd"
   },
+  dragRelation: "weak",
   dragStart: function(moveable, e) {
     triggerEvent(moveable, "onRenderStart", fillParams(moveable, e, {
       isPinch: !!e.isPinch
     }));
   },
   drag: function(moveable, e) {
-    triggerEvent(moveable, "onRender", fillParams(moveable, e, {
-      isPinch: !!e.isPinch
-    }));
+    triggerEvent(moveable, "onRender", this.fillDragParams(moveable, e));
+  },
+  dragAfter: function(moveable, e) {
+    if (e.resultCount) {
+      return this.drag(moveable, e);
+    }
   },
   dragEnd: function(moveable, e) {
-    triggerEvent(moveable, "onRenderEnd", fillParams(moveable, e, {
-      isPinch: !!e.isPinch,
-      isDrag: e.isDrag
-    }));
+    triggerEvent(moveable, "onRenderEnd", this.fillDragEndParams(moveable, e));
   },
   dragGroupStart: function(moveable, e) {
     triggerEvent(moveable, "onRenderGroupStart", fillParams(moveable, e, {
@@ -43688,16 +43817,33 @@ var Renderable = {
     }));
   },
   dragGroup: function(moveable, e) {
+    var _this = this;
+    var events = fillChildEvents(moveable, "beforeRenderable", e);
+    var moveables = moveable.moveables;
+    var params = events.map(function(childEvent, i2) {
+      var childMoveable = moveables[i2];
+      return _this.fillDragParams(childMoveable, childEvent);
+    });
     triggerEvent(moveable, "onRenderGroup", fillParams(moveable, e, {
       isPinch: !!e.isPinch,
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      transform: getNextTransformText(e),
+      events: params
     }));
   },
   dragGroupEnd: function(moveable, e) {
+    var _this = this;
+    var events = fillChildEvents(moveable, "beforeRenderable", e);
+    var moveables = moveable.moveables;
+    var params = events.map(function(childEvent, i2) {
+      var childMoveable = moveables[i2];
+      return _this.fillDragEndParams(childMoveable, childEvent);
+    });
     triggerEvent(moveable, "onRenderGroupEnd", fillParams(moveable, e, {
       isPinch: !!e.isPinch,
       isDrag: e.isDrag,
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events: params
     }));
   },
   dragControlStart: function(moveable, e) {
@@ -43705,6 +43851,9 @@ var Renderable = {
   },
   dragControl: function(moveable, e) {
     return this.drag(moveable, e);
+  },
+  dragControlAfter: function(moveable, e) {
+    return this.dragAfter(moveable, e);
   },
   dragControlEnd: function(moveable, e) {
     return this.dragEnd(moveable, e);
@@ -43717,6 +43866,18 @@ var Renderable = {
   },
   dragGroupControlEnd: function(moveable, e) {
     return this.dragGroupEnd(moveable, e);
+  },
+  fillDragParams: function(moveable, e) {
+    return fillParams(moveable, e, {
+      isPinch: !!e.isPinch,
+      transform: getNextTransformText(e)
+    });
+  },
+  fillDragEndParams: function(moveable, e) {
+    return fillParams(moveable, e, {
+      isPinch: !!e.isPinch,
+      isDrag: e.isDrag
+    });
   }
 };
 function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, e, requestInstant) {
@@ -43729,15 +43890,15 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   var eventName = "" + eventOperation + eventAffix + eventType;
   var conditionName = "" + eventOperation + eventAffix + "Condition";
   var isEnd = eventType === "End";
-  var isAfter = eventType.indexOf("After") > -1;
+  var isAfter = eventType === "After";
   var isFirstStart = isStart && (!moveable.targetGesto || !moveable.controlGesto || !moveable.targetGesto.isFlag() || !moveable.controlGesto.isFlag());
   if (isFirstStart) {
     moveable.updateRect(eventType, true, false);
   }
-  if (eventType === "" && !isAfter && !isRequest) {
+  if (eventType === "" && !isRequest) {
     convertDragDist(moveable.state, e);
   }
-  var ables = __spreadArrays$1([BeforeRenderable], moveable[ableType], [Renderable]);
+  var ables = __spreadArray([], moveable[ableType]);
   if (isRequest) {
     var requestAble_1 = e.requestAble;
     if (!ables.some(function(able) {
@@ -43751,12 +43912,12 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   if (!ables.length) {
     return false;
   }
-  var events = ables.filter(function(able) {
+  var eventAbles = __spreadArray(__spreadArray([BeforeRenderable], ables), [Renderable]).filter(function(able) {
     return able[eventName];
   });
   var datas = e.datas;
   if (isFirstStart) {
-    events.forEach(function(able) {
+    eventAbles.forEach(function(able) {
       able.unset && able.unset(moveable);
     });
   }
@@ -43765,23 +43926,44 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   if (isEnd && inputEvent) {
     inputTarget = document.elementFromPoint(e.clientX, e.clientY) || inputEvent.target;
   }
-  var results = events.filter(function(able) {
+  var resultCount = 0;
+  var results = eventAbles.filter(function(able) {
     var ableName = able.name;
     var nextDatas = datas[ableName] || (datas[ableName] = {});
     if (isStart) {
       nextDatas.isEventStart = !able[conditionName] || able[conditionName](moveable, e);
     }
     if (nextDatas.isEventStart) {
-      return able[eventName](moveable, __assign$2(__assign$2({}, e), {
+      var result = able[eventName](moveable, __assign$2(__assign$2({}, e), {
+        resultCount,
         datas: nextDatas,
         originalDatas: datas,
         inputTarget
       }));
+      if (isStart && result === false) {
+        nextDatas.isEventStart = false;
+      }
+      resultCount += result ? 1 : 0;
+      return result;
     }
     return false;
   });
   var isUpdate = results.length;
-  var isForceEnd = isStart && events.length && !isUpdate;
+  var isForceEnd = false;
+  if (isStart && eventAbles.length && !isUpdate) {
+    isForceEnd = eventAbles.filter(function(able) {
+      var ableName = able.name;
+      var nextDatas = datas[ableName];
+      if (nextDatas.isEventStart) {
+        if (able.dragRelation === "strong") {
+          nextDatas.isEventStart = false;
+          return false;
+        }
+        return true;
+      }
+      return false;
+    }).length === 0;
+  }
   if (isEnd || isForceEnd) {
     moveable.state.gesto = null;
     if (moveable.moveables) {
@@ -43791,15 +43973,18 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
     }
   }
   if (isFirstStart && isForceEnd) {
-    events.forEach(function(able) {
+    eventAbles.forEach(function(able) {
       able.unset && able.unset(moveable);
     });
+  }
+  if (isStart && !isRequest && isUpdate) {
+    e === null || e === void 0 ? void 0 : e.preventDefault();
   }
   if (moveable.isUnmounted || isForceEnd) {
     return false;
   }
   if (!isStart && isUpdate && !requestInstant || isEnd) {
-    moveable.updateRect(eventType, true, false);
+    moveable.updateRect(isEnd ? eventType : "", true, false);
     moveable.forceUpdate();
   }
   if (!isStart && !isEnd && !isAfter && isUpdate && !requestInstant) {
@@ -43817,7 +44002,7 @@ function getTargetAbleGesto(moveable, moveableTarget, eventAffix) {
   var startFunc = function(e) {
     var eventTarget = e.inputEvent.target;
     var areaElement = moveable.areaElement;
-    return eventTarget === areaElement || !moveable.isMoveableElement(eventTarget) || hasClass(eventTarget, "moveable-area") || hasClass(eventTarget, "moveable-padding");
+    return eventTarget === areaElement || !moveable.isMoveableElement(eventTarget) && !moveable.controlBox.getElement().contains(eventTarget) || hasClass(eventTarget, "moveable-area") || hasClass(eventTarget, "moveable-padding");
   };
   return getAbleGesto(moveable, targets, "targetAbles", eventAffix, {
     dragStart: startFunc,
@@ -43830,6 +44015,7 @@ function getAbleGesto(moveable, target, ableType, eventAffix, conditionFunctions
   }
   var _a3 = moveable.props, pinchOutside = _a3.pinchOutside, pinchThreshold = _a3.pinchThreshold;
   var options = {
+    preventDefault: false,
     container: window,
     pinchThreshold,
     pinchOutside
@@ -43904,9 +44090,30 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
       "mouseEnter": null,
       "mouseLeave": null
     };
+    _this._prevTarget = null;
+    _this._prevDragArea = false;
+    _this._observer = null;
+    _this._observerId = 0;
     _this.onPreventClick = function(e) {
       e.stopPropagation();
       removeEvent(window, "click", _this.onPreventClick, true);
+    };
+    _this.checkUpdateRect = function() {
+      if (_this.isDragging()) {
+        return;
+      }
+      var parentMoveable = _this.props.parentMoveable;
+      if (parentMoveable) {
+        parentMoveable.checkUpdateRect();
+        return;
+      }
+      cancelAnimationFrame$1(_this._observerId);
+      _this._observerId = requestAnimationFrame$1(function() {
+        if (_this.isDragging()) {
+          return;
+        }
+        _this.updateRect();
+      });
     };
     return _this;
   }
@@ -43949,25 +44156,29 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     this.controlBox.getElement();
     var props = this.props;
     var parentMoveable = props.parentMoveable, container = props.container, wrapperMoveable = props.wrapperMoveable;
-    this.updateEvent(props);
-    this.updateNativeEvents(props);
+    this._updateTargets();
+    this._updateNativeEvents();
+    this._updateEvents();
     if (!container && !parentMoveable && !wrapperMoveable) {
       this.updateRect("", false, true);
     }
     this.updateCheckInput();
+    this._updateObserver(this.props);
   };
   __proto.componentDidUpdate = function(prevProps) {
-    this.updateNativeEvents(prevProps);
-    this.updateEvent(prevProps);
+    this._updateNativeEvents();
+    this._updateEvents();
+    this._updateTargets();
     this.updateCheckInput();
+    this._updateObserver(prevProps);
   };
   __proto.componentWillUnmount = function() {
     this.isUnmounted = true;
     unset(this, "targetGesto");
     unset(this, "controlGesto");
     var events = this.events;
-    for (var name in events) {
-      var manager = events[name];
+    for (var name2 in events) {
+      var manager = events[name2];
       manager && manager.destroy();
     }
   };
@@ -44031,77 +44242,6 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var container = this.getContainer();
     var rootContainer = parentMoveable ? parentMoveable.props.rootContainer : props.rootContainer;
     this.updateState(getTargetInfo(this.controlBox && this.controlBox.getElement(), target, container, container, rootContainer || container), parentMoveable ? false : isSetState);
-  };
-  __proto.isTargetChanged = function(prevProps, useDragArea) {
-    var props = this.props;
-    var target = props.dragTarget || props.target;
-    var prevTarget = prevProps.dragTarget || prevProps.target;
-    var dragArea = props.dragArea;
-    var prevDragArea = prevProps.dragArea;
-    var isTargetChanged = !dragArea && prevTarget !== target;
-    return isTargetChanged || (useDragArea || dragArea) && prevDragArea !== dragArea;
-  };
-  __proto.updateNativeEvents = function(prevProps) {
-    var _this = this;
-    var props = this.props;
-    var target = props.dragArea ? this.areaElement : this.state.target;
-    var events = this.events;
-    var eventKeys = getKeys(events);
-    if (this.isTargetChanged(prevProps)) {
-      for (var eventName in events) {
-        var manager = events[eventName];
-        manager && manager.destroy();
-        events[eventName] = null;
-      }
-    }
-    if (!target) {
-      return;
-    }
-    var enabledAbles = this.enabledAbles;
-    eventKeys.forEach(function(eventName2) {
-      var ables = filterAbles(enabledAbles, [eventName2]);
-      var hasAbles = ables.length > 0;
-      var manager2 = events[eventName2];
-      if (!hasAbles) {
-        if (manager2) {
-          manager2.destroy();
-          events[eventName2] = null;
-        }
-        return;
-      }
-      if (!manager2) {
-        manager2 = new EventManager(target, _this, eventName2);
-        events[eventName2] = manager2;
-      }
-      manager2.setAbles(ables);
-    });
-  };
-  __proto.updateEvent = function(prevProps) {
-    var controlBoxElement = this.controlBox.getElement();
-    var hasTargetAble = this.targetAbles.length;
-    var hasControlAble = this.controlAbles.length;
-    var props = this.props;
-    var target = props.dragTarget || props.target;
-    var isTargetChanged = this.isTargetChanged(prevProps, true);
-    var isUnset = !hasTargetAble && this.targetGesto || isTargetChanged;
-    if (isUnset) {
-      unset(this, "targetGesto");
-      this.updateState({
-        gesto: null
-      });
-    }
-    if (!hasControlAble) {
-      unset(this, "controlGesto");
-    }
-    if (target && hasTargetAble && !this.targetGesto) {
-      this.targetGesto = getTargetAbleGesto(this, target, "");
-    }
-    if (!this.controlGesto && hasControlAble) {
-      this.controlGesto = getAbleGesto(this, controlBoxElement, "controlAbles", "Control");
-    }
-    if (isUnset) {
-      this.unsetAbles();
-    }
   };
   __proto.isDragging = function() {
     return (this.targetGesto ? this.targetGesto.isFlag() : false) || (this.controlGesto ? this.controlGesto.isFlag() : false);
@@ -44212,16 +44352,20 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     if (!isChanged) {
       return;
     }
+    var moveableContainer = container || this.controlBox;
+    if (moveableContainer) {
+      this.unsetAbles();
+    }
     this.updateState({
       target,
       container
     });
-    if (!parentMoveable && (container || this.controlBox)) {
+    if (!parentMoveable && moveableContainer) {
       this.updateRect("End", false, false);
     }
   };
-  __proto.triggerEvent = function(name, e) {
-    var callback = this.props[name];
+  __proto.triggerEvent = function(name2, e) {
+    var callback = this.props[name2];
     return callback && callback(e);
   };
   __proto.useCSS = function(tag, css) {
@@ -44234,15 +44378,11 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   };
   __proto.unsetAbles = function() {
     var _this = this;
-    if (this.targetAbles.filter(function(able) {
+    this.targetAbles.forEach(function(able) {
       if (able.unset) {
         able.unset(_this);
-        return true;
       }
-      return false;
-    }).length) {
-      this.forceUpdate();
-    }
+    });
   };
   __proto.updateAbles = function(ables, eventAffix) {
     if (ables === void 0) {
@@ -44254,7 +44394,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var props = this.props;
     var triggerAblesSimultaneously = props.triggerAblesSimultaneously;
     var enabledAbles = ables.filter(function(able) {
-      return able && (able.always || props[able.name]);
+      return able && (able.always && props[able.name] !== false || props[able.name]);
     });
     var dragStart = "drag" + eventAffix + "Start";
     var pinchStart = "pinch" + eventAffix + "Start";
@@ -44270,8 +44410,8 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
       this.setState(nextState);
     } else {
       var state = this.state;
-      for (var name in nextState) {
-        state[name] = nextState[name];
+      for (var name2 in nextState) {
+        state[name2] = nextState[name2];
       }
     }
   };
@@ -44304,6 +44444,52 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   __proto.updateCheckInput = function() {
     this.targetGesto && (this.targetGesto.options.checkInput = this.props.checkInput);
   };
+  __proto._updateObserver = function(prevProps) {
+    var _a3;
+    var props = this.props;
+    var target = props.target;
+    if (!window.ResizeObserver || !target || !props.useResizeObserver) {
+      (_a3 = this._observer) === null || _a3 === void 0 ? void 0 : _a3.disconnect();
+      return;
+    }
+    if (prevProps.target === target && this._observer) {
+      return;
+    }
+    var observer = new ResizeObserver(this.checkUpdateRect);
+    observer.observe(target, {
+      box: "border-box"
+    });
+    this._observer = observer;
+    return;
+  };
+  __proto._updateEvents = function() {
+    var controlBoxElement = this.controlBox.getElement();
+    var hasTargetAble = this.targetAbles.length;
+    var hasControlAble = this.controlAbles.length;
+    var props = this.props;
+    var target = props.dragTarget || props.target;
+    var isUnset = !hasTargetAble && this.targetGesto || this._isTargetChanged(true);
+    if (isUnset) {
+      unset(this, "targetGesto");
+      this.updateState({
+        gesto: null
+      });
+    }
+    if (!hasControlAble) {
+      unset(this, "controlGesto");
+    }
+    if (target && hasTargetAble && !this.targetGesto) {
+      this.targetGesto = getTargetAbleGesto(this, target, "");
+    }
+    if (!this.controlGesto && hasControlAble) {
+      this.controlGesto = getAbleGesto(this, controlBoxElement, "controlAbles", "Control");
+    }
+  };
+  __proto._updateTargets = function() {
+    var props = this.props;
+    this._prevTarget = props.dragTarget || props.target;
+    this._prevDragArea = props.dragArea;
+  };
   __proto._renderLines = function() {
     var props = this.props;
     var edge = props.edge, zoom = props.zoom, hideDefaultLines = props.hideDefaultLines;
@@ -44316,6 +44502,51 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     };
     return [renderLine(Renderer2, edge ? "n" : "", renderPoses[0], renderPoses[1], zoom, 0), renderLine(Renderer2, edge ? "e" : "", renderPoses[1], renderPoses[3], zoom, 1), renderLine(Renderer2, edge ? "w" : "", renderPoses[0], renderPoses[2], zoom, 2), renderLine(Renderer2, edge ? "s" : "", renderPoses[2], renderPoses[3], zoom, 3)];
   };
+  __proto._isTargetChanged = function(useDragArea) {
+    var props = this.props;
+    var target = props.dragTarget || props.target;
+    var prevTarget = this._prevTarget;
+    var prevDragArea = this._prevDragArea;
+    var dragArea = props.dragArea;
+    var isTargetChanged = !dragArea && prevTarget !== target;
+    var isDragAreaChanged = (useDragArea || dragArea) && prevDragArea !== dragArea;
+    return isTargetChanged || isDragAreaChanged;
+  };
+  __proto._updateNativeEvents = function() {
+    var _this = this;
+    var props = this.props;
+    var target = props.dragArea ? this.areaElement : this.state.target;
+    var events = this.events;
+    var eventKeys = getKeys(events);
+    if (this._isTargetChanged()) {
+      for (var eventName in events) {
+        var manager = events[eventName];
+        manager && manager.destroy();
+        events[eventName] = null;
+      }
+    }
+    if (!target) {
+      return;
+    }
+    var enabledAbles = this.enabledAbles;
+    eventKeys.forEach(function(eventName2) {
+      var ables = filterAbles(enabledAbles, [eventName2]);
+      var hasAbles = ables.length > 0;
+      var manager2 = events[eventName2];
+      if (!hasAbles) {
+        if (manager2) {
+          manager2.destroy();
+          events[eventName2] = null;
+        }
+        return;
+      }
+      if (!manager2) {
+        manager2 = new EventManager(target, _this, eventName2);
+        events[eventName2] = manager2;
+      }
+      manager2.setAbles(ables);
+    });
+  };
   MoveableManager2.defaultProps = {
     target: null,
     dragTarget: null,
@@ -44327,6 +44558,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     wrapperMoveable: null,
     parentPosition: null,
     portalContainer: null,
+    useResizeObserver: false,
     ables: [],
     pinchThreshold: 20,
     dragArea: false,
@@ -44364,14 +44596,16 @@ var Groupable = {
       left,
       top
     };
+    var props = moveable.props;
     return targets.map(function(target, i2) {
       return React.createElement(MoveableManager$1, {
         key: "moveable" + i2,
         ref: refs(moveable, "moveables", i2),
         target,
         origin: false,
-        cssStyled: moveable.props.cssStyled,
-        customStyledMap: moveable.props.customStyledMap,
+        cssStyled: props.cssStyled,
+        customStyledMap: props.customStyledMap,
+        useResizeObserver: props.useResizeObserver,
         parentMoveable: moveable,
         parentPosition: position
       });
@@ -44379,12 +44613,15 @@ var Groupable = {
   }
 };
 var Clickable = makeAble("clickable", {
-  props: {},
+  props: {
+    clickable: Boolean
+  },
   events: {
     onClick: "click",
     onClickGroup: "clickGroup"
   },
   always: true,
+  dragRelation: "weak",
   dragStart: function(moveable, e) {
     if (!e.isRequest) {
       addEvent(window, "click", moveable.onPreventClick, true);
@@ -44402,10 +44639,12 @@ var Clickable = makeAble("clickable", {
     var target = moveable.state.target;
     var inputEvent = e.inputEvent;
     var inputTarget = e.inputTarget;
-    if (!e.isDrag) {
+    var isMoveableElement = moveable.isMoveableElement(inputTarget);
+    var containsElement = !isMoveableElement && moveable.controlBox.getElement().contains(inputTarget);
+    if (!e.isDrag || containsElement) {
       this.unset(moveable);
     }
-    if (!inputEvent || !inputTarget || e.isDrag || moveable.isMoveableElement(inputTarget)) {
+    if (!inputEvent || !inputTarget || e.isDrag || moveable.isMoveableElement(inputTarget) || containsElement) {
       return;
     }
     var containsTarget = target.contains(inputTarget);
@@ -44442,15 +44681,15 @@ var Clickable = makeAble("clickable", {
       containsTarget
     }));
   },
-  dragControlEnd: function(moveable) {
-    this.endEvent(moveable);
+  dragControlEnd: function(moveable, e) {
+    this.dragEnd(moveable, e);
   },
-  dragGroupControlEnd: function(moveable) {
-    this.endEvent(moveable);
+  dragGroupControlEnd: function(moveable, e) {
+    this.dragEnd(moveable, e);
   },
   endEvent: function(moveable) {
     var _this = this;
-    requestAnimationFrame(function() {
+    requestAnimationFrame$1(function() {
       _this.unset(moveable);
     });
   },
@@ -44502,7 +44741,7 @@ var edgeDraggable = makeAble("edgeDraggable", {
     return Draggable.dragGroupEnd(moveable, getDraggableEvent(e));
   },
   unset: function(moveable) {
-    moveable.state.dragInfo = null;
+    return Draggable.unset(moveable);
   }
 });
 var IndividualGroupable = {
@@ -44565,9 +44804,9 @@ function getGroupRect(moveables, rotation) {
     });
     b1MinMax_1.forEach(function(b1) {
       b2MinMax_1.forEach(function(b2) {
-        var x = (b2 - b1) / (a1_1 - a2_1);
-        var y2 = a1_1 * x + b1;
-        minX = Math.min(minX, x);
+        var x2 = (b2 - b1) / (a1_1 - a2_1);
+        var y2 = a1_1 * x2 + b1;
+        minX = Math.min(minX, x2);
         minY = Math.min(minY, y2);
       });
     });
@@ -44600,31 +44839,6 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
     return _this;
   }
   var __proto = MoveableGroup2.prototype;
-  __proto.updateEvent = function(prevProps) {
-    var state = this.state;
-    var props = this.props;
-    var prevTarget = prevProps.dragTarget || state.target;
-    var nextTarget = props.dragTarget || this.areaElement;
-    if (prevTarget !== nextTarget) {
-      unset(this, "targetGesto");
-      unset(this, "controlGesto");
-      state.target = null;
-    }
-    if (!state.target) {
-      state.target = this.areaElement;
-      this.controlBox.getElement().style.display = "block";
-      this.targetGesto = getTargetAbleGesto(this, nextTarget, "Group");
-      this.controlGesto = getAbleGesto(this, this.controlBox.getElement(), "controlAbles", "GroupControl");
-    }
-    var isContainerChanged = !equals(prevProps.container, props.container);
-    if (isContainerChanged) {
-      state.container = props.container;
-    }
-    var _a3 = this.differ.update(props.targets), added = _a3.added, changed = _a3.changed, removed = _a3.removed;
-    if (isContainerChanged || added.length || changed.length || removed.length) {
-      this.updateRect();
-    }
-  };
   __proto.checkUpdate = function() {
     this.updateAbles();
   };
@@ -44685,13 +44899,44 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
       })
     });
   };
-  __proto.triggerEvent = function(name, e, isManager) {
-    if (isManager || name.indexOf("Group") > -1) {
-      return _super.prototype.triggerEvent.call(this, name, e);
+  __proto.triggerEvent = function(name2, e, isManager) {
+    if (isManager || name2.indexOf("Group") > -1) {
+      return _super.prototype.triggerEvent.call(this, name2, e);
     }
   };
   __proto.updateAbles = function() {
-    _super.prototype.updateAbles.call(this, __spreadArrays$1(this.props.ables, [Groupable]), "Group");
+    _super.prototype.updateAbles.call(this, __spreadArray(__spreadArray([], this.props.ables), [Groupable]), "Group");
+  };
+  __proto._updateTargets = function() {
+    _super.prototype._updateTargets.call(this);
+    this._prevTarget = this.props.dragTarget || this.areaElement;
+  };
+  __proto._updateEvents = function() {
+    var state = this.state;
+    var props = this.props;
+    var prevTarget = this._prevTarget;
+    var nextTarget = props.dragTarget || this.areaElement;
+    if (prevTarget !== nextTarget) {
+      unset(this, "targetGesto");
+      unset(this, "controlGesto");
+      state.target = null;
+    }
+    if (!state.target) {
+      state.target = this.areaElement;
+      this.controlBox.getElement().style.display = "block";
+      this.targetGesto = getTargetAbleGesto(this, nextTarget, "Group");
+      this.controlGesto = getAbleGesto(this, this.controlBox.getElement(), "controlAbles", "GroupControl");
+    }
+    var isContainerChanged = !equals(state.container, props.container);
+    if (isContainerChanged) {
+      state.container = props.container;
+    }
+    var _a3 = this.differ.update(props.targets), added = _a3.added, changed = _a3.changed, removed = _a3.removed;
+    if (isContainerChanged || added.length || changed.length || removed.length) {
+      this.updateRect();
+    }
+  };
+  __proto._updateObserver = function() {
   };
   MoveableGroup2.defaultProps = __assign$2(__assign$2({}, MoveableManager$1.defaultProps), {
     transformOrigin: ["50%", "50%"],
@@ -44770,13 +45015,15 @@ var MoveableIndividualGroup = /* @__PURE__ */ function(_super) {
   };
   __proto.updateRenderPoses = function() {
   };
-  __proto.updateEvent = function() {
-  };
   __proto.checkUpdate = function() {
   };
   __proto.triggerEvent = function() {
   };
   __proto.updateAbles = function() {
+  };
+  __proto._updateEvents = function() {
+  };
+  __proto._updateObserver = function() {
   };
   return MoveableIndividualGroup2;
 }(MoveableManager$1);
@@ -44797,15 +45044,15 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
       if (!css) {
         return;
       }
-      css.forEach(function(text) {
-        cssMap[text] = true;
+      css.forEach(function(text2) {
+        cssMap[text2] = true;
       });
     });
     var style = getKeys(cssMap).join("\n");
     this.defaultStyled = styled("div", prefixCSS(PREFIX, MOVEABLE_CSS + style));
   };
   InitialMoveable2.getTotalAbles = function() {
-    return __spreadArrays$1([Default, Groupable, IndividualGroupable, DragArea], this.defaultAbles);
+    return __spreadArray([Default, Groupable, IndividualGroupable, DragArea], this.defaultAbles);
   };
   __proto.render = function() {
     var moveableContructor = this.constructor;
@@ -44813,12 +45060,11 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
       moveableContructor.makeStyled();
     }
     var _a3 = this.props, userAbles = _a3.ables, userProps = _a3.props, props = __rest(_a3, ["ables", "props"]);
-    var refTargets = getRefTargets(props.target || props.targets);
+    var refTargets = this._updateRefs(true);
     var elementTargets = getElementTargets(refTargets, this.selectorMap);
-    this.refTargets = refTargets;
     var isGroup = elementTargets.length > 1;
     var totalAbles = moveableContructor.getTotalAbles();
-    var ables = __spreadArrays$1(totalAbles, userAbles || []);
+    var ables = __spreadArray(__spreadArray([], totalAbles), userAbles || []);
     var nextProps = __assign$2(__assign$2(__assign$2({}, props), userProps || {}), {
       ables,
       cssStyled: moveableContructor.defaultStyled,
@@ -44851,15 +45097,20 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
     }
   };
   __proto.componentDidMount = function() {
-    this.updateRefs();
+    this._updateRefs();
   };
   __proto.componentDidUpdate = function() {
-    this.updateRefs();
+    this._updateRefs();
   };
-  __proto.updateRefs = function(isReset) {
-    var refTargets = getRefTargets(this.props.target || this.props.targets);
-    var isUpdate = this.refTargets.some(function(target, i2) {
-      var nextTarget = refTargets[i2];
+  __proto.getManager = function() {
+    return this.moveable;
+  };
+  __proto._updateRefs = function(isRender) {
+    var prevRefTargets = this.refTargets;
+    var nextRefTargets = getRefTargets(this.props.target || this.props.targets);
+    var isBrowser = typeof document !== "undefined";
+    var isUpdate = prevRefTargets.length !== nextRefTargets.length || prevRefTargets.some(function(target, i2) {
+      var nextTarget = nextRefTargets[i2];
       if (!target && !nextTarget) {
         return false;
       } else if (target !== nextTarget) {
@@ -44867,11 +45118,11 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
       }
       return false;
     });
-    var selectorMap = isReset ? {} : this.selectorMap;
+    var selectorMap = this.selectorMap;
     var nextSelectorMap = {};
     this.refTargets.forEach(function(target) {
       if (isString(target)) {
-        if (!selectorMap[target]) {
+        if (!selectorMap[target] && isBrowser) {
           isUpdate = true;
           nextSelectorMap[target] = [].slice.call(document.querySelectorAll(target));
         } else {
@@ -44879,13 +45130,12 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
         }
       }
     });
+    this.refTargets = nextRefTargets;
     this.selectorMap = nextSelectorMap;
-    if (isUpdate) {
+    if (!isRender && isUpdate) {
       this.forceUpdate();
     }
-  };
-  __proto.getManager = function() {
-    return this.moveable;
+    return nextRefTargets;
   };
   InitialMoveable2.defaultAbles = [];
   InitialMoveable2.customStyledMap = {};
@@ -44920,9 +45170,9 @@ var extendStatics = function(d2, b2) {
   extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
-    for (var p in b3)
-      if (b3.hasOwnProperty(p))
-        d3[p] = b3[p];
+    for (var p2 in b3)
+      if (b3.hasOwnProperty(p2))
+        d3[p2] = b3[p2];
   };
   return extendStatics(d2, b2);
 };
@@ -44937,9 +45187,9 @@ var __assign = function() {
   __assign = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p))
-          t[p] = s2[p];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
     }
     return t;
   };
@@ -44992,9 +45242,9 @@ var __assign$1 = function() {
   __assign$1 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
-      for (var p in s2)
-        if (Object.prototype.hasOwnProperty.call(s2, p))
-          t[p] = s2[p];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
     }
     return t;
   };
@@ -45014,9 +45264,9 @@ var EventEmitter = /* @__PURE__ */ function() {
   }
   var __proto = EventEmitter2.prototype;
   __proto.on = function(eventName, listener) {
-    if (isObject(eventName)) {
-      for (var name in eventName) {
-        this.on(name, eventName[name]);
+    if (isObject$2(eventName)) {
+      for (var name2 in eventName) {
+        this.on(name2, eventName[name2]);
       }
     } else {
       this._addEvent(eventName, listener, {});
@@ -45026,9 +45276,9 @@ var EventEmitter = /* @__PURE__ */ function() {
   __proto.off = function(eventName, listener) {
     if (!eventName) {
       this._events = {};
-    } else if (isObject(eventName)) {
-      for (var name in eventName) {
-        this.off(name);
+    } else if (isObject$2(eventName)) {
+      for (var name2 in eventName) {
+        this.off(name2);
       }
     } else if (!listener) {
       this._events[eventName] = [];
@@ -45107,9 +45357,9 @@ var MoveableManager = /* @__PURE__ */ function(_super) {
     _this.tempElement = document.createElement("div");
     var nextOptions = __assign({}, options);
     var events = {};
-    EVENTS.forEach(function(name) {
-      events[camelize("on " + name)] = function(e) {
-        return _this.trigger(name, e);
+    EVENTS.forEach(function(name2) {
+      events[camelize("on " + name2)] = function(e) {
+        return _this.trigger(name2, e);
       };
     });
     render(createElement(InnerMoveable, __assign({
@@ -45191,7 +45441,7 @@ var __privateSet$3 = (obj, member, value, setter) => {
   setter ? setter.call(obj, value) : member.set(obj, value);
   return value;
 };
-var __privateWrapper2 = (obj, member, setter, getter) => {
+var __privateWrapper = (obj, member, setter, getter) => {
   return {
     set _(value) {
       __privateSet$3(obj, member, value, setter);
@@ -45278,12 +45528,12 @@ const _DesignCast = class {
 }
 `);
   }
-  static setHint(txt, x, y2, dc) {
+  static setHint(txt, x2, y2, dc) {
     _DesignCast.divHint.innerHTML = txt;
     const s2 = window.getComputedStyle(_DesignCast.divHint);
     const w2 = parseFloat(s2.width);
     const h2 = parseFloat(s2.height);
-    _DesignCast.divHint.style.cssText = `display: block; left: ${Math.max(10, dc.lx + x - w2)}px;
+    _DesignCast.divHint.style.cssText = `display: block; left: ${Math.max(10, dc.lx + x2 - w2)}px;
 		top: ${Math.max(10, dc.ly + y2 - h2 - 10)}px;`;
   }
   static cvsResizeDesign() {
@@ -45311,8 +45561,8 @@ const _DesignCast = class {
     __privateGet$3(_DesignCast, _hId2dc)[id_dc] = this;
   }
   includeDesignArg(hArg) {
-    for (const name in hArg)
-      if (name in this.hDesignArg)
+    for (const name2 in hArg)
+      if (name2 in this.hDesignArg)
         return true;
     return false;
   }
@@ -45368,7 +45618,7 @@ const _DesignCast = class {
     const id_dc = (_a3 = this.hArg[":id_dc"]) != null ? _a3 : this.id_tag;
     __privateGet$3(_DesignCast, _hId2dc)[id_dc] = this;
     const d2 = this.div = document.createElement("div");
-    d2.id = __privateGet$3(_DesignCast, _ID_DESIGNMODE) + "_" + ++__privateWrapper2(_DesignCast, _cntDesignCast)._;
+    d2.id = __privateGet$3(_DesignCast, _ID_DESIGNMODE) + "_" + ++__privateWrapper(_DesignCast, _cntDesignCast)._;
     d2.classList.add("sn_design_cast");
     d2.dataset.id_dc = id_dc;
     d2.style.backgroundColor = `${this.bg_col}`;
@@ -45540,30 +45790,30 @@ const _DesignCast = class {
     if (dc.child)
       dc.child.hArg[":token"] = dc.hArg[":token"];
     __privateGet$3(_DesignCast, _alzTagArg).go(args);
-    const p = __privateGet$3(_DesignCast, _alzTagArg).hPrm;
-    if ("pivot_x" in p || "pivot_y" in p) {
-      const px = Number(_DesignCast.prpPrs.getValAmpersand((_a3 = p.pivot_x.val) != null ? _a3 : "0"));
-      const py = Number(_DesignCast.prpPrs.getValAmpersand((_b3 = p.pivot_y.val) != null ? _b3 : "0"));
+    const p2 = __privateGet$3(_DesignCast, _alzTagArg).hPrm;
+    if ("pivot_x" in p2 || "pivot_y" in p2) {
+      const px = Number(_DesignCast.prpPrs.getValAmpersand((_a3 = p2.pivot_x.val) != null ? _a3 : "0"));
+      const py = Number(_DesignCast.prpPrs.getValAmpersand((_b3 = p2.pivot_y.val) != null ? _b3 : "0"));
       if (isNaN(px) || isNaN(py))
         DebugMng.myTrace(`pivot_x\u304Bpivot_y\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093
 (fn:${o[":path"].slice(13)} ln:${o[":ln"]})
 ${token}`, "F");
       dc.pivot.set(px, py);
     }
-    if ("left" in p || "top" in p || "x" in p || "y" in p) {
-      const x = int(_DesignCast.prpPrs.getValAmpersand((_d2 = (_c3 = p.left.val) != null ? _c3 : p.x.val) != null ? _d2 : "0"));
-      const y2 = int(_DesignCast.prpPrs.getValAmpersand((_f = (_e = p.top.val) != null ? _e : p.y.val) != null ? _f : "0"));
-      if (isNaN(x) || isNaN(y2))
+    if ("left" in p2 || "top" in p2 || "x" in p2 || "y" in p2) {
+      const x2 = int(_DesignCast.prpPrs.getValAmpersand((_d2 = (_c3 = p2.left.val) != null ? _c3 : p2.x.val) != null ? _d2 : "0"));
+      const y2 = int(_DesignCast.prpPrs.getValAmpersand((_f = (_e = p2.top.val) != null ? _e : p2.y.val) != null ? _f : "0"));
+      if (isNaN(x2) || isNaN(y2))
         DebugMng.myTrace(`width\u304Bheight\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093
 (fn:${o[":path"].slice(13)} ln:${o[":ln"]})
 ${token}`, "F");
-      dc.rect.x = x - dc.pivot.x;
+      dc.rect.x = x2 - dc.pivot.x;
       dc.rect.y = y2 - dc.pivot.y;
-      dc.setPos(x, y2);
+      dc.setPos(x2, y2);
     }
-    if ("width" in p || "height" in p) {
-      const w2 = int(_DesignCast.prpPrs.getValAmpersand((_g = p.width.val) != null ? _g : "0"));
-      const h2 = int(_DesignCast.prpPrs.getValAmpersand((_h = p.height.val) != null ? _h : "0"));
+    if ("width" in p2 || "height" in p2) {
+      const w2 = int(_DesignCast.prpPrs.getValAmpersand((_g = p2.width.val) != null ? _g : "0"));
+      const h2 = int(_DesignCast.prpPrs.getValAmpersand((_h = p2.height.val) != null ? _h : "0"));
       if (isNaN(w2) || isNaN(h2))
         DebugMng.myTrace(`width\u304Bheight\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093
 (fn:${o[":path"].slice(13)} ln:${o[":ln"]})
@@ -45572,24 +45822,24 @@ ${token}`, "F");
       dc.rect.height = h2;
       dc.setSize(w2, h2);
     }
-    if ("scale_x" in p || "scale_y" in p) {
-      const sx = Number(_DesignCast.prpPrs.getValAmpersand((_i = p.scale_x.val) != null ? _i : "0"));
-      const sy = Number(_DesignCast.prpPrs.getValAmpersand((_j = p.scale_y.val) != null ? _j : "0"));
+    if ("scale_x" in p2 || "scale_y" in p2) {
+      const sx = Number(_DesignCast.prpPrs.getValAmpersand((_i = p2.scale_x.val) != null ? _i : "0"));
+      const sy = Number(_DesignCast.prpPrs.getValAmpersand((_j = p2.scale_y.val) != null ? _j : "0"));
       if (isNaN(sx) || isNaN(sy))
         DebugMng.myTrace(`scale_x\u304Bscale_y\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093
 (fn:${o[":path"].slice(13)} ln:${o[":ln"]})
 ${token}`, "F");
       dc.scale.set(sx, sy);
     }
-    if ("rotation" in p) {
-      const r2 = Number(_DesignCast.prpPrs.getValAmpersand((_k = p.rotation.val) != null ? _k : "0"));
+    if ("rotation" in p2) {
+      const r2 = Number(_DesignCast.prpPrs.getValAmpersand((_k = p2.rotation.val) != null ? _k : "0"));
       if (isNaN(r2))
         DebugMng.myTrace(`rotation\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093
 (fn:${o[":path"].slice(13)} ln:${o[":ln"]})
 ${token}`, "F");
       dc.rotation = r2;
     }
-    dc.setOther(p);
+    dc.setOther(p2);
     dc.cvsResize();
   }
 };
@@ -45627,7 +45877,7 @@ __privateAdd$3(DesignCast, _aDC, []);
 class GrpLayDesignCast extends DesignCast {
   constructor(spLay, gl) {
     super("#29e", true);
-    __privateAdd(this, _sp, void 0);
+    __privateAdd2(this, _sp, void 0);
     this.spLay = spLay;
     this.gl = gl;
     this.oldFn = () => {
@@ -45636,11 +45886,11 @@ class GrpLayDesignCast extends DesignCast {
     };
   }
   setSp(sp) {
-    __privateSet(this, _sp, sp);
+    __privateSet2(this, _sp, sp);
   }
   getRect() {
     var _a3, _b3, _c3, _d2;
-    return new Rectangle(this.spLay.x, this.spLay.y, (_b3 = (_a3 = __privateGet(this, _sp)) == null ? void 0 : _a3.width) != null ? _b3 : 0, (_d2 = (_c3 = __privateGet(this, _sp)) == null ? void 0 : _c3.height) != null ? _d2 : 0);
+    return new Rectangle(this.spLay.x, this.spLay.y, (_b3 = (_a3 = __privateGet2(this, _sp)) == null ? void 0 : _a3.width) != null ? _b3 : 0, (_d2 = (_c3 = __privateGet2(this, _sp)) == null ? void 0 : _c3.height) != null ? _d2 : 0);
   }
   cnvPosArg(left, top) {
     return { left, top };
@@ -45648,13 +45898,13 @@ class GrpLayDesignCast extends DesignCast {
   cnvSizeArg(width, height) {
     return { width, height };
   }
-  setPos(x, y2) {
-    this.spLay.x = x;
+  setPos(x2, y2) {
+    this.spLay.x = x2;
     this.spLay.y = y2;
   }
   setSize(w2, h2) {
-    __privateGet(this, _sp).width = w2;
-    __privateGet(this, _sp).height = h2;
+    __privateGet2(this, _sp).width = w2;
+    __privateGet2(this, _sp).height = h2;
   }
   setOther(hPrm) {
     var _a3;
@@ -45703,9 +45953,9 @@ class TxtLayDesignCast extends DesignCast {
   cnvSizeArg(width, height) {
     return { width, height };
   }
-  setPos(x, y2) {
-    this.spLay.position.set(x, y2);
-    this.ts.lay(this.cnvPosArg(x, y2));
+  setPos(x2, y2) {
+    this.spLay.position.set(x2, y2);
+    this.ts.lay(this.cnvPosArg(x2, y2));
   }
   setSize(w2, h2) {
     this.ts.lay(this.cnvSizeArg(w2, h2));
@@ -45721,7 +45971,7 @@ class TxtLayDesignCast extends DesignCast {
 class TxtLayPadDesignCast extends DesignCast {
   constructor(ts) {
     super("#9e2");
-    __privateAdd(this, _procHint);
+    __privateAdd2(this, _procHint);
     this.ts = ts;
     this.rotatable = false;
   }
@@ -45739,8 +45989,8 @@ class TxtLayPadDesignCast extends DesignCast {
       pb: it.$height - it.pad_top - h2
     };
   }
-  setPos(x, y2) {
-    this.ts.lay(this.cnvPosArg(x, y2));
+  setPos(x2, y2) {
+    this.ts.lay(this.cnvPosArg(x2, y2));
   }
   setSize(w2, h2) {
     this.ts.lay(__spreadProps(__spreadValues({}, this.cnvSizeArg(w2, h2)), { ":redraw": true }));
@@ -45764,19 +46014,19 @@ class TxtLayPadDesignCast extends DesignCast {
   }
   procDragHint(e, left, top) {
     const [dx, dy] = e.beforeTranslate;
-    __privateMethod(this, _procHint, procHint_fn).call(this, left, top, dx, dy);
+    __privateMethod2(this, _procHint, procHint_fn).call(this, left, top, dx, dy);
   }
   procResizeHint(e, left, top) {
     const [dx, dy] = e.drag.beforeTranslate;
-    __privateMethod(this, _procHint, procHint_fn).call(this, left, top, dx, dy);
+    __privateMethod2(this, _procHint, procHint_fn).call(this, left, top, dx, dy);
   }
 }
 _procHint = new WeakSet();
 procHint_fn = function(left, top, dx, dy) {
-  const x = this.rect.x, y2 = this.rect.y;
+  const x2 = this.rect.x, y2 = this.rect.y;
   const w2 = this.rect.width, h2 = this.rect.height;
   const it = this.ts.infTL;
-  const pl = int(x + dx / DesignCast.sys.cvsScale);
+  const pl = int(x2 + dx / DesignCast.sys.cvsScale);
   const pt = int(y2 + dy / DesignCast.sys.cvsScale);
   const pr = int(it.$width - pl - w2);
   const pb = int(it.$height - pt - h2);
@@ -45813,8 +46063,8 @@ class BtnDesignCast extends DesignCast {
   cnvSizeArg(width, height) {
     return { width, height };
   }
-  setPos(x, y2) {
-    this.btn.x = x;
+  setPos(x2, y2) {
+    this.btn.x = x2;
     this.btn.y = y2;
   }
   setOther(_hPrm2) {
@@ -45864,28 +46114,28 @@ class TxtBtnDesignCast extends BtnDesignCast {
 class PicBtnDesignCast extends BtnDesignCast {
   constructor(btn, hArg) {
     super(btn, hArg);
-    __privateAdd(this, _sp2, void 0);
+    __privateAdd2(this, _sp2, void 0);
     this.oldFn = () => {
       var _a3;
       return (_a3 = this.hArg.pic) != null ? _a3 : "";
     };
   }
   setSp(sp) {
-    __privateSet(this, _sp2, sp);
+    __privateSet2(this, _sp2, sp);
   }
   getRect() {
-    return new Rectangle(this.btn.x, this.btn.y, __privateGet(this, _sp2).width, __privateGet(this, _sp2).height);
+    return new Rectangle(this.btn.x, this.btn.y, __privateGet2(this, _sp2).width, __privateGet2(this, _sp2).height);
   }
   setSize(w2, h2) {
-    __privateGet(this, _sp2).width = w2;
-    __privateGet(this, _sp2).height = h2;
+    __privateGet2(this, _sp2).width = w2;
+    __privateGet2(this, _sp2).height = h2;
   }
   setOther(hPrm) {
     var _a3;
     super.setOther(hPrm);
     if ("pic" in hPrm) {
       const pic = DesignCast.prpPrs.getValAmpersand((_a3 = hPrm.pic.val) != null ? _a3 : "");
-      this.btn.update_pic(pic, __privateGet(this, _sp2));
+      this.btn.update_pic(pic, __privateGet2(this, _sp2));
     }
   }
 }
@@ -46191,13 +46441,13 @@ const _GrpLayer = class extends Layer {
     Layer.setXY(this.spLay.children.length === 0 ? this.spLay : this.spLay.children[0], hArg, this.spLay, true);
   }
   static add_face(hArg) {
-    const { name } = hArg;
-    if (!name)
+    const { name: name2 } = hArg;
+    if (!name2)
       throw "name\u306F\u5FC5\u9808\u3067\u3059";
-    if (name in __privateGet$2(_GrpLayer, _hFace))
-      throw "\u4E00\u3064\u306Ename\uFF08" + name + "\uFF09\u306B\u5BFE\u3057\u3066\u540C\u3058\u753B\u50CF\u3092\u8907\u6570\u5272\u308A\u5F53\u3066\u3089\u308C\u307E\u305B\u3093";
-    const { fn = name } = hArg;
-    __privateGet$2(_GrpLayer, _hFace)[name] = {
+    if (name2 in __privateGet$2(_GrpLayer, _hFace))
+      throw "\u4E00\u3064\u306Ename\uFF08" + name2 + "\uFF09\u306B\u5BFE\u3057\u3066\u540C\u3058\u753B\u50CF\u3092\u8907\u6570\u5272\u308A\u5F53\u3066\u3089\u308C\u307E\u305B\u3093";
+    const { fn = name2 } = hArg;
+    __privateGet$2(_GrpLayer, _hFace)[name2] = {
       fn,
       dx: argChk_Num(hArg, "dx", 0),
       dy: argChk_Num(hArg, "dy", 0),
@@ -46386,17 +46636,17 @@ __privateAdd$2(GrpLayer, _hEncImgOUrl, {});
 const _TxtStage = class extends Container {
   constructor(spLay, canFocus, sys) {
     super();
-    __privateAdd(this, _lay_sub);
-    __privateAdd(this, _htm2tx);
-    __privateAdd(this, _spWork);
-    __privateAdd(this, _getChRects);
-    __privateAdd(this, _clearText);
-    __privateAdd(this, _htmTxt, document.createElement("span"));
-    __privateAdd(this, _cntTxt, new Container());
-    __privateAdd(this, _grpDbgMasume, new Graphics());
-    __privateAdd(this, _idc2, new TxtLayDesignCast(this.spLay, this));
-    __privateAdd(this, _idcCh, new TxtLayPadDesignCast(this));
-    __privateAdd(this, _infTL, {
+    __privateAdd2(this, _lay_sub);
+    __privateAdd2(this, _htm2tx);
+    __privateAdd2(this, _spWork);
+    __privateAdd2(this, _getChRects);
+    __privateAdd2(this, _clearText);
+    __privateAdd2(this, _htmTxt, document.createElement("span"));
+    __privateAdd2(this, _cntTxt, new Container());
+    __privateAdd2(this, _grpDbgMasume, new Graphics());
+    __privateAdd2(this, _idc2, new TxtLayDesignCast(this.spLay, this));
+    __privateAdd2(this, _idcCh, new TxtLayPadDesignCast(this));
+    __privateAdd2(this, _infTL, {
       fontsize: 24,
       $width: 0,
       $height: 0,
@@ -46405,49 +46655,49 @@ const _TxtStage = class extends Container {
       pad_top: 0,
       pad_bottom: 0
     });
-    __privateAdd(this, _break_fixed, false);
-    __privateAdd(this, _break_fixed_left, 0);
-    __privateAdd(this, _break_fixed_top, 0);
-    __privateAdd(this, _left, 0);
-    __privateAdd(this, _isTategaki, false);
-    __privateAdd(this, _padTx4x, 0);
-    __privateAdd(this, _padTx4y, 0);
-    __privateAdd(this, _ch_filter, void 0);
-    __privateAdd(this, _aSpTw, []);
-    __privateAdd(this, _aRect, []);
-    __privateAdd(this, _lenHtmTxt, 0);
-    __privateAdd(this, _beforeHTMLElm, void 0);
-    __privateAdd(this, _REGDS, /animation\-duration: (?<ms>\d+)ms;/);
-    __privateAdd(this, _fncEndChIn, () => {
+    __privateAdd2(this, _break_fixed, false);
+    __privateAdd2(this, _break_fixed_left, 0);
+    __privateAdd2(this, _break_fixed_top, 0);
+    __privateAdd2(this, _left, 0);
+    __privateAdd2(this, _isTategaki, false);
+    __privateAdd2(this, _padTx4x, 0);
+    __privateAdd2(this, _padTx4y, 0);
+    __privateAdd2(this, _ch_filter, void 0);
+    __privateAdd2(this, _aSpTw, []);
+    __privateAdd2(this, _aRect, []);
+    __privateAdd2(this, _lenHtmTxt, 0);
+    __privateAdd2(this, _beforeHTMLElm, void 0);
+    __privateAdd2(this, _REGDS, /animation\-duration: (?<ms>\d+)ms;/);
+    __privateAdd2(this, _fncEndChIn, () => {
     });
-    __privateAdd(this, _isChInIng, false);
-    __privateAdd(this, _lh_half, 0);
-    __privateAdd(this, _fi_easing, "Quadratic.Out");
-    __privateAdd(this, _fo_easing, "Quadratic.Out");
-    __privateAdd(this, _sss, void 0);
+    __privateAdd2(this, _isChInIng, false);
+    __privateAdd2(this, _lh_half, 0);
+    __privateAdd2(this, _fi_easing, "Quadratic.Out");
+    __privateAdd2(this, _fo_easing, "Quadratic.Out");
+    __privateAdd2(this, _sss, void 0);
     this.spLay = spLay;
     this.canFocus = canFocus;
     this.sys = sys;
-    __privateGet(this, _htmTxt).classList.add("sn_tx");
-    __privateGet(this, _htmTxt).style.position = "absolute";
-    __privateGet(_TxtStage, _appPixi2).view.parentElement.appendChild(__privateGet(this, _htmTxt));
-    this.addChild(__privateGet(this, _cntTxt));
-    this.addChild(__privateGet(this, _grpDbgMasume));
-    __privateGet(this, _grpDbgMasume).name = "grpDbgMasume";
-    __privateGet(this, _idc2).adopt(__privateGet(this, _idcCh));
+    __privateGet2(this, _htmTxt).classList.add("sn_tx");
+    __privateGet2(this, _htmTxt).style.position = "absolute";
+    __privateGet2(_TxtStage, _appPixi2).view.parentElement.appendChild(__privateGet2(this, _htmTxt));
+    this.addChild(__privateGet2(this, _cntTxt));
+    this.addChild(__privateGet2(this, _grpDbgMasume));
+    __privateGet2(this, _grpDbgMasume).name = "grpDbgMasume";
+    __privateGet2(this, _idc2).adopt(__privateGet2(this, _idcCh));
   }
   static init(cfg, appPixi) {
-    __privateSet(_TxtStage, _cfg2, cfg);
-    __privateSet(_TxtStage, _appPixi2, appPixi);
-    __privateSet(_TxtStage, _reg\u884C\u982D\u7981\u5247, /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/);
-    __privateSet(_TxtStage, _reg\u884C\u672B\u7981\u5247, /[［（｛〈「『【〔“〝]/);
-    __privateSet(_TxtStage, _reg\u5206\u5272\u7981\u6B62, /[─‥…]/);
+    __privateSet2(_TxtStage, _cfg2, cfg);
+    __privateSet2(_TxtStage, _appPixi2, appPixi);
+    __privateSet2(_TxtStage, _reg\u884C\u982D\u7981\u5247, /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/);
+    __privateSet2(_TxtStage, _reg\u884C\u672B\u7981\u5247, /[［（｛〈「『【〔“〝]/);
+    __privateSet2(_TxtStage, _reg\u5206\u5272\u7981\u6B62, /[─‥…]/);
   }
   static setEvtMng(evtMng) {
-    __privateSet(_TxtStage, _evtMng3, evtMng);
+    __privateSet2(_TxtStage, _evtMng3, evtMng);
   }
   static destroy() {
-    __privateSet(_TxtStage, _hWarning, {
+    __privateSet2(_TxtStage, _hWarning, {
       backgroundColor: 0,
       borderBottomWidth: 0,
       borderLeftWidth: 0,
@@ -46458,20 +46708,20 @@ const _TxtStage = class extends Container {
       marginRight: 0,
       marginTop: 0
     });
-    __privateSet(_TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
-    __privateSet(_TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
-    __privateSet(_TxtStage, _cntBreak, new Container());
+    __privateSet2(_TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
+    __privateSet2(_TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
+    __privateSet2(_TxtStage, _cntBreak, new Container());
   }
   lay(hArg) {
     var _a3, _b3, _c3, _d2, _e, _f, _g, _h;
-    const s2 = __privateGet(this, _htmTxt).style;
+    const s2 = __privateGet2(this, _htmTxt).style;
     if (hArg.style) {
       const cln = document.createElement("span");
       cln.style.cssText = hArg.style;
       const len = cln.style.length;
       for (let i2 = 0; i2 < len; ++i2) {
         const key = cln.style[i2];
-        if (key in __privateGet(_TxtStage, _hWarning)) {
+        if (key in __privateGet2(_TxtStage, _hWarning)) {
           DebugMng.myTrace(`${key}\u306F\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093`, "W");
           continue;
         }
@@ -46494,78 +46744,78 @@ const _TxtStage = class extends Container {
     if ("pb" in hArg)
       s2.paddingBottom = ((_f = hArg.pb) != null ? _f : "0") + "px";
     if ("kinsoku_sol" in hArg)
-      __privateSet(_TxtStage, _reg\u884C\u982D\u7981\u5247, new RegExp(`[${hArg.kinsoku_sol}]`));
+      __privateSet2(_TxtStage, _reg\u884C\u982D\u7981\u5247, new RegExp(`[${hArg.kinsoku_sol}]`));
     if ("kinsoku_eol" in hArg)
-      __privateSet(_TxtStage, _reg\u884C\u672B\u7981\u5247, new RegExp(`[${hArg.kinsoku_eol}]`));
+      __privateSet2(_TxtStage, _reg\u884C\u672B\u7981\u5247, new RegExp(`[${hArg.kinsoku_eol}]`));
     if ("kinsoku_dns" in hArg)
-      __privateSet(_TxtStage, _reg\u5206\u5272\u7981\u6B62, new RegExp(`[${hArg.kinsoku_dns}]`));
-    __privateMethod(this, _lay_sub, lay_sub_fn).call(this);
-    __privateGet(this, _idc2).sethArg(hArg);
-    __privateSet(this, _left, this.spLay.position.x);
+      __privateSet2(_TxtStage, _reg\u5206\u5272\u7981\u6B62, new RegExp(`[${hArg.kinsoku_dns}]`));
+    __privateMethod2(this, _lay_sub, lay_sub_fn).call(this);
+    __privateGet2(this, _idc2).sethArg(hArg);
+    __privateSet2(this, _left, this.spLay.position.x);
     s2.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
     this.cvsResize();
     s2.display = this.spLay.visible ? "inline" : "none";
     s2.textShadow = (_h = (_g = hArg.filter) != null ? _g : s2.textShadow) != null ? _h : "";
-    __privateSet(this, _break_fixed, argChk_Boolean(hArg, "break_fixed", __privateGet(this, _break_fixed)));
-    __privateSet(this, _break_fixed_left, argChk_Num(hArg, "break_fixed_left", __privateGet(this, _break_fixed_left)));
-    __privateSet(this, _break_fixed_top, argChk_Num(hArg, "break_fixed_top", __privateGet(this, _break_fixed_top)));
-    if (":redraw" in hArg && __privateGet(this, _lenHtmTxt) > 0) {
+    __privateSet2(this, _break_fixed, argChk_Boolean(hArg, "break_fixed", __privateGet2(this, _break_fixed)));
+    __privateSet2(this, _break_fixed_left, argChk_Num(hArg, "break_fixed_left", __privateGet2(this, _break_fixed_left)));
+    __privateSet2(this, _break_fixed_top, argChk_Num(hArg, "break_fixed_top", __privateGet2(this, _break_fixed_top)));
+    if (":redraw" in hArg && __privateGet2(this, _lenHtmTxt) > 0) {
       const aSpan = [
-        __privateGet(this, _htmTxt).innerHTML.replace(/(animation-delay: )\d+ms/g, "$10ms"),
+        __privateGet2(this, _htmTxt).innerHTML.replace(/(animation-delay: )\d+ms/g, "$10ms"),
         `<span class='sn_ch' data-add='{"ch_in_style":"default"}'>\u3000</span>`
       ];
-      __privateMethod(this, _clearText, clearText_fn).call(this);
+      __privateMethod2(this, _clearText, clearText_fn).call(this);
       this.goTxt(aSpan);
     }
   }
   cvsResize() {
-    const s2 = __privateGet(this, _htmTxt).style;
-    s2.left = `${this.sys.ofsLeft4elm + __privateGet(this, _left) * this.sys.cvsScale}px`;
+    const s2 = __privateGet2(this, _htmTxt).style;
+    s2.left = `${this.sys.ofsLeft4elm + __privateGet2(this, _left) * this.sys.cvsScale}px`;
     s2.top = `${this.sys.ofsTop4elm + this.spLay.position.y * this.sys.cvsScale}px`;
     s2.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * this.sys.cvsScale}, ${this.spLay.scale.y * this.sys.cvsScale})`;
-    __privateGet(this, _idc2).cvsResize();
-    __privateGet(this, _idcCh).cvsResize();
+    __privateGet2(this, _idc2).cvsResize();
+    __privateGet2(this, _idcCh).cvsResize();
   }
   get tategaki() {
-    return __privateGet(this, _isTategaki);
+    return __privateGet2(this, _isTategaki);
   }
   get infTL() {
-    return __privateGet(this, _infTL);
+    return __privateGet2(this, _infTL);
   }
   get getWidth() {
-    return __privateGet(this, _infTL).$width;
+    return __privateGet2(this, _infTL).$width;
   }
   get getHeight() {
-    return __privateGet(this, _infTL).$height;
+    return __privateGet2(this, _infTL).$height;
   }
   setSize(width, height) {
-    __privateGet(this, _infTL).$width = width;
-    __privateGet(this, _infTL).$height = height;
-    __privateGet(this, _htmTxt).style.width = __privateGet(this, _infTL).$width + "px";
-    __privateGet(this, _htmTxt).style.height = __privateGet(this, _infTL).$height + "px";
+    __privateGet2(this, _infTL).$width = width;
+    __privateGet2(this, _infTL).$height = height;
+    __privateGet2(this, _htmTxt).style.width = __privateGet2(this, _infTL).$width + "px";
+    __privateGet2(this, _htmTxt).style.height = __privateGet2(this, _infTL).$height + "px";
   }
   goTxt(aSpan) {
     var _a3, _b3, _c3, _d2, _e;
-    __privateGet(_TxtStage, _cntBreak).visible = false;
-    const begin = __privateGet(this, _aRect).length;
+    __privateGet2(_TxtStage, _cntBreak).visible = false;
+    const begin = __privateGet2(this, _aRect).length;
     if (begin === 0) {
-      if (__privateGet(_TxtStage, _cfg2).oCfg.debug.masume) {
+      if (__privateGet2(_TxtStage, _cfg2).oCfg.debug.masume) {
         if (CmnLib.debugLog)
-          console.log(`\u{1F34C} masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${__privateGet(this, _infTL).pad_left} pr:${__privateGet(this, _infTL).pad_right} pt:${__privateGet(this, _infTL).pad_top} pb:${__privateGet(this, _infTL).pad_bottom} w:${__privateGet(this, _infTL).$width} h:${__privateGet(this, _infTL).$height}`);
-        __privateGet(this, _grpDbgMasume).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(-__privateGet(this, _infTL).pad_left, -__privateGet(this, _infTL).pad_top, __privateGet(this, _infTL).$width, __privateGet(this, _infTL).$height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1).drawRect(0, 0, __privateGet(this, _infTL).$width - __privateGet(this, _infTL).pad_left - __privateGet(this, _infTL).pad_right, __privateGet(this, _infTL).$height - __privateGet(this, _infTL).pad_top - __privateGet(this, _infTL).pad_bottom).endFill();
+          console.log(`\u{1F34C} masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${__privateGet2(this, _infTL).pad_left} pr:${__privateGet2(this, _infTL).pad_right} pt:${__privateGet2(this, _infTL).pad_top} pb:${__privateGet2(this, _infTL).pad_bottom} w:${__privateGet2(this, _infTL).$width} h:${__privateGet2(this, _infTL).$height}`);
+        __privateGet2(this, _grpDbgMasume).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(-__privateGet2(this, _infTL).pad_left, -__privateGet2(this, _infTL).pad_top, __privateGet2(this, _infTL).$width, __privateGet2(this, _infTL).$height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1).drawRect(0, 0, __privateGet2(this, _infTL).$width - __privateGet2(this, _infTL).pad_left - __privateGet2(this, _infTL).pad_right, __privateGet2(this, _infTL).$height - __privateGet2(this, _infTL).pad_top - __privateGet2(this, _infTL).pad_bottom).endFill();
       }
-      __privateGet(this, _htmTxt).innerHTML = [...aSpan].join("").replaceAll(/[\n\t]/g, "");
+      __privateGet2(this, _htmTxt).innerHTML = [...aSpan].join("").replaceAll(/[\n\t]/g, "");
     } else
-      __privateGet(this, _htmTxt).insertAdjacentHTML("beforeend", aSpan.slice(__privateGet(this, _lenHtmTxt)).join("").replaceAll(/[\n\t]/g, ""));
-    __privateSet(this, _lenHtmTxt, aSpan.length);
+      __privateGet2(this, _htmTxt).insertAdjacentHTML("beforeend", aSpan.slice(__privateGet2(this, _lenHtmTxt)).join("").replaceAll(/[\n\t]/g, ""));
+    __privateSet2(this, _lenHtmTxt, aSpan.length);
     let len = 0;
     let j2 = 2;
     do {
-      const e = __privateSet(this, _aRect, __privateMethod(this, _getChRects, getChRects_fn).call(this, __privateGet(this, _htmTxt)));
+      const e = __privateSet2(this, _aRect, __privateMethod2(this, _getChRects, getChRects_fn).call(this, __privateGet2(this, _htmTxt)));
       len = e.length;
       if (this.sys.cvsScale !== 1) {
-        const ox = this.sys.ofsPadLeft_Dom2PIXI + parseFloat(__privateGet(this, _htmTxt).style.left) * (1 - this.sys.cvsScale);
-        const oy = this.sys.ofsPadTop_Dom2PIXI + parseFloat(__privateGet(this, _htmTxt).style.top) * (1 - this.sys.cvsScale);
+        const ox = this.sys.ofsPadLeft_Dom2PIXI + parseFloat(__privateGet2(this, _htmTxt).style.left) * (1 - this.sys.cvsScale);
+        const oy = this.sys.ofsPadTop_Dom2PIXI + parseFloat(__privateGet2(this, _htmTxt).style.top) * (1 - this.sys.cvsScale);
         for (let i2 = 0; i2 < len; ++i2) {
           const r2 = e[i2].rect;
           r2.x -= ox;
@@ -46590,17 +46840,17 @@ const _TxtStage = class extends Container {
         }
         sl_xy = -Infinity;
         const oldJ = j2;
-        if (__privateGet(_TxtStage, _reg\u5206\u5272\u7981\u6B62).test(e[j2 - 1].ch) && e[j2 - 1].ch === he.ch) {
+        if (__privateGet2(_TxtStage, _reg\u5206\u5272\u7981\u6B62).test(e[j2 - 1].ch) && e[j2 - 1].ch === he.ch) {
           --j2;
         } else {
-          if (__privateGet(_TxtStage, _reg\u884C\u672B\u7981\u5247).test(e[j2 - 1].ch)) {
+          if (__privateGet2(_TxtStage, _reg\u884C\u672B\u7981\u5247).test(e[j2 - 1].ch)) {
             --j2;
-          } else if (__privateGet(_TxtStage, _reg\u884C\u982D\u7981\u5247).test(he.ch)) {
-            while (j2 > 0 && __privateGet(_TxtStage, _reg\u884C\u982D\u7981\u5247).test(e[--j2].ch)) {
+          } else if (__privateGet2(_TxtStage, _reg\u884C\u982D\u7981\u5247).test(he.ch)) {
+            while (j2 > 0 && __privateGet2(_TxtStage, _reg\u884C\u982D\u7981\u5247).test(e[--j2].ch)) {
             }
           } else
             continue;
-          while (j2 > 0 && __privateGet(_TxtStage, _reg\u884C\u672B\u7981\u5247).test(e[j2 - 1].ch)) {
+          while (j2 > 0 && __privateGet2(_TxtStage, _reg\u884C\u672B\u7981\u5247).test(e[j2 - 1].ch)) {
             --j2;
           }
         }
@@ -46624,27 +46874,27 @@ const _TxtStage = class extends Container {
     } while (len < 0);
     const fncMasumeLog = CmnLib.debugLog ? (v2, rct) => console.log(`\u{1F34C} masume ch:${v2.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`) : () => {
     };
-    const fncMasume = __privateGet(_TxtStage, _cfg2).oCfg.debug.masume ? (v2, rct) => {
+    const fncMasume = __privateGet2(_TxtStage, _cfg2).oCfg.debug.masume ? (v2, rct) => {
       fncMasumeLog(v2, rct);
-      __privateGet(this, _grpDbgMasume).beginFill(6737151, 0.5).lineStyle(2, 16724736, 1).drawRect(rct.x, rct.y, rct.width, rct.height).endFill();
+      __privateGet2(this, _grpDbgMasume).beginFill(6737151, 0.5).lineStyle(2, 16724736, 1).drawRect(rct.x, rct.y, rct.width, rct.height).endFill();
     } : () => {
     };
-    const ease = CmnTween.ease(__privateGet(this, _fi_easing));
-    const bcr = __privateGet(this, _htmTxt).getBoundingClientRect();
-    const sx = bcr.left + globalThis.scrollX + __privateGet(this, _infTL).pad_left;
-    const sy = bcr.top + globalThis.scrollY + __privateGet(this, _infTL).pad_top;
+    const ease = CmnTween.ease(__privateGet2(this, _fi_easing));
+    const bcr = __privateGet2(this, _htmTxt).getBoundingClientRect();
+    const sx = bcr.left + globalThis.scrollX + __privateGet2(this, _infTL).pad_left;
+    const sy = bcr.top + globalThis.scrollY + __privateGet2(this, _infTL).pad_top;
     let rctLastCh = new Rectangle();
     for (let i2 = begin; i2 < len; ++i2) {
-      const v2 = __privateGet(this, _aRect)[i2];
+      const v2 = __privateGet2(this, _aRect)[i2];
       const rct = v2.rect;
       const arg = JSON.parse((_a3 = v2.arg) != null ? _a3 : '{"delay": 0}');
       const add3 = JSON.parse((_b3 = v2.add) != null ? _b3 : "{}");
-      const cis = __privateGet(_TxtStage, _hChInStyle)[add3.ch_in_style];
+      const cis = __privateGet2(_TxtStage, _hChInStyle)[add3.ch_in_style];
       rct.x -= sx;
       rct.y -= sy;
       fncMasume(v2, rct);
       if (cis) {
-        if (__privateGet(this, _isTategaki)) {
+        if (__privateGet2(this, _isTategaki)) {
           rct.x += (rct.width - rct.height) / 2;
           rct.width = rct.height;
         } else {
@@ -46656,9 +46906,9 @@ const _TxtStage = class extends Container {
       switch (v2.cmd) {
         case "grp":
           const cnt = new Container();
-          __privateGet(this, _cntTxt).addChild(cnt);
+          __privateGet2(this, _cntTxt).addChild(cnt);
           GrpLayer.csv2Sprites(arg.pic, cnt, (sp2) => {
-            __privateMethod(this, _spWork, spWork_fn).call(this, cnt, arg, add3, rct, ease, cis != null ? cis : {});
+            __privateMethod2(this, _spWork, spWork_fn).call(this, cnt, arg, add3, rct, ease, cis != null ? cis : {});
             if (!cnt.parent)
               cnt.removeChild(sp2);
           });
@@ -46666,40 +46916,40 @@ const _TxtStage = class extends Container {
         case "link":
           const sp = new Sprite();
           arg.key = `lnk=[${i2}] ` + this.name;
-          __privateMethod(this, _spWork, spWork_fn).call(this, sp, arg, add3, rct, ease, cis != null ? cis : {});
-          (_c3 = arg.hint_tate) != null ? _c3 : arg.hint_tate = __privateGet(this, _isTategaki);
+          __privateMethod2(this, _spWork, spWork_fn).call(this, sp, arg, add3, rct, ease, cis != null ? cis : {});
+          (_c3 = arg.hint_tate) != null ? _c3 : arg.hint_tate = __privateGet2(this, _isTategaki);
           const style_normal = v2.elm.style.cssText;
           const style_hover = (_d2 = arg.style_hover) != null ? _d2 : "";
           const style_clicked = (_e = arg.style_clicked) != null ? _e : "";
-          __privateGet(_TxtStage, _evtMng3).button(arg, sp, () => v2.elm.style.cssText = style_normal, __privateGet(this, _beforeHTMLElm) !== v2.elm ? () => {
+          __privateGet2(_TxtStage, _evtMng3).button(arg, sp, () => v2.elm.style.cssText = style_normal, __privateGet2(this, _beforeHTMLElm) !== v2.elm ? () => {
             if (!this.canFocus())
               return false;
             v2.elm.style.cssText = style_hover;
             return true;
           } : () => false, () => v2.elm.style.cssText = style_clicked);
-          __privateSet(this, _beforeHTMLElm, v2.elm);
-          __privateGet(this, _cntTxt).addChild(sp);
+          __privateSet2(this, _beforeHTMLElm, v2.elm);
+          __privateGet2(this, _cntTxt).addChild(sp);
           break;
       }
     }
-    const chs = __privateGet(this, _htmTxt).querySelectorAll("span.sn_ch");
+    const chs = __privateGet2(this, _htmTxt).querySelectorAll("span.sn_ch");
     chs.forEach((v2) => v2.className = v2.className.replace(/sn_ch_in_([^\s"]+)/g, "go_ch_in_$1"));
-    __privateSet(this, _isChInIng, true);
-    __privateSet(this, _fncEndChIn, () => {
-      __privateSet(this, _isChInIng, false);
+    __privateSet2(this, _isChInIng, true);
+    __privateSet2(this, _fncEndChIn, () => {
+      __privateSet2(this, _isChInIng, false);
       chs.forEach((v2) => v2.className = v2.className.replace(/ go_ch_in_[^\s"]+/g, ""));
       if (begin !== len) {
-        __privateSet(this, _break_fixed_left, rctLastCh.x + (__privateGet(this, _isTategaki) ? 0 : rctLastCh.width));
-        __privateSet(this, _break_fixed_top, rctLastCh.y + (__privateGet(this, _isTategaki) ? rctLastCh.height : 0));
+        __privateSet2(this, _break_fixed_left, rctLastCh.x + (__privateGet2(this, _isTategaki) ? 0 : rctLastCh.width));
+        __privateSet2(this, _break_fixed_top, rctLastCh.y + (__privateGet2(this, _isTategaki) ? rctLastCh.height : 0));
       }
-      __privateGet(_TxtStage, _cntBreak).position.set(__privateGet(this, _break_fixed_left), __privateGet(this, _break_fixed_top));
-      __privateGet(_TxtStage, _cntBreak).visible = true;
-      __privateSet(this, _fncEndChIn, () => {
+      __privateGet2(_TxtStage, _cntBreak).position.set(__privateGet2(this, _break_fixed_left), __privateGet2(this, _break_fixed_top));
+      __privateGet2(_TxtStage, _cntBreak).visible = true;
+      __privateSet2(this, _fncEndChIn, () => {
       });
     });
     const len_chs = chs.length;
     if (len_chs === 0) {
-      __privateGet(this, _fncEndChIn).call(this);
+      __privateGet2(this, _fncEndChIn).call(this);
       return;
     }
     let le = void 0;
@@ -46712,7 +46962,7 @@ const _TxtStage = class extends Container {
         le = v2;
         break;
       }
-      const m2 = st.match(__privateGet(this, _REGDS));
+      const m2 = st.match(__privateGet2(this, _REGDS));
       const g2 = m2 == null ? void 0 : m2.groups;
       if (!g2 || Number(g2.ms) > 0) {
         le = v2;
@@ -46720,48 +46970,48 @@ const _TxtStage = class extends Container {
       }
     }
     if (!le) {
-      __privateGet(this, _fncEndChIn).call(this);
+      __privateGet2(this, _fncEndChIn).call(this);
       return;
     }
-    le.addEventListener("animationend", __privateGet(this, _fncEndChIn), { once: true, passive: true });
+    le.addEventListener("animationend", __privateGet2(this, _fncEndChIn), { once: true, passive: true });
   }
   skipChIn() {
-    let isLiveTw = __privateGet(this, _isChInIng);
-    __privateGet(this, _fncEndChIn).call(this);
-    __privateGet(this, _aSpTw).forEach((st) => {
+    let isLiveTw = __privateGet2(this, _isChInIng);
+    __privateGet2(this, _fncEndChIn).call(this);
+    __privateGet2(this, _aSpTw).forEach((st) => {
       if (st.tw) {
         st.tw.stop().end();
         isLiveTw = true;
       }
     });
-    __privateSet(this, _aSpTw, []);
+    __privateSet2(this, _aSpTw, []);
     return isLiveTw;
   }
   static initChStyle() {
-    __privateSet(_TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
-    __privateSet(_TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
+    __privateSet2(_TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
+    __privateSet2(_TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
   }
-  static getChInStyle(name) {
-    return __privateGet(_TxtStage, _hChInStyle)[name];
+  static getChInStyle(name2) {
+    return __privateGet2(_TxtStage, _hChInStyle)[name2];
   }
   static ch_in_style(hArg) {
     var _a3, _b3, _c3;
-    const { name } = hArg;
-    if (!name)
+    const { name: name2 } = hArg;
+    if (!name2)
       throw "name\u306F\u5FC5\u9808\u3067\u3059";
-    __privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
-    if (__privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).test(name))
-      throw `name\u3010${name}\u3011\u306B\u4F7F\u3048\u306A\u3044\u6587\u5B57\u304C\u542B\u307E\u308C\u307E\u3059`;
-    if (name in __privateGet(_TxtStage, _hChInStyle))
-      throw `name\u3010${name}\u3011\u306F\u3059\u3067\u306B\u3042\u308A\u307E\u3059`;
-    const x = String((_a3 = hArg.x) != null ? _a3 : "=0");
+    __privateGet2(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
+    if (__privateGet2(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).test(name2))
+      throw `name\u3010${name2}\u3011\u306B\u4F7F\u3048\u306A\u3044\u6587\u5B57\u304C\u542B\u307E\u308C\u307E\u3059`;
+    if (name2 in __privateGet2(_TxtStage, _hChInStyle))
+      throw `name\u3010${name2}\u3011\u306F\u3059\u3067\u306B\u3042\u308A\u307E\u3059`;
+    const x2 = String((_a3 = hArg.x) != null ? _a3 : "=0");
     const y2 = String((_b3 = hArg.y) != null ? _b3 : "=0");
-    return __privateGet(_TxtStage, _hChInStyle)[name] = {
+    return __privateGet2(_TxtStage, _hChInStyle)[name2] = {
       wait: argChk_Num(hArg, "wait", 500),
       alpha: argChk_Num(hArg, "alpha", 0),
-      x,
+      x: x2,
       y: y2,
-      nx: parseFloat(x.charAt(0) === "=" ? x.slice(1) : x),
+      nx: parseFloat(x2.charAt(0) === "=" ? x2.slice(1) : x2),
       ny: parseFloat(y2.charAt(0) === "=" ? y2.slice(1) : y2),
       scale_x: argChk_Num(hArg, "scale_x", 1),
       scale_y: argChk_Num(hArg, "scale_y", 1),
@@ -46770,27 +47020,27 @@ const _TxtStage = class extends Container {
       ease: (_c3 = hArg.ease) != null ? _c3 : "ease-out"
     };
   }
-  static getChOutStyle(name) {
-    return __privateGet(_TxtStage, _hChOutStyle)[name];
+  static getChOutStyle(name2) {
+    return __privateGet2(_TxtStage, _hChOutStyle)[name2];
   }
   static ch_out_style(hArg) {
     var _a3, _b3, _c3;
-    const { name } = hArg;
-    if (!name)
+    const { name: name2 } = hArg;
+    if (!name2)
       throw "name\u306F\u5FC5\u9808\u3067\u3059";
-    __privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
-    if (__privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).test(name))
-      throw `name\u3010${name}\u3011\u306B\u4F7F\u3048\u306A\u3044\u6587\u5B57\u304C\u542B\u307E\u308C\u307E\u3059`;
-    if (name in __privateGet(_TxtStage, _hChOutStyle))
-      throw `name\u3010${name}\u3011\u306F\u3059\u3067\u306B\u3042\u308A\u307E\u3059`;
-    const x = String((_a3 = hArg.x) != null ? _a3 : "=0");
+    __privateGet2(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
+    if (__privateGet2(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).test(name2))
+      throw `name\u3010${name2}\u3011\u306B\u4F7F\u3048\u306A\u3044\u6587\u5B57\u304C\u542B\u307E\u308C\u307E\u3059`;
+    if (name2 in __privateGet2(_TxtStage, _hChOutStyle))
+      throw `name\u3010${name2}\u3011\u306F\u3059\u3067\u306B\u3042\u308A\u307E\u3059`;
+    const x2 = String((_a3 = hArg.x) != null ? _a3 : "=0");
     const y2 = String((_b3 = hArg.y) != null ? _b3 : "=0");
-    return __privateGet(_TxtStage, _hChOutStyle)[name] = {
+    return __privateGet2(_TxtStage, _hChOutStyle)[name2] = {
       wait: argChk_Num(hArg, "wait", 500),
       alpha: argChk_Num(hArg, "alpha", 0),
-      x,
+      x: x2,
       y: y2,
-      nx: parseFloat(x.charAt(0) === "=" ? x.slice(1) : x),
+      nx: parseFloat(x2.charAt(0) === "=" ? x2.slice(1) : x2),
       ny: parseFloat(y2.charAt(0) === "=" ? y2.slice(1) : y2),
       scale_x: argChk_Num(hArg, "scale_x", 1),
       scale_y: argChk_Num(hArg, "scale_y", 1),
@@ -46800,7 +47050,7 @@ const _TxtStage = class extends Container {
     };
   }
   dispBreak(pic) {
-    const cnt = __privateGet(_TxtStage, _cntBreak);
+    const cnt = __privateGet2(_TxtStage, _cntBreak);
     cnt.visible = false;
     this.addChild(cnt);
     GrpLayer.csv2Sprites(pic, cnt, (sp) => {
@@ -46809,105 +47059,105 @@ const _TxtStage = class extends Container {
     });
   }
   static delBreak() {
-    const cnt = __privateGet(_TxtStage, _cntBreak);
+    const cnt = __privateGet2(_TxtStage, _cntBreak);
     if (cnt.parent) {
       cnt.parent.removeChild(cnt);
       cnt.removeChildren();
     }
-    __privateSet(_TxtStage, _cntBreak, new Container());
+    __privateSet2(_TxtStage, _cntBreak, new Container());
   }
   reNew() {
     var _a3;
-    __privateMethod(this, _clearText, clearText_fn).call(this);
+    __privateMethod2(this, _clearText, clearText_fn).call(this);
     const to = new _TxtStage(this.spLay, () => this.canFocus(), this.sys);
-    __privateSet(to, _infTL, __privateGet(this, _infTL));
-    __privateGet(to, _htmTxt).style.cssText = __privateGet(this, _htmTxt).style.cssText;
-    __privateSet(to, _left, __privateGet(this, _left));
+    __privateSet2(to, _infTL, __privateGet2(this, _infTL));
+    __privateGet2(to, _htmTxt).style.cssText = __privateGet2(this, _htmTxt).style.cssText;
+    __privateSet2(to, _left, __privateGet2(this, _left));
     to.name = this.name;
-    __privateMethod(_a3 = to, _lay_sub, lay_sub_fn).call(_a3);
-    __privateGet(to, _idc2).sethArg(__privateGet(this, _idc2).gethArg());
-    __privateSet(to, _ch_filter, __privateGet(this, _ch_filter));
-    __privateSet(to, _fi_easing, __privateGet(this, _fi_easing));
-    __privateSet(to, _fo_easing, __privateGet(this, _fo_easing));
-    __privateSet(to, _break_fixed, __privateGet(this, _break_fixed));
-    __privateSet(to, _break_fixed_left, __privateGet(this, _break_fixed_left));
-    __privateSet(to, _break_fixed_top, __privateGet(this, _break_fixed_top));
+    __privateMethod2(_a3 = to, _lay_sub, lay_sub_fn).call(_a3);
+    __privateGet2(to, _idc2).sethArg(__privateGet2(this, _idc2).gethArg());
+    __privateSet2(to, _ch_filter, __privateGet2(this, _ch_filter));
+    __privateSet2(to, _fi_easing, __privateGet2(this, _fi_easing));
+    __privateSet2(to, _fo_easing, __privateGet2(this, _fo_easing));
+    __privateSet2(to, _break_fixed, __privateGet2(this, _break_fixed));
+    __privateSet2(to, _break_fixed_left, __privateGet2(this, _break_fixed_left));
+    __privateSet2(to, _break_fixed_top, __privateGet2(this, _break_fixed_top));
     this.destroy();
     return to;
   }
   record() {
     return {
-      infTL: __privateGet(this, _infTL),
-      cssText: __privateGet(this, _htmTxt).style.cssText,
-      left: __privateGet(this, _left),
-      idc_hArg: __privateGet(this, _idc2).gethArg(),
-      ch_filter: __privateGet(this, _ch_filter),
-      fi_easing: __privateGet(this, _fi_easing),
-      fo_easing: __privateGet(this, _fo_easing),
-      break_fixed: __privateGet(this, _break_fixed),
-      break_fixed_left: __privateGet(this, _break_fixed_left),
-      break_fixed_top: __privateGet(this, _break_fixed_top)
+      infTL: __privateGet2(this, _infTL),
+      cssText: __privateGet2(this, _htmTxt).style.cssText,
+      left: __privateGet2(this, _left),
+      idc_hArg: __privateGet2(this, _idc2).gethArg(),
+      ch_filter: __privateGet2(this, _ch_filter),
+      fi_easing: __privateGet2(this, _fi_easing),
+      fo_easing: __privateGet2(this, _fo_easing),
+      break_fixed: __privateGet2(this, _break_fixed),
+      break_fixed_left: __privateGet2(this, _break_fixed_left),
+      break_fixed_top: __privateGet2(this, _break_fixed_top)
     };
   }
   playback(hLay) {
     var _a3, _b3, _c3;
-    __privateSet(this, _infTL, hLay.infTL);
-    this.position.set(__privateGet(this, _infTL).pad_left, __privateGet(this, _infTL).pad_top);
-    __privateGet(this, _htmTxt).style.cssText = hLay.cssText;
-    __privateSet(this, _left, hLay.left);
-    __privateMethod(this, _lay_sub, lay_sub_fn).call(this);
-    __privateGet(this, _idc2).sethArg(hLay.idc_hArg);
-    __privateSet(this, _ch_filter, hLay.ch_filter);
-    __privateSet(this, _fi_easing, hLay.fi_easing);
-    __privateSet(this, _fo_easing, hLay.fo_easing);
-    __privateSet(this, _break_fixed, (_a3 = hLay.break_fixed) != null ? _a3 : false);
-    __privateSet(this, _break_fixed_left, (_b3 = hLay.break_fixed_left) != null ? _b3 : 0);
-    __privateSet(this, _break_fixed_top, (_c3 = hLay.break_fixed_top) != null ? _c3 : 0);
+    __privateSet2(this, _infTL, hLay.infTL);
+    this.position.set(__privateGet2(this, _infTL).pad_left, __privateGet2(this, _infTL).pad_top);
+    __privateGet2(this, _htmTxt).style.cssText = hLay.cssText;
+    __privateSet2(this, _left, hLay.left);
+    __privateMethod2(this, _lay_sub, lay_sub_fn).call(this);
+    __privateGet2(this, _idc2).sethArg(hLay.idc_hArg);
+    __privateSet2(this, _ch_filter, hLay.ch_filter);
+    __privateSet2(this, _fi_easing, hLay.fi_easing);
+    __privateSet2(this, _fo_easing, hLay.fo_easing);
+    __privateSet2(this, _break_fixed, (_a3 = hLay.break_fixed) != null ? _a3 : false);
+    __privateSet2(this, _break_fixed_left, (_b3 = hLay.break_fixed_left) != null ? _b3 : 0);
+    __privateSet2(this, _break_fixed_top, (_c3 = hLay.break_fixed_top) != null ? _c3 : 0);
   }
   snapshot(rnd, re2) {
-    __privateMethod(this, _htm2tx, htm2tx_fn).call(this, (tx) => {
-      __privateSet(this, _sss, new Sprite(tx));
-      if (__privateGet(this, _isTategaki)) {
-        __privateGet(this, _sss).x += CmnLib.stageW - (__privateGet(this, _left) + __privateGet(this, _infTL).$width);
+    __privateMethod2(this, _htm2tx, htm2tx_fn).call(this, (tx) => {
+      __privateSet2(this, _sss, new Sprite(tx));
+      if (__privateGet2(this, _isTategaki)) {
+        __privateGet2(this, _sss).x += CmnLib.stageW - (__privateGet2(this, _left) + __privateGet2(this, _infTL).$width);
       }
-      __privateGet(this, _sss).y -= __privateGet(this, _padTx4y);
-      __privateGet(this, _sss).texture.frame = new Rectangle(0, 0, __privateGet(this, _infTL).$width - __privateGet(this, _left), __privateGet(this, _infTL).$height);
-      __privateGet(this, _cntTxt).addChild(__privateGet(this, _sss));
-      rnd.render(__privateGet(this, _sss), void 0, false);
+      __privateGet2(this, _sss).y -= __privateGet2(this, _padTx4y);
+      __privateGet2(this, _sss).texture.frame = new Rectangle(0, 0, __privateGet2(this, _infTL).$width - __privateGet2(this, _left), __privateGet2(this, _infTL).$height);
+      __privateGet2(this, _cntTxt).addChild(__privateGet2(this, _sss));
+      rnd.render(__privateGet2(this, _sss), void 0, false);
       re2();
     }, false);
   }
   snapshot_end() {
-    if (__privateGet(this, _sss)) {
-      __privateGet(this, _cntTxt).removeChild(__privateGet(this, _sss));
-      __privateSet(this, _sss, void 0);
+    if (__privateGet2(this, _sss)) {
+      __privateGet2(this, _cntTxt).removeChild(__privateGet2(this, _sss));
+      __privateSet2(this, _sss, void 0);
     }
   }
   makeDesignCast(gdc) {
-    gdc(__privateGet(this, _idc2));
-    const o = __privateGet(this, _idc2).gethArg();
-    __privateGet(this, _idcCh).sethArg(__spreadProps(__spreadValues({}, o), { ":id_dc": o[":id_tag"] + "_pad" }));
-    gdc(__privateGet(this, _idcCh));
+    gdc(__privateGet2(this, _idc2));
+    const o = __privateGet2(this, _idc2).gethArg();
+    __privateGet2(this, _idcCh).sethArg(__spreadProps(__spreadValues({}, o), { ":id_dc": o[":id_tag"] + "_pad" }));
+    gdc(__privateGet2(this, _idcCh));
   }
   showDesignCast() {
-    __privateGet(this, _idc2).visible = true;
-    __privateGet(this, _idcCh).visible = true;
+    __privateGet2(this, _idc2).visible = true;
+    __privateGet2(this, _idcCh).visible = true;
   }
   dump() {
     const aStyle = [];
-    const s2 = __privateGet(this, _htmTxt).style;
+    const s2 = __privateGet2(this, _htmTxt).style;
     const len = s2.length;
     for (let i2 = 0; i2 < len; ++i2) {
       const key = s2[i2];
       aStyle.push(`"${key}":"${s2[key].replace(/(["\\])/g, "\\$1")}"`);
     }
-    return `"txt":"${__privateGet(this, _htmTxt).textContent.replace(/(["\\])/g, "\\$1")}", "style":{${aStyle.join(",")}}`;
+    return `"txt":"${__privateGet2(this, _htmTxt).textContent.replace(/(["\\])/g, "\\$1")}", "style":{${aStyle.join(",")}}`;
   }
   destroy() {
     _TxtStage.delBreak();
-    __privateGet(this, _htmTxt).parentElement.removeChild(__privateGet(this, _htmTxt));
-    this.removeChild(__privateGet(this, _cntTxt));
-    this.removeChild(__privateGet(this, _grpDbgMasume));
+    __privateGet2(this, _htmTxt).parentElement.removeChild(__privateGet2(this, _htmTxt));
+    this.removeChild(__privateGet2(this, _cntTxt));
+    this.removeChild(__privateGet2(this, _grpDbgMasume));
     super.destroy();
   }
 };
@@ -46927,21 +47177,21 @@ _break_fixed_top = new WeakMap();
 _lay_sub = new WeakSet();
 lay_sub_fn = function() {
   var _a3;
-  const s2 = __privateGet(this, _htmTxt).style;
+  const s2 = __privateGet2(this, _htmTxt).style;
   const fs = parseFloat(s2.fontSize || "0");
-  __privateGet(this, _infTL).fontsize = fs;
-  __privateGet(this, _infTL).pad_left = parseFloat(s2.paddingLeft || "0");
-  __privateGet(this, _infTL).pad_right = parseFloat(s2.paddingRight || "0");
-  __privateGet(this, _infTL).pad_top = parseFloat(s2.paddingTop || "0");
-  __privateGet(this, _infTL).pad_bottom = parseFloat(s2.paddingBottom || "0");
-  __privateGet(this, _infTL).$width = parseFloat(s2.width || "0");
-  __privateGet(this, _infTL).$height = parseFloat(s2.height || "0");
-  this.position.set(__privateGet(this, _infTL).pad_left, __privateGet(this, _infTL).pad_top);
-  __privateSet(this, _isTategaki, s2.writingMode === "vertical-rl");
-  __privateSet(this, _padTx4x, 0);
-  __privateSet(this, _padTx4y, 0);
+  __privateGet2(this, _infTL).fontsize = fs;
+  __privateGet2(this, _infTL).pad_left = parseFloat(s2.paddingLeft || "0");
+  __privateGet2(this, _infTL).pad_right = parseFloat(s2.paddingRight || "0");
+  __privateGet2(this, _infTL).pad_top = parseFloat(s2.paddingTop || "0");
+  __privateGet2(this, _infTL).pad_bottom = parseFloat(s2.paddingBottom || "0");
+  __privateGet2(this, _infTL).$width = parseFloat(s2.width || "0");
+  __privateGet2(this, _infTL).$height = parseFloat(s2.height || "0");
+  this.position.set(__privateGet2(this, _infTL).pad_left, __privateGet2(this, _infTL).pad_top);
+  __privateSet2(this, _isTategaki, s2.writingMode === "vertical-rl");
+  __privateSet2(this, _padTx4x, 0);
+  __privateSet2(this, _padTx4y, 0);
   const lh = (_a3 = s2.lineHeight) != null ? _a3 : "0";
-  __privateSet(this, _lh_half, __privateGet(this, _isTategaki) ? 0 : (lh.slice(-2) === "px" ? parseFloat(lh) : fs * parseFloat(lh) - fs) / 2);
+  __privateSet2(this, _lh_half, __privateGet2(this, _isTategaki) ? 0 : (lh.slice(-2) === "px" ? parseFloat(lh) : fs * parseFloat(lh) - fs) / 2);
 };
 _left = new WeakMap();
 _isTategaki = new WeakMap();
@@ -46951,7 +47201,7 @@ _hWarning = new WeakMap();
 _htm2tx = new WeakSet();
 htm2tx_fn = function(fnc, hidden = true) {
   const util2 = {
-    escape: (str) => str.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
+    escape: (str2) => str2.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
     mimeType: (url2) => {
       const extension = parseExtension(url2).toLowerCase();
       return mimes()[extension] || "";
@@ -47003,11 +47253,11 @@ htm2tx_fn = function(fnc, hidden = true) {
     return url2.search(/^(data:)/) !== -1;
   }
   function resolveUrl(url2, baseUrl) {
-    const doc = document.implementation.createHTMLDocument();
-    const base = doc.createElement("base");
-    doc.head.appendChild(base);
-    const a2 = doc.createElement("a");
-    doc.body.appendChild(a2);
+    const doc2 = document.implementation.createHTMLDocument();
+    const base = doc2.createElement("base");
+    doc2.head.appendChild(base);
+    const a2 = doc2.createElement("a");
+    doc2.body.appendChild(a2);
     base.href = baseUrl;
     a2.href = url2;
     return a2.href;
@@ -47054,30 +47304,30 @@ htm2tx_fn = function(fnc, hidden = true) {
       inlineAll,
       shouldProcess
     };
-    function shouldProcess(str) {
-      return str.search(URL_REGEX) !== -1;
+    function shouldProcess(str2) {
+      return str2.search(URL_REGEX) !== -1;
     }
-    function readUrls(str) {
+    function readUrls(str2) {
       const result = [];
       let match;
-      while (match = URL_REGEX.exec(str)) {
+      while (match = URL_REGEX.exec(str2)) {
         result.push(match[1]);
       }
       return result.filter(function(url2) {
         return !util2.isDataUrl(url2);
       });
     }
-    function inline(str, url2, baseUrl, get) {
-      return Promise.resolve(url2).then((url22) => baseUrl ? util2.resolveUrl(url22, baseUrl) : url22).then(get || util2.getAndEncode).then((data) => util2.dataAsUrl(data, util2.mimeType(url2))).then((dataUrl) => str.replace(urlAsRegex(url2), "$1" + dataUrl + "$3"));
+    function inline(str2, url2, baseUrl, get) {
+      return Promise.resolve(url2).then((url22) => baseUrl ? util2.resolveUrl(url22, baseUrl) : url22).then(get || util2.getAndEncode).then((data) => util2.dataAsUrl(data, util2.mimeType(url2))).then((dataUrl) => str2.replace(urlAsRegex(url2), "$1" + dataUrl + "$3"));
       function urlAsRegex(url22) {
         return new RegExp(`(url\\(['"]?)(` + util2.escape(url22) + `)(['"]?\\))`, "g");
       }
     }
-    function inlineAll(str, baseUrl, get) {
+    function inlineAll(str2, baseUrl, get) {
       if (nothingToInline())
-        return Promise.resolve(str);
-      return Promise.resolve(str).then(readUrls).then((urls) => {
-        let done = Promise.resolve(str);
+        return Promise.resolve(str2);
+      return Promise.resolve(str2).then(readUrls).then((urls) => {
+        let done = Promise.resolve(str2);
         for (const url2 of urls) {
           done = done.then((string) => {
             return inline(string, url2, baseUrl, get);
@@ -47086,7 +47336,7 @@ htm2tx_fn = function(fnc, hidden = true) {
         return done;
       });
       function nothingToInline() {
-        return !shouldProcess(str);
+        return !shouldProcess(str2);
       }
     }
   }
@@ -47129,26 +47379,26 @@ htm2tx_fn = function(fnc, hidden = true) {
       }
     }
   }
-  Promise.resolve(__privateGet(this, _htmTxt)).then((node) => {
+  Promise.resolve(__privateGet2(this, _htmTxt)).then((node) => {
     const cln = node.cloneNode(true);
     cln.style.padding = "0px";
-    cln.style.paddingRight = __privateGet(this, _padTx4x) + "px";
-    cln.style.paddingTop = __privateGet(this, _padTx4y) + "px";
+    cln.style.paddingRight = __privateGet2(this, _padTx4x) + "px";
+    cln.style.paddingTop = __privateGet2(this, _padTx4y) + "px";
     cln.style.left = "0px";
     cln.style.top = "0px";
-    cln.style.width = __privateGet(this, _infTL).$width - __privateGet(this, _infTL).pad_left - __privateGet(this, _infTL).pad_right + "px";
-    cln.style.height = __privateGet(this, _infTL).$height - __privateGet(this, _infTL).pad_top - __privateGet(this, _infTL).pad_bottom + "px";
-    __privateGet(this, _htmTxt).hidden = hidden;
+    cln.style.width = __privateGet2(this, _infTL).$width - __privateGet2(this, _infTL).pad_left - __privateGet2(this, _infTL).pad_right + "px";
+    cln.style.height = __privateGet2(this, _infTL).$height - __privateGet2(this, _infTL).pad_top - __privateGet2(this, _infTL).pad_bottom + "px";
+    __privateGet2(this, _htmTxt).hidden = hidden;
     return cln;
   }).then(embedFonts).then((node) => {
     node.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
     const img = new Image();
-    img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${__privateGet(this, _infTL).$width}px" height="${__privateGet(this, _infTL).$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node).replaceAll("#", "%23").replaceAll("\n", "%0A")}</foreignObject></svg>`;
+    img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${__privateGet2(this, _infTL).$width}px" height="${__privateGet2(this, _infTL).$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node).replaceAll("#", "%23").replaceAll("\n", "%0A")}</foreignObject></svg>`;
     return new Promise((resolve2) => img.onload = () => resolve2(img));
   }).then((img) => new Promise((resolve2) => setTimeout(() => resolve2(img), 100))).then((img) => {
     const canvas2 = document.createElement("canvas");
-    canvas2.width = __privateGet(this, _infTL).$width;
-    canvas2.height = __privateGet(this, _infTL).$height;
+    canvas2.width = __privateGet2(this, _infTL).$width;
+    canvas2.height = __privateGet2(this, _infTL).$height;
     canvas2.getContext("2d").drawImage(img, 0, 0);
     canvas2.toBlob((blob) => {
       if (!blob)
@@ -47194,7 +47444,7 @@ spWork_fn = function(sp, arg, add3, rct, ease, cis) {
       st.tw = void 0;
     }).start()
   };
-  __privateGet(this, _aSpTw).push(st);
+  __privateGet2(this, _aSpTw).push(st);
 };
 _isChInIng = new WeakMap();
 _hChInStyle = new WeakMap();
@@ -47207,7 +47457,7 @@ getChRects_fn = function(elm) {
   var _a3, _b3, _c3, _d2;
   const ret = [];
   if (elm.nodeType !== elm.TEXT_NODE) {
-    elm.childNodes.forEach((v2) => ret.push(__privateMethod(this, _getChRects, getChRects_fn).call(this, v2)));
+    elm.childNodes.forEach((v2) => ret.push(__privateMethod2(this, _getChRects, getChRects_fn).call(this, v2)));
     return Array.prototype.concat.apply([], ret);
   }
   const range = elm.ownerDocument.createRange();
@@ -47224,7 +47474,7 @@ getChRects_fn = function(elm) {
     const ch = range.toString();
     const cr = {
       ch,
-      rect: new Rectangle(r2.left + globalThis.scrollX, r2.top + globalThis.scrollY, r2.width, r2.height + ("gjqy".includes(ch) ? __privateGet(this, _lh_half) : 0)),
+      rect: new Rectangle(r2.left + globalThis.scrollX, r2.top + globalThis.scrollY, r2.width, r2.height + ("gjqy".includes(ch) ? __privateGet2(this, _lh_half) : 0)),
       elm: pe,
       cmd: (_a3 = pe.getAttribute("data-cmd")) != null ? _a3 : void 0,
       arg: (_b3 = pe.getAttribute("data-arg")) != null ? _b3 : void 0,
@@ -47241,13 +47491,13 @@ _fo_easing = new WeakMap();
 _clearText = new WeakSet();
 clearText_fn = function() {
   var _a3;
-  __privateGet(this, _grpDbgMasume).clear();
-  __privateSet(this, _aRect, []);
-  __privateSet(this, _lenHtmTxt, 0);
+  __privateGet2(this, _grpDbgMasume).clear();
+  __privateSet2(this, _aRect, []);
+  __privateSet2(this, _lenHtmTxt, 0);
   this.skipChIn();
-  const n = __privateGet(this, _htmTxt).cloneNode(true);
+  const n = __privateGet2(this, _htmTxt).cloneNode(true);
   n.textContent = "";
-  const old = __privateGet(this, _htmTxt);
+  const old = __privateGet2(this, _htmTxt);
   old.parentElement.insertBefore(n, old);
   let sum_wait = 0;
   old.querySelectorAll("span.sn_ch").forEach((elm) => {
@@ -47255,7 +47505,7 @@ clearText_fn = function() {
     const add3 = JSON.parse((_f = (_e = (_b3 = elm == null ? void 0 : elm.getAttribute("data-add")) != null ? _b3 : (_a4 = elm == null ? void 0 : elm.children[0]) == null ? void 0 : _a4.getAttribute("data-add")) != null ? _e : (_d2 = (_c3 = elm == null ? void 0 : elm.children[0]) == null ? void 0 : _c3.children[0]) == null ? void 0 : _d2.getAttribute("data-add")) != null ? _f : "{}");
     if (!add3.ch_out_style)
       return;
-    const cos = __privateGet(_TxtStage, _hChOutStyle)[add3.ch_out_style];
+    const cos = __privateGet2(_TxtStage, _hChOutStyle)[add3.ch_out_style];
     if (!cos)
       return;
     if (cos.wait === 0) {
@@ -47269,24 +47519,24 @@ clearText_fn = function() {
   });
   const end = () => {
     old.parentElement.removeChild(old);
-    __privateGet(this, _cntTxt).removeChildren().forEach((c2) => {
+    __privateGet2(this, _cntTxt).removeChildren().forEach((c2) => {
       if (c2 instanceof Container)
-        __privateGet(_TxtStage, _evtMng3).unButton(c2);
+        __privateGet2(_TxtStage, _evtMng3).unButton(c2);
       c2.destroy();
     });
   };
   if (sum_wait === 0) {
-    __privateGet(this, _htmTxt).textContent = "";
+    __privateGet2(this, _htmTxt).textContent = "";
     end();
   } else
     (_a3 = old.lastElementChild) == null ? void 0 : _a3.addEventListener("animationend", end, { once: true, passive: true });
-  __privateSet(this, _htmTxt, n);
+  __privateSet2(this, _htmTxt, n);
 };
 _sss = new WeakMap();
-__privateAdd(TxtStage, _cfg2, void 0);
-__privateAdd(TxtStage, _appPixi2, void 0);
-__privateAdd(TxtStage, _evtMng3, void 0);
-__privateAdd(TxtStage, _hWarning, {
+__privateAdd2(TxtStage, _cfg2, void 0);
+__privateAdd2(TxtStage, _appPixi2, void 0);
+__privateAdd2(TxtStage, _evtMng3, void 0);
+__privateAdd2(TxtStage, _hWarning, {
   backgroundColor: 0,
   borderBottomWidth: 0,
   borderLeftWidth: 0,
@@ -47297,13 +47547,13 @@ __privateAdd(TxtStage, _hWarning, {
   marginRight: 0,
   marginTop: 0
 });
-__privateAdd(TxtStage, _reg\u884C\u982D\u7981\u5247, void 0);
-__privateAdd(TxtStage, _reg\u884C\u672B\u7981\u5247, void 0);
-__privateAdd(TxtStage, _reg\u5206\u5272\u7981\u6B62, void 0);
-__privateAdd(TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
-__privateAdd(TxtStage, _REG_NG_CHSTYLE_NAME_CHR, /[\s\.,]/);
-__privateAdd(TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
-__privateAdd(TxtStage, _cntBreak, new Container());
+__privateAdd2(TxtStage, _reg\u884C\u982D\u7981\u5247, void 0);
+__privateAdd2(TxtStage, _reg\u884C\u672B\u7981\u5247, void 0);
+__privateAdd2(TxtStage, _reg\u5206\u5272\u7981\u6B62, void 0);
+__privateAdd2(TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
+__privateAdd2(TxtStage, _REG_NG_CHSTYLE_NAME_CHR, /[\s\.,]/);
+__privateAdd2(TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
+__privateAdd2(TxtStage, _cntBreak, new Container());
 var __accessCheck$1 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -47412,7 +47662,7 @@ const _Button = class extends Container {
     txt.alpha = argChk_Num(hArg, "alpha", txt.alpha);
     txt.width = argChk_Num(hArg, "width", 100);
     txt.height = hArg.height = height;
-    this.setText = (text) => txt.text = text;
+    this.setText = (text2) => txt.text = text2;
     oName.type = "text";
     oName = __spreadValues(__spreadValues({}, oName), style);
     oName.alpha = txt.alpha;
@@ -47578,94 +47828,94 @@ __privateAdd$1(Button, _procMasume4txt, (_me, _txt) => {
 });
 __privateAdd$1(Button, _procMasume4pic, (_me, _sp3, _w3, _h) => {
 });
-var __accessCheck2 = (obj, member, msg) => {
+var __accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet2 = (obj, member, getter) => {
-  __accessCheck2(obj, member, "read from private field");
+var __privateGet = (obj, member, getter) => {
+  __accessCheck(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd2 = (obj, member, value) => {
+var __privateAdd = (obj, member, value) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 };
-var __privateSet2 = (obj, member, value, setter) => {
-  __accessCheck2(obj, member, "write to private field");
+var __privateSet = (obj, member, value, setter) => {
+  __accessCheck(obj, member, "write to private field");
   setter ? setter.call(obj, value) : member.set(obj, value);
   return value;
 };
-var __privateMethod2 = (obj, member, method) => {
-  __accessCheck2(obj, member, "access private method");
+var __privateMethod = (obj, member, method) => {
+  __accessCheck(obj, member, "access private method");
   return method;
 };
 var _cfg, _val, _recText, _isPageFore, _ch_in_style, ch_in_style_fn, _ch_out_style, ch_out_style_fn, _main, _evtMng, _sys, _doAutoWc, _hAutoWc, _autowc, autowc_fn, _b_color, _b_alpha, _b_alpha_isfixed, _b_do, _b_pic, _txs, _rbSpl, _cntBtn, _set_ch_in, set_ch_in_fn, _$ch_in_style, _ch_in_join, _set_ch_out, set_ch_out_fn, _$ch_out_style, _drawBack, drawBack_fn, _setFfs, setFfs_fn, _ffs, _fncFFSStyle, _fncFFSSpan, _strNoFFS, _regNoFFS, _ruby_pd, _r_align, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn, _needGoTxt, _putCh, _tagCh_sub, tagCh_sub_fn, _cumDelay, _firstCh, _aSpan, _aSpan_bk, _aSpan_link, _hSpanBk, _beginSpan, beginSpan_fn, _autoCloseSpan, autoCloseSpan_fn, _page_text;
 const _TxtLayer = class extends Layer {
   constructor() {
     super();
-    __privateAdd2(this, _set_ch_in);
-    __privateAdd2(this, _set_ch_out);
-    __privateAdd2(this, _drawBack);
-    __privateAdd2(this, _setFfs);
-    __privateAdd2(this, _mkStyle_r_align4ff);
-    __privateAdd2(this, _tagCh_sub);
-    __privateAdd2(this, _beginSpan);
-    __privateAdd2(this, _autoCloseSpan);
-    __privateAdd2(this, _b_color, 0);
-    __privateAdd2(this, _b_alpha, 0);
-    __privateAdd2(this, _b_alpha_isfixed, false);
-    __privateAdd2(this, _b_do, void 0);
-    __privateAdd2(this, _b_pic, "");
-    __privateAdd2(this, _txs, new TxtStage(this.spLay, () => this.canFocus(), __privateGet2(_TxtLayer, _sys)));
-    __privateAdd2(this, _rbSpl, new RubySpliter());
-    __privateAdd2(this, _cntBtn, new Container());
-    __privateAdd2(this, _$ch_in_style, "");
-    __privateAdd2(this, _ch_in_join, true);
-    __privateAdd2(this, _$ch_out_style, "");
-    __privateAdd2(this, _ffs, "");
-    __privateAdd2(this, _fncFFSStyle, (_ch2) => "");
-    __privateAdd2(this, _fncFFSSpan, (ch) => ch);
-    __privateAdd2(this, _strNoFFS, "");
-    __privateAdd2(this, _regNoFFS, new RegExp("[\u3000]"));
+    __privateAdd(this, _set_ch_in);
+    __privateAdd(this, _set_ch_out);
+    __privateAdd(this, _drawBack);
+    __privateAdd(this, _setFfs);
+    __privateAdd(this, _mkStyle_r_align4ff);
+    __privateAdd(this, _tagCh_sub);
+    __privateAdd(this, _beginSpan);
+    __privateAdd(this, _autoCloseSpan);
+    __privateAdd(this, _b_color, 0);
+    __privateAdd(this, _b_alpha, 0);
+    __privateAdd(this, _b_alpha_isfixed, false);
+    __privateAdd(this, _b_do, void 0);
+    __privateAdd(this, _b_pic, "");
+    __privateAdd(this, _txs, new TxtStage(this.spLay, () => this.canFocus(), __privateGet(_TxtLayer, _sys)));
+    __privateAdd(this, _rbSpl, new RubySpliter());
+    __privateAdd(this, _cntBtn, new Container());
+    __privateAdd(this, _$ch_in_style, "");
+    __privateAdd(this, _ch_in_join, true);
+    __privateAdd(this, _$ch_out_style, "");
+    __privateAdd(this, _ffs, "");
+    __privateAdd(this, _fncFFSStyle, (_ch2) => "");
+    __privateAdd(this, _fncFFSSpan, (ch) => ch);
+    __privateAdd(this, _strNoFFS, "");
+    __privateAdd(this, _regNoFFS, new RegExp("[\u3000]"));
     this.isCur = false;
-    __privateAdd2(this, _ruby_pd, () => "");
-    __privateAdd2(this, _r_align, "");
-    __privateAdd2(this, _needGoTxt, false);
-    __privateAdd2(this, _putCh, (ch, ruby) => {
+    __privateAdd(this, _ruby_pd, () => "");
+    __privateAdd(this, _r_align, "");
+    __privateAdd(this, _needGoTxt, false);
+    __privateAdd(this, _putCh, (ch, ruby) => {
       var _a4, _b3, _c3, _d2, _e, _f, _g, _h;
       var _a3;
-      if (__privateGet2(_TxtLayer, _cfg).oCfg.debug.putCh)
+      if (__privateGet(_TxtLayer, _cfg).oCfg.debug.putCh)
         console.log(`\u{1F58A} \u6587\u5B57\u8868\u793A text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
       const a_ruby = ruby.split("\uFF5C");
       let add_htm = "";
-      const isSkip = __privateGet2(_TxtLayer, _evtMng).isSkippingByKeyDown();
+      const isSkip = __privateGet(_TxtLayer, _evtMng).isSkippingByKeyDown();
       switch (a_ruby.length) {
         case 1:
-          __privateSet2(this, _needGoTxt, true);
+          __privateSet(this, _needGoTxt, true);
           if (ch === "\n") {
-            if (__privateGet2(this, _aSpan_bk)) {
-              add_htm = __privateGet2(this, _aSpan_bk).slice(-1)[0];
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-              __privateGet2(this, _aSpan).push(_TxtLayer.rec("<br/>"));
-              __privateGet2(this, _aSpan).push(add_htm);
-              __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-              __privateSet2(this, _aSpan, []);
+            if (__privateGet(this, _aSpan_bk)) {
+              add_htm = __privateGet(this, _aSpan_bk).slice(-1)[0];
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateGet(this, _aSpan).push(_TxtLayer.rec("<br/>"));
+              __privateGet(this, _aSpan).push(add_htm);
+              __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+              __privateSet(this, _aSpan, []);
               return;
             }
-            if (__privateGet2(this, _firstCh)) {
-              __privateSet2(this, _firstCh, false);
+            if (__privateGet(this, _firstCh)) {
+              __privateSet(this, _firstCh, false);
               add_htm = "<ruby>\u3000<rt>\u3000</rt></ruby><br/>";
             } else
               add_htm = "<br/>";
             break;
           }
-          if (__privateGet2(this, _firstCh)) {
-            __privateSet2(this, _firstCh, false);
+          if (__privateGet(this, _firstCh)) {
+            __privateSet(this, _firstCh, false);
             if (ruby === "")
               ruby = "\u3000";
           }
-          add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet2(this, _r_align));
+          add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet(this, _r_align));
           break;
         case 2:
           switch (a_ruby[0]) {
@@ -47677,69 +47927,69 @@ const _TxtLayer = class extends Layer {
             case "121":
             case "even":
             case "1ruby":
-              __privateSet2(this, _firstCh, false);
-              __privateSet2(this, _needGoTxt, true);
-              add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a_ruby[1], isSkip, a_ruby[0]);
+              __privateSet(this, _firstCh, false);
+              __privateSet(this, _needGoTxt, true);
+              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a_ruby[1], isSkip, a_ruby[0]);
               break;
             case "gotxt": {
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
               if (this.isCur)
-                __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, __privateGet2(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
-              if (!__privateGet2(this, _needGoTxt))
+                __privateGet(_a3 = _TxtLayer, _recText).call(_a3, __privateGet(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
+              if (!__privateGet(this, _needGoTxt))
                 return;
-              __privateGet2(this, _txs).goTxt(__privateGet2(this, _aSpan));
-              __privateSet2(this, _needGoTxt, false);
-              __privateSet2(this, _cumDelay, 0);
+              __privateGet(this, _txs).goTxt(__privateGet(this, _aSpan));
+              __privateSet(this, _needGoTxt, false);
+              __privateSet(this, _cumDelay, 0);
               return;
             }
             case "add":
               {
                 const o = JSON.parse(a_ruby[1]);
                 (_a4 = o.style) != null ? _a4 : o.style = "";
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
-                if (__privateGet2(this, _aSpan_bk))
-                  __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+                __privateMethod(this, _beginSpan, beginSpan_fn).call(this, o);
+                if (__privateGet(this, _aSpan_bk))
+                  __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
                 else {
                   if (isSkip)
-                    __privateSet2(this, _cumDelay, 0);
+                    __privateSet(this, _cumDelay, 0);
                   const wait = Number((_b3 = o.wait) != null ? _b3 : -1);
-                  const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                  const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                   const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                  __privateGet2(this, _aSpan).push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
+                  __privateGet(this, _aSpan).push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
                 }
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
+                __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+                __privateSet(this, _aSpan, []);
               }
               return;
             case "add_close":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
               return;
             case "grp":
-              __privateSet2(this, _needGoTxt, true);
+              __privateSet(this, _needGoTxt, true);
               {
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + "," : `{`) + `"delay": ${__privateGet2(this, _cumDelay)}}`;
-                if (__privateGet2(this, _ch_in_join))
-                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? 0 : LayerMng.msecChWait));
+                  __privateSet(this, _cumDelay, 0);
+                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + "," : `{`) + `"delay": ${__privateGet(this, _cumDelay)}}`;
+                if (__privateGet(this, _ch_in_join))
+                  __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? 0 : LayerMng.msecChWait));
                 const o = JSON.parse(arg);
                 (_c3 = o.style) != null ? _c3 : o.style = "";
                 if (!("id" in o))
-                  o.id = __privateGet2(this, _aSpan).length;
+                  o.id = __privateGet(this, _aSpan).length;
                 if (o.id === "break") {
-                  __privateGet2(this, _txs).dispBreak(o.pic);
+                  __privateGet(this, _txs).dispBreak(o.pic);
                   return;
                 }
                 add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
                 const wait = Number((_d2 = o.wait) != null ? _d2 : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>\u3000</span>`;
-                if (__privateGet2(this, _firstCh)) {
-                  __privateSet2(this, _firstCh, false);
+                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>\u3000</span>`;
+                if (__privateGet(this, _firstCh)) {
+                  __privateSet(this, _firstCh, false);
                   add_htm = `<ruby>${add_htm}<rt>\u3000</rt></ruby>`;
                 }
-                if (__privateGet2(this, _aSpan).slice(-1)[0] === add_htm)
+                if (__privateGet(this, _aSpan).slice(-1)[0] === add_htm)
                   return;
               }
               break;
@@ -47750,81 +48000,81 @@ const _TxtLayer = class extends Layer {
               TxtStage.delBreak();
               return;
             case "span":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-              __privateSet2(this, _needGoTxt, true);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
               {
                 const o = JSON.parse(a_ruby[1]);
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
+                __privateMethod(this, _beginSpan, beginSpan_fn).call(this, o);
                 if (!o.style)
                   return;
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
+                  __privateSet(this, _cumDelay, 0);
                 const wait = Number((_e = o.wait) != null ? _e : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                __privateGet2(this, _aSpan).push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>`);
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
+                __privateGet(this, _aSpan).push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>`);
+                __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+                __privateSet(this, _aSpan, []);
               }
               return;
             case "link":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-              __privateSet2(this, _needGoTxt, true);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
               {
                 const o = JSON.parse(a_ruby[1]);
                 (_f = o.style) != null ? _f : o.style = "";
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
+                __privateMethod(this, _beginSpan, beginSpan_fn).call(this, o);
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
+                  __privateSet(this, _cumDelay, 0);
                 const wait = Number((_g = o.wait) != null ? _g : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                __privateSet2(this, _aSpan_link, ` data-cmd='link' data-arg='${a_ruby[1]}'`);
-                __privateGet2(this, _aSpan).push(`<span${__privateGet2(this, _aSpan_link)} class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>`);
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
+                __privateSet(this, _aSpan_link, ` data-cmd='link' data-arg='${a_ruby[1]}'`);
+                __privateGet(this, _aSpan).push(`<span${__privateGet(this, _aSpan_link)} class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>`);
+                __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+                __privateSet(this, _aSpan, []);
               }
               return;
             case "endlink":
-              __privateSet2(this, _needGoTxt, true);
-              if (__privateGet2(this, _aSpan_bk))
-                __privateSet2(this, _aSpan, __privateGet2(this, _aSpan).map((v2) => v2.replace(/ data-cmd='linkrsv'/, __privateGet2(this, _aSpan_link))));
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
+              if (__privateGet(this, _aSpan_bk))
+                __privateSet(this, _aSpan, __privateGet(this, _aSpan).map((v2) => v2.replace(/ data-cmd='linkrsv'/, __privateGet(this, _aSpan_link))));
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
               return;
             default:
-              __privateSet2(this, _needGoTxt, true);
-              add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet2(this, _r_align));
+              __privateSet(this, _needGoTxt, true);
+              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet(this, _r_align));
           }
           break;
         case 3:
-          __privateSet2(this, _firstCh, false);
-          __privateSet2(this, _needGoTxt, true);
+          __privateSet(this, _firstCh, false);
+          __privateSet(this, _needGoTxt, true);
           switch (a_ruby[0]) {
             case "tcy":
               {
-                if (__privateGet2(_TxtLayer, _val).doRecLog())
-                  __privateSet2(this, _page_text, __privateGet2(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
+                if (__privateGet(_TxtLayer, _val).doRecLog())
+                  __privateSet(this, _page_text, __privateGet(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
                 const tx = a_ruby[1];
-                const id_tcy = tx.length > 1 ? __privateGet2(this, _aSpan).length + 1 : "";
+                const id_tcy = tx.length > 1 ? __privateGet(this, _aSpan).length + 1 : "";
                 const rb = CmnLib.isSafari ? a_ruby[2].replace(/[A-Za-z0-9]/g, (s2) => String.fromCharCode(s2.charCodeAt(0) + 65248)) : a_ruby[2];
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const rs = this.mkStyle_r_align(tx, rb, __privateGet2(this, _r_align));
-                const da = ` data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'`;
+                  __privateSet(this, _cumDelay, 0);
+                const rs = this.mkStyle_r_align(tx, rb, __privateGet(this, _r_align));
+                const da = ` data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'`;
                 const st = `<span data-tcy='${id_tcy}' style='
 text-combine-upright: all;
 -webkit-text-combine: horizontal;
-${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
-                add_htm = rb ? __privateGet2(this, _aSpan_bk) ? `<ruby>${st}'${da} data-cmd='linkrsv'>${tx}</span>
-							<rt${rs}>${rb}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;'>
+${__privateGet(this, _fncFFSStyle).call(this, tx)}`;
+                add_htm = rb ? __privateGet(this, _aSpan_bk) ? `<ruby>${st}'${da} data-cmd='linkrsv'>${tx}</span>
+							<rt${rs}>${rb}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;'>
 							<ruby>${st}'${da}>${tx}</span>
 							<rt${rs}>${rb}</rt></ruby>
-						</span>` : __privateGet2(this, _aSpan_bk) ? `${st}'${da} data-cmd='linkrsv'>${tx}</span>` : `${st}
-							animation-delay: ${__privateGet2(this, _cumDelay)}ms;
+						</span>` : __privateGet(this, _aSpan_bk) ? `${st}'${da} data-cmd='linkrsv'>${tx}</span>` : `${st}
+							animation-delay: ${__privateGet(this, _cumDelay)}ms;
 							height: 1em;
-						' class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}'${da}>${tx}</span>`;
-                if (__privateGet2(this, _ch_in_join))
-                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_h = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _h : 0 : LayerMng.msecChWait));
+						' class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}'${da}>${tx}</span>`;
+                if (__privateGet(this, _ch_in_join))
+                  __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? (_h = __privateGet(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _h : 0 : LayerMng.msecChWait));
               }
               break;
             default:
@@ -47832,14 +48082,14 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
           }
           break;
       }
-      __privateGet2(this, _aSpan).push(_TxtLayer.rec(add_htm));
+      __privateGet(this, _aSpan).push(_TxtLayer.rec(add_htm));
     });
-    __privateAdd2(this, _cumDelay, 0);
-    __privateAdd2(this, _firstCh, true);
-    __privateAdd2(this, _aSpan, []);
-    __privateAdd2(this, _aSpan_bk, void 0);
-    __privateAdd2(this, _aSpan_link, "");
-    __privateAdd2(this, _hSpanBk, {
+    __privateAdd(this, _cumDelay, 0);
+    __privateAdd(this, _firstCh, true);
+    __privateAdd(this, _aSpan, []);
+    __privateAdd(this, _aSpan_bk, void 0);
+    __privateAdd(this, _aSpan_link, "");
+    __privateAdd(this, _hSpanBk, {
       ch_in_style: "",
       ch_out_style: "",
       r_align: ""
@@ -47847,57 +48097,57 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     this.click = () => {
       if (!this.spLay.interactiveChildren || !this.spLay.visible)
         return true;
-      return __privateGet2(this, _txs).skipChIn();
+      return __privateGet(this, _txs).skipChIn();
     };
-    __privateAdd2(this, _page_text, "");
+    __privateAdd(this, _page_text, "");
     this.addButton = (hArg) => new Promise((re2) => {
-      hArg.key = `btn=[${__privateGet2(this, _cntBtn).children.length}] ` + this.name_;
+      hArg.key = `btn=[${__privateGet(this, _cntBtn).children.length}] ` + this.name_;
       hArg[":id_tag"] = hArg.key.slice(0, -7);
-      argChk_Boolean(hArg, "hint_tate", __privateGet2(this, _txs).tategaki);
-      const btn = new Button(hArg, __privateGet2(_TxtLayer, _evtMng), () => re2(), () => this.canFocus());
+      argChk_Boolean(hArg, "hint_tate", __privateGet(this, _txs).tategaki);
+      const btn = new Button(hArg, __privateGet(_TxtLayer, _evtMng), () => re2(), () => this.canFocus());
       btn.name = JSON.stringify(hArg).replaceAll('"', "'");
-      __privateGet2(this, _cntBtn).addChild(btn);
+      __privateGet(this, _cntBtn).addChild(btn);
     });
     this.record = () => Object.assign(super.record(), {
       enabled: this.enabled,
-      r_align: __privateGet2(this, _r_align),
-      b_do: __privateGet2(this, _b_do) === void 0 ? void 0 : __privateGet2(this, _b_do) instanceof Sprite ? "Sprite" : "Graphics",
-      b_pic: __privateGet2(this, _b_pic),
-      b_color: __privateGet2(this, _b_color),
-      b_alpha: __privateGet2(this, _b_alpha),
-      b_alpha_isfixed: __privateGet2(this, _b_alpha_isfixed),
-      ffs: __privateGet2(this, _ffs),
-      txs: __privateGet2(this, _txs).record(),
-      strNoFFS: __privateGet2(this, _strNoFFS),
-      btns: __privateGet2(this, _cntBtn).children.map((btn) => btn.name)
+      r_align: __privateGet(this, _r_align),
+      b_do: __privateGet(this, _b_do) === void 0 ? void 0 : __privateGet(this, _b_do) instanceof Sprite ? "Sprite" : "Graphics",
+      b_pic: __privateGet(this, _b_pic),
+      b_color: __privateGet(this, _b_color),
+      b_alpha: __privateGet(this, _b_alpha),
+      b_alpha_isfixed: __privateGet(this, _b_alpha_isfixed),
+      ffs: __privateGet(this, _ffs),
+      txs: __privateGet(this, _txs).record(),
+      strNoFFS: __privateGet(this, _strNoFFS),
+      btns: __privateGet(this, _cntBtn).children.map((btn) => btn.name)
     });
-    this.spLay.addChild(__privateGet2(this, _txs));
-    __privateGet2(this, _rbSpl).init(__privateGet2(this, _putCh));
-    this.spLay.addChild(__privateGet2(this, _cntBtn));
-    __privateGet2(this, _cntBtn).name = "cntBtn";
+    this.spLay.addChild(__privateGet(this, _txs));
+    __privateGet(this, _rbSpl).init(__privateGet(this, _putCh));
+    this.spLay.addChild(__privateGet(this, _cntBtn));
+    __privateGet(this, _cntBtn).name = "cntBtn";
     const padding = 16;
     this.lay({ style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '\u6E38\u30B4\u30B7\u30C3\u30AF Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: "default", out_style: "default", back_clear: "true" });
   }
   static init(cfg, hTag, val, recText, isPageFore, appPixi) {
     var _a3, _b3;
-    __privateSet2(_TxtLayer, _cfg, cfg);
+    __privateSet(_TxtLayer, _cfg, cfg);
     TxtStage.init(cfg, appPixi);
-    __privateSet2(_TxtLayer, _val, val);
-    __privateSet2(_TxtLayer, _recText, recText);
-    __privateSet2(_TxtLayer, _isPageFore, isPageFore);
+    __privateSet(_TxtLayer, _val, val);
+    __privateSet(_TxtLayer, _recText, recText);
+    __privateSet(_TxtLayer, _isPageFore, isPageFore);
     val.setDoRecProc(_TxtLayer.chgDoRec);
     hTag.autowc = (o) => {
       var _a22;
-      return __privateMethod2(_a22 = _TxtLayer, _autowc, autowc_fn).call(_a22, o);
+      return __privateMethod(_a22 = _TxtLayer, _autowc, autowc_fn).call(_a22, o);
     };
     hTag.autowc({ enabled: false, text: "", time: 0 });
     hTag.ch_in_style = (o) => {
       var _a22;
-      return __privateMethod2(_a22 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a22, o);
+      return __privateMethod(_a22 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a22, o);
     };
     hTag.ch_out_style = (o) => {
       var _a22;
-      return __privateMethod2(_a22 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_a22, o);
+      return __privateMethod(_a22 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_a22, o);
     };
     TxtStage.initChStyle();
     initStyle();
@@ -47907,7 +48157,7 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
         font += `
 @font-face {
 	font-family: '${o[key]}';
-	src: url('${__privateGet2(this, _cfg).searchPath(o[key], Config.EXT_FONT)}');
+	src: url('${__privateGet(this, _cfg).searchPath(o[key], Config.EXT_FONT)}');
 }
 `;
     });
@@ -47924,7 +48174,7 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
 }
 `;
     addStyle(font);
-    __privateMethod2(_a3 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a3, {
+    __privateMethod(_a3 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a3, {
       name: "default",
       wait: 500,
       alpha: 0,
@@ -47936,7 +48186,7 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
       join: true,
       ease: "ease-out"
     });
-    __privateMethod2(_b3 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_b3, {
+    __privateMethod(_b3 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_b3, {
       name: "default",
       wait: 0,
       alpha: 0,
@@ -47950,36 +48200,36 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     });
   }
   static setEvtMng(main2, evtMng, sys) {
-    __privateSet2(_TxtLayer, _main, main2);
-    __privateSet2(_TxtLayer, _evtMng, evtMng);
-    __privateSet2(_TxtLayer, _sys, sys);
+    __privateSet(_TxtLayer, _main, main2);
+    __privateSet(_TxtLayer, _evtMng, evtMng);
+    __privateSet(_TxtLayer, _sys, sys);
     TxtStage.setEvtMng(evtMng);
   }
   destroy() {
-    if (__privateGet2(this, _b_do)) {
-      this.spLay.removeChild(__privateGet2(this, _b_do)).destroy();
-      __privateSet2(this, _b_do, void 0);
+    if (__privateGet(this, _b_do)) {
+      this.spLay.removeChild(__privateGet(this, _b_do)).destroy();
+      __privateSet(this, _b_do, void 0);
     }
     this.clearText();
-    __privateGet2(this, _txs).destroy();
+    __privateGet(this, _txs).destroy();
   }
   static destroy() {
-    __privateSet2(_TxtLayer, _doAutoWc, false);
-    __privateSet2(_TxtLayer, _hAutoWc, {});
+    __privateSet(_TxtLayer, _doAutoWc, false);
+    __privateSet(_TxtLayer, _hAutoWc, {});
     _TxtLayer.rec = (tx) => tx;
   }
   set name(nm) {
     this.name_ = nm;
-    __privateGet2(this, _txs).name = nm;
+    __privateGet(this, _txs).name = nm;
   }
   get name() {
     return this.name_;
   }
   cvsResize() {
-    __privateGet2(this, _txs).cvsResize();
+    __privateGet(this, _txs).cvsResize();
   }
   cvsResizeChildren() {
-    __privateGet2(this, _cntBtn).children.forEach((b2) => b2.cvsResize());
+    __privateGet(this, _cntBtn).children.forEach((b2) => b2.cvsResize());
   }
   lay(hArg) {
     var _a3;
@@ -47987,41 +48237,41 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     Layer.setXY(this.spLay, hArg, this.spLay);
     hArg[":id_tag"] = this.name_.slice(0, -7);
     RubySpliter.setting(hArg);
-    __privateMethod2(this, _setFfs, setFfs_fn).call(this, hArg);
-    __privateGet2(this, _txs).lay(hArg);
+    __privateMethod(this, _setFfs, setFfs_fn).call(this, hArg);
+    __privateGet(this, _txs).lay(hArg);
     if ("r_align" in hArg)
-      __privateSet2(this, _r_align, (_a3 = hArg.r_align) != null ? _a3 : "");
-    __privateSet2(this, _ruby_pd, CmnLib.isSafari ? __privateGet2(this, _txs).tategaki ? (v2, l2) => `text-align: start; height: ${l2}em; padding-top: ${v2}; padding-bottom: ${v2};` : (v2, l2) => `text-align: start; width: ${l2}em; padding-left: ${v2}; padding-right: ${v2};` : __privateGet2(this, _txs).tategaki ? (v2) => `text-align: justify; text-align-last: justify; padding-top: ${v2}; padding-bottom: ${v2};` : (v2) => `text-align: justify; text-align-last: justify; padding-left: ${v2}; padding-right: ${v2};`);
+      __privateSet(this, _r_align, (_a3 = hArg.r_align) != null ? _a3 : "");
+    __privateSet(this, _ruby_pd, CmnLib.isSafari ? __privateGet(this, _txs).tategaki ? (v2, l2) => `text-align: start; height: ${l2}em; padding-top: ${v2}; padding-bottom: ${v2};` : (v2, l2) => `text-align: start; width: ${l2}em; padding-left: ${v2}; padding-right: ${v2};` : __privateGet(this, _txs).tategaki ? (v2) => `text-align: justify; text-align-last: justify; padding-top: ${v2}; padding-bottom: ${v2};` : (v2) => `text-align: justify; text-align-last: justify; padding-left: ${v2}; padding-right: ${v2};`);
     if (CmnLib.isFirefox)
-      this.mkStyle_r_align = __privateMethod2(this, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn);
+      this.mkStyle_r_align = __privateMethod(this, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn);
     if ("alpha" in hArg)
-      __privateGet2(this, _cntBtn).children.forEach((e) => e.alpha = this.spLay.alpha);
-    __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, hArg);
-    __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, hArg);
-    return __privateMethod2(this, _drawBack, drawBack_fn).call(this, hArg, (isStop) => {
+      __privateGet(this, _cntBtn).children.forEach((e) => e.alpha = this.spLay.alpha);
+    __privateMethod(this, _set_ch_in, set_ch_in_fn).call(this, hArg);
+    __privateMethod(this, _set_ch_out, set_ch_out_fn).call(this, hArg);
+    return __privateMethod(this, _drawBack, drawBack_fn).call(this, hArg, (isStop) => {
       if (isStop)
-        __privateGet2(_TxtLayer, _main).resume();
+        __privateGet(_TxtLayer, _main).resume();
     });
   }
   get width() {
-    return __privateGet2(this, _txs).getWidth;
+    return __privateGet(this, _txs).getWidth;
   }
   get height() {
-    return __privateGet2(this, _txs).getHeight;
+    return __privateGet(this, _txs).getHeight;
   }
   chgBackAlpha(g_alpha) {
-    const alpha = __privateGet2(this, _b_alpha_isfixed) ? __privateGet2(this, _b_alpha) : g_alpha * __privateGet2(this, _b_alpha);
-    if (__privateGet2(this, _b_do) instanceof Graphics) {
-      if (__privateGet2(this, _b_do)) {
-        this.spLay.removeChild(__privateGet2(this, _b_do));
-        __privateGet2(this, _b_do).destroy();
+    const alpha = __privateGet(this, _b_alpha_isfixed) ? __privateGet(this, _b_alpha) : g_alpha * __privateGet(this, _b_alpha);
+    if (__privateGet(this, _b_do) instanceof Graphics) {
+      if (__privateGet(this, _b_do)) {
+        this.spLay.removeChild(__privateGet(this, _b_do));
+        __privateGet(this, _b_do).destroy();
       }
-      this.spLay.addChildAt(__privateSet2(this, _b_do, new Graphics()).beginFill(__privateGet2(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet2(this, _txs).getWidth, __privateGet2(this, _txs).getHeight).endFill(), 0);
-      __privateGet2(this, _b_do).name = "back(color)";
+      this.spLay.addChildAt(__privateSet(this, _b_do, new Graphics()).beginFill(__privateGet(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet(this, _txs).getWidth, __privateGet(this, _txs).getHeight).endFill(), 0);
+      __privateGet(this, _b_do).name = "back(color)";
     }
-    if (__privateGet2(this, _b_do)) {
-      __privateGet2(this, _b_do).visible = alpha > 0;
-      __privateGet2(this, _b_do).alpha = alpha;
+    if (__privateGet(this, _b_do)) {
+      __privateGet(this, _b_do).visible = alpha > 0;
+      __privateGet(this, _b_do).alpha = alpha;
     }
   }
   static chgDoRec(doRec) {
@@ -48036,37 +48286,37 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     let st = "";
     switch (r_align) {
       case "justify":
-        st = __privateGet2(this, _ruby_pd).call(this, "0", len);
+        st = __privateGet(this, _ruby_pd).call(this, "0", len);
         break;
       case "121":
-        st = __privateGet2(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
+        st = __privateGet(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
         break;
       case "even":
-        st = __privateGet2(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
+        st = __privateGet(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
         break;
       case "1ruby":
-        st = __privateGet2(this, _ruby_pd).call(this, "1em", len);
+        st = __privateGet(this, _ruby_pd).call(this, "1em", len);
         break;
       default:
         st = `text-align: ${r_align};`;
     }
     return ` style='${st}'`;
   }
-  tagCh(text) {
-    __privateGet2(this, _rbSpl).putTxt(text);
+  tagCh(text2) {
+    __privateGet(this, _rbSpl).putTxt(text2);
   }
   clearText() {
     var _a3;
-    this.spLay.addChild(__privateSet2(this, _txs, __privateGet2(this, _txs).reNew()));
-    __privateSet2(this, _cumDelay, 0);
-    __privateSet2(this, _firstCh, true);
-    __privateSet2(this, _aSpan, []);
-    __privateSet2(this, _aSpan_bk, void 0);
-    __privateSet2(this, _page_text, "");
-    __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, "", true);
+    this.spLay.addChild(__privateSet(this, _txs, __privateGet(this, _txs).reNew()));
+    __privateSet(this, _cumDelay, 0);
+    __privateSet(this, _firstCh, true);
+    __privateSet(this, _aSpan, []);
+    __privateSet(this, _aSpan_bk, void 0);
+    __privateSet(this, _page_text, "");
+    __privateGet(_a3 = _TxtLayer, _recText).call(_a3, "", true);
   }
   get pageText() {
-    return __privateGet2(this, _page_text).replace("\u300A\u3000\u300B", "");
+    return __privateGet(this, _page_text).replace("\u300A\u3000\u300B", "");
   }
   get enabled() {
     return this.spLay.interactiveChildren;
@@ -48077,24 +48327,24 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
   canFocus() {
     var _a4;
     var _a3;
-    return ((_a4 = this.spLay.interactiveChildren) != null ? _a4 : false) && this.spLay.visible && __privateGet2(_a3 = _TxtLayer, _isPageFore).call(_a3, this);
+    return ((_a4 = this.spLay.interactiveChildren) != null ? _a4 : false) && this.spLay.visible && __privateGet(_a3 = _TxtLayer, _isPageFore).call(_a3, this);
   }
   clearLay(hArg) {
     super.clearLay(hArg);
     this.clearText();
-    __privateGet2(this, _cntBtn).removeChildren().forEach((c2) => c2.destroy());
+    __privateGet(this, _cntBtn).removeChildren().forEach((c2) => c2.destroy());
   }
   playback(hLay, aPrm) {
     super.playback(hLay, aPrm);
     this.enabled = hLay.enabled;
-    __privateSet2(this, _r_align, hLay.r_align);
+    __privateSet(this, _r_align, hLay.r_align);
     this.cvsResize();
-    __privateMethod2(this, _setFfs, setFfs_fn).call(this, hLay);
-    __privateGet2(this, _txs).playback(hLay.txs);
-    __privateSet2(this, _b_alpha, hLay.b_alpha);
-    __privateSet2(this, _b_alpha_isfixed, hLay.b_alpha_isfixed);
+    __privateMethod(this, _setFfs, setFfs_fn).call(this, hLay);
+    __privateGet(this, _txs).playback(hLay.txs);
+    __privateSet(this, _b_alpha, hLay.b_alpha);
+    __privateSet(this, _b_alpha_isfixed, hLay.b_alpha_isfixed);
     aPrm.push(new Promise((re2) => {
-      if (!__privateMethod2(this, _drawBack, drawBack_fn).call(this, hLay.b_do ? hLay.b_do === "Sprite" ? { b_pic: hLay.b_pic } : { b_color: hLay.b_color } : { b_pic: "" }, (isStop) => {
+      if (!__privateMethod(this, _drawBack, drawBack_fn).call(this, hLay.b_do ? hLay.b_do === "Sprite" ? { b_pic: hLay.b_pic } : { b_color: hLay.b_color } : { b_pic: "" }, (isStop) => {
         if (isStop)
           re2();
       }))
@@ -48105,30 +48355,30 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
   }
   snapshot(rnd, re2) {
     rnd.render(this.spLay, { clear: false });
-    __privateGet2(this, _txs).snapshot(rnd, re2);
+    __privateGet(this, _txs).snapshot(rnd, re2);
   }
   snapshot_end() {
-    __privateGet2(this, _txs).snapshot_end();
+    __privateGet(this, _txs).snapshot_end();
   }
   makeDesignCast(gdc) {
     if (!this.spLay.visible)
       return;
-    __privateGet2(this, _txs).makeDesignCast(gdc);
+    __privateGet(this, _txs).makeDesignCast(gdc);
   }
   makeDesignCastChildren(gdc) {
     if (!this.spLay.visible)
       return;
-    __privateGet2(this, _cntBtn).children.forEach((btn) => btn.makeDesignCast(gdc));
+    __privateGet(this, _cntBtn).children.forEach((btn) => btn.makeDesignCast(gdc));
   }
   showDesignCast() {
-    __privateGet2(this, _txs).showDesignCast();
+    __privateGet(this, _txs).showDesignCast();
   }
   showDesignCastChildren() {
-    __privateGet2(this, _cntBtn).children.forEach((btn) => btn.showDesignCast());
+    __privateGet(this, _cntBtn).children.forEach((btn) => btn.showDesignCast());
   }
   dump() {
-    __privateGet2(this, _putCh).call(this, "", "gotxt\uFF5C");
-    return super.dump() + `, "enabled":"${this.enabled}", ${__privateGet2(this, _txs).dump()}, "b_pic":"${__privateGet2(this, _b_pic)}", "b_color":"${__privateGet2(this, _b_color)}", "b_alpha":${__privateGet2(this, _b_alpha)}, "b_alpha_isfixed":"${__privateGet2(this, _b_alpha_isfixed)}", "width":${__privateGet2(this, _txs).getWidth}, "height":${__privateGet2(this, _txs).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${__privateGet2(this, _cntBtn).children.map((d2) => {
+    __privateGet(this, _putCh).call(this, "", "gotxt\uFF5C");
+    return super.dump() + `, "enabled":"${this.enabled}", ${__privateGet(this, _txs).dump()}, "b_pic":"${__privateGet(this, _b_pic)}", "b_color":"${__privateGet(this, _b_color)}", "b_alpha":${__privateGet(this, _b_alpha)}, "b_alpha_isfixed":"${__privateGet(this, _b_alpha_isfixed)}", "width":${__privateGet(this, _txs).getWidth}, "height":${__privateGet(this, _txs).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${__privateGet(this, _cntBtn).children.map((d2) => {
       var _a3;
       return (_a3 = d2.children[0].name) != null ? _a3 : "{}";
     }).join(",")}]`;
@@ -48142,22 +48392,22 @@ _isPageFore = /* @__PURE__ */ new WeakMap();
 _ch_in_style = /* @__PURE__ */ new WeakSet();
 ch_in_style_fn = function(hArg) {
   const o = TxtStage.ch_in_style(hArg);
-  const x = o.x.charAt(0) === "=" ? `${o.nx * 100}%` : `${o.nx}px`;
+  const x2 = o.x.charAt(0) === "=" ? `${o.nx * 100}%` : `${o.nx}px`;
   const y2 = o.y.charAt(0) === "=" ? `${o.ny * 100}%` : `${o.ny}px`;
-  const { name } = hArg;
+  const { name: name2 } = hArg;
   addStyle(`
-.sn_ch_in_${name} {
+.sn_ch_in_${name2} {
 	position: relative;
 	display: inline-block;
 }
-.go_ch_in_${name} {
+.go_ch_in_${name2} {
 	opacity: ${o.alpha};
 	position: relative;
 	display: inline-block;
-	animation: sn_ch_in_${name} ${o.wait}ms ${o.ease} 0s both;
+	animation: sn_ch_in_${name2} ${o.wait}ms ${o.ease} 0s both;
 }
-@keyframes sn_ch_in_${name} {
-	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y2});}
+@keyframes sn_ch_in_${name2} {
+	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x2}, ${y2});}
 	to {opacity: 1; transform: none;}
 }
 `);
@@ -48166,19 +48416,19 @@ ch_in_style_fn = function(hArg) {
 _ch_out_style = /* @__PURE__ */ new WeakSet();
 ch_out_style_fn = function(hArg) {
   const o = TxtStage.ch_out_style(hArg);
-  const x = o.x.charAt(0) === "=" ? `${o.nx * 100}%` : `${o.nx}px`;
+  const x2 = o.x.charAt(0) === "=" ? `${o.nx * 100}%` : `${o.nx}px`;
   const y2 = o.y.charAt(0) === "=" ? `${o.ny * 100}%` : `${o.ny}px`;
-  const { name } = hArg;
+  const { name: name2 } = hArg;
   addStyle(`
-.go_ch_out_${name} {
+.go_ch_out_${name2} {
 	position: relative;
 	display: inline-block;
-	animation: go_ch_out_${name} ${o.wait}ms ${o.ease} 0s both;
+	animation: go_ch_out_${name2} ${o.wait}ms ${o.ease} 0s both;
 }
-@keyframes go_ch_out_${name} {
+@keyframes go_ch_out_${name2} {
 	to {
 		opacity: ${o.alpha};
-		transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y2});
+		transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x2}, ${y2});
 	}
 `);
   return false;
@@ -48190,25 +48440,25 @@ _doAutoWc = /* @__PURE__ */ new WeakMap();
 _hAutoWc = /* @__PURE__ */ new WeakMap();
 _autowc = /* @__PURE__ */ new WeakSet();
 autowc_fn = function(hArg) {
-  __privateSet2(_TxtLayer, _doAutoWc, argChk_Boolean(hArg, "enabled", __privateGet2(_TxtLayer, _doAutoWc)));
-  __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.enabled", __privateGet2(_TxtLayer, _doAutoWc));
-  const { text } = hArg;
+  __privateSet(_TxtLayer, _doAutoWc, argChk_Boolean(hArg, "enabled", __privateGet(_TxtLayer, _doAutoWc)));
+  __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.enabled", __privateGet(_TxtLayer, _doAutoWc));
+  const { text: text2 } = hArg;
   if ("text" in hArg !== "time" in hArg)
     throw "[autowc] text\u3068time\u306F\u540C\u6642\u6307\u5B9A\u5FC5\u9808\u3067\u3059";
-  __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.text", text);
-  if (!text) {
-    __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", "");
+  __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.text", text2);
+  if (!text2) {
+    __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", "");
     return false;
   }
-  const len = text.length;
-  if (__privateGet2(_TxtLayer, _doAutoWc) && len === 0)
+  const len = text2.length;
+  if (__privateGet(_TxtLayer, _doAutoWc) && len === 0)
     throw '[autowc] enabled === false \u304B\u3064 text === "" \u306F\u8A31\u3055\u308C\u307E\u305B\u3093';
   const a2 = String(hArg.time).split(",");
   if (a2.length !== len)
     throw "[autowc] text\u6587\u5B57\u6570\u3068time\u306B\u8A18\u8FF0\u3055\u308C\u305F\u5F85\u3061\u6642\u9593\uFF08\u30B3\u30F3\u30DE\u533A\u5207\u308A\uFF09\u306F\u540C\u6570\u306B\u3057\u3066\u4E0B\u3055\u3044";
-  __privateSet2(_TxtLayer, _hAutoWc, {});
-  a2.forEach((v2, i2) => __privateGet2(_TxtLayer, _hAutoWc)[text[i2]] = uint(v2));
-  __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", hArg.time);
+  __privateSet(_TxtLayer, _hAutoWc, {});
+  a2.forEach((v2, i2) => __privateGet(_TxtLayer, _hAutoWc)[text2[i2]] = uint(v2));
+  __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", hArg.time);
   return false;
 };
 _b_color = /* @__PURE__ */ new WeakMap();
@@ -48227,8 +48477,8 @@ set_ch_in_fn = function(hArg) {
   const cis = TxtStage.getChInStyle(in_style);
   if (!cis)
     throw `\u5B58\u5728\u3057\u306A\u3044in_style\u3010${in_style}\u3011\u3067\u3059`;
-  __privateSet2(this, _$ch_in_style, in_style);
-  __privateSet2(this, _ch_in_join, cis.join);
+  __privateSet(this, _$ch_in_style, in_style);
+  __privateSet(this, _ch_in_join, cis.join);
 };
 _$ch_in_style = /* @__PURE__ */ new WeakMap();
 _ch_in_join = /* @__PURE__ */ new WeakMap();
@@ -48240,54 +48490,54 @@ set_ch_out_fn = function(hArg) {
   const cos = TxtStage.getChOutStyle(out_style);
   if (!cos)
     throw `\u5B58\u5728\u3057\u306A\u3044out_style\u3010${out_style}\u3011\u3067\u3059`;
-  __privateSet2(this, _$ch_out_style, out_style);
+  __privateSet(this, _$ch_out_style, out_style);
 };
 _$ch_out_style = /* @__PURE__ */ new WeakMap();
 _drawBack = /* @__PURE__ */ new WeakSet();
 drawBack_fn = function(hArg, fncComp) {
   if ("back_clear" in hArg) {
     if (argChk_Boolean(hArg, "back_clear", false)) {
-      __privateSet2(this, _b_color, 0);
-      __privateSet2(this, _b_alpha, 0);
-      __privateSet2(this, _b_alpha_isfixed, false);
-      __privateSet2(this, _b_pic, "");
+      __privateSet(this, _b_color, 0);
+      __privateSet(this, _b_alpha, 0);
+      __privateSet(this, _b_alpha_isfixed, false);
+      __privateSet(this, _b_pic, "");
     }
     fncComp(false);
     return false;
   }
-  __privateSet2(this, _b_alpha, argChk_Num(hArg, "b_alpha", __privateGet2(this, _b_alpha)));
-  __privateSet2(this, _b_alpha_isfixed, argChk_Boolean(hArg, "b_alpha_isfixed", __privateGet2(this, _b_alpha_isfixed)));
-  const alpha = (__privateGet2(this, _b_alpha_isfixed) ? 1 : Number(__privateGet2(_TxtLayer, _val).getVal("sys:TextLayer.Back.Alpha"))) * __privateGet2(this, _b_alpha);
+  __privateSet(this, _b_alpha, argChk_Num(hArg, "b_alpha", __privateGet(this, _b_alpha)));
+  __privateSet(this, _b_alpha_isfixed, argChk_Boolean(hArg, "b_alpha_isfixed", __privateGet(this, _b_alpha_isfixed)));
+  const alpha = (__privateGet(this, _b_alpha_isfixed) ? 1 : Number(__privateGet(_TxtLayer, _val).getVal("sys:TextLayer.Back.Alpha"))) * __privateGet(this, _b_alpha);
   if (hArg.b_pic) {
-    if (__privateGet2(this, _b_pic) !== hArg.b_pic) {
-      __privateSet2(this, _b_pic, hArg.b_pic);
-      if (__privateGet2(this, _b_do)) {
-        this.spLay.removeChild(__privateGet2(this, _b_do));
-        __privateGet2(this, _b_do).destroy();
+    if (__privateGet(this, _b_pic) !== hArg.b_pic) {
+      __privateSet(this, _b_pic, hArg.b_pic);
+      if (__privateGet(this, _b_do)) {
+        this.spLay.removeChild(__privateGet(this, _b_do));
+        __privateGet(this, _b_do).destroy();
       }
-      return GrpLayer.csv2Sprites(__privateGet2(this, _b_pic), this.spLay, (sp) => {
-        __privateSet2(this, _b_do, sp);
+      return GrpLayer.csv2Sprites(__privateGet(this, _b_pic), this.spLay, (sp) => {
+        __privateSet(this, _b_do, sp);
         sp.name = "back(pic)";
         sp.visible = alpha > 0;
         sp.alpha = alpha;
-        __privateGet2(this, _txs).setSize(sp.width, sp.height);
+        __privateGet(this, _txs).setSize(sp.width, sp.height);
         this.spLay.setChildIndex(sp, 0);
         fncComp(true);
       });
     }
   } else if ("b_color" in hArg) {
-    __privateSet2(this, _b_color, argChk_Color(hArg, "b_color", 0));
-    if (__privateGet2(this, _b_do)) {
-      this.spLay.removeChild(__privateGet2(this, _b_do));
-      __privateGet2(this, _b_do).destroy();
+    __privateSet(this, _b_color, argChk_Color(hArg, "b_color", 0));
+    if (__privateGet(this, _b_do)) {
+      this.spLay.removeChild(__privateGet(this, _b_do));
+      __privateGet(this, _b_do).destroy();
     }
-    __privateSet2(this, _b_pic, "");
-    this.spLay.addChildAt(__privateSet2(this, _b_do, new Graphics()).beginFill(__privateGet2(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet2(this, _txs).getWidth, __privateGet2(this, _txs).getHeight).endFill(), 0);
-    __privateGet2(this, _b_do).name = "back(color)";
+    __privateSet(this, _b_pic, "");
+    this.spLay.addChildAt(__privateSet(this, _b_do, new Graphics()).beginFill(__privateGet(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet(this, _txs).getWidth, __privateGet(this, _txs).getHeight).endFill(), 0);
+    __privateGet(this, _b_do).name = "back(color)";
   }
-  if (__privateGet2(this, _b_do)) {
-    __privateGet2(this, _b_do).visible = alpha > 0;
-    __privateGet2(this, _b_do).alpha = alpha;
+  if (__privateGet(this, _b_do)) {
+    __privateGet(this, _b_do).visible = alpha > 0;
+    __privateGet(this, _b_do).alpha = alpha;
   }
   fncComp(false);
   return false;
@@ -48296,18 +48546,18 @@ _setFfs = /* @__PURE__ */ new WeakSet();
 setFfs_fn = function(hArg) {
   var _a3, _b3;
   if ("noffs" in hArg) {
-    __privateSet2(this, _strNoFFS, (_a3 = hArg.noffs) != null ? _a3 : "");
-    __privateSet2(this, _regNoFFS, new RegExp(`[\u3000${__privateGet2(this, _strNoFFS)}]`));
+    __privateSet(this, _strNoFFS, (_a3 = hArg.noffs) != null ? _a3 : "");
+    __privateSet(this, _regNoFFS, new RegExp(`[\u3000${__privateGet(this, _strNoFFS)}]`));
   }
   if (!("ffs" in hArg))
     return;
-  (_b3 = __privateGet2(this, _ffs)) != null ? _b3 : __privateSet2(this, _ffs, "");
-  if (__privateGet2(this, _ffs) === "") {
-    __privateSet2(this, _fncFFSStyle, () => "");
-    __privateSet2(this, _fncFFSSpan, (ch) => ch);
+  (_b3 = __privateGet(this, _ffs)) != null ? _b3 : __privateSet(this, _ffs, "");
+  if (__privateGet(this, _ffs) === "") {
+    __privateSet(this, _fncFFSStyle, () => "");
+    __privateSet(this, _fncFFSSpan, (ch) => ch);
   } else {
-    __privateSet2(this, _fncFFSStyle, (ch) => __privateGet2(this, _regNoFFS).test(ch) ? "" : ` font-feature-settings: ${__privateGet2(this, _ffs)};`);
-    __privateSet2(this, _fncFFSSpan, (ch) => __privateGet2(this, _regNoFFS).test(ch) ? ch : `<span style='font-feature-settings: ${__privateGet2(this, _ffs)};'>${ch}</span>`);
+    __privateSet(this, _fncFFSStyle, (ch) => __privateGet(this, _regNoFFS).test(ch) ? "" : ` font-feature-settings: ${__privateGet(this, _ffs)};`);
+    __privateSet(this, _fncFFSSpan, (ch) => __privateGet(this, _regNoFFS).test(ch) ? ch : `<span style='font-feature-settings: ${__privateGet(this, _ffs)};'>${ch}</span>`);
   }
 };
 _ffs = /* @__PURE__ */ new WeakMap();
@@ -48343,10 +48593,10 @@ mkStyle_r_align4ff_fn = function(ch, rb, r_align) {
       break;
     case "even":
       const ev = (len - rb.length) / (rb.length + 1);
-      st = `ruby-align: space-between; ` + (__privateGet2(this, _txs).tategaki ? `padding-top: ${ev}em; padding-bottom: ${ev}em;` : `padding-left: ${ev}em; padding-right: ${ev}em;`);
+      st = `ruby-align: space-between; ` + (__privateGet(this, _txs).tategaki ? `padding-top: ${ev}em; padding-bottom: ${ev}em;` : `padding-left: ${ev}em; padding-right: ${ev}em;`);
       break;
     case "1ruby":
-      st = `ruby-align: space-between; ` + (__privateGet2(this, _txs).tategaki ? `padding-top: 1em; padding-bottom: 1em;` : `padding-left: 1em; padding-right: 1em;`);
+      st = `ruby-align: space-between; ` + (__privateGet(this, _txs).tategaki ? `padding-top: 1em; padding-bottom: 1em;` : `padding-left: 1em; padding-right: 1em;`);
       break;
     default:
       st = `text-align: ${r_align};`;
@@ -48360,18 +48610,18 @@ tagCh_sub_fn = function(ch, ruby, isSkip, r_align) {
   var _a3;
   if (ch === " ")
     ch = "&nbsp;";
-  if (__privateGet2(_TxtLayer, _val).doRecLog())
-    __privateSet2(this, _page_text, __privateGet2(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
+  if (__privateGet(_TxtLayer, _val).doRecLog())
+    __privateSet(this, _page_text, __privateGet(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
   let add_htm = "";
   const rs = this.mkStyle_r_align(ch, ruby, r_align);
   if (isSkip)
-    __privateSet2(this, _cumDelay, 0);
-  const da = ` data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'`;
-  add_htm = ruby ? __privateGet2(this, _aSpan_bk) ? `<ruby style='${__privateGet2(this, _fncFFSStyle).call(this, ch)}'${da} data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${__privateGet2(this, _fncFFSStyle).call(this, ch)}'>
+    __privateSet(this, _cumDelay, 0);
+  const da = ` data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'`;
+  add_htm = ruby ? __privateGet(this, _aSpan_bk) ? `<ruby style='${__privateGet(this, _fncFFSStyle).call(this, ch)}'${da} data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${__privateGet(this, _fncFFSStyle).call(this, ch)}'>
 					<ruby${da}>${ch}<rt${rs}>${ruby}</rt></ruby>
-				</span>` : __privateGet2(this, _aSpan_bk) ? __privateGet2(this, _fncFFSSpan).call(this, ch) : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${__privateGet2(this, _fncFFSStyle).call(this, ch)}'${da}>${ch}</span>`;
-  if (__privateGet2(this, _ch_in_join))
-    __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_a3 = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _a3 : 0 : LayerMng.msecChWait));
+				</span>` : __privateGet(this, _aSpan_bk) ? __privateGet(this, _fncFFSSpan).call(this, ch) : `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${__privateGet(this, _fncFFSStyle).call(this, ch)}'${da}>${ch}</span>`;
+  if (__privateGet(this, _ch_in_join))
+    __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? (_a3 = __privateGet(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _a3 : 0 : LayerMng.msecChWait));
   return add_htm;
 };
 _cumDelay = /* @__PURE__ */ new WeakMap();
@@ -48382,85 +48632,85 @@ _aSpan_link = /* @__PURE__ */ new WeakMap();
 _hSpanBk = /* @__PURE__ */ new WeakMap();
 _beginSpan = /* @__PURE__ */ new WeakSet();
 beginSpan_fn = function(o) {
-  __privateGet2(this, _hSpanBk).ch_in_style = __privateGet2(this, _$ch_in_style);
-  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, o);
-  __privateGet2(this, _hSpanBk).ch_out_style = __privateGet2(this, _$ch_out_style);
-  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, o);
-  __privateGet2(this, _hSpanBk).r_align = __privateGet2(this, _r_align);
+  __privateGet(this, _hSpanBk).ch_in_style = __privateGet(this, _$ch_in_style);
+  __privateMethod(this, _set_ch_in, set_ch_in_fn).call(this, o);
+  __privateGet(this, _hSpanBk).ch_out_style = __privateGet(this, _$ch_out_style);
+  __privateMethod(this, _set_ch_out, set_ch_out_fn).call(this, o);
+  __privateGet(this, _hSpanBk).r_align = __privateGet(this, _r_align);
   if ("r_align" in o)
-    __privateSet2(this, _r_align, o.r_align);
+    __privateSet(this, _r_align, o.r_align);
 };
 _autoCloseSpan = /* @__PURE__ */ new WeakSet();
 autoCloseSpan_fn = function() {
-  if (!__privateGet2(this, _aSpan_bk))
+  if (!__privateGet(this, _aSpan_bk))
     return;
-  __privateGet2(this, _aSpan_bk).push(__privateGet2(this, _aSpan), "</span>");
-  __privateSet2(this, _aSpan, Array.prototype.concat.apply([], __privateGet2(this, _aSpan_bk)));
-  __privateSet2(this, _aSpan_bk, void 0);
-  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, { in_style: __privateGet2(this, _hSpanBk).ch_in_style });
-  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, { out_style: __privateGet2(this, _hSpanBk).ch_out_style });
-  __privateSet2(this, _r_align, __privateGet2(this, _hSpanBk).r_align);
+  __privateGet(this, _aSpan_bk).push(__privateGet(this, _aSpan), "</span>");
+  __privateSet(this, _aSpan, Array.prototype.concat.apply([], __privateGet(this, _aSpan_bk)));
+  __privateSet(this, _aSpan_bk, void 0);
+  __privateMethod(this, _set_ch_in, set_ch_in_fn).call(this, { in_style: __privateGet(this, _hSpanBk).ch_in_style });
+  __privateMethod(this, _set_ch_out, set_ch_out_fn).call(this, { out_style: __privateGet(this, _hSpanBk).ch_out_style });
+  __privateSet(this, _r_align, __privateGet(this, _hSpanBk).r_align);
 };
 _page_text = /* @__PURE__ */ new WeakMap();
-__privateAdd2(TxtLayer, _ch_in_style);
-__privateAdd2(TxtLayer, _ch_out_style);
-__privateAdd2(TxtLayer, _autowc);
-__privateAdd2(TxtLayer, _cfg, void 0);
-__privateAdd2(TxtLayer, _val, void 0);
-__privateAdd2(TxtLayer, _recText, void 0);
-__privateAdd2(TxtLayer, _isPageFore, void 0);
-__privateAdd2(TxtLayer, _main, void 0);
-__privateAdd2(TxtLayer, _evtMng, void 0);
-__privateAdd2(TxtLayer, _sys, void 0);
-__privateAdd2(TxtLayer, _doAutoWc, false);
-__privateAdd2(TxtLayer, _hAutoWc, {});
+__privateAdd(TxtLayer, _ch_in_style);
+__privateAdd(TxtLayer, _ch_out_style);
+__privateAdd(TxtLayer, _autowc);
+__privateAdd(TxtLayer, _cfg, void 0);
+__privateAdd(TxtLayer, _val, void 0);
+__privateAdd(TxtLayer, _recText, void 0);
+__privateAdd(TxtLayer, _isPageFore, void 0);
+__privateAdd(TxtLayer, _main, void 0);
+__privateAdd(TxtLayer, _evtMng, void 0);
+__privateAdd(TxtLayer, _sys, void 0);
+__privateAdd(TxtLayer, _doAutoWc, false);
+__privateAdd(TxtLayer, _hAutoWc, {});
 TxtLayer.rec = (tx) => tx;
 class FrameMng {
   constructor(cfg, hTag, appPixi, val, main2, sys, hTwInf) {
-    __privateAdd(this, _add_frame);
-    __privateAdd(this, _rect);
-    __privateAdd(this, _let_frame);
-    __privateAdd(this, _set_frame);
-    __privateAdd(this, _frame);
-    __privateAdd(this, _tsy_frame);
-    __privateAdd(this, _evtMng4, void 0);
-    __privateAdd(this, _hIfrm, /* @__PURE__ */ Object.create(null));
-    __privateAdd(this, _hDisabled, {});
-    __privateAdd(this, _zIdx, 1);
+    __privateAdd2(this, _add_frame);
+    __privateAdd2(this, _rect);
+    __privateAdd2(this, _let_frame);
+    __privateAdd2(this, _set_frame);
+    __privateAdd2(this, _frame);
+    __privateAdd2(this, _tsy_frame);
+    __privateAdd2(this, _evtMng4, void 0);
+    __privateAdd2(this, _hIfrm, /* @__PURE__ */ Object.create(null));
+    __privateAdd2(this, _hDisabled, {});
+    __privateAdd2(this, _zIdx, 1);
     this.cfg = cfg;
     this.appPixi = appPixi;
     this.val = val;
     this.main = main2;
     this.sys = sys;
     this.hTwInf = hTwInf;
-    hTag.add_frame = (o) => __privateMethod(this, _add_frame, add_frame_fn).call(this, o);
-    hTag.let_frame = (o) => __privateMethod(this, _let_frame, let_frame_fn).call(this, o);
-    hTag.set_frame = (o) => __privateMethod(this, _set_frame, set_frame_fn).call(this, o);
-    hTag.frame = (o) => __privateMethod(this, _frame, frame_fn).call(this, o);
-    hTag.tsy_frame = (o) => __privateMethod(this, _tsy_frame, tsy_frame_fn).call(this, o);
+    hTag.add_frame = (o) => __privateMethod2(this, _add_frame, add_frame_fn).call(this, o);
+    hTag.let_frame = (o) => __privateMethod2(this, _let_frame, let_frame_fn).call(this, o);
+    hTag.set_frame = (o) => __privateMethod2(this, _set_frame, set_frame_fn).call(this, o);
+    hTag.frame = (o) => __privateMethod2(this, _frame, frame_fn).call(this, o);
+    hTag.tsy_frame = (o) => __privateMethod2(this, _tsy_frame, tsy_frame_fn).call(this, o);
   }
   setEvtMng(evtMng) {
-    __privateSet(this, _evtMng4, evtMng);
+    __privateSet2(this, _evtMng4, evtMng);
   }
   destroy() {
-    for (const n in __privateGet(this, _hIfrm)) {
-      const f2 = __privateGet(this, _hIfrm)[n];
+    for (const n in __privateGet2(this, _hIfrm)) {
+      const f2 = __privateGet2(this, _hIfrm)[n];
       f2.parentElement.removeChild(f2);
     }
-    __privateSet(this, _hIfrm, /* @__PURE__ */ Object.create(null));
+    __privateSet2(this, _hIfrm, /* @__PURE__ */ Object.create(null));
   }
   getFrmDisabled(id) {
-    return __privateGet(this, _hDisabled)[id];
+    return __privateGet2(this, _hDisabled)[id];
   }
   cvsResize() {
-    for (const id in __privateGet(this, _hIfrm)) {
-      const f2 = __privateGet(this, _hIfrm)[id];
+    for (const id in __privateGet2(this, _hIfrm)) {
+      const f2 = __privateGet2(this, _hIfrm)[id];
       const vn = "const.sn.frm." + id;
-      const x = Number(this.val.getVal(vn + ".x"));
+      const x2 = Number(this.val.getVal(vn + ".x"));
       const y2 = Number(this.val.getVal(vn + ".y"));
       const w2 = Number(this.val.getVal(vn + ".width"));
       const h2 = Number(this.val.getVal(vn + ".height"));
-      f2.style.left = `${this.sys.ofsLeft4elm + x * this.sys.cvsScale}px`;
+      f2.style.left = `${this.sys.ofsLeft4elm + x2 * this.sys.cvsScale}px`;
       f2.style.top = `${this.sys.ofsTop4elm + y2 * this.sys.cvsScale}px`;
       f2.width = String(w2 * this.sys.cvsScale);
       f2.height = String(h2 * this.sys.cvsScale);
@@ -48481,7 +48731,7 @@ add_frame_fn = function(hArg) {
     throw `frame\u3010${id}\u3011\u306F\u3059\u3067\u306B\u3042\u308A\u307E\u3059`;
   const v2 = argChk_Boolean(hArg, "visible", true);
   const b_color = hArg.b_color ? ` background-color: ${hArg.b_color};` : "";
-  const rct = __privateMethod(this, _rect, rect_fn).call(this, hArg);
+  const rct = __privateMethod2(this, _rect, rect_fn).call(this, hArg);
   this.appPixi.view.insertAdjacentHTML("beforebegin", `<iframe id="${id}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a2}; position: absolute; left:${this.sys.ofsLeft4elm + rct.x * this.sys.cvsScale}px; top: ${this.sys.ofsTop4elm + rct.y * this.sys.cvsScale}px; z-index: 1; ${b_color} border: 0px; overflow: hidden; display: ${v2 ? "inline" : "none"}; transform: scale(${sx}, ${sy}) rotate(${r2}deg);" width="${rct.width * this.sys.cvsScale}" height="${rct.height * this.sys.cvsScale}"></iframe>`);
   const url2 = this.cfg.searchPath(src, Config.EXT_HTML);
   const ld = new Loader().add({ name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT });
@@ -48497,8 +48747,8 @@ add_frame_fn = function(hArg) {
   ld.load((_ldr, hRes) => {
     var _a3;
     const ifrm = document.getElementById(id);
-    __privateGet(this, _hIfrm)[id] = ifrm;
-    __privateGet(this, _hDisabled)[id] = false;
+    __privateGet2(this, _hIfrm)[id] = ifrm;
+    __privateGet2(this, _hDisabled)[id] = false;
     ifrm.srcdoc = String((_a3 = hRes[src]) == null ? void 0 : _a3.data).replace("sn_repRes();", "").replace(/\s(?:src|href)=(["'])(\S+)\1/g, (v22, p1, p2) => p2.slice(0, 3) === "../" ? this.sys.cur + p2.slice(4) : v22.replace(p1, p1 + url2.slice(0, url2.lastIndexOf("/") + 1)));
     ifrm.onload = () => {
       var _a4;
@@ -48513,7 +48763,7 @@ add_frame_fn = function(hArg) {
       this.val.setVal_Nochk("tmp", vn + ".height", rct.height);
       this.val.setVal_Nochk("tmp", vn + ".visible", v2);
       const win = ifrm.contentWindow;
-      __privateGet(this, _evtMng4).resvFlameEvent(win);
+      __privateGet2(this, _evtMng4).resvFlameEvent(win);
       (_a4 = win.sn_repRes) == null ? void 0 : _a4.call(win, (img) => {
         var _a5;
         return GrpLayer.loadPic2Img((_a5 = img.dataset.src) != null ? _a5 : "", img);
@@ -48552,7 +48802,7 @@ let_frame_fn = function(hArg) {
 };
 _set_frame = new WeakSet();
 set_frame_fn = function(hArg) {
-  const { id, var_name, text } = hArg;
+  const { id, var_name, text: text2 } = hArg;
   if (!id)
     throw "id\u306F\u5FC5\u9808\u3067\u3059";
   const f2 = document.getElementById(id);
@@ -48563,11 +48813,11 @@ set_frame_fn = function(hArg) {
     throw `frame\u3010${id}\u3011\u304C\u8AAD\u307F\u8FBC\u307E\u308C\u3066\u3044\u307E\u305B\u3093`;
   if (!var_name)
     throw "var_name\u306F\u5FC5\u9808\u3067\u3059";
-  if (!text)
+  if (!text2)
     throw "text\u306F\u5FC5\u9808\u3067\u3059";
-  this.val.setVal_Nochk("tmp", vn + "." + var_name, text);
+  this.val.setVal_Nochk("tmp", vn + "." + var_name, text2);
   const win = f2.contentWindow;
-  win[var_name] = text;
+  win[var_name] = text2;
   return false;
 };
 _zIdx = new WeakMap();
@@ -48584,16 +48834,16 @@ frame_fn = function(hArg) {
     throw `frame\u3010${id}\u3011\u304C\u8AAD\u307F\u8FBC\u307E\u308C\u3066\u3044\u307E\u305B\u3093`;
   const s2 = f2.style;
   if (argChk_Boolean(hArg, "float", false))
-    s2.zIndex = `${++__privateWrapper(this, _zIdx)._}`;
+    s2.zIndex = `${++__privateWrapper2(this, _zIdx)._}`;
   else if ("index" in hArg)
     s2.zIndex = `${argChk_Num(hArg, "index", 0)}`;
   else if (hArg.dive)
-    s2.zIndex = `-${++__privateWrapper(this, _zIdx)._}`;
+    s2.zIndex = `-${++__privateWrapper2(this, _zIdx)._}`;
   if ("alpha" in hArg) {
     const a2 = s2.opacity = String(hArg.alpha);
     this.val.setVal_Nochk("tmp", vn + ".alpha", a2);
   }
-  const rct = __privateMethod(this, _rect, rect_fn).call(this, hArg);
+  const rct = __privateMethod2(this, _rect, rect_fn).call(this, hArg);
   if ("x" in hArg || "y" in hArg) {
     s2.left = `${this.sys.ofsLeft4elm + rct.x * this.sys.cvsScale}px`;
     s2.top = `${this.sys.ofsTop4elm + rct.y * this.sys.cvsScale}px`;
@@ -48625,7 +48875,7 @@ frame_fn = function(hArg) {
   if ("b_color" in hArg)
     s2.backgroundColor = hArg.b_color;
   if ("disabled" in hArg) {
-    const d2 = __privateGet(this, _hDisabled)[id] = argChk_Boolean(hArg, "disabled", true);
+    const d2 = __privateGet2(this, _hDisabled)[id] = argChk_Boolean(hArg, "disabled", true);
     const il = f2.contentDocument.body.querySelectorAll("input,select");
     il.forEach((v2) => v2.disabled = d2);
   }
@@ -48671,7 +48921,7 @@ tsy_frame_fn = function(hArg) {
   }
   let fncXYSR = () => {
   };
-  const rct = __privateMethod(this, _rect, rect_fn).call(this, hArg2);
+  const rct = __privateMethod2(this, _rect, rect_fn).call(this, hArg2);
   if ("x" in hArg || "y" in hArg || "scale_x" in hArg || "scale_y" in hArg || "rotate" in hArg) {
     hTo.x = rct.x;
     hTo.y = rct.y;
@@ -48710,7 +48960,7 @@ tsy_frame_fn = function(hArg) {
   this.appPixi.stage.interactive = false;
   const tw_nm = `frm
 ${hArg.id}`;
-  const tw = new Tween(hNow).to(hTo, argChk_Num(hArg, "time", NaN) * (Boolean(this.val.getVal("tmp:sn.skip.enabled") || __privateGet(this, _evtMng4).isSkippingByKeyDown()) ? 0 : 1)).delay(argChk_Num(hArg, "delay", 0)).easing(CmnTween.ease(hArg.ease)).repeat(repeat === 0 ? Infinity : repeat - 1).yoyo(argChk_Boolean(hArg, "yoyo", false)).onUpdate(() => {
+  const tw = new Tween(hNow).to(hTo, argChk_Num(hArg, "time", NaN) * (Boolean(this.val.getVal("tmp:sn.skip.enabled") || __privateGet2(this, _evtMng4).isSkippingByKeyDown()) ? 0 : 1)).delay(argChk_Num(hArg, "delay", 0)).easing(CmnTween.ease(hArg.ease)).repeat(repeat === 0 ? Infinity : repeat - 1).yoyo(argChk_Boolean(hArg, "yoyo", false)).onUpdate(() => {
     fncA();
     fncXYSR();
     fncW();
@@ -48740,76 +48990,76 @@ ${hArg.id}`;
 };
 const _LayerMng = class {
   constructor(cfg, hTag, appPixi, val, main2, scrItr, sys, sndMng, alzTagArg, prpPrs) {
-    __privateAdd(this, _selectNode);
-    __privateAdd(this, _foreachRedrawTxtLayBack);
-    __privateAdd(this, _snapshot);
-    __privateAdd(this, _loadplugin);
-    __privateAdd(this, _add_lay);
-    __privateAdd(this, _lay);
-    __privateAdd(this, _rebuildLayerRankInfo);
-    __privateAdd(this, _clear_lay);
-    __privateAdd(this, _trans);
-    __privateAdd(this, _getLayers);
-    __privateAdd(this, _foreachLayers);
-    __privateAdd(this, _sortLayers);
-    __privateAdd(this, _wt);
-    __privateAdd(this, _finish_trans);
-    __privateAdd(this, _quake);
-    __privateAdd(this, _tsy);
-    __privateAdd(this, _wait_tsy);
-    __privateAdd(this, _stop_tsy);
-    __privateAdd(this, _pause_tsy);
-    __privateAdd(this, _resume_tsy);
-    __privateAdd(this, _ch);
-    __privateAdd(this, _$getTxtLayer);
-    __privateAdd(this, _$current);
-    __privateAdd(this, _argChk_layer);
-    __privateAdd(this, _clear_text);
-    __privateAdd(this, _endlink);
-    __privateAdd(this, _er);
-    __privateAdd(this, _graph);
-    __privateAdd(this, _link);
-    __privateAdd(this, _r);
-    __privateAdd(this, _rec_r);
-    __privateAdd(this, _rec_ch);
-    __privateAdd(this, _reset_rec);
-    __privateAdd(this, _ruby2);
-    __privateAdd(this, _span);
-    __privateAdd(this, _tcy);
-    __privateAdd(this, _dump_lay);
-    __privateAdd(this, _enable_event);
-    __privateAdd(this, _button);
-    __privateAdd(this, _stage, void 0);
-    __privateAdd(this, _fore, void 0);
-    __privateAdd(this, _back, void 0);
-    __privateAdd(this, _frmMng, void 0);
-    __privateAdd(this, _fncTicker, void 0);
-    __privateAdd(this, _hProcDbgRes2, void 0);
-    __privateAdd(this, _modeLn, void 0);
-    __privateAdd(this, _modeLnSub, void 0);
-    __privateAdd(this, _grpCover, void 0);
-    __privateAdd(this, _evtMng5, void 0);
-    __privateAdd(this, _cmdTxt, void 0);
-    __privateAdd(this, _hPages, void 0);
-    __privateAdd(this, _aLayName, void 0);
-    __privateAdd(this, _curTxtlay, void 0);
-    __privateAdd(this, _firstGrplay, void 0);
-    __privateAdd(this, _srcRuleTransFragment, void 0);
-    __privateAdd(this, _ufRuleTrans, void 0);
-    __privateAdd(this, _fltRule, void 0);
-    __privateAdd(this, _rtTransBack, void 0);
-    __privateAdd(this, _spTransBack, void 0);
-    __privateAdd(this, _rtTransFore, void 0);
-    __privateAdd(this, _spTransFore, void 0);
-    __privateAdd(this, _aBackTransAfter, void 0);
-    __privateAdd(this, _tiTrans, void 0);
-    __privateAdd(this, _hTwInf, void 0);
-    __privateAdd(this, _getTxtLayer, void 0);
-    __privateAdd(this, _current, void 0);
-    __privateAdd(this, _pgTxtlay, void 0);
-    __privateAdd(this, _chkTxtLay, void 0);
-    __privateAdd(this, _oLastPage, void 0);
-    __privateAdd(this, _aTxtLog, void 0);
+    __privateAdd2(this, _selectNode);
+    __privateAdd2(this, _foreachRedrawTxtLayBack);
+    __privateAdd2(this, _snapshot);
+    __privateAdd2(this, _loadplugin);
+    __privateAdd2(this, _add_lay);
+    __privateAdd2(this, _lay);
+    __privateAdd2(this, _rebuildLayerRankInfo);
+    __privateAdd2(this, _clear_lay);
+    __privateAdd2(this, _trans);
+    __privateAdd2(this, _getLayers);
+    __privateAdd2(this, _foreachLayers);
+    __privateAdd2(this, _sortLayers);
+    __privateAdd2(this, _wt);
+    __privateAdd2(this, _finish_trans);
+    __privateAdd2(this, _quake);
+    __privateAdd2(this, _tsy);
+    __privateAdd2(this, _wait_tsy);
+    __privateAdd2(this, _stop_tsy);
+    __privateAdd2(this, _pause_tsy);
+    __privateAdd2(this, _resume_tsy);
+    __privateAdd2(this, _ch);
+    __privateAdd2(this, _$getTxtLayer);
+    __privateAdd2(this, _$current);
+    __privateAdd2(this, _argChk_layer);
+    __privateAdd2(this, _clear_text);
+    __privateAdd2(this, _endlink);
+    __privateAdd2(this, _er);
+    __privateAdd2(this, _graph);
+    __privateAdd2(this, _link);
+    __privateAdd2(this, _r);
+    __privateAdd2(this, _rec_r);
+    __privateAdd2(this, _rec_ch);
+    __privateAdd2(this, _reset_rec);
+    __privateAdd2(this, _ruby2);
+    __privateAdd2(this, _span);
+    __privateAdd2(this, _tcy);
+    __privateAdd2(this, _dump_lay);
+    __privateAdd2(this, _enable_event);
+    __privateAdd2(this, _button);
+    __privateAdd2(this, _stage, void 0);
+    __privateAdd2(this, _fore, void 0);
+    __privateAdd2(this, _back, void 0);
+    __privateAdd2(this, _frmMng, void 0);
+    __privateAdd2(this, _fncTicker, void 0);
+    __privateAdd2(this, _hProcDbgRes2, void 0);
+    __privateAdd2(this, _modeLn, void 0);
+    __privateAdd2(this, _modeLnSub, void 0);
+    __privateAdd2(this, _grpCover, void 0);
+    __privateAdd2(this, _evtMng5, void 0);
+    __privateAdd2(this, _cmdTxt, void 0);
+    __privateAdd2(this, _hPages, void 0);
+    __privateAdd2(this, _aLayName, void 0);
+    __privateAdd2(this, _curTxtlay, void 0);
+    __privateAdd2(this, _firstGrplay, void 0);
+    __privateAdd2(this, _srcRuleTransFragment, void 0);
+    __privateAdd2(this, _ufRuleTrans, void 0);
+    __privateAdd2(this, _fltRule, void 0);
+    __privateAdd2(this, _rtTransBack, void 0);
+    __privateAdd2(this, _spTransBack, void 0);
+    __privateAdd2(this, _rtTransFore, void 0);
+    __privateAdd2(this, _spTransFore, void 0);
+    __privateAdd2(this, _aBackTransAfter, void 0);
+    __privateAdd2(this, _tiTrans, void 0);
+    __privateAdd2(this, _hTwInf, void 0);
+    __privateAdd2(this, _getTxtLayer, void 0);
+    __privateAdd2(this, _current, void 0);
+    __privateAdd2(this, _pgTxtlay, void 0);
+    __privateAdd2(this, _chkTxtLay, void 0);
+    __privateAdd2(this, _oLastPage, void 0);
+    __privateAdd2(this, _aTxtLog, void 0);
     this.cfg = cfg;
     this.hTag = hTag;
     this.appPixi = appPixi;
@@ -48820,10 +49070,10 @@ const _LayerMng = class {
     this.sndMng = sndMng;
     this.alzTagArg = alzTagArg;
     this.prpPrs = prpPrs;
-    __privateSet(this, _fore, new Container());
-    __privateSet(this, _back, new Container());
-    __privateSet(this, _fncTicker, () => update());
-    __privateSet(this, _hProcDbgRes2, {
+    __privateSet2(this, _fore, new Container());
+    __privateSet2(this, _back, new Container());
+    __privateSet2(this, _fncTicker, () => update());
+    __privateSet2(this, _hProcDbgRes2, {
       attach: (_2) => {
         DesignCast.leaveMode();
         return false;
@@ -48838,12 +49088,12 @@ const _LayerMng = class {
       },
       _enterDesign: (_2) => {
         DesignCast.enterMode();
-        __privateGet(this, _aLayName).forEach((layer) => {
-          const lay = __privateGet(this, _hPages)[layer].fore;
+        __privateGet2(this, _aLayName).forEach((layer) => {
+          const lay = __privateGet2(this, _hPages)[layer].fore;
           lay.makeDesignCastChildren((gdc) => gdc.make());
           lay.makeDesignCast((gdc) => gdc.make());
         });
-        __privateMethod(this, _selectNode, selectNode_fn).call(this, __privateGet(this, _curTxtlay));
+        __privateMethod2(this, _selectNode, selectNode_fn).call(this, __privateGet2(this, _curTxtlay));
         return false;
       },
       _replaceToken: (_2, o) => {
@@ -48851,26 +49101,26 @@ const _LayerMng = class {
         return false;
       },
       _selectNode: (_2, o) => {
-        __privateMethod(this, _selectNode, selectNode_fn).call(this, o.node);
+        __privateMethod2(this, _selectNode, selectNode_fn).call(this, o.node);
         return false;
       }
     });
-    __privateSet(this, _modeLn, "");
-    __privateSet(this, _modeLnSub, "");
-    this.getFrmDisabled = (id) => __privateGet(this, _frmMng).getFrmDisabled(id);
-    __privateSet(this, _grpCover, void 0);
-    __privateSet(this, _cmdTxt, (cmd, tl = this.currentTxtlayForeNeedErr, _record = true) => tl.tagCh("\uFF5C\u3000\u300A" + cmd + "\u300B"));
+    __privateSet2(this, _modeLn, "");
+    __privateSet2(this, _modeLnSub, "");
+    this.getFrmDisabled = (id) => __privateGet2(this, _frmMng).getFrmDisabled(id);
+    __privateSet2(this, _grpCover, void 0);
+    __privateSet2(this, _cmdTxt, (cmd, tl = this.currentTxtlayForeNeedErr, _record = true) => tl.tagCh("\uFF5C\u3000\u300A" + cmd + "\u300B"));
     this.goTxt = () => {
     };
     this.breakLine = () => {
     };
     this.breakPage = () => {
     };
-    __privateSet(this, _hPages, {});
-    __privateSet(this, _aLayName, []);
-    __privateSet(this, _curTxtlay, "");
-    __privateSet(this, _firstGrplay, "");
-    __privateSet(this, _srcRuleTransFragment, `
+    __privateSet2(this, _hPages, {});
+    __privateSet2(this, _aLayName, []);
+    __privateSet2(this, _curTxtlay, "");
+    __privateSet2(this, _firstGrplay, "");
+    __privateSet2(this, _srcRuleTransFragment, `
 precision mediump float;
 
 varying vec2 vTextureCoord;
@@ -48901,47 +49151,47 @@ void main(void) {
 		gl_FragColor = (v >= 0.0)? fg : vec4(0);
 	}
 }`);
-    __privateSet(this, _ufRuleTrans, {
+    __privateSet2(this, _ufRuleTrans, {
       rule: Texture.EMPTY,
       vague: 0,
       tick: 0
     });
-    __privateSet(this, _fltRule, new Filter(void 0, __privateGet(this, _srcRuleTransFragment), __privateGet(this, _ufRuleTrans)));
-    __privateSet(this, _rtTransBack, RenderTexture.create({
+    __privateSet2(this, _fltRule, new Filter(void 0, __privateGet2(this, _srcRuleTransFragment), __privateGet2(this, _ufRuleTrans)));
+    __privateSet2(this, _rtTransBack, RenderTexture.create({
       width: CmnLib.stageW,
       height: CmnLib.stageH
     }));
-    __privateSet(this, _spTransBack, new Sprite(__privateGet(this, _rtTransBack)));
-    __privateSet(this, _rtTransFore, RenderTexture.create({
+    __privateSet2(this, _spTransBack, new Sprite(__privateGet2(this, _rtTransBack)));
+    __privateSet2(this, _rtTransFore, RenderTexture.create({
       width: CmnLib.stageW,
       height: CmnLib.stageH
     }));
-    __privateSet(this, _spTransFore, new Sprite(__privateGet(this, _rtTransFore)));
-    __privateSet(this, _aBackTransAfter, []);
-    __privateSet(this, _tiTrans, { tw: void 0, resume: false });
-    __privateSet(this, _hTwInf, {});
-    __privateSet(this, _getTxtLayer, (_hArg) => {
-      __privateGet(this, _chkTxtLay).call(this);
+    __privateSet2(this, _spTransFore, new Sprite(__privateGet2(this, _rtTransFore)));
+    __privateSet2(this, _aBackTransAfter, []);
+    __privateSet2(this, _tiTrans, { tw: void 0, resume: false });
+    __privateSet2(this, _hTwInf, {});
+    __privateSet2(this, _getTxtLayer, (_hArg) => {
+      __privateGet2(this, _chkTxtLay).call(this);
       throw 0;
     });
-    __privateSet(this, _current, (_hArg) => {
-      __privateGet(this, _chkTxtLay).call(this);
+    __privateSet2(this, _current, (_hArg) => {
+      __privateGet2(this, _chkTxtLay).call(this);
       throw 0;
     });
-    __privateSet(this, _chkTxtLay, () => {
+    __privateSet2(this, _chkTxtLay, () => {
       throw "\u6587\u5B57\u30EC\u30A4\u30E4\u30FC\u304C\u3042\u308A\u307E\u305B\u3093\u3002\u6587\u5B57\u8868\u793A\u3084\u64CD\u4F5C\u3059\u308B\u524D\u306B\u3001[add_lay layer=\uFF08\u30EC\u30A4\u30E4\u540D\uFF09 class=txt]\u3067\u6587\u5B57\u30EC\u30A4\u30E4\u3092\u8FFD\u52A0\u3057\u3066\u4E0B\u3055\u3044";
     });
-    __privateSet(this, _oLastPage, { text: "" });
-    __privateSet(this, _aTxtLog, []);
+    __privateSet2(this, _oLastPage, { text: "" });
+    __privateSet2(this, _aTxtLog, []);
     const fncResizeLay = () => {
       sys.cvsResize();
       this.cvsResizeDesign();
-      if (__privateGet(this, _modeLnSub))
-        __privateGet(this, _aLayName).forEach((layer) => __privateGet(this, _hPages)[layer].fore.cvsResizeChildren());
+      if (__privateGet2(this, _modeLnSub))
+        __privateGet2(this, _aLayName).forEach((layer) => __privateGet2(this, _hPages)[layer].fore.cvsResizeChildren());
       else
-        __privateGet(this, _aLayName).forEach((layer) => __privateGet(this, _hPages)[layer].fore.cvsResize());
-      __privateGet(this, _frmMng).cvsResize();
-      __privateGet(this, _evtMng5).cvsResize();
+        __privateGet2(this, _aLayName).forEach((layer) => __privateGet2(this, _hPages)[layer].fore.cvsResize());
+      __privateGet2(this, _frmMng).cvsResize();
+      __privateGet2(this, _evtMng5).cvsResize();
     };
     if (CmnLib.isMobile) {
       globalThis.addEventListener("orientationchange", fncResizeLay, { passive: true });
@@ -48957,134 +49207,134 @@ void main(void) {
       }, { passive: true });
     }
     sys.cvsResize();
-    TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => __privateGet(this, _hPages)[me.layname].fore === me, appPixi);
+    TxtLayer.init(cfg, hTag, val, (txt) => this.recText(txt), (me) => __privateGet2(this, _hPages)[me.layname].fore === me, appPixi);
     GrpLayer.init(main2, cfg, appPixi, sys, sndMng);
     Button.init(cfg);
-    __privateSet(this, _frmMng, new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main2, this.sys, __privateGet(this, _hTwInf)));
+    __privateSet2(this, _frmMng, new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main2, this.sys, __privateGet2(this, _hTwInf)));
     sys.hFactoryCls.grp = () => new GrpLayer();
     sys.hFactoryCls.txt = () => new TxtLayer();
-    hTag.loadplugin = (o) => __privateMethod(this, _loadplugin, loadplugin_fn).call(this, o);
-    hTag.snapshot = (o) => __privateMethod(this, _snapshot, snapshot_fn).call(this, o);
-    hTag.add_lay = (o) => __privateMethod(this, _add_lay, add_lay_fn).call(this, o);
-    hTag.clear_lay = (o) => __privateMethod(this, _clear_lay, clear_lay_fn).call(this, o);
-    hTag.finish_trans = () => __privateMethod(this, _finish_trans, finish_trans_fn).call(this);
-    hTag.lay = (o) => __privateMethod(this, _lay, lay_fn).call(this, o);
-    hTag.trans = (o) => __privateMethod(this, _trans, trans_fn).call(this, o);
-    hTag.wt = (o) => __privateMethod(this, _wt, wt_fn).call(this, o);
-    hTag.quake = (o) => __privateMethod(this, _quake, quake_fn).call(this, o);
+    hTag.loadplugin = (o) => __privateMethod2(this, _loadplugin, loadplugin_fn).call(this, o);
+    hTag.snapshot = (o) => __privateMethod2(this, _snapshot, snapshot_fn).call(this, o);
+    hTag.add_lay = (o) => __privateMethod2(this, _add_lay, add_lay_fn).call(this, o);
+    hTag.clear_lay = (o) => __privateMethod2(this, _clear_lay, clear_lay_fn).call(this, o);
+    hTag.finish_trans = () => __privateMethod2(this, _finish_trans, finish_trans_fn).call(this);
+    hTag.lay = (o) => __privateMethod2(this, _lay, lay_fn).call(this, o);
+    hTag.trans = (o) => __privateMethod2(this, _trans, trans_fn).call(this, o);
+    hTag.wt = (o) => __privateMethod2(this, _wt, wt_fn).call(this, o);
+    hTag.quake = (o) => __privateMethod2(this, _quake, quake_fn).call(this, o);
     hTag.stop_quake = (o) => hTag.finish_trans(o);
     hTag.wq = (o) => hTag.wt(o);
-    hTag.pause_tsy = (o) => __privateMethod(this, _pause_tsy, pause_tsy_fn).call(this, o);
-    hTag.resume_tsy = (o) => __privateMethod(this, _resume_tsy, resume_tsy_fn).call(this, o);
-    hTag.stop_tsy = (o) => __privateMethod(this, _stop_tsy, stop_tsy_fn).call(this, o);
-    hTag.tsy = (o) => __privateMethod(this, _tsy, tsy_fn).call(this, o);
-    hTag.wait_tsy = (o) => __privateMethod(this, _wait_tsy, wait_tsy_fn).call(this, o);
-    hTag.ch = (o) => __privateMethod(this, _ch, ch_fn).call(this, o);
-    hTag.clear_text = (o) => __privateMethod(this, _clear_text, clear_text_fn).call(this, o);
-    hTag.current = (o) => __privateGet(this, _current).call(this, o);
-    hTag.endlink = (o) => __privateMethod(this, _endlink, endlink_fn).call(this, o);
-    hTag.er = (o) => __privateMethod(this, _er, er_fn).call(this, o);
-    hTag.graph = (o) => __privateMethod(this, _graph, graph_fn).call(this, o);
-    hTag.link = (o) => __privateMethod(this, _link, link_fn).call(this, o);
-    hTag.r = (o) => __privateMethod(this, _r, r_fn).call(this, o);
-    hTag.rec_ch = (o) => __privateMethod(this, _rec_ch, rec_ch_fn).call(this, o);
-    hTag.rec_r = () => __privateMethod(this, _rec_r, rec_r_fn).call(this);
-    hTag.reset_rec = (o) => __privateMethod(this, _reset_rec, reset_rec_fn).call(this, o);
-    hTag.ruby2 = (o) => __privateMethod(this, _ruby2, ruby2_fn).call(this, o);
-    hTag.span = (o) => __privateMethod(this, _span, span_fn).call(this, o);
-    hTag.tcy = (o) => __privateMethod(this, _tcy, tcy_fn).call(this, o);
+    hTag.pause_tsy = (o) => __privateMethod2(this, _pause_tsy, pause_tsy_fn).call(this, o);
+    hTag.resume_tsy = (o) => __privateMethod2(this, _resume_tsy, resume_tsy_fn).call(this, o);
+    hTag.stop_tsy = (o) => __privateMethod2(this, _stop_tsy, stop_tsy_fn).call(this, o);
+    hTag.tsy = (o) => __privateMethod2(this, _tsy, tsy_fn).call(this, o);
+    hTag.wait_tsy = (o) => __privateMethod2(this, _wait_tsy, wait_tsy_fn).call(this, o);
+    hTag.ch = (o) => __privateMethod2(this, _ch, ch_fn).call(this, o);
+    hTag.clear_text = (o) => __privateMethod2(this, _clear_text, clear_text_fn).call(this, o);
+    hTag.current = (o) => __privateGet2(this, _current).call(this, o);
+    hTag.endlink = (o) => __privateMethod2(this, _endlink, endlink_fn).call(this, o);
+    hTag.er = (o) => __privateMethod2(this, _er, er_fn).call(this, o);
+    hTag.graph = (o) => __privateMethod2(this, _graph, graph_fn).call(this, o);
+    hTag.link = (o) => __privateMethod2(this, _link, link_fn).call(this, o);
+    hTag.r = (o) => __privateMethod2(this, _r, r_fn).call(this, o);
+    hTag.rec_ch = (o) => __privateMethod2(this, _rec_ch, rec_ch_fn).call(this, o);
+    hTag.rec_r = () => __privateMethod2(this, _rec_r, rec_r_fn).call(this);
+    hTag.reset_rec = (o) => __privateMethod2(this, _reset_rec, reset_rec_fn).call(this, o);
+    hTag.ruby2 = (o) => __privateMethod2(this, _ruby2, ruby2_fn).call(this, o);
+    hTag.span = (o) => __privateMethod2(this, _span, span_fn).call(this, o);
+    hTag.tcy = (o) => __privateMethod2(this, _tcy, tcy_fn).call(this, o);
     hTag.add_face = (o) => GrpLayer.add_face(o);
     hTag.wv = (o) => GrpLayer.wv(o);
-    hTag.dump_lay = (o) => __privateMethod(this, _dump_lay, dump_lay_fn).call(this, o);
-    hTag.enable_event = (o) => __privateMethod(this, _enable_event, enable_event_fn).call(this, o);
-    hTag.button = (o) => __privateMethod(this, _button, button_fn).call(this, o);
+    hTag.dump_lay = (o) => __privateMethod2(this, _dump_lay, dump_lay_fn).call(this, o);
+    hTag.enable_event = (o) => __privateMethod2(this, _enable_event, enable_event_fn).call(this, o);
+    hTag.button = (o) => __privateMethod2(this, _button, button_fn).call(this, o);
     if (cfg.existsBreakline)
-      this.breakLine = () => __privateGet(this, _cmdTxt).call(this, 'grp\uFF5C{"id":"break","pic":"breakline"}');
+      this.breakLine = () => __privateGet2(this, _cmdTxt).call(this, 'grp\uFF5C{"id":"break","pic":"breakline"}');
     if (cfg.existsBreakpage)
-      this.breakPage = () => __privateGet(this, _cmdTxt).call(this, 'grp\uFF5C{"id":"break","pic":"breakpage"}');
+      this.breakPage = () => __privateGet2(this, _cmdTxt).call(this, 'grp\uFF5C{"id":"break","pic":"breakpage"}');
     const grp = new Graphics();
     grp.beginFill(cfg.oCfg.init.bg_color, 1).lineStyle(0, cfg.oCfg.init.bg_color).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill();
-    __privateGet(this, _fore).addChild(grp.clone());
-    __privateGet(this, _back).addChild(grp);
-    __privateGet(this, _back).visible = false;
-    __privateSet(this, _stage, this.appPixi.stage);
-    __privateGet(this, _stage).addChild(__privateGet(this, _back));
-    __privateGet(this, _stage).addChild(__privateGet(this, _fore));
-    __privateGet(this, _stage).addChild(__privateGet(this, _spTransBack));
-    __privateGet(this, _stage).addChild(__privateGet(this, _spTransFore));
-    this.appPixi.ticker.add(__privateGet(this, _fncTicker));
+    __privateGet2(this, _fore).addChild(grp.clone());
+    __privateGet2(this, _back).addChild(grp);
+    __privateGet2(this, _back).visible = false;
+    __privateSet2(this, _stage, this.appPixi.stage);
+    __privateGet2(this, _stage).addChild(__privateGet2(this, _back));
+    __privateGet2(this, _stage).addChild(__privateGet2(this, _fore));
+    __privateGet2(this, _stage).addChild(__privateGet2(this, _spTransBack));
+    __privateGet2(this, _stage).addChild(__privateGet2(this, _spTransFore));
+    this.appPixi.ticker.add(__privateGet2(this, _fncTicker));
     const fncTxt_b_alpha = (_name, val2) => {
-      __privateMethod(this, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn).call(this, Number(val2));
+      __privateMethod2(this, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn).call(this, Number(val2));
     };
     fncTxt_b_alpha("", val.getVal("sys:TextLayer.Back.Alpha", 1));
     val.defValTrg("sys:TextLayer.Back.Alpha", fncTxt_b_alpha);
     const fncBtnFont = (_name, val2) => Button.fontFamily = val2;
     fncBtnFont("", val.getVal("tmp:sn.button.fontFamily", Button.fontFamily));
     val.defValTrg("tmp:sn.button.fontFamily", fncBtnFont);
-    val.defTmp("const.sn.log.json", () => JSON.stringify(__privateGet(this, _oLastPage).text ? [...__privateGet(this, _aTxtLog), __privateGet(this, _oLastPage)] : __privateGet(this, _aTxtLog)));
+    val.defTmp("const.sn.log.json", () => JSON.stringify(__privateGet2(this, _oLastPage).text ? [...__privateGet2(this, _aTxtLog), __privateGet2(this, _oLastPage)] : __privateGet2(this, _aTxtLog)));
     val.defTmp("const.sn.last_page_text", () => {
       var _a3, _b3;
       return (_b3 = (_a3 = this.currentTxtlayFore) == null ? void 0 : _a3.pageText) != null ? _b3 : "";
     });
     if (CmnLib.isDbg) {
-      DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, __privateGet(this, _hPages));
+      DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, __privateGet2(this, _hPages));
       this.cvsResizeDesign = () => DesignCast.cvsResizeDesign();
       sys.addHook((type, o) => {
         var _a3, _b3;
-        if (!((_b3 = (_a3 = __privateGet(this, _hProcDbgRes2))[type]) == null ? void 0 : _b3.call(_a3, type, o)))
+        if (!((_b3 = (_a3 = __privateGet2(this, _hProcDbgRes2))[type]) == null ? void 0 : _b3.call(_a3, type, o)))
           return;
-        delete __privateGet(this, _hProcDbgRes2)[type];
+        delete __privateGet2(this, _hProcDbgRes2)[type];
       });
     }
   }
   cvsResizeDesign() {
   }
   cover(visible, bg_color = 0) {
-    if (__privateGet(this, _grpCover)) {
-      __privateGet(this, _stage).removeChild(__privateGet(this, _grpCover));
-      __privateGet(this, _grpCover).destroy();
-      __privateSet(this, _grpCover, void 0);
+    if (__privateGet2(this, _grpCover)) {
+      __privateGet2(this, _stage).removeChild(__privateGet2(this, _grpCover));
+      __privateGet2(this, _grpCover).destroy();
+      __privateSet2(this, _grpCover, void 0);
     }
     if (visible)
-      __privateGet(this, _stage).addChild(__privateSet(this, _grpCover, new Graphics()).beginFill(bg_color).lineStyle(0, bg_color).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill());
+      __privateGet2(this, _stage).addChild(__privateSet2(this, _grpCover, new Graphics()).beginFill(bg_color).lineStyle(0, bg_color).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill());
   }
   setEvtMng(evtMng) {
-    __privateSet(this, _evtMng5, evtMng);
-    __privateGet(this, _frmMng).setEvtMng(evtMng);
+    __privateSet2(this, _evtMng5, evtMng);
+    __privateGet2(this, _frmMng).setEvtMng(evtMng);
     GrpLayer.setEvtMng(evtMng);
   }
   before_destroy() {
-    for (const pg in __privateGet(this, _hPages))
-      __privateGet(this, _hPages)[pg].destroy();
+    for (const pg in __privateGet2(this, _hPages))
+      __privateGet2(this, _hPages)[pg].destroy();
   }
   destroy() {
     GrpLayer.destroy();
     RubySpliter.destroy();
     TxtStage.destroy();
     TxtLayer.destroy();
-    __privateGet(this, _frmMng).destroy();
+    __privateGet2(this, _frmMng).destroy();
     this.stopAllTw();
-    this.appPixi.ticker.remove(__privateGet(this, _fncTicker));
-    __privateSet(_LayerMng, _msecChWait, 10);
+    this.appPixi.ticker.remove(__privateGet2(this, _fncTicker));
+    __privateSet2(_LayerMng, _msecChWait, 10);
   }
   stopAllTw() {
-    __privateSet(this, _hTwInf, {});
+    __privateSet2(this, _hTwInf, {});
     removeAll();
   }
   clearBreak() {
     if (!this.currentTxtlayFore)
       return;
-    this.clearBreak = () => __privateGet(this, _cmdTxt).call(this, "del\uFF5Cbreak");
+    this.clearBreak = () => __privateGet2(this, _cmdTxt).call(this, "del\uFF5Cbreak");
     this.clearBreak();
   }
   clickTxtLay() {
     if (!this.currentTxtlayFore)
       return;
-    const vct = __privateMethod(this, _getLayers, getLayers_fn).call(this);
+    const vct = __privateMethod2(this, _getLayers, getLayers_fn).call(this);
     const len = vct.length;
     for (let i2 = 0; i2 < len; ++i2) {
-      const name = vct[i2];
-      const pg = __privateGet(this, _hPages)[name];
+      const name2 = vct[i2];
+      const pg = __privateGet2(this, _hPages)[name2];
       if (!(pg.fore instanceof TxtLayer))
         continue;
       const pTxt = pg.fore;
@@ -49093,32 +49343,32 @@ void main(void) {
     }
   }
   static get msecChWait() {
-    return __privateGet(_LayerMng, _msecChWait);
+    return __privateGet2(_LayerMng, _msecChWait);
   }
   static set msecChWait(v2) {
-    __privateSet(_LayerMng, _msecChWait, v2);
+    __privateSet2(_LayerMng, _msecChWait, v2);
   }
   setNormalChWait() {
-    __privateSet(_LayerMng, _msecChWait, this.scrItr.normalWait);
+    __privateSet2(_LayerMng, _msecChWait, this.scrItr.normalWait);
   }
   get currentTxtlayForeNeedErr() {
-    __privateGet(this, _chkTxtLay).call(this);
+    __privateGet2(this, _chkTxtLay).call(this);
     return this.currentTxtlayFore;
   }
   get currentTxtlayFore() {
-    if (!__privateGet(this, _pgTxtlay))
+    if (!__privateGet2(this, _pgTxtlay))
       return void 0;
-    return __privateGet(this, _pgTxtlay).fore;
+    return __privateGet2(this, _pgTxtlay).fore;
   }
   recText(txt, pagebreak = false) {
-    const o = __privateGet(this, _oLastPage);
+    const o = __privateGet2(this, _oLastPage);
     if (pagebreak) {
       if (o.text) {
         o.text = String(o.text).replaceAll(`</span><span class='sn_ch'>`, "");
-        if (__privateGet(this, _aTxtLog).push(o) > this.cfg.oCfg.log.max_len)
-          __privateSet(this, _aTxtLog, __privateGet(this, _aTxtLog).slice(-this.cfg.oCfg.log.max_len));
+        if (__privateGet2(this, _aTxtLog).push(o) > this.cfg.oCfg.log.max_len)
+          __privateSet2(this, _aTxtLog, __privateGet2(this, _aTxtLog).slice(-this.cfg.oCfg.log.max_len));
       }
-      __privateSet(this, _oLastPage, { text: "" });
+      __privateSet2(this, _oLastPage, { text: "" });
       return;
     }
     o.text = txt.replace(/\\`/, "`");
@@ -49126,8 +49376,8 @@ void main(void) {
   }
   record() {
     const o = {};
-    __privateGet(this, _aLayName).forEach((layer) => {
-      const pg = __privateGet(this, _hPages)[layer];
+    __privateGet2(this, _aLayName).forEach((layer) => {
+      const pg = __privateGet2(this, _hPages)[layer];
       o[layer] = {
         cls: pg.cls,
         fore: pg.fore.record(),
@@ -49138,18 +49388,18 @@ void main(void) {
   }
   playback($hPages, fncComp) {
     var _a3, _b3;
-    __privateSet(this, _aTxtLog, JSON.parse(String(this.val.getVal("save:const.sn.sLog"))));
-    __privateSet(this, _oLastPage, { text: "" });
+    __privateSet2(this, _aTxtLog, JSON.parse(String(this.val.getVal("save:const.sn.sLog"))));
+    __privateSet2(this, _oLastPage, { text: "" });
     const aPrm = [];
     const aSort = [];
     for (const layer in $hPages) {
       const $pg = $hPages[layer];
       aSort.push({ layer, idx: $pg.fore.idx });
-      const pg = (_b3 = (_a3 = __privateGet(this, _hPages))[layer]) != null ? _b3 : _a3[layer] = new Pages(layer, $pg.cls, __privateGet(this, _fore), __privateGet(this, _back), {}, this.sys, this.val, { isWait: false });
+      const pg = (_b3 = (_a3 = __privateGet2(this, _hPages))[layer]) != null ? _b3 : _a3[layer] = new Pages(layer, $pg.cls, __privateGet2(this, _fore), __privateGet2(this, _back), {}, this.sys, this.val, { isWait: false });
       pg.fore.playback($pg.fore, aPrm);
       pg.back.playback($pg.back, aPrm);
     }
-    const len = __privateGet(this, _fore).children.length;
+    const len = __privateGet2(this, _fore).children.length;
     Promise.allSettled(aPrm).then(() => {
       aSort.sort(function(a2, b2) {
         if (a2.idx < b2.idx)
@@ -49159,12 +49409,12 @@ void main(void) {
         return 0;
       });
       aSort.forEach((o) => {
-        const pg = __privateGet(this, _hPages)[o.layer];
+        const pg = __privateGet2(this, _hPages)[o.layer];
         if (!pg)
           return;
         const idx = len > o.idx ? o.idx : len - 1;
-        __privateGet(this, _fore).setChildIndex(pg.fore.spLay, idx);
-        __privateGet(this, _back).setChildIndex(pg.back.spLay, idx);
+        __privateGet2(this, _fore).setChildIndex(pg.fore.spLay, idx);
+        __privateGet2(this, _back).setChildIndex(pg.back.spLay, idx);
       });
       fncComp();
     }).catch((e) => console.error(`fn:LayerMng.ts playback e:%o`, e));
@@ -49181,12 +49431,12 @@ _modeLn = new WeakMap();
 _modeLnSub = new WeakMap();
 _selectNode = new WeakSet();
 selectNode_fn = function(node) {
-  [__privateWrapper(this, _modeLn)._, this._modeLnSub = ""] = node.split("/");
-  const pages = __privateGet(this, _hPages)[__privateGet(this, _modeLn)];
+  [__privateWrapper2(this, _modeLn)._, this._modeLnSub = ""] = node.split("/");
+  const pages = __privateGet2(this, _hPages)[__privateGet2(this, _modeLn)];
   if (!pages)
     return;
   DesignCast.allHide();
-  if (__privateGet(this, _modeLnSub))
+  if (__privateGet2(this, _modeLnSub))
     pages.fore.showDesignCastChildren();
   else
     pages.fore.showDesignCast();
@@ -49195,8 +49445,8 @@ _grpCover = new WeakMap();
 _evtMng5 = new WeakMap();
 _foreachRedrawTxtLayBack = new WeakSet();
 foreachRedrawTxtLayBack_fn = function(g_alpha) {
-  __privateMethod(this, _getLayers, getLayers_fn).call(this).forEach((name) => {
-    const pg = __privateGet(this, _hPages)[name];
+  __privateMethod2(this, _getLayers, getLayers_fn).call(this).forEach((name2) => {
+    const pg = __privateGet2(this, _hPages)[name2];
     if (!(pg.fore instanceof TxtLayer))
       return;
     const pTxt = pg.fore;
@@ -49224,27 +49474,27 @@ snapshot_fn = function(hArg) {
   });
   const a2 = [];
   const pg = hArg.page !== "back" ? "fore" : "back";
-  if (__privateGet(this, _tiTrans).tw)
+  if (__privateGet2(this, _tiTrans).tw)
     a2.push(new Promise((re2) => {
-      __privateGet(this, _back).visible = true;
-      __privateGet(this, _aBackTransAfter).forEach((lay) => rnd.render(lay, { clear: false }));
-      __privateGet(this, _back).visible = false;
-      __privateGet(this, _spTransBack).visible = true;
-      __privateGet(this, _fore).filters = __privateGet(this, _spTransFore).filters;
-      __privateGet(this, _fore).visible = true;
-      rnd.render(__privateGet(this, _fore), { clear: false });
-      __privateGet(this, _fore).visible = false;
-      __privateGet(this, _fore).filters = [];
+      __privateGet2(this, _back).visible = true;
+      __privateGet2(this, _aBackTransAfter).forEach((lay) => rnd.render(lay, { clear: false }));
+      __privateGet2(this, _back).visible = false;
+      __privateGet2(this, _spTransBack).visible = true;
+      __privateGet2(this, _fore).filters = __privateGet2(this, _spTransFore).filters;
+      __privateGet2(this, _fore).visible = true;
+      rnd.render(__privateGet2(this, _fore), { clear: false });
+      __privateGet2(this, _fore).visible = false;
+      __privateGet2(this, _fore).filters = [];
       re2();
     }));
   else
-    __privateMethod(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((v2) => a2.push(new Promise((re2) => __privateGet(this, _hPages)[v2][pg].snapshot(rnd, () => re2()))));
+    __privateMethod2(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((v2) => a2.push(new Promise((re2) => __privateGet2(this, _hPages)[v2][pg].snapshot(rnd, () => re2()))));
   Promise.allSettled(a2).then(async () => {
     const renTx = RenderTexture.create({ width: rnd.width, height: rnd.height, transform: true });
-    rnd.render(__privateGet(this, _stage), { renderTexture: renTx });
+    rnd.render(__privateGet2(this, _stage), { renderTexture: renTx });
     await this.sys.savePic(fn, rnd.plugins.extract.base64(Sprite.from(renTx)));
-    if (!__privateGet(this, _tiTrans).tw)
-      __privateMethod(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((v2) => __privateGet(this, _hPages)[v2][pg].snapshot_end());
+    if (!__privateGet2(this, _tiTrans).tw)
+      __privateMethod2(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((v2) => __privateGet2(this, _hPages)[v2][pg].snapshot_end());
     rnd.destroy(true);
   });
   return false;
@@ -49278,41 +49528,41 @@ add_lay_fn = function(hArg) {
     throw "layer\u306F\u5FC5\u9808\u3067\u3059";
   if (layer.includes(","))
     throw "layer\u540D\u306B\u300C,\u300D\u306F\u4F7F\u3048\u307E\u305B\u3093";
-  if (layer in __privateGet(this, _hPages))
+  if (layer in __privateGet2(this, _hPages))
     throw `layer\u3010${layer}\u3011\u306F\u3059\u3067\u306B\u3042\u308A\u307E\u3059`;
   if (!cls)
     throw "cls\u306F\u5FC5\u9808\u3067\u3059";
   const ret = { isWait: false };
-  __privateGet(this, _hPages)[layer] = new Pages(layer, cls, __privateGet(this, _fore), __privateGet(this, _back), hArg, this.sys, this.val, ret);
-  __privateGet(this, _aLayName).push(layer);
+  __privateGet2(this, _hPages)[layer] = new Pages(layer, cls, __privateGet2(this, _fore), __privateGet2(this, _back), hArg, this.sys, this.val, ret);
+  __privateGet2(this, _aLayName).push(layer);
   switch (cls) {
     case "txt":
-      if (!__privateGet(this, _curTxtlay)) {
-        __privateSet(this, _chkTxtLay, () => {
+      if (!__privateGet2(this, _curTxtlay)) {
+        __privateSet2(this, _chkTxtLay, () => {
         });
-        __privateSet(this, _getTxtLayer, __privateMethod(this, _$getTxtLayer, $getTxtLayer_fn));
-        __privateSet(this, _current, __privateMethod(this, _$current, $current_fn));
+        __privateSet2(this, _getTxtLayer, __privateMethod2(this, _$getTxtLayer, $getTxtLayer_fn));
+        __privateSet2(this, _current, __privateMethod2(this, _$current, $current_fn));
         this.hTag.current({ layer });
         this.goTxt = () => {
           if (this.val.getVal("sn.skip.enabled")) {
-            __privateSet(_LayerMng, _msecChWait, 0);
+            __privateSet2(_LayerMng, _msecChWait, 0);
           } else {
             this.setNormalChWait();
           }
-          __privateMethod(this, _getLayers, getLayers_fn).call(this).forEach((name) => {
-            const pg = __privateGet(this, _hPages)[name];
+          __privateMethod2(this, _getLayers, getLayers_fn).call(this).forEach((name2) => {
+            const pg = __privateGet2(this, _hPages)[name2];
             if (!(pg.fore instanceof TxtLayer))
               return;
-            __privateGet(this, _cmdTxt).call(this, "gotxt\uFF5C", pg.fore, false);
+            __privateGet2(this, _cmdTxt).call(this, "gotxt\uFF5C", pg.fore, false);
           });
         };
       }
-      this.val.setVal_Nochk("save", "const.sn.layer." + (layer != null ? layer : __privateGet(this, _curTxtlay)) + ".enabled", true);
+      this.val.setVal_Nochk("save", "const.sn.layer." + (layer != null ? layer : __privateGet2(this, _curTxtlay)) + ".enabled", true);
       break;
     case "grp":
-      if (__privateGet(this, _firstGrplay))
+      if (__privateGet2(this, _firstGrplay))
         break;
-      __privateSet(this, _firstGrplay, layer);
+      __privateSet2(this, _firstGrplay, layer);
       break;
   }
   this.scrItr.recodeDesign(hArg);
@@ -49324,38 +49574,38 @@ _curTxtlay = new WeakMap();
 _firstGrplay = new WeakMap();
 _lay = new WeakSet();
 lay_fn = function(hArg) {
-  const layer = __privateMethod(this, _argChk_layer, argChk_layer_fn).call(this, hArg);
-  const pg = __privateGet(this, _hPages)[layer];
+  const layer = __privateMethod2(this, _argChk_layer, argChk_layer_fn).call(this, hArg);
+  const pg = __privateGet2(this, _hPages)[layer];
   const back = pg.back.spLay;
   const fore = pg.fore.spLay;
   if (argChk_Boolean(hArg, "float", false)) {
-    __privateGet(this, _back).setChildIndex(back, __privateGet(this, _back).children.length - 1);
-    __privateGet(this, _fore).setChildIndex(fore, __privateGet(this, _fore).children.length - 1);
-    __privateMethod(this, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn).call(this);
+    __privateGet2(this, _back).setChildIndex(back, __privateGet2(this, _back).children.length - 1);
+    __privateGet2(this, _fore).setChildIndex(fore, __privateGet2(this, _fore).children.length - 1);
+    __privateMethod2(this, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn).call(this);
   } else if (hArg.index) {
     if (argChk_Num(hArg, "index", 0)) {
-      __privateGet(this, _back).setChildIndex(back, hArg.index);
-      __privateGet(this, _fore).setChildIndex(fore, hArg.index);
-      __privateMethod(this, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn).call(this);
+      __privateGet2(this, _back).setChildIndex(back, hArg.index);
+      __privateGet2(this, _fore).setChildIndex(fore, hArg.index);
+      __privateMethod2(this, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn).call(this);
     }
   } else if (hArg.dive) {
     const { dive } = hArg;
     let idx_dive = 0;
     if (layer === dive)
       throw "[lay] \u5C5E\u6027 layer\u3068dive\u304C\u540C\u3058\u3010" + dive + "\u3011\u3067\u3059";
-    const pg_dive = __privateGet(this, _hPages)[dive];
+    const pg_dive = __privateGet2(this, _hPages)[dive];
     if (!pg_dive)
       throw "[lay] \u5C5E\u6027 dive\u3010" + dive + "\u3011\u304C\u4E0D\u6B63\u3067\u3059\u3002\u30EC\u30A4\u30E4\u30FC\u304C\u3042\u308A\u307E\u305B\u3093";
     const back_dive = pg_dive.back;
     const fore_dive = pg_dive.fore;
-    const idx_back_dive = __privateGet(this, _back).getChildIndex(back_dive.spLay);
-    const idx_fore_dive = __privateGet(this, _fore).getChildIndex(fore_dive.spLay);
+    const idx_back_dive = __privateGet2(this, _back).getChildIndex(back_dive.spLay);
+    const idx_fore_dive = __privateGet2(this, _fore).getChildIndex(fore_dive.spLay);
     idx_dive = idx_back_dive < idx_fore_dive ? idx_back_dive : idx_fore_dive;
-    if (idx_dive > __privateGet(this, _back).getChildIndex(back))
+    if (idx_dive > __privateGet2(this, _back).getChildIndex(back))
       --idx_dive;
-    __privateGet(this, _fore).setChildIndex(fore, idx_dive);
-    __privateGet(this, _back).setChildIndex(back, idx_dive);
-    __privateMethod(this, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn).call(this);
+    __privateGet2(this, _fore).setChildIndex(fore, idx_dive);
+    __privateGet2(this, _back).setChildIndex(back, idx_dive);
+    __privateMethod2(this, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn).call(this);
   }
   hArg[":id_tag"] = pg.fore.name.slice(0, -7);
   this.scrItr.recodeDesign(hArg);
@@ -49363,12 +49613,12 @@ lay_fn = function(hArg) {
 };
 _rebuildLayerRankInfo = new WeakSet();
 rebuildLayerRankInfo_fn = function() {
-  __privateSet(this, _aLayName, __privateMethod(this, _sortLayers, sortLayers_fn).call(this));
+  __privateSet2(this, _aLayName, __privateMethod2(this, _sortLayers, sortLayers_fn).call(this));
 };
 _clear_lay = new WeakSet();
 clear_lay_fn = function(hArg) {
-  __privateMethod(this, _foreachLayers, foreachLayers_fn).call(this, hArg, (name) => {
-    const pg = __privateGet(this, _hPages)[__privateMethod(this, _argChk_layer, argChk_layer_fn).call(this, { layer: name })];
+  __privateMethod2(this, _foreachLayers, foreachLayers_fn).call(this, hArg, (name2) => {
+    const pg = __privateGet2(this, _hPages)[__privateMethod2(this, _argChk_layer, argChk_layer_fn).call(this, { layer: name2 })];
     if (hArg.page === "both") {
       pg.fore.clearLay(hArg);
       pg.back.clearLay(hArg);
@@ -49388,29 +49638,29 @@ _spTransFore = new WeakMap();
 _aBackTransAfter = new WeakMap();
 _trans = new WeakSet();
 trans_fn = function(hArg) {
-  __privateMethod(this, _finish_trans, finish_trans_fn).call(this);
+  __privateMethod2(this, _finish_trans, finish_trans_fn).call(this);
   const ease = CmnTween.ease(hArg.ease);
-  __privateSet(this, _aBackTransAfter, []);
+  __privateSet2(this, _aBackTransAfter, []);
   const hTarget = {};
   const aFore = [];
-  __privateMethod(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((lay_nm) => {
+  __privateMethod2(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((lay_nm) => {
     hTarget[lay_nm] = true;
-    aFore.push(__privateGet(this, _hPages)[lay_nm].fore);
+    aFore.push(__privateGet2(this, _hPages)[lay_nm].fore);
   });
   const aBack = [];
-  __privateMethod(this, _getLayers, getLayers_fn).call(this).forEach((lay_nm) => {
-    const lay = __privateGet(this, _hPages)[lay_nm][hTarget[lay_nm] ? "back" : "fore"];
-    __privateGet(this, _aBackTransAfter).push(lay.spLay);
+  __privateMethod2(this, _getLayers, getLayers_fn).call(this).forEach((lay_nm) => {
+    const lay = __privateGet2(this, _hPages)[lay_nm][hTarget[lay_nm] ? "back" : "fore"];
+    __privateGet2(this, _aBackTransAfter).push(lay.spLay);
     aBack.push(lay);
   });
-  __privateGet(this, _rtTransBack).resize(CmnLib.stageW, CmnLib.stageH);
-  this.appPixi.renderer.render(__privateGet(this, _back), { renderTexture: __privateGet(this, _rtTransBack) });
+  __privateGet2(this, _rtTransBack).resize(CmnLib.stageW, CmnLib.stageH);
+  this.appPixi.renderer.render(__privateGet2(this, _back), { renderTexture: __privateGet2(this, _rtTransBack) });
   let fncRenderBack = () => {
-    __privateGet(this, _back).visible = true;
-    __privateGet(this, _aBackTransAfter).forEach((spLay) => {
-      this.appPixi.renderer.render(spLay, { renderTexture: __privateGet(this, _rtTransBack), clear: false });
+    __privateGet2(this, _back).visible = true;
+    __privateGet2(this, _aBackTransAfter).forEach((spLay) => {
+      this.appPixi.renderer.render(spLay, { renderTexture: __privateGet2(this, _rtTransBack), clear: false });
     });
-    __privateGet(this, _back).visible = false;
+    __privateGet2(this, _back).visible = false;
   };
   if (!aBack.some((lay) => lay.containMovement)) {
     let oldFnc = fncRenderBack;
@@ -49420,12 +49670,12 @@ trans_fn = function(hArg) {
       oldFnc();
     };
   }
-  __privateGet(this, _rtTransFore).resize(CmnLib.stageW, CmnLib.stageH);
-  this.appPixi.renderer.render(__privateGet(this, _fore), { renderTexture: __privateGet(this, _rtTransFore) });
+  __privateGet2(this, _rtTransFore).resize(CmnLib.stageW, CmnLib.stageH);
+  this.appPixi.renderer.render(__privateGet2(this, _fore), { renderTexture: __privateGet2(this, _rtTransFore) });
   let fncRenderFore = () => {
-    __privateGet(this, _fore).visible = true;
-    this.appPixi.renderer.render(__privateGet(this, _fore), { renderTexture: __privateGet(this, _rtTransFore) });
-    __privateGet(this, _fore).visible = false;
+    __privateGet2(this, _fore).visible = true;
+    this.appPixi.renderer.render(__privateGet2(this, _fore), { renderTexture: __privateGet2(this, _rtTransFore) });
+    __privateGet2(this, _fore).visible = false;
   };
   if (!aFore.some((lay) => lay.containMovement)) {
     let oldFnc = fncRenderFore;
@@ -49437,59 +49687,59 @@ trans_fn = function(hArg) {
   }
   const fncRender = () => {
     fncRenderBack();
-    __privateGet(this, _spTransBack).visible = true;
+    __privateGet2(this, _spTransBack).visible = true;
     fncRenderFore();
-    __privateGet(this, _spTransFore).visible = true;
+    __privateGet2(this, _spTransFore).visible = true;
   };
-  __privateGet(this, _spTransFore).alpha = 1;
+  __privateGet2(this, _spTransFore).alpha = 1;
   const comp = () => {
     var _a3;
     if (this.appPixi.ticker)
       this.appPixi.ticker.remove(fncRender);
-    [__privateWrapper(this, _fore)._, __privateWrapper(this, _back)._] = [__privateGet(this, _back), __privateGet(this, _fore)];
+    [__privateWrapper2(this, _fore)._, __privateWrapper2(this, _back)._] = [__privateGet2(this, _back), __privateGet2(this, _fore)];
     const aPrm = [];
-    for (const lay_name in __privateGet(this, _hPages)) {
-      const pg = __privateGet(this, _hPages)[lay_name];
+    for (const lay_name in __privateGet2(this, _hPages)) {
+      const pg = __privateGet2(this, _hPages)[lay_name];
       if (hTarget[lay_name]) {
         pg.transPage(aPrm);
         continue;
       }
-      const idx = __privateGet(this, _fore).getChildIndex(pg.back.spLay);
-      __privateGet(this, _fore).removeChild(pg.back.spLay);
-      __privateGet(this, _back).removeChild(pg.fore.spLay);
-      __privateGet(this, _fore).addChildAt(pg.fore.spLay, idx);
-      __privateGet(this, _back).addChildAt(pg.back.spLay, idx);
+      const idx = __privateGet2(this, _fore).getChildIndex(pg.back.spLay);
+      __privateGet2(this, _fore).removeChild(pg.back.spLay);
+      __privateGet2(this, _back).removeChild(pg.fore.spLay);
+      __privateGet2(this, _fore).addChildAt(pg.fore.spLay, idx);
+      __privateGet2(this, _back).addChildAt(pg.back.spLay, idx);
     }
     Promise.allSettled(aPrm);
-    __privateGet(this, _fore).visible = true;
-    __privateGet(this, _back).visible = false;
-    __privateGet(this, _spTransBack).visible = false;
-    __privateGet(this, _spTransFore).visible = false;
-    (_a3 = __privateGet(this, _tiTrans).tw) == null ? void 0 : _a3.stop();
-    if (__privateGet(this, _tiTrans).resume)
+    __privateGet2(this, _fore).visible = true;
+    __privateGet2(this, _back).visible = false;
+    __privateGet2(this, _spTransBack).visible = false;
+    __privateGet2(this, _spTransFore).visible = false;
+    (_a3 = __privateGet2(this, _tiTrans).tw) == null ? void 0 : _a3.stop();
+    if (__privateGet2(this, _tiTrans).resume)
       this.main.resume();
-    __privateSet(this, _tiTrans, { tw: void 0, resume: false });
+    __privateSet2(this, _tiTrans, { tw: void 0, resume: false });
   };
-  __privateSet(this, _tiTrans, { tw: void 0, resume: false });
+  __privateSet2(this, _tiTrans, { tw: void 0, resume: false });
   const time = argChk_Num(hArg, "time", 0);
-  if (time === 0 || __privateGet(this, _evtMng5).isSkippingByKeyDown()) {
+  if (time === 0 || __privateGet2(this, _evtMng5).isSkippingByKeyDown()) {
     comp();
     return false;
   }
   const is_glsl = "glsl" in hArg;
   if (!is_glsl && !("rule" in hArg)) {
-    __privateGet(this, _spTransFore).filters = [];
-    __privateGet(this, _tiTrans).tw = new Tween(__privateGet(this, _spTransFore)).to({ alpha: 0 }, time).delay(argChk_Num(hArg, "delay", 0)).easing(ease).onComplete(comp).start();
+    __privateGet2(this, _spTransFore).filters = [];
+    __privateGet2(this, _tiTrans).tw = new Tween(__privateGet2(this, _spTransFore)).to({ alpha: 0 }, time).delay(argChk_Num(hArg, "delay", 0)).easing(ease).onComplete(comp).start();
     this.appPixi.ticker.add(fncRender);
     return false;
   }
-  const flt = is_glsl ? new Filter(void 0, hArg.glsl, __privateGet(this, _ufRuleTrans)) : __privateGet(this, _fltRule);
+  const flt = is_glsl ? new Filter(void 0, hArg.glsl, __privateGet2(this, _ufRuleTrans)) : __privateGet2(this, _fltRule);
   flt.uniforms.vague = argChk_Num(hArg, "vague", 0.04);
   flt.uniforms.tick = 0;
-  __privateGet(this, _tiTrans).tw = new Tween(flt.uniforms).to({ tick: 1 }, time).delay(argChk_Num(hArg, "delay", 0)).easing(ease).onComplete(comp);
-  __privateGet(this, _spTransFore).filters = [flt];
+  __privateGet2(this, _tiTrans).tw = new Tween(flt.uniforms).to({ tick: 1 }, time).delay(argChk_Num(hArg, "delay", 0)).easing(ease).onComplete(comp);
+  __privateGet2(this, _spTransFore).filters = [flt];
   if (is_glsl) {
-    __privateGet(this, _tiTrans).tw.start();
+    __privateGet2(this, _tiTrans).tw.start();
     this.appPixi.ticker.add(fncRender);
     return false;
   }
@@ -49499,7 +49749,7 @@ trans_fn = function(hArg) {
     var _a3;
     flt.uniforms.rule = sp.texture;
     sp.destroy();
-    (_a3 = __privateGet(this, _tiTrans).tw) == null ? void 0 : _a3.start();
+    (_a3 = __privateGet2(this, _tiTrans).tw) == null ? void 0 : _a3.start();
     this.appPixi.ticker.add(fncRender);
   });
   return false;
@@ -49507,26 +49757,26 @@ trans_fn = function(hArg) {
 _tiTrans = new WeakMap();
 _getLayers = new WeakSet();
 getLayers_fn = function(layer = "") {
-  return layer ? layer.split(",") : __privateGet(this, _aLayName);
+  return layer ? layer.split(",") : __privateGet2(this, _aLayName);
 };
 _foreachLayers = new WeakSet();
 foreachLayers_fn = function(hArg, fnc) {
-  const vct = __privateMethod(this, _getLayers, getLayers_fn).call(this, hArg.layer);
-  vct.forEach((name) => {
-    if (!name)
+  const vct = __privateMethod2(this, _getLayers, getLayers_fn).call(this, hArg.layer);
+  vct.forEach((name2) => {
+    if (!name2)
       return;
-    const pg = __privateGet(this, _hPages)[name];
+    const pg = __privateGet2(this, _hPages)[name2];
     if (!pg)
-      throw "\u5B58\u5728\u3057\u306A\u3044layer\u3010" + name + "\u3011\u3067\u3059";
-    fnc(name, pg);
+      throw "\u5B58\u5728\u3057\u306A\u3044layer\u3010" + name2 + "\u3011\u3067\u3059";
+    fnc(name2, pg);
   });
   return vct;
 };
 _sortLayers = new WeakSet();
 sortLayers_fn = function(layers = "") {
-  return __privateMethod(this, _getLayers, getLayers_fn).call(this, layers).sort((a2, b2) => {
-    const ai = __privateGet(this, _fore).getChildIndex(__privateGet(this, _hPages)[a2].fore.spLay);
-    const bi = __privateGet(this, _fore).getChildIndex(__privateGet(this, _hPages)[b2].fore.spLay);
+  return __privateMethod2(this, _getLayers, getLayers_fn).call(this, layers).sort((a2, b2) => {
+    const ai = __privateGet2(this, _fore).getChildIndex(__privateGet2(this, _hPages)[a2].fore.spLay);
+    const bi = __privateGet2(this, _fore).getChildIndex(__privateGet2(this, _hPages)[b2].fore.spLay);
     if (ai < bi)
       return -1;
     if (ai > bi)
@@ -49536,63 +49786,63 @@ sortLayers_fn = function(layers = "") {
 };
 _wt = new WeakSet();
 wt_fn = function(hArg) {
-  if (!__privateGet(this, _tiTrans).tw)
+  if (!__privateGet2(this, _tiTrans).tw)
     return false;
-  __privateGet(this, _tiTrans).resume = true;
-  return __privateGet(this, _evtMng5).waitLimitedEvent(hArg, () => __privateMethod(this, _finish_trans, finish_trans_fn).call(this));
+  __privateGet2(this, _tiTrans).resume = true;
+  return __privateGet2(this, _evtMng5).waitLimitedEvent(hArg, () => __privateMethod2(this, _finish_trans, finish_trans_fn).call(this));
 };
 _finish_trans = new WeakSet();
 finish_trans_fn = function() {
   var _a3;
-  (_a3 = __privateGet(this, _tiTrans).tw) == null ? void 0 : _a3.end();
+  (_a3 = __privateGet2(this, _tiTrans).tw) == null ? void 0 : _a3.end();
   return false;
 };
 _quake = new WeakSet();
 quake_fn = function(hArg) {
-  __privateMethod(this, _finish_trans, finish_trans_fn).call(this);
+  __privateMethod2(this, _finish_trans, finish_trans_fn).call(this);
   const time = argChk_Num(hArg, "time", NaN);
   if (time === 0)
     return false;
   if (this.val.getVal("tmp:sn.skip.enabled"))
     return false;
-  if (__privateGet(this, _evtMng5).isSkippingByKeyDown())
+  if (__privateGet2(this, _evtMng5).isSkippingByKeyDown())
     return false;
   const aDo = [];
-  __privateMethod(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((lay_nm) => {
-    aDo.push(__privateGet(this, _hPages)[lay_nm].fore.spLay);
+  __privateMethod2(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((lay_nm) => {
+    aDo.push(__privateGet2(this, _hPages)[lay_nm].fore.spLay);
   });
-  __privateGet(this, _rtTransFore).resize(CmnLib.stageW, CmnLib.stageH);
+  __privateGet2(this, _rtTransFore).resize(CmnLib.stageW, CmnLib.stageH);
   const fncRender = () => {
-    __privateGet(this, _fore).visible = true;
-    aDo.forEach((lay) => this.appPixi.renderer.render(lay, { renderTexture: __privateGet(this, _rtTransFore), clear: false }));
-    __privateGet(this, _fore).visible = false;
+    __privateGet2(this, _fore).visible = true;
+    aDo.forEach((lay) => this.appPixi.renderer.render(lay, { renderTexture: __privateGet2(this, _rtTransFore), clear: false }));
+    __privateGet2(this, _fore).visible = false;
   };
-  __privateGet(this, _spTransFore).visible = true;
-  __privateGet(this, _spTransFore).alpha = 1;
+  __privateGet2(this, _spTransFore).visible = true;
+  __privateGet2(this, _spTransFore).alpha = 1;
   const h2 = uint(argChk_Num(hArg, "hmax", 10));
   const v2 = uint(argChk_Num(hArg, "vmax", 10));
   const fncH = h2 === 0 ? () => {
-  } : () => __privateGet(this, _spTransFore).x = Math.round(Math.random() * h2 * 2) - h2;
+  } : () => __privateGet2(this, _spTransFore).x = Math.round(Math.random() * h2 * 2) - h2;
   const fncV = v2 === 0 ? () => {
-  } : () => __privateGet(this, _spTransFore).y = Math.round(Math.random() * v2 * 2) - v2;
-  __privateGet(this, _spTransFore).filters = [];
+  } : () => __privateGet2(this, _spTransFore).y = Math.round(Math.random() * v2 * 2) - v2;
+  __privateGet2(this, _spTransFore).filters = [];
   const repeat = argChk_Num(hArg, "repeat", 1);
-  const tw = new Tween(__privateGet(this, _spTransFore)).to({ x: 0, y: 0 }, time).delay(argChk_Num(hArg, "delay", 0)).easing(CmnTween.ease(hArg.ease)).onUpdate(() => {
+  const tw = new Tween(__privateGet2(this, _spTransFore)).to({ x: 0, y: 0 }, time).delay(argChk_Num(hArg, "delay", 0)).easing(CmnTween.ease(hArg.ease)).onUpdate(() => {
     fncH();
     fncV();
   }).repeat(repeat === 0 ? Infinity : repeat - 1).yoyo(argChk_Boolean(hArg, "yoyo", false)).onComplete(() => {
     var _a3, _b3;
     (_a3 = this.appPixi.ticker) == null ? void 0 : _a3.remove(fncRender);
-    __privateGet(this, _fore).visible = true;
-    __privateGet(this, _spTransFore).visible = false;
-    __privateGet(this, _spTransFore).x = 0;
-    __privateGet(this, _spTransFore).y = 0;
-    (_b3 = __privateGet(this, _tiTrans).tw) == null ? void 0 : _b3.stop();
-    if (__privateGet(this, _tiTrans).resume)
+    __privateGet2(this, _fore).visible = true;
+    __privateGet2(this, _spTransFore).visible = false;
+    __privateGet2(this, _spTransFore).x = 0;
+    __privateGet2(this, _spTransFore).y = 0;
+    (_b3 = __privateGet2(this, _tiTrans).tw) == null ? void 0 : _b3.stop();
+    if (__privateGet2(this, _tiTrans).resume)
       this.main.resume();
-    __privateSet(this, _tiTrans, { tw: void 0, resume: false });
+    __privateSet2(this, _tiTrans, { tw: void 0, resume: false });
   }).start();
-  __privateSet(this, _tiTrans, { tw, resume: false });
+  __privateSet2(this, _tiTrans, { tw, resume: false });
   this.appPixi.ticker.add(fncRender);
   return false;
 };
@@ -49602,11 +49852,11 @@ tsy_fn = function(hArg) {
   var _a3, _b3;
   if (!hArg.layer)
     throw "layer\u306F\u5FC5\u9808\u3067\u3059";
-  const layer = __privateMethod(this, _argChk_layer, argChk_layer_fn).call(this, hArg);
-  let foreLay = __privateGet(this, _hPages)[layer].fore;
+  const layer = __privateMethod2(this, _argChk_layer, argChk_layer_fn).call(this, hArg);
+  let foreLay = __privateGet2(this, _hPages)[layer].fore;
   let finishBlendLayer = () => {
   };
-  const isSkip = __privateGet(this, _evtMng5).isSkippingByKeyDown();
+  const isSkip = __privateGet2(this, _evtMng5).isSkippingByKeyDown();
   if (!isSkip && "render" in hArg) {
     foreLay.renderStart();
     finishBlendLayer = () => foreLay.renderEnd();
@@ -49616,18 +49866,18 @@ tsy_fn = function(hArg) {
   const tw_nm = (_a3 = hArg.name) != null ? _a3 : hArg.layer;
   const tw = new Tween(foreLay).to(hTo, argChk_Num(hArg, "time", NaN) * (Boolean(this.val.getVal("tmp:sn.skip.enabled") || isSkip) ? 0 : 1)).delay(argChk_Num(hArg, "delay", 0)).easing(CmnTween.ease(hArg.ease)).repeat(repeat === 0 ? Infinity : repeat - 1).yoyo(argChk_Boolean(hArg, "yoyo", false)).onComplete(() => {
     var _a4, _b4;
-    const ti = __privateGet(this, _hTwInf)[tw_nm];
+    const ti = __privateGet2(this, _hTwInf)[tw_nm];
     if (!ti)
       return;
     finishBlendLayer();
-    delete __privateGet(this, _hTwInf)[tw_nm];
+    delete __privateGet2(this, _hTwInf)[tw_nm];
     (_a4 = ti.tw) == null ? void 0 : _a4.stop();
     if (ti.resume)
       this.main.resume();
     (_b4 = ti.onEnd) == null ? void 0 : _b4.call(ti);
   });
   if ("chain" in hArg) {
-    const twFrom = __privateGet(this, _hTwInf)[(_b3 = hArg.chain) != null ? _b3 : ""];
+    const twFrom = __privateGet2(this, _hTwInf)[(_b3 = hArg.chain) != null ? _b3 : ""];
     if (!(twFrom == null ? void 0 : twFrom.tw))
       throw `${hArg.chain}\u306F\u5B58\u5728\u3057\u306A\u3044\u30FB\u307E\u305F\u306F\u7D42\u4E86\u3057\u305F\u30C8\u30A5\u30A4\u30FC\u30F3\u3067\u3059`;
     delete twFrom.onEnd;
@@ -49636,11 +49886,11 @@ tsy_fn = function(hArg) {
     tw.start();
   const arrive = argChk_Boolean(hArg, "arrive", false);
   const backlay = argChk_Boolean(hArg, "backlay", false);
-  __privateGet(this, _hTwInf)[tw_nm] = { tw, resume: false, onEnd: () => {
+  __privateGet2(this, _hTwInf)[tw_nm] = { tw, resume: false, onEnd: () => {
     if (arrive)
       Object.assign(foreLay, hTo);
     if (backlay) {
-      const backCnt = __privateGet(this, _hPages)[layer].back.spLay;
+      const backCnt = __privateGet2(this, _hPages)[layer].back.spLay;
       for (const nm in hMemberCnt)
         backCnt[nm] = foreLay[nm];
     }
@@ -49654,10 +49904,10 @@ wait_tsy_fn = function(hArg) {
 ${hArg.id}` : (_a3 = hArg.name) != null ? _a3 : hArg.layer;
   if (!tw_nm)
     throw "\u30C8\u30A5\u30A4\u30FC\u30F3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093";
-  const ti = __privateGet(this, _hTwInf)[tw_nm];
+  const ti = __privateGet2(this, _hTwInf)[tw_nm];
   if (!(ti == null ? void 0 : ti.tw))
     return false;
-  return ti.resume = __privateGet(this, _evtMng5).waitEvent(() => {
+  return ti.resume = __privateGet2(this, _evtMng5).waitEvent(() => {
     var _a4;
     return (_a4 = ti.tw) == null ? void 0 : _a4.end();
   }, argChk_Boolean(hArg, "canskip", true), argChk_Boolean(hArg, "global", false));
@@ -49669,7 +49919,7 @@ stop_tsy_fn = function(hArg) {
 ${hArg.id}` : (_a3 = hArg.name) != null ? _a3 : hArg.layer;
   if (!tw_nm)
     throw "\u30C8\u30A5\u30A4\u30FC\u30F3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093";
-  (_c3 = (_b3 = __privateGet(this, _hTwInf)[tw_nm]) == null ? void 0 : _b3.tw) == null ? void 0 : _c3.end();
+  (_c3 = (_b3 = __privateGet2(this, _hTwInf)[tw_nm]) == null ? void 0 : _b3.tw) == null ? void 0 : _c3.end();
   return false;
 };
 _pause_tsy = new WeakSet();
@@ -49679,7 +49929,7 @@ pause_tsy_fn = function(hArg) {
 ${hArg.id}` : (_a3 = hArg.name) != null ? _a3 : hArg.layer;
   if (!tw_nm)
     throw "\u30C8\u30A5\u30A4\u30FC\u30F3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093";
-  (_c3 = (_b3 = __privateGet(this, _hTwInf)[tw_nm]) == null ? void 0 : _b3.tw) == null ? void 0 : _c3.pause();
+  (_c3 = (_b3 = __privateGet2(this, _hTwInf)[tw_nm]) == null ? void 0 : _b3.tw) == null ? void 0 : _c3.pause();
   return false;
 };
 _resume_tsy = new WeakSet();
@@ -49689,16 +49939,16 @@ resume_tsy_fn = function(hArg) {
 ${hArg.id}` : (_a3 = hArg.name) != null ? _a3 : hArg.layer;
   if (!tw_nm)
     throw "\u30C8\u30A5\u30A4\u30FC\u30F3\u304C\u6307\u5B9A\u3055\u308C\u3066\u3044\u307E\u305B\u3093";
-  (_c3 = (_b3 = __privateGet(this, _hTwInf)[tw_nm]) == null ? void 0 : _b3.tw) == null ? void 0 : _c3.resume();
+  (_c3 = (_b3 = __privateGet2(this, _hTwInf)[tw_nm]) == null ? void 0 : _b3.tw) == null ? void 0 : _c3.resume();
   return false;
 };
 _msecChWait = new WeakMap();
 _ch = new WeakSet();
 ch_fn = function(hArg) {
-  const { text } = hArg;
-  if (!text)
+  const { text: text2 } = hArg;
+  if (!text2)
     throw "text\u306F\u5FC5\u9808\u3067\u3059";
-  const tl = __privateGet(this, _getTxtLayer).call(this, hArg);
+  const tl = __privateGet2(this, _getTxtLayer).call(this, hArg);
   delete hArg.text;
   if (this.val.getVal("tmp:sn.skip.enabled"))
     hArg.wait = 0;
@@ -49708,7 +49958,7 @@ ch_fn = function(hArg) {
   const doRecLog = this.val.doRecLog();
   if (!record)
     this.val.setVal_Nochk("save", "sn.doRecLog", record);
-  tl.tagCh(text.replaceAll("[r]", "\n"));
+  tl.tagCh(text2.replaceAll("[r]", "\n"));
   if (!record)
     this.val.setVal_Nochk("save", "sn.doRecLog", doRecLog);
   return false;
@@ -49716,8 +49966,8 @@ ch_fn = function(hArg) {
 _getTxtLayer = new WeakMap();
 _$getTxtLayer = new WeakSet();
 $getTxtLayer_fn = function(hArg) {
-  const layer = __privateMethod(this, _argChk_layer, argChk_layer_fn).call(this, hArg, __privateGet(this, _curTxtlay));
-  const pg = __privateGet(this, _hPages)[layer];
+  const layer = __privateMethod2(this, _argChk_layer, argChk_layer_fn).call(this, hArg, __privateGet2(this, _curTxtlay));
+  const pg = __privateGet2(this, _hPages)[layer];
   const lay = pg.getPage(hArg);
   if (!(lay instanceof TxtLayer))
     throw layer + "\u306FTxtLayer\u3067\u306F\u3042\u308A\u307E\u305B\u3093";
@@ -49730,17 +49980,17 @@ $current_fn = function(hArg) {
   const { layer } = hArg;
   if (!layer)
     throw "[current] layer\u306F\u5FC5\u9808\u3067\u3059";
-  __privateSet(this, _pgTxtlay, __privateGet(this, _hPages)[layer]);
-  if (!(__privateGet(this, _pgTxtlay).getPage(hArg) instanceof TxtLayer))
+  __privateSet2(this, _pgTxtlay, __privateGet2(this, _hPages)[layer]);
+  if (!(__privateGet2(this, _pgTxtlay).getPage(hArg) instanceof TxtLayer))
     throw `${layer}\u306FTxtLayer\u3067\u306F\u3042\u308A\u307E\u305B\u3093`;
   this.recText("", true);
-  __privateSet(this, _curTxtlay, layer);
+  __privateSet2(this, _curTxtlay, layer);
   this.val.setVal_Nochk("save", "const.sn.mesLayer", layer);
-  __privateMethod(this, _getLayers, getLayers_fn).call(this).forEach((name) => {
-    const pg = __privateGet(this, _hPages)[name];
+  __privateMethod2(this, _getLayers, getLayers_fn).call(this).forEach((name2) => {
+    const pg = __privateGet2(this, _hPages)[name2];
     if (!(pg.fore instanceof TxtLayer))
       return;
-    pg.fore.isCur = pg.back.isCur = name === layer;
+    pg.fore.isCur = pg.back.isCur = name2 === layer;
   });
   return false;
 };
@@ -49752,7 +50002,7 @@ argChk_layer_fn = function(hash2, def = "") {
   const v2 = (_a3 = hash2.layer) != null ? _a3 : def;
   if (v2.includes(","))
     throw "layer\u540D\u306B\u300C,\u300D\u306F\u4F7F\u3048\u307E\u305B\u3093";
-  if (!(v2 in __privateGet(this, _hPages)))
+  if (!(v2 in __privateGet2(this, _hPages)))
     throw "\u5C5E\u6027 layer\u3010" + v2 + "\u3011\u304C\u4E0D\u6B63\u3067\u3059\u3002\u30EC\u30A4\u30E4\u30FC\u304C\u3042\u308A\u307E\u305B\u3093";
   return hash2.layer = v2;
 };
@@ -49760,24 +50010,24 @@ _oLastPage = new WeakMap();
 _aTxtLog = new WeakMap();
 _clear_text = new WeakSet();
 clear_text_fn = function(hArg) {
-  const tf = __privateGet(this, _getTxtLayer).call(this, hArg);
-  if (hArg.layer === __privateGet(this, _curTxtlay) && hArg.page === "fore")
+  const tf = __privateGet2(this, _getTxtLayer).call(this, hArg);
+  if (hArg.layer === __privateGet2(this, _curTxtlay) && hArg.page === "fore")
     this.recText("", true);
   tf.clearText();
   return false;
 };
 _endlink = new WeakSet();
 endlink_fn = function(hArg) {
-  __privateGet(this, _cmdTxt).call(this, "endlink\uFF5C", __privateGet(this, _getTxtLayer).call(this, hArg));
+  __privateGet2(this, _cmdTxt).call(this, "endlink\uFF5C", __privateGet2(this, _getTxtLayer).call(this, hArg));
   return false;
 };
 _er = new WeakSet();
 er_fn = function(hArg) {
   if (argChk_Boolean(hArg, "rec_page_break", true))
     this.recText("", true);
-  if (__privateGet(this, _pgTxtlay)) {
-    __privateGet(this, _pgTxtlay).fore.clearLay(hArg);
-    __privateGet(this, _pgTxtlay).back.clearLay(hArg);
+  if (__privateGet2(this, _pgTxtlay)) {
+    __privateGet2(this, _pgTxtlay).fore.clearLay(hArg);
+    __privateGet2(this, _pgTxtlay).back.clearLay(hArg);
   }
   return false;
 };
@@ -49786,7 +50036,7 @@ graph_fn = function(hArg) {
   if (!hArg.pic)
     throw "[graph] pic\u306F\u5FC5\u9808\u3067\u3059";
   hArg.text = "\uFF5C\u3000\u300Agrp\uFF5C" + JSON.stringify(hArg) + "\u300B";
-  return __privateMethod(this, _ch, ch_fn).call(this, hArg);
+  return __privateMethod2(this, _ch, ch_fn).call(this, hArg);
 };
 _link = new WeakSet();
 link_fn = function(hArg) {
@@ -49794,13 +50044,13 @@ link_fn = function(hArg) {
   (_a3 = hArg.style) != null ? _a3 : hArg.style = "background-color: rgba(255,0,0,0.5);";
   (_b3 = hArg.style_hover) != null ? _b3 : hArg.style_hover = "background-color: rgba(255,0,0,0.9);";
   (_c3 = hArg.style_clicked) != null ? _c3 : hArg.style_clicked = hArg.style;
-  __privateGet(this, _cmdTxt).call(this, "link\uFF5C" + JSON.stringify(hArg), __privateGet(this, _getTxtLayer).call(this, hArg));
+  __privateGet2(this, _cmdTxt).call(this, "link\uFF5C" + JSON.stringify(hArg), __privateGet2(this, _getTxtLayer).call(this, hArg));
   return false;
 };
 _r = new WeakSet();
 r_fn = function(hArg) {
   hArg.text = "\n";
-  return __privateMethod(this, _ch, ch_fn).call(this, hArg);
+  return __privateMethod2(this, _ch, ch_fn).call(this, hArg);
 };
 _rec_r = new WeakSet();
 rec_r_fn = function() {
@@ -49810,15 +50060,15 @@ rec_r_fn = function() {
 _rec_ch = new WeakSet();
 rec_ch_fn = function(hArg) {
   var _a3;
-  __privateSet(this, _oLastPage, hArg);
+  __privateSet2(this, _oLastPage, hArg);
   this.recText((_a3 = hArg.text) != null ? _a3 : "");
   return false;
 };
 _reset_rec = new WeakSet();
 reset_rec_fn = function(hArg) {
   var _a3;
-  __privateSet(this, _aTxtLog, []);
-  __privateSet(this, _oLastPage, { text: (_a3 = hArg.text) != null ? _a3 : "" });
+  __privateSet2(this, _aTxtLog, []);
+  __privateSet2(this, _oLastPage, { text: (_a3 = hArg.text) != null ? _a3 : "" });
   this.val.setVal_Nochk("save", "const.sn.sLog", hArg.text ? `[{text:"${hArg.text}"}]` : "[]");
   return false;
 };
@@ -49830,11 +50080,11 @@ ruby2_fn = function(hArg) {
   if (!r2)
     throw "[ruby2] r\u306F\u5FC5\u9808\u3067\u3059";
   hArg.text = "\uFF5C" + t + "\u300A" + r2 + "\u300B";
-  return __privateMethod(this, _ch, ch_fn).call(this, hArg);
+  return __privateMethod2(this, _ch, ch_fn).call(this, hArg);
 };
 _span = new WeakSet();
 span_fn = function(hArg) {
-  __privateGet(this, _cmdTxt).call(this, "span\uFF5C" + JSON.stringify(hArg), __privateGet(this, _getTxtLayer).call(this, hArg));
+  __privateGet2(this, _cmdTxt).call(this, "span\uFF5C" + JSON.stringify(hArg), __privateGet2(this, _getTxtLayer).call(this, hArg));
   return false;
 };
 _tcy = new WeakSet();
@@ -49843,13 +50093,13 @@ tcy_fn = function(hArg) {
   if (!hArg.t)
     throw "[tcy] t\u306F\u5FC5\u9808\u3067\u3059";
   hArg.text = "\uFF5C\u3000\u300Atcy\uFF5C" + hArg.t + "\uFF5C" + ((_a3 = hArg.r) != null ? _a3 : "") + "\u300B";
-  return __privateMethod(this, _ch, ch_fn).call(this, hArg);
+  return __privateMethod2(this, _ch, ch_fn).call(this, hArg);
 };
 _dump_lay = new WeakSet();
 dump_lay_fn = function(hArg) {
   console.group("\u{1F95F} [dump_lay]");
-  __privateMethod(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((name) => {
-    const pg = __privateGet(this, _hPages)[name];
+  __privateMethod2(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((name2) => {
+    const pg = __privateGet2(this, _hPages)[name2];
     try {
       console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib.isDarkMode ? "49F" : "05A"};`, JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
     } catch (error) {
@@ -49863,9 +50113,9 @@ dump_lay_fn = function(hArg) {
 };
 _enable_event = new WeakSet();
 enable_event_fn = function(hArg) {
-  const layer = __privateMethod(this, _argChk_layer, argChk_layer_fn).call(this, hArg, __privateGet(this, _curTxtlay));
+  const layer = __privateMethod2(this, _argChk_layer, argChk_layer_fn).call(this, hArg, __privateGet2(this, _curTxtlay));
   const v2 = argChk_Boolean(hArg, "enabled", true);
-  __privateGet(this, _getTxtLayer).call(this, hArg).enabled = v2;
+  __privateGet2(this, _getTxtLayer).call(this, hArg).enabled = v2;
   this.val.setVal_Nochk("save", "const.sn.layer." + layer + ".enabled", v2);
   return false;
 };
@@ -49878,51 +50128,51 @@ button_fn = function(hArg) {
   (_c3 = hArg.leavesebuf) != null ? _c3 : hArg.leavesebuf = "SYS";
   if (!hArg.fn)
     hArg.fn = this.scrItr.scriptFn;
-  __privateGet(this, _getTxtLayer).call(this, hArg).addButton(hArg);
+  __privateGet2(this, _getTxtLayer).call(this, hArg).addButton(hArg);
   this.scrItr.recodeDesign(hArg);
   return false;
 };
-__privateAdd(LayerMng, _msecChWait, 10);
+__privateAdd2(LayerMng, _msecChWait, 10);
 class FocusMng {
   constructor() {
-    __privateAdd(this, _radio_next);
-    __privateAdd(this, _allOff);
-    __privateAdd(this, _aBtn, []);
-    __privateAdd(this, _idx, -1);
-    __privateAdd(this, _logFocus, CmnLib.debugLog ? (i2) => console.log(`\u{1F47E} <FocusMng idx:${i2} btn:%o`, __privateGet(this, _aBtn)[i2].btn) : () => {
+    __privateAdd2(this, _radio_next);
+    __privateAdd2(this, _allOff);
+    __privateAdd2(this, _aBtn, []);
+    __privateAdd2(this, _idx, -1);
+    __privateAdd2(this, _logFocus, CmnLib.debugLog ? (i2) => console.log(`\u{1F47E} <FocusMng idx:${i2} btn:%o`, __privateGet2(this, _aBtn)[i2].btn) : () => {
     });
   }
   destroy() {
-    __privateSet(this, _aBtn, []);
-    __privateSet(this, _idx, -1);
+    __privateSet2(this, _aBtn, []);
+    __privateSet2(this, _idx, -1);
   }
   add(cmp, on2, off) {
     var _a3;
-    if (__privateGet(this, _aBtn).findIndex((b2) => b2.btn === cmp) >= 0)
+    if (__privateGet2(this, _aBtn).findIndex((b2) => b2.btn === cmp) >= 0)
       return;
     if (cmp instanceof Container) {
       cmp.on("pointerdown", () => {
-        for (let i2 = __privateGet(this, _aBtn).length - 1; i2 >= 0; --i2) {
-          const b2 = __privateGet(this, _aBtn)[i2];
+        for (let i2 = __privateGet2(this, _aBtn).length - 1; i2 >= 0; --i2) {
+          const b2 = __privateGet2(this, _aBtn)[i2];
           if (b2.btn === cmp) {
-            __privateSet(this, _idx, i2);
+            __privateSet2(this, _idx, i2);
             return;
           }
         }
-        __privateSet(this, _idx, -1);
+        __privateSet2(this, _idx, -1);
       });
-      __privateGet(this, _aBtn).push({ btn: cmp, on: on2, off });
+      __privateGet2(this, _aBtn).push({ btn: cmp, on: on2, off });
       return;
     }
     cmp.addEventListener("focus", () => {
-      for (let i2 = __privateGet(this, _aBtn).length - 1; i2 >= 0; --i2) {
-        const b2 = __privateGet(this, _aBtn)[i2];
+      for (let i2 = __privateGet2(this, _aBtn).length - 1; i2 >= 0; --i2) {
+        const b2 = __privateGet2(this, _aBtn)[i2];
         if (b2.btn === cmp) {
-          __privateSet(this, _idx, i2);
+          __privateSet2(this, _idx, i2);
           return;
         }
       }
-      __privateSet(this, _idx, -1);
+      __privateSet2(this, _idx, -1);
     });
     let fnc = (_2) => {
     };
@@ -49934,7 +50184,7 @@ class FocusMng {
         break;
       case "":
         if (cmp.querySelectorAll("input[type]").length > 0) {
-          fnc = (e) => __privateMethod(this, _radio_next, radio_next_fn).call(this, cmp, e.key);
+          fnc = (e) => __privateMethod2(this, _radio_next, radio_next_fn).call(this, cmp, e.key);
           fnc4EnterSwitch = () => false;
         }
         break;
@@ -49974,69 +50224,69 @@ class FocusMng {
     }, { passive: true });
     if (!cmp.hasAttribute("tabindex"))
       cmp.tabIndex = 0;
-    __privateGet(this, _aBtn).push({ btn: cmp, on: on2, off });
+    __privateGet2(this, _aBtn).push({ btn: cmp, on: on2, off });
   }
   remove(cmp) {
-    const idx = __privateGet(this, _aBtn).findIndex((b2) => b2.btn === cmp);
+    const idx = __privateGet2(this, _aBtn).findIndex((b2) => b2.btn === cmp);
     if (idx < 0)
       return;
-    __privateGet(this, _aBtn).splice(idx, 1);
-    if (__privateGet(this, _aBtn).length === 0)
-      __privateSet(this, _idx, -1);
-    else if (idx <= __privateGet(this, _idx))
-      --__privateWrapper(this, _idx)._;
+    __privateGet2(this, _aBtn).splice(idx, 1);
+    if (__privateGet2(this, _aBtn).length === 0)
+      __privateSet2(this, _idx, -1);
+    else if (idx <= __privateGet2(this, _idx))
+      --__privateWrapper2(this, _idx)._;
   }
   isFocus(cmp) {
-    if (__privateGet(this, _idx) < 0)
+    if (__privateGet2(this, _idx) < 0)
       return false;
-    return __privateGet(this, _aBtn)[__privateGet(this, _idx)].btn === cmp;
+    return __privateGet2(this, _aBtn)[__privateGet2(this, _idx)].btn === cmp;
   }
   prev() {
-    __privateMethod(this, _allOff, allOff_fn).call(this);
-    const len = __privateGet(this, _aBtn).length;
+    __privateMethod2(this, _allOff, allOff_fn).call(this);
+    const len = __privateGet2(this, _aBtn).length;
     if (len === 0)
       return;
-    if (--__privateWrapper(this, _idx)._ < 0)
-      __privateSet(this, _idx, len - 1);
+    if (--__privateWrapper2(this, _idx)._ < 0)
+      __privateSet2(this, _idx, len - 1);
     for (let i2 = len; i2 >= 1; --i2) {
-      const j2 = (__privateGet(this, _idx) + i2) % len;
-      if (__privateGet(this, _aBtn)[j2].on()) {
-        __privateSet(this, _idx, j2);
-        __privateGet(this, _logFocus).call(this, j2);
+      const j2 = (__privateGet2(this, _idx) + i2) % len;
+      if (__privateGet2(this, _aBtn)[j2].on()) {
+        __privateSet2(this, _idx, j2);
+        __privateGet2(this, _logFocus).call(this, j2);
         return;
       }
     }
-    __privateSet(this, _idx, -1);
+    __privateSet2(this, _idx, -1);
   }
   next() {
-    __privateMethod(this, _allOff, allOff_fn).call(this);
-    const len = __privateGet(this, _aBtn).length;
+    __privateMethod2(this, _allOff, allOff_fn).call(this);
+    const len = __privateGet2(this, _aBtn).length;
     if (len === 0)
       return;
-    if (++__privateWrapper(this, _idx)._ >= len)
-      __privateSet(this, _idx, 0);
+    if (++__privateWrapper2(this, _idx)._ >= len)
+      __privateSet2(this, _idx, 0);
     for (let i2 = 0; i2 < len; ++i2) {
-      const j2 = (__privateGet(this, _idx) + i2) % len;
-      if (__privateGet(this, _aBtn)[j2].on()) {
-        __privateSet(this, _idx, j2);
-        __privateGet(this, _logFocus).call(this, j2);
+      const j2 = (__privateGet2(this, _idx) + i2) % len;
+      if (__privateGet2(this, _aBtn)[j2].on()) {
+        __privateSet2(this, _idx, j2);
+        __privateGet2(this, _logFocus).call(this, j2);
         return;
       }
     }
-    __privateSet(this, _idx, -1);
+    __privateSet2(this, _idx, -1);
   }
   getFocus() {
-    if (__privateGet(this, _idx) < 0)
+    if (__privateGet2(this, _idx) < 0)
       return void 0;
-    __privateMethod(this, _allOff, allOff_fn).call(this);
-    if (__privateGet(this, _idx) >= __privateGet(this, _aBtn).length)
-      __privateSet(this, _idx, 0);
-    const b2 = __privateGet(this, _aBtn)[__privateGet(this, _idx)];
+    __privateMethod2(this, _allOff, allOff_fn).call(this);
+    if (__privateGet2(this, _idx) >= __privateGet2(this, _aBtn).length)
+      __privateSet2(this, _idx, 0);
+    const b2 = __privateGet2(this, _aBtn)[__privateGet2(this, _idx)];
     return b2.on() ? b2.btn : void 0;
   }
   blur() {
-    __privateMethod(this, _allOff, allOff_fn).call(this);
-    __privateSet(this, _idx, -1);
+    __privateMethod2(this, _allOff, allOff_fn).call(this);
+    __privateSet2(this, _idx, -1);
     globalThis.focus();
   }
 }
@@ -50056,60 +50306,60 @@ radio_next_fn = function(elm, key) {
 _logFocus = new WeakMap();
 _allOff = new WeakSet();
 allOff_fn = function() {
-  for (let i2 = __privateGet(this, _aBtn).length - 1; i2 >= 0; --i2) {
-    const b2 = __privateGet(this, _aBtn)[i2];
+  for (let i2 = __privateGet2(this, _aBtn).length - 1; i2 >= 0; --i2) {
+    const b2 = __privateGet2(this, _aBtn)[i2];
     if (!(b2.btn instanceof Container) || b2.btn.parent)
       b2.off();
     else
-      __privateGet(this, _aBtn).splice(i2, 1);
+      __privateGet2(this, _aBtn).splice(i2, 1);
   }
 };
 const { GamepadListener } = require("gamepad.js");
 class EventMng {
   constructor(cfg, hTag, appPixi, main2, layMng, val, sndMng, scrItr, sys) {
-    __privateAdd(this, _ev_keydown);
-    __privateAdd(this, _ev_contextmenu);
-    __privateAdd(this, _ev_wheel);
-    __privateAdd(this, _ev_wheel_waitstop);
-    __privateAdd(this, _waitEventBase);
-    __privateAdd(this, _dispHint);
-    __privateAdd(this, _clear_event);
-    __privateAdd(this, _clear_eventer);
-    __privateAdd(this, _event);
-    __privateAdd(this, _canFocus);
-    __privateAdd(this, _getHtmlElmList);
-    __privateAdd(this, _l);
-    __privateAdd(this, _p);
-    __privateAdd(this, _set_cancel_skip);
-    __privateAdd(this, _set_focus);
-    __privateAdd(this, _wait);
-    __privateAdd(this, _waitclick);
-    __privateAdd(this, _elc2, void 0);
-    __privateAdd(this, _cvsHint, void 0);
-    __privateAdd(this, _picHint_w, void 0);
-    __privateAdd(this, _picHint_h, void 0);
-    __privateAdd(this, _padHint, void 0);
-    __privateAdd(this, _grpHint, void 0);
-    __privateAdd(this, _gamepad, void 0);
-    __privateAdd(this, _fcs, void 0);
-    __privateAdd(this, _resvFlameEvent4Wheel, void 0);
-    __privateAdd(this, _wheeling, void 0);
-    __privateAdd(this, _extend_wheel, void 0);
-    __privateAdd(this, _hLocalEvt2Fnc, void 0);
-    __privateAdd(this, _hGlobalEvt2Fnc, void 0);
-    __privateAdd(this, _isDbgBreak, void 0);
-    __privateAdd(this, _isWait, void 0);
-    __privateAdd(this, _getEvt2Fnc, void 0);
-    __privateAdd(this, _firstWait, void 0);
-    __privateAdd(this, _dispHint_hArg, void 0);
-    __privateAdd(this, _dispHint_ctnBtn, void 0);
-    __privateAdd(this, _dispHint_masume, void 0);
-    __privateAdd(this, _procWheel4wle, void 0);
-    __privateAdd(this, _elcWLE, void 0);
-    __privateAdd(this, _goTxt, void 0);
-    __privateAdd(this, _stopSkip, void 0);
-    __privateAdd(this, _cancelWait, void 0);
-    __privateAdd(this, _hDownKeys, void 0);
+    __privateAdd2(this, _ev_keydown);
+    __privateAdd2(this, _ev_contextmenu);
+    __privateAdd2(this, _ev_wheel);
+    __privateAdd2(this, _ev_wheel_waitstop);
+    __privateAdd2(this, _waitEventBase);
+    __privateAdd2(this, _dispHint);
+    __privateAdd2(this, _clear_event);
+    __privateAdd2(this, _clear_eventer);
+    __privateAdd2(this, _event);
+    __privateAdd2(this, _canFocus);
+    __privateAdd2(this, _getHtmlElmList);
+    __privateAdd2(this, _l);
+    __privateAdd2(this, _p);
+    __privateAdd2(this, _set_cancel_skip);
+    __privateAdd2(this, _set_focus);
+    __privateAdd2(this, _wait);
+    __privateAdd2(this, _waitclick);
+    __privateAdd2(this, _elc2, void 0);
+    __privateAdd2(this, _cvsHint, void 0);
+    __privateAdd2(this, _picHint_w, void 0);
+    __privateAdd2(this, _picHint_h, void 0);
+    __privateAdd2(this, _padHint, void 0);
+    __privateAdd2(this, _grpHint, void 0);
+    __privateAdd2(this, _gamepad, void 0);
+    __privateAdd2(this, _fcs, void 0);
+    __privateAdd2(this, _resvFlameEvent4Wheel, void 0);
+    __privateAdd2(this, _wheeling, void 0);
+    __privateAdd2(this, _extend_wheel, void 0);
+    __privateAdd2(this, _hLocalEvt2Fnc, void 0);
+    __privateAdd2(this, _hGlobalEvt2Fnc, void 0);
+    __privateAdd2(this, _isDbgBreak, void 0);
+    __privateAdd2(this, _isWait, void 0);
+    __privateAdd2(this, _getEvt2Fnc, void 0);
+    __privateAdd2(this, _firstWait, void 0);
+    __privateAdd2(this, _dispHint_hArg, void 0);
+    __privateAdd2(this, _dispHint_ctnBtn, void 0);
+    __privateAdd2(this, _dispHint_masume, void 0);
+    __privateAdd2(this, _procWheel4wle, void 0);
+    __privateAdd2(this, _elcWLE, void 0);
+    __privateAdd2(this, _goTxt, void 0);
+    __privateAdd2(this, _stopSkip, void 0);
+    __privateAdd2(this, _cancelWait, void 0);
+    __privateAdd2(this, _hDownKeys, void 0);
     this.cfg = cfg;
     this.hTag = hTag;
     this.appPixi = appPixi;
@@ -50119,57 +50369,57 @@ class EventMng {
     this.sndMng = sndMng;
     this.scrItr = scrItr;
     this.sys = sys;
-    __privateSet(this, _elc2, new EventListenerCtn());
-    __privateSet(this, _cvsHint, document.createElement("canvas"));
-    __privateSet(this, _picHint_w, 100);
-    __privateSet(this, _picHint_h, 50);
-    __privateSet(this, _grpHint, new Graphics());
+    __privateSet2(this, _elc2, new EventListenerCtn());
+    __privateSet2(this, _cvsHint, document.createElement("canvas"));
+    __privateSet2(this, _picHint_w, 100);
+    __privateSet2(this, _picHint_h, 50);
+    __privateSet2(this, _grpHint, new Graphics());
     this.setTxtHint = (_txt, _fillStyle, _hint_font) => {
     };
-    __privateSet(this, _gamepad, new GamepadListener({
+    __privateSet2(this, _gamepad, new GamepadListener({
       analog: false,
       deadZone: 0.3
     }));
-    __privateSet(this, _fcs, new FocusMng());
-    __privateSet(this, _resvFlameEvent4Wheel, (_win) => {
+    __privateSet2(this, _fcs, new FocusMng());
+    __privateSet2(this, _resvFlameEvent4Wheel, (_win) => {
     });
-    __privateSet(this, _wheeling, false);
-    __privateSet(this, _extend_wheel, false);
-    __privateSet(this, _hLocalEvt2Fnc, {});
-    __privateSet(this, _hGlobalEvt2Fnc, {});
-    __privateSet(this, _isDbgBreak, false);
-    __privateSet(this, _isWait, false);
-    __privateSet(this, _getEvt2Fnc, (key) => {
+    __privateSet2(this, _wheeling, false);
+    __privateSet2(this, _extend_wheel, false);
+    __privateSet2(this, _hLocalEvt2Fnc, {});
+    __privateSet2(this, _hGlobalEvt2Fnc, {});
+    __privateSet2(this, _isDbgBreak, false);
+    __privateSet2(this, _isWait, false);
+    __privateSet2(this, _getEvt2Fnc, (key) => {
       var _a3;
-      return (_a3 = __privateGet(this, _hLocalEvt2Fnc)[key]) != null ? _a3 : __privateGet(this, _hGlobalEvt2Fnc)[key];
+      return (_a3 = __privateGet2(this, _hLocalEvt2Fnc)[key]) != null ? _a3 : __privateGet2(this, _hGlobalEvt2Fnc)[key];
     });
-    __privateSet(this, _firstWait, () => {
-      __privateSet(this, _firstWait, () => {
+    __privateSet2(this, _firstWait, () => {
+      __privateSet2(this, _firstWait, () => {
       });
       this.scrItr.firstWait();
     });
-    __privateSet(this, _dispHint_masume, (hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate) => {
-      __privateGet(this, _grpHint).zIndex = 1e3;
-      __privateGet(this, _grpHint).x = rctBtn.x;
-      __privateGet(this, _grpHint).y = rctBtn.y;
-      __privateGet(this, _grpHint).rotation = ctnBtn.rotation;
-      const p = (isLink ? ctnBtn.parent : ctnBtn).scale;
+    __privateSet2(this, _dispHint_masume, (hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate) => {
+      __privateGet2(this, _grpHint).zIndex = 1e3;
+      __privateGet2(this, _grpHint).x = rctBtn.x;
+      __privateGet2(this, _grpHint).y = rctBtn.y;
+      __privateGet2(this, _grpHint).rotation = ctnBtn.rotation;
+      const p2 = (isLink ? ctnBtn.parent : ctnBtn).scale;
       const isBtnPic = hArg[":\u30BF\u30B0\u540D"] === "button" && hArg.pic;
-      __privateGet(this, _grpHint).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(0, 0, rctBtn.width, rctBtn.height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1);
+      __privateGet2(this, _grpHint).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(0, 0, rctBtn.width, rctBtn.height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1);
       if (hint_tate)
-        __privateGet(this, _grpHint).drawRect(isLink ? rctBtn.height : rctBtn.width, ((isLink ? rctBtn.width : rctBtn.height) - hint_width) / 2, __privateGet(this, _picHint_h) * (isBtnPic ? 1 : p.x), hint_width * (isBtnPic ? 1 : p.y));
+        __privateGet2(this, _grpHint).drawRect(isLink ? rctBtn.height : rctBtn.width, ((isLink ? rctBtn.width : rctBtn.height) - hint_width) / 2, __privateGet2(this, _picHint_h) * (isBtnPic ? 1 : p2.x), hint_width * (isBtnPic ? 1 : p2.y));
       else
-        __privateGet(this, _grpHint).drawRect((rctBtn.width - hint_width) / 2, -__privateGet(this, _picHint_h), hint_width * (isBtnPic ? 1 : p.x), __privateGet(this, _picHint_h) * (isBtnPic ? 1 : p.y));
-      __privateGet(this, _grpHint).endFill();
+        __privateGet2(this, _grpHint).drawRect((rctBtn.width - hint_width) / 2, -__privateGet2(this, _picHint_h), hint_width * (isBtnPic ? 1 : p2.x), __privateGet2(this, _picHint_h) * (isBtnPic ? 1 : p2.y));
+      __privateGet2(this, _grpHint).endFill();
     });
-    __privateSet(this, _procWheel4wle, (_elc3, _fnc) => {
+    __privateSet2(this, _procWheel4wle, (_elc3, _fnc) => {
     });
-    __privateSet(this, _elcWLE, new EventListenerCtn());
-    __privateSet(this, _goTxt, () => this.layMng.goTxt());
-    __privateSet(this, _stopSkip, () => false);
-    __privateSet(this, _cancelWait, () => {
+    __privateSet2(this, _elcWLE, new EventListenerCtn());
+    __privateSet2(this, _goTxt, () => this.layMng.goTxt());
+    __privateSet2(this, _stopSkip, () => false);
+    __privateSet2(this, _cancelWait, () => {
     });
-    __privateSet(this, _hDownKeys, {
+    __privateSet2(this, _hDownKeys, {
       "Alt": 0,
       "Meta": 0,
       "Control": 0,
@@ -50180,20 +50430,20 @@ class EventMng {
       " ": 0,
       "GoBack": 0
     });
-    hTag.clear_event = (o) => __privateMethod(this, _clear_event, clear_event_fn).call(this, o);
-    hTag.event = (o) => __privateMethod(this, _event, event_fn).call(this, o);
-    hTag.l = (o) => __privateMethod(this, _l, l_fn).call(this, o);
-    hTag.p = (o) => __privateMethod(this, _p, p_fn).call(this, o);
+    hTag.clear_event = (o) => __privateMethod2(this, _clear_event, clear_event_fn).call(this, o);
+    hTag.event = (o) => __privateMethod2(this, _event, event_fn).call(this, o);
+    hTag.l = (o) => __privateMethod2(this, _l, l_fn).call(this, o);
+    hTag.p = (o) => __privateMethod2(this, _p, p_fn).call(this, o);
     hTag.s = () => {
       this.scrItr.recodePage();
-      __privateMethod(this, _waitEventBase, waitEventBase_fn).call(this, () => {
+      __privateMethod2(this, _waitEventBase, waitEventBase_fn).call(this, () => {
       }, false, true);
       return true;
     };
-    hTag.set_cancel_skip = () => __privateMethod(this, _set_cancel_skip, set_cancel_skip_fn).call(this);
-    hTag.set_focus = (o) => __privateMethod(this, _set_focus, set_focus_fn).call(this, o);
-    hTag.wait = (o) => __privateMethod(this, _wait, wait_fn).call(this, o);
-    hTag.waitclick = () => __privateMethod(this, _waitclick, waitclick_fn).call(this);
+    hTag.set_cancel_skip = () => __privateMethod2(this, _set_cancel_skip, set_cancel_skip_fn).call(this);
+    hTag.set_focus = (o) => __privateMethod2(this, _set_focus, set_focus_fn).call(this, o);
+    hTag.wait = (o) => __privateMethod2(this, _wait, wait_fn).call(this, o);
+    hTag.waitclick = () => __privateMethod2(this, _waitclick, waitclick_fn).call(this);
     sndMng.setEvtMng(this);
     scrItr.setOtherObj(this, layMng);
     TxtLayer.setEvtMng(main2, this, sys);
@@ -50202,18 +50452,18 @@ class EventMng {
     if (CmnLib.isDbg) {
       const hHook = {
         pause: () => {
-          __privateSet(this, _isDbgBreak, true);
-          if (!__privateGet(this, _isWait))
+          __privateSet2(this, _isDbgBreak, true);
+          if (!__privateGet2(this, _isWait))
             return;
           const hArg = {};
           this.scrItr.recodeDesign(hArg);
           this.sys.callHook("_enterDesign", hArg);
           this.sys.send2Dbg("_enterDesign", hArg);
         },
-        stopOnBreakpoint: () => __privateSet(this, _isDbgBreak, true),
-        stopOnDataBreakpoint: () => __privateSet(this, _isDbgBreak, true),
-        continue: () => __privateSet(this, _isDbgBreak, false),
-        disconnect: () => __privateSet(this, _isDbgBreak, false)
+        stopOnBreakpoint: () => __privateSet2(this, _isDbgBreak, true),
+        stopOnDataBreakpoint: () => __privateSet2(this, _isDbgBreak, true),
+        continue: () => __privateSet2(this, _isDbgBreak, false),
+        disconnect: () => __privateSet2(this, _isDbgBreak, false)
       };
       hHook.attach = hHook.stopOnEntry = hHook.stopOnStep = hHook.stopOnStepIn = hHook.stopOnStepOut = hHook.stopOnBackstep = hHook.pause;
       sys.addHook((type) => {
@@ -50228,30 +50478,30 @@ class EventMng {
       isCustomHint = true;
     } catch {
     }
-    const ctx = __privateGet(this, _cvsHint).getContext("2d");
+    const ctx = __privateGet2(this, _cvsHint).getContext("2d");
     if (ctx) {
-      __privateGet(this, _cvsHint).hidden = true;
-      appPixi.view.parentElement.appendChild(__privateGet(this, _cvsHint));
-      const s2 = __privateGet(this, _cvsHint).style;
+      __privateGet2(this, _cvsHint).hidden = true;
+      appPixi.view.parentElement.appendChild(__privateGet2(this, _cvsHint));
+      const s2 = __privateGet2(this, _cvsHint).style;
       s2.position = "absolute";
       s2.left = s2.top = "0";
       s2.zIndex = "10000";
       s2.pointerEvents = "none";
       s2.userSelect = "none";
-      __privateSet(this, _padHint, 10);
+      __privateSet2(this, _padHint, 10);
       const img = new Image();
       const initHint = () => {
-        __privateGet(this, _cvsHint).width = __privateSet(this, _picHint_w, img.width);
-        __privateGet(this, _cvsHint).height = __privateSet(this, _picHint_h, img.height);
+        __privateGet2(this, _cvsHint).width = __privateSet2(this, _picHint_w, img.width);
+        __privateGet2(this, _cvsHint).height = __privateSet2(this, _picHint_h, img.height);
         this.setTxtHint("\u884C\u65B9\u5411\u306E\u5909\u66F4", "white", "22px Arial");
       };
       this.setTxtHint = (txt, fillStyle, hint_font) => {
-        ctx.clearRect(0, 0, __privateGet(this, _cvsHint).width, __privateGet(this, _cvsHint).height);
+        ctx.clearRect(0, 0, __privateGet2(this, _cvsHint).width, __privateGet2(this, _cvsHint).height);
         ctx.drawImage(img, 0, 0);
         ctx.textBaseline = "top";
         ctx.font = hint_font;
         ctx.fillStyle = fillStyle;
-        ctx.fillText(txt, __privateGet(this, _padHint), 16, __privateGet(this, _picHint_w) - __privateGet(this, _padHint) * 2);
+        ctx.fillText(txt, __privateGet2(this, _padHint), 16, __privateGet2(this, _picHint_w) - __privateGet2(this, _padHint) * 2);
       };
       if (isCustomHint)
         GrpLayer.loadPic2Img("hint", img, (i2) => {
@@ -50264,15 +50514,15 @@ class EventMng {
       }
     }
     if (this.cfg.oCfg.debug.masume)
-      appPixi.stage.addChild(__privateGet(this, _grpHint));
+      appPixi.stage.addChild(__privateGet2(this, _grpHint));
     else
-      __privateSet(this, _dispHint_masume, () => {
+      __privateSet2(this, _dispHint_masume, () => {
       });
     appPixi.stage.interactive = true;
     if (CmnLib.isMobile)
       appPixi.stage.on("pointerdown", (e) => this.fire("click", e));
     else
-      __privateGet(this, _elc2).add(appPixi.stage, "pointerdown", (e) => {
+      __privateGet2(this, _elc2).add(appPixi.stage, "pointerdown", (e) => {
         switch (e.data.button) {
           case 0:
             this.fire("click", e);
@@ -50282,8 +50532,8 @@ class EventMng {
             break;
         }
       });
-    __privateGet(this, _elc2).add(window, "keydown", (e) => __privateMethod(this, _ev_keydown, ev_keydown_fn).call(this, e));
-    __privateGet(this, _elc2).add(appPixi.view, "contextmenu", (e) => __privateMethod(this, _ev_contextmenu, ev_contextmenu_fn).call(this, e));
+    __privateGet2(this, _elc2).add(window, "keydown", (e) => __privateMethod2(this, _ev_keydown, ev_keydown_fn).call(this, e));
+    __privateGet2(this, _elc2).add(appPixi.view, "contextmenu", (e) => __privateMethod2(this, _ev_contextmenu, ev_contextmenu_fn).call(this, e));
     const fncMql = (mq) => {
       CmnLib.isDarkMode = mq.matches;
       val.setVal_Nochk("tmp", "const.sn.isDarkMode", CmnLib.isDarkMode);
@@ -50295,9 +50545,9 @@ class EventMng {
       this.fire("sn:chgDarkMode", e);
     });
     if ("WheelEvent" in window) {
-      __privateGet(this, _elc2).add(appPixi.view, "wheel", (e) => __privateMethod(this, _ev_wheel, ev_wheel_fn).call(this, e), { passive: true });
-      __privateSet(this, _resvFlameEvent4Wheel, (win) => win.addEventListener("wheel", (e) => __privateMethod(this, _ev_wheel, ev_wheel_fn).call(this, e), { passive: true }));
-      __privateSet(this, _procWheel4wle, (elc, fnc) => elc.add(appPixi.view, "wheel", (e) => {
+      __privateGet2(this, _elc2).add(appPixi.view, "wheel", (e) => __privateMethod2(this, _ev_wheel, ev_wheel_fn).call(this, e), { passive: true });
+      __privateSet2(this, _resvFlameEvent4Wheel, (win) => win.addEventListener("wheel", (e) => __privateMethod2(this, _ev_wheel, ev_wheel_fn).call(this, e), { passive: true }));
+      __privateSet2(this, _procWheel4wle, (elc, fnc) => elc.add(appPixi.view, "wheel", (e) => {
         if (e["isComposing"])
           return;
         if (e.deltaY <= 0)
@@ -50307,8 +50557,8 @@ class EventMng {
       }));
     }
     if (CmnLib.debugLog) {
-      __privateGet(this, _gamepad).on("gamepad:connected", (e) => console.log(`\u{1F47A}<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
-      __privateGet(this, _gamepad).on("gamepad:disconnected", (e) => console.log(`\u{1F47A}<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+      __privateGet2(this, _gamepad).on("gamepad:connected", (e) => console.log(`\u{1F47A}<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+      __privateGet2(this, _gamepad).on("gamepad:disconnected", (e) => console.log(`\u{1F47A}<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
     }
     const aStick = [
       "",
@@ -50322,7 +50572,7 @@ class EventMng {
       ""
     ];
     const stick_xy = [0, 0];
-    __privateGet(this, _gamepad).on("gamepad:axis", (e) => {
+    __privateGet2(this, _gamepad).on("gamepad:axis", (e) => {
       if (!document.hasFocus() || e.detail.stick !== 0)
         return;
       stick_xy[e.detail.axis] = e.detail.value;
@@ -50330,62 +50580,62 @@ class EventMng {
       const s22 = aStick[s2];
       if (!s22)
         return;
-      const cmp = __privateGet(this, _fcs).getFocus();
+      const cmp = __privateGet2(this, _fcs).getFocus();
       (!cmp || cmp instanceof Container ? globalThis : cmp).dispatchEvent(new KeyboardEvent("keydown", { key: s22, bubbles: true }));
       if (!cmp || cmp instanceof Container)
         return;
       if (cmp.getAttribute("type") === "range")
         cmp.dispatchEvent(new InputEvent("input", { bubbles: true }));
     });
-    __privateGet(this, _gamepad).on("gamepad:button", (e) => {
+    __privateGet2(this, _gamepad).on("gamepad:button", (e) => {
       if (!document.hasFocus() || e.detail.value === 0)
         return;
       if (e.detail.button % 2 === 0) {
-        const cmp = __privateGet(this, _fcs).getFocus();
+        const cmp = __privateGet2(this, _fcs).getFocus();
         (!cmp || cmp instanceof Container ? globalThis : cmp).dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
       } else
         appPixi.view.dispatchEvent(new Event("contextmenu"));
     });
-    __privateGet(this, _gamepad).start();
-    __privateGet(this, _elc2).add(window, "keyup", (e) => {
+    __privateGet2(this, _gamepad).start();
+    __privateGet2(this, _elc2).add(window, "keyup", (e) => {
       if (e["isComposing"])
         return;
-      if (e.key in __privateGet(this, _hDownKeys))
-        __privateGet(this, _hDownKeys)[e.key] = 0;
+      if (e.key in __privateGet2(this, _hDownKeys))
+        __privateGet2(this, _hDownKeys)[e.key] = 0;
     });
-    val.defTmp("const.sn.key.alternate", () => __privateGet(this, _hDownKeys)["Alt"] > 0);
-    val.defTmp("const.sn.key.command", () => __privateGet(this, _hDownKeys)["Meta"] > 0);
-    val.defTmp("const.sn.key.control", () => __privateGet(this, _hDownKeys)["Control"] > 0);
-    val.defTmp("const.sn.key.end", () => __privateGet(this, _hDownKeys)["End"] > 0);
-    val.defTmp("const.sn.key.escape", () => __privateGet(this, _hDownKeys)["Escape"] > 0);
-    val.defTmp("const.sn.key.back", () => __privateGet(this, _hDownKeys)["GoBack"] > 0);
+    val.defTmp("const.sn.key.alternate", () => __privateGet2(this, _hDownKeys)["Alt"] > 0);
+    val.defTmp("const.sn.key.command", () => __privateGet2(this, _hDownKeys)["Meta"] > 0);
+    val.defTmp("const.sn.key.control", () => __privateGet2(this, _hDownKeys)["Control"] > 0);
+    val.defTmp("const.sn.key.end", () => __privateGet2(this, _hDownKeys)["End"] > 0);
+    val.defTmp("const.sn.key.escape", () => __privateGet2(this, _hDownKeys)["Escape"] > 0);
+    val.defTmp("const.sn.key.back", () => __privateGet2(this, _hDownKeys)["GoBack"] > 0);
   }
   resvFlameEvent(win) {
-    win.addEventListener("keydown", (e) => __privateMethod(this, _ev_keydown, ev_keydown_fn).call(this, e));
-    win.addEventListener("contextmenu", (e) => __privateMethod(this, _ev_contextmenu, ev_contextmenu_fn).call(this, e));
-    __privateGet(this, _resvFlameEvent4Wheel).call(this, win);
+    win.addEventListener("keydown", (e) => __privateMethod2(this, _ev_keydown, ev_keydown_fn).call(this, e));
+    win.addEventListener("contextmenu", (e) => __privateMethod2(this, _ev_contextmenu, ev_contextmenu_fn).call(this, e));
+    __privateGet2(this, _resvFlameEvent4Wheel).call(this, win);
   }
   destroy() {
     var _a3;
-    __privateGet(this, _fcs).destroy();
-    __privateGet(this, _elc2).clear();
-    (_a3 = __privateGet(this, _cvsHint)) == null ? void 0 : _a3.parentElement.removeChild(__privateGet(this, _cvsHint));
+    __privateGet2(this, _fcs).destroy();
+    __privateGet2(this, _elc2).clear();
+    (_a3 = __privateGet2(this, _cvsHint)) == null ? void 0 : _a3.parentElement.removeChild(__privateGet2(this, _cvsHint));
   }
   fire(KEY, e) {
     var _a3;
-    if (__privateGet(this, _stopSkip).call(this) || !__privateGet(this, _isWait) || __privateGet(this, _isDbgBreak))
+    if (__privateGet2(this, _stopSkip).call(this) || !__privateGet2(this, _isWait) || __privateGet2(this, _isDbgBreak))
       return;
     const key = KEY.toLowerCase();
     if (CmnLib.debugLog)
       console.log(`\u{1F47A} fire<(key:\`${key}\` type:${e.type} e:%o)`, __spreadValues({}, e));
     if (key === "enter") {
-      const em = __privateGet(this, _fcs).getFocus();
+      const em = __privateGet2(this, _fcs).getFocus();
       if (em instanceof Container) {
         em.emit("pointerdown", new Event("pointerdown"));
         return;
       }
     }
-    const ke = __privateGet(this, _getEvt2Fnc).call(this, key);
+    const ke = __privateGet2(this, _getEvt2Fnc).call(this, key);
     if (!ke) {
       if (key.slice(0, 5) === "swipe")
         globalThis.scrollBy(-e.deltaX, -e.deltaY);
@@ -50396,17 +50646,17 @@ class EventMng {
     e.stopPropagation();
     if (key.slice(0, 4) !== "dom=")
       this.layMng.clickTxtLay();
-    __privateSet(this, _isWait, false);
+    __privateSet2(this, _isWait, false);
     ke(e);
-    __privateGet(this, _cvsHint).hidden = true;
+    __privateGet2(this, _cvsHint).hidden = true;
   }
   popLocalEvts() {
-    const ret = __privateGet(this, _hLocalEvt2Fnc);
-    __privateSet(this, _hLocalEvt2Fnc, {});
+    const ret = __privateGet2(this, _hLocalEvt2Fnc);
+    __privateSet2(this, _hLocalEvt2Fnc, {});
     return ret;
   }
   pushLocalEvts(h2) {
-    __privateSet(this, _hLocalEvt2Fnc, h2);
+    __privateSet2(this, _hLocalEvt2Fnc, h2);
   }
   waitEvent(onFinish, canskip = true, global2 = false) {
     if (canskip && global2)
@@ -50416,13 +50666,13 @@ class EventMng {
         onFinish();
         return false;
       }
-      __privateGet(this, _stopSkip).call(this);
+      __privateGet2(this, _stopSkip).call(this);
     }
-    __privateMethod(this, _waitEventBase, waitEventBase_fn).call(this, onFinish, canskip, global2);
+    __privateMethod2(this, _waitEventBase, waitEventBase_fn).call(this, onFinish, canskip, global2);
     return true;
   }
   unButton(ctnBtn) {
-    __privateGet(this, _fcs).remove(ctnBtn);
+    __privateGet2(this, _fcs).remove(ctnBtn);
   }
   button(hArg, ctnBtn, normal, hover, clicked) {
     var _a3, _b3;
@@ -50434,16 +50684,16 @@ class EventMng {
       hArg.fn = this.scrItr.scriptFn;
     const glb = argChk_Boolean(hArg, "global", false);
     if (glb)
-      __privateGet(this, _hGlobalEvt2Fnc)[key] = () => this.main.resumeByJumpOrCall(hArg);
+      __privateGet2(this, _hGlobalEvt2Fnc)[key] = () => this.main.resumeByJumpOrCall(hArg);
     else
-      __privateGet(this, _hLocalEvt2Fnc)[key] = () => this.main.resumeByJumpOrCall(hArg);
+      __privateGet2(this, _hLocalEvt2Fnc)[key] = () => this.main.resumeByJumpOrCall(hArg);
     const ee = ctnBtn;
     ee.on("pointerdown", (e) => this.fire(key, e));
-    const onHint = hArg.hint ? () => __privateMethod(this, _dispHint, dispHint_fn).call(this, hArg, ctnBtn) : () => {
+    const onHint = hArg.hint ? () => __privateMethod2(this, _dispHint, dispHint_fn).call(this, hArg, ctnBtn) : () => {
     };
     const nr = () => {
       normal();
-      __privateGet(this, _cvsHint).hidden = true;
+      __privateGet2(this, _cvsHint).hidden = true;
     };
     const hv = () => {
       onHint();
@@ -50451,19 +50701,19 @@ class EventMng {
     };
     ee.on("pointerover", hv);
     ee.on("pointerout", () => {
-      if (__privateGet(this, _fcs).isFocus(ctnBtn))
+      if (__privateGet2(this, _fcs).isFocus(ctnBtn))
         hv();
       else
         nr();
     });
     ee.on("pointerdown", clicked);
     ee.on("pointerup", CmnLib.isMobile ? nr : () => {
-      if (__privateGet(this, _fcs).isFocus(ctnBtn))
+      if (__privateGet2(this, _fcs).isFocus(ctnBtn))
         hv();
       else
         nr();
     });
-    __privateGet(this, _fcs).add(ctnBtn, hv, nr);
+    __privateGet2(this, _fcs).add(ctnBtn, hv, nr);
     if (hArg.clickse) {
       this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);
       ee.on("pointerdown", () => {
@@ -50495,37 +50745,37 @@ class EventMng {
       const k = key + hArg.onenter.toLowerCase();
       const o = { fn: hArg.fn, label: hArg.onenter, call: true, key: k };
       if (glb)
-        __privateGet(this, _hGlobalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
+        __privateGet2(this, _hGlobalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
       else
-        __privateGet(this, _hLocalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
+        __privateGet2(this, _hLocalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
       ee.on("pointerover", (e) => this.fire(k, e));
     }
     if (hArg.onleave) {
       const k = key + hArg.onleave.toLowerCase();
       const o = { fn: hArg.fn, label: hArg.onleave, call: true, key: k };
       if (glb)
-        __privateGet(this, _hGlobalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
+        __privateGet2(this, _hGlobalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
       else
-        __privateGet(this, _hLocalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
+        __privateGet2(this, _hLocalEvt2Fnc)[k] = () => this.main.resumeByJumpOrCall(o);
       ee.on("pointerout", (e) => this.fire(k, e));
     }
     this.sndMng.loadAheadSnd(hArg);
   }
   cvsResize() {
-    if (__privateGet(this, _cvsHint).hidden)
+    if (__privateGet2(this, _cvsHint).hidden)
       return;
-    __privateMethod(this, _dispHint, dispHint_fn).call(this, __privateGet(this, _dispHint_hArg), __privateGet(this, _dispHint_ctnBtn), false);
+    __privateMethod2(this, _dispHint, dispHint_fn).call(this, __privateGet2(this, _dispHint_hArg), __privateGet2(this, _dispHint_ctnBtn), false);
   }
   waitLimitedEvent(hArg, onFinish) {
-    __privateGet(this, _goTxt).call(this);
+    __privateGet2(this, _goTxt).call(this);
     this.val.saveKidoku();
     const fnc = () => {
-      __privateGet(this, _elcWLE).clear();
+      __privateGet2(this, _elcWLE).clear();
       onFinish();
     };
     if (this.val.getVal("tmp:sn.skip.enabled")) {
       if (!this.val.getVal("tmp:sn.skip.all") && !this.scrItr.isNextKidoku)
-        __privateGet(this, _stopSkip).call(this);
+        __privateGet2(this, _stopSkip).call(this);
       else {
         fnc();
         return false;
@@ -50533,24 +50783,24 @@ class EventMng {
     }
     if (!argChk_Boolean(hArg, "canskip", true))
       return true;
-    __privateGet(this, _elcWLE).add(window, "pointerdown", (e) => {
+    __privateGet2(this, _elcWLE).add(window, "pointerdown", (e) => {
       e.stopPropagation();
       fnc();
     });
-    __privateGet(this, _elcWLE).add(window, "keydown", (e) => {
+    __privateGet2(this, _elcWLE).add(window, "keydown", (e) => {
       if (e["isComposing"])
         return;
       e.stopPropagation();
       fnc();
     });
-    __privateGet(this, _procWheel4wle).call(this, __privateGet(this, _elcWLE), fnc);
+    __privateGet2(this, _procWheel4wle).call(this, __privateGet2(this, _elcWLE), fnc);
     return true;
   }
   isSkippingByKeyDown() {
     if (this.scrItr.skip4page)
       return true;
-    for (const k in __privateGet(this, _hDownKeys))
-      if (__privateGet(this, _hDownKeys)[k] === 2)
+    for (const k in __privateGet2(this, _hDownKeys))
+      if (__privateGet2(this, _hDownKeys)[k] === 2)
         return true;
     return false;
   }
@@ -50568,8 +50818,8 @@ _ev_keydown = new WeakSet();
 ev_keydown_fn = function(e) {
   if (e["isComposing"])
     return;
-  if (e.key in __privateGet(this, _hDownKeys))
-    __privateGet(this, _hDownKeys)[e.key] = e.repeat ? 2 : 1;
+  if (e.key in __privateGet2(this, _hDownKeys))
+    __privateGet2(this, _hDownKeys)[e.key] = e.repeat ? 2 : 1;
   const key = (e.altKey ? e.key === "Alt" ? "" : "alt+" : "") + (e.ctrlKey ? e.key === "Control" ? "" : "ctrl+" : "") + (e.shiftKey ? e.key === "Shift" ? "" : "shift+" : "") + e.key;
   this.fire(key, e);
 };
@@ -50583,12 +50833,12 @@ _ev_wheel = new WeakSet();
 ev_wheel_fn = function(e) {
   if (e["isComposing"])
     return;
-  if (__privateGet(this, _wheeling)) {
-    __privateSet(this, _extend_wheel, true);
+  if (__privateGet2(this, _wheeling)) {
+    __privateSet2(this, _extend_wheel, true);
     return;
   }
-  __privateSet(this, _wheeling, true);
-  __privateMethod(this, _ev_wheel_waitstop, ev_wheel_waitstop_fn).call(this);
+  __privateSet2(this, _wheeling, true);
+  __privateMethod2(this, _ev_wheel_waitstop, ev_wheel_waitstop_fn).call(this);
   const key = (e.altKey ? "alt+" : "") + (e.ctrlKey ? "ctrl+" : "") + (e.shiftKey ? "shift+" : "") + (e.deltaY > 0 ? "downwheel" : "upwheel");
   this.fire(key, e);
 };
@@ -50597,12 +50847,12 @@ _extend_wheel = new WeakMap();
 _ev_wheel_waitstop = new WeakSet();
 ev_wheel_waitstop_fn = function() {
   setTimeout(() => {
-    if (__privateGet(this, _extend_wheel)) {
-      __privateSet(this, _extend_wheel, false);
-      __privateMethod(this, _ev_wheel_waitstop, ev_wheel_waitstop_fn).call(this);
+    if (__privateGet2(this, _extend_wheel)) {
+      __privateSet2(this, _extend_wheel, false);
+      __privateMethod2(this, _ev_wheel_waitstop, ev_wheel_waitstop_fn).call(this);
       return;
     }
-    __privateSet(this, _wheeling, false);
+    __privateSet2(this, _wheeling, false);
   }, 250);
 };
 _hLocalEvt2Fnc = new WeakMap();
@@ -50612,26 +50862,26 @@ _isWait = new WeakMap();
 _getEvt2Fnc = new WeakMap();
 _waitEventBase = new WeakSet();
 waitEventBase_fn = function(onFinish, canskip = true, global2 = true) {
-  __privateGet(this, _goTxt).call(this);
+  __privateGet2(this, _goTxt).call(this);
   this.val.saveKidoku();
   if (canskip) {
-    __privateGet(this, _hLocalEvt2Fnc)["click"] = __privateGet(this, _hLocalEvt2Fnc)["enter"] = __privateGet(this, _hLocalEvt2Fnc)["arrowdown"] = __privateGet(this, _hLocalEvt2Fnc)["wheel.y>0"] = onFinish;
+    __privateGet2(this, _hLocalEvt2Fnc)["click"] = __privateGet2(this, _hLocalEvt2Fnc)["enter"] = __privateGet2(this, _hLocalEvt2Fnc)["arrowdown"] = __privateGet2(this, _hLocalEvt2Fnc)["wheel.y>0"] = onFinish;
   } else {
-    delete __privateGet(this, _hLocalEvt2Fnc)["click"];
-    delete __privateGet(this, _hLocalEvt2Fnc)["enter"];
-    delete __privateGet(this, _hLocalEvt2Fnc)["arrowdown"];
-    delete __privateGet(this, _hLocalEvt2Fnc)["wheel.y>0"];
+    delete __privateGet2(this, _hLocalEvt2Fnc)["click"];
+    delete __privateGet2(this, _hLocalEvt2Fnc)["enter"];
+    delete __privateGet2(this, _hLocalEvt2Fnc)["arrowdown"];
+    delete __privateGet2(this, _hLocalEvt2Fnc)["wheel.y>0"];
   }
-  __privateSet(this, _getEvt2Fnc, global2 ? (key) => {
+  __privateSet2(this, _getEvt2Fnc, global2 ? (key) => {
     var _a3;
-    return (_a3 = __privateGet(this, _hLocalEvt2Fnc)[key]) != null ? _a3 : __privateGet(this, _hGlobalEvt2Fnc)[key];
-  } : (key) => __privateGet(this, _hLocalEvt2Fnc)[key]);
-  __privateSet(this, _isWait, true);
-  __privateGet(this, _firstWait).call(this);
+    return (_a3 = __privateGet2(this, _hLocalEvt2Fnc)[key]) != null ? _a3 : __privateGet2(this, _hGlobalEvt2Fnc)[key];
+  } : (key) => __privateGet2(this, _hLocalEvt2Fnc)[key]);
+  __privateSet2(this, _isWait, true);
+  __privateGet2(this, _firstWait).call(this);
   if (CmnLib.debugLog) {
     const o = /* @__PURE__ */ Object.create(null);
-    o.local = Object.keys(__privateGet(this, _hLocalEvt2Fnc));
-    o.global = Object.keys(__privateGet(this, _hGlobalEvt2Fnc));
+    o.local = Object.keys(__privateGet2(this, _hLocalEvt2Fnc));
+    o.global = Object.keys(__privateGet2(this, _hGlobalEvt2Fnc));
     console.log(`\u{1F38D} wait event... %o`, o);
   }
 };
@@ -50639,8 +50889,8 @@ _firstWait = new WeakMap();
 _dispHint = new WeakSet();
 dispHint_fn = function(hArg, ctnBtn, masume = true) {
   var _a3, _b3, _c3;
-  __privateSet(this, _dispHint_hArg, hArg);
-  __privateSet(this, _dispHint_ctnBtn, ctnBtn);
+  __privateSet2(this, _dispHint_hArg, hArg);
+  __privateSet2(this, _dispHint_ctnBtn, ctnBtn);
   const rctBtn = ctnBtn instanceof Button ? ctnBtn.getBtnBounds() : ctnBtn.getBounds();
   const isLink = hArg[":\u30BF\u30B0\u540D"] === "link";
   if (!isLink) {
@@ -50649,16 +50899,16 @@ dispHint_fn = function(hArg, ctnBtn, masume = true) {
     rctBtn.y += cpp.y;
   }
   this.setTxtHint((_a3 = hArg.hint) != null ? _a3 : "", (_b3 = hArg.hint_color) != null ? _b3 : "white", (_c3 = hArg.hint_font) != null ? _c3 : "22px Arial");
-  const hint_width = argChk_Num(hArg, "hint_width", __privateGet(this, _picHint_w));
-  const scale_x = hint_width / __privateGet(this, _picHint_w);
+  const hint_width = argChk_Num(hArg, "hint_width", __privateGet2(this, _picHint_w));
+  const scale_x = hint_width / __privateGet2(this, _picHint_w);
   const hint_tate = argChk_Boolean(hArg, "hint_tate", false);
-  __privateGet(this, _cvsHint).style.left = `${this.sys.ofsLeft4elm + rctBtn.x * this.sys.cvsScale}px`;
-  __privateGet(this, _cvsHint).style.top = `${this.sys.ofsTop4elm + rctBtn.y * this.sys.cvsScale}px`;
-  __privateGet(this, _cvsHint).style.transformOrigin = "top left";
-  __privateGet(this, _cvsHint).style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x * this.sys.cvsScale}, ${this.sys.cvsScale}) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __privateGet(this, _picHint_h)}px)`;
-  __privateGet(this, _cvsHint).hidden = false;
+  __privateGet2(this, _cvsHint).style.left = `${this.sys.ofsLeft4elm + rctBtn.x * this.sys.cvsScale}px`;
+  __privateGet2(this, _cvsHint).style.top = `${this.sys.ofsTop4elm + rctBtn.y * this.sys.cvsScale}px`;
+  __privateGet2(this, _cvsHint).style.transformOrigin = "top left";
+  __privateGet2(this, _cvsHint).style.transform = `rotateZ(${ctnBtn.rotation + (hint_tate ? Math.PI * 90 / 180 : 0)}rad) scale(${scale_x * this.sys.cvsScale}, ${this.sys.cvsScale}) translate(${((hint_tate ? rctBtn.height : rctBtn.width) - hint_width) / 2 / scale_x}px, ${(hint_tate ? -rctBtn.width : 0) - __privateGet2(this, _picHint_h)}px)`;
+  __privateGet2(this, _cvsHint).hidden = false;
   if (masume)
-    __privateGet(this, _dispHint_masume).call(this, hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
+    __privateGet2(this, _dispHint_masume).call(this, hArg, ctnBtn, rctBtn, isLink, hint_width, hint_tate);
 };
 _dispHint_hArg = new WeakMap();
 _dispHint_ctnBtn = new WeakMap();
@@ -50668,21 +50918,21 @@ _elcWLE = new WeakMap();
 _clear_event = new WeakSet();
 clear_event_fn = function(hArg) {
   const glb = argChk_Boolean(hArg, "global", false);
-  const h2 = glb ? __privateGet(this, _hGlobalEvt2Fnc) : __privateGet(this, _hLocalEvt2Fnc);
+  const h2 = glb ? __privateGet2(this, _hGlobalEvt2Fnc) : __privateGet2(this, _hLocalEvt2Fnc);
   for (const nm in h2)
-    __privateMethod(this, _clear_eventer, clear_eventer_fn).call(this, nm, h2[nm]);
+    __privateMethod2(this, _clear_eventer, clear_eventer_fn).call(this, nm, h2[nm]);
   if (glb)
-    __privateSet(this, _hGlobalEvt2Fnc, {});
+    __privateSet2(this, _hGlobalEvt2Fnc, {});
   else
-    __privateSet(this, _hLocalEvt2Fnc, {});
-  __privateSet(this, _isWait, false);
+    __privateSet2(this, _hLocalEvt2Fnc, {});
+  __privateSet2(this, _isWait, false);
   return false;
 };
 _clear_eventer = new WeakSet();
 clear_eventer_fn = function(KeY, e2f) {
   if (KeY.slice(0, 4) !== "dom=")
     return;
-  __privateMethod(this, _getHtmlElmList, getHtmlElmList_fn).call(this, KeY).el.forEach((v2) => v2.removeEventListener("click", e2f));
+  __privateMethod2(this, _getHtmlElmList, getHtmlElmList_fn).call(this, KeY).el.forEach((v2) => v2.removeEventListener("click", e2f));
 };
 _event = new WeakSet();
 event_fn = function(hArg) {
@@ -50692,17 +50942,17 @@ event_fn = function(hArg) {
     throw "key\u306F\u5FC5\u9808\u3067\u3059";
   const key = KeY.toLowerCase();
   const call = argChk_Boolean(hArg, "call", false);
-  const h2 = argChk_Boolean(hArg, "global", false) ? __privateGet(this, _hGlobalEvt2Fnc) : __privateGet(this, _hLocalEvt2Fnc);
+  const h2 = argChk_Boolean(hArg, "global", false) ? __privateGet2(this, _hGlobalEvt2Fnc) : __privateGet2(this, _hLocalEvt2Fnc);
   if (argChk_Boolean(hArg, "del", false)) {
     if (hArg.fn || hArg.label || call)
       throw "fn/label/call\u3068del\u306F\u540C\u6642\u6307\u5B9A\u3067\u304D\u307E\u305B\u3093";
-    __privateMethod(this, _clear_eventer, clear_eventer_fn).call(this, KeY, h2[key]);
+    __privateMethod2(this, _clear_eventer, clear_eventer_fn).call(this, KeY, h2[key]);
     delete h2[key];
     return false;
   }
   (_a3 = hArg.fn) != null ? _a3 : hArg.fn = this.scrItr.scriptFn;
   if (KeY.slice(0, 4) === "dom=") {
-    const g2 = __privateMethod(this, _getHtmlElmList, getHtmlElmList_fn).call(this, KeY);
+    const g2 = __privateMethod2(this, _getHtmlElmList, getHtmlElmList_fn).call(this, KeY);
     if (g2.el.length === 0) {
       if (argChk_Boolean(hArg, "need_err", true))
         throw `HTML\u5185\u306B\u30BB\u30EC\u30AF\u30BF\uFF08${g2.sel}\uFF09\u306B\u5BFE\u5FDC\u3059\u308B\u8981\u7D20\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\u5B58\u5728\u3057\u306A\u3044\u5834\u5408\u3092\u8A31\u5BB9\u3059\u308B\u306A\u3089\u3001need_err=false \u3068\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044`;
@@ -50723,8 +50973,8 @@ event_fn = function(hArg) {
         break;
     }
     aEv.forEach((v2, i2) => g2.el.forEach((elm) => {
-      __privateGet(this, _elc2).add(elm, v2, (e) => {
-        if (!__privateGet(this, _isWait) || this.layMng.getFrmDisabled(g2.id))
+      __privateGet2(this, _elc2).add(elm, v2, (e) => {
+        if (!__privateGet2(this, _isWait) || this.layMng.getFrmDisabled(g2.id))
           return;
         if (v2 === "keydown" && e.key !== "Enter")
           return;
@@ -50735,8 +50985,8 @@ event_fn = function(hArg) {
         this.fire(KeY, e);
       });
       if (i2 === 0)
-        __privateGet(this, _fcs).add(elm, () => {
-          if (!__privateMethod(this, _canFocus, canFocus_fn).call(this, elm))
+        __privateGet2(this, _fcs).add(elm, () => {
+          if (!__privateMethod2(this, _canFocus, canFocus_fn).call(this, elm))
             return false;
           elm.focus();
           return true;
@@ -50783,22 +51033,22 @@ l_fn = function(hArg) {
   if (this.scrItr.skip4page)
     return false;
   if (!this.val.getVal("tmp:sn.tagL.enabled")) {
-    __privateGet(this, _goTxt).call(this);
+    __privateGet2(this, _goTxt).call(this);
     return false;
   }
   if (this.val.getVal("tmp:sn.skip.enabled")) {
     if (!this.val.getVal("tmp:sn.skip.all") && !this.scrItr.isNextKidoku)
-      __privateGet(this, _stopSkip).call(this);
+      __privateGet2(this, _stopSkip).call(this);
     else if ("ps".includes(this.val.getVal("sys:sn.skip.mode")))
       return false;
   }
   if (this.val.getVal("tmp:sn.auto.enabled"))
-    return __privateMethod(this, _wait, wait_fn).call(this, {
+    return __privateMethod2(this, _wait, wait_fn).call(this, {
       time: Number(this.scrItr.isKidoku ? this.val.getVal("sys:sn.auto.msecLineWait_Kidoku") : this.val.getVal("sys:sn.auto.msecLineWait"))
     });
   if (argChk_Boolean(hArg, "visible", true))
     this.layMng.breakLine();
-  __privateMethod(this, _waitEventBase, waitEventBase_fn).call(this, () => this.main.resume());
+  __privateMethod2(this, _waitEventBase, waitEventBase_fn).call(this, () => this.main.resume());
   return true;
 };
 _p = new WeakSet();
@@ -50806,14 +51056,14 @@ p_fn = function(hArg) {
   this.scrItr.recodePage();
   if (this.val.getVal("tmp:sn.skip.enabled")) {
     if (!this.val.getVal("tmp:sn.skip.all") && !this.scrItr.isNextKidoku)
-      __privateGet(this, _stopSkip).call(this);
+      __privateGet2(this, _stopSkip).call(this);
     else if (this.val.getVal("sys:sn.skip.mode") == "s") {
-      __privateGet(this, _goTxt).call(this);
+      __privateGet2(this, _goTxt).call(this);
       return false;
     }
   }
   if (this.val.getVal("tmp:sn.auto.enabled"))
-    return __privateMethod(this, _wait, wait_fn).call(this, {
+    return __privateMethod2(this, _wait, wait_fn).call(this, {
       time: Number(this.scrItr.isKidoku ? this.val.getVal("sys:sn.auto.msecPageWait_Kidoku") : this.val.getVal("sys:sn.auto.msecPageWait"))
     });
   if (argChk_Boolean(hArg, "visible", true))
@@ -50822,7 +51072,7 @@ p_fn = function(hArg) {
     this.sndMng.clearCache();
     this.main.resume();
   };
-  __privateMethod(this, _waitEventBase, waitEventBase_fn).call(this, argChk_Boolean(hArg, "er", false) && this.layMng.currentTxtlayFore ? () => {
+  __privateMethod2(this, _waitEventBase, waitEventBase_fn).call(this, argChk_Boolean(hArg, "er", false) && this.layMng.currentTxtlayFore ? () => {
     this.hTag.er(hArg);
     fnc();
   } : fnc);
@@ -50831,13 +51081,13 @@ p_fn = function(hArg) {
 _stopSkip = new WeakMap();
 _set_cancel_skip = new WeakSet();
 set_cancel_skip_fn = function() {
-  __privateSet(this, _stopSkip, () => {
-    __privateSet(this, _stopSkip, () => false);
+  __privateSet2(this, _stopSkip, () => {
+    __privateSet2(this, _stopSkip, () => false);
     this.val.setVal_Nochk("tmp", "sn.tagL.enabled", true);
     this.val.setVal_Nochk("tmp", "sn.skip.enabled", false);
     this.val.setVal_Nochk("tmp", "sn.auto.enabled", false);
     this.layMng.setNormalChWait();
-    __privateGet(this, _cancelWait).call(this);
+    __privateGet2(this, _cancelWait).call(this);
     return true;
   });
   return false;
@@ -50846,11 +51096,11 @@ _set_focus = new WeakSet();
 set_focus_fn = function(hArg) {
   const { add: add3, del, to } = hArg;
   if ((add3 == null ? void 0 : add3.slice(0, 4)) === "dom=") {
-    const g2 = __privateMethod(this, _getHtmlElmList, getHtmlElmList_fn).call(this, add3);
+    const g2 = __privateMethod2(this, _getHtmlElmList, getHtmlElmList_fn).call(this, add3);
     if (g2.el.length === 0 && argChk_Boolean(hArg, "need_err", true))
       throw `HTML\u5185\u306B\u30BB\u30EC\u30AF\u30BF\uFF08${g2.sel}\uFF09\u306B\u5BFE\u5FDC\u3059\u308B\u8981\u7D20\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\u5B58\u5728\u3057\u306A\u3044\u5834\u5408\u3092\u8A31\u5BB9\u3059\u308B\u306A\u3089\u3001need_err=false \u3068\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044`;
-    g2.el.forEach((elm) => __privateGet(this, _fcs).add(elm, () => {
-      if (!__privateMethod(this, _canFocus, canFocus_fn).call(this, elm))
+    g2.el.forEach((elm) => __privateGet2(this, _fcs).add(elm, () => {
+      if (!__privateMethod2(this, _canFocus, canFocus_fn).call(this, elm))
         return false;
       elm.focus();
       return true;
@@ -50859,23 +51109,23 @@ set_focus_fn = function(hArg) {
     return false;
   }
   if ((del == null ? void 0 : del.slice(0, 4)) === "dom=") {
-    const g2 = __privateMethod(this, _getHtmlElmList, getHtmlElmList_fn).call(this, del);
+    const g2 = __privateMethod2(this, _getHtmlElmList, getHtmlElmList_fn).call(this, del);
     if (g2.el.length === 0 && argChk_Boolean(hArg, "need_err", true))
       throw `HTML\u5185\u306B\u30BB\u30EC\u30AF\u30BF\uFF08${g2.sel}\uFF09\u306B\u5BFE\u5FDC\u3059\u308B\u8981\u7D20\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093\u3002\u5B58\u5728\u3057\u306A\u3044\u5834\u5408\u3092\u8A31\u5BB9\u3059\u308B\u306A\u3089\u3001need_err=false \u3068\u6307\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044`;
-    g2.el.forEach((elm) => __privateGet(this, _fcs).remove(elm));
+    g2.el.forEach((elm) => __privateGet2(this, _fcs).remove(elm));
     return false;
   }
   if (!to)
     throw "[set_focus] add \u304B to \u306F\u5FC5\u9808\u3067\u3059";
   switch (to) {
     case "null":
-      __privateGet(this, _fcs).blur();
+      __privateGet2(this, _fcs).blur();
       break;
     case "next":
-      __privateGet(this, _fcs).next();
+      __privateGet2(this, _fcs).next();
       break;
     case "prev":
-      __privateGet(this, _fcs).prev();
+      __privateGet2(this, _fcs).prev();
       break;
   }
   return false;
@@ -50887,16 +51137,16 @@ wait_fn = function(hArg) {
     return false;
   if (this.val.getVal("tmp:sn.skip.enabled")) {
     if (!this.val.getVal("tmp:sn.skip.all") && !this.scrItr.isNextKidoku)
-      __privateGet(this, _stopSkip).call(this);
+      __privateGet2(this, _stopSkip).call(this);
     return false;
   }
   if (this.val.getVal("tmp:sn.auto.enabled"))
-    __privateSet(this, _cancelWait, () => {
+    __privateSet2(this, _cancelWait, () => {
       this.scrItr.subIdxToken();
       tw.end();
     });
   const tw = new Tween({}).to({}, time).onComplete(() => {
-    __privateSet(this, _cancelWait, () => {
+    __privateSet2(this, _cancelWait, () => {
     });
     tw.stop();
     this.main.resume();
@@ -50909,8 +51159,8 @@ waitclick_fn = function() {
   if (this.scrItr.skip4page)
     return false;
   if (this.val.getVal("tmp:sn.skip.enabled") || this.val.getVal("tmp:sn.auto.enabled"))
-    __privateGet(this, _stopSkip).call(this);
-  __privateMethod(this, _waitEventBase, waitEventBase_fn).call(this, () => this.main.resume());
+    __privateGet2(this, _stopSkip).call(this);
+  __privateMethod2(this, _waitEventBase, waitEventBase_fn).call(this, () => this.main.resume());
   return true;
 };
 _hDownKeys = new WeakMap();
@@ -50933,83 +51183,83 @@ class CallStack {
 }
 const _ScriptIterator = class {
   constructor(cfg, hTag, main2, val, alzTagArg, runAnalyze, prpPrs, sndMng, sys) {
-    __privateAdd(this, _regBreakPoint);
-    __privateAdd(this, _go_stepover);
-    __privateAdd(this, _go_stepout);
-    __privateAdd(this, _idxDx4Dbg);
-    __privateAdd(this, _isIdxOverLast);
-    __privateAdd(this, _isBreak_base);
-    __privateAdd(this, _subHitCondition);
-    __privateAdd(this, _aStack);
-    __privateAdd(this, _let_ml);
-    __privateAdd(this, _dump_stack);
-    __privateAdd(this, _cnvIdx2lineCol);
-    __privateAdd(this, _dump_script);
-    __privateAdd(this, _endif);
-    __privateAdd(this, _if);
-    __privateAdd(this, _call);
-    __privateAdd(this, _callSub);
-    __privateAdd(this, _jump);
-    __privateAdd(this, _page);
-    __privateAdd(this, _pop_stack);
-    __privateAdd(this, _return);
-    __privateAdd(this, _clearResvToken);
-    __privateAdd(this, _jumpWork);
-    __privateAdd(this, _nextToken_Proc);
-    __privateAdd(this, _errOverScr);
-    __privateAdd(this, _seekScript);
-    __privateAdd(this, _resolveScript);
-    __privateAdd(this, _jump_light);
-    __privateAdd(this, _recordKidoku);
-    __privateAdd(this, _eraseKidoku);
-    __privateAdd(this, _bracket2macro);
-    __privateAdd(this, _char2macro);
-    __privateAdd(this, _macro);
-    __privateAdd(this, _load);
-    __privateAdd(this, _loadFromMark);
-    __privateAdd(this, _reload_script);
-    __privateAdd(this, _record_place);
-    __privateAdd(this, _nowScrIdx);
-    __privateAdd(this, _save);
-    __privateAdd(this, _script, void 0);
-    __privateAdd(this, _scriptFn, void 0);
-    __privateAdd(this, _idxToken, void 0);
-    __privateAdd(this, _lineNum, void 0);
-    __privateAdd(this, _aCallStk, void 0);
-    __privateAdd(this, _grm, void 0);
-    __privateAdd(this, _hHook2, void 0);
-    __privateAdd(this, _cnvSnPath, void 0);
-    __privateAdd(this, _cnvSnPath4Dbg, void 0);
-    __privateAdd(this, _csDepth_macro_esc, void 0);
-    __privateAdd(this, _breakState, void 0);
-    __privateAdd(this, _procDebugtag, void 0);
-    __privateAdd(this, _evtMng6, void 0);
-    __privateAdd(this, _layMng, void 0);
-    __privateAdd(this, _fncSet, void 0);
-    __privateAdd(this, _fncBreak, void 0);
-    __privateAdd(this, _fnLastBreak, void 0);
-    __privateAdd(this, _hScrCache4Dump, void 0);
-    __privateAdd(this, _dumpErrLine, void 0);
-    __privateAdd(this, _aIfStk, void 0);
-    __privateAdd(this, _resvToken, void 0);
-    __privateAdd(this, _skipLabel, void 0);
-    __privateAdd(this, _dbgToken, void 0);
-    __privateAdd(this, _REG_NONAME_LABEL, void 0);
-    __privateAdd(this, _REG_TOKEN_MACRO_BEGIN, void 0);
-    __privateAdd(this, _REG_TOKEN_MACRO_END, void 0);
-    __privateAdd(this, _REG_TAG_LET_ML, void 0);
-    __privateAdd(this, _REG_TAG_ENDLET_ML, void 0);
-    __privateAdd(this, _hScript, void 0);
-    __privateAdd(this, _REG_WILDCARD, void 0);
-    __privateAdd(this, _REG_WILDCARD2, void 0);
-    __privateAdd(this, _replaceScript_Wildcard, void 0);
-    __privateAdd(this, _isKidoku, void 0);
-    __privateAdd(this, _strStepin, void 0);
-    __privateAdd(this, _REGSTEPIN, void 0);
-    __privateAdd(this, _skip4page, void 0);
-    __privateAdd(this, _mark, void 0);
-    __privateAdd(this, _aPageLog, void 0);
-    __privateAdd(this, _posAPageLog, void 0);
+    __privateAdd2(this, _regBreakPoint);
+    __privateAdd2(this, _go_stepover);
+    __privateAdd2(this, _go_stepout);
+    __privateAdd2(this, _idxDx4Dbg);
+    __privateAdd2(this, _isIdxOverLast);
+    __privateAdd2(this, _isBreak_base);
+    __privateAdd2(this, _subHitCondition);
+    __privateAdd2(this, _aStack);
+    __privateAdd2(this, _let_ml);
+    __privateAdd2(this, _dump_stack);
+    __privateAdd2(this, _cnvIdx2lineCol);
+    __privateAdd2(this, _dump_script);
+    __privateAdd2(this, _endif);
+    __privateAdd2(this, _if);
+    __privateAdd2(this, _call);
+    __privateAdd2(this, _callSub);
+    __privateAdd2(this, _jump);
+    __privateAdd2(this, _page);
+    __privateAdd2(this, _pop_stack);
+    __privateAdd2(this, _return);
+    __privateAdd2(this, _clearResvToken);
+    __privateAdd2(this, _jumpWork);
+    __privateAdd2(this, _nextToken_Proc);
+    __privateAdd2(this, _errOverScr);
+    __privateAdd2(this, _seekScript);
+    __privateAdd2(this, _resolveScript);
+    __privateAdd2(this, _jump_light);
+    __privateAdd2(this, _recordKidoku);
+    __privateAdd2(this, _eraseKidoku);
+    __privateAdd2(this, _bracket2macro);
+    __privateAdd2(this, _char2macro);
+    __privateAdd2(this, _macro);
+    __privateAdd2(this, _load);
+    __privateAdd2(this, _loadFromMark);
+    __privateAdd2(this, _reload_script);
+    __privateAdd2(this, _record_place);
+    __privateAdd2(this, _nowScrIdx);
+    __privateAdd2(this, _save);
+    __privateAdd2(this, _script, void 0);
+    __privateAdd2(this, _scriptFn, void 0);
+    __privateAdd2(this, _idxToken, void 0);
+    __privateAdd2(this, _lineNum, void 0);
+    __privateAdd2(this, _aCallStk, void 0);
+    __privateAdd2(this, _grm, void 0);
+    __privateAdd2(this, _hHook2, void 0);
+    __privateAdd2(this, _cnvSnPath, void 0);
+    __privateAdd2(this, _cnvSnPath4Dbg, void 0);
+    __privateAdd2(this, _csDepth_macro_esc, void 0);
+    __privateAdd2(this, _breakState, void 0);
+    __privateAdd2(this, _procDebugtag, void 0);
+    __privateAdd2(this, _evtMng6, void 0);
+    __privateAdd2(this, _layMng, void 0);
+    __privateAdd2(this, _fncSet, void 0);
+    __privateAdd2(this, _fncBreak, void 0);
+    __privateAdd2(this, _fnLastBreak, void 0);
+    __privateAdd2(this, _hScrCache4Dump, void 0);
+    __privateAdd2(this, _dumpErrLine, void 0);
+    __privateAdd2(this, _aIfStk, void 0);
+    __privateAdd2(this, _resvToken, void 0);
+    __privateAdd2(this, _skipLabel, void 0);
+    __privateAdd2(this, _dbgToken, void 0);
+    __privateAdd2(this, _REG_NONAME_LABEL, void 0);
+    __privateAdd2(this, _REG_TOKEN_MACRO_BEGIN, void 0);
+    __privateAdd2(this, _REG_TOKEN_MACRO_END, void 0);
+    __privateAdd2(this, _REG_TAG_LET_ML, void 0);
+    __privateAdd2(this, _REG_TAG_ENDLET_ML, void 0);
+    __privateAdd2(this, _hScript, void 0);
+    __privateAdd2(this, _REG_WILDCARD, void 0);
+    __privateAdd2(this, _REG_WILDCARD2, void 0);
+    __privateAdd2(this, _replaceScript_Wildcard, void 0);
+    __privateAdd2(this, _isKidoku, void 0);
+    __privateAdd2(this, _strStepin, void 0);
+    __privateAdd2(this, _REGSTEPIN, void 0);
+    __privateAdd2(this, _skip4page, void 0);
+    __privateAdd2(this, _mark, void 0);
+    __privateAdd2(this, _aPageLog, void 0);
+    __privateAdd2(this, _posAPageLog, void 0);
     this.cfg = cfg;
     this.hTag = hTag;
     this.main = main2;
@@ -51019,116 +51269,116 @@ const _ScriptIterator = class {
     this.prpPrs = prpPrs;
     this.sndMng = sndMng;
     this.sys = sys;
-    __privateSet(this, _script, { aToken: [""], len: 1, aLNum: [1] });
-    __privateSet(this, _scriptFn, "");
-    __privateSet(this, _idxToken, 0);
-    __privateSet(this, _lineNum, 0);
-    this.addLineNum = (len) => __privateSet(this, _lineNum, __privateGet(this, _lineNum) + len);
-    __privateSet(this, _aCallStk, []);
-    __privateSet(this, _grm, new Grammar());
+    __privateSet2(this, _script, { aToken: [""], len: 1, aLNum: [1] });
+    __privateSet2(this, _scriptFn, "");
+    __privateSet2(this, _idxToken, 0);
+    __privateSet2(this, _lineNum, 0);
+    this.addLineNum = (len) => __privateSet2(this, _lineNum, __privateGet2(this, _lineNum) + len);
+    __privateSet2(this, _aCallStk, []);
+    __privateSet2(this, _grm, new Grammar());
     this.firstWait = () => {
     };
-    __privateSet(this, _hHook2, {
+    __privateSet2(this, _hHook2, {
       disconnect: () => {
-        __privateSet(_ScriptIterator, _hFn2hLineBP, {});
-        __privateSet(_ScriptIterator, _hFuncBP, {});
+        __privateSet2(_ScriptIterator, _hFn2hLineBP, {});
+        __privateSet2(_ScriptIterator, _hFuncBP, {});
         this.isBreak = () => false;
-        __privateGet(this, _hHook2).continue({});
-        __privateSet(this, _breakState, 0);
+        __privateGet2(this, _hHook2).continue({});
+        __privateSet2(this, _breakState, 0);
       },
       restart: () => this.isBreak = () => false,
-      add_break: (o) => __privateMethod(this, _regBreakPoint, regBreakPoint_fn).call(this, o.fn, o.o),
+      add_break: (o) => __privateMethod2(this, _regBreakPoint, regBreakPoint_fn).call(this, o.fn, o.o),
       data_break: (o) => {
-        if (__privateGet(this, _breakState) !== 0)
+        if (__privateGet2(this, _breakState) !== 0)
           return;
-        __privateSet(this, _breakState, 1);
+        __privateSet2(this, _breakState, 1);
         this.main.setLoop(false, `\u5909\u6570 ${o.dataId}\u3010${o.old_v}\u3011\u2192\u3010${o.new_v}\u3011\u30C7\u30FC\u30BF\u30D6\u30EC\u30FC\u30AF`);
         this.sys.callHook("stopOnDataBreakpoint", {});
         this.sys.send2Dbg("stopOnDataBreakpoint", {});
       },
       set_func_break: (o) => {
-        __privateSet(_ScriptIterator, _hFuncBP, {});
-        o.a.forEach((v2) => __privateGet(_ScriptIterator, _hFuncBP)[v2.name] = 1);
+        __privateSet2(_ScriptIterator, _hFuncBP, {});
+        o.a.forEach((v2) => __privateGet2(_ScriptIterator, _hFuncBP)[v2.name] = 1);
         this.sys.send2Dbg(o.ri, {});
       },
-      stack: (o) => this.sys.send2Dbg(o.ri, { a: __privateMethod(this, _aStack, aStack_fn).call(this) }),
+      stack: (o) => this.sys.send2Dbg(o.ri, { a: __privateMethod2(this, _aStack, aStack_fn).call(this) }),
       eval: (o) => {
         this.sys.send2Dbg(o.ri, { v: this.prpPrs.parse(o.txt) });
       },
       continue: () => {
-        if (__privateMethod(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
+        if (__privateMethod2(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
           return;
-        __privateSet(this, _idxToken, __privateGet(this, _idxToken) - __privateGet(this, _idxDx4Dbg, idxDx4Dbg_get));
-        __privateSet(this, _breakState, 3);
+        __privateSet2(this, _idxToken, __privateGet2(this, _idxToken) - __privateGet2(this, _idxDx4Dbg, idxDx4Dbg_get));
+        __privateSet2(this, _breakState, 3);
         this.main.setLoop(true);
         this.main.resume();
       },
-      stepover: (o) => __privateMethod(this, _go_stepover, go_stepover_fn).call(this, o),
+      stepover: (o) => __privateMethod2(this, _go_stepover, go_stepover_fn).call(this, o),
       stepin: () => {
-        if (__privateMethod(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
+        if (__privateMethod2(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
           return;
-        const tkn = __privateGet(this, _script).aToken[__privateGet(this, _idxToken) - __privateGet(this, _idxDx4Dbg, idxDx4Dbg_get)];
-        this.sys.callHook(`stopOnStep${__privateGet(this, _REGSTEPIN).test(tkn) ? "In" : ""}`, {});
-        __privateSet(this, _idxToken, __privateGet(this, _idxToken) - __privateGet(this, _idxDx4Dbg, idxDx4Dbg_get));
-        __privateSet(this, _breakState, __privateGet(this, _breakState) === 1 ? 4 : 5);
+        const tkn = __privateGet2(this, _script).aToken[__privateGet2(this, _idxToken) - __privateGet2(this, _idxDx4Dbg, idxDx4Dbg_get)];
+        this.sys.callHook(`stopOnStep${__privateGet2(this, _REGSTEPIN).test(tkn) ? "In" : ""}`, {});
+        __privateSet2(this, _idxToken, __privateGet2(this, _idxToken) - __privateGet2(this, _idxDx4Dbg, idxDx4Dbg_get));
+        __privateSet2(this, _breakState, __privateGet2(this, _breakState) === 1 ? 4 : 5);
         this.main.setLoop(true);
         this.main.resume();
       },
       stepout: (o) => {
-        if (__privateMethod(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
+        if (__privateMethod2(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
           return;
-        if (__privateGet(this, _aCallStk).length > 0)
-          __privateMethod(this, _go_stepout, go_stepout_fn).call(this, true);
+        if (__privateGet2(this, _aCallStk).length > 0)
+          __privateMethod2(this, _go_stepout, go_stepout_fn).call(this, true);
         else
-          __privateMethod(this, _go_stepover, go_stepover_fn).call(this, o);
+          __privateMethod2(this, _go_stepover, go_stepover_fn).call(this, o);
       },
       pause: () => {
-        __privateSet(this, _breakState, 4);
+        __privateSet2(this, _breakState, 4);
         this.main.setLoop(false, "\u4E00\u6642\u505C\u6B62");
         this.sys.send2Dbg("stopOnStep", {});
       },
       stopOnEntry: () => {
-        __privateSet(this, _breakState, 4);
+        __privateSet2(this, _breakState, 4);
         this.main.setLoop(false, "\u4E00\u6642\u505C\u6B62");
         this.sys.send2Dbg("stopOnEntry", {});
       }
     });
-    __privateSet(this, _cnvSnPath, (fn) => this.cfg.searchPath(fn, Config.EXT_SCRIPT));
-    __privateSet(this, _cnvSnPath4Dbg, (fn) => (this.sys.pathBaseCnvSnPath4Dbg + __privateGet(this, _cnvSnPath).call(this, fn)).replace(__privateGet(_ScriptIterator, _REG4CODE_FN), `$1/prj/$2/${__privateGet(this, _scriptFn)}$3`));
+    __privateSet2(this, _cnvSnPath, (fn) => this.cfg.searchPath(fn, Config.EXT_SCRIPT));
+    __privateSet2(this, _cnvSnPath4Dbg, (fn) => (this.sys.pathBaseCnvSnPath4Dbg + __privateGet2(this, _cnvSnPath).call(this, fn)).replace(__privateGet2(_ScriptIterator, _REG4CODE_FN), `$1/prj/$2/${__privateGet2(this, _scriptFn)}$3`));
     this.cnvPath4Dbg = (fn) => this.sys.pathBaseCnvSnPath4Dbg + fn.replace("/crypto_prj/", "/prj/");
-    __privateSet(this, _csDepth_macro_esc, 0);
-    __privateSet(this, _breakState, 0);
+    __privateSet2(this, _csDepth_macro_esc, 0);
+    __privateSet2(this, _breakState, 0);
     this.isBreak = (_token) => false;
-    __privateSet(this, _procDebugtag, (_tag_name) => {
+    __privateSet2(this, _procDebugtag, (_tag_name) => {
     });
-    __privateSet(this, _fncSet, () => {
+    __privateSet2(this, _fncSet, () => {
     });
-    __privateSet(this, _fncBreak, () => {
+    __privateSet2(this, _fncBreak, () => {
     });
-    __privateSet(this, _fnLastBreak, "");
-    __privateSet(this, _hScrCache4Dump, {});
+    __privateSet2(this, _fnLastBreak, "");
+    __privateSet2(this, _hScrCache4Dump, {});
     this.noticeBreak = (_goto) => {
     };
-    __privateSet(this, _dumpErrLine, 5);
-    __privateSet(this, _aIfStk, [-1]);
-    __privateSet(this, _resvToken, "");
-    __privateSet(this, _skipLabel, "");
+    __privateSet2(this, _dumpErrLine, 5);
+    __privateSet2(this, _aIfStk, [-1]);
+    __privateSet2(this, _resvToken, "");
+    __privateSet2(this, _skipLabel, "");
     this.nextToken = () => "";
-    __privateSet(this, _dbgToken, (_token) => {
+    __privateSet2(this, _dbgToken, (_token) => {
     });
-    __privateSet(this, _REG_NONAME_LABEL, /(\*{2,})(.*)/);
-    __privateSet(this, _REG_TOKEN_MACRO_BEGIN, /\[macro\s/);
-    __privateSet(this, _REG_TOKEN_MACRO_END, /\[endmacro[\s\]]/);
-    __privateSet(this, _REG_TAG_LET_ML, /^\[let_ml\s/g);
-    __privateSet(this, _REG_TAG_ENDLET_ML, /^\[endlet_ml\s*]/g);
-    __privateSet(this, _hScript, /* @__PURE__ */ Object.create(null));
-    __privateSet(this, _REG_WILDCARD, /^\[(call|loadplugin)\s/);
-    __privateSet(this, _REG_WILDCARD2, /\bfn\s*=\s*[^\s\]]+/);
-    __privateSet(this, _replaceScript_Wildcard, () => {
-      for (let i2 = __privateGet(this, _script).len - 1; i2 >= 0; --i2) {
-        const token = __privateGet(this, _script).aToken[i2];
-        __privateGet(this, _REG_WILDCARD).lastIndex = 0;
-        if (!__privateGet(this, _REG_WILDCARD).test(token))
+    __privateSet2(this, _REG_NONAME_LABEL, /(\*{2,})(.*)/);
+    __privateSet2(this, _REG_TOKEN_MACRO_BEGIN, /\[macro\s/);
+    __privateSet2(this, _REG_TOKEN_MACRO_END, /\[endmacro[\s\]]/);
+    __privateSet2(this, _REG_TAG_LET_ML, /^\[let_ml\s/g);
+    __privateSet2(this, _REG_TAG_ENDLET_ML, /^\[endlet_ml\s*]/g);
+    __privateSet2(this, _hScript, /* @__PURE__ */ Object.create(null));
+    __privateSet2(this, _REG_WILDCARD, /^\[(call|loadplugin)\s/);
+    __privateSet2(this, _REG_WILDCARD2, /\bfn\s*=\s*[^\s\]]+/);
+    __privateSet2(this, _replaceScript_Wildcard, () => {
+      for (let i2 = __privateGet2(this, _script).len - 1; i2 >= 0; --i2) {
+        const token = __privateGet2(this, _script).aToken[i2];
+        __privateGet2(this, _REG_WILDCARD).lastIndex = 0;
+        if (!__privateGet2(this, _REG_WILDCARD).test(token))
           continue;
         const [tag_name, args] = tagToken2Name_Args(token);
         this.alzTagArg.go(args);
@@ -51140,67 +51390,67 @@ const _ScriptIterator = class {
           continue;
         const ext = tag_name === "loadplugin" ? "css" : "sn";
         const a2 = this.cfg.matchPath("^" + fn.slice(0, -1) + ".*", ext);
-        __privateGet(this, _script).aToken.splice(i2, 1, "	", "; " + token);
-        __privateGet(this, _script).aLNum.splice(i2, 1, NaN, NaN);
+        __privateGet2(this, _script).aToken.splice(i2, 1, "	", "; " + token);
+        __privateGet2(this, _script).aLNum.splice(i2, 1, NaN, NaN);
         for (const v2 of a2) {
-          const nt = token.replace(__privateGet(this, _REG_WILDCARD2), "fn=" + decodeURIComponent(getFn(v2[ext])));
-          __privateGet(this, _script).aToken.splice(i2, 0, nt);
-          __privateGet(this, _script).aLNum.splice(i2, 0, NaN);
+          const nt = token.replace(__privateGet2(this, _REG_WILDCARD2), "fn=" + decodeURIComponent(getFn(v2[ext])));
+          __privateGet2(this, _script).aToken.splice(i2, 0, nt);
+          __privateGet2(this, _script).aLNum.splice(i2, 0, NaN);
         }
       }
-      __privateGet(this, _script).len = __privateGet(this, _script).aToken.length;
+      __privateGet2(this, _script).len = __privateGet2(this, _script).aToken.length;
     });
-    __privateSet(this, _isKidoku, false);
-    __privateSet(this, _strStepin, "call");
-    __privateSet(this, _REGSTEPIN, /\[(call)\b/);
-    __privateSet(this, _skip4page, false);
-    __privateSet(this, _mark, {
+    __privateSet2(this, _isKidoku, false);
+    __privateSet2(this, _strStepin, "call");
+    __privateSet2(this, _REGSTEPIN, /\[(call)\b/);
+    __privateSet2(this, _skip4page, false);
+    __privateSet2(this, _mark, {
       hSave: {},
       hPages: {},
       aIfStk: [-1]
     });
-    __privateSet(this, _aPageLog, []);
-    __privateSet(this, _posAPageLog, -1);
-    hTag.let_ml = (o) => __privateMethod(this, _let_ml, let_ml_fn).call(this, o);
-    hTag.dump_stack = () => __privateMethod(this, _dump_stack, dump_stack_fn).call(this);
-    hTag.dump_script = (o) => __privateMethod(this, _dump_script, dump_script_fn).call(this, o);
-    hTag["else"] = hTag.elsif = hTag.endif = () => __privateMethod(this, _endif, endif_fn).call(this);
-    hTag["if"] = (o) => __privateMethod(this, _if, if_fn).call(this, o);
-    hTag.call = (o) => __privateMethod(this, _call, call_fn).call(this, o);
-    hTag.jump = (o) => __privateMethod(this, _jump, jump_fn).call(this, o);
-    hTag.page = (o) => __privateMethod(this, _page, page_fn).call(this, o);
-    hTag.pop_stack = (o) => __privateMethod(this, _pop_stack, pop_stack_fn).call(this, o);
-    hTag.return = () => __privateMethod(this, _return, return_fn).call(this);
-    hTag.bracket2macro = (o) => __privateMethod(this, _bracket2macro, bracket2macro_fn).call(this, o);
-    hTag.char2macro = (o) => __privateMethod(this, _char2macro, char2macro_fn).call(this, o);
-    hTag.endmacro = () => __privateMethod(this, _return, return_fn).call(this);
-    hTag.macro = (o) => __privateMethod(this, _macro, macro_fn).call(this, o);
-    hTag.load = (o) => __privateMethod(this, _load, load_fn).call(this, o);
-    hTag.reload_script = (o) => __privateMethod(this, _reload_script, reload_script_fn).call(this, o);
-    hTag.record_place = () => __privateMethod(this, _record_place, record_place_fn).call(this);
-    hTag.save = (o) => __privateMethod(this, _save, save_fn).call(this, o);
+    __privateSet2(this, _aPageLog, []);
+    __privateSet2(this, _posAPageLog, -1);
+    hTag.let_ml = (o) => __privateMethod2(this, _let_ml, let_ml_fn).call(this, o);
+    hTag.dump_stack = () => __privateMethod2(this, _dump_stack, dump_stack_fn).call(this);
+    hTag.dump_script = (o) => __privateMethod2(this, _dump_script, dump_script_fn).call(this, o);
+    hTag["else"] = hTag.elsif = hTag.endif = () => __privateMethod2(this, _endif, endif_fn).call(this);
+    hTag["if"] = (o) => __privateMethod2(this, _if, if_fn).call(this, o);
+    hTag.call = (o) => __privateMethod2(this, _call, call_fn).call(this, o);
+    hTag.jump = (o) => __privateMethod2(this, _jump, jump_fn).call(this, o);
+    hTag.page = (o) => __privateMethod2(this, _page, page_fn).call(this, o);
+    hTag.pop_stack = (o) => __privateMethod2(this, _pop_stack, pop_stack_fn).call(this, o);
+    hTag.return = () => __privateMethod2(this, _return, return_fn).call(this);
+    hTag.bracket2macro = (o) => __privateMethod2(this, _bracket2macro, bracket2macro_fn).call(this, o);
+    hTag.char2macro = (o) => __privateMethod2(this, _char2macro, char2macro_fn).call(this, o);
+    hTag.endmacro = () => __privateMethod2(this, _return, return_fn).call(this);
+    hTag.macro = (o) => __privateMethod2(this, _macro, macro_fn).call(this, o);
+    hTag.load = (o) => __privateMethod2(this, _load, load_fn).call(this, o);
+    hTag.reload_script = (o) => __privateMethod2(this, _reload_script, reload_script_fn).call(this, o);
+    hTag.record_place = () => __privateMethod2(this, _record_place, record_place_fn).call(this);
+    hTag.save = (o) => __privateMethod2(this, _save, save_fn).call(this, o);
     if (cfg.oCfg.debug.token)
-      __privateSet(this, _dbgToken, (token) => console.log(`\u{1F331} \u30C8\u30FC\u30AF\u30F3 fn:${__privateGet(this, _scriptFn)} idx:${__privateGet(this, _idxToken)} ln:${__privateGet(this, _lineNum)} token\u3010${token}\u3011`));
-    val.defTmp("const.sn.vctCallStk.length", () => __privateGet(this, _aCallStk).length);
-    __privateGet(this, _grm).setEscape(cfg.oCfg.init.escape);
+      __privateSet2(this, _dbgToken, (token) => console.log(`\u{1F331} \u30C8\u30FC\u30AF\u30F3 fn:${__privateGet2(this, _scriptFn)} idx:${__privateGet2(this, _idxToken)} ln:${__privateGet2(this, _lineNum)} token\u3010${token}\u3011`));
+    val.defTmp("const.sn.vctCallStk.length", () => __privateGet2(this, _aCallStk).length);
+    __privateGet2(this, _grm).setEscape(cfg.oCfg.init.escape);
     if (CmnLib.isDbg) {
       sys.addHook((type, o) => {
         var _a3, _b3;
-        return (_b3 = (_a3 = __privateGet(this, _hHook2))[type]) == null ? void 0 : _b3.call(_a3, o);
+        return (_b3 = (_a3 = __privateGet2(this, _hHook2))[type]) == null ? void 0 : _b3.call(_a3, o);
       });
-      this.isBreak = __privateMethod(this, _isBreak_base, isBreak_base_fn);
+      this.isBreak = __privateMethod2(this, _isBreak_base, isBreak_base_fn);
       const fnc = this.analyzeInit;
       this.analyzeInit = () => {
         this.analyzeInit = () => {
         };
         this.sys.send2Dbg("hi", {});
       };
-      __privateGet(this, _hHook2).auth = (o) => {
+      __privateGet2(this, _hHook2).auth = (o) => {
         const hLineBP = o.hBreakpoint.hFn2hLineBP;
         for (const fn in hLineBP)
-          __privateMethod(this, _regBreakPoint, regBreakPoint_fn).call(this, fn, hLineBP[fn]);
-        __privateSet(_ScriptIterator, _hFuncBP, {});
-        o.hBreakpoint.aFunc.forEach((v2) => __privateGet(_ScriptIterator, _hFuncBP)[v2.name] = 1);
+          __privateMethod2(this, _regBreakPoint, regBreakPoint_fn).call(this, fn, hLineBP[fn]);
+        __privateSet2(_ScriptIterator, _hFuncBP, {});
+        o.hBreakpoint.aFunc.forEach((v2) => __privateGet2(_ScriptIterator, _hFuncBP)[v2.name] = 1);
         if (o.stopOnEntry) {
           while (true) {
             let tkn = this.nextToken();
@@ -51214,7 +51464,7 @@ const _ScriptIterator = class {
             if (uc === 42 && tkn.length === 1)
               break;
             if (uc === 10)
-              __privateSet(this, _lineNum, __privateGet(this, _lineNum) + tkn.length);
+              __privateSet2(this, _lineNum, __privateGet2(this, _lineNum) + tkn.length);
           }
           this.sys.callHook("stopOnEntry", {});
           this.analyzeInit = fnc;
@@ -51231,16 +51481,16 @@ const _ScriptIterator = class {
       this.recodeDesign = () => {
       };
     if (cfg.oCfg.debug.tag)
-      __privateSet(this, _procDebugtag, (tag_name) => console.log(`\u{1F332} \u30BF\u30B0\u89E3\u6790 fn:${__privateGet(this, _scriptFn)} idx:${__privateGet(this, _idxToken)} ln:${__privateGet(this, _lineNum)} [${tag_name} %o]`, this.alzTagArg.hPrm));
+      __privateSet2(this, _procDebugtag, (tag_name) => console.log(`\u{1F332} \u30BF\u30B0\u89E3\u6790 fn:${__privateGet2(this, _scriptFn)} idx:${__privateGet2(this, _idxToken)} ln:${__privateGet2(this, _lineNum)} [${tag_name} %o]`, this.alzTagArg.hPrm));
   }
   get scriptFn() {
-    return __privateGet(this, _scriptFn);
+    return __privateGet2(this, _scriptFn);
   }
   subIdxToken() {
-    --__privateWrapper(this, _idxToken)._;
+    --__privateWrapper2(this, _idxToken)._;
   }
   get lineNum() {
-    return __privateGet(this, _lineNum);
+    return __privateGet2(this, _lineNum);
   }
   destroy() {
     this.isBreak = () => false;
@@ -51251,25 +51501,25 @@ const _ScriptIterator = class {
     if (!tag_fnc)
       throw `\u672A\u5B9A\u7FA9\u306E\u30BF\u30B0\u3010${tag_name}\u3011\u3067\u3059`;
     this.alzTagArg.go(args);
-    __privateGet(this, _procDebugtag).call(this, tag_name);
+    __privateGet2(this, _procDebugtag).call(this, tag_name);
     const hPrm = this.alzTagArg.hPrm;
     if (hPrm.cond) {
       const cond = hPrm.cond.val;
       if (!cond || cond.charAt(0) === "&")
         throw "\u5C5E\u6027cond\u306F\u300C&\u300D\u304C\u4E0D\u8981\u3067\u3059";
-      const p = this.prpPrs.parse(cond);
-      const ps = String(p);
+      const p2 = this.prpPrs.parse(cond);
+      const ps = String(p2);
       if (ps === "null" || ps === "undefined")
         return false;
-      if (!p)
+      if (!p2)
         return false;
     }
     let hArg = {};
-    const len = __privateGet(this, _aCallStk).length;
+    const len = __privateGet2(this, _aCallStk).length;
     if (this.alzTagArg.isKomeParam) {
       if (len === 0)
         throw "\u5C5E\u6027\u300C*\u300D\u306F\u30DE\u30AF\u30ED\u306E\u307F\u6709\u52B9\u3067\u3059";
-      hArg = __spreadValues({}, __privateGet(this, _aCallStk)[__privateGet(this, _aCallStk).length - 1].csArg);
+      hArg = __spreadValues({}, __privateGet2(this, _aCallStk)[__privateGet2(this, _aCallStk).length - 1].csArg);
     }
     hArg[":\u30BF\u30B0\u540D"] = tag_name;
     for (const arg_nm in hPrm) {
@@ -51277,7 +51527,7 @@ const _ScriptIterator = class {
       if ((v2 == null ? void 0 : v2.charAt(0)) === "%") {
         if (len === 0)
           throw "\u5C5E\u6027\u300C%\u300D\u306F\u30DE\u30AF\u30ED\u5B9A\u7FA9\u5185\u3067\u306E\u307F\u4F7F\u7528\u3067\u304D\u307E\u3059\uFF08\u305D\u306E\u30DE\u30AF\u30ED\u306E\u5F15\u6570\u3092\u793A\u3059\u7C21\u7565\u6587\u6CD5\u3067\u3042\u308B\u305F\u3081\uFF09";
-        const mac = __privateGet(this, _aCallStk)[__privateGet(this, _aCallStk).length - 1].csArg[v2.slice(1)];
+        const mac = __privateGet2(this, _aCallStk)[__privateGet2(this, _aCallStk).length - 1].csArg[v2.slice(1)];
         if (mac) {
           hArg[arg_nm] = mac;
           continue;
@@ -51301,29 +51551,29 @@ const _ScriptIterator = class {
     return tag_fnc(hArg);
   }
   setOtherObj(evtMng, layMng) {
-    __privateSet(this, _evtMng6, evtMng);
-    __privateSet(this, _layMng, layMng);
+    __privateSet2(this, _evtMng6, evtMng);
+    __privateSet2(this, _layMng, layMng);
   }
   dumpErrForeLine() {
     var _a3;
-    if (__privateGet(this, _idxToken) === 0) {
-      console.group(`\u{1F95F} Error line (from 0 rows before) fn:${__privateGet(this, _scriptFn)}`);
+    if (__privateGet2(this, _idxToken) === 0) {
+      console.group(`\u{1F95F} Error line (from 0 rows before) fn:${__privateGet2(this, _scriptFn)}`);
       console.groupEnd();
       return;
     }
     let s2 = "";
-    for (let i2 = __privateGet(this, _idxToken) - 1; i2 >= 0; --i2) {
-      s2 = __privateGet(this, _script).aToken[i2] + s2;
-      if (((_a3 = s2.match(/\n/g)) != null ? _a3 : []).length >= __privateGet(this, _dumpErrLine))
+    for (let i2 = __privateGet2(this, _idxToken) - 1; i2 >= 0; --i2) {
+      s2 = __privateGet2(this, _script).aToken[i2] + s2;
+      if (((_a3 = s2.match(/\n/g)) != null ? _a3 : []).length >= __privateGet2(this, _dumpErrLine))
         break;
     }
-    const a2 = s2.split("\n").slice(-__privateGet(this, _dumpErrLine));
+    const a2 = s2.split("\n").slice(-__privateGet2(this, _dumpErrLine));
     const len = a2.length;
-    console.group(`\u{1F95F} Error line (from ${len} rows before) fn:${__privateGet(this, _scriptFn)}`);
-    const ln_txt_width = String(__privateGet(this, _lineNum)).length;
-    const lc = __privateMethod(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet(this, _script), __privateGet(this, _idxToken));
+    console.group(`\u{1F95F} Error line (from ${len} rows before) fn:${__privateGet2(this, _scriptFn)}`);
+    const ln_txt_width = String(__privateGet2(this, _lineNum)).length;
+    const lc = __privateMethod2(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet2(this, _script), __privateGet2(this, _idxToken));
     for (let i2 = 0; i2 < len; ++i2) {
-      const ln = __privateGet(this, _lineNum) - len + i2 + 1;
+      const ln = __privateGet2(this, _lineNum) - len + i2 + 1;
       const mes = `${String(ln).padStart(ln_txt_width, " ")}: %c`;
       const e = a2[i2];
       const line = e.length > 75 ? e.slice(0, 75) + "\u2026" : e;
@@ -51335,23 +51585,23 @@ const _ScriptIterator = class {
     console.groupEnd();
   }
   analyzeInit() {
-    const o = __privateMethod(this, _seekScript, seekScript_fn).call(this, __privateGet(this, _script), Boolean(this.val.getVal("mp:const.sn.macro.name")), __privateGet(this, _lineNum), __privateGet(this, _skipLabel), __privateGet(this, _idxToken));
-    __privateSet(this, _idxToken, o.idx);
-    __privateSet(this, _lineNum, o.ln);
+    const o = __privateMethod2(this, _seekScript, seekScript_fn).call(this, __privateGet2(this, _script), Boolean(this.val.getVal("mp:const.sn.macro.name")), __privateGet2(this, _lineNum), __privateGet2(this, _skipLabel), __privateGet2(this, _idxToken));
+    __privateSet2(this, _idxToken, o.idx);
+    __privateSet2(this, _lineNum, o.ln);
     this.runAnalyze();
   }
   get isKidoku() {
-    return __privateGet(this, _isKidoku);
+    return __privateGet2(this, _isKidoku);
   }
   get isNextKidoku() {
-    let fn = __privateGet(this, _scriptFn);
-    let idx = __privateGet(this, _idxToken);
-    let len = __privateGet(this, _script).len;
-    if (__privateGet(this, _aCallStk).length > 0) {
-      const cs = __privateGet(this, _aCallStk)[0];
+    let fn = __privateGet2(this, _scriptFn);
+    let idx = __privateGet2(this, _idxToken);
+    let len = __privateGet2(this, _script).len;
+    if (__privateGet2(this, _aCallStk).length > 0) {
+      const cs = __privateGet2(this, _aCallStk)[0];
       fn = cs.fn;
       idx = cs.idx;
-      const st = __privateGet(this, _hScript)[fn];
+      const st = __privateGet2(this, _hScript)[fn];
       if (st)
         len = st.len;
     }
@@ -51363,21 +51613,21 @@ const _ScriptIterator = class {
     return areas.search(idx);
   }
   get normalWait() {
-    return __privateGet(this, _isKidoku) ? this.val.getVal("sys:sn.tagCh.doWait_Kidoku") ? uint(this.val.getVal("sys:sn.tagCh.msecWait_Kidoku")) : 0 : this.val.getVal("sys:sn.tagCh.doWait") ? uint(this.val.getVal("sys:sn.tagCh.msecWait")) : 0;
+    return __privateGet2(this, _isKidoku) ? this.val.getVal("sys:sn.tagCh.doWait_Kidoku") ? uint(this.val.getVal("sys:sn.tagCh.msecWait_Kidoku")) : 0 : this.val.getVal("sys:sn.tagCh.doWait") ? uint(this.val.getVal("sys:sn.tagCh.msecWait")) : 0;
   }
   get skip4page() {
-    return __privateGet(this, _skip4page);
+    return __privateGet2(this, _skip4page);
   }
   recodePage() {
-    __privateSet(this, _skip4page, false);
+    __privateSet2(this, _skip4page, false);
     if (!this.val.getVal("save:sn.doRecLog"))
       return;
-    const { fn, idx } = __privateMethod(this, _nowScrIdx, nowScrIdx_fn).call(this);
+    const { fn, idx } = __privateMethod2(this, _nowScrIdx, nowScrIdx_fn).call(this);
     const i2 = idx - 1;
     const key = i2 + ":" + fn;
-    const iPl = __privateGet(this, _aPageLog).findIndex((p) => p.key === key);
+    const iPl = __privateGet2(this, _aPageLog).findIndex((p2) => p2.key === key);
     if (iPl > -1) {
-      __privateSet(this, _posAPageLog, iPl);
+      __privateSet2(this, _posAPageLog, iPl);
       return;
     }
     const o = {
@@ -51386,42 +51636,42 @@ const _ScriptIterator = class {
       idx: i2,
       retFn: fn,
       retIdx: 0,
-      retMark: __spreadValues({}, __privateGet(this, _mark))
+      retMark: __spreadValues({}, __privateGet2(this, _mark))
     };
-    if (__privateGet(this, _posAPageLog) >= 0) {
-      const pl = __privateGet(this, _aPageLog)[__privateGet(this, _posAPageLog)];
+    if (__privateGet2(this, _posAPageLog) >= 0) {
+      const pl = __privateGet2(this, _aPageLog)[__privateGet2(this, _posAPageLog)];
       o.retFn = pl.fn;
       o.retIdx = pl.idx + 1;
     }
-    if (++__privateWrapper(this, _posAPageLog)._ === __privateGet(this, _aPageLog).length)
-      __privateGet(this, _aPageLog).push(o);
+    if (++__privateWrapper2(this, _posAPageLog)._ === __privateGet2(this, _aPageLog).length)
+      __privateGet2(this, _aPageLog).push(o);
     else
-      __privateGet(this, _aPageLog)[__privateGet(this, _posAPageLog)] = o;
+      __privateGet2(this, _aPageLog)[__privateGet2(this, _posAPageLog)] = o;
   }
   recodeDesign(hArg) {
     let fn = "";
     let idx = 0;
-    const len = __privateGet(this, _aCallStk).length;
+    const len = __privateGet2(this, _aCallStk).length;
     if (hArg.design_unit && len > 0) {
-      const cs = __privateGet(this, _aCallStk)[0];
+      const cs = __privateGet2(this, _aCallStk)[0];
       fn = cs.fn;
       idx = cs.idx;
     } else {
-      fn = __privateGet(this, _scriptFn);
-      idx = __privateGet(this, _idxToken);
+      fn = __privateGet2(this, _scriptFn);
+      idx = __privateGet2(this, _idxToken);
     }
-    hArg[":path"] = __privateGet(this, _cnvSnPath4Dbg).call(this, fn);
-    const lc = __privateMethod(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet(this, _hScript)[fn], idx);
+    hArg[":path"] = __privateGet2(this, _cnvSnPath4Dbg).call(this, fn);
+    const lc = __privateMethod2(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet2(this, _hScript)[fn], idx);
     hArg[":ln"] = lc.ln;
     hArg[":col_s"] = lc.col_s;
     hArg[":col_e"] = lc.col_e;
     const idx_1 = idx - 1;
     hArg[":idx_tkn"] = idx_1;
-    hArg[":token"] = __privateGet(this, _hScript)[fn].aToken[idx_1];
+    hArg[":token"] = __privateGet2(this, _hScript)[fn].aToken[idx_1];
     this.sys.send2Dbg("_recodeDesign", hArg);
   }
   replace(idx, val) {
-    __privateGet(this, _script).aToken[idx] = val;
+    __privateGet2(this, _script).aToken[idx] = val;
   }
 };
 let ScriptIterator = _ScriptIterator;
@@ -51433,7 +51683,7 @@ _aCallStk = new WeakMap();
 _grm = new WeakMap();
 _regBreakPoint = new WeakSet();
 regBreakPoint_fn = function(fn, o) {
-  __privateGet(_ScriptIterator, _hFn2hLineBP)[__privateGet(this, _cnvSnPath4Dbg).call(this, fn)] = o;
+  __privateGet2(_ScriptIterator, _hFn2hLineBP)[__privateGet2(this, _cnvSnPath4Dbg).call(this, fn)] = o;
 };
 _hHook2 = new WeakMap();
 _cnvSnPath = new WeakMap();
@@ -51441,33 +51691,33 @@ _REG4CODE_FN = new WeakMap();
 _cnvSnPath4Dbg = new WeakMap();
 _go_stepover = new WeakSet();
 go_stepover_fn = function(o) {
-  if (__privateMethod(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
+  if (__privateMethod2(this, _isIdxOverLast, isIdxOverLast_fn).call(this))
     return;
-  const tkn = __privateGet(this, _script).aToken[__privateGet(this, _idxToken) - __privateGet(this, _idxDx4Dbg, idxDx4Dbg_get)];
-  if (__privateGet(this, _REGSTEPIN).test(tkn))
-    __privateMethod(this, _go_stepout, go_stepout_fn).call(this, false);
+  const tkn = __privateGet2(this, _script).aToken[__privateGet2(this, _idxToken) - __privateGet2(this, _idxDx4Dbg, idxDx4Dbg_get)];
+  if (__privateGet2(this, _REGSTEPIN).test(tkn))
+    __privateMethod2(this, _go_stepout, go_stepout_fn).call(this, false);
   else {
     this.sys.callHook("stopOnStep", {});
-    __privateGet(this, _hHook2).stepin(o);
+    __privateGet2(this, _hHook2).stepin(o);
   }
 };
 _go_stepout = new WeakSet();
 go_stepout_fn = function(out) {
   this.sys.callHook(`stopOnStep${out ? "Out" : ""}`, {});
-  __privateSet(this, _csDepth_macro_esc, __privateGet(this, _aCallStk).length - (out ? 1 : 0));
-  __privateSet(this, _idxToken, __privateGet(this, _idxToken) - __privateGet(this, _idxDx4Dbg, idxDx4Dbg_get));
-  __privateSet(this, _breakState, out ? 7 : 6);
+  __privateSet2(this, _csDepth_macro_esc, __privateGet2(this, _aCallStk).length - (out ? 1 : 0));
+  __privateSet2(this, _idxToken, __privateGet2(this, _idxToken) - __privateGet2(this, _idxDx4Dbg, idxDx4Dbg_get));
+  __privateSet2(this, _breakState, out ? 7 : 6);
   this.main.setLoop(true);
   this.main.resume();
 };
 _csDepth_macro_esc = new WeakMap();
 _idxDx4Dbg = new WeakSet();
 idxDx4Dbg_get = function() {
-  return __privateGet(this, _breakState) === 2 || __privateGet(this, _breakState) === 4 ? 1 : 0;
+  return __privateGet2(this, _breakState) === 2 || __privateGet2(this, _breakState) === 4 ? 1 : 0;
 };
 _isIdxOverLast = new WeakSet();
 isIdxOverLast_fn = function() {
-  if (__privateGet(this, _idxToken) < __privateGet(this, _script).len)
+  if (__privateGet2(this, _idxToken) < __privateGet2(this, _script).len)
     return false;
   this.sys.callHook("stopOnEntry", {});
   this.main.setLoop(false, "\u30B9\u30AF\u30EA\u30D7\u30C8\u7D42\u7AEF\u3067\u3059");
@@ -51478,35 +51728,35 @@ _hFuncBP = new WeakMap();
 _breakState = new WeakMap();
 _isBreak_base = new WeakSet();
 isBreak_base_fn = function(token) {
-  switch (__privateGet(this, _breakState)) {
+  switch (__privateGet2(this, _breakState)) {
     case 6:
-      __privateMethod(this, _subHitCondition, subHitCondition_fn).call(this);
-      __privateSet(this, _breakState, 7);
+      __privateMethod2(this, _subHitCondition, subHitCondition_fn).call(this);
+      __privateSet2(this, _breakState, 7);
       break;
     case 7:
-      if (__privateGet(this, _aCallStk).length !== __privateGet(this, _csDepth_macro_esc))
+      if (__privateGet2(this, _aCallStk).length !== __privateGet2(this, _csDepth_macro_esc))
         break;
-      __privateSet(this, _breakState, 4);
+      __privateSet2(this, _breakState, 4);
       this.main.setLoop(false, "\u30B9\u30C6\u30C3\u30D7\u5B9F\u884C");
       this.sys.send2Dbg("stopOnStep", {});
       return true;
     case 5:
-      __privateMethod(this, _subHitCondition, subHitCondition_fn).call(this);
-      __privateSet(this, _breakState, 4);
+      __privateMethod2(this, _subHitCondition, subHitCondition_fn).call(this);
+      __privateSet2(this, _breakState, 4);
       break;
     case 4:
-      __privateMethod(this, _subHitCondition, subHitCondition_fn).call(this);
+      __privateMethod2(this, _subHitCondition, subHitCondition_fn).call(this);
       this.main.setLoop(false, "\u30B9\u30C6\u30C3\u30D7\u5B9F\u884C");
       this.sys.send2Dbg("stopOnStep", {});
       return true;
     case 3:
-      __privateMethod(this, _subHitCondition, subHitCondition_fn).call(this);
-      __privateSet(this, _breakState, 0);
+      __privateMethod2(this, _subHitCondition, subHitCondition_fn).call(this);
+      __privateSet2(this, _breakState, 0);
       break;
     default:
       {
-        if (tagToken2Name(token) in __privateGet(_ScriptIterator, _hFuncBP)) {
-          __privateSet(this, _breakState, 2);
+        if (tagToken2Name(token) in __privateGet2(_ScriptIterator, _hFuncBP)) {
+          __privateSet2(this, _breakState, 2);
           this.main.setLoop(false, `\u95A2\u6570 ${token} \u30D6\u30EC\u30FC\u30AF`);
           this.sys.callHook("stopOnBreakpoint", {});
           this.sys.send2Dbg("stopOnBreakpoint", {});
@@ -51514,10 +51764,10 @@ isBreak_base_fn = function(token) {
         }
       }
       {
-        const bp = __privateGet(_ScriptIterator, _hFn2hLineBP)[__privateGet(this, _cnvSnPath4Dbg).call(this, __privateGet(this, _scriptFn))];
+        const bp = __privateGet2(_ScriptIterator, _hFn2hLineBP)[__privateGet2(this, _cnvSnPath4Dbg).call(this, __privateGet2(this, _scriptFn))];
         if (!bp)
           break;
-        const o = bp[__privateGet(this, _lineNum)];
+        const o = bp[__privateGet2(this, _lineNum)];
         if (!o)
           break;
         if (o.condition) {
@@ -51525,8 +51775,8 @@ isBreak_base_fn = function(token) {
             break;
         } else if ("hitCondition" in o && --o.hitCondition > 0)
           break;
-        const isBreak = __privateGet(this, _breakState) === 0;
-        __privateSet(this, _breakState, 2);
+        const isBreak = __privateGet2(this, _breakState) === 0;
+        __privateSet2(this, _breakState, 2);
         this.main.setLoop(false, isBreak ? (o.condition ? "\u6761\u4EF6" : "\u30D2\u30C3\u30C8\u30AB\u30A6\u30F3\u30C8") + "\u30D6\u30EC\u30FC\u30AF" : "\u30B9\u30C6\u30C3\u30D7\u5B9F\u884C");
         const type = isBreak ? "stopOnBreakpoint" : "stopOnStep";
         this.sys.callHook(type, {});
@@ -51539,34 +51789,34 @@ isBreak_base_fn = function(token) {
 _subHitCondition = new WeakSet();
 subHitCondition_fn = function() {
   var _a3;
-  const o = (_a3 = __privateGet(_ScriptIterator, _hFn2hLineBP)[getFn(__privateGet(this, _scriptFn))]) == null ? void 0 : _a3[__privateGet(this, _lineNum)];
+  const o = (_a3 = __privateGet2(_ScriptIterator, _hFn2hLineBP)[getFn(__privateGet2(this, _scriptFn))]) == null ? void 0 : _a3[__privateGet2(this, _lineNum)];
   if (o == null ? void 0 : o.hitCondition)
     --o.hitCondition;
 };
 _aStack = new WeakSet();
 aStack_fn = function() {
   var _a3, _b3;
-  const idx_n = __privateGet(this, _breakState) === 3 ? 1 : 0;
-  const tkn0 = __privateGet(this, _script).aToken[__privateGet(this, _idxToken) - 1 + idx_n];
-  const fn0 = __privateGet(this, _cnvSnPath4Dbg).call(this, __privateGet(this, _scriptFn));
+  const idx_n = __privateGet2(this, _breakState) === 3 ? 1 : 0;
+  const tkn0 = __privateGet2(this, _script).aToken[__privateGet2(this, _idxToken) - 1 + idx_n];
+  const fn0 = __privateGet2(this, _cnvSnPath4Dbg).call(this, __privateGet2(this, _scriptFn));
   const tag_name0 = tagToken2Name(tkn0);
   const nm = tag_name0 ? `[${tag_name0}]` : tkn0;
   const ma = (_a3 = this.val.getVal("mp:const.sn.macro")) != null ? _a3 : "{}";
-  if (__privateGet(this, _idxToken) === 0)
+  if (__privateGet2(this, _idxToken) === 0)
     return [{ fn: fn0, ln: 1, col: 1, nm, ma }];
-  const lc0 = __privateMethod(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet(this, _script), __privateGet(this, _idxToken));
+  const lc0 = __privateMethod2(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet2(this, _script), __privateGet2(this, _idxToken));
   const a2 = [{ fn: fn0, ln: lc0.ln, col: lc0.col_s + 1, nm, ma }];
-  const len = __privateGet(this, _aCallStk).length;
+  const len = __privateGet2(this, _aCallStk).length;
   if (len === 0)
     return a2;
   for (let i2 = len - 1; i2 >= 0; --i2) {
-    const cs = __privateGet(this, _aCallStk)[i2];
-    const st = __privateGet(this, _hScript)[cs.fn];
+    const cs = __privateGet2(this, _aCallStk)[i2];
+    const st = __privateGet2(this, _hScript)[cs.fn];
     const tkn = st.aToken[cs.idx - 1];
-    const lc = __privateMethod(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, st, cs.idx);
+    const lc = __privateMethod2(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, st, cs.idx);
     const tag_name = tagToken2Name(tkn);
     a2.push({
-      fn: __privateGet(this, _cnvSnPath4Dbg).call(this, cs.fn),
+      fn: __privateGet2(this, _cnvSnPath4Dbg).call(this, cs.fn),
       ln: lc.ln,
       col: lc.col_s + 1,
       nm: tag_name ? `[${tag_name}]` : tkn,
@@ -51581,43 +51831,43 @@ _layMng = new WeakMap();
 _let_ml = new WeakSet();
 let_ml_fn = function(hArg) {
   var _a3;
-  const { name } = hArg;
-  if (!name)
+  const { name: name2 } = hArg;
+  if (!name2)
     throw "name\u306F\u5FC5\u9808\u3067\u3059";
   let ml = "";
-  const len = __privateGet(this, _script).len;
-  for (; __privateGet(this, _idxToken) < len; ++__privateWrapper(this, _idxToken)._) {
-    ml = __privateGet(this, _script).aToken[__privateGet(this, _idxToken)];
+  const len = __privateGet2(this, _script).len;
+  for (; __privateGet2(this, _idxToken) < len; ++__privateWrapper2(this, _idxToken)._) {
+    ml = __privateGet2(this, _script).aToken[__privateGet2(this, _idxToken)];
     if (ml !== "")
       break;
   }
   hArg.text = ml;
   hArg.cast = "str";
   this.hTag["let"](hArg);
-  __privateSet(this, _idxToken, __privateGet(this, _idxToken) + 2);
-  __privateSet(this, _lineNum, __privateGet(this, _lineNum) + ((_a3 = ml.match(/\n/g)) != null ? _a3 : []).length);
+  __privateSet2(this, _idxToken, __privateGet2(this, _idxToken) + 2);
+  __privateSet2(this, _lineNum, __privateGet2(this, _lineNum) + ((_a3 = ml.match(/\n/g)) != null ? _a3 : []).length);
   return false;
 };
 _dump_stack = new WeakSet();
 dump_stack_fn = function() {
   var _a3;
-  if (__privateGet(this, _idxToken) === 0) {
-    console.group(`\u{1F95F} [dump_stack] \u30B9\u30AF\u30EA\u30D7\u30C8\u73FE\u5728\u5730 fn:${__privateGet(this, _scriptFn)} line:${1} col:${0}`);
+  if (__privateGet2(this, _idxToken) === 0) {
+    console.group(`\u{1F95F} [dump_stack] \u30B9\u30AF\u30EA\u30D7\u30C8\u73FE\u5728\u5730 fn:${__privateGet2(this, _scriptFn)} line:${1} col:${0}`);
     console.groupEnd();
     return false;
   }
-  const lc0 = __privateMethod(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet(this, _script), __privateGet(this, _idxToken));
-  const now2 = `\u30B9\u30AF\u30EA\u30D7\u30C8\u73FE\u5728\u5730 fn:${__privateGet(this, _scriptFn)} line:${lc0.ln} col:${lc0.col_s + 1}`;
+  const lc0 = __privateMethod2(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet2(this, _script), __privateGet2(this, _idxToken));
+  const now2 = `\u30B9\u30AF\u30EA\u30D7\u30C8\u73FE\u5728\u5730 fn:${__privateGet2(this, _scriptFn)} line:${lc0.ln} col:${lc0.col_s + 1}`;
   console.group(`\u{1F95F} [dump_stack] ${now2}`);
-  const len = __privateGet(this, _aCallStk).length;
+  const len = __privateGet2(this, _aCallStk).length;
   if (len > 0) {
     console.info(now2);
     for (let i2 = len - 1; i2 >= 0; --i2) {
-      const cs = __privateGet(this, _aCallStk)[i2];
+      const cs = __privateGet2(this, _aCallStk)[i2];
       const hMp = cs.csArg[":hMp"];
       const from_macro_nm = hMp ? hMp[":\u30BF\u30B0\u540D"] : void 0;
       const call_nm = (_a3 = cs.csArg[":\u30BF\u30B0\u540D"]) != null ? _a3 : "";
-      const lc = __privateMethod(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet(this, _hScript)[cs.fn], cs.idx);
+      const lc = __privateMethod2(this, _cnvIdx2lineCol, cnvIdx2lineCol_fn).call(this, __privateGet2(this, _hScript)[cs.fn], cs.idx);
       console.info(`${len - i2}\u3064\u524D\u306E\u30B3\u30FC\u30EB\u5143 fn:${cs.fn} line:${lc.ln} col:${lc.col_s + 1}` + (from_macro_nm ? "\uFF08[" + from_macro_nm + "]\u30DE\u30AF\u30ED\u5185\uFF09" : " ") + `\u3067 [${call_nm} ...]\u3092\u30B3\u30FC\u30EB`);
     }
   }
@@ -51648,30 +51898,30 @@ dump_script_fn = function(hArg) {
   const { set_fnc, break_fnc } = hArg;
   if (!set_fnc)
     throw "set_fnc\u306F\u5FC5\u9808\u3067\u3059";
-  __privateSet(this, _fncSet, globalThis[set_fnc]);
-  if (!__privateGet(this, _fncSet)) {
+  __privateSet2(this, _fncSet, globalThis[set_fnc]);
+  if (!__privateGet2(this, _fncSet)) {
     if (argChk_Boolean(hArg, "need_err", true))
       throw `HTML\u5185\u306B\u95A2\u6570${set_fnc}\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093`;
-    __privateSet(this, _fncSet, () => {
+    __privateSet2(this, _fncSet, () => {
     });
     return false;
   }
   this.noticeBreak = (goto) => {
     var _a3;
-    if (__privateGet(this, _fnLastBreak) !== __privateGet(this, _scriptFn)) {
-      __privateSet(this, _fnLastBreak, __privateGet(this, _scriptFn));
-      __privateGet(this, _fncSet).call(this, __privateGet(this, _hScrCache4Dump)[__privateGet(this, _scriptFn)] = (_a3 = __privateGet(this, _hScrCache4Dump)[__privateGet(this, _scriptFn)]) != null ? _a3 : __privateGet(this, _script).aToken.join(""));
+    if (__privateGet2(this, _fnLastBreak) !== __privateGet2(this, _scriptFn)) {
+      __privateSet2(this, _fnLastBreak, __privateGet2(this, _scriptFn));
+      __privateGet2(this, _fncSet).call(this, __privateGet2(this, _hScrCache4Dump)[__privateGet2(this, _scriptFn)] = (_a3 = __privateGet2(this, _hScrCache4Dump)[__privateGet2(this, _scriptFn)]) != null ? _a3 : __privateGet2(this, _script).aToken.join(""));
     }
-    __privateGet(this, _fncBreak).call(this, __privateGet(this, _lineNum), goto);
+    __privateGet2(this, _fncBreak).call(this, __privateGet2(this, _lineNum), goto);
   };
   this.noticeBreak(true);
   if (!break_fnc)
     return false;
-  __privateSet(this, _fncBreak, globalThis[break_fnc]);
-  if (!__privateGet(this, _fncBreak)) {
+  __privateSet2(this, _fncBreak, globalThis[break_fnc]);
+  if (!__privateGet2(this, _fncBreak)) {
     if (argChk_Boolean(hArg, "need_err", true))
       throw `HTML\u5185\u306B\u95A2\u6570${break_fnc}\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093`;
-    __privateSet(this, _fncBreak, () => {
+    __privateSet2(this, _fncBreak, () => {
     });
   }
   return false;
@@ -51684,10 +51934,10 @@ _dumpErrLine = new WeakMap();
 _aIfStk = new WeakMap();
 _endif = new WeakSet();
 endif_fn = function() {
-  if (__privateGet(this, _aIfStk)[0] === -1)
+  if (__privateGet2(this, _aIfStk)[0] === -1)
     throw "if\u30D6\u30ED\u30C3\u30AF\u5185\u3067\u306F\u3042\u308A\u307E\u305B\u3093";
-  __privateSet(this, _idxToken, __privateGet(this, _aIfStk)[0]);
-  __privateGet(this, _aIfStk).shift();
+  __privateSet2(this, _idxToken, __privateGet2(this, _aIfStk)[0]);
+  __privateGet2(this, _aIfStk).shift();
   return false;
 };
 _if = new WeakSet();
@@ -51699,19 +51949,19 @@ if_fn = function(hArg) {
   if (exp.charAt(0) === "&")
     throw "\u5C5E\u6027exp\u306F\u300C&\u300D\u304C\u4E0D\u8981\u3067\u3059";
   let cntDepth = 0;
-  let idxGo = this.prpPrs.parse(exp) ? __privateGet(this, _idxToken) : -1;
-  const lnIf = __privateGet(this, _script).aLNum[__privateGet(this, _idxToken)];
-  let zLn = __privateGet(this, _lineNum) - (lnIf || 0);
-  const len = __privateGet(this, _script).len;
-  for (; __privateGet(this, _idxToken) < len; ++__privateWrapper(this, _idxToken)._) {
-    const ln = __privateGet(this, _script).aLNum[__privateGet(this, _idxToken)];
-    __privateGet(this, _script).aLNum[__privateGet(this, _idxToken)] = (ln || 0) + zLn;
-    const tkn = __privateGet(this, _script).aToken[__privateGet(this, _idxToken)];
+  let idxGo = this.prpPrs.parse(exp) ? __privateGet2(this, _idxToken) : -1;
+  const lnIf = __privateGet2(this, _script).aLNum[__privateGet2(this, _idxToken)];
+  let zLn = __privateGet2(this, _lineNum) - (lnIf || 0);
+  const len = __privateGet2(this, _script).len;
+  for (; __privateGet2(this, _idxToken) < len; ++__privateWrapper2(this, _idxToken)._) {
+    const ln = __privateGet2(this, _script).aLNum[__privateGet2(this, _idxToken)];
+    __privateGet2(this, _script).aLNum[__privateGet2(this, _idxToken)] = (ln || 0) + zLn;
+    const tkn = __privateGet2(this, _script).aToken[__privateGet2(this, _idxToken)];
     if (!tkn)
       continue;
     const uc = tkn.charCodeAt(0);
     if (uc === 10) {
-      __privateSet(this, _lineNum, __privateGet(this, _lineNum) + tkn.length);
+      __privateSet2(this, _lineNum, __privateGet2(this, _lineNum) + tkn.length);
       continue;
     }
     if (uc !== 91)
@@ -51733,13 +51983,13 @@ if_fn = function(hArg) {
         if (e.charAt(0) === "&")
           throw "\u5C5E\u6027exp\u306F\u300C&\u300D\u304C\u4E0D\u8981\u3067\u3059";
         if (this.prpPrs.parse(e))
-          idxGo = __privateGet(this, _idxToken) + 1;
+          idxGo = __privateGet2(this, _idxToken) + 1;
         break;
       case "else":
         if (cntDepth > 0)
           break;
         if (idxGo === -1)
-          idxGo = __privateGet(this, _idxToken) + 1;
+          idxGo = __privateGet2(this, _idxToken) + 1;
         break;
       case "endif":
         if (cntDepth > 0) {
@@ -51747,12 +51997,12 @@ if_fn = function(hArg) {
           break;
         }
         if (idxGo === -1) {
-          ++__privateWrapper(this, _idxToken)._;
-          __privateGet(this, _script).aLNum[__privateGet(this, _idxToken)] += zLn;
+          ++__privateWrapper2(this, _idxToken)._;
+          __privateGet2(this, _script).aLNum[__privateGet2(this, _idxToken)] += zLn;
         } else {
-          __privateGet(this, _aIfStk).unshift(__privateGet(this, _idxToken) + 1);
-          __privateSet(this, _idxToken, idxGo);
-          __privateSet(this, _lineNum, __privateGet(this, _script).aLNum[__privateGet(this, _idxToken)]);
+          __privateGet2(this, _aIfStk).unshift(__privateGet2(this, _idxToken) + 1);
+          __privateSet2(this, _idxToken, idxGo);
+          __privateSet2(this, _lineNum, __privateGet2(this, _script).aLNum[__privateGet2(this, _idxToken)]);
         }
         return false;
     }
@@ -51762,111 +52012,111 @@ if_fn = function(hArg) {
 _call = new WeakSet();
 call_fn = function(hArg) {
   if (!argChk_Boolean(hArg, "count", false))
-    __privateMethod(this, _eraseKidoku, eraseKidoku_fn).call(this);
+    __privateMethod2(this, _eraseKidoku, eraseKidoku_fn).call(this);
   const { fn } = hArg;
   if (fn)
-    __privateGet(this, _cnvSnPath).call(this, fn);
-  __privateMethod(this, _callSub, callSub_fn).call(this, { ":hEvt1Time": __privateGet(this, _evtMng6).popLocalEvts(), ":hMp": this.val.cloneMp() });
+    __privateGet2(this, _cnvSnPath).call(this, fn);
+  __privateMethod2(this, _callSub, callSub_fn).call(this, { ":hEvt1Time": __privateGet2(this, _evtMng6).popLocalEvts(), ":hMp": this.val.cloneMp() });
   if (argChk_Boolean(hArg, "clear_local_event", false))
     this.hTag.clear_event({});
-  __privateMethod(this, _jumpWork, jumpWork_fn).call(this, fn, hArg.label);
+  __privateMethod2(this, _jumpWork, jumpWork_fn).call(this, fn, hArg.label);
   return true;
 };
 _callSub = new WeakSet();
 callSub_fn = function(csa) {
-  __privateGet(this, _script).aLNum[__privateGet(this, _idxToken)] = __privateGet(this, _lineNum);
-  if (!__privateGet(this, _resvToken)) {
+  __privateGet2(this, _script).aLNum[__privateGet2(this, _idxToken)] = __privateGet2(this, _lineNum);
+  if (!__privateGet2(this, _resvToken)) {
     csa[":resvToken"] = "";
-    __privateMethod(this, _clearResvToken, clearResvToken_fn).call(this);
+    __privateMethod2(this, _clearResvToken, clearResvToken_fn).call(this);
   }
-  __privateGet(this, _aCallStk).push(new CallStack(__privateGet(this, _scriptFn), __privateGet(this, _idxToken), csa));
-  __privateGet(this, _aIfStk).unshift(-1);
+  __privateGet2(this, _aCallStk).push(new CallStack(__privateGet2(this, _scriptFn), __privateGet2(this, _idxToken), csa));
+  __privateGet2(this, _aIfStk).unshift(-1);
 };
 _jump = new WeakSet();
 jump_fn = function(hArg) {
   if (!argChk_Boolean(hArg, "count", true))
-    __privateMethod(this, _eraseKidoku, eraseKidoku_fn).call(this);
-  __privateGet(this, _aIfStk)[0] = -1;
-  __privateMethod(this, _jumpWork, jumpWork_fn).call(this, hArg.fn, hArg.label);
+    __privateMethod2(this, _eraseKidoku, eraseKidoku_fn).call(this);
+  __privateGet2(this, _aIfStk)[0] = -1;
+  __privateMethod2(this, _jumpWork, jumpWork_fn).call(this, hArg.fn, hArg.label);
   return true;
 };
 _page = new WeakSet();
 page_fn = function(hArg) {
-  if (__privateGet(this, _posAPageLog) === -1)
+  if (__privateGet2(this, _posAPageLog) === -1)
     return false;
   if (argChk_Boolean(hArg, "clear", false)) {
-    __privateSet(this, _aPageLog, []);
-    __privateSet(this, _posAPageLog, -1);
+    __privateSet2(this, _aPageLog, []);
+    __privateSet2(this, _posAPageLog, -1);
     return false;
   }
   const { to } = hArg;
   if (!to)
     throw "clear\u304Bto\u306F\u5FC5\u9808\u3067\u3059";
-  const oldPos = __privateGet(this, _posAPageLog);
+  const oldPos = __privateGet2(this, _posAPageLog);
   switch (to) {
     case "prev":
-      if (__privateGet(this, _posAPageLog) > 0)
-        --__privateWrapper(this, _posAPageLog)._;
+      if (__privateGet2(this, _posAPageLog) > 0)
+        --__privateWrapper2(this, _posAPageLog)._;
       break;
     case "next":
-      const len = __privateGet(this, _aPageLog).length;
-      if (__privateGet(this, _posAPageLog) < len - 1)
-        ++__privateWrapper(this, _posAPageLog)._;
+      const len = __privateGet2(this, _aPageLog).length;
+      if (__privateGet2(this, _posAPageLog) < len - 1)
+        ++__privateWrapper2(this, _posAPageLog)._;
       break;
     default:
       throw `\u5C5E\u6027to\u300C${to}\u300D\u306F\u7570\u5E38\u3067\u3059`;
   }
-  if (oldPos === __privateGet(this, _posAPageLog))
+  if (oldPos === __privateGet2(this, _posAPageLog))
     return false;
-  const o = __privateGet(this, _aPageLog)[__privateGet(this, _posAPageLog)];
-  const { fn, idx } = __privateMethod(this, _nowScrIdx, nowScrIdx_fn).call(this);
+  const o = __privateGet2(this, _aPageLog)[__privateGet2(this, _posAPageLog)];
+  const { fn, idx } = __privateMethod2(this, _nowScrIdx, nowScrIdx_fn).call(this);
   if (o.key === idx + ":" + fn)
     return false;
-  return __privateMethod(this, _loadFromMark, loadFromMark_fn).call(this, { fn: o.retFn, index: o.retIdx }, o.retMark);
+  return __privateMethod2(this, _loadFromMark, loadFromMark_fn).call(this, { fn: o.retFn, index: o.retIdx }, o.retMark);
 };
 _pop_stack = new WeakSet();
 pop_stack_fn = function(hArg) {
   if (argChk_Boolean(hArg, "clear", false))
-    __privateSet(this, _aCallStk, []);
-  else if (!__privateGet(this, _aCallStk).pop())
+    __privateSet2(this, _aCallStk, []);
+  else if (!__privateGet2(this, _aCallStk).pop())
     throw "[pop_stack] \u30B9\u30BF\u30C3\u30AF\u304C\u7A7A\u3067\u3059";
-  __privateMethod(this, _clearResvToken, clearResvToken_fn).call(this);
-  __privateSet(this, _aIfStk, [-1]);
+  __privateMethod2(this, _clearResvToken, clearResvToken_fn).call(this);
+  __privateSet2(this, _aIfStk, [-1]);
   this.val.setMp({});
   return false;
 };
 _return = new WeakSet();
 return_fn = function() {
-  const cs = __privateGet(this, _aCallStk).pop();
+  const cs = __privateGet2(this, _aCallStk).pop();
   if (!cs)
     throw "[return] \u30B9\u30BF\u30C3\u30AF\u304C\u7A7A\u3067\u3059";
   const csa = cs.csArg;
-  __privateGet(this, _aIfStk).shift();
+  __privateGet2(this, _aIfStk).shift();
   const hMp = csa[":hMp"];
   if (hMp)
     this.val.setMp(hMp);
   const after_token = csa[":resvToken"];
   if (after_token)
     this.nextToken = () => {
-      __privateMethod(this, _clearResvToken, clearResvToken_fn).call(this);
+      __privateMethod2(this, _clearResvToken, clearResvToken_fn).call(this);
       return after_token;
     };
   else
-    __privateMethod(this, _clearResvToken, clearResvToken_fn).call(this);
+    __privateMethod2(this, _clearResvToken, clearResvToken_fn).call(this);
   if (csa[":hEvt1Time"])
-    __privateGet(this, _evtMng6).pushLocalEvts(csa[":hEvt1Time"]);
-  if (cs.fn in __privateGet(this, _hScript)) {
-    __privateMethod(this, _jump_light, jump_light_fn).call(this, cs);
+    __privateGet2(this, _evtMng6).pushLocalEvts(csa[":hEvt1Time"]);
+  if (cs.fn in __privateGet2(this, _hScript)) {
+    __privateMethod2(this, _jump_light, jump_light_fn).call(this, cs);
     return false;
   }
-  __privateMethod(this, _jumpWork, jumpWork_fn).call(this, cs.fn, "", cs.idx);
+  __privateMethod2(this, _jumpWork, jumpWork_fn).call(this, cs.fn, "", cs.idx);
   return true;
 };
 _resvToken = new WeakMap();
 _clearResvToken = new WeakSet();
 clearResvToken_fn = function() {
-  __privateSet(this, _resvToken, "");
-  this.nextToken = __privateMethod(this, _nextToken_Proc, nextToken_Proc_fn);
+  __privateSet2(this, _resvToken, "");
+  this.nextToken = __privateMethod2(this, _nextToken_Proc, nextToken_Proc_fn);
 };
 _skipLabel = new WeakMap();
 _jumpWork = new WeakSet();
@@ -51876,30 +52126,30 @@ jumpWork_fn = function(fn = "", label = "", idx = 0) {
   if (label) {
     if (label.charAt(0) !== "*")
       this.main.errScript("[jump\u7CFB] label\u306F*\u3067\u59CB\u307E\u308A\u307E\u3059");
-    __privateSet(this, _skipLabel, label);
-    if (__privateGet(this, _skipLabel).slice(0, 2) !== "**")
-      __privateSet(this, _idxToken, idx);
+    __privateSet2(this, _skipLabel, label);
+    if (__privateGet2(this, _skipLabel).slice(0, 2) !== "**")
+      __privateSet2(this, _idxToken, idx);
   } else {
-    __privateSet(this, _skipLabel, "");
-    __privateSet(this, _idxToken, idx);
+    __privateSet2(this, _skipLabel, "");
+    __privateSet2(this, _idxToken, idx);
   }
   if (!fn) {
     this.analyzeInit();
     return;
   }
-  const full_path = __privateGet(this, _cnvSnPath).call(this, fn);
-  if (fn === __privateGet(this, _scriptFn)) {
+  const full_path = __privateGet2(this, _cnvSnPath).call(this, fn);
+  if (fn === __privateGet2(this, _scriptFn)) {
     this.analyzeInit();
     return;
   }
-  __privateSet(this, _scriptFn, fn);
-  const st = __privateGet(this, _hScript)[__privateGet(this, _scriptFn)];
+  __privateSet2(this, _scriptFn, fn);
+  const st = __privateGet2(this, _hScript)[__privateGet2(this, _scriptFn)];
   if (st) {
-    __privateSet(this, _script, st);
+    __privateSet2(this, _script, st);
     this.analyzeInit();
     return;
   }
-  new Loader().add({ name: __privateGet(this, _scriptFn), url: full_path }).use((res, next) => {
+  new Loader().add({ name: __privateGet2(this, _scriptFn), url: full_path }).use((res, next) => {
     try {
       res.data = this.sys.decStr(res.extension, res.data);
     } catch (e) {
@@ -51907,9 +52157,9 @@ jumpWork_fn = function(fn = "", label = "", idx = 0) {
     }
     next == null ? void 0 : next();
   }).load((_ldr, hRes) => {
-    this.nextToken = __privateMethod(this, _nextToken_Proc, nextToken_Proc_fn);
-    __privateSet(this, _lineNum, 1);
-    __privateMethod(this, _resolveScript, resolveScript_fn).call(this, hRes[fn].data);
+    this.nextToken = __privateMethod2(this, _nextToken_Proc, nextToken_Proc_fn);
+    __privateSet2(this, _lineNum, 1);
+    __privateMethod2(this, _resolveScript, resolveScript_fn).call(this, hRes[fn].data);
     this.hTag.record_place({});
     this.main.resume(() => this.analyzeInit());
   });
@@ -51918,19 +52168,19 @@ jumpWork_fn = function(fn = "", label = "", idx = 0) {
 _nextToken_Proc = new WeakSet();
 nextToken_Proc_fn = function() {
   var _a3, _b3;
-  if (__privateMethod(this, _errOverScr, errOverScr_fn).call(this))
+  if (__privateMethod2(this, _errOverScr, errOverScr_fn).call(this))
     return "";
-  __privateMethod(this, _recordKidoku, recordKidoku_fn).call(this);
-  (_a3 = __privateGet(this, _script).aLNum)[_b3 = __privateGet(this, _idxToken)] || (_a3[_b3] = __privateGet(this, _lineNum));
-  const token = __privateGet(this, _script).aToken[__privateGet(this, _idxToken)];
-  __privateGet(this, _dbgToken).call(this, token);
-  ++__privateWrapper(this, _idxToken)._;
+  __privateMethod2(this, _recordKidoku, recordKidoku_fn).call(this);
+  (_a3 = __privateGet2(this, _script).aLNum)[_b3 = __privateGet2(this, _idxToken)] || (_a3[_b3] = __privateGet2(this, _lineNum));
+  const token = __privateGet2(this, _script).aToken[__privateGet2(this, _idxToken)];
+  __privateGet2(this, _dbgToken).call(this, token);
+  ++__privateWrapper2(this, _idxToken)._;
   return token;
 };
 _dbgToken = new WeakMap();
 _errOverScr = new WeakSet();
 errOverScr_fn = function() {
-  if (__privateGet(this, _idxToken) < __privateGet(this, _script).len)
+  if (__privateGet2(this, _idxToken) < __privateGet2(this, _script).len)
     return false;
   this.main.errScript("\u30B9\u30AF\u30EA\u30D7\u30C8\u7D42\u7AEF\u3067\u3059");
   return true;
@@ -51945,7 +52195,7 @@ seekScript_fn = function(st, inMacro, ln, skipLabel, idx) {
   var _a3, _b3, _c3, _d2, _e;
   const len = st.aToken.length;
   if (!skipLabel) {
-    if (__privateMethod(this, _errOverScr, errOverScr_fn).call(this))
+    if (__privateMethod2(this, _errOverScr, errOverScr_fn).call(this))
       return { idx, ln };
     if (!st.aLNum[idx]) {
       ln = 1;
@@ -51963,7 +52213,7 @@ seekScript_fn = function(st, inMacro, ln, skipLabel, idx) {
     return { idx, ln };
   }
   st.aLNum[0] = 1;
-  const a_skipLabel = skipLabel.match(__privateGet(this, _REG_NONAME_LABEL));
+  const a_skipLabel = skipLabel.match(__privateGet2(this, _REG_NONAME_LABEL));
   if (a_skipLabel) {
     skipLabel = a_skipLabel[1];
     let i2 = idx;
@@ -51972,7 +52222,7 @@ seekScript_fn = function(st, inMacro, ln, skipLabel, idx) {
         while (st.aToken[--i2] !== skipLabel) {
           if (i2 === 0)
             DebugMng.myTrace("[jump\u7CFB \u7121\u540D\u30E9\u30D9\u30EBbefore] " + ln + "\u884C\u76EE\u4EE5\u524D\u3067" + (inMacro ? "\u30DE\u30AF\u30ED\u5185\u306B" : "") + "\u30E9\u30D9\u30EB\u3010" + skipLabel + "\u3011\u304C\u3042\u308A\u307E\u305B\u3093", "ET");
-          if (inMacro && st.aToken[i2].search(__privateGet(this, _REG_TOKEN_MACRO_BEGIN)) > -1)
+          if (inMacro && st.aToken[i2].search(__privateGet2(this, _REG_TOKEN_MACRO_BEGIN)) > -1)
             DebugMng.myTrace("[jump\u7CFB \u7121\u540D\u30E9\u30D9\u30EBbefore] \u30DE\u30AF\u30ED\u5185\u306B\u30E9\u30D9\u30EB\u3010" + skipLabel + "\u3011\u304C\u3042\u308A\u307E\u305B\u3093", "ET");
         }
         return { idx: i2 + 1, ln: st.aLNum[i2] };
@@ -51980,7 +52230,7 @@ seekScript_fn = function(st, inMacro, ln, skipLabel, idx) {
         while (st.aToken[++i2] !== skipLabel) {
           if (i2 === len)
             DebugMng.myTrace("[jump\u7CFB \u7121\u540D\u30E9\u30D9\u30EBafter] " + ln + "\u884C\u76EE\u4EE5\u5F8C\u3067\u30DE\u30AF\u30ED\u5185\u306B\u30E9\u30D9\u30EB\u3010" + skipLabel + "\u3011\u304C\u3042\u308A\u307E\u305B\u3093", "ET");
-          if (st.aToken[i2].search(__privateGet(this, _REG_TOKEN_MACRO_END)) > -1)
+          if (st.aToken[i2].search(__privateGet2(this, _REG_TOKEN_MACRO_END)) > -1)
             DebugMng.myTrace("[jump\u7CFB \u7121\u540D\u30E9\u30D9\u30EBafter] " + ln + "\u884C\u76EE\u4EE5\u5F8C\u3067\u30DE\u30AF\u30ED\u5185\u306B\u30E9\u30D9\u30EB\u3010" + skipLabel + "\u3011\u304C\u3042\u308A\u307E\u305B\u3093", "ET");
         }
         return { idx: i2 + 1, ln: st.aLNum[i2] };
@@ -51995,8 +52245,8 @@ seekScript_fn = function(st, inMacro, ln, skipLabel, idx) {
     (_c3 = st.aLNum)[i2] || (_c3[i2] = ln);
     const tkn = st.aToken[i2];
     if (in_let_ml) {
-      __privateGet(this, _REG_TAG_ENDLET_ML).lastIndex = 0;
-      if (__privateGet(this, _REG_TAG_ENDLET_ML).test(tkn))
+      __privateGet2(this, _REG_TAG_ENDLET_ML).lastIndex = 0;
+      if (__privateGet2(this, _REG_TAG_ENDLET_ML).test(tkn))
         in_let_ml = false;
       else
         ln += ((_d2 = tkn.match(/\n/g)) != null ? _d2 : []).length;
@@ -52015,8 +52265,8 @@ seekScript_fn = function(st, inMacro, ln, skipLabel, idx) {
     if (uc !== 91)
       continue;
     ln += ((_e = tkn.match(/\n/g)) != null ? _e : []).length;
-    __privateGet(this, _REG_TAG_LET_ML).lastIndex = 0;
-    if (__privateGet(this, _REG_TAG_LET_ML).test(tkn))
+    __privateGet2(this, _REG_TAG_LET_ML).lastIndex = 0;
+    if (__privateGet2(this, _REG_TAG_LET_ML).test(tkn))
       in_let_ml = true;
   }
   if (in_let_ml)
@@ -52027,11 +52277,11 @@ seekScript_fn = function(st, inMacro, ln, skipLabel, idx) {
 _hScript = new WeakMap();
 _resolveScript = new WeakSet();
 resolveScript_fn = function(txt) {
-  const v2 = __privateGet(this, _grm).matchToken(txt.replace(/(\r\n|\r)/g, "\n"));
+  const v2 = __privateGet2(this, _grm).matchToken(txt.replace(/(\r\n|\r)/g, "\n"));
   for (let i2 = v2.length - 1; i2 >= 0; --i2) {
     const e = v2[i2];
-    __privateGet(this, _REG_TAG_LET_ML).lastIndex = 0;
-    if (__privateGet(this, _REG_TAG_LET_ML).test(e)) {
+    __privateGet2(this, _REG_TAG_LET_ML).lastIndex = 0;
+    if (__privateGet2(this, _REG_TAG_LET_ML).test(e)) {
       const idx = e.indexOf("]") + 1;
       if (idx === 0)
         throw "[let_ml]\u3067\u9589\u3058\u308B\u3010]\u3011\u304C\u3042\u308A\u307E\u305B\u3093";
@@ -52040,13 +52290,13 @@ resolveScript_fn = function(txt) {
       v2.splice(i2, 1, a2, b2);
     }
   }
-  __privateSet(this, _script, { aToken: v2, len: v2.length, aLNum: [] });
+  __privateSet2(this, _script, { aToken: v2, len: v2.length, aLNum: [] });
   let mes = "";
   try {
     mes = "ScriptIterator.replaceScriptChar2macro";
-    __privateGet(this, _grm).replaceScr_C2M_And_let_ml(__privateGet(this, _script));
+    __privateGet2(this, _grm).replaceScr_C2M_And_let_ml(__privateGet2(this, _script));
     mes = "ScriptIterator.replaceScript_Wildcard";
-    __privateGet(this, _replaceScript_Wildcard).call(this);
+    __privateGet2(this, _replaceScript_Wildcard).call(this);
   } catch (err) {
     if (err instanceof Error) {
       const e = err;
@@ -52056,89 +52306,89 @@ resolveScript_fn = function(txt) {
     }
     this.main.errScript(mes, false);
   }
-  __privateGet(this, _hScript)[__privateGet(this, _scriptFn)] = __privateGet(this, _script);
-  this.val.loadScrWork(__privateGet(this, _scriptFn));
+  __privateGet2(this, _hScript)[__privateGet2(this, _scriptFn)] = __privateGet2(this, _script);
+  this.val.loadScrWork(__privateGet2(this, _scriptFn));
 };
 _jump_light = new WeakSet();
 jump_light_fn = function(cs) {
-  __privateSet(this, _scriptFn, cs.fn);
-  __privateSet(this, _idxToken, cs.idx);
-  const st = __privateGet(this, _hScript)[__privateGet(this, _scriptFn)];
+  __privateSet2(this, _scriptFn, cs.fn);
+  __privateSet2(this, _idxToken, cs.idx);
+  const st = __privateGet2(this, _hScript)[__privateGet2(this, _scriptFn)];
   if (st)
-    __privateSet(this, _script, st);
-  __privateSet(this, _lineNum, __privateGet(this, _script).aLNum[cs.idx]);
+    __privateSet2(this, _script, st);
+  __privateSet2(this, _lineNum, __privateGet2(this, _script).aLNum[cs.idx]);
 };
 _REG_WILDCARD = new WeakMap();
 _REG_WILDCARD2 = new WeakMap();
 _replaceScript_Wildcard = new WeakMap();
 _recordKidoku = new WeakSet();
 recordKidoku_fn = function() {
-  const areas = this.val.getAreaKidoku(__privateGet(this, _scriptFn));
+  const areas = this.val.getAreaKidoku(__privateGet2(this, _scriptFn));
   if (!areas)
-    throw `recordKidoku fn:'${__privateGet(this, _scriptFn)}' (areas === null)`;
-  if (__privateGet(this, _aCallStk).length > 0) {
-    areas.record(__privateGet(this, _idxToken));
+    throw `recordKidoku fn:'${__privateGet2(this, _scriptFn)}' (areas === null)`;
+  if (__privateGet2(this, _aCallStk).length > 0) {
+    areas.record(__privateGet2(this, _idxToken));
     return;
   }
-  __privateSet(this, _isKidoku, areas.search(__privateGet(this, _idxToken)));
-  this.val.setVal_Nochk("tmp", "const.sn.isKidoku", __privateGet(this, _isKidoku));
-  if (__privateGet(this, _isKidoku))
+  __privateSet2(this, _isKidoku, areas.search(__privateGet2(this, _idxToken)));
+  this.val.setVal_Nochk("tmp", "const.sn.isKidoku", __privateGet2(this, _isKidoku));
+  if (__privateGet2(this, _isKidoku))
     return;
-  areas.record(__privateGet(this, _idxToken));
+  areas.record(__privateGet2(this, _idxToken));
 };
 _isKidoku = new WeakMap();
 _eraseKidoku = new WeakSet();
 eraseKidoku_fn = function() {
   var _a3;
-  (_a3 = this.val.getAreaKidoku(__privateGet(this, _scriptFn))) == null ? void 0 : _a3.erase(__privateGet(this, _idxToken));
-  __privateSet(this, _isKidoku, false);
+  (_a3 = this.val.getAreaKidoku(__privateGet2(this, _scriptFn))) == null ? void 0 : _a3.erase(__privateGet2(this, _idxToken));
+  __privateSet2(this, _isKidoku, false);
 };
 _bracket2macro = new WeakSet();
 bracket2macro_fn = function(hArg) {
-  __privateGet(this, _grm).bracket2macro(hArg, __privateGet(this, _script), __privateGet(this, _idxToken));
+  __privateGet2(this, _grm).bracket2macro(hArg, __privateGet2(this, _script), __privateGet2(this, _idxToken));
   return false;
 };
 _char2macro = new WeakSet();
 char2macro_fn = function(hArg) {
-  __privateGet(this, _grm).char2macro(hArg, this.hTag, __privateGet(this, _script), __privateGet(this, _idxToken));
+  __privateGet2(this, _grm).char2macro(hArg, this.hTag, __privateGet2(this, _script), __privateGet2(this, _idxToken));
   return false;
 };
 _macro = new WeakSet();
 macro_fn = function(hArg) {
   var _a3, _b3, _c3;
-  const { name } = hArg;
-  if (!name)
+  const { name: name2 } = hArg;
+  if (!name2)
     throw "name\u306F\u5FC5\u9808\u3067\u3059";
-  if (name in this.hTag)
-    throw `[${name}]\u306F\u30BF\u30B0\u304B\u3059\u3067\u306B\u5B9A\u7FA9\u6E08\u307F\u306E\u30DE\u30AF\u30ED\u3067\u3059`;
-  const ln = __privateGet(this, _lineNum);
-  const cs = new CallStack(__privateGet(this, _scriptFn), __privateGet(this, _idxToken));
-  __privateSet(this, _strStepin, __privateGet(this, _strStepin) + ("|" + name));
-  __privateSet(this, _REGSTEPIN, new RegExp(`\\[(${__privateGet(this, _strStepin)})\\b`));
-  this.hTag[name] = (hArgM) => {
+  if (name2 in this.hTag)
+    throw `[${name2}]\u306F\u30BF\u30B0\u304B\u3059\u3067\u306B\u5B9A\u7FA9\u6E08\u307F\u306E\u30DE\u30AF\u30ED\u3067\u3059`;
+  const ln = __privateGet2(this, _lineNum);
+  const cs = new CallStack(__privateGet2(this, _scriptFn), __privateGet2(this, _idxToken));
+  __privateSet2(this, _strStepin, __privateGet2(this, _strStepin) + ("|" + name2));
+  __privateSet2(this, _REGSTEPIN, new RegExp(`\\[(${__privateGet2(this, _strStepin)})\\b`));
+  this.hTag[name2] = (hArgM) => {
     hArgM.design_unit = hArg.design_unit;
-    __privateMethod(this, _callSub, callSub_fn).call(this, __spreadProps(__spreadValues({}, hArgM), { ":hMp": this.val.cloneMp() }));
+    __privateMethod2(this, _callSub, callSub_fn).call(this, __spreadProps(__spreadValues({}, hArgM), { ":hMp": this.val.cloneMp() }));
     this.val.setMp(hArgM);
     this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify(hArg));
-    this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", __privateGet(this, _scriptFn));
-    __privateSet(this, _lineNum, ln);
-    __privateMethod(this, _jump_light, jump_light_fn).call(this, cs);
+    this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", __privateGet2(this, _scriptFn));
+    __privateSet2(this, _lineNum, ln);
+    __privateMethod2(this, _jump_light, jump_light_fn).call(this, cs);
     return false;
   };
-  for (; __privateGet(this, _idxToken) < __privateGet(this, _script).len; ++__privateWrapper(this, _idxToken)._) {
-    (_a3 = __privateGet(this, _script).aLNum)[_b3 = __privateGet(this, _idxToken)] || (_a3[_b3] = __privateGet(this, _lineNum));
-    const token = __privateGet(this, _script).aToken[__privateGet(this, _idxToken)];
-    if (token.search(__privateGet(this, _REG_TOKEN_MACRO_END)) > -1) {
-      ++__privateWrapper(this, _idxToken)._;
+  for (; __privateGet2(this, _idxToken) < __privateGet2(this, _script).len; ++__privateWrapper2(this, _idxToken)._) {
+    (_a3 = __privateGet2(this, _script).aLNum)[_b3 = __privateGet2(this, _idxToken)] || (_a3[_b3] = __privateGet2(this, _lineNum));
+    const token = __privateGet2(this, _script).aToken[__privateGet2(this, _idxToken)];
+    if (token.search(__privateGet2(this, _REG_TOKEN_MACRO_END)) > -1) {
+      ++__privateWrapper2(this, _idxToken)._;
       return false;
     }
     const uc = token.charCodeAt(0);
     if (uc === 10)
-      __privateSet(this, _lineNum, __privateGet(this, _lineNum) + token.length);
+      __privateSet2(this, _lineNum, __privateGet2(this, _lineNum) + token.length);
     else if (uc === 91)
-      __privateSet(this, _lineNum, __privateGet(this, _lineNum) + ((_c3 = token.match(/\n/g)) != null ? _c3 : []).length);
+      __privateSet2(this, _lineNum, __privateGet2(this, _lineNum) + ((_c3 = token.match(/\n/g)) != null ? _c3 : []).length);
   }
-  throw `\u30DE\u30AF\u30ED[${name}]\u5B9A\u7FA9\u306E\u7D42\u7AEF\u30FB[endmacro]\u304C\u3042\u308A\u307E\u305B\u3093`;
+  throw `\u30DE\u30AF\u30ED[${name2}]\u5B9A\u7FA9\u306E\u7D42\u7AEF\u30FB[endmacro]\u304C\u3042\u308A\u307E\u305B\u3093`;
 };
 _strStepin = new WeakMap();
 _REGSTEPIN = new WeakMap();
@@ -52152,18 +52402,18 @@ load_fn = function(hArg) {
   const mark = this.val.getMark(place);
   if (!mark)
     throw `place\u3010${place}\u3011\u306F\u5B58\u5728\u3057\u307E\u305B\u3093`;
-  return __privateMethod(this, _loadFromMark, loadFromMark_fn).call(this, hArg, mark);
+  return __privateMethod2(this, _loadFromMark, loadFromMark_fn).call(this, hArg, mark);
 };
 _loadFromMark = new WeakSet();
 loadFromMark_fn = function(hArg, mark, reload_sound = true) {
   this.hTag.clear_event({});
   this.val.mark2save(mark);
   this.val.setMp({});
-  __privateGet(this, _layMng).recText("", true);
+  __privateGet2(this, _layMng).recText("", true);
   if (reload_sound)
     this.sndMng.playLoopFromSaveObj();
   if (argChk_Boolean(hArg, "do_rec", true))
-    __privateSet(this, _mark, {
+    __privateSet2(this, _mark, {
       hSave: this.val.cloneSave(),
       hPages: __spreadValues({}, mark.hPages),
       aIfStk: [...mark.aIfStk]
@@ -52176,28 +52426,28 @@ loadFromMark_fn = function(hArg, mark, reload_sound = true) {
   this.hTag.autowc(o);
   const fn = String(this.val.getVal("save:const.sn.scriptFn"));
   const idx = Number(this.val.getVal("save:const.sn.scriptIdx"));
-  __privateSet(this, _aIfStk, [...__privateGet(this, _mark).aIfStk]);
-  __privateSet(this, _aCallStk, []);
-  __privateGet(this, _layMng).cover(true);
-  __privateGet(this, _layMng).stopAllTw();
+  __privateSet2(this, _aIfStk, [...__privateGet2(this, _mark).aIfStk]);
+  __privateSet2(this, _aCallStk, []);
+  __privateGet2(this, _layMng).cover(true);
+  __privateGet2(this, _layMng).stopAllTw();
   if ("index" in hArg) {
-    __privateGet(this, _layMng).playback(__privateGet(this, _mark).hPages, () => {
+    __privateGet2(this, _layMng).playback(__privateGet2(this, _mark).hPages, () => {
       var _a3, _b3;
-      __privateGet(this, _layMng).cover(false);
-      __privateSet(this, _skip4page, true);
-      __privateMethod(this, _jumpWork, jumpWork_fn).call(this, (_a3 = hArg.fn) != null ? _a3 : fn, "", (_b3 = hArg.index) != null ? _b3 : idx);
+      __privateGet2(this, _layMng).cover(false);
+      __privateSet2(this, _skip4page, true);
+      __privateMethod2(this, _jumpWork, jumpWork_fn).call(this, (_a3 = hArg.fn) != null ? _a3 : fn, "", (_b3 = hArg.index) != null ? _b3 : idx);
     });
     return true;
   }
-  delete __privateGet(this, _hScript)[fn];
-  __privateGet(this, _layMng).playback(__privateGet(this, _mark).hPages, "label" in hArg ? () => {
-    __privateGet(this, _layMng).cover(false);
-    __privateSet(this, _scriptFn, fn);
-    __privateSet(this, _idxToken, idx);
+  delete __privateGet2(this, _hScript)[fn];
+  __privateGet2(this, _layMng).playback(__privateGet2(this, _mark).hPages, "label" in hArg ? () => {
+    __privateGet2(this, _layMng).cover(false);
+    __privateSet2(this, _scriptFn, fn);
+    __privateSet2(this, _idxToken, idx);
     this.hTag.call({ fn: hArg.fn, label: hArg.label });
   } : () => {
-    __privateGet(this, _layMng).cover(false);
-    __privateMethod(this, _jumpWork, jumpWork_fn).call(this, fn, "", idx);
+    __privateGet2(this, _layMng).cover(false);
+    __privateMethod2(this, _jumpWork, jumpWork_fn).call(this, fn, "", idx);
   });
   return true;
 };
@@ -52205,34 +52455,34 @@ _skip4page = new WeakMap();
 _reload_script = new WeakSet();
 reload_script_fn = function(hArg) {
   const mark = this.val.getMark(0);
-  delete __privateGet(this, _hScript)[getFn(mark.hSave["const.sn.scriptFn"])];
+  delete __privateGet2(this, _hScript)[getFn(mark.hSave["const.sn.scriptFn"])];
   hArg.do_rec = false;
-  return __privateMethod(this, _loadFromMark, loadFromMark_fn).call(this, hArg, mark, false);
+  return __privateMethod2(this, _loadFromMark, loadFromMark_fn).call(this, hArg, mark, false);
 };
 _mark = new WeakMap();
 _record_place = new WeakSet();
 record_place_fn = function() {
   if (this.main.isDestroyed())
     return false;
-  const { fn, idx } = __privateMethod(this, _nowScrIdx, nowScrIdx_fn).call(this);
+  const { fn, idx } = __privateMethod2(this, _nowScrIdx, nowScrIdx_fn).call(this);
   this.val.setVal_Nochk("save", "const.sn.scriptFn", fn);
   this.val.setVal_Nochk("save", "const.sn.scriptIdx", idx);
-  __privateSet(this, _mark, {
+  __privateSet2(this, _mark, {
     hSave: this.val.cloneSave(),
-    hPages: __privateGet(this, _layMng).record(),
-    aIfStk: __privateGet(this, _aIfStk).slice(__privateGet(this, _aCallStk).length)
+    hPages: __privateGet2(this, _layMng).record(),
+    aIfStk: __privateGet2(this, _aIfStk).slice(__privateGet2(this, _aCallStk).length)
   });
   return false;
 };
 _nowScrIdx = new WeakSet();
 nowScrIdx_fn = function() {
-  const len = __privateGet(this, _aCallStk).length;
+  const len = __privateGet2(this, _aCallStk).length;
   if (len === 0)
     return {
-      fn: __privateGet(this, _scriptFn),
-      idx: __privateGet(this, _idxToken)
+      fn: __privateGet2(this, _scriptFn),
+      idx: __privateGet2(this, _idxToken)
     };
-  const cs = __privateGet(this, _aCallStk)[0];
+  const cs = __privateGet2(this, _aCallStk)[0];
   return {
     fn: cs.fn,
     idx: cs.idx
@@ -52247,8 +52497,8 @@ save_fn = function(hArg) {
   delete hArg[":\u30BF\u30B0\u540D"];
   delete hArg.place;
   hArg.text = ((_a3 = hArg.text) != null ? _a3 : "").replace(/^(<br\/>)+/, "");
-  __privateGet(this, _mark).json = hArg;
-  this.val.setMark(place, __privateGet(this, _mark));
+  __privateGet2(this, _mark).json = hArg;
+  this.val.setMark(place, __privateGet2(this, _mark));
   const now_sp = Number(this.val.getVal("sys:const.sn.save.place"));
   if (place === now_sp)
     this.val.setVal_Nochk("sys", "const.sn.save.place", now_sp + 1);
@@ -52256,62 +52506,62 @@ save_fn = function(hArg) {
 };
 _aPageLog = new WeakMap();
 _posAPageLog = new WeakMap();
-__privateAdd(ScriptIterator, _REG4CODE_FN, /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/);
-__privateAdd(ScriptIterator, _hFn2hLineBP, {});
-__privateAdd(ScriptIterator, _hFuncBP, {});
+__privateAdd2(ScriptIterator, _REG4CODE_FN, /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/);
+__privateAdd2(ScriptIterator, _hFn2hLineBP, {});
+__privateAdd2(ScriptIterator, _hFuncBP, {});
 class Main {
   constructor(sys) {
-    __privateAdd(this, _init);
-    __privateAdd(this, _runAnalyze);
-    __privateAdd(this, _cfg3, void 0);
-    __privateAdd(this, _appPixi3, void 0);
-    __privateAdd(this, _hTag2, void 0);
-    __privateAdd(this, _val2, void 0);
-    __privateAdd(this, _prpPrs, void 0);
-    __privateAdd(this, _sndMng, void 0);
-    __privateAdd(this, _scrItr2, void 0);
-    __privateAdd(this, _dbgMng, void 0);
-    __privateAdd(this, _layMng2, void 0);
-    __privateAdd(this, _evtMng7, void 0);
-    __privateAdd(this, _fncNext, void 0);
-    __privateAdd(this, _alzTagArg2, void 0);
-    __privateAdd(this, _inited, void 0);
-    __privateAdd(this, _SN_ID, void 0);
-    __privateAdd(this, _fncTicker2, void 0);
-    __privateAdd(this, _fncresume, void 0);
-    __privateAdd(this, _isLoop, void 0);
-    __privateAdd(this, _destroyed, void 0);
-    __privateAdd(this, _clone_cvs, void 0);
+    __privateAdd2(this, _init);
+    __privateAdd2(this, _runAnalyze);
+    __privateAdd2(this, _cfg3, void 0);
+    __privateAdd2(this, _appPixi3, void 0);
+    __privateAdd2(this, _hTag2, void 0);
+    __privateAdd2(this, _val2, void 0);
+    __privateAdd2(this, _prpPrs, void 0);
+    __privateAdd2(this, _sndMng, void 0);
+    __privateAdd2(this, _scrItr2, void 0);
+    __privateAdd2(this, _dbgMng, void 0);
+    __privateAdd2(this, _layMng2, void 0);
+    __privateAdd2(this, _evtMng7, void 0);
+    __privateAdd2(this, _fncNext, void 0);
+    __privateAdd2(this, _alzTagArg2, void 0);
+    __privateAdd2(this, _inited, void 0);
+    __privateAdd2(this, _SN_ID, void 0);
+    __privateAdd2(this, _fncTicker2, void 0);
+    __privateAdd2(this, _fncresume, void 0);
+    __privateAdd2(this, _isLoop, void 0);
+    __privateAdd2(this, _destroyed, void 0);
+    __privateAdd2(this, _clone_cvs, void 0);
     this.sys = sys;
-    __privateSet(this, _hTag2, /* @__PURE__ */ Object.create(null));
-    __privateSet(this, _fncNext, () => {
+    __privateSet2(this, _hTag2, /* @__PURE__ */ Object.create(null));
+    __privateSet2(this, _fncNext, () => {
     });
-    __privateSet(this, _alzTagArg2, new AnalyzeTagArg());
-    __privateSet(this, _inited, false);
-    __privateSet(this, _SN_ID, "skynovel");
-    __privateSet(this, _fncTicker2, () => __privateGet(this, _fncNext).call(this));
-    __privateSet(this, _fncresume, (fnc = __privateMethod(this, _runAnalyze, runAnalyze_fn)) => {
-      if (__privateGet(this, _destroyed))
+    __privateSet2(this, _alzTagArg2, new AnalyzeTagArg());
+    __privateSet2(this, _inited, false);
+    __privateSet2(this, _SN_ID, "skynovel");
+    __privateSet2(this, _fncTicker2, () => __privateGet2(this, _fncNext).call(this));
+    __privateSet2(this, _fncresume, (fnc = __privateMethod2(this, _runAnalyze, runAnalyze_fn)) => {
+      if (__privateGet2(this, _destroyed))
         return;
-      __privateGet(this, _layMng2).clearBreak();
-      __privateSet(this, _fncNext, fnc);
-      this.resume = (fnc2 = __privateMethod(this, _runAnalyze, runAnalyze_fn)) => {
-        __privateSet(this, _fncNext, fnc2);
+      __privateGet2(this, _layMng2).clearBreak();
+      __privateSet2(this, _fncNext, fnc);
+      this.resume = (fnc2 = __privateMethod2(this, _runAnalyze, runAnalyze_fn)) => {
+        __privateSet2(this, _fncNext, fnc2);
       };
-      __privateGet(this, _scrItr2).noticeBreak(false);
+      __privateGet2(this, _scrItr2).noticeBreak(false);
     });
-    this.resume = __privateGet(this, _fncresume);
+    this.resume = __privateGet2(this, _fncresume);
     this.stop = () => {
-      __privateSet(this, _fncNext, () => {
+      __privateSet2(this, _fncNext, () => {
       });
-      this.resume = __privateGet(this, _fncresume);
-      __privateGet(this, _scrItr2).noticeBreak(true);
+      this.resume = __privateGet2(this, _fncresume);
+      __privateGet2(this, _scrItr2).noticeBreak(true);
     };
-    __privateSet(this, _isLoop, true);
-    __privateSet(this, _destroyed, false);
-    this.isDestroyed = () => __privateGet(this, _destroyed);
+    __privateSet2(this, _isLoop, true);
+    __privateSet2(this, _destroyed, false);
+    this.isDestroyed = () => __privateGet2(this, _destroyed);
     skipHello();
-    Config.generate(sys).then((c2) => __privateSet(this, _cfg3, c2)).then(() => __privateMethod(this, _init, init_fn).call(this)).catch((e) => console.error(`load err fn:prj.json e:%o`, e));
+    Config.generate(sys).then((c2) => __privateSet2(this, _cfg3, c2)).then(() => __privateMethod2(this, _init, init_fn).call(this)).catch((e) => console.error(`load err fn:prj.json e:%o`, e));
   }
   errScript(mes, isThrow = true) {
     this.stop();
@@ -52327,48 +52577,48 @@ class Main {
       globalThis.open(hArg.url);
       return;
     }
-    __privateGet(this, _val2).setVal_Nochk("tmp", "sn.eventArg", (_a3 = hArg.arg) != null ? _a3 : "");
-    __privateGet(this, _val2).setVal_Nochk("tmp", "sn.eventLabel", (_b3 = hArg.label) != null ? _b3 : "");
+    __privateGet2(this, _val2).setVal_Nochk("tmp", "sn.eventArg", (_a3 = hArg.arg) != null ? _a3 : "");
+    __privateGet2(this, _val2).setVal_Nochk("tmp", "sn.eventLabel", (_b3 = hArg.label) != null ? _b3 : "");
     if (argChk_Boolean(hArg, "call", false)) {
-      __privateGet(this, _scrItr2).subIdxToken();
-      this.resume(() => __privateGet(this, _hTag2).call(hArg));
+      __privateGet2(this, _scrItr2).subIdxToken();
+      this.resume(() => __privateGet2(this, _hTag2).call(hArg));
     } else {
-      __privateGet(this, _hTag2).clear_event({});
-      this.resume(() => __privateGet(this, _hTag2).jump(hArg));
+      __privateGet2(this, _hTag2).clear_event({});
+      this.resume(() => __privateGet2(this, _hTag2).jump(hArg));
     }
   }
   setLoop(isLoop, mes = "") {
-    if (__privateSet(this, _isLoop, isLoop))
+    if (__privateSet2(this, _isLoop, isLoop))
       this.resume();
     else
       this.stop();
     this.sys.setTitleInfo(mes ? ` -- ${mes}\u4E2D` : "");
   }
   fire(KEY, e) {
-    __privateGet(this, _evtMng7).fire(KEY, e);
+    __privateGet2(this, _evtMng7).fire(KEY, e);
   }
   async destroy(ms_late = 0) {
-    if (__privateGet(this, _destroyed))
+    if (__privateGet2(this, _destroyed))
       return;
-    __privateSet(this, _destroyed, true);
-    if (!__privateGet(this, _inited))
+    __privateSet2(this, _destroyed, true);
+    if (!__privateGet2(this, _inited))
       return;
     this.stop();
-    __privateSet(this, _isLoop, false);
-    await __privateGet(this, _layMng2).before_destroy();
+    __privateSet2(this, _isLoop, false);
+    await __privateGet2(this, _layMng2).before_destroy();
     if (ms_late > 0)
       await new Promise((r2) => setTimeout(r2, ms_late));
-    __privateSet(this, _hTag2, {});
-    __privateGet(this, _evtMng7).destroy();
-    __privateGet(this, _scrItr2).destroy();
-    __privateGet(this, _layMng2).destroy();
-    __privateGet(this, _dbgMng).destroy();
-    __privateGet(this, _appPixi3).ticker.remove(__privateGet(this, _fncTicker2));
-    if (__privateGet(this, _clone_cvs) && __privateGet(this, _appPixi3)) {
-      document.body.insertBefore(__privateGet(this, _clone_cvs), __privateGet(this, _appPixi3).view);
+    __privateSet2(this, _hTag2, {});
+    __privateGet2(this, _evtMng7).destroy();
+    __privateGet2(this, _scrItr2).destroy();
+    __privateGet2(this, _layMng2).destroy();
+    __privateGet2(this, _dbgMng).destroy();
+    __privateGet2(this, _appPixi3).ticker.remove(__privateGet2(this, _fncTicker2));
+    if (__privateGet2(this, _clone_cvs) && __privateGet2(this, _appPixi3)) {
+      document.body.insertBefore(__privateGet2(this, _clone_cvs), __privateGet2(this, _appPixi3).view);
     }
     clearTextureCache();
-    __privateGet(this, _appPixi3).destroy(true);
+    __privateGet2(this, _appPixi3).destroy(true);
   }
 }
 _cfg3 = new WeakMap();
@@ -52393,35 +52643,35 @@ init_fn = async function() {
     throw "argChk_Color err";
   CmnLib.cc4ColorName = cc;
   const hApp = {
-    width: __privateGet(this, _cfg3).oCfg.window.width,
-    height: __privateGet(this, _cfg3).oCfg.window.height,
-    backgroundColor: __privateGet(this, _cfg3).oCfg.init.bg_color = parseColor(String(__privateGet(this, _cfg3).oCfg.init.bg_color)),
+    width: __privateGet2(this, _cfg3).oCfg.window.width,
+    height: __privateGet2(this, _cfg3).oCfg.window.height,
+    backgroundColor: __privateGet2(this, _cfg3).oCfg.init.bg_color = parseColor(String(__privateGet2(this, _cfg3).oCfg.init.bg_color)),
     resolution: (_b3 = globalThis.devicePixelRatio) != null ? _b3 : 1,
     autoResize: true
   };
-  const cvs = document.getElementById(__privateGet(this, _SN_ID));
+  const cvs = document.getElementById(__privateGet2(this, _SN_ID));
   if (cvs) {
-    __privateSet(this, _clone_cvs, cvs.cloneNode(true));
-    __privateGet(this, _clone_cvs).id = __privateGet(this, _SN_ID);
+    __privateSet2(this, _clone_cvs, cvs.cloneNode(true));
+    __privateGet2(this, _clone_cvs).id = __privateGet2(this, _SN_ID);
     hApp.view = cvs;
   }
-  __privateSet(this, _appPixi3, new Application(hApp));
+  __privateSet2(this, _appPixi3, new Application(hApp));
   if (!cvs) {
-    document.body.appendChild(__privateGet(this, _appPixi3).view);
-    __privateGet(this, _appPixi3).view.id = __privateGet(this, _SN_ID);
+    document.body.appendChild(__privateGet2(this, _appPixi3).view);
+    __privateGet2(this, _appPixi3).view.id = __privateGet2(this, _SN_ID);
   }
-  __privateSet(this, _val2, new Variable(__privateGet(this, _cfg3), __privateGet(this, _hTag2)));
-  __privateSet(this, _prpPrs, new PropParser(__privateGet(this, _val2), (_c3 = __privateGet(this, _cfg3).oCfg.init.escape) != null ? _c3 : "\\"));
-  await Promise.allSettled(this.sys.init(__privateGet(this, _hTag2), __privateGet(this, _appPixi3), __privateGet(this, _val2), this));
-  __privateGet(this, _hTag2).title({ text: __privateGet(this, _cfg3).oCfg.book.title || "SKYNovel" });
-  __privateSet(this, _sndMng, new SoundMng(__privateGet(this, _cfg3), __privateGet(this, _hTag2), __privateGet(this, _val2), this, this.sys));
-  __privateSet(this, _scrItr2, new ScriptIterator(__privateGet(this, _cfg3), __privateGet(this, _hTag2), this, __privateGet(this, _val2), __privateGet(this, _alzTagArg2), () => __privateMethod(this, _runAnalyze, runAnalyze_fn).call(this), __privateGet(this, _prpPrs), __privateGet(this, _sndMng), this.sys));
-  __privateSet(this, _dbgMng, new DebugMng(this.sys, __privateGet(this, _hTag2), __privateGet(this, _scrItr2)));
-  __privateSet(this, _layMng2, new LayerMng(__privateGet(this, _cfg3), __privateGet(this, _hTag2), __privateGet(this, _appPixi3), __privateGet(this, _val2), this, __privateGet(this, _scrItr2), this.sys, __privateGet(this, _sndMng), __privateGet(this, _alzTagArg2), __privateGet(this, _prpPrs)));
-  __privateSet(this, _evtMng7, new EventMng(__privateGet(this, _cfg3), __privateGet(this, _hTag2), __privateGet(this, _appPixi3), this, __privateGet(this, _layMng2), __privateGet(this, _val2), __privateGet(this, _sndMng), __privateGet(this, _scrItr2), this.sys));
-  __privateGet(this, _appPixi3).ticker.add(__privateGet(this, _fncTicker2));
+  __privateSet2(this, _val2, new Variable(__privateGet2(this, _cfg3), __privateGet2(this, _hTag2)));
+  __privateSet2(this, _prpPrs, new PropParser(__privateGet2(this, _val2), (_c3 = __privateGet2(this, _cfg3).oCfg.init.escape) != null ? _c3 : "\\"));
+  await Promise.allSettled(this.sys.init(__privateGet2(this, _hTag2), __privateGet2(this, _appPixi3), __privateGet2(this, _val2), this));
+  __privateGet2(this, _hTag2).title({ text: __privateGet2(this, _cfg3).oCfg.book.title || "SKYNovel" });
+  __privateSet2(this, _sndMng, new SoundMng(__privateGet2(this, _cfg3), __privateGet2(this, _hTag2), __privateGet2(this, _val2), this, this.sys));
+  __privateSet2(this, _scrItr2, new ScriptIterator(__privateGet2(this, _cfg3), __privateGet2(this, _hTag2), this, __privateGet2(this, _val2), __privateGet2(this, _alzTagArg2), () => __privateMethod2(this, _runAnalyze, runAnalyze_fn).call(this), __privateGet2(this, _prpPrs), __privateGet2(this, _sndMng), this.sys));
+  __privateSet2(this, _dbgMng, new DebugMng(this.sys, __privateGet2(this, _hTag2), __privateGet2(this, _scrItr2)));
+  __privateSet2(this, _layMng2, new LayerMng(__privateGet2(this, _cfg3), __privateGet2(this, _hTag2), __privateGet2(this, _appPixi3), __privateGet2(this, _val2), this, __privateGet2(this, _scrItr2), this.sys, __privateGet2(this, _sndMng), __privateGet2(this, _alzTagArg2), __privateGet2(this, _prpPrs)));
+  __privateSet2(this, _evtMng7, new EventMng(__privateGet2(this, _cfg3), __privateGet2(this, _hTag2), __privateGet2(this, _appPixi3), this, __privateGet2(this, _layMng2), __privateGet2(this, _val2), __privateGet2(this, _sndMng), __privateGet2(this, _scrItr2), this.sys));
+  __privateGet2(this, _appPixi3).ticker.add(__privateGet2(this, _fncTicker2));
   this.resumeByJumpOrCall({ fn: "main" });
-  __privateSet(this, _inited, true);
+  __privateSet2(this, _inited, true);
 };
 _fncTicker2 = new WeakMap();
 _fncresume = new WeakMap();
@@ -52429,25 +52679,25 @@ _isLoop = new WeakMap();
 _runAnalyze = new WeakSet();
 runAnalyze_fn = function() {
   var _a3;
-  while (__privateGet(this, _isLoop)) {
-    let token = __privateGet(this, _scrItr2).nextToken();
+  while (__privateGet2(this, _isLoop)) {
+    let token = __privateGet2(this, _scrItr2).nextToken();
     if (!token)
       break;
     const uc = token.charCodeAt(0);
     if (uc === 9)
       continue;
     if (uc === 10) {
-      __privateGet(this, _scrItr2).addLineNum(token.length);
+      __privateGet2(this, _scrItr2).addLineNum(token.length);
       continue;
     }
     if (uc === 91) {
-      if (__privateGet(this, _scrItr2).isBreak(token))
+      if (__privateGet2(this, _scrItr2).isBreak(token))
         return;
       try {
         const cl = ((_a3 = token.match(/\n/g)) != null ? _a3 : []).length;
         if (cl > 0)
-          __privateGet(this, _scrItr2).addLineNum(cl);
-        if (__privateGet(this, _scrItr2).\u30BF\u30B0\u89E3\u6790(token)) {
+          __privateGet2(this, _scrItr2).addLineNum(cl);
+        if (__privateGet2(this, _scrItr2).\u30BF\u30B0\u89E3\u6790(token)) {
           this.stop();
           break;
         }
@@ -52466,17 +52716,17 @@ runAnalyze_fn = function() {
     if (uc === 38) {
       try {
         if (token.slice(-1) !== "&") {
-          if (__privateGet(this, _scrItr2).isBreak(token))
+          if (__privateGet2(this, _scrItr2).isBreak(token))
             return;
           const o = splitAmpersand(token.slice(1));
-          o.name = __privateGet(this, _prpPrs).getValAmpersand(o.name);
-          o.text = String(__privateGet(this, _prpPrs).parse(o.text));
-          __privateGet(this, _hTag2).let(o);
+          o.name = __privateGet2(this, _prpPrs).getValAmpersand(o.name);
+          o.text = String(__privateGet2(this, _prpPrs).parse(o.text));
+          __privateGet2(this, _hTag2).let(o);
           continue;
         }
         if (token.charAt(1) === "&")
           throw new Error("\u300C&\u8868\u793A&\u300D\u66F8\u5F0F\u3067\u306F\u300C&\u300D\u6307\u5B9A\u304C\u4E0D\u8981\u3067\u3059");
-        token = String(__privateGet(this, _prpPrs).parse(token.slice(1, -1)));
+        token = String(__privateGet2(this, _prpPrs).parse(token.slice(1, -1)));
       } catch (err) {
         this.errScript(err instanceof Error ? `& \u5909\u6570\u64CD\u4F5C\u30FB\u8868\u793A mes=${err.message}(${err.name})` : err, false);
         return;
@@ -52486,7 +52736,7 @@ runAnalyze_fn = function() {
     else if (uc === 42 && token.length > 1)
       continue;
     try {
-      const tl = __privateGet(this, _layMng2).currentTxtlayForeNeedErr;
+      const tl = __privateGet2(this, _layMng2).currentTxtlayForeNeedErr;
       tl.tagCh(token);
     } catch (err) {
       this.errScript(err instanceof Error ? `\u6587\u5B57\u8868\u793A mes=${err.message}(${err.name})` : err, false);
@@ -52496,6 +52746,737 @@ runAnalyze_fn = function() {
 };
 _destroyed = new WeakMap();
 _clone_cvs = new WeakMap();
+var assign = make_assign();
+var create$1 = make_create();
+var trim$1 = make_trim();
+var Global$5 = typeof window !== "undefined" ? window : commonjsGlobal;
+var util$6 = {
+  assign,
+  create: create$1,
+  trim: trim$1,
+  bind: bind$1,
+  slice: slice$1,
+  each: each$7,
+  map,
+  pluck: pluck$1,
+  isList: isList$1,
+  isFunction: isFunction$1,
+  isObject: isObject$1,
+  Global: Global$5
+};
+function make_assign() {
+  if (Object.assign) {
+    return Object.assign;
+  } else {
+    return function shimAssign(obj, props1, props2, etc) {
+      for (var i2 = 1; i2 < arguments.length; i2++) {
+        each$7(Object(arguments[i2]), function(val, key) {
+          obj[key] = val;
+        });
+      }
+      return obj;
+    };
+  }
+}
+function make_create() {
+  if (Object.create) {
+    return function create2(obj, assignProps1, assignProps2, etc) {
+      var assignArgsList = slice$1(arguments, 1);
+      return assign.apply(this, [Object.create(obj)].concat(assignArgsList));
+    };
+  } else {
+    let F2 = function() {
+    };
+    return function create2(obj, assignProps1, assignProps2, etc) {
+      var assignArgsList = slice$1(arguments, 1);
+      F2.prototype = obj;
+      return assign.apply(this, [new F2()].concat(assignArgsList));
+    };
+  }
+}
+function make_trim() {
+  if (String.prototype.trim) {
+    return function trim2(str2) {
+      return String.prototype.trim.call(str2);
+    };
+  } else {
+    return function trim2(str2) {
+      return str2.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+    };
+  }
+}
+function bind$1(obj, fn) {
+  return function() {
+    return fn.apply(obj, Array.prototype.slice.call(arguments, 0));
+  };
+}
+function slice$1(arr, index) {
+  return Array.prototype.slice.call(arr, index || 0);
+}
+function each$7(obj, fn) {
+  pluck$1(obj, function(val, key) {
+    fn(val, key);
+    return false;
+  });
+}
+function map(obj, fn) {
+  var res = isList$1(obj) ? [] : {};
+  pluck$1(obj, function(v2, k) {
+    res[k] = fn(v2, k);
+    return false;
+  });
+  return res;
+}
+function pluck$1(obj, fn) {
+  if (isList$1(obj)) {
+    for (var i2 = 0; i2 < obj.length; i2++) {
+      if (fn(obj[i2], i2)) {
+        return obj[i2];
+      }
+    }
+  } else {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (fn(obj[key], key)) {
+          return obj[key];
+        }
+      }
+    }
+  }
+}
+function isList$1(val) {
+  return val != null && typeof val != "function" && typeof val.length == "number";
+}
+function isFunction$1(val) {
+  return val && {}.toString.call(val) === "[object Function]";
+}
+function isObject$1(val) {
+  return val && {}.toString.call(val) === "[object Object]";
+}
+var util$5 = util$6;
+var slice = util$5.slice;
+var pluck = util$5.pluck;
+var each$6 = util$5.each;
+var bind = util$5.bind;
+var create = util$5.create;
+var isList = util$5.isList;
+var isFunction = util$5.isFunction;
+var isObject = util$5.isObject;
+var storeEngine = {
+  createStore
+};
+var storeAPI = {
+  version: "2.0.12",
+  enabled: false,
+  get: function(key, optionalDefaultValue) {
+    var data = this.storage.read(this._namespacePrefix + key);
+    return this._deserialize(data, optionalDefaultValue);
+  },
+  set: function(key, value) {
+    if (value === void 0) {
+      return this.remove(key);
+    }
+    this.storage.write(this._namespacePrefix + key, this._serialize(value));
+    return value;
+  },
+  remove: function(key) {
+    this.storage.remove(this._namespacePrefix + key);
+  },
+  each: function(callback) {
+    var self2 = this;
+    this.storage.each(function(val, namespacedKey) {
+      callback.call(self2, self2._deserialize(val), (namespacedKey || "").replace(self2._namespaceRegexp, ""));
+    });
+  },
+  clearAll: function() {
+    this.storage.clearAll();
+  },
+  hasNamespace: function(namespace) {
+    return this._namespacePrefix == "__storejs_" + namespace + "_";
+  },
+  createStore: function() {
+    return createStore.apply(this, arguments);
+  },
+  addPlugin: function(plugin) {
+    this._addPlugin(plugin);
+  },
+  namespace: function(namespace) {
+    return createStore(this.storage, this.plugins, namespace);
+  }
+};
+function _warn() {
+  var _console = typeof console == "undefined" ? null : console;
+  if (!_console) {
+    return;
+  }
+  var fn = _console.warn ? _console.warn : _console.log;
+  fn.apply(_console, arguments);
+}
+function createStore(storages2, plugins2, namespace) {
+  if (!namespace) {
+    namespace = "";
+  }
+  if (storages2 && !isList(storages2)) {
+    storages2 = [storages2];
+  }
+  if (plugins2 && !isList(plugins2)) {
+    plugins2 = [plugins2];
+  }
+  var namespacePrefix = namespace ? "__storejs_" + namespace + "_" : "";
+  var namespaceRegexp = namespace ? new RegExp("^" + namespacePrefix) : null;
+  var legalNamespaces = /^[a-zA-Z0-9_\-]*$/;
+  if (!legalNamespaces.test(namespace)) {
+    throw new Error("store.js namespaces can only have alphanumerics + underscores and dashes");
+  }
+  var _privateStoreProps = {
+    _namespacePrefix: namespacePrefix,
+    _namespaceRegexp: namespaceRegexp,
+    _testStorage: function(storage) {
+      try {
+        var testStr = "__storejs__test__";
+        storage.write(testStr, testStr);
+        var ok = storage.read(testStr) === testStr;
+        storage.remove(testStr);
+        return ok;
+      } catch (e) {
+        return false;
+      }
+    },
+    _assignPluginFnProp: function(pluginFnProp, propName) {
+      var oldFn = this[propName];
+      this[propName] = function pluginFn() {
+        var args = slice(arguments, 0);
+        var self2 = this;
+        function super_fn() {
+          if (!oldFn) {
+            return;
+          }
+          each$6(arguments, function(arg, i2) {
+            args[i2] = arg;
+          });
+          return oldFn.apply(self2, args);
+        }
+        var newFnArgs = [super_fn].concat(args);
+        return pluginFnProp.apply(self2, newFnArgs);
+      };
+    },
+    _serialize: function(obj) {
+      return JSON.stringify(obj);
+    },
+    _deserialize: function(strVal, defaultVal) {
+      if (!strVal) {
+        return defaultVal;
+      }
+      var val = "";
+      try {
+        val = JSON.parse(strVal);
+      } catch (e) {
+        val = strVal;
+      }
+      return val !== void 0 ? val : defaultVal;
+    },
+    _addStorage: function(storage) {
+      if (this.enabled) {
+        return;
+      }
+      if (this._testStorage(storage)) {
+        this.storage = storage;
+        this.enabled = true;
+      }
+    },
+    _addPlugin: function(plugin) {
+      var self2 = this;
+      if (isList(plugin)) {
+        each$6(plugin, function(plugin2) {
+          self2._addPlugin(plugin2);
+        });
+        return;
+      }
+      var seenPlugin = pluck(this.plugins, function(seenPlugin2) {
+        return plugin === seenPlugin2;
+      });
+      if (seenPlugin) {
+        return;
+      }
+      this.plugins.push(plugin);
+      if (!isFunction(plugin)) {
+        throw new Error("Plugins must be function values that return objects");
+      }
+      var pluginProperties = plugin.call(this);
+      if (!isObject(pluginProperties)) {
+        throw new Error("Plugins must return an object of function properties");
+      }
+      each$6(pluginProperties, function(pluginFnProp, propName) {
+        if (!isFunction(pluginFnProp)) {
+          throw new Error("Bad plugin property: " + propName + " from plugin " + plugin.name + ". Plugins should only return functions.");
+        }
+        self2._assignPluginFnProp(pluginFnProp, propName);
+      });
+    },
+    addStorage: function(storage) {
+      _warn("store.addStorage(storage) is deprecated. Use createStore([storages])");
+      this._addStorage(storage);
+    }
+  };
+  var store = create(_privateStoreProps, storeAPI, {
+    plugins: []
+  });
+  store.raw = {};
+  each$6(store, function(prop, propName) {
+    if (isFunction(prop)) {
+      store.raw[propName] = bind(store, prop);
+    }
+  });
+  each$6(storages2, function(storage) {
+    store._addStorage(storage);
+  });
+  each$6(plugins2, function(plugin) {
+    store._addPlugin(plugin);
+  });
+  return store;
+}
+var util$4 = util$6;
+var Global$4 = util$4.Global;
+var localStorage_1 = {
+  name: "localStorage",
+  read: read$5,
+  write: write$5,
+  each: each$5,
+  remove: remove$5,
+  clearAll: clearAll$5
+};
+function localStorage() {
+  return Global$4.localStorage;
+}
+function read$5(key) {
+  return localStorage().getItem(key);
+}
+function write$5(key, data) {
+  return localStorage().setItem(key, data);
+}
+function each$5(fn) {
+  for (var i2 = localStorage().length - 1; i2 >= 0; i2--) {
+    var key = localStorage().key(i2);
+    fn(read$5(key), key);
+  }
+}
+function remove$5(key) {
+  return localStorage().removeItem(key);
+}
+function clearAll$5() {
+  return localStorage().clear();
+}
+var util$3 = util$6;
+var Global$3 = util$3.Global;
+var oldFFGlobalStorage = {
+  name: "oldFF-globalStorage",
+  read: read$4,
+  write: write$4,
+  each: each$4,
+  remove: remove$4,
+  clearAll: clearAll$4
+};
+var globalStorage = Global$3.globalStorage;
+function read$4(key) {
+  return globalStorage[key];
+}
+function write$4(key, data) {
+  globalStorage[key] = data;
+}
+function each$4(fn) {
+  for (var i2 = globalStorage.length - 1; i2 >= 0; i2--) {
+    var key = globalStorage.key(i2);
+    fn(globalStorage[key], key);
+  }
+}
+function remove$4(key) {
+  return globalStorage.removeItem(key);
+}
+function clearAll$4() {
+  each$4(function(key, _2) {
+    delete globalStorage[key];
+  });
+}
+var util$2 = util$6;
+var Global$2 = util$2.Global;
+var oldIEUserDataStorage = {
+  name: "oldIE-userDataStorage",
+  write: write$3,
+  read: read$3,
+  each: each$3,
+  remove: remove$3,
+  clearAll: clearAll$3
+};
+var storageName = "storejs";
+var doc$1 = Global$2.document;
+var _withStorageEl = _makeIEStorageElFunction();
+var disable = (Global$2.navigator ? Global$2.navigator.userAgent : "").match(/ (MSIE 8|MSIE 9|MSIE 10)\./);
+function write$3(unfixedKey, data) {
+  if (disable) {
+    return;
+  }
+  var fixedKey = fixKey(unfixedKey);
+  _withStorageEl(function(storageEl) {
+    storageEl.setAttribute(fixedKey, data);
+    storageEl.save(storageName);
+  });
+}
+function read$3(unfixedKey) {
+  if (disable) {
+    return;
+  }
+  var fixedKey = fixKey(unfixedKey);
+  var res = null;
+  _withStorageEl(function(storageEl) {
+    res = storageEl.getAttribute(fixedKey);
+  });
+  return res;
+}
+function each$3(callback) {
+  _withStorageEl(function(storageEl) {
+    var attributes = storageEl.XMLDocument.documentElement.attributes;
+    for (var i2 = attributes.length - 1; i2 >= 0; i2--) {
+      var attr = attributes[i2];
+      callback(storageEl.getAttribute(attr.name), attr.name);
+    }
+  });
+}
+function remove$3(unfixedKey) {
+  var fixedKey = fixKey(unfixedKey);
+  _withStorageEl(function(storageEl) {
+    storageEl.removeAttribute(fixedKey);
+    storageEl.save(storageName);
+  });
+}
+function clearAll$3() {
+  _withStorageEl(function(storageEl) {
+    var attributes = storageEl.XMLDocument.documentElement.attributes;
+    storageEl.load(storageName);
+    for (var i2 = attributes.length - 1; i2 >= 0; i2--) {
+      storageEl.removeAttribute(attributes[i2].name);
+    }
+    storageEl.save(storageName);
+  });
+}
+var forbiddenCharsRegex = new RegExp("[!\"#$%&'()*+,/\\\\:;<=>?@[\\]^`{|}~]", "g");
+function fixKey(key) {
+  return key.replace(/^\d/, "___$&").replace(forbiddenCharsRegex, "___");
+}
+function _makeIEStorageElFunction() {
+  if (!doc$1 || !doc$1.documentElement || !doc$1.documentElement.addBehavior) {
+    return null;
+  }
+  var scriptTag = "script", storageOwner, storageContainer, storageEl;
+  try {
+    storageContainer = new ActiveXObject("htmlfile");
+    storageContainer.open();
+    storageContainer.write("<" + scriptTag + ">document.w=window</" + scriptTag + '><iframe src="/favicon.ico"></iframe>');
+    storageContainer.close();
+    storageOwner = storageContainer.w.frames[0].document;
+    storageEl = storageOwner.createElement("div");
+  } catch (e) {
+    storageEl = doc$1.createElement("div");
+    storageOwner = doc$1.body;
+  }
+  return function(storeFunction) {
+    var args = [].slice.call(arguments, 0);
+    args.unshift(storageEl);
+    storageOwner.appendChild(storageEl);
+    storageEl.addBehavior("#default#userData");
+    storageEl.load(storageName);
+    storeFunction.apply(this, args);
+    storageOwner.removeChild(storageEl);
+    return;
+  };
+}
+var util$1 = util$6;
+var Global$1 = util$1.Global;
+var trim = util$1.trim;
+var cookieStorage = {
+  name: "cookieStorage",
+  read: read$2,
+  write: write$2,
+  each: each$2,
+  remove: remove$2,
+  clearAll: clearAll$2
+};
+var doc = Global$1.document;
+function read$2(key) {
+  if (!key || !_has(key)) {
+    return null;
+  }
+  var regexpStr = "(?:^|.*;\\s*)" + escape(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=\\s*((?:[^;](?!;))*[^;]?).*";
+  return unescape(doc.cookie.replace(new RegExp(regexpStr), "$1"));
+}
+function each$2(callback) {
+  var cookies = doc.cookie.split(/; ?/g);
+  for (var i2 = cookies.length - 1; i2 >= 0; i2--) {
+    if (!trim(cookies[i2])) {
+      continue;
+    }
+    var kvp = cookies[i2].split("=");
+    var key = unescape(kvp[0]);
+    var val = unescape(kvp[1]);
+    callback(val, key);
+  }
+}
+function write$2(key, data) {
+  if (!key) {
+    return;
+  }
+  doc.cookie = escape(key) + "=" + escape(data) + "; expires=Tue, 19 Jan 2038 03:14:07 GMT; path=/";
+}
+function remove$2(key) {
+  if (!key || !_has(key)) {
+    return;
+  }
+  doc.cookie = escape(key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+}
+function clearAll$2() {
+  each$2(function(_2, key) {
+    remove$2(key);
+  });
+}
+function _has(key) {
+  return new RegExp("(?:^|;\\s*)" + escape(key).replace(/[\-\.\+\*]/g, "\\$&") + "\\s*\\=").test(doc.cookie);
+}
+var util = util$6;
+var Global = util.Global;
+var sessionStorage_1 = {
+  name: "sessionStorage",
+  read: read$1,
+  write: write$1,
+  each: each$1,
+  remove: remove$1,
+  clearAll: clearAll$1
+};
+function sessionStorage$1() {
+  return Global.sessionStorage;
+}
+function read$1(key) {
+  return sessionStorage$1().getItem(key);
+}
+function write$1(key, data) {
+  return sessionStorage$1().setItem(key, data);
+}
+function each$1(fn) {
+  for (var i2 = sessionStorage$1().length - 1; i2 >= 0; i2--) {
+    var key = sessionStorage$1().key(i2);
+    fn(read$1(key), key);
+  }
+}
+function remove$1(key) {
+  return sessionStorage$1().removeItem(key);
+}
+function clearAll$1() {
+  return sessionStorage$1().clear();
+}
+var memoryStorage_1 = {
+  name: "memoryStorage",
+  read,
+  write,
+  each,
+  remove,
+  clearAll
+};
+var memoryStorage = {};
+function read(key) {
+  return memoryStorage[key];
+}
+function write(key, data) {
+  memoryStorage[key] = data;
+}
+function each(callback) {
+  for (var key in memoryStorage) {
+    if (memoryStorage.hasOwnProperty(key)) {
+      callback(memoryStorage[key], key);
+    }
+  }
+}
+function remove(key) {
+  delete memoryStorage[key];
+}
+function clearAll(key) {
+  memoryStorage = {};
+}
+var all = [
+  localStorage_1,
+  oldFFGlobalStorage,
+  oldIEUserDataStorage,
+  cookieStorage,
+  sessionStorage_1,
+  memoryStorage_1
+];
+if (typeof JSON !== "object") {
+  JSON = {};
+}
+(function() {
+  var rx_one = /^[\],:{}\s]*$/;
+  var rx_two = /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g;
+  var rx_three = /"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g;
+  var rx_four = /(?:^|:|,)(?:\s*\[)+/g;
+  var rx_escapable = /[\\"\u0000-\u001f\u007f-\u009f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+  var rx_dangerous = /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g;
+  function f(n) {
+    return n < 10 ? "0" + n : n;
+  }
+  function this_value() {
+    return this.valueOf();
+  }
+  if (typeof Date.prototype.toJSON !== "function") {
+    Date.prototype.toJSON = function() {
+      return isFinite(this.valueOf()) ? this.getUTCFullYear() + "-" + f(this.getUTCMonth() + 1) + "-" + f(this.getUTCDate()) + "T" + f(this.getUTCHours()) + ":" + f(this.getUTCMinutes()) + ":" + f(this.getUTCSeconds()) + "Z" : null;
+    };
+    Boolean.prototype.toJSON = this_value;
+    Number.prototype.toJSON = this_value;
+    String.prototype.toJSON = this_value;
+  }
+  var gap;
+  var indent;
+  var meta;
+  var rep;
+  function quote(string) {
+    rx_escapable.lastIndex = 0;
+    return rx_escapable.test(string) ? '"' + string.replace(rx_escapable, function(a2) {
+      var c2 = meta[a2];
+      return typeof c2 === "string" ? c2 : "\\u" + ("0000" + a2.charCodeAt(0).toString(16)).slice(-4);
+    }) + '"' : '"' + string + '"';
+  }
+  function str(key, holder) {
+    var i2;
+    var k;
+    var v2;
+    var length2;
+    var mind = gap;
+    var partial;
+    var value = holder[key];
+    if (value && typeof value === "object" && typeof value.toJSON === "function") {
+      value = value.toJSON(key);
+    }
+    if (typeof rep === "function") {
+      value = rep.call(holder, key, value);
+    }
+    switch (typeof value) {
+      case "string":
+        return quote(value);
+      case "number":
+        return isFinite(value) ? String(value) : "null";
+      case "boolean":
+      case "null":
+        return String(value);
+      case "object":
+        if (!value) {
+          return "null";
+        }
+        gap += indent;
+        partial = [];
+        if (Object.prototype.toString.apply(value) === "[object Array]") {
+          length2 = value.length;
+          for (i2 = 0; i2 < length2; i2 += 1) {
+            partial[i2] = str(i2, value) || "null";
+          }
+          v2 = partial.length === 0 ? "[]" : gap ? "[\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "]" : "[" + partial.join(",") + "]";
+          gap = mind;
+          return v2;
+        }
+        if (rep && typeof rep === "object") {
+          length2 = rep.length;
+          for (i2 = 0; i2 < length2; i2 += 1) {
+            if (typeof rep[i2] === "string") {
+              k = rep[i2];
+              v2 = str(k, value);
+              if (v2) {
+                partial.push(quote(k) + (gap ? ": " : ":") + v2);
+              }
+            }
+          }
+        } else {
+          for (k in value) {
+            if (Object.prototype.hasOwnProperty.call(value, k)) {
+              v2 = str(k, value);
+              if (v2) {
+                partial.push(quote(k) + (gap ? ": " : ":") + v2);
+              }
+            }
+          }
+        }
+        v2 = partial.length === 0 ? "{}" : gap ? "{\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "}" : "{" + partial.join(",") + "}";
+        gap = mind;
+        return v2;
+    }
+  }
+  if (typeof JSON.stringify !== "function") {
+    meta = {
+      "\b": "\\b",
+      "	": "\\t",
+      "\n": "\\n",
+      "\f": "\\f",
+      "\r": "\\r",
+      '"': '\\"',
+      "\\": "\\\\"
+    };
+    JSON.stringify = function(value, replacer, space) {
+      var i2;
+      gap = "";
+      indent = "";
+      if (typeof space === "number") {
+        for (i2 = 0; i2 < space; i2 += 1) {
+          indent += " ";
+        }
+      } else if (typeof space === "string") {
+        indent = space;
+      }
+      rep = replacer;
+      if (replacer && typeof replacer !== "function" && (typeof replacer !== "object" || typeof replacer.length !== "number")) {
+        throw new Error("JSON.stringify");
+      }
+      return str("", { "": value });
+    };
+  }
+  if (typeof JSON.parse !== "function") {
+    JSON.parse = function(text, reviver) {
+      var j;
+      function walk(holder, key) {
+        var k;
+        var v2;
+        var value = holder[key];
+        if (value && typeof value === "object") {
+          for (k in value) {
+            if (Object.prototype.hasOwnProperty.call(value, k)) {
+              v2 = walk(value, k);
+              if (v2 !== void 0) {
+                value[k] = v2;
+              } else {
+                delete value[k];
+              }
+            }
+          }
+        }
+        return reviver.call(holder, key, value);
+      }
+      text = String(text);
+      rx_dangerous.lastIndex = 0;
+      if (rx_dangerous.test(text)) {
+        text = text.replace(rx_dangerous, function(a2) {
+          return "\\u" + ("0000" + a2.charCodeAt(0).toString(16)).slice(-4);
+        });
+      }
+      if (rx_one.test(text.replace(rx_two, "@").replace(rx_three, "]").replace(rx_four, ""))) {
+        j = eval("(" + text + ")");
+        return typeof reviver === "function" ? walk({ "": j }, "") : j;
+      }
+      throw new SyntaxError("JSON.parse");
+    };
+  }
+})();
+var json2 = json2Plugin;
+function json2Plugin() {
+  return {};
+}
+var engine = storeEngine;
+var storages = all;
+var plugins = [json2];
+var store_legacy = engine.createStore(storages, plugins);
 /*!
 devtools-detect
 https://github.com/sindresorhus/devtools-detect
@@ -52535,25 +53516,24 @@ const main = ({ emitEvents = true } = {}) => {
 };
 main({ emitEvents: false });
 setInterval(main, 500);
-const store = require("store");
 class SysWeb extends SysBase {
   constructor(hPlg = {}, arg = { cur: "prj/", crypto: false, dip: "" }) {
     super(hPlg, arg);
-    __privateAdd(this, _path_base, void 0);
-    __privateAdd(this, _now_prj, void 0);
-    __privateAdd(this, _main2, void 0);
-    __privateAdd(this, _hAppendFile, void 0);
-    __privateSet(this, _path_base, "");
-    __privateSet(this, _now_prj, ":");
+    __privateAdd2(this, _path_base, void 0);
+    __privateAdd2(this, _now_prj, void 0);
+    __privateAdd2(this, _main2, void 0);
+    __privateAdd2(this, _hAppendFile, void 0);
+    __privateSet2(this, _path_base, "");
+    __privateSet2(this, _now_prj, ":");
     this.run = async () => {
-      if (__privateGet(this, _main2)) {
+      if (__privateGet2(this, _main2)) {
         const ms_late = 10;
-        __privateGet(this, _main2).destroy(ms_late);
+        __privateGet2(this, _main2).destroy(ms_late);
         await new Promise((r2) => setTimeout(r2, ms_late));
       }
-      __privateSet(this, _main2, new Main(this));
+      __privateSet2(this, _main2, new Main(this));
     };
-    __privateSet(this, _main2, void 0);
+    __privateSet2(this, _main2, void 0);
     this.pathBaseCnvSnPath4Dbg = "${pathbase}/";
     this._export = () => {
       (async () => {
@@ -52616,9 +53596,9 @@ class SysWeb extends SysBase {
       globalThis.open(url2, "_blank");
       return false;
     };
-    __privateSet(this, _hAppendFile, {});
+    __privateSet2(this, _hAppendFile, {});
     const a2 = arg.cur.split("/");
-    __privateSet(this, _path_base, a2.length > 2 ? a2.slice(0, -2).join("/") + "/" : "");
+    __privateSet2(this, _path_base, a2.length > 2 ? a2.slice(0, -2).join("/") + "/" : "");
     globalThis.onload = async () => this.loaded(hPlg, arg);
   }
   async loaded(hPlg, arg) {
@@ -52644,21 +53624,21 @@ class SysWeb extends SysBase {
     this.extPort = argChk_Num(CmnLib.hDip, "port", this.extPort);
     const cur = sp.get("cur");
     if (cur)
-      arg.cur = __privateGet(this, _path_base) + cur + "/";
+      arg.cur = __privateGet2(this, _path_base) + cur + "/";
     this.run();
   }
   runSN(prj) {
-    this.arg.cur = __privateGet(this, _path_base) + prj + "/";
-    if (__privateGet(this, _now_prj) === this.arg.cur)
+    this.arg.cur = __privateGet2(this, _path_base) + prj + "/";
+    if (__privateGet2(this, _now_prj) === this.arg.cur)
       return;
-    __privateSet(this, _now_prj, this.arg.cur);
+    __privateSet2(this, _now_prj, this.arg.cur);
     this.run();
   }
   stop() {
-    if (!__privateGet(this, _main2))
+    if (!__privateGet2(this, _main2))
       return;
-    __privateGet(this, _main2).destroy();
-    __privateSet(this, _main2, void 0);
+    __privateGet2(this, _main2).destroy();
+    __privateSet2(this, _main2, void 0);
   }
   async loadPath(hPathFn2Exts, cfg) {
     await super.loadPath(hPathFn2Exts, cfg);
@@ -52680,16 +53660,16 @@ class SysWeb extends SysBase {
     hTmp["const.sn.isDebugger"] = hn === "localhost" || hn === "127.0.0.1";
     const ns = this.cfg.getNs();
     this.flush = this.crypto ? async () => {
-      store.set(ns + "sys_", this.enc(JSON.stringify(this.data.sys)));
-      store.set(ns + "mark_", this.enc(JSON.stringify(this.data.mark)));
-      store.set(ns + "kidoku_", this.enc(JSON.stringify(this.data.kidoku)));
+      store_legacy.set(ns + "sys_", this.enc(JSON.stringify(this.data.sys)));
+      store_legacy.set(ns + "mark_", this.enc(JSON.stringify(this.data.mark)));
+      store_legacy.set(ns + "kidoku_", this.enc(JSON.stringify(this.data.kidoku)));
     } : () => {
-      store.set(ns + "sys", this.data.sys);
-      store.set(ns + "mark", this.data.mark);
-      store.set(ns + "kidoku", this.data.kidoku);
+      store_legacy.set(ns + "sys", this.data.sys);
+      store_legacy.set(ns + "mark", this.data.mark);
+      store_legacy.set(ns + "kidoku", this.data.kidoku);
     };
     const nm = ns + (this.arg.crypto ? "sys_" : "sys");
-    if (hTmp["const.sn.isFirstBoot"] = store.get(nm) === void 0) {
+    if (hTmp["const.sn.isFirstBoot"] = store_legacy.get(nm) === void 0) {
       this.data.sys = data.sys;
       this.data.mark = data.mark;
       this.data.kidoku = data.kidoku;
@@ -52698,21 +53678,21 @@ class SysWeb extends SysBase {
       return;
     }
     if (!this.crypto) {
-      this.data.sys = store.get(ns + "sys");
-      this.data.mark = store.get(ns + "mark");
-      this.data.kidoku = store.get(ns + "kidoku");
+      this.data.sys = store_legacy.get(ns + "sys");
+      this.data.mark = store_legacy.get(ns + "mark");
+      this.data.kidoku = store_legacy.get(ns + "kidoku");
       comp(this.data);
       return;
     }
     let mes = "";
     try {
       mes = "sys";
-      this.data.sys = JSON.parse(this.decStr("json", store.get(ns + "sys_")));
+      this.data.sys = JSON.parse(this.decStr("json", store_legacy.get(ns + "sys_")));
       mes += Number(this.val.getVal("sys:TextLayer.Back.Alpha", 1));
       mes = "mark";
-      this.data.mark = JSON.parse(this.decStr("json", store.get(ns + "mark_")));
+      this.data.mark = JSON.parse(this.decStr("json", store_legacy.get(ns + "mark_")));
       mes = "kidoku";
-      this.data.kidoku = JSON.parse(this.decStr("json", store.get(ns + "kidoku_")));
+      this.data.kidoku = JSON.parse(this.decStr("json", store_legacy.get(ns + "kidoku_")));
     } catch (e) {
       console.error(`\u30BB\u30FC\u30D6\u30C7\u30FC\u30BF\uFF08${mes}\uFF09\u304C\u58CA\u308C\u3066\u3044\u307E\u3059\u3002\u4E00\u5EA6\u30AF\u30EA\u30A2\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059 %o`, e);
     }
@@ -52725,9 +53705,9 @@ class SysWeb extends SysBase {
       this.tglFlscr_sub = () => this.isFullScr ? document.exitFullscreen() : pCvs.requestFullscreen();
       document.addEventListener("fullscreenchange", () => this.isFullScr = Boolean(document.fullscreenElement));
     } else {
-      const doc = document;
-      this.tglFlscr_sub = () => this.isFullScr ? doc.webkitCancelFullScreen() : pCvs.webkitRequestFullscreen();
-      document.addEventListener("fullscreenchange", () => this.isFullScr = Boolean(doc.webkitFullscreenElement));
+      const doc2 = document;
+      this.tglFlscr_sub = () => this.isFullScr ? doc2.webkitCancelFullScreen() : pCvs.webkitRequestFullscreen();
+      document.addEventListener("fullscreenchange", () => this.isFullScr = Boolean(doc2.webkitFullscreenElement));
     }
     if (!this.cfg.oCfg.debug.devtool)
       window.addEventListener("devtoolschange", (e) => {
@@ -52759,8 +53739,8 @@ class SysWeb extends SysBase {
   }
   async appendFile(path, data, _callback) {
     var _a3;
-    const txt = ((_a3 = __privateGet(this, _hAppendFile)[path]) != null ? _a3 : "") + data;
-    __privateGet(this, _hAppendFile)[path] = txt;
+    const txt = ((_a3 = __privateGet2(this, _hAppendFile)[path]) != null ? _a3 : "") + data;
+    __privateGet2(this, _hAppendFile)[path] = txt;
     const blob = new Blob([txt], { "type": "text/json" });
     const a2 = document.createElement("a");
     a2.href = URL.createObjectURL(blob);

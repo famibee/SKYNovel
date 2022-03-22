@@ -772,27 +772,27 @@ function addStyle(style) {
   gs.innerHTML = css_key4del + style;
   document.getElementsByTagName("head")[0].appendChild(gs);
 }
-function argChk_Num(hash2, name, def) {
-  const v2 = hash2[name];
-  if (!(name in hash2)) {
+function argChk_Num(hash2, name2, def) {
+  const v2 = hash2[name2];
+  if (!(name2 in hash2)) {
     if (isNaN(def))
-      throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name} \u306F\u5FC5\u9808\u3067\u3059`;
-    hash2[name] = def;
+      throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name2} \u306F\u5FC5\u9808\u3067\u3059`;
+    hash2[name2] = def;
     return def;
   }
   const n = String(v2).slice(0, 2) === "0x" ? parseInt(v2) : parseFloat(v2);
   if (isNaN(n))
-    throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name} \u306E\u5024\u3010${v2}\u3011\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093`;
-  return hash2[name] = n;
+    throw `[${hash2[":\u30BF\u30B0\u540D"]}]\u5C5E\u6027 ${name2} \u306E\u5024\u3010${v2}\u3011\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093`;
+  return hash2[name2] = n;
 }
-function argChk_Boolean(hash2, name, def) {
-  if (!(name in hash2))
-    return hash2[name] = def;
-  const v2 = hash2[name];
+function argChk_Boolean(hash2, name2, def) {
+  if (!(name2 in hash2))
+    return hash2[name2] = def;
+  const v2 = hash2[name2];
   if (v2 === null)
     return false;
   const v22 = String(v2);
-  return hash2[name] = v22 === "false" ? false : Boolean(v22);
+  return hash2[name2] = v22 === "false" ? false : Boolean(v22);
 }
 function parseColor(v2) {
   if (v2.charAt(0) === "#")
@@ -808,11 +808,11 @@ function parseColor(v2) {
     throw `\u8272\u540D\u524D ${v2} \u304C\u7570\u5E38\u3067\u3059`;
   return parseInt(cc.slice(1), 16);
 }
-function argChk_Color(hash2, name, def) {
-  const v2 = hash2[name];
+function argChk_Color(hash2, name2, def) {
+  const v2 = hash2[name2];
   if (!v2)
-    return hash2[name] = def;
-  return hash2[name] = parseColor(String(v2));
+    return hash2[name2] = def;
+  return hash2[name2] = parseColor(String(v2));
 }
 const REG_FN = /^[^\/\.]+$|[^\/]+(?=\.)/;
 function getFn(p) {
@@ -829,10 +829,10 @@ class CmnLib {
 CmnLib.stageW = 0;
 CmnLib.stageH = 0;
 CmnLib.debugLog = false;
-CmnLib.isSafari = platform.name === "Safari";
-CmnLib.isFirefox = platform.name === "Firefox";
-CmnLib.isMac = new RegExp("OS X").test((_b2 = (_a2 = platform.os) == null ? void 0 : _a2.family) != null ? _b2 : "");
-CmnLib.isMobile = !new RegExp("(Windows|OS X)").test((_d = (_c2 = platform.os) == null ? void 0 : _c2.family) != null ? _d : "");
+CmnLib.isSafari = platform$1.exports.name === "Safari";
+CmnLib.isFirefox = platform$1.exports.name === "Firefox";
+CmnLib.isMac = new RegExp("OS X").test((_b2 = (_a2 = platform$1.exports.os) == null ? void 0 : _a2.family) != null ? _b2 : "");
+CmnLib.isMobile = !new RegExp("(Windows|OS X)").test((_d = (_c2 = platform$1.exports.os) == null ? void 0 : _c2.family) != null ? _d : "");
 CmnLib.hDip = {};
 CmnLib.isDbg = false;
 CmnLib.isPackaged = false;
@@ -9567,8 +9567,8 @@ function __extends$q(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var __assign$7 = function() {
-  __assign$7 = Object.assign || function __assign2(t) {
+var __assign$8 = function() {
+  __assign$8 = Object.assign || function __assign2(t) {
     var arguments$1 = arguments;
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments$1[i2];
@@ -9580,7 +9580,7 @@ var __assign$7 = function() {
     }
     return t;
   };
-  return __assign$7.apply(this, arguments);
+  return __assign$8.apply(this, arguments);
 };
 function __rest$3(s2, e) {
   var t = {};
@@ -15239,7 +15239,7 @@ var AbstractRenderer = function(_super) {
     if (region.height === 0) {
       region.height = 1;
     }
-    var renderTexture = RenderTexture.create(__assign$7({ width: region.width, height: region.height }, textureOptions));
+    var renderTexture = RenderTexture.create(__assign$8({ width: region.width, height: region.height }, textureOptions));
     tempMatrix$2.tx = -region.x;
     tempMatrix$2.ty = -region.y;
     this.render(displayObject, {
@@ -18310,7 +18310,6 @@ function allSettled(arr) {
   });
 }
 var setTimeoutFunc = setTimeout;
-var setImmediateFunc = typeof setImmediate !== "undefined" ? setImmediate : null;
 function isArray$1(x) {
   return Boolean(x && typeof x.length !== "undefined");
 }
@@ -18490,8 +18489,8 @@ Promise$1.race = function(arr) {
     }
   });
 };
-Promise$1._immediateFn = typeof setImmediateFunc === "function" && function(fn) {
-  setImmediateFunc(fn);
+Promise$1._immediateFn = typeof setImmediate === "function" && function(fn) {
+  setImmediate(fn);
 } || function(fn) {
   setTimeoutFunc(fn, 0);
 };
@@ -32307,6 +32306,7 @@ var OBJECT = "object";
 var STRING = "string";
 var NUMBER = "number";
 var UNDEFINED = "undefined";
+var IS_WINDOW = typeof window !== UNDEFINED;
 var OPEN_CLOSED_CHARACTERS = [{
   open: "(",
   close: ")"
@@ -32586,6 +32586,23 @@ function find$1(arr, callback, defalutValue) {
   var index = findIndex(arr, callback);
   return index > -1 ? arr[index] : defalutValue;
 }
+var requestAnimationFrame$1 = /* @__PURE__ */ function() {
+  var firstTime = now();
+  var raf = IS_WINDOW && (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame);
+  return raf ? raf.bind(window) : function(callback) {
+    var currTime = now();
+    var id = window.setTimeout(function() {
+      callback(currTime - firstTime);
+    }, 1e3 / 60);
+    return id;
+  };
+}();
+var cancelAnimationFrame$1 = /* @__PURE__ */ function() {
+  var caf = IS_WINDOW && (window.cancelAnimationFrame || window.webkitCancelAnimationFrame || window.mozCancelAnimationFrame || window.msCancelAnimationFrame);
+  return caf ? caf.bind(window) : function(handle2) {
+    clearTimeout(handle2);
+  };
+}();
 function getKeys(obj) {
   if (Object.keys) {
     return Object.keys(obj);
@@ -32753,8 +32770,8 @@ function __extends$6(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var __assign$6 = function() {
-  __assign$6 = Object.assign || function __assign2(t) {
+var __assign$7 = function() {
+  __assign$7 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
       for (var p in s2)
@@ -32763,7 +32780,7 @@ var __assign$6 = function() {
     }
     return t;
   };
-  return __assign$6.apply(this, arguments);
+  return __assign$7.apply(this, arguments);
 };
 function __rest$2(s2, e) {
   var t = {};
@@ -32777,7 +32794,7 @@ function __rest$2(s2, e) {
     }
   return t;
 }
-function __spreadArrays$4() {
+function __spreadArrays$3() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -32887,7 +32904,7 @@ function createElement(type, props) {
     type,
     key,
     ref: ref2,
-    props: __assign$6(__assign$6({}, otherProps), {
+    props: __assign$7(__assign$7({}, otherProps), {
       children: flat$1(children).filter(function(child) {
         return child != null && child !== false;
       })
@@ -33256,7 +33273,7 @@ var Component = /* @__PURE__ */ function() {
     }
     clearTimeout(this.$_timer);
     this.$_timer = 0;
-    this.$_state = __assign$6(__assign$6({}, this.$_state), state);
+    this.$_state = __assign$7(__assign$7({}, this.$_state), state);
     if (!isForceUpdate) {
       this.$_timer = setTimeout(function() {
         _this.$_timer = 0;
@@ -33279,7 +33296,7 @@ var Component = /* @__PURE__ */ function() {
   __proto.$_setState = function(callback, isForceUpdate) {
     var hooks = [];
     var provider = this.$_provider;
-    var isUpdate = renderProviders(provider.container, [provider], [provider.original], hooks, __assign$6(__assign$6({}, this.state), this.$_state), isForceUpdate);
+    var isUpdate = renderProviders(provider.container, [provider], [provider.original], hooks, __assign$7(__assign$7({}, this.state), this.$_state), isForceUpdate);
     if (isUpdate) {
       if (callback) {
         hooks.push(callback);
@@ -33379,7 +33396,7 @@ function diffProviders(containerProvider, providers, children) {
     childProvider.index = to;
     return false;
   });
-  return __spreadArrays$4(result.added, changed.map(function(_a3) {
+  return __spreadArrays$3(result.added, changed.map(function(_a3) {
     _a3[0];
     var to = _a3[1];
     return to;
@@ -34185,7 +34202,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-function __spreadArrays$3() {
+function __spreadArrays$2() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -34370,7 +34387,7 @@ function getPointsOnLines(points, lines) {
   });
 }
 function convertLines(points) {
-  return __spreadArrays$3(points.slice(1), [points[0]]).map(function(point, i2) {
+  return __spreadArrays$2(points.slice(1), [points[0]]).map(function(point, i2) {
     return [points[i2], point];
   });
 }
@@ -34493,8 +34510,8 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-var __assign$5 = function() {
-  __assign$5 = Object.assign || function __assign2(t) {
+var __assign$6 = function() {
+  __assign$6 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
       for (var p in s2)
@@ -34503,9 +34520,9 @@ var __assign$5 = function() {
     }
     return t;
   };
-  return __assign$5.apply(this, arguments);
+  return __assign$6.apply(this, arguments);
 };
-function __spreadArrays$2() {
+function __spreadArrays$1() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -34578,7 +34595,7 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
       isStop = true;
     };
     param.currentTarget = this;
-    __spreadArrays$2(events).forEach(function(info) {
+    __spreadArrays$1(events).forEach(function(info) {
       info.listener(param);
       if (info.once) {
         _this.off(eventName, info.listener);
@@ -34596,7 +34613,7 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
     var events = this._events;
     events[eventName] = events[eventName] || [];
     var listeners = events[eventName];
-    listeners.push(__assign$5({
+    listeners.push(__assign$6({
       listener
     }, options));
   };
@@ -34636,6 +34653,18 @@ function __extends$4(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
+var __assign$5 = function() {
+  __assign$5 = Object.assign || function __assign2(t) {
+    for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
+      s2 = arguments[i2];
+      for (var p in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p))
+          t[p] = s2[p];
+    }
+    return t;
+  };
+  return __assign$5.apply(this, arguments);
+};
 function getDefaultScrollPosition$1(e) {
   var container = e.container;
   if (container === document.body) {
@@ -34647,10 +34676,12 @@ var DragScroll = /* @__PURE__ */ function(_super) {
   __extends$4(DragScroll2, _super);
   function DragScroll2() {
     var _this = _super !== null && _super.apply(this, arguments) || this;
-    _this.startRect = null;
-    _this.startPos = [];
-    _this.prevTime = 0;
-    _this.timer = 0;
+    _this._startRect = null;
+    _this._startPos = [];
+    _this._prevTime = 0;
+    _this._timer = 0;
+    _this._prevScrollPos = [0, 0];
+    _this._isWait = false;
     return _this;
   }
   var __proto = DragScroll2.prototype;
@@ -34670,83 +34701,115 @@ var DragScroll = /* @__PURE__ */ function(_super) {
       width = rect.width;
       height = rect.height;
     }
-    this.startPos = [e.clientX, e.clientY];
-    this.startRect = {
+    this._startPos = [e.clientX, e.clientY];
+    this._startRect = {
       top,
       left,
       width,
       height
     };
+    this._prevScrollPos = this._getScrollPosition([0, 0], options);
   };
   __proto.drag = function(e, options) {
-    var _this = this;
     var clientX = e.clientX, clientY = e.clientY;
-    var container = options.container, _a3 = options.threshold, threshold = _a3 === void 0 ? 0 : _a3, _b3 = options.throttleTime, throttleTime = _b3 === void 0 ? 0 : _b3, _c3 = options.getScrollPosition, getScrollPosition = _c3 === void 0 ? getDefaultScrollPosition$1 : _c3;
-    var _d2 = this, startRect = _d2.startRect, startPos = _d2.startPos;
-    var nowTime = now();
-    var distTime = Math.max(throttleTime + this.prevTime - nowTime, 0);
+    var _a3 = options.threshold, threshold = _a3 === void 0 ? 0 : _a3;
+    var _b3 = this, _startRect = _b3._startRect, _startPos = _b3._startPos;
     var direction = [0, 0];
-    if (startRect.top > clientY - threshold) {
-      if (startPos[1] > startRect.top || clientY < startPos[1]) {
+    if (_startRect.top > clientY - threshold) {
+      if (_startPos[1] > _startRect.top || clientY < _startPos[1]) {
         direction[1] = -1;
       }
-    } else if (startRect.top + startRect.height < clientY + threshold) {
-      if (startPos[1] < startRect.top + startRect.height || clientY > startPos[1]) {
+    } else if (_startRect.top + _startRect.height < clientY + threshold) {
+      if (_startPos[1] < _startRect.top + _startRect.height || clientY > _startPos[1]) {
         direction[1] = 1;
       }
     }
-    if (startRect.left > clientX - threshold) {
-      if (startPos[0] > startRect.left || clientX < startPos[0]) {
+    if (_startRect.left > clientX - threshold) {
+      if (_startPos[0] > _startRect.left || clientX < _startPos[0]) {
         direction[0] = -1;
       }
-    } else if (startRect.left + startRect.width < clientX + threshold) {
-      if (startPos[0] < startRect.left + startRect.width || clientX > startPos[0]) {
+    } else if (_startRect.left + _startRect.width < clientX + threshold) {
+      if (_startPos[0] < _startRect.left + _startRect.width || clientX > _startPos[0]) {
         direction[0] = 1;
       }
     }
-    clearTimeout(this.timer);
+    clearTimeout(this._timer);
     if (!direction[0] && !direction[1]) {
       return false;
     }
-    if (distTime > 0) {
-      this.timer = window.setTimeout(function() {
-        _this.drag(e, options);
-      }, distTime);
+    return this._continueDrag(__assign$5(__assign$5({}, options), {
+      direction,
+      inputEvent: e,
+      isDrag: true
+    }));
+  };
+  __proto.checkScroll = function(options) {
+    var _this = this;
+    if (this._isWait) {
       return false;
     }
-    this.prevTime = nowTime;
-    var prevPos = getScrollPosition({
-      container,
-      direction
-    });
-    this.trigger("scroll", {
-      container,
-      direction,
-      inputEvent: e
-    });
-    var nextPos = getScrollPosition({
-      container,
-      direction
-    });
-    var offsetX = nextPos[0] - prevPos[0];
-    var offsetY = nextPos[1] - prevPos[1];
+    var _a3 = options.prevScrollPos, prevScrollPos = _a3 === void 0 ? this._prevScrollPos : _a3, direction = options.direction, _b3 = options.throttleTime, throttleTime = _b3 === void 0 ? 0 : _b3, inputEvent = options.inputEvent, isDrag = options.isDrag;
+    var nextScrollPos = this._getScrollPosition(direction || [0, 0], options);
+    var offsetX = nextScrollPos[0] - prevScrollPos[0];
+    var offsetY = nextScrollPos[1] - prevScrollPos[1];
+    var nextDirection = direction || [offsetX ? Math.abs(offsetX) / offsetX : 0, offsetY ? Math.abs(offsetY) / offsetY : 0];
+    this._prevScrollPos = nextScrollPos;
     if (!offsetX && !offsetY) {
       return false;
     }
     this.trigger("move", {
-      offsetX: direction[0] ? offsetX : 0,
-      offsetY: direction[1] ? offsetY : 0,
-      inputEvent: e
+      offsetX: nextDirection[0] ? offsetX : 0,
+      offsetY: nextDirection[1] ? offsetY : 0,
+      inputEvent
     });
-    if (throttleTime) {
-      this.timer = window.setTimeout(function() {
-        _this.drag(e, options);
+    if (throttleTime && isDrag) {
+      this._timer = window.setTimeout(function() {
+        _this._continueDrag(options);
       }, throttleTime);
     }
     return true;
   };
   __proto.dragEnd = function() {
-    clearTimeout(this.timer);
+    clearTimeout(this._timer);
+  };
+  __proto._getScrollPosition = function(direction, options) {
+    var container = options.container, _a3 = options.getScrollPosition, getScrollPosition = _a3 === void 0 ? getDefaultScrollPosition$1 : _a3;
+    return getScrollPosition({
+      container,
+      direction
+    });
+  };
+  __proto._continueDrag = function(options) {
+    var _this = this;
+    var container = options.container, direction = options.direction, throttleTime = options.throttleTime, useScroll = options.useScroll, isDrag = options.isDrag, inputEvent = options.inputEvent;
+    if (isDrag && this._isWait) {
+      return;
+    }
+    var nowTime = now();
+    var distTime = Math.max(throttleTime + this._prevTime - nowTime, 0);
+    if (distTime > 0) {
+      this._timer = window.setTimeout(function() {
+        _this._continueDrag(options);
+      }, distTime);
+      return false;
+    }
+    this._prevTime = nowTime;
+    var prevScrollPos = this._getScrollPosition(direction, options);
+    this._prevScrollPos = prevScrollPos;
+    if (isDrag) {
+      this._isWait = true;
+    }
+    this.trigger("scroll", {
+      container,
+      direction,
+      inputEvent
+    });
+    this._isWait = false;
+    return useScroll || this.checkScroll(__assign$5(__assign$5({}, options), {
+      prevScrollPos,
+      direction,
+      inputEvent
+    }));
   };
   return DragScroll2;
 }(EventEmitter$2);
@@ -34888,16 +34951,6 @@ var ClientStore = /* @__PURE__ */ function() {
     this.length = clients.length;
   }
   var __proto = ClientStore2.prototype;
-  __proto.addClients = function(clients) {
-    if (clients === void 0) {
-      clients = this.prevClients;
-    }
-    var position = this.getPosition(clients);
-    var deltaX = position.deltaX, deltaY = position.deltaY;
-    this.movement += Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    this.prevClients = clients;
-    return position;
-  };
   __proto.getAngle = function(clients) {
     if (clients === void 0) {
       clients = this.prevClients;
@@ -34910,8 +34963,15 @@ var ClientStore = /* @__PURE__ */ function() {
     }
     return getRotatiion(clients) - getRotatiion(this.startClients);
   };
-  __proto.getPosition = function(clients) {
-    return getPosition(clients || this.prevClients, this.prevClients, this.startClients);
+  __proto.getPosition = function(clients, isAdd) {
+    if (clients === void 0) {
+      clients = this.prevClients;
+    }
+    var position = getPosition(clients || this.prevClients, this.prevClients, this.startClients);
+    var deltaX = position.deltaX, deltaY = position.deltaY;
+    this.movement += Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    this.prevClients = clients;
+    return position;
   };
   __proto.getPositions = function(clients) {
     if (clients === void 0) {
@@ -34950,10 +35010,6 @@ var ClientStore = /* @__PURE__ */ function() {
       client.clientX -= deltaX;
       client.clientY -= deltaY;
     });
-    this.prevClients.forEach(function(client) {
-      client.clientX -= deltaX;
-      client.clientY -= deltaY;
-    });
   };
   return ClientStore2;
 }();
@@ -34977,6 +35033,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
     _this.targets = [];
     _this.prevTime = 0;
     _this.doubleFlag = false;
+    _this._dragFlag = false;
     _this.onDragStart = function(e, isTrusted) {
       if (isTrusted === void 0) {
         isTrusted = true;
@@ -35009,6 +35066,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
         _this.clientStores = [new ClientStore(getEventClients(e))];
         _this.flag = true;
         _this.isDrag = false;
+        _this._dragFlag = true;
         _this.datas = {};
         if (preventRightClick && (e.which === 3 || e.button === 2)) {
           _this.initDrag();
@@ -35020,7 +35078,14 @@ var Gesto = /* @__PURE__ */ function(_super) {
           inputEvent: e,
           isTrusted,
           isDouble: _this.doubleFlag
-        }, _this.getCurrentStore().getPosition()));
+        }, _this.getCurrentStore().getPosition(), {
+          preventDefault: function() {
+            e.preventDefault();
+          },
+          preventDrag: function() {
+            _this._dragFlag = false;
+          }
+        }));
         if (result === false) {
           _this.initDrag();
         }
@@ -35056,20 +35121,22 @@ var Gesto = /* @__PURE__ */ function(_super) {
       }
       var clients = getEventClients(e);
       var result = _this.moveClients(clients, e, false);
-      if (_this.pinchFlag || result.deltaX || result.deltaY) {
-        var dragResult = _this.emit("drag", __assign$4({}, result, {
-          isScroll: !!isScroll,
-          inputEvent: e
-        }));
-        if (dragResult === false) {
-          _this.stop();
-          return;
+      if (_this._dragFlag) {
+        if (_this.pinchFlag || result.deltaX || result.deltaY) {
+          var dragResult = _this.emit("drag", __assign$4({}, result, {
+            isScroll: !!isScroll,
+            inputEvent: e
+          }));
+          if (dragResult === false) {
+            _this.stop();
+            return;
+          }
+        }
+        if (_this.pinchFlag) {
+          _this.onPinch(e, clients);
         }
       }
-      if (_this.pinchFlag) {
-        _this.onPinch(e, clients);
-      }
-      _this.getCurrentStore().addClients(clients);
+      _this.getCurrentStore().getPosition(clients, true);
     };
     _this.onDragEnd = function(e) {
       if (!_this.flag) {
@@ -35080,7 +35147,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
         removeEvent(container2, "touchstart", _this.onDragStart);
       }
       _this.flag = false;
-      var position = _this.getCurrentStore().getPosition();
+      var position = _this._getPosition();
       var currentTime = now();
       var isDouble = !_this.isDrag && _this.doubleFlag;
       _this.prevTime = _this.isDrag || isDouble ? 0 : currentTime;
@@ -35198,6 +35265,17 @@ var Gesto = /* @__PURE__ */ function(_super) {
     }
     return this;
   };
+  __proto.getCurrentEvent = function(inputEvent) {
+    return __assign$4({
+      datas: this.datas
+    }, this._getPosition(), {
+      movement: this.getMovement(),
+      isDrag: this.isDrag,
+      isPinch: this.isPinch,
+      isScroll: false,
+      inputEvent
+    });
+  };
   __proto.getEventDatas = function() {
     return this.datas;
   };
@@ -35291,9 +35369,10 @@ var Gesto = /* @__PURE__ */ function(_super) {
     return this.clientStores[0];
   };
   __proto.moveClients = function(clients, inputEvent, isAdd) {
-    var store = this.getCurrentStore();
-    var position = store[isAdd ? "addClients" : "getPosition"](clients);
-    this.isDrag = true;
+    var position = this._getPosition(clients, isAdd);
+    if (position.deltaX || position.deltaY) {
+      this.isDrag = true;
+    }
     return __assign$4({
       datas: this.datas
     }, position, {
@@ -35302,6 +35381,20 @@ var Gesto = /* @__PURE__ */ function(_super) {
       isPinch: this.isPinch,
       isScroll: false,
       inputEvent
+    });
+  };
+  __proto._getPosition = function(clients, isAdd) {
+    var store = this.getCurrentStore();
+    var position = store.getPosition(clients, isAdd);
+    var _a3 = this.clientStores.slice(1).reduce(function(prev2, cur) {
+      var storePosition = cur.getPosition();
+      prev2.distX += storePosition.distX;
+      prev2.distY += storePosition.distY;
+      return prev2;
+    }, position), distX = _a3.distX, distY = _a3.distY;
+    return __assign$4({}, position, {
+      distX,
+      distY
     });
   };
   return Gesto2;
@@ -35533,12 +35626,14 @@ var extendStatics$1 = function(d2, b2) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
     for (var p in b3)
-      if (b3.hasOwnProperty(p))
+      if (Object.prototype.hasOwnProperty.call(b3, p))
         d3[p] = b3[p];
   };
   return extendStatics$1(d2, b2);
 };
 function __extends$1(d2, b2) {
+  if (typeof b2 !== "function" && b2 !== null)
+    throw new TypeError("Class extends value " + String(b2) + " is not a constructor or null");
   extendStatics$1(d2, b2);
   function __() {
     this.constructor = d2;
@@ -35579,13 +35674,16 @@ function __decorate$1(decorators, target, key, desc) {
         r2 = (c2 < 3 ? d2(r2) : c2 > 3 ? d2(target, key, r2) : d2(target, key)) || r2;
   return c2 > 3 && r2 && Object.defineProperty(target, key, r2), r2;
 }
-function __spreadArrays$1() {
-  for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
-    s2 += arguments[i2].length;
-  for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
-    for (var a2 = arguments[i2], j2 = 0, jl = a2.length; j2 < jl; j2++, k++)
-      r2[k] = a2[j2];
-  return r2;
+function __spreadArray(to, from, pack) {
+  if (pack || arguments.length === 2)
+    for (var i2 = 0, l2 = from.length, ar; i2 < l2; i2++) {
+      if (ar || !(i2 in from)) {
+        if (!ar)
+          ar = Array.prototype.slice.call(from, 0, i2);
+        ar[i2] = from[i2];
+      }
+    }
+  return to.concat(ar || Array.prototype.slice.call(from));
 }
 function makeAble(name, able) {
   var _a3;
@@ -35600,7 +35698,6 @@ function getSVGCursor(scale, degree) {
 }
 function getCursorCSS(degree) {
   var x1 = getSVGCursor(1, degree);
-  var x2 = getSVGCursor(2, degree);
   var degree45 = Math.round(degree / 45) * 45 % 180;
   var defaultCursor = "ns-resize";
   if (degree45 === 135) {
@@ -35610,7 +35707,7 @@ function getCursorCSS(degree) {
   } else if (degree45 === 90) {
     defaultCursor = "ew-resize";
   }
-  return "cursor:" + defaultCursor + ";cursor: url('" + x1 + "') 16 16, " + defaultCursor + ";cursor: -webkit-image-set(url('" + x1 + "') 1x, url('" + x2 + "') 2x) 16 16, " + defaultCursor + ";";
+  return "cursor:" + defaultCursor + ";cursor: url('" + x1 + "') 16 16, " + defaultCursor + ";";
 }
 var agent = agent$1();
 var IS_WEBKIT = agent.browser.webkit;
@@ -35652,7 +35749,7 @@ var DIRECTION_ROTATIONS = {
   sw: 225,
   se: 135
 };
-var MOVEABLE_METHODS = ["isMoveableElement", "updateRect", "updateTarget", "destroy", "dragStart", "isInside", "hitTest", "setState", "getRect", "request", "isDragging", "getManager"];
+var MOVEABLE_METHODS = ["isMoveableElement", "updateRect", "updateTarget", "destroy", "dragStart", "isInside", "hitTest", "setState", "getRect", "request", "isDragging", "getManager", "forceUpdate"];
 function multiply2(pos1, pos2) {
   return [pos1[0] * pos2[0], pos1[1] * pos2[1]];
 }
@@ -35661,7 +35758,7 @@ function prefix() {
   for (var _i = 0; _i < arguments.length; _i++) {
     classNames[_i] = arguments[_i];
   }
-  return prefixNames.apply(void 0, __spreadArrays$1([PREFIX], classNames));
+  return prefixNames.apply(void 0, __spreadArray([PREFIX], classNames));
 }
 function getTransformMatrix(transform) {
   if (!transform || transform === "none") {
@@ -35956,11 +36053,12 @@ function calculateElementInfo(target, container, rootContainer, isAbsolute3d) {
   }, allResult);
 }
 function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
+  var _a3;
   if (rootContainer === void 0) {
     rootContainer = container;
   }
-  var _a3 = getMatrixStackInfo(target, container), matrixes = _a3.matrixes, is3d = _a3.is3d, prevTargetMatrix = _a3.targetMatrix, transformOrigin = _a3.transformOrigin, targetOrigin = _a3.targetOrigin, offsetContainer = _a3.offsetContainer;
-  var _b3 = getMatrixStackInfo(offsetContainer, rootContainer, true), rootMatrixes = _b3.matrixes, isRoot3d = _b3.is3d;
+  var _b3 = getMatrixStackInfo(target, container), matrixes = _b3.matrixes, is3d = _b3.is3d, prevTargetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin, targetOrigin = _b3.targetOrigin, offsetContainer = _b3.offsetContainer;
+  var _c3 = getMatrixStackInfo(offsetContainer, rootContainer, true), rootMatrixes = _c3.matrixes, isRoot3d = _c3.is3d;
   var isNext3d = isAbsolute3d || isRoot3d || is3d;
   var n = isNext3d ? 4 : 3;
   var isSVGGraphicElement = target.tagName.toLowerCase() !== "svg" && "ownerSVGElement" in target;
@@ -35970,8 +36068,6 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
   var beforeMatrix = createIdentityMatrix(n);
   var offsetMatrix = createIdentityMatrix(n);
   var length2 = matrixes.length;
-  var originalRootContainer = rootContainer || document.body;
-  var endContainer = getOffsetInfo(originalRootContainer, originalRootContainer, true).offsetParent;
   rootMatrixes.reverse();
   matrixes.reverse();
   if (!is3d && isNext3d) {
@@ -35984,6 +36080,11 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
   rootMatrixes.forEach(function(info) {
     rootMatrix = multiply(rootMatrix, info.matrix, n);
   });
+  var originalRootContainer = rootContainer || document.body;
+  var endContainer = ((_a3 = rootMatrixes[0]) === null || _a3 === void 0 ? void 0 : _a3.target) || getOffsetInfo(originalRootContainer, originalRootContainer, true).offsetParent;
+  var rootMatrixBeforeOffset = rootMatrixes.slice(1).reduce(function(matrix, info) {
+    return multiply(matrix, info.matrix, n);
+  }, createIdentityMatrix(n));
   matrixes.forEach(function(info, i2) {
     if (length2 - 2 === i2) {
       beforeMatrix = allMatrix.slice();
@@ -35993,7 +36094,7 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
     }
     if (!info.matrix) {
       var nextInfo = matrixes[i2 + 1];
-      var offset = getSVGOffset(info, nextInfo, endContainer, n, multiply(rootMatrix, allMatrix, n));
+      var offset = getSVGOffset(info, nextInfo, endContainer, n, multiply(rootMatrixBeforeOffset, allMatrix, n));
       info.matrix = createOriginMatrix(offset, n);
     }
     allMatrix = multiply(allMatrix, info.matrix, n);
@@ -36375,10 +36476,9 @@ function roundSign(num) {
   return Math.round(num % 1 === -0.5 ? num - 1 : num);
 }
 function unset(self2, name) {
-  if (self2[name]) {
-    self2[name].unset();
-    self2[name] = null;
-  }
+  var _a3;
+  (_a3 = self2[name]) === null || _a3 === void 0 ? void 0 : _a3.unset();
+  self2[name] = null;
 }
 function fillParams(moveable, e, params) {
   var datas = e.datas;
@@ -36662,7 +36762,7 @@ function getRefTargets(targets, isSelector) {
   var userTargets = isArrayFormat(targets) ? [].slice.call(targets) : [targets];
   return userTargets.reduce(function(prev2, target) {
     if (isString(target) && isSelector) {
-      return __spreadArrays$1(prev2, [].slice.call(document.querySelectorAll(target)));
+      return __spreadArray(__spreadArray([], prev2), [].slice.call(document.querySelectorAll(target)));
     }
     prev2.push(getRefTarget(target, isSelector));
     return prev2;
@@ -37013,9 +37113,15 @@ function resolveTransformEvent(event, functionName) {
   var index = datas.transformIndex;
   var nextTransforms = originalDatas.nextTransforms;
   var nextTransformAppendedIndexes = originalDatas.nextTransformAppendedIndexes;
-  var nextIndex = index === -1 ? nextTransforms.length : index + nextTransformAppendedIndexes.filter(function(i2) {
-    return i2 < index;
-  }).length;
+  var nextIndex = 0;
+  if (index === -1) {
+    nextIndex = nextTransforms.length;
+    datas.transformIndex = nextIndex;
+  } else {
+    nextIndex = index + nextTransformAppendedIndexes.filter(function(i2) {
+      return i2 < index;
+    }).length;
+  }
   var result = getTransform(nextTransforms, nextIndex);
   var targetFunction = result.targetFunction;
   var matFunctionName = functionName === "rotate" ? "rotateZ" : functionName;
@@ -37032,7 +37138,7 @@ function resolveTransformEvent(event, functionName) {
     datas.isAppendTransform = false;
   } else {
     datas.isAppendTransform = true;
-    originalDatas.nextTransformAppendedIndexes = __spreadArrays$1(nextTransformAppendedIndexes, [nextIndex]);
+    originalDatas.nextTransformAppendedIndexes = __spreadArray(__spreadArray([], nextTransformAppendedIndexes), [nextIndex]);
   }
 }
 function convertTransformFormat(datas, value, dist) {
@@ -37198,6 +37304,10 @@ function setTransformIndex(e, index) {
 function fillOriginalTransform(e, transform) {
   var originalDatas = e.originalDatas.beforeRenderable;
   originalDatas.nextTransforms = splitSpace(transform);
+}
+function getNextTransformText(e) {
+  var originalDatas = e.originalDatas.beforeRenderable;
+  return originalDatas.nextTransforms.join(" ");
 }
 function fillTransformEvent(moveable, nextTransform, delta, isPinch, e) {
   fillOriginalTransform(e, nextTransform);
@@ -37571,7 +37681,7 @@ function getTotalGuidelines(moveable) {
   var _a3 = moveable.state, snapOffset = _a3.snapOffset, _b3 = _a3.containerClientRect, overflow = _b3.overflow, containerHeight = _b3.scrollHeight, containerWidth = _b3.scrollWidth, containerClientHeight = _b3.clientHeight, containerClientWidth = _b3.clientWidth, clientLeft = _b3.clientLeft, clientTop = _b3.clientTop;
   var _c3 = moveable.props, _d2 = _c3.snapGap, snapGap = _d2 === void 0 ? true : _d2, verticalGuidelines = _c3.verticalGuidelines, horizontalGuidelines = _c3.horizontalGuidelines, _e = _c3.snapThreshold, snapThreshold = _e === void 0 ? 5 : _e, _f = _c3.snapGridWidth, snapGridWidth = _f === void 0 ? 0 : _f, _g = _c3.snapGridHeight, snapGridHeight = _g === void 0 ? 0 : _g;
   var elementGuidelines = getElementGuidelines(moveable);
-  var totalGuidelines = __spreadArrays$1(elementGuidelines);
+  var totalGuidelines = __spreadArray([], elementGuidelines);
   if (snapGap) {
     var _h = getRect(getAbsolutePosesByState(moveable.state)), top = _h.top, left = _h.left, bottom = _h.bottom, right = _h.right;
     totalGuidelines.push.apply(totalGuidelines, getGapGuidelines(moveable, {
@@ -38130,7 +38240,7 @@ function isBoundRotate(relativePoses, boundDots, center, rad) {
   var nextPoses = rad ? relativePoses.map(function(pos) {
     return rotate(pos, rad);
   }) : relativePoses;
-  var dots = __spreadArrays$1([center], boundDots);
+  var dots = __spreadArray([center], boundDots);
   return [[nextPoses[0], nextPoses[1]], [nextPoses[1], nextPoses[3]], [nextPoses[3], nextPoses[2]], [nextPoses[2], nextPoses[0]]].some(function(line) {
     return !isSameStartLine(dots, line);
   });
@@ -38482,7 +38592,7 @@ function renderGuideline(info, React) {
 }
 function renderInnerGuideline(info, React) {
   return renderGuideline(__assign$2(__assign$2({}, info), {
-    classNames: __spreadArrays$1([prefix("line", "guideline", info.direction)], info.classNames).filter(function(className) {
+    classNames: __spreadArray([prefix("line", "guideline", info.direction)], info.classNames).filter(function(className) {
       return className;
     }),
     size: info.size || info.sizeValue + "px",
@@ -38706,11 +38816,11 @@ function renderGapGuidelines(moveable, guidelines, targetPos, targetRect, React)
     var targetSideEnd = targetRect[sideNames.end];
     nextGuidelines.forEach(function(_a3) {
       var gap = _a3.gap, gapRects = _a3.gapRects, className = _a3.className;
-      var sideStartPos = Math.max.apply(Math, __spreadArrays$1([targetSideStart], gapRects.map(function(_a4) {
+      var sideStartPos = Math.max.apply(Math, __spreadArray([targetSideStart], gapRects.map(function(_a4) {
         var rect = _a4.rect;
         return rect[sideNames.start];
       })));
-      var sideEndPos = Math.min.apply(Math, __spreadArrays$1([targetSideEnd], gapRects.map(function(_a4) {
+      var sideEndPos = Math.min.apply(Math, __spreadArray([targetSideEnd], gapRects.map(function(_a4) {
         var rect = _a4.rect;
         return rect[sideNames.end];
       })));
@@ -39144,7 +39254,7 @@ function getNextFixedPoses(matrix, width, height, fixedPos, direction, is3d) {
 function getSizeOffsetInfo(moveable, poses, direction, keepRatio, isRequest, datas) {
   var directions = getCheckSnapDirections(direction, keepRatio);
   var lines = getCheckInnerBoundLines(poses, direction, keepRatio);
-  var offsets = __spreadArrays$1(getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas), getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas));
+  var offsets = __spreadArray(__spreadArray([], getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas)), getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas));
   var widthOffsetInfo = getNearOffsetInfo(offsets, 0);
   var heightOffsetInfo = getNearOffsetInfo(offsets, 1);
   return {
@@ -39236,7 +39346,7 @@ function checkSnapRotate(moveable, rect, origin, rotation) {
   var nextPoses = prevPoses.map(function(pos) {
     return rotate(pos, rad);
   });
-  var result = __spreadArrays$1(checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation), checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation));
+  var result = __spreadArray(__spreadArray([], checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation)), checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation));
   result.sort(function(a2, b2) {
     return Math.abs(a2 - rotation) - Math.abs(b2 - rotation);
   });
@@ -39328,6 +39438,7 @@ function addBoundGuidelines(moveable, verticalPoses, horizontalPoses, verticalSn
 }
 var Snappable = {
   name: "snappable",
+  dragRelation: "strong",
   props: {
     snappable: [Boolean, Array],
     snapContainer: Object,
@@ -39431,7 +39542,7 @@ var Snappable = {
     if (hasExternalPoses) {
       addBoundGuidelines(moveable, [externalRect.left, externalRect.right], [externalRect.top, externalRect.bottom], verticalSnapPoses, horizontalSnapPoses, snapRenderInfo.externalBounds);
     }
-    var allGuidelines = __spreadArrays$1(verticalGuidelines, horizontalGuidelines);
+    var allGuidelines = __spreadArray(__spreadArray([], verticalGuidelines), horizontalGuidelines);
     var elementGuidelines = allGuidelines.filter(function(guideline) {
       return guideline.element && !guideline.gapRects;
     });
@@ -39446,7 +39557,7 @@ var Snappable = {
       elements: elementGuidelines,
       gaps: gapGuidelines
     }, true);
-    return __spreadArrays$1(renderDashedGuidelines(moveable, elementGuidelines, [minLeft, minTop], targetRect, React), renderGapGuidelines(moveable, gapGuidelines, [minLeft, minTop], targetRect, React), renderGuidelines(moveable, "horizontal", horizontalGuidelines, [targetLeft, targetTop], targetRect, React), renderGuidelines(moveable, "vertical", verticalGuidelines, [targetLeft, targetTop], targetRect, React), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React));
+    return __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], renderDashedGuidelines(moveable, elementGuidelines, [minLeft, minTop], targetRect, React)), renderGapGuidelines(moveable, gapGuidelines, [minLeft, minTop], targetRect, React)), renderGuidelines(moveable, "horizontal", horizontalGuidelines, [targetLeft, targetTop], targetRect, React)), renderGuidelines(moveable, "vertical", verticalGuidelines, [targetLeft, targetTop], targetRect, React)), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React)), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React));
   },
   dragStart: function(moveable, e) {
     moveable.state.snapRenderInfo = {
@@ -39654,6 +39765,7 @@ var Draggable = {
     var right = datas.right - beforeDist[0];
     var bottom = datas.bottom - beforeDist[1];
     var nextTransform = convertTransformFormat(datas, "translate(" + translate[0] + "px, " + translate[1] + "px)", "translate(" + dist[0] + "px, " + dist[1] + "px)");
+    fillOriginalTransform(e, nextTransform);
     moveable.state.dragInfo.dist = parentEvent ? [0, 0] : dist;
     if (!parentEvent && !parentMoveable && delta.every(function(num) {
       return !num;
@@ -39687,22 +39799,23 @@ var Draggable = {
     var _a3 = e.datas, deltaOffset = _a3.deltaOffset, distOffset = _a3.distOffset;
     if (deltaOffset[0] || deltaOffset[1]) {
       datas.deltaOffset = [0, 0];
-      distOffset[0] += deltaOffset[0];
-      distOffset[1] += deltaOffset[1];
+      distOffset[0] = deltaOffset[0];
+      distOffset[1] = deltaOffset[1];
       return this.drag(moveable, e);
     }
     return false;
   },
   dragEnd: function(moveable, e) {
-    var parentEvent = e.parentEvent, datas = e.datas, isDrag = e.isDrag;
+    var parentEvent = e.parentEvent, datas = e.datas;
     moveable.state.gesto = null;
     moveable.state.dragInfo = null;
     if (!datas.isDrag) {
       return;
     }
     datas.isDrag = false;
-    !parentEvent && triggerEvent(moveable, "onDragEnd", fillEndParams(moveable, e, {}));
-    return isDrag;
+    var param = fillEndParams(moveable, e, {});
+    !parentEvent && triggerEvent(moveable, "onDragEnd", param);
+    return param;
   },
   dragGroupStart: function(moveable, e) {
     var datas = e.datas, clientX = e.clientX, clientY = e.clientY;
@@ -39743,9 +39856,10 @@ var Draggable = {
       return;
     }
     this.dragEnd(moveable, e);
-    triggerChildGesto(moveable, this, "dragEnd", [0, 0], e, false);
+    var events = triggerChildGesto(moveable, this, "dragEnd", [0, 0], e, false);
     triggerEvent(moveable, "onDragGroupEnd", fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     }));
     return isDrag;
   },
@@ -39794,7 +39908,7 @@ function renderDirectionControls(moveable, defaultDirections, React, additionalC
   if (additionalClassName === void 0) {
     additionalClassName = "";
   }
-  var _a3 = moveable.state, renderPoses = _a3.renderPoses, radRotation = _a3.rotation, direction = _a3.direction;
+  var _a3 = moveable.state, renderPoses = _a3.renderPoses, rotationRad = _a3.rotation, direction = _a3.direction;
   var _b3 = moveable.props, _c3 = _b3.renderDirections, directions = _c3 === void 0 ? defaultDirections : _c3, zoom = _b3.zoom;
   var directionMap = {};
   if (!directions) {
@@ -39802,7 +39916,7 @@ function renderDirectionControls(moveable, defaultDirections, React, additionalC
   }
   var sign2 = direction > 0 ? 1 : -1;
   var renderDirections = directions === true ? DIRECTIONS : directions;
-  var degRotation = radRotation / Math.PI * 180;
+  var degRotation = rotationRad / Math.PI * 180;
   renderDirections.forEach(function(dir) {
     directionMap[dir] = true;
   });
@@ -39817,7 +39931,7 @@ function renderDirectionControls(moveable, defaultDirections, React, additionalC
       "data-rotation": directionRotation,
       "data-direction": dir,
       key: "direction-" + dir,
-      style: getControlTransform.apply(void 0, __spreadArrays$1([radRotation, zoom], indexes.map(function(index) {
+      style: getControlTransform.apply(void 0, __spreadArray([rotationRad, zoom], indexes.map(function(index) {
         return renderPoses[index];
       })))
     });
@@ -39832,7 +39946,7 @@ function renderLine(React, direction, pos1, pos2, zoom, key) {
   var rotation = direction ? throttle(rad / Math.PI * 180, 15) % 180 : -1;
   return React.createElement("div", {
     key: "line" + key,
-    className: prefix.apply(void 0, __spreadArrays$1(["line", "direction", direction], classNames)),
+    className: prefix.apply(void 0, __spreadArray(["line", "direction", direction], classNames)),
     "data-rotation": rotation,
     "data-line-index": key,
     "data-direction": direction,
@@ -40102,13 +40216,14 @@ var Rotatable = {
     return params;
   },
   dragControlEnd: function(moveable, e) {
-    var datas = e.datas, isDrag = e.isDrag;
+    var datas = e.datas;
     if (!datas.isRotate) {
-      return false;
+      return;
     }
     datas.isRotate = false;
-    triggerEvent(moveable, "onRotateEnd", fillEndParams(moveable, e, {}));
-    return isDrag;
+    var params = fillEndParams(moveable, e, {});
+    triggerEvent(moveable, "onRotateEnd", params);
+    return params;
   },
   dragGroupControlCondition: dragControlCondition,
   dragGroupControlStart: function(moveable, e) {
@@ -40175,9 +40290,10 @@ var Rotatable = {
       return;
     }
     this.dragControlEnd(moveable, e);
-    triggerChildAbles(moveable, this, "dragControlEnd", e);
+    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
     var nextParams = fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     });
     triggerEvent(moveable, "onRotateGroupEnd", nextParams);
     return isDrag;
@@ -40391,7 +40507,7 @@ var Resizable = {
           distHeight = Math.sin(ratioRad) * distSize;
         }
       } else if (!keepRatio) {
-        var nextDirection = __spreadArrays$1(direction);
+        var nextDirection = __spreadArray([], direction);
         if (!startOffsetWidth) {
           if (dist[0] < 0) {
             nextDirection[0] = -1;
@@ -40520,19 +40636,18 @@ var Resizable = {
       datas.prevHeight += errorHeight;
     }
     if (isErrorWidth || isErrorHeight) {
-      this.dragControl(moveable, e);
-      return true;
+      return this.dragControl(moveable, e);
     }
   },
   dragControlEnd: function(moveable, e) {
-    var datas = e.datas, isDrag = e.isDrag;
+    var datas = e.datas;
     if (!datas.isResize) {
-      return false;
+      return;
     }
     datas.isResize = false;
     var params = fillEndParams(moveable, e, {});
     triggerEvent(moveable, "onResizeEnd", params);
-    return isDrag;
+    return params;
   },
   dragGroupControlCondition: directionCondition,
   dragGroupControlStart: function(moveable, e) {
@@ -40604,9 +40719,10 @@ var Resizable = {
       return;
     }
     this.dragControlEnd(moveable, e);
-    triggerChildAbles(moveable, this, "dragControlEnd", e);
+    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
     var nextParams = fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     });
     triggerEvent(moveable, "onResizeGroupEnd", nextParams);
     return isDrag;
@@ -40963,9 +41079,10 @@ var Scalable = {
       return;
     }
     this.dragControlEnd(moveable, e);
-    triggerChildAbles(moveable, this, "dragControlEnd", e);
+    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
     var nextParams = fillEndParams(moveable, e, {
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events
     });
     triggerEvent(moveable, "onScaleGroupEnd", nextParams);
     return isDrag;
@@ -41045,7 +41162,7 @@ var Warpable = {
     var linePosTo2 = getMiddleLinePos(pos4, pos3);
     var linePosTo3 = getMiddleLinePos(pos2, pos4);
     var linePosTo4 = getMiddleLinePos(pos4, pos2);
-    return __spreadArrays$1([React.createElement("div", {
+    return __spreadArray([React.createElement("div", {
       className: prefix("line"),
       key: "middeLine1",
       style: getLineStyle(linePosFrom1, linePosTo1, zoom)
@@ -41332,7 +41449,7 @@ var DragArea = {
   enableNativeEvent: function(moveable) {
     var state = moveable.state;
     if (state.disableNativeEvent) {
-      requestAnimationFrame(function() {
+      requestAnimationFrame$1(function() {
         state.disableNativeEvent = false;
       });
     }
@@ -41366,6 +41483,7 @@ var Scrollable = {
     onScroll: "scroll",
     onScrollGroup: "scrollGroup"
   },
+  dragRelation: "strong",
   dragStart: function(moveable, e) {
     var props = moveable.props;
     var _a3 = props.scrollContainer, scrollContainer = _a3 === void 0 ? moveable.getContainer() : _a3;
@@ -41469,6 +41587,7 @@ var Default = {
     container: Object,
     portalContainer: Object,
     rootContainer: Object,
+    useResizeObserver: Boolean,
     zoom: Number,
     transformOrigin: Array,
     edge: Boolean,
@@ -41629,7 +41748,7 @@ function getRadiusValues(values, width, height, left, top, minCounts) {
   _d2 = calculateRatio([verticalPoses[1], verticalPoses[2]], height), verticalPoses[1] = _d2[0], verticalPoses[2] = _d2[1];
   var nextHorizontalPoses = horizontalPoses.slice(0, Math.max(minCounts[0], horizontalValues.length));
   var nextVerticalPoses = verticalPoses.slice(0, Math.max(minCounts[1], verticalValues.length));
-  return __spreadArrays$1(nextHorizontalPoses.map(function(pos, i2) {
+  return __spreadArray(__spreadArray([], nextHorizontalPoses.map(function(pos, i2) {
     var direction = RADIUS_DIRECTIONS[i2];
     return {
       horizontal: HORIZONTAL_RADIUS_DIRECTIONS[i2],
@@ -41639,7 +41758,7 @@ function getRadiusValues(values, width, height, left, top, minCounts) {
       raw: horizontalRawPoses[i2],
       direction
     };
-  }), nextVerticalPoses.map(function(pos, i2) {
+  })), nextVerticalPoses.map(function(pos, i2) {
     var direction = RADIUS_DIRECTIONS[i2];
     return {
       horizontal: 0,
@@ -41784,7 +41903,7 @@ function getClipStyles(moveable, clipPath, poses) {
     });
     if (poses.length > 8) {
       var _c3 = minus(poses[4], poses[0]), subWidth = _c3[0], subHeight = _c3[1];
-      clipStyles.push.apply(clipStyles, __spreadArrays$1(["round"], getRadiusStyles(poses.slice(8), clipPoses.slice(8), clipRelative, subWidth, subHeight, left, top, right, bottom).styles));
+      clipStyles.push.apply(clipStyles, __spreadArray(["round"], getRadiusStyles(poses.slice(8), clipPoses.slice(8), clipRelative, subWidth, subHeight, left, top, right, bottom).styles));
     }
     return clipStyles;
   } else if (isCircle || clipType === "ellipse") {
@@ -41863,7 +41982,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
       radiusY_1 = convertUnitSize(yRadius, height);
     }
     var centerPos_1 = [convertUnitSize(xPos, width), convertUnitSize(yPos, height)];
-    var poses = __spreadArrays$1([{
+    var poses = __spreadArray([{
       vertical: 1,
       horizontal: 1,
       pos: centerPos_1,
@@ -41902,7 +42021,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
     var nextRight = width - right;
     var nextBottom = height - bottom;
     var radiusPoses = getRadiusValues(radiusValues, nextRight - left, nextBottom - top, left, top);
-    var poses = __spreadArrays$1(getRectPoses(top, nextRight, nextBottom, left), radiusPoses);
+    var poses = __spreadArray(__spreadArray([], getRectPoses(top, nextRight, nextBottom, left)), radiusPoses);
     return {
       type: "inset",
       clipText,
@@ -42021,7 +42140,7 @@ var Clippable = {
   css: [".control.clip-control {\n    background: #6d6;\n    cursor: pointer;\n}\n.control.clip-control.clip-radius {\n    background: #d66;\n}\n.line.clip-line {\n    background: #6e6;\n    cursor: move;\n    z-index: 1;\n}\n.clip-area {\n    position: absolute;\n    top: 0;\n    left: 0;\n}\n.clip-ellipse {\n    position: absolute;\n    cursor: move;\n    border: 1px solid #6d6;\n    border: var(--zoompx) solid #6d6;\n    border-radius: 50%;\n    transform-origin: 0px 0px;\n}", ":host {\n    --bounds-color: #d66;\n}", ".guideline {\n    pointer-events: none;\n    z-index: 2;\n}", ".line.guideline.bounds {\n    background: #d66;\n    background: var(--bounds-color);\n}"],
   render: function(moveable, React) {
     var _a3 = moveable.props, customClipPath = _a3.customClipPath, defaultClipPath = _a3.defaultClipPath, clipArea = _a3.clipArea, zoom = _a3.zoom;
-    var _b3 = moveable.state, target = _b3.target, width = _b3.width, height = _b3.height, allMatrix = _b3.allMatrix, is3d = _b3.is3d, left = _b3.left, top = _b3.top, pos1 = _b3.pos1, pos2 = _b3.pos2, pos3 = _b3.pos3, pos4 = _b3.pos4, clipPathState = _b3.clipPathState, snapBoundInfos = _b3.snapBoundInfos;
+    var _b3 = moveable.state, target = _b3.target, width = _b3.width, height = _b3.height, allMatrix = _b3.allMatrix, is3d = _b3.is3d, left = _b3.left, top = _b3.top, pos1 = _b3.pos1, pos2 = _b3.pos2, pos3 = _b3.pos3, pos4 = _b3.pos4, clipPathState = _b3.clipPathState, snapBoundInfos = _b3.snapBoundInfos, rotationRad = _b3.rotation;
     if (!target) {
       return [];
     }
@@ -42064,7 +42183,7 @@ var Clippable = {
         className: prefix("control", "clip-control", "snap-control"),
         "data-clip-index": i3,
         style: {
-          transform: "translate(" + pos[0] + "px, " + pos[1] + "px) scale(" + zoom + ")"
+          transform: "translate(" + pos[0] + "px, " + pos[1] + "px) rotate(" + rotationRad + "rad) scale(" + zoom + ")"
         }
       });
     });
@@ -42075,7 +42194,7 @@ var Clippable = {
           className: prefix("control", "clip-control", "clip-radius", "snap-control"),
           "data-clip-index": 8 + i3,
           style: {
-            transform: "translate(" + pos[0] + "px, " + pos[1] + "px) scale(" + zoom + ")"
+            transform: "translate(" + pos[0] + "px, " + pos[1] + "px) rotate(" + rotationRad + "rad) scale(" + zoom + ")"
           }
         });
       }));
@@ -42113,7 +42232,7 @@ var Clippable = {
       }));
     }
     if (clipArea) {
-      var _d2 = getRect(__spreadArrays$1([pos1, pos2, pos3, pos4], poses)), allWidth = _d2.width, allHeight = _d2.height, allLeft_1 = _d2.left, allTop_1 = _d2.top;
+      var _d2 = getRect(__spreadArray([pos1, pos2, pos3, pos4], poses)), allWidth = _d2.width, allHeight = _d2.height, allLeft_1 = _d2.left, allTop_1 = _d2.top;
       if (isPolygon || isRect || isInset) {
         var areaPoses = isInset ? poses.slice(0, 8) : poses;
         controls.push(React.createElement("div", {
@@ -42152,7 +42271,7 @@ var Clippable = {
         }
       });
     }
-    return __spreadArrays$1(controls, lines);
+    return __spreadArray(__spreadArray([], controls), lines);
   },
   dragControlCondition: function(moveable, e) {
     return e.inputEvent && (e.inputEvent.target.getAttribute("class") || "").indexOf("clip") > -1;
@@ -42176,7 +42295,7 @@ var Clippable = {
     var _a3 = moveable.props, defaultClipPath = _a3.defaultClipPath, customClipPath = _a3.customClipPath;
     var target = state.target, width = state.width, height = state.height;
     var inputTarget = e.inputEvent ? e.inputEvent.target : null;
-    var className = inputTarget ? inputTarget.getAttribute("class") : "";
+    var className = inputTarget && inputTarget.getAttribute("class") || "";
     var datas = e.datas;
     var clipPath = getClipPath(target, width, height, defaultClipPath || "inset", customClipPath);
     if (!clipPath) {
@@ -42194,7 +42313,7 @@ var Clippable = {
       datas.isClipStart = false;
       return false;
     }
-    datas.isControl = className.indexOf("clip-control") > -1;
+    datas.isControl = className && className.indexOf("clip-control") > -1;
     datas.isLine = className.indexOf("clip-line") > -1;
     datas.isArea = className.indexOf("clip-area") > -1 || className.indexOf("clip-ellipse") > -1;
     datas.index = inputTarget ? parseInt(inputTarget.getAttribute("data-clip-index"), 10) : -1;
@@ -42205,16 +42324,16 @@ var Clippable = {
     return true;
   },
   dragControl: function(moveable, e) {
+    var _a3;
     var datas = e.datas, originalDatas = e.originalDatas;
     if (!datas.isClipStart) {
       return false;
     }
-    var draggableData = originalDatas && originalDatas.draggable || {};
-    var _a3 = datas, isControl = _a3.isControl, isLine = _a3.isLine, isArea = _a3.isArea, index = _a3.index, clipPath = _a3.clipPath;
+    var _b3 = datas, isControl = _b3.isControl, isLine = _b3.isLine, isArea = _b3.isArea, index = _b3.index, clipPath = _b3.clipPath;
     if (!clipPath) {
       return false;
     }
-    var _b3 = draggableData.isDrag ? draggableData.prevDist : getDragDist(e), distX = _b3[0], distY = _b3[1];
+    var _c3 = getDragDist(e), distX = _c3[0], distY = _c3[1];
     var props = moveable.props;
     var state = moveable.state;
     var width = state.width, height = state.height;
@@ -42233,7 +42352,7 @@ var Clippable = {
       return [0, 0];
     });
     if (isControl && !isAll) {
-      var _c3 = clipPoses[index], horizontal = _c3.horizontal, vertical = _c3.vertical;
+      var _d2 = clipPoses[index], horizontal = _d2.horizontal, vertical = _d2.vertical;
       var dist = [distX * Math.abs(horizontal), distY * Math.abs(vertical)];
       dists = moveControlPos(clipPoses, index, dist, isRect);
     } else if (isAll) {
@@ -42244,7 +42363,7 @@ var Clippable = {
     var nextPoses = poses.map(function(pos, i3) {
       return plus(pos, dists[i3]);
     });
-    var guidePoses = __spreadArrays$1(nextPoses);
+    var guidePoses = __spreadArray([], nextPoses);
     state.snapBoundInfos = null;
     var isCircle = clipPath.type === "circle";
     var isEllipse = clipPath.type === "ellipse";
@@ -42301,12 +42420,12 @@ var Clippable = {
     }
     var boundDelta = [0, 0];
     var _loop_12 = function(i3) {
-      var _a4 = checkSnapBounds(guidelines, props.clipTargetBounds && {
+      var _e = checkSnapBounds(guidelines, props.clipTargetBounds && {
         left: 0,
         top: 0,
         right: width,
         bottom: height
-      }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _a4.horizontal, verticalSnapInfo = _a4.vertical;
+      }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _e.horizontal, verticalSnapInfo = _e.vertical;
       var snapOffsetY = horizontalSnapInfo.offset;
       var snapOffsetX = verticalSnapInfo.offset;
       if (horizontalSnapInfo.isBound) {
@@ -42379,6 +42498,9 @@ var Clippable = {
       bottom: height
     }, guideXPoses, guideYPoses, 1);
     if (originalDatas.draggable) {
+      var is3d = state.is3d, allMatrix = state.allMatrix;
+      var n = is3d ? 4 : 3;
+      _a3 = multiply(allMatrix, [boundDelta[0], boundDelta[1], 0, 0], n), boundDelta[0] = _a3[0], boundDelta[1] = _a3[1];
       originalDatas.draggable.deltaOffset = boundDelta;
     }
     triggerEvent(moveable, "onClip", fillParams(moveable, e, {
@@ -42793,6 +42915,10 @@ var Roundable = {
     moveable.state.borderRadiusState = "";
   }
 };
+function isIdentityMatrix(matrix, is3d) {
+  var value = is3d ? "matrix3d(" + createIdentityMatrix(4) : "matrix(" + createIdentityMatrix(3) + ")";
+  return matrix === value || matrix === "matrix(1,0,0,1,0,0)";
+}
 var BeforeRenderable = {
   isPinch: true,
   name: "beforeRenderable",
@@ -42805,13 +42931,15 @@ var BeforeRenderable = {
     onBeforeRenderGroup: "beforeRenderGroup",
     onBeforeRenderGroupEnd: "beforeRenderGroupEnd"
   },
+  dragRelation: "weak",
   setTransform: function(moveable, e) {
     var _a3 = moveable.state, is3d = _a3.is3d, target = _a3.target, targetMatrix = _a3.targetMatrix;
     var transform = target === null || target === void 0 ? void 0 : target.style.transform;
     var cssMatrix = is3d ? "matrix3d(" + targetMatrix.join(",") + ")" : "matrix(" + convertMatrixtoCSS(targetMatrix, true) + ")";
-    e.datas.startTransforms = !transform || transform === "none" ? [cssMatrix] : splitSpace(transform);
+    var startTransform = !transform || transform === "none" ? cssMatrix : transform;
+    e.datas.startTransforms = isIdentityMatrix(startTransform, is3d) ? [] : splitSpace(startTransform);
   },
-  resetTransform: function(moveable, e) {
+  resetTransform: function(e) {
     e.datas.nextTransforms = e.datas.startTransforms;
     e.datas.nextTransformAppendedIndexes = [];
   },
@@ -42833,7 +42961,7 @@ var BeforeRenderable = {
     triggerEvent(moveable, "onBeforeRenderStart", this.fillDragStartParams(moveable, e));
   },
   drag: function(moveable, e) {
-    this.resetTransform(moveable, e);
+    this.resetTransform(e);
     triggerEvent(moveable, "onBeforeRender", fillParams(moveable, e, {
       isPinch: !!e.isPinch
     }));
@@ -42869,7 +42997,7 @@ var BeforeRenderable = {
     var moveables = moveable.moveables;
     var params = events.map(function(childEvent, i2) {
       var childMoveable = moveables[i2];
-      _this.resetTransform(childMoveable, childEvent);
+      _this.resetTransform(childEvent);
       return _this.fillDragParams(childMoveable, childEvent);
     });
     triggerEvent(moveable, "onBeforeRenderGroup", fillParams(moveable, e, {
@@ -42916,21 +43044,22 @@ var Renderable = {
     onRenderGroup: "renderGroup",
     onRenderGroupEnd: "renderGroupEnd"
   },
+  dragRelation: "weak",
   dragStart: function(moveable, e) {
     triggerEvent(moveable, "onRenderStart", fillParams(moveable, e, {
       isPinch: !!e.isPinch
     }));
   },
   drag: function(moveable, e) {
-    triggerEvent(moveable, "onRender", fillParams(moveable, e, {
-      isPinch: !!e.isPinch
-    }));
+    triggerEvent(moveable, "onRender", this.fillDragParams(moveable, e));
+  },
+  dragAfter: function(moveable, e) {
+    if (e.resultCount) {
+      return this.drag(moveable, e);
+    }
   },
   dragEnd: function(moveable, e) {
-    triggerEvent(moveable, "onRenderEnd", fillParams(moveable, e, {
-      isPinch: !!e.isPinch,
-      isDrag: e.isDrag
-    }));
+    triggerEvent(moveable, "onRenderEnd", this.fillDragEndParams(moveable, e));
   },
   dragGroupStart: function(moveable, e) {
     triggerEvent(moveable, "onRenderGroupStart", fillParams(moveable, e, {
@@ -42939,16 +43068,33 @@ var Renderable = {
     }));
   },
   dragGroup: function(moveable, e) {
+    var _this = this;
+    var events = fillChildEvents(moveable, "beforeRenderable", e);
+    var moveables = moveable.moveables;
+    var params = events.map(function(childEvent, i2) {
+      var childMoveable = moveables[i2];
+      return _this.fillDragParams(childMoveable, childEvent);
+    });
     triggerEvent(moveable, "onRenderGroup", fillParams(moveable, e, {
       isPinch: !!e.isPinch,
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      transform: getNextTransformText(e),
+      events: params
     }));
   },
   dragGroupEnd: function(moveable, e) {
+    var _this = this;
+    var events = fillChildEvents(moveable, "beforeRenderable", e);
+    var moveables = moveable.moveables;
+    var params = events.map(function(childEvent, i2) {
+      var childMoveable = moveables[i2];
+      return _this.fillDragEndParams(childMoveable, childEvent);
+    });
     triggerEvent(moveable, "onRenderGroupEnd", fillParams(moveable, e, {
       isPinch: !!e.isPinch,
       isDrag: e.isDrag,
-      targets: moveable.props.targets
+      targets: moveable.props.targets,
+      events: params
     }));
   },
   dragControlStart: function(moveable, e) {
@@ -42956,6 +43102,9 @@ var Renderable = {
   },
   dragControl: function(moveable, e) {
     return this.drag(moveable, e);
+  },
+  dragControlAfter: function(moveable, e) {
+    return this.dragAfter(moveable, e);
   },
   dragControlEnd: function(moveable, e) {
     return this.dragEnd(moveable, e);
@@ -42968,6 +43117,18 @@ var Renderable = {
   },
   dragGroupControlEnd: function(moveable, e) {
     return this.dragGroupEnd(moveable, e);
+  },
+  fillDragParams: function(moveable, e) {
+    return fillParams(moveable, e, {
+      isPinch: !!e.isPinch,
+      transform: getNextTransformText(e)
+    });
+  },
+  fillDragEndParams: function(moveable, e) {
+    return fillParams(moveable, e, {
+      isPinch: !!e.isPinch,
+      isDrag: e.isDrag
+    });
   }
 };
 function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, e, requestInstant) {
@@ -42980,15 +43141,15 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   var eventName = "" + eventOperation + eventAffix + eventType;
   var conditionName = "" + eventOperation + eventAffix + "Condition";
   var isEnd = eventType === "End";
-  var isAfter = eventType.indexOf("After") > -1;
+  var isAfter = eventType === "After";
   var isFirstStart = isStart && (!moveable.targetGesto || !moveable.controlGesto || !moveable.targetGesto.isFlag() || !moveable.controlGesto.isFlag());
   if (isFirstStart) {
     moveable.updateRect(eventType, true, false);
   }
-  if (eventType === "" && !isAfter && !isRequest) {
+  if (eventType === "" && !isRequest) {
     convertDragDist(moveable.state, e);
   }
-  var ables = __spreadArrays$1([BeforeRenderable], moveable[ableType], [Renderable]);
+  var ables = __spreadArray([], moveable[ableType]);
   if (isRequest) {
     var requestAble_1 = e.requestAble;
     if (!ables.some(function(able) {
@@ -43002,12 +43163,12 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   if (!ables.length) {
     return false;
   }
-  var events = ables.filter(function(able) {
+  var eventAbles = __spreadArray(__spreadArray([BeforeRenderable], ables), [Renderable]).filter(function(able) {
     return able[eventName];
   });
   var datas = e.datas;
   if (isFirstStart) {
-    events.forEach(function(able) {
+    eventAbles.forEach(function(able) {
       able.unset && able.unset(moveable);
     });
   }
@@ -43016,23 +43177,44 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   if (isEnd && inputEvent) {
     inputTarget = document.elementFromPoint(e.clientX, e.clientY) || inputEvent.target;
   }
-  var results = events.filter(function(able) {
+  var resultCount = 0;
+  var results = eventAbles.filter(function(able) {
     var ableName = able.name;
     var nextDatas = datas[ableName] || (datas[ableName] = {});
     if (isStart) {
       nextDatas.isEventStart = !able[conditionName] || able[conditionName](moveable, e);
     }
     if (nextDatas.isEventStart) {
-      return able[eventName](moveable, __assign$2(__assign$2({}, e), {
+      var result = able[eventName](moveable, __assign$2(__assign$2({}, e), {
+        resultCount,
         datas: nextDatas,
         originalDatas: datas,
         inputTarget
       }));
+      if (isStart && result === false) {
+        nextDatas.isEventStart = false;
+      }
+      resultCount += result ? 1 : 0;
+      return result;
     }
     return false;
   });
   var isUpdate = results.length;
-  var isForceEnd = isStart && events.length && !isUpdate;
+  var isForceEnd = false;
+  if (isStart && eventAbles.length && !isUpdate) {
+    isForceEnd = eventAbles.filter(function(able) {
+      var ableName = able.name;
+      var nextDatas = datas[ableName];
+      if (nextDatas.isEventStart) {
+        if (able.dragRelation === "strong") {
+          nextDatas.isEventStart = false;
+          return false;
+        }
+        return true;
+      }
+      return false;
+    }).length === 0;
+  }
   if (isEnd || isForceEnd) {
     moveable.state.gesto = null;
     if (moveable.moveables) {
@@ -43042,15 +43224,18 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
     }
   }
   if (isFirstStart && isForceEnd) {
-    events.forEach(function(able) {
+    eventAbles.forEach(function(able) {
       able.unset && able.unset(moveable);
     });
+  }
+  if (isStart && !isRequest && isUpdate) {
+    e === null || e === void 0 ? void 0 : e.preventDefault();
   }
   if (moveable.isUnmounted || isForceEnd) {
     return false;
   }
   if (!isStart && isUpdate && !requestInstant || isEnd) {
-    moveable.updateRect(eventType, true, false);
+    moveable.updateRect(isEnd ? eventType : "", true, false);
     moveable.forceUpdate();
   }
   if (!isStart && !isEnd && !isAfter && isUpdate && !requestInstant) {
@@ -43068,7 +43253,7 @@ function getTargetAbleGesto(moveable, moveableTarget, eventAffix) {
   var startFunc = function(e) {
     var eventTarget = e.inputEvent.target;
     var areaElement = moveable.areaElement;
-    return eventTarget === areaElement || !moveable.isMoveableElement(eventTarget) || hasClass(eventTarget, "moveable-area") || hasClass(eventTarget, "moveable-padding");
+    return eventTarget === areaElement || !moveable.isMoveableElement(eventTarget) && !moveable.controlBox.getElement().contains(eventTarget) || hasClass(eventTarget, "moveable-area") || hasClass(eventTarget, "moveable-padding");
   };
   return getAbleGesto(moveable, targets, "targetAbles", eventAffix, {
     dragStart: startFunc,
@@ -43081,6 +43266,7 @@ function getAbleGesto(moveable, target, ableType, eventAffix, conditionFunctions
   }
   var _a3 = moveable.props, pinchOutside = _a3.pinchOutside, pinchThreshold = _a3.pinchThreshold;
   var options = {
+    preventDefault: false,
     container: window,
     pinchThreshold,
     pinchOutside
@@ -43155,9 +43341,30 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
       "mouseEnter": null,
       "mouseLeave": null
     };
+    _this._prevTarget = null;
+    _this._prevDragArea = false;
+    _this._observer = null;
+    _this._observerId = 0;
     _this.onPreventClick = function(e) {
       e.stopPropagation();
       removeEvent(window, "click", _this.onPreventClick, true);
+    };
+    _this.checkUpdateRect = function() {
+      if (_this.isDragging()) {
+        return;
+      }
+      var parentMoveable = _this.props.parentMoveable;
+      if (parentMoveable) {
+        parentMoveable.checkUpdateRect();
+        return;
+      }
+      cancelAnimationFrame$1(_this._observerId);
+      _this._observerId = requestAnimationFrame$1(function() {
+        if (_this.isDragging()) {
+          return;
+        }
+        _this.updateRect();
+      });
     };
     return _this;
   }
@@ -43200,17 +43407,21 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     this.controlBox.getElement();
     var props = this.props;
     var parentMoveable = props.parentMoveable, container = props.container, wrapperMoveable = props.wrapperMoveable;
-    this.updateEvent(props);
-    this.updateNativeEvents(props);
+    this._updateTargets();
+    this._updateNativeEvents();
+    this._updateEvents();
     if (!container && !parentMoveable && !wrapperMoveable) {
       this.updateRect("", false, true);
     }
     this.updateCheckInput();
+    this._updateObserver(this.props);
   };
   __proto.componentDidUpdate = function(prevProps) {
-    this.updateNativeEvents(prevProps);
-    this.updateEvent(prevProps);
+    this._updateNativeEvents();
+    this._updateEvents();
+    this._updateTargets();
     this.updateCheckInput();
+    this._updateObserver(prevProps);
   };
   __proto.componentWillUnmount = function() {
     this.isUnmounted = true;
@@ -43282,77 +43493,6 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var container = this.getContainer();
     var rootContainer = parentMoveable ? parentMoveable.props.rootContainer : props.rootContainer;
     this.updateState(getTargetInfo(this.controlBox && this.controlBox.getElement(), target, container, container, rootContainer || container), parentMoveable ? false : isSetState);
-  };
-  __proto.isTargetChanged = function(prevProps, useDragArea) {
-    var props = this.props;
-    var target = props.dragTarget || props.target;
-    var prevTarget = prevProps.dragTarget || prevProps.target;
-    var dragArea = props.dragArea;
-    var prevDragArea = prevProps.dragArea;
-    var isTargetChanged = !dragArea && prevTarget !== target;
-    return isTargetChanged || (useDragArea || dragArea) && prevDragArea !== dragArea;
-  };
-  __proto.updateNativeEvents = function(prevProps) {
-    var _this = this;
-    var props = this.props;
-    var target = props.dragArea ? this.areaElement : this.state.target;
-    var events = this.events;
-    var eventKeys = getKeys(events);
-    if (this.isTargetChanged(prevProps)) {
-      for (var eventName in events) {
-        var manager = events[eventName];
-        manager && manager.destroy();
-        events[eventName] = null;
-      }
-    }
-    if (!target) {
-      return;
-    }
-    var enabledAbles = this.enabledAbles;
-    eventKeys.forEach(function(eventName2) {
-      var ables = filterAbles(enabledAbles, [eventName2]);
-      var hasAbles = ables.length > 0;
-      var manager2 = events[eventName2];
-      if (!hasAbles) {
-        if (manager2) {
-          manager2.destroy();
-          events[eventName2] = null;
-        }
-        return;
-      }
-      if (!manager2) {
-        manager2 = new EventManager(target, _this, eventName2);
-        events[eventName2] = manager2;
-      }
-      manager2.setAbles(ables);
-    });
-  };
-  __proto.updateEvent = function(prevProps) {
-    var controlBoxElement = this.controlBox.getElement();
-    var hasTargetAble = this.targetAbles.length;
-    var hasControlAble = this.controlAbles.length;
-    var props = this.props;
-    var target = props.dragTarget || props.target;
-    var isTargetChanged = this.isTargetChanged(prevProps, true);
-    var isUnset = !hasTargetAble && this.targetGesto || isTargetChanged;
-    if (isUnset) {
-      unset(this, "targetGesto");
-      this.updateState({
-        gesto: null
-      });
-    }
-    if (!hasControlAble) {
-      unset(this, "controlGesto");
-    }
-    if (target && hasTargetAble && !this.targetGesto) {
-      this.targetGesto = getTargetAbleGesto(this, target, "");
-    }
-    if (!this.controlGesto && hasControlAble) {
-      this.controlGesto = getAbleGesto(this, controlBoxElement, "controlAbles", "Control");
-    }
-    if (isUnset) {
-      this.unsetAbles();
-    }
   };
   __proto.isDragging = function() {
     return (this.targetGesto ? this.targetGesto.isFlag() : false) || (this.controlGesto ? this.controlGesto.isFlag() : false);
@@ -43463,11 +43603,15 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     if (!isChanged) {
       return;
     }
+    var moveableContainer = container || this.controlBox;
+    if (moveableContainer) {
+      this.unsetAbles();
+    }
     this.updateState({
       target,
       container
     });
-    if (!parentMoveable && (container || this.controlBox)) {
+    if (!parentMoveable && moveableContainer) {
       this.updateRect("End", false, false);
     }
   };
@@ -43485,15 +43629,11 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   };
   __proto.unsetAbles = function() {
     var _this = this;
-    if (this.targetAbles.filter(function(able) {
+    this.targetAbles.forEach(function(able) {
       if (able.unset) {
         able.unset(_this);
-        return true;
       }
-      return false;
-    }).length) {
-      this.forceUpdate();
-    }
+    });
   };
   __proto.updateAbles = function(ables, eventAffix) {
     if (ables === void 0) {
@@ -43505,7 +43645,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var props = this.props;
     var triggerAblesSimultaneously = props.triggerAblesSimultaneously;
     var enabledAbles = ables.filter(function(able) {
-      return able && (able.always || props[able.name]);
+      return able && (able.always && props[able.name] !== false || props[able.name]);
     });
     var dragStart = "drag" + eventAffix + "Start";
     var pinchStart = "pinch" + eventAffix + "Start";
@@ -43555,6 +43695,52 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   __proto.updateCheckInput = function() {
     this.targetGesto && (this.targetGesto.options.checkInput = this.props.checkInput);
   };
+  __proto._updateObserver = function(prevProps) {
+    var _a3;
+    var props = this.props;
+    var target = props.target;
+    if (!window.ResizeObserver || !target || !props.useResizeObserver) {
+      (_a3 = this._observer) === null || _a3 === void 0 ? void 0 : _a3.disconnect();
+      return;
+    }
+    if (prevProps.target === target && this._observer) {
+      return;
+    }
+    var observer = new ResizeObserver(this.checkUpdateRect);
+    observer.observe(target, {
+      box: "border-box"
+    });
+    this._observer = observer;
+    return;
+  };
+  __proto._updateEvents = function() {
+    var controlBoxElement = this.controlBox.getElement();
+    var hasTargetAble = this.targetAbles.length;
+    var hasControlAble = this.controlAbles.length;
+    var props = this.props;
+    var target = props.dragTarget || props.target;
+    var isUnset = !hasTargetAble && this.targetGesto || this._isTargetChanged(true);
+    if (isUnset) {
+      unset(this, "targetGesto");
+      this.updateState({
+        gesto: null
+      });
+    }
+    if (!hasControlAble) {
+      unset(this, "controlGesto");
+    }
+    if (target && hasTargetAble && !this.targetGesto) {
+      this.targetGesto = getTargetAbleGesto(this, target, "");
+    }
+    if (!this.controlGesto && hasControlAble) {
+      this.controlGesto = getAbleGesto(this, controlBoxElement, "controlAbles", "Control");
+    }
+  };
+  __proto._updateTargets = function() {
+    var props = this.props;
+    this._prevTarget = props.dragTarget || props.target;
+    this._prevDragArea = props.dragArea;
+  };
   __proto._renderLines = function() {
     var props = this.props;
     var edge = props.edge, zoom = props.zoom, hideDefaultLines = props.hideDefaultLines;
@@ -43567,6 +43753,51 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     };
     return [renderLine(Renderer2, edge ? "n" : "", renderPoses[0], renderPoses[1], zoom, 0), renderLine(Renderer2, edge ? "e" : "", renderPoses[1], renderPoses[3], zoom, 1), renderLine(Renderer2, edge ? "w" : "", renderPoses[0], renderPoses[2], zoom, 2), renderLine(Renderer2, edge ? "s" : "", renderPoses[2], renderPoses[3], zoom, 3)];
   };
+  __proto._isTargetChanged = function(useDragArea) {
+    var props = this.props;
+    var target = props.dragTarget || props.target;
+    var prevTarget = this._prevTarget;
+    var prevDragArea = this._prevDragArea;
+    var dragArea = props.dragArea;
+    var isTargetChanged = !dragArea && prevTarget !== target;
+    var isDragAreaChanged = (useDragArea || dragArea) && prevDragArea !== dragArea;
+    return isTargetChanged || isDragAreaChanged;
+  };
+  __proto._updateNativeEvents = function() {
+    var _this = this;
+    var props = this.props;
+    var target = props.dragArea ? this.areaElement : this.state.target;
+    var events = this.events;
+    var eventKeys = getKeys(events);
+    if (this._isTargetChanged()) {
+      for (var eventName in events) {
+        var manager = events[eventName];
+        manager && manager.destroy();
+        events[eventName] = null;
+      }
+    }
+    if (!target) {
+      return;
+    }
+    var enabledAbles = this.enabledAbles;
+    eventKeys.forEach(function(eventName2) {
+      var ables = filterAbles(enabledAbles, [eventName2]);
+      var hasAbles = ables.length > 0;
+      var manager2 = events[eventName2];
+      if (!hasAbles) {
+        if (manager2) {
+          manager2.destroy();
+          events[eventName2] = null;
+        }
+        return;
+      }
+      if (!manager2) {
+        manager2 = new EventManager(target, _this, eventName2);
+        events[eventName2] = manager2;
+      }
+      manager2.setAbles(ables);
+    });
+  };
   MoveableManager2.defaultProps = {
     target: null,
     dragTarget: null,
@@ -43578,6 +43809,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     wrapperMoveable: null,
     parentPosition: null,
     portalContainer: null,
+    useResizeObserver: false,
     ables: [],
     pinchThreshold: 20,
     dragArea: false,
@@ -43615,14 +43847,16 @@ var Groupable = {
       left,
       top
     };
+    var props = moveable.props;
     return targets.map(function(target, i2) {
       return React.createElement(MoveableManager$1, {
         key: "moveable" + i2,
         ref: refs(moveable, "moveables", i2),
         target,
         origin: false,
-        cssStyled: moveable.props.cssStyled,
-        customStyledMap: moveable.props.customStyledMap,
+        cssStyled: props.cssStyled,
+        customStyledMap: props.customStyledMap,
+        useResizeObserver: props.useResizeObserver,
         parentMoveable: moveable,
         parentPosition: position
       });
@@ -43630,12 +43864,15 @@ var Groupable = {
   }
 };
 var Clickable = makeAble("clickable", {
-  props: {},
+  props: {
+    clickable: Boolean
+  },
   events: {
     onClick: "click",
     onClickGroup: "clickGroup"
   },
   always: true,
+  dragRelation: "weak",
   dragStart: function(moveable, e) {
     if (!e.isRequest) {
       addEvent(window, "click", moveable.onPreventClick, true);
@@ -43653,10 +43890,12 @@ var Clickable = makeAble("clickable", {
     var target = moveable.state.target;
     var inputEvent = e.inputEvent;
     var inputTarget = e.inputTarget;
-    if (!e.isDrag) {
+    var isMoveableElement = moveable.isMoveableElement(inputTarget);
+    var containsElement = !isMoveableElement && moveable.controlBox.getElement().contains(inputTarget);
+    if (!e.isDrag || containsElement) {
       this.unset(moveable);
     }
-    if (!inputEvent || !inputTarget || e.isDrag || moveable.isMoveableElement(inputTarget)) {
+    if (!inputEvent || !inputTarget || e.isDrag || moveable.isMoveableElement(inputTarget) || containsElement) {
       return;
     }
     var containsTarget = target.contains(inputTarget);
@@ -43693,15 +43932,15 @@ var Clickable = makeAble("clickable", {
       containsTarget
     }));
   },
-  dragControlEnd: function(moveable) {
-    this.endEvent(moveable);
+  dragControlEnd: function(moveable, e) {
+    this.dragEnd(moveable, e);
   },
-  dragGroupControlEnd: function(moveable) {
-    this.endEvent(moveable);
+  dragGroupControlEnd: function(moveable, e) {
+    this.dragEnd(moveable, e);
   },
   endEvent: function(moveable) {
     var _this = this;
-    requestAnimationFrame(function() {
+    requestAnimationFrame$1(function() {
       _this.unset(moveable);
     });
   },
@@ -43753,7 +43992,7 @@ var edgeDraggable = makeAble("edgeDraggable", {
     return Draggable.dragGroupEnd(moveable, getDraggableEvent(e));
   },
   unset: function(moveable) {
-    moveable.state.dragInfo = null;
+    return Draggable.unset(moveable);
   }
 });
 var IndividualGroupable = {
@@ -43851,31 +44090,6 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
     return _this;
   }
   var __proto = MoveableGroup2.prototype;
-  __proto.updateEvent = function(prevProps) {
-    var state = this.state;
-    var props = this.props;
-    var prevTarget = prevProps.dragTarget || state.target;
-    var nextTarget = props.dragTarget || this.areaElement;
-    if (prevTarget !== nextTarget) {
-      unset(this, "targetGesto");
-      unset(this, "controlGesto");
-      state.target = null;
-    }
-    if (!state.target) {
-      state.target = this.areaElement;
-      this.controlBox.getElement().style.display = "block";
-      this.targetGesto = getTargetAbleGesto(this, nextTarget, "Group");
-      this.controlGesto = getAbleGesto(this, this.controlBox.getElement(), "controlAbles", "GroupControl");
-    }
-    var isContainerChanged = !equals(prevProps.container, props.container);
-    if (isContainerChanged) {
-      state.container = props.container;
-    }
-    var _a3 = this.differ.update(props.targets), added = _a3.added, changed = _a3.changed, removed = _a3.removed;
-    if (isContainerChanged || added.length || changed.length || removed.length) {
-      this.updateRect();
-    }
-  };
   __proto.checkUpdate = function() {
     this.updateAbles();
   };
@@ -43942,7 +44156,38 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
     }
   };
   __proto.updateAbles = function() {
-    _super.prototype.updateAbles.call(this, __spreadArrays$1(this.props.ables, [Groupable]), "Group");
+    _super.prototype.updateAbles.call(this, __spreadArray(__spreadArray([], this.props.ables), [Groupable]), "Group");
+  };
+  __proto._updateTargets = function() {
+    _super.prototype._updateTargets.call(this);
+    this._prevTarget = this.props.dragTarget || this.areaElement;
+  };
+  __proto._updateEvents = function() {
+    var state = this.state;
+    var props = this.props;
+    var prevTarget = this._prevTarget;
+    var nextTarget = props.dragTarget || this.areaElement;
+    if (prevTarget !== nextTarget) {
+      unset(this, "targetGesto");
+      unset(this, "controlGesto");
+      state.target = null;
+    }
+    if (!state.target) {
+      state.target = this.areaElement;
+      this.controlBox.getElement().style.display = "block";
+      this.targetGesto = getTargetAbleGesto(this, nextTarget, "Group");
+      this.controlGesto = getAbleGesto(this, this.controlBox.getElement(), "controlAbles", "GroupControl");
+    }
+    var isContainerChanged = !equals(state.container, props.container);
+    if (isContainerChanged) {
+      state.container = props.container;
+    }
+    var _a3 = this.differ.update(props.targets), added = _a3.added, changed = _a3.changed, removed = _a3.removed;
+    if (isContainerChanged || added.length || changed.length || removed.length) {
+      this.updateRect();
+    }
+  };
+  __proto._updateObserver = function() {
   };
   MoveableGroup2.defaultProps = __assign$2(__assign$2({}, MoveableManager$1.defaultProps), {
     transformOrigin: ["50%", "50%"],
@@ -44021,13 +44266,15 @@ var MoveableIndividualGroup = /* @__PURE__ */ function(_super) {
   };
   __proto.updateRenderPoses = function() {
   };
-  __proto.updateEvent = function() {
-  };
   __proto.checkUpdate = function() {
   };
   __proto.triggerEvent = function() {
   };
   __proto.updateAbles = function() {
+  };
+  __proto._updateEvents = function() {
+  };
+  __proto._updateObserver = function() {
   };
   return MoveableIndividualGroup2;
 }(MoveableManager$1);
@@ -44056,7 +44303,7 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
     this.defaultStyled = styled("div", prefixCSS(PREFIX, MOVEABLE_CSS + style));
   };
   InitialMoveable2.getTotalAbles = function() {
-    return __spreadArrays$1([Default, Groupable, IndividualGroupable, DragArea], this.defaultAbles);
+    return __spreadArray([Default, Groupable, IndividualGroupable, DragArea], this.defaultAbles);
   };
   __proto.render = function() {
     var moveableContructor = this.constructor;
@@ -44064,12 +44311,11 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
       moveableContructor.makeStyled();
     }
     var _a3 = this.props, userAbles = _a3.ables, userProps = _a3.props, props = __rest(_a3, ["ables", "props"]);
-    var refTargets = getRefTargets(props.target || props.targets);
+    var refTargets = this._updateRefs(true);
     var elementTargets = getElementTargets(refTargets, this.selectorMap);
-    this.refTargets = refTargets;
     var isGroup = elementTargets.length > 1;
     var totalAbles = moveableContructor.getTotalAbles();
-    var ables = __spreadArrays$1(totalAbles, userAbles || []);
+    var ables = __spreadArray(__spreadArray([], totalAbles), userAbles || []);
     var nextProps = __assign$2(__assign$2(__assign$2({}, props), userProps || {}), {
       ables,
       cssStyled: moveableContructor.defaultStyled,
@@ -44102,15 +44348,20 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
     }
   };
   __proto.componentDidMount = function() {
-    this.updateRefs();
+    this._updateRefs();
   };
   __proto.componentDidUpdate = function() {
-    this.updateRefs();
+    this._updateRefs();
   };
-  __proto.updateRefs = function(isReset) {
-    var refTargets = getRefTargets(this.props.target || this.props.targets);
-    var isUpdate = this.refTargets.some(function(target, i2) {
-      var nextTarget = refTargets[i2];
+  __proto.getManager = function() {
+    return this.moveable;
+  };
+  __proto._updateRefs = function(isRender) {
+    var prevRefTargets = this.refTargets;
+    var nextRefTargets = getRefTargets(this.props.target || this.props.targets);
+    var isBrowser = typeof document !== "undefined";
+    var isUpdate = prevRefTargets.length !== nextRefTargets.length || prevRefTargets.some(function(target, i2) {
+      var nextTarget = nextRefTargets[i2];
       if (!target && !nextTarget) {
         return false;
       } else if (target !== nextTarget) {
@@ -44118,11 +44369,11 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
       }
       return false;
     });
-    var selectorMap = isReset ? {} : this.selectorMap;
+    var selectorMap = this.selectorMap;
     var nextSelectorMap = {};
     this.refTargets.forEach(function(target) {
       if (isString(target)) {
-        if (!selectorMap[target]) {
+        if (!selectorMap[target] && isBrowser) {
           isUpdate = true;
           nextSelectorMap[target] = [].slice.call(document.querySelectorAll(target));
         } else {
@@ -44130,13 +44381,12 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
         }
       }
     });
+    this.refTargets = nextRefTargets;
     this.selectorMap = nextSelectorMap;
-    if (isUpdate) {
+    if (!isRender && isUpdate) {
       this.forceUpdate();
     }
-  };
-  __proto.getManager = function() {
-    return this.moveable;
+    return nextRefTargets;
   };
   InitialMoveable2.defaultAbles = [];
   InitialMoveable2.customStyledMap = {};
