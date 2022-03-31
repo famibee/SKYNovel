@@ -46,15 +46,15 @@ class MyVal implements IVariable {
 	setVal_Nochk = (_sc: string, _nm: string, _v: any, _ac?: boolean)=> {};
 
 	defTmp = (_name: string, _fnc: typeProcVal)=> {};
-	cloneMp = ()=> {return {}};
+	cloneMp = ()=> ({});
 	setMp = ()=> {};
 	setMark = (_place: number, _mark: IMark)=> {};
-	getMark = (_place: number)=> {return {
+	getMark = (_place: number)=> ({
 		hSave	: {},
 		hPages	: {},
 		aIfStk	: [],
-	}};
-	cloneSave = ()=> {return {}};
+	});
+	cloneSave = ()=> ({});
 	mark2save(_mark: IMark) {};
 
 	loadScrWork = (_fn: string)=> {};

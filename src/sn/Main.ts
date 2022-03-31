@@ -57,8 +57,7 @@ export class Main implements IMain {
 		const hApp: IApplicationOptions = {
 			width			: this.#cfg.oCfg.window.width,
 			height			: this.#cfg.oCfg.window.height,
-			backgroundColor	: this.#cfg.oCfg.init.bg_color =
-							parseColor(String(this.#cfg.oCfg.init.bg_color)),
+			backgroundColor	: parseColor(this.#cfg.oCfg.init.bg_color),
 		//	resolution		: sys.resolution,
 			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
 			autoResize		: true,

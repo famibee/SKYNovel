@@ -222,7 +222,7 @@ export declare type T_CFG = {
         max_len: number;
     };
     init: {
-        bg_color: number;
+        bg_color: string;
         tagch_msecwait: number;
         auto_msecpagewait: number;
         escape: string;

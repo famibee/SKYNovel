@@ -265,7 +265,7 @@ export type T_CFG = {
 	},
 	log		: {max_len: number},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
 	init	: {
-		bg_color			: number,	// 背景色
+		bg_color			: string,	// 背景色
 		tagch_msecwait		: number,	// 通常文字表示待ち時間（未読／既読）
 		auto_msecpagewait	: number,	// 自動文字表示、行待ち時間（未読／既読）
 		escape				: string,	// エスケープ文字

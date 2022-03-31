@@ -5,16 +5,13 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, int, parseColor} from './CmnLib';
-import {IConfig, IExts, IFn2Path} from './CmnInterface';
+import {CmnLib, int} from './CmnLib';
+import {IConfig, IExts, IFn2Path, T_CFG} from './CmnInterface';
 import {SysBase} from './SysBase';
 
 export class Config implements IConfig {
-	oCfg = {
+	oCfg: T_CFG = {
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
-		coder		: {len: 0x360},
-			// 画像や音声ファイルを前からなんバイト暗号化するか
-			// 先頭からの復号化処理対象バイト長。省略時は0、全て復号化
 		window	: {		// アプリケーションウインドウサイズ
 			width	: 300,
 			height	: 300,
@@ -30,7 +27,7 @@ export class Config implements IConfig {
 		},
 		log		: {max_len: 1024},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
 		init	: {
-			bg_color			: 0x000000,	// 背景色
+			bg_color			: '#000000',	// 背景色
 			tagch_msecwait		: 10,		// 通常文字表示待ち時間（未読／既読）
 			auto_msecpagewait	: 3500,		// 自動文字表示、行クリック待ち時間（未読／既読）
 			escape				: '',		// エスケープ文字
@@ -71,8 +68,6 @@ export class Config implements IConfig {
 		// this.oCfg = {...this.oCfg, ...oCfg};	// 一階層目でコピーしてしまう
 		this.oCfg.save_ns = oCfg?.save_ns ?? this.oCfg.save_ns;
 
-		this.oCfg.coder = oCfg?.coder ?? this.oCfg.coder;
-
 		CmnLib.stageW = this.oCfg.window.width = Number(oCfg?.window?.width ?? this.oCfg.window.width);
 		CmnLib.stageH = this.oCfg.window.height = Number(oCfg?.window?.height ?? this.oCfg.window.height);
 
@@ -81,7 +76,6 @@ export class Config implements IConfig {
 		this.oCfg.log.max_len = oCfg.log?.max_len?.max_len ?? this.oCfg.log.max_len;
 
 		this.oCfg.init = {...this.oCfg.init, ...oCfg.init};
-		this.oCfg.init.bg_color = parseColor(String(this.oCfg.init.bg_color));
 
 		this.oCfg.debug = {...this.oCfg.debug, ...oCfg.debug};
 		CmnLib.debugLog = this.oCfg.debug.debugLog;

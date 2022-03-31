@@ -22,7 +22,7 @@ export class SysBase implements ISysBase {
 			addTag: ()=> {},
 			addLayCls: ()=> {},
 			searchPath: ()=> '',
-			getVal: ()=> {return {}},
+			getVal: ()=> ({}),
 			resume: ()=> {},
 			render: ()=> {},
 			setDec: fnc=> this.#preFromPlg = fnc,

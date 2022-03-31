@@ -3060,9 +3060,7 @@ const _SysBase = class {
       addLayCls: () => {
       },
       searchPath: () => "",
-      getVal: () => {
-        return {};
-      },
+      getVal: () => ({}),
       resume: () => {
       },
       render: () => {
@@ -3412,7 +3410,6 @@ const _Config = class {
     this.sys = sys;
     this.oCfg = {
       save_ns: "",
-      coder: { len: 864 },
       window: {
         width: 300,
         height: 300
@@ -3428,7 +3425,7 @@ const _Config = class {
       },
       log: { max_len: 1024 },
       init: {
-        bg_color: 0,
+        bg_color: "#000000",
         tagch_msecwait: 10,
         auto_msecpagewait: 3500,
         escape: ""
@@ -3461,15 +3458,13 @@ const _Config = class {
     return c2;
   }
   async load(oCfg) {
-    var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _i;
+    var _a3, _b3, _c3, _d2, _e, _f, _g, _h;
     this.oCfg.save_ns = (_a3 = oCfg == null ? void 0 : oCfg.save_ns) != null ? _a3 : this.oCfg.save_ns;
-    this.oCfg.coder = (_b3 = oCfg == null ? void 0 : oCfg.coder) != null ? _b3 : this.oCfg.coder;
-    CmnLib.stageW = this.oCfg.window.width = Number((_d2 = (_c3 = oCfg == null ? void 0 : oCfg.window) == null ? void 0 : _c3.width) != null ? _d2 : this.oCfg.window.width);
-    CmnLib.stageH = this.oCfg.window.height = Number((_f = (_e = oCfg == null ? void 0 : oCfg.window) == null ? void 0 : _e.height) != null ? _f : this.oCfg.window.height);
+    CmnLib.stageW = this.oCfg.window.width = Number((_c3 = (_b3 = oCfg == null ? void 0 : oCfg.window) == null ? void 0 : _b3.width) != null ? _c3 : this.oCfg.window.width);
+    CmnLib.stageH = this.oCfg.window.height = Number((_e = (_d2 = oCfg == null ? void 0 : oCfg.window) == null ? void 0 : _d2.height) != null ? _e : this.oCfg.window.height);
     this.oCfg.book = __spreadValues(__spreadValues({}, this.oCfg.book), oCfg.book);
-    this.oCfg.log.max_len = (_i = (_h = (_g = oCfg.log) == null ? void 0 : _g.max_len) == null ? void 0 : _h.max_len) != null ? _i : this.oCfg.log.max_len;
+    this.oCfg.log.max_len = (_h = (_g = (_f = oCfg.log) == null ? void 0 : _f.max_len) == null ? void 0 : _g.max_len) != null ? _h : this.oCfg.log.max_len;
     this.oCfg.init = __spreadValues(__spreadValues({}, this.oCfg.init), oCfg.init);
-    this.oCfg.init.bg_color = parseColor(String(this.oCfg.init.bg_color));
     this.oCfg.debug = __spreadValues(__spreadValues({}, this.oCfg.debug), oCfg.debug);
     CmnLib.debugLog = this.oCfg.debug.debugLog;
     this.oCfg.debuger_token = oCfg.debuger_token;
@@ -6361,13 +6356,13 @@ function isMobile$1(param) {
   return result;
 }
 /*!
- * @pixi/settings - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/settings - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-var isMobile = isMobile$1(self.navigator);
+var isMobile = isMobile$1(globalThis.navigator);
 function maxRecommendedTextures(max) {
   var allowMax = true;
   if (isMobile.tablet || isMobile.phone) {
@@ -6396,8 +6391,8 @@ function canUploadSameBuffer() {
   return !isMobile.apple.device;
 }
 /*!
- * @pixi/constants - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/constants - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -6619,8 +6614,8 @@ var settings = {
   ROUND_PIXELS: false
 };
 /*!
- * @pixi/constants - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/constants - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -7449,8 +7444,8 @@ earcut.flatten = function(data) {
 };
 var earcut$1 = earcut$2.exports;
 /*!
- * @pixi/utils - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/utils - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -7463,7 +7458,7 @@ var url = {
 settings.RETINA_PREFIX = /@([0-9\.]+)x/;
 settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
 var saidHello = false;
-var VERSION = "6.2.2";
+var VERSION = "6.3.0";
 function skipHello() {
   saidHello = true;
 }
@@ -7485,9 +7480,9 @@ function sayHello(type) {
       "color: #ff2424; background: #fff; padding:5px 0;",
       "color: #ff2424; background: #fff; padding:5px 0;"
     ];
-    (_a3 = self.console).log.apply(_a3, args);
-  } else if (self.console) {
-    self.console.log("PixiJS " + VERSION + " - " + type + " - http://www.pixijs.com/");
+    (_a3 = globalThis.console).log.apply(_a3, args);
+  } else if (globalThis.console) {
+    globalThis.console.log("PixiJS " + VERSION + " - " + type + " - http://www.pixijs.com/");
   }
   saidHello = true;
 }
@@ -7500,7 +7495,7 @@ function isWebGLSupported() {
         failIfMajorPerformanceCaveat: settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT
       };
       try {
-        if (!self.WebGLRenderingContext) {
+        if (!globalThis.WebGLRenderingContext) {
           return false;
         }
         var canvas2 = document.createElement("canvas");
@@ -7830,14 +7825,14 @@ function hex2rgb(hex, out) {
 }
 function hex2string(hex) {
   var hexString = hex.toString(16);
-  hexString = "000000".substr(0, 6 - hexString.length) + hexString;
+  hexString = "000000".substring(0, 6 - hexString.length) + hexString;
   return "#" + hexString;
 }
 function string2hex(string) {
   if (typeof string === "string") {
     string = cssColorNames[string.toLowerCase()] || string;
     if (string[0] === "#") {
-      string = string.substr(1);
+      string = string.slice(1);
     }
   }
   return parseInt(string, 16);
@@ -8126,12 +8121,12 @@ function trimCanvas(canvas2) {
 var tempAnchor$1;
 function determineCrossOrigin(url$12, loc) {
   if (loc === void 0) {
-    loc = self.location;
+    loc = globalThis.location;
   }
   if (url$12.indexOf("data:") === 0) {
     return "";
   }
-  loc = loc || self.location;
+  loc = loc || globalThis.location;
   if (!tempAnchor$1) {
     tempAnchor$1 = document.createElement("a");
   }
@@ -8151,8 +8146,8 @@ function getResolutionOfUrl(url2, defaultValue2) {
   return defaultValue2 !== void 0 ? defaultValue2 : 1;
 }
 /*!
- * @pixi/runner - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/runner - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8233,8 +8228,8 @@ Object.defineProperties(Runner.prototype, {
   run: { value: Runner.prototype.emit }
 });
 /*!
- * @pixi/ticker - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/ticker - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8590,8 +8585,8 @@ var TickerPlugin = function() {
   return TickerPlugin2;
 }();
 /*!
- * @pixi/math - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/math - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8607,6 +8602,50 @@ var SHAPES;
   SHAPES2[SHAPES2["ELIP"] = 3] = "ELIP";
   SHAPES2[SHAPES2["RREC"] = 4] = "RREC";
 })(SHAPES || (SHAPES = {}));
+var Point = function() {
+  function Point2(x, y2) {
+    if (x === void 0) {
+      x = 0;
+    }
+    if (y2 === void 0) {
+      y2 = 0;
+    }
+    this.x = 0;
+    this.y = 0;
+    this.x = x;
+    this.y = y2;
+  }
+  Point2.prototype.clone = function() {
+    return new Point2(this.x, this.y);
+  };
+  Point2.prototype.copyFrom = function(p) {
+    this.set(p.x, p.y);
+    return this;
+  };
+  Point2.prototype.copyTo = function(p) {
+    p.set(this.x, this.y);
+    return p;
+  };
+  Point2.prototype.equals = function(p) {
+    return p.x === this.x && p.y === this.y;
+  };
+  Point2.prototype.set = function(x, y2) {
+    if (x === void 0) {
+      x = 0;
+    }
+    if (y2 === void 0) {
+      y2 = x;
+    }
+    this.x = x;
+    this.y = y2;
+    return this;
+  };
+  Point2.prototype.toString = function() {
+    return "[@pixi/math:Point x=" + this.x + " y=" + this.y + "]";
+  };
+  return Point2;
+}();
+var tempPoints$1 = [new Point(), new Point(), new Point(), new Point()];
 var Rectangle = function() {
   function Rectangle2(x, y2, width, height) {
     if (x === void 0) {
@@ -8689,6 +8728,62 @@ var Rectangle = function() {
       }
     }
     return false;
+  };
+  Rectangle2.prototype.intersects = function(other, transform) {
+    if (!transform) {
+      var x0_1 = this.x < other.x ? other.x : this.x;
+      var x1_1 = this.right > other.right ? other.right : this.right;
+      if (x1_1 <= x0_1) {
+        return false;
+      }
+      var y0_1 = this.y < other.y ? other.y : this.y;
+      var y1_1 = this.bottom > other.bottom ? other.bottom : this.bottom;
+      return y1_1 > y0_1;
+    }
+    var x0 = this.left;
+    var x1 = this.right;
+    var y0 = this.top;
+    var y1 = this.bottom;
+    if (x1 <= x0 || y1 <= y0) {
+      return false;
+    }
+    var lt = tempPoints$1[0].set(other.left, other.top);
+    var lb = tempPoints$1[1].set(other.left, other.bottom);
+    var rt = tempPoints$1[2].set(other.right, other.top);
+    var rb = tempPoints$1[3].set(other.right, other.bottom);
+    if (rt.x <= lt.x || lb.y <= lt.y) {
+      return false;
+    }
+    var s2 = Math.sign(transform.a * transform.d - transform.b * transform.c);
+    if (s2 === 0) {
+      return false;
+    }
+    transform.apply(lt, lt);
+    transform.apply(lb, lb);
+    transform.apply(rt, rt);
+    transform.apply(rb, rb);
+    if (Math.max(lt.x, lb.x, rt.x, rb.x) <= x0 || Math.min(lt.x, lb.x, rt.x, rb.x) >= x1 || Math.max(lt.y, lb.y, rt.y, rb.y) <= y0 || Math.min(lt.y, lb.y, rt.y, rb.y) >= y1) {
+      return false;
+    }
+    var nx = s2 * (lb.y - lt.y);
+    var ny = s2 * (lt.x - lb.x);
+    var n00 = nx * x0 + ny * y0;
+    var n10 = nx * x1 + ny * y0;
+    var n01 = nx * x0 + ny * y1;
+    var n11 = nx * x1 + ny * y1;
+    if (Math.max(n00, n10, n01, n11) <= nx * lt.x + ny * lt.y || Math.min(n00, n10, n01, n11) >= nx * rb.x + ny * rb.y) {
+      return false;
+    }
+    var mx = s2 * (lt.y - rt.y);
+    var my = s2 * (rt.x - lt.x);
+    var m00 = mx * x0 + my * y0;
+    var m10 = mx * x1 + my * y0;
+    var m01 = mx * x0 + my * y1;
+    var m11 = mx * x1 + my * y1;
+    if (Math.max(m00, m10, m01, m11) <= mx * lt.x + my * lt.y || Math.min(m00, m10, m01, m11) >= mx * rb.x + my * rb.y) {
+      return false;
+    }
+    return true;
   };
   Rectangle2.prototype.pad = function(paddingX, paddingY) {
     if (paddingX === void 0) {
@@ -8934,49 +9029,6 @@ var RoundedRectangle = function() {
     return "[@pixi/math:RoundedRectangle x=" + this.x + " y=" + this.y + ("width=" + this.width + " height=" + this.height + " radius=" + this.radius + "]");
   };
   return RoundedRectangle2;
-}();
-var Point = function() {
-  function Point2(x, y2) {
-    if (x === void 0) {
-      x = 0;
-    }
-    if (y2 === void 0) {
-      y2 = 0;
-    }
-    this.x = 0;
-    this.y = 0;
-    this.x = x;
-    this.y = y2;
-  }
-  Point2.prototype.clone = function() {
-    return new Point2(this.x, this.y);
-  };
-  Point2.prototype.copyFrom = function(p) {
-    this.set(p.x, p.y);
-    return this;
-  };
-  Point2.prototype.copyTo = function(p) {
-    p.set(this.x, this.y);
-    return p;
-  };
-  Point2.prototype.equals = function(p) {
-    return p.x === this.x && p.y === this.y;
-  };
-  Point2.prototype.set = function(x, y2) {
-    if (x === void 0) {
-      x = 0;
-    }
-    if (y2 === void 0) {
-      y2 = x;
-    }
-    this.x = x;
-    this.y = y2;
-    return this;
-  };
-  Point2.prototype.toString = function() {
-    return "[@pixi/math:Point x=" + this.x + " y=" + this.y + "]";
-  };
-  return Point2;
 }();
 var ObservablePoint = function() {
   function ObservablePoint2(cb, scope, x, y2) {
@@ -9506,8 +9558,8 @@ var Transform = function() {
   return Transform2;
 }();
 /*!
- * @pixi/core - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/core - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -10146,6 +10198,15 @@ var BaseImageResource = function(_super) {
     var width = baseTexture.realWidth;
     var height = baseTexture.realHeight;
     source = source || this.source;
+    if (source instanceof HTMLImageElement) {
+      if (!source.complete || source.naturalWidth === 0) {
+        return false;
+      }
+    } else if (source instanceof HTMLVideoElement) {
+      if (source.readyState <= 1) {
+        return false;
+      }
+    }
     gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, baseTexture.alphaMode === ALPHA_MODES$3.UNPACK);
     if (!this.noSubImage && baseTexture.target === gl.TEXTURE_2D && glTexture.width === width && glTexture.height === height) {
       gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, baseTexture.format, glTexture.type, source);
@@ -10177,11 +10238,11 @@ var CanvasResource = function(_super) {
     return _super.call(this, source) || this;
   }
   CanvasResource2.test = function(source) {
-    var OffscreenCanvas2 = self.OffscreenCanvas;
+    var OffscreenCanvas2 = globalThis.OffscreenCanvas;
     if (OffscreenCanvas2 && source instanceof OffscreenCanvas2) {
       return true;
     }
-    return self.HTMLCanvasElement && source instanceof HTMLCanvasElement;
+    return globalThis.HTMLCanvasElement && source instanceof HTMLCanvasElement;
   };
   return CanvasResource2;
 }(BaseImageResource);
@@ -10272,7 +10333,7 @@ var ImageResource = function(_super) {
     _this.url = source.src;
     _this._process = null;
     _this.preserveBitmap = false;
-    _this.createBitmap = (options.createBitmap !== void 0 ? options.createBitmap : settings.CREATE_IMAGE_BITMAP) && !!self.createImageBitmap;
+    _this.createBitmap = (options.createBitmap !== void 0 ? options.createBitmap : settings.CREATE_IMAGE_BITMAP) && !!globalThis.createImageBitmap;
     _this.alphaMode = typeof options.alphaMode === "number" ? options.alphaMode : null;
     _this.bitmap = null;
     _this._load = null;
@@ -10324,10 +10385,10 @@ var ImageResource = function(_super) {
     if (this._process !== null) {
       return this._process;
     }
-    if (this.bitmap !== null || !self.createImageBitmap) {
+    if (this.bitmap !== null || !globalThis.createImageBitmap) {
       return Promise.resolve(this);
     }
-    var createImageBitmap = self.createImageBitmap;
+    var createImageBitmap = globalThis.createImageBitmap;
     var cors = !source.crossOrigin || source.crossOrigin === "anonymous";
     this._process = fetch(source.src, {
       mode: cors ? "cors" : "no-cors"
@@ -10516,7 +10577,7 @@ var VideoResource = function(_super) {
         var _a3 = source[i2], src = _a3.src, mime = _a3.mime;
         src = src || source[i2];
         var baseSrc = src.split("?").shift().toLowerCase();
-        var ext = baseSrc.substr(baseSrc.lastIndexOf(".") + 1);
+        var ext = baseSrc.slice(baseSrc.lastIndexOf(".") + 1);
         mime = mime || VideoResource2.MIME_TYPES[ext] || "video/" + ext;
         sourceElement.src = src;
         sourceElement.type = mime;
@@ -10667,7 +10728,7 @@ var VideoResource = function(_super) {
     configurable: true
   });
   VideoResource2.test = function(source, extension) {
-    return self.HTMLVideoElement && source instanceof HTMLVideoElement || VideoResource2.TYPES.indexOf(extension) > -1;
+    return globalThis.HTMLVideoElement && source instanceof HTMLVideoElement || VideoResource2.TYPES.indexOf(extension) > -1;
   };
   VideoResource2.TYPES = ["mp4", "m4v", "webm", "ogg", "ogv", "h264", "avi", "mov"];
   VideoResource2.MIME_TYPES = {
@@ -10683,7 +10744,7 @@ var ImageBitmapResource = function(_super) {
     return _super.call(this, source) || this;
   }
   ImageBitmapResource2.test = function(source) {
-    return !!self.createImageBitmap && source instanceof ImageBitmap;
+    return !!globalThis.createImageBitmap && source instanceof ImageBitmap;
   };
   return ImageBitmapResource2;
 }(BaseImageResource);
@@ -10824,6 +10885,9 @@ var Framebuffer = function() {
 var BaseRenderTexture = function(_super) {
   __extends$q(BaseRenderTexture2, _super);
   function BaseRenderTexture2(options) {
+    if (options === void 0) {
+      options = {};
+    }
     var _this = this;
     if (typeof options === "number") {
       var width = arguments[0];
@@ -11321,8 +11385,8 @@ var RenderTexturePool = function() {
       multisample = MSAA_QUALITY$3.NONE;
     }
     var key;
-    minWidth = Math.ceil(minWidth * resolution);
-    minHeight = Math.ceil(minHeight * resolution);
+    minWidth = Math.ceil(minWidth * resolution - 1e-6);
+    minHeight = Math.ceil(minHeight * resolution - 1e-6);
     if (!this.enableFullScreen || minWidth !== this._pixelsWidth || minHeight !== this._pixelsHeight) {
       minWidth = nextPow2(minWidth);
       minHeight = nextPow2(minHeight);
@@ -12305,7 +12369,7 @@ var ContextSystem = function() {
   };
   ContextSystem2.prototype.validateContext = function(gl) {
     var attributes = gl.getContextAttributes();
-    var isWebGl2 = "WebGL2RenderingContext" in self && gl instanceof self.WebGL2RenderingContext;
+    var isWebGl2 = "WebGL2RenderingContext" in globalThis && gl instanceof globalThis.WebGL2RenderingContext;
     if (isWebGl2) {
       this.webGLVersion = 2;
     }
@@ -12624,7 +12688,7 @@ var FramebufferSystem = function() {
     var sameSize = sourcePixels.width === destPixels.width && sourcePixels.height === destPixels.height;
     this.bind(framebuffer);
     gl.bindFramebuffer(gl.READ_FRAMEBUFFER, fbo.framebuffer);
-    gl.blitFramebuffer(sourcePixels.x, sourcePixels.y, sourcePixels.width, sourcePixels.height, destPixels.x, destPixels.y, destPixels.width, destPixels.height, gl.COLOR_BUFFER_BIT, sameSize ? gl.NEAREST : gl.LINEAR);
+    gl.blitFramebuffer(sourcePixels.left, sourcePixels.top, sourcePixels.right, sourcePixels.bottom, destPixels.left, destPixels.top, destPixels.right, destPixels.bottom, gl.COLOR_BUFFER_BIT, sameSize ? gl.NEAREST : gl.LINEAR);
   };
   FramebufferSystem2.prototype.disposeFramebuffer = function(framebuffer, contextLost) {
     var fbo = framebuffer.glFramebuffers[this.CONTEXT_UID];
@@ -14902,7 +14966,7 @@ var TextureGCSystem = function() {
 function mapTypeAndFormatToInternalFormat(gl) {
   var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _j, _k, _l2, _m, _o, _p2, _q, _r2, _s, _t, _u, _v, _w, _x;
   var table;
-  if ("WebGL2RenderingContext" in self && gl instanceof self.WebGL2RenderingContext) {
+  if ("WebGL2RenderingContext" in globalThis && gl instanceof globalThis.WebGL2RenderingContext) {
     table = (_a3 = {}, _a3[TYPES$3.UNSIGNED_BYTE] = (_b3 = {}, _b3[FORMATS$3.RGBA] = gl.RGBA8, _b3[FORMATS$3.RGB] = gl.RGB8, _b3[FORMATS$3.RG] = gl.RG8, _b3[FORMATS$3.RED] = gl.R8, _b3[FORMATS$3.RGBA_INTEGER] = gl.RGBA8UI, _b3[FORMATS$3.RGB_INTEGER] = gl.RGB8UI, _b3[FORMATS$3.RG_INTEGER] = gl.RG8UI, _b3[FORMATS$3.RED_INTEGER] = gl.R8UI, _b3[FORMATS$3.ALPHA] = gl.ALPHA, _b3[FORMATS$3.LUMINANCE] = gl.LUMINANCE, _b3[FORMATS$3.LUMINANCE_ALPHA] = gl.LUMINANCE_ALPHA, _b3), _a3[TYPES$3.BYTE] = (_c3 = {}, _c3[FORMATS$3.RGBA] = gl.RGBA8_SNORM, _c3[FORMATS$3.RGB] = gl.RGB8_SNORM, _c3[FORMATS$3.RG] = gl.RG8_SNORM, _c3[FORMATS$3.RED] = gl.R8_SNORM, _c3[FORMATS$3.RGBA_INTEGER] = gl.RGBA8I, _c3[FORMATS$3.RGB_INTEGER] = gl.RGB8I, _c3[FORMATS$3.RG_INTEGER] = gl.RG8I, _c3[FORMATS$3.RED_INTEGER] = gl.R8I, _c3), _a3[TYPES$3.UNSIGNED_SHORT] = (_d2 = {}, _d2[FORMATS$3.RGBA_INTEGER] = gl.RGBA16UI, _d2[FORMATS$3.RGB_INTEGER] = gl.RGB16UI, _d2[FORMATS$3.RG_INTEGER] = gl.RG16UI, _d2[FORMATS$3.RED_INTEGER] = gl.R16UI, _d2[FORMATS$3.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT16, _d2), _a3[TYPES$3.SHORT] = (_e = {}, _e[FORMATS$3.RGBA_INTEGER] = gl.RGBA16I, _e[FORMATS$3.RGB_INTEGER] = gl.RGB16I, _e[FORMATS$3.RG_INTEGER] = gl.RG16I, _e[FORMATS$3.RED_INTEGER] = gl.R16I, _e), _a3[TYPES$3.UNSIGNED_INT] = (_f = {}, _f[FORMATS$3.RGBA_INTEGER] = gl.RGBA32UI, _f[FORMATS$3.RGB_INTEGER] = gl.RGB32UI, _f[FORMATS$3.RG_INTEGER] = gl.RG32UI, _f[FORMATS$3.RED_INTEGER] = gl.R32UI, _f[FORMATS$3.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT24, _f), _a3[TYPES$3.INT] = (_g = {}, _g[FORMATS$3.RGBA_INTEGER] = gl.RGBA32I, _g[FORMATS$3.RGB_INTEGER] = gl.RGB32I, _g[FORMATS$3.RG_INTEGER] = gl.RG32I, _g[FORMATS$3.RED_INTEGER] = gl.R32I, _g), _a3[TYPES$3.FLOAT] = (_h = {}, _h[FORMATS$3.RGBA] = gl.RGBA32F, _h[FORMATS$3.RGB] = gl.RGB32F, _h[FORMATS$3.RG] = gl.RG32F, _h[FORMATS$3.RED] = gl.R32F, _h[FORMATS$3.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT32F, _h), _a3[TYPES$3.HALF_FLOAT] = (_j = {}, _j[FORMATS$3.RGBA] = gl.RGBA16F, _j[FORMATS$3.RGB] = gl.RGB16F, _j[FORMATS$3.RG] = gl.RG16F, _j[FORMATS$3.RED] = gl.R16F, _j), _a3[TYPES$3.UNSIGNED_SHORT_5_6_5] = (_k = {}, _k[FORMATS$3.RGB] = gl.RGB565, _k), _a3[TYPES$3.UNSIGNED_SHORT_4_4_4_4] = (_l2 = {}, _l2[FORMATS$3.RGBA] = gl.RGBA4, _l2), _a3[TYPES$3.UNSIGNED_SHORT_5_5_5_1] = (_m = {}, _m[FORMATS$3.RGBA] = gl.RGB5_A1, _m), _a3[TYPES$3.UNSIGNED_INT_2_10_10_10_REV] = (_o = {}, _o[FORMATS$3.RGBA] = gl.RGB10_A2, _o[FORMATS$3.RGBA_INTEGER] = gl.RGB10_A2UI, _o), _a3[TYPES$3.UNSIGNED_INT_10F_11F_11F_REV] = (_p2 = {}, _p2[FORMATS$3.RGB] = gl.R11F_G11F_B10F, _p2), _a3[TYPES$3.UNSIGNED_INT_5_9_9_9_REV] = (_q = {}, _q[FORMATS$3.RGB] = gl.RGB9_E5, _q), _a3[TYPES$3.UNSIGNED_INT_24_8] = (_r2 = {}, _r2[FORMATS$3.DEPTH_STENCIL] = gl.DEPTH24_STENCIL8, _r2), _a3[TYPES$3.FLOAT_32_UNSIGNED_INT_24_8_REV] = (_s = {}, _s[FORMATS$3.DEPTH_STENCIL] = gl.DEPTH32F_STENCIL8, _s), _a3);
   } else {
     table = (_t = {}, _t[TYPES$3.UNSIGNED_BYTE] = (_u = {}, _u[FORMATS$3.RGBA] = gl.RGBA, _u[FORMATS$3.RGB] = gl.RGB, _u[FORMATS$3.ALPHA] = gl.ALPHA, _u[FORMATS$3.LUMINANCE] = gl.LUMINANCE, _u[FORMATS$3.LUMINANCE_ALPHA] = gl.LUMINANCE_ALPHA, _u), _t[TYPES$3.UNSIGNED_SHORT_5_6_5] = (_v = {}, _v[FORMATS$3.RGB] = gl.RGB, _v), _t[TYPES$3.UNSIGNED_SHORT_4_4_4_4] = (_w = {}, _w[FORMATS$3.RGBA] = gl.RGBA, _w), _t[TYPES$3.UNSIGNED_SHORT_5_5_5_1] = (_x = {}, _x[FORMATS$3.RGBA] = gl.RGBA, _x), _t);
@@ -16096,8 +16160,8 @@ for (var name in _systems) {
   _loop_2(name);
 }
 /*!
- * @pixi/loaders - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/loaders - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16261,7 +16325,7 @@ function parseUri(str, opts) {
   });
   return uri;
 }
-var useXdr = !!(self.XDomainRequest && !("withCredentials" in new XMLHttpRequest()));
+var useXdr = !!(globalThis.XDomainRequest && !("withCredentials" in new XMLHttpRequest()));
 var tempAnchor = null;
 var STATUS_NONE = 0;
 var STATUS_OK = 200;
@@ -16466,7 +16530,7 @@ var LoaderResource = function() {
   LoaderResource2.prototype._loadElement = function(type) {
     if (this.metadata.loadElement) {
       this.data = this.metadata.loadElement;
-    } else if (type === "image" && typeof self.Image !== "undefined") {
+    } else if (type === "image" && typeof globalThis.Image !== "undefined") {
       this.data = new Image();
     } else {
       this.data = document.createElement(type);
@@ -16487,7 +16551,7 @@ var LoaderResource = function() {
   LoaderResource2.prototype._loadSourceElement = function(type) {
     if (this.metadata.loadElement) {
       this.data = this.metadata.loadElement;
-    } else if (type === "audio" && typeof self.Audio !== "undefined") {
+    } else if (type === "audio" && typeof globalThis.Audio !== "undefined") {
       this.data = new Audio();
     } else {
       this.data = document.createElement(type);
@@ -16526,6 +16590,9 @@ var LoaderResource = function() {
       this.xhrType = this._determineXhrType();
     }
     var xhr = this.xhr = new XMLHttpRequest();
+    if (this.crossOrigin === "use-credentials") {
+      xhr.withCredentials = true;
+    }
     xhr.open("GET", this.url, true);
     xhr.timeout = this.timeout;
     if (this.xhrType === LoaderResource2.XHR_RESPONSE_TYPE.JSON || this.xhrType === LoaderResource2.XHR_RESPONSE_TYPE.DOCUMENT) {
@@ -16544,7 +16611,7 @@ var LoaderResource = function() {
     if (typeof this.xhrType !== "string") {
       this.xhrType = this._determineXhrType();
     }
-    var xdr = this.xhr = new self.XDomainRequest();
+    var xdr = this.xhr = new globalThis.XDomainRequest();
     xdr.timeout = this.timeout || 5e3;
     xdr.onerror = this._boundXhrOnError;
     xdr.ontimeout = this._boundXhrOnTimeout;
@@ -16614,7 +16681,7 @@ var LoaderResource = function() {
         }
       } else if (this.xhrType === LoaderResource2.XHR_RESPONSE_TYPE.DOCUMENT) {
         try {
-          if (self.DOMParser) {
+          if (globalThis.DOMParser) {
             var domparser = new DOMParser();
             this.data = domparser.parseFromString(text, "text/xml");
           } else {
@@ -16640,10 +16707,10 @@ var LoaderResource = function() {
     if (url2.indexOf("data:") === 0) {
       return "";
     }
-    if (self.origin !== self.location.origin) {
+    if (globalThis.origin !== globalThis.location.origin) {
       return "anonymous";
     }
-    loc = loc || self.location;
+    loc = loc || globalThis.location;
     if (!tempAnchor) {
       tempAnchor = document.createElement("a");
     }
@@ -17079,7 +17146,7 @@ var Loader = function() {
     }
     if (this.defaultQueryString) {
       var hash2 = rgxExtractUrlHash.exec(result)[0];
-      result = result.substr(0, result.length - hash2.length);
+      result = result.slice(0, result.length - hash2.length);
       if (result.indexOf("?") !== -1) {
         result += "&" + this.defaultQueryString;
       } else {
@@ -18568,14 +18635,21 @@ var objectAssign = shouldUseNative() ? Object.assign : function(target, source) 
   return to;
 };
 /*!
- * @pixi/polyfill - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/polyfill - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-if (!self.Promise) {
-  self.Promise = Promise$1;
+if (typeof globalThis === "undefined") {
+  if (typeof self !== "undefined") {
+    self.globalThis = self;
+  } else if (typeof global !== "undefined") {
+    global.globalThis = global;
+  }
+}
+if (!globalThis.Promise) {
+  globalThis.Promise = Promise$1;
 }
 if (!Object.assign) {
   Object.assign = objectAssign;
@@ -18586,24 +18660,24 @@ if (!(Date.now && Date.prototype.getTime)) {
     return new Date().getTime();
   };
 }
-if (!(self.performance && self.performance.now)) {
+if (!(globalThis.performance && globalThis.performance.now)) {
   var startTime_1 = Date.now();
-  if (!self.performance) {
-    self.performance = {};
+  if (!globalThis.performance) {
+    globalThis.performance = {};
   }
-  self.performance.now = function() {
+  globalThis.performance.now = function() {
     return Date.now() - startTime_1;
   };
 }
 var lastTime = Date.now();
 var vendors = ["ms", "moz", "webkit", "o"];
-for (var x = 0; x < vendors.length && !self.requestAnimationFrame; ++x) {
+for (var x = 0; x < vendors.length && !globalThis.requestAnimationFrame; ++x) {
   var p = vendors[x];
-  self.requestAnimationFrame = self[p + "RequestAnimationFrame"];
-  self.cancelAnimationFrame = self[p + "CancelAnimationFrame"] || self[p + "CancelRequestAnimationFrame"];
+  globalThis.requestAnimationFrame = globalThis[p + "RequestAnimationFrame"];
+  globalThis.cancelAnimationFrame = globalThis[p + "CancelAnimationFrame"] || globalThis[p + "CancelRequestAnimationFrame"];
 }
-if (!self.requestAnimationFrame) {
-  self.requestAnimationFrame = function(callback) {
+if (!globalThis.requestAnimationFrame) {
+  globalThis.requestAnimationFrame = function(callback) {
     if (typeof callback !== "function") {
       throw new TypeError(callback + "is not a function");
     }
@@ -18613,14 +18687,14 @@ if (!self.requestAnimationFrame) {
       delay = 0;
     }
     lastTime = currentTime;
-    return self.setTimeout(function() {
+    return globalThis.self.setTimeout(function() {
       lastTime = Date.now();
       callback(performance.now());
     }, delay);
   };
 }
-if (!self.cancelAnimationFrame) {
-  self.cancelAnimationFrame = function(id) {
+if (!globalThis.cancelAnimationFrame) {
+  globalThis.cancelAnimationFrame = function(id) {
     return clearTimeout(id);
   };
 }
@@ -18638,27 +18712,27 @@ if (!Number.isInteger) {
     return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
   };
 }
-if (!self.ArrayBuffer) {
-  self.ArrayBuffer = Array;
+if (!globalThis.ArrayBuffer) {
+  globalThis.ArrayBuffer = Array;
 }
-if (!self.Float32Array) {
-  self.Float32Array = Array;
+if (!globalThis.Float32Array) {
+  globalThis.Float32Array = Array;
 }
-if (!self.Uint32Array) {
-  self.Uint32Array = Array;
+if (!globalThis.Uint32Array) {
+  globalThis.Uint32Array = Array;
 }
-if (!self.Uint16Array) {
-  self.Uint16Array = Array;
+if (!globalThis.Uint16Array) {
+  globalThis.Uint16Array = Array;
 }
-if (!self.Uint8Array) {
-  self.Uint8Array = Array;
+if (!globalThis.Uint8Array) {
+  globalThis.Uint8Array = Array;
 }
-if (!self.Int32Array) {
-  self.Int32Array = Array;
+if (!globalThis.Int32Array) {
+  globalThis.Int32Array = Array;
 }
 /*!
- * @pixi/display - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/display - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18951,6 +19025,8 @@ var DisplayObject = function(_super) {
     _this.alpha = 1;
     _this.visible = true;
     _this.renderable = true;
+    _this.cullable = false;
+    _this.cullArea = null;
     _this.parent = null;
     _this.worldAlpha = 1;
     _this._lastSortedIndex = 0;
@@ -19132,6 +19208,7 @@ var DisplayObject = function(_super) {
     this.parent = null;
     this._bounds = null;
     this.mask = null;
+    this.cullArea = null;
     this.filters = null;
     this.filterArea = null;
     this.hitArea = null;
@@ -19320,8 +19397,8 @@ var TemporaryDisplayObject = function(_super) {
 }(DisplayObject);
 DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
 /*!
- * @pixi/constants - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/constants - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19736,12 +19813,40 @@ var Container = function(_super) {
   };
   Container2.prototype._calculateBounds = function() {
   };
+  Container2.prototype._renderWithCulling = function(renderer) {
+    var sourceFrame = renderer.renderTexture.sourceFrame;
+    if (!(sourceFrame.width > 0 && sourceFrame.height > 0)) {
+      return;
+    }
+    var bounds;
+    var transform;
+    if (this.cullArea) {
+      bounds = this.cullArea;
+      transform = this.worldTransform;
+    } else if (this._render !== Container2.prototype._render) {
+      bounds = this.getBounds(true);
+    }
+    if (bounds && sourceFrame.intersects(bounds, transform)) {
+      this._render(renderer);
+    } else if (this.cullArea) {
+      return;
+    }
+    for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+      var child = this.children[i2];
+      var childCullable = child.cullable;
+      child.cullable = childCullable || !this.cullArea;
+      child.render(renderer);
+      child.cullable = childCullable;
+    }
+  };
   Container2.prototype.render = function(renderer) {
     if (!this.visible || this.worldAlpha <= 0 || !this.renderable) {
       return;
     }
     if (this._mask || this.filters && this.filters.length) {
       this.renderAdvanced(renderer);
+    } else if (this.cullable) {
+      this._renderWithCulling(renderer);
     } else {
       this._render(renderer);
       for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
@@ -19773,9 +19878,13 @@ var Container = function(_super) {
     if (mask) {
       renderer.mask.push(this, this._mask);
     }
-    this._render(renderer);
-    for (var i2 = 0, j2 = this.children.length; i2 < j2; i2++) {
-      this.children[i2].render(renderer);
+    if (this.cullable) {
+      this._renderWithCulling(renderer);
+    } else {
+      this._render(renderer);
+      for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+        this.children[i2].render(renderer);
+      }
     }
     if (flush) {
       renderer.batch.flush();
@@ -19836,8 +19945,8 @@ var Container = function(_super) {
 }(DisplayObject);
 Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
 /*!
- * @pixi/accessibility - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/accessibility - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19889,7 +19998,7 @@ var AccessibilityManager = function() {
     this.renderer = renderer;
     this._onKeyDown = this._onKeyDown.bind(this);
     this._onMouseMove = this._onMouseMove.bind(this);
-    self.addEventListener("keydown", this._onKeyDown, false);
+    globalThis.addEventListener("keydown", this._onKeyDown, false);
   }
   Object.defineProperty(AccessibilityManager2.prototype, "isActive", {
     get: function() {
@@ -19937,8 +20046,8 @@ var AccessibilityManager = function() {
       return;
     }
     this._isActive = true;
-    self.document.addEventListener("mousemove", this._onMouseMove, true);
-    self.removeEventListener("keydown", this._onKeyDown, false);
+    globalThis.document.addEventListener("mousemove", this._onMouseMove, true);
+    globalThis.removeEventListener("keydown", this._onKeyDown, false);
     this.renderer.on("postrender", this.update, this);
     (_a3 = this.renderer.view.parentNode) === null || _a3 === void 0 ? void 0 : _a3.appendChild(this.div);
   };
@@ -19948,8 +20057,8 @@ var AccessibilityManager = function() {
       return;
     }
     this._isActive = false;
-    self.document.removeEventListener("mousemove", this._onMouseMove, true);
-    self.addEventListener("keydown", this._onKeyDown, false);
+    globalThis.document.removeEventListener("mousemove", this._onMouseMove, true);
+    globalThis.addEventListener("keydown", this._onKeyDown, false);
     this.renderer.off("postrender", this.update);
     (_a3 = this.div.parentNode) === null || _a3 === void 0 ? void 0 : _a3.removeChild(this.div);
   };
@@ -20139,8 +20248,8 @@ var AccessibilityManager = function() {
   AccessibilityManager2.prototype.destroy = function() {
     this.destroyTouchHook();
     this.div = null;
-    self.document.removeEventListener("mousemove", this._onMouseMove, true);
-    self.removeEventListener("keydown", this._onKeyDown);
+    globalThis.document.removeEventListener("mousemove", this._onMouseMove, true);
+    globalThis.removeEventListener("keydown", this._onKeyDown);
     this.pool = null;
     this.children = null;
     this.renderer = null;
@@ -20148,8 +20257,8 @@ var AccessibilityManager = function() {
   return AccessibilityManager2;
 }();
 /*!
- * @pixi/interaction - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/interaction - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20464,9 +20573,9 @@ var InteractionManager = function(_super) {
     _this.moveWhenInside = false;
     _this.eventsAdded = false;
     _this.tickerAdded = false;
-    _this.mouseOverRenderer = !("PointerEvent" in self);
-    _this.supportsTouchEvents = "ontouchstart" in self;
-    _this.supportsPointerEvents = !!self.PointerEvent;
+    _this.mouseOverRenderer = !("PointerEvent" in globalThis);
+    _this.supportsTouchEvents = "ontouchstart" in globalThis;
+    _this.supportsPointerEvents = !!globalThis.PointerEvent;
     _this.onPointerUp = _this.onPointerUp.bind(_this);
     _this.processPointerUp = _this.processPointerUp.bind(_this);
     _this.onPointerCancel = _this.onPointerCancel.bind(_this);
@@ -20554,25 +20663,25 @@ var InteractionManager = function(_super) {
       return;
     }
     var style = this.interactionDOMElement.style;
-    if (self.navigator.msPointerEnabled) {
+    if (globalThis.navigator.msPointerEnabled) {
       style.msContentZooming = "none";
       style.msTouchAction = "none";
     } else if (this.supportsPointerEvents) {
       style.touchAction = "none";
     }
     if (this.supportsPointerEvents) {
-      self.document.addEventListener("pointermove", this.onPointerMove, this._eventListenerOptions);
+      globalThis.document.addEventListener("pointermove", this.onPointerMove, this._eventListenerOptions);
       this.interactionDOMElement.addEventListener("pointerdown", this.onPointerDown, this._eventListenerOptions);
       this.interactionDOMElement.addEventListener("pointerleave", this.onPointerOut, this._eventListenerOptions);
       this.interactionDOMElement.addEventListener("pointerover", this.onPointerOver, this._eventListenerOptions);
-      self.addEventListener("pointercancel", this.onPointerCancel, this._eventListenerOptions);
-      self.addEventListener("pointerup", this.onPointerUp, this._eventListenerOptions);
+      globalThis.addEventListener("pointercancel", this.onPointerCancel, this._eventListenerOptions);
+      globalThis.addEventListener("pointerup", this.onPointerUp, this._eventListenerOptions);
     } else {
-      self.document.addEventListener("mousemove", this.onPointerMove, this._eventListenerOptions);
+      globalThis.document.addEventListener("mousemove", this.onPointerMove, this._eventListenerOptions);
       this.interactionDOMElement.addEventListener("mousedown", this.onPointerDown, this._eventListenerOptions);
       this.interactionDOMElement.addEventListener("mouseout", this.onPointerOut, this._eventListenerOptions);
       this.interactionDOMElement.addEventListener("mouseover", this.onPointerOver, this._eventListenerOptions);
-      self.addEventListener("mouseup", this.onPointerUp, this._eventListenerOptions);
+      globalThis.addEventListener("mouseup", this.onPointerUp, this._eventListenerOptions);
     }
     if (this.supportsTouchEvents) {
       this.interactionDOMElement.addEventListener("touchstart", this.onPointerDown, this._eventListenerOptions);
@@ -20587,25 +20696,25 @@ var InteractionManager = function(_super) {
       return;
     }
     var style = this.interactionDOMElement.style;
-    if (self.navigator.msPointerEnabled) {
+    if (globalThis.navigator.msPointerEnabled) {
       style.msContentZooming = "";
       style.msTouchAction = "";
     } else if (this.supportsPointerEvents) {
       style.touchAction = "";
     }
     if (this.supportsPointerEvents) {
-      self.document.removeEventListener("pointermove", this.onPointerMove, this._eventListenerOptions);
+      globalThis.document.removeEventListener("pointermove", this.onPointerMove, this._eventListenerOptions);
       this.interactionDOMElement.removeEventListener("pointerdown", this.onPointerDown, this._eventListenerOptions);
       this.interactionDOMElement.removeEventListener("pointerleave", this.onPointerOut, this._eventListenerOptions);
       this.interactionDOMElement.removeEventListener("pointerover", this.onPointerOver, this._eventListenerOptions);
-      self.removeEventListener("pointercancel", this.onPointerCancel, this._eventListenerOptions);
-      self.removeEventListener("pointerup", this.onPointerUp, this._eventListenerOptions);
+      globalThis.removeEventListener("pointercancel", this.onPointerCancel, this._eventListenerOptions);
+      globalThis.removeEventListener("pointerup", this.onPointerUp, this._eventListenerOptions);
     } else {
-      self.document.removeEventListener("mousemove", this.onPointerMove, this._eventListenerOptions);
+      globalThis.document.removeEventListener("mousemove", this.onPointerMove, this._eventListenerOptions);
       this.interactionDOMElement.removeEventListener("mousedown", this.onPointerDown, this._eventListenerOptions);
       this.interactionDOMElement.removeEventListener("mouseout", this.onPointerOut, this._eventListenerOptions);
       this.interactionDOMElement.removeEventListener("mouseover", this.onPointerOver, this._eventListenerOptions);
-      self.removeEventListener("mouseup", this.onPointerUp, this._eventListenerOptions);
+      globalThis.removeEventListener("mouseup", this.onPointerUp, this._eventListenerOptions);
     }
     if (this.supportsTouchEvents) {
       this.interactionDOMElement.removeEventListener("touchstart", this.onPointerDown, this._eventListenerOptions);
@@ -20647,7 +20756,7 @@ var InteractionManager = function(_super) {
   InteractionManager2.prototype.setCursorMode = function(mode) {
     mode = mode || "default";
     var applyStyles = true;
-    if (self.OffscreenCanvas && this.interactionDOMElement instanceof OffscreenCanvas) {
+    if (globalThis.OffscreenCanvas && this.interactionDOMElement instanceof OffscreenCanvas) {
       applyStyles = false;
     }
     if (this.currentCursorMode === mode) {
@@ -21065,7 +21174,7 @@ var InteractionManager = function(_super) {
         touch.isNormalized = true;
         normalizedEvents.push(touch);
       }
-    } else if (!self.MouseEvent || event instanceof MouseEvent && (!this.supportsPointerEvents || !(event instanceof self.PointerEvent))) {
+    } else if (!globalThis.MouseEvent || event instanceof MouseEvent && (!this.supportsPointerEvents || !(event instanceof globalThis.PointerEvent))) {
       var tempEvent = event;
       if (typeof tempEvent.isPrimary === "undefined") {
         tempEvent.isPrimary = true;
@@ -21128,8 +21237,8 @@ var InteractionManager = function(_super) {
   return InteractionManager2;
 }(EventEmitter$3);
 /*!
- * @pixi/app - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/app - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21188,10 +21297,10 @@ var ResizePlugin = function() {
     var _this = this;
     Object.defineProperty(this, "resizeTo", {
       set: function(dom) {
-        self.removeEventListener("resize", this.queueResize);
+        globalThis.removeEventListener("resize", this.queueResize);
         this._resizeTo = dom;
         if (dom) {
-          self.addEventListener("resize", this.queueResize);
+          globalThis.addEventListener("resize", this.queueResize);
           this.resize();
         }
       },
@@ -21221,9 +21330,9 @@ var ResizePlugin = function() {
       _this.cancelResize();
       var width;
       var height;
-      if (_this._resizeTo === self) {
-        width = self.innerWidth;
-        height = self.innerHeight;
+      if (_this._resizeTo === globalThis.window) {
+        width = globalThis.innerWidth;
+        height = globalThis.innerHeight;
       } else {
         var _a3 = _this._resizeTo, clientWidth = _a3.clientWidth, clientHeight = _a3.clientHeight;
         width = clientWidth;
@@ -21236,7 +21345,7 @@ var ResizePlugin = function() {
     this.resizeTo = options.resizeTo || null;
   };
   ResizePlugin2.destroy = function() {
-    self.removeEventListener("resize", this.queueResize);
+    globalThis.removeEventListener("resize", this.queueResize);
     this.cancelResize();
     this.cancelResize = null;
     this.queueResize = null;
@@ -21247,8 +21356,8 @@ var ResizePlugin = function() {
 }();
 Application.registerPlugin(ResizePlugin);
 /*!
- * @pixi/extract - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/extract - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21372,8 +21481,8 @@ var Extract = function() {
   return Extract2;
 }();
 /*!
- * @pixi/compressed-textures - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/compressed-textures - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/compressed-textures is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -22086,8 +22195,8 @@ var KTX_FIELDS = {
   BYTES_OF_KEY_VALUE_DATA: 60
 };
 var FILE_HEADER_SIZE = 64;
-var TYPES_TO_BYTES_PER_COMPONENT = (_a$2 = {}, _a$2[TYPES$3.UNSIGNED_BYTE] = 1, _a$2[TYPES$3.UNSIGNED_SHORT] = 2, _a$2[TYPES$3.FLOAT] = 4, _a$2[TYPES$3.HALF_FLOAT] = 8, _a$2);
-var FORMATS_TO_COMPONENTS = (_b$1 = {}, _b$1[FORMATS$3.RGBA] = 4, _b$1[FORMATS$3.RGB] = 3, _b$1[FORMATS$3.LUMINANCE] = 1, _b$1[FORMATS$3.LUMINANCE_ALPHA] = 2, _b$1[FORMATS$3.ALPHA] = 1, _b$1);
+var TYPES_TO_BYTES_PER_COMPONENT = (_a$2 = {}, _a$2[TYPES$3.UNSIGNED_BYTE] = 1, _a$2[TYPES$3.UNSIGNED_SHORT] = 2, _a$2[TYPES$3.INT] = 4, _a$2[TYPES$3.UNSIGNED_INT] = 4, _a$2[TYPES$3.FLOAT] = 4, _a$2[TYPES$3.HALF_FLOAT] = 8, _a$2);
+var FORMATS_TO_COMPONENTS = (_b$1 = {}, _b$1[FORMATS$3.RGBA] = 4, _b$1[FORMATS$3.RGB] = 3, _b$1[FORMATS$3.RG] = 2, _b$1[FORMATS$3.RED] = 1, _b$1[FORMATS$3.LUMINANCE] = 1, _b$1[FORMATS$3.LUMINANCE_ALPHA] = 2, _b$1[FORMATS$3.ALPHA] = 1, _b$1);
 var TYPES_TO_BYTES_PER_PIXEL = (_c = {}, _c[TYPES$3.UNSIGNED_SHORT_4_4_4_4] = 2, _c[TYPES$3.UNSIGNED_SHORT_5_5_5_1] = 2, _c[TYPES$3.UNSIGNED_SHORT_5_6_5] = 2, _c);
 var KTXLoader = function() {
   function KTXLoader2() {
@@ -22095,8 +22204,31 @@ var KTXLoader = function() {
   KTXLoader2.use = function(resource, next) {
     if (resource.extension === "ktx" && resource.data) {
       try {
-        var url2 = resource.name || resource.url;
-        Object.assign(resource, registerCompressedTextures(url2, KTXLoader2.parse(url2, resource.data), resource.metadata));
+        var url_1 = resource.name || resource.url;
+        var _a3 = KTXLoader2.parse(url_1, resource.data), compressed = _a3.compressed, uncompressed = _a3.uncompressed;
+        if (compressed) {
+          Object.assign(resource, registerCompressedTextures(url_1, compressed, resource.metadata));
+        } else if (uncompressed) {
+          var textures_1 = {};
+          uncompressed.forEach(function(image, i2) {
+            var texture = new Texture(new BaseTexture(image.resource, {
+              mipmap: MIPMAP_MODES$3.OFF,
+              alphaMode: ALPHA_MODES$3.NO_PREMULTIPLIED_ALPHA,
+              type: image.type,
+              format: image.format
+            }));
+            var cacheID = url_1 + "-" + (i2 + 1);
+            BaseTexture.addToCache(texture.baseTexture, cacheID);
+            Texture.addToCache(texture, cacheID);
+            if (i2 === 0) {
+              textures_1[url_1] = texture;
+              BaseTexture.addToCache(texture.baseTexture, url_1);
+              Texture.addToCache(texture, url_1);
+            }
+            textures_1[cacheID] = texture;
+          });
+          Object.assign(resource, { textures: textures_1 });
+        }
       } catch (err) {
         next(err);
         return;
@@ -22168,8 +22300,8 @@ var KTXLoader = function() {
         }
         mips[mipmapLevel] = {
           levelID: mipmapLevel,
-          levelWidth: numberOfMipmapLevels > 1 ? mipWidth : alignedMipWidth,
-          levelHeight: numberOfMipmapLevels > 1 ? mipHeight : alignedMipHeight,
+          levelWidth: numberOfMipmapLevels > 1 || glType !== 0 ? mipWidth : alignedMipWidth,
+          levelHeight: numberOfMipmapLevels > 1 || glType !== 0 ? mipHeight : alignedMipHeight,
           levelBuffer: new Uint8Array(arrayBuffer, elementOffset, mipByteSize)
         };
         elementOffset += mipByteSize;
@@ -22183,17 +22315,41 @@ var KTXLoader = function() {
       mipByteSize = alignedMipWidth * alignedMipHeight * imagePixelByteSize;
     }
     if (glType !== 0) {
-      throw new Error("TODO: Uncompressed");
+      return {
+        uncompressed: imageBuffers.map(function(levelBuffers) {
+          var buffer = levelBuffers[0].levelBuffer;
+          var convertToInt = false;
+          if (glType === TYPES$3.FLOAT) {
+            buffer = new Float32Array(levelBuffers[0].levelBuffer.buffer, levelBuffers[0].levelBuffer.byteOffset, levelBuffers[0].levelBuffer.byteLength / 4);
+          } else if (glType === TYPES$3.UNSIGNED_INT) {
+            convertToInt = true;
+            buffer = new Uint32Array(levelBuffers[0].levelBuffer.buffer, levelBuffers[0].levelBuffer.byteOffset, levelBuffers[0].levelBuffer.byteLength / 4);
+          } else if (glType === TYPES$3.INT) {
+            convertToInt = true;
+            buffer = new Int32Array(levelBuffers[0].levelBuffer.buffer, levelBuffers[0].levelBuffer.byteOffset, levelBuffers[0].levelBuffer.byteLength / 4);
+          }
+          return {
+            resource: new BufferResource(buffer, {
+              width: levelBuffers[0].levelWidth,
+              height: levelBuffers[0].levelHeight
+            }),
+            type: glType,
+            format: convertToInt ? KTXLoader2.convertFormatToInteger(glFormat) : glFormat
+          };
+        })
+      };
     }
-    return imageBuffers.map(function(levelBuffers) {
-      return new CompressedTextureResource(null, {
-        format: glInternalFormat,
-        width: pixelWidth,
-        height: pixelHeight,
-        levels: numberOfMipmapLevels,
-        levelBuffers
-      });
-    });
+    return {
+      compressed: imageBuffers.map(function(levelBuffers) {
+        return new CompressedTextureResource(null, {
+          format: glInternalFormat,
+          width: pixelWidth,
+          height: pixelHeight,
+          levels: numberOfMipmapLevels,
+          levelBuffers
+        });
+      })
+    };
   };
   KTXLoader2.validate = function(url2, dataView) {
     for (var i2 = 0; i2 < FILE_IDENTIFIER.length; i2++) {
@@ -22204,11 +22360,25 @@ var KTXLoader = function() {
     }
     return true;
   };
+  KTXLoader2.convertFormatToInteger = function(format2) {
+    switch (format2) {
+      case FORMATS$3.RGBA:
+        return FORMATS$3.RGBA_INTEGER;
+      case FORMATS$3.RGB:
+        return FORMATS$3.RGB_INTEGER;
+      case FORMATS$3.RG:
+        return FORMATS$3.RG_INTEGER;
+      case FORMATS$3.RED:
+        return FORMATS$3.RED_INTEGER;
+      default:
+        return format2;
+    }
+  };
   return KTXLoader2;
 }();
 /*!
- * @pixi/particle-container - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/particle-container - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/particle-container is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -22656,8 +22826,8 @@ var ParticleRenderer = function(_super) {
   return ParticleRenderer2;
 }(ObjectRenderer);
 /*!
- * @pixi/graphics - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/graphics - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -22760,6 +22930,35 @@ function __extends$l(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
+function fixOrientation(points, hole) {
+  var _a3, _b3;
+  if (hole === void 0) {
+    hole = false;
+  }
+  var m2 = points.length;
+  if (m2 < 6) {
+    return;
+  }
+  var area2 = 0;
+  for (var i2 = 0, x1 = points[m2 - 2], y1 = points[m2 - 1]; i2 < m2; i2 += 2) {
+    var x2 = points[i2];
+    var y2 = points[i2 + 1];
+    area2 += (x2 - x1) * (y2 + y1);
+    x1 = x2;
+    y1 = y2;
+  }
+  if (!hole && area2 > 0 || hole && area2 <= 0) {
+    var n = m2 / 2;
+    for (var i2 = n + n % 2; i2 < m2; i2 += 2) {
+      var i1 = m2 - i2 - 2;
+      var i22 = m2 - i2 - 1;
+      var i3 = i2;
+      var i4 = i2 + 1;
+      _a3 = [points[i3], points[i1]], points[i1] = _a3[0], points[i3] = _a3[1];
+      _b3 = [points[i4], points[i22]], points[i22] = _b3[0], points[i4] = _b3[1];
+    }
+  }
+}
 var buildPoly = {
   build: function(graphicsData) {
     graphicsData.points = graphicsData.shape.points.slice();
@@ -22770,9 +22969,11 @@ var buildPoly = {
     var verts = graphicsGeometry.points;
     var indices2 = graphicsGeometry.indices;
     if (points.length >= 6) {
+      fixOrientation(points, false);
       var holeArray = [];
       for (var i2 = 0; i2 < holes.length; i2++) {
         var hole = holes[i2];
+        fixOrientation(hole.points, true);
         holeArray.push(points.length / 2);
         points = points.concat(hole.points);
       }
@@ -22794,31 +22995,107 @@ var buildPoly = {
 };
 var buildCircle = {
   build: function(graphicsData) {
-    var circleData = graphicsData.shape;
     var points = graphicsData.points;
-    var x = circleData.x;
-    var y2 = circleData.y;
-    var width;
-    var height;
-    points.length = 0;
+    var x;
+    var y2;
+    var dx;
+    var dy;
+    var rx;
+    var ry;
     if (graphicsData.type === SHAPES.CIRC) {
-      width = circleData.radius;
-      height = circleData.radius;
+      var circle = graphicsData.shape;
+      x = circle.x;
+      y2 = circle.y;
+      rx = ry = circle.radius;
+      dx = dy = 0;
+    } else if (graphicsData.type === SHAPES.ELIP) {
+      var ellipse = graphicsData.shape;
+      x = ellipse.x;
+      y2 = ellipse.y;
+      rx = ellipse.width;
+      ry = ellipse.height;
+      dx = dy = 0;
     } else {
-      var ellipseData = graphicsData.shape;
-      width = ellipseData.width;
-      height = ellipseData.height;
+      var roundedRect = graphicsData.shape;
+      var halfWidth = roundedRect.width / 2;
+      var halfHeight = roundedRect.height / 2;
+      x = roundedRect.x + halfWidth;
+      y2 = roundedRect.y + halfHeight;
+      rx = ry = Math.max(0, Math.min(roundedRect.radius, Math.min(halfWidth, halfHeight)));
+      dx = halfWidth - rx;
+      dy = halfHeight - ry;
     }
-    if (width === 0 || height === 0) {
+    var n = Math.ceil(2.3 * Math.sqrt(rx + ry));
+    var m2 = n * 8 + (dx ? 4 : 0) + (dy ? 4 : 0);
+    points.length = m2;
+    if (m2 === 0) {
       return;
     }
-    var totalSegs = Math.floor(30 * Math.sqrt(circleData.radius)) || Math.floor(15 * Math.sqrt(width + height));
-    totalSegs /= 2.3;
-    var seg = Math.PI * 2 / totalSegs;
-    for (var i2 = 0; i2 < totalSegs - 0.5; i2++) {
-      points.push(x + Math.sin(-seg * i2) * width, y2 + Math.cos(-seg * i2) * height);
+    if (n === 0) {
+      points.length = 8;
+      points[0] = points[6] = x + dx;
+      points[1] = points[3] = y2 + dy;
+      points[2] = points[4] = x - dx;
+      points[5] = points[7] = y2 - dy;
+      return;
     }
-    points.push(points[0], points[1]);
+    var j1 = 0;
+    var j2 = n * 4 + (dx ? 2 : 0) + 2;
+    var j3 = j2;
+    var j4 = m2;
+    {
+      var x0 = dx + rx;
+      var y0 = dy;
+      var x1 = x + x0;
+      var x2 = x - x0;
+      var y1 = y2 + y0;
+      points[j1++] = x1;
+      points[j1++] = y1;
+      points[--j2] = y1;
+      points[--j2] = x2;
+      if (dy) {
+        var y22 = y2 - y0;
+        points[j3++] = x2;
+        points[j3++] = y22;
+        points[--j4] = y22;
+        points[--j4] = x1;
+      }
+    }
+    for (var i2 = 1; i2 < n; i2++) {
+      var a2 = Math.PI / 2 * (i2 / n);
+      var x0 = dx + Math.cos(a2) * rx;
+      var y0 = dy + Math.sin(a2) * ry;
+      var x1 = x + x0;
+      var x2 = x - x0;
+      var y1 = y2 + y0;
+      var y22 = y2 - y0;
+      points[j1++] = x1;
+      points[j1++] = y1;
+      points[--j2] = y1;
+      points[--j2] = x2;
+      points[j3++] = x2;
+      points[j3++] = y22;
+      points[--j4] = y22;
+      points[--j4] = x1;
+    }
+    {
+      var x0 = dx;
+      var y0 = dy + ry;
+      var x1 = x + x0;
+      var x2 = x - x0;
+      var y1 = y2 + y0;
+      var y22 = y2 - y0;
+      points[j1++] = x1;
+      points[j1++] = y1;
+      points[--j4] = y22;
+      points[--j4] = x1;
+      if (dx) {
+        points[j1++] = x2;
+        points[j1++] = y1;
+        points[--j4] = y22;
+        points[--j4] = x2;
+      }
+    }
   },
   triangulate: function(graphicsData, graphicsGeometry) {
     var points = graphicsData.points;
@@ -22826,15 +23103,26 @@ var buildCircle = {
     var indices2 = graphicsGeometry.indices;
     var vertPos = verts.length / 2;
     var center = vertPos;
-    var circle = graphicsData.shape;
+    var x;
+    var y2;
+    if (graphicsData.type !== SHAPES.RREC) {
+      var circle = graphicsData.shape;
+      x = circle.x;
+      y2 = circle.y;
+    } else {
+      var roundedRect = graphicsData.shape;
+      x = roundedRect.x + roundedRect.width / 2;
+      y2 = roundedRect.y + roundedRect.height / 2;
+    }
     var matrix = graphicsData.matrix;
-    var x = circle.x;
-    var y2 = circle.y;
     verts.push(graphicsData.matrix ? matrix.a * x + matrix.c * y2 + matrix.tx : x, graphicsData.matrix ? matrix.b * x + matrix.d * y2 + matrix.ty : y2);
-    for (var i2 = 0; i2 < points.length; i2 += 2) {
+    vertPos++;
+    verts.push(points[0], points[1]);
+    for (var i2 = 2; i2 < points.length; i2 += 2) {
       verts.push(points[i2], points[i2 + 1]);
       indices2.push(vertPos++, center, vertPos);
     }
+    indices2.push(center + 1, center, vertPos);
   }
 };
 var buildRectangle = {
@@ -22889,6 +23177,10 @@ function quadraticBezierCurve(fromX, fromY, cpX, cpY, toX, toY, out) {
 }
 var buildRoundedRectangle = {
   build: function(graphicsData) {
+    if (Graphics.nextRoundedRectBehavior) {
+      buildCircle.build(graphicsData);
+      return;
+    }
     var rrectData = graphicsData.shape;
     var points = graphicsData.points;
     var x = rrectData.x;
@@ -22907,6 +23199,10 @@ var buildRoundedRectangle = {
     }
   },
   triangulate: function(graphicsData, graphicsGeometry) {
+    if (Graphics.nextRoundedRectBehavior) {
+      buildCircle.triangulate(graphicsData, graphicsGeometry);
+      return;
+    }
     var points = graphicsData.points;
     var verts = graphicsGeometry.points;
     var indices2 = graphicsGeometry.indices;
@@ -23386,14 +23682,6 @@ var _a;
 var FILL_COMMANDS = (_a = {}, _a[SHAPES.POLY] = buildPoly, _a[SHAPES.CIRC] = buildCircle, _a[SHAPES.ELIP] = buildCircle, _a[SHAPES.RECT] = buildRectangle, _a[SHAPES.RREC] = buildRoundedRectangle, _a);
 var BATCH_POOL = [];
 var DRAW_CALL_POOL = [];
-function isPolygonClockwise(polygon) {
-  var points = polygon.points;
-  var sum2 = 0;
-  for (var i2 = 0; i2 < points.length - 2; i2 += 2) {
-    sum2 += (points[i2 + 2] - points[i2]) * (points[i2 + 3] + points[i2 + 1]);
-  }
-  return sum2 > 0;
-}
 var GraphicsData = function() {
   function GraphicsData2(shape, fillStyle, lineStyle, matrix) {
     if (fillStyle === void 0) {
@@ -23607,6 +23895,9 @@ var GraphicsGeometry = function(_super) {
       if (data.matrix) {
         this.transformPoints(data.points, data.matrix);
       }
+      if (fillStyle.visible || lineStyle.visible) {
+        this.processHoles(data.holes);
+      }
       for (var j2 = 0; j2 < 2; j2++) {
         var style = j2 === 0 ? fillStyle : lineStyle;
         if (!style.visible) {
@@ -23811,7 +24102,6 @@ var GraphicsGeometry = function(_super) {
   };
   GraphicsGeometry2.prototype.processFill = function(data) {
     if (data.holes.length) {
-      this.processHoles(data.holes);
       buildPoly.triangulate(data, this);
     } else {
       var command = FILL_COMMANDS[data.type];
@@ -23848,17 +24138,7 @@ var GraphicsGeometry = function(_super) {
       var nextMatrix = data.matrix || Matrix.IDENTITY;
       var lineWidth = 0;
       if (lineStyle && lineStyle.visible) {
-        var alignment = lineStyle.alignment;
-        lineWidth = lineStyle.width;
-        if (type === SHAPES.POLY) {
-          if (isPolygonClockwise(shape)) {
-            lineWidth = lineWidth * (1 - alignment);
-          } else {
-            lineWidth = lineWidth * alignment;
-          }
-        } else {
-          lineWidth = lineWidth * Math.max(0, alignment);
-        }
+        lineWidth = lineStyle.width * Math.max(0, lineStyle.alignment);
       }
       if (curMatrix !== nextMatrix) {
         if (!sequenceBounds.isEmpty()) {
@@ -24526,12 +24806,13 @@ var Graphics = function(_super) {
     this.batches = null;
     _super.prototype.destroy.call(this, options);
   };
+  Graphics2.nextRoundedRectBehavior = false;
   Graphics2._TEMP_POINT = new Point();
   return Graphics2;
 }(Container);
 /*!
- * @pixi/sprite - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/sprite - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -24847,8 +25128,8 @@ var Sprite = function(_super) {
   return Sprite2;
 }(Container);
 /*!
- * @pixi/text - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/text - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -25838,7 +26119,7 @@ var Text = function(_super) {
     }
     var style = this._style;
     var letterSpacing = style.letterSpacing;
-    var supportLetterSpacing = "letterSpacing" in CanvasRenderingContext2D.prototype || "textLetterSpacing" in CanvasRenderingContext2D.prototype;
+    var supportLetterSpacing = Text2.experimentalLetterSpacing && ("letterSpacing" in CanvasRenderingContext2D.prototype || "textLetterSpacing" in CanvasRenderingContext2D.prototype);
     if (letterSpacing === 0 || supportLetterSpacing) {
       if (supportLetterSpacing) {
         this.context.letterSpacing = letterSpacing;
@@ -26073,11 +26354,12 @@ var Text = function(_super) {
     configurable: true
   });
   Text2.nextLineHeightBehavior = false;
+  Text2.experimentalLetterSpacing = false;
   return Text2;
 }(Sprite);
 /*!
- * @pixi/prepare - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/prepare - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26369,8 +26651,8 @@ var Prepare = function(_super) {
   return Prepare2;
 }(BasePrepare);
 /*!
- * @pixi/spritesheet - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/spritesheet - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26560,8 +26842,8 @@ var SpritesheetLoader = function() {
   return SpritesheetLoader2;
 }();
 /*!
- * @pixi/sprite-tiling - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/sprite-tiling - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26810,8 +27092,8 @@ var TilingSpriteRenderer = function(_super) {
   return TilingSpriteRenderer2;
 }(ObjectRenderer);
 /*!
- * @pixi/mesh - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/mesh - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27221,8 +27503,8 @@ var MeshGeometry = function(_super) {
   return MeshGeometry2;
 }(Geometry);
 /*!
- * @pixi/text-bitmap - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/text-bitmap - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27418,13 +27700,13 @@ var XMLStringFormat = function() {
   }
   XMLStringFormat2.test = function(data) {
     if (typeof data === "string" && data.indexOf("<font>") > -1) {
-      var xml = new self.DOMParser().parseFromString(data, "text/xml");
+      var xml = new globalThis.DOMParser().parseFromString(data, "text/xml");
       return XMLFormat.test(xml);
     }
     return false;
   };
   XMLStringFormat2.parse = function(xmlTxt) {
-    var xml = new self.DOMParser().parseFromString(xmlTxt, "text/xml");
+    var xml = new globalThis.DOMParser().parseFromString(xmlTxt, "text/xml");
     return XMLFormat.parse(xml);
   };
   return XMLStringFormat2;
@@ -27884,7 +28166,7 @@ var charRenderDataPool = [];
       charRenderData.position.y = pos.y + charData.yOffset;
       charRenderData.prevSpaces = spaceCount;
       chars2.push(charRenderData);
-      lastLineWidth = charRenderData.position.x + charData.texture.orig.width;
+      lastLineWidth = charRenderData.position.x + Math.max(charData.xAdvance, charData.texture.orig.width);
       pos.x += charData.xAdvance + this._letterSpacing;
       maxLineHeight = Math.max(maxLineHeight, charData.yOffset + charData.texture.height);
       prevCharCode = charCode;
@@ -28350,8 +28632,8 @@ var BitmapFontLoader = function() {
   return BitmapFontLoader2;
 }();
 /*!
- * @pixi/filter-alpha - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/filter-alpha - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28413,8 +28695,8 @@ var fragment$4 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nun
   return AlphaFilter;
 })(Filter);
 /*!
- * @pixi/filter-blur - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/filter-blur - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28512,8 +28794,8 @@ function generateBlurFragSource(kernelSize) {
   return fragSource;
 }
 /*!
- * @pixi/constants - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/constants - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28903,8 +29185,8 @@ var BlurFilterPass = function(_super) {
   return BlurFilter;
 })(Filter);
 /*!
- * @pixi/filter-color-matrix - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/filter-color-matrix - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29581,8 +29863,8 @@ var ColorMatrixFilter = function(_super) {
 }(Filter);
 ColorMatrixFilter.prototype.grayscale = ColorMatrixFilter.prototype.greyscale;
 /*!
- * @pixi/filter-displacement - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/filter-displacement - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29670,8 +29952,8 @@ var vertex$1 = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix
   return DisplacementFilter;
 })(Filter);
 /*!
- * @pixi/filter-fxaa - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/filter-fxaa - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29840,8 +30122,8 @@ void main() {
   return FXAAFilter;
 })(Filter);
 /*!
- * @pixi/filter-noise - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/filter-noise - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29920,15 +30202,15 @@ var fragment = "precision highp float;\n\nvarying vec2 vTextureCoord;\nvarying v
   return NoiseFilter;
 })(Filter);
 /*!
- * @pixi/mixin-cache-as-bitmap - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/mixin-cache-as-bitmap - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 /*!
- * @pixi/constants - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/constants - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30358,8 +30640,8 @@ DisplayObject.prototype._cacheAsBitmapDestroy = function _cacheAsBitmapDestroy(o
   this.destroy(options);
 };
 /*!
- * @pixi/mixin-get-child-by-name - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/mixin-get-child-by-name - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30386,8 +30668,8 @@ Container.prototype.getChildByName = function getChildByName(name, deep) {
   return null;
 };
 /*!
- * @pixi/mixin-get-global-position - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/mixin-get-global-position - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30408,8 +30690,8 @@ DisplayObject.prototype.getGlobalPosition = function getGlobalPosition(point, sk
   return point;
 };
 /*!
- * @pixi/mesh-extras - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/mesh-extras - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30890,8 +31172,8 @@ var DEFAULT_BORDER_SIZE = 10;
   return NineSlicePlane;
 })(SimplePlane);
 /*!
- * @pixi/sprite-animated - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * @pixi/sprite-animated - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31141,8 +31423,8 @@ var AnimatedSprite = function(_super) {
   return AnimatedSprite2;
 }(Sprite);
 /*!
- * pixi.js - v6.2.2
- * Compiled Wed, 26 Jan 2022 16:23:27 UTC
+ * pixi.js - v6.3.0
+ * Compiled Wed, 23 Mar 2022 18:58:56 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -33624,14 +33906,17 @@ var OS_PRESETS = [{
   test: "windows nt",
   id: "window"
 }, {
+  test: "win32|windows",
+  id: "window"
+}, {
   test: "iphone|ipad|ipod",
   id: "ios",
   versionTest: "iphone os|cpu os"
 }, {
-  test: "mac os x",
+  test: "macos|macintel|mac os x",
   id: "mac"
 }, {
-  test: "android",
+  test: "android|linux armv81",
   id: "android"
 }, {
   test: "tizen",
@@ -33645,6 +33930,7 @@ function parseUserAgentData(osData) {
   var brands = (userAgentData.uaList || userAgentData.brands).slice();
   var isMobile2 = userAgentData.mobile || false;
   var firstBrand = brands[0];
+  var platform2 = (osData && osData.platform || userAgentData.platform || navigator.platform).toLowerCase();
   var browser = {
     name: firstBrand.brand,
     version: firstBrand.version,
@@ -33671,12 +33957,11 @@ function parseUserAgentData(osData) {
     browser.webkit = !!webkitBrand.brand;
     browser.webkitVersion = webkitBrand.version;
   }
+  var platfomResult = find(OS_PRESETS, function(preset) {
+    return new RegExp("" + preset.test, "g").exec(platform2);
+  });
+  os.name = platfomResult ? platfomResult.id : "";
   if (osData) {
-    var platform_1 = osData.platform.toLowerCase();
-    var result = find(OS_PRESETS, function(preset) {
-      return new RegExp("" + preset.test, "g").exec(platform_1);
-    });
-    os.name = result ? result.id : platform_1;
     os.version = osData.platformVersion;
   }
   var browserBrand = findPresetBrand(BROWSER_PRESETS, brands);
@@ -33684,9 +33969,7 @@ function parseUserAgentData(osData) {
     browser.name = browserBrand.brand;
     browser.version = osData ? osData.uaFullVersion : browserBrand.version;
   }
-  if (navigator.platform === "Linux armv8l") {
-    os.name = "android";
-  } else if (browser.webkit) {
+  if (browser.webkit) {
     os.name = isMobile2 ? "ios" : "mac";
   }
   if (os.name === "ios" && browser.webview) {
@@ -51896,7 +52179,7 @@ init_fn = async function() {
   const hApp = {
     width: __privateGet(this, _cfg3).oCfg.window.width,
     height: __privateGet(this, _cfg3).oCfg.window.height,
-    backgroundColor: __privateGet(this, _cfg3).oCfg.init.bg_color = parseColor(String(__privateGet(this, _cfg3).oCfg.init.bg_color)),
+    backgroundColor: parseColor(__privateGet(this, _cfg3).oCfg.init.bg_color),
     resolution: (_b3 = globalThis.devicePixelRatio) != null ? _b3 : 1,
     autoResize: true
   };
