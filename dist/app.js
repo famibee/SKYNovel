@@ -795,6 +795,7 @@ function argChk_Boolean(hash2, name2, def) {
   return hash2[name2] = v22 === "false" ? false : Boolean(v22);
 }
 function parseColor(v2) {
+  console.log(`fn:CmnLib.ts line:152 v:%o`, v2);
   if (v2.charAt(0) === "#")
     return parseInt(v2.slice(1), 16);
   const n = Number(v2);
@@ -52179,7 +52180,7 @@ init_fn = async function() {
   const hApp = {
     width: __privateGet(this, _cfg3).oCfg.window.width,
     height: __privateGet(this, _cfg3).oCfg.window.height,
-    backgroundColor: parseColor(__privateGet(this, _cfg3).oCfg.init.bg_color),
+    backgroundColor: parseColor(String(__privateGet(this, _cfg3).oCfg.init.bg_color)),
     resolution: (_b3 = globalThis.devicePixelRatio) != null ? _b3 : 1,
     autoResize: true
   };
