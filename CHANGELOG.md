@@ -1,3 +1,10 @@
+## [1.29.3](https://github.com/famibee/SKYNovel/compare/v1.29.2...v1.29.3) (2022-03-31)
+
+
+### Bug Fixes
+
+* prj.json の backgroundColor を文字型に（拡張機能と同調） ([1d05712](https://github.com/famibee/SKYNovel/commit/1d05712b9a4601c3cf3212738ce79b1acc3d95e3))
+
 - fix: prj.json の backgroundColor を文字型に（拡張機能と同調）
 - fix: prj.json の型情報をより厳密に
 
