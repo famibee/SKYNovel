@@ -1,3 +1,10 @@
+## [1.29.4](https://github.com/famibee/SKYNovel/compare/v1.29.3...v1.29.4) (2022-03-31)
+
+
+### Bug Fixes
+
+* 前回更新による後方互換性に対応 ([1c7ea8d](https://github.com/famibee/SKYNovel/commit/1c7ea8d3fce6d3918651d64d6dee3d230a2f4c32))
+
 - fix: 前回更新による後方互換性に対応
 
 
