@@ -1,3 +1,8 @@
+- fix: Electron 18 対応
+- fix: コメントが残っていたのを削除
+- fix: gやyフラグを使わない正規表現のlastIndex=0リセット記述を削除
+
+
 ## [1.29.4](https://github.com/famibee/SKYNovel/compare/v1.29.3...v1.29.4) (2022-03-31)
 
 

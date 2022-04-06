@@ -902,7 +902,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 			const tkn = st.aToken[i];
 			if (in_let_ml) {
-				this.#REG_TAG_ENDLET_ML.lastIndex = 0;
+				this.#REG_TAG_ENDLET_ML.lastIndex = 0;	// /gなので必要
 				if (this.#REG_TAG_ENDLET_ML.test(tkn)) in_let_ml = false;
 				else ln += (tkn.match(/\n/g) ?? []).length;
 				continue;
@@ -917,7 +917,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			if (uc !== 91) continue;	// [ タグ開始
 
 			ln += (tkn.match(/\n/g) ?? []).length;
-			this.#REG_TAG_LET_ML.lastIndex = 0;
+			this.#REG_TAG_LET_ML.lastIndex = 0;	// /gなので必要
 			if (this.#REG_TAG_LET_ML.test(tkn)) in_let_ml = true;
 		}
 		if (in_let_ml) throw '[let_ml]の終端・[endlet_ml]がありません';
@@ -931,7 +931,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		const v = this.#grm.matchToken(txt.replace(/(\r\n|\r)/g, '\n'));
 		for (let i=v.length -1; i>=0; --i) {
 			const e = v[i];
-			this.#REG_TAG_LET_ML.lastIndex = 0;
+			this.#REG_TAG_LET_ML.lastIndex = 0;	// /gなので必要
 			if (this.#REG_TAG_LET_ML.test(e)) {
 				const idx = e.indexOf(']') +1;
 				if (idx === 0) throw '[let_ml]で閉じる【]】がありません';
@@ -981,7 +981,6 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 	#replaceScript_Wildcard = ()=> {
 		for (let i=this.#script.len -1; i>=0; --i) {
 			const token = this.#script.aToken[i];
-			this.#REG_WILDCARD.lastIndex = 0;
 			if (! this.#REG_WILDCARD.test(token)) continue;
 
 			const [tag_name, args] = tagToken2Name_Args(token);

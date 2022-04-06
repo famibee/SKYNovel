@@ -795,7 +795,6 @@ function argChk_Boolean(hash2, name2, def) {
   return hash2[name2] = v22 === "false" ? false : Boolean(v22);
 }
 function parseColor(v2) {
-  console.log(`fn:CmnLib.ts line:152 v:%o`, v2);
   if (v2.charAt(0) === "#")
     return parseInt(v2.slice(1), 16);
   const n = Number(v2);
@@ -3512,7 +3511,6 @@ const _Config = class {
       this.sys.ensureFileSync(fp);
       return fp;
     }
-    __privateGet$5(this, _REG_PATH).lastIndex = 0;
     const a2 = path.match(__privateGet$5(this, _REG_PATH));
     let fn = a2 ? a2[1] : path;
     const ext = a2 ? a2[2] : "";
@@ -3723,7 +3721,6 @@ class Grammar {
         return;
       for (let i2 = scr.len - 1; i2 >= start_idx; --i2) {
         const token = scr.aToken[i2];
-        this.REG_TOKEN_NOTXT.lastIndex = 0;
         if (this.REG_TOKEN_NOTXT.test(token.charAt(0)))
           continue;
         const lnum = scr.aLNum[i2];
@@ -3775,10 +3772,8 @@ class Grammar {
       throw "[bracket2macro] text\u3010" + op + "\u3011\u304C\u767B\u9332\u6E08\u307F\u306E\u62EC\u5F27\u30DE\u30AF\u30ED\u307E\u305F\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u3067\u3059";
     if (cl in __privateGet(this, _hC2M))
       throw "[bracket2macro] text\u3010" + cl + "\u3011\u304C\u767B\u9332\u6E08\u307F\u306E\u62EC\u5F27\u30DE\u30AF\u30ED\u307E\u305F\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u3067\u3059";
-    __privateGet(this, _REG_CANTC2M).lastIndex = 0;
     if (__privateGet(this, _REG_CANTC2M).test(op))
       throw "[bracket2macro] text\u3010" + op + "\u3011\u306F\u62EC\u5F27\u30DE\u30AF\u30ED\u306B\u4F7F\u7528\u3067\u304D\u306A\u3044\u6587\u5B57\u3067\u3059";
-    __privateGet(this, _REG_CANTC2M).lastIndex = 0;
     if (__privateGet(this, _REG_CANTC2M).test(cl))
       throw "[bracket2macro] text\u3010" + cl + "\u3011\u306F\u62EC\u5F27\u30DE\u30AF\u30ED\u306B\u4F7F\u7528\u3067\u304D\u306A\u3044\u6587\u5B57\u3067\u3059";
     __privateGet(this, _hC2M)[cl] = "0";
@@ -3794,7 +3789,6 @@ class Grammar {
     (_a3 = __privateGet(this, _hC2M)) != null ? _a3 : __privateSet(this, _hC2M, {});
     if (char in __privateGet(this, _hC2M))
       throw "[char2macro] char\u3010" + char + "\u3011\u304C\u767B\u9332\u6E08\u307F\u306E\u62EC\u5F27\u30DE\u30AF\u30ED\u307E\u305F\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u3067\u3059";
-    __privateGet(this, _REG_CANTC2M).lastIndex = 0;
     if (__privateGet(this, _REG_CANTC2M).test(char))
       throw "[char2macro] char\u3010" + char + "\u3011\u306F\u4E00\u6587\u5B57\u30DE\u30AF\u30ED\u306B\u4F7F\u7528\u3067\u304D\u306A\u3044\u6587\u5B57\u3067\u3059";
     if (!name)
@@ -5501,7 +5495,6 @@ castAuto_fn = function(val) {
     return null;
   if (s_val === "undefined")
     return void 0;
-  __privateGet(this, _REG_NUMERICLITERAL).lastIndex = 0;
   if (__privateGet(this, _REG_NUMERICLITERAL).test(s_val))
     return parseFloat(s_val);
   return val;
@@ -46534,7 +46527,6 @@ const _TxtStage = class extends Container {
     const { name } = hArg;
     if (!name)
       throw "name\u306F\u5FC5\u9808\u3067\u3059";
-    __privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
     if (__privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).test(name))
       throw `name\u3010${name}\u3011\u306B\u4F7F\u3048\u306A\u3044\u6587\u5B57\u304C\u542B\u307E\u308C\u307E\u3059`;
     if (name in __privateGet(_TxtStage, _hChInStyle))
@@ -46563,7 +46555,6 @@ const _TxtStage = class extends Container {
     const { name } = hArg;
     if (!name)
       throw "name\u306F\u5FC5\u9808\u3067\u3059";
-    __privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).lastIndex = 0;
     if (__privateGet(_TxtStage, _REG_NG_CHSTYLE_NAME_CHR).test(name))
       throw `name\u3010${name}\u3011\u306B\u4F7F\u3048\u306A\u3044\u6587\u5B57\u304C\u542B\u307E\u308C\u307E\u3059`;
     if (name in __privateGet(_TxtStage, _hChOutStyle))
@@ -47114,8 +47105,9 @@ var __privateMethod$1 = (obj, member, method) => {
 var _procMasume4txt, _procMasume4pic, _rctBtnTxt, _idc, _sp_b_pic, _sp_pic, _loaded_b_pic, loaded_b_pic_fn, _normal, _hover, _clicked, _loaded_pic, loaded_pic_fn;
 const _Button = class extends Container {
   constructor(hArg, evtMng, resolve2, canFocus) {
-    super();
     var _a4, _b3, _c3;
+    var _a3;
+    super();
     this.hArg = hArg;
     this.evtMng = evtMng;
     this.resolve = resolve2;
@@ -47132,7 +47124,6 @@ const _Button = class extends Container {
     __privateAdd$1(this, _hover, () => false);
     __privateAdd$1(this, _clicked, () => {
     });
-    var _a3;
     if (CmnLib.isDbg) {
       this.makeDesignCast = (gdc) => gdc(__privateGet$1(this, _idc));
       this.cvsResize = () => __privateGet$1(this, _idc).cvsResize();
@@ -50912,7 +50903,6 @@ const _ScriptIterator = class {
     __privateSet(this, _replaceScript_Wildcard, () => {
       for (let i2 = __privateGet(this, _script).len - 1; i2 >= 0; --i2) {
         const token = __privateGet(this, _script).aToken[i2];
-        __privateGet(this, _REG_WILDCARD).lastIndex = 0;
         if (!__privateGet(this, _REG_WILDCARD).test(token))
           continue;
         const [tag_name, args] = tagToken2Name_Args(token);

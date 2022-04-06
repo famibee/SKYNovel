@@ -88,9 +88,7 @@ export class Grammar {
 		const cl = text.charAt(1);
 		if (op in this.#hC2M) throw '[bracket2macro] text【'+ op +'】が登録済みの括弧マクロまたは一文字マクロです';
 		if (cl in this.#hC2M) throw '[bracket2macro] text【'+ cl +'】が登録済みの括弧マクロまたは一文字マクロです';
-		this.#REG_CANTC2M.lastIndex = 0;
 		if (this.#REG_CANTC2M.test(op)) throw '[bracket2macro] text【'+ op +'】は括弧マクロに使用できない文字です';
-		this.#REG_CANTC2M.lastIndex = 0;
 		if (this.#REG_CANTC2M.test(cl)) throw '[bracket2macro] text【'+ cl +'】は括弧マクロに使用できない文字です';
 
 		this.#hC2M[cl] = '0';	// チェック用ダミー
@@ -106,7 +104,6 @@ export class Grammar {
 		if (! char) throw '[char2macro] charは必須です';
 		this.#hC2M ??= {};
 		if (char in this.#hC2M) throw '[char2macro] char【'+ char +'】が登録済みの括弧マクロまたは一文字マクロです';
-		this.#REG_CANTC2M.lastIndex = 0;
 		if (this.#REG_CANTC2M.test(char)) throw '[char2macro] char【'+ char +'】は一文字マクロに使用できない文字です';
 
 		if (! name) throw '[char2macro] nameは必須です';
@@ -136,7 +133,6 @@ export class Grammar {
 
 		for (let i=scr.len- 1; i >= start_idx; --i) {
 			const token = scr.aToken[i];
-			this.REG_TOKEN_NOTXT.lastIndex = 0;
 			if (this.REG_TOKEN_NOTXT.test(token.charAt(0))) continue;
 
 			const lnum = scr.aLNum[i];

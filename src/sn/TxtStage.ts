@@ -892,7 +892,6 @@ export class TxtStage extends Container {
 	static	ch_in_style(hArg: HArg): any {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
-		TxtStage.#REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
 		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
 		if (name in TxtStage.#hChInStyle) throw `name【${name}】はすでにあります`;
 
@@ -936,7 +935,6 @@ export class TxtStage extends Container {
 	static	ch_out_style(hArg: HArg): any {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
-		TxtStage.#REG_NG_CHSTYLE_NAME_CHR.lastIndex = 0;
 		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
 		if (name in TxtStage.#hChOutStyle) throw `name【${name}】はすでにあります`;
 

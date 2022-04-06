@@ -149,7 +149,6 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 
 
 export function parseColor(v: string): number {
-console.log(`fn:CmnLib.ts line:152 v:%o`, v);
 	if (v.charAt(0) === '#') return parseInt(v.slice(1), 16);
 	const n = Number(v);
 	if (! isNaN(n)) return n;	// 0, 0xffffff

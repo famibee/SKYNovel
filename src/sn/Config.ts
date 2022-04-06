@@ -127,7 +127,6 @@ export class Config implements IConfig {
 			return fp;
 		}
 
-		this.#REG_PATH.lastIndex = 0;
 		const a = path.match(this.#REG_PATH);
 		let fn = a ?a[1] :path;
 		const ext = a ?a[2] :'';

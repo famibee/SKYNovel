@@ -181,8 +181,6 @@ export class appMain {
 				fullscreenable	: true,
 				maximizable		: false,// Macで最大化ボタンでフルスクリーンにしない
 				webPreferences	: {
-					nativeWindowOpen	: true,	// electron 14 以降のデフォルト
-
 					// XSS対策としてnodeモジュールをレンダラープロセスで使えなくする
 					enableRemoteModule	: false,
 					nodeIntegration		: false,
