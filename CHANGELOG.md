@@ -1,3 +1,10 @@
+## [1.29.6](https://github.com/famibee/SKYNovel/compare/v1.29.5...v1.29.6) (2022-04-28)
+
+
+### Bug Fixes
+
+* ライブラリ更新 ([65a11ae](https://github.com/famibee/SKYNovel/commit/65a11aeaa259becb8bde76901d4daf25d9f49e4b))
+
 - fix: ライブラリ更新
 
 
