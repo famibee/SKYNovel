@@ -4,7 +4,7 @@ var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
 var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __defNormalProp = (obj, key, value2) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value: value2 }) : obj[key] = value2;
 var __spreadValues = (a2, b2) => {
   for (var prop in b2 || (b2 = {}))
     if (__hasOwnProp.call(b2, prop))
@@ -25,20 +25,20 @@ var __privateGet2 = (obj, member, getter) => {
   __accessCheck2(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd2 = (obj, member, value) => {
+var __privateAdd2 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet2 = (obj, member, value, setter) => {
+var __privateSet2 = (obj, member, value2, setter) => {
   __accessCheck2(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var __privateWrapper2 = (obj, member, setter, getter) => {
   return {
-    set _(value) {
-      __privateSet2(obj, member, value, setter);
+    set _(value2) {
+      __privateSet2(obj, member, value2, setter);
     },
     get _() {
       return __privateGet2(obj, member, getter);
@@ -126,8 +126,8 @@ var platform$1 = { exports: {} };
         }
       }
     }
-    function getClassOf(value) {
-      return value == null ? capitalize(value) : toString2.call(value).slice(8, -1);
+    function getClassOf(value2) {
+      return value2 == null ? capitalize(value2) : toString2.call(value2).slice(8, -1);
     }
     function isHostType(object, property) {
       var type = object != null ? typeof object[property] : "number";
@@ -138,8 +138,8 @@ var platform$1 = { exports: {} };
     }
     function reduce(array, callback) {
       var accumulator = null;
-      each2(array, function(value, index) {
-        accumulator = callback(accumulator, value, index, array);
+      each2(array, function(value2, index) {
+        accumulator = callback(accumulator, value2, index, array);
       });
       return accumulator;
     }
@@ -330,8 +330,8 @@ var platform$1 = { exports: {} };
         });
       }
       function getManufacturer(guesses) {
-        return reduce(guesses, function(result, value, key) {
-          return result || (value[product] || value[/^[a-z]+(?: +[a-z]+\b)*/i.exec(product)] || RegExp("\\b" + qualify(key) + "(?:\\b|\\w*\\d)", "i").exec(ua)) && key;
+        return reduce(guesses, function(result, value2, key) {
+          return result || (value2[product] || value2[/^[a-z]+(?: +[a-z]+\b)*/i.exec(product)] || RegExp("\\b" + qualify(key) + "(?:\\b|\\w*\\d)", "i").exec(ua)) && key;
         });
       }
       function getName(guesses) {
@@ -695,8 +695,8 @@ var platform$1 = { exports: {} };
     }
     var platform2 = parse2();
     if (freeExports && freeModule) {
-      forOwn(platform2, function(value, key) {
-        freeExports[key] = value;
+      forOwn(platform2, function(value2, key) {
+        freeExports[key] = value2;
       });
     } else {
       root.platform = platform2;
@@ -836,220 +836,6 @@ CmnLib.hDip = {};
 CmnLib.isDbg = false;
 CmnLib.isPackaged = false;
 CmnLib.isDarkMode = false;
-var re = /^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
-var parts = [
-  "source",
-  "protocol",
-  "authority",
-  "userInfo",
-  "user",
-  "password",
-  "host",
-  "port",
-  "relative",
-  "path",
-  "directory",
-  "file",
-  "query",
-  "anchor"
-];
-var parseuri = function parseuri2(str2) {
-  var src = str2, b2 = str2.indexOf("["), e = str2.indexOf("]");
-  if (b2 != -1 && e != -1) {
-    str2 = str2.substring(0, b2) + str2.substring(b2, e).replace(/:/g, ";") + str2.substring(e, str2.length);
-  }
-  var m2 = re.exec(str2 || ""), uri = {}, i2 = 14;
-  while (i2--) {
-    uri[parts[i2]] = m2[i2] || "";
-  }
-  if (b2 != -1 && e != -1) {
-    uri.source = src;
-    uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ":");
-    uri.authority = uri.authority.replace("[", "").replace("]", "").replace(/;/g, ":");
-    uri.ipv6uri = true;
-  }
-  uri.pathNames = pathNames(uri, uri["path"]);
-  uri.queryKey = queryKey(uri, uri["query"]);
-  return uri;
-};
-function pathNames(obj, path) {
-  var regx = /\/{2,9}/g, names = path.replace(regx, "/").split("/");
-  if (path.substr(0, 1) == "/" || path.length === 0) {
-    names.splice(0, 1);
-  }
-  if (path.substr(path.length - 1, 1) == "/") {
-    names.splice(names.length - 1, 1);
-  }
-  return names;
-}
-function queryKey(uri, query) {
-  var data = {};
-  query.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function($0, $1, $2) {
-    if ($1) {
-      data[$1] = $2;
-    }
-  });
-  return data;
-}
-function url$1(uri, path = "", loc) {
-  let obj = uri;
-  loc = loc || typeof location !== "undefined" && location;
-  if (uri == null)
-    uri = loc.protocol + "//" + loc.host;
-  if (typeof uri === "string") {
-    if (uri.charAt(0) === "/") {
-      if (uri.charAt(1) === "/") {
-        uri = loc.protocol + uri;
-      } else {
-        uri = loc.host + uri;
-      }
-    }
-    if (!/^(https?|wss?):\/\//.test(uri)) {
-      if (typeof loc !== "undefined") {
-        uri = loc.protocol + "//" + uri;
-      } else {
-        uri = "https://" + uri;
-      }
-    }
-    obj = parseuri(uri);
-  }
-  if (!obj.port) {
-    if (/^(http|ws)$/.test(obj.protocol)) {
-      obj.port = "80";
-    } else if (/^(http|ws)s$/.test(obj.protocol)) {
-      obj.port = "443";
-    }
-  }
-  obj.path = obj.path || "/";
-  const ipv6 = obj.host.indexOf(":") !== -1;
-  const host = ipv6 ? "[" + obj.host + "]" : obj.host;
-  obj.id = obj.protocol + "://" + host + ":" + obj.port + path;
-  obj.href = obj.protocol + "://" + host + (loc && loc.port === obj.port ? "" : ":" + obj.port);
-  return obj;
-}
-var hasCors = { exports: {} };
-try {
-  hasCors.exports = typeof XMLHttpRequest !== "undefined" && "withCredentials" in new XMLHttpRequest();
-} catch (err) {
-  hasCors.exports = false;
-}
-var hasCORS = hasCors.exports;
-var globalThis$1 = (() => {
-  if (typeof self !== "undefined") {
-    return self;
-  } else if (typeof window !== "undefined") {
-    return window;
-  } else {
-    return Function("return this")();
-  }
-})();
-function XMLHttpRequest$1(opts) {
-  const xdomain = opts.xdomain;
-  try {
-    if (typeof XMLHttpRequest !== "undefined" && (!xdomain || hasCORS)) {
-      return new XMLHttpRequest();
-    }
-  } catch (e) {
-  }
-  if (!xdomain) {
-    try {
-      return new globalThis$1[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
-    } catch (e) {
-    }
-  }
-}
-function pick(obj, ...attr) {
-  return attr.reduce((acc, k) => {
-    if (obj.hasOwnProperty(k)) {
-      acc[k] = obj[k];
-    }
-    return acc;
-  }, {});
-}
-const NATIVE_SET_TIMEOUT = setTimeout;
-const NATIVE_CLEAR_TIMEOUT = clearTimeout;
-function installTimerFunctions(obj, opts) {
-  if (opts.useNativeTimers) {
-    obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(globalThis$1);
-    obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(globalThis$1);
-  } else {
-    obj.setTimeoutFn = setTimeout.bind(globalThis$1);
-    obj.clearTimeoutFn = clearTimeout.bind(globalThis$1);
-  }
-}
-var Emitter_1 = Emitter;
-function Emitter(obj) {
-  if (obj)
-    return mixin(obj);
-}
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-Emitter.prototype.on = Emitter.prototype.addEventListener = function(event, fn) {
-  this._callbacks = this._callbacks || {};
-  (this._callbacks["$" + event] = this._callbacks["$" + event] || []).push(fn);
-  return this;
-};
-Emitter.prototype.once = function(event, fn) {
-  function on2() {
-    this.off(event, on2);
-    fn.apply(this, arguments);
-  }
-  on2.fn = fn;
-  this.on(event, on2);
-  return this;
-};
-Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function(event, fn) {
-  this._callbacks = this._callbacks || {};
-  if (arguments.length == 0) {
-    this._callbacks = {};
-    return this;
-  }
-  var callbacks = this._callbacks["$" + event];
-  if (!callbacks)
-    return this;
-  if (arguments.length == 1) {
-    delete this._callbacks["$" + event];
-    return this;
-  }
-  var cb;
-  for (var i2 = 0; i2 < callbacks.length; i2++) {
-    cb = callbacks[i2];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i2, 1);
-      break;
-    }
-  }
-  if (callbacks.length === 0) {
-    delete this._callbacks["$" + event];
-  }
-  return this;
-};
-Emitter.prototype.emit = function(event) {
-  this._callbacks = this._callbacks || {};
-  var args = new Array(arguments.length - 1), callbacks = this._callbacks["$" + event];
-  for (var i2 = 1; i2 < arguments.length; i2++) {
-    args[i2 - 1] = arguments[i2];
-  }
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i2 = 0, len = callbacks.length; i2 < len; ++i2) {
-      callbacks[i2].apply(this, args);
-    }
-  }
-  return this;
-};
-Emitter.prototype.emitReserved = Emitter.prototype.emit;
-Emitter.prototype.listeners = function(event) {
-  this._callbacks = this._callbacks || {};
-  return this._callbacks["$" + event] || [];
-};
-Emitter.prototype.hasListeners = function(event) {
-  return !!this.listeners(event).length;
-};
 const PACKET_TYPES = /* @__PURE__ */ Object.create(null);
 PACKET_TYPES["open"] = "0";
 PACKET_TYPES["close"] = "1";
@@ -1187,7 +973,139 @@ const decodePayload = (encodedPayload, binaryType) => {
   return packets;
 };
 const protocol$1 = 4;
-class Transport extends Emitter_1 {
+function Emitter(obj) {
+  if (obj)
+    return mixin(obj);
+}
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+Emitter.prototype.on = Emitter.prototype.addEventListener = function(event, fn) {
+  this._callbacks = this._callbacks || {};
+  (this._callbacks["$" + event] = this._callbacks["$" + event] || []).push(fn);
+  return this;
+};
+Emitter.prototype.once = function(event, fn) {
+  function on2() {
+    this.off(event, on2);
+    fn.apply(this, arguments);
+  }
+  on2.fn = fn;
+  this.on(event, on2);
+  return this;
+};
+Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function(event, fn) {
+  this._callbacks = this._callbacks || {};
+  if (arguments.length == 0) {
+    this._callbacks = {};
+    return this;
+  }
+  var callbacks = this._callbacks["$" + event];
+  if (!callbacks)
+    return this;
+  if (arguments.length == 1) {
+    delete this._callbacks["$" + event];
+    return this;
+  }
+  var cb;
+  for (var i2 = 0; i2 < callbacks.length; i2++) {
+    cb = callbacks[i2];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i2, 1);
+      break;
+    }
+  }
+  if (callbacks.length === 0) {
+    delete this._callbacks["$" + event];
+  }
+  return this;
+};
+Emitter.prototype.emit = function(event) {
+  this._callbacks = this._callbacks || {};
+  var args = new Array(arguments.length - 1), callbacks = this._callbacks["$" + event];
+  for (var i2 = 1; i2 < arguments.length; i2++) {
+    args[i2 - 1] = arguments[i2];
+  }
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i2 = 0, len = callbacks.length; i2 < len; ++i2) {
+      callbacks[i2].apply(this, args);
+    }
+  }
+  return this;
+};
+Emitter.prototype.emitReserved = Emitter.prototype.emit;
+Emitter.prototype.listeners = function(event) {
+  this._callbacks = this._callbacks || {};
+  return this._callbacks["$" + event] || [];
+};
+Emitter.prototype.hasListeners = function(event) {
+  return !!this.listeners(event).length;
+};
+var globalThis$1 = (() => {
+  if (typeof self !== "undefined") {
+    return self;
+  } else if (typeof window !== "undefined") {
+    return window;
+  } else {
+    return Function("return this")();
+  }
+})();
+function pick(obj, ...attr) {
+  return attr.reduce((acc, k) => {
+    if (obj.hasOwnProperty(k)) {
+      acc[k] = obj[k];
+    }
+    return acc;
+  }, {});
+}
+const NATIVE_SET_TIMEOUT = setTimeout;
+const NATIVE_CLEAR_TIMEOUT = clearTimeout;
+function installTimerFunctions(obj, opts) {
+  if (opts.useNativeTimers) {
+    obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(globalThis$1);
+    obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(globalThis$1);
+  } else {
+    obj.setTimeoutFn = setTimeout.bind(globalThis$1);
+    obj.clearTimeoutFn = clearTimeout.bind(globalThis$1);
+  }
+}
+const BASE64_OVERHEAD = 1.33;
+function byteLength(obj) {
+  if (typeof obj === "string") {
+    return utf8Length(obj);
+  }
+  return Math.ceil((obj.byteLength || obj.size) * BASE64_OVERHEAD);
+}
+function utf8Length(str2) {
+  let c2 = 0, length2 = 0;
+  for (let i2 = 0, l2 = str2.length; i2 < l2; i2++) {
+    c2 = str2.charCodeAt(i2);
+    if (c2 < 128) {
+      length2 += 1;
+    } else if (c2 < 2048) {
+      length2 += 2;
+    } else if (c2 < 55296 || c2 >= 57344) {
+      length2 += 3;
+    } else {
+      i2++;
+      length2 += 4;
+    }
+  }
+  return length2;
+}
+class TransportError extends Error {
+  constructor(reason, description, context2) {
+    super(reason);
+    this.description = description;
+    this.context = context2;
+    this.type = "TransportError";
+  }
+}
+class Transport extends Emitter {
   constructor(opts) {
     super();
     this.writable = false;
@@ -1197,11 +1115,8 @@ class Transport extends Emitter_1 {
     this.readyState = "";
     this.socket = opts.socket;
   }
-  onError(msg, desc) {
-    const err = new Error(msg);
-    err.type = "TransportError";
-    err.description = desc;
-    super.emit("error", err);
+  onError(reason, description, context2) {
+    super.emitReserved("error", new TransportError(reason, description, context2));
     return this;
   }
   open() {
@@ -1226,51 +1141,41 @@ class Transport extends Emitter_1 {
   onOpen() {
     this.readyState = "open";
     this.writable = true;
-    super.emit("open");
+    super.emitReserved("open");
   }
   onData(data) {
     const packet = decodePacket(data, this.socket.binaryType);
     this.onPacket(packet);
   }
   onPacket(packet) {
-    super.emit("packet", packet);
+    super.emitReserved("packet", packet);
   }
-  onClose() {
+  onClose(details) {
     this.readyState = "closed";
-    super.emit("close");
+    super.emitReserved("close", details);
   }
 }
-var alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".split(""), length = 64, map$2 = {}, seed = 0, i = 0, prev;
-function encode$1(num) {
-  var encoded = "";
+const alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".split(""), length = 64, map$2 = {};
+let seed = 0, i = 0, prev;
+function encode$2(num) {
+  let encoded = "";
   do {
     encoded = alphabet[num % length] + encoded;
     num = Math.floor(num / length);
   } while (num > 0);
   return encoded;
 }
-function decode$1(str2) {
-  var decoded = 0;
-  for (i = 0; i < str2.length; i++) {
-    decoded = decoded * length + map$2[str2.charAt(i)];
-  }
-  return decoded;
-}
 function yeast() {
-  var now2 = encode$1(+new Date());
+  const now2 = encode$2(+new Date());
   if (now2 !== prev)
     return seed = 0, prev = now2;
-  return now2 + "." + encode$1(seed++);
+  return now2 + "." + encode$2(seed++);
 }
 for (; i < length; i++)
   map$2[alphabet[i]] = i;
-yeast.encode = encode$1;
-yeast.decode = decode$1;
-var yeast_1 = yeast;
-var parseqs = {};
-parseqs.encode = function(obj) {
-  var str2 = "";
-  for (var i2 in obj) {
+function encode$1(obj) {
+  let str2 = "";
+  for (let i2 in obj) {
     if (obj.hasOwnProperty(i2)) {
       if (str2.length)
         str2 += "&";
@@ -1278,20 +1183,60 @@ parseqs.encode = function(obj) {
     }
   }
   return str2;
-};
-parseqs.decode = function(qs) {
-  var qry = {};
-  var pairs = qs.split("&");
-  for (var i2 = 0, l2 = pairs.length; i2 < l2; i2++) {
-    var pair = pairs[i2].split("=");
+}
+function decode$1(qs) {
+  let qry = {};
+  let pairs = qs.split("&");
+  for (let i2 = 0, l2 = pairs.length; i2 < l2; i2++) {
+    let pair = pairs[i2].split("=");
     qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
   }
   return qry;
-};
+}
+let value = false;
+try {
+  value = typeof XMLHttpRequest !== "undefined" && "withCredentials" in new XMLHttpRequest();
+} catch (err) {
+}
+const hasCORS = value;
+function XMLHttpRequest$1(opts) {
+  const xdomain = opts.xdomain;
+  try {
+    if (typeof XMLHttpRequest !== "undefined" && (!xdomain || hasCORS)) {
+      return new XMLHttpRequest();
+    }
+  } catch (e) {
+  }
+  if (!xdomain) {
+    try {
+      return new globalThis$1[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+    } catch (e) {
+    }
+  }
+}
+function empty() {
+}
+const hasXHR2 = function() {
+  const xhr = new XMLHttpRequest$1({
+    xdomain: false
+  });
+  return xhr.responseType != null;
+}();
 class Polling extends Transport {
-  constructor() {
-    super(...arguments);
+  constructor(opts) {
+    super(opts);
     this.polling = false;
+    if (typeof location !== "undefined") {
+      const isSSL = location.protocol === "https:";
+      let port = location.port;
+      if (!port) {
+        port = isSSL ? "443" : "80";
+      }
+      this.xd = typeof location !== "undefined" && opts.hostname !== location.hostname || port !== opts.port;
+      this.xs = opts.secure !== isSSL;
+    }
+    const forceBase64 = opts && opts.forceBase64;
+    this.supportsBinary = hasXHR2 && !forceBase64;
   }
   get name() {
     return "polling";
@@ -1326,7 +1271,7 @@ class Polling extends Transport {
   poll() {
     this.polling = true;
     this.doPoll();
-    this.emit("poll");
+    this.emitReserved("poll");
   }
   onData(data) {
     const callback = (packet) => {
@@ -1334,7 +1279,7 @@ class Polling extends Transport {
         this.onOpen();
       }
       if (packet.type === "close") {
-        this.onClose();
+        this.onClose({ description: "transport closed by the server" });
         return false;
       }
       this.onPacket(packet);
@@ -1342,7 +1287,7 @@ class Polling extends Transport {
     decodePayload(data, this.socket.binaryType).forEach(callback);
     if (this.readyState !== "closed") {
       this.polling = false;
-      this.emit("pollComplete");
+      this.emitReserved("pollComplete");
       if (this.readyState === "open") {
         this.poll();
       }
@@ -1363,7 +1308,7 @@ class Polling extends Transport {
     encodePayload(packets, (data) => {
       this.doWrite(data, () => {
         this.writable = true;
-        this.emit("drain");
+        this.emitReserved("drain");
       });
     });
   }
@@ -1372,7 +1317,7 @@ class Polling extends Transport {
     const schema = this.opts.secure ? "https" : "http";
     let port = "";
     if (this.opts.timestampRequests !== false) {
-      query[this.opts.timestampParam] = yeast_1();
+      query[this.opts.timestampParam] = yeast();
     }
     if (!this.supportsBinary && !query.sid) {
       query.b64 = 1;
@@ -1380,33 +1325,9 @@ class Polling extends Transport {
     if (this.opts.port && (schema === "https" && Number(this.opts.port) !== 443 || schema === "http" && Number(this.opts.port) !== 80)) {
       port = ":" + this.opts.port;
     }
-    const encodedQuery = parseqs.encode(query);
+    const encodedQuery = encode$1(query);
     const ipv6 = this.opts.hostname.indexOf(":") !== -1;
     return schema + "://" + (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) + port + this.opts.path + (encodedQuery.length ? "?" + encodedQuery : "");
-  }
-}
-function empty() {
-}
-const hasXHR2 = function() {
-  const xhr = new XMLHttpRequest$1({
-    xdomain: false
-  });
-  return xhr.responseType != null;
-}();
-class XHR extends Polling {
-  constructor(opts) {
-    super(opts);
-    if (typeof location !== "undefined") {
-      const isSSL = location.protocol === "https:";
-      let port = location.port;
-      if (!port) {
-        port = isSSL ? "443" : "80";
-      }
-      this.xd = typeof location !== "undefined" && opts.hostname !== location.hostname || port !== opts.port;
-      this.xs = opts.secure !== isSSL;
-    }
-    const forceBase64 = opts && opts.forceBase64;
-    this.supportsBinary = hasXHR2 && !forceBase64;
   }
   request(opts = {}) {
     Object.assign(opts, { xd: this.xd, xs: this.xs }, this.opts);
@@ -1418,20 +1339,20 @@ class XHR extends Polling {
       data
     });
     req.on("success", fn);
-    req.on("error", (err) => {
-      this.onError("xhr post error", err);
+    req.on("error", (xhrStatus, context2) => {
+      this.onError("xhr post error", xhrStatus, context2);
     });
   }
   doPoll() {
     const req = this.request();
     req.on("data", this.onData.bind(this));
-    req.on("error", (err) => {
-      this.onError("xhr poll error", err);
+    req.on("error", (xhrStatus, context2) => {
+      this.onError("xhr poll error", xhrStatus, context2);
     });
     this.pollXhr = req;
   }
 }
-class Request extends Emitter_1 {
+class Request extends Emitter {
   constructor(uri, opts) {
     super();
     installTimerFunctions(this, opts);
@@ -1499,16 +1420,8 @@ class Request extends Emitter_1 {
       Request.requests[this.index] = this;
     }
   }
-  onSuccess() {
-    this.emit("success");
-    this.cleanup();
-  }
-  onData(data) {
-    this.emit("data", data);
-    this.onSuccess();
-  }
   onError(err) {
-    this.emit("error", err);
+    this.emitReserved("error", err, this.xhr);
     this.cleanup(true);
   }
   cleanup(fromError) {
@@ -1530,7 +1443,9 @@ class Request extends Emitter_1 {
   onLoad() {
     const data = this.xhr.responseText;
     if (data !== null) {
-      this.onData(data);
+      this.emitReserved("data", data);
+      this.emitReserved("success");
+      this.cleanup();
     }
   }
   abort() {
@@ -1587,7 +1502,7 @@ class WS extends Transport {
     try {
       this.ws = usingBrowserWebSocket && !isReactNative ? protocols ? new WebSocket(uri, protocols) : new WebSocket(uri) : new WebSocket(uri, protocols, opts);
     } catch (err) {
-      return this.emit("error", err);
+      return this.emitReserved("error", err);
     }
     this.ws.binaryType = this.socket.binaryType || defaultBinaryType;
     this.addEventListeners();
@@ -1599,7 +1514,10 @@ class WS extends Transport {
       }
       this.onOpen();
     };
-    this.ws.onclose = this.onClose.bind(this);
+    this.ws.onclose = (closeEvent) => this.onClose({
+      description: "websocket connection closed",
+      context: closeEvent
+    });
     this.ws.onmessage = (ev) => this.onData(ev.data);
     this.ws.onerror = (e) => this.onError("websocket error", e);
   }
@@ -1619,7 +1537,7 @@ class WS extends Transport {
         if (lastPacket) {
           nextTick(() => {
             this.writable = true;
-            this.emit("drain");
+            this.emitReserved("drain");
           }, this.setTimeoutFn);
         }
       });
@@ -1639,12 +1557,12 @@ class WS extends Transport {
       port = ":" + this.opts.port;
     }
     if (this.opts.timestampRequests) {
-      query[this.opts.timestampParam] = yeast_1();
+      query[this.opts.timestampParam] = yeast();
     }
     if (!this.supportsBinary) {
       query.b64 = 1;
     }
-    const encodedQuery = parseqs.encode(query);
+    const encodedQuery = encode$1(query);
     const ipv6 = this.opts.hostname.indexOf(":") !== -1;
     return schema + "://" + (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) + port + this.opts.path + (encodedQuery.length ? "?" + encodedQuery : "");
   }
@@ -1654,9 +1572,64 @@ class WS extends Transport {
 }
 const transports = {
   websocket: WS,
-  polling: XHR
+  polling: Polling
 };
-class Socket$1 extends Emitter_1 {
+const re = /^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+const parts = [
+  "source",
+  "protocol",
+  "authority",
+  "userInfo",
+  "user",
+  "password",
+  "host",
+  "port",
+  "relative",
+  "path",
+  "directory",
+  "file",
+  "query",
+  "anchor"
+];
+function parse$2(str2) {
+  const src = str2, b2 = str2.indexOf("["), e = str2.indexOf("]");
+  if (b2 != -1 && e != -1) {
+    str2 = str2.substring(0, b2) + str2.substring(b2, e).replace(/:/g, ";") + str2.substring(e, str2.length);
+  }
+  let m2 = re.exec(str2 || ""), uri = {}, i2 = 14;
+  while (i2--) {
+    uri[parts[i2]] = m2[i2] || "";
+  }
+  if (b2 != -1 && e != -1) {
+    uri.source = src;
+    uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ":");
+    uri.authority = uri.authority.replace("[", "").replace("]", "").replace(/;/g, ":");
+    uri.ipv6uri = true;
+  }
+  uri.pathNames = pathNames(uri, uri["path"]);
+  uri.queryKey = queryKey(uri, uri["query"]);
+  return uri;
+}
+function pathNames(obj, path) {
+  const regx = /\/{2,9}/g, names = path.replace(regx, "/").split("/");
+  if (path.substr(0, 1) == "/" || path.length === 0) {
+    names.splice(0, 1);
+  }
+  if (path.substr(path.length - 1, 1) == "/") {
+    names.splice(names.length - 1, 1);
+  }
+  return names;
+}
+function queryKey(uri, query) {
+  const data = {};
+  query.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function($0, $1, $2) {
+    if ($1) {
+      data[$1] = $2;
+    }
+  });
+  return data;
+}
+class Socket$1 extends Emitter {
   constructor(uri, opts = {}) {
     super();
     if (uri && typeof uri === "object") {
@@ -1664,14 +1637,14 @@ class Socket$1 extends Emitter_1 {
       uri = null;
     }
     if (uri) {
-      uri = parseuri(uri);
+      uri = parse$2(uri);
       opts.hostname = uri.host;
       opts.secure = uri.protocol === "https" || uri.protocol === "wss";
       opts.port = uri.port;
       if (uri.query)
         opts.query = uri.query;
     } else if (opts.host) {
-      opts.hostname = parseuri(opts.host).host;
+      opts.hostname = parse$2(opts.host).host;
     }
     installTimerFunctions(this, opts);
     this.secure = opts.secure != null ? opts.secure : typeof location !== "undefined" && location.protocol === "https:";
@@ -1700,7 +1673,7 @@ class Socket$1 extends Emitter_1 {
     }, opts);
     this.opts.path = this.opts.path.replace(/\/$/, "") + "/";
     if (typeof this.opts.query === "string") {
-      this.opts.query = parseqs.decode(this.opts.query);
+      this.opts.query = decode$1(this.opts.query);
     }
     this.id = null;
     this.upgrades = null;
@@ -1718,7 +1691,9 @@ class Socket$1 extends Emitter_1 {
       }
       if (this.hostname !== "localhost") {
         this.offlineEventListener = () => {
-          this.onClose("transport close");
+          this.onClose("transport close", {
+            description: "network connection lost"
+          });
         };
         addEventListener("offline", this.offlineEventListener, false);
       }
@@ -1726,7 +1701,7 @@ class Socket$1 extends Emitter_1 {
     this.open();
   }
   createTransport(name2) {
-    const query = clone(this.opts.query);
+    const query = Object.assign({}, this.opts.query);
     query.EIO = protocol$1;
     query.transport = name2;
     if (this.id)
@@ -1768,9 +1743,7 @@ class Socket$1 extends Emitter_1 {
       this.transport.removeAllListeners();
     }
     this.transport = transport;
-    transport.on("drain", this.onDrain.bind(this)).on("packet", this.onPacket.bind(this)).on("error", this.onError.bind(this)).on("close", () => {
-      this.onClose("transport close");
-    });
+    transport.on("drain", this.onDrain.bind(this)).on("packet", this.onPacket.bind(this)).on("error", this.onError.bind(this)).on("close", (reason) => this.onClose("transport close", reason));
   }
   probe(name2) {
     let transport = this.createTransport(name2);
@@ -1894,6 +1867,7 @@ class Socket$1 extends Emitter_1 {
     this.upgrades = this.filterUpgrades(data.upgrades);
     this.pingInterval = data.pingInterval;
     this.pingTimeout = data.pingTimeout;
+    this.maxPayload = data.maxPayload;
     this.onOpen();
     if (this.readyState === "closed")
       return;
@@ -1919,10 +1893,29 @@ class Socket$1 extends Emitter_1 {
   }
   flush() {
     if (this.readyState !== "closed" && this.transport.writable && !this.upgrading && this.writeBuffer.length) {
-      this.transport.send(this.writeBuffer);
-      this.prevBufferLen = this.writeBuffer.length;
+      const packets = this.getWritablePackets();
+      this.transport.send(packets);
+      this.prevBufferLen = packets.length;
       this.emitReserved("flush");
     }
+  }
+  getWritablePackets() {
+    const shouldCheckPayloadSize = this.maxPayload && this.transport.name === "polling" && this.writeBuffer.length > 1;
+    if (!shouldCheckPayloadSize) {
+      return this.writeBuffer;
+    }
+    let payloadSize = 1;
+    for (let i2 = 0; i2 < this.writeBuffer.length; i2++) {
+      const data = this.writeBuffer[i2].data;
+      if (data) {
+        payloadSize += byteLength(data);
+      }
+      if (i2 > 0 && payloadSize > this.maxPayload) {
+        return this.writeBuffer.slice(0, i2);
+      }
+      payloadSize += 2;
+    }
+    return this.writeBuffer;
   }
   write(msg, options, fn) {
     this.sendPacket("message", msg, options, fn);
@@ -1994,7 +1987,7 @@ class Socket$1 extends Emitter_1 {
     this.emitReserved("error", err);
     this.onClose("transport error", err);
   }
-  onClose(reason, desc) {
+  onClose(reason, description) {
     if (this.readyState === "opening" || this.readyState === "open" || this.readyState === "closing") {
       this.clearTimeoutFn(this.pingTimeoutTimer);
       this.transport.removeAllListeners("close");
@@ -2005,7 +1998,7 @@ class Socket$1 extends Emitter_1 {
       }
       this.readyState = "closed";
       this.id = null;
-      this.emitReserved("close", reason, desc);
+      this.emitReserved("close", reason, description);
       this.writeBuffer = [];
       this.prevBufferLen = 0;
     }
@@ -2022,16 +2015,42 @@ class Socket$1 extends Emitter_1 {
   }
 }
 Socket$1.protocol = protocol$1;
-function clone(obj) {
-  const o = {};
-  for (let i2 in obj) {
-    if (obj.hasOwnProperty(i2)) {
-      o[i2] = obj[i2];
+function url$1(uri, path = "", loc) {
+  let obj = uri;
+  loc = loc || typeof location !== "undefined" && location;
+  if (uri == null)
+    uri = loc.protocol + "//" + loc.host;
+  if (typeof uri === "string") {
+    if (uri.charAt(0) === "/") {
+      if (uri.charAt(1) === "/") {
+        uri = loc.protocol + uri;
+      } else {
+        uri = loc.host + uri;
+      }
+    }
+    if (!/^(https?|wss?):\/\//.test(uri)) {
+      if (typeof loc !== "undefined") {
+        uri = loc.protocol + "//" + uri;
+      } else {
+        uri = "https://" + uri;
+      }
+    }
+    obj = parse$2(uri);
+  }
+  if (!obj.port) {
+    if (/^(http|ws)$/.test(obj.protocol)) {
+      obj.port = "80";
+    } else if (/^(http|ws)s$/.test(obj.protocol)) {
+      obj.port = "443";
     }
   }
-  return o;
+  obj.path = obj.path || "/";
+  const ipv6 = obj.host.indexOf(":") !== -1;
+  const host = ipv6 ? "[" + obj.host + "]" : obj.host;
+  obj.id = obj.protocol + "://" + host + ":" + obj.port + path;
+  obj.href = obj.protocol + "://" + host + (loc && loc.port === obj.port ? "" : ":" + obj.port);
+  return obj;
 }
-Socket$1.protocol;
 const withNativeArrayBuffer = typeof ArrayBuffer === "function";
 const isView = (obj) => {
   return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj.buffer instanceof ArrayBuffer;
@@ -2134,6 +2153,9 @@ var PacketType;
   PacketType2[PacketType2["BINARY_ACK"] = 6] = "BINARY_ACK";
 })(PacketType || (PacketType = {}));
 class Encoder {
+  constructor(replacer) {
+    this.replacer = replacer;
+  }
   encode(obj) {
     if (obj.type === PacketType.EVENT || obj.type === PacketType.ACK) {
       if (hasBinary(obj)) {
@@ -2155,7 +2177,7 @@ class Encoder {
       str2 += obj.id;
     }
     if (obj.data != null) {
-      str2 += JSON.stringify(obj.data);
+      str2 += JSON.stringify(obj.data, this.replacer);
     }
     return str2;
   }
@@ -2167,9 +2189,10 @@ class Encoder {
     return buffers;
   }
 }
-class Decoder extends Emitter_1 {
-  constructor() {
+class Decoder extends Emitter {
+  constructor(reviver2) {
     super();
+    this.reviver = reviver2;
   }
   add(obj) {
     let packet;
@@ -2243,7 +2266,7 @@ class Decoder extends Emitter_1 {
       p2.id = Number(str2.substring(start, i2 + 1));
     }
     if (str2.charAt(++i2)) {
-      const payload = tryParse(str2.substr(i2));
+      const payload = this.tryParse(str2.substr(i2));
       if (Decoder.isPayloadValid(p2.type, payload)) {
         p2.data = payload;
       } else {
@@ -2251,6 +2274,13 @@ class Decoder extends Emitter_1 {
       }
     }
     return p2;
+  }
+  tryParse(str2) {
+    try {
+      return JSON.parse(str2, this.reviver);
+    } catch (e) {
+      return false;
+    }
   }
   static isPayloadValid(type, payload) {
     switch (type) {
@@ -2272,13 +2302,6 @@ class Decoder extends Emitter_1 {
     if (this.reconstructor) {
       this.reconstructor.finishedReconstruction();
     }
-  }
-}
-function tryParse(str2) {
-  try {
-    return JSON.parse(str2);
-  } catch (e) {
-    return false;
   }
 }
 class BinaryReconstructor {
@@ -2324,11 +2347,10 @@ const RESERVED_EVENTS = Object.freeze({
   newListener: 1,
   removeListener: 1
 });
-class Socket extends Emitter_1 {
+class Socket extends Emitter {
   constructor(io, nsp, opts) {
     super();
     this.connected = false;
-    this.disconnected = true;
     this.receiveBuffer = [];
     this.sendBuffer = [];
     this.ids = 0;
@@ -2341,6 +2363,9 @@ class Socket extends Emitter_1 {
     }
     if (this.io._autoConnect)
       this.open();
+  }
+  get disconnected() {
+    return !this.connected;
   }
   subEvents() {
     if (this.subs)
@@ -2396,6 +2421,7 @@ class Socket extends Emitter_1 {
     if (discardPacket)
       ;
     else if (this.connected) {
+      this.notifyOutgoingListeners(packet);
       this.packet(packet);
     } else {
       this.sendBuffer.push(packet);
@@ -2441,11 +2467,10 @@ class Socket extends Emitter_1 {
       this.emitReserved("connect_error", err);
     }
   }
-  onclose(reason) {
+  onclose(reason, description) {
     this.connected = false;
-    this.disconnected = true;
     delete this.id;
-    this.emitReserved("disconnect", reason);
+    this.emitReserved("disconnect", reason, description);
   }
   onpacket(packet) {
     const sameNamespace = packet.nsp === this.nsp;
@@ -2461,14 +2486,10 @@ class Socket extends Emitter_1 {
         }
         break;
       case PacketType.EVENT:
-        this.onevent(packet);
-        break;
       case PacketType.BINARY_EVENT:
         this.onevent(packet);
         break;
       case PacketType.ACK:
-        this.onack(packet);
-        break;
       case PacketType.BINARY_ACK:
         this.onack(packet);
         break;
@@ -2527,14 +2548,16 @@ class Socket extends Emitter_1 {
   onconnect(id) {
     this.id = id;
     this.connected = true;
-    this.disconnected = false;
     this.emitBuffered();
     this.emitReserved("connect");
   }
   emitBuffered() {
     this.receiveBuffer.forEach((args) => this.emitEvent(args));
     this.receiveBuffer = [];
-    this.sendBuffer.forEach((packet) => this.packet(packet));
+    this.sendBuffer.forEach((packet) => {
+      this.notifyOutgoingListeners(packet);
+      this.packet(packet);
+    });
     this.sendBuffer = [];
   }
   ondisconnect() {
@@ -2603,8 +2626,45 @@ class Socket extends Emitter_1 {
   listenersAny() {
     return this._anyListeners || [];
   }
+  onAnyOutgoing(listener) {
+    this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+    this._anyOutgoingListeners.push(listener);
+    return this;
+  }
+  prependAnyOutgoing(listener) {
+    this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+    this._anyOutgoingListeners.unshift(listener);
+    return this;
+  }
+  offAnyOutgoing(listener) {
+    if (!this._anyOutgoingListeners) {
+      return this;
+    }
+    if (listener) {
+      const listeners = this._anyOutgoingListeners;
+      for (let i2 = 0; i2 < listeners.length; i2++) {
+        if (listener === listeners[i2]) {
+          listeners.splice(i2, 1);
+          return this;
+        }
+      }
+    } else {
+      this._anyOutgoingListeners = [];
+    }
+    return this;
+  }
+  listenersAnyOutgoing() {
+    return this._anyOutgoingListeners || [];
+  }
+  notifyOutgoingListeners(packet) {
+    if (this._anyOutgoingListeners && this._anyOutgoingListeners.length) {
+      const listeners = this._anyOutgoingListeners.slice();
+      for (const listener of listeners) {
+        listener.apply(this, packet.data);
+      }
+    }
+  }
 }
-var backo2 = Backoff;
 function Backoff(opts) {
   opts = opts || {};
   this.ms = opts.min || 100;
@@ -2634,7 +2694,7 @@ Backoff.prototype.setMax = function(max) {
 Backoff.prototype.setJitter = function(jitter) {
   this.jitter = jitter;
 };
-class Manager extends Emitter_1 {
+class Manager extends Emitter {
   constructor(uri, opts) {
     var _a3;
     super();
@@ -2653,7 +2713,7 @@ class Manager extends Emitter_1 {
     this.reconnectionDelay(opts.reconnectionDelay || 1e3);
     this.reconnectionDelayMax(opts.reconnectionDelayMax || 5e3);
     this.randomizationFactor((_a3 = opts.randomizationFactor) !== null && _a3 !== void 0 ? _a3 : 0.5);
-    this.backoff = new backo2({
+    this.backoff = new Backoff({
       min: this.reconnectionDelay(),
       max: this.reconnectionDelayMax(),
       jitter: this.randomizationFactor()
@@ -2819,11 +2879,11 @@ class Manager extends Emitter_1 {
   disconnect() {
     return this._close();
   }
-  onclose(reason) {
+  onclose(reason, description) {
     this.cleanup();
     this.backoff.reset();
     this._readyState = "closed";
-    this.emitReserved("close", reason);
+    this.emitReserved("close", reason, description);
     if (this._reconnection && !this.skipReconnect) {
       this.reconnect();
     }
@@ -2911,15 +2971,15 @@ var __privateGet$6 = (obj, member, getter) => {
   __accessCheck$6(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$6 = (obj, member, value) => {
+var __privateAdd$6 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$6 = (obj, member, value, setter) => {
+var __privateSet$6 = (obj, member, value2, setter) => {
   __accessCheck$6(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var _cvsWidth, _cvsHeight, _cvsScale, _ofsLeft4elm, _ofsTop4elm, _ofsPadLeft_Dom2PIXI, _ofsPadTop_Dom2PIXI, _sk, _hHook, _hToastDat, _aFncHook, _main_title, _tglFlscr, _info_title, _preFromPlg, _hN2Ext, _genImage, _genVideo;
 const _SysBase = class {
@@ -3360,15 +3420,15 @@ var __privateGet$5 = (obj, member, getter) => {
   __accessCheck$5(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$5 = (obj, member, value) => {
+var __privateAdd$5 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$5 = (obj, member, value, setter) => {
+var __privateSet$5 = (obj, member, value2, setter) => {
   __accessCheck$5(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var _existsBreakline, _existsBreakpage, _REG_PATH;
 const _Config = class {
@@ -4670,15 +4730,15 @@ var __privateGet$4 = (obj, member, getter) => {
   __accessCheck$4(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$4 = (obj, member, value) => {
+var __privateAdd$4 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$4 = (obj, member, value, setter) => {
+var __privateSet$4 = (obj, member, value2, setter) => {
   __accessCheck$4(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var __privateMethod$4 = (obj, member, method) => {
   __accessCheck$4(obj, member, "access private method");
@@ -6083,8 +6143,8 @@ var Tween = function() {
     }
     elapsed = (time - this._startTime) / this._duration;
     elapsed = this._duration === 0 || elapsed > 1 ? 1 : elapsed;
-    var value = this._easingFunction(elapsed);
-    this._updateProperties(this._object, this._valuesStart, this._valuesEnd, value);
+    var value2 = this._easingFunction(elapsed);
+    this._updateProperties(this._object, this._valuesStart, this._valuesEnd, value2);
     if (this._onUpdateCallback) {
       this._onUpdateCallback(this._object, elapsed);
     }
@@ -6127,7 +6187,7 @@ var Tween = function() {
     }
     return true;
   };
-  Tween2.prototype._updateProperties = function(_object, _valuesStart, _valuesEnd, value) {
+  Tween2.prototype._updateProperties = function(_object, _valuesStart, _valuesEnd, value2) {
     for (var property in _valuesEnd) {
       if (_valuesStart[property] === void 0) {
         continue;
@@ -6138,13 +6198,13 @@ var Tween = function() {
       var endIsArray = Array.isArray(end);
       var isInterpolationList = !startIsArray && endIsArray;
       if (isInterpolationList) {
-        _object[property] = this._interpolationFunction(end, value);
+        _object[property] = this._interpolationFunction(end, value2);
       } else if (typeof end === "object" && end) {
-        this._updateProperties(_object[property], start, end, value);
+        this._updateProperties(_object[property], start, end, value2);
       } else {
         end = this._handleRelativeValue(start, end);
         if (typeof end === "number") {
-          _object[property] = start + (end - start) * value;
+          _object[property] = start + (end - start) * value2;
         }
       }
     }
@@ -6941,7 +7001,7 @@ var eventemitter3 = { exports: {} };
     module.exports = EventEmitter2;
   }
 })(eventemitter3);
-var EventEmitter$3 = eventemitter3.exports;
+var EventEmitter$4 = eventemitter3.exports;
 var earcut$2 = { exports: {} };
 earcut$2.exports = earcut;
 earcut$2.exports.default = earcut;
@@ -7442,32 +7502,32 @@ var punycode$1 = { exports: {} };
       return result + encoded;
     }
     function ucs2decode(string) {
-      var output = [], counter = 0, length2 = string.length, value, extra;
+      var output = [], counter = 0, length2 = string.length, value2, extra;
       while (counter < length2) {
-        value = string.charCodeAt(counter++);
-        if (value >= 55296 && value <= 56319 && counter < length2) {
+        value2 = string.charCodeAt(counter++);
+        if (value2 >= 55296 && value2 <= 56319 && counter < length2) {
           extra = string.charCodeAt(counter++);
           if ((extra & 64512) == 56320) {
-            output.push(((value & 1023) << 10) + (extra & 1023) + 65536);
+            output.push(((value2 & 1023) << 10) + (extra & 1023) + 65536);
           } else {
-            output.push(value);
+            output.push(value2);
             counter--;
           }
         } else {
-          output.push(value);
+          output.push(value2);
         }
       }
       return output;
     }
     function ucs2encode(array) {
-      return map2(array, function(value) {
+      return map2(array, function(value2) {
         var output = "";
-        if (value > 65535) {
-          value -= 65536;
-          output += stringFromCharCode(value >>> 10 & 1023 | 55296);
-          value = 56320 | value & 1023;
+        if (value2 > 65535) {
+          value2 -= 65536;
+          output += stringFromCharCode(value2 >>> 10 & 1023 | 55296);
+          value2 = 56320 | value2 & 1023;
         }
-        output += stringFromCharCode(value);
+        output += stringFromCharCode(value2);
         return output;
       }).join("");
     }
@@ -9831,9 +9891,9 @@ var ObservablePoint = function() {
     get: function() {
       return this._x;
     },
-    set: function(value) {
-      if (this._x !== value) {
-        this._x = value;
+    set: function(value2) {
+      if (this._x !== value2) {
+        this._x = value2;
         this.cb.call(this.scope);
       }
     },
@@ -9844,9 +9904,9 @@ var ObservablePoint = function() {
     get: function() {
       return this._y;
     },
-    set: function(value) {
-      if (this._y !== value) {
-        this._y = value;
+    set: function(value2) {
+      if (this._y !== value2) {
+        this._y = value2;
         this.cb.call(this.scope);
       }
     },
@@ -10288,9 +10348,9 @@ var Transform = function() {
     get: function() {
       return this._rotation;
     },
-    set: function(value) {
-      if (this._rotation !== value) {
-        this._rotation = value;
+    set: function(value2) {
+      if (this._rotation !== value2) {
+        this._rotation = value2;
         this.updateSkew();
       }
     },
@@ -10582,9 +10642,9 @@ var BaseTexture = function(_super) {
     get: function() {
       return this._mipmap;
     },
-    set: function(value) {
-      if (this._mipmap !== value) {
-        this._mipmap = value;
+    set: function(value2) {
+      if (this._mipmap !== value2) {
+        this._mipmap = value2;
         this.dirtyStyleId++;
       }
     },
@@ -10595,9 +10655,9 @@ var BaseTexture = function(_super) {
     get: function() {
       return this._scaleMode;
     },
-    set: function(value) {
-      if (this._scaleMode !== value) {
-        this._scaleMode = value;
+    set: function(value2) {
+      if (this._scaleMode !== value2) {
+        this._scaleMode = value2;
         this.dirtyStyleId++;
       }
     },
@@ -10608,9 +10668,9 @@ var BaseTexture = function(_super) {
     get: function() {
       return this._wrapMode;
     },
-    set: function(value) {
-      if (this._wrapMode !== value) {
-        this._wrapMode = value;
+    set: function(value2) {
+      if (this._wrapMode !== value2) {
+        this._wrapMode = value2;
         this.dirtyStyleId++;
       }
     },
@@ -10777,7 +10837,7 @@ var BaseTexture = function(_super) {
   };
   BaseTexture2._globalBatch = 0;
   return BaseTexture2;
-}(EventEmitter$3);
+}(EventEmitter$4);
 var AbstractMultiResource = function(_super) {
   __extends$q(AbstractMultiResource2, _super);
   function AbstractMultiResource2(length2, options) {
@@ -11443,9 +11503,9 @@ var VideoResource = function(_super) {
     get: function() {
       return this._autoUpdate;
     },
-    set: function(value) {
-      if (value !== this._autoUpdate) {
-        this._autoUpdate = value;
+    set: function(value2) {
+      if (value2 !== this._autoUpdate) {
+        this._autoUpdate = value2;
         if (!this._autoUpdate && this._isConnectedToTicker) {
           Ticker.shared.remove(this.update, this);
           this._isConnectedToTicker = false;
@@ -11462,9 +11522,9 @@ var VideoResource = function(_super) {
     get: function() {
       return this._updateFPS;
     },
-    set: function(value) {
-      if (value !== this._updateFPS) {
-        this._updateFPS = value;
+    set: function(value2) {
+      if (value2 !== this._updateFPS) {
+        this._updateFPS = value2;
       }
     },
     enumerable: false,
@@ -12005,7 +12065,7 @@ var Texture = function(_super) {
     return this.baseTexture;
   };
   return Texture2;
-}(EventEmitter$3);
+}(EventEmitter$4);
 function createWhiteTexture() {
   var canvas2 = document.createElement("canvas");
   canvas2.width = 16;
@@ -12052,8 +12112,8 @@ var RenderTexture = function(_super) {
     get: function() {
       return this.framebuffer.multisample;
     },
-    set: function(value) {
-      this.framebuffer.multisample = value;
+    set: function(value2) {
+      this.framebuffer.multisample = value2;
     },
     enumerable: false,
     configurable: true
@@ -12263,8 +12323,8 @@ var Buffer$1 = function() {
     get: function() {
       return this.type === BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER;
     },
-    set: function(value) {
-      this.type = value ? BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER : BUFFER_TYPE$3.ARRAY_BUFFER;
+    set: function(value2) {
+      this.type = value2 ? BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER : BUFFER_TYPE$3.ARRAY_BUFFER;
     },
     enumerable: false,
     configurable: true
@@ -13810,12 +13870,12 @@ var MaskData = function() {
     get: function() {
       return this._filters ? this._filters[0] : null;
     },
-    set: function(value) {
-      if (value) {
+    set: function(value2) {
+      if (value2) {
         if (this._filters) {
-          this._filters[0] = value;
+          this._filters[0] = value2;
         } else {
-          this._filters = [value];
+          this._filters = [value2];
         }
       } else {
         this._filters = null;
@@ -14404,8 +14464,8 @@ var State = function() {
     get: function() {
       return !!(this.data & 1 << BLEND);
     },
-    set: function(value) {
-      if (!!(this.data & 1 << BLEND) !== value) {
+    set: function(value2) {
+      if (!!(this.data & 1 << BLEND) !== value2) {
         this.data ^= 1 << BLEND;
       }
     },
@@ -14416,8 +14476,8 @@ var State = function() {
     get: function() {
       return !!(this.data & 1 << OFFSET);
     },
-    set: function(value) {
-      if (!!(this.data & 1 << OFFSET) !== value) {
+    set: function(value2) {
+      if (!!(this.data & 1 << OFFSET) !== value2) {
         this.data ^= 1 << OFFSET;
       }
     },
@@ -14428,8 +14488,8 @@ var State = function() {
     get: function() {
       return !!(this.data & 1 << CULLING);
     },
-    set: function(value) {
-      if (!!(this.data & 1 << CULLING) !== value) {
+    set: function(value2) {
+      if (!!(this.data & 1 << CULLING) !== value2) {
         this.data ^= 1 << CULLING;
       }
     },
@@ -14440,8 +14500,8 @@ var State = function() {
     get: function() {
       return !!(this.data & 1 << DEPTH_TEST);
     },
-    set: function(value) {
-      if (!!(this.data & 1 << DEPTH_TEST) !== value) {
+    set: function(value2) {
+      if (!!(this.data & 1 << DEPTH_TEST) !== value2) {
         this.data ^= 1 << DEPTH_TEST;
       }
     },
@@ -14452,8 +14512,8 @@ var State = function() {
     get: function() {
       return !!(this.data & 1 << DEPTH_MASK);
     },
-    set: function(value) {
-      if (!!(this.data & 1 << DEPTH_MASK) !== value) {
+    set: function(value2) {
+      if (!!(this.data & 1 << DEPTH_MASK) !== value2) {
         this.data ^= 1 << DEPTH_MASK;
       }
     },
@@ -14464,8 +14524,8 @@ var State = function() {
     get: function() {
       return !!(this.data & 1 << WINDING);
     },
-    set: function(value) {
-      if (!!(this.data & 1 << WINDING) !== value) {
+    set: function(value2) {
+      if (!!(this.data & 1 << WINDING) !== value2) {
         this.data ^= 1 << WINDING;
       }
     },
@@ -14476,9 +14536,9 @@ var State = function() {
     get: function() {
       return this._blendMode;
     },
-    set: function(value) {
-      this.blend = value !== BLEND_MODES$3.NONE;
-      this._blendMode = value;
+    set: function(value2) {
+      this.blend = value2 !== BLEND_MODES$3.NONE;
+      this._blendMode = value2;
     },
     enumerable: false,
     configurable: true
@@ -14487,9 +14547,9 @@ var State = function() {
     get: function() {
       return this._polygonOffset;
     },
-    set: function(value) {
-      this.offsets = !!value;
-      this._polygonOffset = value;
+    set: function(value2) {
+      this.offsets = !!value2;
+      this._polygonOffset = value2;
     },
     enumerable: false,
     configurable: true
@@ -14528,8 +14588,8 @@ var Filter = function(_super) {
     get: function() {
       return this.state.blendMode;
     },
-    set: function(value) {
-      this.state.blendMode = value;
+    set: function(value2) {
+      this.state.blendMode = value2;
     },
     enumerable: false,
     configurable: true
@@ -14538,8 +14598,8 @@ var Filter = function(_super) {
     get: function() {
       return this._resolution;
     },
-    set: function(value) {
-      this._resolution = value;
+    set: function(value2) {
+      this._resolution = value2;
     },
     enumerable: false,
     configurable: true
@@ -14579,8 +14639,8 @@ var TextureMatrix = function() {
     get: function() {
       return this._texture;
     },
-    set: function(value) {
-      this._texture = value;
+    set: function(value2) {
+      this._texture = value2;
       this._textureID = -1;
     },
     enumerable: false,
@@ -14652,8 +14712,8 @@ var SpriteMaskFilter = function(_super) {
     get: function() {
       return this._maskSprite;
     },
-    set: function(value) {
-      this._maskSprite = value;
+    set: function(value2) {
+      this._maskSprite = value2;
       if (this._maskSprite) {
         this._maskSprite.renderable = false;
       }
@@ -15577,32 +15637,32 @@ var StateSystem = function() {
     }
     this.stateId = state.data;
   };
-  StateSystem2.prototype.setBlend = function(value) {
-    this.updateCheck(StateSystem2.checkBlendMode, value);
-    this.gl[value ? "enable" : "disable"](this.gl.BLEND);
+  StateSystem2.prototype.setBlend = function(value2) {
+    this.updateCheck(StateSystem2.checkBlendMode, value2);
+    this.gl[value2 ? "enable" : "disable"](this.gl.BLEND);
   };
-  StateSystem2.prototype.setOffset = function(value) {
-    this.updateCheck(StateSystem2.checkPolygonOffset, value);
-    this.gl[value ? "enable" : "disable"](this.gl.POLYGON_OFFSET_FILL);
+  StateSystem2.prototype.setOffset = function(value2) {
+    this.updateCheck(StateSystem2.checkPolygonOffset, value2);
+    this.gl[value2 ? "enable" : "disable"](this.gl.POLYGON_OFFSET_FILL);
   };
-  StateSystem2.prototype.setDepthTest = function(value) {
-    this.gl[value ? "enable" : "disable"](this.gl.DEPTH_TEST);
+  StateSystem2.prototype.setDepthTest = function(value2) {
+    this.gl[value2 ? "enable" : "disable"](this.gl.DEPTH_TEST);
   };
-  StateSystem2.prototype.setDepthMask = function(value) {
-    this.gl.depthMask(value);
+  StateSystem2.prototype.setDepthMask = function(value2) {
+    this.gl.depthMask(value2);
   };
-  StateSystem2.prototype.setCullFace = function(value) {
-    this.gl[value ? "enable" : "disable"](this.gl.CULL_FACE);
+  StateSystem2.prototype.setCullFace = function(value2) {
+    this.gl[value2 ? "enable" : "disable"](this.gl.CULL_FACE);
   };
-  StateSystem2.prototype.setFrontFace = function(value) {
-    this.gl.frontFace(this.gl[value ? "CW" : "CCW"]);
+  StateSystem2.prototype.setFrontFace = function(value2) {
+    this.gl.frontFace(this.gl[value2 ? "CW" : "CCW"]);
   };
-  StateSystem2.prototype.setBlendMode = function(value) {
-    if (value === this.blendMode) {
+  StateSystem2.prototype.setBlendMode = function(value2) {
+    if (value2 === this.blendMode) {
       return;
     }
-    this.blendMode = value;
-    var mode = this.blendModes[value];
+    this.blendMode = value2;
+    var mode = this.blendModes[value2];
     var gl = this.gl;
     if (mode.length === 2) {
       gl.blendFunc(mode[0], mode[1]);
@@ -15617,8 +15677,8 @@ var StateSystem = function() {
       gl.blendEquationSeparate(gl.FUNC_ADD, gl.FUNC_ADD);
     }
   };
-  StateSystem2.prototype.setPolygonOffset = function(value, scale) {
-    this.gl.polygonOffset(value, scale);
+  StateSystem2.prototype.setPolygonOffset = function(value2, scale) {
+    this.gl.polygonOffset(value2, scale);
   };
   StateSystem2.prototype.reset = function() {
     this.gl.pixelStorei(this.gl.UNPACK_FLIP_Y_WEBGL, false);
@@ -15627,11 +15687,11 @@ var StateSystem = function() {
     this.blendMode = -1;
     this.setBlendMode(0);
   };
-  StateSystem2.prototype.updateCheck = function(func, value) {
+  StateSystem2.prototype.updateCheck = function(func, value2) {
     var index = this.checks.indexOf(func);
-    if (value && index === -1) {
+    if (value2 && index === -1) {
       this.checks.push(func);
-    } else if (!value && index !== -1) {
+    } else if (!value2 && index !== -1) {
       this.checks.splice(index, 1);
     }
   };
@@ -16080,10 +16140,10 @@ var AbstractRenderer = function(_super) {
     get: function() {
       return this._backgroundColor;
     },
-    set: function(value) {
-      this._backgroundColor = value;
-      this._backgroundColorString = hex2string(value);
-      hex2rgb(value, this._backgroundColorRgba);
+    set: function(value2) {
+      this._backgroundColor = value2;
+      this._backgroundColorString = hex2string(value2);
+      hex2rgb(value2, this._backgroundColorRgba);
     },
     enumerable: false,
     configurable: true
@@ -16092,14 +16152,14 @@ var AbstractRenderer = function(_super) {
     get: function() {
       return this._backgroundColorRgba[3];
     },
-    set: function(value) {
-      this._backgroundColorRgba[3] = value;
+    set: function(value2) {
+      this._backgroundColorRgba[3] = value2;
     },
     enumerable: false,
     configurable: true
   });
   return AbstractRenderer2;
-}(EventEmitter$3);
+}(EventEmitter$4);
 var GLBuffer = function() {
   function GLBuffer2(buffer) {
     this.buffer = buffer || null;
@@ -17236,8 +17296,8 @@ var LoaderResource = function() {
   LoaderResource2.prototype._hasFlag = function(flag) {
     return (this._flags & flag) !== 0;
   };
-  LoaderResource2.prototype._setFlag = function(flag, value) {
-    this._flags = value ? this._flags | flag : this._flags & ~flag;
+  LoaderResource2.prototype._setFlag = function(flag, value2) {
+    this._flags = value2 ? this._flags | flag : this._flags & ~flag;
   };
   LoaderResource2.prototype._clearEvents = function() {
     clearTimeout(this._elementTimer);
@@ -18276,7 +18336,7 @@ var _ = function() {
   }, e.prototype.toString = function() {
     return "[HTMLAudioInstance id=".concat(this.id, "]");
   }, e.PADDING = 0.1, e;
-}(EventEmitter$3), g = function(t) {
+}(EventEmitter$4), g = function(t) {
   function e() {
     return t !== null && t.apply(this, arguments) || this;
   }
@@ -18326,7 +18386,7 @@ var _ = function() {
       }, 0);
     }
   }, e;
-}(EventEmitter$3), b = function() {
+}(EventEmitter$4), b = function() {
   function t(t2, e) {
     this.parent = t2, Object.assign(this, e), this.duration = this.end - this.start;
   }
@@ -18479,7 +18539,7 @@ var _ = function() {
     }
     this._source = null, this._progress = 1, this.emit("progress", 1, this._duration), this.emit("end", this);
   }, e;
-}(EventEmitter$3), O = function() {
+}(EventEmitter$4), O = function() {
   function t(t2, e) {
     this._output = e, this._input = t2;
   }
@@ -18711,10 +18771,10 @@ var _ = function() {
   }, e.prototype.destroy = function() {
     this.removeAllListeners();
   }, e;
-}(EventEmitter$3), C = function(t) {
+}(EventEmitter$4), C = function(t) {
   function e() {
     var o = this, i2 = window, r2 = new e.AudioContext(), s2 = r2.createDynamicsCompressor(), u2 = r2.createAnalyser();
-    return u2.connect(s2), s2.connect(r2.destination), (o = t.call(this, u2, s2) || this)._ctx = r2, o._offlineCtx = new e.OfflineAudioContext(1, 2, i2.OfflineAudioContext ? r2.sampleRate : 44100), o._unlocked = false, o.compressor = s2, o.analyser = u2, o.events = new EventEmitter$3(), o.volume = 1, o.speed = 1, o.muted = false, o.paused = false, r2.state !== "running" && (o._unlock(), o._unlock = o._unlock.bind(o), document.addEventListener("mousedown", o._unlock, true), document.addEventListener("touchstart", o._unlock, true), document.addEventListener("touchend", o._unlock, true)), o;
+    return u2.connect(s2), s2.connect(r2.destination), (o = t.call(this, u2, s2) || this)._ctx = r2, o._offlineCtx = new e.OfflineAudioContext(1, 2, i2.OfflineAudioContext ? r2.sampleRate : 44100), o._unlocked = false, o.compressor = s2, o.analyser = u2, o.events = new EventEmitter$4(), o.volume = 1, o.speed = 1, o.muted = false, o.paused = false, r2.state !== "running" && (o._unlock(), o._unlock = o._unlock.bind(o), document.addEventListener("mousedown", o._unlock, true), document.addEventListener("touchstart", o._unlock, true), document.addEventListener("touchend", o._unlock, true)), o;
   }
   return a(e, t), e.prototype._unlock = function() {
     this._unlocked || (this.playEmptySound(), this._ctx.state === "running" && (document.removeEventListener("mousedown", this._unlock, true), document.removeEventListener("touchend", this._unlock, true), document.removeEventListener("touchstart", this._unlock, true), this._unlocked = true));
@@ -19074,9 +19134,9 @@ var G = { __proto__: null, playOnce: function(t, e) {
 Loader.registerPlugin(_);
 function finallyConstructor(callback) {
   var constructor = this.constructor;
-  return this.then(function(value) {
+  return this.then(function(value2) {
     return constructor.resolve(callback()).then(function() {
-      return value;
+      return value2;
     });
   }, function(reason) {
     return constructor.resolve(callback()).then(function() {
@@ -19215,11 +19275,11 @@ function Handler(onFulfilled, onRejected, promise) {
 function doResolve(fn, self2) {
   var done = false;
   try {
-    fn(function(value) {
+    fn(function(value2) {
       if (done)
         return;
       done = true;
-      resolve(self2, value);
+      resolve(self2, value2);
     }, function(reason) {
       if (done)
         return;
@@ -19276,17 +19336,17 @@ Promise$1.all = function(arr) {
   });
 };
 Promise$1.allSettled = allSettled;
-Promise$1.resolve = function(value) {
-  if (value && typeof value === "object" && value.constructor === Promise$1) {
-    return value;
+Promise$1.resolve = function(value2) {
+  if (value2 && typeof value2 === "object" && value2.constructor === Promise$1) {
+    return value2;
   }
   return new Promise$1(function(resolve2) {
-    resolve2(value);
+    resolve2(value2);
   });
 };
-Promise$1.reject = function(value) {
+Promise$1.reject = function(value2) {
   return new Promise$1(function(resolve2, reject2) {
-    reject2(value);
+    reject2(value2);
   });
 };
 Promise$1.race = function(arr) {
@@ -19451,8 +19511,8 @@ if (!Math.sign) {
   };
 }
 if (!Number.isInteger) {
-  Number.isInteger = function numberIsInteger(value) {
-    return typeof value === "number" && isFinite(value) && Math.floor(value) === value;
+  Number.isInteger = function numberIsInteger(value2) {
+    return typeof value2 === "number" && isFinite(value2) && Math.floor(value2) === value2;
   };
 }
 if (!globalThis.ArrayBuffer) {
@@ -19981,8 +20041,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.position.x;
     },
-    set: function(value) {
-      this.transform.position.x = value;
+    set: function(value2) {
+      this.transform.position.x = value2;
     },
     enumerable: false,
     configurable: true
@@ -19991,8 +20051,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.position.y;
     },
-    set: function(value) {
-      this.transform.position.y = value;
+    set: function(value2) {
+      this.transform.position.y = value2;
     },
     enumerable: false,
     configurable: true
@@ -20015,8 +20075,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.transform.position;
     },
-    set: function(value) {
-      this.transform.position.copyFrom(value);
+    set: function(value2) {
+      this.transform.position.copyFrom(value2);
     },
     enumerable: false,
     configurable: true
@@ -20025,8 +20085,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.transform.scale;
     },
-    set: function(value) {
-      this.transform.scale.copyFrom(value);
+    set: function(value2) {
+      this.transform.scale.copyFrom(value2);
     },
     enumerable: false,
     configurable: true
@@ -20035,8 +20095,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.transform.pivot;
     },
-    set: function(value) {
-      this.transform.pivot.copyFrom(value);
+    set: function(value2) {
+      this.transform.pivot.copyFrom(value2);
     },
     enumerable: false,
     configurable: true
@@ -20045,8 +20105,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.transform.skew;
     },
-    set: function(value) {
-      this.transform.skew.copyFrom(value);
+    set: function(value2) {
+      this.transform.skew.copyFrom(value2);
     },
     enumerable: false,
     configurable: true
@@ -20055,8 +20115,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.transform.rotation;
     },
-    set: function(value) {
-      this.transform.rotation = value;
+    set: function(value2) {
+      this.transform.rotation = value2;
     },
     enumerable: false,
     configurable: true
@@ -20065,8 +20125,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this.transform.rotation * RAD_TO_DEG;
     },
-    set: function(value) {
-      this.transform.rotation = value * DEG_TO_RAD;
+    set: function(value2) {
+      this.transform.rotation = value2 * DEG_TO_RAD;
     },
     enumerable: false,
     configurable: true
@@ -20075,8 +20135,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this._zIndex;
     },
-    set: function(value) {
-      this._zIndex = value;
+    set: function(value2) {
+      this._zIndex = value2;
       if (this.parent) {
         this.parent.sortDirty = true;
       }
@@ -20102,8 +20162,8 @@ var DisplayObject = function(_super) {
     get: function() {
       return this._mask;
     },
-    set: function(value) {
-      if (this._mask === value) {
+    set: function(value2) {
+      if (this._mask === value2) {
         return;
       }
       if (this._mask) {
@@ -20114,7 +20174,7 @@ var DisplayObject = function(_super) {
           maskObject.isMask = false;
         }
       }
-      this._mask = value;
+      this._mask = value2;
       if (this._mask) {
         var maskObject = this._mask.maskObject || this._mask;
         if (maskObject._maskRefCount === 0) {
@@ -20128,7 +20188,7 @@ var DisplayObject = function(_super) {
     configurable: true
   });
   return DisplayObject2;
-}(EventEmitter$3);
+}(EventEmitter$4);
 var TemporaryDisplayObject = function(_super) {
   __extends$p(TemporaryDisplayObject2, _super);
   function TemporaryDisplayObject2() {
@@ -20656,14 +20716,14 @@ var Container = function(_super) {
     get: function() {
       return this.scale.x * this.getLocalBounds().width;
     },
-    set: function(value) {
+    set: function(value2) {
       var width = this.getLocalBounds().width;
       if (width !== 0) {
-        this.scale.x = value / width;
+        this.scale.x = value2 / width;
       } else {
         this.scale.x = 1;
       }
-      this._width = value;
+      this._width = value2;
     },
     enumerable: false,
     configurable: true
@@ -20672,14 +20732,14 @@ var Container = function(_super) {
     get: function() {
       return this.scale.y * this.getLocalBounds().height;
     },
-    set: function(value) {
+    set: function(value2) {
       var height = this.getLocalBounds().height;
       if (height !== 0) {
-        this.scale.y = value / height;
+        this.scale.y = value2 / height;
       } else {
         this.scale.y = 1;
       }
-      this._height = value;
+      this._height = value2;
     },
     enumerable: false,
     configurable: true
@@ -21273,8 +21333,8 @@ var interactiveTarget = {
   get buttonMode() {
     return this.cursor === "pointer";
   },
-  set buttonMode(value) {
-    if (value) {
+  set buttonMode(value2) {
+    if (value2) {
       this.cursor = "pointer";
     } else if (this.cursor === "pointer") {
       this.cursor = null;
@@ -21978,7 +22038,7 @@ var InteractionManager = function(_super) {
     this.search = null;
   };
   return InteractionManager2;
-}(EventEmitter$3);
+}(EventEmitter$4);
 /*!
  * @pixi/app - v6.3.0
  * Compiled Wed, 23 Mar 2022 18:58:56 UTC
@@ -22296,16 +22356,16 @@ function __extends$n(d2, b2) {
 }
 function __awaiter(thisArg, _arguments, P2, generator) {
   return new (P2 || (P2 = Promise))(function(resolve2, reject2) {
-    function fulfilled(value) {
+    function fulfilled(value2) {
       try {
-        step(generator.next(value));
+        step(generator.next(value2));
       } catch (e) {
         reject2(e);
       }
     }
-    function rejected(value) {
+    function rejected(value2) {
       try {
-        step(generator["throw"](value));
+        step(generator["throw"](value2));
       } catch (e) {
         reject2(e);
       }
@@ -23209,9 +23269,9 @@ function __extends$m(d2, b2) {
     get: function() {
       return this._tint;
     },
-    set: function(value) {
-      this._tint = value;
-      hex2rgb(value, this.tintRgb);
+    set: function(value2) {
+      this._tint = value2;
+      hex2rgb(value2, this.tintRgb);
     },
     enumerable: false,
     configurable: true
@@ -25064,8 +25124,8 @@ var Graphics = function(_super) {
     get: function() {
       return this.state.blendMode;
     },
-    set: function(value) {
-      this.state.blendMode = value;
+    set: function(value2) {
+      this.state.blendMode = value2;
     },
     enumerable: false,
     configurable: true
@@ -25074,8 +25134,8 @@ var Graphics = function(_super) {
     get: function() {
       return this._tint;
     },
-    set: function(value) {
-      this._tint = value;
+    set: function(value2) {
+      this._tint = value2;
     },
     enumerable: false,
     configurable: true
@@ -25788,11 +25848,11 @@ var Sprite = function(_super) {
     get: function() {
       return this._roundPixels;
     },
-    set: function(value) {
-      if (this._roundPixels !== value) {
+    set: function(value2) {
+      if (this._roundPixels !== value2) {
         this._transformID = -1;
       }
-      this._roundPixels = value;
+      this._roundPixels = value2;
     },
     enumerable: false,
     configurable: true
@@ -25801,10 +25861,10 @@ var Sprite = function(_super) {
     get: function() {
       return Math.abs(this.scale.x) * this._texture.orig.width;
     },
-    set: function(value) {
+    set: function(value2) {
       var s2 = sign(this.scale.x) || 1;
-      this.scale.x = s2 * value / this._texture.orig.width;
-      this._width = value;
+      this.scale.x = s2 * value2 / this._texture.orig.width;
+      this._width = value2;
     },
     enumerable: false,
     configurable: true
@@ -25813,10 +25873,10 @@ var Sprite = function(_super) {
     get: function() {
       return Math.abs(this.scale.y) * this._texture.orig.height;
     },
-    set: function(value) {
+    set: function(value2) {
       var s2 = sign(this.scale.y) || 1;
-      this.scale.y = s2 * value / this._texture.orig.height;
-      this._height = value;
+      this.scale.y = s2 * value2 / this._texture.orig.height;
+      this._height = value2;
     },
     enumerable: false,
     configurable: true
@@ -25825,8 +25885,8 @@ var Sprite = function(_super) {
     get: function() {
       return this._anchor;
     },
-    set: function(value) {
-      this._anchor.copyFrom(value);
+    set: function(value2) {
+      this._anchor.copyFrom(value2);
     },
     enumerable: false,
     configurable: true
@@ -25835,9 +25895,9 @@ var Sprite = function(_super) {
     get: function() {
       return this._tint;
     },
-    set: function(value) {
-      this._tint = value;
-      this._tintRGB = (value >> 16) + (value & 65280) + ((value & 255) << 16);
+    set: function(value2) {
+      this._tint = value2;
+      this._tintRGB = (value2 >> 16) + (value2 & 65280) + ((value2 & 255) << 16);
     },
     enumerable: false,
     configurable: true
@@ -25846,22 +25906,22 @@ var Sprite = function(_super) {
     get: function() {
       return this._texture;
     },
-    set: function(value) {
-      if (this._texture === value) {
+    set: function(value2) {
+      if (this._texture === value2) {
         return;
       }
       if (this._texture) {
         this._texture.off("update", this._onTextureUpdate, this);
       }
-      this._texture = value || Texture.EMPTY;
+      this._texture = value2 || Texture.EMPTY;
       this._cachedTint = 16777215;
       this._textureID = -1;
       this._textureTrimmedID = -1;
-      if (value) {
-        if (value.baseTexture.valid) {
+      if (value2) {
+        if (value2.baseTexture.valid) {
           this._onTextureUpdate();
         } else {
-          value.once("update", this._onTextureUpdate, this);
+          value2.once("update", this._onTextureUpdate, this);
         }
       }
     },
@@ -27026,11 +27086,11 @@ var Text = function(_super) {
       this.updateText(true);
       return Math.abs(this.scale.x) * this._texture.orig.width;
     },
-    set: function(value) {
+    set: function(value2) {
       this.updateText(true);
       var s2 = sign(this.scale.x) || 1;
-      this.scale.x = s2 * value / this._texture.orig.width;
-      this._width = value;
+      this.scale.x = s2 * value2 / this._texture.orig.width;
+      this._width = value2;
     },
     enumerable: false,
     configurable: true
@@ -27040,11 +27100,11 @@ var Text = function(_super) {
       this.updateText(true);
       return Math.abs(this.scale.y) * this._texture.orig.height;
     },
-    set: function(value) {
+    set: function(value2) {
       this.updateText(true);
       var s2 = sign(this.scale.y) || 1;
-      this.scale.y = s2 * value / this._texture.orig.height;
-      this._height = value;
+      this.scale.y = s2 * value2 / this._texture.orig.height;
+      this._height = value2;
     },
     enumerable: false,
     configurable: true
@@ -27085,12 +27145,12 @@ var Text = function(_super) {
     get: function() {
       return this._resolution;
     },
-    set: function(value) {
+    set: function(value2) {
       this._autoResolution = false;
-      if (this._resolution === value) {
+      if (this._resolution === value2) {
         return;
       }
-      this._resolution = value;
+      this._resolution = value2;
       this.dirty = true;
     },
     enumerable: false,
@@ -27647,8 +27707,8 @@ var tempPoint$1 = new Point();
     get: function() {
       return this.uvMatrix.clampMargin;
     },
-    set: function(value) {
-      this.uvMatrix.clampMargin = value;
+    set: function(value2) {
+      this.uvMatrix.clampMargin = value2;
       this.uvMatrix.update(true);
     },
     enumerable: false,
@@ -27658,8 +27718,8 @@ var tempPoint$1 = new Point();
     get: function() {
       return this.tileTransform.scale;
     },
-    set: function(value) {
-      this.tileTransform.scale.copyFrom(value);
+    set: function(value2) {
+      this.tileTransform.scale.copyFrom(value2);
     },
     enumerable: false,
     configurable: true
@@ -27668,8 +27728,8 @@ var tempPoint$1 = new Point();
     get: function() {
       return this.tileTransform.position;
     },
-    set: function(value) {
-      this.tileTransform.position.copyFrom(value);
+    set: function(value2) {
+      this.tileTransform.position.copyFrom(value2);
     },
     enumerable: false,
     configurable: true
@@ -27739,8 +27799,8 @@ var tempPoint$1 = new Point();
     get: function() {
       return this._width;
     },
-    set: function(value) {
-      this._width = value;
+    set: function(value2) {
+      this._width = value2;
     },
     enumerable: false,
     configurable: true
@@ -27749,8 +27809,8 @@ var tempPoint$1 = new Point();
     get: function() {
       return this._height;
     },
-    set: function(value) {
-      this._height = value;
+    set: function(value2) {
+      this._height = value2;
     },
     enumerable: false,
     configurable: true
@@ -27926,8 +27986,8 @@ var Mesh = function(_super) {
     get: function() {
       return this._geometry;
     },
-    set: function(value) {
-      if (this._geometry === value) {
+    set: function(value2) {
+      if (this._geometry === value2) {
         return;
       }
       if (this._geometry) {
@@ -27936,7 +27996,7 @@ var Mesh = function(_super) {
           this._geometry.dispose();
         }
       }
-      this._geometry = value;
+      this._geometry = value2;
       if (this._geometry) {
         this._geometry.refCount++;
       }
@@ -27963,8 +28023,8 @@ var Mesh = function(_super) {
     get: function() {
       return this.shader;
     },
-    set: function(value) {
-      this.shader = value;
+    set: function(value2) {
+      this.shader = value2;
     },
     enumerable: false,
     configurable: true
@@ -27973,8 +28033,8 @@ var Mesh = function(_super) {
     get: function() {
       return this.state.blendMode;
     },
-    set: function(value) {
-      this.state.blendMode = value;
+    set: function(value2) {
+      this.state.blendMode = value2;
     },
     enumerable: false,
     configurable: true
@@ -27983,11 +28043,11 @@ var Mesh = function(_super) {
     get: function() {
       return this._roundPixels;
     },
-    set: function(value) {
-      if (this._roundPixels !== value) {
+    set: function(value2) {
+      if (this._roundPixels !== value2) {
         this._transformID = -1;
       }
-      this._roundPixels = value;
+      this._roundPixels = value2;
     },
     enumerable: false,
     configurable: true
@@ -27996,8 +28056,8 @@ var Mesh = function(_super) {
     get: function() {
       return "tint" in this.shader ? this.shader.tint : null;
     },
-    set: function(value) {
-      this.shader.tint = value;
+    set: function(value2) {
+      this.shader.tint = value2;
     },
     enumerable: false,
     configurable: true
@@ -28006,8 +28066,8 @@ var Mesh = function(_super) {
     get: function() {
       return "texture" in this.shader ? this.shader.texture : null;
     },
-    set: function(value) {
-      this.shader.texture = value;
+    set: function(value2) {
+      this.shader.texture = value2;
     },
     enumerable: false,
     configurable: true
@@ -28175,10 +28235,10 @@ var MeshMaterial = function(_super) {
     get: function() {
       return this.uniforms.uSampler;
     },
-    set: function(value) {
-      if (this.uniforms.uSampler !== value) {
-        this.uniforms.uSampler = value;
-        this.uvMatrix.texture = value;
+    set: function(value2) {
+      if (this.uniforms.uSampler !== value2) {
+        this.uniforms.uSampler = value2;
+        this.uvMatrix.texture = value2;
       }
     },
     enumerable: false,
@@ -28188,11 +28248,11 @@ var MeshMaterial = function(_super) {
     get: function() {
       return this._alpha;
     },
-    set: function(value) {
-      if (value === this._alpha) {
+    set: function(value2) {
+      if (value2 === this._alpha) {
         return;
       }
-      this._alpha = value;
+      this._alpha = value2;
       this._colorDirty = true;
     },
     enumerable: false,
@@ -28202,12 +28262,12 @@ var MeshMaterial = function(_super) {
     get: function() {
       return this._tint;
     },
-    set: function(value) {
-      if (value === this._tint) {
+    set: function(value2) {
+      if (value2 === this._tint) {
         return;
       }
-      this._tint = value;
-      this._tintRGB = (value >> 16) + (value & 65280) + ((value & 255) << 16);
+      this._tint = value2;
+      this._tintRGB = (value2 >> 16) + (value2 & 65280) + ((value2 & 255) << 16);
       this._colorDirty = true;
     },
     enumerable: false,
@@ -28323,8 +28383,8 @@ var TextFormat = function() {
         var key = split[0];
         var strValue = split[1].replace(/"/gm, "");
         var floatValue = parseFloat(strValue);
-        var value = isNaN(floatValue) ? strValue : floatValue;
-        itemData[key] = value;
+        var value2 = isNaN(floatValue) ? strValue : floatValue;
+        itemData[key] = value2;
       }
       rawData[name2].push(itemData);
     }
@@ -29130,13 +29190,13 @@ var charRenderDataPool = [];
     get: function() {
       return this._tint;
     },
-    set: function(value) {
-      if (this._tint === value) {
+    set: function(value2) {
+      if (this._tint === value2) {
         return;
       }
-      this._tint = value;
+      this._tint = value2;
       for (var i2 = 0; i2 < this._activePagesMeshData.length; i2++) {
-        this._activePagesMeshData[i2].mesh.tint = value;
+        this._activePagesMeshData[i2].mesh.tint = value2;
       }
     },
     enumerable: false,
@@ -29146,9 +29206,9 @@ var charRenderDataPool = [];
     get: function() {
       return this._align;
     },
-    set: function(value) {
-      if (this._align !== value) {
-        this._align = value;
+    set: function(value2) {
+      if (this._align !== value2) {
+        this._align = value2;
         this.dirty = true;
       }
     },
@@ -29159,12 +29219,12 @@ var charRenderDataPool = [];
     get: function() {
       return this._fontName;
     },
-    set: function(value) {
-      if (!BitmapFont.available[value]) {
-        throw new Error('Missing BitmapFont "' + value + '"');
+    set: function(value2) {
+      if (!BitmapFont.available[value2]) {
+        throw new Error('Missing BitmapFont "' + value2 + '"');
       }
-      if (this._fontName !== value) {
-        this._fontName = value;
+      if (this._fontName !== value2) {
+        this._fontName = value2;
         this.dirty = true;
       }
     },
@@ -29175,9 +29235,9 @@ var charRenderDataPool = [];
     get: function() {
       return this._fontSize;
     },
-    set: function(value) {
-      if (this._fontSize !== value) {
-        this._fontSize = value;
+    set: function(value2) {
+      if (this._fontSize !== value2) {
+        this._fontSize = value2;
         this.dirty = true;
       }
     },
@@ -29188,11 +29248,11 @@ var charRenderDataPool = [];
     get: function() {
       return this._anchor;
     },
-    set: function(value) {
-      if (typeof value === "number") {
-        this._anchor.set(value);
+    set: function(value2) {
+      if (typeof value2 === "number") {
+        this._anchor.set(value2);
       } else {
-        this._anchor.copyFrom(value);
+        this._anchor.copyFrom(value2);
       }
     },
     enumerable: false,
@@ -29217,11 +29277,11 @@ var charRenderDataPool = [];
     get: function() {
       return this._maxWidth;
     },
-    set: function(value) {
-      if (this._maxWidth === value) {
+    set: function(value2) {
+      if (this._maxWidth === value2) {
         return;
       }
-      this._maxWidth = value;
+      this._maxWidth = value2;
       this.dirty = true;
     },
     enumerable: false,
@@ -29247,9 +29307,9 @@ var charRenderDataPool = [];
     get: function() {
       return this._letterSpacing;
     },
-    set: function(value) {
-      if (this._letterSpacing !== value) {
-        this._letterSpacing = value;
+    set: function(value2) {
+      if (this._letterSpacing !== value2) {
+        this._letterSpacing = value2;
         this.dirty = true;
       }
     },
@@ -29260,9 +29320,9 @@ var charRenderDataPool = [];
     get: function() {
       return this._roundPixels;
     },
-    set: function(value) {
-      if (value !== this._roundPixels) {
-        this._roundPixels = value;
+    set: function(value2) {
+      if (value2 !== this._roundPixels) {
+        this._roundPixels = value2;
         this.dirty = true;
       }
     },
@@ -29429,8 +29489,8 @@ var fragment$4 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nun
     get: function() {
       return this.uniforms.uAlpha;
     },
-    set: function(value) {
-      this.uniforms.uAlpha = value;
+    set: function(value2) {
+      this.uniforms.uAlpha = value2;
     },
     enumerable: false,
     configurable: true
@@ -29521,14 +29581,14 @@ function generateBlurFragSource(kernelSize) {
   var fragSource = fragTemplate;
   var blurLoop = "";
   var template = "gl_FragColor += texture2D(uSampler, vBlurTexCoords[%index%]) * %value%;";
-  var value;
+  var value2;
   for (var i2 = 0; i2 < kernelSize; i2++) {
     var blur = template.replace("%index%", i2.toString());
-    value = i2;
+    value2 = i2;
     if (i2 >= halfLength) {
-      value = kernelSize - i2 - 1;
+      value2 = kernelSize - i2 - 1;
     }
-    blur = blur.replace("%value%", kernel[value].toString());
+    blur = blur.replace("%value%", kernel[value2].toString());
     blurLoop += blur;
     blurLoop += "\n";
   }
@@ -29796,9 +29856,9 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this.strength;
     },
-    set: function(value) {
-      this.padding = 1 + Math.abs(value) * 2;
-      this.strength = value;
+    set: function(value2) {
+      this.padding = 1 + Math.abs(value2) * 2;
+      this.strength = value2;
     },
     enumerable: false,
     configurable: true
@@ -29807,9 +29867,9 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this._quality;
     },
-    set: function(value) {
-      this._quality = value;
-      this.passes = value;
+    set: function(value2) {
+      this._quality = value2;
+      this.passes = value2;
     },
     enumerable: false,
     configurable: true
@@ -29865,8 +29925,8 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this.blurXFilter.blur;
     },
-    set: function(value) {
-      this.blurXFilter.blur = this.blurYFilter.blur = value;
+    set: function(value2) {
+      this.blurXFilter.blur = this.blurYFilter.blur = value2;
       this.updatePadding();
     },
     enumerable: false,
@@ -29876,8 +29936,8 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this.blurXFilter.quality;
     },
-    set: function(value) {
-      this.blurXFilter.quality = this.blurYFilter.quality = value;
+    set: function(value2) {
+      this.blurXFilter.quality = this.blurYFilter.quality = value2;
     },
     enumerable: false,
     configurable: true
@@ -29886,8 +29946,8 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this.blurXFilter.blur;
     },
-    set: function(value) {
-      this.blurXFilter.blur = value;
+    set: function(value2) {
+      this.blurXFilter.blur = value2;
       this.updatePadding();
     },
     enumerable: false,
@@ -29897,8 +29957,8 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this.blurYFilter.blur;
     },
-    set: function(value) {
-      this.blurYFilter.blur = value;
+    set: function(value2) {
+      this.blurYFilter.blur = value2;
       this.updatePadding();
     },
     enumerable: false,
@@ -29908,8 +29968,8 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this.blurYFilter.blendMode;
     },
-    set: function(value) {
-      this.blurYFilter.blendMode = value;
+    set: function(value2) {
+      this.blurYFilter.blendMode = value2;
     },
     enumerable: false,
     configurable: true
@@ -29918,8 +29978,8 @@ var BlurFilterPass = function(_super) {
     get: function() {
       return this._repeatEdgePixels;
     },
-    set: function(value) {
-      this._repeatEdgePixels = value;
+    set: function(value2) {
+      this._repeatEdgePixels = value2;
       this.updatePadding();
     },
     enumerable: false,
@@ -30586,8 +30646,8 @@ var ColorMatrixFilter = function(_super) {
     get: function() {
       return this.uniforms.m;
     },
-    set: function(value) {
-      this.uniforms.m = value;
+    set: function(value2) {
+      this.uniforms.m = value2;
     },
     enumerable: false,
     configurable: true
@@ -30596,8 +30656,8 @@ var ColorMatrixFilter = function(_super) {
     get: function() {
       return this.uniforms.uAlpha;
     },
-    set: function(value) {
-      this.uniforms.uAlpha = value;
+    set: function(value2) {
+      this.uniforms.uAlpha = value2;
     },
     enumerable: false,
     configurable: true
@@ -30686,8 +30746,8 @@ var vertex$1 = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix
     get: function() {
       return this.uniforms.mapSampler;
     },
-    set: function(value) {
-      this.uniforms.mapSampler = value;
+    set: function(value2) {
+      this.uniforms.mapSampler = value2;
     },
     enumerable: false,
     configurable: true
@@ -30926,8 +30986,8 @@ var fragment = "precision highp float;\n\nvarying vec2 vTextureCoord;\nvarying v
     get: function() {
       return this.uniforms.uNoise;
     },
-    set: function(value) {
-      this.uniforms.uNoise = value;
+    set: function(value2) {
+      this.uniforms.uNoise = value2;
     },
     enumerable: false,
     configurable: true
@@ -30936,8 +30996,8 @@ var fragment = "precision highp float;\n\nvarying vec2 vTextureCoord;\nvarying v
     get: function() {
       return this.uniforms.uSeed;
     },
-    set: function(value) {
-      this.uniforms.uSeed = value;
+    set: function(value2) {
+      this.uniforms.uSeed = value2;
     },
     enumerable: false,
     configurable: true
@@ -31198,13 +31258,13 @@ Object.defineProperties(DisplayObject.prototype, {
     get: function() {
       return this._cacheAsBitmap;
     },
-    set: function(value) {
-      if (this._cacheAsBitmap === value) {
+    set: function(value2) {
+      if (this._cacheAsBitmap === value2) {
         return;
       }
-      this._cacheAsBitmap = value;
+      this._cacheAsBitmap = value2;
       var data;
-      if (value) {
+      if (value2) {
         if (!this._cacheData) {
           this._cacheData = new CacheData();
         }
@@ -31514,11 +31574,11 @@ var PlaneGeometry = function(_super) {
     for (var i2 = 0; i2 < totalSub; i2++) {
       var xpos = i2 % segmentsX;
       var ypos = i2 / segmentsX | 0;
-      var value = ypos * this.segWidth + xpos;
-      var value2 = ypos * this.segWidth + xpos + 1;
+      var value2 = ypos * this.segWidth + xpos;
+      var value22 = ypos * this.segWidth + xpos + 1;
       var value3 = (ypos + 1) * this.segWidth + xpos;
       var value4 = (ypos + 1) * this.segWidth + xpos + 1;
-      indices2.push(value, value2, value3, value2, value4, value3);
+      indices2.push(value2, value22, value3, value22, value4, value3);
     }
     this.buffers[0].data = new Float32Array(verts);
     this.buffers[1].data = new Float32Array(uvs);
@@ -31703,16 +31763,16 @@ var SimplePlane = function(_super) {
     get: function() {
       return this.shader.texture;
     },
-    set: function(value) {
-      if (this.shader.texture === value) {
+    set: function(value2) {
+      if (this.shader.texture === value2) {
         return;
       }
-      this.shader.texture = value;
+      this.shader.texture = value2;
       this._textureID = -1;
-      if (value.baseTexture.valid) {
+      if (value2.baseTexture.valid) {
         this.textureUpdated();
       } else {
-        value.once("update", this.textureUpdated, this);
+        value2.once("update", this.textureUpdated, this);
       }
     },
     enumerable: false,
@@ -31748,8 +31808,8 @@ var SimplePlane = function(_super) {
     get: function() {
       return this.geometry.getBuffer("aVertexPosition").data;
     },
-    set: function(value) {
-      this.geometry.getBuffer("aVertexPosition").data = value;
+    set: function(value2) {
+      this.geometry.getBuffer("aVertexPosition").data = value2;
     },
     enumerable: false,
     configurable: true
@@ -31798,8 +31858,8 @@ var DEFAULT_BORDER_SIZE = 10;
     get: function() {
       return this.geometry.getBuffer("aVertexPosition").data;
     },
-    set: function(value) {
-      this.geometry.getBuffer("aVertexPosition").data = value;
+    set: function(value2) {
+      this.geometry.getBuffer("aVertexPosition").data = value2;
     },
     enumerable: false,
     configurable: true
@@ -31830,8 +31890,8 @@ var DEFAULT_BORDER_SIZE = 10;
     get: function() {
       return this._width;
     },
-    set: function(value) {
-      this._width = value;
+    set: function(value2) {
+      this._width = value2;
       this._refresh();
     },
     enumerable: false,
@@ -31841,8 +31901,8 @@ var DEFAULT_BORDER_SIZE = 10;
     get: function() {
       return this._height;
     },
-    set: function(value) {
-      this._height = value;
+    set: function(value2) {
+      this._height = value2;
       this._refresh();
     },
     enumerable: false,
@@ -31852,8 +31912,8 @@ var DEFAULT_BORDER_SIZE = 10;
     get: function() {
       return this._leftWidth;
     },
-    set: function(value) {
-      this._leftWidth = value;
+    set: function(value2) {
+      this._leftWidth = value2;
       this._refresh();
     },
     enumerable: false,
@@ -31863,8 +31923,8 @@ var DEFAULT_BORDER_SIZE = 10;
     get: function() {
       return this._rightWidth;
     },
-    set: function(value) {
-      this._rightWidth = value;
+    set: function(value2) {
+      this._rightWidth = value2;
       this._refresh();
     },
     enumerable: false,
@@ -31874,8 +31934,8 @@ var DEFAULT_BORDER_SIZE = 10;
     get: function() {
       return this._topHeight;
     },
-    set: function(value) {
-      this._topHeight = value;
+    set: function(value2) {
+      this._topHeight = value2;
       this._refresh();
     },
     enumerable: false,
@@ -31885,8 +31945,8 @@ var DEFAULT_BORDER_SIZE = 10;
     get: function() {
       return this._bottomHeight;
     },
-    set: function(value) {
-      this._bottomHeight = value;
+    set: function(value2) {
+      this._bottomHeight = value2;
       this._refresh();
     },
     enumerable: false,
@@ -32107,16 +32167,16 @@ var AnimatedSprite = function(_super) {
     get: function() {
       return this._textures;
     },
-    set: function(value) {
-      if (value[0] instanceof Texture) {
-        this._textures = value;
+    set: function(value2) {
+      if (value2[0] instanceof Texture) {
+        this._textures = value2;
         this._durations = null;
       } else {
         this._textures = [];
         this._durations = [];
-        for (var i2 = 0; i2 < value.length; i2++) {
-          this._textures.push(value[i2].texture);
-          this._durations.push(value[i2].time);
+        for (var i2 = 0; i2 < value2.length; i2++) {
+          this._textures.push(value2[i2].texture);
+          this._durations.push(value2[i2].time);
         }
       }
       this._previousFrame = null;
@@ -32148,9 +32208,9 @@ var AnimatedSprite = function(_super) {
     get: function() {
       return this._autoUpdate;
     },
-    set: function(value) {
-      if (value !== this._autoUpdate) {
-        this._autoUpdate = value;
+    set: function(value2) {
+      if (value2 !== this._autoUpdate) {
+        this._autoUpdate = value2;
         if (!this._autoUpdate && this._isConnectedToTicker) {
           Ticker.shared.remove(this.update, this);
           this._isConnectedToTicker = false;
@@ -33041,7 +33101,7 @@ class EventListenerCtn {
       }
       return;
     }
-    if (ed instanceof EventEmitter$3) {
+    if (ed instanceof EventEmitter$4) {
       ed.on(type, fnc, ctx);
       __privateGet2(this, _vctEvt).push(() => ed.off(type, fnc, ctx));
       return;
@@ -33127,13 +33187,13 @@ var PolyMap = /* @__PURE__ */ function() {
   __proto.get = function(key) {
     return this.values[this.keys.indexOf(key)];
   };
-  __proto.set = function(key, value) {
+  __proto.set = function(key, value2) {
     var keys = this.keys;
     var values = this.values;
     var prevIndex = keys.indexOf(key);
     var index = prevIndex === -1 ? keys.length : prevIndex;
     keys[index] = key;
-    values[index] = value;
+    values[index] = value2;
   };
   return PolyMap2;
 }();
@@ -33145,8 +33205,8 @@ var HashMap = /* @__PURE__ */ function() {
   __proto.get = function(key) {
     return this.object[key];
   };
-  __proto.set = function(key, value) {
-    this.object[key] = value;
+  __proto.set = function(key, value2) {
+    this.object[key] = value2;
   };
   return HashMap2;
 }();
@@ -33396,23 +33456,23 @@ var DEFAULT_UNIT_PRESETS = {
 function dot(a1, a2, b1, b2) {
   return (a1 * b2 + a2 * b1) / (b1 + b2);
 }
-function isUndefined(value) {
-  return typeof value === UNDEFINED;
+function isUndefined(value2) {
+  return typeof value2 === UNDEFINED;
 }
-function isObject$2(value) {
-  return value && typeof value === OBJECT;
+function isObject$2(value2) {
+  return value2 && typeof value2 === OBJECT;
 }
-function isArray(value) {
-  return Array.isArray(value);
+function isArray(value2) {
+  return Array.isArray(value2);
 }
-function isString(value) {
-  return typeof value === STRING;
+function isString(value2) {
+  return typeof value2 === STRING;
 }
-function isNumber(value) {
-  return typeof value === NUMBER;
+function isNumber(value2) {
+  return typeof value2 === NUMBER;
 }
-function isFunction$2(value) {
-  return typeof value === FUNCTION;
+function isFunction$2(value2) {
+  return typeof value2 === FUNCTION;
 }
 function isEqualSeparator(character, separator) {
   var isCharacterSpace = character === "" || character == " ";
@@ -33571,12 +33631,12 @@ function splitUnit(text2) {
     };
   }
   var prefix2 = matches[1];
-  var value = matches[2];
+  var value2 = matches[2];
   var unit = matches[3];
   return {
     prefix: prefix2,
     unit,
-    value: parseFloat(value)
+    value: parseFloat(value2)
   };
 }
 function camelize(str2) {
@@ -33639,38 +33699,38 @@ function getKeys(obj) {
   return keys;
 }
 function convertUnitSize(pos, size) {
-  var _a3 = splitUnit(pos), value = _a3.value, unit = _a3.unit;
+  var _a3 = splitUnit(pos), value2 = _a3.value, unit = _a3.unit;
   if (isObject$2(size)) {
     var sizeFunction = size[unit];
     if (sizeFunction) {
       if (isFunction$2(sizeFunction)) {
-        return sizeFunction(value);
+        return sizeFunction(value2);
       } else if (DEFAULT_UNIT_PRESETS[unit]) {
-        return DEFAULT_UNIT_PRESETS[unit](value, sizeFunction);
+        return DEFAULT_UNIT_PRESETS[unit](value2, sizeFunction);
       }
     }
   } else if (unit === "%") {
-    return value * size / 100;
+    return value2 * size / 100;
   }
   if (DEFAULT_UNIT_PRESETS[unit]) {
-    return DEFAULT_UNIT_PRESETS[unit](value);
+    return DEFAULT_UNIT_PRESETS[unit](value2);
   }
-  return value;
+  return value2;
 }
-function between(value, min, max) {
-  return Math.max(min, Math.min(value, max));
+function between(value2, min, max) {
+  return Math.max(min, Math.min(value2, max));
 }
 function checkBoundSize(targetSize, compareSize, isMax) {
   return [[throttle(compareSize[0], TINY_NUM$1), throttle(compareSize[0] * targetSize[1] / targetSize[0], TINY_NUM$1)], [throttle(compareSize[1] * targetSize[0] / targetSize[1], TINY_NUM$1), throttle(compareSize[1], TINY_NUM$1)]].filter(function(size) {
-    return size.every(function(value, i2) {
-      return isMax ? value <= compareSize[i2] : value >= compareSize[i2];
+    return size.every(function(value2, i2) {
+      return isMax ? value2 <= compareSize[i2] : value2 >= compareSize[i2];
     });
   })[0] || targetSize;
 }
 function calculateBoundSize(size, minSize, maxSize, keepRatio) {
   if (!keepRatio) {
-    return size.map(function(value, i2) {
-      return between(value, minSize[i2], maxSize[i2]);
+    return size.map(function(value2, i2) {
+      return between(value2, minSize[i2], maxSize[i2]);
     });
   }
   var width = size[0], height = size[1];
@@ -33819,7 +33879,7 @@ function __rest$2(s2, e) {
     }
   return t;
 }
-function __spreadArrays$3() {
+function __spreadArrays$4() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -34421,7 +34481,7 @@ function diffProviders(containerProvider, providers, children) {
     childProvider.index = to;
     return false;
   });
-  return __spreadArrays$3(result.added, changed.map(function(_a3) {
+  return __spreadArrays$4(result.added, changed.map(function(_a3) {
     _a3[0];
     var to = _a3[1];
     return to;
@@ -34495,7 +34555,7 @@ function find(arr, callback) {
   }
   return null;
 }
-function getUserAgent(agent2) {
+function getUserAgentString(agent2) {
   var userAgent = agent2;
   if (typeof userAgent === "undefined") {
     if (typeof navigator === "undefined" || !navigator) {
@@ -34668,7 +34728,7 @@ var OS_PRESETS = [{
   test: "webos|web0s",
   id: "webos"
 }];
-function parseUserAgentData(osData) {
+function getClientHintsAgent(osData) {
   var userAgentData = navigator.userAgentData;
   var brands = (userAgentData.uaList || userAgentData.brands).slice();
   var isMobile2 = userAgentData.mobile || false;
@@ -34729,8 +34789,8 @@ function parseUserAgentData(osData) {
     isHints: true
   };
 }
-function parseUserAgent(userAgent) {
-  var nextAgent = getUserAgent(userAgent);
+function getLegacyAgent(userAgent) {
+  var nextAgent = getUserAgentString(userAgent);
   var isMobile2 = !!/mobi/g.exec(nextAgent);
   var browser = {
     name: "unknown",
@@ -34779,9 +34839,9 @@ function parseUserAgent(userAgent) {
 }
 function agent$1(userAgent) {
   if (typeof userAgent === "undefined" && hasUserAgentData()) {
-    return parseUserAgentData();
+    return getClientHintsAgent();
   } else {
-    return parseUserAgent(userAgent);
+    return getLegacyAgent(userAgent);
   }
 }
 function add(matrix, inverseMatrix, startIndex, fromIndex, n, k) {
@@ -35090,44 +35150,44 @@ function toMat(matrixInfos) {
 function parse(transform) {
   var transforms = isArray(transform) ? transform : splitSpace(transform);
   return transforms.map(function(t) {
-    var _a3 = splitBracket(t), name2 = _a3.prefix, value = _a3.value;
+    var _a3 = splitBracket(t), name2 = _a3.prefix, value2 = _a3.value;
     var matrixFunction = null;
     var functionName = name2;
     var functionValue = "";
     if (name2 === "translate" || name2 === "translateX" || name2 === "translate3d") {
-      var _b3 = splitComma(value).map(function(v2) {
+      var _b3 = splitComma(value2).map(function(v2) {
         return parseFloat(v2);
       }), posX = _b3[0], _c3 = _b3[1], posY = _c3 === void 0 ? 0 : _c3, _d2 = _b3[2], posZ = _d2 === void 0 ? 0 : _d2;
       matrixFunction = translate3d;
       functionValue = [posX, posY, posZ];
     } else if (name2 === "translateY") {
-      var posY = parseFloat(value);
+      var posY = parseFloat(value2);
       matrixFunction = translate3d;
       functionValue = [0, posY, 0];
     } else if (name2 === "translateZ") {
-      var posZ = parseFloat(value);
+      var posZ = parseFloat(value2);
       matrixFunction = translate3d;
       functionValue = [0, 0, posZ];
     } else if (name2 === "scale" || name2 === "scale3d") {
-      var _e = splitComma(value).map(function(v2) {
+      var _e = splitComma(value2).map(function(v2) {
         return parseFloat(v2);
       }), sx = _e[0], _f = _e[1], sy = _f === void 0 ? sx : _f, _g = _e[2], sz = _g === void 0 ? 1 : _g;
       matrixFunction = scale3d;
       functionValue = [sx, sy, sz];
     } else if (name2 === "scaleX") {
-      var sx = parseFloat(value);
+      var sx = parseFloat(value2);
       matrixFunction = scale3d;
       functionValue = [sx, 1, 1];
     } else if (name2 === "scaleY") {
-      var sy = parseFloat(value);
+      var sy = parseFloat(value2);
       matrixFunction = scale3d;
       functionValue = [1, sy, 1];
     } else if (name2 === "scaleZ") {
-      var sz = parseFloat(value);
+      var sz = parseFloat(value2);
       matrixFunction = scale3d;
       functionValue = [1, 1, sz];
     } else if (name2 === "rotate" || name2 === "rotateZ" || name2 === "rotateX" || name2 === "rotateY") {
-      var _h = splitUnit(value), unit = _h.unit, unitValue = _h.value;
+      var _h = splitUnit(value2), unit = _h.unit, unitValue = _h.value;
       var rad = unit === "rad" ? unitValue : unitValue * Math.PI / 180;
       if (name2 === "rotate" || name2 === "rotateZ") {
         functionName = "rotateZ";
@@ -35140,11 +35200,11 @@ function parse(transform) {
       functionValue = rad;
     } else if (name2 === "matrix3d") {
       matrixFunction = matrix3d;
-      functionValue = splitComma(value).map(function(v2) {
+      functionValue = splitComma(value2).map(function(v2) {
         return parseFloat(v2);
       });
     } else if (name2 === "matrix") {
-      var m2 = splitComma(value).map(function(v2) {
+      var m2 = splitComma(value2).map(function(v2) {
         return parseFloat(v2);
       });
       matrixFunction = matrix3d;
@@ -35155,7 +35215,7 @@ function parse(transform) {
     return {
       name: name2,
       functionName,
-      value,
+      value: value2,
       matrixFunction,
       functionValue
     };
@@ -35228,7 +35288,7 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-function __spreadArrays$2() {
+function __spreadArrays$3() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -35413,7 +35473,7 @@ function getPointsOnLines(points, lines) {
   });
 }
 function convertLines(points) {
-  return __spreadArrays$2(points.slice(1), [points[0]]).map(function(point, i2) {
+  return __spreadArrays$3(points.slice(1), [points[0]]).map(function(point, i2) {
     return [points[i2], point];
   });
 }
@@ -35548,7 +35608,7 @@ var __assign$6 = function() {
   };
   return __assign$6.apply(this, arguments);
 };
-function __spreadArrays$1() {
+function __spreadArrays$2() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
     s2 += arguments[i2].length;
   for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
@@ -35556,7 +35616,7 @@ function __spreadArrays$1() {
       r2[k] = a2[j2];
   return r2;
 }
-var EventEmitter$1 = /* @__PURE__ */ function() {
+var EventEmitter$2 = /* @__PURE__ */ function() {
   function EventEmitter2() {
     this._events = {};
   }
@@ -35621,7 +35681,7 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
       isStop = true;
     };
     param.currentTarget = this;
-    __spreadArrays$1(events).forEach(function(info) {
+    __spreadArrays$2(events).forEach(function(info) {
       info.listener(param);
       if (info.once) {
         _this.off(eventName, info.listener);
@@ -35645,7 +35705,7 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
   };
   return EventEmitter2;
 }();
-var EventEmitter$2 = EventEmitter$1;
+var EventEmitter$3 = EventEmitter$2;
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -35838,7 +35898,7 @@ var DragScroll = /* @__PURE__ */ function(_super) {
     }));
   };
   return DragScroll2;
-}(EventEmitter$2);
+}(EventEmitter$3);
 var DragScroll$1 = DragScroll;
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -36172,22 +36232,30 @@ var Gesto = /* @__PURE__ */ function(_super) {
       if (_this.isTouch && pinchOutside) {
         removeEvent(container2, "touchstart", _this.onDragStart);
       }
-      _this.flag = false;
+      if (_this.pinchFlag) {
+        _this.onPinchEnd(e);
+      }
+      var clients = getEventClients(e);
+      var clientsLength = clients.length;
+      if (clientsLength === 0 || !_this.options.keepDragging) {
+        _this.flag = false;
+      } else {
+        _this._addStore(new ClientStore(clients));
+      }
       var position = _this._getPosition();
       var currentTime = now();
       var isDouble = !_this.isDrag && _this.doubleFlag;
       _this.prevTime = _this.isDrag || isDouble ? 0 : currentTime;
-      _this.emit("dragEnd", __assign$4({
-        datas: _this.datas,
-        isDouble,
-        isDrag: _this.isDrag,
-        isClick: !_this.isDrag,
-        inputEvent: e
-      }, position));
-      if (_this.pinchFlag) {
-        _this.onPinchEnd(e);
+      if (!_this.flag) {
+        _this.emit("dragEnd", __assign$4({
+          datas: _this.datas,
+          isDouble,
+          isDrag: _this.isDrag,
+          isClick: !_this.isDrag,
+          inputEvent: e
+        }, position));
+        _this.clientStores = [];
       }
-      _this.clientStores = [];
     };
     _this.onBlur = function() {
       _this.onDragEnd();
@@ -36199,6 +36267,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
       preventRightClick: true,
       preventDefault: true,
       checkWindowBlur: false,
+      keepDragging: false,
       pinchThreshold: 0,
       events: ["touch", "mouse"]
     }, options);
@@ -36336,7 +36405,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
     }
     var store = new ClientStore(getEventClients(e));
     this.pinchFlag = true;
-    this.clientStores.splice(0, 0, store);
+    this._addStore(store);
     var result = this.emit("pinchStart", __assign$4({
       datas: this.datas,
       angle: store.getAngle(),
@@ -36381,8 +36450,6 @@ var Gesto = /* @__PURE__ */ function(_super) {
     }, store.getPosition(), {
       inputEvent: e
     }));
-    this.isPinch = false;
-    this.pinchFlag = false;
   };
   __proto.initDrag = function() {
     this.clientStores = [];
@@ -36409,6 +36476,9 @@ var Gesto = /* @__PURE__ */ function(_super) {
       inputEvent
     });
   };
+  __proto._addStore = function(store) {
+    this.clientStores.splice(0, 0, store);
+  };
   __proto._getPosition = function(clients, isAdd) {
     var store = this.getCurrentStore();
     var position = store.getPosition(clients, isAdd);
@@ -36424,7 +36494,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
     });
   };
   return Gesto2;
-}(EventEmitter$2);
+}(EventEmitter$3);
 var Gesto$1 = Gesto;
 function hash(str2) {
   var hash2 = 5381, i2 = str2.length;
@@ -36645,6 +36715,129 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
+var __assign$2 = function() {
+  __assign$2 = Object.assign || function __assign2(t) {
+    for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
+      s2 = arguments[i2];
+      for (var p2 in s2)
+        if (Object.prototype.hasOwnProperty.call(s2, p2))
+          t[p2] = s2[p2];
+    }
+    return t;
+  };
+  return __assign$2.apply(this, arguments);
+};
+function __spreadArrays$1() {
+  for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
+    s2 += arguments[i2].length;
+  for (var r2 = Array(s2), k = 0, i2 = 0; i2 < il; i2++)
+    for (var a2 = arguments[i2], j2 = 0, jl = a2.length; j2 < jl; j2++, k++)
+      r2[k] = a2[j2];
+  return r2;
+}
+var EventEmitter$1 = /* @__PURE__ */ function() {
+  function EventEmitter2() {
+    this._events = {};
+  }
+  var __proto = EventEmitter2.prototype;
+  __proto.on = function(eventName, listener) {
+    if (isObject$2(eventName)) {
+      for (var name2 in eventName) {
+        this.on(name2, eventName[name2]);
+      }
+    } else {
+      this._addEvent(eventName, listener, {});
+    }
+    return this;
+  };
+  __proto.off = function(eventName, listener) {
+    if (!eventName) {
+      this._events = {};
+    } else if (isObject$2(eventName)) {
+      for (var name2 in eventName) {
+        this.off(name2);
+      }
+    } else if (!listener) {
+      this._events[eventName] = [];
+    } else {
+      var events = this._events[eventName];
+      if (events) {
+        var index = findIndex(events, function(e) {
+          return e.listener === listener;
+        });
+        if (index > -1) {
+          events.splice(index, 1);
+        }
+      }
+    }
+    return this;
+  };
+  __proto.once = function(eventName, listener) {
+    var _this = this;
+    if (listener) {
+      this._addEvent(eventName, listener, {
+        once: true
+      });
+    }
+    return new Promise(function(resolve2) {
+      _this._addEvent(eventName, resolve2, {
+        once: true
+      });
+    });
+  };
+  __proto.emit = function(eventName, param) {
+    var _this = this;
+    if (param === void 0) {
+      param = {};
+    }
+    var events = this._events[eventName];
+    if (!eventName || !events) {
+      return true;
+    }
+    var isStop = false;
+    param.eventType = eventName;
+    param.stop = function() {
+      isStop = true;
+    };
+    param.currentTarget = this;
+    __spreadArrays$1(events).forEach(function(info) {
+      info.listener(param);
+      if (info.once) {
+        _this.off(eventName, info.listener);
+      }
+    });
+    return !isStop;
+  };
+  __proto.trigger = function(eventName, param) {
+    if (param === void 0) {
+      param = {};
+    }
+    return this.emit(eventName, param);
+  };
+  __proto._addEvent = function(eventName, listener, options) {
+    var events = this._events;
+    events[eventName] = events[eventName] || [];
+    var listeners = events[eventName];
+    listeners.push(__assign$2({
+      listener
+    }, options));
+  };
+  return EventEmitter2;
+}();
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
 var extendStatics$1 = function(d2, b2) {
   extendStatics$1 = Object.setPrototypeOf || {
     __proto__: []
@@ -36666,8 +36859,8 @@ function __extends$1(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var __assign$2 = function() {
-  __assign$2 = Object.assign || function __assign2(t) {
+var __assign$1$1 = function() {
+  __assign$1$1 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
       for (var p2 in s2)
@@ -36676,7 +36869,7 @@ var __assign$2 = function() {
     }
     return t;
   };
-  return __assign$2.apply(this, arguments);
+  return __assign$1$1.apply(this, arguments);
 };
 function __rest(s2, e) {
   var t = {};
@@ -36713,14 +36906,14 @@ function __spreadArray(to, from, pack) {
 }
 function makeAble(name2, able) {
   var _a3;
-  return __assign$2({
+  return __assign$1$1({
     events: {},
     props: (_a3 = {}, _a3[name2] = Boolean, _a3),
     name: name2
   }, able);
 }
 function getSVGCursor(scale, degree) {
-  return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="' + 32 * scale + 'px" height="' + 32 * scale + 'px" viewBox="0 0 32 32" ><path d="M 16,5 L 12,10 L 14.5,10 L 14.5,22 L 12,22 L 16,27 L 20,22 L 17.5,22 L 17.5,10 L 20, 10 L 16,5 Z" stroke-linejoin="round" stroke-width="1.2" fill="black" stroke="white" style="transform:rotate(' + degree + 'deg);transform-origin: 16px 16px"></path></svg>';
+  return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="'.concat(32 * scale, 'px" height="').concat(32 * scale, 'px" viewBox="0 0 32 32" ><path d="M 16,5 L 12,10 L 14.5,10 L 14.5,22 L 12,22 L 16,27 L 20,22 L 17.5,22 L 17.5,10 L 20, 10 L 16,5 Z" stroke-linejoin="round" stroke-width="1.2" fill="black" stroke="white" style="transform:rotate(').concat(degree, 'deg);transform-origin: 16px 16px"></path></svg>');
 }
 function getCursorCSS(degree) {
   var x1 = getSVGCursor(1, degree);
@@ -36733,7 +36926,7 @@ function getCursorCSS(degree) {
   } else if (degree45 === 90) {
     defaultCursor = "ew-resize";
   }
-  return "cursor:" + defaultCursor + ";cursor: url('" + x1 + "') 16 16, " + defaultCursor + ";";
+  return "cursor:".concat(defaultCursor, ";cursor: url('").concat(x1, "') 16 16, ").concat(defaultCursor, ";");
 }
 var agent = agent$1();
 var IS_WEBKIT = agent.browser.webkit;
@@ -36745,9 +36938,9 @@ var IS_WEBKIT605 = IS_WEBKIT && function() {
   return res ? parseFloat(res[1]) < 605 : false;
 }();
 var PREFIX = "moveable-";
-var MOVEABLE_CSS = "\n{\n	position: absolute;\n	width: 1px;\n	height: 1px;\n	left: 0;\n	top: 0;\n    z-index: 3000;\n    --moveable-color: #4af;\n    --zoom: 1;\n    --zoompx: 1px;\n    will-change: transform;\n}\n.control-box {\n    z-index: 0;\n}\n.line, .control {\n    position: absolute;\n	left: 0;\n    top: 0;\n    will-change: transform;\n}\n.control {\n	width: 14px;\n	height: 14px;\n	border-radius: 50%;\n	border: 2px solid #fff;\n	box-sizing: border-box;\n    background: #4af;\n    background: var(--moveable-color);\n	margin-top: -7px;\n    margin-left: -7px;\n    border: 2px solid #fff;\n    z-index: 10;\n}\n.padding {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n    transform-origin: 0 0;\n}\n.line {\n	width: 1px;\n    height: 1px;\n    background: #4af;\n    background: var(--moveable-color);\n	transform-origin: 0px 50%;\n}\n.line.dashed {\n    box-sizing: border-box;\n    background: transparent;\n}\n.line.dashed.horizontal {\n    border-top: 1px dashed #4af;\n    border-top-color: #4af;\n    border-top-color: var(--moveable-color);\n}\n.line.dashed.vertical {\n    border-left: 1px dashed #4af;\n    border-left-color: #4af;\n    border-left-color: var(--moveable-color);\n}\n.line.vertical {\n    transform: translateX(-50%);\n}\n.line.horizontal {\n    transform: translateY(-50%);\n}\n.line.vertical.bold {\n    width: 2px;\n}\n.line.horizontal.bold {\n    height: 2px;\n}\n\n.control.origin {\n	border-color: #f55;\n	background: #fff;\n	width: 12px;\n	height: 12px;\n	margin-top: -6px;\n    margin-left: -6px;\n	pointer-events: none;\n}\n" + [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165].map(function(degree) {
-  return '\n.direction[data-rotation="' + degree + '"] {\n	' + getCursorCSS(degree) + "\n}\n";
-}).join("\n") + "\n.group {\n    z-index: -1;\n}\n.area {\n    position: absolute;\n}\n.area-pieces {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: none;\n}\n.area.avoid, .area.pass {\n    pointer-events: none;\n}\n.area.avoid+.area-pieces {\n    display: block;\n}\n.area-piece {\n    position: absolute;\n}\n\n" + (IS_WEBKIT605 ? ':global svg *:before {\n	content:"";\n	transform-origin: inherit;\n}' : "") + "\n";
+var MOVEABLE_CSS = "\n{\n	position: absolute;\n	width: 1px;\n	height: 1px;\n	left: 0;\n	top: 0;\n    z-index: 3000;\n    --moveable-color: #4af;\n    --zoom: 1;\n    --zoompx: 1px;\n    will-change: transform;\n}\n.control-box {\n    z-index: 0;\n}\n.line, .control {\n    position: absolute;\n	left: 0;\n    top: 0;\n    will-change: transform;\n}\n.control {\n	width: 14px;\n	height: 14px;\n	border-radius: 50%;\n	border: 2px solid #fff;\n	box-sizing: border-box;\n    background: #4af;\n    background: var(--moveable-color);\n	margin-top: -7px;\n    margin-left: -7px;\n    border: 2px solid #fff;\n    z-index: 10;\n}\n.padding {\n    position: absolute;\n    top: 0px;\n    left: 0px;\n    width: 100px;\n    height: 100px;\n    transform-origin: 0 0;\n}\n.line {\n	width: 1px;\n    height: 1px;\n    background: #4af;\n    background: var(--moveable-color);\n	transform-origin: 0px 50%;\n}\n.line.dashed {\n    box-sizing: border-box;\n    background: transparent;\n}\n.line.dashed.horizontal {\n    border-top: 1px dashed #4af;\n    border-top-color: #4af;\n    border-top-color: var(--moveable-color);\n}\n.line.dashed.vertical {\n    border-left: 1px dashed #4af;\n    border-left-color: #4af;\n    border-left-color: var(--moveable-color);\n}\n.line.vertical {\n    transform: translateX(-50%);\n}\n.line.horizontal {\n    transform: translateY(-50%);\n}\n.line.vertical.bold {\n    width: 2px;\n}\n.line.horizontal.bold {\n    height: 2px;\n}\n\n.control.origin {\n	border-color: #f55;\n	background: #fff;\n	width: 12px;\n	height: 12px;\n	margin-top: -6px;\n    margin-left: -6px;\n	pointer-events: none;\n}\n".concat([0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165].map(function(degree) {
+  return '\n.direction[data-rotation="'.concat(degree, '"] {\n	').concat(getCursorCSS(degree), "\n}\n");
+}).join("\n"), "\n.group {\n    z-index: -1;\n}\n.area {\n    position: absolute;\n}\n.area-pieces {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: none;\n}\n.area.avoid, .area.pass {\n    pointer-events: none;\n}\n.area.avoid+.area-pieces {\n    display: block;\n}\n.area-piece {\n    position: absolute;\n}\n\n").concat(IS_WEBKIT605 ? ':global svg *:before {\n	content:"";\n	transform-origin: inherit;\n}' : "", "\n");
 var NEARBY_POS = [[0, 1, 2], [1, 0, 3], [2, 0, 3], [3, 1, 2]];
 var FLOAT_POINT_NUM = 1e-4;
 var TINY_NUM = 1e-7;
@@ -36776,1189 +36969,11 @@ var DIRECTION_ROTATIONS = {
   se: 135
 };
 var MOVEABLE_METHODS = ["isMoveableElement", "updateRect", "updateTarget", "destroy", "dragStart", "isInside", "hitTest", "setState", "getRect", "request", "isDragging", "getManager", "forceUpdate"];
-function multiply2(pos1, pos2) {
-  return [pos1[0] * pos2[0], pos1[1] * pos2[1]];
-}
-function prefix() {
-  var classNames = [];
-  for (var _i = 0; _i < arguments.length; _i++) {
-    classNames[_i] = arguments[_i];
-  }
-  return prefixNames.apply(void 0, __spreadArray([PREFIX], classNames));
-}
-function getTransformMatrix(transform) {
-  if (!transform || transform === "none") {
-    return [1, 0, 0, 1, 0, 0];
-  }
-  if (isObject$2(transform)) {
-    return transform;
-  }
-  var value = splitBracket(transform).value;
-  return value.split(/s*,\s*/g).map(function(v2) {
-    return parseFloat(v2);
-  });
-}
-function getAbsoluteMatrix(matrix, n, origin) {
-  return multiplies(n, createOriginMatrix(origin, n), matrix, createOriginMatrix(origin.map(function(a2) {
-    return -a2;
-  }), n));
-}
-function measureSVGSize(el, unit, isHorizontal) {
-  if (unit === "%") {
-    var viewBox = getSVGViewBox(el.ownerSVGElement);
-    return viewBox[isHorizontal ? "width" : "height"] / 100;
-  }
-  return 1;
-}
-function getBeforeTransformOrigin(el) {
-  var relativeOrigin = getTransformOrigin(getComputedStyle$1(el, ":before"));
-  return relativeOrigin.map(function(o, i2) {
-    var _a3 = splitUnit(o), value = _a3.value, unit = _a3.unit;
-    return value * measureSVGSize(el, unit, i2 === 0);
-  });
-}
-function getTransformOrigin(style) {
-  var transformOrigin = style.transformOrigin;
-  return transformOrigin ? transformOrigin.split(" ") : ["0", "0"];
-}
-function getOffsetInfo(el, lastParent, isParent) {
-  var body = document.body;
-  var target = !el || isParent ? el : el.parentElement;
-  var isEnd = el === lastParent || target === lastParent;
-  var position = "relative";
-  while (target && target !== body) {
-    if (lastParent === target) {
-      isEnd = true;
-    }
-    var style = getComputedStyle$1(target);
-    var transform = style.transform;
-    position = style.position;
-    if (target.tagName.toLowerCase() === "svg" || position !== "static" || transform && transform !== "none") {
-      break;
-    }
-    target = target.parentElement;
-    position = "relative";
-  }
-  return {
-    isStatic: position === "static",
-    isEnd: isEnd || !target || target === body,
-    offsetParent: target || body
-  };
-}
-function getOffsetPosInfo(el, container, style, isFixed) {
-  var _a3;
-  var tagName = el.tagName.toLowerCase();
-  var offsetLeft = el.offsetLeft;
-  var offsetTop = el.offsetTop;
-  if (isFixed) {
-    var containerClientRect = (container || document.documentElement).getBoundingClientRect();
-    offsetLeft -= containerClientRect.left;
-    offsetTop -= containerClientRect.top;
-  }
-  var isSVG = isUndefined(offsetLeft);
-  var hasOffset = !isSVG;
-  var origin;
-  var targetOrigin;
-  if (!hasOffset && tagName !== "svg") {
-    origin = IS_WEBKIT605 ? getBeforeTransformOrigin(el) : getTransformOrigin(style).map(function(pos) {
-      return parseFloat(pos);
-    });
-    targetOrigin = origin.slice();
-    hasOffset = true;
-    _a3 = getSVGGraphicsOffset(el, origin), offsetLeft = _a3[0], offsetTop = _a3[1], origin[0] = _a3[2], origin[1] = _a3[3];
-  } else {
-    origin = getTransformOrigin(style).map(function(pos) {
-      return parseFloat(pos);
-    });
-    targetOrigin = origin.slice();
-  }
-  return {
-    tagName,
-    isSVG,
-    hasOffset,
-    offset: [offsetLeft || 0, offsetTop || 0],
-    origin,
-    targetOrigin
-  };
-}
-function getBodyOffset(el, isSVG, style) {
-  if (style === void 0) {
-    style = getComputedStyle$1(el);
-  }
-  var bodyStyle = getComputedStyle$1(document.body);
-  var bodyPosition = bodyStyle.position;
-  if (!isSVG && (!bodyPosition || bodyPosition === "static")) {
-    return [0, 0];
-  }
-  var marginLeft = parseInt(bodyStyle.marginLeft, 10);
-  var marginTop = parseInt(bodyStyle.marginTop, 10);
-  if (style.position === "absolute") {
-    if (style.top !== "auto" || style.bottom !== "auto") {
-      marginTop = 0;
-    }
-    if (style.left !== "auto" || style.right !== "auto") {
-      marginLeft = 0;
-    }
-  }
-  return [marginLeft, marginTop];
-}
-function convert3DMatrixes(matrixes) {
-  matrixes.forEach(function(info) {
-    var matrix = info.matrix;
-    if (matrix) {
-      info.matrix = convertDimension(matrix, 3, 4);
-    }
-  });
-}
-function getMatrixStackInfo(target, container, checkContainer) {
-  var el = target;
-  var matrixes = [];
-  var requestEnd = !checkContainer && target === container;
-  var isEnd = requestEnd;
-  var is3d = false;
-  var n = 3;
-  var transformOrigin;
-  var targetTransformOrigin;
-  var targetMatrix;
-  var offsetContainer = getOffsetInfo(container, container, true).offsetParent;
-  while (el && !isEnd) {
-    isEnd = requestEnd;
-    var style = getComputedStyle$1(el);
-    var position = style.position;
-    var isFixed = position === "fixed";
-    var matrix = convertCSStoMatrix(getTransformMatrix(style.transform));
-    var length2 = matrix.length;
-    if (!is3d && length2 === 16) {
-      is3d = true;
-      n = 4;
-      convert3DMatrixes(matrixes);
-      if (targetMatrix) {
-        targetMatrix = convertDimension(targetMatrix, 3, 4);
-      }
-    }
-    if (is3d && length2 === 9) {
-      matrix = convertDimension(matrix, 3, 4);
-    }
-    var _a3 = getOffsetPosInfo(el, container, style, isFixed), tagName = _a3.tagName, hasOffset = _a3.hasOffset, isSVG = _a3.isSVG, origin = _a3.origin, targetOrigin = _a3.targetOrigin, offsetPos = _a3.offset;
-    var offsetLeft = offsetPos[0], offsetTop = offsetPos[1];
-    if (tagName === "svg" && targetMatrix) {
-      matrixes.push({
-        type: "target",
-        target: el,
-        matrix: getSVGMatrix(el, n)
-      });
-      matrixes.push({
-        type: "offset",
-        target: el,
-        matrix: createIdentityMatrix(n)
-      });
-    } else if (tagName === "g" && target !== el) {
-      offsetLeft = 0;
-      offsetTop = 0;
-    }
-    var _b3 = getOffsetInfo(el, container), offsetParent = _b3.offsetParent, isOffsetEnd = _b3.isEnd, isStatic = _b3.isStatic;
-    if (IS_WEBKIT && hasOffset && !isSVG && isStatic && (position === "relative" || position === "static")) {
-      offsetLeft -= offsetParent.offsetLeft;
-      offsetTop -= offsetParent.offsetTop;
-      requestEnd = requestEnd || isOffsetEnd;
-    }
-    var parentClientLeft = 0;
-    var parentClientTop = 0;
-    if (hasOffset && offsetContainer !== offsetParent) {
-      parentClientLeft = offsetParent.clientLeft;
-      parentClientTop = offsetParent.clientTop;
-    }
-    if (hasOffset && offsetParent === document.body) {
-      var margin = getBodyOffset(el, false, style);
-      offsetLeft += margin[0];
-      offsetTop += margin[1];
-    }
-    matrixes.push({
-      type: "target",
-      target: el,
-      matrix: getAbsoluteMatrix(matrix, n, origin)
-    });
-    if (hasOffset) {
-      matrixes.push({
-        type: "offset",
-        target: el,
-        matrix: createOriginMatrix([offsetLeft - el.scrollLeft + parentClientLeft, offsetTop - el.scrollTop + parentClientTop], n)
-      });
-    } else {
-      matrixes.push({
-        type: "offset",
-        target: el,
-        origin
-      });
-    }
-    if (!targetMatrix) {
-      targetMatrix = matrix;
-    }
-    if (!transformOrigin) {
-      transformOrigin = origin;
-    }
-    if (!targetTransformOrigin) {
-      targetTransformOrigin = targetOrigin;
-    }
-    if (isEnd || isFixed) {
-      break;
-    } else {
-      el = offsetParent;
-      requestEnd = isOffsetEnd;
-    }
-    if (!checkContainer || el === document.body) {
-      isEnd = requestEnd;
-    }
-  }
-  if (!targetMatrix) {
-    targetMatrix = createIdentityMatrix(n);
-  }
-  if (!transformOrigin) {
-    transformOrigin = [0, 0];
-  }
-  if (!targetTransformOrigin) {
-    targetTransformOrigin = [0, 0];
-  }
-  return {
-    offsetContainer,
-    matrixes,
-    targetMatrix,
-    transformOrigin,
-    targetOrigin: targetTransformOrigin,
-    is3d
-  };
-}
-function calculateElementInfo(target, container, rootContainer, isAbsolute3d) {
-  var _a3;
-  if (rootContainer === void 0) {
-    rootContainer = container;
-  }
-  var width = 0;
-  var height = 0;
-  var rotation = 0;
-  var allResult = {};
-  if (target) {
-    var style = getComputedStyle$1(target);
-    width = target.offsetWidth;
-    height = target.offsetHeight;
-    if (isUndefined(width)) {
-      _a3 = getSize(target, style, true), width = _a3[0], height = _a3[1];
-    }
-  }
-  if (target) {
-    var result = calculateMatrixStack(target, container, rootContainer, isAbsolute3d);
-    var position = calculateMoveablePosition(result.allMatrix, result.transformOrigin, width, height);
-    allResult = __assign$2(__assign$2({}, result), position);
-    var rotationPosition = calculateMoveablePosition(result.allMatrix, [50, 50], 100, 100);
-    rotation = getRotationRad([rotationPosition.pos1, rotationPosition.pos2], rotationPosition.direction);
-  }
-  var n = isAbsolute3d ? 4 : 3;
-  return __assign$2({
-    width,
-    height,
-    rotation,
-    rootMatrix: createIdentityMatrix(n),
-    beforeMatrix: createIdentityMatrix(n),
-    offsetMatrix: createIdentityMatrix(n),
-    allMatrix: createIdentityMatrix(n),
-    targetMatrix: createIdentityMatrix(n),
-    targetTransform: "",
-    transformOrigin: [0, 0],
-    targetOrigin: [0, 0],
-    is3d: !!isAbsolute3d,
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    origin: [0, 0],
-    pos1: [0, 0],
-    pos2: [0, 0],
-    pos3: [0, 0],
-    pos4: [0, 0],
-    direction: 1
-  }, allResult);
-}
-function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
-  var _a3;
-  if (rootContainer === void 0) {
-    rootContainer = container;
-  }
-  var _b3 = getMatrixStackInfo(target, container), matrixes = _b3.matrixes, is3d = _b3.is3d, prevTargetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin, targetOrigin = _b3.targetOrigin, offsetContainer = _b3.offsetContainer;
-  var _c3 = getMatrixStackInfo(offsetContainer, rootContainer, true), rootMatrixes = _c3.matrixes, isRoot3d = _c3.is3d;
-  var isNext3d = isAbsolute3d || isRoot3d || is3d;
-  var n = isNext3d ? 4 : 3;
-  var isSVGGraphicElement = target.tagName.toLowerCase() !== "svg" && "ownerSVGElement" in target;
-  var targetMatrix = prevTargetMatrix;
-  var allMatrix = createIdentityMatrix(n);
-  var rootMatrix = createIdentityMatrix(n);
-  var beforeMatrix = createIdentityMatrix(n);
-  var offsetMatrix = createIdentityMatrix(n);
-  var length2 = matrixes.length;
-  rootMatrixes.reverse();
-  matrixes.reverse();
-  if (!is3d && isNext3d) {
-    targetMatrix = convertDimension(targetMatrix, 3, 4);
-    convert3DMatrixes(matrixes);
-  }
-  if (!isRoot3d && isNext3d) {
-    convert3DMatrixes(rootMatrixes);
-  }
-  rootMatrixes.forEach(function(info) {
-    rootMatrix = multiply(rootMatrix, info.matrix, n);
-  });
-  var originalRootContainer = rootContainer || document.body;
-  var endContainer = ((_a3 = rootMatrixes[0]) === null || _a3 === void 0 ? void 0 : _a3.target) || getOffsetInfo(originalRootContainer, originalRootContainer, true).offsetParent;
-  var rootMatrixBeforeOffset = rootMatrixes.slice(1).reduce(function(matrix, info) {
-    return multiply(matrix, info.matrix, n);
-  }, createIdentityMatrix(n));
-  matrixes.forEach(function(info, i2) {
-    if (length2 - 2 === i2) {
-      beforeMatrix = allMatrix.slice();
-    }
-    if (length2 - 1 === i2) {
-      offsetMatrix = allMatrix.slice();
-    }
-    if (!info.matrix) {
-      var nextInfo = matrixes[i2 + 1];
-      var offset = getSVGOffset(info, nextInfo, endContainer, n, multiply(rootMatrixBeforeOffset, allMatrix, n));
-      info.matrix = createOriginMatrix(offset, n);
-    }
-    allMatrix = multiply(allMatrix, info.matrix, n);
-  });
-  var isMatrix3d = !isSVGGraphicElement && is3d;
-  if (!targetMatrix) {
-    targetMatrix = createIdentityMatrix(isMatrix3d ? 4 : 3);
-  }
-  var targetTransform = makeMatrixCSS(isSVGGraphicElement && targetMatrix.length === 16 ? convertDimension(targetMatrix, 4, 3) : targetMatrix, isMatrix3d);
-  rootMatrix = ignoreDimension(rootMatrix, n, n);
-  return {
-    rootMatrix,
-    beforeMatrix,
-    offsetMatrix,
-    allMatrix,
-    targetMatrix,
-    targetTransform,
-    transformOrigin,
-    targetOrigin,
-    is3d: isNext3d
-  };
-}
-function makeMatrixCSS(matrix, is3d) {
-  if (is3d === void 0) {
-    is3d = matrix.length > 9;
-  }
-  return (is3d ? "matrix3d" : "matrix") + "(" + convertMatrixtoCSS(matrix, !is3d).join(",") + ")";
-}
-function getSVGViewBox(el) {
-  var clientWidth = el.clientWidth;
-  var clientHeight = el.clientHeight;
-  if (!el) {
-    return {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      clientWidth,
-      clientHeight
-    };
-  }
-  var viewBox = el.viewBox;
-  var baseVal = viewBox && viewBox.baseVal || {
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0
-  };
-  return {
-    x: baseVal.x,
-    y: baseVal.y,
-    width: baseVal.width || clientWidth,
-    height: baseVal.height || clientHeight,
-    clientWidth,
-    clientHeight
-  };
-}
-function getSVGMatrix(el, n) {
-  var _a3 = getSVGViewBox(el), viewBoxWidth = _a3.width, viewBoxHeight = _a3.height, clientWidth = _a3.clientWidth, clientHeight = _a3.clientHeight;
-  var scaleX = clientWidth / viewBoxWidth;
-  var scaleY = clientHeight / viewBoxHeight;
-  var preserveAspectRatio = el.preserveAspectRatio.baseVal;
-  var align = preserveAspectRatio.align;
-  var meetOrSlice = preserveAspectRatio.meetOrSlice;
-  var svgOrigin = [0, 0];
-  var scale = [scaleX, scaleY];
-  var translate = [0, 0];
-  if (align !== 1) {
-    var xAlign = (align - 2) % 3;
-    var yAlign = Math.floor((align - 2) / 3);
-    svgOrigin[0] = viewBoxWidth * xAlign / 2;
-    svgOrigin[1] = viewBoxHeight * yAlign / 2;
-    var scaleDimension = meetOrSlice === 2 ? Math.max(scaleY, scaleX) : Math.min(scaleX, scaleY);
-    scale[0] = scaleDimension;
-    scale[1] = scaleDimension;
-    translate[0] = (clientWidth - viewBoxWidth) / 2 * xAlign;
-    translate[1] = (clientHeight - viewBoxHeight) / 2 * yAlign;
-  }
-  var scaleMatrix2 = createScaleMatrix(scale, n);
-  scaleMatrix2[n * (n - 1)] = translate[0], scaleMatrix2[n * (n - 1) + 1] = translate[1];
-  return getAbsoluteMatrix(scaleMatrix2, n, svgOrigin);
-}
-function getSVGGraphicsOffset(el, origin) {
-  if (!el.getBBox) {
-    return [0, 0];
-  }
-  var bbox = el.getBBox();
-  var viewBox = getSVGViewBox(el.ownerSVGElement);
-  var left = bbox.x - viewBox.x;
-  var top = bbox.y - viewBox.y;
-  return [left, top, origin[0] - left, origin[1] - top];
-}
-function calculatePosition(matrix, pos, n) {
-  return calculate(matrix, convertPositionMatrix(pos, n), n);
-}
-function calculatePoses(matrix, width, height, n) {
-  return [[0, 0], [width, 0], [0, height], [width, height]].map(function(pos) {
-    return calculatePosition(matrix, pos, n);
-  });
-}
-function getRect(poses) {
-  var posesX = poses.map(function(pos) {
-    return pos[0];
-  });
-  var posesY = poses.map(function(pos) {
-    return pos[1];
-  });
-  var left = Math.min.apply(Math, posesX);
-  var top = Math.min.apply(Math, posesY);
-  var right = Math.max.apply(Math, posesX);
-  var bottom = Math.max.apply(Math, posesY);
-  var rectWidth = right - left;
-  var rectHeight = bottom - top;
-  return {
-    left,
-    top,
-    right,
-    bottom,
-    width: rectWidth,
-    height: rectHeight
-  };
-}
-function calculateRect(matrix, width, height, n) {
-  var poses = calculatePoses(matrix, width, height, n);
-  return getRect(poses);
-}
-function getSVGOffset(offsetInfo, targetInfo, container, n, beforeMatrix) {
-  var _a3;
-  var target = offsetInfo.target;
-  var origin = offsetInfo.origin;
-  var targetMatrix = targetInfo.matrix;
-  var _b3 = getSize(target, void 0, true), width = _b3[0], height = _b3[1];
-  var containerClientRect = container.getBoundingClientRect();
-  var margin = [0, 0];
-  if (container === document.body) {
-    margin = getBodyOffset(target, true);
-  }
-  var rect = target.getBoundingClientRect();
-  var rectLeft = rect.left - containerClientRect.left + container.scrollLeft - (container.clientLeft || 0) + margin[0];
-  var rectTop = rect.top - containerClientRect.top + container.scrollTop - (container.clientTop || 0) + margin[1];
-  var rectWidth = rect.width;
-  var rectHeight = rect.height;
-  var mat = multiplies(n, beforeMatrix, targetMatrix);
-  var _c3 = calculateRect(mat, width, height, n), prevLeft = _c3.left, prevTop = _c3.top, prevWidth = _c3.width, prevHeight = _c3.height;
-  var posOrigin = calculatePosition(mat, origin, n);
-  var prevOrigin = minus(posOrigin, [prevLeft, prevTop]);
-  var rectOrigin = [rectLeft + prevOrigin[0] * rectWidth / prevWidth, rectTop + prevOrigin[1] * rectHeight / prevHeight];
-  var offset = [0, 0];
-  var count = 0;
-  while (++count < 10) {
-    var inverseBeforeMatrix = invert(beforeMatrix, n);
-    _a3 = minus(calculatePosition(inverseBeforeMatrix, rectOrigin, n), calculatePosition(inverseBeforeMatrix, posOrigin, n)), offset[0] = _a3[0], offset[1] = _a3[1];
-    var mat2 = multiplies(n, beforeMatrix, createOriginMatrix(offset, n), targetMatrix);
-    var _d2 = calculateRect(mat2, width, height, n), nextLeft = _d2.left, nextTop = _d2.top;
-    var distLeft = nextLeft - rectLeft;
-    var distTop = nextTop - rectTop;
-    if (Math.abs(distLeft) < 2 && Math.abs(distTop) < 2) {
-      break;
-    }
-    rectOrigin[0] -= distLeft;
-    rectOrigin[1] -= distTop;
-  }
-  return offset.map(function(p2) {
-    return Math.round(p2);
-  });
-}
-function calculateMoveablePosition(matrix, origin, width, height) {
-  var is3d = matrix.length === 16;
-  var n = is3d ? 4 : 3;
-  var poses = calculatePoses(matrix, width, height, n);
-  var _a3 = poses[0], x1 = _a3[0], y1 = _a3[1], _b3 = poses[1], x2 = _b3[0], y2 = _b3[1], _c3 = poses[2], x3 = _c3[0], y3 = _c3[1], _d2 = poses[3], x4 = _d2[0], y4 = _d2[1];
-  var _e = calculatePosition(matrix, origin, n), originX = _e[0], originY = _e[1];
-  var left = Math.min(x1, x2, x3, x4);
-  var top = Math.min(y1, y2, y3, y4);
-  var right = Math.max(x1, x2, x3, x4);
-  var bottom = Math.max(y1, y2, y3, y4);
-  x1 = x1 - left || 0;
-  x2 = x2 - left || 0;
-  x3 = x3 - left || 0;
-  x4 = x4 - left || 0;
-  y1 = y1 - top || 0;
-  y2 = y2 - top || 0;
-  y3 = y3 - top || 0;
-  y4 = y4 - top || 0;
-  originX = originX - left || 0;
-  originY = originY - top || 0;
-  var direction = getShapeDirection(poses);
-  return {
-    left,
-    top,
-    right,
-    bottom,
-    origin: [originX, originY],
-    pos1: [x1, y1],
-    pos2: [x2, y2],
-    pos3: [x3, y3],
-    pos4: [x4, y4],
-    direction
-  };
-}
-function getDistSize(vec) {
-  return Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1]);
-}
-function getDiagonalSize(pos1, pos2) {
-  return getDistSize([pos2[0] - pos1[0], pos2[1] - pos1[1]]);
-}
-function getLineStyle(pos1, pos2, zoom, rad) {
-  if (zoom === void 0) {
-    zoom = 1;
-  }
-  if (rad === void 0) {
-    rad = getRad$1(pos1, pos2);
-  }
-  var width = getDiagonalSize(pos1, pos2);
-  return {
-    transform: "translateY(-50%) translate(" + pos1[0] + "px, " + pos1[1] + "px) rotate(" + rad + "rad) scaleY(" + zoom + ")",
-    width: width + "px"
-  };
-}
-function getControlTransform(rotation, zoom) {
-  var poses = [];
-  for (var _i = 2; _i < arguments.length; _i++) {
-    poses[_i - 2] = arguments[_i];
-  }
-  var length2 = poses.length;
-  var x2 = poses.reduce(function(prev2, pos) {
-    return prev2 + pos[0];
-  }, 0) / length2;
-  var y2 = poses.reduce(function(prev2, pos) {
-    return prev2 + pos[1];
-  }, 0) / length2;
-  return {
-    transform: "translateZ(0px) translate(" + x2 + "px, " + y2 + "px) rotate(" + rotation + "rad) scale(" + zoom + ")"
-  };
-}
-function getCSSSize(target) {
-  var style = getComputedStyle$1(target);
-  return [parseFloat(style.width), parseFloat(style.height)];
-}
-function getSize(target, style, isOffset, isBoxSizing) {
-  if (style === void 0) {
-    style = getComputedStyle$1(target);
-  }
-  if (isBoxSizing === void 0) {
-    isBoxSizing = isOffset || style.boxSizing === "border-box";
-  }
-  var width = target.offsetWidth;
-  var height = target.offsetHeight;
-  var hasOffset = !isUndefined(width);
-  if ((isOffset || isBoxSizing) && hasOffset) {
-    return [width, height];
-  }
-  if (!hasOffset && target.tagName.toLowerCase() !== "svg") {
-    var bbox = target.getBBox();
-    return [bbox.width, bbox.height];
-  }
-  width = target.clientWidth;
-  height = target.clientHeight;
-  if (isOffset || isBoxSizing) {
-    var borderLeft = parseFloat(style.borderLeftWidth) || 0;
-    var borderRight = parseFloat(style.borderRightWidth) || 0;
-    var borderTop = parseFloat(style.borderTopWidth) || 0;
-    var borderBottom = parseFloat(style.borderBottomWidth) || 0;
-    return [width + borderLeft + borderRight, height + borderTop + borderBottom];
-  } else {
-    var paddingLeft = parseFloat(style.paddingLeft) || 0;
-    var paddingRight = parseFloat(style.paddingRight) || 0;
-    var paddingTop = parseFloat(style.paddingTop) || 0;
-    var paddingBottom = parseFloat(style.paddingBottom) || 0;
-    return [width - paddingLeft - paddingRight, height - paddingTop - paddingBottom];
-  }
-}
-function getRotationRad(poses, direction) {
-  return getRad$1(direction > 0 ? poses[0] : poses[1], direction > 0 ? poses[1] : poses[0]);
-}
-function getTargetInfo(moveableElement, target, container, parentContainer, rootContainer) {
-  var beforeDirection = 1;
-  var beforeOrigin = [0, 0];
-  var targetClientRect = resetClientRect();
-  var containerClientRect = resetClientRect();
-  var moveableClientRect = resetClientRect();
-  var result = calculateElementInfo(target, container, rootContainer, false);
-  if (target) {
-    var n = result.is3d ? 4 : 3;
-    var beforePosition = calculateMoveablePosition(result.offsetMatrix, plus(result.transformOrigin, getOrigin(result.targetMatrix, n)), result.width, result.height);
-    beforeDirection = beforePosition.direction;
-    beforeOrigin = plus(beforePosition.origin, [beforePosition.left - result.left, beforePosition.top - result.top]);
-    targetClientRect = getClientRect(target);
-    containerClientRect = getClientRect(getOffsetInfo(parentContainer, parentContainer, true).offsetParent || document.body, true);
-    if (moveableElement) {
-      moveableClientRect = getClientRect(moveableElement);
-    }
-  }
-  return __assign$2({
-    targetClientRect,
-    containerClientRect,
-    moveableClientRect,
-    beforeDirection,
-    beforeOrigin,
-    originalBeforeOrigin: beforeOrigin,
-    target
-  }, result);
-}
-function resetClientRect() {
-  return {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    width: 0,
-    height: 0,
-    clientLeft: 0,
-    clientTop: 0,
-    clientWidth: 0,
-    clientHeight: 0,
-    scrollWidth: 0,
-    scrollHeight: 0
-  };
-}
-function getClientRect(el, isExtends) {
-  var left = 0;
-  var top = 0;
-  var width = 0;
-  var height = 0;
-  if (el === document.body || el === document.documentElement) {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    left = -(document.documentElement.scrollLeft || document.body.scrollLeft);
-    top = -(document.documentElement.scrollTop || document.body.scrollTop);
-  } else {
-    var clientRect = el.getBoundingClientRect();
-    left = clientRect.left;
-    top = clientRect.top;
-    width = clientRect.width;
-    height = clientRect.height;
-  }
-  var rect = {
-    left,
-    right: left + width,
-    top,
-    bottom: top + height,
-    width,
-    height
-  };
-  if (isExtends) {
-    rect.clientLeft = el.clientLeft;
-    rect.clientTop = el.clientTop;
-    rect.clientWidth = el.clientWidth;
-    rect.clientHeight = el.clientHeight;
-    rect.scrollWidth = el.scrollWidth;
-    rect.scrollHeight = el.scrollHeight;
-    rect.overflow = getComputedStyle$1(el).overflow !== "visible";
-  }
-  return rect;
-}
-function getDirection(target) {
-  if (!target) {
-    return;
-  }
-  var direciton = target.getAttribute("data-direction");
-  if (!direciton) {
-    return;
-  }
-  var dir = [0, 0];
-  direciton.indexOf("w") > -1 && (dir[0] = -1);
-  direciton.indexOf("e") > -1 && (dir[0] = 1);
-  direciton.indexOf("n") > -1 && (dir[1] = -1);
-  direciton.indexOf("s") > -1 && (dir[1] = 1);
-  return dir;
-}
-function getAbsolutePoses(poses, dist) {
-  return [plus(dist, poses[0]), plus(dist, poses[1]), plus(dist, poses[2]), plus(dist, poses[3])];
-}
-function getAbsolutePosesByState(_a3) {
-  var left = _a3.left, top = _a3.top, pos1 = _a3.pos1, pos2 = _a3.pos2, pos3 = _a3.pos3, pos4 = _a3.pos4;
-  return getAbsolutePoses([pos1, pos2, pos3, pos4], [left, top]);
-}
-function roundSign(num) {
-  return Math.round(num % 1 === -0.5 ? num - 1 : num);
-}
-function unset(self2, name2) {
-  var _a3;
-  (_a3 = self2[name2]) === null || _a3 === void 0 ? void 0 : _a3.unset();
-  self2[name2] = null;
-}
-function fillParams(moveable, e, params) {
-  var datas = e.datas;
-  if (!datas.datas) {
-    datas.datas = {};
-  }
-  var nextParams = __assign$2(__assign$2({}, params), {
-    target: moveable.state.target,
-    clientX: e.clientX,
-    clientY: e.clientY,
-    inputEvent: e.inputEvent,
-    currentTarget: moveable,
-    moveable,
-    datas: datas.datas
-  });
-  if (datas.isStartEvent) {
-    datas.lastEvent = nextParams;
-  } else {
-    datas.isStartEvent = true;
-  }
-  return nextParams;
-}
-function fillEndParams(moveable, e, params) {
-  var datas = e.datas;
-  var isDrag = "isDrag" in params ? params.isDrag : e.isDrag;
-  if (!datas.datas) {
-    datas.datas = {};
-  }
-  return __assign$2(__assign$2({
-    isDrag
-  }, params), {
-    moveable,
-    target: moveable.state.target,
-    clientX: e.clientX,
-    clientY: e.clientY,
-    inputEvent: e.inputEvent,
-    currentTarget: moveable,
-    lastEvent: datas.lastEvent,
-    isDouble: e.isDouble,
-    datas: datas.datas
-  });
-}
-function triggerEvent(moveable, name2, params, isManager) {
-  return moveable.triggerEvent(name2, params, isManager);
-}
-function getComputedStyle$1(el, pseudoElt) {
-  return window.getComputedStyle(el, pseudoElt);
-}
-function filterAbles(ables, methods, triggerAblesSimultaneously) {
-  var enabledAbles = {};
-  var ableGroups = {};
-  return ables.filter(function(able) {
-    var name2 = able.name;
-    if (enabledAbles[name2] || !methods.some(function(method) {
-      return able[method];
-    })) {
-      return false;
-    }
-    if (!triggerAblesSimultaneously && able.ableGroup) {
-      if (ableGroups[able.ableGroup]) {
-        return false;
-      }
-      ableGroups[able.ableGroup] = true;
-    }
-    enabledAbles[name2] = true;
-    return true;
-  });
-}
-function equals(a1, a2) {
-  return a1 === a2 || a1 == null && a2 == null;
-}
-function selectValue() {
-  var values = [];
-  for (var _i = 0; _i < arguments.length; _i++) {
-    values[_i] = arguments[_i];
-  }
-  var length2 = values.length - 1;
-  for (var i2 = 0; i2 < length2; ++i2) {
-    var value = values[i2];
-    if (!isUndefined(value)) {
-      return value;
-    }
-  }
-  return values[length2];
-}
-function groupBy(arr, func) {
-  var groups = [];
-  var groupKeys = [];
-  arr.forEach(function(el, index) {
-    var groupKey = func(el, index, arr);
-    var keyIndex = groupKeys.indexOf(groupKey);
-    var group = groups[keyIndex] || [];
-    if (keyIndex === -1) {
-      groupKeys.push(groupKey);
-      groups.push(group);
-    }
-    group.push(el);
-  });
-  return groups;
-}
-function groupByMap(arr, func) {
-  var groups = [];
-  var groupKeys = {};
-  arr.forEach(function(el, index) {
-    var groupKey = func(el, index, arr);
-    var group = groupKeys[groupKey];
-    if (!group) {
-      group = [];
-      groupKeys[groupKey] = group;
-      groups.push(group);
-    }
-    group.push(el);
-  });
-  return groups;
-}
-function flat(arr) {
-  return arr.reduce(function(prev2, cur) {
-    return prev2.concat(cur);
-  }, []);
-}
-function maxOffset() {
-  var args = [];
-  for (var _i = 0; _i < arguments.length; _i++) {
-    args[_i] = arguments[_i];
-  }
-  args.sort(function(a2, b2) {
-    return Math.abs(b2) - Math.abs(a2);
-  });
-  return args[0];
-}
-function calculateInversePosition(matrix, pos, n) {
-  return calculate(invert(matrix, n), convertPositionMatrix(pos, n), n);
-}
-function convertDragDist(state, e) {
-  var _a3;
-  var is3d = state.is3d, rootMatrix = state.rootMatrix;
-  var n = is3d ? 4 : 3;
-  _a3 = calculateInversePosition(rootMatrix, [e.distX, e.distY], n), e.distX = _a3[0], e.distY = _a3[1];
-  return e;
-}
-function calculatePadding(matrix, pos, transformOrigin, origin, n) {
-  return minus(calculatePosition(matrix, plus(transformOrigin, pos), n), origin);
-}
-function convertCSSSize(value, size, isRelative) {
-  return isRelative ? value / size * 100 + "%" : value + "px";
-}
-function moveControlPos(controlPoses, index, dist, isRect) {
-  var _a3 = controlPoses[index], direction = _a3.direction, sub = _a3.sub;
-  var dists = controlPoses.map(function() {
-    return [0, 0];
-  });
-  var directions = direction ? direction.split("") : [];
-  if (isRect && index < 8) {
-    var verticalDirection_1 = directions.filter(function(dir) {
-      return dir === "w" || dir === "e";
-    })[0];
-    var horizontalDirection_1 = directions.filter(function(dir) {
-      return dir === "n" || dir === "s";
-    })[0];
-    dists[index] = dist;
-    controlPoses.forEach(function(controlPose, i2) {
-      var controlDir = controlPose.direction;
-      if (!controlDir) {
-        return;
-      }
-      if (controlDir.indexOf(verticalDirection_1) > -1) {
-        dists[i2][0] = dist[0];
-      }
-      if (controlDir.indexOf(horizontalDirection_1) > -1) {
-        dists[i2][1] = dist[1];
-      }
-    });
-    if (verticalDirection_1) {
-      dists[1][0] = dist[0] / 2;
-      dists[5][0] = dist[0] / 2;
-    }
-    if (horizontalDirection_1) {
-      dists[3][1] = dist[1] / 2;
-      dists[7][1] = dist[1] / 2;
-    }
-  } else if (direction && !sub) {
-    directions.forEach(function(dir) {
-      var isVertical = dir === "n" || dir === "s";
-      controlPoses.forEach(function(controlPose, i2) {
-        var dirDir = controlPose.direction, dirHorizontal = controlPose.horizontal, dirVertical = controlPose.vertical;
-        if (!dirDir || dirDir.indexOf(dir) === -1) {
-          return;
-        }
-        dists[i2] = [isVertical || !dirHorizontal ? 0 : dist[0], !isVertical || !dirVertical ? 0 : dist[1]];
-      });
-    });
-  } else {
-    dists[index] = dist;
-  }
-  return dists;
-}
-function getTinyDist(v2) {
-  return Math.abs(v2) <= TINY_NUM ? 0 : v2;
-}
-function directionCondition(moveable, e) {
-  if (e.isRequest) {
-    if (e.requestAble === "resizable" || e.requestAble === "scalable") {
-      return e.parentDirection;
-    } else {
-      return false;
-    }
-  }
-  return hasClass(e.inputEvent.target, prefix("direction"));
-}
-function invertObject(obj) {
-  var nextObj = {};
-  for (var name2 in obj) {
-    nextObj[obj[name2]] = name2;
-  }
-  return nextObj;
-}
-function getTransform(transforms, index) {
-  var beforeFunctionTexts = transforms.slice(0, index < 0 ? void 0 : index);
-  var beforeFunctionTexts2 = transforms.slice(0, index < 0 ? void 0 : index + 1);
-  var targetFunctionText = transforms[index] || "";
-  var afterFunctionTexts = index < 0 ? [] : transforms.slice(index);
-  var afterFunctionTexts2 = index < 0 ? [] : transforms.slice(index + 1);
-  var beforeFunctions = parse(beforeFunctionTexts);
-  var beforeFunctions2 = parse(beforeFunctionTexts2);
-  var targetFunctions = parse([targetFunctionText]);
-  var afterFunctions = parse(afterFunctionTexts);
-  var afterFunctions2 = parse(afterFunctionTexts2);
-  var beforeFunctionMatrix = toMat(beforeFunctions);
-  var beforeFunctionMatrix2 = toMat(beforeFunctions2);
-  var afterFunctionMatrix = toMat(afterFunctions);
-  var afterFunctionMatrix2 = toMat(afterFunctions2);
-  var allFunctionMatrix = multiply(beforeFunctionMatrix, afterFunctionMatrix, 4);
-  return {
-    transforms,
-    beforeFunctionMatrix,
-    beforeFunctionMatrix2,
-    targetFunctionMatrix: toMat(targetFunctions),
-    afterFunctionMatrix,
-    afterFunctionMatrix2,
-    allFunctionMatrix,
-    beforeFunctions,
-    beforeFunctions2,
-    targetFunction: targetFunctions[0],
-    afterFunctions,
-    afterFunctions2,
-    beforeFunctionTexts,
-    beforeFunctionTexts2,
-    targetFunctionText,
-    afterFunctionTexts,
-    afterFunctionTexts2
-  };
-}
-function isArrayFormat(arr) {
-  if (!arr || !isObject$2(arr)) {
-    return false;
-  }
-  return isArray(arr) || "length" in arr;
-}
-function getRefTarget(target, isSelector) {
-  if (!target) {
-    return null;
-  }
-  if (isString(target)) {
-    if (isSelector) {
-      return document.querySelector(target);
-    }
-    return target;
-  }
-  if (isFunction$2(target)) {
-    return target();
-  }
-  if ("current" in target) {
-    return target.current;
-  }
-  return target;
-}
-function getRefTargets(targets, isSelector) {
-  if (!targets) {
-    return [];
-  }
-  var userTargets = isArrayFormat(targets) ? [].slice.call(targets) : [targets];
-  return userTargets.reduce(function(prev2, target) {
-    if (isString(target) && isSelector) {
-      return __spreadArray(__spreadArray([], prev2), [].slice.call(document.querySelectorAll(target)));
-    }
-    prev2.push(getRefTarget(target, isSelector));
-    return prev2;
-  }, []);
-}
-function getElementTargets(targets, selectorMap) {
-  var elementTargets = [];
-  targets.forEach(function(target) {
-    if (!target) {
-      return;
-    }
-    if (isString(target)) {
-      if (selectorMap[target]) {
-        elementTargets.push.apply(elementTargets, selectorMap[target]);
-      }
-      return;
-    }
-    elementTargets.push(target);
-  });
-  return elementTargets;
-}
-function getAbsoluteRotation(pos1, pos2, direction) {
-  var deg = getRad$1(pos1, pos2) / Math.PI * 180;
-  deg = direction >= 0 ? deg : 180 - deg;
-  deg = deg >= 0 ? deg : 360 + deg;
-  return deg;
-}
-function getDragDistByState(state, dist) {
-  var rootMatrix = state.rootMatrix, is3d = state.is3d;
-  var n = is3d ? 4 : 3;
-  var inverseMatrix = invert(rootMatrix, n);
-  if (!is3d) {
-    inverseMatrix = convertDimension(inverseMatrix, 3, 4);
-  }
-  inverseMatrix[12] = 0;
-  inverseMatrix[13] = 0;
-  inverseMatrix[14] = 0;
-  return calculateMatrixDist(inverseMatrix, dist);
-}
-var Pinchable = makeAble("pinchable", {
-  events: {
-    onPinchStart: "pinchStart",
-    onPinch: "pinch",
-    onPinchEnd: "pinchEnd",
-    onPinchGroupStart: "pinchGroupStart",
-    onPinchGroup: "pinchGroup",
-    onPinchGroupEnd: "pinchGroupEnd"
-  },
-  dragStart: function() {
-    return true;
-  },
-  pinchStart: function(moveable, e) {
-    var datas = e.datas, targets = e.targets, angle = e.angle, originalDatas = e.originalDatas;
-    var _a3 = moveable.props, pinchable = _a3.pinchable, ables = _a3.ables;
-    if (!pinchable) {
-      return false;
-    }
-    var eventName = "onPinch" + (targets ? "Group" : "") + "Start";
-    var controlEventName = "drag" + (targets ? "Group" : "") + "ControlStart";
-    var pinchAbles = (pinchable === true ? moveable.controlAbles : ables.filter(function(able) {
-      return pinchable.indexOf(able.name) > -1;
-    })).filter(function(able) {
-      return able.canPinch && able[controlEventName];
-    });
-    var params = fillParams(moveable, e, {});
-    if (targets) {
-      params.targets = targets;
-    }
-    var result = triggerEvent(moveable, eventName, params);
-    datas.isPinch = result !== false;
-    datas.ables = pinchAbles;
-    var isPinch = datas.isPinch;
-    if (!isPinch) {
-      return false;
-    }
-    pinchAbles.forEach(function(able) {
-      originalDatas[able.name] = originalDatas[able.name] || {};
-      if (!able[controlEventName]) {
-        return;
-      }
-      var ableEvent = __assign$2(__assign$2({}, e), {
-        datas: originalDatas[able.name],
-        parentRotate: angle,
-        isPinch: true
-      });
-      able[controlEventName](moveable, ableEvent);
-    });
-    moveable.state.snapRenderInfo = {
-      request: e.isRequest,
-      direction: [0, 0]
-    };
-    return isPinch;
-  },
-  pinch: function(moveable, e) {
-    var datas = e.datas, pinchScale = e.scale, distance = e.distance, originalDatas = e.originalDatas, inputEvent = e.inputEvent, targets = e.targets, angle = e.angle;
-    if (!datas.isPinch) {
-      return;
-    }
-    var parentDistance = distance * (1 - 1 / pinchScale);
-    var params = fillParams(moveable, e, {});
-    if (targets) {
-      params.targets = targets;
-    }
-    var eventName = "onPinch" + (targets ? "Group" : "");
-    triggerEvent(moveable, eventName, params);
-    var ables = datas.ables;
-    var controlEventName = "drag" + (targets ? "Group" : "") + "Control";
-    ables.forEach(function(able) {
-      if (!able[controlEventName]) {
-        return;
-      }
-      able[controlEventName](moveable, __assign$2(__assign$2({}, e), {
-        datas: originalDatas[able.name],
-        inputEvent,
-        parentDistance,
-        parentRotate: angle,
-        isPinch: true
-      }));
-    });
-    return params;
-  },
-  pinchEnd: function(moveable, e) {
-    var datas = e.datas, isPinch = e.isPinch, inputEvent = e.inputEvent, targets = e.targets, originalDatas = e.originalDatas;
-    if (!datas.isPinch) {
-      return;
-    }
-    var eventName = "onPinch" + (targets ? "Group" : "") + "End";
-    var params = fillEndParams(moveable, e, {
-      isDrag: isPinch
-    });
-    if (targets) {
-      params.targets = targets;
-    }
-    triggerEvent(moveable, eventName, params);
-    var ables = datas.ables;
-    var controlEventName = "drag" + (targets ? "Group" : "") + "ControlEnd";
-    ables.forEach(function(able) {
-      if (!able[controlEventName]) {
-        return;
-      }
-      able[controlEventName](moveable, __assign$2(__assign$2({}, e), {
-        isDrag: isPinch,
-        datas: originalDatas[able.name],
-        inputEvent,
-        isPinch: true
-      }));
-    });
-    return isPinch;
-  },
-  pinchGroupStart: function(moveable, e) {
-    return this.pinchStart(moveable, __assign$2(__assign$2({}, e), {
-      targets: moveable.props.targets
-    }));
-  },
-  pinchGroup: function(moveable, e) {
-    return this.pinch(moveable, __assign$2(__assign$2({}, e), {
-      targets: moveable.props.targets
-    }));
-  },
-  pinchGroupEnd: function(moveable, e) {
-    return this.pinchEnd(moveable, __assign$2(__assign$2({}, e), {
-      targets: moveable.props.targets
-    }));
-  }
-});
 function setCustomDrag(e, state, delta, isPinch, isConvert) {
   var result = state.gesto.move(delta, e.inputEvent);
   var datas = result.originalDatas || result.datas;
   var draggableDatas = datas.draggable || (datas.draggable = {});
-  return __assign$2(__assign$2({}, isConvert ? convertDragDist(state, result) : result), {
+  return __assign$1$1(__assign$1$1({}, isConvert ? convertDragDist(state, result) : result), {
     isDrag: true,
     isPinch: !!isPinch,
     parentEvent: true,
@@ -37987,7 +37002,7 @@ var CustomGesto = /* @__PURE__ */ function() {
     if (!originalDatas.draggable) {
       originalDatas.draggable = {};
     }
-    return __assign$2(__assign$2({}, this.move(client, e.inputEvent)), {
+    return __assign$1$1(__assign$1$1({}, this.move(client, e.inputEvent)), {
       type: "dragstart"
     });
   };
@@ -38039,7 +37054,7 @@ function fillChildEvents(moveable, name2, e) {
   return moveable.moveables.map(function(_2, i2) {
     childDatas[i2] = childDatas[i2] || {};
     childDatas[i2][name2] = childDatas[i2][name2] || {};
-    return __assign$2(__assign$2({}, e), {
+    return __assign$1$1(__assign$1$1({}, e), {
       datas: childDatas[i2][name2],
       originalDatas: childDatas[i2]
     });
@@ -38063,7 +37078,7 @@ function triggerChildGesto(moveable, able, type, delta, e, isConvert) {
       }
       childEvent = setCustomDrag(ev, childMoveable.state, delta, isPinch, isConvert);
     }
-    var result = able[type](childMoveable, __assign$2(__assign$2({}, childEvent), {
+    var result = able[type](childMoveable, __assign$1$1(__assign$1$1({}, childEvent), {
       parentFlag: true
     }));
     if (isEnd) {
@@ -38091,7 +37106,7 @@ function triggerChildAbles(moveable, able, type, e, eachEvent, callback) {
     var childMoveable = moveables[i2];
     var childEvent = ev;
     childEvent = eachEvent(childMoveable, ev);
-    var result = able[type](childMoveable, __assign$2(__assign$2({}, childEvent), {
+    var result = able[type](childMoveable, __assign$1$1(__assign$1$1({}, childEvent), {
       parentFlag: true
     }));
     result && callback && callback(childMoveable, ev, result, i2);
@@ -38102,291 +37117,465 @@ function triggerChildAbles(moveable, able, type, e, eachEvent, callback) {
   });
   return childs;
 }
-function calculatePointerDist(moveable, e) {
-  var clientX = e.clientX, clientY = e.clientY, datas = e.datas;
-  var _a3 = moveable.state, moveableClientRect = _a3.moveableClientRect, rootMatrix = _a3.rootMatrix, is3d = _a3.is3d, pos1 = _a3.pos1;
-  var left = moveableClientRect.left, top = moveableClientRect.top;
-  var n = is3d ? 4 : 3;
-  var _b3 = minus(calculateInversePosition(rootMatrix, [clientX - left, clientY - top], n), pos1), posX = _b3[0], posY = _b3[1];
-  var _c3 = getDragDist({
-    datas,
-    distX: posX,
-    distY: posY
-  }), distX = _c3[0], distY = _c3[1];
-  return [distX, distY];
-}
-function setDragStart(moveable, _a3) {
-  var datas = _a3.datas;
-  var _b3 = moveable.state, allMatrix = _b3.allMatrix, beforeMatrix = _b3.beforeMatrix, is3d = _b3.is3d, left = _b3.left, top = _b3.top, origin = _b3.origin, offsetMatrix = _b3.offsetMatrix, targetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin;
-  var n = is3d ? 4 : 3;
-  datas.is3d = is3d;
-  datas.matrix = allMatrix;
-  datas.targetMatrix = targetMatrix;
-  datas.beforeMatrix = beforeMatrix;
-  datas.offsetMatrix = offsetMatrix;
-  datas.transformOrigin = transformOrigin;
-  datas.inverseMatrix = invert(allMatrix, n);
-  datas.inverseBeforeMatrix = invert(beforeMatrix, n);
-  datas.absoluteOrigin = convertPositionMatrix(plus([left, top], origin), n);
-  datas.startDragBeforeDist = calculate(datas.inverseBeforeMatrix, datas.absoluteOrigin, n);
-  datas.startDragDist = calculate(datas.inverseMatrix, datas.absoluteOrigin, n);
-}
-function getTransformDirection(e) {
-  return calculateMoveablePosition(e.datas.beforeTransform, [50, 50], 100, 100).direction;
-}
-function resolveTransformEvent(event, functionName) {
-  var datas = event.datas, originalDatas = event.originalDatas.beforeRenderable;
-  var index = datas.transformIndex;
-  var nextTransforms = originalDatas.nextTransforms;
-  var nextTransformAppendedIndexes = originalDatas.nextTransformAppendedIndexes;
-  var nextIndex = 0;
-  if (index === -1) {
-    nextIndex = nextTransforms.length;
-    datas.transformIndex = nextIndex;
-  } else {
-    nextIndex = index + nextTransformAppendedIndexes.filter(function(i2) {
-      return i2 < index;
-    }).length;
+function renderDirectionControls(moveable, defaultDirections, React, additionalClassName) {
+  if (additionalClassName === void 0) {
+    additionalClassName = "";
   }
-  var result = getTransform(nextTransforms, nextIndex);
-  var targetFunction = result.targetFunction;
-  var matFunctionName = functionName === "rotate" ? "rotateZ" : functionName;
-  datas.beforeFunctionTexts = result.beforeFunctionTexts;
-  datas.afterFunctionTexts = result.afterFunctionTexts;
-  datas.beforeTransform = result.beforeFunctionMatrix;
-  datas.beforeTransform2 = result.beforeFunctionMatrix2;
-  datas.targetTansform = result.targetFunctionMatrix;
-  datas.afterTransform = result.afterFunctionMatrix;
-  datas.afterTransform2 = result.afterFunctionMatrix2;
-  datas.targetAllTransform = result.allFunctionMatrix;
-  if (targetFunction.functionName === matFunctionName) {
-    datas.afterFunctionTexts.splice(0, 1);
-    datas.isAppendTransform = false;
-  } else {
-    datas.isAppendTransform = true;
-    originalDatas.nextTransformAppendedIndexes = __spreadArray(__spreadArray([], nextTransformAppendedIndexes), [nextIndex]);
+  var _a3 = moveable.state, renderPoses = _a3.renderPoses, rotationRad = _a3.rotation, direction = _a3.direction;
+  var _b3 = moveable.props, _c3 = _b3.renderDirections, directions = _c3 === void 0 ? defaultDirections : _c3, zoom = _b3.zoom;
+  var directionMap = {};
+  if (!directions) {
+    return [];
   }
-}
-function convertTransformFormat(datas, value, dist) {
-  return datas.beforeFunctionTexts.join(" ") + " " + (datas.isAppendTransform ? dist : value) + " " + datas.afterFunctionTexts.join(" ");
-}
-function getTransformDist(_a3) {
-  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
-  var _b3 = getBeforeDragDist({
-    datas,
-    distX,
-    distY
-  }), bx = _b3[0], by = _b3[1];
-  var res = getTransfromMatrix(datas, fromTranslation([bx, by], 4));
-  return calculate(res, convertPositionMatrix([0, 0, 0], 4), 4);
-}
-function getTransfromMatrix(datas, targetMatrix, isAfter) {
-  var beforeTransform = datas.beforeTransform, afterTransform = datas.afterTransform, beforeTransform2 = datas.beforeTransform2, afterTransform2 = datas.afterTransform2, targetAllTransform = datas.targetAllTransform;
-  var nextTargetMatrix = isAfter ? multiply(targetAllTransform, targetMatrix, 4) : multiply(targetMatrix, targetAllTransform, 4);
-  var res1 = multiply(invert(isAfter ? beforeTransform2 : beforeTransform, 4), nextTargetMatrix, 4);
-  var afterTargetMatrix = multiply(res1, invert(isAfter ? afterTransform2 : afterTransform, 4), 4);
-  return afterTargetMatrix;
-}
-function getBeforeDragDist(_a3) {
-  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
-  var inverseBeforeMatrix = datas.inverseBeforeMatrix, is3d = datas.is3d, startDragBeforeDist = datas.startDragBeforeDist, absoluteOrigin = datas.absoluteOrigin;
-  var n = is3d ? 4 : 3;
-  return minus(calculate(inverseBeforeMatrix, plus(absoluteOrigin, [distX, distY]), n), startDragBeforeDist);
-}
-function getDragDist(_a3, isBefore) {
-  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
-  var inverseBeforeMatrix = datas.inverseBeforeMatrix, inverseMatrix = datas.inverseMatrix, is3d = datas.is3d, startDragBeforeDist = datas.startDragBeforeDist, startDragDist = datas.startDragDist, absoluteOrigin = datas.absoluteOrigin;
-  var n = is3d ? 4 : 3;
-  return minus(calculate(isBefore ? inverseBeforeMatrix : inverseMatrix, plus(absoluteOrigin, [distX, distY]), n), isBefore ? startDragBeforeDist : startDragDist);
-}
-function getInverseDragDist(_a3, isBefore) {
-  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
-  var beforeMatrix = datas.beforeMatrix, matrix = datas.matrix, is3d = datas.is3d, startDragBeforeDist = datas.startDragBeforeDist, startDragDist = datas.startDragDist, absoluteOrigin = datas.absoluteOrigin;
-  var n = is3d ? 4 : 3;
-  return minus(calculate(isBefore ? beforeMatrix : matrix, plus(isBefore ? startDragBeforeDist : startDragDist, [distX, distY]), n), absoluteOrigin);
-}
-function calculateTransformOrigin(transformOrigin, width, height, prevWidth, prevHeight, prevOrigin) {
-  if (prevWidth === void 0) {
-    prevWidth = width;
-  }
-  if (prevHeight === void 0) {
-    prevHeight = height;
-  }
-  if (prevOrigin === void 0) {
-    prevOrigin = [0, 0];
-  }
-  if (!transformOrigin) {
-    return prevOrigin;
-  }
-  return transformOrigin.map(function(pos, i2) {
-    var _a3 = splitUnit(pos), value = _a3.value, unit = _a3.unit;
-    var prevSize = i2 ? prevHeight : prevWidth;
-    var size = i2 ? height : width;
-    if (pos === "%" || isNaN(value)) {
-      var measureRatio = prevSize ? prevOrigin[i2] / prevSize : 0;
-      return size * measureRatio;
-    } else if (unit !== "%") {
-      return value;
+  var sign2 = direction > 0 ? 1 : -1;
+  var renderDirections = directions === true ? DIRECTIONS : directions;
+  var degRotation = rotationRad / Math.PI * 180;
+  renderDirections.forEach(function(dir) {
+    directionMap[dir] = true;
+  });
+  return renderDirections.map(function(dir) {
+    var indexes = DIRECTION_INDEXES[dir];
+    if (!indexes || !directionMap[dir]) {
+      return null;
     }
-    return size * value / 100;
+    var directionRotation = (throttle(degRotation, 15) + sign2 * DIRECTION_ROTATIONS[dir] + 720) % 180;
+    return React.createElement("div", {
+      className: prefix("control", "direction", dir, additionalClassName),
+      "data-rotation": directionRotation,
+      "data-direction": dir,
+      key: "direction-".concat(dir),
+      style: getControlTransform.apply(void 0, __spreadArray([rotationRad, zoom], indexes.map(function(index) {
+        return renderPoses[index];
+      }), false))
+    });
   });
 }
-function getPosIndexesByDirection(direction) {
-  var indexes = [];
-  if (direction[1] >= 0) {
-    if (direction[0] >= 0) {
-      indexes.push(3);
-    }
-    if (direction[0] <= 0) {
-      indexes.push(2);
-    }
+function renderLine(React, direction, pos1, pos2, zoom, key) {
+  var classNames = [];
+  for (var _i = 6; _i < arguments.length; _i++) {
+    classNames[_i - 6] = arguments[_i];
   }
-  if (direction[1] <= 0) {
-    if (direction[0] >= 0) {
-      indexes.push(1);
-    }
-    if (direction[0] <= 0) {
-      indexes.push(0);
-    }
-  }
-  return indexes;
-}
-function getPosesByDirection(poses, direction) {
-  return getPosIndexesByDirection(direction).map(function(index) {
-    return poses[index];
+  var rad = getRad$1(pos1, pos2);
+  var rotation = direction ? throttle(rad / Math.PI * 180, 15) % 180 : -1;
+  return React.createElement("div", {
+    key: "line".concat(key),
+    className: prefix.apply(void 0, __spreadArray(["line", "direction", direction], classNames, false)),
+    "data-rotation": rotation,
+    "data-line-index": key,
+    "data-direction": direction,
+    style: getLineStyle(pos1, pos2, zoom, rad)
   });
 }
-function getPosByDirection(poses, direction) {
-  var nextPoses = getPosesByDirection(poses, direction);
-  return [average(nextPoses.map(function(pos) {
-    return pos[0];
-  })), average(nextPoses.map(function(pos) {
-    return pos[1];
-  }))];
+function renderAllDirections(moveable, React) {
+  return renderDirectionControls(moveable, DIRECTIONS, React);
 }
-function getPosByReverseDirection(poses, direction) {
-  return getPosByDirection(poses, direction.map(function(dir) {
-    return -dir;
-  }));
+function renderDiagonalDirections(moveable, React) {
+  return renderDirectionControls(moveable, ["nw", "ne", "sw", "se"], React);
 }
-function getDist(startPos, matrix, width, height, n, fixedDirection) {
-  var poses = calculatePoses(matrix, width, height, n);
-  var fixedPos = getPosByDirection(poses, fixedDirection);
-  var distX = startPos[0] - fixedPos[0];
-  var distY = startPos[1] - fixedPos[1];
-  return [distX, distY];
+function setRotateStartInfo(moveable, datas, clientX, clientY, origin, rect) {
+  var n = moveable.state.is3d ? 4 : 3;
+  var nextOrigin = calculatePosition(moveable.state.rootMatrix, origin, n);
+  var startAbsoluteOrigin = plus([rect.left, rect.top], nextOrigin);
+  datas.startAbsoluteOrigin = startAbsoluteOrigin;
+  datas.prevDeg = getRad$1(startAbsoluteOrigin, [clientX, clientY]) / Math.PI * 180;
+  datas.defaultDeg = datas.prevDeg;
+  datas.prevSnapDeg = 0;
+  datas.loop = 0;
 }
-function getNextMatrix(offsetMatrix, targetMatrix, origin, n) {
-  return multiply(offsetMatrix, getAbsoluteMatrix(targetMatrix, n, origin), n);
+function getAbsoluteDist(deg, direction, datas) {
+  var defaultDeg = datas.defaultDeg, prevDeg = datas.prevDeg;
+  var normalizedPrevDeg = prevDeg % 360;
+  var loop = Math.floor(prevDeg / 360);
+  if (normalizedPrevDeg < 0) {
+    normalizedPrevDeg += 360;
+  }
+  if (normalizedPrevDeg > deg && normalizedPrevDeg > 270 && deg < 90) {
+    ++loop;
+  } else if (normalizedPrevDeg < deg && normalizedPrevDeg < 90 && deg > 270) {
+    --loop;
+  }
+  var dist = direction * (loop * 360 + deg - defaultDeg);
+  datas.prevDeg = defaultDeg + dist;
+  return dist;
 }
-function getNextTransformMatrix(state, datas, transform) {
-  var transformOrigin = state.transformOrigin, offsetMatrix = state.offsetMatrix, is3d = state.is3d;
-  var beforeTransform = datas.beforeTransform, afterTransform = datas.afterTransform;
-  var n = is3d ? 4 : 3;
-  var targetTransform = parseMat([transform]);
-  return getNextMatrix(offsetMatrix, convertDimension(multiply(multiply(beforeTransform, targetTransform, 4), afterTransform, 4), 4, n), transformOrigin, n);
+function getAbsoluteDistByClient(clientX, clientY, direction, datas) {
+  return getAbsoluteDist(getRad$1(datas.startAbsoluteOrigin, [clientX, clientY]) / Math.PI * 180, direction, datas);
 }
-function scaleMatrix(state, scale) {
-  var transformOrigin = state.transformOrigin, offsetMatrix = state.offsetMatrix, is3d = state.is3d, targetMatrix = state.targetMatrix;
-  var n = is3d ? 4 : 3;
-  return getNextMatrix(offsetMatrix, multiply(targetMatrix, createScaleMatrix(scale, n), n), transformOrigin, n);
+function getRotateInfo(moveable, moveableRect, datas, dist, startValue, isSnap) {
+  var _a3 = moveable.props.throttleRotate, throttleRotate = _a3 === void 0 ? 0 : _a3;
+  var nextDist = dist;
+  var prevSnapDeg = datas.prevSnapDeg;
+  if (isSnap) {
+    nextDist = checkSnapRotate(moveable, moveableRect, datas.origin, nextDist);
+  }
+  var snapRotation = throttle(startValue + nextDist, throttleRotate);
+  var snapDeg = snapRotation - startValue;
+  datas.prevSnapDeg = snapDeg;
+  return [snapDeg - prevSnapDeg, nextDist, snapRotation];
 }
-function fillTransformStartEvent(e) {
-  var originalDatas = e.originalDatas.beforeRenderable;
-  return {
-    setTransform: function(transform, index) {
-      if (index === void 0) {
-        index = -1;
+function getRotationPositions(rotationPosition, _a3, direction) {
+  var pos1 = _a3[0], pos2 = _a3[1], pos3 = _a3[2], pos4 = _a3[3];
+  if (rotationPosition === "none") {
+    return;
+  }
+  var _b3 = (rotationPosition || "top").split("-"), dir1 = _b3[0], dir2 = _b3[1];
+  var radPoses = [pos1, pos2];
+  if (dir1 === "left") {
+    radPoses = [pos3, pos1];
+  } else if (dir1 === "right") {
+    radPoses = [pos2, pos4];
+  } else if (dir1 === "bottom") {
+    radPoses = [pos4, pos3];
+  }
+  var pos = [(radPoses[0][0] + radPoses[1][0]) / 2, (radPoses[0][1] + radPoses[1][1]) / 2];
+  var rad = getRotationRad(radPoses, direction);
+  if (dir2) {
+    var isStart = dir2 === "top" || dir2 === "left";
+    var isReverse = dir1 === "bottom" || dir1 === "left";
+    pos = radPoses[isStart && !isReverse || !isStart && isReverse ? 0 : 1];
+  }
+  return [pos, rad];
+}
+function dragControlCondition(moveable, e) {
+  if (e.isRequest) {
+    return e.requestAble === "rotatable";
+  }
+  var target = e.inputEvent.target;
+  if (hasClass(target, prefix("rotation-control"))) {
+    return true;
+  }
+  var rotationTarget = moveable.props.rotationTarget;
+  if (rotationTarget) {
+    return getRefTargets(rotationTarget, true).some(function(element) {
+      if (!element) {
+        return false;
       }
-      originalDatas.startTransforms = isArray(transform) ? transform : splitSpace(transform);
-      setTransformIndex(e, index);
-    },
-    setTransformIndex: function(index) {
-      setTransformIndex(e, index);
+      return target === element || target.contains(element);
+    });
+  }
+  return false;
+}
+var Rotatable = {
+  name: "rotatable",
+  canPinch: true,
+  props: {
+    rotatable: Boolean,
+    rotationPosition: String,
+    throttleRotate: Number,
+    renderDirections: Object,
+    rotationTarget: Object
+  },
+  events: {
+    onRotateStart: "rotateStart",
+    onBeforeRotate: "beforeRotate",
+    onRotate: "rotate",
+    onRotateEnd: "rotateEnd",
+    onRotateGroupStart: "rotateGroupStart",
+    onBeforeRotateGroup: "beforeRotateGroup",
+    onRotateGroup: "rotateGroup",
+    onRotateGroupEnd: "rotateGroupEnd"
+  },
+  css: [".rotation {\n            position: absolute;\n            height: 40px;\n            width: 1px;\n            transform-origin: 50% 100%;\n            height: calc(40px * var(--zoom));\n            top: auto;\n            left: 0;\n            bottom: 100%;\n            will-change: transform;\n        }\n        .rotation .rotation-line {\n            display: block;\n            width: 100%;\n            height: 100%;\n            transform-origin: 50% 50%;\n        }\n        .rotation .rotation-control {\n            border-color: #4af;\n            border-color: var(--moveable-color);\n            background:#fff;\n            cursor: alias;\n        }"],
+  render: function(moveable, React) {
+    var _a3 = moveable.props, rotatable = _a3.rotatable, rotationPosition = _a3.rotationPosition, zoom = _a3.zoom, renderDirections = _a3.renderDirections;
+    var _b3 = moveable.state, renderPoses = _b3.renderPoses, direction = _b3.direction;
+    if (!rotatable) {
+      return null;
     }
-  };
-}
-function setDefaultTransformIndex(e, property) {
-  var originalDatas = e.originalDatas.beforeRenderable;
-  var startTransforms = originalDatas.startTransforms;
-  setTransformIndex(e, findIndex(startTransforms, function(func) {
-    return func.indexOf(property + "(") === 0;
-  }));
-}
-function setTransformIndex(e, index) {
-  var originalDatas = e.originalDatas.beforeRenderable;
-  var datas = e.datas;
-  datas.transformIndex = index;
-  if (index === -1) {
-    return;
+    var positions = getRotationPositions(rotationPosition, renderPoses, direction);
+    var jsxs = [];
+    if (positions) {
+      var pos = positions[0], rad = positions[1];
+      jsxs.push(React.createElement("div", {
+        key: "rotation",
+        className: prefix("rotation"),
+        style: {
+          transform: "translate(-50%) translate(".concat(pos[0], "px, ").concat(pos[1], "px) rotate(").concat(rad, "rad)")
+        }
+      }, React.createElement("div", {
+        className: prefix("line rotation-line"),
+        style: {
+          transform: "scaleX(".concat(zoom, ")")
+        }
+      }), React.createElement("div", {
+        className: prefix("control rotation-control"),
+        style: {
+          transform: "translate(0.5px) scale(".concat(zoom, ")")
+        }
+      })));
+    }
+    if (renderDirections) {
+      jsxs.push.apply(jsxs, renderDirectionControls(moveable, [], React));
+    }
+    return jsxs;
+  },
+  dragControlCondition,
+  dragControlStart: function(moveable, e) {
+    var datas = e.datas, clientX = e.clientX, clientY = e.clientY, parentRotate = e.parentRotate, parentFlag = e.parentFlag, isPinch = e.isPinch, isRequest = e.isRequest;
+    var _a3 = moveable.state, target = _a3.target, left = _a3.left, top = _a3.top, origin = _a3.origin, beforeOrigin = _a3.beforeOrigin, direction = _a3.direction, beforeDirection = _a3.beforeDirection, targetTransform = _a3.targetTransform, moveableClientRect = _a3.moveableClientRect;
+    if (!isRequest && !target) {
+      return false;
+    }
+    var rect = moveable.getRect();
+    datas.rect = rect;
+    datas.transform = targetTransform;
+    datas.left = left;
+    datas.top = top;
+    datas.fixedPosition = getDirectionOffset(moveable, getOriginDirection(moveable));
+    if (isRequest || isPinch || parentFlag) {
+      var externalRotate = parentRotate || 0;
+      datas.beforeInfo = {
+        origin: rect.beforeOrigin,
+        prevDeg: externalRotate,
+        defaultDeg: externalRotate,
+        prevSnapDeg: 0
+      };
+      datas.afterInfo = __assign$1$1(__assign$1$1({}, datas.beforeInfo), {
+        origin: rect.origin
+      });
+      datas.absoluteInfo = __assign$1$1(__assign$1$1({}, datas.beforeInfo), {
+        origin: rect.origin,
+        startValue: externalRotate
+      });
+    } else {
+      datas.beforeInfo = {
+        origin: rect.beforeOrigin
+      };
+      datas.afterInfo = {
+        origin: rect.origin
+      };
+      datas.absoluteInfo = {
+        origin: rect.origin,
+        startValue: rect.rotation
+      };
+      setRotateStartInfo(moveable, datas.beforeInfo, clientX, clientY, beforeOrigin, moveableClientRect);
+      setRotateStartInfo(moveable, datas.afterInfo, clientX, clientY, origin, moveableClientRect);
+      setRotateStartInfo(moveable, datas.absoluteInfo, clientX, clientY, origin, moveableClientRect);
+    }
+    datas.direction = direction;
+    datas.beforeDirection = beforeDirection;
+    datas.startValue = 0;
+    datas.datas = {};
+    setDefaultTransformIndex(e, "rotate");
+    var params = fillParams(moveable, e, __assign$1$1(__assign$1$1({
+      set: function(rotatation) {
+        datas.startValue = rotatation * Math.PI / 180;
+      }
+    }, fillTransformStartEvent(e)), {
+      dragStart: Draggable.dragStart(moveable, new CustomGesto().dragStart([0, 0], e))
+    }));
+    var result = triggerEvent(moveable, "onRotateStart", params);
+    datas.isRotate = result !== false;
+    moveable.state.snapRenderInfo = {
+      request: e.isRequest
+    };
+    return datas.isRotate ? params : false;
+  },
+  dragControl: function(moveable, e) {
+    var _a3, _b3, _c3;
+    var datas = e.datas, clientX = e.clientX, clientY = e.clientY, parentRotate = e.parentRotate, parentFlag = e.parentFlag, isPinch = e.isPinch, groupDelta = e.groupDelta;
+    var beforeDirection = datas.beforeDirection, beforeInfo = datas.beforeInfo, afterInfo = datas.afterInfo, absoluteInfo = datas.absoluteInfo, isRotate = datas.isRotate, startValue = datas.startValue, rect = datas.rect;
+    if (!isRotate) {
+      return;
+    }
+    resolveTransformEvent(e, "rotate");
+    var targetDirection = getTransformDirection(e);
+    var direction = beforeDirection * targetDirection;
+    var parentMoveable = moveable.props.parentMoveable;
+    var beforeDelta = 0;
+    var beforeDist;
+    var beforeRotation;
+    var delta = 0;
+    var dist;
+    var rotation;
+    var absoluteDelta = 0;
+    var absoluteDist;
+    var absoluteRotation;
+    var startRotation = 180 / Math.PI * startValue;
+    var absoluteStartRotation = absoluteInfo.startValue;
+    var isSnap = false;
+    if (!parentFlag && "parentDist" in e) {
+      var parentDist = e.parentDist;
+      beforeDist = parentDist;
+      dist = parentDist;
+      absoluteDist = parentDist;
+    } else if (isPinch || parentFlag) {
+      beforeDist = getAbsoluteDist(parentRotate, beforeDirection, beforeInfo);
+      dist = getAbsoluteDist(parentRotate, direction, afterInfo);
+      absoluteDist = getAbsoluteDist(parentRotate, direction, absoluteInfo);
+    } else {
+      beforeDist = getAbsoluteDistByClient(clientX, clientY, beforeDirection, beforeInfo);
+      dist = getAbsoluteDistByClient(clientX, clientY, direction, afterInfo);
+      absoluteDist = getAbsoluteDistByClient(clientX, clientY, direction, absoluteInfo);
+      isSnap = true;
+    }
+    beforeRotation = startRotation + beforeDist;
+    rotation = startRotation + dist;
+    absoluteRotation = absoluteStartRotation + absoluteDist;
+    triggerEvent(moveable, "onBeforeRotate", fillParams(moveable, e, {
+      beforeRotation,
+      rotation,
+      absoluteRotation,
+      setRotation: function(nextRotation) {
+        dist = nextRotation - startRotation;
+        beforeDist = dist;
+        absoluteDist = dist;
+      }
+    }));
+    _a3 = getRotateInfo(moveable, rect, beforeInfo, beforeDist, startRotation, isSnap), beforeDelta = _a3[0], beforeDist = _a3[1], beforeRotation = _a3[2];
+    _b3 = getRotateInfo(moveable, rect, afterInfo, dist, startRotation, isSnap), delta = _b3[0], dist = _b3[1], rotation = _b3[2];
+    _c3 = getRotateInfo(moveable, rect, absoluteInfo, absoluteDist, absoluteStartRotation, isSnap), absoluteDelta = _c3[0], absoluteDist = _c3[1], absoluteRotation = _c3[2];
+    if (!absoluteDelta && !delta && !beforeDelta && !parentMoveable) {
+      return;
+    }
+    var nextTransform = convertTransformFormat(datas, "rotate(".concat(rotation, "deg)"), "rotate(".concat(dist, "deg)"));
+    var inverseDist = getRotateDist(moveable, dist, datas.fixedPosition, datas);
+    var inverseDelta = minus(plus(groupDelta || [0, 0], inverseDist), datas.prevInverseDist || [0, 0]);
+    datas.prevInverseDist = inverseDist;
+    datas.requestValue = null;
+    var params = fillParams(moveable, e, __assign$1$1({
+      delta,
+      dist,
+      rotate: rotation,
+      rotation,
+      beforeDist,
+      beforeDelta,
+      beforeRotate: beforeRotation,
+      beforeRotation,
+      absoluteDist,
+      absoluteDelta,
+      absoluteRotate: absoluteRotation,
+      absoluteRotation,
+      isPinch: !!isPinch
+    }, fillTransformEvent(moveable, nextTransform, inverseDelta, isPinch, e)));
+    triggerEvent(moveable, "onRotate", params);
+    return params;
+  },
+  dragControlAfter: function(moveable, e) {
+    e.datas.requestValue;
+  },
+  dragControlEnd: function(moveable, e) {
+    var datas = e.datas;
+    if (!datas.isRotate) {
+      return;
+    }
+    datas.isRotate = false;
+    var params = fillEndParams(moveable, e, {});
+    triggerEvent(moveable, "onRotateEnd", params);
+    return params;
+  },
+  dragGroupControlCondition: dragControlCondition,
+  dragGroupControlStart: function(moveable, e) {
+    var datas = e.datas;
+    var _a3 = moveable.state, parentLeft = _a3.left, parentTop = _a3.top, parentBeforeOrigin = _a3.beforeOrigin;
+    var params = this.dragControlStart(moveable, e);
+    if (!params) {
+      return false;
+    }
+    params.set(datas.beforeDirection * moveable.rotation);
+    var events = triggerChildAbles(moveable, this, "dragControlStart", e, function(child, ev) {
+      var _a4 = child.state, left = _a4.left, top = _a4.top, beforeOrigin = _a4.beforeOrigin;
+      var childClient = plus(minus([left, top], [parentLeft, parentTop]), minus(beforeOrigin, parentBeforeOrigin));
+      ev.datas.groupClient = childClient;
+      return __assign$1$1(__assign$1$1({}, ev), {
+        parentRotate: 0
+      });
+    });
+    var nextParams = __assign$1$1(__assign$1$1({}, params), {
+      targets: moveable.props.targets,
+      events
+    });
+    var result = triggerEvent(moveable, "onRotateGroupStart", nextParams);
+    datas.isRotate = result !== false;
+    return datas.isRotate ? params : false;
+  },
+  dragGroupControl: function(moveable, e) {
+    var datas = e.datas;
+    if (!datas.isRotate) {
+      return;
+    }
+    catchEvent(moveable, "onBeforeRotate", function(parentEvent) {
+      triggerEvent(moveable, "onBeforeRotateGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
+        targets: moveable.props.targets
+      })));
+    });
+    var params = this.dragControl(moveable, e);
+    if (!params) {
+      return;
+    }
+    var direction = datas.beforeDirection;
+    var parentRotate = params.beforeDist;
+    var deg = params.beforeDelta;
+    var rad = deg / 180 * Math.PI;
+    var events = triggerChildAbles(moveable, this, "dragControl", e, function(_2, ev) {
+      var _a3 = ev.datas.groupClient, prevX = _a3[0], prevY = _a3[1];
+      var _b3 = rotate([prevX, prevY], rad * direction), clientX = _b3[0], clientY = _b3[1];
+      var delta = [clientX - prevX, clientY - prevY];
+      ev.datas.groupClient = [clientX, clientY];
+      return __assign$1$1(__assign$1$1({}, ev), {
+        parentRotate,
+        groupDelta: delta
+      });
+    });
+    moveable.rotation = direction * params.beforeRotation;
+    var nextParams = __assign$1$1({
+      targets: moveable.props.targets,
+      events,
+      set: function(rotation) {
+        moveable.rotation = rotation;
+      },
+      setGroupRotation: function(rotation) {
+        moveable.rotation = rotation;
+      }
+    }, params);
+    triggerEvent(moveable, "onRotateGroup", nextParams);
+    return nextParams;
+  },
+  dragGroupControlEnd: function(moveable, e) {
+    var isDrag = e.isDrag, datas = e.datas;
+    if (!datas.isRotate) {
+      return;
+    }
+    this.dragControlEnd(moveable, e);
+    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
+    var nextParams = fillEndParams(moveable, e, {
+      targets: moveable.props.targets,
+      events
+    });
+    triggerEvent(moveable, "onRotateGroupEnd", nextParams);
+    return isDrag;
+  },
+  request: function(moveable) {
+    var datas = {};
+    var distRotate = 0;
+    var startRotation = moveable.getRotation();
+    return {
+      isControl: true,
+      requestStart: function() {
+        return {
+          datas
+        };
+      },
+      request: function(e) {
+        if ("deltaRotate" in e) {
+          distRotate += e.deltaRotate;
+        } else if ("rotate" in e) {
+          distRotate = e.rotate - startRotation;
+        }
+        return {
+          datas,
+          parentDist: distRotate
+        };
+      },
+      requestEnd: function() {
+        return {
+          datas,
+          isDrag: true
+        };
+      }
+    };
   }
-  var transform = originalDatas.startTransforms[index];
-  if (!transform) {
-    return;
-  }
-  var info = parse([transform]);
-  datas.startValue = info[0].functionValue;
-}
-function fillOriginalTransform(e, transform) {
-  var originalDatas = e.originalDatas.beforeRenderable;
-  originalDatas.nextTransforms = splitSpace(transform);
-}
-function getNextTransformText(e) {
-  var originalDatas = e.originalDatas.beforeRenderable;
-  return originalDatas.nextTransforms.join(" ");
-}
-function fillTransformEvent(moveable, nextTransform, delta, isPinch, e) {
-  fillOriginalTransform(e, nextTransform);
-  return {
-    transform: nextTransform,
-    drag: Draggable.drag(moveable, setCustomDrag(e, moveable.state, delta, isPinch, false))
-  };
-}
-function getTranslateDist(moveable, transform, fixedDirection, fixedPosition, datas) {
-  var state = moveable.state;
-  var left = state.left, top = state.top;
-  var groupable = moveable.props.groupable;
-  var nextMatrix = getNextTransformMatrix(moveable.state, datas, transform);
-  var groupLeft = groupable ? left : 0;
-  var groupTop = groupable ? top : 0;
-  var nextFixedPosition = getDirectionOffset(moveable, fixedDirection, nextMatrix);
-  var dist = minus(fixedPosition, nextFixedPosition);
-  return minus(dist, [groupLeft, groupTop]);
-}
-function getScaleDist(moveable, scaleDist, fixedDirection, fixedPosition, datas) {
-  return getTranslateDist(moveable, "scale(" + scaleDist.join(", ") + ")", fixedDirection, fixedPosition, datas);
-}
-function getOriginDirection(moveable) {
-  var _a3 = moveable.state, width = _a3.width, height = _a3.height, transformOrigin = _a3.transformOrigin;
-  return [-1 + transformOrigin[0] / (width / 2), -1 + transformOrigin[1] / (height / 2)];
-}
-function getDirectionOffset(moveable, direction, nextMatrix) {
-  if (nextMatrix === void 0) {
-    nextMatrix = moveable.state.allMatrix;
-  }
-  var _a3 = moveable.state, width = _a3.width, height = _a3.height, is3d = _a3.is3d;
-  var n = is3d ? 4 : 3;
-  var nextFixedOffset = [width / 2 * (1 + direction[0]), height / 2 * (1 + direction[1])];
-  return calculatePosition(nextMatrix, nextFixedOffset, n);
-}
-function getRotateDist(moveable, rotateDist, fixedPosition, datas) {
-  var fixedDirection = getOriginDirection(moveable);
-  return getTranslateDist(moveable, "rotate(" + rotateDist + "deg)", fixedDirection, fixedPosition, datas);
-}
-function getResizeDist(moveable, width, height, fixedDirection, fixedPosition, transformOrigin) {
-  var groupable = moveable.props.groupable;
-  var _a3 = moveable.state, prevOrigin = _a3.transformOrigin, targetMatrix = _a3.targetMatrix, offsetMatrix = _a3.offsetMatrix, is3d = _a3.is3d, prevWidth = _a3.width, prevHeight = _a3.height, left = _a3.left, top = _a3.top;
-  var n = is3d ? 4 : 3;
-  var nextOrigin = calculateTransformOrigin(transformOrigin, width, height, prevWidth, prevHeight, prevOrigin);
-  var groupLeft = groupable ? left : 0;
-  var groupTop = groupable ? top : 0;
-  var nextMatrix = getNextMatrix(offsetMatrix, targetMatrix, nextOrigin, n);
-  var dist = getDist(fixedPosition, nextMatrix, width, height, n, fixedDirection);
-  return minus(dist, [groupLeft, groupTop]);
-}
-function getAbsolutePosition(moveable, direction) {
-  return getPosByDirection(getAbsolutePosesByState(moveable.state), direction);
-}
+};
 var VERTICAL_NAMES = ["left", "right", "center"];
 var HORIZONTAL_NAMES = ["top", "bottom", "middle"];
 var VERTICAL_NAMES_MAP = {
@@ -38605,15 +37794,15 @@ function getSnapElementRects(moveable, values) {
   var _d2 = minus([targetLeft, targetTop], calculateInversePosition(rootMatrix, [clientLeft - containerLeft, clientTop - containerTop], n)).map(function(pos) {
     return roundSign(pos);
   }), distLeft = _d2[0], distTop = _d2[1];
-  return values.map(function(value) {
-    var rect = value.element.getBoundingClientRect();
+  return values.map(function(value2) {
+    var rect = value2.element.getBoundingClientRect();
     var left = rect.left - containerLeft;
     var top = rect.top - containerTop;
     var bottom = top + rect.height;
     var right = left + rect.width;
     var _a4 = calculateInversePosition(rootMatrix, [left, top], n), elementLeft = _a4[0], elementTop = _a4[1];
     var _b4 = calculateInversePosition(rootMatrix, [right, bottom], n), elementRight = _b4[0], elementBottom = _b4[1];
-    return __assign$2(__assign$2({}, value), {
+    return __assign$1$1(__assign$1$1({}, value2), {
       rect: {
         left: elementLeft + distLeft,
         right: elementRight + distLeft,
@@ -38642,8 +37831,8 @@ function getElementGuidelines(moveable) {
     return {
       element: getRefTarget(el, true)
     };
-  }).filter(function(value) {
-    return value.element;
+  }).filter(function(value2) {
+    return value2.element;
   });
   var _b3 = diff(prevValues.map(function(v2) {
     return v2.element;
@@ -38707,7 +37896,7 @@ function getTotalGuidelines(moveable) {
   var _a3 = moveable.state, snapOffset = _a3.snapOffset, _b3 = _a3.containerClientRect, overflow = _b3.overflow, containerHeight = _b3.scrollHeight, containerWidth = _b3.scrollWidth, containerClientHeight = _b3.clientHeight, containerClientWidth = _b3.clientWidth, clientLeft = _b3.clientLeft, clientTop = _b3.clientTop;
   var _c3 = moveable.props, _d2 = _c3.snapGap, snapGap = _d2 === void 0 ? true : _d2, verticalGuidelines = _c3.verticalGuidelines, horizontalGuidelines = _c3.horizontalGuidelines, _e = _c3.snapThreshold, snapThreshold = _e === void 0 ? 5 : _e, _f = _c3.snapGridWidth, snapGridWidth = _f === void 0 ? 0 : _f, _g = _c3.snapGridHeight, snapGridHeight = _g === void 0 ? 0 : _g;
   var elementGuidelines = getElementGuidelines(moveable);
-  var totalGuidelines = __spreadArray([], elementGuidelines);
+  var totalGuidelines = __spreadArray([], elementGuidelines, true);
   if (snapGap) {
     var _h = getRect(getAbsolutePosesByState(moveable.state)), top = _h.top, left = _h.left, bottom = _h.bottom, right = _h.right;
     totalGuidelines.push.apply(totalGuidelines, getGapGuidelines(moveable, {
@@ -38992,28 +38181,31 @@ function getNearOffsetInfo(offsets, index) {
     });
   })[0];
 }
-function getCheckSnapDirections(direction, keepRatio) {
+function getCheckSnapDirections(direction, fixedDirection, keepRatio) {
   var directions = [];
-  var fixedDirection = [-direction[0], -direction[1]];
-  if (direction[0] && direction[1]) {
-    directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]]);
-    if (keepRatio) {
-      directions.push([fixedDirection, direction]);
-    }
-  } else if (direction[0]) {
-    if (keepRatio) {
-      directions.push([fixedDirection, [fixedDirection[0], -1]], [fixedDirection, [fixedDirection[0], 1]], [fixedDirection, [direction[0], -1]], [fixedDirection, direction], [fixedDirection, [direction[0], 1]]);
+  if (keepRatio) {
+    if (Math.abs(fixedDirection[0]) !== 1 || Math.abs(fixedDirection[1]) !== 1) {
+      directions.push([fixedDirection, [-1, -1]], [fixedDirection, [-1, 1]], [fixedDirection, [1, -1]], [fixedDirection, [1, 1]]);
     } else {
-      directions.push([[fixedDirection[0], -1], [direction[0], -1]], [[fixedDirection[0], 0], [direction[0], 0]], [[fixedDirection[0], 1], [direction[0], 1]]);
+      directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]], [fixedDirection, direction]);
     }
-  } else if (direction[1]) {
-    if (keepRatio) {
-      directions.push([fixedDirection, [-1, fixedDirection[1]]], [fixedDirection, [1, fixedDirection[1]]], [fixedDirection, [-1, direction[1]]], [fixedDirection, [1, direction[1]]], [fixedDirection, direction]);
-    } else {
-      directions.push([[-1, fixedDirection[1]], [-1, direction[1]]], [[0, fixedDirection[1]], [0, direction[1]]], [[1, fixedDirection[1]], [1, direction[1]]]);
-    }
+    directions.push([fixedDirection, direction]);
   } else {
-    directions.push([fixedDirection, [1, 0]], [fixedDirection, [-1, 0]], [fixedDirection, [0, -1]], [fixedDirection, [0, 1]], [[1, 0], [1, -1]], [[1, 0], [1, 1]], [[0, 1], [1, 1]], [[0, 1], [-1, 1]], [[-1, 0], [-1, -1]], [[-1, 0], [-1, 1]], [[0, -1], [1, -1]], [[0, -1], [-1, -1]]);
+    if (direction[0] && direction[1]) {
+      directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]]);
+    } else if (direction[0]) {
+      var signs = Math.abs(fixedDirection[0]) === 1 ? [1] : [1, -1];
+      signs.forEach(function(sign2) {
+        directions.push([[fixedDirection[0], -1], [sign2 * direction[0], -1]], [[fixedDirection[0], 0], [sign2 * direction[0], 0]], [[fixedDirection[0], 1], [sign2 * direction[0], 1]]);
+      });
+    } else if (direction[1]) {
+      var signs = Math.abs(fixedDirection[1]) === 1 ? [1] : [1, -1];
+      signs.forEach(function(sign2) {
+        directions.push([[-1, fixedDirection[1]], [-1, sign2 * direction[1]]], [[0, fixedDirection[1]], [0, sign2 * direction[1]]], [[1, fixedDirection[1]], [1, sign2 * direction[1]]]);
+      });
+    } else {
+      directions.push([fixedDirection, [1, 0]], [fixedDirection, [-1, 0]], [fixedDirection, [0, -1]], [fixedDirection, [0, 1]], [[1, 0], [1, -1]], [[1, 0], [1, 1]], [[0, 1], [1, 1]], [[0, 1], [-1, 1]], [[-1, 0], [-1, -1]], [[-1, 0], [-1, 1]], [[0, -1], [1, -1]], [[0, -1], [-1, -1]]);
+    }
   }
   return directions;
 }
@@ -39056,9 +38248,9 @@ function isSameStartLine(dots, line, error) {
   }
   var centerSign = hitTestLine(dots[0], line) <= 0;
   return dots.slice(1).every(function(dot2) {
-    var value = hitTestLine(dot2, line);
-    var sign2 = value <= 0;
-    return sign2 === centerSign || Math.abs(value) <= error;
+    var value2 = hitTestLine(dot2, line);
+    var sign2 = value2 <= 0;
+    return sign2 === centerSign || Math.abs(value2) <= error;
   });
 }
 function checkInnerBoundDot(pos, start, end, isStart, threshold2) {
@@ -39266,7 +38458,7 @@ function isBoundRotate(relativePoses, boundDots, center, rad) {
   var nextPoses = rad ? relativePoses.map(function(pos) {
     return rotate(pos, rad);
   }) : relativePoses;
-  var dots = __spreadArray([center], boundDots);
+  var dots = __spreadArray([center], boundDots, true);
   return [[nextPoses[0], nextPoses[1]], [nextPoses[1], nextPoses[3]], [nextPoses[3], nextPoses[2]], [nextPoses[2], nextPoses[0]]].some(function(line) {
     return !isSameStartLine(dots, line);
   });
@@ -39613,17 +38805,17 @@ function renderGuideline(info, React) {
   return React.createElement("div", {
     key,
     className: classNames.join(" "),
-    style: (_a3 = {}, _a3[isHorizontal ? "width" : "height"] = "" + size, _a3.transform = "translate(" + pos[0] + ", " + pos[1] + ") translate" + scaleType + "(-50%) scale" + scaleType + "(" + zoom + ")", _a3)
+    style: (_a3 = {}, _a3[isHorizontal ? "width" : "height"] = "".concat(size), _a3.transform = "translate(".concat(pos[0], ", ").concat(pos[1], ") translate").concat(scaleType, "(-50%) scale").concat(scaleType, "(").concat(zoom, ")"), _a3)
   });
 }
 function renderInnerGuideline(info, React) {
-  return renderGuideline(__assign$2(__assign$2({}, info), {
-    classNames: __spreadArray([prefix("line", "guideline", info.direction)], info.classNames).filter(function(className) {
+  return renderGuideline(__assign$1$1(__assign$1$1({}, info), {
+    classNames: __spreadArray([prefix("line", "guideline", info.direction)], info.classNames, true).filter(function(className) {
       return className;
     }),
-    size: info.size || info.sizeValue + "px",
+    size: info.size || "".concat(info.sizeValue, "px"),
     pos: info.pos || info.posValue.map(function(v2) {
-      return throttle(v2, 0.1) + "px";
+      return "".concat(throttle(v2, 0.1), "px");
     })
   }), React);
 }
@@ -39635,7 +38827,7 @@ function renderSnapPoses(moveable, direction, snapPoses, minPos, targetPos, size
     renderPos[index] = minPos;
     renderPos[index ? 0 : 1] = -targetPos + pos;
     return renderInnerGuideline({
-      key: direction + "TargetGuideline" + i2,
+      key: "".concat(direction, "TargetGuideline").concat(i2),
       classNames: [prefix("target", "bold", type)],
       posValue: renderPos,
       sizeValue: size,
@@ -39665,7 +38857,7 @@ function renderGuidelines(moveable, type, guidelines, targetPos, targetRect, Rea
     var pos = guideline.pos, size = guideline.size, element = guideline.element;
     var renderPos = [-targetPos[0] + pos[0], -targetPos[1] + pos[1]];
     return renderInnerGuideline({
-      key: type + "-default-guideline-" + i2,
+      key: "".concat(type, "-default-guideline-").concat(i2),
       classNames: element ? [prefix("bold")] : [],
       direction: type,
       posValue: renderPos,
@@ -39684,12 +38876,12 @@ function renderDigitLine(moveable, type, lineType, index, gap2, renderPos, class
   var absGap = Math.abs(gap2);
   var snapSize = isDisplaySnapDigit ? parseFloat(absGap.toFixed(snapDigit)) : 0;
   return React.createElement("div", {
-    key: type + "-" + lineType + "-guideline-" + index,
+    key: "".concat(type, "-").concat(lineType, "-guideline-").concat(index),
     className: prefix("guideline-group", type),
     style: (_a3 = {
-      left: renderPos[0] + "px",
-      top: renderPos[1] + "px"
-    }, _a3[sizeName] = absGap + "px", _a3)
+      left: "".concat(renderPos[0], "px"),
+      top: "".concat(renderPos[1], "px")
+    }, _a3[sizeName] = "".concat(absGap, "px"), _a3)
   }, renderInnerGuideline({
     direction: type,
     classNames: [prefix(lineType), className],
@@ -39700,7 +38892,7 @@ function renderDigitLine(moveable, type, lineType, index, gap2, renderPos, class
   }, React), React.createElement("div", {
     className: prefix("size-value", "gap"),
     style: {
-      transform: "translate" + scaleType + "(-50%) scale(" + zoom + ")"
+      transform: "translate".concat(scaleType, "(-50%) scale(").concat(zoom, ")")
     }
   }, snapSize > 0 ? snapDistFormat(snapSize) : ""));
 }
@@ -39728,11 +38920,11 @@ function groupByElementGuidelines(type, guidelines, targetRect, isDisplayInnerSn
         var pos = guideline.pos;
         var elementRect1 = {
           element,
-          rect: __assign$2(__assign$2({}, rect), (_a3 = {}, _a3[names.end] = rect[names.start], _a3))
+          rect: __assign$1$1(__assign$1$1({}, rect), (_a3 = {}, _a3[names.end] = rect[names.start], _a3))
         };
         var elementRect2 = {
           element,
-          rect: __assign$2(__assign$2({}, rect), (_b3 = {}, _b3[names.start] = rect[names.end], _b3))
+          rect: __assign$1$1(__assign$1$1({}, rect), (_b3 = {}, _b3[names.start] = rect[names.end], _b3))
         };
         var nextPos1 = [0, 0];
         var nextPos2 = [0, 0];
@@ -39845,11 +39037,11 @@ function renderGapGuidelines(moveable, guidelines, targetPos, targetRect, React)
       var sideStartPos = Math.max.apply(Math, __spreadArray([targetSideStart], gapRects.map(function(_a4) {
         var rect = _a4.rect;
         return rect[sideNames.start];
-      })));
+      }), false));
       var sideEndPos = Math.min.apply(Math, __spreadArray([targetSideEnd], gapRects.map(function(_a4) {
         var rect = _a4.rect;
         return rect[sideNames.end];
-      })));
+      }), false));
       var sideCenterPos = (sideStartPos + sideEndPos) / 2;
       if (sideStartPos === sideEndPos || sideCenterPos === (targetSideStart + targetSideEnd) / 2) {
         return;
@@ -40272,15 +39464,16 @@ function snapStart(moveable) {
   state.guidelines = getTotalGuidelines(moveable);
   state.enableSnap = true;
 }
-function getNextFixedPoses(matrix, width, height, fixedPos, direction, is3d) {
+function getNextFixedPoses(matrix, width, height, fixedDirection, fixedPos, is3d) {
   var nextPoses = calculatePoses(matrix, width, height, is3d ? 4 : 3);
-  var nextPos = getPosByReverseDirection(nextPoses, direction);
-  return getAbsolutePoses(nextPoses, minus(fixedPos, nextPos));
+  var nextFixedPos = getPosByDirection(nextPoses, fixedDirection);
+  return getAbsolutePoses(nextPoses, minus(fixedPos, nextFixedPos));
 }
 function getSizeOffsetInfo(moveable, poses, direction, keepRatio, isRequest, datas) {
-  var directions = getCheckSnapDirections(direction, keepRatio);
+  var fixedDirection = datas.fixedDirection;
+  var directions = getCheckSnapDirections(direction, fixedDirection, keepRatio);
   var lines = getCheckInnerBoundLines(poses, direction, keepRatio);
-  var offsets = __spreadArray(__spreadArray([], getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas)), getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas));
+  var offsets = __spreadArray(__spreadArray([], getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas), true), getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas), true);
   var widthOffsetInfo = getNearOffsetInfo(offsets, 0);
   var heightOffsetInfo = getNearOffsetInfo(offsets, 1);
   return {
@@ -40372,7 +39565,7 @@ function checkSnapRotate(moveable, rect, origin, rotation) {
   var nextPoses = prevPoses.map(function(pos) {
     return rotate(pos, rad);
   });
-  var result = __spreadArray(__spreadArray([], checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation)), checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation));
+  var result = __spreadArray(__spreadArray([], checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation), true), checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation), true);
   result.sort(function(a2, b2) {
     return Math.abs(a2 - rotation) - Math.abs(b2 - rotation);
   });
@@ -40386,21 +39579,21 @@ function checkSnapResize(moveable, width, height, direction, fixedPosition, isRe
   if (!hasGuidelines(moveable, "resizable")) {
     return [0, 0];
   }
+  var fixedDirection = datas.fixedDirection;
   var _a3 = moveable.state, allMatrix = _a3.allMatrix, is3d = _a3.is3d;
   return checkSizeDist(moveable, function(widthOffset, heightOffset) {
-    return getNextFixedPoses(allMatrix, width + widthOffset, height + heightOffset, fixedPosition, direction, is3d);
+    return getNextFixedPoses(allMatrix, width + widthOffset, height + heightOffset, fixedDirection, fixedPosition, is3d);
   }, width, height, direction, fixedPosition, isRequest, datas);
 }
 function checkSnapScale(moveable, scale, direction, isRequest, datas) {
-  var width = datas.width, height = datas.height, fixedPosition = datas.fixedPosition;
   if (!hasGuidelines(moveable, "scalable")) {
     return [0, 0];
   }
-  var is3d = datas.is3d;
+  var startOffsetWidth = datas.startOffsetWidth, startOffsetHeight = datas.startOffsetHeight, fixedPosition = datas.fixedPosition, fixedDirection = datas.fixedDirection, is3d = datas.is3d;
   var sizeDist = checkSizeDist(moveable, function(widthOffset, heightOffset) {
-    return getNextFixedPoses(scaleMatrix(datas, plus(scale, [widthOffset / width, heightOffset / height])), width, height, fixedPosition, direction, is3d);
-  }, width, height, direction, fixedPosition, isRequest, datas);
-  return [sizeDist[0] / width, sizeDist[1] / height];
+    return getNextFixedPoses(scaleMatrix(datas, plus(scale, [widthOffset / startOffsetWidth, heightOffset / startOffsetHeight])), startOffsetWidth, startOffsetHeight, fixedDirection, fixedPosition, is3d);
+  }, startOffsetWidth, startOffsetHeight, direction, fixedPosition, isRequest, datas);
+  return [sizeDist[0] / startOffsetWidth, sizeDist[1] / startOffsetHeight];
 }
 function startCheckSnapDrag(moveable, datas) {
   datas.absolutePoses = getAbsolutePosesByState(moveable.state);
@@ -40568,7 +39761,7 @@ var Snappable = {
     if (hasExternalPoses) {
       addBoundGuidelines(moveable, [externalRect.left, externalRect.right], [externalRect.top, externalRect.bottom], verticalSnapPoses, horizontalSnapPoses, snapRenderInfo.externalBounds);
     }
-    var allGuidelines = __spreadArray(__spreadArray([], verticalGuidelines), horizontalGuidelines);
+    var allGuidelines = __spreadArray(__spreadArray([], verticalGuidelines, true), horizontalGuidelines, true);
     var elementGuidelines = allGuidelines.filter(function(guideline) {
       return guideline.element && !guideline.gapRects;
     });
@@ -40583,7 +39776,7 @@ var Snappable = {
       elements: elementGuidelines,
       gaps: gapGuidelines
     }, true);
-    return __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], renderDashedGuidelines(moveable, elementGuidelines, [minLeft, minTop], targetRect, React)), renderGapGuidelines(moveable, gapGuidelines, [minLeft, minTop], targetRect, React)), renderGuidelines(moveable, "horizontal", horizontalGuidelines, [targetLeft, targetTop], targetRect, React)), renderGuidelines(moveable, "vertical", verticalGuidelines, [targetLeft, targetTop], targetRect, React)), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React)), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React));
+    return __spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray(__spreadArray([], renderDashedGuidelines(moveable, elementGuidelines, [minLeft, minTop], targetRect, React), true), renderGapGuidelines(moveable, gapGuidelines, [minLeft, minTop], targetRect, React), true), renderGuidelines(moveable, "horizontal", horizontalGuidelines, [targetLeft, targetTop], targetRect, React), true), renderGuidelines(moveable, "vertical", verticalGuidelines, [targetLeft, targetTop], targetRect, React), true), renderSnapPoses(moveable, "horizontal", horizontalSnapPoses, minLeft, targetTop, width, 0, React), true), renderSnapPoses(moveable, "vertical", verticalSnapPoses, minTop, targetLeft, height, 1, React), true);
   },
   dragStart: function(moveable, e) {
     moveable.state.snapRenderInfo = {
@@ -40681,8 +39874,8 @@ var Draggable = {
       className: prefix("line", "horizontal", "dragline", "dashed"),
       key: "dragRotateGuideline",
       style: {
-        width: width + "px",
-        transform: "translate(" + beforeOrigin[0] + "px, " + beforeOrigin[1] + "px) rotate(" + rad + "rad) scaleY(" + zoom + ")"
+        width: "".concat(width, "px"),
+        transform: "translate(".concat(beforeOrigin[0], "px, ").concat(beforeOrigin[1], "px) rotate(").concat(rad, "rad) scaleY(").concat(zoom, ")")
       }
     })];
   },
@@ -40708,8 +39901,7 @@ var Draggable = {
     datas.prevBeforeDist = [0, 0];
     datas.isDrag = false;
     datas.deltaOffset = [0, 0];
-    datas.distOffset = [0, 0];
-    var params = fillParams(moveable, e, __assign$2({
+    var params = fillParams(moveable, e, __assign$1$1({
       set: function(translate) {
         datas.startValue = translate;
       }
@@ -40732,14 +39924,16 @@ var Draggable = {
       return;
     }
     resolveTransformEvent(e, "translate");
-    var datas = e.datas, parentEvent = e.parentEvent, parentFlag = e.parentFlag, isPinch = e.isPinch, isRequest = e.isRequest;
+    var datas = e.datas, parentEvent = e.parentEvent, parentFlag = e.parentFlag, isPinch = e.isPinch, isRequest = e.isRequest, deltaOffset = e.deltaOffset;
     var distX = e.distX, distY = e.distY;
-    var isDrag = datas.isDrag, prevDist = datas.prevDist, prevBeforeDist = datas.prevBeforeDist, startValue = datas.startValue, distOffset = datas.distOffset;
+    var isDrag = datas.isDrag, prevDist = datas.prevDist, prevBeforeDist = datas.prevBeforeDist, startValue = datas.startValue;
     if (!isDrag) {
       return;
     }
-    distX += distOffset[0];
-    distY += distOffset[1];
+    if (deltaOffset) {
+      distX += deltaOffset[0];
+      distY += deltaOffset[1];
+    }
     var props = moveable.props;
     var parentMoveable = props.parentMoveable;
     var throttleDrag = parentEvent ? 0 : props.throttleDrag || 0;
@@ -40757,7 +39951,7 @@ var Draggable = {
       distY = r2 * Math.sin(dragRotateRad);
     }
     if (!isPinch && !parentEvent && !parentFlag && (!throttleDragRotate || distX || distY)) {
-      var _a3 = checkSnapBoundsDrag(moveable, distX, distY, throttleDragRotate, isRequest, datas), verticalInfo = _a3[0], horizontalInfo = _a3[1];
+      var _a3 = checkSnapBoundsDrag(moveable, distX, distY, throttleDragRotate, isRequest || deltaOffset, datas), verticalInfo = _a3[0], horizontalInfo = _a3[1];
       var isVerticalSnap = verticalInfo.isSnap, isVerticalBound = verticalInfo.isBound, verticalOffset = verticalInfo.offset;
       var isHorizontalSnap = horizontalInfo.isSnap, isHorizontalBound = horizontalInfo.isBound, horizontalOffset = horizontalInfo.offset;
       isSnap = isVerticalSnap || isHorizontalSnap || isVerticalBound || isHorizontalBound;
@@ -40790,7 +39984,7 @@ var Draggable = {
     var top = datas.top + beforeDist[1];
     var right = datas.right - beforeDist[0];
     var bottom = datas.bottom - beforeDist[1];
-    var nextTransform = convertTransformFormat(datas, "translate(" + translate[0] + "px, " + translate[1] + "px)", "translate(" + dist[0] + "px, " + dist[1] + "px)");
+    var nextTransform = convertTransformFormat(datas, "translate(".concat(translate[0], "px, ").concat(translate[1], "px)"), "translate(".concat(dist[0], "px, ").concat(dist[1], "px)"));
     fillOriginalTransform(e, nextTransform);
     moveable.state.dragInfo.dist = parentEvent ? [0, 0] : dist;
     if (!parentEvent && !parentMoveable && delta.every(function(num) {
@@ -40822,12 +40016,12 @@ var Draggable = {
   },
   dragAfter: function(moveable, e) {
     var datas = e.datas;
-    var _a3 = e.datas, deltaOffset = _a3.deltaOffset, distOffset = _a3.distOffset;
+    var deltaOffset = datas.deltaOffset;
     if (deltaOffset[0] || deltaOffset[1]) {
       datas.deltaOffset = [0, 0];
-      distOffset[0] = deltaOffset[0];
-      distOffset[1] = deltaOffset[1];
-      return this.drag(moveable, e);
+      return this.drag(moveable, __assign$1$1(__assign$1$1({}, e), {
+        deltaOffset
+      }));
     }
     return false;
   },
@@ -40850,7 +40044,7 @@ var Draggable = {
       return false;
     }
     var events = triggerChildGesto(moveable, this, "dragStart", [clientX || 0, clientY || 0], e, false);
-    var nextParams = __assign$2(__assign$2({}, params), {
+    var nextParams = __assign$1$1(__assign$1$1({}, params), {
       targets: moveable.props.targets,
       events
     });
@@ -40869,7 +40063,7 @@ var Draggable = {
     if (!params) {
       return;
     }
-    var nextParams = __assign$2({
+    var nextParams = __assign$1$1({
       targets: moveable.props.targets,
       events
     }, params);
@@ -40930,431 +40124,1591 @@ var Draggable = {
     moveable.state.dragInfo = null;
   }
 };
-function renderDirectionControls(moveable, defaultDirections, React, additionalClassName) {
-  if (additionalClassName === void 0) {
-    additionalClassName = "";
+function calculatePointerDist(moveable, e) {
+  var clientX = e.clientX, clientY = e.clientY, datas = e.datas;
+  var _a3 = moveable.state, moveableClientRect = _a3.moveableClientRect, rootMatrix = _a3.rootMatrix, is3d = _a3.is3d, pos1 = _a3.pos1;
+  var left = moveableClientRect.left, top = moveableClientRect.top;
+  var n = is3d ? 4 : 3;
+  var _b3 = minus(calculateInversePosition(rootMatrix, [clientX - left, clientY - top], n), pos1), posX = _b3[0], posY = _b3[1];
+  var _c3 = getDragDist({
+    datas,
+    distX: posX,
+    distY: posY
+  }), distX = _c3[0], distY = _c3[1];
+  return [distX, distY];
+}
+function setDragStart(moveable, _a3) {
+  var datas = _a3.datas;
+  var _b3 = moveable.state, allMatrix = _b3.allMatrix, beforeMatrix = _b3.beforeMatrix, is3d = _b3.is3d, left = _b3.left, top = _b3.top, origin = _b3.origin, offsetMatrix = _b3.offsetMatrix, targetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin;
+  var n = is3d ? 4 : 3;
+  datas.is3d = is3d;
+  datas.matrix = allMatrix;
+  datas.targetMatrix = targetMatrix;
+  datas.beforeMatrix = beforeMatrix;
+  datas.offsetMatrix = offsetMatrix;
+  datas.transformOrigin = transformOrigin;
+  datas.inverseMatrix = invert(allMatrix, n);
+  datas.inverseBeforeMatrix = invert(beforeMatrix, n);
+  datas.absoluteOrigin = convertPositionMatrix(plus([left, top], origin), n);
+  datas.startDragBeforeDist = calculate(datas.inverseBeforeMatrix, datas.absoluteOrigin, n);
+  datas.startDragDist = calculate(datas.inverseMatrix, datas.absoluteOrigin, n);
+}
+function getTransformDirection(e) {
+  return calculateMoveablePosition(e.datas.beforeTransform, [50, 50], 100, 100).direction;
+}
+function resolveTransformEvent(event, functionName) {
+  var datas = event.datas, originalDatas = event.originalDatas.beforeRenderable;
+  var index = datas.transformIndex;
+  var nextTransforms = originalDatas.nextTransforms;
+  var nextTransformAppendedIndexes = originalDatas.nextTransformAppendedIndexes;
+  var nextIndex = 0;
+  if (index === -1) {
+    nextIndex = nextTransforms.length;
+    datas.transformIndex = nextIndex;
+  } else {
+    nextIndex = index + nextTransformAppendedIndexes.filter(function(i2) {
+      return i2 < index;
+    }).length;
   }
-  var _a3 = moveable.state, renderPoses = _a3.renderPoses, rotationRad = _a3.rotation, direction = _a3.direction;
-  var _b3 = moveable.props, _c3 = _b3.renderDirections, directions = _c3 === void 0 ? defaultDirections : _c3, zoom = _b3.zoom;
-  var directionMap = {};
-  if (!directions) {
-    return [];
+  var result = convertTransformInfo(nextTransforms, nextIndex);
+  var targetFunction = result.targetFunction;
+  var matFunctionName = functionName === "rotate" ? "rotateZ" : functionName;
+  datas.beforeFunctionTexts = result.beforeFunctionTexts;
+  datas.afterFunctionTexts = result.afterFunctionTexts;
+  datas.beforeTransform = result.beforeFunctionMatrix;
+  datas.beforeTransform2 = result.beforeFunctionMatrix2;
+  datas.targetTansform = result.targetFunctionMatrix;
+  datas.afterTransform = result.afterFunctionMatrix;
+  datas.afterTransform2 = result.afterFunctionMatrix2;
+  datas.targetAllTransform = result.allFunctionMatrix;
+  if (targetFunction.functionName === matFunctionName) {
+    datas.afterFunctionTexts.splice(0, 1);
+    datas.isAppendTransform = false;
+  } else {
+    datas.isAppendTransform = true;
+    originalDatas.nextTransformAppendedIndexes = __spreadArray(__spreadArray([], nextTransformAppendedIndexes, true), [nextIndex], false);
   }
-  var sign2 = direction > 0 ? 1 : -1;
-  var renderDirections = directions === true ? DIRECTIONS : directions;
-  var degRotation = rotationRad / Math.PI * 180;
-  renderDirections.forEach(function(dir) {
-    directionMap[dir] = true;
-  });
-  return renderDirections.map(function(dir) {
-    var indexes = DIRECTION_INDEXES[dir];
-    if (!indexes || !directionMap[dir]) {
-      return null;
+}
+function convertTransformFormat(datas, value2, dist) {
+  return "".concat(datas.beforeFunctionTexts.join(" "), " ").concat(datas.isAppendTransform ? dist : value2, " ").concat(datas.afterFunctionTexts.join(" "));
+}
+function getTransformDist(_a3) {
+  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
+  var _b3 = getBeforeDragDist({
+    datas,
+    distX,
+    distY
+  }), bx = _b3[0], by = _b3[1];
+  var res = getTransfromMatrix(datas, fromTranslation([bx, by], 4));
+  return calculate(res, convertPositionMatrix([0, 0, 0], 4), 4);
+}
+function getTransfromMatrix(datas, targetMatrix, isAfter) {
+  var beforeTransform = datas.beforeTransform, afterTransform = datas.afterTransform, beforeTransform2 = datas.beforeTransform2, afterTransform2 = datas.afterTransform2, targetAllTransform = datas.targetAllTransform;
+  var nextTargetMatrix = isAfter ? multiply(targetAllTransform, targetMatrix, 4) : multiply(targetMatrix, targetAllTransform, 4);
+  var res1 = multiply(invert(isAfter ? beforeTransform2 : beforeTransform, 4), nextTargetMatrix, 4);
+  var afterTargetMatrix = multiply(res1, invert(isAfter ? afterTransform2 : afterTransform, 4), 4);
+  return afterTargetMatrix;
+}
+function getBeforeDragDist(_a3) {
+  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
+  var inverseBeforeMatrix = datas.inverseBeforeMatrix, is3d = datas.is3d, startDragBeforeDist = datas.startDragBeforeDist, absoluteOrigin = datas.absoluteOrigin;
+  var n = is3d ? 4 : 3;
+  return minus(calculate(inverseBeforeMatrix, plus(absoluteOrigin, [distX, distY]), n), startDragBeforeDist);
+}
+function getDragDist(_a3, isBefore) {
+  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
+  var inverseBeforeMatrix = datas.inverseBeforeMatrix, inverseMatrix = datas.inverseMatrix, is3d = datas.is3d, startDragBeforeDist = datas.startDragBeforeDist, startDragDist = datas.startDragDist, absoluteOrigin = datas.absoluteOrigin;
+  var n = is3d ? 4 : 3;
+  return minus(calculate(isBefore ? inverseBeforeMatrix : inverseMatrix, plus(absoluteOrigin, [distX, distY]), n), isBefore ? startDragBeforeDist : startDragDist);
+}
+function getInverseDragDist(_a3, isBefore) {
+  var datas = _a3.datas, distX = _a3.distX, distY = _a3.distY;
+  var beforeMatrix = datas.beforeMatrix, matrix = datas.matrix, is3d = datas.is3d, startDragBeforeDist = datas.startDragBeforeDist, startDragDist = datas.startDragDist, absoluteOrigin = datas.absoluteOrigin;
+  var n = is3d ? 4 : 3;
+  return minus(calculate(isBefore ? beforeMatrix : matrix, plus(isBefore ? startDragBeforeDist : startDragDist, [distX, distY]), n), absoluteOrigin);
+}
+function calculateTransformOrigin(transformOrigin, width, height, prevWidth, prevHeight, prevOrigin) {
+  if (prevWidth === void 0) {
+    prevWidth = width;
+  }
+  if (prevHeight === void 0) {
+    prevHeight = height;
+  }
+  if (prevOrigin === void 0) {
+    prevOrigin = [0, 0];
+  }
+  if (!transformOrigin) {
+    return prevOrigin;
+  }
+  return transformOrigin.map(function(pos, i2) {
+    var _a3 = splitUnit(pos), value2 = _a3.value, unit = _a3.unit;
+    var prevSize = i2 ? prevHeight : prevWidth;
+    var size = i2 ? height : width;
+    if (pos === "%" || isNaN(value2)) {
+      var measureRatio = prevSize ? prevOrigin[i2] / prevSize : 0;
+      return size * measureRatio;
+    } else if (unit !== "%") {
+      return value2;
     }
-    var directionRotation = (throttle(degRotation, 15) + sign2 * DIRECTION_ROTATIONS[dir] + 720) % 180;
-    return React.createElement("div", {
-      className: prefix("control", "direction", dir, additionalClassName),
-      "data-rotation": directionRotation,
-      "data-direction": dir,
-      key: "direction-" + dir,
-      style: getControlTransform.apply(void 0, __spreadArray([rotationRad, zoom], indexes.map(function(index) {
-        return renderPoses[index];
-      })))
-    });
+    return size * value2 / 100;
   });
 }
-function renderLine(React, direction, pos1, pos2, zoom, key) {
-  var classNames = [];
-  for (var _i = 6; _i < arguments.length; _i++) {
-    classNames[_i - 6] = arguments[_i];
+function getPosIndexesByDirection(direction) {
+  var indexes = [];
+  if (direction[1] >= 0) {
+    if (direction[0] >= 0) {
+      indexes.push(3);
+    }
+    if (direction[0] <= 0) {
+      indexes.push(2);
+    }
   }
-  var rad = getRad$1(pos1, pos2);
-  var rotation = direction ? throttle(rad / Math.PI * 180, 15) % 180 : -1;
-  return React.createElement("div", {
-    key: "line" + key,
-    className: prefix.apply(void 0, __spreadArray(["line", "direction", direction], classNames)),
-    "data-rotation": rotation,
-    "data-line-index": key,
-    "data-direction": direction,
-    style: getLineStyle(pos1, pos2, zoom, rad)
+  if (direction[1] <= 0) {
+    if (direction[0] >= 0) {
+      indexes.push(1);
+    }
+    if (direction[0] <= 0) {
+      indexes.push(0);
+    }
+  }
+  return indexes;
+}
+function getPosesByDirection(poses, direction) {
+  return getPosIndexesByDirection(direction).map(function(index) {
+    return poses[index];
   });
 }
-function renderAllDirections(moveable, React) {
-  return renderDirectionControls(moveable, DIRECTIONS, React);
+function getPosByDirection(poses, direction) {
+  var nextPoses = getPosesByDirection(poses, direction);
+  return [average(nextPoses.map(function(pos) {
+    return pos[0];
+  })), average(nextPoses.map(function(pos) {
+    return pos[1];
+  }))];
 }
-function renderDiagonalDirections(moveable, React) {
-  return renderDirectionControls(moveable, ["nw", "ne", "sw", "se"], React);
+function getDist(startPos, matrix, width, height, n, fixedDirection) {
+  var poses = calculatePoses(matrix, width, height, n);
+  var fixedPos = getPosByDirection(poses, fixedDirection);
+  var distX = startPos[0] - fixedPos[0];
+  var distY = startPos[1] - fixedPos[1];
+  return [distX, distY];
 }
-function setRotateStartInfo(moveable, datas, clientX, clientY, origin, rect) {
-  var n = moveable.state.is3d ? 4 : 3;
-  var nextOrigin = calculatePosition(moveable.state.rootMatrix, origin, n);
-  var startAbsoluteOrigin = plus([rect.left, rect.top], nextOrigin);
-  datas.startAbsoluteOrigin = startAbsoluteOrigin;
-  datas.prevDeg = getRad$1(startAbsoluteOrigin, [clientX, clientY]) / Math.PI * 180;
-  datas.prevSnapDeg = datas.prevDeg;
-  datas.startDeg = datas.prevDeg;
-  datas.loop = 0;
+function getNextMatrix(offsetMatrix, targetMatrix, origin, n) {
+  return multiply(offsetMatrix, getAbsoluteMatrix(targetMatrix, n, origin), n);
 }
-function getParentDeg(moveable, moveableRect, datas, parentDist, direction, startValue) {
-  var prevDeg = datas.prevDeg;
-  var dist = checkSnapRotate(moveable, moveableRect, datas.origin, parentDist);
-  datas.prevDeg = dist;
-  var delta = dist - prevDeg;
-  return [delta, dist, startValue + dist];
+function getNextTransformMatrix(state, datas, transform) {
+  var transformOrigin = state.transformOrigin, offsetMatrix = state.offsetMatrix, is3d = state.is3d;
+  var beforeTransform = datas.beforeTransform, afterTransform = datas.afterTransform;
+  var n = is3d ? 4 : 3;
+  var targetTransform = parseMat([transform]);
+  return getNextMatrix(offsetMatrix, convertDimension(multiply(multiply(beforeTransform, targetTransform, 4), afterTransform, 4), 4, n), transformOrigin, n);
 }
-function getDeg(moveable, moveableRect, datas, deg, direction, startValue, throttleRotate, isSnap) {
-  var prevDeg = datas.prevDeg, prevSnapDeg = datas.prevSnapDeg, startDeg = datas.startDeg, prevLoop = datas.loop;
-  if (prevDeg > deg && prevDeg > 270 && deg < 90) {
-    ++datas.loop;
-  } else if (prevDeg < deg && prevDeg < 90 && deg > 270) {
-    --datas.loop;
-  }
-  var loop = datas.loop;
-  var absolutePrevSnapDeg = prevLoop * 360 + prevSnapDeg - startDeg + startValue;
-  var absoluteDeg = loop * 360 + deg - startDeg + startValue;
-  datas.prevDeg = absoluteDeg - loop * 360 + startDeg - startValue;
-  absoluteDeg = throttle(absoluteDeg, throttleRotate);
-  var dist = direction * (absoluteDeg - startValue);
-  if (isSnap) {
-    dist = checkSnapRotate(moveable, moveableRect, datas.origin, dist);
-    absoluteDeg = dist / direction + startValue;
-  }
-  datas.prevSnapDeg = absoluteDeg - loop * 360 + startDeg - startValue;
-  var delta = direction * (absoluteDeg - absolutePrevSnapDeg);
-  return [delta, dist, startValue + dist];
+function scaleMatrix(state, scale) {
+  var transformOrigin = state.transformOrigin, offsetMatrix = state.offsetMatrix, is3d = state.is3d, targetMatrix = state.targetMatrix;
+  var n = is3d ? 4 : 3;
+  return getNextMatrix(offsetMatrix, multiply(targetMatrix, createScaleMatrix(scale, n), n), transformOrigin, n);
 }
-function getRotateInfo(moveable, moveableRect, datas, direction, clientX, clientY, startValue, throttleRotate) {
-  return getDeg(moveable, moveableRect, datas, getRad$1(datas.startAbsoluteOrigin, [clientX, clientY]) / Math.PI * 180, direction, startValue, throttleRotate, true);
+function fillTransformStartEvent(e) {
+  var originalDatas = e.originalDatas.beforeRenderable;
+  return {
+    setTransform: function(transform, index) {
+      if (index === void 0) {
+        index = -1;
+      }
+      originalDatas.startTransforms = isArray(transform) ? transform : splitSpace(transform);
+      setTransformIndex(e, index);
+    },
+    setTransformIndex: function(index) {
+      setTransformIndex(e, index);
+    }
+  };
 }
-function getRotationPositions(rotationPosition, _a3, direction) {
-  var pos1 = _a3[0], pos2 = _a3[1], pos3 = _a3[2], pos4 = _a3[3];
-  if (rotationPosition === "none") {
+function setDefaultTransformIndex(e, property) {
+  var originalDatas = e.originalDatas.beforeRenderable;
+  var startTransforms = originalDatas.startTransforms;
+  setTransformIndex(e, findIndex(startTransforms, function(func) {
+    return func.indexOf("".concat(property, "(")) === 0;
+  }));
+}
+function setTransformIndex(e, index) {
+  var originalDatas = e.originalDatas.beforeRenderable;
+  var datas = e.datas;
+  datas.transformIndex = index;
+  if (index === -1) {
     return;
   }
-  var _b3 = (rotationPosition || "top").split("-"), dir1 = _b3[0], dir2 = _b3[1];
-  var radPoses = [pos1, pos2];
-  if (dir1 === "left") {
-    radPoses = [pos3, pos1];
-  } else if (dir1 === "right") {
-    radPoses = [pos2, pos4];
-  } else if (dir1 === "bottom") {
-    radPoses = [pos4, pos3];
+  var transform = originalDatas.startTransforms[index];
+  if (!transform) {
+    return;
   }
-  var pos = [(radPoses[0][0] + radPoses[1][0]) / 2, (radPoses[0][1] + radPoses[1][1]) / 2];
-  var rad = getRotationRad(radPoses, direction);
-  if (dir2) {
-    var isStart = dir2 === "top" || dir2 === "left";
-    var isReverse = dir1 === "bottom" || dir1 === "left";
-    pos = radPoses[isStart && !isReverse || !isStart && isReverse ? 0 : 1];
-  }
-  return [pos, rad];
+  var info = parse([transform]);
+  datas.startValue = info[0].functionValue;
 }
-function dragControlCondition(moveable, e) {
-  if (e.isRequest) {
-    return e.requestAble === "rotatable";
+function fillOriginalTransform(e, transform) {
+  var originalDatas = e.originalDatas.beforeRenderable;
+  originalDatas.nextTransforms = splitSpace(transform);
+}
+function getNextTransformText(e) {
+  var originalDatas = e.originalDatas.beforeRenderable;
+  return originalDatas.nextTransforms.join(" ");
+}
+function fillTransformEvent(moveable, nextTransform, delta, isPinch, e) {
+  fillOriginalTransform(e, nextTransform);
+  return {
+    transform: nextTransform,
+    drag: Draggable.drag(moveable, setCustomDrag(e, moveable.state, delta, isPinch, false))
+  };
+}
+function getTranslateDist(moveable, transform, fixedDirection, fixedPosition, datas) {
+  var state = moveable.state;
+  var left = state.left, top = state.top;
+  var groupable = moveable.props.groupable;
+  var nextMatrix = getNextTransformMatrix(moveable.state, datas, transform);
+  var groupLeft = groupable ? left : 0;
+  var groupTop = groupable ? top : 0;
+  var nextFixedPosition = getDirectionOffset(moveable, fixedDirection, nextMatrix);
+  var dist = minus(fixedPosition, nextFixedPosition);
+  return minus(dist, [groupLeft, groupTop]);
+}
+function getScaleDist(moveable, scaleDist, fixedDirection, fixedPosition, datas) {
+  var dist = getTranslateDist(moveable, "scale(".concat(scaleDist.join(", "), ")"), fixedDirection, fixedPosition, datas);
+  return dist;
+}
+function getOriginDirection(moveable) {
+  var _a3 = moveable.state, width = _a3.width, height = _a3.height, transformOrigin = _a3.transformOrigin;
+  return [-1 + transformOrigin[0] / (width / 2), -1 + transformOrigin[1] / (height / 2)];
+}
+function getDirectionOffset(moveable, direction, nextMatrix) {
+  if (nextMatrix === void 0) {
+    nextMatrix = moveable.state.allMatrix;
   }
-  var target = e.inputEvent.target;
-  if (hasClass(target, prefix("rotation-control"))) {
-    return true;
+  var _a3 = moveable.state, width = _a3.width, height = _a3.height, is3d = _a3.is3d;
+  var n = is3d ? 4 : 3;
+  var nextFixedOffset = [width / 2 * (1 + direction[0]), height / 2 * (1 + direction[1])];
+  return calculatePosition(nextMatrix, nextFixedOffset, n);
+}
+function getRotateDist(moveable, rotateDist, fixedPosition, datas) {
+  var fixedDirection = getOriginDirection(moveable);
+  return getTranslateDist(moveable, "rotate(".concat(rotateDist, "deg)"), fixedDirection, fixedPosition, datas);
+}
+function getResizeDist(moveable, width, height, fixedDirection, fixedPosition, transformOrigin) {
+  var groupable = moveable.props.groupable;
+  var _a3 = moveable.state, prevOrigin = _a3.transformOrigin, targetMatrix = _a3.targetMatrix, offsetMatrix = _a3.offsetMatrix, is3d = _a3.is3d, prevWidth = _a3.width, prevHeight = _a3.height, left = _a3.left, top = _a3.top;
+  var n = is3d ? 4 : 3;
+  var nextOrigin = calculateTransformOrigin(transformOrigin, width, height, prevWidth, prevHeight, prevOrigin);
+  var groupLeft = groupable ? left : 0;
+  var groupTop = groupable ? top : 0;
+  var nextMatrix = getNextMatrix(offsetMatrix, targetMatrix, nextOrigin, n);
+  var dist = getDist(fixedPosition, nextMatrix, width, height, n, fixedDirection);
+  return minus(dist, [groupLeft, groupTop]);
+}
+function getAbsolutePosition(moveable, direction) {
+  return getPosByDirection(getAbsolutePosesByState(moveable.state), direction);
+}
+function multiply2(pos1, pos2) {
+  return [pos1[0] * pos2[0], pos1[1] * pos2[1]];
+}
+function prefix() {
+  var classNames = [];
+  for (var _i = 0; _i < arguments.length; _i++) {
+    classNames[_i] = arguments[_i];
   }
-  var rotationTarget = moveable.props.rotationTarget;
-  if (rotationTarget) {
-    return getRefTargets(rotationTarget, true).some(function(element) {
-      if (!element) {
+  return prefixNames.apply(void 0, __spreadArray([PREFIX], classNames, false));
+}
+function getTransformMatrix(transform) {
+  if (!transform || transform === "none") {
+    return [1, 0, 0, 1, 0, 0];
+  }
+  if (isObject$2(transform)) {
+    return transform;
+  }
+  return parseMat(transform);
+}
+function getAbsoluteMatrix(matrix, n, origin) {
+  return multiplies(n, createOriginMatrix(origin, n), matrix, createOriginMatrix(origin.map(function(a2) {
+    return -a2;
+  }), n));
+}
+function measureSVGSize(el, unit, isHorizontal) {
+  if (unit === "%") {
+    var viewBox = getSVGViewBox(el.ownerSVGElement);
+    return viewBox[isHorizontal ? "width" : "height"] / 100;
+  }
+  return 1;
+}
+function getBeforeTransformOrigin(el) {
+  var relativeOrigin = getTransformOrigin(getComputedStyle$1(el, ":before"));
+  return relativeOrigin.map(function(o, i2) {
+    var _a3 = splitUnit(o), value2 = _a3.value, unit = _a3.unit;
+    return value2 * measureSVGSize(el, unit, i2 === 0);
+  });
+}
+function getTransformOrigin(style) {
+  var transformOrigin = style.transformOrigin;
+  return transformOrigin ? transformOrigin.split(" ") : ["0", "0"];
+}
+function getElementTransform(target, computedStyle) {
+  if (computedStyle === void 0) {
+    computedStyle = getComputedStyle$1(target);
+  }
+  var computedTransform = computedStyle.transform;
+  if (computedTransform && computedTransform !== "none") {
+    return computedStyle.transform;
+  }
+  if ("transform" in target) {
+    var list = target.transform;
+    var baseVal = list.baseVal;
+    if (!baseVal) {
+      return "";
+    }
+    var length2 = baseVal.length;
+    if (!length2) {
+      return "";
+    }
+    var matrixs = [];
+    var _loop_12 = function(i3) {
+      var matrix = baseVal[0].matrix;
+      matrixs.push("matrix(".concat(["a", "b", "c", "d", "e", "f"].map(function(chr) {
+        return matrix[chr];
+      }).join(", "), ")"));
+    };
+    for (var i2 = 0; i2 < length2; ++i2) {
+      _loop_12(i2);
+    }
+    return matrixs.join(" ");
+  }
+  return "";
+}
+function getOffsetInfo(el, lastParent, isParent) {
+  var body = document.body;
+  var target = !el || isParent ? el : el.parentElement;
+  var isEnd = el === lastParent || target === lastParent;
+  var position = "relative";
+  while (target && target !== body) {
+    if (lastParent === target) {
+      isEnd = true;
+    }
+    var style = getComputedStyle$1(target);
+    var tagName = target.tagName.toLowerCase();
+    var transform = getElementTransform(target, style);
+    position = style.position;
+    if (tagName === "svg" || position !== "static" || transform && transform !== "none") {
+      break;
+    }
+    target = target.parentElement;
+    position = "relative";
+  }
+  return {
+    isStatic: position === "static",
+    isEnd: isEnd || !target || target === body,
+    offsetParent: target || body
+  };
+}
+function getOffsetPosInfo(el, container, style, isFixed) {
+  var _a3;
+  var tagName = el.tagName.toLowerCase();
+  var offsetLeft = el.offsetLeft;
+  var offsetTop = el.offsetTop;
+  if (isFixed) {
+    var containerClientRect = (container || document.documentElement).getBoundingClientRect();
+    offsetLeft -= containerClientRect.left;
+    offsetTop -= containerClientRect.top;
+  }
+  var isSVG = isUndefined(offsetLeft);
+  var hasOffset = !isSVG;
+  var origin;
+  var targetOrigin;
+  if (!hasOffset && tagName !== "svg") {
+    origin = IS_WEBKIT605 ? getBeforeTransformOrigin(el) : getTransformOrigin(style).map(function(pos) {
+      return parseFloat(pos);
+    });
+    targetOrigin = origin.slice();
+    hasOffset = true;
+    _a3 = getSVGGraphicsOffset(el, origin), offsetLeft = _a3[0], offsetTop = _a3[1], origin[0] = _a3[2], origin[1] = _a3[3];
+  } else {
+    origin = getTransformOrigin(style).map(function(pos) {
+      return parseFloat(pos);
+    });
+    targetOrigin = origin.slice();
+  }
+  return {
+    tagName,
+    isSVG,
+    hasOffset,
+    offset: [offsetLeft || 0, offsetTop || 0],
+    origin,
+    targetOrigin
+  };
+}
+function getBodyOffset(el, isSVG, style) {
+  if (style === void 0) {
+    style = getComputedStyle$1(el);
+  }
+  var bodyStyle = getComputedStyle$1(document.body);
+  var bodyPosition = bodyStyle.position;
+  if (!isSVG && (!bodyPosition || bodyPosition === "static")) {
+    return [0, 0];
+  }
+  var marginLeft = parseInt(bodyStyle.marginLeft, 10);
+  var marginTop = parseInt(bodyStyle.marginTop, 10);
+  if (style.position === "absolute") {
+    if (style.top !== "auto" || style.bottom !== "auto") {
+      marginTop = 0;
+    }
+    if (style.left !== "auto" || style.right !== "auto") {
+      marginLeft = 0;
+    }
+  }
+  return [marginLeft, marginTop];
+}
+function convert3DMatrixes(matrixes) {
+  matrixes.forEach(function(info) {
+    var matrix = info.matrix;
+    if (matrix) {
+      info.matrix = convertDimension(matrix, 3, 4);
+    }
+  });
+}
+function getMatrixStackInfo(target, container, checkContainer) {
+  var el = target;
+  var matrixes = [];
+  var requestEnd = !checkContainer && target === container;
+  var isEnd = requestEnd;
+  var is3d = false;
+  var n = 3;
+  var transformOrigin;
+  var targetTransformOrigin;
+  var targetMatrix;
+  var offsetContainer = getOffsetInfo(container, container, true).offsetParent;
+  while (el && !isEnd) {
+    isEnd = requestEnd;
+    var style = getComputedStyle$1(el);
+    var position = style.position;
+    var isFixed = position === "fixed";
+    var transform = getElementTransform(el, style);
+    var matrix = convertCSStoMatrix(getTransformMatrix(transform));
+    var length2 = matrix.length;
+    if (!is3d && length2 === 16) {
+      is3d = true;
+      n = 4;
+      convert3DMatrixes(matrixes);
+      if (targetMatrix) {
+        targetMatrix = convertDimension(targetMatrix, 3, 4);
+      }
+    }
+    if (is3d && length2 === 9) {
+      matrix = convertDimension(matrix, 3, 4);
+    }
+    var _a3 = getOffsetPosInfo(el, container, style, isFixed), tagName = _a3.tagName, hasOffset = _a3.hasOffset, isSVG = _a3.isSVG, origin = _a3.origin, targetOrigin = _a3.targetOrigin, offsetPos = _a3.offset;
+    var offsetLeft = offsetPos[0], offsetTop = offsetPos[1];
+    if (tagName === "svg" && targetMatrix) {
+      matrixes.push({
+        type: "target",
+        target: el,
+        matrix: getSVGMatrix(el, n)
+      });
+      matrixes.push({
+        type: "offset",
+        target: el,
+        matrix: createIdentityMatrix(n)
+      });
+    } else if (tagName === "g" && target !== el) {
+      offsetLeft = 0;
+      offsetTop = 0;
+    }
+    var _b3 = getOffsetInfo(el, container), offsetParent = _b3.offsetParent, isOffsetEnd = _b3.isEnd, isStatic = _b3.isStatic;
+    if (IS_WEBKIT && hasOffset && !isSVG && isStatic && (position === "relative" || position === "static")) {
+      offsetLeft -= offsetParent.offsetLeft;
+      offsetTop -= offsetParent.offsetTop;
+      requestEnd = requestEnd || isOffsetEnd;
+    }
+    var parentClientLeft = 0;
+    var parentClientTop = 0;
+    if (hasOffset && offsetContainer !== offsetParent) {
+      parentClientLeft = offsetParent.clientLeft;
+      parentClientTop = offsetParent.clientTop;
+    }
+    if (hasOffset && offsetParent === document.body) {
+      var margin = getBodyOffset(el, false, style);
+      offsetLeft += margin[0];
+      offsetTop += margin[1];
+    }
+    matrixes.push({
+      type: "target",
+      target: el,
+      matrix: getAbsoluteMatrix(matrix, n, origin)
+    });
+    if (hasOffset) {
+      matrixes.push({
+        type: "offset",
+        target: el,
+        matrix: createOriginMatrix([offsetLeft - el.scrollLeft + parentClientLeft, offsetTop - el.scrollTop + parentClientTop], n)
+      });
+    } else {
+      matrixes.push({
+        type: "offset",
+        target: el,
+        origin
+      });
+    }
+    if (!targetMatrix) {
+      targetMatrix = matrix;
+    }
+    if (!transformOrigin) {
+      transformOrigin = origin;
+    }
+    if (!targetTransformOrigin) {
+      targetTransformOrigin = targetOrigin;
+    }
+    if (isEnd || isFixed) {
+      break;
+    } else {
+      el = offsetParent;
+      requestEnd = isOffsetEnd;
+    }
+    if (!checkContainer || el === document.body) {
+      isEnd = requestEnd;
+    }
+  }
+  if (!targetMatrix) {
+    targetMatrix = createIdentityMatrix(n);
+  }
+  if (!transformOrigin) {
+    transformOrigin = [0, 0];
+  }
+  if (!targetTransformOrigin) {
+    targetTransformOrigin = [0, 0];
+  }
+  return {
+    offsetContainer,
+    matrixes,
+    targetMatrix,
+    transformOrigin,
+    targetOrigin: targetTransformOrigin,
+    is3d
+  };
+}
+function calculateElementInfo(target, container, rootContainer, isAbsolute3d) {
+  if (rootContainer === void 0) {
+    rootContainer = container;
+  }
+  var width = 0;
+  var height = 0;
+  var rotation = 0;
+  var allResult = {};
+  if (target) {
+    var _a3 = getSize(target), offsetWidth = _a3.offsetWidth, offsetHeight = _a3.offsetHeight;
+    width = offsetWidth;
+    height = offsetHeight;
+  }
+  if (target) {
+    var result = calculateMatrixStack(target, container, rootContainer, isAbsolute3d);
+    var position = calculateMoveablePosition(result.allMatrix, result.transformOrigin, width, height);
+    allResult = __assign$1$1(__assign$1$1({}, result), position);
+    var rotationPosition = calculateMoveablePosition(result.allMatrix, [50, 50], 100, 100);
+    rotation = getRotationRad([rotationPosition.pos1, rotationPosition.pos2], rotationPosition.direction);
+  }
+  var n = isAbsolute3d ? 4 : 3;
+  return __assign$1$1({
+    width,
+    height,
+    rotation,
+    rootMatrix: createIdentityMatrix(n),
+    beforeMatrix: createIdentityMatrix(n),
+    offsetMatrix: createIdentityMatrix(n),
+    allMatrix: createIdentityMatrix(n),
+    targetMatrix: createIdentityMatrix(n),
+    targetTransform: "",
+    transformOrigin: [0, 0],
+    targetOrigin: [0, 0],
+    is3d: !!isAbsolute3d,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    origin: [0, 0],
+    pos1: [0, 0],
+    pos2: [0, 0],
+    pos3: [0, 0],
+    pos4: [0, 0],
+    direction: 1
+  }, allResult);
+}
+function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
+  var _a3;
+  if (rootContainer === void 0) {
+    rootContainer = container;
+  }
+  var _b3 = getMatrixStackInfo(target, container), matrixes = _b3.matrixes, is3d = _b3.is3d, prevTargetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin, targetOrigin = _b3.targetOrigin, offsetContainer = _b3.offsetContainer;
+  var _c3 = getMatrixStackInfo(offsetContainer, rootContainer, true), rootMatrixes = _c3.matrixes, isRoot3d = _c3.is3d;
+  var isNext3d = isAbsolute3d || isRoot3d || is3d;
+  var n = isNext3d ? 4 : 3;
+  var isSVGGraphicElement = target.tagName.toLowerCase() !== "svg" && "ownerSVGElement" in target;
+  var targetMatrix = prevTargetMatrix;
+  var allMatrix = createIdentityMatrix(n);
+  var rootMatrix = createIdentityMatrix(n);
+  var beforeMatrix = createIdentityMatrix(n);
+  var offsetMatrix = createIdentityMatrix(n);
+  var length2 = matrixes.length;
+  rootMatrixes.reverse();
+  matrixes.reverse();
+  if (!is3d && isNext3d) {
+    targetMatrix = convertDimension(targetMatrix, 3, 4);
+    convert3DMatrixes(matrixes);
+  }
+  if (!isRoot3d && isNext3d) {
+    convert3DMatrixes(rootMatrixes);
+  }
+  rootMatrixes.forEach(function(info) {
+    rootMatrix = multiply(rootMatrix, info.matrix, n);
+  });
+  var originalRootContainer = rootContainer || document.body;
+  var endContainer = ((_a3 = rootMatrixes[0]) === null || _a3 === void 0 ? void 0 : _a3.target) || getOffsetInfo(originalRootContainer, originalRootContainer, true).offsetParent;
+  var rootMatrixBeforeOffset = rootMatrixes.slice(1).reduce(function(matrix, info) {
+    return multiply(matrix, info.matrix, n);
+  }, createIdentityMatrix(n));
+  matrixes.forEach(function(info, i2) {
+    if (length2 - 2 === i2) {
+      beforeMatrix = allMatrix.slice();
+    }
+    if (length2 - 1 === i2) {
+      offsetMatrix = allMatrix.slice();
+    }
+    if (!info.matrix) {
+      var nextInfo = matrixes[i2 + 1];
+      var offset = getSVGOffset(info, nextInfo, endContainer, n, multiply(rootMatrixBeforeOffset, allMatrix, n));
+      info.matrix = createOriginMatrix(offset, n);
+    }
+    allMatrix = multiply(allMatrix, info.matrix, n);
+  });
+  var isMatrix3d = !isSVGGraphicElement && is3d;
+  if (!targetMatrix) {
+    targetMatrix = createIdentityMatrix(isMatrix3d ? 4 : 3);
+  }
+  var targetTransform = makeMatrixCSS(isSVGGraphicElement && targetMatrix.length === 16 ? convertDimension(targetMatrix, 4, 3) : targetMatrix, isMatrix3d);
+  rootMatrix = ignoreDimension(rootMatrix, n, n);
+  return {
+    rootMatrix,
+    beforeMatrix,
+    offsetMatrix,
+    allMatrix,
+    targetMatrix,
+    targetTransform,
+    transformOrigin,
+    targetOrigin,
+    is3d: isNext3d
+  };
+}
+function makeMatrixCSS(matrix, is3d) {
+  if (is3d === void 0) {
+    is3d = matrix.length > 9;
+  }
+  return "".concat(is3d ? "matrix3d" : "matrix", "(").concat(convertMatrixtoCSS(matrix, !is3d).join(","), ")");
+}
+function getSVGViewBox(el) {
+  var clientWidth = el.clientWidth;
+  var clientHeight = el.clientHeight;
+  if (!el) {
+    return {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      clientWidth,
+      clientHeight
+    };
+  }
+  var viewBox = el.viewBox;
+  var baseVal = viewBox && viewBox.baseVal || {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0
+  };
+  return {
+    x: baseVal.x,
+    y: baseVal.y,
+    width: baseVal.width || clientWidth,
+    height: baseVal.height || clientHeight,
+    clientWidth,
+    clientHeight
+  };
+}
+function getSVGMatrix(el, n) {
+  var _a3 = getSVGViewBox(el), viewBoxWidth = _a3.width, viewBoxHeight = _a3.height, clientWidth = _a3.clientWidth, clientHeight = _a3.clientHeight;
+  var scaleX = clientWidth / viewBoxWidth;
+  var scaleY = clientHeight / viewBoxHeight;
+  var preserveAspectRatio = el.preserveAspectRatio.baseVal;
+  var align = preserveAspectRatio.align;
+  var meetOrSlice = preserveAspectRatio.meetOrSlice;
+  var svgOrigin = [0, 0];
+  var scale = [scaleX, scaleY];
+  var translate = [0, 0];
+  if (align !== 1) {
+    var xAlign = (align - 2) % 3;
+    var yAlign = Math.floor((align - 2) / 3);
+    svgOrigin[0] = viewBoxWidth * xAlign / 2;
+    svgOrigin[1] = viewBoxHeight * yAlign / 2;
+    var scaleDimension = meetOrSlice === 2 ? Math.max(scaleY, scaleX) : Math.min(scaleX, scaleY);
+    scale[0] = scaleDimension;
+    scale[1] = scaleDimension;
+    translate[0] = (clientWidth - viewBoxWidth) / 2 * xAlign;
+    translate[1] = (clientHeight - viewBoxHeight) / 2 * yAlign;
+  }
+  var scaleMatrix2 = createScaleMatrix(scale, n);
+  scaleMatrix2[n * (n - 1)] = translate[0], scaleMatrix2[n * (n - 1) + 1] = translate[1];
+  return getAbsoluteMatrix(scaleMatrix2, n, svgOrigin);
+}
+function getSVGGraphicsOffset(el, origin) {
+  if (!el.getBBox) {
+    return [0, 0];
+  }
+  var bbox = el.getBBox();
+  var viewBox = getSVGViewBox(el.ownerSVGElement);
+  var left = bbox.x - viewBox.x;
+  var top = bbox.y - viewBox.y;
+  return [left, top, origin[0] - left, origin[1] - top];
+}
+function calculatePosition(matrix, pos, n) {
+  return calculate(matrix, convertPositionMatrix(pos, n), n);
+}
+function calculatePoses(matrix, width, height, n) {
+  return [[0, 0], [width, 0], [0, height], [width, height]].map(function(pos) {
+    return calculatePosition(matrix, pos, n);
+  });
+}
+function getRect(poses) {
+  var posesX = poses.map(function(pos) {
+    return pos[0];
+  });
+  var posesY = poses.map(function(pos) {
+    return pos[1];
+  });
+  var left = Math.min.apply(Math, posesX);
+  var top = Math.min.apply(Math, posesY);
+  var right = Math.max.apply(Math, posesX);
+  var bottom = Math.max.apply(Math, posesY);
+  var rectWidth = right - left;
+  var rectHeight = bottom - top;
+  return {
+    left,
+    top,
+    right,
+    bottom,
+    width: rectWidth,
+    height: rectHeight
+  };
+}
+function calculateRect(matrix, width, height, n) {
+  var poses = calculatePoses(matrix, width, height, n);
+  return getRect(poses);
+}
+function getSVGOffset(offsetInfo, targetInfo, container, n, beforeMatrix) {
+  var _a3;
+  var target = offsetInfo.target;
+  var origin = offsetInfo.origin;
+  var targetMatrix = targetInfo.matrix;
+  var _b3 = getSize(target), width = _b3.offsetWidth, height = _b3.offsetHeight;
+  var containerClientRect = container.getBoundingClientRect();
+  var margin = [0, 0];
+  if (container === document.body) {
+    margin = getBodyOffset(target, true);
+  }
+  var rect = target.getBoundingClientRect();
+  var rectLeft = rect.left - containerClientRect.left + container.scrollLeft - (container.clientLeft || 0) + margin[0];
+  var rectTop = rect.top - containerClientRect.top + container.scrollTop - (container.clientTop || 0) + margin[1];
+  var rectWidth = rect.width;
+  var rectHeight = rect.height;
+  var mat = multiplies(n, beforeMatrix, targetMatrix);
+  var _c3 = calculateRect(mat, width, height, n), prevLeft = _c3.left, prevTop = _c3.top, prevWidth = _c3.width, prevHeight = _c3.height;
+  var posOrigin = calculatePosition(mat, origin, n);
+  var prevOrigin = minus(posOrigin, [prevLeft, prevTop]);
+  var rectOrigin = [rectLeft + prevOrigin[0] * rectWidth / prevWidth, rectTop + prevOrigin[1] * rectHeight / prevHeight];
+  var offset = [0, 0];
+  var count = 0;
+  while (++count < 10) {
+    var inverseBeforeMatrix = invert(beforeMatrix, n);
+    _a3 = minus(calculatePosition(inverseBeforeMatrix, rectOrigin, n), calculatePosition(inverseBeforeMatrix, posOrigin, n)), offset[0] = _a3[0], offset[1] = _a3[1];
+    var mat2 = multiplies(n, beforeMatrix, createOriginMatrix(offset, n), targetMatrix);
+    var _d2 = calculateRect(mat2, width, height, n), nextLeft = _d2.left, nextTop = _d2.top;
+    var distLeft = nextLeft - rectLeft;
+    var distTop = nextTop - rectTop;
+    if (Math.abs(distLeft) < 2 && Math.abs(distTop) < 2) {
+      break;
+    }
+    rectOrigin[0] -= distLeft;
+    rectOrigin[1] -= distTop;
+  }
+  return offset.map(function(p2) {
+    return Math.round(p2);
+  });
+}
+function calculateMoveablePosition(matrix, origin, width, height) {
+  var is3d = matrix.length === 16;
+  var n = is3d ? 4 : 3;
+  var poses = calculatePoses(matrix, width, height, n);
+  var _a3 = poses[0], x1 = _a3[0], y1 = _a3[1], _b3 = poses[1], x2 = _b3[0], y2 = _b3[1], _c3 = poses[2], x3 = _c3[0], y3 = _c3[1], _d2 = poses[3], x4 = _d2[0], y4 = _d2[1];
+  var _e = calculatePosition(matrix, origin, n), originX = _e[0], originY = _e[1];
+  var left = Math.min(x1, x2, x3, x4);
+  var top = Math.min(y1, y2, y3, y4);
+  var right = Math.max(x1, x2, x3, x4);
+  var bottom = Math.max(y1, y2, y3, y4);
+  x1 = x1 - left || 0;
+  x2 = x2 - left || 0;
+  x3 = x3 - left || 0;
+  x4 = x4 - left || 0;
+  y1 = y1 - top || 0;
+  y2 = y2 - top || 0;
+  y3 = y3 - top || 0;
+  y4 = y4 - top || 0;
+  originX = originX - left || 0;
+  originY = originY - top || 0;
+  var direction = getShapeDirection(poses);
+  return {
+    left,
+    top,
+    right,
+    bottom,
+    origin: [originX, originY],
+    pos1: [x1, y1],
+    pos2: [x2, y2],
+    pos3: [x3, y3],
+    pos4: [x4, y4],
+    direction
+  };
+}
+function getDistSize(vec) {
+  return Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1]);
+}
+function getDiagonalSize(pos1, pos2) {
+  return getDistSize([pos2[0] - pos1[0], pos2[1] - pos1[1]]);
+}
+function getLineStyle(pos1, pos2, zoom, rad) {
+  if (zoom === void 0) {
+    zoom = 1;
+  }
+  if (rad === void 0) {
+    rad = getRad$1(pos1, pos2);
+  }
+  var width = getDiagonalSize(pos1, pos2);
+  return {
+    transform: "translateY(-50%) translate(".concat(pos1[0], "px, ").concat(pos1[1], "px) rotate(").concat(rad, "rad) scaleY(").concat(zoom, ")"),
+    width: "".concat(width, "px")
+  };
+}
+function getControlTransform(rotation, zoom) {
+  var poses = [];
+  for (var _i = 2; _i < arguments.length; _i++) {
+    poses[_i - 2] = arguments[_i];
+  }
+  var length2 = poses.length;
+  var x2 = poses.reduce(function(prev2, pos) {
+    return prev2 + pos[0];
+  }, 0) / length2;
+  var y2 = poses.reduce(function(prev2, pos) {
+    return prev2 + pos[1];
+  }, 0) / length2;
+  return {
+    transform: "translateZ(0px) translate(".concat(x2, "px, ").concat(y2, "px) rotate(").concat(rotation, "rad) scale(").concat(zoom, ")")
+  };
+}
+function getCSSSize(target) {
+  var style = getComputedStyle$1(target);
+  return [parseFloat(style.width), parseFloat(style.height)];
+}
+function getSize(target, style) {
+  if (style === void 0) {
+    style = getComputedStyle$1(target);
+  }
+  var hasOffset = !isUndefined(target.offsetWidth);
+  if (!hasOffset && target.tagName.toLowerCase() !== "svg") {
+    var bbox = target.getBBox();
+    var offsetWidth = bbox.width;
+    var offsetHeight = bbox.height;
+    return {
+      svg: true,
+      offsetWidth,
+      offsetHeight,
+      clientWidth: offsetWidth,
+      clientHeight: offsetHeight,
+      cssWidth: offsetWidth,
+      cssHeight: offsetHeight
+    };
+  } else {
+    var boxSizing = style.boxSizing === "border-box";
+    var borderLeft = parseFloat(style.borderLeftWidth) || 0;
+    var borderRight = parseFloat(style.borderRightWidth) || 0;
+    var borderTop = parseFloat(style.borderTopWidth) || 0;
+    var borderBottom = parseFloat(style.borderBottomWidth) || 0;
+    var paddingLeft = parseFloat(style.paddingLeft) || 0;
+    var paddingRight = parseFloat(style.paddingRight) || 0;
+    var paddingTop = parseFloat(style.paddingTop) || 0;
+    var paddingBottom = parseFloat(style.paddingBottom) || 0;
+    var cssWidth = parseFloat(style.width);
+    var cssHeight = parseFloat(style.height);
+    var offsetWidth = cssWidth;
+    var offsetHeight = cssHeight;
+    var clientWidth = cssWidth;
+    var clientHeight = cssHeight;
+    var horizontalPadding = paddingLeft + paddingRight;
+    var verticalPadding = paddingTop + paddingBottom;
+    var horizontalBorder = borderLeft + borderRight;
+    var verticalBorder = borderTop + borderBottom;
+    var horizontalOffset = horizontalPadding + horizontalBorder;
+    var verticalOffset = verticalPadding + verticalBorder;
+    if (boxSizing) {
+      cssWidth = offsetWidth - horizontalOffset;
+      cssHeight = offsetHeight - verticalOffset;
+    } else {
+      offsetWidth = cssWidth + horizontalOffset;
+      offsetHeight = cssHeight + verticalOffset;
+    }
+    clientWidth = cssWidth + horizontalPadding;
+    clientHeight = cssHeight + verticalPadding;
+    return {
+      svg: false,
+      offsetWidth,
+      offsetHeight,
+      clientWidth,
+      clientHeight,
+      cssWidth,
+      cssHeight
+    };
+  }
+}
+function getRotationRad(poses, direction) {
+  return getRad$1(direction > 0 ? poses[0] : poses[1], direction > 0 ? poses[1] : poses[0]);
+}
+function getTargetInfo(moveableElement, target, container, parentContainer, rootContainer) {
+  var beforeDirection = 1;
+  var beforeOrigin = [0, 0];
+  var targetClientRect = resetClientRect();
+  var containerClientRect = resetClientRect();
+  var moveableClientRect = resetClientRect();
+  var result = calculateElementInfo(target, container, rootContainer, false);
+  if (target) {
+    var n = result.is3d ? 4 : 3;
+    var beforePosition = calculateMoveablePosition(result.offsetMatrix, plus(result.transformOrigin, getOrigin(result.targetMatrix, n)), result.width, result.height);
+    beforeDirection = beforePosition.direction;
+    beforeOrigin = plus(beforePosition.origin, [beforePosition.left - result.left, beforePosition.top - result.top]);
+    targetClientRect = getClientRect(target);
+    containerClientRect = getClientRect(getOffsetInfo(parentContainer, parentContainer, true).offsetParent || document.body, true);
+    if (moveableElement) {
+      moveableClientRect = getClientRect(moveableElement);
+    }
+  }
+  return __assign$1$1({
+    targetClientRect,
+    containerClientRect,
+    moveableClientRect,
+    beforeDirection,
+    beforeOrigin,
+    originalBeforeOrigin: beforeOrigin,
+    target
+  }, result);
+}
+function resetClientRect() {
+  return {
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 0,
+    height: 0,
+    clientLeft: 0,
+    clientTop: 0,
+    clientWidth: 0,
+    clientHeight: 0,
+    scrollWidth: 0,
+    scrollHeight: 0
+  };
+}
+function getClientRect(el, isExtends) {
+  var left = 0;
+  var top = 0;
+  var width = 0;
+  var height = 0;
+  if (el === document.body || el === document.documentElement) {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    left = -(document.documentElement.scrollLeft || document.body.scrollLeft);
+    top = -(document.documentElement.scrollTop || document.body.scrollTop);
+  } else {
+    var clientRect = el.getBoundingClientRect();
+    left = clientRect.left;
+    top = clientRect.top;
+    width = clientRect.width;
+    height = clientRect.height;
+  }
+  var rect = {
+    left,
+    right: left + width,
+    top,
+    bottom: top + height,
+    width,
+    height
+  };
+  if (isExtends) {
+    rect.clientLeft = el.clientLeft;
+    rect.clientTop = el.clientTop;
+    rect.clientWidth = el.clientWidth;
+    rect.clientHeight = el.clientHeight;
+    rect.scrollWidth = el.scrollWidth;
+    rect.scrollHeight = el.scrollHeight;
+    rect.overflow = getComputedStyle$1(el).overflow !== "visible";
+  }
+  return rect;
+}
+function getDirection(target) {
+  if (!target) {
+    return;
+  }
+  var direciton = target.getAttribute("data-direction");
+  if (!direciton) {
+    return;
+  }
+  var dir = [0, 0];
+  direciton.indexOf("w") > -1 && (dir[0] = -1);
+  direciton.indexOf("e") > -1 && (dir[0] = 1);
+  direciton.indexOf("n") > -1 && (dir[1] = -1);
+  direciton.indexOf("s") > -1 && (dir[1] = 1);
+  return dir;
+}
+function getAbsolutePoses(poses, dist) {
+  return [plus(dist, poses[0]), plus(dist, poses[1]), plus(dist, poses[2]), plus(dist, poses[3])];
+}
+function getAbsolutePosesByState(_a3) {
+  var left = _a3.left, top = _a3.top, pos1 = _a3.pos1, pos2 = _a3.pos2, pos3 = _a3.pos3, pos4 = _a3.pos4;
+  return getAbsolutePoses([pos1, pos2, pos3, pos4], [left, top]);
+}
+function roundSign(num) {
+  return Math.round(num % 1 === -0.5 ? num - 1 : num);
+}
+function unset(self2, name2) {
+  var _a3;
+  (_a3 = self2[name2]) === null || _a3 === void 0 ? void 0 : _a3.unset();
+  self2[name2] = null;
+}
+function fillParams(moveable, e, params) {
+  var datas = e.datas;
+  if (!datas.datas) {
+    datas.datas = {};
+  }
+  var nextParams = __assign$1$1(__assign$1$1({}, params), {
+    target: moveable.state.target,
+    clientX: e.clientX,
+    clientY: e.clientY,
+    inputEvent: e.inputEvent,
+    currentTarget: moveable,
+    moveable,
+    datas: datas.datas
+  });
+  if (datas.isStartEvent) {
+    datas.lastEvent = nextParams;
+  } else {
+    datas.isStartEvent = true;
+  }
+  return nextParams;
+}
+function fillEndParams(moveable, e, params) {
+  var datas = e.datas;
+  var isDrag = "isDrag" in params ? params.isDrag : e.isDrag;
+  if (!datas.datas) {
+    datas.datas = {};
+  }
+  return __assign$1$1(__assign$1$1({
+    isDrag
+  }, params), {
+    moveable,
+    target: moveable.state.target,
+    clientX: e.clientX,
+    clientY: e.clientY,
+    inputEvent: e.inputEvent,
+    currentTarget: moveable,
+    lastEvent: datas.lastEvent,
+    isDouble: e.isDouble,
+    datas: datas.datas
+  });
+}
+function catchEvent(moveable, name2, callback) {
+  moveable._emitter.on(name2, callback);
+}
+function triggerEvent(moveable, name2, params, isManager) {
+  return moveable.triggerEvent(name2, params, isManager);
+}
+function getComputedStyle$1(el, pseudoElt) {
+  return window.getComputedStyle(el, pseudoElt);
+}
+function filterAbles(ables, methods, triggerAblesSimultaneously) {
+  var enabledAbles = {};
+  var ableGroups = {};
+  return ables.filter(function(able) {
+    var name2 = able.name;
+    if (enabledAbles[name2] || !methods.some(function(method) {
+      return able[method];
+    })) {
+      return false;
+    }
+    if (!triggerAblesSimultaneously && able.ableGroup) {
+      if (ableGroups[able.ableGroup]) {
         return false;
       }
-      return target === element || target.contains(element);
-    });
-  }
-  return false;
+      ableGroups[able.ableGroup] = true;
+    }
+    enabledAbles[name2] = true;
+    return true;
+  });
 }
-var Rotatable = {
-  name: "rotatable",
-  canPinch: true,
-  props: {
-    rotatable: Boolean,
-    rotationPosition: String,
-    throttleRotate: Number,
-    renderDirections: Object,
-    rotationTarget: Object
-  },
-  events: {
-    onRotateStart: "rotateStart",
-    onRotate: "rotate",
-    onRotateEnd: "rotateEnd",
-    onRotateGroupStart: "rotateGroupStart",
-    onRotateGroup: "rotateGroup",
-    onRotateGroupEnd: "rotateGroupEnd"
-  },
-  css: [".rotation {\n            position: absolute;\n            height: 40px;\n            width: 1px;\n            transform-origin: 50% 100%;\n            height: calc(40px * var(--zoom));\n            top: auto;\n            left: 0;\n            bottom: 100%;\n            will-change: transform;\n        }\n        .rotation .rotation-line {\n            display: block;\n            width: 100%;\n            height: 100%;\n            transform-origin: 50% 50%;\n        }\n        .rotation .rotation-control {\n            border-color: #4af;\n            border-color: var(--moveable-color);\n            background:#fff;\n            cursor: alias;\n        }"],
-  render: function(moveable, React) {
-    var _a3 = moveable.props, rotatable = _a3.rotatable, rotationPosition = _a3.rotationPosition, zoom = _a3.zoom, renderDirections = _a3.renderDirections;
-    var _b3 = moveable.state, renderPoses = _b3.renderPoses, direction = _b3.direction;
-    if (!rotatable) {
-      return null;
-    }
-    var positions = getRotationPositions(rotationPosition, renderPoses, direction);
-    var jsxs = [];
-    if (positions) {
-      var pos = positions[0], rad = positions[1];
-      jsxs.push(React.createElement("div", {
-        key: "rotation",
-        className: prefix("rotation"),
-        style: {
-          transform: "translate(-50%) translate(" + pos[0] + "px, " + pos[1] + "px) rotate(" + rad + "rad)"
-        }
-      }, React.createElement("div", {
-        className: prefix("line rotation-line"),
-        style: {
-          transform: "scaleX(" + zoom + ")"
-        }
-      }), React.createElement("div", {
-        className: prefix("control rotation-control"),
-        style: {
-          transform: "translate(0.5px) scale(" + zoom + ")"
-        }
-      })));
-    }
-    if (renderDirections) {
-      jsxs.push.apply(jsxs, renderDirectionControls(moveable, [], React));
-    }
-    return jsxs;
-  },
-  dragControlCondition,
-  dragControlStart: function(moveable, e) {
-    var datas = e.datas, clientX = e.clientX, clientY = e.clientY, parentRotate = e.parentRotate, parentFlag = e.parentFlag, isPinch = e.isPinch, isRequest = e.isRequest;
-    var _a3 = moveable.state, target = _a3.target, left = _a3.left, top = _a3.top, origin = _a3.origin, beforeOrigin = _a3.beforeOrigin, direction = _a3.direction, beforeDirection = _a3.beforeDirection, targetTransform = _a3.targetTransform, moveableClientRect = _a3.moveableClientRect;
-    if (!isRequest && !target) {
-      return false;
-    }
-    var rect = moveable.getRect();
-    datas.rect = rect;
-    datas.transform = targetTransform;
-    datas.left = left;
-    datas.top = top;
-    datas.fixedPosition = getDirectionOffset(moveable, getOriginDirection(moveable));
-    datas.absoluteInfo = {
-      origin: rect.origin,
-      startValue: rect.rotation
-    };
-    setRotateStartInfo(moveable, datas.absoluteInfo, clientX, clientY, origin, moveableClientRect);
-    if (isRequest || isPinch || parentFlag) {
-      var externalRotate = parentRotate || 0;
-      datas.beforeInfo = {
-        origin: rect.beforeOrigin,
-        prevDeg: externalRotate,
-        startDeg: externalRotate,
-        prevSnapDeg: externalRotate,
-        loop: 0
-      };
-      datas.afterInfo = {
-        origin: rect.origin,
-        prevDeg: externalRotate,
-        startDeg: externalRotate,
-        prevSnapDeg: externalRotate,
-        loop: 0
-      };
-    } else {
-      datas.beforeInfo = {
-        origin: rect.beforeOrigin
-      };
-      datas.afterInfo = {
-        origin: rect.origin
-      };
-      setRotateStartInfo(moveable, datas.beforeInfo, clientX, clientY, beforeOrigin, moveableClientRect);
-      setRotateStartInfo(moveable, datas.afterInfo, clientX, clientY, origin, moveableClientRect);
-    }
-    datas.direction = direction;
-    datas.beforeDirection = beforeDirection;
-    datas.startValue = 0;
-    datas.datas = {};
-    setDefaultTransformIndex(e, "rotate");
-    var params = fillParams(moveable, e, __assign$2(__assign$2({
-      set: function(rotatation) {
-        datas.startValue = rotatation * Math.PI / 180;
-      }
-    }, fillTransformStartEvent(e)), {
-      dragStart: Draggable.dragStart(moveable, new CustomGesto().dragStart([0, 0], e))
-    }));
-    var result = triggerEvent(moveable, "onRotateStart", params);
-    datas.isRotate = result !== false;
-    moveable.state.snapRenderInfo = {
-      request: e.isRequest
-    };
-    return datas.isRotate ? params : false;
-  },
-  dragControl: function(moveable, e) {
-    var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _j;
-    var datas = e.datas, clientX = e.clientX, clientY = e.clientY, parentRotate = e.parentRotate, parentFlag = e.parentFlag, isPinch = e.isPinch, groupDelta = e.groupDelta;
-    var beforeDirection = datas.beforeDirection, beforeInfo = datas.beforeInfo, afterInfo = datas.afterInfo, absoluteInfo = datas.absoluteInfo, isRotate = datas.isRotate, startValue = datas.startValue, rect = datas.rect;
-    if (!isRotate) {
-      return;
-    }
-    resolveTransformEvent(e, "rotate");
-    var targetDirection = getTransformDirection(e);
-    var direction = beforeDirection * targetDirection;
-    var _k = moveable.props, _l2 = _k.throttleRotate, throttleRotate = _l2 === void 0 ? 0 : _l2, parentMoveable = _k.parentMoveable;
-    var delta;
-    var dist;
-    var rotate2;
-    var beforeDelta;
-    var beforeDist;
-    var beforeRotate;
-    var absoluteDelta;
-    var absoluteDist;
-    var absoluteRotate;
-    var startDeg = 180 / Math.PI * startValue;
-    var absoluteStartDeg = absoluteInfo.startValue;
-    if (!parentFlag && "parentDist" in e) {
-      var parentDist = e.parentDist;
-      _a3 = getParentDeg(moveable, rect, afterInfo, parentDist, direction, startDeg), delta = _a3[0], dist = _a3[1], rotate2 = _a3[2];
-      _b3 = getParentDeg(moveable, rect, beforeInfo, parentDist, beforeDirection, startDeg), beforeDelta = _b3[0], beforeDist = _b3[1], beforeRotate = _b3[2];
-      _c3 = getParentDeg(moveable, rect, absoluteInfo, parentDist, direction, absoluteStartDeg), absoluteDelta = _c3[0], absoluteDist = _c3[1], absoluteRotate = _c3[2];
-    } else if (isPinch || parentFlag) {
-      _d2 = getDeg(moveable, rect, afterInfo, parentRotate, direction, startDeg, throttleRotate), delta = _d2[0], dist = _d2[1], rotate2 = _d2[2];
-      _e = getDeg(moveable, rect, beforeInfo, parentRotate, beforeDirection, startDeg, throttleRotate), beforeDelta = _e[0], beforeDist = _e[1], beforeRotate = _e[2];
-      _f = getDeg(moveable, rect, absoluteInfo, parentRotate, direction, absoluteStartDeg, throttleRotate), absoluteDelta = _f[0], absoluteDist = _f[1], absoluteRotate = _f[2];
-    } else {
-      _g = getRotateInfo(moveable, rect, afterInfo, direction, clientX, clientY, startDeg, throttleRotate), delta = _g[0], dist = _g[1], rotate2 = _g[2];
-      _h = getRotateInfo(moveable, rect, beforeInfo, beforeDirection, clientX, clientY, startDeg, throttleRotate), beforeDelta = _h[0], beforeDist = _h[1], beforeRotate = _h[2];
-      _j = getRotateInfo(moveable, rect, absoluteInfo, direction, clientX, clientY, absoluteStartDeg, throttleRotate), absoluteDelta = _j[0], absoluteDist = _j[1], absoluteRotate = _j[2];
-    }
-    if (!absoluteDelta && !delta && !beforeDelta && !parentMoveable) {
-      return;
-    }
-    var nextTransform = convertTransformFormat(datas, "rotate(" + rotate2 + "deg)", "rotate(" + dist + "deg)");
-    var inverseDist = getRotateDist(moveable, dist, datas.fixedPosition, datas);
-    var inverseDelta = minus(plus(groupDelta || [0, 0], inverseDist), datas.prevInverseDist || [0, 0]);
-    datas.prevInverseDist = inverseDist;
-    var params = fillParams(moveable, e, __assign$2({
-      delta,
-      dist,
-      rotate: rotate2,
-      beforeDist,
-      beforeDelta,
-      beforeRotate,
-      absoluteDist,
-      absoluteDelta,
-      absoluteRotate,
-      isPinch: !!isPinch
-    }, fillTransformEvent(moveable, nextTransform, inverseDelta, isPinch, e)));
-    triggerEvent(moveable, "onRotate", params);
-    return params;
-  },
-  dragControlEnd: function(moveable, e) {
-    var datas = e.datas;
-    if (!datas.isRotate) {
-      return;
-    }
-    datas.isRotate = false;
-    var params = fillEndParams(moveable, e, {});
-    triggerEvent(moveable, "onRotateEnd", params);
-    return params;
-  },
-  dragGroupControlCondition: dragControlCondition,
-  dragGroupControlStart: function(moveable, e) {
-    var datas = e.datas;
-    var _a3 = moveable.state, parentLeft = _a3.left, parentTop = _a3.top, parentBeforeOrigin = _a3.beforeOrigin;
-    var params = this.dragControlStart(moveable, e);
-    if (!params) {
-      return false;
-    }
-    params.set(datas.beforeDirection * moveable.rotation);
-    var events = triggerChildAbles(moveable, this, "dragControlStart", e, function(child, ev) {
-      var _a4 = child.state, left = _a4.left, top = _a4.top, beforeOrigin = _a4.beforeOrigin;
-      var childClient = plus(minus([left, top], [parentLeft, parentTop]), minus(beforeOrigin, parentBeforeOrigin));
-      ev.datas.groupClient = childClient;
-      return __assign$2(__assign$2({}, ev), {
-        parentRotate: 0
-      });
-    });
-    var nextParams = __assign$2(__assign$2({}, params), {
-      targets: moveable.props.targets,
-      events
-    });
-    var result = triggerEvent(moveable, "onRotateGroupStart", nextParams);
-    datas.isRotate = result !== false;
-    return datas.isRotate ? params : false;
-  },
-  dragGroupControl: function(moveable, e) {
-    var datas = e.datas;
-    if (!datas.isRotate) {
-      return;
-    }
-    var params = this.dragControl(moveable, e);
-    if (!params) {
-      return;
-    }
-    var direction = datas.beforeDirection;
-    var parentRotate = params.beforeDist;
-    var deg = params.beforeDelta;
-    var rad = deg / 180 * Math.PI;
-    var events = triggerChildAbles(moveable, this, "dragControl", e, function(_2, ev) {
-      var _a3 = ev.datas.groupClient, prevX = _a3[0], prevY = _a3[1];
-      var _b3 = rotate([prevX, prevY], rad * direction), clientX = _b3[0], clientY = _b3[1];
-      var delta = [clientX - prevX, clientY - prevY];
-      ev.datas.groupClient = [clientX, clientY];
-      return __assign$2(__assign$2({}, ev), {
-        parentRotate,
-        groupDelta: delta
-      });
-    });
-    moveable.rotation = direction * params.beforeRotate;
-    var nextParams = __assign$2({
-      targets: moveable.props.targets,
-      events,
-      set: function(rotation) {
-        moveable.rotation = rotation;
-      }
-    }, params);
-    triggerEvent(moveable, "onRotateGroup", nextParams);
-    return nextParams;
-  },
-  dragGroupControlEnd: function(moveable, e) {
-    var isDrag = e.isDrag, datas = e.datas;
-    if (!datas.isRotate) {
-      return;
-    }
-    this.dragControlEnd(moveable, e);
-    var events = triggerChildAbles(moveable, this, "dragControlEnd", e);
-    var nextParams = fillEndParams(moveable, e, {
-      targets: moveable.props.targets,
-      events
-    });
-    triggerEvent(moveable, "onRotateGroupEnd", nextParams);
-    return isDrag;
-  },
-  request: function(moveable) {
-    var datas = {};
-    var distRotate = 0;
-    var startRotation = moveable.getRotation();
-    return {
-      isControl: true,
-      requestStart: function() {
-        return {
-          datas
-        };
-      },
-      request: function(e) {
-        if ("deltaRotate" in e) {
-          distRotate += e.deltaRotate;
-        } else if ("rotate" in e) {
-          distRotate = e.rotate - startRotation;
-        }
-        return {
-          datas,
-          parentDist: distRotate
-        };
-      },
-      requestEnd: function() {
-        return {
-          datas,
-          isDrag: true
-        };
-      }
-    };
+function equals(a1, a2) {
+  return a1 === a2 || a1 == null && a2 == null;
+}
+function selectValue() {
+  var values = [];
+  for (var _i = 0; _i < arguments.length; _i++) {
+    values[_i] = arguments[_i];
   }
-};
+  var length2 = values.length - 1;
+  for (var i2 = 0; i2 < length2; ++i2) {
+    var value2 = values[i2];
+    if (!isUndefined(value2)) {
+      return value2;
+    }
+  }
+  return values[length2];
+}
+function groupBy(arr, func) {
+  var groups = [];
+  var groupKeys = [];
+  arr.forEach(function(el, index) {
+    var groupKey = func(el, index, arr);
+    var keyIndex = groupKeys.indexOf(groupKey);
+    var group = groups[keyIndex] || [];
+    if (keyIndex === -1) {
+      groupKeys.push(groupKey);
+      groups.push(group);
+    }
+    group.push(el);
+  });
+  return groups;
+}
+function groupByMap(arr, func) {
+  var groups = [];
+  var groupKeys = {};
+  arr.forEach(function(el, index) {
+    var groupKey = func(el, index, arr);
+    var group = groupKeys[groupKey];
+    if (!group) {
+      group = [];
+      groupKeys[groupKey] = group;
+      groups.push(group);
+    }
+    group.push(el);
+  });
+  return groups;
+}
+function flat(arr) {
+  return arr.reduce(function(prev2, cur) {
+    return prev2.concat(cur);
+  }, []);
+}
+function maxOffset() {
+  var args = [];
+  for (var _i = 0; _i < arguments.length; _i++) {
+    args[_i] = arguments[_i];
+  }
+  args.sort(function(a2, b2) {
+    return Math.abs(b2) - Math.abs(a2);
+  });
+  return args[0];
+}
+function calculateInversePosition(matrix, pos, n) {
+  return calculate(invert(matrix, n), convertPositionMatrix(pos, n), n);
+}
+function convertDragDist(state, e) {
+  var _a3;
+  var is3d = state.is3d, rootMatrix = state.rootMatrix;
+  var n = is3d ? 4 : 3;
+  _a3 = calculateInversePosition(rootMatrix, [e.distX, e.distY], n), e.distX = _a3[0], e.distY = _a3[1];
+  return e;
+}
+function calculatePadding(matrix, pos, transformOrigin, origin, n) {
+  return minus(calculatePosition(matrix, plus(transformOrigin, pos), n), origin);
+}
+function convertCSSSize(value2, size, isRelative) {
+  return isRelative ? "".concat(value2 / size * 100, "%") : "".concat(value2, "px");
+}
+function moveControlPos(controlPoses, index, dist, isRect) {
+  var _a3 = controlPoses[index], direction = _a3.direction, sub = _a3.sub;
+  var dists = controlPoses.map(function() {
+    return [0, 0];
+  });
+  var directions = direction ? direction.split("") : [];
+  if (isRect && index < 8) {
+    var verticalDirection_1 = directions.filter(function(dir) {
+      return dir === "w" || dir === "e";
+    })[0];
+    var horizontalDirection_1 = directions.filter(function(dir) {
+      return dir === "n" || dir === "s";
+    })[0];
+    dists[index] = dist;
+    controlPoses.forEach(function(controlPose, i2) {
+      var controlDir = controlPose.direction;
+      if (!controlDir) {
+        return;
+      }
+      if (controlDir.indexOf(verticalDirection_1) > -1) {
+        dists[i2][0] = dist[0];
+      }
+      if (controlDir.indexOf(horizontalDirection_1) > -1) {
+        dists[i2][1] = dist[1];
+      }
+    });
+    if (verticalDirection_1) {
+      dists[1][0] = dist[0] / 2;
+      dists[5][0] = dist[0] / 2;
+    }
+    if (horizontalDirection_1) {
+      dists[3][1] = dist[1] / 2;
+      dists[7][1] = dist[1] / 2;
+    }
+  } else if (direction && !sub) {
+    directions.forEach(function(dir) {
+      var isVertical = dir === "n" || dir === "s";
+      controlPoses.forEach(function(controlPose, i2) {
+        var dirDir = controlPose.direction, dirHorizontal = controlPose.horizontal, dirVertical = controlPose.vertical;
+        if (!dirDir || dirDir.indexOf(dir) === -1) {
+          return;
+        }
+        dists[i2] = [isVertical || !dirHorizontal ? 0 : dist[0], !isVertical || !dirVertical ? 0 : dist[1]];
+      });
+    });
+  } else {
+    dists[index] = dist;
+  }
+  return dists;
+}
+function getTinyDist(v2) {
+  return Math.abs(v2) <= TINY_NUM ? 0 : v2;
+}
+function directionCondition(moveable, e) {
+  if (e.isRequest) {
+    if (e.requestAble === "resizable" || e.requestAble === "scalable") {
+      return e.parentDirection;
+    } else {
+      return false;
+    }
+  }
+  return hasClass(e.inputEvent.target, prefix("direction"));
+}
+function invertObject(obj) {
+  var nextObj = {};
+  for (var name2 in obj) {
+    nextObj[obj[name2]] = name2;
+  }
+  return nextObj;
+}
+function convertTransformInfo(transforms, index) {
+  var beforeFunctionTexts = transforms.slice(0, index < 0 ? void 0 : index);
+  var beforeFunctionTexts2 = transforms.slice(0, index < 0 ? void 0 : index + 1);
+  var targetFunctionText = transforms[index] || "";
+  var afterFunctionTexts = index < 0 ? [] : transforms.slice(index);
+  var afterFunctionTexts2 = index < 0 ? [] : transforms.slice(index + 1);
+  var beforeFunctions = parse(beforeFunctionTexts);
+  var beforeFunctions2 = parse(beforeFunctionTexts2);
+  var targetFunctions = parse([targetFunctionText]);
+  var afterFunctions = parse(afterFunctionTexts);
+  var afterFunctions2 = parse(afterFunctionTexts2);
+  var beforeFunctionMatrix = toMat(beforeFunctions);
+  var beforeFunctionMatrix2 = toMat(beforeFunctions2);
+  var afterFunctionMatrix = toMat(afterFunctions);
+  var afterFunctionMatrix2 = toMat(afterFunctions2);
+  var allFunctionMatrix = multiply(beforeFunctionMatrix, afterFunctionMatrix, 4);
+  return {
+    transforms,
+    beforeFunctionMatrix,
+    beforeFunctionMatrix2,
+    targetFunctionMatrix: toMat(targetFunctions),
+    afterFunctionMatrix,
+    afterFunctionMatrix2,
+    allFunctionMatrix,
+    beforeFunctions,
+    beforeFunctions2,
+    targetFunction: targetFunctions[0],
+    afterFunctions,
+    afterFunctions2,
+    beforeFunctionTexts,
+    beforeFunctionTexts2,
+    targetFunctionText,
+    afterFunctionTexts,
+    afterFunctionTexts2
+  };
+}
+function isArrayFormat(arr) {
+  if (!arr || !isObject$2(arr)) {
+    return false;
+  }
+  if (arr instanceof Element) {
+    return false;
+  }
+  return isArray(arr) || "length" in arr;
+}
+function getRefTarget(target, isSelector) {
+  if (!target) {
+    return null;
+  }
+  if (isString(target)) {
+    if (isSelector) {
+      return document.querySelector(target);
+    }
+    return target;
+  }
+  if (isFunction$2(target)) {
+    return target();
+  }
+  if ("current" in target) {
+    return target.current;
+  }
+  return target;
+}
+function getRefTargets(targets, isSelector) {
+  if (!targets) {
+    return [];
+  }
+  var userTargets = isArrayFormat(targets) ? [].slice.call(targets) : [targets];
+  return userTargets.reduce(function(prev2, target) {
+    if (isString(target) && isSelector) {
+      return __spreadArray(__spreadArray([], prev2, true), [].slice.call(document.querySelectorAll(target)), true);
+    }
+    prev2.push(getRefTarget(target, isSelector));
+    return prev2;
+  }, []);
+}
+function getElementTargets(targets, selectorMap) {
+  var elementTargets = [];
+  targets.forEach(function(target) {
+    if (!target) {
+      return;
+    }
+    if (isString(target)) {
+      if (selectorMap[target]) {
+        elementTargets.push.apply(elementTargets, selectorMap[target]);
+      }
+      return;
+    }
+    elementTargets.push(target);
+  });
+  return elementTargets;
+}
+function getAbsoluteRotation(pos1, pos2, direction) {
+  var deg = getRad$1(pos1, pos2) / Math.PI * 180;
+  deg = direction >= 0 ? deg : 180 - deg;
+  deg = deg >= 0 ? deg : 360 + deg;
+  return deg;
+}
+function getDragDistByState(state, dist) {
+  var rootMatrix = state.rootMatrix, is3d = state.is3d;
+  var n = is3d ? 4 : 3;
+  var inverseMatrix = invert(rootMatrix, n);
+  if (!is3d) {
+    inverseMatrix = convertDimension(inverseMatrix, 3, 4);
+  }
+  inverseMatrix[12] = 0;
+  inverseMatrix[13] = 0;
+  inverseMatrix[14] = 0;
+  return calculateMatrixDist(inverseMatrix, dist);
+}
+function getOffsetSizeDist(sizeDirection, keepRatio, datas, e) {
+  var ratio = datas.ratio, startOffsetWidth = datas.startOffsetWidth, startOffsetHeight = datas.startOffsetHeight;
+  var distWidth = 0;
+  var distHeight = 0;
+  var distX = e.distX, distY = e.distY, parentDistance = e.parentDistance, parentDist = e.parentDist, parentScale = e.parentScale, isPinch = e.isPinch;
+  var startFixedDirection = datas.fixedDirection;
+  if (parentDist) {
+    distWidth = parentDist[0];
+    distHeight = parentDist[1];
+    if (keepRatio) {
+      if (!distWidth) {
+        distWidth = distHeight * ratio;
+      } else if (!distHeight) {
+        distHeight = distWidth / ratio;
+      }
+    }
+  } else if (parentScale) {
+    distWidth = (parentScale[0] - 1) * startOffsetWidth;
+    distHeight = (parentScale[1] - 1) * startOffsetHeight;
+  } else if (isPinch) {
+    if (parentDistance) {
+      distWidth = parentDistance;
+      distHeight = parentDistance * startOffsetHeight / startOffsetWidth;
+    }
+  } else {
+    var dist_1 = getDragDist({
+      datas,
+      distX,
+      distY
+    });
+    dist_1 = [0, 1].map(function(index) {
+      var directionRatio = Math.abs(sizeDirection[index] - startFixedDirection[index]);
+      if (directionRatio !== 0) {
+        directionRatio = 2 / directionRatio;
+      }
+      return dist_1[index] * directionRatio;
+    });
+    if (keepRatio && startOffsetWidth && startOffsetHeight) {
+      var rad = getRad$1([0, 0], dist_1);
+      var standardRad = getRad$1([0, 0], sizeDirection);
+      var size = getDistSize(dist_1);
+      var signSize = Math.cos(rad - standardRad) * size;
+      if (!sizeDirection[0]) {
+        distHeight = signSize;
+        distWidth = distHeight * ratio;
+      } else if (!sizeDirection[1]) {
+        distWidth = signSize;
+        distHeight = distWidth / ratio;
+      } else {
+        var startWidthSize = sizeDirection[0] * 2 * startOffsetWidth;
+        var startHeightSize = sizeDirection[1] * 2 * startOffsetHeight;
+        var distSize = getDistSize([startWidthSize + dist_1[0], startHeightSize + dist_1[1]]) - getDistSize([startWidthSize, startHeightSize]);
+        var ratioRad = getRad$1([0, 0], [ratio, 1]);
+        distWidth = Math.cos(ratioRad) * distSize;
+        distHeight = Math.sin(ratioRad) * distSize;
+      }
+    } else {
+      distWidth = sizeDirection[0] * dist_1[0];
+      distHeight = sizeDirection[1] * dist_1[1];
+    }
+  }
+  return {
+    distWidth,
+    distHeight
+  };
+}
+var Pinchable = makeAble("pinchable", {
+  events: {
+    onPinchStart: "pinchStart",
+    onPinch: "pinch",
+    onPinchEnd: "pinchEnd",
+    onPinchGroupStart: "pinchGroupStart",
+    onPinchGroup: "pinchGroup",
+    onPinchGroupEnd: "pinchGroupEnd"
+  },
+  dragStart: function() {
+    return true;
+  },
+  pinchStart: function(moveable, e) {
+    var datas = e.datas, targets = e.targets, angle = e.angle, originalDatas = e.originalDatas;
+    var _a3 = moveable.props, pinchable = _a3.pinchable, ables = _a3.ables;
+    if (!pinchable) {
+      return false;
+    }
+    var eventName = "onPinch".concat(targets ? "Group" : "", "Start");
+    var controlEventName = "drag".concat(targets ? "Group" : "", "ControlStart");
+    var pinchAbles = (pinchable === true ? moveable.controlAbles : ables.filter(function(able) {
+      return pinchable.indexOf(able.name) > -1;
+    })).filter(function(able) {
+      return able.canPinch && able[controlEventName];
+    });
+    var params = fillParams(moveable, e, {});
+    if (targets) {
+      params.targets = targets;
+    }
+    var result = triggerEvent(moveable, eventName, params);
+    datas.isPinch = result !== false;
+    datas.ables = pinchAbles;
+    var isPinch = datas.isPinch;
+    if (!isPinch) {
+      return false;
+    }
+    pinchAbles.forEach(function(able) {
+      originalDatas[able.name] = originalDatas[able.name] || {};
+      if (!able[controlEventName]) {
+        return;
+      }
+      var ableEvent = __assign$1$1(__assign$1$1({}, e), {
+        datas: originalDatas[able.name],
+        parentRotate: angle,
+        isPinch: true
+      });
+      able[controlEventName](moveable, ableEvent);
+    });
+    moveable.state.snapRenderInfo = {
+      request: e.isRequest,
+      direction: [0, 0]
+    };
+    return isPinch;
+  },
+  pinch: function(moveable, e) {
+    var datas = e.datas, pinchScale = e.scale, distance = e.distance, originalDatas = e.originalDatas, inputEvent = e.inputEvent, targets = e.targets, angle = e.angle;
+    if (!datas.isPinch) {
+      return;
+    }
+    var parentDistance = distance * (1 - 1 / pinchScale);
+    var params = fillParams(moveable, e, {});
+    if (targets) {
+      params.targets = targets;
+    }
+    var eventName = "onPinch".concat(targets ? "Group" : "");
+    triggerEvent(moveable, eventName, params);
+    var ables = datas.ables;
+    var controlEventName = "drag".concat(targets ? "Group" : "", "Control");
+    ables.forEach(function(able) {
+      if (!able[controlEventName]) {
+        return;
+      }
+      able[controlEventName](moveable, __assign$1$1(__assign$1$1({}, e), {
+        datas: originalDatas[able.name],
+        inputEvent,
+        parentDistance,
+        parentRotate: angle,
+        isPinch: true
+      }));
+    });
+    return params;
+  },
+  pinchEnd: function(moveable, e) {
+    var datas = e.datas, isPinch = e.isPinch, inputEvent = e.inputEvent, targets = e.targets, originalDatas = e.originalDatas;
+    if (!datas.isPinch) {
+      return;
+    }
+    var eventName = "onPinch".concat(targets ? "Group" : "", "End");
+    var params = fillEndParams(moveable, e, {
+      isDrag: isPinch
+    });
+    if (targets) {
+      params.targets = targets;
+    }
+    triggerEvent(moveable, eventName, params);
+    var ables = datas.ables;
+    var controlEventName = "drag".concat(targets ? "Group" : "", "ControlEnd");
+    ables.forEach(function(able) {
+      if (!able[controlEventName]) {
+        return;
+      }
+      able[controlEventName](moveable, __assign$1$1(__assign$1$1({}, e), {
+        isDrag: isPinch,
+        datas: originalDatas[able.name],
+        inputEvent,
+        isPinch: true
+      }));
+    });
+    return isPinch;
+  },
+  pinchGroupStart: function(moveable, e) {
+    return this.pinchStart(moveable, __assign$1$1(__assign$1$1({}, e), {
+      targets: moveable.props.targets
+    }));
+  },
+  pinchGroup: function(moveable, e) {
+    return this.pinch(moveable, __assign$1$1(__assign$1$1({}, e), {
+      targets: moveable.props.targets
+    }));
+  },
+  pinchGroupEnd: function(moveable, e) {
+    return this.pinchEnd(moveable, __assign$1$1(__assign$1$1({}, e), {
+      targets: moveable.props.targets
+    }));
+  }
+});
 var Resizable = {
   name: "resizable",
   ableGroup: "size",
@@ -41363,13 +41717,16 @@ var Resizable = {
     resizable: Boolean,
     throttleResize: Number,
     renderDirections: Array,
-    keepRatio: Boolean
+    keepRatio: Boolean,
+    resizeFormat: Function
   },
   events: {
     onResizeStart: "resizeStart",
+    onBeforeResize: "beforeResize",
     onResize: "resize",
     onResizeEnd: "resizeEnd",
     onResizeGroupStart: "resizeGroupStart",
+    onBeforeResizeGroup: "beforeResizeGroup",
     onResizeGroup: "resizeGroup",
     onResizeGroupEnd: "resizeGroupEnd"
   },
@@ -41427,12 +41784,14 @@ var Resizable = {
     function setRatio(ratio) {
       datas.ratio = ratio && isFinite(ratio) ? ratio : 0;
     }
+    datas.startPositions = getAbsolutePosesByState(moveable.state);
     function setFixedDirection(fixedDirection) {
       datas.fixedDirection = fixedDirection;
-      datas.fixedPosition = getAbsolutePosition(moveable, fixedDirection);
+      datas.fixedPosition = getPosByDirection(datas.startPositions, fixedDirection);
     }
     setRatio(width / height);
     setFixedDirection([-direction[0], -direction[1]]);
+    datas.setFixedDirection = setFixedDirection;
     var params = fillParams(moveable, e, {
       direction,
       set: function(_a4) {
@@ -41465,12 +41824,13 @@ var Resizable = {
   },
   dragControl: function(moveable, e) {
     var _a3;
-    var datas = e.datas, distX = e.distX, distY = e.distY, parentFlag = e.parentFlag, isPinch = e.isPinch, parentDistance = e.parentDistance, parentScale = e.parentScale, parentKeepRatio = e.parentKeepRatio, dragClient = e.dragClient, parentDist = e.parentDist, isRequest = e.isRequest;
-    var isResize = datas.isResize, transformOrigin = datas.transformOrigin, fixedDirection = datas.fixedDirection, startWidth = datas.startWidth, startHeight = datas.startHeight, prevWidth = datas.prevWidth, prevHeight = datas.prevHeight, minSize = datas.minSize, maxSize = datas.maxSize, ratio = datas.ratio, isWidth = datas.isWidth, startOffsetWidth = datas.startOffsetWidth, startOffsetHeight = datas.startOffsetHeight;
+    var datas = e.datas, parentFlag = e.parentFlag, isPinch = e.isPinch, parentKeepRatio = e.parentKeepRatio, dragClient = e.dragClient, parentDist = e.parentDist, isRequest = e.isRequest;
+    var isResize = datas.isResize, transformOrigin = datas.transformOrigin, startWidth = datas.startWidth, startHeight = datas.startHeight, prevWidth = datas.prevWidth, prevHeight = datas.prevHeight, minSize = datas.minSize, maxSize = datas.maxSize, ratio = datas.ratio, isWidth = datas.isWidth, startOffsetWidth = datas.startOffsetWidth, startOffsetHeight = datas.startOffsetHeight;
     if (!isResize) {
       return;
     }
-    var _b3 = moveable.props, _c3 = _b3.throttleResize, throttleResize = _c3 === void 0 ? 0 : _c3, parentMoveable = _b3.parentMoveable, _d2 = _b3.snapThreshold, snapThreshold = _d2 === void 0 ? 5 : _d2;
+    var props = moveable.props;
+    var resizeFormat = props.resizeFormat, _b3 = props.throttleResize, throttleResize = _b3 === void 0 ? 1 : _b3, parentMoveable = props.parentMoveable, _c3 = props.snapThreshold, snapThreshold = _c3 === void 0 ? 5 : _c3;
     var direction = datas.direction;
     var sizeDirection = direction;
     var distWidth = 0;
@@ -41478,7 +41838,37 @@ var Resizable = {
     if (!direction[0] && !direction[1]) {
       sizeDirection = [1, 1];
     }
-    var keepRatio = ratio && (moveable.props.keepRatio || parentKeepRatio);
+    var keepRatio = ratio && (parentKeepRatio != null ? parentKeepRatio : props.keepRatio) || false;
+    function getNextBoundingSize() {
+      var nextSize = getOffsetSizeDist(sizeDirection, keepRatio, datas, e);
+      distWidth = nextSize.distWidth;
+      distHeight = nextSize.distHeight;
+      var nextWidth = sizeDirection[0] || keepRatio ? Math.max(startOffsetWidth + distWidth, TINY_NUM) : startOffsetWidth;
+      var nextHeight = sizeDirection[1] || keepRatio ? Math.max(startOffsetHeight + distHeight, TINY_NUM) : startOffsetHeight;
+      if (keepRatio && startOffsetWidth && startOffsetHeight) {
+        if (isWidth) {
+          nextHeight = nextWidth / ratio;
+        } else {
+          nextWidth = nextHeight * ratio;
+        }
+      }
+      return [nextWidth, nextHeight];
+    }
+    var _d2 = getNextBoundingSize(), boundingWidth = _d2[0], boundingHeight = _d2[1];
+    datas.setFixedDirection(datas.fixedDirection);
+    triggerEvent(moveable, "onBeforeResize", fillParams(moveable, e, {
+      setFixedDirection: function(nextFixedDirection) {
+        var _a4;
+        datas.setFixedDirection(nextFixedDirection);
+        _a4 = getNextBoundingSize(), boundingWidth = _a4[0], boundingHeight = _a4[1];
+        return [boundingWidth, boundingHeight];
+      },
+      boundingWidth,
+      boundingHeight,
+      setSize: function(size) {
+        boundingWidth = size[0], boundingHeight = size[1];
+      }
+    }));
     var fixedPosition = dragClient;
     if (!dragClient) {
       if (!parentFlag && isPinch) {
@@ -41487,89 +41877,21 @@ var Resizable = {
         fixedPosition = datas.fixedPosition;
       }
     }
-    if (parentDist) {
-      distWidth = parentDist[0];
-      distHeight = parentDist[1];
-      if (keepRatio) {
-        if (!distWidth) {
-          distWidth = distHeight * ratio;
-        } else if (!distHeight) {
-          distHeight = distWidth / ratio;
-        }
-      }
-    } else if (parentScale) {
-      distWidth = (parentScale[0] - 1) * startOffsetWidth;
-      distHeight = (parentScale[1] - 1) * startOffsetHeight;
-    } else if (isPinch) {
-      if (parentDistance) {
-        distWidth = parentDistance;
-        distHeight = parentDistance * startOffsetHeight / startOffsetWidth;
-      }
-    } else {
-      var dist = getDragDist({
-        datas,
-        distX,
-        distY
-      });
-      distWidth = sizeDirection[0] * dist[0];
-      distHeight = sizeDirection[1] * dist[1];
-      if (keepRatio && startOffsetWidth && startOffsetHeight) {
-        var rad = getRad$1([0, 0], dist);
-        var standardRad = getRad$1([0, 0], sizeDirection);
-        var size = getDistSize([distWidth, distHeight]);
-        var signSize = Math.cos(rad - standardRad) * size;
-        if (!sizeDirection[0]) {
-          distHeight = signSize;
-          distWidth = distHeight / ratio;
-        } else if (!sizeDirection[1]) {
-          distWidth = signSize;
-          distHeight = distWidth * ratio;
-        } else {
-          var startWidthSize = sizeDirection[0] * 2 * startOffsetWidth;
-          var startHeightSize = sizeDirection[1] * 2 * startOffsetHeight;
-          var distSize = getDistSize([startWidthSize + dist[0], startHeightSize + dist[1]]) - getDistSize([startWidthSize, startHeightSize]);
-          var ratioRad = getRad$1([0, 0], [ratio, 1]);
-          distWidth = Math.cos(ratioRad) * distSize;
-          distHeight = Math.sin(ratioRad) * distSize;
-        }
-      } else if (!keepRatio) {
-        var nextDirection = __spreadArray([], direction);
-        if (!startOffsetWidth) {
-          if (dist[0] < 0) {
-            nextDirection[0] = -1;
-          } else if (dist[0] > 0) {
-            nextDirection[0] = 1;
-          }
-        }
-        if (!startOffsetHeight) {
-          if (dist[1] < 0) {
-            nextDirection[1] = -1;
-          } else if (dist[1] > 0) {
-            nextDirection[1] = 1;
-          }
-        }
-        direction = nextDirection;
-        sizeDirection = nextDirection;
-        distWidth = sizeDirection[0] * dist[0];
-        distHeight = sizeDirection[1] * dist[1];
-      }
-    }
-    var nextWidth = sizeDirection[0] || keepRatio ? Math.max(startOffsetWidth + distWidth, TINY_NUM) : startOffsetWidth;
-    var nextHeight = sizeDirection[1] || keepRatio ? Math.max(startOffsetHeight + distHeight, TINY_NUM) : startOffsetHeight;
-    if (keepRatio && startOffsetWidth && startOffsetHeight) {
-      if (isWidth) {
-        nextHeight = nextWidth / ratio;
-      } else {
-        nextWidth = nextHeight * ratio;
-      }
-    }
     var snapDist = [0, 0];
     if (!isPinch) {
-      snapDist = checkSnapResize(moveable, nextWidth, nextHeight, direction, fixedPosition, isRequest, datas);
+      snapDist = checkSnapResize(moveable, boundingWidth, boundingHeight, direction, fixedPosition, isRequest, datas);
     }
     if (parentDist) {
       !parentDist[0] && (snapDist[0] = 0);
       !parentDist[1] && (snapDist[1] = 0);
+    }
+    function computeSize() {
+      var _a4;
+      if (resizeFormat) {
+        _a4 = resizeFormat([boundingWidth, boundingHeight]), boundingWidth = _a4[0], boundingHeight = _a4[1];
+      }
+      boundingWidth = throttle(boundingWidth, throttleResize);
+      boundingHeight = throttle(boundingHeight, throttleResize);
     }
     if (keepRatio) {
       if (sizeDirection[0] && sizeDirection[1] && snapDist[0] && snapDist[1]) {
@@ -41581,18 +41903,14 @@ var Resizable = {
       }
       var isNoSnap = !snapDist[0] && !snapDist[1];
       if (isNoSnap) {
-        if (isWidth) {
-          nextWidth = throttle(nextWidth, throttleResize);
-        } else {
-          nextHeight = throttle(nextHeight, throttleResize);
-        }
+        computeSize();
       }
       if (sizeDirection[0] && !sizeDirection[1] || snapDist[0] && !snapDist[1] || isNoSnap && isWidth) {
-        nextWidth += snapDist[0];
-        nextHeight = nextWidth / ratio;
+        boundingWidth += snapDist[0];
+        boundingHeight = boundingWidth / ratio;
       } else if (!sizeDirection[0] && sizeDirection[1] || !snapDist[0] && snapDist[1] || isNoSnap && !isWidth) {
-        nextHeight += snapDist[1];
-        nextWidth = nextHeight * ratio;
+        boundingHeight += snapDist[1];
+        boundingWidth = boundingHeight * ratio;
       }
     } else {
       if (startOffsetWidth + distWidth < -snapThreshold) {
@@ -41601,24 +41919,17 @@ var Resizable = {
       if (startOffsetWidth + distHeight < -snapThreshold) {
         snapDist[1] = 0;
       }
-      nextWidth += snapDist[0];
-      nextHeight += snapDist[1];
-      if (!snapDist[0]) {
-        nextWidth = throttle(nextWidth, throttleResize);
-      }
-      if (!snapDist[1]) {
-        nextHeight = throttle(nextHeight, throttleResize);
-      }
+      boundingWidth += snapDist[0];
+      boundingHeight += snapDist[1];
     }
-    _a3 = calculateBoundSize([nextWidth, nextHeight], minSize, maxSize, keepRatio), nextWidth = _a3[0], nextHeight = _a3[1];
-    nextWidth = Math.round(nextWidth);
-    nextHeight = Math.round(nextHeight);
-    distWidth = nextWidth - startOffsetWidth;
-    distHeight = nextHeight - startOffsetHeight;
+    _a3 = calculateBoundSize([boundingWidth, boundingHeight], minSize, maxSize, keepRatio), boundingWidth = _a3[0], boundingHeight = _a3[1];
+    computeSize();
+    distWidth = boundingWidth - startOffsetWidth;
+    distHeight = boundingHeight - startOffsetHeight;
     var delta = [distWidth - prevWidth, distHeight - prevHeight];
     datas.prevWidth = distWidth;
     datas.prevHeight = distHeight;
-    var inverseDelta = getResizeDist(moveable, nextWidth, nextHeight, fixedDirection, fixedPosition, transformOrigin);
+    var inverseDelta = getResizeDist(moveable, boundingWidth, boundingHeight, datas.fixedDirection, fixedPosition, transformOrigin);
     if (!parentMoveable && delta.every(function(num) {
       return !num;
     }) && inverseDelta.every(function(num) {
@@ -41629,8 +41940,10 @@ var Resizable = {
     var params = fillParams(moveable, e, {
       width: startWidth + distWidth,
       height: startHeight + distHeight,
-      offsetWidth: nextWidth,
-      offsetHeight: nextHeight,
+      offsetWidth: Math.round(boundingWidth),
+      offsetHeight: Math.round(boundingHeight),
+      boundingWidth,
+      boundingHeight,
       direction,
       dist: [distWidth, distHeight],
       delta,
@@ -41686,7 +41999,8 @@ var Resizable = {
     function setDist(child, ev) {
       var fixedDirection = datas.fixedDirection;
       var fixedPosition = datas.fixedPosition;
-      var pos = getAbsolutePosition(child, fixedDirection);
+      var startPositions = ev.datas.startPositions || getAbsolutePosesByState(child.state);
+      var pos = getPosByDirection(startPositions, fixedDirection);
       var _a3 = calculate(createRotateMatrix(-moveable.rotation / 180 * Math.PI, 3), [pos[0] - fixedPosition[0], pos[1] - fixedPosition[1], 1], 3), originalX = _a3[0], originalY = _a3[1];
       ev.datas.originalX = originalX;
       ev.datas.originalY = originalY;
@@ -41695,16 +42009,18 @@ var Resizable = {
     var events = triggerChildAbles(moveable, this, "dragControlStart", e, function(child, ev) {
       return setDist(child, ev);
     });
-    var nextParams = __assign$2(__assign$2({}, params), {
+    var setFixedDirection = function(fixedDirection) {
+      params.setFixedDirection(fixedDirection);
+      events.forEach(function(ev, i2) {
+        ev.setFixedDirection(fixedDirection);
+        setDist(ev.moveable, originalEvents[i2]);
+      });
+    };
+    datas.setFixedDirection = setFixedDirection;
+    var nextParams = __assign$1$1(__assign$1$1({}, params), {
       targets: moveable.props.targets,
       events,
-      setFixedDirection: function(fixedDirection) {
-        params.setFixedDirection(fixedDirection);
-        events.forEach(function(ev, i2) {
-          ev.setFixedDirection(fixedDirection);
-          setDist(moveable.moveables[i2], originalEvents[i2]);
-        });
-      }
+      setFixedDirection
     });
     var result = triggerEvent(moveable, "onResizeGroupStart", nextParams);
     datas.isResize = result !== false;
@@ -41715,24 +42031,29 @@ var Resizable = {
     if (!datas.isResize) {
       return;
     }
+    catchEvent(moveable, "onBeforeResize", function(parentEvent) {
+      triggerEvent(moveable, "onBeforeResizeGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
+        targets: moveable.props.targets
+      })));
+    });
     var params = this.dragControl(moveable, e);
     if (!params) {
       return;
     }
-    var offsetWidth = params.offsetWidth, offsetHeight = params.offsetHeight, dist = params.dist;
+    var boundingWidth = params.boundingWidth, boundingHeight = params.boundingHeight, dist = params.dist;
     var keepRatio = moveable.props.keepRatio;
-    var parentScale = [offsetWidth / (offsetWidth - dist[0]), offsetHeight / (offsetHeight - dist[1])];
+    var parentScale = [boundingWidth / (boundingWidth - dist[0]), boundingHeight / (boundingHeight - dist[1])];
     var fixedPosition = datas.fixedPosition;
     var events = triggerChildAbles(moveable, this, "dragControl", e, function(_2, ev) {
       var _a3 = calculate(createRotateMatrix(moveable.rotation / 180 * Math.PI, 3), [ev.datas.originalX * parentScale[0], ev.datas.originalY * parentScale[1], 1], 3), clientX = _a3[0], clientY = _a3[1];
-      return __assign$2(__assign$2({}, ev), {
+      return __assign$1$1(__assign$1$1({}, ev), {
         parentDist: null,
         parentScale,
         dragClient: plus(fixedPosition, [clientX, clientY]),
         parentKeepRatio: keepRatio
       });
     });
-    var nextParams = __assign$2({
+    var nextParams = __assign$1$1({
       targets: moveable.props.targets,
       events
     }, params);
@@ -41779,7 +42100,8 @@ var Resizable = {
         }
         return {
           datas,
-          parentDist: [distWidth, distHeight]
+          parentDist: [distWidth, distHeight],
+          parentKeepRatio: e.keepRatio
         };
       },
       requestEnd: function() {
@@ -41803,9 +42125,11 @@ var Scalable = {
   },
   events: {
     onScaleStart: "scaleStart",
+    onBeforeScale: "beforeScale",
     onScale: "scale",
     onScaleEnd: "scaleEnd",
     onScaleGroupStart: "scaleGroupStart",
+    onBeforeScaleGroup: "beforeScaleGroup",
     onScaleGroup: "scaleGroup",
     onScaleGroupEnd: "scaleGroupEnd"
   },
@@ -41833,8 +42157,8 @@ var Scalable = {
     datas.transform = targetTransform;
     datas.prevDist = [1, 1];
     datas.direction = direction;
-    datas.width = width;
-    datas.height = height;
+    datas.startOffsetWidth = width;
+    datas.startOffsetHeight = height;
     datas.startValue = [1, 1];
     var scaleWidth = getDist$2(pos1, pos2);
     var scaleHeight = getDist$2(pos2, pos4);
@@ -41848,13 +42172,15 @@ var Scalable = {
     function setRatio(ratio) {
       datas.ratio = ratio && isFinite(ratio) ? ratio : 0;
     }
+    datas.startPositions = getAbsolutePosesByState(moveable.state);
     function setFixedDirection(fixedDirection) {
       datas.fixedDirection = fixedDirection;
-      datas.fixedPosition = getAbsolutePosition(moveable, fixedDirection);
+      datas.fixedPosition = getPosByDirection(datas.startPositions, fixedDirection);
     }
+    datas.setFixedDirection = setFixedDirection;
     setRatio(getDist$2(pos1, pos2) / getDist$2(pos2, pos4));
     setFixedDirection([-direction[0], -direction[1]]);
-    var params = fillParams(moveable, e, __assign$2(__assign$2({
+    var params = fillParams(moveable, e, __assign$1$1(__assign$1$1({
       direction,
       set: function(scale) {
         datas.startValue = scale;
@@ -41876,75 +42202,34 @@ var Scalable = {
   },
   dragControl: function(moveable, e) {
     resolveTransformEvent(e, "scale");
-    var datas = e.datas, distX = e.distX, distY = e.distY, parentScale = e.parentScale, parentDistance = e.parentDistance, parentKeepRatio = e.parentKeepRatio, parentFlag = e.parentFlag, isPinch = e.isPinch, dragClient = e.dragClient, parentDist = e.parentDist, isRequest = e.isRequest;
-    var prevDist = datas.prevDist, direction = datas.direction, width = datas.width, height = datas.height, isScale = datas.isScale, startValue = datas.startValue, isWidth = datas.isWidth, ratio = datas.ratio, fixedDirection = datas.fixedDirection, scaleXRatio = datas.scaleXRatio, scaleYRatio = datas.scaleYRatio;
+    var datas = e.datas, parentKeepRatio = e.parentKeepRatio, parentFlag = e.parentFlag, isPinch = e.isPinch, dragClient = e.dragClient, isRequest = e.isRequest;
+    var prevDist = datas.prevDist, direction = datas.direction, startOffsetWidth = datas.startOffsetWidth, startOffsetHeight = datas.startOffsetHeight, isScale = datas.isScale, startValue = datas.startValue, isWidth = datas.isWidth, ratio = datas.ratio;
     if (!isScale) {
       return false;
     }
-    var _a3 = moveable.props, throttleScale = _a3.throttleScale, parentMoveable = _a3.parentMoveable;
+    var props = moveable.props;
+    var throttleScale = props.throttleScale, parentMoveable = props.parentMoveable;
     var sizeDirection = direction;
     if (!direction[0] && !direction[1]) {
       sizeDirection = [1, 1];
     }
-    var keepRatio = ratio && (moveable.props.keepRatio || parentKeepRatio);
+    var keepRatio = ratio && (parentKeepRatio != null ? parentKeepRatio : props.keepRatio) || false;
     var state = moveable.state;
-    var scaleX = 1;
-    var scaleY = 1;
-    var fixedPosition = dragClient;
-    if (!dragClient) {
-      if (!parentFlag && isPinch) {
-        fixedPosition = getAbsolutePosition(moveable, [0, 0]);
-      } else {
-        fixedPosition = datas.fixedPosition;
+    function getNextScale() {
+      var _a3 = getOffsetSizeDist(sizeDirection, keepRatio, datas, e), distWidth = _a3.distWidth, distHeight = _a3.distHeight;
+      var scaleX = (startOffsetWidth + distWidth) / startOffsetWidth;
+      var scaleY = (startOffsetHeight + distHeight) / startOffsetHeight;
+      scaleX = sizeDirection[0] || keepRatio ? scaleX * startValue[0] : startValue[0];
+      scaleY = sizeDirection[1] || keepRatio ? scaleY * startValue[1] : startValue[1];
+      if (scaleX === 0) {
+        scaleX = (prevDist[0] > 0 ? 1 : -1) * MIN_SCALE;
       }
-    }
-    if (parentDist) {
-      scaleX = (width + parentDist[0]) / width;
-      scaleY = (height + parentDist[1]) / height;
-    } else if (parentScale) {
-      scaleX = parentScale[0];
-      scaleY = parentScale[1];
-    } else if (isPinch) {
-      if (parentDistance) {
-        scaleX = (width + parentDistance) / width;
-        scaleY = (height + parentDistance * height / width) / height;
+      if (scaleY === 0) {
+        scaleY = (prevDist[1] > 0 ? 1 : -1) * MIN_SCALE;
       }
-    } else {
-      var dragDist = getDragDist({
-        datas,
-        distX,
-        distY
-      });
-      var distScaleWidth = sizeDirection[0] * dragDist[0] * scaleXRatio;
-      var distScaleHeight = sizeDirection[1] * dragDist[1] * scaleYRatio;
-      if (keepRatio && width && height) {
-        if (!sizeDirection[0]) {
-          distScaleWidth = distScaleHeight * ratio;
-        } else if (!sizeDirection[1]) {
-          distScaleHeight = distScaleWidth / ratio;
-        } else {
-          var size = getDistSize([distScaleWidth, distScaleHeight]);
-          var dragRad = getRad$1([0, 0], dragDist);
-          var standardRad = getRad$1([0, 0], sizeDirection);
-          var signSize = Math.cos(dragRad - standardRad) * size;
-          var ratioRad = getRad$1([0, 0], [ratio, 1]);
-          distScaleWidth = Math.cos(ratioRad) * signSize;
-          distScaleHeight = Math.sin(ratioRad) * signSize;
-        }
-      }
-      scaleX = (width + distScaleWidth / scaleXRatio) / width;
-      scaleY = (height + distScaleHeight / scaleYRatio) / height;
+      return [scaleX, scaleY];
     }
-    scaleX = sizeDirection[0] || keepRatio ? scaleX * startValue[0] : startValue[0];
-    scaleY = sizeDirection[1] || keepRatio ? scaleY * startValue[1] : startValue[1];
-    if (scaleX === 0) {
-      scaleX = (prevDist[0] > 0 ? 1 : -1) * MIN_SCALE;
-    }
-    if (scaleY === 0) {
-      scaleY = (prevDist[1] > 0 ? 1 : -1) * MIN_SCALE;
-    }
-    var dist = [scaleX / startValue[0], scaleY / startValue[1]];
-    var scale = [scaleX, scaleY];
+    var scale = getNextScale();
     if (!isPinch && moveable.props.groupable) {
       var snapRenderInfo = state.snapRenderInfo || {};
       var stateDirection = snapRenderInfo.direction;
@@ -41955,13 +42240,33 @@ var Scalable = {
         };
       }
     }
+    triggerEvent(moveable, "onBeforeScale", fillParams(moveable, e, {
+      scale,
+      setFixedDirection: function(nextFixedDirection) {
+        datas.setFixedDirection(nextFixedDirection);
+        scale = getNextScale();
+        return scale;
+      },
+      setScale: function(nextScale) {
+        scale = nextScale;
+      }
+    }));
+    var dist = [scale[0] / startValue[0], scale[1] / startValue[1]];
+    var fixedPosition = dragClient;
     var snapDist = [0, 0];
+    if (!dragClient) {
+      if (!parentFlag && isPinch) {
+        fixedPosition = getAbsolutePosition(moveable, [0, 0]);
+      } else {
+        fixedPosition = datas.fixedPosition;
+      }
+    }
     if (!isPinch) {
       snapDist = checkSnapScale(moveable, dist, direction, isRequest, datas);
     }
     if (keepRatio) {
       if (sizeDirection[0] && sizeDirection[1] && snapDist[0] && snapDist[1]) {
-        if (Math.abs(snapDist[0] * width) > Math.abs(snapDist[1] * height)) {
+        if (Math.abs(snapDist[0] * startOffsetWidth) > Math.abs(snapDist[1] * startOffsetHeight)) {
           snapDist[1] = 0;
         } else {
           snapDist[0] = 0;
@@ -41977,12 +42282,12 @@ var Scalable = {
       }
       if (sizeDirection[0] && !sizeDirection[1] || snapDist[0] && !snapDist[1] || isNoSnap && isWidth) {
         dist[0] += snapDist[0];
-        var snapHeight = width * dist[0] * startValue[0] / ratio;
-        dist[1] = snapHeight / height / startValue[1];
+        var snapHeight = startOffsetWidth * dist[0] * startValue[0] / ratio;
+        dist[1] = snapHeight / startOffsetHeight / startValue[1];
       } else if (!sizeDirection[0] && sizeDirection[1] || !snapDist[0] && snapDist[1] || isNoSnap && !isWidth) {
         dist[1] += snapDist[1];
-        var snapWidth = height * dist[1] * startValue[1] * ratio;
-        dist[0] = snapWidth / width / startValue[0];
+        var snapWidth = startOffsetHeight * dist[1] * startValue[1] * ratio;
+        dist[0] = snapWidth / startOffsetWidth / startValue[0];
       }
     } else {
       dist[0] += snapDist[0];
@@ -42002,19 +42307,19 @@ var Scalable = {
     }
     var delta = [dist[0] / prevDist[0], dist[1] / prevDist[1]];
     scale = multiply2(dist, startValue);
-    var inverseDist = getScaleDist(moveable, dist, fixedDirection, fixedPosition, datas);
+    var inverseDist = getScaleDist(moveable, dist, datas.fixedDirection, fixedPosition, datas);
     var inverseDelta = minus(inverseDist, datas.prevInverseDist || [0, 0]);
     datas.prevDist = dist;
     datas.prevInverseDist = inverseDist;
-    if (scaleX === prevDist[0] && scaleY === prevDist[1] && inverseDelta.every(function(num) {
+    if (scale[0] === prevDist[0] && scale[1] === prevDist[1] && inverseDelta.every(function(num) {
       return !num;
     }) && !parentMoveable) {
       return false;
     }
-    var nextTransform = convertTransformFormat(datas, "scale(" + scale.join(", ") + ")", "scale(" + dist.join(", ") + ")");
-    var params = fillParams(moveable, e, __assign$2({
-      offsetWidth: width,
-      offsetHeight: height,
+    var nextTransform = convertTransformFormat(datas, "scale(".concat(scale.join(", "), ")"), "scale(".concat(dist.join(", "), ")"));
+    var params = fillParams(moveable, e, __assign$1$1({
+      offsetWidth: startOffsetWidth,
+      offsetHeight: startOffsetHeight,
       direction,
       scale,
       dist,
@@ -42044,7 +42349,8 @@ var Scalable = {
     function setDist(child, ev) {
       var fixedDirection = datas.fixedDirection;
       var fixedPosition = datas.fixedPosition;
-      var pos = getAbsolutePosition(child, fixedDirection);
+      var startPositions = ev.datas.startPositions || getAbsolutePosesByState(child.state);
+      var pos = getPosByDirection(startPositions, fixedDirection);
       var _a3 = calculate(createRotateMatrix(-moveable.rotation / 180 * Math.PI, 3), [pos[0] - fixedPosition[0], pos[1] - fixedPosition[1], 1], 3), originalX = _a3[0], originalY = _a3[1];
       ev.datas.originalX = originalX;
       ev.datas.originalY = originalY;
@@ -42054,16 +42360,18 @@ var Scalable = {
     var events = triggerChildAbles(moveable, this, "dragControlStart", e, function(child, ev) {
       return setDist(child, ev);
     });
-    var nextParams = __assign$2(__assign$2({}, params), {
+    var setFixedDirection = function(fixedDirection) {
+      params.setFixedDirection(fixedDirection);
+      events.forEach(function(ev, i2) {
+        ev.setFixedDirection(fixedDirection);
+        setDist(ev.moveable, originalEvents[i2]);
+      });
+    };
+    datas.setFixedDirection = setFixedDirection;
+    var nextParams = __assign$1$1(__assign$1$1({}, params), {
       targets: moveable.props.targets,
       events,
-      setFixedDirection: function(fixedDirection) {
-        params.setFixedDirection(fixedDirection);
-        events.forEach(function(ev, i2) {
-          ev.setFixedDirection(fixedDirection);
-          setDist(moveable.moveables[i2], originalEvents[i2]);
-        });
-      }
+      setFixedDirection
     });
     var result = triggerEvent(moveable, "onScaleGroupStart", nextParams);
     datas.isScale = result !== false;
@@ -42074,6 +42382,11 @@ var Scalable = {
     if (!datas.isScale) {
       return;
     }
+    catchEvent(moveable, "onBeforeScale", function(parentEvent) {
+      triggerEvent(moveable, "onBeforeScaleGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
+        targets: moveable.props.targets
+      })));
+    });
     var params = this.dragControl(moveable, e);
     if (!params) {
       return;
@@ -42085,14 +42398,14 @@ var Scalable = {
     var fixedPosition = datas.fixedPosition;
     var events = triggerChildAbles(moveable, this, "dragControl", e, function(_2, ev) {
       var _a3 = calculate(createRotateMatrix(moveable.rotation / 180 * Math.PI, 3), [ev.datas.originalX * dist[0], ev.datas.originalY * dist[1], 1], 3), clientX = _a3[0], clientY = _a3[1];
-      return __assign$2(__assign$2({}, ev), {
+      return __assign$1$1(__assign$1$1({}, ev), {
         parentDist: null,
         parentScale: scale,
         parentKeepRatio: keepRatio,
         dragClient: plus(fixedPosition, [clientX, clientY])
       });
     });
-    var nextParams = __assign$2({
+    var nextParams = __assign$1$1({
       targets: moveable.props.targets,
       events
     }, params);
@@ -42130,7 +42443,8 @@ var Scalable = {
         distHeight += e.deltaHeight;
         return {
           datas,
-          parentDist: [distWidth, distHeight]
+          parentDist: [distWidth, distHeight],
+          parentKeepRatio: e.keepRatio
         };
       },
       requestEnd: function() {
@@ -42204,7 +42518,7 @@ var Warpable = {
       className: prefix("line"),
       key: "middeLine4",
       style: getLineStyle(linePosFrom4, linePosTo4, zoom)
-    })], renderAllDirections(moveable, React));
+    })], renderAllDirections(moveable, React), true);
   },
   dragControlCondition: function(moveable, e) {
     if (e.isRequest) {
@@ -42246,7 +42560,7 @@ var Warpable = {
       request: e.isRequest,
       direction
     };
-    var params = fillParams(moveable, e, __assign$2({
+    var params = fillParams(moveable, e, __assign$1$1({
       set: function(matrix) {
         datas.startValue = matrix;
       }
@@ -42310,7 +42624,7 @@ var Warpable = {
     var delta = multiply(invert(prevMatrix, 4), matrix, 4);
     datas.prevMatrix = matrix;
     var totalMatrix = multiply(startValue, matrix, 4);
-    var nextTransform = convertTransformFormat(datas, "matrix3d(" + totalMatrix.join(", ") + ")", "matrix3d(" + matrix.join(", ") + ")");
+    var nextTransform = convertTransformFormat(datas, "matrix3d(".concat(totalMatrix.join(", "), ")"), "matrix3d(".concat(matrix.join(", "), ")"));
     fillOriginalTransform(e, nextTransform);
     triggerEvent(moveable, "onWarp", fillParams(moveable, e, {
       delta,
@@ -42336,9 +42650,12 @@ var AREA_PIECE = /* @__PURE__ */ prefix("area-piece");
 var AVOID = /* @__PURE__ */ prefix("avoid");
 function restoreStyle(moveable) {
   var el = moveable.areaElement;
+  if (!el) {
+    return;
+  }
   var _a3 = moveable.state, width = _a3.width, height = _a3.height;
   removeClass(el, AVOID);
-  el.style.cssText += "left: 0px; top: 0px; width: " + width + "px; height: " + height + "px";
+  el.style.cssText += "left: 0px; top: 0px; width: ".concat(width, "px; height: ").concat(height, "px");
 }
 function renderPieces(React) {
   return React.createElement("div", {
@@ -42387,8 +42704,8 @@ var DragArea = {
       style: {
         top: "0px",
         left: "0px",
-        width: width + "px",
-        height: height + "px",
+        width: "".concat(width, "px"),
+        height: "".concat(height, "px"),
         transformOrigin: "0 0",
         transform
       }
@@ -42432,7 +42749,7 @@ var DragArea = {
     }];
     var children = [].slice.call(areaElement.nextElementSibling.children);
     rects.forEach(function(rect, i2) {
-      children[i2].style.cssText = "left: " + rect.left + "px;top: " + rect.top + "px; width: " + rect.width + "px; height: " + rect.height + "px;";
+      children[i2].style.cssText = "left: ".concat(rect.left, "px;top: ").concat(rect.top, "px; width: ").concat(rect.width, "px; height: ").concat(rect.height, "px;");
     });
     addClass(areaElement, AVOID);
     state.disableNativeEvent = true;
@@ -42563,7 +42880,7 @@ var Scrollable = {
     e.datas.dragScroll = null;
   },
   dragControlStart: function(moveable, e) {
-    return this.dragStart(moveable, __assign$2(__assign$2({}, e), {
+    return this.dragStart(moveable, __assign$1$1(__assign$1$1({}, e), {
       isControl: true
     }));
   },
@@ -42574,33 +42891,33 @@ var Scrollable = {
     return this.dragEnd(moveable, e);
   },
   dragGroupStart: function(moveable, e) {
-    return this.dragStart(moveable, __assign$2(__assign$2({}, e), {
+    return this.dragStart(moveable, __assign$1$1(__assign$1$1({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroup: function(moveable, e) {
-    return this.drag(moveable, __assign$2(__assign$2({}, e), {
+    return this.drag(moveable, __assign$1$1(__assign$1$1({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroupEnd: function(moveable, e) {
-    return this.dragEnd(moveable, __assign$2(__assign$2({}, e), {
+    return this.dragEnd(moveable, __assign$1$1(__assign$1$1({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroupControlStart: function(moveable, e) {
-    return this.dragStart(moveable, __assign$2(__assign$2({}, e), {
+    return this.dragStart(moveable, __assign$1$1(__assign$1$1({}, e), {
       targets: moveable.props.targets,
       isControl: true
     }));
   },
   dragGroupContro: function(moveable, e) {
-    return this.drag(moveable, __assign$2(__assign$2({}, e), {
+    return this.drag(moveable, __assign$1$1(__assign$1$1({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroupControEnd: function(moveable, e) {
-    return this.dragEnd(moveable, __assign$2(__assign$2({}, e), {
+    return this.dragEnd(moveable, __assign$1$1(__assign$1$1({}, e), {
       targets: moveable.props.targets
     }));
   }
@@ -42664,7 +42981,7 @@ var Padding = makeAble("padding", {
         return void 0;
       }
       return React.createElement("div", {
-        key: "padding" + i2,
+        key: "padding".concat(i2),
         className: prefix("padding"),
         style: {
           transform: makeMatrixCSS(h2, true)
@@ -42784,7 +43101,7 @@ function getRadiusValues(values, width, height, left, top, minCounts) {
       raw: horizontalRawPoses[i2],
       direction
     };
-  })), nextVerticalPoses.map(function(pos, i2) {
+  }), true), nextVerticalPoses.map(function(pos, i2) {
     var direction = RADIUS_DIRECTIONS[i2];
     return {
       horizontal: 0,
@@ -42794,7 +43111,7 @@ function getRadiusValues(values, width, height, left, top, minCounts) {
       raw: verticalRawPoses[i2],
       direction
     };
-  }));
+  }), true);
 }
 function removeRadiusPos(controlPoses, poses, index, startIndex, length2) {
   if (length2 === void 0) {
@@ -42912,7 +43229,7 @@ function getClipStyles(moveable, clipPath, poses) {
   var isCircle = clipType === "circle";
   if (clipType === "polygon") {
     return poses.map(function(pos) {
-      return convertCSSSize(pos[0], width, clipRelative) + " " + convertCSSSize(pos[1], height, clipRelative);
+      return "".concat(convertCSSSize(pos[0], width, clipRelative), " ").concat(convertCSSSize(pos[1], height, clipRelative));
     });
   } else if (isRect || clipType === "inset") {
     var top = poses[1][1];
@@ -42921,7 +43238,7 @@ function getClipStyles(moveable, clipPath, poses) {
     var bottom = poses[5][1];
     if (isRect) {
       return [top, right, bottom, left].map(function(pos) {
-        return pos + "px";
+        return "".concat(pos, "px");
       });
     }
     var clipStyles = [top, width - right, height - bottom, left].map(function(pos, i2) {
@@ -42929,7 +43246,7 @@ function getClipStyles(moveable, clipPath, poses) {
     });
     if (poses.length > 8) {
       var _c3 = minus(poses[4], poses[0]), subWidth = _c3[0], subHeight = _c3[1];
-      clipStyles.push.apply(clipStyles, __spreadArray(["round"], getRadiusStyles(poses.slice(8), clipPoses.slice(8), clipRelative, subWidth, subHeight, left, top, right, bottom).styles));
+      clipStyles.push.apply(clipStyles, __spreadArray(["round"], getRadiusStyles(poses.slice(8), clipPoses.slice(8), clipRelative, subWidth, subHeight, left, top, right, bottom).styles, false));
     }
     return clipStyles;
   } else if (isCircle || clipType === "ellipse") {
@@ -42969,11 +43286,11 @@ function getClipPath(target, width, height, defaultClip, customClip) {
       return;
     }
   }
-  var _h = splitBracket(clipText), _j = _h.prefix, clipPrefix = _j === void 0 ? clipText : _j, _k = _h.value, value = _k === void 0 ? "" : _k;
+  var _h = splitBracket(clipText), _j = _h.prefix, clipPrefix = _j === void 0 ? clipText : _j, _k = _h.value, value2 = _k === void 0 ? "" : _k;
   var isCircle = clipPrefix === "circle";
   var splitter = " ";
   if (clipPrefix === "polygon") {
-    var values = splitComma(value || "0% 0%, 100% 0%, 100% 100%, 0% 100%");
+    var values = splitComma(value2 || "0% 0%, 100% 0%, 100% 100%, 0% 100%");
     splitter = ",";
     var poses = values.map(function(pos) {
       var _a4 = pos.split(" "), xPos2 = _a4[0], yPos2 = _a4[1];
@@ -42994,7 +43311,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
     var yPos = "";
     var radiusX_1 = 0;
     var radiusY_1 = 0;
-    var values = splitSpace(value);
+    var values = splitSpace(value2);
     if (isCircle) {
       var radius = "";
       _a3 = values[0], radius = _a3 === void 0 ? "50%" : _a3, _b3 = values[2], xPos = _b3 === void 0 ? "50%" : _b3, _c3 = values[3], yPos = _c3 === void 0 ? "50%" : _c3;
@@ -43021,7 +43338,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
         sub: true,
         pos: [centerPos_1[0] + dir[0] * radiusX_1, centerPos_1[1] + dir[1] * radiusY_1]
       };
-    }));
+    }), true);
     return {
       type: clipPrefix,
       clipText,
@@ -43033,7 +43350,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
       splitter
     };
   } else if (clipPrefix === "inset") {
-    var values = splitSpace(value || "0 0 0 0");
+    var values = splitSpace(value2 || "0 0 0 0");
     var roundIndex = values.indexOf("round");
     var rectLength = (roundIndex > -1 ? values.slice(0, roundIndex) : values).length;
     var radiusValues = values.slice(rectLength + 1);
@@ -43047,7 +43364,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
     var nextRight = width - right;
     var nextBottom = height - bottom;
     var radiusPoses = getRadiusValues(radiusValues, nextRight - left, nextBottom - top, left, top);
-    var poses = __spreadArray(__spreadArray([], getRectPoses(top, nextRight, nextBottom, left)), radiusPoses);
+    var poses = __spreadArray(__spreadArray([], getRectPoses(top, nextRight, nextBottom, left), true), radiusPoses, true);
     return {
       type: "inset",
       clipText,
@@ -43060,7 +43377,7 @@ function getClipPath(target, width, height, defaultClip, customClip) {
       splitter
     };
   } else if (clipPrefix === "rect") {
-    var values = splitComma(value || "0px, " + width + "px, " + height + "px, 0px");
+    var values = splitComma(value2 || "0px, ".concat(width, "px, ").concat(height, "px, 0px"));
     splitter = ",";
     var _s = values.map(function(pos) {
       var posValue = splitUnit(pos).value;
@@ -43107,7 +43424,7 @@ function addClipPath(moveable, e) {
     clipType,
     poses,
     clipStyles,
-    clipStyle: clipType + "(" + clipStyles.join(splitter) + ")",
+    clipStyle: "".concat(clipType, "(").concat(clipStyles.join(splitter), ")"),
     distX: 0,
     distY: 0
   }));
@@ -43139,7 +43456,7 @@ function removeClipPath(moveable, e) {
     clipType,
     poses,
     clipStyles,
-    clipStyle: clipType + "(" + clipStyles.join(splitter) + ")",
+    clipStyle: "".concat(clipType, "(").concat(clipStyles.join(splitter), ")"),
     distX: 0,
     distY: 0
   }));
@@ -43193,34 +43510,34 @@ var Clippable = {
         var rad2 = getRad$1(from, to);
         var dist = getDiagonalSize(from, to);
         return React.createElement("div", {
-          key: "clipLine" + i3,
+          key: "clipLine".concat(i3),
           className: prefix("line", "clip-line", "snap-control"),
           "data-clip-index": i3,
           style: {
-            width: dist + "px",
-            transform: "translate(" + from[0] + "px, " + from[1] + "px) rotate(" + rad2 + "rad) scaleY(" + zoom + ")"
+            width: "".concat(dist, "px"),
+            transform: "translate(".concat(from[0], "px, ").concat(from[1], "px) rotate(").concat(rad2, "rad) scaleY(").concat(zoom, ")")
           }
         });
       });
     }
     controls = poses.map(function(pos, i3) {
       return React.createElement("div", {
-        key: "clipControl" + i3,
+        key: "clipControl".concat(i3),
         className: prefix("control", "clip-control", "snap-control"),
         "data-clip-index": i3,
         style: {
-          transform: "translate(" + pos[0] + "px, " + pos[1] + "px) rotate(" + rotationRad + "rad) scale(" + zoom + ")"
+          transform: "translate(".concat(pos[0], "px, ").concat(pos[1], "px) rotate(").concat(rotationRad, "rad) scale(").concat(zoom, ")")
         }
       });
     });
     if (isInset) {
       controls.push.apply(controls, poses.slice(8).map(function(pos, i3) {
         return React.createElement("div", {
-          key: "clipRadiusControl" + i3,
+          key: "clipRadiusControl".concat(i3),
           className: prefix("control", "clip-control", "clip-radius", "snap-control"),
           "data-clip-index": 8 + i3,
           style: {
-            transform: "translate(" + pos[0] + "px, " + pos[1] + "px) rotate(" + rotationRad + "rad) scale(" + zoom + ")"
+            transform: "translate(".concat(pos[0], "px, ").concat(pos[1], "px) rotate(").concat(rotationRad, "rad) scale(").concat(zoom, ")")
           }
         });
       }));
@@ -43242,35 +43559,35 @@ var Clippable = {
         areaPoses.push([radiusX * 2 + 2, radiusY * 2 + 2]);
         areaPoses.push([radiusX * 2 + 2, -2]);
         areaPoses.push([radiusX, -2]);
-        ellipseClipPath = "polygon(" + areaPoses.map(function(pos) {
-          return pos[0] + "px " + pos[1] + "px";
-        }).join(", ") + ")";
+        ellipseClipPath = "polygon(".concat(areaPoses.map(function(pos) {
+          return "".concat(pos[0], "px ").concat(pos[1], "px");
+        }).join(", "), ")");
       }
       controls.push(React.createElement("div", {
         key: "clipEllipse",
         className: prefix("clip-ellipse", "snap-control"),
         style: {
-          width: radiusX * 2 + "px",
-          height: radiusY * 2 + "px",
+          width: "".concat(radiusX * 2, "px"),
+          height: "".concat(radiusY * 2, "px"),
           clipPath: ellipseClipPath,
-          transform: "translate(" + (-left + distLeft) + "px, " + (-top + distTop) + "px) " + makeMatrixCSS(allMatrix)
+          transform: "translate(".concat(-left + distLeft, "px, ").concat(-top + distTop, "px) ").concat(makeMatrixCSS(allMatrix))
         }
       }));
     }
     if (clipArea) {
-      var _d2 = getRect(__spreadArray([pos1, pos2, pos3, pos4], poses)), allWidth = _d2.width, allHeight = _d2.height, allLeft_1 = _d2.left, allTop_1 = _d2.top;
+      var _d2 = getRect(__spreadArray([pos1, pos2, pos3, pos4], poses, true)), allWidth = _d2.width, allHeight = _d2.height, allLeft_1 = _d2.left, allTop_1 = _d2.top;
       if (isPolygon || isRect || isInset) {
         var areaPoses = isInset ? poses.slice(0, 8) : poses;
         controls.push(React.createElement("div", {
           key: "clipArea",
           className: prefix("clip-area", "snap-control"),
           style: {
-            width: allWidth + "px",
-            height: allHeight + "px",
-            transform: "translate(" + allLeft_1 + "px, " + allTop_1 + "px)",
-            clipPath: "polygon(" + areaPoses.map(function(pos) {
-              return pos[0] - allLeft_1 + "px " + (pos[1] - allTop_1) + "px";
-            }).join(", ") + ")"
+            width: "".concat(allWidth, "px"),
+            height: "".concat(allHeight, "px"),
+            transform: "translate(".concat(allLeft_1, "px, ").concat(allTop_1, "px)"),
+            clipPath: "polygon(".concat(areaPoses.map(function(pos) {
+              return "".concat(pos[0] - allLeft_1, "px ").concat(pos[1] - allTop_1, "px");
+            }).join(", "), ")")
           }
         }));
       }
@@ -43284,7 +43601,7 @@ var Clippable = {
             var pos = _a4.pos;
             var snapPos1 = minus(calculatePosition(allMatrix, isHorizontal ? [0, pos] : [pos, 0], n), [left, top]);
             var snapPos2 = minus(calculatePosition(allMatrix, isHorizontal ? [width, pos] : [pos, height], n), [left, top]);
-            return renderLine(React, "", snapPos1, snapPos2, zoom, "clip" + directionType + "snap" + i3, "guideline");
+            return renderLine(React, "", snapPos1, snapPos2, zoom, "clip".concat(directionType, "snap").concat(i3), "guideline");
           }));
         }
         if (info.isBound) {
@@ -43292,12 +43609,12 @@ var Clippable = {
             var pos = _a4.pos;
             var snapPos1 = minus(calculatePosition(allMatrix, isHorizontal ? [0, pos] : [pos, 0], n), [left, top]);
             var snapPos2 = minus(calculatePosition(allMatrix, isHorizontal ? [width, pos] : [pos, height], n), [left, top]);
-            return renderLine(React, "", snapPos1, snapPos2, zoom, "clip" + directionType + "bounds" + i3, "guideline", "bounds", "bold");
+            return renderLine(React, "", snapPos1, snapPos2, zoom, "clip".concat(directionType, "bounds").concat(i3), "guideline", "bounds", "bold");
           }));
         }
       });
     }
-    return __spreadArray(__spreadArray([], controls), lines);
+    return __spreadArray(__spreadArray([], controls, true), lines, true);
   },
   dragControlCondition: function(moveable, e) {
     return e.inputEvent && (e.inputEvent.target.getAttribute("class") || "").indexOf("clip") > -1;
@@ -43311,7 +43628,9 @@ var Clippable = {
     return this.dragControlStart(moveable, e);
   },
   drag: function(moveable, e) {
-    return this.dragControl(moveable, e);
+    return this.dragControl(moveable, __assign$1$1(__assign$1$1({}, e), {
+      isDragTarget: true
+    }));
   },
   dragEnd: function(moveable, e) {
     return this.dragControlEnd(moveable, e);
@@ -43351,7 +43670,7 @@ var Clippable = {
   },
   dragControl: function(moveable, e) {
     var _a3;
-    var datas = e.datas, originalDatas = e.originalDatas;
+    var datas = e.datas, originalDatas = e.originalDatas, isDragTarget = e.isDragTarget;
     if (!datas.isClipStart) {
       return false;
     }
@@ -43359,7 +43678,16 @@ var Clippable = {
     if (!clipPath) {
       return false;
     }
-    var _c3 = getDragDist(e), distX = _c3[0], distY = _c3[1];
+    var distX = 0;
+    var distY = 0;
+    var originalDraggable = originalDatas.draggable;
+    var originalDist = getDragDist(e);
+    if (isDragTarget && originalDraggable) {
+      _a3 = originalDraggable.prevBeforeDist, distX = _a3[0], distY = _a3[1];
+    } else {
+      distX = originalDist[0], distY = originalDist[1];
+    }
+    var firstDist = [distX, distY];
     var props = moveable.props;
     var state = moveable.state;
     var width = state.width, height = state.height;
@@ -43378,7 +43706,7 @@ var Clippable = {
       return [0, 0];
     });
     if (isControl && !isAll) {
-      var _d2 = clipPoses[index], horizontal = _d2.horizontal, vertical = _d2.vertical;
+      var _c3 = clipPoses[index], horizontal = _c3.horizontal, vertical = _c3.vertical;
       var dist = [distX * Math.abs(horizontal), distY * Math.abs(vertical)];
       dists = moveControlPos(clipPoses, index, dist, isRect);
     } else if (isAll) {
@@ -43389,7 +43717,7 @@ var Clippable = {
     var nextPoses = poses.map(function(pos, i3) {
       return plus(pos, dists[i3]);
     });
-    var guidePoses = __spreadArray([], nextPoses);
+    var guidePoses = __spreadArray([], nextPoses, true);
     state.snapBoundInfos = null;
     var isCircle = clipPath.type === "circle";
     var isEllipse = clipPath.type === "ellipse";
@@ -43410,9 +43738,9 @@ var Clippable = {
       dists.push([1, 0]);
     }
     var guidelines = getDefaultGuidelines((props.clipHorizontalGuidelines || []).map(function(v2) {
-      return convertUnitSize("" + v2, height);
+      return convertUnitSize("".concat(v2), height);
     }), (props.clipVerticalGuidelines || []).map(function(v2) {
-      return convertUnitSize("" + v2, width);
+      return convertUnitSize("".concat(v2), width);
     }), width, height);
     var guideXPoses = [];
     var guideYPoses = [];
@@ -43446,12 +43774,12 @@ var Clippable = {
     }
     var boundDelta = [0, 0];
     var _loop_12 = function(i3) {
-      var _e = checkSnapBounds(guidelines, props.clipTargetBounds && {
+      var _d2 = checkSnapBounds(guidelines, props.clipTargetBounds && {
         left: 0,
         top: 0,
         right: width,
         bottom: height
-      }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _e.horizontal, verticalSnapInfo = _e.vertical;
+      }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _d2.horizontal, verticalSnapInfo = _d2.vertical;
       var snapOffsetY = horizontalSnapInfo.offset;
       var snapOffsetX = verticalSnapInfo.offset;
       if (horizontalSnapInfo.isBound) {
@@ -43496,7 +43824,7 @@ var Clippable = {
         break;
     }
     var nextClipStyles = getClipStyles(moveable, clipPath, nextPoses);
-    var clipStyle = clipType + "(" + nextClipStyles.join(splitter) + ")";
+    var clipStyle = "".concat(clipType, "(").concat(nextClipStyles.join(splitter), ")");
     state.clipPathState = clipStyle;
     if (isCircle || isEllipse) {
       guideXPoses = [guidePoses[4][0], guidePoses[2][0]];
@@ -43523,11 +43851,14 @@ var Clippable = {
       right: width,
       bottom: height
     }, guideXPoses, guideYPoses, 1);
-    if (originalDatas.draggable) {
+    if (originalDraggable) {
       var is3d = state.is3d, allMatrix = state.allMatrix;
       var n = is3d ? 4 : 3;
-      _a3 = multiply(allMatrix, [boundDelta[0], boundDelta[1], 0, 0], n), boundDelta[0] = _a3[0], boundDelta[1] = _a3[1];
-      originalDatas.draggable.deltaOffset = boundDelta;
+      var dragDist = boundDelta;
+      if (isDragTarget) {
+        dragDist = [firstDist[0] + boundDelta[0] - originalDist[0], firstDist[1] + boundDelta[1] - originalDist[1]];
+      }
+      originalDraggable.deltaOffset = multiply(allMatrix, [dragDist[0], dragDist[1], 0, 0], n);
     }
     triggerEvent(moveable, "onClip", fillParams(moveable, e, {
       clipEventType: "changed",
@@ -43814,12 +44145,12 @@ var Roundable = {
       var pos = minus(calculatePosition(allMatrix, v2.pos, n), [left, top]);
       var isDisplay = v2.vertical ? verticalCount <= maxRoundControls[1] : horizontalCount <= maxRoundControls[0];
       return React.createElement("div", {
-        key: "borderRadiusControl" + i2,
+        key: "borderRadiusControl".concat(i2),
         className: prefix("control", "border-radius"),
         "data-radius-index": i2,
         style: {
           display: isDisplay ? "block" : "none",
-          transform: "translate(" + pos[0] + "px, " + pos[1] + "px) scale(" + zoom + ")"
+          transform: "translate(".concat(pos[0], "px, ").concat(pos[1], "px) scale(").concat(zoom, ")")
         }
       });
     });
@@ -43942,8 +44273,8 @@ var Roundable = {
   }
 };
 function isIdentityMatrix(matrix, is3d) {
-  var value = is3d ? "matrix3d(" + createIdentityMatrix(4) : "matrix(" + createIdentityMatrix(3) + ")";
-  return matrix === value || matrix === "matrix(1,0,0,1,0,0)";
+  var value2 = is3d ? "matrix3d(".concat(createIdentityMatrix(4)) : "matrix(".concat(createIdentityMatrix(3), ")");
+  return matrix === value2 || matrix === "matrix(1,0,0,1,0,0)";
 }
 var BeforeRenderable = {
   isPinch: true,
@@ -43961,7 +44292,7 @@ var BeforeRenderable = {
   setTransform: function(moveable, e) {
     var _a3 = moveable.state, is3d = _a3.is3d, target = _a3.target, targetMatrix = _a3.targetMatrix;
     var transform = target === null || target === void 0 ? void 0 : target.style.transform;
-    var cssMatrix = is3d ? "matrix3d(" + targetMatrix.join(",") + ")" : "matrix(" + convertMatrixtoCSS(targetMatrix, true) + ")";
+    var cssMatrix = is3d ? "matrix3d(".concat(targetMatrix.join(","), ")") : "matrix(".concat(convertMatrixtoCSS(targetMatrix, true), ")");
     var startTransform = !transform || transform === "none" ? cssMatrix : transform;
     e.datas.startTransforms = isIdentityMatrix(startTransform, is3d) ? [] : splitSpace(startTransform);
   },
@@ -44164,8 +44495,8 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   if (!target || isStart && eventAffix.indexOf("Control") > -1 && !isRequest && moveable.areaElement === e.inputEvent.target) {
     return false;
   }
-  var eventName = "" + eventOperation + eventAffix + eventType;
-  var conditionName = "" + eventOperation + eventAffix + "Condition";
+  var eventName = "".concat(eventOperation).concat(eventAffix).concat(eventType);
+  var conditionName = "".concat(eventOperation).concat(eventAffix, "Condition");
   var isEnd = eventType === "End";
   var isAfter = eventType === "After";
   var isFirstStart = isStart && (!moveable.targetGesto || !moveable.controlGesto || !moveable.targetGesto.isFlag() || !moveable.controlGesto.isFlag());
@@ -44175,7 +44506,7 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   if (eventType === "" && !isRequest) {
     convertDragDist(moveable.state, e);
   }
-  var ables = __spreadArray([], moveable[ableType]);
+  var ables = __spreadArray([], moveable[ableType], true);
   if (isRequest) {
     var requestAble_1 = e.requestAble;
     if (!ables.some(function(able) {
@@ -44189,7 +44520,7 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
   if (!ables.length) {
     return false;
   }
-  var eventAbles = __spreadArray(__spreadArray([BeforeRenderable], ables), [Renderable]).filter(function(able) {
+  var eventAbles = __spreadArray(__spreadArray([BeforeRenderable], ables, true), [Renderable], false).filter(function(able) {
     return able[eventName];
   });
   var datas = e.datas;
@@ -44211,12 +44542,13 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
       nextDatas.isEventStart = !able[conditionName] || able[conditionName](moveable, e);
     }
     if (nextDatas.isEventStart) {
-      var result = able[eventName](moveable, __assign$2(__assign$2({}, e), {
+      var result = able[eventName](moveable, __assign$1$1(__assign$1$1({}, e), {
         resultCount,
         datas: nextDatas,
         originalDatas: datas,
         inputTarget
       }));
+      moveable._emitter.off();
       if (isStart && result === false) {
         nextDatas.isEventStart = false;
       }
@@ -44300,7 +44632,7 @@ function getAbleGesto(moveable, target, ableType, eventAffix, conditionFunctions
   var gesto = new Gesto$1(target, options);
   ["drag", "pinch"].forEach(function(eventOperation) {
     ["Start", "", "End"].forEach(function(eventType) {
-      gesto.on("" + eventOperation + eventType, function(e) {
+      gesto.on("".concat(eventOperation).concat(eventType), function(e) {
         var eventName = e.eventType;
         if (conditionFunctions[eventName] && !conditionFunctions[eventName](e)) {
           e.stop();
@@ -44322,7 +44654,7 @@ var EventManager = /* @__PURE__ */ function() {
     this.moveable = moveable;
     this.eventName = eventName;
     this.ables = [];
-    this.onEvent = function(e) {
+    this._onEvent = function(e) {
       var eventName2 = _this.eventName;
       var moveable2 = _this.moveable;
       if (moveable2.state.disableNativeEvent) {
@@ -44334,14 +44666,14 @@ var EventManager = /* @__PURE__ */ function() {
         });
       });
     };
-    this.target.addEventListener(this.eventName.toLowerCase(), this.onEvent);
+    target.addEventListener(eventName.toLowerCase(), this._onEvent);
   }
   var __proto = EventManager2.prototype;
   __proto.setAbles = function(ables) {
     this.ables = ables;
   };
   __proto.destroy = function() {
-    this.target.removeEventListener(this.eventName.toLowerCase(), this.onEvent);
+    this.target.removeEventListener(this.eventName.toLowerCase(), this._onEvent);
     this.target = null;
     this.moveable = null;
   };
@@ -44351,7 +44683,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   __extends$1(MoveableManager2, _super);
   function MoveableManager2() {
     var _this = _super !== null && _super.apply(this, arguments) || this;
-    _this.state = __assign$2({
+    _this.state = __assign$1$1({
       container: null,
       gesto: null,
       renderPoses: [[0, 0], [0, 0], [0, 0], [0, 0]],
@@ -44367,6 +44699,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
       "mouseEnter": null,
       "mouseLeave": null
     };
+    _this._emitter = new EventEmitter$1();
     _this._prevTarget = null;
     _this._prevDragArea = false;
     _this._observer = null;
@@ -44411,25 +44744,26 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var isDragging = this.isDragging();
     var ableAttributes = {};
     this.getEnabledAbles().forEach(function(able) {
-      ableAttributes["data-able-" + able.name.toLowerCase()] = true;
+      ableAttributes["data-able-".concat(able.name.toLowerCase())] = true;
     });
-    return createElement(ControlBoxElement, __assign$2({
+    return createElement(ControlBoxElement, __assign$1$1({
       cspNonce,
       ref: ref(this, "controlBox"),
-      className: prefix("control-box", direction === -1 ? "reverse" : "", isDragging ? "dragging" : "") + " " + className
+      className: "".concat(prefix("control-box", direction === -1 ? "reverse" : "", isDragging ? "dragging" : ""), " ").concat(className)
     }, ableAttributes, {
       onClick: this.onPreventClick,
       portalContainer,
       style: {
         "position": "absolute",
         "display": isDisplay ? "block" : "none",
-        "transform": "translate3d(" + (left - parentLeft) + "px, " + (top - parentTop) + "px, " + translateZ + ")",
+        "transform": "translate3d(".concat(left - parentLeft, "px, ").concat(top - parentTop, "px, ").concat(translateZ, ")"),
         "--zoom": zoom,
-        "--zoompx": zoom + "px"
+        "--zoompx": "".concat(zoom, "px")
       }
     }), this.renderAbles(), this._renderLines());
   };
   __proto.componentDidMount = function() {
+    this.isUnmounted = false;
     this.controlBox.getElement();
     var props = this.props;
     var parentMoveable = props.parentMoveable, container = props.container, wrapperMoveable = props.wrapperMoveable;
@@ -44451,6 +44785,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   };
   __proto.componentWillUnmount = function() {
     this.isUnmounted = true;
+    this._emitter.off();
     unset(this, "targetGesto");
     unset(this, "controlGesto");
     var events = this.events;
@@ -44467,8 +44802,9 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     return target && (target.getAttribute("class") || "").indexOf(PREFIX) > -1;
   };
   __proto.dragStart = function(e) {
-    if (this.targetGesto) {
-      this.targetGesto.triggerDragStart(e);
+    var targetGesto = this.targetGesto;
+    if (targetGesto && !targetGesto.isFlag()) {
+      targetGesto.triggerDragStart(e);
     }
     return this;
   };
@@ -44487,7 +44823,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
         height: clientRect.height
       };
     } else {
-      rect = __assign$2({
+      rect = __assign$1$1({
         width: 0,
         height: 0
       }, el);
@@ -44583,24 +44919,24 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var ableRequester = requsetAble.request(this);
     var requestInstant = isInstant || param.isInstant;
     var ableType = ableRequester.isControl ? "controlAbles" : "targetAbles";
-    var eventAffix = (groupable ? "Group" : "") + (ableRequester.isControl ? "Control" : "");
+    var eventAffix = "".concat(groupable ? "Group" : "").concat(ableRequester.isControl ? "Control" : "");
     var requester = {
       request: function(ableParam) {
-        triggerAble(self2, ableType, "drag", eventAffix, "", __assign$2(__assign$2({}, ableRequester.request(ableParam)), {
+        triggerAble(self2, ableType, "drag", eventAffix, "", __assign$1$1(__assign$1$1({}, ableRequester.request(ableParam)), {
           requestAble: ableName,
           isRequest: true
         }), requestInstant);
         return this;
       },
       requestEnd: function() {
-        triggerAble(self2, ableType, "drag", eventAffix, "End", __assign$2(__assign$2({}, ableRequester.requestEnd()), {
+        triggerAble(self2, ableType, "drag", eventAffix, "End", __assign$1$1(__assign$1$1({}, ableRequester.requestEnd()), {
           requestAble: ableName,
           isRequest: true
         }), requestInstant);
         return this;
       }
     };
-    triggerAble(self2, ableType, "drag", eventAffix, "Start", __assign$2(__assign$2({}, ableRequester.requestStart(param)), {
+    triggerAble(self2, ableType, "drag", eventAffix, "Start", __assign$1$1(__assign$1$1({}, ableRequester.requestStart(param)), {
       requestAble: ableName,
       isRequest: true
     }), requestInstant);
@@ -44642,6 +44978,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     }
   };
   __proto.triggerEvent = function(name2, e) {
+    this._emitter.trigger(name2, e);
     var callback = this.props[name2];
     return callback && callback(e);
   };
@@ -44673,9 +45010,9 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var enabledAbles = ables.filter(function(able) {
       return able && (able.always && props[able.name] !== false || props[able.name]);
     });
-    var dragStart = "drag" + eventAffix + "Start";
-    var pinchStart = "pinch" + eventAffix + "Start";
-    var dragControlStart = "drag" + eventAffix + "ControlStart";
+    var dragStart = "drag".concat(eventAffix, "Start");
+    var pinchStart = "pinch".concat(eventAffix, "Start");
+    var dragControlStart = "drag".concat(eventAffix, "ControlStart");
     var targetAbles = filterAbles(enabledAbles, [dragStart, pinchStart], triggerAblesSimultaneously);
     var controlAbles = filterAbles(enabledAbles, [dragControlStart], triggerAblesSimultaneously);
     this.enabledAbles = enabledAbles;
@@ -44684,6 +45021,9 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   };
   __proto.updateState = function(nextState, isSetState) {
     if (isSetState) {
+      if (this.isUnmounted) {
+        return;
+      }
       this.setState(nextState);
     } else {
       var state = this.state;
@@ -44980,7 +45320,7 @@ function getDraggableEvent(e) {
     e.originalDatas.draggable = {};
     datas = e.originalDatas.draggable;
   }
-  return __assign$2(__assign$2({}, e), {
+  return __assign$1$1(__assign$1$1({}, e), {
     datas
   });
 }
@@ -45030,10 +45370,10 @@ var IndividualGroupable = {
 };
 var MOVEABLE_ABLES = [BeforeRenderable, Default, Snappable, Pinchable, Draggable, edgeDraggable, Rotatable, Resizable, Scalable, Warpable, Scrollable, Padding, Origin, OriginDraggable, Clippable, Roundable, Groupable, IndividualGroupable, Clickable, DragArea, Renderable];
 var MOVEABLE_EVENTS_PROPS_MAP = /* @__PURE__ */ MOVEABLE_ABLES.reduce(function(current, able) {
-  return __assign$2(__assign$2({}, current), "events" in able ? able.events : {});
+  return __assign$1$1(__assign$1$1({}, current), "events" in able ? able.events : {});
 }, {});
 var MOVEABLE_PROPS_MAP = /* @__PURE__ */ MOVEABLE_ABLES.reduce(function(current, able) {
-  return __assign$2(__assign$2({}, current), able.props);
+  return __assign$1$1(__assign$1$1({}, current), able.props);
 }, {});
 var MOVEABLE_EVENTS_MAP = /* @__PURE__ */ invertObject(MOVEABLE_EVENTS_PROPS_MAP);
 var MOVEABLE_EVENTS = Object.keys(MOVEABLE_EVENTS_MAP);
@@ -45140,8 +45480,8 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
     var rotation = this.rotation;
     var scale = this.scale;
     var _a3 = getGroupRect(this.moveables, rotation), left = _a3[0], top = _a3[1], width = _a3[2], height = _a3[3];
-    var transform = "rotate(" + rotation + "deg) scale(" + (scale[0] >= 0 ? 1 : -1) + ", " + (scale[1] >= 0 ? 1 : -1) + ")";
-    target.style.cssText += "left:0px;top:0px; transform-origin: " + this.transformOrigin + "; width:" + width + "px; height:" + height + "px;" + ("transform:" + transform);
+    var transform = "rotate(".concat(rotation, "deg) scale(").concat(scale[0] >= 0 ? 1 : -1, ", ").concat(scale[1] >= 0 ? 1 : -1, ")");
+    target.style.cssText += "left:0px;top:0px; transform-origin: ".concat(this.transformOrigin, "; width:").concat(width, "px; height:").concat(height, "px;") + "transform:".concat(transform);
     state.width = width;
     state.height = height;
     var container = this.getContainer();
@@ -45163,14 +45503,14 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
     var direction = scale[0] * scale[1] > 0 ? 1 : -1;
     clientRect.top += info.top - state.top;
     clientRect.left += info.left - state.left;
-    target.style.transform = "translate(" + -delta[0] + "px, " + -delta[1] + "px) " + transform;
-    this.updateState(__assign$2(__assign$2({}, info), {
+    target.style.transform = "translate(".concat(-delta[0], "px, ").concat(-delta[1], "px) ").concat(transform);
+    this.updateState(__assign$1$1(__assign$1$1({}, info), {
       direction,
       beforeDirection: direction
     }), isSetState);
   };
   __proto.getRect = function() {
-    return __assign$2(__assign$2({}, _super.prototype.getRect.call(this)), {
+    return __assign$1$1(__assign$1$1({}, _super.prototype.getRect.call(this)), {
       children: this.moveables.map(function(child) {
         return child.getRect();
       })
@@ -45179,10 +45519,12 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
   __proto.triggerEvent = function(name2, e, isManager) {
     if (isManager || name2.indexOf("Group") > -1) {
       return _super.prototype.triggerEvent.call(this, name2, e);
+    } else {
+      this._emitter.trigger(name2, e);
     }
   };
   __proto.updateAbles = function() {
-    _super.prototype.updateAbles.call(this, __spreadArray(__spreadArray([], this.props.ables), [Groupable]), "Group");
+    _super.prototype.updateAbles.call(this, __spreadArray(__spreadArray([], this.props.ables, true), [Groupable], false), "Group");
   };
   __proto._updateTargets = function() {
     _super.prototype._updateTargets.call(this);
@@ -45215,7 +45557,7 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
   };
   __proto._updateObserver = function() {
   };
-  MoveableGroup2.defaultProps = __assign$2(__assign$2({}, MoveableManager$1.defaultProps), {
+  MoveableGroup2.defaultProps = __assign$1$1(__assign$1$1({}, MoveableManager$1.defaultProps), {
     transformOrigin: ["50%", "50%"],
     groupable: true,
     dragArea: true,
@@ -45242,7 +45584,7 @@ var MoveableIndividualGroup = /* @__PURE__ */ function(_super) {
       ref: ref(this, "controlBox"),
       className: prefix("control-box")
     }, targets.map(function(target, i2) {
-      return createElement(MoveableManager$1, __assign$2({
+      return createElement(MoveableManager$1, __assign$1$1({
         key: "moveable" + i2,
         ref: refs(_this, "moveables", i2)
       }, _this.props, {
@@ -45262,7 +45604,7 @@ var MoveableIndividualGroup = /* @__PURE__ */ function(_super) {
     });
   };
   __proto.getRect = function() {
-    return __assign$2(__assign$2({}, _super.prototype.getRect.call(this)), {
+    return __assign$1$1(__assign$1$1({}, _super.prototype.getRect.call(this)), {
       children: this.moveables.map(function(child) {
         return child.getRect();
       })
@@ -45329,7 +45671,7 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
     this.defaultStyled = styled("div", prefixCSS(PREFIX, MOVEABLE_CSS + style));
   };
   InitialMoveable2.getTotalAbles = function() {
-    return __spreadArray([Default, Groupable, IndividualGroupable, DragArea], this.defaultAbles);
+    return __spreadArray([Default, Groupable, IndividualGroupable, DragArea], this.defaultAbles, true);
   };
   __proto.render = function() {
     var moveableContructor = this.constructor;
@@ -45341,15 +45683,15 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
     var elementTargets = getElementTargets(refTargets, this.selectorMap);
     var isGroup = elementTargets.length > 1;
     var totalAbles = moveableContructor.getTotalAbles();
-    var ables = __spreadArray(__spreadArray([], totalAbles), userAbles || []);
-    var nextProps = __assign$2(__assign$2(__assign$2({}, props), userProps || {}), {
+    var ables = __spreadArray(__spreadArray([], totalAbles, true), userAbles || [], true);
+    var nextProps = __assign$1$1(__assign$1$1(__assign$1$1({}, props), userProps || {}), {
       ables,
       cssStyled: moveableContructor.defaultStyled,
       customStyledMap: moveableContructor.customStyledMap
     });
     if (isGroup) {
       if (props.individualGroupable) {
-        return createElement(MoveableIndividualGroup, __assign$2({
+        return createElement(MoveableIndividualGroup, __assign$1$1({
           key: "individual-group",
           ref: ref(this, "moveable")
         }, nextProps, {
@@ -45357,7 +45699,7 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
           targets: elementTargets
         }));
       }
-      return createElement(MoveableGroup, __assign$2({
+      return createElement(MoveableGroup, __assign$1$1({
         key: "group",
         ref: ref(this, "moveable")
       }, nextProps, {
@@ -45365,7 +45707,7 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
         targets: elementTargets
       }));
     } else {
-      return createElement(MoveableManager$1, __assign$2({
+      return createElement(MoveableManager$1, __assign$1$1({
         key: "single",
         ref: ref(this, "moveable")
       }, nextProps, {
@@ -45378,6 +45720,10 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
   };
   __proto.componentDidUpdate = function() {
     this._updateRefs();
+  };
+  __proto.componentWillUnmount = function() {
+    this.selectorMap = {};
+    this.refTargets = [];
   };
   __proto.getManager = function() {
     return this.moveable;
@@ -45399,11 +45745,12 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
     var nextSelectorMap = {};
     this.refTargets.forEach(function(target) {
       if (isString(target)) {
-        if (!selectorMap[target] && isBrowser) {
+        var selectorTarget = selectorMap[target];
+        if (selectorTarget) {
+          nextSelectorMap[target] = selectorMap[target];
+        } else if (isBrowser) {
           isUpdate = true;
           nextSelectorMap[target] = [].slice.call(document.querySelectorAll(target));
-        } else {
-          nextSelectorMap[target] = selectorMap[target];
         }
       }
     });
@@ -45653,6 +46000,16 @@ var MoveableManager = /* @__PURE__ */ function(_super) {
   __proto.setState = function(state, callback) {
     this.innerMoveable.setState(state, callback);
   };
+  __proto.forceUpdate = function(callback) {
+    this.innerMoveable.forceUpdate(callback);
+  };
+  __proto.dragStart = function(e) {
+    var innerMoveable = this.innerMoveable;
+    if (innerMoveable.$_timer) {
+      this.forceUpdate();
+    }
+    this.getMoveable().dragStart(e);
+  };
   __proto.destroy = function() {
     render(null, this.tempElement);
     this.off();
@@ -45682,9 +46039,9 @@ var MoveableManager = /* @__PURE__ */ function(_super) {
       get: function() {
         return this.getMoveable().props[property];
       },
-      set: function(value) {
+      set: function(value2) {
         var _a3;
-        this.setState((_a3 = {}, _a3[property] = value, _a3));
+        this.setState((_a3 = {}, _a3[property] = value2, _a3));
       },
       enumerable: true,
       configurable: true
@@ -45708,20 +46065,20 @@ var __privateGet$3 = (obj, member, getter) => {
   __accessCheck$3(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$3 = (obj, member, value) => {
+var __privateAdd$3 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$3 = (obj, member, value, setter) => {
+var __privateSet$3 = (obj, member, value2, setter) => {
   __accessCheck$3(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var __privateWrapper = (obj, member, setter, getter) => {
   return {
-    set _(value) {
-      __privateSet$3(obj, member, value, setter);
+    set _(value2) {
+      __privateSet$3(obj, member, value2, setter);
     },
     get _() {
       return __privateGet$3(obj, member, getter);
@@ -46425,15 +46782,15 @@ var __privateGet$2 = (obj, member, getter) => {
   __accessCheck$2(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$2 = (obj, member, value) => {
+var __privateAdd$2 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$2 = (obj, member, value, setter) => {
+var __privateSet$2 = (obj, member, value2, setter) => {
   __accessCheck$2(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var __privateMethod$2 = (obj, member, method) => {
   __accessCheck$2(obj, member, "access private method");
@@ -47837,15 +48194,15 @@ var __privateGet$1 = (obj, member, getter) => {
   __accessCheck$1(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$1 = (obj, member, value) => {
+var __privateAdd$1 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$1 = (obj, member, value, setter) => {
+var __privateSet$1 = (obj, member, value2, setter) => {
   __accessCheck$1(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var __privateMethod$1 = (obj, member, method) => {
   __accessCheck$1(obj, member, "access private method");
@@ -48111,15 +48468,15 @@ var __privateGet = (obj, member, getter) => {
   __accessCheck(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd = (obj, member, value) => {
+var __privateAdd = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet = (obj, member, value, setter) => {
+var __privateSet = (obj, member, value2, setter) => {
   __accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
+  setter ? setter.call(obj, value2) : member.set(obj, value2);
+  return value2;
 };
 var __privateMethod = (obj, member, method) => {
   __accessCheck(obj, member, "access private method");
@@ -53146,12 +53503,12 @@ var storeAPI = {
     var data = this.storage.read(this._namespacePrefix + key);
     return this._deserialize(data, optionalDefaultValue);
   },
-  set: function(key, value) {
-    if (value === void 0) {
+  set: function(key, value2) {
+    if (value2 === void 0) {
       return this.remove(key);
     }
-    this.storage.write(this._namespacePrefix + key, this._serialize(value));
-    return value;
+    this.storage.write(this._namespacePrefix + key, this._serialize(value2));
+    return value2;
   },
   remove: function(key) {
     this.storage.remove(this._namespacePrefix + key);
@@ -53623,31 +53980,31 @@ if (typeof JSON !== "object") {
     var length2;
     var mind = gap;
     var partial;
-    var value = holder[key];
-    if (value && typeof value === "object" && typeof value.toJSON === "function") {
-      value = value.toJSON(key);
+    var value2 = holder[key];
+    if (value2 && typeof value2 === "object" && typeof value2.toJSON === "function") {
+      value2 = value2.toJSON(key);
     }
     if (typeof rep === "function") {
-      value = rep.call(holder, key, value);
+      value2 = rep.call(holder, key, value2);
     }
-    switch (typeof value) {
+    switch (typeof value2) {
       case "string":
-        return quote(value);
+        return quote(value2);
       case "number":
-        return isFinite(value) ? String(value) : "null";
+        return isFinite(value2) ? String(value2) : "null";
       case "boolean":
       case "null":
-        return String(value);
+        return String(value2);
       case "object":
-        if (!value) {
+        if (!value2) {
           return "null";
         }
         gap += indent;
         partial = [];
-        if (Object.prototype.toString.apply(value) === "[object Array]") {
-          length2 = value.length;
+        if (Object.prototype.toString.apply(value2) === "[object Array]") {
+          length2 = value2.length;
           for (i2 = 0; i2 < length2; i2 += 1) {
-            partial[i2] = str(i2, value) || "null";
+            partial[i2] = str(i2, value2) || "null";
           }
           v2 = partial.length === 0 ? "[]" : gap ? "[\n" + gap + partial.join(",\n" + gap) + "\n" + mind + "]" : "[" + partial.join(",") + "]";
           gap = mind;
@@ -53658,16 +54015,16 @@ if (typeof JSON !== "object") {
           for (i2 = 0; i2 < length2; i2 += 1) {
             if (typeof rep[i2] === "string") {
               k = rep[i2];
-              v2 = str(k, value);
+              v2 = str(k, value2);
               if (v2) {
                 partial.push(quote(k) + (gap ? ": " : ":") + v2);
               }
             }
           }
         } else {
-          for (k in value) {
-            if (Object.prototype.hasOwnProperty.call(value, k)) {
-              v2 = str(k, value);
+          for (k in value2) {
+            if (Object.prototype.hasOwnProperty.call(value2, k)) {
+              v2 = str(k, value2);
               if (v2) {
                 partial.push(quote(k) + (gap ? ": " : ":") + v2);
               }
@@ -53689,7 +54046,7 @@ if (typeof JSON !== "object") {
       '"': '\\"',
       "\\": "\\\\"
     };
-    JSON.stringify = function(value, replacer, space) {
+    JSON.stringify = function(value2, replacer, space) {
       var i2;
       gap = "";
       indent = "";
@@ -53704,7 +54061,7 @@ if (typeof JSON !== "object") {
       if (replacer && typeof replacer !== "function" && (typeof replacer !== "object" || typeof replacer.length !== "number")) {
         throw new Error("JSON.stringify");
       }
-      return str("", { "": value });
+      return str("", { "": value2 });
     };
   }
   if (typeof JSON.parse !== "function") {
@@ -53713,20 +54070,20 @@ if (typeof JSON !== "object") {
       function walk(holder, key) {
         var k;
         var v2;
-        var value = holder[key];
-        if (value && typeof value === "object") {
-          for (k in value) {
-            if (Object.prototype.hasOwnProperty.call(value, k)) {
-              v2 = walk(value, k);
+        var value2 = holder[key];
+        if (value2 && typeof value2 === "object") {
+          for (k in value2) {
+            if (Object.prototype.hasOwnProperty.call(value2, k)) {
+              v2 = walk(value2, k);
               if (v2 !== void 0) {
-                value[k] = v2;
+                value2[k] = v2;
               } else {
-                delete value[k];
+                delete value2[k];
               }
             }
           }
         }
-        return reviver.call(holder, key, value);
+        return reviver.call(holder, key, value2);
       }
       text = String(text);
       rx_dangerous.lastIndex = 0;
