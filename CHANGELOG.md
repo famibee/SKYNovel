@@ -1,3 +1,10 @@
+## [1.29.7](https://github.com/famibee/SKYNovel/compare/v1.29.6...v1.29.7) (2022-04-29)
+
+
+### Bug Fixes
+
+* ギャラリーで別のプロジェクトを選ぶとエラーになる件 ([9c2a4be](https://github.com/famibee/SKYNovel/commit/9c2a4bebea1d79caf8ad0db66066fd78b448d25f))
+
 - fix: ギャラリーで別のプロジェクトを選ぶとエラーになる件
 	- DOMException: Failed to execute ‘insertBefore’ on ‘Node’:
 	- The node before which the new node is to be inserted is not a child of this node.
