@@ -15,11 +15,8 @@ export interface ICallStackArg {
 }
 
 export class CallStack {
-	constructor(private readonly $fn = '', private readonly $idx = 0, private readonly $csArg: ICallStackArg = {':hEvt1Time': {}, ':hMp': {}}) {}
+	constructor(readonly fn = '', readonly idx = 0, readonly csArg: ICallStackArg = {':hEvt1Time': {}, ':hMp': {}}) {}
 
-	get fn() {return this.$fn}
-	get idx() {return this.$idx}
-	get csArg() {return this.$csArg}
-	readonly	toString = ()=> `[fn:${this.$fn}, idx:${this.$idx}, csArg:${this.$csArg}]`;
+	readonly	toString = ()=> `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`;
 
 }

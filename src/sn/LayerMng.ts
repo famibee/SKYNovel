@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color} from './CmnLib';
+import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color, parseColor} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
 import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser} from './CmnInterface';
 import {Pages} from './Pages';
@@ -35,7 +35,8 @@ export class LayerMng implements IGetFrm {
 				#fore	= new Container;
 				#back	= new Container;
 
-	readonly	#frmMng	: FrameMng;
+	readonly	#frmMng		: FrameMng;
+	readonly	#bg_color	: number;
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
@@ -136,10 +137,11 @@ export class LayerMng implements IGetFrm {
 		if (cfg.existsBreakline) this.breakLine = ()=> this.#cmdTxt('grp｜{"id":"break","pic":"breakline"}');
 		if (cfg.existsBreakpage) this.breakPage = ()=> this.#cmdTxt('grp｜{"id":"break","pic":"breakpage"}');
 
+		this.#bg_color = parseColor(String(cfg.oCfg.init.bg_color));
 		const grp = new Graphics;
 		grp
-		.beginFill(cfg.oCfg.init.bg_color, 1)	// イベントを受け取るためにも塗る
-		.lineStyle(0, cfg.oCfg.init.bg_color)
+		.beginFill(this.#bg_color, 1)	// イベントを受け取るためにも塗る
+		.lineStyle(0, this.#bg_color)
 		.drawRect(0, 0, CmnLib.stageW, CmnLib.stageH)
 		.endFill();
 		this.#fore.addChild(grp.clone());
@@ -317,7 +319,7 @@ export class LayerMng implements IGetFrm {
 		if (this.sys.canCapturePage(fn)) return false;
 
 		const ext = getExt(fn);
-		const b_color = argChk_Color(hArg, 'b_color', this.cfg.oCfg.init.bg_color);
+		const b_color = argChk_Color(hArg, 'b_color', this.#bg_color);
 		const rnd = autoDetectRenderer({
 			width: argChk_Num(hArg, 'width', CmnLib.stageW),
 			height: argChk_Num(hArg, 'height', CmnLib.stageH),

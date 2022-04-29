@@ -6,13 +6,10 @@ export interface ICallStackArg {
     ':タグ名'?: string;
 }
 export declare class CallStack {
-    private readonly $fn;
-    private readonly $idx;
-    private readonly $csArg;
-    constructor($fn?: string, $idx?: number, $csArg?: ICallStackArg);
-    get fn(): string;
-    get idx(): number;
-    get csArg(): ICallStackArg;
+    readonly fn: string;
+    readonly idx: number;
+    readonly csArg: ICallStackArg;
+    constructor(fn?: string, idx?: number, csArg?: ICallStackArg);
     readonly toString: () => string;
 }
 //# sourceMappingURL=CallStack.d.ts.map

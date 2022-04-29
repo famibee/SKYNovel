@@ -49,7 +49,7 @@ var __privateMethod2 = (obj, member, method) => {
   __accessCheck2(obj, member, "access private method");
   return method;
 };
-var _a2, _b2, _c2, _d, _sesame, _putCh2, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _beforeHTMLElm, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _evtMng4, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng5, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _cvsHint, _picHint_w, _picHint_h, _padHint, _grpHint, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _dispHint, dispHint_fn, _dispHint_hArg, _dispHint_ctnBtn, _dispHint_masume, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng6, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg3, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng7, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _path_base, _now_prj, _main2, _hAppendFile;
+var _a2, _b2, _c2, _d, _sesame, _putCh2, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _beforeHTMLElm, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _evtMng4, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _bg_color, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng5, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _cvsHint, _picHint_w, _picHint_h, _padHint, _grpHint, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _dispHint, dispHint_fn, _dispHint_hArg, _dispHint_ctnBtn, _dispHint_masume, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng6, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg3, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng7, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _path_base, _now_prj, _main2, _hAppendFile;
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var platform$1 = { exports: {} };
 /*!
@@ -32758,17 +32758,21 @@ delLoopPlay_fn = function(buf) {
 };
 __privateAdd2(SoundMng, _MAX_END_MS, 999e3);
 const _Pages = class {
-  constructor(layer, cls_, fore, back, hArg, sys, val, ret) {
+  constructor(layer, cls, fore, back, hArg, sys, val, ret) {
     __privateAdd2(this, _pg, void 0);
-    this.cls_ = cls_;
+    this.cls = cls;
+    this.hArg = hArg;
+    this.sys = sys;
+    this.val = val;
+    this.ret = ret;
     this.lay = (hArg2) => this.getPage(hArg2).lay(hArg2);
     this.getPage = (hArg2) => _Pages.argChk_page(hArg2, "fore") !== "back" ? __privateGet2(this, _pg).fore : __privateGet2(this, _pg).back;
-    const fncF = sys.hFactoryCls[cls_];
+    const fncF = sys.hFactoryCls[cls];
     if (!fncF)
-      throw `\u5C5E\u6027 class\u3010${cls_}\u3011\u304C\u4E0D\u6B63\u3067\u3059`;
+      throw `\u5C5E\u6027 class\u3010${cls}\u3011\u304C\u4E0D\u6B63\u3067\u3059`;
     __privateSet2(this, _pg, { fore: fncF(), back: fncF() });
     __privateGet2(this, _pg).fore.layname = __privateGet2(this, _pg).back.layname = layer;
-    const nm = hArg[":id_tag"] = `layer:${layer} cls:${cls_}`;
+    const nm = hArg[":id_tag"] = `layer:${layer} cls:${cls}`;
     __privateGet2(this, _pg).fore.name = `${nm} page:A`;
     __privateGet2(this, _pg).back.name = `${nm} page:B`;
     fore.addChild(this.fore.spLay);
@@ -32803,9 +32807,6 @@ const _Pages = class {
     if (v2 === "back")
       return hash2.page = v2;
     throw Error("\u5C5E\u6027 page\u3010" + v2 + "\u3011\u304C\u4E0D\u6B63\u3067\u3059");
-  }
-  get cls() {
-    return this.cls_;
   }
   get fore() {
     return __privateGet2(this, _pg).fore;
@@ -49665,6 +49666,7 @@ const _LayerMng = class {
     __privateAdd2(this, _fore, void 0);
     __privateAdd2(this, _back, void 0);
     __privateAdd2(this, _frmMng, void 0);
+    __privateAdd2(this, _bg_color, void 0);
     __privateAdd2(this, _fncTicker, void 0);
     __privateAdd2(this, _hProcDbgRes2, void 0);
     __privateAdd2(this, _modeLn, void 0);
@@ -49884,8 +49886,9 @@ void main(void) {
       this.breakLine = () => __privateGet2(this, _cmdTxt).call(this, 'grp\uFF5C{"id":"break","pic":"breakline"}');
     if (cfg.existsBreakpage)
       this.breakPage = () => __privateGet2(this, _cmdTxt).call(this, 'grp\uFF5C{"id":"break","pic":"breakpage"}');
+    __privateSet2(this, _bg_color, parseColor(String(cfg.oCfg.init.bg_color)));
     const grp = new Graphics();
-    grp.beginFill(cfg.oCfg.init.bg_color, 1).lineStyle(0, cfg.oCfg.init.bg_color).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill();
+    grp.beginFill(__privateGet2(this, _bg_color), 1).lineStyle(0, __privateGet2(this, _bg_color)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill();
     __privateGet2(this, _fore).addChild(grp.clone());
     __privateGet2(this, _back).addChild(grp);
     __privateGet2(this, _back).visible = false;
@@ -50057,6 +50060,7 @@ _stage = new WeakMap();
 _fore = new WeakMap();
 _back = new WeakMap();
 _frmMng = new WeakMap();
+_bg_color = new WeakMap();
 _fncTicker = new WeakMap();
 _hProcDbgRes2 = new WeakMap();
 _modeLn = new WeakMap();
@@ -50094,7 +50098,7 @@ snapshot_fn = function(hArg) {
   if (this.sys.canCapturePage(fn))
     return false;
   const ext = getExt(fn);
-  const b_color = argChk_Color(hArg, "b_color", this.cfg.oCfg.init.bg_color);
+  const b_color = argChk_Color(hArg, "b_color", __privateGet2(this, _bg_color));
   const rnd = autoDetectRenderer({
     width: argChk_Num(hArg, "width", CmnLib.stageW),
     height: argChk_Num(hArg, "height", CmnLib.stageH),
@@ -51797,20 +51801,11 @@ waitclick_fn = function() {
 };
 _hDownKeys = new WeakMap();
 class CallStack {
-  constructor($fn = "", $idx = 0, $csArg = { ":hEvt1Time": {}, ":hMp": {} }) {
-    this.$fn = $fn;
-    this.$idx = $idx;
-    this.$csArg = $csArg;
-    this.toString = () => `[fn:${this.$fn}, idx:${this.$idx}, csArg:${this.$csArg}]`;
-  }
-  get fn() {
-    return this.$fn;
-  }
-  get idx() {
-    return this.$idx;
-  }
-  get csArg() {
-    return this.$csArg;
+  constructor(fn = "", idx = 0, csArg = { ":hEvt1Time": {}, ":hMp": {} }) {
+    this.fn = fn;
+    this.idx = idx;
+    this.csArg = csArg;
+    this.toString = () => `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`;
   }
 }
 const _ScriptIterator = class {
@@ -53236,7 +53231,7 @@ class Main {
       return;
     this.stop();
     __privateSet2(this, _isLoop, false);
-    await __privateGet2(this, _layMng2).before_destroy();
+    __privateGet2(this, _layMng2).before_destroy();
     if (ms_late > 0)
       await new Promise((r2) => setTimeout(r2, ms_late));
     __privateSet2(this, _hTag2, {});
@@ -53246,7 +53241,7 @@ class Main {
     __privateGet2(this, _dbgMng).destroy();
     __privateGet2(this, _appPixi3).ticker.remove(__privateGet2(this, _fncTicker2));
     if (__privateGet2(this, _clone_cvs) && __privateGet2(this, _appPixi3)) {
-      document.body.insertBefore(__privateGet2(this, _clone_cvs), __privateGet2(this, _appPixi3).view);
+      __privateGet2(this, _appPixi3).view.parentNode.appendChild(__privateGet2(this, _clone_cvs));
     }
     clearTextureCache();
     __privateGet2(this, _appPixi3).destroy(true);

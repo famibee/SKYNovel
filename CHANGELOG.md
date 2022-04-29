@@ -1,3 +1,9 @@
+- fix: ギャラリーで別のプロジェクトを選ぶとエラーになる件
+	- DOMException: Failed to execute ‘insertBefore’ on ‘Node’:
+	- The node before which the new node is to be inserted is not a child of this node.
+- fix: 不具合修正（修正忘れ：prj.json の backgroundColor を文字型に）
+
+
 ## [1.29.6](https://github.com/famibee/SKYNovel/compare/v1.29.5...v1.29.6) (2022-04-28)
 
 

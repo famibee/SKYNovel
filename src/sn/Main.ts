@@ -249,7 +249,7 @@ export class Main implements IMain {
 		this.stop();
 		this.#isLoop = false;
 
-		await this.#layMng.before_destroy();
+		this.#layMng.before_destroy();
 		if (ms_late > 0) await new Promise(r=> setTimeout(r, ms_late));
 
 		this.#hTag = {};
@@ -260,7 +260,10 @@ export class Main implements IMain {
 		this.#appPixi.ticker.remove(this.#fncTicker);
 
 		if (this.#clone_cvs && this.#appPixi) {
-			document.body.insertBefore(this.#clone_cvs, this.#appPixi.view);
+		//x	document.body.insertBefore(this.#clone_cvs, this.#appPixi.view);
+				// DOMException: Failed to execute ‘insertBefore’ on ‘Node’:
+				// The node before which the new node is to be inserted is not a child of this node.
+			this.#appPixi.view.parentNode!.appendChild(this.#clone_cvs);
 		}
 		utils.clearTextureCache();
 		this.#appPixi.destroy(true);

@@ -77,7 +77,7 @@ export class Areas implements IAreas {
 		}
 	}
 
-	get count(): number {return Object.keys(this.hAreas).length;}
+	get count(): number {return Object.keys(this.hAreas).length;}	// 4tst
 
 	toString(): string {
 		let ret = '';

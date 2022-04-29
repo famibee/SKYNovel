@@ -15,14 +15,14 @@ import {Container} from 'pixi.js';
 export class Pages {
 	#pg: {fore: Layer, back: Layer};
 
-	constructor(layer: string, private readonly cls_: string, fore: Container, back: Container, hArg: HArg, sys: SysBase, val: IVariable, ret: {isWait: boolean}) {
-		const fncF = sys.hFactoryCls[cls_];
-		if (! fncF) throw `属性 class【${cls_}】が不正です`;
+	constructor(layer: string, readonly cls: string, fore: Container, back: Container, readonly hArg: HArg, readonly sys: SysBase, readonly val: IVariable, readonly ret: {isWait: boolean}) {
+		const fncF = sys.hFactoryCls[cls];
+		if (! fncF) throw `属性 class【${cls}】が不正です`;
 
 		this.#pg = {fore: fncF(), back: fncF()};
 		this.#pg.fore.layname =
 		this.#pg.back.layname = layer;
-		const nm = hArg[':id_tag'] = `layer:${layer} cls:${cls_}`;
+		const nm = hArg[':id_tag'] = `layer:${layer} cls:${cls}`;
 		this.#pg.fore.name = `${nm} page:A`;
 		this.#pg.back.name = `${nm} page:B`;
 		fore.addChild(this.fore.spLay);
@@ -65,7 +65,6 @@ export class Pages {
 
 		throw Error('属性 page【'+ v +'】が不正です');
 	}
-	get cls() {return this.cls_;}
 	get fore(): Layer {return this.#pg.fore;}
 	get back(): Layer {return this.#pg.back;}
 
