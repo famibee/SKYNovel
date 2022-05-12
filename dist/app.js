@@ -49,7 +49,7 @@ var __privateMethod = (obj, member, method) => {
   __accessCheck(obj, member, "access private method");
   return method;
 };
-var _a2, _b2, _c2, _d, _sesame, _putCh2, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _beforeHTMLElm, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _evtMng4, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _bg_color, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng5, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _cvsHint, _picHint_w, _picHint_h, _padHint, _grpHint, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _dispHint, dispHint_fn, _dispHint_hArg, _dispHint_ctnBtn, _dispHint_masume, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng6, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg3, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng7, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _hInfo, _setStore, _main2, _dl_app, dl_app_fn;
+var _a2, _b2, _c2, _d, _sesame, _putCh, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _cfg3, _val, _recText, _isPageFore, _ch_in_style, ch_in_style_fn, _ch_out_style, ch_out_style_fn, _main2, _evtMng4, _sys3, _doAutoWc, _hAutoWc, _autowc, autowc_fn, _b_color, _b_alpha, _b_alpha_isfixed, _b_do, _b_pic, _txs, _rbSpl, _cntBtn, _set_ch_in, set_ch_in_fn, _$ch_in_style, _ch_in_join, _set_ch_out, set_ch_out_fn, _$ch_out_style, _drawBack, drawBack_fn, _setFfs, setFfs_fn, _ffs, _fncFFSStyle, _fncFFSSpan, _strNoFFS, _regNoFFS, _rec, _rec_bk, _class_offrec, _ruby_pd, _r_align, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn, _needGoTxt, _putCh2, _tagCh_sub, tagCh_sub_fn, _cumDelay, _firstCh, _aSpan, _aSpan_bk, _aSpan_link, _hSpanBk, _beginSpan, beginSpan_fn, _autoCloseSpan, autoCloseSpan_fn, _page_text, _evtMng5, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _bg_color, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng6, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _cvsHint, _picHint_w, _picHint_h, _padHint, _grpHint, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _dispHint, dispHint_fn, _dispHint_hArg, _dispHint_ctnBtn, _dispHint_masume, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng7, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg4, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng8, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _hInfo, _setStore, _main3, _dl_app, dl_app_fn;
 import { parse as parse$2, format, resolve as resolve$1 } from "url";
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var platform$1 = { exports: {} };
@@ -879,20 +879,20 @@ const encodeBlobAsBase64 = (data, callback) => {
   };
   return fileReader.readAsDataURL(data);
 };
-var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-var lookup$1 = typeof Uint8Array === "undefined" ? [] : new Uint8Array(256);
-for (var i$1 = 0; i$1 < chars.length; i$1++) {
-  lookup$1[chars.charCodeAt(i$1)] = i$1;
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+const lookup$1 = typeof Uint8Array === "undefined" ? [] : new Uint8Array(256);
+for (let i2 = 0; i2 < chars.length; i2++) {
+  lookup$1[chars.charCodeAt(i2)] = i2;
 }
-var decode$1 = function(base64) {
-  var bufferLength = base64.length * 0.75, len = base64.length, i2, p = 0, encoded1, encoded2, encoded3, encoded4;
+const decode$1 = (base64) => {
+  let bufferLength = base64.length * 0.75, len = base64.length, i2, p = 0, encoded1, encoded2, encoded3, encoded4;
   if (base64[base64.length - 1] === "=") {
     bufferLength--;
     if (base64[base64.length - 2] === "=") {
       bufferLength--;
     }
   }
-  var arraybuffer = new ArrayBuffer(bufferLength), bytes = new Uint8Array(arraybuffer);
+  const arraybuffer = new ArrayBuffer(bufferLength), bytes = new Uint8Array(arraybuffer);
   for (i2 = 0; i2 < len; i2 += 4) {
     encoded1 = lookup$1[base64.charCodeAt(i2)];
     encoded2 = lookup$1[base64.charCodeAt(i2 + 1)];
@@ -1046,7 +1046,7 @@ Emitter.prototype.listeners = function(event) {
 Emitter.prototype.hasListeners = function(event) {
   return !!this.listeners(event).length;
 };
-var globalThis$1 = (() => {
+const globalThisShim = (() => {
   if (typeof self !== "undefined") {
     return self;
   } else if (typeof window !== "undefined") {
@@ -1067,11 +1067,11 @@ const NATIVE_SET_TIMEOUT = setTimeout;
 const NATIVE_CLEAR_TIMEOUT = clearTimeout;
 function installTimerFunctions(obj, opts) {
   if (opts.useNativeTimers) {
-    obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(globalThis$1);
-    obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(globalThis$1);
+    obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(globalThisShim);
+    obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(globalThisShim);
   } else {
-    obj.setTimeoutFn = setTimeout.bind(globalThis$1);
-    obj.clearTimeoutFn = clearTimeout.bind(globalThis$1);
+    obj.setTimeoutFn = setTimeout.bind(globalThisShim);
+    obj.clearTimeoutFn = clearTimeout.bind(globalThisShim);
   }
 }
 const BASE64_OVERHEAD = 1.33;
@@ -1200,7 +1200,7 @@ try {
 } catch (err) {
 }
 const hasCORS = value;
-function XMLHttpRequest$1(opts) {
+function XHR(opts) {
   const xdomain = opts.xdomain;
   try {
     if (typeof XMLHttpRequest !== "undefined" && (!xdomain || hasCORS)) {
@@ -1210,7 +1210,7 @@ function XMLHttpRequest$1(opts) {
   }
   if (!xdomain) {
     try {
-      return new globalThis$1[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+      return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
     } catch (e) {
     }
   }
@@ -1218,7 +1218,7 @@ function XMLHttpRequest$1(opts) {
 function empty() {
 }
 const hasXHR2 = function() {
-  const xhr = new XMLHttpRequest$1({
+  const xhr = new XHR({
     xdomain: false
   });
   return xhr.responseType != null;
@@ -1368,7 +1368,7 @@ class Request extends Emitter {
     const opts = pick(this.opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
     opts.xdomain = !!this.opts.xd;
     opts.xscheme = !!this.opts.xs;
-    const xhr = this.xhr = new XMLHttpRequest$1(opts);
+    const xhr = this.xhr = new XHR(opts);
     try {
       xhr.open(this.method, this.uri, this.async);
       try {
@@ -1459,7 +1459,7 @@ if (typeof document !== "undefined") {
   if (typeof attachEvent === "function") {
     attachEvent("onunload", unloadHandler);
   } else if (typeof addEventListener === "function") {
-    const terminationEvent = "onpagehide" in globalThis$1 ? "pagehide" : "unload";
+    const terminationEvent = "onpagehide" in globalThisShim ? "pagehide" : "unload";
     addEventListener(terminationEvent, unloadHandler, false);
   }
 }
@@ -1478,7 +1478,7 @@ const nextTick = (() => {
     return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
   }
 })();
-const WebSocket = globalThis$1.WebSocket || globalThis$1.MozWebSocket;
+const WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
 const usingBrowserWebSocket = true;
 const defaultBinaryType = "arraybuffer";
 const isReactNative = typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
@@ -1568,7 +1568,7 @@ class WS extends Transport {
     return schema + "://" + (ipv6 ? "[" + this.opts.hostname + "]" : this.opts.hostname) + port + this.opts.path + (encodedQuery.length ? "?" + encodedQuery : "");
   }
   check() {
-    return !!WebSocket && !("__initialize" in WebSocket && this.name === WS.prototype.name);
+    return !!WebSocket;
   }
 }
 const transports = {
@@ -2964,21 +2964,21 @@ Object.assign(lookup, {
   io: lookup,
   connect: lookup
 });
-var __accessCheck$6 = (obj, member, msg) => {
+var __accessCheck$5 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet$6 = (obj, member, getter) => {
-  __accessCheck$6(obj, member, "read from private field");
+var __privateGet$5 = (obj, member, getter) => {
+  __accessCheck$5(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$6 = (obj, member, value2) => {
+var __privateAdd$5 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$6 = (obj, member, value2, setter) => {
-  __accessCheck$6(obj, member, "write to private field");
+var __privateSet$5 = (obj, member, value2, setter) => {
+  __accessCheck$5(obj, member, "write to private field");
   setter ? setter.call(obj, value2) : member.set(obj, value2);
   return value2;
 };
@@ -2991,17 +2991,17 @@ const _SysBase = class {
     this.fetch = (url2) => fetch(url2);
     this.resolution = 1;
     this.data = { sys: {}, mark: {}, kidoku: {} };
-    __privateAdd$6(this, _cvsWidth, 0);
-    __privateAdd$6(this, _cvsHeight, 0);
-    __privateAdd$6(this, _cvsScale, 1);
-    __privateAdd$6(this, _ofsLeft4elm, 0);
-    __privateAdd$6(this, _ofsTop4elm, 0);
-    __privateAdd$6(this, _ofsPadLeft_Dom2PIXI, 0);
-    __privateAdd$6(this, _ofsPadTop_Dom2PIXI, 0);
+    __privateAdd$5(this, _cvsWidth, 0);
+    __privateAdd$5(this, _cvsHeight, 0);
+    __privateAdd$5(this, _cvsScale, 1);
+    __privateAdd$5(this, _ofsLeft4elm, 0);
+    __privateAdd$5(this, _ofsTop4elm, 0);
+    __privateAdd$5(this, _ofsPadLeft_Dom2PIXI, 0);
+    __privateAdd$5(this, _ofsPadTop_Dom2PIXI, 0);
     this.isFullScr = false;
     this.extPort = 3776;
-    __privateAdd$6(this, _sk, void 0);
-    __privateAdd$6(this, _hHook, {
+    __privateAdd$5(this, _sk, void 0);
+    __privateAdd$5(this, _hHook, {
       auth: (o) => {
         if (o.t !== this.cfg.oCfg.debuger_token) {
           this.end();
@@ -3028,12 +3028,12 @@ const _SysBase = class {
       _addPath: (o) => this.cfg.addPath(o.fn, o.o)
     });
     this.pathBaseCnvSnPath4Dbg = "";
-    __privateAdd$6(this, _aFncHook, []);
+    __privateAdd$5(this, _aFncHook, []);
     this.callHook = (_type, _o) => {
     };
     this.send2Dbg = (type, o) => {
       var _a3;
-      (_a3 = __privateGet$6(this, _sk)) == null ? void 0 : _a3.emit("data", type, o);
+      (_a3 = __privateGet$5(this, _sk)) == null ? void 0 : _a3.emit("data", type, o);
     };
     this.copyBMFolder = (_from, _to) => {
     };
@@ -3047,12 +3047,12 @@ const _SysBase = class {
       const { text } = hArg;
       if (!text)
         throw "[title] text\u306F\u5FC5\u9808\u3067\u3059";
-      __privateSet$6(this, _main_title, text);
-      this.titleSub(__privateGet$6(this, _main_title) + __privateGet$6(this, _info_title));
+      __privateSet$5(this, _main_title, text);
+      this.titleSub(__privateGet$5(this, _main_title) + __privateGet$5(this, _info_title));
       return false;
     };
-    __privateAdd$6(this, _main_title, "");
-    __privateAdd$6(this, _tglFlscr, (hArg) => {
+    __privateAdd$5(this, _main_title, "");
+    __privateAdd$5(this, _tglFlscr, (hArg) => {
       if (!hArg.key) {
         this.tglFlscr_sub();
         return false;
@@ -3069,32 +3069,32 @@ const _SysBase = class {
     });
     this.update_check = () => false;
     this.window = () => false;
-    __privateAdd$6(this, _info_title, "");
-    __privateAdd$6(this, _preFromPlg, (_ext, d2) => {
+    __privateAdd$5(this, _info_title, "");
+    __privateAdd$5(this, _preFromPlg, (_ext, d2) => {
       return { ret: d2.toString(), ext_num: 0 };
     });
-    __privateAdd$6(this, _hN2Ext, {
-      1: { ext: "jpeg", fnc: (bl) => __privateGet$6(this, _genImage).call(this, bl), mime: "image/jpeg" },
-      2: { ext: "png", fnc: (bl) => __privateGet$6(this, _genImage).call(this, bl), mime: "image/png" },
-      3: { ext: "svg", fnc: (bl) => __privateGet$6(this, _genImage).call(this, bl), mime: "image/svg+xml" },
-      4: { ext: "webp", fnc: (bl) => __privateGet$6(this, _genImage).call(this, bl), mime: "image/webp" },
+    __privateAdd$5(this, _hN2Ext, {
+      1: { ext: "jpeg", fnc: (bl) => __privateGet$5(this, _genImage).call(this, bl), mime: "image/jpeg" },
+      2: { ext: "png", fnc: (bl) => __privateGet$5(this, _genImage).call(this, bl), mime: "image/png" },
+      3: { ext: "svg", fnc: (bl) => __privateGet$5(this, _genImage).call(this, bl), mime: "image/svg+xml" },
+      4: { ext: "webp", fnc: (bl) => __privateGet$5(this, _genImage).call(this, bl), mime: "image/webp" },
       10: { ext: "mp3", fnc: (bl) => bl.arrayBuffer(), mime: "audio/mpeg" },
       11: { ext: "m4a", fnc: (bl) => bl.arrayBuffer(), mime: "audio/aac" },
       12: { ext: "ogg", fnc: (bl) => bl.arrayBuffer(), mime: "audio/ogg" },
       13: { ext: "aac", fnc: (bl) => bl.arrayBuffer(), mime: "audio/aac" },
       14: { ext: "flac", fnc: (bl) => bl.arrayBuffer(), mime: "audio/flac" },
       15: { ext: "wav", fnc: (bl) => bl.arrayBuffer(), mime: "audio/wav" },
-      20: { ext: "mp4", fnc: (bl) => __privateGet$6(this, _genVideo).call(this, bl), mime: "video/mp4" },
-      21: { ext: "webm", fnc: (bl) => __privateGet$6(this, _genVideo).call(this, bl), mime: "video/webm" },
-      22: { ext: "ogv", fnc: (bl) => __privateGet$6(this, _genVideo).call(this, bl), mime: "video/ogv" }
+      20: { ext: "mp4", fnc: (bl) => __privateGet$5(this, _genVideo).call(this, bl), mime: "video/mp4" },
+      21: { ext: "webm", fnc: (bl) => __privateGet$5(this, _genVideo).call(this, bl), mime: "video/webm" },
+      22: { ext: "ogv", fnc: (bl) => __privateGet$5(this, _genVideo).call(this, bl), mime: "video/ogv" }
     });
-    __privateAdd$6(this, _genImage, (bl) => new Promise((rs, rj) => {
+    __privateAdd$5(this, _genImage, (bl) => new Promise((rs, rj) => {
       const img = new Image();
       img.onload = () => rs(img);
       img.onerror = (e) => rj(e);
       img.src = URL.createObjectURL(bl);
     }));
-    __privateAdd$6(this, _genVideo, (bl) => new Promise((rs, rj) => {
+    __privateAdd$5(this, _genVideo, (bl) => new Promise((rs, rj) => {
       const v2 = document.createElement("video");
       v2.addEventListener("error", () => {
         var _a3, _b3;
@@ -3125,7 +3125,7 @@ const _SysBase = class {
       },
       render: () => {
       },
-      setDec: (fnc) => __privateSet$6(this, _preFromPlg, fnc),
+      setDec: (fnc) => __privateSet$5(this, _preFromPlg, fnc),
       setEnc: (fnc) => this.enc = fnc,
       getStK: (fnc) => this.stk = fnc,
       getHash: (fnc) => this.hash = fnc
@@ -3164,7 +3164,7 @@ const _SysBase = class {
     hTag.import = (o) => this._import(o);
     hTag.navigate_to = (o) => this.navigate_to(o);
     hTag.title = (o) => this.title(o);
-    hTag.toggle_full_screen = (o) => __privateGet$6(this, _tglFlscr).call(this, o);
+    hTag.toggle_full_screen = (o) => __privateGet$5(this, _tglFlscr).call(this, o);
     hTag.update_check = (o) => this.update_check(o);
     hTag.window = (o) => this.window(o);
     val.setVal_Nochk("tmp", "const.sn.isApp", () => this.isApp);
@@ -3193,7 +3193,7 @@ const _SysBase = class {
         getVal: val.getVal,
         resume: () => main.resume(),
         render: (dsp, renderTexture, clear = false) => this.appPixi.renderer.render(dsp, { renderTexture, clear }),
-        setDec: (fnc) => __privateSet$6(this, _preFromPlg, fnc),
+        setDec: (fnc) => __privateSet$5(this, _preFromPlg, fnc),
         setEnc: (fnc) => this.enc = fnc,
         getStK: (fnc) => this.stk = fnc,
         getHash: (fnc) => this.hash = fnc
@@ -3201,25 +3201,25 @@ const _SysBase = class {
     return a2;
   }
   get cvsWidth() {
-    return __privateGet$6(this, _cvsWidth);
+    return __privateGet$5(this, _cvsWidth);
   }
   get cvsHeight() {
-    return __privateGet$6(this, _cvsHeight);
+    return __privateGet$5(this, _cvsHeight);
   }
   get cvsScale() {
-    return __privateGet$6(this, _cvsScale);
+    return __privateGet$5(this, _cvsScale);
   }
   get ofsLeft4elm() {
-    return __privateGet$6(this, _ofsLeft4elm);
+    return __privateGet$5(this, _ofsLeft4elm);
   }
   get ofsTop4elm() {
-    return __privateGet$6(this, _ofsTop4elm);
+    return __privateGet$5(this, _ofsTop4elm);
   }
   get ofsPadLeft_Dom2PIXI() {
-    return __privateGet$6(this, _ofsPadLeft_Dom2PIXI);
+    return __privateGet$5(this, _ofsPadLeft_Dom2PIXI);
   }
   get ofsPadTop_Dom2PIXI() {
-    return __privateGet$6(this, _ofsPadTop_Dom2PIXI);
+    return __privateGet$5(this, _ofsPadTop_Dom2PIXI);
   }
   cvsResize() {
     var _a3, _b3;
@@ -3241,47 +3241,47 @@ const _SysBase = class {
     const cr = cvs.getBoundingClientRect();
     if (argChk_Boolean(CmnLib.hDip, "expanding", true) || isGallery || CmnLib.stageW > w2 || CmnLib.stageH > h2) {
       if (CmnLib.stageW / CmnLib.stageH <= w2 / h2) {
-        __privateSet$6(this, _cvsHeight, h2);
-        __privateSet$6(this, _cvsWidth, CmnLib.stageW / CmnLib.stageH * h2);
+        __privateSet$5(this, _cvsHeight, h2);
+        __privateSet$5(this, _cvsWidth, CmnLib.stageW / CmnLib.stageH * h2);
       } else {
-        __privateSet$6(this, _cvsWidth, w2);
-        __privateSet$6(this, _cvsHeight, CmnLib.stageH / CmnLib.stageW * w2);
+        __privateSet$5(this, _cvsWidth, w2);
+        __privateSet$5(this, _cvsHeight, CmnLib.stageH / CmnLib.stageW * w2);
       }
-      __privateSet$6(this, _cvsScale, __privateGet$6(this, _cvsWidth) / CmnLib.stageW);
+      __privateSet$5(this, _cvsScale, __privateGet$5(this, _cvsWidth) / CmnLib.stageW);
       if (isGallery) {
-        __privateSet$6(this, _ofsPadLeft_Dom2PIXI, 0);
-        __privateSet$6(this, _ofsPadTop_Dom2PIXI, 0);
+        __privateSet$5(this, _ofsPadLeft_Dom2PIXI, 0);
+        __privateSet$5(this, _ofsPadTop_Dom2PIXI, 0);
       } else {
-        const sc = 1 - __privateGet$6(this, _cvsScale);
+        const sc = 1 - __privateGet$5(this, _cvsScale);
         if (CmnLib.isMobile) {
-          __privateSet$6(this, _ofsPadLeft_Dom2PIXI, (w2 - __privateGet$6(this, _cvsWidth)) / 2 * sc);
-          __privateSet$6(this, _ofsPadTop_Dom2PIXI, (h2 - __privateGet$6(this, _cvsHeight)) / 2 * sc);
+          __privateSet$5(this, _ofsPadLeft_Dom2PIXI, (w2 - __privateGet$5(this, _cvsWidth)) / 2 * sc);
+          __privateSet$5(this, _ofsPadTop_Dom2PIXI, (h2 - __privateGet$5(this, _cvsHeight)) / 2 * sc);
         } else {
-          __privateSet$6(this, _ofsPadLeft_Dom2PIXI, cr.left * sc);
-          __privateSet$6(this, _ofsPadTop_Dom2PIXI, cr.top * sc);
+          __privateSet$5(this, _ofsPadLeft_Dom2PIXI, cr.left * sc);
+          __privateSet$5(this, _ofsPadTop_Dom2PIXI, cr.top * sc);
         }
       }
     } else {
-      __privateSet$6(this, _cvsWidth, CmnLib.stageW);
-      __privateSet$6(this, _cvsHeight, CmnLib.stageH);
-      __privateSet$6(this, _cvsScale, 1);
-      __privateSet$6(this, _ofsPadLeft_Dom2PIXI, 0);
-      __privateSet$6(this, _ofsPadTop_Dom2PIXI, 0);
+      __privateSet$5(this, _cvsWidth, CmnLib.stageW);
+      __privateSet$5(this, _cvsHeight, CmnLib.stageH);
+      __privateSet$5(this, _cvsScale, 1);
+      __privateSet$5(this, _ofsPadLeft_Dom2PIXI, 0);
+      __privateSet$5(this, _ofsPadTop_Dom2PIXI, 0);
     }
     const ps = cvs.parentElement.style;
     if (!isGallery) {
       ps.position = "relative";
-      ps.width = `${__privateGet$6(this, _cvsWidth)}px`;
-      ps.height = `${__privateGet$6(this, _cvsHeight)}px`;
+      ps.width = `${__privateGet$5(this, _cvsWidth)}px`;
+      ps.height = `${__privateGet$5(this, _cvsHeight)}px`;
     }
     const s2 = cvs.style;
     s2.width = ps.width;
     s2.height = ps.height;
-    __privateSet$6(this, _ofsLeft4elm, cr.left);
-    __privateSet$6(this, _ofsTop4elm, cr.top);
+    __privateSet$5(this, _ofsLeft4elm, cr.left);
+    __privateSet$5(this, _ofsTop4elm, cr.top);
     if (this.isFullScr) {
-      __privateSet$6(this, _ofsLeft4elm, __privateGet$6(this, _ofsLeft4elm) + (w2 - __privateGet$6(this, _cvsWidth)) / 2);
-      __privateSet$6(this, _ofsTop4elm, __privateGet$6(this, _ofsTop4elm) + (h2 - __privateGet$6(this, _cvsHeight)) / 2);
+      __privateSet$5(this, _ofsLeft4elm, __privateGet$5(this, _ofsLeft4elm) + (w2 - __privateGet$5(this, _cvsWidth)) / 2);
+      __privateSet$5(this, _ofsTop4elm, __privateGet$5(this, _ofsTop4elm) + (h2 - __privateGet$5(this, _cvsHeight)) / 2);
     }
   }
   attach_debug(main) {
@@ -3317,31 +3317,31 @@ const _SysBase = class {
     document.getElementsByTagName("head")[0].appendChild(gs);
     this.addHook((type, o) => {
       var _a3, _b3;
-      return (_b3 = (_a3 = __privateGet$6(this, _hHook))[type]) == null ? void 0 : _b3.call(_a3, o);
+      return (_b3 = (_a3 = __privateGet$5(this, _hHook))[type]) == null ? void 0 : _b3.call(_a3, o);
     });
-    __privateSet$6(this, _sk, lookup(`http://localhost:${this.extPort}`));
-    __privateGet$6(this, _sk).on("data", (type, o) => {
+    __privateSet$5(this, _sk, lookup(`http://localhost:${this.extPort}`));
+    __privateGet$5(this, _sk).on("data", (type, o) => {
       this.callHook(type, o);
     }).on("disconnect", () => main.setLoop(true));
-    this.callHook = (type, o) => __privateGet$6(this, _aFncHook).forEach((fnc) => fnc(type, o));
+    this.callHook = (type, o) => __privateGet$5(this, _aFncHook).forEach((fnc) => fnc(type, o));
   }
   end() {
     var _a3;
-    (_a3 = __privateGet$6(this, _sk)) == null ? void 0 : _a3.disconnect();
-    __privateSet$6(this, _sk, void 0);
+    (_a3 = __privateGet$5(this, _sk)) == null ? void 0 : _a3.disconnect();
+    __privateSet$5(this, _sk, void 0);
   }
   toast(nm) {
     var _a3, _b3, _c3;
     const p = document.body;
     p.querySelectorAll(".sn_BounceIn, .sn_HopIn").forEach((v2) => p.removeChild(v2));
     const img = document.createElement("img");
-    const td = __privateGet$6(_SysBase, _hToastDat)[nm];
+    const td = __privateGet$5(_SysBase, _hToastDat)[nm];
     img.src = `data:image/svg+xml;base64,${td.dat}`;
-    const size = Math.min(CmnLib.stageW, CmnLib.stageH) / 4 * __privateGet$6(this, _cvsScale);
+    const size = Math.min(CmnLib.stageW, CmnLib.stageH) / 4 * __privateGet$5(this, _cvsScale);
     img.width = img.height = size;
     img.style.cssText = `position: absolute;
-left: ${(CmnLib.stageW - size) / 2 * __privateGet$6(this, _cvsScale) + size * ((_a3 = td.dx) != null ? _a3 : 0)}px;
-top: ${(CmnLib.stageH - size) / 2 * __privateGet$6(this, _cvsScale) + size * ((_b3 = td.dy) != null ? _b3 : 0)}px;`;
+left: ${(CmnLib.stageW - size) / 2 * __privateGet$5(this, _cvsScale) + size * ((_a3 = td.dx) != null ? _a3 : 0)}px;
+top: ${(CmnLib.stageH - size) / 2 * __privateGet$5(this, _cvsScale) + size * ((_b3 = td.dy) != null ? _b3 : 0)}px;`;
     img.classList.add("sn_toast", (_c3 = td.ease) != null ? _c3 : "sn_BounceInOut");
     if (!td.ease)
       img.addEventListener("animationend", () => p.removeChild(img), { once: true, passive: true });
@@ -3351,22 +3351,22 @@ top: ${(CmnLib.stageH - size) / 2 * __privateGet$6(this, _cvsScale) + size * ((_
     this.fire = fire;
   }
   addHook(fnc) {
-    __privateGet$6(this, _aFncHook).push(fnc);
+    __privateGet$5(this, _aFncHook).push(fnc);
   }
   titleSub(_txt) {
   }
   tglFlscr_sub() {
   }
   setTitleInfo(txt) {
-    __privateSet$6(this, _info_title, txt);
-    this.titleSub(__privateGet$6(this, _main_title) + __privateGet$6(this, _info_title));
+    __privateSet$5(this, _info_title, txt);
+    this.titleSub(__privateGet$5(this, _main_title) + __privateGet$5(this, _info_title));
   }
   decStr(ext, d2) {
-    return __privateGet$6(this, _preFromPlg).call(this, ext, d2).ret;
+    return __privateGet$5(this, _preFromPlg).call(this, ext, d2).ret;
   }
   async dec(ext, d2) {
-    const { ret, ext_num } = __privateGet$6(this, _preFromPlg).call(this, ext, d2);
-    const fm = __privateGet$6(this, _hN2Ext)[ext_num];
+    const { ret, ext_num } = __privateGet$5(this, _preFromPlg).call(this, ext, d2);
+    const fm = __privateGet$5(this, _hN2Ext)[ext_num];
     return (fm == null ? void 0 : fm.fnc) ? await fm.fnc(new Blob([ret], { type: fm.mime })) : ret;
   }
   get path_downloads() {
@@ -3402,7 +3402,7 @@ _hN2Ext = /* @__PURE__ */ new WeakMap();
 _genImage = /* @__PURE__ */ new WeakMap();
 _genVideo = /* @__PURE__ */ new WeakMap();
 SysBase.VALNM_CFG_NS = "const.sn.cfg.ns";
-__privateAdd$6(SysBase, _hToastDat, {
+__privateAdd$5(SysBase, _hToastDat, {
   "\u63A5\u7D9A": { dx: -1, dat: "PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+" },
   "\u5207\u65AD": { dat: "PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMTkxLjUzIDIyMS4yNGMtNDUuNjggMC04NC4wMSAzMS4wNC05NS4zIDczLjE2LTYuNDEgMC0zOC40OSAwLTk2LjIzIDB2NTEuMjFoOTYuMjNjMTEuMyA0Mi4xMSA0OS42MyA3My4xNiA5NS4zIDczLjE2aDcxLjMzdi00OC4yNGg1My43OHYtMTAxLjA1aC01My43OHYtNDguMjRjLTQyLjggMC02Ni41NyAwLTcxLjMzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im00NDguNDcgMjIxLjIzYy00Ljc2IDAtMjguNTMgMC03MS4zMyAwdjE5Ny41M2g3MS4zM2M0NS42OCAwIDgzLjk5LTMxLjA0IDk1LjI5LTczLjE1aDk2LjI0di01MS4yMWgtOTYuMjRjLTMzLjA4LTQ4Ljc4LTY0Ljg0LTczLjE3LTk1LjI5LTczLjE3eiIvPjwvZGVmcz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0iI2RmNTY1NiIgeGxpbms6aHJlZj0iI2IiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjZGY1NjU2IiB4bGluazpocmVmPSIjYyIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2MiLz48L3N2Zz4=" },
   "\u518D\u751F": { dat: "PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yNTguODMgMTExLjA1Yy0xLjI5Ljc5LTIuOTMuODMtNC4yNi4wNC0xLjI5LS43NC0yLjExLTIuMTItMi4xMS0zLjY3IDAtNy4xNiAwLTQyLjk3IDAtMTA3LjQzczAtMTAwLjI3IDAtMTA3LjQzYzAtMS41My44Mi0yLjkzIDIuMTEtMy42OCAxLjMzLS43NiAyLjk3LS43MiA0LjI2LjA0IDE4IDEwLjc1IDE2MiA5Ni43MSAxODAgMTA3LjQ2IDEuMjkuNzMgMi4wNSAyLjE0IDIuMDUgMy42MSAwIDEuNDktLjc2IDIuODgtMi4wNSAzLjYzLTM2IDIxLjQ5LTE2MiA5Ni42OS0xODAgMTA3LjQzeiIvPjwvZGVmcz48cGF0aCBkPSJtMTU0LjU3IDE3MC4xOWgzNDYuMTV2MzA3LjY5aC0zNDYuMTV6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=" },
@@ -3446,21 +3446,21 @@ class SysNode extends SysBase {
   async writeFileSync(_path, _data2, _o) {
   }
 }
-var __accessCheck$5 = (obj, member, msg) => {
+var __accessCheck$4 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet$5 = (obj, member, getter) => {
-  __accessCheck$5(obj, member, "read from private field");
+var __privateGet$4 = (obj, member, getter) => {
+  __accessCheck$4(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$5 = (obj, member, value2) => {
+var __privateAdd$4 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$5 = (obj, member, value2, setter) => {
-  __accessCheck$5(obj, member, "write to private field");
+var __privateSet$4 = (obj, member, value2, setter) => {
+  __accessCheck$4(obj, member, "write to private field");
   setter ? setter.call(obj, value2) : member.set(obj, value2);
   return value2;
 };
@@ -3505,9 +3505,9 @@ const _Config = class {
     };
     this.userFnTail = "";
     this.hPathFn2Exts = {};
-    __privateAdd$5(this, _existsBreakline, false);
-    __privateAdd$5(this, _existsBreakpage, false);
-    __privateAdd$5(this, _REG_PATH, /([^\/\s]+)\.([^\d]\w+)/);
+    __privateAdd$4(this, _existsBreakline, false);
+    __privateAdd$4(this, _existsBreakpage, false);
+    __privateAdd$4(this, _REG_PATH, /([^\/\s]+)\.([^\d]\w+)/);
   }
   static async generate(sys) {
     const c2 = new _Config(sys);
@@ -3529,8 +3529,8 @@ const _Config = class {
     CmnLib.debugLog = this.oCfg.debug.debugLog;
     this.oCfg.debuger_token = oCfg.debuger_token;
     await this.sys.loadPath(this.hPathFn2Exts, this);
-    __privateSet$5(this, _existsBreakline, this.matchPath("^breakline$", _Config.EXT_SPRITE).length > 0);
-    __privateSet$5(this, _existsBreakpage, this.matchPath("^breakpage$", _Config.EXT_SPRITE).length > 0);
+    __privateSet$4(this, _existsBreakline, this.matchPath("^breakline$", _Config.EXT_SPRITE).length > 0);
+    __privateSet$4(this, _existsBreakpage, this.matchPath("^breakpage$", _Config.EXT_SPRITE).length > 0);
     if (this.sys.crypto)
       for (const nm in this.hPathFn2Exts) {
         const o = this.hPathFn2Exts[nm];
@@ -3548,10 +3548,10 @@ const _Config = class {
       }
   }
   get existsBreakline() {
-    return __privateGet$5(this, _existsBreakline);
+    return __privateGet$4(this, _existsBreakline);
   }
   get existsBreakpage() {
-    return __privateGet$5(this, _existsBreakpage);
+    return __privateGet$4(this, _existsBreakpage);
   }
   getNs() {
     return `skynovel.${this.oCfg.save_ns} - `;
@@ -3571,7 +3571,7 @@ const _Config = class {
       this.sys.ensureFileSync(fp);
       return fp;
     }
-    const a2 = path.match(__privateGet$5(this, _REG_PATH));
+    const a2 = path.match(__privateGet$4(this, _REG_PATH));
     let fn = a2 ? a2[1] : path;
     const ext = a2 ? a2[2] : "";
     if (this.userFnTail) {
@@ -3667,7 +3667,7 @@ Config.EXT_SOUND = "mp3|m4a|ogg|aac|flac|wav";
 Config.EXT_HTML = "htm|html";
 const _RubySpliter = class {
   constructor() {
-    __privateAdd(this, _putCh2, () => {
+    __privateAdd(this, _putCh, () => {
     });
   }
   static setting(hArg) {
@@ -3681,7 +3681,7 @@ const _RubySpliter = class {
     __privateSet(_RubySpliter, _sesame, "\u30FD");
   }
   init(putCh) {
-    __privateSet(this, _putCh2, putCh);
+    __privateSet(this, _putCh, putCh);
   }
   static setEscape(ce) {
     __privateSet(_RubySpliter, _REG_RUBY, new RegExp(`${ce ? `(?<ce>\\${ce}\\S)|` : ""}\uFF5C(?<str>[^\u300A\\n]+)\u300A(?<ruby>[^\u300B\\n]+)\u300B|(?:(?<kan>[\u2E80-\u2FDF\u3005\u3007\u303B\u3400-\u9FFF\u8C48-\uFAFF]+[\u3041-\u30FF]*|[^\u3000\uFF5C\u300A\u300B\\n])\u300A(?<kan_ruby>[^\u300B\\n]+)\u300B)|(?<txt>[\uD800-\uDBFF][\uDC00-\uDFFF]|[^\u3000\uFF5C\u300A\u300B]+(?=\uFF5C)|[^\u3000\uFF5C\u300A\u300B]*[\u3041-\u30FF](?=[\u2E80-\u2FDF\u3005\u3007\u303B\u3400-\u9FFF\u8C48-\uFAFF]+\u300A)|.)`, "gs"));
@@ -3704,10 +3704,10 @@ const _RubySpliter = class {
         continue;
       }
       if (g2.ce) {
-        __privateGet(this, _putCh2).call(this, g2.ce.slice(1), "");
+        __privateGet(this, _putCh).call(this, g2.ce.slice(1), "");
         continue;
       }
-      Array.from((_a3 = g2.txt) != null ? _a3 : "").forEach((v2) => __privateGet(this, _putCh2).call(this, v2, ""));
+      Array.from((_a3 = g2.txt) != null ? _a3 : "").forEach((v2) => __privateGet(this, _putCh).call(this, v2, ""));
     }
   }
   putTxtRb(text, ruby) {
@@ -3716,24 +3716,24 @@ const _RubySpliter = class {
     if (ruby.charAt(0) === "*" && ruby.length <= 2) {
       const rb_ses = "center\uFF5C" + (ruby === "*" ? __privateGet(_RubySpliter, _sesame) : ruby.charAt(1));
       for (let i2 = 0; i2 < len; ++i2)
-        __privateGet(this, _putCh2).call(this, a2[i2], rb_ses);
+        __privateGet(this, _putCh).call(this, a2[i2], rb_ses);
       return;
     }
     if (len === 1 || ruby.indexOf(" ") === -1) {
-      __privateGet(this, _putCh2).call(this, text, ruby.replaceAll("	", " "));
+      __privateGet(this, _putCh).call(this, text, ruby.replaceAll("	", " "));
       return;
     }
     const aR = ruby.split(" ");
     const lenR = aR.length;
     const len_max = lenR > len ? lenR : len;
     for (let i2 = 0; i2 < len_max; ++i2) {
-      __privateGet(this, _putCh2).call(this, i2 < len ? a2[i2] : "", i2 < lenR ? aR[i2].replaceAll("	", " ") : "");
+      __privateGet(this, _putCh).call(this, i2 < len ? a2[i2] : "", i2 < lenR ? aR[i2].replaceAll("	", " ") : "");
     }
   }
 };
 let RubySpliter = _RubySpliter;
 _sesame = new WeakMap();
-_putCh2 = new WeakMap();
+_putCh = new WeakMap();
 _REG_RUBY = new WeakMap();
 __privateAdd(RubySpliter, _sesame, "\u30FD");
 __privateAdd(RubySpliter, _REG_RUBY, void 0);
@@ -4756,53 +4756,53 @@ getValName_B2D_fn = function(str) {
 };
 __privateAdd(PropParser, _getValName_B2D);
 __privateAdd(PropParser, _REG_VAL, /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/);
-var __accessCheck$4 = (obj, member, msg) => {
+var __accessCheck$3 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet$4 = (obj, member, getter) => {
-  __accessCheck$4(obj, member, "read from private field");
+var __privateGet$3 = (obj, member, getter) => {
+  __accessCheck$3(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$4 = (obj, member, value2) => {
+var __privateAdd$3 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$4 = (obj, member, value2, setter) => {
-  __accessCheck$4(obj, member, "write to private field");
+var __privateSet$3 = (obj, member, value2, setter) => {
+  __accessCheck$3(obj, member, "write to private field");
   setter ? setter.call(obj, value2) : member.set(obj, value2);
   return value2;
 };
-var __privateMethod$4 = (obj, member, method) => {
-  __accessCheck$4(obj, member, "access private method");
+var __privateMethod$3 = (obj, member, method) => {
+  __accessCheck$3(obj, member, "access private method");
   return method;
 };
 var _scrItr$1, _hTag, _title, _spnDbg, _first, _log, log_fn, _trace, trace_fn, _st_trace, st_trace_fn, _dspDbg, dspDbg_fn;
 const _DebugMng = class {
   constructor(sys, hTag, scrItr) {
     this.sys = sys;
-    __privateAdd$4(this, _log);
-    __privateAdd$4(this, _trace);
-    __privateAdd$4(this, _first, true);
-    __privateSet$4(_DebugMng, _scrItr$1, scrItr);
-    __privateSet$4(_DebugMng, _hTag, hTag);
-    __privateSet$4(_DebugMng, _title, hTag.title);
-    _DebugMng.myTrace = __privateMethod$4(_DebugMng, _st_trace, st_trace_fn);
-    hTag.log = (o) => __privateMethod$4(this, _log, log_fn).call(this, o);
-    hTag.trace = (o) => __privateMethod$4(this, _trace, trace_fn).call(this, o);
-    __privateSet$4(_DebugMng, _spnDbg, document.createElement("span"));
-    __privateGet$4(_DebugMng, _spnDbg).hidden = true;
-    __privateGet$4(_DebugMng, _spnDbg).textContent = "";
-    __privateGet$4(_DebugMng, _spnDbg).style.cssText = `	z-index: ${Number.MAX_SAFE_INTEGER};
+    __privateAdd$3(this, _log);
+    __privateAdd$3(this, _trace);
+    __privateAdd$3(this, _first, true);
+    __privateSet$3(_DebugMng, _scrItr$1, scrItr);
+    __privateSet$3(_DebugMng, _hTag, hTag);
+    __privateSet$3(_DebugMng, _title, hTag.title);
+    _DebugMng.myTrace = __privateMethod$3(_DebugMng, _st_trace, st_trace_fn);
+    hTag.log = (o) => __privateMethod$3(this, _log, log_fn).call(this, o);
+    hTag.trace = (o) => __privateMethod$3(this, _trace, trace_fn).call(this, o);
+    __privateSet$3(_DebugMng, _spnDbg, document.createElement("span"));
+    __privateGet$3(_DebugMng, _spnDbg).hidden = true;
+    __privateGet$3(_DebugMng, _spnDbg).textContent = "";
+    __privateGet$3(_DebugMng, _spnDbg).style.cssText = `	z-index: ${Number.MAX_SAFE_INTEGER};
 			position: absolute; left: 0; top: 0;
 			color: black;
 			background-color: rgba(255, 255, 255, 0.7);`;
-    document.body.appendChild(__privateGet$4(_DebugMng, _spnDbg));
+    document.body.appendChild(__privateGet$3(_DebugMng, _spnDbg));
   }
   destroy() {
-    __privateSet$4(_DebugMng, _title, () => false);
-    document.body.removeChild(__privateGet$4(_DebugMng, _spnDbg));
+    __privateSet$3(_DebugMng, _title, () => false);
+    document.body.removeChild(__privateGet$3(_DebugMng, _spnDbg));
     _DebugMng.myTrace = _DebugMng.trace_beforeNew;
   }
   static trace_beforeNew(txt, lvl = "E") {
@@ -4839,12 +4839,12 @@ _first = /* @__PURE__ */ new WeakMap();
 _log = /* @__PURE__ */ new WeakSet();
 log_fn = function(hArg) {
   let dat = "";
-  if (__privateGet$4(this, _first)) {
-    __privateSet$4(this, _first, false);
+  if (__privateGet$3(this, _first)) {
+    __privateSet$3(this, _first, false);
     dat = `== ${platform.description} ==
 `;
   }
-  this.sys.appendFile(this.sys.path_downloads + "log.txt", `${dat}--- ${getDateStr("-", "_", "")} [fn:${__privateGet$4(_DebugMng, _scrItr$1).scriptFn} line:${__privateGet$4(_DebugMng, _scrItr$1).lineNum}] prj:${this.sys.cur}
+  this.sys.appendFile(this.sys.path_downloads + "log.txt", `${dat}--- ${getDateStr("-", "_", "")} [fn:${__privateGet$3(_DebugMng, _scrItr$1).scriptFn} line:${__privateGet$3(_DebugMng, _scrItr$1).lineNum}] prj:${this.sys.cur}
 ${hArg.text || `(text is ${hArg.text})`}
 `, (err) => {
     if (err)
@@ -4861,10 +4861,10 @@ _st_trace = /* @__PURE__ */ new WeakSet();
 st_trace_fn = function(txt, lvl = "E") {
   var _a3, _b3;
   let mes = `{${lvl}} `;
-  if (__privateGet$4(_DebugMng, _scrItr$1) && __privateGet$4(_DebugMng, _scrItr$1).lineNum > 0)
-    mes += `(fn:${__privateGet$4(_DebugMng, _scrItr$1).scriptFn} line:${__privateGet$4(_DebugMng, _scrItr$1).lineNum}) `;
+  if (__privateGet$3(_DebugMng, _scrItr$1) && __privateGet$3(_DebugMng, _scrItr$1).lineNum > 0)
+    mes += `(fn:${__privateGet$3(_DebugMng, _scrItr$1).scriptFn} line:${__privateGet$3(_DebugMng, _scrItr$1).lineNum}) `;
   mes += txt;
-  __privateMethod$4(_a3 = _DebugMng, _dspDbg, dspDbg_fn).call(_a3, mes, lvl);
+  __privateMethod$3(_a3 = _DebugMng, _dspDbg, dspDbg_fn).call(_a3, mes, lvl);
   let sty = "";
   switch (lvl) {
     case "D":
@@ -4878,11 +4878,11 @@ st_trace_fn = function(txt, lvl = "E") {
       break;
     case "ET":
     case "E":
-      __privateGet$4(_b3 = _DebugMng, _title).call(_b3, { text: txt });
-      __privateGet$4(this, _hTag).dump_lay({});
-      __privateGet$4(this, _hTag).dump_val({});
-      __privateGet$4(_DebugMng, _scrItr$1).dumpErrForeLine();
-      __privateGet$4(this, _hTag).dump_stack({});
+      __privateGet$3(_b3 = _DebugMng, _title).call(_b3, { text: txt });
+      __privateGet$3(this, _hTag).dump_lay({});
+      __privateGet$3(this, _hTag).dump_val({});
+      __privateGet$3(_DebugMng, _scrItr$1).dumpErrForeLine();
+      __privateGet$3(this, _hTag).dump_stack({});
       if (lvl === "ET")
         throw mes;
       console.error("%c" + mes, "color:#F30;");
@@ -4913,15 +4913,15 @@ dspDbg_fn = function(mes, lvl) {
     default:
       sty = "";
   }
-  __privateGet$4(_DebugMng, _spnDbg).innerHTML += `<span style='${sty}'>${mes}</span><br/>`;
-  __privateGet$4(_DebugMng, _spnDbg).hidden = false;
+  __privateGet$3(_DebugMng, _spnDbg).innerHTML += `<span style='${sty}'>${mes}</span><br/>`;
+  __privateGet$3(_DebugMng, _spnDbg).hidden = false;
 };
-__privateAdd$4(DebugMng, _st_trace);
-__privateAdd$4(DebugMng, _dspDbg);
-__privateAdd$4(DebugMng, _scrItr$1, void 0);
-__privateAdd$4(DebugMng, _hTag, void 0);
-__privateAdd$4(DebugMng, _title, void 0);
-__privateAdd$4(DebugMng, _spnDbg, void 0);
+__privateAdd$3(DebugMng, _st_trace);
+__privateAdd$3(DebugMng, _dspDbg);
+__privateAdd$3(DebugMng, _scrItr$1, void 0);
+__privateAdd$3(DebugMng, _hTag, void 0);
+__privateAdd$3(DebugMng, _title, void 0);
+__privateAdd$3(DebugMng, _spnDbg, void 0);
 DebugMng.myTrace = _DebugMng.trace_beforeNew;
 class Areas {
   constructor() {
@@ -6410,8 +6410,8 @@ function isMobile$1(param) {
   return result;
 }
 /*!
- * @pixi/settings - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/settings - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -6445,8 +6445,8 @@ function canUploadSameBuffer() {
   return !isMobile.apple.device;
 }
 /*!
- * @pixi/constants - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/constants - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -6668,8 +6668,8 @@ var settings = {
   ROUND_PIXELS: false
 };
 /*!
- * @pixi/constants - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/constants - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -7498,8 +7498,8 @@ earcut.flatten = function(data) {
 };
 var earcut$1 = earcut$2.exports;
 /*!
- * @pixi/utils - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/utils - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -7512,7 +7512,7 @@ var url = {
 settings.RETINA_PREFIX = /@([0-9\.]+)x/;
 settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
 var saidHello = false;
-var VERSION = "6.3.0";
+var VERSION = "6.3.2";
 function skipHello() {
   saidHello = true;
 }
@@ -7552,8 +7552,8 @@ function isWebGLSupported() {
         if (!globalThis.WebGLRenderingContext) {
           return false;
         }
-        var canvas2 = document.createElement("canvas");
-        var gl = canvas2.getContext("webgl", contextOptions) || canvas2.getContext("experimental-webgl", contextOptions);
+        var canvas = document.createElement("canvas");
+        var gl = canvas.getContext("webgl", contextOptions) || canvas.getContext("experimental-webgl", contextOptions);
         var success = !!(gl && gl.getContextAttributes().stencil);
         if (gl) {
           var loseContext = gl.getExtension("WEBGL_lose_context");
@@ -8120,10 +8120,10 @@ var CanvasRenderTarget = function() {
   });
   return CanvasRenderTarget2;
 }();
-function trimCanvas(canvas2) {
-  var width = canvas2.width;
-  var height = canvas2.height;
-  var context2 = canvas2.getContext("2d");
+function trimCanvas(canvas) {
+  var width = canvas.width;
+  var height = canvas.height;
+  var context2 = canvas.getContext("2d");
   var imageData = context2.getImageData(0, 0, width, height);
   var pixels = imageData.data;
   var len = pixels.length;
@@ -8200,8 +8200,8 @@ function getResolutionOfUrl(url2, defaultValue2) {
   return defaultValue2 !== void 0 ? defaultValue2 : 1;
 }
 /*!
- * @pixi/runner - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/runner - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8282,8 +8282,8 @@ Object.defineProperties(Runner.prototype, {
   run: { value: Runner.prototype.emit }
 });
 /*!
- * @pixi/ticker - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/ticker - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8639,8 +8639,8 @@ var TickerPlugin = function() {
   return TickerPlugin2;
 }();
 /*!
- * @pixi/math - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/math - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -9612,8 +9612,8 @@ var Transform = function() {
   return Transform2;
 }();
 /*!
- * @pixi/core - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/core - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -10581,11 +10581,11 @@ var SVGResource = function(_super) {
       }
       width = Math.round(width);
       height = Math.round(height);
-      var canvas2 = _this.source;
-      canvas2.width = width;
-      canvas2.height = height;
-      canvas2._pixiId = "canvas_" + uid();
-      canvas2.getContext("2d").drawImage(tempImage, 0, 0, svgWidth, svgHeight, 0, 0, width, height);
+      var canvas = _this.source;
+      canvas.width = width;
+      canvas.height = height;
+      canvas._pixiId = "canvas_" + uid();
+      canvas.getContext("2d").drawImage(tempImage, 0, 0, svgWidth, svgHeight, 0, 0, width, height);
       _this._resolve();
       _this._resolve = null;
     };
@@ -11035,6 +11035,16 @@ var TextureUvs = function() {
   return TextureUvs2;
 }();
 var DEFAULT_UVS = new TextureUvs();
+function removeAllHandlers(tex) {
+  tex.destroy = function _emptyDestroy() {
+  };
+  tex.on = function _emptyOn() {
+  };
+  tex.once = function _emptyOnce() {
+  };
+  tex.emit = function _emptyEmit() {
+  };
+}
 var Texture = function(_super) {
   __extends$q(Texture2, _super);
   function Texture2(baseTexture, frame, orig, trim, rotate2, anchor) {
@@ -11315,33 +11325,38 @@ var Texture = function(_super) {
   Texture2.prototype.castToBaseTexture = function() {
     return this.baseTexture;
   };
+  Object.defineProperty(Texture2, "EMPTY", {
+    get: function() {
+      if (!Texture2._EMPTY) {
+        Texture2._EMPTY = new Texture2(new BaseTexture());
+        removeAllHandlers(Texture2._EMPTY);
+        removeAllHandlers(Texture2._EMPTY.baseTexture);
+      }
+      return Texture2._EMPTY;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(Texture2, "WHITE", {
+    get: function() {
+      if (!Texture2._WHITE) {
+        var canvas = document.createElement("canvas");
+        var context2 = canvas.getContext("2d");
+        canvas.width = 16;
+        canvas.height = 16;
+        context2.fillStyle = "white";
+        context2.fillRect(0, 0, 16, 16);
+        Texture2._WHITE = new Texture2(new BaseTexture(new CanvasResource(canvas)));
+        removeAllHandlers(Texture2._WHITE);
+        removeAllHandlers(Texture2._WHITE.baseTexture);
+      }
+      return Texture2._WHITE;
+    },
+    enumerable: false,
+    configurable: true
+  });
   return Texture2;
 }(EventEmitter$4);
-function createWhiteTexture() {
-  var canvas2 = document.createElement("canvas");
-  canvas2.width = 16;
-  canvas2.height = 16;
-  var context2 = canvas2.getContext("2d");
-  context2.fillStyle = "white";
-  context2.fillRect(0, 0, 16, 16);
-  return new Texture(new BaseTexture(new CanvasResource(canvas2)));
-}
-function removeAllHandlers(tex) {
-  tex.destroy = function _emptyDestroy() {
-  };
-  tex.on = function _emptyOn() {
-  };
-  tex.once = function _emptyOnce() {
-  };
-  tex.emit = function _emptyEmit() {
-  };
-}
-Texture.EMPTY = new Texture(new BaseTexture());
-removeAllHandlers(Texture.EMPTY);
-removeAllHandlers(Texture.EMPTY.baseTexture);
-Texture.WHITE = createWhiteTexture();
-removeAllHandlers(Texture.WHITE);
-removeAllHandlers(Texture.WHITE.baseTexture);
 var RenderTexture = function(_super) {
   __extends$q(RenderTexture2, _super);
   function RenderTexture2(baseRenderTexture, frame) {
@@ -11539,7 +11554,7 @@ var Attribute = function() {
   };
   return Attribute2;
 }();
-var UID = 0;
+var UID$4 = 0;
 var Buffer$1 = function() {
   function Buffer2(data, _static, index) {
     if (_static === void 0) {
@@ -11553,7 +11568,7 @@ var Buffer$1 = function() {
     this._updateID = 0;
     this.index = index;
     this.static = _static;
-    this.id = UID++;
+    this.id = UID$4++;
     this.disposeRunner = new Runner("disposeBuffer");
   }
   Buffer2.prototype.update = function(data) {
@@ -11588,7 +11603,7 @@ var Buffer$1 = function() {
   };
   return Buffer2;
 }();
-var map = {
+var map$1 = {
   Float32Array,
   Uint32Array,
   Int32Array,
@@ -11610,7 +11625,7 @@ function interleaveTypedArrays(arrays, sizes) {
     var array = arrays[i2];
     var type = getBufferType(array);
     if (!views[type]) {
-      views[type] = new map[type](buffer);
+      views[type] = new map$1[type](buffer);
     }
     out = views[type];
     for (var j2 = 0; j2 < array.length; j2++) {
@@ -11622,9 +11637,9 @@ function interleaveTypedArrays(arrays, sizes) {
   }
   return new Float32Array(buffer);
 }
-var byteSizeMap = { 5126: 4, 5123: 2, 5121: 1 };
-var UID$1 = 0;
-var map$1 = {
+var byteSizeMap$1 = { 5126: 4, 5123: 2, 5121: 1 };
+var UID$3 = 0;
+var map = {
   Float32Array,
   Uint32Array,
   Int32Array,
@@ -11643,7 +11658,7 @@ var Geometry = function() {
     this.indexBuffer = null;
     this.attributes = attributes;
     this.glVertexArrayObjects = {};
-    this.id = UID$1++;
+    this.id = UID$3++;
     this.instanced = false;
     this.instanceCount = 1;
     this.disposeRunner = new Runner("disposeGeometry");
@@ -11719,7 +11734,7 @@ var Geometry = function() {
       var attribute = this.attributes[i2];
       var buffer = this.buffers[attribute.buffer];
       arrays.push(buffer.data);
-      sizes.push(attribute.size * byteSizeMap[attribute.type] / 4);
+      sizes.push(attribute.size * byteSizeMap$1[attribute.type] / 4);
       attribute.buffer = 0;
     }
     interleavedBuffer.data = interleaveTypedArrays(arrays, sizes);
@@ -11781,7 +11796,7 @@ var Geometry = function() {
       }
     }
     for (var i2 = 0; i2 < geometry.buffers.length; i2++) {
-      arrays[i2] = new map$1[getBufferType(geometry.buffers[i2].data)](sizes[i2]);
+      arrays[i2] = new map[getBufferType(geometry.buffers[i2].data)](sizes[i2]);
       geometryOut.buffers[i2] = new Buffer$1(arrays[i2]);
     }
     for (var i2 = 0; i2 < geometries.length; i2++) {
@@ -11808,7 +11823,7 @@ var Geometry = function() {
       for (var i2 in geometry.attributes) {
         var attribute = geometry.attributes[i2];
         if ((attribute.buffer | 0) === bufferIndexToCount) {
-          stride += attribute.size * byteSizeMap[attribute.type] / 4;
+          stride += attribute.size * byteSizeMap$1[attribute.type] / 4;
         }
       }
       for (var i2 = 0; i2 < geometries.length; i2++) {
@@ -11968,7 +11983,7 @@ var FilterState = function() {
   return FilterState2;
 }();
 var tempPoints = [new Point(), new Point(), new Point(), new Point()];
-var tempMatrix = new Matrix();
+var tempMatrix$2 = new Matrix();
 var FilterSystem = function() {
   function FilterSystem2(renderer) {
     this.renderer = renderer;
@@ -12021,12 +12036,19 @@ var FilterSystem = function() {
     state.target = target;
     state.sourceFrame.copyFrom(target.filterArea || target.getBounds(true));
     state.sourceFrame.pad(padding);
+    var sourceFrameProjected = this.tempRect.copyFrom(renderTextureSystem.sourceFrame);
+    if (renderer.projection.transform) {
+      this.transformAABB(tempMatrix$2.copyFrom(renderer.projection.transform).invert(), sourceFrameProjected);
+    }
     if (autoFit) {
-      var sourceFrameProjected = this.tempRect.copyFrom(renderTextureSystem.sourceFrame);
-      if (renderer.projection.transform) {
-        this.transformAABB(tempMatrix.copyFrom(renderer.projection.transform).invert(), sourceFrameProjected);
-      }
       state.sourceFrame.fit(sourceFrameProjected);
+      if (state.sourceFrame.width <= 0 || state.sourceFrame.height <= 0) {
+        state.sourceFrame.width = 0;
+        state.sourceFrame.height = 0;
+      }
+    } else if (!state.sourceFrame.intersects(sourceFrameProjected)) {
+      state.sourceFrame.width = 0;
+      state.sourceFrame.height = 0;
     }
     this.roundFrame(state.sourceFrame, renderTextureSystem.current ? renderTextureSystem.current.resolution : renderer.resolution, renderTextureSystem.sourceFrame, renderTextureSystem.destinationFrame, renderer.projection.transform);
     state.renderTexture = this.getOptimalFilterTexture(state.sourceFrame.width, state.sourceFrame.height, resolution, multisample);
@@ -12228,7 +12250,7 @@ var FilterSystem = function() {
         return;
       }
     }
-    transform = transform ? tempMatrix.copyFrom(transform) : tempMatrix.identity();
+    transform = transform ? tempMatrix$2.copyFrom(transform) : tempMatrix$2.identity();
     transform.translate(-bindingSourceFrame.x, -bindingSourceFrame.y).scale(bindingDestinationFrame.width / bindingSourceFrame.width, bindingDestinationFrame.height / bindingSourceFrame.height).translate(bindingDestinationFrame.x, bindingDestinationFrame.y);
     this.transformAABB(transform, frame);
     frame.ceil(resolution);
@@ -12351,16 +12373,16 @@ var ContextSystem = function() {
     var gl = this.createContext(this.renderer.view, options);
     this.initFromContext(gl);
   };
-  ContextSystem2.prototype.createContext = function(canvas2, options) {
+  ContextSystem2.prototype.createContext = function(canvas, options) {
     var gl;
     if (settings.PREFER_ENV >= ENV$3.WEBGL2) {
-      gl = canvas2.getContext("webgl2", options);
+      gl = canvas.getContext("webgl2", options);
     }
     if (gl) {
       this.webGLVersion = 2;
     } else {
       this.webGLVersion = 1;
-      gl = canvas2.getContext("webgl", options) || canvas2.getContext("experimental-webgl", options);
+      gl = canvas.getContext("webgl", options) || canvas.getContext("experimental-webgl", options);
       if (!gl) {
         throw new Error("This browser does not support WebGL. Try using the canvas renderer");
       }
@@ -12808,7 +12830,7 @@ var FramebufferSystem = function() {
   };
   return FramebufferSystem2;
 }();
-var byteSizeMap$1 = { 5126: 4, 5123: 2, 5121: 1 };
+var byteSizeMap = { 5126: 4, 5123: 2, 5121: 1 };
 var GeometrySystem = function() {
   function GeometrySystem2(renderer) {
     this.renderer = renderer;
@@ -12957,13 +12979,13 @@ var GeometrySystem = function() {
       } else if (!attributes[j2].size) {
         console.warn("PIXI Geometry attribute '" + j2 + "' size cannot be determined (likely the bound shader does not have the attribute)");
       }
-      tempStride[attributes[j2].buffer] += attributes[j2].size * byteSizeMap$1[attributes[j2].type];
+      tempStride[attributes[j2].buffer] += attributes[j2].size * byteSizeMap[attributes[j2].type];
     }
     for (var j2 in attributes) {
       var attribute = attributes[j2];
       var attribSize = attribute.size;
       if (attribute.stride === void 0) {
-        if (tempStride[attribute.buffer] === attribSize * byteSizeMap$1[attribute.type]) {
+        if (tempStride[attribute.buffer] === attribSize * byteSizeMap[attribute.type]) {
           attribute.stride = 0;
         } else {
           attribute.stride = tempStride[attribute.buffer];
@@ -12971,7 +12993,7 @@ var GeometrySystem = function() {
       }
       if (attribute.start === void 0) {
         attribute.start = tempStart[attribute.buffer];
-        tempStart[attribute.buffer] += attribSize * byteSizeMap$1[attribute.type];
+        tempStart[attribute.buffer] += attribSize * byteSizeMap[attribute.type];
       }
     }
     vao = gl.createVertexArray();
@@ -13292,13 +13314,13 @@ var unknownContext = {};
 var context = unknownContext;
 function getTestContext() {
   if (context === unknownContext || context && context.isContextLost()) {
-    var canvas2 = document.createElement("canvas");
+    var canvas = document.createElement("canvas");
     var gl = void 0;
     if (settings.PREFER_ENV >= ENV$3.WEBGL2) {
-      gl = canvas2.getContext("webgl2", {});
+      gl = canvas.getContext("webgl2", {});
     }
     if (!gl) {
-      gl = canvas2.getContext("webgl", {}) || canvas2.getContext("experimental-webgl", {});
+      gl = canvas.getContext("webgl", {}) || canvas.getContext("experimental-webgl", {});
       if (!gl) {
         gl = null;
       } else {
@@ -13599,16 +13621,16 @@ function unsafeEvalSupported() {
   }
   return unsafeEval;
 }
-var defaultFragment = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\n\nvoid main(void){\n   gl_FragColor *= texture2D(uSampler, vTextureCoord);\n}";
-var defaultVertex = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void){\n   gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n   vTextureCoord = aTextureCoord;\n}\n";
-var UID$3 = 0;
+var defaultFragment$2 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\n\nvoid main(void){\n   gl_FragColor *= texture2D(uSampler, vTextureCoord);\n}";
+var defaultVertex$3 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void){\n   gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n   vTextureCoord = aTextureCoord;\n}\n";
+var UID$1 = 0;
 var nameCache = {};
 var Program = function() {
   function Program2(vertexSrc, fragmentSrc, name) {
     if (name === void 0) {
       name = "pixi-shader";
     }
-    this.id = UID$3++;
+    this.id = UID$1++;
     this.vertexSrc = vertexSrc || Program2.defaultVertexSrc;
     this.fragmentSrc = fragmentSrc || Program2.defaultFragmentSrc;
     this.vertexSrc = this.vertexSrc.trim();
@@ -13631,14 +13653,14 @@ var Program = function() {
   }
   Object.defineProperty(Program2, "defaultVertexSrc", {
     get: function() {
-      return defaultVertex;
+      return defaultVertex$3;
     },
     enumerable: false,
     configurable: true
   });
   Object.defineProperty(Program2, "defaultFragmentSrc", {
     get: function() {
-      return defaultFragment;
+      return defaultFragment$2;
     },
     enumerable: false,
     configurable: true
@@ -13697,12 +13719,12 @@ var Shader = function() {
   };
   return Shader2;
 }();
-var BLEND = 0;
-var OFFSET = 1;
-var CULLING = 2;
-var DEPTH_TEST = 3;
-var WINDING = 4;
-var DEPTH_MASK = 5;
+var BLEND$1 = 0;
+var OFFSET$1 = 1;
+var CULLING$1 = 2;
+var DEPTH_TEST$1 = 3;
+var WINDING$1 = 4;
+var DEPTH_MASK$1 = 5;
 var State = function() {
   function State2() {
     this.data = 0;
@@ -13713,11 +13735,11 @@ var State = function() {
   }
   Object.defineProperty(State2.prototype, "blend", {
     get: function() {
-      return !!(this.data & 1 << BLEND);
+      return !!(this.data & 1 << BLEND$1);
     },
     set: function(value2) {
-      if (!!(this.data & 1 << BLEND) !== value2) {
-        this.data ^= 1 << BLEND;
+      if (!!(this.data & 1 << BLEND$1) !== value2) {
+        this.data ^= 1 << BLEND$1;
       }
     },
     enumerable: false,
@@ -13725,11 +13747,11 @@ var State = function() {
   });
   Object.defineProperty(State2.prototype, "offsets", {
     get: function() {
-      return !!(this.data & 1 << OFFSET);
+      return !!(this.data & 1 << OFFSET$1);
     },
     set: function(value2) {
-      if (!!(this.data & 1 << OFFSET) !== value2) {
-        this.data ^= 1 << OFFSET;
+      if (!!(this.data & 1 << OFFSET$1) !== value2) {
+        this.data ^= 1 << OFFSET$1;
       }
     },
     enumerable: false,
@@ -13737,11 +13759,11 @@ var State = function() {
   });
   Object.defineProperty(State2.prototype, "culling", {
     get: function() {
-      return !!(this.data & 1 << CULLING);
+      return !!(this.data & 1 << CULLING$1);
     },
     set: function(value2) {
-      if (!!(this.data & 1 << CULLING) !== value2) {
-        this.data ^= 1 << CULLING;
+      if (!!(this.data & 1 << CULLING$1) !== value2) {
+        this.data ^= 1 << CULLING$1;
       }
     },
     enumerable: false,
@@ -13749,11 +13771,11 @@ var State = function() {
   });
   Object.defineProperty(State2.prototype, "depthTest", {
     get: function() {
-      return !!(this.data & 1 << DEPTH_TEST);
+      return !!(this.data & 1 << DEPTH_TEST$1);
     },
     set: function(value2) {
-      if (!!(this.data & 1 << DEPTH_TEST) !== value2) {
-        this.data ^= 1 << DEPTH_TEST;
+      if (!!(this.data & 1 << DEPTH_TEST$1) !== value2) {
+        this.data ^= 1 << DEPTH_TEST$1;
       }
     },
     enumerable: false,
@@ -13761,11 +13783,11 @@ var State = function() {
   });
   Object.defineProperty(State2.prototype, "depthMask", {
     get: function() {
-      return !!(this.data & 1 << DEPTH_MASK);
+      return !!(this.data & 1 << DEPTH_MASK$1);
     },
     set: function(value2) {
-      if (!!(this.data & 1 << DEPTH_MASK) !== value2) {
-        this.data ^= 1 << DEPTH_MASK;
+      if (!!(this.data & 1 << DEPTH_MASK$1) !== value2) {
+        this.data ^= 1 << DEPTH_MASK$1;
       }
     },
     enumerable: false,
@@ -13773,11 +13795,11 @@ var State = function() {
   });
   Object.defineProperty(State2.prototype, "clockwiseFrontFace", {
     get: function() {
-      return !!(this.data & 1 << WINDING);
+      return !!(this.data & 1 << WINDING$1);
     },
     set: function(value2) {
-      if (!!(this.data & 1 << WINDING) !== value2) {
-        this.data ^= 1 << WINDING;
+      if (!!(this.data & 1 << WINDING$1) !== value2) {
+        this.data ^= 1 << WINDING$1;
       }
     },
     enumerable: false,
@@ -13816,7 +13838,7 @@ var State = function() {
   };
   return State2;
 }();
-var defaultVertex$1 = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nuniform vec4 inputSize;\nuniform vec4 outputFrame;\n\nvec4 filterVertexPosition( void )\n{\n    vec2 position = aVertexPosition * max(outputFrame.zw, vec2(0.)) + outputFrame.xy;\n\n    return vec4((projectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);\n}\n\nvec2 filterTextureCoord( void )\n{\n    return aVertexPosition * (outputFrame.zw * inputSize.zw);\n}\n\nvoid main(void)\n{\n    gl_Position = filterVertexPosition();\n    vTextureCoord = filterTextureCoord();\n}\n";
+var defaultVertex$2 = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nuniform vec4 inputSize;\nuniform vec4 outputFrame;\n\nvec4 filterVertexPosition( void )\n{\n    vec2 position = aVertexPosition * max(outputFrame.zw, vec2(0.)) + outputFrame.xy;\n\n    return vec4((projectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);\n}\n\nvec2 filterTextureCoord( void )\n{\n    return aVertexPosition * (outputFrame.zw * inputSize.zw);\n}\n\nvoid main(void)\n{\n    gl_Position = filterVertexPosition();\n    vTextureCoord = filterTextureCoord();\n}\n";
 var defaultFragment$1 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\n\nvoid main(void){\n   gl_FragColor = texture2D(uSampler, vTextureCoord);\n}\n";
 var Filter = function(_super) {
   __extends$q(Filter2, _super);
@@ -13857,7 +13879,7 @@ var Filter = function(_super) {
   });
   Object.defineProperty(Filter2, "defaultVertexSrc", {
     get: function() {
-      return defaultVertex$1;
+      return defaultVertex$2;
     },
     enumerable: false,
     configurable: true
@@ -14668,7 +14690,7 @@ function generateProgram(gl, program) {
   var glProgram = new GLProgram(webGLProgram, uniformData);
   return glProgram;
 }
-var UID$4 = 0;
+var UID = 0;
 var defaultSyncData = { textureCount: 0, uboCount: 0 };
 var ShaderSystem = function() {
   function ShaderSystem2(renderer) {
@@ -14680,7 +14702,7 @@ var ShaderSystem = function() {
     this.program = null;
     this.cache = {};
     this._uboCache = {};
-    this.id = UID$4++;
+    this.id = UID++;
   }
   ShaderSystem2.prototype.systemCheck = function() {
     if (!unsafeEvalSupported()) {
@@ -14830,12 +14852,12 @@ function mapWebGLBlendModesToPixi(gl, array) {
   array[BLEND_MODES$3.SUBTRACT] = [gl.ONE, gl.ONE, gl.ONE, gl.ONE, gl.FUNC_REVERSE_SUBTRACT, gl.FUNC_ADD];
   return array;
 }
-var BLEND$1 = 0;
-var OFFSET$1 = 1;
-var CULLING$1 = 2;
-var DEPTH_TEST$1 = 3;
-var WINDING$1 = 4;
-var DEPTH_MASK$1 = 5;
+var BLEND = 0;
+var OFFSET = 1;
+var CULLING = 2;
+var DEPTH_TEST = 3;
+var WINDING = 4;
+var DEPTH_MASK = 5;
 var StateSystem = function() {
   function StateSystem2() {
     this.gl = null;
@@ -14844,12 +14866,12 @@ var StateSystem = function() {
     this.blendMode = BLEND_MODES$3.NONE;
     this._blendEq = false;
     this.map = [];
-    this.map[BLEND$1] = this.setBlend;
-    this.map[OFFSET$1] = this.setOffset;
-    this.map[CULLING$1] = this.setCullFace;
-    this.map[DEPTH_TEST$1] = this.setDepthTest;
-    this.map[WINDING$1] = this.setFrontFace;
-    this.map[DEPTH_MASK$1] = this.setDepthMask;
+    this.map[BLEND] = this.setBlend;
+    this.map[OFFSET] = this.setOffset;
+    this.map[CULLING] = this.setCullFace;
+    this.map[DEPTH_TEST] = this.setDepthTest;
+    this.map[WINDING] = this.setFrontFace;
+    this.map[DEPTH_MASK] = this.setDepthMask;
     this.checks = [];
     this.defaultState = new State();
     this.defaultState.blend = true;
@@ -15277,7 +15299,7 @@ var _systems = {
   TextureGCSystem,
   TextureSystem
 };
-var tempMatrix$2 = new Matrix();
+var tempMatrix = new Matrix();
 var AbstractRenderer = function(_super) {
   __extends$q(AbstractRenderer2, _super);
   function AbstractRenderer2(type, options) {
@@ -15358,12 +15380,12 @@ var AbstractRenderer = function(_super) {
       region.height = 1;
     }
     var renderTexture = RenderTexture.create(__assign$8({ width: region.width, height: region.height }, textureOptions));
-    tempMatrix$2.tx = -region.x;
-    tempMatrix$2.ty = -region.y;
+    tempMatrix.tx = -region.x;
+    tempMatrix.ty = -region.y;
     this.render(displayObject, {
       renderTexture,
       clear: false,
-      transform: tempMatrix$2,
+      transform: tempMatrix,
       skipUpdateTransform: !!displayObject.parent
     });
     return renderTexture;
@@ -15676,7 +15698,7 @@ function autoDetectRenderer(options) {
 }
 var $defaultVertex = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}";
 var $defaultFilterVertex = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nuniform vec4 inputSize;\nuniform vec4 outputFrame;\n\nvec4 filterVertexPosition( void )\n{\n    vec2 position = aVertexPosition * max(outputFrame.zw, vec2(0.)) + outputFrame.xy;\n\n    return vec4((projectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);\n}\n\nvec2 filterTextureCoord( void )\n{\n    return aVertexPosition * (outputFrame.zw * inputSize.zw);\n}\n\nvoid main(void)\n{\n    gl_Position = filterVertexPosition();\n    vTextureCoord = filterTextureCoord();\n}\n";
-var defaultVertex$2 = $defaultVertex;
+var defaultVertex$1 = $defaultVertex;
 var defaultFilterVertex = $defaultFilterVertex;
 var BatchDrawCall = function() {
   function BatchDrawCall2() {
@@ -16148,15 +16170,15 @@ var BatchGeometry = function(_super) {
   }
   return BatchGeometry2;
 }(Geometry);
-var defaultVertex$3 = "precision highp float;\nattribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\nattribute vec4 aColor;\nattribute float aTextureId;\n\nuniform mat3 projectionMatrix;\nuniform mat3 translationMatrix;\nuniform vec4 tint;\n\nvarying vec2 vTextureCoord;\nvarying vec4 vColor;\nvarying float vTextureId;\n\nvoid main(void){\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = aTextureCoord;\n    vTextureId = aTextureId;\n    vColor = aColor * tint;\n}\n";
-var defaultFragment$2 = "varying vec2 vTextureCoord;\nvarying vec4 vColor;\nvarying float vTextureId;\nuniform sampler2D uSamplers[%count%];\n\nvoid main(void){\n    vec4 color;\n    %forloop%\n    gl_FragColor = color * vColor;\n}\n";
+var defaultVertex = "precision highp float;\nattribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\nattribute vec4 aColor;\nattribute float aTextureId;\n\nuniform mat3 projectionMatrix;\nuniform mat3 translationMatrix;\nuniform vec4 tint;\n\nvarying vec2 vTextureCoord;\nvarying vec4 vColor;\nvarying float vTextureId;\n\nvoid main(void){\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = aTextureCoord;\n    vTextureId = aTextureId;\n    vColor = aColor * tint;\n}\n";
+var defaultFragment = "varying vec2 vTextureCoord;\nvarying vec4 vColor;\nvarying float vTextureId;\nuniform sampler2D uSamplers[%count%];\n\nvoid main(void){\n    vec4 color;\n    %forloop%\n    gl_FragColor = color * vColor;\n}\n";
 var BatchPluginFactory = function() {
   function BatchPluginFactory2() {
   }
   BatchPluginFactory2.create = function(options) {
     var _a3 = Object.assign({
-      vertex: defaultVertex$3,
-      fragment: defaultFragment$2,
+      vertex: defaultVertex,
+      fragment: defaultFragment,
       geometryClass: BatchGeometry,
       vertexSize: 6
     }, options), vertex2 = _a3.vertex, fragment2 = _a3.fragment, vertexSize = _a3.vertexSize, geometryClass = _a3.geometryClass;
@@ -16174,14 +16196,14 @@ var BatchPluginFactory = function() {
   };
   Object.defineProperty(BatchPluginFactory2, "defaultVertexSrc", {
     get: function() {
-      return defaultVertex$3;
+      return defaultVertex;
     },
     enumerable: false,
     configurable: true
   });
   Object.defineProperty(BatchPluginFactory2, "defaultFragmentTemplate", {
     get: function() {
-      return defaultFragment$2;
+      return defaultFragment;
     },
     enumerable: false,
     configurable: true
@@ -16214,8 +16236,8 @@ for (var name in _systems) {
   _loop_2(name);
 }
 /*!
- * @pixi/loaders - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/loaders - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16379,14 +16401,14 @@ function parseUri(str, opts) {
   });
   return uri;
 }
-var useXdr = !!(globalThis.XDomainRequest && !("withCredentials" in new XMLHttpRequest()));
+var useXdr;
 var tempAnchor = null;
 var STATUS_NONE = 0;
 var STATUS_OK = 200;
 var STATUS_EMPTY = 204;
 var STATUS_IE_BUG_EMPTY = 1223;
 var STATUS_TYPE_OK = 2;
-function _noop() {
+function _noop$1() {
 }
 function setExtMap(map2, extname, val) {
   if (extname && extname.indexOf(".") === 0) {
@@ -16402,7 +16424,7 @@ function reqType(xhr) {
 }
 var LoaderResource = function() {
   function LoaderResource2(name, url2, options) {
-    this._dequeue = _noop;
+    this._dequeue = _noop$1;
     this._onLoadBinding = null;
     this._elementTimer = 0;
     this._boundComplete = null;
@@ -16433,7 +16455,7 @@ var LoaderResource = function() {
     this.children = [];
     this.type = LoaderResource2.TYPE.UNKNOWN;
     this.progressChunk = 0;
-    this._dequeue = _noop;
+    this._dequeue = _noop$1;
     this._onLoadBinding = null;
     this._elementTimer = 0;
     this._boundComplete = this.complete.bind(this);
@@ -16536,6 +16558,9 @@ var LoaderResource = function() {
         break;
       case LoaderResource2.LOAD_TYPE.XHR:
       default:
+        if (typeof useXdr === "undefined") {
+          useXdr = !!(globalThis.XDomainRequest && !("withCredentials" in new XMLHttpRequest()));
+        }
         if (useXdr && this.crossOrigin) {
           this._loadXdr();
         } else {
@@ -16891,7 +16916,7 @@ var LoaderResource = function() {
   };
   LoaderResource2.EMPTY_GIF = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 })(LoaderResource || (LoaderResource = {}));
-function _noop$1() {
+function _noop() {
 }
 function onlyOnce(fn) {
   return function onceWrapper() {
@@ -16922,11 +16947,11 @@ var AsyncQueue = function() {
       concurrency = 1;
     }
     this.workers = 0;
-    this.saturated = _noop$1;
-    this.unsaturated = _noop$1;
-    this.empty = _noop$1;
-    this.drain = _noop$1;
-    this.error = _noop$1;
+    this.saturated = _noop;
+    this.unsaturated = _noop;
+    this.empty = _noop;
+    this.drain = _noop;
+    this.error = _noop;
     this.started = false;
     this.paused = false;
     this._tasks = [];
@@ -16941,7 +16966,7 @@ var AsyncQueue = function() {
         }, 1);
         return;
       }
-      var item = new AsyncQueueItem(data, typeof callback === "function" ? callback : _noop$1);
+      var item = new AsyncQueueItem(data, typeof callback === "function" ? callback : _noop);
       if (insertAtFront) {
         _this._tasks.unshift(item);
       } else {
@@ -16996,7 +17021,7 @@ var AsyncQueue = function() {
   };
   AsyncQueue2.prototype.kill = function() {
     this.workers = 0;
-    this.drain = _noop$1;
+    this.drain = _noop;
     this.started = false;
     this._tasks = [];
   };
@@ -17384,7 +17409,6 @@ function encodeBinary(input) {
   }
   return output;
 }
-var Url = self.URL || self.webkitURL;
 function parsing(resource, next) {
   if (!resource.data) {
     next();
@@ -17404,13 +17428,14 @@ function parsing(resource, next) {
         return;
       }
     } else if (resource.data.type.indexOf("image") === 0) {
-      var src_1 = Url.createObjectURL(resource.data);
+      var Url_1 = globalThis.URL || globalThis.webkitURL;
+      var src_1 = Url_1.createObjectURL(resource.data);
       resource.blob = resource.data;
       resource.data = new Image();
       resource.data.src = src_1;
       resource.type = LoaderResource.TYPE.IMAGE;
       resource.data.onload = function() {
-        Url.revokeObjectURL(src_1);
+        Url_1.revokeObjectURL(src_1);
         resource.data.onload = null;
         next();
       };
@@ -18689,8 +18714,8 @@ var objectAssign = shouldUseNative() ? Object.assign : function(target, source) 
   return to;
 };
 /*!
- * @pixi/polyfill - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/polyfill - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18785,8 +18810,8 @@ if (!globalThis.Int32Array) {
   globalThis.Int32Array = Array;
 }
 /*!
- * @pixi/display - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/display - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19451,8 +19476,8 @@ var TemporaryDisplayObject = function(_super) {
 }(DisplayObject);
 DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
 /*!
- * @pixi/constants - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/constants - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19999,8 +20024,8 @@ var Container = function(_super) {
 }(DisplayObject);
 Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
 /*!
- * @pixi/accessibility - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/accessibility - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20311,8 +20336,8 @@ var AccessibilityManager = function() {
   return AccessibilityManager2;
 }();
 /*!
- * @pixi/interaction - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/interaction - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21291,8 +21316,8 @@ var InteractionManager = function(_super) {
   return InteractionManager2;
 }(EventEmitter$4);
 /*!
- * @pixi/app - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/app - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21410,8 +21435,8 @@ var ResizePlugin = function() {
 }();
 Application.registerPlugin(ResizePlugin);
 /*!
- * @pixi/extract - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/extract - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21535,13 +21560,13 @@ var Extract = function() {
   return Extract2;
 }();
 /*!
- * @pixi/compressed-textures - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/compressed-textures - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/compressed-textures is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-var _a$1;
+var _a$2;
 var INTERNAL_FORMATS;
 (function(INTERNAL_FORMATS2) {
   INTERNAL_FORMATS2[INTERNAL_FORMATS2["COMPRESSED_RGB_S3TC_DXT1_EXT"] = 33776] = "COMPRESSED_RGB_S3TC_DXT1_EXT";
@@ -21571,7 +21596,7 @@ var INTERNAL_FORMATS;
   INTERNAL_FORMATS2[INTERNAL_FORMATS2["COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL"] = 35986] = "COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL";
   INTERNAL_FORMATS2[INTERNAL_FORMATS2["COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL"] = 34798] = "COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL";
 })(INTERNAL_FORMATS || (INTERNAL_FORMATS = {}));
-var INTERNAL_FORMAT_TO_BYTES_PER_PIXEL = (_a$1 = {}, _a$1[INTERNAL_FORMATS.COMPRESSED_RGB_S3TC_DXT1_EXT] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_SRGB_S3TC_DXT1_EXT] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_R11_EAC] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_SIGNED_R11_EAC] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RG11_EAC] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_SIGNED_RG11_EAC] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_RGB8_ETC2] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA8_ETC2_EAC] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_SRGB8_ETC2] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_SRGB8_ALPHA8_ETC2_EAC] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGB_PVRTC_4BPPV1_IMG] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA_PVRTC_4BPPV1_IMG] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGB_PVRTC_2BPPV1_IMG] = 0.25, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA_PVRTC_2BPPV1_IMG] = 0.25, _a$1[INTERNAL_FORMATS.COMPRESSED_RGB_ETC1_WEBGL] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGB_ATC_WEBGL] = 0.5, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL] = 1, _a$1[INTERNAL_FORMATS.COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL] = 1, _a$1);
+var INTERNAL_FORMAT_TO_BYTES_PER_PIXEL = (_a$2 = {}, _a$2[INTERNAL_FORMATS.COMPRESSED_RGB_S3TC_DXT1_EXT] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_SRGB_S3TC_DXT1_EXT] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_R11_EAC] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_SIGNED_R11_EAC] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RG11_EAC] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_SIGNED_RG11_EAC] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_RGB8_ETC2] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA8_ETC2_EAC] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_SRGB8_ETC2] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_SRGB8_ALPHA8_ETC2_EAC] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGB_PVRTC_4BPPV1_IMG] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA_PVRTC_4BPPV1_IMG] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGB_PVRTC_2BPPV1_IMG] = 0.25, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA_PVRTC_2BPPV1_IMG] = 0.25, _a$2[INTERNAL_FORMATS.COMPRESSED_RGB_ETC1_WEBGL] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGB_ATC_WEBGL] = 0.5, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA_ATC_EXPLICIT_ALPHA_WEBGL] = 1, _a$2[INTERNAL_FORMATS.COMPRESSED_RGBA_ATC_INTERPOLATED_ALPHA_WEBGL] = 1, _a$2);
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -21892,32 +21917,49 @@ var CompressedTextureLoader = function() {
       next();
     }
   };
-  CompressedTextureLoader2.add = function() {
-    var canvas2 = document.createElement("canvas");
-    var gl = canvas2.getContext("webgl");
-    if (!gl) {
-      console.warn("WebGL not available for compressed textures. Silently failing.");
-      return;
-    }
-    var extensions = {
-      s3tc: gl.getExtension("WEBGL_compressed_texture_s3tc"),
-      s3tc_sRGB: gl.getExtension("WEBGL_compressed_texture_s3tc_srgb"),
-      etc: gl.getExtension("WEBGL_compressed_texture_etc"),
-      etc1: gl.getExtension("WEBGL_compressed_texture_etc1"),
-      pvrtc: gl.getExtension("WEBGL_compressed_texture_pvrtc") || gl.getExtension("WEBKIT_WEBGL_compressed_texture_pvrtc"),
-      atc: gl.getExtension("WEBGL_compressed_texture_atc"),
-      astc: gl.getExtension("WEBGL_compressed_texture_astc")
-    };
-    CompressedTextureLoader2.textureExtensions = extensions;
-    CompressedTextureLoader2.textureFormats = {};
-    for (var extensionName in extensions) {
-      var extension = extensions[extensionName];
-      if (!extension) {
-        continue;
+  Object.defineProperty(CompressedTextureLoader2, "textureExtensions", {
+    get: function() {
+      if (!CompressedTextureLoader2._textureExtensions) {
+        var canvas = document.createElement("canvas");
+        var gl = canvas.getContext("webgl");
+        if (!gl) {
+          console.warn("WebGL not available for compressed textures. Silently failing.");
+          return {};
+        }
+        var extensions = {
+          s3tc: gl.getExtension("WEBGL_compressed_texture_s3tc"),
+          s3tc_sRGB: gl.getExtension("WEBGL_compressed_texture_s3tc_srgb"),
+          etc: gl.getExtension("WEBGL_compressed_texture_etc"),
+          etc1: gl.getExtension("WEBGL_compressed_texture_etc1"),
+          pvrtc: gl.getExtension("WEBGL_compressed_texture_pvrtc") || gl.getExtension("WEBKIT_WEBGL_compressed_texture_pvrtc"),
+          atc: gl.getExtension("WEBGL_compressed_texture_atc"),
+          astc: gl.getExtension("WEBGL_compressed_texture_astc")
+        };
+        CompressedTextureLoader2._textureExtensions = extensions;
       }
-      Object.assign(CompressedTextureLoader2.textureFormats, Object.getPrototypeOf(extension));
-    }
-  };
+      return CompressedTextureLoader2._textureExtensions;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(CompressedTextureLoader2, "textureFormats", {
+    get: function() {
+      if (!CompressedTextureLoader2._textureFormats) {
+        var extensions = CompressedTextureLoader2.textureExtensions;
+        CompressedTextureLoader2._textureFormats = {};
+        for (var extensionName in extensions) {
+          var extension = extensions[extensionName];
+          if (!extension) {
+            continue;
+          }
+          Object.assign(CompressedTextureLoader2._textureFormats, Object.getPrototypeOf(extension));
+        }
+      }
+      return CompressedTextureLoader2._textureFormats;
+    },
+    enumerable: false,
+    configurable: true
+  });
   return CompressedTextureLoader2;
 }();
 function registerCompressedTextures(url2, resources2, metadata) {
@@ -21948,7 +21990,7 @@ function registerCompressedTextures(url2, resources2, metadata) {
   });
   return result;
 }
-var _a$1$1, _b;
+var _a$1, _b$1;
 LoaderResource.setExtensionXhrType("dds", LoaderResource.XHR_RESPONSE_TYPE.BUFFER);
 var DDS_MAGIC_SIZE = 4;
 var DDS_HEADER_SIZE = 124;
@@ -22122,8 +22164,8 @@ var FOURCC_DXT3 = 861165636;
 var FOURCC_DXT5 = 894720068;
 var FOURCC_DX10 = 808540228;
 var DDS_RESOURCE_MISC_TEXTURECUBE = 4;
-var FOURCC_TO_FORMAT = (_a$1$1 = {}, _a$1$1[FOURCC_DXT1] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT, _a$1$1[FOURCC_DXT3] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT, _a$1$1[FOURCC_DXT5] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT, _a$1$1);
-var DXGI_TO_FORMAT = (_b = {}, _b[DXGI_FORMAT.DXGI_FORMAT_BC1_TYPELESS] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC1_UNORM] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC2_TYPELESS] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC2_UNORM] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC3_TYPELESS] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC3_UNORM] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC1_UNORM_SRGB] = INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC2_UNORM_SRGB] = INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT, _b[DXGI_FORMAT.DXGI_FORMAT_BC3_UNORM_SRGB] = INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT, _b);
+var FOURCC_TO_FORMAT = (_a$1 = {}, _a$1[FOURCC_DXT1] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT, _a$1[FOURCC_DXT3] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT, _a$1[FOURCC_DXT5] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT, _a$1);
+var DXGI_TO_FORMAT = (_b$1 = {}, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC1_TYPELESS] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC1_UNORM] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT1_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC2_TYPELESS] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC2_UNORM] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT3_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC3_TYPELESS] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC3_UNORM] = INTERNAL_FORMATS.COMPRESSED_RGBA_S3TC_DXT5_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC1_UNORM_SRGB] = INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT1_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC2_UNORM_SRGB] = INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT3_EXT, _b$1[DXGI_FORMAT.DXGI_FORMAT_BC3_UNORM_SRGB] = INTERNAL_FORMATS.COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT, _b$1);
 var DDSLoader = function() {
   function DDSLoader2() {
   }
@@ -22228,7 +22270,7 @@ var DDSLoader = function() {
   };
   return DDSLoader2;
 }();
-var _a$2, _b$1, _c;
+var _a$3, _b, _c;
 LoaderResource.setExtensionXhrType("ktx", LoaderResource.XHR_RESPONSE_TYPE.BUFFER);
 var FILE_IDENTIFIER = [171, 75, 84, 88, 32, 49, 49, 187, 13, 10, 26, 10];
 var ENDIANNESS = 67305985;
@@ -22249,8 +22291,8 @@ var KTX_FIELDS = {
   BYTES_OF_KEY_VALUE_DATA: 60
 };
 var FILE_HEADER_SIZE = 64;
-var TYPES_TO_BYTES_PER_COMPONENT = (_a$2 = {}, _a$2[TYPES$3.UNSIGNED_BYTE] = 1, _a$2[TYPES$3.UNSIGNED_SHORT] = 2, _a$2[TYPES$3.INT] = 4, _a$2[TYPES$3.UNSIGNED_INT] = 4, _a$2[TYPES$3.FLOAT] = 4, _a$2[TYPES$3.HALF_FLOAT] = 8, _a$2);
-var FORMATS_TO_COMPONENTS = (_b$1 = {}, _b$1[FORMATS$3.RGBA] = 4, _b$1[FORMATS$3.RGB] = 3, _b$1[FORMATS$3.RG] = 2, _b$1[FORMATS$3.RED] = 1, _b$1[FORMATS$3.LUMINANCE] = 1, _b$1[FORMATS$3.LUMINANCE_ALPHA] = 2, _b$1[FORMATS$3.ALPHA] = 1, _b$1);
+var TYPES_TO_BYTES_PER_COMPONENT = (_a$3 = {}, _a$3[TYPES$3.UNSIGNED_BYTE] = 1, _a$3[TYPES$3.UNSIGNED_SHORT] = 2, _a$3[TYPES$3.INT] = 4, _a$3[TYPES$3.UNSIGNED_INT] = 4, _a$3[TYPES$3.FLOAT] = 4, _a$3[TYPES$3.HALF_FLOAT] = 8, _a$3);
+var FORMATS_TO_COMPONENTS = (_b = {}, _b[FORMATS$3.RGBA] = 4, _b[FORMATS$3.RGB] = 3, _b[FORMATS$3.RG] = 2, _b[FORMATS$3.RED] = 1, _b[FORMATS$3.LUMINANCE] = 1, _b[FORMATS$3.LUMINANCE_ALPHA] = 2, _b[FORMATS$3.ALPHA] = 1, _b);
 var TYPES_TO_BYTES_PER_PIXEL = (_c = {}, _c[TYPES$3.UNSIGNED_SHORT_4_4_4_4] = 2, _c[TYPES$3.UNSIGNED_SHORT_5_5_5_1] = 2, _c[TYPES$3.UNSIGNED_SHORT_5_6_5] = 2, _c);
 var KTXLoader = function() {
   function KTXLoader2() {
@@ -22431,8 +22473,8 @@ var KTXLoader = function() {
   return KTXLoader2;
 }();
 /*!
- * @pixi/particle-container - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/particle-container - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/particle-container is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -22880,8 +22922,8 @@ var ParticleRenderer = function(_super) {
   return ParticleRenderer2;
 }(ObjectRenderer);
 /*!
- * @pixi/graphics - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/graphics - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -24192,7 +24234,12 @@ var GraphicsGeometry = function(_super) {
       var nextMatrix = data.matrix || Matrix.IDENTITY;
       var lineWidth = 0;
       if (lineStyle && lineStyle.visible) {
-        lineWidth = lineStyle.width * Math.max(0, lineStyle.alignment);
+        lineWidth = lineStyle.width;
+        if (type !== SHAPES.POLY || data.fillStyle.visible) {
+          lineWidth *= Math.max(0, lineStyle.alignment);
+        } else {
+          lineWidth *= Math.max(lineStyle.alignment, 1 - lineStyle.alignment);
+        }
       }
       if (curMatrix !== nextMatrix) {
         if (!sequenceBounds.isEmpty()) {
@@ -24752,7 +24799,7 @@ var Graphics = function(_super) {
     var pluginName = this.pluginName;
     if (!shader) {
       if (!DEFAULT_SHADERS[pluginName]) {
-        var MAX_TEXTURES = renderer.plugins.batch.MAX_TEXTURES;
+        var MAX_TEXTURES = renderer.plugins[pluginName].MAX_TEXTURES;
         var sampleValues = new Int32Array(MAX_TEXTURES);
         for (var i2 = 0; i2 < MAX_TEXTURES; i2++) {
           sampleValues[i2] = i2;
@@ -24865,8 +24912,8 @@ var Graphics = function(_super) {
   return Graphics2;
 }(Container);
 /*!
- * @pixi/sprite - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/sprite - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -25182,8 +25229,8 @@ var Sprite = function(_super) {
   return Sprite2;
 }(Container);
 /*!
- * @pixi/text - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/text - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -25731,9 +25778,9 @@ var TextMetrics = function() {
     this.maxLineWidth = maxLineWidth;
     this.fontProperties = fontProperties;
   }
-  TextMetrics2.measureText = function(text, style, wordWrap, canvas2) {
-    if (canvas2 === void 0) {
-      canvas2 = TextMetrics2._canvas;
+  TextMetrics2.measureText = function(text, style, wordWrap, canvas) {
+    if (canvas === void 0) {
+      canvas = TextMetrics2._canvas;
     }
     wordWrap = wordWrap === void 0 || wordWrap === null ? style.wordWrap : wordWrap;
     var font = style.toFontString();
@@ -25742,9 +25789,9 @@ var TextMetrics = function() {
       fontProperties.fontSize = style.fontSize;
       fontProperties.ascent = style.fontSize;
     }
-    var context2 = canvas2.getContext("2d");
+    var context2 = canvas.getContext("2d");
     context2.font = font;
-    var outputText = wordWrap ? TextMetrics2.wordWrap(text, style, canvas2) : text;
+    var outputText = wordWrap ? TextMetrics2.wordWrap(text, style, canvas) : text;
     var lines = outputText.split(/(?:\r\n|\r|\n)/);
     var lineWidths = new Array(lines.length);
     var maxLineWidth = 0;
@@ -25764,11 +25811,11 @@ var TextMetrics = function() {
     }
     return new TextMetrics2(text, style, width, height, lines, lineWidths, lineHeight + style.leading, maxLineWidth, fontProperties);
   };
-  TextMetrics2.wordWrap = function(text, style, canvas2) {
-    if (canvas2 === void 0) {
-      canvas2 = TextMetrics2._canvas;
+  TextMetrics2.wordWrap = function(text, style, canvas) {
+    if (canvas === void 0) {
+      canvas = TextMetrics2._canvas;
     }
-    var context2 = canvas2.getContext("2d");
+    var context2 = canvas.getContext("2d");
     var width = 0;
     var line = "";
     var lines = "";
@@ -25949,7 +25996,7 @@ var TextMetrics = function() {
       descent: 0,
       fontSize: 0
     };
-    var canvas2 = TextMetrics2._canvas;
+    var canvas = TextMetrics2._canvas;
     var context2 = TextMetrics2._context;
     context2.font = font;
     var metricsString = TextMetrics2.METRICS_STRING + TextMetrics2.BASELINE_SYMBOL;
@@ -25957,8 +26004,8 @@ var TextMetrics = function() {
     var baseline = Math.ceil(context2.measureText(TextMetrics2.BASELINE_SYMBOL).width);
     var height = Math.ceil(TextMetrics2.HEIGHT_MULTIPLIER * baseline);
     baseline = baseline * TextMetrics2.BASELINE_MULTIPLIER | 0;
-    canvas2.width = width;
-    canvas2.height = height;
+    canvas.width = width;
+    canvas.height = height;
     context2.fillStyle = "#f00";
     context2.fillRect(0, 0, width, height);
     context2.font = font;
@@ -26015,23 +26062,41 @@ var TextMetrics = function() {
       TextMetrics2._fonts = {};
     }
   };
+  Object.defineProperty(TextMetrics2, "_canvas", {
+    get: function() {
+      if (!TextMetrics2.__canvas) {
+        var canvas = void 0;
+        try {
+          var c2 = new OffscreenCanvas(0, 0);
+          var context2 = c2.getContext("2d");
+          if (context2 && context2.measureText) {
+            TextMetrics2.__canvas = c2;
+            return c2;
+          }
+          canvas = document.createElement("canvas");
+        } catch (ex) {
+          canvas = document.createElement("canvas");
+        }
+        canvas.width = canvas.height = 10;
+        TextMetrics2.__canvas = canvas;
+      }
+      return TextMetrics2.__canvas;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(TextMetrics2, "_context", {
+    get: function() {
+      if (!TextMetrics2.__context) {
+        TextMetrics2.__context = TextMetrics2._canvas.getContext("2d");
+      }
+      return TextMetrics2.__context;
+    },
+    enumerable: false,
+    configurable: true
+  });
   return TextMetrics2;
 }();
-var canvas = function() {
-  try {
-    var c2 = new OffscreenCanvas(0, 0);
-    var context2 = c2.getContext("2d");
-    if (context2 && context2.measureText) {
-      return c2;
-    }
-    return document.createElement("canvas");
-  } catch (ex) {
-    return document.createElement("canvas");
-  }
-}();
-canvas.width = canvas.height = 10;
-TextMetrics._canvas = canvas;
-TextMetrics._context = canvas.getContext("2d");
 TextMetrics._fonts = {};
 TextMetrics.METRICS_STRING = "|\xC9q\xC5";
 TextMetrics.BASELINE_SYMBOL = "M";
@@ -26064,21 +26129,21 @@ var defaultDestroyOptions = {
 };
 var Text = function(_super) {
   __extends$j(Text2, _super);
-  function Text2(text, style, canvas2) {
+  function Text2(text, style, canvas) {
     var _this = this;
     var ownCanvas = false;
-    if (!canvas2) {
-      canvas2 = document.createElement("canvas");
+    if (!canvas) {
+      canvas = document.createElement("canvas");
       ownCanvas = true;
     }
-    canvas2.width = 3;
-    canvas2.height = 3;
-    var texture = Texture.from(canvas2);
+    canvas.width = 3;
+    canvas.height = 3;
+    var texture = Texture.from(canvas);
     texture.orig = new Rectangle();
     texture.trim = new Rectangle();
     _this = _super.call(this, texture) || this;
     _this._ownCanvas = ownCanvas;
-    _this.canvas = canvas2;
+    _this.canvas = canvas;
     _this.context = _this.canvas.getContext("2d");
     _this._resolution = settings.RESOLUTION;
     _this._autoResolution = true;
@@ -26207,12 +26272,12 @@ var Text = function(_super) {
     }
   };
   Text2.prototype.updateTexture = function() {
-    var canvas2 = this.canvas;
+    var canvas = this.canvas;
     if (this._style.trim) {
-      var trimmed = trimCanvas(canvas2);
+      var trimmed = trimCanvas(canvas);
       if (trimmed.data) {
-        canvas2.width = trimmed.width;
-        canvas2.height = trimmed.height;
+        canvas.width = trimmed.width;
+        canvas.height = trimmed.height;
         this.context.putImageData(trimmed.data, 0, 0);
       }
     }
@@ -26220,14 +26285,14 @@ var Text = function(_super) {
     var style = this._style;
     var padding = style.trim ? 0 : style.padding;
     var baseTexture = texture.baseTexture;
-    texture.trim.width = texture._frame.width = canvas2.width / this._resolution;
-    texture.trim.height = texture._frame.height = canvas2.height / this._resolution;
+    texture.trim.width = texture._frame.width = canvas.width / this._resolution;
+    texture.trim.height = texture._frame.height = canvas.height / this._resolution;
     texture.trim.x = -padding;
     texture.trim.y = -padding;
     texture.orig.width = texture._frame.width - padding * 2;
     texture.orig.height = texture._frame.height - padding * 2;
     this._onTextureUpdate();
-    baseTexture.setRealSize(canvas2.width, canvas2.height, this._resolution);
+    baseTexture.setRealSize(canvas.width, canvas.height, this._resolution);
     texture.updateUvs();
     this._recursivePostUpdateTransform();
     this.dirty = false;
@@ -26412,8 +26477,8 @@ var Text = function(_super) {
   return Text2;
 }(Sprite);
 /*!
- * @pixi/prepare - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/prepare - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26705,8 +26770,8 @@ var Prepare = function(_super) {
   return Prepare2;
 }(BasePrepare);
 /*!
- * @pixi/spritesheet - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/spritesheet - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26896,8 +26961,8 @@ var SpritesheetLoader = function() {
   return SpritesheetLoader2;
 }();
 /*!
- * @pixi/sprite-tiling - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/sprite-tiling - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27146,8 +27211,8 @@ var TilingSpriteRenderer = function(_super) {
   return TilingSpriteRenderer2;
 }(ObjectRenderer);
 /*!
- * @pixi/mesh - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/mesh - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27557,8 +27622,8 @@ var MeshGeometry = function(_super) {
   return MeshGeometry2;
 }(Geometry);
 /*!
- * @pixi/text-bitmap - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/text-bitmap - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27778,7 +27843,7 @@ function autoDetectFormat(data) {
   }
   return null;
 }
-function generateFillStyle(canvas2, context2, style, resolution, lines, metrics) {
+function generateFillStyle(canvas, context2, style, resolution, lines, metrics) {
   var fillStyle = style.fill;
   if (!Array.isArray(fillStyle)) {
     return fillStyle;
@@ -27788,8 +27853,8 @@ function generateFillStyle(canvas2, context2, style, resolution, lines, metrics)
   var gradient;
   var dropShadowCorrection = style.dropShadow ? style.dropShadowDistance : 0;
   var padding = style.padding || 0;
-  var width = canvas2.width / resolution - dropShadowCorrection - padding * 2;
-  var height = canvas2.height / resolution - dropShadowCorrection - padding * 2;
+  var width = canvas.width / resolution - dropShadowCorrection - padding * 2;
+  var height = canvas.height / resolution - dropShadowCorrection - padding * 2;
   var fill = fillStyle.slice();
   var fillGradientStops = style.fillGradientStops.slice();
   if (!fillGradientStops.length) {
@@ -27840,7 +27905,7 @@ function generateFillStyle(canvas2, context2, style, resolution, lines, metrics)
   }
   return gradient;
 }
-function drawGlyph(canvas2, context2, metrics, x, y2, resolution, style) {
+function drawGlyph(canvas, context2, metrics, x, y2, resolution, style) {
   var char = metrics.text;
   var fontProperties = metrics.fontProperties;
   context2.translate(x, y2);
@@ -27852,7 +27917,7 @@ function drawGlyph(canvas2, context2, metrics, x, y2, resolution, style) {
   context2.textBaseline = style.textBaseline;
   context2.lineJoin = style.lineJoin;
   context2.miterLimit = style.miterLimit;
-  context2.fillStyle = generateFillStyle(canvas2, context2, style, resolution, [char], metrics);
+  context2.fillStyle = generateFillStyle(canvas, context2, style, resolution, [char], metrics);
   context2.strokeStyle = style.stroke;
   if (style.dropShadow) {
     var dropShadowColor = style.dropShadowColor;
@@ -28024,25 +28089,25 @@ var BitmapFont = function() {
     };
     var positionX = 0;
     var positionY = 0;
-    var canvas2;
+    var canvas;
     var context2;
     var baseTexture;
     var maxCharHeight = 0;
     var textures = [];
     for (var i2 = 0; i2 < charsList.length; i2++) {
-      if (!canvas2) {
-        canvas2 = document.createElement("canvas");
-        canvas2.width = textureWidth;
-        canvas2.height = textureHeight;
-        context2 = canvas2.getContext("2d");
-        baseTexture = new BaseTexture(canvas2, { resolution });
+      if (!canvas) {
+        canvas = document.createElement("canvas");
+        canvas.width = textureWidth;
+        canvas.height = textureHeight;
+        context2 = canvas.getContext("2d");
+        baseTexture = new BaseTexture(canvas, { resolution });
         textures.push(new Texture(baseTexture));
         fontData.page.push({
           id: textures.length - 1,
           file: ""
         });
       }
-      var metrics = TextMetrics.measureText(charsList[i2], style, false, canvas2);
+      var metrics = TextMetrics.measureText(charsList[i2], style, false, canvas);
       var width = metrics.width;
       var height = Math.ceil(metrics.height);
       var textureGlyphWidth = Math.ceil((style.fontStyle === "italic" ? 2 : 1) * width);
@@ -28051,7 +28116,7 @@ var BitmapFont = function() {
           throw new Error("[BitmapFont] textureHeight " + textureHeight + "px is " + ("too small for " + style.fontSize + "px fonts"));
         }
         --i2;
-        canvas2 = null;
+        canvas = null;
         context2 = null;
         baseTexture = null;
         positionY = 0;
@@ -28068,7 +28133,7 @@ var BitmapFont = function() {
         maxCharHeight = 0;
         continue;
       }
-      drawGlyph(canvas2, context2, metrics, positionX, positionY, resolution, style);
+      drawGlyph(canvas, context2, metrics, positionX, positionY, resolution, style);
       var id = extractCharCode(metrics.text);
       fontData.char.push({
         id,
@@ -28146,7 +28211,7 @@ var charRenderDataPool = [];
     _this._tint = tint;
     _this._fontName = fontName;
     _this._fontSize = fontSize || BitmapFont.available[fontName].size;
-    _this._text = text;
+    _this.text = text;
     _this._maxWidth = maxWidth;
     _this._maxLineHeight = 0;
     _this._letterSpacing = letterSpacing;
@@ -28686,8 +28751,8 @@ var BitmapFontLoader = function() {
   return BitmapFontLoader2;
 }();
 /*!
- * @pixi/filter-alpha - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/filter-alpha - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28732,7 +28797,7 @@ var fragment$4 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nun
     if (alpha === void 0) {
       alpha = 1;
     }
-    var _this = _super.call(this, defaultVertex$2, fragment$4, { uAlpha: 1 }) || this;
+    var _this = _super.call(this, defaultVertex$1, fragment$4, { uAlpha: 1 }) || this;
     _this.alpha = alpha;
     return _this;
   }
@@ -28749,8 +28814,8 @@ var fragment$4 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nun
   return AlphaFilter;
 })(Filter);
 /*!
- * @pixi/filter-blur - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/filter-blur - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28848,8 +28913,8 @@ function generateBlurFragSource(kernelSize) {
   return fragSource;
 }
 /*!
- * @pixi/constants - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/constants - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29239,8 +29304,8 @@ var BlurFilterPass = function(_super) {
   return BlurFilter;
 })(Filter);
 /*!
- * @pixi/filter-color-matrix - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/filter-color-matrix - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29917,8 +29982,8 @@ var ColorMatrixFilter = function(_super) {
 }(Filter);
 ColorMatrixFilter.prototype.grayscale = ColorMatrixFilter.prototype.greyscale;
 /*!
- * @pixi/filter-displacement - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/filter-displacement - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30006,8 +30071,8 @@ var vertex$1 = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix
   return DisplacementFilter;
 })(Filter);
 /*!
- * @pixi/filter-fxaa - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/filter-fxaa - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30176,8 +30241,8 @@ void main() {
   return FXAAFilter;
 })(Filter);
 /*!
- * @pixi/filter-noise - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/filter-noise - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30256,15 +30321,15 @@ var fragment = "precision highp float;\n\nvarying vec2 vTextureCoord;\nvarying v
   return NoiseFilter;
 })(Filter);
 /*!
- * @pixi/mixin-cache-as-bitmap - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/mixin-cache-as-bitmap - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 /*!
- * @pixi/constants - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/constants - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30694,8 +30759,8 @@ DisplayObject.prototype._cacheAsBitmapDestroy = function _cacheAsBitmapDestroy(o
   this.destroy(options);
 };
 /*!
- * @pixi/mixin-get-child-by-name - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/mixin-get-child-by-name - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30722,8 +30787,8 @@ Container.prototype.getChildByName = function getChildByName(name, deep) {
   return null;
 };
 /*!
- * @pixi/mixin-get-global-position - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/mixin-get-global-position - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30744,8 +30809,8 @@ DisplayObject.prototype.getGlobalPosition = function getGlobalPosition(point, sk
   return point;
 };
 /*!
- * @pixi/mesh-extras - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/mesh-extras - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31226,8 +31291,8 @@ var DEFAULT_BORDER_SIZE = 10;
   return NineSlicePlane;
 })(SimplePlane);
 /*!
- * @pixi/sprite-animated - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * @pixi/sprite-animated - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31477,8 +31542,8 @@ var AnimatedSprite = function(_super) {
   return AnimatedSprite2;
 }(Sprite);
 /*!
- * pixi.js - v6.3.0
- * Compiled Wed, 23 Mar 2022 18:58:56 UTC
+ * pixi.js - v6.3.2
+ * Compiled Wed, 04 May 2022 17:49:13 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -33980,66 +34045,8 @@ var OS_PRESETS = [{
   test: "webos|web0s",
   id: "webos"
 }];
-function getClientHintsAgent(osData) {
-  var userAgentData = navigator.userAgentData;
-  var brands = (userAgentData.uaList || userAgentData.brands).slice();
-  var isMobile2 = userAgentData.mobile || false;
-  var firstBrand = brands[0];
-  var platform2 = (osData && osData.platform || userAgentData.platform || navigator.platform).toLowerCase();
-  var browser = {
-    name: firstBrand.brand,
-    version: firstBrand.version,
-    majorVersion: -1,
-    webkit: false,
-    webkitVersion: "-1",
-    chromium: false,
-    chromiumVersion: "-1",
-    webview: !!findPresetBrand(WEBVIEW_PRESETS, brands).brand
-  };
-  var os = {
-    name: "unknown",
-    version: "-1",
-    majorVersion: -1
-  };
-  browser.webkit = !browser.chromium && some(WEBKIT_PRESETS, function(preset) {
-    return findBrand(brands, preset);
-  });
-  var chromiumBrand = findPresetBrand(CHROMIUM_PRESETS, brands);
-  browser.chromium = !!chromiumBrand.brand;
-  browser.chromiumVersion = chromiumBrand.version;
-  if (!browser.chromium) {
-    var webkitBrand = findPresetBrand(WEBKIT_PRESETS, brands);
-    browser.webkit = !!webkitBrand.brand;
-    browser.webkitVersion = webkitBrand.version;
-  }
-  var platfomResult = find(OS_PRESETS, function(preset) {
-    return new RegExp("" + preset.test, "g").exec(platform2);
-  });
-  os.name = platfomResult ? platfomResult.id : "";
-  if (osData) {
-    os.version = osData.platformVersion;
-  }
-  var browserBrand = findPresetBrand(BROWSER_PRESETS, brands);
-  if (browserBrand.brand) {
-    browser.name = browserBrand.brand;
-    browser.version = osData ? osData.uaFullVersion : browserBrand.version;
-  }
-  if (browser.webkit) {
-    os.name = isMobile2 ? "ios" : "mac";
-  }
-  if (os.name === "ios" && browser.webview) {
-    browser.version = "-1";
-  }
-  os.version = convertVersion(os.version);
-  browser.version = convertVersion(browser.version);
-  os.majorVersion = parseInt(os.version, 10);
-  browser.majorVersion = parseInt(browser.version, 10);
-  return {
-    browser,
-    os,
-    isMobile: isMobile2,
-    isHints: true
-  };
+function isWebView(userAgent) {
+  return !!findPreset(WEBVIEW_PRESETS, userAgent).preset;
 }
 function getLegacyAgent(userAgent) {
   var nextAgent = getUserAgentString(userAgent);
@@ -34048,7 +34055,7 @@ function getLegacyAgent(userAgent) {
     name: "unknown",
     version: "-1",
     majorVersion: -1,
-    webview: !!findPreset(WEBVIEW_PRESETS, nextAgent).preset,
+    webview: isWebView(nextAgent),
     chromium: false,
     chromiumVersion: "-1",
     webkit: false,
@@ -34087,6 +34094,72 @@ function getLegacyAgent(userAgent) {
     os,
     isMobile: isMobile2,
     isHints: false
+  };
+}
+function getClientHintsAgent(osData) {
+  var userAgentData = navigator.userAgentData;
+  var brands = (userAgentData.uaList || userAgentData.brands).slice();
+  var fullVersionList = osData && osData.fullVersionList;
+  var isMobile2 = userAgentData.mobile || false;
+  var firstBrand = brands[0];
+  var platform2 = (osData && osData.platform || userAgentData.platform || navigator.platform).toLowerCase();
+  var browser = {
+    name: firstBrand.brand,
+    version: firstBrand.version,
+    majorVersion: -1,
+    webkit: false,
+    webkitVersion: "-1",
+    chromium: false,
+    chromiumVersion: "-1",
+    webview: !!findPresetBrand(WEBVIEW_PRESETS, brands).brand || isWebView(getUserAgentString())
+  };
+  var os = {
+    name: "unknown",
+    version: "-1",
+    majorVersion: -1
+  };
+  browser.webkit = !browser.chromium && some(WEBKIT_PRESETS, function(preset) {
+    return findBrand(brands, preset);
+  });
+  var chromiumBrand = findPresetBrand(CHROMIUM_PRESETS, brands);
+  browser.chromium = !!chromiumBrand.brand;
+  browser.chromiumVersion = chromiumBrand.version;
+  if (!browser.chromium) {
+    var webkitBrand = findPresetBrand(WEBKIT_PRESETS, brands);
+    browser.webkit = !!webkitBrand.brand;
+    browser.webkitVersion = webkitBrand.version;
+  }
+  var platfomResult = find(OS_PRESETS, function(preset) {
+    return new RegExp("" + preset.test, "g").exec(platform2);
+  });
+  os.name = platfomResult ? platfomResult.id : "";
+  if (osData) {
+    os.version = osData.platformVersion;
+  }
+  if (fullVersionList && fullVersionList.length) {
+    var browserBrandByFullVersionList = findPresetBrand(BROWSER_PRESETS, fullVersionList);
+    browser.name = browserBrandByFullVersionList.brand || browser.name;
+    browser.version = browserBrandByFullVersionList.version || browser.version;
+  } else {
+    var browserBrand = findPresetBrand(BROWSER_PRESETS, brands);
+    browser.name = browserBrand.brand || browser.name;
+    browser.version = browserBrand.brand && osData ? osData.uaFullVersion : browserBrand.version;
+  }
+  if (browser.webkit) {
+    os.name = isMobile2 ? "ios" : "mac";
+  }
+  if (os.name === "ios" && browser.webview) {
+    browser.version = "-1";
+  }
+  os.version = convertVersion(os.version);
+  browser.version = convertVersion(browser.version);
+  os.majorVersion = parseInt(os.version, 10);
+  browser.majorVersion = parseInt(browser.version, 10);
+  return {
+    browser,
+    os,
+    isMobile: isMobile2,
+    isHints: true
   };
 }
 function agent$1(userAgent) {
@@ -35210,6 +35283,9 @@ function isMultiTouch(e) {
   return e.touches && e.touches.length >= 2;
 }
 function getEventClients(e) {
+  if (!e) {
+    return [];
+  }
   if (e.touches) {
     return getClients(e.touches);
   } else {
@@ -35411,12 +35487,12 @@ var Gesto = /* @__PURE__ */ function(_super) {
           return false;
         }
         _this.doubleFlag = now() - _this.prevTime < 200;
-        var result = _this.emit("dragStart", __assign$4({
+        var result = _this.emit("dragStart", __assign$4(__assign$4({
           datas: _this.datas,
           inputEvent: e,
           isTrusted,
           isDouble: _this.doubleFlag
-        }, _this.getCurrentStore().getPosition(), {
+        }, _this.getCurrentStore().getPosition()), {
           preventDefault: function() {
             e.preventDefault();
           },
@@ -35461,7 +35537,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
       var result = _this.moveClients(clients, e, false);
       if (_this._dragFlag) {
         if (_this.pinchFlag || result.deltaX || result.deltaY) {
-          var dragResult = _this.emit("drag", __assign$4({}, result, {
+          var dragResult = _this.emit("drag", __assign$4(__assign$4({}, result), {
             isScroll: !!isScroll,
             inputEvent: e
           }));
@@ -35487,7 +35563,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
       if (_this.pinchFlag) {
         _this.onPinchEnd(e);
       }
-      var clients = getEventClients(e);
+      var clients = (e === null || e === void 0 ? void 0 : e.touches) ? getEventClients(e) : [];
       var clientsLength = clients.length;
       if (clientsLength === 0 || !_this.options.keepDragging) {
         _this.flag = false;
@@ -35613,9 +35689,9 @@ var Gesto = /* @__PURE__ */ function(_super) {
     return this;
   };
   __proto.getCurrentEvent = function(inputEvent) {
-    return __assign$4({
+    return __assign$4(__assign$4({
       datas: this.datas
-    }, this._getPosition(), {
+    }, this._getPosition()), {
       movement: this.getMovement(),
       isDrag: this.isDrag,
       isPinch: this.isPinch,
@@ -35658,11 +35734,11 @@ var Gesto = /* @__PURE__ */ function(_super) {
     var store = new ClientStore(getEventClients(e));
     this.pinchFlag = true;
     this._addStore(store);
-    var result = this.emit("pinchStart", __assign$4({
+    var result = this.emit("pinchStart", __assign$4(__assign$4({
       datas: this.datas,
       angle: store.getAngle(),
       touches: this.getCurrentStore().getPositions()
-    }, store.getPosition(), {
+    }, store.getPosition()), {
       inputEvent: e
     }));
     if (result === false) {
@@ -35675,7 +35751,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
     }
     var store = this.getCurrentStore();
     this.isPinch = true;
-    this.emit("pinch", __assign$4({
+    this.emit("pinch", __assign$4(__assign$4({
       datas: this.datas,
       movement: this.getMovement(clients),
       angle: store.getAngle(clients),
@@ -35683,7 +35759,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
       touches: store.getPositions(clients),
       scale: store.getScale(clients),
       distance: store.getDistance(clients)
-    }, store.getPosition(clients), {
+    }, store.getPosition(clients)), {
       inputEvent: e
     }));
   };
@@ -35695,11 +35771,11 @@ var Gesto = /* @__PURE__ */ function(_super) {
     this.isPinch = false;
     this.pinchFlag = false;
     var store = this.getCurrentStore();
-    this.emit("pinchEnd", __assign$4({
+    this.emit("pinchEnd", __assign$4(__assign$4({
       datas: this.datas,
       isPinch,
       touches: store.getPositions()
-    }, store.getPosition(), {
+    }, store.getPosition()), {
       inputEvent: e
     }));
   };
@@ -35718,9 +35794,9 @@ var Gesto = /* @__PURE__ */ function(_super) {
     if (position.deltaX || position.deltaY) {
       this.isDrag = true;
     }
-    return __assign$4({
+    return __assign$4(__assign$4({
       datas: this.datas
-    }, position, {
+    }, position), {
       movement: this.getMovement(clients),
       isDrag: this.isDrag,
       isPinch: this.isPinch,
@@ -35740,7 +35816,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
       prev2.distY += storePosition.distY;
       return prev2;
     }, position), distX = _a3.distX, distY = _a3.distY;
-    return __assign$4({}, position, {
+    return __assign$4(__assign$4({}, position), {
       distX,
       distY
     });
@@ -36673,7 +36749,7 @@ var Rotatable = {
         beforeDist = dist;
         absoluteDist = dist;
       }
-    }));
+    }, true));
     _a3 = getRotateInfo(moveable, rect, beforeInfo, beforeDist, startRotation, isSnap), beforeDelta = _a3[0], beforeDist = _a3[1], beforeRotation = _a3[2];
     _b3 = getRotateInfo(moveable, rect, afterInfo, dist, startRotation, isSnap), delta = _b3[0], dist = _b3[1], rotation = _b3[2];
     _c3 = getRotateInfo(moveable, rect, absoluteInfo, absoluteDist, absoluteStartRotation, isSnap), absoluteDelta = _c3[0], absoluteDist = _c3[1], absoluteRotation = _c3[2];
@@ -36749,7 +36825,7 @@ var Rotatable = {
     catchEvent(moveable, "onBeforeRotate", function(parentEvent) {
       triggerEvent(moveable, "onBeforeRotateGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
         targets: moveable.props.targets
-      })));
+      }), true));
     });
     var params = this.dragControl(moveable, e);
     if (!params) {
@@ -39756,16 +39832,11 @@ function getOffsetInfo(el, lastParent, isParent) {
     offsetParent: target || body
   };
 }
-function getOffsetPosInfo(el, container, style, isFixed) {
+function getOffsetPosInfo(el, style) {
   var _a3;
   var tagName = el.tagName.toLowerCase();
   var offsetLeft = el.offsetLeft;
   var offsetTop = el.offsetTop;
-  if (isFixed) {
-    var containerClientRect = (container || document.documentElement).getBoundingClientRect();
-    offsetLeft -= containerClientRect.left;
-    offsetTop -= containerClientRect.top;
-  }
   var isSVG = isUndefined(offsetLeft);
   var hasOffset = !isSVG;
   var origin;
@@ -39821,24 +39892,56 @@ function convert3DMatrixes(matrixes) {
     }
   });
 }
+function getBodyScrollPos() {
+  return [document.documentElement.scrollLeft || document.body.scrollLeft, document.documentElement.scrollTop || document.body.scrollTop];
+}
+function getPositionFixedInfo(el) {
+  var fixedContainer = el.parentElement;
+  var hasTransform = false;
+  while (fixedContainer) {
+    var transform = getComputedStyle$1(fixedContainer).transform;
+    if (transform && transform !== "none") {
+      hasTransform = true;
+      break;
+    }
+    if (fixedContainer === document.body) {
+      break;
+    }
+    fixedContainer = fixedContainer.parentElement;
+  }
+  return {
+    fixedContainer: fixedContainer || document.body,
+    hasTransform
+  };
+}
 function getMatrixStackInfo(target, container, checkContainer) {
   var el = target;
   var matrixes = [];
-  var requestEnd = !checkContainer && target === container;
+  var requestEnd = !checkContainer && target === container || target === document.body;
   var isEnd = requestEnd;
   var is3d = false;
   var n = 3;
   var transformOrigin;
   var targetTransformOrigin;
   var targetMatrix;
+  var hasFixed = false;
   var offsetContainer = getOffsetInfo(container, container, true).offsetParent;
   while (el && !isEnd) {
     isEnd = requestEnd;
     var style = getComputedStyle$1(el);
     var position = style.position;
-    var isFixed = position === "fixed";
     var transform = getElementTransform(el, style);
     var matrix = convertCSStoMatrix(getTransformMatrix(transform));
+    var isFixed = position === "fixed";
+    var fixedInfo = {
+      hasTransform: false,
+      fixedContainer: null
+    };
+    if (isFixed) {
+      hasFixed = true;
+      fixedInfo = getPositionFixedInfo(el);
+      offsetContainer = fixedInfo.fixedContainer;
+    }
     var length2 = matrix.length;
     if (!is3d && length2 === 16) {
       is3d = true;
@@ -39851,7 +39954,7 @@ function getMatrixStackInfo(target, container, checkContainer) {
     if (is3d && length2 === 9) {
       matrix = convertDimension(matrix, 3, 4);
     }
-    var _a3 = getOffsetPosInfo(el, container, style, isFixed), tagName = _a3.tagName, hasOffset = _a3.hasOffset, isSVG = _a3.isSVG, origin = _a3.origin, targetOrigin = _a3.targetOrigin, offsetPos = _a3.offset;
+    var _a3 = getOffsetPosInfo(el, style), tagName = _a3.tagName, hasOffset = _a3.hasOffset, isSVG = _a3.isSVG, origin = _a3.origin, targetOrigin = _a3.targetOrigin, offsetPos = _a3.offset;
     var offsetLeft = offsetPos[0], offsetTop = offsetPos[1];
     if (tagName === "svg" && targetMatrix) {
       matrixes.push({
@@ -39868,7 +39971,18 @@ function getMatrixStackInfo(target, container, checkContainer) {
       offsetLeft = 0;
       offsetTop = 0;
     }
-    var _b3 = getOffsetInfo(el, container), offsetParent = _b3.offsetParent, isOffsetEnd = _b3.isEnd, isStatic = _b3.isStatic;
+    var offsetParent = void 0;
+    var isOffsetEnd = false;
+    var isStatic = false;
+    if (isFixed) {
+      offsetParent = fixedInfo.fixedContainer;
+      isOffsetEnd = true;
+    } else {
+      var offsetInfo = getOffsetInfo(el, container);
+      offsetParent = offsetInfo.offsetParent;
+      isOffsetEnd = offsetInfo.isEnd;
+      isStatic = offsetInfo.isStatic;
+    }
     if (IS_WEBKIT && hasOffset && !isSVG && isStatic && (position === "relative" || position === "static")) {
       offsetLeft -= offsetParent.offsetLeft;
       offsetTop -= offsetParent.offsetTop;
@@ -39876,14 +39990,23 @@ function getMatrixStackInfo(target, container, checkContainer) {
     }
     var parentClientLeft = 0;
     var parentClientTop = 0;
-    if (hasOffset && offsetContainer !== offsetParent) {
-      parentClientLeft = offsetParent.clientLeft;
-      parentClientTop = offsetParent.clientTop;
-    }
-    if (hasOffset && offsetParent === document.body) {
-      var margin = getBodyOffset(el, false, style);
-      offsetLeft += margin[0];
-      offsetTop += margin[1];
+    var fixedClientLeft = 0;
+    var fixedClientTop = 0;
+    if (isFixed) {
+      if (hasOffset && fixedInfo.hasTransform) {
+        fixedClientLeft = offsetParent.clientLeft;
+        fixedClientTop = offsetParent.clientTop;
+      }
+    } else {
+      if (hasOffset && offsetContainer !== offsetParent) {
+        parentClientLeft = offsetParent.clientLeft;
+        parentClientTop = offsetParent.clientTop;
+      }
+      if (hasOffset && offsetParent === document.body) {
+        var margin = getBodyOffset(el, false, style);
+        offsetLeft += margin[0];
+        offsetTop += margin[1];
+      }
     }
     matrixes.push({
       type: "target",
@@ -39894,7 +40017,7 @@ function getMatrixStackInfo(target, container, checkContainer) {
       matrixes.push({
         type: "offset",
         target: el,
-        matrix: createOriginMatrix([offsetLeft - el.scrollLeft + parentClientLeft, offsetTop - el.scrollTop + parentClientTop], n)
+        matrix: createOriginMatrix([offsetLeft - el.scrollLeft + parentClientLeft - fixedClientLeft, offsetTop - el.scrollTop + parentClientTop - fixedClientTop], n)
       });
     } else {
       matrixes.push({
@@ -39937,7 +40060,8 @@ function getMatrixStackInfo(target, container, checkContainer) {
     targetMatrix,
     transformOrigin,
     targetOrigin: targetTransformOrigin,
-    is3d
+    is3d,
+    hasFixed
   };
 }
 function calculateElementInfo(target, container, rootContainer, isAbsolute3d) {
@@ -39983,7 +40107,8 @@ function calculateElementInfo(target, container, rootContainer, isAbsolute3d) {
     pos2: [0, 0],
     pos3: [0, 0],
     pos4: [0, 0],
-    direction: 1
+    direction: 1,
+    hasFixed: false
   }, allResult);
 }
 function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
@@ -39991,7 +40116,7 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
   if (rootContainer === void 0) {
     rootContainer = container;
   }
-  var _b3 = getMatrixStackInfo(target, container), matrixes = _b3.matrixes, is3d = _b3.is3d, prevTargetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin, targetOrigin = _b3.targetOrigin, offsetContainer = _b3.offsetContainer;
+  var _b3 = getMatrixStackInfo(target, container), matrixes = _b3.matrixes, is3d = _b3.is3d, prevTargetMatrix = _b3.targetMatrix, transformOrigin = _b3.transformOrigin, targetOrigin = _b3.targetOrigin, offsetContainer = _b3.offsetContainer, hasFixed = _b3.hasFixed;
   var _c3 = getMatrixStackInfo(offsetContainer, rootContainer, true), rootMatrixes = _c3.matrixes, isRoot3d = _c3.is3d;
   var isNext3d = isAbsolute3d || isRoot3d || is3d;
   var n = isNext3d ? 4 : 3;
@@ -40040,6 +40165,7 @@ function calculateMatrixStack(target, container, rootContainer, isAbsolute3d) {
   var targetTransform = makeMatrixCSS(isSVGGraphicElement && targetMatrix.length === 16 ? convertDimension(targetMatrix, 4, 3) : targetMatrix, isMatrix3d);
   rootMatrix = ignoreDimension(rootMatrix, n, n);
   return {
+    hasFixed,
     rootMatrix,
     beforeMatrix,
     offsetMatrix,
@@ -40112,8 +40238,8 @@ function getSVGMatrix(el, n) {
   return getAbsoluteMatrix(scaleMatrix2, n, svgOrigin);
 }
 function getSVGGraphicsOffset(el, origin) {
-  if (!el.getBBox) {
-    return [0, 0];
+  if (!el.getBBox || el.tagName.toLowerCase() === "g") {
+    return [0, 0, 0, 0];
   }
   var bbox = el.getBBox();
   var viewBox = getSVGViewBox(el.ownerSVGElement);
@@ -40376,6 +40502,7 @@ function resetClientRect() {
   };
 }
 function getClientRect(el, isExtends) {
+  var _a3;
   var left = 0;
   var top = 0;
   var width = 0;
@@ -40383,8 +40510,8 @@ function getClientRect(el, isExtends) {
   if (el === document.body || el === document.documentElement) {
     width = window.innerWidth;
     height = window.innerHeight;
-    left = -(document.documentElement.scrollLeft || document.body.scrollLeft);
-    top = -(document.documentElement.scrollTop || document.body.scrollTop);
+    var scrollPos = getBodyScrollPos();
+    _a3 = [-scrollPos[0], -scrollPos[1]], left = _a3[0], top = _a3[1];
   } else {
     var clientRect = el.getBoundingClientRect();
     left = clientRect.left;
@@ -40441,7 +40568,7 @@ function unset(self2, name) {
   (_a3 = self2[name]) === null || _a3 === void 0 ? void 0 : _a3.unset();
   self2[name] = null;
 }
-function fillParams(moveable, e, params) {
+function fillParams(moveable, e, params, isBeforeEvent) {
   var datas = e.datas;
   if (!datas.datas) {
     datas.datas = {};
@@ -40455,10 +40582,10 @@ function fillParams(moveable, e, params) {
     moveable,
     datas: datas.datas
   });
-  if (datas.isStartEvent) {
-    datas.lastEvent = nextParams;
-  } else {
+  if (!datas.isStartEvent) {
     datas.isStartEvent = true;
+  } else if (!isBeforeEvent) {
+    datas.lastEvent = nextParams;
   }
   return nextParams;
 }
@@ -41120,7 +41247,7 @@ var Resizable = {
       setSize: function(size) {
         boundingWidth = size[0], boundingHeight = size[1];
       }
-    }));
+    }, true));
     var fixedPosition = dragClient;
     if (!dragClient) {
       if (!parentFlag && isPinch) {
@@ -41286,7 +41413,7 @@ var Resizable = {
     catchEvent(moveable, "onBeforeResize", function(parentEvent) {
       triggerEvent(moveable, "onBeforeResizeGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
         targets: moveable.props.targets
-      })));
+      }), true));
     });
     var params = this.dragControl(moveable, e);
     if (!params) {
@@ -41502,7 +41629,7 @@ var Scalable = {
       setScale: function(nextScale) {
         scale = nextScale;
       }
-    }));
+    }, true));
     var dist = [scale[0] / startValue[0], scale[1] / startValue[1]];
     var fixedPosition = dragClient;
     var snapDist = [0, 0];
@@ -41637,7 +41764,7 @@ var Scalable = {
     catchEvent(moveable, "onBeforeScale", function(parentEvent) {
       triggerEvent(moveable, "onBeforeScaleGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
         targets: moveable.props.targets
-      })));
+      }), true));
     });
     var params = this.dragControl(moveable, e);
     if (!params) {
@@ -43990,7 +44117,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
       left: 0,
       top: 0
     }, parentLeft = _a3.left, parentTop = _a3.top;
-    var left = state.left, top = state.top, stateTarget = state.target, direction = state.direction;
+    var left = state.left, top = state.top, stateTarget = state.target, direction = state.direction, hasFixed = state.hasFixed;
     var groupTargets = props.targets;
     var isDisplay = (groupTargets && groupTargets.length || propsTarget) && stateTarget;
     var isDragging = this.isDragging();
@@ -44006,7 +44133,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
       onClick: this.onPreventClick,
       portalContainer,
       style: {
-        "position": "absolute",
+        "position": hasFixed ? "fixed" : "absolute",
         "display": isDisplay ? "block" : "none",
         "transform": "translate3d(".concat(left - parentLeft, "px, ").concat(top - parentTop, "px, ").concat(translateZ, ")"),
         "--zoom": zoom,
@@ -45309,44 +45436,44 @@ var Moveable = /* @__PURE__ */ function(_super) {
   return Moveable2;
 }(MoveableManager);
 var Moveable$1 = Moveable;
-var __accessCheck$3 = (obj, member, msg) => {
+var __accessCheck$2 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet$3 = (obj, member, getter) => {
-  __accessCheck$3(obj, member, "read from private field");
+var __privateGet$2 = (obj, member, getter) => {
+  __accessCheck$2(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$3 = (obj, member, value2) => {
+var __privateAdd$2 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$3 = (obj, member, value2, setter) => {
-  __accessCheck$3(obj, member, "write to private field");
+var __privateSet$2 = (obj, member, value2, setter) => {
+  __accessCheck$2(obj, member, "write to private field");
   setter ? setter.call(obj, value2) : member.set(obj, value2);
   return value2;
 };
 var __privateWrapper2 = (obj, member, setter, getter) => {
   return {
     set _(value2) {
-      __privateSet$3(obj, member, value2, setter);
+      __privateSet$2(obj, member, value2, setter);
     },
     get _() {
-      return __privateGet$3(obj, member, getter);
+      return __privateGet$2(obj, member, getter);
     }
   };
 };
-var __privateMethod$3 = (obj, member, method) => {
-  __accessCheck$3(obj, member, "access private method");
+var __privateMethod$2 = (obj, member, method) => {
+  __accessCheck$2(obj, member, "access private method");
   return method;
 };
-var _divDesignRoot, _scrItr, _alzTagArg, _cfg$2, _ID_DESIGNMODE, _cntDesignCast, _hId2dc, _aDC, _resizeDiv, resizeDiv_fn;
+var _divDesignRoot, _scrItr, _alzTagArg, _cfg$1, _ID_DESIGNMODE, _cntDesignCast, _hId2dc, _aDC, _resizeDiv, resizeDiv_fn;
 const _DesignCast = class {
   constructor(bg_col, isLay = false) {
     this.bg_col = bg_col;
     this.isLay = isLay;
-    __privateAdd$3(this, _resizeDiv);
+    __privateAdd$2(this, _resizeDiv);
     this.hArg = {};
     this.id_tag = "";
     this.hDesignArg = {
@@ -45378,15 +45505,15 @@ const _DesignCast = class {
     this.rotatable = true;
   }
   static init(appPixi, sys, scrItr, prpPrs, alzTagArg, cfg, hPages) {
-    appPixi.view.insertAdjacentHTML("beforebegin", `<div id="${__privateGet$3(_DesignCast, _ID_DESIGNMODE)}" style="width: ${CmnLib.stageW * _DesignCast.sys.cvsScale}px; height: ${CmnLib.stageH * sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
-    __privateSet$3(_DesignCast, _divDesignRoot, document.getElementById(__privateGet$3(_DesignCast, _ID_DESIGNMODE)));
+    appPixi.view.insertAdjacentHTML("beforebegin", `<div id="${__privateGet$2(_DesignCast, _ID_DESIGNMODE)}" style="width: ${CmnLib.stageW * _DesignCast.sys.cvsScale}px; height: ${CmnLib.stageH * sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+    __privateSet$2(_DesignCast, _divDesignRoot, document.getElementById(__privateGet$2(_DesignCast, _ID_DESIGNMODE)));
     _DesignCast.divHint.classList.add("sn_design_hint");
     appPixi.view.parentElement.appendChild(_DesignCast.divHint);
     _DesignCast.sys = sys;
-    __privateSet$3(_DesignCast, _scrItr, scrItr);
+    __privateSet$2(_DesignCast, _scrItr, scrItr);
     _DesignCast.prpPrs = prpPrs;
-    __privateSet$3(_DesignCast, _alzTagArg, alzTagArg);
-    __privateSet$3(_DesignCast, _cfg$2, cfg);
+    __privateSet$2(_DesignCast, _alzTagArg, alzTagArg);
+    __privateSet$2(_DesignCast, _cfg$1, cfg);
     _DesignCast.hPages = hPages;
     addStyle(`
 .sn_design_cast {
@@ -45423,7 +45550,7 @@ const _DesignCast = class {
 		top: ${Math.max(10, dc.ly + y2 - h2 - 10)}px;`;
   }
   static cvsResizeDesign() {
-    const s2 = __privateGet$3(_DesignCast, _divDesignRoot).style;
+    const s2 = __privateGet$2(_DesignCast, _divDesignRoot).style;
     s2.width = `${CmnLib.stageW * _DesignCast.sys.cvsScale}px`;
     s2.height = `${CmnLib.stageH * _DesignCast.sys.cvsScale}px`;
   }
@@ -45444,7 +45571,7 @@ const _DesignCast = class {
       this.id_tag = (_a3 = hArg[":id_tag"]) != null ? _a3 : "";
     this.hArg = hArg;
     const id_dc = (_b3 = hArg[":id_dc"]) != null ? _b3 : this.id_tag;
-    __privateGet$3(_DesignCast, _hId2dc)[id_dc] = this;
+    __privateGet$2(_DesignCast, _hId2dc)[id_dc] = this;
   }
   includeDesignArg(hArg) {
     for (const name in hArg)
@@ -45473,12 +45600,12 @@ const _DesignCast = class {
   }
   static enterMode() {
     _DesignCast.leaveMode();
-    __privateGet$3(_DesignCast, _divDesignRoot).style.display = "inline";
-    __privateSet$3(_DesignCast, _cntDesignCast, 0);
-    __privateSet$3(_DesignCast, _hId2dc, {});
+    __privateGet$2(_DesignCast, _divDesignRoot).style.display = "inline";
+    __privateSet$2(_DesignCast, _cntDesignCast, 0);
+    __privateSet$2(_DesignCast, _hId2dc, {});
   }
   static allHide() {
-    __privateGet$3(_DesignCast, _aDC).forEach((v2) => v2.visible = false);
+    __privateGet$2(_DesignCast, _aDC).forEach((v2) => v2.visible = false);
   }
   set visible(v2) {
     if (!this.div || !this.mov)
@@ -45487,14 +45614,14 @@ const _DesignCast = class {
     this.mov.updateTarget();
   }
   static leaveMode() {
-    __privateGet$3(_DesignCast, _divDesignRoot).textContent = "";
-    __privateGet$3(_DesignCast, _divDesignRoot).style.display = "none";
-    __privateGet$3(_DesignCast, _aDC).forEach((v2) => v2.destroy());
-    __privateSet$3(_DesignCast, _aDC, []);
+    __privateGet$2(_DesignCast, _divDesignRoot).textContent = "";
+    __privateGet$2(_DesignCast, _divDesignRoot).style.display = "none";
+    __privateGet$2(_DesignCast, _aDC).forEach((v2) => v2.destroy());
+    __privateSet$2(_DesignCast, _aDC, []);
   }
   cvsResize() {
     var _a3;
-    __privateMethod$3(this, _resizeDiv, resizeDiv_fn).call(this);
+    __privateMethod$2(this, _resizeDiv, resizeDiv_fn).call(this);
     (_a3 = this.mov) == null ? void 0 : _a3.updateTarget();
   }
   onDragStart() {
@@ -45502,16 +45629,16 @@ const _DesignCast = class {
   make() {
     var _a3, _b3;
     const id_dc = (_a3 = this.hArg[":id_dc"]) != null ? _a3 : this.id_tag;
-    __privateGet$3(_DesignCast, _hId2dc)[id_dc] = this;
+    __privateGet$2(_DesignCast, _hId2dc)[id_dc] = this;
     const d2 = this.div = document.createElement("div");
-    d2.id = __privateGet$3(_DesignCast, _ID_DESIGNMODE) + "_" + ++__privateWrapper2(_DesignCast, _cntDesignCast)._;
+    d2.id = __privateGet$2(_DesignCast, _ID_DESIGNMODE) + "_" + ++__privateWrapper2(_DesignCast, _cntDesignCast)._;
     d2.classList.add("sn_design_cast");
     d2.dataset.id_dc = id_dc;
     d2.style.backgroundColor = `${this.bg_col}`;
     d2.style.display = "none";
     this.rect = this.getRect();
-    __privateMethod$3(this, _resizeDiv, resizeDiv_fn).call(this);
-    (this.parent ? (_b3 = document.querySelector(`[data-id_dc="${this.parent.id_tag}"]`)) != null ? _b3 : __privateGet$3(_DesignCast, _divDesignRoot) : __privateGet$3(_DesignCast, _divDesignRoot)).appendChild(d2);
+    __privateMethod$2(this, _resizeDiv, resizeDiv_fn).call(this);
+    (this.parent ? (_b3 = document.querySelector(`[data-id_dc="${this.parent.id_tag}"]`)) != null ? _b3 : __privateGet$2(_DesignCast, _divDesignRoot) : __privateGet$2(_DesignCast, _divDesignRoot)).appendChild(d2);
     const tmp = {
       aPos: [0, 0],
       roDeg: 0,
@@ -45615,7 +45742,7 @@ const _DesignCast = class {
       d2.style.transformOrigin = trOrg;
       d2.style.transform = `translate(${aPos[0]}px, ${aPos[1]}px) rotate(${roDeg}deg)`;
     });
-    __privateGet$3(_DesignCast, _aDC).push(this);
+    __privateGet$2(_DesignCast, _aDC).push(this);
     d2.addEventListener("dragenter", () => d2.classList.add("drag_border"));
     d2.addEventListener("dragover", (e) => {
       e.stopPropagation();
@@ -45639,12 +45766,12 @@ const _DesignCast = class {
         url: "",
         buf: new ArrayBuffer(0),
         old_fn: this.oldFn(),
-        old_url: __privateGet$3(_DesignCast, _cfg$2).searchPath(this.oldFn(), Config.EXT_SPRITE)
+        old_url: __privateGet$2(_DesignCast, _cfg$1).searchPath(this.oldFn(), Config.EXT_SPRITE)
       };
       f2.arrayBuffer().then((buf) => {
         o.buf = buf;
         try {
-          o.url = __privateGet$3(_DesignCast, _scrItr).cnvPath4Dbg(__privateGet$3(_DesignCast, _cfg$2).searchPath(f2.name, Config.EXT_SPRITE));
+          o.url = __privateGet$2(_DesignCast, _scrItr).cnvPath4Dbg(__privateGet$2(_DesignCast, _cfg$1).searchPath(f2.name, Config.EXT_SPRITE));
         } catch {
         }
         _DesignCast.sys.send2Dbg("_dropFile", o);
@@ -45666,17 +45793,17 @@ const _DesignCast = class {
     var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _i, _j, _k;
     const id_tag = o[":id_tag"];
     const id_dc = id_tag;
-    const dc = __privateGet$3(_DesignCast, _hId2dc)[id_dc];
+    const dc = __privateGet$2(_DesignCast, _hId2dc)[id_dc];
     const d2 = document.querySelector(`div[data-id_dc='${id_dc}']`);
     if (!d2 || !dc)
       return;
     const token = o[":token"];
-    __privateGet$3(_DesignCast, _scrItr).replace(o[":idx_tkn"], token);
+    __privateGet$2(_DesignCast, _scrItr).replace(o[":idx_tkn"], token);
     const [_tag_name, args] = tagToken2Name_Args(token);
     if (dc.child)
       dc.child.hArg[":token"] = dc.hArg[":token"];
-    __privateGet$3(_DesignCast, _alzTagArg).go(args);
-    const p = __privateGet$3(_DesignCast, _alzTagArg).hPrm;
+    __privateGet$2(_DesignCast, _alzTagArg).go(args);
+    const p = __privateGet$2(_DesignCast, _alzTagArg).hPrm;
     if ("pivot_x" in p || "pivot_y" in p) {
       const px = Number(_DesignCast.prpPrs.getValAmpersand((_a3 = p.pivot_x.val) != null ? _a3 : "0"));
       const py = Number(_DesignCast.prpPrs.getValAmpersand((_b3 = p.pivot_y.val) != null ? _b3 : "0"));
@@ -45733,7 +45860,7 @@ let DesignCast = _DesignCast;
 _divDesignRoot = /* @__PURE__ */ new WeakMap();
 _scrItr = /* @__PURE__ */ new WeakMap();
 _alzTagArg = /* @__PURE__ */ new WeakMap();
-_cfg$2 = /* @__PURE__ */ new WeakMap();
+_cfg$1 = /* @__PURE__ */ new WeakMap();
 _ID_DESIGNMODE = /* @__PURE__ */ new WeakMap();
 _cntDesignCast = /* @__PURE__ */ new WeakMap();
 _hId2dc = /* @__PURE__ */ new WeakMap();
@@ -45751,15 +45878,15 @@ resizeDiv_fn = function() {
       transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`
     });
 };
-__privateAdd$3(DesignCast, _divDesignRoot, void 0);
-__privateAdd$3(DesignCast, _scrItr, void 0);
-__privateAdd$3(DesignCast, _alzTagArg, void 0);
-__privateAdd$3(DesignCast, _cfg$2, void 0);
+__privateAdd$2(DesignCast, _divDesignRoot, void 0);
+__privateAdd$2(DesignCast, _scrItr, void 0);
+__privateAdd$2(DesignCast, _alzTagArg, void 0);
+__privateAdd$2(DesignCast, _cfg$1, void 0);
 DesignCast.divHint = document.createElement("div");
-__privateAdd$3(DesignCast, _ID_DESIGNMODE, "DesignMode");
-__privateAdd$3(DesignCast, _cntDesignCast, 0);
-__privateAdd$3(DesignCast, _hId2dc, {});
-__privateAdd$3(DesignCast, _aDC, []);
+__privateAdd$2(DesignCast, _ID_DESIGNMODE, "DesignMode");
+__privateAdd$2(DesignCast, _cntDesignCast, 0);
+__privateAdd$2(DesignCast, _hId2dc, {});
+__privateAdd$2(DesignCast, _aDC, []);
 class GrpLayDesignCast extends DesignCast {
   constructor(spLay, gl) {
     super("#29e", true);
@@ -46026,86 +46153,86 @@ class PicBtnDesignCast extends BtnDesignCast {
   }
 }
 _sp2 = new WeakMap();
-var __accessCheck$2 = (obj, member, msg) => {
+var __accessCheck$1 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet$2 = (obj, member, getter) => {
-  __accessCheck$2(obj, member, "read from private field");
+var __privateGet$1 = (obj, member, getter) => {
+  __accessCheck$1(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$2 = (obj, member, value2) => {
+var __privateAdd$1 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$2 = (obj, member, value2, setter) => {
-  __accessCheck$2(obj, member, "write to private field");
+var __privateSet$1 = (obj, member, value2, setter) => {
+  __accessCheck$1(obj, member, "write to private field");
   setter ? setter.call(obj, value2) : member.set(obj, value2);
   return value2;
 };
-var __privateMethod$2 = (obj, member, method) => {
-  __accessCheck$2(obj, member, "access private method");
+var __privateMethod$1 = (obj, member, method) => {
+  __accessCheck$1(obj, member, "access private method");
   return method;
 };
-var _elc, _hFace, _main$1, _cfg$1, _appPixi, _sys$1, _glbVol, _movVol, _evtMng$1, _idc$1, _csvFn, _sBkFn, _sBkFace, _width, _height, _dec2cache, _sortAFrameName, sortAFrameName_fn, _dec2cache4Cripto, dec2cache4Cripto_fn, _mkSprite, mkSprite_fn, _rtTsy, _spTsy, _fncRender, _hAEncImg, _hEncImgOUrl;
+var _elc, _hFace, _main, _cfg, _appPixi, _sys, _glbVol, _movVol, _evtMng, _idc$1, _csvFn, _sBkFn, _sBkFace, _width, _height, _dec2cache, _sortAFrameName, sortAFrameName_fn, _dec2cache4Cripto, dec2cache4Cripto_fn, _mkSprite, mkSprite_fn, _rtTsy, _spTsy, _fncRender, _hAEncImg, _hEncImgOUrl;
 const _GrpLayer = class extends Layer {
   constructor() {
     super();
-    __privateAdd$2(this, _idc$1, new GrpLayDesignCast(this.spLay, this));
-    __privateAdd$2(this, _csvFn, "");
-    __privateAdd$2(this, _sBkFn, "");
-    __privateAdd$2(this, _sBkFace, "");
+    __privateAdd$1(this, _idc$1, new GrpLayDesignCast(this.spLay, this));
+    __privateAdd$1(this, _csvFn, "");
+    __privateAdd$1(this, _sBkFn, "");
+    __privateAdd$1(this, _sBkFace, "");
     this.lay = (hArg) => this.laySub(hArg, (isStop) => {
       if (isStop)
-        __privateGet$2(_GrpLayer, _main$1).resume();
+        __privateGet$1(_GrpLayer, _main).resume();
     });
-    __privateAdd$2(this, _width, 0);
-    __privateAdd$2(this, _height, 0);
-    __privateAdd$2(this, _rtTsy, void 0);
-    __privateAdd$2(this, _spTsy, void 0);
-    __privateAdd$2(this, _fncRender, () => {
+    __privateAdd$1(this, _width, 0);
+    __privateAdd$1(this, _height, 0);
+    __privateAdd$1(this, _rtTsy, void 0);
+    __privateAdd$1(this, _spTsy, void 0);
+    __privateAdd$1(this, _fncRender, () => {
     });
     this.record = () => Object.assign(super.record(), {
-      sBkFn: __privateGet$2(this, _sBkFn),
-      sBkFace: __privateGet$2(this, _sBkFace),
-      idc_hArg: __privateGet$2(this, _idc$1).gethArg()
+      sBkFn: __privateGet$1(this, _sBkFn),
+      sBkFace: __privateGet$1(this, _sBkFace),
+      idc_hArg: __privateGet$1(this, _idc$1).gethArg()
     });
-    this.dump = () => super.dump() + `, "pic":"${__privateGet$2(this, _csvFn)}"`;
+    this.dump = () => super.dump() + `, "pic":"${__privateGet$1(this, _csvFn)}"`;
     if (CmnLib.isDbg) {
-      this.setSp = (sp) => __privateGet$2(this, _idc$1).setSp(sp);
+      this.setSp = (sp) => __privateGet$1(this, _idc$1).setSp(sp);
       this.cvsResize = () => {
         super.cvsResize();
-        __privateGet$2(this, _idc$1).cvsResize();
+        __privateGet$1(this, _idc$1).cvsResize();
       };
     }
   }
   static init(main, cfg, appPixi, sys, sndMng) {
-    __privateSet$2(_GrpLayer, _main$1, main);
-    __privateSet$2(_GrpLayer, _cfg$1, cfg);
-    __privateSet$2(_GrpLayer, _appPixi, appPixi);
-    __privateSet$2(_GrpLayer, _sys$1, sys);
+    __privateSet$1(_GrpLayer, _main, main);
+    __privateSet$1(_GrpLayer, _cfg, cfg);
+    __privateSet$1(_GrpLayer, _appPixi, appPixi);
+    __privateSet$1(_GrpLayer, _sys, sys);
     const fnc = () => {
-      const vol = __privateGet$2(_GrpLayer, _glbVol) * __privateGet$2(_GrpLayer, _movVol);
+      const vol = __privateGet$1(_GrpLayer, _glbVol) * __privateGet$1(_GrpLayer, _movVol);
       for (const fn in _GrpLayer.hFn2VElm)
         _GrpLayer.hFn2VElm[fn].volume = vol;
     };
     sndMng.setNoticeChgVolume((vol) => {
-      __privateSet$2(_GrpLayer, _glbVol, vol);
+      __privateSet$1(_GrpLayer, _glbVol, vol);
       fnc();
     }, (vol) => {
-      __privateSet$2(_GrpLayer, _movVol, vol);
+      __privateSet$1(_GrpLayer, _movVol, vol);
       fnc();
     });
-    if (__privateGet$2(_GrpLayer, _sys$1).crypto)
-      __privateSet$2(_GrpLayer, _dec2cache, __privateMethod$2(_GrpLayer, _dec2cache4Cripto, dec2cache4Cripto_fn));
+    if (__privateGet$1(_GrpLayer, _sys).crypto)
+      __privateSet$1(_GrpLayer, _dec2cache, __privateMethod$1(_GrpLayer, _dec2cache4Cripto, dec2cache4Cripto_fn));
   }
   static setEvtMng(evtMng) {
-    __privateSet$2(_GrpLayer, _evtMng$1, evtMng);
+    __privateSet$1(_GrpLayer, _evtMng, evtMng);
   }
   static destroy() {
-    __privateGet$2(_GrpLayer, _elc).clear();
-    __privateSet$2(_GrpLayer, _hFace, {});
+    __privateGet$1(_GrpLayer, _elc).clear();
+    __privateSet$1(_GrpLayer, _hFace, {});
     _GrpLayer.hFn2ResAniSpr = {};
     _GrpLayer.hFn2VElm = {};
   }
@@ -46113,13 +46240,13 @@ const _GrpLayer = class extends Layer {
   }
   laySub(hArg, resolve2) {
     const { fn, face = "" } = hArg;
-    __privateGet$2(this, _idc$1).sethArg(hArg);
+    __privateGet$1(this, _idc$1).sethArg(hArg);
     if (!fn) {
       super.lay(hArg);
       if (this.spLay.children.length > 0)
         this.setPos(hArg);
-      __privateSet$2(this, _sBkFn, "");
-      __privateSet$2(this, _csvFn, __privateSet$2(this, _sBkFace, face));
+      __privateSet$1(this, _sBkFn, "");
+      __privateSet$1(this, _csvFn, __privateSet$1(this, _sBkFace, face));
       resolve2(false);
       return false;
     }
@@ -46127,19 +46254,19 @@ const _GrpLayer = class extends Layer {
     const inFace = "face" in hArg;
     this.clearLay({ filter: "true" });
     if (inFn)
-      __privateSet$2(this, _sBkFn, fn);
+      __privateSet$1(this, _sBkFn, fn);
     if (inFace)
-      __privateSet$2(this, _sBkFace, face);
+      __privateSet$1(this, _sBkFace, face);
     super.lay(hArg);
     hArg.dx = 0;
     hArg.dy = 0;
-    const ret = _GrpLayer.csv2Sprites(__privateSet$2(this, _csvFn, fn + (face ? "," + face : "")), this.spLay, (sp) => {
+    const ret = _GrpLayer.csv2Sprites(__privateSet$1(this, _csvFn, fn + (face ? "," + face : "")), this.spLay, (sp) => {
       if ("width" in hArg || "height" in hArg) {
         sp.width = argChk_Num(hArg, "width", 0);
         sp.height = argChk_Num(hArg, "height", 0);
       }
-      __privateSet$2(this, _width, sp.width);
-      __privateSet$2(this, _height, sp.height);
+      __privateSet$1(this, _width, sp.width);
+      __privateSet$1(this, _height, sp.height);
       Layer.setXY(sp, hArg, this.spLay, true);
       this.setSp(sp);
     }, (isStop) => {
@@ -46151,10 +46278,10 @@ const _GrpLayer = class extends Layer {
     return ret;
   }
   get width() {
-    return __privateGet$2(this, _width);
+    return __privateGet$1(this, _width);
   }
   get height() {
-    return __privateGet$2(this, _height);
+    return __privateGet$1(this, _height);
   }
   static csv2Sprites(csv, parent, fncFirstComp, fncAllComp = () => {
   }) {
@@ -46179,7 +46306,7 @@ const _GrpLayer = class extends Layer {
     csv.split(",").forEach((fn, i2) => {
       if (!fn)
         throw "face\u5C5E\u6027\u306B\u7A7A\u8981\u7D20\u304C\u542B\u307E\u308C\u307E\u3059";
-      const f2 = __privateGet$2(_GrpLayer, _hFace)[fn] || {
+      const f2 = __privateGet$1(_GrpLayer, _hFace)[fn] || {
         fn,
         dx: 0,
         dy: 0,
@@ -46198,14 +46325,14 @@ const _GrpLayer = class extends Layer {
       if (f2.fn in Loader.shared.resources)
         return;
       needLoad = true;
-      const url2 = __privateGet$2(_GrpLayer, _cfg$1).searchPath(f2.fn, Config.EXT_SPRITE);
-      const xt = __privateGet$2(this, _sys$1).crypto ? { xhrType: url2.slice(-5) === ".json" ? LoaderResource.XHR_RESPONSE_TYPE.TEXT : LoaderResource.XHR_RESPONSE_TYPE.BUFFER } : {};
+      const url2 = __privateGet$1(_GrpLayer, _cfg).searchPath(f2.fn, Config.EXT_SPRITE);
+      const xt = __privateGet$1(this, _sys).crypto ? { xhrType: url2.slice(-5) === ".json" ? LoaderResource.XHR_RESPONSE_TYPE.TEXT : LoaderResource.XHR_RESPONSE_TYPE.BUFFER } : {};
       ldr.add(__spreadProps(__spreadValues({}, xt), { name: f2.fn, url: url2 }));
     });
     const fncLoaded = (hRes) => {
       var _a3;
       for (const v2 of aComp) {
-        const sp = __privateMethod$2(_a3 = _GrpLayer, _mkSprite, mkSprite_fn).call(_a3, v2.fn, hRes);
+        const sp = __privateMethod$1(_a3 = _GrpLayer, _mkSprite, mkSprite_fn).call(_a3, v2.fn, hRes);
         sp.name = v2.fn;
         parent == null ? void 0 : parent.addChild(sp);
         v2.fnc(sp);
@@ -46214,10 +46341,10 @@ const _GrpLayer = class extends Layer {
     };
     if (needLoad) {
       ldr.use((res, next) => {
-        __privateGet$2(this, _sys$1).dec(res.extension, res.data).then((r2) => {
+        __privateGet$1(this, _sys).dec(res.extension, res.data).then((r2) => {
           var _a3;
-          return __privateGet$2(_a3 = _GrpLayer, _dec2cache).call(_a3, r2, res, () => next == null ? void 0 : next());
-        }).catch((e) => __privateGet$2(this, _main$1).errScript(`Graphic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${res.name} ${e}`, false));
+          return __privateGet$1(_a3 = _GrpLayer, _dec2cache).call(_a3, r2, res, () => next == null ? void 0 : next());
+        }).catch((e) => __privateGet$1(this, _main).errScript(`Graphic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${res.name} ${e}`, false));
       }).load((_ldr, hRes) => fncLoaded(hRes));
     } else
       fncLoaded({});
@@ -46237,29 +46364,29 @@ const _GrpLayer = class extends Layer {
     const fnc = () => {
       hve.removeEventListener("ended", fnc);
       delete _GrpLayer.hFn2VElm[fn];
-      __privateGet$2(this, _main$1).resume();
+      __privateGet$1(this, _main).resume();
     };
     hve.addEventListener("ended", fnc, { once: true, passive: true });
-    return __privateGet$2(_GrpLayer, _evtMng$1).waitEvent(() => {
+    return __privateGet$1(_GrpLayer, _evtMng).waitEvent(() => {
       hve.pause();
       fnc();
     }, argChk_Boolean(hArg, "canskip", true), argChk_Boolean(hArg, "global", false));
   }
   renderStart() {
-    __privateSet$2(this, _rtTsy, RenderTexture.create({
+    __privateSet$1(this, _rtTsy, RenderTexture.create({
       width: CmnLib.stageW,
       height: CmnLib.stageH
     }));
-    __privateSet$2(this, _spTsy, new Sprite(__privateGet$2(this, _rtTsy)));
-    __privateGet$2(this, _spTsy).visible = false;
-    this.spLay.addChildAt(__privateGet$2(this, _spTsy), 0);
-    __privateGet$2(this, _spTsy).position.set(-this.spLay.x, -this.spLay.y);
+    __privateSet$1(this, _spTsy, new Sprite(__privateGet$1(this, _rtTsy)));
+    __privateGet$1(this, _spTsy).visible = false;
+    this.spLay.addChildAt(__privateGet$1(this, _spTsy), 0);
+    __privateGet$1(this, _spTsy).position.set(-this.spLay.x, -this.spLay.y);
     let fncRenderFore = () => {
       const a2 = this.spLay.alpha;
       this.spLay.alpha = 1;
       this.spLay.children.forEach((s2) => s2.visible = true);
-      __privateGet$2(this, _spTsy).visible = false;
-      __privateGet$2(_GrpLayer, _appPixi).renderer.render(this.spLay, { renderTexture: __privateGet$2(this, _rtTsy) });
+      __privateGet$1(this, _spTsy).visible = false;
+      __privateGet$1(_GrpLayer, _appPixi).renderer.render(this.spLay, { renderTexture: __privateGet$1(this, _rtTsy) });
       this.spLay.alpha = a2;
       this.spLay.children.forEach((s2) => s2.visible = false);
     };
@@ -46271,35 +46398,35 @@ const _GrpLayer = class extends Layer {
         oldFnc();
       };
     }
-    __privateSet$2(this, _fncRender, () => {
+    __privateSet$1(this, _fncRender, () => {
       fncRenderFore();
-      __privateGet$2(this, _spTsy).visible = true;
+      __privateGet$1(this, _spTsy).visible = true;
     });
-    __privateGet$2(_GrpLayer, _appPixi).ticker.add(__privateGet$2(this, _fncRender));
+    __privateGet$1(_GrpLayer, _appPixi).ticker.add(__privateGet$1(this, _fncRender));
   }
   renderEnd() {
-    __privateGet$2(_GrpLayer, _appPixi).ticker.remove(__privateGet$2(this, _fncRender));
-    this.spLay.removeChild(__privateGet$2(this, _spTsy));
+    __privateGet$1(_GrpLayer, _appPixi).ticker.remove(__privateGet$1(this, _fncRender));
+    this.spLay.removeChild(__privateGet$1(this, _spTsy));
     this.spLay.children.forEach((s2) => s2.visible = true);
-    __privateGet$2(this, _spTsy).destroy(true);
+    __privateGet$1(this, _spTsy).destroy(true);
   }
   static loadPic2Img(src, img, onload) {
-    const oUrl = __privateGet$2(this, _hEncImgOUrl)[src];
+    const oUrl = __privateGet$1(this, _hEncImgOUrl)[src];
     if (oUrl) {
       img.src = oUrl;
       return;
     }
-    const aImg = __privateGet$2(this, _hAEncImg)[src];
+    const aImg = __privateGet$1(this, _hAEncImg)[src];
     if (aImg) {
       aImg.push(img);
       return;
     }
-    __privateGet$2(this, _hAEncImg)[src] = [img];
-    const url2 = __privateGet$2(_GrpLayer, _cfg$1).searchPath(src, Config.EXT_SPRITE);
+    __privateGet$1(this, _hAEncImg)[src] = [img];
+    const url2 = __privateGet$1(_GrpLayer, _cfg).searchPath(src, Config.EXT_SPRITE);
     const ld2 = new Loader().add({ name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER });
-    if (__privateGet$2(_GrpLayer, _sys$1).crypto)
+    if (__privateGet$1(_GrpLayer, _sys).crypto)
       ld2.use((res, next) => {
-        __privateGet$2(_GrpLayer, _sys$1).dec(res.extension, res.data).then((r2) => {
+        __privateGet$1(_GrpLayer, _sys).dec(res.extension, res.data).then((r2) => {
           if (res.extension !== "bin") {
             next == null ? void 0 : next();
             return;
@@ -46309,17 +46436,17 @@ const _GrpLayer = class extends Layer {
             res.type = LoaderResource.TYPE.IMAGE;
           }
           next == null ? void 0 : next();
-        }).catch((e) => __privateGet$2(_GrpLayer, _main$1).errScript(`GrpLayer loadPic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${res.name} ${e}`, false));
+        }).catch((e) => __privateGet$1(_GrpLayer, _main).errScript(`GrpLayer loadPic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${res.name} ${e}`, false));
       });
     ld2.load((_ldr, hRes) => {
       for (const s2 in hRes) {
-        const u2 = __privateGet$2(this, _hEncImgOUrl)[s2] = hRes[s2].data.src;
-        __privateGet$2(this, _hAEncImg)[s2].forEach((i2) => {
+        const u2 = __privateGet$1(this, _hEncImgOUrl)[s2] = hRes[s2].data.src;
+        __privateGet$1(this, _hAEncImg)[s2].forEach((i2) => {
           i2.src = u2;
           if (onload)
             i2.onload = () => onload(i2);
         });
-        delete __privateGet$2(this, _hAEncImg)[s2];
+        delete __privateGet$1(this, _hAEncImg)[s2];
       }
     });
   }
@@ -46330,10 +46457,10 @@ const _GrpLayer = class extends Layer {
     const { name } = hArg;
     if (!name)
       throw "name\u306F\u5FC5\u9808\u3067\u3059";
-    if (name in __privateGet$2(_GrpLayer, _hFace))
+    if (name in __privateGet$1(_GrpLayer, _hFace))
       throw "\u4E00\u3064\u306Ename\uFF08" + name + "\uFF09\u306B\u5BFE\u3057\u3066\u540C\u3058\u753B\u50CF\u3092\u8907\u6570\u5272\u308A\u5F53\u3066\u3089\u308C\u307E\u305B\u3093";
     const { fn = name } = hArg;
-    __privateGet$2(_GrpLayer, _hFace)[name] = {
+    __privateGet$1(_GrpLayer, _hFace)[name] = {
       fn,
       dx: argChk_Num(hArg, "dx", 0),
       dy: argChk_Num(hArg, "dy", 0),
@@ -46342,28 +46469,28 @@ const _GrpLayer = class extends Layer {
     return false;
   }
   static clearFace2Name() {
-    __privateSet$2(_GrpLayer, _hFace, {});
+    __privateSet$1(_GrpLayer, _hFace, {});
   }
   get containMovement() {
-    if (__privateGet$2(this, _csvFn) === "")
+    if (__privateGet$1(this, _csvFn) === "")
       return false;
     const c2 = this.spLay.children;
-    return __privateGet$2(this, _csvFn).split(",").some((fn, i2) => c2[i2] instanceof AnimatedSprite || _GrpLayer.hFn2VElm[fn]);
+    return __privateGet$1(this, _csvFn).split(",").some((fn, i2) => c2[i2] instanceof AnimatedSprite || _GrpLayer.hFn2VElm[fn]);
   }
   clearLay(hArg) {
     super.clearLay(hArg);
     for (const c2 of this.spLay.removeChildren())
       c2.destroy();
-    __privateSet$2(this, _sBkFn, "");
-    __privateSet$2(this, _sBkFace, "");
-    __privateSet$2(this, _csvFn, "");
+    __privateSet$1(this, _sBkFn, "");
+    __privateSet$1(this, _sBkFace, "");
+    __privateSet$1(this, _csvFn, "");
   }
   playback(hLay, aPrm) {
     super.playback(hLay, aPrm);
     if (hLay.sBkFn === "" && hLay.sBkFace === "") {
-      __privateSet$2(this, _sBkFn, hLay.sBkFn);
-      __privateSet$2(this, _sBkFace, hLay.sBkFace);
-      __privateGet$2(this, _idc$1).sethArg(hLay.idc_hArg);
+      __privateSet$1(this, _sBkFn, hLay.sBkFn);
+      __privateSet$1(this, _sBkFace, hLay.sBkFace);
+      __privateGet$1(this, _idc$1).sethArg(hLay.idc_hArg);
       return;
     }
     aPrm.push(new Promise((re2) => this.laySub({ fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: hLay.blendMode, rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y }, (_isStop) => {
@@ -46374,25 +46501,25 @@ const _GrpLayer = class extends Layer {
   makeDesignCast(gdc) {
     if (!this.spLay.visible)
       return;
-    gdc(__privateGet$2(this, _idc$1));
+    gdc(__privateGet$1(this, _idc$1));
   }
   cvsResize() {
     super.cvsResize();
   }
   showDesignCast() {
-    __privateGet$2(this, _idc$1).visible = true;
+    __privateGet$1(this, _idc$1).visible = true;
   }
 };
 let GrpLayer = _GrpLayer;
 _elc = /* @__PURE__ */ new WeakMap();
 _hFace = /* @__PURE__ */ new WeakMap();
-_main$1 = /* @__PURE__ */ new WeakMap();
-_cfg$1 = /* @__PURE__ */ new WeakMap();
+_main = /* @__PURE__ */ new WeakMap();
+_cfg = /* @__PURE__ */ new WeakMap();
 _appPixi = /* @__PURE__ */ new WeakMap();
-_sys$1 = /* @__PURE__ */ new WeakMap();
+_sys = /* @__PURE__ */ new WeakMap();
 _glbVol = /* @__PURE__ */ new WeakMap();
 _movVol = /* @__PURE__ */ new WeakMap();
-_evtMng$1 = /* @__PURE__ */ new WeakMap();
+_evtMng = /* @__PURE__ */ new WeakMap();
 _idc$1 = /* @__PURE__ */ new WeakMap();
 _csvFn = /* @__PURE__ */ new WeakMap();
 _sBkFn = /* @__PURE__ */ new WeakMap();
@@ -46419,7 +46546,7 @@ dec2cache4Cripto_fn = function(r2, res, next) {
       res.type = LoaderResource.TYPE.IMAGE;
       URL.revokeObjectURL(r2.src);
     } else if (r2 instanceof HTMLVideoElement) {
-      r2.volume = __privateGet$2(_GrpLayer, _glbVol);
+      r2.volume = __privateGet$1(_GrpLayer, _glbVol);
       _GrpLayer.hFn2VElm[res.name] = r2;
       res.type = LoaderResource.TYPE.VIDEO;
       URL.revokeObjectURL(r2.src);
@@ -46440,22 +46567,22 @@ dec2cache4Cripto_fn = function(r2, res, next) {
     return;
   }
   const fn = getFn(o.meta.image);
-  const url2 = __privateGet$2(_GrpLayer, _cfg$1).searchPath(fn, Config.EXT_SPRITE);
+  const url2 = __privateGet$1(_GrpLayer, _cfg).searchPath(fn, Config.EXT_SPRITE);
   new Loader().use((res2, next2) => {
-    __privateGet$2(this, _sys$1).dec(res2.extension, res2.data).then((r22) => {
+    __privateGet$1(this, _sys).dec(res2.extension, res2.data).then((r22) => {
       res2.data = r22;
       if (r22 instanceof HTMLImageElement) {
         res2.type = LoaderResource.TYPE.IMAGE;
         URL.revokeObjectURL(r22.src);
       }
       next2 == null ? void 0 : next2();
-    }).catch((e) => __privateGet$2(this, _main$1).errScript(`Graphic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 dec2res4Cripto fn:${res2.name} ${e}`, false));
+    }).catch((e) => __privateGet$1(this, _main).errScript(`Graphic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 dec2res4Cripto fn:${res2.name} ${e}`, false));
   }).add({ name: fn, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER }).load((ldr, _hRes) => {
     var _a4;
     for (const fn2 in ldr.resources) {
       const bt = Texture.from(ldr.resources[fn2].data).baseTexture;
       const aFn = Object.values(o.frames);
-      __privateMethod$2(_a4 = _GrpLayer, _sortAFrameName, sortAFrameName_fn).call(_a4, aFn);
+      __privateMethod$1(_a4 = _GrpLayer, _sortAFrameName, sortAFrameName_fn).call(_a4, aFn);
       _GrpLayer.hFn2ResAniSpr[res.name] = {
         aTex: aFn.map((f2) => new Texture(bt, new Rectangle(f2.frame.x, f2.frame.y, f2.frame.w, f2.frame.h))),
         meta: o.meta
@@ -46485,25 +46612,25 @@ _spTsy = /* @__PURE__ */ new WeakMap();
 _fncRender = /* @__PURE__ */ new WeakMap();
 _hAEncImg = /* @__PURE__ */ new WeakMap();
 _hEncImgOUrl = /* @__PURE__ */ new WeakMap();
-__privateAdd$2(GrpLayer, _sortAFrameName);
-__privateAdd$2(GrpLayer, _dec2cache4Cripto);
-__privateAdd$2(GrpLayer, _mkSprite);
-__privateAdd$2(GrpLayer, _elc, new EventListenerCtn());
-__privateAdd$2(GrpLayer, _hFace, {});
-__privateAdd$2(GrpLayer, _main$1, void 0);
-__privateAdd$2(GrpLayer, _cfg$1, void 0);
-__privateAdd$2(GrpLayer, _appPixi, void 0);
-__privateAdd$2(GrpLayer, _sys$1, void 0);
-__privateAdd$2(GrpLayer, _glbVol, 1);
-__privateAdd$2(GrpLayer, _movVol, 1);
-__privateAdd$2(GrpLayer, _evtMng$1, void 0);
+__privateAdd$1(GrpLayer, _sortAFrameName);
+__privateAdd$1(GrpLayer, _dec2cache4Cripto);
+__privateAdd$1(GrpLayer, _mkSprite);
+__privateAdd$1(GrpLayer, _elc, new EventListenerCtn());
+__privateAdd$1(GrpLayer, _hFace, {});
+__privateAdd$1(GrpLayer, _main, void 0);
+__privateAdd$1(GrpLayer, _cfg, void 0);
+__privateAdd$1(GrpLayer, _appPixi, void 0);
+__privateAdd$1(GrpLayer, _sys, void 0);
+__privateAdd$1(GrpLayer, _glbVol, 1);
+__privateAdd$1(GrpLayer, _movVol, 1);
+__privateAdd$1(GrpLayer, _evtMng, void 0);
 GrpLayer.hFn2ResAniSpr = {};
-__privateAdd$2(GrpLayer, _dec2cache, (_r2, res, next) => {
+__privateAdd$1(GrpLayer, _dec2cache, (_r2, res, next) => {
   var _a3;
   switch (res.type) {
     case LoaderResource.TYPE.JSON:
       const aFn = res.spritesheet._frameKeys;
-      __privateMethod$2(_a3 = _GrpLayer, _sortAFrameName, sortAFrameName_fn).call(_a3, aFn);
+      __privateMethod$1(_a3 = _GrpLayer, _sortAFrameName, sortAFrameName_fn).call(_a3, aFn);
       _GrpLayer.hFn2ResAniSpr[res.name] = {
         aTex: aFn.map((fn) => Texture.from(fn)),
         meta: res.data.meta
@@ -46511,14 +46638,14 @@ __privateAdd$2(GrpLayer, _dec2cache, (_r2, res, next) => {
       break;
     case LoaderResource.TYPE.VIDEO:
       const hve = res.data;
-      hve.volume = __privateGet$2(_GrpLayer, _glbVol);
+      hve.volume = __privateGet$1(_GrpLayer, _glbVol);
       _GrpLayer.hFn2VElm[res.name] = hve;
   }
   next();
 });
 GrpLayer.hFn2VElm = {};
-__privateAdd$2(GrpLayer, _hAEncImg, {});
-__privateAdd$2(GrpLayer, _hEncImgOUrl, {});
+__privateAdd$1(GrpLayer, _hAEncImg, {});
+__privateAdd$1(GrpLayer, _hEncImgOUrl, {});
 const _TxtStage = class extends Container {
   constructor(spLay, canFocus, sys) {
     super();
@@ -46552,7 +46679,6 @@ const _TxtStage = class extends Container {
     __privateAdd(this, _aSpTw, []);
     __privateAdd(this, _aRect, []);
     __privateAdd(this, _lenHtmTxt, 0);
-    __privateAdd(this, _beforeHTMLElm, void 0);
     __privateAdd(this, _REGDS, /animation\-duration: (?<ms>\d+)ms;/);
     __privateAdd(this, _fncEndChIn, () => {
     });
@@ -46802,18 +46928,20 @@ const _TxtStage = class extends Container {
         case "link":
           const sp = new Sprite();
           arg.key = `lnk=[${i2}] ` + this.name;
+          let eCh = v2.elm;
+          if (!eCh.classList.contains("sn_ch"))
+            eCh = eCh.parentElement;
           __privateMethod(this, _spWork, spWork_fn).call(this, sp, arg, add3, rct, ease, cis != null ? cis : {});
           (_c3 = arg.hint_tate) != null ? _c3 : arg.hint_tate = __privateGet(this, _isTategaki);
-          const style_normal = v2.elm.style.cssText;
-          const style_hover = (_d2 = arg.style_hover) != null ? _d2 : "";
-          const style_clicked = (_e = arg.style_clicked) != null ? _e : "";
-          __privateGet(_TxtStage, _evtMng3).button(arg, sp, () => v2.elm.style.cssText = style_normal, __privateGet(this, _beforeHTMLElm) !== v2.elm ? () => {
+          const st_normal = eCh.style.cssText;
+          const st_hover = st_normal + ((_d2 = arg.style_hover) != null ? _d2 : "");
+          const st_clicked = st_normal + ((_e = arg.style_clicked) != null ? _e : "");
+          __privateGet(_TxtStage, _evtMng3).button(arg, sp, () => eCh.style.cssText = st_normal, () => {
             if (!this.canFocus())
               return false;
-            v2.elm.style.cssText = style_hover;
+            eCh.style.cssText = st_hover;
             return true;
-          } : () => false, () => v2.elm.style.cssText = style_clicked);
-          __privateSet(this, _beforeHTMLElm, v2.elm);
+          }, () => eCh.style.cssText = st_clicked);
           __privateGet(this, _cntTxt).addChild(sp);
           break;
       }
@@ -47280,11 +47408,11 @@ htm2tx_fn = function(fnc, hidden = true) {
     img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${__privateGet(this, _infTL).$width}px" height="${__privateGet(this, _infTL).$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(node).replaceAll("#", "%23").replaceAll("\n", "%0A")}</foreignObject></svg>`;
     return new Promise((resolve2) => img.onload = () => resolve2(img));
   }).then((img) => new Promise((resolve2) => setTimeout(() => resolve2(img), 100))).then((img) => {
-    const canvas2 = document.createElement("canvas");
-    canvas2.width = __privateGet(this, _infTL).$width;
-    canvas2.height = __privateGet(this, _infTL).$height;
-    canvas2.getContext("2d").drawImage(img, 0, 0);
-    canvas2.toBlob((blob) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = __privateGet(this, _infTL).$width;
+    canvas.height = __privateGet(this, _infTL).$height;
+    canvas.getContext("2d").drawImage(img, 0, 0);
+    canvas.toBlob((blob) => {
       if (!blob)
         return;
       const url2 = URL.createObjectURL(blob);
@@ -47302,7 +47430,6 @@ _lenHtmTxt = new WeakMap();
 _reg\u884C\u982D\u7981\u5247 = new WeakMap();
 _reg\u884C\u672B\u7981\u5247 = new WeakMap();
 _reg\u5206\u5272\u7981\u6B62 = new WeakMap();
-_beforeHTMLElm = new WeakMap();
 _REGDS = new WeakMap();
 _fncEndChIn = new WeakMap();
 _spWork = new WeakSet();
@@ -47438,26 +47565,26 @@ __privateAdd(TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
 __privateAdd(TxtStage, _REG_NG_CHSTYLE_NAME_CHR, /[\s\.,]/);
 __privateAdd(TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
 __privateAdd(TxtStage, _cntBreak, new Container());
-var __accessCheck$1 = (obj, member, msg) => {
+var __accessCheck2 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
 };
-var __privateGet$1 = (obj, member, getter) => {
-  __accessCheck$1(obj, member, "read from private field");
+var __privateGet2 = (obj, member, getter) => {
+  __accessCheck2(obj, member, "read from private field");
   return getter ? getter.call(obj) : member.get(obj);
 };
-var __privateAdd$1 = (obj, member, value2) => {
+var __privateAdd2 = (obj, member, value2) => {
   if (member.has(obj))
     throw TypeError("Cannot add the same private member more than once");
   member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 };
-var __privateSet$1 = (obj, member, value2, setter) => {
-  __accessCheck$1(obj, member, "write to private field");
+var __privateSet2 = (obj, member, value2, setter) => {
+  __accessCheck2(obj, member, "write to private field");
   setter ? setter.call(obj, value2) : member.set(obj, value2);
   return value2;
 };
-var __privateMethod$1 = (obj, member, method) => {
-  __accessCheck$1(obj, member, "access private method");
+var __privateMethod2 = (obj, member, method) => {
+  __accessCheck2(obj, member, "access private method");
   return method;
 };
 var _procMasume4txt, _procMasume4pic, _rctBtnTxt, _idc, _sp_b_pic, _sp_pic, _loaded_b_pic, loaded_b_pic_fn, _normal, _hover, _clicked, _loaded_pic, loaded_pic_fn;
@@ -47470,21 +47597,21 @@ const _Button = class extends Container {
     this.evtMng = evtMng;
     this.resolve = resolve2;
     this.canFocus = canFocus;
-    __privateAdd$1(this, _loaded_b_pic);
-    __privateAdd$1(this, _loaded_pic);
-    this.getBtnBounds = () => __privateGet$1(this, _rctBtnTxt);
-    __privateAdd$1(this, _rctBtnTxt, new Rectangle());
-    __privateAdd$1(this, _idc, void 0);
-    __privateAdd$1(this, _sp_b_pic, void 0);
-    __privateAdd$1(this, _sp_pic, void 0);
-    __privateAdd$1(this, _normal, () => {
+    __privateAdd2(this, _loaded_b_pic);
+    __privateAdd2(this, _loaded_pic);
+    this.getBtnBounds = () => __privateGet2(this, _rctBtnTxt);
+    __privateAdd2(this, _rctBtnTxt, new Rectangle());
+    __privateAdd2(this, _idc, void 0);
+    __privateAdd2(this, _sp_b_pic, void 0);
+    __privateAdd2(this, _sp_pic, void 0);
+    __privateAdd2(this, _normal, () => {
     });
-    __privateAdd$1(this, _hover, () => false);
-    __privateAdd$1(this, _clicked, () => {
+    __privateAdd2(this, _hover, () => false);
+    __privateAdd2(this, _clicked, () => {
     });
     if (CmnLib.isDbg) {
-      this.makeDesignCast = (gdc) => gdc(__privateGet$1(this, _idc));
-      this.cvsResize = () => __privateGet$1(this, _idc).cvsResize();
+      this.makeDesignCast = (gdc) => gdc(__privateGet2(this, _idc));
+      this.cvsResize = () => __privateGet2(this, _idc).cvsResize();
     }
     let oName = {
       x: this.x = uint((_a4 = hArg.left) != null ? _a4 : 0),
@@ -47499,19 +47626,19 @@ const _Button = class extends Container {
     };
     const enabled = oName.enabled = argChk_Boolean(hArg, "enabled", true);
     this.getBtnBounds = () => {
-      __privateGet$1(this, _rctBtnTxt).x = oName.x;
-      __privateGet$1(this, _rctBtnTxt).y = oName.y;
-      return __privateGet$1(this, _rctBtnTxt);
+      __privateGet2(this, _rctBtnTxt).x = oName.x;
+      __privateGet2(this, _rctBtnTxt).y = oName.y;
+      return __privateGet2(this, _rctBtnTxt);
     };
     if (hArg.pic) {
       oName.type = "pic";
-      __privateSet$1(this, _idc, new PicBtnDesignCast(this, hArg));
+      __privateSet2(this, _idc, new PicBtnDesignCast(this, hArg));
       if (enabled)
-        this.evtMng.button(this.hArg, this, () => __privateGet$1(this, _normal).call(this), () => __privateGet$1(this, _hover).call(this), () => __privateGet$1(this, _clicked).call(this));
+        this.evtMng.button(this.hArg, this, () => __privateGet2(this, _normal).call(this), () => __privateGet2(this, _hover).call(this), () => __privateGet2(this, _clicked).call(this));
       if (!GrpLayer.csv2Sprites(hArg.pic, this, (sp) => {
-        __privateMethod$1(this, _loaded_pic, loaded_pic_fn).call(this, sp, oName);
-        __privateGet$1(this, _rctBtnTxt).width = sp.width * oName.scale_x;
-        __privateGet$1(this, _rctBtnTxt).height = sp.height * oName.scale_y;
+        __privateMethod2(this, _loaded_pic, loaded_pic_fn).call(this, sp, oName);
+        __privateGet2(this, _rctBtnTxt).width = sp.width * oName.scale_x;
+        __privateGet2(this, _rctBtnTxt).height = sp.height * oName.scale_y;
       }, (isStop2) => {
         if (isStop2)
           resolve2();
@@ -47553,12 +47680,12 @@ const _Button = class extends Container {
     oName.text = txt.text;
     oName.width = txt.width;
     oName.height = txt.height;
-    __privateSet$1(this, _idc, new TxtBtnDesignCast(this, hArg, txt));
+    __privateSet2(this, _idc, new TxtBtnDesignCast(this, hArg, txt));
     let isStop = false;
     if (hArg.b_pic) {
       oName.b_pic = hArg.b_pic;
       isStop = GrpLayer.csv2Sprites(hArg.b_pic, this, (sp) => {
-        __privateMethod$1(this, _loaded_b_pic, loaded_b_pic_fn).call(this, sp, txt);
+        __privateMethod2(this, _loaded_b_pic, loaded_b_pic_fn).call(this, sp, txt);
         oName.width = this.width;
         oName.height = this.height;
       }, (isStop2) => {
@@ -47569,13 +47696,13 @@ const _Button = class extends Container {
     }
     txt.name = JSON.stringify(oName);
     this.addChild(txt);
-    __privateGet$1(this, _rctBtnTxt).width = txt.width;
-    __privateGet$1(this, _rctBtnTxt).height = txt.height;
+    __privateGet2(this, _rctBtnTxt).width = txt.width;
+    __privateGet2(this, _rctBtnTxt).height = txt.height;
     oName.width = this.width;
     oName.height = this.height;
     if (!hArg.b_pic)
       Layer.setBlendmode(this, hArg);
-    __privateGet$1(_a3 = _Button, _procMasume4txt).call(_a3, this, txt);
+    __privateGet2(_a3 = _Button, _procMasume4txt).call(_a3, this, txt);
     if (!enabled) {
       if (!isStop)
         resolve2();
@@ -47615,8 +47742,8 @@ const _Button = class extends Container {
   static init(cfg) {
     if (!cfg.oCfg.debug.masume)
       return;
-    __privateSet$1(_Button, _procMasume4txt, (me, txt) => me.addChild(new Graphics().beginFill(8926088, 0.2).lineStyle(1, 8926088, 1).drawRect(txt.x, txt.y, txt.width, txt.height).endFill()));
-    __privateSet$1(_Button, _procMasume4pic, (me, sp, w3, h2) => me.addChild(new Graphics().beginFill(8926088, 0.2).lineStyle(1, 8926088, 1).drawRect(sp.x, sp.y, w3, h2).endFill()));
+    __privateSet2(_Button, _procMasume4txt, (me, txt) => me.addChild(new Graphics().beginFill(8926088, 0.2).lineStyle(1, 8926088, 1).drawRect(txt.x, txt.y, txt.width, txt.height).endFill()));
+    __privateSet2(_Button, _procMasume4pic, (me, sp, w3, h2) => me.addChild(new Graphics().beginFill(8926088, 0.2).lineStyle(1, 8926088, 1).drawRect(sp.x, sp.y, w3, h2).endFill()));
   }
   setText(_text) {
   }
@@ -47627,31 +47754,31 @@ const _Button = class extends Container {
   makeDesignCast(_gdc) {
   }
   showDesignCast() {
-    __privateGet$1(this, _idc).visible = true;
+    __privateGet2(this, _idc).visible = true;
   }
   cvsResize() {
   }
   update_b_pic(fn, txt) {
     var _a3;
     const oName = JSON.parse((_a3 = txt.name) != null ? _a3 : "{}");
-    if (__privateGet$1(this, _sp_b_pic))
-      this.removeChild(__privateGet$1(this, _sp_b_pic));
+    if (__privateGet2(this, _sp_b_pic))
+      this.removeChild(__privateGet2(this, _sp_b_pic));
     this.hArg.b_pic = oName.b_pic = fn;
     txt.name = JSON.stringify(oName);
     if (!fn)
       return;
-    GrpLayer.csv2Sprites(fn, this, (sp) => __privateMethod$1(this, _loaded_b_pic, loaded_b_pic_fn).call(this, sp, txt), () => Layer.setBlendmode(this, this.hArg));
+    GrpLayer.csv2Sprites(fn, this, (sp) => __privateMethod2(this, _loaded_b_pic, loaded_b_pic_fn).call(this, sp, txt), () => Layer.setBlendmode(this, this.hArg));
   }
   update_pic(fn, sp) {
     var _a3;
     const oName = JSON.parse((_a3 = sp.name) != null ? _a3 : "{}");
-    if (__privateGet$1(this, _sp_pic))
-      this.removeChild(__privateGet$1(this, _sp_pic));
+    if (__privateGet2(this, _sp_pic))
+      this.removeChild(__privateGet2(this, _sp_pic));
     this.hArg.pic = oName.pic = fn;
     sp.name = JSON.stringify(oName);
     if (!fn)
       return;
-    GrpLayer.csv2Sprites(fn, this, (sp2) => __privateMethod$1(this, _loaded_pic, loaded_pic_fn).call(this, sp2, oName), () => Layer.setBlendmode(this, this.hArg));
+    GrpLayer.csv2Sprites(fn, this, (sp2) => __privateMethod2(this, _loaded_pic, loaded_pic_fn).call(this, sp2, oName), () => Layer.setBlendmode(this, this.hArg));
   }
 };
 let Button = _Button;
@@ -47663,7 +47790,7 @@ _sp_b_pic = /* @__PURE__ */ new WeakMap();
 _sp_pic = /* @__PURE__ */ new WeakMap();
 _loaded_b_pic = /* @__PURE__ */ new WeakSet();
 loaded_b_pic_fn = function(sp, txt) {
-  __privateSet$1(this, _sp_b_pic, sp);
+  __privateSet2(this, _sp_b_pic, sp);
   this.setChildIndex(sp, 0);
   sp.alpha = txt.alpha;
   sp.setTransform(txt.x, txt.y, 1, 1, txt.rotation, 0, 0, (sp.width - txt.width) / 2, (sp.height - txt.height) / 2);
@@ -47675,9 +47802,9 @@ _clicked = /* @__PURE__ */ new WeakMap();
 _loaded_pic = /* @__PURE__ */ new WeakSet();
 loaded_pic_fn = function(sp, oName) {
   var _a3;
-  __privateSet$1(this, _sp_pic, sp);
+  __privateSet2(this, _sp_pic, sp);
   oName.alpha = sp.alpha = argChk_Num(this.hArg, "alpha", sp.alpha);
-  __privateGet$1(this, _idc).setSp(sp);
+  __privateGet2(this, _idc).setSp(sp);
   const w3 = sp.width / 3;
   const h2 = sp.height;
   const tx = sp.texture.baseTexture;
@@ -47686,14 +47813,14 @@ loaded_pic_fn = function(sp, oName) {
   const txHover = new Texture(tx, new Rectangle(w3 * 2, 0, w3, h2));
   const normal = () => sp.texture = txNormal;
   normal();
-  __privateSet$1(this, _normal, normal);
-  __privateSet$1(this, _hover, () => {
+  __privateSet2(this, _normal, normal);
+  __privateSet2(this, _hover, () => {
     if (!this.canFocus())
       return false;
     sp.texture = txHover;
     return true;
   });
-  __privateSet$1(this, _clicked, () => sp.texture = txClicked);
+  __privateSet2(this, _clicked, () => sp.texture = txClicked);
   if ("width" in this.hArg) {
     oName.width = uint(this.hArg.width);
     this.scale.x *= oName.width / w3;
@@ -47705,101 +47832,106 @@ loaded_pic_fn = function(sp, oName) {
   } else
     oName.height = w3;
   sp.name = JSON.stringify(oName);
-  __privateGet$1(_a3 = _Button, _procMasume4pic).call(_a3, this, sp, w3, h2);
+  __privateGet2(_a3 = _Button, _procMasume4pic).call(_a3, this, sp, w3, h2);
 };
 Button.fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '\u6E38\u30B4\u30B7\u30C3\u30AF Medium', meiryo, sans-serif";
-__privateAdd$1(Button, _procMasume4txt, (_me, _txt) => {
+__privateAdd2(Button, _procMasume4txt, (_me, _txt) => {
 });
-__privateAdd$1(Button, _procMasume4pic, (_me, _sp3, _w3, _h) => {
+__privateAdd2(Button, _procMasume4pic, (_me, _sp3, _w3, _h) => {
 });
-var __accessCheck2 = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var __privateGet2 = (obj, member, getter) => {
-  __accessCheck2(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var __privateAdd2 = (obj, member, value2) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
-};
-var __privateSet2 = (obj, member, value2, setter) => {
-  __accessCheck2(obj, member, "write to private field");
-  setter ? setter.call(obj, value2) : member.set(obj, value2);
-  return value2;
-};
-var __privateMethod2 = (obj, member, method) => {
-  __accessCheck2(obj, member, "access private method");
-  return method;
-};
-var _cfg, _val, _recText, _isPageFore, _ch_in_style, ch_in_style_fn, _ch_out_style, ch_out_style_fn, _main, _evtMng, _sys, _doAutoWc, _hAutoWc, _autowc, autowc_fn, _b_color, _b_alpha, _b_alpha_isfixed, _b_do, _b_pic, _txs, _rbSpl, _cntBtn, _set_ch_in, set_ch_in_fn, _$ch_in_style, _ch_in_join, _set_ch_out, set_ch_out_fn, _$ch_out_style, _drawBack, drawBack_fn, _setFfs, setFfs_fn, _ffs, _fncFFSStyle, _fncFFSSpan, _strNoFFS, _regNoFFS, _ruby_pd, _r_align, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn, _needGoTxt, _putCh, _tagCh_sub, tagCh_sub_fn, _cumDelay, _firstCh, _aSpan, _aSpan_bk, _aSpan_link, _hSpanBk, _beginSpan, beginSpan_fn, _autoCloseSpan, autoCloseSpan_fn, _page_text;
 const _TxtLayer = class extends Layer {
   constructor() {
     super();
-    __privateAdd2(this, _set_ch_in);
-    __privateAdd2(this, _set_ch_out);
-    __privateAdd2(this, _drawBack);
-    __privateAdd2(this, _setFfs);
-    __privateAdd2(this, _mkStyle_r_align4ff);
-    __privateAdd2(this, _tagCh_sub);
-    __privateAdd2(this, _beginSpan);
-    __privateAdd2(this, _autoCloseSpan);
-    __privateAdd2(this, _b_color, 0);
-    __privateAdd2(this, _b_alpha, 0);
-    __privateAdd2(this, _b_alpha_isfixed, false);
-    __privateAdd2(this, _b_do, void 0);
-    __privateAdd2(this, _b_pic, "");
-    __privateAdd2(this, _txs, new TxtStage(this.spLay, () => this.canFocus(), __privateGet2(_TxtLayer, _sys)));
-    __privateAdd2(this, _rbSpl, new RubySpliter());
-    __privateAdd2(this, _cntBtn, new Container());
-    __privateAdd2(this, _$ch_in_style, "");
-    __privateAdd2(this, _ch_in_join, true);
-    __privateAdd2(this, _$ch_out_style, "");
-    __privateAdd2(this, _ffs, "");
-    __privateAdd2(this, _fncFFSStyle, (_ch2) => "");
-    __privateAdd2(this, _fncFFSSpan, (ch) => ch);
-    __privateAdd2(this, _strNoFFS, "");
-    __privateAdd2(this, _regNoFFS, new RegExp("[\u3000]"));
+    __privateAdd(this, _set_ch_in);
+    __privateAdd(this, _set_ch_out);
+    __privateAdd(this, _drawBack);
+    __privateAdd(this, _setFfs);
+    __privateAdd(this, _mkStyle_r_align4ff);
+    __privateAdd(this, _tagCh_sub);
+    __privateAdd(this, _beginSpan);
+    __privateAdd(this, _autoCloseSpan);
+    __privateAdd(this, _b_color, void 0);
+    __privateAdd(this, _b_alpha, void 0);
+    __privateAdd(this, _b_alpha_isfixed, void 0);
+    __privateAdd(this, _b_do, void 0);
+    __privateAdd(this, _b_pic, void 0);
+    __privateAdd(this, _txs, void 0);
+    __privateAdd(this, _rbSpl, void 0);
+    __privateAdd(this, _cntBtn, void 0);
+    __privateAdd(this, _$ch_in_style, void 0);
+    __privateAdd(this, _ch_in_join, void 0);
+    __privateAdd(this, _$ch_out_style, void 0);
+    __privateAdd(this, _ffs, void 0);
+    __privateAdd(this, _fncFFSStyle, void 0);
+    __privateAdd(this, _fncFFSSpan, void 0);
+    __privateAdd(this, _strNoFFS, void 0);
+    __privateAdd(this, _regNoFFS, void 0);
+    __privateAdd(this, _ruby_pd, void 0);
+    __privateAdd(this, _r_align, void 0);
+    __privateAdd(this, _needGoTxt, void 0);
+    __privateAdd(this, _putCh2, void 0);
+    __privateAdd(this, _cumDelay, void 0);
+    __privateAdd(this, _firstCh, void 0);
+    __privateAdd(this, _aSpan, void 0);
+    __privateAdd(this, _aSpan_bk, void 0);
+    __privateAdd(this, _aSpan_link, void 0);
+    __privateAdd(this, _hSpanBk, void 0);
+    __privateAdd(this, _page_text, void 0);
+    __privateSet(this, _b_color, 0);
+    __privateSet(this, _b_alpha, 0);
+    __privateSet(this, _b_alpha_isfixed, false);
+    __privateSet(this, _b_do, void 0);
+    __privateSet(this, _b_pic, "");
+    __privateSet(this, _txs, new TxtStage(this.spLay, () => this.canFocus(), __privateGet(_TxtLayer, _sys3)));
+    __privateSet(this, _rbSpl, new RubySpliter());
+    __privateSet(this, _cntBtn, new Container());
+    __privateSet(this, _$ch_in_style, "");
+    __privateSet(this, _ch_in_join, true);
+    __privateSet(this, _$ch_out_style, "");
+    __privateSet(this, _ffs, "");
+    __privateSet(this, _fncFFSStyle, (_ch2) => "");
+    __privateSet(this, _fncFFSSpan, (ch) => ch);
+    __privateSet(this, _strNoFFS, "");
+    __privateSet(this, _regNoFFS, new RegExp("[\u3000]"));
     this.isCur = false;
-    __privateAdd2(this, _ruby_pd, () => "");
-    __privateAdd2(this, _r_align, "");
-    __privateAdd2(this, _needGoTxt, false);
-    __privateAdd2(this, _putCh, (ch, ruby) => {
-      var _a4, _b3, _c3, _d2, _e, _f, _g, _h;
-      var _a3;
-      if (__privateGet2(_TxtLayer, _cfg).oCfg.debug.putCh)
+    __privateSet(this, _ruby_pd, () => "");
+    __privateSet(this, _r_align, "");
+    __privateSet(this, _needGoTxt, false);
+    __privateSet(this, _putCh2, (ch, ruby) => {
+      var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _i, _j, _k;
+      if (__privateGet(_TxtLayer, _cfg3).oCfg.debug.putCh)
         console.log(`\u{1F58A} \u6587\u5B57\u8868\u793A text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
       const a_ruby = ruby.split("\uFF5C");
       let add_htm = "";
-      const isSkip = __privateGet2(_TxtLayer, _evtMng).isSkippingByKeyDown();
+      const isSkip = __privateGet(_TxtLayer, _evtMng4).isSkippingByKeyDown();
       switch (a_ruby.length) {
         case 1:
-          __privateSet2(this, _needGoTxt, true);
+          __privateSet(this, _needGoTxt, true);
           if (ch === "\n") {
-            if (__privateGet2(this, _aSpan_bk)) {
-              add_htm = __privateGet2(this, _aSpan_bk).slice(-1)[0];
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-              __privateGet2(this, _aSpan).push(_TxtLayer.rec("<br/>"));
-              __privateGet2(this, _aSpan).push(add_htm);
-              __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-              __privateSet2(this, _aSpan, []);
+            if (__privateGet(this, _aSpan_bk)) {
+              add_htm = __privateGet(this, _aSpan_bk).slice(-1)[0];
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateGet(this, _aSpan).push(__privateGet(_a3 = _TxtLayer, _rec).call(_a3, "<br/>"));
+              __privateGet(this, _aSpan).push(add_htm);
+              __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+              __privateSet(this, _aSpan, []);
+              __privateSet(_TxtLayer, _rec_bk, __privateGet(_TxtLayer, _rec));
+              __privateSet(_TxtLayer, _rec, (tx) => tx);
               return;
             }
-            if (__privateGet2(this, _firstCh)) {
-              __privateSet2(this, _firstCh, false);
+            if (__privateGet(this, _firstCh)) {
+              __privateSet(this, _firstCh, false);
               add_htm = "<ruby>\u3000<rt>\u3000</rt></ruby><br/>";
             } else
               add_htm = "<br/>";
             break;
           }
-          if (__privateGet2(this, _firstCh)) {
-            __privateSet2(this, _firstCh, false);
+          if (__privateGet(this, _firstCh)) {
+            __privateSet(this, _firstCh, false);
             if (ruby === "")
               ruby = "\u3000";
           }
-          add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet2(this, _r_align));
+          add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet(this, _r_align));
           break;
         case 2:
           switch (a_ruby[0]) {
@@ -47811,69 +47943,71 @@ const _TxtLayer = class extends Layer {
             case "121":
             case "even":
             case "1ruby":
-              __privateSet2(this, _firstCh, false);
-              __privateSet2(this, _needGoTxt, true);
-              add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a_ruby[1], isSkip, a_ruby[0]);
+              __privateSet(this, _firstCh, false);
+              __privateSet(this, _needGoTxt, true);
+              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a_ruby[1], isSkip, a_ruby[0]);
               break;
             case "gotxt": {
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
               if (this.isCur)
-                __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, __privateGet2(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
-              if (!__privateGet2(this, _needGoTxt))
+                __privateGet(_b3 = _TxtLayer, _recText).call(_b3, __privateGet(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
+              if (!__privateGet(this, _needGoTxt))
                 return;
-              __privateGet2(this, _txs).goTxt(__privateGet2(this, _aSpan));
-              __privateSet2(this, _needGoTxt, false);
-              __privateSet2(this, _cumDelay, 0);
+              __privateGet(this, _txs).goTxt(__privateGet(this, _aSpan));
+              __privateSet(this, _needGoTxt, false);
+              __privateSet(this, _cumDelay, 0);
               return;
             }
             case "add":
               {
                 const o = JSON.parse(a_ruby[1]);
-                (_a4 = o.style) != null ? _a4 : o.style = "";
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
-                if (__privateGet2(this, _aSpan_bk))
-                  __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+                (_c3 = o.style) != null ? _c3 : o.style = "";
+                __privateMethod(this, _beginSpan, beginSpan_fn).call(this, o);
+                if (__privateGet(this, _aSpan_bk))
+                  __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
                 else {
                   if (isSkip)
-                    __privateSet2(this, _cumDelay, 0);
-                  const wait = Number((_b3 = o.wait) != null ? _b3 : -1);
-                  const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                    __privateSet(this, _cumDelay, 0);
+                  const wait = Number((_d2 = o.wait) != null ? _d2 : -1);
+                  const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                   const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                  __privateGet2(this, _aSpan).push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
+                  __privateGet(this, _aSpan).push(`<span class='sn_ch${sn_ch + __privateGet(_TxtLayer, _class_offrec)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
                 }
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
+                __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+                __privateSet(this, _aSpan, []);
+                __privateSet(_TxtLayer, _rec_bk, __privateGet(_TxtLayer, _rec));
+                __privateSet(_TxtLayer, _rec, (tx) => tx);
               }
               return;
             case "add_close":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
               return;
             case "grp":
-              __privateSet2(this, _needGoTxt, true);
+              __privateSet(this, _needGoTxt, true);
               {
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + "," : `{`) + `"delay": ${__privateGet2(this, _cumDelay)}}`;
-                if (__privateGet2(this, _ch_in_join))
-                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? 0 : LayerMng.msecChWait));
+                  __privateSet(this, _cumDelay, 0);
+                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + "," : `{`) + `"delay": ${__privateGet(this, _cumDelay)}}`;
+                if (__privateGet(this, _ch_in_join))
+                  __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? 0 : LayerMng.msecChWait));
                 const o = JSON.parse(arg);
-                (_c3 = o.style) != null ? _c3 : o.style = "";
+                (_e = o.style) != null ? _e : o.style = "";
                 if (!("id" in o))
-                  o.id = __privateGet2(this, _aSpan).length;
+                  o.id = __privateGet(this, _aSpan).length;
                 if (o.id === "break") {
-                  __privateGet2(this, _txs).dispBreak(o.pic);
+                  __privateGet(this, _txs).dispBreak(o.pic);
                   return;
                 }
                 add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
-                const wait = Number((_d2 = o.wait) != null ? _d2 : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                const wait = Number((_f = o.wait) != null ? _f : -1);
+                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>\u3000</span>`;
-                if (__privateGet2(this, _firstCh)) {
-                  __privateSet2(this, _firstCh, false);
+                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>\u3000</span>`;
+                if (__privateGet(this, _firstCh)) {
+                  __privateSet(this, _firstCh, false);
                   add_htm = `<ruby>${add_htm}<rt>\u3000</rt></ruby>`;
                 }
-                if (__privateGet2(this, _aSpan).slice(-1)[0] === add_htm)
+                if (__privateGet(this, _aSpan).slice(-1)[0] === add_htm)
                   return;
               }
               break;
@@ -47884,81 +48018,85 @@ const _TxtLayer = class extends Layer {
               TxtStage.delBreak();
               return;
             case "span":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-              __privateSet2(this, _needGoTxt, true);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
               {
                 const o = JSON.parse(a_ruby[1]);
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
+                __privateMethod(this, _beginSpan, beginSpan_fn).call(this, o);
                 if (!o.style)
                   return;
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const wait = Number((_e = o.wait) != null ? _e : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                  __privateSet(this, _cumDelay, 0);
+                const wait = Number((_g = o.wait) != null ? _g : -1);
+                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                __privateGet2(this, _aSpan).push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>`);
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
+                __privateGet(this, _aSpan).push(`<span class='sn_ch${sn_ch + __privateGet(_TxtLayer, _class_offrec)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>`);
+                __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+                __privateSet(this, _aSpan, []);
+                __privateSet(_TxtLayer, _rec_bk, __privateGet(_TxtLayer, _rec));
+                __privateSet(_TxtLayer, _rec, (tx) => tx);
               }
               return;
             case "link":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-              __privateSet2(this, _needGoTxt, true);
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
               {
                 const o = JSON.parse(a_ruby[1]);
-                (_f = o.style) != null ? _f : o.style = "";
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
+                (_h = o.style) != null ? _h : o.style = "";
+                __privateMethod(this, _beginSpan, beginSpan_fn).call(this, o);
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const wait = Number((_g = o.wait) != null ? _g : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                  __privateSet(this, _cumDelay, 0);
+                const wait = Number((_i = o.wait) != null ? _i : -1);
+                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet(this, _$ch_in_style)}`;
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                __privateSet2(this, _aSpan_link, ` data-cmd='link' data-arg='${a_ruby[1]}'`);
-                __privateGet2(this, _aSpan).push(`<span${__privateGet2(this, _aSpan_link)} class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>`);
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
+                __privateSet(this, _aSpan_link, ` data-cmd='link' data-arg='${a_ruby[1]}'`);
+                __privateGet(this, _aSpan).push(`<span${__privateGet(this, _aSpan_link)} class='sn_ch${sn_ch + __privateGet(_TxtLayer, _class_offrec)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>`);
+                __privateSet(this, _aSpan_bk, __privateGet(this, _aSpan));
+                __privateSet(this, _aSpan, []);
+                __privateSet(_TxtLayer, _rec_bk, __privateGet(_TxtLayer, _rec));
+                __privateSet(_TxtLayer, _rec, (tx) => tx);
               }
               return;
             case "endlink":
-              __privateSet2(this, _needGoTxt, true);
-              if (__privateGet2(this, _aSpan_bk))
-                __privateSet2(this, _aSpan, __privateGet2(this, _aSpan).map((v2) => v2.replace(/ data-cmd='linkrsv'/, __privateGet2(this, _aSpan_link))));
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
+              if (__privateGet(this, _aSpan_bk))
+                __privateSet(this, _aSpan, __privateGet(this, _aSpan).map((v2) => v2.replace(/ data-cmd='linkrsv'/, __privateGet(this, _aSpan_link))));
+              __privateMethod(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
               return;
             default:
-              __privateSet2(this, _needGoTxt, true);
-              add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet2(this, _r_align));
+              __privateSet(this, _needGoTxt, true);
+              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet(this, _r_align));
           }
           break;
         case 3:
-          __privateSet2(this, _firstCh, false);
-          __privateSet2(this, _needGoTxt, true);
+          __privateSet(this, _firstCh, false);
+          __privateSet(this, _needGoTxt, true);
           switch (a_ruby[0]) {
             case "tcy":
               {
-                if (__privateGet2(_TxtLayer, _val).doRecLog())
-                  __privateSet2(this, _page_text, __privateGet2(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
+                if (__privateGet(_TxtLayer, _val).doRecLog())
+                  __privateSet(this, _page_text, __privateGet(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
                 const tx = a_ruby[1];
-                const id_tcy = tx.length > 1 ? __privateGet2(this, _aSpan).length + 1 : "";
+                const id_tcy = tx.length > 1 ? __privateGet(this, _aSpan).length + 1 : "";
                 const rb = CmnLib.isSafari ? a_ruby[2].replace(/[A-Za-z0-9]/g, (s2) => String.fromCharCode(s2.charCodeAt(0) + 65248)) : a_ruby[2];
                 if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const rs = this.mkStyle_r_align(tx, rb, __privateGet2(this, _r_align));
-                const da = ` data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'`;
+                  __privateSet(this, _cumDelay, 0);
+                const rs = this.mkStyle_r_align(tx, rb, __privateGet(this, _r_align));
+                const da = ` data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'`;
                 const st = `<span data-tcy='${id_tcy}' style='
 text-combine-upright: all;
 -webkit-text-combine: horizontal;
-${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
-                add_htm = rb ? __privateGet2(this, _aSpan_bk) ? `<ruby>${st}'${da} data-cmd='linkrsv'>${tx}</span>
-							<rt${rs}>${rb}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;'>
+${__privateGet(this, _fncFFSStyle).call(this, tx)}`;
+                add_htm = rb ? __privateGet(this, _aSpan_bk) ? `<ruby>${st}'${da} data-cmd='linkrsv'>${tx}</span>
+							<rt${rs}>${rb}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;'>
 							<ruby>${st}'${da}>${tx}</span>
 							<rt${rs}>${rb}</rt></ruby>
-						</span>` : __privateGet2(this, _aSpan_bk) ? `${st}'${da} data-cmd='linkrsv'>${tx}</span>` : `${st}
-							animation-delay: ${__privateGet2(this, _cumDelay)}ms;
+						</span>` : __privateGet(this, _aSpan_bk) ? `${st}'${da} data-cmd='linkrsv'>${tx}</span>` : `${st}
+							animation-delay: ${__privateGet(this, _cumDelay)}ms;
 							height: 1em;
-						' class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}'${da}>${tx}</span>`;
-                if (__privateGet2(this, _ch_in_join))
-                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_h = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _h : 0 : LayerMng.msecChWait));
+						' class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}'${da}>${tx}</span>`;
+                if (__privateGet(this, _ch_in_join))
+                  __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? (_j = __privateGet(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _j : 0 : LayerMng.msecChWait));
               }
               break;
             default:
@@ -47966,14 +48104,14 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
           }
           break;
       }
-      __privateGet2(this, _aSpan).push(_TxtLayer.rec(add_htm));
+      __privateGet(this, _aSpan).push(__privateGet(_k = _TxtLayer, _rec).call(_k, add_htm));
     });
-    __privateAdd2(this, _cumDelay, 0);
-    __privateAdd2(this, _firstCh, true);
-    __privateAdd2(this, _aSpan, []);
-    __privateAdd2(this, _aSpan_bk, void 0);
-    __privateAdd2(this, _aSpan_link, "");
-    __privateAdd2(this, _hSpanBk, {
+    __privateSet(this, _cumDelay, 0);
+    __privateSet(this, _firstCh, true);
+    __privateSet(this, _aSpan, []);
+    __privateSet(this, _aSpan_bk, void 0);
+    __privateSet(this, _aSpan_link, "");
+    __privateSet(this, _hSpanBk, {
       ch_in_style: "",
       ch_out_style: "",
       r_align: ""
@@ -47981,57 +48119,57 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     this.click = () => {
       if (!this.spLay.interactiveChildren || !this.spLay.visible)
         return true;
-      return __privateGet2(this, _txs).skipChIn();
+      return __privateGet(this, _txs).skipChIn();
     };
-    __privateAdd2(this, _page_text, "");
+    __privateSet(this, _page_text, "");
     this.addButton = (hArg) => new Promise((re2) => {
-      hArg.key = `btn=[${__privateGet2(this, _cntBtn).children.length}] ` + this.name_;
+      hArg.key = `btn=[${__privateGet(this, _cntBtn).children.length}] ` + this.name_;
       hArg[":id_tag"] = hArg.key.slice(0, -7);
-      argChk_Boolean(hArg, "hint_tate", __privateGet2(this, _txs).tategaki);
-      const btn = new Button(hArg, __privateGet2(_TxtLayer, _evtMng), () => re2(), () => this.canFocus());
+      argChk_Boolean(hArg, "hint_tate", __privateGet(this, _txs).tategaki);
+      const btn = new Button(hArg, __privateGet(_TxtLayer, _evtMng4), () => re2(), () => this.canFocus());
       btn.name = JSON.stringify(hArg).replaceAll('"', "'");
-      __privateGet2(this, _cntBtn).addChild(btn);
+      __privateGet(this, _cntBtn).addChild(btn);
     });
     this.record = () => Object.assign(super.record(), {
       enabled: this.enabled,
-      r_align: __privateGet2(this, _r_align),
-      b_do: __privateGet2(this, _b_do) === void 0 ? void 0 : __privateGet2(this, _b_do) instanceof Sprite ? "Sprite" : "Graphics",
-      b_pic: __privateGet2(this, _b_pic),
-      b_color: __privateGet2(this, _b_color),
-      b_alpha: __privateGet2(this, _b_alpha),
-      b_alpha_isfixed: __privateGet2(this, _b_alpha_isfixed),
-      ffs: __privateGet2(this, _ffs),
-      txs: __privateGet2(this, _txs).record(),
-      strNoFFS: __privateGet2(this, _strNoFFS),
-      btns: __privateGet2(this, _cntBtn).children.map((btn) => btn.name)
+      r_align: __privateGet(this, _r_align),
+      b_do: __privateGet(this, _b_do) === void 0 ? void 0 : __privateGet(this, _b_do) instanceof Sprite ? "Sprite" : "Graphics",
+      b_pic: __privateGet(this, _b_pic),
+      b_color: __privateGet(this, _b_color),
+      b_alpha: __privateGet(this, _b_alpha),
+      b_alpha_isfixed: __privateGet(this, _b_alpha_isfixed),
+      ffs: __privateGet(this, _ffs),
+      txs: __privateGet(this, _txs).record(),
+      strNoFFS: __privateGet(this, _strNoFFS),
+      btns: __privateGet(this, _cntBtn).children.map((btn) => btn.name)
     });
-    this.spLay.addChild(__privateGet2(this, _txs));
-    __privateGet2(this, _rbSpl).init(__privateGet2(this, _putCh));
-    this.spLay.addChild(__privateGet2(this, _cntBtn));
-    __privateGet2(this, _cntBtn).name = "cntBtn";
+    this.spLay.addChild(__privateGet(this, _txs));
+    __privateGet(this, _rbSpl).init(__privateGet(this, _putCh2));
+    this.spLay.addChild(__privateGet(this, _cntBtn));
+    __privateGet(this, _cntBtn).name = "cntBtn";
     const padding = 16;
     this.lay({ style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '\u6E38\u30B4\u30B7\u30C3\u30AF Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: "default", out_style: "default", back_clear: "true" });
   }
   static init(cfg, hTag, val, recText, isPageFore, appPixi) {
     var _a3, _b3;
-    __privateSet2(_TxtLayer, _cfg, cfg);
+    __privateSet(_TxtLayer, _cfg3, cfg);
     TxtStage.init(cfg, appPixi);
-    __privateSet2(_TxtLayer, _val, val);
-    __privateSet2(_TxtLayer, _recText, recText);
-    __privateSet2(_TxtLayer, _isPageFore, isPageFore);
+    __privateSet(_TxtLayer, _val, val);
+    __privateSet(_TxtLayer, _recText, recText);
+    __privateSet(_TxtLayer, _isPageFore, isPageFore);
     val.setDoRecProc(_TxtLayer.chgDoRec);
     hTag.autowc = (o) => {
-      var _a22;
-      return __privateMethod2(_a22 = _TxtLayer, _autowc, autowc_fn).call(_a22, o);
+      var _a4;
+      return __privateMethod(_a4 = _TxtLayer, _autowc, autowc_fn).call(_a4, o);
     };
     hTag.autowc({ enabled: false, text: "", time: 0 });
     hTag.ch_in_style = (o) => {
-      var _a22;
-      return __privateMethod2(_a22 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a22, o);
+      var _a4;
+      return __privateMethod(_a4 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a4, o);
     };
     hTag.ch_out_style = (o) => {
-      var _a22;
-      return __privateMethod2(_a22 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_a22, o);
+      var _a4;
+      return __privateMethod(_a4 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_a4, o);
     };
     TxtStage.initChStyle();
     initStyle();
@@ -48041,7 +48179,7 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
         font += `
 @font-face {
 	font-family: '${o[key]}';
-	src: url('${__privateGet2(this, _cfg).searchPath(o[key], Config.EXT_FONT)}');
+	src: url('${__privateGet(this, _cfg3).searchPath(o[key], Config.EXT_FONT)}');
 }
 `;
     });
@@ -48058,7 +48196,7 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
 }
 `;
     addStyle(font);
-    __privateMethod2(_a3 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a3, {
+    __privateMethod(_a3 = _TxtLayer, _ch_in_style, ch_in_style_fn).call(_a3, {
       name: "default",
       wait: 500,
       alpha: 0,
@@ -48070,7 +48208,7 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
       join: true,
       ease: "ease-out"
     });
-    __privateMethod2(_b3 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_b3, {
+    __privateMethod(_b3 = _TxtLayer, _ch_out_style, ch_out_style_fn).call(_b3, {
       name: "default",
       wait: 0,
       alpha: 0,
@@ -48084,36 +48222,36 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     });
   }
   static setEvtMng(main, evtMng, sys) {
-    __privateSet2(_TxtLayer, _main, main);
-    __privateSet2(_TxtLayer, _evtMng, evtMng);
-    __privateSet2(_TxtLayer, _sys, sys);
+    __privateSet(_TxtLayer, _main2, main);
+    __privateSet(_TxtLayer, _evtMng4, evtMng);
+    __privateSet(_TxtLayer, _sys3, sys);
     TxtStage.setEvtMng(evtMng);
   }
   destroy() {
-    if (__privateGet2(this, _b_do)) {
-      this.spLay.removeChild(__privateGet2(this, _b_do)).destroy();
-      __privateSet2(this, _b_do, void 0);
+    if (__privateGet(this, _b_do)) {
+      this.spLay.removeChild(__privateGet(this, _b_do)).destroy();
+      __privateSet(this, _b_do, void 0);
     }
     this.clearText();
-    __privateGet2(this, _txs).destroy();
+    __privateGet(this, _txs).destroy();
   }
   static destroy() {
-    __privateSet2(_TxtLayer, _doAutoWc, false);
-    __privateSet2(_TxtLayer, _hAutoWc, {});
-    _TxtLayer.rec = (tx) => tx;
+    __privateSet(_TxtLayer, _doAutoWc, false);
+    __privateSet(_TxtLayer, _hAutoWc, {});
+    __privateSet(_TxtLayer, _rec, (tx) => tx);
   }
   set name(nm) {
     this.name_ = nm;
-    __privateGet2(this, _txs).name = nm;
+    __privateGet(this, _txs).name = nm;
   }
   get name() {
     return this.name_;
   }
   cvsResize() {
-    __privateGet2(this, _txs).cvsResize();
+    __privateGet(this, _txs).cvsResize();
   }
   cvsResizeChildren() {
-    __privateGet2(this, _cntBtn).children.forEach((b2) => b2.cvsResize());
+    __privateGet(this, _cntBtn).children.forEach((b2) => b2.cvsResize());
   }
   lay(hArg) {
     var _a3;
@@ -48121,45 +48259,46 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     Layer.setXY(this.spLay, hArg, this.spLay);
     hArg[":id_tag"] = this.name_.slice(0, -7);
     RubySpliter.setting(hArg);
-    __privateMethod2(this, _setFfs, setFfs_fn).call(this, hArg);
-    __privateGet2(this, _txs).lay(hArg);
+    __privateMethod(this, _setFfs, setFfs_fn).call(this, hArg);
+    __privateGet(this, _txs).lay(hArg);
     if ("r_align" in hArg)
-      __privateSet2(this, _r_align, (_a3 = hArg.r_align) != null ? _a3 : "");
-    __privateSet2(this, _ruby_pd, CmnLib.isSafari ? __privateGet2(this, _txs).tategaki ? (v2, l2) => `text-align: start; height: ${l2}em; padding-top: ${v2}; padding-bottom: ${v2};` : (v2, l2) => `text-align: start; width: ${l2}em; padding-left: ${v2}; padding-right: ${v2};` : __privateGet2(this, _txs).tategaki ? (v2) => `text-align: justify; text-align-last: justify; padding-top: ${v2}; padding-bottom: ${v2};` : (v2) => `text-align: justify; text-align-last: justify; padding-left: ${v2}; padding-right: ${v2};`);
+      __privateSet(this, _r_align, (_a3 = hArg.r_align) != null ? _a3 : "");
+    __privateSet(this, _ruby_pd, CmnLib.isSafari ? __privateGet(this, _txs).tategaki ? (v2, l2) => `text-align: start; height: ${l2}em; padding-top: ${v2}; padding-bottom: ${v2};` : (v2, l2) => `text-align: start; width: ${l2}em; padding-left: ${v2}; padding-right: ${v2};` : __privateGet(this, _txs).tategaki ? (v2) => `text-align: justify; text-align-last: justify; padding-top: ${v2}; padding-bottom: ${v2};` : (v2) => `text-align: justify; text-align-last: justify; padding-left: ${v2}; padding-right: ${v2};`);
     if (CmnLib.isFirefox)
-      this.mkStyle_r_align = __privateMethod2(this, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn);
+      this.mkStyle_r_align = __privateMethod(this, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn);
     if ("alpha" in hArg)
-      __privateGet2(this, _cntBtn).children.forEach((e) => e.alpha = this.spLay.alpha);
-    __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, hArg);
-    __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, hArg);
-    return __privateMethod2(this, _drawBack, drawBack_fn).call(this, hArg, (isStop) => {
+      __privateGet(this, _cntBtn).children.forEach((e) => e.alpha = this.spLay.alpha);
+    __privateMethod(this, _set_ch_in, set_ch_in_fn).call(this, hArg);
+    __privateMethod(this, _set_ch_out, set_ch_out_fn).call(this, hArg);
+    return __privateMethod(this, _drawBack, drawBack_fn).call(this, hArg, (isStop) => {
       if (isStop)
-        __privateGet2(_TxtLayer, _main).resume();
+        __privateGet(_TxtLayer, _main2).resume();
     });
   }
   get width() {
-    return __privateGet2(this, _txs).getWidth;
+    return __privateGet(this, _txs).getWidth;
   }
   get height() {
-    return __privateGet2(this, _txs).getHeight;
+    return __privateGet(this, _txs).getHeight;
   }
   chgBackAlpha(g_alpha) {
-    const alpha = __privateGet2(this, _b_alpha_isfixed) ? __privateGet2(this, _b_alpha) : g_alpha * __privateGet2(this, _b_alpha);
-    if (__privateGet2(this, _b_do) instanceof Graphics) {
-      if (__privateGet2(this, _b_do)) {
-        this.spLay.removeChild(__privateGet2(this, _b_do));
-        __privateGet2(this, _b_do).destroy();
+    const alpha = __privateGet(this, _b_alpha_isfixed) ? __privateGet(this, _b_alpha) : g_alpha * __privateGet(this, _b_alpha);
+    if (__privateGet(this, _b_do) instanceof Graphics) {
+      if (__privateGet(this, _b_do)) {
+        this.spLay.removeChild(__privateGet(this, _b_do));
+        __privateGet(this, _b_do).destroy();
       }
-      this.spLay.addChildAt(__privateSet2(this, _b_do, new Graphics()).beginFill(__privateGet2(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet2(this, _txs).getWidth, __privateGet2(this, _txs).getHeight).endFill(), 0);
-      __privateGet2(this, _b_do).name = "back(color)";
+      this.spLay.addChildAt(__privateSet(this, _b_do, new Graphics()).beginFill(__privateGet(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet(this, _txs).getWidth, __privateGet(this, _txs).getHeight).endFill(), 0);
+      __privateGet(this, _b_do).name = "back(color)";
     }
-    if (__privateGet2(this, _b_do)) {
-      __privateGet2(this, _b_do).visible = alpha > 0;
-      __privateGet2(this, _b_do).alpha = alpha;
+    if (__privateGet(this, _b_do)) {
+      __privateGet(this, _b_do).visible = alpha > 0;
+      __privateGet(this, _b_do).alpha = alpha;
     }
   }
   static chgDoRec(doRec) {
-    _TxtLayer.rec = doRec ? (tx) => tx : (tx) => `<span class='offrec'>${tx}</span>`;
+    __privateSet(_TxtLayer, _rec, doRec ? (tx) => tx : (tx) => `<span class='offrec'>${tx}</span>`);
+    __privateSet(_TxtLayer, _class_offrec, doRec ? "" : " offrec");
   }
   mkStyle_r_align(ch, rb, r_align) {
     if (!r_align)
@@ -48170,16 +48309,16 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     let st = "";
     switch (r_align) {
       case "justify":
-        st = __privateGet2(this, _ruby_pd).call(this, "0", len);
+        st = __privateGet(this, _ruby_pd).call(this, "0", len);
         break;
       case "121":
-        st = __privateGet2(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
+        st = __privateGet(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length * 2)}em)`, len);
         break;
       case "even":
-        st = __privateGet2(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
+        st = __privateGet(this, _ruby_pd).call(this, `calc(${(len - rb.length) / (rb.length + 1)}em)`, len);
         break;
       case "1ruby":
-        st = __privateGet2(this, _ruby_pd).call(this, "1em", len);
+        st = __privateGet(this, _ruby_pd).call(this, "1em", len);
         break;
       default:
         st = `text-align: ${r_align};`;
@@ -48187,20 +48326,21 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     return ` style='${st}'`;
   }
   tagCh(text) {
-    __privateGet2(this, _rbSpl).putTxt(text);
+    __privateGet(this, _rbSpl).putTxt(text);
   }
   clearText() {
     var _a3;
-    this.spLay.addChild(__privateSet2(this, _txs, __privateGet2(this, _txs).reNew()));
-    __privateSet2(this, _cumDelay, 0);
-    __privateSet2(this, _firstCh, true);
-    __privateSet2(this, _aSpan, []);
-    __privateSet2(this, _aSpan_bk, void 0);
-    __privateSet2(this, _page_text, "");
-    __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, "", true);
+    this.spLay.addChild(__privateSet(this, _txs, __privateGet(this, _txs).reNew()));
+    __privateSet(this, _cumDelay, 0);
+    __privateSet(this, _firstCh, true);
+    __privateSet(this, _aSpan, []);
+    __privateSet(this, _aSpan_bk, void 0);
+    __privateSet(_TxtLayer, _rec, __privateGet(_TxtLayer, _rec_bk));
+    __privateSet(this, _page_text, "");
+    __privateGet(_a3 = _TxtLayer, _recText).call(_a3, "", true);
   }
   get pageText() {
-    return __privateGet2(this, _page_text).replace("\u300A\u3000\u300B", "");
+    return __privateGet(this, _page_text).replace("\u300A\u3000\u300B", "");
   }
   get enabled() {
     return this.spLay.interactiveChildren;
@@ -48209,26 +48349,25 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     this.spLay.interactiveChildren = e;
   }
   canFocus() {
-    var _a4;
-    var _a3;
-    return ((_a4 = this.spLay.interactiveChildren) != null ? _a4 : false) && this.spLay.visible && __privateGet2(_a3 = _TxtLayer, _isPageFore).call(_a3, this);
+    var _a3, _b3;
+    return ((_a3 = this.spLay.interactiveChildren) != null ? _a3 : false) && this.spLay.visible && __privateGet(_b3 = _TxtLayer, _isPageFore).call(_b3, this);
   }
   clearLay(hArg) {
     super.clearLay(hArg);
     this.clearText();
-    __privateGet2(this, _cntBtn).removeChildren().forEach((c2) => c2.destroy());
+    __privateGet(this, _cntBtn).removeChildren().forEach((c2) => c2.destroy());
   }
   playback(hLay, aPrm) {
     super.playback(hLay, aPrm);
     this.enabled = hLay.enabled;
-    __privateSet2(this, _r_align, hLay.r_align);
+    __privateSet(this, _r_align, hLay.r_align);
     this.cvsResize();
-    __privateMethod2(this, _setFfs, setFfs_fn).call(this, hLay);
-    __privateGet2(this, _txs).playback(hLay.txs);
-    __privateSet2(this, _b_alpha, hLay.b_alpha);
-    __privateSet2(this, _b_alpha_isfixed, hLay.b_alpha_isfixed);
+    __privateMethod(this, _setFfs, setFfs_fn).call(this, hLay);
+    __privateGet(this, _txs).playback(hLay.txs);
+    __privateSet(this, _b_alpha, hLay.b_alpha);
+    __privateSet(this, _b_alpha_isfixed, hLay.b_alpha_isfixed);
     aPrm.push(new Promise((re2) => {
-      if (!__privateMethod2(this, _drawBack, drawBack_fn).call(this, hLay.b_do ? hLay.b_do === "Sprite" ? { b_pic: hLay.b_pic } : { b_color: hLay.b_color } : { b_pic: "" }, (isStop) => {
+      if (!__privateMethod(this, _drawBack, drawBack_fn).call(this, hLay.b_do ? hLay.b_do === "Sprite" ? { b_pic: hLay.b_pic } : { b_color: hLay.b_color } : { b_pic: "" }, (isStop) => {
         if (isStop)
           re2();
       }))
@@ -48239,41 +48378,41 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
   }
   snapshot(rnd, re2) {
     rnd.render(this.spLay, { clear: false });
-    __privateGet2(this, _txs).snapshot(rnd, re2);
+    __privateGet(this, _txs).snapshot(rnd, re2);
   }
   snapshot_end() {
-    __privateGet2(this, _txs).snapshot_end();
+    __privateGet(this, _txs).snapshot_end();
   }
   makeDesignCast(gdc) {
     if (!this.spLay.visible)
       return;
-    __privateGet2(this, _txs).makeDesignCast(gdc);
+    __privateGet(this, _txs).makeDesignCast(gdc);
   }
   makeDesignCastChildren(gdc) {
     if (!this.spLay.visible)
       return;
-    __privateGet2(this, _cntBtn).children.forEach((btn) => btn.makeDesignCast(gdc));
+    __privateGet(this, _cntBtn).children.forEach((btn) => btn.makeDesignCast(gdc));
   }
   showDesignCast() {
-    __privateGet2(this, _txs).showDesignCast();
+    __privateGet(this, _txs).showDesignCast();
   }
   showDesignCastChildren() {
-    __privateGet2(this, _cntBtn).children.forEach((btn) => btn.showDesignCast());
+    __privateGet(this, _cntBtn).children.forEach((btn) => btn.showDesignCast());
   }
   dump() {
-    __privateGet2(this, _putCh).call(this, "", "gotxt\uFF5C");
-    return super.dump() + `, "enabled":"${this.enabled}", ${__privateGet2(this, _txs).dump()}, "b_pic":"${__privateGet2(this, _b_pic)}", "b_color":"${__privateGet2(this, _b_color)}", "b_alpha":${__privateGet2(this, _b_alpha)}, "b_alpha_isfixed":"${__privateGet2(this, _b_alpha_isfixed)}", "width":${__privateGet2(this, _txs).getWidth}, "height":${__privateGet2(this, _txs).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${__privateGet2(this, _cntBtn).children.map((d2) => {
+    __privateGet(this, _putCh2).call(this, "", "gotxt\uFF5C");
+    return super.dump() + `, "enabled":"${this.enabled}", ${__privateGet(this, _txs).dump()}, "b_pic":"${__privateGet(this, _b_pic)}", "b_color":"${__privateGet(this, _b_color)}", "b_alpha":${__privateGet(this, _b_alpha)}, "b_alpha_isfixed":"${__privateGet(this, _b_alpha_isfixed)}", "width":${__privateGet(this, _txs).getWidth}, "height":${__privateGet(this, _txs).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${__privateGet(this, _cntBtn).children.map((d2) => {
       var _a3;
       return (_a3 = d2.children[0].name) != null ? _a3 : "{}";
     }).join(",")}]`;
   }
 };
 let TxtLayer = _TxtLayer;
-_cfg = /* @__PURE__ */ new WeakMap();
-_val = /* @__PURE__ */ new WeakMap();
-_recText = /* @__PURE__ */ new WeakMap();
-_isPageFore = /* @__PURE__ */ new WeakMap();
-_ch_in_style = /* @__PURE__ */ new WeakSet();
+_cfg3 = new WeakMap();
+_val = new WeakMap();
+_recText = new WeakMap();
+_isPageFore = new WeakMap();
+_ch_in_style = new WeakSet();
 ch_in_style_fn = function(hArg) {
   const o = TxtStage.ch_in_style(hArg);
   const x = o.x.charAt(0) === "=" ? `${o.nx * 100}%` : `${o.nx}px`;
@@ -48297,7 +48436,7 @@ ch_in_style_fn = function(hArg) {
 `);
   return false;
 };
-_ch_out_style = /* @__PURE__ */ new WeakSet();
+_ch_out_style = new WeakSet();
 ch_out_style_fn = function(hArg) {
   const o = TxtStage.ch_out_style(hArg);
   const x = o.x.charAt(0) === "=" ? `${o.nx * 100}%` : `${o.nx}px`;
@@ -48317,43 +48456,43 @@ ch_out_style_fn = function(hArg) {
 `);
   return false;
 };
-_main = /* @__PURE__ */ new WeakMap();
-_evtMng = /* @__PURE__ */ new WeakMap();
-_sys = /* @__PURE__ */ new WeakMap();
-_doAutoWc = /* @__PURE__ */ new WeakMap();
-_hAutoWc = /* @__PURE__ */ new WeakMap();
-_autowc = /* @__PURE__ */ new WeakSet();
+_main2 = new WeakMap();
+_evtMng4 = new WeakMap();
+_sys3 = new WeakMap();
+_doAutoWc = new WeakMap();
+_hAutoWc = new WeakMap();
+_autowc = new WeakSet();
 autowc_fn = function(hArg) {
-  __privateSet2(_TxtLayer, _doAutoWc, argChk_Boolean(hArg, "enabled", __privateGet2(_TxtLayer, _doAutoWc)));
-  __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.enabled", __privateGet2(_TxtLayer, _doAutoWc));
+  __privateSet(_TxtLayer, _doAutoWc, argChk_Boolean(hArg, "enabled", __privateGet(_TxtLayer, _doAutoWc)));
+  __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.enabled", __privateGet(_TxtLayer, _doAutoWc));
   const { text } = hArg;
   if ("text" in hArg !== "time" in hArg)
     throw "[autowc] text\u3068time\u306F\u540C\u6642\u6307\u5B9A\u5FC5\u9808\u3067\u3059";
-  __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.text", text);
+  __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.text", text);
   if (!text) {
-    __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", "");
+    __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", "");
     return false;
   }
   const len = text.length;
-  if (__privateGet2(_TxtLayer, _doAutoWc) && len === 0)
+  if (__privateGet(_TxtLayer, _doAutoWc) && len === 0)
     throw '[autowc] enabled === false \u304B\u3064 text === "" \u306F\u8A31\u3055\u308C\u307E\u305B\u3093';
   const a2 = String(hArg.time).split(",");
   if (a2.length !== len)
     throw "[autowc] text\u6587\u5B57\u6570\u3068time\u306B\u8A18\u8FF0\u3055\u308C\u305F\u5F85\u3061\u6642\u9593\uFF08\u30B3\u30F3\u30DE\u533A\u5207\u308A\uFF09\u306F\u540C\u6570\u306B\u3057\u3066\u4E0B\u3055\u3044";
-  __privateSet2(_TxtLayer, _hAutoWc, {});
-  a2.forEach((v2, i2) => __privateGet2(_TxtLayer, _hAutoWc)[text[i2]] = uint(v2));
-  __privateGet2(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", hArg.time);
+  __privateSet(_TxtLayer, _hAutoWc, {});
+  a2.forEach((v2, i2) => __privateGet(_TxtLayer, _hAutoWc)[text[i2]] = uint(v2));
+  __privateGet(_TxtLayer, _val).setVal_Nochk("save", "const.sn.autowc.time", hArg.time);
   return false;
 };
-_b_color = /* @__PURE__ */ new WeakMap();
-_b_alpha = /* @__PURE__ */ new WeakMap();
-_b_alpha_isfixed = /* @__PURE__ */ new WeakMap();
-_b_do = /* @__PURE__ */ new WeakMap();
-_b_pic = /* @__PURE__ */ new WeakMap();
-_txs = /* @__PURE__ */ new WeakMap();
-_rbSpl = /* @__PURE__ */ new WeakMap();
-_cntBtn = /* @__PURE__ */ new WeakMap();
-_set_ch_in = /* @__PURE__ */ new WeakSet();
+_b_color = new WeakMap();
+_b_alpha = new WeakMap();
+_b_alpha_isfixed = new WeakMap();
+_b_do = new WeakMap();
+_b_pic = new WeakMap();
+_txs = new WeakMap();
+_rbSpl = new WeakMap();
+_cntBtn = new WeakMap();
+_set_ch_in = new WeakSet();
 set_ch_in_fn = function(hArg) {
   const { in_style } = hArg;
   if (!in_style)
@@ -48361,12 +48500,12 @@ set_ch_in_fn = function(hArg) {
   const cis = TxtStage.getChInStyle(in_style);
   if (!cis)
     throw `\u5B58\u5728\u3057\u306A\u3044in_style\u3010${in_style}\u3011\u3067\u3059`;
-  __privateSet2(this, _$ch_in_style, in_style);
-  __privateSet2(this, _ch_in_join, cis.join);
+  __privateSet(this, _$ch_in_style, in_style);
+  __privateSet(this, _ch_in_join, cis.join);
 };
-_$ch_in_style = /* @__PURE__ */ new WeakMap();
-_ch_in_join = /* @__PURE__ */ new WeakMap();
-_set_ch_out = /* @__PURE__ */ new WeakSet();
+_$ch_in_style = new WeakMap();
+_ch_in_join = new WeakMap();
+_set_ch_out = new WeakSet();
 set_ch_out_fn = function(hArg) {
   const { out_style } = hArg;
   if (!out_style)
@@ -48374,84 +48513,87 @@ set_ch_out_fn = function(hArg) {
   const cos = TxtStage.getChOutStyle(out_style);
   if (!cos)
     throw `\u5B58\u5728\u3057\u306A\u3044out_style\u3010${out_style}\u3011\u3067\u3059`;
-  __privateSet2(this, _$ch_out_style, out_style);
+  __privateSet(this, _$ch_out_style, out_style);
 };
-_$ch_out_style = /* @__PURE__ */ new WeakMap();
-_drawBack = /* @__PURE__ */ new WeakSet();
+_$ch_out_style = new WeakMap();
+_drawBack = new WeakSet();
 drawBack_fn = function(hArg, fncComp) {
   if ("back_clear" in hArg) {
     if (argChk_Boolean(hArg, "back_clear", false)) {
-      __privateSet2(this, _b_color, 0);
-      __privateSet2(this, _b_alpha, 0);
-      __privateSet2(this, _b_alpha_isfixed, false);
-      __privateSet2(this, _b_pic, "");
+      __privateSet(this, _b_color, 0);
+      __privateSet(this, _b_alpha, 0);
+      __privateSet(this, _b_alpha_isfixed, false);
+      __privateSet(this, _b_pic, "");
     }
     fncComp(false);
     return false;
   }
-  __privateSet2(this, _b_alpha, argChk_Num(hArg, "b_alpha", __privateGet2(this, _b_alpha)));
-  __privateSet2(this, _b_alpha_isfixed, argChk_Boolean(hArg, "b_alpha_isfixed", __privateGet2(this, _b_alpha_isfixed)));
-  const alpha = (__privateGet2(this, _b_alpha_isfixed) ? 1 : Number(__privateGet2(_TxtLayer, _val).getVal("sys:TextLayer.Back.Alpha"))) * __privateGet2(this, _b_alpha);
+  __privateSet(this, _b_alpha, argChk_Num(hArg, "b_alpha", __privateGet(this, _b_alpha)));
+  __privateSet(this, _b_alpha_isfixed, argChk_Boolean(hArg, "b_alpha_isfixed", __privateGet(this, _b_alpha_isfixed)));
+  const alpha = (__privateGet(this, _b_alpha_isfixed) ? 1 : Number(__privateGet(_TxtLayer, _val).getVal("sys:TextLayer.Back.Alpha"))) * __privateGet(this, _b_alpha);
   if (hArg.b_pic) {
-    if (__privateGet2(this, _b_pic) !== hArg.b_pic) {
-      __privateSet2(this, _b_pic, hArg.b_pic);
-      if (__privateGet2(this, _b_do)) {
-        this.spLay.removeChild(__privateGet2(this, _b_do));
-        __privateGet2(this, _b_do).destroy();
+    if (__privateGet(this, _b_pic) !== hArg.b_pic) {
+      __privateSet(this, _b_pic, hArg.b_pic);
+      if (__privateGet(this, _b_do)) {
+        this.spLay.removeChild(__privateGet(this, _b_do));
+        __privateGet(this, _b_do).destroy();
       }
-      return GrpLayer.csv2Sprites(__privateGet2(this, _b_pic), this.spLay, (sp) => {
-        __privateSet2(this, _b_do, sp);
+      return GrpLayer.csv2Sprites(__privateGet(this, _b_pic), this.spLay, (sp) => {
+        __privateSet(this, _b_do, sp);
         sp.name = "back(pic)";
         sp.visible = alpha > 0;
         sp.alpha = alpha;
-        __privateGet2(this, _txs).setSize(sp.width, sp.height);
+        __privateGet(this, _txs).setSize(sp.width, sp.height);
         this.spLay.setChildIndex(sp, 0);
         fncComp(true);
       });
     }
   } else if ("b_color" in hArg) {
-    __privateSet2(this, _b_color, argChk_Color(hArg, "b_color", 0));
-    if (__privateGet2(this, _b_do)) {
-      this.spLay.removeChild(__privateGet2(this, _b_do));
-      __privateGet2(this, _b_do).destroy();
+    __privateSet(this, _b_color, argChk_Color(hArg, "b_color", 0));
+    if (__privateGet(this, _b_do)) {
+      this.spLay.removeChild(__privateGet(this, _b_do));
+      __privateGet(this, _b_do).destroy();
     }
-    __privateSet2(this, _b_pic, "");
-    this.spLay.addChildAt(__privateSet2(this, _b_do, new Graphics()).beginFill(__privateGet2(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet2(this, _txs).getWidth, __privateGet2(this, _txs).getHeight).endFill(), 0);
-    __privateGet2(this, _b_do).name = "back(color)";
+    __privateSet(this, _b_pic, "");
+    this.spLay.addChildAt(__privateSet(this, _b_do, new Graphics()).beginFill(__privateGet(this, _b_color)).lineStyle(void 0).drawRect(0, 0, __privateGet(this, _txs).getWidth, __privateGet(this, _txs).getHeight).endFill(), 0);
+    __privateGet(this, _b_do).name = "back(color)";
   }
-  if (__privateGet2(this, _b_do)) {
-    __privateGet2(this, _b_do).visible = alpha > 0;
-    __privateGet2(this, _b_do).alpha = alpha;
+  if (__privateGet(this, _b_do)) {
+    __privateGet(this, _b_do).visible = alpha > 0;
+    __privateGet(this, _b_do).alpha = alpha;
   }
   fncComp(false);
   return false;
 };
-_setFfs = /* @__PURE__ */ new WeakSet();
+_setFfs = new WeakSet();
 setFfs_fn = function(hArg) {
   var _a3, _b3;
   if ("noffs" in hArg) {
-    __privateSet2(this, _strNoFFS, (_a3 = hArg.noffs) != null ? _a3 : "");
-    __privateSet2(this, _regNoFFS, new RegExp(`[\u3000${__privateGet2(this, _strNoFFS)}]`));
+    __privateSet(this, _strNoFFS, (_a3 = hArg.noffs) != null ? _a3 : "");
+    __privateSet(this, _regNoFFS, new RegExp(`[\u3000${__privateGet(this, _strNoFFS)}]`));
   }
   if (!("ffs" in hArg))
     return;
-  (_b3 = __privateGet2(this, _ffs)) != null ? _b3 : __privateSet2(this, _ffs, "");
-  if (__privateGet2(this, _ffs) === "") {
-    __privateSet2(this, _fncFFSStyle, () => "");
-    __privateSet2(this, _fncFFSSpan, (ch) => ch);
+  (_b3 = __privateGet(this, _ffs)) != null ? _b3 : __privateSet(this, _ffs, "");
+  if (__privateGet(this, _ffs) === "") {
+    __privateSet(this, _fncFFSStyle, () => "");
+    __privateSet(this, _fncFFSSpan, (ch) => ch);
   } else {
-    __privateSet2(this, _fncFFSStyle, (ch) => __privateGet2(this, _regNoFFS).test(ch) ? "" : ` font-feature-settings: ${__privateGet2(this, _ffs)};`);
-    __privateSet2(this, _fncFFSSpan, (ch) => __privateGet2(this, _regNoFFS).test(ch) ? ch : `<span style='font-feature-settings: ${__privateGet2(this, _ffs)};'>${ch}</span>`);
+    __privateSet(this, _fncFFSStyle, (ch) => __privateGet(this, _regNoFFS).test(ch) ? "" : ` font-feature-settings: ${__privateGet(this, _ffs)};`);
+    __privateSet(this, _fncFFSSpan, (ch) => __privateGet(this, _regNoFFS).test(ch) ? ch : `<span style='font-feature-settings: ${__privateGet(this, _ffs)};'>${ch}</span>`);
   }
 };
-_ffs = /* @__PURE__ */ new WeakMap();
-_fncFFSStyle = /* @__PURE__ */ new WeakMap();
-_fncFFSSpan = /* @__PURE__ */ new WeakMap();
-_strNoFFS = /* @__PURE__ */ new WeakMap();
-_regNoFFS = /* @__PURE__ */ new WeakMap();
-_ruby_pd = /* @__PURE__ */ new WeakMap();
-_r_align = /* @__PURE__ */ new WeakMap();
-_mkStyle_r_align4ff = /* @__PURE__ */ new WeakSet();
+_ffs = new WeakMap();
+_fncFFSStyle = new WeakMap();
+_fncFFSSpan = new WeakMap();
+_strNoFFS = new WeakMap();
+_regNoFFS = new WeakMap();
+_rec = new WeakMap();
+_rec_bk = new WeakMap();
+_class_offrec = new WeakMap();
+_ruby_pd = new WeakMap();
+_r_align = new WeakMap();
+_mkStyle_r_align4ff = new WeakSet();
 mkStyle_r_align4ff_fn = function(ch, rb, r_align) {
   if (!r_align)
     return "";
@@ -48477,78 +48619,81 @@ mkStyle_r_align4ff_fn = function(ch, rb, r_align) {
       break;
     case "even":
       const ev = (len - rb.length) / (rb.length + 1);
-      st = `ruby-align: space-between; ` + (__privateGet2(this, _txs).tategaki ? `padding-top: ${ev}em; padding-bottom: ${ev}em;` : `padding-left: ${ev}em; padding-right: ${ev}em;`);
+      st = `ruby-align: space-between; ` + (__privateGet(this, _txs).tategaki ? `padding-top: ${ev}em; padding-bottom: ${ev}em;` : `padding-left: ${ev}em; padding-right: ${ev}em;`);
       break;
     case "1ruby":
-      st = `ruby-align: space-between; ` + (__privateGet2(this, _txs).tategaki ? `padding-top: 1em; padding-bottom: 1em;` : `padding-left: 1em; padding-right: 1em;`);
+      st = `ruby-align: space-between; ` + (__privateGet(this, _txs).tategaki ? `padding-top: 1em; padding-bottom: 1em;` : `padding-left: 1em; padding-right: 1em;`);
       break;
     default:
       st = `text-align: ${r_align};`;
   }
   return ` style='${st}'`;
 };
-_needGoTxt = /* @__PURE__ */ new WeakMap();
-_putCh = /* @__PURE__ */ new WeakMap();
-_tagCh_sub = /* @__PURE__ */ new WeakSet();
+_needGoTxt = new WeakMap();
+_putCh2 = new WeakMap();
+_tagCh_sub = new WeakSet();
 tagCh_sub_fn = function(ch, ruby, isSkip, r_align) {
   var _a3;
   if (ch === " ")
     ch = "&nbsp;";
-  if (__privateGet2(_TxtLayer, _val).doRecLog())
-    __privateSet2(this, _page_text, __privateGet2(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
+  if (__privateGet(_TxtLayer, _val).doRecLog())
+    __privateSet(this, _page_text, __privateGet(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
   let add_htm = "";
   const rs = this.mkStyle_r_align(ch, ruby, r_align);
   if (isSkip)
-    __privateSet2(this, _cumDelay, 0);
-  const da = ` data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'`;
-  add_htm = ruby ? __privateGet2(this, _aSpan_bk) ? `<ruby style='${__privateGet2(this, _fncFFSStyle).call(this, ch)}'${da} data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${__privateGet2(this, _fncFFSStyle).call(this, ch)}'>
+    __privateSet(this, _cumDelay, 0);
+  const da = ` data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'`;
+  add_htm = ruby ? __privateGet(this, _aSpan_bk) ? `<ruby style='${__privateGet(this, _fncFFSStyle).call(this, ch)}'${da} data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${__privateGet(this, _fncFFSStyle).call(this, ch)}'>
 					<ruby${da}>${ch}<rt${rs}>${ruby}</rt></ruby>
-				</span>` : __privateGet2(this, _aSpan_bk) ? __privateGet2(this, _fncFFSSpan).call(this, ch) : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${__privateGet2(this, _fncFFSStyle).call(this, ch)}'${da}>${ch}</span>`;
-  if (__privateGet2(this, _ch_in_join))
-    __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_a3 = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _a3 : 0 : LayerMng.msecChWait));
+				</span>` : __privateGet(this, _aSpan_bk) ? __privateGet(this, _fncFFSSpan).call(this, ch) : `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='animation-delay: ${__privateGet(this, _cumDelay)}ms;${__privateGet(this, _fncFFSStyle).call(this, ch)}'${da}>${ch}</span>`;
+  if (__privateGet(this, _ch_in_join))
+    __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? (_a3 = __privateGet(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _a3 : 0 : LayerMng.msecChWait));
   return add_htm;
 };
-_cumDelay = /* @__PURE__ */ new WeakMap();
-_firstCh = /* @__PURE__ */ new WeakMap();
-_aSpan = /* @__PURE__ */ new WeakMap();
-_aSpan_bk = /* @__PURE__ */ new WeakMap();
-_aSpan_link = /* @__PURE__ */ new WeakMap();
-_hSpanBk = /* @__PURE__ */ new WeakMap();
-_beginSpan = /* @__PURE__ */ new WeakSet();
+_cumDelay = new WeakMap();
+_firstCh = new WeakMap();
+_aSpan = new WeakMap();
+_aSpan_bk = new WeakMap();
+_aSpan_link = new WeakMap();
+_hSpanBk = new WeakMap();
+_beginSpan = new WeakSet();
 beginSpan_fn = function(o) {
-  __privateGet2(this, _hSpanBk).ch_in_style = __privateGet2(this, _$ch_in_style);
-  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, o);
-  __privateGet2(this, _hSpanBk).ch_out_style = __privateGet2(this, _$ch_out_style);
-  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, o);
-  __privateGet2(this, _hSpanBk).r_align = __privateGet2(this, _r_align);
+  __privateGet(this, _hSpanBk).ch_in_style = __privateGet(this, _$ch_in_style);
+  __privateMethod(this, _set_ch_in, set_ch_in_fn).call(this, o);
+  __privateGet(this, _hSpanBk).ch_out_style = __privateGet(this, _$ch_out_style);
+  __privateMethod(this, _set_ch_out, set_ch_out_fn).call(this, o);
+  __privateGet(this, _hSpanBk).r_align = __privateGet(this, _r_align);
   if ("r_align" in o)
-    __privateSet2(this, _r_align, o.r_align);
+    __privateSet(this, _r_align, o.r_align);
 };
-_autoCloseSpan = /* @__PURE__ */ new WeakSet();
+_autoCloseSpan = new WeakSet();
 autoCloseSpan_fn = function() {
-  if (!__privateGet2(this, _aSpan_bk))
+  if (!__privateGet(this, _aSpan_bk))
     return;
-  __privateGet2(this, _aSpan_bk).push(__privateGet2(this, _aSpan), "</span>");
-  __privateSet2(this, _aSpan, Array.prototype.concat.apply([], __privateGet2(this, _aSpan_bk)));
-  __privateSet2(this, _aSpan_bk, void 0);
-  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, { in_style: __privateGet2(this, _hSpanBk).ch_in_style });
-  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, { out_style: __privateGet2(this, _hSpanBk).ch_out_style });
-  __privateSet2(this, _r_align, __privateGet2(this, _hSpanBk).r_align);
+  __privateGet(this, _aSpan_bk).push(__privateGet(this, _aSpan), "</span>");
+  __privateSet(this, _aSpan, Array.prototype.concat.apply([], __privateGet(this, _aSpan_bk)));
+  __privateSet(this, _aSpan_bk, void 0);
+  __privateSet(_TxtLayer, _rec, __privateGet(_TxtLayer, _rec_bk));
+  __privateMethod(this, _set_ch_in, set_ch_in_fn).call(this, { in_style: __privateGet(this, _hSpanBk).ch_in_style });
+  __privateMethod(this, _set_ch_out, set_ch_out_fn).call(this, { out_style: __privateGet(this, _hSpanBk).ch_out_style });
+  __privateSet(this, _r_align, __privateGet(this, _hSpanBk).r_align);
 };
-_page_text = /* @__PURE__ */ new WeakMap();
-__privateAdd2(TxtLayer, _ch_in_style);
-__privateAdd2(TxtLayer, _ch_out_style);
-__privateAdd2(TxtLayer, _autowc);
-__privateAdd2(TxtLayer, _cfg, void 0);
-__privateAdd2(TxtLayer, _val, void 0);
-__privateAdd2(TxtLayer, _recText, void 0);
-__privateAdd2(TxtLayer, _isPageFore, void 0);
-__privateAdd2(TxtLayer, _main, void 0);
-__privateAdd2(TxtLayer, _evtMng, void 0);
-__privateAdd2(TxtLayer, _sys, void 0);
-__privateAdd2(TxtLayer, _doAutoWc, false);
-__privateAdd2(TxtLayer, _hAutoWc, {});
-TxtLayer.rec = (tx) => tx;
+_page_text = new WeakMap();
+__privateAdd(TxtLayer, _ch_in_style);
+__privateAdd(TxtLayer, _ch_out_style);
+__privateAdd(TxtLayer, _autowc);
+__privateAdd(TxtLayer, _cfg3, void 0);
+__privateAdd(TxtLayer, _val, void 0);
+__privateAdd(TxtLayer, _recText, void 0);
+__privateAdd(TxtLayer, _isPageFore, void 0);
+__privateAdd(TxtLayer, _main2, void 0);
+__privateAdd(TxtLayer, _evtMng4, void 0);
+__privateAdd(TxtLayer, _sys3, void 0);
+__privateAdd(TxtLayer, _doAutoWc, false);
+__privateAdd(TxtLayer, _hAutoWc, {});
+__privateAdd(TxtLayer, _rec, (tx) => tx);
+__privateAdd(TxtLayer, _rec_bk, (tx) => tx);
+__privateAdd(TxtLayer, _class_offrec, " offrec");
 class FrameMng {
   constructor(cfg, hTag, appPixi, val, main, sys, hTwInf) {
     __privateAdd(this, _add_frame);
@@ -48557,7 +48702,7 @@ class FrameMng {
     __privateAdd(this, _set_frame);
     __privateAdd(this, _frame);
     __privateAdd(this, _tsy_frame);
-    __privateAdd(this, _evtMng4, void 0);
+    __privateAdd(this, _evtMng5, void 0);
     __privateAdd(this, _hIfrm, /* @__PURE__ */ Object.create(null));
     __privateAdd(this, _hDisabled, {});
     __privateAdd(this, _zIdx, 1);
@@ -48574,7 +48719,7 @@ class FrameMng {
     hTag.tsy_frame = (o) => __privateMethod(this, _tsy_frame, tsy_frame_fn).call(this, o);
   }
   setEvtMng(evtMng) {
-    __privateSet(this, _evtMng4, evtMng);
+    __privateSet(this, _evtMng5, evtMng);
   }
   destroy() {
     for (const n in __privateGet(this, _hIfrm)) {
@@ -48601,7 +48746,7 @@ class FrameMng {
     }
   }
 }
-_evtMng4 = new WeakMap();
+_evtMng5 = new WeakMap();
 _hIfrm = new WeakMap();
 _add_frame = new WeakSet();
 add_frame_fn = function(hArg) {
@@ -48647,7 +48792,7 @@ add_frame_fn = function(hArg) {
       this.val.setVal_Nochk("tmp", vn + ".height", rct.height);
       this.val.setVal_Nochk("tmp", vn + ".visible", v2);
       const win = ifrm.contentWindow;
-      __privateGet(this, _evtMng4).resvFlameEvent(win);
+      __privateGet(this, _evtMng5).resvFlameEvent(win);
       (_a4 = win.sn_repRes) == null ? void 0 : _a4.call(win, (img) => {
         var _a5;
         return GrpLayer.loadPic2Img((_a5 = img.dataset.src) != null ? _a5 : "", img);
@@ -48844,7 +48989,7 @@ tsy_frame_fn = function(hArg) {
   this.appPixi.stage.interactive = false;
   const tw_nm = `frm
 ${hArg.id}`;
-  const tw = new Tween(hNow).to(hTo, argChk_Num(hArg, "time", NaN) * (Boolean(this.val.getVal("tmp:sn.skip.enabled") || __privateGet(this, _evtMng4).isSkippingByKeyDown()) ? 0 : 1)).delay(argChk_Num(hArg, "delay", 0)).easing(CmnTween.ease(hArg.ease)).repeat(repeat === 0 ? Infinity : repeat - 1).yoyo(argChk_Boolean(hArg, "yoyo", false)).onUpdate(() => {
+  const tw = new Tween(hNow).to(hTo, argChk_Num(hArg, "time", NaN) * (Boolean(this.val.getVal("tmp:sn.skip.enabled") || __privateGet(this, _evtMng5).isSkippingByKeyDown()) ? 0 : 1)).delay(argChk_Num(hArg, "delay", 0)).easing(CmnTween.ease(hArg.ease)).repeat(repeat === 0 ? Infinity : repeat - 1).yoyo(argChk_Boolean(hArg, "yoyo", false)).onUpdate(() => {
     fncA();
     fncXYSR();
     fncW();
@@ -48923,7 +49068,7 @@ const _LayerMng = class {
     __privateAdd(this, _modeLn, void 0);
     __privateAdd(this, _modeLnSub, void 0);
     __privateAdd(this, _grpCover, void 0);
-    __privateAdd(this, _evtMng5, void 0);
+    __privateAdd(this, _evtMng6, void 0);
     __privateAdd(this, _cmdTxt, void 0);
     __privateAdd(this, _hPages, void 0);
     __privateAdd(this, _aLayName, void 0);
@@ -49076,7 +49221,7 @@ void main(void) {
       else
         __privateGet(this, _aLayName).forEach((layer) => __privateGet(this, _hPages)[layer].fore.cvsResize());
       __privateGet(this, _frmMng).cvsResize();
-      __privateGet(this, _evtMng5).cvsResize();
+      __privateGet(this, _evtMng6).cvsResize();
     };
     if (CmnLib.isMobile) {
       globalThis.addEventListener("orientationchange", fncResizeLay, { passive: true });
@@ -49185,7 +49330,7 @@ void main(void) {
       __privateGet(this, _stage).addChild(__privateSet(this, _grpCover, new Graphics()).beginFill(bg_color).lineStyle(0, bg_color).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill());
   }
   setEvtMng(evtMng) {
-    __privateSet(this, _evtMng5, evtMng);
+    __privateSet(this, _evtMng6, evtMng);
     __privateGet(this, _frmMng).setEvtMng(evtMng);
     GrpLayer.setEvtMng(evtMng);
   }
@@ -49329,7 +49474,7 @@ selectNode_fn = function(node) {
     pages.fore.showDesignCast();
 };
 _grpCover = new WeakMap();
-_evtMng5 = new WeakMap();
+_evtMng6 = new WeakMap();
 _foreachRedrawTxtLayBack = new WeakSet();
 foreachRedrawTxtLayBack_fn = function(g_alpha) {
   __privateMethod(this, _getLayers, getLayers_fn).call(this).forEach((name) => {
@@ -49609,7 +49754,7 @@ trans_fn = function(hArg) {
   };
   __privateSet(this, _tiTrans, { tw: void 0, resume: false });
   const time = argChk_Num(hArg, "time", 0);
-  if (time === 0 || __privateGet(this, _evtMng5).isSkippingByKeyDown()) {
+  if (time === 0 || __privateGet(this, _evtMng6).isSkippingByKeyDown()) {
     comp();
     return false;
   }
@@ -49676,7 +49821,7 @@ wt_fn = function(hArg) {
   if (!__privateGet(this, _tiTrans).tw)
     return false;
   __privateGet(this, _tiTrans).resume = true;
-  return __privateGet(this, _evtMng5).waitLimitedEvent(hArg, () => __privateMethod(this, _finish_trans, finish_trans_fn).call(this));
+  return __privateGet(this, _evtMng6).waitLimitedEvent(hArg, () => __privateMethod(this, _finish_trans, finish_trans_fn).call(this));
 };
 _finish_trans = new WeakSet();
 finish_trans_fn = function() {
@@ -49692,7 +49837,7 @@ quake_fn = function(hArg) {
     return false;
   if (this.val.getVal("tmp:sn.skip.enabled"))
     return false;
-  if (__privateGet(this, _evtMng5).isSkippingByKeyDown())
+  if (__privateGet(this, _evtMng6).isSkippingByKeyDown())
     return false;
   const aDo = [];
   __privateMethod(this, _getLayers, getLayers_fn).call(this, hArg.layer).forEach((lay_nm) => {
@@ -49743,7 +49888,7 @@ tsy_fn = function(hArg) {
   let foreLay = __privateGet(this, _hPages)[layer].fore;
   let finishBlendLayer = () => {
   };
-  const isSkip = __privateGet(this, _evtMng5).isSkippingByKeyDown();
+  const isSkip = __privateGet(this, _evtMng6).isSkippingByKeyDown();
   if (!isSkip && "render" in hArg) {
     foreLay.renderStart();
     finishBlendLayer = () => foreLay.renderEnd();
@@ -49794,7 +49939,7 @@ ${hArg.id}` : (_a3 = hArg.name) != null ? _a3 : hArg.layer;
   const ti = __privateGet(this, _hTwInf)[tw_nm];
   if (!(ti == null ? void 0 : ti.tw))
     return false;
-  return ti.resume = __privateGet(this, _evtMng5).waitEvent(() => {
+  return ti.resume = __privateGet(this, _evtMng6).waitEvent(() => {
     var _a4;
     return (_a4 = ti.tw) == null ? void 0 : _a4.end();
   }, argChk_Boolean(hArg, "canskip", true), argChk_Boolean(hArg, "global", false));
@@ -51111,7 +51256,7 @@ const _ScriptIterator = class {
     __privateAdd(this, _csDepth_macro_esc, void 0);
     __privateAdd(this, _breakState, void 0);
     __privateAdd(this, _procDebugtag, void 0);
-    __privateAdd(this, _evtMng6, void 0);
+    __privateAdd(this, _evtMng7, void 0);
     __privateAdd(this, _layMng, void 0);
     __privateAdd(this, _fncSet, void 0);
     __privateAdd(this, _fncBreak, void 0);
@@ -51428,7 +51573,7 @@ const _ScriptIterator = class {
     return tag_fnc(hArg);
   }
   setOtherObj(evtMng, layMng) {
-    __privateSet(this, _evtMng6, evtMng);
+    __privateSet(this, _evtMng7, evtMng);
     __privateSet(this, _layMng, layMng);
   }
   dumpErrForeLine() {
@@ -51703,7 +51848,7 @@ aStack_fn = function() {
   return a2;
 };
 _procDebugtag = new WeakMap();
-_evtMng6 = new WeakMap();
+_evtMng7 = new WeakMap();
 _layMng = new WeakMap();
 _let_ml = new WeakSet();
 let_ml_fn = function(hArg) {
@@ -51893,7 +52038,7 @@ call_fn = function(hArg) {
   const { fn } = hArg;
   if (fn)
     __privateGet(this, _cnvSnPath).call(this, fn);
-  __privateMethod(this, _callSub, callSub_fn).call(this, { ":hEvt1Time": __privateGet(this, _evtMng6).popLocalEvts(), ":hMp": this.val.cloneMp() });
+  __privateMethod(this, _callSub, callSub_fn).call(this, { ":hEvt1Time": __privateGet(this, _evtMng7).popLocalEvts(), ":hMp": this.val.cloneMp() });
   if (argChk_Boolean(hArg, "clear_local_event", false))
     this.hTag.clear_event({});
   __privateMethod(this, _jumpWork, jumpWork_fn).call(this, fn, hArg.label);
@@ -51981,7 +52126,7 @@ return_fn = function() {
   else
     __privateMethod(this, _clearResvToken, clearResvToken_fn).call(this);
   if (csa[":hEvt1Time"])
-    __privateGet(this, _evtMng6).pushLocalEvts(csa[":hEvt1Time"]);
+    __privateGet(this, _evtMng7).pushLocalEvts(csa[":hEvt1Time"]);
   if (cs.fn in __privateGet(this, _hScript)) {
     __privateMethod(this, _jump_light, jump_light_fn).call(this, cs);
     return false;
@@ -52390,7 +52535,7 @@ class Main {
   constructor(sys) {
     __privateAdd(this, _init);
     __privateAdd(this, _runAnalyze);
-    __privateAdd(this, _cfg3, void 0);
+    __privateAdd(this, _cfg4, void 0);
     __privateAdd(this, _appPixi3, void 0);
     __privateAdd(this, _hTag2, void 0);
     __privateAdd(this, _val2, void 0);
@@ -52399,7 +52544,7 @@ class Main {
     __privateAdd(this, _scrItr2, void 0);
     __privateAdd(this, _dbgMng, void 0);
     __privateAdd(this, _layMng2, void 0);
-    __privateAdd(this, _evtMng7, void 0);
+    __privateAdd(this, _evtMng8, void 0);
     __privateAdd(this, _fncNext, void 0);
     __privateAdd(this, _alzTagArg2, void 0);
     __privateAdd(this, _inited, void 0);
@@ -52438,7 +52583,7 @@ class Main {
     __privateSet(this, _destroyed, false);
     this.isDestroyed = () => __privateGet(this, _destroyed);
     skipHello();
-    Config.generate(sys).then((c2) => __privateSet(this, _cfg3, c2)).then(() => __privateMethod(this, _init, init_fn).call(this)).catch((e) => console.error(`load err fn:prj.json e:%o`, e));
+    Config.generate(sys).then((c2) => __privateSet(this, _cfg4, c2)).then(() => __privateMethod(this, _init, init_fn).call(this)).catch((e) => console.error(`load err fn:prj.json e:%o`, e));
   }
   errScript(mes, isThrow = true) {
     this.stop();
@@ -52472,7 +52617,7 @@ class Main {
     this.sys.setTitleInfo(mes ? ` -- ${mes}\u4E2D` : "");
   }
   fire(KEY, e) {
-    __privateGet(this, _evtMng7).fire(KEY, e);
+    __privateGet(this, _evtMng8).fire(KEY, e);
   }
   async destroy(ms_late = 0) {
     if (__privateGet(this, _destroyed))
@@ -52486,7 +52631,7 @@ class Main {
     if (ms_late > 0)
       await new Promise((r2) => setTimeout(r2, ms_late));
     __privateSet(this, _hTag2, {});
-    __privateGet(this, _evtMng7).destroy();
+    __privateGet(this, _evtMng8).destroy();
     __privateGet(this, _scrItr2).destroy();
     __privateGet(this, _layMng2).destroy();
     __privateGet(this, _dbgMng).destroy();
@@ -52498,7 +52643,7 @@ class Main {
     __privateGet(this, _appPixi3).destroy(true);
   }
 }
-_cfg3 = new WeakMap();
+_cfg4 = new WeakMap();
 _appPixi3 = new WeakMap();
 _hTag2 = new WeakMap();
 _val2 = new WeakMap();
@@ -52507,7 +52652,7 @@ _sndMng = new WeakMap();
 _scrItr2 = new WeakMap();
 _dbgMng = new WeakMap();
 _layMng2 = new WeakMap();
-_evtMng7 = new WeakMap();
+_evtMng8 = new WeakMap();
 _fncNext = new WeakMap();
 _alzTagArg2 = new WeakMap();
 _inited = new WeakMap();
@@ -52520,9 +52665,9 @@ init_fn = async function() {
     throw "argChk_Color err";
   CmnLib.cc4ColorName = cc;
   const hApp = {
-    width: __privateGet(this, _cfg3).oCfg.window.width,
-    height: __privateGet(this, _cfg3).oCfg.window.height,
-    backgroundColor: parseColor(String(__privateGet(this, _cfg3).oCfg.init.bg_color)),
+    width: __privateGet(this, _cfg4).oCfg.window.width,
+    height: __privateGet(this, _cfg4).oCfg.window.height,
+    backgroundColor: parseColor(String(__privateGet(this, _cfg4).oCfg.init.bg_color)),
     resolution: (_b3 = globalThis.devicePixelRatio) != null ? _b3 : 1,
     autoResize: true
   };
@@ -52537,15 +52682,15 @@ init_fn = async function() {
     document.body.appendChild(__privateGet(this, _appPixi3).view);
     __privateGet(this, _appPixi3).view.id = __privateGet(this, _SN_ID);
   }
-  __privateSet(this, _val2, new Variable(__privateGet(this, _cfg3), __privateGet(this, _hTag2)));
-  __privateSet(this, _prpPrs, new PropParser(__privateGet(this, _val2), (_c3 = __privateGet(this, _cfg3).oCfg.init.escape) != null ? _c3 : "\\"));
+  __privateSet(this, _val2, new Variable(__privateGet(this, _cfg4), __privateGet(this, _hTag2)));
+  __privateSet(this, _prpPrs, new PropParser(__privateGet(this, _val2), (_c3 = __privateGet(this, _cfg4).oCfg.init.escape) != null ? _c3 : "\\"));
   await Promise.allSettled(this.sys.init(__privateGet(this, _hTag2), __privateGet(this, _appPixi3), __privateGet(this, _val2), this));
-  __privateGet(this, _hTag2).title({ text: __privateGet(this, _cfg3).oCfg.book.title || "SKYNovel" });
-  __privateSet(this, _sndMng, new SoundMng(__privateGet(this, _cfg3), __privateGet(this, _hTag2), __privateGet(this, _val2), this, this.sys));
-  __privateSet(this, _scrItr2, new ScriptIterator(__privateGet(this, _cfg3), __privateGet(this, _hTag2), this, __privateGet(this, _val2), __privateGet(this, _alzTagArg2), () => __privateMethod(this, _runAnalyze, runAnalyze_fn).call(this), __privateGet(this, _prpPrs), __privateGet(this, _sndMng), this.sys));
+  __privateGet(this, _hTag2).title({ text: __privateGet(this, _cfg4).oCfg.book.title || "SKYNovel" });
+  __privateSet(this, _sndMng, new SoundMng(__privateGet(this, _cfg4), __privateGet(this, _hTag2), __privateGet(this, _val2), this, this.sys));
+  __privateSet(this, _scrItr2, new ScriptIterator(__privateGet(this, _cfg4), __privateGet(this, _hTag2), this, __privateGet(this, _val2), __privateGet(this, _alzTagArg2), () => __privateMethod(this, _runAnalyze, runAnalyze_fn).call(this), __privateGet(this, _prpPrs), __privateGet(this, _sndMng), this.sys));
   __privateSet(this, _dbgMng, new DebugMng(this.sys, __privateGet(this, _hTag2), __privateGet(this, _scrItr2)));
-  __privateSet(this, _layMng2, new LayerMng(__privateGet(this, _cfg3), __privateGet(this, _hTag2), __privateGet(this, _appPixi3), __privateGet(this, _val2), this, __privateGet(this, _scrItr2), this.sys, __privateGet(this, _sndMng), __privateGet(this, _alzTagArg2), __privateGet(this, _prpPrs)));
-  __privateSet(this, _evtMng7, new EventMng(__privateGet(this, _cfg3), __privateGet(this, _hTag2), __privateGet(this, _appPixi3), this, __privateGet(this, _layMng2), __privateGet(this, _val2), __privateGet(this, _sndMng), __privateGet(this, _scrItr2), this.sys));
+  __privateSet(this, _layMng2, new LayerMng(__privateGet(this, _cfg4), __privateGet(this, _hTag2), __privateGet(this, _appPixi3), __privateGet(this, _val2), this, __privateGet(this, _scrItr2), this.sys, __privateGet(this, _sndMng), __privateGet(this, _alzTagArg2), __privateGet(this, _prpPrs)));
+  __privateSet(this, _evtMng8, new EventMng(__privateGet(this, _cfg4), __privateGet(this, _hTag2), __privateGet(this, _appPixi3), this, __privateGet(this, _layMng2), __privateGet(this, _val2), __privateGet(this, _sndMng), __privateGet(this, _scrItr2), this.sys));
   __privateGet(this, _appPixi3).ticker.add(__privateGet(this, _fncTicker2));
   this.resumeByJumpOrCall({ fn: "main" });
   __privateSet(this, _inited, true);
@@ -52630,7 +52775,7 @@ class SysApp extends SysNode {
     __privateAdd(this, _dl_app);
     __privateAdd(this, _hInfo, void 0);
     __privateAdd(this, _setStore, void 0);
-    __privateAdd(this, _main2, void 0);
+    __privateAdd(this, _main3, void 0);
     __privateSet(this, _hInfo, {
       getAppPath: "",
       isPackaged: false,
@@ -52878,12 +53023,12 @@ class SysApp extends SysNode {
     });
   }
   async run() {
-    if (__privateGet(this, _main2)) {
+    if (__privateGet(this, _main3)) {
       const ms_late = 10;
-      __privateGet(this, _main2).destroy(ms_late);
+      __privateGet(this, _main3).destroy(ms_late);
       await new Promise((r2) => setTimeout(r2, ms_late));
     }
-    __privateSet(this, _main2, new Main(this));
+    __privateSet(this, _main3, new Main(this));
   }
   init(hTag, appPixi, val, main) {
     super.init(hTag, appPixi, val, main);
@@ -52919,7 +53064,7 @@ class SysApp extends SysNode {
 }
 _hInfo = new WeakMap();
 _setStore = new WeakMap();
-_main2 = new WeakMap();
+_main3 = new WeakMap();
 _dl_app = new WeakSet();
 dl_app_fn = async function(url2, urlApp, fn) {
   if (CmnLib.debugLog)

@@ -774,23 +774,22 @@ export class TxtStage extends Container {
 				case 'link':
 					const sp = new Sprite;
 					arg.key = `lnk=[${i}] `+ this.name;
+					let eCh = v.elm;
+					if (! eCh.classList.contains('sn_ch')) eCh = eCh.parentElement!;
 					this.#spWork(sp, arg, add, rct, ease, cis ?? {});
 					arg.hint_tate ??= this.#isTategaki;	// hint用
-					const style_normal = v.elm.style.cssText;
-					const style_hover = arg.style_hover ?? '';
-					const style_clicked = arg.style_clicked ?? '';
+					const st_normal = eCh.style.cssText;
+					const st_hover = st_normal +(arg.style_hover ?? '');
+					const st_clicked = st_normal +(arg.style_clicked ?? '');
 					TxtStage.#evtMng.button(arg, sp,
-						()=> v.elm.style.cssText = style_normal,
-						this.#beforeHTMLElm !== v.elm	// isLinkHead
-						? ()=> {
+						()=> eCh.style.cssText = st_normal,
+						()=> {
 							if (! this.canFocus()) return false;
-							v.elm.style.cssText = style_hover;
+							eCh.style.cssText = st_hover;
 							return true;
-						}
-						: ()=> false,
-						()=> v.elm.style.cssText = style_clicked
+						},
+						()=> eCh.style.cssText = st_clicked
 					);
-					this.#beforeHTMLElm = v.elm;
 					this.#cntTxt.addChild(sp);
 					break;
 			}
@@ -835,7 +834,6 @@ export class TxtStage extends Container {
 
 		le.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
-	#beforeHTMLElm	: HTMLElement | undefined	= undefined;
 	readonly #REGDS = /animation\-duration: (?<ms>\d+)ms;/;
 	#fncEndChIn	= ()=> {};
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {

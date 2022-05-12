@@ -1,3 +1,8 @@
+- fix: 履歴記録 OFF時（save:sn.doRecLog = false）に[link]が押せない件
+- fix: [link]で囲まれた最初の一文字のみ mouse over イベントを拾う件
+- fix: [link]で囲まれたルビあり文字のみが、「背景色変更」される件
+
+
 ## [1.29.7](https://github.com/famibee/SKYNovel/compare/v1.29.6...v1.29.7) (2022-04-29)
 
 

@@ -21,7 +21,6 @@ export declare class TxtLayer extends Layer {
     get height(): number;
     chgBackAlpha(g_alpha: number): void;
     static chgDoRec(doRec: boolean): void;
-    static rec: (tx: string) => string;
     isCur: boolean;
     private mkStyle_r_align;
     tagCh(text: string): void;

@@ -216,7 +216,7 @@ export class TxtLayer extends Layer {
 		TxtLayer.#doAutoWc = false;
 		TxtLayer.#hAutoWc = {};
 
-		TxtLayer.rec = (tx: string)=> tx;
+		TxtLayer.#rec = tx=> tx;
 	}
 	override set name(nm: string) {this.name_ = nm; this.#txs.name = nm;}
 	override get name() {return this.name_;}	// getは継承しないらしい
@@ -395,12 +395,15 @@ export class TxtLayer extends Layer {
 
 
 	static	chgDoRec(doRec: boolean) {
-		TxtLayer.rec = doRec
-			? (tx: string)=> tx
-			: (tx: string)=> `<span class='offrec'>${tx}</span>`;
+		TxtLayer.#rec = doRec
+			? tx=> tx
+			: tx=> `<span class='offrec'>${tx}</span>`;
 				// 囲んだ領域は履歴で非表示
+		TxtLayer.#class_offrec = doRec ?'' :' offrec';
 	}
-	static	rec = (tx: string)=> tx;
+	static	#rec = (tx: string)=> tx;
+	static	#rec_bk = (tx: string)=> tx;
+	static	#class_offrec	= ' offrec';
 
 	isCur	= false;
 	#ruby_pd: (v: string, l: number)=> string = ()=> '';
@@ -472,10 +475,12 @@ export class TxtLayer extends Layer {
 				if (this.#aSpan_bk) {
 					add_htm = this.#aSpan_bk.slice(-1)[0];
 					this.#autoCloseSpan();
-					this.#aSpan.push(TxtLayer.rec('<br/>'));
+					this.#aSpan.push(TxtLayer.#rec('<br/>'));
 					this.#aSpan.push(add_htm);	// ここで末尾に追加しないと続かない
 					this.#aSpan_bk = this.#aSpan;
 					this.#aSpan = [];
+					TxtLayer.#rec_bk = TxtLayer.#rec;
+					TxtLayer.#rec = tx=> tx;
 					return;	// breakではない
 				}
 				if (this.#firstCh) {// １文字目にルビが無い場合、不可視ルビで行揃え
@@ -546,10 +551,12 @@ export class TxtLayer extends Layer {
 					const ad = (wait < 0)
 						? ''
 						: ` animation-duration: ${wait}ms;`
-					this.#aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.#cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
+					this.#aSpan.push(`<span class='sn_ch${sn_ch + TxtLayer.#class_offrec}' style='animation-delay: ${this.#cumDelay}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
 				}
 				this.#aSpan_bk = this.#aSpan;
 				this.#aSpan = [];
+				TxtLayer.#rec_bk = TxtLayer.#rec;
+				TxtLayer.#rec = tx=> tx;
 			}
 				return;	// breakではない
 			case 'add_close':
@@ -610,9 +617,11 @@ export class TxtLayer extends Layer {
 				const ad = (wait < 0)
 					? ''
 					: ` animation-duration: ${wait}ms;`
-				this.#aSpan.push(`<span class='sn_ch${sn_ch}' style='animation-delay: ${this.#cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>`);
+				this.#aSpan.push(`<span class='sn_ch${sn_ch + TxtLayer.#class_offrec}' style='animation-delay: ${this.#cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>`);
 				this.#aSpan_bk = this.#aSpan;
 				this.#aSpan = [];
+				TxtLayer.#rec_bk = TxtLayer.#rec;
+				TxtLayer.#rec = tx=> tx;
 			}
 				return;	// breakではない
 
@@ -633,9 +642,11 @@ export class TxtLayer extends Layer {
 					? ''
 					: ` animation-duration: ${wait}ms;`
 				this.#aSpan_link = ` data-cmd='link' data-arg='${a_ruby[1]}'`;
-				this.#aSpan.push(`<span${this.#aSpan_link} class='sn_ch${sn_ch}' style='animation-delay: ${this.#cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>`);
+				this.#aSpan.push(`<span${this.#aSpan_link} class='sn_ch${sn_ch + TxtLayer.#class_offrec}' style='animation-delay: ${this.#cumDelay}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>`);
 				this.#aSpan_bk = this.#aSpan;
 				this.#aSpan = [];
+				TxtLayer.#rec_bk = TxtLayer.#rec;
+				TxtLayer.#rec = tx=> tx;
 			}
 				return;	// breakではない
 
@@ -702,7 +713,7 @@ ${this.#fncFFSStyle(tx)}`;
 			}
 			break;
 		}
-		this.#aSpan.push(TxtLayer.rec(add_htm));
+		this.#aSpan.push(TxtLayer.#rec(add_htm));
 	}
 	#tagCh_sub(ch: string, ruby: string, isSkip: boolean, r_align: string): string {
 		if (ch === ' ') ch = '&nbsp;';
@@ -753,6 +764,7 @@ ${this.#fncFFSStyle(tx)}`;
 		this.#aSpan_bk.push(this.#aSpan, '</span>')
 		this.#aSpan = Array.prototype.concat.apply([], this.#aSpan_bk);
 		this.#aSpan_bk = undefined;
+		TxtLayer.#rec = TxtLayer.#rec_bk;
 
 		this.#set_ch_in({in_style: this.#hSpanBk.ch_in_style});
 		this.#set_ch_out({out_style: this.#hSpanBk.ch_out_style});
@@ -771,6 +783,7 @@ ${this.#fncFFSStyle(tx)}`;
 		this.#firstCh = true;
 		this.#aSpan = [];
 		this.#aSpan_bk = undefined;
+		TxtLayer.#rec = TxtLayer.#rec_bk;
 		this.#page_text = '';
 		TxtLayer.#recText('', true);
 	}
