@@ -1,3 +1,10 @@
+## [1.29.8](https://github.com/famibee/SKYNovel/compare/v1.29.7...v1.29.8) (2022-05-12)
+
+
+### Bug Fixes
+
+* [link]関係の不具合修正 ([5f9b84f](https://github.com/famibee/SKYNovel/commit/5f9b84f69071896e4fd3bf9a4beef58e45b72fd7))
+
 - fix: 履歴記録 OFF時（save:sn.doRecLog = false）に[link]が押せない件
 - fix: [link]で囲まれた最初の一文字のみ mouse over イベントを拾う件
 - fix: [link]で囲まれたルビあり文字のみが、「背景色変更」される件
