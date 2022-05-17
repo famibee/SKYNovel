@@ -1,3 +1,6 @@
+- fix: 最初から左上に hint が表示されている件
+
+
 # [1.30.0](https://github.com/famibee/SKYNovel/compare/v1.29.8...v1.30.0) (2022-05-17)
 
 

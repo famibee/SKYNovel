@@ -123,6 +123,7 @@ export class EventMng implements IEvtMng {
 		this.#elmHint = document.querySelector('.sn_hint') as HTMLElement;
 		this.#spanHint = this.#elmHint.querySelector('span')!;
 		this.#popper = createPopper(this.#elmV, this.#elmHint);
+		this.#elmHint.hidden = true;
 
 
 		appPixi.stage.interactive = true;

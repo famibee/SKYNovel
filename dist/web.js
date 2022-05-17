@@ -52514,6 +52514,7 @@ class EventMng {
     __privateSet2(this, _elmHint, document.querySelector(".sn_hint"));
     __privateSet2(this, _spanHint, __privateGet2(this, _elmHint).querySelector("span"));
     __privateSet2(this, _popper, createPopper(__privateGet2(this, _elmV), __privateGet2(this, _elmHint)));
+    __privateGet2(this, _elmHint).hidden = true;
     appPixi.stage.interactive = true;
     if (CmnLib.isMobile)
       appPixi.stage.on("pointerdown", (e) => this.fire("click", e));
