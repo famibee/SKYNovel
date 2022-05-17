@@ -1,3 +1,10 @@
+# [1.30.0](https://github.com/famibee/SKYNovel/compare/v1.29.8...v1.30.0) (2022-05-17)
+
+
+### Features
+
+* [button][link] の hintを @popperjs/core 駆動に変更 ([4d181fd](https://github.com/famibee/SKYNovel/commit/4d181fdd96ca1c70e69e2ffe597ff8bb4850d1da))
+
 - feat: [button][link] の hintを @popperjs/core 駆動に変更
 	- CSSカスタマイズしやすさを重視
 	- hintの CSSを指定できる hint_style 属性追加
