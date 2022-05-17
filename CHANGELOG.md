@@ -1,3 +1,39 @@
+- feat: [button][link] の hintを @popperjs/core 駆動に変更
+	- CSSカスタマイズしやすさを重視
+	- hintの CSSを指定できる hint_style 属性追加
+		- 例） hint_style='background-color: red;'
+	- @popperjs/coreの動作を指定できる hint_opt 属性追加
+		- 例） tooltips を上側、[Modifiers・Offset の Distance](https://popper.js.org/docs/v2/modifiers/offset/) を -30 に設定するには、
+			hint_opt='{"placement": "top", "modifiers": [{"name": "offset", "options": {"offset": [0, -30]}}]}'
+			- json部分を読みやすく展開すると……
+```json
+{
+	"placement": "top",
+	"modifiers": [
+		{
+			"name": "offset",
+			"options": {
+				"offset": [0, -30]
+			}
+		}
+	]
+}
+```
+	- BREAKING CHANGE: hint関連の属性は以下の通りに変更
+
+| | 変更点 | 属性 | 必須 | 省略時 | 値域・型 | コメント |
+|-|-|-|-|-|-|-|
+| o | 変更 | hint |  | 表示しない | String | 指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。~~<br/>hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う~~ |
+| + | 追加 | hint_style | | （狭いので省略） | css | ツールチップ矩形のスタイル |
+| + | 追加 | hint_opt | | | json | @popperjs/core の createPopper() の第三引数 |
+| x | 廃止 | ~~hint_tate~~ |  | ~~文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）~~ | ~~Boolean~~ | ~~ツールチップスをリンクに対してどの位置に表示するか。<br/>false：リンクの上に表示（横書き文字レイヤの動作）<br/>true：リンクの右に横倒しで表示（縦書き文字レイヤの動作）~~ |
+| x | 廃止 | ~~hint_width~~ |  | ~~80~~ | ~~1〜ドット数~~ | ~~hintの幅を指定できる~~ |
+| x | 廃止 | ~~hint_color~~ |  | ~~'white'~~ | ~~css色指定。'white', '#FF0000'など~~ | ~~文字色を指定~~ |
+| x | 廃止 | ~~hint_font~~ |  | ~~'22px Arial'~~ | ~~文字サイズとフォント~~ | ~~hint文字サイズとフォントを指定~~ |
+
+- fix: JSON系の属性設定時のエラーメッセージを詳細に
+
+
 ## [1.29.8](https://github.com/famibee/SKYNovel/compare/v1.29.7...v1.29.8) (2022-05-12)
 
 

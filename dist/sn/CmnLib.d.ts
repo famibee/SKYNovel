@@ -33,6 +33,7 @@ export declare function argChk_Num(hash: any, name: string, def: number): number
 export declare function argChk_Boolean(hash: any, name: string, def: boolean): boolean;
 export declare function parseColor(v: string): number;
 export declare function argChk_Color(hash: any, name: string, def: number): number;
+export declare function mesErrJSON(hArg: HArg, nm?: string, mes?: string): string;
 export declare function getFn(p: string): string;
 export declare function getExt(p: string): string;
 export declare class CmnLib {

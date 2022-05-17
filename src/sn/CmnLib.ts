@@ -168,12 +168,22 @@ export	function argChk_Color(hash: any, name: string, def: number): number {
 }
 
 
+const REG_ERRMES_JSON = /JSON at position (\d+)$/;
+	// Unexpected number in JSON at position 
+export	function mesErrJSON(hArg: HArg, nm = '', mes = ''): string {
+	const col = (mes.match(REG_ERRMES_JSON) ?? ['',''])[1];
+	return `[${hArg[':タグ名']}] ${nm} 属性の解析エラー : ${mes}
+${(<any>hArg)[nm]}${col ?`
+${'^'.padStart(Number(col))}` :``}`;
+}
+
+
 const REG_FN	= /^[^\/\.]+$|[^\/]+(?=\.)/;
 	// https://regex101.com/r/8sltIm/1
 export	function getFn(p: string) {return (p.match(REG_FN) ?? [''])[0];}
 const REG_EXT	= /\.([^\.]+)$/;
 	// https://regex101.com/r/IULqII/3
-export 	function getExt(p: string) {return (p.match(REG_EXT) ?? [''])[1];}
+export 	function getExt(p: string) {return (p.match(REG_EXT) ?? ['',''])[1];}
 
 import {name, os} from 'platform';
 export class CmnLib {

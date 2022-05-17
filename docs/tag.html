@@ -1064,18 +1064,32 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>hint</td><td></td><td></td><td>String</td><td>
+<tr><td>hint</td><td></td><td>表示しない</td><td>String</td><td>
 	指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。<br/>
-	hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う
+	<s>hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う</s>
 </td></tr>
-<tr><td>hint_tate</td><td></td><td>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</td><td>Boolean</td><td>
+<tr><td>hint_style</td><td></td><td>
+	background-color: #3c3225;<br/>
+	color: white;<br/>
+	padding: 4px 8px;<br/>
+	border-radius: 4px;<br/>
+	font-size: 1.2em;<br/>
+	ほか（狭いので省略）<br/>
+</td><td>css</td><td>ツールチップ矩形のスタイル</td></tr>
+<tr><td>hint_opt</td><td></td><td>
+	{
+		placement: "bottom",
+		modifiers: [{fallbackPlacements: ["top", "bottom"]},],
+	}
+</td><td>json</td><td>@popperjs/core の createPopper() の第三引数</td></tr>
+<tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>Boolean</s></td><td><s>
 	ツールチップスをリンクに対してどの位置に表示するか。<br/>
 	false：リンクの上に表示（横書き文字レイヤの動作）<br/>
 	true：リンクの右に横倒しで表示（縦書き文字レイヤの動作）<br/>
-</td></tr>
-<tr><td>hint_width</td><td></td><td>80</td><td>1〜ドット数</td><td>hintの幅を指定できる</td></tr>
-<tr><td>hint_color</td><td></td><td>'white'</td><td>css色指定。'white', '#FF0000'など</td><td>ツールチップス文字色を指定</td></tr>
-<tr><td>hint_font</td><td></td><td>'22px Arial'</td><td>文字サイズとフォント</td><td>hint文字サイズとフォントを指定</td></tr>
+</s></td></tr>
+<tr><td><s>hint_width</s></td><td></td><td><s>80</s></td><td><s>1〜ドット数</s></td><td><s>hintの幅を指定できる</s></td></tr>
+<tr><td><s>hint_color</s></td><td></td><td><s>'white'</s></td><td><s>css色指定。'white', '#FF0000'など</s></td><td><s>ツールチップス文字色を指定</s></td></tr>
+<tr><td><s>hint_font</s></td><td></td><td><s>'22px Arial'</s></td><td><s>文字サイズとフォント</s></td><td><s>hint文字サイズとフォントを指定</s></td></tr>
 </table>
 
 </p>
@@ -1831,18 +1845,32 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
-<tr><td>hint</td><td></td><td></td><td>String</td><td>
+<tr><td>hint</td><td></td><td>表示しない</td><td>String</td><td>
 	指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。<br/>
-	hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う
+	<s>hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う</s>
 </td></tr>
-<tr><td>hint_tate</td><td></td><td>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</td><td>Boolean</td><td>
-	ツールチップスをボタンに対してどの位置に表示するか。ボタンが回転している場合は回転に追従する。<br/>
-	false：ボタンの上に表示（横書き文字レイヤの動作）<br/>
-	true：ボタンの右に横倒しで表示（縦書き文字レイヤの動作）<br/>
-</td></tr>
-<tr><td>hint_width</td><td></td><td>80</td><td>1〜ドット数</td><td>hintの幅を指定できる</td></tr>
-<tr><td>hint_color</td><td></td><td>'white'</td><td>css色指定。'white', '#FF0000'など</td><td>ツールチップス文字色を指定</td></tr>
-<tr><td>hint_font</td><td></td><td>'22px Arial'</td><td>文字サイズとフォント</td><td>hint文字サイズとフォントを指定</td></tr>
+<tr><td>hint_style</td><td></td><td>
+	background-color: #3c3225;<br/>
+	color: white;<br/>
+	padding: 4px 8px;<br/>
+	border-radius: 4px;<br/>
+	font-size: 1.2em;<br/>
+	ほか（狭いので省略）<br/>
+</td><td>css</td><td>ツールチップ矩形のスタイル</td></tr>
+<tr><td>hint_opt</td><td></td><td>
+	{
+		placement: "bottom",
+		modifiers: [{fallbackPlacements: ["top", "bottom"]},],
+	}
+</td><td>json</td><td>@popperjs/core の createPopper() の第三引数</td></tr>
+<tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>Boolean</s></td><td><s>
+	ツールチップスをリンクに対してどの位置に表示するか。<br/>
+	false：リンクの上に表示（横書き文字レイヤの動作）<br/>
+	true：リンクの右に横倒しで表示（縦書き文字レイヤの動作）<br/>
+</s></td></tr>
+<tr><td><s>hint_width</s></td><td></td><td><s>80</s></td><td><s>1〜ドット数</s></td><td><s>hintの幅を指定できる</s></td></tr>
+<tr><td><s>hint_color</s></td><td></td><td><s>'white'</s></td><td><s>css色指定。'white', '#FF0000'など</s></td><td><s>ツールチップス文字色を指定</s></td></tr>
+<tr><td><s>hint_font</s></td><td></td><td><s>'22px Arial'</s></td><td><s>文字サイズとフォント</s></td><td><s>hint文字サイズとフォントを指定</s></td></tr>
 
 
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>

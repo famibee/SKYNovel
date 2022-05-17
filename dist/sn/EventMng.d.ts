@@ -17,7 +17,6 @@ export declare class EventMng implements IEvtMng {
     private readonly sndMng;
     private readonly scrItr;
     readonly sys: SysBase;
-    setTxtHint: (_txt: string, _fillStyle: string, _hint_font: string) => void;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator, sys: SysBase);
     resvFlameEvent(win: Window): void;
     destroy(): void;

@@ -114,7 +114,7 @@ export class TxtLayer extends Layer {
 	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});}
 	to {opacity: 1; transform: none;}
 }
-`		);
+`);
 
 		return false;
 	}

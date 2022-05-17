@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics, IDestroyOptions} from 'pixi.js';
-import {uint, IEvtMng, argChk_Boolean, argChk_Num, CmnLib} from './CmnLib';
+import {uint, IEvtMng, argChk_Boolean, argChk_Num, CmnLib, mesErrJSON} from './CmnLib';
 import {HArg} from './CmnInterface';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
@@ -112,7 +112,7 @@ export class Button extends Container {
 			for (const nm in o) (style as any)[nm] = o[nm];
 		//	style = {...style, ...JSON.parse(hArg.style)};	// 上手くいかない
 		} catch (e) {
-			throw new Error(`[button] style指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+			throw new Error(mesErrJSON(hArg, 'style', e.message));
 		}
 
 		const txt = new Text(hArg.text ?? '', style);
@@ -164,7 +164,7 @@ export class Button extends Container {
 			const o = JSON.parse(hArg.style_hover);
 			for (const nm in o) (style_hover as any)[nm] = o[nm];
 		} catch (e) {
-			throw new Error(`[button] style_hover指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+			throw new Error(mesErrJSON(hArg, 'style_hover', e.message));
 		}
 		else style_hover.fill = 'white';
 
@@ -173,7 +173,7 @@ export class Button extends Container {
 			const o = JSON.parse(hArg.style_clicked);
 			for (const nm in o) (style_clicked as any)[nm] = o[nm];
 		} catch (e) {
-			throw new Error(`[button] style_clicked指定が異常です。JSON文字列は「"」で囲んで下さい err:${e}`);
+			throw new Error(mesErrJSON(hArg, 'style_clicked', e.message));
 		}
 		else style_clicked.dropShadow = false;
 
