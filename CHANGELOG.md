@@ -1,3 +1,10 @@
+## [1.30.1](https://github.com/famibee/SKYNovel/compare/v1.30.0...v1.30.1) (2022-05-17)
+
+
+### Bug Fixes
+
+* 最初から左上に hint が表示されている件 ([c31e01b](https://github.com/famibee/SKYNovel/commit/c31e01b749f62fddb0cf649e1179bdd4f94bbd8c))
+
 - fix: 最初から左上に hint が表示されている件
 
 
