@@ -1,3 +1,10 @@
+## [1.30.2](https://github.com/famibee/SKYNovel/compare/v1.30.1...v1.30.2) (2022-05-26)
+
+
+### Bug Fixes
+
+* [link]文字列の途中で改行せず追い出される件 ([345219b](https://github.com/famibee/SKYNovel/commit/345219bcb84f9f2e88d06ce38a0e301b123264c5))
+
 - fix: [link]文字列の途中で改行せず追い出される件
 - fix: [ch style]などが効かなくなっていた件（22/1/13 デグレード）
 - fix: リファクタリング
