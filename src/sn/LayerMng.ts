@@ -903,7 +903,7 @@ void main(void) {
 		if (this.val.getVal('tmp:sn.skip.enabled')) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 
-		//（未使用 22/1/13） this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);
+		this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);	// [ch style]用
 
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
@@ -911,7 +911,7 @@ void main(void) {
 		tl.tagCh(text.replaceAll('[r]', '\n'));
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
-		//（未使用 22/1/13） this.#cmdTxt(`add_close｜`, tl);
+		this.#cmdTxt(`add_close｜`, tl);	// [ch style]用
 
 		return false;
 	}

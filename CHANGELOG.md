@@ -1,3 +1,8 @@
+- fix: [link]文字列の途中で改行せず追い出される件
+- fix: [ch style]などが効かなくなっていた件（22/1/13 デグレード）
+- fix: リファクタリング
+
+
 ## [1.30.1](https://github.com/famibee/SKYNovel/compare/v1.30.0...v1.30.1) (2022-05-17)
 
 

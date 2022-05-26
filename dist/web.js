@@ -49,7 +49,7 @@ var __privateMethod2 = (obj, member, method) => {
   __accessCheck2(obj, member, "access private method");
   return method;
 };
-var _a2, _b2, _c2, _d, _sesame, _putCh, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _cfg3, _val, _recText, _isPageFore, _ch_in_style, ch_in_style_fn, _ch_out_style, ch_out_style_fn, _main2, _evtMng4, _sys3, _doAutoWc, _hAutoWc, _autowc, autowc_fn, _b_color, _b_alpha, _b_alpha_isfixed, _b_do, _b_pic, _txs, _rbSpl, _cntBtn, _set_ch_in, set_ch_in_fn, _$ch_in_style, _ch_in_join, _set_ch_out, set_ch_out_fn, _$ch_out_style, _drawBack, drawBack_fn, _setFfs, setFfs_fn, _ffs, _fncFFSStyle, _fncFFSSpan, _strNoFFS, _regNoFFS, _rec, _rec_bk, _class_offrec, _ruby_pd, _r_align, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn, _needGoTxt, _putCh2, _tagCh_sub, tagCh_sub_fn, _cumDelay, _firstCh, _aSpan, _aSpan_bk, _aSpan_link, _hSpanBk, _beginSpan, beginSpan_fn, _autoCloseSpan, autoCloseSpan_fn, _page_text, _evtMng5, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _bg_color, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng6, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _elmV, _elmHint, _spanHint, _popper, _oHintOpt, _dispHint, dispHint_fn, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng7, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg4, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng8, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _path_base, _now_prj, _main3, _hAppendFile;
+var _a2, _b2, _c2, _d, _sesame, _putCh, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _cfg3, _val, _recText, _isPageFore, _ch_in_style, ch_in_style_fn, _ch_out_style, ch_out_style_fn, _main2, _evtMng4, _sys3, _doAutoWc, _hAutoWc, _autowc, autowc_fn, _b_color, _b_alpha, _b_alpha_isfixed, _b_do, _b_pic, _txs, _rbSpl, _cntBtn, _set_ch_in, set_ch_in_fn, _$ch_in_style, _ch_in_join, _set_ch_out, set_ch_out_fn, _$ch_out_style, _drawBack, drawBack_fn, _setFfs, setFfs_fn, _ffs, _fncFFSStyle, _strNoFFS, _regNoFFS, _rec, _ruby_pd, _r_align, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn, _needGoTxt, _putCh2, _tagCh_sub, tagCh_sub_fn, _style_delay, style_delay_fn, _cumDelay, _firstCh, _aSpan, _stkASpan, _pushSpan, pushSpan_fn, _popSpan, popSpan_fn, _page_text, _evtMng5, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _bg_color, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng6, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _elmV, _elmHint, _spanHint, _popper, _oHintOpt, _dispHint, dispHint_fn, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng7, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg4, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng8, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _path_base, _now_prj, _main3, _hAppendFile;
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var platform$1 = { exports: {} };
 /*!
@@ -47508,7 +47508,7 @@ const _TxtStage = class extends Container {
     __privateGet2(this, _htmTxt).style.height = __privateGet2(this, _infTL).$height + "px";
   }
   goTxt(aSpan) {
-    var _a3, _b3, _c3, _d2, _e;
+    var _a3, _b3, _c3, _d2, _e, _f;
     __privateGet2(_TxtStage, _cntBreak).visible = false;
     const begin = __privateGet2(this, _aRect).length;
     if (begin === 0) {
@@ -47616,35 +47616,34 @@ const _TxtStage = class extends Container {
         }
         rctLastCh = rct;
       }
-      switch (v2.cmd) {
-        case "grp":
-          const cnt = new Container();
-          __privateGet2(this, _cntTxt).addChild(cnt);
-          GrpLayer.csv2Sprites(arg.pic, cnt, (sp2) => {
-            __privateMethod2(this, _spWork, spWork_fn).call(this, cnt, arg, add3, rct, ease, cis != null ? cis : {});
-            if (!cnt.parent)
-              cnt.removeChild(sp2);
-          });
-          break;
-        case "link":
-          const sp = new Sprite();
-          arg.key = `lnk=[${i2}] ` + this.name;
-          let eCh = v2.elm;
-          if (!eCh.classList.contains("sn_ch"))
-            eCh = eCh.parentElement;
-          __privateMethod2(this, _spWork, spWork_fn).call(this, sp, arg, add3, rct, ease, cis != null ? cis : {});
-          (_c3 = arg.hint_tate) != null ? _c3 : arg.hint_tate = __privateGet2(this, _isTategaki);
-          const st_normal = eCh.style.cssText;
-          const st_hover = st_normal + ((_d2 = arg.style_hover) != null ? _d2 : "");
-          const st_clicked = st_normal + ((_e = arg.style_clicked) != null ? _e : "");
-          __privateGet2(_TxtStage, _evtMng3).button(arg, sp, () => eCh.style.cssText = st_normal, () => {
-            if (!this.canFocus())
-              return false;
-            eCh.style.cssText = st_hover;
-            return true;
-          }, () => eCh.style.cssText = st_clicked);
-          __privateGet2(this, _cntTxt).addChild(sp);
-          break;
+      if (v2.cmd === "grp") {
+        const cnt = new Container();
+        __privateGet2(this, _cntTxt).addChild(cnt);
+        GrpLayer.csv2Sprites(arg.pic, cnt, (sp) => {
+          __privateMethod2(this, _spWork, spWork_fn).call(this, cnt, arg, add3, rct, ease, cis != null ? cis : {});
+          if (!cnt.parent)
+            cnt.removeChild(sp);
+        });
+      }
+      if (v2.lnk) {
+        const eCh = v2.elm.parentElement.closest("[data-arg]");
+        const aLnk = JSON.parse((_c3 = eCh.getAttribute("data-arg")) != null ? _c3 : "{}");
+        aLnk.key = `lnk=[${i2}] ` + this.name;
+        const sp = new Sprite();
+        __privateMethod2(this, _spWork, spWork_fn).call(this, sp, aLnk, add3, rct, ease, cis != null ? cis : {});
+        const st_normal = (_d2 = aLnk.style) != null ? _d2 : "";
+        const st_hover = st_normal + ((_e = aLnk.style_hover) != null ? _e : "");
+        const st_clicked = st_normal + ((_f = aLnk.style_clicked) != null ? _f : "");
+        const cl = eCh.querySelectorAll(".sn_ch");
+        cl.forEach((e) => e.dataset.st_bk = e.style.cssText);
+        const fncStyle = (st) => cl.forEach((e) => e.style.cssText = e.dataset.st_bk + st);
+        __privateGet2(_TxtStage, _evtMng3).button(aLnk, sp, () => fncStyle(st_normal), () => {
+          if (!this.canFocus())
+            return false;
+          fncStyle(st_hover);
+          return true;
+        }, () => fncStyle(st_clicked));
+        __privateGet2(this, _cntTxt).addChild(sp);
       }
     }
     const chs = __privateGet2(this, _htmTxt).querySelectorAll("span.sn_ch");
@@ -48149,7 +48148,10 @@ spWork_fn = function(sp, arg, add3, rct, ease, cis) {
     cis.wait = parseInt(arg.wait);
   sp.width = rct.width;
   sp.height = rct.height;
-  sp.position.set(cis.x.charAt(0) === "=" ? rct.x + sp.width * cis.nx : cis.nx, cis.y.charAt(0) === "=" ? rct.y + sp.height * cis.ny : cis.ny);
+  if (cis.x)
+    sp.position.set(cis.x.charAt(0) === "=" ? rct.x + sp.width * cis.nx : cis.nx, cis.y.charAt(0) === "=" ? rct.y + sp.height * cis.ny : cis.ny);
+  else
+    sp.position.set(rct.x, rct.y);
   const st = {
     sp,
     tw: new Tween(sp).to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, angle: 0 }, (_a3 = cis.wait) != null ? _a3 : 0).easing(ease).delay(((_b3 = add3.wait) != null ? _b3 : 0) + ((_c3 = arg.delay) != null ? _c3 : 0)).onComplete(() => {
@@ -48170,7 +48172,7 @@ getChRects_fn = function(elm) {
   const ret = [];
   if (elm.nodeType !== elm.TEXT_NODE) {
     elm.childNodes.forEach((v2) => ret.push(__privateMethod2(this, _getChRects, getChRects_fn).call(this, v2)));
-    return Array.prototype.concat.apply([], ret);
+    return ret.flat();
   }
   const range = elm.ownerDocument.createRange();
   range.selectNodeContents(elm);
@@ -48191,7 +48193,7 @@ getChRects_fn = function(elm) {
       cmd: (_a3 = pe.getAttribute("data-cmd")) != null ? _a3 : void 0,
       arg: (_b3 = pe.getAttribute("data-arg")) != null ? _b3 : void 0,
       add: (_c3 = pe.getAttribute("data-add")) != null ? _c3 : void 0,
-      tcy: (_d2 = pe.getAttribute("data-tcy")) != null ? _d2 : void 0
+      lnk: (_d2 = pe.getAttribute("data-lnk")) != null ? _d2 : void 0
     };
     ret.push(cr);
   }
@@ -48549,8 +48551,9 @@ const _TxtLayer = class extends Layer {
     __privateAdd2(this, _setFfs);
     __privateAdd2(this, _mkStyle_r_align4ff);
     __privateAdd2(this, _tagCh_sub);
-    __privateAdd2(this, _beginSpan);
-    __privateAdd2(this, _autoCloseSpan);
+    __privateAdd2(this, _style_delay);
+    __privateAdd2(this, _pushSpan);
+    __privateAdd2(this, _popSpan);
     __privateAdd2(this, _b_color, void 0);
     __privateAdd2(this, _b_alpha, void 0);
     __privateAdd2(this, _b_alpha_isfixed, void 0);
@@ -48564,7 +48567,6 @@ const _TxtLayer = class extends Layer {
     __privateAdd2(this, _$ch_out_style, void 0);
     __privateAdd2(this, _ffs, void 0);
     __privateAdd2(this, _fncFFSStyle, void 0);
-    __privateAdd2(this, _fncFFSSpan, void 0);
     __privateAdd2(this, _strNoFFS, void 0);
     __privateAdd2(this, _regNoFFS, void 0);
     __privateAdd2(this, _ruby_pd, void 0);
@@ -48574,9 +48576,7 @@ const _TxtLayer = class extends Layer {
     __privateAdd2(this, _cumDelay, void 0);
     __privateAdd2(this, _firstCh, void 0);
     __privateAdd2(this, _aSpan, void 0);
-    __privateAdd2(this, _aSpan_bk, void 0);
-    __privateAdd2(this, _aSpan_link, void 0);
-    __privateAdd2(this, _hSpanBk, void 0);
+    __privateAdd2(this, _stkASpan, void 0);
     __privateAdd2(this, _page_text, void 0);
     __privateSet2(this, _b_color, 0);
     __privateSet2(this, _b_alpha, 0);
@@ -48591,7 +48591,6 @@ const _TxtLayer = class extends Layer {
     __privateSet2(this, _$ch_out_style, "");
     __privateSet2(this, _ffs, "");
     __privateSet2(this, _fncFFSStyle, (_ch2) => "");
-    __privateSet2(this, _fncFFSSpan, (ch) => ch);
     __privateSet2(this, _strNoFFS, "");
     __privateSet2(this, _regNoFFS, new RegExp("[\u3000]"));
     this.isCur = false;
@@ -48609,17 +48608,6 @@ const _TxtLayer = class extends Layer {
         case 1:
           __privateSet2(this, _needGoTxt, true);
           if (ch === "\n") {
-            if (__privateGet2(this, _aSpan_bk)) {
-              add_htm = __privateGet2(this, _aSpan_bk).slice(-1)[0];
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-              __privateGet2(this, _aSpan).push(__privateGet2(_a3 = _TxtLayer, _rec).call(_a3, "<br/>"));
-              __privateGet2(this, _aSpan).push(add_htm);
-              __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-              __privateSet2(this, _aSpan, []);
-              __privateSet2(_TxtLayer, _rec_bk, __privateGet2(_TxtLayer, _rec));
-              __privateSet2(_TxtLayer, _rec, (tx) => tx);
-              return;
-            }
             if (__privateGet2(this, _firstCh)) {
               __privateSet2(this, _firstCh, false);
               add_htm = "<ruby>\u3000<rt>\u3000</rt></ruby><br/>";
@@ -48649,9 +48637,9 @@ const _TxtLayer = class extends Layer {
               add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a_ruby[1], isSkip, a_ruby[0]);
               break;
             case "gotxt": {
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
               if (this.isCur)
-                __privateGet2(_b3 = _TxtLayer, _recText).call(_b3, __privateGet2(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
+                __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, __privateGet2(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
               if (!__privateGet2(this, _needGoTxt))
                 return;
               __privateGet2(this, _txs).goTxt(__privateGet2(this, _aSpan));
@@ -48662,54 +48650,44 @@ const _TxtLayer = class extends Layer {
             case "add":
               {
                 const o = JSON.parse(a_ruby[1]);
-                (_c3 = o.style) != null ? _c3 : o.style = "";
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
-                if (__privateGet2(this, _aSpan_bk))
-                  __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
-                else {
-                  if (isSkip)
-                    __privateSet2(this, _cumDelay, 0);
-                  const wait = Number((_d2 = o.wait) != null ? _d2 : -1);
-                  const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
-                  const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                  __privateGet2(this, _aSpan).push(`<span class='sn_ch${sn_ch + __privateGet2(_TxtLayer, _class_offrec)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='${JSON.stringify(o)}'>`);
-                }
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
-                __privateSet2(_TxtLayer, _rec_bk, __privateGet2(_TxtLayer, _rec));
-                __privateSet2(_TxtLayer, _rec, (tx) => tx);
+                (_b3 = o.style) != null ? _b3 : o.style = "";
+                const stk = __privateGet2(this, _stkASpan).at(-1);
+                if (stk)
+                  o.style = ((_c3 = stk.o.style) != null ? _c3 : "") + o.style;
+                __privateMethod2(this, _pushSpan, pushSpan_fn).call(this, o);
+                __privateGet2(this, _aSpan).push(`<span style='${o.style}' data-add='${JSON.stringify(o)}'>`);
               }
               return;
             case "add_close":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
+              if (__privateGet2(this, _stkASpan).length > 0)
+                __privateGet2(this, _aSpan).splice(-2, 1);
+              else
+                __privateGet2(this, _aSpan).push(`</span>`);
               return;
             case "grp":
               __privateSet2(this, _needGoTxt, true);
               {
-                if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const arg = (a_ruby[1] ? a_ruby[1].slice(0, -1) + "," : `{`) + `"delay": ${__privateGet2(this, _cumDelay)}}`;
-                if (__privateGet2(this, _ch_in_join))
-                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? 0 : LayerMng.msecChWait));
+                const [, arg = "{}"] = a_ruby;
                 const o = JSON.parse(arg);
-                (_e = o.style) != null ? _e : o.style = "";
-                if (!("id" in o))
-                  o.id = __privateGet2(this, _aSpan).length;
+                o.delay = __privateGet2(this, _cumDelay);
+                (_d2 = o.id) != null ? _d2 : o.id = __privateGet2(this, _aSpan).length;
                 if (o.id === "break") {
                   __privateGet2(this, _txs).dispBreak(o.pic);
                   return;
                 }
-                add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${arg}'`;
+                (_e = o.style) != null ? _e : o.style = "";
                 const wait = Number((_f = o.wait) != null ? _f : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
+                const sc = wait != 0 ? ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}` : "";
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                add_htm += ` class='sn_ch${sn_ch}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>\u3000</span>`;
+                const lnk = (_g = __privateGet2(this, _stkASpan).at(0)) == null ? void 0 : _g.o[":link"];
+                add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${JSON.stringify(o)}' class='sn_ch${sc}' style='${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}${ad} ${o.style}'${lnk != null ? lnk : ""} data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>\u3000</span>`;
                 if (__privateGet2(this, _firstCh)) {
                   __privateSet2(this, _firstCh, false);
                   add_htm = `<ruby>${add_htm}<rt>\u3000</rt></ruby>`;
                 }
-                if (__privateGet2(this, _aSpan).slice(-1)[0] === add_htm)
-                  return;
+                if (__privateGet2(this, _ch_in_join))
+                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? 0 : LayerMng.msecChWait));
               }
               break;
             case "del":
@@ -48719,50 +48697,28 @@ const _TxtLayer = class extends Layer {
               TxtStage.delBreak();
               return;
             case "span":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
               __privateSet2(this, _needGoTxt, true);
               {
                 const o = JSON.parse(a_ruby[1]);
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
-                if (!o.style)
-                  return;
-                if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const wait = Number((_g = o.wait) != null ? _g : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
-                const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                __privateGet2(this, _aSpan).push(`<span class='sn_ch${sn_ch + __privateGet2(_TxtLayer, _class_offrec)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>`);
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
-                __privateSet2(_TxtLayer, _rec_bk, __privateGet2(_TxtLayer, _rec));
-                __privateSet2(_TxtLayer, _rec, (tx) => tx);
+                __privateMethod2(this, _pushSpan, pushSpan_fn).call(this, o);
               }
               return;
             case "link":
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
               __privateSet2(this, _needGoTxt, true);
               {
                 const o = JSON.parse(a_ruby[1]);
                 (_h = o.style) != null ? _h : o.style = "";
-                __privateMethod2(this, _beginSpan, beginSpan_fn).call(this, o);
-                if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
-                const wait = Number((_i = o.wait) != null ? _i : -1);
-                const sn_ch = wait === 0 ? "" : ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}`;
-                const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                __privateSet2(this, _aSpan_link, ` data-cmd='link' data-arg='${a_ruby[1]}'`);
-                __privateGet2(this, _aSpan).push(`<span${__privateGet2(this, _aSpan_link)} class='sn_ch${sn_ch + __privateGet2(_TxtLayer, _class_offrec)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${ad} ${o.style}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>`);
-                __privateSet2(this, _aSpan_bk, __privateGet2(this, _aSpan));
-                __privateSet2(this, _aSpan, []);
-                __privateSet2(_TxtLayer, _rec_bk, __privateGet2(_TxtLayer, _rec));
-                __privateSet2(_TxtLayer, _rec, (tx) => tx);
+                o[":link"] = ` data-lnk='@'`;
+                __privateGet2(this, _aSpan).push(`<span data-arg='${a_ruby[1]}' style='display: contents;'>`);
+                __privateMethod2(this, _pushSpan, pushSpan_fn).call(this, o);
               }
               return;
             case "endlink":
               __privateSet2(this, _needGoTxt, true);
-              if (__privateGet2(this, _aSpan_bk))
-                __privateSet2(this, _aSpan, __privateGet2(this, _aSpan).map((v2) => v2.replace(/ data-cmd='linkrsv'/, __privateGet2(this, _aSpan_link))));
-              __privateMethod2(this, _autoCloseSpan, autoCloseSpan_fn).call(this);
+              __privateGet2(this, _aSpan).push(`</span>`);
+              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
               return;
             default:
               __privateSet2(this, _needGoTxt, true);
@@ -48772,30 +48728,20 @@ const _TxtLayer = class extends Layer {
         case 3:
           __privateSet2(this, _firstCh, false);
           __privateSet2(this, _needGoTxt, true);
-          switch (a_ruby[0]) {
+          const [cmd0, tx, rb0] = a_ruby;
+          switch (cmd0) {
             case "tcy":
               {
                 if (__privateGet2(_TxtLayer, _val).doRecLog())
                   __privateSet2(this, _page_text, __privateGet2(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
-                const tx = a_ruby[1];
-                const id_tcy = tx.length > 1 ? __privateGet2(this, _aSpan).length + 1 : "";
-                const rb = CmnLib.isSafari ? a_ruby[2].replace(/[A-Za-z0-9]/g, (s2) => String.fromCharCode(s2.charCodeAt(0) + 65248)) : a_ruby[2];
-                if (isSkip)
-                  __privateSet2(this, _cumDelay, 0);
+                const rb = CmnLib.isSafari ? rb0.replace(/[A-Za-z0-9]/g, (s2) => String.fromCharCode(s2.charCodeAt(0) + 65248)) : rb0;
                 const rs = this.mkStyle_r_align(tx, rb, __privateGet2(this, _r_align));
-                const da = ` data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'`;
-                const st = `<span data-tcy='${id_tcy}' style='
+                const lnk = (_i = __privateGet2(this, _stkASpan).at(0)) == null ? void 0 : _i.o[":link"];
+                add_htm = `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='${__privateGet2(this, _fncFFSStyle).call(this, tx)}${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}'><ruby><span ${lnk != null ? lnk : ""} style='
 text-combine-upright: all;
 -webkit-text-combine: horizontal;
-${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
-                add_htm = rb ? __privateGet2(this, _aSpan_bk) ? `<ruby>${st}'${da} data-cmd='linkrsv'>${tx}</span>
-							<rt${rs}>${rb}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;'>
-							<ruby>${st}'${da}>${tx}</span>
-							<rt${rs}>${rb}</rt></ruby>
-						</span>` : __privateGet2(this, _aSpan_bk) ? `${st}'${da} data-cmd='linkrsv'>${tx}</span>` : `${st}
-							animation-delay: ${__privateGet2(this, _cumDelay)}ms;
-							height: 1em;
-						' class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}'${da}>${tx}</span>`;
+				' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>${tx}</span>
+				<rt${rs}>${rb}</rt></ruby></span>`;
                 if (__privateGet2(this, _ch_in_join))
                   __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_j = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _j : 0 : LayerMng.msecChWait));
               }
@@ -48810,13 +48756,7 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     __privateSet2(this, _cumDelay, 0);
     __privateSet2(this, _firstCh, true);
     __privateSet2(this, _aSpan, []);
-    __privateSet2(this, _aSpan_bk, void 0);
-    __privateSet2(this, _aSpan_link, "");
-    __privateSet2(this, _hSpanBk, {
-      ch_in_style: "",
-      ch_out_style: "",
-      r_align: ""
-    });
+    __privateSet2(this, _stkASpan, []);
     this.click = () => {
       if (!this.spLay.interactiveChildren || !this.spLay.visible)
         return true;
@@ -48999,7 +48939,6 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
   }
   static chgDoRec(doRec) {
     __privateSet2(_TxtLayer, _rec, doRec ? (tx) => tx : (tx) => `<span class='offrec'>${tx}</span>`);
-    __privateSet2(_TxtLayer, _class_offrec, doRec ? "" : " offrec");
   }
   mkStyle_r_align(ch, rb, r_align) {
     if (!r_align)
@@ -49035,8 +48974,6 @@ ${__privateGet2(this, _fncFFSStyle).call(this, tx)}`;
     __privateSet2(this, _cumDelay, 0);
     __privateSet2(this, _firstCh, true);
     __privateSet2(this, _aSpan, []);
-    __privateSet2(this, _aSpan_bk, void 0);
-    __privateSet2(_TxtLayer, _rec, __privateGet2(_TxtLayer, _rec_bk));
     __privateSet2(this, _page_text, "");
     __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, "", true);
   }
@@ -49276,22 +49213,13 @@ setFfs_fn = function(hArg) {
   if (!("ffs" in hArg))
     return;
   (_b3 = __privateGet2(this, _ffs)) != null ? _b3 : __privateSet2(this, _ffs, "");
-  if (__privateGet2(this, _ffs) === "") {
-    __privateSet2(this, _fncFFSStyle, () => "");
-    __privateSet2(this, _fncFFSSpan, (ch) => ch);
-  } else {
-    __privateSet2(this, _fncFFSStyle, (ch) => __privateGet2(this, _regNoFFS).test(ch) ? "" : ` font-feature-settings: ${__privateGet2(this, _ffs)};`);
-    __privateSet2(this, _fncFFSSpan, (ch) => __privateGet2(this, _regNoFFS).test(ch) ? ch : `<span style='font-feature-settings: ${__privateGet2(this, _ffs)};'>${ch}</span>`);
-  }
+  __privateSet2(this, _fncFFSStyle, __privateGet2(this, _ffs) === "" ? () => "" : (ch) => __privateGet2(this, _regNoFFS).test(ch) ? "" : ` font-feature-settings: ${__privateGet2(this, _ffs)};`);
 };
 _ffs = new WeakMap();
 _fncFFSStyle = new WeakMap();
-_fncFFSSpan = new WeakMap();
 _strNoFFS = new WeakMap();
 _regNoFFS = new WeakMap();
 _rec = new WeakMap();
-_rec_bk = new WeakMap();
-_class_offrec = new WeakMap();
 _ruby_pd = new WeakMap();
 _r_align = new WeakMap();
 _mkStyle_r_align4ff = new WeakSet();
@@ -49334,50 +49262,50 @@ _needGoTxt = new WeakMap();
 _putCh2 = new WeakMap();
 _tagCh_sub = new WeakSet();
 tagCh_sub_fn = function(ch, ruby, isSkip, r_align) {
-  var _a3;
+  var _a3, _b3;
   if (ch === " ")
     ch = "&nbsp;";
   if (__privateGet2(_TxtLayer, _val).doRecLog())
     __privateSet2(this, _page_text, __privateGet2(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
-  let add_htm = "";
-  const rs = this.mkStyle_r_align(ch, ruby, r_align);
+  const lnk = (_a3 = __privateGet2(this, _stkASpan).at(0)) == null ? void 0 : _a3.o[":link"];
+  const curpos = `${lnk != null ? lnk : ""} data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'`;
+  const add_htm = `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}${__privateGet2(this, _fncFFSStyle).call(this, ch)}'${ruby ? "" : curpos}>${ruby ? `<ruby${curpos}>${ch}<rt${this.mkStyle_r_align(ch, ruby, r_align)}>${ruby}</rt></ruby>` : ch}</span>`;
+  if (__privateGet2(this, _ch_in_join))
+    __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_b3 = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _b3 : 0 : LayerMng.msecChWait));
+  return add_htm;
+};
+_style_delay = new WeakSet();
+style_delay_fn = function(isSkip) {
+  var _a3, _b3, _c3;
   if (isSkip)
     __privateSet2(this, _cumDelay, 0);
-  const da = ` data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'`;
-  add_htm = ruby ? __privateGet2(this, _aSpan_bk) ? `<ruby style='${__privateGet2(this, _fncFFSStyle).call(this, ch)}'${da} data-cmd='linkrsv'>${ch}<rt${rs}>${ruby}</rt></ruby>` : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${__privateGet2(this, _fncFFSStyle).call(this, ch)}'>
-					<ruby${da}>${ch}<rt${rs}>${ruby}</rt></ruby>
-				</span>` : __privateGet2(this, _aSpan_bk) ? __privateGet2(this, _fncFFSSpan).call(this, ch) : `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='animation-delay: ${__privateGet2(this, _cumDelay)}ms;${__privateGet2(this, _fncFFSStyle).call(this, ch)}'${da}>${ch}</span>`;
-  if (__privateGet2(this, _ch_in_join))
-    __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_a3 = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _a3 : 0 : LayerMng.msecChWait));
-  return add_htm;
+  return `animation-delay: ${__privateGet2(this, _cumDelay)}ms;${(_c3 = (_b3 = (_a3 = __privateGet2(this, _stkASpan).at(-1)) == null ? void 0 : _a3.o) == null ? void 0 : _b3.style) != null ? _c3 : ""}`;
 };
 _cumDelay = new WeakMap();
 _firstCh = new WeakMap();
 _aSpan = new WeakMap();
-_aSpan_bk = new WeakMap();
-_aSpan_link = new WeakMap();
-_hSpanBk = new WeakMap();
-_beginSpan = new WeakSet();
-beginSpan_fn = function(o) {
-  __privateGet2(this, _hSpanBk).ch_in_style = __privateGet2(this, _$ch_in_style);
-  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, o);
-  __privateGet2(this, _hSpanBk).ch_out_style = __privateGet2(this, _$ch_out_style);
-  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, o);
-  __privateGet2(this, _hSpanBk).r_align = __privateGet2(this, _r_align);
+_stkASpan = new WeakMap();
+_pushSpan = new WeakSet();
+pushSpan_fn = function(o) {
+  __privateGet2(this, _stkASpan).push({
+    o,
+    r_align: __privateGet2(this, _r_align),
+    ch_in_style: __privateGet2(this, _$ch_in_style),
+    ch_out_style: __privateGet2(this, _$ch_out_style)
+  });
   if ("r_align" in o)
     __privateSet2(this, _r_align, o.r_align);
+  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, o);
+  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, o);
 };
-_autoCloseSpan = new WeakSet();
-autoCloseSpan_fn = function() {
-  if (!__privateGet2(this, _aSpan_bk))
+_popSpan = new WeakSet();
+popSpan_fn = function() {
+  const stk = __privateGet2(this, _stkASpan).pop();
+  if (!stk)
     return;
-  __privateGet2(this, _aSpan_bk).push(__privateGet2(this, _aSpan), "</span>");
-  __privateSet2(this, _aSpan, Array.prototype.concat.apply([], __privateGet2(this, _aSpan_bk)));
-  __privateSet2(this, _aSpan_bk, void 0);
-  __privateSet2(_TxtLayer, _rec, __privateGet2(_TxtLayer, _rec_bk));
-  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, { in_style: __privateGet2(this, _hSpanBk).ch_in_style });
-  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, { out_style: __privateGet2(this, _hSpanBk).ch_out_style });
-  __privateSet2(this, _r_align, __privateGet2(this, _hSpanBk).r_align);
+  __privateSet2(this, _r_align, stk.r_align);
+  __privateMethod2(this, _set_ch_in, set_ch_in_fn).call(this, { in_style: stk.ch_in_style });
+  __privateMethod2(this, _set_ch_out, set_ch_out_fn).call(this, { out_style: stk.ch_out_style });
 };
 _page_text = new WeakMap();
 __privateAdd2(TxtLayer, _ch_in_style);
@@ -49393,8 +49321,6 @@ __privateAdd2(TxtLayer, _sys3, void 0);
 __privateAdd2(TxtLayer, _doAutoWc, false);
 __privateAdd2(TxtLayer, _hAutoWc, {});
 __privateAdd2(TxtLayer, _rec, (tx) => tx);
-__privateAdd2(TxtLayer, _rec_bk, (tx) => tx);
-__privateAdd2(TxtLayer, _class_offrec, " offrec");
 class FrameMng {
   constructor(cfg, hTag, appPixi, val, main2, sys, hTwInf) {
     __privateAdd2(this, _add_frame);
@@ -50687,6 +50613,7 @@ ch_fn = function(hArg) {
     hArg.wait = 0;
   else if ("wait" in hArg)
     argChk_Num(hArg, "wait", NaN);
+  __privateGet2(this, _cmdTxt).call(this, "add\uFF5C" + JSON.stringify(hArg), tl);
   const record = argChk_Boolean(hArg, "record", true);
   const doRecLog = this.val.doRecLog();
   if (!record)
@@ -50694,6 +50621,7 @@ ch_fn = function(hArg) {
   tl.tagCh(text2.replaceAll("[r]", "\n"));
   if (!record)
     this.val.setVal_Nochk("save", "sn.doRecLog", doRecLog);
+  __privateGet2(this, _cmdTxt).call(this, `add_close\uFF5C`, tl);
   return false;
 };
 _getTxtLayer = new WeakMap();

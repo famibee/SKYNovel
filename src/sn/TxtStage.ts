@@ -35,7 +35,7 @@ interface IChRect {
 	cmd?	: string;
 	arg?	: string;
 	add?	: string;
-	tcy?	: string;
+	lnk?	: string;
 }
 interface ISpTw {
 	sp	: Container;
@@ -742,7 +742,7 @@ export class TxtStage extends Container {
 			const v = this.#aRect[i];
 			const rct = v.rect;
 			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
-			const add = JSON.parse(v.add ?? '{}');
+			const add = JSON.parse(v.add ?? '{}');	// data-add はこの為にある
 			const cis = TxtStage.#hChInStyle[add.ch_in_style];
 			rct.x -= sx;
 			rct.y -= sy;
@@ -760,38 +760,37 @@ export class TxtStage extends Container {
 				rctLastCh = rct;
 			}
 
-			switch (v.cmd) {
-				case 'grp':
-					const cnt = new Container;	// 親コンテナかまし、即spWork()
-					this.#cntTxt.addChild(cnt);
-						// 次のcsv2Spritesが即終わる場合もあるので先に行なう
-					GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
-						this.#spWork(cnt, arg, add, rct, ease, cis ?? {});
-						if (! cnt.parent) cnt.removeChild(sp);
-					});
-					break;
-
-				case 'link':
-					const sp = new Sprite;
-					arg.key = `lnk=[${i}] `+ this.name;
-					let eCh = v.elm;
-					if (! eCh.classList.contains('sn_ch')) eCh = eCh.parentElement!;
-					this.#spWork(sp, arg, add, rct, ease, cis ?? {});
-					arg.hint_tate ??= this.#isTategaki;	// hint用
-					const st_normal = eCh.style.cssText;
-					const st_hover = st_normal +(arg.style_hover ?? '');
-					const st_clicked = st_normal +(arg.style_clicked ?? '');
-					TxtStage.#evtMng.button(arg, sp,
-						()=> eCh.style.cssText = st_normal,
-						()=> {
-							if (! this.canFocus()) return false;
-							eCh.style.cssText = st_hover;
-							return true;
-						},
-						()=> eCh.style.cssText = st_clicked
-					);
-					this.#cntTxt.addChild(sp);
-					break;
+			if (v.cmd === 'grp') {
+				const cnt = new Container;	// 親コンテナかまし、即spWork()
+				this.#cntTxt.addChild(cnt);
+					// 次のcsv2Spritesが即終わる場合もあるので先に行なう
+				GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
+					this.#spWork(cnt, arg, add, rct, ease, cis ?? {});
+					if (! cnt.parent) cnt.removeChild(sp);
+				});
+			}
+			if (v.lnk) {
+				const eCh = v.elm.parentElement!.closest('[data-arg]')!;
+				const aLnk = JSON.parse(eCh.getAttribute('data-arg') ?? '{}');
+				aLnk.key = `lnk=[${i}] `+ this.name;
+				const sp = new Sprite;
+				this.#spWork(sp, aLnk, add, rct, ease, cis ?? {});
+				const st_normal = aLnk.style ?? '';
+				const st_hover = st_normal +(aLnk.style_hover ?? '');
+				const st_clicked = st_normal +(aLnk.style_clicked ?? '');
+				const cl = eCh.querySelectorAll('.sn_ch');
+				cl.forEach((e: HTMLElement)=> e.dataset.st_bk = e.style.cssText);
+				const fncStyle = (st: string)=> cl.forEach((e: HTMLElement)=> e.style.cssText = e.dataset.st_bk + st);
+				TxtStage.#evtMng.button(aLnk, sp,
+					()=> fncStyle(st_normal),
+					()=> {
+						if (! this.canFocus()) return false;
+						fncStyle(st_hover);
+						return true;
+					},
+					()=> fncStyle(st_clicked)
+				);
+				this.#cntTxt.addChild(sp);
 			}
 		}
 
@@ -849,10 +848,11 @@ export class TxtStage extends Container {
 		if (arg.wait) cis.wait = parseInt(arg.wait);
 		sp.width = rct.width;
 		sp.height = rct.height;
-		sp.position.set(
+		if (cis.x) sp.position.set(
 			(cis.x.charAt(0) === '=') ?rct.x +sp.width  *cis.nx :cis.nx,
 			(cis.y.charAt(0) === '=') ?rct.y +sp.height *cis.ny :cis.ny
 		);
+		else sp.position.set(rct.x, rct.y,);
 		const st: ISpTw = {
 			sp: sp,
 			tw: new Tween(sp)
@@ -982,7 +982,7 @@ export class TxtStage extends Container {
 		const ret: any = [];
 		if (elm.nodeType !== elm.TEXT_NODE) {
 			elm.childNodes.forEach(v=> ret.push(this.#getChRects(v)));
-			return Array.prototype.concat.apply([], ret);	// 配列をフラットにする
+			return ret.flat();
 		}
 
 		const range = elm.ownerDocument!.createRange();
@@ -1010,7 +1010,7 @@ export class TxtStage extends Container {
 				cmd	: pe.getAttribute('data-cmd') ?? undefined,
 				arg	: pe.getAttribute('data-arg') ?? undefined,
 				add	: pe.getAttribute('data-add') ?? undefined,
-				tcy	: pe.getAttribute('data-tcy') ?? undefined,
+				lnk	: pe.getAttribute('data-lnk') ?? undefined,
 			};
 			ret.push(cr);
 			//console.log('ch:%s rect:%o', cr.ch, cr.rect);
