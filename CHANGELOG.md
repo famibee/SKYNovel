@@ -1,3 +1,10 @@
+## [1.30.3](https://github.com/famibee/SKYNovel/compare/v1.30.2...v1.30.3) (2022-05-31)
+
+
+### Bug Fixes
+
+* [link][span][ch]の表示関係修正 ([0a71b50](https://github.com/famibee/SKYNovel/commit/0a71b50683f03828df1922d913d9fc590c5885cd))
+
 - fix: 単体[ch style=...]で background 指定時にスライドインせず最初から表示される件
 - fix: [link][span]での style属性指定が、文字個別になる件
 - fix: [span style=...]中、２文字以上textの[ch]で表示されない文字がある件
