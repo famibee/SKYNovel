@@ -40,7 +40,7 @@
 		"@types/electron-json-storage": "^4.5.0",
 		"@types/fs-extra": "^9.0.13",
 		"@types/jest": "^27.5.1",
-		"@types/node": "^17.0.35",
+		"@types/node": "^17.0.36",
 		"@types/offscreencanvas": "^2019.7.0",
 		"@types/parsimmon": "^1.10.6",
 		"@types/platform": "^1.3.4",

@@ -770,17 +770,22 @@ export class TxtStage extends Container {
 				});
 			}
 			if (v.lnk) {
-				const eCh = v.elm.parentElement!.closest('[data-arg]')!;
-				const aLnk = JSON.parse(eCh.getAttribute('data-arg') ?? '{}');
+				const eCh = v.elm.parentElement!.closest('[data-arg]')! as HTMLElement;
+				const aLnk = JSON.parse(eCh.dataset.arg ?? '{}');
 				aLnk.key = `lnk=[${i}] `+ this.name;
 				const sp = new Sprite;
 				this.#spWork(sp, aLnk, add, rct, ease, cis ?? {});
+
 				const st_normal = aLnk.style ?? '';
 				const st_hover = st_normal +(aLnk.style_hover ?? '');
 				const st_clicked = st_normal +(aLnk.style_clicked ?? '');
+				const st_bk = eCh.style.cssText;
+				const fncStyle = (st: string)=> {
+					if (! st) return;
+					eCh.style.cssText = st_bk + st;
+				};
 				const cl = eCh.querySelectorAll('.sn_ch');
 				cl.forEach((e: HTMLElement)=> e.dataset.st_bk = e.style.cssText);
-				const fncStyle = (st: string)=> cl.forEach((e: HTMLElement)=> e.style.cssText = e.dataset.st_bk + st);
 				TxtStage.#evtMng.button(aLnk, sp,
 					()=> fncStyle(st_normal),
 					()=> {

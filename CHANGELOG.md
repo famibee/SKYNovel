@@ -1,3 +1,16 @@
+- fix: 単体[ch style=...]で background 指定時にスライドインせず最初から表示される件
+- fix: [link][span]での style属性指定が、文字個別になる件
+- fix: [span style=...]中、２文字以上textの[ch]で表示されない文字がある件
+- fix: ２文字以上textの[ch]で[span]が閉じられていない件
+	- （例）[ch text='あい' style=...] など
+- fix: [span]で閉じられていない件
+- fix: [ch text=...]内 [r] で改行しない件
+	- （例）[ch text='ンー[r]〜']
+- fix: [link]hover で style 表示が崩れる件
+- 既知の問題
+	- [link wait=0]が効かない
+
+
 ## [1.30.2](https://github.com/famibee/SKYNovel/compare/v1.30.1...v1.30.2) (2022-05-26)
 
 

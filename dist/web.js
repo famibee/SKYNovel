@@ -814,7 +814,7 @@ function argChk_Color(hash2, name2, def) {
   return hash2[name2] = parseColor(String(v2));
 }
 const REG_ERRMES_JSON = /JSON at position (\d+)$/;
-function mesErrJSON(hArg, nm = "", mes = "") {
+function mesErrJSON(hArg, nm, mes = "") {
   var _a3;
   const col = ((_a3 = mes.match(REG_ERRMES_JSON)) != null ? _a3 : ["", ""])[1];
   return `[${hArg[":\u30BF\u30B0\u540D"]}] ${nm} \u5C5E\u6027\u306E\u89E3\u6790\u30A8\u30E9\u30FC : ${mes}
@@ -2023,6 +2023,7 @@ class Socket$1 extends Emitter {
   }
 }
 Socket$1.protocol = protocol$1;
+Socket$1.protocol;
 function url$1(uri, path = "", loc) {
   let obj = uri;
   loc = loc || typeof location !== "undefined" && location;
@@ -18857,7 +18858,7 @@ var _ = function() {
       this._sounds[t2].stop();
     return this;
   }, t.prototype.exists = function(t2, e) {
-    return !!this._sounds[t2];
+    return e === void 0 && (e = false), !!this._sounds[t2];
   }, t.prototype.find = function(t2) {
     return this.exists(t2, true), this._sounds[t2];
   }, t.prototype.play = function(t2, e) {
@@ -47627,16 +47628,21 @@ const _TxtStage = class extends Container {
       }
       if (v2.lnk) {
         const eCh = v2.elm.parentElement.closest("[data-arg]");
-        const aLnk = JSON.parse((_c3 = eCh.getAttribute("data-arg")) != null ? _c3 : "{}");
+        const aLnk = JSON.parse((_c3 = eCh.dataset.arg) != null ? _c3 : "{}");
         aLnk.key = `lnk=[${i2}] ` + this.name;
         const sp = new Sprite();
         __privateMethod2(this, _spWork, spWork_fn).call(this, sp, aLnk, add3, rct, ease, cis != null ? cis : {});
         const st_normal = (_d2 = aLnk.style) != null ? _d2 : "";
         const st_hover = st_normal + ((_e = aLnk.style_hover) != null ? _e : "");
         const st_clicked = st_normal + ((_f = aLnk.style_clicked) != null ? _f : "");
+        const st_bk = eCh.style.cssText;
+        const fncStyle = (st) => {
+          if (!st)
+            return;
+          eCh.style.cssText = st_bk + st;
+        };
         const cl = eCh.querySelectorAll(".sn_ch");
         cl.forEach((e) => e.dataset.st_bk = e.style.cssText);
-        const fncStyle = (st) => cl.forEach((e) => e.style.cssText = e.dataset.st_bk + st);
         __privateGet2(_TxtStage, _evtMng3).button(aLnk, sp, () => fncStyle(st_normal), () => {
           if (!this.canFocus())
             return false;
@@ -48598,12 +48604,13 @@ const _TxtLayer = class extends Layer {
     __privateSet2(this, _r_align, "");
     __privateSet2(this, _needGoTxt, false);
     __privateSet2(this, _putCh2, (ch, ruby) => {
-      var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _i, _j, _k;
+      var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _i, _j, _k, _l2, _m;
       if (__privateGet2(_TxtLayer, _cfg3).oCfg.debug.putCh)
         console.log(`\u{1F58A} \u6587\u5B57\u8868\u793A text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
       const a_ruby = ruby.split("\uFF5C");
       let add_htm = "";
       const isSkip = __privateGet2(_TxtLayer, _evtMng4).isSkippingByKeyDown();
+      const [a0, a1] = a_ruby;
       switch (a_ruby.length) {
         case 1:
           __privateSet2(this, _needGoTxt, true);
@@ -48623,7 +48630,7 @@ const _TxtLayer = class extends Layer {
           add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet2(this, _r_align));
           break;
         case 2:
-          switch (a_ruby[0]) {
+          switch (a0) {
             case "start":
             case "left":
             case "center":
@@ -48634,54 +48641,48 @@ const _TxtLayer = class extends Layer {
             case "1ruby":
               __privateSet2(this, _firstCh, false);
               __privateSet2(this, _needGoTxt, true);
-              add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a_ruby[1], isSkip, a_ruby[0]);
+              add_htm = __privateMethod2(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a1, isSkip, a0);
               break;
-            case "gotxt": {
-              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
-              if (this.isCur)
-                __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, __privateGet2(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
-              if (!__privateGet2(this, _needGoTxt))
-                return;
-              __privateGet2(this, _txs).goTxt(__privateGet2(this, _aSpan));
-              __privateSet2(this, _needGoTxt, false);
-              __privateSet2(this, _cumDelay, 0);
+            case "gotxt":
+              {
+                __privateMethod2(this, _popSpan, popSpan_fn).call(this);
+                if (this.isCur)
+                  __privateGet2(_a3 = _TxtLayer, _recText).call(_a3, __privateGet2(this, _aSpan).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`).replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, `class='sn_ch'`).replaceAll(`class='offrec'`, `style='display: none;'`).replaceAll("`", "\\`"));
+                if (__privateGet2(this, _needGoTxt)) {
+                  __privateGet2(this, _txs).goTxt(__privateGet2(this, _aSpan));
+                  __privateSet2(this, _needGoTxt, false);
+                  __privateSet2(this, _cumDelay, 0);
+                }
+              }
               return;
-            }
             case "add":
               {
-                const o = JSON.parse(a_ruby[1]);
-                (_b3 = o.style) != null ? _b3 : o.style = "";
-                const stk = __privateGet2(this, _stkASpan).at(-1);
-                if (stk)
-                  o.style = ((_c3 = stk.o.style) != null ? _c3 : "") + o.style;
+                const o = JSON.parse(a1);
+                __privateGet2(this, _aSpan).push(`<span style='display: inline;${(_c3 = (_b3 = __privateGet2(this, _stkASpan).at(-1)) == null ? void 0 : _b3.o.style) != null ? _c3 : ""}${(_d2 = o.style) != null ? _d2 : ""} ${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}' class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' data-add='${JSON.stringify(o)}'>`);
+                delete o.style;
                 __privateMethod2(this, _pushSpan, pushSpan_fn).call(this, o);
-                __privateGet2(this, _aSpan).push(`<span style='${o.style}' data-add='${JSON.stringify(o)}'>`);
               }
               return;
             case "add_close":
+              __privateGet2(this, _aSpan).push("</span>");
               __privateMethod2(this, _popSpan, popSpan_fn).call(this);
-              if (__privateGet2(this, _stkASpan).length > 0)
-                __privateGet2(this, _aSpan).splice(-2, 1);
-              else
-                __privateGet2(this, _aSpan).push(`</span>`);
               return;
             case "grp":
               __privateSet2(this, _needGoTxt, true);
               {
-                const [, arg = "{}"] = a_ruby;
-                const o = JSON.parse(arg);
+                const o = JSON.parse(a1);
                 o.delay = __privateGet2(this, _cumDelay);
-                (_d2 = o.id) != null ? _d2 : o.id = __privateGet2(this, _aSpan).length;
+                (_e = o.id) != null ? _e : o.id = __privateGet2(this, _aSpan).length;
                 if (o.id === "break") {
                   __privateGet2(this, _txs).dispBreak(o.pic);
                   return;
                 }
-                (_e = o.style) != null ? _e : o.style = "";
-                const wait = Number((_f = o.wait) != null ? _f : -1);
+                (_f = o.style) != null ? _f : o.style = "";
+                const wait = Number((_g = o.wait) != null ? _g : -1);
                 const sc = wait != 0 ? ` sn_ch_in_${__privateGet2(this, _$ch_in_style)}` : "";
                 const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                const lnk = (_g = __privateGet2(this, _stkASpan).at(0)) == null ? void 0 : _g.o[":link"];
-                add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${JSON.stringify(o)}' class='sn_ch${sc}' style='${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}${ad} ${o.style}'${lnk != null ? lnk : ""} data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>\u3000</span>`;
+                const lnk = (_h = __privateGet2(this, _stkASpan).at(0)) == null ? void 0 : _h.o[":link"];
+                add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${JSON.stringify(o)}' class='sn_ch${sc}' style='${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}${ad} ${(_i = o.style) != null ? _i : ""}'${lnk != null ? lnk : ""} data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>\u3000</span>`;
                 if (__privateGet2(this, _firstCh)) {
                   __privateSet2(this, _firstCh, false);
                   add_htm = `<ruby>${add_htm}<rt>\u3000</rt></ruby>`;
@@ -48691,33 +48692,31 @@ const _TxtLayer = class extends Layer {
               }
               break;
             case "del":
-              const id_del = a_ruby[1];
-              if (id_del !== "break")
-                throw "\u6587\u5B57\u30EC\u30A4\u30E4del\u30B3\u30DE\u30F3\u30C9\u306F\u3001\u73FE\u5728id=break\u306E\u307F\u30B5\u30DD\u30FC\u30C8\u3057\u307E\u3059";
               TxtStage.delBreak();
               return;
             case "span":
-              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
-              __privateSet2(this, _needGoTxt, true);
               {
-                const o = JSON.parse(a_ruby[1]);
-                __privateMethod2(this, _pushSpan, pushSpan_fn).call(this, o);
+                __privateMethod2(this, _popSpan, popSpan_fn).call(this);
+                __privateSet2(this, _needGoTxt, true);
+                const o = JSON.parse(a1);
+                if (o.style)
+                  __privateMethod2(this, _pushSpan, pushSpan_fn).call(this, o);
               }
               return;
             case "link":
-              __privateMethod2(this, _popSpan, popSpan_fn).call(this);
-              __privateSet2(this, _needGoTxt, true);
               {
-                const o = JSON.parse(a_ruby[1]);
-                (_h = o.style) != null ? _h : o.style = "";
+                __privateMethod2(this, _popSpan, popSpan_fn).call(this);
+                __privateSet2(this, _needGoTxt, true);
+                const o = JSON.parse(a1);
                 o[":link"] = ` data-lnk='@'`;
-                __privateGet2(this, _aSpan).push(`<span data-arg='${a_ruby[1]}' style='display: contents;'>`);
+                __privateGet2(this, _aSpan).push(`<span data-arg='${a1}' class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='display: inline;${(_j = o.style) != null ? _j : ""} ${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'}>`);
+                delete o.style;
                 __privateMethod2(this, _pushSpan, pushSpan_fn).call(this, o);
               }
               return;
             case "endlink":
               __privateSet2(this, _needGoTxt, true);
-              __privateGet2(this, _aSpan).push(`</span>`);
+              __privateGet2(this, _aSpan).push("</span>");
               __privateMethod2(this, _popSpan, popSpan_fn).call(this);
               return;
             default:
@@ -48726,24 +48725,24 @@ const _TxtLayer = class extends Layer {
           }
           break;
         case 3:
-          __privateSet2(this, _firstCh, false);
-          __privateSet2(this, _needGoTxt, true);
-          const [cmd0, tx, rb0] = a_ruby;
-          switch (cmd0) {
+          switch (a0) {
             case "tcy":
+              __privateSet2(this, _firstCh, false);
+              __privateSet2(this, _needGoTxt, true);
               {
+                const [, tx, rb0] = a_ruby;
                 if (__privateGet2(_TxtLayer, _val).doRecLog())
                   __privateSet2(this, _page_text, __privateGet2(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
                 const rb = CmnLib.isSafari ? rb0.replace(/[A-Za-z0-9]/g, (s2) => String.fromCharCode(s2.charCodeAt(0) + 65248)) : rb0;
                 const rs = this.mkStyle_r_align(tx, rb, __privateGet2(this, _r_align));
-                const lnk = (_i = __privateGet2(this, _stkASpan).at(0)) == null ? void 0 : _i.o[":link"];
+                const lnk = (_k = __privateGet2(this, _stkASpan).at(0)) == null ? void 0 : _k.o[":link"];
                 add_htm = `<span class='sn_ch sn_ch_in_${__privateGet2(this, _$ch_in_style)}' style='${__privateGet2(this, _fncFFSStyle).call(this, tx)}${__privateMethod2(this, _style_delay, style_delay_fn).call(this, isSkip)}'><ruby><span ${lnk != null ? lnk : ""} style='
 text-combine-upright: all;
 -webkit-text-combine: horizontal;
 				' data-add='{"ch_in_style":"${__privateGet2(this, _$ch_in_style)}", "ch_out_style":"${__privateGet2(this, _$ch_out_style)}"}'>${tx}</span>
 				<rt${rs}>${rb}</rt></ruby></span>`;
                 if (__privateGet2(this, _ch_in_join))
-                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_j = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _j : 0 : LayerMng.msecChWait));
+                  __privateSet2(this, _cumDelay, __privateGet2(this, _cumDelay) + (__privateGet2(_TxtLayer, _doAutoWc) ? (_l2 = __privateGet2(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _l2 : 0 : LayerMng.msecChWait));
               }
               break;
             default:
@@ -48751,7 +48750,7 @@ text-combine-upright: all;
           }
           break;
       }
-      __privateGet2(this, _aSpan).push(__privateGet2(_k = _TxtLayer, _rec).call(_k, add_htm));
+      __privateGet2(this, _aSpan).push(__privateGet2(_m = _TxtLayer, _rec).call(_m, add_htm));
     });
     __privateSet2(this, _cumDelay, 0);
     __privateSet2(this, _firstCh, true);

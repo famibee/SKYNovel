@@ -451,12 +451,13 @@ export class TxtLayer extends Layer {
 
 	tagCh(text: string): void {this.#rbSpl.putTxt(text);}
 	#needGoTxt = false;
-	#putCh	: IPutCh = (ch, ruby)=> {
+	readonly	#putCh	: IPutCh = (ch, ruby)=> {
 		if (TxtLayer.#cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
 		const isSkip = TxtLayer.#evtMng.isSkippingByKeyDown();
+		const [a0, a1, ] = a_ruby;
 		switch (a_ruby.length) {
 		case 1:		// 字or春《はる》
 			this.#needGoTxt = true;
@@ -476,7 +477,7 @@ export class TxtLayer extends Layer {
 			break;
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
-			switch (a_ruby[0]) {	// ルビ揃え指定と同時シリーズ
+			switch (a0) {	// ルビ揃え指定と同時シリーズ
 			case 'start':	// 初期値
 			case 'left':	//（肩付き）先頭親文字から、ルビ間は密着
 			case 'center':	//（中付き）センター合わせ、〃
@@ -487,7 +488,7 @@ export class TxtLayer extends Layer {
 			case '1ruby':	//（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける
 				this.#firstCh = false;
 				this.#needGoTxt = true;
-				add_htm = this.#tagCh_sub(ch, a_ruby[1], isSkip, a_ruby[0]);
+				add_htm = this.#tagCh_sub(ch, a1, isSkip, a0);
 				break;
 
 			case 'gotxt':{
@@ -506,36 +507,30 @@ export class TxtLayer extends Layer {
 						// JSON対策
 				);
 
-				if (! this.#needGoTxt) return;	// breakではない
-				this.#txs.goTxt(this.#aSpan);
-				this.#needGoTxt = false;
-				this.#cumDelay = 0;
-				return;	// breakではない
-			}
+				if (this.#needGoTxt) {
+					this.#txs.goTxt(this.#aSpan);
+					this.#needGoTxt = false;
+					this.#cumDelay = 0;
+				}
+			}	return;	// breakではない
 
 			case 'add':{	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
-				const o = JSON.parse(a_ruby[1]);
-				o.style ??= '';
-
-				const stk = this.#stkASpan.at(-1)!;
-				if (stk) o.style = (stk.o.style ?? '') + o.style;
-					// [span]内[tcy]などに影響
-
-				this.#pushSpan(o);
-				this.#aSpan.push(`<span style='${o.style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
-			}
-				return;	// breakではない
+				const o = JSON.parse(a1);	// [span]内[tcy]などに影響
+				this.#aSpan.push(`<span style='display: inline;${
+					this.#stkASpan.at(-1)?.o.style ?? ''
+				}${o.style ?? ''} ${this.#style_delay(isSkip)}' class='sn_ch sn_ch_in_${this.#$ch_in_style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
+				delete o.style;
+				this.#pushSpan(o);	// 先頭文字と一緒に出す。#cumDelayは触らない
+			}	return;	// breakではない
 			case 'add_close':
+				this.#aSpan.push('</span>');
 				this.#popSpan();
-				if (this.#stkASpan.length > 0) this.#aSpan.splice(-2, 1);
-				else this.#aSpan.push(`</span>`);
 				return;	// breakではない
 
 			case 'grp':	//	画像など 《grp｜{"id":"break","pic":"breakline"}》
 				this.#needGoTxt = true;
 			{
-				const [, arg='{}'] = a_ruby;
-				const o = JSON.parse(arg);
+				const o = JSON.parse(a1);
 				o.delay = this.#cumDelay;
 				o.id ??= this.#aSpan.length;
 				if (o.id === 'break') {this.#txs.dispBreak(o.pic); return;}
@@ -547,48 +542,39 @@ export class TxtLayer extends Layer {
 				const ad = (wait < 0) ?'' :` animation-duration: ${wait}ms;`
 
 				const lnk = this.#stkASpan.at(0)?.o[':link'];
-				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${JSON.stringify(o)}' class='sn_ch${sc}' style='${this.#style_delay(isSkip)}${ad} ${o.style}'${lnk ?? ''} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>　</span>`;
+				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${JSON.stringify(o)}' class='sn_ch${sc}' style='${this.#style_delay(isSkip)}${ad} ${o.style ?? ''}'${lnk ?? ''} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>　</span>`;
 				if (this.#firstCh) {// １文字目にルビが無い場合、不可視ルビで行揃え
 					this.#firstCh = false;
 					add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
 				}
-				if (this.#ch_in_join) this.#cumDelay += (TxtLayer.#doAutoWc) ?0 :LayerMng.msecChWait;
+				if (this.#ch_in_join) this.#cumDelay += TxtLayer.#doAutoWc ?0 :LayerMng.msecChWait;
 			}
 				break;
 
-			case 'del':
-				const id_del = a_ruby[1];
-				if (id_del !== 'break') throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
-
+			case 'del':	//if (a1 !== 'break') throw '文字レイヤdelコマンドは、現在id=breakのみサポートします';
 				TxtStage.delBreak();
 				return;	// breakではない
 
-			case 'span':
+			case 'span':{
 				this.#popSpan();
 				this.#needGoTxt = true;
-			{
-				// style, in_style
-				const o = JSON.parse(a_ruby[1]);
-				this.#pushSpan(o);
-			}
-				return;	// breakではない
+				const o = JSON.parse(a1);
+				if (o.style) this.#pushSpan(o);
+			}	return;	// breakではない
 
-			case 'link':
+			case 'link':{
 				this.#popSpan();
 				this.#needGoTxt = true;
-			{
-				// b_color, b_alpha, fn, label
-				const o = JSON.parse(a_ruby[1]);
-				o.style ??= '';
+				const o = JSON.parse(a1);
 				o[':link'] = ` data-lnk='@'`;
-				this.#aSpan.push(`<span data-arg='${a_ruby[1]}' style='display: contents;'>`);
-				this.#pushSpan(o);
-			}
-				return;	// breakではない
+				this.#aSpan.push(`<span data-arg='${a1}' class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='display: inline;${o.style ?? ''} ${this.#style_delay(isSkip)}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'}>`);
+				delete o.style;
+				this.#pushSpan(o);	// 先頭文字と一緒に出す。#cumDelayは触らない
+			}	return;	// breakではない
 
 			case 'endlink':
 				this.#needGoTxt = true;
-				this.#aSpan.push(`</span>`);
+				this.#aSpan.push('</span>');
 				this.#popSpan();
 				return;	// breakではない
 
@@ -599,11 +585,12 @@ export class TxtLayer extends Layer {
 			break;
 
 		case 3:		// 《tcy｜451｜かし》
-			this.#firstCh = false;
-			this.#needGoTxt = true;
-			const [cmd0, tx, rb0] = a_ruby;
-			switch (cmd0) {
-			case 'tcy':{	// ルビ付き縦中横
+			switch (a0) {
+			case 'tcy':	// ルビ付き縦中横
+				this.#firstCh = false;
+				this.#needGoTxt = true;
+			{
+				const [, tx, rb0] = a_ruby;
 				if (TxtLayer.#val.doRecLog()) this.#page_text += ch
 				+(ruby ?`《${ruby}》` :'');
 
