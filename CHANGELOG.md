@@ -1,3 +1,10 @@
+## [1.30.4](https://github.com/famibee/SKYNovel/compare/v1.30.3...v1.30.4) (2022-06-25)
+
+
+### Bug Fixes
+
+* [link wait=0]が効かない件 ([5b2e8da](https://github.com/famibee/SKYNovel/commit/5b2e8da8016f374d894ed4eb635636fae71eead6))
+
 - fix: [link wait=0]が効かない件
 - fix: [tcy]にも wait・style・ch_in_style・ch_out_style属性追加
 - fix: 縦中横・ルビ付き縦中横の内部文法【《tcy｜451｜かし》】を廃止、他に会わせJSON形式に
