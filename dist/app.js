@@ -1,22 +1,3 @@
-var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value2) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value: value2 }) : obj[key] = value2;
-var __spreadValues = (a2, b2) => {
-  for (var prop in b2 || (b2 = {}))
-    if (__hasOwnProp.call(b2, prop))
-      __defNormalProp(a2, prop, b2[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b2)) {
-      if (__propIsEnum.call(b2, prop))
-        __defNormalProp(a2, prop, b2[prop]);
-    }
-  return a2;
-};
-var __spreadProps = (a2, b2) => __defProps(a2, __getOwnPropDescs(b2));
 var __accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -49,7 +30,7 @@ var __privateMethod = (obj, member, method) => {
   __accessCheck(obj, member, "access private method");
   return method;
 };
-var _a2, _b2, _c2, _d, _sesame, _putCh, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _cfg3, _val, _recText, _isPageFore, _ch_in_style, ch_in_style_fn, _ch_out_style, ch_out_style_fn, _main2, _evtMng4, _sys3, _doAutoWc, _hAutoWc, _autowc, autowc_fn, _b_color, _b_alpha, _b_alpha_isfixed, _b_do, _b_pic, _txs, _rbSpl, _cntBtn, _set_ch_in, set_ch_in_fn, _$ch_in_style, _ch_in_join, _set_ch_out, set_ch_out_fn, _$ch_out_style, _drawBack, drawBack_fn, _setFfs, setFfs_fn, _ffs, _fncFFSStyle, _strNoFFS, _regNoFFS, _rec, _ruby_pd, _r_align, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn, _needGoTxt, _putCh2, _tagCh_sub, tagCh_sub_fn, _style_delay, style_delay_fn, _cumDelay, _firstCh, _aSpan, _stkASpan, _pushSpan, pushSpan_fn, _popSpan, popSpan_fn, _page_text, _evtMng5, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _bg_color, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng6, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _elmV, _elmHint, _spanHint, _popper, _oHintOpt, _dispHint, dispHint_fn, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng7, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg4, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng8, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _hInfo, _setStore, _main3, _dl_app, dl_app_fn;
+var _a2, _b2, _c2, _d, _sesame, _putCh, _REG_RUBY, _REG_CANTC2M, _REGC2M, _regStrC2M, _regStrC2M4not, _hC2M, _REG_TAGARG, _hPrm, _isKomeParam, _parser, _calc, calc_fn, _hFnc, _fncSub_ChkNum, fncSub_ChkNum_fn, _REG_EMBEDVAR, _procEmbedVar, procEmbedVar_fn, _REG_VAL, _getValName_B2D, getValName_B2D_fn, _hScopes, _hSave, _hTmp, _sys2, _data, _hSys, _hAreaKidoku, _callHook, _hProcDbgRes, _set_data_break, set_data_break_fn, _flush, _doRecProc, _copybookmark, copybookmark_fn, _erasebookmark, erasebookmark_fn, _let, let_fn, _let_abs, let_abs_fn, _let_char_at, let_char_at_fn, _let_index_of, let_index_of_fn, _let_length, let_length_fn, _let_replace, let_replace_fn, _let_round, let_round_fn, _let_search, let_search_fn, _let_substr, let_substr_fn, _clearsysvar, clearsysvar_fn, _clearvar, clearvar_fn, _setVal, _hSetEvent, _castAuto, castAuto_fn, _REG_NUMERICLITERAL, _dump_val, _doRecLog, _hValTrg, _runFirst_Bool_hSysVal_true, runFirst_Bool_hSysVal_true_fn, _runFirst_sys_an_tagCh_msecWait, runFirst_sys_an_tagCh_msecWait_fn, _runFirst_sys_an_tagCh_msecWait_Kidoku, runFirst_sys_an_tagCh_msecWait_Kidoku_fn, _runFirst_sys_an_auto_msecPageWait, runFirst_sys_an_auto_msecPageWait_fn, _runFirst_sys_an_auto_msecLineWait, runFirst_sys_an_auto_msecLineWait_fn, _runFirst_Bool_hSaveVal_true, runFirst_Bool_hSaveVal_true_fn, _runFirst_Bool_hTmp_true, runFirst_Bool_hTmp_true_fn, _runFirst_Bool_hTmp_false, runFirst_Bool_hTmp_false_fn, _hEase, _hSndBuf, _hLP, _evtMng2, _volume, volume_fn, _getVol, getVol_fn, _fadeoutbgm, fadeoutbgm_fn, _fadeoutse, fadeoutse_fn, _fadebgm, fadebgm_fn, _fadese, fadese_fn, _playbgm, playbgm_fn, _MAX_END_MS, _playse, playse_fn, _playseSub, playseSub_fn, _initVol, _stop_allse, stop_allse_fn, _stopbgm, stopbgm_fn, _stopse, stopse_fn, _wb, wb_fn, _wf, wf_fn, _stopfadese, stopfadese_fn, _wl, wl_fn, _ws, ws_fn, _xchgbuf, xchgbuf_fn, _addLoopPlay, addLoopPlay_fn, _delLoopPlay, delLoopPlay_fn, _pg, _hBlendmode, _vctEvt, _sp, _procHint, procHint_fn, _sp2, _cfg2, _appPixi2, _evtMng3, _htmTxt, _cntTxt, _grpDbgMasume, _idc2, _idcCh, _infTL, _break_fixed, _break_fixed_left, _break_fixed_top, _lay_sub, lay_sub_fn, _left, _isTategaki, _padTx4x, _padTx4y, _hWarning, _htm2tx, htm2tx_fn, _ch_filter, _aSpTw, _aRect, _lenHtmTxt, _reg\u884C\u982D\u7981\u5247, _reg\u884C\u672B\u7981\u5247, _reg\u5206\u5272\u7981\u6B62, _REGDS, _fncEndChIn, _spWork, spWork_fn, _isChInIng, _hChInStyle, _REG_NG_CHSTYLE_NAME_CHR, _hChOutStyle, _cntBreak, _lh_half, _getChRects, getChRects_fn, _fi_easing, _fo_easing, _clearText, clearText_fn, _sss, _cfg3, _val, _recText, _isPageFore, _ch_in_style, ch_in_style_fn, _ch_out_style, ch_out_style_fn, _main2, _evtMng4, _sys3, _doAutoWc, _hAutoWc, _autowc, autowc_fn, _b_color, _b_alpha, _b_alpha_isfixed, _b_do, _b_pic, _txs, _rbSpl, _cntBtn, _set_ch_in, set_ch_in_fn, _$ch_in_style, _ch_in_join, _set_ch_out, set_ch_out_fn, _$ch_out_style, _drawBack, drawBack_fn, _setFfs, setFfs_fn, _ffs, _fncFFSStyle, _strNoFFS, _regNoFFS, _rec, _ruby_pd, _r_align, _mkStyle_r_align4ff, mkStyle_r_align4ff_fn, _needGoTxt, _putCh2, _tagCh_sub, tagCh_sub_fn, _o2domArg, o2domArg_fn, _cumDelay, _firstCh, _aSpan, _stkASpan, _pushSpan, pushSpan_fn, _popSpan, popSpan_fn, _page_text, _evtMng5, _hIfrm, _add_frame, add_frame_fn, _hDisabled, _rect, rect_fn, _let_frame, let_frame_fn, _set_frame, set_frame_fn, _zIdx, _frame, frame_fn, _tsy_frame, tsy_frame_fn, _stage, _fore, _back, _frmMng, _bg_color, _fncTicker, _hProcDbgRes2, _modeLn, _modeLnSub, _selectNode, selectNode_fn, _grpCover, _evtMng6, _foreachRedrawTxtLayBack, foreachRedrawTxtLayBack_fn, _cmdTxt, _snapshot, snapshot_fn, _loadplugin, loadplugin_fn, _add_lay, add_lay_fn, _hPages, _aLayName, _curTxtlay, _firstGrplay, _lay, lay_fn, _rebuildLayerRankInfo, rebuildLayerRankInfo_fn, _clear_lay, clear_lay_fn, _srcRuleTransFragment, _ufRuleTrans, _fltRule, _rtTransBack, _spTransBack, _rtTransFore, _spTransFore, _aBackTransAfter, _trans, trans_fn, _tiTrans, _getLayers, getLayers_fn, _foreachLayers, foreachLayers_fn, _sortLayers, sortLayers_fn, _wt, wt_fn, _finish_trans, finish_trans_fn, _quake, quake_fn, _hTwInf, _tsy, tsy_fn, _wait_tsy, wait_tsy_fn, _stop_tsy, stop_tsy_fn, _pause_tsy, pause_tsy_fn, _resume_tsy, resume_tsy_fn, _msecChWait, _ch, ch_fn, _getTxtLayer, _$getTxtLayer, $getTxtLayer_fn, _current, _$current, $current_fn, _pgTxtlay, _chkTxtLay, _argChk_layer, argChk_layer_fn, _oLastPage, _aTxtLog, _clear_text, clear_text_fn, _endlink, endlink_fn, _er, er_fn, _graph, graph_fn, _link, link_fn, _r, r_fn, _rec_r, rec_r_fn, _rec_ch, rec_ch_fn, _reset_rec, reset_rec_fn, _ruby2, ruby2_fn, _span, span_fn, _tcy, tcy_fn, _dump_lay, dump_lay_fn, _enable_event, enable_event_fn, _button, button_fn, _aBtn, _idx, _radio_next, radio_next_fn, _logFocus, _allOff, allOff_fn, _elc2, _gamepad, _fcs, _resvFlameEvent4Wheel, _ev_keydown, ev_keydown_fn, _ev_contextmenu, ev_contextmenu_fn, _ev_wheel, ev_wheel_fn, _wheeling, _extend_wheel, _ev_wheel_waitstop, ev_wheel_waitstop_fn, _hLocalEvt2Fnc, _hGlobalEvt2Fnc, _isDbgBreak, _isWait, _getEvt2Fnc, _waitEventBase, waitEventBase_fn, _firstWait, _elmV, _elmHint, _spanHint, _popper, _oHintOpt, _dispHint, dispHint_fn, _procWheel4wle, _elcWLE, _clear_event, clear_event_fn, _clear_eventer, clear_eventer_fn, _event, event_fn, _canFocus, canFocus_fn, _getHtmlElmList, getHtmlElmList_fn, _goTxt, _l, l_fn, _p, p_fn, _stopSkip, _set_cancel_skip, set_cancel_skip_fn, _set_focus, set_focus_fn, _wait, wait_fn, _cancelWait, _waitclick, waitclick_fn, _hDownKeys, _script, _scriptFn, _idxToken, _lineNum, _aCallStk, _grm, _regBreakPoint, regBreakPoint_fn, _hHook2, _cnvSnPath, _REG4CODE_FN, _cnvSnPath4Dbg, _go_stepover, go_stepover_fn, _go_stepout, go_stepout_fn, _csDepth_macro_esc, _idxDx4Dbg, idxDx4Dbg_get, _isIdxOverLast, isIdxOverLast_fn, _hFn2hLineBP, _hFuncBP, _breakState, _isBreak_base, isBreak_base_fn, _subHitCondition, subHitCondition_fn, _aStack, aStack_fn, _procDebugtag, _evtMng7, _layMng, _let_ml, let_ml_fn, _dump_stack, dump_stack_fn, _cnvIdx2lineCol, cnvIdx2lineCol_fn, _dump_script, dump_script_fn, _fncSet, _fncBreak, _fnLastBreak, _hScrCache4Dump, _dumpErrLine, _aIfStk, _endif, endif_fn, _if, if_fn, _call, call_fn, _callSub, callSub_fn, _jump, jump_fn, _page, page_fn, _pop_stack, pop_stack_fn, _return, return_fn, _resvToken, _clearResvToken, clearResvToken_fn, _skipLabel, _jumpWork, jumpWork_fn, _nextToken_Proc, nextToken_Proc_fn, _dbgToken, _errOverScr, errOverScr_fn, _REG_NONAME_LABEL, _REG_TOKEN_MACRO_BEGIN, _REG_TOKEN_MACRO_END, _REG_TAG_LET_ML, _REG_TAG_ENDLET_ML, _seekScript, seekScript_fn, _hScript, _resolveScript, resolveScript_fn, _jump_light, jump_light_fn, _REG_WILDCARD, _REG_WILDCARD2, _replaceScript_Wildcard, _recordKidoku, recordKidoku_fn, _isKidoku, _eraseKidoku, eraseKidoku_fn, _bracket2macro, bracket2macro_fn, _char2macro, char2macro_fn, _macro, macro_fn, _strStepin, _REGSTEPIN, _load, load_fn, _loadFromMark, loadFromMark_fn, _skip4page, _reload_script, reload_script_fn, _mark, _record_place, record_place_fn, _nowScrIdx, nowScrIdx_fn, _save, save_fn, _aPageLog, _posAPageLog, _cfg4, _appPixi3, _hTag2, _val2, _prpPrs, _sndMng, _scrItr2, _dbgMng, _layMng2, _evtMng8, _fncNext, _alzTagArg2, _inited, _SN_ID, _init, init_fn, _fncTicker2, _fncresume, _isLoop, _runAnalyze, runAnalyze_fn, _destroyed, _clone_cvs, _hInfo, _setStore, _main3, _dl_app, dl_app_fn;
 import { parse as parse$2, format, resolve as resolve$1 } from "url";
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var platform$1 = { exports: {} };
@@ -815,7 +796,7 @@ function argChk_Color(hash2, name2, def) {
   return hash2[name2] = parseColor(String(v2));
 }
 const REG_ERRMES_JSON = /JSON at position (\d+)$/;
-function mesErrJSON(hArg, nm, mes = "") {
+function mesErrJSON(hArg, nm = "", mes = "") {
   var _a3;
   const col = ((_a3 = mes.match(REG_ERRMES_JSON)) != null ? _a3 : ["", ""])[1];
   return `[${hArg[":\u30BF\u30B0\u540D"]}] ${nm} \u5C5E\u6027\u306E\u89E3\u6790\u30A8\u30E9\u30FC : ${mes}
@@ -2024,7 +2005,6 @@ class Socket$1 extends Emitter {
   }
 }
 Socket$1.protocol = protocol$1;
-Socket$1.protocol;
 function url$1(uri, path = "", loc) {
   let obj = uri;
   loc = loc || typeof location !== "undefined" && location;
@@ -3531,10 +3511,10 @@ const _Config = class {
     this.oCfg.save_ns = (_a3 = oCfg == null ? void 0 : oCfg.save_ns) != null ? _a3 : this.oCfg.save_ns;
     CmnLib.stageW = this.oCfg.window.width = Number((_c3 = (_b3 = oCfg == null ? void 0 : oCfg.window) == null ? void 0 : _b3.width) != null ? _c3 : this.oCfg.window.width);
     CmnLib.stageH = this.oCfg.window.height = Number((_e = (_d2 = oCfg == null ? void 0 : oCfg.window) == null ? void 0 : _d2.height) != null ? _e : this.oCfg.window.height);
-    this.oCfg.book = __spreadValues(__spreadValues({}, this.oCfg.book), oCfg.book);
+    this.oCfg.book = { ...this.oCfg.book, ...oCfg.book };
     this.oCfg.log.max_len = (_h = (_g = (_f = oCfg.log) == null ? void 0 : _f.max_len) == null ? void 0 : _g.max_len) != null ? _h : this.oCfg.log.max_len;
-    this.oCfg.init = __spreadValues(__spreadValues({}, this.oCfg.init), oCfg.init);
-    this.oCfg.debug = __spreadValues(__spreadValues({}, this.oCfg.debug), oCfg.debug);
+    this.oCfg.init = { ...this.oCfg.init, ...oCfg.init };
+    this.oCfg.debug = { ...this.oCfg.debug, ...oCfg.debug };
     CmnLib.debugLog = this.oCfg.debug.debugLog;
     this.oCfg.debuger_token = oCfg.debuger_token;
     await this.sys.loadPath(this.hPathFn2Exts, this);
@@ -5207,7 +5187,7 @@ const _Variable = class {
     this.defTmp("const.sn.bookmark.json", () => {
       const a2 = [];
       Object.keys(__privateGet(this, _data).mark).sort().forEach((k) => {
-        const o = __spreadValues({}, __privateGet(this, _data).mark[k].json);
+        const o = { ...__privateGet(this, _data).mark[k].json };
         o.place = k;
         a2.push(o);
       });
@@ -5297,7 +5277,7 @@ const _Variable = class {
     __privateSet(this, _hAreaKidoku, {});
     for (const fn2 in __privateGet(this, _data).kidoku) {
       const areas = new Areas();
-      areas.hAreas = __spreadValues({}, __privateGet(this, _data).kidoku[fn2]);
+      areas.hAreas = { ...__privateGet(this, _data).kidoku[fn2] };
       __privateGet(this, _hAreaKidoku)[fn2] = areas;
     }
   }
@@ -5311,7 +5291,7 @@ const _Variable = class {
     __privateGet(this, _hTmp)[name] = fnc;
   }
   cloneMp() {
-    return __spreadValues({}, __privateGet(this, _hScopes).mp);
+    return { ...__privateGet(this, _hScopes).mp };
   }
   setMp(mp) {
     __privateGet(this, _hScopes).mp = mp;
@@ -5321,11 +5301,11 @@ const _Variable = class {
     this.flush();
   }
   cloneSave() {
-    return __spreadValues({}, __privateGet(this, _hScopes).save);
+    return { ...__privateGet(this, _hScopes).save };
   }
   mark2save(mark) {
     var _a3;
-    __privateSet(this, _hSave, __privateGet(this, _hScopes).save = __spreadValues({}, mark.hSave));
+    __privateSet(this, _hSave, __privateGet(this, _hScopes).save = { ...mark.hSave });
     __privateSet(this, _doRecLog, (_a3 = __privateGet(this, _hSave)["sn.doRecLog"]) != null ? _a3 : false);
   }
   loadScrWork(fn2) {
@@ -5334,7 +5314,7 @@ const _Variable = class {
   }
   saveKidoku() {
     for (const fn2 in __privateGet(this, _hAreaKidoku)) {
-      __privateGet(this, _data).kidoku[fn2] = __spreadValues({}, __privateGet(this, _hAreaKidoku)[fn2].hAreas);
+      __privateGet(this, _data).kidoku[fn2] = { ...__privateGet(this, _hAreaKidoku)[fn2].hAreas };
     }
     this.flush();
   }
@@ -5393,7 +5373,7 @@ copybookmark_fn = function(hArg) {
     return false;
   if (!(from in __privateGet(this, _data).mark))
     throw `from:${from} \u306E\u30BB\u30FC\u30D6\u30C7\u30FC\u30BF\u306F\u5B58\u5728\u3057\u307E\u305B\u3093`;
-  this.setMark(to, __spreadValues({}, __privateGet(this, _data).mark[from]));
+  this.setMark(to, { ...__privateGet(this, _data).mark[from] });
   __privateGet(this, _sys2).copyBMFolder(from, to);
   return false;
 };
@@ -5789,22 +5769,22 @@ var Easing = {
     }
   }
 };
-var now$1;
+var now$2;
 if (typeof self === "undefined" && typeof process !== "undefined" && process.hrtime) {
-  now$1 = function() {
+  now$2 = function() {
     var time = process.hrtime();
     return time[0] * 1e3 + time[1] / 1e6;
   };
 } else if (typeof self !== "undefined" && self.performance !== void 0 && self.performance.now !== void 0) {
-  now$1 = self.performance.now.bind(self.performance);
+  now$2 = self.performance.now.bind(self.performance);
 } else if (Date.now !== void 0) {
-  now$1 = Date.now;
+  now$2 = Date.now;
 } else {
-  now$1 = function() {
+  now$2 = function() {
     return new Date().getTime();
   };
 }
-var now$1$1 = now$1;
+var now$1$1 = now$2;
 var Group = function() {
   function Group2() {
     this._tweens = {};
@@ -6325,30 +6305,30 @@ __privateAdd(CmnTween, _hEase, {
   "Sinusoidal.InOut": (k) => Easing.Sinusoidal.InOut(k),
   "Sinusoidal.Out": (k) => Easing.Sinusoidal.Out(k)
 });
-var appleIphone = /iPhone/i;
-var appleIpod = /iPod/i;
-var appleTablet = /iPad/i;
-var appleUniversal = /\biOS-universal(?:.+)Mac\b/i;
-var androidPhone = /\bAndroid(?:.+)Mobile\b/i;
-var androidTablet = /Android/i;
-var amazonPhone = /(?:SD4930UR|\bSilk(?:.+)Mobile\b)/i;
-var amazonTablet = /Silk/i;
-var windowsPhone = /Windows Phone/i;
-var windowsTablet = /\bWindows(?:.+)ARM\b/i;
-var otherBlackBerry = /BlackBerry/i;
-var otherBlackBerry10 = /BB10/i;
-var otherOpera = /Opera Mini/i;
-var otherChrome = /\b(CriOS|Chrome)(?:.+)Mobile/i;
-var otherFirefox = /Mobile(?:.+)Firefox\b/i;
-var isAppleTabletOnIos13 = function(navigator2) {
+var appleIphone$1 = /iPhone/i;
+var appleIpod$1 = /iPod/i;
+var appleTablet$1 = /iPad/i;
+var appleUniversal$1 = /\biOS-universal(?:.+)Mac\b/i;
+var androidPhone$1 = /\bAndroid(?:.+)Mobile\b/i;
+var androidTablet$1 = /Android/i;
+var amazonPhone$1 = /(?:SD4930UR|\bSilk(?:.+)Mobile\b)/i;
+var amazonTablet$1 = /Silk/i;
+var windowsPhone$1 = /Windows Phone/i;
+var windowsTablet$1 = /\bWindows(?:.+)ARM\b/i;
+var otherBlackBerry$1 = /BlackBerry/i;
+var otherBlackBerry10$1 = /BB10/i;
+var otherOpera$1 = /Opera Mini/i;
+var otherChrome$1 = /\b(CriOS|Chrome)(?:.+)Mobile/i;
+var otherFirefox$1 = /Mobile(?:.+)Firefox\b/i;
+var isAppleTabletOnIos13$1 = function(navigator2) {
   return typeof navigator2 !== "undefined" && navigator2.platform === "MacIntel" && typeof navigator2.maxTouchPoints === "number" && navigator2.maxTouchPoints > 1 && typeof MSStream === "undefined";
 };
-function createMatch(userAgent) {
+function createMatch$1(userAgent) {
   return function(regex) {
     return regex.test(userAgent);
   };
 }
-function isMobile$1(param) {
+function isMobile$3(param) {
   var nav = {
     userAgent: "",
     platform: "",
@@ -6378,37 +6358,37 @@ function isMobile$1(param) {
   if (typeof tmp[1] !== "undefined") {
     userAgent = tmp[0];
   }
-  var match = createMatch(userAgent);
+  var match = createMatch$1(userAgent);
   var result = {
     apple: {
-      phone: match(appleIphone) && !match(windowsPhone),
-      ipod: match(appleIpod),
-      tablet: !match(appleIphone) && (match(appleTablet) || isAppleTabletOnIos13(nav)) && !match(windowsPhone),
-      universal: match(appleUniversal),
-      device: (match(appleIphone) || match(appleIpod) || match(appleTablet) || match(appleUniversal) || isAppleTabletOnIos13(nav)) && !match(windowsPhone)
+      phone: match(appleIphone$1) && !match(windowsPhone$1),
+      ipod: match(appleIpod$1),
+      tablet: !match(appleIphone$1) && (match(appleTablet$1) || isAppleTabletOnIos13$1(nav)) && !match(windowsPhone$1),
+      universal: match(appleUniversal$1),
+      device: (match(appleIphone$1) || match(appleIpod$1) || match(appleTablet$1) || match(appleUniversal$1) || isAppleTabletOnIos13$1(nav)) && !match(windowsPhone$1)
     },
     amazon: {
-      phone: match(amazonPhone),
-      tablet: !match(amazonPhone) && match(amazonTablet),
-      device: match(amazonPhone) || match(amazonTablet)
+      phone: match(amazonPhone$1),
+      tablet: !match(amazonPhone$1) && match(amazonTablet$1),
+      device: match(amazonPhone$1) || match(amazonTablet$1)
     },
     android: {
-      phone: !match(windowsPhone) && match(amazonPhone) || !match(windowsPhone) && match(androidPhone),
-      tablet: !match(windowsPhone) && !match(amazonPhone) && !match(androidPhone) && (match(amazonTablet) || match(androidTablet)),
-      device: !match(windowsPhone) && (match(amazonPhone) || match(amazonTablet) || match(androidPhone) || match(androidTablet)) || match(/\bokhttp\b/i)
+      phone: !match(windowsPhone$1) && match(amazonPhone$1) || !match(windowsPhone$1) && match(androidPhone$1),
+      tablet: !match(windowsPhone$1) && !match(amazonPhone$1) && !match(androidPhone$1) && (match(amazonTablet$1) || match(androidTablet$1)),
+      device: !match(windowsPhone$1) && (match(amazonPhone$1) || match(amazonTablet$1) || match(androidPhone$1) || match(androidTablet$1)) || match(/\bokhttp\b/i)
     },
     windows: {
-      phone: match(windowsPhone),
-      tablet: match(windowsTablet),
-      device: match(windowsPhone) || match(windowsTablet)
+      phone: match(windowsPhone$1),
+      tablet: match(windowsTablet$1),
+      device: match(windowsPhone$1) || match(windowsTablet$1)
     },
     other: {
-      blackberry: match(otherBlackBerry),
-      blackberry10: match(otherBlackBerry10),
-      opera: match(otherOpera),
-      firefox: match(otherFirefox),
-      chrome: match(otherChrome),
-      device: match(otherBlackBerry) || match(otherBlackBerry10) || match(otherOpera) || match(otherFirefox) || match(otherChrome)
+      blackberry: match(otherBlackBerry$1),
+      blackberry10: match(otherBlackBerry10$1),
+      opera: match(otherOpera$1),
+      firefox: match(otherFirefox$1),
+      chrome: match(otherChrome$1),
+      device: match(otherBlackBerry$1) || match(otherBlackBerry10$1) || match(otherOpera$1) || match(otherFirefox$1) || match(otherChrome$1)
     },
     any: false,
     phone: false,
@@ -6420,17 +6400,17 @@ function isMobile$1(param) {
   return result;
 }
 /*!
- * @pixi/settings - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/settings - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-var isMobile = isMobile$1(globalThis.navigator);
-function maxRecommendedTextures(max2) {
+var isMobile$2 = isMobile$3(globalThis.navigator);
+function maxRecommendedTextures$1(max2) {
   var allowMax = true;
-  if (isMobile.tablet || isMobile.phone) {
-    if (isMobile.apple.device) {
+  if (isMobile$2.tablet || isMobile$2.phone) {
+    if (isMobile$2.apple.device) {
       var match = navigator.userAgent.match(/OS (\d+)_(\d+)?/);
       if (match) {
         var majorVersion = parseInt(match[1], 10);
@@ -6439,7 +6419,7 @@ function maxRecommendedTextures(max2) {
         }
       }
     }
-    if (isMobile.android.device) {
+    if (isMobile$2.android.device) {
       var match = navigator.userAgent.match(/Android\s([0-9.]*)/);
       if (match) {
         var majorVersion = parseInt(match[1], 10);
@@ -6451,12 +6431,235 @@ function maxRecommendedTextures(max2) {
   }
   return allowMax ? max2 : 4;
 }
-function canUploadSameBuffer() {
-  return !isMobile.apple.device;
+function canUploadSameBuffer$1() {
+  return !isMobile$2.apple.device;
 }
 /*!
- * @pixi/constants - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/constants - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
+ *
+ * @pixi/constants is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+var ENV$5;
+(function(ENV2) {
+  ENV2[ENV2["WEBGL_LEGACY"] = 0] = "WEBGL_LEGACY";
+  ENV2[ENV2["WEBGL"] = 1] = "WEBGL";
+  ENV2[ENV2["WEBGL2"] = 2] = "WEBGL2";
+})(ENV$5 || (ENV$5 = {}));
+var RENDERER_TYPE$5;
+(function(RENDERER_TYPE2) {
+  RENDERER_TYPE2[RENDERER_TYPE2["UNKNOWN"] = 0] = "UNKNOWN";
+  RENDERER_TYPE2[RENDERER_TYPE2["WEBGL"] = 1] = "WEBGL";
+  RENDERER_TYPE2[RENDERER_TYPE2["CANVAS"] = 2] = "CANVAS";
+})(RENDERER_TYPE$5 || (RENDERER_TYPE$5 = {}));
+var BUFFER_BITS$5;
+(function(BUFFER_BITS2) {
+  BUFFER_BITS2[BUFFER_BITS2["COLOR"] = 16384] = "COLOR";
+  BUFFER_BITS2[BUFFER_BITS2["DEPTH"] = 256] = "DEPTH";
+  BUFFER_BITS2[BUFFER_BITS2["STENCIL"] = 1024] = "STENCIL";
+})(BUFFER_BITS$5 || (BUFFER_BITS$5 = {}));
+var BLEND_MODES$5;
+(function(BLEND_MODES2) {
+  BLEND_MODES2[BLEND_MODES2["NORMAL"] = 0] = "NORMAL";
+  BLEND_MODES2[BLEND_MODES2["ADD"] = 1] = "ADD";
+  BLEND_MODES2[BLEND_MODES2["MULTIPLY"] = 2] = "MULTIPLY";
+  BLEND_MODES2[BLEND_MODES2["SCREEN"] = 3] = "SCREEN";
+  BLEND_MODES2[BLEND_MODES2["OVERLAY"] = 4] = "OVERLAY";
+  BLEND_MODES2[BLEND_MODES2["DARKEN"] = 5] = "DARKEN";
+  BLEND_MODES2[BLEND_MODES2["LIGHTEN"] = 6] = "LIGHTEN";
+  BLEND_MODES2[BLEND_MODES2["COLOR_DODGE"] = 7] = "COLOR_DODGE";
+  BLEND_MODES2[BLEND_MODES2["COLOR_BURN"] = 8] = "COLOR_BURN";
+  BLEND_MODES2[BLEND_MODES2["HARD_LIGHT"] = 9] = "HARD_LIGHT";
+  BLEND_MODES2[BLEND_MODES2["SOFT_LIGHT"] = 10] = "SOFT_LIGHT";
+  BLEND_MODES2[BLEND_MODES2["DIFFERENCE"] = 11] = "DIFFERENCE";
+  BLEND_MODES2[BLEND_MODES2["EXCLUSION"] = 12] = "EXCLUSION";
+  BLEND_MODES2[BLEND_MODES2["HUE"] = 13] = "HUE";
+  BLEND_MODES2[BLEND_MODES2["SATURATION"] = 14] = "SATURATION";
+  BLEND_MODES2[BLEND_MODES2["COLOR"] = 15] = "COLOR";
+  BLEND_MODES2[BLEND_MODES2["LUMINOSITY"] = 16] = "LUMINOSITY";
+  BLEND_MODES2[BLEND_MODES2["NORMAL_NPM"] = 17] = "NORMAL_NPM";
+  BLEND_MODES2[BLEND_MODES2["ADD_NPM"] = 18] = "ADD_NPM";
+  BLEND_MODES2[BLEND_MODES2["SCREEN_NPM"] = 19] = "SCREEN_NPM";
+  BLEND_MODES2[BLEND_MODES2["NONE"] = 20] = "NONE";
+  BLEND_MODES2[BLEND_MODES2["SRC_OVER"] = 0] = "SRC_OVER";
+  BLEND_MODES2[BLEND_MODES2["SRC_IN"] = 21] = "SRC_IN";
+  BLEND_MODES2[BLEND_MODES2["SRC_OUT"] = 22] = "SRC_OUT";
+  BLEND_MODES2[BLEND_MODES2["SRC_ATOP"] = 23] = "SRC_ATOP";
+  BLEND_MODES2[BLEND_MODES2["DST_OVER"] = 24] = "DST_OVER";
+  BLEND_MODES2[BLEND_MODES2["DST_IN"] = 25] = "DST_IN";
+  BLEND_MODES2[BLEND_MODES2["DST_OUT"] = 26] = "DST_OUT";
+  BLEND_MODES2[BLEND_MODES2["DST_ATOP"] = 27] = "DST_ATOP";
+  BLEND_MODES2[BLEND_MODES2["ERASE"] = 26] = "ERASE";
+  BLEND_MODES2[BLEND_MODES2["SUBTRACT"] = 28] = "SUBTRACT";
+  BLEND_MODES2[BLEND_MODES2["XOR"] = 29] = "XOR";
+})(BLEND_MODES$5 || (BLEND_MODES$5 = {}));
+var DRAW_MODES$5;
+(function(DRAW_MODES2) {
+  DRAW_MODES2[DRAW_MODES2["POINTS"] = 0] = "POINTS";
+  DRAW_MODES2[DRAW_MODES2["LINES"] = 1] = "LINES";
+  DRAW_MODES2[DRAW_MODES2["LINE_LOOP"] = 2] = "LINE_LOOP";
+  DRAW_MODES2[DRAW_MODES2["LINE_STRIP"] = 3] = "LINE_STRIP";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLES"] = 4] = "TRIANGLES";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+})(DRAW_MODES$5 || (DRAW_MODES$5 = {}));
+var FORMATS$5;
+(function(FORMATS2) {
+  FORMATS2[FORMATS2["RGBA"] = 6408] = "RGBA";
+  FORMATS2[FORMATS2["RGB"] = 6407] = "RGB";
+  FORMATS2[FORMATS2["RG"] = 33319] = "RG";
+  FORMATS2[FORMATS2["RED"] = 6403] = "RED";
+  FORMATS2[FORMATS2["RGBA_INTEGER"] = 36249] = "RGBA_INTEGER";
+  FORMATS2[FORMATS2["RGB_INTEGER"] = 36248] = "RGB_INTEGER";
+  FORMATS2[FORMATS2["RG_INTEGER"] = 33320] = "RG_INTEGER";
+  FORMATS2[FORMATS2["RED_INTEGER"] = 36244] = "RED_INTEGER";
+  FORMATS2[FORMATS2["ALPHA"] = 6406] = "ALPHA";
+  FORMATS2[FORMATS2["LUMINANCE"] = 6409] = "LUMINANCE";
+  FORMATS2[FORMATS2["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+  FORMATS2[FORMATS2["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+  FORMATS2[FORMATS2["DEPTH_STENCIL"] = 34041] = "DEPTH_STENCIL";
+})(FORMATS$5 || (FORMATS$5 = {}));
+var TARGETS$5;
+(function(TARGETS2) {
+  TARGETS2[TARGETS2["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP"] = 34067] = "TEXTURE_CUBE_MAP";
+  TARGETS2[TARGETS2["TEXTURE_2D_ARRAY"] = 35866] = "TEXTURE_2D_ARRAY";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_X"] = 34069] = "TEXTURE_CUBE_MAP_POSITIVE_X";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_X"] = 34070] = "TEXTURE_CUBE_MAP_NEGATIVE_X";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Y"] = 34071] = "TEXTURE_CUBE_MAP_POSITIVE_Y";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Y"] = 34072] = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Z"] = 34073] = "TEXTURE_CUBE_MAP_POSITIVE_Z";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Z"] = 34074] = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
+})(TARGETS$5 || (TARGETS$5 = {}));
+var TYPES$5;
+(function(TYPES2) {
+  TYPES2[TYPES2["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+  TYPES2[TYPES2["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
+  TYPES2[TYPES2["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
+  TYPES2[TYPES2["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
+  TYPES2[TYPES2["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
+  TYPES2[TYPES2["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
+  TYPES2[TYPES2["UNSIGNED_INT_10F_11F_11F_REV"] = 35899] = "UNSIGNED_INT_10F_11F_11F_REV";
+  TYPES2[TYPES2["UNSIGNED_INT_2_10_10_10_REV"] = 33640] = "UNSIGNED_INT_2_10_10_10_REV";
+  TYPES2[TYPES2["UNSIGNED_INT_24_8"] = 34042] = "UNSIGNED_INT_24_8";
+  TYPES2[TYPES2["UNSIGNED_INT_5_9_9_9_REV"] = 35902] = "UNSIGNED_INT_5_9_9_9_REV";
+  TYPES2[TYPES2["BYTE"] = 5120] = "BYTE";
+  TYPES2[TYPES2["SHORT"] = 5122] = "SHORT";
+  TYPES2[TYPES2["INT"] = 5124] = "INT";
+  TYPES2[TYPES2["FLOAT"] = 5126] = "FLOAT";
+  TYPES2[TYPES2["FLOAT_32_UNSIGNED_INT_24_8_REV"] = 36269] = "FLOAT_32_UNSIGNED_INT_24_8_REV";
+  TYPES2[TYPES2["HALF_FLOAT"] = 36193] = "HALF_FLOAT";
+})(TYPES$5 || (TYPES$5 = {}));
+var SAMPLER_TYPES$5;
+(function(SAMPLER_TYPES2) {
+  SAMPLER_TYPES2[SAMPLER_TYPES2["FLOAT"] = 0] = "FLOAT";
+  SAMPLER_TYPES2[SAMPLER_TYPES2["INT"] = 1] = "INT";
+  SAMPLER_TYPES2[SAMPLER_TYPES2["UINT"] = 2] = "UINT";
+})(SAMPLER_TYPES$5 || (SAMPLER_TYPES$5 = {}));
+var SCALE_MODES$5;
+(function(SCALE_MODES2) {
+  SCALE_MODES2[SCALE_MODES2["NEAREST"] = 0] = "NEAREST";
+  SCALE_MODES2[SCALE_MODES2["LINEAR"] = 1] = "LINEAR";
+})(SCALE_MODES$5 || (SCALE_MODES$5 = {}));
+var WRAP_MODES$5;
+(function(WRAP_MODES2) {
+  WRAP_MODES2[WRAP_MODES2["CLAMP"] = 33071] = "CLAMP";
+  WRAP_MODES2[WRAP_MODES2["REPEAT"] = 10497] = "REPEAT";
+  WRAP_MODES2[WRAP_MODES2["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
+})(WRAP_MODES$5 || (WRAP_MODES$5 = {}));
+var MIPMAP_MODES$5;
+(function(MIPMAP_MODES2) {
+  MIPMAP_MODES2[MIPMAP_MODES2["OFF"] = 0] = "OFF";
+  MIPMAP_MODES2[MIPMAP_MODES2["POW2"] = 1] = "POW2";
+  MIPMAP_MODES2[MIPMAP_MODES2["ON"] = 2] = "ON";
+  MIPMAP_MODES2[MIPMAP_MODES2["ON_MANUAL"] = 3] = "ON_MANUAL";
+})(MIPMAP_MODES$5 || (MIPMAP_MODES$5 = {}));
+var ALPHA_MODES$5;
+(function(ALPHA_MODES2) {
+  ALPHA_MODES2[ALPHA_MODES2["NPM"] = 0] = "NPM";
+  ALPHA_MODES2[ALPHA_MODES2["UNPACK"] = 1] = "UNPACK";
+  ALPHA_MODES2[ALPHA_MODES2["PMA"] = 2] = "PMA";
+  ALPHA_MODES2[ALPHA_MODES2["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
+})(ALPHA_MODES$5 || (ALPHA_MODES$5 = {}));
+var CLEAR_MODES$5;
+(function(CLEAR_MODES2) {
+  CLEAR_MODES2[CLEAR_MODES2["NO"] = 0] = "NO";
+  CLEAR_MODES2[CLEAR_MODES2["YES"] = 1] = "YES";
+  CLEAR_MODES2[CLEAR_MODES2["AUTO"] = 2] = "AUTO";
+  CLEAR_MODES2[CLEAR_MODES2["BLEND"] = 0] = "BLEND";
+  CLEAR_MODES2[CLEAR_MODES2["CLEAR"] = 1] = "CLEAR";
+  CLEAR_MODES2[CLEAR_MODES2["BLIT"] = 2] = "BLIT";
+})(CLEAR_MODES$5 || (CLEAR_MODES$5 = {}));
+var GC_MODES$5;
+(function(GC_MODES2) {
+  GC_MODES2[GC_MODES2["AUTO"] = 0] = "AUTO";
+  GC_MODES2[GC_MODES2["MANUAL"] = 1] = "MANUAL";
+})(GC_MODES$5 || (GC_MODES$5 = {}));
+var PRECISION$5;
+(function(PRECISION2) {
+  PRECISION2["LOW"] = "lowp";
+  PRECISION2["MEDIUM"] = "mediump";
+  PRECISION2["HIGH"] = "highp";
+})(PRECISION$5 || (PRECISION$5 = {}));
+var MASK_TYPES$5;
+(function(MASK_TYPES2) {
+  MASK_TYPES2[MASK_TYPES2["NONE"] = 0] = "NONE";
+  MASK_TYPES2[MASK_TYPES2["SCISSOR"] = 1] = "SCISSOR";
+  MASK_TYPES2[MASK_TYPES2["STENCIL"] = 2] = "STENCIL";
+  MASK_TYPES2[MASK_TYPES2["SPRITE"] = 3] = "SPRITE";
+})(MASK_TYPES$5 || (MASK_TYPES$5 = {}));
+var MSAA_QUALITY$5;
+(function(MSAA_QUALITY2) {
+  MSAA_QUALITY2[MSAA_QUALITY2["NONE"] = 0] = "NONE";
+  MSAA_QUALITY2[MSAA_QUALITY2["LOW"] = 2] = "LOW";
+  MSAA_QUALITY2[MSAA_QUALITY2["MEDIUM"] = 4] = "MEDIUM";
+  MSAA_QUALITY2[MSAA_QUALITY2["HIGH"] = 8] = "HIGH";
+})(MSAA_QUALITY$5 || (MSAA_QUALITY$5 = {}));
+var BUFFER_TYPE$5;
+(function(BUFFER_TYPE2) {
+  BUFFER_TYPE2[BUFFER_TYPE2["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
+  BUFFER_TYPE2[BUFFER_TYPE2["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
+  BUFFER_TYPE2[BUFFER_TYPE2["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
+})(BUFFER_TYPE$5 || (BUFFER_TYPE$5 = {}));
+var settings$1 = {
+  MIPMAP_TEXTURES: MIPMAP_MODES$5.POW2,
+  ANISOTROPIC_LEVEL: 0,
+  RESOLUTION: 1,
+  FILTER_RESOLUTION: 1,
+  FILTER_MULTISAMPLE: MSAA_QUALITY$5.NONE,
+  SPRITE_MAX_TEXTURES: maxRecommendedTextures$1(32),
+  SPRITE_BATCH_SIZE: 4096,
+  RENDER_OPTIONS: {
+    view: null,
+    antialias: false,
+    autoDensity: false,
+    backgroundColor: 0,
+    backgroundAlpha: 1,
+    useContextAlpha: true,
+    clearBeforeRender: true,
+    preserveDrawingBuffer: false,
+    width: 800,
+    height: 600,
+    legacy: false
+  },
+  GC_MODE: GC_MODES$5.AUTO,
+  GC_MAX_IDLE: 60 * 60,
+  GC_MAX_CHECK_COUNT: 60 * 10,
+  WRAP_MODE: WRAP_MODES$5.CLAMP,
+  SCALE_MODE: SCALE_MODES$5.LINEAR,
+  PRECISION_VERTEX: PRECISION$5.HIGH,
+  PRECISION_FRAGMENT: isMobile$2.apple.device ? PRECISION$5.HIGH : PRECISION$5.MEDIUM,
+  CAN_UPLOAD_SAME_BUFFER: canUploadSameBuffer$1(),
+  CREATE_IMAGE_BITMAP: false,
+  ROUND_PIXELS: false
+};
+/*!
+ * @pixi/constants - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -6645,229 +6848,6 @@ var BUFFER_TYPE$4;
   BUFFER_TYPE2[BUFFER_TYPE2["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
   BUFFER_TYPE2[BUFFER_TYPE2["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
 })(BUFFER_TYPE$4 || (BUFFER_TYPE$4 = {}));
-var settings = {
-  MIPMAP_TEXTURES: MIPMAP_MODES$4.POW2,
-  ANISOTROPIC_LEVEL: 0,
-  RESOLUTION: 1,
-  FILTER_RESOLUTION: 1,
-  FILTER_MULTISAMPLE: MSAA_QUALITY$4.NONE,
-  SPRITE_MAX_TEXTURES: maxRecommendedTextures(32),
-  SPRITE_BATCH_SIZE: 4096,
-  RENDER_OPTIONS: {
-    view: null,
-    antialias: false,
-    autoDensity: false,
-    backgroundColor: 0,
-    backgroundAlpha: 1,
-    useContextAlpha: true,
-    clearBeforeRender: true,
-    preserveDrawingBuffer: false,
-    width: 800,
-    height: 600,
-    legacy: false
-  },
-  GC_MODE: GC_MODES$4.AUTO,
-  GC_MAX_IDLE: 60 * 60,
-  GC_MAX_CHECK_COUNT: 60 * 10,
-  WRAP_MODE: WRAP_MODES$4.CLAMP,
-  SCALE_MODE: SCALE_MODES$4.LINEAR,
-  PRECISION_VERTEX: PRECISION$4.HIGH,
-  PRECISION_FRAGMENT: isMobile.apple.device ? PRECISION$4.HIGH : PRECISION$4.MEDIUM,
-  CAN_UPLOAD_SAME_BUFFER: canUploadSameBuffer(),
-  CREATE_IMAGE_BITMAP: false,
-  ROUND_PIXELS: false
-};
-/*!
- * @pixi/constants - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
- *
- * @pixi/constants is licensed under the MIT License.
- * http://www.opensource.org/licenses/mit-license
- */
-var ENV$3;
-(function(ENV2) {
-  ENV2[ENV2["WEBGL_LEGACY"] = 0] = "WEBGL_LEGACY";
-  ENV2[ENV2["WEBGL"] = 1] = "WEBGL";
-  ENV2[ENV2["WEBGL2"] = 2] = "WEBGL2";
-})(ENV$3 || (ENV$3 = {}));
-var RENDERER_TYPE$3;
-(function(RENDERER_TYPE2) {
-  RENDERER_TYPE2[RENDERER_TYPE2["UNKNOWN"] = 0] = "UNKNOWN";
-  RENDERER_TYPE2[RENDERER_TYPE2["WEBGL"] = 1] = "WEBGL";
-  RENDERER_TYPE2[RENDERER_TYPE2["CANVAS"] = 2] = "CANVAS";
-})(RENDERER_TYPE$3 || (RENDERER_TYPE$3 = {}));
-var BUFFER_BITS$3;
-(function(BUFFER_BITS2) {
-  BUFFER_BITS2[BUFFER_BITS2["COLOR"] = 16384] = "COLOR";
-  BUFFER_BITS2[BUFFER_BITS2["DEPTH"] = 256] = "DEPTH";
-  BUFFER_BITS2[BUFFER_BITS2["STENCIL"] = 1024] = "STENCIL";
-})(BUFFER_BITS$3 || (BUFFER_BITS$3 = {}));
-var BLEND_MODES$3;
-(function(BLEND_MODES2) {
-  BLEND_MODES2[BLEND_MODES2["NORMAL"] = 0] = "NORMAL";
-  BLEND_MODES2[BLEND_MODES2["ADD"] = 1] = "ADD";
-  BLEND_MODES2[BLEND_MODES2["MULTIPLY"] = 2] = "MULTIPLY";
-  BLEND_MODES2[BLEND_MODES2["SCREEN"] = 3] = "SCREEN";
-  BLEND_MODES2[BLEND_MODES2["OVERLAY"] = 4] = "OVERLAY";
-  BLEND_MODES2[BLEND_MODES2["DARKEN"] = 5] = "DARKEN";
-  BLEND_MODES2[BLEND_MODES2["LIGHTEN"] = 6] = "LIGHTEN";
-  BLEND_MODES2[BLEND_MODES2["COLOR_DODGE"] = 7] = "COLOR_DODGE";
-  BLEND_MODES2[BLEND_MODES2["COLOR_BURN"] = 8] = "COLOR_BURN";
-  BLEND_MODES2[BLEND_MODES2["HARD_LIGHT"] = 9] = "HARD_LIGHT";
-  BLEND_MODES2[BLEND_MODES2["SOFT_LIGHT"] = 10] = "SOFT_LIGHT";
-  BLEND_MODES2[BLEND_MODES2["DIFFERENCE"] = 11] = "DIFFERENCE";
-  BLEND_MODES2[BLEND_MODES2["EXCLUSION"] = 12] = "EXCLUSION";
-  BLEND_MODES2[BLEND_MODES2["HUE"] = 13] = "HUE";
-  BLEND_MODES2[BLEND_MODES2["SATURATION"] = 14] = "SATURATION";
-  BLEND_MODES2[BLEND_MODES2["COLOR"] = 15] = "COLOR";
-  BLEND_MODES2[BLEND_MODES2["LUMINOSITY"] = 16] = "LUMINOSITY";
-  BLEND_MODES2[BLEND_MODES2["NORMAL_NPM"] = 17] = "NORMAL_NPM";
-  BLEND_MODES2[BLEND_MODES2["ADD_NPM"] = 18] = "ADD_NPM";
-  BLEND_MODES2[BLEND_MODES2["SCREEN_NPM"] = 19] = "SCREEN_NPM";
-  BLEND_MODES2[BLEND_MODES2["NONE"] = 20] = "NONE";
-  BLEND_MODES2[BLEND_MODES2["SRC_OVER"] = 0] = "SRC_OVER";
-  BLEND_MODES2[BLEND_MODES2["SRC_IN"] = 21] = "SRC_IN";
-  BLEND_MODES2[BLEND_MODES2["SRC_OUT"] = 22] = "SRC_OUT";
-  BLEND_MODES2[BLEND_MODES2["SRC_ATOP"] = 23] = "SRC_ATOP";
-  BLEND_MODES2[BLEND_MODES2["DST_OVER"] = 24] = "DST_OVER";
-  BLEND_MODES2[BLEND_MODES2["DST_IN"] = 25] = "DST_IN";
-  BLEND_MODES2[BLEND_MODES2["DST_OUT"] = 26] = "DST_OUT";
-  BLEND_MODES2[BLEND_MODES2["DST_ATOP"] = 27] = "DST_ATOP";
-  BLEND_MODES2[BLEND_MODES2["ERASE"] = 26] = "ERASE";
-  BLEND_MODES2[BLEND_MODES2["SUBTRACT"] = 28] = "SUBTRACT";
-  BLEND_MODES2[BLEND_MODES2["XOR"] = 29] = "XOR";
-})(BLEND_MODES$3 || (BLEND_MODES$3 = {}));
-var DRAW_MODES$3;
-(function(DRAW_MODES2) {
-  DRAW_MODES2[DRAW_MODES2["POINTS"] = 0] = "POINTS";
-  DRAW_MODES2[DRAW_MODES2["LINES"] = 1] = "LINES";
-  DRAW_MODES2[DRAW_MODES2["LINE_LOOP"] = 2] = "LINE_LOOP";
-  DRAW_MODES2[DRAW_MODES2["LINE_STRIP"] = 3] = "LINE_STRIP";
-  DRAW_MODES2[DRAW_MODES2["TRIANGLES"] = 4] = "TRIANGLES";
-  DRAW_MODES2[DRAW_MODES2["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
-  DRAW_MODES2[DRAW_MODES2["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
-})(DRAW_MODES$3 || (DRAW_MODES$3 = {}));
-var FORMATS$3;
-(function(FORMATS2) {
-  FORMATS2[FORMATS2["RGBA"] = 6408] = "RGBA";
-  FORMATS2[FORMATS2["RGB"] = 6407] = "RGB";
-  FORMATS2[FORMATS2["RG"] = 33319] = "RG";
-  FORMATS2[FORMATS2["RED"] = 6403] = "RED";
-  FORMATS2[FORMATS2["RGBA_INTEGER"] = 36249] = "RGBA_INTEGER";
-  FORMATS2[FORMATS2["RGB_INTEGER"] = 36248] = "RGB_INTEGER";
-  FORMATS2[FORMATS2["RG_INTEGER"] = 33320] = "RG_INTEGER";
-  FORMATS2[FORMATS2["RED_INTEGER"] = 36244] = "RED_INTEGER";
-  FORMATS2[FORMATS2["ALPHA"] = 6406] = "ALPHA";
-  FORMATS2[FORMATS2["LUMINANCE"] = 6409] = "LUMINANCE";
-  FORMATS2[FORMATS2["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
-  FORMATS2[FORMATS2["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
-  FORMATS2[FORMATS2["DEPTH_STENCIL"] = 34041] = "DEPTH_STENCIL";
-})(FORMATS$3 || (FORMATS$3 = {}));
-var TARGETS$3;
-(function(TARGETS2) {
-  TARGETS2[TARGETS2["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
-  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP"] = 34067] = "TEXTURE_CUBE_MAP";
-  TARGETS2[TARGETS2["TEXTURE_2D_ARRAY"] = 35866] = "TEXTURE_2D_ARRAY";
-  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_X"] = 34069] = "TEXTURE_CUBE_MAP_POSITIVE_X";
-  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_X"] = 34070] = "TEXTURE_CUBE_MAP_NEGATIVE_X";
-  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Y"] = 34071] = "TEXTURE_CUBE_MAP_POSITIVE_Y";
-  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Y"] = 34072] = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
-  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Z"] = 34073] = "TEXTURE_CUBE_MAP_POSITIVE_Z";
-  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Z"] = 34074] = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
-})(TARGETS$3 || (TARGETS$3 = {}));
-var TYPES$3;
-(function(TYPES2) {
-  TYPES2[TYPES2["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
-  TYPES2[TYPES2["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
-  TYPES2[TYPES2["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
-  TYPES2[TYPES2["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
-  TYPES2[TYPES2["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
-  TYPES2[TYPES2["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
-  TYPES2[TYPES2["UNSIGNED_INT_10F_11F_11F_REV"] = 35899] = "UNSIGNED_INT_10F_11F_11F_REV";
-  TYPES2[TYPES2["UNSIGNED_INT_2_10_10_10_REV"] = 33640] = "UNSIGNED_INT_2_10_10_10_REV";
-  TYPES2[TYPES2["UNSIGNED_INT_24_8"] = 34042] = "UNSIGNED_INT_24_8";
-  TYPES2[TYPES2["UNSIGNED_INT_5_9_9_9_REV"] = 35902] = "UNSIGNED_INT_5_9_9_9_REV";
-  TYPES2[TYPES2["BYTE"] = 5120] = "BYTE";
-  TYPES2[TYPES2["SHORT"] = 5122] = "SHORT";
-  TYPES2[TYPES2["INT"] = 5124] = "INT";
-  TYPES2[TYPES2["FLOAT"] = 5126] = "FLOAT";
-  TYPES2[TYPES2["FLOAT_32_UNSIGNED_INT_24_8_REV"] = 36269] = "FLOAT_32_UNSIGNED_INT_24_8_REV";
-  TYPES2[TYPES2["HALF_FLOAT"] = 36193] = "HALF_FLOAT";
-})(TYPES$3 || (TYPES$3 = {}));
-var SAMPLER_TYPES$3;
-(function(SAMPLER_TYPES2) {
-  SAMPLER_TYPES2[SAMPLER_TYPES2["FLOAT"] = 0] = "FLOAT";
-  SAMPLER_TYPES2[SAMPLER_TYPES2["INT"] = 1] = "INT";
-  SAMPLER_TYPES2[SAMPLER_TYPES2["UINT"] = 2] = "UINT";
-})(SAMPLER_TYPES$3 || (SAMPLER_TYPES$3 = {}));
-var SCALE_MODES$3;
-(function(SCALE_MODES2) {
-  SCALE_MODES2[SCALE_MODES2["NEAREST"] = 0] = "NEAREST";
-  SCALE_MODES2[SCALE_MODES2["LINEAR"] = 1] = "LINEAR";
-})(SCALE_MODES$3 || (SCALE_MODES$3 = {}));
-var WRAP_MODES$3;
-(function(WRAP_MODES2) {
-  WRAP_MODES2[WRAP_MODES2["CLAMP"] = 33071] = "CLAMP";
-  WRAP_MODES2[WRAP_MODES2["REPEAT"] = 10497] = "REPEAT";
-  WRAP_MODES2[WRAP_MODES2["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
-})(WRAP_MODES$3 || (WRAP_MODES$3 = {}));
-var MIPMAP_MODES$3;
-(function(MIPMAP_MODES2) {
-  MIPMAP_MODES2[MIPMAP_MODES2["OFF"] = 0] = "OFF";
-  MIPMAP_MODES2[MIPMAP_MODES2["POW2"] = 1] = "POW2";
-  MIPMAP_MODES2[MIPMAP_MODES2["ON"] = 2] = "ON";
-  MIPMAP_MODES2[MIPMAP_MODES2["ON_MANUAL"] = 3] = "ON_MANUAL";
-})(MIPMAP_MODES$3 || (MIPMAP_MODES$3 = {}));
-var ALPHA_MODES$3;
-(function(ALPHA_MODES2) {
-  ALPHA_MODES2[ALPHA_MODES2["NPM"] = 0] = "NPM";
-  ALPHA_MODES2[ALPHA_MODES2["UNPACK"] = 1] = "UNPACK";
-  ALPHA_MODES2[ALPHA_MODES2["PMA"] = 2] = "PMA";
-  ALPHA_MODES2[ALPHA_MODES2["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
-  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
-  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
-  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
-})(ALPHA_MODES$3 || (ALPHA_MODES$3 = {}));
-var CLEAR_MODES$3;
-(function(CLEAR_MODES2) {
-  CLEAR_MODES2[CLEAR_MODES2["NO"] = 0] = "NO";
-  CLEAR_MODES2[CLEAR_MODES2["YES"] = 1] = "YES";
-  CLEAR_MODES2[CLEAR_MODES2["AUTO"] = 2] = "AUTO";
-  CLEAR_MODES2[CLEAR_MODES2["BLEND"] = 0] = "BLEND";
-  CLEAR_MODES2[CLEAR_MODES2["CLEAR"] = 1] = "CLEAR";
-  CLEAR_MODES2[CLEAR_MODES2["BLIT"] = 2] = "BLIT";
-})(CLEAR_MODES$3 || (CLEAR_MODES$3 = {}));
-var GC_MODES$3;
-(function(GC_MODES2) {
-  GC_MODES2[GC_MODES2["AUTO"] = 0] = "AUTO";
-  GC_MODES2[GC_MODES2["MANUAL"] = 1] = "MANUAL";
-})(GC_MODES$3 || (GC_MODES$3 = {}));
-var PRECISION$3;
-(function(PRECISION2) {
-  PRECISION2["LOW"] = "lowp";
-  PRECISION2["MEDIUM"] = "mediump";
-  PRECISION2["HIGH"] = "highp";
-})(PRECISION$3 || (PRECISION$3 = {}));
-var MASK_TYPES$3;
-(function(MASK_TYPES2) {
-  MASK_TYPES2[MASK_TYPES2["NONE"] = 0] = "NONE";
-  MASK_TYPES2[MASK_TYPES2["SCISSOR"] = 1] = "SCISSOR";
-  MASK_TYPES2[MASK_TYPES2["STENCIL"] = 2] = "STENCIL";
-  MASK_TYPES2[MASK_TYPES2["SPRITE"] = 3] = "SPRITE";
-})(MASK_TYPES$3 || (MASK_TYPES$3 = {}));
-var MSAA_QUALITY$3;
-(function(MSAA_QUALITY2) {
-  MSAA_QUALITY2[MSAA_QUALITY2["NONE"] = 0] = "NONE";
-  MSAA_QUALITY2[MSAA_QUALITY2["LOW"] = 2] = "LOW";
-  MSAA_QUALITY2[MSAA_QUALITY2["MEDIUM"] = 4] = "MEDIUM";
-  MSAA_QUALITY2[MSAA_QUALITY2["HIGH"] = 8] = "HIGH";
-})(MSAA_QUALITY$3 || (MSAA_QUALITY$3 = {}));
-var BUFFER_TYPE$3;
-(function(BUFFER_TYPE2) {
-  BUFFER_TYPE2[BUFFER_TYPE2["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
-  BUFFER_TYPE2[BUFFER_TYPE2["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
-  BUFFER_TYPE2[BUFFER_TYPE2["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
-})(BUFFER_TYPE$3 || (BUFFER_TYPE$3 = {}));
 var eventemitter3 = { exports: {} };
 (function(module) {
   var has = Object.prototype.hasOwnProperty, prefix2 = "~";
@@ -7045,7 +7025,7 @@ var eventemitter3 = { exports: {} };
     module.exports = EventEmitter2;
   }
 })(eventemitter3);
-var EventEmitter$4 = eventemitter3.exports;
+var EventEmitter$5 = eventemitter3.exports;
 var earcut$2 = { exports: {} };
 earcut$2.exports = earcut;
 earcut$2.exports.default = earcut;
@@ -7508,8 +7488,8 @@ earcut.flatten = function(data) {
 };
 var earcut$1 = earcut$2.exports;
 /*!
- * @pixi/utils - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/utils - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -7519,10 +7499,10 @@ var url = {
   format,
   resolve: resolve$1
 };
-settings.RETINA_PREFIX = /@([0-9\.]+)x/;
-settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
+settings$1.RETINA_PREFIX = /@([0-9\.]+)x/;
+settings$1.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = false;
 var saidHello = false;
-var VERSION = "6.3.2";
+var VERSION = "6.4.2";
 function skipHello() {
   saidHello = true;
 }
@@ -7556,7 +7536,7 @@ function isWebGLSupported() {
     supported = function supported2() {
       var contextOptions = {
         stencil: true,
-        failIfMajorPerformanceCaveat: settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT
+        failIfMajorPerformanceCaveat: settings$1.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT
       };
       try {
         if (!globalThis.WebGLRenderingContext) {
@@ -7908,12 +7888,12 @@ function mapPremultipliedBlendModes() {
     pm[i2] = i2;
     npm[i2] = i2;
   }
-  pm[BLEND_MODES$3.NORMAL_NPM] = BLEND_MODES$3.NORMAL;
-  pm[BLEND_MODES$3.ADD_NPM] = BLEND_MODES$3.ADD;
-  pm[BLEND_MODES$3.SCREEN_NPM] = BLEND_MODES$3.SCREEN;
-  npm[BLEND_MODES$3.NORMAL] = BLEND_MODES$3.NORMAL_NPM;
-  npm[BLEND_MODES$3.ADD] = BLEND_MODES$3.ADD_NPM;
-  npm[BLEND_MODES$3.SCREEN] = BLEND_MODES$3.SCREEN_NPM;
+  pm[BLEND_MODES$4.NORMAL_NPM] = BLEND_MODES$4.NORMAL;
+  pm[BLEND_MODES$4.ADD_NPM] = BLEND_MODES$4.ADD;
+  pm[BLEND_MODES$4.SCREEN_NPM] = BLEND_MODES$4.SCREEN;
+  npm[BLEND_MODES$4.NORMAL] = BLEND_MODES$4.NORMAL_NPM;
+  npm[BLEND_MODES$4.ADD] = BLEND_MODES$4.ADD_NPM;
+  npm[BLEND_MODES$4.SCREEN] = BLEND_MODES$4.SCREEN_NPM;
   var array = [];
   array.push(npm);
   array.push(pm);
@@ -8093,7 +8073,7 @@ var CanvasRenderTarget = function() {
   function CanvasRenderTarget2(width, height, resolution) {
     this.canvas = document.createElement("canvas");
     this.context = this.canvas.getContext("2d");
-    this.resolution = resolution || settings.RESOLUTION;
+    this.resolution = resolution || settings$1.RESOLUTION;
     this.resize(width, height);
   }
   CanvasRenderTarget2.prototype.clear = function() {
@@ -8203,15 +8183,15 @@ function determineCrossOrigin(url$12, loc) {
   return "";
 }
 function getResolutionOfUrl(url2, defaultValue2) {
-  var resolution = settings.RETINA_PREFIX.exec(url2);
+  var resolution = settings$1.RETINA_PREFIX.exec(url2);
   if (resolution) {
     return parseFloat(resolution[1]);
   }
   return defaultValue2 !== void 0 ? defaultValue2 : 1;
 }
 /*!
- * @pixi/runner - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/runner - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8292,13 +8272,13 @@ Object.defineProperties(Runner.prototype, {
   run: { value: Runner.prototype.emit }
 });
 /*!
- * @pixi/ticker - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/ticker - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-settings.TARGET_FPMS = 0.06;
+settings$1.TARGET_FPMS = 0.06;
 var UPDATE_PRIORITY;
 (function(UPDATE_PRIORITY2) {
   UPDATE_PRIORITY2[UPDATE_PRIORITY2["INTERACTION"] = 50] = "INTERACTION";
@@ -8391,8 +8371,8 @@ var Ticker = function() {
     this._protected = false;
     this._lastFrame = -1;
     this._head = new TickerListener(null, null, Infinity);
-    this.deltaMS = 1 / settings.TARGET_FPMS;
-    this.elapsedMS = 1 / settings.TARGET_FPMS;
+    this.deltaMS = 1 / settings$1.TARGET_FPMS;
+    this.elapsedMS = 1 / settings$1.TARGET_FPMS;
     this._tick = function(time) {
       _this._requestId = null;
       if (_this.started) {
@@ -8527,7 +8507,7 @@ var Ticker = function() {
         this._lastFrame = currentTime - delta % this._minElapsedMS;
       }
       this.deltaMS = elapsedMS;
-      this.deltaTime = this.deltaMS * settings.TARGET_FPMS;
+      this.deltaTime = this.deltaMS * settings$1.TARGET_FPMS;
       var head = this._head;
       var listener = head.next;
       while (listener) {
@@ -8554,7 +8534,7 @@ var Ticker = function() {
     },
     set: function(fps) {
       var minFPS = Math.min(this.maxFPS, fps);
-      var minFPMS = Math.min(Math.max(0, minFPS) / 1e3, settings.TARGET_FPMS);
+      var minFPMS = Math.min(Math.max(0, minFPS) / 1e3, settings$1.TARGET_FPMS);
       this._maxElapsedMS = 1 / minFPMS;
     },
     enumerable: false,
@@ -8649,8 +8629,8 @@ var TickerPlugin = function() {
   return TickerPlugin2;
 }();
 /*!
- * @pixi/math - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/math - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -9622,14 +9602,14 @@ var Transform = function() {
   return Transform2;
 }();
 /*!
- * @pixi/core - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/core - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-settings.PREFER_ENV = isMobile.any ? ENV$3.WEBGL : ENV$3.WEBGL2;
-settings.STRICT_TEXTURE_CACHE = false;
+settings$1.PREFER_ENV = isMobile$2.any ? ENV$4.WEBGL : ENV$4.WEBGL2;
+settings$1.STRICT_TEXTURE_CACHE = false;
 var INSTALLED = [];
 function autoDetectResource(source, options) {
   if (!source) {
@@ -9664,8 +9644,8 @@ MERCHANTABLITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-var extendStatics$q = function(d2, b2) {
-  extendStatics$q = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
+var extendStatics$r = function(d2, b2) {
+  extendStatics$r = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
     for (var p in b3) {
@@ -9674,10 +9654,10 @@ var extendStatics$q = function(d2, b2) {
       }
     }
   };
-  return extendStatics$q(d2, b2);
+  return extendStatics$r(d2, b2);
 };
-function __extends$q(d2, b2) {
-  extendStatics$q(d2, b2);
+function __extends$r(d2, b2) {
+  extendStatics$r(d2, b2);
   function __() {
     this.constructor = d2;
   }
@@ -9802,7 +9782,7 @@ var Resource = function() {
   return Resource2;
 }();
 var BufferResource = function(_super) {
-  __extends$q(BufferResource2, _super);
+  __extends$r(BufferResource2, _super);
   function BufferResource2(source, options) {
     var _this = this;
     var _a3 = options || {}, width = _a3.width, height = _a3.height;
@@ -9815,7 +9795,7 @@ var BufferResource = function(_super) {
   }
   BufferResource2.prototype.upload = function(renderer, baseTexture, glTexture) {
     var gl = renderer.gl;
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, baseTexture.alphaMode === ALPHA_MODES$3.UNPACK);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, baseTexture.alphaMode === ALPHA_MODES$4.UNPACK);
     var width = baseTexture.realWidth;
     var height = baseTexture.realHeight;
     if (glTexture.width === width && glTexture.height === height) {
@@ -9836,12 +9816,12 @@ var BufferResource = function(_super) {
   return BufferResource2;
 }(Resource);
 var defaultBufferOptions = {
-  scaleMode: SCALE_MODES$3.NEAREST,
-  format: FORMATS$3.RGBA,
-  alphaMode: ALPHA_MODES$3.NPM
+  scaleMode: SCALE_MODES$4.NEAREST,
+  format: FORMATS$4.RGBA,
+  alphaMode: ALPHA_MODES$4.NPM
 };
 var BaseTexture = function(_super) {
-  __extends$q(BaseTexture2, _super);
+  __extends$r(BaseTexture2, _super);
   function BaseTexture2(resource, options) {
     if (resource === void 0) {
       resource = null;
@@ -9856,17 +9836,17 @@ var BaseTexture = function(_super) {
       resource = autoDetectResource(resource, resourceOptions);
       resource.internal = true;
     }
-    _this.resolution = resolution || settings.RESOLUTION;
+    _this.resolution = resolution || settings$1.RESOLUTION;
     _this.width = Math.round((width || 0) * _this.resolution) / _this.resolution;
     _this.height = Math.round((height || 0) * _this.resolution) / _this.resolution;
-    _this._mipmap = mipmap !== void 0 ? mipmap : settings.MIPMAP_TEXTURES;
-    _this.anisotropicLevel = anisotropicLevel !== void 0 ? anisotropicLevel : settings.ANISOTROPIC_LEVEL;
-    _this._wrapMode = wrapMode || settings.WRAP_MODE;
-    _this._scaleMode = scaleMode !== void 0 ? scaleMode : settings.SCALE_MODE;
-    _this.format = format2 || FORMATS$3.RGBA;
-    _this.type = type || TYPES$3.UNSIGNED_BYTE;
-    _this.target = target || TARGETS$3.TEXTURE_2D;
-    _this.alphaMode = alphaMode !== void 0 ? alphaMode : ALPHA_MODES$3.UNPACK;
+    _this._mipmap = mipmap !== void 0 ? mipmap : settings$1.MIPMAP_TEXTURES;
+    _this.anisotropicLevel = anisotropicLevel !== void 0 ? anisotropicLevel : settings$1.ANISOTROPIC_LEVEL;
+    _this._wrapMode = wrapMode || settings$1.WRAP_MODE;
+    _this._scaleMode = scaleMode !== void 0 ? scaleMode : settings$1.SCALE_MODE;
+    _this.format = format2 || FORMATS$4.RGBA;
+    _this.type = type || TYPES$4.UNSIGNED_BYTE;
+    _this.target = target || TARGETS$4.TEXTURE_2D;
+    _this.alphaMode = alphaMode !== void 0 ? alphaMode : ALPHA_MODES$4.UNPACK;
     _this.uid = uid();
     _this.touched = 0;
     _this.isPowerOfTwo = false;
@@ -10035,7 +10015,7 @@ var BaseTexture = function(_super) {
   };
   BaseTexture2.from = function(source, options, strict) {
     if (strict === void 0) {
-      strict = settings.STRICT_TEXTURE_CACHE;
+      strict = settings$1.STRICT_TEXTURE_CACHE;
     }
     var isFrame = typeof source === "string";
     var cacheId = null;
@@ -10062,7 +10042,7 @@ var BaseTexture = function(_super) {
   BaseTexture2.fromBuffer = function(buffer, width, height, options) {
     buffer = buffer || new Float32Array(width * height * 4);
     var resource = new BufferResource(buffer, { width, height });
-    var type = buffer instanceof Float32Array ? TYPES$3.FLOAT : TYPES$3.UNSIGNED_BYTE;
+    var type = buffer instanceof Float32Array ? TYPES$4.FLOAT : TYPES$4.UNSIGNED_BYTE;
     return new BaseTexture2(resource, Object.assign(defaultBufferOptions, options || { width, height, type }));
   };
   BaseTexture2.addToCache = function(baseTexture, id) {
@@ -10098,9 +10078,9 @@ var BaseTexture = function(_super) {
   };
   BaseTexture2._globalBatch = 0;
   return BaseTexture2;
-}(EventEmitter$4);
+}(EventEmitter$5);
 var AbstractMultiResource = function(_super) {
-  __extends$q(AbstractMultiResource2, _super);
+  __extends$r(AbstractMultiResource2, _super);
   function AbstractMultiResource2(length2, options) {
     var _this = this;
     var _a3 = options || {}, width = _a3.width, height = _a3.height;
@@ -10189,7 +10169,7 @@ var AbstractMultiResource = function(_super) {
   return AbstractMultiResource2;
 }(Resource);
 var ArrayResource = function(_super) {
-  __extends$q(ArrayResource2, _super);
+  __extends$r(ArrayResource2, _super);
   function ArrayResource2(source, options) {
     var _this = this;
     var _a3 = options || {}, width = _a3.width, height = _a3.height;
@@ -10217,7 +10197,7 @@ var ArrayResource = function(_super) {
   };
   ArrayResource2.prototype.bind = function(baseTexture) {
     _super.prototype.bind.call(this, baseTexture);
-    baseTexture.target = TARGETS$3.TEXTURE_2D_ARRAY;
+    baseTexture.target = TARGETS$4.TEXTURE_2D_ARRAY;
   };
   ArrayResource2.prototype.upload = function(renderer, texture, glTexture) {
     var _a3 = this, length2 = _a3.length, itemDirtyIds = _a3.itemDirtyIds, items = _a3.items;
@@ -10239,7 +10219,7 @@ var ArrayResource = function(_super) {
   return ArrayResource2;
 }(AbstractMultiResource);
 var BaseImageResource = function(_super) {
-  __extends$q(BaseImageResource2, _super);
+  __extends$r(BaseImageResource2, _super);
   function BaseImageResource2(source) {
     var _this = this;
     var sourceAny = source;
@@ -10271,7 +10251,7 @@ var BaseImageResource = function(_super) {
         return false;
       }
     }
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, baseTexture.alphaMode === ALPHA_MODES$3.UNPACK);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, baseTexture.alphaMode === ALPHA_MODES$4.UNPACK);
     if (!this.noSubImage && baseTexture.target === gl.TEXTURE_2D && glTexture.width === width && glTexture.height === height) {
       gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, baseTexture.format, glTexture.type, source);
     } else {
@@ -10297,7 +10277,7 @@ var BaseImageResource = function(_super) {
   return BaseImageResource2;
 }(Resource);
 var CanvasResource = function(_super) {
-  __extends$q(CanvasResource2, _super);
+  __extends$r(CanvasResource2, _super);
   function CanvasResource2(source) {
     return _super.call(this, source) || this;
   }
@@ -10311,7 +10291,7 @@ var CanvasResource = function(_super) {
   return CanvasResource2;
 }(BaseImageResource);
 var CubeResource = function(_super) {
-  __extends$q(CubeResource2, _super);
+  __extends$r(CubeResource2, _super);
   function CubeResource2(source, options) {
     var _this = this;
     var _a3 = options || {}, width = _a3.width, height = _a3.height, autoLoad = _a3.autoLoad, linkBaseTexture = _a3.linkBaseTexture;
@@ -10320,7 +10300,7 @@ var CubeResource = function(_super) {
     }
     _this = _super.call(this, 6, { width, height }) || this;
     for (var i2 = 0; i2 < CubeResource2.SIDES; i2++) {
-      _this.items[i2].target = TARGETS$3.TEXTURE_CUBE_MAP_POSITIVE_X + i2;
+      _this.items[i2].target = TARGETS$4.TEXTURE_CUBE_MAP_POSITIVE_X + i2;
     }
     _this.linkBaseTexture = linkBaseTexture !== false;
     if (source) {
@@ -10333,7 +10313,7 @@ var CubeResource = function(_super) {
   }
   CubeResource2.prototype.bind = function(baseTexture) {
     _super.prototype.bind.call(this, baseTexture);
-    baseTexture.target = TARGETS$3.TEXTURE_CUBE_MAP;
+    baseTexture.target = TARGETS$4.TEXTURE_CUBE_MAP;
   };
   CubeResource2.prototype.addBaseTextureAt = function(baseTexture, index, linkBaseTexture) {
     if (!this.items[index]) {
@@ -10346,7 +10326,7 @@ var CubeResource = function(_super) {
         throw new Error("CubeResource does not support copying of renderTexture.");
       }
     } else {
-      baseTexture.target = TARGETS$3.TEXTURE_CUBE_MAP_POSITIVE_X + index;
+      baseTexture.target = TARGETS$4.TEXTURE_CUBE_MAP_POSITIVE_X + index;
       baseTexture.parentTextureArray = this.baseTexture;
       this.items[index] = baseTexture;
     }
@@ -10379,7 +10359,7 @@ var CubeResource = function(_super) {
   return CubeResource2;
 }(AbstractMultiResource);
 var ImageResource = function(_super) {
-  __extends$q(ImageResource2, _super);
+  __extends$r(ImageResource2, _super);
   function ImageResource2(source, options) {
     var _this = this;
     options = options || {};
@@ -10397,7 +10377,7 @@ var ImageResource = function(_super) {
     _this.url = source.src;
     _this._process = null;
     _this.preserveBitmap = false;
-    _this.createBitmap = (options.createBitmap !== void 0 ? options.createBitmap : settings.CREATE_IMAGE_BITMAP) && !!globalThis.createImageBitmap;
+    _this.createBitmap = (options.createBitmap !== void 0 ? options.createBitmap : settings$1.CREATE_IMAGE_BITMAP) && !!globalThis.createImageBitmap;
     _this.alphaMode = typeof options.alphaMode === "number" ? options.alphaMode : null;
     _this.bitmap = null;
     _this._load = null;
@@ -10460,7 +10440,7 @@ var ImageResource = function(_super) {
       return r2.blob();
     }).then(function(blob) {
       return createImageBitmap(blob, 0, 0, source.width, source.height, {
-        premultiplyAlpha: _this.alphaMode === ALPHA_MODES$3.UNPACK ? "premultiply" : "none"
+        premultiplyAlpha: _this.alphaMode === ALPHA_MODES$4.UNPACK ? "premultiply" : "none"
       });
     }).then(function(bitmap) {
       if (_this.destroyed) {
@@ -10523,7 +10503,7 @@ var ImageResource = function(_super) {
   return ImageResource2;
 }(BaseImageResource);
 var SVGResource = function(_super) {
-  __extends$q(SVGResource2, _super);
+  __extends$r(SVGResource2, _super);
   function SVGResource2(sourceBase64, options) {
     var _this = this;
     options = options || {};
@@ -10622,7 +10602,7 @@ var SVGResource = function(_super) {
   return SVGResource2;
 }(BaseImageResource);
 var VideoResource = function(_super) {
-  __extends$q(VideoResource2, _super);
+  __extends$r(VideoResource2, _super);
   function VideoResource2(source, options) {
     var _this = this;
     options = options || {};
@@ -10803,7 +10783,7 @@ var VideoResource = function(_super) {
   return VideoResource2;
 }(BaseImageResource);
 var ImageBitmapResource = function(_super) {
-  __extends$q(ImageBitmapResource2, _super);
+  __extends$r(ImageBitmapResource2, _super);
   function ImageBitmapResource2(source) {
     return _super.call(this, source) || this;
   }
@@ -10814,13 +10794,13 @@ var ImageBitmapResource = function(_super) {
 }(BaseImageResource);
 INSTALLED.push(ImageResource, ImageBitmapResource, CanvasResource, VideoResource, SVGResource, BufferResource, CubeResource, ArrayResource);
 var DepthResource = function(_super) {
-  __extends$q(DepthResource2, _super);
+  __extends$r(DepthResource2, _super);
   function DepthResource2() {
     return _super !== null && _super.apply(this, arguments) || this;
   }
   DepthResource2.prototype.upload = function(renderer, baseTexture, glTexture) {
     var gl = renderer.gl;
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, baseTexture.alphaMode === ALPHA_MODES$3.UNPACK);
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, baseTexture.alphaMode === ALPHA_MODES$4.UNPACK);
     var width = baseTexture.realWidth;
     var height = baseTexture.realHeight;
     if (glTexture.width === width && glTexture.height === height) {
@@ -10847,7 +10827,7 @@ var Framebuffer = function() {
     this.colorTextures = [];
     this.glFramebuffers = {};
     this.disposeRunner = new Runner("disposeFramebuffer");
-    this.multisample = MSAA_QUALITY$3.NONE;
+    this.multisample = MSAA_QUALITY$4.NONE;
   }
   Object.defineProperty(Framebuffer2.prototype, "colorTexture", {
     get: function() {
@@ -10861,9 +10841,9 @@ var Framebuffer = function() {
       index = 0;
     }
     this.colorTextures[index] = texture || new BaseTexture(null, {
-      scaleMode: SCALE_MODES$3.NEAREST,
+      scaleMode: SCALE_MODES$4.NEAREST,
       resolution: 1,
-      mipmap: MIPMAP_MODES$3.OFF,
+      mipmap: MIPMAP_MODES$4.OFF,
       width: this.width,
       height: this.height
     });
@@ -10873,13 +10853,13 @@ var Framebuffer = function() {
   };
   Framebuffer2.prototype.addDepthTexture = function(texture) {
     this.depthTexture = texture || new BaseTexture(new DepthResource(null, { width: this.width, height: this.height }), {
-      scaleMode: SCALE_MODES$3.NEAREST,
+      scaleMode: SCALE_MODES$4.NEAREST,
       resolution: 1,
       width: this.width,
       height: this.height,
-      mipmap: MIPMAP_MODES$3.OFF,
-      format: FORMATS$3.DEPTH_COMPONENT,
-      type: TYPES$3.UNSIGNED_SHORT
+      mipmap: MIPMAP_MODES$4.OFF,
+      format: FORMATS$4.DEPTH_COMPONENT,
+      type: TYPES$4.UNSIGNED_SHORT
     });
     this.dirtyId++;
     this.dirtyFormat++;
@@ -10931,7 +10911,7 @@ var Framebuffer = function() {
   return Framebuffer2;
 }();
 var BaseRenderTexture = function(_super) {
-  __extends$q(BaseRenderTexture2, _super);
+  __extends$r(BaseRenderTexture2, _super);
   function BaseRenderTexture2(options) {
     if (options === void 0) {
       options = {};
@@ -10946,9 +10926,9 @@ var BaseRenderTexture = function(_super) {
     }
     options.width = options.width || 100;
     options.height = options.height || 100;
-    options.multisample = options.multisample !== void 0 ? options.multisample : MSAA_QUALITY$3.NONE;
+    options.multisample = options.multisample !== void 0 ? options.multisample : MSAA_QUALITY$4.NONE;
     _this = _super.call(this, null, options) || this;
-    _this.mipmap = MIPMAP_MODES$3.OFF;
+    _this.mipmap = MIPMAP_MODES$4.OFF;
     _this.valid = true;
     _this.clearColor = [0, 0, 0, 0];
     _this.framebuffer = new Framebuffer(_this.realWidth, _this.realHeight).addColorTexture(0, _this);
@@ -11040,7 +11020,7 @@ function removeAllHandlers(tex) {
   };
 }
 var Texture = function(_super) {
-  __extends$q(Texture2, _super);
+  __extends$r(Texture2, _super);
   function Texture2(baseTexture, frame, orig, trim, rotate2, anchor) {
     var _this = _super.call(this) || this;
     _this.noFrame = false;
@@ -11142,7 +11122,7 @@ var Texture = function(_super) {
       options = {};
     }
     if (strict === void 0) {
-      strict = settings.STRICT_TEXTURE_CACHE;
+      strict = settings$1.STRICT_TEXTURE_CACHE;
     }
     var isFrame = typeof source === "string";
     var cacheId = null;
@@ -11196,7 +11176,7 @@ var Texture = function(_super) {
   };
   Texture2.fromLoader = function(source, imageUrl, name, options) {
     var baseTexture = new BaseTexture(source, Object.assign({
-      scaleMode: settings.SCALE_MODE,
+      scaleMode: settings$1.SCALE_MODE,
       resolution: getResolutionOfUrl(imageUrl)
     }, options));
     var resource = baseTexture.resource;
@@ -11350,9 +11330,9 @@ var Texture = function(_super) {
     configurable: true
   });
   return Texture2;
-}(EventEmitter$4);
+}(EventEmitter$5);
 var RenderTexture = function(_super) {
-  __extends$q(RenderTexture2, _super);
+  __extends$r(RenderTexture2, _super);
   function RenderTexture2(baseRenderTexture, frame) {
     var _this = _super.call(this, baseRenderTexture, frame) || this;
     _this.valid = true;
@@ -11430,7 +11410,7 @@ var RenderTexturePool = function() {
   }
   RenderTexturePool2.prototype.createTexture = function(realWidth, realHeight, multisample) {
     if (multisample === void 0) {
-      multisample = MSAA_QUALITY$3.NONE;
+      multisample = MSAA_QUALITY$4.NONE;
     }
     var baseRenderTexture = new BaseRenderTexture(Object.assign({
       width: realWidth,
@@ -11445,7 +11425,7 @@ var RenderTexturePool = function() {
       resolution = 1;
     }
     if (multisample === void 0) {
-      multisample = MSAA_QUALITY$3.NONE;
+      multisample = MSAA_QUALITY$4.NONE;
     }
     var key;
     minWidth = Math.ceil(minWidth * resolution - 1e-6);
@@ -11472,7 +11452,7 @@ var RenderTexturePool = function() {
     return renderTexture;
   };
   RenderTexturePool2.prototype.getFilterTexture = function(input, resolution, multisample) {
-    var filterTexture = this.getOptimalTexture(input.width, input.height, resolution || input.resolution, multisample || MSAA_QUALITY$3.NONE);
+    var filterTexture = this.getOptimalTexture(input.width, input.height, resolution || input.resolution, multisample || MSAA_QUALITY$4.NONE);
     filterTexture.filterFrame = input.filterFrame;
     return filterTexture;
   };
@@ -11530,7 +11510,7 @@ var Attribute = function() {
       normalized = false;
     }
     if (type === void 0) {
-      type = TYPES$3.FLOAT;
+      type = TYPES$4.FLOAT;
     }
     this.buffer = buffer;
     this.size = size;
@@ -11581,10 +11561,10 @@ var Buffer$1 = function() {
   };
   Object.defineProperty(Buffer2.prototype, "index", {
     get: function() {
-      return this.type === BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER;
+      return this.type === BUFFER_TYPE$4.ELEMENT_ARRAY_BUFFER;
     },
     set: function(value2) {
-      this.type = value2 ? BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER : BUFFER_TYPE$3.ARRAY_BUFFER;
+      this.type = value2 ? BUFFER_TYPE$4.ELEMENT_ARRAY_BUFFER : BUFFER_TYPE$4.ARRAY_BUFFER;
     },
     enumerable: false,
     configurable: true
@@ -11706,7 +11686,7 @@ var Geometry = function() {
       }
       buffer = new Buffer$1(buffer);
     }
-    buffer.type = BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER;
+    buffer.type = BUFFER_TYPE$4.ELEMENT_ARRAY_BUFFER;
     this.indexBuffer = buffer;
     if (this.buffers.indexOf(buffer) === -1) {
       this.buffers.push(buffer);
@@ -11771,7 +11751,7 @@ var Geometry = function() {
     }
     if (this.indexBuffer) {
       geometry.indexBuffer = geometry.buffers[this.buffers.indexOf(this.indexBuffer)];
-      geometry.indexBuffer.type = BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER;
+      geometry.indexBuffer.type = BUFFER_TYPE$4.ELEMENT_ARRAY_BUFFER;
     }
     return geometry;
   };
@@ -11803,7 +11783,7 @@ var Geometry = function() {
     geometryOut.attributes = geometry.attributes;
     if (geometry.indexBuffer) {
       geometryOut.indexBuffer = geometryOut.buffers[geometry.buffers.indexOf(geometry.indexBuffer)];
-      geometryOut.indexBuffer.type = BUFFER_TYPE$3.ELEMENT_ARRAY_BUFFER;
+      geometryOut.indexBuffer.type = BUFFER_TYPE$4.ELEMENT_ARRAY_BUFFER;
       var offset2 = 0;
       var stride = 0;
       var offset22 = 0;
@@ -11834,7 +11814,7 @@ var Geometry = function() {
   return Geometry2;
 }();
 var Quad = function(_super) {
-  __extends$q(Quad2, _super);
+  __extends$r(Quad2, _super);
   function Quad2() {
     var _this = _super.call(this) || this;
     _this.addAttribute("aVertexPosition", new Float32Array([
@@ -11852,7 +11832,7 @@ var Quad = function(_super) {
   return Quad2;
 }(Geometry);
 var QuadUv = function(_super) {
-  __extends$q(QuadUv2, _super);
+  __extends$r(QuadUv2, _super);
   function QuadUv2() {
     var _this = _super.call(this) || this;
     _this.vertices = new Float32Array([
@@ -11922,14 +11902,14 @@ var UniformGroup = function() {
     this.ubo = !!isUbo;
     if (uniforms instanceof Buffer$1) {
       this.buffer = uniforms;
-      this.buffer.type = BUFFER_TYPE$3.UNIFORM_BUFFER;
+      this.buffer.type = BUFFER_TYPE$4.UNIFORM_BUFFER;
       this.autoManage = false;
       this.ubo = true;
     } else {
       this.uniforms = uniforms;
       if (this.ubo) {
         this.buffer = new Buffer$1(new Float32Array(1));
-        this.buffer.type = BUFFER_TYPE$3.UNIFORM_BUFFER;
+        this.buffer.type = BUFFER_TYPE$4.UNIFORM_BUFFER;
         this.autoManage = true;
       }
     }
@@ -11961,7 +11941,7 @@ var FilterState = function() {
     this.target = null;
     this.legacy = false;
     this.resolution = 1;
-    this.multisample = MSAA_QUALITY$3.NONE;
+    this.multisample = MSAA_QUALITY$4.NONE;
     this.sourceFrame = new Rectangle();
     this.destinationFrame = new Rectangle();
     this.bindingSourceFrame = new Rectangle();
@@ -12097,7 +12077,7 @@ var FilterSystem = function() {
     var lastState = filterStack[filterStack.length - 1];
     this.renderer.framebuffer.blit();
     if (filters.length === 1) {
-      filters[0].apply(this, state.renderTexture, lastState.renderTexture, CLEAR_MODES$3.BLEND, state);
+      filters[0].apply(this, state.renderTexture, lastState.renderTexture, CLEAR_MODES$4.BLEND, state);
       this.returnFilterTexture(state.renderTexture);
     } else {
       var flip2 = state.renderTexture;
@@ -12109,12 +12089,12 @@ var FilterSystem = function() {
           flop = this.getOptimalFilterTexture(flip2.width, flip2.height, state.resolution);
           flop.filterFrame = flip2.filterFrame;
         }
-        filters[i2].apply(this, flip2, flop, CLEAR_MODES$3.CLEAR, state);
+        filters[i2].apply(this, flip2, flop, CLEAR_MODES$4.CLEAR, state);
         var t = flip2;
         flip2 = flop;
         flop = t;
       }
-      filters[i2].apply(this, flip2, lastState.renderTexture, CLEAR_MODES$3.BLEND, state);
+      filters[i2].apply(this, flip2, lastState.renderTexture, CLEAR_MODES$4.BLEND, state);
       if (i2 > 1 && state.multisample > 1) {
         this.returnFilterTexture(state.renderTexture);
       }
@@ -12126,7 +12106,7 @@ var FilterSystem = function() {
   };
   FilterSystem2.prototype.bindAndClear = function(filterTexture, clearMode) {
     if (clearMode === void 0) {
-      clearMode = CLEAR_MODES$3.CLEAR;
+      clearMode = CLEAR_MODES$4.CLEAR;
     }
     var _a3 = this.renderer, renderTextureSystem = _a3.renderTexture, stateSystem = _a3.state;
     if (filterTexture === this.defaultFilterStack[this.defaultFilterStack.length - 1].renderTexture) {
@@ -12147,7 +12127,7 @@ var FilterSystem = function() {
       this.renderer.renderTexture.bind(filterTexture, this.activeState.bindingSourceFrame, this.activeState.bindingDestinationFrame);
     }
     var autoClear = stateSystem.stateId & 1 || this.forceClear;
-    if (clearMode === CLEAR_MODES$3.CLEAR || clearMode === CLEAR_MODES$3.BLIT && autoClear) {
+    if (clearMode === CLEAR_MODES$4.CLEAR || clearMode === CLEAR_MODES$4.BLIT && autoClear) {
       this.renderer.framebuffer.clear(0, 0, 0, 0);
     }
   };
@@ -12162,10 +12142,10 @@ var FilterSystem = function() {
     if (filter.legacy) {
       this.quadUv.map(input._frame, input.filterFrame);
       renderer.geometry.bind(this.quadUv);
-      renderer.geometry.draw(DRAW_MODES$3.TRIANGLES);
+      renderer.geometry.draw(DRAW_MODES$4.TRIANGLES);
     } else {
       renderer.geometry.bind(this.quad);
-      renderer.geometry.draw(DRAW_MODES$3.TRIANGLE_STRIP);
+      renderer.geometry.draw(DRAW_MODES$4.TRIANGLE_STRIP);
     }
   };
   FilterSystem2.prototype.calculateSpriteMatrix = function(outputMatrix, sprite) {
@@ -12188,7 +12168,7 @@ var FilterSystem = function() {
       resolution = 1;
     }
     if (multisample === void 0) {
-      multisample = MSAA_QUALITY$3.NONE;
+      multisample = MSAA_QUALITY$4.NONE;
     }
     return this.texturePool.getOptimalTexture(minWidth, minHeight, resolution, multisample);
   };
@@ -12199,7 +12179,7 @@ var FilterSystem = function() {
       resolution = swap2;
     }
     input = input || this.activeState.renderTexture;
-    var filterTexture = this.texturePool.getOptimalTexture(input.width, input.height, resolution || input.resolution, multisample || MSAA_QUALITY$3.NONE);
+    var filterTexture = this.texturePool.getOptimalTexture(input.width, input.height, resolution || input.resolution, multisample || MSAA_QUALITY$4.NONE);
     filterTexture.filterFrame = input.filterFrame;
     return filterTexture;
   };
@@ -12369,7 +12349,7 @@ var ContextSystem = function() {
   };
   ContextSystem2.prototype.createContext = function(canvas, options) {
     var gl;
-    if (settings.PREFER_ENV >= ENV$3.WEBGL2) {
+    if (settings$1.PREFER_ENV >= ENV$4.WEBGL2) {
       gl = canvas.getContext("webgl2", options);
     }
     if (gl) {
@@ -12443,7 +12423,7 @@ var ContextSystem = function() {
     if (isWebGl2) {
       this.webGLVersion = 2;
     }
-    if (!attributes.stencil) {
+    if (attributes && !attributes.stencil) {
       console.warn("Provided WebGL context does not have a stencil buffer, masks may not render correctly");
     }
     var hasuint32 = isWebGl2 || !!gl.getExtension("OES_element_index_uint");
@@ -12461,7 +12441,7 @@ var GLFramebuffer = function() {
     this.dirtyId = -1;
     this.dirtyFormat = -1;
     this.dirtySize = -1;
-    this.multisample = MSAA_QUALITY$3.NONE;
+    this.multisample = MSAA_QUALITY$4.NONE;
     this.msaaBuffer = null;
     this.blitFramebuffer = null;
     this.mipLevel = 0;
@@ -12487,7 +12467,7 @@ var FramebufferSystem = function() {
     if (this.renderer.context.webGLVersion === 1) {
       var nativeDrawBuffersExtension_1 = this.renderer.context.extensions.drawBuffers;
       var nativeDepthTextureExtension = this.renderer.context.extensions.depthTexture;
-      if (settings.PREFER_ENV === ENV$3.WEBGL_LEGACY) {
+      if (settings$1.PREFER_ENV === ENV$4.WEBGL_LEGACY) {
         nativeDrawBuffersExtension_1 = null;
         nativeDepthTextureExtension = null;
       }
@@ -12589,7 +12569,7 @@ var FramebufferSystem = function() {
   });
   FramebufferSystem2.prototype.clear = function(r2, g2, b2, a2, mask) {
     if (mask === void 0) {
-      mask = BUFFER_BITS$3.COLOR | BUFFER_BITS$3.DEPTH;
+      mask = BUFFER_BITS$4.COLOR | BUFFER_BITS$4.DEPTH;
     }
     var gl = this.gl;
     gl.clearColor(r2, g2, b2, a2);
@@ -12695,7 +12675,7 @@ var FramebufferSystem = function() {
   };
   FramebufferSystem2.prototype.detectSamples = function(samples) {
     var msaaSamples = this.msaaSamples;
-    var res = MSAA_QUALITY$3.NONE;
+    var res = MSAA_QUALITY$4.NONE;
     if (samples <= 1 || msaaSamples === null) {
       return res;
     }
@@ -12706,7 +12686,7 @@ var FramebufferSystem = function() {
       }
     }
     if (res === 1) {
-      res = MSAA_QUALITY$3.NONE;
+      res = MSAA_QUALITY$4.NONE;
     }
     return res;
   };
@@ -12842,7 +12822,7 @@ var GeometrySystem = function() {
     this.CONTEXT_UID = this.renderer.CONTEXT_UID;
     if (context2.webGLVersion !== 2) {
       var nativeVaoExtension_1 = this.renderer.context.extensions.vertexArrayObject;
-      if (settings.PREFER_ENV === ENV$3.WEBGL_LEGACY) {
+      if (settings$1.PREFER_ENV === ENV$4.WEBGL_LEGACY) {
         nativeVaoExtension_1 = null;
       }
       if (nativeVaoExtension_1) {
@@ -13118,13 +13098,13 @@ var MaskData = function() {
     if (maskObject === void 0) {
       maskObject = null;
     }
-    this.type = MASK_TYPES$3.NONE;
+    this.type = MASK_TYPES$4.NONE;
     this.autoDetect = true;
     this.maskObject = maskObject || null;
     this.pooled = false;
     this.isMaskData = true;
     this.resolution = null;
-    this.multisample = settings.FILTER_MULTISAMPLE;
+    this.multisample = settings$1.FILTER_MULTISAMPLE;
     this.enabled = true;
     this._filters = null;
     this._stencilCounter = 0;
@@ -13154,7 +13134,7 @@ var MaskData = function() {
   MaskData2.prototype.reset = function() {
     if (this.pooled) {
       this.maskObject = null;
-      this.type = MASK_TYPES$3.NONE;
+      this.type = MASK_TYPES$4.NONE;
       this.autoDetect = true;
     }
     this._target = null;
@@ -13310,7 +13290,7 @@ function getTestContext() {
   if (context === unknownContext || context && context.isContextLost()) {
     var canvas = document.createElement("canvas");
     var gl = void 0;
-    if (settings.PREFER_ENV >= ENV$3.WEBGL2) {
+    if (settings$1.PREFER_ENV >= ENV$4.WEBGL2) {
       gl = canvas.getContext("webgl2", {});
     }
     if (!gl) {
@@ -13328,12 +13308,12 @@ function getTestContext() {
 var maxFragmentPrecision;
 function getMaxFragmentPrecision() {
   if (!maxFragmentPrecision) {
-    maxFragmentPrecision = PRECISION$3.MEDIUM;
+    maxFragmentPrecision = PRECISION$4.MEDIUM;
     var gl = getTestContext();
     if (gl) {
       if (gl.getShaderPrecisionFormat) {
         var shaderFragment = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT);
-        maxFragmentPrecision = shaderFragment.precision ? PRECISION$3.HIGH : PRECISION$3.MEDIUM;
+        maxFragmentPrecision = shaderFragment.precision ? PRECISION$4.HIGH : PRECISION$4.MEDIUM;
       }
     }
   }
@@ -13342,11 +13322,11 @@ function getMaxFragmentPrecision() {
 function setPrecision(src, requestedPrecision, maxSupportedPrecision) {
   if (src.substring(0, 9) !== "precision") {
     var precision = requestedPrecision;
-    if (requestedPrecision === PRECISION$3.HIGH && maxSupportedPrecision !== PRECISION$3.HIGH) {
-      precision = PRECISION$3.MEDIUM;
+    if (requestedPrecision === PRECISION$4.HIGH && maxSupportedPrecision !== PRECISION$4.HIGH) {
+      precision = PRECISION$4.MEDIUM;
     }
     return "precision " + precision + " float;\n" + src;
-  } else if (maxSupportedPrecision !== PRECISION$3.HIGH && src.substring(0, 15) === "precision highp") {
+  } else if (maxSupportedPrecision !== PRECISION$4.HIGH && src.substring(0, 15) === "precision highp") {
     return src.replace("precision highp", "precision mediump");
   }
   return src;
@@ -13639,8 +13619,8 @@ var Program = function() {
       }
       this.vertexSrc = "#define SHADER_NAME " + name + "\n" + this.vertexSrc;
       this.fragmentSrc = "#define SHADER_NAME " + name + "\n" + this.fragmentSrc;
-      this.vertexSrc = setPrecision(this.vertexSrc, settings.PRECISION_VERTEX, PRECISION$3.HIGH);
-      this.fragmentSrc = setPrecision(this.fragmentSrc, settings.PRECISION_FRAGMENT, getMaxFragmentPrecision());
+      this.vertexSrc = setPrecision(this.vertexSrc, settings$1.PRECISION_VERTEX, PRECISION$4.HIGH);
+      this.fragmentSrc = setPrecision(this.fragmentSrc, settings$1.PRECISION_FRAGMENT, getMaxFragmentPrecision());
     }
     this.glPrograms = {};
     this.syncUniforms = null;
@@ -13722,7 +13702,7 @@ var DEPTH_MASK$1 = 5;
 var State = function() {
   function State2() {
     this.data = 0;
-    this.blendMode = BLEND_MODES$3.NORMAL;
+    this.blendMode = BLEND_MODES$4.NORMAL;
     this.polygonOffset = 0;
     this.blend = true;
     this.depthMask = true;
@@ -13804,7 +13784,7 @@ var State = function() {
       return this._blendMode;
     },
     set: function(value2) {
-      this.blend = value2 !== BLEND_MODES$3.NONE;
+      this.blend = value2 !== BLEND_MODES$4.NONE;
       this._blendMode = value2;
     },
     enumerable: false,
@@ -13835,14 +13815,14 @@ var State = function() {
 var defaultVertex$2 = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nuniform vec4 inputSize;\nuniform vec4 outputFrame;\n\nvec4 filterVertexPosition( void )\n{\n    vec2 position = aVertexPosition * max(outputFrame.zw, vec2(0.)) + outputFrame.xy;\n\n    return vec4((projectionMatrix * vec3(position, 1.0)).xy, 0.0, 1.0);\n}\n\nvec2 filterTextureCoord( void )\n{\n    return aVertexPosition * (outputFrame.zw * inputSize.zw);\n}\n\nvoid main(void)\n{\n    gl_Position = filterVertexPosition();\n    vTextureCoord = filterTextureCoord();\n}\n";
 var defaultFragment$1 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\n\nvoid main(void){\n   gl_FragColor = texture2D(uSampler, vTextureCoord);\n}\n";
 var Filter = function(_super) {
-  __extends$q(Filter2, _super);
+  __extends$r(Filter2, _super);
   function Filter2(vertexSrc, fragmentSrc, uniforms) {
     var _this = this;
     var program = Program.from(vertexSrc || Filter2.defaultVertexSrc, fragmentSrc || Filter2.defaultFragmentSrc);
     _this = _super.call(this, program, uniforms) || this;
     _this.padding = 0;
-    _this.resolution = settings.FILTER_RESOLUTION;
-    _this.multisample = settings.FILTER_MULTISAMPLE;
+    _this.resolution = settings$1.FILTER_RESOLUTION;
+    _this.multisample = settings$1.FILTER_MULTISAMPLE;
     _this.enabled = true;
     _this.autoFit = true;
     _this.state = new State();
@@ -13960,7 +13940,7 @@ var TextureMatrix = function() {
   return TextureMatrix2;
 }();
 var SpriteMaskFilter = function(_super) {
-  __extends$q(SpriteMaskFilter2, _super);
+  __extends$r(SpriteMaskFilter2, _super);
   function SpriteMaskFilter2(vertexSrc, fragmentSrc, uniforms) {
     var _this = this;
     var sprite = null;
@@ -14035,24 +14015,24 @@ var MaskSystem = function() {
       this.detect(maskData);
     }
     maskData._target = target;
-    if (maskData.type !== MASK_TYPES$3.SPRITE) {
+    if (maskData.type !== MASK_TYPES$4.SPRITE) {
       this.maskStack.push(maskData);
     }
     if (maskData.enabled) {
       switch (maskData.type) {
-        case MASK_TYPES$3.SCISSOR:
+        case MASK_TYPES$4.SCISSOR:
           this.renderer.scissor.push(maskData);
           break;
-        case MASK_TYPES$3.STENCIL:
+        case MASK_TYPES$4.STENCIL:
           this.renderer.stencil.push(maskData);
           break;
-        case MASK_TYPES$3.SPRITE:
+        case MASK_TYPES$4.SPRITE:
           maskData.copyCountersOrReset(null);
           this.pushSpriteMask(maskData);
           break;
       }
     }
-    if (maskData.type === MASK_TYPES$3.SPRITE) {
+    if (maskData.type === MASK_TYPES$4.SPRITE) {
       this.maskStack.push(maskData);
     }
   };
@@ -14063,13 +14043,13 @@ var MaskSystem = function() {
     }
     if (maskData.enabled) {
       switch (maskData.type) {
-        case MASK_TYPES$3.SCISSOR:
+        case MASK_TYPES$4.SCISSOR:
           this.renderer.scissor.pop();
           break;
-        case MASK_TYPES$3.STENCIL:
+        case MASK_TYPES$4.STENCIL:
           this.renderer.stencil.pop(maskData.maskObject);
           break;
-        case MASK_TYPES$3.SPRITE:
+        case MASK_TYPES$4.SPRITE:
           this.popSpriteMask(maskData);
           break;
       }
@@ -14080,7 +14060,7 @@ var MaskSystem = function() {
     }
     if (this.maskStack.length !== 0) {
       var maskCurrent = this.maskStack[this.maskStack.length - 1];
-      if (maskCurrent.type === MASK_TYPES$3.SPRITE && maskCurrent._filters) {
+      if (maskCurrent.type === MASK_TYPES$4.SPRITE && maskCurrent._filters) {
         maskCurrent._filters[0].maskSprite = maskCurrent.maskObject;
       }
     }
@@ -14088,11 +14068,11 @@ var MaskSystem = function() {
   MaskSystem2.prototype.detect = function(maskData) {
     var maskObject = maskData.maskObject;
     if (maskObject.isSprite) {
-      maskData.type = MASK_TYPES$3.SPRITE;
+      maskData.type = MASK_TYPES$4.SPRITE;
     } else if (this.enableScissor && this.renderer.scissor.testScissor(maskData)) {
-      maskData.type = MASK_TYPES$3.SCISSOR;
+      maskData.type = MASK_TYPES$4.SCISSOR;
     } else {
-      maskData.type = MASK_TYPES$3.STENCIL;
+      maskData.type = MASK_TYPES$4.STENCIL;
     }
   };
   MaskSystem2.prototype.pushSpriteMask = function(maskData) {
@@ -14176,7 +14156,7 @@ var AbstractMaskSystem = function() {
 }();
 var tempMatrix$1 = new Matrix();
 var ScissorSystem = function(_super) {
-  __extends$q(ScissorSystem2, _super);
+  __extends$r(ScissorSystem2, _super);
   function ScissorSystem2(renderer) {
     var _this = _super.call(this, renderer) || this;
     _this.glConst = WebGLRenderingContext.SCISSOR_TEST;
@@ -14274,7 +14254,7 @@ var ScissorSystem = function(_super) {
   return ScissorSystem2;
 }(AbstractMaskSystem);
 var StencilSystem = function(_super) {
-  __extends$q(StencilSystem2, _super);
+  __extends$r(StencilSystem2, _super);
   function StencilSystem2(renderer) {
     var _this = _super.call(this, renderer) || this;
     _this.glConst = WebGLRenderingContext.STENCIL_TEST;
@@ -14814,36 +14794,36 @@ function mapWebGLBlendModesToPixi(gl, array) {
   if (array === void 0) {
     array = [];
   }
-  array[BLEND_MODES$3.NORMAL] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.ADD] = [gl.ONE, gl.ONE];
-  array[BLEND_MODES$3.MULTIPLY] = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.SCREEN] = [gl.ONE, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.OVERLAY] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.DARKEN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.LIGHTEN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.COLOR_DODGE] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.COLOR_BURN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.HARD_LIGHT] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.SOFT_LIGHT] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.DIFFERENCE] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.EXCLUSION] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.HUE] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.SATURATION] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.COLOR] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.LUMINOSITY] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.NONE] = [0, 0];
-  array[BLEND_MODES$3.NORMAL_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.ADD_NPM] = [gl.SRC_ALPHA, gl.ONE, gl.ONE, gl.ONE];
-  array[BLEND_MODES$3.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.SRC_IN] = [gl.DST_ALPHA, gl.ZERO];
-  array[BLEND_MODES$3.SRC_OUT] = [gl.ONE_MINUS_DST_ALPHA, gl.ZERO];
-  array[BLEND_MODES$3.SRC_ATOP] = [gl.DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.DST_OVER] = [gl.ONE_MINUS_DST_ALPHA, gl.ONE];
-  array[BLEND_MODES$3.DST_IN] = [gl.ZERO, gl.SRC_ALPHA];
-  array[BLEND_MODES$3.DST_OUT] = [gl.ZERO, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.DST_ATOP] = [gl.ONE_MINUS_DST_ALPHA, gl.SRC_ALPHA];
-  array[BLEND_MODES$3.XOR] = [gl.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA];
-  array[BLEND_MODES$3.SUBTRACT] = [gl.ONE, gl.ONE, gl.ONE, gl.ONE, gl.FUNC_REVERSE_SUBTRACT, gl.FUNC_ADD];
+  array[BLEND_MODES$4.NORMAL] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.ADD] = [gl.ONE, gl.ONE];
+  array[BLEND_MODES$4.MULTIPLY] = [gl.DST_COLOR, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.SCREEN] = [gl.ONE, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.OVERLAY] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.DARKEN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.LIGHTEN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.COLOR_DODGE] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.COLOR_BURN] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.HARD_LIGHT] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.SOFT_LIGHT] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.DIFFERENCE] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.EXCLUSION] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.HUE] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.SATURATION] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.COLOR] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.LUMINOSITY] = [gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.NONE] = [0, 0];
+  array[BLEND_MODES$4.NORMAL_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.ADD_NPM] = [gl.SRC_ALPHA, gl.ONE, gl.ONE, gl.ONE];
+  array[BLEND_MODES$4.SCREEN_NPM] = [gl.SRC_ALPHA, gl.ONE_MINUS_SRC_COLOR, gl.ONE, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.SRC_IN] = [gl.DST_ALPHA, gl.ZERO];
+  array[BLEND_MODES$4.SRC_OUT] = [gl.ONE_MINUS_DST_ALPHA, gl.ZERO];
+  array[BLEND_MODES$4.SRC_ATOP] = [gl.DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.DST_OVER] = [gl.ONE_MINUS_DST_ALPHA, gl.ONE];
+  array[BLEND_MODES$4.DST_IN] = [gl.ZERO, gl.SRC_ALPHA];
+  array[BLEND_MODES$4.DST_OUT] = [gl.ZERO, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.DST_ATOP] = [gl.ONE_MINUS_DST_ALPHA, gl.SRC_ALPHA];
+  array[BLEND_MODES$4.XOR] = [gl.ONE_MINUS_DST_ALPHA, gl.ONE_MINUS_SRC_ALPHA];
+  array[BLEND_MODES$4.SUBTRACT] = [gl.ONE, gl.ONE, gl.ONE, gl.ONE, gl.FUNC_REVERSE_SUBTRACT, gl.FUNC_ADD];
   return array;
 }
 var BLEND = 0;
@@ -14857,7 +14837,7 @@ var StateSystem = function() {
     this.gl = null;
     this.stateId = 0;
     this.polygonOffset = 0;
-    this.blendMode = BLEND_MODES$3.NONE;
+    this.blendMode = BLEND_MODES$4.NONE;
     this._blendEq = false;
     this.map = [];
     this.map[BLEND] = this.setBlend;
@@ -14978,16 +14958,16 @@ var TextureGCSystem = function() {
     this.renderer = renderer;
     this.count = 0;
     this.checkCount = 0;
-    this.maxIdle = settings.GC_MAX_IDLE;
-    this.checkCountMax = settings.GC_MAX_CHECK_COUNT;
-    this.mode = settings.GC_MODE;
+    this.maxIdle = settings$1.GC_MAX_IDLE;
+    this.checkCountMax = settings$1.GC_MAX_CHECK_COUNT;
+    this.mode = settings$1.GC_MODE;
   }
   TextureGCSystem2.prototype.postrender = function() {
     if (!this.renderer.renderingToScreen) {
       return;
     }
     this.count++;
-    if (this.mode === GC_MODES$3.MANUAL) {
+    if (this.mode === GC_MODES$4.MANUAL) {
       return;
     }
     this.checkCount++;
@@ -15037,9 +15017,9 @@ function mapTypeAndFormatToInternalFormat(gl) {
   var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _j, _k, _l2, _m, _o, _p2, _q, _r2, _s, _t, _u, _v, _w, _x;
   var table;
   if ("WebGL2RenderingContext" in globalThis && gl instanceof globalThis.WebGL2RenderingContext) {
-    table = (_a3 = {}, _a3[TYPES$3.UNSIGNED_BYTE] = (_b3 = {}, _b3[FORMATS$3.RGBA] = gl.RGBA8, _b3[FORMATS$3.RGB] = gl.RGB8, _b3[FORMATS$3.RG] = gl.RG8, _b3[FORMATS$3.RED] = gl.R8, _b3[FORMATS$3.RGBA_INTEGER] = gl.RGBA8UI, _b3[FORMATS$3.RGB_INTEGER] = gl.RGB8UI, _b3[FORMATS$3.RG_INTEGER] = gl.RG8UI, _b3[FORMATS$3.RED_INTEGER] = gl.R8UI, _b3[FORMATS$3.ALPHA] = gl.ALPHA, _b3[FORMATS$3.LUMINANCE] = gl.LUMINANCE, _b3[FORMATS$3.LUMINANCE_ALPHA] = gl.LUMINANCE_ALPHA, _b3), _a3[TYPES$3.BYTE] = (_c3 = {}, _c3[FORMATS$3.RGBA] = gl.RGBA8_SNORM, _c3[FORMATS$3.RGB] = gl.RGB8_SNORM, _c3[FORMATS$3.RG] = gl.RG8_SNORM, _c3[FORMATS$3.RED] = gl.R8_SNORM, _c3[FORMATS$3.RGBA_INTEGER] = gl.RGBA8I, _c3[FORMATS$3.RGB_INTEGER] = gl.RGB8I, _c3[FORMATS$3.RG_INTEGER] = gl.RG8I, _c3[FORMATS$3.RED_INTEGER] = gl.R8I, _c3), _a3[TYPES$3.UNSIGNED_SHORT] = (_d2 = {}, _d2[FORMATS$3.RGBA_INTEGER] = gl.RGBA16UI, _d2[FORMATS$3.RGB_INTEGER] = gl.RGB16UI, _d2[FORMATS$3.RG_INTEGER] = gl.RG16UI, _d2[FORMATS$3.RED_INTEGER] = gl.R16UI, _d2[FORMATS$3.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT16, _d2), _a3[TYPES$3.SHORT] = (_e = {}, _e[FORMATS$3.RGBA_INTEGER] = gl.RGBA16I, _e[FORMATS$3.RGB_INTEGER] = gl.RGB16I, _e[FORMATS$3.RG_INTEGER] = gl.RG16I, _e[FORMATS$3.RED_INTEGER] = gl.R16I, _e), _a3[TYPES$3.UNSIGNED_INT] = (_f = {}, _f[FORMATS$3.RGBA_INTEGER] = gl.RGBA32UI, _f[FORMATS$3.RGB_INTEGER] = gl.RGB32UI, _f[FORMATS$3.RG_INTEGER] = gl.RG32UI, _f[FORMATS$3.RED_INTEGER] = gl.R32UI, _f[FORMATS$3.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT24, _f), _a3[TYPES$3.INT] = (_g = {}, _g[FORMATS$3.RGBA_INTEGER] = gl.RGBA32I, _g[FORMATS$3.RGB_INTEGER] = gl.RGB32I, _g[FORMATS$3.RG_INTEGER] = gl.RG32I, _g[FORMATS$3.RED_INTEGER] = gl.R32I, _g), _a3[TYPES$3.FLOAT] = (_h = {}, _h[FORMATS$3.RGBA] = gl.RGBA32F, _h[FORMATS$3.RGB] = gl.RGB32F, _h[FORMATS$3.RG] = gl.RG32F, _h[FORMATS$3.RED] = gl.R32F, _h[FORMATS$3.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT32F, _h), _a3[TYPES$3.HALF_FLOAT] = (_j = {}, _j[FORMATS$3.RGBA] = gl.RGBA16F, _j[FORMATS$3.RGB] = gl.RGB16F, _j[FORMATS$3.RG] = gl.RG16F, _j[FORMATS$3.RED] = gl.R16F, _j), _a3[TYPES$3.UNSIGNED_SHORT_5_6_5] = (_k = {}, _k[FORMATS$3.RGB] = gl.RGB565, _k), _a3[TYPES$3.UNSIGNED_SHORT_4_4_4_4] = (_l2 = {}, _l2[FORMATS$3.RGBA] = gl.RGBA4, _l2), _a3[TYPES$3.UNSIGNED_SHORT_5_5_5_1] = (_m = {}, _m[FORMATS$3.RGBA] = gl.RGB5_A1, _m), _a3[TYPES$3.UNSIGNED_INT_2_10_10_10_REV] = (_o = {}, _o[FORMATS$3.RGBA] = gl.RGB10_A2, _o[FORMATS$3.RGBA_INTEGER] = gl.RGB10_A2UI, _o), _a3[TYPES$3.UNSIGNED_INT_10F_11F_11F_REV] = (_p2 = {}, _p2[FORMATS$3.RGB] = gl.R11F_G11F_B10F, _p2), _a3[TYPES$3.UNSIGNED_INT_5_9_9_9_REV] = (_q = {}, _q[FORMATS$3.RGB] = gl.RGB9_E5, _q), _a3[TYPES$3.UNSIGNED_INT_24_8] = (_r2 = {}, _r2[FORMATS$3.DEPTH_STENCIL] = gl.DEPTH24_STENCIL8, _r2), _a3[TYPES$3.FLOAT_32_UNSIGNED_INT_24_8_REV] = (_s = {}, _s[FORMATS$3.DEPTH_STENCIL] = gl.DEPTH32F_STENCIL8, _s), _a3);
+    table = (_a3 = {}, _a3[TYPES$4.UNSIGNED_BYTE] = (_b3 = {}, _b3[FORMATS$4.RGBA] = gl.RGBA8, _b3[FORMATS$4.RGB] = gl.RGB8, _b3[FORMATS$4.RG] = gl.RG8, _b3[FORMATS$4.RED] = gl.R8, _b3[FORMATS$4.RGBA_INTEGER] = gl.RGBA8UI, _b3[FORMATS$4.RGB_INTEGER] = gl.RGB8UI, _b3[FORMATS$4.RG_INTEGER] = gl.RG8UI, _b3[FORMATS$4.RED_INTEGER] = gl.R8UI, _b3[FORMATS$4.ALPHA] = gl.ALPHA, _b3[FORMATS$4.LUMINANCE] = gl.LUMINANCE, _b3[FORMATS$4.LUMINANCE_ALPHA] = gl.LUMINANCE_ALPHA, _b3), _a3[TYPES$4.BYTE] = (_c3 = {}, _c3[FORMATS$4.RGBA] = gl.RGBA8_SNORM, _c3[FORMATS$4.RGB] = gl.RGB8_SNORM, _c3[FORMATS$4.RG] = gl.RG8_SNORM, _c3[FORMATS$4.RED] = gl.R8_SNORM, _c3[FORMATS$4.RGBA_INTEGER] = gl.RGBA8I, _c3[FORMATS$4.RGB_INTEGER] = gl.RGB8I, _c3[FORMATS$4.RG_INTEGER] = gl.RG8I, _c3[FORMATS$4.RED_INTEGER] = gl.R8I, _c3), _a3[TYPES$4.UNSIGNED_SHORT] = (_d2 = {}, _d2[FORMATS$4.RGBA_INTEGER] = gl.RGBA16UI, _d2[FORMATS$4.RGB_INTEGER] = gl.RGB16UI, _d2[FORMATS$4.RG_INTEGER] = gl.RG16UI, _d2[FORMATS$4.RED_INTEGER] = gl.R16UI, _d2[FORMATS$4.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT16, _d2), _a3[TYPES$4.SHORT] = (_e = {}, _e[FORMATS$4.RGBA_INTEGER] = gl.RGBA16I, _e[FORMATS$4.RGB_INTEGER] = gl.RGB16I, _e[FORMATS$4.RG_INTEGER] = gl.RG16I, _e[FORMATS$4.RED_INTEGER] = gl.R16I, _e), _a3[TYPES$4.UNSIGNED_INT] = (_f = {}, _f[FORMATS$4.RGBA_INTEGER] = gl.RGBA32UI, _f[FORMATS$4.RGB_INTEGER] = gl.RGB32UI, _f[FORMATS$4.RG_INTEGER] = gl.RG32UI, _f[FORMATS$4.RED_INTEGER] = gl.R32UI, _f[FORMATS$4.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT24, _f), _a3[TYPES$4.INT] = (_g = {}, _g[FORMATS$4.RGBA_INTEGER] = gl.RGBA32I, _g[FORMATS$4.RGB_INTEGER] = gl.RGB32I, _g[FORMATS$4.RG_INTEGER] = gl.RG32I, _g[FORMATS$4.RED_INTEGER] = gl.R32I, _g), _a3[TYPES$4.FLOAT] = (_h = {}, _h[FORMATS$4.RGBA] = gl.RGBA32F, _h[FORMATS$4.RGB] = gl.RGB32F, _h[FORMATS$4.RG] = gl.RG32F, _h[FORMATS$4.RED] = gl.R32F, _h[FORMATS$4.DEPTH_COMPONENT] = gl.DEPTH_COMPONENT32F, _h), _a3[TYPES$4.HALF_FLOAT] = (_j = {}, _j[FORMATS$4.RGBA] = gl.RGBA16F, _j[FORMATS$4.RGB] = gl.RGB16F, _j[FORMATS$4.RG] = gl.RG16F, _j[FORMATS$4.RED] = gl.R16F, _j), _a3[TYPES$4.UNSIGNED_SHORT_5_6_5] = (_k = {}, _k[FORMATS$4.RGB] = gl.RGB565, _k), _a3[TYPES$4.UNSIGNED_SHORT_4_4_4_4] = (_l2 = {}, _l2[FORMATS$4.RGBA] = gl.RGBA4, _l2), _a3[TYPES$4.UNSIGNED_SHORT_5_5_5_1] = (_m = {}, _m[FORMATS$4.RGBA] = gl.RGB5_A1, _m), _a3[TYPES$4.UNSIGNED_INT_2_10_10_10_REV] = (_o = {}, _o[FORMATS$4.RGBA] = gl.RGB10_A2, _o[FORMATS$4.RGBA_INTEGER] = gl.RGB10_A2UI, _o), _a3[TYPES$4.UNSIGNED_INT_10F_11F_11F_REV] = (_p2 = {}, _p2[FORMATS$4.RGB] = gl.R11F_G11F_B10F, _p2), _a3[TYPES$4.UNSIGNED_INT_5_9_9_9_REV] = (_q = {}, _q[FORMATS$4.RGB] = gl.RGB9_E5, _q), _a3[TYPES$4.UNSIGNED_INT_24_8] = (_r2 = {}, _r2[FORMATS$4.DEPTH_STENCIL] = gl.DEPTH24_STENCIL8, _r2), _a3[TYPES$4.FLOAT_32_UNSIGNED_INT_24_8_REV] = (_s = {}, _s[FORMATS$4.DEPTH_STENCIL] = gl.DEPTH32F_STENCIL8, _s), _a3);
   } else {
-    table = (_t = {}, _t[TYPES$3.UNSIGNED_BYTE] = (_u = {}, _u[FORMATS$3.RGBA] = gl.RGBA, _u[FORMATS$3.RGB] = gl.RGB, _u[FORMATS$3.ALPHA] = gl.ALPHA, _u[FORMATS$3.LUMINANCE] = gl.LUMINANCE, _u[FORMATS$3.LUMINANCE_ALPHA] = gl.LUMINANCE_ALPHA, _u), _t[TYPES$3.UNSIGNED_SHORT_5_6_5] = (_v = {}, _v[FORMATS$3.RGB] = gl.RGB, _v), _t[TYPES$3.UNSIGNED_SHORT_4_4_4_4] = (_w = {}, _w[FORMATS$3.RGBA] = gl.RGBA, _w), _t[TYPES$3.UNSIGNED_SHORT_5_5_5_1] = (_x = {}, _x[FORMATS$3.RGBA] = gl.RGBA, _x), _t);
+    table = (_t = {}, _t[TYPES$4.UNSIGNED_BYTE] = (_u = {}, _u[FORMATS$4.RGBA] = gl.RGBA, _u[FORMATS$4.RGB] = gl.RGB, _u[FORMATS$4.ALPHA] = gl.ALPHA, _u[FORMATS$4.LUMINANCE] = gl.LUMINANCE, _u[FORMATS$4.LUMINANCE_ALPHA] = gl.LUMINANCE_ALPHA, _u), _t[TYPES$4.UNSIGNED_SHORT_5_6_5] = (_v = {}, _v[FORMATS$4.RGB] = gl.RGB, _v), _t[TYPES$4.UNSIGNED_SHORT_4_4_4_4] = (_w = {}, _w[FORMATS$4.RGBA] = gl.RGBA, _w), _t[TYPES$4.UNSIGNED_SHORT_5_5_5_1] = (_x = {}, _x[FORMATS$4.RGBA] = gl.RGBA, _x), _t);
   }
   return table;
 }
@@ -15052,8 +15032,8 @@ var GLTexture = function() {
     this.dirtyStyleId = -1;
     this.mipmap = false;
     this.wrapMode = 33071;
-    this.type = TYPES$3.UNSIGNED_BYTE;
-    this.internalFormat = FORMATS$3.RGBA;
+    this.type = TYPES$4.UNSIGNED_BYTE;
+    this.internalFormat = FORMATS$4.RGBA;
     this.samplerType = 0;
   }
   return GLTexture2;
@@ -15165,7 +15145,7 @@ var TextureSystem = function() {
       var tex = boundTextures[i2];
       if (tex) {
         var glTexture = tex._glTextures[CONTEXT_UID];
-        if (glTexture.samplerType !== SAMPLER_TYPES$3.FLOAT) {
+        if (glTexture.samplerType !== SAMPLER_TYPES$4.FLOAT) {
           this.renderer.texture.unbind(tex);
         }
       }
@@ -15182,7 +15162,7 @@ var TextureSystem = function() {
   TextureSystem2.prototype.initTextureType = function(texture, glTexture) {
     var _a3, _b3;
     glTexture.internalFormat = (_b3 = (_a3 = this.internalFormats[texture.type]) === null || _a3 === void 0 ? void 0 : _a3[texture.format]) !== null && _b3 !== void 0 ? _b3 : texture.format;
-    if (this.webGLVersion === 2 && texture.type === TYPES$3.HALF_FLOAT) {
+    if (this.webGLVersion === 2 && texture.type === TYPES$4.HALF_FLOAT) {
       glTexture.type = this.gl.HALF_FLOAT;
     } else {
       glTexture.type = texture.type;
@@ -15196,7 +15176,7 @@ var TextureSystem = function() {
     var renderer = this.renderer;
     this.initTextureType(texture, glTexture);
     if (texture.resource && texture.resource.upload(renderer, texture, glTexture)) {
-      if (glTexture.samplerType !== SAMPLER_TYPES$3.FLOAT) {
+      if (glTexture.samplerType !== SAMPLER_TYPES$4.FLOAT) {
         this.hasIntegerTextures = true;
       }
     } else {
@@ -15235,13 +15215,13 @@ var TextureSystem = function() {
     if (!glTexture) {
       return;
     }
-    if ((texture.mipmap === MIPMAP_MODES$3.POW2 || this.webGLVersion !== 2) && !texture.isPowerOfTwo) {
+    if ((texture.mipmap === MIPMAP_MODES$4.POW2 || this.webGLVersion !== 2) && !texture.isPowerOfTwo) {
       glTexture.mipmap = false;
     } else {
       glTexture.mipmap = texture.mipmap >= 1;
     }
     if (this.webGLVersion !== 2 && !texture.isPowerOfTwo) {
-      glTexture.wrapMode = WRAP_MODES$3.CLAMP;
+      glTexture.wrapMode = WRAP_MODES$4.CLAMP;
     } else {
       glTexture.wrapMode = texture.wrapMode;
     }
@@ -15254,22 +15234,22 @@ var TextureSystem = function() {
   };
   TextureSystem2.prototype.setStyle = function(texture, glTexture) {
     var gl = this.gl;
-    if (glTexture.mipmap && texture.mipmap !== MIPMAP_MODES$3.ON_MANUAL) {
+    if (glTexture.mipmap && texture.mipmap !== MIPMAP_MODES$4.ON_MANUAL) {
       gl.generateMipmap(texture.target);
     }
     gl.texParameteri(texture.target, gl.TEXTURE_WRAP_S, glTexture.wrapMode);
     gl.texParameteri(texture.target, gl.TEXTURE_WRAP_T, glTexture.wrapMode);
     if (glTexture.mipmap) {
-      gl.texParameteri(texture.target, gl.TEXTURE_MIN_FILTER, texture.scaleMode === SCALE_MODES$3.LINEAR ? gl.LINEAR_MIPMAP_LINEAR : gl.NEAREST_MIPMAP_NEAREST);
+      gl.texParameteri(texture.target, gl.TEXTURE_MIN_FILTER, texture.scaleMode === SCALE_MODES$4.LINEAR ? gl.LINEAR_MIPMAP_LINEAR : gl.NEAREST_MIPMAP_NEAREST);
       var anisotropicExt = this.renderer.context.extensions.anisotropicFiltering;
-      if (anisotropicExt && texture.anisotropicLevel > 0 && texture.scaleMode === SCALE_MODES$3.LINEAR) {
+      if (anisotropicExt && texture.anisotropicLevel > 0 && texture.scaleMode === SCALE_MODES$4.LINEAR) {
         var level = Math.min(texture.anisotropicLevel, gl.getParameter(anisotropicExt.MAX_TEXTURE_MAX_ANISOTROPY_EXT));
         gl.texParameterf(texture.target, anisotropicExt.TEXTURE_MAX_ANISOTROPY_EXT, level);
       }
     } else {
-      gl.texParameteri(texture.target, gl.TEXTURE_MIN_FILTER, texture.scaleMode === SCALE_MODES$3.LINEAR ? gl.LINEAR : gl.NEAREST);
+      gl.texParameteri(texture.target, gl.TEXTURE_MIN_FILTER, texture.scaleMode === SCALE_MODES$4.LINEAR ? gl.LINEAR : gl.NEAREST);
     }
-    gl.texParameteri(texture.target, gl.TEXTURE_MAG_FILTER, texture.scaleMode === SCALE_MODES$3.LINEAR ? gl.LINEAR : gl.NEAREST);
+    gl.texParameteri(texture.target, gl.TEXTURE_MAG_FILTER, texture.scaleMode === SCALE_MODES$4.LINEAR ? gl.LINEAR : gl.NEAREST);
   };
   TextureSystem2.prototype.destroy = function() {
     this.renderer = null;
@@ -15278,18 +15258,18 @@ var TextureSystem = function() {
 }();
 var tempMatrix = new Matrix();
 var AbstractRenderer = function(_super) {
-  __extends$q(AbstractRenderer2, _super);
+  __extends$r(AbstractRenderer2, _super);
   function AbstractRenderer2(type, options) {
     if (type === void 0) {
-      type = RENDERER_TYPE$3.UNKNOWN;
+      type = RENDERER_TYPE$4.UNKNOWN;
     }
     var _this = _super.call(this) || this;
-    options = Object.assign({}, settings.RENDER_OPTIONS, options);
+    options = Object.assign({}, settings$1.RENDER_OPTIONS, options);
     _this.options = options;
     _this.type = type;
     _this.screen = new Rectangle(0, 0, options.width, options.height);
     _this.view = options.view || document.createElement("canvas");
-    _this.resolution = options.resolution || settings.RESOLUTION;
+    _this.resolution = options.resolution || settings$1.RESOLUTION;
     _this.useContextAlpha = options.useContextAlpha;
     _this.autoDensity = !!options.autoDensity;
     _this.preserveDrawingBuffer = options.preserveDrawingBuffer;
@@ -15377,7 +15357,7 @@ var AbstractRenderer = function(_super) {
     }
     var thisAny = this;
     thisAny.plugins = null;
-    thisAny.type = RENDERER_TYPE$3.UNKNOWN;
+    thisAny.type = RENDERER_TYPE$4.UNKNOWN;
     thisAny.view = null;
     thisAny.screen = null;
     thisAny._tempDisplayObjectParent = null;
@@ -15409,7 +15389,7 @@ var AbstractRenderer = function(_super) {
     configurable: true
   });
   return AbstractRenderer2;
-}(EventEmitter$4);
+}(EventEmitter$5);
 var GLBuffer = function() {
   function GLBuffer2(buffer) {
     this.buffer = buffer || null;
@@ -15500,9 +15480,9 @@ var BufferSystem = function() {
   return BufferSystem2;
 }();
 var Renderer = function(_super) {
-  __extends$q(Renderer2, _super);
+  __extends$r(Renderer2, _super);
   function Renderer2(options) {
-    var _this = _super.call(this, RENDERER_TYPE$3.WEBGL, options) || this;
+    var _this = _super.call(this, RENDERER_TYPE$4.WEBGL, options) || this;
     options = _this.options;
     _this.gl = null;
     _this.CONTEXT_UID = 0;
@@ -15559,14 +15539,14 @@ var Renderer = function(_super) {
       samples = gl.getParameter(gl.SAMPLES);
       gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, framebuffer);
     }
-    if (samples >= MSAA_QUALITY$3.HIGH) {
-      this.multisample = MSAA_QUALITY$3.HIGH;
-    } else if (samples >= MSAA_QUALITY$3.MEDIUM) {
-      this.multisample = MSAA_QUALITY$3.MEDIUM;
-    } else if (samples >= MSAA_QUALITY$3.LOW) {
-      this.multisample = MSAA_QUALITY$3.LOW;
+    if (samples >= MSAA_QUALITY$4.HIGH) {
+      this.multisample = MSAA_QUALITY$4.HIGH;
+    } else if (samples >= MSAA_QUALITY$4.MEDIUM) {
+      this.multisample = MSAA_QUALITY$4.MEDIUM;
+    } else if (samples >= MSAA_QUALITY$4.LOW) {
+      this.multisample = MSAA_QUALITY$4.LOW;
     } else {
-      this.multisample = MSAA_QUALITY$3.NONE;
+      this.multisample = MSAA_QUALITY$4.NONE;
     }
   };
   Renderer2.prototype.addSystem = function(ClassRef, name) {
@@ -15681,7 +15661,7 @@ var BatchDrawCall = function() {
   function BatchDrawCall2() {
     this.texArray = null;
     this.blend = 0;
-    this.type = DRAW_MODES$3.TRIANGLES;
+    this.type = DRAW_MODES$4.TRIANGLES;
     this.start = 0;
     this.size = 0;
     this.data = null;
@@ -15796,14 +15776,14 @@ var ViewableBuffer = function() {
   return ViewableBuffer2;
 }();
 var AbstractBatchRenderer = function(_super) {
-  __extends$q(AbstractBatchRenderer2, _super);
+  __extends$r(AbstractBatchRenderer2, _super);
   function AbstractBatchRenderer2(renderer) {
     var _this = _super.call(this, renderer) || this;
     _this.shaderGenerator = null;
     _this.geometryClass = null;
     _this.vertexSize = null;
     _this.state = State.for2d();
-    _this.size = settings.SPRITE_BATCH_SIZE * 4;
+    _this.size = settings$1.SPRITE_BATCH_SIZE * 4;
     _this._vertexCount = 0;
     _this._indexCount = 0;
     _this._bufferedElements = [];
@@ -15828,10 +15808,10 @@ var AbstractBatchRenderer = function(_super) {
   }
   AbstractBatchRenderer2.prototype.contextChange = function() {
     var gl = this.renderer.gl;
-    if (settings.PREFER_ENV === ENV$3.WEBGL_LEGACY) {
+    if (settings$1.PREFER_ENV === ENV$4.WEBGL_LEGACY) {
       this.MAX_TEXTURES = 1;
     } else {
-      this.MAX_TEXTURES = Math.min(gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS), settings.SPRITE_MAX_TEXTURES);
+      this.MAX_TEXTURES = Math.min(gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS), settings$1.SPRITE_MAX_TEXTURES);
       this.MAX_TEXTURES = checkMaxIfStatementsInShader(this.MAX_TEXTURES, gl);
     }
     this._shader = this.shaderGenerator.generateShader(this.MAX_TEXTURES);
@@ -15952,7 +15932,7 @@ var AbstractBatchRenderer = function(_super) {
   };
   AbstractBatchRenderer2.prototype.updateGeometry = function() {
     var _a3 = this, packedGeometries = _a3._packedGeometries, attributeBuffer = _a3._attributeBuffer, indexBuffer = _a3._indexBuffer;
-    if (!settings.CAN_UPLOAD_SAME_BUFFER) {
+    if (!settings$1.CAN_UPLOAD_SAME_BUFFER) {
       if (this._packedGeometryPoolSize <= this._flushId) {
         this._packedGeometryPoolSize++;
         packedGeometries[this._flushId] = new this.geometryClass();
@@ -16004,7 +15984,7 @@ var AbstractBatchRenderer = function(_super) {
     this.renderer.state.set(this.state);
     this.renderer.texture.ensureSamplerType(this.MAX_TEXTURES);
     this.renderer.shader.bind(this._shader);
-    if (settings.CAN_UPLOAD_SAME_BUFFER) {
+    if (settings$1.CAN_UPLOAD_SAME_BUFFER) {
       this.renderer.geometry.bind(this._packedGeometries[this._flushId]);
     }
   };
@@ -16134,7 +16114,7 @@ var BatchShaderGenerator = function() {
   return BatchShaderGenerator2;
 }();
 var BatchGeometry = function(_super) {
-  __extends$q(BatchGeometry2, _super);
+  __extends$r(BatchGeometry2, _super);
   function BatchGeometry2(_static) {
     if (_static === void 0) {
       _static = false;
@@ -16142,7 +16122,7 @@ var BatchGeometry = function(_super) {
     var _this = _super.call(this) || this;
     _this._buffer = new Buffer$1(null, _static, false);
     _this._indexBuffer = new Buffer$1(null, _static, true);
-    _this.addAttribute("aVertexPosition", _this._buffer, 2, false, TYPES$3.FLOAT).addAttribute("aTextureCoord", _this._buffer, 2, false, TYPES$3.FLOAT).addAttribute("aColor", _this._buffer, 4, true, TYPES$3.UNSIGNED_BYTE).addAttribute("aTextureId", _this._buffer, 1, true, TYPES$3.FLOAT).addIndex(_this._indexBuffer);
+    _this.addAttribute("aVertexPosition", _this._buffer, 2, false, TYPES$4.FLOAT).addAttribute("aTextureCoord", _this._buffer, 2, false, TYPES$4.FLOAT).addAttribute("aColor", _this._buffer, 4, true, TYPES$4.UNSIGNED_BYTE).addAttribute("aTextureId", _this._buffer, 1, true, TYPES$4.FLOAT).addIndex(_this._indexBuffer);
     return _this;
   }
   return BatchGeometry2;
@@ -16160,7 +16140,7 @@ var BatchPluginFactory = function() {
       vertexSize: 6
     }, options), vertex2 = _a3.vertex, fragment2 = _a3.fragment, vertexSize = _a3.vertexSize, geometryClass = _a3.geometryClass;
     return function(_super) {
-      __extends$q(BatchPlugin, _super);
+      __extends$r(BatchPlugin, _super);
       function BatchPlugin(renderer) {
         var _this = _super.call(this, renderer) || this;
         _this.shaderGenerator = new BatchShaderGenerator(vertex2, fragment2);
@@ -16189,8 +16169,8 @@ var BatchPluginFactory = function() {
 }();
 var BatchRenderer = BatchPluginFactory.create();
 /*!
- * @pixi/loaders - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/loaders - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -17565,7 +17545,7 @@ var _ = function() {
   }, e.prototype.toString = function() {
     return "[HTMLAudioInstance id=".concat(this.id, "]");
   }, e.PADDING = 0.1, e;
-}(EventEmitter$4), g = function(t) {
+}(EventEmitter$5), g = function(t) {
   function e() {
     return t !== null && t.apply(this, arguments) || this;
   }
@@ -17615,7 +17595,7 @@ var _ = function() {
       }, 0);
     }
   }, e;
-}(EventEmitter$4), b = function() {
+}(EventEmitter$5), b = function() {
   function t(t2, e) {
     this.parent = t2, Object.assign(this, e), this.duration = this.end - this.start;
   }
@@ -17768,7 +17748,7 @@ var _ = function() {
     }
     this._source = null, this._progress = 1, this.emit("progress", 1, this._duration), this.emit("end", this);
   }, e;
-}(EventEmitter$4), O = function() {
+}(EventEmitter$5), O = function() {
   function t(t2, e) {
     this._output = e, this._input = t2;
   }
@@ -18000,10 +17980,10 @@ var _ = function() {
   }, e.prototype.destroy = function() {
     this.removeAllListeners();
   }, e;
-}(EventEmitter$4), C = function(t) {
+}(EventEmitter$5), C = function(t) {
   function e() {
     var o = this, i2 = window, r2 = new e.AudioContext(), s2 = r2.createDynamicsCompressor(), u2 = r2.createAnalyser();
-    return u2.connect(s2), s2.connect(r2.destination), (o = t.call(this, u2, s2) || this)._ctx = r2, o._offlineCtx = new e.OfflineAudioContext(1, 2, i2.OfflineAudioContext ? r2.sampleRate : 44100), o._unlocked = false, o.compressor = s2, o.analyser = u2, o.events = new EventEmitter$4(), o.volume = 1, o.speed = 1, o.muted = false, o.paused = false, r2.state !== "running" && (o._unlock(), o._unlock = o._unlock.bind(o), document.addEventListener("mousedown", o._unlock, true), document.addEventListener("touchstart", o._unlock, true), document.addEventListener("touchend", o._unlock, true)), o;
+    return u2.connect(s2), s2.connect(r2.destination), (o = t.call(this, u2, s2) || this)._ctx = r2, o._offlineCtx = new e.OfflineAudioContext(1, 2, i2.OfflineAudioContext ? r2.sampleRate : 44100), o._unlocked = false, o.compressor = s2, o.analyser = u2, o.events = new EventEmitter$5(), o.volume = 1, o.speed = 1, o.muted = false, o.paused = false, r2.state !== "running" && (o._unlock(), o._unlock = o._unlock.bind(o), document.addEventListener("mousedown", o._unlock, true), document.addEventListener("touchstart", o._unlock, true), document.addEventListener("touchend", o._unlock, true)), o;
   }
   return a(e, t), e.prototype._unlock = function() {
     this._unlocked || (this.playEmptySound(), this._ctx.state === "running" && (document.removeEventListener("mousedown", this._unlock, true), document.removeEventListener("touchend", this._unlock, true), document.removeEventListener("touchstart", this._unlock, true), this._unlocked = true));
@@ -18109,7 +18089,7 @@ var _ = function() {
       this._sounds[t2].stop();
     return this;
   }, t.prototype.exists = function(t2, e) {
-    return e === void 0 && (e = false), !!this._sounds[t2];
+    return !!this._sounds[t2];
   }, t.prototype.find = function(t2) {
     return this.exists(t2, true), this._sounds[t2];
   }, t.prototype.play = function(t2, e) {
@@ -18667,8 +18647,8 @@ var objectAssign = shouldUseNative() ? Object.assign : function(target, source) 
   return to;
 };
 /*!
- * @pixi/polyfill - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/polyfill - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18763,14 +18743,14 @@ if (!globalThis.Int32Array) {
   globalThis.Int32Array = Array;
 }
 /*!
- * @pixi/display - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/display - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-settings.SORTABLE_CHILDREN = false;
-var Bounds = function() {
+settings$1.SORTABLE_CHILDREN = false;
+var Bounds$1 = function() {
   function Bounds2() {
     this.minX = Infinity;
     this.minY = Infinity;
@@ -19029,8 +19009,8 @@ MERCHANTABLITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-var extendStatics$p = function(d2, b2) {
-  extendStatics$p = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
+var extendStatics$q = function(d2, b2) {
+  extendStatics$q = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
     for (var p in b3) {
@@ -19039,17 +19019,17 @@ var extendStatics$p = function(d2, b2) {
       }
     }
   };
-  return extendStatics$p(d2, b2);
+  return extendStatics$q(d2, b2);
 };
-function __extends$p(d2, b2) {
-  extendStatics$p(d2, b2);
+function __extends$q(d2, b2) {
+  extendStatics$q(d2, b2);
   function __() {
     this.constructor = d2;
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var DisplayObject = function(_super) {
-  __extends$p(DisplayObject2, _super);
+var DisplayObject$1 = function(_super) {
+  __extends$q(DisplayObject2, _super);
   function DisplayObject2() {
     var _this = _super.call(this) || this;
     _this.tempDisplayObjectParent = null;
@@ -19066,7 +19046,7 @@ var DisplayObject = function(_super) {
     _this.filterArea = null;
     _this.filters = null;
     _this._enabledFilters = null;
-    _this._bounds = new Bounds();
+    _this._bounds = new Bounds$1();
     _this._localBounds = null;
     _this._boundsID = 0;
     _this._boundsRect = null;
@@ -19136,7 +19116,7 @@ var DisplayObject = function(_super) {
       rect = this._localBoundsRect;
     }
     if (!this._localBounds) {
-      this._localBounds = new Bounds();
+      this._localBounds = new Bounds$1();
     }
     var transformRef = this.transform;
     var parentRef = this.parent;
@@ -19234,8 +19214,7 @@ var DisplayObject = function(_super) {
     if (this.parent) {
       this.parent.removeChild(this);
     }
-    this.emit("destroyed");
-    this.removeAllListeners();
+    this._destroyed = true;
     this.transform = null;
     this.parent = null;
     this._bounds = null;
@@ -19246,12 +19225,13 @@ var DisplayObject = function(_super) {
     this.hitArea = null;
     this.interactive = false;
     this.interactiveChildren = false;
-    this._destroyed = true;
+    this.emit("destroyed");
+    this.removeAllListeners();
   };
   Object.defineProperty(DisplayObject2.prototype, "_tempDisplayObjectParent", {
     get: function() {
       if (this.tempDisplayObjectParent === null) {
-        this.tempDisplayObjectParent = new TemporaryDisplayObject();
+        this.tempDisplayObjectParent = new TemporaryDisplayObject$1();
       }
       return this.tempDisplayObjectParent;
     },
@@ -19417,43 +19397,43 @@ var DisplayObject = function(_super) {
     configurable: true
   });
   return DisplayObject2;
-}(EventEmitter$4);
-var TemporaryDisplayObject = function(_super) {
-  __extends$p(TemporaryDisplayObject2, _super);
+}(EventEmitter$5);
+var TemporaryDisplayObject$1 = function(_super) {
+  __extends$q(TemporaryDisplayObject2, _super);
   function TemporaryDisplayObject2() {
     var _this = _super !== null && _super.apply(this, arguments) || this;
     _this.sortDirty = null;
     return _this;
   }
   return TemporaryDisplayObject2;
-}(DisplayObject);
-DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
+}(DisplayObject$1);
+DisplayObject$1.prototype.displayObjectUpdateTransform = DisplayObject$1.prototype.updateTransform;
 /*!
- * @pixi/constants - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/constants - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-var ENV$2;
+var ENV$3;
 (function(ENV2) {
   ENV2[ENV2["WEBGL_LEGACY"] = 0] = "WEBGL_LEGACY";
   ENV2[ENV2["WEBGL"] = 1] = "WEBGL";
   ENV2[ENV2["WEBGL2"] = 2] = "WEBGL2";
-})(ENV$2 || (ENV$2 = {}));
-var RENDERER_TYPE$2;
+})(ENV$3 || (ENV$3 = {}));
+var RENDERER_TYPE$3;
 (function(RENDERER_TYPE2) {
   RENDERER_TYPE2[RENDERER_TYPE2["UNKNOWN"] = 0] = "UNKNOWN";
   RENDERER_TYPE2[RENDERER_TYPE2["WEBGL"] = 1] = "WEBGL";
   RENDERER_TYPE2[RENDERER_TYPE2["CANVAS"] = 2] = "CANVAS";
-})(RENDERER_TYPE$2 || (RENDERER_TYPE$2 = {}));
-var BUFFER_BITS$2;
+})(RENDERER_TYPE$3 || (RENDERER_TYPE$3 = {}));
+var BUFFER_BITS$3;
 (function(BUFFER_BITS2) {
   BUFFER_BITS2[BUFFER_BITS2["COLOR"] = 16384] = "COLOR";
   BUFFER_BITS2[BUFFER_BITS2["DEPTH"] = 256] = "DEPTH";
   BUFFER_BITS2[BUFFER_BITS2["STENCIL"] = 1024] = "STENCIL";
-})(BUFFER_BITS$2 || (BUFFER_BITS$2 = {}));
-var BLEND_MODES$2;
+})(BUFFER_BITS$3 || (BUFFER_BITS$3 = {}));
+var BLEND_MODES$3;
 (function(BLEND_MODES2) {
   BLEND_MODES2[BLEND_MODES2["NORMAL"] = 0] = "NORMAL";
   BLEND_MODES2[BLEND_MODES2["ADD"] = 1] = "ADD";
@@ -19487,8 +19467,8 @@ var BLEND_MODES$2;
   BLEND_MODES2[BLEND_MODES2["ERASE"] = 26] = "ERASE";
   BLEND_MODES2[BLEND_MODES2["SUBTRACT"] = 28] = "SUBTRACT";
   BLEND_MODES2[BLEND_MODES2["XOR"] = 29] = "XOR";
-})(BLEND_MODES$2 || (BLEND_MODES$2 = {}));
-var DRAW_MODES$2;
+})(BLEND_MODES$3 || (BLEND_MODES$3 = {}));
+var DRAW_MODES$3;
 (function(DRAW_MODES2) {
   DRAW_MODES2[DRAW_MODES2["POINTS"] = 0] = "POINTS";
   DRAW_MODES2[DRAW_MODES2["LINES"] = 1] = "LINES";
@@ -19497,8 +19477,8 @@ var DRAW_MODES$2;
   DRAW_MODES2[DRAW_MODES2["TRIANGLES"] = 4] = "TRIANGLES";
   DRAW_MODES2[DRAW_MODES2["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
   DRAW_MODES2[DRAW_MODES2["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
-})(DRAW_MODES$2 || (DRAW_MODES$2 = {}));
-var FORMATS$2;
+})(DRAW_MODES$3 || (DRAW_MODES$3 = {}));
+var FORMATS$3;
 (function(FORMATS2) {
   FORMATS2[FORMATS2["RGBA"] = 6408] = "RGBA";
   FORMATS2[FORMATS2["RGB"] = 6407] = "RGB";
@@ -19513,8 +19493,8 @@ var FORMATS$2;
   FORMATS2[FORMATS2["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
   FORMATS2[FORMATS2["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
   FORMATS2[FORMATS2["DEPTH_STENCIL"] = 34041] = "DEPTH_STENCIL";
-})(FORMATS$2 || (FORMATS$2 = {}));
-var TARGETS$2;
+})(FORMATS$3 || (FORMATS$3 = {}));
+var TARGETS$3;
 (function(TARGETS2) {
   TARGETS2[TARGETS2["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
   TARGETS2[TARGETS2["TEXTURE_CUBE_MAP"] = 34067] = "TEXTURE_CUBE_MAP";
@@ -19525,8 +19505,8 @@ var TARGETS$2;
   TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Y"] = 34072] = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
   TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Z"] = 34073] = "TEXTURE_CUBE_MAP_POSITIVE_Z";
   TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Z"] = 34074] = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
-})(TARGETS$2 || (TARGETS$2 = {}));
-var TYPES$2;
+})(TARGETS$3 || (TARGETS$3 = {}));
+var TYPES$3;
 (function(TYPES2) {
   TYPES2[TYPES2["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
   TYPES2[TYPES2["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
@@ -19544,32 +19524,32 @@ var TYPES$2;
   TYPES2[TYPES2["FLOAT"] = 5126] = "FLOAT";
   TYPES2[TYPES2["FLOAT_32_UNSIGNED_INT_24_8_REV"] = 36269] = "FLOAT_32_UNSIGNED_INT_24_8_REV";
   TYPES2[TYPES2["HALF_FLOAT"] = 36193] = "HALF_FLOAT";
-})(TYPES$2 || (TYPES$2 = {}));
-var SAMPLER_TYPES$2;
+})(TYPES$3 || (TYPES$3 = {}));
+var SAMPLER_TYPES$3;
 (function(SAMPLER_TYPES2) {
   SAMPLER_TYPES2[SAMPLER_TYPES2["FLOAT"] = 0] = "FLOAT";
   SAMPLER_TYPES2[SAMPLER_TYPES2["INT"] = 1] = "INT";
   SAMPLER_TYPES2[SAMPLER_TYPES2["UINT"] = 2] = "UINT";
-})(SAMPLER_TYPES$2 || (SAMPLER_TYPES$2 = {}));
-var SCALE_MODES$2;
+})(SAMPLER_TYPES$3 || (SAMPLER_TYPES$3 = {}));
+var SCALE_MODES$3;
 (function(SCALE_MODES2) {
   SCALE_MODES2[SCALE_MODES2["NEAREST"] = 0] = "NEAREST";
   SCALE_MODES2[SCALE_MODES2["LINEAR"] = 1] = "LINEAR";
-})(SCALE_MODES$2 || (SCALE_MODES$2 = {}));
-var WRAP_MODES$2;
+})(SCALE_MODES$3 || (SCALE_MODES$3 = {}));
+var WRAP_MODES$3;
 (function(WRAP_MODES2) {
   WRAP_MODES2[WRAP_MODES2["CLAMP"] = 33071] = "CLAMP";
   WRAP_MODES2[WRAP_MODES2["REPEAT"] = 10497] = "REPEAT";
   WRAP_MODES2[WRAP_MODES2["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
-})(WRAP_MODES$2 || (WRAP_MODES$2 = {}));
-var MIPMAP_MODES$2;
+})(WRAP_MODES$3 || (WRAP_MODES$3 = {}));
+var MIPMAP_MODES$3;
 (function(MIPMAP_MODES2) {
   MIPMAP_MODES2[MIPMAP_MODES2["OFF"] = 0] = "OFF";
   MIPMAP_MODES2[MIPMAP_MODES2["POW2"] = 1] = "POW2";
   MIPMAP_MODES2[MIPMAP_MODES2["ON"] = 2] = "ON";
   MIPMAP_MODES2[MIPMAP_MODES2["ON_MANUAL"] = 3] = "ON_MANUAL";
-})(MIPMAP_MODES$2 || (MIPMAP_MODES$2 = {}));
-var ALPHA_MODES$2;
+})(MIPMAP_MODES$3 || (MIPMAP_MODES$3 = {}));
+var ALPHA_MODES$3;
 (function(ALPHA_MODES2) {
   ALPHA_MODES2[ALPHA_MODES2["NPM"] = 0] = "NPM";
   ALPHA_MODES2[ALPHA_MODES2["UNPACK"] = 1] = "UNPACK";
@@ -19578,8 +19558,8 @@ var ALPHA_MODES$2;
   ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
   ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
   ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
-})(ALPHA_MODES$2 || (ALPHA_MODES$2 = {}));
-var CLEAR_MODES$2;
+})(ALPHA_MODES$3 || (ALPHA_MODES$3 = {}));
+var CLEAR_MODES$3;
 (function(CLEAR_MODES2) {
   CLEAR_MODES2[CLEAR_MODES2["NO"] = 0] = "NO";
   CLEAR_MODES2[CLEAR_MODES2["YES"] = 1] = "YES";
@@ -19587,50 +19567,50 @@ var CLEAR_MODES$2;
   CLEAR_MODES2[CLEAR_MODES2["BLEND"] = 0] = "BLEND";
   CLEAR_MODES2[CLEAR_MODES2["CLEAR"] = 1] = "CLEAR";
   CLEAR_MODES2[CLEAR_MODES2["BLIT"] = 2] = "BLIT";
-})(CLEAR_MODES$2 || (CLEAR_MODES$2 = {}));
-var GC_MODES$2;
+})(CLEAR_MODES$3 || (CLEAR_MODES$3 = {}));
+var GC_MODES$3;
 (function(GC_MODES2) {
   GC_MODES2[GC_MODES2["AUTO"] = 0] = "AUTO";
   GC_MODES2[GC_MODES2["MANUAL"] = 1] = "MANUAL";
-})(GC_MODES$2 || (GC_MODES$2 = {}));
-var PRECISION$2;
+})(GC_MODES$3 || (GC_MODES$3 = {}));
+var PRECISION$3;
 (function(PRECISION2) {
   PRECISION2["LOW"] = "lowp";
   PRECISION2["MEDIUM"] = "mediump";
   PRECISION2["HIGH"] = "highp";
-})(PRECISION$2 || (PRECISION$2 = {}));
-var MASK_TYPES$2;
+})(PRECISION$3 || (PRECISION$3 = {}));
+var MASK_TYPES$3;
 (function(MASK_TYPES2) {
   MASK_TYPES2[MASK_TYPES2["NONE"] = 0] = "NONE";
   MASK_TYPES2[MASK_TYPES2["SCISSOR"] = 1] = "SCISSOR";
   MASK_TYPES2[MASK_TYPES2["STENCIL"] = 2] = "STENCIL";
   MASK_TYPES2[MASK_TYPES2["SPRITE"] = 3] = "SPRITE";
-})(MASK_TYPES$2 || (MASK_TYPES$2 = {}));
-var MSAA_QUALITY$2;
+})(MASK_TYPES$3 || (MASK_TYPES$3 = {}));
+var MSAA_QUALITY$3;
 (function(MSAA_QUALITY2) {
   MSAA_QUALITY2[MSAA_QUALITY2["NONE"] = 0] = "NONE";
   MSAA_QUALITY2[MSAA_QUALITY2["LOW"] = 2] = "LOW";
   MSAA_QUALITY2[MSAA_QUALITY2["MEDIUM"] = 4] = "MEDIUM";
   MSAA_QUALITY2[MSAA_QUALITY2["HIGH"] = 8] = "HIGH";
-})(MSAA_QUALITY$2 || (MSAA_QUALITY$2 = {}));
-var BUFFER_TYPE$2;
+})(MSAA_QUALITY$3 || (MSAA_QUALITY$3 = {}));
+var BUFFER_TYPE$3;
 (function(BUFFER_TYPE2) {
   BUFFER_TYPE2[BUFFER_TYPE2["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
   BUFFER_TYPE2[BUFFER_TYPE2["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
   BUFFER_TYPE2[BUFFER_TYPE2["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
-})(BUFFER_TYPE$2 || (BUFFER_TYPE$2 = {}));
-function sortChildren(a2, b2) {
+})(BUFFER_TYPE$3 || (BUFFER_TYPE$3 = {}));
+function sortChildren$1(a2, b2) {
   if (a2.zIndex === b2.zIndex) {
     return a2._lastSortedIndex - b2._lastSortedIndex;
   }
   return a2.zIndex - b2.zIndex;
 }
-var Container = function(_super) {
-  __extends$p(Container2, _super);
+var Container$1 = function(_super) {
+  __extends$q(Container2, _super);
   function Container2() {
     var _this = _super.call(this) || this;
     _this.children = [];
-    _this.sortableChildren = settings.SORTABLE_CHILDREN;
+    _this.sortableChildren = settings$1.SORTABLE_CHILDREN;
     _this.sortDirty = false;
     return _this;
   }
@@ -19789,7 +19769,7 @@ var Container = function(_super) {
       }
     }
     if (sortRequired && this.children.length > 1) {
-      this.children.sort(sortChildren);
+      this.children.sort(sortChildren$1);
     }
     this.sortDirty = false;
   };
@@ -19900,7 +19880,7 @@ var Container = function(_super) {
         }
       }
     }
-    var flush = filters && this._enabledFilters && this._enabledFilters.length || mask && (!mask.isMaskData || mask.enabled && (mask.autoDetect || mask.type !== MASK_TYPES$2.NONE));
+    var flush = filters && this._enabledFilters && this._enabledFilters.length || mask && (!mask.isMaskData || mask.enabled && (mask.autoDetect || mask.type !== MASK_TYPES$3.NONE));
     if (flush) {
       renderer.batch.flush();
     }
@@ -19974,11 +19954,11 @@ var Container = function(_super) {
     configurable: true
   });
   return Container2;
-}(DisplayObject);
-Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
+}(DisplayObject$1);
+Container$1.prototype.containerUpdateTransform = Container$1.prototype.updateTransform;
 /*!
- * @pixi/accessibility - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/accessibility - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19995,7 +19975,7 @@ var accessibleTarget = {
   accessibleChildren: true,
   renderId: -1
 };
-DisplayObject.mixin(accessibleTarget);
+DisplayObject$1.mixin(accessibleTarget);
 var KEY_CODE_TAB = 9;
 var DIV_TOUCH_SIZE = 100;
 var DIV_TOUCH_POS_X = 0;
@@ -20016,7 +19996,7 @@ var AccessibilityManager = function() {
     this.androidUpdateCount = 0;
     this.androidUpdateFrequency = 500;
     this._hookDiv = null;
-    if (isMobile.tablet || isMobile.phone) {
+    if (isMobile$2.tablet || isMobile$2.phone) {
       this.createTouchHook();
     }
     var div = document.createElement("div");
@@ -20113,7 +20093,7 @@ var AccessibilityManager = function() {
   };
   AccessibilityManager2.prototype.update = function() {
     var now2 = performance.now();
-    if (isMobile.android.device && now2 < this.androidUpdateCount) {
+    if (isMobile$2.android.device && now2 < this.androidUpdateCount) {
       return;
     }
     this.androidUpdateCount = now2 + this.androidUpdateFrequency;
@@ -20289,8 +20269,8 @@ var AccessibilityManager = function() {
   return AccessibilityManager2;
 }();
 /*!
- * @pixi/interaction - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/interaction - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -20364,8 +20344,8 @@ MERCHANTABLITY OR NON-INFRINGEMENT.
 See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
-var extendStatics$o = function(d2, b2) {
-  extendStatics$o = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
+var extendStatics$p = function(d2, b2) {
+  extendStatics$p = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
     d3.__proto__ = b3;
   } || function(d3, b3) {
     for (var p in b3) {
@@ -20374,10 +20354,10 @@ var extendStatics$o = function(d2, b2) {
       }
     }
   };
-  return extendStatics$o(d2, b2);
+  return extendStatics$p(d2, b2);
 };
-function __extends$o(d2, b2) {
-  extendStatics$o(d2, b2);
+function __extends$p(d2, b2) {
+  extendStatics$p(d2, b2);
   function __() {
     this.constructor = d2;
   }
@@ -20578,7 +20558,7 @@ var interactiveTarget = {
   },
   _trackedPointers: void 0
 };
-DisplayObject.mixin(interactiveTarget);
+DisplayObject$1.mixin(interactiveTarget);
 var MOUSE_POINTER_ID = 1;
 var hitTestEvent = {
   target: null,
@@ -20587,7 +20567,7 @@ var hitTestEvent = {
   }
 };
 var InteractionManager = function(_super) {
-  __extends$o(InteractionManager2, _super);
+  __extends$p(InteractionManager2, _super);
   function InteractionManager2(renderer, options) {
     var _this = _super.call(this) || this;
     options = options || {};
@@ -20628,7 +20608,7 @@ var InteractionManager = function(_super) {
     _this.resolution = 1;
     _this.delayedEvents = [];
     _this.search = new TreeSearch();
-    _this._tempDisplayObject = new TemporaryDisplayObject();
+    _this._tempDisplayObject = new TemporaryDisplayObject$1();
     _this._eventListenerOptions = { capture: true, passive: false };
     _this._useSystemTicker = options.useSystemTicker !== void 0 ? options.useSystemTicker : true;
     _this.setTargetElement(_this.renderer.view, _this.renderer.resolution);
@@ -21267,10 +21247,10 @@ var InteractionManager = function(_super) {
     this.search = null;
   };
   return InteractionManager2;
-}(EventEmitter$4);
+}(EventEmitter$5);
 /*!
- * @pixi/app - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/app - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21278,7 +21258,7 @@ var InteractionManager = function(_super) {
 var Application = function() {
   function Application2(options) {
     var _this = this;
-    this.stage = new Container();
+    this.stage = new Container$1();
     options = Object.assign({
       forceCanvas: false
     }, options);
@@ -21388,12 +21368,1578 @@ var ResizePlugin = function() {
 }();
 Application.registerPlugin(ResizePlugin);
 /*!
- * @pixi/extract - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/extract - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
+var appleIphone = /iPhone/i;
+var appleIpod = /iPod/i;
+var appleTablet = /iPad/i;
+var appleUniversal = /\biOS-universal(?:.+)Mac\b/i;
+var androidPhone = /\bAndroid(?:.+)Mobile\b/i;
+var androidTablet = /Android/i;
+var amazonPhone = /(?:SD4930UR|\bSilk(?:.+)Mobile\b)/i;
+var amazonTablet = /Silk/i;
+var windowsPhone = /Windows Phone/i;
+var windowsTablet = /\bWindows(?:.+)ARM\b/i;
+var otherBlackBerry = /BlackBerry/i;
+var otherBlackBerry10 = /BB10/i;
+var otherOpera = /Opera Mini/i;
+var otherChrome = /\b(CriOS|Chrome)(?:.+)Mobile/i;
+var otherFirefox = /Mobile(?:.+)Firefox\b/i;
+var isAppleTabletOnIos13 = function(navigator2) {
+  return typeof navigator2 !== "undefined" && navigator2.platform === "MacIntel" && typeof navigator2.maxTouchPoints === "number" && navigator2.maxTouchPoints > 1 && typeof MSStream === "undefined";
+};
+function createMatch(userAgent) {
+  return function(regex) {
+    return regex.test(userAgent);
+  };
+}
+function isMobile$1(param) {
+  var nav = {
+    userAgent: "",
+    platform: "",
+    maxTouchPoints: 0
+  };
+  if (!param && typeof navigator !== "undefined") {
+    nav = {
+      userAgent: navigator.userAgent,
+      platform: navigator.platform,
+      maxTouchPoints: navigator.maxTouchPoints || 0
+    };
+  } else if (typeof param === "string") {
+    nav.userAgent = param;
+  } else if (param && param.userAgent) {
+    nav = {
+      userAgent: param.userAgent,
+      platform: param.platform,
+      maxTouchPoints: param.maxTouchPoints || 0
+    };
+  }
+  var userAgent = nav.userAgent;
+  var tmp = userAgent.split("[FBAN");
+  if (typeof tmp[1] !== "undefined") {
+    userAgent = tmp[0];
+  }
+  tmp = userAgent.split("Twitter");
+  if (typeof tmp[1] !== "undefined") {
+    userAgent = tmp[0];
+  }
+  var match = createMatch(userAgent);
+  var result = {
+    apple: {
+      phone: match(appleIphone) && !match(windowsPhone),
+      ipod: match(appleIpod),
+      tablet: !match(appleIphone) && (match(appleTablet) || isAppleTabletOnIos13(nav)) && !match(windowsPhone),
+      universal: match(appleUniversal),
+      device: (match(appleIphone) || match(appleIpod) || match(appleTablet) || match(appleUniversal) || isAppleTabletOnIos13(nav)) && !match(windowsPhone)
+    },
+    amazon: {
+      phone: match(amazonPhone),
+      tablet: !match(amazonPhone) && match(amazonTablet),
+      device: match(amazonPhone) || match(amazonTablet)
+    },
+    android: {
+      phone: !match(windowsPhone) && match(amazonPhone) || !match(windowsPhone) && match(androidPhone),
+      tablet: !match(windowsPhone) && !match(amazonPhone) && !match(androidPhone) && (match(amazonTablet) || match(androidTablet)),
+      device: !match(windowsPhone) && (match(amazonPhone) || match(amazonTablet) || match(androidPhone) || match(androidTablet)) || match(/\bokhttp\b/i)
+    },
+    windows: {
+      phone: match(windowsPhone),
+      tablet: match(windowsTablet),
+      device: match(windowsPhone) || match(windowsTablet)
+    },
+    other: {
+      blackberry: match(otherBlackBerry),
+      blackberry10: match(otherBlackBerry10),
+      opera: match(otherOpera),
+      firefox: match(otherFirefox),
+      chrome: match(otherChrome),
+      device: match(otherBlackBerry) || match(otherBlackBerry10) || match(otherOpera) || match(otherFirefox) || match(otherChrome)
+    },
+    any: false,
+    phone: false,
+    tablet: false
+  };
+  result.any = result.apple.device || result.android.device || result.windows.device || result.other.device;
+  result.phone = result.apple.phone || result.android.phone || result.windows.phone;
+  result.tablet = result.apple.tablet || result.android.tablet || result.windows.tablet;
+  return result;
+}
+/*!
+ * @pixi/settings - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
+ *
+ * @pixi/settings is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+var isMobile = isMobile$1(globalThis.navigator);
+function maxRecommendedTextures(max2) {
+  var allowMax = true;
+  if (isMobile.tablet || isMobile.phone) {
+    if (isMobile.apple.device) {
+      var match = navigator.userAgent.match(/OS (\d+)_(\d+)?/);
+      if (match) {
+        var majorVersion = parseInt(match[1], 10);
+        if (majorVersion < 11) {
+          allowMax = false;
+        }
+      }
+    }
+    if (isMobile.android.device) {
+      var match = navigator.userAgent.match(/Android\s([0-9.]*)/);
+      if (match) {
+        var majorVersion = parseInt(match[1], 10);
+        if (majorVersion < 7) {
+          allowMax = false;
+        }
+      }
+    }
+  }
+  return allowMax ? max2 : 4;
+}
+function canUploadSameBuffer() {
+  return !isMobile.apple.device;
+}
+/*!
+ * @pixi/constants - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
+ *
+ * @pixi/constants is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+var ENV$1$1;
+(function(ENV2) {
+  ENV2[ENV2["WEBGL_LEGACY"] = 0] = "WEBGL_LEGACY";
+  ENV2[ENV2["WEBGL"] = 1] = "WEBGL";
+  ENV2[ENV2["WEBGL2"] = 2] = "WEBGL2";
+})(ENV$1$1 || (ENV$1$1 = {}));
+var RENDERER_TYPE$1$1;
+(function(RENDERER_TYPE2) {
+  RENDERER_TYPE2[RENDERER_TYPE2["UNKNOWN"] = 0] = "UNKNOWN";
+  RENDERER_TYPE2[RENDERER_TYPE2["WEBGL"] = 1] = "WEBGL";
+  RENDERER_TYPE2[RENDERER_TYPE2["CANVAS"] = 2] = "CANVAS";
+})(RENDERER_TYPE$1$1 || (RENDERER_TYPE$1$1 = {}));
+var BUFFER_BITS$1$1;
+(function(BUFFER_BITS2) {
+  BUFFER_BITS2[BUFFER_BITS2["COLOR"] = 16384] = "COLOR";
+  BUFFER_BITS2[BUFFER_BITS2["DEPTH"] = 256] = "DEPTH";
+  BUFFER_BITS2[BUFFER_BITS2["STENCIL"] = 1024] = "STENCIL";
+})(BUFFER_BITS$1$1 || (BUFFER_BITS$1$1 = {}));
+var BLEND_MODES$1$1;
+(function(BLEND_MODES2) {
+  BLEND_MODES2[BLEND_MODES2["NORMAL"] = 0] = "NORMAL";
+  BLEND_MODES2[BLEND_MODES2["ADD"] = 1] = "ADD";
+  BLEND_MODES2[BLEND_MODES2["MULTIPLY"] = 2] = "MULTIPLY";
+  BLEND_MODES2[BLEND_MODES2["SCREEN"] = 3] = "SCREEN";
+  BLEND_MODES2[BLEND_MODES2["OVERLAY"] = 4] = "OVERLAY";
+  BLEND_MODES2[BLEND_MODES2["DARKEN"] = 5] = "DARKEN";
+  BLEND_MODES2[BLEND_MODES2["LIGHTEN"] = 6] = "LIGHTEN";
+  BLEND_MODES2[BLEND_MODES2["COLOR_DODGE"] = 7] = "COLOR_DODGE";
+  BLEND_MODES2[BLEND_MODES2["COLOR_BURN"] = 8] = "COLOR_BURN";
+  BLEND_MODES2[BLEND_MODES2["HARD_LIGHT"] = 9] = "HARD_LIGHT";
+  BLEND_MODES2[BLEND_MODES2["SOFT_LIGHT"] = 10] = "SOFT_LIGHT";
+  BLEND_MODES2[BLEND_MODES2["DIFFERENCE"] = 11] = "DIFFERENCE";
+  BLEND_MODES2[BLEND_MODES2["EXCLUSION"] = 12] = "EXCLUSION";
+  BLEND_MODES2[BLEND_MODES2["HUE"] = 13] = "HUE";
+  BLEND_MODES2[BLEND_MODES2["SATURATION"] = 14] = "SATURATION";
+  BLEND_MODES2[BLEND_MODES2["COLOR"] = 15] = "COLOR";
+  BLEND_MODES2[BLEND_MODES2["LUMINOSITY"] = 16] = "LUMINOSITY";
+  BLEND_MODES2[BLEND_MODES2["NORMAL_NPM"] = 17] = "NORMAL_NPM";
+  BLEND_MODES2[BLEND_MODES2["ADD_NPM"] = 18] = "ADD_NPM";
+  BLEND_MODES2[BLEND_MODES2["SCREEN_NPM"] = 19] = "SCREEN_NPM";
+  BLEND_MODES2[BLEND_MODES2["NONE"] = 20] = "NONE";
+  BLEND_MODES2[BLEND_MODES2["SRC_OVER"] = 0] = "SRC_OVER";
+  BLEND_MODES2[BLEND_MODES2["SRC_IN"] = 21] = "SRC_IN";
+  BLEND_MODES2[BLEND_MODES2["SRC_OUT"] = 22] = "SRC_OUT";
+  BLEND_MODES2[BLEND_MODES2["SRC_ATOP"] = 23] = "SRC_ATOP";
+  BLEND_MODES2[BLEND_MODES2["DST_OVER"] = 24] = "DST_OVER";
+  BLEND_MODES2[BLEND_MODES2["DST_IN"] = 25] = "DST_IN";
+  BLEND_MODES2[BLEND_MODES2["DST_OUT"] = 26] = "DST_OUT";
+  BLEND_MODES2[BLEND_MODES2["DST_ATOP"] = 27] = "DST_ATOP";
+  BLEND_MODES2[BLEND_MODES2["ERASE"] = 26] = "ERASE";
+  BLEND_MODES2[BLEND_MODES2["SUBTRACT"] = 28] = "SUBTRACT";
+  BLEND_MODES2[BLEND_MODES2["XOR"] = 29] = "XOR";
+})(BLEND_MODES$1$1 || (BLEND_MODES$1$1 = {}));
+var DRAW_MODES$1$1;
+(function(DRAW_MODES2) {
+  DRAW_MODES2[DRAW_MODES2["POINTS"] = 0] = "POINTS";
+  DRAW_MODES2[DRAW_MODES2["LINES"] = 1] = "LINES";
+  DRAW_MODES2[DRAW_MODES2["LINE_LOOP"] = 2] = "LINE_LOOP";
+  DRAW_MODES2[DRAW_MODES2["LINE_STRIP"] = 3] = "LINE_STRIP";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLES"] = 4] = "TRIANGLES";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+})(DRAW_MODES$1$1 || (DRAW_MODES$1$1 = {}));
+var FORMATS$1$1;
+(function(FORMATS2) {
+  FORMATS2[FORMATS2["RGBA"] = 6408] = "RGBA";
+  FORMATS2[FORMATS2["RGB"] = 6407] = "RGB";
+  FORMATS2[FORMATS2["RG"] = 33319] = "RG";
+  FORMATS2[FORMATS2["RED"] = 6403] = "RED";
+  FORMATS2[FORMATS2["RGBA_INTEGER"] = 36249] = "RGBA_INTEGER";
+  FORMATS2[FORMATS2["RGB_INTEGER"] = 36248] = "RGB_INTEGER";
+  FORMATS2[FORMATS2["RG_INTEGER"] = 33320] = "RG_INTEGER";
+  FORMATS2[FORMATS2["RED_INTEGER"] = 36244] = "RED_INTEGER";
+  FORMATS2[FORMATS2["ALPHA"] = 6406] = "ALPHA";
+  FORMATS2[FORMATS2["LUMINANCE"] = 6409] = "LUMINANCE";
+  FORMATS2[FORMATS2["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+  FORMATS2[FORMATS2["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+  FORMATS2[FORMATS2["DEPTH_STENCIL"] = 34041] = "DEPTH_STENCIL";
+})(FORMATS$1$1 || (FORMATS$1$1 = {}));
+var TARGETS$1$1;
+(function(TARGETS2) {
+  TARGETS2[TARGETS2["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP"] = 34067] = "TEXTURE_CUBE_MAP";
+  TARGETS2[TARGETS2["TEXTURE_2D_ARRAY"] = 35866] = "TEXTURE_2D_ARRAY";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_X"] = 34069] = "TEXTURE_CUBE_MAP_POSITIVE_X";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_X"] = 34070] = "TEXTURE_CUBE_MAP_NEGATIVE_X";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Y"] = 34071] = "TEXTURE_CUBE_MAP_POSITIVE_Y";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Y"] = 34072] = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Z"] = 34073] = "TEXTURE_CUBE_MAP_POSITIVE_Z";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Z"] = 34074] = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
+})(TARGETS$1$1 || (TARGETS$1$1 = {}));
+var TYPES$1$1;
+(function(TYPES2) {
+  TYPES2[TYPES2["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+  TYPES2[TYPES2["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
+  TYPES2[TYPES2["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
+  TYPES2[TYPES2["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
+  TYPES2[TYPES2["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
+  TYPES2[TYPES2["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
+  TYPES2[TYPES2["UNSIGNED_INT_10F_11F_11F_REV"] = 35899] = "UNSIGNED_INT_10F_11F_11F_REV";
+  TYPES2[TYPES2["UNSIGNED_INT_2_10_10_10_REV"] = 33640] = "UNSIGNED_INT_2_10_10_10_REV";
+  TYPES2[TYPES2["UNSIGNED_INT_24_8"] = 34042] = "UNSIGNED_INT_24_8";
+  TYPES2[TYPES2["UNSIGNED_INT_5_9_9_9_REV"] = 35902] = "UNSIGNED_INT_5_9_9_9_REV";
+  TYPES2[TYPES2["BYTE"] = 5120] = "BYTE";
+  TYPES2[TYPES2["SHORT"] = 5122] = "SHORT";
+  TYPES2[TYPES2["INT"] = 5124] = "INT";
+  TYPES2[TYPES2["FLOAT"] = 5126] = "FLOAT";
+  TYPES2[TYPES2["FLOAT_32_UNSIGNED_INT_24_8_REV"] = 36269] = "FLOAT_32_UNSIGNED_INT_24_8_REV";
+  TYPES2[TYPES2["HALF_FLOAT"] = 36193] = "HALF_FLOAT";
+})(TYPES$1$1 || (TYPES$1$1 = {}));
+var SAMPLER_TYPES$1$1;
+(function(SAMPLER_TYPES2) {
+  SAMPLER_TYPES2[SAMPLER_TYPES2["FLOAT"] = 0] = "FLOAT";
+  SAMPLER_TYPES2[SAMPLER_TYPES2["INT"] = 1] = "INT";
+  SAMPLER_TYPES2[SAMPLER_TYPES2["UINT"] = 2] = "UINT";
+})(SAMPLER_TYPES$1$1 || (SAMPLER_TYPES$1$1 = {}));
+var SCALE_MODES$1$1;
+(function(SCALE_MODES2) {
+  SCALE_MODES2[SCALE_MODES2["NEAREST"] = 0] = "NEAREST";
+  SCALE_MODES2[SCALE_MODES2["LINEAR"] = 1] = "LINEAR";
+})(SCALE_MODES$1$1 || (SCALE_MODES$1$1 = {}));
+var WRAP_MODES$1$1;
+(function(WRAP_MODES2) {
+  WRAP_MODES2[WRAP_MODES2["CLAMP"] = 33071] = "CLAMP";
+  WRAP_MODES2[WRAP_MODES2["REPEAT"] = 10497] = "REPEAT";
+  WRAP_MODES2[WRAP_MODES2["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
+})(WRAP_MODES$1$1 || (WRAP_MODES$1$1 = {}));
+var MIPMAP_MODES$1$1;
+(function(MIPMAP_MODES2) {
+  MIPMAP_MODES2[MIPMAP_MODES2["OFF"] = 0] = "OFF";
+  MIPMAP_MODES2[MIPMAP_MODES2["POW2"] = 1] = "POW2";
+  MIPMAP_MODES2[MIPMAP_MODES2["ON"] = 2] = "ON";
+  MIPMAP_MODES2[MIPMAP_MODES2["ON_MANUAL"] = 3] = "ON_MANUAL";
+})(MIPMAP_MODES$1$1 || (MIPMAP_MODES$1$1 = {}));
+var ALPHA_MODES$1$1;
+(function(ALPHA_MODES2) {
+  ALPHA_MODES2[ALPHA_MODES2["NPM"] = 0] = "NPM";
+  ALPHA_MODES2[ALPHA_MODES2["UNPACK"] = 1] = "UNPACK";
+  ALPHA_MODES2[ALPHA_MODES2["PMA"] = 2] = "PMA";
+  ALPHA_MODES2[ALPHA_MODES2["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
+})(ALPHA_MODES$1$1 || (ALPHA_MODES$1$1 = {}));
+var CLEAR_MODES$1$1;
+(function(CLEAR_MODES2) {
+  CLEAR_MODES2[CLEAR_MODES2["NO"] = 0] = "NO";
+  CLEAR_MODES2[CLEAR_MODES2["YES"] = 1] = "YES";
+  CLEAR_MODES2[CLEAR_MODES2["AUTO"] = 2] = "AUTO";
+  CLEAR_MODES2[CLEAR_MODES2["BLEND"] = 0] = "BLEND";
+  CLEAR_MODES2[CLEAR_MODES2["CLEAR"] = 1] = "CLEAR";
+  CLEAR_MODES2[CLEAR_MODES2["BLIT"] = 2] = "BLIT";
+})(CLEAR_MODES$1$1 || (CLEAR_MODES$1$1 = {}));
+var GC_MODES$1$1;
+(function(GC_MODES2) {
+  GC_MODES2[GC_MODES2["AUTO"] = 0] = "AUTO";
+  GC_MODES2[GC_MODES2["MANUAL"] = 1] = "MANUAL";
+})(GC_MODES$1$1 || (GC_MODES$1$1 = {}));
+var PRECISION$1$1;
+(function(PRECISION2) {
+  PRECISION2["LOW"] = "lowp";
+  PRECISION2["MEDIUM"] = "mediump";
+  PRECISION2["HIGH"] = "highp";
+})(PRECISION$1$1 || (PRECISION$1$1 = {}));
+var MASK_TYPES$1$1;
+(function(MASK_TYPES2) {
+  MASK_TYPES2[MASK_TYPES2["NONE"] = 0] = "NONE";
+  MASK_TYPES2[MASK_TYPES2["SCISSOR"] = 1] = "SCISSOR";
+  MASK_TYPES2[MASK_TYPES2["STENCIL"] = 2] = "STENCIL";
+  MASK_TYPES2[MASK_TYPES2["SPRITE"] = 3] = "SPRITE";
+})(MASK_TYPES$1$1 || (MASK_TYPES$1$1 = {}));
+var MSAA_QUALITY$1$1;
+(function(MSAA_QUALITY2) {
+  MSAA_QUALITY2[MSAA_QUALITY2["NONE"] = 0] = "NONE";
+  MSAA_QUALITY2[MSAA_QUALITY2["LOW"] = 2] = "LOW";
+  MSAA_QUALITY2[MSAA_QUALITY2["MEDIUM"] = 4] = "MEDIUM";
+  MSAA_QUALITY2[MSAA_QUALITY2["HIGH"] = 8] = "HIGH";
+})(MSAA_QUALITY$1$1 || (MSAA_QUALITY$1$1 = {}));
+var BUFFER_TYPE$1$1;
+(function(BUFFER_TYPE2) {
+  BUFFER_TYPE2[BUFFER_TYPE2["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
+  BUFFER_TYPE2[BUFFER_TYPE2["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
+  BUFFER_TYPE2[BUFFER_TYPE2["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
+})(BUFFER_TYPE$1$1 || (BUFFER_TYPE$1$1 = {}));
+var settings = {
+  MIPMAP_TEXTURES: MIPMAP_MODES$1$1.POW2,
+  ANISOTROPIC_LEVEL: 0,
+  RESOLUTION: 1,
+  FILTER_RESOLUTION: 1,
+  FILTER_MULTISAMPLE: MSAA_QUALITY$1$1.NONE,
+  SPRITE_MAX_TEXTURES: maxRecommendedTextures(32),
+  SPRITE_BATCH_SIZE: 4096,
+  RENDER_OPTIONS: {
+    view: null,
+    antialias: false,
+    autoDensity: false,
+    backgroundColor: 0,
+    backgroundAlpha: 1,
+    useContextAlpha: true,
+    clearBeforeRender: true,
+    preserveDrawingBuffer: false,
+    width: 800,
+    height: 600,
+    legacy: false
+  },
+  GC_MODE: GC_MODES$1$1.AUTO,
+  GC_MAX_IDLE: 60 * 60,
+  GC_MAX_CHECK_COUNT: 60 * 10,
+  WRAP_MODE: WRAP_MODES$1$1.CLAMP,
+  SCALE_MODE: SCALE_MODES$1$1.LINEAR,
+  PRECISION_VERTEX: PRECISION$1$1.HIGH,
+  PRECISION_FRAGMENT: isMobile.apple.device ? PRECISION$1$1.HIGH : PRECISION$1$1.MEDIUM,
+  CAN_UPLOAD_SAME_BUFFER: canUploadSameBuffer(),
+  CREATE_IMAGE_BITMAP: false,
+  ROUND_PIXELS: false
+};
+/*!
+ * @pixi/display - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
+ *
+ * @pixi/display is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+settings.SORTABLE_CHILDREN = false;
+var Bounds = function() {
+  function Bounds2() {
+    this.minX = Infinity;
+    this.minY = Infinity;
+    this.maxX = -Infinity;
+    this.maxY = -Infinity;
+    this.rect = null;
+    this.updateID = -1;
+  }
+  Bounds2.prototype.isEmpty = function() {
+    return this.minX > this.maxX || this.minY > this.maxY;
+  };
+  Bounds2.prototype.clear = function() {
+    this.minX = Infinity;
+    this.minY = Infinity;
+    this.maxX = -Infinity;
+    this.maxY = -Infinity;
+  };
+  Bounds2.prototype.getRectangle = function(rect) {
+    if (this.minX > this.maxX || this.minY > this.maxY) {
+      return Rectangle.EMPTY;
+    }
+    rect = rect || new Rectangle(0, 0, 1, 1);
+    rect.x = this.minX;
+    rect.y = this.minY;
+    rect.width = this.maxX - this.minX;
+    rect.height = this.maxY - this.minY;
+    return rect;
+  };
+  Bounds2.prototype.addPoint = function(point) {
+    this.minX = Math.min(this.minX, point.x);
+    this.maxX = Math.max(this.maxX, point.x);
+    this.minY = Math.min(this.minY, point.y);
+    this.maxY = Math.max(this.maxY, point.y);
+  };
+  Bounds2.prototype.addPointMatrix = function(matrix, point) {
+    var a2 = matrix.a, b2 = matrix.b, c2 = matrix.c, d2 = matrix.d, tx = matrix.tx, ty = matrix.ty;
+    var x = a2 * point.x + c2 * point.y + tx;
+    var y2 = b2 * point.x + d2 * point.y + ty;
+    this.minX = Math.min(this.minX, x);
+    this.maxX = Math.max(this.maxX, x);
+    this.minY = Math.min(this.minY, y2);
+    this.maxY = Math.max(this.maxY, y2);
+  };
+  Bounds2.prototype.addQuad = function(vertices) {
+    var minX = this.minX;
+    var minY = this.minY;
+    var maxX = this.maxX;
+    var maxY = this.maxY;
+    var x = vertices[0];
+    var y2 = vertices[1];
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    x = vertices[2];
+    y2 = vertices[3];
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    x = vertices[4];
+    y2 = vertices[5];
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    x = vertices[6];
+    y2 = vertices[7];
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    this.minX = minX;
+    this.minY = minY;
+    this.maxX = maxX;
+    this.maxY = maxY;
+  };
+  Bounds2.prototype.addFrame = function(transform, x0, y0, x1, y1) {
+    this.addFrameMatrix(transform.worldTransform, x0, y0, x1, y1);
+  };
+  Bounds2.prototype.addFrameMatrix = function(matrix, x0, y0, x1, y1) {
+    var a2 = matrix.a;
+    var b2 = matrix.b;
+    var c2 = matrix.c;
+    var d2 = matrix.d;
+    var tx = matrix.tx;
+    var ty = matrix.ty;
+    var minX = this.minX;
+    var minY = this.minY;
+    var maxX = this.maxX;
+    var maxY = this.maxY;
+    var x = a2 * x0 + c2 * y0 + tx;
+    var y2 = b2 * x0 + d2 * y0 + ty;
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    x = a2 * x1 + c2 * y0 + tx;
+    y2 = b2 * x1 + d2 * y0 + ty;
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    x = a2 * x0 + c2 * y1 + tx;
+    y2 = b2 * x0 + d2 * y1 + ty;
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    x = a2 * x1 + c2 * y1 + tx;
+    y2 = b2 * x1 + d2 * y1 + ty;
+    minX = x < minX ? x : minX;
+    minY = y2 < minY ? y2 : minY;
+    maxX = x > maxX ? x : maxX;
+    maxY = y2 > maxY ? y2 : maxY;
+    this.minX = minX;
+    this.minY = minY;
+    this.maxX = maxX;
+    this.maxY = maxY;
+  };
+  Bounds2.prototype.addVertexData = function(vertexData, beginOffset, endOffset) {
+    var minX = this.minX;
+    var minY = this.minY;
+    var maxX = this.maxX;
+    var maxY = this.maxY;
+    for (var i2 = beginOffset; i2 < endOffset; i2 += 2) {
+      var x = vertexData[i2];
+      var y2 = vertexData[i2 + 1];
+      minX = x < minX ? x : minX;
+      minY = y2 < minY ? y2 : minY;
+      maxX = x > maxX ? x : maxX;
+      maxY = y2 > maxY ? y2 : maxY;
+    }
+    this.minX = minX;
+    this.minY = minY;
+    this.maxX = maxX;
+    this.maxY = maxY;
+  };
+  Bounds2.prototype.addVertices = function(transform, vertices, beginOffset, endOffset) {
+    this.addVerticesMatrix(transform.worldTransform, vertices, beginOffset, endOffset);
+  };
+  Bounds2.prototype.addVerticesMatrix = function(matrix, vertices, beginOffset, endOffset, padX, padY) {
+    if (padX === void 0) {
+      padX = 0;
+    }
+    if (padY === void 0) {
+      padY = padX;
+    }
+    var a2 = matrix.a;
+    var b2 = matrix.b;
+    var c2 = matrix.c;
+    var d2 = matrix.d;
+    var tx = matrix.tx;
+    var ty = matrix.ty;
+    var minX = this.minX;
+    var minY = this.minY;
+    var maxX = this.maxX;
+    var maxY = this.maxY;
+    for (var i2 = beginOffset; i2 < endOffset; i2 += 2) {
+      var rawX = vertices[i2];
+      var rawY = vertices[i2 + 1];
+      var x = a2 * rawX + c2 * rawY + tx;
+      var y2 = d2 * rawY + b2 * rawX + ty;
+      minX = Math.min(minX, x - padX);
+      maxX = Math.max(maxX, x + padX);
+      minY = Math.min(minY, y2 - padY);
+      maxY = Math.max(maxY, y2 + padY);
+    }
+    this.minX = minX;
+    this.minY = minY;
+    this.maxX = maxX;
+    this.maxY = maxY;
+  };
+  Bounds2.prototype.addBounds = function(bounds) {
+    var minX = this.minX;
+    var minY = this.minY;
+    var maxX = this.maxX;
+    var maxY = this.maxY;
+    this.minX = bounds.minX < minX ? bounds.minX : minX;
+    this.minY = bounds.minY < minY ? bounds.minY : minY;
+    this.maxX = bounds.maxX > maxX ? bounds.maxX : maxX;
+    this.maxY = bounds.maxY > maxY ? bounds.maxY : maxY;
+  };
+  Bounds2.prototype.addBoundsMask = function(bounds, mask) {
+    var _minX = bounds.minX > mask.minX ? bounds.minX : mask.minX;
+    var _minY = bounds.minY > mask.minY ? bounds.minY : mask.minY;
+    var _maxX = bounds.maxX < mask.maxX ? bounds.maxX : mask.maxX;
+    var _maxY = bounds.maxY < mask.maxY ? bounds.maxY : mask.maxY;
+    if (_minX <= _maxX && _minY <= _maxY) {
+      var minX = this.minX;
+      var minY = this.minY;
+      var maxX = this.maxX;
+      var maxY = this.maxY;
+      this.minX = _minX < minX ? _minX : minX;
+      this.minY = _minY < minY ? _minY : minY;
+      this.maxX = _maxX > maxX ? _maxX : maxX;
+      this.maxY = _maxY > maxY ? _maxY : maxY;
+    }
+  };
+  Bounds2.prototype.addBoundsMatrix = function(bounds, matrix) {
+    this.addFrameMatrix(matrix, bounds.minX, bounds.minY, bounds.maxX, bounds.maxY);
+  };
+  Bounds2.prototype.addBoundsArea = function(bounds, area2) {
+    var _minX = bounds.minX > area2.x ? bounds.minX : area2.x;
+    var _minY = bounds.minY > area2.y ? bounds.minY : area2.y;
+    var _maxX = bounds.maxX < area2.x + area2.width ? bounds.maxX : area2.x + area2.width;
+    var _maxY = bounds.maxY < area2.y + area2.height ? bounds.maxY : area2.y + area2.height;
+    if (_minX <= _maxX && _minY <= _maxY) {
+      var minX = this.minX;
+      var minY = this.minY;
+      var maxX = this.maxX;
+      var maxY = this.maxY;
+      this.minX = _minX < minX ? _minX : minX;
+      this.minY = _minY < minY ? _minY : minY;
+      this.maxX = _maxX > maxX ? _maxX : maxX;
+      this.maxY = _maxY > maxY ? _maxY : maxY;
+    }
+  };
+  Bounds2.prototype.pad = function(paddingX, paddingY) {
+    if (paddingX === void 0) {
+      paddingX = 0;
+    }
+    if (paddingY === void 0) {
+      paddingY = paddingX;
+    }
+    if (!this.isEmpty()) {
+      this.minX -= paddingX;
+      this.maxX += paddingX;
+      this.minY -= paddingY;
+      this.maxY += paddingY;
+    }
+  };
+  Bounds2.prototype.addFramePad = function(x0, y0, x1, y1, padX, padY) {
+    x0 -= padX;
+    y0 -= padY;
+    x1 += padX;
+    y1 += padY;
+    this.minX = this.minX < x0 ? this.minX : x0;
+    this.maxX = this.maxX > x1 ? this.maxX : x1;
+    this.minY = this.minY < y0 ? this.minY : y0;
+    this.maxY = this.maxY > y1 ? this.maxY : y1;
+  };
+  return Bounds2;
+}();
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+var extendStatics$o = function(d2, b2) {
+  extendStatics$o = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
+    d3.__proto__ = b3;
+  } || function(d3, b3) {
+    for (var p in b3) {
+      if (b3.hasOwnProperty(p)) {
+        d3[p] = b3[p];
+      }
+    }
+  };
+  return extendStatics$o(d2, b2);
+};
+function __extends$o(d2, b2) {
+  extendStatics$o(d2, b2);
+  function __() {
+    this.constructor = d2;
+  }
+  d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
+}
+var DisplayObject = function(_super) {
+  __extends$o(DisplayObject2, _super);
+  function DisplayObject2() {
+    var _this = _super.call(this) || this;
+    _this.tempDisplayObjectParent = null;
+    _this.transform = new Transform();
+    _this.alpha = 1;
+    _this.visible = true;
+    _this.renderable = true;
+    _this.cullable = false;
+    _this.cullArea = null;
+    _this.parent = null;
+    _this.worldAlpha = 1;
+    _this._lastSortedIndex = 0;
+    _this._zIndex = 0;
+    _this.filterArea = null;
+    _this.filters = null;
+    _this._enabledFilters = null;
+    _this._bounds = new Bounds();
+    _this._localBounds = null;
+    _this._boundsID = 0;
+    _this._boundsRect = null;
+    _this._localBoundsRect = null;
+    _this._mask = null;
+    _this._maskRefCount = 0;
+    _this._destroyed = false;
+    _this.isSprite = false;
+    _this.isMask = false;
+    return _this;
+  }
+  DisplayObject2.mixin = function(source) {
+    var keys = Object.keys(source);
+    for (var i2 = 0; i2 < keys.length; ++i2) {
+      var propertyName = keys[i2];
+      Object.defineProperty(DisplayObject2.prototype, propertyName, Object.getOwnPropertyDescriptor(source, propertyName));
+    }
+  };
+  Object.defineProperty(DisplayObject2.prototype, "destroyed", {
+    get: function() {
+      return this._destroyed;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  DisplayObject2.prototype._recursivePostUpdateTransform = function() {
+    if (this.parent) {
+      this.parent._recursivePostUpdateTransform();
+      this.transform.updateTransform(this.parent.transform);
+    } else {
+      this.transform.updateTransform(this._tempDisplayObjectParent.transform);
+    }
+  };
+  DisplayObject2.prototype.updateTransform = function() {
+    this._boundsID++;
+    this.transform.updateTransform(this.parent.transform);
+    this.worldAlpha = this.alpha * this.parent.worldAlpha;
+  };
+  DisplayObject2.prototype.getBounds = function(skipUpdate, rect) {
+    if (!skipUpdate) {
+      if (!this.parent) {
+        this.parent = this._tempDisplayObjectParent;
+        this.updateTransform();
+        this.parent = null;
+      } else {
+        this._recursivePostUpdateTransform();
+        this.updateTransform();
+      }
+    }
+    if (this._bounds.updateID !== this._boundsID) {
+      this.calculateBounds();
+      this._bounds.updateID = this._boundsID;
+    }
+    if (!rect) {
+      if (!this._boundsRect) {
+        this._boundsRect = new Rectangle();
+      }
+      rect = this._boundsRect;
+    }
+    return this._bounds.getRectangle(rect);
+  };
+  DisplayObject2.prototype.getLocalBounds = function(rect) {
+    if (!rect) {
+      if (!this._localBoundsRect) {
+        this._localBoundsRect = new Rectangle();
+      }
+      rect = this._localBoundsRect;
+    }
+    if (!this._localBounds) {
+      this._localBounds = new Bounds();
+    }
+    var transformRef = this.transform;
+    var parentRef = this.parent;
+    this.parent = null;
+    this.transform = this._tempDisplayObjectParent.transform;
+    var worldBounds = this._bounds;
+    var worldBoundsID = this._boundsID;
+    this._bounds = this._localBounds;
+    var bounds = this.getBounds(false, rect);
+    this.parent = parentRef;
+    this.transform = transformRef;
+    this._bounds = worldBounds;
+    this._bounds.updateID += this._boundsID - worldBoundsID;
+    return bounds;
+  };
+  DisplayObject2.prototype.toGlobal = function(position, point, skipUpdate) {
+    if (skipUpdate === void 0) {
+      skipUpdate = false;
+    }
+    if (!skipUpdate) {
+      this._recursivePostUpdateTransform();
+      if (!this.parent) {
+        this.parent = this._tempDisplayObjectParent;
+        this.displayObjectUpdateTransform();
+        this.parent = null;
+      } else {
+        this.displayObjectUpdateTransform();
+      }
+    }
+    return this.worldTransform.apply(position, point);
+  };
+  DisplayObject2.prototype.toLocal = function(position, from, point, skipUpdate) {
+    if (from) {
+      position = from.toGlobal(position, point, skipUpdate);
+    }
+    if (!skipUpdate) {
+      this._recursivePostUpdateTransform();
+      if (!this.parent) {
+        this.parent = this._tempDisplayObjectParent;
+        this.displayObjectUpdateTransform();
+        this.parent = null;
+      } else {
+        this.displayObjectUpdateTransform();
+      }
+    }
+    return this.worldTransform.applyInverse(position, point);
+  };
+  DisplayObject2.prototype.setParent = function(container) {
+    if (!container || !container.addChild) {
+      throw new Error("setParent: Argument must be a Container");
+    }
+    container.addChild(this);
+    return container;
+  };
+  DisplayObject2.prototype.setTransform = function(x, y2, scaleX, scaleY, rotation, skewX, skewY, pivotX, pivotY) {
+    if (x === void 0) {
+      x = 0;
+    }
+    if (y2 === void 0) {
+      y2 = 0;
+    }
+    if (scaleX === void 0) {
+      scaleX = 1;
+    }
+    if (scaleY === void 0) {
+      scaleY = 1;
+    }
+    if (rotation === void 0) {
+      rotation = 0;
+    }
+    if (skewX === void 0) {
+      skewX = 0;
+    }
+    if (skewY === void 0) {
+      skewY = 0;
+    }
+    if (pivotX === void 0) {
+      pivotX = 0;
+    }
+    if (pivotY === void 0) {
+      pivotY = 0;
+    }
+    this.position.x = x;
+    this.position.y = y2;
+    this.scale.x = !scaleX ? 1 : scaleX;
+    this.scale.y = !scaleY ? 1 : scaleY;
+    this.rotation = rotation;
+    this.skew.x = skewX;
+    this.skew.y = skewY;
+    this.pivot.x = pivotX;
+    this.pivot.y = pivotY;
+    return this;
+  };
+  DisplayObject2.prototype.destroy = function(_options) {
+    if (this.parent) {
+      this.parent.removeChild(this);
+    }
+    this._destroyed = true;
+    this.transform = null;
+    this.parent = null;
+    this._bounds = null;
+    this.mask = null;
+    this.cullArea = null;
+    this.filters = null;
+    this.filterArea = null;
+    this.hitArea = null;
+    this.interactive = false;
+    this.interactiveChildren = false;
+    this.emit("destroyed");
+    this.removeAllListeners();
+  };
+  Object.defineProperty(DisplayObject2.prototype, "_tempDisplayObjectParent", {
+    get: function() {
+      if (this.tempDisplayObjectParent === null) {
+        this.tempDisplayObjectParent = new TemporaryDisplayObject();
+      }
+      return this.tempDisplayObjectParent;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  DisplayObject2.prototype.enableTempParent = function() {
+    var myParent = this.parent;
+    this.parent = this._tempDisplayObjectParent;
+    return myParent;
+  };
+  DisplayObject2.prototype.disableTempParent = function(cacheParent) {
+    this.parent = cacheParent;
+  };
+  Object.defineProperty(DisplayObject2.prototype, "x", {
+    get: function() {
+      return this.position.x;
+    },
+    set: function(value2) {
+      this.transform.position.x = value2;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "y", {
+    get: function() {
+      return this.position.y;
+    },
+    set: function(value2) {
+      this.transform.position.y = value2;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "worldTransform", {
+    get: function() {
+      return this.transform.worldTransform;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "localTransform", {
+    get: function() {
+      return this.transform.localTransform;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "position", {
+    get: function() {
+      return this.transform.position;
+    },
+    set: function(value2) {
+      this.transform.position.copyFrom(value2);
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "scale", {
+    get: function() {
+      return this.transform.scale;
+    },
+    set: function(value2) {
+      this.transform.scale.copyFrom(value2);
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "pivot", {
+    get: function() {
+      return this.transform.pivot;
+    },
+    set: function(value2) {
+      this.transform.pivot.copyFrom(value2);
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "skew", {
+    get: function() {
+      return this.transform.skew;
+    },
+    set: function(value2) {
+      this.transform.skew.copyFrom(value2);
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "rotation", {
+    get: function() {
+      return this.transform.rotation;
+    },
+    set: function(value2) {
+      this.transform.rotation = value2;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "angle", {
+    get: function() {
+      return this.transform.rotation * RAD_TO_DEG;
+    },
+    set: function(value2) {
+      this.transform.rotation = value2 * DEG_TO_RAD;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "zIndex", {
+    get: function() {
+      return this._zIndex;
+    },
+    set: function(value2) {
+      this._zIndex = value2;
+      if (this.parent) {
+        this.parent.sortDirty = true;
+      }
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "worldVisible", {
+    get: function() {
+      var item = this;
+      do {
+        if (!item.visible) {
+          return false;
+        }
+        item = item.parent;
+      } while (item);
+      return true;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(DisplayObject2.prototype, "mask", {
+    get: function() {
+      return this._mask;
+    },
+    set: function(value2) {
+      if (this._mask === value2) {
+        return;
+      }
+      if (this._mask) {
+        var maskObject = this._mask.maskObject || this._mask;
+        maskObject._maskRefCount--;
+        if (maskObject._maskRefCount === 0) {
+          maskObject.renderable = true;
+          maskObject.isMask = false;
+        }
+      }
+      this._mask = value2;
+      if (this._mask) {
+        var maskObject = this._mask.maskObject || this._mask;
+        if (maskObject._maskRefCount === 0) {
+          maskObject.renderable = false;
+          maskObject.isMask = true;
+        }
+        maskObject._maskRefCount++;
+      }
+    },
+    enumerable: false,
+    configurable: true
+  });
+  return DisplayObject2;
+}(EventEmitter$5);
+var TemporaryDisplayObject = function(_super) {
+  __extends$o(TemporaryDisplayObject2, _super);
+  function TemporaryDisplayObject2() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+    _this.sortDirty = null;
+    return _this;
+  }
+  return TemporaryDisplayObject2;
+}(DisplayObject);
+DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
+/*!
+ * @pixi/constants - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
+ *
+ * @pixi/constants is licensed under the MIT License.
+ * http://www.opensource.org/licenses/mit-license
+ */
+var ENV$2;
+(function(ENV2) {
+  ENV2[ENV2["WEBGL_LEGACY"] = 0] = "WEBGL_LEGACY";
+  ENV2[ENV2["WEBGL"] = 1] = "WEBGL";
+  ENV2[ENV2["WEBGL2"] = 2] = "WEBGL2";
+})(ENV$2 || (ENV$2 = {}));
+var RENDERER_TYPE$2;
+(function(RENDERER_TYPE2) {
+  RENDERER_TYPE2[RENDERER_TYPE2["UNKNOWN"] = 0] = "UNKNOWN";
+  RENDERER_TYPE2[RENDERER_TYPE2["WEBGL"] = 1] = "WEBGL";
+  RENDERER_TYPE2[RENDERER_TYPE2["CANVAS"] = 2] = "CANVAS";
+})(RENDERER_TYPE$2 || (RENDERER_TYPE$2 = {}));
+var BUFFER_BITS$2;
+(function(BUFFER_BITS2) {
+  BUFFER_BITS2[BUFFER_BITS2["COLOR"] = 16384] = "COLOR";
+  BUFFER_BITS2[BUFFER_BITS2["DEPTH"] = 256] = "DEPTH";
+  BUFFER_BITS2[BUFFER_BITS2["STENCIL"] = 1024] = "STENCIL";
+})(BUFFER_BITS$2 || (BUFFER_BITS$2 = {}));
+var BLEND_MODES$2;
+(function(BLEND_MODES2) {
+  BLEND_MODES2[BLEND_MODES2["NORMAL"] = 0] = "NORMAL";
+  BLEND_MODES2[BLEND_MODES2["ADD"] = 1] = "ADD";
+  BLEND_MODES2[BLEND_MODES2["MULTIPLY"] = 2] = "MULTIPLY";
+  BLEND_MODES2[BLEND_MODES2["SCREEN"] = 3] = "SCREEN";
+  BLEND_MODES2[BLEND_MODES2["OVERLAY"] = 4] = "OVERLAY";
+  BLEND_MODES2[BLEND_MODES2["DARKEN"] = 5] = "DARKEN";
+  BLEND_MODES2[BLEND_MODES2["LIGHTEN"] = 6] = "LIGHTEN";
+  BLEND_MODES2[BLEND_MODES2["COLOR_DODGE"] = 7] = "COLOR_DODGE";
+  BLEND_MODES2[BLEND_MODES2["COLOR_BURN"] = 8] = "COLOR_BURN";
+  BLEND_MODES2[BLEND_MODES2["HARD_LIGHT"] = 9] = "HARD_LIGHT";
+  BLEND_MODES2[BLEND_MODES2["SOFT_LIGHT"] = 10] = "SOFT_LIGHT";
+  BLEND_MODES2[BLEND_MODES2["DIFFERENCE"] = 11] = "DIFFERENCE";
+  BLEND_MODES2[BLEND_MODES2["EXCLUSION"] = 12] = "EXCLUSION";
+  BLEND_MODES2[BLEND_MODES2["HUE"] = 13] = "HUE";
+  BLEND_MODES2[BLEND_MODES2["SATURATION"] = 14] = "SATURATION";
+  BLEND_MODES2[BLEND_MODES2["COLOR"] = 15] = "COLOR";
+  BLEND_MODES2[BLEND_MODES2["LUMINOSITY"] = 16] = "LUMINOSITY";
+  BLEND_MODES2[BLEND_MODES2["NORMAL_NPM"] = 17] = "NORMAL_NPM";
+  BLEND_MODES2[BLEND_MODES2["ADD_NPM"] = 18] = "ADD_NPM";
+  BLEND_MODES2[BLEND_MODES2["SCREEN_NPM"] = 19] = "SCREEN_NPM";
+  BLEND_MODES2[BLEND_MODES2["NONE"] = 20] = "NONE";
+  BLEND_MODES2[BLEND_MODES2["SRC_OVER"] = 0] = "SRC_OVER";
+  BLEND_MODES2[BLEND_MODES2["SRC_IN"] = 21] = "SRC_IN";
+  BLEND_MODES2[BLEND_MODES2["SRC_OUT"] = 22] = "SRC_OUT";
+  BLEND_MODES2[BLEND_MODES2["SRC_ATOP"] = 23] = "SRC_ATOP";
+  BLEND_MODES2[BLEND_MODES2["DST_OVER"] = 24] = "DST_OVER";
+  BLEND_MODES2[BLEND_MODES2["DST_IN"] = 25] = "DST_IN";
+  BLEND_MODES2[BLEND_MODES2["DST_OUT"] = 26] = "DST_OUT";
+  BLEND_MODES2[BLEND_MODES2["DST_ATOP"] = 27] = "DST_ATOP";
+  BLEND_MODES2[BLEND_MODES2["ERASE"] = 26] = "ERASE";
+  BLEND_MODES2[BLEND_MODES2["SUBTRACT"] = 28] = "SUBTRACT";
+  BLEND_MODES2[BLEND_MODES2["XOR"] = 29] = "XOR";
+})(BLEND_MODES$2 || (BLEND_MODES$2 = {}));
+var DRAW_MODES$2;
+(function(DRAW_MODES2) {
+  DRAW_MODES2[DRAW_MODES2["POINTS"] = 0] = "POINTS";
+  DRAW_MODES2[DRAW_MODES2["LINES"] = 1] = "LINES";
+  DRAW_MODES2[DRAW_MODES2["LINE_LOOP"] = 2] = "LINE_LOOP";
+  DRAW_MODES2[DRAW_MODES2["LINE_STRIP"] = 3] = "LINE_STRIP";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLES"] = 4] = "TRIANGLES";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLE_STRIP"] = 5] = "TRIANGLE_STRIP";
+  DRAW_MODES2[DRAW_MODES2["TRIANGLE_FAN"] = 6] = "TRIANGLE_FAN";
+})(DRAW_MODES$2 || (DRAW_MODES$2 = {}));
+var FORMATS$2;
+(function(FORMATS2) {
+  FORMATS2[FORMATS2["RGBA"] = 6408] = "RGBA";
+  FORMATS2[FORMATS2["RGB"] = 6407] = "RGB";
+  FORMATS2[FORMATS2["RG"] = 33319] = "RG";
+  FORMATS2[FORMATS2["RED"] = 6403] = "RED";
+  FORMATS2[FORMATS2["RGBA_INTEGER"] = 36249] = "RGBA_INTEGER";
+  FORMATS2[FORMATS2["RGB_INTEGER"] = 36248] = "RGB_INTEGER";
+  FORMATS2[FORMATS2["RG_INTEGER"] = 33320] = "RG_INTEGER";
+  FORMATS2[FORMATS2["RED_INTEGER"] = 36244] = "RED_INTEGER";
+  FORMATS2[FORMATS2["ALPHA"] = 6406] = "ALPHA";
+  FORMATS2[FORMATS2["LUMINANCE"] = 6409] = "LUMINANCE";
+  FORMATS2[FORMATS2["LUMINANCE_ALPHA"] = 6410] = "LUMINANCE_ALPHA";
+  FORMATS2[FORMATS2["DEPTH_COMPONENT"] = 6402] = "DEPTH_COMPONENT";
+  FORMATS2[FORMATS2["DEPTH_STENCIL"] = 34041] = "DEPTH_STENCIL";
+})(FORMATS$2 || (FORMATS$2 = {}));
+var TARGETS$2;
+(function(TARGETS2) {
+  TARGETS2[TARGETS2["TEXTURE_2D"] = 3553] = "TEXTURE_2D";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP"] = 34067] = "TEXTURE_CUBE_MAP";
+  TARGETS2[TARGETS2["TEXTURE_2D_ARRAY"] = 35866] = "TEXTURE_2D_ARRAY";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_X"] = 34069] = "TEXTURE_CUBE_MAP_POSITIVE_X";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_X"] = 34070] = "TEXTURE_CUBE_MAP_NEGATIVE_X";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Y"] = 34071] = "TEXTURE_CUBE_MAP_POSITIVE_Y";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Y"] = 34072] = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_POSITIVE_Z"] = 34073] = "TEXTURE_CUBE_MAP_POSITIVE_Z";
+  TARGETS2[TARGETS2["TEXTURE_CUBE_MAP_NEGATIVE_Z"] = 34074] = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
+})(TARGETS$2 || (TARGETS$2 = {}));
+var TYPES$2;
+(function(TYPES2) {
+  TYPES2[TYPES2["UNSIGNED_BYTE"] = 5121] = "UNSIGNED_BYTE";
+  TYPES2[TYPES2["UNSIGNED_SHORT"] = 5123] = "UNSIGNED_SHORT";
+  TYPES2[TYPES2["UNSIGNED_SHORT_5_6_5"] = 33635] = "UNSIGNED_SHORT_5_6_5";
+  TYPES2[TYPES2["UNSIGNED_SHORT_4_4_4_4"] = 32819] = "UNSIGNED_SHORT_4_4_4_4";
+  TYPES2[TYPES2["UNSIGNED_SHORT_5_5_5_1"] = 32820] = "UNSIGNED_SHORT_5_5_5_1";
+  TYPES2[TYPES2["UNSIGNED_INT"] = 5125] = "UNSIGNED_INT";
+  TYPES2[TYPES2["UNSIGNED_INT_10F_11F_11F_REV"] = 35899] = "UNSIGNED_INT_10F_11F_11F_REV";
+  TYPES2[TYPES2["UNSIGNED_INT_2_10_10_10_REV"] = 33640] = "UNSIGNED_INT_2_10_10_10_REV";
+  TYPES2[TYPES2["UNSIGNED_INT_24_8"] = 34042] = "UNSIGNED_INT_24_8";
+  TYPES2[TYPES2["UNSIGNED_INT_5_9_9_9_REV"] = 35902] = "UNSIGNED_INT_5_9_9_9_REV";
+  TYPES2[TYPES2["BYTE"] = 5120] = "BYTE";
+  TYPES2[TYPES2["SHORT"] = 5122] = "SHORT";
+  TYPES2[TYPES2["INT"] = 5124] = "INT";
+  TYPES2[TYPES2["FLOAT"] = 5126] = "FLOAT";
+  TYPES2[TYPES2["FLOAT_32_UNSIGNED_INT_24_8_REV"] = 36269] = "FLOAT_32_UNSIGNED_INT_24_8_REV";
+  TYPES2[TYPES2["HALF_FLOAT"] = 36193] = "HALF_FLOAT";
+})(TYPES$2 || (TYPES$2 = {}));
+var SAMPLER_TYPES$2;
+(function(SAMPLER_TYPES2) {
+  SAMPLER_TYPES2[SAMPLER_TYPES2["FLOAT"] = 0] = "FLOAT";
+  SAMPLER_TYPES2[SAMPLER_TYPES2["INT"] = 1] = "INT";
+  SAMPLER_TYPES2[SAMPLER_TYPES2["UINT"] = 2] = "UINT";
+})(SAMPLER_TYPES$2 || (SAMPLER_TYPES$2 = {}));
+var SCALE_MODES$2;
+(function(SCALE_MODES2) {
+  SCALE_MODES2[SCALE_MODES2["NEAREST"] = 0] = "NEAREST";
+  SCALE_MODES2[SCALE_MODES2["LINEAR"] = 1] = "LINEAR";
+})(SCALE_MODES$2 || (SCALE_MODES$2 = {}));
+var WRAP_MODES$2;
+(function(WRAP_MODES2) {
+  WRAP_MODES2[WRAP_MODES2["CLAMP"] = 33071] = "CLAMP";
+  WRAP_MODES2[WRAP_MODES2["REPEAT"] = 10497] = "REPEAT";
+  WRAP_MODES2[WRAP_MODES2["MIRRORED_REPEAT"] = 33648] = "MIRRORED_REPEAT";
+})(WRAP_MODES$2 || (WRAP_MODES$2 = {}));
+var MIPMAP_MODES$2;
+(function(MIPMAP_MODES2) {
+  MIPMAP_MODES2[MIPMAP_MODES2["OFF"] = 0] = "OFF";
+  MIPMAP_MODES2[MIPMAP_MODES2["POW2"] = 1] = "POW2";
+  MIPMAP_MODES2[MIPMAP_MODES2["ON"] = 2] = "ON";
+  MIPMAP_MODES2[MIPMAP_MODES2["ON_MANUAL"] = 3] = "ON_MANUAL";
+})(MIPMAP_MODES$2 || (MIPMAP_MODES$2 = {}));
+var ALPHA_MODES$2;
+(function(ALPHA_MODES2) {
+  ALPHA_MODES2[ALPHA_MODES2["NPM"] = 0] = "NPM";
+  ALPHA_MODES2[ALPHA_MODES2["UNPACK"] = 1] = "UNPACK";
+  ALPHA_MODES2[ALPHA_MODES2["PMA"] = 2] = "PMA";
+  ALPHA_MODES2[ALPHA_MODES2["NO_PREMULTIPLIED_ALPHA"] = 0] = "NO_PREMULTIPLIED_ALPHA";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ON_UPLOAD"] = 1] = "PREMULTIPLY_ON_UPLOAD";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLY_ALPHA"] = 2] = "PREMULTIPLY_ALPHA";
+  ALPHA_MODES2[ALPHA_MODES2["PREMULTIPLIED_ALPHA"] = 2] = "PREMULTIPLIED_ALPHA";
+})(ALPHA_MODES$2 || (ALPHA_MODES$2 = {}));
+var CLEAR_MODES$2;
+(function(CLEAR_MODES2) {
+  CLEAR_MODES2[CLEAR_MODES2["NO"] = 0] = "NO";
+  CLEAR_MODES2[CLEAR_MODES2["YES"] = 1] = "YES";
+  CLEAR_MODES2[CLEAR_MODES2["AUTO"] = 2] = "AUTO";
+  CLEAR_MODES2[CLEAR_MODES2["BLEND"] = 0] = "BLEND";
+  CLEAR_MODES2[CLEAR_MODES2["CLEAR"] = 1] = "CLEAR";
+  CLEAR_MODES2[CLEAR_MODES2["BLIT"] = 2] = "BLIT";
+})(CLEAR_MODES$2 || (CLEAR_MODES$2 = {}));
+var GC_MODES$2;
+(function(GC_MODES2) {
+  GC_MODES2[GC_MODES2["AUTO"] = 0] = "AUTO";
+  GC_MODES2[GC_MODES2["MANUAL"] = 1] = "MANUAL";
+})(GC_MODES$2 || (GC_MODES$2 = {}));
+var PRECISION$2;
+(function(PRECISION2) {
+  PRECISION2["LOW"] = "lowp";
+  PRECISION2["MEDIUM"] = "mediump";
+  PRECISION2["HIGH"] = "highp";
+})(PRECISION$2 || (PRECISION$2 = {}));
+var MASK_TYPES$2;
+(function(MASK_TYPES2) {
+  MASK_TYPES2[MASK_TYPES2["NONE"] = 0] = "NONE";
+  MASK_TYPES2[MASK_TYPES2["SCISSOR"] = 1] = "SCISSOR";
+  MASK_TYPES2[MASK_TYPES2["STENCIL"] = 2] = "STENCIL";
+  MASK_TYPES2[MASK_TYPES2["SPRITE"] = 3] = "SPRITE";
+})(MASK_TYPES$2 || (MASK_TYPES$2 = {}));
+var MSAA_QUALITY$2;
+(function(MSAA_QUALITY2) {
+  MSAA_QUALITY2[MSAA_QUALITY2["NONE"] = 0] = "NONE";
+  MSAA_QUALITY2[MSAA_QUALITY2["LOW"] = 2] = "LOW";
+  MSAA_QUALITY2[MSAA_QUALITY2["MEDIUM"] = 4] = "MEDIUM";
+  MSAA_QUALITY2[MSAA_QUALITY2["HIGH"] = 8] = "HIGH";
+})(MSAA_QUALITY$2 || (MSAA_QUALITY$2 = {}));
+var BUFFER_TYPE$2;
+(function(BUFFER_TYPE2) {
+  BUFFER_TYPE2[BUFFER_TYPE2["ELEMENT_ARRAY_BUFFER"] = 34963] = "ELEMENT_ARRAY_BUFFER";
+  BUFFER_TYPE2[BUFFER_TYPE2["ARRAY_BUFFER"] = 34962] = "ARRAY_BUFFER";
+  BUFFER_TYPE2[BUFFER_TYPE2["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
+})(BUFFER_TYPE$2 || (BUFFER_TYPE$2 = {}));
+function sortChildren(a2, b2) {
+  if (a2.zIndex === b2.zIndex) {
+    return a2._lastSortedIndex - b2._lastSortedIndex;
+  }
+  return a2.zIndex - b2.zIndex;
+}
+var Container = function(_super) {
+  __extends$o(Container2, _super);
+  function Container2() {
+    var _this = _super.call(this) || this;
+    _this.children = [];
+    _this.sortableChildren = settings.SORTABLE_CHILDREN;
+    _this.sortDirty = false;
+    return _this;
+  }
+  Container2.prototype.onChildrenChange = function(_length) {
+  };
+  Container2.prototype.addChild = function() {
+    var arguments$1 = arguments;
+    var children = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      children[_i] = arguments$1[_i];
+    }
+    if (children.length > 1) {
+      for (var i2 = 0; i2 < children.length; i2++) {
+        this.addChild(children[i2]);
+      }
+    } else {
+      var child = children[0];
+      if (child.parent) {
+        child.parent.removeChild(child);
+      }
+      child.parent = this;
+      this.sortDirty = true;
+      child.transform._parentID = -1;
+      this.children.push(child);
+      this._boundsID++;
+      this.onChildrenChange(this.children.length - 1);
+      this.emit("childAdded", child, this, this.children.length - 1);
+      child.emit("added", this);
+    }
+    return children[0];
+  };
+  Container2.prototype.addChildAt = function(child, index) {
+    if (index < 0 || index > this.children.length) {
+      throw new Error(child + "addChildAt: The index " + index + " supplied is out of bounds " + this.children.length);
+    }
+    if (child.parent) {
+      child.parent.removeChild(child);
+    }
+    child.parent = this;
+    this.sortDirty = true;
+    child.transform._parentID = -1;
+    this.children.splice(index, 0, child);
+    this._boundsID++;
+    this.onChildrenChange(index);
+    child.emit("added", this);
+    this.emit("childAdded", child, this, index);
+    return child;
+  };
+  Container2.prototype.swapChildren = function(child, child2) {
+    if (child === child2) {
+      return;
+    }
+    var index1 = this.getChildIndex(child);
+    var index2 = this.getChildIndex(child2);
+    this.children[index1] = child2;
+    this.children[index2] = child;
+    this.onChildrenChange(index1 < index2 ? index1 : index2);
+  };
+  Container2.prototype.getChildIndex = function(child) {
+    var index = this.children.indexOf(child);
+    if (index === -1) {
+      throw new Error("The supplied DisplayObject must be a child of the caller");
+    }
+    return index;
+  };
+  Container2.prototype.setChildIndex = function(child, index) {
+    if (index < 0 || index >= this.children.length) {
+      throw new Error("The index " + index + " supplied is out of bounds " + this.children.length);
+    }
+    var currentIndex = this.getChildIndex(child);
+    removeItems(this.children, currentIndex, 1);
+    this.children.splice(index, 0, child);
+    this.onChildrenChange(index);
+  };
+  Container2.prototype.getChildAt = function(index) {
+    if (index < 0 || index >= this.children.length) {
+      throw new Error("getChildAt: Index (" + index + ") does not exist.");
+    }
+    return this.children[index];
+  };
+  Container2.prototype.removeChild = function() {
+    var arguments$1 = arguments;
+    var children = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+      children[_i] = arguments$1[_i];
+    }
+    if (children.length > 1) {
+      for (var i2 = 0; i2 < children.length; i2++) {
+        this.removeChild(children[i2]);
+      }
+    } else {
+      var child = children[0];
+      var index = this.children.indexOf(child);
+      if (index === -1) {
+        return null;
+      }
+      child.parent = null;
+      child.transform._parentID = -1;
+      removeItems(this.children, index, 1);
+      this._boundsID++;
+      this.onChildrenChange(index);
+      child.emit("removed", this);
+      this.emit("childRemoved", child, this, index);
+    }
+    return children[0];
+  };
+  Container2.prototype.removeChildAt = function(index) {
+    var child = this.getChildAt(index);
+    child.parent = null;
+    child.transform._parentID = -1;
+    removeItems(this.children, index, 1);
+    this._boundsID++;
+    this.onChildrenChange(index);
+    child.emit("removed", this);
+    this.emit("childRemoved", child, this, index);
+    return child;
+  };
+  Container2.prototype.removeChildren = function(beginIndex, endIndex) {
+    if (beginIndex === void 0) {
+      beginIndex = 0;
+    }
+    if (endIndex === void 0) {
+      endIndex = this.children.length;
+    }
+    var begin = beginIndex;
+    var end2 = endIndex;
+    var range = end2 - begin;
+    var removed;
+    if (range > 0 && range <= end2) {
+      removed = this.children.splice(begin, range);
+      for (var i2 = 0; i2 < removed.length; ++i2) {
+        removed[i2].parent = null;
+        if (removed[i2].transform) {
+          removed[i2].transform._parentID = -1;
+        }
+      }
+      this._boundsID++;
+      this.onChildrenChange(beginIndex);
+      for (var i2 = 0; i2 < removed.length; ++i2) {
+        removed[i2].emit("removed", this);
+        this.emit("childRemoved", removed[i2], this, i2);
+      }
+      return removed;
+    } else if (range === 0 && this.children.length === 0) {
+      return [];
+    }
+    throw new RangeError("removeChildren: numeric values are outside the acceptable range.");
+  };
+  Container2.prototype.sortChildren = function() {
+    var sortRequired = false;
+    for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+      var child = this.children[i2];
+      child._lastSortedIndex = i2;
+      if (!sortRequired && child.zIndex !== 0) {
+        sortRequired = true;
+      }
+    }
+    if (sortRequired && this.children.length > 1) {
+      this.children.sort(sortChildren);
+    }
+    this.sortDirty = false;
+  };
+  Container2.prototype.updateTransform = function() {
+    if (this.sortableChildren && this.sortDirty) {
+      this.sortChildren();
+    }
+    this._boundsID++;
+    this.transform.updateTransform(this.parent.transform);
+    this.worldAlpha = this.alpha * this.parent.worldAlpha;
+    for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+      var child = this.children[i2];
+      if (child.visible) {
+        child.updateTransform();
+      }
+    }
+  };
+  Container2.prototype.calculateBounds = function() {
+    this._bounds.clear();
+    this._calculateBounds();
+    for (var i2 = 0; i2 < this.children.length; i2++) {
+      var child = this.children[i2];
+      if (!child.visible || !child.renderable) {
+        continue;
+      }
+      child.calculateBounds();
+      if (child._mask) {
+        var maskObject = child._mask.maskObject || child._mask;
+        maskObject.calculateBounds();
+        this._bounds.addBoundsMask(child._bounds, maskObject._bounds);
+      } else if (child.filterArea) {
+        this._bounds.addBoundsArea(child._bounds, child.filterArea);
+      } else {
+        this._bounds.addBounds(child._bounds);
+      }
+    }
+    this._bounds.updateID = this._boundsID;
+  };
+  Container2.prototype.getLocalBounds = function(rect, skipChildrenUpdate) {
+    if (skipChildrenUpdate === void 0) {
+      skipChildrenUpdate = false;
+    }
+    var result = _super.prototype.getLocalBounds.call(this, rect);
+    if (!skipChildrenUpdate) {
+      for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+        var child = this.children[i2];
+        if (child.visible) {
+          child.updateTransform();
+        }
+      }
+    }
+    return result;
+  };
+  Container2.prototype._calculateBounds = function() {
+  };
+  Container2.prototype._renderWithCulling = function(renderer) {
+    var sourceFrame = renderer.renderTexture.sourceFrame;
+    if (!(sourceFrame.width > 0 && sourceFrame.height > 0)) {
+      return;
+    }
+    var bounds;
+    var transform;
+    if (this.cullArea) {
+      bounds = this.cullArea;
+      transform = this.worldTransform;
+    } else if (this._render !== Container2.prototype._render) {
+      bounds = this.getBounds(true);
+    }
+    if (bounds && sourceFrame.intersects(bounds, transform)) {
+      this._render(renderer);
+    } else if (this.cullArea) {
+      return;
+    }
+    for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+      var child = this.children[i2];
+      var childCullable = child.cullable;
+      child.cullable = childCullable || !this.cullArea;
+      child.render(renderer);
+      child.cullable = childCullable;
+    }
+  };
+  Container2.prototype.render = function(renderer) {
+    if (!this.visible || this.worldAlpha <= 0 || !this.renderable) {
+      return;
+    }
+    if (this._mask || this.filters && this.filters.length) {
+      this.renderAdvanced(renderer);
+    } else if (this.cullable) {
+      this._renderWithCulling(renderer);
+    } else {
+      this._render(renderer);
+      for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+        this.children[i2].render(renderer);
+      }
+    }
+  };
+  Container2.prototype.renderAdvanced = function(renderer) {
+    var filters = this.filters;
+    var mask = this._mask;
+    if (filters) {
+      if (!this._enabledFilters) {
+        this._enabledFilters = [];
+      }
+      this._enabledFilters.length = 0;
+      for (var i2 = 0; i2 < filters.length; i2++) {
+        if (filters[i2].enabled) {
+          this._enabledFilters.push(filters[i2]);
+        }
+      }
+    }
+    var flush = filters && this._enabledFilters && this._enabledFilters.length || mask && (!mask.isMaskData || mask.enabled && (mask.autoDetect || mask.type !== MASK_TYPES$2.NONE));
+    if (flush) {
+      renderer.batch.flush();
+    }
+    if (filters && this._enabledFilters && this._enabledFilters.length) {
+      renderer.filter.push(this, this._enabledFilters);
+    }
+    if (mask) {
+      renderer.mask.push(this, this._mask);
+    }
+    if (this.cullable) {
+      this._renderWithCulling(renderer);
+    } else {
+      this._render(renderer);
+      for (var i2 = 0, j2 = this.children.length; i2 < j2; ++i2) {
+        this.children[i2].render(renderer);
+      }
+    }
+    if (flush) {
+      renderer.batch.flush();
+    }
+    if (mask) {
+      renderer.mask.pop(this);
+    }
+    if (filters && this._enabledFilters && this._enabledFilters.length) {
+      renderer.filter.pop();
+    }
+  };
+  Container2.prototype._render = function(_renderer) {
+  };
+  Container2.prototype.destroy = function(options) {
+    _super.prototype.destroy.call(this);
+    this.sortDirty = false;
+    var destroyChildren = typeof options === "boolean" ? options : options && options.children;
+    var oldChildren = this.removeChildren(0, this.children.length);
+    if (destroyChildren) {
+      for (var i2 = 0; i2 < oldChildren.length; ++i2) {
+        oldChildren[i2].destroy(options);
+      }
+    }
+  };
+  Object.defineProperty(Container2.prototype, "width", {
+    get: function() {
+      return this.scale.x * this.getLocalBounds().width;
+    },
+    set: function(value2) {
+      var width = this.getLocalBounds().width;
+      if (width !== 0) {
+        this.scale.x = value2 / width;
+      } else {
+        this.scale.x = 1;
+      }
+      this._width = value2;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(Container2.prototype, "height", {
+    get: function() {
+      return this.scale.y * this.getLocalBounds().height;
+    },
+    set: function(value2) {
+      var height = this.getLocalBounds().height;
+      if (height !== 0) {
+        this.scale.y = value2 / height;
+      } else {
+        this.scale.y = 1;
+      }
+      this._height = value2;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  return Container2;
+}(DisplayObject);
+Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
 var TEMP_RECT = new Rectangle();
 var BYTES_PER_PIXEL = 4;
 var Extract = function() {
@@ -21457,7 +23003,7 @@ var Extract = function() {
     }
     return canvasBuffer.canvas;
   };
-  Extract2.prototype.pixels = function(target) {
+  Extract2.prototype.pixels = function(target, options) {
     var renderer = this.renderer;
     var resolution;
     var frame;
@@ -21466,15 +23012,27 @@ var Extract = function() {
     if (target) {
       if (target instanceof RenderTexture) {
         renderTexture = target;
-      } else {
+      } else if (target instanceof DisplayObject) {
         renderTexture = this.renderer.generateTexture(target);
         generated = true;
       }
     }
     if (renderTexture) {
-      resolution = renderTexture.baseTexture.resolution;
-      frame = renderTexture.frame;
-      renderer.renderTexture.bind(renderTexture);
+      if (options) {
+        resolution = options.resolution;
+        frame = renderTexture.frame;
+        renderer.renderTexture.bind(renderTexture);
+      } else {
+        resolution = renderTexture.baseTexture.resolution;
+        frame = renderTexture.frame;
+        renderer.renderTexture.bind(renderTexture);
+      }
+    } else if (options) {
+      resolution = options.resolution;
+      frame = TEMP_RECT;
+      frame.width = options.width;
+      frame.height = options.height;
+      renderer.renderTexture.bind(null);
     } else {
       resolution = renderer.resolution;
       frame = TEMP_RECT;
@@ -21513,8 +23071,8 @@ var Extract = function() {
   return Extract2;
 }();
 /*!
- * @pixi/compressed-textures - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/compressed-textures - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/compressed-textures is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -21925,8 +23483,8 @@ function registerCompressedTextures(url2, resources, metadata) {
   }
   var textures = resources.map(function(resource) {
     return new Texture(new BaseTexture(resource, Object.assign({
-      mipmap: MIPMAP_MODES$3.OFF,
-      alphaMode: ALPHA_MODES$3.NO_PREMULTIPLIED_ALPHA
+      mipmap: MIPMAP_MODES$4.OFF,
+      alphaMode: ALPHA_MODES$4.NO_PREMULTIPLIED_ALPHA
     }, metadata)));
   });
   textures.forEach(function(texture, i2) {
@@ -22244,9 +23802,9 @@ var KTX_FIELDS = {
   BYTES_OF_KEY_VALUE_DATA: 60
 };
 var FILE_HEADER_SIZE = 64;
-var TYPES_TO_BYTES_PER_COMPONENT = (_a$3 = {}, _a$3[TYPES$3.UNSIGNED_BYTE] = 1, _a$3[TYPES$3.UNSIGNED_SHORT] = 2, _a$3[TYPES$3.INT] = 4, _a$3[TYPES$3.UNSIGNED_INT] = 4, _a$3[TYPES$3.FLOAT] = 4, _a$3[TYPES$3.HALF_FLOAT] = 8, _a$3);
-var FORMATS_TO_COMPONENTS = (_b = {}, _b[FORMATS$3.RGBA] = 4, _b[FORMATS$3.RGB] = 3, _b[FORMATS$3.RG] = 2, _b[FORMATS$3.RED] = 1, _b[FORMATS$3.LUMINANCE] = 1, _b[FORMATS$3.LUMINANCE_ALPHA] = 2, _b[FORMATS$3.ALPHA] = 1, _b);
-var TYPES_TO_BYTES_PER_PIXEL = (_c = {}, _c[TYPES$3.UNSIGNED_SHORT_4_4_4_4] = 2, _c[TYPES$3.UNSIGNED_SHORT_5_5_5_1] = 2, _c[TYPES$3.UNSIGNED_SHORT_5_6_5] = 2, _c);
+var TYPES_TO_BYTES_PER_COMPONENT = (_a$3 = {}, _a$3[TYPES$4.UNSIGNED_BYTE] = 1, _a$3[TYPES$4.UNSIGNED_SHORT] = 2, _a$3[TYPES$4.INT] = 4, _a$3[TYPES$4.UNSIGNED_INT] = 4, _a$3[TYPES$4.FLOAT] = 4, _a$3[TYPES$4.HALF_FLOAT] = 8, _a$3);
+var FORMATS_TO_COMPONENTS = (_b = {}, _b[FORMATS$4.RGBA] = 4, _b[FORMATS$4.RGB] = 3, _b[FORMATS$4.RG] = 2, _b[FORMATS$4.RED] = 1, _b[FORMATS$4.LUMINANCE] = 1, _b[FORMATS$4.LUMINANCE_ALPHA] = 2, _b[FORMATS$4.ALPHA] = 1, _b);
+var TYPES_TO_BYTES_PER_PIXEL = (_c = {}, _c[TYPES$4.UNSIGNED_SHORT_4_4_4_4] = 2, _c[TYPES$4.UNSIGNED_SHORT_5_5_5_1] = 2, _c[TYPES$4.UNSIGNED_SHORT_5_6_5] = 2, _c);
 var KTXLoader = function() {
   function KTXLoader2() {
   }
@@ -22254,19 +23812,28 @@ var KTXLoader = function() {
     if (resource.extension === "ktx" && resource.data) {
       try {
         var url_1 = resource.name || resource.url;
-        var _a3 = KTXLoader2.parse(url_1, resource.data), compressed = _a3.compressed, uncompressed = _a3.uncompressed;
+        var _a3 = KTXLoader2.parse(url_1, resource.data), compressed = _a3.compressed, uncompressed = _a3.uncompressed, kvData_1 = _a3.kvData;
         if (compressed) {
-          Object.assign(resource, registerCompressedTextures(url_1, compressed, resource.metadata));
+          var result = registerCompressedTextures(url_1, compressed, resource.metadata);
+          if (kvData_1 && result.textures) {
+            for (var textureId in result.textures) {
+              result.textures[textureId].baseTexture.ktxKeyValueData = kvData_1;
+            }
+          }
+          Object.assign(resource, result);
         } else if (uncompressed) {
           var textures_1 = {};
           uncompressed.forEach(function(image, i2) {
             var texture = new Texture(new BaseTexture(image.resource, {
-              mipmap: MIPMAP_MODES$3.OFF,
-              alphaMode: ALPHA_MODES$3.NO_PREMULTIPLIED_ALPHA,
+              mipmap: MIPMAP_MODES$4.OFF,
+              alphaMode: ALPHA_MODES$4.NO_PREMULTIPLIED_ALPHA,
               type: image.type,
               format: image.format
             }));
             var cacheID = url_1 + "-" + (i2 + 1);
+            if (kvData_1) {
+              texture.baseTexture.ktxKeyValueData = kvData_1;
+            }
             BaseTexture.addToCache(texture.baseTexture, cacheID);
             Texture.addToCache(texture, cacheID);
             if (i2 === 0) {
@@ -22332,6 +23899,7 @@ var KTXLoader = function() {
     if (imagePixelByteSize === void 0) {
       throw new Error("Unable to resolve the pixel format stored in the *.ktx file!");
     }
+    var kvData = KTXLoader2.loadKeyValueData ? KTXLoader2.parseKvData(dataView, bytesOfKeyValueData, littleEndian) : null;
     var imageByteSize = imagePixels * imagePixelByteSize;
     var mipByteSize = imageByteSize;
     var mipWidth = pixelWidth;
@@ -22368,12 +23936,12 @@ var KTXLoader = function() {
         uncompressed: imageBuffers.map(function(levelBuffers) {
           var buffer = levelBuffers[0].levelBuffer;
           var convertToInt = false;
-          if (glType === TYPES$3.FLOAT) {
+          if (glType === TYPES$4.FLOAT) {
             buffer = new Float32Array(levelBuffers[0].levelBuffer.buffer, levelBuffers[0].levelBuffer.byteOffset, levelBuffers[0].levelBuffer.byteLength / 4);
-          } else if (glType === TYPES$3.UNSIGNED_INT) {
+          } else if (glType === TYPES$4.UNSIGNED_INT) {
             convertToInt = true;
             buffer = new Uint32Array(levelBuffers[0].levelBuffer.buffer, levelBuffers[0].levelBuffer.byteOffset, levelBuffers[0].levelBuffer.byteLength / 4);
-          } else if (glType === TYPES$3.INT) {
+          } else if (glType === TYPES$4.INT) {
             convertToInt = true;
             buffer = new Int32Array(levelBuffers[0].levelBuffer.buffer, levelBuffers[0].levelBuffer.byteOffset, levelBuffers[0].levelBuffer.byteLength / 4);
           }
@@ -22385,7 +23953,8 @@ var KTXLoader = function() {
             type: glType,
             format: convertToInt ? KTXLoader2.convertFormatToInteger(glFormat) : glFormat
           };
-        })
+        }),
+        kvData
       };
     }
     return {
@@ -22397,7 +23966,8 @@ var KTXLoader = function() {
           levels: numberOfMipmapLevels,
           levelBuffers
         });
-      })
+      }),
+      kvData
     };
   };
   KTXLoader2.validate = function(url2, dataView) {
@@ -22411,23 +23981,52 @@ var KTXLoader = function() {
   };
   KTXLoader2.convertFormatToInteger = function(format2) {
     switch (format2) {
-      case FORMATS$3.RGBA:
-        return FORMATS$3.RGBA_INTEGER;
-      case FORMATS$3.RGB:
-        return FORMATS$3.RGB_INTEGER;
-      case FORMATS$3.RG:
-        return FORMATS$3.RG_INTEGER;
-      case FORMATS$3.RED:
-        return FORMATS$3.RED_INTEGER;
+      case FORMATS$4.RGBA:
+        return FORMATS$4.RGBA_INTEGER;
+      case FORMATS$4.RGB:
+        return FORMATS$4.RGB_INTEGER;
+      case FORMATS$4.RG:
+        return FORMATS$4.RG_INTEGER;
+      case FORMATS$4.RED:
+        return FORMATS$4.RED_INTEGER;
       default:
         return format2;
     }
   };
+  KTXLoader2.parseKvData = function(dataView, bytesOfKeyValueData, littleEndian) {
+    var kvData = /* @__PURE__ */ new Map();
+    var bytesIntoKeyValueData = 0;
+    while (bytesIntoKeyValueData < bytesOfKeyValueData) {
+      var keyAndValueByteSize = dataView.getUint32(FILE_HEADER_SIZE + bytesIntoKeyValueData, littleEndian);
+      var keyAndValueByteOffset = FILE_HEADER_SIZE + bytesIntoKeyValueData + 4;
+      var valuePadding = 3 - (keyAndValueByteSize + 3) % 4;
+      if (keyAndValueByteSize === 0 || keyAndValueByteSize > bytesOfKeyValueData - bytesIntoKeyValueData) {
+        console.error("KTXLoader: keyAndValueByteSize out of bounds");
+        break;
+      }
+      var keyNulByte = 0;
+      for (; keyNulByte < keyAndValueByteSize; keyNulByte++) {
+        if (dataView.getUint8(keyAndValueByteOffset + keyNulByte) === 0) {
+          break;
+        }
+      }
+      if (keyNulByte === -1) {
+        console.error("KTXLoader: Failed to find null byte terminating kvData key");
+        break;
+      }
+      var key = new TextDecoder().decode(new Uint8Array(dataView.buffer, keyAndValueByteOffset, keyNulByte));
+      var value2 = new DataView(dataView.buffer, keyAndValueByteOffset + keyNulByte + 1, keyAndValueByteSize - keyNulByte - 1);
+      kvData.set(key, value2);
+      bytesIntoKeyValueData += 4 + keyAndValueByteSize + valuePadding;
+    }
+    return kvData;
+  };
+  KTXLoader2.loadKeyValueData = false;
   return KTXLoader2;
 }();
 /*!
- * @pixi/particle-container - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/particle-container - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/particle-container is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -22489,7 +24088,7 @@ function __extends$m(d2, b2) {
     _this._bufferUpdateIDs = [];
     _this._updateID = 0;
     _this.interactiveChildren = false;
-    _this.blendMode = BLEND_MODES$3.NORMAL;
+    _this.blendMode = BLEND_MODES$4.NORMAL;
     _this.autoResize = autoResize;
     _this.roundPixels = true;
     _this.baseTexture = null;
@@ -22561,7 +24160,7 @@ function __extends$m(d2, b2) {
     this._bufferUpdateIDs = null;
   };
   return ParticleContainer;
-})(Container);
+})(Container$1);
 var ParticleBuffer = function() {
   function ParticleBuffer2(properties, dynamicPropertyFlags, size) {
     this.geometry = new Geometry();
@@ -22575,7 +24174,7 @@ var ParticleBuffer = function() {
         attributeName: property.attributeName,
         size: property.size,
         uploadFunction: property.uploadFunction,
-        type: property.type || TYPES$3.FLOAT,
+        type: property.type || TYPES$4.FLOAT,
         offset: property.offset
       };
       if (dynamicPropertyFlags[i2]) {
@@ -22625,24 +24224,24 @@ var ParticleBuffer = function() {
     this.staticBuffer = new Buffer$1(this.staticData, true, false);
     for (var i2 = 0; i2 < this.dynamicProperties.length; ++i2) {
       var property = this.dynamicProperties[i2];
-      geometry.addAttribute(property.attributeName, this.dynamicBuffer, 0, property.type === TYPES$3.UNSIGNED_BYTE, property.type, this.dynamicStride * 4, property.offset * 4);
+      geometry.addAttribute(property.attributeName, this.dynamicBuffer, 0, property.type === TYPES$4.UNSIGNED_BYTE, property.type, this.dynamicStride * 4, property.offset * 4);
     }
     for (var i2 = 0; i2 < this.staticProperties.length; ++i2) {
       var property = this.staticProperties[i2];
-      geometry.addAttribute(property.attributeName, this.staticBuffer, 0, property.type === TYPES$3.UNSIGNED_BYTE, property.type, this.staticStride * 4, property.offset * 4);
+      geometry.addAttribute(property.attributeName, this.staticBuffer, 0, property.type === TYPES$4.UNSIGNED_BYTE, property.type, this.staticStride * 4, property.offset * 4);
     }
   };
   ParticleBuffer2.prototype.uploadDynamic = function(children, startIndex, amount) {
     for (var i2 = 0; i2 < this.dynamicProperties.length; i2++) {
       var property = this.dynamicProperties[i2];
-      property.uploadFunction(children, startIndex, amount, property.type === TYPES$3.UNSIGNED_BYTE ? this.dynamicDataUint32 : this.dynamicData, this.dynamicStride, property.offset);
+      property.uploadFunction(children, startIndex, amount, property.type === TYPES$4.UNSIGNED_BYTE ? this.dynamicDataUint32 : this.dynamicData, this.dynamicStride, property.offset);
     }
     this.dynamicBuffer._updateID++;
   };
   ParticleBuffer2.prototype.uploadStatic = function(children, startIndex, amount) {
     for (var i2 = 0; i2 < this.staticProperties.length; i2++) {
       var property = this.staticProperties[i2];
-      property.uploadFunction(children, startIndex, amount, property.type === TYPES$3.UNSIGNED_BYTE ? this.staticDataUint32 : this.staticData, this.staticStride, property.offset);
+      property.uploadFunction(children, startIndex, amount, property.type === TYPES$4.UNSIGNED_BYTE ? this.staticDataUint32 : this.staticData, this.staticStride, property.offset);
     }
     this.staticBuffer._updateID++;
   };
@@ -22697,7 +24296,7 @@ var ParticleRenderer = function(_super) {
       {
         attributeName: "aColor",
         size: 1,
-        type: TYPES$3.UNSIGNED_BYTE,
+        type: TYPES$4.UNSIGNED_BYTE,
         uploadFunction: _this.uploadTint,
         offset: 0
       }
@@ -22875,8 +24474,8 @@ var ParticleRenderer = function(_super) {
   return ParticleRenderer2;
 }(ObjectRenderer);
 /*!
- * @pixi/graphics - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/graphics - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -23073,6 +24672,10 @@ var buildCircle = {
       rx = ry = Math.max(0, Math.min(roundedRect.radius, Math.min(halfWidth, halfHeight)));
       dx = halfWidth - rx;
       dy = halfHeight - ry;
+    }
+    if (!(rx >= 0 && ry >= 0 && dx >= 0 && dy >= 0)) {
+      points.length = 0;
+      return;
     }
     var n = Math.ceil(2.3 * Math.sqrt(rx + ry));
     var m2 = n * 8 + (dx ? 4 : 0) + (dy ? 4 : 0);
@@ -23465,15 +25068,13 @@ function buildNonNativeLine(graphicsData, graphicsGeometry) {
     } else {
       verts.push(x1 - perpx * innerWeight, y1 - perpy * innerWeight);
       verts.push(x1 + perpx * outerWeight, y1 + perpy * outerWeight);
-      if (style.join === LINE_JOIN.BEVEL || pdist / widthSquared > miterLimitSquared)
-        ;
-      else if (style.join === LINE_JOIN.ROUND) {
+      if (style.join === LINE_JOIN.ROUND) {
         if (clockwise) {
           indexCount += round$1(x1, y1, x1 + perpx * outerWeight, y1 + perpy * outerWeight, x1 + perp1x * outerWeight, y1 + perp1y * outerWeight, verts, true) + 2;
         } else {
           indexCount += round$1(x1, y1, x1 - perpx * innerWeight, y1 - perpy * innerWeight, x1 - perp1x * innerWeight, y1 - perp1y * innerWeight, verts, false) + 2;
         }
-      } else {
+      } else if (style.join === LINE_JOIN.MITER && pdist / widthSquared <= miterLimitSquared) {
         if (clockwise) {
           verts.push(omx, omy);
           verts.push(omx, omy);
@@ -23765,7 +25366,7 @@ var GraphicsData = function() {
   return GraphicsData2;
 }();
 var tmpPoint = new Point();
-var tmpBounds = new Bounds();
+var tmpBounds = new Bounds$1();
 var GraphicsGeometry = function(_super) {
   __extends$l(GraphicsGeometry2, _super);
   function GraphicsGeometry2() {
@@ -23788,7 +25389,7 @@ var GraphicsGeometry = function(_super) {
     _this.cacheDirty = -1;
     _this.clearDirty = 0;
     _this.shapeIndex = 0;
-    _this._bounds = new Bounds();
+    _this._bounds = new Bounds$1();
     _this.boundsDirty = -1;
     return _this;
   }
@@ -23955,7 +25556,7 @@ var GraphicsGeometry = function(_super) {
         var nextTexture = style.texture.baseTexture;
         var index_1 = this.indices.length;
         var attribIndex = this.points.length / 2;
-        nextTexture.wrapMode = WRAP_MODES$3.REPEAT;
+        nextTexture.wrapMode = WRAP_MODES$4.REPEAT;
         if (j2 === 0) {
           this.processFill(data);
         } else {
@@ -24073,12 +25674,12 @@ var GraphicsGeometry = function(_super) {
     currentGroup.texArray.count = 0;
     currentGroup.start = 0;
     currentGroup.size = 0;
-    currentGroup.type = DRAW_MODES$3.TRIANGLES;
+    currentGroup.type = DRAW_MODES$4.TRIANGLES;
     var textureCount = 0;
     var currentTexture = null;
     var textureId = 0;
     var native = false;
-    var drawMode = DRAW_MODES$3.TRIANGLES;
+    var drawMode = DRAW_MODES$4.TRIANGLES;
     var index = 0;
     this.drawCalls.push(currentGroup);
     for (var i2 = 0; i2 < this.batches.length; i2++) {
@@ -24088,7 +25689,7 @@ var GraphicsGeometry = function(_super) {
       var nextTexture = style.texture.baseTexture;
       if (native !== !!style.native) {
         native = !!style.native;
-        drawMode = native ? DRAW_MODES$3.LINES : DRAW_MODES$3.TRIANGLES;
+        drawMode = native ? DRAW_MODES$4.LINES : DRAW_MODES$4.TRIANGLES;
         currentTexture = null;
         textureCount = MAX_TEXTURES;
         TICK++;
@@ -24115,7 +25716,7 @@ var GraphicsGeometry = function(_super) {
           nextTexture.touched = 1;
           nextTexture._batchEnabled = TICK;
           nextTexture._batchLocation = textureCount;
-          nextTexture.wrapMode = WRAP_MODES$3.REPEAT;
+          nextTexture.wrapMode = WRAP_MODES$4.REPEAT;
           currentGroup.texArray.elements[currentGroup.texArray.count++] = nextTexture;
           textureCount++;
         }
@@ -24357,7 +25958,7 @@ var Graphics = function(_super) {
     _this._geometry.refCount++;
     _this._transformID = -1;
     _this.tint = 16777215;
-    _this.blendMode = BLEND_MODES$3.NORMAL;
+    _this.blendMode = BLEND_MODES$4.NORMAL;
     return _this;
   }
   Object.defineProperty(Graphics2.prototype, "geometry", {
@@ -24863,10 +26464,10 @@ var Graphics = function(_super) {
   Graphics2.nextRoundedRectBehavior = false;
   Graphics2._TEMP_POINT = new Point();
   return Graphics2;
-}(Container);
+}(Container$1);
 /*!
- * @pixi/sprite - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/sprite - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -24917,7 +26518,7 @@ var Sprite = function(_super) {
     _this._tint = null;
     _this._tintRGB = null;
     _this.tint = 16777215;
-    _this.blendMode = BLEND_MODES$3.NORMAL;
+    _this.blendMode = BLEND_MODES$4.NORMAL;
     _this._cachedTint = 16777215;
     _this.uvs = null;
     _this.texture = texture || Texture.EMPTY;
@@ -24930,7 +26531,7 @@ var Sprite = function(_super) {
     _this.indices = indices;
     _this.pluginName = "batch";
     _this.isSprite = true;
-    _this._roundPixels = settings.ROUND_PIXELS;
+    _this._roundPixels = settings$1.ROUND_PIXELS;
     return _this;
   }
   Sprite2.prototype._onTextureUpdate = function() {
@@ -24993,7 +26594,7 @@ var Sprite = function(_super) {
     vertexData[6] = a2 * w1 + c2 * h0 + tx;
     vertexData[7] = d2 * h0 + b2 * w1 + ty;
     if (this._roundPixels) {
-      var resolution = settings.RESOLUTION;
+      var resolution = settings$1.RESOLUTION;
       for (var i2 = 0; i2 < vertexData.length; ++i2) {
         vertexData[i2] = Math.round((vertexData[i2] * resolution | 0) / resolution);
       }
@@ -25050,7 +26651,7 @@ var Sprite = function(_super) {
   Sprite2.prototype.getLocalBounds = function(rect) {
     if (this.children.length === 0) {
       if (!this._localBounds) {
-        this._localBounds = new Bounds();
+        this._localBounds = new Bounds$1();
       }
       this._localBounds.minX = this._texture.orig.width * -this._anchor._x;
       this._localBounds.minY = this._texture.orig.height * -this._anchor._y;
@@ -25180,10 +26781,10 @@ var Sprite = function(_super) {
     configurable: true
   });
   return Sprite2;
-}(Container);
+}(Container$1);
 /*!
- * @pixi/text - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/text - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26098,7 +27699,7 @@ var Text = function(_super) {
     _this._ownCanvas = ownCanvas;
     _this.canvas = canvas;
     _this.context = _this.canvas.getContext("2d");
-    _this._resolution = settings.RESOLUTION;
+    _this._resolution = settings$1.RESOLUTION;
     _this._autoResolution = true;
     _this._text = null;
     _this._style = null;
@@ -26247,7 +27848,6 @@ var Text = function(_super) {
     this._onTextureUpdate();
     baseTexture.setRealSize(canvas.width, canvas.height, this._resolution);
     texture.updateUvs();
-    this._recursivePostUpdateTransform();
     this.dirty = false;
   };
   Text2.prototype._render = function(renderer) {
@@ -26258,12 +27858,22 @@ var Text = function(_super) {
     this.updateText(true);
     _super.prototype._render.call(this, renderer);
   };
+  Text2.prototype.updateTransform = function() {
+    this.updateText(true);
+    _super.prototype.updateTransform.call(this);
+  };
+  Text2.prototype.getBounds = function(skipUpdate, rect) {
+    this.updateText(true);
+    if (this._textureID === -1) {
+      skipUpdate = false;
+    }
+    return _super.prototype.getBounds.call(this, skipUpdate, rect);
+  };
   Text2.prototype.getLocalBounds = function(rect) {
     this.updateText(true);
     return _super.prototype.getLocalBounds.call(this, rect);
   };
   Text2.prototype._calculateBounds = function() {
-    this.updateText(true);
     this.calculateVertices();
     this._bounds.addQuad(this.vertexData);
   };
@@ -26430,13 +28040,13 @@ var Text = function(_super) {
   return Text2;
 }(Sprite);
 /*!
- * @pixi/prepare - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/prepare - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-settings.UPLOADS_PER_FRAME = 4;
+settings$1.UPLOADS_PER_FRAME = 4;
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -26561,7 +28171,7 @@ function findTextStyle(item, queue) {
 var BasePrepare = function() {
   function BasePrepare2(renderer) {
     var _this = this;
-    this.limiter = new CountLimiter(settings.UPLOADS_PER_FRAME);
+    this.limiter = new CountLimiter(settings$1.UPLOADS_PER_FRAME);
     this.renderer = renderer;
     this.uploadHookHelper = null;
     this.queue = [];
@@ -26653,7 +28263,7 @@ var BasePrepare = function() {
         break;
       }
     }
-    if (item instanceof Container) {
+    if (item instanceof Container$1) {
       for (var i2 = item.children.length - 1; i2 >= 0; i2--) {
         this.add(item.children[i2]);
       }
@@ -26723,8 +28333,8 @@ var Prepare = function(_super) {
   return Prepare2;
 }(BasePrepare);
 /*!
- * @pixi/spritesheet - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/spritesheet - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -26914,8 +28524,8 @@ var SpritesheetLoader = function() {
   return SpritesheetLoader2;
 }();
 /*!
- * @pixi/sprite-tiling - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/sprite-tiling - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27130,11 +28740,11 @@ var TilingSpriteRenderer = function(_super) {
     var isSimple = baseTex.isPowerOfTwo && tex.frame.width === baseTex.width && tex.frame.height === baseTex.height;
     if (isSimple) {
       if (!baseTex._glTextures[renderer.CONTEXT_UID]) {
-        if (baseTex.wrapMode === WRAP_MODES$3.CLAMP) {
-          baseTex.wrapMode = WRAP_MODES$3.REPEAT;
+        if (baseTex.wrapMode === WRAP_MODES$4.CLAMP) {
+          baseTex.wrapMode = WRAP_MODES$4.REPEAT;
         }
       } else {
-        isSimple = baseTex.wrapMode !== WRAP_MODES$3.CLAMP;
+        isSimple = baseTex.wrapMode !== WRAP_MODES$4.CLAMP;
       }
     }
     var shader = isSimple ? this.simpleShader : this.shader;
@@ -27164,8 +28774,8 @@ var TilingSpriteRenderer = function(_super) {
   return TilingSpriteRenderer2;
 }(ObjectRenderer);
 /*!
- * @pixi/mesh - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/mesh - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27233,7 +28843,7 @@ var Mesh = function(_super) {
   __extends$g(Mesh2, _super);
   function Mesh2(geometry, shader, state, drawMode) {
     if (drawMode === void 0) {
-      drawMode = DRAW_MODES$3.TRIANGLES;
+      drawMode = DRAW_MODES$4.TRIANGLES;
     }
     var _this = _super.call(this) || this;
     _this.geometry = geometry;
@@ -27247,7 +28857,7 @@ var Mesh = function(_super) {
     _this.vertexData = new Float32Array(1);
     _this.vertexDirty = -1;
     _this._transformID = -1;
-    _this._roundPixels = settings.ROUND_PIXELS;
+    _this._roundPixels = settings$1.ROUND_PIXELS;
     _this.batchUvs = null;
     return _this;
   }
@@ -27344,7 +28954,7 @@ var Mesh = function(_super) {
   Mesh2.prototype._render = function(renderer) {
     var vertices = this.geometry.buffers[0].data;
     var shader = this.shader;
-    if (shader.batchable && this.drawMode === DRAW_MODES$3.TRIANGLES && vertices.length < Mesh2.BATCHABLE_SIZE * 2) {
+    if (shader.batchable && this.drawMode === DRAW_MODES$4.TRIANGLES && vertices.length < Mesh2.BATCHABLE_SIZE * 2) {
       this._renderToBatch(renderer);
     } else {
       this._renderDefault(renderer);
@@ -27405,7 +29015,7 @@ var Mesh = function(_super) {
       vertexData[i2 * 2 + 1] = b2 * x + d2 * y2 + ty;
     }
     if (this._roundPixels) {
-      var resolution = settings.RESOLUTION;
+      var resolution = settings$1.RESOLUTION;
       for (var i2 = 0; i2 < vertexData.length; ++i2) {
         vertexData[i2] = Math.round((vertexData[i2] * resolution | 0) / resolution);
       }
@@ -27470,7 +29080,7 @@ var Mesh = function(_super) {
   };
   Mesh2.BATCHABLE_SIZE = 100;
   return Mesh2;
-}(Container);
+}(Container$1);
 var fragment$5 = "varying vec2 vTextureCoord;\nuniform vec4 uColor;\n\nuniform sampler2D uSampler;\n\nvoid main(void)\n{\n    gl_FragColor = texture2D(uSampler, vTextureCoord) * uColor;\n}\n";
 var vertex$2 = "attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\nuniform mat3 translationMatrix;\nuniform mat3 uTextureMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * translationMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = (uTextureMatrix * vec3(aTextureCoord, 1.0)).xy;\n}\n";
 var MeshMaterial = function(_super) {
@@ -27506,6 +29116,9 @@ var MeshMaterial = function(_super) {
     },
     set: function(value2) {
       if (this.uniforms.uSampler !== value2) {
+        if (!this.uniforms.uSampler.baseTexture.alphaMode !== !value2.baseTexture.alphaMode) {
+          this._colorDirty = true;
+        }
         this.uniforms.uSampler = value2;
         this.uvMatrix.texture = value2;
       }
@@ -27561,7 +29174,7 @@ var MeshGeometry = function(_super) {
     var verticesBuffer = new Buffer$1(vertices);
     var uvsBuffer = new Buffer$1(uvs, true);
     var indexBuffer = new Buffer$1(index, true, true);
-    _this.addAttribute("aVertexPosition", verticesBuffer, 2, false, TYPES$3.FLOAT).addAttribute("aTextureCoord", uvsBuffer, 2, false, TYPES$3.FLOAT).addIndex(indexBuffer);
+    _this.addAttribute("aVertexPosition", verticesBuffer, 2, false, TYPES$4.FLOAT).addAttribute("aTextureCoord", uvsBuffer, 2, false, TYPES$4.FLOAT).addIndex(indexBuffer);
     _this._updateId = -1;
     return _this;
   }
@@ -27575,8 +29188,8 @@ var MeshGeometry = function(_super) {
   return MeshGeometry2;
 }(Geometry);
 /*!
- * @pixi/text-bitmap - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/text-bitmap - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -27949,7 +29562,7 @@ var BitmapFont = function() {
       var _c3 = data.page[i2], id = _c3.id, file = _c3.file;
       pageTextures[id] = textures instanceof Array ? textures[i2] : textures[file];
       if ((distanceField === null || distanceField === void 0 ? void 0 : distanceField.fieldType) && distanceField.fieldType !== "none") {
-        pageTextures[id].baseTexture.alphaMode = ALPHA_MODES$3.NO_PREMULTIPLIED_ALPHA;
+        pageTextures[id].baseTexture.alphaMode = ALPHA_MODES$4.NO_PREMULTIPLIED_ALPHA;
       }
     }
     for (var i2 = 0; i2 < data.char.length; i2++) {
@@ -28171,8 +29784,10 @@ var charRenderDataPool = [];
     _this._anchor = new ObservablePoint(function() {
       _this.dirty = true;
     }, _this, 0, 0);
-    _this._roundPixels = settings.ROUND_PIXELS;
+    _this._roundPixels = settings$1.ROUND_PIXELS;
     _this.dirty = true;
+    _this._resolution = settings$1.RESOLUTION;
+    _this._autoResolution = true;
     _this._textureCache = {};
     return _this;
   }
@@ -28296,10 +29911,10 @@ var charRenderDataPool = [];
           var meshBlendMode = void 0;
           if (data.distanceFieldType === "none") {
             material = new MeshMaterial(Texture.EMPTY);
-            meshBlendMode = BLEND_MODES$3.NORMAL;
+            meshBlendMode = BLEND_MODES$4.NORMAL;
           } else {
             material = new MeshMaterial(Texture.EMPTY, { program: Program.from(msdfVert, msdfFrag), uniforms: { uFWidth: 0 } });
-            meshBlendMode = BLEND_MODES$3.NORMAL_NPM;
+            meshBlendMode = BLEND_MODES$4.NORMAL_NPM;
           }
           var mesh = new Mesh(geometry, material);
           mesh.blendMode = meshBlendMode;
@@ -28431,6 +30046,10 @@ var charRenderDataPool = [];
     this.containerUpdateTransform();
   };
   BitmapText.prototype._render = function(renderer) {
+    if (this._autoResolution && this._resolution !== renderer.resolution) {
+      this._resolution = renderer.resolution;
+      this.dirty = true;
+    }
     var _a3 = BitmapFont.available[this._fontName], distanceFieldRange = _a3.distanceFieldRange, distanceFieldType = _a3.distanceFieldType, size = _a3.size;
     if (distanceFieldType !== "none") {
       var _b3 = this.worldTransform, a2 = _b3.a, b2 = _b3.b, c2 = _b3.c, d2 = _b3.d;
@@ -28440,7 +30059,7 @@ var charRenderDataPool = [];
       var fontScale = this._fontSize / size;
       for (var _i = 0, _c3 = this._activePagesMeshData; _i < _c3.length; _i++) {
         var mesh = _c3[_i];
-        mesh.mesh.shader.uniforms.uFWidth = worldScale * distanceFieldRange * fontScale * renderer.resolution;
+        mesh.mesh.shader.uniforms.uFWidth = worldScale * distanceFieldRange * fontScale * this._resolution;
       }
     }
     _super.prototype._render.call(this, renderer);
@@ -28606,6 +30225,21 @@ var charRenderDataPool = [];
     enumerable: false,
     configurable: true
   });
+  Object.defineProperty(BitmapText.prototype, "resolution", {
+    get: function() {
+      return this._resolution;
+    },
+    set: function(value2) {
+      this._autoResolution = false;
+      if (this._resolution === value2) {
+        return;
+      }
+      this._resolution = value2;
+      this.dirty = true;
+    },
+    enumerable: false,
+    configurable: true
+  });
   BitmapText.prototype.destroy = function(options) {
     var _textureCache = this._textureCache;
     for (var id in _textureCache) {
@@ -28623,7 +30257,7 @@ var charRenderDataPool = [];
     letterSpacing: 0
   };
   return BitmapText;
-})(Container);
+})(Container$1);
 var BitmapFontLoader = function() {
   function BitmapFontLoader2() {
   }
@@ -28704,8 +30338,8 @@ var BitmapFontLoader = function() {
   return BitmapFontLoader2;
 }();
 /*!
- * @pixi/filter-alpha - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/filter-alpha - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28767,8 +30401,8 @@ var fragment$4 = "varying vec2 vTextureCoord;\n\nuniform sampler2D uSampler;\nun
   return AlphaFilter;
 })(Filter);
 /*!
- * @pixi/filter-blur - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/filter-blur - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -28866,8 +30500,8 @@ function generateBlurFragSource(kernelSize) {
   return fragSource;
 }
 /*!
- * @pixi/constants - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/constants - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29066,7 +30700,7 @@ var BlurFilterPass = function(_super) {
       quality = 4;
     }
     if (resolution === void 0) {
-      resolution = settings.FILTER_RESOLUTION;
+      resolution = settings$1.FILTER_RESOLUTION;
     }
     if (kernelSize === void 0) {
       kernelSize = 5;
@@ -29155,7 +30789,7 @@ var BlurFilterPass = function(_super) {
       quality = 4;
     }
     if (resolution === void 0) {
-      resolution = settings.FILTER_RESOLUTION;
+      resolution = settings$1.FILTER_RESOLUTION;
     }
     if (kernelSize === void 0) {
       kernelSize = 5;
@@ -29257,8 +30891,8 @@ var BlurFilterPass = function(_super) {
   return BlurFilter;
 })(Filter);
 /*!
- * @pixi/filter-color-matrix - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/filter-color-matrix - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -29935,8 +31569,8 @@ var ColorMatrixFilter = function(_super) {
 }(Filter);
 ColorMatrixFilter.prototype.grayscale = ColorMatrixFilter.prototype.greyscale;
 /*!
- * @pixi/filter-displacement - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/filter-displacement - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30024,8 +31658,8 @@ var vertex$1 = "attribute vec2 aVertexPosition;\n\nuniform mat3 projectionMatrix
   return DisplacementFilter;
 })(Filter);
 /*!
- * @pixi/filter-fxaa - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/filter-fxaa - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30194,8 +31828,8 @@ void main() {
   return FXAAFilter;
 })(Filter);
 /*!
- * @pixi/filter-noise - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/filter-noise - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30274,15 +31908,15 @@ var fragment = "precision highp float;\n\nvarying vec2 vTextureCoord;\nvarying v
   return NoiseFilter;
 })(Filter);
 /*!
- * @pixi/mixin-cache-as-bitmap - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/mixin-cache-as-bitmap - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 /*!
- * @pixi/constants - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/constants - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30472,10 +32106,10 @@ var BUFFER_TYPE;
   BUFFER_TYPE2[BUFFER_TYPE2["UNIFORM_BUFFER"] = 35345] = "UNIFORM_BUFFER";
 })(BUFFER_TYPE || (BUFFER_TYPE = {}));
 var _tempMatrix = new Matrix();
-DisplayObject.prototype._cacheAsBitmap = false;
-DisplayObject.prototype._cacheData = null;
-DisplayObject.prototype._cacheAsBitmapResolution = null;
-DisplayObject.prototype._cacheAsBitmapMultisample = MSAA_QUALITY.NONE;
+DisplayObject$1.prototype._cacheAsBitmap = false;
+DisplayObject$1.prototype._cacheData = null;
+DisplayObject$1.prototype._cacheAsBitmapResolution = null;
+DisplayObject$1.prototype._cacheAsBitmapMultisample = MSAA_QUALITY.NONE;
 var CacheData = function() {
   function CacheData2() {
     this.textureCacheId = null;
@@ -30492,7 +32126,7 @@ var CacheData = function() {
   }
   return CacheData2;
 }();
-Object.defineProperties(DisplayObject.prototype, {
+Object.defineProperties(DisplayObject$1.prototype, {
   cacheAsBitmapResolution: {
     get: function() {
       return this._cacheAsBitmapResolution;
@@ -30568,7 +32202,7 @@ Object.defineProperties(DisplayObject.prototype, {
     }
   }
 });
-DisplayObject.prototype._renderCached = function _renderCached(renderer) {
+DisplayObject$1.prototype._renderCached = function _renderCached(renderer) {
   if (!this.visible || this.worldAlpha <= 0 || !this.renderable) {
     return;
   }
@@ -30577,7 +32211,7 @@ DisplayObject.prototype._renderCached = function _renderCached(renderer) {
   this._cacheData.sprite.worldAlpha = this.worldAlpha;
   this._cacheData.sprite._render(renderer);
 };
-DisplayObject.prototype._initCachedDisplayObject = function _initCachedDisplayObject(renderer) {
+DisplayObject$1.prototype._initCachedDisplayObject = function _initCachedDisplayObject(renderer) {
   var _a3;
   if (this._cacheData && this._cacheData.sprite) {
     return;
@@ -30590,7 +32224,7 @@ DisplayObject.prototype._initCachedDisplayObject = function _initCachedDisplayOb
     var padding = this.filters[0].padding;
     bounds.pad(padding);
   }
-  bounds.ceil(settings.RESOLUTION);
+  bounds.ceil(settings$1.RESOLUTION);
   var cachedRenderTexture = renderer.renderTexture.current;
   var cachedSourceFrame = renderer.renderTexture.sourceFrame.clone();
   var cachedDestinationFrame = renderer.renderTexture.destinationFrame.clone();
@@ -30635,7 +32269,7 @@ DisplayObject.prototype._initCachedDisplayObject = function _initCachedDisplayOb
   }
   this.containsPoint = cachedSprite.containsPoint.bind(cachedSprite);
 };
-DisplayObject.prototype._renderCachedCanvas = function _renderCachedCanvas(renderer) {
+DisplayObject$1.prototype._renderCachedCanvas = function _renderCachedCanvas(renderer) {
   if (!this.visible || this.worldAlpha <= 0 || !this.renderable) {
     return;
   }
@@ -30643,7 +32277,7 @@ DisplayObject.prototype._renderCachedCanvas = function _renderCachedCanvas(rende
   this._cacheData.sprite.worldAlpha = this.worldAlpha;
   this._cacheData.sprite._renderCanvas(renderer);
 };
-DisplayObject.prototype._initCachedDisplayObjectCanvas = function _initCachedDisplayObjectCanvas(renderer) {
+DisplayObject$1.prototype._initCachedDisplayObjectCanvas = function _initCachedDisplayObjectCanvas(renderer) {
   if (this._cacheData && this._cacheData.sprite) {
     return;
   }
@@ -30652,7 +32286,7 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function _initCachedDis
   this.alpha = 1;
   var cachedRenderTarget = renderer.context;
   var cachedProjectionTransform = renderer._projTransform;
-  bounds.ceil(settings.RESOLUTION);
+  bounds.ceil(settings$1.RESOLUTION);
   var renderTexture = RenderTexture.create({ width: bounds.width, height: bounds.height });
   var textureCacheId = "cacheAsBitmap_" + uid();
   this._cacheData.textureCacheId = textureCacheId;
@@ -30691,35 +32325,35 @@ DisplayObject.prototype._initCachedDisplayObjectCanvas = function _initCachedDis
   }
   this.containsPoint = cachedSprite.containsPoint.bind(cachedSprite);
 };
-DisplayObject.prototype._calculateCachedBounds = function _calculateCachedBounds() {
+DisplayObject$1.prototype._calculateCachedBounds = function _calculateCachedBounds() {
   this._bounds.clear();
   this._cacheData.sprite.transform._worldID = this.transform._worldID;
   this._cacheData.sprite._calculateBounds();
   this._bounds.updateID = this._boundsID;
 };
-DisplayObject.prototype._getCachedLocalBounds = function _getCachedLocalBounds() {
+DisplayObject$1.prototype._getCachedLocalBounds = function _getCachedLocalBounds() {
   return this._cacheData.sprite.getLocalBounds(null);
 };
-DisplayObject.prototype._destroyCachedDisplayObject = function _destroyCachedDisplayObject() {
+DisplayObject$1.prototype._destroyCachedDisplayObject = function _destroyCachedDisplayObject() {
   this._cacheData.sprite._texture.destroy(true);
   this._cacheData.sprite = null;
   BaseTexture.removeFromCache(this._cacheData.textureCacheId);
   Texture.removeFromCache(this._cacheData.textureCacheId);
   this._cacheData.textureCacheId = null;
 };
-DisplayObject.prototype._cacheAsBitmapDestroy = function _cacheAsBitmapDestroy(options) {
+DisplayObject$1.prototype._cacheAsBitmapDestroy = function _cacheAsBitmapDestroy(options) {
   this.cacheAsBitmap = false;
   this.destroy(options);
 };
 /*!
- * @pixi/mixin-get-child-by-name - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/mixin-get-child-by-name - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-DisplayObject.prototype.name = null;
-Container.prototype.getChildByName = function getChildByName(name, deep) {
+DisplayObject$1.prototype.name = null;
+Container$1.prototype.getChildByName = function getChildByName(name, deep) {
   for (var i2 = 0, j2 = this.children.length; i2 < j2; i2++) {
     if (this.children[i2].name === name) {
       return this.children[i2];
@@ -30740,13 +32374,13 @@ Container.prototype.getChildByName = function getChildByName(name, deep) {
   return null;
 };
 /*!
- * @pixi/mixin-get-global-position - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/mixin-get-global-position - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
-DisplayObject.prototype.getGlobalPosition = function getGlobalPosition(point, skipUpdate) {
+DisplayObject$1.prototype.getGlobalPosition = function getGlobalPosition(point, skipUpdate) {
   if (point === void 0) {
     point = new Point();
   }
@@ -30762,8 +32396,8 @@ DisplayObject.prototype.getGlobalPosition = function getGlobalPosition(point, sk
   return point;
 };
 /*!
- * @pixi/mesh-extras - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/mesh-extras - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30991,7 +32625,7 @@ var RopeGeometry = function(_super) {
     var ropeGeometry = new RopeGeometry(texture.height, points, textureScale);
     var meshMaterial = new MeshMaterial(texture);
     if (textureScale > 0) {
-      texture.baseTexture.wrapMode = WRAP_MODES$3.REPEAT;
+      texture.baseTexture.wrapMode = WRAP_MODES$4.REPEAT;
     }
     _this = _super.call(this, ropeGeometry, meshMaterial) || this;
     _this.autoUpdate = true;
@@ -31244,8 +32878,8 @@ var DEFAULT_BORDER_SIZE = 10;
   return NineSlicePlane;
 })(SimplePlane);
 /*!
- * @pixi/sprite-animated - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * @pixi/sprite-animated - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31495,8 +33129,8 @@ var AnimatedSprite = function(_super) {
   return AnimatedSprite2;
 }(Sprite);
 /*!
- * pixi.js - v6.3.2
- * Compiled Wed, 04 May 2022 17:49:13 UTC
+ * pixi.js - v6.4.2
+ * Compiled Thu, 02 Jun 2022 15:39:26 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -31863,10 +33497,11 @@ playse_fn = function(hArg) {
       if (!(ab instanceof ArrayBuffer) || ab.byteLength === 0)
         snd.play(o);
       else
-        oSb.snd = A.from(__spreadProps(__spreadValues({}, o), {
+        oSb.snd = A.from({
+          ...o,
           url: snd.options.url,
           source: ab
-        }));
+        });
     }
     return false;
   }
@@ -32176,7 +33811,7 @@ const _Layer = class {
   }
   static getBlendmodeNum(bm_name) {
     if (!bm_name)
-      return BLEND_MODES$3.NORMAL;
+      return BLEND_MODES$4.NORMAL;
     const bmn = __privateGet(_Layer, _hBlendmode)[bm_name];
     if (bmn !== void 0)
       return bmn;
@@ -32191,7 +33826,7 @@ const _Layer = class {
   }
   clearLay(hArg) {
     this.spLay.alpha = 1;
-    this.spLay.blendMode = BLEND_MODES$3.NORMAL;
+    this.spLay.blendMode = BLEND_MODES$4.NORMAL;
     this.spLay.pivot.set(0, 0);
     this.spLay.angle = 0;
     this.spLay.scale.set(1, 1);
@@ -32349,10 +33984,10 @@ const _Layer = class {
 let Layer = _Layer;
 _hBlendmode = new WeakMap();
 __privateAdd(Layer, _hBlendmode, {
-  "normal": BLEND_MODES$3.NORMAL,
-  "add": BLEND_MODES$3.ADD,
-  "multiply": BLEND_MODES$3.MULTIPLY,
-  "screen": BLEND_MODES$3.SCREEN
+  "normal": BLEND_MODES$4.NORMAL,
+  "add": BLEND_MODES$4.ADD,
+  "multiply": BLEND_MODES$4.MULTIPLY,
+  "screen": BLEND_MODES$4.SCREEN
 });
 class EventListenerCtn {
   constructor() {
@@ -32371,7 +34006,7 @@ class EventListenerCtn {
       }
       return;
     }
-    if (ed instanceof EventEmitter$4) {
+    if (ed instanceof EventEmitter$5) {
       ed.on(type, fnc, ctx);
       __privateGet(this, _vctEvt).push(() => ed.off(type, fnc, ctx));
       return;
@@ -32922,7 +34557,7 @@ function decamelize(str, separator) {
     return "" + letter + separator + letter2.toLowerCase();
   });
 }
-function now() {
+function now$1() {
   return Date.now ? Date.now() : new Date().getTime();
 }
 function findIndex(arr, callback, defaultIndex) {
@@ -32942,10 +34577,10 @@ function find$1(arr, callback, defalutValue) {
   return index > -1 ? arr[index] : defalutValue;
 }
 var requestAnimationFrame$1 = /* @__PURE__ */ function() {
-  var firstTime = now();
+  var firstTime = now$1();
   var raf = IS_WINDOW && (window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame);
   return raf ? raf.bind(window) : function(callback) {
-    var currTime = now();
+    var currTime = now$1();
     var id = window.setTimeout(function() {
       callback(currTime - firstTime);
     }, 1e3 / 60);
@@ -32990,10 +34625,15 @@ function convertUnitSize(pos, size) {
 function between(value2, min2, max2) {
   return Math.max(min2, Math.min(value2, max2));
 }
-function checkBoundSize(targetSize, compareSize, isMax) {
-  return [[throttle(compareSize[0], TINY_NUM$1), throttle(compareSize[0] * targetSize[1] / targetSize[0], TINY_NUM$1)], [throttle(compareSize[1] * targetSize[0] / targetSize[1], TINY_NUM$1), throttle(compareSize[1], TINY_NUM$1)]].filter(function(size) {
+function checkBoundSize(targetSize, compareSize, isMax, ratio) {
+  if (ratio === void 0) {
+    ratio = targetSize[0] / targetSize[1];
+  }
+  return [[throttle(compareSize[0], TINY_NUM$1), throttle(compareSize[0] / ratio, TINY_NUM$1)], [throttle(compareSize[1] * ratio, TINY_NUM$1), throttle(compareSize[1], TINY_NUM$1)]].filter(function(size) {
     return size.every(function(value2, i2) {
-      return isMax ? value2 <= compareSize[i2] : value2 >= compareSize[i2];
+      var defaultSize = compareSize[i2];
+      var throttledSize = throttle(defaultSize, TINY_NUM$1);
+      return isMax ? value2 <= defaultSize || value2 <= throttledSize : value2 >= defaultSize || value2 >= throttledSize;
     });
   })[0] || targetSize;
 }
@@ -33004,8 +34644,9 @@ function calculateBoundSize(size, minSize, maxSize, keepRatio) {
     });
   }
   var width = size[0], height = size[1];
-  var _a3 = checkBoundSize(size, minSize, false), minWidth = _a3[0], minHeight = _a3[1];
-  var _b3 = checkBoundSize(size, maxSize, true), maxWidth = _b3[0], maxHeight = _b3[1];
+  var ratio = keepRatio === true ? width / height : keepRatio;
+  var _a3 = checkBoundSize(size, minSize, false, ratio), minWidth = _a3[0], minHeight = _a3[1];
+  var _b3 = checkBoundSize(size, maxSize, true, ratio), maxWidth = _b3[0], maxHeight = _b3[1];
   if (width < minWidth || height < minHeight) {
     width = minWidth;
     height = minHeight;
@@ -33057,7 +34698,8 @@ function throttle(num, unit) {
   if (!unit) {
     return num;
   }
-  return Math.round(num / unit) * unit;
+  var reverseUnit = 1 / unit;
+  return Math.round(num / unit) / reverseUnit;
 }
 function throttleArray(nums, unit) {
   nums.forEach(function(_2, i2) {
@@ -34574,6 +36216,17 @@ function __spreadArrays$3() {
       r2[k] = a2[j2];
   return r2;
 }
+function tinyThrottle(num) {
+  return throttle(num, TINY_NUM$1);
+}
+function isSameConstants(linearConstants1, linearConstants2) {
+  return linearConstants1.every(function(v2, i2) {
+    return tinyThrottle(v2 - linearConstants2[i2]) === 0;
+  });
+}
+function isSamePoint(point1, point2) {
+  return !tinyThrottle(point1[0] - point2[0]) && !tinyThrottle(point1[1] - point2[1]);
+}
 function getAreaSize(points) {
   if (points.length < 3) {
     return 0;
@@ -34608,70 +36261,109 @@ function getMinMaxs(points) {
 }
 function isInside(pos, points, excludeLine) {
   var x = pos[0], y2 = pos[1];
-  var _a3 = getMinMaxs(points), minX = _a3.minX, minY = _a3.minY, maxX = _a3.maxX, maxY = _a3.maxY;
+  var _a3 = getMinMaxs(points), minX = _a3.minX, maxX = _a3.maxX;
   var xLine = [[minX, y2], [maxX, y2]];
-  var yLine = [[x, minY], [x, maxY]];
   var xLinearConstants = getLinearConstants(xLine[0], xLine[1]);
-  var yLinearConstants = getLinearConstants(yLine[0], yLine[1]);
   var lines = convertLines(points);
-  var intersectionXPoints = [];
-  var intersectionYPoints = [];
+  var intersectionPosInfos = [];
   lines.forEach(function(line) {
     var linearConstants = getLinearConstants(line[0], line[1]);
-    var xPoints = getPointsOnLines(getIntersectionPointsByConstants(xLinearConstants, linearConstants), [xLine, line]);
-    var yPoints = getPointsOnLines(getIntersectionPointsByConstants(yLinearConstants, linearConstants), [yLine, line]);
-    if (xPoints.length === 1 ? line[0][1] !== y2 : true) {
-      intersectionXPoints.push.apply(intersectionXPoints, xPoints);
-    }
-    if (yPoints.length === 1 ? line[0][0] !== x : true) {
-      intersectionYPoints.push.apply(intersectionYPoints, yPoints);
-    }
-    if (!linearConstants[0]) {
-      intersectionXPoints.push.apply(intersectionXPoints, xPoints);
-    }
-    if (!linearConstants[1]) {
-      intersectionYPoints.push.apply(intersectionYPoints, yPoints);
+    var standardPoint = line[0];
+    if (isSameConstants(xLinearConstants, linearConstants)) {
+      intersectionPosInfos.push({
+        pos,
+        line,
+        type: "line"
+      });
+    } else {
+      var xPoints = getPointsOnLines(getIntersectionPointsByConstants(xLinearConstants, linearConstants), [xLine, line]);
+      xPoints.forEach(function(point) {
+        if (line.some(function(linePoint) {
+          return isSamePoint(linePoint, point);
+        })) {
+          intersectionPosInfos.push({
+            pos: point,
+            line,
+            type: "point"
+          });
+        } else if (tinyThrottle(standardPoint[1] - y2) !== 0) {
+          intersectionPosInfos.push({
+            pos: point,
+            line,
+            type: "intersection"
+          });
+        }
+      });
     }
   });
   if (!excludeLine) {
-    if (findIndex(intersectionXPoints, function(p) {
+    if (find$1(intersectionPosInfos, function(p) {
       return p[0] === x;
-    }) > -1 || findIndex(intersectionYPoints, function(p) {
-      return p[1] === y2;
-    }) > -1) {
+    })) {
       return true;
     }
   }
-  if (intersectionXPoints.filter(function(p) {
-    return p[0] > x;
-  }).length % 2 && intersectionYPoints.filter(function(p) {
-    return p[1] > y2;
-  }).length % 2) {
-    return true;
-  }
-  return false;
+  var intersectionCount = 0;
+  var xMap = {};
+  intersectionPosInfos.forEach(function(_a4) {
+    var pos2 = _a4.pos, type = _a4.type, line = _a4.line;
+    if (pos2[0] > x) {
+      return;
+    }
+    if (type === "intersection") {
+      ++intersectionCount;
+    } else if (type === "line") {
+      return;
+    } else if (type === "point") {
+      var point = find$1(line, function(linePoint) {
+        return linePoint[1] !== y2;
+      });
+      var prevValue = xMap[pos2[0]];
+      var nextValue = point[1] > y2 ? 1 : -1;
+      if (!prevValue) {
+        xMap[pos2[0]] = nextValue;
+      } else if (prevValue !== nextValue) {
+        ++intersectionCount;
+      }
+    }
+  });
+  return intersectionCount % 2 === 1;
 }
 function getLinearConstants(point1, point2) {
   var x1 = point1[0], y1 = point1[1];
   var x2 = point2[0], y2 = point2[1];
-  if (x1 === x2 && y1 === y2) {
-    return [0, 0, 0];
+  var dx = x2 - x1;
+  var dy = y2 - y1;
+  if (Math.abs(dx) < TINY_NUM$1) {
+    dx = 0;
   }
-  if (x1 === x2) {
-    return [1, 0, -x1];
-  } else if (y1 === y2) {
-    return [0, 1, -y1];
+  if (Math.abs(dy) < TINY_NUM$1) {
+    dy = 0;
+  }
+  var a2 = 0;
+  var b2 = 0;
+  var c2 = 0;
+  if (!dx) {
+    if (dy) {
+      a2 = -1;
+      c2 = x1;
+    }
+  } else if (!dy) {
+    b2 = 1;
+    c2 = -y1;
   } else {
-    var a_1 = (x2 - x1) / (y1 - y2);
-    var b_1 = -x1 - a_1 * y1;
-    return [1, a_1, b_1];
+    a2 = -dy / dx;
+    b2 = 1;
+    c2 = -a2 * x1 - y1;
   }
+  return [a2, b2, c2];
 }
 function getIntersectionPointsByConstants(linearConstants1, linearConstants2) {
   var a1 = linearConstants1[0], b1 = linearConstants1[1], c1 = linearConstants1[2];
   var a2 = linearConstants2[0], b2 = linearConstants2[1], c2 = linearConstants2[2];
   var isZeroA = a1 === 0 && a2 === 0;
   var isZeroB = b1 === 0 && b2 === 0;
+  var results = [];
   if (isZeroA && isZeroB) {
     return [];
   } else if (isZeroA) {
@@ -34693,24 +36385,27 @@ function getIntersectionPointsByConstants(linearConstants1, linearConstants2) {
   } else if (a1 === 0) {
     var y3 = -c1 / b1;
     var x = -(b2 * y3 + c2) / a2;
-    return [[x, y3]];
+    results = [[x, y3]];
   } else if (a2 === 0) {
     var y3 = -c2 / b2;
     var x = -(b1 * y3 + c1) / a1;
-    return [[x, y3]];
+    results = [[x, y3]];
   } else if (b1 === 0) {
     var x = -c1 / a1;
     var y3 = -(a2 * x + c2) / b2;
-    return [[x, y3]];
+    results = [[x, y3]];
   } else if (b2 === 0) {
     var x = -c2 / a2;
     var y3 = -(a1 * x + c1) / b1;
-    return [[x, y3]];
+    results = [[x, y3]];
   } else {
     var x = (b1 * c2 - b2 * c1) / (b2 * a1 - b1 * a2);
     var y3 = -(a1 * x + c1) / b1;
-    return [[x, y3]];
+    results = [[x, y3]];
   }
+  return results.map(function(result) {
+    return [result[0], result[1]];
+  });
 }
 function getPointsOnLines(points, lines) {
   var minMaxs = lines.map(function(line) {
@@ -34718,36 +36413,43 @@ function getPointsOnLines(points, lines) {
       return [Math.min(line[0][order2], line[1][order2]), Math.max(line[0][order2], line[1][order2])];
     });
   });
+  var results = [];
   if (points.length === 2) {
     var _a3 = points[0], x = _a3[0], y2 = _a3[1];
-    if (x === points[1][0]) {
+    if (!tinyThrottle(x - points[1][0])) {
       var top2 = Math.max.apply(Math, minMaxs.map(function(minMax) {
         return minMax[1][0];
       }));
       var bottom2 = Math.min.apply(Math, minMaxs.map(function(minMax) {
         return minMax[1][1];
       }));
-      if (top2 > bottom2) {
+      if (tinyThrottle(top2 - bottom2) > 0) {
         return [];
       }
-      return [[x, top2], [x, bottom2]];
-    } else if (y2 === points[1][1]) {
+      results = [[x, top2], [x, bottom2]];
+    } else if (!tinyThrottle(y2 - points[1][1])) {
       var left2 = Math.max.apply(Math, minMaxs.map(function(minMax) {
         return minMax[0][0];
       }));
       var right2 = Math.min.apply(Math, minMaxs.map(function(minMax) {
         return minMax[0][1];
       }));
-      if (left2 > right2) {
+      if (tinyThrottle(left2 - right2) > 0) {
         return [];
       }
-      return [[left2, y2], [right2, y2]];
+      results = [[left2, y2], [right2, y2]];
     }
   }
-  return points.filter(function(point) {
-    return minMaxs.every(function(minMax) {
-      return minMax[0][0] <= point[0] && point[0] <= minMax[0][1] && minMax[1][0] <= point[1] && point[1] <= minMax[1][1];
+  if (!results.length) {
+    results = points.filter(function(point) {
+      var pointX = point[0], pointY = point[1];
+      return minMaxs.every(function(minMax) {
+        return 0 <= tinyThrottle(pointX - minMax[0][0]) && 0 <= tinyThrottle(minMax[0][1] - pointX) && 0 <= tinyThrottle(pointY - minMax[1][0]) && 0 <= tinyThrottle(minMax[1][1] - pointY);
+      });
     });
+  }
+  return results.map(function(result) {
+    return [tinyThrottle(result[0]), tinyThrottle(result[1])];
   });
 }
 function convertLines(points) {
@@ -34755,7 +36457,7 @@ function convertLines(points) {
     return [points[i2], point];
   });
 }
-function getOverlapPoints(points1, points2) {
+function getOverlapPointInfos(points1, points2) {
   var targetPoints1 = points1.slice();
   var targetPoints2 = points2.slice();
   if (getShapeDirection(targetPoints1) === -1) {
@@ -34766,24 +36468,25 @@ function getOverlapPoints(points1, points2) {
   }
   var lines1 = convertLines(targetPoints1);
   var lines2 = convertLines(targetPoints2);
-  var linearConstantss1 = lines1.map(function(line1) {
+  var linearConstantsList1 = lines1.map(function(line1) {
     return getLinearConstants(line1[0], line1[1]);
   });
-  var linearConstantss2 = lines2.map(function(line2) {
+  var linearConstantsList2 = lines2.map(function(line2) {
     return getLinearConstants(line2[0], line2[1]);
   });
   var overlapInfos = [];
-  linearConstantss1.forEach(function(linearConstants1, i2) {
+  linearConstantsList1.forEach(function(linearConstants1, i2) {
     var line1 = lines1[i2];
     var linePointInfos = [];
-    linearConstantss2.forEach(function(linearConstants2, j2) {
+    linearConstantsList2.forEach(function(linearConstants2, j2) {
       var intersectionPoints = getIntersectionPointsByConstants(linearConstants1, linearConstants2);
       var points = getPointsOnLines(intersectionPoints, [line1, lines2[j2]]);
       linePointInfos.push.apply(linePointInfos, points.map(function(pos) {
         return {
           index1: i2,
           index2: j2,
-          pos
+          pos,
+          type: "intersection"
         };
       }));
     });
@@ -34795,65 +36498,73 @@ function getOverlapPoints(points1, points2) {
       overlapInfos.push({
         index1: i2,
         index2: -1,
-        pos: line1[1]
+        pos: line1[1],
+        type: "inside"
       });
     }
   });
   lines2.forEach(function(line2, i2) {
-    if (isInside(line2[1], targetPoints1)) {
-      var isNext_1 = false;
-      var index = findIndex(overlapInfos, function(_a3) {
-        var index2 = _a3.index2;
-        if (index2 === i2) {
-          isNext_1 = true;
+    if (!isInside(line2[1], targetPoints1)) {
+      return;
+    }
+    var isNext = false;
+    var index = findIndex(overlapInfos, function(_a3) {
+      var index2 = _a3.index2;
+      if (index2 === i2) {
+        isNext = true;
+        return false;
+      }
+      if (isNext) {
+        return true;
+      }
+      return false;
+    });
+    if (index === -1) {
+      isNext = false;
+      index = findIndex(overlapInfos, function(_a3) {
+        var index1 = _a3.index1, index2 = _a3.index2;
+        if (index1 === -1 && index2 + 1 === i2) {
+          isNext = true;
           return false;
         }
-        if (isNext_1) {
+        if (isNext) {
           return true;
         }
         return false;
       });
-      if (index === -1) {
-        isNext_1 = false;
-        index = findIndex(overlapInfos, function(_a3) {
-          var index1 = _a3.index1, index2 = _a3.index2;
-          if (index1 === -1 && index2 + 1 === i2) {
-            isNext_1 = true;
-            return false;
-          }
-          if (isNext_1) {
-            return true;
-          }
-          return false;
-        });
-      }
-      if (index === -1) {
-        overlapInfos.push({
-          index1: -1,
-          index2: i2,
-          pos: line2[1]
-        });
-      } else {
-        overlapInfos.splice(index, 0, {
-          index1: -1,
-          index2: i2,
-          pos: line2[1]
-        });
-      }
+    }
+    if (index === -1) {
+      overlapInfos.push({
+        index1: -1,
+        index2: i2,
+        pos: line2[1],
+        type: "inside"
+      });
+    } else {
+      overlapInfos.splice(index, 0, {
+        index1: -1,
+        index2: i2,
+        pos: line2[1],
+        type: "inside"
+      });
     }
   });
-  var overlapPoints = overlapInfos.map(function(_a3) {
-    var pos = _a3.pos;
-    return pos;
-  });
   var pointMap = {};
-  return overlapPoints.filter(function(point) {
-    var key = point[0] + "x" + point[1];
+  return overlapInfos.filter(function(_a3) {
+    var pos = _a3.pos;
+    var key = pos[0] + "x" + pos[1];
     if (pointMap[key]) {
       return false;
     }
     pointMap[key] = true;
     return true;
+  });
+}
+function getOverlapPoints(points1, points2) {
+  var infos = getOverlapPointInfos(points1, points2);
+  return infos.map(function(_a3) {
+    var pos = _a3.pos;
+    return pos;
   });
 }
 function getOverlapSize(points1, points2) {
@@ -34894,7 +36605,7 @@ function __spreadArrays$2() {
       r2[k] = a2[j2];
   return r2;
 }
-var EventEmitter$2 = /* @__PURE__ */ function() {
+var EventEmitter$3 = /* @__PURE__ */ function() {
   function EventEmitter2() {
     this._events = {};
   }
@@ -34983,7 +36694,10 @@ var EventEmitter$2 = /* @__PURE__ */ function() {
   };
   return EventEmitter2;
 }();
-var EventEmitter$3 = EventEmitter$2;
+var EventEmitter$4 = EventEmitter$3;
+function now() {
+  return Date.now ? Date.now() : new Date().getTime();
+}
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -35176,7 +36890,7 @@ var DragScroll = /* @__PURE__ */ function(_super) {
     }));
   };
   return DragScroll2;
-}(EventEmitter$3);
+}(EventEmitter$4);
 var DragScroll$1 = DragScroll;
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -35408,9 +37122,13 @@ var Gesto = /* @__PURE__ */ function(_super) {
       if (!_this.flag && e.cancelable === false) {
         return;
       }
-      var _a4 = _this.options, container2 = _a4.container, pinchOutside = _a4.pinchOutside, preventRightClick = _a4.preventRightClick, preventDefault = _a4.preventDefault, checkInput = _a4.checkInput;
+      var _a4 = _this.options, container2 = _a4.container, pinchOutside = _a4.pinchOutside, preventWheelClick = _a4.preventWheelClick, preventRightClick = _a4.preventRightClick, preventDefault = _a4.preventDefault, checkInput = _a4.checkInput;
       var isTouch = _this.isTouch;
       var isDragStart = !_this.flag;
+      if (preventWheelClick && (e.which === 2 || e.button === 1) || preventRightClick && (e.which === 3 || e.button === 2)) {
+        _this.initDrag();
+        return false;
+      }
       if (isDragStart) {
         var activeElement = document.activeElement;
         var target = e.target;
@@ -35435,11 +37153,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
         _this.isDrag = false;
         _this._dragFlag = true;
         _this.datas = {};
-        if (preventRightClick && (e.which === 3 || e.button === 2)) {
-          _this.initDrag();
-          return false;
-        }
-        _this.doubleFlag = now() - _this.prevTime < 200;
+        _this.doubleFlag = now$1() - _this.prevTime < 200;
         var result = _this.emit("dragStart", __assign$4(__assign$4({
           datas: _this.datas,
           inputEvent: e,
@@ -35524,7 +37238,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
         _this._addStore(new ClientStore(clients));
       }
       var position = _this._getPosition();
-      var currentTime = now();
+      var currentTime = now$1();
       var isDouble = !_this.isDrag && _this.doubleFlag;
       _this.prevTime = _this.isDrag || isDouble ? 0 : currentTime;
       if (!_this.flag) {
@@ -35546,6 +37260,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
       checkInput: false,
       container: elements.length > 1 ? window : elements[0],
       preventRightClick: true,
+      preventWheelClick: true,
       preventDefault: true,
       checkWindowBlur: false,
       keepDragging: false,
@@ -35775,7 +37490,7 @@ var Gesto = /* @__PURE__ */ function(_super) {
     });
   };
   return Gesto2;
-}(EventEmitter$3);
+}(EventEmitter$4);
 var Gesto$1 = Gesto;
 function hash$2(str) {
   var hash2 = 5381, i2 = str.length;
@@ -35996,8 +37711,8 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-var __assign$2 = function() {
-  __assign$2 = Object.assign || function __assign2(t) {
+var __assign$1$1 = function() {
+  __assign$1$1 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
       for (var p in s2)
@@ -36006,7 +37721,7 @@ var __assign$2 = function() {
     }
     return t;
   };
-  return __assign$2.apply(this, arguments);
+  return __assign$1$1.apply(this, arguments);
 };
 function __spreadArrays$1() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
@@ -36016,7 +37731,7 @@ function __spreadArrays$1() {
       r2[k] = a2[j2];
   return r2;
 }
-var EventEmitter$1 = /* @__PURE__ */ function() {
+var EventEmitter$2 = /* @__PURE__ */ function() {
   function EventEmitter2() {
     this._events = {};
   }
@@ -36099,26 +37814,13 @@ var EventEmitter$1 = /* @__PURE__ */ function() {
     var events = this._events;
     events[eventName] = events[eventName] || [];
     var listeners = events[eventName];
-    listeners.push(__assign$2({
+    listeners.push(__assign$1$1({
       listener
     }, options));
   };
   return EventEmitter2;
 }();
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation.
-
-Permission to use, copy, modify, and/or distribute this software for any
-purpose with or without fee is hereby granted.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
-REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
-INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
-LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
-OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
+var EventEmitter$1$1 = EventEmitter$2;
 var extendStatics$1 = function(d2, b2) {
   extendStatics$1 = Object.setPrototypeOf || {
     __proto__: []
@@ -36140,8 +37842,8 @@ function __extends$1(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var __assign$1$1 = function() {
-  __assign$1$1 = Object.assign || function __assign2(t) {
+var __assign$2 = function() {
+  __assign$2 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
       for (var p in s2)
@@ -36150,7 +37852,7 @@ var __assign$1$1 = function() {
     }
     return t;
   };
-  return __assign$1$1.apply(this, arguments);
+  return __assign$2.apply(this, arguments);
 };
 function __rest(s2, e) {
   var t = {};
@@ -36187,7 +37889,7 @@ function __spreadArray(to, from, pack) {
 }
 function makeAble(name, able) {
   var _a3;
-  return __assign$1$1({
+  return __assign$2({
     events: {},
     props: (_a3 = {}, _a3[name] = Boolean, _a3),
     name
@@ -36254,8 +37956,7 @@ function setCustomDrag(e, state, delta, isPinch, isConvert) {
   var result = state.gesto.move(delta, e.inputEvent);
   var datas = result.originalDatas || result.datas;
   var draggableDatas = datas.draggable || (datas.draggable = {});
-  return __assign$1$1(__assign$1$1({}, isConvert ? convertDragDist(state, result) : result), {
-    isDrag: true,
+  return __assign$2(__assign$2({}, isConvert ? convertDragDist(state, result) : result), {
     isPinch: !!isPinch,
     parentEvent: true,
     datas: draggableDatas,
@@ -36283,7 +37984,7 @@ var CustomGesto = /* @__PURE__ */ function() {
     if (!originalDatas.draggable) {
       originalDatas.draggable = {};
     }
-    return __assign$1$1(__assign$1$1({}, this.move(client, e.inputEvent)), {
+    return __assign$2(__assign$2({}, this.move(client, e.inputEvent)), {
       type: "dragstart"
     });
   };
@@ -36304,7 +38005,9 @@ var CustomGesto = /* @__PURE__ */ function() {
     } else {
       clientX = this.prevX + delta[0];
       clientY = this.prevY + delta[1];
-      this.isDrag = true;
+      if (delta[0] || delta[1]) {
+        this.isDrag = true;
+      }
     }
     this.prevX = clientX;
     this.prevY = clientY;
@@ -36335,7 +38038,7 @@ function fillChildEvents(moveable, name, e) {
   return moveable.moveables.map(function(_2, i2) {
     childDatas[i2] = childDatas[i2] || {};
     childDatas[i2][name] = childDatas[i2][name] || {};
-    return __assign$1$1(__assign$1$1({}, e), {
+    return __assign$2(__assign$2({}, e), {
       datas: childDatas[i2][name],
       originalDatas: childDatas[i2]
     });
@@ -36350,20 +38053,24 @@ function triggerChildGesto(moveable, able, type, delta, e, isConvert) {
   var moveables = moveable.moveables;
   var childs = events.map(function(ev, i2) {
     var childMoveable = moveables[i2];
+    var state = childMoveable.state;
     var childEvent = ev;
     if (isStart) {
       childEvent = new CustomGesto().dragStart(delta, ev);
     } else {
-      if (!childMoveable.state.gesto) {
-        childMoveable.state.gesto = datas.childGestos[i2];
+      if (!state.gesto) {
+        state.gesto = datas.childGestos[i2];
       }
-      childEvent = setCustomDrag(ev, childMoveable.state, delta, isPinch, isConvert);
+      if (!state.gesto) {
+        return;
+      }
+      childEvent = setCustomDrag(ev, state, delta, isPinch, isConvert);
     }
-    var result = able[type](childMoveable, __assign$1$1(__assign$1$1({}, childEvent), {
+    var result = able[type](childMoveable, __assign$2(__assign$2({}, childEvent), {
       parentFlag: true
     }));
     if (isEnd) {
-      childMoveable.state.gesto = null;
+      state.gesto = null;
     }
     return result;
   });
@@ -36387,7 +38094,7 @@ function triggerChildAbles(moveable, able, type, e, eachEvent, callback) {
     var childMoveable = moveables[i2];
     var childEvent = ev;
     childEvent = eachEvent(childMoveable, ev);
-    var result = able[type](childMoveable, __assign$1$1(__assign$1$1({}, childEvent), {
+    var result = able[type](childMoveable, __assign$2(__assign$2({}, childEvent), {
       parentFlag: true
     }));
     result && callback && callback(childMoveable, ev, result, i2);
@@ -36611,10 +38318,10 @@ var Rotatable = {
         defaultDeg: externalRotate,
         prevSnapDeg: 0
       };
-      datas.afterInfo = __assign$1$1(__assign$1$1({}, datas.beforeInfo), {
+      datas.afterInfo = __assign$2(__assign$2({}, datas.beforeInfo), {
         origin: rect.origin
       });
-      datas.absoluteInfo = __assign$1$1(__assign$1$1({}, datas.beforeInfo), {
+      datas.absoluteInfo = __assign$2(__assign$2({}, datas.beforeInfo), {
         origin: rect.origin,
         startValue: externalRotate
       });
@@ -36638,7 +38345,7 @@ var Rotatable = {
     datas.startValue = 0;
     datas.datas = {};
     setDefaultTransformIndex(e, "rotate");
-    var params = fillParams(moveable, e, __assign$1$1(__assign$1$1({
+    var params = fillParams(moveable, e, __assign$2(__assign$2({
       set: function(rotatation) {
         datas.startValue = rotatation * Math.PI / 180;
       }
@@ -36714,7 +38421,7 @@ var Rotatable = {
     var inverseDelta = minus(plus(groupDelta || [0, 0], inverseDist), datas.prevInverseDist || [0, 0]);
     datas.prevInverseDist = inverseDist;
     datas.requestValue = null;
-    var params = fillParams(moveable, e, __assign$1$1({
+    var params = fillParams(moveable, e, __assign$2({
       delta,
       dist,
       rotate: rotation,
@@ -36758,11 +38465,11 @@ var Rotatable = {
       var _a4 = child.state, left2 = _a4.left, top2 = _a4.top, beforeOrigin = _a4.beforeOrigin;
       var childClient = plus(minus([left2, top2], [parentLeft, parentTop]), minus(beforeOrigin, parentBeforeOrigin));
       ev.datas.groupClient = childClient;
-      return __assign$1$1(__assign$1$1({}, ev), {
+      return __assign$2(__assign$2({}, ev), {
         parentRotate: 0
       });
     });
-    var nextParams = __assign$1$1(__assign$1$1({}, params), {
+    var nextParams = __assign$2(__assign$2({}, params), {
       targets: moveable.props.targets,
       events
     });
@@ -36776,7 +38483,7 @@ var Rotatable = {
       return;
     }
     catchEvent(moveable, "onBeforeRotate", function(parentEvent) {
-      triggerEvent(moveable, "onBeforeRotateGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
+      triggerEvent(moveable, "onBeforeRotateGroup", fillParams(moveable, e, __assign$2(__assign$2({}, parentEvent), {
         targets: moveable.props.targets
       }), true));
     });
@@ -36793,13 +38500,13 @@ var Rotatable = {
       var _b3 = rotate([prevX, prevY], rad * direction), clientX = _b3[0], clientY = _b3[1];
       var delta = [clientX - prevX, clientY - prevY];
       ev.datas.groupClient = [clientX, clientY];
-      return __assign$1$1(__assign$1$1({}, ev), {
+      return __assign$2(__assign$2({}, ev), {
         parentRotate,
         groupDelta: delta
       });
     });
     moveable.rotation = direction * params.beforeRotation;
-    var nextParams = __assign$1$1({
+    var nextParams = __assign$2({
       targets: moveable.props.targets,
       events,
       set: function(rotation) {
@@ -37083,7 +38790,7 @@ function getSnapElementRects(moveable, values) {
     var right2 = left2 + rect.width;
     var _a4 = calculateInversePosition(rootMatrix, [left2, top2], n), elementLeft = _a4[0], elementTop = _a4[1];
     var _b4 = calculateInversePosition(rootMatrix, [right2, bottom2], n), elementRight = _b4[0], elementBottom = _b4[1];
-    return __assign$1$1(__assign$1$1({}, value2), {
+    return __assign$2(__assign$2({}, value2), {
       rect: {
         left: elementLeft + distLeft,
         right: elementRight + distLeft,
@@ -37222,6 +38929,34 @@ function getGridGuidelines(snapGridWidth, snapGridHeight, containerWidth, contai
     }
   }
   return guidelines;
+}
+function solveLineConstants(_a3) {
+  var point1 = _a3[0], point2 = _a3[1];
+  var dx = point2[0] - point1[0];
+  var dy = point2[1] - point1[1];
+  if (Math.abs(dx) < TINY_NUM$1) {
+    dx = 0;
+  }
+  if (Math.abs(dy) < TINY_NUM$1) {
+    dy = 0;
+  }
+  var a2 = 0;
+  var b2 = 0;
+  var c2 = 0;
+  if (!dx) {
+    a2 = -1;
+    c2 = point1[0];
+  } else if (!dy) {
+    b2 = 1;
+    c2 = -point1[1];
+  } else {
+    a2 = -dy / dx;
+    b2 = 1;
+    c2 = a2 * point1[0] - point1[1];
+  }
+  return [a2, b2, c2].map(function(v2) {
+    return throttle(v2, TINY_NUM$1);
+  });
 }
 function checkMoveableSnapPoses(moveable, posesX, posesY, customSnapThreshold) {
   var props = moveable.props;
@@ -37468,12 +39203,21 @@ function getCheckSnapDirections(direction, fixedDirection, keepRatio) {
     if (Math.abs(fixedDirection[0]) !== 1 || Math.abs(fixedDirection[1]) !== 1) {
       directions.push([fixedDirection, [-1, -1]], [fixedDirection, [-1, 1]], [fixedDirection, [1, -1]], [fixedDirection, [1, 1]]);
     } else {
-      directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]], [fixedDirection, direction]);
+      directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]]);
     }
     directions.push([fixedDirection, direction]);
   } else {
-    if (direction[0] && direction[1]) {
-      directions.push([fixedDirection, [direction[0], -direction[1]]], [fixedDirection, [-direction[0], direction[1]]]);
+    if (direction[0] && direction[1] || !direction[0] && !direction[1]) {
+      var endDirection_1 = direction[0] ? direction : [1, 1];
+      [1, -1].forEach(function(signX) {
+        [1, -1].forEach(function(signY) {
+          var nextDirection = [signX * endDirection_1[0], signY * endDirection_1[1]];
+          if (fixedDirection[0] === nextDirection[0] && fixedDirection[1] === nextDirection[1]) {
+            return;
+          }
+          directions.push([fixedDirection, nextDirection]);
+        });
+      });
     } else if (direction[0]) {
       var signs = Math.abs(fixedDirection[0]) === 1 ? [1] : [1, -1];
       signs.forEach(function(sign2) {
@@ -37484,8 +39228,6 @@ function getCheckSnapDirections(direction, fixedDirection, keepRatio) {
       signs.forEach(function(sign2) {
         directions.push([[-1, fixedDirection[1]], [-1, sign2 * direction[1]]], [[0, fixedDirection[1]], [0, sign2 * direction[1]]], [[1, fixedDirection[1]], [1, sign2 * direction[1]]]);
       });
-    } else {
-      directions.push([fixedDirection, [1, 0]], [fixedDirection, [-1, 0]], [fixedDirection, [0, -1]], [fixedDirection, [0, 1]], [[1, 0], [1, -1]], [[1, 0], [1, 1]], [[0, 1], [1, 1]], [[0, 1], [-1, 1]], [[-1, 0], [-1, -1]], [[-1, 0], [-1, 1]], [[0, -1], [1, -1]], [[0, -1], [-1, -1]]);
     }
   }
   return directions;
@@ -37523,12 +39265,11 @@ function hitTestLine(dot2, _a3) {
   }
   return test1 - test2;
 }
-function isSameStartLine(dots, line, error) {
+function isSameStartLine(dots, line, centerSign, error) {
   if (error === void 0) {
     error = TINY_NUM;
   }
-  var centerSign = hitTestLine(dots[0], line) <= 0;
-  return dots.slice(1).every(function(dot2) {
+  return dots.every(function(dot2) {
     var value2 = hitTestLine(dot2, line);
     var sign2 = value2 <= 0;
     return sign2 === centerSign || Math.abs(value2) <= error;
@@ -37549,7 +39290,8 @@ function checkInnerBoundDot(pos, start2, end2, isStart, threshold) {
     offset: 0
   };
 }
-function checkInnerBound(moveable, line, center) {
+function checkInnerBound(moveable, _a3) {
+  var line = _a3.line, centerSign = _a3.centerSign, verticalSign = _a3.verticalSign, horizontalSign = _a3.horizontalSign, lineConstants = _a3.lineConstants;
   var bounds = moveable.props.innerBounds;
   if (!bounds) {
     return {
@@ -37565,8 +39307,7 @@ function checkInnerBound(moveable, line, center) {
   var topLine = [[left2, top2], [left2 + width, top2]];
   var rightLine = [[left2 + width, top2], [left2 + width, top2 + height]];
   var bottomLine = [[left2, top2 + height], [left2 + width, top2 + height]];
-  var _a3 = isStartLine(center, line), isHorizontalStart = _a3.horizontal, isVerticalStart = _a3.vertical;
-  if (isSameStartLine([center, [left2, top2], [left2 + width, top2], [left2, top2 + height], [left2 + width, top2 + height]], line)) {
+  if (isSameStartLine([[left2, top2], [left2 + width, top2], [left2, top2 + height], [left2 + width, top2 + height]], line, centerSign)) {
     return {
       isAllBound: false,
       isBound: false,
@@ -37575,10 +39316,10 @@ function checkInnerBound(moveable, line, center) {
       offset: [0, 0]
     };
   }
-  var topBoundInfo = checkLineBoundCollision(line, topLine, isVerticalStart);
-  var bottomBoundInfo = checkLineBoundCollision(line, bottomLine, isVerticalStart);
-  var leftBoundInfo = checkLineBoundCollision(line, leftLine, isHorizontalStart);
-  var rightBoundInfo = checkLineBoundCollision(line, rightLine, isHorizontalStart);
+  var topBoundInfo = checkLineBoundCollision(line, lineConstants, topLine, verticalSign);
+  var bottomBoundInfo = checkLineBoundCollision(line, lineConstants, bottomLine, verticalSign);
+  var leftBoundInfo = checkLineBoundCollision(line, lineConstants, leftLine, horizontalSign);
+  var rightBoundInfo = checkLineBoundCollision(line, lineConstants, rightLine, horizontalSign);
   var isAllVerticalBound = topBoundInfo.isBound && bottomBoundInfo.isBound;
   var isVerticalBound = topBoundInfo.isBound || bottomBoundInfo.isBound;
   var isAllHorizontalBound = leftBoundInfo.isBound && rightBoundInfo.isBound;
@@ -37605,23 +39346,24 @@ function checkInnerBound(moveable, line, center) {
     offset: offset2
   };
 }
-function checkLineBoundCollision(line, boundLine, isStart, threshold, isRender) {
+function checkLineBoundCollision(line, _a3, boundLine, isStart, threshold, isRender) {
+  var a2 = _a3[0], b2 = _a3[1];
   var dot1 = line[0];
-  var dot2 = line[1];
   var boundDot1 = boundLine[0];
   var boundDot2 = boundLine[1];
-  var dy1 = getTinyDist(dot2[1] - dot1[1]);
-  var dx1 = getTinyDist(dot2[0] - dot1[0]);
   var dy2 = getTinyDist(boundDot2[1] - boundDot1[1]);
   var dx2 = getTinyDist(boundDot2[0] - boundDot1[0]);
+  var hasDx = b2;
+  var hasDy = a2;
+  var slope = -a2 / b2;
   if (!dx2) {
-    if (isRender && !dy1) {
+    if (isRender && !hasDy) {
       return {
         isBound: false,
         offset: 0
       };
-    } else if (dx1) {
-      var y2 = dy1 / dx1 * (boundDot1[0] - dot1[0]) + dot1[1];
+    } else if (hasDx) {
+      var y2 = slope * (boundDot1[0] - dot1[0]) + dot1[1];
       return checkInnerBoundDot(y2, boundDot1[1], boundDot2[1], isStart, threshold);
     } else {
       var offset2 = boundDot1[0] - dot1[0];
@@ -37632,13 +39374,13 @@ function checkLineBoundCollision(line, boundLine, isStart, threshold, isRender) 
       };
     }
   } else if (!dy2) {
-    if (isRender && !dx1) {
+    if (isRender && !hasDx) {
       return {
         isBound: false,
         offset: 0
       };
-    } else if (dy1) {
-      var x = (boundDot1[1] - dot1[1]) / (dy1 / dx1) + dot1[0];
+    } else if (hasDy) {
+      var x = (boundDot1[1] - dot1[1]) / slope + dot1[0];
       return checkInnerBoundDot(x, boundDot1[0], boundDot2[0], isStart, threshold);
     } else {
       var offset2 = boundDot1[1] - dot1[1];
@@ -37654,10 +39396,10 @@ function checkLineBoundCollision(line, boundLine, isStart, threshold, isRender) 
     offset: 0
   };
 }
-function getInnerBoundInfo(moveable, lines, center, datas) {
-  return lines.map(function(_a3) {
-    var multiple = _a3[0], pos1 = _a3[1], pos2 = _a3[2];
-    var _b3 = checkInnerBound(moveable, [pos1, pos2], center), isBound = _b3.isBound, offset2 = _b3.offset, isVerticalBound = _b3.isVerticalBound, isHorizontalBound = _b3.isHorizontalBound;
+function getInnerBoundInfo(moveable, lineInfos, datas) {
+  return lineInfos.map(function(info) {
+    var _a3 = checkInnerBound(moveable, info), isBound = _a3.isBound, offset2 = _a3.offset, isVerticalBound = _a3.isVerticalBound, isHorizontalBound = _a3.isHorizontalBound;
+    var multiple = info.multiple;
     var sizeOffset = getDragDist({
       datas,
       distX: offset2[0],
@@ -37677,13 +39419,14 @@ function getInnerBoundInfo(moveable, lines, center, datas) {
 }
 function getInnerBoundDragInfo(moveable, poses, datas) {
   var _a3;
-  var lines = getCheckInnerBoundLines(poses, [0, 0], false).map(function(_a4) {
-    var sign2 = _a4[0], pos1 = _a4[1], pos2 = _a4[2];
-    return [sign2.map(function(dir) {
-      return Math.abs(dir) * 2;
-    }), pos1, pos2];
+  var lines = getCheckInnerBoundLineInfos(moveable, poses, [0, 0], false).map(function(info) {
+    return __assign$2(__assign$2({}, info), {
+      multiple: info.multiple.map(function(dir) {
+        return Math.abs(dir) * 2;
+      })
+    });
   });
-  var innerBoundInfo = getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas);
+  var innerBoundInfo = getInnerBoundInfo(moveable, lines, datas);
   var widthOffsetInfo = getNearOffsetInfo(innerBoundInfo, 0);
   var heightOffsetInfo = getNearOffsetInfo(innerBoundInfo, 1);
   var verticalOffset = 0;
@@ -37729,19 +39472,33 @@ function getCheckSnapLineDirections(direction, keepRatio) {
   }
   return lineDirections;
 }
-function getCheckInnerBoundLines(poses, direction, keepRatio) {
-  return getCheckSnapLineDirections(direction, keepRatio).map(function(_a3) {
-    var sign2 = _a3[0], dir1 = _a3[1], dir2 = _a3[2];
-    return [sign2, getPosByDirection(poses, dir1), getPosByDirection(poses, dir2)];
+function getCheckInnerBoundLineInfos(moveable, poses, direction, keepRatio) {
+  var _a3 = moveable.state, allMatrix = _a3.allMatrix, is3d = _a3.is3d;
+  var virtualPoses = calculatePoses(allMatrix, 100, 100, is3d ? 4 : 3);
+  var center = getPosByDirection(virtualPoses, [0, 0]);
+  return getCheckSnapLineDirections(direction, keepRatio).map(function(_a4) {
+    var multiple = _a4[0], dir1 = _a4[1], dir2 = _a4[2];
+    var virtualLine = [getPosByDirection(virtualPoses, dir1), getPosByDirection(virtualPoses, dir2)];
+    var lineConstants = solveLineConstants(virtualLine);
+    var _b3 = isStartLine(center, virtualLine), verticalSign = _b3.vertical, horizontalSign = _b3.horizontal;
+    var centerSign = hitTestLine(center, virtualLine) <= 0;
+    return {
+      multiple,
+      centerSign,
+      verticalSign,
+      horizontalSign,
+      lineConstants,
+      line: [getPosByDirection(poses, dir1), getPosByDirection(poses, dir2)]
+    };
   });
 }
-function isBoundRotate(relativePoses, boundDots, center, rad) {
+function isBoundRotate$1(relativePoses, boundDots, center, rad) {
   var nextPoses = rad ? relativePoses.map(function(pos) {
     return rotate(pos, rad);
   }) : relativePoses;
-  var dots = __spreadArray([center], boundDots, true);
   return [[nextPoses[0], nextPoses[1]], [nextPoses[1], nextPoses[3]], [nextPoses[3], nextPoses[2]], [nextPoses[2], nextPoses[0]]].some(function(line) {
-    return !isSameStartLine(dots, line);
+    var centerSign = hitTestLine(center, line) <= 0;
+    return !isSameStartLine(boundDots, line, centerSign);
   });
 }
 function getDistPointLine(_a3) {
@@ -37784,7 +39541,7 @@ function checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation
   var relativeBottom = top2 + height - origin[1];
   var dots = [[relativeLeft, relativeTop], [relativeRight, relativeTop], [relativeLeft, relativeBottom], [relativeRight, relativeBottom]];
   var center = getPosByDirection(nextPoses, [0, 0]);
-  if (!isBoundRotate(nextPoses, dots, center, 0)) {
+  if (!isBoundRotate$1(nextPoses, dots, center, 0)) {
     return [];
   }
   var result = [];
@@ -37807,7 +39564,7 @@ function checkRotateInnerBounds(moveable, prevPoses, nextPoses, origin, rotation
       prev2.push.apply(prev2, cur);
       return prev2;
     }, []).filter(function(nextRad) {
-      return !isBoundRotate(prevPoses, dots, center, nextRad);
+      return !isBoundRotate$1(prevPoses, dots, center, nextRad);
     }).map(function(nextRad) {
       return throttle(nextRad * 180 / Math.PI, TINY_NUM);
     }));
@@ -37830,7 +39587,7 @@ function checkInnerBoundPoses(moveable) {
   var topLine = [[left2, top2], [left2 + width, top2]];
   var rightLine = [[left2 + width, top2], [left2 + width, top2 + height]];
   var bottomLine = [[left2, top2 + height], [left2 + width, top2 + height]];
-  var lines = [[pos1, pos2], [pos2, pos4], [pos4, pos3], [pos3, pos1]];
+  var lineInfos = getCheckInnerBoundLineInfos(moveable, poses, [0, 0], false);
   var horizontalPoses = [];
   var verticalPoses = [];
   var boundMap = {
@@ -37839,12 +39596,13 @@ function checkInnerBoundPoses(moveable) {
     left: false,
     right: false
   };
-  lines.forEach(function(line) {
+  lineInfos.forEach(function(lineInfo) {
+    var line = lineInfo.line, lineConstants = lineInfo.lineConstants;
     var _a4 = isStartLine(center, line), isHorizontalStart = _a4.horizontal, isVerticalStart = _a4.vertical;
-    var topBoundInfo = checkLineBoundCollision(line, topLine, isVerticalStart, 1, true);
-    var bottomBoundInfo = checkLineBoundCollision(line, bottomLine, isVerticalStart, 1, true);
-    var leftBoundInfo = checkLineBoundCollision(line, leftLine, isHorizontalStart, 1, true);
-    var rightBoundInfo = checkLineBoundCollision(line, rightLine, isHorizontalStart, 1, true);
+    var topBoundInfo = checkLineBoundCollision(line, lineConstants, topLine, isVerticalStart, 1, true);
+    var bottomBoundInfo = checkLineBoundCollision(line, lineConstants, bottomLine, isVerticalStart, 1, true);
+    var leftBoundInfo = checkLineBoundCollision(line, lineConstants, leftLine, isHorizontalStart, 1, true);
+    var rightBoundInfo = checkLineBoundCollision(line, lineConstants, rightLine, isHorizontalStart, 1, true);
     if (topBoundInfo.isBound && !boundMap.top) {
       horizontalPoses.push(top2);
       boundMap.top = true;
@@ -38026,7 +39784,7 @@ function checkBounds(bounds, poses, isVertical) {
     return Math.abs(b2.offset) - Math.abs(a2.offset);
   });
 }
-function isBoundRotate$1(relativePoses, boundRect, rad) {
+function isBoundRotate(relativePoses, boundRect, rad) {
   var nextPoses = rad ? relativePoses.map(function(pos) {
     return rotate(pos, rad);
   }) : relativePoses;
@@ -38059,7 +39817,7 @@ function checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation) {
     right: relativeRight,
     bottom: relativeBottom
   };
-  if (!isBoundRotate$1(nextPoses, boundRect, 0)) {
+  if (!isBoundRotate(nextPoses, boundRect, 0)) {
     return [];
   }
   var result = [];
@@ -38070,7 +39828,7 @@ function checkRotateBounds(moveable, prevPoses, nextPoses, origin, rotation) {
       result.push.apply(result, boundRotate(nextPos, boundPos, index).map(function(relativeRad2) {
         return rad + relativeRad2 - relativeRad1;
       }).filter(function(nextRad) {
-        return !isBoundRotate$1(prevPoses, boundRect, nextRad);
+        return !isBoundRotate(prevPoses, boundRect, nextRad);
       }).map(function(nextRad) {
         return throttle(nextRad * 180 / Math.PI, TINY_NUM);
       }));
@@ -38090,7 +39848,7 @@ function renderGuideline(info, React) {
   });
 }
 function renderInnerGuideline(info, React) {
-  return renderGuideline(__assign$1$1(__assign$1$1({}, info), {
+  return renderGuideline(__assign$2(__assign$2({}, info), {
     classNames: __spreadArray([prefix("line", "guideline", info.direction)], info.classNames, true).filter(function(className) {
       return className;
     }),
@@ -38149,7 +39907,10 @@ function renderGuidelines(moveable, type, guidelines, targetPos, targetRect, Rea
 }
 function renderDigitLine(moveable, type, lineType, index, gap, renderPos, className, React) {
   var _a3;
-  var _b3 = moveable.props, _c3 = _b3.snapDigit, snapDigit = _c3 === void 0 ? 0 : _c3, _d2 = _b3.isDisplaySnapDigit, isDisplaySnapDigit = _d2 === void 0 ? true : _d2, _e = _b3.snapDistFormat, snapDistFormat = _e === void 0 ? function(v2) {
+  var _b3 = moveable.props, _c3 = _b3.snapDigit, snapDigit = _c3 === void 0 ? 0 : _c3, _d2 = _b3.isDisplaySnapDigit, isDisplaySnapDigit = _d2 === void 0 ? true : _d2, _e = _b3.snapDistFormat, snapDistFormat = _e === void 0 ? function(v2, type2) {
+    if (type2 === "vertical") {
+      return v2;
+    }
     return v2;
   } : _e, zoom = _b3.zoom;
   var scaleType = type === "horizontal" ? "X" : "Y";
@@ -38175,7 +39936,7 @@ function renderDigitLine(moveable, type, lineType, index, gap, renderPos, classN
     style: {
       transform: "translate".concat(scaleType, "(-50%) scale(").concat(zoom, ")")
     }
-  }, snapSize > 0 ? snapDistFormat(snapSize) : ""));
+  }, snapSize > 0 ? snapDistFormat(snapSize, type) : ""));
 }
 function groupByElementGuidelines(type, guidelines, targetRect, isDisplayInnerSnapDigit) {
   var index = type === "vertical" ? 0 : 1;
@@ -38201,11 +39962,11 @@ function groupByElementGuidelines(type, guidelines, targetRect, isDisplayInnerSn
         var pos = guideline.pos;
         var elementRect1 = {
           element,
-          rect: __assign$1$1(__assign$1$1({}, rect), (_a3 = {}, _a3[names.end] = rect[names.start], _a3))
+          rect: __assign$2(__assign$2({}, rect), (_a3 = {}, _a3[names.end] = rect[names.start], _a3))
         };
         var elementRect2 = {
           element,
-          rect: __assign$1$1(__assign$1$1({}, rect), (_b3 = {}, _b3[names.start] = rect[names.end], _b3))
+          rect: __assign$2(__assign$2({}, rect), (_b3 = {}, _b3[names.start] = rect[names.end], _b3))
         };
         var nextPos1 = [0, 0];
         var nextPos2 = [0, 0];
@@ -38626,7 +40387,17 @@ function getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, dat
       };
     }
     var isVertical = snapLine === "vertical";
-    var sizeOffset = solveNextOffset(otherStartPos, otherEndPos, -(isVertical ? otherVerticalOffset : otherHorizontalOffset), isVertical, datas).offset.map(function(size, i2) {
+    var sizeOffset = [0, 0];
+    if (!keepRatio && Math.abs(endDirection[0]) === 1 && Math.abs(endDirection[1]) === 1 && startDirection[0] !== endDirection[0] && startDirection[1] !== endDirection[1]) {
+      sizeOffset = getDragDist({
+        datas,
+        distX: -otherVerticalOffset,
+        distY: -otherHorizontalOffset
+      });
+    } else {
+      sizeOffset = solveNextOffset(otherStartPos, otherEndPos, -(isVertical ? otherVerticalOffset : otherHorizontalOffset), isVertical, datas).offset;
+    }
+    sizeOffset = sizeOffset.map(function(size, i2) {
       return size * (multiple[i2] ? 2 / multiple[i2] : 0);
     });
     return {
@@ -38753,8 +40524,8 @@ function getNextFixedPoses(matrix, width, height, fixedDirection, fixedPos, is3d
 function getSizeOffsetInfo(moveable, poses, direction, keepRatio, isRequest, datas) {
   var fixedDirection = datas.fixedDirection;
   var directions = getCheckSnapDirections(direction, fixedDirection, keepRatio);
-  var lines = getCheckInnerBoundLines(poses, direction, keepRatio);
-  var offsets = __spreadArray(__spreadArray([], getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas), true), getInnerBoundInfo(moveable, lines, getPosByDirection(poses, [0, 0]), datas), true);
+  var innerBoundLineInfos = getCheckInnerBoundLineInfos(moveable, poses, direction, keepRatio);
+  var offsets = __spreadArray(__spreadArray([], getSnapBoundInfo(moveable, poses, directions, keepRatio, isRequest, datas), true), getInnerBoundInfo(moveable, innerBoundLineInfos, datas), true);
   var widthOffsetInfo = getNearOffsetInfo(offsets, 0);
   var heightOffsetInfo = getNearOffsetInfo(offsets, 1);
   return {
@@ -39182,7 +40953,7 @@ var Draggable = {
     datas.prevBeforeDist = [0, 0];
     datas.isDrag = false;
     datas.deltaOffset = [0, 0];
-    var params = fillParams(moveable, e, __assign$1$1({
+    var params = fillParams(moveable, e, __assign$2({
       set: function(translate) {
         datas.startValue = translate;
       }
@@ -39300,7 +41071,7 @@ var Draggable = {
     var deltaOffset = datas.deltaOffset;
     if (deltaOffset[0] || deltaOffset[1]) {
       datas.deltaOffset = [0, 0];
-      return this.drag(moveable, __assign$1$1(__assign$1$1({}, e), {
+      return this.drag(moveable, __assign$2(__assign$2({}, e), {
         deltaOffset
       }));
     }
@@ -39325,7 +41096,7 @@ var Draggable = {
       return false;
     }
     var events = triggerChildGesto(moveable, this, "dragStart", [clientX || 0, clientY || 0], e, false);
-    var nextParams = __assign$1$1(__assign$1$1({}, params), {
+    var nextParams = __assign$2(__assign$2({}, params), {
       targets: moveable.props.targets,
       events
     });
@@ -39344,7 +41115,7 @@ var Draggable = {
     if (!params) {
       return;
     }
-    var nextParams = __assign$1$1({
+    var nextParams = __assign$2({
       targets: moveable.props.targets,
       events
     }, params);
@@ -39696,6 +41467,9 @@ function prefix() {
   }
   return prefixNames.apply(void 0, __spreadArray([PREFIX], classNames, false));
 }
+function defaultSync(fn2) {
+  fn2();
+}
 function getTransformMatrix(transform) {
   if (!transform || transform === "none") {
     return [1, 0, 0, 1, 0, 0];
@@ -39746,17 +41520,17 @@ function getElementTransform(target, computedStyle) {
     if (!length2) {
       return "";
     }
-    var matrixs = [];
+    var matrixes = [];
     var _loop_1 = function(i3) {
-      var matrix = baseVal[0].matrix;
-      matrixs.push("matrix(".concat(["a", "b", "c", "d", "e", "f"].map(function(chr) {
+      var matrix = baseVal[i3].matrix;
+      matrixes.push("matrix(".concat(["a", "b", "c", "d", "e", "f"].map(function(chr) {
         return matrix[chr];
       }).join(", "), ")"));
     };
     for (var i2 = 0; i2 < length2; ++i2) {
       _loop_1(i2);
     }
-    return matrixs.join(" ");
+    return matrixes.join(" ");
   }
   return "";
 }
@@ -40033,12 +41807,12 @@ function calculateElementInfo(target, container, rootContainer, isAbsolute3d) {
   if (target) {
     var result = calculateMatrixStack(target, container, rootContainer, isAbsolute3d);
     var position = calculateMoveablePosition(result.allMatrix, result.transformOrigin, width, height);
-    allResult = __assign$1$1(__assign$1$1({}, result), position);
+    allResult = __assign$2(__assign$2({}, result), position);
     var rotationPosition = calculateMoveablePosition(result.allMatrix, [50, 50], 100, 100);
     rotation = getRotationRad([rotationPosition.pos1, rotationPosition.pos2], rotationPosition.direction);
   }
   var n = isAbsolute3d ? 4 : 3;
-  return __assign$1$1({
+  return __assign$2({
     width,
     height,
     rotation,
@@ -40428,7 +42202,7 @@ function getTargetInfo(moveableElement, target, container, parentContainer, root
       moveableClientRect = getClientRect(moveableElement);
     }
   }
-  return __assign$1$1({
+  return __assign$2({
     targetClientRect,
     containerClientRect,
     moveableClientRect,
@@ -40526,7 +42300,7 @@ function fillParams(moveable, e, params, isBeforeEvent) {
   if (!datas.datas) {
     datas.datas = {};
   }
-  var nextParams = __assign$1$1(__assign$1$1({}, params), {
+  var nextParams = __assign$2(__assign$2({}, params), {
     target: moveable.state.target,
     clientX: e.clientX,
     clientY: e.clientY,
@@ -40548,7 +42322,7 @@ function fillEndParams(moveable, e, params) {
   if (!datas.datas) {
     datas.datas = {};
   }
-  return __assign$1$1(__assign$1$1({
+  return __assign$2(__assign$2({
     isDrag
   }, params), {
     moveable,
@@ -40668,56 +42442,6 @@ function calculatePadding(matrix, pos, transformOrigin, origin, n) {
 }
 function convertCSSSize(value2, size, isRelative) {
   return isRelative ? "".concat(value2 / size * 100, "%") : "".concat(value2, "px");
-}
-function moveControlPos(controlPoses, index, dist, isRect) {
-  var _a3 = controlPoses[index], direction = _a3.direction, sub = _a3.sub;
-  var dists = controlPoses.map(function() {
-    return [0, 0];
-  });
-  var directions = direction ? direction.split("") : [];
-  if (isRect && index < 8) {
-    var verticalDirection_1 = directions.filter(function(dir) {
-      return dir === "w" || dir === "e";
-    })[0];
-    var horizontalDirection_1 = directions.filter(function(dir) {
-      return dir === "n" || dir === "s";
-    })[0];
-    dists[index] = dist;
-    controlPoses.forEach(function(controlPose, i2) {
-      var controlDir = controlPose.direction;
-      if (!controlDir) {
-        return;
-      }
-      if (controlDir.indexOf(verticalDirection_1) > -1) {
-        dists[i2][0] = dist[0];
-      }
-      if (controlDir.indexOf(horizontalDirection_1) > -1) {
-        dists[i2][1] = dist[1];
-      }
-    });
-    if (verticalDirection_1) {
-      dists[1][0] = dist[0] / 2;
-      dists[5][0] = dist[0] / 2;
-    }
-    if (horizontalDirection_1) {
-      dists[3][1] = dist[1] / 2;
-      dists[7][1] = dist[1] / 2;
-    }
-  } else if (direction && !sub) {
-    directions.forEach(function(dir) {
-      var isVertical = dir === "n" || dir === "s";
-      controlPoses.forEach(function(controlPose, i2) {
-        var dirDir = controlPose.direction, dirHorizontal = controlPose.horizontal, dirVertical = controlPose.vertical;
-        if (!dirDir || dirDir.indexOf(dir) === -1) {
-          return;
-        }
-        dists[i2] = [isVertical || !dirHorizontal ? 0 : dist[0], !isVertical || !dirVertical ? 0 : dist[1]];
-      });
-    });
-  } else {
-    dists[index] = dist;
-  }
-  return dists;
 }
 function getTinyDist(v2) {
   return Math.abs(v2) <= TINY_NUM ? 0 : v2;
@@ -40849,7 +42573,37 @@ function getDragDistByState(state, dist) {
   inverseMatrix[14] = 0;
   return calculateMatrixDist(inverseMatrix, dist);
 }
+function getSizeDistByDist(startSize, dist, ratio, direction, keepRatio) {
+  var startOffsetWidth = startSize[0], startOffsetHeight = startSize[1];
+  var distWidth = 0;
+  var distHeight = 0;
+  if (keepRatio && startOffsetWidth && startOffsetHeight) {
+    var rad = getRad$1([0, 0], dist);
+    var standardRad = getRad$1([0, 0], direction);
+    var size = getDistSize(dist);
+    var signSize = Math.cos(rad - standardRad) * size;
+    if (!direction[0]) {
+      distHeight = signSize;
+      distWidth = distHeight * ratio;
+    } else if (!direction[1]) {
+      distWidth = signSize;
+      distHeight = distWidth / ratio;
+    } else {
+      var startWidthSize = direction[0] * 2 * startOffsetWidth;
+      var startHeightSize = direction[1] * 2 * startOffsetHeight;
+      var distSize = getDistSize([startWidthSize + dist[0], startHeightSize + dist[1]]) - getDistSize([startWidthSize, startHeightSize]);
+      var ratioRad = getRad$1([0, 0], [ratio, 1]);
+      distWidth = Math.cos(ratioRad) * distSize;
+      distHeight = Math.sin(ratioRad) * distSize;
+    }
+  } else {
+    distWidth = direction[0] * dist[0];
+    distHeight = direction[1] * dist[1];
+  }
+  return [distWidth, distHeight];
+}
 function getOffsetSizeDist(sizeDirection, keepRatio, datas, e) {
+  var _a3;
   var ratio = datas.ratio, startOffsetWidth = datas.startOffsetWidth, startOffsetHeight = datas.startOffsetHeight;
   var distWidth = 0;
   var distHeight = 0;
@@ -40886,29 +42640,7 @@ function getOffsetSizeDist(sizeDirection, keepRatio, datas, e) {
       }
       return dist_1[index] * directionRatio;
     });
-    if (keepRatio && startOffsetWidth && startOffsetHeight) {
-      var rad = getRad$1([0, 0], dist_1);
-      var standardRad = getRad$1([0, 0], sizeDirection);
-      var size = getDistSize(dist_1);
-      var signSize = Math.cos(rad - standardRad) * size;
-      if (!sizeDirection[0]) {
-        distHeight = signSize;
-        distWidth = distHeight * ratio;
-      } else if (!sizeDirection[1]) {
-        distWidth = signSize;
-        distHeight = distWidth / ratio;
-      } else {
-        var startWidthSize = sizeDirection[0] * 2 * startOffsetWidth;
-        var startHeightSize = sizeDirection[1] * 2 * startOffsetHeight;
-        var distSize = getDistSize([startWidthSize + dist_1[0], startHeightSize + dist_1[1]]) - getDistSize([startWidthSize, startHeightSize]);
-        var ratioRad = getRad$1([0, 0], [ratio, 1]);
-        distWidth = Math.cos(ratioRad) * distSize;
-        distHeight = Math.sin(ratioRad) * distSize;
-      }
-    } else {
-      distWidth = sizeDirection[0] * dist_1[0];
-      distHeight = sizeDirection[1] * dist_1[1];
-    }
+    _a3 = getSizeDistByDist([startOffsetWidth, startOffsetHeight], dist_1, ratio, sizeDirection, keepRatio), distWidth = _a3[0], distHeight = _a3[1];
   }
   return {
     distWidth,
@@ -40956,7 +42688,7 @@ var Pinchable = makeAble("pinchable", {
       if (!able[controlEventName]) {
         return;
       }
-      var ableEvent = __assign$1$1(__assign$1$1({}, e), {
+      var ableEvent = __assign$2(__assign$2({}, e), {
         datas: originalDatas[able.name],
         parentRotate: angle,
         isPinch: true
@@ -40987,7 +42719,7 @@ var Pinchable = makeAble("pinchable", {
       if (!able[controlEventName]) {
         return;
       }
-      able[controlEventName](moveable, __assign$1$1(__assign$1$1({}, e), {
+      able[controlEventName](moveable, __assign$2(__assign$2({}, e), {
         datas: originalDatas[able.name],
         inputEvent,
         parentDistance,
@@ -41016,7 +42748,7 @@ var Pinchable = makeAble("pinchable", {
       if (!able[controlEventName]) {
         return;
       }
-      able[controlEventName](moveable, __assign$1$1(__assign$1$1({}, e), {
+      able[controlEventName](moveable, __assign$2(__assign$2({}, e), {
         isDrag: isPinch,
         datas: originalDatas[able.name],
         inputEvent,
@@ -41026,17 +42758,17 @@ var Pinchable = makeAble("pinchable", {
     return isPinch;
   },
   pinchGroupStart: function(moveable, e) {
-    return this.pinchStart(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.pinchStart(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   },
   pinchGroup: function(moveable, e) {
-    return this.pinch(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.pinch(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   },
   pinchGroupEnd: function(moveable, e) {
-    return this.pinchEnd(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.pinchEnd(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   }
@@ -41074,7 +42806,7 @@ var Resizable = {
   dragControlCondition: directionCondition,
   dragControlStart: function(moveable, e) {
     var _a3;
-    var inputEvent = e.inputEvent, isPinch = e.isPinch, parentDirection = e.parentDirection, datas = e.datas, parentFlag = e.parentFlag;
+    var inputEvent = e.inputEvent, isPinch = e.isPinch, isGroup = e.isGroup, parentDirection = e.parentDirection, datas = e.datas;
     var direction = parentDirection || (isPinch ? [0, 0] : getDirection(inputEvent.target));
     var _b3 = moveable.state, target = _b3.target, width = _b3.width, height = _b3.height;
     if (!direction || !target) {
@@ -41091,7 +42823,7 @@ var Resizable = {
     var padding = [Math.max(0, width - datas.startWidth), Math.max(0, height - datas.startHeight)];
     datas.minSize = padding;
     datas.maxSize = [Infinity, Infinity];
-    if (!parentFlag) {
+    if (!isGroup) {
       var style = getComputedStyle$2(target);
       var position = style.position, minWidth = style.minWidth, minHeight = style.minHeight, maxWidth = style.maxWidth, maxHeight = style.maxHeight;
       var isParentElement = position === "static" || position === "relative";
@@ -41121,9 +42853,24 @@ var Resizable = {
       datas.fixedDirection = fixedDirection;
       datas.fixedPosition = getPosByDirection(datas.startPositions, fixedDirection);
     }
+    function setMin(minSize) {
+      datas.minSize = [convertUnitSize("".concat(minSize[0]), 0) || 0, convertUnitSize("".concat(minSize[1]), 0) || 0];
+    }
+    function setMax(maxSize) {
+      var nextMaxSize = [maxSize[0] || Infinity, maxSize[1] || Infinity];
+      if (!isNumber(nextMaxSize[0]) || isFinite(nextMaxSize[0])) {
+        nextMaxSize[0] = convertUnitSize("".concat(nextMaxSize[0]), 0) || Infinity;
+      }
+      if (!isNumber(nextMaxSize[1]) || isFinite(nextMaxSize[1])) {
+        nextMaxSize[1] = convertUnitSize("".concat(nextMaxSize[1]), 0) || Infinity;
+      }
+      datas.maxSize = nextMaxSize;
+    }
     setRatio(width / height);
     setFixedDirection([-direction[0], -direction[1]]);
     datas.setFixedDirection = setFixedDirection;
+    datas.setMin = setMin;
+    datas.setMax = setMax;
     var params = fillParams(moveable, e, {
       direction,
       set: function(_a4) {
@@ -41131,12 +42878,8 @@ var Resizable = {
         datas.startWidth = startWidth;
         datas.startHeight = startHeight;
       },
-      setMin: function(minSize) {
-        datas.minSize = minSize;
-      },
-      setMax: function(maxSize) {
-        datas.maxSize = [maxSize[0] || Infinity, maxSize[1] || Infinity];
-      },
+      setMin,
+      setMax,
       setRatio,
       setFixedDirection,
       setOrigin: function(origin) {
@@ -41162,7 +42905,7 @@ var Resizable = {
       return;
     }
     var props = moveable.props;
-    var resizeFormat = props.resizeFormat, _b3 = props.throttleResize, throttleResize = _b3 === void 0 ? 1 : _b3, parentMoveable = props.parentMoveable, _c3 = props.snapThreshold, snapThreshold = _c3 === void 0 ? 5 : _c3;
+    var resizeFormat = props.resizeFormat, _b3 = props.throttleResize, throttleResize = _b3 === void 0 ? 1 : _b3, parentMoveable = props.parentMoveable;
     var direction = datas.direction;
     var sizeDirection = direction;
     var distWidth = 0;
@@ -41186,7 +42929,7 @@ var Resizable = {
       }
       return [nextWidth, nextHeight];
     }
-    var _d2 = getNextBoundingSize(), boundingWidth = _d2[0], boundingHeight = _d2[1];
+    var _c3 = getNextBoundingSize(), boundingWidth = _c3[0], boundingHeight = _c3[1];
     datas.setFixedDirection(datas.fixedDirection);
     triggerEvent(moveable, "onBeforeResize", fillParams(moveable, e, {
       setFixedDirection: function(nextFixedDirection) {
@@ -41245,16 +42988,12 @@ var Resizable = {
         boundingWidth = boundingHeight * ratio;
       }
     } else {
-      if (startOffsetWidth + distWidth < -snapThreshold) {
-        snapDist[0] = 0;
-      }
-      if (startOffsetWidth + distHeight < -snapThreshold) {
-        snapDist[1] = 0;
-      }
       boundingWidth += snapDist[0];
       boundingHeight += snapDist[1];
+      boundingWidth = Math.max(0, boundingWidth);
+      boundingHeight = Math.max(0, boundingHeight);
     }
-    _a3 = calculateBoundSize([boundingWidth, boundingHeight], minSize, maxSize, keepRatio), boundingWidth = _a3[0], boundingHeight = _a3[1];
+    _a3 = calculateBoundSize([boundingWidth, boundingHeight], minSize, maxSize, keepRatio ? ratio : false), boundingWidth = _a3[0], boundingHeight = _a3[1];
     computeSize();
     distWidth = boundingWidth - startOffsetWidth;
     distHeight = boundingHeight - startOffsetHeight;
@@ -41323,7 +43062,9 @@ var Resizable = {
   dragGroupControlCondition: directionCondition,
   dragGroupControlStart: function(moveable, e) {
     var datas = e.datas;
-    var params = this.dragControlStart(moveable, e);
+    var params = this.dragControlStart(moveable, __assign$2(__assign$2({}, e), {
+      isGroup: true
+    }));
     if (!params) {
       return false;
     }
@@ -41338,9 +43079,32 @@ var Resizable = {
       ev.datas.originalY = originalY;
       return ev;
     }
+    var parentStartOffsetWidth = datas.startOffsetWidth, parentStartOffsetHeight = datas.startOffsetHeight;
+    function updateGroupMin() {
+      var originalMinSize = datas.minSize;
+      originalEvents.forEach(function(ev) {
+        var _a3 = ev.datas, childMinSize = _a3.minSize, childStartOffsetWidth = _a3.startOffsetWidth, childStartOffsetHeight = _a3.startOffsetHeight;
+        var parentMinWidth = parentStartOffsetWidth * (childStartOffsetWidth ? childMinSize[0] / childStartOffsetWidth : 0);
+        var parentMinHeight = parentStartOffsetHeight * (childStartOffsetHeight ? childMinSize[1] / childStartOffsetHeight : 0);
+        originalMinSize[0] = Math.max(originalMinSize[0], parentMinWidth);
+        originalMinSize[1] = Math.max(originalMinSize[1], parentMinHeight);
+      });
+    }
+    function updateGroupMax() {
+      var originalMaxSize = datas.maxSize;
+      originalEvents.forEach(function(ev) {
+        var _a3 = ev.datas, childMaxSize = _a3.maxSize, childStartOffsetWidth = _a3.startOffsetWidth, childStartOffsetHeight = _a3.startOffsetHeight;
+        var parentMaxWidth = parentStartOffsetWidth * (childStartOffsetWidth ? childMaxSize[0] / childStartOffsetWidth : 0);
+        var parentMaxHeight = parentStartOffsetHeight * (childStartOffsetHeight ? childMaxSize[1] / childStartOffsetHeight : 0);
+        originalMaxSize[0] = Math.min(originalMaxSize[0], parentMaxWidth);
+        originalMaxSize[1] = Math.min(originalMaxSize[1], parentMaxHeight);
+      });
+    }
     var events = triggerChildAbles(moveable, this, "dragControlStart", e, function(child, ev) {
       return setDist(child, ev);
     });
+    updateGroupMin();
+    updateGroupMax();
     var setFixedDirection = function(fixedDirection) {
       params.setFixedDirection(fixedDirection);
       events.forEach(function(ev, i2) {
@@ -41349,10 +43113,29 @@ var Resizable = {
       });
     };
     datas.setFixedDirection = setFixedDirection;
-    var nextParams = __assign$1$1(__assign$1$1({}, params), {
+    var nextParams = __assign$2(__assign$2({}, params), {
       targets: moveable.props.targets,
-      events,
-      setFixedDirection
+      events: events.map(function(ev) {
+        return __assign$2(__assign$2({}, ev), {
+          setMin: function(minSize) {
+            ev.setMin(minSize);
+            updateGroupMin();
+          },
+          setMax: function(maxSize) {
+            ev.setMax(maxSize);
+            updateGroupMax();
+          }
+        });
+      }),
+      setFixedDirection,
+      setMin: function(minSize) {
+        params.setMin(minSize);
+        updateGroupMin();
+      },
+      setMax: function(maxSize) {
+        params.setMax(maxSize);
+        updateGroupMax();
+      }
     });
     var result = triggerEvent(moveable, "onResizeGroupStart", nextParams);
     datas.isResize = result !== false;
@@ -41364,7 +43147,7 @@ var Resizable = {
       return;
     }
     catchEvent(moveable, "onBeforeResize", function(parentEvent) {
-      triggerEvent(moveable, "onBeforeResizeGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
+      triggerEvent(moveable, "onBeforeResizeGroup", fillParams(moveable, e, __assign$2(__assign$2({}, parentEvent), {
         targets: moveable.props.targets
       }), true));
     });
@@ -41378,14 +43161,14 @@ var Resizable = {
     var fixedPosition = datas.fixedPosition;
     var events = triggerChildAbles(moveable, this, "dragControl", e, function(_2, ev) {
       var _a3 = calculate(createRotateMatrix(moveable.rotation / 180 * Math.PI, 3), [ev.datas.originalX * parentScale[0], ev.datas.originalY * parentScale[1], 1], 3), clientX = _a3[0], clientY = _a3[1];
-      return __assign$1$1(__assign$1$1({}, ev), {
+      return __assign$2(__assign$2({}, ev), {
         parentDist: null,
         parentScale,
         dragClient: plus(fixedPosition, [clientX, clientY]),
         parentKeepRatio: keepRatio
       });
     });
-    var nextParams = __assign$1$1({
+    var nextParams = __assign$2({
       targets: moveable.props.targets,
       events
     }, params);
@@ -41512,7 +43295,7 @@ var Scalable = {
     datas.setFixedDirection = setFixedDirection;
     setRatio(getDist$2(pos1, pos2) / getDist$2(pos2, pos4));
     setFixedDirection([-direction[0], -direction[1]]);
-    var params = fillParams(moveable, e, __assign$1$1(__assign$1$1({
+    var params = fillParams(moveable, e, __assign$2(__assign$2({
       direction,
       set: function(scale) {
         datas.startValue = scale;
@@ -41649,7 +43432,7 @@ var Scalable = {
       return false;
     }
     var nextTransform = convertTransformFormat(datas, "scale(".concat(scale.join(", "), ")"), "scale(".concat(dist.join(", "), ")"));
-    var params = fillParams(moveable, e, __assign$1$1({
+    var params = fillParams(moveable, e, __assign$2({
       offsetWidth: startOffsetWidth,
       offsetHeight: startOffsetHeight,
       direction,
@@ -41700,7 +43483,7 @@ var Scalable = {
       });
     };
     datas.setFixedDirection = setFixedDirection;
-    var nextParams = __assign$1$1(__assign$1$1({}, params), {
+    var nextParams = __assign$2(__assign$2({}, params), {
       targets: moveable.props.targets,
       events,
       setFixedDirection
@@ -41715,7 +43498,7 @@ var Scalable = {
       return;
     }
     catchEvent(moveable, "onBeforeScale", function(parentEvent) {
-      triggerEvent(moveable, "onBeforeScaleGroup", fillParams(moveable, e, __assign$1$1(__assign$1$1({}, parentEvent), {
+      triggerEvent(moveable, "onBeforeScaleGroup", fillParams(moveable, e, __assign$2(__assign$2({}, parentEvent), {
         targets: moveable.props.targets
       }), true));
     });
@@ -41730,14 +43513,14 @@ var Scalable = {
     var fixedPosition = datas.fixedPosition;
     var events = triggerChildAbles(moveable, this, "dragControl", e, function(_2, ev) {
       var _a3 = calculate(createRotateMatrix(moveable.rotation / 180 * Math.PI, 3), [ev.datas.originalX * dist[0], ev.datas.originalY * dist[1], 1], 3), clientX = _a3[0], clientY = _a3[1];
-      return __assign$1$1(__assign$1$1({}, ev), {
+      return __assign$2(__assign$2({}, ev), {
         parentDist: null,
         parentScale: scale,
         parentKeepRatio: keepRatio,
         dragClient: plus(fixedPosition, [clientX, clientY])
       });
     });
-    var nextParams = __assign$1$1({
+    var nextParams = __assign$2({
       targets: moveable.props.targets,
       events
     }, params);
@@ -41892,7 +43675,7 @@ var Warpable = {
       request: e.isRequest,
       direction
     };
-    var params = fillParams(moveable, e, __assign$1$1({
+    var params = fillParams(moveable, e, __assign$2({
       set: function(matrix) {
         datas.startValue = matrix;
       }
@@ -42212,7 +43995,7 @@ var Scrollable = {
     e.datas.dragScroll = null;
   },
   dragControlStart: function(moveable, e) {
-    return this.dragStart(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.dragStart(moveable, __assign$2(__assign$2({}, e), {
       isControl: true
     }));
   },
@@ -42223,33 +44006,33 @@ var Scrollable = {
     return this.dragEnd(moveable, e);
   },
   dragGroupStart: function(moveable, e) {
-    return this.dragStart(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.dragStart(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroup: function(moveable, e) {
-    return this.drag(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.drag(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroupEnd: function(moveable, e) {
-    return this.dragEnd(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.dragEnd(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroupControlStart: function(moveable, e) {
-    return this.dragStart(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.dragStart(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets,
       isControl: true
     }));
   },
   dragGroupContro: function(moveable, e) {
-    return this.drag(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.drag(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   },
   dragGroupControEnd: function(moveable, e) {
-    return this.dragEnd(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.dragEnd(moveable, __assign$2(__assign$2({}, e), {
       targets: moveable.props.targets
     }));
   }
@@ -42275,7 +44058,8 @@ var Default = {
     cspNonce: String,
     translateZ: Number,
     hideDefaultLines: Boolean,
-    props: Object
+    props: Object,
+    flushSync: Function
   },
   events: {}
 };
@@ -42604,6 +44388,116 @@ function getRectPoses(top2, right2, bottom2, left2) {
     };
   });
 }
+function getControlSize(controlPoses) {
+  var xRange = [Infinity, -Infinity];
+  var yRange = [Infinity, -Infinity];
+  controlPoses.forEach(function(_a3) {
+    var pos = _a3.pos;
+    xRange[0] = Math.min(xRange[0], pos[0]);
+    xRange[1] = Math.max(xRange[1], pos[0]);
+    yRange[0] = Math.min(yRange[0], pos[1]);
+    yRange[1] = Math.max(yRange[1], pos[1]);
+  });
+  return [Math.abs(xRange[1] - xRange[0]), Math.abs(yRange[1] - yRange[0])];
+}
+function moveControlPos(controlPoses, index, dist, isRect, keepRatio) {
+  var _a3 = controlPoses[index], direction = _a3.direction, sub = _a3.sub;
+  var dists = controlPoses.map(function() {
+    return [0, 0];
+  });
+  var directions = direction ? direction.split("") : [];
+  if (isRect && index < 8) {
+    var verticalDirections = directions.filter(function(dir) {
+      return dir === "w" || dir === "e";
+    });
+    var horizontalDirections = directions.filter(function(dir) {
+      return dir === "n" || dir === "s";
+    });
+    var verticalDirection_1 = verticalDirections[0];
+    var horizontalDirection_1 = horizontalDirections[0];
+    dists[index] = dist;
+    var _b3 = getControlSize(controlPoses), width = _b3[0], height = _b3[1];
+    var ratio = width && height ? width / height : 0;
+    if (ratio && keepRatio) {
+      var fixedIndex = (index + 4) % 8;
+      var fixedPosition = controlPoses[fixedIndex].pos;
+      var sizeDirection = [0, 0];
+      if (direction.indexOf("w") > -1) {
+        sizeDirection[0] = -1;
+      } else if (direction.indexOf("e") > -1) {
+        sizeDirection[0] = 1;
+      }
+      if (direction.indexOf("n") > -1) {
+        sizeDirection[1] = -1;
+      } else if (direction.indexOf("s") > -1) {
+        sizeDirection[1] = 1;
+      }
+      var nextDist = getSizeDistByDist([width, height], dist, ratio, sizeDirection, true);
+      var nextWidth = width + nextDist[0];
+      var nextHeight = height + nextDist[1];
+      var top2 = fixedPosition[1];
+      var bottom2 = fixedPosition[1];
+      var left2 = fixedPosition[0];
+      var right2 = fixedPosition[0];
+      if (sizeDirection[0] === -1) {
+        left2 = right2 - nextWidth;
+      } else if (sizeDirection[0] === 1) {
+        right2 = left2 + nextWidth;
+      } else {
+        left2 = left2 - nextWidth / 2;
+        right2 = right2 + nextWidth / 2;
+      }
+      if (sizeDirection[1] === -1) {
+        top2 = bottom2 - nextHeight;
+      } else if (sizeDirection[1] === 1) {
+        bottom2 = top2 + nextHeight;
+      } else {
+        top2 = bottom2 - nextHeight / 2;
+        bottom2 = top2 + nextHeight;
+      }
+      var nextControlPoses_1 = getRectPoses(top2, right2, bottom2, left2);
+      controlPoses.forEach(function(controlPose, i2) {
+        dists[i2][0] = nextControlPoses_1[i2].pos[0] - controlPose.pos[0];
+        dists[i2][1] = nextControlPoses_1[i2].pos[1] - controlPose.pos[1];
+      });
+    } else {
+      controlPoses.forEach(function(controlPose, i2) {
+        var controlDir = controlPose.direction;
+        if (!controlDir) {
+          return;
+        }
+        if (controlDir.indexOf(verticalDirection_1) > -1) {
+          dists[i2][0] = dist[0];
+        }
+        if (controlDir.indexOf(horizontalDirection_1) > -1) {
+          dists[i2][1] = dist[1];
+        }
+      });
+      if (verticalDirection_1) {
+        dists[1][0] = dist[0] / 2;
+        dists[5][0] = dist[0] / 2;
+      }
+      if (horizontalDirection_1) {
+        dists[3][1] = dist[1] / 2;
+        dists[7][1] = dist[1] / 2;
+      }
+    }
+  } else if (direction && !sub) {
+    directions.forEach(function(dir) {
+      var isVertical = dir === "n" || dir === "s";
+      controlPoses.forEach(function(controlPose, i2) {
+        var dirDir = controlPose.direction, dirHorizontal = controlPose.horizontal, dirVertical = controlPose.vertical;
+        if (!dirDir || dirDir.indexOf(dir) === -1) {
+          return;
+        }
+        dists[i2] = [isVertical || !dirHorizontal ? 0 : dist[0], !isVertical || !dirVertical ? 0 : dist[1]];
+      });
+    });
+  } else {
+    dists[index] = dist;
+  }
+  return dists;
+}
 function getClipPath(target, width, height, defaultClip, customClip) {
   var _a3, _b3, _c3, _d2, _e, _f, _g;
   var clipText = customClip;
@@ -42732,16 +44626,16 @@ function getClipPath(target, width, height, defaultClip, customClip) {
 }
 function addClipPath(moveable, e) {
   var _a3 = calculatePointerDist(moveable, e), distX = _a3[0], distY = _a3[1];
-  var _b3 = e.datas, clipPath = _b3.clipPath, index = _b3.index;
+  var _b3 = e.datas, clipPath = _b3.clipPath, clipIndex = _b3.clipIndex;
   var _c3 = clipPath, clipType = _c3.type, clipPoses = _c3.poses, splitter = _c3.splitter;
   var poses = clipPoses.map(function(pos) {
     return pos.pos;
   });
   if (clipType === "polygon") {
-    poses.splice(index, 0, [distX, distY]);
+    poses.splice(clipIndex, 0, [distX, distY]);
   } else if (clipType === "inset") {
-    var horizontalIndex = HORIZONTAL_RADIUS_ORDER.indexOf(index);
-    var verticalIndex = VERTICAL_RADIUS_ORDER.indexOf(index);
+    var horizontalIndex = HORIZONTAL_RADIUS_ORDER.indexOf(clipIndex);
+    var verticalIndex = VERTICAL_RADIUS_ORDER.indexOf(clipIndex);
     var length2 = clipPoses.length;
     addRadiusPos(clipPoses, poses, 8, horizontalIndex, verticalIndex, distX, distY, poses[4][0], poses[4][1], poses[0][0], poses[0][1]);
     if (length2 === clipPoses.length) {
@@ -42762,20 +44656,20 @@ function addClipPath(moveable, e) {
   }));
 }
 function removeClipPath(moveable, e) {
-  var _a3 = e.datas, clipPath = _a3.clipPath, index = _a3.index;
+  var _a3 = e.datas, clipPath = _a3.clipPath, clipIndex = _a3.clipIndex;
   var _b3 = clipPath, clipType = _b3.type, clipPoses = _b3.poses, splitter = _b3.splitter;
   var poses = clipPoses.map(function(pos) {
     return pos.pos;
   });
   var length2 = poses.length;
   if (clipType === "polygon") {
-    clipPoses.splice(index, 1);
-    poses.splice(index, 1);
+    clipPoses.splice(clipIndex, 1);
+    poses.splice(clipIndex, 1);
   } else if (clipType === "inset") {
-    if (index < 8) {
+    if (clipIndex < 8) {
       return;
     }
-    removeRadiusPos(clipPoses, poses, index, 8, length2);
+    removeRadiusPos(clipPoses, poses, clipIndex, 8, length2);
     if (length2 === clipPoses.length) {
       return;
     }
@@ -42799,6 +44693,7 @@ var Clippable = {
     clippable: Boolean,
     defaultClipPath: String,
     customClipPath: String,
+    keepRatio: Boolean,
     clipRelative: Boolean,
     clipArea: Boolean,
     dragWithClip: Boolean,
@@ -42960,7 +44855,7 @@ var Clippable = {
     return this.dragControlStart(moveable, e);
   },
   drag: function(moveable, e) {
-    return this.dragControl(moveable, __assign$1$1(__assign$1$1({}, e), {
+    return this.dragControl(moveable, __assign$2(__assign$2({}, e), {
       isDragTarget: true
     }));
   },
@@ -42993,7 +44888,7 @@ var Clippable = {
     datas.isControl = className && className.indexOf("clip-control") > -1;
     datas.isLine = className.indexOf("clip-line") > -1;
     datas.isArea = className.indexOf("clip-area") > -1 || className.indexOf("clip-ellipse") > -1;
-    datas.index = inputTarget ? parseInt(inputTarget.getAttribute("data-clip-index"), 10) : -1;
+    datas.clipIndex = inputTarget ? parseInt(inputTarget.getAttribute("data-clip-index"), 10) : -1;
     datas.clipPath = clipPath;
     datas.isClipStart = true;
     state.clipPathState = clipText;
@@ -43006,10 +44901,11 @@ var Clippable = {
     if (!datas.isClipStart) {
       return false;
     }
-    var _b3 = datas, isControl = _b3.isControl, isLine = _b3.isLine, isArea = _b3.isArea, index = _b3.index, clipPath = _b3.clipPath;
+    var _b3 = datas, isControl = _b3.isControl, isLine = _b3.isLine, isArea = _b3.isArea, clipIndex = _b3.clipIndex, clipPath = _b3.clipPath;
     if (!clipPath) {
       return false;
     }
+    var keepRatio = moveable.props.keepRatio;
     var distX = 0;
     var distY = 0;
     var originalDraggable = originalDatas.draggable;
@@ -43032,22 +44928,22 @@ var Clippable = {
       distX = -distX;
       distY = -distY;
     }
-    var isAll = !isControl || clipPoses[index].direction === "nesw";
+    var isAll = !isControl || clipPoses[clipIndex].direction === "nesw";
     var isRect = clipType === "inset" || clipType === "rect";
     var dists = clipPoses.map(function() {
       return [0, 0];
     });
     if (isControl && !isAll) {
-      var _c3 = clipPoses[index], horizontal = _c3.horizontal, vertical = _c3.vertical;
+      var _c3 = clipPoses[clipIndex], horizontal = _c3.horizontal, vertical = _c3.vertical;
       var dist = [distX * Math.abs(horizontal), distY * Math.abs(vertical)];
-      dists = moveControlPos(clipPoses, index, dist, isRect);
+      dists = moveControlPos(clipPoses, clipIndex, dist, isRect, keepRatio);
     } else if (isAll) {
       dists = poses.map(function() {
         return [distX, distY];
       });
     }
-    var nextPoses = poses.map(function(pos, i3) {
-      return plus(pos, dists[i3]);
+    var nextPoses = poses.map(function(pos, i2) {
+      return plus(pos, dists[i2]);
     });
     var guidePoses = __spreadArray([], nextPoses, true);
     state.snapBoundInfos = null;
@@ -43082,78 +44978,105 @@ var Clippable = {
     } else if (isRect) {
       var rectPoses = [guidePoses[0], guidePoses[2], guidePoses[4], guidePoses[6]];
       var rectDists_1 = [dists[0], dists[2], dists[4], dists[6]];
-      guideXPoses = rectPoses.filter(function(_2, i3) {
-        return rectDists_1[i3][0];
+      guideXPoses = rectPoses.filter(function(_2, i2) {
+        return rectDists_1[i2][0];
       }).map(function(pos) {
         return pos[0];
       });
-      guideYPoses = rectPoses.filter(function(_2, i3) {
-        return rectDists_1[i3][1];
+      guideYPoses = rectPoses.filter(function(_2, i2) {
+        return rectDists_1[i2][1];
       }).map(function(pos) {
         return pos[1];
       });
     } else {
-      guideXPoses = guidePoses.filter(function(_2, i3) {
-        return dists[i3][0];
+      guideXPoses = guidePoses.filter(function(_2, i2) {
+        return dists[i2][0];
       }).map(function(pos) {
         return pos[0];
       });
-      guideYPoses = guidePoses.filter(function(_2, i3) {
-        return dists[i3][1];
+      guideYPoses = guidePoses.filter(function(_2, i2) {
+        return dists[i2][1];
       }).map(function(pos) {
         return pos[1];
       });
     }
     var boundDelta = [0, 0];
-    var _loop_1 = function(i3) {
-      var _d2 = checkSnapBounds(guidelines, props.clipTargetBounds && {
-        left: 0,
-        top: 0,
-        right: width,
-        bottom: height
-      }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _d2.horizontal, verticalSnapInfo = _d2.vertical;
-      var snapOffsetY = horizontalSnapInfo.offset;
-      var snapOffsetX = verticalSnapInfo.offset;
-      if (horizontalSnapInfo.isBound) {
-        boundDelta[1] += snapOffsetY;
+    var _d2 = checkSnapBounds(guidelines, props.clipTargetBounds && {
+      left: 0,
+      top: 0,
+      right: width,
+      bottom: height
+    }, guideXPoses, guideYPoses, 5), horizontalSnapInfo = _d2.horizontal, verticalSnapInfo = _d2.vertical;
+    var snapOffsetY = horizontalSnapInfo.offset;
+    var snapOffsetX = verticalSnapInfo.offset;
+    if (horizontalSnapInfo.isBound) {
+      boundDelta[1] += snapOffsetY;
+    }
+    if (verticalSnapInfo.isBound) {
+      boundDelta[0] += snapOffsetX;
+    }
+    if ((isEllipse || isCircle) && dists[0][0] === 0 && dists[0][1] === 0) {
+      var guideRect = getRect(nextPoses);
+      var cy = guideRect.bottom - guideRect.top;
+      var cx = isEllipse ? guideRect.right - guideRect.left : cy;
+      var distSnapX = verticalSnapInfo.isBound ? Math.abs(snapOffsetX) : verticalSnapInfo.snapIndex === 0 ? -snapOffsetX : snapOffsetX;
+      var distSnapY = horizontalSnapInfo.isBound ? Math.abs(snapOffsetY) : horizontalSnapInfo.snapIndex === 0 ? -snapOffsetY : snapOffsetY;
+      cx -= distSnapX;
+      cy -= distSnapY;
+      if (isCircle) {
+        cy = checkSnapBoundPriority(verticalSnapInfo, horizontalSnapInfo) > 0 ? cy : cx;
+        cx = cy;
       }
-      if (verticalSnapInfo.isBound) {
-        boundDelta[0] += snapOffsetX;
-      }
-      if ((isEllipse || isCircle) && dists[0][0] === 0 && dists[0][1] === 0) {
-        var guideRect2 = getRect(nextPoses);
-        var cy = guideRect2.bottom - guideRect2.top;
-        var cx = isEllipse ? guideRect2.right - guideRect2.left : cy;
-        var distSnapX = verticalSnapInfo.isBound ? Math.abs(snapOffsetX) : verticalSnapInfo.snapIndex === 0 ? -snapOffsetX : snapOffsetX;
-        var distSnapY = horizontalSnapInfo.isBound ? Math.abs(snapOffsetY) : horizontalSnapInfo.snapIndex === 0 ? -snapOffsetY : snapOffsetY;
-        cx -= distSnapX;
-        cy -= distSnapY;
-        if (isCircle) {
-          cy = checkSnapBoundPriority(verticalSnapInfo, horizontalSnapInfo) > 0 ? cy : cx;
-          cx = cy;
-        }
-        var center = guidePoses[0];
-        guidePoses[1][1] = center[1] - cy;
-        guidePoses[2][0] = center[0] + cx;
-        guidePoses[3][1] = center[1] + cy;
-        guidePoses[4][0] = center[0] - cx;
+      var center = guidePoses[0];
+      guidePoses[1][1] = center[1] - cy;
+      guidePoses[2][0] = center[0] + cx;
+      guidePoses[3][1] = center[1] + cy;
+      guidePoses[4][0] = center[0] - cx;
+    } else if (isRect && keepRatio && isControl) {
+      var _e = getControlSize(clipPoses), width_1 = _e[0], height_1 = _e[1];
+      var ratio = width_1 && height_1 ? width_1 / height_1 : 0;
+      var clipPose = clipPoses[clipIndex];
+      var direction = clipPose.direction || "";
+      var top2 = guidePoses[1][1];
+      var bottom2 = guidePoses[5][1];
+      var left2 = guidePoses[7][0];
+      var right2 = guidePoses[3][0];
+      if (snapOffsetY <= snapOffsetX) {
+        snapOffsetY = snapOffsetX / ratio;
       } else {
-        guidePoses.forEach(function(pos, j2) {
-          var dist2 = dists[j2];
-          if (dist2[0]) {
-            pos[0] -= snapOffsetX;
-          }
-          if (dist2[1]) {
-            pos[1] -= snapOffsetY;
-          }
-        });
-        return "break";
+        snapOffsetX = snapOffsetY * ratio;
       }
-    };
-    for (var i2 = 0; i2 < 2; ++i2) {
-      var state_1 = _loop_1();
-      if (state_1 === "break")
-        break;
+      if (direction.indexOf("w") > -1) {
+        left2 -= snapOffsetX;
+      } else if (direction.indexOf("e") > -1) {
+        right2 -= snapOffsetX;
+      } else {
+        left2 += snapOffsetX / 2;
+        right2 -= snapOffsetX / 2;
+      }
+      if (direction.indexOf("n") > -1) {
+        top2 -= snapOffsetY;
+      } else if (direction.indexOf("s") > -1) {
+        bottom2 -= snapOffsetY;
+      } else {
+        top2 += snapOffsetY / 2;
+        bottom2 -= snapOffsetY / 2;
+      }
+      var nextControlPoses_2 = getRectPoses(top2, right2, bottom2, left2);
+      guidePoses.forEach(function(pos, i2) {
+        var _a4;
+        _a4 = nextControlPoses_2[i2].pos, pos[0] = _a4[0], pos[1] = _a4[1];
+      });
+    } else {
+      guidePoses.forEach(function(pos, j2) {
+        var dist2 = dists[j2];
+        if (dist2[0]) {
+          pos[0] -= snapOffsetX;
+        }
+        if (dist2[1]) {
+          pos[1] -= snapOffsetY;
+        }
+      });
     }
     var nextClipStyles = getClipStyles(moveable, clipPath, nextPoses);
     var clipStyle = "".concat(clipType, "(").concat(nextClipStyles.join(splitter), ")");
@@ -43874,7 +45797,7 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
       nextDatas.isEventStart = !able[conditionName] || able[conditionName](moveable, e);
     }
     if (nextDatas.isEventStart) {
-      var result = able[eventName](moveable, __assign$1$1(__assign$1$1({}, e), {
+      var result = able[eventName](moveable, __assign$2(__assign$2({}, e), {
         resultCount,
         datas: nextDatas,
         originalDatas: datas,
@@ -43925,8 +45848,11 @@ function triggerAble(moveable, ableType, eventOperation, eventAffix, eventType, 
     return false;
   }
   if (!isStart && isUpdate && !requestInstant || isEnd) {
-    moveable.updateRect(isEnd ? eventType : "", true, false);
-    moveable.forceUpdate();
+    var flushSync = moveable.props.flushSync || defaultSync;
+    flushSync(function() {
+      moveable.updateRect(isEnd ? eventType : "", true, false);
+      moveable.forceUpdate();
+    });
   }
   if (!isStart && !isEnd && !isAfter && isUpdate && !requestInstant) {
     triggerAble(moveable, ableType, eventOperation, eventAffix, eventType + "After", e);
@@ -43957,6 +45883,8 @@ function getAbleGesto(moveable, target, ableType, eventAffix, conditionFunctions
   var _a3 = moveable.props, pinchOutside = _a3.pinchOutside, pinchThreshold = _a3.pinchThreshold;
   var options = {
     preventDefault: false,
+    preventRightClick: true,
+    preventWheelClick: true,
     container: window,
     pinchThreshold,
     pinchOutside
@@ -44015,7 +45943,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
   __extends$1(MoveableManager2, _super);
   function MoveableManager2() {
     var _this = _super !== null && _super.apply(this, arguments) || this;
-    _this.state = __assign$1$1({
+    _this.state = __assign$2({
       container: null,
       gesto: null,
       renderPoses: [[0, 0], [0, 0], [0, 0], [0, 0]],
@@ -44031,13 +45959,14 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
       "mouseEnter": null,
       "mouseLeave": null
     };
-    _this._emitter = new EventEmitter$1();
+    _this._emitter = new EventEmitter$1$1();
     _this._prevTarget = null;
     _this._prevDragArea = false;
     _this._observer = null;
     _this._observerId = 0;
     _this.onPreventClick = function(e) {
       e.stopPropagation();
+      e.preventDefault();
       removeEvent(window, "click", _this.onPreventClick, true);
     };
     _this.checkUpdateRect = function() {
@@ -44078,7 +46007,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     this.getEnabledAbles().forEach(function(able) {
       ableAttributes["data-able-".concat(able.name.toLowerCase())] = true;
     });
-    return createElement(ControlBoxElement, __assign$1$1({
+    return createElement(ControlBoxElement, __assign$2({
       cspNonce,
       ref: ref(this, "controlBox"),
       className: "".concat(prefix("control-box", direction === -1 ? "reverse" : "", isDragging ? "dragging" : ""), " ").concat(className)
@@ -44155,7 +46084,7 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
         height: clientRect.height
       };
     } else {
-      rect = __assign$1$1({
+      rect = __assign$2({
         width: 0,
         height: 0
       }, el);
@@ -44254,21 +46183,21 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     var eventAffix = "".concat(groupable ? "Group" : "").concat(ableRequester.isControl ? "Control" : "");
     var requester = {
       request: function(ableParam) {
-        triggerAble(self2, ableType, "drag", eventAffix, "", __assign$1$1(__assign$1$1({}, ableRequester.request(ableParam)), {
+        triggerAble(self2, ableType, "drag", eventAffix, "", __assign$2(__assign$2({}, ableRequester.request(ableParam)), {
           requestAble: ableName,
           isRequest: true
         }), requestInstant);
         return this;
       },
       requestEnd: function() {
-        triggerAble(self2, ableType, "drag", eventAffix, "End", __assign$1$1(__assign$1$1({}, ableRequester.requestEnd()), {
+        triggerAble(self2, ableType, "drag", eventAffix, "End", __assign$2(__assign$2({}, ableRequester.requestEnd()), {
           requestAble: ableName,
           isRequest: true
         }), requestInstant);
         return this;
       }
     };
-    triggerAble(self2, ableType, "drag", eventAffix, "Start", __assign$1$1(__assign$1$1({}, ableRequester.requestStart(param)), {
+    triggerAble(self2, ableType, "drag", eventAffix, "Start", __assign$2(__assign$2({}, ableRequester.requestStart(param)), {
       requestAble: ableName,
       isRequest: true
     }), requestInstant);
@@ -44525,7 +46454,8 @@ var MoveableManager$1 = /* @__PURE__ */ function(_super) {
     translateZ: 0,
     cssStyled: null,
     customStyledMap: {},
-    props: {}
+    props: {},
+    flushSync: defaultSync
   };
   return MoveableManager2;
 }(PureComponent);
@@ -44563,7 +46493,8 @@ var Groupable = {
 };
 var Clickable = makeAble("clickable", {
   props: {
-    clickable: Boolean
+    clickable: Boolean,
+    preventClickDefault: Boolean
   },
   events: {
     onClick: "click",
@@ -44590,7 +46521,7 @@ var Clickable = makeAble("clickable", {
     var inputTarget = e.inputTarget;
     var isMoveableElement = moveable.isMoveableElement(inputTarget);
     var containsElement = !isMoveableElement && moveable.controlBox.getElement().contains(inputTarget);
-    if (!e.isDrag || containsElement) {
+    if (!moveable.props.preventClickDefault && !e.isDrag || containsElement) {
       this.unset(moveable);
     }
     if (!inputEvent || !inputTarget || e.isDrag || moveable.isMoveableElement(inputTarget) || containsElement) {
@@ -44652,7 +46583,7 @@ function getDraggableEvent(e) {
     e.originalDatas.draggable = {};
     datas = e.originalDatas.draggable;
   }
-  return __assign$1$1(__assign$1$1({}, e), {
+  return __assign$2(__assign$2({}, e), {
     datas
   });
 }
@@ -44702,10 +46633,10 @@ var IndividualGroupable = {
 };
 var MOVEABLE_ABLES = [BeforeRenderable, Default, Snappable, Pinchable, Draggable, edgeDraggable, Rotatable, Resizable, Scalable, Warpable, Scrollable, Padding, Origin, OriginDraggable, Clippable, Roundable, Groupable, IndividualGroupable, Clickable, DragArea, Renderable];
 var MOVEABLE_EVENTS_PROPS_MAP = /* @__PURE__ */ MOVEABLE_ABLES.reduce(function(current, able) {
-  return __assign$1$1(__assign$1$1({}, current), "events" in able ? able.events : {});
+  return __assign$2(__assign$2({}, current), "events" in able ? able.events : {});
 }, {});
 var MOVEABLE_PROPS_MAP = /* @__PURE__ */ MOVEABLE_ABLES.reduce(function(current, able) {
-  return __assign$1$1(__assign$1$1({}, current), able.props);
+  return __assign$2(__assign$2({}, current), able.props);
 }, {});
 var MOVEABLE_EVENTS_MAP = /* @__PURE__ */ invertObject(MOVEABLE_EVENTS_PROPS_MAP);
 var MOVEABLE_EVENTS = Object.keys(MOVEABLE_EVENTS_MAP);
@@ -44836,13 +46767,13 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
     clientRect.top += info.top - state.top;
     clientRect.left += info.left - state.left;
     target.style.transform = "translate(".concat(-delta[0], "px, ").concat(-delta[1], "px) ").concat(transform);
-    this.updateState(__assign$1$1(__assign$1$1({}, info), {
+    this.updateState(__assign$2(__assign$2({}, info), {
       direction,
       beforeDirection: direction
     }), isSetState);
   };
   __proto.getRect = function() {
-    return __assign$1$1(__assign$1$1({}, _super.prototype.getRect.call(this)), {
+    return __assign$2(__assign$2({}, _super.prototype.getRect.call(this)), {
       children: this.moveables.map(function(child) {
         return child.getRect();
       })
@@ -44875,8 +46806,14 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
     if (!state.target) {
       state.target = this.areaElement;
       this.controlBox.getElement().style.display = "block";
-      this.targetGesto = getTargetAbleGesto(this, nextTarget, "Group");
-      this.controlGesto = getAbleGesto(this, this.controlBox.getElement(), "controlAbles", "GroupControl");
+    }
+    if (state.target) {
+      if (!this.targetGesto) {
+        this.targetGesto = getTargetAbleGesto(this, nextTarget, "Group");
+      }
+      if (!this.controlGesto) {
+        this.controlGesto = getAbleGesto(this, this.controlBox.getElement(), "controlAbles", "GroupControl");
+      }
     }
     var isContainerChanged = !equals(state.container, props.container);
     if (isContainerChanged) {
@@ -44889,7 +46826,7 @@ var MoveableGroup = /* @__PURE__ */ function(_super) {
   };
   __proto._updateObserver = function() {
   };
-  MoveableGroup2.defaultProps = __assign$1$1(__assign$1$1({}, MoveableManager$1.defaultProps), {
+  MoveableGroup2.defaultProps = __assign$2(__assign$2({}, MoveableManager$1.defaultProps), {
     transformOrigin: ["50%", "50%"],
     groupable: true,
     dragArea: true,
@@ -44916,7 +46853,7 @@ var MoveableIndividualGroup = /* @__PURE__ */ function(_super) {
       ref: ref(this, "controlBox"),
       className: prefix("control-box")
     }, targets.map(function(target, i2) {
-      return createElement(MoveableManager$1, __assign$1$1({
+      return createElement(MoveableManager$1, __assign$2({
         key: "moveable" + i2,
         ref: refs(_this, "moveables", i2)
       }, _this.props, {
@@ -44936,7 +46873,7 @@ var MoveableIndividualGroup = /* @__PURE__ */ function(_super) {
     });
   };
   __proto.getRect = function() {
-    return __assign$1$1(__assign$1$1({}, _super.prototype.getRect.call(this)), {
+    return __assign$2(__assign$2({}, _super.prototype.getRect.call(this)), {
       children: this.moveables.map(function(child) {
         return child.getRect();
       })
@@ -45016,14 +46953,14 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
     var isGroup = elementTargets.length > 1;
     var totalAbles = moveableContructor.getTotalAbles();
     var ables = __spreadArray(__spreadArray([], totalAbles, true), userAbles || [], true);
-    var nextProps = __assign$1$1(__assign$1$1(__assign$1$1({}, props), userProps || {}), {
+    var nextProps = __assign$2(__assign$2(__assign$2({}, props), userProps || {}), {
       ables,
       cssStyled: moveableContructor.defaultStyled,
       customStyledMap: moveableContructor.customStyledMap
     });
     if (isGroup) {
       if (props.individualGroupable) {
-        return createElement(MoveableIndividualGroup, __assign$1$1({
+        return createElement(MoveableIndividualGroup, __assign$2({
           key: "individual-group",
           ref: ref(this, "moveable")
         }, nextProps, {
@@ -45031,7 +46968,7 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
           targets: elementTargets
         }));
       }
-      return createElement(MoveableGroup, __assign$1$1({
+      return createElement(MoveableGroup, __assign$2({
         key: "group",
         ref: ref(this, "moveable")
       }, nextProps, {
@@ -45039,7 +46976,7 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
         targets: elementTargets
       }));
     } else {
-      return createElement(MoveableManager$1, __assign$1$1({
+      return createElement(MoveableManager$1, __assign$2({
         key: "single",
         ref: ref(this, "moveable")
       }, nextProps, {
@@ -45099,7 +47036,7 @@ var InitialMoveable = /* @__PURE__ */ function(_super) {
   __decorate$1([withMethods(MOVEABLE_METHODS)], InitialMoveable2.prototype, "moveable", void 0);
   return InitialMoveable2;
 }(PureComponent);
-var Moveable$2 = /* @__PURE__ */ function(_super) {
+var Moveable$1 = /* @__PURE__ */ function(_super) {
   __extends$1(Moveable2, _super);
   function Moveable2() {
     return _super !== null && _super.apply(this, arguments) || this;
@@ -45107,7 +47044,7 @@ var Moveable$2 = /* @__PURE__ */ function(_super) {
   Moveable2.defaultAbles = MOVEABLE_ABLES;
   return Moveable2;
 }(InitialMoveable);
-var Moveable$1$1 = Moveable$2;
+var Moveable$2 = Moveable$1;
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -45139,8 +47076,8 @@ function __extends(d2, b2) {
   }
   d2.prototype = b2 === null ? Object.create(b2) : (__.prototype = b2.prototype, new __());
 }
-var __assign = function() {
-  __assign = Object.assign || function __assign2(t) {
+var __assign$1 = function() {
+  __assign$1 = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
       for (var p in s2)
@@ -45149,7 +47086,7 @@ var __assign = function() {
     }
     return t;
   };
-  return __assign.apply(this, arguments);
+  return __assign$1.apply(this, arguments);
 };
 function __decorate(decorators, target, key, desc) {
   var c2 = arguments.length, r2 = c2 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d2;
@@ -45171,7 +47108,7 @@ var InnerMoveable = /* @__PURE__ */ function(_super) {
   }
   var __proto = InnerMoveable2.prototype;
   __proto.render = function() {
-    return createPortal(createElement(Moveable$1$1, __assign({
+    return createPortal(createElement(Moveable$2, __assign$1({
       ref: ref(this, "moveable")
     }, this.state)), this.state.parentElement);
   };
@@ -45194,8 +47131,8 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-var __assign$1 = function() {
-  __assign$1 = Object.assign || function __assign2(t) {
+var __assign = function() {
+  __assign = Object.assign || function __assign2(t) {
     for (var s2, i2 = 1, n = arguments.length; i2 < n; i2++) {
       s2 = arguments[i2];
       for (var p in s2)
@@ -45204,7 +47141,7 @@ var __assign$1 = function() {
     }
     return t;
   };
-  return __assign$1.apply(this, arguments);
+  return __assign.apply(this, arguments);
 };
 function __spreadArrays() {
   for (var s2 = 0, i2 = 0, il = arguments.length; i2 < il; i2++)
@@ -45297,12 +47234,13 @@ var EventEmitter = /* @__PURE__ */ function() {
     var events = this._events;
     events[eventName] = events[eventName] || [];
     var listeners = events[eventName];
-    listeners.push(__assign$1({
+    listeners.push(__assign({
       listener
     }, options));
   };
   return EventEmitter2;
 }();
+var EventEmitter$1 = EventEmitter;
 var MoveableManager = /* @__PURE__ */ function(_super) {
   __extends(MoveableManager2, _super);
   function MoveableManager2(parentElement, options) {
@@ -45311,14 +47249,14 @@ var MoveableManager = /* @__PURE__ */ function(_super) {
     }
     var _this = _super.call(this) || this;
     _this.tempElement = document.createElement("div");
-    var nextOptions = __assign({}, options);
+    var nextOptions = __assign$1({}, options);
     var events = {};
     EVENTS.forEach(function(name) {
-      events[camelize("on " + name)] = function(e) {
+      events[camelize("on ".concat(name))] = function(e) {
         return _this.trigger(name, e);
       };
     });
-    render(createElement(InnerMoveable, __assign({
+    render(createElement(InnerMoveable, __assign$1({
       ref: ref(_this, "innerMoveable"),
       parentElement
     }, nextOptions, events)), _this.tempElement);
@@ -45380,7 +47318,7 @@ var MoveableManager = /* @__PURE__ */ function(_super) {
     });
   })], MoveableManager2);
   return MoveableManager2;
-}(EventEmitter);
+}(EventEmitter$1);
 var Moveable = /* @__PURE__ */ function(_super) {
   __extends(Moveable2, _super);
   function Moveable2() {
@@ -45388,7 +47326,6 @@ var Moveable = /* @__PURE__ */ function(_super) {
   }
   return Moveable2;
 }(MoveableManager);
-var Moveable$1 = Moveable;
 var __accessCheck$2 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -45611,9 +47548,10 @@ const _DesignCast = class {
       });
     };
     const procEnd = (o) => {
-      _DesignCast.sys.send2Dbg("_changeCast", __spreadProps(__spreadValues({}, o), {
+      _DesignCast.sys.send2Dbg("_changeCast", {
+        ...o,
         ":id_tag": this.id_tag
-      }));
+      });
       _DesignCast.divHint.style.display = "none";
     };
     const resizeEnd = () => {
@@ -45627,10 +47565,13 @@ const _DesignCast = class {
       this.setPos(ix, iy);
       const iw = uint(this.rect.width), ih = uint(this.rect.height);
       this.setSize(iw, ih);
-      procEnd(__spreadValues(__spreadValues({}, this.cnvPosArg(ix, iy)), this.cnvSizeArg(iw, ih)));
+      procEnd({
+        ...this.cnvPosArg(ix, iy),
+        ...this.cnvSizeArg(iw, ih)
+      });
     };
     let heCh = void 0;
-    this.mov = new Moveable$1(document.body, {
+    this.mov = new Moveable(document.body, {
       target: d2,
       draggable: true,
       resizable: true,
@@ -45686,10 +47627,11 @@ const _DesignCast = class {
       const ix = int(this.rect.x + px);
       const iy = int(this.rect.y + py);
       this.setPos(ix, iy);
-      procEnd(__spreadProps(__spreadValues({}, this.cnvPosArg(ix, iy)), {
+      procEnd({
+        ...this.cnvPosArg(ix, iy),
         pivot_x: int(px),
         pivot_y: int(py)
-      }));
+      });
     }).on("render", () => {
       const { aPos, roDeg, trOrg } = tmp;
       d2.style.transformOrigin = trOrg;
@@ -45959,7 +47901,7 @@ class TxtLayPadDesignCast extends DesignCast {
     this.ts.lay(this.cnvPosArg(x, y2));
   }
   setSize(w2, h2) {
-    this.ts.lay(__spreadProps(__spreadValues({}, this.cnvSizeArg(w2, h2)), { ":redraw": true }));
+    this.ts.lay({ ...this.cnvSizeArg(w2, h2), ":redraw": true });
   }
   setOther(hPrm) {
     var _a3, _b3, _c3, _d2, _e, _f, _g, _h;
@@ -46263,7 +48205,7 @@ const _GrpLayer = class extends Layer {
         fn: fn2,
         dx: 0,
         dy: 0,
-        blendmode: BLEND_MODES$3.NORMAL
+        blendmode: BLEND_MODES$4.NORMAL
       };
       const fnc = i2 === 0 ? fncFirstComp : (sp) => {
         sp.x = f2.dx;
@@ -46280,7 +48222,7 @@ const _GrpLayer = class extends Layer {
       needLoad = true;
       const url2 = __privateGet$1(_GrpLayer, _cfg).searchPath(f2.fn, Config.EXT_SPRITE);
       const xt = __privateGet$1(this, _sys).crypto ? { xhrType: url2.slice(-5) === ".json" ? LoaderResource.XHR_RESPONSE_TYPE.TEXT : LoaderResource.XHR_RESPONSE_TYPE.BUFFER } : {};
-      ldr.add(__spreadProps(__spreadValues({}, xt), { name: f2.fn, url: url2 }));
+      ldr.add({ ...xt, name: f2.fn, url: url2 });
     });
     const fncLoaded = (hRes) => {
       var _a3;
@@ -46599,7 +48541,7 @@ __privateAdd$1(GrpLayer, _dec2cache, (_r2, res, next) => {
 GrpLayer.hFn2VElm = {};
 __privateAdd$1(GrpLayer, _hAEncImg, {});
 __privateAdd$1(GrpLayer, _hEncImgOUrl, {});
-const _TxtStage = class extends Container {
+const _TxtStage = class extends Container$1 {
   constructor(spLay, canFocus, sys) {
     super();
     __privateAdd(this, _lay_sub);
@@ -46608,7 +48550,7 @@ const _TxtStage = class extends Container {
     __privateAdd(this, _getChRects);
     __privateAdd(this, _clearText);
     __privateAdd(this, _htmTxt, document.createElement("span"));
-    __privateAdd(this, _cntTxt, new Container());
+    __privateAdd(this, _cntTxt, new Container$1());
     __privateAdd(this, _grpDbgMasume, new Graphics());
     __privateAdd(this, _idc2, new TxtLayDesignCast(this.spLay, this));
     __privateAdd(this, _idcCh, new TxtLayPadDesignCast(this));
@@ -46675,7 +48617,7 @@ const _TxtStage = class extends Container {
     });
     __privateSet(_TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
     __privateSet(_TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
-    __privateSet(_TxtStage, _cntBreak, new Container());
+    __privateSet(_TxtStage, _cntBreak, new Container$1());
   }
   lay(hArg) {
     var _a3, _b3, _c3, _d2, _e, _f, _g, _h;
@@ -46869,7 +48811,7 @@ const _TxtStage = class extends Container {
         rctLastCh = rct;
       }
       if (v2.cmd === "grp") {
-        const cnt = new Container();
+        const cnt = new Container$1();
         __privateGet(this, _cntTxt).addChild(cnt);
         GrpLayer.csv2Sprites(arg.pic, cnt, (sp) => {
           __privateMethod(this, _spWork, spWork_fn).call(this, cnt, arg, add3, rct, ease, cis != null ? cis : {});
@@ -47033,7 +48975,7 @@ const _TxtStage = class extends Container {
       cnt.parent.removeChild(cnt);
       cnt.removeChildren();
     }
-    __privateSet(_TxtStage, _cntBreak, new Container());
+    __privateSet(_TxtStage, _cntBreak, new Container$1());
   }
   reNew() {
     var _a3;
@@ -47105,7 +49047,7 @@ const _TxtStage = class extends Container {
   makeDesignCast(gdc) {
     gdc(__privateGet(this, _idc2));
     const o = __privateGet(this, _idc2).gethArg();
-    __privateGet(this, _idcCh).sethArg(__spreadProps(__spreadValues({}, o), { ":id_dc": o[":id_tag"] + "_pad" }));
+    __privateGet(this, _idcCh).sethArg({ ...o, ":id_dc": o[":id_tag"] + "_pad" });
     gdc(__privateGet(this, _idcCh));
   }
   showDesignCast() {
@@ -47491,7 +49433,7 @@ clearText_fn = function() {
   const end2 = () => {
     old.parentElement.removeChild(old);
     __privateGet(this, _cntTxt).removeChildren().forEach((c2) => {
-      if (c2 instanceof Container)
+      if (c2 instanceof Container$1)
         __privateGet(_TxtStage, _evtMng3).unButton(c2);
       c2.destroy();
     });
@@ -47524,7 +49466,7 @@ __privateAdd(TxtStage, _reg\u5206\u5272\u7981\u6B62, void 0);
 __privateAdd(TxtStage, _hChInStyle, /* @__PURE__ */ Object.create(null));
 __privateAdd(TxtStage, _REG_NG_CHSTYLE_NAME_CHR, /[\s\.,]/);
 __privateAdd(TxtStage, _hChOutStyle, /* @__PURE__ */ Object.create(null));
-__privateAdd(TxtStage, _cntBreak, new Container());
+__privateAdd(TxtStage, _cntBreak, new Container$1());
 var __accessCheck2 = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -47548,7 +49490,7 @@ var __privateMethod2 = (obj, member, method) => {
   return method;
 };
 var _procMasume4txt, _procMasume4pic, _rctBtnTxt, _idc, _sp_b_pic, _sp_pic, _loaded_b_pic, loaded_b_pic_fn, _normal, _hover, _clicked, _loaded_pic, loaded_pic_fn;
-const _Button = class extends Container {
+const _Button = class extends Container$1 {
   constructor(hArg, evtMng, resolve2, canFocus) {
     var _a4, _b3, _c3;
     var _a3;
@@ -47635,7 +49577,7 @@ const _Button = class extends Container {
     txt.height = hArg.height = height;
     this.setText = (text) => txt.text = text;
     oName.type = "text";
-    oName = __spreadValues(__spreadValues({}, oName), style);
+    oName = { ...oName, ...style };
     oName.alpha = txt.alpha;
     oName.text = txt.text;
     oName.width = txt.width;
@@ -47808,7 +49750,7 @@ const _TxtLayer = class extends Layer {
     __privateAdd(this, _setFfs);
     __privateAdd(this, _mkStyle_r_align4ff);
     __privateAdd(this, _tagCh_sub);
-    __privateAdd(this, _style_delay);
+    __privateAdd(this, _o2domArg);
     __privateAdd(this, _pushSpan);
     __privateAdd(this, _popSpan);
     __privateAdd(this, _b_color, void 0);
@@ -47842,7 +49784,7 @@ const _TxtLayer = class extends Layer {
     __privateSet(this, _b_pic, "");
     __privateSet(this, _txs, new TxtStage(this.spLay, () => this.canFocus(), __privateGet(_TxtLayer, _sys3)));
     __privateSet(this, _rbSpl, new RubySpliter());
-    __privateSet(this, _cntBtn, new Container());
+    __privateSet(this, _cntBtn, new Container$1());
     __privateSet(this, _$ch_in_style, "");
     __privateSet(this, _ch_in_join, true);
     __privateSet(this, _$ch_out_style, "");
@@ -47855,12 +49797,11 @@ const _TxtLayer = class extends Layer {
     __privateSet(this, _r_align, "");
     __privateSet(this, _needGoTxt, false);
     __privateSet(this, _putCh2, (ch, ruby) => {
-      var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _i, _j, _k, _l2, _m;
+      var _a3, _b3, _c3, _d2, _e, _f, _g, _h, _i, _j;
       if (__privateGet(_TxtLayer, _cfg3).oCfg.debug.putCh)
         console.log(`\u{1F58A} \u6587\u5B57\u8868\u793A text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
       const a_ruby = ruby.split("\uFF5C");
       let add_htm = "";
-      const isSkip = __privateGet(_TxtLayer, _evtMng4).isSkippingByKeyDown();
       const [a0, a1] = a_ruby;
       switch (a_ruby.length) {
         case 1:
@@ -47878,7 +49819,7 @@ const _TxtLayer = class extends Layer {
             if (ruby === "")
               ruby = "\u3000";
           }
-          add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet(this, _r_align));
+          add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, __privateGet(this, _r_align));
           break;
         case 2:
           switch (a0) {
@@ -47892,7 +49833,7 @@ const _TxtLayer = class extends Layer {
             case "1ruby":
               __privateSet(this, _firstCh, false);
               __privateSet(this, _needGoTxt, true);
-              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a1, isSkip, a0);
+              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, a1, a0);
               break;
             case "gotxt":
               {
@@ -47909,7 +49850,8 @@ const _TxtLayer = class extends Layer {
             case "add":
               {
                 const o = JSON.parse(a1);
-                __privateGet(this, _aSpan).push(`<span style='display: inline;${(_c3 = (_b3 = __privateGet(this, _stkASpan).at(-1)) == null ? void 0 : _b3.o.style) != null ? _c3 : ""}${(_d2 = o.style) != null ? _d2 : ""} ${__privateMethod(this, _style_delay, style_delay_fn).call(this, isSkip)}' class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' data-add='${JSON.stringify(o)}'>`);
+                const { cl, sty } = __privateMethod(this, _o2domArg, o2domArg_fn).call(this, true, o.wait);
+                __privateGet(this, _aSpan).push(`<span${cl} style='display: inline;${(_c3 = (_b3 = __privateGet(this, _stkASpan).at(-1)) == null ? void 0 : _b3.o.style) != null ? _c3 : ""}${(_d2 = o.style) != null ? _d2 : ""}${sty}'>`);
                 delete o.style;
                 __privateMethod(this, _pushSpan, pushSpan_fn).call(this, o);
               }
@@ -47929,38 +49871,52 @@ const _TxtLayer = class extends Layer {
                   return;
                 }
                 (_f = o.style) != null ? _f : o.style = "";
-                const wait = Number((_g = o.wait) != null ? _g : -1);
-                const sc = wait != 0 ? ` sn_ch_in_${__privateGet(this, _$ch_in_style)}` : "";
-                const ad = wait < 0 ? "" : ` animation-duration: ${wait}ms;`;
-                const lnk = (_h = __privateGet(this, _stkASpan).at(0)) == null ? void 0 : _h.o[":link"];
-                add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${JSON.stringify(o)}' class='sn_ch${sc}' style='${__privateMethod(this, _style_delay, style_delay_fn).call(this, isSkip)}${ad} ${(_i = o.style) != null ? _i : ""}'${lnk != null ? lnk : ""} data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>\u3000</span>`;
+                const { cl, sty, lnk } = __privateMethod(this, _o2domArg, o2domArg_fn).call(this, true, o.wait);
+                add_htm = `<span data-cmd='grp' data-id='${o.id}'${cl} style='${sty} ${(_g = o.style) != null ? _g : ""}'${lnk} data-arg='${JSON.stringify(o)}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>\u3000</span>`;
                 if (__privateGet(this, _firstCh)) {
                   __privateSet(this, _firstCh, false);
                   add_htm = `<ruby>${add_htm}<rt>\u3000</rt></ruby>`;
                 }
-                if (__privateGet(this, _ch_in_join))
-                  __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? 0 : LayerMng.msecChWait));
+              }
+              break;
+            case "tcy":
+              __privateSet(this, _firstCh, false);
+              __privateSet(this, _needGoTxt, true);
+              {
+                if (__privateGet(_TxtLayer, _val).doRecLog())
+                  __privateSet(this, _page_text, __privateGet(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
+                const o = JSON.parse(a1);
+                const { t, r: r2 = "" } = o;
+                const rb = CmnLib.isSafari ? r2.replace(/[A-Za-z0-9]/g, (s2) => String.fromCharCode(s2.charCodeAt(0) + 65248)) : r2;
+                const rs = this.mkStyle_r_align(t, rb, __privateGet(this, _r_align));
+                const { cl, sty, lnk } = __privateMethod(this, _o2domArg, o2domArg_fn).call(this, true, o.wait);
+                add_htm = `<span${cl} style='${sty}${__privateGet(this, _fncFFSStyle).call(this, t)} ${(_h = o.style) != null ? _h : ""}'${lnk}><ruby><span style='
+text-combine-upright: all;
+-webkit-text-combine: horizontal;
+				' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>${t}</span>
+				<rt${rs}>${rb}</rt></ruby></span>`;
               }
               break;
             case "del":
               TxtStage.delBreak();
               return;
             case "span":
+              __privateMethod(this, _popSpan, popSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
               {
-                __privateMethod(this, _popSpan, popSpan_fn).call(this);
-                __privateSet(this, _needGoTxt, true);
                 const o = JSON.parse(a1);
                 if (o.style)
                   __privateMethod(this, _pushSpan, pushSpan_fn).call(this, o);
               }
               return;
             case "link":
+              __privateMethod(this, _popSpan, popSpan_fn).call(this);
+              __privateSet(this, _needGoTxt, true);
               {
-                __privateMethod(this, _popSpan, popSpan_fn).call(this);
-                __privateSet(this, _needGoTxt, true);
                 const o = JSON.parse(a1);
                 o[":link"] = ` data-lnk='@'`;
-                __privateGet(this, _aSpan).push(`<span data-arg='${a1}' class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='display: inline;${(_j = o.style) != null ? _j : ""} ${__privateMethod(this, _style_delay, style_delay_fn).call(this, isSkip)}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'}>`);
+                const { cl, sty } = __privateMethod(this, _o2domArg, o2domArg_fn).call(this, false, o.wait);
+                __privateGet(this, _aSpan).push(`<span data-arg='${a1}'${cl} style='display: inline; ${sty} ${(_i = o.style) != null ? _i : ""}' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'}>`);
                 delete o.style;
                 __privateMethod(this, _pushSpan, pushSpan_fn).call(this, o);
               }
@@ -47972,36 +49928,11 @@ const _TxtLayer = class extends Layer {
               return;
             default:
               __privateSet(this, _needGoTxt, true);
-              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, isSkip, __privateGet(this, _r_align));
-          }
-          break;
-        case 3:
-          switch (a0) {
-            case "tcy":
-              __privateSet(this, _firstCh, false);
-              __privateSet(this, _needGoTxt, true);
-              {
-                const [, tx, rb0] = a_ruby;
-                if (__privateGet(_TxtLayer, _val).doRecLog())
-                  __privateSet(this, _page_text, __privateGet(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
-                const rb = CmnLib.isSafari ? rb0.replace(/[A-Za-z0-9]/g, (s2) => String.fromCharCode(s2.charCodeAt(0) + 65248)) : rb0;
-                const rs = this.mkStyle_r_align(tx, rb, __privateGet(this, _r_align));
-                const lnk = (_k = __privateGet(this, _stkASpan).at(0)) == null ? void 0 : _k.o[":link"];
-                add_htm = `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='${__privateGet(this, _fncFFSStyle).call(this, tx)}${__privateMethod(this, _style_delay, style_delay_fn).call(this, isSkip)}'><ruby><span ${lnk != null ? lnk : ""} style='
-text-combine-upright: all;
--webkit-text-combine: horizontal;
-				' data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'>${tx}</span>
-				<rt${rs}>${rb}</rt></ruby></span>`;
-                if (__privateGet(this, _ch_in_join))
-                  __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? (_l2 = __privateGet(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _l2 : 0 : LayerMng.msecChWait));
-              }
-              break;
-            default:
-              throw `\u7570\u5E38\u306A\u5024\u3067\u3059 putCh(text: ${ch}, ruby: ${ruby})`;
+              add_htm = __privateMethod(this, _tagCh_sub, tagCh_sub_fn).call(this, ch, ruby, __privateGet(this, _r_align));
           }
           break;
       }
-      __privateGet(this, _aSpan).push(__privateGet(_m = _TxtLayer, _rec).call(_m, add_htm));
+      __privateGet(this, _aSpan).push(__privateGet(_j = _TxtLayer, _rec).call(_j, add_htm));
     });
     __privateSet(this, _cumDelay, 0);
     __privateSet(this, _firstCh, true);
@@ -48289,7 +50220,7 @@ text-combine-upright: all;
   }
   dump() {
     __privateGet(this, _putCh2).call(this, "", "gotxt\uFF5C");
-    return super.dump() + `, "enabled":"${this.enabled}", ${__privateGet(this, _txs).dump()}, "b_pic":"${__privateGet(this, _b_pic)}", "b_color":"${__privateGet(this, _b_color)}", "b_alpha":${__privateGet(this, _b_alpha)}, "b_alpha_isfixed":"${__privateGet(this, _b_alpha_isfixed)}", "width":${__privateGet(this, _txs).getWidth}, "height":${__privateGet(this, _txs).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${__privateGet(this, _cntBtn).children.map((d2) => {
+    return super.dump() + `, "enabled":"${this.enabled}", ${__privateGet(this, _txs).dump()}, "b_pic":"${__privateGet(this, _b_pic)}", "b_color":"${__privateGet(this, _b_color)}", "b_alpha":${__privateGet(this, _b_alpha)}, "b_alpha_isfixed":"${__privateGet(this, _b_alpha_isfixed)}", "width":${__privateGet(this, _txs).getWidth}, "height":${__privateGet(this, _txs).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container$1 ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${__privateGet(this, _cntBtn).children.map((d2) => {
       var _a3;
       return (_a3 = d2.children[0].name) != null ? _a3 : "{}";
     }).join(",")}]`;
@@ -48511,25 +50442,30 @@ mkStyle_r_align4ff_fn = function(ch, rb, r_align) {
 _needGoTxt = new WeakMap();
 _putCh2 = new WeakMap();
 _tagCh_sub = new WeakSet();
-tagCh_sub_fn = function(ch, ruby, isSkip, r_align) {
-  var _a3, _b3;
+tagCh_sub_fn = function(ch, ruby, r_align) {
   if (ch === " ")
     ch = "&nbsp;";
   if (__privateGet(_TxtLayer, _val).doRecLog())
     __privateSet(this, _page_text, __privateGet(this, _page_text) + (ch + (ruby ? `\u300A${ruby}\u300B` : "")));
-  const lnk = (_a3 = __privateGet(this, _stkASpan).at(0)) == null ? void 0 : _a3.o[":link"];
-  const curpos = `${lnk != null ? lnk : ""} data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'`;
-  const add_htm = `<span class='sn_ch sn_ch_in_${__privateGet(this, _$ch_in_style)}' style='${__privateMethod(this, _style_delay, style_delay_fn).call(this, isSkip)}${__privateGet(this, _fncFFSStyle).call(this, ch)}'${ruby ? "" : curpos}>${ruby ? `<ruby${curpos}>${ch}<rt${this.mkStyle_r_align(ch, ruby, r_align)}>${ruby}</rt></ruby>` : ch}</span>`;
-  if (__privateGet(this, _ch_in_join))
-    __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + (__privateGet(_TxtLayer, _doAutoWc) ? (_b3 = __privateGet(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _b3 : 0 : LayerMng.msecChWait));
+  const { cl, sty, lnk } = __privateMethod(this, _o2domArg, o2domArg_fn).call(this, true, null, ch);
+  const curpos = `${lnk} data-add='{"ch_in_style":"${__privateGet(this, _$ch_in_style)}", "ch_out_style":"${__privateGet(this, _$ch_out_style)}"}'`;
+  const add_htm = `<span${cl} style='${sty}${__privateGet(this, _fncFFSStyle).call(this, ch)}'${ruby ? "" : curpos}>${ruby ? `<ruby${curpos}>${ch}<rt${this.mkStyle_r_align(ch, ruby, r_align)}>${ruby}</rt></ruby>` : ch}</span>`;
   return add_htm;
 };
-_style_delay = new WeakSet();
-style_delay_fn = function(isSkip) {
-  var _a3, _b3, _c3;
-  if (isSkip)
+_o2domArg = new WeakSet();
+o2domArg_fn = function(isAddWait, argWait, ch = "\n") {
+  var _a3, _b3, _c3, _d2, _e, _f, _g, _h;
+  const pWait = (_a3 = __privateGet(this, _stkASpan).at(0)) == null ? void 0 : _a3.o.wait;
+  const wait = !__privateGet(this, _ch_in_join) ? 0 : ((_b3 = argWait != null ? argWait : pWait) != null ? _b3 : __privateGet(_TxtLayer, _doAutoWc)) ? (_c3 = __privateGet(_TxtLayer, _hAutoWc)[ch.charAt(0)]) != null ? _c3 : 0 : LayerMng.msecChWait;
+  if (__privateGet(_TxtLayer, _evtMng4).isSkippingByKeyDown())
     __privateSet(this, _cumDelay, 0);
-  return `animation-delay: ${__privateGet(this, _cumDelay)}ms;${(_c3 = (_b3 = (_a3 = __privateGet(this, _stkASpan).at(-1)) == null ? void 0 : _a3.o) == null ? void 0 : _b3.style) != null ? _c3 : ""}`;
+  else if (isAddWait && __privateGet(this, _ch_in_join))
+    __privateSet(this, _cumDelay, __privateGet(this, _cumDelay) + wait);
+  return {
+    cl: ` class='sn_ch${wait > 0 ? ` sn_ch_in_${__privateGet(this, _$ch_in_style)}` : ""}'`,
+    sty: `animation-delay: ${__privateGet(this, _cumDelay)}ms;${(_f = (_e = (_d2 = __privateGet(this, _stkASpan).at(-1)) == null ? void 0 : _d2.o) == null ? void 0 : _e.style) != null ? _f : ""}`,
+    lnk: (_h = (_g = __privateGet(this, _stkASpan).at(0)) == null ? void 0 : _g.o[":link"]) != null ? _h : ""
+  };
 };
 _cumDelay = new WeakMap();
 _firstCh = new WeakMap();
@@ -48682,7 +50618,7 @@ add_frame_fn = function(hArg) {
 _hDisabled = new WeakMap();
 _rect = new WeakSet();
 rect_fn = function(hArg) {
-  const a2 = __spreadValues({}, hArg);
+  const a2 = { ...hArg };
   const re2 = this.sys.resolution;
   return new DOMRect(argChk_Num(a2, "x", 0) * re2, argChk_Num(a2, "y", 0) * re2, argChk_Num(a2, "width", CmnLib.stageW) * re2, argChk_Num(a2, "height", CmnLib.stageH) * re2);
 };
@@ -48977,8 +50913,8 @@ const _LayerMng = class {
     this.sndMng = sndMng;
     this.alzTagArg = alzTagArg;
     this.prpPrs = prpPrs;
-    __privateSet(this, _fore, new Container());
-    __privateSet(this, _back, new Container());
+    __privateSet(this, _fore, new Container$1());
+    __privateSet(this, _back, new Container$1());
     __privateSet(this, _fncTicker, () => update());
     __privateSet(this, _hProcDbgRes2, {
       attach: (_2) => {
@@ -50000,10 +51936,9 @@ span_fn = function(hArg) {
 };
 _tcy = new WeakSet();
 tcy_fn = function(hArg) {
-  var _a3;
   if (!hArg.t)
     throw "[tcy] t\u306F\u5FC5\u9808\u3067\u3059";
-  hArg.text = "\uFF5C\u3000\u300Atcy\uFF5C" + hArg.t + "\uFF5C" + ((_a3 = hArg.r) != null ? _a3 : "") + "\u300B";
+  hArg.text = "\uFF5C\u3000\u300Atcy\uFF5C" + JSON.stringify(hArg) + "\u300B";
   return __privateMethod(this, _ch, ch_fn).call(this, hArg);
 };
 _dump_lay = new WeakSet();
@@ -50061,7 +51996,7 @@ class FocusMng {
     var _a3;
     if (__privateGet(this, _aBtn).findIndex((b2) => b2.btn === cmp) >= 0)
       return;
-    if (cmp instanceof Container) {
+    if (cmp instanceof Container$1) {
       cmp.on("pointerdown", () => {
         for (let i2 = __privateGet(this, _aBtn).length - 1; i2 >= 0; --i2) {
           const b2 = __privateGet(this, _aBtn)[i2];
@@ -50219,7 +52154,7 @@ _allOff = new WeakSet();
 allOff_fn = function() {
   for (let i2 = __privateGet(this, _aBtn).length - 1; i2 >= 0; --i2) {
     const b2 = __privateGet(this, _aBtn)[i2];
-    if (!(b2.btn instanceof Container) || b2.btn.parent)
+    if (!(b2.btn instanceof Container$1) || b2.btn.parent)
       b2.off();
     else
       __privateGet(this, _aBtn).splice(i2, 1);
@@ -51756,8 +53691,8 @@ class EventMng {
       if (!s22)
         return;
       const cmp = __privateGet(this, _fcs).getFocus();
-      (!cmp || cmp instanceof Container ? globalThis : cmp).dispatchEvent(new KeyboardEvent("keydown", { key: s22, bubbles: true }));
-      if (!cmp || cmp instanceof Container)
+      (!cmp || cmp instanceof Container$1 ? globalThis : cmp).dispatchEvent(new KeyboardEvent("keydown", { key: s22, bubbles: true }));
+      if (!cmp || cmp instanceof Container$1)
         return;
       if (cmp.getAttribute("type") === "range")
         cmp.dispatchEvent(new InputEvent("input", { bubbles: true }));
@@ -51767,7 +53702,7 @@ class EventMng {
         return;
       if (e.detail.button % 2 === 0) {
         const cmp = __privateGet(this, _fcs).getFocus();
-        (!cmp || cmp instanceof Container ? globalThis : cmp).dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+        (!cmp || cmp instanceof Container$1 ? globalThis : cmp).dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
       } else
         appPixi.view.dispatchEvent(new Event("contextmenu"));
     });
@@ -51800,10 +53735,10 @@ class EventMng {
       return;
     const key = KEY.toLowerCase();
     if (CmnLib.debugLog)
-      console.log(`\u{1F47A} fire<(key:\`${key}\` type:${e.type} e:%o)`, __spreadValues({}, e));
+      console.log(`\u{1F47A} fire<(key:\`${key}\` type:${e.type} e:%o)`, { ...e });
     if (key === "enter") {
       const em = __privateGet(this, _fcs).getFocus();
-      if (em instanceof Container) {
+      if (em instanceof Container$1) {
         em.emit("pointerdown", new Event("pointerdown"));
         return;
       }
@@ -52075,7 +54010,7 @@ dispHint_fn = function(hArg, ctnBtn) {
   __privateGet(this, _spanHint).style.cssText = "";
   __privateGet(this, _spanHint).textContent = (_b3 = hArg.hint) != null ? _b3 : "";
   try {
-    const o = hArg.hint_opt ? __spreadValues(__spreadValues({}, __privateGet(this, _oHintOpt)), JSON.parse(hArg.hint_opt)) : __privateGet(this, _oHintOpt);
+    const o = hArg.hint_opt ? { ...__privateGet(this, _oHintOpt), ...JSON.parse(hArg.hint_opt) } : __privateGet(this, _oHintOpt);
     __privateGet(this, _popper).setOptions(o);
   } catch (e) {
     console.error(mesErrJSON(hArg, "hint_opt", e.message));
@@ -52685,7 +54620,7 @@ const _ScriptIterator = class {
     if (this.alzTagArg.isKomeParam) {
       if (len === 0)
         throw "\u5C5E\u6027\u300C*\u300D\u306F\u30DE\u30AF\u30ED\u306E\u307F\u6709\u52B9\u3067\u3059";
-      hArg = __spreadValues({}, __privateGet(this, _aCallStk)[__privateGet(this, _aCallStk).length - 1].csArg);
+      hArg = { ...__privateGet(this, _aCallStk)[__privateGet(this, _aCallStk).length - 1].csArg };
     }
     hArg[":\u30BF\u30B0\u540D"] = tag_name;
     for (const arg_nm in hPrm) {
@@ -52802,7 +54737,7 @@ const _ScriptIterator = class {
       idx: i2,
       retFn: fn2,
       retIdx: 0,
-      retMark: __spreadValues({}, __privateGet(this, _mark))
+      retMark: { ...__privateGet(this, _mark) }
     };
     if (__privateGet(this, _posAPageLog) >= 0) {
       const pl = __privateGet(this, _aPageLog)[__privateGet(this, _posAPageLog)];
@@ -53533,7 +55468,7 @@ macro_fn = function(hArg) {
   __privateSet(this, _REGSTEPIN, new RegExp(`\\[(${__privateGet(this, _strStepin)})\\b`));
   this.hTag[name] = (hArgM) => {
     hArgM.design_unit = hArg.design_unit;
-    __privateMethod(this, _callSub, callSub_fn).call(this, __spreadProps(__spreadValues({}, hArgM), { ":hMp": this.val.cloneMp() }));
+    __privateMethod(this, _callSub, callSub_fn).call(this, { ...hArgM, ":hMp": this.val.cloneMp() });
     this.val.setMp(hArgM);
     this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify(hArg));
     this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", __privateGet(this, _scriptFn));
@@ -53581,7 +55516,7 @@ loadFromMark_fn = function(hArg, mark, reload_sound = true) {
   if (argChk_Boolean(hArg, "do_rec", true))
     __privateSet(this, _mark, {
       hSave: this.val.cloneSave(),
-      hPages: __spreadValues({}, mark.hPages),
+      hPages: { ...mark.hPages },
       aIfStk: [...mark.aIfStk]
     });
   const o = {
@@ -54128,7 +56063,7 @@ class SysApp extends SysNode {
     await super.loaded(hPlg, arg);
     __privateSet(this, _hInfo, await to_app.getInfo());
     CmnLib.isPackaged = __privateGet(this, _hInfo).isPackaged;
-    this.arg = arg = __spreadProps(__spreadValues({}, arg), { cur: __privateGet(this, _hInfo).getAppPath.replaceAll("\\", "/") + (CmnLib.isPackaged ? "/doc/" : "/") + arg.cur });
+    this.arg = arg = { ...arg, cur: __privateGet(this, _hInfo).getAppPath.replaceAll("\\", "/") + (CmnLib.isPackaged ? "/doc/" : "/") + arg.cur };
     this.$path_downloads = __privateGet(this, _hInfo).downloads.replaceAll("\\", "/") + "/";
     CmnLib.isDbg = Boolean(__privateGet(this, _hInfo).env["SKYNOVEL_DBG"]) && !CmnLib.isPackaged;
     if (CmnLib.isDbg)

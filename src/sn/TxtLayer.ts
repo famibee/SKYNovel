@@ -456,8 +456,7 @@ export class TxtLayer extends Layer {
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
-		const isSkip = TxtLayer.#evtMng.isSkippingByKeyDown();
-		const [a0, a1, ] = a_ruby;
+		const [a0, a1] = a_ruby;
 		switch (a_ruby.length) {
 		case 1:		// 字or春《はる》
 			this.#needGoTxt = true;
@@ -473,7 +472,7 @@ export class TxtLayer extends Layer {
 				this.#firstCh = false;
 				if (ruby === '') ruby = '　';
 			}
-			add_htm = this.#tagCh_sub(ch, ruby, isSkip, this.#r_align);
+			add_htm = this.#tagCh_sub(ch, ruby, this.#r_align);
 			break;
 
 		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
@@ -488,7 +487,7 @@ export class TxtLayer extends Layer {
 			case '1ruby':	//（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける
 				this.#firstCh = false;
 				this.#needGoTxt = true;
-				add_htm = this.#tagCh_sub(ch, a1, isSkip, a0);
+				add_htm = this.#tagCh_sub(ch, a1, a0);
 				break;
 
 			case 'gotxt':{
@@ -516,9 +515,10 @@ export class TxtLayer extends Layer {
 
 			case 'add':{	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
 				const o = JSON.parse(a1);	// [span]内[tcy]などに影響
-				this.#aSpan.push(`<span style='display: inline;${
+				const {cl, sty} = this.#o2domArg(true, o.wait);
+				this.#aSpan.push(`<span${cl} style='display: inline;${
 					this.#stkASpan.at(-1)?.o.style ?? ''
-				}${o.style ?? ''} ${this.#style_delay(isSkip)}' class='sn_ch sn_ch_in_${this.#$ch_in_style}' data-add='${JSON.stringify(o)}'>`);	// "を"にしてはいけない
+				}${o.style ?? ''}${sty}'>`);	// "を"にしてはいけない
 				delete o.style;
 				this.#pushSpan(o);	// 先頭文字と一緒に出す。#cumDelayは触らない
 			}	return;	// breakではない
@@ -537,17 +537,38 @@ export class TxtLayer extends Layer {
 					// breakではない
 
 				o.style ??= '';
-				const wait = Number(o.wait ?? -1);
-				const sc = (wait != 0)?` sn_ch_in_${this.#$ch_in_style}` :'';
-				const ad = (wait < 0) ?'' :` animation-duration: ${wait}ms;`
-
-				const lnk = this.#stkASpan.at(0)?.o[':link'];
-				add_htm = `<span data-cmd='grp' data-id='${o.id}' data-arg='${JSON.stringify(o)}' class='sn_ch${sc}' style='${this.#style_delay(isSkip)}${ad} ${o.style ?? ''}'${lnk ?? ''} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>　</span>`;
+				const {cl, sty, lnk} = this.#o2domArg(true, o.wait);
+				add_htm = `<span data-cmd='grp' data-id='${o.id}'${cl} style='${sty} ${o.style ?? ''}'${lnk} data-arg='${JSON.stringify(o)}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>　</span>`;
 				if (this.#firstCh) {// １文字目にルビが無い場合、不可視ルビで行揃え
 					this.#firstCh = false;
 					add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
 				}
-				if (this.#ch_in_join) this.#cumDelay += TxtLayer.#doAutoWc ?0 :LayerMng.msecChWait;
+			}
+				break;
+
+			case 'tcy':	// ルビ付き縦中横
+				this.#firstCh = false;
+				this.#needGoTxt = true;
+			{
+				if (TxtLayer.#val.doRecLog()) this.#page_text += ch
+				+(ruby ?`《${ruby}》` :'');
+
+				const o = JSON.parse(a1);
+				const {t, r=''} = o;
+				const rb = CmnLib.isSafari
+					? (<string>r).replace(/[A-Za-z0-9]/g, s=> String.fromCharCode(s.charCodeAt(0) + 65248))
+						// 英数字を全角に(Safariで縦中横ルビが半角文字だと、
+						// 選択矩形が横倒しになる不具合対策)
+					: r;
+				const rs = this.mkStyle_r_align(t, rb, this.#r_align);
+				const {cl, sty, lnk} = this.#o2domArg(true, o.wait);
+					// text-combine-upright: all;			縦中横
+					// -webkit-text-combine: horizontal;	縦中横(Safari)
+				add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(t)} ${o.style ?? ''}'${lnk}><ruby><span style='
+text-combine-upright: all;
+-webkit-text-combine: horizontal;
+				' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>${t}</span>
+				<rt${rs}>${rb}</rt></ruby></span>`;
 			}
 				break;
 
@@ -555,19 +576,22 @@ export class TxtLayer extends Layer {
 				TxtStage.delBreak();
 				return;	// breakではない
 
-			case 'span':{
+			case 'span':
 				this.#popSpan();
 				this.#needGoTxt = true;
+			{
 				const o = JSON.parse(a1);
 				if (o.style) this.#pushSpan(o);
 			}	return;	// breakではない
 
-			case 'link':{
+			case 'link':
 				this.#popSpan();
 				this.#needGoTxt = true;
+			{
 				const o = JSON.parse(a1);
 				o[':link'] = ` data-lnk='@'`;
-				this.#aSpan.push(`<span data-arg='${a1}' class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='display: inline;${o.style ?? ''} ${this.#style_delay(isSkip)}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'}>`);
+				const {cl, sty} = this.#o2domArg(false, o.wait);
+				this.#aSpan.push(`<span data-arg='${a1}'${cl} style='display: inline; ${sty} ${o.style ?? ''}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'}>`);
 				delete o.style;
 				this.#pushSpan(o);	// 先頭文字と一緒に出す。#cumDelayは触らない
 			}	return;	// breakではない
@@ -580,55 +604,19 @@ export class TxtLayer extends Layer {
 
 			default:	// ルビあり文字列
 				this.#needGoTxt = true;
-				add_htm = this.#tagCh_sub(ch, ruby, isSkip, this.#r_align);
-			}
-			break;
-
-		case 3:		// 《tcy｜451｜かし》
-			switch (a0) {
-			case 'tcy':	// ルビ付き縦中横
-				this.#firstCh = false;
-				this.#needGoTxt = true;
-			{
-				const [, tx, rb0] = a_ruby;
-				if (TxtLayer.#val.doRecLog()) this.#page_text += ch
-				+(ruby ?`《${ruby}》` :'');
-
-				const rb = CmnLib.isSafari
-					? rb0.replace(/[A-Za-z0-9]/g, s=> String.fromCharCode(s.charCodeAt(0) + 65248))
-						// 英数字を全角に(Safariで縦中横ルビが半角文字だと、
-						// 選択矩形が横倒しになる不具合対策)
-					: rb0;
-				const rs = this.mkStyle_r_align(tx, rb, this.#r_align);
-				const lnk = this.#stkASpan.at(0)?.o[':link'];
-					// text-combine-upright: all;			縦中横
-					// -webkit-text-combine: horizontal;	縦中横(Safari)
-				add_htm = `<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='${this.#fncFFSStyle(tx)}${this.#style_delay(isSkip)
-				}'><ruby><span ${lnk ?? ''} style='
-text-combine-upright: all;
--webkit-text-combine: horizontal;
-				' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>${tx}</span>
-				<rt${rs}>${rb}</rt></ruby></span>`;
-
-				if (this.#ch_in_join) this.#cumDelay += (TxtLayer.#doAutoWc)
-					? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
-					: LayerMng.msecChWait;
-			}
-				break;
-
-			default:	throw `異常な値です putCh(text: ${ch}, ruby: ${ruby})`;
+				add_htm = this.#tagCh_sub(ch, ruby, this.#r_align);
 			}
 			break;
 		}
 		this.#aSpan.push(TxtLayer.#rec(add_htm));
 	}
-	#tagCh_sub(ch: string, ruby: string, isSkip: boolean, r_align: string): string {
+	#tagCh_sub(ch: string, ruby: string, r_align: string): string {
 		if (ch === ' ') ch = '&nbsp;';
 		if (TxtLayer.#val.doRecLog()) this.#page_text += ch +(ruby ?`《${ruby}》` :'');
 
-		const lnk = this.#stkASpan.at(0)?.o[':link'];
-		const curpos = `${lnk ?? ''} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
-		const add_htm = `<span class='sn_ch sn_ch_in_${this.#$ch_in_style}' style='${this.#style_delay(isSkip)}${this.#fncFFSStyle(ch)}'${
+		const {cl, sty, lnk} = this.#o2domArg(true, null, ch);
+		const curpos = `${lnk} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
+		const add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(ch)}'${
 			ruby ?'': curpos
 		}>${
 			ruby ?`<ruby${curpos}>${ch}<rt${
@@ -636,17 +624,26 @@ text-combine-upright: all;
 			}>${ruby}</rt></ruby>` :ch
 		}</span>`;	// <span>に入れないと崩れる・一文字ずつ出ない
 
-		if (this.#ch_in_join) this.#cumDelay += TxtLayer.#doAutoWc
-			? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
-			: LayerMng.msecChWait;
-
 		return add_htm;
 	}
-	#style_delay(isSkip: boolean): string {
-		if (isSkip) this.#cumDelay = 0;
-		return `animation-delay: ${this.#cumDelay}ms;${
-			this.#stkASpan.at(-1)?.o?.style ?? ''
-		}`;
+	#o2domArg(isAddWait: boolean, argWait: number | null, ch = '\n') {
+		const pWait = this.#stkASpan.at(0)?.o.wait;
+		const wait = (! this.#ch_in_join) ?0 :argWait ?? pWait
+		?? TxtLayer.#doAutoWc
+			? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
+			: LayerMng.msecChWait;
+		if (TxtLayer.#evtMng.isSkippingByKeyDown()) this.#cumDelay = 0;
+		else if (isAddWait && this.#ch_in_join) this.#cumDelay += wait;
+
+		return {
+			cl	: ` class='sn_ch${
+				wait > 0 ?` sn_ch_in_${this.#$ch_in_style}` :''
+			}'`,
+			sty	: `animation-delay: ${this.#cumDelay}ms;${
+				this.#stkASpan.at(-1)?.o?.style ?? ''
+			}`,
+			lnk	: this.#stkASpan.at(0)?.o[':link'] ?? '',
+		};
 	}
 	#cumDelay	= 0;
 	#firstCh	= true;
@@ -655,6 +652,7 @@ text-combine-upright: all;
 		o		: {
 			style?		: string;
 			':link'?	: string;
+			wait?		: number;
 		};
 		r_align			: string;
 		ch_in_style		: string;

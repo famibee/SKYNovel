@@ -1077,7 +1077,8 @@ void main(void) {
 	// tcy縦中横を表示する
 	#tcy(hArg: HArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
-		hArg.text = '｜　《tcy｜'+ hArg.t +'｜'+ (hArg.r ?? '') +'》';
+
+		hArg.text = '｜　《tcy｜'+ JSON.stringify(hArg) +'》';
 		return this.#ch(hArg);
 	}
 

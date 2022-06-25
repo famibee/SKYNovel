@@ -1,3 +1,8 @@
+- fix: [link wait=0]が効かない件
+- fix: [tcy]にも wait・style・ch_in_style・ch_out_style属性追加
+- fix: 縦中横・ルビ付き縦中横の内部文法【《tcy｜451｜かし》】を廃止、他に会わせJSON形式に
+
+
 ## [1.30.3](https://github.com/famibee/SKYNovel/compare/v1.30.2...v1.30.3) (2022-05-31)
 
 
@@ -15,7 +20,7 @@
 	- （例）[ch text='ンー[r]〜']
 - fix: [link]hover で style 表示が崩れる件
 - 既知の問題
-	- [link wait=0]が効かない
+	- ~~[link wait=0]が効かない~~
 
 
 ## [1.30.2](https://github.com/famibee/SKYNovel/compare/v1.30.1...v1.30.2) (2022-05-26)
@@ -2564,7 +2569,7 @@ feat: BREAKING CHANGE: pixi.js 6、webpack 5 に更新
 - add：[event]でフレーム内テキストボックス・テキストエリアの入力やラジオボタンをサポート
 - add：[add_frame][frame]に背景色指定の属性 b_color 追加
 ## v0.6.28
-- bug：ギャラリーリロード時に<head>内にstyle要素がどんどん追加される件
+- bug：ギャラリーリロード時に＜head＞内にstyle要素がどんどん追加される件
 - labo：新文字表示技術実装中：文字出現演出、画面外から飛んでくる系
 - labo：新文字表示技術実装中：ページクリアせずの文字追加で、ルビなどが後からガクッとつまることがある件
 - labo：新文字表示技術実装中：クリックキャンセル
@@ -2590,8 +2595,8 @@ feat: BREAKING CHANGE: pixi.js 6、webpack 5 に更新
 - bug：（つい最近の更新による）既読スキップで文字が消える
 ## v0.6.21
 - bug：Fキースキップ中断ができない件
-- bug：[trans]するたびに作業用<span>が増えていた件
-- bug：ギャラリーでプロジェクトを切り替えるたびに<span>が増えていた件
+- bug：[trans]するたびに作業用＜span＞が増えていた件
+- bug：ギャラリーでプロジェクトを切り替えるたびに＜span＞が増えていた件
 - labo：新文字表示技術実装中
 ## v0.6.20
 - bug：[call]→[return]したとき、行番号がずれる場合がある
@@ -2779,7 +2784,7 @@ feat: BREAKING CHANGE: pixi.js 6、webpack 5 に更新
 - 画面に対して表示が大きい件修正（frame以外）
 - アプリがバックグラウンドに移行した時・スリープした時、PIXIをstop()、また再開させる機構
 ## v0.2.1
-- モバイル版作成中：iOS、過ぎ去った前を見る肯定後読み「(?<=」がエラーになるので記述変更
+- モバイル版作成中：iOS、過ぎ去った前を見る肯定後読み「(?＜=」がエラーになるので記述変更
 ## v0.2.0
 - モバイル版作成中
 ## v0.1.12
