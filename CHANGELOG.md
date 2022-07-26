@@ -1,3 +1,6 @@
+- fix: [button]などの hint_opt 属性で、modifiers を指定しない場合に Hintが非表示・コンソールでエラーになっていた件
+
+
 ## [1.30.5](https://github.com/famibee/SKYNovel/compare/v1.30.4...v1.30.5) (2022-07-26)
 
 

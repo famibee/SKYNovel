@@ -33164,7 +33164,7 @@ class AG {
     R(this, zh, void 0);
     R(this, Uf, {
       placement: "bottom",
-      modifiers: [{ fallbackPlacements: ["top", "bottom"] }]
+      fallbackPlacements: ["top", "bottom"]
     });
     R(this, Gf, (t, e) => {
     });

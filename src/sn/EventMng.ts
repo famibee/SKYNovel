@@ -464,7 +464,7 @@ export class EventMng implements IEvtMng {
 	readonly	#popper		: InsPop;
 	readonly	#oHintOpt	= {
 		placement: 'bottom',
-		modifiers: [{fallbackPlacements: ['top', 'bottom']},],
+		fallbackPlacements: ['top', 'bottom'],
 	};
 	#dispHint(hArg: HArg, ctnBtn: Container) {
 		const rctBtn = ctnBtn instanceof Button

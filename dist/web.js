@@ -33485,7 +33485,7 @@ class EventMng {
     it(this, Gs, void 0);
     it(this, mo, {
       placement: "bottom",
-      modifiers: [{ fallbackPlacements: ["top", "bottom"] }]
+      fallbackPlacements: ["top", "bottom"]
     });
     it(this, yo, (t, e) => {
     });
