@@ -1,3 +1,10 @@
+## [1.30.5](https://github.com/famibee/SKYNovel/compare/v1.30.4...v1.30.5) (2022-07-26)
+
+
+### Bug Fixes
+
+* tsconfig.json の target を ES2022に ([ba02e78](https://github.com/famibee/SKYNovel/commit/ba02e782add158126add0cd9d3d9aea8b57bce62))
+
 - fix: tsconfig.json の target を ES2022に
 - fix: ライブラリ更新
 
