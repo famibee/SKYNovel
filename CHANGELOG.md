@@ -1,3 +1,7 @@
+- fix: tsconfig.json の target を ES2022に
+- fix: ライブラリ更新
+
+
 ## [1.30.4](https://github.com/famibee/SKYNovel/compare/v1.30.3...v1.30.4) (2022-06-25)
 
 
@@ -26,7 +30,7 @@
 - fix: [ch text=...]内 [r] で改行しない件
 	- （例）[ch text='ンー[r]〜']
 - fix: [link]hover で style 表示が崩れる件
-- 既知の問題
+- ~~既知の問題~~
 	- ~~[link wait=0]が効かない~~
 
 
