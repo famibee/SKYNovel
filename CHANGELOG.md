@@ -1,3 +1,10 @@
+## [1.30.6](https://github.com/famibee/SKYNovel/compare/v1.30.5...v1.30.6) (2022-07-26)
+
+
+### Bug Fixes
+
+* [button]等hint_opt属性でmodifiersを指定しない場合Hintが非表示 ([ea6d693](https://github.com/famibee/SKYNovel/commit/ea6d693a5f3d797219878dd995cfcd9d9c7a0744))
+
 - fix: [button]などの hint_opt 属性で、modifiers を指定しない場合に Hintが非表示・コンソールでエラーになっていた件
 
 
