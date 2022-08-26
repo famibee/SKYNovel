@@ -751,14 +751,14 @@ text-combine-upright: all;
 		this.#b_alpha			= hLay.b_alpha;
 		this.#b_alpha_isfixed	= hLay.b_alpha_isfixed;
 		aPrm.push(new Promise<void>(re=> {
-			if (! this.#drawBack(
-				(hLay.b_do)
+			const h: HArg = (hLay.b_do)
 				? (hLay.b_do === 'Sprite'
 					? {b_pic: hLay.b_pic}
 					: {b_color: hLay.b_color})
-				: {b_pic: ''},
-				isStop=> {if (isStop) re()}
-			)) re();
+				: {b_pic: ''};
+			h.b_alpha = hLay.b_alpha;
+			h.b_alpha_isfixed = hLay.b_alpha_isfixed;
+			if (! this.#drawBack(h, isStop=> {if (isStop) re()})) re();
 		}));
 
 		const aBtn: string[] = hLay.btns;
