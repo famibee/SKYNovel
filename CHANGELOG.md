@@ -1,3 +1,10 @@
+## [1.30.7](https://github.com/famibee/SKYNovel/compare/v1.30.6...v1.30.7) (2022-08-26)
+
+
+### Bug Fixes
+
+* [trans]時に back page の b_alpha などが見た目に反映されない件 ([23d44bf](https://github.com/famibee/SKYNovel/commit/23d44bf5a6b51b42af1f7b6537447304b63baee2))
+
 - fix: [trans]時に back page の b_alpha や b_alpha_isfixed が見た目に反映されない件
 - fix: ライブラリ更新
 
