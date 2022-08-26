@@ -33294,7 +33294,10 @@ class DG {
 .sn_hint[data-popper-placement^='bottom']	> .sn_hint_ar {top: -4px;}
 .sn_hint[data-popper-placement^='left']		> .sn_hint_ar {right: -4px;}
 .sn_hint[data-popper-placement^='right']	> .sn_hint_ar {left: -4px;}
-`), (g = i.view.parentElement) == null || g.insertAdjacentHTML("beforeend", `
+`), Array.from(document.getElementsByClassName("sn_hint")).forEach((v) => {
+      var m;
+      return (m = v.parentElement) == null ? void 0 : m.removeChild(v);
+    }), (g = i.view.parentElement) == null || g.insertAdjacentHTML("beforeend", `
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>

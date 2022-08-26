@@ -1,3 +1,6 @@
+- fix: ギャラリーでサンプル切り替え時、「Dummy」という横長のふきだし span が増えていく件
+
+
 ## [1.30.7](https://github.com/famibee/SKYNovel/compare/v1.30.6...v1.30.7) (2022-08-26)
 
 
