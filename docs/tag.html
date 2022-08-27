@@ -501,7 +501,7 @@
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr><td>visible</td><td></td><td>現在値</td><td>Boolean</td><td>true：表示、false：非表示</td></tr>
 <tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>レイヤの透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
 <tr><td>pos</td><td></td><td>c※</td><td>c、l、r、横座標</td><td>主に立ち絵に使う。横と縦座標を同時に設定する。<br/>横座標は指定した値（文字cの場合は画面中央、lは左寄り、rは右寄り）に設定し、画像下端を画面下端に接するように自動計算する。</td></tr>
 <tr><td>left</td><td></td><td>0</td><td>画面左上を(0, 0)とする横座標※</td><td>レイヤやボタン左端の画面左端からの距離</td></tr>
 <tr><td>center</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン中央の画面左端からの距離</td></tr>
@@ -1219,7 +1219,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>fn</td><td></td><td>属性nameの値</td><td>画像ファイル名</td><td>表示する画像、アニメpng</td></tr>
 <tr><td>dx</td><td></td><td>0</td><td>基本画像左上を(0, 0)とする座標</td><td>差分画像の表示横位置</td></tr>
 <tr><td>dy</td><td></td><td>0</td><td>(↑と同じ)</td><td>差分画像の表示縦位置</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
 </table>
 	例えば同じ画像で差分表示位置やブレンドモードが違う登録をしたい場合、<br/>
 	[add_face name="a_normal" fn="画像" dx=0 dy=0]<br/>
@@ -1844,7 +1844,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.htm#clearvar" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
 <tr><td>hint</td><td></td><td>表示しない</td><td>String</td><td>
 	指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。<br/>
 	<s>hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う</s>
