@@ -1,3 +1,10 @@
+## [1.30.9](https://github.com/famibee/SKYNovel/compare/v1.30.8...v1.30.9) (2022-08-31)
+
+
+### Bug Fixes
+
+* 画像レイヤのセーブデータで blendmode を正しく保存していなかった件 ([5a0d9f9](https://github.com/famibee/SKYNovel/commit/5a0d9f94eedd419bafcbc38647a45bb9461596a9))
+
 - fix: 画像レイヤのセーブデータで blendmode を正しく保存していなかった件
 - fix: [trans]での非同期処理修正
 - fix: 画像ロードでの非同期処理修正
