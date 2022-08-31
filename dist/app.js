@@ -31844,9 +31844,9 @@ Di = new WeakMap(), Kt = new WeakMap(), Ce = new WeakMap(), Ks = new WeakMap(), 
     a(), d(this, ta).visible = !0, o(), d(this, Ye).visible = !0;
   };
   d(this, Ye).alpha = 1;
-  const h = async () => {
+  const h = () => {
     var g;
-    this.appPixi.ticker && this.appPixi.ticker.remove(u), (g = d(this, qe).tw) == null || g.stop(), [nr(this, Kt)._, nr(this, Ce)._] = [d(this, Ce), d(this, Kt)];
+    this.appPixi.ticker && this.appPixi.ticker.remove(u), [nr(this, Kt)._, nr(this, Ce)._] = [d(this, Ce), d(this, Kt)];
     const p = [];
     for (const v in d(this, Ht)) {
       const m = d(this, Ht)[v];
@@ -31857,7 +31857,7 @@ Di = new WeakMap(), Kt = new WeakMap(), Ce = new WeakMap(), Ks = new WeakMap(), 
       const _ = d(this, Kt).getChildIndex(m.back.spLay);
       d(this, Kt).removeChild(m.back.spLay), d(this, Ce).removeChild(m.fore.spLay), d(this, Kt).addChildAt(m.fore.spLay, _), d(this, Ce).addChildAt(m.back.spLay, _);
     }
-    await Promise.allSettled(p), d(this, Kt).visible = !0, d(this, Ce).visible = !1, d(this, ta).visible = !1, d(this, Ye).visible = !1, d(this, qe).resume && this.main.resume(), T(this, qe, { tw: void 0, resume: !1 });
+    Promise.allSettled(p), d(this, Kt).visible = !0, d(this, Ce).visible = !1, d(this, ta).visible = !1, d(this, Ye).visible = !1, (g = d(this, qe).tw) == null || g.stop(), d(this, qe).resume && this.main.resume(), T(this, qe, { tw: void 0, resume: !1 });
   };
   T(this, qe, { tw: void 0, resume: !1 });
   const l = Q(t, "time", 0);

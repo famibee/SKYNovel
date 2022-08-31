@@ -1,3 +1,6 @@
+- fix: デグレードにつき[trans]での非同期処理を再度修正
+
+
 ## [1.30.9](https://github.com/famibee/SKYNovel/compare/v1.30.8...v1.30.9) (2022-08-31)
 
 
