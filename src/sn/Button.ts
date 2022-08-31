@@ -79,7 +79,7 @@ export class Button extends Container {
 
 			if (enabled) this.evtMng.button(this.hArg, this, ()=> this.#normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
 
-			if (! GrpLayer.csv2Sprites(
+			GrpLayer.csv2Sprites(
 				hArg.pic,
 				this,
 				sp=> {
@@ -87,8 +87,8 @@ export class Button extends Container {
 					this.#rctBtnTxt.width  = sp.width  * oName.scale_x;
 					this.#rctBtnTxt.height = sp.height * oName.scale_y;
 				},
-				isStop=> {if (isStop) resolve()},
-			)) resolve();
+				_isStop=> resolve,
+			);
 			return;
 		}
 		if (! hArg.text) throw 'textまたはpic属性は必須です';

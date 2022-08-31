@@ -26,6 +26,7 @@ export declare class Layer {
     lay(hArg: HArg): boolean;
     static setBlendmode(cnt: Container, hArg: HArg): void;
     static getBlendmodeNum(bm_name: string): number;
+    static getNum2Blendmode(bmn: number): string;
     get containMovement(): boolean;
     renderStart(): void;
     renderEnd(): void;

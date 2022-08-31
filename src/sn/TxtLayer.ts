@@ -720,7 +720,7 @@ text-combine-upright: all;
 		// 上で呼ばれる this.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
 		this.#cntBtn.removeChildren().forEach(c=> c.destroy());
 	}
-	override readonly record = ()=> Object.assign(<any>super.record(), {
+	override readonly record = ()=> {return <any>{...super.record(),
 		enabled	: this.enabled,
 		r_align	: this.#r_align,
 
@@ -738,7 +738,7 @@ text-combine-upright: all;
 		strNoFFS: this.#strNoFFS,
 
 		btns	: this.#cntBtn.children.map(btn=> btn.name),
-	});
+	}};
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		this.enabled	= hLay.enabled;

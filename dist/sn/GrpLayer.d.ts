@@ -6,9 +6,7 @@ import { SysBase } from './SysBase';
 import { Sprite, Container, Texture, BLEND_MODES, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { IMakeDesignCast } from './LayerMng';
-export interface IFncCompSpr {
-    (sp: Sprite): void;
-}
+export declare type IFncCompSpr = (sp: Sprite) => void;
 interface IResAniSpr {
     aTex: Texture[];
     meta: {
@@ -43,6 +41,9 @@ export declare class GrpLayer extends Layer {
     get containMovement(): boolean;
     clearLay(hArg: HArg): void;
     readonly record: () => {
+        sBkFn: string;
+        sBkFace: string;
+        idc_hArg: HArg;
         name: string;
         idx: number;
         alpha: number;
@@ -55,10 +56,6 @@ export declare class GrpLayer extends Layer {
         x: number;
         y: number;
         visible: boolean;
-    } & {
-        sBkFn: string;
-        sBkFace: string;
-        idc_hArg: HArg;
     };
     playback(hLay: any, aPrm: Promise<void>[]): void;
     makeDesignCast(gdc: IMakeDesignCast): void;

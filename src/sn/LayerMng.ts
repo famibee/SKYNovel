@@ -611,9 +611,12 @@ void main(void) {
 		//this.sprRtAtTransBack.visible = true;	// trans中専用back(Render Texture)
 		//this.sprRtAtTransFore.visible = true;	// trans中専用fore(Render Texture)
 		this.#spTransFore.alpha = 1;
-		const comp = ()=> {
+		const comp = async ()=> {
 			if (this.appPixi.ticker) this.appPixi.ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
+			this.#tiTrans.tw?.stop();
+				// await Promise.allSettled(aPrm)より前でなければならない
+
 			[this.#fore, this.#back] = [this.#back, this.#fore];
 			const aPrm: Promise<void>[] = [];
 			for (const lay_name in this.#hPages) {
@@ -627,13 +630,12 @@ void main(void) {
 				this.#fore.addChildAt(pg.fore.spLay, idx);
 				this.#back.addChildAt(pg.back.spLay, idx);
 			}
-			Promise.allSettled(aPrm);
+			await Promise.allSettled(aPrm);
 
 			this.#fore.visible = true;
 			this.#back.visible = false;
 			this.#spTransBack.visible = false;
 			this.#spTransFore.visible = false;
-			this.#tiTrans.tw?.stop();
 			if (this.#tiTrans.resume) this.main.resume();
 			this.#tiTrans = {tw: undefined, resume: false};
 		};

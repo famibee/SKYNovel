@@ -17,7 +17,7 @@ import {SoundMng} from './SoundMng';
 import {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
 
-export interface IFncCompSpr { (sp: Sprite): void; };
+export type IFncCompSpr = (sp: Sprite)=> void;
 
 interface Iface {
 	fn			: string;
@@ -113,7 +113,7 @@ export class GrpLayer extends Layer {
 		hArg.dx = 0;
 		hArg.dy = 0;
 
-		const ret = GrpLayer.csv2Sprites(
+		return GrpLayer.csv2Sprites(
 			this.#csvFn = fn + (face ? ','+ face : ''),
 			this.spLay,
 			sp=> {
@@ -133,8 +133,6 @@ export class GrpLayer extends Layer {
 				resolve(isStop);
 			}
 		);
-		if (! ret) resolve(false);
-		return ret;
 	}
 	#width	= 0;
 	#height	= 0;
@@ -475,11 +473,11 @@ export class GrpLayer extends Layer {
 		this.#sBkFace= '';
 		this.#csvFn	= '';
 	}
-	override readonly record = ()=> Object.assign(super.record(), {
+	override readonly record = ()=> {return {...super.record(),
 		sBkFn		: this.#sBkFn,
 		sBkFace		: this.#sBkFace,
 		idc_hArg	: this.#idc.gethArg(),
-	});
+	}};
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
@@ -490,7 +488,7 @@ export class GrpLayer extends Layer {
 		}
 
 		aPrm.push(new Promise(re=> this.laySub(
-			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: hLay.blendMode, rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y},
+			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: Layer.getNum2Blendmode(hLay.blendMode), rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y},
 			_isStop=> {this.spLay.position.set(hLay.x, hLay.y); re();},
 				// Layer.setXY()の後に再度移動
 		)));

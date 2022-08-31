@@ -115,6 +115,15 @@ export class Layer {
 		'erase'			: BLEND_MODES.ERASE,
 		'xor'			: BLEND_MODES.XOR,
 */
+	};
+	static getNum2Blendmode(bmn: number): string {
+		return Layer.#hNum2Blendmode[bmn] ?? 'normal';
+	}
+	static	readonly	#hNum2Blendmode: {[bmn: number]: string} = {
+		0	/* NORMAL */		: 'normal',
+		1	/* ADD */			: 'add',
+		2	/* MULTIPLY */		: 'multiply',
+		3	/* SCREEN */		: 'screen',
 	}
 
 	// アニメ・動画があるか
@@ -185,6 +194,7 @@ export class Layer {
 		return ` "idx":${this.spLay.parent.getChildIndex(this.spLay)}, "visible":"${
 			this.spLay.visible}", "left":${this.spLay.x}, "top":${this.spLay.y
 			}, "alpha":${this.spLay.alpha}, "rotation":${this.spLay.angle
+//			}, "blendMode":${this.spLay.blendMode
 			}, "name":"${this.name_}", "scale_x":${this.spLay.scale.x
 			}, "scale_y":${this.spLay.scale.y}`;
 	}

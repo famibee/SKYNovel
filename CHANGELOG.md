@@ -1,3 +1,8 @@
+- fix: 画像レイヤのセーブデータで blendmode を正しく保存していなかった件
+- fix: [trans]での非同期処理修正
+- fix: 画像ロードでの非同期処理修正
+
+
 ## [1.30.8](https://github.com/famibee/SKYNovel/compare/v1.30.7...v1.30.8) (2022-08-26)
 
 
