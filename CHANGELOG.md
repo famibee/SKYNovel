@@ -1,3 +1,10 @@
+## [1.30.10](https://github.com/famibee/SKYNovel/compare/v1.30.9...v1.30.10) (2022-08-31)
+
+
+### Bug Fixes
+
+* デグレードにつき[trans]での非同期処理を再度修正 ([07f263f](https://github.com/famibee/SKYNovel/commit/07f263f4158867b3c3b6287a19ac665ce60e16b9))
+
 - fix: デグレードにつき[trans]での非同期処理を再度修正
 
 
