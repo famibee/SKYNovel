@@ -1,3 +1,10 @@
+# [1.31.0](https://github.com/famibee/SKYNovel/compare/v1.30.10...v1.31.0) (2022-09-01)
+
+
+### Features
+
+* [return]にfn・label属性追加。コールスタックを一つ破棄、戻り先を上書き指定 ([45a1879](https://github.com/famibee/SKYNovel/commit/45a1879fda4934c2384485eb0fdbec401ba6dac9))
+
 - feat: [return]にfn・label属性追加。コールスタックを一つ破棄しつつ、戻り先を上書き指定できるように（マクロ内からジャンプしたいときなど）
 
 
