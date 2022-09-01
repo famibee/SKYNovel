@@ -1,3 +1,10 @@
+## [1.31.1](https://github.com/famibee/SKYNovel/compare/v1.31.0...v1.31.1) (2022-09-01)
+
+
+### Bug Fixes
+
+* [r]による改行後は追い出し処理をしないように ([a0045f0](https://github.com/famibee/SKYNovel/commit/a0045f0af248698b19212fe20d507da03bdf7c0e))
+
 - fix: [r]による改行後は追い出し処理をしないように
 	- ノベルゲーム文体でよくある「……」行が続く描写で、追い出し（分割禁止）が発生してしまう件
 
