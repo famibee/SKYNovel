@@ -1,3 +1,6 @@
+- feat: [return]にfn・label属性追加。コールスタックを一つ破棄しつつ、戻り先を上書き指定できるように（マクロ内からジャンプしたいときなど）
+
+
 ## [1.30.10](https://github.com/famibee/SKYNovel/compare/v1.30.9...v1.30.10) (2022-08-31)
 
 

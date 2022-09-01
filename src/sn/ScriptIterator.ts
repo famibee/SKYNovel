@@ -76,12 +76,12 @@ export class ScriptIterator {
 		hTag.jump		= o=> this.#jump(o);		// シナリオジャンプ
 		hTag.page		= o=> this.#page(o);		// ページ移動
 		hTag.pop_stack	= o=> this.#pop_stack(o);	// コールスタック破棄
-		hTag.return		= ()=> this.#return();		// サブルーチンから戻る
+		hTag.return		= o=> this.#return(o);		// サブルーチンから戻る
 
 		// マクロ
 		hTag.bracket2macro	= o=> this.#bracket2macro(o);// 括弧マクロの定義
 		hTag.char2macro		= o=> this.#char2macro(o);	// 一文字マクロの定義
-		hTag.endmacro		= ()=> this.#return();		// マクロ定義の終了
+		hTag.endmacro		= o=> this.#return(o);		// マクロ定義の終了
 		hTag.macro			= o=> this.#macro(o);		// マクロ定義の開始
 
 		// しおり
@@ -733,7 +733,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 	}
 
 	// サブルーチンから戻る
-	#return() {
+	#return(hArg: HArg) {
 		const cs = this.#aCallStk.pop();
 		if (! cs) throw '[return] スタックが空です';
 		const csa = cs.csArg;
@@ -749,6 +749,9 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		}
 		else this.#clearResvToken();
 		if (csa[':hEvt1Time']) this.#evtMng.pushLocalEvts(csa[':hEvt1Time']);
+
+		const {fn, label} = hArg;
+		if (fn || label) {this.#jumpWork(fn, label); return true;}
 
 		if (cs.fn in this.#hScript) {this.#jump_light(cs); return false;}
 		this.#jumpWork(cs.fn, '', cs.idx);	// 確実にスクリプトロードなので
