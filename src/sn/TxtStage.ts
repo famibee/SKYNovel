@@ -652,8 +652,19 @@ export class TxtStage extends Container {
 
 				const xy = this.tategaki ?he.rect.y :he.rect.x;
 //console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${he.ch}: he:%o`, he);
-				if (sl_xy <= xy) {sl_xy = xy; continue;}
-					// 【sl_xy < xy】では[tcy]二文字目を誤判定する
+				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
+				|| he.elm.previousElementSibling?.children[0]?.tagName
+					=== 'BR'		// [r]による改行後は追い出し処理をしないように
+					) {sl_xy = xy; continue;}
+/*
+	// [r]などの改行はこう。TxtLayer.#tagCh_sub()により <span> に入れられる
+	<span class=​"sn_ch" style=​"display:​ inline;​animation-delay:​ 10ms;​">​
+		<br>
+	​</span>​
+
+	// ここによる自動改行はこう
+	<br>
+*/
 				sl_xy = -Infinity;	// 改行発生！
 
 //console.log(`=== 改行発生！`);
@@ -1005,17 +1016,17 @@ export class TxtStage extends Container {
 			if (! pe) throw `fn:TxtStage.ts pe null`;
 			const ch = range.toString();
 			const cr :IChRect = {
-				ch	: ch,
+				ch,
 				rect: new Rectangle(
 					r.left +globalThis.scrollX,
 					r.top  +globalThis.scrollY,
 					r.width,
 					r.height +('gjqy'.includes(ch) ?this.#lh_half :0)),
 				elm	: pe,
-				cmd	: pe.getAttribute('data-cmd') ?? undefined,
-				arg	: pe.getAttribute('data-arg') ?? undefined,
-				add	: pe.getAttribute('data-add') ?? undefined,
-				lnk	: pe.getAttribute('data-lnk') ?? undefined,
+				cmd	: pe.dataset.cmd,
+				arg	: pe.dataset.arg,
+				add	: pe.dataset.add,
+				lnk	: pe.dataset.lnk,
 			};
 			ret.push(cr);
 			//console.log('ch:%s rect:%o', cr.ch, cr.rect);
@@ -1043,7 +1054,7 @@ export class TxtStage extends Container {
 		let sum_wait = 0;
 		old.querySelectorAll<HTMLElement>('span.sn_ch').forEach(elm=> {
 			const add = JSON.parse(
-				elm?.getAttribute('data-add') ??				// 通常文字
+				elm?.dataset.add ??				// 通常文字
 				elm?.children[0]?.getAttribute('data-add') ??	// ルビ
 				elm?.children[0]?.children[0]
 					?.getAttribute('data-add') ?? '{}'		// 縦中横
