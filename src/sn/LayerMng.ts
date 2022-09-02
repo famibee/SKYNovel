@@ -66,7 +66,7 @@ export class LayerMng implements IGetFrm {
 		sys.cvsResize();
 
 		TxtLayer.init(cfg, hTag, val, txt=> this.recText(txt), (me: TxtLayer)=> this.#hPages[me.layname].fore === me, appPixi);
-		GrpLayer.init(main, cfg, appPixi, sys, sndMng);
+		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
 		Button.init(cfg);
 
 		this.#frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.#hTwInf);

@@ -8,7 +8,7 @@
 import {Layer} from './Layer';
 
 import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib';
-import {HArg, IMain, SYS_DEC_RET} from './CmnInterface';
+import {HArg, IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle, RenderTexture, Application} from 'pixi.js';
@@ -16,6 +16,7 @@ import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
 import {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
+import {DebugMng} from './DebugMng';
 
 export type IFncCompSpr = (sp: Sprite)=> void;
 
@@ -43,13 +44,15 @@ export class GrpLayer extends Layer {
 	static	#cfg	: Config;
 	static	#appPixi: Application;
 	static	#sys	: SysBase;
+	static	#val	: IVariable;
 	static	#glbVol	= 1;
 	static	#movVol	= 1;
-	static	init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng): void {
+	static	init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void {
 		GrpLayer.#main = main;
 		GrpLayer.#cfg = cfg;
 		GrpLayer.#appPixi = appPixi;
 		GrpLayer.#sys = sys;
+		GrpLayer.#val = val;
 		const fnc = ()=> {
 			const vol = GrpLayer.#glbVol * GrpLayer.#movVol;
 			for (const fn in GrpLayer.hFn2VElm) GrpLayer.hFn2VElm[fn].volume = vol;
@@ -236,7 +239,7 @@ export class GrpLayer extends Layer {
 			case LoaderResource.TYPE.VIDEO:
 				const hve = res.data as HTMLVideoElement;
 				hve.volume = GrpLayer.#glbVol;
-				GrpLayer.hFn2VElm[res.name] = hve;
+				GrpLayer.hFn2VElm[res.name] = GrpLayer.#charmVideoElm(hve);
 		}
 		next();
 	}
@@ -263,7 +266,7 @@ export class GrpLayer extends Layer {
 			}
 			else if (r instanceof HTMLVideoElement) {
 				r.volume = GrpLayer.#glbVol;
-				GrpLayer.hFn2VElm[res.name] = r;
+				GrpLayer.hFn2VElm[res.name] = GrpLayer.#charmVideoElm(r);
 
 				res.type = LoaderResource.TYPE.VIDEO;
 				URL.revokeObjectURL(r.src);
@@ -312,6 +315,17 @@ export class GrpLayer extends Layer {
 
 			next();
 		});
+	}
+	static #charmVideoElm(v: HTMLVideoElement): HTMLVideoElement {
+		// 【PixiJS】iOSとChromeでAutoPlay可能なビデオSpriteの設定 - Qiita https://qiita.com/masato_makino/items/8316e7743acac514e361
+		// v.muted = true;// Chrome対応：自動再生を許可。ないと再開時に DOMException
+		if (GrpLayer.#val.getVal('const.sn.needClick2Play')) {
+			// ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる
+			DebugMng.trace_beforeNew(`[lay系] ${DebugMng.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, 'W');
+			v.muted = true;
+		}
+		v.setAttribute('playsinline', '');	// iOS対応
+		return v;
 	}
 	static #mkSprite(fn: string, hRes: {[fn: string]: LoaderResource}): Sprite {
 		const ras = GrpLayer.hFn2ResAniSpr[fn];

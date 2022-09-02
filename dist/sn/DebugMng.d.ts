@@ -8,5 +8,6 @@ export declare class DebugMng {
     destroy(): void;
     static trace_beforeNew(txt: string, lvl?: 'D' | 'W' | 'F' | 'E' | 'I' | 'ET'): void;
     static myTrace: typeof DebugMng.trace_beforeNew;
+    static strPos: () => string;
 }
 //# sourceMappingURL=DebugMng.d.ts.map

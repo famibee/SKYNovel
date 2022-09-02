@@ -92,11 +92,11 @@ export class DebugMng {
 		console.info('%c'+ mes, sty);
 	}
 	static myTrace = DebugMng.trace_beforeNew;
+	static strPos = ()=> (DebugMng.#scrItr && DebugMng.#scrItr.lineNum > 0)
+		? `(fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum}) `
+		: '';
 	static #st_trace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
-		let mes = `{${lvl}} `;
-		if (DebugMng.#scrItr && DebugMng.#scrItr.lineNum > 0) mes +=
-		`(fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum}) `;
-		mes += txt;
+		let mes = `{${lvl}} `+ DebugMng.strPos()+ txt;
 		DebugMng.#dspDbg(mes, lvl);
 
 		let sty = '';

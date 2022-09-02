@@ -1,6 +1,6 @@
 import { Layer } from './Layer';
 import { IEvtMng } from './CmnLib';
-import { HArg, IMain } from './CmnInterface';
+import { HArg, IMain, IVariable } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
 import { Sprite, Container, Texture, BLEND_MODES, Application } from 'pixi.js';
@@ -15,7 +15,7 @@ interface IResAniSpr {
 }
 export declare class GrpLayer extends Layer {
     #private;
-    static init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng): void;
+    static init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void;
     static setEvtMng(evtMng: IEvtMng): void;
     static destroy(): void;
     constructor();
