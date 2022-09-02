@@ -1,3 +1,10 @@
+## [1.31.2](https://github.com/famibee/SKYNovel/compare/v1.31.1...v1.31.2) (2022-09-02)
+
+
+### Bug Fixes
+
+* Chromeで動画自動再生時に起こることがあるエラーを回避する機能 ([e6f01c5](https://github.com/famibee/SKYNovel/commit/e6f01c5c1027d42cd499fb1ab7d804c2631c0f34))
+
 - fix: Chrome 実行時で自動レジューム直後に動画を自動再生すると、ユーザーが未クリックにつき DOMException になるが、そのエラーを回避する機能
 	- 【注意】コンソールに警告を出し、音声はミュートされます
 	- アプリ版はそもそも無関係
