@@ -570,7 +570,7 @@ export class Variable implements IVariable {
 				break;
 			}
 		}
-		if (val instanceof Function) val = (val as Function)();
+		if (val instanceof Function) val = val();
 		//console.log('\tget ['+ arg_name +'] -> s['+ o['scope'] +'] a['+ o['at'] +'] n['+ name +'] ret['+ val +']('+ typeof val +')');
 
 		return (o['at'] === '@str') ?val :this.#castAuto(val);

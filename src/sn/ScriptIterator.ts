@@ -952,14 +952,9 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			mes = 'ScriptIterator.replaceScript_Wildcard';
 			this.#replaceScript_Wildcard();
 		}
-		catch (err) {
-			if (err instanceof Error) {
-				const e = err as Error;
-				mes += `例外 mes=${e.message}(${e.name})`;
-			}
-			else {
-				mes = err as string;
-			}
+		catch (e) {
+			if (e instanceof Error) mes += `例外 mes=${e.message}(${e.name})`;
+			else mes = e as string;
 			this.main.errScript(mes, false);
 		}
 		this.#hScript[this.#scriptFn] = this.#script;

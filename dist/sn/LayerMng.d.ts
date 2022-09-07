@@ -39,7 +39,7 @@ export declare class LayerMng implements IGetFrm {
     breakLine: () => void;
     breakPage: () => void;
     clearBreak(): void;
-    clickTxtLay(): void;
+    clickTxtLay(): boolean;
     static get msecChWait(): number;
     static set msecChWait(v: number);
     setNormalChWait(): void;

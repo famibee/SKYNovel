@@ -511,6 +511,7 @@ export class TxtLayer extends Layer {
 					this.#needGoTxt = false;
 					this.#cumDelay = 0;
 				}
+				else if (this.isCur) TxtLayer.#evtMng.noticeCompTxt();
 			}	return;	// breakではない
 
 			case 'add':{	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
@@ -679,9 +680,9 @@ text-combine-upright: all;
 		this.#set_ch_out({out_style: stk.ch_out_style});
 	}
 
-	readonly click = ()=> {
-		if (! this.spLay.interactiveChildren || ! this.spLay.visible) return true;
-		return this.#txs.skipChIn();	// true is stay
+	readonly click = ()=> {	// true: 文字出現中だったので、停止する
+		if (! this.spLay.interactiveChildren || ! this.spLay.visible) return false;
+		return this.#txs.skipChIn();
 	}
 
 	clearText(): void {

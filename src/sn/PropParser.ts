@@ -20,7 +20,7 @@ export class PropParser implements IPropParser {
 			const ps: any = [];
 			a.forEach(v=> ps.push(
 				((v instanceof RegExp)
-					? regex(v as RegExp)
+					? regex(v)
 					: string(v as string))
 				.trim(optWhitespace)));
 			return alt.apply(null, ps);

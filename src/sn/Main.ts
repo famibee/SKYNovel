@@ -175,15 +175,9 @@ export class Main implements IMain {
 					if (this.#scrItr.タグ解析(token)) {this.stop(); break;}
 					continue;
 				}
-				catch (err) {
-					if (err instanceof Error) {
-						const e = err as Error;
-					//	if (e is StackOverflowError) traceDbg(e.getStackTrace())
-						let mes = `タグ解析中例外 mes=${e.message}(${e.name})`;
-						mes = `[${tagToken2Name(token)}]`+ mes;
-						this.errScript(mes, false);
-					}
-					else this.errScript(String(err), false);
+				catch (e) {
+					if (e instanceof Error) this.errScript(`[${tagToken2Name(token)}]タグ解析中例外 mes=${e.message}(${e.name})`, false);
+					else this.errScript(String(e), false);
 					return;
 				}
 			}
@@ -196,7 +190,7 @@ export class Main implements IMain {
 						const o = splitAmpersand(token.slice(1));
 						o.name = this.#prpPrs.getValAmpersand(o.name);
 						o.text = String(this.#prpPrs.parse(o.text));
-						this.#hTag.let(o as any);
+						this.#hTag.let(o as HArg);
 						continue;
 					}
 

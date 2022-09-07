@@ -41,8 +41,7 @@ export class EventMng implements IEvtMng {
 		hTag.p				= o=> this.#p(o);			// 改ページクリック待ち
 		hTag.s = ()=> {									// 停止する
 			this.scrItr.recodePage();
-			this.#waitEventBase(()=> {}, false, true);
-			return true;	// waitEventBase()したらreturn true;
+			return this.#waitEventBase(()=> {}, false, true);
 		};
 		hTag.set_cancel_skip= ()=> this.#set_cancel_skip();	// スキップ中断予約
 		hTag.set_focus		= o=> this.#set_focus(o);	// フォーカス移動
@@ -128,7 +127,7 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		if (CmnLib.isMobile) (appPixi.stage as utils.EventEmitter).on('pointerdown', (e: any)=> this.fire('click', e));
+		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', e=> this.fire('click', e));
 		else this.#elc.add(appPixi.stage, 'pointerdown', e=> {
 			switch (e.data.button) {
 				case 0:	this.fire('click', e);	break;
@@ -286,7 +285,7 @@ export class EventMng implements IEvtMng {
 		if (key === 'enter') {
 			const em = this.#fcs.getFocus();
 			if (em instanceof Container) {
-				(em as utils.EventEmitter).emit('pointerdown', new Event('pointerdown'));
+				em.emit('pointerdown', new Event('pointerdown'));
 				return;
 			}
 		}
@@ -303,7 +302,7 @@ export class EventMng implements IEvtMng {
 
 		if (key.slice(-5) !== 'wheel') e.preventDefault?.();
 		e.stopPropagation();
-		if (key.slice(0, 4) !== 'dom=') this.layMng.clickTxtLay();
+		if (key.slice(0, 4) !== 'dom=') if (this.layMng.clickTxtLay()) return;
 
 		this.#isWait = false;
 		ke(e);
@@ -322,22 +321,21 @@ export class EventMng implements IEvtMng {
 	}
 	pushLocalEvts(h: IHEvt2Fnc) {this.#hLocalEvt2Fnc = h;}
 
-	waitEvent(onFinish: ()=> void, canskip = true, global = false): boolean {
+	waitEvent(onFire: ()=> void, canskip = true, global = false): boolean {
 		if (canskip && global) throw `canskipとglobalを同時にtrue指定できません`;
 		//this.scrItr.recodePage();	// [wait][wv][wait_tsy][wf][ws]ではやらない
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
 			if (this.val.getVal('tmp:sn.skip.all') ||
-				this.scrItr.isNextKidoku) {onFinish(); return false;}
+				this.scrItr.isNextKidoku) {onFire(); return false;}
 
 			this.#stopSkip();	// 未読で停止
 		}
 
-		this.#waitEventBase(onFinish, canskip, global);
-		return true;
+		return this.#waitEventBase(onFire, canskip, global);
 	}
-	#waitEventBase(onFinish: ()=> void, canskip = true, global = true) {
+	#waitEventBase(onFire: ()=> void, canskip = true, global = true): boolean {
 		this.#goTxt();
 		this.val.saveKidoku();
 
@@ -354,7 +352,7 @@ export class EventMng implements IEvtMng {
 
 			// hTag.event({key:'downwheel', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			this.#hLocalEvt2Fnc['wheel.y>0'] = onFinish;
+			this.#hLocalEvt2Fnc['wheel.y>0'] = onFire;
 		}
 		else {
 			delete this.#hLocalEvt2Fnc['click'];
@@ -375,6 +373,7 @@ export class EventMng implements IEvtMng {
 			o.global= Object.keys(this.#hGlobalEvt2Fnc);
 			console.log(`🎍 wait event... %o`, o);
 		}
+		return true;
 	}
 	#firstWait = ()=> {
 		this.#firstWait = ()=> {};
@@ -393,18 +392,17 @@ export class EventMng implements IEvtMng {
 		if (glb)
 			this.#hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
 		else this.#hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-		const ee = ctnBtn as utils.EventEmitter;
-		ee.on('pointerdown', (e: any)=> this.fire(key, e));
+		ctnBtn.on('pointerdown', (e: any)=> this.fire(key, e));
 
 		// マウスカーソルを載せるとヒントをツールチップス表示する
 		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
 		// マウスオーバーでの見た目変化
 		const nr = ()=> {normal(); this.#elmHint.hidden = true;};
 		const hv = ()=> {onHint(); return hover();};
-		ee.on('pointerover', hv);
-		ee.on('pointerout', ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()});
-		ee.on('pointerdown', clicked);
-		ee.on('pointerup', CmnLib.isMobile
+		ctnBtn.on('pointerover', hv);
+		ctnBtn.on('pointerout', ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()});
+		ctnBtn.on('pointerdown', clicked);
+		ctnBtn.on('pointerup', CmnLib.isMobile
 			? nr
 			: ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()}
 		);
@@ -414,7 +412,7 @@ export class EventMng implements IEvtMng {
 		// 音関係
 		if (hArg.clickse) {	//	clickse	クリック時に効果音
 			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);// 存在チェック
-			ee.on('pointerdown', ()=> {
+			ctnBtn.on('pointerdown', ()=> {
 				const o: HArg = {fn: hArg.clickse, join: false};
 				if (hArg.clicksebuf) o.buf = hArg.clicksebuf;
 				this.hTag.playse(o);
@@ -422,7 +420,7 @@ export class EventMng implements IEvtMng {
 		}
 		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
 			this.cfg.searchPath(hArg.enterse, Config.EXT_SOUND);// 存在チェック
-			ee.on('pointerover', ()=> {
+			ctnBtn.on('pointerover', ()=> {
 				const o: HArg = {fn: hArg.enterse, join: false};
 				if (hArg.entersebuf) o.buf = hArg.entersebuf;
 				this.hTag.playse(o);
@@ -430,7 +428,7 @@ export class EventMng implements IEvtMng {
 		}
 		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
 			this.cfg.searchPath(hArg.leavese, Config.EXT_SOUND);// 存在チェック
-			ee.on('pointerout', ()=> {
+			ctnBtn.on('pointerout', ()=> {
 				const o: HArg = {fn: hArg.leavese, join: false};
 				if (hArg.leavesebuf) o.buf = hArg.leavesebuf;
 				this.hTag.playse(o);
@@ -443,7 +441,7 @@ export class EventMng implements IEvtMng {
 			if (glb)
 				this.#hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
 			else this.#hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
-			ee.on('pointerover', (e: any)=> this.fire(k, e));
+			ctnBtn.on('pointerover', (e: any)=> this.fire(k, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
@@ -452,7 +450,7 @@ export class EventMng implements IEvtMng {
 			if (glb)
 				this.#hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
 			else this.#hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
-			ee.on('pointerout', (e: any)=> this.fire(k, e));
+			ctnBtn.on('pointerout', (e: any)=> this.fire(k, e));
 		}
 
 		this.sndMng.loadAheadSnd(hArg);
@@ -589,7 +587,7 @@ export class EventMng implements IEvtMng {
 					if (! this.#isWait || this.layMng.getFrmDisabled(g.id)) return;
 					if (v === 'keydown' && e.key !== 'Enter') return;
 
-					const d = (elm as HTMLElement).dataset;
+					const d = elm.dataset;
 					for (const n in d) if (d.hasOwnProperty(n)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${n}`, d[n]);
 					this.fire(KeY, e);
 				});
@@ -677,8 +675,7 @@ export class EventMng implements IEvtMng {
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine();
 
-		this.#waitEventBase(()=> this.main.resume());
-		return true;	// waitEventBase()したらreturn true;
+		return this.#waitEventBase(()=> this.main.resume());
 	}
 
 
@@ -703,13 +700,12 @@ export class EventMng implements IEvtMng {
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage();
 
 		const fnc = ()=> {this.sndMng.clearCache(); this.main.resume()};
-		this.#waitEventBase(
+		return this.#waitEventBase(
 			argChk_Boolean(hArg, 'er', false)
 			&& this.layMng.currentTxtlayFore
 				? ()=> {this.hTag.er(hArg); fnc();}
 				: fnc,
 		);
-		return true;	// waitEventBase()したらreturn true;
 	}
 
 
@@ -783,27 +779,34 @@ export class EventMng implements IEvtMng {
 				! this.scrItr.isNextKidoku) this.#stopSkip();
 			return false;	// stopSkipから待つのも無反応ぽく見えるので
 		}
-		if (this.val.getVal('tmp:sn.auto.enabled')) this.#cancelWait = ()=> {
-			//this.#cancelWait = ()=> {};
-			this.scrItr.subIdxToken();	// [l][p][wait]をやり直す
-			tw.end();	// onComplete
-		};
 
-		const tw = new Tween({})
-		.to({}, time)
-		.onComplete(()=> {
+		this.#eeTextBreak.once(this.#NOTICE_COMP_TXT, ()=> {
+			this.#eeTextBreak.off(this.#NOTICE_COMP_TXT);
+
+			const tw = new Tween({})
+			.to({}, time)
+			.onComplete(()=> {
+				this.#cancelWait = ()=> {};
+				tw.stop(); this.main.resume();
+			})
+			.start();
+			this.#cancelWait = ()=> tw.end();	// onComplete
+		});
+
+		this.#cancelWait = ()=> {
 			this.#cancelWait = ()=> {};
-			tw.stop(); this.main.resume();
-		})
-		.start();
-
+			this.#eeTextBreak.off(this.#NOTICE_COMP_TXT);
+		};
 		return this.waitEvent(
-			()=> tw.end(),	// onComplete
+			()=> this.#cancelWait(),
 			argChk_Boolean(hArg, 'canskip', true),	// スキップ中は利かない
 			argChk_Boolean(hArg, 'global', false),
 		);
 	}
 	#cancelWait	: ()=> void	= ()=> {};
+	#eeTextBreak	= new utils.EventEmitter;
+	noticeCompTxt() {this.#eeTextBreak.emit(this.#NOTICE_COMP_TXT)}
+	readonly	#NOTICE_COMP_TXT	= 'sn:notice_comp_txt';
 
 	// クリックを待つ
 	#waitclick(): boolean {
@@ -814,8 +817,7 @@ export class EventMng implements IEvtMng {
 		if (this.val.getVal('tmp:sn.skip.enabled')
 		||	this.val.getVal('tmp:sn.auto.enabled')) this.#stopSkip();
 
-		this.#waitEventBase(()=> this.main.resume());
-		return true;	// waitEventBase()したらreturn true;
+		return this.#waitEventBase(()=> this.main.resume());
 	}
 
 	// キー押下によるスキップ中か

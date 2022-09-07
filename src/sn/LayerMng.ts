@@ -274,8 +274,7 @@ export class LayerMng implements IGetFrm {
 		this.#getLayers().forEach(name=> {
 			const pg = this.#hPages[name];
 			if (! (pg.fore instanceof TxtLayer)) return;
-			const pTxt = pg.fore as TxtLayer;
-			pTxt.chgBackAlpha(g_alpha);
+			pg.fore.chgBackAlpha(g_alpha);
 			(pg.back as TxtLayer).chgBackAlpha(g_alpha);
 		});
 	}
@@ -292,18 +291,13 @@ export class LayerMng implements IGetFrm {
 		this.clearBreak();
 	}
 
-	clickTxtLay() {
-		if (! this.currentTxtlayFore) return;
+	clickTxtLay(): boolean {	// true: 文字出現中だったので、停止する
+		if (! this.currentTxtlayFore) return false;
 
-		const vct = this.#getLayers();
-		const len = vct.length;
-		for (let i=0; i<len; ++i) {
-			const name = vct[i];
-			const pg = this.#hPages[name];
-			if (! (pg.fore instanceof TxtLayer)) continue;
-			const pTxt = pg.fore as TxtLayer;
-			if (! pTxt.click())	break;	// イベントを受ける文字レイヤを探しクリック
-		}
+		return this.#getLayers().some(v=> {
+			const f = this.#hPages[v].fore;
+			return f instanceof TxtLayer && f.click();
+		});
 	}
 
 
@@ -413,9 +407,8 @@ export class LayerMng implements IGetFrm {
 						this.setNormalChWait();
 					}
 					this.#getLayers().forEach(name=> {
-						const pg = this.#hPages[name];
-						if (! (pg.fore instanceof TxtLayer)) return;
-						this.#cmdTxt('gotxt｜', pg.fore as TxtLayer, false);
+						const f = this.#hPages[name].fore;
+						if (f instanceof TxtLayer) this.#cmdTxt('gotxt｜', f, false);
 					});
 				}
 			}
@@ -922,9 +915,8 @@ void main(void) {
 		const pg = this.#hPages[layer];
 		const lay = pg.getPage(hArg);
 		if (! (lay instanceof TxtLayer)) throw layer +'はTxtLayerではありません';
-		const tf = lay as TxtLayer;
 
-		return tf;
+		return lay;
 	}
 	setNormalChWait(): void {LayerMng.#msecChWait = this.scrItr.normalWait}
 

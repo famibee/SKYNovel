@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib} from './CmnLib';
-import {Container, utils} from 'pixi.js';
+import {Container} from 'pixi.js';
 
 interface IFocusBtn {
 	btn	: Container | HTMLElement;
@@ -26,7 +26,7 @@ export class FocusMng {
 		if (this.#aBtn.findIndex(b=> b.btn === cmp) >= 0) return;
 		if (cmp instanceof Container) {
 			// フレーム部品に【 if (btn instanceof HTMLElement) 】が上手く使えない
-			(cmp as utils.EventEmitter).on('pointerdown', ()=> {
+			cmp.on('pointerdown', ()=> {
 				for (let i=this.#aBtn.length -1; i>=0; --i) {
 					const b = this.#aBtn[i];
 					if (b.btn === cmp) {this.#idx = i; return;}
@@ -105,14 +105,12 @@ export class FocusMng {
 		else if (idx <= this.#idx) --this.#idx;	// -1 でもOK
 	}
 	#radio_next(elm: HTMLElement, key: string) {
-		const op = elm.querySelectorAll('input[type]');
+		const op = elm.querySelectorAll('input[type]') as NodeListOf<HTMLInputElement>;
 		const len = op.length;
 		for (let i=0; i<len; ++i) {
-			if (! (op[i] as HTMLInputElement).checked) continue;
+			if (! op[i].checked) continue;
 
-			(op[
-				(i +len +(key === 'ArrowUp' ?-1 :1)) %len
-			] as HTMLInputElement).checked = true;
+			op[(i +len +(key === 'ArrowUp' ?-1 :1)) %len].checked = true;
 			break;
 		}
 	}

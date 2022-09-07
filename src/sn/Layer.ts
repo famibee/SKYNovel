@@ -64,11 +64,9 @@ export class Layer {
 		if (! blendmode) return;	// 省略時になにもしない
 
 		const bmn = Layer.getBlendmodeNum(blendmode);
-		const sp = cnt as Sprite;
-		if (sp) sp.blendMode = bmn;
+		if (cnt instanceof Sprite) cnt.blendMode = bmn;
 		cnt.children.forEach(c=> {
-			const cSp = c as Sprite;
-			if (cSp) cSp.blendMode = bmn;
+			if (c instanceof Sprite) c.blendMode = bmn;
 		});
 	}
 

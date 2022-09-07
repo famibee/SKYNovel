@@ -15,7 +15,7 @@ import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 import {SysBase} from './SysBase';
 
-import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, utils, Application} from 'pixi.js';
+import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, Application} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
 interface IInfTxLay {
@@ -564,7 +564,7 @@ export class TxtStage extends Container {
 			canvas.toBlob(blob=> {
 				if (! blob) return;
 				const url = URL.createObjectURL(blob);
-				(Texture.from(url) as utils.EventEmitter).once('update', (tx2: any)=> {
+				Texture.from(url).once('update', tx2=> {
 					fnc(tx2);
 					URL.revokeObjectURL(url);
 				});
@@ -814,9 +814,8 @@ export class TxtStage extends Container {
 		const chs = this.#htmTxt.querySelectorAll('span.sn_ch');
 		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
-		this.#isChInIng = true;
 		this.#fncEndChIn = ()=> {
-			this.#isChInIng = false;
+			this.#fncEndChIn = ()=> false;
 			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
 			if (begin !== len) {	// === は右クリック戻りで起こる
 				this.#break_fixed_left = rctLastCh.x
@@ -829,7 +828,9 @@ export class TxtStage extends Container {
 				this.#break_fixed_top,
 			);
 			TxtStage.#cntBreak.visible = true;
-			this.#fncEndChIn = ()=> {};
+
+			TxtStage.#evtMng.noticeCompTxt();
+			return true;
 		};
 		const len_chs = chs.length;
 		if (len_chs === 0) {this.#fncEndChIn(); return;}
@@ -850,7 +851,7 @@ export class TxtStage extends Container {
 		le.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
 	readonly #REGDS = /animation\-duration: (?<ms>\d+)ms;/;
-	#fncEndChIn	= ()=> {};
+	#fncEndChIn: ()=> boolean	= ()=> false;
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
 		if (arg.x) rct.x = (arg.x.charAt(0) === '=')
@@ -886,14 +887,11 @@ export class TxtStage extends Container {
 		this.#aSpTw.push(st);
 	}
 
-	#isChInIng	= false;
-	skipChIn(): boolean {	// true is stay
-		let isLiveTw = this.#isChInIng;
-		this.#fncEndChIn();
-		this.#aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); isLiveTw = true}});
-			// Text Skip。stop() と end() は別！
+	skipChIn(): boolean {	// true: 文字出現中だったので、停止する
+		let wasChInIng = this.#fncEndChIn();
+		this.#aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); wasChInIng = true}});	// Text Skip。stop() と end() は別！
 		this.#aSpTw = [];
-		return isLiveTw;
+		return wasChInIng;
 	}
 
 	static	#hChInStyle	= Object.create(null);
