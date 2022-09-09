@@ -1,3 +1,6 @@
+- fix: [ch wait]の指定が条件により 0 扱いになってしまう件
+
+
 ## [1.31.3](https://github.com/famibee/SKYNovel/compare/v1.31.2...v1.31.3) (2022-09-07)
 
 

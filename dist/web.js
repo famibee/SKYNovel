@@ -22629,7 +22629,7 @@ function styled$1(n) {
       var M = getShadowRoot$1(R), D = e === 0, L;
       return (M || D) && (L = injectStyle(t, n, N, M)), D && (o = L), M || ++e, {
         destroy: function() {
-          M ? (R.removeChild(L), L = null) : (e > 0 && --e, e === 0 && o && (o.parentNode.removeChild(o), o = null));
+          M ? (M.removeChild(L), L = null) : (e > 0 && --e, e === 0 && o && (o.parentNode.removeChild(o), o = null));
         }
       };
     }
@@ -31537,12 +31537,12 @@ ys = new WeakMap(), br = new WeakMap(), bs = new WeakMap(), Ja = new WeakMap(), 
   return `<span${N} style='${M}${H(this, gn).call(this, e)}'${o ? "" : L}>${o ? `<ruby${L}>${e}<rt${this.mkStyle_r_align(e, o, R)}>${o}</rt></ruby>` : e}</span>`;
 }, Ci = new WeakSet(), Vn = function(e, o, R = `
 `) {
-  var D, L, B, $, k, U, z, W;
-  const N = (D = H(this, Fr).at(0)) == null ? void 0 : D.o.wait, M = H(this, vn) ? ((L = o != null ? o : N) != null ? L : H(Yt, ti)) ? (B = H(Yt, pn)[R.charAt(0)]) != null ? B : 0 : LayerMng.msecChWait : 0;
-  return H(Yt, dn).isSkippingByKeyDown() ? et(this, Lr, 0) : e && H(this, vn) && et(this, Lr, H(this, Lr) + M), {
-    cl: ` class='sn_ch${M > 0 ? ` sn_ch_in_${H(this, xr)}` : ""}'`,
-    sty: `animation-delay: ${H(this, Lr)}ms;${(U = (k = ($ = H(this, Fr).at(-1)) == null ? void 0 : $.o) == null ? void 0 : k.style) != null ? U : ""}`,
-    lnk: (W = (z = H(this, Fr).at(0)) == null ? void 0 : z.o[":link"]) != null ? W : ""
+  var M, D, L, B, $, k, U, z;
+  const N = H(this, vn) ? (L = o != null ? o : (M = H(this, Fr).at(0)) == null ? void 0 : M.o.wait) != null ? L : H(Yt, ti) ? (D = H(Yt, pn)[R.charAt(0)]) != null ? D : 0 : LayerMng.msecChWait : 0;
+  return H(Yt, dn).isSkippingByKeyDown() ? et(this, Lr, 0) : e && H(this, vn) && et(this, Lr, H(this, Lr) + N), {
+    cl: ` class='sn_ch${N > 0 ? ` sn_ch_in_${H(this, xr)}` : ""}'`,
+    sty: `animation-delay: ${H(this, Lr)}ms;${(k = ($ = (B = H(this, Fr).at(-1)) == null ? void 0 : B.o) == null ? void 0 : $.style) != null ? k : ""}`,
+    lnk: (z = (U = H(this, Fr).at(0)) == null ? void 0 : U.o[":link"]) != null ? z : ""
   };
 }, Lr = new WeakMap(), ir = new WeakMap(), nr = new WeakMap(), Fr = new WeakMap(), Rs = new WeakSet(), Qo = function(e) {
   H(this, Fr).push({

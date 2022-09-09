@@ -22308,7 +22308,7 @@ function V5(r) {
       var a = z5(n), o = e === 0, u;
       return (a || o) && (u = $5(t, r, s, a)), o && (i = u), a || ++e, {
         destroy: function() {
-          a ? (n.removeChild(u), u = null) : (e > 0 && --e, e === 0 && i && (i.parentNode.removeChild(i), i = null));
+          a ? (a.removeChild(u), u = null) : (e > 0 && --e, e === 0 && i && (i.parentNode.removeChild(i), i = null));
         }
       };
     }
@@ -31216,12 +31216,12 @@ Eh = new WeakMap(), Bi = new WeakMap(), wh = new WeakMap(), Tf = new WeakMap(), 
   return `<span${s} style='${a}${f(this, To).call(this, e)}'${i ? "" : u}>${i ? `<ruby${u}>${e}<rt${this.mkStyle_r_align(e, i, n)}>${i}</rt></ruby>` : e}</span>`;
 }, Js = new WeakSet(), Su = function(e, i, n = `
 `) {
-  var o, u, h, l, c, d, p, m;
-  const s = (o = f(this, pn).at(0)) == null ? void 0 : o.o.wait, a = f(this, wo) ? ((u = i != null ? i : s) != null ? u : f(Mt, rs)) ? (h = f(Mt, Eo)[n.charAt(0)]) != null ? h : 0 : Ic.msecChWait : 0;
-  return f(Mt, xo).isSkippingByKeyDown() ? T(this, dn, 0) : e && f(this, wo) && T(this, dn, f(this, dn) + a), {
-    cl: ` class='sn_ch${a > 0 ? ` sn_ch_in_${f(this, Di)}` : ""}'`,
-    sty: `animation-delay: ${f(this, dn)}ms;${(d = (c = (l = f(this, pn).at(-1)) == null ? void 0 : l.o) == null ? void 0 : c.style) != null ? d : ""}`,
-    lnk: (m = (p = f(this, pn).at(0)) == null ? void 0 : p.o[":link"]) != null ? m : ""
+  var a, o, u, h, l, c, d, p;
+  const s = f(this, wo) ? (u = i != null ? i : (a = f(this, pn).at(0)) == null ? void 0 : a.o.wait) != null ? u : f(Mt, rs) ? (o = f(Mt, Eo)[n.charAt(0)]) != null ? o : 0 : Ic.msecChWait : 0;
+  return f(Mt, xo).isSkippingByKeyDown() ? T(this, dn, 0) : e && f(this, wo) && T(this, dn, f(this, dn) + s), {
+    cl: ` class='sn_ch${s > 0 ? ` sn_ch_in_${f(this, Di)}` : ""}'`,
+    sty: `animation-delay: ${f(this, dn)}ms;${(c = (l = (h = f(this, pn).at(-1)) == null ? void 0 : h.o) == null ? void 0 : l.style) != null ? c : ""}`,
+    lnk: (p = (d = f(this, pn).at(0)) == null ? void 0 : d.o[":link"]) != null ? p : ""
   };
 }, dn = new WeakMap(), ri = new WeakMap(), ii = new WeakMap(), pn = new WeakMap(), Oh = new WeakSet(), Xp = function(e) {
   f(this, pn).push({

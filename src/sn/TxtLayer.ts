@@ -628,14 +628,13 @@ text-combine-upright: all;
 		return add_htm;
 	}
 	#o2domArg(isAddWait: boolean, argWait: number | null, ch = '\n') {
-		const pWait = this.#stkASpan.at(0)?.o.wait;
-		const wait = (! this.#ch_in_join) ?0 :argWait ?? pWait
-		?? TxtLayer.#doAutoWc
-			? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
-			: LayerMng.msecChWait;
+		const wait = this.#ch_in_join ?(argWait
+			?? this.#stkASpan.at(0)?.o.wait	// 親要素
+			?? (TxtLayer.#doAutoWc	// ()は必要
+				? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
+				: LayerMng.msecChWait)) :0;
 		if (TxtLayer.#evtMng.isSkippingByKeyDown()) this.#cumDelay = 0;
 		else if (isAddWait && this.#ch_in_join) this.#cumDelay += wait;
-
 		return {
 			cl	: ` class='sn_ch${
 				wait > 0 ?` sn_ch_in_${this.#$ch_in_style}` :''
