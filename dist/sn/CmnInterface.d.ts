@@ -122,6 +122,7 @@ export declare type HArg = {
     end_ms?: number;
     join?: boolean;
     do_rec?: boolean;
+    pan?: number;
     clear?: boolean;
     ':id_dc'?: string;
     ':id_tag'?: string;

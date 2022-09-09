@@ -1606,7 +1606,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>BGM音声ファイル名</td><td>再生する音声ファイル名</td></tr>
 <tr><td>loop</td><td></td><td>true</td><td>Boolean</td><td>trueでBGMのようにループ再生する。</td></tr>
 <tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.BGM.volume）は変更しない</td></tr>
-<tr><td>speed</td><td></td><td>1.0</td><td>0.0&lt;（実数）</td><td>再生速度。（=1:元のまま、&lt;1:遅い、&gt;1:早い）</td></tr>
+<tr><td>speed</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生速度（0:遅い、1.0:元のまま）</td></tr>
+<tr><td>pan</td><td></td><td>0.0</td><td>-1.0〜1.0（実数）</td><td>音を出す左右位置（-1.0=左端、0.0=中央(省略値)、1.0=右端）</td></tr>
 <tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
 <tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
@@ -1634,7 +1635,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>loop</td><td></td><td>false</td><td>Boolean</td><td>trueでBGMのようにループ再生する。</td></tr>
 <tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.【サウンドバッファ名】.volume）は変更しない</td></tr>
-<tr><td>speed</td><td></td><td>1.0</td><td>0.0&lt;（実数）</td><td>再生速度。（=1:元のまま、&lt;1:遅い、&gt;1:早い）</td></tr>
+<tr><td>speed</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生速度（0:遅い、1.0:元のまま）</td></tr>
+<tr><td>pan</td><td></td><td>0.0</td><td>-1.0〜1.0（実数）</td><td>音を出す左右位置（-1.0=左端、0.0=中央(省略値)、1.0=右端）</td></tr>
 <tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
 <tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>

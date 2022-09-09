@@ -1,3 +1,8 @@
+- feat: [playse][playbgm]に属性 pan 追加。音を出す左右位置を指定できる
+	- SKYNovel：-1.0=左端、0.0=中央(省略値)、1.0=右端
+	- KAG3：パン (-100～0～100)。-100 が完全な左、0 が中央、100 が完全な右
+
+
 ## [1.31.4](https://github.com/famibee/SKYNovel/compare/v1.31.3...v1.31.4) (2022-09-09)
 
 

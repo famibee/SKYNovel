@@ -11,7 +11,7 @@ import {IHTag, IVariable, IMain, HArg, INoticeChgVolume} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 
-import {sound, utils, Sound, Options} from '@pixi/sound';
+import {sound, utils, Sound, Options, filters} from '@pixi/sound';
 import {Loader, LoaderResource} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
 
@@ -23,6 +23,7 @@ interface ISndBuf {
 	end_ms	: number;
 	ret_ms	: number;
 	resume	: boolean;
+	pan		: number;
 	playing	: ()=> boolean;
 	onend	: ()=> void;
 
@@ -182,6 +183,7 @@ export class SoundMng {
 		const start_ms = argChk_Num(hArg, 'start_ms', 0);
 		const end_ms = argChk_Num(hArg, 'end_ms', SoundMng.#MAX_END_MS);
 		const ret_ms = argChk_Num(hArg, 'ret_ms', 0);
+		const pan = argChk_Num(hArg, 'pan', 0);
 
 		if (start_ms < 0) throw `[playse] start_ms:${start_ms} が負の値です`;
 		if (ret_ms < 0) throw `[playse] ret_ms:${ret_ms} が負の値です`;
@@ -204,6 +206,7 @@ export class SoundMng {
 			end_ms,
 			ret_ms,
 			resume	: false,
+			pan,
 			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
 			onend	: ()=> {
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
@@ -222,8 +225,6 @@ export class SoundMng {
 		const o: Options = {
 			loop,
 			volume	: vol,
-			speed	: argChk_Num(hArg, 'speed', 1),
-			sprites	: {},
 			loaded	: (e, snd)=> {
 				if (e) {this.main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return;}
 				if (! snd) return;
@@ -233,12 +234,13 @@ export class SoundMng {
 				if (oSb2) oSb2.snd = snd;
 			},
 		};
+		if ('speed' in hArg) o.speed = argChk_Num(hArg, 'speed', 1);
 
 		// start_ms・end_ms機能→@pixi/sound準備
 		let sp_nm = '';
 		if (start_ms > 0 || end_ms < SoundMng.#MAX_END_MS) {
 			sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
-			const os = o.sprites![sp_nm] = {
+			const os = (o.sprites ??= {})[sp_nm] = {
 				start	: start_ms /1000,
 				end		: end_ms /1000,
 			};
@@ -319,6 +321,7 @@ export class SoundMng {
 					url		: snd.options.url,
 					source	: ab,
 				});
+				snd.filters = [new filters.StereoFilter(pan)];
 			}
 			return false;
 		}
@@ -338,8 +341,10 @@ export class SoundMng {
 		if (url.slice(-4) !== '.bin') {
 			o.url = url;
 			const snd = Sound.from(o);
-			if (buf) this.#hSndBuf[buf].snd = snd;
+			const oSb = this.#hSndBuf[buf];
+			if (buf) oSb.snd = snd;
 			if (! o.loop) sound.add(fn, snd);	// キャッシュする
+			if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
 			return;
 		}
 
@@ -352,8 +357,10 @@ export class SoundMng {
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;
 			const snd = Sound.from(o);
-			if (buf) this.#hSndBuf[buf].snd = snd;
+			const oSb = this.#hSndBuf[buf];
+			if (buf) oSb.snd = snd;
 			if (! o.loop) sound.add(fn, snd);	// キャッシュする
+			if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
 		});
 	}
 	#initVol = ()=> {
