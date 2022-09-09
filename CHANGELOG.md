@@ -1,3 +1,10 @@
+## [1.32.1](https://github.com/famibee/SKYNovel/compare/v1.32.0...v1.32.1) (2022-09-09)
+
+
+### Bug Fixes
+
+* pan 追加によりエラーになる事があった件 ([32b573d](https://github.com/famibee/SKYNovel/commit/32b573dd9ef74bb0239eed415ac346271ad5df1e))
+
 - fix: pan 追加によりエラーになる事があった件
 
 
