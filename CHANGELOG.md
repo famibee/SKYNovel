@@ -1,3 +1,10 @@
+## [1.31.4](https://github.com/famibee/SKYNovel/compare/v1.31.3...v1.31.4) (2022-09-09)
+
+
+### Bug Fixes
+
+* [ch wait]の指定が条件により 0 扱いになってしまう件 ([6faced9](https://github.com/famibee/SKYNovel/commit/6faced91c59cd1a33b844a7aae89702518e4f4c9))
+
 - fix: [ch wait]の指定が条件により 0 扱いになってしまう件
 
 
