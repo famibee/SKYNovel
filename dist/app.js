@@ -19589,8 +19589,12 @@ Oe = new WeakMap(), yr = new WeakMap(), Vs = new WeakMap(), Jv = new WeakSet(), 
   const n = this.cfg.searchPath(e, hr.EXT_SOUND);
   if (n.slice(-4) !== ".bin") {
     i.url = n;
-    const s = Ku.from(i), a = f(this, Oe)[t];
-    t && (a.snd = s), i.loop || Ns.add(e, s), a.pan !== 0 && (s.filters = [new ym.StereoFilter(a.pan)]);
+    const s = Ku.from(i);
+    if (t) {
+      const a = f(this, Oe)[t];
+      a.snd = s, a.pan !== 0 && (s.filters = [new ym.StereoFilter(a.pan)]);
+    }
+    i.loop || Ns.add(e, s);
     return;
   }
   new oi().add({ name: e, url: n, xhrType: Bt.XHR_RESPONSE_TYPE.BUFFER }).use((s, a) => {
@@ -19598,10 +19602,14 @@ Oe = new WeakMap(), yr = new WeakMap(), Vs = new WeakMap(), Jv = new WeakSet(), 
       s.data = o, a == null || a();
     }).catch((o) => this.main.errScript(`Sound \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${s.name} ${o}`, !1));
   }).load((s, a) => {
-    var h;
-    i.source = (h = a[e]) == null ? void 0 : h.data;
-    const o = Ku.from(i), u = f(this, Oe)[t];
-    t && (u.snd = o), i.loop || Ns.add(e, o), u.pan !== 0 && (o.filters = [new ym.StereoFilter(u.pan)]);
+    var u;
+    i.source = (u = a[e]) == null ? void 0 : u.data;
+    const o = Ku.from(i);
+    if (t) {
+      const h = f(this, Oe)[t];
+      h.snd = o, h.pan !== 0 && (o.filters = [new ym.StereoFilter(h.pan)]);
+    }
+    i.loop || Ns.add(e, o);
   });
 }, ff = new WeakMap(), vh = new WeakSet(), Fp = function() {
   for (const t in f(this, Oe))

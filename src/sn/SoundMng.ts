@@ -341,10 +341,12 @@ export class SoundMng {
 		if (url.slice(-4) !== '.bin') {
 			o.url = url;
 			const snd = Sound.from(o);
-			const oSb = this.#hSndBuf[buf];
-			if (buf) oSb.snd = snd;
+			if (buf) {
+				const oSb = this.#hSndBuf[buf];
+				oSb.snd = snd;
+				if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
+			}
 			if (! o.loop) sound.add(fn, snd);	// キャッシュする
-			if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
 			return;
 		}
 
@@ -357,10 +359,12 @@ export class SoundMng {
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;
 			const snd = Sound.from(o);
-			const oSb = this.#hSndBuf[buf];
-			if (buf) oSb.snd = snd;
+			if (buf) {
+				const oSb = this.#hSndBuf[buf];
+				oSb.snd = snd;
+				if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
+			}
 			if (! o.loop) sound.add(fn, snd);	// キャッシュする
-			if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
 		});
 	}
 	#initVol = ()=> {

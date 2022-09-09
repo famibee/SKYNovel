@@ -19910,8 +19910,12 @@ be = new WeakMap(), De = new WeakMap(), bi = new WeakMap(), Cu = new WeakSet(), 
   const R = this.cfg.searchPath(e, Config.EXT_SOUND);
   if (R.slice(-4) !== ".bin") {
     o.url = R;
-    const N = A.from(o), M = z(this, be)[t];
-    t && (M.snd = N), o.loop || I.add(e, N), M.pan !== 0 && (N.filters = [new k.StereoFilter(M.pan)]);
+    const N = A.from(o);
+    if (t) {
+      const M = z(this, be)[t];
+      M.snd = N, M.pan !== 0 && (N.filters = [new k.StereoFilter(M.pan)]);
+    }
+    o.loop || I.add(e, N);
     return;
   }
   new Loader().add({ name: e, url: R, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER }).use((N, M) => {
@@ -19919,10 +19923,14 @@ be = new WeakMap(), De = new WeakMap(), bi = new WeakMap(), Cu = new WeakSet(), 
       N.data = D, M == null || M();
     }).catch((D) => this.main.errScript(`Sound \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${N.name} ${D}`, !1));
   }).load((N, M) => {
-    var B;
-    o.source = (B = M[e]) == null ? void 0 : B.data;
-    const D = A.from(o), L = z(this, be)[t];
-    t && (L.snd = D), o.loop || I.add(e, D), L.pan !== 0 && (D.filters = [new k.StereoFilter(L.pan)]);
+    var L;
+    o.source = (L = M[e]) == null ? void 0 : L.data;
+    const D = A.from(o);
+    if (t) {
+      const B = z(this, be)[t];
+      B.snd = D, B.pan !== 0 && (D.filters = [new k.StereoFilter(B.pan)]);
+    }
+    o.loop || I.add(e, D);
   });
 }, Ua = new WeakMap(), ds = new WeakSet(), Yo = function() {
   for (const t in z(this, be))
