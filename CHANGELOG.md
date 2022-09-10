@@ -1,3 +1,10 @@
+## [1.32.2](https://github.com/famibee/SKYNovel/compare/v1.32.1...v1.32.2) (2022-09-10)
+
+
+### Bug Fixes
+
+* ボタンクリックが二度必要になることがある件 ([2c8d487](https://github.com/famibee/SKYNovel/commit/2c8d487b12b99fc68e6f8cb740bf248b64afc11f))
+
 - fix: ボタンクリックが二度必要になることがある件
 
 
