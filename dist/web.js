@@ -4195,15 +4195,15 @@ $a = new WeakMap(), it(CmnTween, $a, {
   "Sinusoidal.Out": (t) => Easing.Sinusoidal.Out(t)
 });
 /*!
- * @pixi/settings - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/settings - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 /*!
- * @pixi/constants - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/constants - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -4426,8 +4426,8 @@ var settings$1 = {
   ROUND_PIXELS: !1
 };
 /*!
- * @pixi/constants - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/constants - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5241,8 +5241,8 @@ Url.prototype.parseHost = function() {
   t && (t = t[0], t !== ":" && (this.port = t.substr(1)), n = n.substr(0, n.length - t.length)), n && (this.hostname = n);
 };
 /*!
- * @pixi/utils - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/utils - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5254,7 +5254,7 @@ var url = {
 };
 settings$1.RETINA_PREFIX = /@([0-9\.]+)x/;
 settings$1.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = !1;
-var saidHello = !1, VERSION = "6.5.2";
+var saidHello = !1, VERSION = "6.5.3";
 function skipHello() {
   saidHello = !0;
 }
@@ -5615,8 +5615,8 @@ function getResolutionOfUrl(n, t) {
   return e ? parseFloat(e[1]) : t !== void 0 ? t : 1;
 }
 /*!
- * @pixi/extensions - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/extensions - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/extensions is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5712,8 +5712,8 @@ var normalizeExtension = function(n) {
   }
 };
 /*!
- * @pixi/runner - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/runner - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5762,8 +5762,8 @@ Object.defineProperties(Runner.prototype, {
   run: { value: Runner.prototype.emit }
 });
 /*!
- * @pixi/ticker - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/ticker - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5943,8 +5943,8 @@ var TickerListener = function() {
   }, n.extension = ExtensionType.Application, n;
 }();
 /*!
- * @pixi/math - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/math - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -6331,8 +6331,8 @@ var groupD8 = {
   }), n.IDENTITY = new n(), n;
 }();
 /*!
- * @pixi/core - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/core - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -8179,8 +8179,8 @@ var uniformParsers = [
     }
   },
   {
-    test: function(n) {
-      return (n.type === "sampler2D" || n.type === "samplerCube" || n.type === "sampler2DArray") && n.size === 1 && !n.isArray;
+    test: function(n, t) {
+      return (n.type === "sampler2D" || n.type === "samplerCube" || n.type === "sampler2DArray") && n.size === 1 && !n.isArray && (t == null || t.castToBaseTexture !== void 0);
     },
     code: function(n) {
       return `t = syncData.textureCount++;
@@ -8452,9 +8452,27 @@ var uniformParsers = [
   mat2: "gl.uniformMatrix2fv(location, false, v)",
   mat3: "gl.uniformMatrix3fv(location, false, v)",
   mat4: "gl.uniformMatrix4fv(location, false, v)",
-  sampler2D: "gl.uniform1i(location, v)",
-  samplerCube: "gl.uniform1i(location, v)",
-  sampler2DArray: "gl.uniform1i(location, v)"
+  sampler2D: `
+    if (cv !== v)
+    {
+        cu.value = v;
+
+        gl.uniform1i(location, v);
+    }`,
+  samplerCube: `
+    if (cv !== v)
+    {
+        cu.value = v;
+
+        gl.uniform1i(location, v);
+    }`,
+  sampler2DArray: `
+    if (cv !== v)
+    {
+        cu.value = v;
+
+        gl.uniform1i(location, v);
+    }`
 }, GLSL_TO_ARRAY_SETTERS = {
   float: "gl.uniform1fv(location, v)",
   vec2: "gl.uniform2fv(location, v)",
@@ -10018,8 +10036,8 @@ Object.assign(BatchRenderer, {
   }
 });
 /*!
- * @pixi/loaders - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/loaders - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -11843,8 +11861,8 @@ var objectAssign = shouldUseNative() ? Object.assign : function(n, t) {
   return o;
 };
 /*!
- * @pixi/polyfill - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/polyfill - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -11891,8 +11909,8 @@ globalThis.Uint16Array || (globalThis.Uint16Array = Array);
 globalThis.Uint8Array || (globalThis.Uint8Array = Array);
 globalThis.Int32Array || (globalThis.Int32Array = Array);
 /*!
- * @pixi/display - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/display - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -12176,8 +12194,8 @@ var DisplayObject = function(n) {
 }(DisplayObject);
 DisplayObject.prototype.displayObjectUpdateTransform = DisplayObject.prototype.updateTransform;
 /*!
- * @pixi/constants - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/constants - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -12441,8 +12459,8 @@ var Container = function(n) {
 }(DisplayObject);
 Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
 /*!
- * @pixi/accessibility - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/accessibility - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -12552,8 +12570,8 @@ var KEY_CODE_TAB = 9, DIV_TOUCH_SIZE = 100, DIV_TOUCH_POS_X = 0, DIV_TOUCH_POS_Y
   }, n;
 }();
 /*!
- * @pixi/interaction - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/interaction - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -12948,8 +12966,8 @@ var MOUSE_POINTER_ID = 1, hitTestEvent = {
   }, t;
 }(EventEmitter$4);
 /*!
- * @pixi/extract - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/extract - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -12992,8 +13010,8 @@ var TEMP_RECT = new Rectangle(), BYTES_PER_PIXEL = 4, Extract = function() {
   }, n;
 }();
 /*!
- * @pixi/compressed-textures - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/compressed-textures - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/compressed-textures is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -13531,8 +13549,8 @@ var KTXLoader = function() {
   }, n.extension = ExtensionType.Loader, n.loadKeyValueData = !1, n;
 }();
 /*!
- * @pixi/particle-container - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/particle-container - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/particle-container is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -13790,8 +13808,8 @@ void main(void){
   }, t;
 }(ObjectRenderer);
 /*!
- * @pixi/graphics - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/graphics - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -14555,8 +14573,8 @@ var ArcUtils = function() {
   }, t.nextRoundedRectBehavior = !1, t._TEMP_POINT = new Point(), t;
 }(Container);
 /*!
- * @pixi/sprite - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/sprite - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -14698,8 +14716,8 @@ var tempPoint$2 = new Point(), indices = new Uint16Array([0, 1, 2, 0, 2, 3]), Sp
   }), t;
 }(Container);
 /*!
- * @pixi/text - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/text - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -15426,8 +15444,8 @@ var defaultDestroyOptions = {
   }), t.nextLineHeightBehavior = !1, t.experimentalLetterSpacing = !1, t;
 }(Sprite);
 /*!
- * @pixi/prepare - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/prepare - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -15601,8 +15619,8 @@ var Prepare = function(n) {
   }, t;
 }(BasePrepare);
 /*!
- * @pixi/spritesheet - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/spritesheet - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -15708,8 +15726,8 @@ var Spritesheet = function() {
   }, n.extension = ExtensionType.Loader, n;
 }();
 /*!
- * @pixi/sprite-tiling - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/sprite-tiling - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -15960,8 +15978,8 @@ void main(void)
   }, t;
 }(ObjectRenderer);
 /*!
- * @pixi/mesh - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/mesh - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16210,8 +16228,8 @@ void main(void)
   }), t;
 }(Geometry);
 /*!
- * @pixi/text-bitmap - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/text-bitmap - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16891,8 +16909,8 @@ var BitmapFontLoader = function() {
   }, n.extension = ExtensionType.Loader, n;
 }();
 /*!
- * @pixi/filter-alpha - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/filter-alpha - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16955,8 +16973,8 @@ void main(void)
   }), t;
 })(Filter);
 /*!
- * @pixi/filter-blur - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/filter-blur - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -17057,8 +17075,8 @@ function generateBlurFragSource(n) {
   return o = o.replace("%blur%", R), o = o.replace("%size%", n.toString()), o;
 }
 /*!
- * @pixi/constants - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/constants - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -17260,8 +17278,8 @@ var BlurFilterPass = function(n) {
   }), t;
 })(Filter);
 /*!
- * @pixi/filter-color-matrix - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/filter-color-matrix - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -17894,8 +17912,8 @@ void main(void)
 }(Filter);
 ColorMatrixFilter.prototype.grayscale = ColorMatrixFilter.prototype.greyscale;
 /*!
- * @pixi/filter-displacement - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/filter-displacement - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18006,8 +18024,8 @@ void main(void)
   }), t;
 })(Filter);
 /*!
- * @pixi/filter-fxaa - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/filter-fxaa - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18213,8 +18231,8 @@ void main() {
   return t;
 })(Filter);
 /*!
- * @pixi/filter-noise - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/filter-noise - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18314,15 +18332,15 @@ void main()
   }), t;
 })(Filter);
 /*!
- * @pixi/mixin-cache-as-bitmap - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/mixin-cache-as-bitmap - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 /*!
- * @pixi/constants - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/constants - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18505,8 +18523,8 @@ DisplayObject.prototype._cacheAsBitmapDestroy = function(t) {
   this.cacheAsBitmap = !1, this.destroy(t);
 };
 /*!
- * @pixi/mixin-get-child-by-name - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/mixin-get-child-by-name - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18528,8 +18546,8 @@ Container.prototype.getChildByName = function(t, e) {
   return null;
 };
 /*!
- * @pixi/mixin-get-global-position - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/mixin-get-global-position - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18538,8 +18556,8 @@ DisplayObject.prototype.getGlobalPosition = function(t, e) {
   return t === void 0 && (t = new Point()), e === void 0 && (e = !1), this.parent ? this.parent.toGlobal(this.position, t, e) : (t.x = this.position.x, t.y = this.position.y), t;
 };
 /*!
- * @pixi/app - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/app - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -18584,15 +18602,15 @@ var ResizePlugin = function() {
   }, n.extension = ExtensionType.Application, n;
 }();
 /*!
- * @pixi/settings - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/settings - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
  */
 /*!
- * @pixi/constants - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/constants - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19084,8 +19102,8 @@ createCommonjsModule(function(n, t) {
   t.decode = t.parse = decode, t.encode = t.stringify = encode;
 });
 /*!
- * @pixi/constants - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/constants - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19171,8 +19189,8 @@ var BUFFER_TYPE;
   n[n.ELEMENT_ARRAY_BUFFER = 34963] = "ELEMENT_ARRAY_BUFFER", n[n.ARRAY_BUFFER = 34962] = "ARRAY_BUFFER", n[n.UNIFORM_BUFFER = 35345] = "UNIFORM_BUFFER";
 })(BUFFER_TYPE || (BUFFER_TYPE = {}));
 /*!
- * @pixi/utils - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/utils - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19267,8 +19285,8 @@ var Application = function() {
 extensions.handleByList(ExtensionType.Application, Application._plugins);
 extensions.add(ResizePlugin);
 /*!
- * @pixi/mesh-extras - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/mesh-extras - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19521,8 +19539,8 @@ var DEFAULT_BORDER_SIZE = 10;
   }, t;
 })(SimplePlane);
 /*!
- * @pixi/sprite-animated - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * @pixi/sprite-animated - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19649,8 +19667,8 @@ var AnimatedSprite = function(n) {
   }), t;
 }(Sprite);
 /*!
- * pixi.js - v6.5.2
- * Compiled Wed, 24 Aug 2022 13:51:19 UTC
+ * pixi.js - v6.5.3
+ * Compiled Fri, 09 Sep 2022 13:55:20 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -30372,7 +30390,7 @@ const Wt = class extends Container {
       "alpha" in e && (o.opacity = String(this.spLay.alpha));
     if ("width" in e && (o.width = ((R = e.width) != null ? R : "0") + "px"), "height" in e && (o.height = ((N = e.height) != null ? N : "0") + "px"), "pl" in e && (o.paddingLeft = ((M = e.pl) != null ? M : "0") + "px"), "pr" in e && (o.paddingRight = ((D = e.pr) != null ? D : "0") + "px"), "pt" in e && (o.paddingTop = ((L = e.pt) != null ? L : "0") + "px"), "pb" in e && (o.paddingBottom = ((B = e.pb) != null ? B : "0") + "px"), "kinsoku_sol" in e && rt(Wt, cn, new RegExp(`[${e.kinsoku_sol}]`)), "kinsoku_eol" in e && rt(Wt, fn, new RegExp(`[${e.kinsoku_eol}]`)), "kinsoku_dns" in e && rt(Wt, ys, new RegExp(`[${e.kinsoku_dns}]`)), ot(this, gs, Zo).call(this), z(this, er).sethArg(e), rt(this, br, this.spLay.position.x), o.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`, this.cvsResize(), o.display = this.spLay.visible ? "inline" : "none", o.textShadow = (U = ($ = e.filter) != null ? $ : o.textShadow) != null ? U : "", rt(this, Kr, argChk_Boolean(e, "break_fixed", z(this, Kr))), rt(this, mr, argChk_Num(e, "break_fixed_left", z(this, mr))), rt(this, yr, argChk_Num(e, "break_fixed_top", z(this, yr))), ":redraw" in e && z(this, hn) > 0) {
       const H = [
-        z(this, se).innerHTML.replace(/(animation-delay: )\d+ms/g, "$10ms"),
+        z(this, se).innerHTML.replaceAll(/(animation-delay: )\d+ms/g, "$10ms"),
         `<span class='sn_ch' data-add='{"ch_in_style":"default"}'>\u3000</span>`
       ];
       ot(this, Ja, gh).call(this), this.goTxt(H);
@@ -31546,7 +31564,7 @@ bs = new WeakMap(), Er = new WeakMap(), Es = new WeakMap(), Qa = new WeakMap(), 
 `) {
   var M, D, L, B, $, U, H, V;
   const N = z(this, gn) ? (L = o != null ? o : (M = z(this, Br).at(0)) == null ? void 0 : M.o.wait) != null ? L : z(qt, ei) ? (D = z(qt, vn)[R.charAt(0)]) != null ? D : 0 : LayerMng.msecChWait : 0;
-  return z(qt, pn).isSkippingByKeyDown() ? rt(this, Fr, 0) : e && z(this, gn) && rt(this, Fr, z(this, Fr) + N), {
+  return z(qt, pn).isSkippingByKeyDown() ? rt(this, Fr, 0) : e && z(this, gn) && rt(this, Fr, z(this, Fr) + Number(N)), {
     cl: ` class='sn_ch${N > 0 ? ` sn_ch_in_${z(this, Tr)}` : ""}'`,
     sty: `animation-delay: ${z(this, Fr)}ms;${(U = ($ = (B = z(this, Br).at(-1)) == null ? void 0 : B.o) == null ? void 0 : $.style) != null ? U : ""}`,
     lnk: (V = (H = z(this, Br).at(0)) == null ? void 0 : H.o[":link"]) != null ? V : ""

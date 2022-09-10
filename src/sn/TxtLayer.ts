@@ -634,7 +634,7 @@ text-combine-upright: all;
 				? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
 				: LayerMng.msecChWait)) :0;
 		if (TxtLayer.#evtMng.isSkippingByKeyDown()) this.#cumDelay = 0;
-		else if (isAddWait && this.#ch_in_join) this.#cumDelay += wait;
+		else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait);
 		return {
 			cl	: ` class='sn_ch${
 				wait > 0 ?` sn_ch_in_${this.#$ch_in_style}` :''

@@ -27,7 +27,7 @@
 		"gamepad.js": "^1.0.4",
 		"moveable": "^0.35.4",
 		"parsimmon": "^1.18.1",
-		"pixi.js": "^6.5.2",
+		"pixi.js": "^6.5.3",
 		"platform": "^1.3.6",
 		"socket.io-client": "^4.5.2",
 		"store": "^2.0.12",

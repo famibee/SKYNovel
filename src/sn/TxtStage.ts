@@ -161,7 +161,7 @@ export class TxtStage extends Container {
 		// パディングキャスト変更時・クリック待ち表示を追従させる（高速再描写）
 		if (':redraw' in hArg && this.#lenHtmTxt > 0) {
 			const aSpan = [
-				this.#htmTxt.innerHTML.replace(/(animation-delay: )\d+ms/g, '$10ms'),
+				this.#htmTxt.innerHTML.replaceAll(/(animation-delay: )\d+ms/g, '$10ms'),
 				`<span class='sn_ch' data-add='{"ch_in_style":"default"}'>　</span>`,
 			];
 			this.#clearText();	// 消去
