@@ -1,3 +1,8 @@
+- feat: ルビ記法の《》内をdecodeURIComponent() するように（AIRNovelからの移植）
+- fix: ルビ記法の《》内で半角スペースを区切りと見なさない \t 区切りを廃止
+- docs: ルビ記法の項を追記
+
+
 ## [1.32.2](https://github.com/famibee/SKYNovel/compare/v1.32.1...v1.32.2) (2022-09-10)
 
 

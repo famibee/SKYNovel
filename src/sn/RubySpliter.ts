@@ -72,19 +72,20 @@ export class RubySpliter {
 	}
 
 	putTxtRb(text: string, ruby: string) {	// テスト用にpublic
+		// 自動区切りを行わない（内部的 json文法）
+		if (/^\w+｜{"/.test(ruby)) {this.#putCh(text, ruby); return;}
+
 		const a: string[] = Array.from(text);
 		const len = a.length;
-		if (ruby.charAt(0) === '*' && ruby.length <= 2) {
-			const rb_ses
-				= 'center｜'
-				+ ((ruby === '*') ? RubySpliter.#sesame : ruby.charAt(1));
+		if (/^\*.?$/.test(ruby)) {	// 傍点文法
+			const rb_ses = 'center｜'+ (ruby === '*' ?RubySpliter.#sesame :ruby.charAt(1));
 			for (let i=0; i<len; ++i) this.#putCh(a[i], rb_ses);
 			return;
 		}
 
-		// 自動区切りを行わない
+		// 自動区切りを行わない（単漢字など）
 		if (len === 1 || ruby.indexOf(' ') === -1) {
-			this.#putCh(text, ruby.replaceAll('\t', ' '));
+			this.#putCh(text, decodeURIComponent(ruby));
 			return;
 		}
 
@@ -92,12 +93,10 @@ export class RubySpliter {
 		const aR = ruby.split(' ');
 		const lenR = aR.length;
 		const len_max = (lenR > len) ?lenR :len;
-		for (let i=0; i<len_max; ++i) {
-			this.#putCh(
-				(i < len) ? a[i] : '',
-				(i < lenR) ? aR[i].replaceAll('\t',' ') : ''
-			);
-		}
+		for (let i=0; i<len_max; ++i) this.#putCh(
+			(i < len) ? a[i] : '',
+			(i < lenR) ? decodeURIComponent(aR[i]) : ''
+		);
 	}
 
 }

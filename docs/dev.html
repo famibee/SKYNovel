@@ -153,6 +153,7 @@
 		<li class="mb1"><a href="#reserve_value_tmp">雑用変数(tmp:)</a></li>
 		<li class="mb1"><a href="#cond">式の評価と条件分岐</a></li>
 		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
+		<li class="mb1"><a href="#ruby">ルビ記法</a></li>
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
 		<li class="mb1"><a href="#crypt">素材や・変数データを暗号化</a></li>
 		<li class="mb1"><a href="#save_path">セーブデータの保存場所</a></li>
@@ -183,10 +184,10 @@
 <p class="mb2 px1">
 
 	<ul type="disc">
-	<li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a>（以後VSCode）をインストール</li>
-	<li><a href="https://marketplace.visualstudio.com/items?itemName=famibee.skynovel" target="_blank" rel="noopener">VSCode用拡張機能 SKYNovel</a> をインストール</li>
-	<li>あとは 拡張機能 SKYNovel の指示に従って……</li>
-</ul>
+		<li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a>（以後VSCode）をインストール</li>
+		<li><a href="https://marketplace.visualstudio.com/items?itemName=famibee.skynovel" target="_blank" rel="noopener">VSCode用拡張機能 SKYNovel</a> をインストール</li>
+		<li>あとは 拡張機能 SKYNovel の指示に従って……</li>
+	</ul>
 
 </p>
 
@@ -905,9 +906,95 @@ const.sn.log.json
 
 
 </p>
+<h2 id="ruby" class="w-heading">ルビ記法</h2>
+<h4>タグの他に、《》（二重山括弧）を使用した“ルビ記法”が使用できます。</h4>
+<p class="mb2 px1">
+	ここではルビを打たれる本文を「親文字」と表記します。<br/>
+	→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=ruby" target="_blank" rel="noopener">参考（機能ギャラリー・ルビ記法）</a>
+
+	<ul type="disc">
+		<li>
+			｜（全角縦線、似て非なる文字があるのでこのマニュアルからコピペ推奨）はルビ開始を示す記号で、《》（二重山括弧）はルビを指定します。
+			<p class="mb2 px1">
+				<p style="background-color: lightgrey;">
+					安全[ruby2 t="剃刀" r="かみそり"]の
+				</p>
+				は
+				<p style="background-color: lightgrey;">
+					安全｜剃刀《かみそり》の
+				</p>
+				と同様です。<br/>
+				
+				<amp-img src="pic/ruby1.png" width="77" height="147" alt=""></amp-img><br/>
+			</p>
+		</li>
+		<li>
+			｜（全角縦線）は漢字と平仮名・句読点などの境界なら省略できます。
+			<p style="background-color: lightgrey;">
+				心を撲《う》たずには
+			</p>
+		</li>
+		<li>
+			ルビを半角空白で区切ると、その文字群単位で親文字にルビを振ります。
+			<p style="background-color: lightgrey;">
+				、所謂《いはゆる》〜（省略）〜廻つた独楽《こ ま》が
+			</p>
+			<amp-img src="pic/ruby2.png" width="125" height="171" alt=""></amp-img><br/>
+			「こ」と「ま」の間に半角空白が入っているので、独に「こ」、楽に「ま」がルビとして振られます。<br/>
+			<br/>
+		</li>
+		<li>
+			ルビのルビ揃えは、[lay][span]のr_align属性で文字レイヤに設定しますが、ルビごとに指定することも出来ます。<br/>
+			記法は《》（二重山括弧）の中に「r_align属性 ＋ ｜（全角縦線）＋ルビ文字」です。<br/>
+			文字レイヤのr_align属性がenter（中付き）だとして……<br/>
+			<p style="background-color: lightgrey;">
+				雷《いかずち》さらに雷《left｜いかずち》さらに雷《right｜いかずち》さらに雷《いかずち》を
+			</p>
+			<amp-img src="pic/ruby3.png" width="383" height="55" alt=""></amp-img><br/>
+			<br/>
+			left（肩付き）で「先頭親文字から揃え」られ、<br/>
+			right（右／下揃え）で「末尾親文字から揃え」られています。<br/>
+			省略時は文字レイヤへの[lay][span]のr_align属性に従います。<br/>
+			<br/>
+		</li>
+		<li>
+			《*》（半角アスタリスクを一文字）で傍点を打ちます。<br/>
+			親文字全てに一つずつ自動で打ちます。<br/>
+			ルビ揃えは自動で「center」になります。<br/>
+			<br/>
+		</li>
+		<li>
+			《*★》とすると傍点を変更でき、「★」で傍点を打ちます。<br/>
+			傍点は文法が破綻しないもの（「》｜」以外）なら自由です。<br/>
+			<br/>
+		</li>
+		<li>
+			ルビ記法《》内は URLエスケープされます。これにより文法上直接記述できない文字（｜や《》や一文字マクロ）も表示できるようになります。<br/>
+			｜（縦棒）を使用する場合、「%ef%bd%9c」と記述します。<br/>
+			《》（二重山括弧）を使用する場合、「%e3%80%8a」「%e3%80%8b」と記述します。<br/>
+			「%」を使用する場合、「%25」と記述します。<br/>
+			<br/>
+		</li>
+		<li>
+			ルビ揃えや URLエスケープを組み合わせることができます。
+			<p style="background-color: lightgrey;">
+			「｜考えるな《center｜Don't%20think,》。｜感じる《Feel.》んだ」
+			</p>
+			<br/>
+		</li>
+	</ul>
+
+
+</p>
 <h2 id="font" class="w-heading">フォントの導入</h2>
 <h4>フォントの導入・指定方法について解説していきます。</h4>
 <p class="mb2 px1">
+	<h4 style="color: red">【重要】2022-03-09リリースの「VSCode拡張機能 v3.20.1」からは【2.使用する字形だけ入ったフォントファイルを作成】などが自動化されています</h4>
+	<p class="mb2 px1">
+		<a href="https://famibee.blog.fc2.com/blog-entry-790.html" target="_blank" rel="noopener">電子演劇部 【更新】VSCode拡張機能 v3.20.1：フォントサイズ最適化機能追加</a>
+	</p>
+	<hr/>
+
 	<h4>1.フォントを準備</h4>
 	<p class="mb2 px1">
 		※以下をサンプルとして話を進めます。字形が多いのでだいたい入ってるだろうし。<br/>

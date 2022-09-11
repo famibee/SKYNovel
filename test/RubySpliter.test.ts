@@ -549,47 +549,26 @@ it('test_putTxt_sp_grp10',()=> {
 	expect(retText).toBe(".未.知.の.無.生.物.だ.け.に.作.用.す.る.力");
 	expect(retRuby).toBe(".unrecognized.physical.power.able.to.effect.inanimate.bodies......");
 });
-it('test_putTxt_sp_grp11',()=> {
-	rbSpl.putTxt("｜未知の無生物だけに作用する力《unrecognized	physical	power	able	to	effect	inanimate	bodies》");
-	expect(retText).toBe(".未知の無生物だけに作用する力");
-	expect(retRuby).toBe(".unrecognized physical power able to effect inanimate bodies");
-});
-/*
 it('test_putTxt_sp_URLUnEsc',()=> {
-	rs.putTxt("｜未知の無生物だけに作用する力《unrecognized%20physical%20power%20able%20to%20effect%20inanimate%20bodies》");
+	rbSpl.putTxt("｜未知の無生物だけに作用する力《unrecognized%20physical%20power%20able%20to%20effect%20inanimate%20bodies》");
 	expect(retText).toBe(".未知の無生物だけに作用する力");
 	expect(retRuby).toBe(".unrecognized physical power able to effect inanimate bodies");
 });
 	it('test_putTxt_URLUnEsc',()=> {
-		rs.putTxt("％《%25》縦棒《%ef%bd%9c》二重山括弧《%e3%80%8axxx%e3%80%8b》");
+		rbSpl.putTxt("％《%25》縦棒《%ef%bd%9c》二重山括弧《%e3%80%8axxx%e3%80%8b》");
 		expect(retText).toBe(".％.縦棒.二重山括弧");
 		expect(retRuby).toBe(".%.｜.《xxx》");
 	});
-// RubySpliterから外に出したのでテスト不能
-*/
-it('test_putTxt_sp_grp12',()=> {
-	rbSpl.putTxt("｜ケセラセラ《Que Sera, Sera》");
-	expect(retText).toBe(".ケ.セ.ラ.セ.ラ");
-	expect(retRuby).toBe(".Que.Sera,.Sera..");
-});
-it('test_putTxt_sp_grp13',()=> {
-	rbSpl.putTxt("｜ケセラセラ《Que	Sera,	Sera》");
+it('test_putTxt_sp_grp14',()=> {
+	rbSpl.putTxt("｜ケセラセラ《Que%20Sera,%20Sera》");
 	expect(retText).toBe(".ケセラセラ");
 	expect(retRuby).toBe(".Que Sera, Sera");
 });
-	it('test_putTxt_sp_grp13_b',()=> {
-		rbSpl.putTxt("｜ケセラセラ《Que\tSera,\tSera》");
+	it('test_putTxt_sp_grp14_b',()=> {
+		rbSpl.putTxt("｜ケセラセラ《Que%20Sera,%20Sera》");
 		expect(retText).toBe(".ケセラセラ");
 		expect(retRuby).toBe(".Que Sera, Sera");
 	});
-/*
-it('test_putTxt_sp_grp14',()=> {
-	rs.putTxt("｜ケセラセラ《Que%20Sera,%20Sera》");
-	expect(retText).toBe(".ケセラセラ");
-	expect(retRuby).toBe(".Que Sera, Sera");
-});
-// RubySpliterから外に出したのでテスト不能
-*/
 /*
 it('test_putTxt_sp_grp13',()=> {
 	rs.putTxt("｜未知の無生物だけに作用する力《unrecognized\\ physical\\ power\\ able\\ to\\ effect\\ inanimate\\ bodies》");
@@ -598,6 +577,13 @@ it('test_putTxt_sp_grp13',()=> {
 });
 // まぁいらんか、やめとこ。特殊な文字が増えるし
 */
+
+it('test_putTxt_sp_grp15',()=> {
+	rbSpl.putTxt(`｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》`);
+	expect(retText).toBe(".　");
+	expect(retRuby).toBe(`.link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}`);
+});
+
 
 it('test_putTxt_I_2t_4r',()=> {
 	rbSpl.putTxt("｜剃刀《かみそり》");
