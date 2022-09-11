@@ -1,3 +1,10 @@
+# [1.33.0](https://github.com/famibee/SKYNovel/compare/v1.32.2...v1.33.0) (2022-09-11)
+
+
+### Features
+
+* ルビ記法の《》内をdecodeURIComponentするように（AIRNovelより） ([2d8d6cf](https://github.com/famibee/SKYNovel/commit/2d8d6cfecde82765602fd6b655c8c819cb423122))
+
 - feat: ルビ記法の《》内をdecodeURIComponent() するように（AIRNovelからの移植）
 - fix: ルビ記法の《》内で半角スペースを区切りと見なさない \t 区切りを廃止
 - docs: ルビ記法の項を追記
