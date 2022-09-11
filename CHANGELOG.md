@@ -1,3 +1,10 @@
+# [1.34.0](https://github.com/famibee/SKYNovel/compare/v1.33.0...v1.34.0) (2022-09-11)
+
+
+### Features
+
+* ルビがある単語でも一文字ずつ出現表示するように（ルビはまとめて出現） ([e37bf17](https://github.com/famibee/SKYNovel/commit/e37bf17187281bf9a52256d2f97fdf2f24820538))
+
 - feat: ルビがある単語でも一文字ずつ出現表示するように（ルビはまとめて出現）
 - fix: 文字表示関連で細々修正
 
