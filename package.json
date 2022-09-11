@@ -39,7 +39,7 @@
 		"@types/adm-zip": "^0.5.0",
 		"@types/electron-json-storage": "^4.5.0",
 		"@types/fs-extra": "^9.0.13",
-		"@types/jest": "^29.0.0",
+		"@types/jest": "^29.0.1",
 		"@types/node": "^18.7.16",
 		"@types/offscreencanvas": "^2019.7.0",
 		"@types/parsimmon": "^1.10.6",

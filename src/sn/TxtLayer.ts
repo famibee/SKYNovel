@@ -611,21 +611,24 @@ text-combine-upright: all;
 		}
 		this.#aSpan.push(TxtLayer.#rec(add_htm));
 	}
-	#tagCh_sub(ch: string, ruby: string, r_align: string): string {
-		if (ch === ' ') ch = '&nbsp;';
-		if (TxtLayer.#val.doRecLog()) this.#page_text += ch +(ruby ?`《${ruby}》` :'');
+	#tagCh_sub(ch: string, rb: string, r_align: string): string {
+		const ht = ch === ' ' ?'&nbsp;' :ch;
+		if (TxtLayer.#val.doRecLog()) this.#page_text += ht +(rb ?`《${rb}》` :'');
 
 		const {cl, sty, lnk} = this.#o2domArg(true, null, ch);
 		const curpos = `${lnk} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
-		const add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(ch)}'${
-			ruby ?'': curpos
-		}>${
-			ruby ?`<ruby${curpos}>${ch}<rt${
-				this.mkStyle_r_align(ch, ruby, r_align)
-			}>${ruby}</rt></ruby>` :ch
-		}</span>`;	// <span>に入れないと崩れる・一文字ずつ出ない
-
-		return add_htm;
+		return `<span style='${this.#fncFFSStyle(ch)}`+ (rb
+			// ルビあり
+			?`'><ruby${curpos}>${
+				Array.from(ch).map((c, i)=> `<span${cl} style='${
+					(i > 0) ? this.#o2domArg(true, null, ch).sty :sty
+				}'>${c === ' ' ?'&nbsp;' :c}</span>`).join('')
+			}<rt${
+				this.mkStyle_r_align(ch, rb, r_align)
+			}><span${cl} style='${sty}'>${rb}</span></rt></ruby>`
+			// ルビなし
+			:`${sty}'${cl + curpos}>${ht}`)
+		+'</span>';	// <span>に入れないと崩れる・一文字ずつ出ない
 	}
 	#o2domArg(isAddWait: boolean, argWait: number | null, ch = '\n') {
 		const wait = this.#ch_in_join ?(argWait
@@ -638,10 +641,10 @@ text-combine-upright: all;
 		return {
 			cl	: ` class='sn_ch${
 				wait > 0 ?` sn_ch_in_${this.#$ch_in_style}` :''
-			}'`,
+			}'`,	// TxtStage.goTxt()はこれ単位で文字出現させる
 			sty	: `animation-delay: ${this.#cumDelay}ms;${
 				this.#stkASpan.at(-1)?.o?.style ?? ''
-			}`,
+			}`,		// TxtStage.goTxt()はこれ単位で文字出現させる
 			lnk	: this.#stkASpan.at(0)?.o[':link'] ?? '',
 		};
 	}
