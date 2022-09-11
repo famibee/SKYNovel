@@ -1,3 +1,6 @@
+- fix: [span]で囲むと表示が崩れる件（前回のデグレード）
+
+
 # [1.34.0](https://github.com/famibee/SKYNovel/compare/v1.33.0...v1.34.0) (2022-09-11)
 
 

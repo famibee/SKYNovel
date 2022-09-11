@@ -31564,7 +31564,7 @@ bs = new WeakMap(), Er = new WeakMap(), Es = new WeakMap(), Qa = new WeakMap(), 
   const N = e === " " ? "&nbsp;" : e;
   z(qt, Er).doRecLog() && rt(this, Ri, z(this, Ri) + (N + (o ? `\u300A${o}\u300B` : "")));
   const { cl: M, sty: D, lnk: L } = ot(this, ii, Yi).call(this, !0, null, e), B = `${L} data-add='{"ch_in_style":"${z(this, Tr)}", "ch_out_style":"${z(this, Fr)}"}'`;
-  return `<span style='${z(this, mn).call(this, e)}` + (o ? `'><ruby${B}>${Array.from(e).map(($, U) => `<span${M} style='${U > 0 ? ot(this, ii, Yi).call(this, !0, null, e).sty : D}'>${$ === " " ? "&nbsp;" : $}</span>`).join("")}<rt${this.mkStyle_r_align(e, o, R)}><span${M} style='${D}'>${o}</span></rt></ruby>` : `${D}'${M + B}>${N}`) + "</span>";
+  return `<span${M} style='${z(this, mn).call(this, e)}${D}'${o ? `><ruby${B}>${Array.from(e).map(($, U) => `<span${M} style='${U > 0 ? ot(this, ii, Yi).call(this, !0, null, e).sty : D} display: inline;'>${$ === " " ? "&nbsp;" : $}</span>`).join("")}<rt${this.mkStyle_r_align(e, o, R)}>${o}</rt></ruby>` : `${B}>${N}`}</span>`;
 }, ii = new WeakSet(), Yi = function(e, o, R = `
 `) {
   var M, D, L, B, $, U, H, V;

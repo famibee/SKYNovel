@@ -617,18 +617,17 @@ text-combine-upright: all;
 
 		const {cl, sty, lnk} = this.#o2domArg(true, null, ch);
 		const curpos = `${lnk} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
-		return `<span style='${this.#fncFFSStyle(ch)}`+ (rb
+		return `<span${cl} style='${this.#fncFFSStyle(ch)}${sty}'${rb
 			// ルビあり
-			?`'><ruby${curpos}>${
+			? `><ruby${curpos}>${
 				Array.from(ch).map((c, i)=> `<span${cl} style='${
 					(i > 0) ? this.#o2domArg(true, null, ch).sty :sty
-				}'>${c === ' ' ?'&nbsp;' :c}</span>`).join('')
-			}<rt${
-				this.mkStyle_r_align(ch, rb, r_align)
-			}><span${cl} style='${sty}'>${rb}</span></rt></ruby>`
+				} display: inline;'>${c === ' ' ?'&nbsp;' :c}</span>`)
+				.join('')
+			}<rt${this.mkStyle_r_align(ch, rb, r_align)}>${rb}</rt></ruby>`
 			// ルビなし
-			:`${sty}'${cl + curpos}>${ht}`)
-		+'</span>';	// <span>に入れないと崩れる・一文字ずつ出ない
+			: `${curpos}>${ht}`
+		}</span>`;	// <span>に入れないと崩れる・一文字ずつ出ない
 	}
 	#o2domArg(isAddWait: boolean, argWait: number | null, ch = '\n') {
 		const wait = this.#ch_in_join ?(argWait
