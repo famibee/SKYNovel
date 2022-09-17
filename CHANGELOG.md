@@ -1,3 +1,6 @@
+- docs: [graph]から属性 ch_in_style、ch_out_style の記述を削除
+
+
 # [1.35.0](https://github.com/famibee/SKYNovel/compare/v1.34.1...v1.35.0) (2022-09-17)
 
 
