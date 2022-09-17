@@ -60,7 +60,7 @@ export class RubySpliter {
 			const g = e?.groups;
 			if (! g) continue;
 			const ruby: string = g.ruby;
-			if (ruby) {this.putTxtRb(g.str, ruby); continue;}
+			if (ruby) {this.putTxtRb(decodeURIComponent(g.str), ruby); continue;}
 
 			const kan_ruby: string = g.kan_ruby;
 			if (kan_ruby) {this.putTxtRb(g.kan, kan_ruby); continue;}

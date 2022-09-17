@@ -549,25 +549,25 @@ it('test_putTxt_sp_grp10',()=> {
 	expect(retText).toBe(".未.知.の.無.生.物.だ.け.に.作.用.す.る.力");
 	expect(retRuby).toBe(".unrecognized.physical.power.able.to.effect.inanimate.bodies......");
 });
-it('test_putTxt_sp_URLUnEsc',()=> {
-	rbSpl.putTxt("｜未知の無生物だけに作用する力《unrecognized%20physical%20power%20able%20to%20effect%20inanimate%20bodies》");
-	expect(retText).toBe(".未知の無生物だけに作用する力");
-	expect(retRuby).toBe(".unrecognized physical power able to effect inanimate bodies");
+it('test_putTxt_sp_URLUnEsc01',()=> {
+	rbSpl.putTxt('｜未知の無生物だけに作用する力《unrecognized%20physical%20power%20able%20to%20effect%20inanimate%20bodies》');
+	expect(retText).toBe('.未知の無生物だけに作用する力');
+	expect(retRuby).toBe('.unrecognized physical power able to effect inanimate bodies');
 });
-	it('test_putTxt_URLUnEsc',()=> {
-		rbSpl.putTxt("％《%25》縦棒《%ef%bd%9c》二重山括弧《%e3%80%8axxx%e3%80%8b》");
-		expect(retText).toBe(".％.縦棒.二重山括弧");
-		expect(retRuby).toBe(".%.｜.《xxx》");
+	it('test_putTxt_sp_URLUnEsc02',()=> {
+		rbSpl.putTxt('％《%25》縦棒《%ef%bd%9c》二重山括弧《%e3%80%8axxx%e3%80%8b》');
+		expect(retText).toBe('.％.縦棒.二重山括弧');
+		expect(retRuby).toBe('.%.｜.《xxx》');
 	});
-it('test_putTxt_sp_grp14',()=> {
-	rbSpl.putTxt("｜ケセラセラ《Que%20Sera,%20Sera》");
-	expect(retText).toBe(".ケセラセラ");
-	expect(retRuby).toBe(".Que Sera, Sera");
+it('test_putTxt_sp_URLUnEsc03',()=> {
+	rbSpl.putTxt('｜ケセラセラ《Que%20Sera,%20Sera》');
+	expect(retText).toBe('.ケセラセラ');
+	expect(retRuby).toBe('.Que Sera, Sera');
 });
-	it('test_putTxt_sp_grp14_b',()=> {
-		rbSpl.putTxt("｜ケセラセラ《Que%20Sera,%20Sera》");
-		expect(retText).toBe(".ケセラセラ");
-		expect(retRuby).toBe(".Que Sera, Sera");
+	it('test_putTxt_sp_URLUnEsc04',()=> {
+		rbSpl.putTxt('｜ケセラセラ《Que%20Sera,%20Sera》');
+		expect(retText).toBe('.ケセラセラ');
+		expect(retRuby).toBe('.Que Sera, Sera');
 	});
 /*
 it('test_putTxt_sp_grp13',()=> {
@@ -577,6 +577,27 @@ it('test_putTxt_sp_grp13',()=> {
 });
 // まぁいらんか、やめとこ。特殊な文字が増えるし
 */
+	it('test_putTxt_sp_URLUnEsc05',()=> {
+		rbSpl.putTxt('　一期一会《いち ご%20 いち %20え》');
+		expect(retText).toBe('.　.一.期.一.会');
+		expect(retRuby).toBe('..いち.ご .いち. え');
+	});
+it('test_putTxt_sp_URLUnEsc06',()=> {
+	rbSpl.putTxt('｜%E8%9C%8A%E3%80%8A《%E3%80%8A%EF%BD%9C%E3%80%8B》');
+	expect(retText).toBe('.蜊《');
+	expect(retRuby).toBe('.《｜》');
+});
+it('test_putTxt_sp_URLUnEsc07',()=> {
+	rbSpl.putTxt('｜　%20%2520《*》');
+	expect(retText).toBe('.　. .%.2.0');
+	expect(retRuby).toBe('.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ');
+});
+	it('test_putTxt_sp_URLUnEsc08',()=> {
+		rbSpl.putTxt('｜%5B%26%5D《%5B%26%20%5D》');
+		expect(retText).toBe('.[&]');
+		expect(retRuby).toBe('.[& ]');
+	});
+
 
 it('test_putTxt_sp_grp15',()=> {
 	rbSpl.putTxt(`｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》`);

@@ -15,6 +15,7 @@ import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
 import {LayerMng, IMakeDesignCast} from './LayerMng';
 import {SysBase} from './SysBase';
+import {DebugMng} from './DebugMng';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
 
@@ -189,9 +190,20 @@ export class TxtLayer extends Layer {
 	// 文字表示
 	#txs	= new TxtStage(this.spLay, ()=> this.canFocus(), TxtLayer.#sys);
 
-	#rbSpl	= new RubySpliter;
+	readonly	#rbSpl	= new RubySpliter;
+	readonly	#htmRb	= document.createElement('span');// cssチェック・保存用
+	static	readonly	#hWarnR_Style = {
+		'text-align'		: 0,
+		'text-align-last'	: 0,
+		'height'	: 0,
+		'width'		: 0,
+		'padding-left'		: 0,
+		'padding-right'		: 0,
+		'padding-top'		: 0,
+		'padding-bottom'	: 0,
+	};
 
-	#cntBtn	= new Container;
+	readonly	#cntBtn	= new Container;
 
 	constructor() {
 		super();
@@ -243,6 +255,25 @@ export class TxtLayer extends Layer {
 			? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
 			: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
 		if (CmnLib.isFirefox) this.mkStyle_r_align = this.#mkStyle_r_align4ff;
+
+		if ('r_style' in hArg) {
+			if (hArg.r_style) {
+				const cln = document.createElement('span');
+				cln.style.cssText = hArg.r_style;
+				const len = cln.style.length;
+				const s = this.#htmRb.style;
+				for (let i=0; i<len; ++i) {
+					const key: any = cln.style[i];
+					if (key in TxtLayer.#hWarnR_Style) {
+						DebugMng.myTrace(`${key}は指定できません`, 'W');
+						continue;
+					}
+					s[key] = cln.style[key];
+				}
+	//			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.spLay.alpha);
+			}
+			else this.#htmRb.style.cssText = '';
+		}
 
 		if ('alpha' in hArg) this.#cntBtn.children.forEach(e=> e.alpha = this.spLay.alpha);
 
@@ -396,11 +427,11 @@ export class TxtLayer extends Layer {
 
 	isCur	= false;
 	#ruby_pd: (v: string, l: number)=> string = ()=> '';
-	private	mkStyle_r_align(ch: string, rb: string, r_align: string): string {
-		if (! r_align) return '';
+	private	mkStyle_r_align(ch: string, rb: string, r_align: string, add_sty=''): string {
+		if (! r_align) return ` style='${add_sty}'`;
 
 		const len = ch.length *2;
-		if (len -rb.length < 0) return ` style='text-align: ${r_align};'`;
+		if (len -rb.length < 0) return ` style='text-align: ${r_align}; ${add_sty}'`;
 
 		let st = '';
 		switch (r_align) {
@@ -415,14 +446,14 @@ export class TxtLayer extends Layer {
 		default:
 			st = `text-align: ${r_align};`;
 		}
-		return ` style='${st}'`;
+		return ` style='${st} ${add_sty}'`;
 	};
 	#r_align	= '';
-	#mkStyle_r_align4ff(ch: string, rb: string, r_align: string): string {
-		if (! r_align) return '';
+	#mkStyle_r_align4ff(ch: string, rb: string, r_align: string, add_sty=''): string {
+		if (! r_align) return ` style='${add_sty}'`;
 
 		const len = ch.length *2;
-		if (len -rb.length < 0) return ` style='text-align: ${r_align};'`;
+		if (len -rb.length < 0) return ` style='text-align: ${r_align}; ${add_sty}'`;
 
 		let st = '';
 		switch (r_align) {
@@ -446,7 +477,7 @@ export class TxtLayer extends Layer {
 				break;
 			default:		st = `text-align: ${r_align};`;
 		}
-		return ` style='${st}'`;
+		return ` style='${st} ${add_sty}'`;
 	}
 
 	tagCh(text: string): void {this.#rbSpl.putTxt(text);}
@@ -456,7 +487,8 @@ export class TxtLayer extends Layer {
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
-		const [a0, a1] = a_ruby;
+		const [a0, ...a1_] = a_ruby;
+		const a1 = a1_.join('｜');
 		switch (a_ruby.length) {
 		case 1:		// 字or春《はる》
 			this.#needGoTxt = true;
@@ -475,7 +507,7 @@ export class TxtLayer extends Layer {
 			add_htm = this.#tagCh_sub(ch, ruby, this.#r_align);
 			break;
 
-		case 2:		// 《grp｜{"id":"break","pic":"breakline"}》
+		default:	// 《grp｜{"id":"break","pic":"breakline"}》
 			switch (a0) {	// ルビ揃え指定と同時シリーズ
 			case 'start':	// 初期値
 			case 'left':	//（肩付き）先頭親文字から、ルビ間は密着
@@ -515,13 +547,12 @@ export class TxtLayer extends Layer {
 			}	return;	// breakではない
 
 			case 'add':{	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
-				const o = JSON.parse(a1);	// [span]内[tcy]などに影響
-				const {cl, sty} = this.#o2domArg(true, o.wait);
-				this.#aSpan.push(`<span${cl} style='display: inline;${
-					this.#stkASpan.at(-1)?.o.style ?? ''
-				}${o.style ?? ''}${sty}'>`);	// "を"にしてはいけない
+				const o = JSON.parse(a1);
+				const {style='', wait=0} = o;
+				const {cl, sty} = this.#o2domArg(true, wait);
+				this.#aSpan.push(`<span${cl} style='${sty} display: inline; ${style}'>`);	// display: inline; がないと前の改行が改行しなくなる
 				delete o.style;
-				this.#pushSpan(o);	// 先頭文字と一緒に出す。#cumDelayは触らない
+				this.#pushSpan(o);
 			}	return;	// breakではない
 			case 'add_close':
 				this.#aSpan.push('</span>');
@@ -532,18 +563,24 @@ export class TxtLayer extends Layer {
 				this.#needGoTxt = true;
 			{
 				const o = JSON.parse(a1);
-				o.delay = this.#cumDelay;
 				o.id ??= this.#aSpan.length;
 				if (o.id === 'break') {this.#txs.dispBreak(o.pic); return;}
 					// breakではない
 
+				this.#firstCh = false;
+				o.delay = this.#cumDelay;	// 画像のスライドインで使う
+				o.r ??= '';
 				o.style ??= '';
+				o.r_style ??= '';
 				const {cl, sty, lnk} = this.#o2domArg(true, o.wait);
-				add_htm = `<span data-cmd='grp' data-id='${o.id}'${cl} style='${sty} ${o.style ?? ''}'${lnk} data-arg='${JSON.stringify(o)}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>　</span>`;
-				if (this.#firstCh) {// １文字目にルビが無い場合、不可視ルビで行揃え
-					this.#firstCh = false;
-					add_htm = `<ruby>${add_htm}<rt>　</rt></ruby>`;
-				}
+				add_htm = `<span${cl} style='${sty} ${o.style
+				}'><ruby><span data-cmd='grp' data-arg='${JSON.stringify(o)
+				}'${lnk} style='${sty} display: inline;'>　</span><rt${lnk}${
+					this.mkStyle_r_align('　', o.r, this.#r_align,
+					this.#htmRb.style.cssText	// この並びで上書きされていく
+					+ (this.#stkASpan.at(-1)?.o.r_style ?? '')
+					+ o.r_style)
+				}>${o.r}</rt></ruby></span>`;
 			}
 				break;
 
@@ -554,22 +591,27 @@ export class TxtLayer extends Layer {
 				if (TxtLayer.#val.doRecLog()) this.#page_text += ch
 				+(ruby ?`《${ruby}》` :'');
 
-				const o = JSON.parse(a1);
-				const {t, r=''} = o;
+				const {t, r='', wait=null, style='', r_style=''} = <{
+					t: string, r?: string, wait? :number,
+					style? :string, r_style? :string,
+				}>JSON.parse(a1);
 				const rb = CmnLib.isSafari
-					? (<string>r).replace(/[A-Za-z0-9]/g, s=> String.fromCharCode(s.charCodeAt(0) + 65248))
+					? r.replaceAll(/[A-Za-z0-9]/g, s=> String.fromCharCode(s.charCodeAt(0) + 65248))
 						// 英数字を全角に(Safariで縦中横ルビが半角文字だと、
 						// 選択矩形が横倒しになる不具合対策)
 					: r;
-				const rs = this.mkStyle_r_align(t, rb, this.#r_align);
-				const {cl, sty, lnk} = this.#o2domArg(true, o.wait);
+				const {cl, sty, lnk} = this.#o2domArg(true, wait);
 					// text-combine-upright: all;			縦中横
 					// -webkit-text-combine: horizontal;	縦中横(Safari)
-				add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(t)} ${o.style ?? ''}'${lnk}><ruby><span style='
+				add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(t)
+				} ${style}'><ruby><span${lnk} style='${sty} display: inline;
 text-combine-upright: all;
--webkit-text-combine: horizontal;
-				' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'>${t}</span>
-				<rt${rs}>${rb}</rt></ruby></span>`;
+-webkit-text-combine: horizontal;'>${t}</span><rt${lnk}${
+					this.mkStyle_r_align(t, rb, this.#r_align,
+					this.#htmRb.style.cssText	// この並びで上書きされていく
+					+ (this.#stkASpan.at(-1)?.o.r_style ?? '')
+					+ r_style)
+				}>${rb}</rt></ruby></span>`;
 			}
 				break;
 
@@ -578,23 +620,21 @@ text-combine-upright: all;
 				return;	// breakではない
 
 			case 'span':
-				this.#popSpan();
 				this.#needGoTxt = true;
-			{
-				const o = JSON.parse(a1);
-				if (o.style) this.#pushSpan(o);
-			}	return;	// breakではない
+				this.#mergePushSpan(JSON.parse(a1));
+				return;	// breakではない
 
 			case 'link':
-				this.#popSpan();
 				this.#needGoTxt = true;
 			{
 				const o = JSON.parse(a1);
 				o[':link'] = ` data-lnk='@'`;
-				const {cl, sty} = this.#o2domArg(false, o.wait);
-				this.#aSpan.push(`<span data-arg='${a1}'${cl} style='display: inline; ${sty} ${o.style ?? ''}' data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'}>`);
+				const {cl, sty, curpos} = this.#o2domArg(false, o.wait);
+				this.#aSpan.push(`<span${cl} style='${sty} display: inline; ${o.style ?? ''}' ${curpos} data-arg='${a1}'>`);
+					// display: inline; を削除するとルビもリンク背景に含まれる
+					// ただし当たり判定は文字・ルビ上のみ
 				delete o.style;
-				this.#pushSpan(o);	// 先頭文字と一緒に出す。#cumDelayは触らない
+				this.#mergePushSpan(o);
 			}	return;	// breakではない
 
 			case 'endlink':
@@ -614,20 +654,21 @@ text-combine-upright: all;
 	#tagCh_sub(ch: string, rb: string, r_align: string): string {
 		const ht = ch === ' ' ?'&nbsp;' :ch;
 		if (TxtLayer.#val.doRecLog()) this.#page_text += ht +(rb ?`《${rb}》` :'');
-
 		const {cl, sty, lnk} = this.#o2domArg(true, null, ch);
-		const curpos = `${lnk} data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
-		return `<span${cl} style='${this.#fncFFSStyle(ch)}${sty}'${rb
-			// ルビあり
-			? `><ruby${curpos}>${
-				Array.from(ch).map((c, i)=> `<span${cl} style='${
-					(i > 0) ? this.#o2domArg(true, null, ch).sty :sty
-				} display: inline;'>${c === ' ' ?'&nbsp;' :c}</span>`)
-				.join('')
-			}<rt${this.mkStyle_r_align(ch, rb, r_align)}>${rb}</rt></ruby>`
-			// ルビなし
-			: `${curpos}>${ht}`
-		}</span>`;	// <span>に入れないと崩れる・一文字ずつ出ない
+
+		if (rb) return `<span${cl} style='${sty} ${this.#fncFFSStyle(ch)
+		//<ruby style='ruby-position:under;'>	// 下付ルビ
+		}'><ruby>${	// 文字個別に出現させるため以下にも ${cl} が必要
+			Array.from(ch).map((c, i)=> `<span${cl}${lnk} style='${
+				i > 0 ?this.#o2domArg(true, null, ch).sty :sty
+			} display: inline;'>${c===' ' ?'&nbsp;' :c}</span>`).join('')
+				// display: inline; がないと[span]区間外のルビが浮く
+		}<rt${lnk}${this.mkStyle_r_align(ch, rb, r_align,
+			this.#htmRb.style.cssText	// この並びで上書きされていく
+			+ (this.#stkASpan.at(-1)?.o.r_style ?? ''))
+		}>${rb}</rt></ruby></span>`;	// <span>に入れないと崩れ一文字ずつ出ない
+
+		return `<span${cl} style='${sty} ${this.#fncFFSStyle(ch)}'${lnk}>${ht}</span>`;
 	}
 	#o2domArg(isAddWait: boolean, argWait: number | null, ch = '\n') {
 		const wait = this.#ch_in_join ?(argWait
@@ -636,15 +677,19 @@ text-combine-upright: all;
 				? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
 				: LayerMng.msecChWait)) :0;
 		if (TxtLayer.#evtMng.isSkippingByKeyDown()) this.#cumDelay = 0;
+	//	else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait)*5;	// 出現視認テスト用
 		else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait);
+		const curpos = `data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
+
 		return {
 			cl	: ` class='sn_ch${
 				wait > 0 ?` sn_ch_in_${this.#$ch_in_style}` :''
 			}'`,	// TxtStage.goTxt()はこれ単位で文字出現させる
 			sty	: `animation-delay: ${this.#cumDelay}ms;${
-				this.#stkASpan.at(-1)?.o?.style ?? ''
+				this.#stkASpan.at(-1)?.o.style ?? ''
 			}`,		// TxtStage.goTxt()はこれ単位で文字出現させる
-			lnk	: this.#stkASpan.at(0)?.o[':link'] ?? '',
+			lnk	: (this.#stkASpan.at(0)?.o[':link'] ?? '')+' '+ curpos,
+			curpos,
 		};
 	}
 	#cumDelay	= 0;
@@ -653,6 +698,7 @@ text-combine-upright: all;
 	#stkASpan	: {
 		o		: {
 			style?		: string;
+			r_style?	: string;
 			':link'?	: string;
 			wait?		: number;
 		};
@@ -679,6 +725,17 @@ text-combine-upright: all;
 		this.#r_align = stk.r_align;
 		this.#set_ch_in({in_style: stk.ch_in_style});
 		this.#set_ch_out({out_style: stk.ch_out_style});
+	}
+	#mergePushSpan(o :any) {
+		const stk = this.#stkASpan.at(-1);
+		if (! stk) {this.#pushSpan(o); return;}
+
+		stk.o = {...stk.o, ...o};
+		if (! o.style && ! o.r_style) {stk.o.style = ''; stk.o.r_style = ''}
+			// どちらも指定されてなければクリア
+		if ('r_align' in o) this.#r_align = o.r_align;
+		this.#set_ch_in(o);
+		this.#set_ch_out(o);
 	}
 
 	readonly click = ()=> {	// true: 文字出現中だったので、停止する
@@ -724,7 +781,9 @@ text-combine-upright: all;
 	}
 	override readonly record = ()=> {return <any>{...super.record(),
 		enabled	: this.enabled,
-		r_align	: this.#r_align,
+
+		r_cssText	: this.#htmRb.style.cssText,
+		r_align		: this.#r_align,
 
 		// バック
 		b_do	: (this.#b_do === undefined)
@@ -743,7 +802,10 @@ text-combine-upright: all;
 	}};
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
+
 		this.enabled	= hLay.enabled;
+
+		this.#htmRb.style.cssText = hLay.r_cssText;
 		this.#r_align	= hLay.r_align;
 		this.cvsResize();
 

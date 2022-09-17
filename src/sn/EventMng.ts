@@ -401,7 +401,12 @@ export class EventMng implements IEvtMng {
 		const hv = ()=> {onHint(); return hover();};
 		ctnBtn.on('pointerover', hv);
 		ctnBtn.on('pointerout', ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()});
-		ctnBtn.on('pointerdown', clicked);
+		ctnBtn.on('pointerdown', ()=> {
+			this.#elmHint.hidden = true;
+			const f = this.#fcs.getFocus();
+			clicked();
+			if (f instanceof Button) f.normal();// 旧フォーカスボタンを通常状態に
+		});
 		ctnBtn.on('pointerup', CmnLib.isMobile
 			? nr
 			: ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()}

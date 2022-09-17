@@ -73,6 +73,10 @@ export declare type HArg = {
     style?: string;
     style_hover?: string;
     style_clicked?: string;
+    r_style?: string;
+    r_style_hover?: string;
+    r_style_clicked?: string;
+    r_align?: string;
     b_width?: string;
     b_height?: string;
     b_color?: string;
@@ -80,7 +84,6 @@ export declare type HArg = {
     b_alpha_isfixed?: boolean;
     b_pic?: string;
     back_clear?: string;
-    r_align?: string;
     max_col?: string;
     max_row?: string;
     bura_col?: string;
@@ -93,7 +96,6 @@ export declare type HArg = {
     breakout?: Function;
     arg?: HArg;
     fnc?: (e: Event) => void;
-    fold?: boolean;
     filter?: string;
     ease?: string;
     canskip?: boolean;

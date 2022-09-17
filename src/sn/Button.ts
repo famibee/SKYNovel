@@ -45,7 +45,7 @@ export class Button extends Container {
 	#idc		: DesignCast;
 	#sp_b_pic	: Sprite | undefined = undefined;
 	#sp_pic		: Sprite | undefined = undefined;
-	constructor(private readonly hArg: HArg, private readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
+	constructor(private readonly hArg: HArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 
 		if (CmnLib.isDbg) {
@@ -65,19 +65,19 @@ export class Button extends Container {
 			scale_y: this.scale.y = argChk_Num(hArg, 'scale_y', this.scale.y),
 			width: 0, height: 0,
 		};
-		const enabled = oName.enabled = argChk_Boolean(hArg, 'enabled', true);
 		this.getBtnBounds = ()=> {
 			this.#rctBtnTxt.x = oName.x;
 			this.#rctBtnTxt.y = oName.y;
 			return this.#rctBtnTxt;
 		};
 
+		const enabled = oName.enabled = argChk_Boolean(hArg, 'enabled', true);
+		if (enabled) evtMng.button(this.hArg, this, ()=> this.normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
+
 		// == 画像から生成
 		if (hArg.pic) {
 			oName.type = 'pic';	// dump用
 			this.#idc = new PicBtnDesignCast(this, hArg);
-
-			if (enabled) this.evtMng.button(this.hArg, this, ()=> this.#normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
 
 			GrpLayer.csv2Sprites(
 				hArg.pic,
@@ -177,11 +177,13 @@ export class Button extends Container {
 		}
 		else style_clicked.dropShadow = false;
 
-		evtMng.button(hArg, this, ()=> txt.style = style, ()=> {
+		this.normal = ()=> txt.style = style;
+		this.#hover = ()=> {
 			if (! canFocus()) return false;
 			txt.style = style_hover;
 			return true;
-		}, ()=> txt.style = style_clicked);
+		};
+		this.#clicked = ()=> txt.style = style_clicked;
 
 		if (! isStop) resolve();
 	}
@@ -237,7 +239,7 @@ export class Button extends Container {
 			()=> Layer.setBlendmode(this, this.hArg),
 		);
 	}
-	#normal		: ()=> void		= ()=> {};
+	normal		: ()=> void		= ()=> {};
 	#hover		: ()=> boolean	= ()=> false;
 	#clicked	: ()=> void		= ()=> {};
 	#loaded_pic(sp: Sprite, oName: any) {
@@ -254,7 +256,7 @@ export class Button extends Container {
 		const normal = ()=> sp.texture = txNormal;
 		normal();
 
-		this.#normal	= normal;
+		this.normal	= normal;
 		this.#hover		= ()=> {
 			if (! this.canFocus()) return false;
 			sp.texture = txHover;

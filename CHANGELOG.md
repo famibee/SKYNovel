@@ -1,3 +1,20 @@
+- feat: [lay][span][ch][tcy][graph][ruby2]に属性 r_style 追加。ルビの style を指定。
+	- 未指定時、文字色などは style属性 にならう
+- feat: [link]に属性 r_style, r_style_hover, r_style_clicked 追加
+- feat: [tcy][ruby2]に属性 style 追加
+- feat: [lay][span]の属性 style・r_style で空文字【''など】を渡すとクリアできるように
+- BREAKING CHANGE: [span][link]の style, r_style 属性設定を次の[link]でクリアしないように
+- BREAKING CHANGE: [ch] style 属性による背景指定が文字個別になるように
+	- 以前は text属性で一塊として背景指定されていた
+- fix: [lay]の属性 style で指定を禁止している CSS について警告が出ていなかった件
+- fix: [link]区間の縦中横[tcy]がフォーカスに反応しない件
+- fix: [graph]の r属性が利かなかったのを修正
+- fix: [ch][graph][link][ruby2][span][tcy]の属性にルビ記法の特殊文字「｜《》」が含まれていると不具合になる件
+- fix: 禁則処理である文字の前の文字を調べる際、ルビ文字の末尾を見ていた件
+- fix: [button]のフォーカス関連修正
+- fix: 文字表示周り手直し、リファクタリングなど
+
+
 ## [1.34.1](https://github.com/famibee/SKYNovel/compare/v1.34.0...v1.34.1) (2022-09-11)
 
 

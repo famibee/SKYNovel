@@ -32,10 +32,6 @@ interface IChRect {
 	ch		: string;
 	rect	: Rectangle;
 	elm		: HTMLElement;
-	cmd?	: string;
-	arg?	: string;
-	add?	: string;
-	lnk?	: string;
 }
 interface ISpTw {
 	sp	: Container;
@@ -57,18 +53,6 @@ export class TxtStage extends Container {
 	static setEvtMng(evtMng: IEvtMng) {TxtStage.#evtMng = evtMng;}
 
 	static	destroy() {
-		TxtStage.#hWarning = {
-			backgroundColor	: 0,
-			borderBottomWidth: 0,
-			borderLeftWidth	: 0,
-			borderRightWidth: 0,
-			borderTopWidth	: 0,
-			marginBottom	: 0,
-			marginLeft		: 0,
-			marginRight		: 0,
-			marginTop		: 0,
-		};
-
 		TxtStage.#hChInStyle	= Object.create(null);
 		TxtStage.#hChOutStyle	= Object.create(null);
 
@@ -79,6 +63,17 @@ export class TxtStage extends Container {
 				#htmTxt	= document.createElement('span');	// サンプリング元
 	readonly	#cntTxt			= new Container;			// サンプリング先
 	readonly	#grpDbgMasume	= new Graphics;
+	static	readonly	#hWarnStyle = {
+		'background-color'		: 0,
+		'border-bottom-width'	: 0,
+		'border-left-width'		: 0,
+		'border-right-width'	: 0,
+		'border-top-width'		: 0,
+		'margin-bottom'	: 0,
+		'margin-left'	: 0,
+		'margin-right'	: 0,
+		'margin-top'	: 0,
+	};
 
 	readonly	#idc	= new TxtLayDesignCast(this.spLay, this);
 	readonly	#idcCh	= new TxtLayPadDesignCast(this);
@@ -110,19 +105,22 @@ export class TxtStage extends Container {
 
 	lay(hArg: HArg) {
 		const s = this.#htmTxt.style;
-		if (hArg.style) {
-			const cln = document.createElement('span');
-			cln.style.cssText = hArg.style;
-			const len = cln.style.length;
-			for (let i=0; i<len; ++i) {
-				const key: any = cln.style[i];
-				if (key in TxtStage.#hWarning) {
-					DebugMng.myTrace(`${key}は指定できません`, 'W');
-					continue;
+		if ('style' in hArg) {
+			if (hArg.style) {
+				const cln = document.createElement('span');
+				cln.style.cssText = hArg.style;
+				const len = cln.style.length;
+				for (let i=0; i<len; ++i) {
+					const key: any = cln.style[i];
+					if (key in TxtStage.#hWarnStyle) {
+						DebugMng.myTrace(`${key}は指定できません`, 'W');
+						continue;
+					}
+					s[key] = cln.style[key];
 				}
-				s[key] = cln.style[key];
+				if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.spLay.alpha);
 			}
-			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.spLay.alpha);
+			else this.#htmTxt.style.cssText = '';
 		}
 		else if ('alpha' in hArg) s.opacity = String(this.spLay.alpha);
 
@@ -199,9 +197,10 @@ export class TxtStage extends Container {
 	}
 	cvsResize() {
 		const s = this.#htmTxt.style;
-		s.left = `${this.sys.ofsLeft4elm +this.#left *this.sys.cvsScale}px`;
-		s.top = `${this.sys.ofsTop4elm +this.spLay.position.y *this.sys.cvsScale}px`;
-		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *this.sys.cvsScale}, ${this.spLay.scale.y *this.sys.cvsScale})`;
+		const cvsScale = this.sys.cvsScale;
+		s.left = `${this.sys.ofsLeft4elm +this.#left *cvsScale}px`;
+		s.top = `${this.sys.ofsTop4elm +this.spLay.position.y *cvsScale}px`;
+		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *cvsScale}, ${this.spLay.scale.y *cvsScale})`;
 
 		this.#idc.cvsResize();
 		this.#idcCh.cvsResize();
@@ -222,17 +221,6 @@ export class TxtStage extends Container {
 		this.#htmTxt.style.width = this.#infTL.$width +'px';
 		this.#htmTxt.style.height = this.#infTL.$height +'px';
 	}
-	static	#hWarning = {
-		backgroundColor	: 0,
-		borderBottomWidth: 0,
-		borderLeftWidth	: 0,
-		borderRightWidth: 0,
-		borderTopWidth	: 0,
-		marginBottom	: 0,
-		marginLeft		: 0,
-		marginRight		: 0,
-		marginTop		: 0,
-	};
 
 
 	#htm2tx(fnc: (tx2: any)=> void, hidden = true) {
@@ -617,43 +605,52 @@ export class TxtStage extends Container {
 			// [r]は<br/>になってるので問題なし
 		this.#lenHtmTxt = aSpan.length;
 
+		// this.#getChRects()使用準備
+		const cvsScale = this.sys.cvsScale;
+		const bcr = this.#htmTxt.getBoundingClientRect();
+		const sx = bcr.left +this.#infTL.pad_left;
+		const sy = bcr.top +this.#infTL.pad_top;
+		let cnvRect :(dr: DOMRect, ch: string)=> Rectangle;
+		if (cvsScale === 1) cnvRect = (r, ch)=> new Rectangle(
+			r.left -sx,
+			r.top  -sy,
+			r.width,
+			r.height +('gjqy'.includes(ch) ?this.#lh_half :0)
+		);
+		else {
+			// Resizeを意識してDOM位置をPIXIに変換
+			// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響大
+			const ox = this.sys.ofsPadLeft_Dom2PIXI +bcr.left *(1- cvsScale);
+			const oy = this.sys.ofsPadTop_Dom2PIXI +bcr.top *(1- cvsScale);
+			cnvRect = (r, ch)=> new Rectangle(
+				(r.left -ox) /cvsScale -sx,
+				(r.top  -oy) /cvsScale -sy,
+				r.width /cvsScale,
+				(r.height +('gjqy'.includes(ch) ?this.#lh_half :0)) /cvsScale,
+			);
+		}
+
 		let len = 0;
 		let j = 2;	// 本来 1 だがひと文字目の行頭禁則文字を無視したいので
-	//	let j_start = 0;
+		let needLoop = false;
 		do {
-			const e = this.#aRect = this.#getChRects(this.#htmTxt);
-			len = e.length;
-			if (this.sys.cvsScale !== 1) {
-				// Resizeを意識してDOM位置をPIXIに変換
-				// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響が大きい
-				const ox = this.sys.ofsPadLeft_Dom2PIXI
-					+ parseFloat(this.#htmTxt.style.left)
-						*(1- this.sys.cvsScale);
-				const oy = this.sys.ofsPadTop_Dom2PIXI
-					+ parseFloat(this.#htmTxt.style.top)
-						*(1- this.sys.cvsScale);
-				for (let i=0; i<len; ++i) {
-					const r = e[i].rect;
-					r.x -= ox;
-					r.y -= oy;	// 次行と前後関係固定で
-					r.x /= this.sys.cvsScale;
-					r.y /= this.sys.cvsScale;
-					r.width  /= this.sys.cvsScale;
-					r.height /= this.sys.cvsScale;
-				}
-			}
-			if (len < 2) break;
+			const a = this.#aRect = this.#getChRects(this.#htmTxt, cnvRect);
+			len = a.length;
+			if (! needLoop &&
+				(len < 2 || begin === len)) break;	// === は右クリック戻りで起こる
+			needLoop = true;
 
 			// 禁則処理判定ループ
 			let sl_xy = -Infinity;
 			for (; j<len; ++j) {
-				const he = e[j];
-				if (he.elm.outerHTML.slice(0, 3) === '<rt') continue;
+				const c = a[j];
+				if (c.elm.tagName === 'RT') continue;	// ルビはスキップ
 
-				const xy = this.tategaki ?he.rect.y :he.rect.x;
-//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${he.ch}: he:%o`, he);
+				const xy = this.tategaki ?c.rect.y :c.rect.x;
+//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${c.ch}: he:%o`, c);
+//if (c.ch === '　' || c.ch === '4') console.log(`fn:TxtStage.ts line:652 === ch:${c.ch}: rect:${c.rect}`);
 				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
-				|| he.elm.previousElementSibling?.children[0]?.tagName
+				|| c.elm.previousElementSibling?.children[0]?.tagName
 					=== 'BR'		// [r]による改行後は追い出し処理をしないように
 					) {sl_xy = xy; continue;}
 /*
@@ -662,42 +659,50 @@ export class TxtStage extends Container {
 		<br>
 	​</span>​
 
-	// ここによる自動改行はこう
+	// 禁則処理による自動改行はこう
 	<br>
 */
-				sl_xy = -Infinity;	// 改行発生！
 
-//console.log(`=== 改行発生！`);
+				let idxPrevCh = j -1;
+				while (a[idxPrevCh].elm.tagName === 'RT') --idxPrevCh;
+				const chPrev = a[idxPrevCh].ch;
+//console.log(`🎴 === 自動改行発生！　前文字:${chPrev}: 今文字:${c.ch}:`);
+				sl_xy = -Infinity;	// 自動改行発生！
 				const oldJ = j;
 				// 追い出し
-				if (TxtStage.#reg分割禁止.test(e[j -1].ch)
-				&& (e[j -1].ch === he.ch)) {
-//console.log(`🎴追い出し（分割禁止）ch:${he.ch}`);
-					--j;
+				if (TxtStage.#reg分割禁止.test(chPrev)
+				&& (chPrev === c.ch)) {
+//console.log(`🎴追い出し（分割禁止）ch:${c.ch}`);
+					j = idxPrevCh;
 				}
 				else {
-					if (TxtStage.#reg行末禁則.test(e[j -1].ch)) {
-//console.log(`🎴追い出し（行末禁則）前ch:${e[j -1].ch}`);
-						--j;
+					if (TxtStage.#reg行末禁則.test(chPrev)) {
+//console.log(`🎴追い出し（行末禁則）前ch:${chPrev}`);
+						j = idxPrevCh;
 					}
-					else if (TxtStage.#reg行頭禁則.test(he.ch)) {
-//console.log(`🎴追い出し（行頭禁則 A）前ch:${he.ch}`);
-						while (j > 0 && TxtStage.#reg行頭禁則.test(e[--j].ch)) {
-//console.log(`🎴　　　　（行頭禁則 A）前ch:${e[j].ch}`);
+					else if (TxtStage.#reg行頭禁則.test(c.ch)) {
+//console.log(`🎴追い出し（行頭禁則 A）前ch:${c.ch}`);
+						j = idxPrevCh +1;
+						while (j > 0 && TxtStage.#reg行頭禁則.test(a[--j].ch)) {
+//console.log(`🎴　　　　（行頭禁則 A）前ch:${a[j].ch}`);
 						}
 					}
-					else continue;	// 追い出しなし
+					else {
+//console.log(`🎴追い出しなし`);
+						++j;
+						continue;	// 追い出しなし
+//	len = -1;	// doループ先頭に戻る
+//	break;
+					}
 
-					while (j > 0 && TxtStage.#reg行末禁則.test(e[j -1].ch)) {
-//console.log(`🎴追い出し（行末禁則 B）前ch:${e[j -1].ch}`);
-						--j;
+					j = idxPrevCh +1;
+					while (j > 0 && TxtStage.#reg行末禁則.test(a[--j].ch)) {
+//console.log(`🎴追い出し（行末禁則 B）前ch:${a[j].ch}`);
 					}
 				}
-				const pal = e[j].elm.parentElement!;
-			//	const br = document.createElement('span'); br.innerHTML = '＠';
+				const pal = a[j].elm.parentElement!;
 				const br = document.createElement('br');
-				if (pal.classList.contains('sn_tx')) pal.insertBefore(br, e[j].elm);
-				else {
+				if (pal.classList.contains('sn_tx')) pal.insertBefore(br, a[j].elm); else {
 					const ppal = pal.parentElement!;
 					if (ppal.classList.contains('sn_ch')) {
 						ppal.parentElement!.insertBefore(br, ppal);
@@ -705,24 +710,7 @@ export class TxtStage extends Container {
 					else ppal.insertBefore(br, pal);
 				}
 
-				// TODO: 追い出し＋前行を均等割付
-/*				//=== 前行を<span>で囲むサンプル
-				const line = document.createElement('span');
-				he.elm.parentElement!.insertBefore(line, e[j -1].elm);
-				for (let z=j -2; z>=j_start; --z) {
-					if (! e[z].elm.dataset['add']) continue;
-					line.insertBefore(
-						(e[z].elm.outerHTML.slice(0, 6) === '<ruby ')
-							? e[z].elm.parentElement!
-							: e[z].elm,
-						line.firstChild
-					);
-				}
-				line.insertBefore(document.createElement('br'), null);
-
-				j_start = j;
-*/
-				j += 2;
+				j += 2;	// 次へ行く +1 と、いま追加した<br>のぶん
 				if (j < oldJ) j = oldJ;	// 永久ループ防御
 				len = -1;	// doループ先頭に戻る
 				break;
@@ -745,33 +733,15 @@ export class TxtStage extends Container {
 			: ()=> {};
 		const ease = CmnTween.ease(this.#fi_easing);
 
-		const bcr = this.#htmTxt.getBoundingClientRect();
-		const sx = bcr.left +globalThis.scrollX +this.#infTL.pad_left;
-		const sy = bcr.top +globalThis.scrollY +this.#infTL.pad_top;
-		let rctLastCh = new Rectangle;
 		for (let i=begin; i<len; ++i) {
-			const v = this.#aRect[i];
-			const rct = v.rect;
-			const arg = JSON.parse(v.arg ?? '{"delay": 0}');
-			const add = JSON.parse(v.add ?? '{}');	// data-add はこの為にある
+			const c = this.#aRect[i];
+			const rct = c.rect;
+			const arg = JSON.parse(c.elm.dataset.arg ?? '{"delay": 0}');
+			const add = JSON.parse(c.elm.dataset.add ?? '{}');
 			const cis = TxtStage.#hChInStyle[add.ch_in_style];
-			rct.x -= sx;
-			rct.y -= sy;
-			fncMasume(v, rct);
-			if (cis) {	// !cis はルビ
-				// スマホでインライン画像アスペクト比が変わる対策
-				if (this.#isTategaki) {
-					rct.x += (rct.width -rct.height) /2;
-					rct.width = rct.height;
-				}
-				else {
-					rct.y += (rct.height -rct.width) /2;
-					rct.height = rct.width;
-				}
-				rctLastCh = rct;
-			}
+			fncMasume(c, rct);
 
-			if (v.cmd === 'grp') {
+			if (c.elm.dataset.cmd === 'grp') {
 				const cnt = new Container;	// 親コンテナかまし、即spWork()
 				this.#cntTxt.addChild(cnt);
 					// 次のcsv2Spritesが即終わる場合もあるので先に行なう
@@ -780,8 +750,8 @@ export class TxtStage extends Container {
 					if (! cnt.parent) cnt.removeChild(sp);
 				});
 			}
-			if (v.lnk) {
-				const eCh = v.elm.parentElement!.closest('[data-arg]')! as HTMLElement;
+			if (c.elm.dataset.lnk) {
+				const eCh = c.elm.parentElement!.closest('[data-arg]')! as HTMLElement;
 				const aLnk = JSON.parse(eCh.dataset.arg ?? '{}');
 				aLnk.key = `lnk=[${i}] `+ this.name;
 				const sp = new Sprite;
@@ -790,21 +760,26 @@ export class TxtStage extends Container {
 				const st_normal = aLnk.style ?? '';
 				const st_hover = st_normal +(aLnk.style_hover ?? '');
 				const st_clicked = st_normal +(aLnk.style_clicked ?? '');
+				const st_r_normal = aLnk.r_style ?? '';
+				const st_r_hover = st_r_normal +(aLnk.r_style_hover ?? '');
+				const st_r_clicked = st_r_normal +(aLnk.r_style_clicked ?? '');
+
+				const nlRt = eCh.querySelectorAll('rt');
+				nlRt.forEach(e=> e.dataset.st_r_bk = e.style.cssText);
 				const st_bk = eCh.style.cssText;
-				const fncStyle = (st: string)=> {
-					if (! st) return;
+				const fncStyle = (st: string, st_r: string)=> {
 					eCh.style.cssText = st_bk + st;
+					nlRt.forEach(e=> e.style.cssText = e.dataset.st_r_bk + st_r);
 				};
-				const cl = eCh.querySelectorAll('.sn_ch');
-				cl.forEach((e: HTMLElement)=> e.dataset.st_bk = e.style.cssText);
+
 				TxtStage.#evtMng.button(aLnk, sp,
-					()=> fncStyle(st_normal),
+					()=> fncStyle(st_normal, st_r_normal),
 					()=> {
 						if (! this.canFocus()) return false;
-						fncStyle(st_hover);
+						fncStyle(st_hover, st_r_hover);
 						return true;
 					},
-					()=> fncStyle(st_clicked)
+					()=> fncStyle(st_clicked, st_r_clicked)
 				);
 				this.#cntTxt.addChild(sp);
 			}
@@ -812,18 +787,10 @@ export class TxtStage extends Container {
 
 		// 文字出現演出・開始〜終了
 		const chs = this.#htmTxt.querySelectorAll('span.sn_ch');
-		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
-
 		this.#fncEndChIn = ()=> {
 			this.#fncEndChIn = ()=> false;
 			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
-			if (begin !== len) {	// === は右クリック戻りで起こる
-				this.#break_fixed_left = rctLastCh.x
-					+(this.#isTategaki ?0 :rctLastCh.width);
-				this.#break_fixed_top = rctLastCh.y
-					+(this.#isTategaki ?rctLastCh.height :0);
-			}
-			TxtStage.#cntBreak.position.set(
+			TxtStage.#cntBreak.position.set(	// len_chs === 0 かもなのでここ
 				this.#break_fixed_left,
 				this.#break_fixed_top,
 			);
@@ -834,23 +801,34 @@ export class TxtStage extends Container {
 		};
 		const len_chs = chs.length;
 		if (len_chs === 0) {this.#fncEndChIn(); return;}
+		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
-		let le = undefined;
-		for (let i=len_chs -1; i>=0; --i) {
-			const v = chs[i];
-			if (v.className === 'sn_ch') break;	// 表示済みのみ
-			const st = v.getAttribute('style');
-			if (! st) {le = v; break;}
-			const m = st.match(this.#REGDS);
-			const g = m?.groups;
-			if (! g || Number(g.ms) > 0) {le = v; break;}
-		}
-		if (! le) {this.#fncEndChIn(); return;}
+		let lastElm = undefined;
+		for (let i=len -1; i>=0; --i) {
+			const c = this.#aRect[i];
+			if (c.elm.tagName !== 'SPAN') continue;	// ルビ以外
 
-		le.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
+			const r = c.rect;
+			this.#break_fixed_left = r.x +(this.#isTategaki ?0 :r.width);
+			this.#break_fixed_top = r.y +(this.#isTategaki ?r.height :0);
+			if (i !== len) {	// ルビよりも右・下へ
+				const r2 = this.#aRect[len -1].rect;
+				if (this.#isTategaki) {
+					if (this.#break_fixed_top < r2.y +r2.height)
+						this.#break_fixed_top = r2.y +r2.height;
+				}
+				else if (this.#break_fixed_left < r2.x +r2.width)
+						this.#break_fixed_left = r2.x +r2.width;
+			}
+			lastElm = c.elm;
+			break;
+		}
+		if (! lastElm || begin === len) {this.#fncEndChIn(); return;}
+			// === は右クリック戻りで起こる
+
+		lastElm.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
-	readonly #REGDS = /animation\-duration: (?<ms>\d+)ms;/;
 	#fncEndChIn: ()=> boolean	= ()=> false;
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
@@ -992,12 +970,9 @@ export class TxtStage extends Container {
 	}
 
 	#lh_half	= 0;	// 「g」などで下が欠ける問題対策
-	#getChRects(elm: Node): IChRect[] {	// 注意）再帰関数
-		const ret: any = [];
-		if (elm.nodeType !== elm.TEXT_NODE) {
-			elm.childNodes.forEach(v=> ret.push(this.#getChRects(v)));
-			return ret.flat();
-		}
+	#getChRects(elm: Node, cnvRect :(dr: DOMRect, ch: string)=> Rectangle): IChRect[] {	// 注意）再帰関数
+		const ret: IChRect[] = [];
+		if (elm.nodeType !== elm.TEXT_NODE) return Array.from(elm.childNodes).map(v=> this.#getChRects(v, cnvRect)).flat();
 
 		const range = elm.ownerDocument!.createRange();
 		range.selectNodeContents(elm);
@@ -1009,25 +984,12 @@ export class TxtStage extends Container {
 		while (pos < end) {
 			range.setStart(elm, pos);
 			range.setEnd(elm, ++pos);
-			const r = range.getBoundingClientRect();
-			const pe = range.startContainer.parentElement;
-			if (! pe) throw `fn:TxtStage.ts pe null`;
 			const ch = range.toString();
-			const cr :IChRect = {
+			ret.push({
 				ch,
-				rect: new Rectangle(
-					r.left +globalThis.scrollX,
-					r.top  +globalThis.scrollY,
-					r.width,
-					r.height +('gjqy'.includes(ch) ?this.#lh_half :0)),
-				elm	: pe,
-				cmd	: pe.dataset.cmd,
-				arg	: pe.dataset.arg,
-				add	: pe.dataset.add,
-				lnk	: pe.dataset.lnk,
-			};
-			ret.push(cr);
-			//console.log('ch:%s rect:%o', cr.ch, cr.rect);
+				rect: cnvRect(range.getBoundingClientRect(), ch),
+				elm	: range.startContainer.parentElement!,
+			});
 		}
 		range.detach();
 

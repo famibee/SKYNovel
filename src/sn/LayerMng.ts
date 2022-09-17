@@ -896,7 +896,8 @@ void main(void) {
 		if (this.val.getVal('tmp:sn.skip.enabled')) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 
-		this.#cmdTxt('add｜'+ JSON.stringify(hArg), tl);	// [ch style]用
+		const sArg = encodeURIComponent(JSON.stringify(hArg));
+		this.#cmdTxt('add｜'+ sArg, tl);	// [ch style]用
 
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
@@ -1011,8 +1012,9 @@ void main(void) {
 	#graph(hArg: HArg) {
 		if (! hArg.pic) throw '[graph] picは必須です';
 
-		hArg.text = '｜　《grp｜'+ JSON.stringify(hArg) +'》';
-		return this.#ch(hArg);
+		const sArg = encodeURIComponent(JSON.stringify(hArg));
+		this.#cmdTxt('grp｜'+ sArg, this.#getTxtLayer(hArg));
+		return false;
 	}
 
 	// ハイパーリンク
@@ -1020,7 +1022,8 @@ void main(void) {
 		hArg.style ??= 'background-color: rgba(255,0,0,0.5);';
 		hArg.style_hover ??= 'background-color: rgba(255,0,0,0.9);';
 		hArg.style_clicked ??= hArg.style;
-		this.#cmdTxt('link｜'+ JSON.stringify(hArg), this.#getTxtLayer(hArg));
+		const sArg = encodeURIComponent(JSON.stringify(hArg));
+		this.#cmdTxt('link｜'+ sArg, this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1055,14 +1058,17 @@ void main(void) {
 		if (! t) throw '[ruby2] tは必須です';
 		if (! r) throw '[ruby2] rは必須です';
 
-		hArg.text = '｜'+ t +'《'+ r +'》';
+		hArg.text = '｜'+ encodeURIComponent(t) +'《'+ encodeURIComponent(r) +'》';
+		delete hArg.t;
+		delete hArg.r;
 		return this.#ch(hArg);
 	}
 
 
 	// インラインスタイル設定
 	#span(hArg: HArg) {
-		this.#cmdTxt('span｜'+ JSON.stringify(hArg), this.#getTxtLayer(hArg));
+		const sArg = encodeURIComponent(JSON.stringify(hArg));
+		this.#cmdTxt('span｜'+ sArg, this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1070,8 +1076,9 @@ void main(void) {
 	#tcy(hArg: HArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
 
-		hArg.text = '｜　《tcy｜'+ JSON.stringify(hArg) +'》';
-		return this.#ch(hArg);
+		const sArg = encodeURIComponent(JSON.stringify(hArg));
+		this.#cmdTxt('tcy｜'+ sArg, this.#getTxtLayer(hArg));
+		return false;
 	}
 
 

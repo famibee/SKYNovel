@@ -6,7 +6,7 @@ import { IMakeDesignCast } from './LayerMng';
 export declare class Button extends Container {
     #private;
     private readonly hArg;
-    private readonly evtMng;
+    readonly evtMng: IEvtMng;
     readonly resolve: () => void;
     private readonly canFocus;
     static fontFamily: string;
@@ -20,5 +20,6 @@ export declare class Button extends Container {
     cvsResize(): void;
     update_b_pic(fn: string, txt: Text): void;
     update_pic(fn: string, sp: Sprite): void;
+    normal: () => void;
 }
 //# sourceMappingURL=Button.d.ts.map
