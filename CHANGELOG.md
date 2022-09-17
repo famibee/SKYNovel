@@ -1,3 +1,10 @@
+# [1.35.0](https://github.com/famibee/SKYNovel/compare/v1.34.1...v1.35.0) (2022-09-17)
+
+
+### Features
+
+* [lay][span][ch][tcy][graph][ruby2]に r_style ([c2de19f](https://github.com/famibee/SKYNovel/commit/c2de19f928f259c9d086617a7f19b661244c890c))
+
 - feat: [lay][span][ch][tcy][graph][ruby2]に属性 r_style 追加。ルビの style を指定。
 	- 未指定時、文字色などは style属性 にならう
 - feat: [link]に属性 r_style, r_style_hover, r_style_clicked 追加
