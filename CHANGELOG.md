@@ -1,3 +1,10 @@
+## [1.35.1](https://github.com/famibee/SKYNovel/compare/v1.35.0...v1.35.1) (2022-09-17)
+
+
+### Bug Fixes
+
+* [ch style='background...']が最初から出てしまう件 ([ef091d9](https://github.com/famibee/SKYNovel/commit/ef091d90a11ff87ac2e1240f032e6249c6ae84a6))
+
 - fix: [ch style='background...']が最初から出てしまう件
 - docs: [ch]でのみ、背景styleなどを一塊とする件を明記
 - docs: [graph]から属性 ch_in_style、ch_out_style の記述を削除
