@@ -953,7 +953,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
 	文字の CSS Style を指定する。<br/>
-	このタグによる表示のみに適用、以降は元に戻る
+	このタグによる表示のみに適用、以降は元に戻る。<br/>
+	※[ch]でのみ、背景styleなどを一塊とする。<br/>
+	例）以下は表示が異なる<br/>
+	[span style='background-image: linear-gradient(70deg, tomato 0%, lightskyblue 100%); border-radius: 8px;']SPAN[span]<br/>
+	[ch text='CH' style='background-image: linear-gradient(70deg, tomato 0%, lightskyblue 100%); border-radius: 8px;']
 </td></tr>
 <tr><td>r_style</td><td></td><td>何もしない</td><td>CSS style</td><td>
 	ルビの CSS Style を指定する。<br/>

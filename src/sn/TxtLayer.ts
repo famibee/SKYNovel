@@ -548,10 +548,11 @@ export class TxtLayer extends Layer {
 
 			case 'add':{	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
 				const o = JSON.parse(a1);
-				const {style='', wait=0} = o;
+
+				const {style='', wait=null} = o;// wait=0にすると背景が最初から出る
 				const {cl, sty} = this.#o2domArg(true, wait);
 				this.#aSpan.push(`<span${cl} style='${sty} display: inline; ${style}'>`);	// display: inline; がないと前の改行が改行しなくなる
-				delete o.style;
+				delete o.style;	// 背景styleなどを[ch]で一塊とする
 				this.#pushSpan(o);
 			}	return;	// breakではない
 			case 'add_close':

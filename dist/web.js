@@ -31314,7 +31314,7 @@ const qt = class extends Layer {
               return;
             case "add":
               {
-                const tt = JSON.parse(B), { style: Q = "", wait: nt = 0 } = tt, { cl: et, sty: st } = at(this, ii, Yi).call(this, !0, nt);
+                const tt = JSON.parse(B), { style: Q = "", wait: nt = null } = tt, { cl: et, sty: st } = at(this, ii, Yi).call(this, !0, nt);
                 z(this, ur).push(`<span${et} style='${st} display: inline; ${Q}'>`), delete tt.style, at(this, so, xh).call(this, tt);
               }
               return;

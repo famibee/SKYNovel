@@ -30993,7 +30993,7 @@ const Mt = class extends Rr {
               return;
             case "add":
               {
-                const w = JSON.parse(h), { style: E = "", wait: R = 0 } = w, { cl: T, sty: P } = S(this, as, Za).call(this, !0, R);
+                const w = JSON.parse(h), { style: E = "", wait: R = null } = w, { cl: T, sty: P } = S(this, as, Za).call(this, !0, R);
                 f(this, oi).push(`<span${T} style='${P} display: inline; ${E}'>`), delete w.style, S(this, Of, rb).call(this, w);
               }
               return;

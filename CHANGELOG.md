@@ -1,3 +1,5 @@
+- fix: [ch style='background...']が最初から出てしまう件
+- docs: [ch]でのみ、背景styleなどを一塊とする件を明記
 - docs: [graph]から属性 ch_in_style、ch_out_style の記述を削除
 
 
