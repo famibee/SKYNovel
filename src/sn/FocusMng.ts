@@ -6,6 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib} from './CmnLib';
+import {EventListenerCtn} from './EventListenerCtn';
+
 import {Container} from 'pixi.js';
 
 interface IFocusBtn {
@@ -17,8 +19,9 @@ interface IFocusBtn {
 export class FocusMng {
 	#aBtn	: IFocusBtn[]	= [];
 	#idx					= -1;
+	readonly	#elc		= new EventListenerCtn;
 
-	destroy() {this.#aBtn = []; this.#idx = -1;}
+	destroy() {this.#aBtn = []; this.#idx = -1; this.#elc.clear();}
 
 	add(cmp: Container | HTMLElement, on: ()=> boolean, off: ()=> void) {
 //console.log(`fn:FocusMng.ts line:62 ADD idx:${this.aBtn.length} local:${(cmp as HTMLElement).localName} type:${(cmp as HTMLInputElement).type} cmp:%o`, cmp);
@@ -38,7 +41,7 @@ export class FocusMng {
 			return;
 		}
 
-		cmp.addEventListener('focus', ()=> {
+		this.#elc.add(cmp, 'focus', ()=> {
 			for (let i=this.#aBtn.length -1; i>=0; --i) {
 				const b = this.#aBtn[i];
 				if (b.btn === cmp) {this.#idx = i; return;}
@@ -80,7 +83,7 @@ export class FocusMng {
 				};
 				break;
 		}
-		cmp.addEventListener('keydown', (e: KeyboardEvent)=> {
+		this.#elc.add(cmp, 'keydown', (e: KeyboardEvent)=> {
 			if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown'
 			&& e.key !== 'Enter') return;
 

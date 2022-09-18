@@ -243,6 +243,8 @@ export interface ISysBase {
 
 	copyBMFolder(from: number, to: number): void;
 	eraseBMFolder(place: number): void;
+
+	destroy(): void;
 }
 
 export interface IFire {(KEY: string, e: Event): void};

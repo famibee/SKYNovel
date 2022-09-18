@@ -7,12 +7,15 @@
 
 import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
+import {EventListenerCtn} from './EventListenerCtn';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 import {io, Socket} from 'socket.io-client';
 
 export class SysBase implements ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
+
+	protected	readonly	elc		= new EventListenerCtn;
 
 	constructor(readonly hPlg: HPlugin = {}, protected arg: HSysBaseArg) {}
 	protected async loaded(hPlg: HPlugin, _arg: HSysBaseArg) {
@@ -34,6 +37,8 @@ export class SysBase implements ISysBase {
 	get cur() {return this.arg.cur}
 	get crypto() {return this.arg.crypto}
 	fetch = (url: string)=> fetch(url);
+
+	destroy() {this.elc.clear();}
 
 	resolution	= 1;
 
@@ -206,8 +211,14 @@ export class SysBase implements ISysBase {
 		s.width = ps.width;
 		s.height= ps.height;
 
-		this.#ofsLeft4elm = cr.left;
-		this.#ofsTop4elm  = cr.top;
+		if (isGallery) {
+			this.#ofsLeft4elm = cr.left;
+			this.#ofsTop4elm  = cr.top;
+		}
+		else {
+			this.#ofsLeft4elm = 0;
+			this.#ofsTop4elm  = 0;
+		}
 		if (this.isFullScr) {
 			this.#ofsLeft4elm += (w -this.#cvsWidth) /2;
 			this.#ofsTop4elm  += (h -this.#cvsHeight)/2;
@@ -365,7 +376,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		if (! hArg.key) {this.tglFlscr_sub(); return false;}
 
 		const key = hArg.key.toLowerCase();
-		document.addEventListener('keydown', (e: KeyboardEvent)=> {
+		this.elc.add(document, 'keydown', (e: KeyboardEvent)=> {
 			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
 			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
 			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
@@ -427,9 +438,9 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	});
 	#genVideo = (bl: Blob): Promise<HTMLVideoElement> => new Promise((rs, rj)=> {
 		const v = document.createElement('video');
-	//	v.addEventListener('loadedmetadata', ()=> console.log(`loadedmetadata duration:${v.duration}`));
-		v.addEventListener('error', ()=> rj(v?.error?.message ?? ''));
-		v.addEventListener('canplay', ()=> rs(v));
+	//	this.elc.add(v, 'loadedmetadata', ()=> console.log(`loadedmetadata duration:${v.duration}`));
+		this.elc.add(v, 'error', ()=> rj(v?.error?.message ?? ''));
+		this.elc.add(v, 'canplay', ()=> rs(v));
 		v.src = URL.createObjectURL(bl);
 	});
 

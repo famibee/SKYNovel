@@ -1,3 +1,9 @@
+- fix: アプリ版：全画面時にpixijs部分が左端による件
+	- Winでも動作確認
+- refactor: 手直し：addEventListener()リソースリーク対策
+- docs: setTimeout() 使用箇所に clearTimeout() 必要性判断（setInterval()は不使用）
+
+
 ## [1.35.1](https://github.com/famibee/SKYNovel/compare/v1.35.0...v1.35.1) (2022-09-17)
 
 

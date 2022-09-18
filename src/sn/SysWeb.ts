@@ -29,10 +29,10 @@ export class SysWeb extends SysBase {
 
 		document.querySelectorAll('[data-prj]').forEach(v=> {
 			const elm = v.attributes.getNamedItem('data-prj');
-			if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
+			if (elm) this.elc.add(v, 'click', ()=> this.runSN(elm.value), {passive: true});
 		});
 		document.querySelectorAll('[data-reload]').forEach(v=>
-			v.addEventListener('click', ()=> this.run(), {passive: true})
+			this.elc.add(v, 'click', ()=> this.run(), {passive: true})
 		);
 		if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
 
@@ -65,6 +65,7 @@ export class SysWeb extends SysBase {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.#main.destroy(ms_late);
 			await new Promise(r=> setTimeout(r, ms_late));
+				// clearTimeout()不要と判断
 		}
 
 		this.#main = new Main(this);
@@ -154,7 +155,7 @@ export class SysWeb extends SysBase {
 				? document.exitFullscreen()
 				: pCvs.requestFullscreen();
 
-			document.addEventListener('fullscreenchange', ()=> this.isFullScr = Boolean(document.fullscreenElement));	// Escの場合もあるので
+			this.elc.add(document, 'fullscreenchange', ()=> this.isFullScr = Boolean(document.fullscreenElement));	// Escの場合もあるので
 		}
 		else {
 			const doc: any = document;	// Safariなど
@@ -162,10 +163,10 @@ export class SysWeb extends SysBase {
 				? doc.webkitCancelFullScreen()
 				: pCvs.webkitRequestFullscreen();
 
-			document.addEventListener('fullscreenchange', ()=> this.isFullScr = Boolean(doc.webkitFullscreenElement));	// Escの場合もあるので
+			this.elc.add(document, 'fullscreenchange', ()=> this.isFullScr = Boolean(doc.webkitFullscreenElement));	// Escの場合もあるので
 		}
 
-		if (! this.cfg.oCfg.debug.devtool) window.addEventListener('devtoolschange', e=> {
+		if (! this.cfg.oCfg.debug.devtool) this.elc.add(window, 'devtoolschange', e=> {
 			if (! e.detail.isOpen) return;
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
@@ -176,6 +177,7 @@ export class SysWeb extends SysBase {
 
 	override cvsResize() {
 		super.cvsResize();
+
 		if (this.isFullScr) {
 			const s = this.appPixi.view.style;
 			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
@@ -204,6 +206,7 @@ export class SysWeb extends SysBase {
 
 			if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
 			setTimeout(()=> this.fire('sn:exported', new Event('click')), 10);
+				// clearTimeout()不要と判断
 		})();
 
 		return false;

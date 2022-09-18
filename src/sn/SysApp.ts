@@ -125,6 +125,7 @@ export class SysApp extends SysNode {
 			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
 			this.#main.destroy(ms_late);
 			await new Promise(r=> setTimeout(r, ms_late));
+				// clearTimeout()不要と判断
 		}
 
 		this.#main = new Main(this);
@@ -149,18 +150,27 @@ export class SysApp extends SysNode {
 
 	override cvsResize() {
 		super.cvsResize();
-		if (CmnLib.isMac) return;
 
-		const s = this.appPixi.view.style;
+		const cvs = this.appPixi.view;
+		const ps = cvs.parentElement!.style;
+		const s = cvs.style;
 		if (this.isFullScr) {
+			ps.position = '';	// SysBaseを上書き
+			ps.width = '';
+			ps.height= '';
+
+			s.position = 'fixed';
 			s.left = `${this.ofsLeft4elm}px`;
 			s.top  = `${this.ofsTop4elm}px`;
-			s.position = 'fixed';
 		}
 		else {
+			ps.position = 'relative';	// SysBaseを上書き
+			ps.width = `${this.cvsWidth}px`;
+			ps.height= `${this.cvsHeight}px`;
+
+			s.position = 'relative';
 			s.left = '';
 			s.top  = '';
-			s.position = 'relative';
 		}
 	}
 

@@ -543,7 +543,8 @@ export class TxtStage extends Container {
 			return new Promise(resolve=> img.onload = ()=> resolve(img));
 		})
 		.then(img=> new Promise(resolve=> setTimeout(()=> resolve(img) , 100)))
-		// 無くすとSafariでテクスチャ取れない場合があった
+			// 無くすとSafariでテクスチャ取れない場合があった
+			// clearTimeout()不要と判断
 		.then((img: any)=> {	//console.log(`🍉 toPng`);
 			const canvas = document.createElement('canvas');
 			canvas.width = this.#infTL.$width;
@@ -804,7 +805,7 @@ export class TxtStage extends Container {
 		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
-		let lastElm = undefined;
+		let lastElm: HTMLElement | undefined = undefined;
 		for (let i=len -1; i>=0; --i) {
 			const c = this.#aRect[i];
 			if (c.elm.tagName !== 'SPAN') continue;	// ルビ以外

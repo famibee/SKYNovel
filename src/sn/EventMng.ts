@@ -144,14 +144,14 @@ export class EventMng implements IEvtMng {
 		};
 		const mql = globalThis.matchMedia('(prefers-color-scheme: dark)');
 		fncMql(mql);
-		mql.addEventListener('change', e=> {
+		this.#elc.add(mql, 'change', e=> {
 			fncMql(e);
 			this.fire('sn:chgDarkMode', e);
 		});
 
 		if ('WheelEvent' in window) {
 			this.#elc.add(appPixi.view, 'wheel', e=> this.#ev_wheel(e), {passive: true});
-			this.#resvFlameEvent4Wheel = win=> win.addEventListener('wheel', e=> this.#ev_wheel(e), {passive: true});
+			this.#resvFlameEvent4Wheel = win=> this.#elc.add(win, 'wheel', e=> this.#ev_wheel(e), {passive: true});
 			this.#procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(appPixi.view, 'wheel', e=> {
 				//if (! e.isTrusted) return;
 				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
@@ -212,8 +212,8 @@ export class EventMng implements IEvtMng {
 		val.defTmp('const.sn.key.back', ()=> this.#hDownKeys['GoBack'] > 0);
 	}
 	resvFlameEvent(win: Window) {
-		win.addEventListener('keydown', e=> this.#ev_keydown(e));
-		win.addEventListener('contextmenu', e=> this.#ev_contextmenu(e));
+		this.#elc.add(win, 'keydown', e=> this.#ev_keydown(e));
+		this.#elc.add(win, 'contextmenu', e=> this.#ev_contextmenu(e));
 		this.#resvFlameEvent4Wheel(win);
 	}
 	#resvFlameEvent4Wheel = (_win: Window)=> {};
@@ -258,7 +258,7 @@ export class EventMng implements IEvtMng {
 	#wheeling = false;
 	#extend_wheel = false;
 	#ev_wheel_waitstop() {
-		setTimeout(()=> {
+		setTimeout(()=> {	// clearTimeout()不要と判断
 			if (this.#extend_wheel) {
 				this.#extend_wheel = false;
 				this.#ev_wheel_waitstop();

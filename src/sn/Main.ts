@@ -245,6 +245,7 @@ export class Main implements IMain {
 
 		this.#layMng.before_destroy();
 		if (ms_late > 0) await new Promise(r=> setTimeout(r, ms_late));
+			// clearTimeout()不要と判断
 
 		this.#hTag = {};
 		this.#evtMng.destroy();
@@ -261,6 +262,7 @@ export class Main implements IMain {
 		}
 		utils.clearTextureCache();
 		this.#appPixi.destroy(true);
+		this.sys.destroy();
 	}
 	#destroyed = false;
 	readonly isDestroyed = ()=> this.#destroyed;

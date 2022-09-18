@@ -116,7 +116,7 @@ export class appMain {
 		this.#isMovingWin = true;
 
 		const {x, y} = this.bw.getBounds();
-		this.#tid = setTimeout(()=> {
+		this.#tid = setTimeout(()=> {	// clearTimeout()不要と判断
 			this.#tid = undefined;
 			if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return;}
 
@@ -155,7 +155,7 @@ export class appMain {
 
 		this.#stageW = w;
 		this.#stageH = h;
-		this.bw.setContentSize(w, h +appMain.#menu_height);	// メニュー高さぶん足す
+		this.bw.setContentSize(w, h +appMain.#menu_height);// メニュー高さぶん足す
 			// Sizeは変更時のみの送信、をするとどんどん小さくなるので注意
 
 		this.#isMovingWin = false;

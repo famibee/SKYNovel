@@ -22,6 +22,7 @@ import {Button} from './Button';
 import {SoundMng} from './SoundMng';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {DesignCast} from './DesignCast';
+import {EventListenerCtn} from './EventListenerCtn';
 
 import {Tween, update, removeAll} from '@tweenjs/tween.js'
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
@@ -37,6 +38,8 @@ export class LayerMng implements IGetFrm {
 
 	readonly	#frmMng		: FrameMng;
 	readonly	#bg_color	: number;
+
+	readonly	#elc		= new EventListenerCtn;
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
@@ -54,13 +57,13 @@ export class LayerMng implements IGetFrm {
 			this.#evtMng.cvsResize();
 		};
 		if (CmnLib.isMobile) {
-			globalThis.addEventListener('orientationchange', fncResizeLay, {passive: true});
+			this.#elc.add(globalThis, 'orientationchange', fncResizeLay, {passive: true});
 		}
 		else {
 			let tid: NodeJS.Timeout | undefined = undefined;
-			globalThis.addEventListener('resize', ()=> {
+			this.#elc.add(globalThis, 'resize', ()=> {
 				if (tid) return;
-				tid = setTimeout(()=> {tid = undefined; fncResizeLay();}, 1000 /60 *10);
+				tid = setTimeout(()=> {tid = undefined; fncResizeLay();}, 1000 /60 *10);	// clearTimeout()不要と判断
 			}, {passive: true});
 		}
 		sys.cvsResize();
@@ -254,6 +257,7 @@ export class LayerMng implements IGetFrm {
 
 	before_destroy() {for (const pg in this.#hPages) this.#hPages[pg].destroy();}
 	destroy() {
+		this.#elc.clear();
 		GrpLayer.destroy();
 		RubySpliter.destroy();
 		TxtStage.destroy();
