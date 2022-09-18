@@ -1,3 +1,10 @@
+## [1.35.2](https://github.com/famibee/SKYNovel/compare/v1.35.1...v1.35.2) (2022-09-18)
+
+
+### Bug Fixes
+
+* アプリ版：全画面時にpixijs部分が左端による件 ([1e99048](https://github.com/famibee/SKYNovel/commit/1e99048f3f387cd846e33bae97a2f2e3f1fe5600))
+
 - fix: アプリ版：全画面時にpixijs部分が左端による件
 	- Winでも動作確認
 - refactor: 手直し：addEventListener()リソースリーク対策
