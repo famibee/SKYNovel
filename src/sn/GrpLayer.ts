@@ -55,7 +55,7 @@ export class GrpLayer extends Layer {
 		GrpLayer.#val = val;
 		const fnc = ()=> {
 			const vol = GrpLayer.#glbVol * GrpLayer.#movVol;
-			for (const fn in GrpLayer.hFn2VElm) GrpLayer.hFn2VElm[fn].volume = vol;
+			for (const v of Object.values(GrpLayer.hFn2VElm)) v.volume = vol;
 		};
 		sndMng.setNoticeChgVolume(
 			vol=> {GrpLayer.#glbVol = vol; fnc();},
@@ -204,11 +204,11 @@ export class GrpLayer extends Layer {
 		});
 
 		const fncLoaded = (hRes: {[fn: string]: LoaderResource})=> {
-			for (const v of aComp) {
-				const sp = GrpLayer.#mkSprite(v.fn, hRes);
-				/**/sp.name = v.fn;
+			for (const {fn, fnc} of aComp) {
+				const sp = GrpLayer.#mkSprite(fn, hRes);
+				/**/sp.name = fn;
 				parent?.addChild(sp);
-				v.fnc(sp);
+				fnc(sp);
 			}
 			fncAllComp(needLoad);
 		}
@@ -243,14 +243,14 @@ export class GrpLayer extends Layer {
 		}
 		next();
 	}
-	static #sortAFrameName(aFn: string[]) {
+	static #sortAFrameName(aFn: string[]): string[] {
 		const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
-		if (! a_base_name) return
+		if (! a_base_name) return [];
 
 		const is = a_base_name[1].length;
 		const ie = -a_base_name[2].length -1;
-		aFn.sort((a, b)=>
-			(int(a.slice(is, ie)) > int(b.slice(is, ie))) ?1 :-1
+		return aFn.sort((a, b)=>
+			int(a.slice(is, ie)) > int(b.slice(is, ie)) ?1 :-1
 		);
 	}
 	static #dec2cache4Cripto(r: SYS_DEC_RET, res: any, next: ()=> void) {
@@ -274,11 +274,14 @@ export class GrpLayer extends Layer {
 		}
 		if (res.extension !== 'json') {next(); return;}
 
+		// アニメ登録
 		if (typeof r !== 'string') {next(); return;}
-		const o = res.data = JSON.parse(r);
+
+		const {meta, frames} = res.data = JSON.parse(r);
 		res.type = LoaderResource.TYPE.JSON;
-		if (! o.meta?.image) {next(); return;}
-		const fn = getFn(o.meta.image);
+		if (! meta?.image) {next(); return;}
+
+		const fn = getFn(meta.image);
 		const url = GrpLayer.#cfg.searchPath(fn, Config.EXT_SPRITE);
 		(new Loader)
 		.use((res2, next2)=> {
@@ -295,21 +298,17 @@ export class GrpLayer extends Layer {
 		})
 		.add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
 		.load((ldr, _hRes)=> {
-			// アニメ登録
-			for (const fn in ldr.resources) {
-				const bt = Texture.from(ldr.resources[fn].data).baseTexture;
-				const aFn: any[] = Object.values(o.frames);
-				GrpLayer.#sortAFrameName(aFn);
+			for (const {data} of Object.values(ldr.resources)) {
+				const {baseTexture} = Texture.from(data);
+				const aFr = Object.values(<{[nm: string]: {
+					frame: {x: number; y: number; w: number; h: number;}
+				}}>frames);
 				GrpLayer.hFn2ResAniSpr[res.name] = {
-					aTex: aFn.map(f=> new Texture(
-						bt,
-						new Rectangle(
-							f.frame.x,
-							f.frame.y,
-							f.frame.w,
-							f.frame.h),
+					aTex: aFr.map(({frame: {x, y, w, h}})=> new Texture(
+						baseTexture,
+						new Rectangle(x, y, w, h),
 					)),
-					meta: o.meta,
+					meta,
 				};
 			}
 
@@ -429,8 +428,8 @@ export class GrpLayer extends Layer {
 			.catch(e=> GrpLayer.#main.errScript(`GrpLayer loadPic ロード失敗です fn:${res.name} ${e}`, false));
 		})
 		ld2.load((_ldr, hRes)=> {
-			for (const s2 in hRes) {
-				const u2 = this.#hEncImgOUrl[s2] = hRes[s2].data.src;
+			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
+				const u2 = this.#hEncImgOUrl[s2] = src;
 				this.#hAEncImg[s2].forEach(i=> {
 					i.src = u2;
 					if (onload) i.onload = ()=> onload(i);

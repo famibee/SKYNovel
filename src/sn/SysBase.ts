@@ -103,8 +103,7 @@ export class SysBase implements ISysBase {
 
 		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
 		// プラグイン初期化
-		const a: Promise<void>[] = [];
-		for (const nm in this.hPlg) a.push(this.hPlg[nm].init({
+		return Object.values(this.hPlg).map(v=> v.init({
 			addTag: (name: string, tag_fnc: ITag)=> {
 				if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
 				hTag[name] = tag_fnc;
@@ -121,8 +120,7 @@ export class SysBase implements ISysBase {
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
 			getHash: fnc=> this.hash = fnc,
-		}))
-		return a;
+		}));
 	}
 	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
 

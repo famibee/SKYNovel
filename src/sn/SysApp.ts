@@ -298,8 +298,8 @@ export class SysApp extends SysNode {
 				message	: `アプリ【${this.cfg.oCfg.book.title}】に更新があります。\nダウンロードしますか？`,
 				detail	: `現在 NOW ver ${appver}\n新規 NEW ver ${netver}`,
 			};
-			const di = await to_app.showMessageBox(mbo);
-			if (di.response > 0) return;
+			const {response} = await to_app.showMessageBox(mbo);
+			if (response > 0) return;
 
 			// アプリダウンロード
 			if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] アプリダウンロード開始`, 'D');
@@ -307,24 +307,27 @@ export class SysApp extends SysNode {
 				const key = this.#hInfo.platform +'_'+ this.#hInfo.arch;
 			//	const key = this.#hInfo.platform +'_@'+ this.#hInfo.arch;
 					// アーキテクチャがない場合の動作テスト
-				let pa = oIdx[key];
-				if (pa) await this.#dl_app(url, key +'-'+ pa.cn, pa.path);
+				const {cn, path} = oIdx[key];
+				if (cn) await this.#dl_app(url, key +'-'+ cn, path);
 				else {
 					let d = '';
-					const aApp: {url: string, urlApp: string, fn: string}[] =[];
 					const regOldSameKey = new RegExp('^'+ this.#hInfo.platform +'_');
-					for (const k in oIdx) {
-						if (! regOldSameKey.test(k)) continue;
-						const ap = oIdx[k];
-						d += '\n- '+ ap.path;
-						aApp.push({url, urlApp: k +'-'+ ap.cn, fn: String(ap.path)});
-					}
-					mbo.message = `CPU = ${this.#hInfo.arch}\nに対応するファイルが見つかりません。同じOSのファイルをすべてダウンロードしますか？`;
-					mbo.detail = aApp.length +' 個ファイルがあります'+ d;
-					const di = await to_app.showMessageBox(mbo);
-					if (di.response > 0) return;
+					const a = Object.entries(<{[nm: string]: {
+						path: string,
+						cn	: string,
+					}}>oIdx)
+					.flatMap(([nm, {path, cn}])=> {
+						if (! regOldSameKey.test(nm)) return [];
+						d += '\n- '+ path;
+						return ()=> this.#dl_app(url, nm +'-'+ cn, path);
+					});
 
-					await Promise.allSettled(aApp.map(ap=> this.#dl_app(ap.url, ap.urlApp, ap.fn)));
+					mbo.message = `CPU = ${this.#hInfo.arch}\nに対応するファイルが見つかりません。同じOSのファイルをすべてダウンロードしますか？`;
+					mbo.detail = a.length +' 個ファイルがあります'+ d;
+					const {response} = await to_app.showMessageBox(mbo);
+					if (response > 0) return;
+
+					await Promise.allSettled(a);
 				}
 			}
 			else {

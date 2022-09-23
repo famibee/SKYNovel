@@ -31,10 +31,7 @@ export class FrameMng implements IGetFrm {
 
 	#hIfrm	: {[id: string]: HTMLIFrameElement} = Object.create(null);
 	destroy() {
-		for (const n in this.#hIfrm) {
-			const f = this.#hIfrm[n];
-			f.parentElement!.removeChild(f);
-		}
+		for (const f of Object.values(this.#hIfrm)) f.parentElement!.removeChild(f);
 		this.#hIfrm = Object.create(null);
 	}
 
@@ -119,8 +116,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	cvsResize() {	// NOTE: フォントサイズはどう変更すべきか
-		for (const id in this.#hIfrm) {
-			const f = this.#hIfrm[id];
+		for (const [id, f] of Object.entries(this.#hIfrm)) {
 			const vn = 'const.sn.frm.'+ id;
 			const x = Number(this.val.getVal(vn +'.x'));
 			const y = Number(this.val.getVal(vn +'.y'));

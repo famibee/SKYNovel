@@ -376,7 +376,7 @@ export class SoundMng {
 
 	// 全効果音再生の停止
 	#stop_allse() {
-		for (const buf in this.#hSndBuf) this.#stopse({buf});
+		for (const buf of Object.keys(this.#hSndBuf)) this.#stopse({buf});
 		this.#hSndBuf = {};
 
 		sound.stopAll();
@@ -489,13 +489,12 @@ export class SoundMng {
 		this.val.flush();
 		if (lp === '{}') {this.#stop_allse(); return;}
 
-		const aFnc: {(): void}[] = [];
 		this.#hLP = JSON.parse(lp);
-		for (const buf in this.#hLP) {
+		const a = Object.keys(this.#hLP).map(buf=> ()=> {
 			const nm = 'save:const.sn.sound.'+ buf +'.';
 			const hArg = {
 				fn		: String(this.val.getVal(nm +'fn')),
-				buf		: buf,
+				buf,
 				join	: false,
 				loop	: true,
 				volume	: Number(this.val.getVal(nm +'volume')),
@@ -503,13 +502,11 @@ export class SoundMng {
 				end_ms	: Number(this.val.getVal(nm +'end_ms')),
 				ret_ms	: Number(this.val.getVal(nm +'ret_ms')),
 			};
-			aFnc.push(()=> {
-				if (hArg.buf === 'BGM') this.#playbgm(hArg);
-				else this.#playse(hArg);
-			});
-		}
+			if (hArg.buf === 'BGM') this.#playbgm(hArg);
+			else this.#playse(hArg);
+		});
 		this.#stop_allse();
-		aFnc.forEach(f=> f());
+		for (const f of a) f();
 	}
 	#addLoopPlay(buf: string, is_loop: Boolean): void {
 		if (! is_loop) {this.#delLoopPlay(buf); return;}

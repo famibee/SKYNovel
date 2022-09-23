@@ -12,9 +12,7 @@ beforeEach(()=> {
 	alz = new AnalyzeTagArg();
 });
 	function isHashEmpty(h: object): boolean {
-		let c = 0;
-		for (let _i in h) ++c;
-		return c === 0;
+		return Object.keys(h).length === 0;
 	}
 
 it('Arg0',()=> {

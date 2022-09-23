@@ -412,11 +412,7 @@ export class TxtStage extends Container {
 					.then(readUrls)
 					.then(urls=> {
 						let done = Promise.resolve(str);
-						for (const url of urls) {
-							done = done.then(string=> {
-								return inline(string, url, baseUrl, get);
-							});
-						}
+						for (const url of urls) done = done.then(string=> inline(string, url, baseUrl, get));
 						return done;
 					});
 

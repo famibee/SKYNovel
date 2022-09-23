@@ -89,14 +89,13 @@ export class Config implements IConfig {
 
 		this.#existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
 		this.#existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
+		if (! this.sys.crypto) return;
 
-		if (this.sys.crypto)
-		for (const nm in this.hPathFn2Exts) {
-			const o = this.hPathFn2Exts[nm];
-			for (const ext in o) {
+		for (const hExts of Object.values(this.hPathFn2Exts)) {
+			for (const [ext, v] of Object.values(hExts)) {
 				if (ext.slice(-10) !== ':RIPEMD160') continue;
-				const hp = o[ext].slice(o[ext].lastIndexOf('/') +1);
-				const fn = o[ext.slice(0, -10)];
+				const hp = v.slice(v.lastIndexOf('/') +1);
+				const fn = hExts[ext.slice(0, -10)];
 				const res = await this.sys.fetch(fn);
 				const src = await res.text();
 				const hf = this.sys.hash(src);
@@ -134,7 +133,7 @@ export class Config implements IConfig {
 			const utn = fn +'@@'+ this.userFnTail;
 			if (utn in this.hPathFn2Exts) {
 				if (extptn === '') fn = utn;
-				else for (let e3 in this.hPathFn2Exts[utn]) {
+				else for (const e3 of Object.keys(this.hPathFn2Exts[utn])) {
 					if (`|${extptn}|`.indexOf(`|${e3}|`) === -1) continue;
 
 					fn = utn;
@@ -158,12 +157,12 @@ export class Config implements IConfig {
 			const search_exts = `|${extptn}|`;
 			if (hcnt > 1) {
 				let cnt = 0;
-				for (const e2 in h_exts) {
+				for (const e2 of Object.keys(h_exts)) {
 					if (search_exts.indexOf(`|${e2}|`) === -1) continue;
 					if (++cnt > 1) throw `指定ファイル【${path}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
 				}
 			}
-			for (let e in h_exts) {
+			for (let e of Object.keys(h_exts)) {
 				if (search_exts.indexOf(`|${e}|`) > -1) return h_exts[e];
 			}
 			throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${path}】`;
@@ -185,15 +184,13 @@ export class Config implements IConfig {
 		const aRet :IExts[] = [];
 		const regPtn = new RegExp(fnptn);
 		const regExt = new RegExp(extptn);
-		for (let fn in this.hPathFn2Exts) {
+		for (const [fn, h_exts] of Object.entries(this.hPathFn2Exts)) {
 			if (fn.search(regPtn) === -1) continue;
-
-			const h_exts = this.hPathFn2Exts[fn];
 			if (extptn === '') {aRet.push(h_exts); continue;}
 
 			const o :IExts = {};
 			let isa = false;
-			for (const ext in h_exts) {
+			for (const ext of Object.keys(h_exts)) {
 				if (ext.search(regExt) === -1) continue;
 
 				o[ext] = fn;
@@ -206,8 +203,8 @@ export class Config implements IConfig {
 
 	addPath(fn: string, h_exts: IExts) {
 		const o: any = {};
-		for (const ext in h_exts) {
-			o[ext] = (ext.charAt(0) === ':' ?`` :this.sys.cur) + h_exts[ext];
+		for (const [ext, v] of Object.entries(h_exts)) {
+			o[ext] = (ext.charAt(0) === ':' ?`` :this.sys.cur) + v;
 		}
 		this.hPathFn2Exts[fn] = o;
 	}

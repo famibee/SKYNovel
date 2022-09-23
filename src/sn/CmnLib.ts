@@ -49,7 +49,7 @@ export const hMemberCnt	= {
 			// backlayで設定しない方針
 export function cnvTweenArg(hArg: HArg, lay: any): {} {
 	const hTo: any = {};
-	for (const nm in hMemberCnt) {
+	for (const nm of Object.keys(hMemberCnt)) {
 		if (! (nm in hArg)) continue;
 
 		// {x:500}			X位置を500に

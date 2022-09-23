@@ -110,7 +110,7 @@ export class ScriptIterator {
 			};
 			this.#hHook.auth = o=> {
 				const hLineBP = o.hBreakpoint.hFn2hLineBP;
-				for (const fn in hLineBP) this.#regBreakPoint(fn, hLineBP[fn]);
+				for (const [fn, v] of Object.entries(hLineBP)) this.#regBreakPoint(fn, <any>v);
 
 				ScriptIterator.#hFuncBP = {};
 				o.hBreakpoint.aFunc.forEach((v: any)=> ScriptIterator.#hFuncBP[v.name] = 1);
@@ -393,22 +393,21 @@ export class ScriptIterator {
 		hArg[':タグ名'] = tag_name;
 		// valやdefの値について。null はありえない。'null'や'undefined' はありえる。
 		// 省略時以外で undefined はない。a=undefined と書いても 'undefined' になる
-		for (const arg_nm in hPrm) {
-			let v = hPrm[arg_nm].val;
+		for (const [arg_nm, {val, def}] of Object.entries(hPrm)) {
+			let v = val;
 			if (v?.charAt(0) === '%') {
 				if (len === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
 				const mac = (<any>this.#aCallStk[this.#aCallStk.length -1].csArg)[v.slice(1)];
 				if (mac) {(<any>hArg)[arg_nm] = mac; continue;}
 
-				v = hPrm[arg_nm].def;
-				if (v === undefined || v === 'null') continue;
+				if (def === undefined || def === 'null') continue;
 					// defの'null'指定。%変数が無い場合、タグやマクロに属性を渡さない
+				v = def;
 			}
 
 			v = this.prpPrs.getValAmpersand(v ?? '');
 			if (v !== 'undefined') {(<any>hArg)[arg_nm] = v; continue;}
 
-			const def = hPrm[arg_nm].def;
 			if (def === undefined) continue;
 			v = this.prpPrs.getValAmpersand(def);
 			if (v !== 'undefined') (<any>hArg)[arg_nm] = v;
@@ -986,15 +985,14 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 			const p_fn = this.alzTagArg.hPrm.fn;
 			if (! p_fn) continue;
-			const fn = p_fn.val;
+			const {val: fn} = p_fn;
 			if (! fn || fn.slice(-1) !== '*') continue;
-
-			const ext = (tag_name === 'loadplugin') ?'css' :'sn';
-			const a = this.cfg.matchPath('^'+ fn.slice(0, -1) +'.*', ext);
 
 			this.#script.aToken.splice(i, 1, '\t', '; '+ token);
 			this.#script.aLNum.splice(i, 1, NaN, NaN);
 
+			const ext = (tag_name === 'loadplugin') ?'css' :'sn';
+			const a = this.cfg.matchPath('^'+ fn.slice(0, -1) +'.*', ext);
 			for (const v of a) {
 				const nt = token.replace(
 					this.#REG_WILDCARD2,
@@ -1100,7 +1098,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			this.#callSub({...hArgM, ':hMp': this.val.cloneMp()} as any);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
-			//for (const k in hArg) this.val.setVal_Nochk('mp', k, hArg[k]);
+			//for (const k of Object.keys(hArg)) this.val.setVal_Nochk('mp', k, hArg[k]);
 			this.val.setMp(hArgM as any);
 			this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify(hArg));
 			this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', this.#scriptFn);

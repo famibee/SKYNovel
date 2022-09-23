@@ -195,7 +195,7 @@ it('testAnalyzeScript_bug150603_0',()=> {
 	expect(vctToken[3]).toBe("[あい]");
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) assert.fail("Error:bug150603_0");
+	if (a_tag == null) fail("Error:bug150603_0");
 });
 it('testAnalyzeScript_bug150603_1',()=> {
 	const sScr = '[あ]';
@@ -205,7 +205,7 @@ it('testAnalyzeScript_bug150603_1',()=> {
 	expect(vctToken[0]).toBe("[あ]");
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) assert.fail("Error:bug150603_1");
+	if (a_tag == null) fail("Error:bug150603_1");
 });
 it('testAnalyzeScript_bug150603_2',()=> {
 	const sScr = '[あい]';
@@ -215,7 +215,7 @@ it('testAnalyzeScript_bug150603_2',()=> {
 	expect(vctToken[0]).toBe("[あい]");
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) assert.fail("Error:bug150603_2");
+	if (a_tag == null) fail("Error:bug150603_2");
 });
 it('testAnalyzeScript_bug150603_3',()=> {
 	const sScr = '[あ a=0]';
@@ -225,7 +225,7 @@ it('testAnalyzeScript_bug150603_3',()=> {
 	expect(vctToken[0]).toBe("[あ a=0]");
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) assert.fail("Error:bug150603_3");
+	if (a_tag == null) fail("Error:bug150603_3");
 });
 it('testAnalyzeScript_bug150603_4',()=> {
 	const sScr = '[あい a=0]';
@@ -235,7 +235,7 @@ it('testAnalyzeScript_bug150603_4',()=> {
 	expect(vctToken[0]).toBe("[あい a=0]");
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) assert.fail("Error:bug150603_4");
+	if (a_tag == null) fail("Error:bug150603_4");
 });
 
 it('test_let_expansion_0_cr',()=> {
@@ -1190,7 +1190,7 @@ it('test_mth_splitAmpersand4',()=> {
 it('test_mth_splitAmpersand_err0',()=> {
 	try {
 		splitAmpersand("b=1=0=uint");
-		assert.fail("Error:ccc");
+		fail("Error:ccc");
 	}
 	catch (s) {
 		expect(s).toBe("「&計算」書式では「=」指定が一つか二つ必要です");
@@ -1199,7 +1199,7 @@ it('test_mth_splitAmpersand_err0',()=> {
 it('test_mth_splitAmpersand_err1',()=> {
 	try {
 		splitAmpersand("text=&1+2=int");
-		assert.fail("Error:ccc");
+		fail("Error:ccc");
 	}
 	catch (s) {
 		expect(s).toBe("「&計算」書式では「&」指定が不要です");

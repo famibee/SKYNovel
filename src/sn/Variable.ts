@@ -211,9 +211,9 @@ export class Variable implements IVariable {
 		this.#hSys = this.#hScopes.sys = this.#data.sys;
 
 		this.#hAreaKidoku = {};
-		for (const fn in this.#data.kidoku) {
+		for (const [fn, v] of Object.entries(this.#data.kidoku)) {
 			const areas = new Areas;
-			areas.hAreas = {...this.#data.kidoku[fn]};
+			areas.hAreas = {...v};
 			this.#hAreaKidoku[fn] = areas;
 		}
 	}
@@ -241,8 +241,8 @@ export class Variable implements IVariable {
 	}
 	getAreaKidoku = (fn: string): Areas=> this.#hAreaKidoku[fn];
 	saveKidoku() {
-		for (const fn in this.#hAreaKidoku) {
-			this.#data.kidoku[fn] = {...this.#hAreaKidoku[fn].hAreas};
+		for (const [fn, v] of Object.entries(this.#hAreaKidoku)) {
+			this.#data.kidoku[fn] = {...v.hAreas};
 		}
 		this.flush();
 	}
@@ -444,8 +444,8 @@ export class Variable implements IVariable {
 		this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SE.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);
-		for (const fn in this.#data.kidoku) {
-			this.#data.kidoku[fn].hAreas = {};
+		for (const [fn, v] of Object.entries(this.#data.kidoku)) {
+			v.hAreas = {};
 			this.#hAreaKidoku[fn].clear();
 		}
 
@@ -591,16 +591,12 @@ export class Variable implements IVariable {
 
 	// 変数のダンプ
 	readonly #dump_val = ()=> {
-		const val: any = {tmp:{}, sys:{}, save:{}, mp:{}};
+		const val: {[nm: string]: any} = {tmp:{}, sys:{}, save:{}, mp:{}};
 		for (let scope in val) {
-			const hVal = this.#hScopes[scope];
+			const hVal: {[nm: string]: any} = this.#hScopes[scope];
 			const hRet = val[scope];
-			for (let key in hVal) {
-				const v = hVal[key];
-				if (Object.prototype.toString.call(v) === '[object Function]') {
-					hRet[key] = v();
-				}
-				else hRet[key] = v;
+			for (let [key, v] of Object.entries(hVal)) {
+				hRet[key] = Object.prototype.toString.call(v) === '[object Function]' ?v() :v;
 			}
 		}
 		console.info('🥟 [dump_val]', val);

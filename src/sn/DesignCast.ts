@@ -108,8 +108,7 @@ export class DesignCast {
 		DesignCast.#hId2dc[id_dc] = this;
 	}
 	includeDesignArg(hArg: HArg): boolean {
-		for (const name in hArg) if (name in this.hDesignArg) return true;
-		return false;
+		return Object.keys(hArg).some(nm=> nm in this.hDesignArg);
 	}
 	protected	readonly	hDesignArg: {[name: string]: 0}	= {
 		'rotation'	: 0,

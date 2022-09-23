@@ -16,9 +16,11 @@ export class SysNode extends SysBase {
 		const fn = this.arg.cur +'path.json';
 		const src = await this.readFileSync(fn);
 		const oJs = JSON.parse(this.decStr(fn, src));
-		for (const nm in oJs) {
-			const h = hPathFn2Exts[nm] = oJs[nm];
-			for (const ext in h) if (ext !== ':cnt') h[ext] = this.arg.cur + h[ext];
+		for (const [nm, v] of Object.entries(oJs)) {
+			const h = hPathFn2Exts[nm] = <any>v;
+			for (const [ext, w] of Object.entries(h)) {
+				if (ext !== ':cnt') h[ext] = this.arg.cur + w;
+			}
 		}
 	}
 

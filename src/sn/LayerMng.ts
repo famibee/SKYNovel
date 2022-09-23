@@ -255,7 +255,7 @@ export class LayerMng implements IGetFrm {
 		GrpLayer.setEvtMng(evtMng);
 	}
 
-	before_destroy() {for (const pg in this.#hPages) this.#hPages[pg].destroy();}
+	before_destroy() {for (const p of Object.values(this.#hPages)) p.destroy();}
 	destroy() {
 		this.#elc.clear();
 		GrpLayer.destroy();
@@ -613,9 +613,8 @@ void main(void) {
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			[this.#fore, this.#back] = [this.#back, this.#fore];
 			const aPrm: Promise<void>[] = [];
-			for (const lay_name in this.#hPages) {
-				const pg = this.#hPages[lay_name];
-				if (hTarget[lay_name]) {pg.transPage(aPrm); continue;}
+			for (const [layer, pg] of Object.entries(this.#hPages)) {
+				if (hTarget[layer]) {pg.transPage(aPrm); continue;}
 
 				// transしないために交換する
 				const idx = this.#fore.getChildIndex(pg.back.spLay);
@@ -832,7 +831,7 @@ void main(void) {
 			if (arrive) Object.assign(foreLay, hTo);
 			if (backlay) {
 				const backCnt: any = this.#hPages[layer].back.spLay;
-				for (const nm in hMemberCnt) backCnt[nm] = (<any>foreLay)[nm];
+				for (const nm of Object.keys(hMemberCnt)) backCnt[nm] = (<any>foreLay)[nm];
 			}
 		}}
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
@@ -1153,28 +1152,24 @@ void main(void) {
 
 		const aPrm: Promise<void>[] = [];
 		const aSort: {layer: string, idx: number}[] = [];
-		for (const layer in $hPages) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
-			const $pg = $hPages[layer];
-			aSort.push({layer: layer, idx: $pg.fore.idx});
+		for (const [layer, {fore, back, cls}] of Object.entries($hPages)) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
+			aSort.push({layer, idx: fore.idx});
 
-			const pg = this.#hPages[layer] ??= new Pages(layer, $pg.cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
-			pg.fore.playback($pg.fore, aPrm);
-			pg.back.playback($pg.back, aPrm);
+			const ps = this.#hPages[layer] ??= new Pages(layer, cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
+			ps.fore.playback(fore, aPrm);
+			ps.back.playback(back, aPrm);
 		}
 		const len = this.#fore.children.length;
 		Promise.allSettled(aPrm).then(()=> {
-			aSort.sort(function(a, b) {	// ソートし若い順にsetChildIndex()
-				if (a.idx < b.idx) return -1;
-				if (a.idx > b.idx) return 1;
-				return 0;
-			});
-			aSort.forEach(o=> {
-				const pg = this.#hPages[o.layer];
-				if (! pg) return;
-				const idx = len > o.idx ?o.idx :len -1;
-				this.#fore.setChildIndex(pg.fore.spLay, idx);
-				this.#back.setChildIndex(pg.back.spLay, idx);
-			});
+			// 若い順にsetChildIndex()
+			for (const {layer, idx} of
+				aSort.sort(({idx: a}, {idx: b})=> a === b ?0 :a < b ?-1 :1)) {
+				const {fore, back} = this.#hPages[layer];
+				if (! fore) return;
+				const i = len > idx ?idx :len -1;
+				this.#fore.setChildIndex(fore.spLay, i);
+				this.#back.setChildIndex(back.spLay, i);
+			}
 
 			fncComp();
 		})

@@ -109,7 +109,7 @@ export class Button extends Container {
 		});
 		if (hArg.style) try {
 			const o = JSON.parse(hArg.style);
-			for (const nm in o) (style as any)[nm] = o[nm];
+			for (const [nm, v] of Object.entries(o)) (style as any)[nm] = v;
 		//	style = {...style, ...JSON.parse(hArg.style)};	// 上手くいかない
 		} catch (e) {
 			throw new Error(mesErrJSON(hArg, 'style', e.message));
@@ -162,7 +162,7 @@ export class Button extends Container {
 		const style_hover = style.clone();
 		if (hArg.style_hover) try {
 			const o = JSON.parse(hArg.style_hover);
-			for (const nm in o) (style_hover as any)[nm] = o[nm];
+			for (const [nm, v] of Object.entries(o)) (style_hover as any)[nm] = v;
 		} catch (e) {
 			throw new Error(mesErrJSON(hArg, 'style_hover', e.message));
 		}
@@ -171,7 +171,7 @@ export class Button extends Container {
 		const style_clicked = style_hover.clone();
 		if (hArg.style_clicked) try {
 			const o = JSON.parse(hArg.style_clicked);
-			for (const nm in o) (style_clicked as any)[nm] = o[nm];
+			for (const [nm, v] of Object.entries(o)) (style_clicked as any)[nm] = v;
 		} catch (e) {
 			throw new Error(mesErrJSON(hArg, 'style_clicked', e.message));
 		}

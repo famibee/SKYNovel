@@ -537,7 +537,7 @@ export class EventMng implements IEvtMng {
 	#clear_event(hArg: HArg) {
 		const glb = argChk_Boolean(hArg, 'global', false);
 		const h = glb ?this.#hGlobalEvt2Fnc :this.#hLocalEvt2Fnc;
-		for (const nm in h) this.#clear_eventer(nm, h[nm]);
+		for (const [n, v] of Object.entries(h)) this.#clear_eventer(n, v);
 		if (glb) this.#hGlobalEvt2Fnc = {}; else this.#hLocalEvt2Fnc = {};
 		this.#isWait = false;	// ScriptIterator からコールされた時用
 
@@ -593,7 +593,7 @@ export class EventMng implements IEvtMng {
 					if (v === 'keydown' && e.key !== 'Enter') return;
 
 					const d = elm.dataset;
-					for (const n in d) if (d.hasOwnProperty(n)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${n}`, d[n]);
+					for (const [k, v] of Object.entries(d)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${k}`, v);
 					this.fire(KeY, e);
 				});
 
@@ -828,8 +828,7 @@ export class EventMng implements IEvtMng {
 	// キー押下によるスキップ中か
 	isSkippingByKeyDown(): boolean {
 		if (this.scrItr.skip4page) return true;
-		for (const k in this.#hDownKeys) if (this.#hDownKeys[k] === 2) return true;
-		return false;
+		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === 2);
 	}
 	// 0:no push  1:one push  2:push repeating
 	readonly #hDownKeys	: {[key: string]: number}	= {

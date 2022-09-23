@@ -7,6 +7,14 @@ http://opensource.org/licenses/mit-license.php
 
 import {Areas} from '../src/sn/Areas';
 
+/*
+let startTime = 0;	// 処理時間計測
+beforeAll(()=> startTime = performance.now());
+afterAll(()=> {
+	console.log('Time : ' + (performance.now() - startTime));
+});
+*/
+
 let areas: Areas;
 beforeEach(()=> {
 	areas = new Areas;

@@ -42,18 +42,17 @@ export class TxtLayer extends Layer {
 		TxtStage.initChStyle();
 		initStyle();
 
-		let font = '';
-		cfg.matchPath('.+', Config.EXT_FONT).forEach(o=> {
-			for (const key in o) font += `
+		addStyle(
+			cfg.matchPath('.+', Config.EXT_FONT)
+			.flatMap(o=> Object.values(o).map(v=> `
 @font-face {
-	font-family: '${o[key]}';
-	src: url('${this.#cfg.searchPath(o[key], Config.EXT_FONT)}');
+	font-family: '${v}';
+	src: url('${this.#cfg.searchPath(v, Config.EXT_FONT)}');
 }
-`;
-		});
+`)).join('')
 
-		// 文字出現演出関係
-		font += `
+			// 文字出現演出関係
+			+`
 .sn_tx {
 	pointer-events: none;
 	user-select: none;
@@ -64,9 +63,8 @@ export class TxtLayer extends Layer {
 	position: relative;
 	display: inline-block;
 }
-`;	// 「sn_ch」と「sn_ch_in_〜」の中身が重複しているが、これは必須
-
-		addStyle(font);
+`	// 「sn_ch」と「sn_ch_in_〜」の中身が重複しているが、これは必須
+		);
 
 		TxtLayer.#ch_in_style({
 			name	: 'default',

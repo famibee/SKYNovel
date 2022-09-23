@@ -1,3 +1,9 @@
+- fix: 非推奨気味な for..in ループを for..of Object.keys/values/entries()に
+	- for..in が prototype汚染列挙問題とパフォーマンスがやや評判悪い
+	- 不要なfilter、mapなどによる多重ループは避ける
+- fix: リファクタリング
+
+
 ## [1.35.2](https://github.com/famibee/SKYNovel/compare/v1.35.1...v1.35.2) (2022-09-18)
 
 

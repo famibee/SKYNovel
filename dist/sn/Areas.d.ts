@@ -1,7 +1,7 @@
 import { IAreas } from './CmnInterface';
 export declare class Areas implements IAreas {
     hAreas: {
-        [name: number]: number;
+        [name: string]: number;
     };
     clear(): void;
     search(idx: number): boolean;
