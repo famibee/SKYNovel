@@ -48,11 +48,11 @@ export class Variable implements IVariable {
 		this.#hSave['sn.userFnTail']	= '';
 		this.defTmp('const.sn.bookmark.json', ()=> {
 			const a: object[] = [];
-			Object.keys(this.#data.mark).sort().forEach(k=> {
+			for (const k of Object.keys(this.#data.mark).sort()) {
 				const o = {...this.#data.mark[k].json};
 				o.place = k;
 				a.push(o);	// パスを searchPath() で展開してはいけない
-			});
+			}
 			return JSON.stringify(a);
 		});
 
@@ -134,45 +134,45 @@ export class Variable implements IVariable {
 			const ns = this.cfg.getNs();
 			this.#flush = (this.cfg.oCfg.debug.variable) ?()=> {
 				const oSys: any = {};
-				Object.keys(this.#hSys).forEach(k=> {
+				for (const k of Object.keys(this.#hSys)) {
 					const v = this.#hSys[k];
 					oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
-				});
+				}
 				sessionStorage[ns +'sys'] = JSON.stringify(oSys);
 
 				const oSave: any = {};
-				Object.keys(this.#hSave).forEach(k=> {
+				for (const k of Object.keys(this.#hSave)) {
 					const v = this.#hSave[k];
 					oSave['save:'+ k] = (v instanceof Function) ?v(): v;
-				});
+				}
 				sessionStorage[ns+'save'] = JSON.stringify(oSave);
 
 				const oTmp: any = {};
-				Object.keys(this.#hTmp).forEach(k=> {
+				for (const k of Object.keys(this.#hTmp)) {
 					const v = this.#hTmp[k];
 					oTmp[k] = (v instanceof Function) ?v(): v;
-				});
+				}
 				sessionStorage[ns +'tmp'] = JSON.stringify(oTmp);
 
 				const oMp: any = {};
-				Object.keys(this.#hScopes.mp).forEach(k=> {
+				for (const k of Object.keys(this.#hScopes.mp)) {
 					const v = this.#hScopes.mp[k];
 					oMp[k] = (v instanceof Function) ?v(): v;
-				});
+				}
 				sessionStorage[ns +'mp'] = JSON.stringify(oMp);
 
 				const oMark: any = {};
-				Object.keys(this.#data.mark).forEach(k=> {
+				for (const k of Object.keys(this.#data.mark)) {
 					const v = this.#data.mark[k];
 					oMark[k] = (v instanceof Function) ?v(): v;
-				});
+				}
 				sessionStorage[ns+'mark'] = JSON.stringify(oMark);
 
 				const oKidoku: any = {};
-				Object.keys(this.#data.kidoku).forEach(k=> {
+				for (const k of Object.keys(this.#data.kidoku)) {
 					const v = this.#data.kidoku[k];
 					oKidoku[k] = (v instanceof Function) ?v(): v;
-				});
+				}
 				sessionStorage[ns +'kidoku'] = JSON.stringify(oKidoku);
 
 				sys.flush();
@@ -203,7 +203,7 @@ export class Variable implements IVariable {
 	}
 	#set_data_break(a: any[]) {	// o.a.length === 0 なら削除
 		Variable.#hSetEvent = {};
-		a.forEach((v: any)=> Variable.#hSetEvent[v.dataId] = 1);
+		for (const v of a) Variable.#hSetEvent[v.dataId] = 1;
 	}
 
 	updateData(data: IData4Vari): void {
@@ -241,8 +241,8 @@ export class Variable implements IVariable {
 	}
 	getAreaKidoku = (fn: string): Areas=> this.#hAreaKidoku[fn];
 	saveKidoku() {
-		for (const [fn, v] of Object.entries(this.#hAreaKidoku)) {
-			this.#data.kidoku[fn] = {...v.hAreas};
+		for (const [fn, {hAreas}] of Object.entries(this.#hAreaKidoku)) {
+			this.#data.kidoku[fn] = {...hAreas};
 		}
 		this.flush();
 	}

@@ -233,7 +233,9 @@ export class TxtLayer extends Layer {
 
 
 	override cvsResize() {this.#txs.cvsResize();}
-	override cvsResizeChildren() {this.#cntBtn.children.forEach(b=> (b as Button).cvsResize());}
+	override cvsResizeChildren() {
+		for (const b of this.#cntBtn.children) (b as Button).cvsResize();
+	}
 
 	override lay(hArg: HArg) {
 		super.lay(hArg);
@@ -273,7 +275,9 @@ export class TxtLayer extends Layer {
 			else this.#htmRb.style.cssText = '';
 		}
 
-		if ('alpha' in hArg) this.#cntBtn.children.forEach(e=> e.alpha = this.spLay.alpha);
+		if ('alpha' in hArg) for (const e of this.#cntBtn.children) {
+			e.alpha = this.spLay.alpha;
+		}
 
 		this.#set_ch_in(hArg);
 		this.#set_ch_out(hArg);
@@ -776,7 +780,7 @@ text-combine-upright: all;
 
 		this.clearText();
 		// 上で呼ばれる this.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
-		this.#cntBtn.removeChildren().forEach(c=> c.destroy());
+		for (const c of this.#cntBtn.removeChildren()) c.destroy();
 	}
 	override readonly record = ()=> {return <any>{...super.record(),
 		enabled	: this.enabled,
@@ -840,12 +844,16 @@ text-combine-upright: all;
 	}
 	override makeDesignCastChildren(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
-		this.#cntBtn.children.forEach(btn=> (btn as Button).makeDesignCast(gdc));
+		for (const btn of this.#cntBtn.children) {
+			(btn as Button).makeDesignCast(gdc);
+		}
 	}
 
 	override showDesignCast() {this.#txs.showDesignCast();}
 	override showDesignCastChildren() {
-		this.#cntBtn.children.forEach(btn=> (btn as Button).showDesignCast());
+		for (const btn of this.#cntBtn.children) {
+			(btn as Button).showDesignCast();
+		}
 	}
 
 	override dump(): string {

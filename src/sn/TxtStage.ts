@@ -864,7 +864,9 @@ export class TxtStage extends Container {
 
 	skipChIn(): boolean {	// true: 文字出現中だったので、停止する
 		let wasChInIng = this.#fncEndChIn();
-		this.#aSpTw.forEach(st=> {if (st.tw) {st.tw.stop().end(); wasChInIng = true}});	// Text Skip。stop() と end() は別！
+		for (const st of this.#aSpTw) {	// Text Skip。stop() と end() は別！
+			if (st.tw) {st.tw.stop().end(); wasChInIng = true;}
+		}
 		this.#aSpTw = [];
 		return wasChInIng;
 	}
@@ -1029,10 +1031,10 @@ export class TxtStage extends Container {
 
 		const end = ()=> {
 			old.parentElement!.removeChild(old);
-			this.#cntTxt.removeChildren().forEach(c=> {
+			for (const c of this.#cntTxt.removeChildren()) {
 				if (c instanceof Container) TxtStage.#evtMng.unButton(c);
 				c.destroy();
-			});
+			}
 		};
 		if (sum_wait === 0) {this.#htmTxt.textContent = ''; end();}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});

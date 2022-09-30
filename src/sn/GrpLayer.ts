@@ -377,11 +377,11 @@ export class GrpLayer extends Layer {
 		let fncRenderFore = ()=> {
 			const a = this.spLay.alpha;
 			this.spLay.alpha = 1;
-			this.spLay.children.forEach(s=> s.visible = true);
+			for (const s of this.spLay.children) s.visible = true;
 			this.#spTsy.visible = false;
 			GrpLayer.#appPixi.renderer.render(this.spLay, {renderTexture: this.#rtTsy});	// clear: true
 			this.spLay.alpha = a;
-			this.spLay.children.forEach(s=> s.visible = false);
+			for (const s of this.spLay.children) s.visible = false;
 		}
 		if (! this.containMovement) {
 			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
@@ -399,7 +399,7 @@ export class GrpLayer extends Layer {
 	override	renderEnd() {
 		GrpLayer.#appPixi.ticker.remove(this.#fncRender);
 		this.spLay.removeChild(this.#spTsy);
-		this.spLay.children.forEach(s=> s.visible = true);
+		for (const s of this.spLay.children) s.visible = true;
 		this.#spTsy.destroy(true);
 	}
 
@@ -430,10 +430,10 @@ export class GrpLayer extends Layer {
 		ld2.load((_ldr, hRes)=> {
 			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
 				const u2 = this.#hEncImgOUrl[s2] = src;
-				this.#hAEncImg[s2].forEach(i=> {
+				for (const i of this.#hAEncImg[s2]) {
 					i.src = u2;
 					if (onload) i.onload = ()=> onload(i);
-				});
+				}
 				delete this.#hAEncImg[s2];
 			//	URL.revokeObjectURL(u2);// 画面遷移で毎回再生成するので
 			}
@@ -486,11 +486,11 @@ export class GrpLayer extends Layer {
 		this.#sBkFace= '';
 		this.#csvFn	= '';
 	}
-	override readonly record = ()=> {return {...super.record(),
+	override readonly record = ()=> ({...super.record(),
 		sBkFn		: this.#sBkFn,
 		sBkFace		: this.#sBkFace,
 		idc_hArg	: this.#idc.gethArg(),
-	}};
+	});
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {

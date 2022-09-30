@@ -65,9 +65,9 @@ export class Layer {
 
 		const bmn = Layer.getBlendmodeNum(blendmode);
 		if (cnt instanceof Sprite) cnt.blendMode = bmn;
-		cnt.children.forEach(c=> {
+		for (const c of cnt.children) {
 			if (c instanceof Sprite) c.blendMode = bmn;
-		});
+		}
 	}
 
 	static getBlendmodeNum(bm_name: string): number {

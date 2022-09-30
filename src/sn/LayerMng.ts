@@ -46,12 +46,12 @@ export class LayerMng implements IGetFrm {
 		const fncResizeLay = ()=> {
 			sys.cvsResize();
 			this.cvsResizeDesign();
-			if (this.#modeLnSub) this.#aLayName.forEach(
-				layer=> this.#hPages[layer].fore.cvsResizeChildren()
-			);
-			else this.#aLayName.forEach(
-				layer=> this.#hPages[layer].fore.cvsResize()
-			);
+			if (this.#modeLnSub) for (const layer of this.#aLayName) {
+				this.#hPages[layer].fore.cvsResizeChildren();
+			}
+			else for (const layer of this.#aLayName) {
+				this.#hPages[layer].fore.cvsResize();
+			}
 
 			this.#frmMng.cvsResize();
 			this.#evtMng.cvsResize();
@@ -204,11 +204,11 @@ export class LayerMng implements IGetFrm {
 		disconnect	: _=> {DesignCast.leaveMode();	return false;},
 		_enterDesign: _=> {
 			DesignCast.enterMode();
-			this.#aLayName.forEach(layer=> {
+			for (const layer of this.#aLayName) {
 				const lay = this.#hPages[layer].fore;
 				lay.makeDesignCastChildren(gdc=> gdc.make());
 				lay.makeDesignCast(gdc=> gdc.make());
-			});
+			}
 
 			this.#selectNode(this.#curTxtlay);	return false;
 		//	this.selectNode('mes/ボタン');	return false;	// Test用
@@ -275,12 +275,12 @@ export class LayerMng implements IGetFrm {
 
 	// 既存の全文字レイヤの実際のバック不透明度、を再計算
 	#foreachRedrawTxtLayBack(g_alpha: number) {
-		this.#getLayers().forEach(name=> {
+		for (const name of this.#getLayers()) {
 			const pg = this.#hPages[name];
-			if (! (pg.fore instanceof TxtLayer)) return;
+			if (! (pg.fore instanceof TxtLayer)) continue;
 			pg.fore.chgBackAlpha(g_alpha);
 			(pg.back as TxtLayer).chgBackAlpha(g_alpha);
-		});
+		}
 	}
 
 
@@ -331,7 +331,9 @@ export class LayerMng implements IGetFrm {
 		const pg = (hArg.page !== 'back') ?'fore' :'back';
 		if (this.#tiTrans.tw) a.push(new Promise<void>(re=> {	// [trans]中
 			this.#back.visible = true;
-			this.#aBackTransAfter.forEach(lay=> rnd.render(lay, {clear: false}));
+			for (const lay of this.#aBackTransAfter) {
+				rnd.render(lay, {clear: false});
+			}
 			this.#back.visible = false;
 			this.#spTransBack.visible = true;
 
@@ -342,9 +344,9 @@ export class LayerMng implements IGetFrm {
 			this.#fore.filters = [];
 			re();
 		}));
-		else this.#getLayers(hArg.layer).forEach(v=> a.push(new Promise<void>(
-			re=> this.#hPages[v][pg].snapshot(rnd, ()=> re())
-		)));
+		else for (const v of this.#getLayers(hArg.layer)) a.push(
+			new Promise<void>(re=> this.#hPages[v][pg].snapshot(rnd, ()=>re()))
+		);
 		Promise.allSettled(a).then(async ()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
 			rnd.render(this.#stage, {renderTexture: renTx});
@@ -352,8 +354,7 @@ export class LayerMng implements IGetFrm {
 				fn,
 				rnd.plugins.extract.base64(Sprite.from(renTx)),
 			);
-			if (! this.#tiTrans.tw) this.#getLayers(hArg.layer)
-			.forEach(v=> this.#hPages[v][pg].snapshot_end());
+			if (! this.#tiTrans.tw) for (const v of this.#getLayers(hArg.layer)) this.#hPages[v][pg].snapshot_end();
 			rnd.destroy(true);
 		});
 
@@ -407,13 +408,11 @@ export class LayerMng implements IGetFrm {
 					if (this.val.getVal('sn.skip.enabled')) {
 						LayerMng.#msecChWait = 0;
 					}
-					else {
-						this.setNormalChWait();
-					}
-					this.#getLayers().forEach(name=> {
+					else this.setNormalChWait();
+					for (const name of this.#getLayers()) {
 						const f = this.#hPages[name].fore;
 						if (f instanceof TxtLayer) this.#cmdTxt('gotxt｜', f, false);
-					});
+					}
 				}
 			}
 
@@ -559,24 +558,24 @@ void main(void) {
 		this.#aBackTransAfter = [];
 		const hTarget: {[ley_nm: string]: boolean} = {};
 		const aFore: Layer[] = [];
-		this.#getLayers(hArg.layer).forEach(lay_nm=> {
+		for (const lay_nm of this.#getLayers(hArg.layer)) {
 			hTarget[lay_nm] = true;
 			aFore.push(this.#hPages[lay_nm].fore);
-		});
+		}
 		const aBack: Layer[] = [];
-		this.#getLayers().forEach(lay_nm=> {
+		for (const lay_nm of this.#getLayers()) {
 			const lay = this.#hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'];
 			this.#aBackTransAfter.push(lay.spLay);
 			aBack.push(lay);
-		});
+		}
 		this.#rtTransBack.resize(CmnLib.stageW, CmnLib.stageH);
 		this.appPixi.renderer.render(this.#back, {renderTexture: this.#rtTransBack});	// clear: true
 
 		let fncRenderBack = ()=> {
 			this.#back.visible = true;
-			this.#aBackTransAfter.forEach(spLay=> {
+			for (const spLay of this.#aBackTransAfter) {
 				this.appPixi.renderer.render(spLay, {renderTexture: this.#rtTransBack, clear: false});
-			});
+			}
 			this.#back.visible = false;
 		};
 		if (! aBack.some(lay=> lay.containMovement)) {
@@ -617,11 +616,12 @@ void main(void) {
 				if (hTarget[layer]) {pg.transPage(aPrm); continue;}
 
 				// transしないために交換する
-				const idx = this.#fore.getChildIndex(pg.back.spLay);
-				this.#fore.removeChild(pg.back.spLay);
-				this.#back.removeChild(pg.fore.spLay);
-				this.#fore.addChildAt(pg.fore.spLay, idx);
-				this.#back.addChildAt(pg.back.spLay, idx);
+				const {fore: {spLay: f}, back: {spLay: b}} = pg;
+				const idx = this.#fore.getChildIndex(b);
+				this.#fore.removeChild(b);
+				this.#back.removeChild(f);
+				this.#fore.addChildAt(f, idx);
+				this.#back.addChildAt(b, idx);
 			}
 			Promise.allSettled(aPrm);
 
@@ -687,14 +687,14 @@ void main(void) {
 	}
 	#foreachLayers(hArg: HArg, fnc: (name: string, $pg: Pages)=> void): ReadonlyArray<string> {
 		const vct = this.#getLayers(hArg.layer);
-		vct.forEach(name=> {
-			if (! name) return;
+		for (const name of vct) {
+			if (! name) continue;
 
 			const pg = this.#hPages[name];
 			if (! pg) throw '存在しないlayer【'+ name +'】です';
 
 			fnc(name, pg);
-		});
+		}
 
 		return vct;
 	}
@@ -730,15 +730,15 @@ void main(void) {
 		if (this.#evtMng.isSkippingByKeyDown()) return false;
 
 		const aDo: DisplayObject[] = [];
-		this.#getLayers(hArg.layer).forEach(lay_nm=> {
+		for (const lay_nm of this.#getLayers(hArg.layer)) {
 			aDo.push(this.#hPages[lay_nm].fore.spLay);
-		});
+		}
 		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 			// NOTE: スマホ回転対応が要るかも？
 		const fncRender = ()=> {
 			this.#fore.visible = true;
-			aDo.forEach(lay=>
-				this.appPixi.renderer.render(lay, {renderTexture: this.#rtTransFore, clear: false})
+			for (const lay of aDo) this.appPixi.renderer.render(
+				lay, {renderTexture: this.#rtTransFore, clear: false}
 			);
 			this.#fore.visible = false;
 		};
@@ -937,12 +937,12 @@ void main(void) {
 		this.recText('', true);	// カレント変更前に現在の履歴を保存
 		this.#curTxtlay = layer;
 		this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
-		this.#getLayers().forEach(name=> {
+		for (const name of this.#getLayers()) {
 			const pg = this.#hPages[name];
-			if (! (pg.fore instanceof TxtLayer)) return;
+			if (! (pg.fore instanceof TxtLayer)) continue;
 			(pg.fore as TxtLayer).isCur =
 			(pg.back as TxtLayer).isCur = (name === layer);
-		});
+		}
 
 		return false;
 	}
@@ -1088,7 +1088,7 @@ void main(void) {
 	// レイヤのダンプ
 	#dump_lay(hArg: HArg) {
 		console.group('🥟 [dump_lay]');
-		this.#getLayers(hArg.layer).forEach(name=> {
+		for (const name of this.#getLayers(hArg.layer)) {
 			const pg = this.#hPages[name];
 			try {
 				console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib.isDarkMode ?'49F' :'05A'};`,
@@ -1098,7 +1098,7 @@ void main(void) {
 				console.error(`   back:${pg.back.dump()}`);
 				console.error(`   fore:${pg.fore.dump()}`);
 			}
-		});
+		}
 		console.groupEnd();
 
 		return false;
@@ -1135,14 +1135,14 @@ void main(void) {
 
 	record(): any {
 		const o: any = {};
-		this.#aLayName.forEach(layer=> {
+		for (const layer of this.#aLayName) {
 			const pg = this.#hPages[layer];
 			o[layer] = {
 				cls: pg.cls,
 				fore: pg.fore.record(),
 				back: pg.back.record(),
-			}
-		});
+			};
+		}
 		return o;
 	}
 	playback($hPages: HIPage, fncComp: ()=> void): void {
@@ -1152,8 +1152,8 @@ void main(void) {
 
 		const aPrm: Promise<void>[] = [];
 		const aSort: {layer: string, idx: number}[] = [];
-		for (const [layer, {fore, back, cls}] of Object.entries($hPages)) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
-			aSort.push({layer, idx: fore.idx});
+		for (const [layer, {fore, fore: {idx}, back, cls}] of Object.entries($hPages)) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
+			aSort.push({layer, idx});
 
 			const ps = this.#hPages[layer] ??= new Pages(layer, cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
 			ps.fore.playback(fore, aPrm);

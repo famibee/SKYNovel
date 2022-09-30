@@ -476,11 +476,12 @@ export class SoundMng {
 
 	// レスポンス向上のため音声ファイルを先読み
 	loadAheadSnd(hArg: HArg): void {
-		[hArg.clickse, hArg.enterse, hArg.leavese].forEach(fn=> {
-			if (! fn || sound.exists(fn)) return;
+		const {clickse, enterse, leavese} = hArg;
+		for (const fn of [clickse, enterse, leavese]) {
+			if (! fn || sound.exists(fn)) continue;
 
 			this.#playseSub('', fn, {preload: true, autoPlay: false});
-		});
+		}
 	}
 
 	// しおりの読込（BGM状態復元）

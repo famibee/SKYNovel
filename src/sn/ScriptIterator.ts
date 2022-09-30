@@ -113,7 +113,9 @@ export class ScriptIterator {
 				for (const [fn, v] of Object.entries(hLineBP)) this.#regBreakPoint(fn, <any>v);
 
 				ScriptIterator.#hFuncBP = {};
-				o.hBreakpoint.aFunc.forEach((v: any)=> ScriptIterator.#hFuncBP[v.name] = 1);
+				for (const v of o.hBreakpoint.aFunc) {
+					ScriptIterator.#hFuncBP[v.name] = 1;
+				}
 
 				if (o.stopOnEntry) {
 					while (true) {
@@ -178,7 +180,7 @@ export class ScriptIterator {
 		},
 		set_func_break: o=> {
 			ScriptIterator.#hFuncBP = {};
-			o.a.forEach((v: any)=> ScriptIterator.#hFuncBP[v.name] = 1);
+			for (const v of o.a) ScriptIterator.#hFuncBP[v.name] = 1;
 			this.sys.send2Dbg(o.ri, {});
 		},
 
@@ -942,12 +944,12 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 				v.splice(i, 1, a, b);
 			}
 		}
-		this.#script = {aToken :v, len :v.length, aLNum :[]};
+		const scr = this.#script = {aToken :v, len :v.length, aLNum :[]};
 
 		let mes = '';
 		try {
 			mes = 'ScriptIterator.replaceScriptChar2macro';
-			this.#grm.replaceScr_C2M_And_let_ml(this.#script);
+			this.#grm.replaceScr_C2M_And_let_ml(scr);
 			mes = 'ScriptIterator.replaceScript_Wildcard';
 			this.#replaceScript_Wildcard();
 		}
@@ -956,7 +958,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			else mes = e as string;
 			this.main.errScript(mes, false);
 		}
-		this.#hScript[this.#scriptFn] = this.#script;
+		this.#hScript[this.#scriptFn] = scr;
 
 		this.val.loadScrWork(this.#scriptFn);
 	}
@@ -1084,10 +1086,12 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 	}
 
 	// マクロ定義の開始
+	readonly	#REG_NG4MAC_NM = new RegExp(`["'#;\\]　]+`);
 	#macro(hArg: HArg) {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		if (name in this.hTag) throw `[${name}]はタグかすでに定義済みのマクロです`;
+		if (this.#REG_NG4MAC_NM.test(name)) throw `[${name}]はマクロ名として異常です`;
 
 		const ln = this.#lineNum;
 		const cs = new CallStack(this.#scriptFn, this.#idxToken);

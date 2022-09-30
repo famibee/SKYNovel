@@ -270,7 +270,9 @@ export class SysBase implements ISysBase {
 			// reasonという引数で理由が分かる
 			// https://socket.io/docs/v3/client-socket-instance/
 
-		this.callHook = (type, o)=> this.#aFncHook.forEach(fnc=> fnc(type, o));
+		this.callHook = (type, o)=> {
+			for (const fnc of this.#aFncHook) fnc(type, o);
+		}
 	}
 	protected	extPort = 3776;
 
@@ -399,7 +401,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	}
 
 
-	#preFromPlg: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET = (_ext, d)=> {return {ret: d.toString(), ext_num: 0,}};
+	#preFromPlg: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET = (_ext, d)=> ({ret: d.toString(), ext_num: 0,});
 
 	decStr(ext: string, d: string) {return this.#preFromPlg(ext, d).ret;}
 	async dec(ext: string, d: ArrayBuffer) {

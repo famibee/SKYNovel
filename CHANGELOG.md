@@ -1,3 +1,9 @@
+- fix: マクロ定義時にマクロ名をチェックするように【正規表現：["'#;\\]　]+】
+- refactor: 分割代入を積極利用、配列には名前付け
+- refactor: ()=> {return {...\}} を ()=> ({...\}) に
+- refactor: forEach ループをできるだけ for..of に
+
+
 ## [1.35.3](https://github.com/famibee/SKYNovel/compare/v1.35.2...v1.35.3) (2022-09-23)
 
 

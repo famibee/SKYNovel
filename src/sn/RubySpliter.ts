@@ -59,14 +59,14 @@ export class RubySpliter {
 		while (e = RubySpliter.#REG_RUBY.exec(text)) {
 			const g = e?.groups;
 			if (! g) continue;
-			const ruby: string = g.ruby;
+
+			const {ruby, kan_ruby, kan, ce, txt=''} = g;
 			if (ruby) {this.putTxtRb(decodeURIComponent(g.str), ruby); continue;}
 
-			const kan_ruby: string = g.kan_ruby;
-			if (kan_ruby) {this.putTxtRb(g.kan, kan_ruby); continue;}
-			if (g.ce) {this.#putCh(g.ce.slice(1), ''); continue}
+			if (kan_ruby) {this.putTxtRb(kan, kan_ruby); continue;}
+			if (ce) {this.#putCh(ce.slice(1), ''); continue}
 
-			(Array.from(g.txt ?? '')as string[]).forEach(v=> this.#putCh(v, ''));
+			for (const v of Array.from(<string>txt)) this.#putCh(v, '');
 				// txt.split('')や [...txt] はサロゲートペアで問題
 		}
 	}

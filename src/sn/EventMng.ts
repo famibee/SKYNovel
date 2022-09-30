@@ -114,7 +114,8 @@ export class EventMng implements IEvtMng {
 .sn_hint[data-popper-placement^='right']	> .sn_hint_ar {left: -4px;}
 `);
 
-		Array.from(document.getElementsByClassName('sn_hint')).forEach(v=> v.parentElement?.removeChild(v));	// ギャラリーリロード用初期化
+		for (const v of Array.from(document.getElementsByClassName('sn_hint'))) v.parentElement?.removeChild(v);
+			// ギャラリーリロード用初期化
 		appPixi.view.parentElement?.insertAdjacentHTML('beforeend', `
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>

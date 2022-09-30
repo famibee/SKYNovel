@@ -18,11 +18,12 @@ export class PropParser implements IPropParser {
 	constructor(private readonly val: IVariable, ce = '\\') {
 		function ope(a: (string | RegExp)[]) {
 			const ps: any = [];
-			a.forEach(v=> ps.push(
+			for (const v of a) ps.push(
 				((v instanceof RegExp)
 					? regex(v)
 					: string(v as string))
-				.trim(optWhitespace)));
+				.trim(optWhitespace)
+			);
 			return alt.apply(null, ps);
 		}
 
@@ -320,12 +321,11 @@ export class PropParser implements IPropParser {
 		const g = e?.groups;
 		if (! g) return undefined;
 
+		const {scope='tmp', name, at=''} = g;
 		return {
-			scope	: g.scope || 'tmp',
-			//name	: (g.name || '')
-			//			.replace(REG_VALN_B2D, getValName_B2D)
-			name	: PropParser.#getValName_B2D(g.name),
-			at		: g.at ?? '',
+			scope,
+			name	: PropParser.#getValName_B2D(name),
+			at,
 		};
 	}
 

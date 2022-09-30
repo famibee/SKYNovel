@@ -279,7 +279,7 @@ export class SysApp extends SysNode {
 				sYml = await resYml.text();
 				const mv = /version: (.+)/.exec(sYml);
 				if (! mv) throw `[update_check] .yml に version が見つかりません`;
-				netver = mv[1];
+				[,netver] = mv;
 			}
 
 			const appver = this.#hInfo.getVersion;
@@ -333,17 +333,17 @@ export class SysApp extends SysNode {
 			else {
 				const mp = /path: (.+)/.exec(sYml);
 				if (! mp) throw `[update_check] path が見つかりません`;
-				const path = mp[1];
+				const [,path] = mp;
 				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] path=${path}`, 'D');
 
 				const mc = /sha512: (.+)/.exec(sYml);
 				if (! mc) throw `[update_check] sha512 が見つかりません`;
-				const sha = mc[1];
+				const [,sha] = mc;
 				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] sha=${sha}=`, 'D');
 
 				// (id)-1.0.0-arm64.dmg
-				const mm = /(.+)(\.\w+)/.exec(path) ?? ['', '', ''];
-				await this.#dl_app(url, mm[1] + '-' + this.#hInfo.arch + mm[2], path);
+				const [,id, arch] = /(.+)(\.\w+)/.exec(path) ?? ['', '', ''];
+				await this.#dl_app(url, id + '-' + this.#hInfo.arch + arch, path);
 			}
 
 			if (CmnLib.debugLog) DebugMng.myTrace(`アプリファイルを保存しました`, 'D');

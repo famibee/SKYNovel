@@ -20,23 +20,21 @@ export class Areas implements IAreas {
 	record(idx: number): void {
 		if (this.search(idx)) return;
 
-		for (const begin of Object.keys(this.hAreas)) {
+		for (const [begin, v] of Object.entries(this.hAreas)) {
 			// 領域末尾+1とマッチ
-			if (this.hAreas[begin] +1 === idx) {
-				if ((idx +1) in this.hAreas) {
+			if (v +1 === idx) {
+				if (String(idx +1) in this.hAreas) {
 					// 二つの領域がマージできる場合
 					this.hAreas[begin] = this.hAreas[idx +1];
 					delete this.hAreas[idx +1]
 				}
-				else {
-					this.hAreas[begin] = idx;
-				}
+				else this.hAreas[begin] = idx;
 				return;
 			}
 		}
 
 		// 領域先頭-1とマッチ
-		if ((idx +1) in this.hAreas) {
+		if (String(idx +1) in this.hAreas) {
 			this.hAreas[idx] = this.hAreas[idx +1];
 			delete this.hAreas[idx +1];
 			return;
@@ -49,7 +47,7 @@ export class Areas implements IAreas {
 		if (! this.search(idx)) return;
 
 		// 領域先頭とマッチ
-		if (idx in this.hAreas) {
+		if (String(idx) in this.hAreas) {
 			if (this.hAreas[idx] > idx) this.hAreas[idx +1] = this.hAreas[idx];
 			delete this.hAreas[idx];
 			return;

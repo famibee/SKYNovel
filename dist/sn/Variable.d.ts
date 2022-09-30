@@ -20,7 +20,7 @@ export declare class Variable implements IVariable {
     getAreaKidoku: (fn: string) => Areas;
     saveKidoku(): void;
     setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
-    readonly getVal: (arg_name: string, def?: string | number | undefined) => any;
+    readonly getVal: (arg_name: string, def?: number | string) => any;
     doRecLog(): boolean;
     defValTrg(name: string, fnc: ISetVal): void;
 }

@@ -28,13 +28,14 @@ export class AnalyzeTagArg {
 			const g = e?.groups;
 			if (! g) continue;
 
-			if (g.key) this.#hPrm[g.key] = {
-				val: g.val ?? g.val2,
-				def: g.def ?? g.def2
+			const {key, val, val2, def, def2, literal} = g;
+			if (key) this.#hPrm[key] = {
+				val: val ?? val2,
+				def: def ?? def2
 			};
-			else if (g.literal) {
-				if (g.literal === '*') this.#isKomeParam = true;
-				else this.#hPrm[g.literal] = {val: '1'};
+			else if (literal) {
+				if (literal === '*') this.#isKomeParam = true;
+				else this.#hPrm[literal] = {val: '1'};
 			}
 		}
 	}
