@@ -1,3 +1,10 @@
+## [1.35.4](https://github.com/famibee/SKYNovel/compare/v1.35.3...v1.35.4) (2022-09-30)
+
+
+### Bug Fixes
+
+* マクロ定義時にマクロ名をチェックするように【正規表現：["'#;\\]　]+】 ([65fcbd2](https://github.com/famibee/SKYNovel/commit/65fcbd2b088e4de434840fd94211c9ffff59574e))
+
 - fix: マクロ定義時にマクロ名をチェックするように【正規表現：["'#;\\]　]+】
 - refactor: 分割代入を積極利用、配列には名前付け
 - refactor: ()=> {return {...\}} を ()=> ({...\}) に
