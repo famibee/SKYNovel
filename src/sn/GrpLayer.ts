@@ -9,7 +9,7 @@ import {Layer} from './Layer';
 
 import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib';
 import {HArg, IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
-import {Config} from './Config';
+import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {SysBase} from './SysBase';
 import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle, RenderTexture, Application} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
@@ -194,7 +194,7 @@ export class GrpLayer extends Layer {
 //			GrpLayer.ldrHFn[f.fn] = 1;
 
 			needLoad = true;
-			const url = GrpLayer.#cfg.searchPath(f.fn, Config.EXT_SPRITE);
+			const url = GrpLayer.#cfg.searchPath(f.fn, SEARCH_PATH_ARG_EXT.SPRITE);
 			const xt = this.#sys.crypto
 			? {xhrType: (url.slice(-5) === '.json')
 				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
@@ -282,7 +282,7 @@ export class GrpLayer extends Layer {
 		if (! meta?.image) {next(); return;}
 
 		const fn = getFn(meta.image);
-		const url = GrpLayer.#cfg.searchPath(fn, Config.EXT_SPRITE);
+		const url = GrpLayer.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SPRITE);
 		(new Loader)
 		.use((res2, next2)=> {
 			this.#sys.dec(res2.extension, res2.data)
@@ -412,7 +412,7 @@ export class GrpLayer extends Layer {
 		if (aImg) {aImg.push(img); return}
 		this.#hAEncImg[src] = [img];
 
-		const url2 = GrpLayer.#cfg.searchPath(src, Config.EXT_SPRITE);
+		const url2 = GrpLayer.#cfg.searchPath(src, SEARCH_PATH_ARG_EXT.SPRITE);
 		const ld2 = (new Loader)
 		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
 		if (GrpLayer.#sys.crypto) ld2.use((res, next)=> {

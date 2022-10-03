@@ -1,5 +1,5 @@
 export interface PRM {
-    val?: string;
+    val: string;
     def?: string;
 }
 export interface HPRM {

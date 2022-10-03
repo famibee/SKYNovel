@@ -9,6 +9,24 @@ import {CmnLib, int} from './CmnLib';
 import {IConfig, IExts, IFn2Path, T_CFG} from './CmnInterface';
 import {SysBase} from './SysBase';
 
+export const enum SEARCH_PATH_ARG_EXT {	// #searchPath 使用時、第二引数用
+	DEFAULT	= '',
+	SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm',
+		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
+	SCRIPT	= 'sn|ssn',
+	FONT	= 'woff2|woff|otf|ttf',
+	SOUND	= 'mp3|m4a|ogg|aac|flac|wav',
+	HTML	= 'htm|html',
+	CSS		=	'css',
+	SN		=	'sn',
+
+	TST_PNGPNG_	= 'png|png_',
+	TST_HH		= 'hh',
+	TST_EEE		= 'eee',
+	TST_GGG		= 'ggg',
+	TST_PNGXML	= 'png|xml',
+};
+
 export class Config implements IConfig {
 	oCfg: T_CFG = {
 		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
@@ -45,15 +63,9 @@ export class Config implements IConfig {
 		code	: {},	// 暗号化しないフォルダ
 		debuger_token	: '',		// デバッガとの接続トークン
 	};
-	userFnTail	= '';
 
+	userFnTail		= '';
 	hPathFn2Exts	: IFn2Path	= {};
-	static	readonly	EXT_SPRITE	= 'png|jpg|jpeg|json|svg|webp|mp4|webm';
-		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
-	static	readonly	EXT_SCRIPT	= 'sn|ssn';
-	static	readonly	EXT_FONT	= 'woff2|woff|otf|ttf';
-	static	readonly	EXT_SOUND	= 'mp3|m4a|ogg|aac|flac|wav';
-	static	readonly	EXT_HTML	= 'htm|html';
 
 	constructor(readonly sys: SysBase) {}
 	static	async	generate(sys: SysBase) {
@@ -87,8 +99,8 @@ export class Config implements IConfig {
 		// 当クラスのコンストラクタとload()は分ける
 		await this.sys.loadPath(this.hPathFn2Exts, this);
 
-		this.#existsBreakline = this.matchPath('^breakline$', Config.EXT_SPRITE).length > 0;
-		this.#existsBreakpage = this.matchPath('^breakpage$', Config.EXT_SPRITE).length > 0;
+		this.#existsBreakline = this.matchPath('^breakline$', SEARCH_PATH_ARG_EXT.SPRITE).length > 0;
+		this.#existsBreakpage = this.matchPath('^breakpage$', SEARCH_PATH_ARG_EXT.SPRITE).length > 0;
 		if (! this.sys.crypto) return;
 
 		for (const hExts of Object.values(this.hPathFn2Exts)) {
@@ -112,7 +124,7 @@ export class Config implements IConfig {
 
 	readonly	#REG_PATH = /([^\/\s]+)\.([^\d]\w+)/;
 		// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
-	searchPath(path: string, extptn = ''): string {
+	searchPath(path: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {
 		if (! path) throw '[searchPath] fnが空です';
 		if (path.slice(0, 7) === 'http://') return path;
 		if (path.slice(0, 11) === 'downloads:/') {
@@ -180,7 +192,7 @@ export class Config implements IConfig {
 		return ret;
 	}
 
-	matchPath(fnptn: string, extptn = ''): ReadonlyArray<IExts> {
+	matchPath(fnptn: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): ReadonlyArray<IExts> {
 		const aRet :IExts[] = [];
 		const regPtn = new RegExp(fnptn);
 		const regExt = new RegExp(extptn);

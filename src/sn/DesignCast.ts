@@ -16,7 +16,7 @@ import {DebugMng} from './DebugMng';
 import {TxtStage} from './TxtStage';
 import {Button} from './Button';
 import {GrpLayer} from './GrpLayer';
-import {Config} from './Config';
+import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 
 import {Application, Rectangle, Text, Sprite, Point} from 'pixi.js';
 import Moveable, {OnDrag, OnResize} from 'moveable';
@@ -375,13 +375,13 @@ export class DesignCast {
 				url		: '',
 				buf		: new ArrayBuffer(0),
 				old_fn	: this.oldFn(),
-				old_url	: DesignCast.#cfg.searchPath(this.oldFn(), Config.EXT_SPRITE),
+				old_url	: DesignCast.#cfg.searchPath(this.oldFn(), SEARCH_PATH_ARG_EXT.SPRITE),
 			};
 			f.arrayBuffer().then(buf=> {
 				o.buf = buf;
 				try {
 					o.url = DesignCast.#scrItr.cnvPath4Dbg(
-						DesignCast.#cfg.searchPath(f.name, Config.EXT_SPRITE)
+						DesignCast.#cfg.searchPath(f.name, SEARCH_PATH_ARG_EXT.SPRITE)
 					);
 				} catch {}
 				DesignCast.sys.send2Dbg('_dropFile', o);
@@ -435,8 +435,8 @@ export class DesignCast {
 
 		// pivot (this)
 		if ('pivot_x' in p || 'pivot_y' in p) {
-			const px = Number(DesignCast.prpPrs.getValAmpersand(p.pivot_x.val ?? '0'));
-			const py = Number(DesignCast.prpPrs.getValAmpersand(p.pivot_y.val ?? '0'));
+			const px = Number(DesignCast.prpPrs.getValAmpersand(p.pivot_x.val));
+			const py = Number(DesignCast.prpPrs.getValAmpersand(p.pivot_y.val));
 			if (isNaN(px) || isNaN(py)) DebugMng.myTrace(`pivot_xかpivot_yが数値ではありません\n(fn:${o[':path'].slice(13)} ln:${o[':ln']})\n${token}`, 'F');
 
 			dc.pivot.set(px, py);
@@ -444,8 +444,8 @@ export class DesignCast {
 
 		// rect (this)
 		if ('left' in p || 'top' in p || 'x' in p || 'y' in p) {
-			const x = int(DesignCast.prpPrs.getValAmpersand(p.left.val ?? p.x.val ?? '0'));
-			const y = int(DesignCast.prpPrs.getValAmpersand(p.top.val  ?? p.y.val ?? '0'));
+			const x = int(DesignCast.prpPrs.getValAmpersand(p.left?.val ?? p.x?.val ?? '0'));
+			const y = int(DesignCast.prpPrs.getValAmpersand(p.top?.val  ?? p.y?.val ?? '0'));
 			if (isNaN(x) || isNaN(y)) DebugMng.myTrace(`widthかheightが数値ではありません\n(fn:${o[':path'].slice(13)} ln:${o[':ln']})\n${token}`, 'F');
 
 			dc.rect.x = x -dc.pivot.x;	// cssとpixijsの違い吸収
@@ -453,8 +453,8 @@ export class DesignCast {
 			dc.setPos(x, y);
 		}
 		if ('width' in p || 'height' in p) {
-			const w = int(DesignCast.prpPrs.getValAmpersand(p.width.val ??'0'));
-			const h = int(DesignCast.prpPrs.getValAmpersand(p.height.val??'0'));
+			const w = int(DesignCast.prpPrs.getValAmpersand(p.width?.val ??'0'));
+			const h = int(DesignCast.prpPrs.getValAmpersand(p.height?.val??'0'));
 			if (isNaN(w) || isNaN(h)) DebugMng.myTrace(`widthかheightが数値ではありません\n(fn:${o[':path'].slice(13)} ln:${o[':ln']})\n${token}`, 'F');
 
 			dc.rect.width = w;
@@ -464,8 +464,8 @@ export class DesignCast {
 
 		// scale (this)
 		if ('scale_x' in p || 'scale_y' in p) {
-			const sx = Number(DesignCast.prpPrs.getValAmpersand(p.scale_x.val ?? '0'));
-			const sy = Number(DesignCast.prpPrs.getValAmpersand(p.scale_y.val ?? '0'));
+			const sx = Number(DesignCast.prpPrs.getValAmpersand(p.scale_x?.val ?? '0'));
+			const sy = Number(DesignCast.prpPrs.getValAmpersand(p.scale_y?.val ?? '0'));
 			if (isNaN(sx) || isNaN(sy)) DebugMng.myTrace(`scale_xかscale_yが数値ではありません\n(fn:${o[':path'].slice(13)} ln:${o[':ln']})\n${token}`, 'F');
 
 			dc.scale.set(sx, sy);
@@ -474,7 +474,7 @@ export class DesignCast {
 
 		// rotation (this)
 		if ('rotation' in p) {
-			const r = Number(DesignCast.prpPrs.getValAmpersand(p.rotation.val ?? '0'));
+			const r = Number(DesignCast.prpPrs.getValAmpersand(p.rotation.val));
 			if (isNaN(r)) DebugMng.myTrace(`rotationが数値ではありません\n(fn:${o[':path'].slice(13)} ln:${o[':ln']})\n${token}`, 'F');
 
 			dc.rotation = r;
@@ -504,7 +504,7 @@ export class GrpLayDesignCast extends DesignCast {
 	protected	override setSize(w: number, h: number) {this.#sp.width = w; this.#sp.height = h;}
 	override setOther(hPrm: HPRM) {
 		if ('fn' in hPrm) {
-			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn.val ?? '');
+			const fn = DesignCast.prpPrs.getValAmpersand(hPrm.fn.val);
 			this.gl.lay({fn});
 		}
 
@@ -716,7 +716,7 @@ export class PicBtnDesignCast extends BtnDesignCast {
 	override setOther(hPrm: HPRM) {
 		super.setOther(hPrm);
 		if ('pic' in hPrm) {
-			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic.val ?? '');
+			const pic = DesignCast.prpPrs.getValAmpersand(hPrm.pic.val);
 			this.btn.update_pic(pic, this.#sp);
 		}
 	}

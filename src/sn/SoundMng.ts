@@ -8,7 +8,7 @@
 import {IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg, INoticeChgVolume} from './CmnInterface';
-import {Config} from './Config';
+import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {SysBase} from './SysBase';
 
 import {sound, utils, Sound, Options, filters} from '@pixi/sound';
@@ -336,7 +336,7 @@ export class SoundMng {
 		return join;
 	}
 	#playseSub(buf: string, fn: string, o: Options) {
-		const url = this.cfg.searchPath(fn, Config.EXT_SOUND);
+		const url = this.cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
 	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
 		if (url.slice(-4) !== '.bin') {
 			o.url = url;

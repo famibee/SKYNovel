@@ -9,7 +9,7 @@ import {Layer} from './Layer';
 import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
 import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
 import {TxtStage} from './TxtStage';
-import {Config} from './Config';
+import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
@@ -43,11 +43,11 @@ export class TxtLayer extends Layer {
 		initStyle();
 
 		addStyle(
-			cfg.matchPath('.+', Config.EXT_FONT)
+			cfg.matchPath('.+', SEARCH_PATH_ARG_EXT.FONT)
 			.flatMap(o=> Object.values(o).map(v=> `
 @font-face {
 	font-family: '${v}';
-	src: url('${this.#cfg.searchPath(v, Config.EXT_FONT)}');
+	src: url('${this.#cfg.searchPath(v, SEARCH_PATH_ARG_EXT.FONT)}');
 }
 `)).join('')
 

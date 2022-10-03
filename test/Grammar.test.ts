@@ -1264,3 +1264,17 @@ it('testAnalyzeScript_tag_in_string_esc¥',()=> {
 	expect(vctToken[0]).toBe('[lay layer="mes" chk_overrow=false over_ins_tag="¥"¥\'¥#¥\n"]');
 	expect(vctToken[1]).toBe("\n");
 });
+
+it('20221003_test_multilang_token',()=> {
+	const sScr =
+`[싱글룸][单人间][單人房][¿Como_esta?][أهلا][𣛠𩙻]`;
+	vctToken = grm.matchToken(sScr);
+
+	expect(vctToken).toHaveLength(6);
+	expect(vctToken[0]).toBe('[싱글룸]');
+	expect(vctToken[1]).toBe('[单人间]');
+	expect(vctToken[2]).toBe('[單人房]');
+	expect(vctToken[3]).toBe('[¿Como_esta?]');
+	expect(vctToken[4]).toBe('[أهلا]');
+	expect(vctToken[5]).toBe('[𣛠𩙻]');
+});

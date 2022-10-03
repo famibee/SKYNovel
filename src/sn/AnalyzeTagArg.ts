@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 export interface PRM {
-	val?	: string;
+	val		: string;
 	def?	: string;
 };
 export interface HPRM {
@@ -14,8 +14,22 @@ export interface HPRM {
 };
 
 export class AnalyzeTagArg {
-	// 72 match 2249 step(~2ms) PCRE2 https://regex101.com/r/yFUkWD/1
-	readonly	#REG_TAGARG	= /;[^\n]*|(?<key>\w+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
+	// 87 match 2725 step(0.5ms) PCRE2 https://regex101.com/r/aeN57J/1
+	/*
+;[^\n]*
+|	(?<key>[^\s="'#|;]+)
+	(?: \s | ;[^\n]*\n)*
+	=
+	(?: \s | ;[^\n]*\n)*
+	(?:	(?<val> [^\s"'#|;]+)
+	|	(["'#]) (?<val2>.*?) \3 )
+	(?: \|
+		(?: (?<def> [^\s"'#;]+)
+	|	(["'#]) (?<def2>.*?) \6 ) )?
+|	(?<literal>[^\s;]+)
+	*/
+	readonly	#REG_TAGARG	= /;[^\n]*|(?<key>[^\s="'#|;]+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
+
 	// 【属性 = 値 | 省略値】の分析
 	go(args: string) {
 		this.#hPrm = {};

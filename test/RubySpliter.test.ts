@@ -1089,3 +1089,24 @@ it('test_esc*DefEsc¥｜《》',()=> {
 	expect(retText).toBe('.*.　.論語');
 	expect(retRuby).toBe('...ろんごに');
 });
+
+it('20221003_test_multilang_token0',()=> {
+	rbSpl.putTxt("彼は令令《ひげこがし》を");
+	expect(retText).toBe(".彼.は.令令.を");
+	expect(retRuby).toBe("...ひげこがし.");
+});
+it('20221003_test_multilang_token1',()=> {
+	rbSpl.putTxt("彼は𣛠𩙻《ひげこがし》を");
+	expect(retText).toBe(".彼.は.𣛠𩙻.を");
+	expect(retRuby).toBe("...ひげこがし.");
+});
+it('20221003_test_multilang_token2',()=> {
+	rbSpl.putTxt("彼は㐀鿿《ひげこがし》を");
+	expect(retText).toBe(".彼.は.㐀鿿.を");
+	expect(retRuby).toBe("...ひげこがし.");
+});
+it('20221003_test_multilang_token3',()=> {
+	rbSpl.putTxt("彼は豈﫿《ひげこがし》を");
+	expect(retText).toBe(".彼.は.豈﫿.を");
+	expect(retRuby).toBe("...ひげこがし.");
+});

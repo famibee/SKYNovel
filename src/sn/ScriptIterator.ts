@@ -7,7 +7,7 @@
 
 import {uint, argChk_Boolean, getFn, CmnLib} from './CmnLib';
 import {IHTag, IMain, IVariable, IMark, HArg, Script, IPropParser} from './CmnInterface';
-import {Config} from './Config';
+import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
 import {Grammar, tagToken2Name_Args, tagToken2Name} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
@@ -37,7 +37,7 @@ interface IPageLog {
 	retMark	: IMark,
 };
 
-enum BreakState {Running, Wait, Break, Breaking, Step, Stepping, StepOuting, StepOut};
+const enum BreakState {Running, Wait, Break, Breaking, Step, Stepping, StepOuting, StepOut};
 
 export class ScriptIterator {
 	#script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
@@ -228,7 +228,7 @@ export class ScriptIterator {
 			this.sys.send2Dbg('stopOnEntry', {});
 		},
 	};
-	readonly #cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, Config.EXT_SCRIPT);
+	readonly #cnvSnPath = (fn: string)=> this.cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SCRIPT);
 	static	readonly	#REG4CODE_FN	= /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/;	// https://regex101.com/r/Km54EK/1 141 steps (~0ms)
 	readonly #cnvSnPath4Dbg = (fn: string)=>
 		(this.sys.pathBaseCnvSnPath4Dbg + this.#cnvSnPath(fn))
@@ -622,7 +622,7 @@ export class ScriptIterator {
 				if (cntDepth > 0) break;
 				if (idxGo > -1) break;
 
-				const e = this.alzTagArg.hPrm.exp.val ?? '';
+				const e = this.alzTagArg.hPrm.exp.val;
 				if (e.charAt(0) === '&') throw '属性expは「&」が不要です';
 				if (this.prpPrs.parse(e)) idxGo = this.#idxToken +1;
 				break;
@@ -993,7 +993,9 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			this.#script.aToken.splice(i, 1, '\t', '; '+ token);
 			this.#script.aLNum.splice(i, 1, NaN, NaN);
 
-			const ext = (tag_name === 'loadplugin') ?'css' :'sn';
+			const ext = tag_name === 'loadplugin'
+				? SEARCH_PATH_ARG_EXT.CSS
+				: SEARCH_PATH_ARG_EXT.SN;
 			const a = this.cfg.matchPath('^'+ fn.slice(0, -1) +'.*', ext);
 			for (const v of a) {
 				const nt = token.replace(

@@ -10,7 +10,7 @@ import {ITwInf, CmnTween} from './CmnTween';
 import {IHTag, IVariable, IMain, HArg, IGetFrm} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
-import {Config} from './Config';
+import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {GrpLayer} from './GrpLayer';
 
 import {Tween} from '@tweenjs/tween.js'
@@ -54,7 +54,7 @@ export class FrameMng implements IGetFrm {
 		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
 		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *this.sys.cvsScale}" height="${rct.height *this.sys.cvsScale}"></iframe>`);
 
-		const url = this.cfg.searchPath(src, Config.EXT_HTML);
+		const url = this.cfg.searchPath(src, SEARCH_PATH_ARG_EXT.HTML);
 		const ld = (new Loader())
 		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
 		if (this.sys.crypto) ld.use((res, next)=> {

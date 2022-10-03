@@ -1,3 +1,14 @@
+- feat: 属性名の \w+ 縛りを外した（AnalyzeTagArg.ts）
+	- test: 属性名にハングル、中国語（簡体字・繁体字）、スペイン語、アラビア語、ベトナムの漢越語表記なども使えるテスト追加（AnalyzeTagArg.test.ts）
+- feat: ラベル名の \w+ 縛りを外した（Grammar.ts）
+	- perf: 少し高速化
+	- test: タグ名にハングル、中国語（簡体字・繁体字）、スペイン語、アラビア語、ベトナムの漢越語が使える確認用テスト追加（Grammar.test.ts）
+- perf: 正規表現をややスリム化（RubySpliter.ts）
+	- test: 韓国・中国語（簡体字・繁体字）漢字のテスト追加（RubySpliter.test.ts）
+- refactor: #searchPath 使用時、第二引数用の内部定数を enum に
+- docs: [macro]の nowarn_unused、sum、%〜、detail 属性について追記
+
+
 ## [1.35.4](https://github.com/famibee/SKYNovel/compare/v1.35.3...v1.35.4) (2022-09-30)
 
 

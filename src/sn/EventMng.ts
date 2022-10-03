@@ -17,7 +17,7 @@ import {FocusMng} from './FocusMng';
 import {Tween} from '@tweenjs/tween.js'
 import {Container, Application, utils} from 'pixi.js';
 import {SoundMng} from './SoundMng';
-import {Config} from './Config';
+import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {SysBase} from './SysBase';
 const {GamepadListener} = require('gamepad.js');
 import {createPopper, Instance as InsPop} from '@popperjs/core';
@@ -417,7 +417,7 @@ export class EventMng implements IEvtMng {
 
 		// 音関係
 		if (hArg.clickse) {	//	clickse	クリック時に効果音
-			this.cfg.searchPath(hArg.clickse, Config.EXT_SOUND);// 存在チェック
+			this.cfg.searchPath(hArg.clickse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerdown', ()=> {
 				const o: HArg = {fn: hArg.clickse, join: false};
 				if (hArg.clicksebuf) o.buf = hArg.clicksebuf;
@@ -425,7 +425,7 @@ export class EventMng implements IEvtMng {
 			});
 		}
 		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
-			this.cfg.searchPath(hArg.enterse, Config.EXT_SOUND);// 存在チェック
+			this.cfg.searchPath(hArg.enterse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerover', ()=> {
 				const o: HArg = {fn: hArg.enterse, join: false};
 				if (hArg.entersebuf) o.buf = hArg.entersebuf;
@@ -433,7 +433,7 @@ export class EventMng implements IEvtMng {
 			});
 		}
 		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
-			this.cfg.searchPath(hArg.leavese, Config.EXT_SOUND);// 存在チェック
+			this.cfg.searchPath(hArg.leavese, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerout', ()=> {
 				const o: HArg = {fn: hArg.leavese, join: false};
 				if (hArg.leavesebuf) o.buf = hArg.leavesebuf;

@@ -35,19 +35,34 @@ export class RubySpliter {
 		[⺀-⿟々〇〻㐀-䶿一-鿿豈-﫿\u20000-\u2FFFF]		// 含まれない文字がある
 		[⺀-⿟々〇〻㐀-鿿豈-﫿\u20000-\u2FFFF]			// ヽ--30FD が変に引っかかる。多分\u2000-\u2FFF解釈
 		\\u{20000}-\\u{2FFFF}	// 五桁だとエラー
+
+		【2022/10/03】ruby正規表現のUnicode プロパティ(とPOSIX文字クラス) - Qiita https://qiita.com/Takayuki_Nakano/items/8d38beaddb84b488d683
+			> このHiraganaプロパティ、長音記号は含まれていません。
+			> \p{Han}…簡体字や繁体字、韓国語の漢字…ベトナム語の漢字にもマッチ
+		
+		・Unicode文字一覧表 - instant tools https://tools.m-bsys.com/ex/unicode_table.php
 */
 	static	#REG_RUBY	: RegExp;
 	static	setEscape(ce: string) {
-		// 577 match 14303 step(~10ms) 	https://regex101.com/r/YmT3m1/2
+		// 830 match 11293 step(1.7ms) PCRE2 https://regex101.com/r/BBrQtC/1
+		/*
+(?<txt4>\\\S)
+|	｜(?<str>[^《\n]+)《(?<ruby>[^》\n]+)》
+|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+ [ぁ-ヿ]* | [^　｜《》\n])
+		《(?<kan_ruby>[^》\n]+)》)
+|	(?<txt>
+	[\xD800-\xDBFF][\xDC00-\xDFFF]
+|	[^｜《》]+?
+|	.)
+		*/
 		RubySpliter.#REG_RUBY = new RegExp(
 			`${ce ?`(?<ce>\\${ce}\\S)|` :''}`+
 			`｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》`+
 			`|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])`+
 			`《(?<kan_ruby>[^》\\n]+)》)`+
 			`|(?<txt>`+
-			`[\uD800-\uDBFF][\uDC00-\uDFFF]`+
-			`|[^　｜《》]+(?=｜)`+
-			`|[^　｜《》]*[ぁ-ヿ](?=[⺀-⿟々〇〻㐀-鿿豈-﫿]+《)`+
+			`[\uD800-\uDBFF][\uDC00-\uDFFF]`+	// 上位 + 下位サロゲート
+			`|[^｜《》]+?`+		// 不要だが細切れにしないほうが後々効率で有利
 			`|.)`,
 			'gs'
 		);

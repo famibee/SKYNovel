@@ -428,3 +428,44 @@ layer=mes	;=====
 
 	expect(alz.isKomeParam).toBe(false);
 });
+
+it('20221003_test_multilang_arg',()=> {
+	alz.go(
+`	;=====
+音声=mes	;=====
+	%no_voice_stop?='Boolean|false|trueなら改ページ後、音声（バッファ名「音声」の効果音）をフェードアウトしない'
+
+		싱글룸=ハングルシングルルーム
+		单人间=簡体字シングルルーム
+		單人房=繁体字シングルルーム
+		¿Como_esta?=お元気ですか
+		أهلا=こんにちは
+		𣛠𩙻=飛行機
+
+;	b_pic=%b_pic|wafuu1	;=====`);
+	expect(isHashEmpty(alz.hPrm)).toBe(false);
+
+	expect(alz.hPrm['音声'].val).toBe(`mes`);
+	expect(alz.hPrm['音声'].def).toBeUndefined();
+
+	expect(alz.hPrm['%no_voice_stop?'].val).toBe(`Boolean|false|trueなら改ページ後、音声（バッファ名「音声」の効果音）をフェードアウトしない`);
+	expect(alz.hPrm['%no_voice_stop?'].def).toBeUndefined();
+
+	expect(alz.hPrm['싱글룸'].val).toBe(`ハングルシングルルーム`);
+	expect(alz.hPrm['싱글룸'].def).toBeUndefined();
+	expect(alz.hPrm['单人间'].val).toBe(`簡体字シングルルーム`);
+	expect(alz.hPrm['单人间'].def).toBeUndefined();
+	expect(alz.hPrm['單人房'].val).toBe(`繁体字シングルルーム`);
+	expect(alz.hPrm['單人房'].def).toBeUndefined();
+	expect(alz.hPrm['¿Como_esta?'].val).toBe(`お元気ですか`);
+	expect(alz.hPrm['¿Como_esta?'].def).toBeUndefined();
+	expect(alz.hPrm['أهلا'].val).toBe(`こんにちは`);
+	expect(alz.hPrm['أهلا'].def).toBeUndefined();
+	expect(alz.hPrm['𣛠𩙻'].val).toBe(`飛行機`);
+	expect(alz.hPrm['𣛠𩙻'].def).toBeUndefined();
+
+	expect(alz.hPrm['b_pic']).toBeUndefined();
+	expect(alz.hPrm['a']).toBeUndefined();
+
+	expect(alz.isKomeParam).toBe(false);
+});
