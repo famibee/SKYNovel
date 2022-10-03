@@ -1,3 +1,10 @@
+# [1.36.0](https://github.com/famibee/SKYNovel/compare/v1.35.4...v1.36.0) (2022-10-03)
+
+
+### Features
+
+* 属性名・ラベル名の \w+ 縛りを外した ([b01a6c1](https://github.com/famibee/SKYNovel/commit/b01a6c17260b08ec3e35d3ba492a95fec007f43e))
+
 - feat: 属性名の \w+ 縛りを外した（AnalyzeTagArg.ts）
 	- test: 属性名にハングル、中国語（簡体字・繁体字）、スペイン語、アラビア語、ベトナムの漢越語表記なども使えるテスト追加（AnalyzeTagArg.test.ts）
 - feat: ラベル名の \w+ 縛りを外した（Grammar.ts）
